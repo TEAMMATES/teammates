@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<queue-entries>  
+<queue>  
+<name>default</name>  
+<rate>4/s</rate>  
+</queue>  
+<queue>  
+<name>email-queue</name>  
+<rate>7/m</rate>  
+	<retry-parameters>
+		<task-retry-limit>1</task-retry-limit></retry-parameters></queue>  
+</queue-entries> 

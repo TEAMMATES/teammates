@@ -1,0 +1,651 @@
+a.confirm:active {
+	color: black;
+	font-family: Arial, Helvetica, sans-serif;
+	text-decoration: none;
+}
+
+a.confirm:link {
+	color: black;
+	font-family: Arial, Helvetica, sans-serif;
+	text-decoration: none;
+}
+
+a.confirm:visited {
+	color: black;
+	font-family: Arial, Helvetica, sans-serif;
+	text-decoration: none;
+}
+
+a:link {
+	color: #669;
+	text-decoration: underline;
+}
+
+a:visited {
+	color: #669;
+}
+
+a:link:hover {
+	color: #669;
+	text-decoration: underline;
+}
+
+a.footer:link {
+	color: white;
+	text-decoration: underline;
+}
+
+a.footer:visited {
+	color: white;
+	text-decoration: underline;
+}
+
+a.footer:link:hover {
+	color: white;
+	text-decoration: underline;
+}
+
+body {
+	border: 0;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	height: 100%;
+	margin: 0;
+	max-height: 100%;
+	overflow: hidden;
+	padding: 0;
+	scrollbar-3dlight-color: white;
+	scrollbar-arrow-color: white;
+	scrollbar-base-color: white;
+	scrollbar-face-color: white;
+}
+
+h1 {
+	color: black;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 200%;
+	font-weight: bold;
+	letter-spacing: 2px;
+	margin: 0 auto;
+	padding: 15px 0 15px;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+div#contentFooter {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	margin: 0 auto;
+	text-align: right;
+	width: 1024px;
+}
+
+div#contentLinks {
+	float: left;
+}
+
+#current {
+	color: #00FF00;
+}
+
+div#buffer {
+	float: left;
+	width: 450px;;
+}
+
+div#coordinatorCourseEnrollment {
+	color: white;
+	margin-top: 30px;
+	text-align: center;
+}
+
+div#coordinatorCourseEnrollmentButtons {
+	margin-top: 30px;
+	text-align: center;
+}
+
+div#coordinatorCourseEnrollmentResults {
+	margin-top: 40px;
+	text-align: center;
+}
+
+div#coordinatorCourseInformation {
+	margin-top: 16px;
+	text-align: center;
+}
+
+div#coordinatorCourseManagement {
+	margin-top: 20px;
+	text-align: center;
+}
+
+div#coordinatorCourseTable {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	margin-top: 20px;
+	text-align: center;
+}
+
+div#coordinatorEditEvaluationButtons {
+	margin-top: 50px;
+	text-align: center;
+}
+
+div#coordinatorEditEvaluationResults {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	margin-top: 16px;
+	text-align: center;
+}
+
+div#coordinatorEditEvaluationResultsButtons {
+	margin-top: 50px;
+	text-align: center;
+}
+
+div#coordinatorEditEvaluationResultsStatusMessage {
+	font-family: Arial, Helvetica, sans-serif;
+	margin-top: 20px;
+	text-align: center;
+}
+
+div#coordinatorEditStudentButtons {
+	margin-top: 50px;
+	text-align: center;
+}
+
+div#coordinatorEvaluationInformation {
+	margin-top: 16px;
+	text-align: center;
+}
+
+div#coordinatorEvaluationManagement {
+	margin-top: 10px;
+	text-align: center;
+}
+
+div#coordinatorEvaluationSummaryTable {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	margin-top: 16px;
+	text-align: center;
+}
+
+div#coordinatorEvaluationTable {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	margin-top: 20px;
+	text-align: center;
+}
+
+div#coordinatorStudentInformation {
+	margin-top: 16px;
+	text-align: center;
+}
+
+div#coordinatorStudentTable {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	margin-top: 20px;
+	text-align: center;
+}
+
+div#frameBody {
+	bottom: 17px; /*Set bottom value to HeightOfBottomFrameDiv*/
+	overflow: auto;
+	position: fixed;
+	top: 60px; /*Set top value to HeightOfTopFrameDiv*/
+	width: 100%;
+}
+
+div#frameBodyWrapper {
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	margin: 0 auto;
+	width: 1024px;
+}
+
+div#frameBottom {
+	background-color: black;
+	bottom: 0;
+	color: white;
+	height: 17px; /* Height of bottom frame div */
+	left: 0;
+	overflow: hidden; /* Disable scroll bars. Set to "scroll" to enable */
+	position: absolute;
+	top: auto;
+	width: 100%;
+}
+
+div#frameTop {
+	background-color: black;
+	height: 60px; /* Height of top frame div*/
+	left: 0;
+	overflow: hidden; /* Disable scroll bars. Set to "scroll" to enable*/
+	top: 0;
+	width: 100%;
+}
+
+div#frameTopWrapper {
+	margin: 0 auto;
+	position: relative;
+	text-align: center;
+	width: 1024px;
+}
+
+div#headerOperation {
+	margin-top: 30px;
+	text-align: center;
+}
+
+div#logo {
+	float: left;
+	padding-top: 5px;
+	width: 175px;
+}
+
+div#statusMessage {
+	background-color: #FFFF99;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 20px auto;
+	padding: 8px;
+	text-align: center;
+	width: 940px;
+	display: none;
+}
+
+div#studentCourseInformation {
+	margin-top: 16px;
+	text-align: center;
+}
+
+div#studentCourseManagement {
+	margin-top: 20px;
+}
+
+div#studentCourseTable {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	margin-top: 20px;
+	text-align: center;
+}
+
+div#studentEvaluationInformation {
+	margin-top: 35px;
+	text-align: center;
+}
+
+div#studentEvaluationResults {
+	margin-top: 16px;
+	text-align: center;
+}
+
+div#studentEvaluationSubmissionButtons {
+	margin-top: 50px;
+	text-align: center;
+}
+
+div#studentEvaluationSubmissions {
+	margin-top: 60px;
+	text-align: center;
+}
+
+div#studentPastEvaluations {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	margin-top: 50px;
+	text-align: center;
+}
+
+div#studentPendingEvaluations {
+	margin-top: 50px;
+	text-align: center;
+}
+
+input.buttonSortAscending {
+	background: url("../images/sortUpButton.png") no-repeat top left;
+	border: 0;
+	height: 14px;
+	outline: none;
+	vertical-align: middle;
+	width: 14px;
+}
+
+input.buttonSortNone {
+	background: url("../images/sortSideButton.png") no-repeat top left;
+	border: 0;
+	height: 14px;
+	outline: none;
+	vertical-align: middle;
+	width: 14px;
+}
+
+input.plusButton {
+	background: #eaeff5 url("../images/plusButton.png") no-repeat top left;
+	border: none;
+	color: black;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	height: 27px;
+	width: 34px;
+}
+
+input.minusButton {
+	background: #eaeff5 url("../images/minusButton.png") no-repeat top left;
+	border: none;
+	color: black;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	height: 27px;
+	width: 34px;
+}
+
+.button {
+	background: #9ab3c4;
+	background: -webkit-gradient(linear, left top, left bottom, from(#9aa1a6),
+		to(#9ab3c4) );
+	background: -webkit-linear-gradient(top, #9aa1a6, #9ab3c4);
+	background: -moz-linear-gradient(top, #9aa1a6, #9ab3c4);
+	background: -ms-linear-gradient(top, #9aa1a6, #9ab3c4);
+	background: -o-linear-gradient(top, #9aa1a6, #9ab3c4);
+	color: white;
+	font-family: Helvetica, Arial, Sans-Serif;
+	font-size: 12px;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px 20px 20px 20px;
+	border: 1px solid #eeeeee;
+	padding: 5px 8px;
+	text-decoration: none;
+	vertical-align: middle;
+}
+
+.button:hover {
+	background: #66727a;
+	border-color: #eeeeee;
+	color: #ffffff;
+}
+
+.button:active {
+	background: #1b435e;
+	border-color: #eeeeee;
+}
+
+input.buttonViewArchived {
+	background: url("../images/submitbutton.png") no-repeat top left;
+	border: none;
+	color: black;
+	filter: alpha(opacity =           60);
+	filter: Òalpha(opacity =           60) Ó;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	height: 70px;
+	opacity: 0.6;
+	outline: none;
+	padding: 2px 8px;
+	width: 150px;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+}
+
+input.buttonViewArchivedSelected {
+	background: url("../images/submitbuttonselected.png") no-repeat top left;
+	border: none;
+	color: black;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	height: 70px;
+	outline: none;
+	padding: 2px 8px;
+	width: 150px;
+}
+
+div#loginTableHolder {
+	padding-top: 15%;
+}
+
+table#login {
+	border-collapse: collapse;
+	border-spacing: 20px;
+	margin: 0 auto;
+	width: auto;
+}
+
+td.loginCell {
+	padding: 8px;
+	text-align: center;
+}
+
+.lhs {
+	color: black;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	padding-left: 10px;
+	padding-top: 2px;
+	vertical-align: top;
+	text-align: right;
+	width: 300px;
+}
+
+.reportheader {
+	color: black;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	padding-bottom: 5px;
+	text-align: center;
+	text-decoration: underline;
+	text-transform: capitalize;
+}
+
+.fieldname {
+	color: black;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	padding-left: 10px;
+	padding-top: 2px;
+	vertical-align: top;
+	text-align: right;
+	width: 450px;
+}
+
+.fieldvalue {
+	color: black;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: normal;
+	text-align: left;
+	width: 250px;
+}
+
+.keyvalue {
+	color: black;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: normal;
+	text-align: left;
+	width: 350px;
+}
+
+.centeralign {
+	text-align: center;
+}
+
+.leftalign {
+	text-align: left;
+}
+
+table#data {
+	border-collapse: collapse;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0 auto;
+	text-align: left;
+	width: 960px;
+}
+
+#data th {
+	background: #4e80bb;
+	color: #FFFFFF;
+	font-size: 13px;
+	font-weight: bold;
+	padding: 8px;
+}
+
+#data td {
+	background-color: #eaeff5;
+	font-size: 13px;
+	padding: 8px;
+}
+
+td.inputField {
+	width: 300px;
+}
+
+table#dataform {
+	border-collapse: collapse;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0 auto;
+	text-align: left;
+	width: 960px;
+}
+
+#dataform th {
+	background: #4e80bb;
+	color: #FFFFFF;
+	font-size: 13px;
+	font-weight: bold;
+	padding: 8px;
+}
+
+#dataform tr:nth-of-type(odd) {
+	background-color: #eaeff5;
+}
+
+#dataform tr:nth-of-type(even) {
+	background-color: #d0d8e8;
+}
+
+#dataform td {
+	color: #000;
+	font-size: 13px;
+	padding: 8px;
+}
+
+#dataform a:link {
+	color: #000;
+	text-decoration: underline;
+}
+
+#dataform a:visited {
+	color: #000;
+}
+
+#dataform a:link:hover {
+	color: #000;
+	text-decoration: underline;
+}
+
+.textvalue {
+	color: black;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: normal;
+	text-align: left;
+}
+
+button::-moz-focus-inner,input[type="reset"]::-moz-focus-inner,input[type="button"]::-moz-focus-inner,input[type="submit"]::-moz-focus-inner,input[type="file"]>input[type="button"]::-moz-focus-inner
+	{
+	border: none;
+}
+
+.negDiff {
+	color: #F00;
+}
+
+.posDiff {
+	color: #063;
+}
+
+p {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+}
+
+p.info {
+	color: #669;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: left;
+}
+
+p.splinfo2 {
+	color: #069;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+}
+
+#dhtmltooltip {
+	background-color: #ffa;
+	border: 1px solid #cc9;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	-moz-box-shadow: 2px 2px 11px #666;
+	padding: 1px;
+	position: absolute;
+	visibility: hidden;
+	-webkit-box-shadow: 2px 2px 11px #666;
+	width: auto;
+	z-index: 100;
+	/*Remove below line to remove shadow. Below line should always appear last within this CSS*/
+	filter: progid :           DXImageTransform.Microsoft.Shadow (         
+		 color =  
+		    
+		   gray, direction =           135 );
+}
+
+textarea {
+	resize: none;
+}
+
+ul#navbar {
+	color: white;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 30px;
+	white-space: nowrap;
+	width: 100%;
+}
+
+ul#navbar li {
+	float: left;
+	list-style-type: none;
+	padding-left: 120px;
+}
+
+ul#navbar li a {
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+ul#navbar li a:link {
+	color: white;
+	text-decoration: none;
+}
+
+ul#navbar li a:link:hover {
+	color: white;
+	text-decoration: underline;
+}
+
+ul#navbar li a:visited {
+	color: white;
+}

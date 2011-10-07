@@ -1,0 +1,14 @@
+# use glob syntax.
+syntax: glob
+
+.DS_Store
+.settings
+*.orig
+*.class
+*.jar
+scenario2.json
+code/src/teammates/Config.java
+test/src/teammates/testing/TmpTest.java
+appengine-generated
+*.ext
+

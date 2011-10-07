@@ -1,0 +1,15 @@
+Instructions to run Teammates test system
+
+1. Checkout the `test` folder and import into Eclipse (Eclipse, right click Package Explorer -> Import -> Existing Projects into Workspace, navigate to the newly extracted folder)
+2. Open Config.java:
+- Change BROWSER constant to the appropriate browser [1]
+- Make sure the accounts you typed in (in Config.java) as Coordinator has real coordinator access of Teammates system
+3. Make sure you have Firefox (v3/v4) or Chrome (or whichever browsers to be tested on) installed. 
+4. Starting the Selenium Server: Run selenium_server.bat
+5. Run the individual tests from eclipse project (class file starts with Test, e.g. TestCoordinatorLogin)
+
+[1] Browser tables:
+Firefox *firefox
+Chrome	*googlechrome
+
+Created: June 08, 2011

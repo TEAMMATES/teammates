@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+
+	<filter>
+		<filter-name>DatastoreFilter</filter-name>
+		<filter-class>teammates.DatastoreFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>DatastoreFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>APIServlet</servlet-name>
+		<servlet-class>teammates.APIServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>APIServlet</servlet-name>
+		<url-pattern>/api</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Teammates</servlet-name>
+		<servlet-class>teammates.TeammatesServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Teammates</servlet-name>
+		<url-pattern>/teammates</url-pattern>
+	</servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+	<servlet>
+		<servlet-name>Email</servlet-name>
+		<servlet-class>teammates.EmailServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Email</servlet-name>
+		<url-pattern>/email</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>EvaluationActivation</servlet-name>
+		<servlet-class>teammates.EvaluationActivationServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EvaluationActivation</servlet-name>
+		<url-pattern>/evaluationactivation</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>AutomatedReminders</servlet-name>
+		<servlet-class>teammates.AutomatedRemindersServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AutomatedReminders</servlet-name>
+		<url-pattern>/automatedreminders</url-pattern>
+	</servlet-mapping>
+</web-app>
