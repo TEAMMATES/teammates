@@ -40,12 +40,38 @@ public class TMAPI {
 	 * Clean up all tables. Except for Coordinator table.
 	 */
 	public static void cleanup() {
-		System.out.println("Cleaning up.");
-		HashMap<String, Object> params = createParamMap("cleanup");
-		String paramsString = buildParamsString(params);
+		 // Check appengine the test is running on, disable total cleanup for live server
+        // wangsha
+        // September 8
+        cleanupByCoordinator();
 
-		makePOSTRequest(paramsString);
+		/*
+        if(Config.TEAMMATES_APP.equalsIgnoreCase(Config.TEAMMATES_LIVE_SITE)) {
+                System.out.println("Total cleanup disabled for live site, redirect to total clean up by coordinator.");
+                cleanupByCoordinator();
+        }else{
+                System.out.println("Perform total cleanning up ");
+                HashMap<String, Object> params = createParamMap("cleanup");
+                String paramsString = buildParamsString(params);
+
+                makePOSTRequest(paramsString);
+        }*/
+       
 	}
+	
+	 /**
+     * Clean up everything related to the coordinator
+     * 
+     * @author wangsha
+     * @date Sep 8, 2011
+     */
+    public static void cleanupByCoordinator() {
+    	System.out.println("Clean up by coordinator");
+            HashMap<String, Object> params = createParamMap("cleanup_by_coordinator");
+            params.put("coordinator_id", Config.TEAMMATES_COORD_ID);
+            String paramsString = buildParamsString(params);
+            makePOSTRequest(paramsString);
+    }
 
 	/**
 	 * Clean up everything related to courseID.

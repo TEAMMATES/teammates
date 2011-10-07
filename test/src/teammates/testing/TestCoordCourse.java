@@ -45,6 +45,20 @@ public class TestCoordCourse extends BaseTest {
 
 		verifyAddedCourse(sc.course.courseId, sc.course.courseName);
 	}
+	
+	/**
+	 * Create the course that previously was created
+	 */
+	@Test
+	public void testCreateCoursePreviouslyNamed() {
+		cout("Test: Creating course previously named.");
+
+		addCourse(sc.course.courseId, sc.course.courseName);
+		gotoCourses();
+		waitForElementPresent(By
+				.cssSelector("#coordinatorCourseTable td.t_course_code"));
+		verifyAddedCourse(sc.course.courseId, sc.course.courseName);
+	}
 
 	/**
 	 * Fail to create duplicate course code (previous course created by the same
@@ -53,7 +67,6 @@ public class TestCoordCourse extends BaseTest {
 	@Test
 	public void testCreateDuplicateCourseFail() throws Exception {
 		cout("Test: Creating duplicated course.");
-
 		// Add the second course with same ID
 		addCourse(sc.course.courseId, sc.course.courseName);
 		assertEquals("The course already exists.",
@@ -72,7 +85,7 @@ public class TestCoordCourse extends BaseTest {
 		justWait();
 		waitForElementText(By.id("statusMessage"), "The course has been deleted.");
 
-		assertEquals(1,
+		assertEquals(3,
 				driver.findElements(By.cssSelector("#coordinatorCourseTable tr"))
 						.size());
 	}
@@ -95,18 +108,6 @@ public class TestCoordCourse extends BaseTest {
 				isElementPresent(By.xpath("//div[@id='statusMessage']/font[1]")));
 	}
 
-	/**
-	 * Create the course that previously was created
-	 */
-	@Test
-	public void testCreateCoursePreviouslyNamed() {
-		cout("Test: Creating course previously named.");
-
-		addCourse(sc.course.courseId, sc.course.courseName);
-		gotoCourses();
-		waitForElementPresent(By
-				.cssSelector("#coordinatorCourseTable td.t_course_code"));
-		verifyAddedCourse(sc.course.courseId, sc.course.courseName);
-	}
+	
 
 }

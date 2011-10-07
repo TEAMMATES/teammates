@@ -19,7 +19,7 @@ import teammates.testing.object.Student;
  * Coordinator enrolling students
  * 
  * @author Huy
- *
+ * 
  */
 public class TestCoordEnrollStudents extends BaseTest {
 
@@ -44,10 +44,10 @@ public class TestCoordEnrollStudents extends BaseTest {
 	@Test
 	public void testEnrollNewStudentsSuccess() throws Exception {
 		cout("Test: Enrolling new students.");
-		
+
 		wdClick(By.className("t_courses"));
-    waitForElementPresent(By.id("courseid"));
-        
+		waitForElementPresent(By.id("courseid"));
+
 		int half = sc.students.size() / 2;
 		List<Student> ls = sc.students.subList(0, half);
 		enrollStudents(ls);
@@ -63,8 +63,8 @@ public class TestCoordEnrollStudents extends BaseTest {
 			set.add(s.teamName);
 		}
 
-		assertEquals(set.size(),
-				Integer.parseInt(getElementText(By.className("t_course_teams"))));
+		assertEquals(set.size(), Integer.parseInt(getElementText(By
+				.className("t_course_teams"))));
 	}
 
 	/**
@@ -74,14 +74,15 @@ public class TestCoordEnrollStudents extends BaseTest {
 	@Test
 	public void testEnrollExistingStudentsSuccess() throws Exception {
 		cout("Test: Enrolling more students (mixed new and old).");
-		
+
 		int left = sc.students.size() - sc.students.size() / 2;
 		enrollStudents(sc.students);
 		verifyEnrollment(left, 0);
 		wdClick(By.className("t_back"));
 
 		// Check number of teams
-		assertEquals(sc.teams.size(), Integer.parseInt(getElementText(By.className("t_course_teams"))));
+		assertEquals(sc.teams.size(), Integer.parseInt(getElementText(By
+				.className("t_course_teams"))));
 	}
 
 	/**
@@ -96,12 +97,13 @@ public class TestCoordEnrollStudents extends BaseTest {
 		// To Enroll page
 		wdClick(By.className("t_course_enrol"));
 		verifyEnrollPage();
-		
+
 		wdFillString(By.id("information"), students);
 		wdClick(By.id("button_enrol"));
 
 		// Make sure the error message is there
-		assertTrue(		isElementPresent(By.xpath("//div[@id='statusMessage']/font[2]")));
+		assertTrue(isElementPresent(By
+				.xpath("//div[@id='statusMessage']/font[2]")));
 
 		wdClick(By.className("t_back"));
 	}

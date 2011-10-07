@@ -1,6 +1,7 @@
 package teammates.testing.object;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -147,7 +148,9 @@ public class Scenario {
 		return null;
 	}
 	
+	/*
 	public void toJSONFile(String filepath) {
+		
 		FileWriter fout;
 		try {
 			fout = new FileWriter(new File( filepath ));
@@ -158,5 +161,7 @@ public class Scenario {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		
 	}
+	*/
 }

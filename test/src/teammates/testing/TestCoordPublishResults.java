@@ -81,8 +81,8 @@ public class TestCoordPublishResults extends BaseTest {
 		// Check if emails have been sent to all participants
 		for (Student s : sc.students) {
 			System.out.println("Checking " + s.email);
-			assertTrue(checkResultEmailsSent(s.email, s.password, sc.course.courseId,
-					sc.evaluation.name));
+			assertTrue(checkResultEmailsSent(s.email, s.password,
+					sc.course.courseId, sc.evaluation.name));
 		}
 	}
 
@@ -107,11 +107,18 @@ public class TestCoordPublishResults extends BaseTest {
 		assertEquals("CLOSED", getElementText(By.className("t_eval_status")));
 	}
 
-	private static boolean checkResultEmailsSent(String gmail, String password,
-			String courseCode, String evaluationName) throws MessagingException,
-			IOException {
-		Session sessioned = Session
-				.getDefaultInstance(System.getProperties(), null);
+	public static boolean checkResultEmailsSent(String gmail, String password,
+			String courseCode, String evaluationName)
+			throws MessagingException, IOException {
+
+		// Publish RESULTS Format
+		final String HEADER_EVALUATION_PUBLISH = "TEAMMATES: Evaluation Published: %s %s";
+		final String TEAMMATES_APP_URL = "You can view the result here: "
+				+ Config.TEAMMATES_URL;
+		final String TEAMMATES_APP_SIGNATURE = "If you encounter any problems using the system, email TEAMMATES support";
+
+		Session sessioned = Session.getDefaultInstance(System.getProperties(),
+				null);
 		Store store = sessioned.getStore("imaps");
 		store.connect("imap.gmail.com", gmail, password);
 
@@ -121,28 +128,52 @@ public class TestCoordPublishResults extends BaseTest {
 		inbox.open(Folder.READ_WRITE);
 		FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
 		Message messages[] = inbox.search(ft);
+		System.out.println(messages.length + " unread message");
 
 		// Loop over all of the messages
 		for (int i = messages.length - 1; i >= 0; i--) {
 			Message message = messages[i];
-			// If this is the right message (by matching header)
-			if (!message.getSubject().equals(
-					"Teammates Evaluation - Results Published"))
-				continue;
+			System.out.println(message.getSubject());
+			System.out.println(message.toString());
 
+			// matching email subject:
+			if (!message.getSubject().equals(
+					String.format(HEADER_EVALUATION_PUBLISH, courseCode,
+							evaluationName))) {
+				continue;
+			} else {
+				System.out.println("match");
+			}
+
+			// matching email content:
 			String body = "";
 			if (message.getContent() instanceof String) { // if message is a
-				// string
+															// string
 				body = message.getContent().toString();
 			} else if (message.getContent() instanceof Multipart) { // if its a
-				// multipart
-				// message
+																	// multipart
+																	// message
 				Multipart multipart = (Multipart) message.getContent();
 				BodyPart bodypart = multipart.getBodyPart(0);
 				body = bodypart.getContent().toString();
 			}
 
+			System.out.println("message: \n" + body);
+
+			// check line 1: "The results of the evaluation:"
+			if (body.indexOf("The results of the evaluation:") == -1)
+				continue;
+			// check line 2: courseCode evaluationName
 			if (body.indexOf(body.indexOf(courseCode + " " + evaluationName)) == -1)
+				continue;
+			// check line 3: "have been published."
+			if (body.indexOf("have been published.") == -1)
+				continue;
+			// check line 4: "You can view the result here: [URL]"
+			if (body.indexOf(TEAMMATES_APP_URL) == -1)
+				continue;
+			// check line 5: teammates signature
+			if (body.indexOf(TEAMMATES_APP_SIGNATURE) == -1)
 				continue;
 
 			// Mark the message as read

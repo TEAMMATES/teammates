@@ -7,6 +7,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
+
+
 /**
  * Test Login/Logout of Coordinator
  * 

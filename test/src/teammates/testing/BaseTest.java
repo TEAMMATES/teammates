@@ -5,6 +5,9 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -21,6 +24,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
 
+import teammates.testing.lib.JarClassLoader;
 import teammates.testing.lib.SharedLib;
 import teammates.testing.object.Evaluation;
 import teammates.testing.object.Scenario;
@@ -63,12 +67,14 @@ public class BaseTest {
 
 	protected static void setupSelenium() {
 		System.out.println("Initializing Selenium.");
-
+		
+		
 		if (Config.BROWSER.equals("htmlunit")) {
 
 			System.out.println("Using HTMLUnit.");
 
 			driver = new HtmlUnitDriver();
+
 			selenium = new WebDriverBackedSelenium(driver, Config.TEAMMATES_URL);
 
 		} else if (Config.BROWSER.equals("firefox")) {
@@ -177,10 +183,8 @@ public class BaseTest {
 	 * Must be in Evaluations page
 	 */
 	public static void deleteAllEvaluations() {
-		WebElement htmldiv = driver
-				.findElement(By.id("coordinatorEvaluationTable"));
-
-		while (htmldiv.findElements(By.tagName("tr")).size() > 1) {
+	
+		while (driver.findElements(By.className("t_eval_delete")).size() > 1) {
 			System.out.println("Deleting 1 evaluation...");
 
 			clickAndConfirm(By.className("t_eval_delete"));

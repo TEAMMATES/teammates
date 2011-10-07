@@ -1,6 +1,7 @@
 package teammates;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
@@ -103,15 +104,14 @@ public class Courses {
 		List<EnrollmentReport> enrollmentReportList = new ArrayList<EnrollmentReport>();
 		List<Student> studentListToAdd = new ArrayList<Student>();
 
-		
 		for (Student s : studentList) {
-			
-			if (getStudentWithEmail(courseID, s.getEmail()) == null) {
-				 studentListToAdd.add(s);
 
-				 enrollmentReportList.add(new EnrollmentReport(s.getName(), s
-								.getEmail(), EnrollmentStatus.ADDED, false, false,
-								false));
+			if (getStudentWithEmail(courseID, s.getEmail()) == null) {
+				studentListToAdd.add(s);
+
+				enrollmentReportList.add(new EnrollmentReport(s.getName(), s
+						.getEmail(), EnrollmentStatus.ADDED, false, false,
+						false));
 			}
 		}
 
@@ -161,7 +161,7 @@ public class Courses {
 	 * @throws CourseDoesNotExistException
 	 *             if the course with the specified ID cannot be found
 	 */
-	public void deleteCoordinatorCourse(String courseID)
+	public void cleanUpCourse(String courseID)
 			throws CourseDoesNotExistException {
 		Course course = getCourse(courseID);
 
@@ -171,13 +171,58 @@ public class Courses {
 
 		try {
 			getPM().deletePersistent(course);
+			deleteAllStudents(courseID);
+
 		}
 
 		finally {
 
 		}
 
-		deleteAllStudents(courseID);
+	}
+
+	/**
+	 * Clean up courses, evaluations, submissions related to a course
+	 * 
+	 * @param coordinatorID
+	 * @author wangsha
+	 * @date Sep 8, 2011
+	 */
+	public void deleteCoordinatorCourses(String coordinatorID) {
+		List<Course> courses = getCoordinatorCourseList(coordinatorID);
+		Iterator<Course> it = courses.iterator();
+
+		while (it.hasNext()) {
+			deleteCoordinatorCourse(it.next().getID());
+
+		}
+
+	}
+
+	/**
+	 * Deletes a Course object, along with all the Student objects that belong
+	 * to the course.
+	 * 
+	 * @param courseID
+	 *            the course ID (Precondition: Must not be null)
+	 * 
+	 * @throws CourseDoesNotExistException
+	 *             if the course with the specified ID cannot be found
+	 */
+	public void deleteCoordinatorCourse(String courseID) {
+		Course course = getCourse(courseID);
+
+		System.out.println("delete coordinator course");
+		// Check that the course exists
+
+		try {
+			getPM().deletePersistent(course);
+			deleteAllStudents(courseID);
+			Evaluations.inst().deleteEvaluations(courseID);
+		} catch (Exception e) {
+
+		}
+
 	}
 
 	/**
@@ -383,7 +428,6 @@ public class Courses {
 		return enrollmentReportList;
 	}
 
-
 	/**
 	 * Returns the list of Course objects of a Coordinator
 	 * 
@@ -398,8 +442,8 @@ public class Courses {
 				+ " where coordinatorID == '" + coordinatorID + "'";
 
 		@SuppressWarnings("unchecked")
-
-		List<Course> courseList = (List<Course>) getPM().newQuery(query).execute();
+		List<Course> courseList = (List<Course>) getPM().newQuery(query)
+				.execute();
 
 		return courseList;
 	}
@@ -413,11 +457,12 @@ public class Courses {
 	 * @return Course the course that has the specified ID
 	 */
 	public Course getCourse(String ID) {
-		String query = "select from " + Course.class.getName() + " where ID == \""
-				+ ID + "\"";
+		String query = "select from " + Course.class.getName()
+				+ " where ID == \"" + ID + "\"";
 
 		@SuppressWarnings("unchecked")
-		List<Course> courseList = (List<Course>) getPM().newQuery(query).execute();
+		List<Course> courseList = (List<Course>) getPM().newQuery(query)
+				.execute();
 
 		if (courseList.isEmpty())
 			return null;
@@ -491,9 +536,8 @@ public class Courses {
 				+ googleID + "\"";
 
 		@SuppressWarnings("unchecked")
-
 		List<Student> studentList = (List<Student>) getPM().newQuery(query)
-			.execute();
+				.execute();
 
 		if (studentList.isEmpty()) {
 			return null;
@@ -516,7 +560,6 @@ public class Courses {
 				+ " where ID == \"" + googleID + "\"";
 
 		@SuppressWarnings("unchecked")
-
 		List<Student> studentList = (List<Student>) getPM().newQuery(query)
 				.execute();
 
@@ -656,7 +699,8 @@ public class Courses {
 	 *            the name of the coordinator (Precondition: Must not be null)
 	 */
 	public void sendRegistrationKeys(List<Student> studentList,
-			String courseID, String courseName, String coordinatorName, String coordinatorEmail) {
+			String courseID, String courseName, String coordinatorName,
+			String coordinatorEmail) {
 		Queue queue = QueueFactory.getQueue("email-queue");
 		List<TaskOptions> taskOptionsList = new ArrayList<TaskOptions>();
 
@@ -678,11 +722,9 @@ public class Courses {
 									Student.class.getSimpleName(),
 									s.getRegistrationKey()))
 					.param("courseid", courseID)
-					.param("coursename", courseName)
-					.param("name", s.getName())
+					.param("coursename", courseName).param("name", s.getName())
 					.param("coordinatorname", coordinatorName)
-					.param("coordinatoremail", coordinatorEmail)
-					);
+					.param("coordinatoremail", coordinatorEmail));
 		}
 
 		if (!taskOptionsList.isEmpty()) {

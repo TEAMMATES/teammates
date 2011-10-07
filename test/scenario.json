@@ -1,12 +1,12 @@
 {
   "coordinator": {"username": "teammates.coord"},
   "course": {
-    "id": "CS2103",
+    "id": "CS2103_TESTING",
     "name": "Software Engineering"
   },
   
   "course2": {
-    "id": "CS1101",
+    "id": "CS1101_TESTING",
     "name": "Programming Methodology"
   },
   

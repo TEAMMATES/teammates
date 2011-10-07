@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.exception.CourseDoesNotExistException;
 import teammates.jdo.Course;
 import teammates.jdo.EnrollmentReport;
 import teammates.jdo.Evaluation;
@@ -56,7 +57,7 @@ public class APIServlet extends HttpServlet {
 
 		// TODO: Change to JSON/XML
 		resp.setContentType("text/plain");
-		
+
 		// Check for auth code(to prevent misuse)
 		String auth = req.getParameter("tm_auth");
 		if (!auth.equals(Config.API_AUTH_CODE)) {
@@ -83,6 +84,8 @@ public class APIServlet extends HttpServlet {
 			totalCleanup();
 		} else if (action.equals("cleanup_course")) {
 			cleanupCourse();
+		} else if (action.equals("cleanup_by_coordinator")) {
+			totalCleanupByCoordinator();
 		} else if (action.equals("enroll_students")) {
 			enrollStudents();
 		} else if (action.equals("student_submit_feedbacks")) {
@@ -246,37 +249,60 @@ public class APIServlet extends HttpServlet {
 	 */
 	@SuppressWarnings("unchecked")
 	protected void totalCleanup() throws IOException {
-		/**
-		System.out.println("Cleaning up.");
+		if (!Config.APP_PRODUCTION_MOLD) {
+			System.out.println("Cleaning up.");
 
-		// Delete all courses
-		getPM().deletePersistentAll(Courses.inst().getAllCourses());
+			// Delete all courses
+			getPM().deletePersistentAll(Courses.inst().getAllCourses());
 
-		// Delete all evaluations
-		List<Evaluation> evals = Evaluations.inst().getAllEvaluations();
-		getPM().deletePersistentAll(evals);
+			// Delete all evaluations
+			List<Evaluation> evals = Evaluations.inst().getAllEvaluations();
+			getPM().deletePersistentAll(evals);
 
-		// Delete all submissions
-		List<Submission> submissions = (List<Submission>) getPM().newQuery(
-				Submission.class).execute();
-		getPM().deletePersistentAll(submissions);
+			// Delete all submissions
+			List<Submission> submissions = (List<Submission>) getPM().newQuery(
+					Submission.class).execute();
+			getPM().deletePersistentAll(submissions);
 
-		// Delete all students
-		List<Student> students = (List<Student>) getPM()
-				.newQuery(Student.class).execute();
-		getPM().deletePersistentAll(students);
+			// Delete all students
+			List<Student> students = (List<Student>) getPM().newQuery(
+					Student.class).execute();
+			getPM().deletePersistentAll(students);
 
-		resp.getWriter().write("ok");
-		**/
+			resp.getWriter().write("ok");
+		} else {
+			resp.getWriter().write(
+					"production mode, total cleaning up disabled");
+		}
+
+	}
+
+	/**
+	 * Clean up course, evaluation, submission related to the coordinator
+	 * 
+	 * @author wangsha
+	 * @date Sep 8, 2011
+	 */
+	protected void totalCleanupByCoordinator() {
+		String coordID = req.getParameter("coordinator_id");
+		Courses.inst().deleteCoordinatorCourses(coordID);
+
 	}
 
 	/**
 	 * Clean up everything about a particular course
 	 */
 	protected void cleanupCourse() {
-		String courseId = req.getParameter("course_id");
-		System.out.println("Cleaning everything about course " + courseId);
-
+		String courseID = req.getParameter("course_id");
+		System.out.println("Cleaning everything about course " + courseID);
+		// Delete course and enrolled students
+		try {
+			Courses.inst().cleanUpCourse(courseID);
+			Evaluations.inst().deleteEvaluations(courseID);
+		} catch (CourseDoesNotExistException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// TODO: clean up course
 	}
 
@@ -375,14 +401,14 @@ public class APIServlet extends HttpServlet {
 
 		resp.getWriter().write("Fail: something wrong");
 	}
-	
-	protected void emailStressTesting() throws IOException{
+
+	protected void emailStressTesting() throws IOException {
 		Emails emails = new Emails();
 		String account = req.getParameter("account");
 		int size = Integer.parseInt(req.getParameter("size"));
-		
+
 		emails.mailStressTesting(account, size);
 		resp.getWriter().write("ok");
-		
+
 	}
 }

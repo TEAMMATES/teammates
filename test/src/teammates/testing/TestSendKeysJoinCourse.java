@@ -16,8 +16,8 @@ import teammates.testing.object.Student;
 public class TestSendKeysJoinCourse extends BaseTest {
 
 	/**
-	 * Test Send Registration Keys feature. Make sure all participants received an
-	 * email with the key that matches the key displayed in the Admin CP
+	 * Test Send Registration Keys feature. Make sure all participants received
+	 * an email with the key that matches the key displayed in the Admin CP
 	 * 
 	 * Then also test
 	 * 
@@ -86,7 +86,8 @@ public class TestSendKeysJoinCourse extends BaseTest {
 		// Reserve more time to send email
 		for (int i = 0; i < sc.students.size(); i++) {
 			assertEquals(sc.students.get(i).courseKey,
-					SharedLib.getRegistrationKeyFromGmail(sc.students.get(i).email,
+					SharedLib.getRegistrationKeyFromGmail(
+							sc.students.get(i).email,
 							Config.TEAMMATES_APP_PASSWD, sc.course.courseId));
 		}
 
@@ -100,8 +101,10 @@ public class TestSendKeysJoinCourse extends BaseTest {
 	@Test
 	public void testStudentsJoinCourse() throws Exception {
 		cout("Test: Students joining course.");
-
 		for (Student s : sc.students) {
+			// Logout
+			logout();
+
 			// First log that student in
 			studentLogin(s.email, Config.TEAMMATES_APP_PASSWD);
 
@@ -110,7 +113,8 @@ public class TestSendKeysJoinCourse extends BaseTest {
 			// Try a wrong course key
 			wdFillString(By.id("regkey"), "totally_wrong_key");
 			wdClick(By.id("btnJoinCourse"));
-			waitForElementText(By.id("statusMessage"), "Registration key is invalid.");
+			waitForElementText(By.id("statusMessage"),
+					"Registration key is invalid.");
 
 			WebElement dataform = driver.findElement(By.id("dataform"));
 			if (dataform.findElements(By.tagName("tr")).size() == 1) {
@@ -122,11 +126,8 @@ public class TestSendKeysJoinCourse extends BaseTest {
 				waitForElementText(By.id("statusMessage"),
 						"You have successfully joined the course.");
 			}
-			// Logout
-			logout();
+
 		}
 	}
-	
-	
 
 }

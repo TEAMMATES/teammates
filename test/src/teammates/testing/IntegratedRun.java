@@ -3,10 +3,10 @@ package teammates.testing;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ 
-	TestCoordLogin.class,
+	
+/*	TestCoordLogin.class,
 	TestStudentLogin.class,
 	
 	TestCoordCourse.class, 
@@ -15,13 +15,18 @@ import org.junit.runners.Suite;
 	TestSendKeysJoinCourse.class,
 	
 	TestStudentSubmitFeedbacks.class, 
+	
 	TestStudentReceiveResults.class,
-	TestCoordPublishResults.class, 
+	
+	
 	TestCoordRemindIndividualJoinCourse.class,
 	
 	TestCoordRemindEvaluation.class,
 	TestCoordEditStudents.class,
 	TestStudentMoveDropTeam.class,
+	*/
+	TestCoordPublishResults.class,
+
 })
 public class IntegratedRun {
 

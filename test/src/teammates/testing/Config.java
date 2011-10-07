@@ -1,16 +1,19 @@
 package teammates.testing;
 
 public class Config {
+	// Live Site URL
+	public static final String TEAMMATES_LIVE_SITE = "http://teammatesv4.appspot.com";
 
 	// TeamMates-related configuration
-	public static final String TEAMMATES_APP = "cs4217gg";
-	public static String TEAMMATES_URL = "http://" + TEAMMATES_APP
-			+ ".appspot.com/";
-	// public static final String TEAMMATES_URL = "http://localhost:8888/";
+	public static final String TEAMMATES_APP = "teammatesv4";
+    public static String TEAMMATES_URL = "http://" + TEAMMATES_APP + ".appspot.com/";
+    //public static final String TEAMMATES_URL = "http://localhost:8888/";
 	public static final String MAIL_HOST = "imap.gmail.com";
 
 	public static final String TEAMMATES_APP_ACCOUNT = "teammates.coord";
 	public static final String TEAMMATES_APP_PASSWD = "makeitright";
+	
+	public static final String TEAMMATES_COORD_ID = "teammates.coord";
 
 	// Individual Evaluation Reminder Testing Account
 	public static final String INDiVIDUAL_NAME = "Emily";
