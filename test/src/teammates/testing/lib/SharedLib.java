@@ -20,13 +20,14 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.search.FlagTerm;
 
+import teammates.testing.Config;
 
 public class SharedLib {
 
 	public static String getFileContents(String filename) {
 		try {
-			String ans = new Scanner(new FileReader(filename)).useDelimiter("\\Z")
-					.next();
+			String ans = new Scanner(new FileReader(filename)).useDelimiter(
+					"\\Z").next();
 			return ans;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -47,8 +48,8 @@ public class SharedLib {
 	 */
 	public static String getRegistrationKeyFromGmail(String gmail,
 			String password, String courseId) {
-		Session sessioned = Session
-				.getDefaultInstance(System.getProperties(), null);
+		Session sessioned = Session.getDefaultInstance(System.getProperties(),
+				null);
 		Store store = null;
 		try {
 			store = sessioned.getStore("imaps");
@@ -73,24 +74,27 @@ public class SharedLib {
 			for (int i = messages.length - 1; i >= 0; i--) {
 				Message message = messages[i];
 				// If this is the right message (by matching header)
-				Pattern pattern = Pattern
-						.compile("^Welcome to Teammates - New Course (\\w+)$");
-				Matcher m = pattern.matcher(message.getSubject());
 
-				if (!m.find())
-					continue;
+				// Pattern pattern = Pattern
+				// .compile("^TEAMMATES: Registration Invitation: Register in the course (\\w+)$");
+				// Matcher m = pattern.matcher(message.getSubject());
+				if (!message
+						.getSubject()
+						.equals(String
+								.format("TEAMMATES: Registration Invitation: Register in the course %s",
+										courseId)))
+				continue;
 
-				// Grab the Course ID and check
-				String grabbedCourseId = m.group(1);
-				if (!courseId.equals(grabbedCourseId))
-					continue;
+				System.out.println(message.getSubject());
+
 
 				String body = "";
 
 				if (message.getContent() instanceof String) { // if message is a
 					// string
 					body = message.getContent().toString();
-				} else if (message.getContent() instanceof Multipart) { // if its a
+				} else if (message.getContent() instanceof Multipart) { // if
+																		// its a
 					// multipart
 					// message
 					Multipart multipart = (Multipart) message.getContent();
@@ -98,21 +102,20 @@ public class SharedLib {
 					body = bodypart.getContent().toString();
 				}
 
-				pattern = Pattern.compile("course: (.+)");
-				m = pattern.matcher(body);
 				
-				if (!m.find())
-					continue;
+				String key = body.split(courseId+":")[1];
+				key = key.split("\\*")[0].trim();
 
 				// Mark the message as read
 				message.setFlag(Flags.Flag.SEEN, true);
-				
-				// Return the key
-				return m.group(1);
+
+			
+				System.out.println(key);
+				return key;
 			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
-			
+
 		} catch (MessagingException e) {
 			e.printStackTrace();
 			return "";
@@ -122,8 +125,8 @@ public class SharedLib {
 	}
 
 	/**
-	 * Retrieve evaluation reminder sent to Gmail inbox. After retrieve, mark the
-	 * email as read.
+	 * Retrieve evaluation reminder sent to Gmail inbox. After retrieve, mark
+	 * the email as read.
 	 * 
 	 * Can be easily modified to support other mail providers
 	 * 
@@ -133,9 +136,9 @@ public class SharedLib {
 	 * @throws Exception
 	 */
 	public static String getEvaluationReminderFromGmail(String gmail,
-			String password, String courseId) throws Exception {
-		Session sessioned = Session
-				.getDefaultInstance(System.getProperties(), null);
+			String password, String courseId, String evalId) throws Exception {
+		Session sessioned = Session.getDefaultInstance(System.getProperties(),
+				null);
 		Store store = sessioned.getStore("imaps");
 		store.connect("imap.gmail.com", gmail, password);
 
@@ -149,24 +152,15 @@ public class SharedLib {
 		// Loop over all of the messages
 		for (int i = messages.length - 1; i >= 0; i--) {
 			Message message = messages[i];
-			// If this is the right message (by matching header)
-			Pattern pattern = Pattern
-					.compile("^Teammates Evaluation - Reminder (\\w+)$");
-			Matcher m = pattern.matcher(message.getSubject());
-
-			if (!m.find())
-				continue;
-
-			// Grab the Course ID and check
-			String grabbedCourseId = m.group(1);
-			if (!courseId.equals(grabbedCourseId))
+			
+			if (!message.getSubject().equals(String.format("TEAMMATES: Evaluation Reminder: %s %s", courseId, evalId)))
 				continue;
 
 			// Mark the message as read
 			message.setFlag(Flags.Flag.SEEN, true);
 
 			// Return the courseId
-			return grabbedCourseId;
+			return courseId;
 		}
 
 		return "";
@@ -178,8 +172,8 @@ public class SharedLib {
 	 */
 	public static void markAllEmailsSeen(String username, String password)
 			throws Exception {
-		Session sessioned = Session
-				.getDefaultInstance(System.getProperties(), null);
+		Session sessioned = Session.getDefaultInstance(System.getProperties(),
+				null);
 		Store store = sessioned.getStore("imaps");
 		store.connect("imap.gmail.com", username, password);
 
@@ -198,15 +192,16 @@ public class SharedLib {
 		}
 		inbox.close(true);
 	}
-	
+
 	/**
 	 * Count the number of stress test emails
+	 * 
 	 * @author wangsha
 	 */
 	public static int mailStressTestCount(String username, String password)
 			throws Exception {
-		Session sessioned = Session
-				.getDefaultInstance(System.getProperties(), null);
+		Session sessioned = Session.getDefaultInstance(System.getProperties(),
+				null);
 		Store store = sessioned.getStore("imaps");
 		store.connect("imap.gmail.com", username, password);
 
@@ -222,21 +217,18 @@ public class SharedLib {
 		// Loop over all of the messages
 		for (Message message : messages) {
 			System.out.println(message.getSubject());
-			Pattern pattern = Pattern
-					.compile("^Teammates Mail Stree Testing ");
+			Pattern pattern = Pattern.compile("^Teammates Mail Stree Testing ");
 			Matcher m = pattern.matcher(message.getSubject());
 
 			if (!m.find())
 				continue;
 			count++;
-		
+
 		}
 		inbox.close(true);
-		
+
 		return count;
 	}
-	
-	
 
 	// Helper method to get the next available date for the evaluation (assuming
 	// 1 hour units)
@@ -284,8 +276,21 @@ public class SharedLib {
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.HOUR_OF_DAY, 1);
 
-		String nextHour = Integer.toString(calendar.get(Calendar.HOUR_OF_DAY) + 1);
+		String nextHour = Integer
+				.toString(calendar.get(Calendar.HOUR_OF_DAY) + 1);
 		return nextHour;
+	}
+
+	public static void main(String[] args) {
+		try {
+			//SharedLib.getRegistrationKeyFromGmail("alice.tmms@gmail.com",
+			//		"makeitright", "CS2103-TESTING");
+			SharedLib.getEvaluationReminderFromGmail("alice.tmms@gmail.com",
+					"makeitright", "CS2103-TESTING", "First Eval");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

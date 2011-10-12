@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ 
-	/*
+	
 	TestCoordLogin.class,
 	TestStudentLogin.class,
 	
@@ -13,11 +13,8 @@ import org.junit.runners.Suite;
 	TestCoordEnrollStudents.class,
 	TestCoordEvaluation.class,
 	TestSendKeysJoinCourse.class,
-	
 	TestStudentSubmitFeedbacks.class, 
-	*/
 	TestStudentReceiveResults.class,
-	
 	
 	TestCoordRemindIndividualJoinCourse.class,
 	

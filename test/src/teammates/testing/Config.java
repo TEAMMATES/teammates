@@ -2,7 +2,7 @@ package teammates.testing;
 
 public class Config {
 	// Live Site URL
-	public static final String TEAMMATES_LIVE_SITE = "http://teammatesv4.appspot.com";
+	public static final String TEAMMATES_LIVE_SITE = "http://teammatesv4.appspot.com/";
 
 	// TeamMates-related configuration
 	public static final String TEAMMATES_APP = "teammates-release";

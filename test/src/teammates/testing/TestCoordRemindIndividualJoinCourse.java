@@ -27,15 +27,6 @@ public class TestCoordRemindIndividualJoinCourse extends BaseTest {
 		TMAPI.enrollStudents(sc.course.courseId, sc.students);
 		TMAPI.studentsJoinCourse(sc.students, sc.course.courseId);
 
-		// Clean up students' mailbox
-		for (int i = 0; i < sc.students.size(); i++) {
-			// Keep reading until there's no reminder mail left (by this time all
-			// reminder mails are marked read)
-			while (!SharedLib.getRegistrationKeyFromGmail(sc.students.get(i).email,
-					Config.TEAMMATES_APP_PASSWD, sc.course.courseId).equals(""))
-				;
-		}
-
 		setupSelenium();
 		coordinatorLogin(sc.coordinator.username, sc.coordinator.password);
 	}
@@ -71,17 +62,9 @@ public class TestCoordRemindIndividualJoinCourse extends BaseTest {
 		wdClick(By.className("t_back")); // Back
 
 		// Assert that student gets a notification email
-		waitAWhile(1000);
 		assertEquals(key, SharedLib.getRegistrationKeyFromGmail(
 				Config.INDIVIDUAL_ACCOUNT, Config.TEAMMATES_APP_PASSWD,
 				sc.course.courseId));
-
-		// Assert that rest students don't get spamed.
-		for (int i = 0; i < sc.students.size(); i++) {
-			assertEquals("", SharedLib.getRegistrationKeyFromGmail(
-					sc.students.get(i).email, Config.TEAMMATES_APP_PASSWD,
-					sc.course.courseId));
-		}
 
 		// Delete the student
 		wdClick(By.className("t_courses"));

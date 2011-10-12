@@ -79,11 +79,9 @@ public class TestCoordPublishResults extends BaseTest {
 
 		System.out.println("Checking students' emails to see if they're sent.");
 		// Check if emails have been sent to all participants
-		for (Student s : sc.students) {
-			System.out.println("Checking " + s.email);
-			assertTrue(checkResultEmailsSent(s.email, s.password,
-					sc.course.courseId, sc.evaluation.name));
-		}
+		assertTrue(checkResultEmailsSent(sc.students.get(0).email, sc.students.get(0).password,
+				sc.course.courseId, sc.evaluation.name));
+
 	}
 
 	@Test
@@ -113,7 +111,8 @@ public class TestCoordPublishResults extends BaseTest {
 
 		// Publish RESULTS Format
 		final String HEADER_EVALUATION_PUBLISH = "TEAMMATES: Evaluation Published: %s %s";
-		final String TEAMMATES_APP_URL = "You can view the result here: "+ Config.TEAMMATES_URL;
+		final String TEAMMATES_APP_URL = "You can view the result here: "
+				+ Config.TEAMMATES_LIVE_SITE;
 		final String TEAMMATES_APP_SIGNATURE = "If you encounter any problems using the system, email TEAMMATES support";
 
 		Session sessioned = Session.getDefaultInstance(System.getProperties(),
@@ -134,8 +133,8 @@ public class TestCoordPublishResults extends BaseTest {
 			Message message = messages[i];
 			System.out.println(message.getSubject());
 
-			System.out.println(String.format(HEADER_EVALUATION_PUBLISH, courseCode,
-							evaluationName));
+			System.out.println(String.format(HEADER_EVALUATION_PUBLISH,
+					courseCode, evaluationName));
 			// matching email subject:
 			if (!message.getSubject().equals(
 					String.format(HEADER_EVALUATION_PUBLISH, courseCode,

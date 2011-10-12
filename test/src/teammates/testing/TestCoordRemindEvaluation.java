@@ -50,7 +50,7 @@ public class TestCoordRemindEvaluation extends BaseTest {
 		for (int i = 0; i < sc.students.size(); i++) {
 			assertEquals(sc.course.courseId,
 					SharedLib.getEvaluationReminderFromGmail(sc.students.get(i).email,
-							Config.TEAMMATES_APP_PASSWD, sc.course.courseId));
+							Config.TEAMMATES_APP_PASSWD, sc.course.courseId, sc.evaluation.name));
 		}
 
 	}

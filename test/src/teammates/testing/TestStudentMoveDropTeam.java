@@ -92,61 +92,13 @@ public class TestStudentMoveDropTeam extends BaseTest {
 
 		// Open New Evaluation
 		TMAPI.openEvaluation(sc.course.courseId, sc.evaluation2.name);
-
-		// Student fill in second evaluation
-		// TODO replace with api call
-		logout();
-		justWait();
-		for (Student s : sc.students) {
-
-			// First we need to login
-			studentLogin(s.email, s.password);
-
-			System.out.println("Submitting feedback for student " + s.email);
-
-			// To evaluation page
-			waitAndClick(By.className("t_evaluations"));
-			waitAndClick(By.id("doEvaluation0"));
-			justWait();
-
-			// Fill in information
-			// System.out.println(selenium.getCssCount(By.id("points0")));
-
-			List<Student> teammates = (List<Student>) s.team.students.clone();
-			teammates.remove(s);
-			System.out.println("teammates size" + teammates.size());
-			// Write self evaluation
-			selectDropdownByValue(By.id("points0"), "30");
-			wdFillString(By.name("justification0"), "Self contribution|" + s.name);
-			wdFillString(By.name("commentstostudent0"), "Team dynamics|" + s.name);
-
-			// Feedback to others
-			for (int i = 1; i <= teammates.size(); i++) {
-				selectDropdownByValue(By.id("points" + i), "30");
-				// selenium.select("points" + i, "value=30");
-				wdFillString(By.name("justification" + i), "Confidential|" + s.name
-						+ "|" + teammates.get(i - 1).name);
-				wdFillString(By.name("commentstostudent" + i), "Comment|" + s.name
-						+ "|" + teammates.get(i - 1).name);
-
-			}
-
-			// Submit the evaluation
-			wdClick(By.name("submitEvaluation"));
-			justWait();
-
-			// Check to see evaluation status is "Submitted"
-			waitForElementText(By.className("t_eval_status_1"), "SUBMITTED");
-
-			logout();
-			justWait();
-		}
+		TMAPI.studentsSubmitFeedbacks(sc.students, sc.course.courseId,
+				sc.evaluation2.name);
 
 		// Close Evaluation
 		TMAPI.closeEvaluation(sc.course.courseId, sc.evaluation2.name);
 
 		// Coordinator verify
-		coordinatorLogin(sc.coordinator.username, sc.coordinator.password);
 		waitAndClick(By.className("t_evaluations"));
 		// Verify First Evaluation
 		// waitAndClick(By.id("viewEvaluation0"));
