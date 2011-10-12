@@ -24,7 +24,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
 
-import teammates.testing.lib.JarClassLoader;
 import teammates.testing.lib.SharedLib;
 import teammates.testing.object.Evaluation;
 import teammates.testing.object.Scenario;

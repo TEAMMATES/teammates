@@ -113,8 +113,7 @@ public class TestCoordPublishResults extends BaseTest {
 
 		// Publish RESULTS Format
 		final String HEADER_EVALUATION_PUBLISH = "TEAMMATES: Evaluation Published: %s %s";
-		final String TEAMMATES_APP_URL = "You can view the result here: "
-				+ Config.TEAMMATES_URL;
+		final String TEAMMATES_APP_URL = "You can view the result here: "+ Config.TEAMMATES_URL;
 		final String TEAMMATES_APP_SIGNATURE = "If you encounter any problems using the system, email TEAMMATES support";
 
 		Session sessioned = Session.getDefaultInstance(System.getProperties(),
@@ -134,8 +133,9 @@ public class TestCoordPublishResults extends BaseTest {
 		for (int i = messages.length - 1; i >= 0; i--) {
 			Message message = messages[i];
 			System.out.println(message.getSubject());
-			System.out.println(message.toString());
 
+			System.out.println(String.format(HEADER_EVALUATION_PUBLISH, courseCode,
+							evaluationName));
 			// matching email subject:
 			if (!message.getSubject().equals(
 					String.format(HEADER_EVALUATION_PUBLISH, courseCode,
@@ -161,20 +161,32 @@ public class TestCoordPublishResults extends BaseTest {
 			System.out.println("message: \n" + body);
 
 			// check line 1: "The results of the evaluation:"
-			if (body.indexOf("The results of the evaluation:") == -1)
+			if (body.indexOf("The results of the evaluation:") == -1) {
+				System.out.println("fail 1");
 				continue;
+			}
 			// check line 2: courseCode evaluationName
-			if (body.indexOf(body.indexOf(courseCode + " " + evaluationName)) == -1)
+			if (body.indexOf(body.indexOf(courseCode + " " + evaluationName)) == -1) {
+				System.out.println("fail 2");
 				continue;
+			}
 			// check line 3: "have been published."
-			if (body.indexOf("have been published.") == -1)
+			if (body.indexOf("have been published.") == -1) {
+				System.out.println("fail 3");
 				continue;
+			}
 			// check line 4: "You can view the result here: [URL]"
-			if (body.indexOf(TEAMMATES_APP_URL) == -1)
+			if (body.indexOf(TEAMMATES_APP_URL) == -1) {
+				System.out.println("fail 4");
 				continue;
+
+			}
 			// check line 5: teammates signature
-			if (body.indexOf(TEAMMATES_APP_SIGNATURE) == -1)
+			if (body.indexOf(TEAMMATES_APP_SIGNATURE) == -1) {
+				System.out.println("fail 5");
 				continue;
+
+			}
 
 			// Mark the message as read
 			message.setFlag(Flags.Flag.SEEN, true);
