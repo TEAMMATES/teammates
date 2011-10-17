@@ -6,8 +6,8 @@ public class Config {
 
 	// TeamMates-related configuration
 	public static final String TEAMMATES_APP = "teammates-release";
-    public static String TEAMMATES_URL = "http://" + TEAMMATES_APP + ".appspot.com/";
-    //public static final String TEAMMATES_URL = "http://localhost:8888/";
+    //public static String TEAMMATES_URL = "http://" + TEAMMATES_APP + ".appspot.com/";
+    public static final String TEAMMATES_URL = "http://localhost:8888/";
 	public static final String MAIL_HOST = "imap.gmail.com";
 
 	public static final String TEAMMATES_APP_ACCOUNT = "teammates.coord";
