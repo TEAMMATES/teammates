@@ -5,9 +5,6 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -125,6 +122,10 @@ public class BaseTest {
 
 	protected static void setupScenario() {
 		sc = Scenario.fromJSONFile("./scenario.json");
+	}
+	
+	protected static void setupScenarioForBumpRatioTest(int index) {
+		sc = Scenario.scenarioForBumpRatioTest("./scenario.json", index);
 	}
 
 	/**

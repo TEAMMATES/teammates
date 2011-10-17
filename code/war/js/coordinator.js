@@ -4910,7 +4910,7 @@ function printEvaluationSummaryByRevieweeList(submissionList, summaryList, statu
 		}
 		
 		output = output +
-						"<td>" + summaryList[loop].average + "</td>";
+						"<td>" + summaryList[loop].claimedPoints + "</td>";
 		
 		if (summaryList[loop].difference > 0) {
 			output = output +
