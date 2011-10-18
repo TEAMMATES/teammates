@@ -21,8 +21,9 @@ import org.junit.runners.Suite;
 	TestCoordRemindEvaluation.class,
 	TestCoordEditStudents.class,
 	TestStudentMoveDropTeam.class,
-	
 	TestCoordPublishResults.class,
+	TestEvaluationPointCalculation.class,
+
 
 })
 public class IntegratedRun {

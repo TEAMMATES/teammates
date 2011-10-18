@@ -410,6 +410,7 @@ public class APIServlet extends HttpServlet {
 			}			
 		}
 
+		getPM().makePersistentAll(submissions);
 		resp.getWriter().write("ok");
 		
 	}

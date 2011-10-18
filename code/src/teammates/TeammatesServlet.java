@@ -650,10 +650,10 @@ public class TeammatesServlet extends HttpServlet {
 	/**
 	 * Edit the logic of this function Student information change shouldn't be
 	 * constraint by evaluation status Name (can change at any time) update
-	 * student table only Team (can change at any time, changes wouldn’t affect
+	 * student table only Team (can change at any time, changes wouldn�t affect
 	 * existing submissions) update student table only Google ID (fixed after
 	 * registration, checking done at js step) Email (can change at any time,
-	 * per course basis, must update THAT course’s submission) update student
+	 * per course basis, must update THAT course�s submission) update student
 	 * table, submission table Comments (can change at any time)
 	 * 
 	 * @throws IOException
@@ -886,7 +886,6 @@ public class TeammatesServlet extends HttpServlet {
 		String fromStudentComments = null;
 		String toStudentComments = null;
 		Student student = null;
-		List<Submission> fromList = new LinkedList<Submission>();
 
 		float pointsBumpRatio = 0;
 
@@ -919,10 +918,10 @@ public class TeammatesServlet extends HttpServlet {
 			}
 
 			// filter submisstion list by fromStudent
+			List<Submission> fromList = new LinkedList<Submission>();
 			for (Submission fs : submissionList) {
-				if (fs.getFromStudent() == s.getFromStudent())
-					;
-				fromList.add(fs);
+				if (fs.getFromStudent().equals(s.getFromStudent()))					
+					fromList.add(fs);
 			}
 
 			pointsBumpRatio = evaluations.calculatePointsBumpRatio(courseID,
@@ -1720,7 +1719,6 @@ public class TeammatesServlet extends HttpServlet {
 		String teamName = student.getTeamName();
 
 		List<Submission> filteredSubmissionList = new ArrayList<Submission>();
-		List<Submission> fromList = new ArrayList<Submission>();
 
 		for (Submission s : submissionList) {
 			if (s.getTeamName().equals(teamName)) {
@@ -1728,6 +1726,7 @@ public class TeammatesServlet extends HttpServlet {
 			}
 		}
 
+		System.out.println("filtered number: " + filteredSubmissionList.size() );
 		List<SubmissionResultsForStudent> submissionResultsList = new ArrayList<SubmissionResultsForStudent>();
 
 		String fromStudentName = "";
@@ -1757,7 +1756,8 @@ public class TeammatesServlet extends HttpServlet {
 				toStudentName = "[deleted]" + s.getToStudent();
 				toStudentComments = "";
 			}
-
+			
+			List<Submission> fromList = new ArrayList<Submission>();
 			for (Submission fs : submissionList) {
 				if (fs.getFromStudent().equals(s.getFromStudent())) {
 					fromList.add(fs);

@@ -200,7 +200,7 @@ function compileSubmissionsIntoSummaryList(submissionList)
 					{
 						if(submissionList[y].points != -999 && submissionList[y].points != -101)
 						{
-							totalPoints += submissionList[y].points * submissionList[y].pointsBumpRatio;
+							totalPoints += Math.round(submissionList[y].points * submissionList[y].pointsBumpRatio);
 							totalPointGivers++;
 						}
 					}

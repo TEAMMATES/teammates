@@ -28,7 +28,7 @@ public class TestEvaluationResultPoints extends BaseTest {
 
 	@BeforeClass
 	public static void classSetup() throws IOException {
-		setupScenarioForBumpRatioTest(4);
+		setupScenarioForBumpRatioTest(3);
 		TMAPI.cleanup();
 		TMAPI.createCourse(sc.course);
 		TMAPI.enrollStudents(sc.course.courseId, sc.students);

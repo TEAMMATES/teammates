@@ -169,9 +169,6 @@ public class Evaluations {
 	public float calculatePointsBumpRatio(String courseID,
 			String evaluationName, String fromStudent, List<Submission> submissionList) {
 		
-		//List<Submission> submissionList = getSubmissionFromStudentList(
-		//		courseID, evaluationName, fromStudent);
-		
 		int totalPoints = 0;
 		int numberOfStudents = 0;
 		
@@ -184,8 +181,7 @@ public class Evaluations {
 				numberOfStudents ++ ;
 			}
 		}
-		
-		return (float) ((numberOfStudents * 100.0) / totalPoints);
+		return (float) ((numberOfStudents * 100.0) / (float)totalPoints);
 	}
 	
 	/**

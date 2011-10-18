@@ -245,6 +245,7 @@ public class TMAPI {
 	 **/
 	public static void studentsSubmitDynamicFeedbacks(List<Student> students, String courseId, String evaluationName, String[] submissionPoints) throws IOException{
 		//TODO: validate submission data set.
+		System.out.println("submit dynamic feedbacks");
 		int i = 0;
 		for (Student s : students) {
 			String points = getSubmissionPoints(submissionPoints[i]);
@@ -362,7 +363,7 @@ public class TMAPI {
 		else{
 			int claimedPoint = Integer.valueOf(claimed);
 			int perceivedPoint = Integer.valueOf(perceived);
-			int diff = claimedPoint - perceivedPoint;
+			int diff = perceivedPoint - claimedPoint ;
 			return String.valueOf(diff);
 		}
 	}
