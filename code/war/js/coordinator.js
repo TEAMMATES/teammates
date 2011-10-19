@@ -595,6 +595,8 @@ function compileSubmissionsIntoSummaryList(submissionList)
 	
 	for(loop = 0; loop < summaryList.length; loop++)
 	{
+		teamName = summaryList[loop].teamName;
+		console.log("find normalizing bumpRatio loop index: " + loop + summaryList[loop].teamName);
 		// Reset variables
 		exists = false;
 		totalPoints = 0;
@@ -626,7 +628,7 @@ function compileSubmissionsIntoSummaryList(submissionList)
 			if(totalGivers != 0)
 			{
 				pointsBumpRatio = totalGivers * 100 / totalPoints; 
-				
+			
 				// Store the bump ratio
 				teamsNormalized[count++] = {pointsBumpRatio:pointsBumpRatio, teamName:teamName};
 			}
@@ -643,6 +645,7 @@ function compileSubmissionsIntoSummaryList(submissionList)
 			if(summaryList[y].teamName == teamsNormalized[loop].teamName && summaryList[y].average != "N/A")
 			{
 				summaryList[y].average = Math.round(summaryList[y].average * teamsNormalized[loop].pointsBumpRatio);
+		
 
 				if(summaryList[y].claimedPoints != "N/A")
 				{

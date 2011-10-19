@@ -352,7 +352,7 @@ public class APIServlet extends HttpServlet {
 				course_id, evaluation_name, student_email);
 
 		for (Submission submission : submissions) {
-			submission.setPoints(50);
+			submission.setPoints(100);
 			submission.setCommentsToStudent(new Text(String.format(
 					"This is a public comment from %s to %s.", student_email,
 					submission.getToStudent())));
