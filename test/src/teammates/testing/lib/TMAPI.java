@@ -17,6 +17,7 @@ import java.util.Map;
 import teammates.testing.Config;
 import teammates.testing.object.Course;
 import teammates.testing.object.Evaluation;
+import teammates.testing.object.Scenario;
 import teammates.testing.object.Student;
 import teammates.testing.object.Submission;
 
@@ -304,19 +305,34 @@ public class TMAPI {
 		
 		return list;
 	}
-	public static List<String> coordGetPointsFromOthers(String[] submissionPoints, int personIndex){
+	public static List<String> coordGetPointsFromOthers(Scenario sc, int personIndex){
 		
 		List<String> list = new ArrayList<String>();
+		String[] submissionPoints = sc.submissionPoints;
+		String teamName = sc.students.get(personIndex).teamName;
+		int start = 0;
+		int end = 0;
+		boolean started = false;
+		for(int i = 0; i < sc.students.size(); i++){
+			if(sc.students.get(i).teamName.equalsIgnoreCase(teamName)){
+				if(!started){
+					started = true;
+					start = i;
+					end = i;
+				}
+				else{
+					end++;
+				}
+			}
+		}
 		
-		for(int i = 0; i < submissionPoints.length; i++){
+		for(int i = start; i <= end; i++){
 			//remove self evaluation:
-//			if(i != personIndex){
-				String submission = submissionPoints[i];
-				String normalized = submission.split("; ")[1];
-				normalized = normalized.substring(SUBMISSION_DATA_TAG_NORMALIZED.length());
-				String[] pointArray = normalized.split(", ");
-				list.add(pointArray[personIndex]);
-//			}
+			String submission = submissionPoints[i];
+			String normalized = submission.split("; ")[1];
+			normalized = normalized.substring(SUBMISSION_DATA_TAG_NORMALIZED.length());
+			String[] pointArray = normalized.split(", ");
+			list.add(pointArray[personIndex-start]);
 			
 		}
 		

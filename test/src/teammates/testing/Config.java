@@ -5,7 +5,7 @@ public class Config {
 	public static final String TEAMMATES_LIVE_SITE = "http://teammatesv4.appspot.com/";
 
 	// TeamMates-related configuration
-	public static final String TEAMMATES_APP = "teammates-release";
+	public static final String TEAMMATES_APP = "teammatesv4";
     public static String TEAMMATES_URL = "http://" + TEAMMATES_APP + ".appspot.com/";
     //public static final String TEAMMATES_URL = "http://localhost:8888/";
 	public static final String MAIL_HOST = "imap.gmail.com";
@@ -41,9 +41,9 @@ public class Config {
 	public static String getChromeDriverPath() {
 		String os = System.getProperty("os.name");
 		if (os.startsWith("Windows")) {
-			return "./selenium/chromedriver.exe";
+			return "./chromedriver/chromedriver.exe";
 		} else if (os.startsWith("Mac OS")) {
-			return "./selenium/chromedriver_osx";
+			return "./chromedriver/chromedriver_osx";
 		}
 		return "";
 	}

@@ -586,6 +586,8 @@ function compileSubmissionsIntoSummaryList(submissionList)
 			summaryList[count++] = { toStudent:toStudent, toStudentName:toStudentName, teamName:teamName,
 					average:average, difference:difference, toStudentComments:toStudentComments, submitted:submitted,
 					claimedPoints:claimedPoints};
+			console.log("******"+toStudent+"|"+toStudentName+"|"+teamName+"|"+average+"|"+difference+"|"+toStudentComments+"|"+submitted+"|"+claimedPoints);
+
 		}
 	}
 	

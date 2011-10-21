@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -185,6 +186,7 @@ public class Scenario {
 			sc.coordinator = Coordinator.fromJSONObject( json.getJSONObject("coordinator") );
 			sc.course = Course.fromJSONObject(json.getJSONObject("course") );
 			sc.evaluation = Evaluation.fromJSONObject( json.getJSONObject( "evaluation") );
+			sc.evaluation2 = Evaluation.fromJSONObject(json.getJSONObject("evaluation2"));
 			JSONArray json_points = json.getJSONArray("submissionPoints"+index);
 			int teamSize = json_points.length();//scenario depends on how many students submit evaluation
 			JSONArray json_students = json.getJSONArray("students2");
@@ -200,7 +202,7 @@ public class Scenario {
 			}
 			
 			// Teams
-			sc.teams = new HashMap<String, Team>();
+			sc.teams = new LinkedHashMap<String, Team>();
 			JSONArray json_teams = json.getJSONArray("teams2");
 			for (int i = 0; i < json_teams.length(); i++) {
 				String teamname = json_teams.getString(i);
@@ -216,6 +218,7 @@ public class Scenario {
 			}
 			
 			sc.evaluation.courseID = sc.course.courseId;
+			sc.evaluation2.courseID = sc.course.courseId;
 			sc.course.students = sc.students;
 
 			return sc;

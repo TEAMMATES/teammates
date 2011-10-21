@@ -90,6 +90,7 @@ public class BaseTest {
 			driver = new RemoteWebDriver(service.getUrl(),
 					DesiredCapabilities.chrome());
 
+			System.out.println(driver.toString());
 			selenium = new WebDriverBackedSelenium(driver, Config.TEAMMATES_URL);
 
 			/*
@@ -125,7 +126,7 @@ public class BaseTest {
 	}
 	
 	protected static void setupScenarioForBumpRatioTest(int index) {
-		sc = Scenario.scenarioForBumpRatioTest("./scenario.json", index);
+		sc = Scenario.scenarioForBumpRatioTest("./bump_ratio_scenario.json", index);
 	}
 
 	/**

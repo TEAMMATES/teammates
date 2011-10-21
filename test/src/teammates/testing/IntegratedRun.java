@@ -22,7 +22,7 @@ import org.junit.runners.Suite;
 	TestCoordEditStudents.class,
 	TestStudentMoveDropTeam.class,
 	TestCoordPublishResults.class,
-	TestEvaluationPointCalculation.class,
+	TestEvaluationResultPoints.class,
 
 
 })
