@@ -1,0 +1,123 @@
+{
+  "coordinator": {"username": "teammates.coord"},
+  "course": {
+    "id": "CS2103-TESTING",
+    "name": "Software Engineering"
+  },
+  
+  "course2": {
+    "id": "CS1101-TESTING",
+    "name": "Programming Methodology"
+  },
+  
+  "evaluation": {
+    "graceperiod": 10,
+    "instructions": "Please please fill it in",
+    "name": "First Eval",
+    "p2pcomments": "true"
+  },
+  "evaluation2": {
+    "graceperiod": 10,
+    "instructions": "Please please fill in the second evaluation",
+    "name": "Second Eval",
+    "p2pcomments": "true"
+  },
+  "evaluation3": {
+    "graceperiod": 10,
+    "instructions": "Please please fill in the third evaluation",
+    "name": "Third Eval",
+    "p2pcomments": "true"
+  },
+  "evaluation4": {
+    "graceperiod": 10,
+    "instructions": "Please please fill in the forth evaluation",
+    "name": "Forth Eval",
+    "p2pcomments": "true"
+  },  
+  
+  "teams2": ["Team Point", "Team Point2"],
+  "students2": [
+  	{
+  		"name": "Alice",
+  		"email": "alice.tmms@gmail.com",
+  		"google_id": "alice.tmms",
+  		"team": "Team Point"
+  	},
+  	{
+  		"name": "Benny",
+  		"email": "benny.tmms@gmail.com",
+  		"google_id": "benny.tmms",
+  		"team": "Team Point"
+  	},
+  	{
+  		"name": "Charlie",
+  		"email": "charlie.tmms@gmail.com",
+  		"google_id": "charlie.tmms",
+  		"team": "Team Point"
+  	},
+  	{
+  		"name": "Danny",
+  		"email": "danny.tmms@gmail.com",
+  		"google_id": "danny.tmms",
+  		"team": "Team Point"
+  	},
+  	{
+      "name": "Emily",
+      "email": "emily.tmms@gmail.com",
+      "team": "Team Point2",
+      "google_id": "emily.tmms"
+    },
+    {
+      "name": "Frank",
+      "email": "frank.tmms@gmail.com",
+      "google_id": "frank.tmms",
+      "team": "Team Point2"
+    },
+    {
+      "name": "Gary",
+      "email": "gary.tmms@gmail.com",
+      "google_id": "gary.tmms",
+      "team": "Team Point2"
+    },
+    {
+      "name": "Henry",
+      "email": "henry.tmms@gmail.com",
+      "google_id": "henry.tmms",
+      "team": "Team Point2"
+    }
+  ],
+  
+  "submissionPoints0": [
+  	"original: 80, 70, 150, 90; normalized: 82, 72, 154, 92; claimed: 80; perceived: 100; claimedCoord: 82; perceivedCoord: 100",
+  	"original: 90, 100, 130, 80; normalized: 90, 100, 130, 80; claimed: 100; perceived: 90; claimedCoord: 100; perceivedCoord: 85",
+  	"original: 100, 90, 120, 80; normalized: 103, 92, 123, 82; claimed: 120; perceived: 130; claimedCoord: 123; perceivedCoord: 129",
+  	"original: 110, 90, 100, 130; normalized: 102, 84, 93, 121; claimed: 130; perceived: 90; claimedCoord: 121; perceivedCoord: 87",
+  	"original: 80, 70, 150, 90; normalized: 82, 72, 154, 92; claimed: 80; perceived: 100; claimedCoord: 82; perceivedCoord: 100",
+  	"original: 90, 100, 130, 80; normalized: 90, 100, 130, 80; claimed: 100; perceived: 90; claimedCoord: 100; perceivedCoord: 85",
+  	"original: 100, 90, 120, 80; normalized: 103, 92, 123, 82; claimed: 120; perceived: 130; claimedCoord: 123; perceivedCoord: 129",
+  	"original: 110, 90, 100, 130; normalized: 102, 84, 93, 121; claimed: 130; perceived: 90; claimedCoord: 121; perceivedCoord: 87",
+  ],
+  
+  "submissionPoints1": [
+  	"original: 120, 60; normalized: 133, 67; claimed: 120; perceived: 80; claimedCoord: 133; perceivedCoord: 77",
+  	"original: 40, 150; normalized: 42, 158; claimed: 150; perceived: 120; claimedCoord: 158; perceivedCoord: 123",
+  ],
+  
+  "submissionPoints2": [
+  	"original: 130, 80, -101; normalized: 124, 76, Unsure; claimed: 130; perceived: 90; claimedCoord: 124; perceivedCoord: 92",
+  	"original: 70, 110, 90; normalized: 78, 122, 100; claimed: 110; perceived: 100; claimedCoord: 122; perceivedCoord: 97",
+  	"original: 90, 100, 120; normalized: 87, 97, 116; claimed: 120; perceived: 110; claimedCoord: 116; perceivedCoord: 111",
+  ],
+  
+  "submissionPoints3": [
+  	"original: 120, 90, 70; normalized: 129, 96, 75; claimed: 120; perceived: 110; claimedCoord: 129; perceivedCoord: 106",
+  	"original: 80, 100, 70; normalized: 96, 120, 84; claimed: 100; perceived: 110; claimedCoord: 120; perceivedCoord: 106",
+  	"original: -999, -999, -999; normalized: N/A, N/A, N/A; claimed: NaN; perceived: 90; claimedCoord: N/A; perceivedCoord: 88",
+  ],
+  
+  "submissionPoints4": [
+  	"original: -101, -101, -101; normalized: Unsure, Unsure, Unsure; claimed: NaN; perceived: N/A; claimedCoord: N/A; perceivedCoord: N/A",
+  	"original: -101, -101, -101; normalized: Unsure, Unsure, Unsure; claimed: NaN; perceived: N/A; claimedCoord: N/A; perceivedCoord: N/A",
+ 	"original: -101, -101, -101; normalized: Unsure, Unsure, Unsure; claimed: NaN; perceived: N/A; claimedCoord: N/A; perceivedCoord: N/A",
+  ]
+}
