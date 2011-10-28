@@ -73,7 +73,7 @@
 		<% 
 		String version = SystemProperty.applicationVersion.get().split("\\.")[0].replace("-", ".");
 		String build = SystemProperty.applicationVersion.get().split("\\.")[1];
-		String footer = "[TEAMMATES Version " + version + " Build " + build + "] ";
+		String footer = "[TEAMMATES Version " + version + "] ";
 		footer += "Best Viewed In Firefox, Chrome, Safari and Internet Explore 8+. For Enquires:";
 		out.println(footer); 
 		%>

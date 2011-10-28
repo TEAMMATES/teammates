@@ -1792,8 +1792,9 @@ public class TeammatesServlet extends HttpServlet {
 			}
 		}
 
-		// Sory by Comments alphabetically
-		SubmissionResultsForStudent first = submissionResultsList.remove(0);
+		// Sort by Comments alphabetically
+		SubmissionResultsForStudent selfEvaluation = submissionResultsList.remove(0);
+		
 		Collections.sort(submissionResultsList, new Comparator<SubmissionResultsForStudent>() {
 			public int compare(SubmissionResultsForStudent r1, SubmissionResultsForStudent r2) {
 				String s1 = r1.getCommentsToStudent().getValue();
@@ -1803,7 +1804,7 @@ public class TeammatesServlet extends HttpServlet {
 		});
 		
 		
-		submissionResultsList.add(0, first);
+		submissionResultsList.add(0, selfEvaluation);
 		resp.getWriter().write(
 				"<submissions>"
 						+ parseSubmissionResultsForStudentListToXML(

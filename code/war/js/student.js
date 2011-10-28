@@ -2037,7 +2037,7 @@ function printSubmissionResults(summaryList, submissionList)
 	var targetStudent = summaryList[0].toStudent;
 	
 	submissionList.splice(0,1);
-	
+	var ctr = 0;
 	for(loop = 0; loop < submissionList.length; loop++)
 	{
 		var sp = loop + 1;
@@ -2047,7 +2047,7 @@ function printSubmissionResults(summaryList, submissionList)
 			output = output +
 			"<tr>" +
 			"<td class=\"lhs\">Teammate " + ":</td>" +
-			"<td>";
+			"<td id=\"com" + ctr + "\">";
 			
 			if(sanitize(submissionList[loop].commentsToStudent) == "")
 			{
