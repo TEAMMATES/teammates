@@ -2037,7 +2037,6 @@ function printSubmissionResults(summaryList, submissionList)
 	var targetStudent = summaryList[0].toStudent;
 	
 	submissionList.splice(0,1);
-	submissionList.sort(function() {return 0.5 - Math.random()});
 	
 	for(loop = 0; loop < submissionList.length; loop++)
 	{

@@ -10,6 +10,7 @@
 		response.sendRedirect( accounts.getLoginPage("/administrator.jsp") );
 		return ;
 	}
+
 %>
 
 

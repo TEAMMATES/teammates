@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -1790,6 +1792,18 @@ public class TeammatesServlet extends HttpServlet {
 			}
 		}
 
+		// Sory by Comments alphabetically
+		SubmissionResultsForStudent first = submissionResultsList.remove(0);
+		Collections.sort(submissionResultsList, new Comparator<SubmissionResultsForStudent>() {
+			public int compare(SubmissionResultsForStudent r1, SubmissionResultsForStudent r2) {
+				String s1 = r1.getCommentsToStudent().getValue();
+				String s2 = r2.getCommentsToStudent().getValue();
+				return s1.compareToIgnoreCase(s2);
+			}
+		});
+		
+		
+		submissionResultsList.add(0, first);
 		resp.getWriter().write(
 				"<submissions>"
 						+ parseSubmissionResultsForStudentListToXML(
@@ -1975,3 +1989,5 @@ public class TeammatesServlet extends HttpServlet {
 
 	}
 }
+
+

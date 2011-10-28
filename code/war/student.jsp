@@ -2,6 +2,7 @@
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page import="java.util.*"%>
 <%@ page import="teammates.Accounts"%>
+<%@ page import="com.google.appengine.api.utils.SystemProperty"%>
 
 <%
 	// See if user is logged in, if not we redirect them to the login page
@@ -69,9 +70,16 @@
 
 	<div id="frameBottom">
 		<div id="contentFooter">
-			BEST VIEWED IN FIREFOX, CHROME, SAFARI AND INTERNET EXPLORER 8 AND ABOVE. FOR ENQUIRIES: <a class="footer"
-				href="http://www.comp.nus.edu.sg/~teams/contact.html"
-				target="_blank">Contact Us</a>
+		<% 
+		String version = SystemProperty.applicationVersion.get().split("\\.")[0].replace("-", ".");
+		String build = SystemProperty.applicationVersion.get().split("\\.")[1];
+		String footer = "[TEAMMATES Version " + version + " Build " + build + "] ";
+		footer += "Best Viewed In Firefox, Chrome, Safari and Internet Explore 8+. For Enquires:";
+		out.println(footer); 
+		%>
+		 <a class="footer"
+			href="http://www.comp.nus.edu.sg/~teams/contact.html"
+			target="_blank">Contact Us</a>
 		</div>
 	</div>
 </body>
