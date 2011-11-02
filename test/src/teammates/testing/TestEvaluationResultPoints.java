@@ -56,7 +56,7 @@ public class TestEvaluationResultPoints extends BaseTest {
 		wrapUp();
 	}
 
-	/*
+	
 	@Test
 	public void testCoordViewReviewerIndividualPoints() throws Exception {
 		coordViewReviewerIndividualPoints(0);
@@ -278,7 +278,7 @@ public class TestEvaluationResultPoints extends BaseTest {
 			}
 		}
 	}
-	*/
+	
 	@Test
 	public void testCoordPublishResults() throws Exception {
 		coordPublishResults(0);

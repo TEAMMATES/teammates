@@ -1,6 +1,7 @@
 # use glob syntax.
 syntax: glob
 
+*.classpath
 .DS_Store
 .settings
 *.orig
@@ -12,4 +13,3 @@ test/src/teammates/testing/TmpTest.java
 appengine-generated
 *.ext
 *.xml
-*.classpath
