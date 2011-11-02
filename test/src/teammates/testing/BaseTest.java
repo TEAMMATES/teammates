@@ -282,13 +282,13 @@ public class BaseTest {
 	 * Snippet to go to Courses page
 	 */
 	public static void gotoCourses() {
-		wdClick(By.className("t_courses"));
+		waitAndClick(By.className("t_courses"));
 		justWait();
 		verifyCoordinatorPage();
 	}
 
 	public static void clickCourseTab() {
-		wdClick(By.className("t_courses"));
+		waitAndClick(By.className("t_courses"));
 	}
 
 	/**
@@ -322,7 +322,7 @@ public class BaseTest {
 
 	public static void clickCourseEnrol(int row) {
 		// first row:
-		wdClick(By.className("t_course_enrol"));
+		waitAndClick(By.className("t_course_enrol"));
 	}
 
 	public static void clickCourseView(int row) {
@@ -867,7 +867,7 @@ public class BaseTest {
 	public static void waitForElementPresent(By by) {
 		int counter = 0;
 		while (!isElementPresent(by)) {
-			if (counter++ > 200)
+			if (counter++ > 300)
 				fail("Timeout");
 			try {
 				Thread.sleep(50);
@@ -966,7 +966,7 @@ public class BaseTest {
 
 	public static void clickAndConfirm(By by) {
 		chromeConfirmYes();
-		wdClick(by);
+		waitAndClick(by);
 		confirmYes();
 	}
 

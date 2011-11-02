@@ -17,6 +17,7 @@ import teammates.testing.lib.TMAPI;
 public class TestFooter extends BaseTest {
 
 	public static String footer = "Best Viewed In Firefox, Chrome, Safari and Internet Explore 8+. For Enquires:";
+	public static int maxVersionLength = 10;
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		setupScenario();
@@ -38,7 +39,10 @@ public class TestFooter extends BaseTest {
 		assertNotNull(getElementText(By.id("contentFooter")));
 		assertTrue((getElementText(By.id("contentFooter"))).contains("[TEAMMATES Version"));
 		assertTrue((getElementText(By.id("contentFooter"))).contains(footer));
-
+		//difference of index of 'n' in Version and the ']' in the format [TEAMMATES Version 1]
+		int pos = ((getElementText(By.id("contentFooter"))).indexOf('n'))-((getElementText(By.id("contentFooter"))).indexOf(']'));
+		assertTrue(pos<maxVersionLength);
+		
 		justWait();
 	}
 	
@@ -52,6 +56,9 @@ public class TestFooter extends BaseTest {
 		assertNotNull(getElementText(By.id("contentFooter")));
 		assertTrue((getElementText(By.id("contentFooter"))).contains("[TEAMMATES Version"));
 		assertTrue((getElementText(By.id("contentFooter"))).contains(footer));
+		//difference of index of 'n' in Version and the ']' in the format [TEAMMATES Version 1]
+		int pos = ((getElementText(By.id("contentFooter"))).indexOf('n'))-((getElementText(By.id("contentFooter"))).indexOf(']'));
+		assertTrue(pos<maxVersionLength);
 		
 		justWait();
 		logout();
@@ -67,6 +74,9 @@ public class TestFooter extends BaseTest {
 		assertNotNull(getElementText(By.id("contentFooter")));
 		assertTrue((getElementText(By.id("contentFooter"))).contains("[TEAMMATES Version"));
 		assertTrue((getElementText(By.id("contentFooter"))).contains(footer));
+		//difference of index of 'n' in Version and the ']' in the format [TEAMMATES Version 1]
+		int pos = ((getElementText(By.id("contentFooter"))).indexOf('n'))-((getElementText(By.id("contentFooter"))).indexOf(']'));
+		assertTrue(pos<maxVersionLength);
 
 		justWait();
 		logout();

@@ -19,7 +19,7 @@ public class AutoImportTestData {
 	public static void main(String args[]) {
 		Scenario sc = Scenario.fromJSONFile("./scenario2.json");
 		TMAPI.cleanup();
-
+	
 		// -----Course 1-----//
 		TMAPI.createCourse(sc.course);
 		TMAPI.enrollStudents(sc.course.courseId, sc.course.students);

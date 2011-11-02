@@ -56,6 +56,7 @@ public class TestEvaluationResultPoints extends BaseTest {
 		wrapUp();
 	}
 
+	/*
 	@Test
 	public void testCoordViewReviewerIndividualPoints() throws Exception {
 		coordViewReviewerIndividualPoints(0);
@@ -277,12 +278,11 @@ public class TestEvaluationResultPoints extends BaseTest {
 			}
 		}
 	}
-	
+	*/
 	@Test
 	public void testCoordPublishResults() throws Exception {
 		coordPublishResults(0);
 		coordPublishResults(1);
-		logout();
 	}
 		
 	public void coordPublishResults(int evalIndex) throws Exception {
@@ -291,14 +291,16 @@ public class TestEvaluationResultPoints extends BaseTest {
 		clickAndConfirm(By.className("t_eval_publish"));
 	}
 	
+	
+	
 	@Test
 	public void testStudentViewResultPoints() throws Exception {
 		for(int i = 0; i < sc.students.size(); i++) {
+			logout();
 			Student s = sc.students.get(i);
 			studentLogin(s.email, s.password);
 			studentViewResultPoints(0, i);//first evaluation
 			studentViewResultPoints(1, i);//second evaluation
-			logout();
 		}
 	}
 	

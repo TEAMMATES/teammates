@@ -91,12 +91,5 @@ public class TestCoordRemindIndividualJoinCourse extends BaseTest {
 				sc.students.get(0).email, Config.TEAMMATES_APP_PASSWD,
 				sc.course.courseId));
 
-		// Delete the student
-		clickCourseTab();
-		clickCourseView(0);
-		waitAndClick(By.xpath(String.format(
-				"//table[@id='dataform']//tr[%d]//a[4]", 6)));
-		Alert alert = driver.switchTo().alert();
-		alert.accept();
 	}
 }
