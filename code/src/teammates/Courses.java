@@ -615,6 +615,31 @@ public class Courses {
 	}
 
 	/**
+	 * Returns the number of students in a Course.
+	 * 
+	 * @param courseID
+	 *            the course ID (Precondition: Must be valid)
+	 * 
+	 * @return the number of students in the course
+	 */
+	public int getTotalStudents(String courseID){
+		List<Student> studentList = getStudentList(courseID);
+		return studentList.size();
+	}
+	
+	/**
+	 * Returns the number of unregistered students in a Course.
+	 * 
+	 * @param courseID
+	 *            the course ID (Precondition: Must be valid)
+	 * 
+	 * @return the number of unregistered students in the course
+	 */
+	public int getUnregistered(String courseID){
+		List<Student> unregistered = getUnregisteredStudentList(courseID);
+		return unregistered.size();
+	}
+	/**
 	 * Returns a list of Student objects that matches the specified courseID and
 	 * which do not have a Google ID associated with it
 	 * 

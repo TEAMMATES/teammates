@@ -10,8 +10,6 @@ import java.util.Set;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
-
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Student;
 
@@ -39,14 +37,47 @@ public class TestCoordEnrollStudents extends BaseTest {
 	}
 
 	/**
+	 * White Space should be trimmed
+	 * 
+	 * @throws Exception
+	 * @author wangsha
+	 * @date Sep 14, 2011
+	 */
+	@Test
+	public void testEnrollmentFormat() throws Exception {
+		cout("Test: test white spaces in team name");
+		String students = "Team 1|User 6|user6@gmail.com\n"
+				    + "    Team 1     |  User 0  |tuser0@gmail.com\n"
+				        + "Team 2|User 1|user1@gmail.com\n";
+
+		// To Enroll page
+		clickCourseEnrol(0);
+		verifyEnrollPage();
+
+		wdFillString(enrolInfo, students);
+		wdClick(enrolButton);
+		cout(getElementText(courseErrorMessage));
+
+		wdClick(enrolBackButton);
+
+		// Check number of teams
+		assertEquals(2, Integer.parseInt(getCourseTeams(0)));
+
+		// Check number of unregistered students
+		assertEquals(3, Integer.parseInt(getCourseUnregisteredStudents(0)));
+
+		TMAPI.cleanupCourse(sc.course.courseId);
+	}
+
+	/**
 	 * Enroll a list of new students (half the from the test scenario)
 	 */
 	@Test
 	public void testEnrollNewStudentsSuccess() throws Exception {
-		cout("Test: Enrolling new students.");
-
-		wdClick(By.className("t_courses"));
-		waitForElementPresent(By.id("courseid"));
+		cout("TestCoordEnrolStudents: Enrolling new students.");
+		TMAPI.createCourse(sc.course);
+		clickCourseTab();
+		waitForElementPresent(inputCourseID);
 
 		int half = sc.students.size() / 2;
 		List<Student> ls = sc.students.subList(0, half);
@@ -55,7 +86,7 @@ public class TestCoordEnrollStudents extends BaseTest {
 		// Check for number of successful students enrolled
 		verifyEnrollment(half, 0);
 
-		wdClick(By.className("t_back"));
+		wdClick(enrolBackButton);
 
 		// Calculate the number of teams
 		Set<String> set = new HashSet<String>();
@@ -63,8 +94,7 @@ public class TestCoordEnrollStudents extends BaseTest {
 			set.add(s.teamName);
 		}
 
-		assertEquals(set.size(), Integer.parseInt(getElementText(By
-				.className("t_course_teams"))));
+		assertEquals(set.size(), Integer.parseInt(getElementText(courseTeams)));
 	}
 
 	/**
@@ -78,11 +108,10 @@ public class TestCoordEnrollStudents extends BaseTest {
 		int left = sc.students.size() - sc.students.size() / 2;
 		enrollStudents(sc.students);
 		verifyEnrollment(left, 0);
-		wdClick(By.className("t_back"));
+		wdClick(enrolBackButton);
 
 		// Check number of teams
-		assertEquals(sc.teams.size(), Integer.parseInt(getElementText(By
-				.className("t_course_teams"))));
+		assertEquals(sc.teams.size(), Integer.parseInt(getElementText(courseTeams)));
 	}
 
 	/**
@@ -91,21 +120,19 @@ public class TestCoordEnrollStudents extends BaseTest {
 	@Test
 	public void testEnrollStudentsNoEmailsFail() throws Exception {
 		cout("Test: Enrolling students with missing email addresses.");
-		String students = "Team 1|User 6|\n" + "Team 1|User 0|\n"
-				+ "Team 1|User 1|";
 
-		// To Enroll page
-		wdClick(By.className("t_course_enrol"));
+		String students = "Team 1|User 6|\n" + "Team 1|User 0|\n" + "Team 1|User 1|";
+
+		clickCourseEnrol(0);
 		verifyEnrollPage();
 
-		wdFillString(By.id("information"), students);
-		wdClick(By.id("button_enrol"));
+		// enrol page:
+		wdFillString(enrolInfo, students);
+		wdClick(enrolButton);
 
 		// Make sure the error message is there
-		assertTrue(isElementPresent(By
-				.xpath("//div[@id='statusMessage']/font[2]")));
+		assertTrue(isElementPresent(courseErrorMessage));
 
-		wdClick(By.className("t_back"));
+		wdClick(enrolBackButton);
 	}
-
 }

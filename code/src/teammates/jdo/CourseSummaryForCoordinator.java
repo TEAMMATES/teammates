@@ -13,13 +13,17 @@ public class CourseSummaryForCoordinator
 	private String name;
 	private boolean archived;
 	private int numberOfTeams;
+	private int totalStudents;
+	private int unregistered;
 	
-	public CourseSummaryForCoordinator(String ID, String name, boolean archived, int numberOfTeams)
+	public CourseSummaryForCoordinator(String ID, String name, boolean archived, int numberOfTeams, int totalStudents, int unregistered)
 	{
 		this.setID(ID);
 		this.setName(name);
 		this.setArchived(archived);
 		this.setNumberOfTeams(numberOfTeams);
+		this.setTotalStudents(totalStudents);
+		this.setUnregistered(unregistered);
 	}
 
 	public void setID(String ID) {
@@ -53,6 +57,23 @@ public class CourseSummaryForCoordinator
 	public int getNumberOfTeams() {
 		return numberOfTeams;
 	}
+
+	public int getTotalStudents() {
+		return totalStudents;
+	}
+
+	public void setTotalStudents(int totalStudents) {
+		this.totalStudents = totalStudents;
+	}
+
+	public int getUnregistered() {
+		return unregistered;
+	}
+
+	public void setUnregistered(int unregistered) {
+		this.unregistered = unregistered;
+	}
+
 	
 	
 }

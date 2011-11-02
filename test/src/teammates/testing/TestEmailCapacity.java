@@ -19,7 +19,6 @@ public class TestEmailCapacity extends BaseTest {
 
 	@BeforeClass
 	public static void classSetup() {
-		// Nothing to setup
 		try {
 			SharedLib.markAllEmailsSeen(Config.MAIL_STRESS_TEST_ACCOUNT,
 					Config.TEAMMATES_APP_PASSWD);
@@ -30,7 +29,7 @@ public class TestEmailCapacity extends BaseTest {
 
 	@AfterClass
 	public static void classTeardown() {
-		// Nothing to wrapup
+
 	}
 
 	@Test
@@ -42,7 +41,8 @@ public class TestEmailCapacity extends BaseTest {
 		for (int i = 0; i < 10; i++) {
 			// do waiting
 			waitAWhile(1000 * 30 * i);
-			count = SharedLib.mailStressTestCount(Config.MAIL_STRESS_TEST_ACCOUNT,
+			count = SharedLib.mailStressTestCount(
+					Config.MAIL_STRESS_TEST_ACCOUNT,
 					Config.TEAMMATES_APP_PASSWD);
 			if (count == Config.MAIL_STRESS_TEST_SIZE) {
 				break;
@@ -52,5 +52,4 @@ public class TestEmailCapacity extends BaseTest {
 
 		assertEquals(count, Config.MAIL_STRESS_TEST_SIZE);
 	}
-
 }

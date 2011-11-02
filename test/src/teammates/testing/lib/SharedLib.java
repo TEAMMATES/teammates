@@ -48,8 +48,8 @@ public class SharedLib {
 	 */
 	public static String getRegistrationKeyFromGmail(String gmail,
 			String password, String courseId) {
-		Session sessioned = Session.getDefaultInstance(System.getProperties(),
-				null);
+		Session sessioned = Session
+				.getDefaultInstance(System.getProperties(), null);
 		Store store = null;
 		try {
 			store = sessioned.getStore("imaps");
@@ -110,7 +110,6 @@ public class SharedLib {
 				message.setFlag(Flags.Flag.SEEN, true);
 
 			
-				System.out.println(key);
 				return key;
 			}
 		} catch (IOException e1) {

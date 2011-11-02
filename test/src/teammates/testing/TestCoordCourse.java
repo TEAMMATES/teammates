@@ -36,13 +36,12 @@ public class TestCoordCourse extends BaseTest {
 	 */
 	@Test
 	public void testCreateCourseSuccess() throws Exception {
-		cout("Test: Creating course.");
+		cout("TestCoordCourse: TestCreateCourseSuccess");
 
 		addCourse(sc.course.courseId, sc.course.courseName);
 
 		// Fix for DataStore delay problem, by clicking on Courses link again
 		gotoCourses();
-
 		verifyAddedCourse(sc.course.courseId, sc.course.courseName);
 	}
 	
@@ -51,12 +50,10 @@ public class TestCoordCourse extends BaseTest {
 	 */
 	@Test
 	public void testCreateCoursePreviouslyNamed() {
-		cout("Test: Creating course previously named.");
-
+		cout("TestCoordCourse: TestCreatingCoursePreviouslyNamed");
 		addCourse(sc.course.courseId, sc.course.courseName);
 		gotoCourses();
-		waitForElementPresent(By
-				.cssSelector("#coordinatorCourseTable td.t_course_code"));
+		waitForElementPresent(getCourseID(0));
 		verifyAddedCourse(sc.course.courseId, sc.course.courseName);
 	}
 
@@ -69,8 +66,10 @@ public class TestCoordCourse extends BaseTest {
 		cout("Test: Creating duplicated course.");
 		// Add the second course with same ID
 		addCourse(sc.course.courseId, sc.course.courseName);
-		assertEquals("The course already exists.",
-				getElementText(By.xpath("//div[@id='statusMessage']/font[1]")));
+		assertEquals("The course already exists.", getElementText(courseMessage));
+		gotoCourses();
+		waitForElementPresent(getCourseID(0));
+		verifyAddedCourse(sc.course.courseId, sc.course.courseName);
 	}
 
 	/**
@@ -78,15 +77,14 @@ public class TestCoordCourse extends BaseTest {
 	 */
 	@Test
 	public void testDeleteCourseSuccess() throws Exception {
-		cout("Test: Deleting course.");
-
-		clickAndConfirm(By.className("t_course_delete")); // delete link)
-
+		cout("TestCoordCourse: Deleting course.");
+		clickAndConfirmCourseDelete(0);
+		
 		justWait();
-		waitForElementText(By.id("statusMessage"), "The course has been deleted.");
+		waitForElementText(statusMessage, "The course has been deleted.");
 
-		assertEquals(3,
-				driver.findElements(By.cssSelector("#coordinatorCourseTable tr"))
+		assertEquals(0,
+				driver.findElements(By.cssSelector("#coordinatorCourseTable td.t_course_code"))
 						.size());
 	}
 
@@ -95,19 +93,13 @@ public class TestCoordCourse extends BaseTest {
 	 */
 	@Test
 	public void testCreateCourseMissingInfoFail() throws Exception {
-		cout("Test: Creating course with missing info.");
-
+		cout("TestCoordCourse: Creating course with missing info.");
 		// Trying adding course without ID
 		addCourse("", sc.course.courseName);
-		assertEquals(true,
-				isElementPresent(By.xpath("//div[@id='statusMessage']/font[1]")));
-
+		assertEquals(true,isElementPresent(courseMessage));
 		// Adding course without name
 		addCourse(sc.course.courseId, "");
-		assertEquals(true,
-				isElementPresent(By.xpath("//div[@id='statusMessage']/font[1]")));
+		assertEquals(true,isElementPresent(courseMessage));
+		
 	}
-
-	
-
 }

@@ -5,9 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-
 import teammates.testing.lib.SharedLib;
 import teammates.testing.lib.TMAPI;
 
@@ -37,12 +34,8 @@ public class TestCoordRemindEvaluation extends BaseTest {
 
 	@Test
 	public void testRemindEvaluation() throws Exception {
-		// Click Evaluations
-		wdClick(By.className("t_evaluations"));
-		waitAndClick(By.className("t_eval_remind"));
-	// Click yes to confirmation
-			Alert alert = driver.switchTo().alert();
-			alert.accept();
+		clickEvaluationTab();
+		clickAndConfirmEvaluationRemind(0);
 
 		justWait();
 
@@ -52,7 +45,5 @@ public class TestCoordRemindEvaluation extends BaseTest {
 					SharedLib.getEvaluationReminderFromGmail(sc.students.get(i).email,
 							Config.TEAMMATES_APP_PASSWD, sc.course.courseId, sc.evaluation.name));
 		}
-
 	}
-
 }

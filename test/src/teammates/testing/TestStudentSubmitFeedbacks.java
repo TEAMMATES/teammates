@@ -5,8 +5,6 @@ import java.io.IOException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
-
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Student;
 
@@ -39,48 +37,36 @@ public class TestStudentSubmitFeedbacks extends BaseTest {
 
 		for (Student s : sc.students) {
 
-			// First we need to login
 			studentLogin(s.email, s.password);
 
-			System.out.println("Submitting feedback for student " + s.email);
-
-			// To evaluation page
-			waitAndClick(By.className("t_evaluations"));
+			clickEvaluationTab();
 			justWait();
 
-			// Select the first evaluation available
-			if (isElementPresent(By.id("doEvaluation0"))) {
-				wdClick(By.id("doEvaluation0"));
-			} else {
-				wdClick(By.id("editEvaluation0"));
-			}
+//			// Select the first evaluation available
+//			if (isElementPresent(By.id("doEvaluation0"))) {
+//				wdClick(By.id("doEvaluation0"));
+//			} else {
+//				wdClick(By.id("editEvaluation0"));
+//			}
+			studentClickDoEvaluation(0);
 			justWait();
-
 			// Fill in information
 			// System.out.println(selenium.getCssCount(By.id("points0")));
 
 			for (int i = 0; i < s.team.students.size(); i++) {
 				//selenium.select("points" + i, "value=30");
-				selectDropdownByValue(By.id("points" + i), "30");
-				wdFillString(By.name("justification" + i), String.format(
-						"Justification from %s to %s.", s.email,
-						s.team.students.get(i).email));
-				wdFillString(
-						By.name("commentstostudent" + i),
-						String.format("Comments from %s to %s.", s.email,
-								s.team.students.get(i).email));
+				setSubmissionPoint(i, "30");
+				setSubmissionJustification(i, String.format("Justification from %s to %s.", s.email, s.team.students.get(i).email));
+				setSubmissionComments(i, String.format("Comments from %s to %s.", s.email, s.team.students.get(i).email));
 			}
 
 			// Submit the evaluation
-			wdClick(By.name("submitEvaluation"));
-			justWait();
+			wdClick(studentSubmitEvaluationButton);
 
 			// Check to see evaluation status is "Submitted"
-			waitForElementText(By.className("t_eval_status"), "SUBMITTED");
+			waitForElementText(studentGetEvaluationStatus(0), "SUBMITTED");
 
 			logout();
-			justWait();
 		}
-
 	}
 }

@@ -152,7 +152,7 @@ public class Scenario {
 
 	
 	
-	/*
+
 	public void toJSONFile(String filepath) {
 		
 		FileWriter fout;
@@ -167,7 +167,7 @@ public class Scenario {
 		}
 		
 	}
-	*/
+
 	
 	public static Scenario scenarioForBumpRatioTest(String filepath, int index){
 		String s = SharedLib.getFileContents(filepath);

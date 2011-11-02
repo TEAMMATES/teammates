@@ -7,8 +7,6 @@ import java.io.IOException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
-
 import teammates.testing.lib.TMAPI;
 
 /**
@@ -45,131 +43,127 @@ public class TestCoordViewResults extends BaseTest {
 
 	@Test
 	public void testViewSummaryByReviewer() throws Exception {
-		cout("Test: View Report Summary by Reviewer");
+		cout("TestCoordResultsView: View Report Summary by Reviewer");
 
-		System.out.println("testViewSummaryByReviewer: ");
 		// Click Evaluation Tab
-		waitAndClick(By.className("t_evaluations"));
+		gotoEvaluations();
 
 		// click 'View Results':
-		waitAndClick(By.className("t_eval_view"));
+		clickEvaluationViewResults(0);
 
-		System.out.println("testViewSummaryByReviewer: View individual record");
 		// click 'View' 1st student:
-		waitAndClick(By.id("viewEvaluationResults0"));
+		clickReviewerSummaryView(0);
 
 		// click 'Next':
-		waitAndClick(By.id("button_next"));
+		waitAndClick(resultNextButton);
 
 		// click 'Previous':
-		waitAndClick(By.id("button_previous"));
+		waitAndClick(resultPreviousButton);
 
 		// click 'Back':
-		waitAndClick(By.id("button_back"));
+		waitAndClick(resultBackButton);
 
-		System.out.println("testViewSummaryByReviewer: Sorting summary list");
-		waitAndClick(By.id("button_sortname"));
-		waitAndClick(By.id("button_sortsubmitted"));
-		waitAndClick(By.id("button_sortteamname"));
+		waitAndClick(resultStudentSorting);
+		waitAndClick(resultSubmittedSorting);
+		waitAndClick(resultTeamSorting);
 
 		// click 'Back':
-		waitAndClick(By.id("button_back"));
+		waitAndClick(resultBackButton);
 	}
 
 	@Test
 	public void testViewSummaryByReviewee() throws Exception {
-
-		System.out.println("testViewSummaryByReviewee: ");
+		cout("TestCoordResultsView: testViewSummaryByReviewee ");
+		
 		// click 'View Results':
-		waitAndClick(By.className("t_eval_view"));
+		clickEvaluationViewResults(0);
 
 		// click 'Reviewee' Radio Button:
-		waitAndClick(By.id("radio_reviewee"));
+		waitAndClick(resultRevieweeRadio);
 
-		System.out
-				.println("testViewSummaryByReviewee: Test View Individual Record");
 		// click 'View' 1st student:
-		waitAndClick(By.id("viewEvaluationResults0"));
+		clickReviewerSummaryView(0);
 
 		// click 'Previous':
-		waitAndClick(By.id("button_previous"));
+		waitAndClick(resultPreviousButton);
 
 		// click 'Next':
-		waitAndClick(By.id("button_next"));
+		waitAndClick(resultNextButton);
 
 		// click 'Back':
-		waitAndClick(By.id("button_back"));
+		waitAndClick(resultBackButton);
 
-		System.out.println("testViewSummaryByReviewee: Sorting Summary List");
-		waitAndClick(By.id("button_sortname"));
-		waitAndClick(By.id("button_sortaverage"));
-		waitAndClick(By.id("button_sortdiff"));
-		waitAndClick(By.id("button_sortteamname"));
+		waitAndClick(resultStudentSorting);
+		waitAndClick(resultClaimedSorting);
+		waitAndClick(resultDifferenceSorting);
+		waitAndClick(resultTeamSorting);
 
 		// click 'Back':
-		waitAndClick(By.id("button_back"));
+		waitAndClick(resultBackButton);
 
 	}
 
 	@Test
 	public void testViewDetailByReviewer() throws Exception {
+		cout("TestCoordResultsView: test view detail by reviewer");
+		
 		// click 'View Results':
-		waitAndClick(By.className("t_eval_view"));
+		clickEvaluationViewResults(0);
 
 		// click 'Detail':
-		waitAndClick(By.id("radio_detail"));
+		waitAndClick(resultDetailRadio);
 
 		// click 'Back to Top':
-		waitAndClick(By.id("button_top"));
+		waitAndClick(resultTopButton);
 
 		// click 'Back':
-		waitAndClick(By.id("button_back"));
-
+		waitAndClick(resultBackButton);
 	}
 
 	@Test
 	public void testViewDetailByReviewee() throws Exception {
+		cout("TestCoordResultsView: test view detail by reviewee");
+		
 		// click 'View Results':
-		waitAndClick(By.className("t_eval_view"));
+		clickEvaluationViewResults(0);
 
 		// click 'Detail' and 'Reviewee':
-		waitAndClick(By.id("radio_reviewee"));
-		waitAndClick(By.id("radio_detail"));
+		waitAndClick(resultRevieweeRadio);
+		waitAndClick(resultDetailRadio);
 
 		// click 'Back to Top':
-		waitAndClick(By.id("button_top"));
+		waitAndClick(resultTopButton);
 
 		// click 'Back':
-		waitAndClick(By.id("button_back"));
+		waitAndClick(resultBackButton);
 
 	}
 
 	@Test
 	public void testPublishButton() throws Exception {
+		cout("TestCoordResultsView: test publish");
 
 		// click 'View Results':
-		waitAndClick(By.className("t_eval_view"));
+		clickEvaluationViewResults(0);
 
 		System.out.println("testPublishButton: Publish Button");
 		// click 'Publish' and select 'No':
-		waitAndClickAndCancel(By.id("button_publish"));
+		waitAndClickAndCancel(resultPublishButton);
 
 		// check 'button_publish' remain [Publish]
-		assertEquals("Publish", getElementValue(By.id("button_publish")));
+		assertEquals("Publish", getElementValue(resultPublishButton));
 
 		// click 'Publish' button and select 'Yes':
-		waitAndClickAndConfirm(By.id("button_publish"));
+		waitAndClickAndConfirm(resultPublishButton);
 
 		System.out.println("testPublishButton: Unpublish Button");
 		// click 'Unpublish' button and select 'No':
-		waitAndClickAndCancel(By.id("button_publish"));
+		waitAndClickAndCancel(resultPublishButton);
 
 		// check 'button_publish' update to [Unpublish]
-		assertEquals("Unpublish", getElementValue(By.id("button_publish")));
+		assertEquals("Unpublish", getElementValue(resultPublishButton));
 
 		// click 'Unpublish' button and select 'Yes':
-		waitAndClickAndConfirm(By.id("button_publish"));
-
+		waitAndClickAndConfirm(resultPublishButton);
 	}
-
 }

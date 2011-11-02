@@ -5,8 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
-
 import teammates.testing.lib.TMAPI;
 
 /**
@@ -26,9 +24,7 @@ public class TestCoordEvaluation extends BaseTest {
 		TMAPI.enrollStudents(sc.course.courseId, sc.students);
 
 		setupSelenium();
-		// Login to Evaluation page
 		coordinatorLogin(Config.TEAMMATES_APP_ACCOUNT, Config.TEAMMATES_APP_PASSWD);
-		gotoEvaluations();
 	}
 
 	@AfterClass
@@ -41,12 +37,13 @@ public class TestCoordEvaluation extends BaseTest {
 	 */
 	@Test
 	public void testAddEvaluation() {
-		cout("Test: Adding evaluation.");
+		cout("TestCoordEvaluation: Adding evaluation.");
 
-		addEvaluation(sc.evaluation);
 		gotoEvaluations();
-		verifyEvaluationAdded(sc.course.courseId, sc.evaluation.name,
-				"AWAITING", "0 / " + sc.students.size());
+		addEvaluation(sc.evaluation);
+		
+		gotoEvaluations();
+		verifyEvaluationAdded(sc.course.courseId, sc.evaluation.name, "AWAITING", "0 / " + sc.students.size());
 	}
 
 	/**
@@ -54,26 +51,25 @@ public class TestCoordEvaluation extends BaseTest {
 	 */
 	@Test
 	public void testEditEvaluation() {
-		System.out.println("Test: Editing evaluation.");
+		cout("TestCoordEvaluation: Editing evaluation.");
 
 		String inst_new = "Something fancy and new";
 
-		wdClick(By.id("editEvaluation0"));
+		clickEvaluationEdit(0);
 		justWait();
-		// Change instruction text
 		
-		wdFillString(By.id("instr"), inst_new);
+		wdFillString(inputInstruction, inst_new);
 		
-		wdClick(By.id("button_editevaluation"));
-		waitForElementText(By.id("statusMessage"), "The evaluation has been edited.");
+		wdClick(editEvaluationButton);
+		waitForElementText(statusMessage, "The evaluation has been edited.");
 
 		// Now click Edit again to see if the text is updated.
-		wdClick(By.name("editEvaluation0"));
+		clickEvaluationEdit(0);
 		justWait();
-		assertEquals(inst_new, getElementText(By.id("instr")));
+		assertEquals(inst_new, getElementText(inputInstruction));
 
 		// Click back
-		wdClick(By.className("t_back"));
+		wdClick(editEvaluationBackButton);
 		justWait();
 	}
 	
@@ -82,20 +78,16 @@ public class TestCoordEvaluation extends BaseTest {
 	 */
 	@Test
 	public void testDeleteEvaluation() {
-		System.out.println("Test: Deleting evaluation.");
+		cout("TestCoordEvaluation: Deleting evaluation.");
 		deleteAllEvaluations();
 	}
 	
 	@Test
 	public void testAddDeletedEvaluation() {
-		System.out.println("Test: Adding deleted evaluation.");
+		cout("TestCoordEvaluation: Adding deleted evaluation.");
 		
 		addEvaluation(sc.evaluation);
 		gotoEvaluations();
-		verifyEvaluationAdded(sc.course.courseId, sc.evaluation.name,
-				"AWAITING", "0 / " + sc.students.size());
-
+		verifyEvaluationAdded(sc.course.courseId, sc.evaluation.name, "AWAITING", "0 / " + sc.students.size());
 	}
-
-
 }

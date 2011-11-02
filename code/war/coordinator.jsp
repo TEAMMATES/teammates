@@ -21,6 +21,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=8" />
 	<title>Teammates - Coordinator</title>
 	<link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
+	<link rel=stylesheet href="/stylesheets/evaluation.css" type="text/css" />
 	
 	<script language="JavaScript" src="js/jquery-1.6.2.min.js"></script>
 	<script language="JavaScript" src="js/tooltip.js"></script>

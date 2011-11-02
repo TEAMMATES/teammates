@@ -1,123 +1,3 @@
-// BROWSER DETECT
-var BrowserDetect = {
-	init: function () {
-		this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
-		this.version = this.searchVersion(navigator.userAgent)
-			|| this.searchVersion(navigator.appVersion)
-			|| "an unknown version";
-		this.OS = this.searchString(this.dataOS) || "an unknown OS";
-	},
-	searchString: function (data) {
-		for (var i=0;i<data.length;i++)	{
-			var dataString = data[i].string;
-			var dataProp = data[i].prop;
-			this.versionSearchString = data[i].versionSearch || data[i].identity;
-			if (dataString) {
-				if (dataString.indexOf(data[i].subString) != -1)
-					return data[i].identity;
-			}
-			else if (dataProp)
-				return data[i].identity;
-		}
-	},
-	searchVersion: function (dataString) {
-		var index = dataString.indexOf(this.versionSearchString);
-		if (index == -1) return;
-		return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
-	},
-	dataBrowser: [
-		{
-			string: navigator.userAgent,
-			subString: "Chrome",
-			identity: "Chrome"
-		},
-		{ 	string: navigator.userAgent,
-			subString: "OmniWeb",
-			versionSearch: "OmniWeb/",
-			identity: "OmniWeb"
-		},
-		{
-			string: navigator.vendor,
-			subString: "Apple",
-			identity: "Safari",
-			versionSearch: "Version"
-		},
-		{
-			prop: window.opera,
-			identity: "Opera"
-		},
-		{
-			string: navigator.vendor,
-			subString: "iCab",
-			identity: "iCab"
-		},
-		{
-			string: navigator.vendor,
-			subString: "KDE",
-			identity: "Konqueror"
-		},
-		{
-			string: navigator.userAgent,
-			subString: "Firefox",
-			identity: "Firefox"
-		},
-		{
-			string: navigator.vendor,
-			subString: "Camino",
-			identity: "Camino"
-		},
-		{		// for newer Netscapes (6+)
-			string: navigator.userAgent,
-			subString: "Netscape",
-			identity: "Netscape"
-		},
-		{
-			string: navigator.userAgent,
-			subString: "MSIE",
-			identity: "Explorer",
-			versionSearch: "MSIE"
-		},
-		{
-			string: navigator.userAgent,
-			subString: "Gecko",
-			identity: "Mozilla",
-			versionSearch: "rv"
-		},
-		{ 		// for older Netscapes (4-)
-			string: navigator.userAgent,
-			subString: "Mozilla",
-			identity: "Netscape",
-			versionSearch: "Mozilla"
-		}
-	],
-	dataOS : [
-		{
-			string: navigator.platform,
-			subString: "Win",
-			identity: "Windows"
-		},
-		{
-			string: navigator.platform,
-			subString: "Mac",
-			identity: "Mac"
-		},
-		{
-			   string: navigator.userAgent,
-			   subString: "iPhone",
-			   identity: "iPhone/iPod"
-	    },
-		{
-			string: navigator.platform,
-			subString: "Linux",
-			identity: "Linux"
-		}
-	]
-
-};
-
-
-BrowserDetect.init();
-
 // AJAX
 var xmlhttp = new getXMLObject();
 
@@ -243,6 +123,8 @@ var OPERATION_COORDINATOR_UNARCHIVEEVALUATION = "coordinator_unarchiveevaluation
 var COURSE_ID = "courseid";
 var COURSE_NAME = "coursename";
 var COURSE_NUMBEROFTEAMS = "coursenumberofteams";
+var COURSE_TOTALSTUDENTS = "coursetotalstudents";
+var COURSE_UNREGISTERED = "courseunregistered";
 var COURSE_STATUS = "coursestatus";
 
 var EVALUATION_ACTIVATED = "activated";
@@ -808,7 +690,6 @@ function displayCourseInformation(courseID)
 {
 	clearAllDisplay();
 	doGetCourse(courseID);
-	doGetStudentList(courseID);
 	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
 }
 
@@ -878,7 +759,7 @@ function displayEvaluationResults(evaluationList, loop)
 	
 	clearAllDisplay();
 	
-	printEvaluationResultsHeader(courseID, name, start, deadline, status, activated, published);
+	printEvaluationHeaderForm(courseID, name, start, deadline, status, activated, published);
 	evaluationResultsViewStatus = evaluationResultsView.reviewer;
 	
 	doGetSubmissionResultsList(courseID, name, status, commentsEnabled);
@@ -889,7 +770,7 @@ function displayEvaluationResults(evaluationList, loop)
 function displayEvaluationsTab()
 {
 	clearAllDisplay();
-	printAddEvaluation();
+	printEvaluationAddForm();
 	doGetCourseIDList();
 	doGetEvaluationList();
 	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
@@ -1134,21 +1015,19 @@ function doEditEvaluationResultsByReviewer(form, summaryList, position, comments
 	
 	if(results == 0)
 	{
-		// submissionList get from extractSubmissionList(form) is not complete
 		submissionList = getSubmissionList(submissionList[0].courseID, submissionList[0].evaluationName);
 		
-		if(submissionList != 1){
-			printEvaluationResultsByReviewer(submissionList, summaryList, position, commentsEnabled, status);
+		if(submissionList != 1)
+		{
+			printEvaluationIndividualForm(submissionList, summaryList, position, commentsEnabled, status, REVIEWER);
 			document.getElementById(DIV_EVALUATION_EDITRESULTSBUTTON).innerHTML = "";
 			toggleEditEvaluationResultsStatusMessage("");
 			setStatusMessage(DISPLAY_EVALUATION_RESULTSEDITED);
-		}
-		
-		else{
+		}		
+		else
+		{
 			alert(DISPLAY_SERVERERROR);
-		}
-		
-		
+		}	
 	}
 	
 	else if(results == 2)
@@ -1160,7 +1039,6 @@ function doEditEvaluationResultsByReviewer(form, summaryList, position, comments
 	{
 		alert(DISPLAY_SERVERERROR);
 	}
-	
 }
 
 function doEditStudent(courseID, email, editName, editTeamName, editEmail, editGoogleID, editComments)
@@ -1222,12 +1100,26 @@ function doEnrolStudents(input, courseID)
 function doGetCourse(courseID) {
 	setStatusMessage(DISPLAY_LOADING);
 	
-	var results = getCourse(courseID);
+	var courseInfo = getCourse(courseID);
+	var studentInfo = getStudentList(courseID);
 	
 	clearStatusMessage();
 	
-	if (results != 1) {
-		printCourse(results);
+	if (courseInfo != 1) {
+		printCourseCoordinatorForm(courseInfo);
+	} else {
+		alert(DISPLAY_SERVERERROR);
+	}
+	
+	if (studentInfo != 1) {
+		// toggleSortStudentsByName calls printStudentList too
+		if (studentSortStatus == studentSort.name) {
+			toggleSortStudentsByName(studentInfo, courseID);
+		} else if(studentSortStatus == studentSort.status) {
+			toggleSortStudentsByStatus(studentInfo, courseID);
+		} else {
+			toggleSortStudentsByTeamName(studentInfo, courseID);
+		}
 	} else {
 		alert(DISPLAY_SERVERERROR);
 	}
@@ -1262,7 +1154,7 @@ function doGetCourseList()
 	if(results != 1)
 	{
 		// toggleSortCoursesByID calls printCourseList too
-		printCourseList(results);
+		printCourseList(results, COORDINATOR);
 	
 		if(courseSortStatus == courseSort.name)
 		{
@@ -1291,7 +1183,6 @@ function doGetEvaluationList()
 	
 	if(results != 1)
 	{
-		printEvaluationList(results);
 
 		// Toggle calls printEvaluationList too
 		if(evaluationSortStatus == evaluationSort.name)
@@ -1308,28 +1199,6 @@ function doGetEvaluationList()
 	
 	else
 	{
-		alert(DISPLAY_SERVERERROR);
-	}
-}
-	
-
-function doGetStudentList(courseID) {
-	setStatusMessage(DISPLAY_LOADING);
-	
-	var results = getStudentList(courseID);
-	
-	clearStatusMessage();
-	
-	if (results != 1) {
-		// toggleSortStudentsByName calls printStudentList too
-		if (studentSortStatus == studentSort.name) {
-			toggleSortStudentsByName(results, courseID);
-		} else if(studentSortStatus == studentSort.status) {
-			toggleSortStudentsByStatus(results, courseID);
-		} else {
-			toggleSortStudentsByTeamName(results, courseID);
-		}
-	} else {
 		alert(DISPLAY_SERVERERROR);
 	}
 }
@@ -1558,7 +1427,7 @@ function editEvaluationResults(submissionList, commentsEnabled)
 			return 2;
 		}
 		
-		if( submissionList[loop].points == -999)
+		if(submissionList[loop].points == -999)
 		{
 			return 2;
 		}
@@ -1576,7 +1445,15 @@ function editEvaluationResults(submissionList, commentsEnabled)
 	
 	for(loop = 0; loop < submissionList.length; loop++)
 	{
-		request = request + "&" + STUDENT_FROMSTUDENT +  loop + "=" + 
+		var toStudent;
+		
+		if (STUDENT_TOSTUDENT.indexOf("Evaluation To ") != -1)
+			toStudent = STUDENT_TOSTUDENT.slice(14);
+		else if (STUDENT_TOSTUDENT.indexOf("'s Evaluation Submission") != -1)
+			toStudent = STUDENT_TOSTUDENT.slice(0, STUDENT_TOSTUDENT.indexOf("'s Evaluation Submission"));
+
+		request = request + "&" +
+				  STUDENT_FROMSTUDENT +  loop + "=" + 
 				  encodeURIComponent(submissionList[loop].fromStudent) + "&" +
 				  STUDENT_TOSTUDENT + loop + "=" +
 				  encodeURIComponent(submissionList[loop].toStudent) + "&" +
@@ -1592,7 +1469,7 @@ function editEvaluationResults(submissionList, commentsEnabled)
 	{
 		xmlhttp.open("POST","teammates",false); 
 		xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
-		xmlhttp.send(request); 
+		xmlhttp.send(request);
 		
 		return handleEditEvaluationResults();
 	}
@@ -1673,16 +1550,18 @@ function extractSubmissionList(form)
 	var submissionList = [];
 	
 	var counter = 0;
+	
 	var fromStudent;
 	var toStudent;
+	var teamName;
 	var courseID;
 	var evaluationName;
-	var teamName;
 	var points;
 	var justification;
 	var commentsToStudent;
 	
-	for(loop = 0; loop < form.length; loop++)
+	var formLength = form.length;
+	for(loop = 0; loop < formLength; loop++)
 	{
 		fromStudent = form.elements[loop++].value;
 		toStudent = form.elements[loop++].value;
@@ -2284,6 +2163,8 @@ function handleGetCourseList()
 			var ID; 
 			var name; 
 			var numberOfTeams;
+			var totalStudnets;
+			var unregistered;
 			var status;
 			
 			for(loop = 0; loop < courses.childNodes.length; loop++) 
@@ -2292,8 +2173,10 @@ function handleGetCourseList()
 				ID =  course.getElementsByTagName(COURSE_ID)[0].firstChild.nodeValue;
 				name = course.getElementsByTagName(COURSE_NAME)[0].firstChild.nodeValue;
 				numberOfTeams = course.getElementsByTagName(COURSE_NUMBEROFTEAMS)[0].firstChild.nodeValue;
+				totalStudents = course.getElementsByTagName(COURSE_TOTALSTUDENTS)[0].firstChild.nodeValue;
+				unregistered = course.getElementsByTagName(COURSE_UNREGISTERED)[0].firstChild.nodeValue;
 				status = course.getElementsByTagName(COURSE_STATUS)[0].firstChild.nodeValue;
-				courseList[loop] = {ID:ID, name:name, numberOfTeams:numberOfTeams, status:status}; 
+				courseList[loop] = {ID:ID, name:name, numberOfTeams:numberOfTeams, totalStudents:totalStudents, unregistered:unregistered, status:status}; 
 			}
 		}
 		
@@ -2475,15 +2358,18 @@ function handleGetSubmissionList()
 			for(loop = 0; loop < submissions.childNodes.length; loop++)
 			{
 				submission = submissions.childNodes[loop];
-				fromStudentName = submission.getElementsByTagName(STUDENT_FROMSTUDENTNAME)[0].firstChild.nodeValue;
-				fromStudent = submission.getElementsByTagName(STUDENT_FROMSTUDENT)[0].firstChild.nodeValue;
-				toStudentName = submission.getElementsByTagName(STUDENT_TOSTUDENTNAME)[0].firstChild.nodeValue;
-				toStudent = submission.getElementsByTagName(STUDENT_TOSTUDENT)[0].firstChild.nodeValue;
-				fromStudentComments = submission.getElementsByTagName(STUDENT_FROMSTUDENTCOMMENTS)[0].firstChild.nodeValue;
-				toStudentComments = submission.getElementsByTagName(STUDENT_TOSTUDENTCOMMENTS)[0].firstChild.nodeValue;
 				courseID = submission.getElementsByTagName(COURSE_ID)[0].firstChild.nodeValue;
 				evaluationName = submission.getElementsByTagName(EVALUATION_NAME)[0].firstChild.nodeValue;
 				teamName = submission.getElementsByTagName(STUDENT_TEAMNAME)[0].firstChild.nodeValue;
+				
+				fromStudentName = submission.getElementsByTagName(STUDENT_FROMSTUDENTNAME)[0].firstChild.nodeValue;
+				fromStudent = submission.getElementsByTagName(STUDENT_FROMSTUDENT)[0].firstChild.nodeValue;
+				fromStudentComments = submission.getElementsByTagName(STUDENT_FROMSTUDENTCOMMENTS)[0].firstChild.nodeValue;
+				
+				toStudentName = submission.getElementsByTagName(STUDENT_TOSTUDENTNAME)[0].firstChild.nodeValue;
+				toStudent = submission.getElementsByTagName(STUDENT_TOSTUDENT)[0].firstChild.nodeValue;
+				toStudentComments = submission.getElementsByTagName(STUDENT_TOSTUDENTCOMMENTS)[0].firstChild.nodeValue;
+				
 				points = parseInt(submission.getElementsByTagName(STUDENT_POINTS)[0].firstChild.nodeValue);
 				pointsBumpRatio = parseFloat(submission.getElementsByTagName(STUDENT_POINTSBUMPRATIO)[0].firstChild.nodeValue);
 				justification = submission.getElementsByTagName(STUDENT_JUSTIFICATION)[0].firstChild.nodeValue;
@@ -2702,7 +2588,7 @@ function isCourseIDValid(courseID)
 		return false;
 	}
 	
-	if(courseID.length > 20)
+	if(courseID.length > 21)
 	{
 		return false;
 	}
@@ -2942,1909 +2828,27 @@ function populateCourseIDOptions(courseList)
 	}
 }
 
-function populateEditEvaluationResultsPointsForm(form, submissionList, commentsEnabled)
+function populateEditEvaluationResultsPointsForm(form, submissionList)
 {
 	var points;
 	
-	for(x = 0; x < form.elements.length / 8; x++)
+	var len = form.elements.length / 8;
+	for (x = 0; x < len; x++)
 	{
-		for(y = 0; y < submissionList.length; y++)
+		for (y = 0; y < submissionList.length; y++)
 		{
 			if(submissionList[y].fromStudent == form.elements[x*8].value && 
 					submissionList[y].toStudent == form.elements[x*8+1].value)
 			{
 				points = submissionList[y].points;
 				break;
-			}
+			}			
 		}
 		
-		setSelectedIndex(form.elements[x*8+5], points);
+		setSelectedOption(form.elements[x*8+5], points)
 	}
 }
 
-function printAddCourse() {
-	var outputHeader = "<h1>ADD NEW COURSE</h1>";
-	
-	var outputForm = "" +
-	"<form method=\"post\" action=\"\" name=\"form_addcourse\">" +
-	"<table id=\"data\">" +
-	"<tr>" +
-	"<td class=\"fieldname\">Course ID:</td>" +
-	"<td><input class=\"fieldvalue\" type=\"text\" name=\"" + COURSE_ID + "\" id=\"" + COURSE_ID + "\"" +
-	"onmouseover=\"ddrivetip('Enter the identifier of the course. For e.g., CS3215Sem1.')\"" +
-	"onmouseout=\"hideddrivetip()\" maxlength=20 tabindex=1 /></td>" +
-	"</tr>" +
-	"<tr>" +
-	"<td class=\"fieldname\">Course Name:</td>" +
-	"<td><input class = \"fieldvalue\" type=\"text\" name=\"" + COURSE_NAME + "\" id=\"" + COURSE_NAME + "\"" +
-	"onmouseover=\"ddrivetip('Enter the name of the course. For e.g., Software Engineering.')\"" +
-	"onmouseout=\"hideddrivetip()\" maxlength=38 tabindex=2 /></td>" +
-	"</tr>" +
-    "<tr>" +
-	"<td>&nbsp;</td>" +
-	"<td><input id='btnAddCourse' type=\"button\" class=\"button\" onclick=\"doAddCourse(this.form." + COURSE_ID + ".value, this.form." + COURSE_NAME + ".value);\" value=\"Add course\" tabindex=\"3\" /></td>" +
-	"</tr>" +
-	"</table>" +
-	"</form>";
-	
-	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader; 
-	document.getElementById(DIV_COURSE_MANAGEMENT).innerHTML = outputForm;
-}
-
-function printAddEvaluation() {
-	var outputHeader;
-	outputHeader = "<h1>ADD NEW EVALUATION</h1>";
-	
-	var outputForm = "" +
-	"<form method=\"post\" action=\"\" name=\"form_addevaluation\">" +
-	"<table id=\"data\">" +
-	"<tr>" +
-	"<td class=\"fieldname\">Course ID:</td>" +
-	"<td class=\"inputField\"><select style=\"width: 255px;\" name=\"" + COURSE_ID + "\" id=\"" + COURSE_ID + "\"" +
-	"onmouseover=\"ddrivetip('Please select the course for which the evaluation is to be created.')\"" +
-	"onmouseout=\"hideddrivetip()\" tabindex=1></select></td>" +
-	"<td class=\"fieldname\" style=\"width: 100px;\">Opening time:</td>" +
-	"<td class=\"inputField\"><input style=\"width: 100px;\" type=\"text\" name=\"" + EVALUATION_START + "\" id=\"" + EVALUATION_START + "\" + " +
-	"onClick =\"cal.select(document.forms['form_addevaluation']." + EVALUATION_START + ",'" + EVALUATION_START + "','dd/MM/yyyy')\"" + 
-	"onmouseover=\"ddrivetip('Please enter the start date for the evaluation.')\"" +
-	"onmouseout=\"hideddrivetip()\" READONLY tabindex=3> @ " +
-	"<select style=\"width: 70px;\" name=\"" + EVALUATION_STARTTIME + "\" id=\"" + EVALUATION_STARTTIME + "\" tabindex=4>" + 
-	getTimeOptionString() +
-	"</select></td>" +
-	"</tr>" +
-	"<tr>" +
-	"<td class=\"fieldname\">Evaluation name:</td>" +
-	"<td class=\"inputField\"><input class = \"fieldvalue\" type=\"text\" name=\"" + EVALUATION_NAME + "\" id=\"" + EVALUATION_NAME + 
-	"\" onmouseover=\"ddrivetip('Enter the name of the evaluation e.g. Mid-term.')\"" +
-	"onmouseout=\"hideddrivetip()\" maxlength = 22 tabindex=2> </td>" + 
-	"<td class=\"fieldname\" style=\"width: 100px;\">Closing time:</td>" +
-	"<td class=\"inputField\"> <input style=\"width: 100px;\" type=\"text\" name=\"" + EVALUATION_DEADLINE + "\" id=\"" + EVALUATION_DEADLINE + "\" + " +
-	"onClick =\"cal.select(document.forms['form_addevaluation']." + EVALUATION_DEADLINE + ",'" + EVALUATION_DEADLINE + "','dd/MM/yyyy')\"" + 
-	"onmouseover=\"ddrivetip('Please enter deadline for the evaluation.')\"" +
-	"onmouseout=\"hideddrivetip()\" READONLY tabindex=5> @ " +
-	"<select style=\"width: 70px;\" name=\"" + EVALUATION_DEADLINETIME + "\" id=\"" + EVALUATION_DEADLINETIME + "\" tabindex=6>" + 
-	"<option value=\"1\">0100H</option>" +
-	"<option value=\"2\">0200H</option>" +
-	"<option value=\"3\">0300H</option>" +
-	"<option value=\"4\">0400H</option>" +
-	"<option value=\"5\">0500H</option>" +
-	"<option value=\"6\">0600H</option>" +
-	"<option value=\"7\">0700H</option>" +
-	"<option value=\"8\">0800H</option>" +
-	"<option value=\"9\">0900H</option>" +
-	"<option value=\"10\">1000H</option>" +
-	"<option value=\"11\">1100H</option>" +
-	"<option value=\"12\">1200H</option>" +
-	"<option value=\"13\">1300H</option>" +
-	"<option value=\"14\">1400H</option>" +
-	"<option value=\"15\">1500H</option>" +
-	"<option value=\"16\">1600H</option>" +
-	"<option value=\"17\">1700H</option>" +
-	"<option value=\"18\">1800H</option>" +
-	"<option value=\"19\">1900H</option>" +
-	"<option value=\"20\">2000H</option>" +
-	"<option value=\"21\">2100H</option>" +
-	"<option value=\"22\">2200H</option>" +
-	"<option value=\"23\">2300H</option>" +
-	"<option value=\"24\" SELECTED>2359H</option>" +
-	"</select></td>" +
-	"</tr>" +
-	"<tr>" +
-	"<td class=\"fieldname\">Peer feedback:</td>" +
-	"<td class=\"inputField\">" +
-	"<input type=\"radio\" name=\"" + EVALUATION_COMMENTSENABLED + "\" id=\"" + EVALUATION_COMMENTSENABLED + "\" value=\"true\" CHECKED " +
-	"onmouseover=\"ddrivetip('Enable this if you want students to give anonymous feedback to team members. You can moderate those peer feedback before publishing it to the team.')\"" +
-	"onmouseout=\"hideddrivetip()\" >Enabled&nbsp;&nbsp;" +
-	"<input type=\"radio\" name=\"" + EVALUATION_COMMENTSENABLED + "\" id=\"" + EVALUATION_COMMENTSENABLED + "\" value=\"false\" " +
-	"onmouseover=\"ddrivetip('Enable this if you want students to give anonymous feedback to team members. You can moderate those peer feedback before publishing it to the team')\"" +
-	"onmouseout=\"hideddrivetip()\" >Disabled" +
-	"</td>" +
-	"<td class=\"fieldname\" style=\"width: 100px;\">Time zone:</td>" +
-	"<td class=\"inputField\">" +
-	"<select style=\"width: 100px;\" name=\"" + EVALUATION_TIMEZONE + "\" id=\"" + EVALUATION_TIMEZONE + 
-	"\" onmouseover=\"ddrivetip('Daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is daylight saving,<br /> you should choose UTC -7:00 and its corresponding timings.')\"" +
-	"onmouseout=\"hideddrivetip()\" tabindex=7>" +
-	getTimezoneOptionString() +
-	"</select></td>" +
-	"</tr>" +
-	"<tr>" +
-	"<td>&nbsp;</td>" +
-    "<td>&nbsp;</td>" +
-    "<td class=\"fieldname\" style=\"width: 100px;\">Grace Period:</td>" +
-	"<td class=\"inputField\">" +
-	"<select style=\"width: 70px;\" name=\"" + EVALUATION_GRACEPERIOD + "\" id=\"" + EVALUATION_GRACEPERIOD + 
-	"\" onmouseover=\"ddrivetip('Please select the amount of time that the system will continue accepting <br />submissions after" +
-	" the specified deadline.')\" onmouseout=\"hideddrivetip()\" tabindex=7>" +
-	getGracePeriodOptionString() +
-	"</select></td>" +
-	"</tr>" +
-	"<tr>" +
-	"<td class=\"fieldname\">Instructions to students:</td>" +
-    "<td colspan=\"3\">" +
-    "<textarea rows=\"2\" cols=\"100\" class=\"textvalue\"type=\"text\" name=\"" + EVALUATION_INSTRUCTIONS + 
-	"\" id=\"" + EVALUATION_INSTRUCTIONS + "\"" +
-	"onmouseover=\"ddrivetip('Please enter instructions for your students. For e.g., Avoid comments which are too critical.')\"" +
-	"onmouseout=\"hideddrivetip()\" tabindex=8>Please submit your peer evaluation based on the overall contribution of your teammates so far.</textarea>" +
-    "</td>" +
-    "</tr>" +
-    "<tr>" +
-	"<td class=\"fieldname\">&nbsp;</td>" +
-    "<td colspan=\"3\">" +
- 	"<input id='t_btnAddEvaluation' type=\"button\" class=\"button\" onclick=\"doAddEvaluation(this.form." + COURSE_ID + ".value, " +
- 			"this.form." + EVALUATION_NAME + ".value, this.form." + EVALUATION_INSTRUCTIONS + ".value, " +
- 			"getCheckedValue(this.form." + EVALUATION_COMMENTSENABLED + "), this.form." + EVALUATION_START + ".value, " +
- 			"this.form." + EVALUATION_STARTTIME + ".value, this.form." + EVALUATION_DEADLINE + ".value, " +
- 			"this.form." + EVALUATION_DEADLINETIME + ".value, this.form." + EVALUATION_TIMEZONE + ".value, " +
- 			"this.form." + EVALUATION_GRACEPERIOD + ".value);\" value=\"Create Evaluation\" tabindex=9 />" +
-    "</td>" +
-    "</tr>" +
-	"</table>" +
-	"</form>";
-	
-	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader; 
-	document.getElementById(DIV_EVALUATION_MANAGEMENT).innerHTML = outputForm;
-	
-	var now = new Date();
-	
-	var currentDate = convertDateToDDMMYYYY(now);
-	
-	var hours = convertDateToHHMM(now).substring(0,2);
-	var currentTime;
-	
-	if (hours.substring(0,1) == "0") {
-		currentTime = (parseInt(hours.substring(1,2)) + 1) % 24;
-	} else {
-		currentTime = (parseInt(hours.substring(0,2)) + 1) % 24;
-	}
-	
-	var timeZone = -now.getTimezoneOffset() / 60;
-	
-	document.getElementById(EVALUATION_START).value = currentDate;
-	document.getElementById(EVALUATION_STARTTIME).value = currentTime;
-	document.getElementById(EVALUATION_TIMEZONE).value = timeZone;
-}
-
-function printAllEvaluationResultsByReviewee(submissionList, summaryList, status, commentsEnabled) {
-// document.getElementById('button_viewbytype').onclick = function() {
-// document.getElementById(DIV_EVALUATION_EDITRESULTSBUTTON).innerHTML = "";
-// toggleEvaluationSummaryListViewByType(submissionList, summaryList, status,
-// commentsEnabled);
-// toggleEvaluationSummaryListViewByType(submissionList, summaryList, status,
-// commentsEnabled);
-// };
-//	  
-// document.getElementById('button_viewbytype').value = "Back to summary";
-	document.getElementById(DIV_EVALUATION_EDITRESULTSBUTTON).innerHTML = "";
-	clearStatusMessage();
-	
-	var output = "";
-	
-	for (x = 0; x < summaryList.length; x++) {
-		var toStudent = summaryList[x].toStudent;
-
-		// Team Field Set
-		if (x == 0 || summaryList[x].teamName != summaryList[x-1].teamName) {
-			output = output +
-							"<table id=\"data\">" +
-								"<thead>" +
-									"<p class=\"splinfo2\">TEAM: " + summaryList[x].teamName + "</p>" +
-								"</thead>";
-		} else {
-			output = output +
-							"<tr>" +
-							"<td colspan=\"4\" style=\"background: #fff;\">&nbsp</td>" +
-							"</tr>";
-		}
-		// ...Self Evaluation
-		output = output +
-						"<tr>" +
-							"<td colspan=\"2\" class=\"reportheader\">" + summaryList[x].toStudentName.toUpperCase() + "'s Self Evaluation</td>" +
-						"</tr>" +
-						"<tr>" +
-							"<td class=\"lhs\">Claimed contribution:</td>" +
-							"<td>" + summaryList[x].claimedPoints + "</td>" +
-						"</tr>" +
-						"<tr>" +
-							"<td class=\"lhs\">Perceived contribution:</td>" +
-							"<td>" + summaryList[x].average + "</td>" +
-						"</tr>";
-		// ...Peer Evaluation
-		var outputTemp = "<tr>" + 
-						 "<td colspan = \"2\" class = \"reportheader\"> Peer Evaluations From Other Team Members</td>" +
-						 "</tr>" +
-						 
-						 "<tr>" +
-						 "<td colspan = \"2\"><table id=\"dataform\">" +
-							"<tr>" +
-								"<th class=\"centeralign\">From Student&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortname\"></th>" +
-								"<th class=\"leftalign\">Contribution&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortcontribution\"></th>" +
-								"<th class=\"leftalign\">Comments&nbsp;&nbsp;&nbsp;</th>" + 
-								"<th class=\"leftalign\">Message&nbsp;&nbsp;&nbsp;</th>" +
-							"</tr>";
-		var points;
-		var justification = "";
-		var commentsToStudent = "";
-		
-		for (y = 0; y < submissionList.length; y++) {
-			if (submissionList[y].toStudent == toStudent) {
-				// Extract data
-				if (submissionList[y].points == -999) {
-					points = "N/A";
-				} else if (submissionList[y].points == -101) {
-					points = "Unsure";
-				} else {
-					points = Math.round(submissionList[y].points * submissionList[y].pointsBumpRatio);
-				}
-				
-				if (submissionList[y].justification == "") {
-					justification = "N/A";
-				} else {
-					justification = submissionList[y].justification;
-				}
-				
-				if (commentsEnabled == true) {
-					if (submissionList[y].commentsToStudent == "") {
-						commentsToStudent = "N/A";
-					} else {
-						commentsToStudent = submissionList[y].commentsToStudent;
-					}
-				} else {
-					commentsToStudent = "Disabled";
-				}
-				
-				// Print data
-				if (submissionList[y].fromStudent == submissionList[y].toStudent) {
-					outputTemp = "<tr>" +
-									"<td class=\"lhs\">Self evaluation:</td>" +
-									"<td>" + sanitize(justification) + "</td>" +
-									"</tr>" +
-									"<td class=\"lhs\">Comments about team:</td>" +
-									"<td>" + sanitize(commentsToStudent) + "</td>" +
-									"</tr>" +
-									outputTemp;
-				} else {
-					outputTemp = outputTemp +
-											"<tr>" +
-												"<td class=\"reportheader\">" + submissionList[y].fromStudentName.toUpperCase() + "</td>" +
-												"<td>" + points + "</td>" +
-												"<td>" + sanitize(justification) + "</td>" +
-												"<td>" + sanitize(commentsToStudent) + "</td>" +
-											"</tr>";
-				}
-			}
-		}
-		output = output + outputTemp + "</table></td></tr>";
-	}
-	
-	output = output +
-					"</table>" +
-					"<br /><br />" +
-					"<input type=\"button\" class =\"button\" name=\"button_back\" id=\"button_back\" value=\"Back\" />";
-	
-	document.getElementById(DIV_EVALUATION_SUMMARYTABLE).innerHTML = output; 
-	
-	document.getElementById('button_back').onclick = function() { 
-		printEvaluationReportByAction(submissionList, summaryList, status, commentsEnabled);
-	};
-	
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-}
-
-function printAllEvaluationResultsByReviewer(submissionList, summaryList, status, commentsEnabled) {
-// document.getElementById('button_viewbytype').onclick = function() {
-// document.getElementById(DIV_EVALUATION_EDITRESULTSBUTTON).innerHTML = "";
-// toggleEvaluationSummaryListViewByType(submissionList, summaryList, status,
-// commentsEnabled);
-// toggleEvaluationSummaryListViewByType(submissionList, summaryList, status,
-// commentsEnabled);
-// };
-//	  
-// document.getElementById('button_viewbytype').value = "Back to summary";
-	document.getElementById(DIV_EVALUATION_EDITRESULTSBUTTON).innerHTML = "";
-	clearStatusMessage();
-	
-	var output = "";
-	
-	for (x = 0; x < summaryList.length; x++) {
-		var toStudent = summaryList[x].toStudent;
-
-		// Team Field Set
-		if (x == 0 || summaryList[x].teamName != summaryList[x-1].teamName) {
-			output = output +
-							"<table id=\"data\">" +
-								"<thead>" +
-									"<p class = \"splinfo2\">TEAM: " + summaryList[x].teamName + "</p>" +
-								"</thead>";
-		} else {
-			output = output +
-							"<tr>" +
-							"<td colspan=\"4\" style=\"background: #fff;\">&nbsp</td>" +
-							"</tr>";
-		}
-		
-		// ...Self Evaluation
-		output = output + "<tr>" +
-							"<td colspan=\"2\" class=\"reportheader\">" + summaryList[x].toStudentName.toUpperCase() + "'s Self Evaluation" + "</td>" +
-						  "</tr>" +
-						  "<tr>" +
-							"<td class=\"lhs\">Claimed contribution:</td>" +
-							"<td>" + summaryList[x].claimedPoints + "</td>" +
-						  "</tr>" +
-						  "<tr>" +
-							"<td class=\"lhs\">Perceived contribution:</td>" +
-							"<td>" + summaryList[x].average + "</td>" +
-						  "</tr>";
-
-		// ...Peer Evaluations For Other Team Members
-		var outputTemp = "<tr>" + 
-						 "<td colspan = \"2\" class = \"reportheader\"> Peer Evaluations For Other Team Members</td>" +
-						 "</tr>" +
-						 
-						 "<tr>" +
-						 "<td colspan = \"2\"><table id=\"dataform\">" +
-							"<tr>" +
-								"<th class=\"centeralign\">For Student&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortname\"></th>" +
-								"<th class=\"leftalign\">Contribution&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortcontribution\"></th>" +
-								"<th class=\"leftalign\">Comments&nbsp;&nbsp;&nbsp;</th>" + 
-								"<th class=\"leftalign\">Message&nbsp;&nbsp;&nbsp;</th>" +
-							"</tr>";
-		var points;
-		var justification = "";
-		var commentsToStudent = "";
-		
-		for (loop = 0; loop < submissionList.length; loop++) {	
-			if (submissionList[loop].fromStudent == toStudent) {
-				// Extract data
-				if (submissionList[loop].points == -999) {
-					points = "N/A";
-				} else if (submissionList[loop].points == -101) {
-					points = "Unsure";
-				} else {
-					points = Math.round(submissionList[loop].points * submissionList[loop].pointsBumpRatio);
-				}
-				
-				if (submissionList[loop].justification == "") {
-					justification = "N/A";
-				} else {
-					justification = submissionList[loop].justification;
-				}
-				
-				if (commentsEnabled == true) {
-					if (submissionList[loop].commentsToStudent == "") {
-						commentsToStudent = "N/A";
-					} else {
-						commentsToStudent = submissionList[loop].commentsToStudent;
-					}
-				} else {
-					commentsToStudent = "Disabled";
-				}
-				
-				// Print data
-				if (submissionList[loop].fromStudent == submissionList[loop].toStudent) {
-					outputTemp = "<tr>" +
-									"<td class=\"lhs\">Self evaluation:</td>" +
-									"<td>" + sanitize(justification) + "</td>" +
-									"</tr>" +
-									"<td class=\"lhs\">Comments about team:</td>" +
-									"<td>" + sanitize(commentsToStudent) + "</td>" +
-									"</tr>" +
-									outputTemp;
-				} else {
-					outputTemp = outputTemp +
-											"<tr>" +
-												"<td class=\"reportheader\">" + submissionList[loop].toStudentName.toUpperCase() + "</td>" +
-												"<td>" + points + "</td>" +
-												"<td>" + sanitize(justification) + "</td>" +
-												"<td>" + sanitize(commentsToStudent) + "</td>" +
-											"</tr>";
-				}
-			}
-		}
-		output = output + outputTemp + "</table></td></tr>";
-	}
-	
-	output = output +
-					"</table>" +
-					"<br /><br />" +
-					"<input type=\"button\" class =\"button\" name=\"button_back\" id=\"button_back\" value=\"Back\" />";
-	
-	document.getElementById(DIV_EVALUATION_SUMMARYTABLE).innerHTML = output; 
-	
-	document.getElementById('button_back').onclick = function() { 
-		printEvaluationReportByAction(submissionList, summaryList, status, commentsEnabled);
-	};
-	
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-}
-
-function printEvaluationDetailByRevieweeList(submissionList, summaryList, status, commentsEnabled) {
-	
-	clearStatusMessage();
-	
-	var output = "";
-	
-	for (x = 0; x < summaryList.length; x++) {
-		var toStudent = summaryList[x].toStudent;
-
-		// Team Field Set
-		if (x == 0 || summaryList[x].teamName != summaryList[x-1].teamName) {
-			output = output +
-							"<table id=\"data\">" +
-								"<thead>" +
-									"<p class=\"splinfo2\">TEAM: " + summaryList[x].teamName + "</p>" +
-								"</thead>";
-		} else {
-			output = output +
-							"<tr>" +
-							"<td colspan=\"4\" style=\"background: #fff;\">&nbsp</td>" +
-							"</tr>";
-		}
-		// ...Self Evaluation
-		output = output +
-						"<tr>" +
-							"<td colspan=\"2\" class=\"reportheader\">" + summaryList[x].toStudentName.toUpperCase() + "'s Self Evaluation</td>" +
-						"</tr>" +
-						"<tr>" +
-							"<td class=\"lhs\">Claimed contribution:</td>" +
-							"<td>" + summaryList[x].claimedPoints + "</td>" +
-						"</tr>" +
-						"<tr>" +
-							"<td class=\"lhs\">Perceived contribution:</td>" +
-							"<td>" + summaryList[x].average + "</td>" +
-						"</tr>";
-		// ...Peer Evaluation
-		var outputTemp = "<tr>" + 
-						 "<td colspan = \"2\" class = \"reportheader\"> Peer Evaluations From Other Team Members</td>" +
-						 "</tr>" +
-						 
-						 "<tr>" +
-						 "<td colspan = \"2\"><table id=\"dataform\">" +
-							"<tr>" +
-								"<th class=\"centeralign\">From Student&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortname\"></th>" +
-								"<th class=\"leftalign\">Contribution&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortcontribution\"></th>" +
-								"<th class=\"leftalign\">Comments&nbsp;&nbsp;&nbsp;</th>" + 
-								"<th class=\"leftalign\">Message&nbsp;&nbsp;&nbsp;</th>" +
-							"</tr>";
-		var points;
-		var justification = "";
-		var commentsToStudent = "";
-		
-		for (y = 0; y < submissionList.length; y++) {
-			if (submissionList[y].toStudent == toStudent) {
-				// Extract data
-				if (submissionList[y].points == -999) {
-					points = "N/A";
-				} else if (submissionList[y].points == -101) {
-					points = "Unsure";
-				} else {
-					points = Math.round(submissionList[y].points * submissionList[y].pointsBumpRatio);
-				}
-				
-				if (submissionList[y].justification == "") {
-					justification = "N/A";
-				} else {
-					justification = submissionList[y].justification;
-				}
-				
-				if (commentsEnabled == true) {
-					if (submissionList[y].commentsToStudent == "") {
-						commentsToStudent = "N/A";
-					} else {
-						commentsToStudent = submissionList[y].commentsToStudent;
-					}
-				} else {
-					commentsToStudent = "Disabled";
-				}
-				
-				// Print data
-				if (submissionList[y].fromStudent == submissionList[y].toStudent) {
-					outputTemp = "<tr>" +
-									"<td class=\"lhs\">Self evaluation:</td>" +
-									"<td>" + sanitize(justification) + "</td>" +
-									"</tr>" +
-									"<td class=\"lhs\">Comments about team:</td>" +
-									"<td>" + sanitize(commentsToStudent) + "</td>" +
-									"</tr>" +
-									outputTemp;
-				} else {
-					outputTemp = outputTemp +
-											"<tr>" +
-												"<td class=\"reportheader\">" + submissionList[y].fromStudentName.toUpperCase() + "</td>" +
-												"<td>" + points + "</td>" +
-												"<td>" + sanitize(justification) + "</td>" +
-												"<td>" + sanitize(commentsToStudent) + "</td>" +
-											"</tr>";
-				}
-			}
-		}
-		output = output + outputTemp + "</table></td></tr>";
-	}
-	
-	output = output +
-					"</table>" +
-					"<br /><br />" +
-					"<input type=\"button\" class =\"button\" name=\"button_back\" id=\"button_back\" value=\"Back\" />" +
-					"<input type=\"button\" class =\"button\" name=\"button_top\" id=\"button_top\" value=\"To Top\" />";
-	
-	document.getElementById(DIV_EVALUATION_SUMMARYTABLE).innerHTML = output; 
-	
-	document.getElementById('button_top').onclick = function() { 
-// printEvaluationReportByAction(submissionList, summaryList, status,
-// commentsEnabled);
-		document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-	};
-	document.getElementById("button_back").onclick = function() {
-		displayEvaluationsTab();
-	}
-	
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-}
-
-function printEvaluationDetailByReviewerList(submissionList, summaryList, status, commentsEnabled) {
-	
-	clearStatusMessage();
-	
-	var output = "";
-	
-	for (x = 0; x < summaryList.length; x++) {
-		var toStudent = summaryList[x].toStudent;
-
-		// Team Field Set
-		if (x == 0 || summaryList[x].teamName != summaryList[x-1].teamName) {
-			output = output +
-							"<table id=\"data\">" +
-								"<thead>" +
-									"<p class = \"splinfo2\">TEAM: " + summaryList[x].teamName + "</p>" +
-								"</thead>";
-		} else {
-			output = output +
-							"<tr>" +
-							"<td colspan=\"4\" style=\"background: #fff;\">&nbsp</td>" +
-							"</tr>";
-		}
-		
-		// ...Self Evaluation
-		output = output + "<tr>" +
-							"<td colspan=\"2\" class=\"reportheader\">" + summaryList[x].toStudentName.toUpperCase() + "'s Self Evaluation" + "</td>" +
-						  "</tr>" +
-						  "<tr>" +
-							"<td class=\"lhs\">Claimed contribution:</td>" +
-							"<td>" + summaryList[x].claimedPoints + "</td>" +
-						  "</tr>" +
-						  "<tr>" +
-							"<td class=\"lhs\">Perceived contribution:</td>" +
-							"<td>" + summaryList[x].average + "</td>" +
-						  "</tr>";
-
-		// ...Peer Evaluations For Other Team Members
-		var outputTemp = "<tr>" + 
-						 "<td colspan = \"2\" class = \"reportheader\"> Peer Evaluations For Other Team Members</td>" +
-						 "</tr>" +
-						 
-						 "<tr>" +
-						 "<td colspan = \"2\"><table id=\"dataform\">" +
-							"<tr>" +
-								"<th class=\"centeralign\">For Student&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortname\"></th>" +
-								"<th class=\"leftalign\">Contribution&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortcontribution\"></th>" +
-								"<th class=\"leftalign\">Comments&nbsp;&nbsp;&nbsp;</th>" + 
-								"<th class=\"leftalign\">Message&nbsp;&nbsp;&nbsp;</th>" +
-							"</tr>";
-		var points;
-		var justification = "";
-		var commentsToStudent = "";
-		
-		for (loop = 0; loop < submissionList.length; loop++) {	
-			if (submissionList[loop].fromStudent == toStudent) {
-				// Extract data
-				if (submissionList[loop].points == -999) {
-					points = "N/A";
-				} else if (submissionList[loop].points == -101) {
-					points = "Unsure";
-				} else {
-					points = Math.round(submissionList[loop].points * submissionList[loop].pointsBumpRatio);
-				}
-				
-				if (submissionList[loop].justification == "") {
-					justification = "N/A";
-				} else {
-					justification = submissionList[loop].justification;
-				}
-				
-				if (commentsEnabled == true) {
-					if (submissionList[loop].commentsToStudent == "") {
-						commentsToStudent = "N/A";
-					} else {
-						commentsToStudent = submissionList[loop].commentsToStudent;
-					}
-				} else {
-					commentsToStudent = "Disabled";
-				}
-				
-				// Print data
-				if (submissionList[loop].fromStudent == submissionList[loop].toStudent) {
-					outputTemp = "<tr>" +
-									"<td class=\"lhs\">Self evaluation:</td>" +
-									"<td>" + sanitize(justification) + "</td>" +
-									"</tr>" +
-									"<td class=\"lhs\">Comments about team:</td>" +
-									"<td>" + sanitize(commentsToStudent) + "</td>" +
-									"</tr>" +
-									outputTemp;
-				} else {
-					outputTemp = outputTemp +
-											"<tr>" +
-												"<td class=\"reportheader\">" + submissionList[loop].toStudentName.toUpperCase() + "</td>" +
-												"<td>" + points + "</td>" +
-												"<td>" + sanitize(justification) + "</td>" +
-												"<td>" + sanitize(commentsToStudent) + "</td>" +
-											"</tr>";
-				}
-			}
-		}
-		output = output + outputTemp + "</table></td></tr>";
-	}
-	
-	output = output +
-					"</table>" +
-					"<br /><br />" +
-					"<input type=\"button\" class =\"button\" name=\"button_back\" id=\"button_back\" value=\"Back\" />" +
-					"<input type=\"button\" class =\"button\" name=\"button_top\" id=\"button_top\" value=\"To Top\" />";
-	
-	document.getElementById(DIV_EVALUATION_SUMMARYTABLE).innerHTML = output; 
-	
-	document.getElementById('button_top').onclick = function() { 
-// printEvaluationReportByAction(submissionList, summaryList, status,
-// commentsEnabled);
-		document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-	};
-	document.getElementById("button_back").onclick = function() {
-		displayEvaluationsTab();
-	}
-	
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-}
-
-function printCourse(course) {
-	var studentList = getStudentList(course.ID);
-	
-	var outputHeader = "<h1>COURSE DETAILS</h1>";
-	var output = "" +
-	"<table id=\"data\">" + 
-	"<tr>" + 
-	"<td class=\"fieldname\">Course ID:</td>" + 
-	"<td>" + course.ID + "</td>" +
-	"</tr>" + 
-	"<tr>" + 
-	"<td class=\"fieldname\">Course name:</td>" + 
-	"<td>" + sanitize(course.name) + "</td>" +
-	"</tr>" + 
-	"<tr>" + 
-	"<td class=\"fieldname\">Teams:</td>" + 
-	"<td>" + course.numberOfTeams + "</td>" +
-	"</tr>" +
-	"<tr>" +
-	"<td class=\"fieldname\">Total students:</td>" + 
-	"<td>" + studentList.length + "</td>" +
-	"</tr>";
-	
-	if ((studentList != 1) && (studentList.length > 0)) {
-		output = output +
-						"<tr>" +
-						"<td class=\"centeralign\" colspan=\"2\">" +
-						"<input type=\"button\" class=\"button t_remind_students\" onmouseover=\"ddrivetip('Send a reminder to all students yet to join the class');\" " +
-						"onmouseout=\"hideddrivetip();\" " +
-						"onClick=\"toggleSendRegistrationKeysConfirmation('" + course.ID + "');hideddrivetip();\" value=\"Remind to join\" tabindex=1 />" +
-						" <input type=\"button\" class=\"button t_delete_students\" onmouseover=\"ddrivetip('Delete all students in this course');\"" +
-						"onmouseout=\"hideddrivetip();\"" +
-						"onclick=\"toggleDeleteAllStudentsConfirmation('" + course.ID + "')\" value=\"Delete all students\" />" +
-						"</td>" +
-						"</tr>";
-	}
-	
-	output = output +
-					"</table>";
-	
-	document.getElementById(DIV_COURSE_INFORMATION).innerHTML = output; 
-	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader; 
-}
-
-
-function printCourseList(courseList)
-{
-	var output = "" +
-	"<table id=\"dataform\">" + 
-	"<tr>" + 
-	"<th class=\"leftalign\">COURSE ID&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortcourseid\" /></th>" + 
-	"<th class=\"leftalign\">COURSE NAME&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortcoursename\" /></th>" + 
-	"<th class=\"centeralign\">TEAMS</th>" + 
-	"<th class=\"centeralign\">ACTION(S)</th>" +
-	"</tr>";
-	
-	// Fix for empty course list
-	if (courseList.length == 0) {
-		setStatusMessage("You have not created any courses yet. Use the form above to create a course.");
-		output = output + "<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>" +
-						"<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
-	}
-	
-	// Need counter to take note of archived courses
-	var counter = 0;
-	
-	for(loop = 0; loop < courseList.length; loop++) 
-	{ 
-		if(courseList[loop].status == "false" || courseViewArchivedStatus == courseViewArchived.show)
-		{
-			output = output + "<tr>";
-			output = output + "<td class='t_course_code'>" + courseList[loop].ID + "</td>"; 
-			output = output + "<td class='t_course_name'>" + sanitize(courseList[loop].name) + "</td>"; 
-			output = output + "<td class=\"t_course_teams centeralign\">" +  courseList[loop].numberOfTeams + "</td>"; 
-			output = output + "<td class=\"centeralign\">" + 
-					  "<a class='t_course_enrol' href=\"javascript:displayEnrollmentPage('" + courseList[loop].ID + "');hideddrivetip();\"" +
-					  "onmouseover=\"ddrivetip('Enrol students into the course')\"" +
-					  "onmouseout=\"hideddrivetip()\">Enrol</a>" + " / " +
-				      "<a class='t_course_view' href=\"javascript:displayCourseInformation('" + courseList[loop].ID + "');hideddrivetip();\"" +
-				      "onmouseover=\"ddrivetip('View, edit and send registration keys to the students in the course')\"" +
-					  "onmouseout=\"hideddrivetip()\">View</a>" + " / ";
-
-			// Archive is going to be revamped
-			/*
-			 * if(courseList[loop].status == "true") { output = output + "<a
-			 * href=\"javascript:doUnarchiveCourse('" + courseList[loop].ID +
-			 * "');\">Unarchive</a>" + " / "; } else { output = output + "<a
-			 * href=\"javascript:doArchiveCourse('" + courseList[loop].ID +
-			 * "');\">Archive</a>" + " / "; }
-			 */
-				     
-			output = output + "<a class='t_course_delete' href=\"javascript:toggleDeleteCourseConfirmation('" + courseList[loop].ID + "');hideddrivetip();\"" +
-					"onmouseover=\"ddrivetip('Delete the course and its corresponding students and evaluations')\"" +
-					"onmouseout=\"hideddrivetip()\">Delete</a>" +
-					"</td></tr>";
-			
-			counter++;
-		}
-	} 
-	
-	output = output + "</table><br /><br />";
-	
-	// Archive is going to be revamped
-	/*
-	 * if(courseViewArchivedStatus == courseViewArchived.show) { output = output + "<input
-	 * class=\"buttonViewArchived\" type=\"button\" value=\" HIDE \nARCHIVED\"" +
-	 * "onmouseover=\"this.className='buttonViewArchivedSelected'\"
-	 * onmouseout=\"this.className='buttonViewArchived'\"" + "onClick=\"\"
-	 * id=\"button_viewarchived\" name=\"button_viewarchived\" tabindex=5 /><br /><br />"; }
-	 * 
-	 * else { output = output + "<input class=\"buttonViewArchived\"
-	 * type=\"button\" value=\" SHOW \nARCHIVED\"" +
-	 * "onmouseover=\"this.className='buttonViewArchivedSelected'\"
-	 * onmouseout=\"this.className='buttonViewArchived'\"" +
-	 * "id=\"button_viewarchived\" name=\"button_viewarchived\" tabindex=5 /><br /><br />"; }
-	 */
-	
-	document.getElementById(DIV_COURSE_TABLE).innerHTML = output; 
-	document.getElementById('button_sortcourseid').onclick = function() { toggleSortCoursesByID(courseList) };
-	document.getElementById('button_sortcoursename').onclick = function() { toggleSortCoursesByName(courseList) };
-	
-	// Archive is going to be revamped
-	/*
-	 * document.getElementById('button_viewarchived').onclick = function() {
-	 * clearStatusMessage();
-	 * 
-	 * if(courseViewArchivedStatus == courseViewArchived.show) {
-	 * document.getElementById('button_viewarchived').setAttribute("value", "
-	 * SHOW \nARCHIVED"); courseViewArchivedStatus = courseViewArchived.hide; }
-	 * 
-	 * else {
-	 * document.getElementById('button_viewarchived').setAttribute("value", "
-	 * HIDE \nARCHIVED"); courseViewArchivedStatus = courseViewArchived.show; }
-	 * 
-	 * if(courseSortStatus == courseSort.name) {
-	 * toggleSortCoursesByName(courseList); }
-	 * 
-	 * else { toggleSortCoursesByID(courseList); } };
-	 */
-	
-}
-
-function printEditEvaluation(courseID, name, instructions, commentsEnabled, start, deadline, timeZone, gracePeriod, status, activated)
-{	
-	var outputHeader = "<h1>EDIT EVALUATION</h1>";
-
-	var startString = convertDateToDDMMYYYY(start);
-	var deadlineString = convertDateToDDMMYYYY(deadline);
-	
-	isDisabled = (status == "CLOSED" || status == "OPEN")? true : false;
-	
-	var output = "<form name=\"form_editevaluation\">" + 
-				 "<table id=\"data\">" +
-				 "<tr>" +
-				 "<td class=\"fieldname\">Course ID:</td>" +
-				 "<td>" + courseID + "</td></tr>" +
-				 "<tr>" +
-				 "<td class=\"fieldname\">Evaluation Name:</td>" +
-				 "<td>" + name + "</td></tr>";
-
-	output = output +
-				 "<tr>" +
-				 "<td class=\"fieldname\">Opening time:</td>" +
-				 "<td>" + 
-				 "<input style=\"width: 100px;\" type=\"text\" name=\"" + EVALUATION_START + "\" id=\"" + EVALUATION_START + "\"" +
-				 "onClick =\"cal.select(document.forms['form_editevaluation']." + EVALUATION_START + ",'" + EVALUATION_START + "','dd/MM/yyyy');\"" +
-				 "value=\"" + startString + "\" READONLY tabindex=1> @ " +
-				 "<select style=\"width: 70px;\" name=\"" + EVALUATION_STARTTIME + "\" id=\"" + EVALUATION_STARTTIME + "\" tabindex=2>" + 
-				 getTimeOptionString() +
-				 "</select>" +
-				 "</td></tr>" +
-				 "<tr>" +
-				 "<td class=\"fieldname\">Closing time:</td>" +
-				 "<td>" + 
-				 "<input style=\"width: 100px;\" type=\"text\" name=\"" + EVALUATION_DEADLINE + "\" id=\"" + EVALUATION_DEADLINE + "\" + " +
-				 "onClick =\"cal.select(document.forms['form_editevaluation']." + EVALUATION_DEADLINE + ",'" + EVALUATION_DEADLINE + "','dd/MM/yyyy');\"" +
-				 "value=\"" + deadlineString + "\" READONLY tabindex=3> @ " +
-				 "<select style=\"width: 70px;\" name=\"" + EVALUATION_DEADLINETIME + "\" id=\"" + EVALUATION_DEADLINETIME + "\" tabindex=4>" + 
-				 getTimeOptionString() +
-				 "</select>" +
-				 "</td></tr>" +
-				 "<tr>" +
-				 "<td class=\"fieldname\">Grace period:</td>" +
-				 "<td>" + 
-				 "<select style=\"width: 70px;\" name=\"" + EVALUATION_GRACEPERIOD + "\" id=\"" + EVALUATION_GRACEPERIOD + "\" tabindex=5>" +
-				 getGracePeriodOptionString() +
-				 "</select></td></tr>" +
-				 "<tr>";
-		
-			 if (activated == true) {
-				 output = output + "<td class=\"fieldname\">Peer feedback:</td>" +
-				 "<td>";
-					 
-				 if (commentsEnabled) {
-					 output = output + "Enabled" +
-					 "<input type=\"hidden\" name=\"" + EVALUATION_COMMENTSENABLED + "\" id=\"" +
-					 EVALUATION_COMMENTSENABLED + "\" value=\"true\">";
-				 } else {
-					 output = output + "Disabled" +
-					 "<input type=\"hidden\" name=\"" + EVALUATION_COMMENTSENABLED + "\" id=\"" +
-					 EVALUATION_COMMENTSENABLED + "\" value=\"false\">";
-				 }
-			 } else {
-				 output = output +
-					 "<td class=\"fieldname\">Peer feedback:</td>" +
-					 "<td><input type=\"radio\" name=\"" + EVALUATION_COMMENTSENABLED + "\" id=\"" +
-					 EVALUATION_COMMENTSENABLED + "\" value=\"true\" tabindex=6 >Enabled&nbsp;&nbsp;<input type=\"radio\" name=\"" + EVALUATION_COMMENTSENABLED + "\" id=\"" + 
-					 EVALUATION_COMMENTSENABLED + "\" value=\"false\" tabindex=7 >Disabled";
-			 }				 
-				 
-			 output = output +
-			 "</td>" +
-			 "</tr>" +
-			 "<tr>" +
-			 "<td class=\"fieldname\">Instructions:</td>" +
-			 "<td><textarea rows=\"2\" cols=\"80\" class=\"textvalue\" type=\"text\" name=\"" + EVALUATION_INSTRUCTIONS + 
-			 "\" id=\"" + EVALUATION_INSTRUCTIONS + "\" tabindex=8>" + sanitize(instructions) + "</textarea>" +
-			 "</td></tr></table></form>";
-			 
-	var outputButtons = "<input type=\"button\" class=\"button\" name=\"button_editevaluation\" id=\"button_editevaluation\" value=\"Save Changes\" tabindex=9 />" +
-								" <input type=\"button\" class=\"t_back button\" onclick=\"displayEvaluationsTab();\" value=\"Back\" />" +
-						"<br /><br />";
-	
-	document.getElementById(DIV_EVALUATION_EDITBUTTONS).innerHTML = outputButtons;
-	document.getElementById(DIV_EVALUATION_INFORMATION).innerHTML = output; 
-	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader;
-	
-	document.getElementById(EVALUATION_STARTTIME).disabled = isDisabled;
-	document.getElementById(EVALUATION_START).disabled = isDisabled;
-	
-	// TODO:save changes button update database
-	document.getElementById('button_editevaluation').onclick = function() { 
-	 	var editStart = document.getElementById(EVALUATION_START).value;
-	 	var editStartTime = document.getElementById(EVALUATION_STARTTIME).value;
-	 	var editDeadline = document.getElementById(EVALUATION_DEADLINE).value;
-	 	var editDeadlineTime = document.getElementById(EVALUATION_DEADLINETIME).value;
-	 	var editGracePeriod = document.getElementById(EVALUATION_GRACEPERIOD).value;
-	 	var editInstructions = document.getElementById(EVALUATION_INSTRUCTIONS).value;
-	 	var editCommentsEnabled = getCheckedValue(document.forms['form_editevaluation'].elements[EVALUATION_COMMENTSENABLED]);
-		
-	 	if (editCommentsEnabled == "") {
-	 		editCommentsEnabled = document.getElementById(EVALUATION_COMMENTSENABLED).value;
-	 	}
-	 	
-	 	doEditEvaluation(courseID, name, editStart, editStartTime, editDeadline, editDeadlineTime, 
-				timeZone, editGracePeriod, editInstructions, editCommentsEnabled, activated, status); 
-	};
-		
-	if (start.getMinutes() > 0) {
-		document.getElementById(EVALUATION_STARTTIME).value = 24;
-	} else {
-		document.getElementById(EVALUATION_STARTTIME).value = start.getHours();
-	}
-	
-	if (deadline.getMinutes() > 0) {
-		document.getElementById(EVALUATION_DEADLINETIME).value = 24;
-	} else {
-		document.getElementById(EVALUATION_DEADLINETIME).value = deadline.getHours();
-	}
-	
-	document.getElementById(EVALUATION_GRACEPERIOD).value = gracePeriod;
-
-	if (activated == false) {
-		if (commentsEnabled == true) {
-			setCheckedValue(document.forms['form_editevaluation'].elements[EVALUATION_COMMENTSENABLED], true);
-		} else {
-			setCheckedValue(document.forms['form_editevaluation'].elements[EVALUATION_COMMENTSENABLED], false);
-		}
-	}		 
-}
-
-function printEditEvaluationResultsByReviewer(submissionList, summaryList, position, commentsEnabled, status)
-{
-	var fromStudent = summaryList[position].toStudent;
-	var output;
-	
-	output = "<form name=\"form_submitevaluation\" id=\"form_submitevaluation\">" + 
-	"<p class=\"splinfo2\">TEAM: " + summaryList[position].teamName + "</p><br /><br />" +
-	"<table id=\"data\">" + 
-	"<tr style=\"display:none\"><td>" +
-	"<input type=\"text\" value=\"" + fromStudent + "\" name=\"" + STUDENT_FROMSTUDENT + 0 +
-	"\" id=\"" + STUDENT_FROMSTUDENT + 0 + "\">" +
-	"<input type=\"text\" value=\"" + fromStudent + "\" name=\"" + STUDENT_TOSTUDENT + 0 +
-	"\" id=\"" + STUDENT_TOSTUDENT + 0 + "\">" +
-	"</td></tr>" +
-	"<tr style=\"display:none\"><td>" +
-	"<input type=\"text\" value=\"" + summaryList[position].teamName + "\" name=\"" + STUDENT_TEAMNAME + 0 +
-	"\" id=\"" + STUDENT_TEAMNAME + 0 + "\">" +
-	"<input type=\"text\" value=\"" + submissionList[0].courseID + "\" name=\"" + COURSE_ID + 0 +
-	"\" id=\"" + COURSE_ID + 0 + "\">" +
-	"</td></tr>" +
-	"<tr style=\"display:none\"><td>" +
-	"<input type=\"text\" value=\"" + submissionList[0].evaluationName + "\" name=\"" + EVALUATION_NAME + 0 +
-	"\" id=\"" + EVALUATION_NAME + 0 + "\">" +
-	"</td></tr>" +
-	"<tr>" + 
-	"<td colspan=\"2\" class=\"reportheader\">PEER EVALUATION FOR " + summaryList[position].toStudentName.toUpperCase() + "</td>" +
-	"</tr>" +
-	"<tr>" +
-	"<td class=\"lhs\">" +
-	"Estimated contribution:" +
-	"</td>" +
-	"<td>" +
-	"<select style=\"width: 150px;\" name=\"" + 
-	STUDENT_POINTS + 0 + "\" id=\"" + STUDENT_POINTS + 0 + "\" >" + 
-	"<option value=\"200\">Equal share + 100%</option>" +
-	"<option value=\"190\">Equal share + 90%</option>" +
-	"<option value=\"180\">Equal share + 80%</option>" +
-	"<option value=\"170\">Equal share + 70%</option>" +
-	"<option value=\"160\">Equal share + 60%</option>" +
-	"<option value=\"150\">Equal share + 50%</option>" +
-	"<option value=\"140\">Equal share + 40%</option>" +
-	"<option value=\"130\">Equal share + 30%</option>" +
-	"<option value=\"120\">Equal share + 20%</option>" +
-	"<option value=\"110\">Equal share + 10%</option>" +
-	"<option value=\"100\" SELECTED>Equal Share</option>" +
-	"<option value=\"90\">Equal share - 10%</option>" +
-	"<option value=\"80\">Equal share - 20%</option>" +
-	"<option value=\"70\">Equal share - 30%</option>" +
-	"<option value=\"60\">Equal share - 40%</option>" +
-	"<option value=\"50\">Equal share - 50%</option>" +
-	"<option value=\"40\">Equal share - 60%</option>" +
-	"<option value=\"30\">Equal share - 70%</option>" +
-	"<option value=\"20\">Equal share - 80%</option>" +
-	"<option value=\"10\">Equal share - 90%</option>" +
-	"<option value=\"0\">0%</option>" +
-	"<option value=\"-101\">Not Sure</option>" +
-	"<option value=\"-999\" selected>N/A</option>" +
-	"</select>" +
-	"</td>" +
-	"</tr>";
-	
-	var outputTemp = "";
-	var points;
-	var justification = "";
-	var commentsToStudent = "";
-	var counter = 0;
-	
-	for(loop = 0; loop < submissionList.length; loop++)
-	{	
-		if(submissionList[loop].fromStudent == fromStudent)
-		{
-			// Extract data
-			if(submissionList[loop].points == -999)
-			{
-				points = "N/A";
-			}
-			
-			else if(submissionList[loop].points == -101)
-			{
-				points = "Unsure";
-			}
-			
-			else
-			{
-				points = Math.round(submissionList[loop].points * submissionList[loop].pointsBumpRatio);
-			}
-			
-			if(submissionList[loop].justification == "")
-			{
-				justification = "";
-			}
-			
-			else
-			{
-				justification = submissionList[loop].justification;
-			}
-			
-			if(commentsEnabled == true)
-			{
-				if(submissionList[loop].commentsToStudent == "")
-				{
-					commentsToStudent = "";
-				}
-				
-				else
-				{
-					commentsToStudent = submissionList[loop].commentsToStudent;
-				}
-			}
-			
-			else
-			{
-				commentsToStudent = "Disabled";
-			}
-			
-			// Print data
-			if(submissionList[loop].fromStudent == submissionList[loop].toStudent)
-			{
-				if(commentsToStudent != "Disabled")
-				{
-					outputTemp = "" +
-					"<tr>" +
-					"<td class=\"lhs\">" +
-					"Comments about your contribution:" + 
-					"</td>" +
-					"<td>" +
-					"<textarea class=\"textvalue\" rows=\"8\" cols=\"100\" name=\"" + STUDENT_JUSTIFICATION + 0 +
-					"\" id=\"" + STUDENT_JUSTIFICATION + 0 + "\">" + sanitize(justification) +
-					"</textarea>" +
-					"</td></tr>" +
-					"<tr>" +
-					"<td class=\"lhs\">" +
-					"Comments about team dynamics:" + 
-					"</td>" +
-					"<td>" +
-					"<textarea class=\"textvalue\" rows=\"8\" cols=\"100\" name=\"" + STUDENT_COMMENTSTOSTUDENT + 0 +
-					"\" id=\"" + STUDENT_COMMENTSTOSTUDENT + 0 + "\">" + sanitize(commentsToStudent) + 
-					"</textarea>" +
-					"</td></tr>" + outputTemp;
-				}
-				
-				else
-				{
-					outputTemp = "" +
-					"<tr>" +
-					"<td class=\"lhs\">" +
-					"Comments about your contribution:" + 
-					"</td>" +
-					"<td>" +
-					"<textarea class=\"textvalue\" rows=\"8\" cols=\"100\" name=\"" + STUDENT_JUSTIFICATION + 0 +
-					"\" id=\"" + STUDENT_JUSTIFICATION + 0 + "\">" + sanitize(justification) +
-					"</textarea>" +
-					"</td></tr>" +
-					"<tr>" +
-					"<td class=\"lhs\">" +
-					"Comments about team dynamics:" + 
-					"</td>" +
-					"<td> Disabled" +
-					// "<textarea class=\"textvalue\" rows=\"8\" cols=\"100\"
-					// name=\"" + STUDENT_COMMENTSTOSTUDENT + 0 +
-					// "\" id=\"" + STUDENT_COMMENTSTOSTUDENT + 0 + "\"
-					// disabled=\"true\">" + sanitize(commentsToStudent) +
-					// "</textarea>" +
-					"</td></tr>" + outputTemp;
-				}
-				
-			}
-			
-			else
-			{
-				if(commentsToStudent != "Disabled")
-				{
-					outputTemp = outputTemp +
-					"<tr style=\"display:none\"><td>" +
-					"<input type=\"text\" value=\"" + submissionList[loop].fromStudent + "\" name=\"" + STUDENT_FROMSTUDENT + counter +
-					"\" id=\"" + STUDENT_FROMSTUDENT + counter + "\">" +
-					"<input type=\"text\" value=\"" + submissionList[loop].toStudent + "\" name=\"" + STUDENT_TOSTUDENT + counter +
-					"\" id=\"" + STUDENT_TOSTUDENT + counter + "\">" +
-					"</td></tr>" +
-					"<tr style=\"display:none\"><td>" +
-					"<input type=\"text\" value=\"" + summaryList[position].teamName + "\" name=\"" + STUDENT_TEAMNAME + 0 +
-					"\" id=\"" + STUDENT_TEAMNAME + 0 + "\">" +
-					"<input type=\"text\" value=\"" + submissionList[0].courseID + "\" name=\"" + COURSE_ID + 0 +
-					"\" id=\"" + COURSE_ID + 0 + "\">" +
-					"</td></tr>" +
-					"<tr style=\"display:none\"><td>" +
-					"<input type=\"text\" value=\"" + submissionList[0].evaluationName + "\" name=\"" + EVALUATION_NAME + 0 +
-					"\" id=\"" + EVALUATION_NAME + 0 + "\">" +
-					"</td></tr>" +
-					"<tr>" +
-					"<td colspan=\"2\" class=\"reportheader\">Evaluation To " +
-					submissionList[loop].toStudentName.toUpperCase() +
-					"</td>" +
-					"</tr>" +
-					"<tr>" +
-					"<td class=\"lhs\">" +
-					"Estimated contribution:" +
-					"</td>" +
-					"<td>" +
-					"<select style=\"width: 150px;\" name=\"" +
-					STUDENT_POINTS + counter + "\" id=\"" + STUDENT_POINTS + counter + "\" >" + 
-					"<option value=\"200\">Equal share + 100%</option>" +
-					"<option value=\"190\">Equal share + 90%</option>" +
-					"<option value=\"180\">Equal share + 80%</option>" +
-					"<option value=\"170\">Equal share + 70%</option>" +
-					"<option value=\"160\">Equal share + 60%</option>" +
-					"<option value=\"150\">Equal share + 50%</option>" +
-					"<option value=\"140\">Equal share + 40%</option>" +
-					"<option value=\"130\">Equal share + 30%</option>" +
-					"<option value=\"120\">Equal share + 20%</option>" +
-					"<option value=\"110\">Equal share + 10%</option>" +
-					"<option value=\"100\" SELECTED>Equal Share</option>" +
-					"<option value=\"90\">Equal share - 10%</option>" +
-					"<option value=\"80\">Equal share - 20%</option>" +
-					"<option value=\"70\">Equal share - 30%</option>" +
-					"<option value=\"60\">Equal share - 40%</option>" +
-					"<option value=\"50\">Equal share - 50%</option>" +
-					"<option value=\"40\">Equal share - 60%</option>" +
-					"<option value=\"30\">Equal share - 70%</option>" +
-					"<option value=\"20\">Equal share - 80%</option>" +
-					"<option value=\"10\">Equal share - 90%</option>" +
-					"<option value=\"0\">0%</option>" +
-					"<option value=\"-101\">Not Sure</option>" +
-					"<option value=\"-999\" selected>N/A</option>" +
-					"</select>" +
-					"</td></tr>" + 
-					"<tr>" +
-					"<td class=\"lhs\">" +
-					"Comments about this teammate:<br />(not shown to the teammate)" +
-					"</td>" + 
-					"<td>" +
-					"<textarea class=\"textvalue\" rows=\"8\" cols=\"100\" name=\"" + STUDENT_JUSTIFICATION + counter +
-					"\" id=\"" + STUDENT_JUSTIFICATION + counter + "\">" + sanitize(justification) +
-					"</textarea>" +
-					"</td></tr>" +
-					"<tr>" +
-					"<td class=\"lhs\">" +
-					"Message to this teammate:<br />(shown anonymously to the teammate)" + 
-					"</td>" +
-					"<td>" +
-					"<textarea class=\"textvalue\" rows=\"8\" cols=\"100\" name=\"" + STUDENT_COMMENTSTOSTUDENT + counter +
-					"\" id=\"" + STUDENT_COMMENTSTOSTUDENT + counter + "\">" + sanitize(commentsToStudent) + 
-					"</textarea>" +
-					"</td></tr>";
-				}
-				
-				else
-				{
-					outputTemp = outputTemp +
-					"<tr style=\"display:none\"><td>" +
-					"<input type=\"text\" value=\"" + submissionList[loop].fromStudent + "\" name=\"" + STUDENT_FROMSTUDENT + counter +
-					"\" id=\"" + STUDENT_FROMSTUDENT + counter + "\">" +
-					"<input type=\"text\" value=\"" + submissionList[loop].toStudent + "\" name=\"" + STUDENT_TOSTUDENT + counter +
-					"\" id=\"" + STUDENT_TOSTUDENT + counter + "\">" +
-					"</td></tr>" +
-					"<tr style=\"display:none\"><td>" +
-					"<input type=\"text\" value=\"" + summaryList[position].teamName + "\" name=\"" + STUDENT_TEAMNAME + 0 +
-					"\" id=\"" + STUDENT_TEAMNAME + 0 + "\">" +
-					"<input type=\"text\" value=\"" + submissionList[0].courseID + "\" name=\"" + COURSE_ID + 0 +
-					"\" id=\"" + COURSE_ID + 0 + "\">" +
-					"</td></tr>" +
-					"<tr style=\"display:none\"><td>" +
-					"<input type=\"text\" value=\"" + submissionList[0].evaluationName + "\" name=\"" + EVALUATION_NAME + 0 +
-					"\" id=\"" + EVALUATION_NAME + 0 + "\">" +
-					"</td></tr>" +
-					"<tr>" +
-					"<td colspan=\"2\" class=\"reportheader\">Evaluation To " +
-					submissionList[loop].toStudentName.toUpperCase() +
-					"</td>" +
-					"</tr>" +
-					"<tr>" +
-					"<td class=\"lhs\">" +
-					"Estimated contribution:" +
-					"</td>" +
-					"<td>" +
-					"<select style=\"width: 150px;\" name=\"" +
-					STUDENT_POINTS + counter + "\" id=\"" + STUDENT_POINTS + counter + "\" >" + 
-					"<option value=\"200\">Equal share + 100%</option>" +
-					"<option value=\"190\">Equal share + 90%</option>" +
-					"<option value=\"180\">Equal share + 80%</option>" +
-					"<option value=\"170\">Equal share + 70%</option>" +
-					"<option value=\"160\">Equal share + 60%</option>" +
-					"<option value=\"150\">Equal share + 50%</option>" +
-					"<option value=\"140\">Equal share + 40%</option>" +
-					"<option value=\"130\">Equal share + 30%</option>" +
-					"<option value=\"120\">Equal share + 20%</option>" +
-					"<option value=\"110\">Equal share + 10%</option>" +
-					"<option value=\"100\" SELECTED>Equal Share</option>" +
-					"<option value=\"90\">Equal share - 10%</option>" +
-					"<option value=\"80\">Equal share - 20%</option>" +
-					"<option value=\"70\">Equal share - 30%</option>" +
-					"<option value=\"60\">Equal share - 40%</option>" +
-					"<option value=\"50\">Equal share - 50%</option>" +
-					"<option value=\"40\">Equal share - 60%</option>" +
-					"<option value=\"30\">Equal share - 70%</option>" +
-					"<option value=\"20\">Equal share - 80%</option>" +
-					"<option value=\"10\">Equal share - 90%</option>" +
-					"<option value=\"0\">0%</option>" +
-					"<option value=\"-101\">Not Sure</option>" +
-					"<option value=\"-999\" selected>N/A</option>" +
-					"</select>" +
-					"</td></tr>" + 
-					"<tr>" +
-					"<td class=\"lhs\">" +
-					"Comments about this teammate:<br />(not shown to the teammate)" +
-					"</td>" + 
-					"<td>" +
-					"<textarea class=\"textvalue\" rows=\"8\" cols=\"100\" name=\"" + STUDENT_JUSTIFICATION + counter +
-					"\" id=\"" + STUDENT_JUSTIFICATION + counter + "\">" + sanitize(justification) +
-					"</textarea>" +
-					"</td></tr>" +
-					"<tr>" +
-					"<td class=\"lhs\">" +
-					"Message to this teammate:<br >(shown anonymously to the teammate)" + 
-					"</td>" +
-					"<td>" +
-					// "<textarea class=\"textvalue\" rows=\"8\" cols=\"100\"
-					// name=\"" + STUDENT_COMMENTSTOSTUDENT + counter +
-					// "\" id=\"" + STUDENT_COMMENTSTOSTUDENT + counter + "\"
-					// disabled=\"true\">" + sanitize(commentsToStudent) +
-					// "</textarea>" +
-					"</td></tr>";
-				}
-			}
-			
-			counter++;
-		}
-	}
-	
-	output = output + outputTemp + "</table></form><br /><br />";
-	
-	var outputButtons = "<input type=\"button\" class =\"button\" name=\"button_editevaluationresultsbyreviewee\"" +
-							"id=\"button_editevaluationresultsbyreviewee\" value=\"Submit\" />" +
-						" <input type=\"button\" class =\"button\" name=\"button_back\" id=\"button_back\" value=\"Cancel\" />" +
-						"<br /><br />";
-	
-	document.getElementById(DIV_EVALUATION_SUMMARYTABLE).innerHTML = output; 
-	document.getElementById(DIV_EVALUATION_EDITRESULTSBUTTON).innerHTML = outputButtons;
-	
-	
-	populateEditEvaluationResultsPointsForm(document.forms[0], submissionList, commentsEnabled);
-	
-	document.getElementById('button_editevaluationresultsbyreviewee').onclick = function() {
-// doEditEvaluationResultsByReviewer(document.forms[0], status,
-// commentsEnabled);
-		doEditEvaluationResultsByReviewer(document.forms[0], summaryList, position, commentsEnabled, status);
-	};
-	
-	document.getElementById('button_back').onclick = function() { 
-		document.getElementById(DIV_EVALUATION_EDITRESULTSBUTTON).innerHTML = "";
-		printEvaluationResultsByReviewer(submissionList, summaryList, position, commentsEnabled, status);
-	};
-	
-}
-
-function printEditStudent(courseID, email, name, teamName, googleID, registrationKey, comments) {
-	var outputHeader = "<h1>EDIT STUDENT</h1>";
-	var output = "<form>" +
-				 "<table id=\"data\">" +
-				 "<tr>" +
-				 "<td class=\"fieldname\">Student Name*:</td>" +
-				 "<td><input class=\"fieldvalue\" type=\"text\" value=\"" + name + "\" name=\"editname\" id=\"editname\"/></td>" +
-				 "</tr>" +
-				 "<tr>" +
-				 "<td class=\"fieldname\">Team Name*:</td>" +
-				 "<td><input class=\"fieldvalue\" type=\"text\" value=\"" + sanitize(teamName) + "\" name=\"editteamname\" id=\"editteamname\"/></td>" +
-				 "</tr>" +
-				 "<tr>" +
-				 "<td class=\"fieldname\">E-mail Address*:</td>" +
-
-						 "<td><input class=\"fieldvalue\" type=\"text\" value=\"" + email + "\" name=\"editemail\" id=\"editemail\"/></td>" 
-						+
-
-				 "</tr>" + 
-				 "<tr>" +
-				 "<td class=\"fieldname\">Google ID:</td>" +
-
-				 (googleID == "" ?
-						 "<td><input class=\"fieldvalue\" type=\"text\" value=\"" + sanitize(googleID) + "\" name=\"editgoogleid\" id=\"editgoogleid\"/></td>"
-						 : "<td><input class=\"fieldvalue\" type=\"text\" value=\"" + sanitize(googleID) + "\" name=\"editgoogleid\" id=\"editgoogleid\" disabled=\"true\" /></td>"
-			)+
-				 
-
-				 "</tr>" +
-			 	 "<tr>" +
-			 	 "<td class=\"fieldname\">Comments:</td>" +
-			 	 "<td><textarea class =\"textvalue\" name=\"editcomments\" id=\"editcomments\" rows=\"6\" cols=\"80\">" + sanitize(comments) + "</textarea></td>" +
-			 	 "</tr>" +
-			 	 "</table>";
-	
-	var outputButtons = "<input type=\"button\" class=\"button\" name=\"button_editstudent\" id=\"button_editstudent\" value=\"Save Changes\" />" +
-			 	 	 	"<input type=\"button\" class=\"button\" onClick=\"displayCourseInformation('" + courseID + "')\" value=\"Back\" />" +
-			 	 	 	"</form>" +
-			 	 	 	"<br /><br />";
-	
-	document.getElementById(DIV_STUDENT_EDITBUTTONS).innerHTML = outputButtons;
-	document.getElementById(DIV_STUDENT_INFORMATION).innerHTML = output; 
-	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader; 
-
-	document.getElementById('button_editstudent').onclick = function() { 
-	 	var editName = document.getElementById('editname').value;
-	 	var editTeamName = document.getElementById('editteamname').value;
-	 	var editEmail = document.getElementById('editemail').value;
-	 	var editGoogleID = document.getElementById('editgoogleid').value;
-	 	var editComments = document.getElementById('editcomments').value;
-
-		doEditStudent(courseID, email, editName, editTeamName, editEmail, editGoogleID, editComments); 
-	};
-}
-
-function printEnrollmentPage(courseID) {
-	var outputHeader = "<h1>ENROL STUDENTS for " + courseID + "</h1>";
-	
-	var output = "<img src=\"/images/enrolInstructions.png\" border=\"0\" />" +
-				 "<p class=\"info\" style=\"text-align: center;\">Enrol no more than 100 students at a time.</p>" +
-				 "<br />" +
-				 "<form>" +
-				 "<table id=\"data\">" +
-				 "<tr>" +
-                 "<td class=\"fieldname\" style=\"width: 250px;\">Student details:</td>" +
-                 "<td><textarea rows=\"6\" cols=\"135\" class =\"textvalue\" name=\"information\" id=\"information\"></textarea></td>" +
-                 "</tr>" +
-                 "</table>" +
-                 "</form>";
-
-	var outputButtons = "<input type=\"button\" class=\"button\" name=\"button_enrol\" id=\"button_enrol\" value=\"Enrol students\" />" +
-			" <input type=\"button\" class=\"t_back button\" onclick=\"displayCoursesTab();\" value=\"Back\" />";
-		
-	document.getElementById(DIV_COURSE_ENROLLMENT).innerHTML = output; 
-	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader; 
-	document.getElementById(DIV_COURSE_ENROLLMENTBUTTONS).innerHTML = outputButtons;
-	
-	document.getElementById('button_enrol').onclick = function() { 
-		doEnrolStudents(document.getElementById('information').value, courseID);
-	};	
-}
-
-function printEnrollmentResultsPage(reports)
-{	
-	var arrayAdd = [];
-	
-	for(var x = 0; x < reports.length; x++)
-	{
-		if(reports[x].status == "ADDED")
-		{
-			arrayAdd.push(reports[x]);
-		}
-	}
-	
-	var arrayEdit = [];
-	
-	for(var x = 0; x < reports.length; x++)
-	{
-		if(reports[x].status == "EDITED")
-		{
-			arrayEdit.push(reports[x]);
-		}
-	}
-	
-	var outputHeader = "<h1>ENROLLMENT RESULTS</h1>";
-	var output = "<table id=\"data\">" +
-					"<tr>" +
-					"<td>" +
-					"<input class=\"plusButton\" type=\"button\" id=\"button_viewaddedstudents\" " +
-							"name=\"button_viewaddedstudents\" onclick=\"toggleViewAddedStudents();\" />Number of Students " +
-							"Added: <span id='t_studentsAdded'>" + arrayAdd.length  +
-					"</span></td>" +
-					"</tr>";
-	
-	output = output +
-					"<tr style=\"display:none\" name=\"rowAddedStudents\" id=\"rowAddedStudents\">" +
-					"<td>";
-	
-	for(var x = 0; x < arrayAdd.length; x++)
-	{
-		output = output + "- " + arrayAdd[x].studentName + " (" + arrayAdd[x].studentEmail + ")<br />";
-	}
-	
-	output = output +
-					"</td>" +
-					"</tr>" +
-					"<tr>" +
-					"<br />" +
-					"</tr>" +
-					"<tr>" +
-					"<td>" +
-					"<input class=\"plusButton\" type=\"button\" id=\"button_vieweditedstudents\" " +
-							"name=\"button_vieweditedstudents\" onclick=\"toggleViewEditedStudents();\" />Number of Students " +
-							"Edited:</b> <span id='t_studentsEdited'>" + arrayEdit.length +
-					"</span></td>" +
-					"</tr>";
-	
-	output = output +
-					"<tr style=\"display:none\" name=\"rowEditedStudents\" id=\"rowEditedStudents\">" +
-					"<td>";
-	
-	for (var x = 0; x < arrayEdit.length; x++) {
-		output = output + "- " + arrayEdit[x].studentName + " (" + arrayEdit[x].studentEmail + ") : ";
-		
-		if (arrayEdit[x].nameEdited == "true") {
-			output = output + "NAME ";
-		}
-		
-		if (arrayEdit[x].teamNameEdited == "true") {
-			output = output + "TEAMNAME ";
-		}
-		
-		if (arrayEdit[x].commentsEdited == "true") {
-			output = output + "COMMENTS ";
-		}
-		
-		output = output +
-					"<br />";
-	}
-	
-	output = output +
-					"</td>" +
-					"</tr>" +
-					"</table>" +
-					"<br /><br /><br />" +
-					"<input type=\"button\" class=\"t_back button\" onclick=\"displayCoursesTab();\" value=\"Back\" />" +
-					"<br /><br />";
-	
-	document.getElementById(DIV_COURSE_ENROLLMENTRESULTS).innerHTML = output; 
-	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader; 
-}
-
-function printEvaluationResultsByReviewee(submissionList, summaryList, position, commentsEnabled, status){
-// document.getElementById('button_viewbytype').onclick = function()
-// {
-// clearStatusMessage();
-// toggleEvaluationSummaryListViewByType(submissionList, summaryList, status,
-// commentsEnabled);
-// toggleEvaluationSummaryListViewByType(submissionList, summaryList, status,
-// commentsEnabled);
-//		
-// };
-//	 
-// document.getElementById('button_viewbytype').value = "Back to summary";
-	var toStudent = summaryList[position].toStudent;
-	var output;
-
-	// ...Self Evaluation
-	output = "<p class=\"splinfo2\">TEAM: " + summaryList[position].teamName + "</p>" +
-			 "<br /><br />" +
-			 "<table id=\"data\">" +
-				"<tr>" +
-					"<tr>" +
-					"<td colspan=\"2\" class=\"reportheader\">" + summaryList[position].toStudentName.toUpperCase() + "'s Self Evaluation</td>" +
-					"</tr>" +
-					
-					"<tr>" +
-					"<td class=\"lhs\">Claimed contribution:</td>" +
-					"<td>" + summaryList[position].claimedPoints + "</td>" +
-					"</tr>" +
-					
-					"<tr>" +
-					"<td class=\"lhs\">Perceived contribution:</td>" +
-					"<td>" + summaryList[position].average + "</td>" +
-					"</tr>";
-	// ...Peer Evaluations
-	var outputTemp = "<tr>" + 
-					 "<td colspan = \"2\" class = \"reportheader\"> Peer Evaluations From Other Team Members</td>" +
-					 "</tr>" +
-					 
-					 "<tr>" +
-					 "<td colspan = \"2\"><table id=\"dataform\">" +
-						"<tr>" +
-							"<th class=\"centeralign\">From Student&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortname\"></th>" +
-							"<th class=\"leftalign\">Contribution&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortcontribution\"></th>" +
-							"<th class=\"leftalign\">Comments&nbsp;&nbsp;&nbsp;</th>" + 
-							"<th class=\"leftalign\">Message&nbsp;&nbsp;&nbsp;</th>" +
-						"</tr>";
-	var points;
-	var justification = "";
-	var commentsToStudent = "";
-	
-	for(loop = 0; loop < submissionList.length; loop++)
-	{	
-		if(submissionList[loop].toStudent == toStudent)
-		{
-			// Extract data
-			if(submissionList[loop].points == -999)
-			{
-				points = "N/A";
-			}
-			
-			else if(submissionList[loop].points == -101)
-			{
-				points = "Unsure";
-			}
-			
-			else
-			{
-				points = Math.round(submissionList[loop].points * submissionList[loop].pointsBumpRatio);
-			}
-			
-			if(submissionList[loop].justification == "")
-			{
-				justification = "N/A";
-			}
-			
-			else
-			{
-				justification = submissionList[loop].justification;
-			}
-			
-			if(commentsEnabled == true)
-			{
-				if(submissionList[loop].commentsToStudent == "")
-				{
-					commentsToStudent = "N/A";
-				}
-				
-				else
-				{
-					commentsToStudent = submissionList[loop].commentsToStudent;
-				}
-			}
-			
-			else
-			{
-				commentsToStudent = "Disabled";
-			}
-			
-			// Print data
-			if(submissionList[loop].fromStudent == submissionList[loop].toStudent)
-			{
-				outputTemp = "" +
-					"<tr>" +
-						"<td class=\"lhs\">" +
-						"Self evaluation:" + 
-						"</td>" +
-						"<td>" +
-						sanitize(justification) + 
-						"</td>" +
-					"</tr>" +
-					"<tr>" + 
-						"<td class=\"lhs\">" +
-						"Comments about team:" + 
-						"</td>" +
-						"<td>" +
-						sanitize(commentsToStudent) + 
-						"</td>" +
-					"</tr></tr>" + outputTemp;
-			}
-			
-			else
-			{
-				outputTemp = outputTemp +
-				"<tr>" +
-					"<td class=\"reportheader\">" + submissionList[loop].fromStudentName + "</td>" +
-					"<td>" + points + "</td>" +
-					"<td>" + sanitize(justification) + "</td>" +
-					"<td>" + sanitize(commentsToStudent) + "</td>" +
-				"</tr>";
-			}
-		}
-	}
-	
-	output = output + 
-			 	outputTemp + "</table></td></tr></table></td></tr>" +
-			 	"<br /><br />" + 
-			 "</table><br /><br />" +
-			 "<input type=\"button\" class =\"button\" value=\"Previous\" name=\"button_previous\" id=\"button_previous\">" +
-			 "<input type=\"button\" class =\"button\" value=\"Next\" name=\"button_next\" id=\"button_next\">" +
-			 "<input type=\"button\" class =\"button\" value=\"Back\" name=\"button_back\" id=\"button_back\"><br /><br />";
-	
-	document.getElementById(DIV_EVALUATION_SUMMARYTABLE).innerHTML = output; 
-	
-	document.getElementById('button_next').onclick = 
-		function() { 
-			position ++;
-// var next = position % summaryList.length;
-// printEvaluationResultsByReviewee(submissionList, summaryList, next,
-// commentsEnabled, status);
-		
-			if(position >= summaryList.length){
-				position = 0;
-			}
-			printEvaluationResultsByReviewee(submissionList, summaryList, position, commentsEnabled, status); 
-			
-		};
-	
-	document.getElementById('button_previous').onclick = 
-		function() 
-		{ 	
-			if(position == 0)
-			{
-				position = summaryList.length - 1;
-			}
-				
-			else
-			{
-				position--;
-			}
-			
-			printEvaluationResultsByReviewee(submissionList, summaryList, position, commentsEnabled, status); 
-		};
-	
-	document.getElementById('button_back').onclick =
-		function(){
-			printEvaluationReportByAction(submissionList, summaryList, status, commentsEnabled);
-		}
-					
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-	
-}
-
-function printEvaluationResultsByReviewer(submissionList, summaryList, position, commentsEnabled, status) {
-// document.getElementById('button_viewbytype').onclick = function() {
-// clearStatusMessage();
-// toggleEvaluationSummaryListViewByType(submissionList, summaryList, status,
-// commentsEnabled);
-// toggleEvaluationSummaryListViewByType(submissionList, summaryList, status,
-// commentsEnabled);
-// };
-//	  
-// document.getElementById('button_viewbytype').value = "Back to summary";
-	
-	var toStudent = summaryList[position].toStudent;
-	var output;
-
-	// ...Self Evaluation
-	output = "<p class=\"splinfo2\">TEAM: " + summaryList[position].teamName + "</p>" +
-				"<br /><br />" +
-				"<table id=\"data\">" +
-					"<tr>" +
-						"<td colspan=\"2\" class=\"reportheader\">" + summaryList[position].toStudentName.toUpperCase() + "'s Self Evaluation" +
-						"</td>" +
-					"</tr>" +
-					"<tr>" +
-						"<td class=\"lhs\">Claimed contribution:</td>" +
-						"<td>" + summaryList[position].claimedPoints + "</td>" +
-					"</tr>" +
-					"<tr>" +
-						"<td class=\"lhs\">Perceived contribution:</td>" +
-						"<td>" + summaryList[position].average + "</td>" +
-					"</tr>";
-	
-	// ...Peer Evaluations For Other Team Members
-	var outputTemp = "<tr>" + 
-					 "<td colspan = \"2\" class = \"reportheader\"> Peer Evaluations For Other Team Members</td>" +
-					 "</tr>" +
-					 
-					 "<tr>" +
-					 "<td colspan = \"2\"><table id=\"dataform\">" +
-						"<tr>" +
-							"<th class=\"centeralign\">For Student&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortname\"></th>" +
-							"<th class=\"leftalign\">Contribution&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortcontribution\"></th>" +
-							"<th class=\"leftalign\">Comments&nbsp;&nbsp;&nbsp;</th>" + 
-							"<th class=\"leftalign\">Message&nbsp;&nbsp;&nbsp;</th>" +
-						"</tr>";
-	var points;
-	var justification = "";
-	var commentsToStudent = "";
-	
-	for (loop = 0; loop < submissionList.length; loop++) {	
-		if (submissionList[loop].fromStudent == toStudent) {
-			// Extract data
-			if (submissionList[loop].points == -999) {
-				points = "N/A";
-			} else if (submissionList[loop].points == -101) {
-				points = "Unsure";
-			} else {
-				points = Math.round(submissionList[loop].points * submissionList[loop].pointsBumpRatio);
-			}
-			
-			if (submissionList[loop].justification == "") {
-				justification = "N/A";
-			} else {
-				justification = submissionList[loop].justification;
-			}
-			
-			if (commentsEnabled == true) {
-				if (submissionList[loop].commentsToStudent == "") {
-					commentsToStudent = "N/A";
-				} else {
-					commentsToStudent = submissionList[loop].commentsToStudent;
-				}
-			} else {
-				commentsToStudent = "Disabled";
-			}
-			
-			// Print data
-			if (submissionList[loop].fromStudent == submissionList[loop].toStudent) {
-				outputTemp = "<tr>" +
-								"<td class=\"lhs\">Self evaluation:</td>" +
-								"<td>" + sanitize(justification) + "</td>" +
-							 "</tr>" +
-							 "<tr>" +
-								"<td class=\"lhs\">Comments about team:</td>" +
-								"<td>" + sanitize(commentsToStudent) + "</td>" +
-							 "</tr>" +
-								outputTemp;
-			} else {
-				outputTemp = outputTemp +
-								"<tr>" +
-									"<td class=\"reportheader\">" + submissionList[loop].toStudentName + "</td>" +
-									"<td>" + points + "</td>" +
-									"<td>" + sanitize(justification) + "</td>" +
-									"<td>" + sanitize(commentsToStudent) + "</td>" +
-								"</tr>";
-			}
-		}
-	}
-
-	output = output + outputTemp + "</table></td></tr></table><br /><br />" +
-	"<input type = \"button\" class = \"button\" value = \"Previous\" name = \"button_previous\" id = \"button_previous\">" +
-	"<input type = \"button\" class = \"button\" value = \"Next\" name = \"button_next\" id = \"button_next\">";
-	
-	if (status == "CLOSED") {
-		output = output +
-						"&nbsp;&nbsp;<input type=\"button\" class =\"button\" type=\"button\" value=\"Edit\" name=\"button_edit\" id=\"button_edit\">";
-	} else {
-		output = output + " ";
-	}
-	
-	output = output +
-					"<input type=\"button\" class=\"button\" value=\"Back\" name=\"button_back\" id=\"button_back\"><br /><br />";
-	
-	
-	document.getElementById(DIV_EVALUATION_SUMMARYTABLE).innerHTML = output; 
-
-	document.getElementById('button_next').onclick = function() { 
-		clearStatusMessage();
-// printEvaluationResultsByReviewer(submissionList, summaryList,
-// (position+1)%summaryList.length, commentsEnabled, status);
-		position ++;
-// var next = position % summaryList.length;
-// printEvaluationResultsByReviewer(submissionList, summaryList, next,
-// commentsEnabled, status);
-		if(position >= summaryList.length){
-			position = 0;
-		}
-		printEvaluationResultsByReviewer(submissionList, summaryList, position, commentsEnabled, status); 
-		
-	};
-	
-	
-	document.getElementById('button_previous').onclick = function() {
-		clearStatusMessage();
-		if (position == 0) {
-			
-			position = summaryList.length - 1;
-			
-		} else {
-			
-			position--;
-		}
-
-		printEvaluationResultsByReviewer(submissionList, summaryList, position, commentsEnabled, status);
-	};
-	
-	if (status == "CLOSED") {
-		document.getElementById('button_edit').onclick = function() {
-			printEditEvaluationResultsByReviewer(submissionList, summaryList, position, commentsEnabled, status) 
-		};
-	}
-	
-	document.getElementById('button_back').onclick = function(){
-		printEvaluationReportByAction(submissionList, summaryList, status, commentsEnabled);
-	}
-
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-}
-
-
-function printEvaluationResultsHeader(courseID, evaluationName, start, deadline, status, activated, published)
-{
-	var outputHeader = "<h1>EVALUATION RESULTS</h1>";
-
-	var output = "" +
-	"<table id=\"data\">" + 
-		"<tr>" + 
-			"<td class=\"fieldname\">Course ID:</td>" + 
-			"<td>" + sanitize(courseID) + "</td>" +
-		"</tr>" + 
-		"<tr>" + 
-			"<td class=\"fieldname\">Evaluation name:</td>" + 
-			"<td>" + sanitize(evaluationName) + "</td>" +
-		"</tr>" + 
-		"<tr>" + 
-			"<td class=\"fieldname\">Opening time:</td>" + 
-			"<td>" +  
-			convertDateToDDMMYYYY(new Date(start)) + " " + 
-			convertDateToHHMM(new Date(start)) + 
-			"H</td>" +
-		"</tr>" +
-		"<tr>" + 
-			"<td class=\"fieldname\">Closing time:</td>" + 
-			"<td>" + 
-			convertDateToDDMMYYYY(new Date(deadline)) + " " + 
-			convertDateToHHMM(new Date(deadline)) + 
-			"H</td>" +
-		"</tr>" +
-		
-	    // new radio button: review type + report type
-	    "<tr>" +
-			"<td align = \"right\"><b>Report Type:</b> " +
-				
-				"<input type = \"radio\" name = \"radio_viewall\" id = \"radio_summary\" value = \"summary\" checked = \"checked\" />" +
-				"<label for = \"radio_summary\">Summary</label>&nbsp&nbsp&nbsp" +
-				
-				"<input type = \"radio\" name = \"radio_viewall\" id = \"radio_detail\" value = \"detail\" />" +
-				"<label for = \"radio_detail\">Detail</label>" +
-			"</td>" +
-	    	"<td><b>Review Type:</b> " +
-		    	
-	    		"<input type = \"radio\" name = \"radio_viewbytype\" id = \"radio_reviewer\" value = \"by reviewer\" checked = \"checked\"/>" +
-	    		"<label for = \"radio_reviewer\">By Reviewer</label>&nbsp&nbsp&nbsp" +
-	    		"<input type = \"radio\" name = \"radio_viewbytype\" id = \"radio_reviewee\" value = \"by reviewee\"/>" +
-	    		"<label for = \"radio_reviewee\">By Reviewee</label>" +
-	    		
-	    	"</td>" +
-	    "</tr>" +
-	    
-	    // publish, unpublish button
-		"<tr>" +
-		    "<td></td>" +
-		    "<td>";
-				// publish
-				if(status != "OPEN"){
-					if (published == false && activated == true){
-						output = output + 
-						"<input type=\"button\" class=\"button\" id = \"button_publish\" value = \"Publish\" onclick = \"javascript:togglePublishEvaluation('" + courseID + "','" + evaluationName + "', true, false)\" />";
-				    }
-					else if (published == true){
-						output = output +
-						"<input type=\"button\" class=\"button\" id = \"button_publish\" value = \"Unpublish\" onclick = \"javascript:togglePublishEvaluation('" + courseID + "','" + evaluationName + "', false, false)\" />";
-					    
-// "<a class='t_eval_unpublish' href=\"javascript:togglePublishEvaluation('" +
-// evaluationList[loop].courseID + "','" + evaluationList[loop].name +
-// "', false);hideddrivetip();\"" +
-// "onmouseover=\"ddrivetip('Close the evaluation results')\"" +
-// "onmouseout=\"hideddrivetip()\">Unpublish</a> / ";
-					 }
-				}
-				
-			output = output + 
-			"</td>" +
-	    "</tr>" +
-
-    "</table>";
-	
-	
-	
-	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader; 
-	document.getElementById(DIV_EVALUATION_INFORMATION).innerHTML = output; 
-}
 
 
 // xl: new added
@@ -4856,25 +2860,25 @@ function printEvaluationReportByAction(submissionList, summaryList, status, comm
 	// case 1: [x]reviewee [x]summary..............case handler............
 	if(document.getElementById('radio_reviewee').checked && document.getElementById('radio_summary').checked){
 		evaluationResultsViewStatus = evaluationResultsView.reviewee;
-		printEvaluationSummaryByRevieweeList(submissionList, summaryList.sort(sortByTeamName), status, commentsEnabled);
+		printEvaluationSummaryForm(submissionList, summaryList.sort(sortByTeamName), status, commentsEnabled, REVIEWEE);
 	}
 	
 	// case 2: [x]reviewer [x]summary
 	else if(document.getElementById('radio_reviewer').checked && document.getElementById('radio_summary').checked){
 		evaluationResultsViewStatus = evaluationResultsView.reviewer;
-		printEvaluationSummaryByReviewerList(submissionList, summaryList.sort(sortByTeamName), status, commentsEnabled);
+		printEvaluationSummaryForm(submissionList, summaryList.sort(sortByTeamName), status, commentsEnabled, REVIEWER);
 	}
 	
 	// case 3: [x]reviewee [x]detail
 	else if(document.getElementById('radio_reviewee').checked && document.getElementById('radio_detail').checked){
 		evaluationResultsViewStatus = evaluationResultsView.reviewee;
-		printEvaluationDetailByRevieweeList(submissionList, summaryList, status, commentsEnabled);
+		printEvaluationDetailForm(submissionList, summaryList, status, commentsEnabled, REVIEWEE);
 	}
 	
 	// case 4: [x]reviewer [x]detail
 	else if(document.getElementById('radio_reviewer').checked && document.getElementById('radio_detail').checked){
 		evaluationResultsViewStatus = evaluationResultsView.reviewer;
-		printEvaluationDetailByReviewerList(submissionList, summaryList, status, commentsEnabled);
+		printEvaluationDetailForm(submissionList, summaryList, status, commentsEnabled, REVIEWER);
 	}
 	
 	// else:
@@ -4884,486 +2888,7 @@ function printEvaluationReportByAction(submissionList, summaryList, status, comm
 
 }
 
-function printEvaluationSummaryByRevieweeList(submissionList, summaryList, status, commentsEnabled) {
-	document.getElementById(DIV_EVALUATION_EDITRESULTSBUTTON).innerHTML = "";
-	
-	var output = "<table id=\"dataform\">" +
-					"<tr>" +
-					"<th class=\"leftalign\">TEAM&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortteamname\"></th>" +
-					"<th class=\"leftalign\">STUDENT&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortname\"></th>" +
-					"<th class=\"leftalign\">CLAIMED CONTRIBUTION&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortaverage\"></th>" + 
-					"<th class=\"centeralign\">[PERCEIVED - CLAIMED]&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortdiff\"></th>" +
-					"<th class=\"centeralign\">ACTION(S)</th>" +
-					"</tr>";
-	
-	for (loop = 0; loop < summaryList.length; loop++) {
-		output = output +
-						"<tr>" +
-						"<td>" + sanitize(summaryList[loop].teamName) + "</td>" +
-						"<td>";
-		
-		if (sanitize(summaryList[loop].toStudentComments) != "") {
-			output = output +
-							"<a onmouseover=\"ddrivetip('" + sanitize(summaryList[loop].toStudentComments) + "')\" onmouseout=\"hideddrivetip()\">" +
-							sanitize(summaryList[loop].toStudentName) +
-							"</a>" +
-							"</td>";
-		} else {
-			output = output +
-							sanitize(summaryList[loop].toStudentName) +
-							"</td>";
-		}
-		
-		output = output +
-						"<td>" + summaryList[loop].claimedPoints + "</td>";
-		
-		if (summaryList[loop].difference > 0) {
-			output = output +
-							"<td class=\"centeralign\"><span class=\"posDiff\">" + summaryList[loop].difference + "</span></td>";
-		} else if (summaryList[loop].difference < 0){
-			output = output +
-							"<td class=\"centeralign\"><span class=\"negDiff\">" + summaryList[loop].difference + "</span></td>";
-		} else {
-			output = output +
-							"<td class=\"centeralign\">" + summaryList[loop].difference + "</td>";
-		}
-		
-		output = output +
-						"<td class=\"centeralign\">" +
-						"<a name=\"viewEvaluationResults" + loop + "\" id=\"viewEvaluationResults" + loop + "\" href=# " +
-						"onmouseover=\"ddrivetip('View feedback from the team for the student')\"" +
-						"onmouseout=\"hideddrivetip()\">View</a>";
 
-		output = output +
-						"</td>" +
-						"</tr>";
-	}
-	
-	output = output +
-					"</table>" +
-					"<br /><br />" +
-					"<input type=\"button\" class=\"button\" id=\"button_back\" onclick=\"displayEvaluationsTab();\" value=\"Back\" />" +
-					"<br /><br />";
-	
-	document.getElementById(DIV_EVALUATION_SUMMARYTABLE).innerHTML = output; 
-	
-	document.getElementById('button_sortteamname').onclick = 
-		function() { toggleSortEvaluationSummaryListByTeamName(submissionList, summaryList, status, commentsEnabled); };
-	document.getElementById('button_sortname').onclick = 
-		function() { toggleSortEvaluationSummaryListByToStudentName(submissionList, summaryList, status, commentsEnabled); };
-	document.getElementById('button_sortaverage').onclick = 
-		function() { toggleSortEvaluationSummaryListByAverage(submissionList, summaryList, status, commentsEnabled); };
-	document.getElementById('button_sortdiff').onclick = 
-		function() { toggleSortEvaluationSummaryListByDiff(submissionList, summaryList, status, commentsEnabled); };
-		
-	//new: radio button for report format		
-	document.getElementById('radio_reviewee').onclick =
-		function(){ printEvaluationReportByAction(submissionList, summaryList, status, commentsEnabled); };
-	document.getElementById('radio_reviewer').onclick =
-		function(){ printEvaluationReportByAction(submissionList, summaryList, status, commentsEnabled); };
-	document.getElementById('radio_summary').onclick =
-		function(){ printEvaluationReportByAction(submissionList, summaryList, status, commentsEnabled); };
-	document.getElementById('radio_detail').onclick =
-		function(){ printEvaluationReportByAction(submissionList, summaryList, status, commentsEnabled); };
-
-	for (loop = 0; loop < summaryList.length; loop++) {
-		if (document.getElementById('viewEvaluationResults' + loop) != null) {
-			document.getElementById('viewEvaluationResults' + loop).onclick = function()  { 
-				hideddrivetip();
-				printEvaluationResultsByReviewee(submissionList, summaryList, this.id.substring(21, this.id.length), commentsEnabled, status);
-				clearStatusMessage();
-			};
-		}
-	}
-	
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-}
-
-function printEvaluationSummaryByReviewerList(submissionList, summaryList, status, commentsEnabled) {
-	document.getElementById(DIV_EVALUATION_EDITRESULTSBUTTON).innerHTML = "";
-	
-	var output = "<table id=\"dataform\">" +
-				"<tr>" +
-				"<th class=\"leftalign\">TEAM&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortteamname\"></th>" +
-				"<th class=\"leftalign\">STUDENT&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortname\"></th>" +
-				"<th class=\"centeralign\">SUBMITTED&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortsubmitted\"></th>" + 
-				"<th class=\"centeralign\">ACTION(S)</th>" +
-				"</tr>";
-
-	var submitted;
-	
-	for (loop = 0; loop < summaryList.length; loop++) {
-		if (summaryList[loop].submitted) {
-			submitted = "YES";
-		} else {
-			submitted = "NO";
-		}
-		
-		output = output + 
-						"<tr>" +
-						"<td>" + sanitize(summaryList[loop].teamName) + "</td>" +
-						"<td>";
-		
-		if (sanitize(summaryList[loop].toStudentComments) != "") {
-			output = output +
-							"<a onmouseover=\"ddrivetip('" + sanitize(summaryList[loop].toStudentComments) + "')\"" +
-							"onmouseout=\"hideddrivetip()\">" +
-							sanitize(summaryList[loop].toStudentName) +
-							"</a>" +
-							"</td>";
-		} else {
-			output = output + sanitize(summaryList[loop].toStudentName) + "</td>";
-		}
-		
-		output = output +
-						"<td class=\"centeralign\" id=\"status_submitted" + loop + "\">" + submitted + "</td>" +
-						"<td class=\"centeralign\">" +
-						"<a name=\"viewEvaluationResults" + loop + "\" id=\"viewEvaluationResults" + loop + "\" href=# " +
-						"onmouseover=\"ddrivetip('View feedback from the student for his team')\"" +
-						"onmouseout=\"hideddrivetip()\">View</a>";
-		
-		if (status == "CLOSED") {
-			output = output +
-							" / <a name=\"editEvaluationResults" + loop + "\" id=\"editEvaluationResults" + loop + "\" href=# " +
-							"onmouseover=\"ddrivetip('Edit feedback from the student for his team')\"" +
-							"onmouseout=\"hideddrivetip()\">Edit</a>";
-		}
-
-		output = output +
-						"</td>" +
-						"</tr>";
-	}
-	
-	output = output +
-					"</table>" +
-					"<br /><br />" +
-					"<input type=\"button\" class=\"button\" id=\"button_back\" onclick=\"displayEvaluationsTab();\" value=\"Back\" />" +
-					"<br /><br />";
-	
-	document.getElementById(DIV_EVALUATION_SUMMARYTABLE).innerHTML = output; 
-	
-	document.getElementById('button_sortteamname').onclick = 
-		function() { toggleSortEvaluationSummaryListByTeamName(submissionList, summaryList, status, commentsEnabled); };
-	document.getElementById('button_sortname').onclick = 
-		function() { toggleSortEvaluationSummaryListByToStudentName(submissionList, summaryList, status, commentsEnabled); };
-	document.getElementById('button_sortsubmitted').onclick = 
-		function() { toggleSortEvaluationSummaryListBySubmitted(submissionList, summaryList, status, commentsEnabled); };
-	// new: radio button for report format
-	document.getElementById('radio_reviewee').onchange =
-		function(){ printEvaluationReportByAction(submissionList, summaryList, status, commentsEnabled); };
-	document.getElementById('radio_reviewer').onclick =
-		function(){ printEvaluationReportByAction(submissionList, summaryList, status, commentsEnabled); };
-	document.getElementById('radio_summary').onclick =
-		function(){ printEvaluationReportByAction(submissionList, summaryList, status, commentsEnabled); };
-	document.getElementById('radio_detail').onclick =
-		function(){ printEvaluationReportByAction(submissionList, summaryList, status, commentsEnabled); };
-		
-	for (loop = 0; loop < summaryList.length; loop++) {
-		if (document.getElementById('viewEvaluationResults' + loop) != null) {
-			document.getElementById('viewEvaluationResults' + loop).onclick = function() { 
-				hideddrivetip();
-				printEvaluationResultsByReviewer(submissionList, summaryList, this.id.substring(21, this.id.length), commentsEnabled, status);
-				
-				document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-				clearStatusMessage();
-			};
-		}
-	}
-	
-	for (loop = 0; loop < summaryList.length; loop++) {
-		if (document.getElementById('editEvaluationResults' + loop) != null) {
-			document.getElementById('editEvaluationResults' + loop).onclick = function() { 
-				hideddrivetip();
-				
-				printEditEvaluationResultsByReviewer(submissionList, summaryList, this.id.substring(21, this.id.length), commentsEnabled, status);
-				
-				document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-				clearStatusMessage();
-			};
-		}
-	}
-	
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-}
-
-function printEvaluationList(evaluationList) {
-	var output;
-	  
-	output = "<table id=\"dataform\">" + 
-				"<tr>" + 
-				"<th class=\"leftalign\">COURSE ID&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortcourseid\"></th>" + 
-				"<th class=\"leftalign\">EVALUATION&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortname\"></th>" + 
-				"<th class=\"centeralign\">STATUS</th>" +
-				"<th class=\"centeralign\"><span onmouseover=\"ddrivetip('Number of students submitted / Class size')\" onmouseout=\"hideddrivetip()\">RESPONSE RATE</span></th>" +
-				"<th class=\"centeralign\">ACTION(S)</th>" + 
-				"</tr>";
-	
-	// Fix for empty evaluation list
-	if (evaluationList.length == 0) {
-		setStatusMessage("You have not created any evaluations yet. Use the form above to create a new evaluation.");
-		
-		output = output + "<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>" +
-						"<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
-	}
-	
-	var counter = 0;
-	
-	for (loop = 0; loop < evaluationList.length; loop++) { 
-		output = output +
-						"<tr>" +
-						"<td class='t_eval_coursecode'>" + sanitize(evaluationList[loop].courseID) + "</td>" +
-						"<td class='t_eval_name'>" + sanitize(evaluationList[loop].name) + "</td>" +
-						"<td class=\"t_eval_status centeralign\">" + evaluationList[loop].status + "</td>" +
-						"<td class=\"t_eval_response centeralign\">" +
-						evaluationList[loop].numberOfCompletedEvaluations + " / " + evaluationList[loop].numberOfEvaluations +
-						"</td>"; 
-		
-		output = output +
-						"<td class=\"centeralign\">";
-		
-		if (evaluationList[loop].status != "AWAITING") {
-			output = output + 
-							"<a class='t_eval_view' name=\"viewEvaluation" + loop + "\" id=\"viewEvaluation" + loop + "\" href=# " +
-							"onmouseover=\"ddrivetip('View the current results of the evaluation')\"" +
-							"onmouseout=\"hideddrivetip()\">View Results</a> / ";
-		}
-		
-		if (evaluationList[loop].published == false) {
-			output = output +
-							"<a class='t_eval_edit' name=\"editEvaluation" + loop + "\" id=\"editEvaluation" + loop + "\" href=# " +
-							"onmouseover=\"ddrivetip('Edit evaluation details')\"" +
-							"onmouseout=\"hideddrivetip()\">Edit</a> / ";
-		}
-		
-		if (evaluationList[loop].status == "OPEN") {
-			output = output +
-							"<a class='t_eval_remind' href=\"javascript:toggleRemindStudents('" +
-							evaluationList[loop].courseID + "','" + evaluationList[loop].name +
-							"');hideddrivetip();\"" +
-							"onmouseover=\"ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')\"" +
-							"onmouseout=\"hideddrivetip()\">Remind</a> / ";
-		} 
-		
-		else {
-			
-			// closed, unpublished
-			if (evaluationList[loop].published == false && evaluationList[loop].activated == true) {
-				output = output +
-								"<a class='t_eval_publish' href=\"javascript:togglePublishEvaluation('" +
-								evaluationList[loop].courseID + "','" + evaluationList[loop].name +
-								"', true, true);hideddrivetip();\"" +
-								"onmouseover=\"ddrivetip('Publish evaluation results for students to view')\"" +
-								"onmouseout=\"hideddrivetip()\">Publish</a> / ";
-			}
-			// closed, published
-			if (evaluationList[loop].published == true) {
-				output = output +
-			
-								"<a class='t_eval_unpublish' href=\"javascript:togglePublishEvaluation('" +
-								evaluationList[loop].courseID + "','" + evaluationList[loop].name +
-								"', false, true);hideddrivetip();\"" +
-								"onmouseover=\"ddrivetip('Close the evaluation results')\"" +
-								"onmouseout=\"hideddrivetip()\">Unpublish</a> / ";
-			 }
-		}
-		
-		output = output +
-						"<a class='t_eval_delete' href=\"javascript:toggleDeleteEvaluationConfirmation('" +
-						evaluationList[loop].courseID + "','" + evaluationList[loop].name +
-						"');hideddrivetip();\"" +
-						"onmouseover=\"ddrivetip('Delete the evaluation')\"" +
-						"onmouseout=\"hideddrivetip()\">Delete</a></td></tr>";
-			
-		counter++;		
-	}
-	
-	output = output +
-					"</table>" +
-					"<br /><br />";
-	
-	document.getElementById(DIV_EVALUATION_TABLE).innerHTML = output; 
-	
-	document.getElementById('button_sortcourseid').onclick = function() { toggleSortEvaluationsByCourseID(evaluationList) };
-	document.getElementById('button_sortname').onclick = function() { toggleSortEvaluationsByName(evaluationList) };
-	
-	for (loop = 0; loop < evaluationList.length; loop++) {
-		if (document.getElementById('editEvaluation' + loop) != null) {
-			document.getElementById('editEvaluation' + loop).onclick = function() { 
-				hideddrivetip();
-				displayEditEvaluation(evaluationList, this.id.substring(14, this.id.length));
-			};
-		}
-	}
-	
-	for (loop = 0; loop < evaluationList.length; loop++) {
-		if (document.getElementById('viewEvaluation' + loop) != null) {
-			document.getElementById('viewEvaluation' + loop).onclick = function() { 
-				hideddrivetip();
-				displayEvaluationResults(evaluationList, this.id.substring(14, this.id.length));
-			};
-		}
-	}
-}
-
-function printStudent(courseID, email, name, teamName, googleID, registrationKey, comments) {
-	var outputHeader = "<h1>STUDENT DETAILS</h1>";
-	var output = "<table id=\"data\">" +
-				 "<tr>" +
-				 "<td class=\"fieldname\">Student Name:</td>" +
-				 "<td>" + name + "</td>" +
-				 "</tr>" +
-				 "<tr>" +
-				 "<td class=\"fieldname\">Team Name:</td>" +
-				 "<td>" + sanitize(teamName) + "</td>" +
-				 "</tr>" +
-				 "<tr><" +
-				 "td class=\"fieldname\">E-mail Address:</td>" +
-				 "<td>" + email + "</td>" +
-				 "</tr>" + 
-				 "<tr>" +
-				 "<td class=\"fieldname\">Google ID:</td>" +
-				 "<td>";
-	
-	if (googleID == "") {
-		output = output + "-";
-	} else {
-		output = output + sanitize(googleID);
-	}
-		
-	output = output +
-					"</td>" +
-					"</tr>" +
-					"<tr>" +
-					"<td class=\"fieldname\">Registration Key:</td>" +
-					"<td id='t_courseKey'>" + registrationKey + "</td>" +
-					"</tr>" +
-					"<tr>" +
-					"<td class=\"fieldname\">Comments:</td>" +
-					"<td>";
-	
-	if (comments == "") {
-		output = output + "-";
-	} else {
-		output = output + sanitize(comments);
-	}
-	
-	output = output +
-					"</div>" +
-					"</td>" +
-					"</tr>" +
-					"</table>" +
-					"<br /><br /><br />" +
-					"<input type =\"button\" class=\"t_back button\" onClick=\"displayCourseInformation('" + courseID + "');\" value=\"Back\"/>" +
-					"<br /><br />";
-	
-	document.getElementById(DIV_STUDENT_INFORMATION).innerHTML = output; 
-	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader; 
-}
-
-function printStudentList(studentList, courseID) {
-	clearStatusMessage();
-	
-	var output;
-	var unregisteredCount = 0;
-	
-	output = "<table id=\"dataform\">" +
-				"<tr>" +
-				"<th class=\"leftalign\">STUDENT NAME&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortstudentname\"></th>" +
-				"<th class=\"leftalign\">TEAM&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortstudentteam\"></th>" +
-				"<th class=\"centeralign\">STATUS&nbsp;&nbsp;&nbsp;<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortstudentstatus\"></th>" +
-				"<th class=\"centeralign\">ACTION(S)</th>" +
-				"</tr>";
-	
-	// Fix for empty student list
-	if (studentList.length == 0) {
-		setStatusMessage("No students enrolled in this course yet. Click <a class='t_course_enrol' href=\"javascript:displayEnrollmentPage('" + courseID + "');\">here</a> to enrol students.");
-		
-		output = output + "<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>" +
-						"<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
-	}
-	
-	for (loop = 0; loop < studentList.length; loop++) {	
-		output = output +
-						"<tr>" +
-						"<td>" + studentList[loop].name + "</td>" +
-						"<td>" + sanitize(studentList[loop].teamName) + "</td>" +
-						"<td class=\"centeralign\">";
-		
-		if (studentList[loop].googleID == "") {
-			output =  output +
-							"YET TO JOIN" +
-							"</td>" +
-							"<td class=\"centeralign\">" +
-							"<a class='t_student_view' href=\"javascript:displayStudentInformation('" + 
-							studentList[loop].courseID  + "', '" + studentList[loop].email + 
-							"', '" + escape( studentList[loop].name ) + "','" + escape(studentList[loop].teamName) + "','" +
-							studentList[loop].googleID + "','" + studentList[loop].registrationKey + "','" + 
-							escape(studentList[loop].comments) + "');hideddrivetip();\"" +
-							"onmouseover=\"ddrivetip('View the details of the student')\"" +
-							"onmouseout=\"hideddrivetip()\">View</a>" + " / " +
-							"<a class='t_student_edit' href=\"javascript:displayEditStudent('" + 
-							studentList[loop].courseID  + "', '" + studentList[loop].email + 
-							"', '" + escape(studentList[loop].name) + "','" + escape(studentList[loop].teamName) + "','" +
-							studentList[loop].googleID + "','" + studentList[loop].registrationKey + "','" + 
-							escape(studentList[loop].comments) + "');hideddrivetip();\"" +
-							"onmouseover=\"ddrivetip('Edit the details of the student')\"" +
-							"onmouseout=\"hideddrivetip()\">Edit</a>" + " / " +
-							"<a class='t_student_resend' href=\"javascript:doSendRegistrationKey('" + 
-							studentList[loop].courseID  + "', '" + studentList[loop].email + 
-							"','" + studentList[loop].name + "');hideddrivetip();\"" +
-							"onmouseover=\"ddrivetip('E-mail the registration key to the student')\"" +
-							"onmouseout=\"hideddrivetip()\">Resend Invite</a>" + " / " +
-							"<a class='t_student_delete' href=\"javascript:toggleDeleteStudentConfirmation('" + 
-							studentList[loop].courseID  + "', '" + studentList[loop].email + 
-							"', '" + studentList[loop].name + "');hideddrivetip();\"" +
-							"onmouseover=\"ddrivetip('Delete the student and the corresponding evaluations from the course')\"" +
-							"onmouseout=\"hideddrivetip()\">Delete</a>" +
-							"</td>" +
-							"</tr>";
-			
-			unregisteredCount++;
-		} else {
-			output = output +
-							"JOINED" +
-							"</td>" +
-							"<td class=\"centeralign\">" +
-							"<a href=\"javascript:displayStudentInformation('" + 
-							studentList[loop].courseID  + "', '" + studentList[loop].email + 
-							"', '" + escape(studentList[loop].name) + "','" + escape(studentList[loop].teamName) + "','" +
-							studentList[loop].googleID + "','" + studentList[loop].registrationKey + "','" + 
-							escape(studentList[loop].comments) + "');hideddrivetip();\"" +
-							"onmouseover=\"ddrivetip('View the details of the student')\"" +
-							"onmouseout=\"hideddrivetip()\">View</a>" + " / " +
-							"<a href=\"javascript:displayEditStudent('" + 
-							studentList[loop].courseID  + "', '" + studentList[loop].email + 
-							"', '" + escape(studentList[loop].name) + "','" + escape(studentList[loop].teamName) + "','" +
-							studentList[loop].googleID + "','" + studentList[loop].registrationKey + "','" + 
-							escape(studentList[loop].comments) + "');hideddrivetip();\"" +
-							"onmouseover=\"ddrivetip('Edit the details of the student')\"" +
-							"onmouseout=\"hideddrivetip()\">Edit</a>" + " / " +
-							"<a href=\"javascript:toggleDeleteStudentConfirmation('" + 
-							studentList[loop].courseID  + "', '" + studentList[loop].email + 
-							"', '" + escape( studentList[loop].name ) + "');hideddrivetip();\"" +
-							"onmouseover=\"ddrivetip('Delete the student and the corresponding evaluations from the course')\"" +
-							"onmouseout=\"hideddrivetip()\">Delete</a>" +
-							"</td></tr>";
-		}
-	}	
-	
-	output = output +
-					"</table>" +
-					"<br />";
-	
-	output = output +
-					"<br /><br />" +
-					"<input type=\"button\" class=\"button\" onclick=\"displayCoursesTab();\" value=\"Back\" />" +
-					"<br /><br />";
-
-	document.getElementById(DIV_STUDENT_TABLE).innerHTML = output; 
-	document.getElementById('button_sortstudentname').onclick = function() { toggleSortStudentsByName(studentList) };
-	document.getElementById('button_sortstudentteam').onclick = function() { toggleSortStudentsByTeamName(studentList) };
-	document.getElementById('button_sortstudentstatus').onclick = function() { toggleSortStudentsByStatus(studentList) };
-}
 
 /*
  * Returns
@@ -5481,11 +3006,11 @@ function setCheckedValue(radioObj, newValue) {
 	}
 }
 
-function setSelectedIndex(s, v) 
-{    
-	for ( var i = 0; i < s.options.length; i++ ) 
+function setSelectedOption(s, v) 
+{
+	for (var i = 0; i < s.options.length; i++) 
 	{        
-		if ( s.options[i].value == v ) 
+		if(s.options[i].value == v)
 		{            
 			s.options[i].selected = true;            
 			return;        
@@ -5636,20 +3161,11 @@ function toggleDeleteStudentConfirmation(courseID, studentEmail, studentName) {
 	document.getElementById(DIV_COURSE_INFORMATION).scrollIntoView(true);
 }
 
-function toggleEditEvaluationResultsStatusMessage(statusMsg) {
-	document.getElementById(DIV_STATUS_EDITEVALUATIONRESULTS).innerHTML = statusMsg; 
-}
-
 function toggleEvaluationSummaryListViewByType(submissionList, summaryList, status, commentsEnabled) {
 	if (evaluationResultsViewStatus == evaluationResultsView.reviewee) {
 		evaluationResultsViewStatus = evaluationResultsView.reviewer;
-// document.getElementById('button_viewbytype').value = "View by reviewee";
-	}
-	
-	else
-	{
+	} else {
 		evaluationResultsViewStatus = evaluationResultsView.reviewee;
-// document.getElementById('button_viewbytype').value = "View by reviewer";
 	}
 	
 	toggleSortEvaluationSummaryListByTeamName(submissionList, summaryList, status, commentsEnabled)
@@ -5678,20 +3194,20 @@ function togglePublishEvaluation(courseID, name, publish, reload) {
 
 	
 	if (publish) {
-	  var s = confirm("Are you sure you want to publish the evaluation?");
-	  if (s == true) {
-		doPublishEvaluation(courseID, name, reload);
-	  } else {
-		clearStatusMessage();
-	  }
+		var s = confirm("Are you sure you want to publish the evaluation?");
+		if (s == true) {
+			doPublishEvaluation(courseID, name, reload);
+		} else {
+			clearStatusMessage();
+		}
 	}
 	else {
-	  var s = confirm("Are you sure you want to unpublish the evaluation?");
-	  if(s == true) {
-		doUnpublishEvaluation(courseID, name, reload);
-	  } else {
-	    clearStatusMessage();
-	  }
+		var s = confirm("Are you sure you want to unpublish the evaluation?");
+		if(s == true) {
+			doUnpublishEvaluation(courseID, name, reload);
+		} else {
+			clearStatusMessage();
+		}
 	}
 	
 	document.getElementById(DIV_EVALUATION_MANAGEMENT).scrollIntoView(true);
@@ -5719,64 +3235,67 @@ function toggleSendRegistrationKeysConfirmation(courseID) {
 }
 
 function toggleSortCoursesByID(courseList) {
-	printCourseList(courseList.sort(sortByID));
+	printCourseList(courseList.sort(sortByID), COORDINATOR);
 	courseSortStatus = courseSort.ID;
 	document.getElementById("button_sortcourseid").setAttribute("class", "buttonSortAscending");
 }
 
 function toggleSortCoursesByName(courseList) {
-	printCourseList(courseList.sort(sortByName));
+	printCourseList(courseList.sort(sortByName), COORDINATOR);
 	courseSortStatus = courseSort.name;
 	document.getElementById("button_sortcoursename").setAttribute("class", "buttonSortAscending");
 }
 
 function toggleSortEvaluationSummaryListByAverage(submissionList, summaryList, status, commentsEnabled) {
-	printEvaluationSummaryByRevieweeList(submissionList, summaryList.sort(sortByAverage), status, commentsEnabled);
+	printEvaluationSummaryForm(submissionList, summaryList.sort(sortByAverage), status, commentsEnabled, REVIEWEE);
 	evaluationResultsSummaryListSortStatus = evaluationResultsSummaryListSort.average; 
 	document.getElementById("button_sortaverage").setAttribute("class", "buttonSortAscending");
 }
 
 function toggleSortEvaluationSummaryListByDiff(submissionList, summaryList, status, commentsEnabled) {
-	printEvaluationSummaryByRevieweeList(submissionList, summaryList.sort(sortByDiff), status, commentsEnabled);
+	printEvaluationSummaryForm(submissionList, summaryList.sort(sortByDiff), status, commentsEnabled, REVIEWEE);
 	evaluationResultsSummaryListSortStatus = evaluationResultsSummaryListSort.diff; 
 	document.getElementById("button_sortdiff").setAttribute("class", "buttonSortAscending");
 }
 
 function toggleSortEvaluationSummaryListByFromStudentName(submissionList, summaryList, status, commentsEnabled) {
+	var type;
 	if (evaluationResultsViewStatus == evaluationResultsView.reviewee) {
-		printEvaluationSummaryByRevieweeList(submissionList, summaryList.sort(sortByFromStudentName), status, commentsEnabled);
+		type = REVIEWEE;
 	} else {
-		printEvaluationSummaryByReviewerList(submissionList, summaryList.sort(sortByFromStudentName), status, commentsEnabled);
+		type = REVIEWER;
 	}
-	
+	printEvaluationSummaryForm(submissionList, summaryList.sort(sortByFromStudentName), status, commentsEnabled, type);
 	evaluationResultsSummaryListSortStatus = evaluationResultsSummaryListSort.name; 
 	document.getElementById("button_sortname").setAttribute("class", "buttonSortAscending");
 }
 
 function toggleSortEvaluationSummaryListBySubmitted(submissionList, summaryList, status, commentsEnabled) {
-	printEvaluationSummaryByReviewerList(submissionList, summaryList.sort(sortBySubmitted), status, commentsEnabled);
+	printEvaluationSummaryForm(submissionList, summaryList.sort(sortBySubmitted), status, commentsEnabled, REVIEWER);
 	evaluationResultsSummaryListSortStatus = evaluationResultsSummaryListSort.submitted; 
 	document.getElementById("button_sortsubmitted").setAttribute("class", "buttonSortAscending");
 }
 
 function toggleSortEvaluationSummaryListByTeamName(submissionList, summaryList, status, commentsEnabled) {
 	if (evaluationResultsViewStatus == evaluationResultsView.reviewee) {
-		printEvaluationSummaryByRevieweeList(submissionList, summaryList.sort(sortByTeamName), status, commentsEnabled);
+		type = REVIEWEE;
+
 	} else {
-		printEvaluationSummaryByReviewerList(submissionList, summaryList.sort(sortByTeamName), status, commentsEnabled);
+		type = REVIEWER;
 	}
-	
+	printEvaluationSummaryForm(submissionList, summaryList.sort(sortByTeamName), status, commentsEnabled, type);
 	evaluationResultsSummaryListSortStatus = evaluationResultsSummaryListSort.teamName; 
 	document.getElementById("button_sortteamname").setAttribute("class", "buttonSortAscending");
 }
 
 function toggleSortEvaluationSummaryListByToStudentName(submissionList, summaryList, status, commentsEnabled) {
+	var type;
 	if (evaluationResultsViewStatus == evaluationResultsView.reviewee) {
-		printEvaluationSummaryByRevieweeList(submissionList, summaryList.sort(sortByToStudentName), status, commentsEnabled);
+		type = REVIEWEE;
 	} else {
-		printEvaluationSummaryByReviewerList(submissionList, summaryList.sort(sortByToStudentName), status, commentsEnabled);
+		type = REVIEWER;
 	}
-	
+	printEvaluationSummaryForm(submissionList, summaryList.sort(sortByToStudentName), status, commentsEnabled, type);
 	evaluationResultsSummaryListSortStatus = evaluationResultsSummaryListSort.name; 
 	document.getElementById("button_sortname").setAttribute("class", "buttonSortAscending");
 }
@@ -5862,4 +3381,4 @@ window.onload=function()
 }
 
 // DynamicDrive JS mouse-hover
-document.onmousemove = positiontip
+document.onmousemove = positiontip;

@@ -18,9 +18,6 @@ import javax.mail.search.FlagTerm;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Student;
 
@@ -41,8 +38,7 @@ public class TestCoordPublishResults extends BaseTest {
 		TMAPI.createEvaluation(sc.evaluation);
 		TMAPI.studentsJoinCourse(sc.students, sc.course.courseId);
 		TMAPI.openEvaluation(sc.course.courseId, sc.evaluation.name);
-		TMAPI.studentsSubmitFeedbacks(sc.students, sc.course.courseId,
-				sc.evaluation.name);
+		TMAPI.studentsSubmitFeedbacks(sc.students, sc.course.courseId, sc.evaluation.name);
 		TMAPI.closeEvaluation(sc.course.courseId, sc.evaluation.name);
 
 		setupSelenium();
@@ -58,51 +54,34 @@ public class TestCoordPublishResults extends BaseTest {
 	public void testPublishResults() throws Exception {
 		cout("Test: Coordinator publishes results");
 
-		// Click Evaluations
-		waitAndClick(By.className("t_evaluations"));
+		gotoEvaluations();
+		clickEvaluationPublish(0);
 
-		// Click the first Publish available
-		waitAndClick(By.className("t_eval_publish"));
-		// Click Yes
-		// wdClick(By.className("t_yes"));
-		// Click yes to confirmation
-		Alert alert = driver.switchTo().alert();
-		alert.accept();
-
-		waitForElementText(By.id("statusMessage"),
-				"The evaluation has been published.");
+		waitForElementText(statusMessage, "The evaluation has been published.");
 
 		// Check for status: PUBLISHED
-		assertEquals("PUBLISHED", getElementText(By.className("t_eval_status")));
+		assertEquals("PUBLISHED", getElementText(getEvaluationStatus(0)));
 
 		waitAWhile(5000);
-
 		System.out.println("Checking students' emails to see if they're sent.");
 		// Check if emails have been sent to all participants
-		assertTrue(checkResultEmailsSent(sc.students.get(0).email, sc.students.get(0).password,
-				sc.course.courseId, sc.evaluation.name));
-
+		for (Student s : sc.students) {
+			System.out.println("Checking " + s.email);
+			assertTrue(checkResultEmailsSent(s.email, s.password, sc.course.courseId, sc.evaluation.name));
+		}
 	}
 
 	@Test
 	public void testUnpublishResults() throws Exception {
 		cout("Test: Unpublishing results.");
-		// Click Evaluations
-		waitAndClick(By.className("t_evaluations"));
-		justWait();
+		gotoEvaluations();
 
-		// Click the first unpublish available
-		waitAndClick(By.className("t_eval_unpublish"));
-		// Click Yes
-		// Click yes to confirmation
-		Alert alert = driver.switchTo().alert();
-		alert.accept();
+		clickEvaluationUnpublish(0);
 
-		waitForElementText(By.id("statusMessage"),
-				"The evaluation has been unpublished.");
+		waitForElementText(statusMessage, "The evaluation has been unpublished.");
 
 		// Check for status: PUBLISHED
-		assertEquals("CLOSED", getElementText(By.className("t_eval_status")));
+		assertEquals("CLOSED", getElementText(getEvaluationStatus(0)));
 	}
 
 	public static boolean checkResultEmailsSent(String gmail, String password,
@@ -115,8 +94,7 @@ public class TestCoordPublishResults extends BaseTest {
 				+ Config.TEAMMATES_LIVE_SITE;
 		final String TEAMMATES_APP_SIGNATURE = "If you encounter any problems using the system, email TEAMMATES support";
 
-		Session sessioned = Session.getDefaultInstance(System.getProperties(),
-				null);
+		Session sessioned = Session.getDefaultInstance(System.getProperties(), null);
 		Store store = sessioned.getStore("imaps");
 		store.connect("imap.gmail.com", gmail, password);
 
@@ -136,9 +114,7 @@ public class TestCoordPublishResults extends BaseTest {
 			System.out.println(String.format(HEADER_EVALUATION_PUBLISH,
 					courseCode, evaluationName));
 			// matching email subject:
-			if (!message.getSubject().equals(
-					String.format(HEADER_EVALUATION_PUBLISH, courseCode,
-							evaluationName))) {
+			if (!message.getSubject().equals(String.format(HEADER_EVALUATION_PUBLISH, courseCode, evaluationName))) {
 				continue;
 			} else {
 				System.out.println("match");
@@ -146,18 +122,13 @@ public class TestCoordPublishResults extends BaseTest {
 
 			// matching email content:
 			String body = "";
-			if (message.getContent() instanceof String) { // if message is a
-															// string
+			if (message.getContent() instanceof String) {
 				body = message.getContent().toString();
-			} else if (message.getContent() instanceof Multipart) { // if its a
-																	// multipart
-																	// message
+			} else if (message.getContent() instanceof Multipart) {
 				Multipart multipart = (Multipart) message.getContent();
 				BodyPart bodypart = multipart.getBodyPart(0);
 				body = bodypart.getContent().toString();
 			}
-
-			System.out.println("message: \n" + body);
 
 			// check line 1: "The results of the evaluation:"
 			if (body.indexOf("The results of the evaluation:") == -1) {
@@ -194,5 +165,4 @@ public class TestCoordPublishResults extends BaseTest {
 		}
 		return false;
 	}
-
 }

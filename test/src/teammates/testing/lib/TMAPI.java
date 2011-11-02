@@ -42,6 +42,7 @@ public class TMAPI {
 	private static final String SUBMISSION_DATA_TAG_PERCEIVED = "perceived: ";
 	private static final String SUBMISSION_DATA_TAG_CLAIMEDCOORD = "claimedCoord: ";
 	private static final String SUBMISSION_DATA_TAG_PERCEIVEDCOORD = "perceivedCoord: ";
+	private static final String SUBMISSION_DATA_TAG_DIFFERENCE = "diff: ";
 
 	/**
 	 * Clean up all tables. Except for Coordinator table.
@@ -57,7 +58,7 @@ public class TMAPI {
                 System.out.println("Total cleanup disabled for live site, redirect to total clean up by coordinator.");
                 cleanupByCoordinator();
         }else{
-                System.out.println("Perform total cleanning up ");
+                System.out.println("Perform total cleaning up ");
                 HashMap<String, Object> params = createParamMap("cleanup");
                 String paramsString = buildParamsString(params);
 
@@ -231,6 +232,16 @@ public class TMAPI {
 		String paramsString = buildParamsString(params);
 		makePOSTRequest(paramsString);
 	}
+	
+	public static void updateBumpRatio() {
+		// Go into database and fill feedback from this student.
+		System.out.println("Update bump ratio");
+
+		HashMap<String, Object> params = createParamMap("update_bump_ratio");
+	
+		String paramsString = buildParamsString(params);
+		makePOSTRequest(paramsString);
+	}
 
 	public static void studentsSubmitFeedbacks(List<Student> students,
 			String courseId, String evaluationName) {
@@ -250,13 +261,14 @@ public class TMAPI {
 		int i = 0;
 		for (Student s : students) {
 			String points = getSubmissionPoints(submissionPoints[i]);
-			studentSubmitDynamicFeedbacks(s, courseId, evaluationName, points);
+			String studentBumpRatio = calculateStudentBumpRatio(points);
+			studentSubmitDynamicFeedbacks(s, courseId, evaluationName, points, studentBumpRatio);
 			i++;
 		}
 		
 	}
 	
-	public static void studentSubmitDynamicFeedbacks(Student student, String courseId, String evaluationName, String points){
+	public static void studentSubmitDynamicFeedbacks(Student student, String courseId, String evaluationName, String points, String studentBumpRatio){
 
 		HashMap<String, Object> params = createParamMap("student_submit_dynamic_feedbacks");
 		params.put("course_id", courseId);
@@ -264,12 +276,31 @@ public class TMAPI {
 		params.put("student_email", student.email);
 		params.put("team_name", student.teamName);
 		params.put("submission_points", points);
+		params.put("bumpRatio", studentBumpRatio);
 
 		String paramsString = buildParamsString(params);
 		makePOSTRequest(paramsString);
 	}
 	
-
+	public static String calculateStudentBumpRatio(String points) {
+		String[] pointArray = points.split(", ");
+		int[] pointsPassed = new int[pointArray.length];
+		
+		int totalPoints = 0;
+		
+		for (int i = 0; i < pointArray.length; i++) {
+			pointsPassed[i] = Integer.valueOf(pointArray[i]);
+		}
+		
+		for (int i = 0; i < pointsPassed.length; i++) {
+			// Exclude unsure and unfilled entries
+			if(!((pointsPassed[i] == - 999) || (pointsPassed[i] == - 101))) {
+				totalPoints = totalPoints + pointsPassed[i];
+			}
+		}
+		float bumpRatio = (float) ((pointsPassed.length * 100.0) / (float) totalPoints);
+		return String.valueOf(bumpRatio);
+	}
 	
 
 
@@ -298,9 +329,10 @@ public class TMAPI {
 		//remove self evaluation point:
 		List<String> list = new ArrayList<String>();
 		for(int i = 0; i < pointArray.length; i++){
-//			if(i != personIndex){
-				list.add(pointArray[i]);
-//			}
+			String point = pointArray[i];
+			if(point.length() > 12)//e.g. Equal Share + 20%
+			point = point.substring(0, 11) + "\n" + point.substring(12);
+			list.add(point);
 		}
 		
 		return list;
@@ -332,15 +364,18 @@ public class TMAPI {
 			String normalized = submission.split("; ")[1];
 			normalized = normalized.substring(SUBMISSION_DATA_TAG_NORMALIZED.length());
 			String[] pointArray = normalized.split(", ");
-			list.add(pointArray[personIndex-start]);
-			
+//			list.add(pointArray[personIndex-start]);
+			String point = pointArray[personIndex-start];
+			if(point.length() > 12)//e.g. Equal Share + 20%
+			point = point.substring(0, 11) + "\n" + point.substring(12);
+			list.add(point);			
 		}
 		
 		return list;
 	}
 	//index 2: claimed
 	public static String studentGetClaimedPoints(String[] submissionPoints, int personIndex){
-		//student should see his/her original submisison point:
+		//student should see his/her original submission point:
 		String submission = submissionPoints[personIndex];
 		String claimed = submission.split("; ")[2];
 		claimed = claimed.substring(SUBMISSION_DATA_TAG_CLAIMED.length());
@@ -369,18 +404,33 @@ public class TMAPI {
 		return perceived;
 	}
 	public static String coordGetPointDifference(String[] submissionPoints, int personIndex){
-		
+//		String claimed = coordGetClaimedPoints(submissionPoints, personIndex);
+//		String perceived = coordGetPerceivedPoints(submissionPoints, personIndex);
+//		
+//		if(claimed.equals("N/A") || perceived.equals("N/A")){
+//			return "N/A";
+//		}
+//		else{
+//			int claimedPoint = Integer.valueOf(claimed);
+//			int perceivedPoint = Integer.valueOf(perceived);
+//			int diff = perceivedPoint - claimedPoint ;
+//			return String.valueOf(diff);
+//		}		
+//		String submission = submissionPoints[personIndex];
+//		String difference = submission.split("; ")[6];
+//		difference = difference.substring(SUBMISSION_DATA_TAG_DIFFERENCE.length());
+//		return difference;
 		String claimed = coordGetClaimedPoints(submissionPoints, personIndex);
 		String perceived = coordGetPerceivedPoints(submissionPoints, personIndex);
 		
 		if(claimed.equals("N/A") || perceived.equals("N/A")){
 			return "N/A";
 		}
-		else{
-			int claimedPoint = Integer.valueOf(claimed);
-			int perceivedPoint = Integer.valueOf(perceived);
-			int diff = perceivedPoint - claimedPoint ;
-			return String.valueOf(diff);
+		else{		
+			String submission = submissionPoints[personIndex];
+			String difference = submission.split("; ")[6];
+			difference = difference.substring(SUBMISSION_DATA_TAG_DIFFERENCE.length());
+			return difference;
 		}
 	}
 	

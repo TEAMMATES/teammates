@@ -11,4 +11,4 @@ code/src/teammates/Config.java
 test/src/teammates/testing/TmpTest.java
 appengine-generated
 *.ext
-
+*.classpath

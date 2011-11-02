@@ -9,6 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class TestEvaluationPointCalculation extends BaseTest {
 
 	@BeforeClass
 	public static void classSetup() throws IOException {
-		//since there are different scenarios, setup will be handled in test case
+
 	}
 
 	@AfterClass
@@ -38,15 +39,15 @@ public class TestEvaluationPointCalculation extends BaseTest {
 	}
 	
 	@Test
-	public void testFirstDataSet() throws Exception{
-		for(int i = 0; i < 5; i++){
+	public void testFirstDataSet() throws Exception {
+		for(int i = 0; i < 5; i++) {
 			cout("TestEvalutionPointCalculation: scenario " + i);
 			setupScenarioForBumpRatioTest(i);
 			testScenario();
 		}
 	}
 	
-	private void testScenario() throws Exception{
+	private void testScenario() throws Exception {
 		//before:
 		TMAPI.cleanup();
 		TMAPI.createCourse(sc.course);
@@ -78,6 +79,7 @@ public class TestEvaluationPointCalculation extends BaseTest {
 		wrapUp();
 	}
 
+//	@Test
 	public void testCoordViewReviewerIndividualPoints() throws Exception {
 		coordViewReviewerIndividualPoints(0);
 		coordViewReviewerIndividualPoints(1);
@@ -95,30 +97,35 @@ public class TestEvaluationPointCalculation extends BaseTest {
 		waitAndClick(By.id("viewEvaluationResults0"));
 
 		//check claimed points:
-		String claimedPoints = TMAPI.coordGetClaimedPoints(sc.submissionPoints, 0);
-		assertEquals(claimedPoints, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='data']//tr[%d]//td[%d]", 2, 2))));
+		String claimedPoints = "CLAIMED CONTRIBUTIONS: " + TMAPI.coordGetClaimedPoints(sc.submissionPoints, 0);
+		assertEquals(claimedPoints.toUpperCase(), getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]", 2))));
+		//assertEquals(claimedPoints, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", 2, 3))));
 		
 		//check perceived points:
-		String perceivedPoints = TMAPI.coordGetPerceivedPoints(sc.submissionPoints, 0);
-		assertEquals(perceivedPoints, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='data']//tr[%d]//td[%d]", 3, 2))));
+		String perceivedPoints = "PERCEIVED CONTRIBUTIONS: " + TMAPI.coordGetPerceivedPoints(sc.submissionPoints, 0);
+		assertEquals(perceivedPoints.toUpperCase(), getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]", 3))));
+		//assertEquals(perceivedPoints, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='data']//tr[%d]//td[%d]", 3, 2))));
 		
 		//check normalized points given TO teammates:
 		List<String> pointList = TMAPI.coordGetPointsToOthers(sc.submissionPoints, 0);
-		for(int i = 0; i < pointList.size(); i++){
-			String student = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", i + 2, 1)));
+		for(int i = 0; i < pointList.size(); i++) {
+			String student = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", i + 4, 1)));
+			//String student = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", i + 2, 1)));
 			String toStudent = "";
-			if(!student.equalsIgnoreCase(sc.students.get(0).name)){
+			if(!student.equalsIgnoreCase(sc.students.get(0).name)) {
 				for(int j = 0; j < sc.students.size(); j++){
-					if(sc.students.get(j).name.equalsIgnoreCase(student)){
+					if(sc.students.get(j).name.equalsIgnoreCase(student)) {
 						toStudent = pointList.get(j);
 						continue;
 					}
 				}
-				assertEquals(toStudent, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", i + 2, 2))));
+				assertEquals(toStudent, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", i + 4, 2))));
+				//assertEquals(toStudent, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", i + 2, 2))));
 			}
 		}
 	}
 	
+//	@Test
 	public void testCoordViewRevieweeSummaryPoints() throws Exception {
 		coordViewRevieweeSummaryPoints(0);
 		coordViewRevieweeSummaryPoints(1);
@@ -148,6 +155,7 @@ public class TestEvaluationPointCalculation extends BaseTest {
 		
 	}
 	
+//	@Test
 	public void testCoordViewRevieweeIndividualPoints() throws Exception {
 		coordViewRevieweeIndividualPoints(0);
 		coordViewRevieweeIndividualPoints(1);
@@ -166,34 +174,43 @@ public class TestEvaluationPointCalculation extends BaseTest {
 		waitAndClick(By.id("button_sortname"));
 		//click View:
 		waitAndClick(By.id("viewEvaluationResults0"));
+		
 		//check claimed points:
-		String claimedPoints = TMAPI.coordGetClaimedPoints(sc.submissionPoints, 0);
-		assertEquals(claimedPoints, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='data']//tr[%d]//td[%d]", 3, 2))));
+		String claimedPoints = "CLAIMED CONTRIBUTIONS: " + TMAPI.coordGetClaimedPoints(sc.submissionPoints, 0);
+		assertEquals(claimedPoints.toUpperCase(), getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]", 2))));
+		//assertEquals(claimedPoints, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='data']//tr[%d]//td[%d]", 3, 2))));
+		
 		//check perceived points:
-		String perceivedPoints = TMAPI.coordGetPerceivedPoints(sc.submissionPoints, 0);
-		assertEquals(perceivedPoints, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='data']//tr[%d]//td[%d]", 4, 2))));
+		String perceivedPoints = "PERCEIVED CONTRIBUTIONS: " + TMAPI.coordGetPerceivedPoints(sc.submissionPoints, 0);
+		assertEquals(perceivedPoints.toUpperCase(), getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]", 3))));
+		//assertEquals(perceivedPoints, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='data']//tr[%d]//td[%d]", 4, 2))));
+		
 		//check normalized points get FROM teammates:
 		List<String> pointList = TMAPI.coordGetPointsFromOthers(sc, 0);
-		for(int i = 0; i < pointList.size(); i++){
-			String student = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", i + 2, 1)));
+		for(int i = 0; i < pointList.size(); i++) {
+			String student = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", i + 4, 1)));
+			//String student = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", i + 2, 1)));
 			String fromStudent = "";
-			if(!student.equalsIgnoreCase(sc.students.get(0).name)){
-				for(int j = 0; j < sc.students.size(); j++){
-					if(sc.students.get(j).name.equalsIgnoreCase(student)){
+			if(!student.equalsIgnoreCase(sc.students.get(0).name)) {
+				for(int j = 0; j < sc.students.size(); j++) {
+					if(sc.students.get(j).name.equalsIgnoreCase(student)) {
 						fromStudent = pointList.get(j);
 						continue;
 					}
 				}
-				assertEquals(fromStudent, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", i + 2, 2))));
+				assertEquals(fromStudent, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", i + 4, 2))));
+				//assertEquals(fromStudent, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", i + 2, 2))));
 			}
 			
 		}
 	}
 	
+//	@Test
 	public void testCoordViewReviewerDetailPoints() throws Exception {
 		coordViewReviewerDetailPoints(0);
 		coordViewReviewerDetailPoints(1);
 	}
+	
 	public void coordViewReviewerDetailPoints(int evalIndex) throws Exception {
 		cout("Test: Coordinator View Evaluation Result Detail Points by Reviewer ");
 		
@@ -205,39 +222,43 @@ public class TestEvaluationPointCalculation extends BaseTest {
 		waitAndClick(By.id("button_sortname"));
 		//click Detail radio (Reviewer x Detail):
 		waitAndClick(By.id("radio_detail"));
+		
 		//check points
-		for(Student s: sc.students){
+		for(Student s: sc.students) {
 			int studentIndex = sc.students.indexOf(s);
-			String claimedPoints = TMAPI.coordGetClaimedPoints(sc.submissionPoints, studentIndex);
-			String perceivedPoints = TMAPI.coordGetPerceivedPoints(sc.submissionPoints, studentIndex);
+			String claimedPoints = "CLAIMED CONTRIBUTIONS: " + TMAPI.coordGetClaimedPoints(sc.submissionPoints, studentIndex);
+			String perceivedPoints = "PERCEIVED CONTRIBUTIONS: " + TMAPI.coordGetPerceivedPoints(sc.submissionPoints, studentIndex);
 			List<String> pointList = TMAPI.coordGetPointsToOthers(sc.submissionPoints, studentIndex);
-
+			List<Student> teammates = getStudentTeammates(sc.students, studentIndex);
 			int teamIndex = getTeamIndex(s.teamName) + 1;
-			int position = getStudentIndexInTeam(s.name, s.teamName) * 8;
-			assertEquals(claimedPoints, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[%d]//tr[%d]//td[%d]", teamIndex ,  position + 2, 2))));
-			assertEquals(perceivedPoints, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[%d]//tr[%d]//td[%d]", teamIndex, position + 3, 2))));
-			for(int i = 0; i < pointList.size(); i++){
-				String student = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//tr[%d]//table[@id='dataform']//tr[%d]//td[%d]", position + 7, i + 2, 1)));
+			int position = getStudentIndexInTeam(s.name, s.teamName) + 1;
+			cout("team index: " + teamIndex);
+			cout("position: " + position);
+			assertEquals(claimedPoints.toUpperCase(), getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]", teamIndex, position, 2))));
+			assertEquals(perceivedPoints.toUpperCase(), getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]", teamIndex, position, 3))));
+			for(int i = 0; i < pointList.size(); i++) {
+				String student = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", teamIndex, position, i + 4, 1)));
 				String toStudent = "";
-				if(!student.equalsIgnoreCase(s.name)){
-					for(int j = 0; j < sc.students.size(); j++){
-						if(sc.students.get(j).name.equalsIgnoreCase(student)){
+				if(!student.equalsIgnoreCase(s.name)) {
+					for(int j = 0; j < teammates.size(); j++) {
+						if(teammates.get(j).name.equalsIgnoreCase(student)) {
 							toStudent = pointList.get(j);
+							cout("toStudent:" + toStudent);
 							continue;
 						}
 					}
-					assertEquals(toStudent, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//tr[%d]//table[@id='dataform']//tr[%d]//td[%d]", position + 7, i + 2, 2))));
+					assertEquals(toStudent, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", teamIndex, position, i + 4, 2))));
 				}
 			}
 		}
-	}
+	}	
 	
-	
-	
+//	@Test
 	public void testCoordViewRevieweeDetailPoints() throws Exception{
 		coordViewRevieweeDetailPoints(0);
 		coordViewRevieweeDetailPoints(1);
 	}
+	
 	public void coordViewRevieweeDetailPoints(int evalIndex) throws Exception {
 		cout("Test: Coordinator View Evaluation Result Detail Points by Reviewee ");
 		
@@ -251,37 +272,39 @@ public class TestEvaluationPointCalculation extends BaseTest {
 		waitAndClick(By.id("button_sortname"));
 		//click Detail radio (Reviewer x Detail):
 		waitAndClick(By.id("radio_detail"));
+		
 		//check points
-		for(Student s: sc.students){
+		for(Student s: sc.students) {
 			int studentIndex = sc.students.indexOf(s);
-			int teamIndex = getTeamIndex(s.teamName) + 1;
-			int position = getStudentIndexInTeam(s.name, s.teamName) * 8;
-			String claimedPoints = TMAPI.coordGetClaimedPoints(sc.submissionPoints, studentIndex);
-			String perceivedPoints = TMAPI.coordGetPerceivedPoints(sc.submissionPoints, studentIndex);
+			String claimedPoints = "CLAIMED CONTRIBUTIONS: " + TMAPI.coordGetClaimedPoints(sc.submissionPoints, studentIndex);
+			String perceivedPoints = "PERCEIVED CONTRIBUTIONS: " + TMAPI.coordGetPerceivedPoints(sc.submissionPoints, studentIndex);
 			List<String> pointList = TMAPI.coordGetPointsFromOthers(sc, studentIndex);
+			int teamIndex = getTeamIndex(s.teamName) + 1;
+			int position = getStudentIndexInTeam(s.name, s.teamName) + 1;
+			List<Student> teammates = getStudentTeammates(sc.students, studentIndex);
 			
-			assertEquals(claimedPoints, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[%d]//tr[%d]//td[%d]", teamIndex, position + 2, 2))));
-			assertEquals(perceivedPoints, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[%d]//tr[%d]//td[%d]", teamIndex, position + 3, 2))));
-			for(int i = 0; i < pointList.size(); i++){
-				String student = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//tr[%d]//table[@id='dataform']//tr[%d]//td[%d]", position + 7, i + 2, 1)));
+			assertEquals(claimedPoints.toUpperCase(), getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]", teamIndex, position, 2))));
+			assertEquals(perceivedPoints.toUpperCase(), getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]", teamIndex, position, 3))));
+			for(int i = 0; i < pointList.size(); i++) {
+				String student = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", teamIndex, position, i + 4, 1)));
 				String fromStudent = "";
-				if(!student.equalsIgnoreCase(s.name)){
-					for(int j = 0; j < sc.students.size(); j++){
-						if(sc.students.get(j).name.equalsIgnoreCase(student)){
+				if(!student.equalsIgnoreCase(s.name)) {
+					for(int j = 0; j < teammates.size(); j++) {
+						if(teammates.get(j).name.equalsIgnoreCase(student)) {
 							fromStudent = pointList.get(j);
 							continue;
 						}
 					}
-					assertEquals(fromStudent, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//tr[%d]//table[@id='dataform']//tr[%d]//td[%d]", position + 7, i + 2, 2))));
+					assertEquals(fromStudent, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", teamIndex, position, i + 4, 2))));
 				}
 			}
 		}
 	}
 	
+//	@Test
 	public void testCoordPublishResults() throws Exception {
 		coordPublishResults(0);
 		coordPublishResults(1);
-		//coordinator log out
 		logout();
 	}
 		
@@ -291,8 +314,9 @@ public class TestEvaluationPointCalculation extends BaseTest {
 		clickAndConfirm(By.className("t_eval_publish"));
 	}
 	
+//	@Test
 	public void testStudentViewResultPoints() throws Exception {
-		for(int i = 0; i < sc.students.size(); i++){
+		for(int i = 0; i < sc.students.size(); i++) {
 			Student s = sc.students.get(i);
 			studentLogin(s.email, s.password);
 			studentViewResultPoints(0, i);//first evaluation
@@ -300,6 +324,7 @@ public class TestEvaluationPointCalculation extends BaseTest {
 			logout();
 		}
 	}
+	
 	public void studentViewResultPoints(int evalIndex, int studentIndex) throws Exception {
 		cout("function: testStudentViewResultPoints");
 		// Click Evaluations
@@ -308,14 +333,15 @@ public class TestEvaluationPointCalculation extends BaseTest {
 		waitAndClick(By.id("viewEvaluation" + evalIndex));
 
 		String claimed = TMAPI.studentGetClaimedPoints(sc.submissionPoints, studentIndex);
-		assertEquals(claimed, getElementText(By.xpath(String.format("//div[@id='studentEvaluationResults']//table[@id='data']//tr[%d]//td[%d]", 2, 2))));
+		assertEquals(claimed, getElementText(By.xpath(String.format("//div[@id='studentEvaluationResults']//table[@class='result_studentform']//tr[%d]//td[%d]", 3, 2))));
+		//assertEquals(claimed, getElementText(By.xpath(String.format("//div[@id='studentEvaluationResults']//table[@id='data']//tr[%d]//td[%d]", 2, 2))));
 		
 		String perceived = TMAPI.studentGetPerceivedPoints(sc.submissionPoints,studentIndex);
-		assertEquals(perceived, getElementText(By.xpath(String.format("//div[@id='studentEvaluationResults']//table[@id='data']//tr[%d]//td[%d]", 3, 2))));
+		assertEquals(perceived, getElementText(By.xpath(String.format("//div[@id='studentEvaluationResults']//table[@class='result_studentform']//tr[%d]//td[%d]", 4, 2))));
+		//assertEquals(perceived, getElementText(By.xpath(String.format("//div[@id='studentEvaluationResults']//table[@id='data']//tr[%d]//td[%d]", 3, 2))));
 	}
 
-	private int getStudentIndexInTeam(String stuName, String teamName) {
-		
+	private int getStudentIndexInTeam(String stuName, String teamName) {		
 		int idx = 0;
 		boolean start = false;
 		for(Student s : sc.students) {
@@ -326,14 +352,15 @@ public class TestEvaluationPointCalculation extends BaseTest {
 			if(start) { 
 				if(s.name.equalsIgnoreCase(stuName)) {
 					return idx;	
-				}else{
+				} else {
 					idx++;	
 				}
 			}
 		}
 		return -1;
 	}
-	private int getTeamIndex(String teamName){
+	
+	private int getTeamIndex(String teamName) {
 		Iterator<String> it = sc.teams.keySet().iterator();
 		int idx = 0;
 		
@@ -346,5 +373,15 @@ public class TestEvaluationPointCalculation extends BaseTest {
 		
 		return -1;
 	}
-
+	
+	private List<Student> getStudentTeammates(List<Student> students, int index) {
+		List<Student> list = new ArrayList<Student>();
+		Student student = students.get(index);
+		for (Student s : students){
+			if(s.teamName.equalsIgnoreCase(student.teamName)){
+				list.add(s);
+			}
+		}
+		return list;
+	}
 }

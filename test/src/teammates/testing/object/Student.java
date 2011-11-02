@@ -15,31 +15,31 @@ public class Student {
 
 	@SerializedName("google_id")
 	public String google_id;
-	
+
 	@SerializedName("email")
 	public String email;
-	
+
 	public transient String password;
-	
+
 	@SerializedName("coursename")
 	public String courseID;
-	
+
 	@SerializedName("name")
 	public String name;
-	
+
 	@SerializedName("comments")
 	public String comments;
-	
+
 	public transient String courseKey = "";
 
 	@SerializedName("teamname")
 	public String teamName;
-	
-	
+
+
 	public transient Team team;
 
 	public Student() { }
-	
+
 	public static Student fromJSONObject(JSONObject json) {
 		Student student = new Student();
 		try {
@@ -58,13 +58,13 @@ public class Student {
 		return student;
 	}
 
-	
+
 
 	public String toJSON() {
 		Gson gson = new Gson();
 		return gson.toJson(this);
 	}
-	
+
 	public static ArrayList<Student> fromJSONArray( JSONArray arr ) {
 		ArrayList<Student> ls = new ArrayList<Student>();
 
@@ -108,17 +108,17 @@ public class Student {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		
+
 		sb.append("name: " + name);
 		sb.append("\ncourseid: " + courseID);
 		sb.append("\nemail:" + email);
 		sb.append("\nteam:" + teamName);
 		sb.append("\nkey: " + courseKey);
 		sb.append("\ncomments" + comments);
-		
+
 		return sb.toString();
-		
+
 	}
-	
+
 
 }

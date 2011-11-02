@@ -7,9 +7,6 @@ import java.io.IOException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.Select;
-
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Student;
 
@@ -38,7 +35,6 @@ public class TestStudentEditFeedbacks extends BaseTest {
 				sc.evaluation.name);
 
 		setupSelenium();
-
 	}
 
 	@AfterClass
@@ -53,50 +49,46 @@ public class TestStudentEditFeedbacks extends BaseTest {
 		Student s = sc.students.get(0);
 		studentLogin(s.email, s.password);
 
-		// Click Evaluation Tab
-		waitAndClick(By.className("t_evaluations"));
+		clickEvaluationTab();
 
 		// click [Edit] first evaluation (OPEN):
-		waitAndClick(By.id("editEvaluation0"));
+		studentClickEditEvaluation(0);
 
 		// click [Cancel]
-		waitAndClick(By.id("button_back"));
+		waitAndClick(editEvaluationBackButton);
 
 		// click [Edit] first evaluation (OPEN):
-		waitAndClick(By.id("editEvaluation0"));
+		studentClickEditEvaluation(0);
 
 		// edit contents
 		for (int i = 0; i < s.team.students.size(); i++) {
-			Select select = new Select(driver.findElement(By.id("points" + i)));
-			select.selectByValue("80");
-			// selenium.select("points" + i, "value=80");
-
-			wdFillString(By.name("justification" + i), String.format(
+			setSubmissionPoint(i, "80");
+			setSubmissionJustification(i, String.format(
 					"Student Edit:: Justification from %s to %s.", s.email,
 					s.team.students.get(i).email));
-			wdFillString(By.name("commentstostudent" + i), String.format(
+			setSubmissionComments(i, String.format(
 					"Student Edit:: Comments from %s to %s.", s.email,
 					s.team.students.get(i).email));
 		}
 		// click [Submit]
-		waitAndClick(By.id("submitEvaluation"));
+		waitAndClick(studentSubmitEvaluationButton);
 
-		waitForElementText(By.id("statusMessage"),
-				"The evaluation has been submitted.");
+		waitForElementText(statusMessage, "The evaluation has been submitted.");
 
 		// check feedbacks updated:
-		System.out.println("testEditFeedbacks: Check feedbacks have been updated");
-		waitAndClick(By.id("editEvaluation0"));
+		cout("testEditFeedbacks: Check feedbacks have been updated");
+		studentClickEditEvaluation(0);
 		for (int i = 0; i < s.team.students.size(); i++) {
-			assertEquals(getDropdownSelectedValue(By.id("points" + i)), "80");
-			assertEquals(getElementValue(By.name("justification" + i)),
-					String.format("Student Edit:: Justification from %s to %s.", s.email,
-							s.team.students.get(i).email));
-			assertEquals(getElementValue(By.name("commentstostudent" + i)),
-					String.format("Student Edit:: Comments from %s to %s.", s.email,
-							s.team.students.get(i).email));
+			assertEquals(getDropdownSelectedValue(getSubmissionPoint(i)), "80");
+			assertEquals(getElementValue(getSubmissionJustification(i)),
+					String.format(
+							"Student Edit:: Justification from %s to %s.",
+							s.email, s.team.students.get(i).email));
+			assertEquals(getElementValue(getSubmissionComments(i)),
+					String.format("Student Edit:: Comments from %s to %s.",
+							s.email, s.team.students.get(i).email));
 		}
-		waitAndClick(By.id("button_back"));// [cancel]
+		waitAndClick(studentEvaluationCancelButton);// [cancel]
 
 	}
 

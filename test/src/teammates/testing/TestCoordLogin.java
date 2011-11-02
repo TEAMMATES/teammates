@@ -5,7 +5,6 @@ import static org.junit.Assert.fail;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
 
 
@@ -34,22 +33,16 @@ public class TestCoordLogin extends BaseTest {
 	 */
 	@Test
 	public void testLoginLogoutSuccessful() {
+
 		coordinatorLogin(Config.TEAMMATES_APP_ACCOUNT, Config.TEAMMATES_APP_PASSWD);
-
-		// Check that we're at the main coordinator page
 		verifyCoordinatorPage();
-
 		logout();
 
-		// Click on Coordinator link, we MUST be redirected to Google Login Page /
-		// Local Login Page
-		wdClick(By.name("COORDINATOR_LOGIN"));
+		wdClick(coordLoginButton);
 		waitForPageLoad();
 
 		if (isGoogleLoginPage() || isLocalLoginPage())
 			return;
 		fail("Click login again fails.");
-
 	}
-
 }

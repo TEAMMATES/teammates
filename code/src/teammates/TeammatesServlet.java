@@ -108,6 +108,8 @@ public class TeammatesServlet extends HttpServlet {
 	private static final String COURSE_ID = "courseid";
 	private static final String COURSE_NAME = "coursename";
 	private static final String COURSE_NUMBEROFTEAMS = "coursenumberofteams";
+	private static final String	COURSE_TOTALSTUDENTS = "coursetotalstudents";
+	private static final String	COURSE_UNREGISTERED	= "courseunregistered";
 	private static final String COURSE_STATUS = "coursestatus";
 
 	private static final String EVALUATION_ACTIVATED = "activated";
@@ -785,7 +787,10 @@ public class TeammatesServlet extends HttpServlet {
 
 		CourseSummaryForCoordinator courseSummary = new CourseSummaryForCoordinator(
 				course.getID(), course.getName(), course.isArchived(),
-				courses.getNumberOfTeams(course.getID()));
+				courses.getNumberOfTeams(course.getID()),
+				courses.getTotalStudents(course.getID()),
+				courses.getUnregistered(course.getID())
+				);
 
 		ArrayList<CourseSummaryForCoordinator> courseSummaryList = new ArrayList<CourseSummaryForCoordinator>();
 		courseSummaryList.add(courseSummary);
@@ -810,7 +815,9 @@ public class TeammatesServlet extends HttpServlet {
 		for (Course c : courseList) {
 			CourseSummaryForCoordinator cs = new CourseSummaryForCoordinator(
 					c.getID(), c.getName(), c.isArchived(),
-					courses.getNumberOfTeams(c.getID()));
+					courses.getNumberOfTeams(c.getID()),
+					courses.getTotalStudents(c.getID()),
+					courses.getUnregistered(c.getID()));
 			courseSummaryList.add(cs);
 		}
 
@@ -1125,6 +1132,10 @@ public class TeammatesServlet extends HttpServlet {
 					+ COURSE_STATUS + ">");
 			sb.append("<" + COURSE_NUMBEROFTEAMS + ">" + cs.getNumberOfTeams()
 					+ "</" + COURSE_NUMBEROFTEAMS + ">");
+			sb.append("<" + COURSE_TOTALSTUDENTS + ">" + cs.getTotalStudents()
+					+ "</" + COURSE_TOTALSTUDENTS + ">");
+			sb.append("<" + COURSE_UNREGISTERED + ">" + cs.getUnregistered()
+					+ "</" + COURSE_UNREGISTERED + ">");
 			sb.append("</coursesummary>");
 		}
 

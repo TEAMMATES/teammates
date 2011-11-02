@@ -53,12 +53,23 @@ public class Student {
 
 	public Student(String email, String name, String comments, String courseID,
 			String teamName) {
-		this.email = email;
+		this.email = email.trim();
 		this.name = name;
 		this.ID = "";
 		this.comments = comments;
-		this.courseID = courseID;
-		this.teamName = teamName;
+		this.courseID = courseID.trim();
+		this.teamName = teamName.trim();
+		setCourseArchived(false);
+	}
+	
+	public Student(String email, String name, String googleID, String comments, String courseID,
+			String teamName) {
+		this.email = email.trim();
+		this.name = name;
+		this.ID = googleID;
+		this.comments = comments;
+		this.courseID = courseID.trim();
+		this.teamName = teamName.trim();
 		setCourseArchived(false);
 	}
 
@@ -67,7 +78,7 @@ public class Student {
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = email.trim();
 	}
 
 	public String getEmail() {
@@ -114,7 +125,7 @@ public class Student {
 	}
 
 	public void setCourseID(String courseID) {
-		this.courseID = courseID;
+		this.courseID = courseID.trim();
 	}
 
 	public String getCourseID() {
@@ -122,7 +133,7 @@ public class Student {
 	}
 
 	public void setTeamName(String teamName) {
-		this.teamName = teamName;
+		this.teamName = teamName.trim();
 	}
 
 	public String getTeamName() {

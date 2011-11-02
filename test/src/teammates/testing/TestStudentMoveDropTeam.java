@@ -33,10 +33,7 @@ public class TestStudentMoveDropTeam extends BaseTest {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		setupScenario();
-
 		TMAPI.cleanup();
-
-		// set up pre-condition
 		TMAPI.createCourse(sc.course);
 		TMAPI.enrollStudents(sc.course.courseId, sc.students);
 		TMAPI.studentsJoinCourse(sc.students, sc.course.courseId);
@@ -81,9 +78,8 @@ public class TestStudentMoveDropTeam extends BaseTest {
 	public void testMoveStudent() throws Exception {
 
 		// Enroll Student
-
-		wdClick(By.className("t_courses"));
-		waitForElementPresent(By.id("courseid"));
+		clickCourseTab();
+		waitForElementPresent(inputCourseID);
 		enrollStudents(sc.students);
 
 		// Create New Evaluation
@@ -98,25 +94,27 @@ public class TestStudentMoveDropTeam extends BaseTest {
 		// Close Evaluation
 		TMAPI.closeEvaluation(sc.course.courseId, sc.evaluation2.name);
 
+		logout();
+		
 		// Coordinator verify
-		waitAndClick(By.className("t_evaluations"));
+		coordinatorLogin(sc.coordinator.username, sc.coordinator.password);
+		clickEvaluationTab();
 		// Verify First Evaluation
-		// waitAndClick(By.id("viewEvaluation0"));
-		// waitAndClick(By.className("t_back"));
+		clickEvaluationViewResults(0);
+		waitAndClick(resultBackButton);
 
 		// Verify Second Evaluation
-		waitAndClick(By.id("viewEvaluation1"));
-		waitForElementPresent(By.id("radio_detail"));
-
-		WebElement htmldiv = driver.findElement(By
-				.id("coordinatorEvaluationSummaryTable"));
+		clickEvaluationViewResults(1);
+		waitForElementPresent(resultDetailRadio);
+		//TODO: abstract function
+		WebElement htmldiv = driver.findElement(By.id("coordinatorEvaluationSummaryTable"));
 		assertEquals(5, htmldiv.findElements(By.tagName("tr")).size());
 	}
 
 	/**
 	 * Test Student Drop Class before submitting feedback
 	 */
-	public void testStrudentDropBeforeSubmission() {
+	public void testStudentDropBeforeSubmission() {
 		
 	}
 	/**
@@ -135,10 +133,9 @@ public class TestStudentMoveDropTeam extends BaseTest {
 
 		assertEquals(5, htmldiv.findElements(By.tagName("tr")).size());
 
-		waitAndClickAndConfirm((By.xpath(String.format(
-				"//table[@id='dataform']//tr[%d]//a[3]", 2))));
+		waitAndClickAndConfirm((By.xpath(String.format("//table[@id='dataform']//tr[%d]//a[3]", 2))));
 
-		justWait();
+		waitAWhile(5000);
 		assertEquals(4, htmldiv.findElements(By.tagName("tr")).size());
 
 		// Verify Report
@@ -153,14 +150,14 @@ public class TestStudentMoveDropTeam extends BaseTest {
 		// Publish Evaluation
 		waitAndClick(By.className("t_evaluations"));
 		waitAndClickAndConfirm(By.xpath(String.format(
-				"//table[@id='dataform']//tr[%d]//a[3]", 2)));
+				"//table[@id='dataform']//tr[%d]//a[5]", 2)));// publish button position changed: 5th link in action list
 		// Click yes to confirmation
-
+		waitAWhile(5000);
 		waitAndClickAndConfirm(By.xpath(String.format(
-				"//table[@id='dataform']//tr[%d]//a[3]", 3)));
+				"//table[@id='dataform']//tr[%d]//a[5]", 3)));// publish button position changed: 5th link in action list
 		// Click yes to confirmation
 
-		// Verify Student View (using Carlie account)
+		// Verify Student View (using Charlie account)
 		logout();
 		justWait();
 		studentLogin(sc.students.get(2).email, Config.TEAMMATES_APP_PASSWD);
@@ -171,7 +168,7 @@ public class TestStudentMoveDropTeam extends BaseTest {
 		waitAndClick(By.className("t_evaluations"));
 		waitAndClick(By.xpath(String.format(
 				"//table[@id='dataform']//tr[%d]//a[1]", 2)));
-		waitAndClick(By.className("t_back"));
+		waitAndClick(By.id("button_back"));
 
 	}
 

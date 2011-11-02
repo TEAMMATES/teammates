@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
 /**
  * Test edit students feature 
@@ -36,38 +35,36 @@ public class TestCoordEditStudents extends BaseTest {
 	 */
 	@Test
 	public void testMassEditStudents() throws Exception {
-		String students = "Team 1|User 6|\n" + "Team 1|User 0|\n"
-				+ "Team 1|User 1|";
+		String students = "Team 1|User 6|\n" + "Team 1|User 0|\n" + "Team 1|User 1|";
 
 		// To Enroll page
-		wdClick(By.className("t_course_enrol"));
+		clickCourseEnrol(0);
 		verifyEnrollPage();
-		wdFillString(By.id("information"), students);
-		wdClick(By.id("button_enrol"));
+		wdFillString(enrolInfo, students);
+		wdClick(enrolButton);
 
 		// Make sure the error message is there
-		assertTrue(isElementPresent(By.xpath("//div[@id='statusMessage']/font[2]")));
+		assertTrue(isElementPresent(courseErrorMessage));
 
-		wdClick(By.className("t_back"));
+		wdClick(enrolBackButton);
 	}
 
 	/**
 	 * Test edit individual student
 	 */
+	@Test
 	public void testIndividualEditStudent() throws Exception {
-		wdClick(By.className("t_courses"));
-		justWait();
-
-		wdClick(By.className("t_course_view"));
+		cout("TestCoordEditStudents: test individual edit student");
+		
+		gotoCourses();
+		clickCourseView(0);
 		justWait();
 
 		// Edit
-		driver.findElement(By.xpath(String.format(
-				"//table[@id='dataform']//tr[%d]//a[2]", 2)));
-		justWait();
+		clickCourseDetailEdit(0);
+		
 
 		// TODO navigate through xpath and fill in the information accordinaly
 
 	}
-
 }

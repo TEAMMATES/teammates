@@ -1,21 +1,3 @@
-a.confirm:active {
-	color: black;
-	font-family: Arial, Helvetica, sans-serif;
-	text-decoration: none;
-}
-
-a.confirm:link {
-	color: black;
-	font-family: Arial, Helvetica, sans-serif;
-	text-decoration: none;
-}
-
-a.confirm:visited {
-	color: black;
-	font-family: Arial, Helvetica, sans-serif;
-	text-decoration: none;
-}
-
 a:link {
 	color: #669;
 	text-decoration: underline;
@@ -145,9 +127,13 @@ div#coordinatorEditEvaluationResultsButtons {
 }
 
 div#coordinatorEditEvaluationResultsStatusMessage {
+	background-color: #FFFF99;
 	font-family: Arial, Helvetica, sans-serif;
-	margin-top: 20px;
+	margin: 20px auto;
+	padding: 8px;
 	text-align: center;
+	width: 940px;
+	display: none;
 }
 
 div#coordinatorEditStudentButtons {
@@ -425,7 +411,6 @@ td.loginCell {
 	padding-top: 2px;
 	vertical-align: top;
 	text-align: right;
-	width: 300px;
 }
 
 .reportheader {
@@ -451,15 +436,6 @@ td.loginCell {
 	width: 450px;
 }
 
-.fieldvalue {
-	color: black;
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 13px;
-	font-weight: normal;
-	text-align: left;
-	width: 250px;
-}
-
 .keyvalue {
 	color: black;
 	font-family: Arial, Helvetica, sans-serif;
@@ -475,6 +451,9 @@ td.loginCell {
 
 .leftalign {
 	text-align: left;
+}
+.rightalign {
+	text-align: right;
 }
 
 table#data {

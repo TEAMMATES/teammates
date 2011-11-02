@@ -8,6 +8,10 @@ public class Submission
 	@SuppressWarnings("unused")
 	private Long id;
 	
+	String fromStudentName;
+	
+	String toStudentName;
+	
 	String fromStudent;
 	
 	String toStudent;
@@ -27,20 +31,22 @@ public class Submission
 	@SerializedName("teamname")
 	String teamName;
 
-	public Submission(String fromStudent, String toStudent, String courseID, String evaluationName, String teamName)
+	public Submission(String fromStudent, String toStudent, String fromName, String toName, String courseID, String evaluationName, String teamName)
 	{
 		this.setFromStudent(fromStudent);
 		this.setToStudent(toStudent);
 		this.setCourseID(courseID);
 		this.setEvaluationName(evaluationName);
 		this.setTeamName(teamName);
+		this.setFromStudentName(fromName);
+		this.setToStudentName(toName);
 		
 		this.setJustification("");
 		this.setCommentsToStudent("");
 		this.points = -999;
 	}
 	
-	public Submission(String fromStudent, String toStudent, String courseID, String evaluationName, 
+	public Submission(String fromStudent, String toStudent, String fromName, String toName, String courseID, String evaluationName, 
 			String teamName, int points, String justification, String commentsToStudent)
 	{
 		this.setFromStudent(fromStudent);
@@ -48,7 +54,8 @@ public class Submission
 		this.setCourseID(courseID);
 		this.setEvaluationName(evaluationName);
 		this.setTeamName(teamName);
-		
+		this.setFromStudentName(fromName);
+		this.setToStudentName(toName);
 		this.setPoints(points);
 		this.setJustification(justification);
 		this.setCommentsToStudent(commentsToStudent);
@@ -68,6 +75,22 @@ public class Submission
 
 	public void setToStudent(String toStudent) {
 		this.toStudent = toStudent;
+	}
+	
+	public void setFromStudentName(String fromName) {
+		this.fromStudentName = fromName;
+	}
+	
+	public String getFromStudentName() {
+		return this.fromStudentName;
+	}
+	
+	public void setToStudentName(String toName) {
+		this.toStudentName = toName;
+	}
+	
+	public String getToStudentName() {
+		return this.toStudentName;
 	}
 
 	public String getCourseID() {
