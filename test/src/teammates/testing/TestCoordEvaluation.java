@@ -47,6 +47,18 @@ public class TestCoordEvaluation extends BaseTest {
 	}
 
 	/**
+	 * Test add duplicated evaluation
+	 */
+	@Test
+	public void testDuplicateEvaluation() {
+		cout("TestCoordEvaluation: TestCreatingCoursePreviouslyNamed");
+		gotoEvaluations();
+		addEvaluation(sc.evaluation);
+		
+		assertEquals("The evaluation exists already.", getElementText(statusMessage));
+
+	}
+	/**
 	 * Edit evaluation
 	 */
 	@Test
