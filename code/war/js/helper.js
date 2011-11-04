@@ -13,13 +13,17 @@ function trim(stringToTrim) {
 	return stringToTrim.replace(/^\s+|\s+$/g,"");
 }
 
-function roundToNearestTen(number) {
-	number /= 10;
-	number = Math.round(number);
-	number *= 10;
-
-	return number;
-}
+/*
+ * removed by XL
+ * reason: student perceived points now shows normalized value without rounding to 10s.
+ */
+//function roundToNearestTen(number) {
+//	number /= 10;
+//	number = Math.round(number);
+//	number *= 10;
+//
+//	return number;
+//}
 
 function escape(str) {
 	str = str.replace(/'/g, "\\'");

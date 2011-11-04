@@ -40,7 +40,7 @@ public class TestEvaluationPointCalculation extends BaseTest {
 	
 	@Test
 	public void testFirstDataSet() throws Exception {
-		for(int i = 0; i < 5; i++) {
+		for(int i = 0; i < 20; i++) {
 			cout("TestEvalutionPointCalculation: scenario " + i);
 			setupScenarioForBumpRatioTest(i);
 			testScenario();

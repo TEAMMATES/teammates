@@ -2780,7 +2780,7 @@ function printEvaluationResultStudentForm(summaryList, submissionList, start,
 		deadline) {
 
 	var claimedPoints = summaryList[0].claimedPoints;
-	var perceivedPoints = roundToNearestTen(summaryList[0].average);
+	var perceivedPoints = summaryList[0].average;
 
 	if (isNaN(perceivedPoints))
 		perceivedPoints = "N/A";

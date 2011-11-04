@@ -88,36 +88,124 @@
   ],
   
   "submissionPoints0": [
-  	"original: 80, 70, 150, 90; normalized: Equal Share - 18%, Equal Share - 28%, Equal Share + 54%, Equal Share - 8%; claimed: Equal Share - 20%; perceived: Equal Share; claimedCoord: Equal Share - 18%; perceivedCoord: Equal Share; diff: 18",
-  	"original: 90, 100, 130, 80; normalized: Equal Share - 10%, Equal Share, Equal Share + 30%, Equal Share - 20%; claimed: Equal Share; perceived: Equal Share - 10%; claimedCoord: Equal Share; perceivedCoord: Equal Share - 15%; diff: -15",
-  	"original: 100, 90, 120, 80; normalized: Equal Share + 3%, Equal Share - 8%, Equal Share + 23%, Equal Share - 18%; claimed: Equal Share + 20%; perceived: Equal Share + 30%; claimedCoord: Equal Share + 23%; perceivedCoord: Equal Share + 29%; diff: 6",
-  	"original: 110, 90, 100, 130; normalized: Equal Share + 2%, Equal Share - 16%, Equal Share - 7%, Equal Share + 21%; claimed: Equal Share + 30%; perceived: Equal Share - 10%; claimedCoord: Equal Share + 21%; perceivedCoord: Equal Share - 13%; diff: -34",
-  	"original: 80, 70, 150, 90; normalized: Equal Share - 18%, Equal Share - 28%, Equal Share + 54%, Equal Share - 8%; claimed: Equal Share - 20%; perceived: Equal Share; claimedCoord: Equal Share - 18%; perceivedCoord: Equal Share; diff: 18",
-  	"original: 90, 100, 130, 80; normalized: Equal Share - 10%, Equal Share, Equal Share + 30%, Equal Share - 20%; claimed: Equal Share; perceived: Equal Share - 10%; claimedCoord: Equal Share; perceivedCoord: Equal Share - 15%; diff: -15",
-  	"original: 100, 90, 120, 80; normalized: Equal Share + 3%, Equal Share - 8%, Equal Share + 23%, Equal Share - 18%; claimed: Equal Share + 20%; perceived: Equal Share + 30%; claimedCoord: Equal Share + 23%; perceivedCoord: Equal Share + 29%; diff: 6",
-  	"original: 110, 90, 100, 130; normalized: Equal Share + 2%, Equal Share - 16%, Equal Share - 7%, Equal Share + 21%; claimed: Equal Share + 30%; perceived: Equal Share - 10%; claimedCoord: Equal Share + 21%; perceivedCoord: Equal Share - 13%; diff: -34",
+   "original: 80, 70, 150, 90; normalized: Equal Share - 18%, Equal Share - 28%, Equal Share + 54%, Equal Share - 8%; claimed: Equal Share - 20%; perceived: Equal Share; claimedCoord: Equal Share - 18%; perceivedCoord: Equal Share; diff: 18; diff: ",
+   "original: 90, 100, 130, 80; normalized: Equal Share - 10%, Equal Share, Equal Share + 30%, Equal Share - 20%; claimed: Equal Share; perceived: Equal Share - 15%; claimedCoord: Equal Share; perceivedCoord: Equal Share - 15%; diff: -15; diff: ",
+   "original: 100, 90, 120, 80; normalized: Equal Share + 3%, Equal Share - 8%, Equal Share + 23%, Equal Share - 18%; claimed: Equal Share + 20%; perceived: Equal Share + 29%; claimedCoord: Equal Share + 23%; perceivedCoord: Equal Share + 29%; diff: 6; diff: ",
+   "original: 110, 90, 100, 130; normalized: Equal Share + 2%, Equal Share - 16%, Equal Share - 7%, Equal Share + 21%; claimed: Equal Share + 30%; perceived: Equal Share - 13%; claimedCoord: Equal Share + 21%; perceivedCoord: Equal Share - 13%; diff: -34; diff: ",
+   "original: 80, 70, 150, 90; normalized: Equal Share - 18%, Equal Share - 28%, Equal Share + 54%, Equal Share - 8%; claimed: Equal Share - 20%; perceived: Equal Share; claimedCoord: Equal Share - 18%; perceivedCoord: Equal Share; diff: 18; diff: ",
+   "original: 90, 100, 130, 80; normalized: Equal Share - 10%, Equal Share, Equal Share + 30%, Equal Share - 20%; claimed: Equal Share; perceived: Equal Share - 15%; claimedCoord: Equal Share; perceivedCoord: Equal Share - 15%; diff: -15; diff: ",
+   "original: 100, 90, 120, 80; normalized: Equal Share + 3%, Equal Share - 8%, Equal Share + 23%, Equal Share - 18%; claimed: Equal Share + 20%; perceived: Equal Share + 29%; claimedCoord: Equal Share + 23%; perceivedCoord: Equal Share + 29%; diff: 6; diff: ",
+   "original: 110, 90, 100, 130; normalized: Equal Share + 2%, Equal Share - 16%, Equal Share - 7%, Equal Share + 21%; claimed: Equal Share + 30%; perceived: Equal Share - 13%; claimedCoord: Equal Share + 21%; perceivedCoord: Equal Share - 13%; diff: -34; diff: ",
   ],
-  
-  "submissionPoints1": [
-  	"original: 120, 60; normalized: Equal Share + 33%, Equal Share - 33%; claimed: Equal Share + 20%; perceived: Equal Share - 20%; claimedCoord: Equal Share + 33%; perceivedCoord: Equal Share - 23%; diff: -56",
-  	"original: 40, 150; normalized: Equal Share - 58%, Equal Share + 58%; claimed: Equal Share + 50%; perceived: Equal Share + 20%; claimedCoord: Equal Share + 58%; perceivedCoord: Equal Share + 23%; diff: -35",
+
+"submissionPoints1": [
+   "original: 120, 60; normalized: Equal Share + 33%, Equal Share - 33%; claimed: Equal Share + 20%; perceived: Equal Share - 23%; claimedCoord: Equal Share + 33%; perceivedCoord: Equal Share - 23%; diff: -56; diff: ",
+   "original: 40, 150; normalized: Equal Share - 58%, Equal Share + 58%; claimed: Equal Share + 50%; perceived: Equal Share + 23%; claimedCoord: Equal Share + 58%; perceivedCoord: Equal Share + 23%; diff: -35; diff: ",
   ],
-  
-  "submissionPoints2": [
-  	"original: 130, 80, -101; normalized: 124, 76, Unsure; claimed: 130; perceived: 90; claimedCoord: 124; perceivedCoord: 92",
-  	"original: 70, 110, 90; normalized: 78, 122, 100; claimed: 110; perceived: 100; claimedCoord: 122; perceivedCoord: 97",
-  	"original: 90, 100, 120; normalized: 87, 97, 116; claimed: 120; perceived: 110; claimedCoord: 116; perceivedCoord: 111",
+ 
+"submissionPoints2": [
+   "original: 120, 90; normalized: Equal Share + 14%, Equal Share - 14%; claimed: Equal Share + 20%; perceived: N/A; claimedCoord: Equal Share + 14%; perceivedCoord: N/A; diff: ",
+   "original: -999, -999; normalized: N/A, N/A; claimed: N/A; perceived: Equal Share - 14%; claimedCoord: N/A; perceivedCoord: Equal Share - 14%; diff: ",
   ],
-  
-  "submissionPoints3": [
-  	"original: 120, 90, 70; normalized: 129, 96, 75; claimed: 120; perceived: 110; claimedCoord: 129; perceivedCoord: 106",
-  	"original: 80, 100, 70; normalized: 96, 120, 84; claimed: 100; perceived: 110; claimedCoord: 120; perceivedCoord: 106",
-  	"original: -999, -999, -999; normalized: N/A, N/A, N/A; claimed: NaN; perceived: 90; claimedCoord: N/A; perceivedCoord: 88",
+
+"submissionPoints3": [
+   "original: -999, -999, -999; normalized: N/A, N/A, N/A; claimed: N/A; perceived: N/A; claimedCoord: N/A; perceivedCoord: N/A; diff: ",
+   "original: -999, -999, -999; normalized: N/A, N/A, N/A; claimed: N/A; perceived: N/A; claimedCoord: N/A; perceivedCoord: N/A; diff: ",
   ],
-  
-  "submissionPoints4": [
-  	"original: -101, -101, -101; normalized: Unsure, Unsure, Unsure; claimed: NaN; perceived: N/A; claimedCoord: N/A; perceivedCoord: N/A",
-  	"original: -101, -101, -101; normalized: Unsure, Unsure, Unsure; claimed: NaN; perceived: N/A; claimedCoord: N/A; perceivedCoord: N/A",
- 	"original: -101, -101, -101; normalized: Unsure, Unsure, Unsure; claimed: NaN; perceived: N/A; claimedCoord: N/A; perceivedCoord: N/A",
+ 
+"submissionPoints4": [
+   "original: 130, -101; normalized: Equal Share, Unsure; claimed: Equal Share + 30%; perceived: Equal Share - 14%; claimedCoord: Equal Share; perceivedCoord: Equal Share - 14%; diff: -14",
+   "original: 110, 70; normalized: Equal Share + 22%, Equal Share - 22%; claimed: Equal Share - 30%; perceived: N/A; claimedCoord: Equal Share - 22%; perceivedCoord: N/A; diff: ",
+  ],
+ 
+"submissionPoints5": [
+   "original: 110, -101; normalized: Equal Share, Unsure; claimed: Equal Share + 10%; perceived: N/A; claimedCoord: Equal Share; perceivedCoord: N/A; diff: ",
+   "original: -101, 160; normalized: Unsure, Equal Share; claimed: Equal Share + 60%; perceived: N/A; claimedCoord: Equal Share; perceivedCoord: N/A; diff: ",
+  ],
+ 
+"submissionPoints6": [
+ "original: -101, -101; normalized: Unsure, Unsure; claimed: NaN; perceived: N/A; claimedCoord: N/A; perceivedCoord: N/A; diff: N/A",
+   "original: -101, -101; normalized: Unsure, Unsure; claimed: NaN; perceived: N/A; claimedCoord: N/A; perceivedCoord: N/A; diff: N/A",
+  ],
+
+"submissionPoints7": [
+ "original: 100, 100; normalized: Equal Share, Equal Share; claimed: Equal Share; perceived: Equal Share; claimedCoord: Equal Share; perceivedCoord: Equal Share; diff: 0",
+   "original: 100, 100; normalized: Equal Share, Equal Share; claimed: Equal Share; perceived: Equal Share; claimedCoord: Equal Share; perceivedCoord: Equal Share; diff: 0",
+  ],
+
+"submissionPoints8": [
+ "original: 200, 200; normalized: Equal Share, Equal Share; claimed: Equal Share + 100%; perceived: Equal Share; claimedCoord: Equal Share; perceivedCoord: Equal Share; diff: 0",
+   "original: 200, 200; normalized: Equal Share, Equal Share; claimed: Equal Share + 100%; perceived: Equal Share; claimedCoord: Equal Share; perceivedCoord: Equal Share; diff: 0",
+  ],
+
+"submissionPoints9": [
+ "original: 0, 0; normalized: NaN, NaN; claimed: NaN; perceived: NaN; claimedCoord: NaN; perceivedCoord: NaN; diff: ",
+   "original: 0, 0; normalized: NaN, NaN; claimed: NaN; perceived: NaN; claimedCoord: NaN; perceivedCoord: NaN; diff: ",
+  ],
+
+"submissionPoints10": [
+ "original: 120, 90, 80; normalized: Equal Share + 24%, Equal Share - 7%, Equal Share - 17%; claimed: Equal Share + 20%; perceived: Equal Share - 11%; claimedCoord: Equal Share + 24%; perceivedCoord: Equal Share - 11%; diff: -35",
+   "original: 80, 140, 50; normalized: Equal Share - 11%, Equal Share + 56%, Equal Share - 44%; claimed: Equal Share + 40%; perceived: Equal Share + 27%; claimedCoord: Equal Share + 56%; perceivedCoord: Equal Share + 27%; diff: -29",
+  "original: 60, 120, 130; normalized: Equal Share - 42%, Equal Share + 16%, Equal Share + 26%; claimed: Equal Share + 30%; perceived: Equal Share - 16%; claimedCoord: Equal Share + 26%; perceivedCoord: Equal Share - 16%; diff: -42",
+  ],
+
+"submissionPoints11": [
+ "original: 120, 90, 70; normalized: Equal Share + 29%, Equal Share - 4%, Equal Share - 25%; claimed: Equal Share + 20%; perceived: Equal Share + 6%; claimedCoord: Equal Share + 29%; perceivedCoord: Equal Share + 6%; diff: -23",
+   "original: 80, 100, 70; normalized: Equal Share - 4%, Equal Share + 20%, Equal Share - 16%; claimed: Equal Share; perceived: Equal Share + 6%; claimedCoord: Equal Share + 20%; perceivedCoord: Equal Share + 6%; diff: -14",
+   "original: -999, -999, -999; normalized: N/A, N/A, N/A; claimed: N/A; perceived: Equal Share - 12%; claimedCoord: N/A; perceivedCoord: Equal Share - 12%; diff: ",
+  ],
+ 
+"submissionPoints12": [
+   "original: -999, -999, -999; normalized: N/A, N/A, N/A; claimed: N/A; perceived: Equal Share - 6%; claimedCoord: N/A; perceivedCoord: Equal Share - 6%; diff: ",
+   "original: 80, 120, 90; normalized: Equal Share - 17%, Equal Share + 24%, Equal Share - 7%; claimed: Equal Share + 20%; perceived: N/A; claimedCoord: Equal Share + 24%; perceivedCoord: N/A; diff: ",
+  "original: -999, -999, -999; normalized: N/A, N/A, N/A; claimed: N/A; perceived: Equal Share + 6%; claimedCoord: N/A; perceivedCoord: Equal Share + 6%; diff: ",
+  ],
+ 
+"submissionPoints13": [
+ "original: -999, -999, -999; normalized: N/A, N/A, N/A; claimed: N/A; perceived: N/A; claimedCoord: N/A; perceivedCoord: N/A; diff: ",
+   "original: -999, -999, -999; normalized: N/A, N/A, N/A; claimed: N/A; perceived: N/A; claimedCoord: N/A; perceivedCoord: N/A; diff: ",
+  "original: -999, -999, -999; normalized: N/A, N/A, N/A; claimed: N/A; perceived: N/A; claimedCoord: N/A; perceivedCoord: N/A; diff: ",
+  ],
+ 
+"submissionPoints14": [
+ "original: 130, 80, -101; normalized: Equal Share + 24%, Equal Share - 24%, Unsure; claimed: Equal Share + 30%; perceived: Equal Share - 8%; claimedCoord: Equal Share + 24%; perceivedCoord: Equal Share - 8%; diff: -32",
+   "original: 70, 110, 90; normalized: Equal Share - 22%, Equal Share + 22%, Equal Share; claimed: Equal Share + 10%; perceived: Equal Share - 3%; claimedCoord: Equal Share + 22%; perceivedCoord: Equal Share - 3%; diff: -25",
+   "original: 90, 100, 120; normalized: Equal Share - 13%, Equal Share - 3%, Equal Share + 16%; claimed: Equal Share + 20%; perceived: Equal Share + 11%; claimedCoord: Equal Share + 16%; perceivedCoord: Equal Share + 11%; diff: -5",
+  ],
+ 
+"submissionPoints15": [
+ "original: 90, 100, -101; normalized: Equal Share - 5%, Equal Share + 5%, Unsure; claimed: Equal Share - 10%; perceived: Equal Share - 7%; claimedCoord: Equal Share - 5%; perceivedCoord: Equal Share - 7%; diff: -2",
+   "original: 60, 80, 60; normalized: Equal Share - 10%, Equal Share + 20%, Equal Share - 10%; claimed: Equal Share - 20%; perceived: Equal Share + 12%; claimedCoord: Equal Share + 20%; perceivedCoord: Equal Share + 12%; diff: -8",
+   "original: 80, -101, 110; normalized: Equal Share - 16%, Unsure, Equal Share + 16%; claimed: Equal Share + 10%; perceived: Equal Share - 4%; claimedCoord: Equal Share + 16%; perceivedCoord: Equal Share - 4%; diff: -20",
+  ],
+ 
+"submissionPoints16": [
+ "original: 110, -101, 70; normalized: Equal Share + 22%, Unsure, Equal Share - 22%; claimed: Equal Share + 10%; perceived: Equal Share + 1%; claimedCoord: Equal Share + 22%; perceivedCoord: Equal Share + 1%; diff: -21",
+   "original: -101, 90, 80; normalized: Unsure, Equal Share + 6%, Equal Share - 6%; claimed: Equal Share - 10%; perceived: N/A; claimedCoord: Equal Share + 6%; perceivedCoord: N/A; diff: ",
+   "original: 70, -101, 90; normalized: Equal Share - 12%, Unsure, Equal Share + 13%; claimed: Equal Share - 10%; perceived: Equal Share - 1%; claimedCoord: Equal Share + 13%; perceivedCoord: Equal Share - 1%; diff: -14",
+  ],
+ 
+"submissionPoints17": [
+   "original: -101, -101, -101; normalized: Unsure, Unsure, Unsure; claimed: NaN; perceived: N/A; claimedCoord: N/A; perceivedCoord: N/A; diff: ",
+   "original: -101, -101, -101; normalized: Unsure, Unsure, Unsure; claimed: NaN; perceived: N/A; claimedCoord: N/A; perceivedCoord: N/A; diff: ",
+  "original: -101, -101, -101; normalized: Unsure, Unsure, Unsure; claimed: NaN; perceived: N/A; claimedCoord: N/A; perceivedCoord: N/A; diff: ",   
+  ],
+ 
+"submissionPoints18": [
+   "original: 100, 100, 100; normalized: Equal Share, Equal Share, Equal Share; claimed: Equal Share; perceived: Equal Share; claimedCoord: Equal Share; perceivedCoord: Equal Share; diff: 0",
+   "original: 100, 100, 100; normalized: Equal Share, Equal Share, Equal Share; claimed: Equal Share; perceived: Equal Share; claimedCoord: Equal Share; perceivedCoord: Equal Share; diff: 0",
+  "original: 100, 100, 100; normalized: Equal Share, Equal Share, Equal Share; claimed: Equal Share; perceived: Equal Share; claimedCoord: Equal Share; perceivedCoord: Equal Share; diff: 0",
+  ],
+ 
+"submissionPoints19": [
+   "original: 200, 200, 200; normalized: Equal Share, Equal Share, Equal Share; claimed: Equal Share + 100%; perceived: Equal Share; claimedCoord: Equal Share; perceivedCoord: Equal Share; diff: 0",
+   "original: 200, 200, 200; normalized: Equal Share, Equal Share, Equal Share; claimed: Equal Share + 100%; perceived: Equal Share; claimedCoord: Equal Share; perceivedCoord: Equal Share; diff: 0",
+  "original: 200, 200, 200; normalized: Equal Share, Equal Share, Equal Share; claimed: Equal Share + 100%; perceived: Equal Share; claimedCoord: Equal Share; perceivedCoord: Equal Share; diff: 0",
+  ],
+ 
+"submissionPoints20": [
+   "original: 0, 0, 0; normalized: NaN, NaN, NaN; claimed: NaN; perceived: NaN; claimedCoord: NaN; perceivedCoord: NaN; diff: ",
+   "original: 0, 0, 0; normalized: NaN, NaN, NaN; claimed: NaN; perceived: NaN; claimedCoord: NaN; perceivedCoord: NaN; diff: ",
+  "original: 0, 0, 0; normalized: NaN, NaN, NaN; claimed: NaN; perceived: NaN; claimedCoord: NaN; perceivedCoord: NaN; diff: ",
   ]
 }
