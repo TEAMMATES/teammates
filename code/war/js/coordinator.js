@@ -9,6 +9,7 @@ var DISPLAY_COURSE_ADDED = "The course has been added. Click the 'Enrol' link in
 var DISPLAY_COURSE_ARCHIVED = "The course has been archived.";
 var DISPLAY_COURSE_DELETED = "The course has been deleted."
 var DISPLAY_COURSE_DELETEDALLSTUDENTS = "All students have been removed from the course.";
+var DISPLAY_COURSE_DELETEDSTUDENT = "The student has been removed from the course.";
 var DISPLAY_COURSE_EXISTS = "<font color=\"#F00\">The course already exists.</font>";
 var DISPLAY_COURSE_INVALIDID = "<font color=\"#F00\">Please use only alphabets, numbers, dots and hyphens in COURSE ID.</font>";
 var DISPLAY_COURSE_NOTEAMS = "<font color=\"#F00\">The course does not have any teams.</font>";
@@ -933,9 +934,9 @@ function doDeleteAllStudents(courseID)
 	
 	if(results != 1)
 	{
-		doGetStudentList(courseID);
 		doGetCourse(courseID);
-		setStatusMessage(DISPLAY_COURSE_DELETEDALLSTUDENTS);
+		setStatusMessage(DISPLAY_COURSE_DELETEDALLSTUDENTS + " Click <a class='t_course_enrol' href=\"javascript:displayEnrollmentPage('"
+				+ courseID + "');\">here</a> to enrol students.");
 	}
 	
 	else
@@ -953,6 +954,7 @@ function doDeleteStudent(courseID, email)
 	if(results != 1)
 	{
 		displayCourseInformation(courseID);
+		setStatusMessage(DISPLAY_COURSE_DELETEDSTUDENT);
 	}
 	
 	else
@@ -3148,7 +3150,7 @@ function toggleDeleteAllStudentsConfirmation(courseID) {
 	} else {
 		clearStatusMessage();
 	}
-
+	
 	document.getElementById(DIV_COURSE_INFORMATION).scrollIntoView(true);
 }
 
@@ -3159,7 +3161,7 @@ function toggleDeleteStudentConfirmation(courseID, studentEmail, studentName) {
 	} else {
 		clearStatusMessage();
 	}
-
+	
 	document.getElementById(DIV_COURSE_INFORMATION).scrollIntoView(true);
 }
 

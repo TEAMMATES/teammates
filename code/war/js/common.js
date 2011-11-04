@@ -483,7 +483,7 @@ function printStudentList(studentList, courseID) {
 					+ "');hideddrivetip();\""
 					+ "onmouseover=\"ddrivetip('Edit the details of the student')\""
 					+ "onmouseout=\"hideddrivetip()\">Edit</a>"
-					+ "<a href=\"javascript:toggleDeleteStudentConfirmation('"
+					+ "<a class='t_student_delete' href=\"javascript:toggleDeleteStudentConfirmation('"
 					+ studentList[loop].courseID
 					+ "', '"
 					+ studentList[loop].email

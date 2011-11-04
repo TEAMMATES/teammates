@@ -1184,21 +1184,12 @@ public class BaseTest {
 	}
 
 	// -----------------------------Helper Functions----------------------------->> Others:
-	/*
-	 * When authentication for the first few times, it might ask for the
-	 * "grant permission" page. If that's the case we simply click "Grant"
-	 */
-	private static void checkGooglePermPage() {
-		if (selenium.getTitle().equals("Google Accounts")) {
-			driver.findElement(By.name("submit_true"));
-			waitForPageLoad();
-		}
-	}
 
 	private static void _login(String email, String password) {
 		if (isLocalLoginPage()) {
 			wdFillString(By.id("email"), email);
 			selenium.click("css=input[value='Log In']");
+			checkGoogleApplicationApproval();
 			waitForPageLoad();
 		} else if (isGoogleLoginPage()) {
 			// Fill in login credentials
@@ -1209,15 +1200,26 @@ public class BaseTest {
 			wdClick(By.id("signIn"));
 			// Wait and check for the main Coordinator page to see
 			// if login was successful
+			checkGoogleApplicationApproval();
 			waitForPageLoad();
-			// Check if this is the permission page
-			checkGooglePermPage();
+			
 		} else {
 			fail("Not in the correct Login page");
 			return;
 		}
 	}
 
+	/*
+	 * When authentication for the first few times, it might ask for the
+	 * "grant permission" page. If that's the case we simply click "Grant"
+	 */
+	private static void checkGoogleApplicationApproval() {
+		justWait();
+		if(isElementPresent(By.id("approve_button"))) {
+			wdClick(By.id("persist_checkbox"));
+			wdClick(By.id("approve_button"));
+		}
+	}
 	/**
 	 * Helper function to clean up email account
 	 * 

@@ -25,7 +25,7 @@ public class TestStudentLogin extends BaseTest {
 
 	@Test
 	public void testLoginLogoutSuccessful() throws Exception {
-		studentLogin(sc.students.get(0).email, Config.TEAMMATES_APP_PASSWD);
+		studentLogin(Config.INDIVIDUAL_ACCOUNT, Config.TEAMMATES_APP_PASSWD);
 		verifyStudentPage();
 		logout();
 

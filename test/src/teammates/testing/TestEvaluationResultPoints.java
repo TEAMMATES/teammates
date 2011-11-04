@@ -53,7 +53,7 @@ public class TestEvaluationResultPoints extends BaseTest {
 
 	@AfterClass
 	public static void classTearDown() throws Exception {
-//		wrapUp();
+		wrapUp();
 	}
 
 	
@@ -300,7 +300,7 @@ public class TestEvaluationResultPoints extends BaseTest {
 			Student s = sc.students.get(i);
 			studentLogin(s.email, s.password);
 			studentViewResultPoints(0, i);//first evaluation
-//			studentViewResultPoints(1, i);//second evaluation
+			studentViewResultPoints(1, i);//second evaluation
 		}
 	}
 	

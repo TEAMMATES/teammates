@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="libs/dsn.jar"/>
-	<classpathentry kind="lib" path="libs/gson-1.7.1-javadoc.jar"/>
-	<classpathentry kind="lib" path="libs/gson-1.7.1-sources.jar"/>
-	<classpathentry kind="lib" path="libs/gson-1.7.1.jar"/>
-	<classpathentry kind="lib" path="libs/imap.jar"/>
-	<classpathentry kind="lib" path="libs/jxl.jar"/>
-	<classpathentry kind="lib" path="libs/mailapi.jar"/>
-	<classpathentry kind="lib" path="libs/pop3.jar"/>
-	<classpathentry kind="lib" path="libs/smtp.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="server/selenium-server-standalone-2.8.0.jar"/>
+	<classpathentry kind="lib" path="selenium/selenium-java-2.8.0-srcs.jar"/>
+	<classpathentry kind="lib" path="selenium/selenium-java-2.8.0.jar"/>
 	<classpathentry kind="lib" path="selenium/libs/apache-mime4j-0.6.jar"/>
 	<classpathentry kind="lib" path="selenium/libs/bsh-1.3.0.jar"/>
 	<classpathentry kind="lib" path="selenium/libs/cglib-nodep-2.1_3.jar"/>
@@ -41,9 +36,14 @@
 	<classpathentry kind="lib" path="selenium/libs/xalan-2.7.1.jar"/>
 	<classpathentry kind="lib" path="selenium/libs/xercesImpl-2.9.1.jar"/>
 	<classpathentry kind="lib" path="selenium/libs/xml-apis-1.3.04.jar"/>
-	<classpathentry kind="lib" path="selenium/selenium-java-2.8.0-srcs.jar"/>
-	<classpathentry kind="lib" path="selenium/selenium-java-2.8.0.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="libs/dsn.jar"/>
+	<classpathentry kind="lib" path="libs/gson-1.7.1-javadoc.jar"/>
+	<classpathentry kind="lib" path="libs/gson-1.7.1-sources.jar"/>
+	<classpathentry kind="lib" path="libs/gson-1.7.1.jar"/>
+	<classpathentry kind="lib" path="libs/imap.jar"/>
+	<classpathentry kind="lib" path="libs/jxl.jar"/>
+	<classpathentry kind="lib" path="libs/mailapi.jar"/>
+	<classpathentry kind="lib" path="libs/pop3.jar"/>
+	<classpathentry kind="lib" path="libs/smtp.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
