@@ -329,15 +329,17 @@ function checkEditStudentInput(editName, editTeamName, editEmail, editGoogleID)
 
 function checkEnrollmentInput(input)
 {
+	input = replaceAll(input, "|", "\t");
+	
 	var entries = input.split("\n");
 	var fields;
 	
 	for(var x = 0; x < entries.length; x++)
 	{
-		//ignore blank line
+		// Ignore blank line
 		if(entries[x] != ""){
 			// Separate the fields
-			fields = entries[x].split("|");
+			fields = entries[x].split("\t");
 			
 			// Make sure that all fields are present
 			if(fields.length < 3)

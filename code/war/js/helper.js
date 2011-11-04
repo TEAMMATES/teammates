@@ -10,7 +10,7 @@ function replaceAll(source,stringToFind,stringToReplace)
 }
 
 function trim(stringToTrim) {
-	return stringToTrim.replace(/\s+$/,"");
+	return stringToTrim.replace(/^\s+|\s+$/g,"");
 }
 
 function roundToNearestTen(number) {
