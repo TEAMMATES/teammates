@@ -45,3 +45,19 @@ function clearStatusMessage() {
 function toggleStatusMessage(statusMsg) {
 	setStatusMessage(statusMsg); 
 }
+
+function setEditEvaluationResultsStatusMessage(message) {
+	if (message == "") {
+		clearEditEvaluationResultsStatusMessage();
+		return;
+	}
+	$("#coordinatorEditEvaluationResultsStatusMessage").html(message).show();
+}
+
+function clearEditEvaluationResultsStatusMessage() {
+	$("#coordinatorEditEvaluationResultsStatusMessage").html("").hide();
+}
+
+function toggleEditEvaluationResultsStatusMessage(statusMsg) {
+	setEditEvaluationResultsStatusMessage(statusMsg);
+}

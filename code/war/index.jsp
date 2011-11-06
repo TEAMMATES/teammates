@@ -8,10 +8,6 @@
         <title>Teammates</title>
         <link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
         <script language="JavaScript" src="js/index.js"></script>
-       <!-- <script type="text/javascript" src="js/discardIE.js"></script>
-        <script type="text/javascript" src="js/discardApple.js"></script>
-        <script type="text/javascript" src="js/discardAndroid.js"></script>
-		-->
 		<script type="text/javascript" src="js/blockUnsupportedBrowsers.js"></script>
 </head>
 

@@ -364,7 +364,6 @@ public class TMAPI {
 			String normalized = submission.split("; ")[1];
 			normalized = normalized.substring(SUBMISSION_DATA_TAG_NORMALIZED.length());
 			String[] pointArray = normalized.split(", ");
-//			list.add(pointArray[personIndex-start]);
 			String point = pointArray[personIndex-start];
 			if(point.length() > 12)//e.g. Equal Share + 20%
 			point = point.substring(0, 11) + "\n" + point.substring(12);
@@ -403,23 +402,8 @@ public class TMAPI {
 		perceived = perceived.substring(SUBMISSION_DATA_TAG_PERCEIVEDCOORD.length());
 		return perceived;
 	}
+	//index 6: perceivedCoord - claimedCoord
 	public static String coordGetPointDifference(String[] submissionPoints, int personIndex){
-//		String claimed = coordGetClaimedPoints(submissionPoints, personIndex);
-//		String perceived = coordGetPerceivedPoints(submissionPoints, personIndex);
-//		
-//		if(claimed.equals("N/A") || perceived.equals("N/A")){
-//			return "N/A";
-//		}
-//		else{
-//			int claimedPoint = Integer.valueOf(claimed);
-//			int perceivedPoint = Integer.valueOf(perceived);
-//			int diff = perceivedPoint - claimedPoint ;
-//			return String.valueOf(diff);
-//		}		
-//		String submission = submissionPoints[personIndex];
-//		String difference = submission.split("; ")[6];
-//		difference = difference.substring(SUBMISSION_DATA_TAG_DIFFERENCE.length());
-//		return difference;
 		String claimed = coordGetClaimedPoints(submissionPoints, personIndex);
 		String perceived = coordGetPerceivedPoints(submissionPoints, personIndex);
 		
@@ -433,180 +417,6 @@ public class TMAPI {
 			return difference;
 		}
 	}
-	
-	
-	
-	/*
-	public static String studentGetClaimedPoints(String[] submissionPoints, int personIndex){
-	
-		//student should see his/her original submisison point:
-		String submission = getSubmissionPoints(submissionPoints[personIndex]);
-		String[] pointsArray = submission.split(", ");
-		int point = Integer.valueOf(pointsArray[personIndex]);
-		return pointToString(point);
-
-	}
-	public static String studentGetPerceivedPoints(String[] submissionPoints, int personIndex){
-		//two normalization steps involved:
-		int[][] result2 = new int[submissionPoints.length][2];
-		result2 = calculateSecondNormalization(submissionPoints);
-		
-		int perceived = result2[personIndex][1];
-		int point = (perceived/10) * 10;
-		return pointToString(point);
-	}
-	
-	public static String coordGetClaimedPoints(String[] submissionPoints, int personIndex){
-		int[][] result = new int[submissionPoints.length][];
-		result = calculateFirstNormalization(submissionPoints);
-		
-		int point = result[personIndex][personIndex];
-		return pointToString(point);
-		
-	}
-	public static String coordGetPerceivedPoints(String[] submissionPoints, int personIndex){
-
-		//two normalization steps involved:
-		int[][] result2 = new int[submissionPoints.length][2];
-		result2 = calculateSecondNormalization(submissionPoints);
-		
-		int perceived = result2[personIndex][1];
-		return pointToString(perceived);
-	}
-	public static String[] coordGetPointsToOthers(String[] submissionPoints, int personIndex){
-
-		int[][] result = new int[submissionPoints.length][];
-		result = calculateFirstNormalization(submissionPoints);
-		
-		//get first reviewer's submission:
-		String[] list = new String[result[personIndex].length];
-		for(int i = 0; i < result[personIndex].length; i++){
-			int point = result[personIndex][i];
-			list[i] = pointToString(point);
-		}
-		
-		return list;
-	}
-	public static String[] coordGetPointsFromOthers(String[] submissionPoints, int personIndex){
-		int[][] result = new int[submissionPoints.length][];
-		result = calculateFirstNormalization(submissionPoints);
-		
-		String[] list = new String[submissionPoints.length];
-		for(int i = 0; i < result.length; i++){
-			//get points given to first person:
-			int average = result[i][personIndex];
-			list[i] = pointToString(average);
-		}
-		
-		return list;
-	}
-	*/
-	
-	
-	/*
-	private static int[][] calculateFirstNormalization(String[] submissionPoints){
-		int[][] result = new int[submissionPoints.length][];
-		
-		for(int i = 0; i < submissionPoints.length; i++){
-			//get reviewer's submission list:
-			String submission = getSubmissionPoints(submissionPoints[i]);
-			String[] pointsArray = submission.split(", ");
-			float bumpRatio = 1;
-			int total = 0;
-			int count = 0;
-			int[] firstNormalized = new int[pointsArray.length];
-			
-			//check each submission point:
-			for(int j = 0; j < pointsArray.length; j++){
-				int point = Integer.valueOf(pointsArray[j]);
-				if(point != -999 && point != -101){
-					total += point;
-					count ++;
-				}
-			}
-			if(total != 0){
-				bumpRatio = (float) (100 * count)/total;
-			}
-			//get first normalization:
-			for(int j = 0; j < pointsArray.length; j++){
-				
-				int point = Integer.valueOf(pointsArray[j]);//original point
-				if(point != -999 && point != -101){
-					point = Math.round(point * bumpRatio);//normalized point
-				}
-				firstNormalized[j] = point;
-			}
-			
-			result[i] = firstNormalized;
-
-		}
-		
-		return result;
-	}
-
-	private static int[][] calculateSecondNormalization(String[] submissionPoints){
-		//second normalization should be based on first normalization:
-		int[][] result = new int[submissionPoints.length][];
-		result = calculateFirstNormalization(submissionPoints);
-		
-		//second normalization - for each team
-		int[][] result2 = new int[submissionPoints.length][2];
-		for(int i = 0; i < submissionPoints.length; i++){
-			int total = 0;
-			int count = 0;
-			
-			int claimed = result[i][i];
-			for(int j = 0; j < submissionPoints.length; j++){
-				//points get from others
-				if(j != i){
-					if(result[j][i] != -999 && result[j][i] != -101){
-						total += result[j][i];
-						count ++;
-					}
-				}
-			}
-			int average = Math.round(total/count);
-			
-			result2[i][0] = claimed;
-			result2[i][1] = average;
-		}
-		//calculate team bumpRatio:
-		int total = 0;
-		int count = 0;
-		float bumpRatio = 1;
-		for(int i = 0; i < submissionPoints.length; i++){
-			int average = result2[i][1];
-			
-			if(average != -999 && average != - 101){
-				total += average;
-				count ++;
-			}
-			
-		}
-		if(total != 0){
-			bumpRatio = (float) (100 * count)/total;
-		}
-		//based on result 2:
-		for(int i = 0; i < submissionPoints.length; i++){
-			int average = result2[i][1];
-			if(average != -999 && average != - 101){
-				result2[i][1] = Math.round(average * bumpRatio);
-			}
-		}
-		
-		return result2;
-	}
-	
-	private static String pointToString(int point){
-		if(point == -999 || point == -101){
-			return "N/A";
-		}
-		else{
-			return String.valueOf(point);
-		}
-	}
-	
-	*/
 	
 	//Oct 12 end--------------------------------
 	
@@ -627,13 +437,6 @@ public class TMAPI {
 		makePOSTRequest(paramsString);
 
 	}
-	
-	/*
-	 * public static void firstStudentDidNotSubmitFeedbacks(List<Student>
-	 * students, String courseId, String evaluationName) { students.remove(0);
-	 * for (Student s : students) { studentSubmitFeedbacks(s, courseId,
-	 * evaluationName); } }
-	 */
 
 	// ---------------------------------
 	// PRIVATE HELPER FUNCTIONS

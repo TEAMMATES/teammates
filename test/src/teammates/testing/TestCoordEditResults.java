@@ -35,10 +35,8 @@ public class TestCoordEditResults extends BaseTest {
 		TMAPI.createEvaluation(sc.evaluation);
 		TMAPI.studentsJoinCourse(sc.students, sc.course.courseId);
 		TMAPI.openEvaluation(sc.course.courseId, sc.evaluation.name);
-		// TMAPI.studentsSubmitFeedbacks(sc.students.subList(1,
-		// sc.students.size() - 1), sc.course.courseId,sc.evaluation.name);
-		TMAPI.studentsSubmitFeedbacks(sc.students, sc.course.courseId,
-				sc.evaluation.name);
+		TMAPI.studentsSubmitFeedbacks(sc.students.subList(1,
+				 sc.students.size() - 1), sc.course.courseId,sc.evaluation.name);
 		TMAPI.closeEvaluation(sc.course.courseId, sc.evaluation.name);
 
 		setupSelenium();
@@ -77,11 +75,9 @@ public class TestCoordEditResults extends BaseTest {
 			setSubmissionPoint(i, "80");
 		}
 		waitAndClick(resultEditButton);
-		if (isElementPresent(statusMessage) && getElementText(statusMessage).equals("The particular evaluation results have been edited."))
-			fail("Fail: JS did not check feedback not empty.");
-		else
-			waitForElementText(editEvaluationResultsStatusMessage, "Please fill in all the relevant fields.");
+		waitForElementText(statusMessage, "The particular evaluation results have been edited.");
 
+		waitAndClick(resultIndividualEditButton);
 		// try 2: fill in justifications only
 		for (int i = 0; i < s.team.students.size(); i++) {
 			// clean up contribution data added in try 1
@@ -90,10 +86,7 @@ public class TestCoordEditResults extends BaseTest {
 			
 		}
 		waitAndClick(resultEditButton);
-		if (isElementPresent(statusMessage) && getElementText(statusMessage).equals("The particular evaluation results have been edited."))
-			fail("Fail: JS did not check feedback not empty.");
-		else
-			waitForElementText(editEvaluationResultsStatusMessage, "Please fill in all the relevant fields.");
+		waitForElementText(editEvaluationResultsStatusMessage, "Please fill in all the relevant fields.");
 
 		// try 3: fill in commentsToStudent only
 		for (int i = 0; i < s.team.students.size(); i++) {
@@ -102,10 +95,7 @@ public class TestCoordEditResults extends BaseTest {
 			setSubmissionComments( i, String.format("Edit:: Comments from %s to %s.", s.email, s.team.students.get(i).email));
 		}
 		waitAndClick(resultEditButton);
-		if (isElementPresent(statusMessage) && getElementText(statusMessage).equals("The particular evaluation results have been edited."))
-			fail("Fail: JS did not check feedback not empty.");
-		else
-			waitForElementText(editEvaluationResultsStatusMessage, "Please fill in all the relevant fields.");
+		waitForElementText(editEvaluationResultsStatusMessage, "Please fill in all the relevant fields.");
 
 		// Submit with new data: successful
 		System.out.println("testEditEmptyResult: submit with new data");

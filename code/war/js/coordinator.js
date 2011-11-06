@@ -1016,7 +1016,7 @@ function doEditEvaluationResultsByReviewer(form, summaryList, position, comments
 	var submissionList = extractSubmissionList(form);
 	
 	var results = editEvaluationResults(submissionList, commentsEnabled);
-	
+
 	if(results == 0)
 	{
 		submissionList = getSubmissionList(submissionList[0].courseID, submissionList[0].evaluationName);
@@ -1414,23 +1414,13 @@ function editEvaluation(courseID, name, editStart, editStartTime, editDeadline, 
 /*
  * Returns
  * 
- * 0: successful 1: server error 2: deadline passed 3: fields missing
+ * 0: successful 1: server error 2: fields missing
  * 
  */
 function editEvaluationResults(submissionList, commentsEnabled)
 {
 	for(loop = 0; loop < submissionList.length; loop++)
 	{
-		if(submissionList[loop].commentsToStudent == "" && commentsEnabled == true)
-		{
-			return 2;
-		}
-		
-		if(submissionList[loop].justification == "")
-		{
-			return 2;
-		}
-		
 		if(submissionList[loop].points == -999)
 		{
 			return 2;
@@ -1451,11 +1441,6 @@ function editEvaluationResults(submissionList, commentsEnabled)
 	{
 		var toStudent;
 		
-		if (STUDENT_TOSTUDENT.indexOf("Evaluation To ") != -1)
-			toStudent = STUDENT_TOSTUDENT.slice(14);
-		else if (STUDENT_TOSTUDENT.indexOf("'s Evaluation Submission") != -1)
-			toStudent = STUDENT_TOSTUDENT.slice(0, STUDENT_TOSTUDENT.indexOf("'s Evaluation Submission"));
-
 		request = request + "&" +
 				  STUDENT_FROMSTUDENT +  loop + "=" + 
 				  encodeURIComponent(submissionList[loop].fromStudent) + "&" +
