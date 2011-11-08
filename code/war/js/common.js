@@ -384,46 +384,51 @@ function printStudentList(studentList, courseID) {
 				+ "<td>" + sanitize(studentList[loop].teamName) + "</td>"
 				+ "<td class='centeralign'>";
 
-		if (studentList[loop].googleID == "") {
-			output = output
-					+ "YET TO JOIN"
-					+ "</td>"
-					+ "<td class='centeralign'>"
-					+ "<a class='t_student_view' href=\"javascript:displayStudentInformation('"
-					+ studentList[loop].courseID
-					+ "', '"
-					+ studentList[loop].email
-					+ "', '"
-					+ escape(studentList[loop].name)
-					+ "','"
-					+ escape(studentList[loop].teamName)
-					+ "','"
-					+ studentList[loop].googleID
-					+ "','"
-					+ studentList[loop].registrationKey
-					+ "','"
-					+ escape(studentList[loop].comments)
-					+ "');hideddrivetip();\""
-					+ "onmouseover=\"ddrivetip('View the details of the student')\""
-					+ "onmouseout=\"hideddrivetip()\">View</a>"
-					+ "<a class='t_student_edit' href=\"javascript:displayEditStudent('"
-					+ studentList[loop].courseID
-					+ "', '"
-					+ studentList[loop].email
-					+ "', '"
-					+ escape(studentList[loop].name)
-					+ "','"
-					+ escape(studentList[loop].teamName)
-					+ "','"
-					+ studentList[loop].googleID
-					+ "','"
-					+ studentList[loop].registrationKey
-					+ "','"
-					+ escape(studentList[loop].comments)
-					+ "');hideddrivetip();\""
-					+ "onmouseover=\"ddrivetip('Edit the details of the student')\""
-					+ "onmouseout=\"hideddrivetip()\">Edit</a>"
-					+ "<a class='t_student_resend' href=\"javascript:doSendRegistrationKey('"
+		if (studentList[loop].googleID == "")
+			output = output	+ "YET TO JOIN";
+		else
+			output = output	+ "JOINED";
+		
+		output = output	+ "</td>"
+				+ "<td class='centeralign'>"
+				+ "<a class='t_student_view' href=\"javascript:displayStudentInformation('"
+				+ studentList[loop].courseID
+				+ "', '"
+				+ studentList[loop].email
+				+ "', '"
+				+ escape(studentList[loop].name)
+				+ "','"
+				+ escape(studentList[loop].teamName)
+				+ "','"
+				+ studentList[loop].googleID
+				+ "','"
+				+ studentList[loop].registrationKey
+				+ "','"
+				+ escape(studentList[loop].comments)
+				+ "');hideddrivetip();\""
+				+ "onmouseover=\"ddrivetip('View the details of the student')\""
+				+ "onmouseout=\"hideddrivetip()\">View</a>"
+				+ "<a class='t_student_edit' href=\"javascript:displayEditStudent('"
+				+ studentList[loop].courseID
+				+ "', '"
+				+ studentList[loop].email
+				+ "', '"
+				+ escape(studentList[loop].name)
+				+ "','"
+				+ escape(studentList[loop].teamName)
+				+ "','"
+				+ studentList[loop].googleID
+				+ "','"
+				+ studentList[loop].registrationKey
+				+ "','"
+				+ escape(studentList[loop].comments)
+				+ "');hideddrivetip();\""
+				+ "onmouseover=\"ddrivetip('Edit the details of the student')\""
+				+ "onmouseout=\"hideddrivetip()\">Edit</a>";
+		
+		if (studentList[loop].googleID == ""){
+			output = output	+ 
+					"<a class='t_student_resend' href=\"javascript:doSendRegistrationKey('"
 					+ studentList[loop].courseID
 					+ "', '"
 					+ studentList[loop].email
@@ -431,69 +436,29 @@ function printStudentList(studentList, courseID) {
 					+ studentList[loop].name
 					+ "');hideddrivetip();\""
 					+ "onmouseover=\"ddrivetip('E-mail the registration key to the student')\""
-					+ "onmouseout=\"hideddrivetip()\">Resend Invite</a>"
-					+ "<a class='t_student_delete' href=\"javascript:toggleDeleteStudentConfirmation('"
-					+ studentList[loop].courseID
-					+ "', '"
-					+ studentList[loop].email
-					+ "', '"
-					+ studentList[loop].name
-					+ "');hideddrivetip();\""
-					+ "onmouseover=\"ddrivetip('Delete the student and the corresponding evaluations from the course')\""
-					+ "onmouseout=\"hideddrivetip()\">Delete</a>" + "</td>"
-					+ "</tr>";
-
-			unregisteredCount++;
-		} else {
-			output = output
-					+ "JOINED"
-					+ "</td>"
-					+ "<td class='centeralign'>"
-					+ "<a href=\"javascript:displayStudentInformation('"
-					+ studentList[loop].courseID
-					+ "', '"
-					+ studentList[loop].email
-					+ "', '"
-					+ escape(studentList[loop].name)
-					+ "','"
-					+ escape(studentList[loop].teamName)
-					+ "','"
-					+ studentList[loop].googleID
-					+ "','"
-					+ studentList[loop].registrationKey
-					+ "','"
-					+ escape(studentList[loop].comments)
-					+ "');hideddrivetip();\""
-					+ "onmouseover=\"ddrivetip('View the details of the student')\""
-					+ "onmouseout=\"hideddrivetip()\">View</a>"
-					+ "<a href=\"javascript:displayEditStudent('"
-					+ studentList[loop].courseID
-					+ "', '"
-					+ studentList[loop].email
-					+ "', '"
-					+ escape(studentList[loop].name)
-					+ "','"
-					+ escape(studentList[loop].teamName)
-					+ "','"
-					+ studentList[loop].googleID
-					+ "','"
-					+ studentList[loop].registrationKey
-					+ "','"
-					+ escape(studentList[loop].comments)
-					+ "');hideddrivetip();\""
-					+ "onmouseover=\"ddrivetip('Edit the details of the student')\""
-					+ "onmouseout=\"hideddrivetip()\">Edit</a>"
-					+ "<a class='t_student_delete' href=\"javascript:toggleDeleteStudentConfirmation('"
-					+ studentList[loop].courseID
-					+ "', '"
-					+ studentList[loop].email
-					+ "', '"
-					+ escape(studentList[loop].name)
-					+ "');hideddrivetip();\""
-					+ "onmouseover=\"ddrivetip('Delete the student and the corresponding evaluations from the course')\""
-					+ "onmouseout=\"hideddrivetip()\">Delete</a>"
-					+ "</td></tr>";
+					+ "onmouseout=\"hideddrivetip()\">Resend Invite</a>";
 		}
+		
+		output = output	+ 
+				"<a class='t_student_delete' href=\"javascript:toggleDeleteStudentConfirmation('"
+				+ studentList[loop].courseID
+				+ "', '"
+				+ studentList[loop].email
+				+ "', '";
+		
+		if (studentList[loop].googleID == "")
+			output = output	+ studentList[loop].name;
+		else
+			output = output + escape(studentList[loop].name);
+		
+		output = output 
+				+ "');hideddrivetip();\""
+				+ "onmouseover=\"ddrivetip('Delete the student and the corresponding evaluations from the course')\""
+				+ "onmouseout=\"hideddrivetip()\">Delete</a>" + "</td>"
+				+ "</tr>";
+
+		if (studentList[loop].googleID == "")	
+			unregisteredCount++; 
 	}
 
 	output = output + "</table>" + "<br />";
@@ -1094,7 +1059,8 @@ function printEvaluationActions(evaluationList, position) {
 			+ ">Edit</a>";
 	// 3.DELETE:
 	output = output
-			+ "<a class='t_eval_delete' href=\"javascript:toggleDeleteEvaluationConfirmation('"
+			+ "<a class='t_eval_delete' name=\"deleteEvaluation" + position
+			+ "\" id=\"deleteEvaluation" + position + "\" href=\"javascript:toggleDeleteEvaluationConfirmation('"
 			+ evaluationList[position].courseID + "','"
 			+ evaluationList[position].name + "');hideddrivetip();\""
 			+ "onmouseover=\"ddrivetip('Delete the evaluation')\""
@@ -1127,12 +1093,9 @@ function printEvaluationActions(evaluationList, position) {
 	} else {
 		output = output
 				+ "<a class='t_eval_publish' name=\"unpublishEvaluation"
-				+ position
-				+ "\" id=\"publishEvaluation"
-				+ position
+				+ position + "\" id=\"publishEvaluation" + position
 				+ "\"  href=\"javascript:togglePublishEvaluation('"
-				+ evaluationList[position].courseID
-				+ "','"
+				+ evaluationList[position].courseID	+ "','"
 				+ evaluationList[position].name
 				+ "', true, true);hideddrivetip();\""
 				+ "onmouseover=\"ddrivetip('Publish evaluation results for students to view')\""
@@ -1235,23 +1198,21 @@ function printEvaluationSummaryForm(submissionList, summaryList, status,
 
 	var submitted;
 	var output = "";
+	
+	output = output
+			+ "<table id=\"dataform\">"
+			+ "<tr>"
+			+ "<th class=\"leftalign\"><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortteamname\">TEAM</input></th>"
+			+ "<th class=\"leftalign\"><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortname\">STUDENT</input></th>";
 
 	// thead:
 	if (type == REVIEWER) {
-		output = output
-				+ "<table id=\"dataform\">"
-				+ "<tr>"
-				+ "<th class=\"leftalign\"><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortteamname\">TEAM</input></th>"
-				+ "<th class=\"leftalign\"><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortname\">STUDENT</input></th>"
+		output = output 
 				+ "<th class=\"centeralign\"><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortsubmitted\">SUBMITTED</input></th>"
 				+ "<th class=\"centeralign\">ACTION(S)</th>" + "</tr>";
 
 	} else {
 		output = output
-				+ "<table id=\"dataform\">"
-				+ "<tr>"
-				+ "<th class=\"leftalign\"><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortteamname\">TEAM</input></th>"
-				+ "<th class=\"leftalign\"><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortname\">STUDENT</input></th>"
 				+ "<th class=\"leftalign\"><div  onmouseover=\"ddrivetip('"
 				+ HOVER_MESSAGE_CLAIMED
 				+ "')\" onmouseout=\"hideddrivetip()\"><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortaverage\">CLAIMED CONTRIBUTION</input></div></th>"
@@ -1259,7 +1220,6 @@ function printEvaluationSummaryForm(submissionList, summaryList, status,
 				+ HOVER_MESSAGE_PERCEIVED_CLAIMED
 				+ "')\" onmouseout=\"hideddrivetip()\"><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortdiff\">[PERCEIVED - CLAIMED]</input></div></th>"
 				+ "<th class=\"centeralign\">ACTION(S)</th>" + "</tr>";
-
 	}
 
 	for (loop = 0; loop < summaryList.length; loop++) {
@@ -1434,8 +1394,6 @@ function printEvaluationSummaryForm(submissionList, summaryList, status,
 function printEvaluationDetailForm(submissionList, summaryList, status,
 		commentsEnabled, type) {
 	clearStatusMessage();
-	// //Sort by team first
-	// summaryList = summaryList.sort(sortByTeamName);
 
 	var output = (type == REVIEWER) ? helpPrintTitle(REVIEWER_TITLE_DETAIL)
 			: helpPrintTitle(REVIEWEE_TITLE_DETAIL);
@@ -1444,9 +1402,8 @@ function printEvaluationDetailForm(submissionList, summaryList, status,
 	for (x = 0; x < summaryList.length; x++) {
 		// Team Name:
 		if (x == 0 || summaryList[x].teamName != summaryList[x - 1].teamName) {
-			if (x != 0) {
+			if (x != 0)
 				output = output + "</div><br />";
-			}
 			output = output + helpPrintResultTeam(summaryList[x].teamName);
 		}
 		output = output
@@ -1469,7 +1426,6 @@ function printEvaluationDetailForm(submissionList, summaryList, status,
 	}
 
 	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-
 }
 
 /*
@@ -1521,7 +1477,6 @@ function printEvaluationIndividualForm(submissionList, summaryList, position,
 						+ helpPrintResultOtherComments(student, points,
 								justification, commentsToStudent);
 			}
-
 		}
 	}
 
@@ -1533,13 +1488,9 @@ function printEvaluationIndividualForm(submissionList, summaryList, position,
 			+ "<input type=\"button\" class =\"button\" value=\"Previous\" name=\"button_previous\" id=\"button_previous\">"
 			+ " <input type=\"button\" class =\"button\" value=\"Next\" name=\"button_next\" id=\"button_next\">";
 
-	if (type == REVIEWER) {
-		if (status == "CLOSED") {
-			output = output
-					+ " <input type=\"button\" class =\"button\" type=\"button\" value=\"Edit\" name=\"button_edit\" id=\"button_edit\">";
-		} else {
-			output = output + " ";
-		}
+	if (type == REVIEWER && status == "CLOSED") {
+		output = output
+				+ " <input type=\"button\" class =\"button\" type=\"button\" value=\"Edit\" name=\"button_edit\" id=\"button_edit\">";
 	}
 
 	output = output
@@ -1562,7 +1513,6 @@ function printEvaluationIndividualForm(submissionList, summaryList, position,
 		clearStatusMessage();
 		if (position == 0) {
 			position = summaryList.length - 1;
-
 		} else {
 			position--;
 		}
@@ -1579,7 +1529,6 @@ function printEvaluationIndividualForm(submissionList, summaryList, position,
 					position, commentsEnabled, status)
 		};
 	}
-
 }
 
 /*
@@ -1780,12 +1729,10 @@ function printEditEvaluationResultsByReviewer(submissionList, summaryList,
 							+ "Disabled"
 							+ "</textarea>" + "</td>" + "</tr>" + outputTemp;
 				}
-
 			}
 			// Print data: evaluations to other team members
 			else {
-				if (commentsToStudent != "Disabled") {
-					outputTemp = outputTemp
+				outputTemp = outputTemp
 							+ "<tr style=\"display:none\">"
 							+ "<td>"
 							+ "<input type=\"text\" value=\""
@@ -1906,145 +1853,22 @@ function printEditEvaluationResultsByReviewer(submissionList, summaryList,
 							+ "<td class=\"lhs\">"
 							+ "Message to this teammate:<br />(shown anonymously to the teammate)"
 							+ "</td>"
-							+ "<td>"
-							+ "<textarea class=\"textvalue\" rows=\"8\" cols=\"100\" name=\""
-							+ STUDENT_COMMENTSTOSTUDENT + counter + "\" id=\""
-							+ STUDENT_COMMENTSTOSTUDENT + counter + "\">"
-							+ sanitize(commentsToStudent) + "</textarea>"
-							+ "</td>" + "</tr>";
-				}
-
-				else {
-					outputTemp = outputTemp
-							+ "<tr style=\"display:none\">"
-							+ "<td>"
-							+ "<input type=\"text\" value=\""
-							+ submissionList[loop].fromStudent
-							+ "\" name=\""
-							+ STUDENT_FROMSTUDENT
-							+ counter
-							+ "\" id=\""
-							+ STUDENT_FROMSTUDENT
-							+ counter
-							+ "\">"
-							+ "<input type=\"text\" value=\""
-							+ submissionList[loop].toStudent
-							+ "\" name=\""
-							+ STUDENT_TOSTUDENT
-							+ counter
-							+ "\" id=\""
-							+ STUDENT_TOSTUDENT
-							+ counter
-							+ "\">"
-							+ "</td>"
-							+ "</tr>"
-							+ "<tr style=\"display:none\">"
-							+ "<td>"
-							+ "<input type=\"text\" value=\""
-							+ summaryList[position].teamName
-							+ "\" name=\""
-							+ STUDENT_TEAMNAME
-							+ counter
-							+ "\" id=\""
-							+ STUDENT_TEAMNAME
-							+ counter
-							+ "\">"
-							+ "<input type=\"text\" value=\""
-							+ submissionList[0].courseID
-							+ "\" name=\""
-							+ COURSE_ID
-							+ counter
-							+ "\" id=\""
-							+ COURSE_ID
-							+ counter
-							+ "\">"
-							+ "</td>"
-							+ "</tr>"
-							+ "<tr style=\"display:none\">"
-							+ "<td>"
-							+ "<input type=\"text\" value=\""
-							+ submissionList[0].evaluationName
-							+ "\" name=\""
-							+ EVALUATION_NAME
-							+ counter
-							+ "\" id=\""
-							+ EVALUATION_NAME
-							+ counter
-							+ "\">"
-							+ "</td>"
-							+ "</tr>"
-							+ "<tr>"
-							+ "<td colspan=\"2\" class=\"reportheader\">Evaluation To "
-							+ submissionList[loop].toStudentName.toUpperCase()
-							+ "</td>"
-							+ "</tr>"
-							+ "<tr>"
-							+ "<td class=\"lhs\">"
-							+ "Estimated contribution:"
-							+ "</td>"
-							+ "<td>"
-							+ "<select style=\"width: 150px;\" name=\""
-							+ STUDENT_POINTS
-							+ counter
-							+ "\" id=\""
-							+ STUDENT_POINTS
-							+ counter
-							+ "\">"
-							+ "<option value=\"200\">Equal share + 100%</option>"
-							+ "<option value=\"190\">Equal share + 90%</option>"
-							+ "<option value=\"180\">Equal share + 80%</option>"
-							+ "<option value=\"170\">Equal share + 70%</option>"
-							+ "<option value=\"160\">Equal share + 60%</option>"
-							+ "<option value=\"150\">Equal share + 50%</option>"
-							+ "<option value=\"140\">Equal share + 40%</option>"
-							+ "<option value=\"130\">Equal share + 30%</option>"
-							+ "<option value=\"120\">Equal share + 20%</option>"
-							+ "<option value=\"110\">Equal share + 10%</option>"
-							+ "<option value=\"100\">Equal Share</option>"
-							+ "<option value=\"90\">Equal share - 10%</option>"
-							+ "<option value=\"80\">Equal share - 20%</option>"
-							+ "<option value=\"70\">Equal share - 30%</option>"
-							+ "<option value=\"60\">Equal share - 40%</option>"
-							+ "<option value=\"50\">Equal share - 50%</option>"
-							+ "<option value=\"40\">Equal share - 60%</option>"
-							+ "<option value=\"30\">Equal share - 70%</option>"
-							+ "<option value=\"20\">Equal share - 80%</option>"
-							+ "<option value=\"10\">Equal share - 90%</option>"
-							+ "<option value=\"0\">0%</option>"
-							+ "<option value=\"-101\">Not Sure</option>"
-							+ "<option value=\"-999\" SELECTED>N/A</option>"
-							+ "</select>"
-							+ "</td>"
-							+ "</tr>"
-							+ "<tr>"
-							+ "<td class=\"lhs\">"
-							+ "Comments about this teammate:<br />(not shown to the teammate)"
-							+ "</td>"
-							+ "<td>"
-							+ "<textarea class=\"textvalue\" rows=\"8\" cols=\"100\" name=\""
-							+ STUDENT_JUSTIFICATION
-							+ counter
-							+ "\" id=\""
-							+ STUDENT_JUSTIFICATION
-							+ counter
-							+ "\">"
-							+ sanitize(justification)
-							+ "</textarea>"
-							+ "</td>"
-							+ "</tr>"
-							+ "<tr>"
-							+ "<td class=\"lhs\">"
-							+ "Message to this teammate:<br >(shown anonymously to the teammate)"
-							+ "</td>"
-							+ "<td>"
-							+ "<textarea class=\"textvalue\" rows=\"2\" cols=\"100\" name=\""
-							+ STUDENT_COMMENTSTOSTUDENT + counter + "\" id=\""
-							+ STUDENT_COMMENTSTOSTUDENT + counter
-							+ "\" disabled=\"disabled\">" + "Disabled"
-							+ "</textarea>" + "</td>" + "</tr>";
+							+ "<td>";
+							
+				if (commentsToStudent != "Disabled") {			
+					outputTemp = outputTemp	+ "<textarea class=\"textvalue\" rows=\"8\" cols=\"100\" name=\""
+								+ STUDENT_COMMENTSTOSTUDENT + counter + "\" id=\""
+								+ STUDENT_COMMENTSTOSTUDENT + counter + "\">"
+								+ sanitize(commentsToStudent) + "</textarea>"
+								+ "</td>" + "</tr>";
+				}else{
+					outputTemp = outputTemp + "<textarea class=\"textvalue\" rows=\"2\" cols=\"100\" name=\""
+								+ STUDENT_COMMENTSTOSTUDENT + counter + "\" id=\""
+								+ STUDENT_COMMENTSTOSTUDENT + counter
+								+ "\" disabled=\"disabled\">" + "Disabled"
+								+ "</textarea>" + "</td>" + "</tr>";
 				}
 			}
-
 			counter++;
 		}
 	}
@@ -2069,7 +1893,6 @@ function printEditEvaluationResultsByReviewer(submissionList, summaryList,
 		printEvaluationIndividualForm(submissionList, summaryList, position,
 				commentsEnabled, status, REVIEWER);
 	};
-
 }
 
 /*------------------------------------------PRINT STUDENT PAGE------------------------------------------*/
@@ -2383,7 +2206,6 @@ function printSubmissionForm(submissionList, commentsEnabled) {
 	var output = "<form name=\"form_submitevaluation\" id=\"form_submitevaluation\">"
 			+ "<table class=\"headerform\">";
 
-	if (commentsEnabled == true) {
 		output = output
 				+ "<tr style=\"display:none\"><td>"
 				+ "<input type=\"text\" value=\""
@@ -2456,194 +2278,22 @@ function printSubmissionForm(submissionList, commentsEnabled) {
 				+ "<tr>"
 				+ "<td class=\"lhs\">Comments about your contribution:</td>"
 				+ "<td><textarea class = \"textvalue\" type=\"text\" rows=\"8\" cols=\"100\" name=\""
-				+ STUDENT_JUSTIFICATION
-				+ 0
-				+ "\" id=\""
-				+ STUDENT_JUSTIFICATION
-				+ 0
-				+ "\"></textarea></td>"
-				+ "</tr>"
-				+ "<tr>"
-				+ "<td class=\"lhs\">Comments about team dynamics:</td>"
-				+ "<td><textarea class = \"textvalue\" type=\"text\" rows=\"8\" cols=\"100\" name=\""
-				+ STUDENT_COMMENTSTOSTUDENT + 0 + "\" id=\""
-				+ STUDENT_COMMENTSTOSTUDENT + 0 + "\"></textarea></td>"
-				+ "</tr>" + "<tr>" + "<td colspan=\"2\"></td>" + "</tr>";
-
-		for (loop = 1; loop < submissionList.length; loop++) {
-			output = output
-					+ "<tr style=\"display:none\"><td>"
-					+ "<input type=text value=\""
-					+ submissionList[loop].fromStudent
-					+ "\" name=\""
-					+ STUDENT_FROMSTUDENT
-					+ loop
-					+ "\" id=\""
-					+ STUDENT_FROMSTUDENT
-					+ loop
-					+ "\">"
-					+ "<input type=text value=\""
-					+ submissionList[loop].toStudent
-					+ "\" name=\""
-					+ STUDENT_TOSTUDENT
-					+ loop
-					+ "\" id=\""
-					+ STUDENT_TOSTUDENT
-					+ loop
-					+ "\">"
-					+ "</td></tr>"
-					+ "<tr style=\"display:none\"><td>"
-					+ "<input type=\"text\" value=\""
-					+ submissionList[0].courseID
-					+ "\" name=\""
-					+ COURSE_ID
-					+ loop
-					+ "\" id=\""
-					+ COURSE_ID
-					+ loop
-					+ "\">"
-					+ "<input type=\"text\" value=\""
-					+ submissionList[0].evaluationName
-					+ "\" name=\""
-					+ EVALUATION_NAME
-					+ loop
-					+ "\" id=\""
-					+ EVALUATION_NAME
-					+ loop
-					+ "\">"
-					+ "</td></tr>"
-					+ "<tr style=\"display:none\"><td>"
-					+ "<input type=\"text\" value=\""
-					+ submissionList[0].teamName
-					+ "\" name=\""
-					+ STUDENT_TEAMNAME
-					+ loop
-					+ "\" id=\""
-					+ STUDENT_TEAMNAME
-					+ loop
-					+ "\">"
-					+ "</td></tr>"
-					+ "<tr>"
-					+ "<td class=\"reportheader\" colspan=\"2\">Evaluation for "
-					+ submissionList[loop].toStudentName
-					+ "</td>"
-					+ "</tr>"
-					+ "<tr>"
-					+ "<td class=\"lhs\">Estimated contribution:</td>"
-					+ "<td><select style=\"width: 150px\" name=\""
-					+ STUDENT_POINTS
-					+ 0
-					+ "\" id=\""
-					+ STUDENT_POINTS
-					+ loop /*
-					 * huy change from 0 to loop
-					 */
-					+ "\" >"
-					+ getEvaluationOptionString()
-					+ "</select></td>"
-					+ "</tr>"
-					+ "<tr>"
-					+ "<td class=\"lhs\">Confidential comments about this teammate:<br />(not shown to the teammate)</td>"
-					+ "<td><textarea class = \"textvalue\" type=\"text\" rows=\"8\" cols=\"100\" name=\""
-					+ STUDENT_JUSTIFICATION
-					+ loop
-					+ "\" id=\""
-					+ STUDENT_JUSTIFICATION
-					+ loop
-					+ "\"></textarea></td>"
-					+ "</tr>"
-					+ "<tr>"
-					+ "<td class=\"lhs\">Your feedback to this teammate:<br />(shown anonymously to the teammate)</td>"
-					+ "<td><textarea class = \"textvalue\" type=\"text\" rows=\"8\" cols=\"100\" name=\""
-					+ STUDENT_COMMENTSTOSTUDENT + loop + "\" id=\""
-					+ STUDENT_COMMENTSTOSTUDENT + loop + "\"></textarea></td>"
-					+ "</tr>";
-
-			if (loop != submissionList.length - 1) {
-				output = output + "<tr>" + "<td colspan=\"2\"></td>" + "</tr>";
-			}
-		}
-	}
-
-	else {
-		output = output
-				+ "<tr style=\"display:none\"><td>"
-				+ "<input type=\"text\" value=\""
-				+ submissionList[0].fromStudent
-				+ "\" name=\""
-				+ STUDENT_FROMSTUDENT
-				+ loop
-				+ "\" id=\""
-				+ STUDENT_FROMSTUDENT
-				+ loop
-				+ "\">"
-				+ "<input type=\"text\" value=\""
-				+ submissionList[0].toStudent
-				+ "\" name=\""
-				+ STUDENT_TOSTUDENT
-				+ loop
-				+ "\" id=\""
-				+ STUDENT_TOSTUDENT
-				+ loop
-				+ "\">"
-				+ "</td></tr>"
-				+ "<tr style=\"display:none\"><td>"
-				+ "<input type=\"text\" value=\""
-				+ submissionList[0].courseID
-				+ "\" name=\""
-				+ COURSE_ID
-				+ loop
-				+ "\" id=\""
-				+ COURSE_ID
-				+ loop
-				+ "\">"
-				+ "<input type=\"text\" value=\""
-				+ submissionList[0].evaluationName
-				+ "\" name=\""
-				+ EVALUATION_NAME
-				+ loop
-				+ "\" id=\""
-				+ EVALUATION_NAME
-				+ loop
-				+ "\">"
-				+ "</td></tr>"
-				+ "<tr style=\"display:none\"><td>"
-				+ "<input type=\"text\" value=\""
-				+ submissionList[0].teamName
-				+ "\" name=\""
-				+ STUDENT_TEAMNAME
-				+ loop
-				+ "\" id=\""
-				+ STUDENT_TEAMNAME
-				+ loop
-				+ "\">"
-				+ "</td></tr>"
-				+ "<tr>"
-				+ "<td class=\"reportheader\" colspan=\"2\">Self evaluation in Team ["
-				+ submissionList[0].teamName
-				+ "]</td>"
-				+ "</tr>"
-				+ "<tr>"
-				+ "<td class=\"lhs\">Estimated contribution:</td>"
-				+ "<td><select style=\"width: 150px\" name=\""
-				+ STUDENT_POINTS
-				+ 0
-				+ "\" id=\""
-				+ STUDENT_POINTS
-				+ 0
-				+ "\">"
-				+ getEvaluationOptionString()
-				+ "</select></td>"
-				+ "</tr>"
-				+ "<tr>"
-				+ "<td class=\"lhs\">Comments about your contribution:</td>"
-				+ "<td><textarea class = \"textvalue\" type=\"text\" rows=\"8\" cols=\"100\" name=\""
-				+ STUDENT_JUSTIFICATION + 0 + "\" id=\""
-				+ STUDENT_JUSTIFICATION + 0 + "\">" + "</textarea></td>"
+				+ STUDENT_JUSTIFICATION	+ 0	+ "\" id=\""
+				+ STUDENT_JUSTIFICATION	+ 0	+ "\"></textarea></td>"
 				+ "</tr>" + "<tr>"
-				+ "<td class=\"lhs\">Comments about team dynamics:</td>"
-				+ "<td>" + getDisabledString() + "</td>" + "</tr>" + "<tr>"
-				+ "<td colspan=\"2\"></td>" + "</tr>";
+				+ "<td class=\"lhs\">Comments about team dynamics:</td>";
+		
+		if (commentsEnabled == true) {
+			output = output
+					+ "<td><textarea class = \"textvalue\" type=\"text\" rows=\"8\" cols=\"100\" name=\""
+					+ STUDENT_COMMENTSTOSTUDENT + 0 + "\" id=\""
+					+ STUDENT_COMMENTSTOSTUDENT + 0 + "\"></textarea></td>"
+					+ "</tr>" + "<tr>" + "<td colspan=\"2\"></td>" + "</tr>";
+		}else{
+			output = output
+					+ "<td>" + getDisabledString() + "</td>" + "</tr>" + "<tr>"
+					+ "<td colspan=\"2\"></td>" + "</tr>";
+		}
 
 		for (loop = 1; loop < submissionList.length; loop++) {
 			output = output
@@ -2708,32 +2358,46 @@ function printSubmissionForm(submissionList, commentsEnabled) {
 					+ "<td><select style=\"width: 150px\" name=\""
 					+ STUDENT_POINTS
 					+ 0
-					+ "\" id=\""
-					+ STUDENT_POINTS
-					+ 0
-					+ "\" >"
-					+ "<option value=\"200\">Equal share + 100%</option>"
-					+ "<option value=\"190\">Equal share + 90%</option>"
-					+ "<option value=\"180\">Equal share + 80%</option>"
-					+ "<option value=\"170\">Equal share + 70%</option>"
-					+ "<option value=\"160\">Equal share + 60%</option>"
-					+ "<option value=\"150\">Equal share + 50%</option>"
-					+ "<option value=\"140\">Equal share + 40%</option>"
-					+ "<option value=\"130\">Equal share + 30%</option>"
-					+ "<option value=\"120\">Equal share + 20%</option>"
-					+ "<option value=\"110\">Equal share + 10%</option>"
-					+ "<option value=\"100\" SELECTED>Equal Share</option>"
-					+ "<option value=\"90\">Equal share - 10%</option>"
-					+ "<option value=\"80\">Equal share - 20%</option>"
-					+ "<option value=\"70\">Equal share - 30%</option>"
-					+ "<option value=\"60\">Equal share - 40%</option>"
-					+ "<option value=\"50\">Equal share - 50%</option>"
-					+ "<option value=\"40\">Equal share - 60%</option>"
-					+ "<option value=\"30\">Equal share - 70%</option>"
-					+ "<option value=\"20\">Equal share - 80%</option>"
-					+ "<option value=\"10\">Equal share - 90%</option>"
-					+ "<option value=\"0\">0%</option>"
-					+ "<option value=\"-101\">Not Sure</option>"
+					+ "\" id=\"";
+					
+			if (commentsEnabled == true) {		
+				output = output
+						+ STUDENT_POINTS
+						+ loop /*
+						* huy change from 0 to loop
+						*/	
+						+ "\" >"
+						+ getEvaluationOptionString();
+			}else{
+				output = output
+						+ STUDENT_POINTS
+						+ 0
+						+ "\" >"
+						+ "<option value=\"200\">Equal share + 100%</option>"
+						+ "<option value=\"190\">Equal share + 90%</option>"
+						+ "<option value=\"180\">Equal share + 80%</option>"
+						+ "<option value=\"170\">Equal share + 70%</option>"
+						+ "<option value=\"160\">Equal share + 60%</option>"
+						+ "<option value=\"150\">Equal share + 50%</option>"
+						+ "<option value=\"140\">Equal share + 40%</option>"
+						+ "<option value=\"130\">Equal share + 30%</option>"
+						+ "<option value=\"120\">Equal share + 20%</option>"
+						+ "<option value=\"110\">Equal share + 10%</option>"
+						+ "<option value=\"100\" SELECTED>Equal Share</option>"
+						+ "<option value=\"90\">Equal share - 10%</option>"
+						+ "<option value=\"80\">Equal share - 20%</option>"
+						+ "<option value=\"70\">Equal share - 30%</option>"
+						+ "<option value=\"60\">Equal share - 40%</option>"
+						+ "<option value=\"50\">Equal share - 50%</option>"
+						+ "<option value=\"40\">Equal share - 60%</option>"
+						+ "<option value=\"30\">Equal share - 70%</option>"
+						+ "<option value=\"20\">Equal share - 80%</option>"
+						+ "<option value=\"10\">Equal share - 90%</option>"
+						+ "<option value=\"0\">0%</option>"
+						+ "<option value=\"-101\">Not Sure</option>";
+			}
+			
+			output = output
 					+ "</select></td>"
 					+ "</tr>"
 					+ "<tr>"
@@ -2746,14 +2410,25 @@ function printSubmissionForm(submissionList, commentsEnabled) {
 					+ loop
 					+ "\"></textarea></td>"
 					+ "</tr>"
-					+ "<tr><td>Your feedback to this teammate:<br/>(shown anonymously to the teammate)</td>"
-					+ "<td>" + getDisabledString() + "</td>" + "</tr>";
+					+ "<tr>";
+					
+			if (commentsEnabled == true) {		
+				output = output
+						+ "<td class=\"lhs\">Your feedback to this teammate:<br />(shown anonymously to the teammate)</td>"
+						+ "<td><textarea class = \"textvalue\" type=\"text\" rows=\"8\" cols=\"100\" name=\""
+						+ STUDENT_COMMENTSTOSTUDENT + loop + "\" id=\""
+						+ STUDENT_COMMENTSTOSTUDENT + loop + "\"></textarea></td>"
+						+ "</tr>";
+			}else{
+				output = output 
+						+ "<tr><td>Your feedback to this teammate:<br/>(shown anonymously to the teammate)</td>"
+						+ "<td>" + getDisabledString() + "</td>" + "</tr>";			
+			}
 
 			if (loop != submissionList.length - 1) {
 				output = output + "<tr>" + "<td colspan=\"2\"></td>" + "</tr>";
 			}
 		}
-	}
 
 	output = output + "</table>" + "</form>" + "<br />";
 
