@@ -12,6 +12,7 @@ import org.junit.runners.Suite;
 	TestCoordCourse.class, 
 	TestCoordEnrollStudents.class,
 	TestCoordEvaluation.class,
+	TestCoordEditResults.class,
 	TestSendKeysJoinCourse.class,
 	TestStudentSubmitFeedbacks.class, 
 	TestStudentReceiveResults.class,
