@@ -39,6 +39,7 @@ public class BaseTest {
 	protected static DefaultSelenium selenium;
 	protected static WebDriver driver;
 	protected static Scenario sc;
+	protected static Scenario nsc;
 	protected static ChromeDriverService chromeService = null;
 
 	// ----------------------UI Element:
@@ -488,6 +489,7 @@ public class BaseTest {
 		selectDropdownByValue(inputGracePeriod,
 				Integer.toString(eval.gracePeriod));
 		// Submit the form
+		justWait();
 		wdClick(addEvaluationButton);
 	}
 
@@ -815,6 +817,10 @@ public class BaseTest {
 
 	protected static void setupScenario() {
 		sc = Scenario.fromJSONFile("./scenario.json");
+	}
+	
+	protected static void setupNewScenarioForMultipleCourses(){
+		nsc = Scenario.newScenario("./scenario.json");
 	}
 
 	protected static void setupScenarioForBumpRatioTest(int index) {

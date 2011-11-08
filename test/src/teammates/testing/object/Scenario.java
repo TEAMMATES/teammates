@@ -96,6 +96,7 @@ public class Scenario {
 		try {
 			sc.coordinator = Coordinator.fromJSONObject( json.getJSONObject("coordinator") );
 			sc.course2 = Course.fromJSONObject(json.getJSONObject("course2") );
+			sc.evaluation = Evaluation.fromJSONObject( json.getJSONObject( "evaluation") );
 			sc.evaluation3 = Evaluation.fromJSONObject( json.getJSONObject( "evaluation3") );
 			sc.evaluation4 = Evaluation.fromJSONObject(json.getJSONObject("evaluation4"));
 			sc.students = Student.fromJSONArray(json.getJSONArray("students"));
@@ -116,6 +117,7 @@ public class Scenario {
 				s.comments = "This student's name is " + s.name;
 			}
 			
+			sc.evaluation.courseID = sc.course2.courseId;
 			sc.evaluation3.courseID = sc.course2.courseId;
 			sc.evaluation4.courseID = sc.course2.courseId;
 			sc.course2.students = sc.students;
