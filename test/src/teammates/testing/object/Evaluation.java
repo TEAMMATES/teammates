@@ -46,6 +46,24 @@ public class Evaluation {
 	public String dateValue;
 	public String nextTimeValue;
 	
+	public static Evaluation createEvaluation(String courseID, String name, String p2pcomments, String instructions, int gracePeriod) {
+		Evaluation evaluation = new Evaluation();
+		evaluation.courseID = courseID;
+		evaluation.name = name;
+		evaluation.startTime = new Date(System.currentTimeMillis());
+		evaluation.endTime = new Date(System.currentTimeMillis() + 24*60*60*1000);
+		
+		evaluation.gracePeriod = gracePeriod;
+		evaluation.p2pcomments = p2pcomments;
+		evaluation.instructions = instructions;
+		
+		evaluation.nextTimeValue = SharedLib.getNextTimeValue();
+		evaluation.dateValue = SharedLib.getDateValue();
+		
+		
+		return evaluation;
+	}
+	
 	public static Evaluation fromJSONObject(JSONObject json) {
 		Evaluation evaluation = new Evaluation();
 		try {

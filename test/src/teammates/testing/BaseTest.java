@@ -123,8 +123,7 @@ public class BaseTest {
 	public static By resultSubmittedSorting = By.id("button_sortsubmitted");
 	public static By resultClaimedSorting = By.id("button_sortaverage");
 	public static By resultDifferenceSorting = By.id("button_sortdiff");
-	public static By resultEditButton = By
-			.id("button_editevaluationresultsbyreviewee");
+	public static By resultEditButton = By.id("button_editevaluationresultsbyreviewee");
 	public static By resultEditCancelButton = By.id("button_back");
 
 	// individual result:
@@ -132,28 +131,14 @@ public class BaseTest {
 	public static By resultPreviousButton = By.id("button_previous");
 	public static By resultIndividualEditButton = By.id("button_edit");
 
-	public static By pointReviewerIndividualClaimed = By
-			.xpath(String
-					.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='data']//tr[%d]//td[%d]",
-							2, 2));;
-	public static By pointReviewerIndividualPerceived = By
-			.xpath(String
-					.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='data']//tr[%d]//td[%d]",
-							3, 2));
-	public static By pointRevieweeIndividualClaimed = By
-			.xpath(String
-					.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='data']//tr[%d]//td[%d]",
-							3, 2));
-	public static By pointRevieweeIndividualPerceived = By
-			.xpath(String
-					.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='data']//tr[%d]//td[%d]",
-							4, 2));
+	public static By pointReviewerIndividualClaimed = By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='data']//tr[%d]//td[%d]", 2, 2));;
+	public static By pointReviewerIndividualPerceived = By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='data']//tr[%d]//td[%d]", 3, 2));
+	public static By pointRevieweeIndividualClaimed = By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='data']//tr[%d]//td[%d]", 3, 2));
+	public static By pointRevieweeIndividualPerceived = By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='data']//tr[%d]//td[%d]", 4, 2));
 
 	public static String getReviewerIndividualClaimedPoint() {
-		String equal = getElementText(By.xpath(String.format(
-				"//div[@class='result_table']//th[%d]//div[%d]", 2, 1)));
-		String point = getElementText(By.xpath(String.format(
-				"//div[@class='result_table']//th[%d]//span[%d]", 2, 2)));
+		String equal = getElementText(By.xpath(String.format("//div[@class='result_table']//th[%d]//div[%d]", 2, 1)));
+		String point = getElementText(By.xpath(String.format("//div[@class='result_table']//th[%d]//span[%d]", 2, 2)));
 		return equal + point;
 	}
 
@@ -167,24 +152,29 @@ public class BaseTest {
 	public static By inputRegKey = By.id("regkey");
 	public static By studentJoinCourseButton = By.id("btnJoinCourse");
 	// student evaluation:
-	public static By studentSubmitEvaluationButton = By
-			.name("submitEvaluation");
+	public static By studentSubmitEvaluationButton = By.name("submitEvaluation");
 	public static By studentEvaluationBackButton = By.className("t_back");
 	public static By studentEvaluationCancelButton = By.className("t_back");
 
 	/**
 	 * message:
 	 */
-	public static By courseMessage = By
-			.xpath("//div[@id='statusMessage']/font[1]");
-	public static By courseErrorMessage = By
-			.xpath("//div[@id='statusMessage']/font[2]");
+	public static By courseMessage = By.xpath("//div[@id='statusMessage']/font[1]");
+	public static By courseErrorMessage = By.xpath("//div[@id='statusMessage']/font[2]");
 	public static By statusMessage = By.id("statusMessage");
-	public static By editEvaluationResultsStatusMessage = By
-			.id("coordinatorEditEvaluationResultsStatusMessage");
+	public static By editEvaluationResultsStatusMessage = By.id("coordinatorEditEvaluationResultsStatusMessage");
 
-	// -----------------------------UI Actions ----------------------------->>
-	// Homepage:
+	/**
+	 * message contents:
+	 */
+	public static final String MESSAGE_COURSE_EXISTS = "The course already exists.";
+	public static final String MESSAGE_COURSE_ADDED = "The course has been added. Click the 'Enrol' link in the table below to add students to the course.";
+	public static final String MESSAGE_COURSE_DELETED = "The course has been deleted.";
+	public static final String MESSAGE_COURSE_DELETEDSTUDENT = "The student has been removed from the course.";
+	public static final String MESSAGE_COURSE_DELETEDALLSTUDENTS = "All students have been removed from the course. Click here to enrol students.";
+	
+	
+	// -----------------------------UI Actions ----------------------------->> Homepage:
 	/**
 	 * Coordinator Login
 	 * 
@@ -197,8 +187,7 @@ public class BaseTest {
 		wdClick(By.name("COORDINATOR_LOGIN"));
 		waitForPageLoad();
 		/*
-		 * IE Fix: for some reason in IE new profile is not created, thus user
-		 * is already logged in. This will log user out.
+		 * IE Fix: for some reason in IE new profile is not created, thus user is already logged in. This will log user out.
 		 */
 		if (isElementPresent(By.className("t_logout"))) {
 			driver.findElement(By.className("t_logout")).click();
@@ -227,8 +216,7 @@ public class BaseTest {
 		wdClick(By.name("STUDENT_LOGIN"));
 		waitForPageLoad();
 		/*
-		 * IE Fix: for some reason in IE new profile is not created, thus user
-		 * is already logged in. This will log user out.
+		 * IE Fix: for some reason in IE new profile is not created, thus user is already logged in. This will log user out.
 		 */
 		if (isElementPresent(By.className("t_logout"))) {
 			driver.findElement(By.className("t_logout")).click();
@@ -254,10 +242,7 @@ public class BaseTest {
 
 	// -----------------------------UI Actions ----------------------------->> Student:
 	public static void studentClickEvaluationViewResults(int row) {
-		By link = By
-				.xpath(String
-						.format("//div[@id='studentPastEvaluations']//table[@id='dataform']//tr[%d]//td[%d]//a[1]",
-								row + 2, 5));
+		By link = By.xpath(String.format("//div[@id='studentPastEvaluations']//table[@id='dataform']//tr[%d]//td[%d]//a[1]", row + 2, 5));
 		waitAndClick(link);
 	}
 
@@ -313,12 +298,20 @@ public class BaseTest {
 	}
 
 	public static String getCourseTeams(int row) {
-		return getElementText(courseTeams);
+		if(row == 0) {
+			return getElementText(courseTeams);
+		}
+		else {
+			return getElementText(By.xpath(String.format("//table[@id='dataform']//tr[%d]//td[3]", row + 2)));
+		}
+	}
+	
+	public static String getCourseTotalStudents(int row) {
+		return getElementText(By.xpath(String.format("//table[@id='dataform']/tbody/tr[%d]/td[4]", row + 2)));
 	}
 
 	public static String getCourseUnregisteredStudents(int row) {
-		return getElementText(By.xpath(String.format(
-				"//table[@id='dataform']/tbody/tr[%d]/td[5]", row + 2)));
+		return getElementText(By.xpath(String.format("//table[@id='dataform']/tbody/tr[%d]/td[5]", row + 2)));
 	}
 
 	public static void clickCourseEnrol(int row) {
@@ -328,13 +321,27 @@ public class BaseTest {
 
 	public static void clickCourseView(int row) {
 		// first row:
-		waitAndClick(By.className("t_course_view"));
-
+		if(row == 0) {
+			waitAndClick(By.className("t_course_view"));	
+		}
+		else {
+			waitAndClick(By.xpath(String.format("//table[@id='dataform']//tr[%d]//td[6]//a[@class='t_course_view']", row + 2)));
+		}
 	}
 
 	public static void clickAndConfirmCourseDelete(int row) {
 		// first row:
 		clickAndConfirm(By.className("t_course_delete"));
+	}
+	
+	public static int countTotalCourses() {
+		if(getElementText(By.xpath(String.format("//table[@id='dataform']//tr[2]//td[1]"))).isEmpty()){
+			return 0;
+		}
+		else {
+			WebElement dataform = driver.findElement(By.id("dataform"));
+			return dataform.findElements(By.tagName("tr")).size() - 1;
+		}
 	}
 
 	/**
@@ -379,32 +386,25 @@ public class BaseTest {
 	}
 
 	public static void clickCourseDetailView(int row) {
-		waitAndClick(By.xpath(String.format(
-				"//table[@id='dataform']//tr[%d]//a[1]", row + 2)));
+		waitAndClick(By.xpath(String.format("//table[@id='dataform']//tr[%d]//a[1]", row + 2)));
 	}
 
 	public static void clickCourseDetailEdit(int row) {
-		By link = By.xpath(String.format(
-				"//table[@id='dataform']//tr[%d]//a[2]", row + 2));
+		By link = By.xpath(String.format("//table[@id='dataform']//tr[%d]//a[2]", row + 2));
 		waitAndClick(link);
 	}
 
 	public static void clickCourseDetailInvite(int row) {
-		By link = By
-				.xpath(String
-						.format("//div[@id='coordinatorStudentTable']//table[@id='dataform']//tr[%d]//td[%d]//a[3]",
-								row + 2, 4));
+		By link = By.xpath(String.format("//div[@id='coordinatorStudentTable']//table[@id='dataform']//tr[%d]//td[%d]//a[3]", row + 2, 4));
 		waitAndClick(link);
 	}
 
 	public static void clickAndConfirmCourseDetailDelete(int row) {
-		waitAndClickAndConfirm(By.xpath(String.format(
-				"//table[@id='dataform']//tr[%d]//a[3]", row + 2)));
+		waitAndClickAndConfirm(By.xpath(String.format("//table[@id='dataform']//tr[%d]//a[3]", row + 2)));
 	}
 
 	public static int countCourseDetailStudents() {
-		WebElement htmldiv = driver.findElement(By
-				.id("coordinatorStudentTable"));
+		WebElement htmldiv = driver.findElement(By.id("coordinatorStudentTable"));
 		return htmldiv.findElements(By.tagName("tr")).size();
 	}
 
@@ -414,13 +414,10 @@ public class BaseTest {
 	 * Delete all available courses.
 	 */
 	public static void deleteAllCourses() throws Exception {
-		while (driver
-				.findElements(By.cssSelector("#coordinatorCourseTable tr"))
-				.size() > 1) {
+		while (driver.findElements(By.cssSelector("#coordinatorCourseTable tr")).size() > 1 && isElementPresent(By.className("t_course_delete"))) {
 			System.out.println("Deleting a course...");
 			clickAndConfirm(By.className("t_course_delete"));
-			waitForElementText(By.id("statusMessage"),
-					"The course has been deleted.");
+			waitForElementText(statusMessage, MESSAGE_COURSE_DELETED);
 			gotoCourses();
 		}
 	}
@@ -436,8 +433,7 @@ public class BaseTest {
 		WebElement dataform = driver.findElement(By.id("dataform"));
 		while (dataform.findElements(By.tagName("tr")).size() > 1) {
 			System.out.println("Delete a student...");
-			By by = By.xpath(String.format(
-					"//table[@id='dataform']//tr[%d]//a[4]", 2));
+			By by = By.xpath(String.format("//table[@id='dataform']//tr[%d]//a[4]", 2));
 			waitForElementPresent(by);
 			clickAndConfirm(by);
 			waitForElementPresent(By.id("dataform tr"));
@@ -471,8 +467,7 @@ public class BaseTest {
 		// Fill in the evaluation name
 		wdFillString(inputEvaluationName, eval.name);
 		// Allow P2P comment
-		wdClick(By.xpath("//*[@id='commentsstatus'][@value='"
-				+ eval.p2pcomments + "']"));
+		wdClick(By.xpath("//*[@id='commentsstatus'][@value='" + eval.p2pcomments + "']"));
 		// Fill in instructions
 		wdFillString(inputInstruction, eval.instructions);
 		// Select deadline date
@@ -486,8 +481,7 @@ public class BaseTest {
 		}
 		selectDropdownByValue(inputClosingTime, eval.nextTimeValue);
 		// Select grace period
-		selectDropdownByValue(inputGracePeriod,
-				Integer.toString(eval.gracePeriod));
+		selectDropdownByValue(inputGracePeriod, Integer.toString(eval.gracePeriod));
 		// Submit the form
 		justWait();
 		wdClick(addEvaluationButton);
@@ -502,66 +496,53 @@ public class BaseTest {
 	}
 
 	public static By getEvaluationStatus(int row) {
-		return By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]",
-								row + 2, 3));
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]", row + 2, 3));
 	}
 
 	public static void clickEvaluationViewResults(int row) {
-		By link = By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_view']",
-								row + 2, 5));
+		By link = By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_view']", row + 2, 5));
 		waitAndClick(link);
 	}
 
 	public static void clickEvaluationEdit(int row) {
-		By link = By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_edit']",
-								row + 2, 5));
+		By link = By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_edit']", row + 2, 5));
 		waitAndClick(link);
 	}
 
 	public static void clickEvaluationPublish(int row) {
-		By link = By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_publish']",
-								row + 2, 5));
+		By link = By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_publish']", row + 2, 5));
 		clickAndConfirm(link);
 	}
 
 	public static void clickEvaluationUnpublish(int row) {
-		By link = By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_unpublish']",
-								row + 2, 5));
+		By link = By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_unpublish']", row + 2, 5));
 		clickAndConfirm(link);
 	}
 
 	public static void clickAndConfirmEvaluationRemind(int row) {
-		By link = By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_remind']",
-								row + 2, 5));
+		By link = By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_remind']", row + 2, 5));
 		clickAndConfirm(link);
 	}
 
 	public static void clickAndConfirmEvaluationDelete(int row) {
-		By link = By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_delete']",
-								row + 2, 5));
+		By link = By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_delete']", row + 2, 5));
 		clickAndConfirm(link);
 	}
 
 	public static void clickAndCancelEvaluationDelete(int row) {
-		By link = By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_delete']",
-								row + 2, 5));
+		By link = By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_delete']", row + 2, 5));
 		waitAndClickAndCancel(link);
+	}
+	
+	public static int countTotalEvaluations() {
+
+		if(getElementText(By.xpath(String.format("//table[@id='dataform']//tr[2]//td[1]"))).isEmpty()){
+			return 0;
+		}
+		else {
+			WebElement dataform = driver.findElement(By.id("dataform"));
+			return dataform.findElements(By.tagName("tr")).size() - 1;
+		}
 	}
 
 	/**
@@ -577,24 +558,17 @@ public class BaseTest {
 	}
 
 	public static int countReviewerSummaryStudents() {
-		WebElement htmldiv = driver.findElement(By
-				.id("coordinatorEvaluationSummaryTable"));
+		WebElement htmldiv = driver.findElement(By.id("coordinatorEvaluationSummaryTable"));
 		return htmldiv.findElements(By.tagName("tr")).size();
 	}
 
 	// reviewee summary:
 	public static By getRevieweeSummaryClaimed(int studentIndex) {
-		return By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]",
-								studentIndex + 2, 3));
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", studentIndex + 2, 3));
 	}
 
 	public static By getRevieweeSummaryDifference(int studentIndex) {
-		return By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]",
-								studentIndex + 2, 4));
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", studentIndex + 2, 4));
 	}
 
 	public static void clickRevieweeSummaryView(int row) {
@@ -603,92 +577,54 @@ public class BaseTest {
 
 	// reviewer individual:
 	public static By getReviewerIndividualToStudent(int row) {
-		return By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]",
-								row + 2, 1));
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", row + 2, 1));
 	}
 
 	public static By getReviewerIndividualToStudentPoint(int row) {
-		return By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]",
-								row + 2, 2));
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", row + 2, 2));
 	}
 
 	// reviewee individual:
 	public static By getRevieweeIndividualFromStudent(int row) {
-		return By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]",
-								row + 2, 1));
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", row + 2, 1));
 	}
 
 	public static By getRevieweeIndividualFromStudentPoint(int row) {
-		return By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]",
-								row + 2, 2));
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", row + 2, 2));
 	}
 
 	// reviewer detail:
 	public static By getReviewerDetailClaimed(int team, int row) {
-		return By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//table[%d]//tr[%d]//td[%d]",
-								team, row + 2, 2));
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[%d]//tr[%d]//td[%d]", team, row + 2, 2));
 	}
 
 	public static By getReviewerDetailPerceived(int team, int row) {
-		return By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//table[%d]//tr[%d]//td[%d]",
-								team, row + 3, 2));
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[%d]//tr[%d]//td[%d]", team, row + 3, 2));
 	}
 
 	public static By getReviewerDetailToStudent(int position, int studentIndex) {
-		return By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//tr[%d]//table[@id='dataform']//tr[%d]//td[%d]",
-								position + 7, studentIndex + 2, 1));
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//tr[%d]//table[@id='dataform']//tr[%d]//td[%d]", position + 7, studentIndex + 2, 1));
 	}
 
-	public static By getReviewerDetailToStudentPoint(int position,
-			int studentIndex) {
-		return By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//tr[%d]//table[@id='dataform']//tr[%d]//td[%d]",
-								position + 7, studentIndex + 2, 2));
+	public static By getReviewerDetailToStudentPoint(int position, int studentIndex) {
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//tr[%d]//table[@id='dataform']//tr[%d]//td[%d]", position + 7, studentIndex + 2, 2));
 	}
 
 	// reviewee detail:
 	public static By getRevieweeDetailClaimed(int teamIndex, int position) {
-		return By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//table[%d]//tr[%d]//td[%d]",
-								teamIndex, position + 2, 2));
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[%d]//tr[%d]//td[%d]", teamIndex, position + 2, 2));
 	}
 
 	public static By getRevieweeDetailPerceived(int teamIndex, int position) {
-		return By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//table[%d]//tr[%d]//td[%d]",
-								teamIndex, position + 3, 2));
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[%d]//tr[%d]//td[%d]", teamIndex, position + 3, 2));
 	}
 
 	public static By getRevieweeDetailFromStudent(int position, int studentIndex) {
-		return By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//tr[%d]//table[@id='dataform']//tr[%d]//td[%d]",
-								position + 7, studentIndex + 2, 1));
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//tr[%d]//table[@id='dataform']//tr[%d]//td[%d]", position + 7, studentIndex + 2, 1));
 	}
 
-	public static By getRevieweeDetailFromStudentPoint(int position,
-			int studentIndex) {
-		return By
-				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//tr[%d]//table[@id='dataform']//tr[%d]//td[%d]",
-								position + 7, studentIndex + 2, 2));
+	public static By getRevieweeDetailFromStudentPoint(int position, int studentIndex) {
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//tr[%d]//table[@id='dataform']//tr[%d]//td[%d]", position + 7, studentIndex + 2, 2));
 	}
 
 	/**
@@ -728,8 +664,7 @@ public class BaseTest {
 		while (driver.findElements(evaluationDelete).size() > 1) {
 			System.out.println("Deleting 1 evaluation...");
 			clickAndConfirm(evaluationDelete);
-			waitForElementText(statusMessage,
-					"The evaluation has been deleted.");
+			waitForElementText(statusMessage, "The evaluation has been deleted.");
 			gotoEvaluations(); // This is to fix for Datastore delay problem
 		}
 	}
@@ -742,10 +677,7 @@ public class BaseTest {
 	 * @return the service instance
 	 */
 	private static ChromeDriverService startChromeDriverService() {
-		chromeService = new ChromeDriverService.Builder()
-				.usingChromeDriverExecutable(
-						new File(Config.getChromeDriverPath()))
-				.usingAnyFreePort().build();
+		chromeService = new ChromeDriverService.Builder().usingChromeDriverExecutable(new File(Config.getChromeDriverPath())).usingAnyFreePort().build();
 		try {
 			chromeService.start();
 		} catch (IOException e) {
@@ -780,15 +712,13 @@ public class BaseTest {
 			// Use technique here:
 			// http://code.google.com/p/selenium/wiki/ChromeDriver
 			ChromeDriverService service = startChromeDriverService();
-			driver = new RemoteWebDriver(service.getUrl(),
-					DesiredCapabilities.chrome());
+			driver = new RemoteWebDriver(service.getUrl(), DesiredCapabilities.chrome());
 
 			System.out.println(driver.toString());
 			selenium = new WebDriverBackedSelenium(driver, Config.TEAMMATES_URL);
 
 			/*
-			 * Chrome hack. Currently Chrome doesn't support confirm() yet.
-			 * http://code.google.com/p/selenium/issues/detail?id=27
+			 * Chrome hack. Currently Chrome doesn't support confirm() yet. http://code.google.com/p/selenium/issues/detail?id=27
 			 */
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("window.confirm = function(msg){ return true;};");
@@ -802,8 +732,7 @@ public class BaseTest {
 			// legacy methods: Going through the RC server.
 			String selBrowserIdentifierString = "*" + Config.BROWSER;
 
-			selenium = new DefaultSelenium("localhost", 4444,
-					selBrowserIdentifierString, Config.TEAMMATES_URL);
+			selenium = new DefaultSelenium("localhost", 4444, selBrowserIdentifierString, Config.TEAMMATES_URL);
 			CommandExecutor executor = new SeleneseCommandExecutor(selenium);
 			DesiredCapabilities dc = new DesiredCapabilities();
 			driver = new RemoteWebDriver(executor, dc);
@@ -824,8 +753,7 @@ public class BaseTest {
 	}
 
 	protected static void setupScenarioForBumpRatioTest(int index) {
-		sc = Scenario.scenarioForBumpRatioTest("./bump_ratio_scenario.json",
-				index);
+		sc = Scenario.scenarioForBumpRatioTest("./bump_ratio_scenario.json", index);
 	}
 
 	/**
@@ -837,7 +765,7 @@ public class BaseTest {
 			chromeService.stop();
 	}
 
-	// -----------------------------Helper Functions ----------------------------->> Wait, Click, Fill in Elements:
+	// -----------------------------Helper Functions----------------------------->> Wait, Click, Fill in Elements:
 	/**
 	 * waiting functions:
 	 */
@@ -856,11 +784,9 @@ public class BaseTest {
 	/*
 	 * Short snippet to wait for page-load.
 	 * 
-	 * Must be appended after every action that requires a page reload or an
-	 * AJAX request being made
+	 * Must be appended after every action that requires a page reload or an AJAX request being made
 	 * 
-	 * huy (Aug 26) - This should be deprecated. Since WebDriver makes sure the
-	 * new page is loaded before returning the call
+	 * huy (Aug 26) - This should be deprecated. Since WebDriver makes sure the new page is loaded before returning the call
 	 */
 	public static void waitForPageLoad() {
 		try {
@@ -887,8 +813,7 @@ public class BaseTest {
 		while (true) {
 
 			System.out.println(locator + ": " + getElementText(locator));
-			if (isElementPresent(locator)
-					&& getElementText(locator).equals(value))
+			if (isElementPresent(locator) && getElementText(locator).equals(value))
 				return;
 			if (counter++ > 50)
 				fail("Timeout");
@@ -938,23 +863,20 @@ public class BaseTest {
 	 */
 	private static void confirmYes() {
 		/*
-		 * if (!Config.BROWSER.equals("chrome")) { Alert alert =
-		 * driver.switchTo().alert(); alert.accept(); }
+		 * if (!Config.BROWSER.equals("chrome")) { Alert alert = driver.switchTo().alert(); alert.accept(); }
 		 */
 	}
 
 	private static void confirmNo() {
 		/*
-		 * if (!Config.BROWSER.equals("chrome")) { Alert alert =
-		 * driver.switchTo().alert(); alert.dismiss(); }
+		 * if (!Config.BROWSER.equals("chrome")) { Alert alert = driver.switchTo().alert(); alert.dismiss(); }
 		 */
 	}
 
 	public static void chromeConfirmYes() {
 		/*
-		 * Huy: I have no idea why the driver.switchTo().alert() approach
-		 * doesn't work even in Firefox (it supposed to!). This is a workaround
-		 * to press Yes in the confirmation box. Same for function below for No.
+		 * Huy: I have no idea why the driver.switchTo().alert() approach doesn't work even in Firefox (it supposed to!). This is a workaround to press Yes in the confirmation box. Same for function
+		 * below for No.
 		 */
 
 		// if (Config.BROWSER.equals("chrome")) {
@@ -983,8 +905,7 @@ public class BaseTest {
 	}
 
 	/**
-	 * WebDriver fills the input field with text value (will clear the data
-	 * first)
+	 * WebDriver fills the input field with text value (will clear the data first)
 	 */
 	protected static void wdFillString(By by, String value) {
 		WebElement ele = driver.findElement(by);
@@ -1011,8 +932,7 @@ public class BaseTest {
 	}
 
 	/**
-	 * Retrieve the element's `value` attribute. Usually used for elements like
-	 * input, option, etc.
+	 * Retrieve the element's `value` attribute. Usually used for elements like input, option, etc.
 	 * 
 	 * @param locator
 	 * @return
@@ -1033,16 +953,14 @@ public class BaseTest {
 
 	// -----------------------------Helper Functions----------------------------->> Check and Verify:
 	/**
-	 * Helper method to check that we're at the main page Checking for the
-	 * Coordinator and Student links
+	 * Helper method to check that we're at the main page Checking for the Coordinator and Student links
 	 */
 	public static void verifyMainPage() {
 		for (int x = 0;; x++) {
 			if (x >= 40)
 				fail("timeout");
 
-			if (isElementPresent(By.name("STUDENT_LOGIN"))
-					&& isElementPresent(By.name("COORDINATOR_LOGIN")))
+			if (isElementPresent(By.name("STUDENT_LOGIN")) && isElementPresent(By.name("COORDINATOR_LOGIN")))
 				break;
 
 			waitAWhile(1000);
@@ -1054,20 +972,16 @@ public class BaseTest {
 	 * 
 	 */
 	public static boolean isLocalLoginPage() {
-		if (isElementPresent(By.id("email"))
-				&& isElementPresent(By.id("isAdmin")))
+		if (isElementPresent(By.id("email")) && isElementPresent(By.id("isAdmin")))
 			return true;
 		return false;
 	}
 
 	/**
-	 * Helper method to check that we're at the login page Checking for the
-	 * e-mail and password fields, and the sign in button
+	 * Helper method to check that we're at the login page Checking for the e-mail and password fields, and the sign in button
 	 */
 	public static boolean isGoogleLoginPage() {
-		if (isElementPresent(By.id("Email"))
-				&& isElementPresent(By.id("Passwd"))
-				&& isElementPresent(By.id("signIn")))
+		if (isElementPresent(By.id("Email")) && isElementPresent(By.id("Passwd")) && isElementPresent(By.id("signIn")))
 			return true;
 
 		return false;
@@ -1083,8 +997,7 @@ public class BaseTest {
 	// Helper method to check that we're at the Coordinator page (after login)
 	// Checking for links at the top, and add course form
 	public static void verifyCoordinatorPage() {
-		if (isElementPresent(By.id("courseid"))
-				&& isElementPresent(By.id("coursename")))
+		if (isElementPresent(By.id("courseid")) && isElementPresent(By.id("coursename")))
 			return;
 
 		fail("Not in Coordinator Page");
@@ -1097,10 +1010,7 @@ public class BaseTest {
 			if (x >= 40)
 				fail("timeout");
 
-			if (isElementPresent(By.id("regkey"))
-					&& isElementPresent(By.className("t_evaluations"))
-					&& isElementPresent(By.className("t_logout"))
-					&& isElementPresent(By.className("t_courses")))
+			if (isElementPresent(By.id("regkey")) && isElementPresent(By.className("t_evaluations")) && isElementPresent(By.className("t_logout")) && isElementPresent(By.className("t_courses")))
 				break;
 
 			waitAWhile(200);
@@ -1114,24 +1024,18 @@ public class BaseTest {
 			if (x >= 40)
 				fail("timeout");
 
-			if ((isElementPresent(By.id("courseid")))
-					&& (isElementPresent(By.id("evaluationname")))
-					&& (isElementPresent(By.xpath("//*[@id='commentsstatus']")))
-					&& (isElementPresent(By.xpath("//*[@id='instr']")))
-					&& (isElementPresent(By.xpath("//*[@id='start']")))
-					&& (isElementPresent(By.xpath("//*[@id='starttime']")))
-					&& (isElementPresent(By.xpath("//*[@id='deadline']")))
-					&& (isElementPresent(By.xpath("//*[@id='deadlinetime']")))
-					&& (isElementPresent(By.xpath("//*[@id='graceperiod']"))))
+			if ((isElementPresent(By.id("courseid"))) && (isElementPresent(By.id("evaluationname"))) && (isElementPresent(By.xpath("//*[@id='commentsstatus']")))
+					&& (isElementPresent(By.xpath("//*[@id='instr']"))) && (isElementPresent(By.xpath("//*[@id='start']"))) && (isElementPresent(By.xpath("//*[@id='starttime']")))
+					&& (isElementPresent(By.xpath("//*[@id='deadline']"))) && (isElementPresent(By.xpath("//*[@id='deadlinetime']"))) && (isElementPresent(By.xpath("//*[@id='graceperiod']"))))
 				break;
 			waitAWhile(200);
 		}
 	}
 
 	/**
-	 * Checks that the course has been added Checking for the course details
-	 * appearing in the table Page: Coordinator home TODO: change to any number
-	 * of previous courses
+	 * Checks that the course has been added Checking for the course details appearing in the table 
+	 * Page: Coordinator home 
+	 * TODO: change to any number of previous courses
 	 */
 	public static void verifyAddedCourse(String courseId, String courseName) {
 		// Check for courseId
@@ -1141,8 +1045,20 @@ public class BaseTest {
 		assertEquals(courseName, getElementText(By.id("courseName0")));
 
 		// Check for default number of teams - 0
-		assertEquals("0",
-				getElementText(By.cssSelector("#dataform td.t_course_teams")));
+		assertEquals("0", getElementText(By.cssSelector("#dataform td.t_course_teams")));
+	}
+	
+	public static boolean isCoursePresent(String courseId, String courseName) {
+		int totalCourses = countTotalCourses();
+		boolean isPresent = false;
+		for(int i = 0; i < totalCourses; i++) {
+			if(getElementText(By.id("courseID"+ i)).equalsIgnoreCase(courseId) && getElementText(By.id("courseName" + i)).equals(courseName)) {
+				isPresent = true;
+				continue;
+			}
+		}
+
+		return isPresent;
 	}
 
 	// Checks that we're at the student enrollment page
@@ -1151,8 +1067,7 @@ public class BaseTest {
 		for (int x = 0;; x++) {
 			if (x >= 40)
 				fail("timeout");
-			if (isElementPresent(By.id("information"))
-					&& isElementPresent(By.id("button_enrol")))
+			if (isElementPresent(By.id("information")) && isElementPresent(By.id("button_enrol")))
 				break;
 			waitAWhile(200);
 		}
@@ -1165,25 +1080,19 @@ public class BaseTest {
 		for (int x = 0;; x++) {
 			if (x >= 40)
 				fail("timeout");
-			if ((isElementPresent(By.xpath("//tr[@id='rowAddedStudents']/td")))
-					&& (isElementPresent(By
-							.xpath("//tr[@id='rowEditedStudents']/td"))))
+			if ((isElementPresent(By.xpath("//tr[@id='rowAddedStudents']/td"))) && (isElementPresent(By.xpath("//tr[@id='rowEditedStudents']/td"))))
 				break;
 			waitAWhile(200);
 		}
 
-		assertEquals(added,
-				Integer.parseInt(getElementText(By.id("t_studentsAdded"))));
-		assertEquals(edited,
-				Integer.parseInt(getElementText(By.id("t_studentsEdited"))));
+		assertEquals(added, Integer.parseInt(getElementText(By.id("t_studentsAdded"))));
+		assertEquals(edited, Integer.parseInt(getElementText(By.id("t_studentsEdited"))));
 	}
 
 	// Helper method to check that the evaluation was added successfully
 	// Checks for the details of the evaluation that was added.
-	public static void verifyEvaluationAdded(String courseId, String evalName,
-			String status, String resp) {
-		assertEquals(courseId,
-				getElementText(By.className("t_eval_coursecode")));
+	public static void verifyEvaluationAdded(String courseId, String evalName, String status, String resp) {
+		assertEquals(courseId, getElementText(By.className("t_eval_coursecode")));
 		assertEquals(evalName, getElementText(By.className("t_eval_name")));
 		assertEquals(status, getElementText(By.className("t_eval_status")));
 		assertEquals(resp, getElementText(By.className("t_eval_response")));
@@ -1208,7 +1117,7 @@ public class BaseTest {
 			// if login was successful
 			checkGoogleApplicationApproval();
 			waitForPageLoad();
-			
+
 		} else {
 			fail("Not in the correct Login page");
 			return;
@@ -1216,16 +1125,16 @@ public class BaseTest {
 	}
 
 	/*
-	 * When authentication for the first few times, it might ask for the
-	 * "grant permission" page. If that's the case we simply click "Grant"
+	 * When authentication for the first few times, it might ask for the "grant permission" page. If that's the case we simply click "Grant"
 	 */
 	private static void checkGoogleApplicationApproval() {
 		justWait();
-		if(isElementPresent(By.id("approve_button"))) {
+		if (isElementPresent(By.id("approve_button"))) {
 			wdClick(By.id("persist_checkbox"));
 			wdClick(By.id("approve_button"));
 		}
 	}
+
 	/**
 	 * Helper function to clean up email account
 	 * 
@@ -1233,10 +1142,8 @@ public class BaseTest {
 	 */
 	protected static void cleanupGmailInbox() throws Exception {
 		for (int i = 0; i < sc.students.size(); i++) {
-			SharedLib.markAllEmailsSeen(sc.students.get(i).email,
-					Config.TEAMMATES_APP_PASSWD);
-			System.out.println("clean up gmail Inbox for "
-					+ sc.students.get(i).name);
+			SharedLib.markAllEmailsSeen(sc.students.get(i).email, Config.TEAMMATES_APP_PASSWD);
+			System.out.println("clean up gmail Inbox for " + sc.students.get(i).name);
 		}
 	}
 
