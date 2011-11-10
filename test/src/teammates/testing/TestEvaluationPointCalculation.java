@@ -39,14 +39,182 @@ public class TestEvaluationPointCalculation extends BaseTest {
 	}
 	
 	@Test
-	public void testFirstDataSet() throws Exception {
-		for(int i = 0; i < 20; i++) {
-			cout("TestEvalutionPointCalculation: scenario " + i);
-			setupScenarioForBumpRatioTest(i);
-			testScenario();
-		}
+	public void testFirstDataSet0() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 0);
+		setupScenarioForBumpRatioTest(0);
+		testScenario();
 	}
 	
+	@Test
+	public void testFirstDataSet1() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 1);
+		setupScenarioForBumpRatioTest(1);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet2() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 2);
+		setupScenarioForBumpRatioTest(2);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet3() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 3);
+		setupScenarioForBumpRatioTest(3);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet4() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 4);
+		setupScenarioForBumpRatioTest(4);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet5() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 5);
+		setupScenarioForBumpRatioTest(5);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet6() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 6);
+		setupScenarioForBumpRatioTest(6);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet7() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 7);
+		setupScenarioForBumpRatioTest(7);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet8() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 8);
+		setupScenarioForBumpRatioTest(8);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet9() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 9);
+		setupScenarioForBumpRatioTest(9);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet10() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 10);
+		setupScenarioForBumpRatioTest(10);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet11() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 11);
+		setupScenarioForBumpRatioTest(11);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet12() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 12);
+		setupScenarioForBumpRatioTest(12);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet13() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 13);
+		setupScenarioForBumpRatioTest(13);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet14() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 14);
+		setupScenarioForBumpRatioTest(14);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet15() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 15);
+		setupScenarioForBumpRatioTest(15);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet16() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 16);
+		setupScenarioForBumpRatioTest(16);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet17() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 17);
+		setupScenarioForBumpRatioTest(17);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet18() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 18);
+		setupScenarioForBumpRatioTest(18);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet19() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 19);
+		setupScenarioForBumpRatioTest(19);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet20() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 20);
+		setupScenarioForBumpRatioTest(20);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet21() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 21);
+		setupScenarioForBumpRatioTest(21);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet22() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 22);
+		setupScenarioForBumpRatioTest(22);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet23() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 23);
+		setupScenarioForBumpRatioTest(23);
+		testScenario();
+	}
+	
+	@Test
+	public void testFirstDataSet24() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 24);
+		setupScenarioForBumpRatioTest(24);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet25() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 25);
+		setupScenarioForBumpRatioTest(25);
+		testScenario();
+	}
+	
+	@Test
+	public void testFirstDataSet26() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 26);
+		setupScenarioForBumpRatioTest(26);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet27() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 27);
+		setupScenarioForBumpRatioTest(27);
+		testScenario();
+	}
+	@Test
+	public void testFirstDataSet28() throws Exception {
+		cout("TestEvalutionPointCalculation: scenario " + 28);
+		setupScenarioForBumpRatioTest(28);
+		testScenario();
+	}
 	private void testScenario() throws Exception {
 		//before:
 		TMAPI.cleanup();
@@ -107,19 +275,23 @@ public class TestEvaluationPointCalculation extends BaseTest {
 		//assertEquals(perceivedPoints, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='data']//tr[%d]//td[%d]", 3, 2))));
 		
 		//check normalized points given TO teammates:
-		List<String> pointList = TMAPI.coordGetPointsToOthers(sc.submissionPoints, 0);
-		for(int i = 0; i < pointList.size(); i++) {
+		List<String> pointList1 = TMAPI.coordGetPointsToOthersOneLine(sc.submissionPoints, 0);
+		List<String> pointList2 = TMAPI.coordGetPointsToOthersTwoLines(sc.submissionPoints, 0);
+		
+		for(int i = 0; i < pointList1.size(); i++) {
 			String student = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", i + 4, 1)));
 			//String student = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", i + 2, 1)));
-			String toStudent = "";
+			String toStudent1 = "";
+			String toStudent2 = "";
 			if(!student.equalsIgnoreCase(sc.students.get(0).name)) {
 				for(int j = 0; j < sc.students.size(); j++){
 					if(sc.students.get(j).name.equalsIgnoreCase(student)) {
-						toStudent = pointList.get(j);
+						toStudent1 = pointList1.get(j);
+						toStudent2 = pointList2.get(j);
 						continue;
 					}
 				}
-				assertEquals(toStudent, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", i + 4, 2))));
+				assertEqualsOr(toStudent1, toStudent2, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", i + 4, 2))));
 				//assertEquals(toStudent, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", i + 2, 2))));
 			}
 		}
@@ -186,19 +358,23 @@ public class TestEvaluationPointCalculation extends BaseTest {
 		//assertEquals(perceivedPoints, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='data']//tr[%d]//td[%d]", 4, 2))));
 		
 		//check normalized points get FROM teammates:
-		List<String> pointList = TMAPI.coordGetPointsFromOthers(sc, 0);
-		for(int i = 0; i < pointList.size(); i++) {
+		List<String> pointList1 = TMAPI.coordGetPointsFromOthersOneLine(sc, 0);
+		List<String> pointList2 = TMAPI.coordGetPointsFromOthersTwoLines(sc, 0);
+
+		for(int i = 0; i < pointList1.size(); i++) {
 			String student = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", i + 4, 1)));
 			//String student = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", i + 2, 1)));
-			String fromStudent = "";
+			String fromStudent1 = "";
+			String fromStudent2 = "";
 			if(!student.equalsIgnoreCase(sc.students.get(0).name)) {
 				for(int j = 0; j < sc.students.size(); j++) {
 					if(sc.students.get(j).name.equalsIgnoreCase(student)) {
-						fromStudent = pointList.get(j);
+						fromStudent1 = pointList1.get(j);
+						fromStudent2 = pointList2.get(j);
 						continue;
 					}
 				}
-				assertEquals(fromStudent, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", i + 4, 2))));
+				assertEqualsOr(fromStudent1, fromStudent2, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", i + 4, 2))));
 				//assertEquals(fromStudent, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", i + 2, 2))));
 			}
 			
@@ -228,7 +404,9 @@ public class TestEvaluationPointCalculation extends BaseTest {
 			int studentIndex = sc.students.indexOf(s);
 			String claimedPoints = "CLAIMED CONTRIBUTIONS: " + TMAPI.coordGetClaimedPoints(sc.submissionPoints, studentIndex);
 			String perceivedPoints = "PERCEIVED CONTRIBUTIONS: " + TMAPI.coordGetPerceivedPoints(sc.submissionPoints, studentIndex);
-			List<String> pointList = TMAPI.coordGetPointsToOthers(sc.submissionPoints, studentIndex);
+			List<String> pointList2 = TMAPI.coordGetPointsToOthersTwoLines(sc.submissionPoints, studentIndex);
+			List<String> pointList1 = TMAPI.coordGetPointsToOthersOneLine(sc.submissionPoints, studentIndex);
+
 			List<Student> teammates = getStudentTeammates(sc.students, studentIndex);
 			int teamIndex = getTeamIndex(s.teamName) + 1;
 			int position = getStudentIndexInTeam(s.name, s.teamName) + 1;
@@ -236,18 +414,20 @@ public class TestEvaluationPointCalculation extends BaseTest {
 			cout("position: " + position);
 			assertEquals(claimedPoints.toUpperCase(), getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]", teamIndex, position, 2))));
 			assertEquals(perceivedPoints.toUpperCase(), getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]", teamIndex, position, 3))));
-			for(int i = 0; i < pointList.size(); i++) {
+			for(int i = 0; i < pointList1.size(); i++) {
 				String student = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", teamIndex, position, i + 4, 1)));
-				String toStudent = "";
+				String toStudent1 = "";
+				String toStudent2 = "";
 				if(!student.equalsIgnoreCase(s.name)) {
 					for(int j = 0; j < teammates.size(); j++) {
 						if(teammates.get(j).name.equalsIgnoreCase(student)) {
-							toStudent = pointList.get(j);
-							cout("toStudent:" + toStudent);
+							toStudent1 = pointList1.get(j);
+							toStudent2 = pointList2.get(j);
+							cout("toStudent:" + toStudent1);
 							continue;
 						}
 					}
-					assertEquals(toStudent, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", teamIndex, position, i + 4, 2))));
+					assertEqualsOr(toStudent1, toStudent2, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", teamIndex, position, i + 4, 2))));
 				}
 			}
 		}
@@ -278,24 +458,28 @@ public class TestEvaluationPointCalculation extends BaseTest {
 			int studentIndex = sc.students.indexOf(s);
 			String claimedPoints = "CLAIMED CONTRIBUTIONS: " + TMAPI.coordGetClaimedPoints(sc.submissionPoints, studentIndex);
 			String perceivedPoints = "PERCEIVED CONTRIBUTIONS: " + TMAPI.coordGetPerceivedPoints(sc.submissionPoints, studentIndex);
-			List<String> pointList = TMAPI.coordGetPointsFromOthers(sc, studentIndex);
+			List<String> pointList1 = TMAPI.coordGetPointsFromOthersOneLine(sc, studentIndex);
+			List<String> pointList2 = TMAPI.coordGetPointsFromOthersTwoLines(sc, studentIndex);
 			int teamIndex = getTeamIndex(s.teamName) + 1;
 			int position = getStudentIndexInTeam(s.name, s.teamName) + 1;
 			List<Student> teammates = getStudentTeammates(sc.students, studentIndex);
 			
 			assertEquals(claimedPoints.toUpperCase(), getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]", teamIndex, position, 2))));
 			assertEquals(perceivedPoints.toUpperCase(), getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]", teamIndex, position, 3))));
-			for(int i = 0; i < pointList.size(); i++) {
+			for(int i = 0; i < pointList2.size(); i++) {
 				String student = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", teamIndex, position, i + 4, 1)));
-				String fromStudent = "";
+				String fromStudent1 = "";
+				String fromStudent2 = "";
 				if(!student.equalsIgnoreCase(s.name)) {
 					for(int j = 0; j < teammates.size(); j++) {
 						if(teammates.get(j).name.equalsIgnoreCase(student)) {
-							fromStudent = pointList.get(j);
+							fromStudent1 = pointList1.get(j);
+							fromStudent2 = pointList2.get(j);
+
 							continue;
 						}
 					}
-					assertEquals(fromStudent, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", teamIndex, position, i + 4, 2))));
+					assertEqualsOr(fromStudent1, fromStudent2, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", teamIndex, position, i + 4, 2))));
 				}
 			}
 		}

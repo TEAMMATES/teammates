@@ -57,6 +57,7 @@ var HOVER_MESSAGE_CLAIMED = "This is student own estimation of his/her contribut
 var HOVER_MESSAGE_PERCEIVED = "This is the average of what other team members think this student contributed to the project";
 var HOVER_MESSAGE_PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
 
+
 /*------------------------------------------PRINT COMMON PAGE------------------------------------------*/
 /*
  * View course list User: Student, Coordinator
@@ -444,14 +445,8 @@ function printStudentList(studentList, courseID) {
 				+ studentList[loop].courseID
 				+ "', '"
 				+ studentList[loop].email
-				+ "', '";
-		
-		if (studentList[loop].googleID == "")
-			output = output	+ studentList[loop].name;
-		else
-			output = output + escape(studentList[loop].name);
-		
-		output = output 
+				+ "', '"
+				+ escape(studentList[loop].name)
 				+ "');hideddrivetip();\""
 				+ "onmouseover=\"ddrivetip('Delete the student and the corresponding evaluations from the course')\""
 				+ "onmouseout=\"hideddrivetip()\">Delete</a>" + "</td>"
@@ -1272,7 +1267,7 @@ function printEvaluationSummaryForm(submissionList, summaryList, status,
 			output = output + "</td>" + "</tr>";
 
 		} else {
-			output = output + "<td>Equal Share"
+			output = output + "<td>"
 					+ displayEvaluationPoints(summaryList[loop].claimedPoints)
 					+ "</td>";
 
@@ -1449,7 +1444,7 @@ function printEvaluationIndividualForm(submissionList, summaryList, position,
 					summaryList[position].toStudentName,
 					displayEvaluationPoints(summaryList[position].claimedPoints),
 					displayEvaluationPoints(summaryList[position].average));
-
+	console.log("points:"+summaryList[position].claimedPoints + "|" + summaryList[position].average);
 	// evaluation to others header:
 	student = (type == REVIEWEE) ? FROM_STUDENT : TO_STUDENT;
 	outputTemp = helpPrintResultSubheader(student);
@@ -2373,28 +2368,7 @@ function printSubmissionForm(submissionList, commentsEnabled) {
 						+ STUDENT_POINTS
 						+ 0
 						+ "\" >"
-						+ "<option value=\"200\">Equal share + 100%</option>"
-						+ "<option value=\"190\">Equal share + 90%</option>"
-						+ "<option value=\"180\">Equal share + 80%</option>"
-						+ "<option value=\"170\">Equal share + 70%</option>"
-						+ "<option value=\"160\">Equal share + 60%</option>"
-						+ "<option value=\"150\">Equal share + 50%</option>"
-						+ "<option value=\"140\">Equal share + 40%</option>"
-						+ "<option value=\"130\">Equal share + 30%</option>"
-						+ "<option value=\"120\">Equal share + 20%</option>"
-						+ "<option value=\"110\">Equal share + 10%</option>"
-						+ "<option value=\"100\" SELECTED>Equal Share</option>"
-						+ "<option value=\"90\">Equal share - 10%</option>"
-						+ "<option value=\"80\">Equal share - 20%</option>"
-						+ "<option value=\"70\">Equal share - 30%</option>"
-						+ "<option value=\"60\">Equal share - 40%</option>"
-						+ "<option value=\"50\">Equal share - 50%</option>"
-						+ "<option value=\"40\">Equal share - 60%</option>"
-						+ "<option value=\"30\">Equal share - 70%</option>"
-						+ "<option value=\"20\">Equal share - 80%</option>"
-						+ "<option value=\"10\">Equal share - 90%</option>"
-						+ "<option value=\"0\">0%</option>"
-						+ "<option value=\"-101\">Not Sure</option>";
+						+ getEvaluationOptionString();
 			}
 			
 			output = output
@@ -2454,6 +2428,7 @@ function printSubmissionForm(submissionList, commentsEnabled) {
 function printEvaluationResultStudentForm(summaryList, submissionList, start,
 		deadline) {
 
+	logSummaryList(summaryList);
 	var claimedPoints = summaryList[0].claimedPoints;
 	var perceivedPoints = summaryList[0].average;
 
@@ -2495,7 +2470,7 @@ function printEvaluationResultStudentForm(summaryList, submissionList, start,
 			+ CLAIMED
 			+ "</span>"
 			+ "</td>"
-			+ "<td>Equal Share"
+			+ "<td>"
 			+ displayEvaluationPoints(claimedPoints)
 			+ "</td>"
 			+ "<td>"
@@ -2513,7 +2488,7 @@ function printEvaluationResultStudentForm(summaryList, submissionList, start,
 			+ "<br /><span class='color_gray'>"
 			+ ROUNDOFF
 			+ "</span></td>"
-			+ "<td>Equal Share"
+			+ "<td>"
 			+ displayEvaluationPoints(perceivedPoints)
 			+ "</td>"
 			+ "<td>"
@@ -2568,6 +2543,8 @@ function helpPrintResultTeam(teamName) {
 	return output;
 }
 function helpPrintResultHeader(type, name, claimedPoints, perceivedPoints) {
+	console.log("header :" + type + " " + name + " " + claimedPoints +" " + perceivedPoints );
+
 	var output = "<br /><table class=\"result_table\">"
 			+ "<thead>"
 			+ "<th colspan=\"2\" width=\"10%\"><span class=\"fontcolor\">"
@@ -2576,12 +2553,12 @@ function helpPrintResultHeader(type, name, claimedPoints, perceivedPoints) {
 			+ name
 			+ "</th>"
 			+ "<th><span class=\"fontcolor\" onmouseover=\"ddrivetip('" + HOVER_MESSAGE_CLAIMED + "')\" onmouseout=\"hideddrivetip('')\">"
-			+ CLAIMED
-			+ ": </span>Equal Share"
+			+ CLAIMED + ":</span> "
 			+ claimedPoints
-			+ "</th>"
+		    + "</th>"
 			+ "<th><span class=\"fontcolor\" onmouseover=\"ddrivetip('"	+ HOVER_MESSAGE_PERCEIVED + "')\" onmouseout=\"hideddrivetip('')\">"
-			+ PERCEIVED + ": </span>Equal Share" + perceivedPoints
+			+ PERCEIVED + ": </span> "
+			+ perceivedPoints 
 			+ "</th>" + "</thead>";
 	return output;
 }
@@ -2592,18 +2569,26 @@ function helpPrintResultSelfComments(justification, commentsToStudent) {
 			+ sanitize(commentsToStudent) + "</td>" + "</tr>";
 	return output;
 }
+
+
 function helpPrintResultOtherComments(student, points, justification,
 		commentsToStudent) {
 	var output = "<tr>" + "<td><b>" + student + "</b></td>";
-	if (points == NA || points == NOTSURE)
-		output = output + "<td>" + points + "</td>";
-	else
-		output = output + "<td>Equal Share<br />" + points + "</td>";
+	//ws
+	var idx = points.indexOf("-");
+	if(idx == 0) {
+		idx = points.indexOf("+");
+	}
+	if(idx > 0) {
+		points = points.slice(0, idx) + "<br />" + points.slice(idx);
+	}
+	output = output + "<td>" + points + "</td>";
 
 	output = output + "<td>" + sanitize(justification) + "</td>" + "<td>"
 			+ sanitize(commentsToStudent) + "</td>" + "</tr>";
 	return output;
 }
+
 
 function helpPrintResultSubheader(type) {
 	var output = "<tr class=\"result_subheader\">" + "<td width=\"15%\">"
@@ -2616,14 +2601,15 @@ function helpPrintResultSubheader(type) {
 function helpPrintPoints(submission) {
 	var points;
 	if (submission.points == -999) {
-		points = "N/A";
+		points = NA;
 	} else if (submission.points == -101) {
-		points = "Unsure";
+		console.log("not sure");
+		points = NOTSURE;
 	} else {
 		points = displayEvaluationPoints(Math.round(submission.points
 				* submission.pointsBumpRatio));
 	}
-
+	
 	return points;
 
 }
@@ -2633,14 +2619,22 @@ function displayEvaluationPoints(points) {
 
 	if (points > 100) {
 		delta = points - 100;
-		return "<span class=\"color_positive\"> + " + delta + "%</span>";
-	} else if (points < 100) {
+		return "Equal Share<span class=\"color_positive\"> + " + delta + "%</span>";
+	} else if (points == -999){
+		return NA;
+	} else if (points == -101) {
+		console.log("not sure");
+		return NOTSURE;
+	} else if (points == -100) {
+		return "0%";
+	}else if (points < 100 ) {
 		delta = 100 - points;
-		return "<span class=\"color_negative\"> - " + delta + "%</span>";
+		return "Equal Share<span class=\"color_negative\"> - " + delta + "%</span>";
+	} else if (points == 100) {
+		return "Equal Share";
 	} else {
-		return "";
+		return points;
 	}
-
 }
 function helpPrintJustification(submission) {
 	var justification;
@@ -2678,6 +2672,8 @@ function helpPrintSubmission(submissionList, summaryList, position, status,
 					summaryList[position].toStudentName,
 					displayEvaluationPoints(summaryList[position].claimedPoints),
 					displayEvaluationPoints(summaryList[position].average));
+	
+	console.log("points:"+ summaryList[position].toStudentName  +"|"+summaryList[position].claimedPoints + "|" + summaryList[position].average);
 
 	// evaluation to others header:
 	student = (type == REVIEWEE) ? FROM_STUDENT : TO_STUDENT;

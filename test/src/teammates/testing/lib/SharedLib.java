@@ -20,7 +20,6 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.search.FlagTerm;
 
-import teammates.testing.Config;
 
 public class SharedLib {
 

@@ -74,6 +74,8 @@ public class TestCoordViewResults extends BaseTest {
 	@Test
 	public void testViewSummaryByReviewee() throws Exception {
 		cout("TestCoordResultsView: testViewSummaryByReviewee ");
+		// Click Evaluation Tab
+		gotoEvaluations();
 		
 		// click 'View Results':
 		clickEvaluationViewResults(0);
@@ -106,6 +108,8 @@ public class TestCoordViewResults extends BaseTest {
 	@Test
 	public void testViewDetailByReviewer() throws Exception {
 		cout("TestCoordResultsView: test view detail by reviewer");
+		// Click Evaluation Tab
+		gotoEvaluations();
 		
 		// click 'View Results':
 		clickEvaluationViewResults(0);
@@ -123,6 +127,8 @@ public class TestCoordViewResults extends BaseTest {
 	@Test
 	public void testViewDetailByReviewee() throws Exception {
 		cout("TestCoordResultsView: test view detail by reviewee");
+		// Click Evaluation Tab
+		gotoEvaluations();
 		
 		// click 'View Results':
 		clickEvaluationViewResults(0);
@@ -142,7 +148,9 @@ public class TestCoordViewResults extends BaseTest {
 	@Test
 	public void testPublishButton() throws Exception {
 		cout("TestCoordResultsView: test publish");
-
+		// Click Evaluation Tab
+		gotoEvaluations();
+		
 		// click 'View Results':
 		clickEvaluationViewResults(0);
 

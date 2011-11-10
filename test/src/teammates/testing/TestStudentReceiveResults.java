@@ -19,7 +19,7 @@ public class TestStudentReceiveResults extends BaseTest {
 	@BeforeClass
 	public static void classSetup() {
 		//setupScenario();
-		setupScenarioForBumpRatioTest(0);
+		setupScenarioForBumpRatioTest(4);
 		TMAPI.cleanup();
 		TMAPI.createCourse(sc.course);
 		TMAPI.createEvaluation(sc.evaluation);

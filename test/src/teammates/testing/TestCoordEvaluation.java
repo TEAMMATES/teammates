@@ -27,9 +27,11 @@ public class TestCoordEvaluation extends BaseTest {
 		//creating and enrolling students in first course
 		TMAPI.createCourse(nsc.course2);
 		TMAPI.enrollStudents(nsc.course2.courseId, nsc.students);
+		
 		//creating and enrolling students in second course
 		TMAPI.createCourse(sc.course);
 		TMAPI.enrollStudents(sc.course.courseId, sc.students);
+		
 		
 		setupSelenium();
 		coordinatorLogin(Config.TEAMMATES_APP_ACCOUNT, Config.TEAMMATES_APP_PASSWD);
@@ -45,13 +47,13 @@ public class TestCoordEvaluation extends BaseTest {
 	 */
 	@Test
 	public void testAddEvaluation() {
-		cout("TestCoordEvaluation: Adding evaluation.");
-
+		cout("TestCoordEvaluation: Adding evaluation." + nsc.evaluation.name + "|" + nsc.evaluation.courseID);
 		gotoEvaluations();
-		addEvaluation(sc.evaluation);
+		addEvaluation(nsc.evaluation);
+		assertEquals("The evaluation has been added.", getElementText(statusMessage));
 		
 		gotoEvaluations();
-		verifyEvaluationAdded(sc.course.courseId, sc.evaluation.name, "AWAITING", "0 / " + sc.students.size());
+		verifyEvaluationAdded(nsc.evaluation.courseID, nsc.evaluation.name, "AWAITING", "0 / " + nsc.students.size());
 	}
 	
 	/**
@@ -59,15 +61,14 @@ public class TestCoordEvaluation extends BaseTest {
 	 */
 	@Test
 	public void testAddSameEvaluationInDifferentCourse() {
-		cout("TestCoordEvaluation: Adding same esvaluation name for a different course under same coordinator.");
-		
+		cout("TestCoordEvaluation: Adding same esvaluation name for a different course under same coordinator."
+			+ sc.evaluation.name + "|" + sc.evaluation.courseID);
+
 		gotoEvaluations();
-		addEvaluation(nsc.evaluation);
+		addEvaluation(sc.evaluation);
 		assertEquals("The evaluation has been added.", getElementText(statusMessage));
-		
-		gotoEvaluations();
-		verifyEvaluationAdded(nsc.course2.courseId, nsc.evaluation.name, "AWAITING", "0 / " + nsc.students.size());
-	}	
+
+		}	
 
 	/**
 	 * Test add duplicated evaluation

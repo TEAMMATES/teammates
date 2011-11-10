@@ -183,16 +183,27 @@ public class Evaluations {
 		int totalPoints = 0;
 		int numberOfStudents = 0;
 
-		boolean debug = false;
 		for (Submission s : submissionList) {
 			// Exclude unsure and unfilled entries
 			if (s.getPoints() == -999) {
 				return 1;
+				
 			} else if (s.getPoints() != -101) {
 				
 				totalPoints = totalPoints + s.getPoints();
 				numberOfStudents++;
 			}
+		}
+		
+		if(totalPoints == 0) {
+			for (Submission s : submissionList) {
+				if (s.getPoints() != -101) {
+					s.setPoints(100);
+					System.out.println("MSG:"+s.getFromStudent() + "|" + s.getToStudent() + "|" + s.getPoints());
+				}
+
+			}
+			return 1;
 		}
 		return (float) ((numberOfStudents * 100.0) / (float) totalPoints);
 	}

@@ -393,6 +393,10 @@ function compileSubmissionsIntoSummaryList(submissionList)
 	
 	var count = 0;
 	
+	for(var loop = 0; loop < submissionList.length; loop++) {
+		logSubmission(submissionList[loop]);
+	}
+
 	for(loop = 0; loop < submissionList.length; loop++)
 	{
 		exists = false;
@@ -400,6 +404,7 @@ function compileSubmissionsIntoSummaryList(submissionList)
 		
 		for(x = 0; x < summaryList.length; x++)
 		{
+			
 			if(summaryList[x].toStudent == submissionList[loop].toStudent)
 			{
 				exists = true;
@@ -421,14 +426,19 @@ function compileSubmissionsIntoSummaryList(submissionList)
 				{
 					if(submissionList[y].fromStudent == toStudent)
 					{
-						if(submissionList[y].points == -999 || submissionList[y].points == -101)
+						if(submissionList[y].points == -999 )
 						{
-							claimedPoints = "N/A";
+							claimedPoints = NA;
+						}else if (submissionList[y].points == -101) {
+							claimedPoints = NOTSURE;
 						}
 						
 						else
 						{
+							
+							
 							claimedPoints = Math.round(submissionList[y].points * submissionList[y].pointsBumpRatio);
+
 						}
 						
 						if(submissionList[y].points != -999)
@@ -447,7 +457,6 @@ function compileSubmissionsIntoSummaryList(submissionList)
 					}
 				}
 			}
-			
 			if(totalPointGivers != 0)
 			{
 				average = Math.round(totalPoints / totalPointGivers);
@@ -455,23 +464,18 @@ function compileSubmissionsIntoSummaryList(submissionList)
 			
 			else
 			{
-				average = "N/A";
+				average = NA;
 			}
 			
-			if(claimedPoints != "N/A" && average != "N/A")
-			{
-				difference = Math.round(average-claimedPoints);
-			}
-			
-			else
-			{
-				difference = "N/A";
+			difference = Math.round(average-claimedPoints);
+			if(isNaN(difference)) {
+				difference = NA;
 			}
 			
 			summaryList[count++] = { toStudent:toStudent, toStudentName:toStudentName, teamName:teamName,
 					average:average, difference:difference, toStudentComments:toStudentComments, submitted:submitted,
 					claimedPoints:claimedPoints};
-			console.log("******"+toStudent+"|"+toStudentName+"|"+teamName+"|"+average+"|"+difference+"|"+toStudentComments+"|"+submitted+"|"+claimedPoints);
+			console.log("******"+toStudent+"|"+toStudentName+"|"+teamName+"|"+average+"|"+difference+"|"+"|"+submitted+"|"+claimedPoints);
 
 		}
 	}
@@ -479,11 +483,10 @@ function compileSubmissionsIntoSummaryList(submissionList)
 	// Find normalizing points bump ratio for averages
 	var teamsNormalized = new Array();
 	count = 0;
-	
+	logSummaryList(summaryList);
 	for(loop = 0; loop < summaryList.length; loop++)
 	{
 		teamName = summaryList[loop].teamName;
-		console.log("find normalizing bumpRatio loop index: " + loop + summaryList[loop].teamName);
 		// Reset variables
 		exists = false;
 		totalPoints = 0;
@@ -505,46 +508,53 @@ function compileSubmissionsIntoSummaryList(submissionList)
 			// Tabulate the perceived scores
 			for(y = loop; y < summaryList.length; y++)
 			{
-				if(summaryList[y].teamName == summaryList[loop].teamName && summaryList[y].average != "N/A")
+				console.log(summaryList[y].teamName+"[0]"+summaryList[y].average);
+				if(summaryList[y].teamName == summaryList[loop].teamName && summaryList[y].average != NA)
 				{
+					console.log(summaryList[y].teamName+"[1]"+summaryList[y].average);
+
 					totalPoints += summaryList[y].average;
 					totalGivers += 1;
 				}
 			}
-			
+			console.log("totalgiver: "+totalGivers+ " | totalPoints:" + totalPoints);
+
 			if(totalGivers != 0)
 			{
+					
 				pointsBumpRatio = totalGivers * 100 / totalPoints; 
 			
 				// Store the bump ratio
 				teamsNormalized[count++] = {pointsBumpRatio:pointsBumpRatio, teamName:teamName};
+				console.log("teamNormalized:" + pointsBumpRatio + "|" + teamName);
 			}
 	
-		}
-		
+		}	
 	}
 	
 	// Do the normalization
-	for(loop = 0; loop < teamsNormalized.length; loop++)
+	for(loop = 0; loop < teamsNormalized.length; loop++) // number of teams
 	{
-		for(y = 0; y < summaryList.length; y++)
+		for(y = 0; y < summaryList.length; y++) // number of members
 		{
-			if(summaryList[y].teamName == teamsNormalized[loop].teamName && summaryList[y].average != "N/A")
+			if(summaryList[y].teamName == teamsNormalized[loop].teamName && summaryList[y].average != NA)
 			{
 				summaryList[y].average = Math.round(summaryList[y].average * teamsNormalized[loop].pointsBumpRatio);
 		
 
-				if(summaryList[y].claimedPoints != "N/A")
-				{
-					summaryList[y].difference = Math.round(summaryList[y].average-summaryList[y].claimedPoints);
-				}
 				
-				else
+				summaryList[y].difference = Math.round(summaryList[y].average-summaryList[y].claimedPoints);
+				
+				
+				if(isNaN(summaryList[y].difference))
 				{
-					summaryList[y].difference = "N/A";
+					summaryList[y].difference = NA;
 				}
 			}
 		}
+		logSummaryList(summaryList);
+		
+		console.log("team normalized: "+ loop+ teamsNormalized[loop].teamName + "|" + teamsNormalized[loop].pointsBumpRatio);
 	}
 	
 	return summaryList;

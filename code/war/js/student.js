@@ -179,11 +179,13 @@ function compileSubmissionsIntoSummaryList(submissionList)
 				{
 					if(submissionList[y].fromStudent == toStudent)
 					{
-						if(submissionList[y].points == -999 || submissionList[y].points == -101)
+						if(submissionList[y].points == -999)
 						{
-							claimedPoints = "N/A";
+							claimedPoints = NA;
 						}
-						
+						else if(submissionList[y].points == -101) {
+							claimedPoints = NOTSURE;
+						}
 						else
 						{
 							// Should not alter student's own claimed points for student's view
@@ -214,17 +216,13 @@ function compileSubmissionsIntoSummaryList(submissionList)
 			
 			else
 			{
-				average = "N/A";
+				average = NA;
 			}
 			
-			if(claimedPoints != "N/A" && average != "N/A")
-			{
-				difference = Math.round(average-claimedPoints);
-			}
-			
-			else
-			{
-				difference = "N/A";
+			difference = Math.round(average-claimedPoints);
+
+			if(isNaN(difference)) {
+				difference = NA;
 			}
 			
 			summaryList[count++] = { toStudent:toStudent, toStudentName:toStudentName, teamName:teamName,
@@ -284,18 +282,13 @@ function compileSubmissionsIntoSummaryList(submissionList)
 	{
 		for(y = 0; y < summaryList.length; y++)
 		{
-			if(summaryList[y].teamName == teamsNormalized[loop].teamName && summaryList[y].average != "N/A")
+			if(summaryList[y].teamName == teamsNormalized[loop].teamName && summaryList[y].average != NA)
 			{
 				summaryList[y].average = Math.round(summaryList[y].average * teamsNormalized[loop].pointsBumpRatio);
-
-				if(summaryList[y].claimedPoints != "N/A")
+				summaryList[y].difference = Math.round(summaryList[y].average-summaryList[y].claimedPoints);
+				if(isNaN(summaryList[y].difference))
 				{
-					summaryList[y].difference = Math.round(summaryList[y].average-summaryList[y].claimedPoints);
-				}
-				
-				else
-				{
-					summaryList[y].difference = "N/A";
+					summaryList[y].difference = NA;
 				}
 			}
 		}
@@ -1178,7 +1171,7 @@ function handleGetSubmissionResultsList()
 						fromStudentComments:fromStudentComments, toStudentComments:toStudentComments}; 
 			}
 		}
-		
+		logSubmissionList(submissionList);
 		return submissionList;
 	}
 	

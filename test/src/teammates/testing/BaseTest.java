@@ -146,6 +146,10 @@ public class BaseTest {
 	public static By resultTopButton = By.id("button_top");
 
 	/**
+	 * coordinator:
+	 */
+	public static By coordEvaluationSubmitButton = By.id("button_editevaluationresultsbyreviewee");
+	/**
 	 * student:
 	 */
 	// student course:
@@ -237,6 +241,11 @@ public class BaseTest {
 		cout("Signing out.");
 		waitAndClick(By.className("t_logout"));
 		// Check that we're at the main page after logging out
+		if(Config.TEAMMATES_URL.contains("localhost")) {
+			cout("localhost testing");
+			selenium.open(Config.TEAMMATES_URL);
+			
+		}
 		verifyMainPage();
 	}
 
@@ -247,7 +256,7 @@ public class BaseTest {
 	}
 
 	public static void studentClickDoEvaluation(int row) {
-		wdClick(By.id("doEvaluation" + row));
+		waitAndClick(By.id("doEvaluation" + row));
 	}
 
 	public static By studentGetEvaluationStatus(int row) {
@@ -463,7 +472,9 @@ public class BaseTest {
 		clickEvaluationTab();
 		// Select the course
 		waitAndClick(inputCourseID);
-		waitAndClick(By.xpath("//option[@value='" + eval.courseID + "']"));
+		cout("click " + eval.courseID);
+		selectDropdownByValue(By.id("courseid"), eval.courseID);
+		
 		// Fill in the evaluation name
 		wdFillString(inputEvaluationName, eval.name);
 		// Allow P2P comment
@@ -943,6 +954,7 @@ public class BaseTest {
 
 	public static void selectDropdownByValue(By locator, String value) {
 		Select select = new Select(driver.findElement(locator));
+		justWait();
 		select.selectByValue(value);
 	}
 
@@ -1135,6 +1147,15 @@ public class BaseTest {
 		}
 	}
 
+	protected static void assertEqualsOr(String e1, String e2, String a) {
+		if(e1.equalsIgnoreCase(a) || e2.equalsIgnoreCase(a)) {
+			org.junit.Assert.assertTrue(true);
+		}else {
+			org.junit.Assert.assertEquals(e1, a);
+			org.junit.Assert.assertEquals(e2, a);
+		}
+		
+	}
 	/**
 	 * Helper function to clean up email account
 	 * 

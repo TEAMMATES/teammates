@@ -319,7 +319,7 @@ public class TMAPI {
 		return points;
 	}
 	//index 1: normalized
-	public static List<String> coordGetPointsToOthers(String[] submissionPoints, int personIndex){
+	public static List<String> coordGetPointsToOthersTwoLines(String[] submissionPoints, int personIndex){
 
 		String submission = submissionPoints[personIndex];
 		String normalized = submission.split("; ")[1];
@@ -337,7 +337,28 @@ public class TMAPI {
 		
 		return list;
 	}
-	public static List<String> coordGetPointsFromOthers(Scenario sc, int personIndex){
+	
+	//point list 2nd format
+	public static List<String> coordGetPointsToOthersOneLine(String[] submissionPoints, int personIndex){
+
+		String submission = submissionPoints[personIndex];
+		String normalized = submission.split("; ")[1];
+		normalized = normalized.substring(SUBMISSION_DATA_TAG_NORMALIZED.length());
+		String[] pointArray = normalized.split(", ");
+
+		//remove self evaluation point:
+		List<String> list = new ArrayList<String>();
+		for(int i = 0; i < pointArray.length; i++){
+			String point = pointArray[i];
+			if(point.length() > 12)//e.g. Equal Share + 20%
+			point = point.substring(0, 11) + " " + point.substring(12);
+			list.add(point);
+		}
+		
+		return list;
+	}
+	
+	public static List<String> coordGetPointsFromOthersTwoLines(Scenario sc, int personIndex){
 		
 		List<String> list = new ArrayList<String>();
 		String[] submissionPoints = sc.submissionPoints;
@@ -372,6 +393,44 @@ public class TMAPI {
 		
 		return list;
 	}
+	
+	// 2nd format
+	public static List<String> coordGetPointsFromOthersOneLine(Scenario sc, int personIndex){
+		
+		List<String> list = new ArrayList<String>();
+		String[] submissionPoints = sc.submissionPoints;
+		String teamName = sc.students.get(personIndex).teamName;
+		int start = 0;
+		int end = 0;
+		boolean started = false;
+		for(int i = 0; i < sc.students.size(); i++){
+			if(sc.students.get(i).teamName.equalsIgnoreCase(teamName)){
+				if(!started){
+					started = true;
+					start = i;
+					end = i;
+				}
+				else{
+					end++;
+				}
+			}
+		}
+		
+		for(int i = start; i <= end; i++){
+			//remove self evaluation:
+			String submission = submissionPoints[i];
+			String normalized = submission.split("; ")[1];
+			normalized = normalized.substring(SUBMISSION_DATA_TAG_NORMALIZED.length());
+			String[] pointArray = normalized.split(", ");
+			String point = pointArray[personIndex-start];
+			if(point.length() > 12)//e.g. Equal Share + 20%
+			point = point.substring(0, 11) + " " + point.substring(12);
+			list.add(point);			
+		}
+		
+		return list;
+	}
+
 	//index 2: claimed
 	public static String studentGetClaimedPoints(String[] submissionPoints, int personIndex){
 		//student should see his/her original submission point:
