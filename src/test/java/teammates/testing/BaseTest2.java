@@ -16,17 +16,17 @@ public class BaseTest2 {
 	protected static Scenario scn = null;
 	
 	protected static void setupScenario(String name) {
-		scn = Scenario.fromJSONFile("" + name + ".json");
+		scn = Scenario.fromJSONFile("target/test-classes/" + name + ".json");
 		scn.scrambleScenario();
 	}
 	
 	protected static void setupNewScenarioForMultipleCourses(String name) {
-		scn = Scenario.newScenario("" + name + ".json");
+		scn = Scenario.newScenario("target/test-classes/" + name + ".json");
 		scn.scrambleScenario();
 	}
 	
 	protected static void setupScenarioBumpRatioTest(int index) {
-		scn = Scenario.scenarioForBumpRatioTest("bump_ratio_scenario.json", index);
+		scn = Scenario.scenarioForBumpRatioTest("target/test-classes/bump_ratio_scenario.json", index);
 		scn.scrambleScenario();
 	}
 	

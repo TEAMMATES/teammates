@@ -40,7 +40,7 @@ public class TestSendKeysJoinCourse extends BaseTest {
 	public static void classTearDown() throws Exception {
 		// Write to the new json file (since we have collected the
 		// registration keys for students)
-		// sc.toJSONFile("./scenario.json.ext");
+		// sc.toJSONFile("target/test-classes/scenario.json.ext");
 		wrapUp();
 	}
 
@@ -82,7 +82,7 @@ public class TestSendKeysJoinCourse extends BaseTest {
 		}
 		
 		// Write key back to json file
-		sc.toJSONFile("scenario.json.ext");
+		sc.toJSONFile("target/test-classes/scenario.json.ext");
 		
 	
 		// Reserve more time to send email

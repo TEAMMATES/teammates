@@ -45,7 +45,7 @@ public class AutoImportTestData {
 		TMAPI.closeEvaluation(sc.course.courseId, sc.evaluation2.name);
 		TMAPI.publishEvaluation(sc.course.courseId, sc.evaluation2.name);
 
-		Scenario nsc = Scenario.newScenario("./scenario.json");
+		Scenario nsc = Scenario.newScenario("target/test-classes/scenario.json");
 
 		// -----Course 2-----//
 		TMAPI.createCourse(nsc.course2);

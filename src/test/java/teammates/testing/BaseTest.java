@@ -827,7 +827,7 @@ public class BaseTest {
 	}
 
 	protected static void setupScenarioForBumpRatioTest(int index) {
-		sc = Scenario.scenarioForBumpRatioTest("bump_ratio_scenario.json", index);
+		sc = Scenario.scenarioForBumpRatioTest("target/test-classes/bump_ratio_scenario.json", index);
 	}
 
 	/**

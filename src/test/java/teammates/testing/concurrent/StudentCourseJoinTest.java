@@ -70,7 +70,7 @@ public class StudentCourseJoinTest extends BaseTest2 {
 		}
 
 		// Write key back to json file
-		scn.toJSONFile("scenario.json.ext");
+		scn.toJSONFile("target/test-classes/scenario.json.ext");
 
 		// Reserve more time to send email
 		for (int i = 0; i < scn.students.size(); i++) {
