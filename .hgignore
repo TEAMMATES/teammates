@@ -7,9 +7,9 @@ syntax: glob
 *.orig
 *.class
 *.jar
-scenario2.json
-code/src/teammates/Config.java
-test/src/teammates/testing/TmpTest.java
+*.properties
+report
+target
 appengine-generated
 *.ext
-*.xml
+appengine-web.xml
