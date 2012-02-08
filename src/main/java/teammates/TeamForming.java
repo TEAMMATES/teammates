@@ -83,7 +83,6 @@ public class TeamForming {
 			throw new TeamFormingSessionExistsException();
 		}
 
-		//System.out.println("Inserting session: "+deadline+ " and course: "+courseID);
 		TeamFormingSession teamFormingSession = new TeamFormingSession(courseID, start, deadline, timeZone, gracePeriod,
 				instructions, profileTemplate);
 
@@ -93,8 +92,8 @@ public class TeamForming {
 		}
 
 		// pending
-		// Build submission objects for each student based on their team number
-		//createSubmissions(courseID, name);
+		// Build TeamProfile objects for each team based on the courseID
+		//createTeamProfile(courseID, teamName);
 	}
 	
 	/**

@@ -54,6 +54,15 @@ h1 {
 	text-transform: uppercase;
 }
 
+h2 {
+	color: black;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0 auto;
+	padding: 15px 0 15px;
+	text-align: left;
+	text-transform: uppercase;
+}
+
 div#contentFooter {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
@@ -619,7 +628,8 @@ ul#navbar li {
 	float: left;
 	list-style-type: none;
 	/*padding-left: 120px;*/
-	padding-left: 94px;
+	/*padding-left: 94px;*/
+	padding-left: 65px;
 }
 
 ul#navbar li a {
@@ -640,4 +650,8 @@ ul#navbar li a:link:hover {
 
 ul#navbar li a:visited {
 	color: white;
+}
+
+.bold {
+	font-weight: bold;
 }

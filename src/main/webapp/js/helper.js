@@ -54,7 +54,7 @@ function trim(stringToTrim) {
 
 
 function escape(str) {
-	str = str.replace(/'/g, "\\'");
+	str = str.replace(/'/g, "&#39;");
 	return str;
 }
 
@@ -63,7 +63,7 @@ function sanitize(str) {
 	str = str.replace(/>/g, "&gt;");
 	str = str.replace(/</g, "&lt;");
 	str = str.replace(/"/g, "&quot;");
-	str = str.replace(/'/g, "\\'");
+	str = str.replace(/'/g, "&#39;");
 	str = str.replace(/%/g, "&#37;");
 
 	return str;

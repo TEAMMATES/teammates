@@ -324,6 +324,11 @@ function editTeamFormingSession(courseID, editStart, editStartTime, editDeadline
 	}
 }
 
+function editTeamProfile(){
+	//setStatusMessage(DISPLAY_LOADING);
+	//alert("saving..");
+}
+
 /*
  * Returns
  * 
@@ -911,7 +916,7 @@ function printTeamDetail(){
 			+ "<tr>"
 			+ "<td></td>"
 			+ "<td colspan=\"3\">"
-			+ "<input id='t_btnAddEvaluation' type=\"button\" class=\"button\""
+			+ "<input id='t_btnAddEvaluation' onclick=\"editTeamProfile();\" type=\"button\" class=\"button\""
 			+ "value=\"Save\" tabindex=2 />"
 			+ "</td>" + "</tr>" + "</table>" + "</form>";	
 

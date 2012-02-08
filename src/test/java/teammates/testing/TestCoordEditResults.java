@@ -89,8 +89,7 @@ public class TestCoordEditResults extends BaseTest {
 		for (int i = 0; i < s.team.students.size(); i++) {
 			// clean up contribution data added in try 1
 			setSubmissionPoint(i, "-999");
-			setSubmissionJustification(i, String.format("Edit:: Justification from %s to %s.", s.email, s.team.students.get(i).email));
-			
+			setSubmissionJustification(i, String.format("Edit:: Justification from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
 		}
 		waitAndClick(resultEditButton);
 		waitForElementText(editEvaluationResultsStatusMessage, "Please fill in all the relevant fields.");
@@ -99,7 +98,7 @@ public class TestCoordEditResults extends BaseTest {
 		for (int i = 0; i < s.team.students.size(); i++) {
 			// clean up contribution data added in try 2
 			setSubmissionJustification(i, null);
-			setSubmissionComments( i, String.format("Edit:: Comments from %s to %s.", s.email, s.team.students.get(i).email));
+			setSubmissionComments( i, String.format("Edit:: Comments from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
 		}
 		waitAndClick(resultEditButton);
 		waitForElementText(editEvaluationResultsStatusMessage, "Please fill in all the relevant fields.");
@@ -108,8 +107,8 @@ public class TestCoordEditResults extends BaseTest {
 		System.out.println("testEditEmptyResult: submit with new data");
 		for (int i = 0; i < s.team.students.size(); i++) {
 			setSubmissionPoint(i, "100");
-			setSubmissionJustification(i, String.format("Edit:: Justification from %s to %s.", s.email, s.team.students.get(i).email));
-			setSubmissionComments( i, String.format("Edit:: Comments from %s to %s.", s.email, s.team.students.get(i).email));
+			setSubmissionJustification(i, String.format("Edit:: Justification from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
+			setSubmissionComments( i, String.format("Edit:: Comments from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
 		}
 
 		// click 'submit':
@@ -145,10 +144,10 @@ public class TestCoordEditResults extends BaseTest {
 			// selenium.select("points" + i, "value=30");
 			setSubmissionPoint(i, "30");
 			setSubmissionJustification(i, String.format(
-					"Edit:: Justification from %s to %s.", s.email,
+					"Edit:: Justification from %s's email (%s) to %s.", s.name, s.email,
 					s.team.students.get(i).email));
 			setSubmissionComments(i, String.format(
-					"Edit:: Comments from %s to %s.", s.email,
+					"Edit:: Comments from %s's email (%s) to %s.", s.name, s.email,
 					s.team.students.get(i).email));
 		}
 
@@ -168,10 +167,10 @@ public class TestCoordEditResults extends BaseTest {
 			assertEquals(getDropdownSelectedValue(getSubmissionPoint(i)), "30");
 
 			assertEquals(getElementText(getSubmissionJustification(i)),
-					String.format("Edit:: Justification from %s to %s.",
+					String.format("Edit:: Justification from %s's email (%s) to %s.", s.name,
 							s.email, s.team.students.get(i).email));
 			assertEquals(getElementText(getSubmissionComments(i)),
-					String.format("Edit:: Comments from %s to %s.", s.email,
+					String.format("Edit:: Comments from %s's email (%s) to %s.", s.name, s.email,
 							s.team.students.get(i).email));
 		}
 		waitAndClick(resultEditCancelButton);// [cancel]

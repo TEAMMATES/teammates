@@ -38,6 +38,43 @@ public class TestCoordCourse extends BaseTest {
 		testCreateDuplicateCourseFail();
 		testDeleteCourseSuccess();
 		testCreateCourseMissingInfoFail();
+		
+		testCreateCourseAllowedSymbolsIDSuccess();
+		testCreateCourseNonAllowedSymbolsIDFail();
+	}
+	
+	/**
+	* Successfully create a course with course ID containing permitted symbols
+	*/
+	public void testCreateCourseAllowedSymbolsIDSuccess() throws Exception {
+		cout("TestCoordCourse: TestCreatingCourseWithAllowedSymbolsInID");
+	 		
+		// Try adding course with ID containing '.'
+		addCourse(sc.course.courseId.replace('-', '.'), sc.course.courseName + " (.)");
+		gotoCourses();
+		verifyAddedCourse(sc.course.courseId.replace('-', '.'), sc.course.courseName + " (.)");
+	
+		// Try adding course with ID containing '_'
+		clickAndConfirmCourseDelete(0);
+		addCourse(sc.course.courseId.replace('-', '_'), sc.course.courseName + " (_)");
+		gotoCourses();
+		verifyAddedCourse(sc.course.courseId.replace('-', '_'), sc.course.courseName + " (_)");
+		
+		// Try adding course with ID containing '$'
+		clickAndConfirmCourseDelete(0);
+		addCourse(sc.course.courseId.replace('-', '$'), sc.course.courseName + " ($)");
+		gotoCourses();
+		verifyAddedCourse(sc.course.courseId.replace('-', '$'), sc.course.courseName + " ($)");
+	}
+		
+	/**
+	 * Fail to create a course with course ID containing non-permitted symbols
+	 */
+	public void testCreateCourseNonAllowedSymbolsIDFail() throws Exception {
+		cout("TestCoordCourse: TestCreatingCourseWithNonPermittedSymbolsInID");
+		
+		addCourse(sc.course.courseId.replace("-", "!*}"), sc.course.courseName + " (!*})");
+		assertEquals(true,isElementPresent(courseMessage));
 	}
 	
 	/**

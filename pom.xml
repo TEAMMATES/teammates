@@ -222,7 +222,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
-        <version>2.1-beta-1</version>
+        <version>2.1.1</version>
         <configuration>
           <webResources>
             <resource>
@@ -359,7 +359,7 @@
                 </exec>
               
                 <exec executable="cmd"  dir="${sdk.dir}/" osfamily='windows'>  
-                  <arg line="appcfg.cmd set_default_version ${project.basedir}/src/main/webapp" />  
+                  <arg line="/c appcfg.cmd set_default_version ${project.basedir}/src/main/webapp" />  
                 </exec>     
               </target>
               

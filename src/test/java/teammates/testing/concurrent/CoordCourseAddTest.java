@@ -45,6 +45,43 @@ public class CoordCourseAddTest extends BaseTest2 {
 		testCoordAddCourseWithDuplicateIDFailed();
 		testCoordAddCourseWithDuplicateNameSuccessful();
 		testCoordAddCourseWithInvalidInputsFailed();
+		
+		testCreateCourseAllowedSymbolsIDSuccess();
+		testCreateCourseNonAllowedSymbolsIDFail();
+	}
+	
+	/**
+	* Successfully create a course with course ID containing permitted symbols
+	*/
+	public static void testCreateCourseAllowedSymbolsIDSuccess(){
+		System.out.println("TestCoordCourse: TestCreatingCourseWithAllowedSymbolsInID");
+	 		
+		// Try adding course with ID containing '.'
+		bi.addCourse(scn.course.courseId.replace('-', '.'), scn.course.courseName + " (.)");
+		bi.gotoCourses();
+		bi.verifyAddedCourse(scn.course.courseId.replace('-', '.'), scn.course.courseName + " (.)");
+	
+		// Try adding course with ID containing '_'
+		bi.clickAndConfirmCourseDelete(0);
+		bi.addCourse(scn.course.courseId.replace('-', '_'), scn.course.courseName + " (_)");
+		bi.gotoCourses();
+		bi.verifyAddedCourse(scn.course.courseId.replace('-', '_'), scn.course.courseName + " (_)");
+		
+		// Try adding course with ID containing '$'
+		bi.clickAndConfirmCourseDelete(0);
+		bi.addCourse(scn.course.courseId.replace('-', '$'), scn.course.courseName + " ($)");
+		bi.gotoCourses();
+		bi.verifyAddedCourse(scn.course.courseId.replace('-', '$'), scn.course.courseName + " ($)");
+	}
+		
+	/**
+	 * Fail to create a course with course ID containing non-permitted symbols
+	 */
+	public static void testCreateCourseNonAllowedSymbolsIDFail(){
+		System.out.println("TestCoordCourse: TestCreatingCourseWithNonPermittedSymbolsInID");
+		
+		bi.addCourse(scn.course.courseId.replace("-", "!*}"), scn.course.courseName + " (!*})");
+		assertEquals(true,bi.isElementPresent(bi.courseMessage));
 	}
 	
 	/**

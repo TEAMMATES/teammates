@@ -55,7 +55,7 @@ public class TeamFormingSession {
 	private boolean activated;
 
 	/**
-	 * Constructs an Evaluation object.
+	 * Constructs an TeamFormingSession object.
 	 * 
 	 * @param courseID	
 	 * @param start

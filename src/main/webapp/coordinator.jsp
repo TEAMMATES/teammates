@@ -71,6 +71,7 @@
 							}
 						%>
 					<li><a class='t_evaluations' href="javascript:displayEvaluationsTab();">Evaluations</a></li>
+					<li><a class='t_help' href="javascript:displayHelpTab();">Help</a></li>
 					<li><a class='t_logout' href="javascript:logout();">Logout</a>
 					 ( <% 	
 					 out.println(accounts.getUser().getNickname());

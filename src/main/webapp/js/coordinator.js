@@ -11,7 +11,7 @@ var DISPLAY_COURSE_DELETED = "The course has been deleted."
 var DISPLAY_COURSE_DELETEDALLSTUDENTS = "All students have been removed from the course.";
 var DISPLAY_COURSE_DELETEDSTUDENT = "The student has been removed from the course.";
 var DISPLAY_COURSE_EXISTS = "<font color=\"#F00\">The course already exists.</font>";
-var DISPLAY_COURSE_INVALIDID = "<font color=\"#F00\">Please use only alphabets, numbers, dots and hyphens in COURSE ID.</font>";
+var DISPLAY_COURSE_INVALIDID = "<font color=\"#F00\">Please use only alphabets, numbers, dots, hyphens, underscores and dollars in COURSE ID.</font>";
 var DISPLAY_COURSE_NOTEAMS = "<font color=\"#F00\">The course does not have any teams.</font>";
 var DISPLAY_COURSE_SENTREGISTRATIONKEY = "Registration key has been sent to ";
 var DISPLAY_COURSE_SENTREGISTRATIONKEYS = "Registration keys are sent to the students.";
@@ -800,6 +800,14 @@ function displayStudentInformation(courseID, email, name, teamName, googleID, re
 	clearDisplay();
 	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
 	printStudent(courseID, email, name, teamName, googleID, registrationKey, comments);
+}
+
+function displayHelpTab()
+{
+	clearAllDisplay();
+	clearStatusMessage();
+	printCoordinatorHelp();
+	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
 }
 
 function doAddCourse(courseID, name)
@@ -2593,7 +2601,7 @@ function isCourseIDValid(courseID)
 		return false;
 	}
 	
-	if(courseID.match(/^[a-zA-Z0-9.-]*$/) == null)
+	if(courseID.match(/^[a-zA-Z_$0-9.-]+$/) == null)
 	{
 		return false;
 	}

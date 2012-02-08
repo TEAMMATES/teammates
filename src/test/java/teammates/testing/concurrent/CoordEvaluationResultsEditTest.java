@@ -85,7 +85,7 @@ public class CoordEvaluationResultsEditTest extends BaseTest2 {
 		for (int i = 0; i < s.team.students.size(); i++) {
 			// clean up contribution data added in try 1
 			bi.setSubmissionPoint(i, "-999");
-			bi.setSubmissionJustification(i, String.format("Edit:: Justification from %s to %s.", s.email, s.team.students.get(i).email));
+			bi.setSubmissionJustification(i, String.format("Edit:: Justification from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
 
 		}
 		bi.waitAndClick(bi.resultEditButton);
@@ -95,7 +95,7 @@ public class CoordEvaluationResultsEditTest extends BaseTest2 {
 		for (int i = 0; i < s.team.students.size(); i++) {
 			// clean up contribution data added in try 2
 			bi.setSubmissionJustification(i, null);
-			bi.setSubmissionComments(i, String.format("Edit:: Comments from %s to %s.", s.email, s.team.students.get(i).email));
+			bi.setSubmissionComments( i, String.format("Edit:: Comments from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
 		}
 		bi.waitAndClick(bi.resultEditButton);
 		bi.waitForElementText(bi.editEvaluationResultsStatusMessage, "Please fill in all the relevant fields.");
@@ -103,8 +103,8 @@ public class CoordEvaluationResultsEditTest extends BaseTest2 {
 		// Submit with new data: successful
 		for (int i = 0; i < s.team.students.size(); i++) {
 			bi.setSubmissionPoint(i, "100");
-			bi.setSubmissionJustification(i, String.format("Edit:: Justification from %s to %s.", s.email, s.team.students.get(i).email));
-			bi.setSubmissionComments(i, String.format("Edit:: Comments from %s to %s.", s.email, s.team.students.get(i).email));
+			bi.setSubmissionJustification(i, String.format("Edit:: Justification from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
+			bi.setSubmissionComments( i, String.format("Edit:: Comments from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
 		}
 		bi.waitAndClick(bi.resultEditButton);
 		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_EVALUATION_RESULTS_EDITED);
@@ -130,8 +130,8 @@ public class CoordEvaluationResultsEditTest extends BaseTest2 {
 		Student s = scn.students.get(FIRST_STUDENT);
 		for (int i = 0; i < s.team.students.size(); i++) {
 			bi.setSubmissionPoint(i, "30");
-			bi.setSubmissionJustification(i, String.format("Edit:: Justification from %s to %s.", s.email, s.team.students.get(i).email));
-			bi.setSubmissionComments(i, String.format("Edit:: Comments from %s to %s.", s.email, s.team.students.get(i).email));
+			bi.setSubmissionJustification(i, String.format("Edit:: Justification from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
+			bi.setSubmissionComments(i, String.format("Edit:: Comments from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
 		}
 
 		// click 'submit':
@@ -144,8 +144,8 @@ public class CoordEvaluationResultsEditTest extends BaseTest2 {
 		bi.waitAndClick(bi.resultIndividualEditButton);
 		for (int i = 0; i < s.team.students.size(); i++) {
 			assertEquals(bi.getDropdownSelectedValue(bi.getSubmissionPoint(i)), "30");
-			assertEquals(bi.getElementText(bi.getSubmissionJustification(i)), String.format("Edit:: Justification from %s to %s.", s.email, s.team.students.get(i).email));
-			assertEquals(bi.getElementText(bi.getSubmissionComments(i)), String.format("Edit:: Comments from %s to %s.", s.email, s.team.students.get(i).email));
+			assertEquals(bi.getElementText(bi.getSubmissionJustification(i)), String.format("Edit:: Justification from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
+			assertEquals(bi.getElementText(bi.getSubmissionComments(i)), String.format("Edit:: Comments from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
 		}
 		bi.waitAndClick(bi.resultEditCancelButton);// [cancel]
 
