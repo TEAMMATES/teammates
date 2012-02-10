@@ -110,12 +110,12 @@ function printCourseList(courseList, user) {
 						+ " onmouseover=\"ddrivetip('View course details.')\""
 						+ " onmouseout=\"hideddrivetip()\">View</a>"
 						//by kalpit
-						+ "<a onclick=\"studentViewCreateTeams();\""
-						+ "\" href=# "
-						+ "onmouseover=\"ddrivetip('View/Create the teams for this course.')\""
-						+ "onmouseout=\"hideddrivetip()\""
-						+ ">View Teams</a>"
-						//end by kalpit
+//						+ "<a onclick=\"studentViewCreateTeams();\""
+//						+ "\" href=# "
+//						+ "onmouseover=\"ddrivetip('View/Create the teams for this course.')\""
+//						+ "onmouseout=\"hideddrivetip()\""
+//						+ ">View Teams</a>"
+//						//end by kalpit
 						+ "</td>";
 			}
 			// coordinator view:
