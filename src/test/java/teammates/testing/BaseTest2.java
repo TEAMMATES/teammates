@@ -31,19 +31,19 @@ public class BaseTest2 {
 	}
 	
 	protected static Scenario setupScenarioInstance(String name) {
-		Scenario s = Scenario.fromJSONFile("./" + name + ".json");
+		Scenario s = Scenario.fromJSONFile("target/test-classes/" + name + ".json");
 		s.scrambleScenario();
 		return s;
 	}
 
 	protected static Scenario setupNewScenarioInstance(String name) {
-		Scenario s = Scenario.newScenario("./" + name + ".json");
+		Scenario s = Scenario.newScenario("target/test-classes/" + name + ".json");
 		s.scrambleScenario();
 		return s;
 	}
 	
 	protected static Scenario setupBumpRatioScenarioInstance(String name, int index) {
-		Scenario s = Scenario.scenarioForBumpRatioTest("./" + name + ".json", index);
+		Scenario s = Scenario.scenarioForBumpRatioTest("target/test-classes/" + name + ".json", index);
 		s.scrambleScenario();
 		return s;
 	}

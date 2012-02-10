@@ -34,9 +34,9 @@ import teammates.testing.TestEvaluationResultPoints;
 	StudentEvaluationEditTest2.class,
 	StudentEvaluationResultsTest2.class,
 		
-	SystemEvaluationResultsCalculationTest.class,
-	SystemFooterTest.class
-//	TestEvaluationResultPoints.class
+	//SystemEvaluationResultsCalculationTest.class,
+	SystemFooterTest.class,
+	TestEvaluationResultPoints.class
 	
 })
 
