@@ -67,7 +67,6 @@ public class CoordCourseAddCaseSensitivityTest extends BaseTest2 {
 		//CLEANUP
 		TMAPI.cleanupCourse(COURSE_ID_LOWER);
 		TMAPI.cleanupCourse(COURSE_ID_UPPER);
-		
 		//-------------------------lower or upper courseID + same name
 		bi.clickCourseTab();
 		bi.addCourse(COURSE_ID_LOWER, COURSE_NAME_LOWER);
@@ -84,7 +83,6 @@ public class CoordCourseAddCaseSensitivityTest extends BaseTest2 {
 		//CLEANUP
 		TMAPI.cleanupCourse(COURSE_ID_LOWER);
 		TMAPI.cleanupCourse(COURSE_ID_UPPER);
-		
 		
 
 		System.out.println("testCaseSensitivityAtCreateCourse: course name - sensitive");

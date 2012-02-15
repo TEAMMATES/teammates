@@ -321,8 +321,9 @@ public class APIServlet extends HttpServlet {
 	 * Clean up everything about a particular course
 	 */
 	protected void cleanupCourse() {
+		
 		String courseID = req.getParameter("course_id");
-		System.out.println("Cleaning everything about course " + courseID);
+		System.out.println("APIServlet.cleanupCourse() courseID = " + courseID);
 		// Delete course and enrolled students
 		try {
 			Courses.inst().cleanUpCourse(courseID);
@@ -335,7 +336,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	protected void courseAdd() throws IOException {
-		System.out.println("Adding new course");
+		System.out.println("TMAPI.courseAdd() Adding new course");
 		// String courseID = req.getParameter("course_id");
 		// String courseName = req.getParameter("course_name");
 		String googleID = req.getParameter("google_id");

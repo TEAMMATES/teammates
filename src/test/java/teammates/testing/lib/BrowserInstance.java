@@ -747,7 +747,7 @@ public class BrowserInstance {
 	}
 
 	public void clickCourseDetailEdit(int row) {
-		waitAndClick(By.xpath(String.format("//table[@id='dataform']//tr[%d]//a[2]", row + 2)));
+		waitAndClick(By.xpath(String.format("//table[@id='dataform']//tr[%d]//td[4]//a[@class='t_student_edit']", row + 2)));
 	}
 
 	public void clickCourseDetailEdit(String student) {

@@ -88,7 +88,7 @@ public class TMAPI {
 	 * @return
 	 */
 	public static void cleanupCourse(String courseId) {
-		System.out.println("Cleaning up course " + courseId);
+		System.out.println("TMAPI.cleanupCourse() courseID = " + courseId);
 		HashMap<String, Object> params = createParamMap("cleanup_course");
 		params.put("course_id", courseId);
 		String paramsString = buildParamsString(params);

@@ -46,8 +46,8 @@ public class CoordCourseAddTest extends BaseTest2 {
 		testCoordAddCourseWithDuplicateNameSuccessful();
 		testCoordAddCourseWithInvalidInputsFailed();
 		
-		testCreateCourseAllowedSymbolsIDSuccess();
-		testCreateCourseNonAllowedSymbolsIDFail();
+//		testCreateCourseAllowedSymbolsIDSuccess();
+//		testCreateCourseNonAllowedSymbolsIDFail();
 	}
 	
 	/**
@@ -62,13 +62,13 @@ public class CoordCourseAddTest extends BaseTest2 {
 		bi.verifyAddedCourse(scn.course.courseId.replace('-', '.'), scn.course.courseName + " (.)");
 	
 		// Try adding course with ID containing '_'
-		bi.clickAndConfirmCourseDelete(0);
+		bi.clickAndConfirmCourseDelete(scn.course.courseName + " (.)");
 		bi.addCourse(scn.course.courseId.replace('-', '_'), scn.course.courseName + " (_)");
 		bi.gotoCourses();
 		bi.verifyAddedCourse(scn.course.courseId.replace('-', '_'), scn.course.courseName + " (_)");
 		
 		// Try adding course with ID containing '$'
-		bi.clickAndConfirmCourseDelete(0);
+		bi.clickAndConfirmCourseDelete(scn.course.courseName + " (_)");
 		bi.addCourse(scn.course.courseId.replace('-', '$'), scn.course.courseName + " ($)");
 		bi.gotoCourses();
 		bi.verifyAddedCourse(scn.course.courseId.replace('-', '$'), scn.course.courseName + " ($)");
