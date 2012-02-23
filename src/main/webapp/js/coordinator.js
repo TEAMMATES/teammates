@@ -808,14 +808,6 @@ function displayStudentInformation(courseID, email, name, teamName, googleID, re
 	printStudent(courseID, email, name, teamName, googleID, registrationKey, comments);
 }
 
-function displayHelpTab()
-{
-	clearAllDisplay();
-	clearStatusMessage();
-	printCoordinatorHelp();
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-}
-
 function doAddCourse(courseID, name)
 {
 	setStatusMessage(DISPLAY_LOADING);

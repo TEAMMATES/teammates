@@ -598,14 +598,6 @@ function displayEvaluationResults(evaluationList, loop)
 	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
 }
 
-function displayHelpTab()
-{
-	clearAllDisplay();
-	clearStatusMessage();
-	printStudentHelp();
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-}
-
 function doArchiveCourse(courseID)
 {
 	setStatusMessage(DISPLAY_LOADING);

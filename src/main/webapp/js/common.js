@@ -1911,73 +1911,6 @@ function printEditEvaluationResultsByReviewer(submissionList, summaryList,
 	};
 }
 
-/*
- * Coordinator help page
- */
-function printCoordinatorHelp() {
-	var outputHeader = "<h1>COORDINATOR HELP</h1>";
-	
-	var outputForm = "<form method=\"post\" action=\"\" name=\"form_coordinatorhelp\">"
-			+ "<h2>GETTING STARTED</h2>"
-			+ "<div class=\"result_team\">"
-			+ "<table id=\"data\">"
-			+ "<tr>"
-			+ "<td><br />"
-			+ "<iframe src=\"http://slideful.com/v20120208_0169407043137705_ijf.htm\" frameborder=\"0\""
-			+ " style=\"border: 0; padding: 0; margin: 0 90px 0 150px; width: 700px; height: 500px;\" allowtransparency=\"true\"></iframe>"
-			+ "<br /></td>"
-			+ "</tr>"
-			+ "</table>"
-			+ "</div>"
-			+ "<p>&nbsp;</p>"
-			+ "<h2>FAQ</h2>"
-			+ "<div class=\"result_team\">"
-			+ "<table id=\"data\">"
-			+ "<tr>"
-			+ "<td class=\"bold\">+++ How do I edit student teams after the student has been enrolled into the course?</td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td>From the Courses page, click on View corresponding to the course that you're interested in to view the course details. Next, click on Edit corresponding to the student whose team details are to be changed. In the Edit Student page, change the Team Name to the desired value and click on Save Changes to save the new team name.</td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td class=\"bold\">+++ How do I change the Google ID associated with a student?</td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td>It is currently not possible to change the Google ID of a student and still retain the data existing in the old account.</td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td class=\"bold\">+++ A student recently used a new Google ID to login to the system and sees a blank page upon login. What should be done?</td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td>It is not possible to port over the data existing in his/her old Google ID to the new account. However, the student can be sent a new registration key to join the course and all data from this point can be recorded independent of the old data.</td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td class=\"bold\">+++ How do I extend the deadline for an evaluation?</td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td>From the Evaluations page, click on Edit corresponding to the evaluation whose deadline needs to be extended. Next, change the Closing time of the evaluation to the desired value and click on Save Changes to save the new deadline.</td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td class=\"bold\">+++ How do I extend the deadline for team sign-up?</td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td>From the Team-Forming page, click on Manage corresponding to the course whose deadline needs to be extended. Next, change the End time of the team-signup for the desired course and click on Save Changes to save the new deadline.</td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td class=\"bold\">+++ How are the evaluation points calculated?</td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td>The values entered by students in a team are normalized and this is shown as <u>Claimed Contribution</u>. Then, for each student, the average of contribution values that others have given him is computed and normalized. This normalized value is shown as <u>Perceived Contribution</u>.<br /><br />For queries about how exceptional cases are handled, kindly contact TEAMMATES at <a href=\"mailto:teammates@comp.nus.edu.sg\">teammates@comp.nus.edu.sg</a>.</td>"
-			+ "</tr>"
-			+ "</table>"
-			+ "</div>"
-			+ "<p>&nbsp;</p>"
-			+ "</form>";
-	
-	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader;
-	document.getElementById(DIV_COURSE_MANAGEMENT).innerHTML = outputForm;
-}
-
 /*------------------------------------------PRINT STUDENT PAGE------------------------------------------*/
 /*
  * Student join course
@@ -2627,61 +2560,6 @@ function printEvaluationResultStudentForm(summaryList, submissionList, start,
 			+ "<br /><br />";
 
 	document.getElementById(DIV_EVALUATION_RESULTS).innerHTML = output;
-}
-
-/*
- * Student help page
- */
-function printStudentHelp() {
-	var outputHeader = "<h1>STUDENT HELP</h1>";
-	
-	var outputForm = "<form method=\"post\" action=\"\" name=\"form_studenthelp\">"
-			+ "<h2>GETTING STARTED</h2>"
-			+ "<div class=\"result_team\">"
-			+ "<table id=\"data\">"
-			+ "<tr>"
-			+ "<td><br />"
-			+ "<iframe src=\"http://slideful.com/v20120208_0129762411137705_ijf.htm\" frameborder=\"0\""
-			+ " style=\"border: 0; padding: 0; margin: 0 90px 0 150px; width: 700px; height: 500px;\" allowtransparency=\"true\"></iframe>"
-			+ "<br /></td>"
-			+ "</tr>"
-			+ "</table>"
-			+ "</div>"
-			+ "<p>&nbsp;</p>"
-			+ "<h2>FAQ</h2>"
-			+ "<div class=\"result_team\">"
-			+ "<table id=\"data\">"
-			+ "<tr>"
-			+ "<td class=\"bold\">+++ I recently changed the Google ID that I use to log in to the system. When I log in using my new ID, I see a blank screen. What should I do?</td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td>Contact us at <a href=\"mailto:teammates@comp.nus.edu.sg\">teammates@comp.nus.edu.sg</a> to request for a reset of your TEAMMATES account with the new Google ID.</td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td class=\"bold\">+++ What should I do if I cannot use the key sent to me to join the course?</td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td>Contact the course coordinator and request for another key to enable you to join the course.</td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td class=\"bold\">+++ I do not see the course listed in the Courses page even though the registration key has been accepted. What should I do></td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td>Click on the Courses tab again to reset the page.</td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td class=\"bold\">+++ What should I do if I'm unable to submit my evaluation?</td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td>Send in your evaluation to your course coordinator and request him / her to submit your evaluation to the system.</td>"
-			+ "</tr>"
-			+ "</table>"
-			+ "</div>"
-			+ "<p>&nbsp;</p>"
-			+ "</form>";
-
-	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader;
-	document.getElementById(DIV_COURSE_MANAGEMENT).innerHTML = outputForm;
 }
 
 /*------------------------------------------PRINT FUNCTION HELPER------------------------------------------*/
