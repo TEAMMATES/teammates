@@ -218,6 +218,9 @@ public class BrowserInstance {
 	public final String MESSAGE_EVALUATION_PUBLISHED = "The evaluation has been published.";
 	public final String MESSAGE_EVALUATION_UNPUBLISHED = "The evaluation has been unpublished.";
 
+	public final String ERROR_LONG_EVALUATION_NAME = "Evaluation name should not exceed 22 characters.";
+	public final String ERROR_INVALID_EVALUATION_NAME = "Please use only alphabets, numbers and whitespace in evaluation name.";
+	
 	public final String MESSAGE_EVALUATION_RESULTS_EDITED = "The particular evaluation results have been edited.";
 
 	public final String ERROR_MESSAGE_EVALUATION_EXISTS = "The evaluation exists already.";
@@ -844,6 +847,10 @@ public class BrowserInstance {
 	 * 
 	 * @param eval
 	 */
+	public void addEvaluation(Evaluation eval) {
+		addEvaluation(eval.courseID, eval.name, eval.dateValue, eval.nextTimeValue, eval.p2pcomments, eval.instructions, eval.gracePeriod);
+	}
+	
 	public void addEvaluation(Evaluation eval, int evalIndex) {
 		clickEvaluationTab();
 		// Select the course
@@ -875,45 +882,46 @@ public class BrowserInstance {
 		waitAndClickAndCheck(addEvaluationButton, By.id("evaluation" + evalIndex));
 	}
 
-	public void addEvaluation(Evaluation eval) {
+	public void addEvaluation(String courseID, String evalName, String dateValue, String nextTimeValue, String comments, String instructions, Integer gracePeriod) {
 		clickEvaluationTab();
 		
 		// Select the course
 		waitAndClick(inputCourseID);
-		selectDropdownByValue(inputCourseID, eval.courseID);
+		selectDropdownByValue(inputCourseID, courseID);
 
 		// Fill in the evaluation name
-		wdFillString(inputEvaluationName, eval.name);
+		wdFillString(inputEvaluationName, evalName);
 		justWait();
 		
 		// Select deadline date
 		waitAndClick(inputClosingDate);
 		selenium.waitForPopUp("window_deadline", "30000");
 		selenium.selectWindow("name=window_deadline");
-		waitAndClick(By.xpath("//a[contains(@href, '" + eval.dateValue + "')]"));
+		waitAndClick(By.xpath("//a[contains(@href, '" + dateValue + "')]"));
 		for (String s : driver.getWindowHandles()) {
 			selenium.selectWindow(s);
 			break;
 		}
 		justWait();
-		selectDropdownByValue(inputClosingTime, eval.nextTimeValue);
+		selectDropdownByValue(inputClosingTime, nextTimeValue);
 				
 		// Allow P2P comment
-		waitAndClick(By.xpath("//*[@id='commentsstatus'][@value='" + eval.p2pcomments + "']"));
+		waitAndClick(By.xpath("//*[@id='commentsstatus'][@value='" + comments + "']"));
 		justWait();
 		
 		// Fill in instructions
-		wdFillString(inputInstruction, eval.instructions);
+		wdFillString(inputInstruction, instructions);
 		justWait();
 		
 		
 		// Select grace period
-		selectDropdownByValue(inputGracePeriod, Integer.toString(eval.gracePeriod));
+		selectDropdownByValue(inputGracePeriod, Integer.toString(gracePeriod));
 		justWait();
 		
 		// Submit the form
 		waitAndClick(addEvaluationButton);
 	}
+	
 
 	public String getEvaluationCourseID(int row) {
 		row++;
