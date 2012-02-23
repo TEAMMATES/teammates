@@ -1697,7 +1697,7 @@ function printEditEvaluationResultsByReviewer(submissionList, summaryList,
 							+ "</tr>"
 							+ "<tr>"
 							+ "<td class=\"lhs\">"
-							+ "Comments about team dynamics:"
+							+ "Comments about team dynamics:<br />(confidential)"
 							+ "</td>"
 							+ "<td>"
 							+ "<textarea class=\"textvalue\" rows=\"8\" cols=\"100\" name=\""
@@ -1732,7 +1732,7 @@ function printEditEvaluationResultsByReviewer(submissionList, summaryList,
 							+ "</tr>"
 							+ "<tr>"
 							+ "<td class=\"lhs\">"
-							+ "Comments about team dynamics:"
+							+ "Comments about team dynamics:<br />(confidential)"
 							+ "</td>"
 							+ "<td>"
 							+ "<textarea class=\"textvalue\" rows=\"2\" cols=\"100\" name=\""
@@ -2370,7 +2370,9 @@ function printSubmissionForm(submissionList, commentsEnabled) {
 				+ STUDENT_JUSTIFICATION	+ 0	+ "\" id=\""
 				+ STUDENT_JUSTIFICATION	+ 0	+ "\"></textarea></td>"
 				+ "</tr>" + "<tr>"
-				+ "<td class=\"lhs\">Comments about team dynamics:</td>";
+				+ "<td class=\"lhs\">"
+				+ "Comments about team dynamics:<br />(confidential)"
+				+ "</td>";
 		
 		if (commentsEnabled == true) {
 			output = output
