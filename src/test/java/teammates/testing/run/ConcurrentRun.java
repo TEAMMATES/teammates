@@ -1,10 +1,25 @@
-package teammates.testing.concurrent;
+package teammates.testing.run;
 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
 import teammates.profiler.Profiler;
+import teammates.testing.concurrent.CoordCourseAddCaseSensitivityTest;
+import teammates.testing.concurrent.CoordCourseAddTest;
+import teammates.testing.concurrent.CoordCourseDeleteStudentsTest;
+import teammates.testing.concurrent.CoordCourseEditStudentsTest;
+import teammates.testing.concurrent.CoordCourseEnrolCaseSensitivityTest;
+import teammates.testing.concurrent.CoordCourseEnrolStudentsTest;
+import teammates.testing.concurrent.CoordCourseListTest;
+import teammates.testing.concurrent.CoordEvaluationAddCaseSensitivityTest;
+import teammates.testing.concurrent.CoordEvaluationAddTest;
+import teammates.testing.concurrent.CoordEvaluationEditTest;
+import teammates.testing.concurrent.CoordEvaluationResultsEditTest;
+import teammates.testing.concurrent.CoordEvaluationResultsViewTest;
+import teammates.testing.concurrent.CoordLoginTest;
+import teammates.testing.concurrent.StudentLoginTest;
+import teammates.testing.concurrent.SystemFooterTest;
 import teammates.testing.lib.ParallelComputer2;
 import teammates.testing.lib.TMAPI;
 

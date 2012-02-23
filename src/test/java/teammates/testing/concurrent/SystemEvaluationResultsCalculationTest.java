@@ -11,14 +11,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
-import teammates.testing.BaseTest2;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Scenario;
 import teammates.testing.object.Student;
 
-public class SystemEvaluationResultsCalculationTest extends BaseTest2 {
+public class SystemEvaluationResultsCalculationTest extends TestCase {
 
 	BrowserInstance bi;
 	Scenario scn;

@@ -3,9 +3,9 @@ package teammates.testing.run;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import teammates.testing.TestCoordCourse;
-import teammates.testing.TestCoordDeleteStudents;
-import teammates.testing.TestStudentSubmitFeedbacks;
+import teammates.testing.old.TestCoordCourse;
+import teammates.testing.old.TestCoordDeleteStudents;
+import teammates.testing.old.TestStudentSubmitFeedbacks;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ 

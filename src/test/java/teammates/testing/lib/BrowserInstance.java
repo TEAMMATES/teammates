@@ -71,6 +71,7 @@ public class BrowserInstance {
 	 * 
 	 */
 	// add course:
+	public By addCoursePageTitle = By.xpath("//div[@id='headerOperation']//h1");
 	public By inputCourseID = By.id("courseid");
 	public By inputCourseName = By.id("coursename");
 	public By addCourseButton = By.id("btnAddCourse");

@@ -9,14 +9,13 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import teammates.testing.BaseTest2;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Scenario;
 import teammates.testing.object.Student;
 
-public class StudentEvaluationEditTest extends BaseTest2 implements Runnable {
+public class StudentEvaluationEditTest extends TestCase implements Runnable {
 
 	static Scenario scn = setupScenarioInstance("scenario");
 	private Student student;

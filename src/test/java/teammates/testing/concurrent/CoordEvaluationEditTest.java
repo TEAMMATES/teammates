@@ -6,13 +6,12 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import teammates.testing.BaseTest2;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Scenario;
 
-public class CoordEvaluationEditTest extends BaseTest2 {
+public class CoordEvaluationEditTest extends TestCase {
 
 	static BrowserInstance bi;
 	static Scenario scn = setupScenarioInstance("scenario");

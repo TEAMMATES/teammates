@@ -6,12 +6,11 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import teammates.testing.BaseTest2;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 
-public class StudentLoginTest extends BaseTest2 {
+public class StudentLoginTest extends TestCase {
 	static BrowserInstance bi;
 	
 	@BeforeClass

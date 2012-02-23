@@ -1,4 +1,4 @@
-package teammates.testing;
+package teammates.testing.concurrent;
 
 import teammates.testing.object.Scenario;
 
@@ -8,7 +8,7 @@ import teammates.testing.object.Scenario;
  * TODO: Rename to something nicer
  * 
  */
-public class BaseTest2 {
+public class TestCase {
 
 	/**
 	 * Each class groups similar tests that revolve around 1 Scenario

@@ -7,7 +7,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import teammates.testing.BaseTest2;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -15,7 +14,7 @@ import teammates.testing.lib.BrowserInstancePool;
 /**
  * Test Coordinator Login, Logout
  * */
-public class CoordLoginTest extends BaseTest2 {
+public class CoordLoginTest extends TestCase {
 	static BrowserInstance bi;
 
 	@BeforeClass

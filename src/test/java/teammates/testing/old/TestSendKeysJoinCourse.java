@@ -1,4 +1,4 @@
-package teammates.testing;
+package teammates.testing.old;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,7 +13,7 @@ import teammates.testing.lib.SharedLib;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Student;
 
-public class TestCoordSendKeysJoinCourse extends BaseTest {
+public class TestSendKeysJoinCourse extends BaseTest {
 
 	/**
 	 * Test Send Registration Keys feature. Make sure all participants received
@@ -89,7 +89,7 @@ public class TestCoordSendKeysJoinCourse extends BaseTest {
 		for (int i = 0; i < sc.students.size(); i++) {
 			assertEquals(sc.students.get(i).courseKey,
 					SharedLib.getRegistrationKeyFromGmail(sc.students.get(i).email,
-							Config.inst().TEAMMATES_APP_PASSWD, sc.course.courseId));
+							Config.inst().inst().TEAMMATES_APP_PASSWD, sc.course.courseId));
 		}
     
 	}

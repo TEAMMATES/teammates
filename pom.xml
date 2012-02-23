@@ -7,7 +7,7 @@
   <!-- The Basics -->
   <groupId>com.nus.teammates</groupId>
   <artifactId>teammates</artifactId>
-  <version>1.0</version>
+  <version>v4</version>
   <packaging>war</packaging>
   
   <name>teammates</name>
@@ -265,6 +265,9 @@
             <goals>
               <goal>deploy</goal>
             </goals>
+            <configuration>
+              <emailAccount>teammates@comp.nus.edu.sg</emailAccount>
+            </configuration>
            </execution>
           </executions>
       </plugin>
@@ -434,7 +437,7 @@
           
           <!-- defaul test class to run in integratin-test phase -->
             <includes>
-              <include>**/IntegratedRun.class</include>
+              <include>**/TestSuiteRun.class</include>
             </includes>
           <skip>true</skip>
         </configuration>

@@ -3,7 +3,7 @@ package teammates.testing.concurrent;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import teammates.testing.TestEvaluationResultPoints;
+import teammates.testing.old.TestEvaluationResultPoints;
 
 
 @RunWith(Suite.class)
@@ -14,9 +14,9 @@ import teammates.testing.TestEvaluationResultPoints;
 	CoordCourseAddCaseSensitivityTest.class,
 	CoordCourseAddTest.class,
 	CoordCourseDeleteStudentsTest.class,
-//	CoordCourseEditStudentsTeamTest.class,
+	CoordCourseEditStudentsTeamTest.class,
 	CoordCourseEditStudentsTest.class,
-	CoordCourseEnrolCaseSensitivityTest.class,
+//	CoordCourseEnrolCaseSensitivityTest.class,
 	CoordCourseEnrolStudentsTest.class,
 	CoordCourseListTest.class,
 //	CoordCourseViewTest.class,

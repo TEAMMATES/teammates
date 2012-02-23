@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import teammates.testing.BaseTest2;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -34,7 +33,7 @@ import teammates.testing.object.Student;
  * TODO: details not checked
  * 
  * */
-public class CoordCourseEditStudentsTeamTest extends BaseTest2 {
+public class CoordCourseEditStudentsTeamTest extends TestCase {
 	static BrowserInstance bi;
 	static Scenario scn = setupNewScenarioInstance("scenario");
 	
