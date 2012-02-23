@@ -262,9 +262,6 @@
           <execution>
             <id>pre-integration-test</id>
             <phase>pre-integration-test</phase>
-            <configuration>
-              <skip> true</skip>
-            </configuration>
             <goals>
               <goal>deploy</goal>
             </goals>
@@ -308,6 +305,7 @@
                 <echo message='Application : ${appengine-web-app.application}'/>
                 <echo message='Version     : ${appversion}'/>
               </target>
+
             </configuration>
             <goals>
               <goal>run</goal>
@@ -320,15 +318,11 @@
             <configuration>
                 <target>
                   <xmlproperty file="pom.xml"/>
+                  <property name = "sdk.dir" value="${settings.localRepository}/com/google/appengine/appengine-java-sdk/${project.properties.gae.version}/appengine-java-sdk-${project.properties.gae.version}/bin"/>
                   <echo message="maven local repo: ${settings.localRepository}"/>  
                   <echo message="gae version     :${project.properties.gae.version}"/>  
                   <echo message="gae dir         : ${sdk.dir}"/>
- 
-                  
-                  <property name = "sdk.dir" value="${settings.localRepository}/com/google/appengine/appengine-java-sdk/${project.properties.gae.version}/appengine-java-sdk-${project.properties.gae.version}/bin"/>
 
-                
-                
                 <xmlproperty file="src/main/webapp/WEB-INF/appengine-web.xml"/>                
                 <property name = "prop.build.dir" location= "src/main/webapp/WEB-INF/classes/build.properties"/>
                 <property name = "prop.test.dir" location= "src/test/resources/test.properties"/>
@@ -338,8 +332,7 @@
                   <tstamp>
                     <format property="reportTimeStamp" pattern="EEE_d_MMM_yyyy_HH_mm"/>
                   </tstamp>
-                  
-                  
+
                   <property file="${prop.build.dir}"/>
                   <property file="${prop.test.dir}"/>
                   <xmlproperty file="src/main/webapp/WEB-INF/appengine-web.xml"/>   
@@ -352,9 +345,6 @@
                   </echo>	
                   <copy file="${prop.build.dir}" tofile="report/${reportTimeStamp}/build.properties.backup"/>
                   <copy file="${prop.test.dir}" tofile="report/${reportTimeStamp}/test.properties.backup"/>	
-                
- 
-                
 
                 <exec dir="${sdk.dir}/" executable="chmod" osfamily='unix'>
                     <arg line="+x appcfg.sh"/>
@@ -368,9 +358,6 @@
                   <arg line="/c appcfg.cmd set_default_version ${project.basedir}/src/main/webapp" />  
                 </exec>     
               </target>
-              
-              
-
             </configuration>
             <goals>
               <goal>run</goal>
@@ -378,8 +365,8 @@
           </execution>
           
            <execution>
-              <id>prepare-package</id>
-              <phase>prepare-package</phase>
+              <id>pre-package</id>
+              <phase>pre-package</phase>
               <configuration>
                 <target  name ="change_authCode">
                   <property name = "prop.build.dir" location= "src/main/webapp/WEB-INF/classes/build.properties"/>
@@ -397,11 +384,8 @@
                   </propertyfile>
 									<property name = "prop.test.dir" location= "src/test/resources/test.properties"/>
                   <copy file="${prop.test.dir}" tofile="target/test-classes/test.properties"/>
-
-
                 </target>
-                
-                
+            <skip>${skipApiCode}</skip>  
               </configuration>
               <goals>
                 <goal>run</goal>
@@ -508,6 +492,10 @@
     <gae.application.version>test</gae.application.version>
     
     <datanucleus.version>1.1.5</datanucleus.version>
+     <!--
+     Skip changing the authenciation code by default
+     -->   
+    <skipApiCode>true</skipApiCode>
   </properties>
   
   <profiles>
