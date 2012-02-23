@@ -11,7 +11,7 @@ var DISPLAY_COURSE_DELETED = "The course has been deleted."
 var DISPLAY_COURSE_DELETEDALLSTUDENTS = "All students have been removed from the course.";
 var DISPLAY_COURSE_DELETEDSTUDENT = "The student has been removed from the course.";
 var DISPLAY_COURSE_EXISTS = "<font color=\"#F00\">The course already exists.</font>";
-var DISPLAY_COURSE_INVALIDID = "<font color=\"#F00\">Please use only alphabets, numbers, dots, hyphens, underscores and dollars in COURSE ID.</font>";
+var DISPLAY_COURSE_INVALIDID = "<font color=\"#F00\">Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.</font>";
 var DISPLAY_COURSE_NOTEAMS = "<font color=\"#F00\">The course does not have any teams.</font>";
 var DISPLAY_COURSE_SENTREGISTRATIONKEY = "Registration key has been sent to ";
 var DISPLAY_COURSE_SENTREGISTRATIONKEYS = "Registration keys are sent to the students.";
@@ -26,7 +26,8 @@ var DISPLAY_EVALUATION_DELETED = "The evaluation has been deleted.";
 var DISPLAY_EVALUATION_EDITED = "The evaluation has been edited.";
 var DISPLAY_EVALUATION_EXISTS = "<font color=\"#F00\">The evaluation exists already.</font>";
 var DISPLAY_EVALUATION_INFORMEDSTUDENTSOFCHANGES = "E-mails have been sent out to inform the students of the changes to the evaluation.";
-var DISPLAY_EVALUATION_NAMEINVALID = "<font color=\"#F00\">Please use only alphabets, numbers and whitespace in EVALUATION NAME.</font>";
+var DISPLAY_EVALUATION_NAMEINVALID = "<font color=\"#F00\">Please use only alphabets, numbers and whitespace in evaluation name.</font>";
+var DISPLAY_EVALUATION_NAME_LENGTHINVALID = "<font color=\"#F00\">Evaluation name should not exceed 22 characters.</font>";
 var DISPLAY_EVALUATION_PUBLISHED = "The evaluation has been published.";
 var DISPLAY_EVALUATION_UNPUBLISHED = "The evaluation has been unpublished.";
 var DISPLAY_EVALUATION_REMINDERSSENT = "Reminder e-mails have been sent out to those students.";
@@ -223,8 +224,8 @@ function addCourse(courseID, courseName)
  * Returns
  * 
  * 0: successful 1: server error 2: fields empty 3: evaluation name invalid 4:
- * evaluation schedule invalid 5: evaluation exists 6: course has no teams
- * 
+ * evaluation name long 5: evaluation schedule invalid 6: evaluation exists 7:
+ * course has no teams
  */
 function addEvaluation(courseID, name, instructions, commentsEnabled, start, startTime, deadline, deadlineTime, timeZone, gracePeriod)
 {
@@ -239,9 +240,14 @@ function addEvaluation(courseID, name, instructions, commentsEnabled, start, sta
 		return 3;
 	}
 	
-	else if(!isAddEvaluationScheduleValid(start, startTime, deadline, deadlineTime))
+	else if(!isEvaluationNameLengthValid(name))
 	{
 		return 4;
+	}
+	
+	else if(!isAddEvaluationScheduleValid(start, startTime, deadline, deadlineTime))
+	{
+		return 5;
 	}
 	
 	else
@@ -881,15 +887,20 @@ function doAddEvaluation(courseID, name, instructions, commentsEnabled, start, s
 	
 	else if(results == 4)
 	{
-		setStatusMessage(DISPLAY_EVALUATION_SCHEDULEINVALID);
+		setStatusMessage(DISPLAY_EVALUATION_NAME_LENGTHINVALID);
 	}
 	
 	else if(results == 5)
 	{
-		setStatusMessage(DISPLAY_EVALUATION_EXISTS);
+		setStatusMessage(DISPLAY_EVALUATION_SCHEDULEINVALID);
 	}
 	
 	else if(results == 6)
+	{
+		setStatusMessage(DISPLAY_EVALUATION_EXISTS);
+	}
+	
+	else if(results == 7)
 	{
 		setStatusMessage(DISPLAY_COURSE_NOTEAMS);
 	}
@@ -1789,7 +1800,7 @@ function handleAddCourse()
 /*
  * Returns
  * 
- * 0: successful 1: server error 5: evaluation exists 6: course has no teams
+ * 0: successful 1: server error 6: evaluation exists 7: course has no teams
  * 
  */
 function handleAddEvaluation()
@@ -1805,12 +1816,12 @@ function handleAddEvaluation()
 			
 			if(message == MSG_EVALUATION_EXISTS)
 			{
-				return 5;
+				return 6;
 			}
 			
 			else if(message == MSG_COURSE_NOTEAMS)
 			{
-				return 6;
+				return 7;
 			}
 			
 			else
@@ -2775,6 +2786,11 @@ function isEvaluationNameValid(name)
 		return false;
 	}
 	
+	return true;
+}
+
+function isEvaluationNameLengthValid(name)
+{
 	if(name.length > 22)
 	{
 		return false;
