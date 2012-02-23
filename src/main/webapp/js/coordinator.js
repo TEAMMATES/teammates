@@ -15,7 +15,7 @@ var DISPLAY_COURSE_INVALIDID = "<font color=\"#F00\">Please use only alphabets, 
 var DISPLAY_COURSE_NOTEAMS = "<font color=\"#F00\">The course does not have any teams.</font>";
 var DISPLAY_COURSE_SENTREGISTRATIONKEY = "Registration key has been sent to ";
 var DISPLAY_COURSE_SENTREGISTRATIONKEYS = "Registration keys are sent to the students.";
-var DISPLAY_COURSE_INVALIDNAME = "<font color=\"#F00\">Course name should not exceed 30 characters.</font>";
+var DISPLAY_COURSE_INVALIDNAME = "<font color=\"#F00\">Course name should not exceed 38 characters.</font>";
 var DISPLAY_COURSE_UNARCHIVED = "The course has been unarchived.";
 var DISPLAY_EDITSTUDENT_FIELDSEMPTY = "<font color=\"#F00\">Please fill in all fields marked with an *.</font>";
 var DISPLAY_ENROLLMENT_FIELDSEXTRA = "<font color=\"#F00\">There are too many fields.</font>";
