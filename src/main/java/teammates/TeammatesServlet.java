@@ -733,12 +733,12 @@ public class TeammatesServlet extends HttpServlet {
 				// do nothing;
 			} else {
 				fields = entries[x].split("\t");
-				name = fields[1];
-				email = fields[2];
-				teamName = fields[0];
+				name = fields[1].trim();
+				email = fields[2].trim();
+				teamName = fields[0].trim();
 				// Comments for student are optional
 				if (fields.length == 4) {
-					comments = (fields[3]);
+					comments = (fields[3].trim());
 				}
 
 				else {
