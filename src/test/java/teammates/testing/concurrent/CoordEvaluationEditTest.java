@@ -45,7 +45,7 @@ public class CoordEvaluationEditTest extends BaseTest2 {
 	 */
 	@Test
 	public void testCoordEditEvaluation() {
-		String newInstruction = "Something fancy and new";
+		String newInstruction = "New Instruction: I'm writing a new instruction to test char '. It should work fine.";
 		
 		bi.gotoEvaluations();
 		

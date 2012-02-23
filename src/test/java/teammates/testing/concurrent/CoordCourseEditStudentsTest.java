@@ -19,10 +19,10 @@ public class CoordCourseEditStudentsTest extends BaseTest2 {
 	
 	static int FIRST_STUDENT = 0;
 	static final String STUDENT_NAME = "Jack (New)";
-	static final String STUDENT_TEAM = "New Team";
+	static final String STUDENT_TEAM = "Jack's New Team";
 	static final String STUDENT_EMAIL = "student@gmail.com";
 	static final String STUDENT_GOOGLE = "student";
-	static final String STUDENT_COMMENT = "This is a new comment for edit testing.";
+	static final String STUDENT_COMMENT = "Comments: Do you know His Master's Voice?";
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -87,19 +87,29 @@ public class CoordCourseEditStudentsTest extends BaseTest2 {
 		
 		//TODO: define the rule for input
 		
-		//TODO: test student name exceed the limit
-		bi.wdFillString(bi.studentEditName, "ASAGSAJAJ JSHA JSH AGSHA GSAJ JAHS ASJA GJASG AJHSAJHSA");
-		
-		//TODO: cannot contain certain characters e.g. ' !
-		bi.wdFillString(bi.studentEditTeam, "ALICE'S NEW TEAM");
-		
-		//TODO: cannot contain certain characters e.g. ' ! 
-		bi.wdFillString(bi.studentEditEmail, "");
-
-		//TODO: cannot contain \'
-		bi.wdFillString(bi.studentEditComments, STUDENT_COMMENT);
+		testCoordEditStudentWithInvalidStudentName();
+		testCoordEditStudentWithInvalidTeamName();
+		testCoordEditStudentWithInvalidEmail();
+		testCoordEditStudentWithInvalidGoogleID();
 	}
 	
+	public void testCoordEditStudentWithInvalidStudentName() {
+		//TODO: test student name exceed the limit
+		bi.wdFillString(bi.studentEditName, "ASAGSAJAJ JSHA JSH AGSHA GSAJ JAHS ASJA GJASG AJHSAJHSA");
+	}
+	
+	public void testCoordEditStudentWithInvalidTeamName() {
+		
+	}
+	
+	public void testCoordEditStudentWithInvalidEmail() {
+		//TODO: cannot contain certain characters e.g. ' ! 
+		bi.wdFillString(bi.studentEditEmail, "");
+	}
+	
+	public void testCoordEditStudentWithInvalidGoogleID() {
+		
+	}
 	
 	
 	//TODO: testMassEditStudents
