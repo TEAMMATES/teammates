@@ -1,10 +1,11 @@
 /**
- * Helper functions for Teammates
- * Require: jquery 
+ * Helper functions for Teammates Require: jquery
  */
+
 var debugEnabled = true;
+
 function logSubmission(s) {
-	if(debugEnabled) {
+	if (debugEnabled) {
 		var msg = "SUBMISSION: ";
 		msg += s.fromStudent + "|";
 		msg += s.toStudent + "|";
@@ -20,16 +21,16 @@ function logSubmission(s) {
 }
 
 function logSubmissionList(lst) {
-	if(debugEnabled) {
-		for(var i=0; i< lst.length; i++) {
-			logSubmission(lst[i]);	
+	if (debugEnabled) {
+		for ( var i = 0; i < lst.length; i++) {
+			logSubmission(lst[i]);
 		}
 	}
 }
 
 function logSummaryList(lst) {
-	if(debugEnabled) {
-		for(var i=0; i< lst.length; i++) {
+	if (debugEnabled) {
+		for ( var i = 0; i < lst.length; i++) {
 			var msg = "summary list " + i + " ";
 			msg += lst[i].toStudent + "|";
 			msg += lst[i].claimedPoints + "|";
@@ -42,16 +43,14 @@ function logSummaryList(lst) {
 		}
 	}
 }
-function replaceAll(source,stringToFind,stringToReplace)
-{
+function replaceAll(source, stringToFind, stringToReplace) {
 	return source.split(stringToFind).join(stringToReplace);
 
 }
 
 function trim(stringToTrim) {
-	return stringToTrim.replace(/^\s+|\s+$/g,"");
+	return stringToTrim.replace(/^\s+|\s+$/g, "");
 }
-
 
 function escape(str) {
 	str = str.replace(/'/g, "\\'");
@@ -64,6 +63,17 @@ function sanitize(str) {
 	str = str.replace(/</g, "&lt;");
 	str = str.replace(/"/g, "&quot;");
 	str = str.replace(/'/g, "\\'");
+	str = str.replace(/%/g, "&#37;");
+
+	return str;
+}
+
+function sanitizeComments(str) {
+	str = str.replace(/&/g, "&amp;");
+	str = str.replace(/>/g, "&gt;");
+	str = str.replace(/</g, "&lt;");
+	str = str.replace(/"/g, "&quot;");
+	str = str.replace(/\'/g, "&#39;");
 	str = str.replace(/%/g, "&#37;");
 
 	return str;
@@ -82,7 +92,7 @@ function clearStatusMessage() {
 }
 
 function toggleStatusMessage(statusMsg) {
-	setStatusMessage(statusMsg); 
+	setStatusMessage(statusMsg);
 }
 
 function setEditEvaluationResultsStatusMessage(message) {
@@ -90,6 +100,7 @@ function setEditEvaluationResultsStatusMessage(message) {
 		clearEditEvaluationResultsStatusMessage();
 		return;
 	}
+
 	$("#coordinatorEditEvaluationResultsStatusMessage").html(message).show();
 }
 
