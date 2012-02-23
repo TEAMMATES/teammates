@@ -79,7 +79,7 @@ public class CoordCourseEditStudentsTest extends BaseTest2 {
 		
 	}
 	
-//	@Test
+	@Test
 	public void testCoordEditIndividualStudentsWithInvalidInputFailed() {
 		bi.clickCourseTab();
 		bi.clickCourseView(scn.course.courseId);

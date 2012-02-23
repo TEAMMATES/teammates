@@ -208,6 +208,9 @@ public class BrowserInstance {
 	public final String MESSAGE_COURSE_DELETED_STUDENT = "The student has been removed from the course.";
 	public final String MESSAGE_COURSE_DELETED_ALLSTUDENTS = "All students have been removed from the course. Click here to enrol students.";
 
+	public final String ERROR_COURSE_MISSING_FIELD = "Please fill in all the relevant fields.";
+	public final String ERROR_COURSE_LONG_COURSE_NAME = "Course name should not exceed 38 characters.";
+	
 	public final String MESSAGE_ENROL_REMIND_TO_JOIN = "Emails have been sent to unregistered students.";
 	public final String ERROR_MESSAGE_ENROL_INVALID_EMAIL = "E-mail address should contain less than 40 characters and be of a valid syntax.";
 

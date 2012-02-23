@@ -115,12 +115,8 @@ public class CoordCourseAddTest extends BaseTest2 {
 	public static void testCoordAddCourseWithDuplicateIDFailed() {
 		System.out.println("testCoordAddCourseWithDuplicateIDFailed");
 		
-//		while (!bi.getElementText(bi.statusMessage).equals("The course already exists."))
-				
 		bi.addCourse(scn.course.courseId, COURSE_NAME);
-		
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_COURSE_EXISTS);
-//		assertEquals(bi.MESSAGE_COURSE_EXISTS, bi.getElementText(bi.statusMessage));
+		assertEquals(bi.getElementText(bi.statusMessage), bi.MESSAGE_COURSE_EXISTS);
 		
 		//check course not added
 		bi.clickCourseTab();
@@ -133,7 +129,7 @@ public class CoordCourseAddTest extends BaseTest2 {
 
 		bi.addCourse(COURSE_ID, scn.course.courseName);
 		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_COURSE_ADDED);
-//		assertEquals(bi.MESSAGE_COURSE_ADDED, bi.getElementText(bi.statusMessage));
+		assertEquals(bi.getElementText(bi.statusMessage), bi.MESSAGE_COURSE_ADDED);
 		
 		//check course added
 		bi.clickCourseTab();
@@ -147,19 +143,24 @@ public class CoordCourseAddTest extends BaseTest2 {
 	 * Expectation: course not added, show error message
 	 * */
 	public void testCoordAddCourseWithInvalidInputsFailed() {
+		String longCourseName = "HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD ";//48 CHAR
+		
 		System.out.println("TestCoordCourse: Creating course with missing info.");
 		// Trying adding course without ID
 		bi.addCourse("", scn.course.courseName);
-		assertEquals(true, bi.isElementPresent(bi.statusMessage));
+		assertEquals(bi.getElementText(bi.statusMessage), bi.ERROR_COURSE_MISSING_FIELD);
 		// Adding course without name
 		bi.addCourse(scn.course.courseId, "");
-		assertEquals(true, bi.isElementPresent(bi.statusMessage));
+		assertEquals(bi.getElementText(bi.statusMessage), bi.ERROR_COURSE_MISSING_FIELD);
 		
 
 		System.out.println("TestCoordCourse: Creating course with invalid info.");
 		//invalid ID
 		
 		//invalid name
+		bi.addCourse(scn.course.courseId, longCourseName);
+		assertEquals(bi.getElementText(bi.statusMessage), bi.ERROR_COURSE_LONG_COURSE_NAME);
+		
 	}
 	
 	//TODO: testCoordAddCourseWithRandomNameSuccessful()
