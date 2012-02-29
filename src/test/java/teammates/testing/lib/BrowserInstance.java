@@ -217,6 +217,7 @@ public class BrowserInstance {
 
 	// evaluations
 	public final String MESSAGE_EVALUATION_ADDED = "The evaluation has been added.";
+	public final String MESSAGE_EVALUATION_ADDED_WITH_EMPTY_TEAMS = "The evaluation has been added. Some students are without teams.";
 	public final String MESSAGE_EVALUATION_DELETED = "The evaluation has been deleted.";
 	public final String MESSAGE_EVALUATION_EDITED = "The evaluation has been edited.";
 	public final String MESSAGE_EVALUATION_PUBLISHED = "The evaluation has been published.";
