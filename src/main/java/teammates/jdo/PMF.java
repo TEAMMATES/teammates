@@ -20,6 +20,7 @@ public final class PMF {
 	 * Allow no-construction of static-only object
 	 */
 	private PMF() {
+		
 	}
 
 	/**
@@ -36,7 +37,7 @@ public final class PMF {
 	 * Return the only PersistenceManager object of the application. We don't
 	 * use more than 1 PM.
 	 * 
-	 * @author huy
+	 * @author Huy
 	 * @return The PM instance, do not do pm.close() unless you know what you're
 	 *         doing. If you want to make the data persistent instantly, use
 	 *         pm.flush() right after the persistent call
@@ -45,5 +46,4 @@ public final class PMF {
 	public static PersistenceManager getPersistenceManager() {
 		return pm;
 	}
-
 }

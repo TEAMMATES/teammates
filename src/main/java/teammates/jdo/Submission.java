@@ -45,6 +45,15 @@ public class Submission {
 	@Persistent
 	String teamName;
 
+	/**
+	 * Constructs a Submission object.
+	 * 
+	 * @param fromStudent
+	 * @param toStudent
+	 * @param courseID
+	 * @param evaluationName
+	 * @param teamName
+	 */
 	public Submission(String fromStudent, String toStudent, String courseID,
 			String evaluationName, String teamName) {
 		this.setFromStudent(fromStudent);
@@ -58,6 +67,18 @@ public class Submission {
 		this.points = -999;
 	}
 
+	/**
+	 * Constructs a Student object.
+	 * 
+	 * @param fromStudent
+	 * @param toStudent
+	 * @param courseID
+	 * @param evaluationName
+	 * @param teamName
+	 * @param points
+	 * @param justification
+	 * @param commentsToStudent
+	 */
 	public Submission(String fromStudent, String toStudent, String courseID,
 			String evaluationName, String teamName, int points,
 			Text justification, Text commentsToStudent) {
@@ -72,71 +93,68 @@ public class Submission {
 		this.setCommentsToStudent(commentsToStudent);
 	}
 
-	/**
-	 * Return fromStudent's Email ID
-	 */
+	public void setFromStudent(String fromStudent) {
+		this.fromStudent = fromStudent.trim();
+	}
+
 	public String getFromStudent() {
 		return fromStudent;
 	}
 
-	public void setFromStudent(String fromStudent) {
-		this.fromStudent = fromStudent;
+	public void setToStudent(String toStudent) {
+		this.toStudent = toStudent.trim();
 	}
 
 	public String getToStudent() {
 		return toStudent;
 	}
 
-	public void setToStudent(String toStudent) {
-		this.toStudent = toStudent;
+	public void setCourseID(String courseID) {
+		this.courseID = courseID.trim();
 	}
 
 	public String getCourseID() {
 		return courseID;
 	}
 
-	public void setCourseID(String courseID) {
-		this.courseID = courseID;
+	public void setEvaluationName(String evaluationName) {
+		this.evaluationName = evaluationName.trim();
 	}
 
 	public String getEvaluationName() {
 		return evaluationName;
 	}
 
-	public void setEvaluationName(String evaluationName) {
-		this.evaluationName = evaluationName;
+	public void setPoints(int points) {
+		this.points = points;
 	}
 
 	public int getPoints() {
 		return points;
 	}
 
-	public void setPoints(int points) {
-		this.points = points;
+	public void setJustification(Text justification) {
+		this.justification = justification;
 	}
 
 	public Text getJustification() {
 		return justification;
 	}
 
-	public void setJustification(Text justification) {
-		this.justification = justification;
+	public void setCommentsToStudent(Text commentsToStudent) {
+		this.commentsToStudent = commentsToStudent;
 	}
 
 	public Text getCommentsToStudent() {
 		return commentsToStudent;
 	}
 
-	public void setCommentsToStudent(Text commentsToStudent) {
-		this.commentsToStudent = commentsToStudent;
+	public void setTeamName(String teamName) {
+		this.teamName = teamName.trim();
 	}
 
 	public String getTeamName() {
 		return teamName;
-	}
-
-	public void setTeamName(String teamName) {
-		this.teamName = teamName;
 	}
 
 	public String toString() {
@@ -148,5 +166,4 @@ public class Submission {
 		sb.append(this.teamName + "\n");
 		return sb.toString();
 	}
-
 }

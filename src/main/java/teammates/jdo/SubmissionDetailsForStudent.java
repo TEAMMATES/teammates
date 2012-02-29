@@ -27,20 +27,37 @@ public class SubmissionDetailsForStudent {
 	private Text justification;
 	private Text commentsToStudent;
 
+	/**
+	 * Constructs a SubmissionDetailsForStudent object.
+	 * 
+	 * @param courseID
+	 * @param evaluationName
+	 * @param fromStudentName
+	 * @param toStudentName
+	 * @param fromStudent
+	 * @param toStudent
+	 * @param teamName
+	 * @param points
+	 * @param justification
+	 * @param commentsToStudent
+	 */
 	public SubmissionDetailsForStudent(String courseID, String evaluationName,
 			String fromStudentName, String toStudentName, String fromStudent,
 			String toStudent, String teamName, float points,
 			Text justification, Text commentsToStudent) {
-		this.courseID = courseID;
-		this.evaluationName = evaluationName;
-		this.fromStudentName = fromStudentName;
-		this.toStudentName = toStudentName;
-		this.fromStudent = fromStudent;
-		this.toStudent = toStudent;
-		this.teamName = teamName;
-		this.points = points;
-		this.justification = justification;
-		this.commentsToStudent = commentsToStudent;
+		this.setCourseID(courseID);
+		this.setEvaluationName(evaluationName);
+		
+		this.setFromStudentName(fromStudentName);
+		this.setToStudentName(toStudentName);
+		this.setFromStudent(fromStudent);
+		this.setToStudent(toStudent);
+		
+		this.setTeamName(teamName);
+		
+		this.setPoints(points);
+		this.setJustification(justification);
+		this.setCommentsToStudent(commentsToStudent);
 	}
 
 	public void setCourseID(String courseID) {
@@ -122,5 +139,4 @@ public class SubmissionDetailsForStudent {
 	public String getToStudent() {
 		return toStudent;
 	}
-
 }

@@ -11,7 +11,7 @@ import javax.jdo.annotations.PrimaryKey;
  * all types of Teammates accounts.
  * 
  * @author Gerald GOH
- * @version 1.0, December 2010
+ * 
  */
 @PersistenceCapable
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
@@ -34,63 +34,32 @@ public class Account {
 	 * @param email
 	 */
 	public Account(String googleID, String name, String email) {
-		this.googleID = googleID;
-		this.name = name;
-		this.email = email;
+		this.setGoogleID(googleID);
+		this.setName(name);
+		this.setEmail(email);
 	}
 
-	/**
-	 * Returns the Google ID.
-	 * 
-	 * @return sGoogleID
-	 */
+	public void setGoogleID(String googleID) {
+		this.googleID = googleID.trim();
+	}
+
 	public String getGoogleID() {
 		return googleID;
 	}
 
-	/**
-	 * Returns the name.
-	 * 
-	 * @return sName
-	 */
+	public void setName(String name) {
+		this.name = name.trim();
+	}
+
 	public String getName() {
 		return name;
 	}
 
-	/**
-	 * Returns the e-mail.
-	 * 
-	 * @return sEmail
-	 */
+	public void setEmail(String email) {
+		this.email = email.trim();
+	}
+
 	public String getEmail() {
 		return email;
 	}
-
-	/**
-	 * Sets the Google ID.
-	 * 
-	 * @param sGoogleID
-	 */
-	public void setGoogleID(String googleID) {
-		this.googleID = googleID;
-	}
-
-	/**
-	 * Sets the name.
-	 * 
-	 * @param sName
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * Sets the e-mail.
-	 * 
-	 * @param sEmail
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 }

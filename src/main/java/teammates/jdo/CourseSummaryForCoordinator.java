@@ -16,6 +16,16 @@ public class CourseSummaryForCoordinator {
 	private int totalStudents;
 	private int unregistered;
 
+	/**
+	 * Constructs a CourseSummaryForCoordinator object.
+	 * 
+	 * @param ID
+	 * @param name
+	 * @param archived
+	 * @param numberOfTeams
+	 * @param totalStudents
+	 * @param unregistered
+	 */
 	public CourseSummaryForCoordinator(String ID, String name,
 			boolean archived, int numberOfTeams, int totalStudents,
 			int unregistered) {
@@ -74,5 +84,4 @@ public class CourseSummaryForCoordinator {
 	public void setUnregistered(int unregistered) {
 		this.unregistered = unregistered;
 	}
-
 }

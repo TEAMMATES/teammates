@@ -1,7 +1,7 @@
 package teammates.jdo;
 
 /**
- * CourseSummaryForStudent is data class that contains some information from a
+ * CourseSummaryForStudent is a data class that contains some information from a
  * Course object and an additional field which is a particular student's team
  * name in the course.
  * 
@@ -14,12 +14,20 @@ public class CourseSummaryForStudent {
 	private String teamName;
 	private boolean archived;
 
+	/**
+	 * Constructs a CourseSummaryForStudent object.
+	 * 
+	 * @param ID
+	 * @param name
+	 * @param teamName
+	 * @param archived
+	 */
 	public CourseSummaryForStudent(String ID, String name, String teamName,
 			boolean archived) {
-		this.ID = ID;
-		this.name = name;
-		this.teamName = teamName;
-		this.archived = archived;
+		this.setID(ID);
+		this.setName(name);
+		this.setTeamName(teamName);
+		this.setArchived(archived);
 	}
 
 	public void setID(String ID) {
@@ -53,5 +61,4 @@ public class CourseSummaryForStudent {
 	public boolean isArchived() {
 		return archived;
 	}
-
 }

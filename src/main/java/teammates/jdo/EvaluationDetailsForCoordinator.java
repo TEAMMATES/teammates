@@ -26,6 +26,22 @@ public class EvaluationDetailsForCoordinator {
 	private int numberOfCompletedEvaluations;
 	private int numberOfEvaluations;
 
+	/**
+	 * Constructs an EvaluationDetailsForCoordinator object.
+	 * 
+	 * @param courseID
+	 * @param name
+	 * @param instructions
+	 * @param commentsEnabled
+	 * @param start
+	 * @param deadline
+	 * @param timeZone
+	 * @param gracePeriod
+	 * @param published
+	 * @param activated
+	 * @param numberOfCompletedEvaluations
+	 * @param numberOfEvaluations
+	 */
 	public EvaluationDetailsForCoordinator(String courseID, String name,
 			String instructions, boolean commentsEnabled, Date start,
 			Date deadline, double timeZone, int gracePeriod, boolean published,
@@ -140,5 +156,4 @@ public class EvaluationDetailsForCoordinator {
 	public double getTimeZone() {
 		return timeZone;
 	}
-
 }

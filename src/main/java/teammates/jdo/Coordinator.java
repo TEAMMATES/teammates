@@ -22,5 +22,4 @@ public class Coordinator extends Account {
 	public Coordinator(String googleID, String name, String email) {
 		super(googleID, name, email);
 	}
-
 }

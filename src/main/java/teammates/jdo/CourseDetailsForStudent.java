@@ -14,22 +14,33 @@ public class CourseDetailsForStudent {
 	private String courseID;
 	private String courseName;
 	private String coordinatorName;
-
+	
 	private String teamName;
 	private String studentName;
 	private String studentEmail;
 	private ArrayList<String> teammateList;
 
+	/**
+	 * Constructs a CourseDetailsForStudent object.
+	 * 
+	 * @param courseID
+	 * @param courseName
+	 * @param coordinatorName
+	 * @param teamName
+	 * @param studentName
+	 * @param studentEmail
+	 * @param teammateList
+	 */
 	public CourseDetailsForStudent(String courseID, String courseName,
 			String coordinatorName, String teamName, String studentName,
 			String studentEmail, ArrayList<String> teammateList) {
-		this.courseID = courseID;
-		this.courseName = courseName;
-		this.coordinatorName = coordinatorName;
-		this.teamName = teamName;
-		this.studentName = studentName;
-		this.studentEmail = studentEmail;
-		this.teammateList = teammateList;
+		this.setCourseID(courseID);
+		this.setCourseName(courseName);
+		this.setCoordinatorName(coordinatorName);
+		this.setTeamName(teamName);
+		this.setStudentName(studentName);
+		this.setStudentEmail(studentEmail);
+		this.setTeammateList(teammateList);
 	}
 
 	public void setCourseID(String courseID) {
@@ -87,5 +98,4 @@ public class CourseDetailsForStudent {
 	public ArrayList<String> getTeammateList() {
 		return teammateList;
 	}
-
 }

@@ -31,25 +31,46 @@ public class SubmissionDetailsForCoordinator {
 	private Text justification;
 	private Text commentsToStudent;
 
+	/**
+	 * Constructs a SubmissionDetailsForCoordinator object.
+	 * 
+	 * @param courseID
+	 * @param evaluationName
+	 * @param fromStudentName
+	 * @param toStudentName
+	 * @param fromStudent
+	 * @param toStudent
+	 * @param fromStudentComments
+	 * @param toStudentComments
+	 * @param teamName
+	 * @param points
+	 * @param pointsBumpRatio
+	 * @param justification
+	 * @param commentsToStudent
+	 */
 	public SubmissionDetailsForCoordinator(String courseID,
 			String evaluationName, String fromStudentName,
 			String toStudentName, String fromStudent, String toStudent,
 			String fromStudentComments, String toStudentComments,
 			String teamName, float points, float pointsBumpRatio,
 			Text justification, Text commentsToStudent) {
-		this.courseID = courseID;
-		this.evaluationName = evaluationName;
-		this.fromStudentName = fromStudentName;
-		this.toStudentName = toStudentName;
-		this.fromStudent = fromStudent;
-		this.toStudent = toStudent;
-		this.fromStudentComments = fromStudentComments;
-		this.toStudentComments = toStudentComments;
-		this.teamName = teamName;
-		this.points = points;
-		this.pointsBumpRatio = pointsBumpRatio;
-		this.justification = justification;
-		this.commentsToStudent = commentsToStudent;
+		this.setCourseID(courseID);
+		this.setEvaluationName(evaluationName);
+		
+		this.setFromStudentName(fromStudentName);
+		this.setToStudentName(toStudentName);
+		this.setFromStudent(fromStudent);
+		this.setToStudent(toStudent);
+		
+		this.setFromStudentComments(fromStudentComments);
+		this.setToStudentComments(toStudentComments);
+		
+		this.setTeamName(teamName);
+		
+		this.setPoints(points);
+		this.setPointsBumpRatio(pointsBumpRatio);
+		this.setJustification(justification);
+		this.setCommentsToStudent(commentsToStudent);
 	}
 
 	public void setCourseID(String courseID) {
@@ -155,5 +176,4 @@ public class SubmissionDetailsForCoordinator {
 	public String getToStudentComments() {
 		return toStudentComments;
 	}
-
 }

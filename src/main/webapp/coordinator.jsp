@@ -71,7 +71,7 @@
 							}
 						%>
 					<li><a class='t_evaluations' href="javascript:displayEvaluationsTab();">Evaluations</a></li>
-					<li><a class='t_help' href="http://www.comp.nus.edu.sg/~teams/coordinatorhelp.html">Help</a></li>
+					<li><a class='t_help' href="http://www.comp.nus.edu.sg/~teams/coordinatorhelp.html" target="_blank">Help</a></li>
 					<li><a class='t_logout' href="javascript:logout();">Logout</a>
 					 ( <% 	
 					 out.println(accounts.getUser().getNickname());

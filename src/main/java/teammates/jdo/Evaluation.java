@@ -83,11 +83,10 @@ public class Evaluation {
 		this.setGracePeriod(gracePeriod);
 		this.setPublished(false);
 		this.setTimeZone(timeZone);
-
 	}
 
 	public void setCourseID(String courseID) {
-		this.courseID = courseID;
+		this.courseID = courseID.trim();
 	}
 
 	public String getCourseID() {
@@ -95,7 +94,7 @@ public class Evaluation {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = name.trim();
 	}
 
 	public String getName() {
@@ -103,7 +102,7 @@ public class Evaluation {
 	}
 
 	public void setInstructions(String instructions) {
-		this.instructions = instructions;
+		this.instructions = instructions.trim();
 	}
 
 	public String getInstructions() {

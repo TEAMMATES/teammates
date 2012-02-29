@@ -30,15 +30,22 @@ public class Course {
 	@Persistent
 	private transient boolean archived;
 
+	/**
+	 * Constructs a Course object.
+	 * 
+	 * @param ID
+	 * @param name
+	 * @param coordinatorID
+	 */
 	public Course(String ID, String name, String coordinatorID) {
-		this.ID = ID;
-		this.name = name;
-		this.coordinatorID = coordinatorID;
-		this.archived = false;
+		this.setID(ID);
+		this.setName(name);
+		this.setCoordinatorID(coordinatorID);
+		this.setArchived(false);
 	}
 
 	public void setID(String ID) {
-		this.ID = ID;
+		this.ID = ID.trim();
 	}
 
 	public String getID() {
@@ -46,7 +53,7 @@ public class Course {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = name.trim();
 	}
 
 	public String getName() {
@@ -54,7 +61,7 @@ public class Course {
 	}
 
 	public void setCoordinatorID(String coordinatorID) {
-		this.coordinatorID = coordinatorID;
+		this.coordinatorID = coordinatorID.trim();
 	}
 
 	public String getCoordinatorID() {
@@ -68,5 +75,4 @@ public class Course {
 	public boolean isArchived() {
 		return archived;
 	}
-
 }

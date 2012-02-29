@@ -14,10 +14,10 @@ import com.google.gson.annotations.SerializedName;
  * This represents a student per course.
  * 
  * @author Gerald GOH
+ * 
  */
 @PersistenceCapable
 public class Student {
-
 	/**
 	 * The student's Google ID
 	 */
@@ -51,26 +51,45 @@ public class Student {
 	@Persistent
 	private transient boolean courseArchived;
 
+	/**
+	 * Constructs a Student object.
+	 * 
+	 * @param email
+	 * @param name
+	 * @param comments
+	 * @param courseID
+	 * @param teamName
+	 */
 	public Student(String email, String name, String comments, String courseID,
 			String teamName) {
-		this.email = email.trim();
-		this.name = name;
-		this.ID = "";
-		this.comments = comments;
-		this.courseID = courseID.trim();
-		this.teamName = teamName.trim();
-		setCourseArchived(false);
+		this.setEmail(email);
+		this.setName(name);
+		this.setID("");
+		this.setComments(comments);
+		this.setCourseID(courseID);
+		this.setTeamName(teamName);
+		this.setCourseArchived(false);
 	}
 
+	/**
+	 * Constructs a Student object.
+	 * 
+	 * @param email
+	 * @param name
+	 * @param googleID
+	 * @param comments
+	 * @param courseID
+	 * @param teamName
+	 */
 	public Student(String email, String name, String googleID, String comments,
 			String courseID, String teamName) {
-		this.email = email.trim();
-		this.name = name;
-		this.ID = googleID;
-		this.comments = comments;
-		this.courseID = courseID.trim();
-		this.teamName = teamName.trim();
-		setCourseArchived(false);
+		this.setEmail(email);
+		this.setName(name);
+		this.setID(googleID);
+		this.setComments(comments);
+		this.setCourseID(courseID);
+		this.setTeamName(teamName);
+		this.setCourseArchived(false);
 	}
 
 	public Student() {
@@ -85,22 +104,16 @@ public class Student {
 		return email;
 	}
 
-	/**
-	 * Set the student's Google ID
-	 */
 	public void setID(String ID) {
-		this.ID = ID;
+		this.ID = ID.trim();
 	}
 
-	/**
-	 * Retrieve the student's Google ID
-	 */
 	public String getID() {
 		return ID;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = name.trim();
 	}
 
 	public String getName() {
@@ -108,7 +121,7 @@ public class Student {
 	}
 
 	public void setComments(String comments) {
-		this.comments = comments;
+		this.comments = comments.trim();
 	}
 
 	public String getComments() {
