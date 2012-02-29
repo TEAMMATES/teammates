@@ -14,6 +14,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
 
 import teammates.exception.TeamFormingSessionExistsException;
+import teammates.exception.TeamProfileExistsException;
 import teammates.jdo.*;
 
 import com.google.appengine.api.taskqueue.Queue;
@@ -43,7 +44,7 @@ public class TeamForming {
 	}
 	
 	/**
-	 * Adds an evaluation to the specified course.
+	 * Adds a team forming session to the specified course.
 	 * 
 	 * @param courseID
 	 *            the course ID (Pre-condition: Must be valid)
@@ -75,7 +76,6 @@ public class TeamForming {
 	 *             if an evaluation with the specified name exists for the
 	 *             course
 	 */
-
 	public void createTeamFormingSession(String courseID, Date start, Date deadline, double timeZone, int gracePeriod,
 			String instructions, String profileTemplate)
 			throws TeamFormingSessionExistsException {
@@ -94,6 +94,203 @@ public class TeamForming {
 		// pending
 		// Build TeamProfile objects for each team based on the courseID
 		//createTeamProfile(courseID, teamName);
+	}
+	
+	/**
+	 * Adds a team profile
+	 * 
+	 * @param courseID
+	 *            the course ID (Pre-condition: Must be valid)
+	 * 
+	 * @param course name
+	 *            the course name (Pre-condition: Must not be null)
+	 * 
+	 * @param team name
+	 *            the team name (Pre-condition: Must not be null)
+	 * 
+	 * @param team profile
+	 *            the team profile (Pre-condition: Must not be null)
+	 */
+	public void createTeamProfile(String courseId, String courseName, String teamName, 
+			String teamProfile) throws TeamProfileExistsException{
+		if (getTeamProfile(courseId, teamName) != null) {
+			throw new TeamProfileExistsException();
+		}
+		TeamProfile newTeamProfile = new TeamProfile(courseId, courseName, teamName, teamProfile);
+
+		try {
+			getPM().makePersistent(newTeamProfile);
+		} finally {
+		}
+	}
+	
+	/**
+	 * Edits a student object
+	 * 
+	 * @param courseID
+	 *            the course ID (Pre-condition: Must be valid)
+	 * 
+	 * @param team name
+	 *            the team name (Pre-condition: Must not be null)
+	 * 
+	 * @param new team name
+	 *            the updated team name (Pre-condition: Must not be null)
+	 */
+	public void editStudentTeam(String courseId, String teamName, String newTeamName){
+		List<Student> studentList = getStudentsOfCourseTeam(courseId, teamName);
+		for(int loop=0; loop<studentList.size(); loop++){
+			if(studentList.get(loop).getTeamName().equals(teamName))
+				studentList.get(loop).setTeamName(newTeamName);
+		}
+	}
+	
+	/**
+	 * Edits a team profile
+	 * 
+	 * @param courseID
+	 *            the course ID (Pre-condition: Must be valid)
+	 * 
+	 * @param course name
+	 *            the course name (Pre-condition: Must not be null)
+	 * 
+	 * @param team name
+	 *            the team name (Pre-condition: Must not be null)
+	 * 
+	 * @param team profile
+	 *            the team profile (Pre-condition: Must not be null)
+	 */
+	public boolean editTeamProfile(String courseId, String courseName, String teamName, 
+			String newTeamName, String newTeamProfile){
+		int newTeamNameExists = 0;
+		
+		TeamProfile tProfile = getTeamProfile(courseId, teamName);
+		List<String> teamList = getTeamsOfCourse(courseId);
+		
+		
+		for(int i=0;i<teamList.size(); i++)
+		{
+			if(teamList.get(i).equals(newTeamName))
+				newTeamNameExists = 1;
+		}
+		
+		if (tProfile != null && newTeamNameExists==0) {			
+			Transaction tx = getPM().currentTransaction();
+			try {
+				tx.begin();
+				tProfile.setTeamProfile(newTeamProfile);
+				tProfile.setTeamName(newTeamName);
+
+				getPM().flush();
+
+				tx.commit();
+			} finally {
+				if (tx.isActive()) {
+					tx.rollback();
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Returns a String array of teams.
+	 * 
+	 * @param courseID
+	 *            the course ID (Pre-condition: Must not be null)
+	 * 
+	 * @return the list of teams that are formed under a course
+	 */
+	public List<String> getTeamsOfCourse(String courseId){
+		String query = "select teamName from " + Student.class.getName()
+				+ " where courseID == '" + courseId + "'";
+		
+		try{
+			@SuppressWarnings("unchecked")
+			List<String> teams = (List<String>) getPM().newQuery(
+					query).execute();
+			if(teams.isEmpty())
+				return null;
+			return teams;
+		}
+		catch(Exception e){
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+	
+	/**
+	 * Returns a Student object.
+	 * 
+	 * @param courseID
+	 *            the course ID (Pre-condition: Must not be null)
+	 * 
+	 * @param team name
+	 *            the team name (Pre-condition: Must not be null)
+	 * 
+	 * @return the students enrolled in courseid and team name
+	 */
+	public List<Student> getStudentsOfCourseTeam(String courseID, String teamName) {
+		String query = "select from " + Student.class.getName()
+				+ " where courseID == '" + courseID + "' && teamName == '" + teamName + "'";
+		List<Student> studentList = new ArrayList<Student>();
+
+		@SuppressWarnings("unchecked")
+		List<Student> tempStudentList = (List<Student>) getPM()
+		.newQuery(query).execute();
+		studentList.addAll(tempStudentList);
+
+		return studentList;
+	}
+	
+	/**
+	 * Returns an TeamProfile object.
+	 * 
+	 * @param courseID
+	 *            the course ID (Pre-condition: Must not be null)
+	 * 
+	 * @param team name
+	 *            the team name (Pre-condition: Must not be null)
+	 * 
+	 * @return the team profile of the specified courseid and team name
+	 */
+	public TeamProfile getTeamProfile(String courseID, String teamName) {
+		String query = "select from " + TeamProfile.class.getName()
+				+ " where courseID == '" + courseID + "' && teamName == '" + teamName + "'";
+		
+		try{
+			@SuppressWarnings("unchecked")
+			List<TeamProfile> tProfile = (List<TeamProfile>) getPM().newQuery(
+					query).execute();
+			if(tProfile.isEmpty())
+				return null;
+
+			return tProfile.get(0);
+		}
+		catch(Exception e){
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}	
+	
+	public List<TeamProfile> getTeamProfiles(String courseID) {
+		String query = "select from " + TeamProfile.class.getName()
+				+ " where courseID == '" + courseID + "'";
+		
+		try{
+			@SuppressWarnings("unchecked")
+			List<TeamProfile> tProfile = (List<TeamProfile>) getPM().newQuery(
+					query).execute();
+			if(tProfile.isEmpty())
+				return null;
+
+			return tProfile;
+		}
+		catch(Exception e){
+			System.out.println(e.getMessage());
+			return null;
+		}
 	}
 	
 	/**
@@ -270,7 +467,7 @@ public class TeamForming {
 	}
 	
 	/**
-	 * Deletes all Team Forming Session objects and its Submission objects from a Course.
+	 * Deletes all Team Forming Session objects from a Course.
 	 * 
 	 * @param courseID
 	 *            the course ID (Pre-condition: Must be valid)
@@ -283,10 +480,31 @@ public class TeamForming {
 
 		try {
 			getPM().deletePersistentAll(teamFormingSessionList);
+			deleteTeamProfiles(courseID);
 			//pending
 			//getPM().deletePersistentAll(submissionList);
 		} finally {
 		}
+	}
+	
+	/**
+	 * Deletes all TeamProfile objects from a Course.
+	 * 
+	 * @param courseID
+	 *            the course ID (Pre-condition: Must be valid)
+	 * 
+	 */
+	public void deleteTeamProfiles(String courseID){
+		List<TeamProfile> teamProfileList = getTeamProfiles(courseID);
+		//pending
+		//List<Submission> submissionList = getSubmissionList(courseID);
+
+		try {
+			getPM().deletePersistentAll(teamProfileList);
+			//pending
+			//getPM().deletePersistentAll(submissionList);
+		} finally {
+		}		
 	}
 	
 	/**

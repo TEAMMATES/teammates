@@ -12,9 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.exception.TeamFormingSessionExistsException;
+import teammates.exception.TeamProfileExistsException;
 import teammates.jdo.Course;
 import teammates.jdo.Student;
 import teammates.jdo.TeamFormingSession;
+import teammates.jdo.TeamProfile;
 
 @SuppressWarnings("serial")
 public class TeamFormingServlet extends HttpServlet {
@@ -23,15 +25,26 @@ public class TeamFormingServlet extends HttpServlet {
 
 	// OPERATIONS	
 	private static final String OPERATION_COORDINATOR_CREATETEAMFORMINGSESSION = "coordinator_createteamformingsession";
+	private static final String OPERATION_COORDINATOR_CREATETEAMPROFILE = "coordinator_createteamprofile";
+	private static final String OPERATION_COORDINATOR_GETSTUDENTSOFCOURSETEAM = "coordinator_getstudentsofcourseteam";
+	private static final String OPERATION_COORDINATOR_GETSTUDENTSWITHOUTTEAM = "coordinator_getstudentswithoutteam";
+	private static final String OPERATION_COORDINATOR_GETTEAMSOFCOURSE = "coordinator_getteamsofcourse";
+	private static final String OPERATION_COORDINATOR_GETTEAMDETAIL = "coordinator_getteamdetail";
 	private static final String OPERATION_COORDINATOR_GETTEAMFORMINGSESSIONLIST = "coordinator_getteamformingsessionlist";
 	private static final String OPERATION_COORDINATOR_DELETETEAMFORMINGSESSION = "coordinator_deleteteamformingsession";
+	private static final String OPERATION_COORDINATOR_DELETETEAMPROFILES = "coordinator_deleteteamprofiles";
 	private static final String OPERATION_COORDINATOR_REMINDSTUDENTS_TEAMFORMING = "coordinator_remindstudentsteamforming";
+	private static final String OPERATION_COORDINATOR_EDITSTUDENTTEAM = "coordinator_editstudentteam";
 	private static final String OPERATION_COORDINATOR_EDITTEAMFORMINGSESSION = "coordinator_editteamformingsession";
+	private static final String OPERATION_COORDINATOR_EDITTEAMPROFILE = "coordinator_editteamprofile";
 	private static final String OPERATION_COORDINATOR_INFORMSTUDENTSOFTEAMFORMINGSESSIONCHANGES = "coordinator_informstudentsofteamformingsessionchanges";
 	private static final String OPERATION_SHOW_TEAMFORMING = "coordinator_teamforming";
 	
 	// PARAMETERS
 	private static final String COURSE_ID = "courseid";
+	private static final String COURSE_NAME = "coursename";
+	private static final String STUDENT_ID = "studentid";
+	private static final String STUDENT_NAME = "studentname";
 
 	private static final String TEAMFORMING_ACTIVATED = "activated";
 	private static final String TEAMFORMING_DEADLINE = "deadline";
@@ -42,10 +55,15 @@ public class TeamFormingServlet extends HttpServlet {
 	private static final String TEAMFORMING_STARTTIME = "starttime";
 	private static final String TEAMFORMING_TIMEZONE = "timezone";	
 	private static final String TEAMFORMING_PROFILETEMPLATE = "profile_template";
+	private static final String TEAM_NAME = "teamName";
+	private static final String TEAM_PROFILE = "teamProfile";	
+	private static final String TEAM = "team";
 
 	// MESSAGES
 	private static final String MSG_TEAMFORMINGSESSION_ADDED = "team forming session added";
 	private static final String MSG_TEAMFORMINGSESSION_EXISTS = "team forming session exists";
+	private static final String MSG_TEAMPROFILE_SAVED = "team profile saved";
+	private static final String MSG_TEAMPROFILE_EXISTS = "team profile exists";
 	private static final String MSG_STATUS_OPENING = "<status>";
 	private static final String MSG_STATUS_CLOSING = "</status>";	
 	private static final String MSG_TEAMFORMINGSESSION_EDITED = "team forming session edited";
@@ -74,12 +92,44 @@ public class TeamFormingServlet extends HttpServlet {
 			coordinatorCreateTeamFormingSession();
 		}
 		
+		else if (operation.equals(OPERATION_COORDINATOR_CREATETEAMPROFILE)) {
+			coordinatorCreateTeamProfile();
+		}
+		
 		else if (operation.equals(OPERATION_COORDINATOR_DELETETEAMFORMINGSESSION)) {
 			coordinatorDeleteTeamFormingSession();
 		}
 		
+		else if (operation.equals(OPERATION_COORDINATOR_DELETETEAMPROFILES)) {
+			coordinatorDeleteTeamProfiles();
+		}
+		
+		else if (operation.equals(OPERATION_COORDINATOR_EDITSTUDENTTEAM)) {
+			coordinatorEditStudentTeam();
+		}
+		
 		else if (operation.equals(OPERATION_COORDINATOR_EDITTEAMFORMINGSESSION)) {
 			coordinatorEditTeamFormingSession();
+		}
+		
+		else if (operation.equals(OPERATION_COORDINATOR_EDITTEAMPROFILE)) {
+			coordinatorEditTeamProfile();
+		}
+		
+		else if (operation.equals(OPERATION_COORDINATOR_GETSTUDENTSOFCOURSETEAM)) {
+			coordinatorGetStudentsOfCourseTeam();
+		}
+		
+		else if (operation.equals(OPERATION_COORDINATOR_GETSTUDENTSWITHOUTTEAM)) {
+			coordinatorGetStudentsWithoutTeam();
+		}
+		
+		else if (operation.equals(OPERATION_COORDINATOR_GETTEAMSOFCOURSE)) {
+			coordinatorGetTeamsOfCourse();
+		}
+		
+		else if (operation.equals(OPERATION_COORDINATOR_GETTEAMDETAIL)) {
+			coordinatorGetTeamDetail();
 		}
 
 		else if (operation.equals(OPERATION_COORDINATOR_GETTEAMFORMINGSESSIONLIST)) {
@@ -160,6 +210,28 @@ public class TeamFormingServlet extends HttpServlet {
 		}
 	}
 	
+	private void coordinatorCreateTeamProfile() throws IOException {
+		String courseId = req.getParameter("courseId");
+		String courseName = req.getParameter("courseName");
+		String teamName = req.getParameter(TEAM_NAME);
+		String teamProfile = req.getParameter(TEAM_PROFILE);
+		
+		// Add the team forming session		
+		TeamForming teamForming = TeamForming.inst();
+		
+		try{
+			teamForming.createTeamProfile(courseId, courseName, teamName, teamProfile);
+			
+			resp.getWriter().write(
+					MSG_STATUS_OPENING + MSG_TEAMPROFILE_SAVED + MSG_STATUS_CLOSING);
+		}
+		
+		catch (TeamProfileExistsException e){
+			resp.getWriter().write(
+					MSG_STATUS_OPENING + MSG_TEAMPROFILE_EXISTS + MSG_STATUS_CLOSING);
+		}
+	}
+	
 	private void coordinatorDeleteTeamFormingSession() {
 		String courseID = req.getParameter(COURSE_ID);
 		String deadlineDate = req.getParameter(TEAMFORMING_DEADLINE);
@@ -174,6 +246,26 @@ public class TeamFormingServlet extends HttpServlet {
 		Date deadline = Utils.convertToDate(deadlineDate, deadlineTime);
 		TeamForming teamForming = TeamForming.inst();
 		teamForming.deleteTeamFormingSession(courseID, deadline);
+	}
+	
+	private void coordinatorDeleteTeamProfiles() {
+		String courseID = req.getParameter(COURSE_ID);
+		TeamForming teamForming = TeamForming.inst();
+		teamForming.deleteTeamProfiles(courseID);
+	}
+	
+	private void coordinatorEditStudentTeam() throws IOException {
+		String courseId = req.getParameter("courseId");
+		String teamName = req.getParameter("oldteamname");
+		String newTeamName = req.getParameter(TEAM_NAME);
+		
+		// Add the team forming session		
+		TeamForming teamForming = TeamForming.inst();
+		
+		//update student teamname info
+		teamForming.editStudentTeam(courseId, teamName, newTeamName);
+		
+		//TODO: update submission teamname info
 	}
 	
 	private void coordinatorEditTeamFormingSession() throws IOException {
@@ -208,6 +300,57 @@ public class TeamFormingServlet extends HttpServlet {
 					MSG_STATUS_OPENING + MSG_TEAMFORMINGSESSION_REMAINED
 							+ MSG_STATUS_CLOSING);
 		}
+	}
+	
+	private void coordinatorEditTeamProfile() throws IOException {
+		String courseId = req.getParameter("courseId");
+		String courseName = req.getParameter("courseName");
+		String teamName = req.getParameter("oldteamname");
+		String newTeamName = req.getParameter(TEAM_NAME);
+		String newTeamProfile = req.getParameter(TEAM_PROFILE);
+		
+		// Add the team forming session		
+		TeamForming teamForming = TeamForming.inst();
+
+		boolean edited = teamForming
+				.editTeamProfile(courseId, courseName, teamName, newTeamName, newTeamProfile);
+
+		if (edited) {
+			resp.getWriter().write(
+					MSG_STATUS_OPENING + MSG_TEAMPROFILE_SAVED + MSG_STATUS_CLOSING);
+		}
+
+		else {
+			resp.getWriter().write(
+					MSG_STATUS_OPENING + MSG_TEAMPROFILE_EXISTS + MSG_STATUS_CLOSING);
+		}
+	}
+	
+	private void coordinatorGetStudentsOfCourseTeam() throws IOException {
+		String courseId = req.getParameter("courseId");
+		String teamName = req.getParameter(TEAM_NAME);
+		
+		// Add the team forming session		
+		TeamForming teamForming = TeamForming.inst();
+		List<Student> students = teamForming.getStudentsOfCourseTeam(courseId, teamName);
+		
+		resp.getWriter().write(
+				"<students>"
+						+ parseCoordinatorGetStudentsOfCourseTeamToXML(students).toString()
+						+ "</students>");
+	}
+	
+	private void coordinatorGetStudentsWithoutTeam()throws IOException {
+		String courseId = req.getParameter("courseId");
+		
+		// Add the team forming session		
+		TeamForming teamForming = TeamForming.inst();
+		List<Student> students = teamForming.getStudentsOfCourseTeam(courseId, "");
+
+		resp.getWriter().write(
+				"<students>"
+						+ parseCoordinatorGetStudentsWithoutTeamToXML(students).toString()
+						+ "</students>");
 	}
 	
 	private void coordinatorGetTeamFormingSessionList() throws IOException {
@@ -250,6 +393,36 @@ public class TeamFormingServlet extends HttpServlet {
 						+ "</teamformingsessions>");
 	}
 	
+	private void coordinatorGetTeamsOfCourse() throws IOException {
+		String courseId = req.getParameter("courseId");
+		int found=0;
+		
+		// Add the team forming session		
+		TeamForming teamForming = TeamForming.inst();
+		List<String> teams = teamForming.getTeamsOfCourse(courseId);
+		List<String> teamsCopy = new ArrayList<String>();
+		
+		if(teams!=null){
+			for(int i=0; i<teams.size(); i++)
+			{
+				for(int j=0; j<teamsCopy.size(); j++)
+				{
+					if(teamsCopy.get(j).equals(teams.get(i)))
+						found = 1;
+				}
+				if(found==0)
+					teamsCopy.add(teams.get(i));
+				found=0;
+			}
+		}
+		
+		resp.getWriter().write(
+				"<teams>"
+						+ parseCoordinatorGetTeamsOfCourseToXML(
+								teamsCopy).toString()
+						+ "</teams>");
+	}
+	
 	private void coordinatorInformStudentsOfTeamFormingSessionChanges() {
 		String courseID = req.getParameter(COURSE_ID);
 
@@ -286,6 +459,69 @@ public class TeamFormingServlet extends HttpServlet {
 		teamForming.remindStudents(studentsToRemindList, courseID, deadline);
 	}
 	
+	private StringBuffer parseCoordinatorGetStudentsWithoutTeamToXML(List<Student> students){
+		StringBuffer sb = new StringBuffer();
+		for(int loop=0; loop<students.size(); loop++){
+			sb.append("<student>");
+			sb.append("<" + STUDENT_ID + "><![CDATA[" + students.get(loop).getID()
+					+ "]]></" + STUDENT_ID + ">");
+			sb.append("<" + STUDENT_NAME + "><![CDATA[" + students.get(loop).getName()
+					+ "]]></" + STUDENT_NAME + ">");
+			sb.append("</student>");
+		}
+		return sb;
+	}
+	
+	private StringBuffer parseCoordinatorGetStudentsOfCourseTeamToXML(List<Student> students){
+		StringBuffer sb = new StringBuffer();
+		for(int loop=0; loop<students.size(); loop++){
+			sb.append("<student>");
+			sb.append("<" + STUDENT_ID + "><![CDATA[" + students.get(loop).getID()
+					+ "]]></" + STUDENT_ID + ">");
+			sb.append("<" + STUDENT_NAME + "><![CDATA[" + students.get(loop).getName()
+					+ "]]></" + STUDENT_NAME + ">");
+			sb.append("</student>");
+		}
+		return sb;		
+	}
+	
+	private StringBuffer parseCoordinatorGetTeamsOfCourseToXML(List<String> teams){
+		StringBuffer sb = new StringBuffer();
+		for (int i=0; i<teams.size(); i++)
+			sb.append("<" + TEAM + "><![CDATA[" + teams.get(i)
+					+ "]]></" + TEAM + ">");
+		return sb;
+	}
+	
+	private StringBuffer parseCoordinatorTeamDetailToXML(TeamProfile teamDetail) {
+		StringBuffer sb = new StringBuffer();
+		if(teamDetail!=null){
+			sb.append("<" + COURSE_ID + "><![CDATA[" + teamDetail.getCourseID()
+					+ "]]></" + COURSE_ID + ">");
+			sb.append("<" + COURSE_NAME + "><![CDATA[" + teamDetail.getCourseName()
+					+ "]]></" + COURSE_NAME + ">");
+			sb.append("<" + TEAM_NAME + "><![CDATA[" + teamDetail.getTeamName()
+					+ "]]></" + TEAM_NAME + ">");
+			sb.append("<" + TEAM_PROFILE + "><![CDATA[" + teamDetail.getTeamProfile()
+					+ "]]></" + TEAM_PROFILE + ">");
+		}
+		return sb;
+	}
+	
+	private void coordinatorGetTeamDetail() throws IOException {
+		String courseId = req.getParameter("courseId");
+		String teamName = req.getParameter(TEAM_NAME);
+		
+		// Add the team forming session		
+		TeamForming teamForming = TeamForming.inst();
+		TeamProfile teamDetail = teamForming.getTeamProfile(courseId, teamName);
+		
+		resp.getWriter().write(
+				"<teamdetail>"
+						+ parseCoordinatorTeamDetailToXML(teamDetail).toString()
+						+ "</teamdetail>");
+	}
+
 	private StringBuffer parseCoordinatorTeamFormingSesssionListToXML(
 			List<TeamFormingSession> teamFormingSessionList) {
 		StringBuffer sb = new StringBuffer();
@@ -316,7 +552,6 @@ public class TeamFormingServlet extends HttpServlet {
 
 			sb.append("</teamformingsession>");
 		}
-
 		return sb;
 	}
 }
