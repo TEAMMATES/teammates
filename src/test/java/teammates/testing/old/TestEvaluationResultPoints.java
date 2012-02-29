@@ -318,8 +318,8 @@ public class TestEvaluationResultPoints extends BaseTest {
 			logout();
 			Student s = sc.students.get(i);
 			studentLogin(s.email, s.password);
-			studentViewResultPoints(0, i);//first evaluation
-			studentViewResultPoints(1, i);//second evaluation
+			studentViewResultPoints(0, i);//TODO: remove magic number - first evaluation
+			studentViewResultPoints(1, i);//TODO: remove magic number - second evaluation
 		}
 	}
 	

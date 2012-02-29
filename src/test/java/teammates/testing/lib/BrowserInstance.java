@@ -1,10 +1,19 @@
 package teammates.testing.lib;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
 import javax.mail.BodyPart;
@@ -64,6 +73,7 @@ public class BrowserInstance {
 	 */
 	public By courseTab = By.className("t_courses");
 	public By evaluationTab = By.className("t_evaluations");
+	public By helpTab = By.className("t_help");
 	public By logoutTab = By.className("t_logout");
 
 	/**
@@ -211,7 +221,7 @@ public class BrowserInstance {
 
 	public final String ERROR_COURSE_MISSING_FIELD = "Please fill in all the relevant fields.";
 	public final String ERROR_COURSE_LONG_COURSE_NAME = "Course name should not exceed 38 characters.";
-	
+
 	public final String MESSAGE_ENROL_REMIND_TO_JOIN = "Emails have been sent to unregistered students.";
 	public final String ERROR_MESSAGE_ENROL_INVALID_EMAIL = "E-mail address should contain less than 40 characters and be of a valid syntax.";
 
@@ -225,7 +235,7 @@ public class BrowserInstance {
 
 	public final String ERROR_LONG_EVALUATION_NAME = "Evaluation name should not exceed 22 characters.";
 	public final String ERROR_INVALID_EVALUATION_NAME = "Please use only alphabets, numbers and whitespace in evaluation name.";
-	
+
 	public final String MESSAGE_EVALUATION_RESULTS_EDITED = "The particular evaluation results have been edited.";
 
 	public final String ERROR_MESSAGE_EVALUATION_EXISTS = "The evaluation exists already.";
@@ -379,18 +389,17 @@ public class BrowserInstance {
 		return dataform.findElements(By.tagName("tr")).size();
 	}
 
-	// Pending Evaluation 
+	// Pending Evaluation
 	public By studentGetPendingEvaluationName(String courseId, String evalName) throws NullPointerException {
 		int row = this.studentFindPendingEvaluationRow(courseId, evalName);
-		if(row > -1) {
+		if (row > -1) {
 			return By.xpath(String.format("//div[@id='studentPendingEvaluations']//table[@id='dataform']//tr[%d]//td[%d]", row + 1, 1));
-		}
-		else {
+		} else {
 			fail("Student's pending evaluation not found.");
 			return null;
 		}
 	}
-	
+
 	public void studentClickDoEvaluation(int row) {
 		waitAndClick(By.id("doEvaluation" + row));
 	}
@@ -409,9 +418,9 @@ public class BrowserInstance {
 
 		for (int i = 0; i < studentCountTotalPendingEvaluations(); i++) {
 			By course = By.xpath(String.format("//div[@id='studentPendingEvaluations']//table[@id='dataform']//tbody//tr[%d]//td[%d]", i + 1, 1));
-//			System.out.println("course id = " + this.getElementText(course));
+			// System.out.println("course id = " + this.getElementText(course));
 			By evaluation = By.xpath(String.format("//div[@id='studentPendingEvaluations']//table[@id='dataform']//tbody//tr[%d]//td[%d]", i + 1, 2));
-//			System.out.println("eval id = " + this.getElementText(evaluation));
+			// System.out.println("eval id = " + this.getElementText(evaluation));
 			if (this.getElementText(course).equals(courseId) && this.getElementText(evaluation).equals(evalName)) {
 				return i;
 			}
@@ -420,12 +429,12 @@ public class BrowserInstance {
 	}
 
 	public int studentCountTotalPendingEvaluations() {
-		
+
 		if (getElementText(By.xpath(String.format("//div[@id='studentPendingEvaluations']//table[@id='dataform']//tbody//tr[1]//td[1]"))).isEmpty()) {
 			return 0;
 		} else {
 			return selenium.getXpathCount("//div[@id='studentPendingEvaluations']//table[@id='dataform']//tbody//tr").intValue();
-			
+
 		}
 	}
 
@@ -434,7 +443,7 @@ public class BrowserInstance {
 		row++;
 		return selenium.getTable("id=dataform." + row + ".1");
 	}
-	
+
 	public String studentGetEvaluationName(int row) {
 		row++;
 		return selenium.getTable("id=dataform." + row + ".2");
@@ -444,13 +453,12 @@ public class BrowserInstance {
 		row++;
 		return selenium.getTable("id=dataform." + row + ".3");
 	}
-	
+
 	public String studentGetEvaluationStatus(String courseId, String evalName) {
 		int row = this.studentFindEvaluationRow(courseId, evalName);
-		if(row > -1) {
+		if (row > -1) {
 			return studentGetEvaluationStatus(row);
-		}
-		else {
+		} else {
 			fail("Student's evaluation not found.");
 			return null;
 		}
@@ -459,13 +467,12 @@ public class BrowserInstance {
 	public void studentClickEditEvaluation(int row) {
 		waitAndClick(By.id("editEvaluation" + row));
 	}
-	
+
 	public void studentClickEditEvaluation(String courseId, String evalName) {
 		int row = this.studentFindEvaluationRow(courseId, evalName);
-		if(row > -1) {
+		if (row > -1) {
 			studentClickEditEvaluation(row);
-		}
-		else {
+		} else {
 			fail("Student's evaluation not found. Cannot click edit evaluation.");
 		}
 	}
@@ -477,11 +484,10 @@ public class BrowserInstance {
 
 	public void studentClickEvaluationViewResults(String courseId, String evalName) {
 		int row = this.studentFindEvaluationRow(courseId, evalName);
-		if(row > -1) {
+		if (row > -1) {
 			studentClickEvaluationViewResults(row);
-			
-		}
-		else {
+
+		} else {
 			fail("Student's evaluation not found.");
 		}
 	}
@@ -491,10 +497,10 @@ public class BrowserInstance {
 		for (int i = 0; i < studentCountTotalEvaluations(); i++) {
 			By course = By.xpath(String.format("//div[@id='studentPastEvaluations']//table[@id='dataform']//tbody//tr[%d]//td[%d]", i + 2, 1));
 			System.out.println(this.getElementText(course));
-			
+
 			By evaluation = By.xpath(String.format("//div[@id='studentPastEvaluations']//table[@id='dataform']//tbody//tr[%d]//td[%d]", i + 2, 2));
 			System.out.println(this.getElementText(evaluation));
-			
+
 			if (this.getElementText(course).equals(courseId) && this.getElementText(evaluation).equals(evalName)) {
 				return i;
 			}
@@ -509,25 +515,23 @@ public class BrowserInstance {
 			return selenium.getXpathCount("//div[@id='studentPastEvaluations']//table[@id='dataform']/tbody/tr").intValue() - 1;
 		}
 	}
-	
+
 	// Student Evaluation Results Page:
 	public String studentGetEvaluationResultClaimedPoints() {
 		return getElementText(By.xpath(String.format("//div[@id='studentEvaluationResults']//table[@class='result_studentform']//tr[%d]//td[%d]", 3, 2)));
 	}
-	
+
 	public String studentGetEvaluationResultPerceivedPoints() {
 		return getElementText(By.xpath(String.format("//div[@id='studentEvaluationResults']//table[@class='result_studentform']//tr[%d]//td[%d]", 4, 2)));
 	}
-	
+
 	public By studentGetFeedbackFromOthers(int row) {
 		return By.id("com" + row);
 	}
-	
+
 	public boolean studentGetFeedbackFromOthers(String fromStudent, String toStudent) {
 		return selenium.isTextPresent(String.format("This is a public comment from %s to %s", fromStudent, toStudent));
 	}
-	
-	
 
 	// -----------------------------Coordinator UI Actions ----------------------------->>
 	// Course:
@@ -855,7 +859,7 @@ public class BrowserInstance {
 	public void addEvaluation(Evaluation eval) {
 		addEvaluation(eval.courseID, eval.name, eval.dateValue, eval.nextTimeValue, eval.p2pcomments, eval.instructions, eval.gracePeriod);
 	}
-	
+
 	public void addEvaluation(Evaluation eval, int evalIndex) {
 		clickEvaluationTab();
 		// Select the course
@@ -889,7 +893,7 @@ public class BrowserInstance {
 
 	public void addEvaluation(String courseID, String evalName, String dateValue, String nextTimeValue, String comments, String instructions, Integer gracePeriod) {
 		clickEvaluationTab();
-		
+
 		// Select the course
 		waitAndClick(inputCourseID);
 		selectDropdownByValue(inputCourseID, courseID);
@@ -897,7 +901,7 @@ public class BrowserInstance {
 		// Fill in the evaluation name
 		wdFillString(inputEvaluationName, evalName);
 		justWait();
-		
+
 		// Select deadline date
 		waitAndClick(inputClosingDate);
 		selenium.waitForPopUp("window_deadline", "30000");
@@ -909,24 +913,22 @@ public class BrowserInstance {
 		}
 		justWait();
 		selectDropdownByValue(inputClosingTime, nextTimeValue);
-				
+
 		// Allow P2P comment
 		waitAndClick(By.xpath("//*[@id='commentsstatus'][@value='" + comments + "']"));
 		justWait();
-		
+
 		// Fill in instructions
 		wdFillString(inputInstruction, instructions);
 		justWait();
-		
-		
+
 		// Select grace period
 		selectDropdownByValue(inputGracePeriod, Integer.toString(gracePeriod));
 		justWait();
-		
+
 		// Submit the form
 		waitAndClick(addEvaluationButton);
 	}
-	
 
 	public String getEvaluationCourseID(int row) {
 		row++;
@@ -1493,10 +1495,10 @@ public class BrowserInstance {
 	}
 
 	public void waitAndClickAndCheck(By currentElement, By nextElement) {
-		//int counter = 0;
+		// int counter = 0;
 		while (!isElementPresent(nextElement)) {
-//			if (counter++ > 1000)
-//				fail("Timeout");
+			// if (counter++ > 1000)
+			// fail("Timeout");
 			waitForElementPresent(currentElement);
 			getDriver().findElement(currentElement).click();
 		}
@@ -1866,5 +1868,59 @@ public class BrowserInstance {
 
 	public void gotoHome() {
 		selenium.open("/");
+	}
+
+	public void openSelectedWindow(String url, String title) {
+		selenium.open(url);
+		selenium.selectWindow(title);
+		selenium.windowFocus();
+	}
+
+	public void clickAndOpenNewWindow(By link, String window) {
+		waitAndClick(link);
+
+		selenium.selectWindow(window);
+		selenium.windowFocus();
+
+	}
+
+	public void closeSelectedWindow() {
+		// Close the window and back to the main one
+		selenium.close();
+		selenium.selectWindow("null");
+		selenium.windowFocus();
+	}
+
+	public boolean isTextPresent(String text) {
+		return selenium.isTextPresent(text);
+	}
+
+	public void verifyPageHTML(String url, String filePath) throws Exception {
+		try {
+			URL help = new URL(url);
+			URLConnection yc = help.openConnection();
+			FileInputStream helpFile = new FileInputStream(filePath);
+			BufferedReader actual = new BufferedReader(new InputStreamReader(yc.getInputStream()));
+			BufferedReader expected = new BufferedReader(new InputStreamReader(new DataInputStream(helpFile)));
+
+			String expectedLine;
+			String actualLine;
+			while ((expectedLine = expected.readLine()) != null) {
+				actualLine = actual.readLine();
+				assertNotNull("Expected had more lines then the actual.", actualLine);
+				assertEquals(expectedLine, actualLine);
+			}
+
+			assertNull("Actual had more lines then the expected.", actual.readLine());
+
+			actual.close();
+			expected.close();
+		} catch (Exception e) {
+			System.err.println("Error: " + e.getMessage());
+		}
+	}
+	
+	public String getHTMLSource() {
+		return selenium.getHtmlSource();
 	}
 }

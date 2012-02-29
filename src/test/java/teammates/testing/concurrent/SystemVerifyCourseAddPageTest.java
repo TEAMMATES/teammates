@@ -52,5 +52,4 @@ public class SystemVerifyCourseAddPageTest extends TestCase {
 		//course data:
 	}
 
-
 }

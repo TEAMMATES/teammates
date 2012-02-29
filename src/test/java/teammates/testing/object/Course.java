@@ -2,6 +2,7 @@ package teammates.testing.object;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,13 +13,19 @@ public class Course {
 
 	@SerializedName("id")
 	public String courseId;
-	
+
 	@SerializedName("name")
 	public String courseName;
-	
+
 	public transient ArrayList<Student> students;
 
 	public Course() {
+
+	}
+
+	public Course(String courseId, String courseName) {
+		this.courseId = courseId;
+		this.courseName = courseName;
 	}
 
 	public String toJSON() {
@@ -46,6 +53,19 @@ public class Course {
 			e.printStackTrace();
 		}
 		return json;
+	}
+
+	public static ArrayList<Course> fromJSONArray(JSONArray arr) {
+		ArrayList<Course> ls = new ArrayList<Course>();
+
+		try {
+			for (int i = 0; i < arr.length(); i++)
+				ls.add(Course.fromJSONObject(arr.getJSONObject(i)));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return ls;
 	}
 
 }

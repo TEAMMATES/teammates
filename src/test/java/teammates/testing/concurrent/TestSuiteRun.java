@@ -36,6 +36,8 @@ import teammates.testing.old.TestEvaluationResultPoints;
 		
 	//SystemEvaluationResultsCalculationTest.class,
 	SystemFooterTest.class,
+	SystemVerifyHelpPageTest.class,
+	SystemVerifyCourseAddPageTest.class,
 	TestEvaluationResultPoints.class
 	
 })

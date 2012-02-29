@@ -819,15 +819,15 @@ public class BaseTest {
 	}
 
 	protected static void setupScenario() {
-		sc = Scenario.fromJSONFile("target/test-classes/scenario.json");
+		sc = Scenario.fromJSONFile("target/test-classes/data/scenario.json");
 	}
 	
 	protected static void setupNewScenarioForMultipleCourses(){
-		nsc = Scenario.newScenario("target/test-classes/scenario.json");
+		nsc = Scenario.newScenario("target/test-classes/data/scenario.json");
 	}
 
 	protected static void setupScenarioForBumpRatioTest(int index) {
-		sc = Scenario.scenarioForBumpRatioTest("target/test-classes/bump_ratio_scenario.json", index);
+		sc = Scenario.scenarioForBumpRatioTest("target/test-classes/data/bump_ratio_scenario.json", index);
 	}
 
 	/**
@@ -1283,4 +1283,45 @@ public class BaseTest {
 		}
 		return sb.toString();
 	}
+	
+	public String getEvaluationCourseID(int row) {
+		row++;
+		return selenium.getTable("id=dataform." + row + ".0");
+	}
+
+	public String getEvaluationName(int row) {
+		row++;
+		return selenium.getTable("id=dataform." + row + ".1");
+	}
+
+	public String getEvaluationName(String courseId, String evalName) {
+		int row = findEvaluationRow(courseId, evalName);
+		if (row > -1) {
+			return getEvaluationName(row);
+		} else {
+			fail("Evaluation not found.");
+			return null;
+		}
+	}
+	
+	protected int findEvaluationRow(String courseId, String evalName) {
+		int i = 0;
+		while (i < countTotalEvaluations()) {
+			if (this.getEvaluationCourseID(i).equals(courseId) && this.getEvaluationName(i).equals(evalName)) {
+				return i;
+			}
+			i++;
+		}
+		return -1;
+	}
+
+	public boolean isEvaluationPresent(String courseId, String evalName) {
+		for (int i = 0; i < countTotalEvaluations(); i++) {
+			if (this.getEvaluationCourseID(i).equals(courseId) && this.getEvaluationName(i).equals(evalName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

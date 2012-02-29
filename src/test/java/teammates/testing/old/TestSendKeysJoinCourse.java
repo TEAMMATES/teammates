@@ -82,7 +82,7 @@ public class TestSendKeysJoinCourse extends BaseTest {
 		}
 		
 		// Write key back to json file
-		sc.toJSONFile("target/test-classes/scenario.json.ext");
+		sc.toJSONFile("target/test-classes/data/scenario.json.ext");
 		
 	
 		// Reserve more time to send email

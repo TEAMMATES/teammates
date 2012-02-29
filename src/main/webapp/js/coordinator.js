@@ -21,7 +21,7 @@ var DISPLAY_EDITSTUDENT_FIELDSEMPTY = "<font color=\"#F00\">Please fill in all f
 var DISPLAY_ENROLLMENT_FIELDSEXTRA = "<font color=\"#F00\">There are too many fields.</font>";
 var DISPLAY_ENROLLMENT_FIELDSMISSING = "<font color=\"#F00\">There are missing fields.</font>";
 var DISPLAY_EVALUATION_ADDED = "The evaluation has been added.";
-var DISPLAY_EVALUATION_ADDED_WITH_EMPTY_TEAMS = "The evaluation has been added. Some students are without teams.";
+var DISPLAY_EVALUATION_ADDED_WITH_EMPTY_TEAMS = "The evaluation has been added. <font color=\"#F00\">Some students are without teams.</font>";
 var DISPLAY_EVALUATION_ARCHIVED = "The evaluation has been archived.";
 var DISPLAY_EVALUATION_DELETED = "The evaluation has been deleted.";
 var DISPLAY_EVALUATION_EDITED = "The evaluation has been edited.";

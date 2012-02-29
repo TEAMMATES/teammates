@@ -74,11 +74,15 @@ public class TMAPI {
      * @date Sep 8, 2011
      */
     public static void cleanupByCoordinator() {
-    	System.out.println("Clean up by coordinator");
-            HashMap<String, Object> params = createParamMap("cleanup_by_coordinator");
-            params.put("coordinator_id", Config.inst().TEAMMATES_COORD_ID);
-            String paramsString = buildParamsString(params);
-            makePOSTRequest(paramsString);
+    	System.out.println("Clean up by coordinator");    	
+    	cleanupByCoordinator(Config.inst().TEAMMATES_COORD_ID);
+    }
+    
+    public static void cleanupByCoordinator(String coordId) {
+    	HashMap<String, Object> params = createParamMap("cleanup_by_coordinator");
+        params.put("coordinator_id", coordId);
+        String paramsString = buildParamsString(params);
+        makePOSTRequest(paramsString);
     }
 
 	/**
@@ -101,10 +105,14 @@ public class TMAPI {
 	 * Create new course
 	 */
 	public static void createCourse(Course course) {
+		createCourse(course, "teammates.coord");
+	}
+	
+	public static void createCourse(Course course, String coordId) {
 		System.out.println("Creating course.");
 
 		HashMap<String, Object> params = createParamMap("course_add");
-		params.put("google_id", "teammates.coord");
+		params.put("google_id", coordId);
 		params.put("course", course.toJSON());
 		String paramsString = buildParamsString(params);
 		makePOSTRequest(paramsString);

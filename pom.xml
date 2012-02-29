@@ -317,12 +317,12 @@
                 </copy>  
 				<propertyfile file="${prop.build.dir}">
                   	<entry key="app.account" value="${email}"/>
-					<entry key="app.url" value="${app}.appspot.com"/>
-					<entry key="app.id" value="${app}"/>
+					<entry key="app.url" value="${appId}.appspot.com"/>
+					<entry key="app.id" value="${appId}"/>
 				</propertyfile> 
 				<propertyfile file="${prop.test.dir}">
-                  	<entry key="test.app.url" value="http://${app}.appspot.com/"/>
-					<entry key="test.app.id" value="${app}"/>
+                  	<entry key="test.app.url" value="http://${appId}.appspot.com/"/>
+					<entry key="test.app.id" value="${appId}"/>
 				</propertyfile>
                 <echo message='------Overwrite appengin-web-app.xml-------'/>
                 <echo message='Application : ${appengine-web-app.application}'/>
@@ -540,25 +540,52 @@
       </activation>
       <properties>
 		<email>damtuanlong@gmail.com</email>
-		<appUrl>teammates-james@appspot.com</appUrl>
 		<appId>teammates-james</appId>
       </properties>
     </profile>
-	
-	<profile>
-      	<id>teammates-james2</id>
-	 	<activation>
-        	<property>
-          		<name>app</name>
-          		<value>teammates-james2</value>
-        	</property>
+
+    <profile>
+        <id>xlteammates</id>
+    <activation>
+          <property>
+              <name>app</name>
+              <value>xlteammates</value>
+          </property>
       </activation>
       <properties>
-		<email>damtuanlong2@gmail.com</email>
-		<appUrl>teammates-james@appspot.com2</appUrl>
-		<appId>teammates-james2</appId>
+    <email>xialin.z21@gmail.com</email>
+    <appId>xlteammates</appId>
       </properties>
     </profile>
+
+    <profile>
+        <id>teammatesv4</id>
+    <activation>
+          <property>
+              <name>app</name>
+              <value>teammatesv4</value>
+          </property>
+      </activation>
+      <properties>
+    <email>teammates@comp.nus.edu.sg</email>
+    <appId>teammatesv4</appId>
+      </properties>
+    </profile>
+
+    <profile>
+        <id>teammates-kalpit</id>
+    <activation>
+          <property>
+              <name>app</name>
+              <value>teammates-kalpit</value>
+          </property>
+      </activation>
+      <properties>
+    <email>kalpitjain03@gmail.com</email>
+    <appId>teammates-kalpit</appId>
+      </properties>
+    </profile>
+	
   </profiles>
   
 </project>

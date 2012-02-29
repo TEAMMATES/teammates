@@ -15,17 +15,17 @@ import org.json.JSONObject;
 import teammates.testing.lib.SharedLib;
 
 public class Scenario {
-	public Course course;
-	public Course course2;
 	public Coordinator coordinator;
 	public ArrayList<Student> students;
+	public Course course;
+	public Course course2;
 	public Evaluation evaluation;
 	public Evaluation evaluation2;
 	public Evaluation evaluation3;
 	public Evaluation evaluation4;
+	public HashMap<String, Team> teams;
 	public TeamFormingSession teamFormingSession;
 	public String[] submissionPoints;
-	public HashMap<String, Team> teams;
 
 	/**
 	 * Initialize the scenario
@@ -66,113 +66,6 @@ public class Scenario {
 
 	}
 
-	public static Scenario fromJSONFile(String filepath) {
-		String s = SharedLib.getFileContents(filepath);
-		try {
-			JSONObject json = new JSONObject(s);
-			return fromJSONObject(json);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public static Scenario fromJSONObject(JSONObject json) {
-		Scenario sc = new Scenario();
-		try {
-			sc.coordinator = Coordinator.fromJSONObject(json.getJSONObject("coordinator"));
-			sc.course = Course.fromJSONObject(json.getJSONObject("course"));
-			sc.evaluation = Evaluation.fromJSONObject(json.getJSONObject("evaluation"));
-			sc.evaluation2 = Evaluation.fromJSONObject(json.getJSONObject("evaluation2"));
-			sc.teamFormingSession = TeamFormingSession.fromJSONObject( json.getJSONObject( "teamFormingSession") );
-			sc.students = Student.fromJSONArray(json.getJSONArray("students"));
-
-			// Teams
-			sc.teams = new HashMap<String, Team>();
-			JSONArray json_teams = json.getJSONArray("teams");
-			for (int i = 0; i < json_teams.length(); i++) {
-				String teamname = json_teams.getString(i);
-				Team team = new Team();
-				team.teamname = teamname;
-				sc.teams.put(teamname, team);
-			}
-			for (Student s : sc.students) {
-				s.team = sc.teams.get(s.teamName);
-				s.team.students.add(s);
-				s.courseID = sc.course.courseId;
-				s.comments = "This student's name is " + s.name;
-			}
-
-			sc.evaluation.courseID = sc.course.courseId;
-			sc.evaluation2.courseID = sc.course.courseId;
-			sc.course.students = sc.students;
-			sc.teamFormingSession.courseID = sc.course.courseId;
-
-			return sc;
-
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public static Scenario newScenario(String filepath) {
-
-		String s = SharedLib.getFileContents(filepath);
-		try {
-			JSONObject json = new JSONObject(s);
-			return newScenario(json);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public static Scenario newScenario(JSONObject json) {
-		Scenario sc = new Scenario();
-
-		try {
-			sc.coordinator = Coordinator.fromJSONObject(json.getJSONObject("coordinator"));
-			sc.course = Course.fromJSONObject(json.getJSONObject("course2"));
-			sc.evaluation = Evaluation.fromJSONObject(json.getJSONObject("evaluation"));
-			sc.evaluation2 = Evaluation.fromJSONObject(json.getJSONObject("evaluation2"));
-			sc.evaluation3 = Evaluation.fromJSONObject(json.getJSONObject("evaluation3"));
-			sc.evaluation4 = Evaluation.fromJSONObject(json.getJSONObject("evaluation4"));
-			sc.students = Student.fromJSONArray(json.getJSONArray("students"));
-
-			// Teams
-			sc.teams = new HashMap<String, Team>();
-			JSONArray json_teams = json.getJSONArray("teams");
-			for (int i = 0; i < json_teams.length(); i++) {
-				String teamname = json_teams.getString(i);
-				Team team = new Team();
-				team.teamname = teamname;
-				sc.teams.put(teamname, team);
-			}
-			
-			// Students
-			for (Student s : sc.students) {
-				s.team = sc.teams.get(s.teamName);
-				s.team.students.add(s);
-				s.courseID = sc.course.courseId;
-				s.comments = "This is comment for " + s.name;
-			}
-
-			sc.evaluation.courseID = sc.course.courseId;
-			sc.evaluation2.courseID = sc.course.courseId;
-			sc.evaluation3.courseID = sc.course.courseId;
-			sc.evaluation4.courseID = sc.course.courseId;
-			sc.course.students = sc.students;
-
-			return sc;
-
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		return null;
-	}
-
 	public JSONObject toJSONObject() {
 
 		JSONObject json = new JSONObject();
@@ -207,6 +100,116 @@ public class Scenario {
 
 	}
 
+	// basic scenario
+	public static Scenario fromJSONFile(String filepath) {
+		String s = SharedLib.getFileContents(filepath);
+		try {
+			JSONObject json = new JSONObject(s);
+			return fromJSONObject(json);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static Scenario fromJSONObject(JSONObject json) {
+		Scenario sc = new Scenario();
+		try {
+			sc.coordinator = Coordinator.fromJSONObject(json.getJSONObject("coordinator"));
+			sc.course = Course.fromJSONObject(json.getJSONObject("course"));
+			sc.evaluation = Evaluation.fromJSONObject(json.getJSONObject("evaluation"));
+			sc.evaluation2 = Evaluation.fromJSONObject(json.getJSONObject("evaluation2"));
+			sc.teamFormingSession = TeamFormingSession.fromJSONObject(json.getJSONObject("teamFormingSession"));
+			sc.students = Student.fromJSONArray(json.getJSONArray("students"));
+
+			// Teams
+			sc.teams = new HashMap<String, Team>();
+			JSONArray json_teams = json.getJSONArray("teams");
+			for (int i = 0; i < json_teams.length(); i++) {
+				String teamname = json_teams.getString(i);
+				Team team = new Team();
+				team.teamname = teamname;
+				sc.teams.put(teamname, team);
+			}
+			for (Student s : sc.students) {
+				s.team = sc.teams.get(s.teamName);
+				s.team.students.add(s);
+				s.courseID = sc.course.courseId;
+				s.comments = "This student's name is " + s.name;
+			}
+
+			sc.evaluation.courseID = sc.course.courseId;
+			sc.evaluation2.courseID = sc.course.courseId;
+			sc.course.students = sc.students;
+			sc.teamFormingSession.courseID = sc.course.courseId;
+
+			return sc;
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	// new scenario
+	public static Scenario newScenario(String filepath) {
+
+		String s = SharedLib.getFileContents(filepath);
+		try {
+			JSONObject json = new JSONObject(s);
+			return newScenario(json);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static Scenario newScenario(JSONObject json) {
+		Scenario sc = new Scenario();
+
+		try {
+			sc.coordinator = Coordinator.fromJSONObject(json.getJSONObject("coordinator"));
+			sc.course = Course.fromJSONObject(json.getJSONObject("course2"));
+			sc.evaluation = Evaluation.fromJSONObject(json.getJSONObject("evaluation"));
+			sc.evaluation2 = Evaluation.fromJSONObject(json.getJSONObject("evaluation2"));
+			sc.evaluation3 = Evaluation.fromJSONObject(json.getJSONObject("evaluation3"));
+			sc.evaluation4 = Evaluation.fromJSONObject(json.getJSONObject("evaluation4"));
+			sc.students = Student.fromJSONArray(json.getJSONArray("students"));
+
+			// Teams
+			sc.teams = new HashMap<String, Team>();
+			JSONArray json_teams = json.getJSONArray("teams");
+			for (int i = 0; i < json_teams.length(); i++) {
+				String teamname = json_teams.getString(i);
+				Team team = new Team();
+				team.teamname = teamname;
+				sc.teams.put(teamname, team);
+			}
+
+			// Students
+			for (Student s : sc.students) {
+				s.team = sc.teams.get(s.teamName);
+				s.team.students.add(s);
+				s.courseID = sc.course.courseId;
+				s.comments = "This is comment for " + s.name;
+			}
+
+			sc.evaluation.courseID = sc.course.courseId;
+			sc.evaluation2.courseID = sc.course.courseId;
+			sc.evaluation3.courseID = sc.course.courseId;
+			sc.evaluation4.courseID = sc.course.courseId;
+			sc.course.students = sc.students;
+
+			return sc;
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	// scenario for bump ratio test
 	public static Scenario scenarioForBumpRatioTest(String filepath, int index) {
 		String s = SharedLib.getFileContents(filepath);
 		try {
@@ -265,6 +268,64 @@ public class Scenario {
 			e.printStackTrace();
 		}
 
+		return null;
+	}
+
+	// static scenario for page verification
+	public static Scenario scenarioForPageVerification(String filepath) {
+		String s = SharedLib.getFileContents(filepath);
+		try {
+			JSONObject json = new JSONObject(s);
+			return scenarioForPageVerification(json);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static Scenario scenarioForPageVerification(JSONObject json) {
+		Scenario sc = new Scenario();
+		try {
+			sc.coordinator = Coordinator.fromJSONObject(json.getJSONObject("coordinator"));
+
+			ArrayList<Course> courses = Course.fromJSONArray(json.getJSONArray("courses"));
+			sc.course = courses.get(0);
+			sc.course2 = courses.get(1);
+
+			ArrayList<Evaluation> evaluations = Evaluation.fromJSONArray(json.getJSONArray("evaluations"));
+			sc.evaluation = evaluations.get(0);
+			sc.evaluation2 = evaluations.get(1);
+			sc.evaluation3 = evaluations.get(2);
+			sc.evaluation4 = evaluations.get(3);
+
+			sc.students = Student.fromJSONArray(json.getJSONArray("students"));
+
+			sc.teams = new HashMap<String, Team>();
+			JSONArray json_teams = json.getJSONArray("teams");
+			for (int i = 0; i < json_teams.length(); i++) {
+				String teamname = json_teams.getString(i);
+				Team team = new Team();
+				team.teamname = teamname;
+				sc.teams.put(teamname, team);
+			}
+			for (Student s : sc.students) {
+				s.team = sc.teams.get(s.teamName);
+				s.team.students.add(s);
+				s.courseID = sc.course.courseId;
+				s.comments = "This student's name is " + s.name;
+			}
+			
+			sc.evaluation.courseID = sc.course.courseId;
+			sc.evaluation2.courseID = sc.course.courseId;
+			sc.evaluation3.courseID = sc.course.courseId;
+			sc.evaluation4.courseID = sc.course.courseId;
+			sc.course.students = sc.students;
+			
+			return sc;
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 }
