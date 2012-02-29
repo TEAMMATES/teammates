@@ -3,17 +3,15 @@
   <modelVersion>4.0.0</modelVersion>
   
   
-  
   <!-- The Basics -->
   <groupId>com.nus.teammates</groupId>
   <artifactId>teammates</artifactId>
   <version>v4</version>
   <packaging>war</packaging>
-  
   <name>teammates</name>
   
   <dependencies>
-    
+  
     <!-- Google App Engine meta-package -->
     <dependency>
       <groupId>net.kindleit</groupId>
@@ -34,8 +32,6 @@
       <artifactId>jta</artifactId>
       <version>1.1</version>
     </dependency>
-    
-
 
     <!--
      J2EE Servlet API. We need it to compile IndexServlet class. You can
@@ -79,17 +75,14 @@
       <version>4.10</version>
       <scope>test</scope>
     </dependency>
-   <!-- <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit-dep</artifactId>
-      <version>4.8.2</version>
-    </dependency> -->
+
     <dependency>
       <groupId>com.sun.mail</groupId>
       <artifactId>javax.mail</artifactId>
       <version>1.4.4</version>
        <scope>test</scope>
     </dependency>
+
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-server</artifactId>
@@ -148,17 +141,6 @@
       <id>maven2</id>
       <url>http://repo1.maven.org/maven2</url>
     </repository>
-    
-    <repository>
-      <id>com.springsource.repository.bundles.release</id>
-      <name>Spring Maven Repository Repository</name>
-      <url>http://repository.springsource.com/maven/bundles/release</url>
-    </repository>
-    <!-- For hibernate 3.6 support -->
-    <repository>
-      <id>jboss</id>
-      <url>https://repository.jboss.org/nexus/content/groups/public/</url>
-    </repository>
   </repositories>
   
   <build>
@@ -177,7 +159,6 @@
            -->
           <mappingIncludes>
               **/jdo/*.class
-          
           </mappingIncludes>
           <verbose>true</verbose>
           <enhancerName>ASM</enhancerName>
@@ -220,8 +201,6 @@
             <scope>runtime</scope>
           </dependency>
 
-
-          
         </dependencies>
       </plugin>
       
@@ -257,16 +236,22 @@
             <version>${gae.version}</version>
             <type>pom</type>
           </dependency>
+
         </dependencies>
+        <configuration>
+
+			<port>${port}</port>
+        </configuration>
         <executions>
           <execution>
             <id>pre-integration-test</id>
-            <phase>pre-integration-test</phase>
+			<phase>pre-integration-test</phase>
             <goals>
-              <goal>deploy</goal>
+              	<goal>update</goal>
             </goals>
             <configuration>
-              <emailAccount>teammates@comp.nus.edu.sg</emailAccount>
+				<passin>true</passin>
+				<emailAccount>${email}</emailAccount>
             </configuration>
            </execution>
           </executions>
@@ -275,14 +260,14 @@
       <!--
        Upload application to the appspot automatically, during
        release:perform
-       -->
+       
       <plugin>
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
           <goals>gae:deploy</goals>
         </configuration>
       </plugin>
-      
+      -->
       
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -290,23 +275,58 @@
         <version>1.7</version>
         <executions>
           <execution>
-            <!-- overwrite appengine-web-app with -Dappversion option-->
+            <!-- overwrite appengine-web-app with -Dversion option-->
             <id>process-sources</id>
             <phase>process-sources</phase>
             <configuration>
-              <target name='changeVersion' if='appversion'>
-                  <xmlproperty file="src/main/webapp/WEB-INF/appengine-web.xml"/>
+              <target name='changeVersion' if='ver'>
+                  <xmlproperty file="${prop.appengine.xml.dir}/appengine-web.xml"/>
                 <property name="appID" value="${appengine-web-app.application}"/>
-                  <copy file="src/main/webapp/WEB-INF/appengine-web.template.xml" tofile="src/main/webapp/WEB-INF/appengine-web.xml" overwrite='true'>
+                  <copy file="${prop.appengine.xml.dir}/appengine-web.template.xml" 
+					tofile="${prop.appengine.xml.dir}/appengine-web.xml" overwrite='true'>
                   <filterset begintoken='@' endtoken='@'>
-                    <filter token="VERSION" value="${appversion}"/>
+                    <filter token="VERSION" value="${ver}"/>
                     <filter token="APPLICATION" value="${appID}"/>
                   </filterset>
-                </copy>  
-                
+                </copy>     
                 <echo message='------Overwrite appengin-web-app.xml-------'/>
                 <echo message='Application : ${appengine-web-app.application}'/>
-                <echo message='Version     : ${appversion}'/>
+                <echo message='Version     : ${ver}'/>
+              </target>
+
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+
+		<execution>
+		 <!-- overwrite appengine-web-app with -Dapp option-->
+            <id>process-sources2</id>
+            <phase>process-sources</phase>
+            <configuration>
+              <target name='changeVersion' if='app'>
+                  <xmlproperty file="${prop.appengine.xml.dir}/appengine-web.xml"/>
+                <property name="appVersion" value="${appengine-web-app.version}"/>
+                  <copy file="${prop.appengine.xml.dir}/appengine-web.template.xml" 
+						tofile="${prop.appengine.xml.dir}/appengine-web.xml" overwrite='true'>
+                  <filterset begintoken='@' endtoken='@'>
+                    <filter token="VERSION" value="${appVersion}"/>
+                    <filter token="APPLICATION" value="${appId}"/>
+                  </filterset>
+                </copy>  
+				<propertyfile file="${prop.build.dir}">
+                  	<entry key="app.account" value="${email}"/>
+					<entry key="app.url" value="${app}.appspot.com"/>
+					<entry key="app.id" value="${app}"/>
+				</propertyfile> 
+				<propertyfile file="${prop.test.dir}">
+                  	<entry key="test.app.url" value="http://${app}.appspot.com/"/>
+					<entry key="test.app.id" value="${app}"/>
+				</propertyfile>
+                <echo message='------Overwrite appengin-web-app.xml-------'/>
+                <echo message='Application : ${appengine-web-app.application}'/>
+                <echo message='Version     : ${appVersion}'/>
               </target>
 
             </configuration>
@@ -327,8 +347,6 @@
                   <echo message="gae dir         : ${sdk.dir}"/>
 
                 <xmlproperty file="src/main/webapp/WEB-INF/appengine-web.xml"/>                
-                <property name = "prop.build.dir" location= "src/main/webapp/WEB-INF/classes/build.properties"/>
-                <property name = "prop.test.dir" location= "src/test/resources/test.properties"/>
                 <property file="${prop.build.dir}"/>
                 <property file="${prop.test.dir}"/>
                   
@@ -349,15 +367,13 @@
                   <copy file="${prop.build.dir}" tofile="report/${reportTimeStamp}/build.properties.backup"/>
                   <copy file="${prop.test.dir}" tofile="report/${reportTimeStamp}/test.properties.backup"/>	
 
-                <exec dir="${sdk.dir}/" executable="chmod" osfamily='unix'>
+                <exec dir="${sdk.dir}/" executable="chmod" osfamily='unix' failonerror='true'>
                     <arg line="+x appcfg.sh"/>
                 </exec> 
-                
-                <exec executable="sh"  dir="${sdk.dir}/" osfamily='unix'>  
+                <exec executable="sh"  dir="${sdk.dir}/" osfamily='unix' failonerror='true'>  
                   <arg line="appcfg.sh set_default_version ${project.basedir}/src/main/webapp" />  
                 </exec>
-              
-                <exec executable="cmd"  dir="${sdk.dir}/" osfamily='windows'>  
+                <exec executable="cmd"  dir="${sdk.dir}/" osfamily='windows' failonerror='true'>  
                   <arg line="/c appcfg.cmd set_default_version ${project.basedir}/src/main/webapp" />  
                 </exec>     
               </target>
@@ -368,13 +384,10 @@
           </execution>
           
            <execution>
-              <id>pre-package</id>
-              <phase>pre-package</phase>
+              <id>package</id>
+              <phase>package</phase>
               <configuration>
                 <target  name ="change_authCode">
-                  <property name = "prop.build.dir" location= "src/main/webapp/WEB-INF/classes/build.properties"/>
-                  <property name = "prop.test.dir" location= "src/test/resources/test.properties"/>
-                  
                   <tstamp>
                     <format property="timeStamp" pattern="ssSSS"/>
                   </tstamp>
@@ -385,8 +398,7 @@
                   <propertyfile file="${prop.test.dir}">
                     <entry key="test.app.authCode" value="${timeStamp}" />
                   </propertyfile>
-									<property name = "prop.test.dir" location= "src/test/resources/test.properties"/>
-                  <copy file="${prop.test.dir}" tofile="target/test-classes/test.properties"/>
+                  <copy file="${prop.test.dir}" tofile="${prop.test.target.dir}"/>
                 </target>
             <skip>${skipApiCode}</skip>  
               </configuration>
@@ -463,9 +475,6 @@
           </configuration>
         </plugin>
 
-        
-      
-      
     </plugins>
   </build>
   
@@ -488,52 +497,66 @@
      your Eclipse plug-in)
      -->
     <gae.version>1.6.1</gae.version>
-    
+
+	<prop.build.dir>src/main/webapp/WEB-INF/classes/build.properties</prop.build.dir>
+	<prop.build.target.dir>target/teammates-${project.version}/WEB-INF/classes/build.properties/</prop.build.target.dir>
+	<prop.test.dir>src/test/resources/test.properties</prop.test.dir>
+	<prop.test.target.dir>target/test-classes/test.properties</prop.test.target.dir>
+	<prop.appengine.xml.dir>src/main/webapp/WEB-INF</prop.appengine.xml.dir>
+
     <!--
-     Upload to http://test.latest.<applicationName>.appspot.com by default
-     -->
-    <gae.application.version>test</gae.application.version>
-    
-    <datanucleus.version>1.1.5</datanucleus.version>
+    Default emailAccount, set to null so it will use the cookies if not use -Demail or -Dapp
+    -->	
+	<email></email>
+     <!--
+     Default local port
+     -->	
+	<port>8080</port>
      <!--
      Skip changing the authenciation code by default
      -->   
     <skipApiCode>true</skipApiCode>
+
+    <datanucleus.version>1.1.5</datanucleus.version>
+    
+    <!--
+     Upload to http://test.latest.<applicationName>.appspot.com by default
+    
+    <gae.application.version>test</gae.application.version>
+     -->
   </properties>
   
   <profiles>
     <!--
-     We can configure our integration server to activate this profile and
-     perform gae:deploy, thus uploading latest snapshot to the
-     http://1.latest.<applicationName>.appspot.com automatically
+		
      -->
     <profile>
-      <id>integration-build</id>
+      	<id>teammates-james</id>
+	 	<activation>
+        	<property>
+          		<name>app</name>
+          		<value>teammates-james</value>
+        	</property>
+      </activation>
       <properties>
-        <gae.application.version>stage</gae.application.version>
+		<email>damtuanlong@gmail.com</email>
+		<appUrl>teammates-james@appspot.com</appUrl>
+		<appId>teammates-james</appId>
       </properties>
     </profile>
-    
-    <!--
-     This profile will activate automatically during release and upload
-     application to the http://2.latest.<applicationName>.appspot.com (We
-     might want to set the 2nd version as our applications Default version
-     to be accessible at http://<applicationName>.appspot.com)
-     -->
-    <profile>
-      <id>release-build</id>
-      <activation>
-        <property>
-          <name>performRelease</name>
-          <value>true</value>
-        </property>
+	
+	<profile>
+      	<id>teammates-james2</id>
+	 	<activation>
+        	<property>
+          		<name>app</name>
+          		<value>teammates-james2</value>
+        	</property>
       </activation>
-      
       <properties>
-        <!--
-         During release, set application version in appengine-web.xml to 2
-         -->
-        <gae.application.version>release</gae.application.version>
+		<email>damtuanlong2@gmail.com</email>
+		<appUrl>teammates-james@appspot.com2</appUrl>
+		<appId>teammates-james2</appId>
       </properties>
     </profile>
   </profiles>
