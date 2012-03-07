@@ -191,16 +191,28 @@ tfoot td {
 
 /* result_table */
 .result_team {
-	background: #036;
-	margin: 0 auto;
- 	width: 960px;
-	padding: 20px;
+       background: #036;
+       margin: 0 auto;
+        width: 960px;
+       padding: 20px;
+
+}
+.current_team {
+       background: #555;
+       margin: 0 auto;
+        width: 960px;
+       padding: 20px;
 
 }
 .result_team p{
-	color: #FFFFFF;
-	font-size:16px;
-	text-align:left;
+       color: #FFFFFF;
+       font-size:16px;
+       text-align:left;
+}
+.current_team p{
+       color: #FFFFFF;
+       font-size:16px;
+       text-align:left;
 }
 
 .result_table td{

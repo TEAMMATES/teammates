@@ -167,6 +167,18 @@ function printCourseList(courseList, user) {
 		toggleSortCoursesByName(courseList)
 	};
 
+//	//kalpit
+//    for (loop = 0; loop < courseList.length; loop++) {
+//            if (document.getElementById('viewTeams' + loop) != null
+//                            && document.getElementById('viewTeams' + loop).onclick == null) {
+//                    document.getElementById('viewTeams' + loop).onclick = function() {
+//                            hideddrivetip();
+//                            var courseIndex = this.id.substring(9, this.id.length);
+//                            displayStudentViewTeams(courseList[courseIndex].ID);
+//                    };
+//            }
+//    }
+//    //end by kalpit
 }
 
 /*------------------------------------------PRINT COORDINATOR PAGE------------------------------------------*/

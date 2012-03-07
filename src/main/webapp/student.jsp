@@ -26,6 +26,7 @@
 	<script language="JavaScript" src="js/tooltip.js"></script>
 	<script language="JavaScript" src="js/helper.js"></script>
 	<script language="JavaScript" src="js/student.js"></script>
+	<script language="JavaScript" src="js/studentTeamForming.js"></script>	
 </head>
 
 <body>

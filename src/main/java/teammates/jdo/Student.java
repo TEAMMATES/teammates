@@ -50,6 +50,14 @@ public class Student {
 
 	@Persistent
 	private transient boolean courseArchived;
+	
+	@Persistent
+	@SerializedName("profilesummary")
+	private String profileSummary;
+	
+	@Persistent
+	@SerializedName("profiledetail")
+	private String profileDetail;
 
 	/**
 	 * Constructs a Student object.
@@ -151,6 +159,22 @@ public class Student {
 
 	public String getTeamName() {
 		return teamName;
+	}
+	
+	public void setProfileSummary(String profileSummary) {
+		this.profileSummary = profileSummary.trim();
+	}
+
+	public String getProfileSummary() {
+		return profileSummary;
+	}
+	
+	public void setProfileDetail(String profileDetail) {
+		this.profileDetail = profileDetail.trim();
+	}
+
+	public String getProfileDetail() {
+		return profileDetail;
 	}
 
 	public void setCourseArchived(boolean courseArchived) {

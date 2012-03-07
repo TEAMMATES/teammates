@@ -43,6 +43,11 @@ public class TeamForming {
 		return instance;
 	}
 	
+	public void addStudentToTeam(String courseId, String teamName, String newStudentEmail) {
+		Student student = getStudent(courseId, newStudentEmail);
+		student.setTeamName(teamName);
+	}
+	
 	/**
 	 * Adds a team forming session to the specified course.
 	 * 
@@ -124,6 +129,19 @@ public class TeamForming {
 		}
 	}
 	
+	public void createTeamWithStudent(String courseId, String courseName, String newStudentEmail, 
+			String currentStudentEmail, String currentStudentNickName) throws TeamProfileExistsException {
+		Student currentStudent = getStudent(courseId, currentStudentEmail);
+		Student newStudent = getStudent(courseId, newStudentEmail);
+		
+		String teamName = "Team "+currentStudentNickName;
+		String teamProfile = "Please enter your team profile here.";
+		currentStudent.setTeamName(teamName);
+		newStudent.setTeamName(teamName);		
+		
+		createTeamProfile(courseId, courseName, teamName, teamProfile);
+	}
+	
 	/**
 	 * Edits a student object
 	 * 
@@ -136,12 +154,49 @@ public class TeamForming {
 	 * @param new team name
 	 *            the updated team name (Pre-condition: Must not be null)
 	 */
-	public void editStudentTeam(String courseId, String teamName, String newTeamName){
+	public void editStudentsTeam(String courseId, String teamName, String newTeamName){
 		List<Student> studentList = getStudentsOfCourseTeam(courseId, teamName);
 		for(int loop=0; loop<studentList.size(); loop++){
 			if(studentList.get(loop).getTeamName().equals(teamName))
 				studentList.get(loop).setTeamName(newTeamName);
 		}
+	}
+	
+	/**
+	 * Edits a student
+	 * 
+	 * @param courseId
+	 *            the course Id (Pre-condition: Must be valid)
+	 * 
+	 * @param studentEmail
+	 *            the student Email (Pre-condition: Must not be null)
+	 * 
+	 * @param profileSummary
+	 *            student profile summary (Pre-condition: Must not be null)
+	 * 
+	 * @param profileDetail
+	 *            student profile detail (Pre-condition: Must not be null)
+	 */
+	public boolean editStudentProfile(String courseId, String studentEmail, 
+			String profileSummary, String profileDetail){
+		Student currStudent = getStudent(courseId, studentEmail);
+		
+		Transaction tx = getPM().currentTransaction();
+		try {
+			tx.begin();
+			currStudent.setProfileSummary(profileSummary);
+			currStudent.setProfileDetail(profileDetail);
+
+			getPM().flush();
+
+			tx.commit();
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	/**
@@ -169,9 +224,12 @@ public class TeamForming {
 		
 		for(int i=0;i<teamList.size(); i++)
 		{
-			if(teamList.get(i).equals(newTeamName))
+			if(teamList.get(i).compareToIgnoreCase(newTeamName)==0)
 				newTeamNameExists = 1;
 		}
+		
+		if(newTeamName.equals(teamName))
+			newTeamNameExists=0;
 		
 		if (tProfile != null && newTeamNameExists==0) {			
 			Transaction tx = getPM().currentTransaction();
@@ -218,6 +276,34 @@ public class TeamForming {
 			System.out.println(e.getMessage());
 			return null;
 		}
+	}
+	
+	/**
+	 * Returns a Student object of the specified courseID and Email.
+	 * 
+	 * @param courseID
+	 *            the course ID (Precondition: Must not be null)
+	 * 
+	 * @param studentEmail
+	 *            the Email of the student (Precondition: Must not be null)
+	 * 
+	 * @return Student the student who has the specified Email in the
+	 *         specified course
+	 */
+	public Student getStudent(String courseID, String studentEmail) {
+		String query = "select from " + Student.class.getName()
+				+ " where courseID == \"" + courseID + "\" && email == \""
+				+ studentEmail + "\"";
+
+		@SuppressWarnings("unchecked")
+		List<Student> studentList = (List<Student>) getPM().newQuery(query)
+				.execute();
+
+		if (studentList.isEmpty()) {
+			return null;
+		}
+
+		return studentList.get(0);
 	}
 	
 	/**

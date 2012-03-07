@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Student objects and some information from a Course object. It provides the
  * details of a course for a specific student.
  * 
- * @author Gerald GOH
+ * @author Kalpit Jain
  * 
  */
 public class CourseDetailsForStudent {
@@ -19,6 +19,9 @@ public class CourseDetailsForStudent {
 	private String studentName;
 	private String studentEmail;
 	private ArrayList<String> teammateList;
+	
+	private String profileSummary;
+	private String profileDetail;
 
 	/**
 	 * Constructs a CourseDetailsForStudent object.
@@ -41,6 +44,34 @@ public class CourseDetailsForStudent {
 		this.setStudentName(studentName);
 		this.setStudentEmail(studentEmail);
 		this.setTeammateList(teammateList);
+	}
+	
+	/**
+	 * Constructs a CourseDetailsForStudent object.
+	 * 
+	 * @param courseID
+	 * @param courseName
+	 * @param coordinatorName
+	 * @param teamName
+	 * @param studentName
+	 * @param studentEmail
+	 * @param teammateList
+	 * @param profileSummary
+	 * @param profileDetail
+	 */
+	public CourseDetailsForStudent(String courseID, String courseName,
+			String coordinatorName, String teamName, String studentName,
+			String studentEmail, ArrayList<String> teammateList, 
+			String profileSummary, String profileDetail) {
+		this.setCourseID(courseID);
+		this.setCourseName(courseName);
+		this.setCoordinatorName(coordinatorName);
+		this.setTeamName(teamName);
+		this.setStudentName(studentName);
+		this.setStudentEmail(studentEmail);
+		this.setTeammateList(teammateList);
+		this.setProfileSummary(profileSummary);
+		this.setProfileDetail(profileDetail);
 	}
 
 	public void setCourseID(String courseID) {
@@ -97,5 +128,21 @@ public class CourseDetailsForStudent {
 
 	public ArrayList<String> getTeammateList() {
 		return teammateList;
+	}
+	
+	public void setProfileSummary(String profileSummary) {
+		this.profileSummary = profileSummary;
+	}
+
+	public String getProfileSummary() {
+		return profileSummary;
+	}
+	
+	public void setProfileDetail(String profileDetail) {
+		this.profileDetail = profileDetail;
+	}
+
+	public String getProfileDetail() {
+		return profileDetail;
 	}
 }
