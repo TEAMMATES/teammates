@@ -100,10 +100,10 @@ function printCourseList(courseList, user) {
 			output = output + "<td id=\"courseID" + counter + "\">"
 					+ courseList[loop].ID + "</td>";
 			output = output + "<td id=\"courseName" + counter + "\">"
-					+ sanitize(courseList[loop].name) + "</td>";
+					+ encodeChar(courseList[loop].name) + "</td>";
 			// student view:
 			if (user == STUDENT) {
-				output = output + "<td>" + sanitizeComments(courseList[loop].teamName) + "</td>";
+				output = output + "<td>" + encodeCharForPrint(courseList[loop].teamName) + "</td>";
 				output = output + "<td class='centeralign'>"
 						+ "<a href=\"javascript:displayCourseInformation('"
 						+ courseList[loop].ID + "');hideddrivetip();\""
@@ -355,7 +355,7 @@ function printCourseCoordinatorForm(course) {
 			+ "<td class=\"fieldname\">Course ID:</td>" + "<td>" + course.ID
 			+ "</td>" + "</tr>" + "<tr>"
 			+ "<td class=\"fieldname\">Course name:</td>" + "<td>"
-			+ sanitize(course.name) + "</td>" + "</tr>" + "<tr>"
+			+ encodeChar(course.name) + "</td>" + "</tr>" + "<tr>"
 			+ "<td class=\"fieldname\">Teams:</td>" + "<td>"
 			+ course.numberOfTeams + "</td>" + "</tr>" + "<tr>"
 			+ "<td class=\"fieldname\">Total students:</td>" + "<td>"
@@ -410,7 +410,7 @@ function printStudentList(studentList, courseID) {
 
 	for (loop = 0; loop < studentListLength; loop++) {
 		output = output + "<tr>" + "<td>" + studentList[loop].name + "</td>"
-				+ "<td>" + sanitizeComments(studentList[loop].teamName) + "</td>"
+				+ "<td>" + encodeCharForPrint(studentList[loop].teamName) + "</td>"
 				+ "<td class='centeralign'>";
 
 		if (studentList[loop].googleID == "")
@@ -433,7 +433,7 @@ function printStudentList(studentList, courseID) {
 				+ "','"
 				+ studentList[loop].registrationKey
 				+ "','"
-				+ sanitize(studentList[loop].comments)
+				+ encodeChar(studentList[loop].comments)
 				+ "');hideddrivetip();\""
 				+ "onmouseover=\"ddrivetip('View the details of the student')\""
 				+ "onmouseout=\"hideddrivetip()\">View</a>"
@@ -450,7 +450,7 @@ function printStudentList(studentList, courseID) {
 				+ "','"
 				+ studentList[loop].registrationKey
 				+ "','"
-				+ sanitize(studentList[loop].comments)
+				+ encodeChar(studentList[loop].comments)
 				+ "');hideddrivetip();\""
 				+ "onmouseover=\"ddrivetip('Edit the details of the student')\""
 				+ "onmouseout=\"hideddrivetip()\">Edit</a>";
@@ -514,7 +514,7 @@ function printStudent(courseID, email, name, teamName, googleID,
 			+ "<td class=\"fieldname\">Student Name:</td>" + "<td>" + name
 			+ "</td>" + "</tr>" + "<tr>"
 			+ "<td class=\"fieldname\">Team Name:</td>" + "<td>"
-			+ sanitizeComments(teamName) + "</td>" + "</tr>" + "<tr><"
+			+ encodeCharForPrint(teamName) + "</td>" + "</tr>" + "<tr><"
 			+ "td class=\"fieldname\">E-mail Address:</td>" + "<td>" + email
 			+ "</td>" + "</tr>" + "<tr>"
 			+ "<td class=\"fieldname\">Google ID:</td>" + "<td>";
@@ -522,7 +522,7 @@ function printStudent(courseID, email, name, teamName, googleID,
 	if (googleID == "") {
 		output = output + "-";
 	} else {
-		output = output + sanitize(googleID);
+		output = output + encodeChar(googleID);
 	}
 
 	output = output + "</td>" + "</tr>" + "<tr>"
@@ -533,7 +533,7 @@ function printStudent(courseID, email, name, teamName, googleID,
 	if (comments == "") {
 		output = output + "-";
 	} else {
-		output = output + sanitizeComments(comments);
+		output = output + encodeCharForPrint(comments);
 	}
 
 	output = output
@@ -564,7 +564,7 @@ function printEditStudent(courseID, email, name, teamName, googleID,
 			+ "<tr>"
 			+ "<td class=\"fieldname\">Team Name*:</td>"
 			+ "<td><input class=\"fieldvalue\" type=\"text\" value=\""
-			+ sanitizeComments(teamName)
+			+ encodeCharForPrint(teamName)
 			+ "\" name=\"editteamname\" id=\"editteamname\"/></td>"
 			+ "</tr>"
 			+ "<tr>"
@@ -582,10 +582,10 @@ function printEditStudent(courseID, email, name, teamName, googleID,
 			+
 
 			(googleID == "" ? "<td><input class=\"fieldvalue\" type=\"text\" value=\""
-					+ sanitize(googleID)
+					+ encodeChar(googleID)
 					+ "\" name=\"editgoogleid\" id=\"editgoogleid\"/></td>"
 					: "<td><input class=\"fieldvalue\" type=\"text\" value=\""
-							+ sanitize(googleID)
+							+ encodeChar(googleID)
 							+ "\" name=\"editgoogleid\" id=\"editgoogleid\" disabled=\"true\" /></td>")
 			+
 
@@ -593,7 +593,7 @@ function printEditStudent(courseID, email, name, teamName, googleID,
 			+ "<tr>"
 			+ "<td class=\"fieldname\">Comments:</td>"
 			+ "<td><textarea class =\"textvalue\" name=\"editcomments\" id=\"editcomments\" rows=\"6\" cols=\"80\">"
-			+ sanitizeComments(comments) + "</textarea></td>" + "</tr>" + "</table>";
+			+ encodeCharForPrint(comments) + "</textarea></td>" + "</tr>" + "</table>";
 
 	var outputButtons = "<input type=\"button\" class=\"button\" name=\"button_editstudent\" id=\"button_editstudent\" value=\"Save Changes\" />"
 			+ "<input type=\"button\" class=\"button\" onClick=\"displayCourseInformation('"
@@ -868,7 +868,7 @@ function printEditEvaluation(courseID, name, instructions, commentsEnabled,
 			+ "<td class=\"fieldname\">Instructions:</td>"
 			+ "<td><textarea rows=\"2\" cols=\"80\" class=\"textvalue\" type=\"text\" name=\""
 			+ EVALUATION_INSTRUCTIONS + "\" id=\"" + EVALUATION_INSTRUCTIONS
-			+ "\" tabindex=8>" + sanitizeComments(instructions) + "</textarea>"
+			+ "\" tabindex=8>" + encodeCharForPrint(instructions) + "</textarea>"
 			+ "</td></tr></table></form>";
 
 	var outputButtons = "<input type=\"button\" class=\"button\" name=\"button_editevaluation\" id=\"button_editevaluation\" value=\"Save Changes\" tabindex=9 />"
@@ -970,9 +970,9 @@ function printEvaluationList(evaluationList) {
 					+ evaluationList[loop].status + "</span></td>";
 
 		output = output + "<tr id=\"evaluation"+loop+"\">" + "<td class='t_eval_coursecode'>"
-				+ sanitize(evaluationList[loop].courseID) + "</td>"
+				+ encodeChar(evaluationList[loop].courseID) + "</td>"
 				+ "<td class='t_eval_name'>"
-				+ sanitize(evaluationList[loop].name) + "</td>"
+				+ encodeChar(evaluationList[loop].name) + "</td>"
 				+ evaluationStatus
 				+ "<td class=\"t_eval_response centeralign\">"
 				+ evaluationList[loop].numberOfCompletedEvaluations + " / "
@@ -1140,13 +1140,13 @@ function printEvaluationHeaderForm(courseID, evaluationName, start, deadline,
 
 	var output = "" + "<table class=\"headerform\">" + "<tr>"
 			+ "<td class=\"fieldname\">Course ID:</td>" + "<td>"
-			+ sanitize(courseID)
+			+ encodeChar(courseID)
 			+ "</td>"
 			+ "</tr>"
 			+ "<tr>"
 			+ "<td class=\"fieldname\">Evaluation name:</td>"
 			+ "<td>"
-			+ sanitize(evaluationName)
+			+ encodeChar(evaluationName)
 			+ "</td>"
 			+ "</tr>"
 			+ "<tr>"
@@ -1255,16 +1255,16 @@ function printEvaluationSummaryForm(submissionList, summaryList, status,
 		}
 
 		output = output + "<tr>" + "<td>"
-				+ sanitizeComments(summaryList[loop].teamName) + "</td>" + "<td>";
+				+ encodeCharForPrint(summaryList[loop].teamName) + "</td>" + "<td>";
 
-		if (sanitize(summaryList[loop].toStudentComments) != "") {
+		if (encodeChar(summaryList[loop].toStudentComments) != "") {
 			output = output + "<a onmouseover=\"ddrivetip('"
-					+ sanitizeComments(summaryList[loop].toStudentComments)
+					+ encodeCharForPrint(summaryList[loop].toStudentComments)
 					+ "')\" onmouseout=\"hideddrivetip()\">"
-					+ sanitize(summaryList[loop].toStudentName) + "</a>"
+					+ encodeChar(summaryList[loop].toStudentName) + "</a>"
 					+ "</td>";
 		} else {
-			output = output + sanitize(summaryList[loop].toStudentName)
+			output = output + encodeChar(summaryList[loop].toStudentName)
 					+ "</td>";
 		}
 
@@ -1573,7 +1573,7 @@ function printEditEvaluationResultsByReviewer(submissionList, summaryList,
 
 	output = "<form name=\"form_submitevaluation\" id=\"form_submitevaluation\">"
 			+ "<p class=\"splinfo2\">TEAM: "
-			+ sanitizeComments(summaryList[position].teamName)
+			+ encodeCharForPrint(summaryList[position].teamName)
 			+ "</p><br /><br />"
 			+ "<table class=\"headerform\">"
 			+ "<tr style=\"display:none\">"
@@ -1601,7 +1601,7 @@ function printEditEvaluationResultsByReviewer(submissionList, summaryList,
 			+ "<tr style=\"display:none\">"
 			+ "<td>"
 			+ "<input type=\"text\" value=\""
-			+ sanitizeComments(summaryList[position].teamName)
+			+ encodeCharForPrint(summaryList[position].teamName)
 			+ "\" name=\""
 			+ STUDENT_TEAMNAME
 			+ 0
@@ -1703,7 +1703,7 @@ function printEditEvaluationResultsByReviewer(submissionList, summaryList,
 							+ STUDENT_JUSTIFICATION
 							+ 0
 							+ "\">"
-							+ sanitizeComments(justification)
+							+ encodeCharForPrint(justification)
 							+ "</textarea>"
 							+ "</td>"
 							+ "</tr>"
@@ -1719,7 +1719,7 @@ function printEditEvaluationResultsByReviewer(submissionList, summaryList,
 							+ STUDENT_COMMENTSTOSTUDENT
 							+ 0
 							+ "\">"
-							+ sanitizeComments(commentsToStudent)
+							+ encodeCharForPrint(commentsToStudent)
 							+ "</textarea>"
 							+ "</td>" + "</tr>" + outputTemp;
 				}
@@ -1738,7 +1738,7 @@ function printEditEvaluationResultsByReviewer(submissionList, summaryList,
 							+ STUDENT_JUSTIFICATION
 							+ 0
 							+ "\">"
-							+ sanitizeComments(justification)
+							+ encodeCharForPrint(justification)
 							+ "</textarea>"
 							+ "</td>"
 							+ "</tr>"
@@ -1786,7 +1786,7 @@ function printEditEvaluationResultsByReviewer(submissionList, summaryList,
 							+ "<tr style=\"display:none\">"
 							+ "<td>"
 							+ "<input type=\"text\" value=\""
-							+ sanitizeComments(summaryList[position].teamName)
+							+ encodeCharForPrint(summaryList[position].teamName)
 							+ "\" name=\""
 							+ STUDENT_TEAMNAME
 							+ counter
@@ -1873,7 +1873,7 @@ function printEditEvaluationResultsByReviewer(submissionList, summaryList,
 							+ STUDENT_JUSTIFICATION
 							+ counter
 							+ "\">"
-							+ sanitizeComments(justification)
+							+ encodeCharForPrint(justification)
 							+ "</textarea>"
 							+ "</td>"
 							+ "</tr>"
@@ -1887,7 +1887,7 @@ function printEditEvaluationResultsByReviewer(submissionList, summaryList,
 					outputTemp = outputTemp	+ "<textarea class=\"textvalue\" rows=\"8\" cols=\"100\" name=\""
 								+ STUDENT_COMMENTSTOSTUDENT + counter + "\" id=\""
 								+ STUDENT_COMMENTSTOSTUDENT + counter + "\">"
-								+ sanitizeComments(commentsToStudent) + "</textarea>"
+								+ encodeCharForPrint(commentsToStudent) + "</textarea>"
 								+ "</td>" + "</tr>";
 				}else{
 					outputTemp = outputTemp + "<textarea class=\"textvalue\" rows=\"2\" cols=\"100\" name=\""
@@ -1967,7 +1967,7 @@ function printCourseStudentForm(course) {
 			+ "<tr>"
 			+ "<td>Your team:</td>"
 			+ "<td>"
-			+ sanitizeComments(course.studentTeamName)
+			+ encodeCharForPrint(course.studentTeamName)
 			+ "</td>"
 			+ "</tr>"
 			+ "<tr>"
@@ -2045,8 +2045,8 @@ function printPendingEvaluationList(evaluationList) {
 
 		for (x = 0; x < evaluationListLength; x++) {
 			output = output + "<tr>" + "<td>"
-					+ sanitize(evaluationList[x].courseID) + "</td>" + "<td>"
-					+ sanitize(evaluationList[x].name) + "</td>"
+					+ encodeChar(evaluationList[x].courseID) + "</td>" + "<td>"
+					+ encodeChar(evaluationList[x].name) + "</td>"
 					+ "<td class='centeralign'>"
 					+ convertDateToDDMMYYYY(evaluationList[x].deadline) + " "
 					+ convertDateToHHMM(evaluationList[x].deadline) + "H</td>"
@@ -2095,9 +2095,9 @@ function printPastEvaluationList(evaluationList) {
 
 	for (loop = 0; loop < evaluationListLength; loop++) {
 		output = output + "<tr>";
-		output = output + "<td>" + sanitize(evaluationList[loop].courseID)
+		output = output + "<td>" + encodeChar(evaluationList[loop].courseID)
 				+ "</td>";
-		output = output + "<td>" + sanitize(evaluationList[loop].name)
+		output = output + "<td>" + encodeChar(evaluationList[loop].name)
 				+ "</td>";
 		output = output + "<td class='centeralign'>"
 				+ convertDateToDDMMYYYY(evaluationList[loop].deadline) + " "
@@ -2199,13 +2199,13 @@ function printEvaluationHeader(courseID, evaluationName, start, deadline,
 
 	var output = "" + "<table class=\"headerform\">" + "<tr>"
 			+ "<td class=\"fieldname\">Course ID:</td>" + "<td>"
-			+ sanitize(courseID)
+			+ encodeChar(courseID)
 			+ "</td>"
 			+ "</tr>"
 			+ "<tr>"
 			+ "<td class=\"fieldname\">Evaluation name:</td>"
 			+ "<td>"
-			+ sanitize(evaluationName)
+			+ encodeChar(evaluationName)
 			+ "</td>"
 			+ "</tr>"
 			+ "<tr>"
@@ -2227,7 +2227,7 @@ function printEvaluationHeader(courseID, evaluationName, start, deadline,
 			+ "<tr>"
 			+ "<td class=\"fieldname\">Instructions:</td>"
 			+ "<td>"
-			+ sanitizeComments(instructions) + "</td>" + "</tr>" + "</table>";
+			+ encodeCharForPrint(instructions) + "</td>" + "</tr>" + "</table>";
 
 	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader;
 	document.getElementById(DIV_EVALUATION_INFORMATION).innerHTML = output;
@@ -2283,7 +2283,7 @@ function printSubmissionForm(submissionList, commentsEnabled) {
 				+ "</td></tr>"
 				+ "<tr style=\"display:none\"><td>"
 				+ "<input type=\"text\" value=\""
-				+ sanitizeComments(submissionList[0].teamName)
+				+ encodeCharForPrint(submissionList[0].teamName)
 				+ "\" name=\""
 				+ STUDENT_TEAMNAME
 				+ loop
@@ -2294,7 +2294,7 @@ function printSubmissionForm(submissionList, commentsEnabled) {
 				+ "</td></tr>"
 				+ "<tr>"
 				+ "<td class=\"reportheader\" colspan=\"2\">Self evaluation in Team ["
-				+ sanitizeComments(submissionList[0].teamName)
+				+ encodeCharForPrint(submissionList[0].teamName)
 				+ "]</td>"
 				+ "</tr>"
 				+ "<tr>"
@@ -2376,7 +2376,7 @@ function printSubmissionForm(submissionList, commentsEnabled) {
 					+ "</td></tr>"
 					+ "<tr style=\"display:none\"><td>"
 					+ "<input type=\"text\" value=\""
-					+ sanitizeComments(submissionList[0].teamName)
+					+ encodeCharForPrint(submissionList[0].teamName)
 					+ "\" name=\""
 					+ STUDENT_TEAMNAME
 					+ loop
@@ -2497,7 +2497,7 @@ function printEvaluationResultStudentForm(summaryList, submissionList, start,
 			+ TEAM
 			+ "</td>"
 			+ "<td>"
-			+ sanitizeComments(submissionList[0].teamName)
+			+ encodeCharForPrint(submissionList[0].teamName)
 			+ "</td>"
 			+ "<td>"
 			+ EVALUATION
@@ -2556,11 +2556,11 @@ function printEvaluationResultStudentForm(summaryList, submissionList, start,
 		var sp = loop + 1;
 		if (submissionList[loop].toStudent == targetStudent
 				&& submissionList[loop].fromStudent != targetStudent) {
-			if (sanitize(submissionList[loop].commentsToStudent) == "") {
+			if (encodeChar(submissionList[loop].commentsToStudent) == "") {
 				output = output + "<tr><td>" + NA + "</td></tr>";
 			} else {
 				output = output + "<tr><td id=\"com" + ctr + "\">"
-						+ sanitizeComments(submissionList[loop].commentsToStudent)
+						+ encodeCharForPrint(submissionList[loop].commentsToStudent)
 						+ "</td></tr>";
 			}
 		}
@@ -2580,7 +2580,7 @@ function helpPrintTitle(title) {
 	return output;
 }
 function helpPrintResultTeam(teamName) {
-	var output = "<div class=\"result_team\">" + "<p>" + sanitizeComments(teamName) + "</p>";
+	var output = "<div class=\"result_team\">" + "<p>" + encodeCharForPrint(teamName) + "</p>";
 
 	return output;
 }
@@ -2606,9 +2606,9 @@ function helpPrintResultHeader(type, name, claimedPoints, perceivedPoints) {
 }
 function helpPrintResultSelfComments(justification, commentsToStudent) {
 	var output = "<tr>" + "<td colspan=\"4\"><b>Self evaluation:</b><br />"
-			+ sanitizeComments(justification) + "</td>" + "</tr>" + "<tr>"
+			+ encodeCharForPrint(justification) + "</td>" + "</tr>" + "<tr>"
 			+ "<td colspan=\"4\"><b>Comments about team:</b><br />"
-			+ sanitizeComments(commentsToStudent) + "</td>" + "</tr>";
+			+ encodeCharForPrint(commentsToStudent) + "</td>" + "</tr>";
 	return output;
 }
 
@@ -2626,8 +2626,8 @@ function helpPrintResultOtherComments(student, points, justification,
 	}
 	output = output + "<td>" + points + "</td>";
 
-	output = output + "<td>" + sanitizeComments(justification) + "</td>" + "<td>"
-			+ sanitizeComments(commentsToStudent) + "</td>" + "</tr>";
+	output = output + "<td>" + encodeCharForPrint(justification) + "</td>" + "<td>"
+			+ encodeCharForPrint(commentsToStudent) + "</td>" + "</tr>";
 	return output;
 }
 
