@@ -89,6 +89,13 @@
       <version>2.15.0</version>
        <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>com.googlecode.jmockit</groupId>
+      <artifactId>jmockit</artifactId>
+      <version>0.999.13</version>
+      <scope>test</scope>
+    </dependency>
     
     <!--  Gson: Java to Json conversion -->
     <dependency>

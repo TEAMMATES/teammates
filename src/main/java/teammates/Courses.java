@@ -39,8 +39,6 @@ public class Courses {
 	 * class to handle datastore transactions.
 	 */
 	private Courses() {
-		String versions = SystemProperty.applicationVersion.get().replaceAll(
-				"-", ".");
 	}
 
 	private PersistenceManager getPM() {
@@ -74,8 +72,7 @@ public class Courses {
 	 * @throws CourseExistsException
 	 *             if a course with the specified ID already exists
 	 */
-	public void addCourse(String ID, String name, String coordinatorID)
-			throws CourseExistsException {
+	public void addCourse(String ID, String name, String coordinatorID) throws CourseExistsException {
 		if (getCourse(ID) != null) {
 			throw new CourseExistsException();
 		}
@@ -102,8 +99,7 @@ public class Courses {
 	 * @return List<EnrollmentReport> a list of reports that confirm which
 	 *         students have been added
 	 */
-	private List<EnrollmentReport> addStudents(List<Student> studentList,
-			String courseID) {
+	private List<EnrollmentReport> addStudents(List<Student> studentList, String courseID) {
 		List<EnrollmentReport> enrollmentReportList = new ArrayList<EnrollmentReport>();
 		List<Student> studentListToAdd = new ArrayList<Student>();
 
@@ -112,9 +108,7 @@ public class Courses {
 			if (getStudentWithEmail(courseID, s.getEmail()) == null) {
 				studentListToAdd.add(s);
 
-				enrollmentReportList.add(new EnrollmentReport(s.getName(), s
-						.getEmail(), EnrollmentStatus.ADDED, false, false,
-						false));
+				enrollmentReportList.add(new EnrollmentReport(s.getName(), s.getEmail(), EnrollmentStatus.ADDED, false, false, false));
 			}
 		}
 
@@ -164,8 +158,7 @@ public class Courses {
 	 * @throws CourseDoesNotExistException
 	 *             if the course with the specified ID cannot be found
 	 */
-	public void cleanUpCourse(String courseID)
-			throws CourseDoesNotExistException {
+	public void cleanUpCourse(String courseID) throws CourseDoesNotExistException {
 		Course course = getCourse(courseID);
 
 		// Check that the course exists
@@ -303,8 +296,7 @@ public class Courses {
 	 *            the new comments of the student (Precondition: Must not be
 	 *            null)
 	 */
-	public void editStudent(String courseID, String email, String newName,
-			String newEmail, String newGoogleID, String newComments) {
+	public void editStudent(String courseID, String email, String newName, String newEmail, String newGoogleID, String newComments) {
 		Student student = getStudentWithEmail(courseID, email);
 
 		student.setComments((newComments));
@@ -342,9 +334,7 @@ public class Courses {
 	 *            the new comments of the student (Precondition: Must not be
 	 *            null)
 	 */
-	public void editStudent(String courseID, String email, String newName,
-			String newTeamName, String newEmail, String newGoogleID,
-			String newComments) {
+	public void editStudent(String courseID, String email, String newName, String newTeamName, String newEmail, String newGoogleID, String newComments) {
 		Student student = getStudentWithEmail(courseID, email);
 
 		student.setComments((newComments));
@@ -363,8 +353,7 @@ public class Courses {
 	 * 
 	 * @return List<EnrollmentReport> reports on which students have been edited
 	 */
-	private List<EnrollmentReport> editStudents(List<Student> studentList,
-			String courseID) {
+	private List<EnrollmentReport> editStudents(List<Student> studentList, String courseID) {
 		// Acquire Student objects from the datastore
 		List<Student> studentListToEdit = new ArrayList<Student>();
 		List<Student> studentListToCompareWith = new ArrayList<Student>();
@@ -376,9 +365,7 @@ public class Courses {
 			if (s2 != null) {
 				studentListToCompareWith.add(s1);
 				studentListToEdit.add(s2);
-				enrollmentReportList.add(new EnrollmentReport(s2.getName(), s2
-						.getEmail(), EnrollmentStatus.REMAINED, false, false,
-						false));
+				enrollmentReportList.add(new EnrollmentReport(s2.getName(), s2.getEmail(), EnrollmentStatus.REMAINED, false, false, false));
 			}
 		}
 
@@ -421,8 +408,7 @@ public class Courses {
 	 * @return List<EnrollmentReport> reports on which students have been added
 	 *         or edited
 	 */
-	public List<EnrollmentReport> enrolStudents(List<Student> studentList,
-			String courseID) {
+	public List<EnrollmentReport> enrolStudents(List<Student> studentList, String courseID) {
 		List<EnrollmentReport> enrollmentReportList = new ArrayList<EnrollmentReport>();
 
 		enrollmentReportList.addAll(addStudents(studentList, courseID));
@@ -441,12 +427,10 @@ public class Courses {
 	 * @return List<Course> the list of courses of the coordinator
 	 */
 	public List<Course> getCoordinatorCourseList(String coordinatorID) {
-		String query = "select from " + Course.class.getName()
-				+ " where coordinatorID == '" + coordinatorID + "'";
+		String query = "select from " + Course.class.getName() + " where coordinatorID == '" + coordinatorID + "'";
 
 		@SuppressWarnings("unchecked")
-		List<Course> courseList = (List<Course>) getPM().newQuery(query)
-				.execute();
+		List<Course> courseList = (List<Course>) getPM().newQuery(query).execute();
 
 		return courseList;
 	}
@@ -460,12 +444,10 @@ public class Courses {
 	 * @return Course the course that has the specified ID
 	 */
 	public Course getCourse(String ID) {
-		String query = "select from " + Course.class.getName()
-				+ " where ID == \"" + ID + "\"";
+		String query = "select from " + Course.class.getName() + " where ID == \"" + ID + "\"";
 
 		@SuppressWarnings("unchecked")
-		List<Course> courseList = (List<Course>) getPM().newQuery(query)
-				.execute();
+		List<Course> courseList = (List<Course>) getPM().newQuery(query).execute();
 
 		if (courseList.isEmpty())
 			return null;
@@ -506,13 +488,10 @@ public class Courses {
 	 * @return the student who has the specified email in the specified course
 	 */
 	public Student getStudentWithEmail(String courseID, String email) {
-		String query = "select from " + Student.class.getName()
-				+ " where courseID == \"" + courseID + "\" && email == \""
-				+ email + "\"";
+		String query = "select from " + Student.class.getName() + " where courseID == \"" + courseID + "\" && email == \"" + email + "\"";
 
 		@SuppressWarnings("unchecked")
-		List<Student> studentList = (List<Student>) getPM().newQuery(query)
-				.execute();
+		List<Student> studentList = (List<Student>) getPM().newQuery(query).execute();
 
 		if (studentList.isEmpty()) {
 			return null;
@@ -534,13 +513,10 @@ public class Courses {
 	 *         specified course
 	 */
 	public Student getStudentWithID(String courseID, String googleID) {
-		String query = "select from " + Student.class.getName()
-				+ " where courseID == \"" + courseID + "\" && ID == \""
-				+ googleID + "\"";
+		String query = "select from " + Student.class.getName() + " where courseID == \"" + courseID + "\" && ID == \"" + googleID + "\"";
 
 		@SuppressWarnings("unchecked")
-		List<Student> studentList = (List<Student>) getPM().newQuery(query)
-				.execute();
+		List<Student> studentList = (List<Student>) getPM().newQuery(query).execute();
 
 		if (studentList.isEmpty()) {
 			return null;
@@ -559,12 +535,10 @@ public class Courses {
 	 *         ID
 	 */
 	public List<Student> getStudentCourseList(String googleID) {
-		String query = "select from " + Student.class.getName()
-				+ " where ID == \"" + googleID + "\"";
+		String query = "select from " + Student.class.getName() + " where ID == \"" + googleID + "\"";
 
 		@SuppressWarnings("unchecked")
-		List<Student> studentList = (List<Student>) getPM().newQuery(query)
-				.execute();
+		List<Student> studentList = (List<Student>) getPM().newQuery(query).execute();
 
 		return studentList;
 	}
@@ -578,12 +552,10 @@ public class Courses {
 	 * @return List<Student> the list of students that are in the course
 	 */
 	public List<Student> getStudentList(String courseID) {
-		String query = "select from " + Student.class.getName()
-				+ " where courseID == \"" + courseID + "\"";
+		String query = "select from " + Student.class.getName() + " where courseID == \"" + courseID + "\"";
 
 		@SuppressWarnings("unchecked")
-		List<Student> studentList = (List<Student>) getPM().newQuery(query)
-				.execute();
+		List<Student> studentList = (List<Student>) getPM().newQuery(query).execute();
 
 		return studentList;
 	}
@@ -600,13 +572,10 @@ public class Courses {
 	 * @return the team name of the student in the course
 	 */
 	public String getTeamName(String courseID, String email) {
-		String query = "select from " + Student.class.getName()
-				+ " where courseID == \"" + courseID + "\" && email == \""
-				+ email + "\"";
+		String query = "select from " + Student.class.getName() + " where courseID == \"" + courseID + "\" && email == \"" + email + "\"";
 
 		@SuppressWarnings("unchecked")
-		List<Student> studentList = (List<Student>) getPM().newQuery(query)
-				.execute();
+		List<Student> studentList = (List<Student>) getPM().newQuery(query).execute();
 
 		if (studentList.isEmpty()) {
 			return null;
@@ -652,12 +621,10 @@ public class Courses {
 	 *         course
 	 */
 	public List<Student> getUnregisteredStudentList(String courseID) {
-		String query = "select from " + Student.class.getName()
-				+ " where courseID == \"" + courseID + "\"" + " && ID == \"\"";
+		String query = "select from " + Student.class.getName() + " where courseID == \"" + courseID + "\"" + " && ID == \"\"";
 
 		@SuppressWarnings("unchecked")
-		List<Student> studentList = (List<Student>) getPM().newQuery(query)
-				.execute();
+		List<Student> studentList = (List<Student>) getPM().newQuery(query).execute();
 
 		return studentList;
 	}
@@ -682,14 +649,11 @@ public class Courses {
 	 * @throws RegistrationKeyTakenException
 	 *             if the registration key has been used by another student
 	 */
-	public void joinCourse(String registrationKey, String googleID)
-			throws RegistrationKeyInvalidException,
-			GoogleIDExistsInCourseException, RegistrationKeyTakenException {
+	public void joinCourse(String registrationKey, String googleID) throws RegistrationKeyInvalidException, GoogleIDExistsInCourseException, RegistrationKeyTakenException {
 		Student student = null;
 
 		try {
-			student = getPM().getObjectById(Student.class,
-					KeyFactory.stringToKey(registrationKey));
+			student = getPM().getObjectById(Student.class, KeyFactory.stringToKey(registrationKey));
 		}
 
 		catch (Exception e) {
@@ -727,9 +691,7 @@ public class Courses {
 	 * @param coordinatorName
 	 *            the name of the coordinator (Precondition: Must not be null)
 	 */
-	public void sendRegistrationKeys(List<Student> studentList,
-			String courseID, String courseName, String coordinatorName,
-			String coordinatorEmail) {
+	public void sendRegistrationKeys(List<Student> studentList, String courseID, String courseName, String coordinatorName, String coordinatorEmail) {
 		Queue queue = QueueFactory.getQueue("email-queue");
 		List<TaskOptions> taskOptionsList = new ArrayList<TaskOptions>();
 
@@ -742,18 +704,9 @@ public class Courses {
 				taskOptionsList = new ArrayList<TaskOptions>();
 			}
 
-			taskOptionsList.add(TaskOptions.Builder
-					.withUrl("/email")
-					.param("operation", "sendregistrationkey")
-					.param("email", s.getEmail())
-					.param("regkey",
-							KeyFactory.createKeyString(
-									Student.class.getSimpleName(),
-									s.getRegistrationKey()))
-					.param("courseid", courseID)
-					.param("coursename", courseName).param("name", s.getName())
-					.param("coordinatorname", coordinatorName)
-					.param("coordinatoremail", coordinatorEmail));
+			taskOptionsList.add(TaskOptions.Builder.withUrl("/email").param("operation", "sendregistrationkey").param("email", s.getEmail())
+					.param("regkey", KeyFactory.createKeyString(Student.class.getSimpleName(), s.getRegistrationKey())).param("courseid", courseID).param("coursename", courseName)
+					.param("name", s.getName()).param("coordinatorname", coordinatorName).param("coordinatoremail", coordinatorEmail));
 		}
 
 		if (!taskOptionsList.isEmpty()) {

@@ -78,7 +78,7 @@ public class TeammatesServlet extends HttpServlet {
 	private static final String OPERATION_COORDINATOR_SENDREGISTRATIONKEY = "coordinator_sendregistrationkey";
 	private static final String OPERATION_COORDINATOR_SENDREGISTRATIONKEYS = "coordinator_sendregistrationkeys";
 	private static final String OPERATION_COORDINATOR_UNARCHIVECOURSE = "coordinator_unarchivecourse";
-	
+
 	// TESTING OPERATIONS
 	private static final String OPERATION_TEST_OPENEVALUATION = "test_openevaluation";
 	private static final String OPERATION_TEST_CLOSEEVALUATION = "test_closeevaluation";
@@ -172,13 +172,20 @@ public class TeammatesServlet extends HttpServlet {
 	private static final String MSG_STUDENT_GOOGLEIDEXISTSINCOURSE = "googleid exists in course";
 	private static final String MSG_STUDENT_REGISTRATIONKEYINVALID = "registration key invalid";
 	private static final String MSG_STUDENT_REGISTRATIONKEYTAKEN = "registration key taken";
+
+	public HttpServletRequest getRequest() {
+		return this.req;
+	}
 	
-	public void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException, ServletException {
+	public HttpServletResponse getResponse() {
+		return this.resp;
+	}
+	
+	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		// Initialization
 		this.req = req;
 		this.resp = resp;
-
+		
 		this.resp.setContentType("text/xml");
 		this.resp.setHeader("Cache-Control", "no-cache");
 
@@ -280,8 +287,7 @@ public class TeammatesServlet extends HttpServlet {
 			coordinatorGetSubmissionList();
 		}
 
-		else if (operation
-				.equals(OPERATION_COORDINATOR_INFORMSTUDENTSOFEVALUATIONCHANGES)) {
+		else if (operation.equals(OPERATION_COORDINATOR_INFORMSTUDENTSOFEVALUATIONCHANGES)) {
 			coordinatorInformStudentsOfEvaluationChanges();
 		}
 
@@ -414,25 +420,19 @@ public class TeammatesServlet extends HttpServlet {
 	private void administratorLoginATD() throws IOException {
 		Accounts accounts = Accounts.inst();
 
-		resp.getWriter().write(
-				"<url><![CDATA[" + accounts.getLoginPage("/atd.jsp")
-						+ "]]></url>");
+		resp.getWriter().write("<url><![CDATA[" + accounts.getLoginPage("/atd.jsp") + "]]></url>");
 	}
 
 	private void administratorLoginManageSystem() throws IOException {
 		Accounts accounts = Accounts.inst();
 
-		resp.getWriter().write(
-				"<url><![CDATA[" + accounts.getLoginPage("/administrator.jsp")
-						+ "]]></url>");
+		resp.getWriter().write("<url><![CDATA[" + accounts.getLoginPage("/administrator.jsp") + "]]></url>");
 	}
 
 	private void administratorLogout() throws IOException {
 		Accounts accounts = Accounts.inst();
 
-		resp.getWriter().write(
-				"<url><![CDATA[" + accounts.getLogoutPage("/admin.html")
-						+ "]]></url>");
+		resp.getWriter().write("<url><![CDATA[" + accounts.getLogoutPage("/admin.html") + "]]></url>");
 	}
 
 	private void administratorSendRegistrationKeys() {
@@ -442,8 +442,7 @@ public class TeammatesServlet extends HttpServlet {
 		List<Student> studentList = new ArrayList<Student>();
 
 		for (int x = 0; x < 40; x++) {
-			Student s = new Student(email, "Admin", ("Comments"),
-					"Test Course", "Test TeamName");
+			Student s = new Student(email, "Admin", ("Comments"), "Test Course", "Test TeamName");
 			s.setRegistrationKey((long) 1111);
 			studentList.add(s);
 		}
@@ -451,8 +450,7 @@ public class TeammatesServlet extends HttpServlet {
 		// Send the keys to the dud Student objects with e-mail provided by
 		// tester
 		Courses courses = Courses.inst();
-		courses.sendRegistrationKeys(studentList, "Test CourseID",
-				"Test Course", "ADMIN", Config.inst().TEAMMATES_APP_ACCOUNT);
+		courses.sendRegistrationKeys(studentList, "Test CourseID", "Test Course", "ADMIN", Config.inst().TEAMMATES_APP_ACCOUNT);
 	}
 
 	private void coordinatorAddCourse() throws IOException, ServletException {
@@ -462,17 +460,13 @@ public class TeammatesServlet extends HttpServlet {
 		Courses courses = Courses.inst();
 
 		try {
-			courses.addCourse(req.getParameter(COURSE_ID),
-					req.getParameter(COURSE_NAME), googleID);
+			courses.addCourse(req.getParameter(COURSE_ID), req.getParameter(COURSE_NAME), googleID);
 
-			resp.getWriter().write(
-					MSG_STATUS_OPENING + MSG_COURSE_ADDED + MSG_STATUS_CLOSING);
+			resp.getWriter().write(MSG_STATUS_OPENING + MSG_COURSE_ADDED + MSG_STATUS_CLOSING);
 		}
 
 		catch (CourseExistsException e) {
-			resp.getWriter()
-					.write(MSG_STATUS_OPENING + MSG_COURSE_EXISTS
-							+ MSG_STATUS_CLOSING);
+			resp.getWriter().write(MSG_STATUS_OPENING + MSG_COURSE_EXISTS + MSG_STATUS_CLOSING);
 		}
 	}
 
@@ -483,31 +477,24 @@ public class TeammatesServlet extends HttpServlet {
 		int numberOfTeams = courses.getNumberOfTeams(courseID);
 
 		if (numberOfTeams == 0) {
-			resp.getWriter().write(
-					MSG_STATUS_OPENING + MSG_COURSE_NOTEAMS
-							+ MSG_STATUS_CLOSING);
+			resp.getWriter().write(MSG_STATUS_OPENING + MSG_COURSE_NOTEAMS + MSG_STATUS_CLOSING);
 		}
 
 		else {
 			String name = req.getParameter(EVALUATION_NAME);
 			String instructions = req.getParameter(EVALUATION_INSTRUCTIONS);
 
-			boolean commentsEnabled = Boolean.parseBoolean(req
-					.getParameter(EVALUATION_COMMENTSENABLED));
+			boolean commentsEnabled = Boolean.parseBoolean(req.getParameter(EVALUATION_COMMENTSENABLED));
 
 			String startDate = req.getParameter(EVALUATION_START);
-			int startTime = Integer.parseInt(req
-					.getParameter(EVALUATION_STARTTIME));
+			int startTime = Integer.parseInt(req.getParameter(EVALUATION_STARTTIME));
 
 			String deadlineDate = req.getParameter(EVALUATION_DEADLINE);
-			int deadlineTime = Integer.parseInt(req
-					.getParameter(EVALUATION_DEADLINETIME));
+			int deadlineTime = Integer.parseInt(req.getParameter(EVALUATION_DEADLINETIME));
 
-			double timeZone = Double.parseDouble(req
-					.getParameter(EVALUATION_TIMEZONE));
+			double timeZone = Double.parseDouble(req.getParameter(EVALUATION_TIMEZONE));
 
-			int gracePeriod = Integer.parseInt(req
-					.getParameter(EVALUATION_GRACEPERIOD));
+			int gracePeriod = Integer.parseInt(req.getParameter(EVALUATION_GRACEPERIOD));
 
 			Date start = Utils.convertToDate(startDate, startTime);
 			Date deadline = Utils.convertToDate(deadlineDate, deadlineTime);
@@ -516,31 +503,23 @@ public class TeammatesServlet extends HttpServlet {
 			Evaluations evaluations = Evaluations.inst();
 
 			try {
-				evaluations
-						.addEvaluation(courseID, name, instructions,
-								commentsEnabled, start, deadline, timeZone,
-								gracePeriod);
+				evaluations.addEvaluation(courseID, name, instructions, commentsEnabled, start, deadline, timeZone, gracePeriod);
 
-				resp.getWriter().write(
-						MSG_STATUS_OPENING + MSG_EVALUATION_ADDED
-								+ MSG_STATUS_CLOSING);
+				resp.getWriter().write(MSG_STATUS_OPENING + MSG_EVALUATION_ADDED + MSG_STATUS_CLOSING);
 			}
 
 			catch (EvaluationExistsException e) {
-				resp.getWriter().write(
-						MSG_STATUS_OPENING + MSG_EVALUATION_EXISTS
-								+ MSG_STATUS_CLOSING);
+				resp.getWriter().write(MSG_STATUS_OPENING + MSG_EVALUATION_EXISTS + MSG_STATUS_CLOSING);
 			}
 		}
 
 	}
 
-	private void coordinatorArchiveCourse() throws IOException,
-			ServletException {
+	private void coordinatorArchiveCourse() throws IOException, ServletException {
 		Courses courses = Courses.inst();
 
 		courses.archiveCoordinatorCourse(req.getParameter(COURSE_ID));
-	}	
+	}
 
 	private void coordinatorDeleteAllStudents() {
 		Courses courses = Courses.inst();
@@ -556,7 +535,7 @@ public class TeammatesServlet extends HttpServlet {
 
 		Evaluations evaluations = Evaluations.inst();
 		evaluations.deleteEvaluations(courseID);
-		
+
 		TeamForming teamForming = TeamForming.inst();
 		teamForming.deleteTeamFormingSession(courseID);
 	}
@@ -572,8 +551,7 @@ public class TeammatesServlet extends HttpServlet {
 	private void coordinatorDeleteStudent() {
 		Courses courses = Courses.inst();
 
-		courses.deleteStudent(req.getParameter(COURSE_ID),
-				req.getParameter(STUDENT_EMAIL));
+		courses.deleteStudent(req.getParameter(COURSE_ID), req.getParameter(STUDENT_EMAIL));
 
 	}
 
@@ -582,40 +560,29 @@ public class TeammatesServlet extends HttpServlet {
 		String name = req.getParameter(EVALUATION_NAME);
 		String newInstructions = req.getParameter(EVALUATION_INSTRUCTIONS);
 
-		boolean newCommentsEnabled = Boolean.parseBoolean(req
-				.getParameter(EVALUATION_COMMENTSENABLED));
+		boolean newCommentsEnabled = Boolean.parseBoolean(req.getParameter(EVALUATION_COMMENTSENABLED));
 
 		String newStartDate = req.getParameter(EVALUATION_START);
-		int newStartTime = Integer.parseInt(req
-				.getParameter(EVALUATION_STARTTIME));
+		int newStartTime = Integer.parseInt(req.getParameter(EVALUATION_STARTTIME));
 
 		String newDeadlineDate = req.getParameter(EVALUATION_DEADLINE);
-		int newDeadlineTime = Integer.parseInt(req
-				.getParameter(EVALUATION_DEADLINETIME));
+		int newDeadlineTime = Integer.parseInt(req.getParameter(EVALUATION_DEADLINETIME));
 
-		int newGracePeriod = Integer.parseInt(req
-				.getParameter(EVALUATION_GRACEPERIOD));
+		int newGracePeriod = Integer.parseInt(req.getParameter(EVALUATION_GRACEPERIOD));
 
 		Date newStart = Utils.convertToDate(newStartDate, newStartTime);
-		Date newDeadline = Utils
-				.convertToDate(newDeadlineDate, newDeadlineTime);
+		Date newDeadline = Utils.convertToDate(newDeadlineDate, newDeadlineTime);
 
 		Evaluations evaluations = Evaluations.inst();
 
-		boolean edited = evaluations.editEvaluation(courseID, name,
-				(newInstructions), newCommentsEnabled, newStart, newDeadline,
-				newGracePeriod);
+		boolean edited = evaluations.editEvaluation(courseID, name, (newInstructions), newCommentsEnabled, newStart, newDeadline, newGracePeriod);
 
 		if (edited) {
-			resp.getWriter().write(
-					MSG_STATUS_OPENING + MSG_EVALUATION_EDITED
-							+ MSG_STATUS_CLOSING);
+			resp.getWriter().write(MSG_STATUS_OPENING + MSG_EVALUATION_EDITED + MSG_STATUS_CLOSING);
 		}
 
 		else {
-			resp.getWriter().write(
-					MSG_STATUS_OPENING + MSG_EVALUATION_REMAINED
-							+ MSG_STATUS_CLOSING);
+			resp.getWriter().write(MSG_STATUS_OPENING + MSG_EVALUATION_REMAINED + MSG_STATUS_CLOSING);
 		}
 
 	}
@@ -623,8 +590,7 @@ public class TeammatesServlet extends HttpServlet {
 	private void coordinatorEditEvaluationResults() {
 		List<Submission> submissionList = new ArrayList<Submission>();
 
-		int numberOfSubmissions = Integer.parseInt(req
-				.getParameter(STUDENT_NUMBEROFSUBMISSIONS));
+		int numberOfSubmissions = Integer.parseInt(req.getParameter(STUDENT_NUMBEROFSUBMISSIONS));
 
 		String fromStudent = "";
 		String toStudent = "";
@@ -643,9 +609,7 @@ public class TeammatesServlet extends HttpServlet {
 			justification = req.getParameter(STUDENT_JUSTIFICATION + x);
 			commentsToStudent = req.getParameter(STUDENT_COMMENTSTOSTUDENT + x);
 
-			submissionList.add(new Submission(fromStudent, toStudent, courseID,
-					evaluationName, teamName, points, new Text(justification),
-					new Text(commentsToStudent)));
+			submissionList.add(new Submission(fromStudent, toStudent, courseID, evaluationName, teamName, points, new Text(justification), new Text(commentsToStudent)));
 		}
 
 		Evaluations evaluations = Evaluations.inst();
@@ -690,27 +654,21 @@ public class TeammatesServlet extends HttpServlet {
 		// Check duplicate email
 		Student dupStudent = courses.getStudentWithEmail(courseID, newEmail);
 		if (dupStudent != null && !dupStudent.getID().equals(newGoogleID)) {
-			System.out.println(courses.getStudentWithEmail(courseID, newEmail)
-					.getID());
+			System.out.println(courses.getStudentWithEmail(courseID, newEmail).getID());
 			System.out.println(newGoogleID);
 
-			resp.getWriter().write(
-					MSG_STATUS_OPENING + MSG_EVALUATION_UNABLETOCHANGETEAMS
-							+ MSG_STATUS_CLOSING);
+			resp.getWriter().write(MSG_STATUS_OPENING + MSG_EVALUATION_UNABLETOCHANGETEAMS + MSG_STATUS_CLOSING);
 			return;
 		}
 
 		// Update Student info for THAT course
-		courses.editStudent(courseID, email, newName, newTeamName, newEmail,
-				newGoogleID, newComments);
+		courses.editStudent(courseID, email, newName, newTeamName, newEmail, newGoogleID, newComments);
 
 		// Update Submission info for THAT course
 		evaluations.editSubmissions(courseID, email, newEmail);
 
-		resp.getWriter()
-				.write(MSG_STATUS_OPENING + MSG_EVALUATION_EDITED
-						+ MSG_STATUS_CLOSING);
-	}	
+		resp.getWriter().write(MSG_STATUS_OPENING + MSG_EVALUATION_EDITED + MSG_STATUS_CLOSING);
+	}
 
 	private void coordinatorEnrolStudents() throws IOException {
 		String information = req.getParameter(STUDENT_INFORMATION);
@@ -746,8 +704,7 @@ public class TeammatesServlet extends HttpServlet {
 				}
 
 				if (!emails.contains(email)) {
-					studentList.add(new Student(email, name, comments,
-							courseID, teamName));
+					studentList.add(new Student(email, name, comments, courseID, teamName));
 					emails.add(email);
 				}
 			}
@@ -774,37 +731,26 @@ public class TeammatesServlet extends HttpServlet {
 		 */
 
 		// Add and edit Student objects in the datastore
-		enrollmentReportList.addAll(courses
-				.enrolStudents(studentList, courseID));
+		enrollmentReportList.addAll(courses.enrolStudents(studentList, courseID));
 
-		resp.getWriter().write(
-				"<enrollmentreports>"
-						+ parseEnrollmentReportListToXML(enrollmentReportList)
-								.toString() + "</enrollmentreports>");
+		resp.getWriter().write("<enrollmentreports>" + parseEnrollmentReportListToXML(enrollmentReportList).toString() + "</enrollmentreports>");
 	}
 
 	private void coordinatorGetCourse() throws IOException, ServletException {
 		Courses courses = Courses.inst();
 		Course course = courses.getCourse(req.getParameter(COURSE_ID));
 
-		CourseSummaryForCoordinator courseSummary = new CourseSummaryForCoordinator(
-				course.getID(), course.getName(), course.isArchived(),
-				courses.getNumberOfTeams(course.getID()),
-				courses.getTotalStudents(course.getID()),
-				courses.getUnregistered(course.getID()));
+		CourseSummaryForCoordinator courseSummary = new CourseSummaryForCoordinator(course.getID(), course.getName(), course.isArchived(), courses.getNumberOfTeams(course.getID()),
+				courses.getTotalStudents(course.getID()), courses.getUnregistered(course.getID()));
 
 		ArrayList<CourseSummaryForCoordinator> courseSummaryList = new ArrayList<CourseSummaryForCoordinator>();
 		courseSummaryList.add(courseSummary);
 
-		resp.getWriter().write(
-				"<courses>"
-						+ parseCourseSummaryForCoordinatorListToXML(
-								courseSummaryList).toString() + "</courses>");
+		resp.getWriter().write("<courses>" + parseCourseSummaryForCoordinatorListToXML(courseSummaryList).toString() + "</courses>");
 
 	}
 
-	private void coordinatorGetCourseList() throws IOException,
-			ServletException {
+	private void coordinatorGetCourseList() throws IOException, ServletException {
 		Accounts accounts = Accounts.inst();
 		String googleID = accounts.getUser().getNickname().toLowerCase();
 
@@ -814,18 +760,12 @@ public class TeammatesServlet extends HttpServlet {
 		ArrayList<CourseSummaryForCoordinator> courseSummaryList = new ArrayList<CourseSummaryForCoordinator>();
 
 		for (Course c : courseList) {
-			CourseSummaryForCoordinator cs = new CourseSummaryForCoordinator(
-					c.getID(), c.getName(), c.isArchived(),
-					courses.getNumberOfTeams(c.getID()),
-					courses.getTotalStudents(c.getID()),
+			CourseSummaryForCoordinator cs = new CourseSummaryForCoordinator(c.getID(), c.getName(), c.isArchived(), courses.getNumberOfTeams(c.getID()), courses.getTotalStudents(c.getID()),
 					courses.getUnregistered(c.getID()));
 			courseSummaryList.add(cs);
 		}
 
-		resp.getWriter().write(
-				"<courses>"
-						+ parseCourseSummaryForCoordinatorListToXML(
-								courseSummaryList).toString() + "</courses>");
+		resp.getWriter().write("<courses>" + parseCourseSummaryForCoordinatorListToXML(courseSummaryList).toString() + "</courses>");
 	}
 
 	private void coordinatorGetEvaluationList() throws IOException {
@@ -836,8 +776,7 @@ public class TeammatesServlet extends HttpServlet {
 		List<Course> courseList = courses.getCoordinatorCourseList(googleID);
 
 		Evaluations evaluations = Evaluations.inst();
-		List<Evaluation> evaluationList = evaluations
-				.getEvaluationList(courseList);
+		List<Evaluation> evaluationList = evaluations.getEvaluationList(courseList);
 
 		List<EvaluationDetailsForCoordinator> evaluationDetailsList = new ArrayList<EvaluationDetailsForCoordinator>();
 
@@ -846,37 +785,22 @@ public class TeammatesServlet extends HttpServlet {
 
 		for (Evaluation e : evaluationList) {
 			if (courses.getCourse(e.getCourseID()).isArchived() != true) {
-				numberOfCompletedEvaluations = evaluations
-						.getNumberOfCompletedEvaluations(e.getCourseID(),
-								e.getName());
-				numberOfEvaluations = evaluations.getNumberOfEvaluations(
-						e.getCourseID(), e.getName());
+				numberOfCompletedEvaluations = evaluations.getNumberOfCompletedEvaluations(e.getCourseID(), e.getName());
+				numberOfEvaluations = evaluations.getNumberOfEvaluations(e.getCourseID(), e.getName());
 
-				evaluationDetailsList.add(new EvaluationDetailsForCoordinator(e
-						.getCourseID(), e.getName(), e.getInstructions(), e
-						.isCommentsEnabled(), e.getStart(), e.getDeadline(), e
-						.getTimeZone(), e.getGracePeriod(), e.isPublished(), e
-						.isActivated(), numberOfCompletedEvaluations,
-						numberOfEvaluations));
+				evaluationDetailsList.add(new EvaluationDetailsForCoordinator(e.getCourseID(), e.getName(), e.getInstructions(), e.isCommentsEnabled(), e.getStart(), e.getDeadline(), e.getTimeZone(),
+						e.getGracePeriod(), e.isPublished(), e.isActivated(), numberOfCompletedEvaluations, numberOfEvaluations));
 			}
 		}
 
-		resp.getWriter().write(
-				"<evaluations>"
-						+ parseEvaluationDetailsForCoordinatorListToXML(
-								evaluationDetailsList).toString()
-						+ "</evaluations>");
+		resp.getWriter().write("<evaluations>" + parseEvaluationDetailsForCoordinatorListToXML(evaluationDetailsList).toString() + "</evaluations>");
 	}
 
-	private void coordinatorGetStudentList() throws IOException,
-			ServletException {
+	private void coordinatorGetStudentList() throws IOException, ServletException {
 		Courses courses = Courses.inst();
-		List<Student> studentList = courses.getStudentList(req
-				.getParameter(COURSE_ID));
+		List<Student> studentList = courses.getStudentList(req.getParameter(COURSE_ID));
 
-		resp.getWriter().write(
-				"<students>" + parseStudentListToXML(studentList).toString()
-						+ "</students>");
+		resp.getWriter().write("<students>" + parseStudentListToXML(studentList).toString() + "</students>");
 
 	}
 
@@ -885,8 +809,7 @@ public class TeammatesServlet extends HttpServlet {
 		String evaluationName = req.getParameter(EVALUATION_NAME);
 
 		Evaluations evaluations = Evaluations.inst();
-		List<Submission> submissionList = evaluations.getSubmissionList(
-				courseID, evaluationName);
+		List<Submission> submissionList = evaluations.getSubmissionList(courseID, evaluationName);
 
 		List<SubmissionDetailsForCoordinator> submissionDetailsList = new ArrayList<SubmissionDetailsForCoordinator>();
 
@@ -934,25 +857,16 @@ public class TeammatesServlet extends HttpServlet {
 					fromList.add(fs);
 			}
 
-			pointsBumpRatio = evaluations.calculatePointsBumpRatio(courseID,
-					evaluationName, s.getFromStudent(), fromList);
+			pointsBumpRatio = evaluations.calculatePointsBumpRatio(courseID, evaluationName, s.getFromStudent(), fromList);
 
-			submissionDetailsList.add(new SubmissionDetailsForCoordinator(
-					courseID, evaluationName, fromStudentName, toStudentName, s
-							.getFromStudent(), s.getToStudent(),
-					fromStudentComments, toStudentComments, s.getTeamName(), s
-							.getPoints(), pointsBumpRatio,
-					s.getJustification(), s.getCommentsToStudent()));
+			submissionDetailsList.add(new SubmissionDetailsForCoordinator(courseID, evaluationName, fromStudentName, toStudentName, s.getFromStudent(), s.getToStudent(), fromStudentComments,
+					toStudentComments, s.getTeamName(), s.getPoints(), pointsBumpRatio, s.getJustification(), s.getCommentsToStudent()));
 
 		}
 
-		resp.getWriter().write(
-				"<submissions>"
-						+ parseSubmissionDetailsForCoordinatorListToXML(
-								submissionDetailsList).toString()
-						+ "</submissions>");
+		resp.getWriter().write("<submissions>" + parseSubmissionDetailsForCoordinatorListToXML(submissionDetailsList).toString() + "</submissions>");
 
-	}	
+	}
 
 	private void coordinatorInformStudentsOfEvaluationChanges() {
 		String courseID = req.getParameter(COURSE_ID);
@@ -962,22 +876,18 @@ public class TeammatesServlet extends HttpServlet {
 		List<Student> studentList = courses.getStudentList(courseID);
 
 		Evaluations evaluations = Evaluations.inst();
-		evaluations.informStudentsOfChanges(studentList, courseID,
-				evaluationName);
+		evaluations.informStudentsOfChanges(studentList, courseID, evaluationName);
 
 	}
 
 	private void coordinatorLogin() throws IOException, ServletException {
 		Accounts accounts = Accounts.inst();
-		resp.getWriter().write(
-				"<url><![CDATA[" + accounts.getLoginPage("/coordinator.jsp")
-						+ "]]></url>");
+		resp.getWriter().write("<url><![CDATA[" + accounts.getLoginPage("/coordinator.jsp") + "]]></url>");
 	}
 
 	private void coordinatorLogout() throws IOException, ServletException {
 		Accounts accounts = Accounts.inst();
-		resp.getWriter().write(
-				"<url><![CDATA[" + accounts.getLogoutPage("") + "]]></url>");
+		resp.getWriter().write("<url><![CDATA[" + accounts.getLogoutPage("") + "]]></url>");
 
 	}
 
@@ -1002,14 +912,10 @@ public class TeammatesServlet extends HttpServlet {
 
 		// Filter out students who have submitted the evaluation
 		Evaluations evaluations = Evaluations.inst();
-		Evaluation evaluation = evaluations.getEvaluation(courseID,
-				evaluationName);
+		Evaluation evaluation = evaluations.getEvaluation(courseID, evaluationName);
 
 		if (evaluation == null) {
-			System.err
-					.println(String
-							.format("Evaluation not found. CourseID = %s. Evaluation Name = %s",
-									courseID, evaluationName));
+			System.err.println(String.format("Evaluation not found. CourseID = %s. Evaluation Name = %s", courseID, evaluationName));
 			return;
 		}
 
@@ -1023,8 +929,7 @@ public class TeammatesServlet extends HttpServlet {
 
 		Date deadline = evaluation.getDeadline();
 
-		evaluations.remindStudents(studentsToRemindList, courseID,
-				evaluationName, deadline);
+		evaluations.remindStudents(studentsToRemindList, courseID, evaluationName, deadline);
 
 	}
 
@@ -1044,8 +949,7 @@ public class TeammatesServlet extends HttpServlet {
 		String courseName = course.getName();
 		Coordinator coord = accounts.getCoordinator(course.getCoordinatorID());
 
-		courses.sendRegistrationKeys(studentList, courseID, courseName,
-				coord.getName(), coord.getEmail());
+		courses.sendRegistrationKeys(studentList, courseID, courseName, coord.getName(), coord.getEmail());
 	}
 
 	private void coordinatorSendRegistrationKeys() {
@@ -1053,24 +957,20 @@ public class TeammatesServlet extends HttpServlet {
 		Accounts accounts = Accounts.inst();
 
 		// Get unregistered students
-		List<Student> studentList = courses.getUnregisteredStudentList(req
-				.getParameter(COURSE_ID));
+		List<Student> studentList = courses.getUnregisteredStudentList(req.getParameter(COURSE_ID));
 
 		if (!studentList.isEmpty()) {
 			Course course = courses.getCourse(studentList.get(0).getCourseID());
 
 			String courseID = course.getID();
 			String courseName = course.getName();
-			Coordinator coord = accounts.getCoordinator(course
-					.getCoordinatorID());
+			Coordinator coord = accounts.getCoordinator(course.getCoordinatorID());
 
-			courses.sendRegistrationKeys(studentList, courseID, courseName,
-					coord.getName(), coord.getEmail());
+			courses.sendRegistrationKeys(studentList, courseID, courseName, coord.getName(), coord.getEmail());
 		}
 	}
 
-	private void coordinatorUnarchiveCourse() throws IOException,
-			ServletException {
+	private void coordinatorUnarchiveCourse() throws IOException, ServletException {
 		Courses courses = Courses.inst();
 
 		courses.unarchiveCoordinatorCourse(req.getParameter(COURSE_ID));
@@ -1085,31 +985,20 @@ public class TeammatesServlet extends HttpServlet {
 
 	}
 
-	private StringBuffer parseCourseDetailsForStudentToXML(
-			CourseDetailsForStudent courseDetails) {
+	private StringBuffer parseCourseDetailsForStudentToXML(CourseDetailsForStudent courseDetails) {
 		StringBuffer sb = new StringBuffer();
 
 		sb.append("<coursedetails>");
-		sb.append("<" + COURSE_ID + "><![CDATA[" + courseDetails.getCourseID()
-				+ "]]></" + COURSE_ID + ">");
-		sb.append("<" + COURSE_NAME + "><![CDATA["
-				+ courseDetails.getCourseName() + "]]></" + COURSE_NAME + ">");
-		sb.append("<" + COURSE_COORDINATORNAME + "><![CDATA["
-				+ courseDetails.getCoordinatorName() + "]]></"
-				+ COURSE_COORDINATORNAME + ">");
-		sb.append("<" + STUDENT_TEAMNAME + "><![CDATA["
-				+ courseDetails.getTeamName() + "]]></" + STUDENT_TEAMNAME
-				+ ">");
-		sb.append("<" + STUDENT_NAME + "><![CDATA["
-				+ courseDetails.getStudentName() + "]]></" + STUDENT_NAME + ">");
-		sb.append("<" + STUDENT_EMAIL + "><![CDATA["
-				+ courseDetails.getStudentEmail() + "]]></" + STUDENT_EMAIL
-				+ ">");
+		sb.append("<" + COURSE_ID + "><![CDATA[" + courseDetails.getCourseID() + "]]></" + COURSE_ID + ">");
+		sb.append("<" + COURSE_NAME + "><![CDATA[" + courseDetails.getCourseName() + "]]></" + COURSE_NAME + ">");
+		sb.append("<" + COURSE_COORDINATORNAME + "><![CDATA[" + courseDetails.getCoordinatorName() + "]]></" + COURSE_COORDINATORNAME + ">");
+		sb.append("<" + STUDENT_TEAMNAME + "><![CDATA[" + courseDetails.getTeamName() + "]]></" + STUDENT_TEAMNAME + ">");
+		sb.append("<" + STUDENT_NAME + "><![CDATA[" + courseDetails.getStudentName() + "]]></" + STUDENT_NAME + ">");
+		sb.append("<" + STUDENT_EMAIL + "><![CDATA[" + courseDetails.getStudentEmail() + "]]></" + STUDENT_EMAIL + ">");
 		sb.append("<" + STUDENT_TEAMMATES + ">");
 
 		for (String s : courseDetails.getTeammateList()) {
-			sb.append("<" + STUDENT_TEAMMATE + "><![CDATA[" + s + "]]></"
-					+ STUDENT_TEAMMATE + ">");
+			sb.append("<" + STUDENT_TEAMMATE + "><![CDATA[" + s + "]]></" + STUDENT_TEAMMATE + ">");
 		}
 
 		sb.append("</" + STUDENT_TEAMMATES + ">");
@@ -1118,114 +1007,73 @@ public class TeammatesServlet extends HttpServlet {
 		return sb;
 	}
 
-	private StringBuffer parseCourseSummaryForCoordinatorListToXML(
-			ArrayList<CourseSummaryForCoordinator> courseSummaryList) {
+	private StringBuffer parseCourseSummaryForCoordinatorListToXML(ArrayList<CourseSummaryForCoordinator> courseSummaryList) {
 		StringBuffer sb = new StringBuffer();
 
 		for (CourseSummaryForCoordinator cs : courseSummaryList) {
 			sb.append("<coursesummary>");
-			sb.append("<" + COURSE_ID + "><![CDATA[" + cs.getID() + "]]></"
-					+ COURSE_ID + ">");
-			sb.append("<" + COURSE_NAME + "><![CDATA[" + cs.getName() + "]]></"
-					+ COURSE_NAME + ">");
-			sb.append("<" + COURSE_STATUS + ">" + cs.isArchived() + "</"
-					+ COURSE_STATUS + ">");
-			sb.append("<" + COURSE_NUMBEROFTEAMS + ">" + cs.getNumberOfTeams()
-					+ "</" + COURSE_NUMBEROFTEAMS + ">");
-			sb.append("<" + COURSE_TOTALSTUDENTS + ">" + cs.getTotalStudents()
-					+ "</" + COURSE_TOTALSTUDENTS + ">");
-			sb.append("<" + COURSE_UNREGISTERED + ">" + cs.getUnregistered()
-					+ "</" + COURSE_UNREGISTERED + ">");
+			sb.append("<" + COURSE_ID + "><![CDATA[" + cs.getID() + "]]></" + COURSE_ID + ">");
+			sb.append("<" + COURSE_NAME + "><![CDATA[" + cs.getName() + "]]></" + COURSE_NAME + ">");
+			sb.append("<" + COURSE_STATUS + ">" + cs.isArchived() + "</" + COURSE_STATUS + ">");
+			sb.append("<" + COURSE_NUMBEROFTEAMS + ">" + cs.getNumberOfTeams() + "</" + COURSE_NUMBEROFTEAMS + ">");
+			sb.append("<" + COURSE_TOTALSTUDENTS + ">" + cs.getTotalStudents() + "</" + COURSE_TOTALSTUDENTS + ">");
+			sb.append("<" + COURSE_UNREGISTERED + ">" + cs.getUnregistered() + "</" + COURSE_UNREGISTERED + ">");
 			sb.append("</coursesummary>");
 		}
 
 		return sb;
 	}
 
-	private StringBuffer parseCourseSummaryForStudentListToXML(
-			ArrayList<CourseSummaryForStudent> courseSummaryList) {
+	private StringBuffer parseCourseSummaryForStudentListToXML(ArrayList<CourseSummaryForStudent> courseSummaryList) {
 		StringBuffer sb = new StringBuffer();
 
 		for (CourseSummaryForStudent cs : courseSummaryList) {
 			sb.append("<coursesummary>");
-			sb.append("<" + COURSE_ID + "><![CDATA[" + cs.getID() + "]]></"
-					+ COURSE_ID + ">");
-			sb.append("<" + COURSE_NAME + "><![CDATA[" + cs.getName() + "]]></"
-					+ COURSE_NAME + ">");
-			sb.append("<" + COURSE_STATUS + ">" + cs.isArchived() + "</"
-					+ COURSE_STATUS + ">");
-			sb.append("<" + STUDENT_TEAMNAME + "><![CDATA[" + cs.getTeamName()
-					+ "]]></" + STUDENT_TEAMNAME + ">");
+			sb.append("<" + COURSE_ID + "><![CDATA[" + cs.getID() + "]]></" + COURSE_ID + ">");
+			sb.append("<" + COURSE_NAME + "><![CDATA[" + cs.getName() + "]]></" + COURSE_NAME + ">");
+			sb.append("<" + COURSE_STATUS + ">" + cs.isArchived() + "</" + COURSE_STATUS + ">");
+			sb.append("<" + STUDENT_TEAMNAME + "><![CDATA[" + cs.getTeamName() + "]]></" + STUDENT_TEAMNAME + ">");
 			sb.append("</coursesummary>");
 		}
 
 		return sb;
 	}
 
-	private StringBuffer parseEnrollmentReportListToXML(
-			List<EnrollmentReport> enrollmentReportList) {
+	private StringBuffer parseEnrollmentReportListToXML(List<EnrollmentReport> enrollmentReportList) {
 		StringBuffer sb = new StringBuffer();
 
 		for (EnrollmentReport er : enrollmentReportList) {
 			sb.append("<enrollmentreport>");
-			sb.append("<" + STUDENT_NAME + "><![CDATA[" + er.getName()
-					+ "]]></" + STUDENT_NAME + ">");
-			sb.append("<" + STUDENT_EMAIL + "><![CDATA[" + er.getEmail()
-					+ "]]></" + STUDENT_EMAIL + ">");
-			sb.append("<" + STUDENT_STATUS + "><![CDATA[" + er.getStatus()
-					+ "]]></" + STUDENT_STATUS + ">");
-			sb.append("<" + STUDENT_NAMEEDITED + ">" + er.isNameEdited() + "</"
-					+ STUDENT_NAMEEDITED + ">");
-			sb.append("<" + STUDENT_TEAMNAMEEDITED + ">"
-					+ er.isTeamNameEdited() + "</" + STUDENT_TEAMNAMEEDITED
-					+ ">");
-			sb.append("<" + STUDENT_COMMENTSEDITED + ">"
-					+ er.isCommentsEdited() + "</" + STUDENT_COMMENTSEDITED
-					+ ">");
+			sb.append("<" + STUDENT_NAME + "><![CDATA[" + er.getName() + "]]></" + STUDENT_NAME + ">");
+			sb.append("<" + STUDENT_EMAIL + "><![CDATA[" + er.getEmail() + "]]></" + STUDENT_EMAIL + ">");
+			sb.append("<" + STUDENT_STATUS + "><![CDATA[" + er.getStatus() + "]]></" + STUDENT_STATUS + ">");
+			sb.append("<" + STUDENT_NAMEEDITED + ">" + er.isNameEdited() + "</" + STUDENT_NAMEEDITED + ">");
+			sb.append("<" + STUDENT_TEAMNAMEEDITED + ">" + er.isTeamNameEdited() + "</" + STUDENT_TEAMNAMEEDITED + ">");
+			sb.append("<" + STUDENT_COMMENTSEDITED + ">" + er.isCommentsEdited() + "</" + STUDENT_COMMENTSEDITED + ">");
 			sb.append("</enrollmentreport>");
 		}
 
 		return sb;
 	}
 
-	private StringBuffer parseEvaluationDetailsForCoordinatorListToXML(
-			List<EvaluationDetailsForCoordinator> evaluationDetailsList) {
+	private StringBuffer parseEvaluationDetailsForCoordinatorListToXML(List<EvaluationDetailsForCoordinator> evaluationDetailsList) {
 		StringBuffer sb = new StringBuffer();
 
 		for (EvaluationDetailsForCoordinator e : evaluationDetailsList) {
 			sb.append("<evaluation>");
 
-			sb.append("<" + COURSE_ID + "><![CDATA[" + e.getCourseID()
-					+ "]]></" + COURSE_ID + ">");
-			sb.append("<" + EVALUATION_NAME + "><![CDATA[" + e.getName()
-					+ "]]></" + EVALUATION_NAME + ">");
-			sb.append("<" + EVALUATION_COMMENTSENABLED + "><![CDATA["
-					+ e.isCommentsEnabled() + "]]></"
-					+ EVALUATION_COMMENTSENABLED + ">");
-			sb.append("<" + EVALUATION_INSTRUCTIONS + "><![CDATA["
-					+ e.getInstructions() + "]]></" + EVALUATION_INSTRUCTIONS
-					+ ">");
-			sb.append("<" + EVALUATION_START + "><![CDATA["
-					+ DateFormat.getDateTimeInstance().format(e.getStart())
-					+ "]]></" + EVALUATION_START + ">");
-			sb.append("<" + EVALUATION_DEADLINE + "><![CDATA["
-					+ DateFormat.getDateTimeInstance().format(e.getDeadline())
-					+ "]]></" + EVALUATION_DEADLINE + ">");
-			sb.append("<" + EVALUATION_TIMEZONE + "><![CDATA["
-					+ e.getTimeZone() + "]]></" + EVALUATION_TIMEZONE + ">");
-			sb.append("<" + EVALUATION_GRACEPERIOD + "><![CDATA["
-					+ e.getGracePeriod() + "]]></" + EVALUATION_GRACEPERIOD
-					+ ">");
-			sb.append("<" + EVALUATION_PUBLISHED + "><![CDATA["
-					+ e.isPublished() + "]]></" + EVALUATION_PUBLISHED + ">");
-			sb.append("<" + EVALUATION_ACTIVATED + "><![CDATA["
-					+ e.isActivated() + "]]></" + EVALUATION_ACTIVATED + ">");
-			sb.append("<" + EVALUATION_NUMBEROFCOMPLETEDEVALUATIONS
-					+ "><![CDATA[" + e.getNumberOfCompletedEvaluations()
-					+ "]]></" + EVALUATION_NUMBEROFCOMPLETEDEVALUATIONS + ">");
-			sb.append("<" + EVALUATION_NUMBEROFEVALUATIONS + "><![CDATA["
-					+ e.getNumberOfEvaluations() + "]]></"
-					+ EVALUATION_NUMBEROFEVALUATIONS + ">");
+			sb.append("<" + COURSE_ID + "><![CDATA[" + e.getCourseID() + "]]></" + COURSE_ID + ">");
+			sb.append("<" + EVALUATION_NAME + "><![CDATA[" + e.getName() + "]]></" + EVALUATION_NAME + ">");
+			sb.append("<" + EVALUATION_COMMENTSENABLED + "><![CDATA[" + e.isCommentsEnabled() + "]]></" + EVALUATION_COMMENTSENABLED + ">");
+			sb.append("<" + EVALUATION_INSTRUCTIONS + "><![CDATA[" + e.getInstructions() + "]]></" + EVALUATION_INSTRUCTIONS + ">");
+			sb.append("<" + EVALUATION_START + "><![CDATA[" + DateFormat.getDateTimeInstance().format(e.getStart()) + "]]></" + EVALUATION_START + ">");
+			sb.append("<" + EVALUATION_DEADLINE + "><![CDATA[" + DateFormat.getDateTimeInstance().format(e.getDeadline()) + "]]></" + EVALUATION_DEADLINE + ">");
+			sb.append("<" + EVALUATION_TIMEZONE + "><![CDATA[" + e.getTimeZone() + "]]></" + EVALUATION_TIMEZONE + ">");
+			sb.append("<" + EVALUATION_GRACEPERIOD + "><![CDATA[" + e.getGracePeriod() + "]]></" + EVALUATION_GRACEPERIOD + ">");
+			sb.append("<" + EVALUATION_PUBLISHED + "><![CDATA[" + e.isPublished() + "]]></" + EVALUATION_PUBLISHED + ">");
+			sb.append("<" + EVALUATION_ACTIVATED + "><![CDATA[" + e.isActivated() + "]]></" + EVALUATION_ACTIVATED + ">");
+			sb.append("<" + EVALUATION_NUMBEROFCOMPLETEDEVALUATIONS + "><![CDATA[" + e.getNumberOfCompletedEvaluations() + "]]></" + EVALUATION_NUMBEROFCOMPLETEDEVALUATIONS + ">");
+			sb.append("<" + EVALUATION_NUMBEROFEVALUATIONS + "><![CDATA[" + e.getNumberOfEvaluations() + "]]></" + EVALUATION_NUMBEROFEVALUATIONS + ">");
 
 			sb.append("</evaluation>");
 		}
@@ -1233,34 +1081,20 @@ public class TeammatesServlet extends HttpServlet {
 		return sb;
 	}
 
-	private StringBuffer parseEvaluationListToXML(
-			List<Evaluation> evaluationList) {
+	private StringBuffer parseEvaluationListToXML(List<Evaluation> evaluationList) {
 		StringBuffer sb = new StringBuffer();
 
 		for (Evaluation e : evaluationList) {
 			sb.append("<evaluation>");
-			sb.append("<" + COURSE_ID + "><![CDATA[" + e.getCourseID()
-					+ "]]></" + COURSE_ID + ">");
-			sb.append("<" + EVALUATION_NAME + "><![CDATA[" + e.getName()
-					+ "]]></" + EVALUATION_NAME + ">");
-			sb.append("<" + EVALUATION_START + ">"
-					+ DateFormat.getDateTimeInstance().format(e.getStart())
-					+ "</" + EVALUATION_START + ">");
-			sb.append("<" + EVALUATION_DEADLINE + ">"
-					+ DateFormat.getDateTimeInstance().format(e.getDeadline())
-					+ "</" + EVALUATION_DEADLINE + ">");
-			sb.append("<" + EVALUATION_TIMEZONE + "><![CDATA["
-					+ e.getTimeZone() + "]]></" + EVALUATION_TIMEZONE + ">");
-			sb.append("<" + EVALUATION_GRACEPERIOD + ">" + e.getGracePeriod()
-					+ "</" + EVALUATION_GRACEPERIOD + ">");
-			sb.append("<" + EVALUATION_INSTRUCTIONS + "><![CDATA["
-					+ e.getInstructions() + "]]></" + EVALUATION_INSTRUCTIONS
-					+ ">");
-			sb.append("<" + EVALUATION_COMMENTSENABLED + "><![CDATA["
-					+ e.isCommentsEnabled() + "]]></"
-					+ EVALUATION_COMMENTSENABLED + ">");
-			sb.append("<" + EVALUATION_PUBLISHED + ">" + e.isPublished() + "</"
-					+ EVALUATION_PUBLISHED + ">");
+			sb.append("<" + COURSE_ID + "><![CDATA[" + e.getCourseID() + "]]></" + COURSE_ID + ">");
+			sb.append("<" + EVALUATION_NAME + "><![CDATA[" + e.getName() + "]]></" + EVALUATION_NAME + ">");
+			sb.append("<" + EVALUATION_START + ">" + DateFormat.getDateTimeInstance().format(e.getStart()) + "</" + EVALUATION_START + ">");
+			sb.append("<" + EVALUATION_DEADLINE + ">" + DateFormat.getDateTimeInstance().format(e.getDeadline()) + "</" + EVALUATION_DEADLINE + ">");
+			sb.append("<" + EVALUATION_TIMEZONE + "><![CDATA[" + e.getTimeZone() + "]]></" + EVALUATION_TIMEZONE + ">");
+			sb.append("<" + EVALUATION_GRACEPERIOD + ">" + e.getGracePeriod() + "</" + EVALUATION_GRACEPERIOD + ">");
+			sb.append("<" + EVALUATION_INSTRUCTIONS + "><![CDATA[" + e.getInstructions() + "]]></" + EVALUATION_INSTRUCTIONS + ">");
+			sb.append("<" + EVALUATION_COMMENTSENABLED + "><![CDATA[" + e.isCommentsEnabled() + "]]></" + EVALUATION_COMMENTSENABLED + ">");
+			sb.append("<" + EVALUATION_PUBLISHED + ">" + e.isPublished() + "</" + EVALUATION_PUBLISHED + ">");
 			sb.append("</evaluation>");
 		}
 
@@ -1272,150 +1106,82 @@ public class TeammatesServlet extends HttpServlet {
 
 		for (Student s : studentList) {
 			sb.append("<student>");
-			sb.append("<" + STUDENT_NAME + "><![CDATA[" + s.getName() + "]]></"
-					+ STUDENT_NAME + ">");
-			sb.append("<" + STUDENT_EMAIL + "><![CDATA[" + s.getEmail()
-					+ "]]></" + STUDENT_EMAIL + ">");
-			sb.append("<" + STUDENT_ID + "><![CDATA[" + s.getID() + "]]></"
-					+ STUDENT_ID + ">");
-			sb.append("<" + STUDENT_COMMENTS + "><![CDATA[" + s.getComments()
-					+ "]]></" + STUDENT_COMMENTS + ">");
-			sb.append("<"
-					+ STUDENT_REGKEY
-					+ "><![CDATA["
-					+ KeyFactory.createKeyString(Student.class.getSimpleName(),
-							s.getRegistrationKey()) + "]]></" + STUDENT_REGKEY
-					+ ">");
-			sb.append("<" + STUDENT_COURSEID + "><![CDATA[" + s.getCourseID()
-					+ "]]></" + STUDENT_COURSEID + ">");
-			sb.append("<" + STUDENT_TEAMNAME + "><![CDATA[" + s.getTeamName()
-					+ "]]></" + STUDENT_TEAMNAME + ">");
+			sb.append("<" + STUDENT_NAME + "><![CDATA[" + s.getName() + "]]></" + STUDENT_NAME + ">");
+			sb.append("<" + STUDENT_EMAIL + "><![CDATA[" + s.getEmail() + "]]></" + STUDENT_EMAIL + ">");
+			sb.append("<" + STUDENT_ID + "><![CDATA[" + s.getID() + "]]></" + STUDENT_ID + ">");
+			sb.append("<" + STUDENT_COMMENTS + "><![CDATA[" + s.getComments() + "]]></" + STUDENT_COMMENTS + ">");
+			sb.append("<" + STUDENT_REGKEY + "><![CDATA[" + KeyFactory.createKeyString(Student.class.getSimpleName(), s.getRegistrationKey()) + "]]></" + STUDENT_REGKEY + ">");
+			sb.append("<" + STUDENT_COURSEID + "><![CDATA[" + s.getCourseID() + "]]></" + STUDENT_COURSEID + ">");
+			sb.append("<" + STUDENT_TEAMNAME + "><![CDATA[" + s.getTeamName() + "]]></" + STUDENT_TEAMNAME + ">");
 			sb.append("</student>");
 		}
 
 		return sb;
 	}
 
-	private StringBuffer parseSubmissionDetailsForCoordinatorListToXML(
-			List<SubmissionDetailsForCoordinator> submissionDetailsList) {
+	private StringBuffer parseSubmissionDetailsForCoordinatorListToXML(List<SubmissionDetailsForCoordinator> submissionDetailsList) {
 		StringBuffer sb = new StringBuffer();
 
 		for (SubmissionDetailsForCoordinator s : submissionDetailsList) {
 			sb.append("<submission>");
-			sb.append("<" + STUDENT_TEAMNAME + "><![CDATA[" + s.getTeamName()
-					+ "]]></" + STUDENT_TEAMNAME + ">");
-			sb.append("<" + STUDENT_FROMSTUDENTNAME + "><![CDATA["
-					+ s.getFromStudentName() + "]]></"
-					+ STUDENT_FROMSTUDENTNAME + ">");
-			sb.append("<" + STUDENT_TOSTUDENTNAME + "><![CDATA["
-					+ s.getToStudentName() + "]]></" + STUDENT_TOSTUDENTNAME
-					+ ">");
-			sb.append("<" + STUDENT_FROMSTUDENT + "><![CDATA["
-					+ s.getFromStudent() + "]]></" + STUDENT_FROMSTUDENT + ">");
-			sb.append("<" + STUDENT_TOSTUDENT + "><![CDATA[" + s.getToStudent()
-					+ "]]></" + STUDENT_TOSTUDENT + ">");
-			sb.append("<" + STUDENT_FROMSTUDENTCOMMENTS + "><![CDATA["
-					+ s.getFromStudentComments() + "]]></"
-					+ STUDENT_FROMSTUDENTCOMMENTS + ">");
-			sb.append("<" + STUDENT_TOSTUDENTCOMMENTS + "><![CDATA["
-					+ s.getToStudentComments() + "]]></"
-					+ STUDENT_TOSTUDENTCOMMENTS + ">");
-			sb.append("<" + COURSE_ID + "><![CDATA[" + s.getCourseID()
-					+ "]]></" + COURSE_ID + ">");
-			sb.append("<" + EVALUATION_NAME + "><![CDATA["
-					+ s.getEvaluationName() + "]]></" + EVALUATION_NAME + ">");
-			sb.append("<" + STUDENT_POINTS + ">" + s.getPoints() + "</"
-					+ STUDENT_POINTS + ">");
-			sb.append("<" + STUDENT_POINTSBUMPRATIO + ">"
-					+ s.getPointsBumpRatio() + "</" + STUDENT_POINTSBUMPRATIO
-					+ ">");
-			sb.append("<" + STUDENT_JUSTIFICATION + "><![CDATA["
-					+ s.getJustification().getValue() + "]]></"
-					+ STUDENT_JUSTIFICATION + ">");
-			sb.append("<" + STUDENT_COMMENTSTOSTUDENT + "><![CDATA["
-					+ s.getCommentsToStudent().getValue() + "]]></"
-					+ STUDENT_COMMENTSTOSTUDENT + ">");
+			sb.append("<" + STUDENT_TEAMNAME + "><![CDATA[" + s.getTeamName() + "]]></" + STUDENT_TEAMNAME + ">");
+			sb.append("<" + STUDENT_FROMSTUDENTNAME + "><![CDATA[" + s.getFromStudentName() + "]]></" + STUDENT_FROMSTUDENTNAME + ">");
+			sb.append("<" + STUDENT_TOSTUDENTNAME + "><![CDATA[" + s.getToStudentName() + "]]></" + STUDENT_TOSTUDENTNAME + ">");
+			sb.append("<" + STUDENT_FROMSTUDENT + "><![CDATA[" + s.getFromStudent() + "]]></" + STUDENT_FROMSTUDENT + ">");
+			sb.append("<" + STUDENT_TOSTUDENT + "><![CDATA[" + s.getToStudent() + "]]></" + STUDENT_TOSTUDENT + ">");
+			sb.append("<" + STUDENT_FROMSTUDENTCOMMENTS + "><![CDATA[" + s.getFromStudentComments() + "]]></" + STUDENT_FROMSTUDENTCOMMENTS + ">");
+			sb.append("<" + STUDENT_TOSTUDENTCOMMENTS + "><![CDATA[" + s.getToStudentComments() + "]]></" + STUDENT_TOSTUDENTCOMMENTS + ">");
+			sb.append("<" + COURSE_ID + "><![CDATA[" + s.getCourseID() + "]]></" + COURSE_ID + ">");
+			sb.append("<" + EVALUATION_NAME + "><![CDATA[" + s.getEvaluationName() + "]]></" + EVALUATION_NAME + ">");
+			sb.append("<" + STUDENT_POINTS + ">" + s.getPoints() + "</" + STUDENT_POINTS + ">");
+			sb.append("<" + STUDENT_POINTSBUMPRATIO + ">" + s.getPointsBumpRatio() + "</" + STUDENT_POINTSBUMPRATIO + ">");
+			sb.append("<" + STUDENT_JUSTIFICATION + "><![CDATA[" + s.getJustification().getValue() + "]]></" + STUDENT_JUSTIFICATION + ">");
+			sb.append("<" + STUDENT_COMMENTSTOSTUDENT + "><![CDATA[" + s.getCommentsToStudent().getValue() + "]]></" + STUDENT_COMMENTSTOSTUDENT + ">");
 			sb.append("</submission>");
 		}
 
 		return sb;
 	}
 
-	private StringBuffer parseSubmissionDetailsForStudentListToXML(
-			List<SubmissionDetailsForStudent> submissionDetailsList) {
+	private StringBuffer parseSubmissionDetailsForStudentListToXML(List<SubmissionDetailsForStudent> submissionDetailsList) {
 		StringBuffer sb = new StringBuffer();
 
 		for (SubmissionDetailsForStudent s : submissionDetailsList) {
 			sb.append("<submission>");
-			sb.append("<" + STUDENT_TEAMNAME + "><![CDATA[" + s.getTeamName()
-					+ "]]></" + STUDENT_TEAMNAME + ">");
-			sb.append("<" + STUDENT_FROMSTUDENTNAME + "><![CDATA["
-					+ s.getFromStudentName() + "]]></"
-					+ STUDENT_FROMSTUDENTNAME + ">");
-			sb.append("<" + STUDENT_TOSTUDENTNAME + "><![CDATA["
-					+ s.getToStudentName() + "]]></" + STUDENT_TOSTUDENTNAME
-					+ ">");
-			sb.append("<" + STUDENT_FROMSTUDENT + "><![CDATA["
-					+ s.getFromStudent() + "]]></" + STUDENT_FROMSTUDENT + ">");
-			sb.append("<" + STUDENT_TOSTUDENT + "><![CDATA[" + s.getToStudent()
-					+ "]]></" + STUDENT_TOSTUDENT + ">");
-			sb.append("<" + COURSE_ID + "><![CDATA[" + s.getCourseID()
-					+ "]]></" + COURSE_ID + ">");
-			sb.append("<" + EVALUATION_NAME + "><![CDATA["
-					+ s.getEvaluationName() + "]]></" + EVALUATION_NAME + ">");
-			sb.append("<" + STUDENT_POINTS + ">" + s.getPoints() + "</"
-					+ STUDENT_POINTS + ">");
-			sb.append("<" + STUDENT_JUSTIFICATION + "><![CDATA["
-					+ s.getJustification().getValue() + "]]></"
-					+ STUDENT_JUSTIFICATION + ">");
-			sb.append("<" + STUDENT_COMMENTSTOSTUDENT + "><![CDATA["
-					+ s.getCommentsToStudent().getValue() + "]]></"
-					+ STUDENT_COMMENTSTOSTUDENT + ">");
+			sb.append("<" + STUDENT_TEAMNAME + "><![CDATA[" + s.getTeamName() + "]]></" + STUDENT_TEAMNAME + ">");
+			sb.append("<" + STUDENT_FROMSTUDENTNAME + "><![CDATA[" + s.getFromStudentName() + "]]></" + STUDENT_FROMSTUDENTNAME + ">");
+			sb.append("<" + STUDENT_TOSTUDENTNAME + "><![CDATA[" + s.getToStudentName() + "]]></" + STUDENT_TOSTUDENTNAME + ">");
+			sb.append("<" + STUDENT_FROMSTUDENT + "><![CDATA[" + s.getFromStudent() + "]]></" + STUDENT_FROMSTUDENT + ">");
+			sb.append("<" + STUDENT_TOSTUDENT + "><![CDATA[" + s.getToStudent() + "]]></" + STUDENT_TOSTUDENT + ">");
+			sb.append("<" + COURSE_ID + "><![CDATA[" + s.getCourseID() + "]]></" + COURSE_ID + ">");
+			sb.append("<" + EVALUATION_NAME + "><![CDATA[" + s.getEvaluationName() + "]]></" + EVALUATION_NAME + ">");
+			sb.append("<" + STUDENT_POINTS + ">" + s.getPoints() + "</" + STUDENT_POINTS + ">");
+			sb.append("<" + STUDENT_JUSTIFICATION + "><![CDATA[" + s.getJustification().getValue() + "]]></" + STUDENT_JUSTIFICATION + ">");
+			sb.append("<" + STUDENT_COMMENTSTOSTUDENT + "><![CDATA[" + s.getCommentsToStudent().getValue() + "]]></" + STUDENT_COMMENTSTOSTUDENT + ">");
 			sb.append("</submission>");
 		}
 
 		return sb;
 	}
 
-	private StringBuffer parseSubmissionResultsForStudentListToXML(
-			List<SubmissionResultsForStudent> submissionDetailsList) {
+	private StringBuffer parseSubmissionResultsForStudentListToXML(List<SubmissionResultsForStudent> submissionDetailsList) {
 		StringBuffer sb = new StringBuffer();
 
 		for (SubmissionResultsForStudent s : submissionDetailsList) {
 			sb.append("<submission>");
-			sb.append("<" + STUDENT_TEAMNAME + "><![CDATA[" + s.getTeamName()
-					+ "]]></" + STUDENT_TEAMNAME + ">");
-			sb.append("<" + STUDENT_FROMSTUDENTNAME + "><![CDATA["
-					+ s.getFromStudentName() + "]]></"
-					+ STUDENT_FROMSTUDENTNAME + ">");
-			sb.append("<" + STUDENT_TOSTUDENTNAME + "><![CDATA["
-					+ s.getToStudentName() + "]]></" + STUDENT_TOSTUDENTNAME
-					+ ">");
-			sb.append("<" + STUDENT_FROMSTUDENT + "><![CDATA["
-					+ s.getFromStudent() + "]]></" + STUDENT_FROMSTUDENT + ">");
-			sb.append("<" + STUDENT_TOSTUDENT + "><![CDATA[" + s.getToStudent()
-					+ "]]></" + STUDENT_TOSTUDENT + ">");
-			sb.append("<" + STUDENT_FROMSTUDENTCOMMENTS + "><![CDATA["
-					+ s.getFromStudentComments() + "]]></"
-					+ STUDENT_FROMSTUDENTCOMMENTS + ">");
-			sb.append("<" + STUDENT_TOSTUDENTCOMMENTS + "><![CDATA["
-					+ s.getToStudentComments() + "]]></"
-					+ STUDENT_TOSTUDENTCOMMENTS + ">");
-			sb.append("<" + COURSE_ID + "><![CDATA[" + s.getCourseID()
-					+ "]]></" + COURSE_ID + ">");
-			sb.append("<" + EVALUATION_NAME + "><![CDATA["
-					+ s.getEvaluationName() + "]]></" + EVALUATION_NAME + ">");
-			sb.append("<" + STUDENT_POINTS + ">" + s.getPoints() + "</"
-					+ STUDENT_POINTS + ">");
-			sb.append("<" + STUDENT_POINTSBUMPRATIO + ">"
-					+ s.getPointsBumpRatio() + "</" + STUDENT_POINTSBUMPRATIO
-					+ ">");
-			sb.append("<" + STUDENT_JUSTIFICATION + "><![CDATA["
-					+ s.getJustification().getValue() + "]]></"
-					+ STUDENT_JUSTIFICATION + ">");
-			sb.append("<" + STUDENT_COMMENTSTOSTUDENT + "><![CDATA["
-					+ s.getCommentsToStudent().getValue() + "]]></"
-					+ STUDENT_COMMENTSTOSTUDENT + ">");
+			sb.append("<" + STUDENT_TEAMNAME + "><![CDATA[" + s.getTeamName() + "]]></" + STUDENT_TEAMNAME + ">");
+			sb.append("<" + STUDENT_FROMSTUDENTNAME + "><![CDATA[" + s.getFromStudentName() + "]]></" + STUDENT_FROMSTUDENTNAME + ">");
+			sb.append("<" + STUDENT_TOSTUDENTNAME + "><![CDATA[" + s.getToStudentName() + "]]></" + STUDENT_TOSTUDENTNAME + ">");
+			sb.append("<" + STUDENT_FROMSTUDENT + "><![CDATA[" + s.getFromStudent() + "]]></" + STUDENT_FROMSTUDENT + ">");
+			sb.append("<" + STUDENT_TOSTUDENT + "><![CDATA[" + s.getToStudent() + "]]></" + STUDENT_TOSTUDENT + ">");
+			sb.append("<" + STUDENT_FROMSTUDENTCOMMENTS + "><![CDATA[" + s.getFromStudentComments() + "]]></" + STUDENT_FROMSTUDENTCOMMENTS + ">");
+			sb.append("<" + STUDENT_TOSTUDENTCOMMENTS + "><![CDATA[" + s.getToStudentComments() + "]]></" + STUDENT_TOSTUDENTCOMMENTS + ">");
+			sb.append("<" + COURSE_ID + "><![CDATA[" + s.getCourseID() + "]]></" + COURSE_ID + ">");
+			sb.append("<" + EVALUATION_NAME + "><![CDATA[" + s.getEvaluationName() + "]]></" + EVALUATION_NAME + ">");
+			sb.append("<" + STUDENT_POINTS + ">" + s.getPoints() + "</" + STUDENT_POINTS + ">");
+			sb.append("<" + STUDENT_POINTSBUMPRATIO + ">" + s.getPointsBumpRatio() + "</" + STUDENT_POINTSBUMPRATIO + ">");
+			sb.append("<" + STUDENT_JUSTIFICATION + "><![CDATA[" + s.getJustification().getValue() + "]]></" + STUDENT_JUSTIFICATION + ">");
+			sb.append("<" + STUDENT_COMMENTSTOSTUDENT + "><![CDATA[" + s.getCommentsToStudent().getValue() + "]]></" + STUDENT_COMMENTSTOSTUDENT + ">");
 			sb.append("</submission>");
 		}
 
@@ -1452,8 +1218,7 @@ public class TeammatesServlet extends HttpServlet {
 
 		Course course = courses.getCourse(courseID);
 		String courseName = course.getName();
-		String coordinatorName = accounts.getCoordinatorName(course
-				.getCoordinatorID());
+		String coordinatorName = accounts.getCoordinatorName(course.getCoordinatorID());
 
 		Student student = courses.getStudentWithID(courseID, googleID);
 
@@ -1470,12 +1235,9 @@ public class TeammatesServlet extends HttpServlet {
 			}
 		}
 
-		CourseDetailsForStudent courseDetails = new CourseDetailsForStudent(
-				courseID, courseName, coordinatorName, teamName, studentName,
-				studentEmail, teammateList);
+		CourseDetailsForStudent courseDetails = new CourseDetailsForStudent(courseID, courseName, coordinatorName, teamName, studentName, studentEmail, teammateList);
 
-		resp.getWriter().write(
-				parseCourseDetailsForStudentToXML(courseDetails).toString());
+		resp.getWriter().write(parseCourseDetailsForStudentToXML(courseDetails).toString());
 	}
 
 	private void studentGetCourseList() throws IOException {
@@ -1502,14 +1264,10 @@ public class TeammatesServlet extends HttpServlet {
 			archived = s.isCourseArchived();
 			teamName = courses.getTeamName(courseID, s.getEmail());
 
-			courseSummaryList.add(new CourseSummaryForStudent(courseID,
-					courseName, teamName, archived));
+			courseSummaryList.add(new CourseSummaryForStudent(courseID, courseName, teamName, archived));
 		}
 
-		resp.getWriter().write(
-				"<courses>"
-						+ parseCourseSummaryForStudentListToXML(
-								courseSummaryList).toString() + "</courses>");
+		resp.getWriter().write("<courses>" + parseCourseSummaryForStudentListToXML(courseSummaryList).toString() + "</courses>");
 	}
 
 	private void studentGetPastEvaluationList() throws IOException {
@@ -1526,8 +1284,7 @@ public class TeammatesServlet extends HttpServlet {
 		}
 
 		Evaluations evaluations = Evaluations.inst();
-		List<Evaluation> evaluationList = evaluations
-				.getEvaluationList(courseList);
+		List<Evaluation> evaluationList = evaluations.getEvaluationList(courseList);
 
 		// Filter evaluationList - make sure archived and unsubmitted(unless
 		// evaluation is published and open evaluations are not
@@ -1543,8 +1300,7 @@ public class TeammatesServlet extends HttpServlet {
 
 		for (Evaluation e : evaluationList) {
 			// Fix the time zone accordingly
-			now.add(Calendar.MILLISECOND,
-					(int) (60 * 60 * 1000 * e.getTimeZone()));
+			now.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * e.getTimeZone()));
 
 			student = courses.getStudentWithID(e.getCourseID(), googleID);
 
@@ -1563,9 +1319,7 @@ public class TeammatesServlet extends HttpServlet {
 				}
 
 				else {
-					if (evaluations.isEvaluationSubmitted(e, email)
-							&& (now.after(start))
-							&& !student.isCourseArchived()) {
+					if (evaluations.isEvaluationSubmitted(e, email) && (now.after(start)) && !student.isCourseArchived()) {
 						filteredEvaluationList.add(e);
 					}
 				}
@@ -1576,14 +1330,10 @@ public class TeammatesServlet extends HttpServlet {
 			}
 
 			// Revert the time zone change
-			now.add(Calendar.MILLISECOND,
-					(int) (-60 * 60 * 1000 * e.getTimeZone()));
+			now.add(Calendar.MILLISECOND, (int) (-60 * 60 * 1000 * e.getTimeZone()));
 		}
 
-		resp.getWriter().write(
-				"<evaluations>"
-						+ parseEvaluationListToXML(filteredEvaluationList)
-								.toString() + "</evaluations>");
+		resp.getWriter().write("<evaluations>" + parseEvaluationListToXML(filteredEvaluationList).toString() + "</evaluations>");
 	}
 
 	private void studentGetPendingEvaluationList() throws IOException {
@@ -1600,8 +1350,7 @@ public class TeammatesServlet extends HttpServlet {
 		}
 
 		Evaluations evaluations = Evaluations.inst();
-		List<Evaluation> evaluationList = evaluations
-				.getEvaluationList(courseList);
+		List<Evaluation> evaluationList = evaluations.getEvaluationList(courseList);
 
 		// Filter evaluationList - make sure archived, submitted and closed
 		// evaluations are not returned to student
@@ -1616,8 +1365,7 @@ public class TeammatesServlet extends HttpServlet {
 
 		for (Evaluation e : evaluationList) {
 			// Fix the time zone accordingly
-			now.add(Calendar.MILLISECOND,
-					(int) (60 * 60 * 1000 * e.getTimeZone()));
+			now.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * e.getTimeZone()));
 
 			student = courses.getStudentWithID(e.getCourseID(), googleID);
 
@@ -1627,9 +1375,7 @@ public class TeammatesServlet extends HttpServlet {
 				start.setTime(e.getStart());
 				deadline.setTime(e.getDeadline());
 
-				if (!evaluations.isEvaluationSubmitted(e, email)
-						&& (now.after(start) && now.before(deadline))
-						&& !student.isCourseArchived()) {
+				if (!evaluations.isEvaluationSubmitted(e, email) && (now.after(start) && now.before(deadline)) && !student.isCourseArchived()) {
 					filteredEvaluationList.add(e);
 				}
 			}
@@ -1639,14 +1385,10 @@ public class TeammatesServlet extends HttpServlet {
 			}
 
 			// Revert time zone change
-			now.add(Calendar.MILLISECOND,
-					(int) (-60 * 60 * 1000 * e.getTimeZone()));
+			now.add(Calendar.MILLISECOND, (int) (-60 * 60 * 1000 * e.getTimeZone()));
 		}
 
-		resp.getWriter().write(
-				"<evaluations>"
-						+ parseEvaluationListToXML(filteredEvaluationList)
-								.toString() + "</evaluations>");
+		resp.getWriter().write("<evaluations>" + parseEvaluationListToXML(filteredEvaluationList).toString() + "</evaluations>");
 
 	}
 
@@ -1664,14 +1406,8 @@ public class TeammatesServlet extends HttpServlet {
 		String fromStudent = student.getEmail();
 		String fromStudentName = student.getName();
 
-		// wangsha
-		// should be historical teamname, not the latest one
-		String teamName = student.getTeamName();
-
 		Evaluations evaluations = Evaluations.inst();
-		List<Submission> submissionList = evaluations
-				.getSubmissionFromStudentList(courseID, evaluationName,
-						fromStudent);
+		List<Submission> submissionList = evaluations.getSubmissionFromStudentList(courseID, evaluationName, fromStudent);
 
 		List<SubmissionDetailsForStudent> submissionDetailsList = new ArrayList<SubmissionDetailsForStudent>();
 
@@ -1688,28 +1424,17 @@ public class TeammatesServlet extends HttpServlet {
 			if (s.getToStudent().equals(fromStudent)) {
 				submissionDetailsList.add(
 						0,
-						new SubmissionDetailsForStudent(courseID,
-								evaluationName, fromStudentName, student
-										.getName(), fromStudent, student
-										.getEmail(), s.getTeamName(), s
-										.getPoints(), s.getJustification(), s
-										.getCommentsToStudent()));
+						new SubmissionDetailsForStudent(courseID, evaluationName, fromStudentName, student.getName(), fromStudent, student.getEmail(), s.getTeamName(), s.getPoints(), s
+								.getJustification(), s.getCommentsToStudent()));
 			}
 
 			else {
-				submissionDetailsList.add(new SubmissionDetailsForStudent(
-						courseID, evaluationName, fromStudentName, student
-								.getName(), fromStudent, student.getEmail(), s
-								.getTeamName(), s.getPoints(), s
-								.getJustification(), s.getCommentsToStudent()));
+				submissionDetailsList.add(new SubmissionDetailsForStudent(courseID, evaluationName, fromStudentName, student.getName(), fromStudent, student.getEmail(), s.getTeamName(),
+						s.getPoints(), s.getJustification(), s.getCommentsToStudent()));
 			}
 		}
 
-		resp.getWriter().write(
-				"<submissions>"
-						+ parseSubmissionDetailsForStudentListToXML(
-								submissionDetailsList).toString()
-						+ "</submissions>");
+		resp.getWriter().write("<submissions>" + parseSubmissionDetailsForStudentListToXML(submissionDetailsList).toString() + "</submissions>");
 	}
 
 	private void studentGetSubmissionResultsList() throws IOException {
@@ -1723,8 +1448,7 @@ public class TeammatesServlet extends HttpServlet {
 		Student student = courses.getStudentWithID(courseID, googleID);
 
 		Evaluations evaluations = Evaluations.inst();
-		List<Submission> submissionList = evaluations.getSubmissionList(
-				courseID, evaluationName);
+		List<Submission> submissionList = evaluations.getSubmissionList(courseID, evaluationName);
 
 		String toStudent = student.getEmail();
 
@@ -1777,52 +1501,32 @@ public class TeammatesServlet extends HttpServlet {
 				}
 			}
 
-			pointsBumpRatio = evaluations.calculatePointsBumpRatio(courseID,
-					evaluationName, s.getFromStudent(), fromList);
+			pointsBumpRatio = evaluations.calculatePointsBumpRatio(courseID, evaluationName, s.getFromStudent(), fromList);
 
-			if (s.getFromStudent().equals(toStudent)
-					&& s.getToStudent().equals(toStudent)) {
-				submissionResultsList.add(
-						0,
-						new SubmissionResultsForStudent(courseID,
-								evaluationName, fromStudentName, toStudentName,
-								s.getFromStudent(), s.getToStudent(),
-								fromStudentComments, toStudentComments, s
-										.getTeamName(), s.getPoints(),
-								pointsBumpRatio, s.getJustification(), s
-										.getCommentsToStudent()));
+			if (s.getFromStudent().equals(toStudent) && s.getToStudent().equals(toStudent)) {
+				submissionResultsList.add(0, new SubmissionResultsForStudent(courseID, evaluationName, fromStudentName, toStudentName, s.getFromStudent(), s.getToStudent(), fromStudentComments,
+						toStudentComments, s.getTeamName(), s.getPoints(), pointsBumpRatio, s.getJustification(), s.getCommentsToStudent()));
 			}
 
 			else {
-				submissionResultsList.add(new SubmissionResultsForStudent(
-						courseID, evaluationName, fromStudentName,
-						toStudentName, s.getFromStudent(), s.getToStudent(),
-						fromStudentComments, toStudentComments,
-						s.getTeamName(), s.getPoints(), pointsBumpRatio, s
-								.getJustification(), s.getCommentsToStudent()));
+				submissionResultsList.add(new SubmissionResultsForStudent(courseID, evaluationName, fromStudentName, toStudentName, s.getFromStudent(), s.getToStudent(), fromStudentComments,
+						toStudentComments, s.getTeamName(), s.getPoints(), pointsBumpRatio, s.getJustification(), s.getCommentsToStudent()));
 			}
 		}
 
 		// Sort by Comments alphabetically
-		SubmissionResultsForStudent selfEvaluation = submissionResultsList
-				.remove(0);
+		SubmissionResultsForStudent selfEvaluation = submissionResultsList.remove(0);
 
-		Collections.sort(submissionResultsList,
-				new Comparator<SubmissionResultsForStudent>() {
-					public int compare(SubmissionResultsForStudent r1,
-							SubmissionResultsForStudent r2) {
-						String s1 = r1.getCommentsToStudent().getValue();
-						String s2 = r2.getCommentsToStudent().getValue();
-						return s1.compareToIgnoreCase(s2);
-					}
-				});
+		Collections.sort(submissionResultsList, new Comparator<SubmissionResultsForStudent>() {
+			public int compare(SubmissionResultsForStudent r1, SubmissionResultsForStudent r2) {
+				String s1 = r1.getCommentsToStudent().getValue();
+				String s2 = r2.getCommentsToStudent().getValue();
+				return s1.compareToIgnoreCase(s2);
+			}
+		});
 
 		submissionResultsList.add(0, selfEvaluation);
-		resp.getWriter().write(
-				"<submissions>"
-						+ parseSubmissionResultsForStudentListToXML(
-								submissionResultsList).toString()
-						+ "</submissions>");
+		resp.getWriter().write("<submissions>" + parseSubmissionResultsForStudentListToXML(submissionResultsList).toString() + "</submissions>");
 
 	}
 
@@ -1836,49 +1540,37 @@ public class TeammatesServlet extends HttpServlet {
 
 		try {
 			courses.joinCourse(registrationKey, googleID);
-			resp.getWriter().write(
-					MSG_STATUS_OPENING + MSG_STUDENT_COURSEJOINED
-							+ MSG_STATUS_CLOSING);
+			resp.getWriter().write(MSG_STATUS_OPENING + MSG_STUDENT_COURSEJOINED + MSG_STATUS_CLOSING);
 		}
 
 		catch (RegistrationKeyInvalidException e) {
-			resp.getWriter().write(
-					MSG_STATUS_OPENING + MSG_STUDENT_REGISTRATIONKEYINVALID
-							+ MSG_STATUS_CLOSING);
+			resp.getWriter().write(MSG_STATUS_OPENING + MSG_STUDENT_REGISTRATIONKEYINVALID + MSG_STATUS_CLOSING);
 		}
 
 		catch (GoogleIDExistsInCourseException e) {
-			resp.getWriter().write(
-					MSG_STATUS_OPENING + MSG_STUDENT_GOOGLEIDEXISTSINCOURSE
-							+ MSG_STATUS_CLOSING);
+			resp.getWriter().write(MSG_STATUS_OPENING + MSG_STUDENT_GOOGLEIDEXISTSINCOURSE + MSG_STATUS_CLOSING);
 		}
 
 		catch (RegistrationKeyTakenException e) {
-			resp.getWriter().write(
-					MSG_STATUS_OPENING + MSG_STUDENT_REGISTRATIONKEYTAKEN
-							+ MSG_STATUS_CLOSING);
+			resp.getWriter().write(MSG_STATUS_OPENING + MSG_STUDENT_REGISTRATIONKEYTAKEN + MSG_STATUS_CLOSING);
 		}
 
 	}
 
 	private void studentLogin() throws IOException {
 		Accounts accounts = Accounts.inst();
-		resp.getWriter().write(
-				"<url><![CDATA[" + accounts.getLoginPage("/student.jsp")
-						+ "]]></url>");
+		resp.getWriter().write("<url><![CDATA[" + accounts.getLoginPage("/student.jsp") + "]]></url>");
 	}
 
 	private void studentLogout() throws IOException {
 		Accounts accounts = Accounts.inst();
-		resp.getWriter().write(
-				"<url><![CDATA[" + accounts.getLogoutPage("") + "]]></url>");
+		resp.getWriter().write("<url><![CDATA[" + accounts.getLogoutPage("") + "]]></url>");
 	}
 
 	private void studentSubmitEvaluation() throws IOException {
 		List<Submission> submissionList = new ArrayList<Submission>();
 
-		int numberOfSubmissions = Integer.parseInt(req
-				.getParameter(STUDENT_NUMBEROFSUBMISSIONS));
+		int numberOfSubmissions = Integer.parseInt(req.getParameter(STUDENT_NUMBEROFSUBMISSIONS));
 
 		String fromStudent = "";
 		String toStudent = "";
@@ -1896,19 +1588,14 @@ public class TeammatesServlet extends HttpServlet {
 		Calendar now = Calendar.getInstance();
 		Calendar deadline = Calendar.getInstance();
 
-		Evaluation evaluation = evaluations.getEvaluation(courseID,
-				evaluationName);
+		Evaluation evaluation = evaluations.getEvaluation(courseID, evaluationName);
 		deadline.setTime(evaluation.getDeadline());
-		deadline.set(Calendar.MINUTE, deadline.get(Calendar.MINUTE)
-				+ evaluation.getGracePeriod());
+		deadline.set(Calendar.MINUTE, deadline.get(Calendar.MINUTE) + evaluation.getGracePeriod());
 
-		now.add(Calendar.MILLISECOND,
-				(int) (60 * 60 * 1000 * evaluation.getTimeZone()));
+		now.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * evaluation.getTimeZone()));
 
 		if (now.after(deadline)) {
-			resp.getWriter().write(
-					MSG_STATUS_OPENING + MSG_EVALUATION_DEADLINEPASSED
-							+ MSG_STATUS_CLOSING);
+			resp.getWriter().write(MSG_STATUS_OPENING + MSG_EVALUATION_DEADLINEPASSED + MSG_STATUS_CLOSING);
 		}
 
 		else {
@@ -1917,14 +1604,10 @@ public class TeammatesServlet extends HttpServlet {
 				fromStudent = req.getParameter(STUDENT_FROMSTUDENT + x);
 				toStudent = req.getParameter(STUDENT_TOSTUDENT + x);
 				points = Integer.parseInt(req.getParameter(STUDENT_POINTS + x));
-				justification = new Text(req.getParameter(STUDENT_JUSTIFICATION
-						+ x));
-				commentsToStudent = new Text(
-						req.getParameter(STUDENT_COMMENTSTOSTUDENT + x));
+				justification = new Text(req.getParameter(STUDENT_JUSTIFICATION + x));
+				commentsToStudent = new Text(req.getParameter(STUDENT_COMMENTSTOSTUDENT + x));
 
-				submissionList.add(new Submission(fromStudent, toStudent,
-						courseID, evaluationName, teamName, points,
-						justification, commentsToStudent));
+				submissionList.add(new Submission(fromStudent, toStudent, courseID, evaluationName, teamName, points, justification, commentsToStudent));
 			}
 
 			evaluations.editSubmissions(submissionList);
@@ -1955,8 +1638,7 @@ public class TeammatesServlet extends HttpServlet {
 	private void testOpenEvaluation() throws IOException {
 		String courseID = req.getParameter(COURSE_ID);
 		String name = req.getParameter(EVALUATION_NAME);
-		System.out.println(courseID + "|" + name + "|"
-				+ System.currentTimeMillis());
+		System.out.println(courseID + "|" + name + "|" + System.currentTimeMillis());
 		Evaluations evaluations = Evaluations.inst();
 
 		boolean edited = evaluations.openEvaluation(courseID, name);
