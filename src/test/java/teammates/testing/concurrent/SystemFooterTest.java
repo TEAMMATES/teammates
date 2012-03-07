@@ -26,6 +26,9 @@ public class SystemFooterTest extends TestCase {
 
 	@AfterClass
 	public static void classTearDown() throws Exception {
+		if(bi.isElementPresent(bi.logoutTab)) {
+			bi.logout();
+		}
 		BrowserInstancePool.release(bi);
 	}
 

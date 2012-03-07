@@ -33,6 +33,8 @@ public class StudentEvaluationSubmitTest2 extends TestCase {
 
 	@AfterClass
 	public static void classTearDown() throws Exception {
+		if(bi.isElementPresent(bi.logoutTab))
+			bi.logout();
 		TMAPI.cleanupCourse(scn.course.courseId);
 		BrowserInstancePool.release(bi);
 	}

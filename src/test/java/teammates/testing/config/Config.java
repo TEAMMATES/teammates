@@ -22,7 +22,7 @@ public class Config {
 			TEAMMATES_APP_PASSWD = prop.getProperty("test.app.password");
 			TEAMMATES_COORD_ID = prop.getProperty("test.coord.id");
 			INDIVIDUAL_ACCOUNT = prop.getProperty("test.individual.account");
-			INDiVIDUAL_NAME = prop.getProperty("test.individual.name");
+			INDIVIDUAL_NAME = prop.getProperty("test.individual.name");
 			API_AUTH_CODE = prop.getProperty("test.app.authCode");
 			BROWSER = prop.getProperty("test.selenium.browser");
 			SELENIUMRC_HOST = prop.getProperty("test.selenium.host");
@@ -59,7 +59,7 @@ public class Config {
 	public String TEAMMATES_COORD_ID;
 
 	// Individual Evaluation Reminder Testing Account
-	public String INDiVIDUAL_NAME;
+	public String INDIVIDUAL_NAME;
 	public String INDIVIDUAL_ACCOUNT;
 
 	/**

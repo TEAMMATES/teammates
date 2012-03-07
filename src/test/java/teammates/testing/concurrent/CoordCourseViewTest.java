@@ -63,7 +63,7 @@ public class CoordCourseViewTest extends TestCase {
 	@Test
 	public void testCoordRemindIndividualStudentSuccessful() {
 		System.out.println("testCoordRemindIndividualStudentSuccessful");
-		String newStudent = Config.inst().INDiVIDUAL_NAME;
+		String newStudent = Config.inst().INDIVIDUAL_NAME;
 		String newEmail = Config.inst().INDIVIDUAL_ACCOUNT;
 
 

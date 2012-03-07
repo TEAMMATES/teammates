@@ -4,8 +4,9 @@ var xmlhttp = new getXMLObject();
 // DATE OBJECT
 var cal = new CalendarPopup();
 
-// DISPLAY
+/*-----------------------------------------------------------CONSTANTS-------------------------------------------------------*/
 
+// DISPLAY
 var DISPLAY_COURSE_ARCHIVED = "The course has been archived.";
 var DISPLAY_COURSE_DELETED = "The course has been deleted."
 var DISPLAY_COURSE_DELETEDALLSTUDENTS = "All students have been removed from the course.";
@@ -194,6 +195,14 @@ var STUDENT_TOSTUDENT = "toemail";
 var STUDENT_TOSTUDENTCOMMENTS = "tostudentcomments";
 var STUDENT_TOSTUDENTNAME = "toname";
 
+
+/**
+ * Add Course Constants
+ * 
+ */
+var COURSEID_MAX_LENGTH = 21;
+var COURSENAME_MAX_LENGTH = 38;
+
 /*
  * Add Course Status Code
  * 
@@ -225,13 +234,18 @@ var COURSE_STATUS_INVALID_NAME = 7;
 var DISPLAY_COURSE_ADDED = "The course has been added. Click the 'Enrol' link in the table below to add students to the course.";
 var DISPLAY_COURSE_EXISTS = "<font color=\"#F00\">The course already exists.</font>";
 var DISPLAY_COURSE_EMPTY = "<font color=\"#F00\">Course ID and Course Name are compulsory fields.</font>";
-var DISPLAY_COURSE_LONGID = "<font color=\"#F00\">Course ID should not exceed 21 characters.</font>";
-var DISPLAY_COURSE_LONGNAME = "<font color=\"#F00\">Course name should not exceed 38 characters.</font>";
+var DISPLAY_COURSE_LONGID = "<font color=\"#F00\">Course ID should not exceed " + COURSEID_MAX_LENGTH + " characters.</font>";
+var DISPLAY_COURSE_LONGNAME = "<font color=\"#F00\">Course name should not exceed " + COURSENAME_MAX_LENGTH + " characters.</font>";
 var DISPLAY_COURSE_INVALIDID = "<font color=\"#F00\">Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.</font>";
-var DISPLAY_COURSE_INVALIDNAME = "<font color=\"#F00\">Course name should not exceed 38 characters.</font>";
+var DISPLAY_COURSE_INVALIDNAME = "<font color=\"#F00\">Course name is invalid.</font>";
 
 
+/*----------------------------------------------------------FUNCTIONS--------------------------------------------------------*/
 
+/**
+ * Coordinator Add Course
+ *
+ **/
 function doAddCourse(courseID, courseName) {
 	setStatusMessage(DISPLAY_LOADING);
 	
@@ -332,12 +346,12 @@ function checkAddCourseParam(courseID, courseName) {
 	}
 
 	// long courseID
-	else if(courseID.length > 21) {
+	else if(courseID.length > COURSEID_MAX_LENGTH) {
 		return COURSE_STATUS_LONG_ID;
 	}
 
 	// long courseName
-	else if(courseName.length > 38) {
+	else if(courseName.length > COURSENAME_MAX_LENGTH) {
 		return COURSE_STATUS_LONG_NAME;
 	}
 	
@@ -371,13 +385,18 @@ function isCourseIDValid(courseID) {
 }
 
 function isCourseNameValid(courseName) {
-	if (courseName.length > 38) {
+	if (courseName.length > COURSENAME_MAX_LENGTH) {
 		return false;
 	}
 
 	return true;
 }
 
+
+/**
+ * Coordinator Add Evaluation
+ *  
+ **/
 /*
  * Returns
  * 

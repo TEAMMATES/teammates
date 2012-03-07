@@ -58,7 +58,7 @@ public class TestCoordRemindIndividualJoinCourse extends BaseTest {
 		verifyEnrollPage();
 
 		wdFillString(enrolInfo, String.format("%s|%s|%s|",
-				sc.students.get(0).teamName, Config.inst().INDiVIDUAL_NAME,
+				sc.students.get(0).teamName, Config.inst().INDIVIDUAL_NAME,
 				Config.inst().INDIVIDUAL_ACCOUNT));
 		wdClick(enrolButton);
 		justWait();

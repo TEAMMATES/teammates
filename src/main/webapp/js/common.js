@@ -659,7 +659,7 @@ function printEvaluationAddForm() {
 			+ "\" id=\""
 			+ EVALUATION_NAME
 			+ "\" onmouseover=\"ddrivetip('Enter the name of the evaluation e.g. Mid-term.')\""
-			+ "onmouseout=\"hideddrivetip()\" maxlength = 60 tabindex=2> </td>"
+			+ "onmouseout=\"hideddrivetip()\" maxlength = 38 tabindex=2> </td>"
 			+ "<td class=\"attribute\" >Closing time:</td>"
 			+ "<td> <input style=\"width: 100px;\" type=\"text\" name=\""
 			+ EVALUATION_DEADLINE

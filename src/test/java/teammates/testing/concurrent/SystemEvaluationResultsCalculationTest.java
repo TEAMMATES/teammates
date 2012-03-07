@@ -19,17 +19,17 @@ import teammates.testing.object.Student;
 
 public class SystemEvaluationResultsCalculationTest extends TestCase {
 
-	BrowserInstance bi;
+	static BrowserInstance bi;
 	Scenario scn;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		TMAPI.disableEmail();
+		bi = BrowserInstancePool.request();
 	}
 
 	@AfterClass
 	public static void classTearDown() throws Exception {
-
+		BrowserInstancePool.release(bi);
 	}
 
 	// @Test
@@ -39,265 +39,264 @@ public class SystemEvaluationResultsCalculationTest extends TestCase {
 
 	@Test
 	public void testFirstDataSet0() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 0);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 0);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet1() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 1);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 1);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet2() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 2);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 2);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 
 	}
 
 	@Test
 	public void testFirstDataSet3() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 3);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 3);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet4() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 3);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 3);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet5() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 4);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 4);
 		testScenario();
-		BrowserInstancePool.release(bi);
-
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet6() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 5);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 5);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet7() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 6);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 6);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet8() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 7);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 7);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet9() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 8);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 8);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet10() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 9);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 9);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet11() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 10);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 10);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet12() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 11);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 11);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet13() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 12);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 12);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet14() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 13);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 13);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet15() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 14);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 14);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet16() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 15);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 15);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet17() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 16);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 16);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet18() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 17);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 17);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet19() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 18);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 18);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet20() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 19);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 19);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet21() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 20);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 20);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet22() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 21);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 21);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet23() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 22);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 22);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet24() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 23);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 23);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet25() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 24);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 24);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet26() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 25);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 25);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet27() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 26);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 27);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	@Test
 	public void testFirstDataSet28() throws Exception {
-		bi = BrowserInstancePool.request();
+//		bi = BrowserInstancePool.request();
 		System.out.println("TestEvalutionPointCalculation: scenario " + 28);
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 28);
 		testScenario();
-		BrowserInstancePool.release(bi);
+//		BrowserInstancePool.release(bi);
 	}
 
 	private void testScenario() throws Exception {
@@ -315,6 +314,8 @@ public class SystemEvaluationResultsCalculationTest extends TestCase {
 		TMAPI.openEvaluation(scn.course.courseId, scn.evaluation2.name);
 		TMAPI.studentsSubmitDynamicFeedbacks(scn.students, scn.course.courseId, scn.evaluation2.name, scn.submissionPoints);
 		TMAPI.closeEvaluation(scn.course.courseId, scn.evaluation2.name);
+		
+		TMAPI.disableEmail();
 
 		// coordinator page testing:
 		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
