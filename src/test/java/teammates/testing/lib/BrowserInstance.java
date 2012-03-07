@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
+import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
@@ -1895,11 +1895,11 @@ public class BrowserInstance {
 		return selenium.isTextPresent(text);
 	}
 
-	public void verifyPageHTML(String url, String filePath) throws Exception {
+	public void verifyPageHTML(String url, String filepath) throws Exception {
 		try {
 			URL help = new URL(url);
 			URLConnection yc = help.openConnection();
-			FileInputStream helpFile = new FileInputStream(filePath);
+			FileInputStream helpFile = new FileInputStream(filepath);
 			BufferedReader actual = new BufferedReader(new InputStreamReader(yc.getInputStream()));
 			BufferedReader expected = new BufferedReader(new InputStreamReader(new DataInputStream(helpFile)));
 
@@ -1920,7 +1920,28 @@ public class BrowserInstance {
 		}
 	}
 	
-	public String getHTMLSource() {
-		return selenium.getHtmlSource();
+	public void verifyCurrentPageHTML(String filepath) throws Exception {
+		try {
+			String pageSrc = driver.getPageSource();
+			FileInputStream refSrc = new FileInputStream(filepath);
+			BufferedReader actual = new BufferedReader(new StringReader(pageSrc));
+			BufferedReader expected = new BufferedReader(new InputStreamReader(new DataInputStream(refSrc)));
+
+			String expectedLine;
+			String actualLine;
+			while ((expectedLine = expected.readLine()) != null) {
+				actualLine = actual.readLine();
+				assertNotNull("Expected had more lines then the actual.", actualLine);
+				assertEquals(expectedLine, actualLine);
+			}
+
+			assertNull("Actual had more lines then the expected.", actual.readLine());
+
+			actual.close();
+			expected.close();
+		} catch (Exception e) {
+			System.err.println("Error: " + e.getMessage());
+		}
 	}
+	
 }
