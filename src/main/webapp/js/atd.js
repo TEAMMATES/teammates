@@ -2112,7 +2112,7 @@ function isEvaluationNameValid(name)
 		return false;
 	}
 	
-	if(name.length > 22)
+	if(name.length > 38)
 	{
 		return false;
 	}

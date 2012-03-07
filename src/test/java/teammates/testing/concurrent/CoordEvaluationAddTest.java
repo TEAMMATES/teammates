@@ -93,7 +93,7 @@ public class CoordEvaluationAddTest extends TestCase {
 	public void testCoordAddEvaluationWithInvalidInputFailed() {
 		Evaluation eval = scn2.evaluation;
 		String invalidEvalName = "Evaluation =)";
-		String longEvalName = "THIS IS A LONG EVALUATION WITH SIZE MORE THAN 22 CHARACTERS";
+		String longEvalName = "THIS IS A LONG EVALUATION WITH SIZE MORE THAN 38 CHARACTERS";
 		
 		bi.gotoEvaluations();
 		bi.addEvaluation(eval.courseID, invalidEvalName, eval.dateValue, eval.nextTimeValue, eval.p2pcomments, eval.instructions, eval.gracePeriod);

@@ -233,7 +233,7 @@ public class BrowserInstance {
 	public final String MESSAGE_EVALUATION_PUBLISHED = "The evaluation has been published.";
 	public final String MESSAGE_EVALUATION_UNPUBLISHED = "The evaluation has been unpublished.";
 
-	public final String ERROR_LONG_EVALUATION_NAME = "Evaluation name should not exceed 22 characters.";
+	public final String ERROR_LONG_EVALUATION_NAME = "Evaluation name should not exceed 38 characters.";
 	public final String ERROR_INVALID_EVALUATION_NAME = "Please use only alphabets, numbers and whitespace in evaluation name.";
 
 	public final String MESSAGE_EVALUATION_RESULTS_EDITED = "The particular evaluation results have been edited.";

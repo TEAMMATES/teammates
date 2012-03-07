@@ -25,7 +25,7 @@ var DISPLAY_EVALUATION_EDITED = "The evaluation has been edited.";
 var DISPLAY_EVALUATION_EXISTS = "<font color=\"#F00\">The evaluation exists already.</font>";
 var DISPLAY_EVALUATION_INFORMEDSTUDENTSOFCHANGES = "E-mails have been sent out to inform the students of the changes to the evaluation.";
 var DISPLAY_EVALUATION_NAMEINVALID = "<font color=\"#F00\">Please use only alphabets, numbers and whitespace in evaluation name.</font>";
-var DISPLAY_EVALUATION_NAME_LENGTHINVALID = "<font color=\"#F00\">Evaluation name should not exceed 22 characters.</font>";
+var DISPLAY_EVALUATION_NAME_LENGTHINVALID = "<font color=\"#F00\">Evaluation name should not exceed 38 characters.</font>";
 var DISPLAY_EVALUATION_PUBLISHED = "The evaluation has been published.";
 var DISPLAY_EVALUATION_UNPUBLISHED = "The evaluation has been unpublished.";
 var DISPLAY_EVALUATION_REMINDERSSENT = "Reminder e-mails have been sent out to those students.";
