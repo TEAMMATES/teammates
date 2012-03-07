@@ -6,6 +6,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.lib.TMAPI;
@@ -51,6 +52,28 @@ public class CoordCourseListTest extends TestCase {
 		bi.waitForElementPresent(bi.getCourseID(scn.course.courseId));
 		bi.clickAndConfirmCourseDelete(scn.course.courseId);
 		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_COURSE_DELETED);
+		assertFalse(bi.isCoursePresent(scn.course.courseId, scn.course.courseName));
+		
+		//check that the evaluation has also been delete
+		bi.gotoEvaluations();
+		assertFalse(bi.isEvaluationPresent(scn.course.courseId, scn.evaluation.name));
+		
+		bi.logout();
+		// Check that the course also 
+		bi.studentLogin(scn.students.get(0).email, Config.inst().TEAMMATES_APP_PASSWD);
+		bi.clickCourseTab();
+		bi.justWait();
+		assertFalse(bi.isCoursePresent(scn.course.courseId, scn.course.courseName));
+		
+		//check that the evaluation has also been delete
+		bi.gotoEvaluations();
+		assertFalse(bi.isEvaluationPresent(scn.course.courseId, scn.evaluation.name));
+		
+		bi.logout();
+		// Check that the course also 
+		bi.studentLogin(scn.students.get(0).email, Config.inst().TEAMMATES_APP_PASSWD);
+		bi.clickCourseTab();
+		bi.justWait();
 		assertFalse(bi.isCoursePresent(scn.course.courseId, scn.course.courseName));
 	}
 	

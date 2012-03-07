@@ -3051,8 +3051,8 @@ function sortByToStudentName(a, b) {
 }
 
 function toggleDeleteCourseConfirmation(courseID) {
-	var s = confirm("Are you sure you want to delete the course, \"" + courseID
-			+ "\"?");
+	var s = confirm("Are you sure you want to delete the course, \"" + courseID + "\"? This operation will delete all evaluations and students in this course.");
+ 	
 	if (s == true) {
 		doDeleteCourse(courseID);
 	} else {
