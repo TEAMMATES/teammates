@@ -12,11 +12,12 @@ import teammates.jdo.Student;
 
 @SuppressWarnings("serial")
 public class AutomatedRemindersServlet extends HttpServlet {
+	private final int NUMBER_OF_HOURS_BEFORE_DEADLINE = 24;
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
 		Evaluations evaluations = Evaluations.inst();
 		Courses courses = Courses.inst();
 
-		List<Evaluation> evaluationList = evaluations.getEvaluationList(24);
+		List<Evaluation> evaluationList = evaluations.getEvaluationList(NUMBER_OF_HOURS_BEFORE_DEADLINE);
 		List<Student> studentList;
 		List<Student> studentToRemindList;
 

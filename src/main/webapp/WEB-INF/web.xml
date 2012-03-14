@@ -85,4 +85,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>AutomatedReminders</servlet-name>
 		<url-pattern>/automatedreminders</url-pattern>
 	</servlet-mapping>
+
+    <security-constraint>
+        <web-resource-collection>
+            <url-pattern>/automatedreminders</url-pattern>
+            <url-pattern>/evaluationactivation</url-pattern>
+            <url-pattern>/teamformingsessionactivation</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
 </web-app>

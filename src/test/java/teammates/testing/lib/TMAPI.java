@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import teammates.APIServlet;
+import teammates.TeammatesServlet;
 import teammates.testing.config.Config;
 import teammates.testing.object.Course;
 import teammates.testing.object.Evaluation;
@@ -217,6 +219,12 @@ public class TMAPI {
 
 	public static void remindStudents(ArrayList<Student> students) {
 		// TODO Auto-generated method stub
+	}
+	
+	public static void activateAutomatedReminder(){
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER);
+		String paramsString = buildParamsString(params);
+		makePOSTRequest(paramsString);
 	}
 
 	public static void submitEvaluation(ArrayList<Submission> submissions) {

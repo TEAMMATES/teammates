@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +39,8 @@ import com.google.gson.reflect.TypeToken;
  */
 @SuppressWarnings("serial")
 public class APIServlet extends HttpServlet {
+	public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER="activate_auto_reminder";
+	
 	private HttpServletRequest req;
 	private HttpServletResponse resp;
 
@@ -101,6 +104,8 @@ public class APIServlet extends HttpServlet {
 			enableEmail();
 		} else if (action.equals("disable_email")) {
 			disableEmail();
+		}  else if (action.equals(OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER)){
+			activateAutomatedReminder();
 		} else {
 			System.err.println("Unknown command: " + action);
 		}
@@ -495,4 +500,14 @@ public class APIServlet extends HttpServlet {
 		resp.getWriter().write("ok");
 
 	}
+	
+	/**
+	 * request to automatedReminders servlet
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	protected void activateAutomatedReminder() throws IOException,ServletException{
+	        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/automatedreminders");
+	        dispatcher.forward(this.req, this.resp);
+		}
 }
