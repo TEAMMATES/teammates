@@ -312,7 +312,7 @@
             <id>process-sources2</id>
             <phase>process-sources</phase>
             <configuration>
-              <target name='changeVersion' if='app'>
+              <target if='app'>
                   <xmlproperty file="${prop.appengine.xml.dir}/appengine-web.xml"/>
                 <property name="appVersion" value="${appengine-web-app.version}"/>
                   <copy file="${prop.appengine.xml.dir}/appengine-web.template.xml" 
@@ -323,12 +323,12 @@
                   </filterset>
                 </copy>  
 				<propertyfile file="${prop.build.dir}">
-                  	<entry key="app.account" value="${email}"/>
+          <entry key="app.account" value="${email}"/>
 					<entry key="app.url" value="${appId}.appspot.com"/>
 					<entry key="app.id" value="${appId}"/>
 				</propertyfile> 
 				<propertyfile file="${prop.test.dir}">
-                  	<entry key="test.app.url" value="http://${appId}.appspot.com/"/>
+          <entry key="test.app.url" value="http://${appId}.appspot.com/"/>
 					<entry key="test.app.id" value="${appId}"/>
 				</propertyfile>
                 <echo message='------Overwrite appengin-web-app.xml-------'/>
@@ -342,6 +342,26 @@
             </goals>
           </execution>
 
+          <!-- overwrite test.properties -->
+          <execution>
+            <id>process-sources-3</id>
+            <phase>process-sources</phase>
+            <configuration>
+              <target >
+                <xmlproperty file="${prop.appengine.xml.dir}/appengine-web.xml"/>
+                <property name="appVersion" value="${appengine-web-app.version}"/>
+                <property name="appID" value="${appengine-web-app.application}"/>
+        <propertyfile file="${prop.test.dir}">
+          <entry key="test.app.url" value="http://${appVersion}.${appID}.appspot.com/"/>
+        </propertyfile>
+              </target>
+
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        
           <execution>
             <id>pre-integration-test</id>
             <phase>pre-integration-test</phase>
@@ -370,9 +390,25 @@
                     app id              :${appengine-web-app.application}
                     app account         :${app.account}
                     api auth code       :${api.authCode}
-                  </echo>	
+                  </echo> 
                   <copy file="${prop.build.dir}" tofile="report/${reportTimeStamp}/build.properties.backup"/>
-                  <copy file="${prop.test.dir}" tofile="report/${reportTimeStamp}/test.properties.backup"/>	
+                  <copy file="${prop.test.dir}" tofile="report/${reportTimeStamp}/test.properties.backup"/> 
+
+               
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+
+          <execution>
+            <id>pre-integration-test-2</id>
+            <phase>pre-integration-test</phase>
+            <configuration>
+                <target>
+                  <xmlproperty file="pom.xml"/>
+                  <property name = "sdk.dir" value="${settings.localRepository}/com/google/appengine/appengine-java-sdk/${project.properties.gae.version}/appengine-java-sdk-${project.properties.gae.version}/bin"/>
 
                 <exec dir="${sdk.dir}/" executable="chmod" osfamily='unix' failonerror='true'>
                     <arg line="+x appcfg.sh"/>
@@ -384,11 +420,12 @@
                   <arg line="/c appcfg.cmd set_default_version ${project.basedir}/src/main/webapp" />  
                 </exec>     
               </target>
+              <skip>${skipSetDefault}</skip>  
             </configuration>
             <goals>
               <goal>run</goal>
             </goals>
-          </execution>
+          </execution>  
           
            <execution>
               <id>package</id>
@@ -523,6 +560,10 @@
      Skip changing the authenciation code by default
      -->   
     <skipApiCode>true</skipApiCode>
+     <!--
+      Set the version as default
+     -->  
+    <skipSetDefault>true</skipSetDefault>
 
     <datanucleus.version>1.1.5</datanucleus.version>
     
