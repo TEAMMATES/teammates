@@ -1,4 +1,4 @@
-package teammates.testing.junit;
+package teammates.testing.junit.sample;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -11,6 +11,8 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import teammates.jdo.Course;
 import static org.junit.Assert.*;
 
 public class LocalDatastoreTest {
@@ -31,10 +33,15 @@ public class LocalDatastoreTest {
     // run this test twice to prove we're not leaking any state across tests
     private void doTest() {
         DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-        assertEquals(0, ds.prepare(new Query("yam")).countEntities(withLimit(10)));
-        ds.put(new Entity("yam"));
-        ds.put(new Entity("yam"));
-        assertEquals(2, ds.prepare(new Query("yam")).countEntities(withLimit(10)));
+        assertEquals(0, ds.prepare(new Query(Course.class.getName())).countEntities(withLimit(10)));
+        Entity course = new Entity(Course.class.getName());
+		course.setProperty("ID", "CS1010");
+		course.setProperty("name", "Programming Methodology");
+		course.setProperty("coordinatorID", "teammates.coord");
+		course.setProperty("archived", false);
+		ds.put(course);
+		
+		assertEquals(1, ds.prepare(new Query(Course.class.getName())).countEntities(withLimit(10)));
     }
 
     @Test

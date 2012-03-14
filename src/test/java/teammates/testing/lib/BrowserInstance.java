@@ -244,7 +244,7 @@ public class BrowserInstance {
 	public final String ERROR_STUDENT_JOIN_COURSE = "Registration key is invalid.";
 	public final String MESSAGE_STUDENT_JOIN_COURSE = "You have successfully joined the course.";
 
-	public final String FOOTER = "Best Viewed In Firefox, Chrome, Safari and Internet Explore 8+. For Enquires:";
+	public final String FOOTER = "Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:";
 
 	// -----------------------------UI Actions ----------------------------->>
 	// Homepage:

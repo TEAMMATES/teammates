@@ -195,6 +195,11 @@ var STUDENT_TOSTUDENT = "toemail";
 var STUDENT_TOSTUDENTCOMMENTS = "tostudentcomments";
 var STUDENT_TOSTUDENTNAME = "toname";
 
+/**
+ * XMLHttpRequest Constants
+ * 
+ * */
+var SERVERERROR = 1;
 
 /**
  * Add Course Constants
@@ -240,8 +245,7 @@ var DISPLAY_COURSE_INVALIDID = "<font color=\"#F00\">Please use only alphabets, 
 var DISPLAY_COURSE_INVALIDNAME = "<font color=\"#F00\">Course name is invalid.</font>";
 
 
-/*----------------------------------------------------------FUNCTIONS--------------------------------------------------------*/
-
+/*----------------------------------------------------------ADD COURSE FUNCTIONS--------------------------------------------------------*/
 /**
  * Coordinator Add Course
  *
@@ -393,6 +397,103 @@ function isCourseNameValid(courseName) {
 }
 
 
+/*----------------------------------------------------------LIST COURSE FUNCTIONS--------------------------------------------------------*/
+/**
+ * get Course List
+ * 
+ * */
+function doGetCourseList() {
+	loadStatusMessage();
+
+	var results = getCourseList();
+
+	clearStatusMessage();
+	
+	if(results == SERVERERROR) {
+		alertServerError();
+	}
+	else if(courseSortStatus == courseSort.name) {
+		toggleSortCoursesByName(results);
+	}
+	else {
+		toggleSortCoursesByID(results);
+	}
+}
+
+/*
+ * server request: requestGetCourseList
+ * server response: handleGetCourseList
+ * */
+function getCourseList() {
+	requestGetCourseList();
+	return handleGetCourseList();
+}
+
+function requestGetCourseList() {
+	if (xmlhttp) {
+		xmlhttp.open("POST", "/teammates", false);
+		xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
+		xmlhttp.send("operation=" + OPERATION_COORDINATOR_GETCOURSELIST);
+	}	
+}
+
+function handleGetCourseList() {
+	if (xmlhttp.status == 200) {
+		var courses = xmlhttp.responseXML.getElementsByTagName("courses")[0];
+		var courseList = new Array();
+
+		if (courses != null) {
+			var course;
+			var ID;
+			var name;
+			var numberOfTeams;
+			var totalStudnets;
+			var unregistered;
+			var status;
+
+			var coursesChildNodesLength = courses.childNodes.length;
+			for (loop = 0; loop < coursesChildNodesLength; loop++) {
+				course = courses.childNodes[loop];
+				ID = course.getElementsByTagName(COURSE_ID)[0].firstChild.nodeValue;
+				name = course.getElementsByTagName(COURSE_NAME)[0].firstChild.nodeValue;
+				numberOfTeams = course.getElementsByTagName(COURSE_NUMBEROFTEAMS)[0].firstChild.nodeValue;
+				totalStudents = course.getElementsByTagName(COURSE_TOTALSTUDENTS)[0].firstChild.nodeValue;
+				unregistered = course.getElementsByTagName(COURSE_UNREGISTERED)[0].firstChild.nodeValue;
+				status = course.getElementsByTagName(COURSE_STATUS)[0].firstChild.nodeValue;
+				courseList[loop] = {
+					ID : ID,
+					name : name,
+					numberOfTeams : numberOfTeams,
+					totalStudents : totalStudents,
+					unregistered : unregistered,
+					status : status
+				};
+			}
+		}
+
+		return courseList;
+	}
+
+	else {
+		return 1;
+	}
+
+}
+
+function toggleSortCoursesByID(courseList) {
+	printCourseList(courseList.sort(sortByID), COORDINATOR);
+	courseSortStatus = courseSort.ID;
+	document.getElementById("button_sortcourseid").setAttribute("class","buttonSortAscending");
+}
+
+function toggleSortCoursesByName(courseList) {
+	printCourseList(courseList.sort(sortByName), COORDINATOR);
+	courseSortStatus = courseSort.name;
+	document.getElementById("button_sortcoursename").setAttribute("class","buttonSortAscending");
+}
+
+
+/*----------------------------------------------------------ADD EVALUATION FUNCTIONS--------------------------------------------------------*/
 /**
  * Coordinator Add Evaluation
  *  
@@ -876,6 +977,10 @@ function displayCourseInformation(courseID) {
 	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
 }
 
+/**
+ * Coordinator Click Course Tab
+ * 
+ * */
 function displayCoursesTab() {
 	clearDisplay();
 	setStatusMessage(DISPLAY_LOADING);
@@ -1273,30 +1378,7 @@ function doGetCourseIDList() {
 	}
 }
 
-function doGetCourseList() {
-	setStatusMessage(DISPLAY_LOADING);
 
-	var results = getCourseList();
-
-	clearStatusMessage();
-
-	if (results != 1) {
-		// toggleSortCoursesByID calls printCourseList too
-		printCourseList(results, COORDINATOR);
-
-		if (courseSortStatus == courseSort.name) {
-			toggleSortCoursesByName(results);
-		}
-
-		else {
-			toggleSortCoursesByID(results);
-		}
-	}
-
-	else {
-		alert(DISPLAY_SERVERERROR);
-	}
-}
 
 function doGetEvaluationList() {
 	setStatusMessage(DISPLAY_LOADING);
@@ -1340,6 +1422,108 @@ function doGetSubmissionResultsList(courseID, evaluationName, status,
 
 	else {
 		alert(DISPLAY_SERVERERROR);
+	}
+}
+
+/*
+ * Returns
+ * 
+ * submissionList: successful 1: server error
+ * 
+ */
+function getSubmissionList(courseID, evaluationName) {
+	if (xmlhttp) {
+		xmlhttp.open("POST", "/teammates", false);
+		xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
+		xmlhttp.send("operation=" + OPERATION_COORDINATOR_GETSUBMISSIONLIST
+				+ "&" + COURSE_ID + "=" + encodeURIComponent(courseID) + "&"
+				+ EVALUATION_NAME + "=" + encodeURIComponent(evaluationName));
+
+		return handleGetSubmissionList();
+	}
+}
+
+/*
+ * Returns
+ * 
+ * submissionList: successful 1: server error
+ * 
+ */
+function handleGetSubmissionList() {
+	if (xmlhttp.status == 200) {
+		var submissions = xmlhttp.responseXML
+				.getElementsByTagName("submissions")[0];
+		var submissionList = new Array();
+		var submission;
+
+		var fromStudentName;
+		var toStudentName;
+		var fromStudent;
+		var toStudent;
+		var fromStudentComments;
+		var toStudentComments;
+		var courseID;
+		var evaluationName;
+		var teamName;
+		var points;
+		var pointsBumpRatio;
+		var justification;
+		var commentsToStudent;
+
+		if (submissions != null) {
+			var submissionsChildNodesLength = submissions.childNodes.length;
+			for (loop = 0; loop < submissionsChildNodesLength; loop++) {
+				submission = submissions.childNodes[loop];
+				courseID = submission.getElementsByTagName(COURSE_ID)[0].firstChild.nodeValue;
+				evaluationName = submission
+						.getElementsByTagName(EVALUATION_NAME)[0].firstChild.nodeValue;
+				teamName = submission.getElementsByTagName(STUDENT_TEAMNAME)[0].firstChild.nodeValue;
+
+				fromStudentName = submission
+						.getElementsByTagName(STUDENT_FROMSTUDENTNAME)[0].firstChild.nodeValue;
+				fromStudent = submission
+						.getElementsByTagName(STUDENT_FROMSTUDENT)[0].firstChild.nodeValue;
+				fromStudentComments = submission
+						.getElementsByTagName(STUDENT_FROMSTUDENTCOMMENTS)[0].firstChild.nodeValue;
+
+				toStudentName = submission
+						.getElementsByTagName(STUDENT_TOSTUDENTNAME)[0].firstChild.nodeValue;
+				toStudent = submission.getElementsByTagName(STUDENT_TOSTUDENT)[0].firstChild.nodeValue;
+				toStudentComments = submission
+						.getElementsByTagName(STUDENT_TOSTUDENTCOMMENTS)[0].firstChild.nodeValue;
+
+				points = parseInt(submission
+						.getElementsByTagName(STUDENT_POINTS)[0].firstChild.nodeValue);
+				pointsBumpRatio = parseFloat(submission
+						.getElementsByTagName(STUDENT_POINTSBUMPRATIO)[0].firstChild.nodeValue);
+				justification = submission
+						.getElementsByTagName(STUDENT_JUSTIFICATION)[0].firstChild.nodeValue;
+				commentsToStudent = submission
+						.getElementsByTagName(STUDENT_COMMENTSTOSTUDENT)[0].firstChild.nodeValue;
+
+				submissionList[loop] = {
+					fromStudentName : fromStudentName,
+					toStudentName : toStudentName,
+					fromStudent : fromStudent,
+					toStudent : toStudent,
+					courseID : courseID,
+					evaluationName : evaluationName,
+					teamName : teamName,
+					justification : justification,
+					commentsToStudent : commentsToStudent,
+					points : points,
+					pointsBumpRatio : pointsBumpRatio,
+					fromStudentComments : fromStudentComments,
+					toStudentComments : toStudentComments
+				};
+			}
+		}
+
+		return submissionList;
+	}
+
+	else {
+		return 1;
 	}
 }
 
@@ -1696,22 +1880,7 @@ function getCourse(courseID) {
 	}
 }
 
-/*
- * Returns
- * 
- * courseList: successful 1: server error
- * 
- */
-function getCourseList() {
-	if (xmlhttp) {
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-				"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_GETCOURSELIST);
 
-		return handleGetCourseList();
-	}
-}
 
 function getDateWithTimeZoneOffset(timeZone) {
 	var now = new Date();
@@ -1791,24 +1960,7 @@ function getStudentList(courseID) {
 	}
 }
 
-/*
- * Returns
- * 
- * submissionList: successful 1: server error
- * 
- */
-function getSubmissionList(courseID, evaluationName) {
-	if (xmlhttp) {
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-				"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_GETSUBMISSIONLIST
-				+ "&" + COURSE_ID + "=" + encodeURIComponent(courseID) + "&"
-				+ EVALUATION_NAME + "=" + encodeURIComponent(evaluationName));
 
-		return handleGetSubmissionList();
-	}
-}
 
 function getXMLObject() {
 	var xmlHttp = false;
@@ -2163,56 +2315,7 @@ function handleGetCourseIDList() {
 	}
 }
 
-/*
- * Returns
- * 
- * courseList: successful 1: server error
- * 
- */
-function handleGetCourseList() {
-	if (xmlhttp.status == 200) {
-		var courses = xmlhttp.responseXML.getElementsByTagName("courses")[0];
-		var courseList = new Array();
 
-		if (courses != null) {
-			var course;
-			var ID;
-			var name;
-			var numberOfTeams;
-			var totalStudnets;
-			var unregistered;
-			var status;
-
-			var coursesChildNodesLength = courses.childNodes.length;
-			for (loop = 0; loop < coursesChildNodesLength; loop++) {
-				course = courses.childNodes[loop];
-				ID = course.getElementsByTagName(COURSE_ID)[0].firstChild.nodeValue;
-				name = course.getElementsByTagName(COURSE_NAME)[0].firstChild.nodeValue;
-				numberOfTeams = course
-						.getElementsByTagName(COURSE_NUMBEROFTEAMS)[0].firstChild.nodeValue;
-				totalStudents = course
-						.getElementsByTagName(COURSE_TOTALSTUDENTS)[0].firstChild.nodeValue;
-				unregistered = course.getElementsByTagName(COURSE_UNREGISTERED)[0].firstChild.nodeValue;
-				status = course.getElementsByTagName(COURSE_STATUS)[0].firstChild.nodeValue;
-				courseList[loop] = {
-					ID : ID,
-					name : name,
-					numberOfTeams : numberOfTeams,
-					totalStudents : totalStudents,
-					unregistered : unregistered,
-					status : status
-				};
-			}
-		}
-
-		return courseList;
-	}
-
-	else {
-		return 1;
-	}
-
-}
 
 /*
  * Returns
@@ -2370,89 +2473,7 @@ function handleGetStudentList() {
 	}
 }
 
-/*
- * Returns
- * 
- * submissionList: successful 1: server error
- * 
- */
-function handleGetSubmissionList() {
-	if (xmlhttp.status == 200) {
-		var submissions = xmlhttp.responseXML
-				.getElementsByTagName("submissions")[0];
-		var submissionList = new Array();
-		var submission;
 
-		var fromStudentName;
-		var toStudentName;
-		var fromStudent;
-		var toStudent;
-		var fromStudentComments;
-		var toStudentComments;
-		var courseID;
-		var evaluationName;
-		var teamName;
-		var points;
-		var pointsBumpRatio;
-		var justification;
-		var commentsToStudent;
-
-		if (submissions != null) {
-			var submissionsChildNodesLength = submissions.childNodes.length;
-			for (loop = 0; loop < submissionsChildNodesLength; loop++) {
-				submission = submissions.childNodes[loop];
-				courseID = submission.getElementsByTagName(COURSE_ID)[0].firstChild.nodeValue;
-				evaluationName = submission
-						.getElementsByTagName(EVALUATION_NAME)[0].firstChild.nodeValue;
-				teamName = submission.getElementsByTagName(STUDENT_TEAMNAME)[0].firstChild.nodeValue;
-
-				fromStudentName = submission
-						.getElementsByTagName(STUDENT_FROMSTUDENTNAME)[0].firstChild.nodeValue;
-				fromStudent = submission
-						.getElementsByTagName(STUDENT_FROMSTUDENT)[0].firstChild.nodeValue;
-				fromStudentComments = submission
-						.getElementsByTagName(STUDENT_FROMSTUDENTCOMMENTS)[0].firstChild.nodeValue;
-
-				toStudentName = submission
-						.getElementsByTagName(STUDENT_TOSTUDENTNAME)[0].firstChild.nodeValue;
-				toStudent = submission.getElementsByTagName(STUDENT_TOSTUDENT)[0].firstChild.nodeValue;
-				toStudentComments = submission
-						.getElementsByTagName(STUDENT_TOSTUDENTCOMMENTS)[0].firstChild.nodeValue;
-
-				points = parseInt(submission
-						.getElementsByTagName(STUDENT_POINTS)[0].firstChild.nodeValue);
-				pointsBumpRatio = parseFloat(submission
-						.getElementsByTagName(STUDENT_POINTSBUMPRATIO)[0].firstChild.nodeValue);
-				justification = submission
-						.getElementsByTagName(STUDENT_JUSTIFICATION)[0].firstChild.nodeValue;
-				commentsToStudent = submission
-						.getElementsByTagName(STUDENT_COMMENTSTOSTUDENT)[0].firstChild.nodeValue;
-
-				submissionList[loop] = {
-					fromStudentName : fromStudentName,
-					toStudentName : toStudentName,
-					fromStudent : fromStudent,
-					toStudent : toStudent,
-					courseID : courseID,
-					evaluationName : evaluationName,
-					teamName : teamName,
-					justification : justification,
-					commentsToStudent : commentsToStudent,
-					points : points,
-					pointsBumpRatio : pointsBumpRatio,
-					fromStudentComments : fromStudentComments,
-					toStudentComments : toStudentComments
-				};
-			}
-		}
-
-		return submissionList;
-	}
-
-	else {
-		return 1;
-	}
-}
 
 function handleLogout() {
 	if (xmlhttp.status == 200) {
@@ -2998,6 +3019,10 @@ function setSelectedOption(s, v) {
 	}
 }
 
+function sortBase(x, y) {
+	return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+}
+
 function sortByAverage(a, b) {
 	var x = a.average;
 	var y = b.average;
@@ -3010,14 +3035,14 @@ function sortByAverage(a, b) {
 		y = 1000;
 	}
 
-	return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+	return sortBase(x, y);
 }
 
 function sortByCourseID(a, b) {
 	var x = a.courseID.toLowerCase();
 	var y = b.courseID.toLowerCase();
 
-	return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+	return sortBase(x, y);
 }
 
 function sortByDiff(a, b) {
@@ -3032,56 +3057,56 @@ function sortByDiff(a, b) {
 		y = 1000;
 	}
 
-	return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+	return sortBase(x, y);
 }
 
 function sortByFromStudentName(a, b) {
 	var x = a.fromStudentName;
 	var y = b.fromStudentName;
 
-	return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+	return sortBase(x, y);
 }
 
 function sortByID(a, b) {
 	var x = a.ID.toLowerCase();
 	var y = b.ID.toLowerCase();
 
-	return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+	return sortBase(x, y);
 }
 
 function sortByName(a, b) {
 	var x = a.name.toLowerCase();
 	var y = b.name.toLowerCase();
 
-	return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+	return sortBase(x, y);
 }
 
 function sortByGoogleID(a, b) {
 	var x = a.googleID;
 	var y = b.googleID;
 
-	return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+	return sortBase(x, y);
 }
 
 function sortBySubmitted(a, b) {
 	var x = a.submitted;
 	var y = b.submitted;
 
-	return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+	return sortBase(x, y);
 }
 
 function sortByTeamName(a, b) {
 	var x = a.teamName;
 	var y = b.teamName;
 
-	return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+	return sortBase(x, y);
 }
 
 function sortByToStudentName(a, b) {
 	var x = a.toStudentName;
 	var y = b.toStudentName;
 
-	return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+	return sortBase(x, y);
 }
 
 function toggleDeleteCourseConfirmation(courseID) {
@@ -3200,19 +3225,7 @@ function toggleSendRegistrationKeysConfirmation(courseID) {
 	}
 }
 
-function toggleSortCoursesByID(courseList) {
-	printCourseList(courseList.sort(sortByID), COORDINATOR);
-	courseSortStatus = courseSort.ID;
-	document.getElementById("button_sortcourseid").setAttribute("class",
-			"buttonSortAscending");
-}
 
-function toggleSortCoursesByName(courseList) {
-	printCourseList(courseList.sort(sortByName), COORDINATOR);
-	courseSortStatus = courseSort.name;
-	document.getElementById("button_sortcoursename").setAttribute("class",
-			"buttonSortAscending");
-}
 
 function toggleSortEvaluationSummaryListByAverage(submissionList, summaryList,
 		status, commentsEnabled) {

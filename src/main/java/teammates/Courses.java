@@ -20,7 +20,6 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
-import com.google.appengine.api.utils.SystemProperty;
 
 /**
  * Courses handles all operations related to a Teammates course. This is a
@@ -41,7 +40,7 @@ public class Courses {
 	private Courses() {
 	}
 
-	private PersistenceManager getPM() {
+	public PersistenceManager getPM() {
 		return Datastore.getPersistenceManager();
 	}
 

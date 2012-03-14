@@ -224,7 +224,10 @@ public class TeammatesServlet extends HttpServlet {
 		}
 
 		else if (operation.equals(OPERATION_COORDINATOR_ADDCOURSE)) {
-			coordinatorAddCourse();
+			Accounts accounts = Accounts.inst();
+			String googleID = accounts.getUser().getNickname().toLowerCase();
+			String response = coordinatorAddCourse(req.getParameter(COURSE_ID), req.getParameter(COURSE_NAME), googleID);
+			resp.getWriter().write(response);
 		}
 
 		else if (operation.equals(OPERATION_COORDINATOR_ADDEVALUATION)) {
@@ -272,7 +275,12 @@ public class TeammatesServlet extends HttpServlet {
 		}
 
 		else if (operation.equals(OPERATION_COORDINATOR_GETCOURSELIST)) {
-			coordinatorGetCourseList();
+			Accounts accounts = Accounts.inst();
+			String googleID = accounts.getUser().getNickname().toLowerCase();
+			
+			String response = coordinatorGetCourseList(googleID);
+			
+			resp.getWriter().write(response);
 		}
 
 		else if (operation.equals(OPERATION_COORDINATOR_GETEVALUATIONLIST)) {
@@ -453,20 +461,16 @@ public class TeammatesServlet extends HttpServlet {
 		courses.sendRegistrationKeys(studentList, "Test CourseID", "Test Course", "ADMIN", Config.inst().TEAMMATES_APP_ACCOUNT);
 	}
 
-	private void coordinatorAddCourse() throws IOException, ServletException {
-		Accounts accounts = Accounts.inst();
-		String googleID = accounts.getUser().getNickname().toLowerCase();
-
+	public String coordinatorAddCourse(String courseid, String coursename, String googleID) throws IOException, ServletException {
+		
 		Courses courses = Courses.inst();
 
 		try {
-			courses.addCourse(req.getParameter(COURSE_ID), req.getParameter(COURSE_NAME), googleID);
-
-			resp.getWriter().write(MSG_STATUS_OPENING + MSG_COURSE_ADDED + MSG_STATUS_CLOSING);
+			courses.addCourse(courseid, coursename, googleID);
+			return MSG_STATUS_OPENING + MSG_COURSE_ADDED + MSG_STATUS_CLOSING;
 		}
-
 		catch (CourseExistsException e) {
-			resp.getWriter().write(MSG_STATUS_OPENING + MSG_COURSE_EXISTS + MSG_STATUS_CLOSING);
+			return MSG_STATUS_OPENING + MSG_COURSE_EXISTS + MSG_STATUS_CLOSING;
 		}
 	}
 
@@ -758,22 +762,24 @@ public class TeammatesServlet extends HttpServlet {
 
 	}
 
-	private void coordinatorGetCourseList() throws IOException, ServletException {
-		Accounts accounts = Accounts.inst();
-		String googleID = accounts.getUser().getNickname().toLowerCase();
+	public String coordinatorGetCourseList(String googleID) throws IOException, ServletException {
 
 		Courses courses = Courses.inst();
-
 		List<Course> courseList = courses.getCoordinatorCourseList(googleID);
 		ArrayList<CourseSummaryForCoordinator> courseSummaryList = new ArrayList<CourseSummaryForCoordinator>();
 
 		for (Course c : courseList) {
-			CourseSummaryForCoordinator cs = new CourseSummaryForCoordinator(c.getID(), c.getName(), c.isArchived(), courses.getNumberOfTeams(c.getID()), courses.getTotalStudents(c.getID()),
-					courses.getUnregistered(c.getID()));
+			CourseSummaryForCoordinator cs = 
+					new CourseSummaryForCoordinator(
+							c.getID(), c.getName(), c.isArchived(), 
+							courses.getNumberOfTeams(c.getID()), 
+							courses.getTotalStudents(c.getID()),
+							courses.getUnregistered(c.getID())
+						);
 			courseSummaryList.add(cs);
 		}
 
-		resp.getWriter().write("<courses>" + parseCourseSummaryForCoordinatorListToXML(courseSummaryList).toString() + "</courses>");
+		return "<courses>" + parseCourseSummaryForCoordinatorListToXML(courseSummaryList).toString() + "</courses>";
 	}
 
 	private void coordinatorGetEvaluationList() throws IOException {

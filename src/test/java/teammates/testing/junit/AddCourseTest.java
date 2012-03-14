@@ -1,90 +1,168 @@
 package teammates.testing.junit;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import mockit.Mocked;
-import mockit.NonStrictExpectations;
-
-import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import teammates.Courses;
+import teammates.Datastore;
 import teammates.TeammatesServlet;
-import teammates.exception.CourseExistsException;
 
+import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
 
 public class AddCourseTest {
+	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+	private final String COURSE_ID = "CS1010";
+	private final String COURSE_NAME = "Software Engineering";
+	private final String GOOGLE_ID = "teammates.coord";
+	private final String RESPONSE_ADDED = "<status>course added</status>";
+	private final String RESPONSE_EXISTS = "<status>course exists</status>";
 	
-	private final LocalServiceTestHelper helper =
-	        new LocalServiceTestHelper(new LocalUserServiceTestConfig())
-	            .setEnvIsAdmin(true).setEnvIsLoggedIn(true);
 	
 	@Before
-    public void setUp() {
-        helper.setUp();
-        helper.setEnvEmail("teammates.coord@gmail.com");
-        helper.setEnvAuthDomain("59670");
-    }
+	public void setUp() {
+		helper.setUp();
+	}
 
-    @After
-    public void tearDown() {
-        helper.tearDown();
-    }
-    
-    @Mocked HttpServletRequest req;
-    @Mocked (methods={"getWriter()", "new PrintWriter(\"test.txt\")"})
-    HttpServletResponse resp;
-
-	@Test
-    public void testCoordAddCourse() throws IOException, ServletException, CourseExistsException {
-		//test TeammatesServlet.coordinatorAddCourse()
-		
-		new NonStrictExpectations() {
-			@Mocked Courses courses;
-			{
-				req.getParameter("operation"); result = "coordinator_addcourse";
-				Courses.inst(); result = courses;
-				courses.addCourse(anyString, anyString, anyString);
-				resp.getWriter(); result = new PrintWriter("test.txt");
-			}
-		};
-		
-    	TeammatesServlet ts = new TeammatesServlet();
-    	ts.doPost(req, resp);
-    	ts.getResponse().getWriter().flush();
-    	assertTrue(FileUtils.readFileToString(new File("test.txt"), "UTF-8").contains("<status>course added</status>"));
-    
-    }
+	@After
+	public void tearDown() {
+		helper.tearDown();
+	}
 	
+	/**
+	 * @rule course id: unique, name: not unique
+	 * 
+	 * @throws IOException
+	 * @throws ServletException
+	 */
 	@Test
-    public void testCoordAddExistingCourse() throws IOException, ServletException, CourseExistsException {
-		//test TeammatesServlet.coordinatorAddCourse()
+	public void testTeammatesServletAddCourseSuccessful() throws IOException, ServletException {
+		Datastore.initialize();
+		TeammatesServlet ts = new TeammatesServlet();
+		String response;
 		
-		new NonStrictExpectations() {
-			@Mocked Courses courses;
-			{
-				req.getParameter("operation"); result = "coordinator_addcourse";
-				Courses.inst(); result = courses;
-				courses.addCourse(anyString, anyString, anyString); result = new CourseExistsException();
-				resp.getWriter(); result = new PrintWriter("test.txt");
-			}
-		};
+		//normal course
+		response = ts.coordinatorAddCourse(COURSE_ID, COURSE_NAME, GOOGLE_ID);
+		assertEquals(RESPONSE_ADDED, response);
+
+		//duplicate id
+		response = ts.coordinatorAddCourse(COURSE_ID, COURSE_NAME, GOOGLE_ID);
+		assertEquals(RESPONSE_EXISTS, response);
 		
-    	TeammatesServlet ts = new TeammatesServlet();
-    	ts.doPost(req, resp);
-    	ts.getResponse().getWriter().flush();
-    	assertTrue(FileUtils.readFileToString(new File("test.txt"), "UTF-8").contains("<status>course exists</status>"));
-    }
+		//different id
+		response = ts.coordinatorAddCourse("different id", COURSE_NAME, GOOGLE_ID);
+		assertEquals(RESPONSE_ADDED, response);
+		
+		//different name
+		response = ts.coordinatorAddCourse(COURSE_ID, "different name", GOOGLE_ID);
+		assertEquals(RESPONSE_EXISTS, response);
+		
+		//different coordinator
+		response = ts.coordinatorAddCourse(COURSE_ID, COURSE_NAME, "different coordinator");
+		assertEquals(RESPONSE_EXISTS, response);
+	}
+	
+	/**
+	 * course id
+	 * @rule insensitive
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	@Test
+	public void testCourseIDCaseSensitivity() throws IOException, ServletException {
+		TeammatesServlet ts = new TeammatesServlet();
+		String response;
+		String COURSE_ID_LOWER = "cs1101";
+		String COURSE_ID_UPPER = "CS1101";
+		
+		response = ts.coordinatorAddCourse(COURSE_ID_LOWER, COURSE_NAME, GOOGLE_ID);
+		assertEquals(RESPONSE_ADDED, response);
+		
+		response = ts.coordinatorAddCourse(COURSE_ID_LOWER, "sensitive course", GOOGLE_ID);
+		assertEquals(RESPONSE_EXISTS, response);
+		
+		//TODO: changed to insensitive
+		response = ts.coordinatorAddCourse(COURSE_ID_UPPER, COURSE_NAME, GOOGLE_ID);
+//		assertEquals(RESPONSE_EXISTS, response);
+		
+		//TODO: changed to insensitive
+		response = ts.coordinatorAddCourse(COURSE_ID_UPPER, "sensitive course", GOOGLE_ID);
+//		assertEquals(RESPONSE_EXISTS, response);
+	}
+	
+	
+	/*---------------------------------------------------EXCEPTION TESTING---------------------------------------------------*/
+	/**
+	 * empty id
+	 * @rule compulsory field
+	 * @throws Exception
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddCourseWithEmptyIDFailed() throws Exception {
+		TeammatesServlet ts = new TeammatesServlet();
+		ts.coordinatorAddCourse("", COURSE_NAME, GOOGLE_ID);
+	}
+	
+	//TODO: handle following exceptions!!!
+	/**
+	 * empty name
+	 * @rule compulsory field
+	 * @throws Exception
+	 */
+//	@Test
+//	(expected = IllegalArgumentException.class)
+	public void testAddCourseWithEmptyNameFailed() throws Exception {
+		TeammatesServlet ts = new TeammatesServlet();
+		ts.coordinatorAddCourse(COURSE_ID, "", GOOGLE_ID);
+	}
+	
+	/**
+	 * long id
+	 * @rule size <= 21
+	 * @throws Exception
+	 */
+//	@Test
+//	(expected = IllegalArgumentException.class)
+	public void testAddCourseWithLongIDFailed() throws Exception {
+		TeammatesServlet ts = new TeammatesServlet();
+		ts.coordinatorAddCourse("LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG", COURSE_NAME, GOOGLE_ID);
+	}
+	
+	/**
+	 * long id 
+	 * @rule size <= 38
+	 * @throws Exception
+	 */
+//	@Test
+//	(expected = IllegalArgumentException.class)
+	public void testAddCourseWithLongNameFailed() throws Exception {
+		TeammatesServlet ts = new TeammatesServlet();
+		ts.coordinatorAddCourse(COURSE_ID, "LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG", GOOGLE_ID);
+	}
+	
+	/**
+	 * invalid id
+	 * @rule no white space, only alphabets, numbers, dots, hyphens
+	 * @throws (expected) exception
+	 * */
+//	@Test
+//	(expected = IllegalArgumentException.class)
+	public void testAddCourseWithInalidIDFailed() throws IOException, Exception {
+		TeammatesServlet ts = new TeammatesServlet();
+		try {
+			ts.coordinatorAddCourse("#CS1010", COURSE_NAME, GOOGLE_ID);
+		}
+		catch (IOException e) {
+			ts.coordinatorAddCourse("CS 1010", COURSE_NAME, GOOGLE_ID);
+		}
+		finally {
+			
+		}
+	}
 }

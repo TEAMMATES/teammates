@@ -182,6 +182,14 @@ function toggleStatusMessage(statusMsg) {
 	setStatusMessage(statusMsg);
 }
 
+function loadStatusMessage() {
+	$("#statusMessage").html(DISPLAY_LOADING).show();
+}
+
+function alertServerError() {
+	alert(DISPLAY_SERVERERROR);
+}
+
 function setEditEvaluationResultsStatusMessage(message) {
 	if (message == "") {
 		clearEditEvaluationResultsStatusMessage();

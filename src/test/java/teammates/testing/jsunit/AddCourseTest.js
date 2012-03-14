@@ -19,16 +19,31 @@ test('doAddCourse(): client-side validation', function() {
 
 //helper function test
 test('checkAddCourseParam(courseID, courseName)', function() {
+	//valid
+	equal(checkAddCourseParam("IS4226", "IT Outsourcing"), COURSE_STATUS_WAITING, "Valid Input: IS4226 IT Outsourcing");
 	
-	equal(checkAddCourseParam("", ""), COURSE_STATUS_EMPTY, "empty field(s)");
-
+	//missing field
+	equal(checkAddCourseParam("", ""), COURSE_STATUS_EMPTY, "empty fields");
+	equal(checkAddCourseParam("", "Software Engineering"), COURSE_STATUS_EMPTY, "empty id");
+	equal(checkAddCourseParam("CS3215", ""), COURSE_STATUS_EMPTY, "empty name");
+	
+	//long input
 	equal(checkAddCourseParam("CS101010101010101010101010", "Software Engineering"), COURSE_STATUS_LONG_ID, "too long courseID");
-	
 	equal(checkAddCourseParam("CS1010", "Software Engineering Software Engineering Software Engineering "), COURSE_STATUS_LONG_NAME, "too long courseName");
-	
-	equal(checkAddCourseParam("CS10@@", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID");
-	
-	equal(checkAddCourseParam("CS1010", "Software Engineering"), COURSE_STATUS_WAITING, "Valid Input");
+
+	//special char
+	equal(checkAddCourseParam("CS10@@", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID [CS10@@]");
+	equal(checkAddCourseParam("CS100 ", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID [CS100 ](space)");
+	equal(checkAddCourseParam("CS!010", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID CS!010");
+	equal(checkAddCourseParam("C@1010", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID C@1010");
+	equal(checkAddCourseParam("#CS1010", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID #CS1010");
+	equal(checkAddCourseParam("CS$010", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID CS$010");
+	equal(checkAddCourseParam("CS1010%", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID CS1010%");
+	equal(checkAddCourseParam("C^^1010", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID C^^1010");
+	equal(checkAddCourseParam("C&&1010", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID C&&1010");
+	equal(checkAddCourseParam("*CS1101*", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID *CS1101*");
+	equal(checkAddCourseParam("\"CS1010\"", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID \"CS1010\"");
+	equal(checkAddCourseParam("''CS1010''", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID ''CS1010''");
 	
 });
 

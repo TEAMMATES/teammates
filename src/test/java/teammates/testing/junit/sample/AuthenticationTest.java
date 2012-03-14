@@ -1,4 +1,4 @@
-package teammates.testing.junit;
+package teammates.testing.junit.sample;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
