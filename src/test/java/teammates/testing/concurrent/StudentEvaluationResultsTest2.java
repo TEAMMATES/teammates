@@ -1,5 +1,6 @@
 package teammates.testing.concurrent;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.AfterClass;
@@ -13,15 +14,15 @@ import teammates.testing.object.Scenario;
 import teammates.testing.object.Student;
 
 public class StudentEvaluationResultsTest2 extends TestCase {
-	
+
 	static Scenario scn = setupScenarioInstance("scenario");
 	static BrowserInstance bi;
-	
+
 	@BeforeClass
 	public static void classSetup() {
 		bi = BrowserInstancePool.request();
 		TMAPI.cleanupCourse(scn.course.courseId);
-		
+
 		TMAPI.createCourse(scn.course);
 		TMAPI.createEvaluation(scn.evaluation);
 		TMAPI.enrollStudents(scn.course.courseId, scn.students);
@@ -32,40 +33,45 @@ public class StudentEvaluationResultsTest2 extends TestCase {
 		TMAPI.closeEvaluation(scn.course.courseId, scn.evaluation.name);
 		TMAPI.publishEvaluation(scn.course.courseId, scn.evaluation.name);
 	}
-	
+
 	@AfterClass
 	public static void classTearDown() {
-		if(bi.isElementPresent(bi.logoutTab))
+		if (bi.isElementPresent(bi.logoutTab))
 			bi.logout();
 		TMAPI.cleanupCourse(scn.course.courseId);
 		BrowserInstancePool.release(bi);
 	}
-	
+
 	@Test
 	public void testStudentViewEvaluationResultsSuccessful() throws Exception {
 		for (Student student : scn.students) {
 			studentViewEvaluationResults(student);
 		}
 	}
-	
-	public void studentViewEvaluationResults(Student student) {
-		
+
+	private void studentViewEvaluationResults(Student student) {
 		bi.studentLogin(student.email, student.password);
 
 		bi.clickEvaluationTab();
 		bi.justWait();
-		
+
 		bi.studentClickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
 		bi.justWait();
-		
-		//comments order is random
-		for(int i = 0; i < scn.students.size(); i++) {
+
+		// comments order is random
+		for (int i = 0; i < scn.students.size(); i++) {
 			Student teammate = scn.students.get(i);
-			if(teammate.teamName.equals(student.teamName) && !teammate.name.equals(student.name)){
+			if (teammate.teamName.equals(student.teamName) && !teammate.name.equals(student.name)) {
+				bi.justWait();
 				assertTrue(bi.studentGetFeedbackFromOthers(teammate.email, student.email));
 			}
 		}
-		
+
+		bi.clickEvaluationTab();
+		bi.studentClickEditEvaluation(scn.course.courseId, scn.evaluation.name);
+
+		assertFalse("Edit link is clickable", bi.isElementPresent(bi.editEvaluationBackButton));
+
 		bi.logout();
 	}
 }
