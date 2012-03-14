@@ -1,6 +1,7 @@
 package teammates.testing.concurrent;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -28,12 +29,11 @@ public class StudentEvaluationSubmitTest2 extends TestCase {
 		TMAPI.createEvaluation(scn.evaluation);
 		TMAPI.studentsJoinCourse(scn.students, scn.course.courseId);
 		TMAPI.openEvaluation(scn.course.courseId, scn.evaluation.name);
-
 	}
 
 	@AfterClass
 	public static void classTearDown() throws Exception {
-		if(bi.isElementPresent(bi.logoutTab))
+		if (bi.isElementPresent(bi.logoutTab))
 			bi.logout();
 		TMAPI.cleanupCourse(scn.course.courseId);
 		BrowserInstancePool.release(bi);
@@ -46,12 +46,9 @@ public class StudentEvaluationSubmitTest2 extends TestCase {
 		}
 	}
 
-
-	
 	private void studentSubmitEvaluation(Student student) {
-		
 		bi.studentLogin(student.email, student.password);
-		
+
 		bi.clickEvaluationTab();
 		bi.waitForElementPresent(bi.studentGetPendingEvaluationName(scn.course.courseId, scn.evaluation.name));
 		bi.studentClickDoEvaluation(scn.course.courseId, scn.evaluation.name);
@@ -69,6 +66,11 @@ public class StudentEvaluationSubmitTest2 extends TestCase {
 
 		// Check to see evaluation status is "Submitted"
 		assertEquals("SUBMITTED", bi.studentGetEvaluationStatus(scn.course.courseId, scn.evaluation.name));
+
+		bi.clickEvaluationTab();
+		bi.studentClickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
+
+		assertFalse("View Results link is clickable", bi.isElementPresent(bi.resultBackButton));
 
 		bi.logout();
 	}
