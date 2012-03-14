@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openqa.selenium.By;
 
 import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
@@ -41,11 +42,10 @@ public class CoordEvaluationListTest extends TestCase {
 		TMAPI.studentsSubmitFeedbacks(scn.students, scn.course.courseId, scn.evaluation3.name);
 		TMAPI.closeEvaluation(scn.course.courseId, scn.evaluation3.name);
 
-		// forth evaluation status: pending
+		// fourth evaluation status: pending
 		TMAPI.createEvaluation(scn.evaluation4);
 
 		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
-
 	}
 
 	@AfterClass
@@ -60,8 +60,11 @@ public class CoordEvaluationListTest extends TestCase {
 	@Test
 	public void testEvaluationListLinks() throws Exception {
 
+		testCoordViewResultsEvaluationNonClickable();
 		testCoordRemindEvaluationSuccessful();
+		testCoordRemindEvaluationNonClickable();
 		testCoordPublishEvaluationSuccessful();
+		testCoordPublishEvaluationNonClickable();
 		testCoordUnpublishEvaluationSuccessful();
 		testCoordDeleteEvaluation();
 		testCoordAddDeletedEvaluation();
@@ -72,19 +75,57 @@ public class CoordEvaluationListTest extends TestCase {
 
 	// TODO: testCoordSortEvaluationListByEvaluationNameSuccessful
 
+	// testCoordViewResultsEvaluationNonClickable
+	public void testCoordViewResultsEvaluationNonClickable() {
+		System.out.println("testCoordViewResultsEvaluationNonClickable");
+
+		bi.clickEvaluationTab();
+		bi.clickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
+
+		assertFalse("View Results link is clickable", bi.isElementPresent(By.id("viewEvaluationResults0")));
+	}
+
 	// testCoordRemindEvaluationSuccessful
 	public void testCoordRemindEvaluationSuccessful() throws Exception {
+		System.out.println("testCoordRemindEvaluationSuccessful");
+
 		bi.clickEvaluationTab();
 		bi.justWait();
+
 		bi.clickAndConfirmEvaluationRemind(scn.course.courseId, scn.evaluation2.name);
 
 		// Confirm Email
 		bi.justWait();
 		for (int i = 0; i < scn.students.size(); i++) {
-			assertEquals(scn.course.courseId, 
-					SharedLib.getEvaluationReminderFromGmail(scn.students.get(i).email, Config.inst().TEAMMATES_APP_PASSWD, scn.course.courseId, scn.evaluation2.name));
+			assertEquals(scn.course.courseId, SharedLib.getEvaluationReminderFromGmail(scn.students.get(i).email, Config.inst().TEAMMATES_APP_PASSWD, scn.course.courseId, scn.evaluation2.name));
+		}
+	}
+
+	// testCoordRemindEvaluationNonClickable
+	public void testCoordRemindEvaluationNonClickable() throws Exception {
+		System.out.println("testCoordRemindEvaluationNonClickable");
+
+		// Pending evaluation
+		bi.clickEvaluationTab();
+		bi.justWait();
+
+		bi.clickAndConfirmEvaluationRemind(scn.course.courseId, scn.evaluation.name);
+		// Confirm Email
+		bi.justWait();
+		for (int i = 0; i < scn.students.size(); i++) {
+			assertNotSame(scn.course.courseId, SharedLib.getEvaluationReminderFromGmail(scn.students.get(i).email, Config.inst().TEAMMATES_APP_PASSWD, scn.course.courseId, scn.evaluation.name));
 		}
 
+		// Closed evaluation
+		bi.clickEvaluationTab();
+		bi.justWait();
+
+		bi.clickAndConfirmEvaluationRemind(scn.course.courseId, scn.evaluation3.name);
+		// Confirm Email
+		bi.justWait();
+		for (int i = 0; i < scn.students.size(); i++) {
+			assertNotSame(scn.course.courseId, SharedLib.getEvaluationReminderFromGmail(scn.students.get(i).email, Config.inst().TEAMMATES_APP_PASSWD, scn.course.courseId, scn.evaluation3.name));
+		}
 	}
 
 	// testCoordPublishEvaluationSuccessful
@@ -107,11 +148,30 @@ public class CoordEvaluationListTest extends TestCase {
 		}
 	}
 
+	// testCoordPublishEvaluationNonClickable
+	public void testCoordPublishEvaluationNonClickable() throws Exception {
+		System.out.println("testCoordPublishEvaluationNonClickable");
+
+		// Pending evaluation
+		bi.clickEvaluationTab();
+		bi.clickEvaluationPublish(scn.course.courseId, scn.evaluation.name);
+
+		assertNotSame(bi.statusMessage, bi.MESSAGE_EVALUATION_PUBLISHED);
+		assertNotSame(bi.EVAL_STATUS_PUBLISHED, bi.getEvaluationStatus(scn.course.courseId, scn.evaluation.name));
+
+		// Open evaluation
+		bi.clickEvaluationTab();
+		bi.clickEvaluationPublish(scn.course.courseId, scn.evaluation2.name);
+
+		assertNotSame(bi.statusMessage, bi.MESSAGE_EVALUATION_PUBLISHED);
+		assertNotSame(bi.EVAL_STATUS_PUBLISHED, bi.getEvaluationStatus(scn.course.courseId, scn.evaluation2.name));
+	}
+
 	// testCoordUnpublishEvaluationSuccessful
 	public void testCoordUnpublishEvaluationSuccessful() throws Exception {
 		System.out.println("testCoordUnpublishEvaluationSuccessful");
-		bi.gotoEvaluations();
 
+		bi.clickEvaluationTab();
 		bi.clickEvaluationUnpublish(scn.course.courseId, scn.evaluation3.name);
 
 		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_EVALUATION_UNPUBLISHED);
@@ -122,15 +182,18 @@ public class CoordEvaluationListTest extends TestCase {
 
 	// testCoordDeleteEvaluationSuccessful
 	public void testCoordDeleteEvaluation() throws Exception {
-		System.out.println("Deleting evaluation.");
+		System.out.println("testCoordDeleteEvaluationSuccessful");
 
 		bi.clickEvaluationTab();
 		bi.clickAndConfirmEvaluationDelete(scn.course.courseId, scn.evaluation4.name);
+
 		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_EVALUATION_DELETED);
 	}
 
+	// testCoordAddDeletedEvaluation
 	public void testCoordAddDeletedEvaluation() throws Exception {
-		System.out.println("Adding deleted evaluation.");
+		System.out.println("testCoordAddDeletedEvaluation");
+
 		bi.clickEvaluationTab();
 
 		bi.addEvaluation(scn.evaluation4);
@@ -138,5 +201,4 @@ public class CoordEvaluationListTest extends TestCase {
 
 		bi.verifyEvaluationAdded(scn.course.courseId, scn.evaluation4.name, "AWAITING", "0 / " + scn.students.size());
 	}
-
 }
