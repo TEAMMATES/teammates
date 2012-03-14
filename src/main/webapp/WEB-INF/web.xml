@@ -86,6 +86,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/automatedreminders</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>StudentJoinCourse</servlet-name>
+		<servlet-class>teammates.StudentJoinCourseServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StudentJoinCourse</servlet-name>
+		<url-pattern>/joinCourse</url-pattern>
+	</servlet-mapping>
+
     <security-constraint>
         <web-resource-collection>
             <url-pattern>/automatedreminders</url-pattern>
