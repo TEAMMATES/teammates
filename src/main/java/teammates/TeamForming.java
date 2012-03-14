@@ -219,12 +219,12 @@ public class TeamForming {
 		int newTeamNameExists = 0;
 		
 		TeamProfile tProfile = getTeamProfile(courseId, teamName);
-		List<String> teamList = getTeamsOfCourse(courseId);
+		//List<String> teamList = getTeamsOfCourse(courseId);
+		List<TeamProfile> teamProfiles = getTeamProfiles(courseId);
 		
-		
-		for(int i=0;i<teamList.size(); i++)
+		for(int i=0;i<teamProfiles.size(); i++)
 		{
-			if(teamList.get(i).compareToIgnoreCase(newTeamName)==0)
+			if(teamProfiles.get(i).getTeamName().equalsIgnoreCase(newTeamName))
 				newTeamNameExists = 1;
 		}
 		
@@ -586,7 +586,32 @@ public class TeamForming {
 		//List<Submission> submissionList = getSubmissionList(courseID);
 
 		try {
-			getPM().deletePersistentAll(teamProfileList);
+			if(teamProfileList!=null)
+				getPM().deletePersistentAll(teamProfileList);
+			//pending
+			//getPM().deletePersistentAll(submissionList);
+		} finally {
+		}		
+	}
+	
+	/**
+	 * Deletes the TeamProfile object from a Course.
+	 * 
+	 * @param courseID
+	 *            the course ID (Pre-condition: Must be valid)
+	 * 
+	 * @param teamName
+	 * 			the teamName of the team to be deleted
+	 * 
+	 */
+	public void deleteTeamProfile(String courseID, String teamName){
+		TeamProfile teamProfile = getTeamProfile(courseID, teamName);
+		//pending
+		//List<Submission> submissionList = getSubmissionList(courseID);
+
+		try {
+			if(teamProfile!=null)
+				getPM().deletePersistentAll(teamProfile);
 			//pending
 			//getPM().deletePersistentAll(submissionList);
 		} finally {

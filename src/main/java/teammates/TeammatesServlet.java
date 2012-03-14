@@ -176,16 +176,16 @@ public class TeammatesServlet extends HttpServlet {
 	public HttpServletRequest getRequest() {
 		return this.req;
 	}
-	
+
 	public HttpServletResponse getResponse() {
 		return this.resp;
 	}
-	
+
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		// Initialization
 		this.req = req;
 		this.resp = resp;
-		
+
 		this.resp.setContentType("text/xml");
 		this.resp.setHeader("Cache-Control", "no-cache");
 
@@ -525,6 +525,12 @@ public class TeammatesServlet extends HttpServlet {
 		Courses courses = Courses.inst();
 		courses.deleteAllStudents(req.getParameter(COURSE_ID));
 
+		// delete Team-Forming session and the Team profiles for this course
+		TeamForming teamForming = TeamForming.inst();
+		Date dummyDeadline = null;
+		String courseID = req.getParameter(COURSE_ID);
+		if (teamForming.getTeamFormingSession(courseID, dummyDeadline) != null)
+			teamForming.deleteTeamFormingSession(courseID);
 	}
 
 	private void coordinatorDeleteCourse() {
@@ -536,8 +542,10 @@ public class TeammatesServlet extends HttpServlet {
 		Evaluations evaluations = Evaluations.inst();
 		evaluations.deleteEvaluations(courseID);
 
+		Date dummyDeadline = null;
 		TeamForming teamForming = TeamForming.inst();
-		teamForming.deleteTeamFormingSession(courseID);
+		if (teamForming.getTeamFormingSession(courseID, dummyDeadline) != null)
+			teamForming.deleteTeamFormingSession(courseID);
 	}
 
 	private void coordinatorDeleteEvaluation() {

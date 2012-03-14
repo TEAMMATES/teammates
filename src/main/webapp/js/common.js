@@ -110,8 +110,7 @@ function printCourseList(courseList, user) {
 						+ " onmouseover=\"ddrivetip('View course details.')\""
 						+ " onmouseout=\"hideddrivetip()\">View</a>"
 						//by kalpit
-//						+ "<a onclick=\"studentViewCreateTeams();\""
-//						+ "\" href=# "
+//						+ "<a id=\"viewTeams" + loop + "\" href=# "
 //						+ "onmouseover=\"ddrivetip('View/Create the teams for this course.')\""
 //						+ "onmouseout=\"hideddrivetip()\""
 //						+ ">View Teams</a>"

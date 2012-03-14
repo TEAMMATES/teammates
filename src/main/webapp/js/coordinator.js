@@ -1085,11 +1085,25 @@ function doDeleteAllStudents(courseID) {
 function doDeleteStudent(courseID, email) {
 	setStatusMessage(DISPLAY_LOADING);
 
+	var student = getStudent(courseID, email);
+
 	var results = deleteStudent(courseID, email);
 
 	if (results != 1) {
 		displayCourseInformation(courseID);
 		setStatusMessage(DISPLAY_COURSE_DELETEDSTUDENT);
+
+		// deleting team profile if all students of a particular team are
+		// deleted
+		var teams = getTeamsOfCourse(courseID);
+		var loop;
+		var teamNameExists = 0;
+		for (loop = 0; loop < teams.length; loop++) {
+			if (teams[loop].teamName == student.teamName)
+				teamNameExists = 1;
+		}
+		if (teamNameExists == 0)
+			deleteTeamProfile(courseID, student.teamName);
 	}
 
 	else {
@@ -1212,6 +1226,7 @@ function doEnrolStudents(input, courseID) {
 
 	else {
 		displayEnrollmentResultsPage(results);
+		createProfileOfExistingTeams(courseID);
 	}
 
 }

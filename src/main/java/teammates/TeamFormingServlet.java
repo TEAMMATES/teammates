@@ -37,6 +37,7 @@ public class TeamFormingServlet extends HttpServlet {
 	private static final String OPERATION_COORDINATOR_GETTEAMFORMINGSESSIONLIST = "coordinator_getteamformingsessionlist";
 	private static final String OPERATION_COORDINATOR_DELETETEAMFORMINGSESSION = "coordinator_deleteteamformingsession";
 	private static final String OPERATION_COORDINATOR_DELETETEAMPROFILES = "coordinator_deleteteamprofiles";
+	private static final String OPERATION_COORDINATOR_DELETETEAMPROFILE = "coordinator_deleteteamprofile";
 	private static final String OPERATION_COORDINATOR_REMINDSTUDENTS_TEAMFORMING = "coordinator_remindstudentsteamforming";
 	private static final String OPERATION_COORDINATOR_EDITSTUDENTTEAM = "coordinator_editstudentteam";
 	private static final String OPERATION_COORDINATOR_EDITTEAMFORMINGSESSION = "coordinator_editteamformingsession";
@@ -130,6 +131,10 @@ public class TeamFormingServlet extends HttpServlet {
 		
 		else if (operation.equals(OPERATION_COORDINATOR_DELETETEAMPROFILES)) {
 			coordinatorDeleteTeamProfiles();
+		}
+		
+		else if (operation.equals(OPERATION_COORDINATOR_DELETETEAMPROFILE)) {
+			coordinatorDeleteTeamProfile();
 		}
 		
 		else if (operation.equals(OPERATION_COORDINATOR_EDITSTUDENTTEAM)) {
@@ -358,6 +363,13 @@ public class TeamFormingServlet extends HttpServlet {
 		String courseID = req.getParameter(COURSE_ID);
 		TeamForming teamForming = TeamForming.inst();
 		teamForming.deleteTeamProfiles(courseID);
+	}
+	
+	private void coordinatorDeleteTeamProfile() {
+		String courseID = req.getParameter(COURSE_ID);
+		String teamName = req.getParameter(TEAM_NAME);
+		TeamForming teamForming = TeamForming.inst();
+		teamForming.deleteTeamProfile(courseID, teamName);
 	}
 	
 	private void coordinatorEditStudentTeam() throws IOException {
