@@ -48,7 +48,6 @@ var TO_STUDENT = "To Student";
 var CONTRIBUTION = "Contribution";
 var COMMENTS = "Comments";
 var MESSAGES = "Messages";
-var ROUNDOFF = "(rounded to nearest 10%)";
 
 
 // message:
@@ -2505,9 +2504,6 @@ function printEvaluationResultStudentForm(summaryList, submissionList, start,
 			+ "<td>"
 			+ "<span onmouseover=\"ddrivetip('Perceived contribution is the average of what the other team members think you contributed to the project')\" onmouseout=\"hideddrivetip()\">"
 			+ PERCEIVED
-			+ "</span>"
-			+ "<br /><span class='color_gray'>"
-			+ ROUNDOFF
 			+ "</span></td>"
 			+ "<td>"
 			+ displayEvaluationPoints(perceivedPoints)
