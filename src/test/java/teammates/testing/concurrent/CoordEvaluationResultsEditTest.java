@@ -1,6 +1,7 @@
 package teammates.testing.concurrent;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.io.IOException;
 
@@ -28,12 +29,17 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 
 		TMAPI.createCourse(scn.course);
 		TMAPI.enrollStudents(scn.course.courseId, scn.students);
+
 		TMAPI.createEvaluation(scn.evaluation);
 		TMAPI.studentsJoinCourse(scn.students, scn.course.courseId);
 		TMAPI.openEvaluation(scn.course.courseId, scn.evaluation.name);
 		TMAPI.studentsSubmitFeedbacks(scn.students.subList(1, scn.students.size() - 1), scn.course.courseId, scn.evaluation.name);
 		TMAPI.closeEvaluation(scn.course.courseId, scn.evaluation.name);
-		
+
+		TMAPI.createEvaluation(scn.evaluation2);
+		TMAPI.openEvaluation(scn.course.courseId, scn.evaluation2.name);
+		TMAPI.studentsSubmitFeedbacks(scn.students.subList(1, scn.students.size() - 1), scn.course.courseId, scn.evaluation2.name);
+
 		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
 	}
 
@@ -48,13 +54,28 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 
 	@Test
 	public void CoordEditResults() throws Exception {
-		
+
+		testCoordEditResultsByReviewerNonClickable();
 		testCoordEditEmptyResultSuccessful();
 		testCoordEditResultsByReviewerSuccessful();
-		
+
 	}
 
+	// testCoordEditResultsByReviewerNonClickable
+	public void testCoordEditResultsByReviewerNonClickable() {
+		System.out.println("testCoordEditResultsByReviewerNonClickable");
+
+		bi.clickEvaluationTab();
+		bi.clickEvaluationViewResults(scn.course.courseId, scn.evaluation2.name);
+
+		bi.clickReviewerSummaryEdit(FIRST_STUDENT);
+
+		assertFalse("Edit button is clickable", bi.isElementPresent(bi.resultEditButton));
+	}
+
+	// testCoordEditEmptyResultSuccessful
 	public void testCoordEditEmptyResultSuccessful() throws Exception {
+		System.out.println("testCoordEditEmptyResultSuccessful");
 
 		bi.clickEvaluationTab();
 		bi.clickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
@@ -94,7 +115,7 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 		for (int i = 0; i < s.team.students.size(); i++) {
 			// clean up contribution data added in try 2
 			bi.setSubmissionJustification(i, null);
-			bi.setSubmissionComments( i, String.format("Edit:: \\\\Comments\\\\ from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
+			bi.setSubmissionComments(i, String.format("Edit:: \\\\Comments\\\\ from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
 		}
 		bi.waitAndClick(bi.resultEditButton);
 		bi.waitForElementText(bi.editEvaluationResultsStatusMessage, "Please fill in all the relevant fields.");
@@ -103,7 +124,7 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 		for (int i = 0; i < s.team.students.size(); i++) {
 			bi.setSubmissionPoint(i, "100");
 			bi.setSubmissionJustification(i, String.format("Edit:: \\Justification\\ from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
-			bi.setSubmissionComments( i, String.format("Edit:: \\\\Comments\\\\ from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
+			bi.setSubmissionComments(i, String.format("Edit:: \\\\Comments\\\\ from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
 		}
 		bi.waitAndClick(bi.resultEditButton);
 		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_EVALUATION_RESULTS_EDITED);
@@ -115,12 +136,11 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 		bi.waitAndClick(bi.resultBackButton);
 	}
 
+	// testCoordEditResultsByReviewerSuccessful
 	public void testCoordEditResultsByReviewerSuccessful() throws Exception {
-
-		System.out.println("TestCoordResultsEdit: testEditResultsByReviewer");
+		System.out.println("testCoordEditResultsByReviewerSuccessful");
 
 		bi.gotoEvaluations();
-
 		bi.clickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
 
 		// click 'Edit' 1st student:
@@ -138,8 +158,9 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_EVALUATION_RESULTS_EDITED);
 
 		// ..Check content being updated:
-		//TODO: check other report has been updated as well: summary/detail/individual
-		
+		// TODO: check other report has been updated as well:
+		// summary/detail/individual
+
 		bi.waitAndClick(bi.resultIndividualEditButton);
 		for (int i = 0; i < s.team.students.size(); i++) {
 			assertEquals(bi.getDropdownSelectedValue(bi.getSubmissionPoint(i)), "30");
@@ -164,5 +185,4 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 		// click 'Back':
 		bi.waitAndClick(bi.resultBackButton);
 	}
-
 }
