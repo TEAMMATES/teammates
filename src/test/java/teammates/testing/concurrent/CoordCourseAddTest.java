@@ -142,8 +142,7 @@ public class CoordCourseAddTest extends TestCase {
 	 * Expectation: course not added, show error message
 	 * */
 	public void testCoordAddCourseWithInvalidInputsFailed() {
-		String longCourseName = "HELLO WORLD HELLO WORLD HELLO WORLD HELLO WORLD ";//48 CHAR
-		
+
 		System.out.println("TestCoordCourse: Creating course with missing info.");
 		// Trying adding course without ID
 		bi.addCourse("", scn.course.courseName);
@@ -151,14 +150,7 @@ public class CoordCourseAddTest extends TestCase {
 		// Adding course without name
 		bi.addCourse(scn.course.courseId, "");
 		assertEquals(bi.getElementText(bi.statusMessage), bi.ERROR_COURSE_MISSING_FIELD);
-		
 
-		System.out.println("TestCoordCourse: Creating course with invalid info.");
-		//invalid ID
-		
-		//invalid name
-		bi.addCourse(scn.course.courseId, longCourseName);
-		assertEquals(bi.getElementText(bi.statusMessage), bi.ERROR_COURSE_LONG_COURSE_NAME);
 		
 	}
 	

@@ -2,6 +2,10 @@
 /*------------------------------------------Evaluation Report UI------------------------------------------*/
 /* CONSTANTS */
 
+var COURSEID_INPUT_FIELD_MAX_LENGTH = 21;
+var COURSENAME_INPUT_FIELD_MAX_LENGTH = 38;
+var EVAL_NAME_INPUT_FIELD_MAX_LENGTH = 38;
+
 //user type
 var STUDENT = "Student";
 var COORDINATOR = "Coordinator";
@@ -45,6 +49,7 @@ var CONTRIBUTION = "Contribution";
 var COMMENTS = "Comments";
 var MESSAGES = "Messages";
 var ROUNDOFF = "(rounded to nearest 10%)";
+
 
 // message:
 var COORDINATOR_MESSAGE_NO_COURSE = "You have not created any courses yet. Use the form above to create a course.";
@@ -201,7 +206,7 @@ function printAddCourse() {
 			+ COURSE_ID
 			+ "\""
 			+ "onmouseover=\"ddrivetip('Enter the identifier of the course, e.g.CS3215Sem1.')\""
-			+ "onmouseout=\"hideddrivetip()\" maxlength=50 tabindex=1 />"
+			+ "onmouseout=\"hideddrivetip()\" maxlength="+COURSEID_INPUT_FIELD_MAX_LENGTH+" tabindex=1 />"
 			+ "</td>"
 			+ "</tr>"
 			+ "<tr>"
@@ -214,7 +219,7 @@ function printAddCourse() {
 			+ COURSE_NAME
 			+ "\""
 			+ "onmouseover=\"ddrivetip('Enter the name of the course, e.g. Software Engineering.')\""
-			+ "onmouseout=\"hideddrivetip()\" maxlength=50 tabindex=2 />"
+			+ "onmouseout=\"hideddrivetip()\" maxlength="+COURSENAME_INPUT_FIELD_MAX_LENGTH+" tabindex=2 />"
 			+ "</td>"
 			+ "</tr>"
 			+ "<tr>"
@@ -664,7 +669,7 @@ function printEvaluationAddForm() {
 			+ "\" id=\""
 			+ EVALUATION_NAME
 			+ "\" onmouseover=\"ddrivetip('Enter the name of the evaluation e.g. Mid-term.')\""
-			+ "onmouseout=\"hideddrivetip()\" maxlength = 38 tabindex=2> </td>"
+			+ "onmouseout=\"hideddrivetip()\" maxlength ="+EVAL_NAME_INPUT_FIELD_MAX_LENGTH+" tabindex=2> </td>"
 			+ "<td class=\"attribute\" >Closing time:</td>"
 			+ "<td> <input style=\"width: 100px;\" type=\"text\" name=\""
 			+ EVALUATION_DEADLINE
