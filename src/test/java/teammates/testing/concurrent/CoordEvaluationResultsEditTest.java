@@ -1,13 +1,14 @@
 package teammates.testing.concurrent;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openqa.selenium.By;
 
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -70,7 +71,8 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 
 		bi.clickReviewerSummaryEdit(FIRST_STUDENT);
 
-		assertFalse("Edit button is clickable", bi.isElementPresent(bi.resultEditButton));
+		assertTrue(bi.isElementPresent(bi.getReviewerSummaryView(FIRST_STUDENT)));
+		assertTrue(bi.isElementPresent(bi.getReviewerSummaryEdit(FIRST_STUDENT)));
 	}
 
 	// testCoordEditEmptyResultSuccessful

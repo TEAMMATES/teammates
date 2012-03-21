@@ -1,6 +1,7 @@
 package teammates.testing.concurrent;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -18,6 +19,8 @@ import teammates.testing.object.Student;
 public class CoordEvaluationListTest extends TestCase {
 	static BrowserInstance bi;
 	static Scenario scn = setupNewScenarioInstance("scenario");
+	private final static int FIRST_EVALUATION = 0;
+	private final static int SECOND_EVALUATION = 1;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -82,7 +85,11 @@ public class CoordEvaluationListTest extends TestCase {
 		bi.clickEvaluationTab();
 		bi.clickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
 
-		assertFalse("View Results link is clickable", bi.isElementPresent(By.id("viewEvaluationResults0")));
+		assertTrue(bi.isElementPresent(bi.getEvaluationViewResults(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getEvaluationEditResults(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getEvaluationDeleteResults(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getEvaluationRemindResults(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getEvaluationPublishResults(FIRST_EVALUATION)));
 	}
 
 	// testCoordRemindEvaluationSuccessful
@@ -110,22 +117,12 @@ public class CoordEvaluationListTest extends TestCase {
 		bi.justWait();
 
 		bi.clickAndConfirmEvaluationRemind(scn.course.courseId, scn.evaluation.name);
-		// Confirm Email
-		bi.justWait();
-		for (int i = 0; i < scn.students.size(); i++) {
-			assertNotSame(scn.course.courseId, SharedLib.getEvaluationReminderFromGmail(scn.students.get(i).email, Config.inst().TEAMMATES_APP_PASSWD, scn.course.courseId, scn.evaluation.name));
-		}
-
-		// Closed evaluation
-		bi.clickEvaluationTab();
-		bi.justWait();
-
-		bi.clickAndConfirmEvaluationRemind(scn.course.courseId, scn.evaluation3.name);
-		// Confirm Email
-		bi.justWait();
-		for (int i = 0; i < scn.students.size(); i++) {
-			assertNotSame(scn.course.courseId, SharedLib.getEvaluationReminderFromGmail(scn.students.get(i).email, Config.inst().TEAMMATES_APP_PASSWD, scn.course.courseId, scn.evaluation3.name));
-		}
+		
+		assertTrue(bi.isElementPresent(bi.getEvaluationViewResults(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getEvaluationEditResults(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getEvaluationDeleteResults(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getEvaluationRemindResults(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getEvaluationPublishResults(FIRST_EVALUATION)));
 	}
 
 	// testCoordPublishEvaluationSuccessful
@@ -156,15 +153,21 @@ public class CoordEvaluationListTest extends TestCase {
 		bi.clickEvaluationTab();
 		bi.clickEvaluationPublish(scn.course.courseId, scn.evaluation.name);
 
-		assertNotSame(bi.statusMessage, bi.MESSAGE_EVALUATION_PUBLISHED);
-		assertNotSame(bi.EVAL_STATUS_PUBLISHED, bi.getEvaluationStatus(scn.course.courseId, scn.evaluation.name));
+		assertTrue(bi.isElementPresent(bi.getEvaluationViewResults(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getEvaluationEditResults(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getEvaluationDeleteResults(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getEvaluationRemindResults(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getEvaluationPublishResults(FIRST_EVALUATION)));
 
 		// Open evaluation
 		bi.clickEvaluationTab();
 		bi.clickEvaluationPublish(scn.course.courseId, scn.evaluation2.name);
 
-		assertNotSame(bi.statusMessage, bi.MESSAGE_EVALUATION_PUBLISHED);
-		assertNotSame(bi.EVAL_STATUS_PUBLISHED, bi.getEvaluationStatus(scn.course.courseId, scn.evaluation2.name));
+		assertTrue(bi.isElementPresent(bi.getEvaluationViewResults(SECOND_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getEvaluationEditResults(SECOND_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getEvaluationDeleteResults(SECOND_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getEvaluationRemindResults(SECOND_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getEvaluationPublishResults(SECOND_EVALUATION)));
 	}
 
 	// testCoordUnpublishEvaluationSuccessful

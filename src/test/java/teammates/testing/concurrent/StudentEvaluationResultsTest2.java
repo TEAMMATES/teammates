@@ -1,11 +1,11 @@
 package teammates.testing.concurrent;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openqa.selenium.By;
 
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -17,6 +17,7 @@ public class StudentEvaluationResultsTest2 extends TestCase {
 
 	static Scenario scn = setupScenarioInstance("scenario");
 	static BrowserInstance bi;
+	private final static int FIRST_EVALUATION = 0;
 
 	@BeforeClass
 	public static void classSetup() {
@@ -69,8 +70,9 @@ public class StudentEvaluationResultsTest2 extends TestCase {
 
 		bi.clickEvaluationTab();
 		bi.studentClickEditEvaluation(scn.course.courseId, scn.evaluation.name);
-
-		assertFalse("Edit link is clickable", bi.isElementPresent(bi.editEvaluationBackButton));
+		
+		assertTrue(bi.isElementPresent(bi.getStudentEvaluationViewResults(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getStudentEditEvaluation(FIRST_EVALUATION)));
 
 		bi.logout();
 	}

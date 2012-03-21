@@ -78,7 +78,6 @@ public class BrowserInstance {
 
 	/**
 	 * course:
-	 * 
 	 */
 	// add course:
 	public By addCoursePageTitle = By.xpath("//div[@id='headerOperation']//h1");
@@ -108,7 +107,7 @@ public class BrowserInstance {
 	public By deleteStudentsButton = By.className("t_delete_students");
 	public By courseViewBackButton = By.className("t_back");
 
-	// student detail:
+	// student details:
 	public By studentDetailName = By.xpath("//table[@class='detailform']//tbody//tr[1]//td[2]");
 	public By studentDetailTeam = By.xpath("//table[@class='detailform']//tbody//tr[2]//td[2]");
 	public By studentDetailEmail = By.xpath("//table[@class='detailform']//tbody//tr[3]//td[2]");
@@ -143,7 +142,7 @@ public class BrowserInstance {
 
 	public By evaluationCourseIDSorting = By.id("button_sortcourseid");
 	public By evlauationNameSorting = By.id("button_sortname");
-
+	
 	// edit evaluation:
 	public By editEvaluationButton = By.id("button_editevaluation");
 	public By editEvaluationBackButton = By.className("t_back");
@@ -185,23 +184,23 @@ public class BrowserInstance {
 	// detail result:
 	public By resultTopButton = By.id("button_top");
 
-	/**
-	 * coordinator:
-	 */
+	// edit result:
 	public By coordEvaluationSubmitButton = By.id("button_editevaluationresultsbyreviewee");
+	
 	/**
 	 * student:
 	 */
 	// student course:
 	public By inputRegKey = By.id("regkey");
 	public By studentJoinCourseButton = By.id("btnJoinCourse");
+	
 	// student evaluation:
 	public By studentSubmitEvaluationButton = By.name("submitEvaluation");
 	public By studentEvaluationBackButton = By.className("t_back");
 	public By studentEvaluationCancelButton = By.className("t_back");
 
 	/**
-	 * message:
+	 * messages:
 	 */
 	public By courseMessage = By.xpath("//div[@id='statusMessage']/font[1]");
 	public By courseErrorMessage = By.xpath("//div[@id='statusMessage']/font[2]");
@@ -464,8 +463,12 @@ public class BrowserInstance {
 		}
 	}
 
+	public By getStudentEditEvaluation(int row) {
+		return By.id("editEvaluation" + row);
+	}
+	
 	public void studentClickEditEvaluation(int row) {
-		waitAndClick(By.id("editEvaluation" + row));
+		waitAndClick(getStudentEditEvaluation(row));
 	}
 
 	public void studentClickEditEvaluation(String courseId, String evalName) {
@@ -477,9 +480,12 @@ public class BrowserInstance {
 		}
 	}
 
+	public By getStudentEvaluationViewResults(int row) {
+		return By.xpath(String.format("//div[@id='studentPastEvaluations']//table[@id='dataform']//tr[%d]//td[%d]//a['View Results']", row + 2, 5));
+	}
+	
 	public void studentClickEvaluationViewResults(int row) {
-		By link = By.xpath(String.format("//div[@id='studentPastEvaluations']//table[@id='dataform']//tr[%d]//td[%d]//a['View Results']", row + 2, 5));
-		waitAndClick(link);
+		waitAndClick(getStudentEvaluationViewResults(row));
 	}
 
 	public void studentClickEvaluationViewResults(String courseId, String evalName) {
@@ -1004,9 +1010,12 @@ public class BrowserInstance {
 		}
 	}
 
+	public By getEvaluationViewResults(int row) {
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_view']", row + 2, 5));
+	}
+	
 	public void clickEvaluationViewResults(int row) {
-		By link = By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_view']", row + 2, 5));
-		waitAndClick(link);
+		waitAndClick(getEvaluationViewResults(row));
 	}
 
 	public void clickEvaluationViewResults(String courseId, String evalName) {
@@ -1019,9 +1028,12 @@ public class BrowserInstance {
 		}
 	}
 
+	public By getEvaluationEditResults(int row) {
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_edit']", row + 2, 5));
+	}
+
 	public void clickEvaluationEdit(int row) {
-		By link = By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_edit']", row + 2, 5));
-		waitAndClick(link);
+		waitAndClick(getEvaluationEditResults(row));
 	}
 
 	public void clickEvaluationEdit(String courseId, String evalName) {
@@ -1033,9 +1045,12 @@ public class BrowserInstance {
 		}
 	}
 
+	public By getEvaluationPublishResults(int row) {
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_publish']", row + 2, 5));
+	}
+
 	public void clickEvaluationPublish(int row) {
-		By link = By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_publish']", row + 2, 5));
-		clickAndConfirm(link);
+		clickAndConfirm(getEvaluationPublishResults(row));
 	}
 
 	public void clickEvaluationPublish(String courseId, String evalName) {
@@ -1047,9 +1062,12 @@ public class BrowserInstance {
 		}
 	}
 
+	public By getEvaluationUnpublishResults(int row) {
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_unpublish']", row + 2, 5));
+	}
+
 	public void clickEvaluationUnpublish(int row) {
-		By link = By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_unpublish']", row + 2, 5));
-		clickAndConfirm(link);
+		clickAndConfirm(getEvaluationUnpublishResults(row));
 	}
 
 	public void clickEvaluationUnpublish(String courseId, String evalName) {
@@ -1061,9 +1079,12 @@ public class BrowserInstance {
 		}
 	}
 
+	public By getEvaluationRemindResults(int row) {
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_remind']", row + 2, 5));
+	}
+
 	public void clickAndConfirmEvaluationRemind(int row) {
-		By link = By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_remind']", row + 2, 5));
-		clickAndConfirm(link);
+		clickAndConfirm(getEvaluationRemindResults(row));
 	}
 
 	public void clickAndConfirmEvaluationRemind(String courseId, String evalName) {
@@ -1075,9 +1096,12 @@ public class BrowserInstance {
 		}
 	}
 
+	public By getEvaluationDeleteResults(int row) {
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_delete']", row + 2, 5));
+	}
+
 	public void clickAndConfirmEvaluationDelete(int row) {
-		By link = By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_delete']", row + 2, 5));
-		clickAndConfirm(link);
+		clickAndConfirm(getEvaluationDeleteResults(row));
 	}
 
 	public void clickAndConfirmEvaluationDelete(String courseId, String evalName) {
@@ -1090,8 +1114,7 @@ public class BrowserInstance {
 	}
 
 	public void clickAndCancelEvaluationDelete(int row) {
-		By link = By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_delete']", row + 2, 5));
-		waitAndClickAndCancel(link);
+		waitAndClickAndCancel(getEvaluationDeleteResults(row));
 	}
 
 	public void clickAndCancelEvaluationDelete(String courseId, String evalName) {
@@ -1118,12 +1141,20 @@ public class BrowserInstance {
 	 * @param row
 	 */
 	// reviewer summary
+	public By getReviewerSummaryView(int row) {
+		return By.id("viewEvaluationResults" + row);
+	}
+	
 	public void clickReviewerSummaryView(int row) {
-		waitAndClick(By.id("viewEvaluationResults" + row));
+		waitAndClick(getReviewerSummaryView(row));
+	}
+	
+	public By getReviewerSummaryEdit(int row) {
+		return By.id("editEvaluationResults" + row);
 	}
 
 	public void clickReviewerSummaryEdit(int row) {
-		waitAndClick(By.id("editEvaluationResults" + row));
+		waitAndClick(getReviewerSummaryEdit(row));
 	}
 
 	public int countReviewerSummaryStudents() {
