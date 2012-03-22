@@ -68,25 +68,27 @@ var HOVER_MESSAGE_PERCEIVED_CLAIMED = "Difference between claimed and perceived 
  */
 function printCourseList(courseList, user) {
 	var courseListLength = courseList.length;
-	var output = "<br /><br />"
-			+ "<table id=\"dataform\">"
-			+ "<tr>"
-			+ "<th><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortcourseid\">COURSE ID</input></th>"
-			+ "<th><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortcoursename\">COURSE NAME</input></th>";
+	var output = 
+		"<br /><br />\
+			<table id='dataform'>\
+				<tr>\
+					<th><input class='buttonSortNone' type='button' id='button_sortcourseid'>COURSE ID</input></th>\
+					<th><input class='buttonSortNone' type='button' id='button_sortcoursename'>COURSE NAME</input></th>";
 	if (user == STUDENT) {
 		output = output + "<th>TEAM NAME</th>";
 	} else {
-		output = output + "<th class='centeralign'>TEAMS</th>"
-				+ "<th class='centeralign'>TOTAL STUDENTS</th>"
-				+ "<th class='centeralign'>TOTAL UNREGISTERED</th>";
+		output = output + 
+			"<th class='centeralign'>TEAMS</th>\
+			<th class='centeralign'>TOTAL STUDENTS</th>\
+			<th class='centeralign'>TOTAL UNREGISTERED</th>";
 	}
-	output = output + "<th class=\"centeralign\">ACTION(S)</th>" + "</tr>";
+	output = output + "<th class='centeralign'>ACTION(S)</th></tr>";
 
+	//empty table
 	if (courseListLength == 0) {
 		if (user == COORDINATOR) {
 			setStatusMessage(COORDINATOR_MESSAGE_NO_COURSE);
-			output = output
-					+ "<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
+			output = output + "<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
 		} else {
 			output = output + "<tr><td></td><td></td><td></td><td></td></tr>";
 		}
@@ -96,8 +98,7 @@ function printCourseList(courseList, user) {
 	var counter = 0;
 
 	for (loop = 0; loop < courseListLength; loop++) {
-		if (courseList[loop].status == "false"
-				|| courseViewArchivedStatus == courseViewArchived.show) {
+		if (courseList[loop].status == "false" || courseViewArchivedStatus == courseViewArchived.show) {
 			// common view:
 			output = output + "<tr>";
 			output = output + "<td id=\"courseID" + counter + "\">"
@@ -187,52 +188,6 @@ function printCourseList(courseList, user) {
 }
 
 /*------------------------------------------PRINT COORDINATOR PAGE------------------------------------------*/
-/*
- * Coordinator add course TODO: Improve UI
- */
-function printAddCourse() {
-	var outputHeader = "<h1>ADD NEW COURSE</h1>";
-
-	var outputForm = "<form method=\"post\" action=\"\" name=\"form_addcourse\">"
-			+ "<table class=\"addform round\">"
-			+ "<tr>"
-			+ "<td><b>Course ID:</b></td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td><input class=\"addinput\" type=\"text\" name=\""
-			+ COURSE_ID
-			+ "\" id=\""
-			+ COURSE_ID
-			+ "\""
-			+ "onmouseover=\"ddrivetip('Enter the identifier of the course, e.g.CS3215Sem1.')\""
-			+ "onmouseout=\"hideddrivetip()\" maxlength="+COURSEID_INPUT_FIELD_MAX_LENGTH+" tabindex=1 />"
-			+ "</td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td><b>Course Name:</b></td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td><input class=\"addinput\" type=\"text\" name=\""
-			+ COURSE_NAME
-			+ "\" id=\""
-			+ COURSE_NAME
-			+ "\""
-			+ "onmouseover=\"ddrivetip('Enter the name of the course, e.g. Software Engineering.')\""
-			+ "onmouseout=\"hideddrivetip()\" maxlength="+COURSENAME_INPUT_FIELD_MAX_LENGTH+" tabindex=2 />"
-			+ "</td>"
-			+ "</tr>"
-			+ "<tr>"
-			+ "<td><input id='btnAddCourse' type=\"button\" class=\"button\" onclick=\"doAddCourse(this.form."
-			+ COURSE_ID
-			+ ".value, this.form."
-			+ COURSE_NAME
-			+ ".value);\" value=\"Add Course\" tabindex=\"3\" /></td>"
-			+ "</tr>" + "</table>" + "</form>";
-
-	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader;
-	document.getElementById(DIV_COURSE_MANAGEMENT).innerHTML = outputForm;
-}
-
 /*
  * Coordinator enrol students TODO: Improve UI
  */

@@ -166,30 +166,6 @@ function encodeCharForPrint(str) {
 	return str;
 }
 
-function setStatusMessage(message) {
-	if (message == "") {
-		clearStatusMessage();
-		return;
-	}
-	$("#statusMessage").html(message).show();
-}
-
-function clearStatusMessage() {
-	$("#statusMessage").html("").hide();
-}
-
-function toggleStatusMessage(statusMsg) {
-	setStatusMessage(statusMsg);
-}
-
-function loadStatusMessage() {
-	$("#statusMessage").html(DISPLAY_LOADING).show();
-}
-
-function alertServerError() {
-	alert(DISPLAY_SERVERERROR);
-}
-
 function setEditEvaluationResultsStatusMessage(message) {
 	if (message == "") {
 		clearEditEvaluationResultsStatusMessage();
@@ -205,4 +181,36 @@ function clearEditEvaluationResultsStatusMessage() {
 
 function toggleEditEvaluationResultsStatusMessage(statusMsg) {
 	setEditEvaluationResultsStatusMessage(statusMsg);
+}
+
+/**-----------------------UI Related Helper Functions-----------------------**/
+function scrollToTop() {
+	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
+}
+
+/*
+ * div: statusMessage
+ */
+function setStatusMessage(message) {
+	if (message == "") {
+		clearStatusMessage();
+		return;
+	}
+	$("#statusMessage").html(message).show();
+}
+
+function setStatusMessageToLoading() {
+	$("#statusMessage").html(DISPLAY_LOADING).show();
+}
+
+function clearStatusMessage() {
+	$("#statusMessage").html("").hide();
+}
+
+function toggleStatusMessage(statusMsg) {
+	setStatusMessage(statusMsg);
+}
+
+function alertServerError() {
+	alert(DISPLAY_SERVERERROR);
 }

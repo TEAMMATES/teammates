@@ -8,6 +8,7 @@ import javax.jdo.PersistenceManager;
 
 import teammates.exception.CourseDoesNotExistException;
 import teammates.exception.CourseExistsException;
+import teammates.exception.CourseInputInvalidException;
 import teammates.exception.GoogleIDExistsInCourseException;
 import teammates.exception.RegistrationKeyInvalidException;
 import teammates.exception.RegistrationKeyTakenException;
@@ -70,9 +71,25 @@ public class Courses {
 	 * 
 	 * @throws CourseExistsException
 	 *             if a course with the specified ID already exists
+	 * @throws CourseInputInvalidException 
 	 */
-	public void addCourse(String ID, String name, String coordinatorID) throws CourseExistsException {
-		if (getCourse(ID) != null) {
+	public void addCourse(String ID, String name, String coordinatorID) throws CourseExistsException, CourseInputInvalidException {
+		int maxCourseID = 21;
+		int maxCourseName = 38;
+
+		if (ID.isEmpty() || name.isEmpty()) {
+			throw new CourseInputInvalidException("Empty input fields.");
+
+		} else if (ID.length() > maxCourseID) {
+			throw new CourseInputInvalidException("Course ID is too long.");
+
+		} else if (name.length() > maxCourseName) {
+			throw new CourseInputInvalidException("Course name is too long");
+
+		} else if (!ID.matches("^[a-zA-Z_$0-9.-]+$")) {
+			throw new CourseInputInvalidException("Invalid course name with special characters.");
+		
+		} else if (getCourse(ID) != null) {
 			throw new CourseExistsException();
 		}
 
@@ -80,10 +97,8 @@ public class Courses {
 
 		try {
 			getPM().makePersistent(course);
-		}
-
-		finally {
-
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

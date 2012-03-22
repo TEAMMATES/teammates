@@ -1,26 +1,10 @@
 module("Coordinator AddCourse");// addCourse()----------------------------------------------------------------
 
-//main function test
-test('doAddCourse(): client-side validation', function() {
-	xmlhttp = new MockHttpRequest();
-	// empty fields failed
-	equal(doAddCourse("", ""), DISPLAY_COURSE_EMPTY, "doAddCourse(\"\", \"\")");
 
-	// long courseID
-	equal(doAddCourse("C *&1010&@", "Programming Methodology"), DISPLAY_COURSE_INVALIDID, "doAddCourse(\"C *&1010&@\", \"Programming Methodology\")");
-	
-	// invalid courseID
-	equal(doAddCourse("CS10$$101101010010101010110101010", "Software Engineering"), DISPLAY_COURSE_LONGID, "doAddCourse(\"CS10$$101101010010101010110101010\", \"Software Engineering\")");
-
-	// long courseName
-	equal(doAddCourse("CS1010", "A LONG LONG COURSE NAME MAY CAUSE PROBLEM."), DISPLAY_COURSE_LONGNAME, "doAddCourse(\"CS1010\", \"A LONG LONG COURSE NAME MAY CAUSE PROBLEM.\")");
-
-});
-
-//helper function test
+//helper function unit test
 test('checkAddCourseParam(courseID, courseName)', function() {
 	//valid
-	equal(checkAddCourseParam("IS4226", "IT Outsourcing"), COURSE_STATUS_WAITING, "Valid Input: IS4226 IT Outsourcing");
+	equal(checkAddCourseParam("IS4226", "IT Outsourcing"), COURSE_STATUS_VALID_INPUT, "Valid Input: IS4226 IT Outsourcing");
 	
 	//missing field
 	equal(checkAddCourseParam("", ""), COURSE_STATUS_EMPTY, "empty fields");
@@ -32,12 +16,17 @@ test('checkAddCourseParam(courseID, courseName)', function() {
 	equal(checkAddCourseParam("CS1010", "Software Engineering Software Engineering Software Engineering "), COURSE_STATUS_LONG_NAME, "too long courseName");
 
 	//special char
+	//valid: alphabets, numbers, dots, hyphens, underscores and dollars in course ID
+	equal(checkAddCourseParam("CS.010", "Software Engineering"), COURSE_STATUS_VALID_INPUT, "Invalid courseID CS$010");
+	equal(checkAddCourseParam("CS-010", "Software Engineering"), COURSE_STATUS_VALID_INPUT, "Invalid courseID CS$010");
+	equal(checkAddCourseParam("CS_010", "Software Engineering"), COURSE_STATUS_VALID_INPUT, "Invalid courseID CS$010");
+	equal(checkAddCourseParam("CS$010", "Software Engineering"), COURSE_STATUS_VALID_INPUT, "Invalid courseID CS$010");
+	//invalid
 	equal(checkAddCourseParam("CS10@@", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID [CS10@@]");
 	equal(checkAddCourseParam("CS100 ", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID [CS100 ](space)");
 	equal(checkAddCourseParam("CS!010", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID CS!010");
 	equal(checkAddCourseParam("C@1010", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID C@1010");
 	equal(checkAddCourseParam("#CS1010", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID #CS1010");
-	equal(checkAddCourseParam("CS$010", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID CS$010");
 	equal(checkAddCourseParam("CS1010%", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID CS1010%");
 	equal(checkAddCourseParam("C^^1010", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID C^^1010");
 	equal(checkAddCourseParam("C&&1010", "Software Engineering"), COURSE_STATUS_INVALID_ID, "Invalid courseID C&&1010");
@@ -57,21 +46,22 @@ test('courseStatusToMessage(statusCode)', function() {
 	
 	equal(courseStatusToMessage(COURSE_STATUS_EMPTY), DISPLAY_COURSE_EMPTY, "empty field(s): " + DISPLAY_COURSE_EMPTY);
 	
-	equal(courseStatusToMessage(COURSE_STATUS_LONG_ID), DISPLAY_COURSE_LONGID, "courseID too long: " + DISPLAY_COURSE_LONGID);
+	equal(courseStatusToMessage(COURSE_STATUS_LONG_ID), DISPLAY_COURSE_LONG_ID, "courseID too long: " + DISPLAY_COURSE_LONG_ID);
 	
-	equal(courseStatusToMessage(COURSE_STATUS_LONG_NAME), DISPLAY_COURSE_LONGNAME, "courseName too long: " + DISPLAY_COURSE_LONGNAME);
+	equal(courseStatusToMessage(COURSE_STATUS_LONG_NAME), DISPLAY_COURSE_LONG_NAME, "courseName too long: " + DISPLAY_COURSE_LONG_NAME);
 	
-	equal(courseStatusToMessage(COURSE_STATUS_INVALID_ID), DISPLAY_COURSE_INVALIDID, "courseID invalid: " + DISPLAY_COURSE_INVALIDID);
+	equal(courseStatusToMessage(COURSE_STATUS_INVALID_ID), DISPLAY_COURSE_INVALID_ID, "courseID invalid: " + DISPLAY_COURSE_INVALID_ID);
 	
-	equal(courseStatusToMessage(COURSE_STATUS_INVALID_NAME), DISPLAY_COURSE_INVALIDNAME, "courseName invalid: " + DISPLAY_COURSE_INVALIDNAME);
+	equal(courseStatusToMessage("Unknown Status"), DISPLAY_SERVERERROR, "unknown status: " + DISPLAY_SERVERERROR);
 	
 });
 
 //mocked server-side test
-test('requestAddCourse()', function() {
+test('sendAddCourseRequest()', function() {
+	var STATUS_OPEN = 1;
 	xmlhttp = new MockHttpRequest();
-	requestAddCourse("CS1010", "Programming Methodology");
-	equal(xmlhttp.readyState, 1, "Request State: Connection Open");
+	sendAddCourseRequest("CS1010", "Programming Methodology");
+	equal(xmlhttp.readyState, STATUS_OPEN, "Request State: Connection Open");
 	equal(xmlhttp.getRequestHeader("Content-Type"), 
 			"application/x-www-form-urlencoded;",
 			"Request Header: content-type = application/x-www-form-urlencoded;");
@@ -81,19 +71,19 @@ test('requestAddCourse()', function() {
 
 });
 
-test('handleAddCourse()', function() {
+test('processAddCourseResponse()', function() {
 	xmlhttp = new MockHttpRequest();
-	requestAddCourse("CS1010", "Programming Methodology");
-	xmlhttp.receive(200, "<status>course added</status>");
-	equal(handleAddCourse(), COURSE_STATUS_SUCCESSFUL, "HttpServletResponse: course added");
+	sendAddCourseRequest("CS1010", "Programming Methodology");
+	xmlhttp.receive(CONNECTION_OK, "<status>course added</status>");
+	equal(processAddCourseResponse(), COURSE_STATUS_SUCCESSFUL, "HttpServletResponse: course added");
 
 	xmlhttp = new MockHttpRequest();
-	requestAddCourse("CS1010", "Programming Methodology");
-	xmlhttp.receive(400, "<status>course added</status>");
-	equal(handleAddCourse(), COURSE_STATUS_SERVERERROR, "HttpServletResponse: server error");
+	sendAddCourseRequest("CS1010", "Programming Methodology");
+	xmlhttp.receive(400, "<status>course added</status>");//random status code
+	equal(processAddCourseResponse(), COURSE_STATUS_SERVERERROR, "HttpServletResponse: server error");
 
 	xmlhttp = new MockHttpRequest();
-	requestAddCourse("CS1010", "Programming Methodology");
-	xmlhttp.receive(200, "<status>course exists</status>");
-	equal(handleAddCourse(), COURSE_STATUS_EXISTS, "HttpServletResponse: course exists");
+	sendAddCourseRequest("CS1010", "Programming Methodology");
+	xmlhttp.receive(CONNECTION_OK, "<status>course exists</status>");
+	equal(processAddCourseResponse(), COURSE_STATUS_EXISTS, "HttpServletResponse: course exists");
 })

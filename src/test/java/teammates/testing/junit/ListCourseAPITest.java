@@ -21,7 +21,7 @@ import teammates.jdo.Course;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
-public class ListCourseTest {
+public class ListCourseAPITest {
 
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 	private PersistenceManager pm;

@@ -16,13 +16,14 @@ import teammates.TeammatesServlet;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
-public class AddCourseTest {
+public class AddCourseAPITest {
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 	private final String COURSE_ID = "CS1010";
 	private final String COURSE_NAME = "Software Engineering";
 	private final String GOOGLE_ID = "teammates.coord";
 	private final String RESPONSE_ADDED = "<status>course added</status>";
 	private final String RESPONSE_EXISTS = "<status>course exists</status>";
+	private final String RESPONSE_INVALID = "<status>course input invalid</status>";
 	
 	
 	@Before
@@ -56,7 +57,7 @@ public class AddCourseTest {
 		assertEquals(RESPONSE_EXISTS, response);
 		
 		//different id
-		response = ts.coordinatorAddCourse("different id", COURSE_NAME, GOOGLE_ID);
+		response = ts.coordinatorAddCourse("id1010", COURSE_NAME, GOOGLE_ID);
 		assertEquals(RESPONSE_ADDED, response);
 		
 		//different name
@@ -87,11 +88,11 @@ public class AddCourseTest {
 		response = ts.coordinatorAddCourse(COURSE_ID_LOWER, "sensitive course", GOOGLE_ID);
 		assertEquals(RESPONSE_EXISTS, response);
 		
-		//TODO: changed to insensitive
+		//TODO: change to insensitive
 		response = ts.coordinatorAddCourse(COURSE_ID_UPPER, COURSE_NAME, GOOGLE_ID);
 //		assertEquals(RESPONSE_EXISTS, response);
 		
-		//TODO: changed to insensitive
+		//TODO: change to insensitive
 		response = ts.coordinatorAddCourse(COURSE_ID_UPPER, "sensitive course", GOOGLE_ID);
 //		assertEquals(RESPONSE_EXISTS, response);
 	}
@@ -103,23 +104,21 @@ public class AddCourseTest {
 	 * @rule compulsory field
 	 * @throws Exception
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testAddCourseWithEmptyIDFailed() throws Exception {
 		TeammatesServlet ts = new TeammatesServlet();
 		ts.coordinatorAddCourse("", COURSE_NAME, GOOGLE_ID);
 	}
 	
-	//TODO: handle following exceptions!!!
 	/**
 	 * empty name
 	 * @rule compulsory field
 	 * @throws Exception
 	 */
-//	@Test
-//	(expected = IllegalArgumentException.class)
+	@Test
 	public void testAddCourseWithEmptyNameFailed() throws Exception {
 		TeammatesServlet ts = new TeammatesServlet();
-		ts.coordinatorAddCourse(COURSE_ID, "", GOOGLE_ID);
+		assertEquals(RESPONSE_INVALID, ts.coordinatorAddCourse(COURSE_ID, "", GOOGLE_ID));
 	}
 	
 	/**
@@ -127,11 +126,10 @@ public class AddCourseTest {
 	 * @rule size <= 21
 	 * @throws Exception
 	 */
-//	@Test
-//	(expected = IllegalArgumentException.class)
+	@Test
 	public void testAddCourseWithLongIDFailed() throws Exception {
 		TeammatesServlet ts = new TeammatesServlet();
-		ts.coordinatorAddCourse("LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG", COURSE_NAME, GOOGLE_ID);
+		assertEquals(RESPONSE_INVALID, ts.coordinatorAddCourse("LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG", COURSE_NAME, GOOGLE_ID));
 	}
 	
 	/**
@@ -139,11 +137,10 @@ public class AddCourseTest {
 	 * @rule size <= 38
 	 * @throws Exception
 	 */
-//	@Test
-//	(expected = IllegalArgumentException.class)
+	@Test
 	public void testAddCourseWithLongNameFailed() throws Exception {
 		TeammatesServlet ts = new TeammatesServlet();
-		ts.coordinatorAddCourse(COURSE_ID, "LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG", GOOGLE_ID);
+		assertEquals(RESPONSE_INVALID, ts.coordinatorAddCourse(COURSE_ID, "LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG LONG", GOOGLE_ID));
 	}
 	
 	/**
@@ -151,18 +148,21 @@ public class AddCourseTest {
 	 * @rule no white space, only alphabets, numbers, dots, hyphens
 	 * @throws (expected) exception
 	 * */
-//	@Test
-//	(expected = IllegalArgumentException.class)
+	@Test
 	public void testAddCourseWithInalidIDFailed() throws IOException, Exception {
 		TeammatesServlet ts = new TeammatesServlet();
-		try {
-			ts.coordinatorAddCourse("#CS1010", COURSE_NAME, GOOGLE_ID);
-		}
-		catch (IOException e) {
-			ts.coordinatorAddCourse("CS 1010", COURSE_NAME, GOOGLE_ID);
-		}
-		finally {
-			
-		}
+		assertEquals(RESPONSE_INVALID, ts.coordinatorAddCourse("CS 1010", COURSE_NAME, GOOGLE_ID));
+		assertEquals(RESPONSE_INVALID, ts.coordinatorAddCourse("CS~1010", COURSE_NAME, GOOGLE_ID));
+		assertEquals(RESPONSE_INVALID, ts.coordinatorAddCourse("CS!1010", COURSE_NAME, GOOGLE_ID));
+		assertEquals(RESPONSE_INVALID, ts.coordinatorAddCourse("CS@1010", COURSE_NAME, GOOGLE_ID));
+		assertEquals(RESPONSE_INVALID, ts.coordinatorAddCourse("CS#1010", COURSE_NAME, GOOGLE_ID));
+		assertEquals(RESPONSE_INVALID, ts.coordinatorAddCourse("CS%1010", COURSE_NAME, GOOGLE_ID));
+		assertEquals(RESPONSE_INVALID, ts.coordinatorAddCourse("CS^1010", COURSE_NAME, GOOGLE_ID));
+		assertEquals(RESPONSE_INVALID, ts.coordinatorAddCourse("CS&1010", COURSE_NAME, GOOGLE_ID));
+		assertEquals(RESPONSE_INVALID, ts.coordinatorAddCourse("CS*1010", COURSE_NAME, GOOGLE_ID));
+		assertEquals(RESPONSE_INVALID, ts.coordinatorAddCourse("CS(1010", COURSE_NAME, GOOGLE_ID));
+		assertEquals(RESPONSE_INVALID, ts.coordinatorAddCourse("CS)1010", COURSE_NAME, GOOGLE_ID));
+		assertEquals(RESPONSE_INVALID, ts.coordinatorAddCourse("CS+1010", COURSE_NAME, GOOGLE_ID));
+		assertEquals(RESPONSE_INVALID, ts.coordinatorAddCourse("CS=1010", COURSE_NAME, GOOGLE_ID));
 	}
 }

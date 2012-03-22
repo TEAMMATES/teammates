@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.exception.AccountExistsException;
 import teammates.exception.CourseExistsException;
+import teammates.exception.CourseInputInvalidException;
 import teammates.exception.EvaluationExistsException;
 import teammates.exception.GoogleIDExistsInCourseException;
 import teammates.exception.RegistrationKeyInvalidException;
@@ -159,6 +160,7 @@ public class TeammatesServlet extends HttpServlet {
 	// MESSAGES
 	private static final String MSG_COURSE_ADDED = "course added";
 	private static final String MSG_COURSE_EXISTS = "course exists";
+	private static final String MSG_COURSE_INPUT_INVALID = "course input invalid";
 	private static final String MSG_COURSE_NOTEAMS = "course has no teams";
 	private static final String MSG_EVALUATION_ADDED = "evaluation added";
 	private static final String MSG_EVALUATION_DEADLINEPASSED = "evaluation deadline passed";
@@ -471,6 +473,9 @@ public class TeammatesServlet extends HttpServlet {
 		}
 		catch (CourseExistsException e) {
 			return MSG_STATUS_OPENING + MSG_COURSE_EXISTS + MSG_STATUS_CLOSING;
+		}
+		catch (CourseInputInvalidException e) {
+			return MSG_STATUS_OPENING + MSG_COURSE_INPUT_INVALID + MSG_STATUS_CLOSING;
 		}
 	}
 

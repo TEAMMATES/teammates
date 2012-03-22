@@ -116,9 +116,9 @@ test('sortByName', function() {
 });
 
 // mocked server-side test
-test('requestGetCourseList()', function() {
+test('sendGetCourseListRequest()', function() {
 	xmlhttp = new MockHttpRequest();
-	requestGetCourseList();
+	sendGetCourseListRequest();
 	equal(xmlhttp.readyState, 1, "Request State: Connection Open");
 	equal(xmlhttp.getRequestHeader("Content-Type"),
 			"application/x-www-form-urlencoded;",
@@ -127,7 +127,7 @@ test('requestGetCourseList()', function() {
 			"Request Data: operation=coordinator_addcourse");
 });
 
-test('handleGetCourseList()', function() {
+test('processGetCourseListResponse()', function() {
 	var response = "<courses>" + "<coursesummary>"
 			+ "<courseid><![CDATA[CS1010]]></courseid>"
 			+ "<coursename><![CDATA[HELLO WORLD]]></coursename>"
@@ -147,14 +147,14 @@ test('handleGetCourseList()', function() {
 	} ];
 
 	xmlhttp = new MockHttpRequest();
-	requestGetCourseList();
-	xmlhttp.receive(400, null);
-	equal(handleGetCourseList(), SERVERERROR, "HttpServletResponse: server error");
+	sendGetCourseListRequest();
+	xmlhttp.receive(400, null);//random status code
+	equal(processGetCourseListResponse(), COURSE_STATUS_SERVERERROR, "HttpServletResponse: server error");
 
 	xmlhttp = new MockHttpRequest();
-	requestGetCourseList();
-	xmlhttp.receive(200, response);
-	deepEqual(handleGetCourseList(), result, "HttpServletResponse: return course list");
+	sendGetCourseListRequest();
+	xmlhttp.receive(CONNECTION_OK, response);
+	deepEqual(processGetCourseListResponse(), result, "HttpServletResponse: return course list");
 });
 
 function makeCourseData(courseid, coursename, status, teams, total, unregsitered) {

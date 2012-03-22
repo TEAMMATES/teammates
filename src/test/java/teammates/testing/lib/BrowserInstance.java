@@ -220,6 +220,7 @@ public class BrowserInstance {
 
 	public final String ERROR_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
 	public final String ERROR_COURSE_LONG_COURSE_NAME = "Course name should not exceed 38 characters.";
+	public final String ERROR_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
 
 	public final String MESSAGE_ENROL_REMIND_TO_JOIN = "Emails have been sent to unregistered students.";
 	public final String ERROR_MESSAGE_ENROL_INVALID_EMAIL = "E-mail address should contain less than 40 characters and be of a valid syntax.";

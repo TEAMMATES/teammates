@@ -6,12 +6,12 @@ import org.junit.runner.notification.Failure;
 
 import teammates.profiler.Profiler;
 import teammates.testing.concurrent.CoordCourseAddCaseSensitivityTest;
-import teammates.testing.concurrent.CoordCourseAddTest;
+import teammates.testing.concurrent.CoordCourseAddUITest;
 import teammates.testing.concurrent.CoordCourseDeleteStudentsTest;
 import teammates.testing.concurrent.CoordCourseEditStudentsTest;
 import teammates.testing.concurrent.CoordCourseEnrolCaseSensitivityTest;
 import teammates.testing.concurrent.CoordCourseEnrolStudentsTest;
-import teammates.testing.concurrent.CoordCourseListTest;
+import teammates.testing.concurrent.CoordCourseListUITest;
 import teammates.testing.concurrent.CoordEvaluationAddCaseSensitivityTest;
 import teammates.testing.concurrent.CoordEvaluationAddTest;
 import teammates.testing.concurrent.CoordEvaluationEditTest;
@@ -31,13 +31,13 @@ public class ConcurrentRun {
 		Class[] cls = { 
 				CoordLoginTest.class,
 				CoordCourseAddCaseSensitivityTest.class,
-				CoordCourseAddTest.class,
+				CoordCourseAddUITest.class,
 				CoordCourseDeleteStudentsTest.class,
 //				CoordCourseEditStudentsTeamTest.class,
 				CoordCourseEditStudentsTest.class,
 				CoordCourseEnrolCaseSensitivityTest.class,
 				CoordCourseEnrolStudentsTest.class,
-				CoordCourseListTest.class,
+				CoordCourseListUITest.class,
 //				CoordCourseViewTest.class,
 				
 				CoordEvaluationAddCaseSensitivityTest.class,

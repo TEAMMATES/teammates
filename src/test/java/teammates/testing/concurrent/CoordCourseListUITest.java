@@ -21,7 +21,7 @@ import teammates.testing.object.Scenario;
  * 
  * */
 
-public class CoordCourseListTest extends TestCase {
+public class CoordCourseListUITest extends TestCase {
 
 	static BrowserInstance bi;
 	static Scenario scn = setupScenarioInstance("scenario");
