@@ -264,9 +264,6 @@ function displayCoursesTab() {
 }
 
 //----------------------------------------------------------ADD COURSE FUNCTIONS
-/**
- * UI: Add Course Form
- */
 function printAddCourseForm() {
 	var outputHeader = "<h1>ADD NEW COURSE</h1>";
 
@@ -304,11 +301,6 @@ function printAddCourseForm() {
 	document.getElementById(DIV_COURSE_MANAGEMENT).innerHTML = outputForm;
 }
 
-/**
- * Coordinator Add Course
- *
- **/
-
 function doAddCourse(courseID, courseName) {
 	setStatusMessageToLoading();
 	
@@ -340,7 +332,7 @@ function doAddCourse(courseID, courseName) {
 	
 	printAddCourseForm();
 	getAndPrintCourseList();
-	setStatusMessage(msg);
+	setStatusMessage(courseStatusToMessage(statusCode));
 
 }
 
@@ -442,10 +434,6 @@ function isCourseIDValid(courseID) {
 
 
 //----------------------------------------------------------LIST COURSE FUNCTIONS
-/**
- * get Course List and print
- * 
- * */
 function getAndPrintCourseList() {
 	setStatusMessageToLoading();
 
@@ -483,8 +471,6 @@ function processGetCourseListResponse() {
 		return COURSE_STATUS_SERVERERROR;
 
 	var courses = xmlhttp.responseXML.getElementsByTagName("courses")[0];
-	var courseList = new Array();
-
 	if (courses == null)
 		return COURSE_STATUS_SERVERERROR;
 
@@ -492,12 +478,12 @@ function processGetCourseListResponse() {
 	var ID;
 	var name;
 	var numberOfTeams;
-	var totalStudnets;
+	var totalStudents;
 	var unregistered;
 	var status;
 	
 	var coursesChildNodesLength = courses.childNodes.length;
-	
+	var courseList = new Array();
 	for (loop = 0; loop < coursesChildNodesLength; loop++) {
 		course = courses.childNodes[loop];
 		ID = course.getElementsByTagName(COURSE_ID)[0].firstChild.nodeValue;

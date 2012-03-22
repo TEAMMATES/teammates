@@ -1,6 +1,6 @@
 package teammates.testing.concurrent;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -11,11 +11,18 @@ import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Scenario;
 
+/**
+ * 
+ * @author zds1989
+ *
+ */
 public class CoordCourseAddUITest extends TestCase {
 	static BrowserInstance bi;
 	static Scenario scn = setupScenarioInstance("scenario");
 	private static String COURSE_ID = "Test1001";
 	private static String COURSE_NAME = "Random Course Name";
+	private static int COURSE_NAME_MAX_LENGTH = 38;
+	private static int COURSE_ID_MAX_LENGTH = 21;
 	
 	
 	@BeforeClass
@@ -39,13 +46,11 @@ public class CoordCourseAddUITest extends TestCase {
 	
 	@Test
 	public void testCoordAddCourse() {
-		//successful
 		testCoordAddCourseSuccessful();
 		
-		//client-side
 		testCoordAddCourseWithInvalidInputsFailed();
+		testMaxLengthOfInputFields();
 		
-		//server-side
 		testCoordAddCourseWithDuplicateIDFailed();
 		testCoordAddCourseWithDuplicateNameSuccessful();
 		
@@ -101,6 +106,23 @@ public class CoordCourseAddUITest extends TestCase {
 		//Not-allowed characters
 		bi.addCourse(scn.course.courseId.replace("-", "!*}"), scn.course.courseName + " (!*})");
 		bi.waitForElementText(bi.statusMessage, bi.ERROR_COURSE_INVALID_ID);
+	}
+	
+	public static void testMaxLengthOfInputFields()
+	{
+		System.out.println("testMaxLengthOfInputFields");
+		bi.gotoCourses();
+		String shortCourseName = "This is a short name for course";
+		String longCourseName = "This is a long name for course which exceeds " + COURSE_NAME_MAX_LENGTH+ "char limit";
+		String shortCourseId = "CS2103-SEM1-AY11/12";
+		String longCourseId = "CS2103-SOFTWAREENGINEERING-SEM1-AY2011/2012";
+		
+		assertEquals(shortCourseId, bi.fillInCourseID(shortCourseId));
+		assertEquals(longCourseId.substring(0, COURSE_ID_MAX_LENGTH), bi.fillInCourseID(longCourseId));
+		
+		assertEquals(shortCourseName, bi.fillInCourseName(shortCourseName));
+		assertEquals(longCourseName.substring(0, COURSE_NAME_MAX_LENGTH), bi.fillInCourseName(longCourseName));
+		
 	}
 	
 	/**

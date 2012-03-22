@@ -21,7 +21,7 @@ import teammates.jdo.Course;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
-public class ListCourseAPITest {
+public class ListCoursesAPITest {
 
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 	private PersistenceManager pm;
@@ -58,6 +58,7 @@ public class ListCourseAPITest {
 		testTeammatesServletCoordGetCourseList();
 	}
 	
+	//Test getCoordinatorCourseList(googleID) function in Courses.java
 	public void testCoursesCoordGetCourseList() throws IOException {
 		Courses courses = Courses.inst();
 		List<Course> courseList = courses.getCoordinatorCourseList("teammates.coord");
@@ -74,6 +75,7 @@ public class ListCourseAPITest {
 		}
 	}
 	
+	//Test coordinatorGetCourseList(googleID) function in TeammatesServlet.java
 	public void testTeammatesServletCoordGetCourseList() throws IOException, ServletException {
 		TeammatesServlet ts = new TeammatesServlet();
 		String result = ts.coordinatorGetCourseList("teammates.coord");

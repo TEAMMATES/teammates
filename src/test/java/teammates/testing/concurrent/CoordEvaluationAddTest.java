@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.internal.runners.statements.Fail;
 
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -13,13 +14,15 @@ import teammates.testing.object.Evaluation;
 import teammates.testing.object.Scenario;
 
 public class CoordEvaluationAddTest extends TestCase {
-
+	static final int COURSENAME_MAX_LENGTH = 38;
+	
 	static BrowserInstance bi;
 	static Scenario scn = setupScenarioInstance("scenario");
 	static Scenario scn2 = setupScenarioInstance("scenario");// different course name, same evaluation name
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
+
 		System.out.println("========== CoordEvaluation");
 		bi = BrowserInstancePool.request();
 
@@ -48,6 +51,8 @@ public class CoordEvaluationAddTest extends TestCase {
 	@Test
 	public void testCoordAddEvaluation() {
 
+		testInputFieldMaxLength();
+		
 		testCoordAddEvaluationSuccessful();
 		
 		testCoordAddDuplicateEvaluationInDifferentCourseSuccessful();
@@ -57,6 +62,17 @@ public class CoordEvaluationAddTest extends TestCase {
 		testCoordAddEvaluationWithInvalidInputFailed();
 
 	}
+	
+	public void testInputFieldMaxLength()
+	{
+		bi.gotoEvaluations();
+		
+		String shortName = "This is a short name";
+		assertEquals(shortName, bi.fillInEvalName(shortName));
+		
+		String longName = "This is a long name that exceeds "+ COURSENAME_MAX_LENGTH +" char limit for evaluation name";
+		assertEquals(longName.substring(0, COURSENAME_MAX_LENGTH),bi.fillInEvalName(longName));
+	}
 
 	public void testCoordAddEvaluationSuccessful() {
 		
@@ -65,6 +81,7 @@ public class CoordEvaluationAddTest extends TestCase {
 		bi.justWait();
 //		assertEquals(bi.MESSAGE_EVALUATION_ADDED, bi.getElementText(bi.statusMessage));
 
+		
 		bi.clickEvaluationTab();
 		bi.verifyEvaluationAdded(scn.evaluation.courseID, scn.evaluation.name, bi.EVAL_STATUS_AWAITING, "0 / " + scn.students.size());
 		bi.justWait();
@@ -84,6 +101,8 @@ public class CoordEvaluationAddTest extends TestCase {
 		bi.gotoEvaluations();
 		bi.addEvaluation(scn2.evaluation);
 		bi.justWait();
+
+
 //		assertEquals(bi.MESSAGE_EVALUATION_ADDED, bi.getElementText(bi.statusMessage));
 		bi.verifyEvaluationAdded(scn2.evaluation.courseID, scn2.evaluation.name, bi.EVAL_STATUS_AWAITING, "0 / " + scn2.students.size());
 		System.out.println("========== testCoordAddDuplicateEvaluationInDifferentCourseSuccessful ==========");

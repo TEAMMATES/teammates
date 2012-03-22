@@ -933,6 +933,26 @@ public class BrowserInstance {
 		// Submit the form
 		waitAndClick(addEvaluationButton);
 	}
+	public String fillInEvalName(String name)
+	{
+		wdFillString(inputEvaluationName, name);
+		justWait();
+		return selenium.getValue("id=evaluationname");
+	}
+	
+	public String fillInCourseName(String name)
+	{
+		wdFillString(inputCourseName, name);
+		justWait();
+		return selenium.getValue("id=coursename");
+	}
+	
+	public String fillInCourseID(String id)
+	{
+		wdFillString(inputCourseID, id);
+		justWait();
+		return selenium.getValue("id=courseid");
+	}
 
 	public String getEvaluationCourseID(int row) {
 		row++;
