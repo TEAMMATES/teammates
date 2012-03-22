@@ -18,6 +18,7 @@ import teammates.exception.TeamProfileExistsException;
 import teammates.jdo.Course;
 import teammates.jdo.CourseDetailsForStudent;
 import teammates.jdo.Student;
+import teammates.jdo.TeamFormingLog;
 import teammates.jdo.TeamFormingSession;
 import teammates.jdo.TeamProfile;
 
@@ -35,6 +36,7 @@ public class TeamFormingServlet extends HttpServlet {
 	private static final String OPERATION_COORDINATOR_GETTEAMDETAIL = "coordinator_getteamdetail";
 	private static final String OPERATION_COORDINATOR_GETTEAMFORMINGSESSION = "coordinator_getteamformingsession";
 	private static final String OPERATION_COORDINATOR_GETTEAMFORMINGSESSIONLIST = "coordinator_getteamformingsessionlist";
+	private static final String OPERATION_COORDINATOR_GETTEAMFORMINGSESSIONLOG = "coordinator_getteamformingsessionlog";
 	private static final String OPERATION_COORDINATOR_DELETETEAMFORMINGSESSION = "coordinator_deleteteamformingsession";
 	private static final String OPERATION_COORDINATOR_DELETETEAMPROFILES = "coordinator_deleteteamprofiles";
 	private static final String OPERATION_COORDINATOR_DELETETEAMPROFILE = "coordinator_deleteteamprofile";
@@ -44,9 +46,11 @@ public class TeamFormingServlet extends HttpServlet {
 	private static final String OPERATION_COORDINATOR_EDITTEAMPROFILE = "coordinator_editteamprofile";
 	private static final String OPERATION_COORDINATOR_INFORMSTUDENTSOFTEAMFORMINGSESSIONCHANGES = "coordinator_informstudentsofteamformingsessionchanges";
 	private static final String OPERATION_CREATETEAMWITHSTUDENT = "createteamwithstudent";
+	private static final String OPERATION_COORDINATOR_PUBLISHTEAMFORMINGRESULTS = "coordinator_publishteamformingresults";
 	
 	private static final String OPERATION_ADDSTUDENTTOTEAM = "addstudenttoteam";
 	private static final String OPERATION_EDITSTUDENTTEAM = "editstudentteam";
+	private static final String OPERATION_ENTERLOG = "enterlog";
 	private static final String OPERATION_GETCURRENTUSER = "getcurrentuser";
 	private static final String OPERATION_GETSTUDENTTEAMNAME = "getstudentteamname";
 	private static final String OPERATION_JOINTEAM = "jointeam";
@@ -83,6 +87,8 @@ public class TeamFormingServlet extends HttpServlet {
 	private static final String TEAM_NAME = "teamName";
 	private static final String TEAM_PROFILE = "teamProfile";	
 	private static final String TEAM = "team";
+	private static final String TIME = "time";
+	private static final String MESSAGE = "message";
 
 	// MESSAGES
 	private static final String MSG_STUDENTPROFILE_SAVED = "student profile saved";
@@ -185,13 +191,25 @@ public class TeamFormingServlet extends HttpServlet {
 			coordinatorGetTeamFormingSessionList();
 		}
 		
+		else if (operation.equals(OPERATION_COORDINATOR_GETTEAMFORMINGSESSIONLOG)) {
+			coordinatorGetTeamFormingSessionLog();
+		}
+		
 		else if (operation
 				.equals(OPERATION_COORDINATOR_INFORMSTUDENTSOFTEAMFORMINGSESSIONCHANGES)) {
 			coordinatorInformStudentsOfTeamFormingSessionChanges();
 		}
+		
+		else if (operation.equals(OPERATION_COORDINATOR_PUBLISHTEAMFORMINGRESULTS)) {
+			coordinatorPublishTeamFormingResults();
+		}
 
 		else if (operation.equals(OPERATION_COORDINATOR_REMINDSTUDENTS_TEAMFORMING)) {
 			coordinatorRemindStudentsOfTeamForming();
+		}
+		
+		else if (operation.equals(OPERATION_ENTERLOG)) {
+			enterTeamFormingLog();
 		}
 		
 		else if (operation.equals(OPERATION_GETCURRENTUSER)) {
@@ -299,10 +317,10 @@ public class TeamFormingServlet extends HttpServlet {
 				.getParameter(TEAMFORMING_GRACEPERIOD));
 		String instructions = req.getParameter(TEAMFORMING_INSTRUCTIONS);
 		String profileTemplate = req.getParameter(TEAMFORMING_PROFILETEMPLATE);
-
+		
 		Date start = Utils.convertToDate(startDate, startTime);
 		Date deadline = Utils.convertToDate(deadlineDate, deadlineTime);
-
+		
 		// Add the team forming session		
 		TeamForming teamForming = TeamForming.inst();
 		
@@ -486,6 +504,20 @@ public class TeamFormingServlet extends HttpServlet {
 						+ "</teamformingsession>");
 	}
 	
+	private void coordinatorGetTeamFormingSessionLog() throws IOException {
+		String courseID = req.getParameter(COURSE_ID);
+		
+		TeamForming teamForming = TeamForming.inst();
+		List<TeamFormingLog> teamFormingLog = teamForming
+				.getTeamFormingSessionLog(courseID);	
+		
+		resp.getWriter().write(
+				"<teamforminglogs>"
+						+ parseCoordinatorTeamFormingSesssionLogToXML(
+								teamFormingLog).toString()
+						+ "</teamforminglogs>");
+	}
+	
 	private void coordinatorGetTeamFormingSessionList() throws IOException {
 		Accounts accounts = Accounts.inst();
 		String googleID = accounts.getUser().getNickname().toLowerCase();
@@ -578,7 +610,20 @@ public class TeamFormingServlet extends HttpServlet {
 
 		//TODO: replace null with deadline if deadline is part of the primary key
 		TeamForming teamForming = TeamForming.inst();
-		teamForming.informStudentsOfChanges(studentList, courseID, null);
+		TeamFormingSession teamFormingSession = teamForming.getTeamFormingSession(courseID, null);		
+		
+		Date deadline = teamFormingSession.getDeadline();
+		teamForming.informStudentsOfChanges(studentList, courseID, deadline);
+	}
+	
+	private void coordinatorPublishTeamFormingResults() {
+		String courseID = req.getParameter(COURSE_ID);
+
+		Courses courses = Courses.inst();
+		List<Student> studentList = courses.getStudentList(courseID);
+
+		TeamForming teamForming = TeamForming.inst();
+		teamForming.publishTeamFormingResults(studentList, courseID);
 	}
 	
 	private void coordinatorRemindStudentsOfTeamForming() {
@@ -590,9 +635,10 @@ public class TeamFormingServlet extends HttpServlet {
 		List<Student> studentsToRemindList = new ArrayList<Student>();
 
 		for (Student s : studentList) {
-			if (s.getTeamName().equals("")) {
+			String t = s.getTeamName();
+			t.replaceAll("\\s+", " ");
+			if(t.equals("")||t.equals(" "))
 				studentsToRemindList.add(s);
-			}
 		}
 
 		//by kalpit
@@ -604,6 +650,21 @@ public class TeamFormingServlet extends HttpServlet {
 		Date deadline = teamFormingSession.getDeadline();
 
 		teamForming.remindStudents(studentsToRemindList, courseID, deadline);
+	}
+	
+	private void enterTeamFormingLog() {
+		String courseID = req.getParameter(COURSE_ID);
+		//String time = req.getParameter("time");
+		String nowDate = req.getParameter("nowdate");
+		int nowTime = Integer.parseInt(req.getParameter("nowtime"));
+		String studentName = req.getParameter("name");
+		String studentEmail = req.getParameter("email");
+		String message = req.getParameter("message");
+		
+		Date now = Utils.convertToExactDateTime(nowDate, nowTime);
+		
+		TeamForming teamForming = TeamForming.inst();
+		teamForming.enterTeamFormingLog(courseID, now, studentName, studentEmail, message);
 	}
 	
 	private void getCurrentUser() throws IOException{
@@ -758,6 +819,31 @@ public class TeamFormingServlet extends HttpServlet {
 		return sb;
 	}
 	
+	private StringBuffer parseCoordinatorTeamFormingSesssionLogToXML(
+			List<TeamFormingLog> teamFormingLog) {
+		StringBuffer sb = new StringBuffer();
+		for (TeamFormingLog e : teamFormingLog) {
+			sb.append("<teamforminglog>");
+
+			sb.append("<" + COURSE_ID + "><![CDATA[" + e.getCourseID()
+					+ "]]></" + COURSE_ID + ">");
+			sb.append("<" + STUDENT_EMAIL + "><![CDATA["
+					+ e.getStudentEmail() + "]]></" + STUDENT_EMAIL + ">");
+			sb.append("<" + STUDENT_NAME + "><![CDATA["
+					+ e.getStudentName() + "]]></" + STUDENT_NAME + ">");
+			sb.append("<" + MESSAGE + "><![CDATA["
+					+ e.getMessage() + "]]></" + MESSAGE
+					+ ">");
+			sb.append("<" + TIME + "><![CDATA["
+					+ DateFormat.getDateTimeInstance().format(e.getTime())
+					+ "]]></" + TIME + ">");
+
+			sb.append("</teamforminglog>");
+		}
+		return sb;
+
+	}
+	
 	private StringBuffer parseCourseDetailsForStudentToXML(
 			CourseDetailsForStudent courseDetails) {
 		StringBuffer sb = new StringBuffer();
@@ -820,7 +906,7 @@ public class TeamFormingServlet extends HttpServlet {
 
 		boolean edited = teamForming
 				.editStudentProfile(courseId, studentEmail, profileSummary, profileDetail);
-
+		
 		if (edited) {
 			resp.getWriter().write(
 					MSG_STATUS_OPENING + MSG_STUDENTPROFILE_SAVED + MSG_STATUS_CLOSING);

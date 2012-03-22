@@ -15,6 +15,8 @@ var DISPLAY_TEAMPROFILE_SAVED = "The team profile has been saved.";
 var DISPLAY_TEAMFORMINGSESSION_EXISTS = "<font color=\"#F00\">The team forming session exists already.</font>";
 var DISPLAY_TEAMPROFILE_EXISTS = "<font color=\"#F00\">Same team profile exists already.</font>";
 var DISPLAY_TEAMFORMINGSESSION_INFORMEDSTUDENTSOFCHANGES = "E-mails have been sent out to inform the students of the changes to the team forming session.";
+var DISPLAY_TEAMFORMING_REMINDERSSENT = "Reminder e-mails have been sent out to those students.";
+var DISPLAY_TEAMFORMING_RESULTSPUBLISHED = "Emails have been sent to students regarding the final teams.";
 
 //DIV
 var DIV_TEAMFORMINGSESSION_MANAGEMENT = "coordinatorTeamFormingSessionManagement";
@@ -45,7 +47,9 @@ var OPERATION_COORDINATOR_GETSTUDENTSWITHOUTTEAM = "coordinator_getstudentswitho
 var OPERATION_COORDINATOR_GETTEAMSOFCOURSE = "coordinator_getteamsofcourse";
 var OPERATION_COORDINATOR_GETTEAMDETAIL = "coordinator_getteamdetail";
 var OPERATION_COORDINATOR_GETTEAMFORMINGSESSIONLIST = "coordinator_getteamformingsessionlist";
+var OPERATION_COORDINATOR_GETTEAMFORMINGSESSIONLOG = "coordinator_getteamformingsessionlog";
 var OPERATION_COORDINATOR_INFORMSTUDENTSOFTEAMFORMINGSESSIONCHANGES = "coordinator_informstudentsofteamformingsessionchanges";
+var OPERATION_COORDINATOR_PUBLISHTEAMFORMINGRESULTS = "coordinator_publishteamformingresults";
 var OPERATION_COORDINATOR_REMINDSTUDENTS_TEAMFORMING = "coordinator_remindstudentsteamforming";
 var OPERATION_GETSTUDENTTEAMNAME = "getstudentteamname";
 var OPERATION_JOINTEAM = "jointeam";
@@ -228,8 +232,11 @@ function displayManageTeamFormingSession(teamFormingSessionList, loop)
 	
 	if(teams.length!=0 || students.length!=0){
 		output = output
-		+ "<br /><br />"
-		+ "<input type=\"button\" class =\"button\" name=\"button_back\" id=\"button_back\" value=\"Update\" />";
+		+ "<br /><br />";
+//		+ "<input type=\"button\" class =\"button\" name=\"button_back\" id=\"button_back\" " 
+//		+ "onmouseover=\"ddrivetip('To inform students that the final teams are formed.')\""
+//		+ "onmouseout=\"hideddrivetip()\""
+//		+ "onClick=\"publishTeamFormingResults('"+courseID+"')\" value=\"Publish\" />";
 	}
 	document.getElementById(DIV_COURSE_TABLE).innerHTML = output;
 	
@@ -342,6 +349,24 @@ function displayTeams(courseID, teams){
 	return output;
 }
 
+function displayTeamFormingLog(teamFormingSessionList, loop){
+	var courseID = teamFormingSessionList[loop].courseID;
+	var results;
+	
+	if(xmlhttp)
+	{		
+		xmlhttp.open("POST","/teamforming",false); 
+		xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
+		xmlhttp.send("operation=" + OPERATION_COORDINATOR_GETTEAMFORMINGSESSIONLOG+ 
+				"&" + "courseid" + "=" + encodeURIComponent(courseID)); 
+		results=handleGetTeamFormingSessionLog();
+	}
+	if(results!=1){
+		clearAllDisplay();
+		printTeamFormingSessionLog(results);
+	}
+}
+
 function displayTeamFormingTab(){
 	clearAllDisplay();
 	initializetooltip();
@@ -431,6 +456,7 @@ function doEditTeamFormingSession(courseID, editStart, editStartTime, editDeadli
 		if(activated == true)
 		{
 			displayTeamFormingTab();
+			setStatusMessage(DISPLAY_TEAMFORMINGSESSION_EDITED);
 			informStudentsOfTeamFormingSessionChanges(courseID);
 		}
 		
@@ -488,7 +514,7 @@ function doRemindStudentsOfTeamForming(courseID)
 	
 	if(results != 1)
 	{
-		setStatusMessage(DISPLAY_EVALUATION_REMINDERSSENT);
+		setStatusMessage(DISPLAY_TEAMFORMING_REMINDERSSENT);
 	}
 	
 	else
@@ -562,7 +588,7 @@ function editTeamFormingSession(courseID, editStart, editStartTime, editDeadline
 function editTeamProfile(courseId, courseName,  teamName, newTeamName, newTeamProfile){
 	setStatusMessage(DISPLAY_LOADING);
 	
-	if(teamName == "" || teamProfile == "")
+	if(newTeamName == "" || newTeamProfile == "")
 		setStatusMessage(DISPLAY_FIELDS_EMPTY);	
 	else
 	{
@@ -581,11 +607,11 @@ function editTeamProfile(courseId, courseName,  teamName, newTeamName, newTeamPr
 	
 	if(results == 0)
 	{
-		displayTeamFormingTab();
-		//goToTeamFormingSession(courseId);
-		setStatusMessage(DISPLAY_TEAMPROFILE_SAVED);
 		if(teamName!=newTeamName)
 			updateTeamNameInStudentTable(courseId, teamName, newTeamName);
+		//displayTeamFormingTab();
+		goToTeamFormingSession(courseId);
+		setStatusMessage(DISPLAY_TEAMPROFILE_SAVED);
 	}
 	
 	else if(results == 1)
@@ -791,7 +817,7 @@ function handleEditTeamFormingSession()
 		{
 			var message = status.firstChild.nodeValue;
 			
-			if(message == MSG_EVALUATION_EDITED)
+			if(message == MSG_TEAMFORMINGSESSION_EDITED)
 			{
 				return 0;
 			}
@@ -1006,6 +1032,41 @@ function handleGetTeamDetail()
 	}	
 }
 
+function handleGetTeamFormingSessionLog()
+{
+	if (xmlhttp.status == 200) 
+	{
+		var teamFormingLogs = xmlhttp.responseXML.getElementsByTagName("teamforminglogs")[0];
+		var teamFormingLogList = new Array(); 
+		
+		var teamFormingLog;
+		var courseID;
+		var message;
+		var time;
+		var studentEmail;
+		var studentName;
+		
+		if(teamFormingLogs != null) {
+			for(loop = 0; loop < teamFormingLogs.childNodes.length; loop++)
+			{
+				teamFormingLog = teamFormingLogs.childNodes[loop];
+				
+				courseID = teamFormingLog.getElementsByTagName(COURSE_ID)[0].firstChild.nodeValue;
+				time = new Date(teamFormingLog.getElementsByTagName("time")[0].firstChild.nodeValue);
+				message = teamFormingLog.getElementsByTagName("message")[0].firstChild.nodeValue;
+				studentEmail = teamFormingLog.getElementsByTagName("studentemail")[0].firstChild.nodeValue;
+				studentName = teamFormingLog.getElementsByTagName("studentname")[0].firstChild.nodeValue;
+				
+				teamFormingLogList[loop] = { courseID:courseID, time:time, message:message,
+						 studentEmail:studentEmail, studentName:studentName};
+			}
+		}		
+		return teamFormingLogList;
+	}
+	else	
+		return 1;
+}
+
 /*
  * Returns
  * 
@@ -1093,7 +1154,6 @@ function handleJoinTeam()
 
 function informStudentsOfTeamFormingSessionChanges(courseID)
 {
-	alert("inside inform");
 	var s = confirm("Do you want to send e-mails to the students to inform them of changes to the team forming session?");
 	if (s == true) {
 		
@@ -1168,7 +1228,7 @@ function printChangeTeam(courseID, teamName, name, teams, email){
 			+ "\" value=\"true\" CHECKED "
 			+ "onmouseover=\"ddrivetip('Enable this if you want to add this student to an existing team.')\""
 			+ "onmouseout=\"hideddrivetip()\" >"
-			+ "Choose an existing team:</td>"
+			+ "Add to existing team:</td>"
 			+ "<td>"
 			+ "<select style=\"width: 260px;\" name=\""
 			+ TEAM_NAME
@@ -1188,6 +1248,7 @@ function printChangeTeam(courseID, teamName, name, teams, email){
 	outputForm = outputForm
 			+ "</select></td>"
 			+ "</tr>"
+			+ "<tr><td/><td><b>OR</b></td></tr>"
 			+ "<tr>"
 			+ "<td class=\"attribute\" >" 
 			+ "<input type=\"radio\" name=\""
@@ -1197,12 +1258,12 @@ function printChangeTeam(courseID, teamName, name, teams, email){
 			+ "\" value=\"false\" "
 			+ "onmouseover=\"ddrivetip('Enable this if you want to add this student to a new team.')\""
 			+ "onmouseout=\"hideddrivetip()\" >"
-			+ "Enter a new team:</td>"
+			+ "Add to a new team:</td>"
 			+ "<td><input id=\"" + NEW_TEAM_NAME + "\" style=\"width: 100px;\" type=\"text\"/></td>"
 			+ "</tr>"
 			+ "<tr><td></td><td>"
 			+ "<input id='button_back' type=\"button\" class=\"button\" onClick=\"goToTeamFormingSession('"
-			+ courseID + "')\" value=\"Back\" tabindex=2 />"
+			+ courseID + "')\" value=\"Back\" tabindex=2 />&nbsp; &nbsp; &nbsp;"
 			+ "<input id='button_saveTeamChange' type=\"button\" class=\"button\""
 			+ "value=\"Save\" tabindex=2 />"
 			+ "</td></tr></table>" + "</form>";	
@@ -1538,7 +1599,7 @@ function printStudentProfileDetail(courseID, name, teamName, profileDetail){
 }
 
 function printStudentsWithoutTeam(output, students){
-	output = output + "<br /><div><h1>STUDENTS WITHOUT ANY TEAM</h1></div>"
+	output = output + "<br /><div><h1>STUDENTS YET TO JOIN A TEAM</h1></div>"
 	output = output +  "<br /><table id=\"dataform\">" + "<tr>";
 	output = output + "<th class='centeralign'>STUDENT</th>"
 				+ "<th class='centeralign'>PROFILE</th>";
@@ -1552,13 +1613,14 @@ function printStudentsWithoutTeam(output, students){
 //		+ "<a class='t_team_view' id='withoutTeamStudent"+j+"'\" href=# "
 //		+ "onmouseover=\"ddrivetip('View full profile of the student.')\""
 //		+ "onmouseout=\"hideddrivetip()\">"
-		+students[j].name+"</td><td style=\"width: 500px;\">"+students[j].profileDetail+"</td>";
+		+students[j].name+"</td><td style=\"width: 550px;\">"+students[j].profileDetail+"</td>";
 
-		output = output + "<td class='centeralign' style=\"width: 150px;\">"
-		+ "<a class='t_manageteam_view' onclick=\"manageTeamSession();\"\" href=# "
-		+ "onmouseover=\"ddrivetip('Send an email to the student about his/her team.')\""
-		+ "onmouseout=\"hideddrivetip()\">Notify</a>"
-		+ "<span style=padding-left:20px /><a class='t_manageteam_view' id='allocateStudentTeam"+j+"' \" href=# "
+		output = output + "<td class='centeralign' style=\"width: 100px;\">"
+//		+ "<a class='t_manageteam_view' onclick=\"manageTeamSession();\"\" href=# "
+//		+ "onmouseover=\"ddrivetip('Send an email to the student about his/her team.')\""
+//		+ "onmouseout=\"hideddrivetip()\">Notify</a>"
+//		+ "<span style=padding-left:20px /><a class='t_manageteam_view' id='allocateStudentTeam"+j+"' \" href=# "
+		+ "<span/><a class='t_manageteam_view' id='allocateStudentTeam"+j+"' \" href=# "
 		+ "onmouseover=\"ddrivetip('Click here to change the team of this student.')\""
 		+ "onmouseout=\"hideddrivetip()\">Move to team</a>"
 		+ "</td>" + "</tr>";
@@ -1591,13 +1653,14 @@ function printTeams(output, teamName, students, position, courseID){
 //		+ "<a class='t_team_view' id='withTeamStudent"+position+j+"'\" href=# "
 //		+ "onmouseover=\"ddrivetip('View full profile of the student.')\""
 //		+ "onmouseout=\"hideddrivetip()\">"
-		+students[j].name+"</td><td style=\"width: 500px;\">"+students[j].profileDetail+"</td>";
+		+students[j].name+"</td><td style=\"width: 550px;\">"+students[j].profileDetail+"</td>";
 
-		output = output + "<td class='centeralign' style=\"width: 150px;\">"
-		+ "<a class='t_manageteam_view' onclick=\"manageTeamSession();\"\" href=# "
-		+ "onmouseover=\"ddrivetip('Send an email to the student about his/her team.')\""
-		+ "onmouseout=\"hideddrivetip()\">Notify</a>"
-		+ "<span style=padding-left:20px /><a class='t_manageteam_view' id='changeStudentTeam"+position+j+"' \" href=# "
+		output = output + "<td class='centeralign' style=\"width: 100px;\">"
+//		+ "<a class='t_manageteam_view' onclick=\"manageTeamSession();\"\" href=# "
+//		+ "onmouseover=\"ddrivetip('Send an email to the student about his/her team.')\""
+//		+ "onmouseout=\"hideddrivetip()\">Notify</a>"
+//		+ "<span style=padding-left:20px /><a class='t_manageteam_view' id='changeStudentTeam"+position+j+"' \" href=# "
+		+ "<span/><a class='t_manageteam_view' id='changeStudentTeam"+position+j+"' \" href=# "
 		+ "onmouseover=\"ddrivetip('Click here to change the team of this student.')\""
 		+ "onmouseout=\"hideddrivetip()\">Change Team</a>"
 		+ "</td>" + "</tr>";
@@ -1627,7 +1690,7 @@ function printTeamDetail(courseID, courseName, teamName, teamDetail){
 			+ "</tr>"
 			+ "<tr>"
 			+ "<td class=\"attribute\" >Team Name:</td>"
-			+ "<td><input id=\"" + TEAM_NAME + "\" style=\"width: 100px;\" type=\"text\" value=\""+teamName+"\"/></td>"
+			+ "<td><input id=\"" + TEAM_NAME + "\" style=\"width: 322px;\" type=\"text\" value=\""+teamName+"\"/></td>"
 			+ "</tr>"
 			+ "<tr>"
 			+ "<td class=\"attribute\" >Team Profile:</td>"
@@ -1643,7 +1706,7 @@ function printTeamDetail(courseID, courseName, teamName, teamDetail){
 			+ "</tr>"
 			+ "<tr><td></td><td>"
 			+ "<input id='button_back' type=\"button\" class=\"button\" onClick=\"goToTeamFormingSession('"
-			+ courseID + "')\" value=\"Back\" tabindex=2 />"
+			+ courseID + "')\" value=\"Back\" tabindex=2 />&nbsp; &nbsp; &nbsp;"
 			+ "<input id='button_saveTeamProfile' type=\"button\" class=\"button\""
 			+ "value=\"Save\" tabindex=2 />"
 			+ "</td></tr></table>" + "</form>";	
@@ -1711,6 +1774,31 @@ function printTeamFormingSessionActions(teamFormingSessionList, position) {
 	return output;
 }
 
+function printTeamFormingSessionLog(teamFormingLog){
+	var outputHeader = "<h1>TEAM FORMING SESSION LOG FOR "+teamFormingLog[0].courseID+"</h1>";	
+	var date = "";
+	var time = "";
+	var outputForm= "";
+	outputForm= outputForm
+			+"<form method=\"post\" action=\"\" name=\"form_showteamforminglog\">"
+			+ "<table class=\"headerform\">";
+	
+	for(loop=0; loop<teamFormingLog.length; loop++)
+	{
+		date = convertDateToDDMMYYYY(teamFormingLog[loop].time);
+		time = convertDateToHHMM(teamFormingLog[loop].time);
+		teamFormingLog[loop].time = date + " " + time;
+		outputForm = outputForm
+		+ "<tr>"
+		+ "<td align=\"left\">"+teamFormingLog[loop].time+" "+teamFormingLog[loop].studentName+" ("+teamFormingLog[loop].studentEmail+") : "+teamFormingLog[loop].message+"</td>"
+		+ "</tr>";
+	}
+	outputForm = outputForm	+ "</table>" + "</form>";
+		
+	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader;
+	document.getElementById(DIV_EVALUATION_MANAGEMENT).innerHTML = outputForm;
+}
+
 function printTeamFormingSessionList(teamFormingSessionList) {
 	var output;
 
@@ -1766,7 +1854,9 @@ function printTeamFormingSessionList(teamFormingSessionList) {
 	document.getElementById('button_sortname').onclick = function() {
 		toggleSortEvaluationsByName(evaluationList)
 	};*/
-
+	
+	
+	//manage 
 	for (loop = 0; loop < teamFormingSessionList.length; loop++) {
 		if (document.getElementById('manageTeamFormingSession' + loop) != null
 				&& document.getElementById('manageTeamFormingSession' + loop).onclick == null) {
@@ -1776,6 +1866,45 @@ function printTeamFormingSessionList(teamFormingSessionList) {
 						this.id.length));
 			};
 		}
+	}
+	
+	//view log
+	for (loop = 0; loop < teamFormingSessionList.length; loop++) {
+		if (document.getElementById('viewLogTeamFormingSession' + loop) != null
+				&& document.getElementById('viewLogTeamFormingSession' + loop).onclick == null) {
+			document.getElementById('viewLogTeamFormingSession' + loop).onclick = function() {
+				hideddrivetip();
+				displayTeamFormingLog(teamFormingSessionList, this.id.substring(25,
+						this.id.length));
+			};
+		}
+	}
+}
+
+function publishTeamFormingResults(courseID){
+	setStatusMessage(DISPLAY_LOADING);
+	var results;
+	
+	if(xmlhttp)
+	{
+		xmlhttp.open("POST","/teamforming",false); 
+		xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
+		xmlhttp.send("operation=" + OPERATION_COORDINATOR_PUBLISHTEAMFORMINGRESULTS + "&" +
+				COURSE_ID + "=" + encodeURIComponent(courseID)); 
+		
+		results = handleRemindStudents();
+	}
+	
+	clearStatusMessage();
+	
+	if(results != 1)
+	{
+		setStatusMessage(DISPLAY_TEAMFORMING_RESULTSPUBLISHED);
+	}
+	
+	else
+	{
+		alert(DISPLAY_SERVERERROR);
 	}
 }
 

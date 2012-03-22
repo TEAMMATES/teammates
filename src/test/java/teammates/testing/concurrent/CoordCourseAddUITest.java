@@ -67,7 +67,7 @@ public class CoordCourseAddUITest extends TestCase {
 		System.out.println("testCoordAddCourseSuccessful");
 		
 		//course id: only contains alphabets, numbers, dots, hyphens, underscores and dollars
-		String courseID = scn.course.courseId.replace("-", "._$");
+		String courseID = scn.course.courseId.replace("-", "_$");
 		//course name: any character
 		String courseName = scn.course.courseName + "$%^&*()";
 		

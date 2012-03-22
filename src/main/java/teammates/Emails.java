@@ -1,5 +1,6 @@
 package teammates;
 
+import java.util.Date;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -22,9 +23,13 @@ public class Emails {
 	private final String HEADER_REGISTRATION_INVITATION = "TEAMMATES: Registration Invitation: Register in the course %s";
 	private final String HEADER_REGISTRATION_REMINDER = "TEAMMATES: Registration Reminder: Register in the course %s";
 	private final String HEADER_EVALUATION_OPEN = "TEAMMATES: Evaluation Opening: %s %s";
+	private final String HEADER_TEAMFORMING_OPEN = "TEAMMATES: Team Forming Session Opening: %s %s";
 	private final String HEADER_EVALUATION_CHANGE = "TEAMMATES: Evaluation Changed: %s %s";
+	private final String HEADER_TEAMFORMING_CHANGE = "TEAMMATES: Team Forming Changed: %s %s";
 	private final String HEADER_EVALUATION_REMINDER = "TEAMMATES: Evaluation Reminder: %s %s";
+	private final String HEADER_TEAMFORMING_REMINDER = "TEAMMATES: Team Forming Reminder: %s %s";
 	private final String HEADER_EVALUATION_PUBLISH = "TEAMMATES: Evaluation Published: %s %s";
+	private final String HEADER_TEAMFORMING_PUBLISH = "TEAMMATES: Team Forming Published: %s %s";
 	private final String TEAMMATES_APP_SIGNATURE = "\n\nIf you encounter any problems using the system, email TEAMMATES support team at teammates@comp.nus.edu.sg"
 			+ "\n\nRegards, \nTEAMMATES System";
 
@@ -139,6 +144,65 @@ public class Emails {
 		}
 
 	}
+	
+	public void informStudentsOfTeamFormingChanges(String email, String studentName, String courseID,
+			String instructions, String start, String deadline, String profileTemplate) {
+		try {
+			Session session = Session.getDefaultInstance(props, null);
+			MimeMessage message = new MimeMessage(session);
+
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+					email));
+
+			message.setFrom(new InternetAddress(from));
+			message.setSubject(String.format(HEADER_TEAMFORMING_CHANGE,
+					courseID, " "));
+			message.setText("Dear "
+					+ studentName
+					+ ",\n\n"
+					+ "There are changes to the team forming session of: \n\n"
+					+ courseID
+					+ " \n\n"
+					+ "made by your coordinator. The start, deadline, instructions and " 
+					+ "profile template of the team forming are as follow, \n\n"
+					+ "Start: " + start + "H. \n\n" + "Deadline: " + deadline
+					+ "H. \n\n" + "Instructions : " + instructions + "Profile Template: " + profileTemplate
+					+ "\n You can access the team forming session here: "
+					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
+
+			Transport.send(message);
+		}
+
+		catch (MessagingException e) {
+			System.out.println("teamFormingSessionChanges: fail to send email.");
+		}
+	}
+	
+	public void informStudentsOfTeamFormingOpening(String email, String studentName, 
+			String courseID, String deadline) {
+		try {
+			Session session = Session.getDefaultInstance(props, null);
+			MimeMessage message = new MimeMessage(session);
+
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+					email));
+
+			message.setFrom(new InternetAddress(from));
+			message.setSubject(String.format(HEADER_TEAMFORMING_OPEN, courseID, " "));
+			message.setText("Dear " + studentName + ",\n\n"
+					+ "The following team forming session for: " + courseID + " "
+					+ "is now open.\n\nThe deadline is: " + deadline + "\n"
+					+ "You can access the list of students here: "
+					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
+
+			Transport.send(message);
+
+		}
+
+		catch (MessagingException e) {
+			System.out.println("teamFormingSessionOpening: fail to send email.");
+		}
+	}
 
 	/**
 	 * Sends an email to a Student informing him of the publishing of results
@@ -182,6 +246,31 @@ public class Emails {
 
 		}
 
+	}
+	
+	public void informStudentsOfPublishedTeamForming(String email, String studentName, String courseID) {
+		try {
+			Session session = Session.getDefaultInstance(props, null);
+			MimeMessage message = new MimeMessage(session);
+
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+					email));
+
+			message.setFrom(new InternetAddress(from));
+			message.setSubject(String.format(HEADER_TEAMFORMING_PUBLISH,
+					courseID, " "));
+			message.setText("Dear " + studentName + ",\n\n"
+					+ "The results of the team forming session: \n\n" + courseID + " \n\n" 
+					+ "have been published.\n"
+					+ "You can view the result here: "
+					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
+
+			Transport.send(message);
+		}
+
+		catch (MessagingException e) {
+			System.out.println("teamFormingPublished: fail to send email.");
+		}
 	}
 
 	/**
@@ -227,6 +316,49 @@ public class Emails {
 
 		catch (MessagingException e) {
 			System.out.println("remindStudent: fail to send message");
+		}
+	}
+	
+	/**
+	 * Sends an email reminding the Student of the Team Forming deadline.
+	 * 
+	 * @param email
+	 *            the email of the student (Precondition: Must not be null)
+	 * 
+	 * @param studentName
+	 *            the name of the student (Precondition: Must not be null)
+	 * 
+	 * @param courseID
+	 *            the course ID (Precondition: Must not be null)
+	 * 
+	 * @param deadline
+	 *            the evaluation deadline (Precondition: Must not be null)
+	 */
+	public void remindStudentOfTeamForming(String email, String studentName,
+			String courseID, String deadline) {
+		try {
+			Session session = Session.getDefaultInstance(props, null);
+			MimeMessage message = new MimeMessage(session);
+
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+					email));
+
+			message.setFrom(new InternetAddress(from));
+			message.setSubject(String.format(HEADER_TEAMFORMING_REMINDER,
+					courseID, " "));
+			message.setText("Dear " + studentName + ",\n\n"
+					+ "You are reminded to make a team for: \n\n"
+					+ courseID + " \n\n" + "by "
+					+ deadline + "H.\n"
+					+ "You can access the team forming session here: "
+					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
+
+			Transport.send(message);
+
+		}
+
+		catch (MessagingException e) {
+			System.out.println("remindStudentOfTeamForming: fail to send message");
 		}
 	}
 

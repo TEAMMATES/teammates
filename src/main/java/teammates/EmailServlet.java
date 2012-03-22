@@ -1,6 +1,7 @@
 package teammates;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,9 +17,13 @@ public class EmailServlet extends HttpServlet {
 
 	// OPERATIONS
 	private static final String INFORM_STUDENTSOFEVALUATIONCHANGES = "informstudentsofevaluationchanges";
+	private static final String INFORM_STUDENTSOFTEAMFORMINGCHANGES = "informstudentsofteamformingchanges";
 	private static final String INFORM_STUDENTSOFPUBLISHEDEVALUATION = "informstudentspublishedevaluation";
 	private static final String INFORM_STUDENTSOFEVALUATIONOPENING = "informstudentsofevaluationopening";
+	private static final String INFORM_STUDENTSOFTEAMFORMINGOPENING = "informstudentsofteamformingopening";
+	private static final String INFORM_STUDENTSOFPUBLISHEDTEAMFORMING = "informstudentspublishedteamforming";
 	private static final String REMIND_STUDENTS = "remindstudents";
+	private static final String REMINF_STUDENTSOFTEAMFORMING = "remindstudentsofteamforming";
 	private static final String SEND_REGISTRATION_KEY = "sendregistrationkey";
 
 	// PARAMETERS
@@ -61,17 +66,33 @@ public class EmailServlet extends HttpServlet {
 		else if (operation.equals(REMIND_STUDENTS)) {
 			remindStudents();
 		}
+		
+		else if (operation.equals(REMINF_STUDENTSOFTEAMFORMING)){
+			remindStudentsOfTeamForming();
+		}
 
 		else if (operation.equals(INFORM_STUDENTSOFEVALUATIONCHANGES)) {
 			informStudentsOfEvaluationChanges();
+		}
+		
+		else if (operation.equals(INFORM_STUDENTSOFTEAMFORMINGCHANGES)) {
+			informStudentsOfTeamFormingChanges();
 		}
 
 		else if (operation.equals(INFORM_STUDENTSOFEVALUATIONOPENING)) {
 			informStudentsOfEvaluationOpening();
 		}
+		
+		else if (operation.equals(INFORM_STUDENTSOFTEAMFORMINGOPENING)) {
+			informStudentsOfTeamFormingOpening();
+		}
 
 		else if (operation.equals(INFORM_STUDENTSOFPUBLISHEDEVALUATION)) {
 			informStudentsOfPublishedEvaluation();
+		}
+		
+		else if (operation.equals(INFORM_STUDENTSOFPUBLISHEDTEAMFORMING)) {
+			informStudentsOfPublishedTeamForming();
 		}
 	}
 
@@ -94,6 +115,21 @@ public class EmailServlet extends HttpServlet {
 		emails.informStudentsOfEvaluationChanges(email, studentName, courseID,
 				evaluationName, instructions, start, deadline);
 	}
+	
+	private void informStudentsOfTeamFormingChanges() {
+		Emails emails = new Emails();
+
+		String email = req.getParameter(STUDENT_EMAIL);
+		String courseID = req.getParameter(COURSE_ID);
+		String studentName = req.getParameter(STUDENT_NAME);
+		String instructions = req.getParameter("instr");
+		String start = req.getParameter("start");
+		String deadline = req.getParameter("deadline");
+		String profileTemplate = req.getParameter("profileTemplate");
+
+		emails.informStudentsOfTeamFormingChanges(email, studentName, courseID,
+				instructions, start, deadline, profileTemplate);
+	}	
 
 	private void informStudentsOfEvaluationOpening() {
 		Emails emails = new Emails();
@@ -105,6 +141,18 @@ public class EmailServlet extends HttpServlet {
 
 		emails.informStudentsOfEvaluationOpening(email, studentName, courseID,
 				evaluationName);
+	}
+	
+	private void informStudentsOfTeamFormingOpening() {
+		Emails emails = new Emails();
+
+		String email = req.getParameter(STUDENT_EMAIL);
+		String courseID = req.getParameter(COURSE_ID);
+		String deadline = req.getParameter("deadline");
+		String studentName = req.getParameter(STUDENT_NAME);
+
+		emails.informStudentsOfTeamFormingOpening(email, studentName, courseID,
+				deadline);
 	}
 
 	private void informStudentsOfPublishedEvaluation() {
@@ -119,6 +167,16 @@ public class EmailServlet extends HttpServlet {
 				courseID, evaluationName);
 
 	}
+	
+	private void informStudentsOfPublishedTeamForming() {
+		Emails emails = new Emails();
+
+		String email = req.getParameter(STUDENT_EMAIL);
+		String courseID = req.getParameter(COURSE_ID);
+		String studentName = req.getParameter(STUDENT_NAME);
+
+		emails.informStudentsOfPublishedTeamForming(email, studentName, courseID);
+	}
 
 	private void remindStudents() {
 		Emails emails = new Emails();
@@ -132,6 +190,17 @@ public class EmailServlet extends HttpServlet {
 		emails.remindStudent(email, studentName, courseID, evaluationName,
 				deadline);
 
+	}
+	
+	private void remindStudentsOfTeamForming() {
+		Emails emails = new Emails();
+
+		String email = req.getParameter(STUDENT_EMAIL);
+		String courseID = req.getParameter(COURSE_ID);
+		String studentName = req.getParameter(STUDENT_NAME);
+		String deadline = req.getParameter("deadline");
+
+		emails.remindStudentOfTeamForming(email, studentName, courseID, deadline);
 	}
 
 	private void sendRegistrationKey() {

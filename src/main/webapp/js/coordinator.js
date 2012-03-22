@@ -324,6 +324,11 @@ function doAddCourse(courseID, courseName) {
 	sendAddCourseRequest(courseID, courseName);
 	statusCode = processAddCourseResponse();
 	
+	if(statusCode == COURSE_STATUS_EXISTS) {
+		setStatusMessage(courseStatusToMessage(statusCode));
+		return;
+	}
+	
 	if(statusCode != COURSE_STATUS_SUCCESSFUL) {
 		alert(DISPLAY_SERVERERROR);
 		setStatusMessage(courseStatusToMessage(statusCode));

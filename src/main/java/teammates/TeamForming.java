@@ -162,6 +162,16 @@ public class TeamForming {
 		}
 	}
 	
+	public void enterTeamFormingLog(String courseID, Date time, 
+			String studentName, String studentEmail, String message) {
+		TeamFormingLog studentLog = new TeamFormingLog(courseID, time, studentName,
+				studentEmail, message);
+		try {
+			getPM().makePersistent(studentLog);
+		} finally {
+		}
+	}
+	
 	/**
 	 * Edits a student
 	 * 
@@ -186,7 +196,7 @@ public class TeamForming {
 			tx.begin();
 			currStudent.setProfileSummary(profileSummary);
 			currStudent.setProfileDetail(profileDetail);
-
+			
 			getPM().flush();
 
 			tx.commit();
@@ -437,6 +447,20 @@ public class TeamForming {
 		return teamFormingSessionList;
 	}
 	
+	public List<TeamFormingLog> getTeamFormingSessionLog(String courseID) {
+		List<TeamFormingLog> teamFormingLog = new ArrayList<TeamFormingLog>();
+
+		String query = "select from " + TeamFormingLog.class.getName()
+				+ " where courseID == '" + courseID + "'";
+
+		@SuppressWarnings("unchecked")
+		List<TeamFormingLog> tempTeamFormingLog = (List<TeamFormingLog>) getPM()
+		.newQuery(query).execute();
+		teamFormingLog.addAll(tempTeamFormingLog);
+
+		return teamFormingLog;
+	}
+	
 	/**
 	 * Checks every team forming session and activate it if the current time
 	 * is later than start time.
@@ -502,6 +526,8 @@ public class TeamForming {
 		Queue queue = QueueFactory.getQueue("email-queue");
 		List<TaskOptions> taskOptionsList = new ArrayList<TaskOptions>();
 
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HHmm");
+		
 		for (Student s : studentList) {
 			// There is a limit of 100 tasks per batch addition to Queue in
 			// Google App
@@ -512,10 +538,10 @@ public class TeamForming {
 			}
 
 			taskOptionsList.add(TaskOptions.Builder.withUrl("/email")
-					.param("operation", "informstudentsofevaluationopening")
+					.param("operation", "informstudentsofteamformingopening")
 					.param("email", s.getEmail()).param("name", s.getName())
 					.param("courseid", courseID)
-					.param("deadline", deadline.toString()));
+					.param("deadline", df.format(deadline).toString()));
 		}
 
 		if (!taskOptionsList.isEmpty()) {
@@ -636,6 +662,29 @@ public class TeamForming {
 		return teamFormingSessionList;
 	}
 	
+	public void publishTeamFormingResults(List<Student> studentList, String courseID) {
+		Queue queue = QueueFactory.getQueue("email-queue");
+		List<TaskOptions> taskOptionsList = new ArrayList<TaskOptions>();
+
+		for (Student s : studentList) {
+			// There is a limit of 100 tasks per batch addition to Queue in
+			// Google App Engine
+			if (taskOptionsList.size() == 100) {
+				queue.add(taskOptionsList);
+				taskOptionsList = new ArrayList<TaskOptions>();
+			}
+
+			taskOptionsList.add(TaskOptions.Builder.withUrl("/email")
+					.param("operation", "informstudentspublishedteamforming")
+					.param("email", s.getEmail()).param("name", s.getName())
+					.param("courseid", courseID));
+		}
+
+		if (!taskOptionsList.isEmpty()) {
+			queue.add(taskOptionsList);
+		}
+	}
+	
 	/**
 	 * Adds to TaskQueue emails to remind students of an Evaluation.
 	 * 
@@ -663,10 +712,10 @@ public class TeamForming {
 			}
 
 			taskOptionsList.add(TaskOptions.Builder.withUrl("/email")
-					.param("operation", "remindstudents")
+					.param("operation", "remindstudentsofteamforming")
 					.param("email", s.getEmail()).param("name", s.getName())
 					.param("courseid", courseID)
-					.param("deadline", df.format(deadline)));
+					.param("deadline", df.format(deadline).toString()));
 		}
 
 		if (!taskOptionsList.isEmpty()) {
@@ -760,7 +809,7 @@ public class TeamForming {
 			}
 
 			taskOptionsList.add(TaskOptions.Builder.withUrl("/email")
-					.param("operation", "informstudentsofevaluationchanges")
+					.param("operation", "informstudentsofteamformingchanges")
 					.param("email", s.getEmail()).param("name", s.getName())
 					.param("courseid", courseID)
 					.param("start", df.format(start))

@@ -38,4 +38,34 @@ public class Utils {
 		}
 
 	}
+	
+	public static Date convertToExactDateTime(String date, int time) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Calendar calendar = Calendar.getInstance();
+
+		Date newDate = new Date();
+
+		// Perform date manipulation
+		try {
+			newDate = sdf.parse(date);
+			calendar.setTime(newDate);
+
+			if (time == 24) {
+				calendar.set(Calendar.HOUR, 23);
+				calendar.set(Calendar.MINUTE, 59);
+			}
+
+			else {
+				calendar.set(Calendar.HOUR, time / 100);
+				calendar.set(Calendar.MINUTE, time % 100);
+			}
+
+			return calendar.getTime();
+		}
+
+		catch (Exception e) {
+			return null;
+		}
+
+	}
 }
