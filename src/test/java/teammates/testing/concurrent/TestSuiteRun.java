@@ -10,33 +10,38 @@ import teammates.testing.old.TestEvaluationResultPoints;
 @Suite.SuiteClasses({
 	
 	
-	CoordLoginTest.class,
-	CoordCourseAddCaseSensitivityTest.class,
+	CoordAddCoursePageHTMLTest.class,
 	CoordCourseAddUITest.class,
 	CoordCourseDeleteStudentsTest.class,
+	CoordCourseDeleteUITest.class,
 	CoordCourseEditStudentsTeamTest.class,
 	CoordCourseEditStudentsTest.class,
 	CoordCourseEnrolCaseSensitivityTest.class,
 	CoordCourseEnrolStudentsTest.class,
-	CoordCourseDeleteUITest.class,
+	CoordCourseListUITest.class,
+	
 //	CoordCourseViewTest.class,
 	
 	CoordEvaluationAddCaseSensitivityTest.class,
 	CoordEvaluationAddTest.class,
+	CoordEvaluationAddWithEmptyTeamNameTest.class,
 	CoordEvaluationEditTest.class,
 //	CoordEvaluationListTest.class,
-	CoordEvaluationResultsViewTest.class,
 	CoordEvaluationResultsEditTest.class,
+	CoordEvaluationResultsViewTest.class,
 	
-	StudentLoginTest.class,
+	CoordLoginTest.class,
+	
 //	StudentCourseJoinTest.class,
-	StudentEvaluationSubmitTest2.class,
 	StudentEvaluationEditTest2.class,
 	StudentEvaluationResultsTest2.class,
-		
+	StudentEvaluationSubmitTest2.class,
+	
+	StudentLoginTest.class,
+
 	SystemFooterTest.class,
+//	SystemRemindEvaluationBeforeDeadlineTest.class,
 	SystemVerifyHelpPageTest.class,
-	CoordAddCoursePageHTMLTest.class,
 	TestEvaluationResultPoints.class
 //	SystemEvaluationResultsCalculationTest.class,
 	

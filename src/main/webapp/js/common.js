@@ -67,124 +67,123 @@ var HOVER_MESSAGE_PERCEIVED_CLAIMED = "Difference between claimed and perceived 
  * View course list User: Student, Coordinator
  */
 function printCourseList(courseList, user) {
-	var courseListLength = courseList.length;
-	var output = 
-		"<br /><br />\
-			<table id='dataform'>\
-				<tr>\
-					<th><input class='buttonSortNone' type='button' id='button_sortcourseid'>COURSE ID</input></th>\
-					<th><input class='buttonSortNone' type='button' id='button_sortcoursename'>COURSE NAME</input></th>";
-	if (user == STUDENT) {
-		output = output + "<th>TEAM NAME</th>";
-	} else {
-		output = output + 
-			"<th class='centeralign'>TEAMS</th>\
-			<th class='centeralign'>TOTAL STUDENTS</th>\
-			<th class='centeralign'>TOTAL UNREGISTERED</th>";
-	}
-	output = output + "<th class='centeralign'>ACTION(S)</th></tr>";
+    var courseListLength = courseList.length;
+    var output = "<br /><br />"
+                    + "<table id=\"dataform\">"
+                    + "<tr>"
+                    + "<th><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortcourseid\">COURSE ID</input></th>"
+                    + "<th><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortcoursename\">COURSE NAME</input></th>";
+    if (user == STUDENT) {
+            output = output + "<th>TEAM NAME</th>";
+    } else {
+            output = output + "<th class='centeralign'>TEAMS</th>"
+                            + "<th class='centeralign'>TOTAL STUDENTS</th>"
+                            + "<th class='centeralign'>TOTAL UNREGISTERED</th>";
+    }
+    output = output + "<th class=\"centeralign\">ACTION(S)</th>" + "</tr>";
 
-	//empty table
-	if (courseListLength == 0) {
-		if (user == COORDINATOR) {
-			setStatusMessage(COORDINATOR_MESSAGE_NO_COURSE);
-			output = output + "<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
-		} else {
-			output = output + "<tr><td></td><td></td><td></td><td></td></tr>";
-		}
-	}
+    if (courseListLength == 0) {
+            if (user == COORDINATOR) {
+                    setStatusMessage(COORDINATOR_MESSAGE_NO_COURSE);
+                    output = output
+                                    + "<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
+            } else {
+                    output = output + "<tr><td></td><td></td><td></td><td></td></tr>";
+            }
+    }
 
-	// Need counter to take note of archived courses
-	var counter = 0;
+    // Need counter to take note of archived courses
+    var counter = 0;
 
-	for (loop = 0; loop < courseListLength; loop++) {
-		if (courseList[loop].status == "false" || courseViewArchivedStatus == courseViewArchived.show) {
-			// common view:
-			output = output + "<tr>";
-			output = output + "<td id=\"courseID" + counter + "\">"
-					+ courseList[loop].ID + "</td>";
-			output = output + "<td id=\"courseName" + counter + "\">"
-					+ encodeChar(courseList[loop].name) + "</td>";
-			// student view:
-			if (user == STUDENT) {
-				output = output + "<td>"
-						+ encodeCharForPrint(courseList[loop].teamName)
-						+ "</td>";
-				output = output + "<td class='centeralign'>"
-						+ "<a href=\"javascript:displayCourseInformation('"
-						+ courseList[loop].ID + "');hideddrivetip();\""
-						+ " onmouseover=\"ddrivetip('View course details.')\""
-						+ " onmouseout=\"hideddrivetip()\">View</a>"
-						// by kalpit
-						// + "<a id=\"viewTeams" + loop + "\" href=# "
-						// + "onmouseover=\"ddrivetip('View/Create the teams for
-						// this course.')\""
-						// + "onmouseout=\"hideddrivetip()\""
-						// + ">View Teams</a>"
-						// //end by kalpit
-						+ "</td>";
-			}
-			// coordinator view:
-			else {
-				output = output + "<td class=\"t_course_teams centeralign\">"
-						+ courseList[loop].numberOfTeams + "</td>"
-						+ "<td class='centeralign'>"
-						+ courseList[loop].totalStudents + "</td>"
-						+ "<td class='centeralign'>"
-						+ courseList[loop].unregistered + "</td>";
-				output = output
-						+ "<td class='centeralign'>"
-						+ "<a class='t_course_enrol' href=\"javascript:displayEnrollmentPage('"
-						+ courseList[loop].ID
-						+ "');hideddrivetip();\""
-						+ "onmouseover=\"ddrivetip('"
-						+ HOVER_MESSAGE_ENROL
-						+ "')\""
-						+ "onmouseout=\"hideddrivetip()\">Enrol</a>"
-						+ "<a class='t_course_view' href=\"javascript:displayCourseInformation('"
-						+ courseList[loop].ID + "');hideddrivetip();\""
-						+ "onmouseover=\"ddrivetip('"
-						+ HOVER_MESSAGE_VIEW_COURSE + "')\""
-						+ "onmouseout=\"hideddrivetip()\">View</a>";
-				output = output
-						+ "<a class='t_course_delete' href=\"javascript:toggleDeleteCourseConfirmation('"
-						+ courseList[loop].ID + "');hideddrivetip();\""
-						+ "onmouseover=\"ddrivetip('"
-						+ HOVER_MESSAGE_DELETE_COURSE + "')\""
-						+ "onmouseout=\"hideddrivetip()\">Delete</a>"
-						+ "</td></tr>";
-			}
+    for (loop = 0; loop < courseListLength; loop++) {
+            if (courseList[loop].status == "false"
+                            || courseViewArchivedStatus == courseViewArchived.show) {
+                    // common view:
+                    output = output + "<tr>";
+                    output = output + "<td id=\"courseID" + counter + "\">"
+                                    + courseList[loop].ID + "</td>";
+                    output = output + "<td id=\"courseName" + counter + "\">"
+                                    + encodeChar(courseList[loop].name) + "</td>";
+                    // student view:
+                    if (user == STUDENT) {
+                            output = output + "<td>"
+                                            + encodeCharForPrint(courseList[loop].teamName)
+                                            + "</td>";
+                            output = output + "<td class='centeralign'>"
+                                            + "<a href=\"javascript:displayCourseInformation('"
+                                            + courseList[loop].ID + "');hideddrivetip();\""
+                                            + " onmouseover=\"ddrivetip('View course details.')\""
+                                            + " onmouseout=\"hideddrivetip()\">View</a>"
+                                            // by kalpit
+                                            // + "<a id=\"viewTeams" + loop + "\" href=# "
+                                            // + "onmouseover=\"ddrivetip('View/Create the teams for
+                                            // this course.')\""
+                                            // + "onmouseout=\"hideddrivetip()\""
+                                            // + ">View Teams</a>"
+                                            // //end by kalpit
+                                            + "</td>";
+                    }
+                    // coordinator view:
+                    else {
+                            output = output + "<td class=\"t_course_teams centeralign\">"
+                                            + courseList[loop].numberOfTeams + "</td>"
+                                            + "<td class='centeralign'>"
+                                            + courseList[loop].totalStudents + "</td>"
+                                            + "<td class='centeralign'>"
+                                            + courseList[loop].unregistered + "</td>";
+                            output = output
+                                            + "<td class='centeralign'>"
+                                            + "<a class='t_course_enrol' href=\"javascript:displayEnrollmentPage('"
+                                            + courseList[loop].ID
+                                            + "');hideddrivetip();\""
+                                            + "onmouseover=\"ddrivetip('"
+                                            + HOVER_MESSAGE_ENROL
+                                            + "')\""
+                                            + "onmouseout=\"hideddrivetip()\">Enrol</a>"
+                                            + "<a class='t_course_view' href=\"javascript:displayCourseInformation('"
+                                            + courseList[loop].ID + "');hideddrivetip();\""
+                                            + "onmouseover=\"ddrivetip('"
+                                            + HOVER_MESSAGE_VIEW_COURSE + "')\""
+                                            + "onmouseout=\"hideddrivetip()\">View</a>";
+                            output = output
+                                            + "<a class='t_course_delete' href=\"javascript:toggleDeleteCourseConfirmation('"
+                                            + courseList[loop].ID + "');hideddrivetip();\""
+                                            + "onmouseover=\"ddrivetip('"
+                                            + HOVER_MESSAGE_DELETE_COURSE + "')\""
+                                            + "onmouseout=\"hideddrivetip()\">Delete</a>"
+                                            + "</td></tr>";
+                    }
 
-			counter++;
-		}
-	}
+                    counter++;
+            }
+    }
 
-	output = output + "</table><br /><br />";
+    output = output + "</table><br /><br />";
 
-	if (counter == 0) {
-		output = output + "No records found.<br /><br /><br /><br />";
-	}
+    if (counter == 0) {
+            output = output + "No records found.<br /><br /><br /><br />";
+    }
 
-	document.getElementById(DIV_COURSE_TABLE).innerHTML = output;
-	document.getElementById('button_sortcourseid').onclick = function() {
-		toggleSortCoursesByID(courseList)
-	};
-	document.getElementById('button_sortcoursename').onclick = function() {
-		toggleSortCoursesByName(courseList)
-	};
+    document.getElementById(DIV_COURSE_TABLE).innerHTML = output;
+    document.getElementById('button_sortcourseid').onclick = function() {
+            toggleSortCoursesByID(courseList)
+    };
+    document.getElementById('button_sortcoursename').onclick = function() {
+            toggleSortCoursesByName(courseList)
+    };
 
-	// //kalpit
-	// for (loop = 0; loop < courseList.length; loop++) {
-	// if (document.getElementById('viewTeams' + loop) != null
-	// && document.getElementById('viewTeams' + loop).onclick == null) {
-	// document.getElementById('viewTeams' + loop).onclick = function() {
-	// hideddrivetip();
-	// var courseIndex = this.id.substring(9, this.id.length);
-	// displayStudentViewTeams(courseList[courseIndex].ID);
-	// };
-	// }
-	// }
-	// //end by kalpit
+    // //kalpit
+    // for (loop = 0; loop < courseList.length; loop++) {
+    // if (document.getElementById('viewTeams' + loop) != null
+    // && document.getElementById('viewTeams' + loop).onclick == null) {
+    // document.getElementById('viewTeams' + loop).onclick = function() {
+    // hideddrivetip();
+    // var courseIndex = this.id.substring(9, this.id.length);
+    // displayStudentViewTeams(courseList[courseIndex].ID);
+    // };
+    // }
+    // }
+    // //end by kalpit
 }
 
 /*------------------------------------------PRINT COORDINATOR PAGE------------------------------------------*/

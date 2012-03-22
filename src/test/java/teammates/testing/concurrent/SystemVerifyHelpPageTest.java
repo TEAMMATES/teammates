@@ -44,7 +44,7 @@ public class SystemVerifyHelpPageTest extends TestCase {
 	@Test
 	public void verifyHelpPageSuccessful() throws Exception {
 		bi.verifyPageHTML("http://www.comp.nus.edu.sg/~teams/coordinatorhelp.html", 
-				"target/test-classes/pages/coordinatorhelp.html");
+				"target/test-classes/pages/coordHelp.html");
 	}
 
 }

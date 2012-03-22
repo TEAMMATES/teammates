@@ -613,7 +613,8 @@ function doDeleteCourse(courseID) {
 		return;
 	}
 	
-	var results = deleteCourse(courseID);
+	sendDeleteCourseRequest(courseID);
+	var results = processDeleteCourseResponse(courseID);
 	
 	if(results == COURSE_STATUS_SERVERERROR) {
 		alert(DISPLAY_SERVERERROR);
@@ -1486,7 +1487,8 @@ function doGetCourse(courseID) {
 function doGetCourseIDList() {
 	setStatusMessage(DISPLAY_LOADING);
 
-	var results = getCourseList();
+	sendGetCourseListRequest();
+	var results = processGetCourseListResponse();
 
 	if (results != 1) {
 		populateCourseIDOptions(results);
