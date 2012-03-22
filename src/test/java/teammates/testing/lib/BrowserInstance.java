@@ -1,9 +1,6 @@
 package teammates.testing.lib;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -86,7 +83,7 @@ public class BrowserInstance {
 	public By addCourseButton = By.id("btnAddCourse");
 
 	public By courseIDSorting = By.id("button_sortcourseid");
-	public By courseNameSorting = By.id("button_sortname");
+	public By courseNameSorting = By.id("button_sortcoursename");
 
 	// enrol:
 	public By enrolInfo = By.id("information");
@@ -1941,6 +1938,7 @@ public class BrowserInstance {
 				actualLine = actual.readLine();
 				assertNotNull("Expected had more lines then the actual.", actualLine);
 				assertEquals(expectedLine, actualLine);
+				System.out.println(actualLine);
 			}
 
 			assertNull("Actual had more lines then the expected.", actual.readLine());
@@ -1949,6 +1947,36 @@ public class BrowserInstance {
 			expected.close();
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
+			assertTrue(false);
+		}
+	}
+	
+	public void verifyObjectHTML(String filepath, String div) throws Exception {
+		try {
+			String pageSrc = driver.getPageSource();
+			FileInputStream refSrc = new FileInputStream(filepath);
+			BufferedReader actual = new BufferedReader(new StringReader(pageSrc));
+			BufferedReader expected = new BufferedReader(new InputStreamReader(new DataInputStream(refSrc)));
+
+			String expectedLine;
+			String actualLine;
+			while((actualLine = actual.readLine()) != null) {
+				if(actualLine.contains(div)) {
+					while ((expectedLine = expected.readLine()) != null) {
+						assertNotNull("Expected had more lines then the actual.", actualLine);
+						assertEquals(expectedLine, actualLine);
+						System.out.println(actualLine);
+						actualLine = actual.readLine();
+					}
+					break;
+				}
+			}
+			
+			actual.close();
+			expected.close();
+		} catch (Exception e) {
+			System.err.println("Error: " + e.getMessage());
+			assertTrue(false);
 		}
 	}
 	

@@ -1,0 +1,74 @@
+{
+	"coordinator": {"username": "teammates.test"},
+	
+	"courses": [
+		{
+	    "id": "CS2103-TESTING",
+	    "name": "Software Engineering"
+	  },
+	  {
+	    "id": "CS1101-TESTING",
+	    "name": "Programming Methodology"
+	  }
+	],
+	
+	"evaluations": [
+		{
+	    "graceperiod": 10,
+	    "instructions": "Please please fill it in",
+	    "name": "First Eval",
+	    "p2pcomments": "true"
+	  },
+	  {
+	    "graceperiod": 10,
+	    "instructions": "Please please fill in the second evaluation",
+	    "name": "Second Eval",
+	    "p2pcomments": "true"
+	  },
+	  {
+	    "graceperiod": 10,
+	    "instructions": "Please please fill in the third evaluation",
+	    "name": "Third Eval",
+	    "p2pcomments": "true"
+	  },
+	  {
+	    "graceperiod": 10,
+	    "instructions": "Please please fill in the forth evaluation",
+	    "name": "Forth Eval",
+	    "p2pcomments": "true"
+	  }
+	],
+	
+	"students": [
+		{
+      "email": "alice.tmms@gmail.com",
+      "name": "Alice",
+      "team": "Team 1",
+      "google_id": "alice.tmms"
+    },
+    {
+      "email": "benny.tmms@gmail.com",
+      "name": "Benny",
+      "google_id": "benny.tmms",
+      "team": "Team 1"
+    },
+    {
+      "email": "charlie.tmms@gmail.com",
+      "name": "Charlie",
+      "google_id": "charlie.tmms",
+      "team": "Team 2"
+    },
+    {
+      "email": "danny.tmms@gmail.com",
+      "name": "Danny",
+      "google_id": "danny.tmms",
+      "team": "Team 2"
+    }
+	],
+	
+	"teams": [
+		"Team 1",
+		"Team 2"
+	]
+
+}

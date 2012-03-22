@@ -8,10 +8,12 @@ import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.object.Scenario;
 
-public class SystemVerifyCoordAddCoursePageTest extends TestCase {
+public class CoordAddCoursePageHTMLTest extends TestCase {
 	
-	static Scenario scn = setupScenarioInstance("scenario");
+	static Scenario scn = Scenario.scenarioForPageVerification("target/test-classes/data/page_verification.json");
 	static BrowserInstance bi;
+	private static final String ADD_COURSE_TAG = "<div id=\"coordinatorCourseManagement\">";
+	private static final String LIST_COURSE_TAG = "<div id=\"coordinatorCourseTable\">";
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -28,8 +30,14 @@ public class SystemVerifyCoordAddCoursePageTest extends TestCase {
 	}
 	
 	@Test
-	public void verifyAddCoursePageSuccessful() throws Exception {
+	public void verifyAddCourse() throws Exception {
 		bi.gotoCourses();
-		bi.verifyCurrentPageHTML("target/test-classes/pages/coordAddCourse.html");
+		bi.verifyObjectHTML("target/test-classes/pages/coordAddCourse.html", ADD_COURSE_TAG);
+	}
+	
+	@Test
+	public void verifyListCourse() throws Exception {
+		bi.gotoCourses();
+		bi.verifyObjectHTML("target/test-classes/pages/coordListCourseByID.html", LIST_COURSE_TAG);
 	}
 }

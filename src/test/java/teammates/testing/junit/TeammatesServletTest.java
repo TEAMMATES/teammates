@@ -21,6 +21,7 @@ import org.junit.Test;
 import teammates.Courses;
 import teammates.TeammatesServlet;
 import teammates.exception.CourseExistsException;
+import teammates.exception.CourseInputInvalidException;
 
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
@@ -51,7 +52,7 @@ public class TeammatesServletTest {
 	}
 
 	@Test
-	public void testCoordAddCourse() throws IOException, ServletException, CourseExistsException {
+	public void testCoordAddCourse() throws IOException, ServletException, CourseExistsException, CourseInputInvalidException {
 
 		new NonStrictExpectations() {
 			@Mocked
@@ -74,7 +75,7 @@ public class TeammatesServletTest {
 	}
 
 	@Test
-	public void testCoordAddExistingCourse() throws IOException, ServletException, CourseExistsException {
+	public void testCoordAddExistingCourse() throws IOException, ServletException, CourseExistsException, CourseInputInvalidException {
 
 		new NonStrictExpectations() {
 			@Mocked

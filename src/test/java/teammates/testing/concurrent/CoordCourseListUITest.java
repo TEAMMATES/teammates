@@ -14,8 +14,9 @@ import teammates.testing.object.Scenario;
  * 
  * */
 public class CoordCourseListUITest extends TestCase {
-	static Scenario scn = setupScenarioInstance("scenario");
+	static Scenario scn = Scenario.scenarioForPageVerification("target/test-classes/data/page_verification.json");
 	static BrowserInstance bi;
+	private static final String LIST_COURSE_TAG = "<div id=\"coordinatorCourseTable\">";
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -31,24 +32,15 @@ public class CoordCourseListUITest extends TestCase {
 		BrowserInstancePool.release(bi);
 	}
 	
-	/**
-	 * Test: sort course by course ID and course name
-	 * Condition: course list should be fixed (cannot run in parallel)
-	 * Action: click sorting button
-	 * Expectation: sort from A-Z and Z-A
-	 * TODO: separate the test from parallel run
-	 * */
 	@Test
-	public void testCoordSortCourseListSuccessful() throws Exception {
+	public void verifyAddCoursePageSuccessful() throws Exception {
 		bi.gotoCourses();
-		
 		//Click sort by ID
-		
-		bi.verifyCurrentPageHTML("target/test-classes/pages/coordAddCourse.html");
+		bi.waitAndClick(bi.courseIDSorting);
+		bi.verifyObjectHTML("target/test-classes/pages/coordListCourseByID.html", LIST_COURSE_TAG);
 		
 		//Click sort by Name
-		
-		
+		bi.waitAndClick(bi.courseNameSorting);
+		bi.verifyObjectHTML("target/test-classes/pages/coordListCourseByName.html", LIST_COURSE_TAG);
 	}
-
 }

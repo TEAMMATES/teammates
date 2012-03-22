@@ -318,7 +318,11 @@ public class APIServlet extends HttpServlet {
 	 */
 	protected void totalCleanupByCoordinator() {
 		String coordID = req.getParameter("coordinator_id");
-		Courses.inst().deleteCoordinatorCourses(coordID);
+		try {
+			Courses.inst().deleteCoordinatorCourses(coordID);
+		} catch (CourseDoesNotExistException e) {
+			e.printStackTrace();
+		}
 
 	}
 
