@@ -196,9 +196,10 @@ public class Courses {
 	 * 
 	 * @param coordinatorID
 	 * @author wangsha
+	 * @throws CourseDoesNotExistException 
 	 * @date Sep 8, 2011
 	 */
-	public void deleteCoordinatorCourses(String coordinatorID) {
+	public void deleteCoordinatorCourses(String coordinatorID) throws CourseDoesNotExistException {
 		List<Course> courses = getCoordinatorCourseList(coordinatorID);
 		Iterator<Course> it = courses.iterator();
 
@@ -219,18 +220,18 @@ public class Courses {
 	 * @throws CourseDoesNotExistException
 	 *             if the course with the specified ID cannot be found
 	 */
-	public void deleteCoordinatorCourse(String courseID) {
-		Course course = getCourse(courseID);
-
-		System.out.println("delete coordinator course");
+	public void deleteCoordinatorCourse(String courseID) throws CourseDoesNotExistException {
 		// Check that the course exists
+		Course course = getCourse(courseID);
+		
+		if(course == null) {
+			throw new CourseDoesNotExistException();
+		}
 
 		try {
 			getPM().deletePersistent(course);
-			deleteAllStudents(courseID);
-			Evaluations.inst().deleteEvaluations(courseID);
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 
 	}
@@ -244,10 +245,9 @@ public class Courses {
 	public void deleteAllStudents(String courseID) {
 		try {
 			getPM().deletePersistentAll(getStudentList(courseID));
-		}
-
-		finally {
-
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

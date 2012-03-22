@@ -184,8 +184,8 @@ function toggleEditEvaluationResultsStatusMessage(statusMsg) {
 }
 
 /**-----------------------UI Related Helper Functions-----------------------**/
-function scrollToTop() {
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
+function scrollToTop(div) {
+	document.getElementById(div).scrollIntoView(true);
 }
 
 /*

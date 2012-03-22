@@ -224,11 +224,15 @@ var COURSE_STATUS_LONG_NAME = 5;
 var COURSE_STATUS_INVALID_ID = 6;
 var COURSE_STATUS_INVALID_NAME = 7;
 
+var COURSE_STATUS_DELETED = 8;
+
 /*
  * Add Course Server Response
  * */
 var COURSE_RESPONSE_EXISTS = "course exists";
 var COURSE_RESPONSE_ADDED = "course added";
+
+var COURSE_RESPONSE_DELETED = "course deleted";
 
 /*
  * Add Course Status Message
@@ -256,7 +260,7 @@ function displayCoursesTab() {
 	getAndPrintCourseList();
 	clearStatusMessage();
 	
-	scrollToTop();
+	scrollToTop(DIV_TOPOFPAGE);
 }
 
 //----------------------------------------------------------ADD COURSE FUNCTIONS
@@ -592,21 +596,68 @@ function printCourseList(courseList) {
 	document.getElementById('button_sortcoursename').onclick = function() {
 		toggleSortCoursesByName(courseList)
 	};
-
-	// //kalpit
-	// for (loop = 0; loop < courseList.length; loop++) {
-	// if (document.getElementById('viewTeams' + loop) != null
-	// && document.getElementById('viewTeams' + loop).onclick == null) {
-	// document.getElementById('viewTeams' + loop).onclick = function() {
-	// hideddrivetip();
-	// var courseIndex = this.id.substring(9, this.id.length);
-	// displayStudentViewTeams(courseList[courseIndex].ID);
-	// };
-	// }
-	// }
-	// //end by kalpit
 }
 
+//----------------------------------------------------------DELETE COURSE FUNCTIONS
+/**
+ * Coordinator Delete Course
+ * */
+function toggleDeleteCourseConfirmation(courseID) {
+	var s = confirm("Are you sure you want to delete the course, \"" + courseID + "\"? This operation will delete all evaluations and students in this course.");
+
+	if (s == true)
+		doDeleteCourse(courseID);
+	else
+		clearStatusMessage();
+
+	scrollToTop(DIV_COURSE_MANAGEMENT);
+}
+
+function doDeleteCourse(courseID) {
+	setStatusMessageToLoading;
+
+	// server-side request and response
+	if (!xmlhttp) {
+		alert(DISPLAY_ERROR_UNDEFINED_HTTPREQUEST);
+		return;
+	}
+	
+	var results = deleteCourse(courseID);
+	
+	if(results == COURSE_STATUS_SERVERERROR) {
+		alert(DISPLAY_SERVERERROR);
+		return;
+	}
+	
+	getAndPrintCourseList();
+	setStatusMessage(DISPLAY_COURSE_DELETED);
+}
+
+function sendDeleteCourseRequest(courseID) {
+	xmlhttp.open("POST", "/teammates", false);
+	xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
+	xmlhttp.send("operation=" + OPERATION_COORDINATOR_DELETECOURSE + "&"
+				+ COURSE_ID + "=" + encodeURIComponent(courseID));
+}
+
+function processDeleteCourseResponse() {
+	
+	if (xmlhttp.status != CONNECTION_OK)
+		return COURSE_STATUS_SERVERERROR;
+
+	var status = xmlhttp.responseXML.getElementsByTagName("status")[0];
+
+	if (status == null)
+		return COURSE_STATUS_SERVERERROR;
+
+	//server response message:
+	var response = status.firstChild.nodeValue;
+	if(response == COURSE_RESPONSE_DELETED)
+		return COURSE_STATUS_DELETED;
+	else
+		return COURSE_STATUS_SERVERERROR;
+
+}
 
 /***********************************************************EVALUATION PAGE***********************************************************/
 /*----------------------------------------------------------EVALUATION PAGE----------------------------------------------------------*/
@@ -1031,23 +1082,7 @@ function deleteAllStudents(courseID) {
 	}
 }
 
-/*
- * Returns
- * 
- * 0: successful 1: server error
- * 
- */
-function deleteCourse(courseID) {
-	if (xmlhttp) {
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-				"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_DELETECOURSE + "&"
-				+ COURSE_ID + "=" + encodeURIComponent(courseID));
 
-		return handleDeleteCourse();
-	}
-}
 
 /*
  * Returns
@@ -1246,20 +1281,7 @@ function doArchiveCourse(courseID) {
 	}
 }
 
-function doDeleteCourse(courseID) {
-	setStatusMessage(DISPLAY_LOADING);
 
-	var results = deleteCourse(courseID);
-
-	if (results != 1) {
-		getAndPrintCourseList();
-		setStatusMessage(DISPLAY_COURSE_DELETED);
-	}
-
-	else {
-		alert(DISPLAY_SERVERERROR);
-	}
-}
 
 function doDeleteEvaluation(courseID, name) {
 	setStatusMessage(DISPLAY_LOADING);
@@ -2152,21 +2174,6 @@ function handleDeleteAllStudents(courseID) {
 	}
 }
 
-/*
- * Returns
- * 
- * 0: successful 1: server error
- * 
- */
-function handleDeleteCourse() {
-	if (xmlhttp) {
-		return 0;
-	}
-
-	else {
-		return 1;
-	}
-}
 
 /*
  * Returns
@@ -3215,17 +3222,7 @@ function sortByToStudentName(a, b) {
 	return sortBase(x, y);
 }
 
-function toggleDeleteCourseConfirmation(courseID) {
-	var s = confirm("Are you sure you want to delete the course, \"" + courseID + "\"? This operation will delete all evaluations and students in this course.");
- 	
-	if (s == true) {
-		doDeleteCourse(courseID);
-	} else {
-		clearStatusMessage();
-	}
 
-	document.getElementById(DIV_COURSE_MANAGEMENT).scrollIntoView(true);
-}
 
 function toggleDeleteEvaluationConfirmation(courseID, name) {
 	var s = confirm("Are you sure you want to delete the evaluation?");

@@ -18,7 +18,7 @@ import teammates.testing.old.TestEvaluationResultPoints;
 	CoordCourseEditStudentsTest.class,
 	CoordCourseEnrolCaseSensitivityTest.class,
 	CoordCourseEnrolStudentsTest.class,
-	CoordCourseListUITest.class,
+	CoordCourseDeleteUITest.class,
 //	CoordCourseViewTest.class,
 	
 	CoordEvaluationAddCaseSensitivityTest.class,
@@ -36,7 +36,7 @@ import teammates.testing.old.TestEvaluationResultPoints;
 		
 	SystemFooterTest.class,
 	SystemVerifyHelpPageTest.class,
-	SystemVerifyCourseAddPageTest.class,
+	SystemVerifyCoordAddCoursePageTest.class,
 	TestEvaluationResultPoints.class
 //	SystemEvaluationResultsCalculationTest.class,
 	

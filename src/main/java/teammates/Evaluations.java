@@ -285,7 +285,8 @@ public class Evaluations {
 		try {
 			getPM().deletePersistentAll(evaluationList);
 			getPM().deletePersistentAll(submissionList);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

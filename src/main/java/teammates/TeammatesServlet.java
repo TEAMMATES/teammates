@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.exception.AccountExistsException;
+import teammates.exception.CourseDoesNotExistException;
 import teammates.exception.CourseExistsException;
 import teammates.exception.CourseInputInvalidException;
 import teammates.exception.EvaluationExistsException;
@@ -161,6 +162,8 @@ public class TeammatesServlet extends HttpServlet {
 	private static final String MSG_COURSE_ADDED = "course added";
 	private static final String MSG_COURSE_EXISTS = "course exists";
 	private static final String MSG_COURSE_INPUT_INVALID = "course input invalid";
+	private static final String MSG_COURSE_DELETED = "course deleted";
+	private static final String MSG_COURSE_NOT_DELETED = "course not deleted";
 	private static final String MSG_COURSE_NOTEAMS = "course has no teams";
 	private static final String MSG_EVALUATION_ADDED = "evaluation added";
 	private static final String MSG_EVALUATION_DEADLINEPASSED = "evaluation deadline passed";
@@ -245,7 +248,9 @@ public class TeammatesServlet extends HttpServlet {
 		}
 
 		else if (operation.equals(OPERATION_COORDINATOR_DELETECOURSE)) {
-			coordinatorDeleteCourse();
+			String courseID = req.getParameter(COURSE_ID);
+			String response = coordinatorDeleteCourse(courseID);
+			resp.getWriter().write(response);
 		}
 
 		else if (operation.equals(OPERATION_COORDINATOR_DELETEEVALUATION)) {
@@ -423,7 +428,11 @@ public class TeammatesServlet extends HttpServlet {
 		Courses courses = Courses.inst();
 		String courseID = req.getParameter(COURSE_ID);
 
-		courses.deleteCoordinatorCourse(courseID);
+		try {
+			courses.deleteCoordinatorCourse(courseID);
+		} catch (CourseDoesNotExistException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -542,19 +551,24 @@ public class TeammatesServlet extends HttpServlet {
 			teamForming.deleteTeamFormingSession(courseID);
 	}
 
-	private void coordinatorDeleteCourse() {
-		Courses courses = Courses.inst();
-		String courseID = req.getParameter(COURSE_ID);
+	public String coordinatorDeleteCourse(String courseID) {
+		try {
+			Courses courses = Courses.inst();
+			courses.deleteCoordinatorCourse(courseID);
+			courses.deleteAllStudents(courseID);
 
-		courses.deleteCoordinatorCourse(courseID);
+			Evaluations evaluations = Evaluations.inst();
+			evaluations.deleteEvaluations(courseID);
 
-		Evaluations evaluations = Evaluations.inst();
-		evaluations.deleteEvaluations(courseID);
-
-		Date dummyDeadline = null;
-		TeamForming teamForming = TeamForming.inst();
-		if (teamForming.getTeamFormingSession(courseID, dummyDeadline) != null)
-			teamForming.deleteTeamFormingSession(courseID);
+			Date dummyDeadline = null;
+			TeamForming teamForming = TeamForming.inst();
+			if (teamForming.getTeamFormingSession(courseID, dummyDeadline) != null)
+				teamForming.deleteTeamFormingSession(courseID);
+			return MSG_STATUS_OPENING + MSG_COURSE_DELETED + MSG_STATUS_CLOSING;
+		} catch (Exception e) {
+			return MSG_STATUS_OPENING + MSG_COURSE_NOT_DELETED + MSG_STATUS_CLOSING;
+		}
+		
 	}
 
 	private void coordinatorDeleteEvaluation() {
