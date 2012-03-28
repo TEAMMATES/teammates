@@ -8,7 +8,7 @@ var cal = new CalendarPopup();
 
 // DISPLAY
 var DISPLAY_COURSE_ARCHIVED = "The course has been archived.";
-var DISPLAY_COURSE_DELETED = "The course has been deleted."
+var DISPLAY_COURSE_DELETED = "The course has been deleted.";
 var DISPLAY_COURSE_DELETEDALLSTUDENTS = "All students have been removed from the course.";
 var DISPLAY_COURSE_DELETEDSTUDENT = "The student has been removed from the course.";
 var DISPLAY_COURSE_NOTEAMS = "<font color=\"#F00\">The course does not have any teams.</font>";
@@ -39,7 +39,7 @@ var DISPLAY_SERVERERROR = "Connection to the server has timed out. Please refres
 var DISPLAY_ERROR_UNDEFINED_HTTPREQUEST = "Error: Undefined XMLHttpRequest.";
 var DISPLAY_STUDENT_DELETED = "The student has been removed.";
 var DISPLAY_STUDENT_EDITED = "The student's details have been edited.";
-var DISPLAY_STUDENT_EDITEDEXCEPTTEAM = "The student's details have been edited, except for his team<br /> as there is an ongoing evaluation."
+var DISPLAY_STUDENT_EDITEDEXCEPTTEAM = "The student's details have been edited, except for his team<br /> as there is an ongoing evaluation.";
 var DISPLAY_STUDENT_EMAILINVALID = "<font color=\"#F00\">E-mail address should contain less than 40 characters and be of a valid syntax.</font>";
 var DISPLAY_STUDENT_NAMEINVALID = "<font color=\"#F00\">Name should only consist of alphabets and numbers and not<br />be more than 40 characters.</font>";
 var DISPLAY_STUDENT_TEAMNAMEINVALID = "<font color=\"#F00\">Team name should contain less than 25 characters.</font>";
@@ -69,32 +69,32 @@ var DIV_TOPOFPAGE = "topOfPage";
 var courseSort = {
 	ID : 0,
 	name : 1
-}
+};
 var courseSortStatus = courseSort.ID;
 
 var evaluationSort = {
 	courseID : 0,
 	name : 1
-}
+};
 var evaluationSortStatus = evaluationSort.courseID;
 
 var studentSort = {
 	name : 0,
 	teamName : 1,
 	status : 2
-}
+};
 var studentSortStatus = studentSort.name;
 
 var courseViewArchived = {
 	show : 0,
 	hide : 1
-}
+};
 var courseViewArchivedStatus = courseViewArchived.hide;
 
 var evaluationResultsView = {
 	reviewee : 0,
 	reviewer : 1
-}
+};
 var evaluationResultsViewStatus = evaluationResultsView.reviewee;
 
 var evaluationResultsSummaryListSort = {
@@ -103,7 +103,7 @@ var evaluationResultsSummaryListSort = {
 	average : 2,
 	submitted : 3,
 	diff : 4
-}
+};
 var evaluationResultsSummaryListSortStatus = evaluationResultsSummaryListSort.teamName;
 
 // MESSAGES
@@ -201,7 +201,7 @@ var STUDENT_TOSTUDENTNAME = "toname";
  * 
  * */
 var SERVERERROR = 1;
-var CONNECTION_OK = 200
+var CONNECTION_OK = 200;
 
 /**
  * Add Course Constants
@@ -218,7 +218,7 @@ var COURSE_STATUS_SERVERERROR = -1;
 var COURSE_STATUS_VALID_INPUT = 0;
 var COURSE_STATUS_SUCCESSFUL = 1;
 var COURSE_STATUS_EXISTS = 2;
-var COURSE_STATUS_EMPTY = 3
+var COURSE_STATUS_EMPTY = 3;
 var COURSE_STATUS_LONG_ID = 4;
 var COURSE_STATUS_LONG_NAME = 5;
 var COURSE_STATUS_INVALID_ID = 6;
@@ -245,6 +245,16 @@ var DISPLAY_COURSE_LONG_ID = "<font color=\"#F00\">Course ID should not exceed "
 var DISPLAY_COURSE_LONG_NAME = "<font color=\"#F00\">Course name should not exceed " + COURSENAME_MAX_LENGTH + " characters.</font>";
 var DISPLAY_COURSE_INVALID_ID = "<font color=\"#F00\">Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.</font>";
 var DISPLAY_COURSE_INVALID_NAME = "<font color=\"#F00\">Course name is invalid.</font>";
+
+/***
+ * Submission Constants
+ */
+var NA = "N/A";
+var NA_POINTS = -101;
+var NOTSURE = "NOT SURE";
+var NOTSURE_POINTS = -999;
+var YES = "YES";
+var NO = "NO";
 
 /***********************************************************COURSE PAGE***********************************************************/
 /*----------------------------------------------------------COURSE PAGE----------------------------------------------------------*/
@@ -277,8 +287,8 @@ function printAddCourseForm() {
 				</tr>																								\
 				<tr>																								\
 					<td><input class='addinput' type='text' name='" + COURSE_ID + "' id='" + COURSE_ID + "'			\
-					onmouseover='ddrivetip('Enter the identifier of the course, e.g.CS3215Sem1.')'					\
-					onmouseout='hideddrivetip()' maxlength=" + COURSEID_INPUT_FIELD_MAX_LENGTH + " tabindex=1 />	\
+					onmouseover=\"ddrivetip('Enter the identifier of the course, e.g.CS3215Sem1.')\"				\
+					onmouseout=\"hideddrivetip()\" maxlength=" + COURSEID_INPUT_FIELD_MAX_LENGTH + " tabindex=1 />	\
 					</td>																							\
 				</tr>																								\
 				<tr>																								\
@@ -286,13 +296,13 @@ function printAddCourseForm() {
 				</tr>																								\
 				<tr>																								\
 					<td><input class='addinput' type='text' name='" + COURSE_NAME + "' id='" + COURSE_NAME + "'		\
-					onmouseover='ddrivetip('Enter the name of the course, e.g. Software Engineering.')'				\
-					onmouseout='hideddrivetip()' maxlength=" + COURSENAME_INPUT_FIELD_MAX_LENGTH + " tabindex=2 />	\
+					onmouseover=\"ddrivetip('Enter the name of the course, e.g. Software Engineering.')\"			\
+					onmouseout=\"hideddrivetip()\" maxlength=" + COURSENAME_INPUT_FIELD_MAX_LENGTH + " tabindex=2 />\
 					</td>																							\
 				</tr>																								\
 				<tr>																								\
 					<td><input id='btnAddCourse' type='button' class='button' 										\
-					onclick='doAddCourse(this.form." + COURSE_ID + ".value, this.form." + COURSE_NAME + ".value);'	\
+					onclick=\"doAddCourse(this.form." + COURSE_ID + ".value, this.form." + COURSE_NAME + ".value);\"\
 					value='Add Course' tabindex='3' />																\
 					</td>																							\
 				</tr>																								\
@@ -986,196 +996,184 @@ function complieSubmissionList(submissions) {
 	}
 	return submissionList;
 }
-
-function compileSubmissionSummaryList(submissionList) {
-	var summaryList = new Array();
-
-	var exists = false;
-
-	var toStudent;
-	var toStudentName;
-	var toStudentComments;
-	var totalPoints;
-	var totalPointGivers;
-	var claimedPoints;
-	var teamName;
-	var average;
-	var difference;
-	var submitted;
-	var pointsBumpRatio;
-
-	var count = 0;
-	var submissionListLength = submissionList.length;
-
-	for ( var loop = 0; loop < submissionListLength; loop++) {
-		logSubmission(submissionList[loop]);
-	}
-
-	for (loop = 0; loop < submissionListLength; loop++) {
-		exists = false;
-		submitted = false;
-
-		var summaryListLength = summaryList.length;
-		for (x = 0; x < summaryListLength; x++) {
-
-			if (summaryList[x].toStudent == submissionList[loop].toStudent) {
-				exists = true;
-			}
-		}
-
-		if (exists == false) {
-			toStudent = submissionList[loop].toStudent;
-			toStudentName = submissionList[loop].toStudentName;
-			toStudentComments = submissionList[loop].toStudentComments;
-			teamName = submissionList[loop].teamName;
-			totalPoints = 0;
-			totalPointGivers = 0;
-
-			for (y = loop; y < submissionListLength; y++) {
-				if (submissionList[y].toStudent == toStudent) {
-					if (submissionList[y].fromStudent == toStudent) {
-						if (submissionList[y].points == -999) {
-							claimedPoints = NA;
-						} else if (submissionList[y].points == -101) {
-							claimedPoints = NOTSURE;
-						}
-
-						else {
-
-							claimedPoints = Math.round(submissionList[y].points
-									* submissionList[y].pointsBumpRatio);
-
-						}
-
-						if (submissionList[y].points != -999) {
-							submitted = true;
-						}
-					}
-
-					else {
-						if (submissionList[y].points != -999
-								&& submissionList[y].points != -101) {
-							totalPoints += Math.round(submissionList[y].points
-									* submissionList[y].pointsBumpRatio);
-							totalPointGivers++;
-						}
-					}
-				}
-			}
-			if (totalPointGivers != 0) {
-				average = Math.round(totalPoints / totalPointGivers);
-			}
-
-			else {
-				average = NA;
-			}
-
-			difference = Math.round(average - claimedPoints);
-			if (isNaN(difference)) {
-				difference = NA;
-			}
-
-			summaryList[count++] = {
-				toStudent : toStudent,
-				toStudentName : toStudentName,
-				teamName : teamName,
-				average : average,
-				difference : difference,
-				toStudentComments : toStudentComments,
-				submitted : submitted,
-				claimedPoints : claimedPoints
-			};
-			console.log("******" + toStudent + "|" + toStudentName + "|"
-					+ teamName + "|" + average + "|" + difference + "|" + "|"
-					+ submitted + "|" + claimedPoints);
-
-		}
-	}
-
-	// Find normalizing points bump ratio for averages
-	var teamsNormalized = new Array();
-	count = 0;
-	logSummaryList(summaryList);
-	var summaryListLength = summaryList.length;
-	for (loop = 0; loop < summaryListLength; loop++) {
-		teamName = summaryList[loop].teamName;
-		// Reset variables
-		exists = false;
-		totalPoints = 0;
-		totalGivers = 0;
-		pointsBumpRatio = 0;
-
-		// Check if the team is added
-		var teamsNormalizedLength = teamsNormalized.length;
-		for (y = 0; y < teamsNormalizedLength; y++) {
-			if (summaryList[loop].teamName == teamsNormalized[y].teamName) {
-				exists = true;
-				break;
-			}
-		}
-
-		if (exists == false) {
-			// Tabulate the perceived scores
-			for (y = loop; y < summaryListLength; y++) {
-				console.log(summaryList[y].teamName + "[0]"
-						+ summaryList[y].average);
-				if (summaryList[y].teamName == summaryList[loop].teamName
-						&& summaryList[y].average != NA) {
-					console.log(summaryList[y].teamName + "[1]"
-							+ summaryList[y].average);
-
-					totalPoints += summaryList[y].average;
-					totalGivers += 1;
-				}
-			}
-			console.log("totalgiver: " + totalGivers + " | totalPoints:"
-					+ totalPoints);
-
-			if (totalGivers != 0) {
-
-				pointsBumpRatio = totalGivers * 100 / totalPoints;
-
-				// Store the bump ratio
-				teamsNormalized[count++] = {
-					pointsBumpRatio : pointsBumpRatio,
-					teamName : teamName
-				};
-				console.log("teamNormalized:" + pointsBumpRatio + "|"
-						+ teamName);
-			}
-
-		}
-	}
-
-	var teamsNormalizedLength = teamsNormalized.length;
-
+/**---------------------------------------------------------added 26 Mar 2012------------------------------------*/
+function compileSubmissionSummaryList(submissionList){
+	logSubmissionList(submissionList);
 	
-	for (loop = 0; loop < teamsNormalizedLength; loop++) 
-	{
-		
-		for (y = 0; y < summaryListLength; y++) // number of members
-		{
-			if (summaryList[y].teamName == teamsNormalized[loop].teamName
-					&& summaryList[y].average != NA) {
-				summaryList[y].average = Math.round(summaryList[y].average
-						* teamsNormalized[loop].pointsBumpRatio);
+	//creating summary list (without team normalization)
+	var summaryList = new Array();
+	var count = 0;
+	var i;
+	for(i = 0; i < submissionList.length; i++){
+		var submission = submissionList[i];
 
-				summaryList[y].difference = Math.round(summaryList[y].average
-						- summaryList[y].claimedPoints);
-
-				if (isNaN(summaryList[y].difference)) {
-					summaryList[y].difference = NA;
-				}
-			}
+		if(!isStudentInSummaryList(submission.toStudent, summaryList)){
+			summaryList[count++] = createSubmissionSummary(submission, submissionList);
 		}
-		logSummaryList(summaryList);
-
-		console.log("team normalized: " + loop + teamsNormalized[loop].teamName
-				+ "|" + teamsNormalized[loop].pointsBumpRatio);
+	}
+	
+	//creating team bumpratio
+	var normalizedList = new Array();
+	count = 0;
+	for(i = 0; i < summaryList.length; i++){
+		var summary = summaryList[i];
+		if(!isTeamInNormalizedList(summary.teamName, normalizedList)){
+			var normalizedData = createNormalizedData(summary, summaryList);
+			if(normalizedData !== null)
+				normalizedList[count++] = normalizedData;
+		}
 	}
 
+	//normalizing summary list with team bumpratio
+	var j;
+	for(i = 0; i < normalizedList.length; i++){
+		var team = normalizedList[i].teamName;
+
+		for(j = 0; j < summaryList.length; j++){
+			if(summaryList[j].teamName == team && summaryList[j].average != NA){
+				//normalizing average by team bumpratio
+				summaryList[j].average = Math.round(summaryList[j].average * normalizedList[i].pointsBumpRatio);
+				//updating difference
+				summaryList[j].difference = getDifference(summaryList[j].average, summaryList[j].claimedPoints);
+			}
+		}
+	}
+	
+	//debug
+	logSummaryList(summaryList);
+		
 	return summaryList;
 }
+
+function createNormalizedData(summary, summaryList){
+	var output = null;
+	var totalPoints = 0;
+	var totalPointGivers = 0;
+	var pointsBumpRatio;
+	var teamName;
+	
+	var i;
+	for(i = 0; i < summaryList.length; i++){
+		if(summaryList[i].teamName == summary.teamName && summaryList[i].average != NA){
+			totalPoints += summaryList[i].average;
+			totalPointGivers++;
+		}
+	}
+	if(totalPointGivers != 0){
+		pointsBumpRatio = totalPointGivers * 100 / totalPoints;
+		teamName = summary.teamName;
+		output = {
+			pointsBumpRatio : pointsBumpRatio,
+			teamName : teamName
+		};
+	}
+	return output;	
+}
+
+function isTeamInNormalizedList(teamName, normalizedList){
+	var i;
+	for(i = 0; i < normalizedList.length; i++){
+		if(normalizedList[i].teamName == teamName)
+			return true;
+	}
+	return false;
+}
+
+function isStudentInSummaryList(toStudent, summaryList){
+	var i;
+	for (i = 0; i < summaryList.length; i++) {
+		if (summaryList[i].toStudent == toStudent)
+			return true;
+	}
+	return false;
+}
+
+function createSubmissionSummary(submission, submissionList){
+	//basic info
+	var toStudent = submission.toStudent;
+	var toStudentName = submission.toStudentName;
+	var teamName = submission.teamName;
+	var toStudentComments = submission.toStudentComments;
+	//points given by self
+	var selfSubmission = getSelfSubmission(toStudent, submissionList);
+	var submitted = isSubmitted(selfSubmission);
+	var claimedPoints = getClaimedPoints(selfSubmission);
+	//points given by others
+	var average = getAverage(toStudent, submissionList);
+	//difference
+	var difference = getDifference(average, claimedPoints);
+
+	var summary = {
+		toStudent : toStudent,
+		toStudentName : toStudentName,
+		teamName : teamName,
+		average : average,
+		difference : difference,
+		toStudentComments : toStudentComments,
+		submitted : submitted,
+		claimedPoints : claimedPoints
+	};
+	return summary;
+}
+
+function getSelfSubmission(toStudent, submissionList){
+	var i;
+	for(i = 0; i < submissionList.length; i++){
+		if(submissionList[i].toStudent == toStudent 
+			&& submissionList[i].fromStudent == toStudent)
+			return submissionList[i];
+	}
+	return null;
+}
+
+function isSubmitted(selfSubmission){
+	if(selfSubmission !== null && selfSubmission.points != -999)
+		return true;
+	else
+		return false;
+}
+
+function getClaimedPoints(selfSubmission){
+	if(selfSubmission !== null)
+		return claimedPointsToString(selfSubmission.points, selfSubmission.pointsBumpRatio);
+	else
+		return NA;
+}
+
+function claimedPointsToString(points, pointsBumpRatio){
+	if(points == -999)
+		return NA;
+	else if(points == -101)
+		return NOTSURE;
+	else
+		return Math.round(points * pointsBumpRatio);
+}
+
+function getAverage(toStudent, submissionList){
+	var i;
+	var totalPoints = 0;
+	var totalPointGivers = 0;
+	for(i = 0; i < submissionList.length; i++){
+		if(submissionList[i].toStudent == toStudent && submissionList[i].fromStudent != toStudent){
+			if(submissionList[i].points != -999 && submissionList[i].points != -101){
+				totalPoints += Math.round(submissionList[i].points * submissionList[i].pointsBumpRatio);
+				totalPointGivers++;
+			}
+		}
+	}
+	if(totalPointGivers == 0)
+		return NA;
+	else
+		return Math.round(totalPoints / totalPointGivers);
+}
+
+function getDifference(average, claimedPoints){
+	var diff = Math.round(average - claimedPoints);
+
+	return (isNaN(diff))? NA: diff;
+}
+
+/**---------------------------------------------------------added 26 Mar 2012------------------------------------*/
 
 //util functions to sort evaluation results
 function toggleSortEvaluationSummaryListByAverage(submissionList, summaryList, status, commentsEnabled) {
@@ -1232,6 +1230,352 @@ function toggleSortEvaluationSummaryListByToStudentName(submissionList, summaryL
 	document.getElementById("button_sortname").setAttribute("class", "buttonSortAscending");
 }
 
+/*
+ * UI Element: print evaluation summary form type: reviewer, reviewee
+ */
+function printEvaluationSummaryForm(submissionList, summaryList, status, commentsEnabled, type) {
+	document.getElementById(DIV_EVALUATION_EDITRESULTSBUTTON).innerHTML = "";
+
+	var submitted;
+	var output = "";
+
+	// if link is disabled, insert this line to reset style and onclick:
+	var disabled = "style=\"text-decoration:none; color:gray;\" onclick=\"return false\"";
+
+	output = output
+			+ "<table id=\"dataform\">"
+			+ "<tr>"
+			+ "<th class=\"leftalign\"><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortteamname\">TEAM</input></th>"
+			+ "<th class=\"leftalign\"><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortname\">STUDENT</input></th>";
+
+	// thead:
+	if (type == REVIEWER) {
+		output = output
+				+ "<th class=\"centeralign\"><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortsubmitted\">SUBMITTED</input></th>"
+				+ "<th class=\"centeralign\">ACTION(S)</th>" + "</tr>";
+
+	} else {
+		output = output
+				+ "<th class=\"leftalign\"><div onmouseover=\"ddrivetip('" + HOVER_MESSAGE_CLAIMED + "')\" onmouseout=\"hideddrivetip()\">" +
+						"<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortaverage\">CLAIMED CONTRIBUTION</input></div></th>"
+				+ "<th class=\"centeralign\"><div  onmouseover=\"ddrivetip('" + HOVER_MESSAGE_PERCEIVED_CLAIMED + "')\" onmouseout=\"hideddrivetip()\">" +
+						"<input class=\"buttonSortNone\" type=\"button\" id=\"button_sortdiff\">[PERCEIVED - CLAIMED]</input></div></th>"
+				+ "<th class=\"centeralign\">ACTION(S)</th>" + "</tr>";
+	}
+
+	var summaryListLength = summaryList.length;
+	for (loop = 0; loop < summaryListLength; loop++) {
+
+		if (summaryList[loop].submitted) {
+			submitted = YES;
+		} else {
+			submitted = NO;
+		}
+
+		output = output + "<tr>" + "<td>"
+				+ encodeCharForPrint(summaryList[loop].teamName) + "</td>"
+				+ "<td>";
+
+		if (encodeChar(summaryList[loop].toStudentComments) != "") {
+			output = output + "<a onmouseover=\"ddrivetip('"
+					+ encodeCharForPrint(summaryList[loop].toStudentComments)
+					+ "')\" onmouseout=\"hideddrivetip()\">"
+					+ encodeChar(summaryList[loop].toStudentName) + "</a>"
+					+ "</td>";
+		} else {
+			output = output + encodeChar(summaryList[loop].toStudentName)
+					+ "</td>";
+		}
+
+		if (type == REVIEWER) {
+			var hasEdit = false;
+
+			if (status == "CLOSED") {
+				hasEdit = true;
+			}
+
+			output = output + "<td class=\"centeralign\" id=\"status_submitted"
+					+ loop + "\">" + submitted + "</td>";
+
+			output = output
+					+ "<td class=\"centeralign\">"
+					+ "<a name=\"viewEvaluationResults"
+					+ loop
+					+ "\" id=\"viewEvaluationResults"
+					+ loop
+					+ "\" href=# "
+					+ "onmouseover=\"ddrivetip('View feedback from the student for his team')\""
+					+ "onmouseout=\"hideddrivetip()\">View</a>"
+					+ "<a name=\"editEvaluationResults"
+					+ loop
+					+ "\" id=\"editEvaluationResults"
+					+ loop
+					+ "\" href=# "
+					+ "onmouseover=\"ddrivetip('Edit feedback from the student for his team')\""
+					+ "onmouseout=\"hideddrivetip()\""
+					+ (hasEdit ? "" : disabled) + ">Edit</a>";
+
+			output = output + "</td>" + "</tr>";
+
+		} else {
+			output = output + "<td>"
+					+ displayEvaluationPoints(summaryList[loop].claimedPoints)
+					+ "</td>";
+
+			if (summaryList[loop].difference > 0) {
+				output = output
+						+ "<td class=\"centeralign\"><span class=\"posDiff\">"
+						+ summaryList[loop].difference + "</span></td>";
+			} else if (summaryList[loop].difference < 0) {
+				output = output
+						+ "<td class=\"centeralign\"><span class=\"negDiff\">"
+						+ summaryList[loop].difference + "</span></td>";
+			} else {
+				output = output + "<td class=\"centeralign\">"
+						+ summaryList[loop].difference + "</td>";
+			}
+
+			output = output
+					+ "<td class=\"centeralign\">"
+					+ "<a name=\"viewEvaluationResults" + loop + "\" id=\"viewEvaluationResults" + loop + "\" href=# "
+					+ "onmouseover=\"ddrivetip('View feedback from the team for the student')\""
+					+ "onmouseout=\"hideddrivetip()\">View</a>";
+
+			output = output + "</td>" + "</tr>";
+		}
+	}
+	output = output
+			+ "</table>"
+			+ "<br /><br />"
+			+ "<input type=\"button\" class=\"button\" id=\"button_back\" onclick=\"displayEvaluationsTab();\" value=\"Back\" />"
+			+ "<br /><br />";
+
+	document.getElementById(DIV_EVALUATION_SUMMARYTABLE).innerHTML = output;
+
+	// catch actions:
+	document.getElementById('radio_reviewee').onclick = function() {
+		printEvaluationReportByAction(submissionList, summaryList, status,
+				commentsEnabled);
+	};
+	document.getElementById('radio_reviewer').onclick = function() {
+		printEvaluationReportByAction(submissionList, summaryList, status,
+				commentsEnabled);
+	};
+	document.getElementById('radio_summary').onclick = function() {
+		printEvaluationReportByAction(submissionList, summaryList, status,
+				commentsEnabled);
+	};
+	document.getElementById('radio_detail').onclick = function() {
+		printEvaluationReportByAction(submissionList, summaryList, status,
+				commentsEnabled);
+	};
+
+	document.getElementById('button_sortteamname').onclick = function() {
+		toggleSortEvaluationSummaryListByTeamName(submissionList, summaryList,
+				status, commentsEnabled);
+	};
+	document.getElementById('button_sortname').onclick = function() {
+		toggleSortEvaluationSummaryListByToStudentName(submissionList,
+				summaryList, status, commentsEnabled);
+	};
+
+	for (loop = 0; loop < summaryListLength; loop++) {
+		if (document.getElementById('viewEvaluationResults' + loop) != null
+				&& document.getElementById('viewEvaluationResults' + loop).onclick == null) {
+			document.getElementById('viewEvaluationResults' + loop).onclick = function() {
+				hideddrivetip();
+				printEvaluationIndividualForm(submissionList, summaryList,
+						this.id.substring(21, this.id.length), commentsEnabled,
+						status, type);
+				clearStatusMessage();
+			};
+		}
+	}
+
+	if (type == REVIEWER) {
+		document.getElementById('button_sortsubmitted').onclick = function() {
+			toggleSortEvaluationSummaryListBySubmitted(submissionList,
+					summaryList, status, commentsEnabled);
+		};
+
+		for (loop = 0; loop < summaryListLength; loop++) {
+			if (document.getElementById('editEvaluationResults' + loop) != null
+					&& document.getElementById('editEvaluationResults' + loop).onclick == null) {
+				document.getElementById('editEvaluationResults' + loop).onclick = function() {
+					hideddrivetip();
+
+					printEditEvaluationResultsByReviewer(submissionList,
+							summaryList, this.id.substring(21, this.id.length),
+							commentsEnabled, status);
+
+					document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
+					clearStatusMessage();
+				};
+			}
+		}
+
+	} else {
+		document.getElementById('button_sortaverage').onclick = function() {
+			toggleSortEvaluationSummaryListByAverage(submissionList,
+					summaryList, status, commentsEnabled);
+		};
+		document.getElementById('button_sortdiff').onclick = function() {
+			toggleSortEvaluationSummaryListByDiff(submissionList, summaryList,
+					status, commentsEnabled);
+		};
+
+	}
+
+	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
+}
+
+/*
+ * UI Element: print evaluation detail form type: reviewer, reviewee TODO:
+ * reviewer view show original or normalized points?
+ */
+function printEvaluationDetailForm(submissionList, summaryList, status,
+		commentsEnabled, type) {
+	clearStatusMessage();
+
+	var output = (type == REVIEWER) ? helpPrintTitle(REVIEWER_TITLE_DETAIL)
+			: helpPrintTitle(REVIEWEE_TITLE_DETAIL);
+
+	output = output + "<div id=\"detail\">";
+
+	var summaryListLength = summaryList.length;
+	for (x = 0; x < summaryListLength; x++) {
+		// Team Name:
+		if (x == 0 || summaryList[x].teamName != summaryList[x - 1].teamName) {
+			if (x != 0)
+				output = output + "</div><br />";
+			output = output + helpPrintResultTeam(summaryList[x].teamName);
+		}
+		output = output
+				+ helpPrintSubmission(submissionList, summaryList, x, status,
+						commentsEnabled, type) + "</table>";
+	}
+
+	output = output
+			+ "</div><br /><br />"
+			+ "<input type=\"button\" class =\"button\" name=\"button_back\" id=\"button_back\" value=\"Back\" />"
+			+ " <input type=\"button\" class =\"button\" name=\"button_top\" id=\"button_top\" value=\"To Top\" />";
+
+	document.getElementById(DIV_EVALUATION_SUMMARYTABLE).innerHTML = output;
+
+	document.getElementById('button_top').onclick = function() {
+		document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
+	};
+	document.getElementById("button_back").onclick = function() {
+		displayEvaluationsTab();
+	}
+
+	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
+}
+
+/*
+ * UI Element: print evaluation submission (individual) type: Reviewer, Reviewee
+ */
+function printEvaluationIndividualForm(submissionList, summaryList, position,
+		commentsEnabled, status, type) {
+	var points;
+	var justification = "";
+	var commentsToStudent = "";
+	var student = "";// used to show reviewer or reviewee contents
+	var toStudent = summaryList[position].toStudent;
+	var output = (type == REVIEWER) ? helpPrintTitle(REVIEWER_TITLE_INDIVIDUAL)
+			: helpPrintTitle(REVIEWEE_TITLE_INDIVIDUAL);
+	// Team name:
+	output = output + helpPrintResultTeam(summaryList[position].teamName);
+	// points:
+	output = output
+			+ helpPrintResultHeader(
+					type,
+					summaryList[position].toStudentName,
+					displayEvaluationPoints(summaryList[position].claimedPoints),
+					displayEvaluationPoints(summaryList[position].average));
+	console.log("points:" + summaryList[position].claimedPoints + "|"
+			+ summaryList[position].average);
+	// evaluation to others header:
+	student = (type == REVIEWEE) ? FROM_STUDENT : TO_STUDENT;
+	outputTemp = helpPrintResultSubheader(student);
+
+	// justification and comments:
+	var submissionListLength = submissionList.length;
+	for (loop = 0; loop < submissionListLength; loop++) {
+		if ((type == REVIEWEE && submissionList[loop].toStudent == toStudent)
+				|| (type == REVIEWER && submissionList[loop].fromStudent == toStudent)) {
+			// Extract data
+			points = helpPrintPoints(submissionList[loop]);
+			justification = helpPrintJustification(submissionList[loop]);
+			commentsToStudent = helpPrintComments(submissionList[loop],
+					commentsEnabled);
+
+			// Print data
+			if (submissionList[loop].fromStudent == submissionList[loop].toStudent) {
+				outputTemp = helpPrintResultSelfComments(justification,
+						commentsToStudent)
+						+ outputTemp;
+
+			} else {
+				student = (type == REVIEWEE) ? submissionList[loop].fromStudentName
+						: submissionList[loop].toStudentName;
+				outputTemp = outputTemp
+						+ helpPrintResultOtherComments(student, points,
+								justification, commentsToStudent);
+			}
+		}
+	}
+
+	// buttons:
+	output = output
+			+ outputTemp
+			+ "</table></div>"
+			+ "<br /><br />"
+			+ "<input type=\"button\" class =\"button\" value=\"Previous\" name=\"button_previous\" id=\"button_previous\">"
+			+ " <input type=\"button\" class =\"button\" value=\"Next\" name=\"button_next\" id=\"button_next\">";
+
+	if (type == REVIEWER && status == "CLOSED") {
+		output = output
+				+ " <input type=\"button\" class =\"button\" type=\"button\" value=\"Edit\" name=\"button_edit\" id=\"button_edit\">";
+	}
+
+	output = output
+			+ " <input type=\"button\" class=\"button\" value=\"Back\" name=\"button_back\" id=\"button_back\"><br /><br />";
+
+	// --print page:
+	document.getElementById(DIV_EVALUATION_SUMMARYTABLE).innerHTML = output;
+
+	// --catch actions:
+	document.getElementById('button_next').onclick = function() {
+		clearStatusMessage();
+		position++;
+		if (position >= summaryList.length) {
+			position = 0;
+		}
+		printEvaluationIndividualForm(submissionList, summaryList, position,
+				commentsEnabled, status, type);
+	};
+	document.getElementById('button_previous').onclick = function() {
+		clearStatusMessage();
+		if (position == 0) {
+			position = summaryList.length - 1;
+		} else {
+			position--;
+		}
+		printEvaluationIndividualForm(submissionList, summaryList, position,
+				commentsEnabled, status, type);
+	};
+	document.getElementById('button_back').onclick = function() {
+		printEvaluationReportByAction(submissionList, summaryList, status,
+				commentsEnabled);
+	}
+	if (type == REVIEWER && status == "CLOSED") {
+		document.getElementById('button_edit').onclick = function() {
+			printEditEvaluationResultsByReviewer(submissionList, summaryList,
+					position, commentsEnabled, status)
+		};
+	}
+}
 
 
 /*----------------------------------------------------------OLD FUNCTIONS----------------------------------------------------------*/

@@ -163,6 +163,7 @@ public class Submission {
 		sb.append(this.evaluationName + "|");
 		sb.append(this.fromStudent + "|");
 		sb.append(this.toStudent + "|");
+		sb.append(this.points + "|");
 		sb.append(this.teamName + "\n");
 		return sb.toString();
 	}

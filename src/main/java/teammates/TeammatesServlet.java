@@ -898,7 +898,6 @@ public class TeammatesServlet extends HttpServlet {
 		}
 		
 		return "<submissions>" + parseSubmissionDetailsForCoordinatorListToXML(submissionDetailsList).toString() + "</submissions>";
-
 	}
 
 	private void coordinatorInformStudentsOfEvaluationChanges() {

@@ -237,16 +237,37 @@ public class APITest {
 			}
 			
 			pm.makePersistentAll(submissionList);
-			
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 	}
 	
+	/***
+	 * helper function
+	 * format of submissionPoints[0] = "Original: 100, 100, 100; ..."
+	 * @param submissionPoints
+	 * @return
+	 */
+	public int getTeamSizeFromSubmissionPoints(String[] submissionPoints) {
+		return TMAPI.getSubmissionPoints(submissionPoints[0]).split(", ").length;
+	}
+	
+	
+	//debug functions--------------------------------------------------------------------------------------
 	public void debug(String msg) {
 		System.out.println("this is debug message:================" + msg);
+	}
+	
+	public void printSubmission(Submission sub) {
+		System.out.println("[submission] course: " + sub.getCourseID() 
+			+ " evaluation: " + sub.getEvaluationName() 
+			+ " point: " + sub.getPoints() 
+			+ " from: " + sub.getFromStudent() 
+			+ " to: " + sub.getToStudent()
+			+ " comments: " + sub.getCommentsToStudent()
+			+ " justification: " + sub.getJustification());
 	}
 	
 }

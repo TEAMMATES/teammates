@@ -175,9 +175,7 @@ public class Evaluations {
 	 * 
 	 * @return the ratio to increase/decrease points given by the student
 	 */
-	public float calculatePointsBumpRatio(String courseID,
-			String evaluationName, String fromStudent,
-			List<Submission> submissionList) {
+	public float calculatePointsBumpRatio(String courseID, String evaluationName, String fromStudent, List<Submission> submissionList) {
 
 		int totalPoints = 0;
 		int numberOfStudents = 0;
@@ -193,13 +191,12 @@ public class Evaluations {
 				numberOfStudents++;
 			}
 		}
-
+		//special case all the students who submit the evaluation give 0 to everyone
 		if (totalPoints == 0) {
 			for (Submission s : submissionList) {
 				if (s.getPoints() != -101) {
 					s.setPoints(100);
-					System.out.println("MSG:" + s.getFromStudent() + "|"
-							+ s.getToStudent() + "|" + s.getPoints());
+					System.out.println("MSG:" + s.getFromStudent() + "|" + s.getToStudent() + "|" + s.getPoints());
 				}
 
 			}
@@ -919,7 +916,9 @@ public class Evaluations {
 			String courseID, String evaluationName) {
 		Queue queue = QueueFactory.getQueue("email-queue");
 		List<TaskOptions> taskOptionsList = new ArrayList<TaskOptions>();
-
+		Evaluation evaluation = getEvaluation(courseID, evaluationName);
+		Date deadline = evaluation.getDeadline();
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HHmm");
 		for (Student s : studentList) {
 			// There is a limit of 100 tasks per batch addition to Queue in
 			// Google App

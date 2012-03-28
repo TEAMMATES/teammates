@@ -1102,359 +1102,7 @@ function printEvaluationActions(evaluationList, position) {
 }
 
 
-/*
- * UI Element: print evaluation summary form type: reviewer, reviewee
- */
-function printEvaluationSummaryForm(submissionList, summaryList, status,
-		commentsEnabled, type) {
-	document.getElementById(DIV_EVALUATION_EDITRESULTSBUTTON).innerHTML = "";
 
-	var submitted;
-	var output = "";
-
-	// if link is disabled, insert this line to reset style and onclick:
-	var disabled = "style=\"text-decoration:none; color:gray;\" onclick=\"return false\"";
-
-	output = output
-			+ "<table id=\"dataform\">"
-			+ "<tr>"
-			+ "<th class=\"leftalign\"><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortteamname\">TEAM</input></th>"
-			+ "<th class=\"leftalign\"><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortname\">STUDENT</input></th>";
-
-	// thead:
-	if (type == REVIEWER) {
-		output = output
-				+ "<th class=\"centeralign\"><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortsubmitted\">SUBMITTED</input></th>"
-				+ "<th class=\"centeralign\">ACTION(S)</th>" + "</tr>";
-
-	} else {
-		output = output
-				+ "<th class=\"leftalign\"><div  onmouseover=\"ddrivetip('"
-				+ HOVER_MESSAGE_CLAIMED
-				+ "')\" onmouseout=\"hideddrivetip()\"><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortaverage\">CLAIMED CONTRIBUTION</input></div></th>"
-				+ "<th class=\"centeralign\"><div  onmouseover=\"ddrivetip('"
-				+ HOVER_MESSAGE_PERCEIVED_CLAIMED
-				+ "')\" onmouseout=\"hideddrivetip()\"><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortdiff\">[PERCEIVED - CLAIMED]</input></div></th>"
-				+ "<th class=\"centeralign\">ACTION(S)</th>" + "</tr>";
-	}
-
-	var summaryListLength = summaryList.length;
-	for (loop = 0; loop < summaryListLength; loop++) {
-
-		if (summaryList[loop].submitted) {
-			submitted = YES;
-		} else {
-			submitted = NO;
-		}
-
-		output = output + "<tr>" + "<td>"
-				+ encodeCharForPrint(summaryList[loop].teamName) + "</td>"
-				+ "<td>";
-
-		if (encodeChar(summaryList[loop].toStudentComments) != "") {
-			output = output + "<a onmouseover=\"ddrivetip('"
-					+ encodeCharForPrint(summaryList[loop].toStudentComments)
-					+ "')\" onmouseout=\"hideddrivetip()\">"
-					+ encodeChar(summaryList[loop].toStudentName) + "</a>"
-					+ "</td>";
-		} else {
-			output = output + encodeChar(summaryList[loop].toStudentName)
-					+ "</td>";
-		}
-
-		if (type == REVIEWER) {
-			var hasEdit = false;
-
-			if (status == "CLOSED") {
-				hasEdit = true;
-			}
-
-			output = output + "<td class=\"centeralign\" id=\"status_submitted"
-					+ loop + "\">" + submitted + "</td>";
-
-			output = output
-					+ "<td class=\"centeralign\">"
-					+ "<a name=\"viewEvaluationResults"
-					+ loop
-					+ "\" id=\"viewEvaluationResults"
-					+ loop
-					+ "\" href=# "
-					+ "onmouseover=\"ddrivetip('View feedback from the student for his team')\""
-					+ "onmouseout=\"hideddrivetip()\">View</a>"
-					+ "<a name=\"editEvaluationResults"
-					+ loop
-					+ "\" id=\"editEvaluationResults"
-					+ loop
-					+ "\" href=# "
-					+ "onmouseover=\"ddrivetip('Edit feedback from the student for his team')\""
-					+ "onmouseout=\"hideddrivetip()\""
-					+ (hasEdit ? "" : disabled) + ">Edit</a>";
-
-			output = output + "</td>" + "</tr>";
-
-		} else {
-			output = output + "<td>"
-					+ displayEvaluationPoints(summaryList[loop].claimedPoints)
-					+ "</td>";
-
-			if (summaryList[loop].difference > 0) {
-				output = output
-						+ "<td class=\"centeralign\"><span class=\"posDiff\">"
-						+ summaryList[loop].difference + "</span></td>";
-			} else if (summaryList[loop].difference < 0) {
-				output = output
-						+ "<td class=\"centeralign\"><span class=\"negDiff\">"
-						+ summaryList[loop].difference + "</span></td>";
-			} else {
-				output = output + "<td class=\"centeralign\">"
-						+ summaryList[loop].difference + "</td>";
-			}
-
-			output = output
-					+ "<td class=\"centeralign\">"
-					+ "<a name=\"viewEvaluationResults"
-					+ loop
-					+ "\" id=\"viewEvaluationResults"
-					+ loop
-					+ "\" href=# "
-					+ "onmouseover=\"ddrivetip('View feedback from the team for the student')\""
-					+ "onmouseout=\"hideddrivetip()\">View</a>";
-
-			output = output + "</td>" + "</tr>";
-		}
-	}
-	output = output
-			+ "</table>"
-			+ "<br /><br />"
-			+ "<input type=\"button\" class=\"button\" id=\"button_back\" onclick=\"displayEvaluationsTab();\" value=\"Back\" />"
-			+ "<br /><br />";
-
-	document.getElementById(DIV_EVALUATION_SUMMARYTABLE).innerHTML = output;
-
-	// catch actions:
-	document.getElementById('radio_reviewee').onclick = function() {
-		printEvaluationReportByAction(submissionList, summaryList, status,
-				commentsEnabled);
-	};
-	document.getElementById('radio_reviewer').onclick = function() {
-		printEvaluationReportByAction(submissionList, summaryList, status,
-				commentsEnabled);
-	};
-	document.getElementById('radio_summary').onclick = function() {
-		printEvaluationReportByAction(submissionList, summaryList, status,
-				commentsEnabled);
-	};
-	document.getElementById('radio_detail').onclick = function() {
-		printEvaluationReportByAction(submissionList, summaryList, status,
-				commentsEnabled);
-	};
-
-	document.getElementById('button_sortteamname').onclick = function() {
-		toggleSortEvaluationSummaryListByTeamName(submissionList, summaryList,
-				status, commentsEnabled);
-	};
-	document.getElementById('button_sortname').onclick = function() {
-		toggleSortEvaluationSummaryListByToStudentName(submissionList,
-				summaryList, status, commentsEnabled);
-	};
-
-	for (loop = 0; loop < summaryListLength; loop++) {
-		if (document.getElementById('viewEvaluationResults' + loop) != null
-				&& document.getElementById('viewEvaluationResults' + loop).onclick == null) {
-			document.getElementById('viewEvaluationResults' + loop).onclick = function() {
-				hideddrivetip();
-				printEvaluationIndividualForm(submissionList, summaryList,
-						this.id.substring(21, this.id.length), commentsEnabled,
-						status, type);
-				clearStatusMessage();
-			};
-		}
-	}
-
-	if (type == REVIEWER) {
-		document.getElementById('button_sortsubmitted').onclick = function() {
-			toggleSortEvaluationSummaryListBySubmitted(submissionList,
-					summaryList, status, commentsEnabled);
-		};
-
-		for (loop = 0; loop < summaryListLength; loop++) {
-			if (document.getElementById('editEvaluationResults' + loop) != null
-					&& document.getElementById('editEvaluationResults' + loop).onclick == null) {
-				document.getElementById('editEvaluationResults' + loop).onclick = function() {
-					hideddrivetip();
-
-					printEditEvaluationResultsByReviewer(submissionList,
-							summaryList, this.id.substring(21, this.id.length),
-							commentsEnabled, status);
-
-					document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-					clearStatusMessage();
-				};
-			}
-		}
-
-	} else {
-		document.getElementById('button_sortaverage').onclick = function() {
-			toggleSortEvaluationSummaryListByAverage(submissionList,
-					summaryList, status, commentsEnabled);
-		};
-		document.getElementById('button_sortdiff').onclick = function() {
-			toggleSortEvaluationSummaryListByDiff(submissionList, summaryList,
-					status, commentsEnabled);
-		};
-
-	}
-
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-}
-
-/*
- * UI Element: print evaluation detail form type: reviewer, reviewee TODO:
- * reviewer view show original or normalized points?
- */
-function printEvaluationDetailForm(submissionList, summaryList, status,
-		commentsEnabled, type) {
-	clearStatusMessage();
-
-	var output = (type == REVIEWER) ? helpPrintTitle(REVIEWER_TITLE_DETAIL)
-			: helpPrintTitle(REVIEWEE_TITLE_DETAIL);
-
-	output = output + "<div id=\"detail\">";
-
-	var summaryListLength = summaryList.length;
-	for (x = 0; x < summaryListLength; x++) {
-		// Team Name:
-		if (x == 0 || summaryList[x].teamName != summaryList[x - 1].teamName) {
-			if (x != 0)
-				output = output + "</div><br />";
-			output = output + helpPrintResultTeam(summaryList[x].teamName);
-		}
-		output = output
-				+ helpPrintSubmission(submissionList, summaryList, x, status,
-						commentsEnabled, type) + "</table>";
-	}
-
-	output = output
-			+ "</div><br /><br />"
-			+ "<input type=\"button\" class =\"button\" name=\"button_back\" id=\"button_back\" value=\"Back\" />"
-			+ " <input type=\"button\" class =\"button\" name=\"button_top\" id=\"button_top\" value=\"To Top\" />";
-
-	document.getElementById(DIV_EVALUATION_SUMMARYTABLE).innerHTML = output;
-
-	document.getElementById('button_top').onclick = function() {
-		document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-	};
-	document.getElementById("button_back").onclick = function() {
-		displayEvaluationsTab();
-	}
-
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-}
-
-/*
- * UI Element: print evaluation submission (individual) type: Reviewer, Reviewee
- */
-function printEvaluationIndividualForm(submissionList, summaryList, position,
-		commentsEnabled, status, type) {
-	var points;
-	var justification = "";
-	var commentsToStudent = "";
-	var student = "";// used to show reviewer or reviewee contents
-	var toStudent = summaryList[position].toStudent;
-	var output = (type == REVIEWER) ? helpPrintTitle(REVIEWER_TITLE_INDIVIDUAL)
-			: helpPrintTitle(REVIEWEE_TITLE_INDIVIDUAL);
-	// Team name:
-	output = output + helpPrintResultTeam(summaryList[position].teamName);
-	// points:
-	output = output
-			+ helpPrintResultHeader(
-					type,
-					summaryList[position].toStudentName,
-					displayEvaluationPoints(summaryList[position].claimedPoints),
-					displayEvaluationPoints(summaryList[position].average));
-	console.log("points:" + summaryList[position].claimedPoints + "|"
-			+ summaryList[position].average);
-	// evaluation to others header:
-	student = (type == REVIEWEE) ? FROM_STUDENT : TO_STUDENT;
-	outputTemp = helpPrintResultSubheader(student);
-
-	// justification and comments:
-	var submissionListLength = submissionList.length;
-	for (loop = 0; loop < submissionListLength; loop++) {
-		if ((type == REVIEWEE && submissionList[loop].toStudent == toStudent)
-				|| (type == REVIEWER && submissionList[loop].fromStudent == toStudent)) {
-			// Extract data
-			points = helpPrintPoints(submissionList[loop]);
-			justification = helpPrintJustification(submissionList[loop]);
-			commentsToStudent = helpPrintComments(submissionList[loop],
-					commentsEnabled);
-
-			// Print data
-			if (submissionList[loop].fromStudent == submissionList[loop].toStudent) {
-				outputTemp = helpPrintResultSelfComments(justification,
-						commentsToStudent)
-						+ outputTemp;
-
-			} else {
-				student = (type == REVIEWEE) ? submissionList[loop].fromStudentName
-						: submissionList[loop].toStudentName;
-				outputTemp = outputTemp
-						+ helpPrintResultOtherComments(student, points,
-								justification, commentsToStudent);
-			}
-		}
-	}
-
-	// buttons:
-	output = output
-			+ outputTemp
-			+ "</table></div>"
-			+ "<br /><br />"
-			+ "<input type=\"button\" class =\"button\" value=\"Previous\" name=\"button_previous\" id=\"button_previous\">"
-			+ " <input type=\"button\" class =\"button\" value=\"Next\" name=\"button_next\" id=\"button_next\">";
-
-	if (type == REVIEWER && status == "CLOSED") {
-		output = output
-				+ " <input type=\"button\" class =\"button\" type=\"button\" value=\"Edit\" name=\"button_edit\" id=\"button_edit\">";
-	}
-
-	output = output
-			+ " <input type=\"button\" class=\"button\" value=\"Back\" name=\"button_back\" id=\"button_back\"><br /><br />";
-
-	// --print page:
-	document.getElementById(DIV_EVALUATION_SUMMARYTABLE).innerHTML = output;
-
-	// --catch actions:
-	document.getElementById('button_next').onclick = function() {
-		clearStatusMessage();
-		position++;
-		if (position >= summaryList.length) {
-			position = 0;
-		}
-		printEvaluationIndividualForm(submissionList, summaryList, position,
-				commentsEnabled, status, type);
-	};
-	document.getElementById('button_previous').onclick = function() {
-		clearStatusMessage();
-		if (position == 0) {
-			position = summaryList.length - 1;
-		} else {
-			position--;
-		}
-		printEvaluationIndividualForm(submissionList, summaryList, position,
-				commentsEnabled, status, type);
-	};
-	document.getElementById('button_back').onclick = function() {
-		printEvaluationReportByAction(submissionList, summaryList, status,
-				commentsEnabled);
-	}
-	if (type == REVIEWER && status == "CLOSED") {
-		document.getElementById('button_edit').onclick = function() {
-			printEditEvaluationResultsByReviewer(submissionList, summaryList,
-					position, commentsEnabled, status)
-		};
-	}
-}
 
 /*
  * Coordinator edit evaluation results
@@ -2481,10 +2129,12 @@ function helpPrintResultOtherComments(student, points, justification,
 }
 
 function helpPrintResultSubheader(type) {
-	var output = "<tr class=\"result_subheader\">" + "<td width=\"15%\">"
-			+ type + "</td>" + "<td width=\"5%\">" + CONTRIBUTION + "</td>"
-			+ "<td width=\"40%\">" + COMMENTS + "</td>" + "<td width=\"40%\">"
-			+ MESSAGES + "</td>" + "</tr>";
+	var output = "<tr class='result_subheader'>" +
+					"<td width='15%'>" + type + "</td>" +
+					"<td width='5%'>" + CONTRIBUTION + "</td>" +
+					"<td width='40%'>" + COMMENTS + "</td>" +
+					"<td width='40%'>" + MESSAGES + "</td>" +
+				 "</tr>";
 	return output;
 }
 
@@ -2493,11 +2143,9 @@ function helpPrintPoints(submission) {
 	if (submission.points == -999) {
 		points = NA;
 	} else if (submission.points == -101) {
-		console.log("not sure");
 		points = NOTSURE;
 	} else {
-		points = displayEvaluationPoints(Math.round(submission.points
-				* submission.pointsBumpRatio));
+		points = displayEvaluationPoints(Math.round(submission.points * submission.pointsBumpRatio));
 	}
 
 	return points;
@@ -2509,8 +2157,7 @@ function displayEvaluationPoints(points) {
 
 	if (points > 100) {
 		delta = points - 100;
-		return "Equal Share<span class=\"color_positive\"> + " + delta
-				+ "%</span>";
+		return "Equal Share<span class=\"color_positive\"> + " + delta + "%</span>";
 	} else if (points == -999) {
 		return NA;
 	} else if (points == -101) {
@@ -2520,8 +2167,7 @@ function displayEvaluationPoints(points) {
 		return "0%";
 	} else if (points < 100) {
 		delta = 100 - points;
-		return "Equal Share<span class=\"color_negative\"> - " + delta
-				+ "%</span>";
+		return "Equal Share<span class=\"color_negative\"> - " + delta + "%</span>";
 	} else if (points == 100) {
 		return "Equal Share";
 	} else {
@@ -2553,8 +2199,7 @@ function helpPrintComments(submission, commentsEnabled) {
 
 	return commentsToStudent;
 }
-function helpPrintSubmission(submissionList, summaryList, position, status,
-		commentsEnabled, type) {
+function helpPrintSubmission(submissionList, summaryList, position, status, commentsEnabled, type) {
 	var output = "";
 	var toStudent = summaryList[position].toStudent;
 	// points:

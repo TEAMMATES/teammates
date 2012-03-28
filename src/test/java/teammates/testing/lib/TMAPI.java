@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.APIServlet;
-import teammates.TeammatesServlet;
 import teammates.testing.config.Config;
 import teammates.testing.object.Course;
 import teammates.testing.object.Evaluation;
@@ -45,6 +44,7 @@ public class TMAPI {
 	private static final String SUBMISSION_DATA_TAG_CLAIMEDCOORD = "claimedCoord: ";
 	private static final String SUBMISSION_DATA_TAG_PERCEIVEDCOORD = "perceivedCoord: ";
 	private static final String SUBMISSION_DATA_TAG_DIFFERENCE = "diff: ";
+	private static final String SUBMISSION_DATA_TAG_BUMPRATIO = "bumpratio: ";
 
 	/**
 	 * Clean up all tables. Except for Coordinator table.
@@ -495,7 +495,7 @@ public class TMAPI {
 		perceived = perceived.substring(SUBMISSION_DATA_TAG_PERCEIVEDCOORD.length());
 		return perceived;
 	}
-	//index 6: perceivedCoord - claimedCoord
+	//index 6: perceivedCoord - claimedCoord (diff)
 	public static String coordGetPointDifference(String[] submissionPoints, int personIndex){
 		String claimed = coordGetClaimedPoints(submissionPoints, personIndex);
 		String perceived = coordGetPerceivedPoints(submissionPoints, personIndex);
@@ -509,6 +509,14 @@ public class TMAPI {
 			difference = difference.substring(SUBMISSION_DATA_TAG_DIFFERENCE.length());
 			return difference;
 		}
+	}
+	
+	//index 7: bump ratio
+	public static String coordGetSubmissionBumpRatio(String[] submissionPoints, int personIndex){
+		String submission =submissionPoints[personIndex];
+		String bumpratio = submission.split("; ")[7];
+		bumpratio = bumpratio.substring(SUBMISSION_DATA_TAG_BUMPRATIO.length());
+		return bumpratio;
 	}
 	
 	//Oct 12 end--------------------------------
