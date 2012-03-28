@@ -6,6 +6,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
+import com.google.appengine.api.datastore.Text;
 
 /**
  * TeamProfile is a persistent data class that holds information pertaining to an
@@ -35,7 +36,7 @@ public class TeamProfile {
 	
 	@Persistent
 	@SerializedName("teamprofile")
-	private String teamProfile;
+	private Text teamProfile;
 	
 	/**
 	 * Constructs an TeamProfile object.
@@ -45,7 +46,7 @@ public class TeamProfile {
 	 * @param teamName
 	 * @param teamProfile
 	 */
-	public TeamProfile(String courseID, String courseName, String teamName, String teamProfile) {
+	public TeamProfile(String courseID, String courseName, String teamName, Text teamProfile) {
 		this.setCourseID(courseID);
 		this.setCourseName(courseName);
 		this.setTeamName(teamName);
@@ -76,11 +77,11 @@ public class TeamProfile {
 		return teamName;
 	}
 	
-	public void setTeamProfile(String teamProfile) {
+	public void setTeamProfile(Text teamProfile) {
 		this.teamProfile = teamProfile;
 	}
 	
-	public String getTeamProfile() {
+	public Text getTeamProfile() {
 		return teamProfile;
 	}
 	

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.APIServlet;
+import teammates.testing.object.TeamFormingSession;
 import teammates.testing.config.Config;
 import teammates.testing.object.Course;
 import teammates.testing.object.Evaluation;
@@ -157,6 +158,35 @@ public class TMAPI {
 		String paramsString = buildParamsString(params);
 		makePOSTRequest(paramsString);
 	}
+	public static void openTeamFormingSession(String courseID) {
+        System.out.println("Opening team forming session.");
+
+        HashMap<String, Object> params = createParamMap("teamformingsession_open");
+        params.put("course_id", courseID);
+        String paramsString = buildParamsString(params);
+        makePOSTRequest(paramsString);
+	}
+	public static void createProfileOfExistingTeams(String courseId, String courseName, ArrayList teams) {
+        System.out.println("Creating profiles of existing teams.");
+        String teamProfile = "Please enter your team profile here.";
+        
+        for(int i = 0; i<teams.size(); i++){
+                HashMap<String, Object> params = createParamMap("createteamprofiles");
+                params.put("course_id", courseId);
+                params.put("course_name", courseName);
+                params.put("team_name", teams.get(i));
+                params.put("team_profile", teamProfile);
+                makePOSTRequest(buildParamsString(params));
+        }
+	}
+	public static void createTeamFormingSession(TeamFormingSession teamForming) {
+        System.out.println("Creating team forming session.");
+        HashMap<String, Object> params = createParamMap("teamformingsession_add");
+        params.put("teamformingsession", teamForming.toJSON());
+        String paramsString = buildParamsString(params);
+        makePOSTRequest(paramsString);
+	}
+
 
 	public static void closeEvaluation(String courseID, String evalName) {
 		System.out.println("Closing evaluation.");

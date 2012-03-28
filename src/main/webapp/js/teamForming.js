@@ -363,7 +363,7 @@ function displayTeamFormingLog(teamFormingSessionList, loop){
 	}
 	if(results!=1){
 		clearAllDisplay();
-		printTeamFormingSessionLog(results);
+		printTeamFormingSessionLog(results, courseID);
 	}
 }
 
@@ -1273,9 +1273,10 @@ function printChangeTeam(courseID, teamName, name, teams, email){
 	
 	document.getElementById('button_saveTeamChange').onclick = function() {
 		var val = getCheckedValue(document.getElementById(TEAMCHANGE_NEWTEAM));
-		var teamName = document.getElementById(TEAM_NAME).value;
-		if(val=="true")
-			editStudentTeam(courseID, email, teamName);
+		if(val=="true"){
+			var newTeamName = document.getElementById(TEAM_NAME).value;
+			editStudentTeam(courseID, email, newTeamName);
+		}
 		else{
 			var newTeamName = document.getElementById(NEW_TEAM_NAME).value;
 			var teamProfile = "Please enter your team profile here.";			
@@ -1283,8 +1284,13 @@ function printChangeTeam(courseID, teamName, name, teams, email){
 			//change student's team name
 			editStudentTeam(courseID, email, newTeamName);
 			//create team profile
-			createTeamProfile(courseID, courseInfo.name, newTeamName, teamProfile);
+			newTeamName = newTeamName.replace(/^\s*|\s*$/,"");
+			if(newTeamName!="")
+				createTeamProfile(courseID, courseInfo.name, newTeamName, teamProfile);
 		}
+		var studentsOfTeam = getStudentsOfCourseTeam(courseID, teamName);
+		if(studentsOfTeam.length==0)
+			deleteTeamProfile(courseID, teamName);
 	};
 }
 
@@ -1303,7 +1309,8 @@ function printCreateTeamFormingSessionForm() {
 			+ "onmouseover=\"ddrivetip('Please select the course for which the Team-Forming session is to be created.')\""
 			+ "onmouseout=\"hideddrivetip()\" tabindex=1>";
 	
-	var courseList = getCourseList();	
+	sendGetCourseListRequest();
+	var courseList = processGetCourseListResponse();	
 	if(courseList != 1){
 		for(x = 0; x < courseList.length; x++)
 			outputForm = outputForm + "<option value=\""+courseList[x].ID + "\">"+courseList[x].ID+"</option>";
@@ -1770,33 +1777,37 @@ function printTeamFormingSessionActions(teamFormingSessionList, position) {
 			+ position + "\" id=\"viewLogTeamFormingSession" + position
 			+ "\" href=# "
 			+ "onmouseover=\"ddrivetip('View the time log of the actions of every students')\""
-			+ "onmouseout=\"hideddrivetip()\">View Log</a>"; 
+			+ "onmouseout=\"hideddrivetip()\""
+			+ ">View Log</a>"; 
 	return output;
 }
 
-function printTeamFormingSessionLog(teamFormingLog){
-	var outputHeader = "<h1>TEAM FORMING SESSION LOG FOR "+teamFormingLog[0].courseID+"</h1>";	
+function printTeamFormingSessionLog(teamFormingLog, courseID){
+	var outputHeader = "<h1>TEAM FORMING SESSION LOG FOR "+courseID+"</h1>";	
 	var date = "";
 	var time = "";
 	var outputForm= "";
 	outputForm= outputForm
-			+"<form method=\"post\" action=\"\" name=\"form_showteamforminglog\">"
-			+ "<table class=\"headerform\">";
-	
-	for(loop=0; loop<teamFormingLog.length; loop++)
-	{
-		date = convertDateToDDMMYYYY(teamFormingLog[loop].time);
-		time = convertDateToHHMM(teamFormingLog[loop].time);
-		teamFormingLog[loop].time = date + " " + time;
-		outputForm = outputForm
-		+ "<tr>"
-		+ "<td align=\"left\">"+teamFormingLog[loop].time+" "+teamFormingLog[loop].studentName+" ("+teamFormingLog[loop].studentEmail+") : "+teamFormingLog[loop].message+"</td>"
-		+ "</tr>";
+	+"<form method=\"post\" action=\"\" name=\"form_showteamforminglog\">"
+	+ "<table class=\"headerform\">";
+	if(teamFormingLog.length!=0){
+		for(loop=0; loop<teamFormingLog.length; loop++)
+		{
+			date = convertDateToDDMMYYYY(teamFormingLog[loop].time);
+			time = convertDateToHHMM(teamFormingLog[loop].time);
+			teamFormingLog[loop].time = date + " " + time;
+			outputForm = outputForm
+			+ "<tr>"
+			+ "<td align=\"left\">"+teamFormingLog[loop].time+" "+teamFormingLog[loop].studentName+" ("+teamFormingLog[loop].studentEmail+") : "+teamFormingLog[loop].message+"</td>"
+			+ "</tr>";
+		}
 	}
-	outputForm = outputForm	+ "</table>" + "</form>";
-		
-	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader;
-	document.getElementById(DIV_EVALUATION_MANAGEMENT).innerHTML = outputForm;
+	else
+		outputForm = outputForm + "<tr><td align=\"left\">There is no log currently available.</td></tr>";
+		outputForm = outputForm	+ "</table>" + "</form>";
+
+		document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader;
+		document.getElementById(DIV_EVALUATION_MANAGEMENT).innerHTML = outputForm;		
 }
 
 function printTeamFormingSessionList(teamFormingSessionList) {

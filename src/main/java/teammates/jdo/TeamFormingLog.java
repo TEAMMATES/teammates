@@ -8,6 +8,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
+import com.google.appengine.api.datastore.Text;
 
 /**
  * TeamFormingLog is a persistent data class that holds information pertaining to student
@@ -41,7 +42,7 @@ public class TeamFormingLog {
 	
 	@Persistent
 	@SerializedName("message")
-	private String message;
+	private Text message;
 	
 	/**
 	 * Constructs an TeamFormingLog object.
@@ -53,7 +54,7 @@ public class TeamFormingLog {
 	 * @param message
 	 */
 	public TeamFormingLog(String courseID, Date time, String studentName, 
-			String studentEmail, String message) {
+			String studentEmail, Text message) {
 		this.setCourseID(courseID);
 		this.setTime(time);
 		this.setStudentName(studentName);
@@ -93,11 +94,11 @@ public class TeamFormingLog {
 		return studentEmail;
 	}
 	
-	public void setMessage(String message) {
+	public void setMessage(Text message) {
 		this.message = message;
 	}
 	
-	public String getMessage() {
+	public Text getMessage() {
 		return message;
 	}
 	

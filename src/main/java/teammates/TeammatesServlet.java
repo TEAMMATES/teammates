@@ -578,6 +578,8 @@ public class TeammatesServlet extends HttpServlet {
 			TeamForming teamForming = TeamForming.inst();
 			if (teamForming.getTeamFormingSession(courseID, dummyDeadline) != null)
 				teamForming.deleteTeamFormingSession(courseID);
+			if(teamForming.getTeamFormingLogList(courseID)!=null)
+                teamForming.deleteTeamFormingLog(courseID);
 			return MSG_STATUS_OPENING + MSG_COURSE_DELETED + MSG_STATUS_CLOSING;
 		} catch (Exception e) {
 			return MSG_STATUS_OPENING + MSG_COURSE_NOT_DELETED + MSG_STATUS_CLOSING;

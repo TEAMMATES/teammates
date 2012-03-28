@@ -411,10 +411,8 @@ public class Emails {
 					+ ",\n\n"
 					+ "The course "
 					+ courseName
-					+ " will be using Teammates Peer-Evaluation System for peer-evaluations. "
-					+ coordinatorName
-					+ " has invited you to use the system to evaluate your team members. "
-					+ "These are the steps to follow.\n\n"
+					+ " will be using Teammates Teammates System."
+					+ " The system will help you to form teams (if not yet formed) and submit peer-evaluations to your teammates. To use the system, follow these steps:\n\n"
 					+ "Login to the system:\n"
 					+ "* Go to URL "
 					+ Config.inst().TEAMMATES_APP_URL
@@ -428,12 +426,15 @@ public class Emails {
 					+ "\n"
 					+ "* Now, "
 					+ courseID
-					+ " should appear in the course list and you can see names of your teammates by clicking "
-					+ "the \"View\" link corresponding to the course. \n\n"
-					+ "Submit pending evaluations:\n"
-					+ "* Click \"Evaluations\" button at the top to check if there are any pending peer-evaluations.\n\n"
+					+ " should appear in the course list\n\n"
+					+ "Forming Teams\n"
+					+ "If the course requires you to form teams using TEAMMATES system, go the the \"View Teams\" link for the corresponding course."
+					+ "You can then create your profile and add students to your team/join a team/leave a team.\n\n"
+					+ "Submit pending evaluations\n"
+					+ "If the course requires you to submit peer evaluations, click \"Evaluations\" tab at the top "
+					+ "to check if there are any pending peer-evaluations.\n\n"
 					+ "In case of problems:\n"
-					+ "If team details are not correct, please contact the coordinator of "
+					+ "If any of your details in the system are incorrect, please contact the coordinator of "
 					+ courseID + ".\n" + TEAMMATES_APP_SIGNATURE);
 
 			Transport.send(message);

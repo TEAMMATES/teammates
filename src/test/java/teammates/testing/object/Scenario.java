@@ -47,6 +47,9 @@ public class Scenario {
 
 		// Changing to the new course name
 		this.course.courseId = newCourseID;
+		if(this.teamFormingSession != null)
+            this.teamFormingSession.courseID = newCourseID;
+		
 		if (this.evaluation != null) {
 			this.evaluation.courseID = newCourseID;
 		}

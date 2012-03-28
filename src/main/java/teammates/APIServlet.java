@@ -16,11 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.exception.CourseDoesNotExistException;
+import teammates.exception.TeamFormingSessionExistsException;
+import teammates.exception.TeamProfileExistsException;
 import teammates.jdo.Course;
 import teammates.jdo.EnrollmentReport;
 import teammates.jdo.Evaluation;
 import teammates.jdo.Student;
 import teammates.jdo.Submission;
+import teammates.jdo.TeamFormingSession;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
@@ -71,44 +74,50 @@ public class APIServlet extends HttpServlet {
 		}
 
 		String action = req.getParameter("action");
-		System.out.println(action);
-		if (action.equals("evaluation_open")) {
-			evaluationOpen();
-		} else if (action.equals("evaluation_close")) {
-			evaluationClose();
-		} else if (action.equals("evaluation_add")) {
-			evaluationAdd();
-		} else if (action.equals("evaluation_publish")) {
-			evaluationPublish();
-		} else if (action.equals("evaluation_unpublish")) {
-			evaluationUnpublish();
-		} else if (action.equals("course_add")) {
-			courseAdd();
-		} else if (action.equals("cleanup")) {
-			totalCleanup();
-		} else if (action.equals("cleanup_course")) {
-			cleanupCourse();
-		} else if (action.equals("cleanup_by_coordinator")) {
-			totalCleanupByCoordinator();
-		} else if (action.equals("enroll_students")) {
-			enrollStudents();
-		} else if (action.equals("student_submit_feedbacks")) {
-			studentSubmitFeedbacks();
-		} else if (action.equals("student_submit_dynamic_feedbacks")) {
-			studentSubmitDynamicFeedbacks();
-		} else if (action.equals("students_join_course")) {
-			studentsJoinCourse();
-		} else if (action.equals("email_stress_testing")) {
-			emailStressTesting();
-		} else if (action.equals("enable_email")) {
-			enableEmail();
-		} else if (action.equals("disable_email")) {
-			disableEmail();
-		}  else if (action.equals(OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER)){
-			activateAutomatedReminder();
-		} else {
-			System.err.println("Unknown command: " + action);
-		}
+        System.out.println(action);
+        if (action.equals("evaluation_open")) {
+                evaluationOpen();
+        } else if(action.equals("teamformingsession_open")) {
+                teamFormingSessionOpen();
+        } else if (action.equals("evaluation_close")) {
+                evaluationClose();
+        } else if (action.equals("evaluation_add")) {
+                evaluationAdd();
+        } else if (action.equals("evaluation_publish")) {
+                evaluationPublish();
+        } else if (action.equals("evaluation_unpublish")) {
+                evaluationUnpublish();
+        } else if (action.equals("teamformingsession_add")) {
+                teamFormingSessionAdd();
+        } else if (action.equals("createteamprofiles")) {
+                createProfileOfExistingTeams();
+        } else if (action.equals("course_add")) {
+                courseAdd();
+        } else if (action.equals("cleanup")) {
+                totalCleanup();
+        } else if (action.equals("cleanup_course")) {
+                cleanupCourse();
+        } else if (action.equals("cleanup_by_coordinator")) {
+                totalCleanupByCoordinator();
+        } else if (action.equals("enroll_students")) {
+                enrollStudents();
+        } else if (action.equals("student_submit_feedbacks")) {
+                studentSubmitFeedbacks();
+        } else if (action.equals("student_submit_dynamic_feedbacks")) {
+                studentSubmitDynamicFeedbacks();
+        } else if (action.equals("students_join_course")) {
+                studentsJoinCourse();
+        } else if (action.equals("email_stress_testing")) {
+                emailStressTesting();
+        } else if (action.equals("enable_email")) {
+                enableEmail();
+        } else if (action.equals("disable_email")) {
+                disableEmail();
+        }  else if (action.equals(OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER)){
+                activateAutomatedReminder();
+        } else {
+                System.err.println("Unknown command: " + action);
+        }
 
 		resp.flushBuffer();
 	}
@@ -336,6 +345,11 @@ public class APIServlet extends HttpServlet {
 		try {
 			Courses.inst().cleanUpCourse(courseID);
 			Evaluations.inst().deleteEvaluations(courseID);
+			TeamForming teamForming = TeamForming.inst();
+            if (teamForming.getTeamFormingSession(courseID, null) != null)
+            	teamForming.deleteTeamFormingSession(courseID);
+            if(teamForming.getTeamFormingLogList(courseID)!=null)
+            	teamForming.deleteTeamFormingLog(courseID);
 		} catch (CourseDoesNotExistException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -454,6 +468,53 @@ public class APIServlet extends HttpServlet {
 		getPM().makePersistentAll(submissions);
 		resp.getWriter().write("ok");
 
+	}
+	protected void teamFormingSessionAdd() throws IOException {
+        String json = req.getParameter("teamformingsession");
+
+        Gson gson = new Gson();
+        TeamFormingSession e = gson.fromJson(json, TeamFormingSession.class);
+
+        try{
+                TeamForming teamForming = TeamForming.inst();
+                teamForming.createTeamFormingSession(e.getCourseID(), e.getStart(), 
+                                e.getDeadline(), e.getTimeZone(), e.getGracePeriod(), e.getInstructions(), e.getProfileTemplate());
+                resp.getWriter().write("ok");
+        }
+        catch (TeamFormingSessionExistsException ex){
+                resp.getWriter().write("fail");
+        }                
+	}
+	protected void teamFormingSessionOpen() throws IOException {
+        System.out.println("Opening team forming session.");
+        String courseID = req.getParameter("course_id");
+
+        boolean edited = TeamForming.inst().openTeamFormingSession(courseID);
+
+        if (edited) {
+                resp.getWriter().write("ok");
+        } else {
+                resp.getWriter().write("fail");
+        }
+	}
+	protected void createProfileOfExistingTeams() throws IOException {
+        System.out.println("Creating profiles of existing teams.");
+        String courseId = req.getParameter("course_id");
+        String courseName = req.getParameter("course_name");
+        String teamName = req.getParameter("team_name");
+        Text teamProfile = new Text(req.getParameter("team_profile"));
+        
+        // Add the team forming session                
+        TeamForming teamForming = TeamForming.inst();
+        
+        try{
+                teamForming.createTeamProfile(courseId, courseName, teamName, teamProfile);
+                resp.getWriter().write("ok");
+        }
+        
+        catch (TeamProfileExistsException e){
+                resp.getWriter().write("fail");
+        }
 	}
 
 	protected void studentsJoinCourse() throws IOException {

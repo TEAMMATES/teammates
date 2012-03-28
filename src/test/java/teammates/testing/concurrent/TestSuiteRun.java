@@ -16,7 +16,7 @@ import org.junit.runners.Suite;
 	CoordCourseEditStudentsTest.class,
 	CoordCourseEnrolCaseSensitivityTest.class,
 	CoordCourseEnrolStudentsUITest.class,
-	CoordCourseListUITest.class,
+//	CoordCourseListUITest.class,
 	
 //	CoordCourseViewTest.class,
 	
@@ -38,10 +38,22 @@ import org.junit.runners.Suite;
 	
 	StudentLoginTest.class,
 	StudentViewResultsUITest.class,
-
+	
 	SystemFooterTest.class,
 //	SystemRemindEvaluationBeforeDeadlineTest.class,
-	SystemVerifyHelpPageTest.class
+	SystemVerifyHelpPageTest.class,
+	
+	CoordTeamFormingSessionChangeStudentTeam.class,
+	CoordTeamFormingSessionDeleteTest.class,
+	CoordTeamFormingSessionEditTeamProfile.class,
+	CoordTeamFormingSessionListTest.class,
+	CoordTeamFormingSessionManageTest.class,
+	CoordTeamFormingSessionAddTest.class,
+	CoordTeamFormingSessionAddWithoutStudentsTest.class,
+
+	StudentTeamFormingSessionActionsTest.class,
+	StudentTeamFormingSessionEditProfilesTest.class,
+	StudentTeamFormingSessionViewTest.class
 	
 })
 

@@ -110,18 +110,15 @@ function printCourseList(courseList, user) {
                                             + encodeCharForPrint(courseList[loop].teamName)
                                             + "</td>";
                             output = output + "<td class='centeralign'>"
-                                            + "<a href=\"javascript:displayCourseInformation('"
-                                            + courseList[loop].ID + "');hideddrivetip();\""
-                                            + " onmouseover=\"ddrivetip('View course details.')\""
-                                            + " onmouseout=\"hideddrivetip()\">View</a>"
-                                            // by kalpit
-                                            // + "<a id=\"viewTeams" + loop + "\" href=# "
-                                            // + "onmouseover=\"ddrivetip('View/Create the teams for
-                                            // this course.')\""
-                                            // + "onmouseout=\"hideddrivetip()\""
-                                            // + ">View Teams</a>"
-                                            // //end by kalpit
-                                            + "</td>";
+//                                            + "<a href=\"javascript:displayCourseInformation('"
+//                                            + courseList[loop].ID + "');hideddrivetip();\""
+//                                            + " onmouseover=\"ddrivetip('View course details.')\""
+//                                            + " onmouseout=\"hideddrivetip()\">View</a>"
+                                             + "<a id=\"viewTeams" + loop + "\" href=# "
+                                             + "onmouseover=\"ddrivetip('View/Create the teams for this course.')\""
+                                             + "onmouseout=\"hideddrivetip()\""
+                                             + ">View Teams</a>"
+                                             + "</td>";
                     }
                     // coordinator view:
                     else {
@@ -172,18 +169,16 @@ function printCourseList(courseList, user) {
             toggleSortCoursesByName(courseList)
     };
 
-    // //kalpit
-    // for (loop = 0; loop < courseList.length; loop++) {
-    // if (document.getElementById('viewTeams' + loop) != null
-    // && document.getElementById('viewTeams' + loop).onclick == null) {
-    // document.getElementById('viewTeams' + loop).onclick = function() {
-    // hideddrivetip();
-    // var courseIndex = this.id.substring(9, this.id.length);
-    // displayStudentViewTeams(courseList[courseIndex].ID);
-    // };
-    // }
-    // }
-    // //end by kalpit
+    for (loop = 0; loop < courseList.length; loop++) {
+    	if (document.getElementById('viewTeams' + loop) != null
+    			&& document.getElementById('viewTeams' + loop).onclick == null) {
+    		document.getElementById('viewTeams' + loop).onclick = function() {
+    			hideddrivetip();
+    			var courseIndex = this.id.substring(9, this.id.length);
+    			displayStudentViewTeams(courseList[courseIndex].ID);
+    		};
+    	}
+    }
 }
 
 /*------------------------------------------PRINT COORDINATOR PAGE------------------------------------------*/

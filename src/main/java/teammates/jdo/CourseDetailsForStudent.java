@@ -2,6 +2,8 @@ package teammates.jdo;
 
 import java.util.ArrayList;
 
+import com.google.appengine.api.datastore.Text;
+
 /**
  * CourseDetailsForStudent is a data class that contains some information from
  * Student objects and some information from a Course object. It provides the
@@ -21,7 +23,7 @@ public class CourseDetailsForStudent {
 	private ArrayList<String> teammateList;
 	
 	private String profileSummary;
-	private String profileDetail;
+	private Text profileDetail;
 
 	/**
 	 * Constructs a CourseDetailsForStudent object.
@@ -62,7 +64,7 @@ public class CourseDetailsForStudent {
 	public CourseDetailsForStudent(String courseID, String courseName,
 			String coordinatorName, String teamName, String studentName,
 			String studentEmail, ArrayList<String> teammateList, 
-			String profileSummary, String profileDetail) {
+			String profileSummary, Text profileDetail) {
 		this.setCourseID(courseID);
 		this.setCourseName(courseName);
 		this.setCoordinatorName(coordinatorName);
@@ -138,11 +140,11 @@ public class CourseDetailsForStudent {
 		return profileSummary;
 	}
 	
-	public void setProfileDetail(String profileDetail) {
+	public void setProfileDetail(Text profileDetail) {
 		this.profileDetail = profileDetail;
 	}
 
-	public String getProfileDetail() {
+	public Text getProfileDetail() {
 		return profileDetail;
 	}
 }

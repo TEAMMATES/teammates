@@ -1,0 +1,99 @@
+{
+  "coordinator": {"username": "teammates.coord"},
+  "course": {
+    "id": "CS2103-TESTING",
+    "name": "Software Engineering"
+  },
+  
+  "course2": {
+    "id": "CS1101-TESTING",
+    "name": "Programming Methodology"
+  },
+  
+  "evaluation": {
+    "graceperiod": 10,
+    "instructions": "Please please fill it in",
+    "name": "First Eval",
+    "p2pcomments": "true"
+  },
+  "evaluation2": {
+    "graceperiod": 10,
+    "instructions": "Please please fill in the second evaluation",
+    "name": "Second Eval",
+    "p2pcomments": "true"
+  },
+  
+  "teamFormingSession": {
+    "graceperiod": 10,
+    "instructions": "Maximum team size:4;Minimum team size:2",
+    "profileTemplate": "Talk about your strengths, past projects, schedule and interests."
+  },    
+  
+  "teams": [ "Team 1", "Team 2", "" ],
+  "students": [
+    {
+      "email": "alice.tmms@gmail.com",
+      "name": "Alice",
+      "team": "Team 1",
+      "google_id": "alice.tmms"
+    },
+    {
+      "email": "benny.tmms@gmail.com",
+      "name": "Benny",
+      "google_id": "benny.tmms",
+      "team": "Team 1"
+    },
+    {
+      "email": "charlie.tmms@gmail.com",
+      "name": "Charlie",
+      "google_id": "charlie.tmms",
+      "team": "Team 2"
+    },
+    {
+      "email": "danny.tmms@gmail.com",
+      "name": "Danny",
+      "google_id": "danny.tmms",
+      "team": "Team 2"
+    },
+    {
+      "email": "emily.tmms@gmail.com",
+      "name": "Emily",
+      "google_id": "emily.tmms",
+      "team": ""
+    },
+    {
+      "email": "frank.tmms@gmail.com",
+      "name": "Frank",
+      "google_id": "frank.tmms",
+      "team": ""
+    }
+  ],
+  
+  "teams2": ["Team Point"],
+  "students2": [
+  	{
+  		"name": "Alice",
+  		"email": "alice.tmms@gmail.com",
+  		"google_id": "alice.tmms",
+  		"team": "Team Point"
+  	},
+  	{
+  		"name": "Benny",
+  		"email": "benny.tmms@gmail.com",
+  		"google_id": "benny.tmms",
+  		"team": "Team Point"
+  	},
+  	{
+  		"name": "Charlie",
+  		"email": "charlie.tmms@gmail.com",
+  		"google_id": "charlie.tmms",
+  		"team": "Team Point"
+  	},
+  	{
+  		"name": "Danny",
+  		"email": "danny.tmms@gmail.com",
+  		"google_id": "danny.tmms",
+  		"team": "Team Point"
+  	}
+  ]
+}

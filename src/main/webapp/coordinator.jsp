@@ -61,15 +61,16 @@
 				<ul id="navbar">
 					<li><a class='t_courses' href="javascript:displayCoursesTab();">Courses</a></li>
 						<%
-							com.google.appengine.api.users.User user = accounts.getUser();
+							//com.google.appengine.api.users.User user = accounts.getUser();
 							// Check if user is allowed to view this page
-							if (user.toString().equals("kalpitjain03@gmail.com") || user.toString().equals("damith@gmail.com") 
-							|| user.toString().equals("xialin.z21@gmail.com") || user.toString().equals("smkhaaant@gmail.com") 
-							|| user.toString().equals("nvquanghuy@gmail.com") || user.toString().equals("damtuanlong@gmail.com")){
+							//if (user.toString().equals("kalpitjain03@gmail.com") || user.toString().equals("damith@gmail.com") 
+							//|| user.toString().equals("xialin.z21@gmail.com") || user.toString().equals("smkhaaant@gmail.com") 
+							//|| user.toString().equals("nvquanghuy@gmail.com") || user.toString().equals("damtuanlong@gmail.com")){
 						%>
-					<li><a class='t_teamForming' href="javascript:goToCoordinatorTeamForming();">Team-Forming</a></li>
+					<!--<li><a class='t_teamForming' href="javascript:goToCoordinatorTeamForming();">Team-Forming</a></li>-->
+					<li><a class='t_teamForming' href="javascript:displayTeamFormingTab();">Team-Forming</a></li>
 						<%
-							}
+							//}
 						%>
 					<li><a class='t_evaluations' href="javascript:displayEvaluationsTab();">Evaluations</a></li>
 					<li><a class='t_help' href="http://www.comp.nus.edu.sg/~teams/coordinatorhelp.html" target="_blank">Help</a></li>

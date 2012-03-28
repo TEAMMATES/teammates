@@ -20,6 +20,7 @@ import teammates.jdo.*;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
+import com.google.appengine.api.datastore.Text;
 
 public class TeamForming {
 	private static TeamForming instance = null;
@@ -117,7 +118,7 @@ public class TeamForming {
 	 *            the team profile (Pre-condition: Must not be null)
 	 */
 	public void createTeamProfile(String courseId, String courseName, String teamName, 
-			String teamProfile) throws TeamProfileExistsException{
+			Text teamProfile) throws TeamProfileExistsException{
 		if (getTeamProfile(courseId, teamName) != null) {
 			throw new TeamProfileExistsException();
 		}
@@ -135,7 +136,7 @@ public class TeamForming {
 		Student newStudent = getStudent(courseId, newStudentEmail);
 		
 		String teamName = "Team "+currentStudentNickName;
-		String teamProfile = "Please enter your team profile here.";
+		Text teamProfile = new Text("Please enter your team profile here.");
 		currentStudent.setTeamName(teamName);
 		newStudent.setTeamName(teamName);		
 		
@@ -163,7 +164,7 @@ public class TeamForming {
 	}
 	
 	public void enterTeamFormingLog(String courseID, Date time, 
-			String studentName, String studentEmail, String message) {
+			String studentName, String studentEmail, Text message) {
 		TeamFormingLog studentLog = new TeamFormingLog(courseID, time, studentName,
 				studentEmail, message);
 		try {
@@ -188,7 +189,7 @@ public class TeamForming {
 	 *            student profile detail (Pre-condition: Must not be null)
 	 */
 	public boolean editStudentProfile(String courseId, String studentEmail, 
-			String profileSummary, String profileDetail){
+			String profileSummary, Text profileDetail){
 		Student currStudent = getStudent(courseId, studentEmail);
 		
 		Transaction tx = getPM().currentTransaction();
@@ -225,7 +226,7 @@ public class TeamForming {
 	 *            the team profile (Pre-condition: Must not be null)
 	 */
 	public boolean editTeamProfile(String courseId, String courseName, String teamName, 
-			String newTeamName, String newTeamProfile){
+			String newTeamName, Text newTeamProfile){
 		int newTeamNameExists = 0;
 		
 		TeamProfile tProfile = getTeamProfile(courseId, teamName);
@@ -407,7 +408,6 @@ public class TeamForming {
 		String query = "select from " + TeamFormingSession.class.getName()
 				+ " where courseID == '" + courseID + "'";
 		
-		//System.out.println("query is: "+query);
 		try{
 			@SuppressWarnings("unchecked")
 			List<TeamFormingSession> teamFormingSessionList = (List<TeamFormingSession>) getPM().newQuery(
@@ -422,6 +422,25 @@ public class TeamForming {
 			return null;
 		}
 	}	
+	
+	public List<TeamFormingLog> getTeamFormingLogList(String courseID) {
+		String query = "select from " + TeamFormingLog.class.getName()
+				+ " where courseID == '" + courseID + "'";
+		
+		try{
+			@SuppressWarnings("unchecked")
+			List<TeamFormingLog> teamFormingLogList = (List<TeamFormingLog>) getPM().newQuery(
+					query).execute();
+			if(teamFormingLogList.isEmpty())
+				return null;
+
+			return teamFormingLogList;
+		}
+		catch(Exception e){
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
 	
 	/**
 	 * Returns the Team Forming Session objects belonging to some Course objects.
@@ -595,6 +614,15 @@ public class TeamForming {
 			deleteTeamProfiles(courseID);
 			//pending
 			//getPM().deletePersistentAll(submissionList);
+		} finally {
+		}
+	}
+	
+	public void deleteTeamFormingLog(String courseID) {
+		List<TeamFormingLog> teamFormingLogList = getTeamFormingLogList(courseID);
+
+		try {
+			getPM().deletePersistentAll(teamFormingLogList);
 		} finally {
 		}
 	}
@@ -821,5 +849,39 @@ public class TeamForming {
 		if (!taskOptionsList.isEmpty()) {
 			queue.add(taskOptionsList);
 		}
+	}
+	
+	/**
+	 * 
+	 * @param courseID
+	 *            the course ID (Pre-condition: The courseID must be valid)
+	 */
+	public boolean openTeamFormingSession(String courseID) {
+		Transaction trans = getPM().currentTransaction();
+		try {
+			trans.begin();
+
+			TeamFormingSession teamForming = getTeamFormingSession(courseID, null);
+
+			if (teamForming == null)
+				return false;
+
+			long oneday = 24 * 60 * 60 * 1000;
+			Date start = new Date(System.currentTimeMillis() - oneday);
+			Date end = new Date(System.currentTimeMillis() + oneday);
+			teamForming.setStart(start);
+			teamForming.setDeadline(end);
+			teamForming.setActivated(true);
+
+			getPM().flush();
+			trans.commit();
+
+		} finally {
+			if (trans.isActive()) {
+				trans.rollback();
+				return false;
+			}
+		}
+		return true;
 	}
 }

@@ -268,8 +268,11 @@ function editTeamProfile(courseId, courseName,  teamName, newTeamName, newTeamPr
 	
 	if(results == 0)
 	{
-		if(teamName!=newTeamName)
+		if(teamName!=newTeamName){
 			updateTeamNameInStudentTable(courseId, teamName, newTeamName);
+			enterLog(courseId, "Edited the team name. Team name: "+newTeamName, 
+					currentStudentEmail, currentSessionTimeZone);
+		}
 		displayStudentViewTeams(courseId);
 		setStatusMessage(DISPLAY_TEAMPROFILE_SAVED);
 	}
@@ -909,6 +912,8 @@ function printCourseStudentDetails(courseID, studentDetail, teamFormingSession){
 	
 	var deadlineString = convertDateToDDMMYYYY(teamFormingSession.deadline);
 	var deadlineTimeString = convertDateToHHMM(teamFormingSession.deadline);
+	var startString = convertDateToDDMMYYYY(teamFormingSession.start);
+	var startTimeString = convertDateToHHMM(teamFormingSession.start);
 	var status="";
 	
 	if(teamFormingSession.status=="OPEN")
@@ -916,7 +921,8 @@ function printCourseStudentDetails(courseID, studentDetail, teamFormingSession){
 	else if(teamFormingSession.status=="CLOSED")
 		status = "CLOSED";
 	else
-		status = "AWAITING";
+		status = "AWAITING<br /> Team forming for this course is currently disabled. It is only enabled between "
+			+startString+" "+startTimeString+" and "+deadlineString+" "+deadlineTimeString;
 	
 	var outputHeader = "<h1>FORM TEAMS FOR COURSE "+courseID+"</h1>";
 
@@ -925,10 +931,10 @@ function printCourseStudentDetails(courseID, studentDetail, teamFormingSession){
 			+ "<table class=\"addform round\">" + "<tr/>"
 			+ "<tr>"
 			+ "<td class=\"attribute\" >Status:</td>";
-	if(status=="CLOSED")		
-		outputForm = outputForm + "<td><font color=\"#F00\">";
-	else
+	if(status=="OPEN")		
 		outputForm = outputForm + "<td><font color=\"#006\">";
+	else
+		outputForm = outputForm + "<td><font color=\"#F00\">";
 	outputForm = outputForm
 			+ status
 			+ "</font></td>"
@@ -1233,9 +1239,6 @@ function printTeamDetail(courseID, courseName, teamName, teamDetail, editable){
 		var newTeamName = document.getElementById(TEAM_NAME).value;
 		var newTeamProfile = document.getElementById(TEAM_PROFILE).value;
 		editTeamProfile(courseID, courseName, teamName, newTeamName, newTeamProfile);
-		if(teamName!=newTeamName)
-			enterLog(courseID, "Edited the team name. Team name: "+newTeamName, 
-				currentStudentEmail, currentSessionTimeZone);
 		if(teamProfile!=newTeamProfile)
 			enterLog(courseID, "Edited the team profile. Team profile: "+newTeamProfile, 
 					currentStudentEmail, currentSessionTimeZone);

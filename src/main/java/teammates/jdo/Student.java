@@ -6,6 +6,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
+import com.google.appengine.api.datastore.Text;
 
 /**
  * Student is a persistent data class that holds information pertaining to a
@@ -57,7 +58,7 @@ public class Student {
 	
 	@Persistent
 	@SerializedName("profiledetail")
-	private String profileDetail;
+	private Text profileDetail;
 
 	/**
 	 * Constructs a Student object.
@@ -169,11 +170,11 @@ public class Student {
 		return profileSummary;
 	}
 	
-	public void setProfileDetail(String profileDetail) {
-		this.profileDetail = profileDetail.trim();
+	public void setProfileDetail(Text profileDetail) {
+		this.profileDetail = profileDetail;
 	}
 
-	public String getProfileDetail() {
+	public Text getProfileDetail() {
 		return profileDetail;
 	}
 

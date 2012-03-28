@@ -124,7 +124,16 @@ public class BrowserInstance {
 	public By studentEditComments = By.id("editcomments");
 
 	public By studentEditSaveButton = By.id("button_editstudent");
-
+	/**
+     * team forming:
+     */
+    // team forming default:
+    public final String TEAMFORMINGSESSION_STATUS_AWAITING = "AWAITING";
+    public By inputTeamName = By.id("teamName");
+    public By inputTeamProfile = By.id("teamProfile");        
+    public By inputNewTeamName = By.id("newteamName");
+    public By inputStudentProfileDetail = By.id("studentprofiledetail");
+    
 	/**
 	 * evaluation:
 	 */
@@ -143,11 +152,15 @@ public class BrowserInstance {
 	// edit team forming session:
 	public By editTeamFormingSessionButton = By.id("button_editteamformingsession");
 	       
-    //edit team profile:
+	//edit team profile:
     public By coordEditTeamProfile0 = By.id("viewTeamProfile0");
     public By saveTeamProfile = By.id("button_saveTeamProfile");
     public By saveChangeStudentTeam = By.id("button_saveTeamChange");
     public By saveStudentProfile = By.id("button_savestudentprofile");
+    
+    //edit student team:
+    public By coordChangeStudentTeam11 = By.id("changeStudentTeam11");
+    public By coordAllocateStudentTeam1 = By.id("allocateStudentTeam1");
 	public By addEvaluationButton = By.id("t_btnAddEvaluation");
 
 	public By evaluationCourseIDSorting = By.id("button_sortcourseid");
@@ -228,7 +241,22 @@ public class BrowserInstance {
 
 	public final String MESSAGE_ENROL_REMIND_TO_JOIN = "Emails have been sent to unregistered students.";
 	public final String ERROR_MESSAGE_ENROL_INVALID_EMAIL = "E-mail address should contain less than 40 characters and be of a valid syntax.";
-
+	//team forming session
+    public final String MESSAGE_TEAMFORMINGSESSION_ADDED = "The team forming session has been added.";
+    public final String MESSAGE_TEAMFORMINGSESSION_ADDED_WITH_EMPTY_CLASS = "The course does not have any students.";
+    public final String MESSAGE_TEAMFORMINGSESSION_DELETED = "The team forming session has been deleted.";
+    public final String ERROR_MESSAGE_TEAMFORMINGSESSION_EXISTS = "The team forming session exists already.";
+    public final String ERROR_INVALID_INPUT_TEAMFORMINGSESSION = "The team forming session schedule (start/deadline) is not valid.";
+    public final String MESSAGE_TEAMFORMINGSESSION_EDITED = "The team forming session has been edited.";
+    public final String ERROR_MESSAGE_TEAMPROFILE_EXISTS = "Same team profile exists already.";
+    public final String MESSAGE_TEAMPROFILE_SAVED = "The team profile has been saved.";
+    public final String MESSAGE_TEAMCHANGE_SAVED = "Student team has been changed.";
+    public final String MESSAGE_LOG_REMINDSTUDENTS = "All your actions will be logged and can be viewed by the course coordinator.";
+    public final String MESSAGE_STUDENTPROFILE_SAVED = "Your profile has been saved.";
+    public final String MESSAGE_STUDENT_JOINEDTEAM = "You have joined a team.";
+    public final String MESSAGE_STUDENT_LEFTTEAM = "You have left the team.";
+    public final String MESSAGE_STUDENT_ADDTOTEAM = "Student has been added to your team.";
+    public final String MESSAGE_STUDENT_NEWTEAMCREATED = "A new team has been created with the student.";
 	// evaluations
 	public final String MESSAGE_EVALUATION_ADDED = "The evaluation has been added.";
 	public final String MESSAGE_EVALUATION_ADDED_WITH_EMPTY_TEAMS = "The evaluation has been added. Some students are without teams.";

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.users.User;
 
 import teammates.exception.TeamFormingSessionExistsException;
@@ -343,7 +344,8 @@ public class TeamFormingServlet extends HttpServlet {
 		String courseId = req.getParameter("courseId");
 		String courseName = req.getParameter("courseName");
 		String teamName = req.getParameter(TEAM_NAME);
-		String teamProfile = req.getParameter(TEAM_PROFILE);
+		//String teamProfile = req.getParameter(TEAM_PROFILE);
+		Text teamProfile = new Text(req.getParameter(TEAM_PROFILE));
 		
 		// Add the team forming session		
 		TeamForming teamForming = TeamForming.inst();
@@ -375,6 +377,9 @@ public class TeamFormingServlet extends HttpServlet {
 		Date deadline = Utils.convertToDate(deadlineDate, deadlineTime);
 		TeamForming teamForming = TeamForming.inst();
 		teamForming.deleteTeamFormingSession(courseID, deadline);
+		
+		if(teamForming.getTeamFormingLogList(courseID)!=null)
+			teamForming.deleteTeamFormingLog(courseID);
 	}
 	
 	private void coordinatorDeleteTeamProfiles() {
@@ -443,7 +448,8 @@ public class TeamFormingServlet extends HttpServlet {
 		String courseName = req.getParameter("courseName");
 		String teamName = req.getParameter("oldteamname");
 		String newTeamName = req.getParameter(TEAM_NAME);
-		String newTeamProfile = req.getParameter(TEAM_PROFILE);
+		//String newTeamProfile = req.getParameter(TEAM_PROFILE);
+		Text newTeamProfile = new Text(req.getParameter(TEAM_PROFILE));
 		
 		// Add the team forming session		
 		TeamForming teamForming = TeamForming.inst();
@@ -496,7 +502,6 @@ public class TeamFormingServlet extends HttpServlet {
 		TeamForming teamForming = TeamForming.inst();
 		TeamFormingSession teamFormingSession = teamForming.getTeamFormingSession(courseID, dummyDeadline);
 		
-		//System.out.println(teamFormingSession.getInstructions()+ "    "+teamFormingSession.getDeadline());
 		resp.getWriter().write(
 				"<teamformingsession>"
 						+ parseCoordinatorTeamFormingSesssionToXML(
@@ -659,7 +664,8 @@ public class TeamFormingServlet extends HttpServlet {
 		int nowTime = Integer.parseInt(req.getParameter("nowtime"));
 		String studentName = req.getParameter("name");
 		String studentEmail = req.getParameter("email");
-		String message = req.getParameter("message");
+		//String message = req.getParameter("message");
+		Text message = new Text(req.getParameter("message"));
 		
 		Date now = Utils.convertToExactDateTime(nowDate, nowTime);
 		
@@ -709,8 +715,12 @@ public class TeamFormingServlet extends HttpServlet {
 					+ "]]></" + STUDENT_EMAIL + ">");
 			sb.append("<" + STUDENT_PROFILE_SUMMARY + "><![CDATA[" + students.get(loop).getProfileSummary()
 					+ "]]></" + STUDENT_PROFILE_SUMMARY + ">");
+			if(students.get(loop).getProfileDetail()==null)
 			sb.append("<" + STUDENT_PROFILE_DETAIL + "><![CDATA[" + students.get(loop).getProfileDetail()
 					+ "]]></" + STUDENT_PROFILE_DETAIL + ">");
+			else
+			sb.append("<" + STUDENT_PROFILE_DETAIL + "><![CDATA[" + students.get(loop).getProfileDetail().getValue()
+						+ "]]></" + STUDENT_PROFILE_DETAIL + ">");
 			sb.append("</student>");
 		}
 		return sb;
@@ -730,8 +740,12 @@ public class TeamFormingServlet extends HttpServlet {
 					+ "]]></" + STUDENT_EMAIL + ">");
 			sb.append("<" + STUDENT_PROFILE_SUMMARY + "><![CDATA[" + students.get(loop).getProfileSummary()
 					+ "]]></" + STUDENT_PROFILE_SUMMARY + ">");
-			sb.append("<" + STUDENT_PROFILE_DETAIL + "><![CDATA[" + students.get(loop).getProfileDetail()
+			if(students.get(loop).getProfileDetail()==null)
+				sb.append("<" + STUDENT_PROFILE_DETAIL + "><![CDATA[" + students.get(loop).getProfileDetail()
 					+ "]]></" + STUDENT_PROFILE_DETAIL + ">");
+			else
+				sb.append("<" + STUDENT_PROFILE_DETAIL + "><![CDATA[" + students.get(loop).getProfileDetail().getValue()
+						+ "]]></" + STUDENT_PROFILE_DETAIL + ">");
 			sb.append("</student>");
 		}
 		return sb;		
@@ -754,7 +768,7 @@ public class TeamFormingServlet extends HttpServlet {
 					+ "]]></" + COURSE_NAME + ">");
 			sb.append("<" + TEAM_NAME + "><![CDATA[" + teamDetail.getTeamName()
 					+ "]]></" + TEAM_NAME + ">");
-			sb.append("<" + TEAM_PROFILE + "><![CDATA[" + teamDetail.getTeamProfile()
+			sb.append("<" + TEAM_PROFILE + "><![CDATA[" + teamDetail.getTeamProfile().getValue()
 					+ "]]></" + TEAM_PROFILE + ">");
 		}
 		return sb;
@@ -832,7 +846,7 @@ public class TeamFormingServlet extends HttpServlet {
 			sb.append("<" + STUDENT_NAME + "><![CDATA["
 					+ e.getStudentName() + "]]></" + STUDENT_NAME + ">");
 			sb.append("<" + MESSAGE + "><![CDATA["
-					+ e.getMessage() + "]]></" + MESSAGE
+					+ e.getMessage().getValue() + "]]></" + MESSAGE
 					+ ">");
 			sb.append("<" + TIME + "><![CDATA["
 					+ DateFormat.getDateTimeInstance().format(e.getTime())
@@ -875,8 +889,13 @@ public class TeamFormingServlet extends HttpServlet {
 		sb.append("<" + STUDENT_PROFILE_SUMMARY + "><![CDATA["
 				+ courseDetails.getProfileSummary() + "]]></" + STUDENT_PROFILE_SUMMARY
 				+ ">");
-		sb.append("<" + STUDENT_PROFILE_DETAIL + "><![CDATA["
-				+ courseDetails.getProfileDetail() + "]]></" + STUDENT_PROFILE_DETAIL
+		if(courseDetails.getProfileDetail()==null)
+			sb.append("<" + STUDENT_PROFILE_DETAIL + "><![CDATA["
+					+ courseDetails.getProfileDetail() + "]]></" + STUDENT_PROFILE_DETAIL
+					+ ">");
+		else
+			sb.append("<" + STUDENT_PROFILE_DETAIL + "><![CDATA["
+				+ courseDetails.getProfileDetail().getValue() + "]]></" + STUDENT_PROFILE_DETAIL
 				+ ">");
 		
 		sb.append("</coursedetails>");
@@ -888,7 +907,11 @@ public class TeamFormingServlet extends HttpServlet {
 		StringBuffer sb = new StringBuffer();
 		sb.append("<" + TEAM_NAME + "><![CDATA[" + currentStudent.getTeamName()
 				+ "]]></" + TEAM_NAME + ">");
-		sb.append("<" + STUDENT_PROFILE_DETAIL + "><![CDATA[" + currentStudent.getProfileDetail()
+		if(currentStudent.getProfileDetail()==null)
+			sb.append("<" + STUDENT_PROFILE_DETAIL + "><![CDATA[" + currentStudent.getProfileDetail()
+					+ "]]></" + STUDENT_PROFILE_DETAIL + ">");
+		else
+			sb.append("<" + STUDENT_PROFILE_DETAIL + "><![CDATA[" + currentStudent.getProfileDetail().getValue()
 				+ "]]></" + STUDENT_PROFILE_DETAIL + ">");
 		sb.append("<" + STUDENT_NAME + "><![CDATA[" + currentStudent.getName()
 				+ "]]></" + STUDENT_NAME + ">");
@@ -899,7 +922,8 @@ public class TeamFormingServlet extends HttpServlet {
 		String courseId = req.getParameter("courseId");
 		String studentEmail = req.getParameter("studentEmail");
 		String profileSummary = req.getParameter("profileSummary");
-		String profileDetail = req.getParameter("profileDetail");
+		//String profileDetail = req.getParameter("profileDetail");
+		Text profileDetail = new Text(req.getParameter("profileDetail")); 
 		
 		// Add the team forming session		
 		TeamForming teamForming = TeamForming.inst();
@@ -930,7 +954,7 @@ public class TeamFormingServlet extends HttpServlet {
 		String studentEmail = student.getEmail();
 		String studentName = student.getName();
 		String studentProfileSummary = student.getProfileSummary();
-		String studentProfileDetail = student.getProfileDetail();
+		Text studentProfileDetail = student.getProfileDetail();
 		String teamName = courses.getTeamName(courseID, studentEmail);
 
 		ArrayList<String> teammateList = new ArrayList<String>();
