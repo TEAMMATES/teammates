@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.mail.BodyPart;
@@ -40,6 +41,7 @@ import org.openqa.selenium.support.ui.Select;
 import teammates.testing.config.Config;
 import teammates.testing.object.Evaluation;
 import teammates.testing.object.Student;
+import teammates.testing.object.TeamFormingSession;
 
 import com.thoughtworks.selenium.DefaultSelenium;
 import com.thoughtworks.selenium.SeleniumException;
@@ -68,6 +70,7 @@ public class BrowserInstance {
 	/**
 	 * tabs:
 	 */
+	public By teamFormingTab = By.className("t_teamForming");
 	public By courseTab = By.className("t_courses");
 	public By evaluationTab = By.className("t_evaluations");
 	public By helpTab = By.className("t_help");
@@ -135,6 +138,16 @@ public class BrowserInstance {
 	public By inputClosingTime = By.id("deadlinetime");
 	public By inputClosingDate = By.xpath("//*[@id='deadline']");
 	public By inputGracePeriod = By.id("graceperiod");
+	public By inputProfileTemplate = By.id("profile_template");
+	public By createTeamFormingSessionButton = By.id("t_btnCreateTeamFormingSession");
+	// edit team forming session:
+	public By editTeamFormingSessionButton = By.id("button_editteamformingsession");
+	       
+    //edit team profile:
+    public By coordEditTeamProfile0 = By.id("viewTeamProfile0");
+    public By saveTeamProfile = By.id("button_saveTeamProfile");
+    public By saveChangeStudentTeam = By.id("button_saveTeamChange");
+    public By saveStudentProfile = By.id("button_savestudentprofile");
 	public By addEvaluationButton = By.id("t_btnAddEvaluation");
 
 	public By evaluationCourseIDSorting = By.id("button_sortcourseid");
@@ -833,7 +846,257 @@ public class BrowserInstance {
 			waitForElementPresent(By.id("dataform tr"));
 		}
 	}
+	// -----------------------------UI Actions ----------------------------->>
+		// Team Forming:
+		/**
+		 * Snippet to go to Team Forming page
+		 */
 
+		public void gotoTeamForming() {
+			wdClick(teamFormingTab);
+			justWait();
+			verifyTeamFormingPage();
+		}
+
+		public void clickTeamFormingTab() {
+			wdClick(teamFormingTab);
+		}
+		
+		// Helper method to check that we're at the team forming page
+		// Checks for the various fields expected.
+		public void verifyTeamFormingPage() {
+			for (int x = 0;; x++) {
+				if (x >= 40)
+					fail("timeout");
+
+				if ((isElementPresent(By.id("courseid"))) && (isElementPresent(By.xpath("//*[@id='profile_template']")))
+						&& (isElementPresent(By.xpath("//*[@id='instr']"))) && (isElementPresent(By.xpath("//*[@id='start']"))) && (isElementPresent(By.xpath("//*[@id='starttime']")))
+						&& (isElementPresent(By.xpath("//*[@id='deadline']"))) && (isElementPresent(By.xpath("//*[@id='deadlinetime']"))) && (isElementPresent(By.xpath("//*[@id='graceperiod']"))))
+					break;
+				waitAWhile(200);
+			}
+		}
+		
+		// Helper method to check that we're at the manage team forming page
+		// Checks for the various fields expected.
+		public void verifyManageTeamFormingPage(ArrayList<Student> students) {
+			boolean studentsChecked = true;
+			for (int x = 0;; x++) {
+				if (x >= 40)
+					fail("timeout");
+				
+				for(int i=0; i<students.size(); i++)
+					if(isTextPresent(students.get(i).name)==false)
+						studentsChecked = false;
+					
+				
+				if((isTextPresent("TEAMS FORMED")) && (isTextPresent("STUDENTS YET TO JOIN A TEAM")) 
+						&& (isElementPresent(By.id("viewTeamProfile0"))) && (isElementPresent(By.id("viewTeamProfile1")))
+						&& (isElementPresent(By.id("allocateStudentTeam0"))) && (isElementPresent(By.id("allocateStudentTeam1")))
+						&& studentsChecked == true)
+					break;
+				waitAWhile(200);
+			}
+		}
+		
+		// Helper method to check that we're at the team detail page
+		// Checks for the various fields expected.
+		public void verifyTeamDetailPage() {
+			for (int x = 0;; x++) {
+				if (x >= 40)
+					fail("timeout");				
+				
+				if((isTextPresent("TEAM DETAIL")) && (isElementPresent(By.id("teamName"))) 
+						&& (isElementPresent(By.id("teamProfile")))	&& (isElementPresent(By.id("button_back"))) 
+						&& (isElementPresent(By.id("button_saveTeamProfile"))))
+					break;
+				waitAWhile(200);
+			}
+		}
+		
+		// Helper method to check that we're at the view teams page
+		// Checks for the various fields expected.
+		public void verifyViewTeamsPage(ArrayList<Student> students) {
+			boolean studentsChecked = true;
+			for (int x = 0;; x++) {
+				if (x >= 40)
+					fail("timeout");
+				
+				for(int i=0; i<students.size(); i++)
+					if(isTextPresent(students.get(i).name)==false)
+						studentsChecked = false;				
+				
+				if((isTextPresent("TEAMS FORMED")) && (isTextPresent("STUDENTS YET TO JOIN A TEAM")) 
+						&& ((isElementPresent(By.id("buttonJoin0"))) || (isElementPresent(By.id("buttonJoin1"))))
+						&& ((isElementPresent(By.id("buttonAdd0"))) || (isElementPresent(By.id("buttonAdd1"))))
+						&& studentsChecked == true)
+					break;
+				waitAWhile(200);
+			}
+		}
+		
+		// Helper method to check that we're at the change student team page
+		// Checks for the various fields expected.
+		public void verifyChangeStudentTeamPage() {
+			for (int x = 0;; x++) {
+				if (x >= 40)
+					fail("timeout");				
+				
+				if((isTextPresent("Add to existing team:")) && (isTextPresent("Add to a new team:"))
+						&& (isElementPresent(By.id("teamchange_newteam"))) && (isElementPresent(By.id("teamName"))) 
+						&& (isElementPresent(By.id("newteamName"))) && (isElementPresent(By.id("button_saveTeamChange"))) 
+						&& (isElementPresent(By.id("button_back"))))
+					break;
+				waitAWhile(200);
+			}
+		}
+		
+		public void addTeamFormingSession(TeamFormingSession teamForming) {
+			addTeamFormingSession(teamForming.courseID, teamForming.dateValue, teamForming.nextTimeValue, 
+					teamForming.gracePeriod, teamForming.instructions, teamForming.profileTemplate);
+		}
+		
+		public void addTeamFormingSession(String courseID, String dateValue, String nextTimeValue, Integer gracePeriod, String instructions, String profileTemplate) {
+			clickTeamFormingTab();
+			
+			// Select the course
+			waitAndClick(inputCourseID);
+			selectDropdownByValue(inputCourseID, courseID);
+
+			// Fill in instructions
+			wdFillString(inputInstruction, instructions);
+			// Fill in profile template
+			wdFillString(inputProfileTemplate, profileTemplate);
+			justWait();
+
+			// Select deadline date
+			waitAndClick(inputClosingDate);
+			selenium.waitForPopUp("window_deadline", "30000");
+			selenium.selectWindow("name=window_deadline");
+			waitAndClick(By.xpath("//a[contains(@href, '" + dateValue + "')]"));
+			for (String s : driver.getWindowHandles()) {
+				selenium.selectWindow(s);
+				break;
+			}
+			justWait();
+			selectDropdownByValue(inputClosingTime, nextTimeValue);
+			// Select grace period
+			selectDropdownByValue(inputGracePeriod, Integer.toString(gracePeriod));
+			justWait();
+
+			// Submit the form
+			waitAndClick(createTeamFormingSessionButton);
+		}
+		
+		public int countTotalTeamFormingSessions() {
+
+			if (getElementText(By.xpath(String.format("//table[@id='dataform']//tr[2]//td[1]"))).isEmpty()) {
+				return 0;
+			} else {
+				return selenium.getXpathCount("//table[@id='dataform']/tbody/tr").intValue() - 1;
+			}
+		}
+		
+		public String getTeamFormingSessionCourseID(int row) {
+			row++;
+			return selenium.getTable("id=dataform." + row + ".0");
+		}
+		
+		public String getTeamFormingSessionStatus(int row) {
+			row++;
+			return selenium.getTable("id=dataform." + row + ".2");
+		}
+		
+		public By getStudentNameFromManageTeamFormingSession(int row, int col) {
+			return By.xpath(String.format("//div[@class='result_team']//table[@id='dataform']//tbody//tr[%d]//td[%d]", row, col));		
+		}
+		
+		// Helper method to check that the team forming session was added successfully
+		// Checks for the details of the evaluation that was added.
+		public void verifyTeamFormingSessionAdded(String courseId, String status) {
+
+			for (int i = 0; i < this.countTotalTeamFormingSessions(); i++) {
+				if (this.getTeamFormingSessionCourseID(i).equals(courseId))
+					assertEquals(status, getElementText(By.className("t_team_status")));
+				assertEquals(status, this.getTeamFormingSessionStatus(i));
+			}
+		}
+
+		public void clickTeamFormingSessionViewTeams(String courseId) {
+			int row = findTeamFormingSessionRow(courseId);
+			if (row > -1) {
+				clickTeamFormingSessionViewTeams(row);
+			} else {
+				fail("Team forming session view teams not found.");
+			}
+		}
+		
+		public void clickTeamFormingSessionViewTeams(int row) {
+			String elementID = "viewTeams" + row;
+			clickAndConfirm(By.id(elementID));
+		}
+		
+		public void clickTeamFormingSessionViewLog(String courseId) {
+			int row = findTeamFormingSessionRow(courseId);
+			if (row > -1) {
+				clickTeamFormingSessionViewLog(row);
+			} else {
+				fail("Team forming session view log not found.");
+			}
+		}
+		
+		public void clickTeamFormingSessionViewLog(int row) {
+			String elementID = "viewLogTeamFormingSession" + row;
+			clickAndConfirm(By.id(elementID));
+		}
+		
+		public void clickTeamFormingSessionEdit(String courseId) {
+			int row = findTeamFormingSessionRow(courseId);
+			if (row > -1) {
+				clickTeamFormingSessionEdit(row);
+			} else {
+				fail("Team forming session not found.");
+			}
+		}
+		
+		public void clickTeamFormingSessionEdit(int row) {
+			String elementID = "manageTeamFormingSession" + row;
+			clickAndConfirm(By.id(elementID));
+		}
+		
+		public void clickTeamFormingSessionDelete(String courseId) {
+			int row = findTeamFormingSessionRow(courseId);
+			if(row>-1){
+				String elementID = "deleteTeamFormingSession" + row;
+				clickAndConfirm(By.id(elementID));
+			}
+		}
+		
+		public boolean isTeamFormingSessionPresent(String courseId) {
+			int totalTeamFormingSession = countTotalTeamFormingSessions();
+			boolean isPresent = false;
+			for (int i = 0; i < totalTeamFormingSession; i++) {
+				if (getElementText(By.xpath(String.format("//table[@id='dataform']//tr["+(i+2)+"]//td[1]"))).equals(courseId)) {
+					isPresent = true;
+					continue;
+				}
+			}
+			return isPresent;
+		}
+		
+		/**
+		 * Team Forming Session primary key: courseId
+		 * 
+		 * */
+		private int findTeamFormingSessionRow(String courseId) {
+			int i = 0;
+			while (i < this.countTotalTeamFormingSessions()) {
+				if (this.getTeamFormingSessionCourseID(i).equals(courseId))
+					return i;
+				i++;
+			}
+			return -1;
+		}
 	// -----------------------------UI Actions ----------------------------->>
 	// Evaluation:
 	/**
