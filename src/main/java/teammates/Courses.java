@@ -448,7 +448,24 @@ public class Courses {
 
 		return courseList;
 	}
+	
+	/**
+	 * Returns the Student objects of the specified googleID.
+	 * 
+	 * @param googleID
+	 *            the Google ID of the student (Precondition: Must not be null)
+	 * 
+	 * @return List<Student> the list of students that have the specified Google
+	 *         ID
+	 */
+	public List<Student> getStudentCourseList(String googleID) {
+		String query = "select from " + Student.class.getName() + " where ID == \"" + googleID + "\"";
 
+		@SuppressWarnings("unchecked")
+		List<Student> studentList = (List<Student>) getPM().newQuery(query).execute();
+
+		return studentList;
+	}
 	/**
 	 * Returns a course.
 	 * 
@@ -537,24 +554,6 @@ public class Courses {
 		}
 
 		return studentList.get(0);
-	}
-
-	/**
-	 * Returns the Student objects of the specified googleID.
-	 * 
-	 * @param googleID
-	 *            the Google ID of the student (Precondition: Must not be null)
-	 * 
-	 * @return List<Student> the list of students that have the specified Google
-	 *         ID
-	 */
-	public List<Student> getStudentCourseList(String googleID) {
-		String query = "select from " + Student.class.getName() + " where ID == \"" + googleID + "\"";
-
-		@SuppressWarnings("unchecked")
-		List<Student> studentList = (List<Student>) getPM().newQuery(query).execute();
-
-		return studentList;
 	}
 
 	/**

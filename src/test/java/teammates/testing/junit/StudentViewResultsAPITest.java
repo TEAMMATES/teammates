@@ -2,34 +2,26 @@ package teammates.testing.junit;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import teammates.Datastore;
-import teammates.Evaluations;
 import teammates.TeammatesServlet;
-import teammates.jdo.Submission;
-import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Scenario;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
-public class ViewEvaluationResultsAPITest extends APITest {
+public class StudentViewResultsAPITest extends APITest {
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 	static Scenario scn;
 	
 	@Before
 	public void setUp() {
 		helper.setUp();
-		
 	}
 	
 	@After
@@ -195,65 +187,33 @@ public class ViewEvaluationResultsAPITest extends APITest {
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", index);
 		try{
 			prepareSubmissionData(scn);
-			testEvaluationsGetSubmissionList();
-			testEvaluationsCalculateBumpRatio();
+			printTeamatesServletResponse();
 		}catch (Exception e){
 			e.printStackTrace();
 		}
 	}
-	
-	public void testEvaluationsGetSubmissionList() throws IOException {
-		
+	/**
+	 * test integrated function
+	 * 
+	 */
+	public void printTeamatesServletResponse() throws Exception {
 		//function under test
-		List<Submission> submissionList = Evaluations.inst().getSubmissionList(scn.evaluation.courseID, scn.evaluation.name);
-
+		TeammatesServlet ts = new TeammatesServlet();
+		String response = ts.coordinatorGetSubmissionList(scn.evaluation.courseID, scn.evaluation.name);
+		
+		//expected data
+		List<Integer> pointList = getPointListFromServerResponse(response);
+		
 		//test output
 		int size = getTeamSizeFromSubmissionPoints(scn.submissionPoints);
 		int index = 0;
 		for(int from = 0; from < size; from++) {
-			String points = TMAPI.getSubmissionPoints(scn.submissionPoints[from]);
+			String[] points = prepareSubmissionPoints(scn.submissionPoints[from]);
 			for(int to = 0; to < size; to++) {
-				int actual = submissionList.get(index++).getPoints();
-				int expected = Integer.valueOf(points.split(", ")[to]);
+				int actual = pointList.get(index++);
+				int expected = Integer.valueOf(points[to]);
 				assertEquals(expected, actual);
 			}
-		}
-	}
-
-	public void testEvaluationsCalculateBumpRatio() {
-		float pointsBumpRatio;
-		List<Submission> submissionList = Evaluations.inst().getSubmissionList(scn.evaluation.courseID, scn.evaluation.name);
-		Map<String, Float> bumpRatioMap = new HashMap<String, Float>();
-		
-		for(int i = 0; i < submissionList.size(); i++){
-			Submission s = submissionList.get(i);
-			
-			//prepare submissionList grouped by fromStudent
-			List<Submission> fromList = new ArrayList<Submission>();
-			for(Submission from: submissionList) {
-				if(from.getFromStudent().equals(s.getFromStudent()))
-					fromList.add(from);
-			}
-			
-			//function under test
-			pointsBumpRatio = Evaluations.inst().calculatePointsBumpRatio(scn.evaluation.courseID, scn.evaluation.name, s.getFromStudent(), fromList);
-			bumpRatioMap.put(s.getFromStudent(), pointsBumpRatio);
-		}
-		
-		for(int i = 0; i < bumpRatioMap.size(); i++){
-			float expected = Float.valueOf(TMAPI.coordGetSubmissionBumpRatio(scn.submissionPoints, i));
-			float actual = bumpRatioMap.remove(scn.students.get(i).email);
-			assertEquals(String.valueOf(expected), String.valueOf(actual));
-		}
-	}
-	
-	public void printTeamatesServletResponse() {
-		TeammatesServlet ts = new TeammatesServlet();
-		try {
-			String response = ts.coordinatorGetSubmissionList(scn.evaluation.courseID, scn.evaluation.name);
-			System.out.println("output: " + response);
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 }

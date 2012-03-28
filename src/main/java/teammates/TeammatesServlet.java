@@ -371,7 +371,14 @@ public class TeammatesServlet extends HttpServlet {
 		}
 
 		else if (operation.equals(OPERATION_STUDENT_GETSUBMISSIONRESULTSLIST)) {
-			studentGetSubmissionResultsList();
+			Accounts accounts = Accounts.inst();
+			String googleID = accounts.getUser().getNickname();
+
+			String courseID = req.getParameter(COURSE_ID);
+			String evaluationName = req.getParameter(EVALUATION_NAME);
+			
+			String response = studentGetSubmissionResultsList(courseID, evaluationName, googleID);
+			resp.getWriter().write(response);
 		}
 
 		else if (operation.equals(OPERATION_STUDENT_JOINCOURSE)) {
@@ -1275,27 +1282,20 @@ public class TeammatesServlet extends HttpServlet {
 	private void studentGetCourseList() throws IOException {
 		Accounts accounts = Accounts.inst();
 		String googleID = accounts.getUser().getNickname();
-
-		Courses courses = Courses.inst();
-		List<Student> studentList = courses.getStudentCourseList(googleID);
-
-		ArrayList<CourseSummaryForStudent> courseSummaryList = new ArrayList<CourseSummaryForStudent>();
+		List<Student> studentList = Courses.inst().getStudentCourseList(googleID);
 
 		String courseID = "";
 		String courseName = "";
 		String teamName = "";
-
 		boolean archived = false;
-
-		Course course = null;
-
+		ArrayList<CourseSummaryForStudent> courseSummaryList = new ArrayList<CourseSummaryForStudent>();
+		
 		for (Student s : studentList) {
 			courseID = s.getCourseID();
-			course = courses.getCourse(courseID);
-			courseName = course.getName();
+			courseName = Courses.inst().getCourse(courseID).getName();
+			teamName = Courses.inst().getTeamName(courseID, s.getEmail());
 			archived = s.isCourseArchived();
-			teamName = courses.getTeamName(courseID, s.getEmail());
-
+			
 			courseSummaryList.add(new CourseSummaryForStudent(courseID, courseName, teamName, archived));
 		}
 
@@ -1469,54 +1469,42 @@ public class TeammatesServlet extends HttpServlet {
 		resp.getWriter().write("<submissions>" + parseSubmissionDetailsForStudentListToXML(submissionDetailsList).toString() + "</submissions>");
 	}
 
-	private void studentGetSubmissionResultsList() throws IOException {
-		Accounts accounts = Accounts.inst();
-		String googleID = accounts.getUser().getNickname();
-
-		String courseID = req.getParameter(COURSE_ID);
-		String evaluationName = req.getParameter(EVALUATION_NAME);
-
+	public String studentGetSubmissionResultsList(String courseID, String evaluationName, String googleID) throws IOException {
 		Courses courses = Courses.inst();
-		Student student = courses.getStudentWithID(courseID, googleID);
-
 		Evaluations evaluations = Evaluations.inst();
-		List<Submission> submissionList = evaluations.getSubmissionList(courseID, evaluationName);
-
+		
+		Student student = courses.getStudentWithID(courseID, googleID);
 		String toStudent = student.getEmail();
-
-		// Filter the submission list to only from the target student's team
 		String teamName = student.getTeamName();
-
-		List<Submission> filteredSubmissionList = new ArrayList<Submission>();
-
-		for (Submission s : submissionList) {
-			if (s.getTeamName().equals(teamName)) {
-				filteredSubmissionList.add(s);
-			}
-		}
-
-		System.out.println("filtered number: " + filteredSubmissionList.size());
-		List<SubmissionResultsForStudent> submissionResultsList = new ArrayList<SubmissionResultsForStudent>();
-
+		
 		String fromStudentName = "";
 		String toStudentName = "";
-
 		String fromStudentComments = null;
 		String toStudentComments = null;
-
 		float pointsBumpRatio = 0;
+		
+		List<Submission> submissionList = evaluations.getSubmissionList(courseID, evaluationName);
+		List<Submission> filteredSubmissionList = new ArrayList<Submission>();
+		List<Submission> fromList = new ArrayList<Submission>();
+		List<SubmissionResultsForStudent> submissionResultsList = new ArrayList<SubmissionResultsForStudent>();
+		
+		for (Submission s : submissionList) {
+			if (s.getTeamName().equals(teamName))
+				filteredSubmissionList.add(s);
+		}
 
 		for (Submission s : filteredSubmissionList) {
+			//fromStudent
 			student = courses.getStudentWithEmail(courseID, s.getFromStudent());
-
 			if (student != null) {
 				fromStudentName = student.getName();
 				fromStudentComments = student.getComments();
 			} else {
 				fromStudentName = "[deleted]" + s.getFromStudent();
-				fromStudentComments = ("");
+				fromStudentComments = "";
 			}
 
+			//toStudent
 			student = courses.getStudentWithEmail(courseID, s.getToStudent());
 			if (student != null) {
 				toStudentName = student.getName();
@@ -1526,7 +1514,6 @@ public class TeammatesServlet extends HttpServlet {
 				toStudentComments = "";
 			}
 
-			List<Submission> fromList = new ArrayList<Submission>();
 			for (Submission fs : submissionList) {
 				if (fs.getFromStudent().equals(s.getFromStudent())) {
 					fromList.add(fs);
@@ -1558,7 +1545,7 @@ public class TeammatesServlet extends HttpServlet {
 		});
 
 		submissionResultsList.add(0, selfEvaluation);
-		resp.getWriter().write("<submissions>" + parseSubmissionResultsForStudentListToXML(submissionResultsList).toString() + "</submissions>");
+		return "<submissions>" + parseSubmissionResultsForStudentListToXML(submissionResultsList).toString() + "</submissions>";
 
 	}
 

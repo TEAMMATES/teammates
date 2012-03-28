@@ -95,6 +95,441 @@ var STUDENT_TEAMNAME = "teamname";
 var STUDENT_TOSTUDENT = "toemail";
 var STUDENT_TOSTUDENTCOMMENTS = "tostudentcomments";
 var STUDENT_TOSTUDENTNAME = "toname";
+/**
+ * XMLHttpRequest Constants
+ * 
+ * */
+var SERVERERROR = 1;
+var CONNECTION_OK = 200;
+
+/*----------------------------------------------------------EVALUATION PAGE----------------------------------------------------------*/
+/***
+ * page assemply
+ * 
+ * @page: Evaluations
+ */
+function displayEvaluationsTab()
+{
+	clearAllDisplay();
+	setStatusMessage(DISPLAY_LOADING);
+	doGetPendingEvaluationList();
+	doGetPastEvaluationList();
+	clearStatusMessage();
+	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
+}
+
+/*----------------------------------------------------------EVALUATION RESULTS PAGE----------------------------------------------------------*/
+/***
+ * page assembly
+ * 
+ * @page: EvaluationResults
+ */
+function displayEvaluationResults(evaluationList, loop)
+{
+	clearAllDisplay();
+
+	var courseID = evaluationList[loop].courseID;
+	var evaluationName =  evaluationList[loop].name;
+	var start =  evaluationList[loop].start;
+	var deadline =  evaluationList[loop].deadline;
+	doGetSubmissionResultsList(courseID, evaluationName, start, deadline);
+	
+	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
+}
+
+function doGetSubmissionResultsList(courseID, evaluationName, start, deadline)
+{
+	setStatusMessageToLoading();
+	
+	if(!xmlhttp) {
+		alert(DISPLAY_ERROR_UNDEFINED_HTTPREQUEST);
+		return;
+	}
+	
+	sendGetSubmissionResultsListRequest(courseID, evaluationName);
+	var results = processGetSubmissionResultsListResponse(); 
+	
+	clearStatusMessage();
+	
+	if(results == SERVERERROR){
+		alertServerError();
+		return;
+	}
+	
+	var submissionList = complieStudentSubmissionList(results);
+	var summaryList = compileStudentSubmissionSummaryList(submissionList);
+	printEvaluationResultStudentForm(summaryList, submissionList, start, deadline);
+}
+
+function sendGetSubmissionResultsListRequest(courseID, evaluationName)
+{
+		xmlhttp.open("POST","teammates",false); 
+		xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
+		xmlhttp.send("operation=" + OPERATION_STUDENT_GETSUBMISSIONRESULTSLIST 
+				+ "&" + COURSE_ID + "=" + encodeURIComponent(courseID) 
+				+ "&" + EVALUATION_NAME + "=" + encodeURIComponent(evaluationName)); 
+}
+
+function processGetSubmissionResultsListResponse()
+{
+	if(xmlhttp.status != CONNECTION_OK)
+		return SERVERERROR;
+
+	var submissions = xmlhttp.responseXML.getElementsByTagName("submissions")[0];
+
+	return submissions;
+}
+
+function complieStudentSubmissionList(submissions){
+	var submissionList = new Array();
+	var submission;
+	
+	var fromStudentName;
+	var toStudentName;
+	var fromStudent;
+	var toStudent;
+	var fromStudentComments;
+	var toStudentComments;
+	var courseID;
+	var evaluationName;
+	var teamName;
+	var points;
+	var pointsBumpRatio;
+	var justification;
+	var commentsToStudent;
+	
+	if(submissions == null)
+		return submissionList;
+	
+	var submissionsChildNodesLength = submissions.childNodes.length;
+	for ( var loop = 0; loop < submissionsChildNodesLength; loop++) {
+		submission = submissions.childNodes[loop];
+		
+		fromStudentName = submission.getElementsByTagName(STUDENT_FROMSTUDENTNAME)[0].firstChild.nodeValue;
+		fromStudent = submission.getElementsByTagName(STUDENT_FROMSTUDENT)[0].firstChild.nodeValue;
+		
+		toStudentName = submission.getElementsByTagName(STUDENT_TOSTUDENTNAME)[0].firstChild.nodeValue;
+		toStudent = submission.getElementsByTagName(STUDENT_TOSTUDENT)[0].firstChild.nodeValue;
+		
+		fromStudentComments = submission.getElementsByTagName(STUDENT_FROMSTUDENTCOMMENTS)[0].firstChild.nodeValue;
+		toStudentComments = submission.getElementsByTagName(STUDENT_TOSTUDENTCOMMENTS)[0].firstChild.nodeValue;
+		
+		courseID = submission.getElementsByTagName(COURSE_ID)[0].firstChild.nodeValue;
+		evaluationName = submission.getElementsByTagName(EVALUATION_NAME)[0].firstChild.nodeValue;
+		teamName = submission.getElementsByTagName(STUDENT_TEAMNAME)[0].firstChild.nodeValue;
+		points = parseInt(submission.getElementsByTagName(STUDENT_POINTS)[0].firstChild.nodeValue);
+		pointsBumpRatio = parseFloat(submission.getElementsByTagName(STUDENT_POINTSBUMPRATIO)[0].firstChild.nodeValue);
+		justification = submission.getElementsByTagName(STUDENT_JUSTIFICATION)[0].firstChild.nodeValue;
+		commentsToStudent = submission.getElementsByTagName(STUDENT_COMMENTSTOSTUDENT)[0].firstChild.nodeValue;
+
+		submissionList[loop] = {
+			fromStudentName : fromStudentName,
+			toStudentName : toStudentName,
+			fromStudent : fromStudent,
+			toStudent : toStudent,
+			courseID : courseID,
+			evaluationName : evaluationName,
+			teamName : teamName,
+			justification : justification,
+			commentsToStudent : commentsToStudent,
+			points : points,
+			pointsBumpRatio : pointsBumpRatio,
+			fromStudentComments : fromStudentComments,
+			toStudentComments : toStudentComments
+		};
+	}
+//	logSubmissionList(submissionList);
+	return submissionList;
+}
+
+function compileStudentSubmissionSummaryList(submissionList){
+	logSubmissionList(submissionList);
+	
+	//creating summary list (without team normalization)
+	var summaryList = new Array();
+	var count = 0;
+	var i;
+	for(i = 0; i < submissionList.length; i++){
+		var submission = submissionList[i];
+
+		if(!isStudentInSummaryList(submission.toStudent, summaryList)){
+			summaryList[count++] = createSubmissionSummary(submission, submissionList);
+		}
+	}
+	
+	//creating team bumpratio
+	var normalizedList = new Array();
+	count = 0;
+	for(i = 0; i < summaryList.length; i++){
+		var summary = summaryList[i];
+		if(!isTeamInNormalizedList(summary.teamName, normalizedList)){
+			var normalizedData = createNormalizedData(summary, summaryList);
+			if(normalizedData !== null)
+				normalizedList[count++] = normalizedData;
+		}
+	}
+
+	//normalizing summary list with team bumpratio
+	var j;
+	for(i = 0; i < normalizedList.length; i++){
+		var team = normalizedList[i].teamName;
+
+		for(j = 0; j < summaryList.length; j++){
+			if(summaryList[j].teamName == team && summaryList[j].average != NA){
+				//normalizing average by team bumpratio
+				summaryList[j].average = Math.round(summaryList[j].average * normalizedList[i].pointsBumpRatio);
+				//updating difference
+				summaryList[j].difference = getDifference(summaryList[j].average, summaryList[j].claimedPoints);
+			}
+		}
+	}
+	
+	//debug
+	logSummaryList(summaryList);
+		
+	return summaryList;
+}
+
+function createNormalizedData(summary, summaryList){
+	var output = null;
+	var totalPoints = 0;
+	var totalPointGivers = 0;
+	var pointsBumpRatio;
+	var teamName;
+	
+	var i;
+	for(i = 0; i < summaryList.length; i++){
+		if(summaryList[i].teamName == summary.teamName && summaryList[i].average != NA){
+			totalPoints += summaryList[i].average;
+			totalPointGivers++;
+		}
+	}
+	if(totalPointGivers != 0){
+		pointsBumpRatio = totalPointGivers * 100 / totalPoints;
+		teamName = summary.teamName;
+		output = {
+			pointsBumpRatio : pointsBumpRatio,
+			teamName : teamName
+		};
+	}
+	return output;	
+}
+
+function isTeamInNormalizedList(teamName, normalizedList){
+	var i;
+	for(i = 0; i < normalizedList.length; i++){
+		if(normalizedList[i].teamName == teamName)
+			return true;
+	}
+	return false;
+}
+
+function isStudentInSummaryList(toStudent, summaryList){
+	var i;
+	for (i = 0; i < summaryList.length; i++) {
+		if (summaryList[i].toStudent == toStudent)
+			return true;
+	}
+	return false;
+}
+
+function createSubmissionSummary(submission, submissionList){
+	//basic info
+	var toStudent = submission.toStudent;
+	var toStudentName = submission.toStudentName;
+	var teamName = submission.teamName;
+	var toStudentComments = submission.toStudentComments;
+	//points given by self
+	var selfSubmission = getSelfSubmission(toStudent, submissionList);
+	var submitted = isSubmitted(selfSubmission);
+	var claimedPoints = getClaimedPoints(selfSubmission);
+	//points given by others
+	var average = getAverage(toStudent, submissionList);
+	//difference
+	var difference = getDifference(average, claimedPoints);
+
+	var summary = {
+		toStudent : toStudent,
+		toStudentName : toStudentName,
+		teamName : teamName,
+		average : average,
+		difference : difference,
+		toStudentComments : toStudentComments,
+		submitted : submitted,
+		claimedPoints : claimedPoints
+	};
+	return summary;
+}
+
+function getSelfSubmission(toStudent, submissionList){
+	var i;
+	for(i = 0; i < submissionList.length; i++){
+		if(submissionList[i].toStudent == toStudent 
+			&& submissionList[i].fromStudent == toStudent)
+			return submissionList[i];
+	}
+	return null;
+}
+
+function isSubmitted(selfSubmission){
+	if(selfSubmission !== null && selfSubmission.points != -999)
+		return true;
+	else
+		return false;
+}
+
+function getClaimedPoints(selfSubmission){
+	if(selfSubmission !== null)
+		return claimedPointsToString(selfSubmission.points, selfSubmission.pointsBumpRatio);
+	else
+		return NA;
+}
+
+function claimedPointsToString(points, pointsBumpRatio){
+	if(points == -999)
+		return NA;
+	else if(points == -101)
+		return NOTSURE;
+	else
+		return points;
+}
+
+function getAverage(toStudent, submissionList){
+	var i;
+	var totalPoints = 0;
+	var totalPointGivers = 0;
+	for(i = 0; i < submissionList.length; i++){
+		if(submissionList[i].toStudent == toStudent && submissionList[i].fromStudent != toStudent){
+			if(submissionList[i].points != -999 && submissionList[i].points != -101){
+				totalPoints += Math.round(submissionList[i].points * submissionList[i].pointsBumpRatio);
+				totalPointGivers++;
+			}
+		}
+	}
+	if(totalPointGivers == 0)
+		return NA;
+	else
+		return Math.round(totalPoints / totalPointGivers);
+}
+
+function getDifference(average, claimedPoints){
+	var diff = Math.round(average - claimedPoints);
+
+	return (isNaN(diff))? NA: diff;
+}
+/**---------------------------------------------------------added 26 Mar 2012------------------------------------*/
+
+/*
+ * Student view evaluation results
+ */
+function printEvaluationResultStudentForm(summaryList, submissionList, start,
+		deadline) {
+
+	logSummaryList(summaryList);
+	var claimedPoints = summaryList[0].claimedPoints;
+	var perceivedPoints = summaryList[0].average;
+
+	if (isNaN(perceivedPoints))
+		perceivedPoints = "N/A";
+
+	var output = "<br />" + "<div>" + "<h1>Evaluation Results</h1>" + "</div>"
+			+ "<table class=\"result_studentform\">" + "<tr>"
+			+ "<td width=\"20%\">"
+			+ STUDENT
+			+ "</td>"
+			+ "<td width=\"30%\">"
+			+ summaryList[0].toStudentName
+			+ "</td>"
+			+ "<td width=\"20%\">"
+			+ COURSE
+			+ "</td>"
+			+ "<td width=\"30%\">"
+			+ submissionList[0].courseID
+			+ "</td>"
+			+ "</tr>"
+			+ "<tr>"
+			+ "<td>"
+			+ TEAM
+			+ "</td>"
+			+ "<td>"
+			+ encodeCharForPrint(submissionList[0].teamName)
+			+ "</td>"
+			+ "<td>"
+			+ EVALUATION
+			+ "</td>"
+			+ "<td>"
+			+ submissionList[0].evaluationName
+			+ "</td>"
+			+ "</tr>"
+			+ "<tr>"
+			+ "<td>"
+			+ "<span onmouseover=\"ddrivetip('Claimed contribution is what you claimed you contributed to the project')\" onmouseout=\"hideddrivetip()\">"
+			+ CLAIMED
+			+ "</span>"
+			+ "</td>"
+			+ "<td>"
+			+ displayEvaluationPoints(claimedPoints)
+			+ "</td>"
+			+ "<td>"
+			+ OPENING
+			+ "</td>"
+			+ "<td>"
+			+ start
+			+ "</td>"
+			+ "</tr>"
+			+ "<tr>"
+			+ "<td>"
+			+ "<span onmouseover=\"ddrivetip('Perceived contribution is the average of what the other team members think you contributed to the project')\" onmouseout=\"hideddrivetip()\">"
+			+ PERCEIVED
+			+ "</span></td>"
+			+ "<td>"
+			+ displayEvaluationPoints(perceivedPoints)
+			+ "</td>"
+			+ "<td>"
+			+ CLOSING
+			+ "</td>"
+			+ "<td>"
+			+ deadline
+			+ "</td>"
+			+ "</tr>"
+			+ "</table>"
+			+ "<table class = \"result_table\" id = \"\">"
+			+ "<tr class = \"result_subheader\">"
+			+ "<td>"
+			+ FEEDBACK_FROM
+			+ "</td>" + "</tr>";
+
+	submissionList.splice(0, 1);
+
+	var targetStudent = summaryList[0].toStudent;
+	var ctr = 0;
+	var submissionListLength = submissionList.length;
+	for (loop = 0; loop < submissionListLength; loop++) {
+		var sp = loop + 1;
+		if (submissionList[loop].toStudent == targetStudent
+				&& submissionList[loop].fromStudent != targetStudent) {
+			if (encodeChar(submissionList[loop].commentsToStudent) == "") {
+				output = output + "<tr><td>" + NA + "</td></tr>";
+			} else {
+				output = output
+						+ "<tr><td id=\"com"
+						+ ctr
+						+ "\">"
+						+ encodeCharForPrint(submissionList[loop].commentsToStudent)
+						+ "</td></tr>";
+			}
+		}
+	}
+
+	output = output
+			+ "</tr></table><br /><br />"
+			+ "<input type=\"button\" class=\"button\" id=\"button_back\" onclick=\"displayEvaluationsTab();\" value=\"Back\" />"
+			+ "<br /><br />";
+
+	document.getElementById(DIV_EVALUATION_RESULTS).innerHTML = output;
+}
+
+/*----------------------------------------------------------TODO: REFACTOR OLD FUNCTIONS----------------------------------------------------------*/
 
 /*
  * Returns
@@ -129,177 +564,6 @@ function clearAllDisplay()
 	document.getElementById(DIV_HEADER_OPERATION).innerHTML = "";
 	document.getElementById(DIV_STATUS).innerHTML = ""; 
 	document.getElementById(DIV_TOPOFPAGE).innerHTML = "";
-}
-
-function compileSubmissionsIntoSummaryList(submissionList)
-{
-	var summaryList = new Array();
-	
-	var exists = false;
-	
-	var toStudent;
-	var toStudentName;
-	var toStudentComments;
-	var totalPoints;
-	var totalPointGivers;
-	var claimedPoints;
-	var teamName;
-	var average;
-	var difference;
-	var submitted;
-	var pointsBumpRatio;
-	
-	var count = 0;
-	
-	var submissionListLength = submissionList.length;
-	for(loop = 0; loop < submissionListLength; loop++)
-	{
-		exists = false;
-		submitted = false;
-		
-		var summaryListLength = summaryList.length;
-		for(x = 0; x < summaryListLength; x++)
-		{
-			if(summaryList[x].toStudent == submissionList[loop].toStudent)
-			{
-				exists = true;
-			}
-		}
-		
-		if(exists == false)
-		{
-			toStudent = submissionList[loop].toStudent;
-			toStudentName = submissionList[loop].toStudentName;
-			toStudentComments = submissionList[loop].toStudentComments;
-			teamName = submissionList[loop].teamName;
-			totalPoints = 0;
-			totalPointGivers = 0;
-			
-			for(y = loop; y < submissionListLength; y++)
-			{
-				if(submissionList[y].toStudent == toStudent)
-				{
-					if(submissionList[y].fromStudent == toStudent)
-					{
-						if(submissionList[y].points == -999)
-						{
-							claimedPoints = NA;
-						}
-						else if(submissionList[y].points == -101) {
-							claimedPoints = NOTSURE;
-						}
-						else
-						{
-							// Should not alter student's own claimed points for student's view
-							claimedPoints = submissionList[y].points;
-						}
-						
-						if(submissionList[y].points != -999)
-						{
-							submitted = true;
-						}
-					}
-					
-					else
-					{
-						if(submissionList[y].points != -999 && submissionList[y].points != -101)
-						{
-							totalPoints += Math.round(submissionList[y].points * submissionList[y].pointsBumpRatio);
-							totalPointGivers++;
-						}
-					}
-				}
-			}
-			
-			if(totalPointGivers != 0)
-			{
-				average = Math.round(totalPoints / totalPointGivers);
-			}
-			
-			else
-			{
-				average = NA;
-			}
-			
-			difference = Math.round(average-claimedPoints);
-
-			if(isNaN(difference)) {
-				difference = NA;
-			}
-			
-			summaryList[count++] = { toStudent:toStudent, toStudentName:toStudentName, teamName:teamName,
-					average:average, difference:difference, toStudentComments:toStudentComments, submitted:submitted,
-					claimedPoints:claimedPoints};
-		}
-	}
-	
-	// Find normalizing points bump ratio for averages
-	var teamsNormalized = new Array();
-	count = 0;
-	
-	var summaryListLength = summaryList.length;
-	for(loop = 0; loop < summaryListLength; loop++)
-	{
-		// Reset variables
-		exists = false;
-		totalPoints = 0;
-		totalGivers = 0;
-		pointsBumpRatio = 0;
-		
-		// Check if the team is added
-		var teamsNormalizedLength = teamsNormalized.length;
-		for(y = 0; y < teamsNormalizedLength; y++)
-		{
-			if(summaryList[loop].teamName == teamsNormalized[y].teamName)
-			{
-				exists = true;
-				break;
-			}
-		}
-		
-		if(exists == false)
-		{
-			// Tabulate the perceived scores
-			for(y = loop; y < summaryListLength; y++)
-			{
-				if(summaryList[y].teamName == summaryList[loop].teamName && summaryList[y].average != "N/A")
-				{
-					totalPoints += summaryList[y].average;
-					totalGivers += 1;
-				}
-			}
-			
-			if(totalGivers != 0)
-			{
-				pointsBumpRatio = totalGivers * 100 / totalPoints; 
-				
-				// Store the bump ratio
-				teamsNormalized[count++] = {pointsBumpRatio:pointsBumpRatio, teamName:teamName};
-			}
-	
-		}
-		
-	}
-	
-	// Do the normalization
-	var teamsNormalizedLength = teamsNormalized.length;
-	for(loop = 0; loop < teamsNormalizedLength; loop++)
-	{
-		for(y = 0; y < summaryListLength; y++)
-		{
-			if(summaryList[y].teamName == teamsNormalized[loop].teamName && summaryList[y].average != NA)
-			{
-				summaryList[y].average = Math.round(summaryList[y].average * teamsNormalized[loop].pointsBumpRatio);
-				summaryList[y].difference = Math.round(summaryList[y].average-summaryList[y].claimedPoints);
-				if(isNaN(summaryList[y].difference))
-				{
-					summaryList[y].difference = NA;
-				}
-			}
-		}
-	}
-	
-	return summaryList;
 }
 
 function convertDateToDDMMYYYY(date)
@@ -376,16 +640,6 @@ function displayCoursesTab()
 	
 }
 
-function displayEvaluationsTab()
-{
-	clearAllDisplay();
-	setStatusMessage(DISPLAY_LOADING);
-	doGetPendingEvaluationList();
-	doGetPastEvaluationList();
-	clearStatusMessage();
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-}
-
 function displayEvaluationSubmission(evaluationList, loop)
 {
 	var courseID = evaluationList[loop].courseID;
@@ -401,23 +655,6 @@ function displayEvaluationSubmission(evaluationList, loop)
 	
 	printEvaluationHeader(courseID, evaluationName, start, deadline, gracePeriod, instructions, commentsEnabled);
 	doGetSubmissionList(courseID, evaluationName, commentsEnabled);
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-}
-
-function displayEvaluationResults(evaluationList, loop)
-{
-	var courseID = evaluationList[loop].courseID;
-	var courseName = evaluationList[loop].courseName;
-	var evaluationName =  evaluationList[loop].name;
-	var instructions =  evaluationList[loop].instructions;
-	var start =  evaluationList[loop].start;
-	var deadline =  evaluationList[loop].deadline;
-	var gracePeriod =  evaluationList[loop].gracePeriod;
-	var commentsEnabled =  evaluationList[loop].commentsEnabled;
-
-	clearAllDisplay();
-	
-	doGetSubmissionResultsList(courseID, evaluationName, start, deadline);
 	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
 }
 
@@ -554,25 +791,6 @@ function doGetSubmissionList(courseID, evaluationName, commentsEnabled)
 	if(results != 1)
 	{
 		printSubmissionForm(results, commentsEnabled);
-	}
-	
-	else
-	{
-		alert(DISPLAY_SERVERERROR);
-	}
-}
-
-function doGetSubmissionResultsList(courseID, evaluationName, start, deadline)
-{
-	setStatusMessage(DISPLAY_LOADING);
-	
-	var results = getSubmissionResultsList(courseID, evaluationName); 
-	
-	clearStatusMessage();
-	
-	if(results != 1)
-	{
-		printEvaluationResultStudentForm(compileSubmissionsIntoSummaryList(results), results, start, deadline);
 	}
 	
 	else
@@ -856,25 +1074,6 @@ function getSubmissionList(courseID, evaluationName)
 	}
 }
 
-/*
- * Returns
- * 
- * submissionList: successful
- * 1: server error
- * 
- */
-function getSubmissionResultsList(courseID, evaluationName)
-{
-	if(xmlhttp)
-	{
-		xmlhttp.open("POST","teammates",false); 
-		xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_STUDENT_GETSUBMISSIONRESULTSLIST + "&" + COURSE_ID + "=" +
-				encodeURIComponent(courseID) + "&" + EVALUATION_NAME + "=" + encodeURIComponent(evaluationName)); 
-		
-		return handleGetSubmissionResultsList();
-	}
-}
 
 function getXMLObject()  
 {
@@ -1116,72 +1315,6 @@ function handleGetSubmissionList()
 			}
 		}
 		
-		return submissionList;
-	}
-	
-	else
-	{
-		return 1;
-	}
-}
-
-/*
- * Returns
- * 
- * submissionList: successful
- * 1: server error
- * 
- */
-function handleGetSubmissionResultsList()
-{
-	if(xmlhttp.status == 200)
-	{
-		var submissions = xmlhttp.responseXML.getElementsByTagName("submissions")[0];
-		var submissionList = new Array();
-		var submission;
-		
-		var fromStudentName;
-		var toStudentName;
-		var fromStudent;
-		var toStudent;
-		var fromStudentComments;
-		var toStudentComments;
-		var courseID;
-		var evaluationName;
-		var teamName;
-		var points;
-		var pointsBumpRatio;
-		var justification;
-		var commentsToStudent;
-
-		if(submissions != null)
-		{
-			var submissionsChildNodesLength = submissions.childNodes.length;
-			for(loop = 0; loop < submissionsChildNodesLength; loop++)
-			{
-				submission = submissions.childNodes[loop];
-				fromStudentName = submission.getElementsByTagName(STUDENT_FROMSTUDENTNAME)[0].firstChild.nodeValue;
-				fromStudent = submission.getElementsByTagName(STUDENT_FROMSTUDENT)[0].firstChild.nodeValue;
-				toStudentName = submission.getElementsByTagName(STUDENT_TOSTUDENTNAME)[0].firstChild.nodeValue;
-				toStudent = submission.getElementsByTagName(STUDENT_TOSTUDENT)[0].firstChild.nodeValue;
-				fromStudentComments = submission.getElementsByTagName(STUDENT_FROMSTUDENTCOMMENTS)[0].firstChild.nodeValue;
-				toStudentComments = submission.getElementsByTagName(STUDENT_TOSTUDENTCOMMENTS)[0].firstChild.nodeValue;
-				courseID = submission.getElementsByTagName(COURSE_ID)[0].firstChild.nodeValue;
-				evaluationName = submission.getElementsByTagName(EVALUATION_NAME)[0].firstChild.nodeValue;
-				teamName = submission.getElementsByTagName(STUDENT_TEAMNAME)[0].firstChild.nodeValue;
-				points = parseInt(submission.getElementsByTagName(STUDENT_POINTS)[0].firstChild.nodeValue);
-				pointsBumpRatio = parseFloat(submission.getElementsByTagName(STUDENT_POINTSBUMPRATIO)[0].firstChild.nodeValue);
-				justification = submission.getElementsByTagName(STUDENT_JUSTIFICATION)[0].firstChild.nodeValue;
-				commentsToStudent = submission.getElementsByTagName(STUDENT_COMMENTSTOSTUDENT)[0].firstChild.nodeValue;
-					
-				submissionList[loop] = {fromStudentName:fromStudentName, toStudentName:toStudentName, 
-						fromStudent:fromStudent, toStudent:toStudent, courseID:courseID,
-						evaluationName:evaluationName, teamName:teamName, justification:justification,
-						commentsToStudent:commentsToStudent, points:points, pointsBumpRatio:pointsBumpRatio,
-						fromStudentComments:fromStudentComments, toStudentComments:toStudentComments}; 
-			}
-		}
-		logSubmissionList(submissionList);
 		return submissionList;
 	}
 	
