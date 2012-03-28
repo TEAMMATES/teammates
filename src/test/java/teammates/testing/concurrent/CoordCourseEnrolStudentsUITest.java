@@ -16,7 +16,7 @@ import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Scenario;
 import teammates.testing.object.Student;
 
-public class CoordCourseEnrolStudentsTest extends TestCase {
+public class CoordCourseEnrolStudentsUITest extends TestCase {
 	static BrowserInstance bi;
 	static Scenario scn = setupScenarioInstance("scenario");
 	

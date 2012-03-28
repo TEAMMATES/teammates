@@ -5,6 +5,106 @@
 	<classpathentry excluding="**/*.java" kind="src" output="target/test-classes" path="src/test/resources"/>
 	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
 	<classpathentry excluding="**/*.java" kind="src" path="src/main/resources"/>
+	<classpathentry kind="lib" path="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/lib/shared/appengine-local-runtime-shared.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/lib/shared/el-api.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/lib/shared/jsp/repackaged-appengine-ant-1.7.1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/lib/shared/jsp/repackaged-appengine-ant-launcher-1.7.1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/lib/shared/jsp/repackaged-appengine-jasper-6.0.29.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/lib/shared/jsp/repackaged-appengine-jasper-el-6.0.29.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/lib/shared/jsp/repackaged-appengine-tomcat-juli-6.0.29.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/lib/shared/jsp-api.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/lib/shared/servlet-api.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/lib/user/appengine-api-1.0-sdk-1.6.3.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/lib/user/appengine-api-labs-1.6.3.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/lib/user/appengine-jsr107cache-1.6.3.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/lib/user/jsr107cache-1.1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/lib/user/orm/datanucleus-appengine-1.0.10.final.jar" sourcepath="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/src/orm/datanucleus-appengine-1.0.10.final-src.zip">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/lib/user/orm/datanucleus-core-1.1.5.jar" sourcepath="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/src/orm/datanucleus-core-1.1.5-src.zip">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/lib/user/orm/datanucleus-jpa-1.1.5.jar" sourcepath="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/src/orm/datanucleus-jpa-1.1.5-src.zip">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/lib/user/orm/geronimo-jpa_3.0_spec-1.1.1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/lib/user/orm/geronimo-jta_1.1_spec-1.1.1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/lib/user/orm/jdo2-api-2.3-eb.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/lib/appengine-tools-api.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.3/appengine-java-sdk-1.6.3/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="/Users/zds1989/.m2/repository/com/googlecode/jmockit/jmockit/0.999.13/jmockit-0.999.13.jar"/>
 	<classpathentry kind="lib" path="/Users/zds1989/Documents/Academic/FYP/RepoArchived/teammates-lib/test/libs/imap.jar"/>
 	<classpathentry kind="lib" path="/Users/zds1989/.m2/repository/com/google/appengine/appengine-java-sdk/1.6.1/appengine-java-sdk-1.6.1/lib/shared/appengine-local-runtime-shared.jar"/>

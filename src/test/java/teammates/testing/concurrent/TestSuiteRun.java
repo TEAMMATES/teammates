@@ -17,7 +17,7 @@ import teammates.testing.old.TestEvaluationResultPoints;
 	CoordCourseEditStudentsTeamTest.class,
 	CoordCourseEditStudentsTest.class,
 	CoordCourseEnrolCaseSensitivityTest.class,
-	CoordCourseEnrolStudentsTest.class,
+	CoordCourseEnrolStudentsUITest.class,
 	CoordCourseListUITest.class,
 	
 //	CoordCourseViewTest.class,

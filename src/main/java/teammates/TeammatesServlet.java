@@ -274,7 +274,10 @@ public class TeammatesServlet extends HttpServlet {
 		}
 
 		else if (operation.equals(OPERATION_COORDINATOR_ENROLSTUDENTS)) {
-			coordinatorEnrolStudents();
+			String information = req.getParameter(STUDENT_INFORMATION);
+			String courseID = req.getParameter(COURSE_ID);
+			String response =coordinatorEnrolStudents(information,courseID);
+			resp.getWriter().write(response);
 		}
 
 		else if (operation.equals(OPERATION_COORDINATOR_GETCOURSE)) {
@@ -712,9 +715,8 @@ public class TeammatesServlet extends HttpServlet {
 		resp.getWriter().write(MSG_STATUS_OPENING + MSG_EVALUATION_EDITED + MSG_STATUS_CLOSING);
 	}
 
-	private void coordinatorEnrolStudents() throws IOException {
-		String information = req.getParameter(STUDENT_INFORMATION);
-		String courseID = req.getParameter(COURSE_ID);
+	public String coordinatorEnrolStudents(String information,String courseID) throws IOException {
+
 
 		// Break down the input into Student objects
 		List<Student> studentList = new ArrayList<Student>();
@@ -733,9 +735,10 @@ public class TeammatesServlet extends HttpServlet {
 				// do nothing;
 			} else {
 				fields = entries[x].split("\t");
+				teamName = fields[0].trim();
 				name = fields[1].trim();
 				email = fields[2].trim();
-				teamName = fields[0].trim();
+				
 				// Comments for student are optional
 				if (fields.length == 4) {
 					comments = (fields[3].trim());
@@ -775,7 +778,7 @@ public class TeammatesServlet extends HttpServlet {
 		// Add and edit Student objects in the datastore
 		enrollmentReportList.addAll(courses.enrolStudents(studentList, courseID));
 
-		resp.getWriter().write("<enrollmentreports>" + parseEnrollmentReportListToXML(enrollmentReportList).toString() + "</enrollmentreports>");
+		return "<enrollmentreports>" + parseEnrollmentReportListToXML(enrollmentReportList).toString() + "</enrollmentreports>";
 	}
 
 	private void coordinatorGetCourse() throws IOException, ServletException {

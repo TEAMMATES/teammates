@@ -223,8 +223,14 @@ var COURSE_STATUS_LONG_ID = 4;
 var COURSE_STATUS_LONG_NAME = 5;
 var COURSE_STATUS_INVALID_ID = 6;
 var COURSE_STATUS_INVALID_NAME = 7;
-
 var COURSE_STATUS_DELETED = 8;
+/*
+ * Enrol Student Status Code
+ * 
+ */
+var ENROL_STUDENT_SUCCESSFUL = 1;
+var ENROL_STUDENT_ERROR = 2;
+var ENROL_STUDENT_EMPTY = 3;
 
 /*
  * Add Course Server Response
@@ -2427,15 +2433,8 @@ function enrolStudents(input, courseID) {
 		}
 
 		else if (isEnrollmentInputValid(input)) {
-			xmlhttp.open("POST", "/teammates", false);
-			xmlhttp.setRequestHeader("Content-Type",
-					"application/x-www-form-urlencoded;");
-			xmlhttp.send("operation=" + OPERATION_COORDINATOR_ENROLSTUDENTS
-					+ "&" + STUDENT_INFORMATION + "="
-					+ encodeURIComponent(input) + "&" + COURSE_ID + "="
-					+ encodeURIComponent(courseID));
-
-			return handleEnrolStudents();
+			sendEnrolStudentsRequest(input,courseID);
+			return processEnrolStudentsResponse();
 		}
 
 		else {
@@ -2443,6 +2442,19 @@ function enrolStudents(input, courseID) {
 		}
 	}
 }
+
+function sendEnrolStudentsRequest(input,courseID)
+{
+	xmlhttp.open("POST", "/teammates", false);
+	xmlhttp.setRequestHeader("Content-Type",
+			"application/x-www-form-urlencoded;");
+	xmlhttp.send("operation=" + OPERATION_COORDINATOR_ENROLSTUDENTS
+			+ "&" + STUDENT_INFORMATION + "="
+			+ encodeURIComponent(input) + "&" + COURSE_ID + "="
+			+ encodeURIComponent(courseID));
+	
+}
+
 
 function extractSubmissionList(form) {
 	var submissionList = [];
@@ -2611,7 +2623,7 @@ function getXMLObject() {
  * 
  */
 function handleAddEvaluation() {
-	if (xmlhttp.status == 200) {
+	if (xmlhttp.status == CONNECTION_OK) {
 		var status = xmlhttp.responseXML.getElementsByTagName("status")[0];
 		var message;
 
@@ -2693,7 +2705,7 @@ function handleDeleteEvaluation() {
  * 
  */
 function handleDeleteStudent() {
-	if (xmlhttp.status == 200) {
+	if (xmlhttp.status == CONNECTION_OK) {
 		return 0;
 	}
 
@@ -2709,7 +2721,7 @@ function handleDeleteStudent() {
  * 
  */
 function handleEditEvaluation() {
-	if (xmlhttp.status == 200) {
+	if (xmlhttp.status == CONNECTION_OK) {
 		var status = xmlhttp.responseXML.getElementsByTagName("status")[0];
 
 		if (status != null) {
@@ -2737,7 +2749,7 @@ function handleEditEvaluation() {
  * 
  */
 function handleEditEvaluationResults() {
-	if (xmlhttp.status == 200) {
+	if (xmlhttp.status == CONNECTION_OK) {
 		return 0;
 	}
 
@@ -2753,7 +2765,7 @@ function handleEditEvaluationResults() {
  * 
  */
 function handleEditStudent() {
-	if (xmlhttp.status == 200) {
+	if (xmlhttp.status == CONNECTION_OK) {
 		var status = xmlhttp.responseXML.getElementsByTagName("status")[0];
 
 		if (status != null) {
@@ -2780,8 +2792,8 @@ function handleEditStudent() {
  * reports: successful 1: server error
  * 
  */
-function handleEnrolStudents() {
-	if (xmlhttp.status == 200) {
+function processEnrolStudentsResponse() {
+	if (xmlhttp.status == CONNECTION_OK) {
 		var enrollmentReports = xmlhttp.responseXML
 				.getElementsByTagName("enrollmentreports")[0];
 
@@ -2842,7 +2854,7 @@ function handleEnrolStudents() {
  * 
  */
 function handleInformStudentsOfEvaluationChanges() {
-	if (xmlhttp.status == 200) {
+	if (xmlhttp.status == CONNECTION_OK) {
 		return 0;
 	}
 
@@ -2858,7 +2870,7 @@ function handleInformStudentsOfEvaluationChanges() {
  * 
  */
 function handleGetCourse() {
-	if (xmlhttp.status == 200) {
+	if (xmlhttp.status == CONNECTION_OK) {
 		var courses = xmlhttp.responseXML.getElementsByTagName("courses")[0];
 		var courseInfo;
 
@@ -2898,7 +2910,7 @@ function handleGetCourse() {
  * 
  */
 function handleGetCourseIDList() {
-	if (xmlhttp.status == 200) {
+	if (xmlhttp.status == CONNECTION_OK) {
 		clearStatusMessage();
 
 		var courses = xmlhttp.responseXML.getElementsByTagName("courses")[0];
@@ -2932,7 +2944,7 @@ function handleGetCourseIDList() {
  * 
  */
 function handleGetEvaluationList() {
-	if (xmlhttp.status == 200) {
+	if (xmlhttp.status == CONNECTION_OK) {
 		var evaluations = xmlhttp.responseXML
 				.getElementsByTagName("evaluations")[0];
 		var evaluationList = new Array();
@@ -3038,7 +3050,7 @@ function handleGetEvaluationList() {
  * 
  */
 function handleGetStudentList() {
-	if (xmlhttp.status == 200) {
+	if (xmlhttp.status == CONNECTION_OK) {
 		var students = xmlhttp.responseXML.getElementsByTagName("students")[0];
 		var studentList = new Array();
 
@@ -3084,7 +3096,7 @@ function handleGetStudentList() {
 
 
 function handleLogout() {
-	if (xmlhttp.status == 200) {
+	if (xmlhttp.status == CONNECTION_OK) {
 		var url = xmlhttp.responseXML.getElementsByTagName("url")[0];
 		window.location = url.firstChild.nodeValue;
 	}
@@ -3097,7 +3109,7 @@ function handleLogout() {
  * 
  */
 function handlePublishEvaluation() {
-	if (xmlhttp.status == 200) {
+	if (xmlhttp.status == CONNECTION_OK) {
 		return 0;
 	}
 
@@ -3113,7 +3125,7 @@ function handlePublishEvaluation() {
  * 
  */
 function handleUnpublishEvaluation() {
-	if (xmlhttp.status == 200) {
+	if (xmlhttp.status == CONNECTION_OK) {
 		return 0;
 	}
 
@@ -3123,7 +3135,7 @@ function handleUnpublishEvaluation() {
 }
 
 function handleRemindStudents() {
-	if (xmlhttp.status == 200) {
+	if (xmlhttp.status == CONNECTION_OK) {
 		return 0;
 	}
 
@@ -3139,7 +3151,7 @@ function handleRemindStudents() {
  * 
  */
 function handleSendRegistrationKey() {
-	if (xmlhttp.status == 200) {
+	if (xmlhttp.status == CONNECTION_OK) {
 		return 0;
 	}
 
@@ -3154,7 +3166,7 @@ function handleSendRegistrationKey() {
  * 0: successful 1: server error
  */
 function handleSendRegistrationKeys() {
-	if (xmlhttp.status == 200) {
+	if (xmlhttp.status == CONNECTION_OK) {
 		return 0;
 	}
 
