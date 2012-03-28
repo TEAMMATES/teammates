@@ -138,9 +138,9 @@ public class EmailServlet extends HttpServlet {
 		String courseID = req.getParameter(COURSE_ID);
 		String evaluationName = req.getParameter(EVALUATION_NAME);
 		String studentName = req.getParameter(STUDENT_NAME);
-
+		String deadline = req.getParameter(EVALUATION_DEADLINE);
 		emails.informStudentsOfEvaluationOpening(email, studentName, courseID,
-				evaluationName);
+				evaluationName,deadline);
 	}
 	
 	private void informStudentsOfTeamFormingOpening() {

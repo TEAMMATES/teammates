@@ -118,7 +118,7 @@ public class Emails {
 	 *            the evaluation name (Precondition: Must not be null)
 	 */
 	public void informStudentsOfEvaluationOpening(String email,
-			String studentName, String courseID, String evaluationName) {
+			String studentName, String courseID, String evaluationName, String deadline) {
 		try {
 			Session session = Session.getDefaultInstance(props, null);
 			MimeMessage message = new MimeMessage(session);
@@ -131,7 +131,7 @@ public class Emails {
 					evaluationName));
 			message.setText("Dear " + studentName + ",\n\n"
 					+ "The following evaluation: \n\n" + courseID + " "
-					+ evaluationName + "\n\n" + "is now open.\n"
+					+ evaluationName + "\n\n" + "is open from now until the deadline "+ deadline +"H.\n"
 					+ "You can access the evaluation here: "
 					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
 

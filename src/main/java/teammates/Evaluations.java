@@ -932,7 +932,8 @@ public class Evaluations {
 					.param("operation", "informstudentsofevaluationopening")
 					.param("email", s.getEmail()).param("name", s.getName())
 					.param("courseid", courseID)
-					.param("evaluationname", evaluationName));
+					.param("evaluationname", evaluationName)
+					.param("deadline", df.format(deadline)));
 		}
 
 		if (!taskOptionsList.isEmpty()) {
