@@ -19,6 +19,7 @@ var MSG_STUDENTADDEDTOTEAM = "student is added to the team";
 var MSG_STUDENTJOINTEAM = "student has joined the team";
 var MSG_TEAMCREATEDWITHSTUDENT = "team has been created with the student";
 var MSG_TEAMPROFILE_EXISTS = "team profile exists";
+var MSG_TEAMFORMINGSESSION_NULL = "team forming session null";
 
 var STUDENT_PROFILE_DETAIL = "studentprofiledetail";
 var STUDENT_PROFILE_SUMMARY = "studentprofilesummary";
@@ -104,116 +105,122 @@ function displayStudentViewTeams(courseID){
 	
 	var studentDetail = getCourseStudentDetail(courseID);
 	var teamFormingSession = getTeamFormingSession(courseID);
-	currentSessionTimeZone = teamFormingSession.timeZone;
-	
-	var active = 1;
-	if(teamFormingSession.activated==false || teamFormingSession.status=="CLOSED")
-		active = 0;
-	
-	printCourseStudentDetails(courseID, studentDetail, teamFormingSession);
-	
-	var currentStudent = getCurrentUser();	
-	var currentStudentTeamName = getStudentTeamName(courseID, currentStudent.email);
-	currentStudentTeamName = currentStudentTeamName.replace(/^\s*|\s*$/,"");	
-	currentStudentEmail = currentStudent.email;
-	
-	//printing teams that are formed
-	var teams = getTeamsOfCourse(courseID);
-	var output = displayStudentTeams(courseID, teams, currentStudentTeamName, active);	
-	
-	//printing students without team
-	var studentsWithoutTeam = getStudentsWithoutTeam(courseID);
-	if(studentsWithoutTeam.length!=0)
-		output = printStudentsWithoutTeam(output, studentsWithoutTeam, currentStudent.email, active);
-	
-	if(teams.length!=0 || studentsWithoutTeam.length!=0){
-		output = output
-		+ "<br /><br />";
-		//+ "<input type=\"button\" class =\"button\" name=\"button_back\" id=\"button_back\" value=\"Update\" /><br /><br />";
-	}
-	document.getElementById(DIV_COURSE_TABLE).innerHTML = output;
-	
-	//for team profiles
-	for (pos=0; pos<teams.length; pos++) {
-		if (document.getElementById('viewTeamProfile' + pos) != null 
-				&& document.getElementById('viewTeamProfile' + pos).onclick == null) {
-			document.getElementById('viewTeamProfile' + pos).onclick = function() {
-				var current = this.id.substring(15,this.id.length);
-				teams[current].teamName = teams[current].teamName.replace(/^\s*|\s*$/,"");
-				if(teams[current].teamName!=""){
-					var teamName = document.getElementById('viewTeamProfile'+current).innerHTML;
-					manageTeamProfile(courseID, teamName, currentStudent.email);
-				}
-			};
+	if(teamFormingSession==1)
+		displayCourseInformation(courseID);
+	else {
+
+		currentSessionTimeZone = teamFormingSession.timeZone;
+
+		var active = 1;
+		if(teamFormingSession.activated==false || teamFormingSession.status=="CLOSED")
+			active = 0;
+
+		printCourseStudentDetails(courseID, studentDetail, teamFormingSession);
+
+		var currentStudent = getCurrentUser();	
+		var currentStudentTeamName = getStudentTeamName(courseID, currentStudent.email);
+		currentStudentTeamName = currentStudentTeamName.replace(/^\s*|\s*$/,"");	
+		currentStudentEmail = currentStudent.email;
+
+		//printing teams that are formed
+		var teams = getTeamsOfCourse(courseID);
+		var output = displayStudentTeams(courseID, teams, currentStudentTeamName, active);	
+
+		//printing students without team
+		var studentsWithoutTeam = getStudentsWithoutTeam(courseID);
+		if(studentsWithoutTeam.length!=0)
+			output = printStudentsWithoutTeam(output, studentsWithoutTeam, currentStudent.email, active);
+
+		if(teams.length!=0 || studentsWithoutTeam.length!=0){
+			output = output
+			+ "<br /><br />";
+			//+ "<input type=\"button\" class =\"button\" name=\"button_back\" id=\"button_back\" value=\"Update\" /><br /><br />";
 		}
-	}
-	
-	//for adding students without team to some team
-	for (pos=0; pos<studentsWithoutTeam.length; pos++) {
-		if (document.getElementById('buttonAdd' + pos) != null 
-				&& document.getElementById('buttonAdd' + pos).onclick == null) {
-			document.getElementById('buttonAdd' + pos).onclick = function() {
-				var current = this.id.substring(9,this.id.length);				
-				//create a new team with these two
-				if(currentStudentTeamName=="")
-					createTeamWithStudent(courseID, studentDetail.courseName, studentsWithoutTeam[current], currentStudent.email, 
-							currentStudent.nickname);			
-				//add to the current Student's team
-				else
-					addStudentToTeam(courseID, currentStudentTeamName, studentsWithoutTeam[current]);			
-			};
+		document.getElementById(DIV_COURSE_TABLE).innerHTML = output;
+
+		//for team profiles
+		for (pos=0; pos<teams.length; pos++) {
+			if (document.getElementById('viewTeamProfile' + pos) != null 
+					&& document.getElementById('viewTeamProfile' + pos).onclick == null) {
+				document.getElementById('viewTeamProfile' + pos).onclick = function() {
+					var current = this.id.substring(15,this.id.length);
+					teams[current].teamName = teams[current].teamName.replace(/^\s*|\s*$/,"");
+					if(teams[current].teamName!=""){
+						var teamName = document.getElementById('viewTeamProfile'+current).innerHTML;
+						manageTeamProfile(courseID, teamName, currentStudent.email);
+					}
+				};
+			}
 		}
-	}
-	
-	//for joining a team
-	for (pos=0; pos<teams.length; pos++) {
-		if (document.getElementById('buttonJoin' + pos) != null 
-				&& document.getElementById('buttonJoin' + pos).onclick == null) {
-			document.getElementById('buttonJoin' + pos).onclick = function() {
-				var current = this.id.substring(10,this.id.length);
-				joinTeam(courseID, teams[current].teamName, currentStudent.email);
-			};
+
+		//for adding students without team to some team
+		for (pos=0; pos<studentsWithoutTeam.length; pos++) {
+			if (document.getElementById('buttonAdd' + pos) != null 
+					&& document.getElementById('buttonAdd' + pos).onclick == null) {
+				document.getElementById('buttonAdd' + pos).onclick = function() {
+					var current = this.id.substring(9,this.id.length);				
+					//create a new team with these two
+					if(currentStudentTeamName=="")
+						createTeamWithStudent(courseID, studentDetail.courseName, studentsWithoutTeam[current], currentStudent.email, 
+								currentStudent.nickname);			
+					//add to the current Student's team
+					else
+						addStudentToTeam(courseID, currentStudentTeamName, studentsWithoutTeam[current]);			
+				};
+			}
 		}
-	}
-	
-	//for leaving a team
-	for (pos=0; pos<teams.length; pos++) {
-		if (document.getElementById('buttonLeave' + pos) != null 
-				&& document.getElementById('buttonLeave' + pos).onclick == null) {
-			document.getElementById('buttonLeave' + pos).onclick = function() {
-				var current = this.id.substring(11,this.id.length);
-				leaveTeam(courseID, teams[current].teamName, currentStudent.email);
-			};
+
+		//for joining a team
+		for (pos=0; pos<teams.length; pos++) {
+			if (document.getElementById('buttonJoin' + pos) != null 
+					&& document.getElementById('buttonJoin' + pos).onclick == null) {
+				document.getElementById('buttonJoin' + pos).onclick = function() {
+					var current = this.id.substring(10,this.id.length);
+					joinTeam(courseID, teams[current].teamName, currentStudent.email);
+				};
+			}
 		}
-	}
-	
-	//for with team student full profile
-//	for (pos=0; pos<teams.length; pos++) {
+
+		//for leaving a team
+		for (pos=0; pos<teams.length; pos++) {
+			if (document.getElementById('buttonLeave' + pos) != null 
+					&& document.getElementById('buttonLeave' + pos).onclick == null) {
+				document.getElementById('buttonLeave' + pos).onclick = function() {
+					var current = this.id.substring(11,this.id.length);
+					leaveTeam(courseID, teams[current].teamName, currentStudent.email);
+				};
+			}
+		}
+
+
+		//for with team student full profile
+//		for (pos=0; pos<teams.length; pos++) {
 //		var students = getStudentsOfCourseTeam(courseID, teams[pos].teamName);
 //		for(j=0; j<students.length; j++){
-//			if (document.getElementById('withTeamStudent' + pos + j) != null 
-//					&& document.getElementById('withTeamStudent' + pos + j).onclick == null) {
-//				document.getElementById('withTeamStudent' + pos + j).onclick = function() {
-//					var teamIndex = this.id.substring(this.id.length-2,this.id.length-1);
-//					var studentIndex = this.id.substring(this.id.length-1,this.id.length);
-//					students = getStudentsOfCourseTeam(courseID, teams[teamIndex].teamName);
-//					displayStudentFullProfile(courseID, teams[teamIndex].teamName, students[studentIndex].email);
-//				};
-//			}
+//		if (document.getElementById('withTeamStudent' + pos + j) != null 
+//		&& document.getElementById('withTeamStudent' + pos + j).onclick == null) {
+//		document.getElementById('withTeamStudent' + pos + j).onclick = function() {
+//		var teamIndex = this.id.substring(this.id.length-2,this.id.length-1);
+//		var studentIndex = this.id.substring(this.id.length-1,this.id.length);
+//		students = getStudentsOfCourseTeam(courseID, teams[teamIndex].teamName);
+//		displayStudentFullProfile(courseID, teams[teamIndex].teamName, students[studentIndex].email);
+//		};
 //		}
-//	}
-	
-	//for without team student full profile
-//	for (pos=0; pos<studentsWithoutTeam.length; pos++) {
+//		}
+//		}
+
+		//for without team student full profile
+//		for (pos=0; pos<studentsWithoutTeam.length; pos++) {
 //		if (document.getElementById('withoutTeamStudent' + pos) != null 
-//				&& document.getElementById('withoutTeamStudent' + pos).onclick == null) {
-//			document.getElementById('withoutTeamStudent' + pos).onclick = function() {
-//				var index = this.id.substring(this.id.length-1,this.id.length);
-//				displayStudentFullProfile(courseID, "", studentsWithoutTeam[index].email);
-//			};
+//		&& document.getElementById('withoutTeamStudent' + pos).onclick == null) {
+//		document.getElementById('withoutTeamStudent' + pos).onclick = function() {
+//		var index = this.id.substring(this.id.length-1,this.id.length);
+//		displayStudentFullProfile(courseID, "", studentsWithoutTeam[index].email);
+//		};
 //		}
-//	}
-	setStatusMessage(DISPLAY_ALLACTIONSLOGGED);
+//		}
+		setStatusMessage(DISPLAY_ALLACTIONSLOGGED);
+	}
 }
 
 function displayStudentFullProfile(courseID, teamName, studentEmail)
@@ -421,9 +428,6 @@ function getTeamFormingSession(courseID)
 				+ COURSE_ID + "=" + encodeURIComponent(courseID)); 
 		results = handleGetTeamFormingSession();
 	}
-	
-	if(results == 1)
-		alert(DISPLAY_SERVERERROR);
 	
 	return results;
 }
@@ -747,20 +751,23 @@ function handleGetTeamFormingSession()
 {
 	if (xmlhttp.status == 200) 
 	{
-		var teamFormingSession = xmlhttp.responseXML.getElementsByTagName("teamformingsession")[0];
-		var now;
+		var status = xmlhttp.responseXML.getElementsByTagName("status")[0];
 		
-		var teamFormingSessionObject;
-		var courseID;
-		var profileTemplate;
-		var instructions;
-		var start;
-		var deadline;
-		var gracePeriod;
-		var status;
-		var activated;
-		
-		if(teamFormingSession != null) {				
+		if(status==null){
+			var teamFormingSession = xmlhttp.responseXML.getElementsByTagName("teamformingsession")[0];
+			var now;
+
+			var teamFormingSessionObject;
+			var courseID;
+			var profileTemplate;
+			var instructions;
+			var start;
+			var deadline;
+			var gracePeriod;
+			var status;
+			var activated;
+
+			if(teamFormingSession != null) {				
 				courseID = teamFormingSession.getElementsByTagName(COURSE_ID)[0].firstChild.nodeValue;
 				start = new Date(teamFormingSession.getElementsByTagName(TEAMFORMING_START)[0].firstChild.nodeValue);
 				deadline = new Date(teamFormingSession.getElementsByTagName(TEAMFORMING_DEADLINE)[0].firstChild.nodeValue);
@@ -777,22 +784,25 @@ function handleGetTeamFormingSession()
 				{
 					status = "OPEN";
 				}
-				
+
 				else if(now > deadline)
 				{
 					status = "CLOSED";
 				}
-				
+
 //				else if (now < start && !activated)
 //				{
-//					status = "AWAITING";
+//				status = "AWAITING";
 //				}
-				
+
 				teamFormingSessionObject = { courseID:courseID, start:start, deadline:deadline, 
 						timeZone:timeZone, gracePeriod:gracePeriod, instructions:instructions,
-						 activated:activated, profileTemplate:profileTemplate, status:status};
-		}		
-		return teamFormingSessionObject;
+						activated:activated, profileTemplate:profileTemplate, status:status};
+			}		
+			return teamFormingSessionObject;
+		}
+		else
+			return 1;
 	}
 	
 	else

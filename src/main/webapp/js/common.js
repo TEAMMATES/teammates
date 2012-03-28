@@ -1498,7 +1498,7 @@ function printJoinCourse() {
  * Student view course info
  */
 function printCourseStudentForm(course) {
-	var outputHeader = "<h1>COURSE DETAIL</h1>";
+	var outputHeader = "<h1>TEAM DETAIL FOR "+course.courseID+"</h1>";
 
 	var output = "<table width=\"600\" class=\"detailform\">" + "<tr>"
 			+ "<td>Course ID:</td>" + "<td>"

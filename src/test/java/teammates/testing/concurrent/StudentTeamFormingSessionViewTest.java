@@ -24,6 +24,7 @@ public class StudentTeamFormingSessionViewTest extends TestCase {
 
 	static BrowserInstance bi;
 	static Scenario scn = setupScenarioInstance("teamForming");
+	static Scenario scn2 = setupScenarioInstance("teamForming");
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -36,6 +37,11 @@ public class StudentTeamFormingSessionViewTest extends TestCase {
 		TMAPI.createTeamFormingSession(scn.teamFormingSession);
 		TMAPI.studentsJoinCourse(scn.students, scn.course.courseId);
 		TMAPI.openTeamFormingSession(scn.course.courseId);
+		
+		TMAPI.cleanupCourse(scn2.course.courseId);
+		TMAPI.createCourse(scn2.course);
+		TMAPI.enrollStudents(scn2.course.courseId, scn2.students);
+		TMAPI.studentsJoinCourse(scn2.students, scn2.course.courseId);
 	}
 
 	@AfterClass
@@ -43,6 +49,7 @@ public class StudentTeamFormingSessionViewTest extends TestCase {
 		if (bi.isElementPresent(bi.logoutTab))
 			bi.logout();
 		TMAPI.cleanupCourse(scn.course.courseId);
+		TMAPI.cleanupCourse(scn2.course.courseId);
 
 		BrowserInstancePool.release(bi);
 		System.out.println("StudentTeamFormingSessionViewTest ==========//");
@@ -74,5 +81,18 @@ public class StudentTeamFormingSessionViewTest extends TestCase {
 		
 		bi.verifyViewTeamsPage(scn.students);
 		bi.logout();
+	}
+	
+	@Test
+	public void testStudentViewTeamsWithoutNullTeamFormingSession() throws Exception {
+		Student student = scn2.students.get(0);
+		bi.studentLogin(student.email, student.password);
+		bi.clickTeamFormingSessionViewTeams(scn2.course.courseId);
+		bi.justWait();
+		
+		String header = "TEAM DETAIL FOR "+student.courseID;
+		
+		assertTrue(bi.getElementText(By.id("headerOperation")).contains(header.toUpperCase()));
+		assertTrue(bi.isElementPresent(bi.resultBackButton));
 	}
 }

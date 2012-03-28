@@ -430,7 +430,7 @@ public class Emails {
 					+ "Forming Teams\n"
 					+ "If the course requires you to form teams using TEAMMATES system, go the the \"View Teams\" link for the corresponding course."
 					+ "You can then create your profile and add students to your team/join a team/leave a team.\n\n"
-					+ "Submit pending evaluations\n"
+					+ "Submitting peer evaluations\n"
 					+ "If the course requires you to submit peer evaluations, click \"Evaluations\" tab at the top "
 					+ "to check if there are any pending peer-evaluations.\n\n"
 					+ "In case of problems:\n"

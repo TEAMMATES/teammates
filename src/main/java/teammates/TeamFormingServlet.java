@@ -103,6 +103,7 @@ public class TeamFormingServlet extends HttpServlet {
 	private static final String MSG_STATUS_CLOSING = "</status>";
 	private static final String MSG_STUDENTADDEDTOTEAM = "student is added to the team";
 	private static final String MSG_TEAMFORMINGSESSION_EDITED = "team forming session edited";
+	private static final String MSG_TEAMFORMINGSESSION_NULL = "team forming session null";
 	private static final String MSG_TEAMFORMINGSESSION_REMAINED = "team forming session remained";
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -502,11 +503,16 @@ public class TeamFormingServlet extends HttpServlet {
 		TeamForming teamForming = TeamForming.inst();
 		TeamFormingSession teamFormingSession = teamForming.getTeamFormingSession(courseID, dummyDeadline);
 		
+		if(teamFormingSession!=null){
 		resp.getWriter().write(
 				"<teamformingsession>"
 						+ parseCoordinatorTeamFormingSesssionToXML(
 								teamFormingSession).toString()
 						+ "</teamformingsession>");
+		}
+		else
+			resp.getWriter().write(
+					MSG_STATUS_OPENING + MSG_TEAMFORMINGSESSION_NULL + MSG_STATUS_CLOSING);
 	}
 	
 	private void coordinatorGetTeamFormingSessionLog() throws IOException {
