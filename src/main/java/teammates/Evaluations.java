@@ -14,7 +14,6 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
 
 import teammates.exception.EvaluationExistsException;
-import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
 import teammates.jdo.Evaluation;
 import teammates.jdo.Student;
@@ -230,8 +229,7 @@ public class Evaluations {
 		for (Student sx : studentList) {
 			for (Student sy : studentList) {
 				if (sx.getTeamName().equals(sy.getTeamName())) {
-					submission = new Submission(sx.getEmail(), sy.getEmail(),
-							courseID, evaluationName, sx.getTeamName());
+					submission = new Submission(sx.getEmail(), sy.getEmail(), courseID, evaluationName, sx.getTeamName());
 					submissionList.add(submission);
 				}
 
@@ -809,24 +807,19 @@ public class Evaluations {
 	 * Returns the Submission objects of an Evaluation.
 	 * 
 	 * @param courseID
-	 *            the course ID (Pre-condition: The courseID and evaluationName
-	 *            pair must be valid)
+	 *            the course ID (Pre-condition: The courseID and evaluationName pair must be valid)
 	 * 
 	 * @param evaluationName
-	 *            the evaluation name (Pre-condition: The courseID and
-	 *            evaluationName pair must be valid)
+	 *            the evaluation name (Pre-condition: The courseID and evaluationName pair must be valid)
 	 * 
 	 * @return the submissions pertaining to an evaluation
 	 */
-	public List<Submission> getSubmissionList(String courseID,
-			String evaluationName) {
-		String sQuery = "select from " + Submission.class.getName()
-				+ " where courseID == '" + courseID
-				+ "' && evaluationName == '" + evaluationName + "'";
+	public List<Submission> getSubmissionList(String courseID, String evaluationName) {
+		String sQuery = "select from " + Submission.class.getName() 
+						+ " where courseID == '" + courseID + "' && evaluationName == '" + evaluationName + "'";
 
 		@SuppressWarnings("unchecked")
-		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
-				sQuery).execute();
+		List<Submission> submissionList = (List<Submission>) getPM().newQuery(sQuery).execute();
 		return submissionList;
 	}
 

@@ -346,7 +346,7 @@ public class TMAPI {
 	 * "original: 100, 100, 100; normalized: 100, 100, 100; claimed: 100; perceived: 100; claimedCoord: 100"
 	 **/
 	//index 0: original
-	private static String getSubmissionPoints(String submission){
+	public static String getSubmissionPoints(String submission){
 
 		String original = submission.split("; ")[0];// "original: 100, 100, 100"
 		String points = original.substring(SUBMISSION_DATA_TAG_ORIGINAL.length());// "100, 100, 100"
