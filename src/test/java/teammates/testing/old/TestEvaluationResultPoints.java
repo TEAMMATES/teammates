@@ -29,7 +29,7 @@ public class TestEvaluationResultPoints extends BaseTest {
 	
 	@BeforeClass
 	public static void classSetup() throws IOException {
-		setupScenarioForBumpRatioTest(2);
+		setupScenarioForBumpRatioTest(9);
 		TMAPI.cleanup();
 		TMAPI.createCourse(sc.course);
 		TMAPI.enrollStudents(sc.course.courseId, sc.students);
@@ -85,26 +85,29 @@ public class TestEvaluationResultPoints extends BaseTest {
 		//assertEquals(perceivedPoints, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='data']//tr[%d]//td[%d]", 3, 2))));
 		
 		//check normalized points given TO teammates:
-				List<String> pointList1 = TMAPI.coordGetPointsToOthersOneLine(sc.submissionPoints, 0);
-				List<String> pointList2 = TMAPI.coordGetPointsToOthersTwoLines(sc.submissionPoints, 0);
-				
-				for(int i = 0; i < pointList1.size(); i++) {
-					String student = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", i + 4, 1)));
-					//String student = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", i + 2, 1)));
-					String toStudent1 = "";
-					String toStudent2 = "";
-					if(!student.equalsIgnoreCase(sc.students.get(0).name)) {
-						for(int j = 0; j < sc.students.size(); j++){
-							if(sc.students.get(j).name.equalsIgnoreCase(student)) {
-								toStudent1 = pointList1.get(j);
-								toStudent2 = pointList2.get(j);
-								continue;
-							}
-						}
-						assertEqualsOr(toStudent1, toStudent2, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", i + 4, 2))));
-						//assertEquals(toStudent, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", i + 2, 2))));
+		List<String> pointList1 = TMAPI.coordGetPointsToOthersOneLine(sc.submissionPoints, 0);
+		List<String> pointList2 = TMAPI.coordGetPointsToOthersTwoLines(sc.submissionPoints, 0);
+		
+		for(int i = 0; i < pointList1.size(); i++) {
+			String student = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", i + 4, 1)));
+			//String student = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", i + 2, 1)));
+			String toStudent1 = "";
+			String toStudent2 = "";
+			if(!student.equalsIgnoreCase(sc.students.get(0).name)) {
+				for(int j = 0; j < sc.students.size(); j++){
+					if(sc.students.get(j).name.equalsIgnoreCase(student)) {
+						toStudent1 = pointList1.get(j);
+						toStudent2 = pointList2.get(j);
+						continue;
 					}
 				}
+				System.out.println("toStudent 1: " + toStudent1);
+				System.out.println("toStudent 2: " + toStudent2);
+				System.out.println("actual: " + getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", i + 4, 2))));
+				assertEqualsOr(toStudent1, toStudent2, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", i + 4, 2))));
+				//assertEquals(toStudent, getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", i + 2, 2))));
+			}
+		}
 	}
 	
 	@Test

@@ -172,12 +172,6 @@ public class BrowserInstance {
 	public By pointRevieweeIndividualClaimed = By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='result_table']//th[2]"));
 	public By pointRevieweeIndividualPerceived = By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='result_table']//th[3]"));
 
-	public String getReviewerIndividualClaimedPoint() {
-		String equal = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@class='result_table']//th[%d]//div[%d]", 2, 1)));
-		String point = getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@class='result_table']//th[%d]//span[%d]", 2, 2)));
-		return equal + point;
-	}
-
 	// detail result:
 	public By resultTopButton = By.id("button_top");
 
@@ -1199,38 +1193,53 @@ public class BrowserInstance {
 	}
 
 	// reviewer individual:
+	public String getReviewerIndividualClaimedPoint() {
+		return this.getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]", 2)));
+	}
+	
+	public String getReviewerIndividualPerceivedPoint() {
+		return this.getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]", 3)));
+	}
+	
 	public By getReviewerIndividualToStudent(int row) {
-		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", row + 2, 1));
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", row + 4, 1));
 	}
 
 	public By getReviewerIndividualToStudentPoint(int row) {
-		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", row + 2, 2));
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", row + 4, 2));
 	}
 
 	// reviewee individual:
+	public String getRevieweeIndividualClaimedPoint() {
+		return this.getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]", 2)));
+	}
+	public String getRevieweeIndividualPerceivedPoint() {
+		return this.getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]", 3)));
+	}
+	
 	public By getRevieweeIndividualFromStudent(int row) {
-		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", row + 2, 1));
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", row + 4, 1));
 	}
 
 	public By getRevieweeIndividualFromStudentPoint(int row) {
-		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@id='dataform']//tr[%d]//td[%d]", row + 2, 2));
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", row + 4, 2));
 	}
 
 	// reviewer detail:
-	public By getReviewerDetailClaimed(int team, int row) {
-		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[%d]//tr[%d]//td[%d]", team, row + 2, 2));
+	public By getReviewerDetailClaimedPoint(int team, int row) {
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]", team, row, 2));
 	}
 
 	public By getReviewerDetailPerceived(int team, int row) {
-		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[%d]//tr[%d]//td[%d]", team, row + 3, 2));
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]", team, row, 3));
 	}
 
-	public By getReviewerDetailToStudent(int position, int studentIndex) {
-		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//tr[%d]//table[@id='dataform']//tr[%d]//td[%d]", position + 7, studentIndex + 2, 1));
+	public By getReviewerDetailToStudent(int team, int position, int row) {
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", team, position, row + 4, 1));
 	}
 
-	public By getReviewerDetailToStudentPoint(int position, int studentIndex) {
-		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//tr[%d]//table[@id='dataform']//tr[%d]//td[%d]", position + 7, studentIndex + 2, 2));
+	public By getReviewerDetailToStudentPoint(int team, int position, int row) {
+		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", team, position, row + 4, 2));
 	}
 
 	// reviewee detail:

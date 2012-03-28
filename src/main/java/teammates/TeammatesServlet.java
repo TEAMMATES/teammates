@@ -1474,83 +1474,91 @@ public class TeammatesServlet extends HttpServlet {
 
 	public String studentGetSubmissionResultsList(String courseID, String evaluationName, String googleID) throws IOException {
 		Courses courses = Courses.inst();
-		Evaluations evaluations = Evaluations.inst();
-		
-		Student student = courses.getStudentWithID(courseID, googleID);
-		String toStudent = student.getEmail();
-		String teamName = student.getTeamName();
-		
-		String fromStudentName = "";
-		String toStudentName = "";
-		String fromStudentComments = null;
-		String toStudentComments = null;
-		float pointsBumpRatio = 0;
-		
-		List<Submission> submissionList = evaluations.getSubmissionList(courseID, evaluationName);
-		List<Submission> filteredSubmissionList = new ArrayList<Submission>();
-		List<Submission> fromList = new ArrayList<Submission>();
-		List<SubmissionResultsForStudent> submissionResultsList = new ArrayList<SubmissionResultsForStudent>();
-		
-		for (Submission s : submissionList) {
-			if (s.getTeamName().equals(teamName))
-				filteredSubmissionList.add(s);
-		}
+        Student student = courses.getStudentWithID(courseID, googleID);
 
-		for (Submission s : filteredSubmissionList) {
-			//fromStudent
-			student = courses.getStudentWithEmail(courseID, s.getFromStudent());
-			if (student != null) {
-				fromStudentName = student.getName();
-				fromStudentComments = student.getComments();
-			} else {
-				fromStudentName = "[deleted]" + s.getFromStudent();
-				fromStudentComments = "";
-			}
+        Evaluations evaluations = Evaluations.inst();
+        List<Submission> submissionList = evaluations.getSubmissionList(courseID, evaluationName);
 
-			//toStudent
-			student = courses.getStudentWithEmail(courseID, s.getToStudent());
-			if (student != null) {
-				toStudentName = student.getName();
-				toStudentComments = student.getComments();
-			} else {
-				toStudentName = "[deleted]" + s.getToStudent();
-				toStudentComments = "";
-			}
+        String toStudent = student.getEmail();
 
-			for (Submission fs : submissionList) {
-				if (fs.getFromStudent().equals(s.getFromStudent())) {
-					fromList.add(fs);
-				}
-			}
+        // Filter the submission list to only from the target student's team
+        String teamName = student.getTeamName();
 
-			pointsBumpRatio = evaluations.calculatePointsBumpRatio(courseID, evaluationName, s.getFromStudent(), fromList);
+        List<Submission> filteredSubmissionList = new ArrayList<Submission>();
 
-			if (s.getFromStudent().equals(toStudent) && s.getToStudent().equals(toStudent)) {
-				submissionResultsList.add(0, new SubmissionResultsForStudent(courseID, evaluationName, fromStudentName, toStudentName, s.getFromStudent(), s.getToStudent(), fromStudentComments,
-						toStudentComments, s.getTeamName(), s.getPoints(), pointsBumpRatio, s.getJustification(), s.getCommentsToStudent()));
-			}
+        for (Submission s : submissionList) {
+                if (s.getTeamName().equals(teamName)) {
+                        filteredSubmissionList.add(s);
+                }
+        }
 
-			else {
-				submissionResultsList.add(new SubmissionResultsForStudent(courseID, evaluationName, fromStudentName, toStudentName, s.getFromStudent(), s.getToStudent(), fromStudentComments,
-						toStudentComments, s.getTeamName(), s.getPoints(), pointsBumpRatio, s.getJustification(), s.getCommentsToStudent()));
-			}
-		}
+        System.out.println("filtered number: " + filteredSubmissionList.size());
+        List<SubmissionResultsForStudent> submissionResultsList = new ArrayList<SubmissionResultsForStudent>();
 
-		// Sort by Comments alphabetically
-		SubmissionResultsForStudent selfEvaluation = submissionResultsList.remove(0);
+        String fromStudentName = "";
+        String toStudentName = "";
 
-		Collections.sort(submissionResultsList, new Comparator<SubmissionResultsForStudent>() {
-			public int compare(SubmissionResultsForStudent r1, SubmissionResultsForStudent r2) {
-				String s1 = r1.getCommentsToStudent().getValue();
-				String s2 = r2.getCommentsToStudent().getValue();
-				return s1.compareToIgnoreCase(s2);
-			}
-		});
+        String fromStudentComments = null;
+        String toStudentComments = null;
 
-		submissionResultsList.add(0, selfEvaluation);
+        float pointsBumpRatio = 0;
+
+        for (Submission s : filteredSubmissionList) {
+                student = courses.getStudentWithEmail(courseID, s.getFromStudent());
+
+                if (student != null) {
+                        fromStudentName = student.getName();
+                        fromStudentComments = student.getComments();
+                } else {
+                        fromStudentName = "[deleted]" + s.getFromStudent();
+                        fromStudentComments = ("");
+                }
+
+                student = courses.getStudentWithEmail(courseID, s.getToStudent());
+                if (student != null) {
+                        toStudentName = student.getName();
+                        toStudentComments = student.getComments();
+                } else {
+                        toStudentName = "[deleted]" + s.getToStudent();
+                        toStudentComments = "";
+                }
+
+                List<Submission> fromList = new ArrayList<Submission>();
+                for (Submission fs : submissionList) {
+                        if (fs.getFromStudent().equals(s.getFromStudent())) {
+                                fromList.add(fs);
+                        }
+                }
+
+                pointsBumpRatio = evaluations.calculatePointsBumpRatio(courseID, evaluationName, s.getFromStudent(), fromList);
+
+                if (s.getFromStudent().equals(toStudent) && s.getToStudent().equals(toStudent)) {
+                        submissionResultsList.add(0, new SubmissionResultsForStudent(courseID, evaluationName, fromStudentName, toStudentName, s.getFromStudent(), s.getToStudent(), fromStudentComments,
+                                        toStudentComments, s.getTeamName(), s.getPoints(), pointsBumpRatio, s.getJustification(), s.getCommentsToStudent()));
+                }
+
+                else {
+                        submissionResultsList.add(new SubmissionResultsForStudent(courseID, evaluationName, fromStudentName, toStudentName, s.getFromStudent(), s.getToStudent(), fromStudentComments,
+                                        toStudentComments, s.getTeamName(), s.getPoints(), pointsBumpRatio, s.getJustification(), s.getCommentsToStudent()));
+                }
+        }
+
+        // Sort by Comments alphabetically
+        SubmissionResultsForStudent selfEvaluation = submissionResultsList.remove(0);
+
+        Collections.sort(submissionResultsList, new Comparator<SubmissionResultsForStudent>() {
+                public int compare(SubmissionResultsForStudent r1, SubmissionResultsForStudent r2) {
+                        String s1 = r1.getCommentsToStudent().getValue();
+                        String s2 = r2.getCommentsToStudent().getValue();
+                        return s1.compareToIgnoreCase(s2);
+                }
+        });
+
+        submissionResultsList.add(0, selfEvaluation);
 		return "<submissions>" + parseSubmissionResultsForStudentListToXML(submissionResultsList).toString() + "</submissions>";
 
 	}
+
 
 	private void studentJoinCourse() throws IOException {
 		Accounts accounts = Accounts.inst();

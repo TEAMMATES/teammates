@@ -3,8 +3,6 @@ package teammates.testing.concurrent;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import teammates.testing.old.TestEvaluationResultPoints;
-
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
@@ -31,6 +29,7 @@ import teammates.testing.old.TestEvaluationResultPoints;
 	CoordEvaluationResultsViewTest.class,
 	
 	CoordLoginTest.class,
+	CoordViewResultsUITest.class,
 	
 //	StudentCourseJoinTest.class,
 	StudentEvaluationEditTest2.class,
@@ -38,12 +37,11 @@ import teammates.testing.old.TestEvaluationResultPoints;
 	StudentEvaluationSubmitTest2.class,
 	
 	StudentLoginTest.class,
+	StudentViewResultsUITest.class,
 
 	SystemFooterTest.class,
 //	SystemRemindEvaluationBeforeDeadlineTest.class,
-	SystemVerifyHelpPageTest.class,
-	TestEvaluationResultPoints.class
-//	SystemEvaluationResultsCalculationTest.class,
+	SystemVerifyHelpPageTest.class
 	
 })
 
