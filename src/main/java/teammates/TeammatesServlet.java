@@ -299,7 +299,11 @@ public class TeammatesServlet extends HttpServlet {
 		}
 
 		else if (operation.equals(OPERATION_COORDINATOR_GETSUBMISSIONLIST)) {
-			coordinatorGetSubmissionList();
+			String courseID = req.getParameter(COURSE_ID);
+			String evaluationName = req.getParameter(EVALUATION_NAME);
+			
+			String response = coordinatorGetSubmissionList(courseID, evaluationName);
+			resp.getWriter().write(response);
 		}
 
 		else if (operation.equals(OPERATION_COORDINATOR_INFORMSTUDENTSOFEVALUATIONCHANGES)) {
@@ -837,10 +841,7 @@ public class TeammatesServlet extends HttpServlet {
 
 	}
 
-	private void coordinatorGetSubmissionList() throws IOException {
-		String courseID = req.getParameter(COURSE_ID);
-		String evaluationName = req.getParameter(EVALUATION_NAME);
-
+	public String coordinatorGetSubmissionList(String courseID, String evaluationName) throws IOException {
 		Evaluations evaluations = Evaluations.inst();
 		List<Submission> submissionList = evaluations.getSubmissionList(courseID, evaluationName);
 
@@ -848,7 +849,6 @@ public class TeammatesServlet extends HttpServlet {
 
 		String fromStudentName = "";
 		String toStudentName = "";
-
 		String fromStudentComments = null;
 		String toStudentComments = null;
 		Student student = null;
@@ -896,8 +896,8 @@ public class TeammatesServlet extends HttpServlet {
 					toStudentComments, s.getTeamName(), s.getPoints(), pointsBumpRatio, s.getJustification(), s.getCommentsToStudent()));
 
 		}
-
-		resp.getWriter().write("<submissions>" + parseSubmissionDetailsForCoordinatorListToXML(submissionDetailsList).toString() + "</submissions>");
+		
+		return "<submissions>" + parseSubmissionDetailsForCoordinatorListToXML(submissionDetailsList).toString() + "</submissions>";
 
 	}
 

@@ -263,6 +263,8 @@ function displayCoursesTab() {
 	scrollToTop(DIV_TOPOFPAGE);
 }
 
+
+
 //----------------------------------------------------------ADD COURSE FUNCTIONS
 function printAddCourseForm() {
 	var outputHeader = "<h1>ADD NEW COURSE</h1>";
@@ -589,6 +591,8 @@ function printCourseList(courseList) {
 	};
 }
 
+
+
 //----------------------------------------------------------DELETE COURSE FUNCTIONS
 /**
  * Coordinator Delete Course
@@ -651,8 +655,21 @@ function processDeleteCourseResponse() {
 
 }
 
+
+
 /***********************************************************EVALUATION PAGE***********************************************************/
 /*----------------------------------------------------------EVALUATION PAGE----------------------------------------------------------*/
+function displayEvaluationsTab() {
+	clearDisplay();
+	printEvaluationAddForm();
+	doGetCourseIDList();
+	doGetEvaluationList();
+	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
+}
+
+
+
+//----------------------------------------------------------ADD EVALUATION FUNCTIONS
 /**
  * Coordinator Add Evaluation
  *  
@@ -710,111 +727,267 @@ function addEvaluation(courseID, name, instructions, commentsEnabled, start,
 
 }
 
-/*
- * Returns
- * 
- * 0: successful 1: server error
- * 
- */
-function archiveCourse(courseID) {
+
+
+//----------------------------------------------------------LIST EVALUATION FUNCTIONS
+function doGetEvaluationList() {
 	setStatusMessage(DISPLAY_LOADING);
 
-	if (xmlhttp) {
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-				"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_ARCHIVECOURSE + "&"
-				+ COURSE_ID + "=" + encodeURIComponent(courseID));
+	var results = getEvaluationList();
 
-		return handleArchiveCourse();
-	}
-}
-
-function clearDisplay() {
-	document.getElementById(DIV_COURSE_INFORMATION).innerHTML = "";
-	document.getElementById(DIV_COURSE_ENROLLMENT).innerHTML = "";
-	document.getElementById(DIV_COURSE_ENROLLMENTBUTTONS).innerHTML = "";
-	document.getElementById(DIV_COURSE_ENROLLMENTRESULTS).innerHTML = "";
-	document.getElementById(DIV_COURSE_MANAGEMENT).innerHTML = "";
-	document.getElementById(DIV_COURSE_TABLE).innerHTML = "";
-	document.getElementById(DIV_EVALUATION_EDITBUTTONS).innerHTML = "";
-	document.getElementById(DIV_EVALUATION_EDITRESULTSBUTTON).innerHTML = "";
-	document.getElementById(DIV_EVALUATION_INFORMATION).innerHTML = "";
-	document.getElementById(DIV_EVALUATION_MANAGEMENT).innerHTML = "";
-	document.getElementById(DIV_EVALUATION_SUMMARYTABLE).innerHTML = "";
-	document.getElementById(DIV_EVALUATION_TABLE).innerHTML = "";
-	document.getElementById(DIV_HEADER_OPERATION).innerHTML = "";
-	document.getElementById(DIV_STATUS_EDITEVALUATIONRESULTS).innerHTML = "";
-	document.getElementById(DIV_STUDENT_EDITBUTTONS).innerHTML = "";
-	document.getElementById(DIV_STUDENT_INFORMATION).innerHTML = "";
-	document.getElementById(DIV_STUDENT_TABLE).innerHTML = "";
 	clearStatusMessage();
-}
 
-function checkEditStudentInput(editName, editTeamName, editEmail, editGoogleID) {
-	if (editName == "" || editTeamName == "" || editEmail == "") {
-		setStatusMessage(DISPLAY_EDITSTUDENT_FIELDSEMPTY);
-	}
+	if (results != 1) {
 
-	if (!isStudentNameValid(editName)) {
-		setStatusMessage(DISPLAY_STUDENT_NAMEINVALID);
-	}
+		// Toggle calls printEvaluationList too
+		if (evaluationSortStatus == evaluationSort.name) {
+			toggleSortEvaluationsByName(results);
 
-	else if (!isStudentEmailValid(editEmail)) {
-		setStatusMessage(DISPLAY_STUDENT_EMAILINVALID);
-	}
+		}
 
-	else if (!isStudentTeamNameValid(editTeamName)) {
-		setStatusMessage(DISPLAY_STUDENT_TEAMNAMEINVALID);
-	}
-}
-
-function checkEnrollmentInput(input) {
-	input = replaceAll(input, "|", "\t");
-
-	var entries = input.split("\n");
-	var fields;
-
-	var entriesLength = entries.length;
-	for ( var x = 0; x < entriesLength; x++) {
-		// Ignore blank line
-		if (entries[x] != "") {
-			// Separate the fields
-			fields = entries[x].split("\t");
-			var fieldsLength = fields.length;
-
-			// Make sure that all fields are present
-			if (fieldsLength < 3) {
-				setStatusMessage("<font color=\"#F00\">Line " + (x + 1)
-						+ ":</font> " + DISPLAY_ENROLLMENT_FIELDSMISSING);
-			}
-
-			else if (fieldsLength > 4) {
-				setStatusMessage("<font color=\"#F00\">Line " + (x + 1)
-						+ ":</font> " + DISPLAY_ENROLLMENT_FIELDSEXTRA);
-			}
-
-			// Check that fields are correct
-			if (!isStudentNameValid(trim(fields[1]))) {
-				setStatusMessage("<font color=\"#F00\">Line " + (x + 1)
-						+ ":</font> " + DISPLAY_STUDENT_NAMEINVALID);
-			}
-
-			else if (!isStudentEmailValid(trim(fields[2]))) {
-				setStatusMessage("<font color=\"#F00\">Line " + (x + 1)
-						+ ":</font> " + DISPLAY_STUDENT_EMAILINVALID);
-			}
-
-			else if (!isStudentTeamNameValid(trim(fields[0]))) {
-				setStatusMessage("<font color=\"#F00\">Line " + (x + 1)
-						+ ":</font> " + DISPLAY_STUDENT_TEAMNAMEINVALID);
-			}
+		else {
+			toggleSortEvaluationsByCourseID(results);
 		}
 	}
 
+	else {
+		alert(DISPLAY_SERVERERROR);
+	}
 }
 
-function compileSubmissionsIntoSummaryList(submissionList) {
+function toggleSortEvaluationsByCourseID(evaluationList) {
+	printEvaluationList(evaluationList.sort(sortByCourseID));
+	evaluationSortStatus = evaluationSort.courseID;
+	document.getElementById("button_sortcourseid").setAttribute("class",
+			"buttonSortAscending");
+}
+
+function toggleSortEvaluationsByName(evaluationList) {
+	printEvaluationList(evaluationList.sort(sortByName));
+	evaluationSortStatus = evaluationSort.name;
+	document.getElementById("button_sortname").setAttribute("class",
+			"buttonSortAscending");
+}
+
+
+
+/***********************************************************EVALUATION RESULT PAGE***********************************************************/
+/*----------------------------------------------------------EVALUATION RESULT PAGE----------------------------------------------------------*/
+function displayEvaluationResults(evaluationList, loop) {
+	var courseID = evaluationList[loop].courseID;
+	var name = evaluationList[loop].name;
+	var instructions = evaluationList[loop].instructions;
+	var start = evaluationList[loop].start;
+	var deadline = evaluationList[loop].deadline;
+	var gracePeriod = evaluationList[loop].gracePeriod;
+	var status = evaluationList[loop].status;
+	var activated = evaluationList[loop].activated;
+	var commentsEnabled = evaluationList[loop].commentsEnabled;
+	var published = evaluationList[loop].published;
+
+	clearDisplay();
+
+	printEvaluationHeaderForm(courseID, name, start, deadline, status, activated, published);
+	evaluationResultsViewStatus = evaluationResultsView.reviewer;
+	
+	doGetSubmissionResultsList(courseID, name, status, commentsEnabled);
+
+	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
+}
+
+
+
+//----------------------------------------------------------DISPLAY EVALUATION DETAILS FUNCTIONS
+function printEvaluationHeaderForm(courseID, evaluationName, start, deadline, status, activated, published) {
+	var outputHeader = "<h1>EVALUATION RESULTS</h1>";
+
+	var output = "" + "<table class=\"headerform\">" + "<tr>"
+			+ "<td class=\"fieldname\">Course ID:</td>" + "<td>"
+			+ encodeChar(courseID)
+			+ "</td>"
+			+ "</tr>"
+			+ "<tr>"
+			+ "<td class=\"fieldname\">Evaluation name:</td>"
+			+ "<td>"
+			+ encodeChar(evaluationName)
+			+ "</td>"
+			+ "</tr>"
+			+ "<tr>"
+			+ "<td class=\"fieldname\">Opening time:</td>"
+			+ "<td>"
+			+ convertDateToDDMMYYYY(new Date(start))
+			+ " "
+			+ convertDateToHHMM(new Date(start))
+			+ "H</td>"
+			+ "</tr>"
+			+ "<tr>"
+			+ "<td class=\"fieldname\">Closing time:</td>"
+			+ "<td>"
+			+ convertDateToDDMMYYYY(new Date(deadline))
+			+ " "
+			+ convertDateToHHMM(new Date(deadline))
+			+ "H</td>"
+			+ "</tr>"
+			+
+
+			// new radio button: review type + report type
+			"<tr>"
+			+ "<td class=\"rightalign\"><b>Report Type:</b> "
+			+
+
+			"<input type = \"radio\" name = \"radio_viewall\" id = \"radio_summary\" value = \"summary\" checked = \"checked\" />"
+			+ "<label for = \"radio_summary\">Summary</label>&nbsp&nbsp&nbsp"
+			+
+
+			"<input type = \"radio\" name = \"radio_viewall\" id = \"radio_detail\" value = \"detail\" />"
+			+ "<label for = \"radio_detail\">Detail</label>"
+			+ "</td>"
+			+ "<td class=\"leftalign\"><b>Review Type:</b> "
+			+
+
+			"<input type = \"radio\" name = \"radio_viewbytype\" id = \"radio_reviewer\" value = \"by reviewer\" checked = \"checked\"/>"
+			+ "<label for = \"radio_reviewer\">By Reviewer</label>&nbsp&nbsp&nbsp"
+			+ "<input type = \"radio\" name = \"radio_viewbytype\" id = \"radio_reviewee\" value = \"by reviewee\"/>"
+			+ "<label for = \"radio_reviewee\">By Reviewee</label>" +
+
+			"</td>" + "</tr>" +
+
+			// publish, unpublish button
+			"<tr>" + "<td></td>" + "<td>";
+	// publish
+	if (status != "OPEN") {
+		if (published == false && activated == true) {
+			output = output
+					+ "<input type=\"button\" class=\"button\" id = \"button_publish\" value = \"Publish\" onclick = \"javascript:togglePublishEvaluation('"
+					+ courseID + "','" + evaluationName
+					+ "', true, false)\" />";
+		} else if (published == true) {
+			output = output
+					+ "<input type=\"button\" class=\"button\" id = \"button_publish\" value = \"Unpublish\" onclick = \"javascript:togglePublishEvaluation('"
+					+ courseID + "','" + evaluationName
+					+ "', false, false)\" />";
+
+		}
+	}
+	output = output + "</td>" + "</tr>" + "</table>";
+
+	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader;
+	document.getElementById(DIV_EVALUATION_INFORMATION).innerHTML = output;
+}
+
+
+
+//----------------------------------------------------------LIST EVALUATION RESULTS FUNCTIONS
+function doGetSubmissionResultsList(courseID, evaluationName, status, commentsEnabled) {
+	setStatusMessageToLoading();
+	
+	if (!xmlhttp) {
+		alert(DISPLAY_ERROR_UNDEFINED_HTTPREQUEST);
+		return;
+	}
+
+	sendGetSubmissionListRequest(courseID, evaluationName);
+	var results = processGetSubmissionListResponse();
+
+	clearStatusMessage();
+	
+	if(results == SERVERERROR) {
+		alert(DISPLAY_SERVERERROR);
+		return;
+	}
+
+	var compiledResults = compileSubmissionSummaryList(results);
+	toggleSortEvaluationSummaryListByTeamName(results, compiledResults, status, commentsEnabled);
+
+}
+
+function sendGetSubmissionListRequest(courseID, evaluationName) {
+	xmlhttp.open("POST", "/teammates", false);
+	xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
+	xmlhttp.send("operation=" + OPERATION_COORDINATOR_GETSUBMISSIONLIST
+				+ "&" + COURSE_ID + "=" + encodeURIComponent(courseID) 
+				+ "&" + EVALUATION_NAME + "=" + encodeURIComponent(evaluationName));
+}
+
+function processGetSubmissionListResponse() {
+	if (xmlhttp.status != CONNECTION_OK)
+		return SERVERERROR;
+	
+	var submissions = xmlhttp.responseXML.getElementsByTagName("submissions")[0];
+	
+	var submissionList = new Array();
+	if(submissions != null)
+		submissionList = complieSubmissionList(submissions);
+		
+	return submissionList;
+}
+
+//util functions to format submission data
+function complieSubmissionList(submissions) {
+	var submissionList = new Array();
+	
+	var submission;
+	
+	var courseID;
+	var evaluationName;
+	var justification;
+	var commentsToStudent;
+	var teamName;
+	var points;
+	var pointsBumpRatio;
+	
+	var fromStudent;
+	var fromStudentName;
+	var fromStudentComments;
+	
+	var toStudent;
+	var toStudentName;
+	var toStudentComments;
+	
+	
+	var submissionsChildNodesLength = submissions.childNodes.length;
+	for (loop = 0; loop < submissionsChildNodesLength; loop++) {
+		
+		submission = submissions.childNodes[loop];
+		
+		courseID = submission.getElementsByTagName(COURSE_ID)[0].firstChild.nodeValue;
+		evaluationName = submission.getElementsByTagName(EVALUATION_NAME)[0].firstChild.nodeValue;
+		justification = submission.getElementsByTagName(STUDENT_JUSTIFICATION)[0].firstChild.nodeValue;
+		commentsToStudent = submission.getElementsByTagName(STUDENT_COMMENTSTOSTUDENT)[0].firstChild.nodeValue;
+		
+		teamName = submission.getElementsByTagName(STUDENT_TEAMNAME)[0].firstChild.nodeValue;
+		points = parseInt(submission.getElementsByTagName(STUDENT_POINTS)[0].firstChild.nodeValue);
+		pointsBumpRatio = parseFloat(submission.getElementsByTagName(STUDENT_POINTSBUMPRATIO)[0].firstChild.nodeValue);
+		
+		fromStudentName = submission.getElementsByTagName(STUDENT_FROMSTUDENTNAME)[0].firstChild.nodeValue;
+		fromStudent = submission.getElementsByTagName(STUDENT_FROMSTUDENT)[0].firstChild.nodeValue;
+		fromStudentComments = submission.getElementsByTagName(STUDENT_FROMSTUDENTCOMMENTS)[0].firstChild.nodeValue;
+
+		toStudentName = submission.getElementsByTagName(STUDENT_TOSTUDENTNAME)[0].firstChild.nodeValue;
+		toStudent = submission.getElementsByTagName(STUDENT_TOSTUDENT)[0].firstChild.nodeValue;
+		toStudentComments = submission.getElementsByTagName(STUDENT_TOSTUDENTCOMMENTS)[0].firstChild.nodeValue;
+
+		
+		submissionList[loop] = {
+			fromStudentName : fromStudentName,
+			toStudentName : toStudentName,
+			fromStudent : fromStudent,
+			toStudent : toStudent,
+			courseID : courseID,
+			evaluationName : evaluationName,
+			teamName : teamName,
+			justification : justification,
+			commentsToStudent : commentsToStudent,
+			points : points,
+			pointsBumpRatio : pointsBumpRatio,
+			fromStudentComments : fromStudentComments,
+			toStudentComments : toStudentComments
+		};
+	}
+	return submissionList;
+}
+
+function compileSubmissionSummaryList(submissionList) {
 	var summaryList = new Array();
 
 	var exists = false;
@@ -975,9 +1148,11 @@ function compileSubmissionsIntoSummaryList(submissionList) {
 	}
 
 	var teamsNormalizedLength = teamsNormalized.length;
-	// Do the normalization
-	for (loop = 0; loop < teamsNormalizedLength; loop++) // number of teams
+
+	
+	for (loop = 0; loop < teamsNormalizedLength; loop++) 
 	{
+		
 		for (y = 0; y < summaryListLength; y++) // number of members
 		{
 			if (summaryList[y].teamName == teamsNormalized[loop].teamName
@@ -1000,6 +1175,168 @@ function compileSubmissionsIntoSummaryList(submissionList) {
 	}
 
 	return summaryList;
+}
+
+//util functions to sort evaluation results
+function toggleSortEvaluationSummaryListByAverage(submissionList, summaryList, status, commentsEnabled) {
+	printEvaluationSummaryForm(submissionList, summaryList.sort(sortByAverage), status, commentsEnabled, REVIEWEE);
+	evaluationResultsSummaryListSortStatus = evaluationResultsSummaryListSort.average;
+	document.getElementById("button_sortaverage").setAttribute("class", "buttonSortAscending");
+}
+
+function toggleSortEvaluationSummaryListByDiff(submissionList, summaryList, status, commentsEnabled) {
+	printEvaluationSummaryForm(submissionList, summaryList.sort(sortByDiff), status, commentsEnabled, REVIEWEE);
+	evaluationResultsSummaryListSortStatus = evaluationResultsSummaryListSort.diff;
+	document.getElementById("button_sortdiff").setAttribute("class", "buttonSortAscending");
+}
+
+function toggleSortEvaluationSummaryListByFromStudentName(submissionList, summaryList, status, commentsEnabled) {
+	var type;
+	if (evaluationResultsViewStatus == evaluationResultsView.reviewee) {
+		type = REVIEWEE;
+	} else {
+		type = REVIEWER;
+	}
+	printEvaluationSummaryForm(submissionList, summaryList.sort(sortByFromStudentName), status, commentsEnabled, type);
+	evaluationResultsSummaryListSortStatus = evaluationResultsSummaryListSort.name;
+	document.getElementById("button_sortname").setAttribute("class", "buttonSortAscending");
+}
+
+function toggleSortEvaluationSummaryListBySubmitted(submissionList, summaryList, status, commentsEnabled) {
+	printEvaluationSummaryForm(submissionList, summaryList.sort(sortBySubmitted), status, commentsEnabled, REVIEWER);
+	evaluationResultsSummaryListSortStatus = evaluationResultsSummaryListSort.submitted;
+	document.getElementById("button_sortsubmitted").setAttribute("class", "buttonSortAscending");
+}
+
+function toggleSortEvaluationSummaryListByTeamName(submissionList, summaryList, status, commentsEnabled) {
+	if (evaluationResultsViewStatus == evaluationResultsView.reviewee) {
+		type = REVIEWEE;
+
+	} else {
+		type = REVIEWER;
+	}
+	printEvaluationSummaryForm(submissionList, summaryList.sort(sortByTeamName), status, commentsEnabled, type);
+	evaluationResultsSummaryListSortStatus = evaluationResultsSummaryListSort.teamName;
+	document.getElementById("button_sortteamname").setAttribute("class", "buttonSortAscending");
+}
+
+function toggleSortEvaluationSummaryListByToStudentName(submissionList, summaryList, status, commentsEnabled) {
+	var type;
+	if (evaluationResultsViewStatus == evaluationResultsView.reviewee) {
+		type = REVIEWEE;
+	} else {
+		type = REVIEWER;
+	}
+	printEvaluationSummaryForm(submissionList, summaryList.sort(sortByToStudentName), status, commentsEnabled, type);
+	evaluationResultsSummaryListSortStatus = evaluationResultsSummaryListSort.name;
+	document.getElementById("button_sortname").setAttribute("class", "buttonSortAscending");
+}
+
+
+
+/*----------------------------------------------------------OLD FUNCTIONS----------------------------------------------------------*/
+/*
+ * Returns
+ * 
+ * 0: successful 1: server error
+ * 
+ */
+function archiveCourse(courseID) {
+	setStatusMessage(DISPLAY_LOADING);
+
+	if (xmlhttp) {
+		xmlhttp.open("POST", "/teammates", false);
+		xmlhttp.setRequestHeader("Content-Type",
+				"application/x-www-form-urlencoded;");
+		xmlhttp.send("operation=" + OPERATION_COORDINATOR_ARCHIVECOURSE + "&"
+				+ COURSE_ID + "=" + encodeURIComponent(courseID));
+
+		return handleArchiveCourse();
+	}
+}
+
+function clearDisplay() {
+	document.getElementById(DIV_COURSE_INFORMATION).innerHTML = "";
+	document.getElementById(DIV_COURSE_ENROLLMENT).innerHTML = "";
+	document.getElementById(DIV_COURSE_ENROLLMENTBUTTONS).innerHTML = "";
+	document.getElementById(DIV_COURSE_ENROLLMENTRESULTS).innerHTML = "";
+	document.getElementById(DIV_COURSE_MANAGEMENT).innerHTML = "";
+	document.getElementById(DIV_COURSE_TABLE).innerHTML = "";
+	document.getElementById(DIV_EVALUATION_EDITBUTTONS).innerHTML = "";
+	document.getElementById(DIV_EVALUATION_EDITRESULTSBUTTON).innerHTML = "";
+	document.getElementById(DIV_EVALUATION_INFORMATION).innerHTML = "";
+	document.getElementById(DIV_EVALUATION_MANAGEMENT).innerHTML = "";
+	document.getElementById(DIV_EVALUATION_SUMMARYTABLE).innerHTML = "";
+	document.getElementById(DIV_EVALUATION_TABLE).innerHTML = "";
+	document.getElementById(DIV_HEADER_OPERATION).innerHTML = "";
+	document.getElementById(DIV_STATUS_EDITEVALUATIONRESULTS).innerHTML = "";
+	document.getElementById(DIV_STUDENT_EDITBUTTONS).innerHTML = "";
+	document.getElementById(DIV_STUDENT_INFORMATION).innerHTML = "";
+	document.getElementById(DIV_STUDENT_TABLE).innerHTML = "";
+	clearStatusMessage();
+}
+
+function checkEditStudentInput(editName, editTeamName, editEmail, editGoogleID) {
+	if (editName == "" || editTeamName == "" || editEmail == "") {
+		setStatusMessage(DISPLAY_EDITSTUDENT_FIELDSEMPTY);
+	}
+
+	if (!isStudentNameValid(editName)) {
+		setStatusMessage(DISPLAY_STUDENT_NAMEINVALID);
+	}
+
+	else if (!isStudentEmailValid(editEmail)) {
+		setStatusMessage(DISPLAY_STUDENT_EMAILINVALID);
+	}
+
+	else if (!isStudentTeamNameValid(editTeamName)) {
+		setStatusMessage(DISPLAY_STUDENT_TEAMNAMEINVALID);
+	}
+}
+
+function checkEnrollmentInput(input) {
+	input = replaceAll(input, "|", "\t");
+
+	var entries = input.split("\n");
+	var fields;
+
+	var entriesLength = entries.length;
+	for ( var x = 0; x < entriesLength; x++) {
+		// Ignore blank line
+		if (entries[x] != "") {
+			// Separate the fields
+			fields = entries[x].split("\t");
+			var fieldsLength = fields.length;
+
+			// Make sure that all fields are present
+			if (fieldsLength < 3) {
+				setStatusMessage("<font color=\"#F00\">Line " + (x + 1)
+						+ ":</font> " + DISPLAY_ENROLLMENT_FIELDSMISSING);
+			}
+
+			else if (fieldsLength > 4) {
+				setStatusMessage("<font color=\"#F00\">Line " + (x + 1)
+						+ ":</font> " + DISPLAY_ENROLLMENT_FIELDSEXTRA);
+			}
+
+			// Check that fields are correct
+			if (!isStudentNameValid(trim(fields[1]))) {
+				setStatusMessage("<font color=\"#F00\">Line " + (x + 1)
+						+ ":</font> " + DISPLAY_STUDENT_NAMEINVALID);
+			}
+
+			else if (!isStudentEmailValid(trim(fields[2]))) {
+				setStatusMessage("<font color=\"#F00\">Line " + (x + 1)
+						+ ":</font> " + DISPLAY_STUDENT_EMAILINVALID);
+			}
+
+			else if (!isStudentTeamNameValid(trim(fields[0]))) {
+				setStatusMessage("<font color=\"#F00\">Line " + (x + 1)
+						+ ":</font> " + DISPLAY_STUDENT_TEAMNAMEINVALID);
+			}
+		}
+	}
+
 }
 
 function convertDateFromDDMMYYYYToMMDDYYYY(dateString) {
@@ -1160,38 +1497,6 @@ function displayEnrollmentResultsPage(reports) {
 	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
 }
 
-function displayEvaluationResults(evaluationList, loop) {
-	var courseID = evaluationList[loop].courseID;
-	var name = evaluationList[loop].name;
-	var instructions = evaluationList[loop].instructions;
-	var start = evaluationList[loop].start;
-	var deadline = evaluationList[loop].deadline;
-	var gracePeriod = evaluationList[loop].gracePeriod;
-	var status = evaluationList[loop].status;
-	var activated = evaluationList[loop].activated;
-	var commentsEnabled = evaluationList[loop].commentsEnabled;
-
-	// xl: new added
-	var published = evaluationList[loop].published;
-
-	clearDisplay();
-
-	printEvaluationHeaderForm(courseID, name, start, deadline, status,
-			activated, published);
-	evaluationResultsViewStatus = evaluationResultsView.reviewer;
-
-	doGetSubmissionResultsList(courseID, name, status, commentsEnabled);
-
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-}
-
-function displayEvaluationsTab() {
-	clearDisplay();
-	printEvaluationAddForm();
-	doGetCourseIDList();
-	doGetEvaluationList();
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-}
 
 function displayStudentInformation(courseID, email, name, teamName, googleID,
 		registrationKey, comments) {
@@ -1385,9 +1690,11 @@ function doEditEvaluationResultsByReviewer(form, summaryList, position,
 	var results = editEvaluationResults(submissionList, commentsEnabled);
 
 	if (results == 0) {
-		submissionList = getSubmissionList(submissionList[0].courseID,
-				submissionList[0].evaluationName);
-
+		if(xmlhttp){
+			sendGetSubmissionListRequest(submissionList[0].courseID, submissionList[0].evaluationName);
+			submissionList = processGetSubmissionListResponse();
+		}
+		
 		if (submissionList != 1) {
 			printEvaluationIndividualForm(submissionList, summaryList,
 					position, commentsEnabled, status, REVIEWER);
@@ -1496,155 +1803,6 @@ function doGetCourseIDList() {
 
 	else {
 		alert(DISPLAY_SERVERERROR);
-	}
-}
-
-
-
-function doGetEvaluationList() {
-	setStatusMessage(DISPLAY_LOADING);
-
-	var results = getEvaluationList();
-
-	clearStatusMessage();
-
-	if (results != 1) {
-
-		// Toggle calls printEvaluationList too
-		if (evaluationSortStatus == evaluationSort.name) {
-			toggleSortEvaluationsByName(results);
-
-		}
-
-		else {
-			toggleSortEvaluationsByCourseID(results);
-		}
-	}
-
-	else {
-		alert(DISPLAY_SERVERERROR);
-	}
-}
-
-function doGetSubmissionResultsList(courseID, evaluationName, status,
-		commentsEnabled) {
-	setStatusMessage(DISPLAY_LOADING);
-
-	var results = getSubmissionList(courseID, evaluationName);
-
-	clearStatusMessage();
-
-	if (results != 1) {
-		var compiledResults = compileSubmissionsIntoSummaryList(results);
-
-		toggleSortEvaluationSummaryListByTeamName(results, compiledResults,
-				status, commentsEnabled);
-	}
-
-	else {
-		alert(DISPLAY_SERVERERROR);
-	}
-}
-
-/*
- * Returns
- * 
- * submissionList: successful 1: server error
- * 
- */
-function getSubmissionList(courseID, evaluationName) {
-	if (xmlhttp) {
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_GETSUBMISSIONLIST
-				+ "&" + COURSE_ID + "=" + encodeURIComponent(courseID) + "&"
-				+ EVALUATION_NAME + "=" + encodeURIComponent(evaluationName));
-
-		return handleGetSubmissionList();
-	}
-}
-
-/*
- * Returns
- * 
- * submissionList: successful 1: server error
- * 
- */
-function handleGetSubmissionList() {
-	if (xmlhttp.status == 200) {
-		var submissions = xmlhttp.responseXML
-				.getElementsByTagName("submissions")[0];
-		var submissionList = new Array();
-		var submission;
-
-		var fromStudentName;
-		var toStudentName;
-		var fromStudent;
-		var toStudent;
-		var fromStudentComments;
-		var toStudentComments;
-		var courseID;
-		var evaluationName;
-		var teamName;
-		var points;
-		var pointsBumpRatio;
-		var justification;
-		var commentsToStudent;
-
-		if (submissions != null) {
-			var submissionsChildNodesLength = submissions.childNodes.length;
-			for (loop = 0; loop < submissionsChildNodesLength; loop++) {
-				submission = submissions.childNodes[loop];
-				courseID = submission.getElementsByTagName(COURSE_ID)[0].firstChild.nodeValue;
-				evaluationName = submission
-						.getElementsByTagName(EVALUATION_NAME)[0].firstChild.nodeValue;
-				teamName = submission.getElementsByTagName(STUDENT_TEAMNAME)[0].firstChild.nodeValue;
-
-				fromStudentName = submission
-						.getElementsByTagName(STUDENT_FROMSTUDENTNAME)[0].firstChild.nodeValue;
-				fromStudent = submission
-						.getElementsByTagName(STUDENT_FROMSTUDENT)[0].firstChild.nodeValue;
-				fromStudentComments = submission
-						.getElementsByTagName(STUDENT_FROMSTUDENTCOMMENTS)[0].firstChild.nodeValue;
-
-				toStudentName = submission
-						.getElementsByTagName(STUDENT_TOSTUDENTNAME)[0].firstChild.nodeValue;
-				toStudent = submission.getElementsByTagName(STUDENT_TOSTUDENT)[0].firstChild.nodeValue;
-				toStudentComments = submission
-						.getElementsByTagName(STUDENT_TOSTUDENTCOMMENTS)[0].firstChild.nodeValue;
-
-				points = parseInt(submission
-						.getElementsByTagName(STUDENT_POINTS)[0].firstChild.nodeValue);
-				pointsBumpRatio = parseFloat(submission
-						.getElementsByTagName(STUDENT_POINTSBUMPRATIO)[0].firstChild.nodeValue);
-				justification = submission
-						.getElementsByTagName(STUDENT_JUSTIFICATION)[0].firstChild.nodeValue;
-				commentsToStudent = submission
-						.getElementsByTagName(STUDENT_COMMENTSTOSTUDENT)[0].firstChild.nodeValue;
-
-				submissionList[loop] = {
-					fromStudentName : fromStudentName,
-					toStudentName : toStudentName,
-					fromStudent : fromStudent,
-					toStudent : toStudent,
-					courseID : courseID,
-					evaluationName : evaluationName,
-					teamName : teamName,
-					justification : justification,
-					commentsToStudent : commentsToStudent,
-					points : points,
-					pointsBumpRatio : pointsBumpRatio,
-					fromStudentComments : fromStudentComments,
-					toStudentComments : toStudentComments
-				};
-			}
-		}
-
-		return submissionList;
-	}
-
-	else {
-		return 1;
 	}
 }
 
@@ -3319,94 +3477,6 @@ function toggleSendRegistrationKeysConfirmation(courseID) {
 	} else {
 		clearStatusMessage();
 	}
-}
-
-
-
-function toggleSortEvaluationSummaryListByAverage(submissionList, summaryList,
-		status, commentsEnabled) {
-	printEvaluationSummaryForm(submissionList, summaryList.sort(sortByAverage),
-			status, commentsEnabled, REVIEWEE);
-	evaluationResultsSummaryListSortStatus = evaluationResultsSummaryListSort.average;
-	document.getElementById("button_sortaverage").setAttribute("class",
-			"buttonSortAscending");
-}
-
-function toggleSortEvaluationSummaryListByDiff(submissionList, summaryList,
-		status, commentsEnabled) {
-	printEvaluationSummaryForm(submissionList, summaryList.sort(sortByDiff),
-			status, commentsEnabled, REVIEWEE);
-	evaluationResultsSummaryListSortStatus = evaluationResultsSummaryListSort.diff;
-	document.getElementById("button_sortdiff").setAttribute("class",
-			"buttonSortAscending");
-}
-
-function toggleSortEvaluationSummaryListByFromStudentName(submissionList,
-		summaryList, status, commentsEnabled) {
-	var type;
-	if (evaluationResultsViewStatus == evaluationResultsView.reviewee) {
-		type = REVIEWEE;
-	} else {
-		type = REVIEWER;
-	}
-	printEvaluationSummaryForm(submissionList, summaryList
-			.sort(sortByFromStudentName), status, commentsEnabled, type);
-	evaluationResultsSummaryListSortStatus = evaluationResultsSummaryListSort.name;
-	document.getElementById("button_sortname").setAttribute("class",
-			"buttonSortAscending");
-}
-
-function toggleSortEvaluationSummaryListBySubmitted(submissionList,
-		summaryList, status, commentsEnabled) {
-	printEvaluationSummaryForm(submissionList, summaryList
-			.sort(sortBySubmitted), status, commentsEnabled, REVIEWER);
-	evaluationResultsSummaryListSortStatus = evaluationResultsSummaryListSort.submitted;
-	document.getElementById("button_sortsubmitted").setAttribute("class",
-			"buttonSortAscending");
-}
-
-function toggleSortEvaluationSummaryListByTeamName(submissionList, summaryList,
-		status, commentsEnabled) {
-	if (evaluationResultsViewStatus == evaluationResultsView.reviewee) {
-		type = REVIEWEE;
-
-	} else {
-		type = REVIEWER;
-	}
-	printEvaluationSummaryForm(submissionList,
-			summaryList.sort(sortByTeamName), status, commentsEnabled, type);
-	evaluationResultsSummaryListSortStatus = evaluationResultsSummaryListSort.teamName;
-	document.getElementById("button_sortteamname").setAttribute("class",
-			"buttonSortAscending");
-}
-
-function toggleSortEvaluationSummaryListByToStudentName(submissionList,
-		summaryList, status, commentsEnabled) {
-	var type;
-	if (evaluationResultsViewStatus == evaluationResultsView.reviewee) {
-		type = REVIEWEE;
-	} else {
-		type = REVIEWER;
-	}
-	printEvaluationSummaryForm(submissionList, summaryList
-			.sort(sortByToStudentName), status, commentsEnabled, type);
-	evaluationResultsSummaryListSortStatus = evaluationResultsSummaryListSort.name;
-	document.getElementById("button_sortname").setAttribute("class",
-			"buttonSortAscending");
-}
-
-function toggleSortEvaluationsByCourseID(evaluationList) {
-	printEvaluationList(evaluationList.sort(sortByCourseID));
-	evaluationSortStatus = evaluationSort.courseID;
-	document.getElementById("button_sortcourseid").setAttribute("class",
-			"buttonSortAscending");
-}
-
-function toggleSortEvaluationsByName(evaluationList) {
-	printEvaluationList(evaluationList.sort(sortByName));
-	evaluationSortStatus = evaluationSort.name;
-	document.getElementById("button_sortname").setAttribute("class",
-			"buttonSortAscending");
 }
 
 function toggleSortStudentsByName(studentList, courseID) {
