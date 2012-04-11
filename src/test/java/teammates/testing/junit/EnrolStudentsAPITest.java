@@ -20,6 +20,11 @@ public class EnrolStudentsAPITest {
 	@Before
 	public void setUp() {
 		helper.setUp();
+		try{
+			Datastore.initialize();
+		}catch(Exception e){
+			System.out.println("PersistenceManager has been called once.");
+		}
 	}
 
 	@After
@@ -28,7 +33,6 @@ public class EnrolStudentsAPITest {
 	}
 	@Test
 	public void testTeammatesServletEntolStudentsSuccessful() throws IOException, ServletException {
-		Datastore.initialize();
 		TeammatesServlet ts = new TeammatesServlet();
 		String information = "Team A\tStudent A\tstudenta@gmail.com";
 		String courseID = "SC2103";

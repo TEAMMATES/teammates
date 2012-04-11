@@ -17,7 +17,7 @@ import teammates.testing.object.Scenario;
  */
 
 public class StudentHomePageHTMLTest extends TestCase {
-	static Scenario scn = Scenario.scenarioForPageVerification("target/test-classes/data/landing_page_testing.json");
+	static Scenario scn = Scenario.scenarioForPageVerification("target/test-classes/data/page_verification.json");
 	static BrowserInstance bi;
 	
 	private static String TEST_STUDENT = scn.students.get(2).email;

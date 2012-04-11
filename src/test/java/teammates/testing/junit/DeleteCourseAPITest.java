@@ -35,7 +35,12 @@ public class DeleteCourseAPITest {
 	@Before
 	public void setUp() {
 		helper.setUp();
-
+		try{
+			Datastore.initialize();
+		}catch(Exception e){
+			System.out.println("PersistenceManager has been called once.");
+		}
+		pm = Datastore.getPersistenceManager();
 	}
 
 	@After
@@ -45,7 +50,6 @@ public class DeleteCourseAPITest {
 	
 	@Test
 	public void testCoordDeleteCourseSuccessful() {
-		Datastore.initialize();
 		setupTestData();
 		
 		testCoursesDeleteCourse();

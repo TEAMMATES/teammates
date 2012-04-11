@@ -70,6 +70,12 @@
     
     <!-- Test scope -->
     <dependency>
+      <groupId>com.googlecode.jmockit</groupId>
+      <artifactId>jmockit</artifactId>
+      <version>0.999.13</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.10</version>
@@ -90,12 +96,7 @@
        <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>com.googlecode.jmockit</groupId>
-      <artifactId>jmockit</artifactId>
-      <version>0.999.13</version>
-      <scope>test</scope>
-    </dependency>
+
     
     <!--  Gson: Java to Json conversion -->
     <dependency>

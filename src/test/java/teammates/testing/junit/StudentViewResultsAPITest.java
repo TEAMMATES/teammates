@@ -22,6 +22,12 @@ public class StudentViewResultsAPITest extends APITest {
 	@Before
 	public void setUp() {
 		helper.setUp();
+		try{
+			Datastore.initialize();
+		}catch(Exception e){
+			System.out.println("PersistenceManager has been called once.");
+		}
+		pm = Datastore.getPersistenceManager();
 	}
 	
 	@After
@@ -29,12 +35,6 @@ public class StudentViewResultsAPITest extends APITest {
 		helper.tearDown();
 	}
 	
-	@Test
-	public void setupDatastoreService() throws Exception {
-		//Datasstore.initialize() can only be called once, cannot put in setUp()
-		Datastore.initialize();
-		pm = Datastore.getPersistenceManager();
-	}
 	
 	@Test
 	public void testGetSubmissionList0(){
@@ -199,7 +199,7 @@ public class StudentViewResultsAPITest extends APITest {
 	public void printTeamatesServletResponse() throws Exception {
 		//function under test
 		TeammatesServlet ts = new TeammatesServlet();
-		String response = ts.coordinatorGetSubmissionList(scn.evaluation.courseID, scn.evaluation.name);
+		String response = ts.studentGetSubmissionResultsList(scn.evaluation.courseID, scn.evaluation.name, scn.students.get(0).google_id);
 		
 		//expected data
 		List<Integer> pointList = getPointListFromServerResponse(response);

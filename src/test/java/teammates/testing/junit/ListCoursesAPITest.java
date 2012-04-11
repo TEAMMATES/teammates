@@ -31,10 +31,11 @@ public class ListCoursesAPITest {
 	@Before
 	public void setUp() {
 		helper.setUp();
-		
-		Datastore.initialize();
-		pm = Datastore.getPersistenceManager();
-		
+		try{
+			Datastore.initialize();
+		}catch(Exception e){
+			System.out.println("PersistenceManager has been called once.");
+		}
 		//initial data
 		Course a = new Course("MA1010", "test", "teammates.coord");
 		Course b = new Course("CS1101", "Programming Methodology", "teammates.coord");
@@ -44,6 +45,7 @@ public class ListCoursesAPITest {
 		inputList.add(b);
 		inputList.add(c);
 		
+		pm = Datastore.getPersistenceManager();
 		pm.makePersistentAll(inputList);
 	}
 

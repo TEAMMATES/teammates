@@ -1475,88 +1475,81 @@ public class TeammatesServlet extends HttpServlet {
 	}
 
 	public String studentGetSubmissionResultsList(String courseID, String evaluationName, String googleID) throws IOException {
+
+		Evaluations evaluations = Evaluations.inst();
+		List<Submission> submissionList = evaluations.getSubmissionList(courseID, evaluationName);
+
 		Courses courses = Courses.inst();
-        Student student = courses.getStudentWithID(courseID, googleID);
+		Student student = courses.getStudentWithID(courseID, googleID);
+		String toStudent = student.getEmail();
+		String teamName = student.getTeamName();
 
-        Evaluations evaluations = Evaluations.inst();
-        List<Submission> submissionList = evaluations.getSubmissionList(courseID, evaluationName);
+		List<Submission> filteredSubmissionList = new ArrayList<Submission>();
+		for (Submission s : submissionList) {
+			if (s.getTeamName().equals(teamName))
+				filteredSubmissionList.add(s);
+		}
 
-        String toStudent = student.getEmail();
+		List<SubmissionResultsForStudent> submissionResultsList = new ArrayList<SubmissionResultsForStudent>();
 
-        // Filter the submission list to only from the target student's team
-        String teamName = student.getTeamName();
+		String fromStudentName = "";
+		String toStudentName = "";
+		String fromStudentComments = null;
+		String toStudentComments = null;
+		float pointsBumpRatio = 0;
 
-        List<Submission> filteredSubmissionList = new ArrayList<Submission>();
+		for (Submission s : filteredSubmissionList) {
+			student = courses.getStudentWithEmail(courseID, s.getFromStudent());
 
-        for (Submission s : submissionList) {
-                if (s.getTeamName().equals(teamName)) {
-                        filteredSubmissionList.add(s);
-                }
-        }
+			if (student != null) {
+				fromStudentName = student.getName();
+				fromStudentComments = student.getComments();
+			} else {
+				fromStudentName = "[deleted]" + s.getFromStudent();
+				fromStudentComments = ("");
+			}
 
-        System.out.println("filtered number: " + filteredSubmissionList.size());
-        List<SubmissionResultsForStudent> submissionResultsList = new ArrayList<SubmissionResultsForStudent>();
+			student = courses.getStudentWithEmail(courseID, s.getToStudent());
+			if (student != null) {
+				toStudentName = student.getName();
+				toStudentComments = student.getComments();
+			} else {
+				toStudentName = "[deleted]" + s.getToStudent();
+				toStudentComments = "";
+			}
 
-        String fromStudentName = "";
-        String toStudentName = "";
+			List<Submission> fromList = new ArrayList<Submission>();
+			for (Submission fs : submissionList) {
+				if (fs.getFromStudent().equals(s.getFromStudent()))
+					fromList.add(fs);
+			}
 
-        String fromStudentComments = null;
-        String toStudentComments = null;
+			pointsBumpRatio = evaluations.calculatePointsBumpRatio(courseID, evaluationName, s.getFromStudent(), fromList);
 
-        float pointsBumpRatio = 0;
+			if (s.getFromStudent().equals(toStudent) && s.getToStudent().equals(toStudent)) {
+				submissionResultsList.add(0, new SubmissionResultsForStudent(courseID, evaluationName, fromStudentName, toStudentName, s.getFromStudent(), s.getToStudent(), fromStudentComments,
+						toStudentComments, s.getTeamName(), s.getPoints(), pointsBumpRatio, s.getJustification(), s.getCommentsToStudent()));
+			}
 
-        for (Submission s : filteredSubmissionList) {
-                student = courses.getStudentWithEmail(courseID, s.getFromStudent());
+			else {
+				submissionResultsList.add(new SubmissionResultsForStudent(courseID, evaluationName, fromStudentName, toStudentName, s.getFromStudent(), s.getToStudent(), fromStudentComments,
+						toStudentComments, s.getTeamName(), s.getPoints(), pointsBumpRatio, s.getJustification(), s.getCommentsToStudent()));
+			}
+		}
 
-                if (student != null) {
-                        fromStudentName = student.getName();
-                        fromStudentComments = student.getComments();
-                } else {
-                        fromStudentName = "[deleted]" + s.getFromStudent();
-                        fromStudentComments = ("");
-                }
+		// Sort by Comments alphabetically
+		SubmissionResultsForStudent selfEvaluation = submissionResultsList.remove(0);
 
-                student = courses.getStudentWithEmail(courseID, s.getToStudent());
-                if (student != null) {
-                        toStudentName = student.getName();
-                        toStudentComments = student.getComments();
-                } else {
-                        toStudentName = "[deleted]" + s.getToStudent();
-                        toStudentComments = "";
-                }
+		Collections.sort(submissionResultsList, new Comparator<SubmissionResultsForStudent>() {
+			public int compare(SubmissionResultsForStudent r1, SubmissionResultsForStudent r2) {
+				String s1 = r1.getCommentsToStudent().getValue();
+				String s2 = r2.getCommentsToStudent().getValue();
+				return s1.compareToIgnoreCase(s2);
+			}
+		});
 
-                List<Submission> fromList = new ArrayList<Submission>();
-                for (Submission fs : submissionList) {
-                        if (fs.getFromStudent().equals(s.getFromStudent())) {
-                                fromList.add(fs);
-                        }
-                }
-
-                pointsBumpRatio = evaluations.calculatePointsBumpRatio(courseID, evaluationName, s.getFromStudent(), fromList);
-
-                if (s.getFromStudent().equals(toStudent) && s.getToStudent().equals(toStudent)) {
-                        submissionResultsList.add(0, new SubmissionResultsForStudent(courseID, evaluationName, fromStudentName, toStudentName, s.getFromStudent(), s.getToStudent(), fromStudentComments,
-                                        toStudentComments, s.getTeamName(), s.getPoints(), pointsBumpRatio, s.getJustification(), s.getCommentsToStudent()));
-                }
-
-                else {
-                        submissionResultsList.add(new SubmissionResultsForStudent(courseID, evaluationName, fromStudentName, toStudentName, s.getFromStudent(), s.getToStudent(), fromStudentComments,
-                                        toStudentComments, s.getTeamName(), s.getPoints(), pointsBumpRatio, s.getJustification(), s.getCommentsToStudent()));
-                }
-        }
-
-        // Sort by Comments alphabetically
-        SubmissionResultsForStudent selfEvaluation = submissionResultsList.remove(0);
-
-        Collections.sort(submissionResultsList, new Comparator<SubmissionResultsForStudent>() {
-                public int compare(SubmissionResultsForStudent r1, SubmissionResultsForStudent r2) {
-                        String s1 = r1.getCommentsToStudent().getValue();
-                        String s2 = r2.getCommentsToStudent().getValue();
-                        return s1.compareToIgnoreCase(s2);
-                }
-        });
-
-        submissionResultsList.add(0, selfEvaluation);
+		submissionResultsList.add(0, selfEvaluation);
+		System.out.println(parseSubmissionResultsForStudentListToXML(submissionResultsList).toString());
 		return "<submissions>" + parseSubmissionResultsForStudentListToXML(submissionResultsList).toString() + "</submissions>";
 
 	}

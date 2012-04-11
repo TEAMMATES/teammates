@@ -435,7 +435,7 @@ public class BrowserInstance {
 			waitForPageLoad();
 		}
 		_login(username, password);
-
+		waitAWhile(3000);
 		verifyCoordHomePage();
 		waitAWhile(1000);
 	}
@@ -463,6 +463,7 @@ public class BrowserInstance {
 			waitForPageLoad();
 		}
 		_login(username, password);
+		waitAWhile(4000);
 		verifyStudentHomePage();
 	}
 

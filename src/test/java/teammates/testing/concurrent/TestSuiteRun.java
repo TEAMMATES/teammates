@@ -3,6 +3,14 @@ package teammates.testing.concurrent;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+import teammates.testing.junit.AddCourseAPITest;
+import teammates.testing.junit.CoordViewResultsAPITest;
+import teammates.testing.junit.DeleteCourseAPITest;
+import teammates.testing.junit.EnrolStudentsAPITest;
+import teammates.testing.junit.ListCoursesAPITest;
+import teammates.testing.junit.StudentViewResultsAPITest;
+import teammates.testing.junit.TeammatesServletTest;
+
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
@@ -58,7 +66,17 @@ import org.junit.runners.Suite;
 
 	StudentTeamFormingSessionActionsTest.class,
 	StudentTeamFormingSessionEditProfilesTest.class,
-	StudentTeamFormingSessionViewTest.class
+	StudentTeamFormingSessionViewTest.class,
+	
+	
+	//JUnit API tests
+	TeammatesServletTest.class,
+	AddCourseAPITest.class,
+	ListCoursesAPITest.class,
+	DeleteCourseAPITest.class,
+	EnrolStudentsAPITest.class,
+	CoordViewResultsAPITest.class,
+	StudentViewResultsAPITest.class
 	
 })
 

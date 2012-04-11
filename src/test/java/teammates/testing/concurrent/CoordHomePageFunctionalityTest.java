@@ -18,7 +18,7 @@ import teammates.testing.object.Scenario;
 
 public class CoordHomePageFunctionalityTest extends TestCase {
 	static BrowserInstance bi;
-	static Scenario scn = Scenario.scenarioForPageVerification("target/test-classes/data/page_verification.json");
+	static Scenario scn = Scenario.scenarioForPageVerification("target/test-classes/data/landing_page_testing.json");
 	
 	private static int FIRST_COURSE = 0;
 	private static int SECOND_COURSE = 1;
@@ -78,6 +78,8 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		bi.logout();
+		TMAPI.cleanupCourse(scn.course.courseId);
+		TMAPI.cleanupCourse(scn.course2.courseId);
 		
 		BrowserInstancePool.release(bi);
 		System.out.println("CoordLandingPageFunctionalityTest ==========//");

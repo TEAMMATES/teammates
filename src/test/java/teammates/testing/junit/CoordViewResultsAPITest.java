@@ -24,12 +24,18 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class CoordViewResultsAPITest extends APITest {
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
-	static Scenario scn;
+	private Scenario scn;
+	
 	
 	@Before
 	public void setUp() {
 		helper.setUp();
-		
+		try{
+			Datastore.initialize();
+		} catch(Exception e) {
+			System.out.println("PersistenceManagerFactory has been called once.");
+		}
+		pm = Datastore.getPersistenceManager();
 	}
 	
 	@After
@@ -37,17 +43,10 @@ public class CoordViewResultsAPITest extends APITest {
 		helper.tearDown();
 	}
 	
-	@Test
-	public void setupDatastoreService() throws Exception {
-		//Datasstore.initialize() can only be called once, cannot put in setUp()
-		Datastore.initialize();
-		pm = Datastore.getPersistenceManager();
-	}
-	
-	@Test
-	public void testGetSubmissionList0(){
-		testGetSubmissionList(0);
-	}
+//	@Test
+//	public void testGetSubmissionList0(){
+//		testGetSubmissionList(0);
+//	}
 	
 	@Test
 	public void testGetSubmissionList1(){
@@ -197,6 +196,7 @@ public class CoordViewResultsAPITest extends APITest {
 			prepareSubmissionData(scn);
 			testEvaluationsGetSubmissionList();
 			testEvaluationsCalculateBumpRatio();
+			testTeammatesServletCoordinatorGetSubmissionList();
 		}catch (Exception e){
 			e.printStackTrace();
 		}
@@ -247,13 +247,24 @@ public class CoordViewResultsAPITest extends APITest {
 		}
 	}
 	
-	public void printTeamatesServletResponse() {
+	public void testTeammatesServletCoordinatorGetSubmissionList() throws Exception {
+		//function under test
 		TeammatesServlet ts = new TeammatesServlet();
-		try {
-			String response = ts.coordinatorGetSubmissionList(scn.evaluation.courseID, scn.evaluation.name);
-			System.out.println("output: " + response);
-		} catch (IOException e) {
-			e.printStackTrace();
+		String response = ts.coordinatorGetSubmissionList(scn.evaluation.courseID, scn.evaluation.name);
+		
+		//expected data
+		List<Integer> pointList = getPointListFromServerResponse(response);
+		
+		//test output
+		int size = getTeamSizeFromSubmissionPoints(scn.submissionPoints);
+		int index = 0;
+		for(int from = 0; from < size; from++) {
+			String[] points = prepareSubmissionPoints(scn.submissionPoints[from]);
+			for(int to = 0; to < size; to++) {
+				int actual = pointList.get(index++);
+				int expected = Integer.valueOf(points[to]);
+				assertEquals(expected, actual);
+			}
 		}
 	}
 }
