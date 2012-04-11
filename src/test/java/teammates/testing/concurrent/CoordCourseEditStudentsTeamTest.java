@@ -84,6 +84,7 @@ public class CoordCourseEditStudentsTeamTest extends TestCase {
 
 		tprintln("Creating second evaluation.");
 		bi.addEvaluation(scn.evaluation2);
+		
 		TMAPI.openEvaluation(scn.course.courseId, scn.evaluation2.name);
 		TMAPI.studentsSubmitFeedbacks(scn.students, scn.course.courseId, scn.evaluation2.name);
 		TMAPI.closeEvaluation(scn.course.courseId, scn.evaluation2.name);

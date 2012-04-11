@@ -88,14 +88,14 @@ public class StudentCourseJoinTest extends TestCase {
 			bi.justWait();
 
 			// Try a wrong course key
-			bi.wdFillString(bi.inputRegKey, "totally_wrong_key");
+			bi.wdFillString(bi.studentInputRegKey, "totally_wrong_key");
 			bi.wdClick(bi.studentJoinCourseButton);
 			bi.waitForElementText(bi.statusMessage, bi.ERROR_STUDENT_JOIN_COURSE);
 
 			if (bi.studentCountTotalCourses() == 2) {
 				// This time the correct one
-				bi.waitForElementPresent(bi.inputRegKey);
-				bi.wdFillString(bi.inputRegKey, s.courseKey);
+				bi.waitForElementPresent(bi.studentInputRegKey);
+				bi.wdFillString(bi.studentInputRegKey, s.courseKey);
 				System.out.println("key for " + s.name + " : " + s.courseKey);
 				bi.wdClick(bi.studentJoinCourseButton);
 				bi.waitForElementText(bi.statusMessage, bi.MESSAGE_STUDENT_JOIN_COURSE);

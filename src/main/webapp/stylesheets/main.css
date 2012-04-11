@@ -629,7 +629,8 @@ ul#navbar li {
 	list-style-type: none;
 	/*padding-left: 120px;*/
 	/*padding-left: 94px;*/
-	padding-left: 65px;
+	/*padding-left: 65px;*/
+	padding-left: 50px;
 }
 
 ul#navbar li a {

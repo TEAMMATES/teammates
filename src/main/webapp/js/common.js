@@ -23,17 +23,17 @@ var NOTSURE_POINTS = -999;
 var YES = "YES";
 var NO = "NO";
 
-// title name:
+// title names:
 var EVALUATION_PENDING = "Pending Evaluations:";
 var EVALUATION_PAST = "Past Evaluations:";
 
 // evaluation contents:
 var REVIEWEE_TITLE_INDIVIDUAL = "Individual Submission - By Reviewee";
 var REVIEWER_TITLE_INDIVIDUAL = "Individual Submission - By Reviewer";
-var REVIEWEE_TITLE_DETAIL = "DETAILED EVALUATION RESULTS - BY REVIEWEE";
-var REVIEWER_TITLE_DETAIL = "DETAILED EVALUATION RESULTS - BY REVIEWER";
+var REVIEWEE_TITLE_DETAIL = "Detailed Evaluation Results - By Reviewee";
+var REVIEWER_TITLE_DETAIL = "Detailed Evaluation Results - By Reviewer";
 
-// attributes name:
+// attributes names:
 var TEAM = "Team";
 var COURSE = "Course ID";
 var EVALUATION = "Evaluation Name";
@@ -50,7 +50,7 @@ var COMMENTS = "Comments";
 var MESSAGES = "Messages";
 
 
-// message:
+// messages:
 var COORDINATOR_MESSAGE_NO_COURSE = "You have not created any courses yet. Use the form above to create a course.";
 var COORDINATOR_MESSAGE_NO_EVALUATION = "You have not created any evaluations yet. Use the form above to create a new evaluation.";
 var COORDINATOR_MESSAGE_NO_TEAMFORMINGSESSION = "You have not created any team forming sessions yet. Use the form above to create a new team forming session.";
@@ -58,10 +58,11 @@ var COORDINATOR_MESSAGE_NO_TEAMFORMINGSESSION = "You have not created any team f
 var HOVER_MESSAGE_ENROL = 'Enrol student into the course';
 var HOVER_MESSAGE_VIEW_COURSE = 'View, edit and send registration keys to the students in the course';
 var HOVER_MESSAGE_DELETE_COURSE = 'Delete the course and its corresponding students and evaluations';
+var HOVER_MESSAGE_ADD_EVALUATION = 'Add an evaluation for the course';
 var HOVER_MESSAGE_CLAIMED = "This is student own estimation of his/her contributions to the project";
 var HOVER_MESSAGE_PERCEIVED = "This is the average of what other team members think this student contributed to the project";
 var HOVER_MESSAGE_PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
-
+var HOVER_MESSAGE_STUDENT_VIEW_COURSE = 'View course details';
 /*------------------------------------------PRINT COMMON PAGE------------------------------------------*/
 /*
  * View course list User: Student, Coordinator
@@ -112,7 +113,7 @@ function printCourseList(courseList, user) {
                             output = output + "<td class='centeralign'>"
 //                                            + "<a href=\"javascript:displayCourseInformation('"
 //                                            + courseList[loop].ID + "');hideddrivetip();\""
-//                                            + " onmouseover=\"ddrivetip('View course details.')\""
+//                                            + " onmouseover=\"ddrivetip('"+ HOVER_MESSAGE_STUDENT_VIEW_COURSE +"')\""
 //                                            + " onmouseout=\"hideddrivetip()\">View</a>"
                                              + "<a id=\"viewTeams" + loop + "\" href=# "
                                              + "onmouseover=\"ddrivetip('View/Create the teams for this course.')\""
@@ -141,10 +142,9 @@ function printCourseList(courseList, user) {
                                             + courseList[loop].ID + "');hideddrivetip();\""
                                             + "onmouseover=\"ddrivetip('"
                                             + HOVER_MESSAGE_VIEW_COURSE + "')\""
-                                            + "onmouseout=\"hideddrivetip()\">View</a>";
-                            output = output
+                                            + "onmouseout=\"hideddrivetip()\">View</a>"
                                             + "<a class='t_course_delete' href=\"javascript:toggleDeleteCourseConfirmation('"
-                                            + courseList[loop].ID + "');hideddrivetip();\""
+                                            + courseList[loop].ID + "'," + false+ ");hideddrivetip();\""
                                             + "onmouseover=\"ddrivetip('"
                                             + HOVER_MESSAGE_DELETE_COURSE + "')\""
                                             + "onmouseout=\"hideddrivetip()\">Delete</a>"
@@ -576,7 +576,7 @@ function printEditStudent(courseID, email, name, teamName, googleID,
 /*
  * Add evaluation Edit evaluation
  */
-function printEvaluationAddForm() {
+function printEvaluationAddForm(courseID) {
 	var outputHeader = "<h1>ADD NEW EVALUATION</h1>";
 	var outputForm = ""
 			+ "<form method=\"post\" action=\"\" name=\"form_addevaluation\">"
@@ -741,7 +741,7 @@ function printEvaluationAddForm() {
 	} else {
 		currentTime = (parseInt(hours.substring(0, 2)) + 1) % 24;
 	}
-
+	doGetCourseIDOptions(courseID);
 	var timeZone = -now.getTimezoneOffset() / 60;
 
 	document.getElementById(EVALUATION_START).value = currentDate;
@@ -963,9 +963,6 @@ function printEvaluationList(evaluationList) {
 						this.id.length));
 			};
 		}
-	}
-
-	for (loop = 0; loop < evaluationListLength; loop++) {
 		if (document.getElementById('viewEvaluation' + loop) != null
 				&& document.getElementById('viewEvaluation' + loop).onclick == null) {
 			document.getElementById('viewEvaluation' + loop).onclick = function() {
@@ -981,7 +978,7 @@ function printEvaluationList(evaluationList) {
  * helper: print evaluation actions: 1. view 2. edit 3. remind 4. delete 5.
  * publish/unpublish
  */
-function printEvaluationActions(evaluationList, position) {
+function printEvaluationActions(evaluationList, position,isHome) {
 	var output = "";
 
 	// if link is disabled, insert this line to reset style and onclick:
@@ -1024,71 +1021,43 @@ function printEvaluationActions(evaluationList, position) {
 	}
 
 	// 1.VIEW:
-	output = output
-			+ "<a class='t_eval_view' name=\"viewEvaluation"
-			+ position
-			+ "\" id=\"viewEvaluation"
-			+ position
-			+ "\" href=# "
-			+ "onmouseover=\"ddrivetip('View the current results of the evaluation')\""
-			+ "onmouseout=\"hideddrivetip()\"" + (hasView ? "" : disabled)
-			+ ">View Results</a>";
+	output = output +
+				"<a class='t_eval_view' name='viewEvaluation" + position + "' id='viewEvaluation"+ position + "' href=# 	\
+				onmouseover=\"ddrivetip('View the current results of the evaluation')\" 									\
+				onmouseout=\"hideddrivetip()\"" + (hasView ? "" : disabled) + ">View Results</a>";
 	// 2.EDIT:
-	output = output + "<a class='t_eval_edit' name=\"editEvaluation" + position
-			+ "\" id=\"editEvaluation" + position + "\" href=# "
-			+ "onmouseover=\"ddrivetip('Edit evaluation details')\""
-			+ "onmouseout=\"hideddrivetip()\"" + (hasEdit ? "" : disabled)
-			+ ">Edit</a>";
+	output = output +
+				"<a class='t_eval_edit' name='editEvaluation" + position + "' id='editEvaluation" + position + "' href=# 	\
+				onmouseover=\"ddrivetip('Edit evaluation details')\" onmouseout=\"hideddrivetip()\"							\
+				" + (hasEdit ? "" : disabled) + ">Edit</a>";
 	// 3.DELETE:
-	output = output + "<a class='t_eval_delete' name=\"deleteEvaluation"
-			+ position + "\" id=\"deleteEvaluation" + position
-			+ "\" href=\"javascript:toggleDeleteEvaluationConfirmation('"
-			+ evaluationList[position].courseID + "','"
-			+ evaluationList[position].name + "');hideddrivetip();\""
-			+ "onmouseover=\"ddrivetip('Delete the evaluation')\""
-			+ "onmouseout=\"hideddrivetip()\">Delete</a>";
+	output = output +
+				"<a class='t_eval_delete' name='deleteEvaluation" + position + "' id='deleteEvaluation" + position + "' 	\
+				href=\"javascript:toggleDeleteEvaluationConfirmation('" + evaluationList[position].courseID + "','			\
+				" + evaluationList[position].name + "'," + isHome + ");hideddrivetip();\"									\
+				onmouseover=\"ddrivetip('Delete the evaluation')\" onmouseout=\"hideddrivetip()\">Delete</a>";
 	// 4.REMIND:
-	output = output
-			+ "<a class='t_eval_remind' name=\"remindEvaluation"
-			+ position
-			+ "\" id=\"remindEvaluation"
-			+ position
-			+ "\"  href=\"javascript:toggleRemindStudents('"
-			+ evaluationList[position].courseID
-			+ "','"
-			+ evaluationList[position].name
-			+ "');hideddrivetip();\""
-			+ "onmouseover=\"ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')\""
-			+ "onmouseout=\"hideddrivetip()\"" + (hasRemind ? "" : disabled)
-			+ ">Remind</a>";
+	output = output +
+				"<a class='t_eval_remind' name='remindEvaluation" + position + "' id='remindEvaluation" + position + "' 	\
+				href=\"javascript:toggleRemindStudents('" + evaluationList[position].courseID + "','						\
+				" + evaluationList[position].name + "');hideddrivetip();\"													\
+				onmouseover=\"ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')\"\
+				onmouseout=\"hideddrivetip()\"" + (hasRemind ? "" : disabled) + ">Remind</a>";
 	// 5. PUBLISH, UNPUBLISH:
 	if (hasUnpublish) {
-		output = output
-				+ "<a class='t_eval_unpublish' name=\"publishEvaluation"
-				+ position
-				+ "\" id=\"publishEvaluation"
-				+ position
-				+ "\"  href=\"javascript:togglePublishEvaluation('"
-				+ evaluationList[position].courseID
-				+ "','"
-				+ evaluationList[position].name
-				+ "', false, true);hideddrivetip();\""
-				+ "onmouseover=\"ddrivetip('Make results not visible to students')\""
-				+ "onmouseout=\"hideddrivetip()\">Unpublish</a>";
+		output = output +
+					"<a class='t_eval_unpublish' name='publishEvaluation" + position + "' id='publishEvaluation" + position + "' \
+					href=\"javascript:togglePublishEvaluation('" + evaluationList[position].courseID + "','					\
+					" + evaluationList[position].name + "'," + false + "," + true + "," + isHome + ");hideddrivetip();\"	\
+					onmouseover=\"ddrivetip('Make results not visible to students')\" onmouseout=\"hideddrivetip()\">		\
+					Unpublish</a>";
 	} else {
-		output = output
-				+ "<a class='t_eval_publish' name=\"unpublishEvaluation"
-				+ position
-				+ "\" id=\"publishEvaluation"
-				+ position
-				+ "\"  href=\"javascript:togglePublishEvaluation('"
-				+ evaluationList[position].courseID
-				+ "','"
-				+ evaluationList[position].name
-				+ "', true, true);hideddrivetip();\""
-				+ "onmouseover=\"ddrivetip('Publish evaluation results for students to view')\""
-				+ "onmouseout=\"hideddrivetip()\""
-				+ (hasPublish ? "" : disabled) + ">Publish</a>";
+		output = output +
+					"<a class='t_eval_publish' name='unpublishEvaluation" + position + "' id='publishEvaluation" + position + "' \
+					href=\"javascript:togglePublishEvaluation('" + evaluationList[position].courseID + "','					\
+					" + evaluationList[position].name + "'," + true + "," + true + "," + isHome + ");hideddrivetip();\"		\
+					onmouseover=\"ddrivetip('Publish evaluation results for students to view')\"							\
+					onmouseout=\"hideddrivetip()\"" + (hasPublish ? "" : disabled) + ">Publish</a>";
 	}
 
 	// actions end-----------------------------------
@@ -1605,9 +1574,9 @@ function printPendingEvaluationList(evaluationList) {
 
 	for (loop = 0; loop < evaluationListLength; loop++) {
 		document.getElementById('doEvaluation' + loop).onclick = function() {
-			displayEvaluationSubmission(evaluationList, this.id
-					.charAt(this.id.length - 1));
-		};
+			displayEvaluationSubmission(evaluationList, this.id.substring(
+					12, this.id.length));
+					};
 
 	}
 }
@@ -1659,7 +1628,6 @@ function printPastEvaluationList(evaluationList) {
 					+ loop
 					+ "\"><span onmouseover=\"ddrivetip('The evaluation has finished and you can check the results')\" onmouseout=\"hideddrivetip()\">"
 					+ status + "</span></td>";
-			output = output + "<td class=\"centeralign\">";
 		}
 
 		else if (now < evaluationList[loop].deadline) {
@@ -1669,7 +1637,6 @@ function printPastEvaluationList(evaluationList) {
 					+ loop
 					+ "\"><span onmouseover=\"ddrivetip('You have submitted your feedback for this evaluation')\" onmouseout=\"hideddrivetip()\">"
 					+ status + "</span></td>";
-			output = output + "<td class=\"centeralign\">";
 		}
 
 		else {
@@ -1679,11 +1646,11 @@ function printPastEvaluationList(evaluationList) {
 					+ loop
 					+ "\"><span onmouseover=\"ddrivetip('The evaluation has finished but the coordinator has not published the results yet')\" onmouseout=\"hideddrivetip()\">"
 					+ status + "</span></td>";
-			output = output + "<td class=\"centeralign\">";
 		}
 
 		output = output
-				+ "<a href=\"javascript:void(0);\" \"name=\"viewEvaluation"
+				+ "<td class=\"centeralign\">"
+				+ "<a href=# \"name=\"viewEvaluation"
 				+ loop + "\" id=\"viewEvaluation" + loop + "\""
 				+ "onmouseover=\"ddrivetip('View evaluation results')\""
 				+ "onmouseout=\"hideddrivetip()\"" + (hasView ? "" : disabled)
@@ -1694,7 +1661,7 @@ function printPastEvaluationList(evaluationList) {
 		}
 
 		output = output
-				+ "<a href=\"javascript:void(0);\" name=\"editEvaluation"
+				+ "<a href=# name=\"editEvaluation"
 				+ loop + "\" id=\"editEvaluation" + loop + "\""
 				+ "onmouseover=\"ddrivetip('Edit evaluation')\""
 				+ "onmouseout=\"hideddrivetip()\"" + (hasEdit ? "" : disabled)

@@ -59,6 +59,7 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
+					<li><a class='t_home' href="javascript:displayHomeTab();">Home</a></li>
 					<li><a class='t_courses' href="javascript:displayCoursesTab();">Courses</a></li>
 						<%
 							//com.google.appengine.api.users.User user = accounts.getUser();

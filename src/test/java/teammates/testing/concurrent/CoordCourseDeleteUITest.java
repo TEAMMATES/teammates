@@ -30,6 +30,7 @@ public class CoordCourseDeleteUITest extends TestCase {
 		TMAPI.cleanupCourse(scn.course.courseId);
 		TMAPI.createCourse(scn.course);
 		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.gotoCourses();
 	}
 	
 	@AfterClass

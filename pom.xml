@@ -540,7 +540,7 @@
      version pointed to by ${gae.home} property (Typically, one used by
      your Eclipse plug-in)
      -->
-    <gae.version>1.6.1</gae.version>
+    <gae.version>1.6.4</gae.version>
 
 	<prop.build.dir>src/main/webapp/WEB-INF/classes/build.properties</prop.build.dir>
 	<prop.build.target.dir>target/teammates-${project.version}/WEB-INF/classes/build.properties/</prop.build.target.dir>

@@ -82,7 +82,8 @@ public class CoordEvaluationListTest extends TestCase {
 	public void testCoordViewResultsEvaluationNonClickable() {
 		System.out.println("testCoordViewResultsEvaluationNonClickable");
 
-		bi.clickEvaluationTab();
+		//bi.clickEvaluationTab();
+		bi.gotoEvaluations();
 		bi.clickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
 
 		assertTrue(bi.isElementPresent(bi.getEvaluationViewResults(FIRST_EVALUATION)));

@@ -32,6 +32,7 @@ public class CoordCourseEnrolCaseSensitivityTest extends TestCase {
 		TMAPI.createCourse(scn.course);
 		
 		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.gotoCourses();
 	}
 	
 	@AfterClass
@@ -57,9 +58,9 @@ public class CoordCourseEnrolCaseSensitivityTest extends TestCase {
 				   			STUDENT_TEAM_UPPER + "|" + STUDENT_NAME_LOWER + "|" + STUDENT_EMAIL_LOWER + "|";
 
 		bi.clickCourseEnrol(scn.course.courseId);
-		bi.wdFillString(bi.enrolInfo, students);
-		bi.waitAndClick(bi.enrolButton);
-		bi.waitAndClick(bi.enrolBackButton);
+		bi.wdFillString(bi.coordEnrolInfo, students);
+		bi.waitAndClick(bi.coordEnrolButton);
+		bi.waitAndClick(bi.coordEnrolBackButton);
 		
 		//verify teams: team 1 == TEAM 1
 		assertEquals("1", bi.getCourseTeams(scn.course.courseId));
@@ -77,9 +78,9 @@ public class CoordCourseEnrolCaseSensitivityTest extends TestCase {
 				   			STUDENT_TEAM_LOWER + "|" + STUDENT_NAME_UPPER + "|" + STUDENT_EMAIL_LOWER + "|";
 		
 		bi.clickCourseEnrol(scn.course.courseId);
-		bi.wdFillString(bi.enrolInfo, students);
-		bi.waitAndClick(bi.enrolButton);
-		bi.waitAndClick(bi.enrolBackButton);
+		bi.wdFillString(bi.coordEnrolInfo, students);
+		bi.waitAndClick(bi.coordEnrolButton);
+		bi.waitAndClick(bi.coordEnrolBackButton);
 		
 		//verify students: alice == Alice?
 		assertEquals("1", bi.getCourseTotalStudents(scn.course.courseId));
@@ -93,9 +94,9 @@ public class CoordCourseEnrolCaseSensitivityTest extends TestCase {
 		//-------------------------what if two students have the same name?
 		students = STUDENT_TEAM_LOWER + "|" + STUDENT_NAME_LOWER + "|benny.tmms@gmail.com|" + '\n' +
 				   STUDENT_TEAM_LOWER + "|" + STUDENT_NAME_UPPER + "|danny.tmms@gmail.com|";
-		bi.wdFillString(bi.enrolInfo, students);
-		bi.waitAndClick(bi.enrolButton);
-		bi.waitAndClick(bi.enrolBackButton);
+		bi.wdFillString(bi.coordEnrolInfo, students);
+		bi.waitAndClick(bi.coordEnrolButton);
+		bi.waitAndClick(bi.coordEnrolBackButton);
 		
 		//TODO: verify students: alice (benny.tmms@gmail.com) != Alice (danny.tmms@gmail.com)
 		assertEquals("2", bi.getCourseTotalStudents(scn.course.courseId));
@@ -112,9 +113,9 @@ public class CoordCourseEnrolCaseSensitivityTest extends TestCase {
 				   			STUDENT_TEAM_LOWER + "|" + STUDENT_NAME_LOWER + "|" + STUDENT_EMAIL_UPPER + "|";
 		
 		bi.clickCourseEnrol(scn.course.courseId);
-		bi.wdFillString(bi.enrolInfo, students);
-		bi.waitAndClick(bi.enrolButton);
-		bi.waitAndClick(bi.enrolBackButton);
+		bi.wdFillString(bi.coordEnrolInfo, students);
+		bi.waitAndClick(bi.coordEnrolButton);
+		bi.waitAndClick(bi.coordEnrolBackButton);
 		
 		//TODO: verify students: alice (alice.tmms@gmail.com) == alice (ALICE.TMMS@GMAIL.COM)
 		//assertEquals("1", bi.getCourseTotalStudents(scn.course.courseId));

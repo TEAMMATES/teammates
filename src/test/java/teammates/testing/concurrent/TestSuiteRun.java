@@ -27,6 +27,9 @@ import org.junit.runners.Suite;
 //	CoordEvaluationListTest.class,
 	CoordEvaluationResultsEditTest.class,
 	CoordEvaluationResultsViewTest.class,
+	CoordHelpPageHTMLTest.class,
+	CoordHomePageHTMLTest.class,
+	CoordHomePageFunctionalityTest.class,
 	
 	CoordLoginTest.class,
 	CoordViewResultsUITest.class,
@@ -35,13 +38,15 @@ import org.junit.runners.Suite;
 	StudentEvaluationEditTest2.class,
 	StudentEvaluationResultsTest2.class,
 	StudentEvaluationSubmitTest2.class,
+	StudentHelpPageHTMLTest.class,
+	StudentHomePageHTMLTest.class,
+	StudentHomePageFunctionalityTest.class,
 	
 	StudentLoginTest.class,
 	StudentViewResultsUITest.class,
 	
 	SystemFooterTest.class,
 //	SystemRemindEvaluationBeforeDeadlineTest.class,
-	SystemVerifyHelpPageTest.class,
 	
 	CoordTeamFormingSessionChangeStudentTeam.class,
 	CoordTeamFormingSessionDeleteTest.class,

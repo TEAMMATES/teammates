@@ -228,6 +228,46 @@ tfoot td {
 	font-weight: bold;
 }
 
+
+.result_homeTitle {
+	float: left;
+	width: 60%;
+}
+
+.result_homeTitle h2 {
+	color: #FFFFFF;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0 auto;
+	padding: 15px 0;
+	text-align: left;
+	text-transform: uppercase;
+}
+
+.result_homeLinks {
+	float: left;
+	margin: 0 auto;
+	padding: 20px 0;
+	text-align: center;
+	width: 40%;
+}
+
+.result_homeLinks a:link {
+	color: #FFFFFF;
+	font-size: 13px;
+	padding-left: 15px;
+	text-decoration: underline;
+}
+
+.result_homeLinks a:visited {
+	color: #FFFFFF;
+}
+
+.result_homeLinks a:link:hover {
+	color: #FFFFFF;
+	text-decoration: underline;
+}
+
+
 /* STUDENT: results header form */
 .result_studentform{
 	width:100%;

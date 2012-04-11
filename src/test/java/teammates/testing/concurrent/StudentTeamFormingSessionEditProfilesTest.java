@@ -61,7 +61,7 @@ public class StudentTeamFormingSessionEditProfilesTest extends TestCase {
 	
 	public void testStudentTeamFormingSaveProfile(Student student) throws Exception {
 		bi.studentLogin(student.email, student.password);
-		 
+		bi.clickCoursesTab();
 		bi.clickTeamFormingSessionViewTeams(scn.course.courseId);
 		bi.justWait();
 		

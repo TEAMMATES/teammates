@@ -57,7 +57,7 @@ public class StudentTeamFormingSessionActionsTest extends TestCase {
 	
 	public void testStudentTeamFormingAddJoinLeaveTeam(Student student) throws Exception {
 		bi.studentLogin(student.email, student.password);
-		 
+		bi.clickCoursesTab();
 		bi.clickTeamFormingSessionViewTeams(scn.course.courseId);
 		bi.justWait();
 		

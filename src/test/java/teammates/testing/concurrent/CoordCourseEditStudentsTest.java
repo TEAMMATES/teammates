@@ -120,12 +120,12 @@ public class CoordCourseEditStudentsTest extends TestCase {
 		bi.clickCourseTab();
 		bi.clickCourseEnrol(scn.course.courseId);
 		bi.verifyEnrollPage();
-		bi.wdFillString(bi.enrolInfo, students);
-		bi.wdClick(bi.enrolButton);
+		bi.wdFillString(bi.coordEnrolInfo, students);
+		bi.wdClick(bi.coordEnrolButton);
 
 		// Make sure the error message is there
 		assertTrue(bi.isElementPresent(bi.courseErrorMessage));
 
-		bi.wdClick(bi.enrolBackButton);
+		bi.wdClick(bi.coordEnrolBackButton);
 	}
 }

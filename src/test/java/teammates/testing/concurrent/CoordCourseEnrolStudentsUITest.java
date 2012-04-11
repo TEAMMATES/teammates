@@ -63,7 +63,7 @@ public class CoordCourseEnrolStudentsUITest extends TestCase {
 
 		// Check for number of successful students enrolled
 		bi.verifyEnrollment(half, 0);
-		bi.waitAndClick(bi.enrolBackButton);
+		bi.waitAndClick(bi.coordEnrolBackButton);
 
 		// Calculate the number of TEAMs
 		Set<String> set = new HashSet<String>();
@@ -94,7 +94,7 @@ public class CoordCourseEnrolStudentsUITest extends TestCase {
 		
 		// Check for number of successful students enrolled
 		bi.verifyEnrollment(studentAdded, studentEdited);
-		bi.waitAndClick(bi.enrolBackButton);
+		bi.waitAndClick(bi.coordEnrolBackButton);
 
 		// Calculate the number of TEAMs
 		Set<String> set = new HashSet<String>();
@@ -145,8 +145,8 @@ public class CoordCourseEnrolStudentsUITest extends TestCase {
 	private void testCoordEnrolStudentsWithInvalidEmailFailed() {
 		String studentList = "Team 1|User 6|\n" + "Team 1|User 0|\n|" + "Team 1|User 1| |";
 		
-		bi.wdFillString(bi.enrolInfo, studentList);
-		bi.waitAndClick(bi.enrolButton);
+		bi.wdFillString(bi.coordEnrolInfo, studentList);
+		bi.waitAndClick(bi.coordEnrolButton);
 		
 		assertEquals(bi.ERROR_MESSAGE_ENROL_INVALID_EMAIL, bi.getElementText(bi.courseErrorMessage));
 	}	

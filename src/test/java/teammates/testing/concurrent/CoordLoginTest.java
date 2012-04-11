@@ -39,7 +39,7 @@ public class CoordLoginTest extends TestCase {
 		//login
 		bi.gotoHome();
 		bi.coordinatorLogin(Config.inst().TEAMMATES_APP_ACCOUNT, Config.inst().TEAMMATES_APP_PASSWD);
-		bi.verifyCoordinatorPage();
+		bi.verifyCoordHomePage();
 		//logout
 		bi.logout();
 		assertTrue(bi.isElementPresent(bi.COORD_LOGIN_BUTTON));

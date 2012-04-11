@@ -10,7 +10,7 @@ import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.object.Scenario;
 
-public class SystemVerifyHelpPageTest extends TestCase {
+public class CoordHelpPageHTMLTest extends TestCase {
 	static Scenario scn = setupScenarioInstance("scenario");
 	static BrowserInstance bi;
 
@@ -46,5 +46,4 @@ public class SystemVerifyHelpPageTest extends TestCase {
 		bi.verifyPageHTML("http://www.comp.nus.edu.sg/~teams/coordinatorhelp.html", 
 				"target/test-classes/pages/coordHelp.html");
 	}
-
 }

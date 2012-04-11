@@ -30,7 +30,7 @@ public class StudentLoginTest extends TestCase {
 		//testStudentLoginSuccessful
 		bi.gotoHome();
 		bi.studentLogin(Config.inst().INDIVIDUAL_ACCOUNT, Config.inst().TEAMMATES_APP_PASSWD);
-		bi.verifyStudentPage();
+		bi.verifyStudentHomePage();
 		
 		
 		//testStudentLogoutSuccessful

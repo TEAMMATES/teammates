@@ -52,7 +52,8 @@ import com.thoughtworks.selenium.SeleniumException;
  * Used to be BaseTest
  * 
  * @author Huy
- * 
+ * @Xialin
+ * @Shakthi
  */
 public class BrowserInstance {
 	protected DefaultSelenium selenium = null;
@@ -70,29 +71,105 @@ public class BrowserInstance {
 	/**
 	 * tabs:
 	 */
+	public By homeTab = By.className("t_home");
 	public By teamFormingTab = By.className("t_teamForming");
-	public By courseTab = By.className("t_courses");
-	public By evaluationTab = By.className("t_evaluations");
+	public By coursesTab = By.className("t_courses");
+	public By evaluationsTab = By.className("t_evaluations");
 	public By helpTab = By.className("t_help");
 	public By logoutTab = By.className("t_logout");
-
+	/*
+	 * table elements:
+		 */
+		public By pageTitle = By.xpath("//div[@id='headerOperation']//h1");
+		
+		public final String HEADER_FORM_TABLE_CELL = "//table[@class='headerform']//tbody//tr//td";
+		public final String DETAIL_FORM_TABLE_CELL = "//table[@class='detailform']//tbody//tr//td";
+		public final String DATAFORM_TABLE_ROW = "//table[@id='dataform']//tr";
+		public final String DATAFORM_TABLE_CELL = DATAFORM_TABLE_ROW + "[%d]//td[%d]";
+		
+	// -------------------------------- COORDINATOR -------------------------------- //
+	/**
+	 * home page:
+	 */
+	public By coordAddNewCourseLink = By.id("addNewCourse");
+	
+	// course box:
+	public By getCoordEnrolLink(int courseNo) {
+		return By.className("t_course_enrol" + courseNo);
+	}
+	
+	public By getCoordViewLink(int courseNo) {
+		return By.className("t_course_view" + courseNo);
+	}
+	
+	public By getCoordAddEvaluationLink(int courseNo) {
+		return By.className("t_course_add_eval" + courseNo);
+	}
+	
+	public By getCoordDeleteLink(int courseNo) {
+		return By.className("t_course_delete" + courseNo);
+	}
+	
+	// evaluation table:
+	public By getCoordViewResultsLink(int linkNo) {
+		return By.id("viewEvaluation" + linkNo);
+	}
+	
+	public By getCoordEditEvaluationLink(int linkNo) {
+		return By.id("editEvaluation" + linkNo);
+	}
+	
+	public By getCoordDeleteEvaluationLink(int linkNo) {
+		return By.id("deleteEvaluation" + linkNo);
+	}
+	
+	public By getCoordRemindEvaluationLink(int linkNo) {
+		return By.id("remindEvaluation" + linkNo);
+	}
+	
+	public By getCoordPublishEvaluationLink(int linkNo) {
+		return By.id("publishEvaluation" + linkNo);
+	}
 	/**
 	 * course:
 	 */
 	// add course:
-	public By addCoursePageTitle = By.xpath("//div[@id='headerOperation']//h1");
-	public By inputCourseID = By.id("courseid");
-	public By inputCourseName = By.id("coursename");
-	public By addCourseButton = By.id("btnAddCourse");
-
-	public By courseIDSorting = By.id("button_sortcourseid");
-	public By courseNameSorting = By.id("button_sortcoursename");
-
+	//public By addCoursePageTitle = By.xpath("//div[@id='headerOperation']//h1");
+	public By coordInputCourseID = By.id("courseid");
+	public By coordInputCourseName = By.id("coursename");
+	public By coordAddCourseButton = By.id("btnAddCourse");
+	public By coordCourseIDSorting = By.id("button_sortcourseid");
+	public By coordCourseNameSorting = By.id("button_sortcoursename");
+	// courses table:
+	public By getCourseID(int row) {
+		return By.id("courseID" + row);
+	}
+	
+	public By getCourseName(int row) {
+		return By.id("courseName" + row);
+	}
+	
+	public By getCoordCourseEnrol(int row) {
+		return By.xpath(String.format(DATAFORM_TABLE_CELL + "//a[@class='t_course_enrol']", row + 2, 6));
+	}
+	
+	public By getCoordCourseView(int row) {
+		return By.xpath(String.format(DATAFORM_TABLE_CELL + "//a[@class='t_course_view']", row + 2, 6));
+	}
+	
+	public By getCoordCourseDelete(int row) {
+		return By.xpath(String.format(DATAFORM_TABLE_CELL + "//a[@class='t_course_delete']", row + 2, 6));
+	}
+	
 	// enrol:
-	public By enrolInfo = By.id("information");
-	public By enrolButton = By.id("button_enrol");
-	public By enrolBackButton = By.className("t_back");
-
+	public By coordEnrolInfo = By.id("information");
+	public By coordEnrolButton = By.id("button_enrol");
+	public By coordEnrolBackButton = By.className("t_back");
+	// enrollment results:
+	public By coordStudentsAdded = By.id("t_studentsAdded");
+	public By coordStudentsEdited = By.id("t_studentsEdited");
+	public By coordStudentsAddedRow = By.xpath("//tr[@id='rowAddedStudents']//td");
+	public By coordStudentsEditedRow = By.xpath("//tr[@id='rowEditedStudents']//td");
 	// course details:
 	public By courseDetailCourseID = By.xpath("//table[@class='headerform']//tbody//tr[1]//td[2]");
 	public By courseDetailCourseName = By.xpath("//table[@class='headerform']//tbody//tr[2]//td[2]");
@@ -203,19 +280,72 @@ public class BrowserInstance {
 
 	// edit result:
 	public By coordEvaluationSubmitButton = By.id("button_editevaluationresultsbyreviewee");
+	// ---------------------------------- STUDENT ---------------------------------- //
+	// course details:
+	public By studentCourseDetailCourseID = By.xpath(String.format(DETAIL_FORM_TABLE_CELL, 1, 2));
+	public By studentCourseDetailTeamName = By.xpath(String.format(DETAIL_FORM_TABLE_CELL, 2, 2));
+	public By studentCourseDetailCourseName = By.xpath(String.format(DETAIL_FORM_TABLE_CELL, 3, 2));
+	public By studentCourseDetailStudentName = By.xpath(String.format(DETAIL_FORM_TABLE_CELL, 4, 2));
+	public By studentCourseDetailCoordinatorName = By.xpath(String.format(DETAIL_FORM_TABLE_CELL, 5, 2));
+	public By studentCourseDetailStudentEmail = By.xpath(String.format(DETAIL_FORM_TABLE_CELL, 6, 2));
+	public By studentCourseDetailStudentTeammates = By.xpath(String.format(DETAIL_FORM_TABLE_CELL, 7, 2));
+	/**
+	 * home page:
+	 */
+	public By studentJoinNewCourseLink = By.id("joinNewCourse");
 	
+	// course box:
+	public By getStudentViewLink(int courseNo) {
+		return By.className("t_course_view" + courseNo);
+	}
+	
+	// evaluation table:
+	public By getStudentDoEvaluationLink(int linkNo) {
+		return By.id("doEvaluation" + linkNo);
+	}
+	
+	public By getStudentViewResultsLink(int linkNo) {
+		return By.id("viewEvaluation" + linkNo);
+	}
+	
+	public By getStudentEditEvaluationSubmissionLink(int linkNo) {
+		return By.id("editEvaluation" + linkNo);
+	}	
 	/**
 	 * student:
 	 */
 	// student course:
-	public By inputRegKey = By.id("regkey");
+	public By studentInputRegKey = By.id("regkey");
 	public By studentJoinCourseButton = By.id("btnJoinCourse");
 	
 	// student evaluation:
 	public By studentSubmitEvaluationButton = By.name("submitEvaluation");
 	public By studentEvaluationBackButton = By.className("t_back");
 	public By studentEvaluationCancelButton = By.className("t_back");
-
+	/**
+	 * evaluations page:
+	 */
+	public final String PENDING_EVALUATIONS_HEADER = "Pending Evaluations:";
+	public final String PAST_EVALUATIONS_HEADER = "Past Evaluations:";
+	// do evaluation:
+	// edit evaluation submission:
+	public By studentEvaluationCourseID = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 1, 2));
+	public By studentEvaluationEvaluationName = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 2, 2));
+	public By studentEvaluationOpeningTime = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 3, 2));
+	public By studentEvaluationClosingTime = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 4, 2));
+	public By studentEvaluationInstructions = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 5, 2));
+	// evaluation results table:
+	public final String STUDENT_EVALUATION_RESULTS_TABLE_ROW = "//div[@id='studentEvaluationResults']//table[@class='result_studentform']//tbody//tr";
+	public final String STUDENT_EVALUATION_RESULTS_TABLE_CELL = STUDENT_EVALUATION_RESULTS_TABLE_ROW + "[%d]//td[%d]";
+	
+	public By studentEvaluationResultStudentName = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 1, 2));
+	public By studentEvaluationResultCourseID = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 1, 4));
+	public By studentEvaluationResultTeamName = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 2, 2));
+	public By studentEvaluationResultEvaluationName = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 2, 4));
+	public By studentEvaluationResultClaimedPoints = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 3, 2));
+	public By studentEvaluationResultOpeningTime = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 3, 4));
+	public By studentEvaluationResultPerceivedPoints = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 4, 2));
+	public By studentEvaluationResultClosingTime = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 4, 4));
 	/**
 	 * messages:
 	 */
@@ -305,7 +435,7 @@ public class BrowserInstance {
 		}
 		_login(username, password);
 
-		verifyCoordinatorPage();
+		verifyCoordHomePage();
 		waitAWhile(1000);
 	}
 
@@ -332,7 +462,7 @@ public class BrowserInstance {
 			waitForPageLoad();
 		}
 		_login(username, password);
-		verifyStudentPage();
+		verifyStudentHomePage();
 	}
 
 	/**
@@ -349,6 +479,26 @@ public class BrowserInstance {
 		}
 		verifyMainPage();
 	}
+	/**
+	 * Click Home Tab
+	 */
+	public void clickHomeTab() {
+		waitAndClick(homeTab);
+	}
+	
+	/**
+	 * Click Courses Tab
+	 */
+	public void clickCoursesTab() {
+		waitAndClick(coursesTab);
+	}
+	
+	/**
+	 * Click Evaluations Tab
+	 */
+	public void clickEvaluationsTab() {
+		waitAndClick(evaluationsTab);
+	}	
 
 	// -----------------------------UI Actions ----------------------------->>
 	/** Student:
@@ -578,13 +728,13 @@ public class BrowserInstance {
 	 * Snippet to go to Courses page
 	 */
 	public void gotoCourses() {
-		waitAndClick(courseTab);
+		waitAndClick(coursesTab);
 		justWait();
 		verifyCoordinatorPage();
 	}
 
 	public void clickCourseTab() {
-		waitAndClick(courseTab);
+		waitAndClick(coursesTab);
 	}
 
 	/**
@@ -593,23 +743,20 @@ public class BrowserInstance {
 	 * @param row
 	 */
 	public void addCourse(String courseid, String coursename, int courseIndex) {
-		wdFillString(inputCourseID, courseid);
-		wdFillString(inputCourseName, coursename);
+		wdFillString(coordInputCourseID, courseid);
+		wdFillString(coordInputCourseName, coursename);
 		// wdClick(addCourseButton);
-		waitAndClickAndCheck(addCourseButton, By.id("courseID" + courseIndex));
+		waitAndClickAndCheck(coordAddCourseButton, By.id("courseID" + courseIndex));
 		justWait();
 	}
 
 	public void addCourse(String courseid, String coursename) {
-		wdFillString(inputCourseID, courseid);
-		wdFillString(inputCourseName, coursename);
-		waitAndClick(addCourseButton);
+		wdFillString(coordInputCourseID, courseid);
+		wdFillString(coordInputCourseName, coursename);
+		waitAndClick(coordAddCourseButton);
 		justWait();
 	}
 
-	public By getCourseID(int row) {
-		return By.id("courseID" + row);
-	}
 
 	public By getCourseID(String courseID) {
 		int row = findCourseRow(courseID);
@@ -621,9 +768,6 @@ public class BrowserInstance {
 		}
 	}
 
-	public By getCourseName(int row) {
-		return By.id("courseName" + row);
-	}
 
 	public By getCourseName(String courseID) {
 		int row = findCourseRow(courseID);
@@ -745,8 +889,8 @@ public class BrowserInstance {
 		clickCourseEnrol(row);
 		verifyEnrollPage();
 
-		wdFillString(enrolInfo, getStudentsString(students));
-		wdClick(enrolButton);
+		wdFillString(coordEnrolInfo, getStudentsString(students));
+		wdClick(coordEnrolButton);
 		justWait();
 	}
 
@@ -754,8 +898,8 @@ public class BrowserInstance {
 		clickCourseEnrol(courseID);
 		verifyEnrollPage();
 
-		wdFillString(enrolInfo, getStudentsString(students));
-		wdClick(enrolButton);
+		wdFillString(coordEnrolInfo, getStudentsString(students));
+		wdClick(coordEnrolButton);
 	}
 
 	/**
@@ -988,8 +1132,8 @@ public class BrowserInstance {
 			clickTeamFormingTab();
 			
 			// Select the course
-			waitAndClick(inputCourseID);
-			selectDropdownByValue(inputCourseID, courseID);
+			waitAndClick(coordInputCourseID);
+			selectDropdownByValue(coordInputCourseID, courseID);
 
 			// Fill in instructions
 			wdFillString(inputInstruction, instructions);
@@ -1131,13 +1275,13 @@ public class BrowserInstance {
 	 * Snippet to go to Evaluations page
 	 */
 	public void gotoEvaluations() {
-		wdClick(evaluationTab);
+		wdClick(evaluationsTab);
 		justWait();
 		verifyEvaluationPage();
 	}
 
 	public void clickEvaluationTab() {
-		wdClick(evaluationTab);
+		wdClick(evaluationsTab);
 	}
 
 	/**
@@ -1152,7 +1296,7 @@ public class BrowserInstance {
 	public void addEvaluation(Evaluation eval, int evalIndex) {
 		clickEvaluationTab();
 		// Select the course
-		waitAndClick(inputCourseID);
+		waitAndClick(coordInputCourseID);
 		cout("click " + eval.courseID);
 		selectDropdownByValue(By.id("courseid"), eval.courseID);
 
@@ -1184,8 +1328,9 @@ public class BrowserInstance {
 		clickEvaluationTab();
 
 		// Select the course
-		waitAndClick(inputCourseID);
-		selectDropdownByValue(inputCourseID, courseID);
+		waitAndClick(coordInputCourseID);
+		justWait();
+		selectDropdownByValue(coordInputCourseID, courseID);
 
 		// Fill in the evaluation name
 		wdFillString(inputEvaluationName, evalName);
@@ -1227,14 +1372,14 @@ public class BrowserInstance {
 	
 	public String fillInCourseName(String name)
 	{
-		wdFillString(inputCourseName, name);
+		wdFillString(coordInputCourseName, name);
 		justWait();
 		return selenium.getValue("id=coursename");
 	}
 	
 	public String fillInCourseID(String id)
 	{
-		wdFillString(inputCourseID, id);
+		wdFillString(coordInputCourseID, id);
 		justWait();
 		return selenium.getValue("id=courseid");
 	}
@@ -1942,7 +2087,8 @@ public class BrowserInstance {
 	}
 
 	public void selectDropdownByValue(By locator, String value) {
-		this.waitForElementPresent(locator);
+		waitForElementPresent(locator);
+		justWait();
 		Select select = new Select(getDriver().findElement(locator));
 		justWait();
 		select.selectByValue(value);
@@ -2324,4 +2470,277 @@ public class BrowserInstance {
 		}
 	}
 	
+	// --------------------------------- Home page ------------------------------ //
+	/**
+	 * Go to Coordinator home page
+	 */
+	public void goToCoordHome() {
+		clickHomeTab();
+		justWait();
+		verifyCoordHomePage();
+	}
+	
+	/**
+	 * Click and cancel Delete of a particular course of the coordinator
+	 */
+	public void clickAndCancelCoordCourseDelete(By by) {
+		waitAndClickAndCancel(by);
+	}
+	public void verifyCoordHomePage() {
+		if (isElementPresent(homeTab) && isElementPresent(coursesTab) && isElementPresent(evaluationsTab) && isElementPresent(helpTab) && isElementPresent(logoutTab) 
+				&& isElementPresent(coordAddNewCourseLink))
+			return;
+		
+		fail("Not in Coordinator Page");
+	}
+	// --------------------------------- Home page ------------------------------ //
+	/**
+	 * Go to Student home page
+	 */
+	public void goToStudentHome() {
+		clickHomeTab();
+		justWait();
+		verifyStudentHomePage();
+	}
+	public void verifyStudentHomePage() {
+		if (isElementPresent(homeTab) && isElementPresent(coursesTab) && isElementPresent(evaluationsTab) && isElementPresent(helpTab) && isElementPresent(logoutTab) 
+				&& isElementPresent(studentJoinNewCourseLink))
+			return;
+
+		fail("Not in Student Page");
+	}
+	// Helper method to verify that we're at the Student courses page
+	// Checking for the various fields expected in add course form
+	public void verifyStudentCoursesPage() {
+		if (isElementPresent(pageTitle) && isElementPresent(studentInputRegKey) && isElementPresent(studentJoinCourseButton))
+			return;
+
+		fail("Not in Student Courses Page");
+	}
+	// Helper method to verify that we're at the Student evaluations page
+	// Checking for the headers expected in evaluations page
+	public void verifyStudentEvaluationsPage() {
+		if (isTextPresent(PENDING_EVALUATIONS_HEADER) && isTextPresent(PAST_EVALUATIONS_HEADER))
+			return;
+		
+		fail("Not in Student Evaluations Page");
+	}
+	
+	// Helper method to verify that we're at the Student do evaluations page
+	// Also, can be used to verify that we're at the Student edit evaluation submission page
+	// Checking for the various fields expected in the do evaluations page
+	public void verifyStudentDoOrEditEvaluationPage() {
+		if (isElementPresent(studentEvaluationCourseID) && isElementPresent(studentEvaluationEvaluationName) 
+				&& isElementPresent(studentEvaluationOpeningTime) && isElementPresent(studentEvaluationClosingTime) 
+				 && isElementPresent(studentEvaluationInstructions))
+			return;
+		 
+		fail("Not in Student Do Evaluation or Edit Evaluation Submission Page");
+	}
+	public void verifyStudentEvaluationResultsPage() {
+			waitForPageLoad();
+			for (int x = 0; ; x++) {
+				if (x >= 40)
+					fail("timeout");
+				
+				if (isElementPresent(studentEvaluationResultStudentName) && isElementPresent(studentEvaluationResultCourseID) 
+						&& isElementPresent(studentEvaluationResultTeamName) && isElementPresent(studentEvaluationResultEvaluationName) 
+						 && isElementPresent(studentEvaluationResultClaimedPoints) && isElementPresent(studentEvaluationResultOpeningTime) 
+							&& isElementPresent(studentEvaluationResultPerceivedPoints) && isElementPresent(studentEvaluationResultClosingTime))
+					break;
+				
+				waitAWhile(200);
+			}
+	} 
+	// Helper method to verify that we're at the Student course details page
+	// Checking for the various fields expected in course details page
+	public void verifyStudentViewCourseDetailsPage() {
+		if (isElementPresent(studentCourseDetailCourseID) && isElementPresent(studentCourseDetailTeamName) && isElementPresent(studentCourseDetailCourseName) 
+				&& isElementPresent(studentCourseDetailStudentName) && isElementPresent(studentCourseDetailCoordinatorName) 
+				&& isElementPresent(studentCourseDetailStudentEmail) && isElementPresent(studentCourseDetailStudentTeammates))
+			return;
+		
+		fail("Not in Student Course Details Page");
+	}
+	/**
+	 * Click and cancel Delete of a particular evaluation in a specific course of the coordinator
+	 */
+	public void clickAndCancelCoordEvaluationDelete(By by) {
+		waitAndClickAndCancel(by);
+	}
+	// evaluations table:
+	public By getCoordEvaluationViewResults(int row) {
+		return By.xpath(String.format(DATAFORM_TABLE_CELL + "//a[@class='t_eval_view']", row + 2, 5));
+	}
+	
+	public By getCoordEvaluationEditResults(int row) {
+		return By.xpath(String.format(DATAFORM_TABLE_CELL + "//a[@class='t_eval_edit']", row + 2, 5));
+	}
+	
+	public By getCoordEvaluationPublishResults(int row) {
+		return By.xpath(String.format(DATAFORM_TABLE_CELL + "//a[@class='t_eval_publish']", row + 2, 5));
+	}
+	
+	public By getCoordEvaluationUnpublishResults(int row) {
+		return By.xpath(String.format(DATAFORM_TABLE_CELL + "//a[@class='t_eval_unpublish']", row + 2, 5));
+	}
+	
+	public By getCoordEvaluationRemindResults(int row) {
+		return By.xpath(String.format(DATAFORM_TABLE_CELL + "//a[@class='t_eval_remind']", row + 2, 5));
+	}
+	
+	public By getCoordEvaluationDeleteResults(int row) {
+		return By.xpath(String.format(DATAFORM_TABLE_CELL + "//a[@class='t_eval_delete']", row + 2, 5));
+	}
+	/**
+	 * Click and cancel Publish of results of a particular evaluation in a specific course of the coordinator
+	 */
+	public void clickAndCancelCoordEvaluationPublish(int row) {
+		clickAndConfirm(getCoordEvaluationPublishResults(row));
+	}
+	public int getCoordTotalEvaluationsCount() {
+		if (getElementText(By.xpath(String.format(DATAFORM_TABLE_CELL, 2, 1))).isEmpty()) {
+			return 0;
+		 		} else {
+		 	return selenium.getXpathCount(DATAFORM_TABLE_ROW).intValue() - 1;
+		 		}
+		 	}
+	private int findCoordEvaluationRow(String courseID, String evalName) {
+ 		int i = 0;
+		
+		while (i < getCoordTotalEvaluationsCount()) {
+			if (getEvaluationCourseID(i).equals(courseID) && getEvaluationName(i).equals(evalName)) {
+ 				return i;
+ 			}
+ 			i++;
+ 		}
+ 		return -1;
+ 	}	
+	public void clickAndCancelCoordEvaluationPublish(String courseID, String evalName) {
+		int row = findCoordEvaluationRow(courseID, evalName);
+		
+		if (row > -1) {
+			clickAndCancelCoordEvaluationPublish(row);
+		} else {
+			fail("Evaluation not found.");
+		}
+	}
+	public void clickAndCancelCoordEvaluationRemind(By by) {
+		waitAndClickAndCancel(by);
+ 	}
+	/**
+	 * Click and cancel Unpublish of results of a particular evaluation in a specific course of the coordinator
+	 */
+	public void clickAndCancelCoordEvaluationUnpublish(int row) {
+		clickAndConfirm(getCoordEvaluationPublishResults(row));
+	}
+	
+	public void clickAndCancelCoordEvaluationUnpublish(String courseID, String evalName) {
+		int row = findCoordEvaluationRow(courseID, evalName);
+		
+		if (row > -1) {
+			clickAndCancelCoordEvaluationUnpublish(row);
+		} else {
+			fail("Evaluation not found.");
+		}
+	}
+	// Helper method to verify that we're at the Coordinator evaluation results summary page
+	// Checking for the various fields expected in the evaluation results summary page
+	public void verifyCoordEvaluationResultsPage() {
+		if (isElementPresent(resultSummaryRadio) && isElementPresent(resultDetailRadio) && isElementPresent(resultReviewerRadio) 
+				&& isElementPresent(resultRevieweeRadio))
+			return;
+		 
+		fail("Not in Coordinator Evaluation Results Page");
+	}
+	
+	public By coordCourseDetailsCourseID = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 1, 2));
+	public By coordCourseDetailsCourseName = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 2, 2));
+	public By coordCourseDetailsTeams = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 3, 2));
+	public By coordCourseDetailsTotalStudents = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 4, 2));
+	
+	public By coordCourseDetailsRemindStudentsButton = By.id("button_remind");
+	public By coordCourseDetailsDeleteStudentsButton = By.className("t_delete_students");
+	
+	public By coordCourseDetailsStudentNameSorting = By.id("button_sortstudentname");
+	public By coordCourseDetailsTeamSorting = By.id("button_sortstudentteam");
+	public By coordCourseDetailsJoinStatusSorting = By.id("button_sortstudentstatus");
+	// Helper method to verify that we're at the Coordinator course details page
+	// Checking for the various fields expected in course details page
+	 public void verifyCoordViewCourseDetailsPage() {
+		 if (isElementPresent(coordCourseDetailsCourseID) && isElementPresent(coordCourseDetailsCourseName) && isElementPresent(coordCourseDetailsTeams) 
+				 && isElementPresent(coordCourseDetailsTotalStudents))
+			return;
+		 
+		fail("Not in Coordinator Course Details Page");
+	 }
+	// Helper method to verify that we're at the Coordinator courses page
+	// Checking for the various fields expected in add course form
+	public void verifyCoordCoursesPage() {
+		if (isElementPresent(pageTitle) && isElementPresent(coordInputCourseID) && isElementPresent(coordInputCourseName) && isElementPresent(coordAddCourseButton))
+			return;
+		
+		fail("Not in Coordinator Courses Page");
+	}
+	// Helper method to verify that we're at the student enrollment page
+	// Checking for the form fields and the buttons
+	public void verifyCoordEnrolPage() {
+		for (int x = 0;; x++) {
+			if (x >= 40)
+				fail("timeout");
+			
+			if (isElementPresent(coordEnrolInfo) && isElementPresent(coordEnrolButton))
+				break;
+			
+			waitAWhile(200);
+		}
+	}
+	public By inputPeerFeedbackStatus = By.id("commentsstatus");
+	public By inputOpeningDate = By.id("start");
+	public By inputOpeningTime = By.id("starttime");
+	public By inputTimeZone = By.id("timezone");
+	// Helper method to verify that we're at the Coordinator evaluations page
+	// Checking for the various fields expected in add evaluation form
+	public void verifyCoordEvaluationsPage() {
+		for (int x = 0;; x++) {
+			if (x >= 40)
+				fail("timeout");
+            
+			if (isElementPresent(coordInputCourseID) && isElementPresent(inputEvaluationName) && isElementPresent(inputPeerFeedbackStatus)
+					&& isElementPresent(inputInstruction) && isElementPresent(inputOpeningDate) && isElementPresent(inputOpeningTime)
+					&& isElementPresent(inputClosingDate) && isElementPresent(inputClosingTime) && isElementPresent(inputTimeZone)
+					&& isElementPresent(inputGracePeriod))
+				break;
+			
+			waitAWhile(200);
+		}
+	}
+	public By coordEditCourseID = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 1, 1));
+	public By coordEditEvaluationName = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 1, 2));
+	public By coordEditPeerFeedbackStatus = By.id("commentsstatus");
+	public By coordEditInstruction = By.id("instr");
+	public By coordEditOpeningDate = By.id("start");
+	public By coordEditOpeningTime = By.id("starttime");
+	public By coordEditClosingDate = By.id("deadline");
+	public By coordEditClosingTime = By.id("deadlinetime");
+	public By coordEditTimeZone = By.id("timezone");
+	public By coordEditGracePeriod = By.id("graceperiod");
+	
+	public By coordEditEvaluationButton = By.id("button_editevaluation");
+	public By coordEditEvaluationBackButton = By.className("t_back");
+	// Helper method to verify that we're at the Coordinator edit evaluation page
+	// Checking for the various fields expected in edit evaluation form
+	public void verifyCoordEditEvaluationPage() {
+		if (isElementPresent(coordEditCourseID) && isElementPresent(coordEditEvaluationName) && isElementPresent(coordEditPeerFeedbackStatus)
+				&& isElementPresent(coordEditInstruction) && isElementPresent(coordEditOpeningDate) && isElementPresent(coordEditOpeningTime)
+				&& isElementPresent(coordEditClosingDate) && isElementPresent(coordEditClosingTime) && isElementPresent(coordEditTimeZone)
+				&& isElementPresent(coordEditGracePeriod))
+			return;
+	}
+	public void clickAndCancelCoordEvaluationUnpublish(By by) {
+		waitAndClickAndCancel(by);
+	}
+	public void clickAndCancelCoordEvaluationPublish(By by) {
+		waitAndClickAndCancel(by);
+ 	}
 }

@@ -131,6 +131,7 @@ var OPERATION_COORDINATOR_ENROLSTUDENTS = "coordinator_enrolstudents";
 var OPERATION_COORDINATOR_GETCOURSE = "coordinator_getcourse";
 var OPERATION_COORDINATOR_GETCOURSELIST = "coordinator_getcourselist";
 var OPERATION_COORDINATOR_GETEVALUATIONLIST = "coordinator_getevaluationlist";
+var OPERATION_COORDINATOR_GETEVALUATIONLISTOFCOURSE = "coordinator_getevaluationlistofcourse";
 var OPERATION_COORDINATOR_GETSTUDENTLIST = "coordinator_getstudentlist";
 var OPERATION_COORDINATOR_GETSUBMISSIONLIST = "coordinator_getsubmissionlist";
 var OPERATION_COORDINATOR_INFORMSTUDENTSOFEVALUATIONCHANGES = "coordinator_informstudentsofevaluationchanges";
@@ -262,6 +263,169 @@ var NOTSURE_POINTS = -999;
 var YES = "YES";
 var NO = "NO";
 
+/***********************************************************LANDING PAGE**********************************************************/
+/*----------------------------------------------------------LANDING PAGE---------------------------------------------------------*/
+/**
+ * Coordinator Click Home Tab
+ * 
+ * */
+function displayHomeTab() {
+	clearDisplay();
+	
+	setStatusMessageToLoading();
+	printCoordinatorLandingPage();
+	clearStatusMessage();
+	
+	scrollToTop(DIV_TOPOFPAGE);
+}
+
+//----------------------------------------------------------LANDING PAGE FUNCTIONS
+function printCoordinatorLandingPage() {
+	var outputHeader =
+		"<h1>COORDINATOR HOME</h1>																							\
+		<br />																												\
+		<h2><a href=\"javascript:displayCoursesTab()\" name='addNewCourse' id='addNewCourse'>Add New Course</a></h2>";
+	
+	var output = "<form method='post' action='' name='form_coursessummary'>";
+
+	var courseID;
+	sendGetCourseListRequest();
+	var courseList = processGetCourseListResponse();
+	var courseListLength = courseList.length;
+	
+	var evaluationList = getEvaluationList();
+	var evaluationList = evaluationList.sort(sortByName);
+	evaluationListLength = evaluationList.length;
+
+	for (var loop = 0; loop < courseListLength; loop++) {
+		courseID = courseList[loop].ID;
+
+		output = output +
+		"<div class='result_team' id='course" + loop + "' name='course" + loop + "'>										\
+			<div class='result_homeTitle'>																					\
+				<h2>[" + courseID + "] : " + courseList[loop].name + "</h2>													\
+			</div>																											\
+			<div class='result_homeLinks'>																					\
+				<a class='t_course_enrol" + loop + "' href=\"javascript:displayEnrollmentPage('" + courseID + "');			\
+					hideddrivetip();\" onmouseover=\"ddrivetip('" + HOVER_MESSAGE_ENROL + "')\"								\
+					onmouseout=\"hideddrivetip()\">Enrol</a>																\
+				<a class='t_course_view" + loop + "' href=\"javascript:displayCourseInformation('" + courseID + "');		\
+					hideddrivetip();\" onmouseover=\"ddrivetip('" + HOVER_MESSAGE_VIEW_COURSE + "')\"						\
+					onmouseout=\"hideddrivetip()\">View</a>																	\
+				<a class='t_course_add_eval" + loop + "' href=\"javascript:displayEvaluationsTab('" + courseID + "');		\
+					hideddrivetip();\" onmouseover=\"ddrivetip('" + HOVER_MESSAGE_ADD_EVALUATION + "')\"					\
+					onmouseout=\"hideddrivetip()\">Add Evaluation</a>														\
+				<a class='t_course_delete" + loop + "' 																		\
+					href=\"javascript:toggleDeleteCourseConfirmation('" + courseID + "'," + true + ");hideddrivetip();\"	\
+					onmouseover=\"ddrivetip('" + HOVER_MESSAGE_DELETE_COURSE + "')\"" + "onmouseout=\"hideddrivetip()\">	\
+					Delete</a>																								\
+			</div>																											\
+			<div style='clear: both;'></div>																				\
+			<br />";
+
+		var evaluationStatus;
+		var evaluationsPresent = false;
+		var evaluationOutput = "";
+		
+		if (evaluationListLength > 0) {			
+			for (var i = 0; i < evaluationListLength; i++) {
+				if (evaluationList[i].courseID == courseID) {
+					evaluationsPresent = true;
+					
+					if (evaluationList[i].status == "AWAITING")
+						evaluationStatus =
+					"<td class='t_eval_status centeralign'>																	\
+					<span onmouseover=\"ddrivetip('The evaluation is created but has not yet started')\"					\
+					onmouseout=\"hideddrivetip()\">" + evaluationList[i].status + "</span></td>";
+					else if (evaluationList[i].status == "OPEN")
+						evaluationStatus =
+					"<td class='t_eval_status centeralign'>																	\
+					<span 																									\
+					onmouseover=\"ddrivetip('The evaluation has started and students can submit feedback until the closing time')\"\
+					onmouseout=\"hideddrivetip()\">" + evaluationList[i].status + "</span></td>";
+					else if (evaluationList[i].status == "CLOSED")
+						evaluationStatus =
+					"<td class='t_eval_status centeralign'>																	\
+					<span 																									\
+					onmouseover=\"ddrivetip('The evaluation has finished but the results are not yet sent to the students')\"\
+					onmouseout=\"hideddrivetip()\">" + evaluationList[i].status + "</span></td>";
+					else if (evaluationList[i].status == "PUBLISHED")
+						evaluationStatus =
+					"<td class='t_eval_status centeralign'>																	\
+					<span 																									\
+					onmouseover=\"ddrivetip('The evaluation has finished and the results have been sent to students')\"		\
+					onmouseout=\"hideddrivetip()\">" + evaluationList[i].status + "</span></td>";
+
+					evaluationOutput = evaluationOutput +
+				"<tr id='evaluation" + i + "'>																				\
+					<td class='t_eval_name'>" + encodeChar(evaluationList[i].name) + "</td>									\
+					" + evaluationStatus + "																				\
+					<td class='t_eval_response centeralign'>																\
+					" + evaluationList[i].numberOfCompletedEvaluations + " / " + evaluationList[i].numberOfEvaluations + "	\
+					</td>";
+	
+					// display actions:
+					evaluationOutput = evaluationOutput +
+					"<td class='centeralign'>																				\
+					" + printEvaluationActions(evaluationList, i, true) + "													\
+					</td>																									\
+				</tr>";
+				}
+			}
+		}
+		
+		if (evaluationsPresent) {
+			output = output +
+			"<table id='dataform'>																							\
+				<tr>																										\
+					<th class='leftalign'>EVALUATION NAME</th>																\
+					<th class='centeralign'>STATUS</th>																		\
+					<th class='centeralign'><span onmouseover=\"ddrivetip('Number of students submitted / Class size')\"	\
+					onmouseout=\"hideddrivetip()\">RESPONSE RATE</span></th>												\
+					<th class='centeralign'>ACTION(S)</th>																	\
+				</tr>																										\
+				" + evaluationOutput + "																					\
+			</table>																										\
+			<br />";;
+		}
+
+		output = output +
+		"</div>																												\
+		<br /><br /><br />";
+	}
+
+	output = output + "</form>";
+
+	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader;
+	document.getElementById(DIV_STUDENT_TABLE).innerHTML = output;
+
+	for (var loop = 0; loop < courseListLength; loop++) {
+		courseID = courseList[loop].ID;
+		
+		for (var i = 0; i < evaluationListLength; i++) {
+			if (evaluationList[i].courseID == courseID) {
+				if (document.getElementById('editEvaluation' + i) != null
+						&& document.getElementById('editEvaluation' + i).onclick == null) {
+					document.getElementById('editEvaluation' + i).onclick = function() {
+						hideddrivetip();
+						displayEditEvaluation(evaluationList, this.id.substring(
+								14, this.id.length));
+					};
+				}
+
+				if (document.getElementById('viewEvaluation' + i) != null
+						&& document.getElementById('viewEvaluation' + i).onclick == null) {
+					document.getElementById('viewEvaluation' + i).onclick = function() {
+						hideddrivetip();
+						displayEvaluationResults(evaluationList, this.id.substring(
+								14, this.id.length));
+					};
+				}
+			}
+		}
+	}
+}
+
 /***********************************************************COURSE PAGE***********************************************************/
 /*----------------------------------------------------------COURSE PAGE----------------------------------------------------------*/
 /**
@@ -286,33 +450,29 @@ function printAddCourseForm() {
 	var outputHeader = "<h1>ADD NEW COURSE</h1>";
 
 	var outputForm = 
-		"<form method='post' action='' name='form_addcourse'>														\
-			<table class='addform round'>																			\
-				<tr>																								\
-					<td><b>Course ID:</b></td>																		\
-				</tr>																								\
-				<tr>																								\
-					<td><input class='addinput' type='text' name='" + COURSE_ID + "' id='" + COURSE_ID + "'			\
-					onmouseover=\"ddrivetip('Enter the identifier of the course, e.g.CS3215Sem1.')\"				\
-					onmouseout=\"hideddrivetip()\" maxlength=" + COURSEID_INPUT_FIELD_MAX_LENGTH + " tabindex=1 />	\
-					</td>																							\
-				</tr>																								\
-				<tr>																								\
-					<td><b>Course Name:</b></td>																	\
-				</tr>																								\
-				<tr>																								\
-					<td><input class='addinput' type='text' name='" + COURSE_NAME + "' id='" + COURSE_NAME + "'		\
-					onmouseover=\"ddrivetip('Enter the name of the course, e.g. Software Engineering.')\"			\
-					onmouseout=\"hideddrivetip()\" maxlength=" + COURSENAME_INPUT_FIELD_MAX_LENGTH + " tabindex=2 />\
-					</td>																							\
-				</tr>																								\
-				<tr>																								\
-					<td><input id='btnAddCourse' type='button' class='button' 										\
-					onclick=\"doAddCourse(this.form." + COURSE_ID + ".value, this.form." + COURSE_NAME + ".value);\"\
-					value='Add Course' tabindex='3' />																\
-					</td>																							\
-				</tr>																								\
-			</table>																								\
+		"<form method='post' action='' name='form_addcourse'>																\
+			<table class='addform round'>																					\
+				<tr>																										\
+					<td><b>Course ID:</b></td>																				\
+				</tr>																										\
+				<tr>																										\
+					<td><input class='addinput' type='text' name='" + COURSE_ID + "' id='" + COURSE_ID + "'					\
+					onmouseover=\"ddrivetip('Enter the identifier of the course, e.g.CS3215Sem1.')\"						\
+					onmouseout=\"hideddrivetip()\" maxlength=" + COURSEID_INPUT_FIELD_MAX_LENGTH + " tabindex=1 /></td>		\
+				</tr>																										\
+				<tr>																										\
+					<td><b>Course Name:</b></td>																			\
+				</tr>																										\
+				<tr>																										\
+					<td><input class='addinput' type='text' name='" + COURSE_NAME + "' id='" + COURSE_NAME + "'				\
+					onmouseover=\"ddrivetip('Enter the name of the course, e.g. Software Engineering.')\"					\
+					onmouseout=\"hideddrivetip()\" maxlength=" + COURSENAME_INPUT_FIELD_MAX_LENGTH + " tabindex=2 /></td>	\
+				</tr>																										\
+				<tr>																										\
+					<td><input id='btnAddCourse' type='button' class='button' 												\
+					onclick=\"doAddCourse(this.form." + COURSE_ID + ".value, this.form." + COURSE_NAME + ".value)\"			\
+					value='Add Course' tabindex='3' /></td>																	\
+				</tr>																										\
 		</form>";
 
 	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader;
@@ -322,9 +482,9 @@ function printAddCourseForm() {
 function doAddCourse(courseID, courseName) {
 	setStatusMessageToLoading();
 	
-	preapareAddCourseParams(courseID, courseName);
+	prepareAddCourseParams(courseID, courseName);
 	
-	//client-side validation
+	// client-side validation
 	var statusCode = checkAddCourseParam(courseID, courseName);
 	
 	
@@ -359,7 +519,7 @@ function doAddCourse(courseID, courseName) {
 
 }
 
-function preapareAddCourseParams(courseID, courseName) {
+function prepareAddCourseParams(courseID, courseName) {
 	courseID = trim(courseID);
 	courseName = trim(courseName);
 }
@@ -385,15 +545,14 @@ function processAddCourseResponse() {
 	//server response message:
 	var response = status.firstChild.nodeValue;
 	switch (response) {
-	
-	case COURSE_RESPONSE_EXISTS:
-		return COURSE_STATUS_EXISTS;
-		
-	case COURSE_RESPONSE_ADDED:
-		return COURSE_STATUS_SUCCESSFUL;
-		
-	default:
-		return COURSE_STATUS_SERVERERROR;
+		case COURSE_RESPONSE_EXISTS:
+			return COURSE_STATUS_EXISTS;
+			
+		case COURSE_RESPONSE_ADDED:
+			return COURSE_STATUS_SUCCESSFUL;
+			
+		default:
+			return COURSE_STATUS_SERVERERROR;
 	}
 
 }
@@ -545,22 +704,29 @@ function printCourseList(courseList) {
 	
 	//table header
 	var output = 
-		"<br /><br />																																\
-			<table id='dataform'>																													\
-				<tr>																																\
-					<th><input class='buttonSortNone' type='button' id='button_sortcourseid'>COURSE ID</input></th>									\
-					<th><input class='buttonSortNone' type='button' id='button_sortcoursename'>COURSE NAME</input></th>								\
-					<th class='centeralign'>TEAMS</th>																								\
-					<th class='centeralign'>TOTAL STUDENTS</th>																						\
-					<th class='centeralign'>TOTAL UNREGISTERED</th>																					\
-					<th class='centeralign'>ACTION(S)</th>																							\
-				</tr>";
+		"<br /><br />																										\
+		<table id='dataform'>																								\
+			<tr>																											\
+				<th><input class='buttonSortNone' type='button' id='button_sortcourseid'>COURSE ID</input></th>				\
+				<th><input class='buttonSortNone' type='button' id='button_sortcoursename'>COURSE NAME</input></th>			\
+				<th class='centeralign'>TEAMS</th>																			\
+				<th class='centeralign'>TOTAL STUDENTS</th>																	\
+				<th class='centeralign'>TOTAL UNREGISTERED</th>																\
+				<th class='centeralign'>ACTION(S)</th>																		\
+			</tr>";
 
 	//empty table
 	if (courseListLength == 0) {
 		setStatusMessage(COORDINATOR_MESSAGE_NO_COURSE);
-		output = output + "<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
-	}
+		output = output +
+			"<tr>																											\
+				<td></td>																									\
+				<td></td>																									\
+				<td></td>																									\
+				<td></td>																									\
+				<td></td>																									\
+				<td></td>																									\
+			</tr>";	}
 
 	// Need counter to take note of archived courses
 	var counter = 0;
@@ -569,33 +735,37 @@ function printCourseList(courseList) {
 		if (courseList[loop].status == "false" || courseViewArchivedStatus == courseViewArchived.show) {
 			// common view:
 			output = output + 
-			"<tr>																																		\
-				<td id='courseID" + counter + "'>" + courseList[loop].ID + "</td>																		\
-				<td id='courseName" + counter + "'>" + encodeChar(courseList[loop].name) + "</td>														\
-				<td class='t_course_teams centeralign'>" + courseList[loop].numberOfTeams + "</td>														\
-				<td class='centeralign'>" + courseList[loop].totalStudents + "</td>																		\
-				<td class='centeralign'>" + courseList[loop].unregistered + "</td>																		\
-				<td class='centeralign'>																												\
-						<a class='t_course_enrol' href=\"javascript:displayEnrollmentPage('" + courseList[loop].ID + "');hideddrivetip();\"				\
-							onmouseover=\"ddrivetip('" + HOVER_MESSAGE_ENROL + "')\"																	\
-							onmouseout=\"hideddrivetip()\">Enrol</a>																					\
-						<a class='t_course_view' href=\"javascript:displayCourseInformation('" + courseList[loop].ID + "');hideddrivetip();\"			\
-							onmouseover=\"ddrivetip('" + HOVER_MESSAGE_VIEW_COURSE + "')\"																\
-							onmouseout=\"hideddrivetip()\">View</a>																						\
-						<a class='t_course_delete' href=\"javascript:toggleDeleteCourseConfirmation('" + courseList[loop].ID + "');hideddrivetip();\"	\
-							onmouseover=\"ddrivetip('" + HOVER_MESSAGE_DELETE_COURSE + "')\"															\
-							onmouseout=\"hideddrivetip()\">Delete</a>																					\
-				</td>																																	\
+			"<tr>																											\
+				<td id='courseID" + counter + "'>" + courseList[loop].ID + "</td>											\
+				<td id='courseName" + counter + "'>" + encodeChar(courseList[loop].name) + "</td>							\
+				<td class='t_course_teams centeralign'>" + courseList[loop].numberOfTeams + "</td>							\
+				<td class='centeralign'>" + courseList[loop].totalStudents + "</td>											\
+				<td class='centeralign'>" + courseList[loop].unregistered + "</td>											\
+				<td class='centeralign'>																					\
+					<a class='t_course_enrol' href=\"javascript:displayEnrollmentPage('" + courseList[loop].ID + "');		\
+						hideddrivetip();\" onmouseover=\"ddrivetip('" + HOVER_MESSAGE_ENROL + "')\"							\
+						onmouseout=\"hideddrivetip()\">Enrol</a>															\
+					<a class='t_course_view' href=\"javascript:displayCourseInformation('" + courseList[loop].ID + "');		\
+						hideddrivetip();\" onmouseover=\"ddrivetip('" + HOVER_MESSAGE_VIEW_COURSE + "')\"					\
+						onmouseout=\"hideddrivetip()\">View</a>																\
+					<a class='t_course_delete'																				\
+						href=\"javascript:toggleDeleteCourseConfirmation('" + courseList[loop].ID + "', " + false + ");		\
+						hideddrivetip();\" onmouseover=\"ddrivetip('" + HOVER_MESSAGE_DELETE_COURSE + "')\"					\
+						onmouseout=\"hideddrivetip()\">Delete</a>															\
+				</td>																																		\
 			</tr>";
 
 			counter++;
 		}
 	}
 
-	output = output + "</table><br /><br />";
-
+	output = output +
+		"</table>																											\
+		<br /><br />";
 	if (counter == 0) {
-		output = output + "No records found.<br /><br /><br /><br />";
+		output = output +
+		"No records found.																									\
+		<br /><br /><br /><br />";	
 	}
 
 	document.getElementById(DIV_COURSE_TABLE).innerHTML = output;
@@ -613,18 +783,18 @@ function printCourseList(courseList) {
 /**
  * Coordinator Delete Course
  * */
-function toggleDeleteCourseConfirmation(courseID) {
+function toggleDeleteCourseConfirmation(courseID,isHome) {
 	var s = confirm("Are you sure you want to delete the course, \"" + courseID + "\"? This operation will delete all evaluations and students in this course.");
 
 	if (s == true)
-		doDeleteCourse(courseID);
+		doDeleteCourse(courseID,isHome);
 	else
 		clearStatusMessage();
 
 	scrollToTop(DIV_COURSE_MANAGEMENT);
 }
 
-function doDeleteCourse(courseID) {
+function doDeleteCourse(courseID,isHome) {
 	setStatusMessageToLoading;
 
 	// server-side request and response
@@ -642,6 +812,10 @@ function doDeleteCourse(courseID) {
 	}
 	
 	getAndPrintCourseList();
+	if (isHome)
+		printCoordinatorLandingPage();
+	else
+		getAndPrintCourseList();	
 	setStatusMessage(DISPLAY_COURSE_DELETED);
 }
 
@@ -675,10 +849,10 @@ function processDeleteCourseResponse() {
 
 /***********************************************************EVALUATION PAGE***********************************************************/
 /*----------------------------------------------------------EVALUATION PAGE----------------------------------------------------------*/
-function displayEvaluationsTab() {
+function displayEvaluationsTab(courseID) {
 	clearDisplay();
-	printEvaluationAddForm();
-	doGetCourseIDList();
+	printEvaluationAddForm(courseID);
+	//doGetCourseIDList();;
 	doGetEvaluationList();
 	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
 }
@@ -891,6 +1065,18 @@ function printEvaluationHeaderForm(courseID, evaluationName, start, deadline, st
 	document.getElementById(DIV_EVALUATION_INFORMATION).innerHTML = output;
 }
 
+function doGetEvaluationListOfCourse(courseID) {
+	setStatusMessage(DISPLAY_LOADING);
+
+	var results = getEvaluationListOfCourse(courseID);
+
+	clearStatusMessage();
+	if (results != 1) {
+		return results;
+	} else {
+		alert(DISPLAY_SERVERERROR);
+	}
+}
 
 
 //----------------------------------------------------------LIST EVALUATION RESULTS FUNCTIONS
@@ -1930,13 +2116,18 @@ function doArchiveCourse(courseID) {
 
 
 
-function doDeleteEvaluation(courseID, name) {
+function doDeleteEvaluation(courseID, name, isHome) {
 	setStatusMessage(DISPLAY_LOADING);
 
 	var results = deleteEvaluation(courseID, name);
 
 	if (results == 0) {
-		doGetEvaluationList();
+		if (isHome) {
+			printCoordinatorLandingPage();
+		} else {
+			doGetEvaluationList();
+		}
+
 		setStatusMessage(DISPLAY_EVALUATION_DELETED);
 	}
 
@@ -2148,10 +2339,31 @@ function doGetCourseIDList() {
 	var results = processGetCourseListResponse();
 
 	if (results != 1) {
-		populateCourseIDOptions(results);
+		var resultsLength = results.length;
+		var courseIDList = new Array();
+		
+		for (var loop = 0; loop < resultsLength; loop++) {
+			courseIDList[loop] = {
+				courseID : results[loop].ID
+			};
+		}
+				
+		return courseIDList;
 	}
 
 	else {
+		alert(DISPLAY_SERVERERROR);
+	}
+}
+function doGetCourseIDOptions(courseID) {
+	setStatusMessage(DISPLAY_LOADING);
+
+	sendGetCourseListRequest();
+	var results = processGetCourseListResponse();
+
+	if (results != 1) {
+		populateCourseIDOptions(courseID, results);
+	} else {
 		alert(DISPLAY_SERVERERROR);
 	}
 }
@@ -2172,7 +2384,7 @@ function doInformStudentsOfEvaluationChanges(courseID, name) {
 	}
 }
 
-function doPublishEvaluation(courseID, name, reload) {
+function doPublishEvaluation(courseID, name, reload, isHome) {
 	setStatusMessage(DISPLAY_LOADING);
 
 	var results = publishEvaluation(courseID, name);
@@ -2180,12 +2392,14 @@ function doPublishEvaluation(courseID, name, reload) {
 	clearStatusMessage();
 
 	if (results != 1) {
-		if (reload) {
+		if (isHome) {
+			printCoordinatorLandingPage();
+		} else if (reload) {
 			doGetEvaluationList();
 		} else {
 			document.getElementById('button_publish').value = "Unpublish";
 			document.getElementById('button_publish').onclick = function() {
-				togglePublishEvaluation(courseID, name, false, false);
+				togglePublishEvaluation(courseID, name, false, false,isHome);
 			};
 		}
 
@@ -2198,7 +2412,7 @@ function doPublishEvaluation(courseID, name, reload) {
 
 }
 
-function doUnpublishEvaluation(courseID, name, reload) {
+function doUnpublishEvaluation(courseID, name, reload,isHome) {
 	setStatusMessage(DISPLAY_LOADING);
 
 	var results = unpublishEvaluation(courseID, name);
@@ -2206,12 +2420,14 @@ function doUnpublishEvaluation(courseID, name, reload) {
 	clearStatusMessage();
 
 	if (results != 1) {
-		if (reload) {
+		if (isHome) {
+			printCoordinatorLandingPage();
+		} else if (reload) {
 			doGetEvaluationList();
 		} else {
 			document.getElementById('button_publish').value = "Publish";
 			document.getElementById('button_publish').onclick = function() {
-				togglePublishEvaluation(courseID, name, true, false);
+				togglePublishEvaluation(courseID, name, true, false,isHome);
 			};
 		}
 
@@ -2551,6 +2767,24 @@ function getEvaluationList() {
 		xmlhttp.setRequestHeader("Content-Type",
 				"application/x-www-form-urlencoded;");
 		xmlhttp.send("operation=" + OPERATION_COORDINATOR_GETEVALUATIONLIST);
+
+		return handleGetEvaluationList();
+	}
+}
+/*
+ * Returns
+ * 
+ * evaluationList: successful 1: server error
+ */
+function getEvaluationListOfCourse(courseID) {
+	if (xmlhttp) {
+		OPERATION_CURRENT = OPERATION_COORDINATOR_GETEVALUATIONLISTOFCOURSE;
+
+		xmlhttp.open("POST", "/teammates", false);
+		xmlhttp.setRequestHeader("Content-Type",
+				"application/x-www-form-urlencoded;");
+		xmlhttp.send("operation=" + OPERATION_COORDINATOR_GETEVALUATIONLISTOFCOURSE + "&"
+				+ COURSE_ID + "=" + encodeURIComponent(courseID));
 
 		return handleGetEvaluationList();
 	}
@@ -3439,7 +3673,7 @@ function logout() {
 	handleLogout();
 }
 
-function populateCourseIDOptions(courseList) {
+function populateCourseIDOptions(courseID,courseList) {
 	var option = document.createElement("OPTION");
 
 	var courseListLength = courseList.length;
@@ -3447,6 +3681,11 @@ function populateCourseIDOptions(courseList) {
 		option = document.createElement("OPTION");
 		option.text = courseList[x].ID;
 		option.value = courseList[x].ID;
+        if (courseID != "") {
+        	if (courseID == courseList[x].ID) {
+        			option.selected = true;
+        	}
+        }
 		document.form_addevaluation.courseid.options.add(option);
 	}
 }
@@ -3731,10 +3970,10 @@ function sortByToStudentName(a, b) {
 
 
 
-function toggleDeleteEvaluationConfirmation(courseID, name) {
+function toggleDeleteEvaluationConfirmation(courseID, name,isHome) {
 	var s = confirm("Are you sure you want to delete the evaluation?");
 	if (s == true) {
-		doDeleteEvaluation(courseID, name);
+		doDeleteEvaluation(courseID, name,isHome);
 	} else {
 		clearStatusMessage();
 	}
@@ -3787,25 +4026,18 @@ function toggleInformStudentsOfEvaluationChanges(courseID, name) {
 	document.getElementById(DIV_EVALUATION_MANAGEMENT).scrollIntoView(true);
 }
 
-function togglePublishEvaluation(courseID, name, publish, reload) {
-	// var s = confirm("Are you sure you want to publish the evaluation?");
-	// if (s == true) {
-	// doPublishEvaluation(courseID, name);
-	// } else {
-	// clearStatusMessage();
-	// }
-
+function togglePublishEvaluation(courseID, name, publish, reload, isHome) {
 	if (publish) {
 		var s = confirm("Are you sure you want to publish the evaluation?");
 		if (s == true) {
-			doPublishEvaluation(courseID, name, reload);
+			doPublishEvaluation(courseID, name, reload,isHome);
 		} else {
 			clearStatusMessage();
 		}
 	} else {
 		var s = confirm("Are you sure you want to unpublish the evaluation?");
 		if (s == true) {
-			doUnpublishEvaluation(courseID, name, reload);
+			doUnpublishEvaluation(courseID, name, reload,isHome);
 		} else {
 			clearStatusMessage();
 		}
@@ -3905,7 +4137,7 @@ function unarchiveCourse(courseID) {
 }
 
 window.onload = function() {
-	displayCoursesTab();
+	displayHomeTab();
 	initializetooltip();
 }
 

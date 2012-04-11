@@ -53,7 +53,9 @@ var OPERATION_STUDENT_DELETECOURSE = "student_deletecourse";
 var OPERATION_STUDENT_GETCOURSE = "student_getcourse";
 var OPERATION_STUDENT_GETCOURSELIST = "student_getcourselist";
 var OPERATION_STUDENT_GETPASTEVALUATIONLIST = "student_getpastevaluationlist";
+var OPERATION_STUDENT_GETPASTEVALUATIONLISTOFCOURSE = "student_getpastevaluationlistcourse";
 var OPERATION_STUDENT_GETPENDINGEVALUATIONLIST = "student_getpendingevaluationlist";
+var OPERATION_STUDENT_GETPENDINGEVALUATIONLISTOFCOURSE = "student_getpendingevaluationlistofcourse";
 var OPERATION_STUDENT_GETSUBMISSIONLIST = "student_getsubmissionlist";
 var OPERATION_STUDENT_GETSUBMISSIONRESULTSLIST = "student_getsubmissionresultslist";
 var OPERATION_STUDENT_JOINCOURSE = "student_joincourse";
@@ -95,6 +97,212 @@ var STUDENT_TEAMNAME = "teamname";
 var STUDENT_TOSTUDENT = "toemail";
 var STUDENT_TOSTUDENTCOMMENTS = "tostudentcomments";
 var STUDENT_TOSTUDENTNAME = "toname";
+/***********************************************************LANDING PAGE**********************************************************/
+/*----------------------------------------------------------LANDING PAGE---------------------------------------------------------*/
+/**
+ * Student Click Home Tab
+ * 
+ * */
+function displayHomeTab() {
+	clearAllDisplay();
+	
+	setStatusMessageToLoading();
+	printStudentLandingPage();
+	clearStatusMessage();
+	
+	scrollToTop(DIV_TOPOFPAGE);
+}
+
+//----------------------------------------------------------LANDING PAGE FUNCTIONS
+function printStudentLandingPage() {
+	var outputHeader =
+		"<h1>STUDENT HOME</h1>																								\
+		<br />																												\
+		<h2><a href=\"javascript:displayCoursesTab()\" name='joinNewCourse' id='joinNewCourse'>Join New Course</a></h2>";
+
+	var output = "<form method='post' action='' name='form_coursessummary'>";
+
+	var courseID;
+	var courseList = getCourseList();
+	var courseListLength = courseList.length;
+	
+	var pendingEvaluationList = getPendingEvaluationList();
+	pendingEvaluationList = pendingEvaluationList.sort(sortByName);
+	var pendingEvaluationListLength = pendingEvaluationList.length;
+	
+	var pastEvaluationList = getPastEvaluationList();
+	pastEvaluationList = pastEvaluationList.sort(sortByName);
+	var pastEvaluationListLength = pastEvaluationList.length;
+
+	for (var loop = 0; loop < courseListLength; loop++) {
+		courseID = courseList[loop].ID;
+
+		output = output +
+		"<div class='result_team' id='course" + loop + "' name='course" + loop + "'>										\
+			<div class='result_homeTitle'>																					\
+				<h2>[" + courseID + "] : " + courseList[loop].name + "</h2>													\
+			</div>																											\
+			<div class='result_homeLinks'>																					\
+				<a class='t_course_view" + loop + "' href=\"javascript:displayCourseInformation('" + courseID + "');		\
+				hideddrivetip();\" onmouseover=\"ddrivetip('" + HOVER_MESSAGE_STUDENT_VIEW_COURSE + "')\"					\
+				onmouseout=\"hideddrivetip()\">View</a>																		\
+			</div>																											\
+			<div style='clear: both;'></div>																				\
+			<br />";
+
+		var evaluationStatus;
+		var evaluationsPresent = false;
+		var evaluationOutput = "";
+		
+		for (var i = 0; i < pendingEvaluationListLength; i++) {
+			if (pendingEvaluationList[i].courseID == courseID) {
+				evaluationsPresent = true;
+				
+				evaluationStatus =
+					"<td class='t_eval_status centeralign'><span 															\
+					onmouseover=\"ddrivetip('The evaluation is yet to be completed by you')\" onmouseout=\"hideddrivetip()\">\
+					" + "PENDING</span></td>";
+
+				evaluationOutput = evaluationOutput +
+				"<tr>																										\
+					<td>" + encodeChar(pendingEvaluationList[i].name) + "</td>												\
+					<td class='centeralign'>" + convertDateToDDMMYYYY(pendingEvaluationList[i].deadline) + " " + "			\
+					" + convertDateToHHMM(pendingEvaluationList[i].deadline) + "H</td>										\
+					" + evaluationStatus + "																				\
+					<td class='centeralign'><a id='doEvaluation" + i + "' href=#											\
+					onmouseover=\"ddrivetip('Start Evaluation')\" onmouseout=\"hideddrivetip()\">Do Evaluation</a></td>		\
+				</tr>";
+			}
+		}
+		
+		// if link is disabled, insert this line to reset style and onclick:
+		var disabled = "style=\"text-decoration:none; color:gray;\" onclick=\"return false\"";
+
+		var now = new Date();
+		for (var i = 0; i < pastEvaluationListLength; i++) {
+			if (pastEvaluationList[i].courseID == courseID) {
+				evaluationsPresent = true;
+				
+				evaluationOutput = evaluationOutput +
+				"<tr>																										\
+					<td>" + encodeChar(pastEvaluationList[i].name) + "</td>													\
+					<td class='centeralign'>" + convertDateToDDMMYYYY(pastEvaluationList[i].deadline) + " " + "				\
+					" + convertDateToHHMM(pastEvaluationList[i].deadline) + "H</td>";
+	
+				var hasView = false;
+				var hasEdit = false;
+
+				now = getDateWithTimeZoneOffset(pastEvaluationList[i].timeZone);
+				if (pastEvaluationList[i].published == true) {
+					evaluationStatus = "PUBLISHED";
+					hasView = true;
+					evaluationOutput = evaluationOutput +
+					"<td class='centeralign t_eval_status t_eval_status_" + i + "'><span 									\
+					onmouseover=\"ddrivetip('The evaluation has finished and you can check the results')\" 					\
+					onmouseout=\"hideddrivetip()\">" + evaluationStatus + "</span></td>";
+				}
+
+				else if (now < pastEvaluationList[i].deadline) {
+					evaluationStatus = "SUBMITTED";
+					evaluationOutput = evaluationOutput +
+					"<td class='centeralign t_eval_status t_eval_status_" + i + "'><span 									\
+					onmouseover=\"ddrivetip('You have submitted your feedback for this evaluation')\" 						\
+					onmouseout=\"hideddrivetip()\">" + evaluationStatus + "</span></td>";
+				}
+
+				else {
+					evaluationStatus = "CLOSED";
+					evaluationOutput = evaluationOutput +
+					"<td class='centeralign t_eval_status t_eval_status_" + i + "'><span 									\
+					onmouseover=\"ddrivetip('The evaluation has finished but the coordinator has not published the results yet')\"\
+					onmouseout=\"hideddrivetip()\">" + evaluationStatus + "</span></td>";
+				}
+
+				evaluationOutput = evaluationOutput +
+					"<td class='centeralign'>																				\
+					<a href=# name='viewEvaluation" + i + "' id='viewEvaluation" + i + "' 									\
+					onmouseover=\"ddrivetip('View evaluation results')\" onmouseout=\"hideddrivetip()\"						\
+					" + (hasView ? "" : disabled) + ">View Results</a>";
+
+				if (!(now > pastEvaluationList[i].deadline)) {
+					hasEdit = true;
+				}
+
+				evaluationOutput = evaluationOutput +
+					"<a href=# name='editEvaluation" + i + "' id='editEvaluation" + i + "' 									\
+					onmouseover=\"ddrivetip('Edit evaluation')\" onmouseout=\"hideddrivetip()\"								\
+					" + (hasEdit ? "" : disabled) + ">Edit</a>																\
+					</td>																									\
+				</tr>";
+			}
+		}
+		
+		if (evaluationsPresent) {
+			output = output +
+			"<table id='dataform'>																							\
+				<tr>																										\
+					<th class='leftalign'>EVALUATION NAME</th>																\
+					<th class='centeralign'>DEADLINE</span></th>															\
+					<th class='centeralign'>STATUS</th>																		\
+					<th class='centeralign'>ACTION(S)</th>																	\
+				</tr>																										\
+				" + evaluationOutput + "																					\
+			</table>																										\
+			<br />";
+		}
+
+		output = output +
+		"</div>																												\
+		<br /><br /><br />";
+	}
+
+	output = output + "</form>";
+
+	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader;
+	document.getElementById(DIV_EVALUATION_PENDING).innerHTML = output;
+
+	for (var loop = 0; loop < courseListLength; loop++) {
+		courseID = courseList[loop].ID;
+		
+		for (var i = 0; i < pendingEvaluationListLength; i++) {
+			if (pendingEvaluationList[i].courseID == courseID) {
+				if (document.getElementById('doEvaluation' + i) != null
+						&& document.getElementById('doEvaluation' + i).onclick == null) {
+					document.getElementById('doEvaluation' + i).onclick = function() {
+						displayEvaluationSubmission(pendingEvaluationList, this.id.substring(
+								12, this.id.length));
+					};
+				}
+			}
+		}
+		
+		for (var i = 0; i < pastEvaluationListLength; i++) {
+			if (pastEvaluationList[i].courseID == courseID) {
+				if (document.getElementById('editEvaluation' + i) != null
+						&& document.getElementById('editEvaluation' + i).onclick == null) {
+					document.getElementById('editEvaluation' + i).onclick = function() {
+						hideddrivetip();
+						displayEvaluationSubmission(pastEvaluationList, this.id.substring(
+								14, this.id.length));
+					};
+				}
+	
+				if (document.getElementById('viewEvaluation' + i) != null
+						&& document.getElementById('viewEvaluation' + i).onclick == null) {
+					document.getElementById('viewEvaluation' + i).onclick = function() {
+						hideddrivetip();
+						displayEvaluationResults(pastEvaluationList, this.id.substring(14,
+								this.id.length));
+					};
+				}
+			}
+		}
+	}
+}
+
+/***********************************************************______ PAGE***********************************************************/
+/*----------------------------------------------------------______ PAGE----------------------------------------------------------*/
+
 /**
  * XMLHttpRequest Constants
  * 
@@ -760,6 +968,24 @@ function doGetPastEvaluationList()
 		alert(DISPLAY_SERVERERROR);
 	}
 }
+function doGetPastEvaluationListOfCourse(courseID)
+{
+	setStatusMessage(DISPLAY_LOADING);
+	
+	var results = getPastEvaluationListOfCourse(courseID);
+	
+	clearStatusMessage();
+	
+	if(results != 1)
+	{
+		return results;
+	}
+	
+	else
+	{
+		alert(DISPLAY_SERVERERROR);
+	}
+}
 
 function doGetPendingEvaluationList()
 {
@@ -772,6 +998,42 @@ function doGetPendingEvaluationList()
 	if(results != 1)
 	{
 		printPendingEvaluationList(results);
+	}
+	
+	else
+	{
+		alert(DISPLAY_SERVERERROR);
+	}
+}
+/*returns
+* evaluationList: successful
+ * 1: server error
+ * 
+ */
+function getPendingEvaluationListOfCourse(courseID)
+{
+	if(xmlhttp)
+	{
+		xmlhttp.open("POST","teammates",false); 
+		xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
+		xmlhttp.send("operation=" + OPERATION_STUDENT_GETPENDINGEVALUATIONLISTOFCOURSE + "&" + COURSE_ID + "=" + encodeURIComponent(courseID));
+		
+		return handleGetEvaluationList();
+	}
+}
+
+
+function doGetPendingEvaluationListOfCourse(courseID)
+{
+	setStatusMessage(DISPLAY_LOADING);
+	
+	var results = getPendingEvaluationListOfCourse(courseID);
+	
+	clearStatusMessage();
+	
+	if(results != 1)
+	{
+		return results;
 	}
 	
 	else
@@ -1030,6 +1292,17 @@ function getPastEvaluationList()
 		xmlhttp.open("POST","teammates",false); 
 		xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
 		xmlhttp.send("operation=" + OPERATION_STUDENT_GETPASTEVALUATIONLIST);
+		
+		return handleGetEvaluationList();
+	}
+}
+function getPastEvaluationListOfCourse(courseID)
+{
+	if(xmlhttp)
+	{
+		xmlhttp.open("POST","teammates",false); 
+		xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
+		xmlhttp.send("operation=" + OPERATION_STUDENT_GETPASTEVALUATIONLISTOFCOURSE + "&" + COURSE_ID + "=" + encodeURIComponent(courseID));
 		
 		return handleGetEvaluationList();
 	}
@@ -1687,7 +1960,7 @@ function unarchiveCourse(courseID) {
 
 window.onload = function() {
 	initializetooltip();
-	displayCoursesTab();
+	displayHomeTab();
 }
 
 // DynamicDrive JS mouse-hover

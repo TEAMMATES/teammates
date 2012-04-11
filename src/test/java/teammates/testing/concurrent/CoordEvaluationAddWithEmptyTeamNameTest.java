@@ -27,6 +27,7 @@ public class CoordEvaluationAddWithEmptyTeamNameTest extends TestCase {
 		TMAPI.createCourse(scn.course);
 
 		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		//bi.gotoEvaluations();
 	}
 
 	@AfterClass
@@ -60,7 +61,7 @@ public class CoordEvaluationAddWithEmptyTeamNameTest extends TestCase {
 		newStudent.name = "Charlie";
 		newStudent.email = "charlie.tmms@gmail.com";
 		students.add(newStudent);
-		
+		bi.gotoCourses();
 		bi.enrollStudents(students, scn.course.courseId);
 		
 		bi.gotoEvaluations();

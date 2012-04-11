@@ -17,13 +17,16 @@ import teammates.testing.lib.SharedLib;
 public class Scenario {
 	public Coordinator coordinator;
 	public ArrayList<Student> students;
+	public ArrayList<Student> students2;
 	public Course course;
 	public Course course2;
 	public Evaluation evaluation;
 	public Evaluation evaluation2;
 	public Evaluation evaluation3;
 	public Evaluation evaluation4;
+	public Evaluation evaluation5;
 	public HashMap<String, Team> teams;
+	public HashMap<String, Team> teams2;
 	public TeamFormingSession teamFormingSession;
 	public String[] submissionPoints;
 
@@ -61,7 +64,10 @@ public class Scenario {
 		}
 		if (this.evaluation4 != null) {
 			this.evaluation4.courseID = newCourseID;
+		}if (this.evaluation5 != null) {
+			this.evaluation5.courseID = newCourseID;
 		}
+			 
 
 		for (Student student : this.students) {
 			student.courseID = newCourseID;
@@ -178,7 +184,6 @@ public class Scenario {
 			sc.evaluation3 = Evaluation.fromJSONObject(json.getJSONObject("evaluation3"));
 			sc.evaluation4 = Evaluation.fromJSONObject(json.getJSONObject("evaluation4"));
 			sc.students = Student.fromJSONArray(json.getJSONArray("students"));
-
 			// Teams
 			sc.teams = new HashMap<String, Team>();
 			JSONArray json_teams = json.getJSONArray("teams");
@@ -188,6 +193,7 @@ public class Scenario {
 				team.teamname = teamname;
 				sc.teams.put(teamname, team);
 			}
+
 
 			// Students
 			for (Student s : sc.students) {
@@ -300,9 +306,9 @@ public class Scenario {
 			sc.evaluation2 = evaluations.get(1);
 			sc.evaluation3 = evaluations.get(2);
 			sc.evaluation4 = evaluations.get(3);
-
+			sc.evaluation5 = evaluations.get(4);
 			sc.students = Student.fromJSONArray(json.getJSONArray("students"));
-
+			sc.students2 = Student.fromJSONArray(json.getJSONArray("students2"));
 			sc.teams = new HashMap<String, Team>();
 			JSONArray json_teams = json.getJSONArray("teams");
 			for (int i = 0; i < json_teams.length(); i++) {
@@ -310,6 +316,14 @@ public class Scenario {
 				Team team = new Team();
 				team.teamname = teamname;
 				sc.teams.put(teamname, team);
+			}			
+			sc.teams2 = new HashMap<String, Team>();
+			JSONArray json_teams2 = json.getJSONArray("teams2");
+			for (int i = 0; i < json_teams2.length(); i++) {
+				String teamname = json_teams2.getString(i);
+				Team team = new Team();
+				team.teamname = teamname;
+				sc.teams2.put(teamname, team);
 			}
 			for (Student s : sc.students) {
 				s.team = sc.teams.get(s.teamName);
@@ -317,13 +331,19 @@ public class Scenario {
 				s.courseID = sc.course.courseId;
 				s.comments = "This student's name is " + s.name;
 			}
-			
+			for (Student s : sc.students2) {
+				s.team = sc.teams2.get(s.teamName);
+				s.team.students.add(s);
+				s.courseID = sc.course2.courseId;
+				s.comments = "This student's name is " + s.name;
+			}
 			sc.evaluation.courseID = sc.course.courseId;
-			sc.evaluation2.courseID = sc.course.courseId;
-			sc.evaluation3.courseID = sc.course.courseId;
-			sc.evaluation4.courseID = sc.course.courseId;
+			sc.evaluation2.courseID = sc.course.courseId;			
+			sc.evaluation3.courseID = sc.course2.courseId;
+			sc.evaluation4.courseID = sc.course2.courseId;
+			sc.evaluation5.courseID = sc.course2.courseId;
 			sc.course.students = sc.students;
-			
+			sc.course2.students = sc.students2;
 			return sc;
 
 		} catch (JSONException e) {

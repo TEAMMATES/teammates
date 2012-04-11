@@ -42,6 +42,7 @@
 			</div>
 			<div id="contentLinks">
 				<ul id="navbar">
+					<li><a class='t_home' href="javascript:displayHomeTab();">Home</a></li>
 					<li><a class='t_courses' href="javascript:displayCoursesTab();">Courses</a> </li>
 					<li><a class='t_evaluations' href="javascript:displayEvaluationsTab();">Evaluations</a></li>
 					<li><a class='t_help' href="http://www.comp.nus.edu.sg/~teams/studenthelp.html" target="_blank">Help</a></li>

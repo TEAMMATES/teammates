@@ -14,6 +14,7 @@ var OPERATION_COORDINATOR_ENROLSTUDENTS = "coordinator_enrolstudents";
 var OPERATION_COORDINATOR_GETCOURSE = "coordinator_getcourse";
 var OPERATION_COORDINATOR_GETCOURSELIST = "coordinator_getcourselist";
 var OPERATION_COORDINATOR_GETEVALUATIONLIST = "coordinator_getevaluationlist";
+var OPERATION_COORDINATOR_GETEVALUATIONLISTOFCOURSE = "coordinator_getevaluationlistofcourse";
 var OPERATION_COORDINATOR_GETSTUDENTLIST = "coordinator_getstudentlist";
 var OPERATION_COORDINATOR_GETSUBMISSIONLIST = "coordinator_getsubmissionlist";
 var OPERATION_COORDINATOR_INFORMSTUDENTSOFEVALUATIONCHANGES = "coordinator_informstudentsofevaluationchanges";

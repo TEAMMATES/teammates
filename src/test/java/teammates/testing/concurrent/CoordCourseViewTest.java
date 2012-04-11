@@ -71,8 +71,8 @@ public class CoordCourseViewTest extends TestCase {
 		bi.clickCourseEnrol(scn.course.courseId);
 		bi.verifyEnrollPage();
 
-		bi.wdFillString(bi.enrolInfo, String.format("%s|%s|%s|", FIRST_STUDENT.teamName, newStudent, newEmail));
-		bi.waitAndClick(bi.enrolButton);
+		bi.wdFillString(bi.coordEnrolInfo, String.format("%s|%s|%s|", FIRST_STUDENT.teamName, newStudent, newEmail));
+		bi.waitAndClick(bi.coordEnrolButton);
 		bi.justWait();
 
 		bi.clickCourseTab();
