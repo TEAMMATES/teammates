@@ -96,10 +96,6 @@ public class TeamForming {
 			getPM().makePersistent(teamFormingSession);
 		} finally {
 		}
-
-		// pending
-		// Build TeamProfile objects for each team based on the courseID
-		//createTeamProfile(courseID, teamName);
 	}
 	
 	/**
@@ -122,6 +118,7 @@ public class TeamForming {
 		if (getTeamProfile(courseId, teamName) != null) {
 			throw new TeamProfileExistsException();
 		}
+		
 		TeamProfile newTeamProfile = new TeamProfile(courseId, courseName, teamName, teamProfile);
 
 		try {
@@ -230,12 +227,11 @@ public class TeamForming {
 		int newTeamNameExists = 0;
 		
 		TeamProfile tProfile = getTeamProfile(courseId, teamName);
-		//List<String> teamList = getTeamsOfCourse(courseId);
 		List<TeamProfile> teamProfiles = getTeamProfiles(courseId);
 		
 		for(int i=0;i<teamProfiles.size(); i++)
 		{
-			if(teamProfiles.get(i).getTeamName().equalsIgnoreCase(newTeamName))
+			if(teamProfiles.get(i).getTeamName().equalsIgnoreCase(newTeamName.trim()))
 				newTeamNameExists = 1;
 		}
 		
@@ -402,9 +398,6 @@ public class TeamForming {
 	 * @return the team forming session of the specified course and deadline
 	 */
 	public TeamFormingSession getTeamFormingSession(String courseID, Date deadline) {
-//		String query = "select from " + TeamFormingSession.class.getName()
-//				+ " where endTime == '" + deadline + "' && courseID == '" + courseID
-//				+ "'";
 		String query = "select from " + TeamFormingSession.class.getName()
 				+ " where courseID == '" + courseID + "'";
 		
@@ -580,7 +573,6 @@ public class TeamForming {
 	 *            deadline pair must be valid)
 	 */
 	public void deleteTeamFormingSession(String courseID, Date deadline) {
-		//System.out.println(deadline +" and "+courseID);
 		TeamFormingSession teamFormingSession = getTeamFormingSession(courseID, deadline);
 		
 		if(teamFormingSession ==  null)
@@ -590,11 +582,6 @@ public class TeamForming {
 			getPM().deletePersistent(teamFormingSession);
 		} finally {
 		}
-
-		//pending
-		// Delete submission entries
-//		List<Submission> submissionList = getSubmissionList(courseID, deadline);
-//		getPM().deletePersistentAll(submissionList);
 	}
 	
 	/**
@@ -606,14 +593,10 @@ public class TeamForming {
 	 */
 	public void deleteTeamFormingSession(String courseID) {
 		List<TeamFormingSession> teamFormingSessionList = getTeamFormingSessionList(courseID);
-		//pending
-		//List<Submission> submissionList = getSubmissionList(courseID);
 
 		try {
 			getPM().deletePersistentAll(teamFormingSessionList);
 			deleteTeamProfiles(courseID);
-			//pending
-			//getPM().deletePersistentAll(submissionList);
 		} finally {
 		}
 	}
@@ -636,14 +619,10 @@ public class TeamForming {
 	 */
 	public void deleteTeamProfiles(String courseID){
 		List<TeamProfile> teamProfileList = getTeamProfiles(courseID);
-		//pending
-		//List<Submission> submissionList = getSubmissionList(courseID);
 
 		try {
 			if(teamProfileList!=null)
 				getPM().deletePersistentAll(teamProfileList);
-			//pending
-			//getPM().deletePersistentAll(submissionList);
 		} finally {
 		}		
 	}
@@ -660,14 +639,10 @@ public class TeamForming {
 	 */
 	public void deleteTeamProfile(String courseID, String teamName){
 		TeamProfile teamProfile = getTeamProfile(courseID, teamName);
-		//pending
-		//List<Submission> submissionList = getSubmissionList(courseID);
 
 		try {
 			if(teamProfile!=null)
 				getPM().deletePersistentAll(teamProfile);
-			//pending
-			//getPM().deletePersistentAll(submissionList);
 		} finally {
 		}		
 	}

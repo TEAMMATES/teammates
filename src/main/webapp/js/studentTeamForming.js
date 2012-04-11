@@ -134,7 +134,6 @@ function displayStudentViewTeams(courseID){
 		if(teams.length!=0 || studentsWithoutTeam.length!=0){
 			output = output
 			+ "<br /><br />";
-			//+ "<input type=\"button\" class =\"button\" name=\"button_back\" id=\"button_back\" value=\"Update\" /><br /><br />";
 		}
 		document.getElementById(DIV_COURSE_TABLE).innerHTML = output;
 
@@ -790,11 +789,6 @@ function handleGetTeamFormingSession()
 					status = "CLOSED";
 				}
 
-//				else if (now < start && !activated)
-//				{
-//				status = "AWAITING";
-//				}
-
 				teamFormingSessionObject = { courseID:courseID, start:start, deadline:deadline, 
 						timeZone:timeZone, gracePeriod:gracePeriod, instructions:instructions,
 						activated:activated, profileTemplate:profileTemplate, status:status};
@@ -931,7 +925,7 @@ function printCourseStudentDetails(courseID, studentDetail, teamFormingSession){
 	else if(teamFormingSession.status=="CLOSED")
 		status = "CLOSED";
 	else
-		status = "AWAITING<br /> Team forming for this course is currently disabled. It is only enabled between "
+		status = "AWAITING<br /> Team forming for this course is currently disabled. It will be enabled between "
 			+startString+" "+startTimeString+" and "+deadlineString+" "+deadlineTimeString;
 	
 	var outputHeader = "<h1>FORM TEAMS FOR COURSE "+courseID+"</h1>";
@@ -1127,9 +1121,6 @@ function printStudentTeams(output, teamName, students, position, currentStudentT
 			students[j].profileDetail = "";
 		output = output
 		+ "<tr><td class='centeralign' style=\"width: 150px;\">"
-//		+ "<a class='t_team_view' id='withTeamStudent"+position+j+"'\" href=# "
-//		+ "onmouseover=\"ddrivetip('View full profile of the student.')\""
-//		+ "onmouseout=\"hideddrivetip()\">"
 		+students[j].name+"</td><td style=\"width: 500px;\">"+students[j].profileDetail+"</td><td style=\"width: 200px;\">"+students[j].email+"</td></tr>";
 	}
 		

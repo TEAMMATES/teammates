@@ -29,6 +29,7 @@ public class TeamFormingServlet extends HttpServlet {
 	private HttpServletResponse resp;
 
 	// OPERATIONS	
+	private static final String OPERATION_COORDINATOR_CHECKTEAMEXISTS = "coordinator_checkteamexists";
 	private static final String OPERATION_COORDINATOR_CREATETEAMFORMINGSESSION = "coordinator_createteamformingsession";
 	private static final String OPERATION_COORDINATOR_CREATETEAMPROFILE = "coordinator_createteamprofile";
 	private static final String OPERATION_COORDINATOR_GETSTUDENTSOFCOURSETEAM = "coordinator_getstudentsofcourseteam";
@@ -127,6 +128,10 @@ public class TeamFormingServlet extends HttpServlet {
 		
 		if(operation.equals(OPERATION_COORDINATOR_CREATETEAMFORMINGSESSION)){
 			coordinatorCreateTeamFormingSession();
+		}
+		
+		else if (operation.equals(OPERATION_COORDINATOR_CHECKTEAMEXISTS)) {
+			coordinatorCheckTeamExists();
 		}
 		
 		else if (operation.equals(OPERATION_COORDINATOR_CREATETEAMPROFILE)) {
@@ -305,6 +310,27 @@ public class TeamFormingServlet extends HttpServlet {
 						+ "]]></url>");
 	}
 	
+	private void coordinatorCheckTeamExists() throws IOException {
+		String courseID = req.getParameter("courseId");
+		String teamName = req.getParameter("teamName");
+		
+		TeamForming teamForming = TeamForming.inst();
+		int newTeamNameExists = 0;
+		List<TeamProfile> teamProfiles = teamForming.getTeamProfiles(courseID);
+		
+		for(int i=0;i<teamProfiles.size(); i++)
+		{
+			if(teamProfiles.get(i).getTeamName().equalsIgnoreCase(teamName.trim()))
+				newTeamNameExists = 1;
+		}
+		if (newTeamNameExists==1)
+			resp.getWriter().write(
+					MSG_STATUS_OPENING + MSG_TEAMPROFILE_EXISTS + MSG_STATUS_CLOSING);
+		else
+			resp.getWriter().write(
+				MSG_STATUS_OPENING + MSG_TEAMPROFILE_SAVED + MSG_STATUS_CLOSING);
+	}
+	
 	private void coordinatorCreateTeamFormingSession() throws IOException {
 		String courseID = req.getParameter(COURSE_ID);
 		String startDate = req.getParameter(TEAMFORMING_START);
@@ -345,7 +371,6 @@ public class TeamFormingServlet extends HttpServlet {
 		String courseId = req.getParameter("courseId");
 		String courseName = req.getParameter("courseName");
 		String teamName = req.getParameter(TEAM_NAME);
-		//String teamProfile = req.getParameter(TEAM_PROFILE);
 		Text teamProfile = new Text(req.getParameter(TEAM_PROFILE));
 		
 		// Add the team forming session		
@@ -406,8 +431,6 @@ public class TeamFormingServlet extends HttpServlet {
 		
 		//update student teamname info
 		teamForming.editStudentsTeam(courseId, teamName, newTeamName);
-		
-		//TODO: update submission teamname info
 	}
 	
 	private void coordinatorEditTeamFormingSession() throws IOException {
@@ -449,7 +472,6 @@ public class TeamFormingServlet extends HttpServlet {
 		String courseName = req.getParameter("courseName");
 		String teamName = req.getParameter("oldteamname");
 		String newTeamName = req.getParameter(TEAM_NAME);
-		//String newTeamProfile = req.getParameter(TEAM_PROFILE);
 		Text newTeamProfile = new Text(req.getParameter(TEAM_PROFILE));
 		
 		// Add the team forming session		
@@ -539,29 +561,7 @@ public class TeamFormingServlet extends HttpServlet {
 		TeamForming teamForming = TeamForming.inst();
 		List<TeamFormingSession> teamFormingSessionList = teamForming
 				.getTeamFormingSessionList(courseList);		
-		
-//		List<EvaluationDetailsForCoordinator> evaluationDetailsList = new ArrayList<EvaluationDetailsForCoordinator>();
-//
-//		int numberOfCompletedEvaluations = 0;
-//		int numberOfEvaluations = 0;
-//
-//		for (Evaluation e : evaluationList) {
-//			if (courses.getCourse(e.getCourseID()).isArchived() != true) {
-//				numberOfCompletedEvaluations = evaluations
-//						.getNumberOfCompletedEvaluations(e.getCourseID(),
-//								e.getName());
-//				numberOfEvaluations = evaluations.getNumberOfEvaluations(
-//						e.getCourseID(), e.getName());
-//
-//				evaluationDetailsList.add(new EvaluationDetailsForCoordinator(e
-//						.getCourseID(), e.getName(), e.getInstructions(), e
-//						.isCommentsEnabled(), e.getStart(), e.getDeadline(), e
-//						.getTimeZone(), e.getGracePeriod(), e.isPublished(), e
-//						.isActivated(), numberOfCompletedEvaluations,
-//						numberOfEvaluations));
-//			}
-//		}
-//	
+			
 		resp.getWriter().write(
 				"<teamformingsessions>"
 						+ parseCoordinatorTeamFormingSesssionListToXML(
@@ -619,7 +619,6 @@ public class TeamFormingServlet extends HttpServlet {
 		Courses courses = Courses.inst();
 		List<Student> studentList = courses.getStudentList(courseID);
 
-		//TODO: replace null with deadline if deadline is part of the primary key
 		TeamForming teamForming = TeamForming.inst();
 		TeamFormingSession teamFormingSession = teamForming.getTeamFormingSession(courseID, null);		
 		
@@ -652,8 +651,6 @@ public class TeamFormingServlet extends HttpServlet {
 				studentsToRemindList.add(s);
 		}
 
-		//by kalpit
-		//TODO: may have to change when getTeamFormingSession changes 
 		Date dummyDeadline = null;
 		TeamForming teamForming = TeamForming.inst();
 		TeamFormingSession teamFormingSession = teamForming.getTeamFormingSession(courseID, dummyDeadline);
@@ -665,12 +662,10 @@ public class TeamFormingServlet extends HttpServlet {
 	
 	private void enterTeamFormingLog() {
 		String courseID = req.getParameter(COURSE_ID);
-		//String time = req.getParameter("time");
 		String nowDate = req.getParameter("nowdate");
 		int nowTime = Integer.parseInt(req.getParameter("nowtime"));
 		String studentName = req.getParameter("name");
 		String studentEmail = req.getParameter("email");
-		//String message = req.getParameter("message");
 		Text message = new Text(req.getParameter("message"));
 		
 		Date now = Utils.convertToExactDateTime(nowDate, nowTime);
@@ -928,7 +923,6 @@ public class TeamFormingServlet extends HttpServlet {
 		String courseId = req.getParameter("courseId");
 		String studentEmail = req.getParameter("studentEmail");
 		String profileSummary = req.getParameter("profileSummary");
-		//String profileDetail = req.getParameter("profileDetail");
 		Text profileDetail = new Text(req.getParameter("profileDetail")); 
 		
 		// Add the team forming session		
