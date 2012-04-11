@@ -236,7 +236,7 @@ public class BrowserInstance {
     public By saveStudentProfile = By.id("button_savestudentprofile");
     
     //edit student team:
-    public By coordChangeStudentTeam11 = By.id("changeStudentTeam11");
+    public By coordChangeStudentTeam11 = By.id("changeStudentTeam-1/1");
     public By coordAllocateStudentTeam1 = By.id("allocateStudentTeam1");
 	public By addEvaluationButton = By.id("t_btnAddEvaluation");
 
@@ -375,6 +375,7 @@ public class BrowserInstance {
     public final String MESSAGE_TEAMFORMINGSESSION_ADDED = "The team forming session has been added.";
     public final String MESSAGE_TEAMFORMINGSESSION_ADDED_WITH_EMPTY_CLASS = "The course does not have any students.";
     public final String MESSAGE_TEAMFORMINGSESSION_DELETED = "The team forming session has been deleted.";
+    public final String MESSAGE_TEAMFORMINGSESSION_REMINDED = "Reminder e-mails have been sent out to those students.";
     public final String ERROR_MESSAGE_TEAMFORMINGSESSION_EXISTS = "The team forming session exists already.";
     public final String ERROR_INVALID_INPUT_TEAMFORMINGSESSION = "The team forming session schedule (start/deadline) is not valid.";
     public final String MESSAGE_TEAMFORMINGSESSION_EDITED = "The team forming session has been edited.";
@@ -1228,6 +1229,14 @@ public class BrowserInstance {
 				clickTeamFormingSessionEdit(row);
 			} else {
 				fail("Team forming session not found.");
+			}
+		}
+		
+		public void clickTeamFormingSessionRemind(String courseId) {
+			int row = findTeamFormingSessionRow(courseId);
+			if (row > -1) {
+				String elementID = "remindTeamFormingSession" + row;
+				clickAndConfirm(By.id(elementID));
 			}
 		}
 		

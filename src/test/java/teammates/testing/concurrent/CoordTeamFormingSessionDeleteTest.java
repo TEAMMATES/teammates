@@ -43,10 +43,15 @@ public class CoordTeamFormingSessionDeleteTest extends TestCase {
 		System.out.println("CoordTeamFormingSessionDelete ==========//");
 	}
 	
+	@Test
+	public void testCoordTeamFormingSessionDelete() {
+		testCoordDeleteTeamFormingSession();
+		testCoordDeleteCourseAndTeamFormingSession();		
+	}
+	
 	/**
 	 * Test: delete team forming session
 	 * */
-	@Test
 	public void testCoordDeleteTeamFormingSession() {
 		bi.gotoTeamForming();
 		
@@ -62,7 +67,6 @@ public class CoordTeamFormingSessionDeleteTest extends TestCase {
 	/**
 	 * Test: delete course leads to delete team forming session
 	 * */
-	@Test
 	public void testCoordDeleteCourseAndTeamFormingSession() {
 		TMAPI.createTeamFormingSession(scn.teamFormingSession);
 		

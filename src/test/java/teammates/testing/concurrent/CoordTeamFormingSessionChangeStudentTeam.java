@@ -32,6 +32,10 @@ public class CoordTeamFormingSessionChangeStudentTeam extends TestCase {
 		TMAPI.createCourse(scn.course);
 		TMAPI.enrollStudents(scn.course.courseId, scn.students);
 		TMAPI.createTeamFormingSession(scn.teamFormingSession);
+		ArrayList teams = new ArrayList();
+		teams.add("Team 1");
+		teams.add("Team 2");
+		TMAPI.createProfileOfExistingTeams(scn.course.courseId, scn.course.courseName, teams);
 		
 		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
 	}
@@ -101,12 +105,12 @@ public class CoordTeamFormingSessionChangeStudentTeam extends TestCase {
 		bi.wdClick(bi.coordAllocateStudentTeam1);
 		bi.verifyChangeStudentTeamPage();
 		
-		String newTeamName = "Team 1";
+		String newTeamName = "Team 3";
 		bi.wdClick(By.xpath("//*[@id='teamchange_newteam'][@value='false']"));
 		bi.wdFillString(bi.inputNewTeamName, newTeamName);
 		bi.wdClick(bi.saveChangeStudentTeam);
 		
 		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_TEAMCHANGE_SAVED);
-		assertEquals("Frank", bi.getElementText(bi.getStudentNameFromManageTeamFormingSession(5, 1)));
+		assertEquals(true, bi.isTextPresent("Team 3"));
 	}
 }
