@@ -228,6 +228,28 @@ tfoot td {
 	font-weight: bold;
 }
 
+.result_addOrJoinCourse {
+	color: #FFFFFF;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0 auto;
+	text-align: right;
+}
+
+.result_addOrJoinCourse a:link {
+	color: #FFFFFF;
+	font-size: 13px;
+	padding-left: 15px;
+	text-decoration: underline;
+}
+
+.result_addOrJoinCourse a:visited {
+	color: #FFFFFF;
+}
+
+.result_addOrJoinCourse a:link:hover {
+	color: #FFFFFF;
+	text-decoration: underline;
+}
 
 .result_homeTitle {
 	float: left;

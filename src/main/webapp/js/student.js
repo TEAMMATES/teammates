@@ -118,7 +118,11 @@ function printStudentLandingPage() {
 	var outputHeader =
 		"<h1>STUDENT HOME</h1>																								\
 		<br />																												\
-		<h2><a href=\"javascript:displayCoursesTab()\" name='joinNewCourse' id='joinNewCourse'>Join New Course</a></h2>";
+		<div class='result_team'>																							\
+			<div class='result_addOrJoinCourse'>																			\
+				<a href=\"javascript:displayCoursesTab()\" name='joinNewCourse' id='joinNewCourse'>Join New Course</a>		\
+			</div>																											\
+		</div>";
 
 	var output = "<form method='post' action='' name='form_coursessummary'>";
 
