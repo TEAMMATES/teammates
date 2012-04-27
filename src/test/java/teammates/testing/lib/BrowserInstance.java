@@ -13,6 +13,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.mail.BodyPart;
 import javax.mail.Flags;
@@ -474,7 +475,7 @@ public class BrowserInstance {
 		cout("Signing out.");
 		waitAndClick(logoutTab);
 		// Check that we're at the main page after logging out
-		if (Config.inst().TEAMMATES_URL.contains("localhost")) {
+		if (Config.inst().isLocalHost()) {
 			cout("localhost testing");
 			selenium.open(Config.inst().TEAMMATES_URL);
 
@@ -2457,27 +2458,30 @@ public class BrowserInstance {
 	}
 	
 	public void verifyCurrentPageHTML(String filepath) throws Exception {
-		try {
-			String pageSrc = driver.getPageSource();
-			FileInputStream refSrc = new FileInputStream(filepath);
-			BufferedReader actual = new BufferedReader(new StringReader(pageSrc));
-			BufferedReader expected = new BufferedReader(new InputStreamReader(new DataInputStream(refSrc)));
 
-			String expectedLine;
-			String actualLine;
-			while ((expectedLine = expected.readLine()) != null) {
-				actualLine = actual.readLine();
-				assertNotNull("Expected had more lines then the actual.", actualLine);
-				assertEquals(expectedLine, actualLine);
-			}
-
-			assertNull("Actual had more lines then the expected.", actual.readLine());
-
-			actual.close();
-			expected.close();
-		} catch (Exception e) {
-			System.err.println("Error: " + e.getMessage());
-		}
+		String NL = System.getProperty("line.separator");
+	    
+		StringBuilder expectedContentBuilder = new StringBuilder();
+	    Scanner scanner = new Scanner(new FileInputStream(filepath));    
+	    while (scanner.hasNextLine()){
+	    	expectedContentBuilder.append(scanner.nextLine() + NL);
+	    }
+    	scanner.close();
+    	//Todo: fix the next line so that we do not have to change the version number every time. 
+		String expectedContent = expectedContentBuilder.toString().replace("{{version}}", "4.17.1");
+		
+		String pageSrc = driver.getPageSource();
+		BufferedReader actual = new BufferedReader(new StringReader(pageSrc));
+		StringBuilder actualContentBuilder = new StringBuilder();
+		String actualLine;
+		while ((actualLine = actual.readLine()) != null) {
+			actualContentBuilder.append(actualLine + NL);		
+		}	
+		actual.close();
+		String actualContent = actualContentBuilder.toString();
+		
+		assertEquals(expectedContent, actualContent);
+			
 	}
 	
 	// --------------------------------- Home page ------------------------------ //

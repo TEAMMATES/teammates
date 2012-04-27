@@ -12,6 +12,14 @@
   
   <dependencies>
   
+    <!-- JavaMail -->
+    <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>javax.mail</artifactId>
+      <version>1.4.4</version>
+       <scope>test</scope>
+    </dependency>
+  
     <!-- Google App Engine meta-package -->
     <dependency>
       <groupId>net.kindleit</groupId>
@@ -69,6 +77,8 @@
     </dependency>
     
     <!-- Test scope -->
+
+   
     <dependency>
       <groupId>com.googlecode.jmockit</groupId>
       <artifactId>jmockit</artifactId>
@@ -82,12 +92,7 @@
       <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>com.sun.mail</groupId>
-      <artifactId>javax.mail</artifactId>
-      <version>1.4.4</version>
-       <scope>test</scope>
-    </dependency>
+
 
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>

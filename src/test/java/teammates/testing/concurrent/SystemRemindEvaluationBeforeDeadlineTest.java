@@ -43,6 +43,10 @@ public class SystemRemindEvaluationBeforeDeadlineTest extends TestCase {
 
 	@Test
 	public void systemRemindEvaluationBeforeDeadlineTest() throws Exception {
+		if(Config.inst().isLocalHost()){
+			System.out.println("Omitting email testing in systemRemindEvaluationBeforeDeadlineTest() because testing on local host");
+			return;
+		}
 		//do the submission for 1 student only
 		studentSubmitEvaluation(scn.students.get(0));
 		

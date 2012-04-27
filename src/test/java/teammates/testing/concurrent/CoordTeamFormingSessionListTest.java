@@ -23,6 +23,7 @@ public class CoordTeamFormingSessionListTest extends TestCase {
 	static BrowserInstance bi;
 	static Scenario scn = setupScenarioInstance("teamForming");
 	static Scenario scn2 = setupScenarioInstance("teamForming");
+	static int teamFormingSessionsCount = 0;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -36,10 +37,13 @@ public class CoordTeamFormingSessionListTest extends TestCase {
 
 		TMAPI.createCourse(scn2.course);		
 		TMAPI.enrollStudents(scn2.course.courseId, scn2.students);
-		TMAPI.createTeamFormingSession(scn.teamFormingSession);
-		TMAPI.createTeamFormingSession(scn2.teamFormingSession);
 		
 		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.gotoTeamForming();
+		teamFormingSessionsCount = bi.countTotalTeamFormingSessions(); //count existing sessions
+		
+		TMAPI.createTeamFormingSession(scn.teamFormingSession);
+		TMAPI.createTeamFormingSession(scn2.teamFormingSession);
 	}
 
 	@AfterClass
@@ -56,7 +60,7 @@ public class CoordTeamFormingSessionListTest extends TestCase {
 	public void verifyAddTeamFormingSessionPageSuccessful() throws Exception {
 		bi.gotoTeamForming();
 		int count = bi.countTotalTeamFormingSessions();
-		assertEquals(2, count);
+		assertEquals(teamFormingSessionsCount+2, count); //check if count increased by 2
 		
 		assertEquals(true, bi.isTextPresent(scn.course.courseId));
 		assertEquals(true, bi.isTextPresent(scn2.course.courseId));

@@ -111,7 +111,7 @@ public class AddCourseAPITest {
 	@Test
 	public void testAddCourseWithEmptyIDFailed() throws Exception {
 		TeammatesServlet ts = new TeammatesServlet();
-		ts.coordinatorAddCourse("", COURSE_NAME, GOOGLE_ID);
+		assertEquals(RESPONSE_INVALID, ts.coordinatorAddCourse("", COURSE_NAME, GOOGLE_ID));
 	}
 	
 	/**

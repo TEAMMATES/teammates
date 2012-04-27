@@ -51,6 +51,7 @@ public class CoordViewResultsUITest extends TestCase {
 		bi.logout();
 		TMAPI.cleanupCourse(scn.course.courseId);
 		BrowserInstancePool.release(bi);
+		TMAPI.enableEmail();
 	}
 
 	@Test

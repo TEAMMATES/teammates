@@ -5,6 +5,7 @@
 	<classpathentry excluding="**/*.java" kind="src" output="target/test-classes" path="src/test/resources"/>
 	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
 	<classpathentry excluding="**/*.java" kind="src" path="src/main/resources"/>
+	<classpathentry kind="var" path="M2_REPO/com/sun/mail/javax.mail/1.4.4/javax.mail-1.4.4.jar" sourcepath="M2_REPO/com/sun/mail/javax.mail/1.4.4/javax.mail-1.4.4-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-java-sdk/1.6.1/appengine-java-sdk-1.6.1/lib/user/appengine-api-1.0-sdk-1.6.1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-java-sdk/1.6.1/appengine-java-sdk-1.6.1/lib/appengine-tools-api.jar"/>
 	<classpathentry kind="var" path="M2_REPO/javax/activation/activation/1.1/activation-1.1.jar" sourcepath="M2_REPO/javax/activation/activation/1.1/activation-1.1-sources.jar"/>
@@ -39,7 +40,6 @@
 	<classpathentry kind="var" path="M2_REPO/org/apache/httpcomponents/httpclient/4.1.2/httpclient-4.1.2.jar" sourcepath="M2_REPO/org/apache/httpcomponents/httpclient/4.1.2/httpclient-4.1.2-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/httpcomponents/httpcore/4.1.2/httpcore-4.1.2.jar" sourcepath="M2_REPO/org/apache/httpcomponents/httpcore/4.1.2/httpcore-4.1.2-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/httpcomponents/httpmime/4.1.2/httpmime-4.1.2.jar" sourcepath="M2_REPO/org/apache/httpcomponents/httpmime/4.1.2/httpmime-4.1.2-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/sun/mail/javax.mail/1.4.4/javax.mail-1.4.4.jar" sourcepath="M2_REPO/com/sun/mail/javax.mail/1.4.4/javax.mail-1.4.4-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/net/jcip/jcip-annotations/1.0/jcip-annotations-1.0.jar" sourcepath="M2_REPO/net/jcip/jcip-annotations/1.0/jcip-annotations-1.0-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/googlecode/jmockit/jmockit/0.999.13/jmockit-0.999.13.jar" sourcepath="M2_REPO/com/googlecode/jmockit/jmockit/0.999.13/jmockit-0.999.13-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/net/java/dev/jna/jna/3.3.0/jna-3.3.0.jar" sourcepath="M2_REPO/net/java/dev/jna/jna/3.3.0/jna-3.3.0-sources.jar"/>

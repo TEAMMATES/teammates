@@ -89,5 +89,9 @@ public class Config {
 		}
 		return "";
 	}
+	
+	public boolean isLocalHost(){
+		return TEAMMATES_URL.contains("localhost");
+	}
 
 }

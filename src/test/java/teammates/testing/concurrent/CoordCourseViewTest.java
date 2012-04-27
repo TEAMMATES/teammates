@@ -31,14 +31,13 @@ public class CoordCourseViewTest extends TestCase {
 		TMAPI.createCourse(scn.course);
 		TMAPI.enrollStudents(scn.course.courseId, scn.students);
 		TMAPI.studentsJoinCourse(scn.students, scn.course.courseId);
-
-		System.out.println("Clean inbox for " + FIRST_STUDENT.name);
-		try {
+		
+		if(Config.inst().isLocalHost()){
+			System.out.println("Omitting email testing because testing on local host");
+		}else{
+			System.out.println("Clean inbox for " + FIRST_STUDENT.name);
 			SharedLib.markAllEmailsSeen(FIRST_STUDENT.email, Config.inst().TEAMMATES_APP_PASSWD);
 			SharedLib.markAllEmailsSeen(Config.inst().INDIVIDUAL_ACCOUNT, Config.inst().TEAMMATES_APP_PASSWD);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
@@ -62,6 +61,11 @@ public class CoordCourseViewTest extends TestCase {
 	 * */
 	@Test
 	public void testCoordRemindIndividualStudentSuccessful() {
+		if(Config.inst().isLocalHost()){
+			System.out.println("Omitting email testing in testCoordRemindIndividualStudentSuccessful because testing on local host");
+			return;
+		}
+		
 		System.out.println("testCoordRemindIndividualStudentSuccessful");
 		String newStudent = Config.inst().INDIVIDUAL_NAME;
 		String newEmail = Config.inst().INDIVIDUAL_ACCOUNT;
@@ -86,15 +90,15 @@ public class CoordCourseViewTest extends TestCase {
 		bi.wdClick(bi.courseViewBackButton);
 		
 		System.out.println("Key for new student: " + key);
-		
+
 		// Assert that student gets a notification email
 		bi.justWait();
 		assertEquals(key, SharedLib.getRegistrationKeyFromGmail(newEmail, Config.inst().TEAMMATES_APP_PASSWD, scn.course.courseId));
 
-		// Assert that rest students don't get spamed
+		// Assert that rest of the students don't get spammed
 		bi.justWait();
 		assertEquals("", SharedLib.getRegistrationKeyFromGmail(FIRST_STUDENT.email, Config.inst().TEAMMATES_APP_PASSWD, scn.course.courseId));
-
+			
 		bi.logout();
 	}
 

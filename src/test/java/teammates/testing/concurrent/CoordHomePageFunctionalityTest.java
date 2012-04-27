@@ -348,17 +348,12 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		// delete operation.
 		// Hence, we use FIRST_EVALUATION, SECOND_EVALUATION, THIRD_EVALUATION and FOURTH_EVALUATION to refer to the original
 		// 2nd, 3rd, 4th and 5th evaluations respectively in the below code.
+		
+		// testing the delete link in two evaluations
 		bi.goToCoordHome();
 		bi.justWait();
 		bi.clickAndCancelCoordEvaluationDelete(bi.getCoordDeleteEvaluationLink(FIRST_EVALUATION));
 		
-		bi.goToCoordHome();
-		bi.justWait();
-		bi.clickAndCancelCoordEvaluationDelete(bi.getCoordDeleteEvaluationLink(SECOND_EVALUATION));
-		
-		bi.goToCoordHome();
-		bi.justWait();
-		bi.clickAndCancelCoordEvaluationDelete(bi.getCoordDeleteEvaluationLink(THIRD_EVALUATION));
 		
 		bi.goToCoordHome();
 		bi.justWait();
