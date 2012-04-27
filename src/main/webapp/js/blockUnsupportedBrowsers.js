@@ -19,8 +19,8 @@ var brow_ver    = parseFloat(ver.substring(thestart+4, thestart+7)); // This cut
 if ((browser == "Microsoft Internet Explorer") && (brow_ver < 8)) {
         window.location="../oldIE.jsp"; // URL to redirect to.
 }
-
-
+//TODO: 1. these files being redirected to look like they can be plain HTML files. 2. Perhaps one file is enough? 
+//TODO: shouldn't we check for supported browsers rather than unsupported browsers?
 // Iphone
 if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)) || (navigator.userAgent.match(/iPad/i))) {
         window.location="../mobile.jsp"; // URL to redirect to.

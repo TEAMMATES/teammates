@@ -205,6 +205,7 @@ public class Accounts {
 	 * @return <code>true</code> if the user is an coordinator,
 	 *         <code>false</code> otherwise.
 	 */
+	//TODO: This seems very inefficient. Is there a better way? -damith
 	public boolean isCoordinator() {
 		// Get list of coordinators
 		List<Coordinator> coordinatorList = getCoordinatorList();

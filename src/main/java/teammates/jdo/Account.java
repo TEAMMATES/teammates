@@ -33,6 +33,7 @@ public class Account {
 	 * @param name
 	 * @param email
 	 */
+	//TODO:shouldn't these be trimmed too?
 	public Account(String googleID, String name, String email) {
 		this.setGoogleID(googleID);
 		this.setName(name);
