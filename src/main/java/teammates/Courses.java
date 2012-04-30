@@ -1,4 +1,3 @@
-package teammates;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -458,6 +457,7 @@ public class Courses {
 	 * @return List<Student> the list of students that have the specified Google
 	 *         ID
 	 */
+	//TODO: The method name does not match intent -damith
 	public List<Student> getStudentCourseList(String googleID) {
 		String query = "select from " + Student.class.getName() + " where ID == \"" + googleID + "\"";
 

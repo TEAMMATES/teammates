@@ -16,7 +16,7 @@ import teammates.testing.object.Scenario;
  */
 
 public class CoordHomePageHTMLTest extends TestCase {
-	static Scenario scn = Scenario.scenarioForPageVerification("target/test-classes/data/page_verification.json");
+	static Scenario scn = Scenario.scenarioForPageVerification("target/test-classes/data/landing_page_testing.json");
 	static BrowserInstance bi;
 
 	@BeforeClass
