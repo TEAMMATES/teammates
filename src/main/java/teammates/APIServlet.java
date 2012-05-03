@@ -96,7 +96,7 @@ public class APIServlet extends HttpServlet {
         } else if (action.equals("cleanup")) {
                 totalCleanup();
         } else if (action.equals("cleanup_course")) {
-                cleanupCourse();
+                deleteCourse();
         } else if (action.equals("cleanup_by_coordinator")) {
                 totalCleanupByCoordinator();
         } else if (action.equals("enroll_students")) {
@@ -337,24 +337,34 @@ public class APIServlet extends HttpServlet {
 	/**
 	 * Clean up everything about a particular course
 	 */
-	protected void cleanupCourse() {
+	protected void deleteCourse() {
 		
 		String courseID = req.getParameter("course_id");
 		System.out.println("APIServlet.cleanupCourse() courseID = " + courseID);
-		// Delete course and enrolled students
-		try {
-			Courses.inst().cleanUpCourse(courseID);
+		cascaseDeleteCourse(courseID);
+	}
+
+	/**
+	 * Deletes a course and all data associated with it: students, evaluations, 
+	 *    team profiles, team-forming sessions
+	 * @param courseID
+	 */
+	private void cascaseDeleteCourse(String courseID) {
+		
+			try {
+				Courses.inst().cleanUpCourse(courseID);
+			} catch (CourseDoesNotExistException e) {
+				System.out.println("Course "+courseID+" could not be deleted because " +
+						"it does not exist");
+				return;
+			}
 			Evaluations.inst().deleteEvaluations(courseID);
 			TeamForming teamForming = TeamForming.inst();
             if (teamForming.getTeamFormingSession(courseID, null) != null)
             	teamForming.deleteTeamFormingSession(courseID);
             if(teamForming.getTeamFormingLogList(courseID)!=null)
             	teamForming.deleteTeamFormingLog(courseID);
-		} catch (CourseDoesNotExistException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// TODO: clean up course
+		
 	}
 
 	protected void courseAdd() throws IOException {
