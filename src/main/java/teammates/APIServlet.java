@@ -324,6 +324,7 @@ public class APIServlet extends HttpServlet {
 	 * @author wangsha
 	 * @date Sep 8, 2011
 	 */
+	//TODO: this method does not do a 'total cleanup'
 	protected void totalCleanupByCoordinator() {
 		String coordID = req.getParameter("coordinator_id");
 		try {
