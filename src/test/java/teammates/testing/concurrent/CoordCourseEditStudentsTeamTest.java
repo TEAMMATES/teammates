@@ -1,7 +1,6 @@
 package teammates.testing.concurrent;
 
 import static org.junit.Assert.assertEquals;
-import static teammates.testing.lib.Utils.tprintln;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -12,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
+import teammates.testing.lib.SharedLib;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Scenario;
 import teammates.testing.object.Student;
@@ -82,7 +82,7 @@ public class CoordCourseEditStudentsTeamTest extends TestCase {
 		bi.gotoCourses();
 		bi.enrollStudents(scn.students, scn.course.courseId);
 
-		tprintln("Creating second evaluation.");
+		SharedLib.tprintln("Creating second evaluation.");
 		bi.addEvaluation(scn.evaluation2);
 		
 		TMAPI.openEvaluation(scn.course.courseId, scn.evaluation2.name);

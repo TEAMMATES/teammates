@@ -1,7 +1,6 @@
 package teammates.testing.concurrent;
 
 import static org.junit.Assert.assertEquals;
-import static teammates.testing.lib.Utils.tprintln;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -9,6 +8,7 @@ import org.junit.Test;
 
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
+import teammates.testing.lib.SharedLib;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Scenario;
 
@@ -55,7 +55,7 @@ public class CoordEvaluationResultsViewTest extends TestCase {
 
 	//testCoordViewSummaryByReviewerSuccessful
 	public void testCoordViewSummaryByReviewerSuccessful() throws Exception {
-		tprintln("TestCoordResultsView: View Report Summary by Reviewer");
+		SharedLib.tprintln("TestCoordResultsView: View Report Summary by Reviewer");
 
 		// Click Evaluation Tab
 		bi.gotoEvaluations();
@@ -85,7 +85,7 @@ public class CoordEvaluationResultsViewTest extends TestCase {
 
 	//testCoordViewSummaryByRevieweeSuccessful
 	public void testCoordViewSummaryByRevieweeSuccessful() throws Exception {
-		tprintln("TestCoordResultsView: testViewSummaryByReviewee ");
+		SharedLib.tprintln("TestCoordResultsView: testViewSummaryByReviewee ");
 		
 		// Click Evaluation Tab
 		bi.gotoEvaluations();
@@ -120,7 +120,7 @@ public class CoordEvaluationResultsViewTest extends TestCase {
 
 	//testCoordViewDetailByReviewerSuccessful
 	public void testCoordViewDetailByReviewerSuccessful() throws Exception {
-		tprintln("TestCoordResultsView: test view detail by reviewer");
+		SharedLib.tprintln("TestCoordResultsView: test view detail by reviewer");
 		// Click Evaluation Tab
 		bi.gotoEvaluations();
 
@@ -139,7 +139,7 @@ public class CoordEvaluationResultsViewTest extends TestCase {
 
 	//testCoordViewDetailByRevieweeSuccessful
 	public void testCoordViewDetailByRevieweeSuccessful() throws Exception {
-		tprintln("TestCoordResultsView: test view detail by reviewee");
+		SharedLib.tprintln("TestCoordResultsView: test view detail by reviewee");
 		// Click Evaluation Tab
 		bi.gotoEvaluations();
 
@@ -159,7 +159,7 @@ public class CoordEvaluationResultsViewTest extends TestCase {
 	}
 
 	public void testCoordClickPublishButtonSuccessful() throws Exception {
-		tprintln("TestCoordResultsView: test publish");
+		SharedLib.tprintln("TestCoordResultsView: test publish");
 		// Click Evaluation Tab
 		bi.gotoEvaluations();
 

@@ -1,7 +1,6 @@
 package teammates.testing.concurrent;
 
 import static org.junit.Assert.*;
-import static teammates.testing.lib.Utils.tprintln;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -10,6 +9,7 @@ import org.junit.Test;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
+import teammates.testing.lib.SharedLib;
 
 /**
  * Test Coordinator Login, Logout
@@ -19,14 +19,14 @@ public class CoordLoginTest extends TestCase {
 
 	@BeforeClass
 	public static void classSetup() {
-		tprintln("========== TestCoordLogin");
+		SharedLib.tprintln("========== TestCoordLogin");
 		bi = BrowserInstancePool.request();
 	}
 
 	@AfterClass
 	public static void classTearDown() {
 		BrowserInstancePool.release(bi);
-		tprintln("TestCoordLogin ==========//");
+		SharedLib.tprintln("TestCoordLogin ==========//");
 	}
 
 	/**
