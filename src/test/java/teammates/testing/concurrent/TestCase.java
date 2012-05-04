@@ -6,6 +6,7 @@ import teammates.testing.object.Scenario;
  * Base class for all testing classes.
  * 
  * TODO: Rename to something nicer
+ * TODO: should this be parent class? does not look like a good inheritance relationship
  * 
  */
 public class TestCase {

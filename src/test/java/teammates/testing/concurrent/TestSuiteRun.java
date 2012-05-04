@@ -36,6 +36,7 @@ import teammates.testing.junit.TeammatesServletTest;
 	CoordEvaluationAddTest.class,
 	CoordEvaluationAddWithEmptyTeamNameTest.class,
 	CoordEvaluationEditTest.class,
+//	CoordEvaluationResultsSortTest.class, //empty class, to be filled later
 //	CoordEvaluationListTest.class, //why disabled? has email tests, seems broken
 	CoordEvaluationResultsEditTest.class,
 	CoordEvaluationResultsViewTest.class,
@@ -65,6 +66,7 @@ import teammates.testing.junit.TeammatesServletTest;
 	CoordTeamFormingSessionManageTest.class,
 	CoordTeamFormingSessionAddTest.class,
 	CoordTeamFormingSessionAddWithoutStudentsTest.class,
+	SystemTeamFormingOpenAndRemindTest.class,
 
 	StudentTeamFormingSessionActionsTest.class,
 	StudentTeamFormingSessionEditProfilesTest.class,
