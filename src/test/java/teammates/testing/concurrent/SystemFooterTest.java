@@ -63,6 +63,7 @@ public class SystemFooterTest extends TestCase {
 	
 	private void testFooter() {
 		assertNotNull(bi.getElementText(bi.footer));
+		System.out.println(bi.getElementText(bi.footer));
 		assertTrue((bi.getElementText(bi.footer)).contains("[TEAMMATES Version"));
 		assertTrue((bi.getElementText(bi.footer)).contains(bi.FOOTER));
 		// difference of index of 'n' in Version and the ']' in the format

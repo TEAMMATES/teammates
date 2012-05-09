@@ -10,6 +10,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -601,7 +602,28 @@ public class TMAPI {
 
 		return ans;
 	}
+	
+	public static String[] getCourses(String coordId) {
+		System.out.println("Getting courses of coordinator:"+coordId);
 
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_COURSES_BY_COORD);
+		params.put(APIServlet.PARAMETER_COORD_ID, coordId);
+		String paramsString = buildParamsString(params);
+		String courseString = makePOSTRequest(paramsString);
+		String[] coursesArray = courseString.split(" ");
+		Arrays.sort(coursesArray);
+		return coursesArray;
+	}
+	
+	public static void deleteCourseByIdNonCascade(String courseId) {
+		System.out.println("Deleting course:"+courseId);
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE);
+		params.put(APIServlet.PARAMETER_COURSE_ID, courseId);
+		String paramsString = buildParamsString(params);
+		String courseString = makePOSTRequest(paramsString);
+		
+	}
+	
 	private static String makePOSTRequest(String data) {
 		try {
 			// http://teammates/api
@@ -630,4 +652,8 @@ public class TMAPI {
 			return e.getMessage();
 		}
 	}
+
+
+
+
 }

@@ -220,6 +220,7 @@ public class Courses {
 	 * @throws CourseDoesNotExistException
 	 *             if the course with the specified ID cannot be found
 	 */
+	//TODO: does this actually delete students, as the comment say?
 	public void deleteCoordinatorCourse(String courseID) throws CourseDoesNotExistException {
 		// Check that the course exists
 		Course course = getCourse(courseID);

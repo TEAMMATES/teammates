@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import teammates.exception.CourseDoesNotExistException;
 import teammates.exception.TeamFormingSessionExistsException;
 import teammates.exception.TeamProfileExistsException;
 import teammates.jdo.Course;
+import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.EnrollmentReport;
 import teammates.jdo.Evaluation;
 import teammates.jdo.Student;
@@ -28,6 +30,8 @@ import teammates.jdo.TeamFormingSession;
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import java.util.logging.Logger;
 
 /**
  * The API Servlet.
@@ -43,9 +47,16 @@ import com.google.gson.reflect.TypeToken;
 @SuppressWarnings("serial")
 public class APIServlet extends HttpServlet {
 	public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER="activate_auto_reminder";
+	public static final String OPERATION_GET_COURSES_BY_COORD="get_courses_by_coord";
+	public static final String OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE = "OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE";
+	
+	public static final String PARAMETER_COURSE_ID = "PARAMETER_COURSE_ID";
+	public static final String PARAMETER_COORD_ID = "coord_id";
 	
 	private HttpServletRequest req;
 	private HttpServletResponse resp;
+	private static final Logger log = Logger.getLogger(APIServlet.class.getName());
+	
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
@@ -74,7 +85,7 @@ public class APIServlet extends HttpServlet {
 		}
 
 		String action = req.getParameter("action");
-        System.out.println(action);
+        log.info(action);
         if (action.equals("evaluation_open")) {
                 evaluationOpen();
         } else if(action.equals("teamformingsession_open")) {
@@ -96,7 +107,7 @@ public class APIServlet extends HttpServlet {
         } else if (action.equals("cleanup")) {
                 totalCleanup();
         } else if (action.equals("cleanup_course")) {
-                deleteCourse();
+                cleanupCourse();
         } else if (action.equals("cleanup_by_coordinator")) {
                 totalCleanupByCoordinator();
         } else if (action.equals("enroll_students")) {
@@ -115,12 +126,23 @@ public class APIServlet extends HttpServlet {
                 disableEmail();
         }  else if (action.equals(OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER)){
                 activateAutomatedReminder();
+        } else if (action.equals(OPERATION_GET_COURSES_BY_COORD)){
+    		String coordID = req.getParameter(PARAMETER_COORD_ID);
+    		String courseIDs = getCoursesByCoordID(coordID);
+    		resp.getWriter().write(courseIDs);
+        } else if (action.equals(OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE)){
+    		String courseID = req.getParameter(PARAMETER_COURSE_ID);
+    		deleteCourseByIdNonCascade(courseID);
         } else {
                 System.err.println("Unknown command: " + action);
         }
 
 		resp.flushBuffer();
 	}
+
+
+
+
 
 	/**
 	 * 
@@ -338,11 +360,11 @@ public class APIServlet extends HttpServlet {
 	/**
 	 * Clean up everything about a particular course
 	 */
-	protected void deleteCourse() {
+	protected void cleanupCourse() {
 		
 		String courseID = req.getParameter("course_id");
 		System.out.println("APIServlet.cleanupCourse() courseID = " + courseID);
-		cascaseDeleteCourse(courseID);
+		cascadeCleanupCourse(courseID);
 	}
 
 	/**
@@ -350,7 +372,7 @@ public class APIServlet extends HttpServlet {
 	 *    team profiles, team-forming sessions
 	 * @param courseID
 	 */
-	private void cascaseDeleteCourse(String courseID) {
+	private void cascadeCleanupCourse(String courseID) {
 		
 			try {
 				Courses.inst().cleanUpCourse(courseID);
@@ -585,4 +607,29 @@ public class APIServlet extends HttpServlet {
 	        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/automatedreminders");
 	        dispatcher.forward(this.req, this.resp);
 		}
+	
+
+
+	private String getCoursesByCoordID(String coordID) {
+		String query = "select from " + Course.class.getName() + " where coordinatorID == '" + coordID + "'";
+
+		@SuppressWarnings("unchecked")
+		List<Course> courseList = (List<Course>) getPM().newQuery(query).execute();
+		String courseIDs = "";
+		
+		for (Course c : courseList) {
+			courseIDs = courseIDs + c.getID()+" ";
+		}
+		return courseIDs.trim();
+	}
+	
+	private void deleteCourseByIdNonCascade(String courseID) {
+		System.out.println("deleteCourseByIdNonCascade called for course: "+courseID);
+		Courses courses = Courses.inst();
+		try {
+			courses.deleteCoordinatorCourse(courseID);
+		} catch (CourseDoesNotExistException e) {
+			log.warning("Trying to delete non existent course "+courseID);
+		}
+	}
 }
