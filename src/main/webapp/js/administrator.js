@@ -102,7 +102,7 @@ function isGoogleIDValid(googleID)
 		return false;
 	}
 	
-	else if(googleID.match(/^[a-zA-Z0-9 .-]*$/) == null)
+	else if(googleID.match(/^[a-zA-Z0-9@ .-]*$/) == null)
 	{
 		return false;
 	}
