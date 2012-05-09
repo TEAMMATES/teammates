@@ -1,5 +1,5 @@
 {
-  "coordinator": {"username": "teammates.test"},
+  "coordinator": {"username": "teammates.demo.coord"},
   
   "courses": [
     {
@@ -47,53 +47,53 @@
   
   "students": [
     {
-      "email": "alice.tmms@gmail.com",
-      "name": "Alice",
+      "email": "alice.b.tmms@gmail.com",
+      "name": "Alice Betsy",
       "team": "Team 1",
-      "google_id": "alice.tmms"
+      "google_id": "alice.b.tmms"
     },
     {
-      "email": "benny.tmms@gmail.com",
-      "name": "Benny",
-      "google_id": "benny.tmms",
+      "email": "benny.c.tmms@gmail.com",
+      "name": "Benny Charles",
+      "google_id": "benny.c.tmms",
       "team": "Team 1"
     },
     {
-      "email": "charlie.tmms@gmail.com",
-      "name": "Charlie",
-      "google_id": "charlie.tmms",
+      "email": "charlie.d.tmms@gmail.com",
+      "name": "Charlie Davis",
+      "google_id": "charlie.d.tmms",
       "team": "Team 2"
     },
     {
-      "email": "danny.tmms@gmail.com",
-      "name": "Danny",
-      "google_id": "danny.tmms",
+      "email": "danny.e.tmms@gmail.com",
+      "name": "Danny Engrid",
+      "google_id": "danny.e.tmms",
       "team": "Team 2"
     }
   ],
   "students2": [
     {
-      "email": "alice.tmms@gmail.com",
-      "name": "Alice",
+      "email": "alice.b.tmms@gmail.com",
+      "name": "Alice Betsy",
       "team": "Team 1",
-      "google_id": "alice.tmms"
+      "google_id": "alice.b.tmms"
     },
     {
-      "email": "benny.tmms@gmail.com",
-      "name": "Benny",
-      "google_id": "benny.tmms",
+      "email": "benny.c.tmms@gmail.com",
+      "name": "Benny Charles",
+      "google_id": "benny.c.tmms",
       "team": "Team 1"
     },
     {
-      "email": "charlie.tmms@gmail.com",
-      "name": "Charlie",
-      "google_id": "charlie.tmms",
+      "email": "charlie.d.tmms@gmail.com",
+      "name": "Charlie Davis",
+      "google_id": "charlie.d.tmms",
       "team": "Team 2"
     },
     {
-      "email": "danny.tmms@gmail.com",
-      "name": "Danny",
-      "google_id": "danny.tmms",
+      "email": "danny.e.tmms@gmail.com",
+      "name": "Danny Engrid",
+      "google_id": "danny.e.tmms",
       "team": "Team 2"
   
     }
