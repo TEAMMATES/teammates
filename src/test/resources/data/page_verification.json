@@ -1,5 +1,9 @@
 {
-  "coordinator": {"username": "teammates.demo.coord"},
+  "coordinator": {
+    "username": "teammates.demo.coord",
+    "name" : "Teammates Demo Coordinator",
+    "email" : "teammates.demo.coord@gmail.com",
+    },
   
   "courses": [
     {

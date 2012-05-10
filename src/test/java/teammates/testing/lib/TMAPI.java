@@ -603,7 +603,8 @@ public class TMAPI {
 		return ans;
 	}
 	
-	public static String[] getCourses(String coordId) {
+	//TODO: modify to use Json format?
+	public static String[] getCoursesByCoordId(String coordId) {
 		System.out.println("Getting courses of coordinator:"+coordId);
 
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_COURSES_BY_COORD);
@@ -616,12 +617,40 @@ public class TMAPI {
 	}
 	
 	public static void deleteCourseByIdNonCascade(String courseId) {
-		System.out.println("Deleting course:"+courseId);
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE);
 		params.put(APIServlet.PARAMETER_COURSE_ID, courseId);
 		String paramsString = buildParamsString(params);
-		String courseString = makePOSTRequest(paramsString);
-		
+		String courseString = makePOSTRequest(paramsString);	
+	}
+	
+	public static void createCoord(String coordId, String coordName,
+			String coordEmail) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_CREATE_COORD);
+		params.put(APIServlet.PARAMETER_COORD_ID, coordId);
+		params.put(APIServlet.PARAMETER_COORD_NAME, coordName);
+		params.put(APIServlet.PARAMETER_COORD_EMAIL, coordEmail);
+		String paramsString = buildParamsString(params);
+		makePOSTRequest(paramsString);	
+	}
+
+	/**
+	 * Gets details of a coordinator.
+	 * @param coordId
+	 * @return Coordinator details in Json format. "null" if no such coord.
+	 */
+	public static String getCoordById(String coordId) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_COORD_BY_ID);
+		params.put(APIServlet.PARAMETER_COORD_ID, coordId);
+		String paramsString = buildParamsString(params);
+		String coordJsonString = makePOSTRequest(paramsString);
+		return coordJsonString;
+	}
+	
+	public static void deleteCoordByIdNonCascading(String coordId) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_DELETE_COORD_NON_CASCADE);
+		params.put(APIServlet.PARAMETER_COORD_ID, coordId);
+		String paramsString = buildParamsString(params);
+		makePOSTRequest(paramsString);
 	}
 	
 	private static String makePOSTRequest(String data) {
@@ -652,6 +681,10 @@ public class TMAPI {
 			return e.getMessage();
 		}
 	}
+
+
+
+
 
 
 

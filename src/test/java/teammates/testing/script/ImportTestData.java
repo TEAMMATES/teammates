@@ -1,5 +1,6 @@
 package teammates.testing.script;
 
+import teammates.testing.config.Config;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Scenario;
 
@@ -18,8 +19,27 @@ import teammates.testing.object.Scenario;
 public class ImportTestData {
 
 	public static void main(String args[]) {
+		System.out.println("====[START of Importing test data]====");
+		setupPageVerificationData();
+		setupOtherTestData();
+		System.out.println("====[END of Importing test data]====");	
+	}
+
+	private static void setupOtherTestData() {
+		System.out.println("Creating coordinators for testing ...");
+		TMAPI.createCoord(Config.inst().TEAMMATES_COORD_ID, "Coordinator", "teammates.coord@gmail.com");
+		TMAPI.createCoord("teammates.test", "Coordinator", "teammates.test@gmail.com");
+	}
+
+	private static void setupPageVerificationData() {
+		System.out.println("Importing data for page verification ...");
 		Scenario sc = Scenario.scenarioForPageVerification("target/test-classes/data/page_verification.json");
+		
+		//TODO: may be unify terms id, googleid, username (w.r.t. coordinator)?
+		//TODO: do a cascade delete of the coord
 		TMAPI.cleanupByCoordinator(sc.coordinator.username);
+		
+		TMAPI.createCoord(sc.coordinator.username, sc.coordinator.name, sc.coordinator.email);
 
 		// -----Course 1-----//
 		TMAPI.createCourse(sc.course, sc.coordinator.username);
@@ -53,6 +73,5 @@ public class ImportTestData {
 		// ..evaluation 5 OPEN
 		TMAPI.createEvaluation(sc.evaluation5);
 		TMAPI.openEvaluation(sc.course2.courseId, sc.evaluation5.name);
-
 	}
 }

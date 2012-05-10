@@ -16,9 +16,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.exception.AccountExistsException;
 import teammates.exception.CourseDoesNotExistException;
 import teammates.exception.TeamFormingSessionExistsException;
 import teammates.exception.TeamProfileExistsException;
+import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
 import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.EnrollmentReport;
@@ -46,16 +48,23 @@ import java.util.logging.Logger;
  */
 @SuppressWarnings("serial")
 public class APIServlet extends HttpServlet {
-	public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER="activate_auto_reminder";
-	public static final String OPERATION_GET_COURSES_BY_COORD="get_courses_by_coord";
+	public static final String OPERATION_CREATE_COORD = "OPERATION_CREATE_COORD";
+	public static final String OPERATION_DELETE_COORD_NON_CASCADE = "OPERATION_DELETE_COORD_NON_CASCADE";
 	public static final String OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE = "OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE";
+	public static final String OPERATION_GET_COORD_BY_ID = "OPERATION_GET_COORD_BY_ID";
+	public static final String OPERATION_GET_COURSES_BY_COORD="get_courses_by_coord";
+	public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER="activate_auto_reminder";
+	
 	
 	public static final String PARAMETER_COURSE_ID = "PARAMETER_COURSE_ID";
-	public static final String PARAMETER_COORD_ID = "coord_id";
+	public static final String PARAMETER_COORD_EMAIL = "PARAMETER_COORD_EMAIL";
+	public static final String PARAMETER_COORD_ID = "PARAMETER_COORD_ID";
+	public static final String PARAMETER_COORD_NAME = "PARAMETER_COORD_NAME";
 	
 	private HttpServletRequest req;
 	private HttpServletResponse resp;
 	private static final Logger log = Logger.getLogger(APIServlet.class.getName());
+	
 	
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -133,15 +142,24 @@ public class APIServlet extends HttpServlet {
         } else if (action.equals(OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE)){
     		String courseID = req.getParameter(PARAMETER_COURSE_ID);
     		deleteCourseByIdNonCascade(courseID);
+        }else if (action.equals(OPERATION_GET_COORD_BY_ID)){
+    		String coordID = req.getParameter(PARAMETER_COORD_ID);
+    		String coordJsonString = getCoordByID(coordID);
+    		resp.getWriter().write(coordJsonString);
+        }else if (action.equals(OPERATION_CREATE_COORD)){
+        	String coordID = req.getParameter(PARAMETER_COORD_ID);
+        	String coordName = req.getParameter(PARAMETER_COORD_NAME);
+    		String coordEmail = req.getParameter(PARAMETER_COORD_EMAIL);
+    		createCoord(coordID, coordName, coordEmail);
+        }else if (action.equals(OPERATION_DELETE_COORD_NON_CASCADE)){
+    		String coordId = req.getParameter(PARAMETER_COORD_ID);
+    		deleteCoordByIdNonCascade(coordId);
         } else {
                 System.err.println("Unknown command: " + action);
         }
 
 		resp.flushBuffer();
 	}
-
-
-
 
 
 	/**
@@ -624,12 +642,41 @@ public class APIServlet extends HttpServlet {
 	}
 	
 	private void deleteCourseByIdNonCascade(String courseID) {
-		System.out.println("deleteCourseByIdNonCascade called for course: "+courseID);
 		Courses courses = Courses.inst();
 		try {
 			courses.deleteCoordinatorCourse(courseID);
 		} catch (CourseDoesNotExistException e) {
-			log.warning("Trying to delete non existent course "+courseID);
+			log.warning("Trying to delete non-existent course "+courseID);
 		}
+	}
+	
+	private String getCoordByID(String coordID) {
+		Accounts accounts = Accounts.inst();
+		Coordinator coord = accounts.getCoordinator(coordID);
+		if(coord==null){
+			log.warning("Trying to get non-existent coord "+coordID);
+		}
+		return (new Gson()).toJson(coord);
+	}
+	
+	private void createCoord(String coordID, String coordName, String coordEmail) {
+		Accounts accounts = Accounts.inst();
+
+		try {
+			accounts.addCoordinator(coordID, coordName, coordEmail);
+		}catch (AccountExistsException e) {
+			log.warning("Trying to create a coordinator that already exists: "+coordID);
+		}
+		
+	}
+	
+	private void deleteCoordByIdNonCascade(String coordId) {
+		Accounts accounts = Accounts.inst();
+		try {
+			accounts.deleteCoordinatorNonCascade(coordId);
+		} catch (Exception e) {
+			log.warning("problem while trying to delete coordinator"+coordId+"\n error:"+ e.getMessage());
+		}
+		
 	}
 }

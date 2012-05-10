@@ -1,5 +1,5 @@
 {
-  "coordinator": {"username": "teammates.coord"},
+  "coordinator": {"username": "teammates.coord", "name":"Coordinator", "email":"teammates.coord@gmail.com"},
   "course": {
     "id": "CS2103-TESTING",
     "name": "Software Engineering"

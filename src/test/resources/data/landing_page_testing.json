@@ -1,5 +1,5 @@
 {
-  "coordinator": {"username": "teammates.test"},
+  "coordinator": {"username": "teammates.test", "name":"Coordinator", "email":"teammates.test@gmail.com"},
   
   "courses": [
     {

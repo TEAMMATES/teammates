@@ -5,8 +5,10 @@ import java.util.List;
 import javax.jdo.PersistenceManager;
 
 import teammates.exception.AccountExistsException;
+import teammates.exception.CourseDoesNotExistException;
 import teammates.jdo.Account;
 import teammates.jdo.Coordinator;
+import teammates.jdo.Course;
 import teammates.jdo.Student;
 
 import com.google.appengine.api.users.User;
@@ -223,6 +225,16 @@ public class Accounts {
 		}
 
 		return false;
+	}
+	
+	public void deleteCoordinatorNonCascade(String coordId) throws Exception {
+		Coordinator coord = getCoordinator(coordId);
+		
+		if(coord == null) {
+			throw new Exception("Trying to delete non-existent coordinataor: "+coordId);
+		}
+		
+		getPM().deletePersistent(coord);
 	}
 
 }
