@@ -9,7 +9,7 @@ var DISPLAY_EVALUATION_DEADLINEPASSED = "The evaluation deadline has passed.";
 var DISPLAY_EVALUATION_SUBMITTED = "The evaluation has been submitted.";
 var DISPLAY_FIELDS_EMPTY = "<FONT color=\"red\">Please fill in all the relevant fields.</font>";
 var DISPLAY_LOADING = "<img src=/images/ajax-loader.gif /><br />";
-var DISPLAY_SERVERERROR = "Connection to the server has timed out. Please refresh the page.";
+
 var DISPLAY_STUDENT_GOOGLEIDEXISTSINCOURSE = "<FONT color=\"red\">You are already registered in the course.</font>";
 var DISPLAY_STUDENT_JOINEDCOURSE = "You have successfully joined the course.";
 var DISPLAY_STUDENT_REGISTRATIONKEYINVALID = "<FONT color=\"red\">Registration key is invalid.</font>";

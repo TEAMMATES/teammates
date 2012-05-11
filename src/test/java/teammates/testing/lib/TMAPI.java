@@ -322,7 +322,7 @@ public class TMAPI {
 	 **/
 	public static void studentsSubmitDynamicFeedbacks(List<Student> students, String courseId, String evaluationName, String[] submissionPoints) throws IOException{
 		//TODO: validate submission data set.
-		System.out.println("submit dynamic feedbacks");
+		System.out.println("submit dynamic feedbacks:\n\tstudents==>"+students.toString()+"\n\tcourseID==>"+courseId+"\n\tevaluationName==>"+evaluationName+"\n\tsubmissionPoints==>"+Arrays.toString(submissionPoints));
 		int i = 0;
 		for (Student s : students) {
 			String points = getSubmissionPoints(submissionPoints[i]);

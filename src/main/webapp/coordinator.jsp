@@ -30,6 +30,7 @@
 	<script language="JavaScript" src="/js/constants.js"></script>
 	<script language="JavaScript" src="/js/common.js"></script>
 	<script language="JavaScript" src="/js/coordinator.js"></script>
+	<script language="JavaScript" src="/js/coordCoursePage.js"></script>
 	<script language="JavaScript" src="/js/teamForming.js"></script>
 
 </head>
