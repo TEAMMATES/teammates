@@ -1958,7 +1958,8 @@ public class BrowserInstance {
 		int counter = 0;
 		while (true) {
 
-			System.out.println(locator + ": " + getElementText(locator));
+			System.out.println("Looking for:"+locator + ": " + value);
+			System.out.println("But found  :"+locator + ": " + getElementText(locator));
 			if (isElementPresent(locator) && getElementText(locator).equals(value))
 				return;
 			if (counter++ > 50)

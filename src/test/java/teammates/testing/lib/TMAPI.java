@@ -623,6 +623,12 @@ public class TMAPI {
 		String courseString = makePOSTRequest(paramsString);	
 	}
 	
+	public static void deleteCourseByIdCascade(String courseId) {
+		// TODO implement this fully
+		 deleteCourseByIdNonCascade(courseId);
+		
+	}
+	
 	public static void createCoord(String coordId, String coordName,
 			String coordEmail) {
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_CREATE_COORD);
@@ -681,6 +687,8 @@ public class TMAPI {
 			return e.getMessage();
 		}
 	}
+
+
 
 
 

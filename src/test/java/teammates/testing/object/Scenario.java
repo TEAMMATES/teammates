@@ -39,7 +39,7 @@ public class Scenario {
 	/**
 	 * 
 	 */
-	public void scrambleScenario() {
+	public void randomizeCourseId() {
 		Random g = new Random();
 		Integer n = g.nextInt(99999);
 		String suffix = "r" + n.toString();

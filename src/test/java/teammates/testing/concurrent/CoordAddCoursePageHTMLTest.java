@@ -40,4 +40,6 @@ public class CoordAddCoursePageHTMLTest extends TestCase {
 		bi.gotoCourses();
 		bi.verifyObjectHTML("target/test-classes/pages/coordListCourseByID.html", LIST_COURSE_TAG);
 	}
+	
+	//TODO: test sorting separately?
 }
