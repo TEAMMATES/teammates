@@ -37,16 +37,6 @@ public class TestCase {
 		s.randomizeCourseId();
 		return s;
 	}
-	
-	//TODO: modify other setupScenario.... methods to follow this one -damith
-		//i.e. 1. method name should be changed, 
-		//     2. '.json' should be part of the parameter
-		//     3. parameter name should be jsonFileName
-	protected static Scenario loadTestData(String jsonFileName) {
-		Scenario s = Scenario.fromJSONFile(TEST_DATA_FOLDER + jsonFileName );
-		s.randomizeCourseId();
-		return s;
-	}
 
 	protected static Scenario setupNewScenarioInstance(String name) {
 		Scenario s = Scenario.newScenario(TEST_DATA_FOLDER + name + ".json");
@@ -58,6 +48,18 @@ public class TestCase {
 		Scenario s = Scenario.scenarioForBumpRatioTest(TEST_DATA_FOLDER + name + ".json", index);
 		s.randomizeCourseId();
 		return s;
+	}
+	
+	public static void printTestCaseHeader(String testCaseName){
+		System.out.println("[TestCase]------------:"+testCaseName);
+	}
+	
+	public static void printTestClassHeader(String testClassName){
+		System.out.println("[============================="+testClassName);
+	}
+	
+	public static void printTestClassFooter(String testClassName){
+		System.out.println(testClassName+"=============================]");
 	}
 
 	// Does Java support late static binding?

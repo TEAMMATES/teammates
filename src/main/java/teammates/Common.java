@@ -4,7 +4,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Utils {
+public class Common {
+	
+	//datafield sizes
+	public static int COURSE_NAME_MAX_LENGTH = 38;
+	public static int COURSE_ID_MAX_LENGTH = 21;
+	
 	public static void println(String message) {
 		System.out.println(String.format("[%d - %s] %s", Thread.currentThread()
 				.getId(), Thread.currentThread().getName(), message));

@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import com.google.gson.Gson;
 
+import teammates.Common;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.lib.SharedLib;
@@ -28,16 +29,13 @@ import teammates.testing.object.TeamFormingSession;
 
 
 public class CoordCourseAddUITest extends TestCase {
-	static BrowserInstance bi;
-	static TestScenario ts; 
-	
-	private static int COURSE_NAME_MAX_LENGTH = 38;
-	private static int COURSE_ID_MAX_LENGTH = 21;
+	private static BrowserInstance bi;
+	private static TestScenario ts; 
 	
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		System.out.println("========== CoordCourseAddTest");
+		printTestClassHeader("CoordCourseAddUITest");
 		ts = loadTestScenario();
 		bi = BrowserInstancePool.request();
 		
@@ -54,19 +52,16 @@ public class CoordCourseAddUITest extends TestCase {
 		TMAPI.deleteCourseByIdCascade(ts.courseWithSameNameDifferentId.courseId);
 		
 		BrowserInstancePool.release(bi);
-		System.out.println("CoordCourseAddTest ==========//");
+		printTestClassFooter("CoordCourseAddUITest");
 	}
 	
 	
-	/**
-	 * Test: coordinator Add Course successfully
-	 * Condition: 
-	 * Action: enter valid courseID and course name
-	 * Expectation: new course added in the course list, show successful message
-	 * */
 	@Test
 	public  void testCoordAddCourseSuccessful() {
-		System.out.println("testCoordAddCourseSuccessful");
+		printTestCaseHeader("testCoordAddCourseSuccessful");
+		
+		//make sure the course does not exist already
+		TMAPI.deleteCourseByIdCascade(ts.validCourse.courseId);
 		
 		//course id: only contains alphabets, numbers, dots, hyphens, underscores and dollars
 		String courseID = ts.validCourse.courseId;
@@ -74,31 +69,24 @@ public class CoordCourseAddUITest extends TestCase {
 		String courseName = ts.validCourse.courseName;
 		
 		//add course:
-		bi.gotoCourses();
+		bi.clickCourseTab();
 		bi.addCourse(courseID, courseName);
 		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_COURSE_ADDED);
 		
-		//verify course added:
+		//verify course is added:
 		bi.clickCourseTab();
 		bi.verifyAddedCourse(courseID, courseName);
 		
-		//delete course:
-		TMAPI.deleteCourseByIdCascade(ts.validCourse.courseId);
 	}
 	
 	
 	
-	/**
-	 * Test: CoordAddCourseWithInvalidInputsFailed
-	 * Condition:
-	 * Action: enter invalid courseID or course name
-	 * Expectation: course not added, show error message
-	 * */
 	@Test
 	public void testCoordAddCourseWithInvalidInputsFailed() {
-		System.out.println("testCoordAddCourseWithInvalidInputsFailed");
+		printTestCaseHeader("testCoordAddCourseWithInvalidInputsFailed");
 
-		// Trying adding course without ID
+		// Trying to add a course without ID
+		bi.clickCourseTab();
 		bi.addCourse("", ts.validCourse.courseName);
 		bi.waitForElementText(bi.statusMessage, bi.ERROR_COURSE_MISSING_FIELD);
 		
@@ -113,40 +101,38 @@ public class CoordCourseAddUITest extends TestCase {
 	
 	@Test
 	public  void testMaxLengthOfInputFields()	{
-		System.out.println("testMaxLengthOfInputFields");
+		printTestCaseHeader("testMaxLengthOfInputFields");
+		
 		bi.gotoCourses();
 		String shortCourseName = "This is a short name for course";
-		String longCourseName = "This is a long name for course which exceeds " + COURSE_NAME_MAX_LENGTH+ "char limit";
+		assertTrue(shortCourseName.length()<Common.COURSE_NAME_MAX_LENGTH);
+		
+		String longCourseName = "This is a long name for course which exceeds " + Common.COURSE_NAME_MAX_LENGTH+ "char limit";
+		assertTrue(longCourseName.length()>Common.COURSE_NAME_MAX_LENGTH);
+		
 		String shortCourseId = "CS2103-SEM1-AY11/12";
+		assertTrue(shortCourseId.length()<Common.COURSE_ID_MAX_LENGTH);
+		
 		String longCourseId = "CS2103-SOFTWAREENGINEERING-SEM1-AY2011/2012";
+		assertTrue(longCourseId.length()>Common.COURSE_ID_MAX_LENGTH);
 		
 		assertEquals(shortCourseId, bi.fillInCourseID(shortCourseId));
-		assertEquals(longCourseId.substring(0, COURSE_ID_MAX_LENGTH), bi.fillInCourseID(longCourseId));
+		assertEquals(longCourseId.substring(0, Common.COURSE_ID_MAX_LENGTH), bi.fillInCourseID(longCourseId));
 		
 		assertEquals(shortCourseName, bi.fillInCourseName(shortCourseName));
-		assertEquals(longCourseName.substring(0, COURSE_NAME_MAX_LENGTH), bi.fillInCourseName(longCourseName));
+		assertEquals(longCourseName.substring(0, Common.COURSE_NAME_MAX_LENGTH), bi.fillInCourseName(longCourseName));
 		
 	}
 	
-	/**
-	 * Testing: duplicate course
-	 * Condition: a course has been added
-	 * Action: create another course with same ID/name
-	 * Expectation: course not added. show error message
-	 * 
-	 * Relationship: 
-	 * coordinator (1) - (m) course (1) - (m) evaluation
-	 * 
-	 * Scenario: 
-	 * 1 duplicate course under same coordinator
-	 * TODO: 2 duplicate course under different coordinators
-	 **/
+	//TODO: 2 duplicate course under different coordinators
 	@Test
 	public  void testCoordAddCourseWithDuplicateIDFailed() {
-		System.out.println("testCoordAddCourseWithDuplicateIDFailed");
+		printTestCaseHeader("testCoordAddCourseWithDuplicateIDFailed");
 		
 		TMAPI.deleteCourseByIdCascade(ts.validCourse.courseId);
-		TMAPI.createCourse(ts.validCourse);
+		TMAPI.createCourse(ts.validCourse, ts.coordinator.username);
+		
+		bi.clickCourseTab();
 		bi.addCourse(ts.validCourse.courseId, "different course name");
 		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_COURSE_EXISTS);
 		
@@ -154,20 +140,25 @@ public class CoordCourseAddUITest extends TestCase {
 		bi.clickCourseTab();
 		bi.waitForElementPresent(bi.getCourseID(ts.validCourse.courseId));
 		assertTrue(bi.getElementText(bi.getCourseName(ts.validCourse.courseId)).equals(ts.validCourse.courseName));
+		//TODO: this does not exclude the possibility that there are two courses in the list with same id
+	
 	}
+	
 	@Test
-	public  void testCoordAddCourseWithDuplicateNameSuccessful() {
-		System.out.println("testCoordAddCourseWithDuplicateNameSuccessful");
+	public  void testCoordAddCourseWithDuplicateNameSuccessful() throws Exception {
+		printTestCaseHeader("testCoordAddCourseWithDuplicateNameSuccessful");
 		
 		TMAPI.deleteCourseByIdCascade(ts.validCourse.courseId);
-		TMAPI.createCourse(ts.validCourse);
+		TMAPI.createCourse(ts.validCourse, ts.coordinator.username);
 		
+		bi.clickCourseTab();
 		bi.addCourse(ts.courseWithSameNameDifferentId.courseId, ts.validCourse.courseName);
 		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_COURSE_ADDED);
 		
 		//check course added
 		bi.clickCourseTab();
 		bi.verifyAddedCourse(ts.courseWithSameNameDifferentId.courseId, ts.validCourse.courseName);
+
 	}
 	
 	private static TestScenario loadTestScenario() throws JSONException {

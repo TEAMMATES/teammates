@@ -30,7 +30,6 @@ public class Datastore {
 
 		PersistenceManager pm = PER_THREAD_PM.get();
 		if (pm == null) {
-
 			pm = PMF.getPersistenceManager();
 			PER_THREAD_PM.set(pm);
 

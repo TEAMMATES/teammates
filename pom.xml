@@ -63,6 +63,14 @@
       <scope>runtime</scope>
     </dependency>
     
+    <!-- what is the purpose of this jar? -damith -->
+    
+    <dependency>
+      <groupId>net.java.dev.jna</groupId>
+      <artifactId>jna</artifactId>
+      <version>3.3.0</version>
+    </dependency>
+    
     <!-- These dependencies are here just for enabling logging -->
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -92,7 +100,11 @@
       <scope>test</scope>
     </dependency>
 
-
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk15</artifactId>
+      <version>1.38</version>
+    </dependency>
 
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
@@ -101,7 +113,11 @@
        <scope>test</scope>
     </dependency>
 
-
+  <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>10.0.1</version>
+  </dependency>
     
     <!--  Gson: Java to Json conversion -->
     <dependency>
@@ -118,21 +134,21 @@
     <dependency>
       <groupId>com.google.appengine</groupId>
       <artifactId>appengine-api-labs</artifactId>
-      <version>${gae.version}</version>
+      <version>1.6.4</version>
       <scope>test</scope>
     </dependency>
     
     <dependency>
       <groupId>com.google.appengine</groupId>
       <artifactId>appengine-api-stubs</artifactId>
-      <version>${gae.version}</version>
+      <version>1.6.4</version>
       <scope>test</scope>
     </dependency>
     
     <dependency>
       <groupId>com.google.appengine</groupId>
       <artifactId>appengine-testing</artifactId>
-      <version>${gae.version}</version>
+      <version>1.6.4</version>
       <scope>test</scope>
     </dependency>
     

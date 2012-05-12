@@ -409,17 +409,22 @@ public class APIServlet extends HttpServlet {
 	}
 
 	protected void courseAdd() throws IOException {
-		System.out.println("TMAPI.courseAdd() Adding new course");
+		log.info("APIServlet adding new course: ");
 		// String courseID = req.getParameter("course_id");
 		// String courseName = req.getParameter("course_name");
 		String googleID = req.getParameter("google_id");
-		String json = req.getParameter("course");
-
+		String courseJson = req.getParameter("course");
+		
+		
 		Gson gson = new Gson();
-		Course c = gson.fromJson(json, Course.class);
+		Course c = gson.fromJson(courseJson, Course.class);
 		c.setCoordinatorID(googleID);
 
 		getPM().makePersistent(c);
+		
+		log.info("Course added: coord: "+ c.getCoordinatorID()
+				+ " course id: "+c.getID()
+				+ " course name: "+c.getName());
 
 		resp.getWriter().write("ok");
 	}

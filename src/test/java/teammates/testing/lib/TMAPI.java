@@ -113,7 +113,7 @@ public class TMAPI {
 	}
 	
 	public static void createCourse(Course course, String coordId) {
-		System.out.println("Creating course.");
+		System.out.println("TMAPI Creating course: "+course.courseId);
 
 		HashMap<String, Object> params = createParamMap("course_add");
 		params.put("google_id", coordId);
@@ -605,7 +605,7 @@ public class TMAPI {
 	
 	//TODO: modify to use Json format?
 	public static String[] getCoursesByCoordId(String coordId) {
-		System.out.println("Getting courses of coordinator:"+coordId);
+		System.out.println("TMAPI Getting courses of coordinator:"+coordId);
 
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_COURSES_BY_COORD);
 		params.put(APIServlet.PARAMETER_COORD_ID, coordId);
@@ -617,6 +617,7 @@ public class TMAPI {
 	}
 	
 	public static void deleteCourseByIdNonCascade(String courseId) {
+		System.out.println("TMAPI deleting course (non cascade): " + courseId);
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE);
 		params.put(APIServlet.PARAMETER_COURSE_ID, courseId);
 		String paramsString = buildParamsString(params);

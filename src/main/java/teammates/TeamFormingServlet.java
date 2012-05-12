@@ -346,8 +346,8 @@ public class TeamFormingServlet extends HttpServlet {
 		String instructions = req.getParameter(TEAMFORMING_INSTRUCTIONS);
 		String profileTemplate = req.getParameter(TEAMFORMING_PROFILETEMPLATE);
 		
-		Date start = Utils.convertToDate(startDate, startTime);
-		Date deadline = Utils.convertToDate(deadlineDate, deadlineTime);
+		Date start = Common.convertToDate(startDate, startTime);
+		Date deadline = Common.convertToDate(deadlineDate, deadlineTime);
 		
 		// Add the team forming session		
 		TeamForming teamForming = TeamForming.inst();
@@ -400,7 +400,7 @@ public class TeamFormingServlet extends HttpServlet {
 			deadlineTimeHour++;
 		deadlineTime = deadlineTimeHour;
 		
-		Date deadline = Utils.convertToDate(deadlineDate, deadlineTime);
+		Date deadline = Common.convertToDate(deadlineDate, deadlineTime);
 		TeamForming teamForming = TeamForming.inst();
 		teamForming.deleteTeamFormingSession(courseID, deadline);
 		
@@ -446,8 +446,8 @@ public class TeamFormingServlet extends HttpServlet {
 		String newInstructions = req.getParameter(TEAMFORMING_INSTRUCTIONS);
 		String newProfileTemplate = req.getParameter(TEAMFORMING_PROFILETEMPLATE);
 
-		Date newStart = Utils.convertToDate(newStartDate, newStartTime);
-		Date newDeadline = Utils.convertToDate(newDeadlineDate, newDeadlineTime);
+		Date newStart = Common.convertToDate(newStartDate, newStartTime);
+		Date newDeadline = Common.convertToDate(newDeadlineDate, newDeadlineTime);
 		
 		TeamForming teamForming = TeamForming.inst();
 
@@ -668,7 +668,7 @@ public class TeamFormingServlet extends HttpServlet {
 		String studentEmail = req.getParameter("email");
 		Text message = new Text(req.getParameter("message"));
 		
-		Date now = Utils.convertToExactDateTime(nowDate, nowTime);
+		Date now = Common.convertToExactDateTime(nowDate, nowTime);
 		
 		TeamForming teamForming = TeamForming.inst();
 		teamForming.enterTeamFormingLog(courseID, now, studentName, studentEmail, message);

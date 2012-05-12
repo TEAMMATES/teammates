@@ -476,7 +476,6 @@ public class BrowserInstance {
 		waitAndClick(logoutTab);
 		// Check that we're at the main page after logging out
 		if (Config.inst().isLocalHost()) {
-			cout("localhost testing");
 			selenium.open(Config.inst().TEAMMATES_URL);
 
 		}

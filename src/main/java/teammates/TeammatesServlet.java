@@ -528,8 +528,8 @@ public class TeammatesServlet extends HttpServlet {
 
 			int gracePeriod = Integer.parseInt(req.getParameter(EVALUATION_GRACEPERIOD));
 
-			Date start = Utils.convertToDate(startDate, startTime);
-			Date deadline = Utils.convertToDate(deadlineDate, deadlineTime);
+			Date start = Common.convertToDate(startDate, startTime);
+			Date deadline = Common.convertToDate(deadlineDate, deadlineTime);
 
 			// Add the evaluation
 			Evaluations evaluations = Evaluations.inst();
@@ -617,8 +617,8 @@ public class TeammatesServlet extends HttpServlet {
 
 		int newGracePeriod = Integer.parseInt(req.getParameter(EVALUATION_GRACEPERIOD));
 
-		Date newStart = Utils.convertToDate(newStartDate, newStartTime);
-		Date newDeadline = Utils.convertToDate(newDeadlineDate, newDeadlineTime);
+		Date newStart = Common.convertToDate(newStartDate, newStartTime);
+		Date newDeadline = Common.convertToDate(newDeadlineDate, newDeadlineTime);
 
 		Evaluations evaluations = Evaluations.inst();
 

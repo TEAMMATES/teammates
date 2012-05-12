@@ -95,5 +95,6 @@ public class StudentTeamFormingSessionViewTest extends TestCase {
 		
 		assertTrue(bi.getElementText(By.id("headerOperation")).contains(header.toUpperCase()));
 		assertTrue(bi.isElementPresent(bi.resultBackButton));
+		bi.logout();
 	}
 }
