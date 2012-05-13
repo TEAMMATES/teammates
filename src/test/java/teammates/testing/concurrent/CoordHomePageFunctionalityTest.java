@@ -32,7 +32,7 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		System.out.println("========== CoordLandingPageFunctionalityTest");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 		
 		TMAPI.cleanupByCoordinator(scn.coordinator.username);
 
@@ -72,7 +72,7 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		TMAPI.createEvaluation(scn.evaluation5);
 		TMAPI.openEvaluation(scn.course2.courseId, scn.evaluation5.name);
 		
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 	}
 	
 	@AfterClass
@@ -341,7 +341,7 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		
 		bi.clickAndCancelCoordEvaluationDelete(bi.getCoordDeleteEvaluationLink(FIRST_EVALUATION));
 		bi.justWait();
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_EVALUATION_DELETED);
+		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_DELETED);
 
 		// Due to the manner in which IDs are being assigned to evaluations in the home page, the ID of the originally 2nd
 		// evaluation (and resp. 3rd, 4th and 5th evaluations) changes to 1st (and resp. 2nd, 3rd and 4th) after the previous

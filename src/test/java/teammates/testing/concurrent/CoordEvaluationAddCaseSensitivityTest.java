@@ -23,13 +23,13 @@ public class CoordEvaluationAddCaseSensitivityTest extends TestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		System.out.println("========== CoordEvaluationAddCaseSensitivityTest");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 
 		TMAPI.cleanupCourse(scn.course.courseId);
 		TMAPI.createCourse(scn.course);
 		TMAPI.enrollStudents(scn.course.courseId, scn.students);
 
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 	}
 
 	@AfterClass
@@ -57,7 +57,7 @@ public class CoordEvaluationAddCaseSensitivityTest extends TestCase {
 		Evaluation eval = Evaluation.createEvaluation(scn.course.courseId, EVALUATION_NAME_LOWER, "true", "Please please fill in the forth evaluation", 10);
 		bi.addEvaluation(eval);
 		
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_EVALUATION_ADDED);
+		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_ADDED);
 		assertTrue(bi.isEvaluationPresent(scn.course.courseId, EVALUATION_NAME_LOWER));
 		
 		// EVALUATION 1
@@ -65,7 +65,7 @@ public class CoordEvaluationAddCaseSensitivityTest extends TestCase {
 		bi.addEvaluation(eval);
 		bi.justWait();
 		//TODO: temp sensitive, change to insensitive?
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_EVALUATION_ADDED);
+		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_ADDED);
 		assertTrue(bi.isEvaluationPresent(scn.course.courseId, EVALUATION_NAME_UPPER));
 	}
 	

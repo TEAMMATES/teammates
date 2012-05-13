@@ -20,7 +20,7 @@ public class StudentViewResultsUITest extends TestCase {
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 0);
 
 		TMAPI.createCourse(scn.course);

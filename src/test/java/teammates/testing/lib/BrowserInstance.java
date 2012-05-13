@@ -141,8 +141,15 @@ public class BrowserInstance {
 	public By coordAddCourseButton = By.id("btnAddCourse");
 	public By coordCourseIDSorting = By.id("button_sortcourseid");
 	public By coordCourseNameSorting = By.id("button_sortcoursename");
-	// courses table:
-	public By getCourseID(int row) {
+	
+	// courses table:==========================================================
+	
+	/*
+	 * In each row, the Cell containing course id has an HTML id attribute
+	 * e.g. <tr><td id="courseID1">CS2103-TESTING</td>...</tr>
+	 *  The value depends on the row number. 1st row: "CourseID0", 2nd row: "CourseID1" and so on 
+	 */
+	public By getCourseIdCellLocatorByRowNumber(int row) {
 		return By.id("courseID" + row);
 	}
 	
@@ -162,7 +169,7 @@ public class BrowserInstance {
 		return By.xpath(String.format(DATAFORM_TABLE_CELL + "//a[@class='t_course_delete']", row + 2, 6));
 	}
 	
-	// enrol:
+	// enrol:=====================================================================
 	public By coordEnrolInfo = By.id("information");
 	public By coordEnrolButton = By.id("button_enrol");
 	public By coordEnrolBackButton = By.className("t_back");
@@ -357,19 +364,11 @@ public class BrowserInstance {
 
 	public By footer = By.id("contentFooter");
 
-	/**
-	 * message contents:
-	 */
-	public final String MESSAGE_COURSE_EXISTS = "The course already exists.";
-	public final String MESSAGE_COURSE_ADDED = "The course has been added. Click the 'Enrol' link in the table below to add students to the course.";
-	public final String MESSAGE_COURSE_DELETED = "The course has been deleted.";
-	public final String MESSAGE_COURSE_DELETED_STUDENT = "The student has been removed from the course.";
-	public final String MESSAGE_COURSE_DELETED_ALLSTUDENTS = "All students have been removed from the course. Click here to enrol students.";
+	public final static String MESSAGE_COURSE_DELETED = "The course has been deleted.";
+	public final static String MESSAGE_COURSE_DELETED_STUDENT = "The student has been removed from the course.";
+	public final static String MESSAGE_COURSE_DELETED_ALLSTUDENTS = "All students have been removed from the course. Click here to enrol students.";
 
-	public final String ERROR_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
-	public final String ERROR_COURSE_LONG_COURSE_NAME = "Course name should not exceed 38 characters.";
-	public final String ERROR_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
-
+	public final static String ERROR_COURSE_LONG_COURSE_NAME = "Course name should not exceed 38 characters.";
 	public final String MESSAGE_ENROL_REMIND_TO_JOIN = "Emails have been sent to unregistered students.";
 	public final String ERROR_MESSAGE_ENROL_INVALID_EMAIL = "E-mail address should contain less than 40 characters and be of a valid syntax.";
 	//team forming session
@@ -417,7 +416,7 @@ public class BrowserInstance {
 	 * 
 	 * @page Home page
 	 */
-	public void coordinatorLogin(String username, String password) {
+	public void loginCoord(String username, String password) {
 
 		System.out.println("Logging in coordinator " + username + ".");
 		// Click the Coordinator button on the main page
@@ -760,10 +759,10 @@ public class BrowserInstance {
 	}
 
 
-	public By getCourseID(String courseID) {
-		int row = findCourseRow(courseID);
+	public By getCourseIDCellLocatorByCourseId(String courseID) {
+		int row = findRowNumberContainingCourseId(courseID);
 		if (row > -1) {
-			return getCourseID(row);
+			return getCourseIdCellLocatorByRowNumber(row);
 		} else {
 			fail("Course not found.");
 			return null;
@@ -772,7 +771,7 @@ public class BrowserInstance {
 
 
 	public By getCourseName(String courseID) {
-		int row = findCourseRow(courseID);
+		int row = findRowNumberContainingCourseId(courseID);
 		if (row > -1) {
 			return getCourseName(row);
 		} else {
@@ -787,7 +786,7 @@ public class BrowserInstance {
 	}
 
 	public String getCourseTeams(String courseID) {
-		int row = findCourseRow(courseID);
+		int row = findRowNumberContainingCourseId(courseID);
 		if (row > -1) {
 			return getCourseTeams(row);
 		} else {
@@ -802,7 +801,7 @@ public class BrowserInstance {
 	}
 
 	public String getCourseTotalStudents(String courseID) {
-		int row = findCourseRow(courseID);
+		int row = findRowNumberContainingCourseId(courseID);
 		if (row > -1) {
 			return getCourseTotalStudents(row);
 		} else {
@@ -817,7 +816,7 @@ public class BrowserInstance {
 	}
 
 	public String getCourseUnregisteredStudents(String courseID) {
-		int row = findCourseRow(courseID);
+		int row = findRowNumberContainingCourseId(courseID);
 		if (row > -1) {
 			return getCourseUnregisteredStudents(row);
 		} else {
@@ -831,7 +830,7 @@ public class BrowserInstance {
 	}
 
 	public void clickCourseEnrol(String courseID) {
-		int row = findCourseRow(courseID);
+		int row = findRowNumberContainingCourseId(courseID);
 		if (row > -1) {
 			clickCourseEnrol(row);
 		} else {
@@ -839,9 +838,9 @@ public class BrowserInstance {
 		}
 	}
 
-	private int findCourseRow(String courseID) {
+	private int findRowNumberContainingCourseId(String courseID) {
 		for (int i = 0; i < countTotalCourses(); i++) {
-			if (getElementText(getCourseID(i)).equals(courseID)) {
+			if (getElementText(getCourseIdCellLocatorByRowNumber(i)).equals(courseID)) {
 				return i;
 			}
 		}
@@ -853,7 +852,7 @@ public class BrowserInstance {
 	}
 
 	public void clickCourseView(String courseID) {
-		int row = findCourseRow(courseID);
+		int row = findRowNumberContainingCourseId(courseID);
 		if (row > -1) {
 			clickCourseView(row);
 		} else {
@@ -866,7 +865,7 @@ public class BrowserInstance {
 	}
 
 	public void clickAndConfirmCourseDelete(String courseID) {
-		int row = findCourseRow(courseID);
+		int row = findRowNumberContainingCourseId(courseID);
 		if (row > -1) {
 			clickAndConfirmCourseDelete(row);
 		} else {
@@ -998,7 +997,7 @@ public class BrowserInstance {
 		while (driver.findElements(By.cssSelector("#coordinatorCourseTable tr")).size() > 1 && isElementPresent(By.className("t_course_delete"))) {
 			System.out.println("Deleting a course...");
 			clickAndConfirm(By.className("t_course_delete"));
-			waitForElementText(statusMessage, MESSAGE_COURSE_DELETED);
+			waitForTextInElement(statusMessage, MESSAGE_COURSE_DELETED);
 			gotoCourses();
 		}
 	}
@@ -1742,7 +1741,7 @@ public class BrowserInstance {
 		while (driver.findElements(By.className("t_eval_delete")).size() > 1) {
 			System.out.println("Deleting 1 evaluation...");
 			clickAndConfirm(By.className("t_eval_delete"));
-			waitForElementText(statusMessage, "The evaluation has been deleted.");
+			waitForTextInElement(statusMessage, "The evaluation has been deleted.");
 			gotoEvaluations(); // This is to fix for Datastore delay problem
 		}
 	}
@@ -1952,8 +1951,16 @@ public class BrowserInstance {
 			}
 		}
 	}
+	
+	public void waitForCourseIdToAppearInCourseList(String courseId){
+		waitForElementPresent(getCourseIDCellLocatorByCourseId(courseId));	
+	}
+	
+	public void waitForStatusMessage(String message){
+		waitForTextInElement(statusMessage, message);
+	}
 
-	public void waitForElementText(By locator, String value) {
+	public void waitForTextInElement(By locator, String value) {
 		int counter = 0;
 		while (true) {
 
@@ -2086,6 +2093,10 @@ public class BrowserInstance {
 		WebElement elm = getDriver().findElement(locator);
 		return elm.getText();
 	}
+	
+	public String getCourseNameForCourseId(String courseId){
+		return getElementText(getCourseName(courseId));
+	}
 
 	/**
 	 * Retrieve the element's `value` attribute. Usually used for elements like input, option, etc.
@@ -2206,16 +2217,16 @@ public class BrowserInstance {
 	/**
 	 * Checks that the course has been added Checking for the course details appearing in the table Page: Coordinator home TODO: change to any number of previous courses
 	 */
-	public void verifyAddedCourse(String courseId, String courseName) {
+	public void verifyCourseIsAdded(String courseId, String courseName) {
 		// Check for courseId
-		System.out.println("course id : " + this.getCourseID(this.findCourseRow(courseId)));
-		assertEquals(courseId, this.getElementText(getCourseID(this.findCourseRow(courseId))));
+		System.out.println("course id : " + this.getCourseIdCellLocatorByRowNumber(this.findRowNumberContainingCourseId(courseId)));
+		assertEquals(courseId, this.getElementText(getCourseIdCellLocatorByRowNumber(this.findRowNumberContainingCourseId(courseId))));
 
 		// Check for course name
-		assertEquals(courseName, this.getElementText(getCourseName(this.findCourseRow(courseId))));
+		assertEquals(courseName, this.getElementText(getCourseName(this.findRowNumberContainingCourseId(courseId))));
 
 		// Check for default number of teams - 0
-		assertEquals("0", this.getCourseTeams(this.findCourseRow(courseId)));
+		assertEquals("0", this.getCourseTeams(this.findRowNumberContainingCourseId(courseId)));
 	}
 
 	public boolean isCoursePresent(String courseId, String courseName) {

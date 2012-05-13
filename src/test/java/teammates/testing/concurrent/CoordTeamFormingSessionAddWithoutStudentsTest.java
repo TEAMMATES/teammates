@@ -23,12 +23,12 @@ public class CoordTeamFormingSessionAddWithoutStudentsTest extends TestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		System.out.println("========== CoordTeamFormingSessionAddWithoutStudents");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 
 		TMAPI.cleanupCourse(scn.course.courseId);
 		TMAPI.createCourse(scn.course);
 
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 	}
 
 	@AfterClass
@@ -46,7 +46,7 @@ public class CoordTeamFormingSessionAddWithoutStudentsTest extends TestCase {
 		bi.gotoTeamForming();
 		bi.addTeamFormingSession(scn.teamFormingSession);
 		bi.justWait();
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_TEAMFORMINGSESSION_ADDED_WITH_EMPTY_CLASS);		
+		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_TEAMFORMINGSESSION_ADDED_WITH_EMPTY_CLASS);		
 		System.out.println("========== testCoordTeamFormingSessionAddWithoutStudentsFailed ==========");
 	}
 }

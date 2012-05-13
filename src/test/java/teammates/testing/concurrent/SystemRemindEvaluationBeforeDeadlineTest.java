@@ -23,7 +23,7 @@ public class SystemRemindEvaluationBeforeDeadlineTest extends TestCase {
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 		TMAPI.cleanupCourse(scn.course.courseId);
 
 		TMAPI.createCourse(scn.course);

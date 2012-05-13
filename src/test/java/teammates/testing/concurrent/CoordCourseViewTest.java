@@ -24,7 +24,7 @@ public class CoordCourseViewTest extends TestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		System.out.println("========== CoordCourseViewTest");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 
 		TMAPI.cleanupCourse(scn.course.courseId);
 
@@ -40,7 +40,7 @@ public class CoordCourseViewTest extends TestCase {
 			SharedLib.markAllEmailsSeen(Config.inst().INDIVIDUAL_ACCOUNT, Config.inst().TEAMMATES_APP_PASSWD);
 		}
 		
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 
 	}
 

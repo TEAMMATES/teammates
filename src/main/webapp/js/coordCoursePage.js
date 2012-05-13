@@ -8,16 +8,7 @@ var COURSE_STATUS = "coursestatus";
 var DIV_COURSE_MANAGEMENT = "coordinatorCourseManagement";
 var DIV_COURSE_TABLE = "coordinatorCourseTable";
 
-/**
- * Add Course Constants
- * 
- */
-
-
-/*
- * Add Course Status Code
- * 
- */
+//add course status codes
 var COURSE_STATUS_SERVERERROR = -1;
 var COURSE_STATUS_VALID_INPUT = 0;
 var COURSE_STATUS_SUCCESSFUL = 1;
@@ -28,26 +19,18 @@ var COURSE_STATUS_LONG_NAME = 5;
 var COURSE_STATUS_INVALID_ID = 6;
 var COURSE_STATUS_INVALID_NAME = 7;
 var COURSE_STATUS_DELETED = 8;
-/*
- * Enrol Student Status Code
- * 
- */
+
+//enroll students status codes
 var ENROL_STUDENT_SUCCESSFUL = 1;
 var ENROL_STUDENT_ERROR = 2;
 var ENROL_STUDENT_EMPTY = 3;
 
-/*
- * Add Course Server Response
- * */
+//server responses
 var COURSE_RESPONSE_EXISTS = "course exists";
 var COURSE_RESPONSE_ADDED = "course added";
-
 var COURSE_RESPONSE_DELETED = "course deleted";
 
-/*
- * Add Course Status Message
- *  
- */
+//status messages
 var DISPLAY_COURSE_ADDED = "The course has been added. Click the 'Enrol' link in the table below to add students to the course.";
 var DISPLAY_COURSE_EXISTS = "<font color=\"#F00\">The course already exists.</font>";
 var DISPLAY_COURSE_EMPTY = "<font color=\"#F00\">Course ID and Course Name are compulsory fields.</font>";
@@ -118,6 +101,7 @@ function doAddCourse(courseID, courseName) {
 		return;
 	}
 	
+	//TODO: why do we need this? -damith
 	//server-side request and response
 	if(!xmlhttp) {
 		alert(DISPLAY_ERROR_UNDEFINED_HTTPREQUEST);
@@ -234,7 +218,6 @@ function checkAddCourseParam(courseID, courseName) {
 }
 
 function isCourseIDValid(courseID) {
-
 	return courseID.match(/^[a-zA-Z_$0-9.-]+$/);
 }
 
@@ -291,7 +274,7 @@ function processGetCourseListResponse() {
 	
 	var coursesChildNodesLength = courses.childNodes.length;
 	var courseList = new Array();
-	for (loop = 0; loop < coursesChildNodesLength; loop++) {
+	for (var loop = 0; loop < coursesChildNodesLength; loop++) {
 		course = courses.childNodes[loop];
 		ID = course.getElementsByTagName(COURSE_ID)[0].firstChild.nodeValue;
 		name = course.getElementsByTagName(COURSE_NAME)[0].firstChild.nodeValue;
@@ -356,7 +339,7 @@ function printCourseList(courseList) {
 	// Need counter to take note of archived courses
 	var counter = 0;
 
-	for (loop = 0; loop < courseListLength; loop++) {
+	for (var loop = 0; loop < courseListLength; loop++) {
 		if (courseList[loop].status == "false" || courseViewArchivedStatus == courseViewArchived.show) {
 			// common view:
 			output = output + 
@@ -395,10 +378,10 @@ function printCourseList(courseList) {
 
 	document.getElementById(DIV_COURSE_TABLE).innerHTML = output;
 	document.getElementById('button_sortcourseid').onclick = function() {
-		toggleSortCoursesByID(courseList)
+		toggleSortCoursesByID(courseList);
 	};
 	document.getElementById('button_sortcoursename').onclick = function() {
-		toggleSortCoursesByName(courseList)
+		toggleSortCoursesByName(courseList);
 	};
 }
 

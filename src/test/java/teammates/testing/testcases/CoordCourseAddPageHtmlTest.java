@@ -17,8 +17,8 @@ public class CoordCourseAddPageHtmlTest extends BaseTestCase {
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		bi = BrowserInstancePool.request();
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi = BrowserInstancePool.getBrowserInstance();
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 	}
 
 	@AfterClass

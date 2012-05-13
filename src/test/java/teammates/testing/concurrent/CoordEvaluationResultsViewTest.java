@@ -18,7 +18,7 @@ public class CoordEvaluationResultsViewTest extends TestCase {
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 		TMAPI.cleanupCourse(scn.course.courseId);
 
 		TMAPI.createCourse(scn.course);
@@ -40,7 +40,7 @@ public class CoordEvaluationResultsViewTest extends TestCase {
 	public void testCoordViewEvaluationResults() throws Exception {
 		System.out.println("========== TestCoordCourse");
 
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 
 		testCoordViewSummaryByReviewerSuccessful();
 		testCoordViewSummaryByRevieweeSuccessful();

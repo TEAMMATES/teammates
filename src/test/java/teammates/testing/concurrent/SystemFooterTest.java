@@ -21,7 +21,7 @@ public class SystemFooterTest extends TestCase {
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 	}
 
 	@AfterClass
@@ -43,7 +43,7 @@ public class SystemFooterTest extends TestCase {
 	public void testOnCoordSite() {
 		System.out.println("Test: Footer on Coordinator.jsp.");
 
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 
 		testFooter();
 

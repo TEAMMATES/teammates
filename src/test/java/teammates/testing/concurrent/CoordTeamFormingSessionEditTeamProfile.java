@@ -26,7 +26,7 @@ public class CoordTeamFormingSessionEditTeamProfile extends TestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		System.out.println("========== CoordTeamFormingSessionEditTeamProfile");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 
 		TMAPI.cleanupCourse(scn.course.courseId);
 		TMAPI.createCourse(scn.course);
@@ -37,7 +37,7 @@ public class CoordTeamFormingSessionEditTeamProfile extends TestCase {
 		TMAPI.createProfileOfExistingTeams(scn.course.courseId, scn.course.courseName, teams);
 		TMAPI.createTeamFormingSession(scn.teamFormingSession);
 		
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 	}
 
 	@AfterClass
@@ -66,7 +66,7 @@ public class CoordTeamFormingSessionEditTeamProfile extends TestCase {
 		String newTeamName = "Team 2";
 		bi.wdFillString(bi.inputTeamName, newTeamName);
 		bi.wdClick(bi.saveTeamProfile);
-		bi.waitForElementText(bi.statusMessage, bi.ERROR_MESSAGE_TEAMPROFILE_EXISTS);
+		bi.waitForTextInElement(bi.statusMessage, bi.ERROR_MESSAGE_TEAMPROFILE_EXISTS);
 	}
 	
 	/**
@@ -88,6 +88,6 @@ public class CoordTeamFormingSessionEditTeamProfile extends TestCase {
 		bi.wdFillString(bi.inputTeamName, newTeamName);
 		bi.wdFillString(bi.inputTeamProfile, newTeamProfile);
 		bi.wdClick(bi.saveTeamProfile);
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_TEAMPROFILE_SAVED);
+		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_TEAMPROFILE_SAVED);
 	}
 }

@@ -28,7 +28,7 @@ public class StudentTeamFormingSessionActionsTest extends TestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		System.out.println("========== StudentTeamFormingSessionActionsTest");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 
 		TMAPI.cleanupCourse(scn.course.courseId);
 		TMAPI.createCourse(scn.course);
@@ -89,7 +89,7 @@ public class StudentTeamFormingSessionActionsTest extends TestCase {
 	}
 	
 	public void testCoordinatorCheckStudentTeamsAndLog(ArrayList<Student> students) throws Exception {		
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 		bi.gotoTeamForming();		
 		bi.clickTeamFormingSessionEdit(scn.course.courseId);
 		verifyAllStudents(students);

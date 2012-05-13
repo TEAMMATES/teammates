@@ -24,7 +24,7 @@ public class CoordEvaluationAddTest extends TestCase {
 	public static void classSetup() throws Exception {
 
 		System.out.println("========== CoordEvaluation");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 
 		TMAPI.cleanupCourse(scn.course.courseId);
 		TMAPI.cleanupCourse(scn2.course.courseId);
@@ -34,7 +34,7 @@ public class CoordEvaluationAddTest extends TestCase {
 		TMAPI.enrollStudents(scn.course.courseId, scn.students);
 		TMAPI.enrollStudents(scn2.course.courseId, scn2.students);
 
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 	}
 
 	@AfterClass

@@ -45,7 +45,7 @@ public class CoordCourseEditStudentsTeamTest extends TestCase {
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 		
 
 		TMAPI.cleanupCourse(scn.course.courseId);
@@ -58,7 +58,7 @@ public class CoordCourseEditStudentsTeamTest extends TestCase {
 		TMAPI.openEvaluation(scn.course.courseId, scn.evaluation.name);
 		TMAPI.studentsSubmitFeedbacks(scn.students, scn.course.courseId, scn.evaluation.name);
 
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 	}
 
 	@AfterClass
@@ -69,11 +69,17 @@ public class CoordCourseEditStudentsTeamTest extends TestCase {
 		TMAPI.cleanupCourse(scn.course.courseId);
 		BrowserInstancePool.release(bi);
 	}
+	
+	@Test 
+	public void testCoordEditStudents() throws Exception{
+		testMoveStudentAfterEvaluation();
+		testDropStudentAfterEvaluation();
+	}
 
 	//TODO: change team before evaluation close
 
 	// change team after evaluation close
-	@Test
+	
 	public void testMoveStudentAfterEvaluation() throws Exception {
 		TMAPI.closeEvaluation(scn.course.courseId, scn.evaluation.name);
 
@@ -106,7 +112,7 @@ public class CoordCourseEditStudentsTeamTest extends TestCase {
 	//TODO: drop team before evaluation close
 
 	// drop team after evaluation close
-	@Test
+	
 	public void testDropStudentAfterEvaluation() {
 		System.out.println("delete Alice");
 		

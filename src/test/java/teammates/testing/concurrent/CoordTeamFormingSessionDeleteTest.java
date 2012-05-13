@@ -24,14 +24,14 @@ public class CoordTeamFormingSessionDeleteTest extends TestCase {
 	public static void classSetup() throws Exception {
 
 		System.out.println("========== CoordTeamFormingSessionDelete");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 
 		TMAPI.cleanupCourse(scn.course.courseId);
 		TMAPI.createCourse(scn.course);
 		TMAPI.enrollStudents(scn.course.courseId, scn.students);
 		TMAPI.createTeamFormingSession(scn.teamFormingSession);
 		
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 	}
 
 	@AfterClass
@@ -71,9 +71,9 @@ public class CoordTeamFormingSessionDeleteTest extends TestCase {
 		TMAPI.createTeamFormingSession(scn.teamFormingSession);
 		
 		bi.gotoCourses();
-		bi.waitForElementPresent(bi.getCourseID(scn.course.courseId));
+		bi.waitForElementPresent(bi.getCourseIDCellLocatorByCourseId(scn.course.courseId));
 		bi.clickAndConfirmCourseDelete(scn.course.courseId);
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_COURSE_DELETED);
+		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_COURSE_DELETED);
 		assertFalse(bi.isCoursePresent(scn.course.courseId, scn.course.courseName));
 		
 		bi.gotoTeamForming();

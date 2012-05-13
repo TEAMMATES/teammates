@@ -16,7 +16,7 @@ public class StudentLoginTest extends TestCase {
 	@BeforeClass
 	public static void classSetup() {
 		System.out.println("========== TestStudentLogin");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 	}
 
 	@AfterClass

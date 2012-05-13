@@ -26,12 +26,12 @@ public class CoordCourseEnrolCaseSensitivityTest extends TestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		System.out.println("========== CoordCourseEnrolCaseSensitivityTest");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 		
 		TMAPI.cleanupCourse(scn.course.courseId);
 		TMAPI.createCourse(scn.course);
 		
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 		bi.gotoCourses();
 	}
 	
@@ -88,7 +88,7 @@ public class CoordCourseEnrolCaseSensitivityTest extends TestCase {
 		//delete students:
 		bi.clickCourseView(scn.course.courseId);
 		bi.clickAndConfirm(bi.deleteStudentsButton);
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_COURSE_DELETED_ALLSTUDENTS);
+		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_COURSE_DELETED_ALLSTUDENTS);
 		bi.waitAndClick(By.className("t_course_enrol"));//inside message link
 
 		//-------------------------what if two students have the same name?

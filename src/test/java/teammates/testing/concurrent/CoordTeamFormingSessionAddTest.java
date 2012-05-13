@@ -25,14 +25,14 @@ public class CoordTeamFormingSessionAddTest extends TestCase {
 	public static void classSetup() throws Exception {
 
 		System.out.println("========== CoordTeamForming");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 
 		TMAPI.cleanupCourse(scn.course.courseId);
 
 		TMAPI.createCourse(scn.course);
 		TMAPI.enrollStudents(scn.course.courseId, scn.students);
 
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 	}
 
 	@AfterClass
@@ -61,7 +61,7 @@ public class CoordTeamFormingSessionAddTest extends TestCase {
 		bi.gotoTeamForming();
 		bi.addTeamFormingSession(scn.teamFormingSession);
 		bi.justWait();
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_TEAMFORMINGSESSION_ADDED);
+		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_TEAMFORMINGSESSION_ADDED);
 		
 		bi.clickTeamFormingTab();
 		bi.verifyTeamFormingSessionAdded(scn.teamFormingSession.courseID, bi.TEAMFORMINGSESSION_STATUS_AWAITING);

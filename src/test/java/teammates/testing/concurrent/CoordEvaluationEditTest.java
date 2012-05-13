@@ -20,14 +20,14 @@ public class CoordEvaluationEditTest extends TestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		System.out.println("========== CoordEvaluationEditTest");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 
 		TMAPI.cleanupCourse(scn.course.courseId);
 		TMAPI.createCourse(scn.course);
 		TMAPI.enrollStudents(scn.course.courseId, scn.students);
 		TMAPI.createEvaluation(scn.evaluation);
 		
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 	}
 
 	@AfterClass
@@ -54,7 +54,7 @@ public class CoordEvaluationEditTest extends TestCase {
 		bi.wdFillString(bi.inputInstruction, newInstruction);
 
 		bi.wdClick(bi.editEvaluationButton);
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_EVALUATION_EDITED);
+		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_EDITED);
 
 		// Now click Edit again to see if the text is updated.
 		bi.clickEvaluationEdit(scn.course.courseId, scn.evaluation.name);

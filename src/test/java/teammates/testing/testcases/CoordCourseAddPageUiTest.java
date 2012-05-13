@@ -27,12 +27,12 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	public static void classSetup() throws Exception {
 		printTestClassHeader("CoordCourseAddUITest");
 		ts = loadTestScenario();
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 		
 		TMAPI.deleteCourseByIdCascade(ts.validCourse.courseId);
 		TMAPI.deleteCourseByIdCascade(ts.courseWithSameNameDifferentId.courseId);
 		
-		bi.coordinatorLogin(ts.coordinator.username, ts.coordinator.password);
+		bi.loginCoord(ts.coordinator.username, ts.coordinator.password);
 	}
 	
 	@Test
@@ -47,24 +47,24 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		//add course:
 		bi.clickCourseTab();
 		bi.addCourse(courseID, courseName);
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_COURSE_ADDED);
+		bi.waitForStatusMessage(Common.MESSAGE_COURSE_ADDED);
 		
 		//verify course is added:
 		bi.clickCourseTab();
-		bi.verifyAddedCourse(courseID, courseName);
+		bi.verifyCourseIsAdded(courseID, courseName);
 		
 		printTestCaseHeader("testCoordAddCourseWithInvalidInputsFailed");
 
 		bi.addCourse("", ts.validCourse.courseName);
-		bi.waitForElementText(bi.statusMessage, bi.ERROR_COURSE_MISSING_FIELD);
+		bi.waitForStatusMessage(Common.ERROR_COURSE_MISSING_FIELD);
 		
 		// Adding course without name
 		bi.addCourse(ts.validCourse.courseId, "");
-		bi.waitForElementText(bi.statusMessage, bi.ERROR_COURSE_MISSING_FIELD);
+		bi.waitForStatusMessage(Common.ERROR_COURSE_MISSING_FIELD);
 		
 		//Not-allowed characters
 		bi.addCourse(ts.validCourse.courseId+"!*}", ts.validCourse.courseName + " (!*})");
-		bi.waitForElementText(bi.statusMessage, bi.ERROR_COURSE_INVALID_ID);
+		bi.waitForStatusMessage(Common.ERROR_COURSE_INVALID_ID);
 
 		//===================================================================================
 		printTestCaseHeader("testMaxLengthOfInputFields");
@@ -92,12 +92,12 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		printTestCaseHeader("testCoordAddCourseWithDuplicateIDFailed");
 		
 		bi.addCourse(ts.validCourse.courseId, "different course name");
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_COURSE_EXISTS);
+		bi.waitForStatusMessage(Common.MESSAGE_COURSE_EXISTS);
 		
 		//check course not added
 		bi.clickCourseTab();
-		bi.waitForElementPresent(bi.getCourseID(ts.validCourse.courseId));
-		assertTrue(bi.getElementText(bi.getCourseName(ts.validCourse.courseId)).equals(ts.validCourse.courseName));
+		bi.waitForCourseIdToAppearInCourseList(ts.validCourse.courseId);
+		assertTrue(bi.getCourseNameForCourseId(ts.validCourse.courseId).equals(ts.validCourse.courseName));
 		//TODO: this does not exclude the possibility that there are two courses in the list with same id
 	
 		//TODO: 2 duplicate course under different coordinators
@@ -107,10 +107,10 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		printTestCaseHeader("testCoordAddCourseWithDuplicateNameSuccessful");
 		
 		bi.addCourse(ts.courseWithSameNameDifferentId.courseId, ts.validCourse.courseName);
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_COURSE_ADDED);
+		bi.waitForStatusMessage(Common.MESSAGE_COURSE_ADDED);
 		
 		//check course added
-		bi.verifyAddedCourse(ts.courseWithSameNameDifferentId.courseId, ts.validCourse.courseName);
+		bi.verifyCourseIsAdded(ts.courseWithSameNameDifferentId.courseId, ts.validCourse.courseName);
 	}
 	
 	

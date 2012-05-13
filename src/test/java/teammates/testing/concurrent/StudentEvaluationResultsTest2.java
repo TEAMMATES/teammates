@@ -21,7 +21,7 @@ public class StudentEvaluationResultsTest2 extends TestCase {
 
 	@BeforeClass
 	public static void classSetup() {
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 		TMAPI.cleanupCourse(scn.course.courseId);
 
 		TMAPI.createCourse(scn.course);

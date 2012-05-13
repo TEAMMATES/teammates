@@ -26,7 +26,7 @@ public class CoordViewResultsUITest extends TestCase {
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 		scn = setupBumpRatioScenarioInstance("bump_ratio_scenario", 0);
 
 		TMAPI.createCourse(scn.course);
@@ -57,7 +57,7 @@ public class CoordViewResultsUITest extends TestCase {
 	@Test
 	public void testFirstDataSet0() throws Exception {
 
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 		
 		// coordinator page testing:
 		coordViewRevieweeSummaryPoints(scn.evaluation);

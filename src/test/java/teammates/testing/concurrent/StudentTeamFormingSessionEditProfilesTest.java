@@ -28,7 +28,7 @@ public class StudentTeamFormingSessionEditProfilesTest extends TestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		System.out.println("========== StudentTeamFormingSessionEditProfilesTest");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 
 		TMAPI.cleanupCourse(scn.course.courseId);
 		TMAPI.createCourse(scn.course);
@@ -90,7 +90,7 @@ public class StudentTeamFormingSessionEditProfilesTest extends TestCase {
 			String newTeamName = "Team 2";
 			bi.wdFillString(bi.inputTeamName, newTeamName);
 			bi.wdClick(bi.saveTeamProfile);
-			bi.waitForElementText(bi.statusMessage, bi.ERROR_MESSAGE_TEAMPROFILE_EXISTS);		
+			bi.waitForTextInElement(bi.statusMessage, bi.ERROR_MESSAGE_TEAMPROFILE_EXISTS);		
 			
 			//save team profile successful
 			bi.waitAndClick(bi.resultBackButton);
@@ -98,7 +98,7 @@ public class StudentTeamFormingSessionEditProfilesTest extends TestCase {
 			bi.wdFillString(bi.inputTeamName, "Team 3");
 			bi.wdFillString(bi.inputTeamProfile, studentProfile);
 			bi.wdClick(bi.saveTeamProfile);
-			bi.waitForElementText(bi.statusMessage, bi.MESSAGE_TEAMPROFILE_SAVED);
+			bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_TEAMPROFILE_SAVED);
 		}
 		
 		bi.logout();
@@ -127,7 +127,7 @@ public class StudentTeamFormingSessionEditProfilesTest extends TestCase {
 		" I live out of campus but I will be available in the college most of the times. I am taking only"+
 		" 4 modules this semester so I will have ample of time to design a good product.";
 		
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 		bi.gotoTeamForming();		
 		bi.clickTeamFormingSessionEdit(scn.course.courseId);
 		bi.verifyManageTeamFormingPage(scn.students);

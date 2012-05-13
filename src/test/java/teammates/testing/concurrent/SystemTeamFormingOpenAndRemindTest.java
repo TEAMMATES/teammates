@@ -27,7 +27,7 @@ public class SystemTeamFormingOpenAndRemindTest extends TestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		System.out.println("========== SystemTeamFormingOpenAndRemindTest");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 
 		TMAPI.cleanupCourse(scn.course.courseId);
 		TMAPI.createCourse(scn.course);
@@ -49,7 +49,7 @@ public class SystemTeamFormingOpenAndRemindTest extends TestCase {
 
 	@Test
 	public void systemRemindTeamFormingTest() throws Exception {
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 		bi.gotoTeamForming();
 		bi.clickTeamFormingSessionRemind(scn.course.courseId);
 		assertEquals(bi.MESSAGE_TEAMFORMINGSESSION_REMINDED, bi.getElementText(bi.statusMessage));

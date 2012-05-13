@@ -24,7 +24,7 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 	@BeforeClass
 	public static void classSetup() throws IOException {
 		System.out.println("========== CoordEvaluationResultsEditTest");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 
 		TMAPI.cleanupCourse(scn.course.courseId);
 
@@ -41,7 +41,7 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 		TMAPI.openEvaluation(scn.course.courseId, scn.evaluation2.name);
 		TMAPI.studentsSubmitFeedbacks(scn.students.subList(1, scn.students.size() - 1), scn.course.courseId, scn.evaluation2.name);
 
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 	}
 
 	@AfterClass
@@ -92,7 +92,7 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 
 		// try 0: do nothing
 		bi.waitAndClick(bi.resultEditButton);
-		bi.waitForElementText(bi.editEvaluationResultsStatusMessage, "Please fill in all the relevant fields.");
+		bi.waitForTextInElement(bi.editEvaluationResultsStatusMessage, "Please fill in all the relevant fields.");
 
 		// try 1: fill in estimated contribution only
 		Student s = scn.students.get(FIRST_STUDENT);
@@ -100,7 +100,7 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 			bi.setSubmissionPoint(i, "80");
 		}
 		bi.waitAndClick(bi.resultEditButton);
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_EVALUATION_RESULTS_EDITED);
+		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_RESULTS_EDITED);
 
 		// try 2: fill in \\Justification\\s only
 		bi.waitAndClick(bi.resultIndividualEditButton);
@@ -111,7 +111,7 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 
 		}
 		bi.waitAndClick(bi.resultEditButton);
-		bi.waitForElementText(bi.editEvaluationResultsStatusMessage, "Please fill in all the relevant fields.");
+		bi.waitForTextInElement(bi.editEvaluationResultsStatusMessage, "Please fill in all the relevant fields.");
 
 		// try 3: fill in commentsToStudent only
 		for (int i = 0; i < s.team.students.size(); i++) {
@@ -120,7 +120,7 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 			bi.setSubmissionComments(i, String.format("Edit:: \\\\Comments\\\\ from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
 		}
 		bi.waitAndClick(bi.resultEditButton);
-		bi.waitForElementText(bi.editEvaluationResultsStatusMessage, "Please fill in all the relevant fields.");
+		bi.waitForTextInElement(bi.editEvaluationResultsStatusMessage, "Please fill in all the relevant fields.");
 
 		// Submit with new data: successful
 		for (int i = 0; i < s.team.students.size(); i++) {
@@ -129,7 +129,7 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 			bi.setSubmissionComments(i, String.format("Edit:: \\\\Comments\\\\ from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
 		}
 		bi.waitAndClick(bi.resultEditButton);
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_EVALUATION_RESULTS_EDITED);
+		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_RESULTS_EDITED);
 
 		// click 'Back':
 		bi.waitAndClick(bi.resultBackButton);// [Back] to summary
@@ -157,7 +157,7 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 
 		// click 'submit':
 		bi.waitAndClick(bi.resultEditButton);// [submit]
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_EVALUATION_RESULTS_EDITED);
+		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_RESULTS_EDITED);
 
 		// ..Check content being updated:
 		// TODO: check other report has been updated as well:

@@ -19,7 +19,7 @@ public class StudentEvaluationEditTest2 extends TestCase {
 
 	@BeforeClass
 	public static void classSetup() {
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 		TMAPI.cleanupCourse(scn.course.courseId);
 
 		TMAPI.createCourse(scn.course);
@@ -65,7 +65,7 @@ public class StudentEvaluationEditTest2 extends TestCase {
 			bi.setSubmissionComments(i, String.format("Student Edit:: Comments from %s to %s.", student.email, student.team.students.get(i).email));
 		}
 		bi.waitAndClick(bi.studentSubmitEvaluationButton);
-		bi.waitForElementText(bi.statusMessage, "The evaluation has been submitted.");
+		bi.waitForTextInElement(bi.statusMessage, "The evaluation has been submitted.");
 
 		// check feedbacks updated:
 		bi.studentClickEditEvaluation(scn.course.courseId, scn.evaluation.name);

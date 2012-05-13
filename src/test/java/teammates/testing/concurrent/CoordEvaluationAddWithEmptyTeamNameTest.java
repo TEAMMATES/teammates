@@ -21,12 +21,12 @@ public class CoordEvaluationAddWithEmptyTeamNameTest extends TestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		System.out.println("========== CoordEvaluationWithEmptyTeamName");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 
 		TMAPI.cleanupCourse(scn.course.courseId);
 		TMAPI.createCourse(scn.course);
 
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 		//bi.gotoEvaluations();
 	}
 
@@ -67,7 +67,7 @@ public class CoordEvaluationAddWithEmptyTeamNameTest extends TestCase {
 		bi.gotoEvaluations();
 		bi.addEvaluation(scn.evaluation);
 		bi.justWait();
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_EVALUATION_ADDED_WITH_EMPTY_TEAMS);
+		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_ADDED_WITH_EMPTY_TEAMS);
 
 		bi.clickEvaluationTab();
 		bi.verifyEvaluationAdded(scn.evaluation.courseID, scn.evaluation.name, bi.EVAL_STATUS_AWAITING, "0 / 3");

@@ -25,11 +25,11 @@ public class CoordCourseDeleteUITest extends TestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		System.out.println("========== CoordCourseListTest");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 		
 		TMAPI.cleanupCourse(scn.course.courseId);
 		TMAPI.createCourse(scn.course);
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 		bi.gotoCourses();
 	}
 	
@@ -47,9 +47,9 @@ public class CoordCourseDeleteUITest extends TestCase {
 	public void testCoordDeleteCourseSuccessful() {
 		System.out.println("TestCoordDeleteCourseSuccessful:");
 		// Delete course
-		bi.waitForElementPresent(bi.getCourseID(scn.course.courseId));
+		bi.waitForElementPresent(bi.getCourseIDCellLocatorByCourseId(scn.course.courseId));
 		bi.clickAndConfirmCourseDelete(scn.course.courseId);
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_COURSE_DELETED);
+		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_COURSE_DELETED);
 		assertFalse(bi.isCoursePresent(scn.course.courseId, scn.course.courseName));
 		
 		//Check that the evaluation has also been deleted

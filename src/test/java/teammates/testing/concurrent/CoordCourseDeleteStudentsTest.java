@@ -22,7 +22,7 @@ public class CoordCourseDeleteStudentsTest extends TestCase {
 	public static void classSetup() throws Exception {
 		System.out.println("========== TestCoordDeleteStudents");
 		
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 		
 		TMAPI.cleanupCourse(scn.course.courseId);
 		TMAPI.createCourse(scn.course);
@@ -46,7 +46,7 @@ public class CoordCourseDeleteStudentsTest extends TestCase {
 	 * */
 	@Test
 	public void testCoordDeleteUnregisteredStudentsSuccessful() {
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 		
 		//condition: unregistered
 		TMAPI.enrollStudents(scn.course.courseId, scn.students);
@@ -60,7 +60,7 @@ public class CoordCourseDeleteStudentsTest extends TestCase {
 	//delete registered students
 	@Test
 	public void testCoordDeleteRegisteredStudentsSuccessful() {
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 		//condition: students joined course
 		TMAPI.enrollStudents(scn.course.courseId, scn.students);
 		TMAPI.studentsJoinCourse(scn.students, scn.course.courseId);
@@ -76,7 +76,7 @@ public class CoordCourseDeleteStudentsTest extends TestCase {
 		bi.clickCourseView(scn.course.courseId);
 		bi.justWait();
 		bi.clickAndConfirmCourseDetailDelete(FIRST_STUDENT);
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_COURSE_DELETED_STUDENT);
+		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_COURSE_DELETED_STUDENT);
 		
 		// check for total number of teams
 		assertEquals("2", bi.getElementText(By.xpath(String.format("//div[@id='coordinatorCourseInformation']//table[@class='headerform']//tbody//tr[%d]//td[%d]", 3, 2))));
@@ -94,7 +94,7 @@ public class CoordCourseDeleteStudentsTest extends TestCase {
 		bi.justWait();
 		// bi.clickAndConfirm(By.id("button_delete"));
 		bi.clickAndConfirm(bi.deleteStudentsButton);
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_COURSE_DELETED_ALLSTUDENTS);
+		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_COURSE_DELETED_ALLSTUDENTS);
 
 		// check for total number of teams
 		assertEquals("0", bi.getElementText(By.xpath(String.format("//div[@id='coordinatorCourseInformation']//table[@class='headerform']//tbody//tr[%d]//td[%d]", 3, 2))));

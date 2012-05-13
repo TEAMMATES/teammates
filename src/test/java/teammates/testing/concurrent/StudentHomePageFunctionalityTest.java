@@ -33,7 +33,7 @@ public class StudentHomePageFunctionalityTest extends TestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		System.out.println("========== StudentLandingPageFunctionalityTest");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 		
 		TMAPI.cleanupByCoordinator(scn.coordinator.username);
 

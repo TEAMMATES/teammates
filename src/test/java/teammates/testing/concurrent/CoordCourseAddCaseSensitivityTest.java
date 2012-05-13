@@ -8,6 +8,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import teammates.Common;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.lib.TMAPI;
@@ -25,10 +26,10 @@ public class CoordCourseAddCaseSensitivityTest extends TestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		System.out.println("========== CoordCourseAddCaseSensitivityTest");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 
 		TMAPI.cleanupCourse(scn.course.courseId);
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 	}
 
 	@AfterClass
@@ -55,7 +56,7 @@ public class CoordCourseAddCaseSensitivityTest extends TestCase {
 		bi.clickCourseTab();
 		bi.addCourse(COURSE_ID_LOWER, "testing 1st course ID");
 		
-		bi.verifyAddedCourse(COURSE_ID_LOWER, "testing 1st course ID");
+		bi.verifyCourseIsAdded(COURSE_ID_LOWER, "testing 1st course ID");
 		
 		bi.addCourse(COURSE_ID_UPPER, "testing 2nd course ID");
 		
@@ -70,7 +71,7 @@ public class CoordCourseAddCaseSensitivityTest extends TestCase {
 		bi.clickCourseTab();
 		bi.addCourse(COURSE_ID_LOWER, COURSE_NAME_LOWER);
 		bi.clickCourseTab();
-		bi.verifyAddedCourse(COURSE_ID_LOWER, COURSE_NAME_LOWER);
+		bi.verifyCourseIsAdded(COURSE_ID_LOWER, COURSE_NAME_LOWER);
 		
 		bi.addCourse(COURSE_ID_UPPER, COURSE_NAME_LOWER);
 		
@@ -89,10 +90,10 @@ public class CoordCourseAddCaseSensitivityTest extends TestCase {
 		bi.clickCourseTab();
 		bi.addCourse("testing01", COURSE_NAME_LOWER);
 		bi.clickCourseTab();
-		bi.verifyAddedCourse("testing01", COURSE_NAME_LOWER);
+		bi.verifyCourseIsAdded("testing01", COURSE_NAME_LOWER);
 		bi.addCourse("testing02", COURSE_NAME_UPPER);
 		//TODO: VERIFY
-		assertEquals(bi.MESSAGE_COURSE_ADDED, bi.getElementText(bi.statusMessage));
+		assertEquals(Common.MESSAGE_COURSE_ADDED, bi.getElementText(bi.statusMessage));
 		assertTrue(bi.isCoursePresent("testing01", COURSE_NAME_LOWER));
 		assertFalse(bi.isCoursePresent("testing02", COURSE_NAME_LOWER));
 		TMAPI.cleanupCourse("testing01");

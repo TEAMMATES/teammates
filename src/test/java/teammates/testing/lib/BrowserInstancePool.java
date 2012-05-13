@@ -34,7 +34,7 @@ public class BrowserInstancePool {
 	 * 
 	 * @return
 	 */
-	public static BrowserInstance request() {
+	public static BrowserInstance getBrowserInstance() {
 		return getInstance().requestInstance();
 	}
 

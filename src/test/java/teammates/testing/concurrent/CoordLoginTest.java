@@ -20,7 +20,7 @@ public class CoordLoginTest extends TestCase {
 	@BeforeClass
 	public static void classSetup() {
 		SharedLib.tprintln("========== TestCoordLogin");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 	}
 
 	@AfterClass
@@ -38,7 +38,7 @@ public class CoordLoginTest extends TestCase {
 	public void testLoginLogoutSuccessful() throws Exception {
 		//login
 		bi.gotoHome();
-		bi.coordinatorLogin(Config.inst().TEAMMATES_APP_ACCOUNT, Config.inst().TEAMMATES_APP_PASSWD);
+		bi.loginCoord(Config.inst().TEAMMATES_APP_ACCOUNT, Config.inst().TEAMMATES_APP_PASSWD);
 		bi.verifyCoordHomePage();
 		//logout
 		bi.logout();

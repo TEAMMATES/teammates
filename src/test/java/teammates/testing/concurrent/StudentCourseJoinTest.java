@@ -22,7 +22,7 @@ public class StudentCourseJoinTest extends TestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		System.out.println("========== StudentCourseJoinTest");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 
 		TMAPI.cleanupCourse(scn.course.courseId);
 		TMAPI.createCourse(scn.course);
@@ -47,7 +47,7 @@ public class StudentCourseJoinTest extends TestCase {
 	public void testCoordRemindAllStudentsSuccessful() throws Exception {
 		System.out.println("testCoordRemindAllStudentsSuccessful");
 
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 
 		bi.gotoCourses();
 		bi.clickCourseView(scn.course.courseId);
@@ -90,7 +90,7 @@ public class StudentCourseJoinTest extends TestCase {
 			// Try a wrong course key
 			bi.wdFillString(bi.studentInputRegKey, "totally_wrong_key");
 			bi.wdClick(bi.studentJoinCourseButton);
-			bi.waitForElementText(bi.statusMessage, bi.ERROR_STUDENT_JOIN_COURSE);
+			bi.waitForTextInElement(bi.statusMessage, bi.ERROR_STUDENT_JOIN_COURSE);
 
 			if (bi.studentCountTotalCourses() == 2) {
 				// This time the correct one
@@ -98,7 +98,7 @@ public class StudentCourseJoinTest extends TestCase {
 				bi.wdFillString(bi.studentInputRegKey, s.courseKey);
 				System.out.println("key for " + s.name + " : " + s.courseKey);
 				bi.wdClick(bi.studentJoinCourseButton);
-				bi.waitForElementText(bi.statusMessage, bi.MESSAGE_STUDENT_JOIN_COURSE);
+				bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_STUDENT_JOIN_COURSE);
 			}
 
 			bi.logout();
@@ -106,7 +106,7 @@ public class StudentCourseJoinTest extends TestCase {
 		}
 
 		// Verify number of unregistered student
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 		assertEquals(0, bi.getCourseUnregisteredStudents(scn.course.courseId));
 	}
 

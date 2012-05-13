@@ -24,14 +24,14 @@ public class CoordTeamFormingSessionManageTest extends TestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		System.out.println("========== CoordTeamFormingSessionManageTest");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 
 		TMAPI.cleanupCourse(scn.course.courseId);
 		TMAPI.createCourse(scn.course);
 		TMAPI.enrollStudents(scn.course.courseId, scn.students);
 		TMAPI.createTeamFormingSession(scn.teamFormingSession);
 		
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 	}
 
 	@AfterClass
@@ -62,7 +62,7 @@ public class CoordTeamFormingSessionManageTest extends TestCase {
 		bi.selectDropdownByValue(bi.inputGracePeriod, gracePeriod.toString());
 
 		bi.wdClick(bi.editTeamFormingSessionButton);
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_TEAMFORMINGSESSION_EDITED);
+		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_TEAMFORMINGSESSION_EDITED);
 		
 		// Now click Edit again to see if the text is updated.
 		bi.clickTeamFormingSessionEdit(scn.course.courseId);

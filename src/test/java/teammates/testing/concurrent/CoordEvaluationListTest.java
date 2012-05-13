@@ -25,7 +25,7 @@ public class CoordEvaluationListTest extends TestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		System.out.println("========== CoordEvaluationAddCaseSensitivityTest");
-		bi = BrowserInstancePool.request();
+		bi = BrowserInstancePool.getBrowserInstance();
 
 		TMAPI.cleanupCourse(scn.course.courseId);
 		TMAPI.createCourse(scn.course);
@@ -48,7 +48,7 @@ public class CoordEvaluationListTest extends TestCase {
 		// fourth evaluation status: pending
 		TMAPI.createEvaluation(scn.evaluation4);
 
-		bi.coordinatorLogin(scn.coordinator.username, scn.coordinator.password);
+		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 	}
 
 	@AfterClass
@@ -133,7 +133,7 @@ public class CoordEvaluationListTest extends TestCase {
 		bi.clickEvaluationTab();
 		bi.clickEvaluationPublish(scn.course.courseId, scn.evaluation3.name);
 
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_EVALUATION_PUBLISHED);
+		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_PUBLISHED);
 
 		// Check for status: PUBLISHED
 		assertEquals(bi.EVAL_STATUS_PUBLISHED, bi.getEvaluationStatus(scn.course.courseId, scn.evaluation3.name));
@@ -178,7 +178,7 @@ public class CoordEvaluationListTest extends TestCase {
 		bi.clickEvaluationTab();
 		bi.clickEvaluationUnpublish(scn.course.courseId, scn.evaluation3.name);
 
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_EVALUATION_UNPUBLISHED);
+		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_UNPUBLISHED);
 
 		// Check for status: PUBLISHED
 		assertEquals(bi.EVAL_STATUS_CLOSED, bi.getEvaluationStatus(scn.course.courseId, scn.evaluation3.name));
@@ -191,7 +191,7 @@ public class CoordEvaluationListTest extends TestCase {
 		bi.clickEvaluationTab();
 		bi.clickAndConfirmEvaluationDelete(scn.course.courseId, scn.evaluation4.name);
 
-		bi.waitForElementText(bi.statusMessage, bi.MESSAGE_EVALUATION_DELETED);
+		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_DELETED);
 	}
 
 	// testCoordAddDeletedEvaluation
