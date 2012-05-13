@@ -7,11 +7,14 @@ public class BaseTestCase {
 	}
 	
 	public static void printTestClassHeader(String testClassName){
-		System.out.println("[============================="+testClassName);
+		System.out.println(
+				"[============================="
+				+testClassName
+				+"=============================]");
 	}
 	
 	public static void printTestClassFooter(String testClassName){
-		System.out.println(testClassName+"=============================]");
+		System.out.println(testClassName+"completed");
 	}
 
 }

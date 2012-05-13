@@ -2,6 +2,8 @@ package teammates.testing.lib;
 
 import java.util.ArrayList;
 
+import teammates.testing.config.Config;
+
 /**
  * Manage the pool of browser instances.
  * 
@@ -35,7 +37,9 @@ public class BrowserInstancePool {
 	 * @return
 	 */
 	public static BrowserInstance getBrowserInstance() {
-		return getInstance().requestInstance();
+		BrowserInstance bi = getInstance().requestInstance();
+		bi.init();
+		return bi;
 	}
 
 	/**

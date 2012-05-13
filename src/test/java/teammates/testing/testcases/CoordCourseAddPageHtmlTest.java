@@ -17,6 +17,7 @@ public class CoordCourseAddPageHtmlTest extends BaseTestCase {
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
+		printTestClassHeader("CoordCourseAddPageHtmlTest");
 		bi = BrowserInstancePool.getBrowserInstance();
 		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 	}
@@ -42,5 +43,6 @@ public class CoordCourseAddPageHtmlTest extends BaseTestCase {
 			bi.logout();
 		}	
 		BrowserInstancePool.release(bi);
+		printTestClassFooter("CoordCourseAddPageHtmlTest");
 	}
 }

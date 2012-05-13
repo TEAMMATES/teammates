@@ -409,6 +409,10 @@ public class BrowserInstance {
 
 	public final String FOOTER = "Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:";
 
+	public void init(){
+		goToUrl(Config.inst().TEAMMATES_URL);
+	}
+	
 	// -----------------------------UI Actions ----------------------------->>
 	// Homepage:
 	/**
@@ -2393,6 +2397,10 @@ public class BrowserInstance {
 
 	public void gotoHome() {
 		selenium.open("/");
+	}
+	
+	public void goToUrl(String url){
+		driver.get(url);
 	}
 
 	public void openSelectedWindow(String url, String title) {

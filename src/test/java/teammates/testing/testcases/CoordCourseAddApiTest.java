@@ -6,8 +6,8 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.Common;
@@ -18,14 +18,15 @@ import teammates.testing.config.Config;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
-public class CoordCourseAddApiTest {
-	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+public class CoordCourseAddApiTest extends BaseTestCase{
+	private final static LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 	private final String COURSE_ID = "CCAAT.CS1010";
 	private final String COURSE_NAME = "CCAAT Software Engineering";
 	private final String GOOGLE_ID = Config.inst().TEAMMATES_COORD_ID;	
 	
-	@Before
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
+		printTestClassHeader("CoordCourseAddApiTest");
 		helper.setUp();
 		try{
 			Datastore.initialize();
@@ -93,8 +94,9 @@ public class CoordCourseAddApiTest {
 		//TODO:implement this when the feature is implemented
 	}
 	
-	@After
-	public void tearDown() {
+	@AfterClass
+	public static void tearDown() {
 		helper.tearDown();
+		printTestClassFooter("CoordCourseAddApiTest");
 	}
 }
