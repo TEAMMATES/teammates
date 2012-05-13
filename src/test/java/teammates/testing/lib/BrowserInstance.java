@@ -139,8 +139,8 @@ public class BrowserInstance {
 	public By coordInputCourseID = By.id("courseid");
 	public By coordInputCourseName = By.id("coursename");
 	public By coordAddCourseButton = By.id("btnAddCourse");
-	public By coordCourseIDSorting = By.id("button_sortcourseid");
-	public By coordCourseNameSorting = By.id("button_sortcoursename");
+	public By coordCourseSortByIdButtonLocator = By.id("button_sortcourseid");
+	public By coordCourseSortByNameButtonLocator = By.id("button_sortcoursename");
 	
 	// courses table:==========================================================
 	
@@ -2004,6 +2004,14 @@ public class BrowserInstance {
 	public void waitAndClick(By by) {
 		waitForElementPresent(by);
 		getDriver().findElement(by).click();
+	}
+	
+	public void clickCoordCourseSortByNameButton(){
+		waitAndClick(coordCourseSortByNameButtonLocator);
+	}
+	
+	public void clickCoordCourseSortByIdButton(){
+		waitAndClick(coordCourseSortByIdButtonLocator);
 	}
 
 	public void waitAndClickAndCheck(By currentElement, By nextElement) {

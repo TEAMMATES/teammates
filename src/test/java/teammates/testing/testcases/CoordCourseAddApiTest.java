@@ -13,17 +13,16 @@ import org.junit.Test;
 import teammates.Common;
 import teammates.Datastore;
 import teammates.TeammatesServlet;
+import teammates.testing.config.Config;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class CoordCourseAddApiTest {
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
-	private final String COURSE_ID = "CS1010";
-	private final String COURSE_NAME = "Software Engineering";
-	private final String GOOGLE_ID = "teammates.coord";
-
-	
+	private final String COURSE_ID = "CCAAT.CS1010";
+	private final String COURSE_NAME = "CCAAT Software Engineering";
+	private final String GOOGLE_ID = Config.inst().TEAMMATES_COORD_ID;	
 	
 	@Before
 	public void setUp() {
@@ -33,11 +32,6 @@ public class CoordCourseAddApiTest {
 		}catch(Exception e){
 			System.out.println("PersistenceManager has been called once.");
 		}
-	}
-
-	@After
-	public void tearDown() {
-		helper.tearDown();
 	}
 	
 
@@ -97,5 +91,10 @@ public class CoordCourseAddApiTest {
 	@Test
 	public void testCourseIDCaseSensitivity() throws IOException, ServletException {
 		//TODO:implement this when the feature is implemented
+	}
+	
+	@After
+	public void tearDown() {
+		helper.tearDown();
 	}
 }

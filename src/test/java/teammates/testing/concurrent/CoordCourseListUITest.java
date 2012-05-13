@@ -36,11 +36,11 @@ public class CoordCourseListUITest extends TestCase {
 	public void verifyAddCoursePageSuccessful() throws Exception {
 		bi.gotoCourses();
 		//Click sort by ID
-		bi.waitAndClick(bi.coordCourseIDSorting);
+		bi.waitAndClick(bi.coordCourseSortByIdButtonLocator);
 		bi.verifyObjectHTML("target/test-classes/pages/coordListCourseByID.html", LIST_COURSE_TAG);
 		
 		//Click sort by Name
-		bi.waitAndClick(bi.coordCourseNameSorting);
+		bi.waitAndClick(bi.coordCourseSortByNameButtonLocator);
 		bi.verifyObjectHTML("target/test-classes/pages/coordListCourseByName.html", LIST_COURSE_TAG);
 	}
 }
