@@ -13,11 +13,6 @@
 	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-tools-sdk/1.6.4/appengine-tools-sdk-1.6.4.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-java-sdk/1.6.4/appengine-java-sdk-1.6.4/lib/user/appengine-api-1.0-sdk-1.6.4.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-java-sdk/1.6.4/appengine-java-sdk-1.6.4/lib/appengine-tools-api.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-java-sdk/1.6.4/appengine-java-sdk-1.6.4/lib/user/orm/datanucleus-appengine-1.0.10.final.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-java-sdk/1.6.4/appengine-java-sdk-1.6.4/lib/user/orm/datanucleus-core-1.1.5.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-java-sdk/1.6.4/appengine-java-sdk-1.6.4/lib/user/orm/datanucleus-jpa-1.1.5.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-java-sdk/1.6.4/appengine-java-sdk-1.6.4/lib/user/orm/geronimo-jpa_3.0_spec-1.1.1.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-java-sdk/1.6.4/appengine-java-sdk-1.6.4/lib/user/orm/geronimo-jta_1.1_spec-1.1.1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-java-sdk/1.6.4/appengine-java-sdk-1.6.4/lib/user/orm/jdo2-api-2.3-eb.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/sun/mail/javax.mail/1.4.4/javax.mail-1.4.4.jar" sourcepath="M2_REPO/com/sun/mail/javax.mail/1.4.4/javax.mail-1.4.4-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/javax/activation/activation/1.1/activation-1.1.jar" sourcepath="M2_REPO/javax/activation/activation/1.1/activation-1.1-sources.jar"/>

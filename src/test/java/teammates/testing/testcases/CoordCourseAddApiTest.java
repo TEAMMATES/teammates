@@ -31,7 +31,8 @@ public class CoordCourseAddApiTest extends BaseTestCase{
 		try{
 			Datastore.initialize();
 		}catch(Exception e){
-			System.out.println("PersistenceManager has been called once.");
+			System.out.println("Error in initializing local datastore :");
+			e.printStackTrace();
 		}
 	}
 	
