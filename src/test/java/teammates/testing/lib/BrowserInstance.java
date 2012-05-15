@@ -25,6 +25,7 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.search.FlagTerm;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.SeleneseCommandExecutor;
@@ -53,81 +54,78 @@ import com.thoughtworks.selenium.SeleniumException;
  * Used to be BaseTest
  * 
  * @author Huy
- * @Xialin
- * @Shakthi
+ * @author Xialin
+ * @author Shakthi
+ * @author Aldrian (since 14 May 2012)
  */
 public class BrowserInstance {
 	protected DefaultSelenium selenium = null;
 	private WebDriver driver = null;
 	protected ChromeDriverService chromeService = null;
 	private boolean inUse = false;
+	
+	private final int TIMEOUT = 10000;
+	private final int RETRY = 20;
 
-	// ----------------------UI Element:
-	/**
-	 * homepage:
-	 */
+	// -------------------------UI Element-------------------------- //
+	// Homepage buttons
 	public final By COORD_LOGIN_BUTTON = By.name("COORDINATOR_LOGIN");
 	public final By STUDENT_LOGIN_BUTTON = By.name("STUDENT_LOGIN");
 
-	/**
-	 * tabs:
-	 */
+	// Tabs
 	public By homeTab = By.className("t_home");
 	public By teamFormingTab = By.className("t_teamForming");
 	public By coursesTab = By.className("t_courses");
 	public By evaluationsTab = By.className("t_evaluations");
 	public By helpTab = By.className("t_help");
 	public By logoutTab = By.className("t_logout");
-	/*
-	 * table elements:
-		 */
-		public By pageTitle = By.xpath("//div[@id='headerOperation']//h1");
-		
-		public final String HEADER_FORM_TABLE_CELL = "//table[@class='headerform']//tbody//tr//td";
-		public final String DETAIL_FORM_TABLE_CELL = "//table[@class='detailform']//tbody//tr//td";
-		public final String DATAFORM_TABLE_ROW = "//table[@id='dataform']//tr";
-		public final String DATAFORM_TABLE_CELL = DATAFORM_TABLE_ROW + "[%d]//td[%d]";
-		
+
+	// Table elements
+	public By pageTitle = By.xpath("//div[@id='headerOperation']//h1");
+
+	public final String HEADER_FORM_TABLE_CELL = "//table[@class='headerform']//tbody//tr//td";
+	public final String DETAIL_FORM_TABLE_CELL = "//table[@class='detailform']//tbody//tr//td";
+	public final String DATAFORM_TABLE_ROW = "//table[@id='dataform']//tr";
+	public final String DATAFORM_TABLE_CELL = DATAFORM_TABLE_ROW + "[%d]//td[%d]";
+
 	// -------------------------------- COORDINATOR -------------------------------- //
-	/**
-	 * home page:
-	 */
+	// homepage
 	public By coordAddNewCourseLink = By.id("addNewCourse");
-	
-	// course box:
+
+	// course box
 	public By getCoordEnrolLink(int courseNo) {
 		return By.className("t_course_enrol" + courseNo);
 	}
-	
+
 	public By getCoordViewLink(int courseNo) {
 		return By.className("t_course_view" + courseNo);
 	}
-	
+
 	public By getCoordAddEvaluationLink(int courseNo) {
 		return By.className("t_course_add_eval" + courseNo);
 	}
-	
+
 	public By getCoordDeleteLink(int courseNo) {
 		return By.className("t_course_delete" + courseNo);
 	}
-	
+
 	// evaluation table:
 	public By getCoordViewResultsLink(int linkNo) {
 		return By.id("viewEvaluation" + linkNo);
 	}
-	
+
 	public By getCoordEditEvaluationLink(int linkNo) {
 		return By.id("editEvaluation" + linkNo);
 	}
-	
+
 	public By getCoordDeleteEvaluationLink(int linkNo) {
 		return By.id("deleteEvaluation" + linkNo);
 	}
-	
+
 	public By getCoordRemindEvaluationLink(int linkNo) {
 		return By.id("remindEvaluation" + linkNo);
 	}
-	
+
 	public By getCoordPublishEvaluationLink(int linkNo) {
 		return By.id("publishEvaluation" + linkNo);
 	}
@@ -141,43 +139,45 @@ public class BrowserInstance {
 	public By coordAddCourseButton = By.id("btnAddCourse");
 	public By coordCourseSortByIdButtonLocator = By.id("button_sortcourseid");
 	public By coordCourseSortByNameButtonLocator = By.id("button_sortcoursename");
-	
+
 	// courses table:==========================================================
-	
+
 	/*
 	 * In each row, the Cell containing course id has an HTML id attribute
 	 * e.g. <tr><td id="courseID1">CS2103-TESTING</td>...</tr>
-	 *  The value depends on the row number. 1st row: "CourseID0", 2nd row: "CourseID1" and so on 
+	 * The value depends on the row number. 1st row: "CourseID0", 2nd row: "CourseID1" and so on 
 	 */
 	public By getCourseIdCellLocatorByRowNumber(int row) {
 		return By.id("courseID" + row);
 	}
-	
+
 	public By getCourseName(int row) {
 		return By.id("courseName" + row);
 	}
-	
+
 	public By getCoordCourseEnrol(int row) {
 		return By.xpath(String.format(DATAFORM_TABLE_CELL + "//a[@class='t_course_enrol']", row + 2, 6));
 	}
-	
+
 	public By getCoordCourseView(int row) {
 		return By.xpath(String.format(DATAFORM_TABLE_CELL + "//a[@class='t_course_view']", row + 2, 6));
 	}
-	
+
 	public By getCoordCourseDelete(int row) {
 		return By.xpath(String.format(DATAFORM_TABLE_CELL + "//a[@class='t_course_delete']", row + 2, 6));
 	}
-	
-	// enrol:=====================================================================
+
+	// enroll:=====================================================================
 	public By coordEnrolInfo = By.id("information");
 	public By coordEnrolButton = By.id("button_enrol");
 	public By coordEnrolBackButton = By.className("t_back");
+	
 	// enrollment results:
 	public By coordStudentsAdded = By.id("t_studentsAdded");
 	public By coordStudentsEdited = By.id("t_studentsEdited");
 	public By coordStudentsAddedRow = By.xpath("//tr[@id='rowAddedStudents']//td");
 	public By coordStudentsEditedRow = By.xpath("//tr[@id='rowEditedStudents']//td");
+	
 	// course details:
 	public By courseDetailCourseID = By.xpath("//table[@class='headerform']//tbody//tr[1]//td[2]");
 	public By courseDetailCourseName = By.xpath("//table[@class='headerform']//tbody//tr[2]//td[2]");
@@ -209,19 +209,14 @@ public class BrowserInstance {
 	public By studentEditComments = By.id("editcomments");
 
 	public By studentEditSaveButton = By.id("button_editstudent");
-	/**
-     * team forming:
-     */
-    // team forming default:
-    public final String TEAMFORMINGSESSION_STATUS_AWAITING = "AWAITING";
-    public By inputTeamName = By.id("teamName");
-    public By inputTeamProfile = By.id("teamProfile");        
-    public By inputNewTeamName = By.id("newteamName");
-    public By inputStudentProfileDetail = By.id("studentprofiledetail");
-    
-	/**
-	 * evaluation:
-	 */
+	
+	// team forming default:
+	public final String TEAMFORMINGSESSION_STATUS_AWAITING = "AWAITING";
+	public By inputTeamName = By.id("teamName");
+	public By inputTeamProfile = By.id("teamProfile");        
+	public By inputNewTeamName = By.id("newteamName");
+	public By inputStudentProfileDetail = By.id("studentprofiledetail");
+
 	// evaluation default:
 	public final String EVAL_STATUS_AWAITING = "AWAITING";
 	public final String EVAL_STATUS_PUBLISHED = "PUBLISHED";
@@ -234,23 +229,24 @@ public class BrowserInstance {
 	public By inputGracePeriod = By.id("graceperiod");
 	public By inputProfileTemplate = By.id("profile_template");
 	public By createTeamFormingSessionButton = By.id("t_btnCreateTeamFormingSession");
+	
 	// edit team forming session:
 	public By editTeamFormingSessionButton = By.id("button_editteamformingsession");
-	       
+
 	//edit team profile:
-    public By coordEditTeamProfile0 = By.id("viewTeamProfile0");
-    public By saveTeamProfile = By.id("button_saveTeamProfile");
-    public By saveChangeStudentTeam = By.id("button_saveTeamChange");
-    public By saveStudentProfile = By.id("button_savestudentprofile");
-    
-    //edit student team:
-    public By coordChangeStudentTeam11 = By.id("changeStudentTeam-1/1");
-    public By coordAllocateStudentTeam1 = By.id("allocateStudentTeam1");
+	public By coordEditTeamProfile0 = By.id("viewTeamProfile0");
+	public By saveTeamProfile = By.id("button_saveTeamProfile");
+	public By saveChangeStudentTeam = By.id("button_saveTeamChange");
+	public By saveStudentProfile = By.id("button_savestudentprofile");
+
+	//edit student team:
+	public By coordChangeStudentTeam11 = By.id("changeStudentTeam-1/1");
+	public By coordAllocateStudentTeam1 = By.id("allocateStudentTeam1");
 	public By addEvaluationButton = By.id("t_btnAddEvaluation");
 
 	public By evaluationCourseIDSorting = By.id("button_sortcourseid");
 	public By evlauationNameSorting = By.id("button_sortname");
-	
+
 	// edit evaluation:
 	public By editEvaluationButton = By.id("button_editevaluation");
 	public By editEvaluationBackButton = By.className("t_back");
@@ -301,21 +297,21 @@ public class BrowserInstance {
 	 * home page:
 	 */
 	public By studentJoinNewCourseLink = By.id("joinNewCourse");
-	
+
 	// course box:
 	public By getStudentViewLink(int courseNo) {
 		return By.className("t_course_view" + courseNo);
 	}
-	
+
 	// evaluation table:
 	public By getStudentDoEvaluationLink(int linkNo) {
 		return By.id("doEvaluation" + linkNo);
 	}
-	
+
 	public By getStudentViewResultsLink(int linkNo) {
 		return By.id("viewEvaluation" + linkNo);
 	}
-	
+
 	public By getStudentEditEvaluationSubmissionLink(int linkNo) {
 		return By.id("editEvaluation" + linkNo);
 	}	
@@ -325,7 +321,7 @@ public class BrowserInstance {
 	// student course:
 	public By studentInputRegKey = By.id("regkey");
 	public By studentJoinCourseButton = By.id("btnJoinCourse");
-	
+
 	// student evaluation:
 	public By studentSubmitEvaluationButton = By.name("submitEvaluation");
 	public By studentEvaluationBackButton = By.className("t_back");
@@ -345,7 +341,7 @@ public class BrowserInstance {
 	// evaluation results table:
 	public final String STUDENT_EVALUATION_RESULTS_TABLE_ROW = "//div[@id='studentEvaluationResults']//table[@class='result_studentform']//tbody//tr";
 	public final String STUDENT_EVALUATION_RESULTS_TABLE_CELL = STUDENT_EVALUATION_RESULTS_TABLE_ROW + "[%d]//td[%d]";
-	
+
 	public By studentEvaluationResultStudentName = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 1, 2));
 	public By studentEvaluationResultCourseID = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 1, 4));
 	public By studentEvaluationResultTeamName = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 2, 2));
@@ -372,22 +368,22 @@ public class BrowserInstance {
 	public final String MESSAGE_ENROL_REMIND_TO_JOIN = "Emails have been sent to unregistered students.";
 	public final String ERROR_MESSAGE_ENROL_INVALID_EMAIL = "E-mail address should contain less than 40 characters and be of a valid syntax.";
 	//team forming session
-    public final String MESSAGE_TEAMFORMINGSESSION_ADDED = "The team forming session has been added.";
-    public final String MESSAGE_TEAMFORMINGSESSION_ADDED_WITH_EMPTY_CLASS = "The course does not have any students.";
-    public final String MESSAGE_TEAMFORMINGSESSION_DELETED = "The team forming session has been deleted.";
-    public final String MESSAGE_TEAMFORMINGSESSION_REMINDED = "Reminder e-mails have been sent out to those students.";
-    public final String ERROR_MESSAGE_TEAMFORMINGSESSION_EXISTS = "The team forming session exists already.";
-    public final String ERROR_INVALID_INPUT_TEAMFORMINGSESSION = "The team forming session schedule (start/deadline) is not valid.";
-    public final String MESSAGE_TEAMFORMINGSESSION_EDITED = "The team forming session has been edited.";
-    public final String ERROR_MESSAGE_TEAMPROFILE_EXISTS = "Same team profile exists already.";
-    public final String MESSAGE_TEAMPROFILE_SAVED = "The team profile has been saved.";
-    public final String MESSAGE_TEAMCHANGE_SAVED = "Student team has been changed.";
-    public final String MESSAGE_LOG_REMINDSTUDENTS = "All your actions will be logged and can be viewed by the course coordinator.";
-    public final String MESSAGE_STUDENTPROFILE_SAVED = "Your profile has been saved.";
-    public final String MESSAGE_STUDENT_JOINEDTEAM = "You have joined a team.";
-    public final String MESSAGE_STUDENT_LEFTTEAM = "You have left the team.";
-    public final String MESSAGE_STUDENT_ADDTOTEAM = "Student has been added to your team.";
-    public final String MESSAGE_STUDENT_NEWTEAMCREATED = "A new team has been created with the student.";
+	public final String MESSAGE_TEAMFORMINGSESSION_ADDED = "The team forming session has been added.";
+	public final String MESSAGE_TEAMFORMINGSESSION_ADDED_WITH_EMPTY_CLASS = "The course does not have any students.";
+	public final String MESSAGE_TEAMFORMINGSESSION_DELETED = "The team forming session has been deleted.";
+	public final String MESSAGE_TEAMFORMINGSESSION_REMINDED = "Reminder e-mails have been sent out to those students.";
+	public final String ERROR_MESSAGE_TEAMFORMINGSESSION_EXISTS = "The team forming session exists already.";
+	public final String ERROR_INVALID_INPUT_TEAMFORMINGSESSION = "The team forming session schedule (start/deadline) is not valid.";
+	public final String MESSAGE_TEAMFORMINGSESSION_EDITED = "The team forming session has been edited.";
+	public final String ERROR_MESSAGE_TEAMPROFILE_EXISTS = "Same team profile exists already.";
+	public final String MESSAGE_TEAMPROFILE_SAVED = "The team profile has been saved.";
+	public final String MESSAGE_TEAMCHANGE_SAVED = "Student team has been changed.";
+	public final String MESSAGE_LOG_REMINDSTUDENTS = "All your actions will be logged and can be viewed by the course coordinator.";
+	public final String MESSAGE_STUDENTPROFILE_SAVED = "Your profile has been saved.";
+	public final String MESSAGE_STUDENT_JOINEDTEAM = "You have joined a team.";
+	public final String MESSAGE_STUDENT_LEFTTEAM = "You have left the team.";
+	public final String MESSAGE_STUDENT_ADDTOTEAM = "Student has been added to your team.";
+	public final String MESSAGE_STUDENT_NEWTEAMCREATED = "A new team has been created with the student.";
 	// evaluations
 	public final String MESSAGE_EVALUATION_ADDED = "The evaluation has been added.";
 	public final String MESSAGE_EVALUATION_ADDED_WITH_EMPTY_TEAMS = "The evaluation has been added. Some students are without teams.";
@@ -409,39 +405,45 @@ public class BrowserInstance {
 
 	public final String FOOTER = "Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:";
 
+	/**
+	 * Loads the TEAMMATES homepage into the browser
+	 */
 	public void init(){
 		goToUrl(Config.inst().TEAMMATES_URL);
 	}
-	
+
 	// -----------------------------UI Actions ----------------------------->>
 	// Homepage:
 	/**
-	 * Coordinator Login
+	 * Logs in as coordinator
 	 * 
 	 * @page Home page
 	 */
 	public void loginCoord(String username, String password) {
-
 		System.out.println("Logging in coordinator " + username + ".");
+
 		// Click the Coordinator button on the main page
 		wdClick(COORD_LOGIN_BUTTON);
 		waitForPageLoad();
+
 		/*
-		 * IE Fix: for some reason in IE new profile is not created, thus user is already logged in. This will log user out.
+		 * IE Fix
+		 * For some reason in IE new profile is not created, thus user is already logged in. This will log user out.
 		 */
 		if (isElementPresent(logoutTab)) {
 			driver.findElement(logoutTab).click();
 			waitForPageLoad();
+
 			// Check that we're at the main page after logging out
 			verifyMainPage();
 
 			wdClick(COORD_LOGIN_BUTTON);
 			waitForPageLoad();
 		}
+
 		_login(username, password);
-		waitAWhile(3000);
+
 		verifyCoordHomePage();
-		waitAWhile(1000);
 	}
 
 	/**
@@ -467,7 +469,7 @@ public class BrowserInstance {
 			waitForPageLoad();
 		}
 		_login(username, password);
-		waitAWhile(4000);
+		//waitAWhile(4000);
 		verifyStudentHomePage();
 	}
 
@@ -490,14 +492,14 @@ public class BrowserInstance {
 	public void clickHomeTab() {
 		waitAndClick(homeTab);
 	}
-	
+
 	/**
 	 * Click Courses Tab
 	 */
 	public void clickCoursesTab() {
 		waitAndClick(coursesTab);
 	}
-	
+
 	/**
 	 * Click Evaluations Tab
 	 */
@@ -654,7 +656,7 @@ public class BrowserInstance {
 	public By getStudentEditEvaluation(int row) {
 		return By.id("editEvaluation" + row);
 	}
-	
+
 	public void studentClickEditEvaluation(int row) {
 		waitAndClick(getStudentEditEvaluation(row));
 	}
@@ -671,7 +673,7 @@ public class BrowserInstance {
 	public By getStudentEvaluationViewResults(int row) {
 		return By.xpath(String.format("//div[@id='studentPastEvaluations']//table[@id='dataform']//tr[%d]//td[%d]//a['View Results']", row + 2, 5));
 	}
-	
+
 	public void studentClickEvaluationViewResults(int row) {
 		waitAndClick(getStudentEvaluationViewResults(row));
 	}
@@ -750,7 +752,7 @@ public class BrowserInstance {
 	public void addCourse(String courseid, String coursename, int courseIndex) {
 		wdFillString(coordInputCourseID, courseid);
 		wdFillString(coordInputCourseName, coursename);
-		// wdClick(addCourseButton);
+		// wdClick(coordAddCourseButton);
 		waitAndClickAndCheck(coordAddCourseButton, By.id("courseID" + courseIndex));
 		justWait();
 	}
@@ -773,7 +775,13 @@ public class BrowserInstance {
 		}
 	}
 
-
+	/**
+	 * Reads through list of courses in the UI (i.e., in form of HTML table)
+	 * and returns the course name for a specified course id.<br />
+	 * Error if specified course id is not found.
+	 * @param courseID
+	 * @return
+	 */
 	public By getCourseName(String courseID) {
 		int row = findRowNumberContainingCourseId(courseID);
 		if (row > -1) {
@@ -865,7 +873,7 @@ public class BrowserInstance {
 	}
 
 	public void clickAndConfirmCourseDelete(int row) {
-		clickAndConfirm(By.xpath(String.format("//table[@id='dataform']//tr[%d]//td[6]//a[@class='t_course_delete']", row + 2)));
+		waitAndClickAndConfirm(By.xpath(String.format("//table[@id='dataform']//tr[%d]//td[6]//a[@class='t_course_delete']", row + 2)));
 	}
 
 	public void clickAndConfirmCourseDelete(String courseID) {
@@ -1000,7 +1008,7 @@ public class BrowserInstance {
 	public void deleteAllCourses() throws Exception {
 		while (driver.findElements(By.cssSelector("#coordinatorCourseTable tr")).size() > 1 && isElementPresent(By.className("t_course_delete"))) {
 			System.out.println("Deleting a course...");
-			clickAndConfirm(By.className("t_course_delete"));
+			waitAndClickAndConfirm(By.className("t_course_delete"));
 			waitForTextInElement(statusMessage, MESSAGE_COURSE_DELETED);
 			gotoCourses();
 		}
@@ -1019,269 +1027,269 @@ public class BrowserInstance {
 			System.out.println("Delete a student...");
 			By by = By.xpath(String.format("//table[@id='dataform']//tr[%d]//a[4]", 2));
 			waitForElementPresent(by);
-			clickAndConfirm(by);
+			waitAndClickAndConfirm(by);
 			waitForElementPresent(By.id("dataform tr"));
 		}
 	}
 	// -----------------------------UI Actions ----------------------------->>
-		// Team Forming:
-		/**
-		 * Snippet to go to Team Forming page
-		 */
+	// Team Forming:
+	/**
+	 * Snippet to go to Team Forming page
+	 */
 
-		public void gotoTeamForming() {
-			wdClick(teamFormingTab);
-			justWait();
-			verifyTeamFormingPage();
-		}
+	public void gotoTeamForming() {
+		wdClick(teamFormingTab);
+		justWait();
+		verifyTeamFormingPage();
+	}
 
-		public void clickTeamFormingTab() {
-			wdClick(teamFormingTab);
-		}
-		
-		// Helper method to check that we're at the team forming page
-		// Checks for the various fields expected.
-		public void verifyTeamFormingPage() {
-			for (int x = 0;; x++) {
-				if (x >= 40)
-					fail("timeout");
+	public void clickTeamFormingTab() {
+		wdClick(teamFormingTab);
+	}
 
-				if ((isElementPresent(By.id("courseid"))) && (isElementPresent(By.xpath("//*[@id='profile_template']")))
-						&& (isElementPresent(By.xpath("//*[@id='instr']"))) && (isElementPresent(By.xpath("//*[@id='start']"))) && (isElementPresent(By.xpath("//*[@id='starttime']")))
-						&& (isElementPresent(By.xpath("//*[@id='deadline']"))) && (isElementPresent(By.xpath("//*[@id='deadlinetime']"))) && (isElementPresent(By.xpath("//*[@id='graceperiod']"))))
-					break;
-				waitAWhile(200);
-			}
-		}
-		
-		// Helper method to check that we're at the manage team forming page
-		// Checks for the various fields expected.
-		public void verifyManageTeamFormingPage(ArrayList<Student> students) {
-			boolean studentsChecked = true;
-			for (int x = 0;; x++) {
-				if (x >= 40)
-					fail("timeout");
-				
-				for(int i=0; i<students.size(); i++)
-					if(isTextPresent(students.get(i).name)==false)
-						studentsChecked = false;
-					
-				
-				if((isTextPresent("TEAMS FORMED")) && (isTextPresent("STUDENTS YET TO JOIN A TEAM")) 
-						&& (isElementPresent(By.id("viewTeamProfile0"))) && (isElementPresent(By.id("viewTeamProfile1")))
-						&& (isElementPresent(By.id("allocateStudentTeam0"))) && (isElementPresent(By.id("allocateStudentTeam1")))
-						&& studentsChecked == true)
-					break;
-				waitAWhile(200);
-			}
-		}
-		
-		// Helper method to check that we're at the team detail page
-		// Checks for the various fields expected.
-		public void verifyTeamDetailPage() {
-			for (int x = 0;; x++) {
-				if (x >= 40)
-					fail("timeout");				
-				
-				if((isTextPresent("TEAM DETAIL")) && (isElementPresent(By.id("teamName"))) 
-						&& (isElementPresent(By.id("teamProfile")))	&& (isElementPresent(By.id("button_back"))) 
-						&& (isElementPresent(By.id("button_saveTeamProfile"))))
-					break;
-				waitAWhile(200);
-			}
-		}
-		
-		// Helper method to check that we're at the view teams page
-		// Checks for the various fields expected.
-		public void verifyViewTeamsPage(ArrayList<Student> students) {
-			boolean studentsChecked = true;
-			for (int x = 0;; x++) {
-				if (x >= 40)
-					fail("timeout");
-				
-				for(int i=0; i<students.size(); i++)
-					if(isTextPresent(students.get(i).name)==false)
-						studentsChecked = false;				
-				
-				if((isTextPresent("TEAMS FORMED")) && (isTextPresent("STUDENTS YET TO JOIN A TEAM")) 
-						&& ((isElementPresent(By.id("buttonJoin0"))) || (isElementPresent(By.id("buttonJoin1"))))
-						&& ((isElementPresent(By.id("buttonAdd0"))) || (isElementPresent(By.id("buttonAdd1"))))
-						&& studentsChecked == true)
-					break;
-				waitAWhile(200);
-			}
-		}
-		
-		// Helper method to check that we're at the change student team page
-		// Checks for the various fields expected.
-		public void verifyChangeStudentTeamPage() {
-			for (int x = 0;; x++) {
-				if (x >= 40)
-					fail("timeout");				
-				
-				if((isTextPresent("Add to existing team:")) && (isTextPresent("Add to a new team:"))
-						&& (isElementPresent(By.id("teamchange_newteam"))) && (isElementPresent(By.id("teamName"))) 
-						&& (isElementPresent(By.id("newteamName"))) && (isElementPresent(By.id("button_saveTeamChange"))) 
-						&& (isElementPresent(By.id("button_back"))))
-					break;
-				waitAWhile(200);
-			}
-		}
-		
-		public void addTeamFormingSession(TeamFormingSession teamForming) {
-			addTeamFormingSession(teamForming.courseID, teamForming.dateValue, teamForming.nextTimeValue, 
-					teamForming.gracePeriod, teamForming.instructions, teamForming.profileTemplate);
-		}
-		
-		public void addTeamFormingSession(String courseID, String dateValue, String nextTimeValue, Integer gracePeriod, String instructions, String profileTemplate) {
-			clickTeamFormingTab();
-			
-			// Select the course
-			waitAndClick(coordInputCourseID);
-			selectDropdownByValue(coordInputCourseID, courseID);
+	// Helper method to check that we're at the team forming page
+	// Checks for the various fields expected.
+	public void verifyTeamFormingPage() {
+		for (int x = 0;; x++) {
+			if (x >= 40)
+				fail("timeout");
 
-			// Fill in instructions
-			wdFillString(inputInstruction, instructions);
-			// Fill in profile template
-			wdFillString(inputProfileTemplate, profileTemplate);
-			justWait();
-
-			// Select deadline date
-			waitAndClick(inputClosingDate);
-			selenium.waitForPopUp("window_deadline", "30000");
-			selenium.selectWindow("name=window_deadline");
-			waitAndClick(By.xpath("//a[contains(@href, '" + dateValue + "')]"));
-			for (String s : driver.getWindowHandles()) {
-				selenium.selectWindow(s);
+			if ((isElementPresent(By.id("courseid"))) && (isElementPresent(By.xpath("//*[@id='profile_template']")))
+					&& (isElementPresent(By.xpath("//*[@id='instr']"))) && (isElementPresent(By.xpath("//*[@id='start']"))) && (isElementPresent(By.xpath("//*[@id='starttime']")))
+					&& (isElementPresent(By.xpath("//*[@id='deadline']"))) && (isElementPresent(By.xpath("//*[@id='deadlinetime']"))) && (isElementPresent(By.xpath("//*[@id='graceperiod']"))))
 				break;
-			}
-			justWait();
-			selectDropdownByValue(inputClosingTime, nextTimeValue);
-			// Select grace period
-			selectDropdownByValue(inputGracePeriod, Integer.toString(gracePeriod));
-			justWait();
+			waitAWhile(200);
+		}
+	}
 
-			// Submit the form
-			waitAndClick(createTeamFormingSessionButton);
-		}
-		
-		public int countTotalTeamFormingSessions() {
+	// Helper method to check that we're at the manage team forming page
+	// Checks for the various fields expected.
+	public void verifyManageTeamFormingPage(ArrayList<Student> students) {
+		boolean studentsChecked = true;
+		for (int x = 0;; x++) {
+			if (x >= 40)
+				fail("timeout");
 
-			if (getElementText(By.xpath(String.format("//table[@id='dataform']//tr[2]//td[1]"))).isEmpty()) {
-				return 0;
-			} else {
-				return selenium.getXpathCount("//table[@id='dataform']/tbody/tr").intValue() - 1;
-			}
-		}
-		
-		public String getTeamFormingSessionCourseID(int row) {
-			row++;
-			return selenium.getTable("id=dataform." + row + ".0");
-		}
-		
-		public String getTeamFormingSessionStatus(int row) {
-			row++;
-			return selenium.getTable("id=dataform." + row + ".2");
-		}
-		
-		public By getStudentNameFromManageTeamFormingSession(int row, int col) {
-			return By.xpath(String.format("//div[@class='result_team']//table[@id='dataform']//tbody//tr[%d]//td[%d]", row, col));		
-		}
-		
-		// Helper method to check that the team forming session was added successfully
-		// Checks for the details of the evaluation that was added.
-		public void verifyTeamFormingSessionAdded(String courseId, String status) {
+			for(int i=0; i<students.size(); i++)
+				if(isTextPresent(students.get(i).name)==false)
+					studentsChecked = false;
 
-			for (int i = 0; i < this.countTotalTeamFormingSessions(); i++) {
-				if (this.getTeamFormingSessionCourseID(i).equals(courseId))
-					assertEquals(status, getElementText(By.className("t_team_status")));
-				assertEquals(status, this.getTeamFormingSessionStatus(i));
-			}
-		}
 
-		public void clickTeamFormingSessionViewTeams(String courseId) {
-			int row = findTeamFormingSessionRow(courseId);
-			if (row > -1) {
-				clickTeamFormingSessionViewTeams(row);
-			} else {
-				fail("Team forming session view teams not found.");
+			if((isTextPresent("TEAMS FORMED")) && (isTextPresent("STUDENTS YET TO JOIN A TEAM")) 
+					&& (isElementPresent(By.id("viewTeamProfile0"))) && (isElementPresent(By.id("viewTeamProfile1")))
+					&& (isElementPresent(By.id("allocateStudentTeam0"))) && (isElementPresent(By.id("allocateStudentTeam1")))
+					&& studentsChecked == true)
+				break;
+			waitAWhile(200);
+		}
+	}
+
+	// Helper method to check that we're at the team detail page
+	// Checks for the various fields expected.
+	public void verifyTeamDetailPage() {
+		for (int x = 0;; x++) {
+			if (x >= 40)
+				fail("timeout");				
+
+			if((isTextPresent("TEAM DETAIL")) && (isElementPresent(By.id("teamName"))) 
+					&& (isElementPresent(By.id("teamProfile")))	&& (isElementPresent(By.id("button_back"))) 
+					&& (isElementPresent(By.id("button_saveTeamProfile"))))
+				break;
+			waitAWhile(200);
+		}
+	}
+
+	// Helper method to check that we're at the view teams page
+	// Checks for the various fields expected.
+	public void verifyViewTeamsPage(ArrayList<Student> students) {
+		boolean studentsChecked = true;
+		for (int x = 0;; x++) {
+			if (x >= 40)
+				fail("timeout");
+
+			for(int i=0; i<students.size(); i++)
+				if(isTextPresent(students.get(i).name)==false)
+					studentsChecked = false;				
+
+			if((isTextPresent("TEAMS FORMED")) && (isTextPresent("STUDENTS YET TO JOIN A TEAM")) 
+					&& ((isElementPresent(By.id("buttonJoin0"))) || (isElementPresent(By.id("buttonJoin1"))))
+					&& ((isElementPresent(By.id("buttonAdd0"))) || (isElementPresent(By.id("buttonAdd1"))))
+					&& studentsChecked == true)
+				break;
+			waitAWhile(200);
+		}
+	}
+
+	// Helper method to check that we're at the change student team page
+	// Checks for the various fields expected.
+	public void verifyChangeStudentTeamPage() {
+		for (int x = 0;; x++) {
+			if (x >= 40)
+				fail("timeout");				
+
+			if((isTextPresent("Add to existing team:")) && (isTextPresent("Add to a new team:"))
+					&& (isElementPresent(By.id("teamchange_newteam"))) && (isElementPresent(By.id("teamName"))) 
+					&& (isElementPresent(By.id("newteamName"))) && (isElementPresent(By.id("button_saveTeamChange"))) 
+					&& (isElementPresent(By.id("button_back"))))
+				break;
+			waitAWhile(200);
+		}
+	}
+
+	public void addTeamFormingSession(TeamFormingSession teamForming) {
+		addTeamFormingSession(teamForming.courseID, teamForming.dateValue, teamForming.nextTimeValue, 
+				teamForming.gracePeriod, teamForming.instructions, teamForming.profileTemplate);
+	}
+
+	public void addTeamFormingSession(String courseID, String dateValue, String nextTimeValue, Integer gracePeriod, String instructions, String profileTemplate) {
+		clickTeamFormingTab();
+
+		// Select the course
+		waitAndClick(coordInputCourseID);
+		selectDropdownByValue(coordInputCourseID, courseID);
+
+		// Fill in instructions
+		wdFillString(inputInstruction, instructions);
+		// Fill in profile template
+		wdFillString(inputProfileTemplate, profileTemplate);
+		justWait();
+
+		// Select deadline date
+		waitAndClick(inputClosingDate);
+		selenium.waitForPopUp("window_deadline", "30000");
+		selenium.selectWindow("name=window_deadline");
+		waitAndClick(By.xpath("//a[contains(@href, '" + dateValue + "')]"));
+		for (String s : driver.getWindowHandles()) {
+			selenium.selectWindow(s);
+			break;
+		}
+		justWait();
+		selectDropdownByValue(inputClosingTime, nextTimeValue);
+		// Select grace period
+		selectDropdownByValue(inputGracePeriod, Integer.toString(gracePeriod));
+		justWait();
+
+		// Submit the form
+		waitAndClick(createTeamFormingSessionButton);
+	}
+
+	public int countTotalTeamFormingSessions() {
+
+		if (getElementText(By.xpath(String.format("//table[@id='dataform']//tr[2]//td[1]"))).isEmpty()) {
+			return 0;
+		} else {
+			return selenium.getXpathCount("//table[@id='dataform']/tbody/tr").intValue() - 1;
+		}
+	}
+
+	public String getTeamFormingSessionCourseID(int row) {
+		row++;
+		return selenium.getTable("id=dataform." + row + ".0");
+	}
+
+	public String getTeamFormingSessionStatus(int row) {
+		row++;
+		return selenium.getTable("id=dataform." + row + ".2");
+	}
+
+	public By getStudentNameFromManageTeamFormingSession(int row, int col) {
+		return By.xpath(String.format("//div[@class='result_team']//table[@id='dataform']//tbody//tr[%d]//td[%d]", row, col));		
+	}
+
+	// Helper method to check that the team forming session was added successfully
+	// Checks for the details of the evaluation that was added.
+	public void verifyTeamFormingSessionAdded(String courseId, String status) {
+
+		for (int i = 0; i < this.countTotalTeamFormingSessions(); i++) {
+			if (this.getTeamFormingSessionCourseID(i).equals(courseId))
+				assertEquals(status, getElementText(By.className("t_team_status")));
+			assertEquals(status, this.getTeamFormingSessionStatus(i));
+		}
+	}
+
+	public void clickTeamFormingSessionViewTeams(String courseId) {
+		int row = findTeamFormingSessionRow(courseId);
+		if (row > -1) {
+			clickTeamFormingSessionViewTeams(row);
+		} else {
+			fail("Team forming session view teams not found.");
+		}
+	}
+
+	public void clickTeamFormingSessionViewTeams(int row) {
+		String elementID = "viewTeams" + row;
+		waitAndClickAndConfirm(By.id(elementID));
+	}
+
+	public void clickTeamFormingSessionViewLog(String courseId) {
+		int row = findTeamFormingSessionRow(courseId);
+		if (row > -1) {
+			clickTeamFormingSessionViewLog(row);
+		} else {
+			fail("Team forming session view log not found.");
+		}
+	}
+
+	public void clickTeamFormingSessionViewLog(int row) {
+		String elementID = "viewLogTeamFormingSession" + row;
+		waitAndClickAndConfirm(By.id(elementID));
+	}
+
+	public void clickTeamFormingSessionEdit(String courseId) {
+		int row = findTeamFormingSessionRow(courseId);
+		if (row > -1) {
+			clickTeamFormingSessionEdit(row);
+		} else {
+			fail("Team forming session not found.");
+		}
+	}
+
+	public void clickTeamFormingSessionRemind(String courseId) {
+		int row = findTeamFormingSessionRow(courseId);
+		if (row > -1) {
+			String elementID = "remindTeamFormingSession" + row;
+			waitAndClickAndConfirm(By.id(elementID));
+		}
+	}
+
+	public void clickTeamFormingSessionEdit(int row) {
+		String elementID = "manageTeamFormingSession" + row;
+		waitAndClickAndConfirm(By.id(elementID));
+	}
+
+	public void clickTeamFormingSessionDelete(String courseId) {
+		int row = findTeamFormingSessionRow(courseId);
+		if(row>-1){
+			String elementID = "deleteTeamFormingSession" + row;
+			waitAndClickAndConfirm(By.id(elementID));
+		}
+	}
+
+	public boolean isTeamFormingSessionPresent(String courseId) {
+		int totalTeamFormingSession = countTotalTeamFormingSessions();
+		boolean isPresent = false;
+		for (int i = 0; i < totalTeamFormingSession; i++) {
+			if (getElementText(By.xpath(String.format("//table[@id='dataform']//tr["+(i+2)+"]//td[1]"))).equals(courseId)) {
+				isPresent = true;
+				continue;
 			}
 		}
-		
-		public void clickTeamFormingSessionViewTeams(int row) {
-			String elementID = "viewTeams" + row;
-			clickAndConfirm(By.id(elementID));
+		return isPresent;
+	}
+
+	/**
+	 * Team Forming Session primary key: courseId
+	 * 
+	 * */
+	private int findTeamFormingSessionRow(String courseId) {
+		int i = 0;
+		while (i < this.countTotalTeamFormingSessions()) {
+			if (this.getTeamFormingSessionCourseID(i).equals(courseId))
+				return i;
+			i++;
 		}
-		
-		public void clickTeamFormingSessionViewLog(String courseId) {
-			int row = findTeamFormingSessionRow(courseId);
-			if (row > -1) {
-				clickTeamFormingSessionViewLog(row);
-			} else {
-				fail("Team forming session view log not found.");
-			}
-		}
-		
-		public void clickTeamFormingSessionViewLog(int row) {
-			String elementID = "viewLogTeamFormingSession" + row;
-			clickAndConfirm(By.id(elementID));
-		}
-		
-		public void clickTeamFormingSessionEdit(String courseId) {
-			int row = findTeamFormingSessionRow(courseId);
-			if (row > -1) {
-				clickTeamFormingSessionEdit(row);
-			} else {
-				fail("Team forming session not found.");
-			}
-		}
-		
-		public void clickTeamFormingSessionRemind(String courseId) {
-			int row = findTeamFormingSessionRow(courseId);
-			if (row > -1) {
-				String elementID = "remindTeamFormingSession" + row;
-				clickAndConfirm(By.id(elementID));
-			}
-		}
-		
-		public void clickTeamFormingSessionEdit(int row) {
-			String elementID = "manageTeamFormingSession" + row;
-			clickAndConfirm(By.id(elementID));
-		}
-		
-		public void clickTeamFormingSessionDelete(String courseId) {
-			int row = findTeamFormingSessionRow(courseId);
-			if(row>-1){
-				String elementID = "deleteTeamFormingSession" + row;
-				clickAndConfirm(By.id(elementID));
-			}
-		}
-		
-		public boolean isTeamFormingSessionPresent(String courseId) {
-			int totalTeamFormingSession = countTotalTeamFormingSessions();
-			boolean isPresent = false;
-			for (int i = 0; i < totalTeamFormingSession; i++) {
-				if (getElementText(By.xpath(String.format("//table[@id='dataform']//tr["+(i+2)+"]//td[1]"))).equals(courseId)) {
-					isPresent = true;
-					continue;
-				}
-			}
-			return isPresent;
-		}
-		
-		/**
-		 * Team Forming Session primary key: courseId
-		 * 
-		 * */
-		private int findTeamFormingSessionRow(String courseId) {
-			int i = 0;
-			while (i < this.countTotalTeamFormingSessions()) {
-				if (this.getTeamFormingSessionCourseID(i).equals(courseId))
-					return i;
-				i++;
-			}
-			return -1;
-		}
+		return -1;
+	}
 	// -----------------------------UI Actions ----------------------------->>
 	// Evaluation:
 	/**
@@ -1382,14 +1390,14 @@ public class BrowserInstance {
 		justWait();
 		return selenium.getValue("id=evaluationname");
 	}
-	
+
 	public String fillInCourseName(String name)
 	{
 		wdFillString(coordInputCourseName, name);
 		justWait();
 		return selenium.getValue("id=coursename");
 	}
-	
+
 	public String fillInCourseID(String id)
 	{
 		wdFillString(coordInputCourseID, id);
@@ -1474,7 +1482,7 @@ public class BrowserInstance {
 	public By getEvaluationViewResults(int row) {
 		return By.xpath(String.format("//div[@id='coordinatorEvaluationTable']//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_eval_view']", row + 2, 5));
 	}
-	
+
 	public void clickEvaluationViewResults(int row) {
 		waitAndClick(getEvaluationViewResults(row));
 	}
@@ -1511,7 +1519,7 @@ public class BrowserInstance {
 	}
 
 	public void clickEvaluationPublish(int row) {
-		clickAndConfirm(getEvaluationPublishResults(row));
+		waitAndClickAndConfirm(getEvaluationPublishResults(row));
 	}
 
 	public void clickEvaluationPublish(String courseId, String evalName) {
@@ -1528,7 +1536,7 @@ public class BrowserInstance {
 	}
 
 	public void clickEvaluationUnpublish(int row) {
-		clickAndConfirm(getEvaluationUnpublishResults(row));
+		waitAndClickAndConfirm(getEvaluationUnpublishResults(row));
 	}
 
 	public void clickEvaluationUnpublish(String courseId, String evalName) {
@@ -1545,7 +1553,7 @@ public class BrowserInstance {
 	}
 
 	public void clickAndConfirmEvaluationRemind(int row) {
-		clickAndConfirm(getEvaluationRemindResults(row));
+		waitAndClickAndConfirm(getEvaluationRemindResults(row));
 	}
 
 	public void clickAndConfirmEvaluationRemind(String courseId, String evalName) {
@@ -1562,7 +1570,7 @@ public class BrowserInstance {
 	}
 
 	public void clickAndConfirmEvaluationDelete(int row) {
-		clickAndConfirm(getEvaluationDeleteResults(row));
+		waitAndClickAndConfirm(getEvaluationDeleteResults(row));
 	}
 
 	public void clickAndConfirmEvaluationDelete(String courseId, String evalName) {
@@ -1605,11 +1613,11 @@ public class BrowserInstance {
 	public By getReviewerSummaryView(int row) {
 		return By.id("viewEvaluationResults" + row);
 	}
-	
+
 	public void clickReviewerSummaryView(int row) {
 		waitAndClick(getReviewerSummaryView(row));
 	}
-	
+
 	public By getReviewerSummaryEdit(int row) {
 		return By.id("editEvaluationResults" + row);
 	}
@@ -1645,11 +1653,11 @@ public class BrowserInstance {
 	public String getReviewerIndividualClaimedPoint() {
 		return this.getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]", 2)));
 	}
-	
+
 	public String getReviewerIndividualPerceivedPoint() {
 		return this.getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]", 3)));
 	}
-	
+
 	public By getReviewerIndividualToStudent(int row) {
 		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", row + 4, 1));
 	}
@@ -1665,7 +1673,7 @@ public class BrowserInstance {
 	public String getRevieweeIndividualPerceivedPoint() {
 		return this.getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]", 3)));
 	}
-	
+
 	public By getRevieweeIndividualFromStudent(int row) {
 		return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", row + 4, 1));
 	}
@@ -1744,7 +1752,7 @@ public class BrowserInstance {
 
 		while (driver.findElements(By.className("t_eval_delete")).size() > 1) {
 			System.out.println("Deleting 1 evaluation...");
-			clickAndConfirm(By.className("t_eval_delete"));
+			waitAndClickAndConfirm(By.className("t_eval_delete"));
 			waitForTextInElement(statusMessage, "The evaluation has been deleted.");
 			gotoEvaluations(); // This is to fix for Datastore delay problem
 		}
@@ -1918,7 +1926,7 @@ public class BrowserInstance {
 	 * waiting functions:
 	 */
 	public void justWait() {
-		waitAWhile(1500);
+		//waitAWhile(1500);
 	}
 
 	public void waitAWhile(long miliseconds) {
@@ -1949,17 +1957,14 @@ public class BrowserInstance {
 		while (!isElementPresent(by)) {
 			if (counter++ > 300)
 				fail("Timeout");
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-			}
+			waitAWhile(50);
 		}
 	}
-	
+
 	public void waitForCourseIdToAppearInCourseList(String courseId){
 		waitForElementPresent(getCourseIDCellLocatorByCourseId(courseId));	
 	}
-	
+
 	public void waitForStatusMessage(String message){
 		waitForTextInElement(statusMessage, message);
 	}
@@ -1967,17 +1972,13 @@ public class BrowserInstance {
 	public void waitForTextInElement(By locator, String value) {
 		int counter = 0;
 		while (true) {
-
-			System.out.println("Looking for:"+locator + ": " + value);
-			System.out.println("But found  :"+locator + ": " + getElementText(locator));
 			if (isElementPresent(locator) && getElementText(locator).equals(value))
 				return;
-			if (counter++ > 50)
+			System.out.println("Looking for:"+locator + ": " + value);
+			System.out.println("But found  :"+locator + ": " + getElementText(locator));
+			if (counter++ > 10)
 				fail("Timeout");
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-			}
+			waitAWhile(500);
 		}
 	}
 
@@ -1995,7 +1996,9 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * Click functions: WebDriver click on element
+	 * WebDriver clicks on an element.
+	 * Fails on non-existence of element.
+	 * @param by
 	 */
 	public void wdClick(By by) {
 		if (isElementPresent(by)) {
@@ -2005,82 +2008,115 @@ public class BrowserInstance {
 		}
 	}
 
+	/**
+	 * WebDriver clicks on an element.
+	 * Wait for the element to exist or timeout.
+	 * @param by
+	 */
 	public void waitAndClick(By by) {
 		waitForElementPresent(by);
 		getDriver().findElement(by).click();
 	}
-	
-	public void clickCoordCourseSortByNameButton(){
-		waitAndClick(coordCourseSortByNameButtonLocator);
-	}
-	
-	public void clickCoordCourseSortByIdButton(){
-		waitAndClick(coordCourseSortByIdButtonLocator);
-	}
 
+	/**
+	 * Keeps clicking the currentElement until nextElement is loaded
+	 * (Is it really what it's supposed to do? ~Aldrian~)
+	 * @param currentElement
+	 * @param nextElement
+	 */
 	public void waitAndClickAndCheck(By currentElement, By nextElement) {
-		// int counter = 0;
 		while (!isElementPresent(nextElement)) {
-			// if (counter++ > 1000)
-			// fail("Timeout");
 			waitForElementPresent(currentElement);
 			getDriver().findElement(currentElement).click();
 		}
 	}
 
-	public void waitAndClickAndConfirm(By by) {
-		waitForElementPresent(by);
-		clickAndConfirm(by);
+	public void clickCoordCourseSortByNameButton(){
+		waitAndClick(coordCourseSortByNameButtonLocator);
 	}
 
+	public void clickCoordCourseSortByIdButton(){
+		waitAndClick(coordCourseSortByIdButtonLocator);
+	}
+
+	// Click and confirm functions
 	/**
-	 * click and confirm functions:
+	 * Click and confirm (Yes)
+	 * @deprecated Reported to not work on Firefox on some instances. Use more general one {{@link #waitAndClickAndConfirm(By)}
 	 */
+	@SuppressWarnings("unused")
 	private void confirmYes() {
-		/*
-		 * if (!Config.inst().BROWSER.equals("chrome")) { Alert alert = driver.switchTo().alert(); alert.accept(); }
-		 */
-	}
-
-	private void confirmNo() {
-		/*
-		 * if (!Config.inst().BROWSER.equals("chrome")) { Alert alert = driver.switchTo().alert(); alert.dismiss(); }
-		 */
-	}
-
-	public void chromeConfirmYes() {
-		/*
-		 * Huy: I have no idea why the driver.switchTo().alert() approach doesn't work even in Firefox (it supposed to!). This is a workaround to press Yes in the confirmation box. Same for function
-		 * below for No.
-		 */
-
-		// if (Config.inst().BROWSER.equals("chrome")) {
-		JavascriptExecutor js = (JavascriptExecutor) getDriver();
-		js.executeScript("window.confirm = function(msg){ return true;};");
-		// }
-	}
-
-	public void chromeConfirmNo() {
-		// if (Config.inst().BROWSER.equals("chrome")) {
-		JavascriptExecutor js = (JavascriptExecutor) getDriver();
-		js.executeScript("window.confirm = function(msg){ return false;};");
-		// }
-	}
-
-	public void clickAndConfirm(By by) {
-		chromeConfirmYes();
-		waitAndClick(by);
-		confirmYes();
-	}
-
-	public void waitAndClickAndCancel(By by) {
-		chromeConfirmNo();
-		waitAndClick(by);
-		confirmNo();
+		//if (!Config.inst().BROWSER.equals("chrome")) { Alert alert = driver.switchTo().alert(); alert.accept(); }
 	}
 
 	/**
-	 * WebDriver fills the input field with text value (will clear the data first)
+	 * Click and cancel (No)
+	 * @deprecated Reported to not work on Firefox on some instances. Use more general one {{@link #waitAndClickAndConfirm(By)}
+	 */
+	@SuppressWarnings("unused")
+	private void confirmNo() {
+		//if (!Config.inst().BROWSER.equals("chrome")) { Alert alert = driver.switchTo().alert(); alert.dismiss(); }
+	}
+
+	/**
+	 * Confirm a dialog box, i.e., clicking Yes, by overriding the alert box.
+	 * So, no alert box will appear, it will directly assumed as Yes.
+	 * This works for Chrome and Firefox.
+	 * <br />
+	 * Consequently, this method needs to be called before the click.
+	 * And the cleanup after click is necessary to remove the overriding, otherwise the selection will always be yes.
+	 * 
+	 */
+	public void waitAndClickAndConfirm(By by) {
+		/*
+		 * Huy: I have no idea why the driver.switchTo().alert() approach doesn't work even in Firefox (it supposed to!).
+		 * This is a workaround to press Yes in the confirmation box. Same for function below for No.
+		 * 
+		 * Aldrian: I tried driver.switchTo().alert() approach in my local Firefox and it worked. For more general usability I removed the old one ans use this one instead.
+		 */
+
+		//if (Config.inst().BROWSER.equals("chrome")) {
+			JavascriptExecutor js = (JavascriptExecutor) getDriver();
+			js.executeScript("window.confirm = function(msg){ return true;};");
+			waitAndClick(by);
+			js.executeScript("delete(window.confirm)");
+		//}
+	}
+
+	/**
+	 * Cancels a dialog box, i.e., clicking No, by overriding the alert box.
+	 * So, no alert box will appear, it will directly assumed as No.
+	 * This works for Chrome and Firefox.
+	 * <br />
+	 * Consequently, this method needs to be called before the click.
+	 * And the cleanup after click is necessary to remove the overriding, otherwise the selection will always be yes.
+	 * 
+	 */
+	public void waitAndClickAndCancel(By by) {
+		//if (Config.inst().BROWSER.equals("chrome")) {
+			JavascriptExecutor js = (JavascriptExecutor) getDriver();
+			js.executeScript("window.confirm = function(msg){ return false;};");
+			waitAndClick(by);
+			js.executeScript("delete(window.confirm)");
+		//}
+	}
+	
+	// The old methods
+//	public void waitAndClickAndConfirm(By by){
+//		chromeConfirmYes();
+//		waitAndClick(by);
+//		confirmYes();
+//	}
+
+//	public void waitAndClickAndCancel(By by){
+//		chromeConfirmNo();
+//		waitAndClick(by);
+//		confirmNo();
+//	}
+
+	/**
+	 * WebDriver fills the input field with text value (will clear the data first) <br />
+	 * Pre-condition: The element exists
 	 */
 	public void wdFillString(By by, String value) {
 		WebElement ele = getDriver().findElement(by);
@@ -2088,6 +2124,12 @@ public class BrowserInstance {
 		ele.sendKeys(value);
 	}
 
+	/**
+	 * Wrapper method to check whether an element exists (already loaded)<br />
+	 * Issue: It is said that this method return true also when the element is partially loaded (probably rendered but not enabled yet)
+	 * @param by
+	 * @return
+	 */
 	public boolean isElementPresent(By by) {
 		return getDriver().findElements(by).size() != 0;
 	}
@@ -2105,7 +2147,12 @@ public class BrowserInstance {
 		WebElement elm = getDriver().findElement(locator);
 		return elm.getText();
 	}
-	
+
+	/**
+	 * Return
+	 * @param courseId
+	 * @return
+	 */
 	public String getCourseNameForCourseId(String courseId){
 		return getElementText(getCourseName(courseId));
 	}
@@ -2140,13 +2187,13 @@ public class BrowserInstance {
 	 */
 	public void verifyMainPage() {
 		for (int x = 0;; x++) {
-			if (x >= 40)
+			if (x >= 20)
 				fail("timeout");
 
 			if (isElementPresent(By.name("STUDENT_LOGIN")) && isElementPresent(By.name("COORDINATOR_LOGIN")))
 				break;
 
-			waitAWhile(1000);
+			waitAWhile(500);
 		}
 	}
 
@@ -2258,7 +2305,7 @@ public class BrowserInstance {
 	// Checking for the form fields and the buttons
 	public void verifyEnrollPage() {
 		for (int x = 0;; x++) {
-			if (x >= 40)
+			if (x >= 50)
 				fail("timeout");
 			if (isElementPresent(By.id("information")) && isElementPresent(By.id("button_enrol")))
 				break;
@@ -2271,7 +2318,7 @@ public class BrowserInstance {
 	// expected.
 	public void verifyEnrollment(int added, int edited) {
 		for (int x = 0;; x++) {
-			if (x >= 40)
+			if (x >= 50)
 				fail("timeout");
 			if ((isElementPresent(By.xpath("//tr[@id='rowAddedStudents']/td"))) && (isElementPresent(By.xpath("//tr[@id='rowEditedStudents']/td"))))
 				break;
@@ -2398,7 +2445,7 @@ public class BrowserInstance {
 	public void gotoHome() {
 		selenium.open("/");
 	}
-	
+
 	public void goToUrl(String url){
 		driver.get(url);
 	}
@@ -2454,7 +2501,7 @@ public class BrowserInstance {
 			assertTrue(false);
 		}
 	}
-	
+
 	public void verifyObjectHTML(String filepath, String div) throws Exception {
 		try {
 			String pageSrc = driver.getPageSource();
@@ -2475,7 +2522,7 @@ public class BrowserInstance {
 					break;
 				}
 			}
-			
+
 			actual.close();
 			expected.close();
 		} catch (Exception e) {
@@ -2483,20 +2530,20 @@ public class BrowserInstance {
 			assertTrue(false);
 		}
 	}
-	
+
 	public void verifyCurrentPageHTML(String filepath) throws Exception {
 
 		String NL = System.getProperty("line.separator");
-	    
+
 		StringBuilder expectedContentBuilder = new StringBuilder();
-	    Scanner scanner = new Scanner(new FileInputStream(filepath));    
-	    while (scanner.hasNextLine()){
-	    	expectedContentBuilder.append(scanner.nextLine() + NL);
-	    }
-    	scanner.close();
-    	//Todo: fix the next line so that we do not have to change the version number every time. 
+		Scanner scanner = new Scanner(new FileInputStream(filepath));    
+		while (scanner.hasNextLine()){
+			expectedContentBuilder.append(scanner.nextLine() + NL);
+		}
+		scanner.close();
+		//TODO: fix the next line so that we do not have to change the version number every time. 
 		String expectedContent = expectedContentBuilder.toString().replace("{{version}}", "4.17.1");
-		
+
 		String pageSrc = driver.getPageSource();
 		BufferedReader actual = new BufferedReader(new StringReader(pageSrc));
 		StringBuilder actualContentBuilder = new StringBuilder();
@@ -2506,11 +2553,11 @@ public class BrowserInstance {
 		}	
 		actual.close();
 		String actualContent = actualContentBuilder.toString();
-		
+
 		assertEquals(expectedContent, actualContent);
-			
+
 	}
-	
+
 	// --------------------------------- Home page ------------------------------ //
 	/**
 	 * Go to Coordinator home page
@@ -2520,7 +2567,7 @@ public class BrowserInstance {
 		justWait();
 		verifyCoordHomePage();
 	}
-	
+
 	/**
 	 * Click and cancel Delete of a particular course of the coordinator
 	 */
@@ -2531,7 +2578,7 @@ public class BrowserInstance {
 		if (isElementPresent(homeTab) && isElementPresent(coursesTab) && isElementPresent(evaluationsTab) && isElementPresent(helpTab) && isElementPresent(logoutTab) 
 				&& isElementPresent(coordAddNewCourseLink))
 			return;
-		
+
 		fail("Not in Coordinator Page");
 	}
 	// --------------------------------- Home page ------------------------------ //
@@ -2563,35 +2610,35 @@ public class BrowserInstance {
 	public void verifyStudentEvaluationsPage() {
 		if (isTextPresent(PENDING_EVALUATIONS_HEADER) && isTextPresent(PAST_EVALUATIONS_HEADER))
 			return;
-		
+
 		fail("Not in Student Evaluations Page");
 	}
-	
+
 	// Helper method to verify that we're at the Student do evaluations page
 	// Also, can be used to verify that we're at the Student edit evaluation submission page
 	// Checking for the various fields expected in the do evaluations page
 	public void verifyStudentDoOrEditEvaluationPage() {
 		if (isElementPresent(studentEvaluationCourseID) && isElementPresent(studentEvaluationEvaluationName) 
 				&& isElementPresent(studentEvaluationOpeningTime) && isElementPresent(studentEvaluationClosingTime) 
-				 && isElementPresent(studentEvaluationInstructions))
+				&& isElementPresent(studentEvaluationInstructions))
 			return;
-		 
+
 		fail("Not in Student Do Evaluation or Edit Evaluation Submission Page");
 	}
 	public void verifyStudentEvaluationResultsPage() {
-			waitForPageLoad();
-			for (int x = 0; ; x++) {
-				if (x >= 40)
-					fail("timeout");
-				
-				if (isElementPresent(studentEvaluationResultStudentName) && isElementPresent(studentEvaluationResultCourseID) 
-						&& isElementPresent(studentEvaluationResultTeamName) && isElementPresent(studentEvaluationResultEvaluationName) 
-						 && isElementPresent(studentEvaluationResultClaimedPoints) && isElementPresent(studentEvaluationResultOpeningTime) 
-							&& isElementPresent(studentEvaluationResultPerceivedPoints) && isElementPresent(studentEvaluationResultClosingTime))
-					break;
-				
-				waitAWhile(200);
-			}
+		waitForPageLoad();
+		for (int x = 0; ; x++) {
+			if (x >= 40)
+				fail("timeout");
+
+			if (isElementPresent(studentEvaluationResultStudentName) && isElementPresent(studentEvaluationResultCourseID) 
+					&& isElementPresent(studentEvaluationResultTeamName) && isElementPresent(studentEvaluationResultEvaluationName) 
+					&& isElementPresent(studentEvaluationResultClaimedPoints) && isElementPresent(studentEvaluationResultOpeningTime) 
+					&& isElementPresent(studentEvaluationResultPerceivedPoints) && isElementPresent(studentEvaluationResultClosingTime))
+				break;
+
+			waitAWhile(200);
+		}
 	} 
 	// Helper method to verify that we're at the Student course details page
 	// Checking for the various fields expected in course details page
@@ -2600,7 +2647,7 @@ public class BrowserInstance {
 				&& isElementPresent(studentCourseDetailStudentName) && isElementPresent(studentCourseDetailCoordinatorName) 
 				&& isElementPresent(studentCourseDetailStudentEmail) && isElementPresent(studentCourseDetailStudentTeammates))
 			return;
-		
+
 		fail("Not in Student Course Details Page");
 	}
 	/**
@@ -2613,23 +2660,23 @@ public class BrowserInstance {
 	public By getCoordEvaluationViewResults(int row) {
 		return By.xpath(String.format(DATAFORM_TABLE_CELL + "//a[@class='t_eval_view']", row + 2, 5));
 	}
-	
+
 	public By getCoordEvaluationEditResults(int row) {
 		return By.xpath(String.format(DATAFORM_TABLE_CELL + "//a[@class='t_eval_edit']", row + 2, 5));
 	}
-	
+
 	public By getCoordEvaluationPublishResults(int row) {
 		return By.xpath(String.format(DATAFORM_TABLE_CELL + "//a[@class='t_eval_publish']", row + 2, 5));
 	}
-	
+
 	public By getCoordEvaluationUnpublishResults(int row) {
 		return By.xpath(String.format(DATAFORM_TABLE_CELL + "//a[@class='t_eval_unpublish']", row + 2, 5));
 	}
-	
+
 	public By getCoordEvaluationRemindResults(int row) {
 		return By.xpath(String.format(DATAFORM_TABLE_CELL + "//a[@class='t_eval_remind']", row + 2, 5));
 	}
-	
+
 	public By getCoordEvaluationDeleteResults(int row) {
 		return By.xpath(String.format(DATAFORM_TABLE_CELL + "//a[@class='t_eval_delete']", row + 2, 5));
 	}
@@ -2637,29 +2684,30 @@ public class BrowserInstance {
 	 * Click and cancel Publish of results of a particular evaluation in a specific course of the coordinator
 	 */
 	public void clickAndCancelCoordEvaluationPublish(int row) {
-		clickAndConfirm(getCoordEvaluationPublishResults(row));
+		waitAndClickAndConfirm(getCoordEvaluationPublishResults(row));
 	}
 	public int getCoordTotalEvaluationsCount() {
 		if (getElementText(By.xpath(String.format(DATAFORM_TABLE_CELL, 2, 1))).isEmpty()) {
 			return 0;
-		 		} else {
-		 	return selenium.getXpathCount(DATAFORM_TABLE_ROW).intValue() - 1;
-		 		}
-		 	}
+		} else {
+			return selenium.getXpathCount(DATAFORM_TABLE_ROW).intValue() - 1;
+		}
+	}
 	private int findCoordEvaluationRow(String courseID, String evalName) {
- 		int i = 0;
-		
+		int i = 0;
+
 		while (i < getCoordTotalEvaluationsCount()) {
 			if (getEvaluationCourseID(i).equals(courseID) && getEvaluationName(i).equals(evalName)) {
- 				return i;
- 			}
- 			i++;
- 		}
- 		return -1;
- 	}	
+				return i;
+			}
+			i++;
+		}
+		return -1;
+	}
+	
 	public void clickAndCancelCoordEvaluationPublish(String courseID, String evalName) {
 		int row = findCoordEvaluationRow(courseID, evalName);
-		
+
 		if (row > -1) {
 			clickAndCancelCoordEvaluationPublish(row);
 		} else {
@@ -2668,17 +2716,17 @@ public class BrowserInstance {
 	}
 	public void clickAndCancelCoordEvaluationRemind(By by) {
 		waitAndClickAndCancel(by);
- 	}
+	}
 	/**
 	 * Click and cancel Unpublish of results of a particular evaluation in a specific course of the coordinator
 	 */
 	public void clickAndCancelCoordEvaluationUnpublish(int row) {
-		clickAndConfirm(getCoordEvaluationPublishResults(row));
+		waitAndClickAndConfirm(getCoordEvaluationPublishResults(row));
 	}
-	
+
 	public void clickAndCancelCoordEvaluationUnpublish(String courseID, String evalName) {
 		int row = findCoordEvaluationRow(courseID, evalName);
-		
+
 		if (row > -1) {
 			clickAndCancelCoordEvaluationUnpublish(row);
 		} else {
@@ -2691,36 +2739,36 @@ public class BrowserInstance {
 		if (isElementPresent(resultSummaryRadio) && isElementPresent(resultDetailRadio) && isElementPresent(resultReviewerRadio) 
 				&& isElementPresent(resultRevieweeRadio))
 			return;
-		 
+
 		fail("Not in Coordinator Evaluation Results Page");
 	}
-	
+
 	public By coordCourseDetailsCourseID = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 1, 2));
 	public By coordCourseDetailsCourseName = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 2, 2));
 	public By coordCourseDetailsTeams = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 3, 2));
 	public By coordCourseDetailsTotalStudents = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 4, 2));
-	
+
 	public By coordCourseDetailsRemindStudentsButton = By.id("button_remind");
 	public By coordCourseDetailsDeleteStudentsButton = By.className("t_delete_students");
-	
+
 	public By coordCourseDetailsStudentNameSorting = By.id("button_sortstudentname");
 	public By coordCourseDetailsTeamSorting = By.id("button_sortstudentteam");
 	public By coordCourseDetailsJoinStatusSorting = By.id("button_sortstudentstatus");
 	// Helper method to verify that we're at the Coordinator course details page
 	// Checking for the various fields expected in course details page
-	 public void verifyCoordViewCourseDetailsPage() {
-		 if (isElementPresent(coordCourseDetailsCourseID) && isElementPresent(coordCourseDetailsCourseName) && isElementPresent(coordCourseDetailsTeams) 
-				 && isElementPresent(coordCourseDetailsTotalStudents))
+	public void verifyCoordViewCourseDetailsPage() {
+		if (isElementPresent(coordCourseDetailsCourseID) && isElementPresent(coordCourseDetailsCourseName) && isElementPresent(coordCourseDetailsTeams) 
+				&& isElementPresent(coordCourseDetailsTotalStudents))
 			return;
-		 
+
 		fail("Not in Coordinator Course Details Page");
-	 }
+	}
 	// Helper method to verify that we're at the Coordinator courses page
 	// Checking for the various fields expected in add course form
 	public void verifyCoordCoursesPage() {
 		if (isElementPresent(pageTitle) && isElementPresent(coordInputCourseID) && isElementPresent(coordInputCourseName) && isElementPresent(coordAddCourseButton))
 			return;
-		
+
 		fail("Not in Coordinator Courses Page");
 	}
 	// Helper method to verify that we're at the student enrollment page
@@ -2729,10 +2777,10 @@ public class BrowserInstance {
 		for (int x = 0;; x++) {
 			if (x >= 40)
 				fail("timeout");
-			
+
 			if (isElementPresent(coordEnrolInfo) && isElementPresent(coordEnrolButton))
 				break;
-			
+
 			waitAWhile(200);
 		}
 	}
@@ -2746,13 +2794,13 @@ public class BrowserInstance {
 		for (int x = 0;; x++) {
 			if (x >= 40)
 				fail("timeout");
-            
+
 			if (isElementPresent(coordInputCourseID) && isElementPresent(inputEvaluationName) && isElementPresent(inputPeerFeedbackStatus)
 					&& isElementPresent(inputInstruction) && isElementPresent(inputOpeningDate) && isElementPresent(inputOpeningTime)
 					&& isElementPresent(inputClosingDate) && isElementPresent(inputClosingTime) && isElementPresent(inputTimeZone)
 					&& isElementPresent(inputGracePeriod))
 				break;
-			
+
 			waitAWhile(200);
 		}
 	}
@@ -2766,7 +2814,7 @@ public class BrowserInstance {
 	public By coordEditClosingTime = By.id("deadlinetime");
 	public By coordEditTimeZone = By.id("timezone");
 	public By coordEditGracePeriod = By.id("graceperiod");
-	
+
 	public By coordEditEvaluationButton = By.id("button_editevaluation");
 	public By coordEditEvaluationBackButton = By.className("t_back");
 	// Helper method to verify that we're at the Coordinator edit evaluation page
@@ -2783,5 +2831,5 @@ public class BrowserInstance {
 	}
 	public void clickAndCancelCoordEvaluationPublish(By by) {
 		waitAndClickAndCancel(by);
- 	}
+	}
 }

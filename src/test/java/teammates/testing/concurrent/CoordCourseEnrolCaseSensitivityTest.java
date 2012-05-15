@@ -87,7 +87,7 @@ public class CoordCourseEnrolCaseSensitivityTest extends TestCase {
 		
 		//delete students:
 		bi.clickCourseView(scn.course.courseId);
-		bi.clickAndConfirm(bi.deleteStudentsButton);
+		bi.waitAndClickAndConfirm(bi.deleteStudentsButton);
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_COURSE_DELETED_ALLSTUDENTS);
 		bi.waitAndClick(By.className("t_course_enrol"));//inside message link
 

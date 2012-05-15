@@ -93,7 +93,7 @@ public class CoordCourseDeleteStudentsTest extends TestCase {
 		bi.clickCourseView(scn.course.courseId);
 		bi.justWait();
 		// bi.clickAndConfirm(By.id("button_delete"));
-		bi.clickAndConfirm(bi.deleteStudentsButton);
+		bi.waitAndClickAndConfirm(bi.deleteStudentsButton);
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_COURSE_DELETED_ALLSTUDENTS);
 
 		// check for total number of teams

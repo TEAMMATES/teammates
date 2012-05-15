@@ -13,3 +13,5 @@ target
 appengine-generated
 *.ext
 appengine-web.xml
+chromedriver*
+*.bat

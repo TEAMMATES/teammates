@@ -660,6 +660,11 @@ public class TMAPI {
 		makePOSTRequest(paramsString);
 	}
 	
+	/**
+	 * Sends data to server and returns the response 
+	 * @param data
+	 * @return
+	 */
 	private static String makePOSTRequest(String data) {
 		try {
 			// http://teammates/api
@@ -688,14 +693,4 @@ public class TMAPI {
 			return e.getMessage();
 		}
 	}
-
-
-
-
-
-
-
-
-
-
 }

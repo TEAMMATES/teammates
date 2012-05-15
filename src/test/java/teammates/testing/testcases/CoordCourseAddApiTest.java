@@ -22,7 +22,7 @@ public class CoordCourseAddApiTest extends BaseTestCase{
 	private final static LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 	private final String COURSE_ID = "CCAAT.CS1010";
 	private final String COURSE_NAME = "CCAAT Software Engineering";
-	private final String GOOGLE_ID = Config.inst().TEAMMATES_COORD_ID;	
+	private final String GOOGLE_ID = Config.inst().TEAMMATES_COORD_ID;
 	
 	@BeforeClass
 	public static void setUp() {
@@ -30,7 +30,7 @@ public class CoordCourseAddApiTest extends BaseTestCase{
 		helper.setUp();
 		try{
 			Datastore.initialize();
-		}catch(Exception e){
+		}catch(IllegalStateException e){
 			System.out.println("Error in initializing local datastore :");
 			e.printStackTrace();
 		}
@@ -46,19 +46,19 @@ public class CoordCourseAddApiTest extends BaseTestCase{
 		response = ts.coordinatorAddCourse(COURSE_ID, COURSE_NAME, GOOGLE_ID);
 		assertEquals(Common.COORD_ADD_COURSE_RESPONSE_ADDED, response);
 
-		//duplicate id
+		//duplicate id and name
 		response = ts.coordinatorAddCourse(COURSE_ID, COURSE_NAME, GOOGLE_ID);
 		assertEquals(Common.COORD_ADD_COURSE_RESPONSE_EXISTS, response);
 		
-		//different id
+		//different id, same name
 		response = ts.coordinatorAddCourse("id1010", COURSE_NAME, GOOGLE_ID);
 		assertEquals(Common.COORD_ADD_COURSE_RESPONSE_ADDED, response);
 		
-		//different name
+		//same id, different name
 		response = ts.coordinatorAddCourse(COURSE_ID, "different name", GOOGLE_ID);
 		assertEquals(Common.COORD_ADD_COURSE_RESPONSE_EXISTS, response);
 		
-		//different coordinator
+		//different coordinator, same id and name
 		response = ts.coordinatorAddCourse(COURSE_ID, COURSE_NAME, "different coordinator");
 		assertEquals(Common.COORD_ADD_COURSE_RESPONSE_EXISTS, response);
 	
@@ -88,11 +88,29 @@ public class CoordCourseAddApiTest extends BaseTestCase{
 		assertEquals(Common.COORD_ADD_COURSE_RESPONSE_INVALID, ts.coordinatorAddCourse("CS)1010", COURSE_NAME, GOOGLE_ID));
 		assertEquals(Common.COORD_ADD_COURSE_RESPONSE_INVALID, ts.coordinatorAddCourse("CS+1010", COURSE_NAME, GOOGLE_ID));
 		assertEquals(Common.COORD_ADD_COURSE_RESPONSE_INVALID, ts.coordinatorAddCourse("CS=1010", COURSE_NAME, GOOGLE_ID));
+		
+		ts.destroy();
 	}
 	
 	@Test
 	public void testCourseIDCaseSensitivity() throws IOException, ServletException {
-		//TODO:implement this when the feature is implemented
+		// TODO: finish this method
+//		final String COURSE_ID_LOWER = "cs3210";
+//		final String COURSE_ID_UPPER = COURSE_ID_LOWER.toUpperCase();
+//		final String COURSE_NAME_LOWER = "software engineering";
+//		final String COURSE_NAME_UPPER = COURSE_NAME_LOWER.toUpperCase();
+//		
+//		TeammatesServlet ts = new TeammatesServlet();
+//		String response;
+//		
+//		// Add course
+//		ts.coordinatorAddCourse(COURSE_ID_LOWER, COURSE_NAME_LOWER, GOOGLE_ID);
+//		
+//		// Add course with same ID but in uppercase
+//		response = ts.coordinatorAddCourse(COURSE_ID_UPPER, COURSE_NAME_LOWER, GOOGLE_ID);
+//		// TODO: Change this part accordingly
+//		assertEquals(Common.COORD_ADD_COURSE_RESPONSE_ADDED, response);
+//		//assertEquals(Common.COORD_ADD_COURSE_RESPONSE_EXISTS,response);
 	}
 	
 	@AfterClass

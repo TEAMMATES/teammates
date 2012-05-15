@@ -19,9 +19,9 @@ public class CoordCourseAddCaseSensitivityTest extends TestCase {
 	static Scenario scn = setupScenarioInstance("scenario");
 	
 	private static final String COURSE_ID_LOWER = "cs3210";
-	private static final String COURSE_ID_UPPER = "CS3210";
+	private static final String COURSE_ID_UPPER = COURSE_ID_LOWER.toUpperCase();
 	private static final String COURSE_NAME_LOWER = "software engineering";
-	private static final String COURSE_NAME_UPPER = "SOFTWARE ENGINEERING";
+	private static final String COURSE_NAME_UPPER = COURSE_NAME_LOWER.toUpperCase();
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
