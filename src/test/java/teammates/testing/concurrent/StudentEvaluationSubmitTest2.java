@@ -54,7 +54,6 @@ public class StudentEvaluationSubmitTest2 extends TestCase {
 		bi.clickEvaluationTab();
 		bi.waitForElementPresent(bi.studentGetPendingEvaluationName(scn.course.courseId, scn.evaluation.name));
 		bi.studentClickDoEvaluation(scn.course.courseId, scn.evaluation.name);
-		bi.justWait();
 
 		// Fill in information
 		for (int i = 0; i < student.team.students.size(); i++) {

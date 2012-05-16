@@ -98,12 +98,11 @@ public class CoordEvaluationListTest extends TestCase {
 		System.out.println("testCoordRemindEvaluationSuccessful");
 
 		bi.clickEvaluationTab();
-		bi.justWait();
 
 		bi.clickAndConfirmEvaluationRemind(scn.course.courseId, scn.evaluation2.name);
 
 		// Confirm Email
-		bi.justWait();
+		bi.waitForEmail();
 		for (int i = 0; i < scn.students.size(); i++) {
 			assertEquals(scn.course.courseId, SharedLib.getEvaluationReminderFromGmail(scn.students.get(i).email, Config.inst().TEAMMATES_APP_PASSWD, scn.course.courseId, scn.evaluation2.name));
 		}
@@ -115,7 +114,6 @@ public class CoordEvaluationListTest extends TestCase {
 
 		// Pending evaluation
 		bi.clickEvaluationTab();
-		bi.justWait();
 
 		bi.clickAndConfirmEvaluationRemind(scn.course.courseId, scn.evaluation.name);
 		
@@ -139,7 +137,8 @@ public class CoordEvaluationListTest extends TestCase {
 		assertEquals(bi.EVAL_STATUS_PUBLISHED, bi.getEvaluationStatus(scn.course.courseId, scn.evaluation3.name));
 
 		// Check if emails have been sent to all participants
-		bi.waitAWhile(5000);
+		// FIXME: Is this the best way to check? Seems so for now, since we can't really wait for the e-mail to be sent.
+		bi.waitForEmail();
 		for (Student s : scn.students) {
 			System.out.println("Checking " + s.email);
 			assertTrue(bi.checkResultEmailsSent(s.email, s.password, scn.course.courseId, scn.evaluation3.name));
@@ -201,8 +200,7 @@ public class CoordEvaluationListTest extends TestCase {
 		bi.clickEvaluationTab();
 
 		bi.addEvaluation(scn.evaluation4);
-		bi.justWait();
-
+		
 		bi.verifyEvaluationAdded(scn.course.courseId, scn.evaluation4.name, "AWAITING", "0 / " + scn.students.size());
 	}
 }

@@ -171,8 +171,6 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 		}
 		bi.waitAndClick(bi.resultEditCancelButton);// [cancel]
 
-		bi.justWait();
-
 		bi.waitAndClick(bi.resultNextButton);
 
 		// click 'Edit' 2nd student:

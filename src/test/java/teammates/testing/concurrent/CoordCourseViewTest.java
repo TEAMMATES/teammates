@@ -77,7 +77,6 @@ public class CoordCourseViewTest extends TestCase {
 
 		bi.wdFillString(bi.coordEnrolInfo, String.format("%s|%s|%s|", FIRST_STUDENT.teamName, newStudent, newEmail));
 		bi.waitAndClick(bi.coordEnrolButton);
-		bi.justWait();
 
 		bi.clickCourseTab();
 		bi.clickCourseView(scn.course.courseId);
@@ -87,16 +86,16 @@ public class CoordCourseViewTest extends TestCase {
 		bi.clickCourseDetailView(newStudent);
 		bi.waitForElementPresent(bi.studentDetailKey);
 		String key = bi.getElementText(bi.studentDetailKey);
-		bi.wdClick(bi.courseViewBackButton);
+		bi.waitAndClick(bi.courseViewBackButton);
 		
 		System.out.println("Key for new student: " + key);
 
 		// Assert that student gets a notification email
-		bi.justWait();
+		bi.waitAWhile(1500);
 		assertEquals(key, SharedLib.getRegistrationKeyFromGmail(newEmail, Config.inst().TEAMMATES_APP_PASSWD, scn.course.courseId));
 
 		// Assert that rest of the students don't get spammed
-		bi.justWait();
+		bi.waitAWhile(1500);
 		assertEquals("", SharedLib.getRegistrationKeyFromGmail(FIRST_STUDENT.email, Config.inst().TEAMMATES_APP_PASSWD, scn.course.courseId));
 			
 		bi.logout();

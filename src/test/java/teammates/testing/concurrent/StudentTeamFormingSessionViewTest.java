@@ -66,7 +66,6 @@ public class StudentTeamFormingSessionViewTest extends TestCase {
 		bi.studentLogin(student.email, student.password);
 		bi.clickCoursesTab();
 		bi.clickTeamFormingSessionViewTeams(scn.course.courseId);
-		bi.justWait();
 		
 		assertEquals(bi.MESSAGE_LOG_REMINDSTUDENTS, bi.getElementText(bi.statusMessage));
 		assertTrue(bi.isElementPresent(By.id("studentprofiledetail")));
@@ -89,7 +88,6 @@ public class StudentTeamFormingSessionViewTest extends TestCase {
 		bi.studentLogin(student.email, student.password);
 		bi.clickCoursesTab();
 		bi.clickTeamFormingSessionViewTeams(scn2.course.courseId);
-		bi.justWait();
 		
 		String header = "TEAM DETAIL FOR "+student.courseID;
 		

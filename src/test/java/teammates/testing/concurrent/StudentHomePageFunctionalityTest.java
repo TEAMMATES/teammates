@@ -127,7 +127,7 @@ public class StudentHomePageFunctionalityTest extends TestCase {
 		
 		bi.goToStudentHome();
 		bi.waitAndClick(bi.getStudentViewResultsLink(SECOND_EVALUATION));
-		bi.justWait();
+
 		bi.verifyStudentEvaluationResultsPage();
 		
 		// This should not be clickable

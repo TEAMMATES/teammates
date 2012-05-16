@@ -57,15 +57,14 @@ public class CoordTeamFormingSessionEditTeamProfile extends TestCase {
 		bi.gotoTeamForming();
 		
 		bi.clickTeamFormingSessionEdit(scn.course.courseId);
-		bi.justWait();
 		bi.verifyManageTeamFormingPage(scn.students);
 
-		bi.wdClick(bi.coordEditTeamProfile0);
+		bi.waitAndClick(bi.coordEditTeamProfile0);
 		bi.verifyTeamDetailPage();
 		
 		String newTeamName = "Team 2";
 		bi.wdFillString(bi.inputTeamName, newTeamName);
-		bi.wdClick(bi.saveTeamProfile);
+		bi.waitAndClick(bi.saveTeamProfile);
 		bi.waitForTextInElement(bi.statusMessage, bi.ERROR_MESSAGE_TEAMPROFILE_EXISTS);
 	}
 	
@@ -77,17 +76,16 @@ public class CoordTeamFormingSessionEditTeamProfile extends TestCase {
 		bi.gotoTeamForming();
 		
 		bi.clickTeamFormingSessionEdit(scn.course.courseId);
-		bi.justWait();
 		bi.verifyManageTeamFormingPage(scn.students);
 
-		bi.wdClick(bi.coordEditTeamProfile0);
+		bi.waitAndClick(bi.coordEditTeamProfile0);
 		bi.verifyTeamDetailPage();
 		
 		String newTeamName = "Team 3";
 		String newTeamProfile = "This is team 3's profile.";
 		bi.wdFillString(bi.inputTeamName, newTeamName);
 		bi.wdFillString(bi.inputTeamProfile, newTeamProfile);
-		bi.wdClick(bi.saveTeamProfile);
+		bi.waitAndClick(bi.saveTeamProfile);
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_TEAMPROFILE_SAVED);
 	}
 }

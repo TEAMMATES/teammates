@@ -60,12 +60,11 @@ public class CoordTeamFormingSessionAddTest extends TestCase {
 		
 		bi.gotoTeamForming();
 		bi.addTeamFormingSession(scn.teamFormingSession);
-		bi.justWait();
+		
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_TEAMFORMINGSESSION_ADDED);
 		
 		bi.clickTeamFormingTab();
 		bi.verifyTeamFormingSessionAdded(scn.teamFormingSession.courseID, bi.TEAMFORMINGSESSION_STATUS_AWAITING);
-		bi.justWait();
 		
 		System.out.println("========== testCoordAddTeamFormingSessionSuccessful ==========");
 	}
@@ -73,7 +72,7 @@ public class CoordTeamFormingSessionAddTest extends TestCase {
 	public void testCoordAddDuplicateTeamFormingSessionFailed() {
 		bi.gotoTeamForming();
 		bi.addTeamFormingSession(scn.teamFormingSession);
-		bi.justWait();
+		
 		assertEquals(bi.ERROR_MESSAGE_TEAMFORMINGSESSION_EXISTS, bi.getElementText(bi.statusMessage));
 		System.out.println("========== testCoordAddDuplicateTeamFormingSessionFailed ==========");
 	}
@@ -85,7 +84,7 @@ public class CoordTeamFormingSessionAddTest extends TestCase {
 		bi.gotoTeamForming();
 		bi.addTeamFormingSession(teamForming.courseID, teamForming.dateValue, nextTimeValue.toString(), 
 				teamForming.gracePeriod, teamForming.instructions, teamForming.profileTemplate);
-		bi.justWait();
+		
 		assertEquals(bi.ERROR_INVALID_INPUT_TEAMFORMINGSESSION, bi.getElementText(bi.statusMessage));
 		
 		System.out.println("========== testCoordAddTeamFormingSessionWithInvalidInputFailed ==========");

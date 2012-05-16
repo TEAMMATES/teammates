@@ -54,16 +54,13 @@ public class StudentEvaluationResultsTest2 extends TestCase {
 		bi.studentLogin(student.email, student.password);
 
 		bi.clickEvaluationTab();
-		bi.justWait();
 
 		bi.studentClickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
-		bi.justWait();
 
 		// comments order is random
 		for (int i = 0; i < scn.students.size(); i++) {
 			Student teammate = scn.students.get(i);
 			if (teammate.teamName.equals(student.teamName) && !teammate.name.equals(student.name)) {
-				bi.justWait();
 				assertTrue(bi.studentGetFeedbackFromOthers(teammate.email, student.email));
 			}
 		}

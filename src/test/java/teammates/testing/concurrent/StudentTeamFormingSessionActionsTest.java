@@ -59,7 +59,6 @@ public class StudentTeamFormingSessionActionsTest extends TestCase {
 		bi.studentLogin(student.email, student.password);
 		bi.clickCoursesTab();
 		bi.clickTeamFormingSessionViewTeams(scn.course.courseId);
-		bi.justWait();
 		
 		bi.verifyViewTeamsPage(scn.students);
 		
@@ -96,8 +95,7 @@ public class StudentTeamFormingSessionActionsTest extends TestCase {
 		verifyTeams();		
 		
 		bi.gotoTeamForming();
-		bi.clickTeamFormingSessionViewLog(scn.course.courseId);	
-		bi.justWait();
+		bi.clickTeamFormingSessionViewLog(scn.course.courseId);
 		
 		String actualLog;
 		for(int n=1;n<=6;n++){

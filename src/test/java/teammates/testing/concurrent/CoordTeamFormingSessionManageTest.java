@@ -54,24 +54,21 @@ public class CoordTeamFormingSessionManageTest extends TestCase {
 		bi.gotoTeamForming();
 		
 		bi.clickTeamFormingSessionEdit(scn.course.courseId);
-		bi.justWait();
 
 		Integer gracePeriod = 5;
 		bi.wdFillString(bi.inputInstruction, newInstruction);
 		bi.wdFillString(bi.inputProfileTemplate, newProfileTemplate);
 		bi.selectDropdownByValue(bi.inputGracePeriod, gracePeriod.toString());
 
-		bi.wdClick(bi.editTeamFormingSessionButton);
+		bi.waitAndClick(bi.editTeamFormingSessionButton);
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_TEAMFORMINGSESSION_EDITED);
 		
 		// Now click Edit again to see if the text is updated.
 		bi.clickTeamFormingSessionEdit(scn.course.courseId);
-		bi.justWait();
 		assertEquals(newInstruction, bi.getElementText(bi.inputInstruction));
 
 		// Click back
 		bi.clickTeamFormingTab();
-		bi.justWait();
 	}
 	
 	@Test

@@ -49,7 +49,7 @@ public class CoordCourseDeleteUITest extends TestCase {
 		// Delete course
 		bi.waitForElementPresent(bi.getCourseIDCellLocatorByCourseId(scn.course.courseId));
 		bi.clickAndConfirmCourseDelete(scn.course.courseId);
-		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_COURSE_DELETED);
+		bi.waitForTextInElement(bi.statusMessage, BrowserInstance.MESSAGE_COURSE_DELETED);
 		assertFalse(bi.isCoursePresent(scn.course.courseId, scn.course.courseName));
 		
 		//Check that the evaluation has also been deleted
@@ -61,7 +61,7 @@ public class CoordCourseDeleteUITest extends TestCase {
 		// Check that the course has been deleted from student page 
 		bi.studentLogin(scn.students.get(FIRST_STUDENT).email, Config.inst().TEAMMATES_APP_PASSWD);
 		bi.clickCourseTab();
-		bi.justWait();
+
 		assertFalse(bi.isCoursePresent(scn.course.courseId, scn.course.courseName));
 		
 	}

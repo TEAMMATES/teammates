@@ -140,7 +140,7 @@ public class CoordCourseAddUITest extends TestCase {
 		bi.clickCourseTab();
 		bi.waitForElementPresent(bi.getCourseIDCellLocatorByCourseId(ts.validCourse.courseId));
 		assertTrue(bi.getElementText(bi.getCourseName(ts.validCourse.courseId)).equals(ts.validCourse.courseName));
-		//TODO: this does not exclude the possibility that there are two courses in the list with same id
+		//FIXME: this does not exclude the possibility that there are two courses in the list with same id
 	
 	}
 	

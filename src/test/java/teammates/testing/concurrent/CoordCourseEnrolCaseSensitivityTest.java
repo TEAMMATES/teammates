@@ -88,7 +88,7 @@ public class CoordCourseEnrolCaseSensitivityTest extends TestCase {
 		//delete students:
 		bi.clickCourseView(scn.course.courseId);
 		bi.waitAndClickAndConfirm(bi.deleteStudentsButton);
-		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_COURSE_DELETED_ALLSTUDENTS);
+		bi.waitForTextInElement(bi.statusMessage, BrowserInstance.MESSAGE_COURSE_DELETED_ALLSTUDENTS);
 		bi.waitAndClick(By.className("t_course_enrol"));//inside message link
 
 		//-------------------------what if two students have the same name?

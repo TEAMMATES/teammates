@@ -78,13 +78,10 @@ public class CoordEvaluationAddTest extends TestCase {
 		
 		bi.gotoEvaluations();
 		bi.addEvaluation(scn.evaluation);
-		bi.justWait();
 //		assertEquals(bi.MESSAGE_EVALUATION_ADDED, bi.getElementText(bi.statusMessage));
 
-		
 		bi.clickEvaluationTab();
 		bi.verifyEvaluationAdded(scn.evaluation.courseID, scn.evaluation.name, bi.EVAL_STATUS_AWAITING, "0 / " + scn.students.size());
-		bi.justWait();
 		
 		System.out.println("========== testCoordAddEvaluationSuccessful ==========");
 	}
@@ -92,7 +89,7 @@ public class CoordEvaluationAddTest extends TestCase {
 	public void testCoordAddDuplicateEvaluationFailed() {
 		bi.gotoEvaluations();
 		bi.addEvaluation(scn.evaluation);
-		bi.justWait();
+
 //		assertEquals(bi.ERROR_MESSAGE_EVALUATION_EXISTS, bi.getElementText(bi.statusMessage));
 		System.out.println("========== testCoordAddDuplicateEvaluationFailed ==========");
 	}
@@ -100,8 +97,6 @@ public class CoordEvaluationAddTest extends TestCase {
 	public void testCoordAddDuplicateEvaluationInDifferentCourseSuccessful() {
 		bi.gotoEvaluations();
 		bi.addEvaluation(scn2.evaluation);
-		bi.justWait();
-
 
 //		assertEquals(bi.MESSAGE_EVALUATION_ADDED, bi.getElementText(bi.statusMessage));
 		bi.verifyEvaluationAdded(scn2.evaluation.courseID, scn2.evaluation.name, bi.EVAL_STATUS_AWAITING, "0 / " + scn2.students.size());
@@ -115,7 +110,7 @@ public class CoordEvaluationAddTest extends TestCase {
 		
 		bi.gotoEvaluations();
 		bi.addEvaluation(eval.courseID, invalidEvalName, eval.dateValue, eval.nextTimeValue, eval.p2pcomments, eval.instructions, eval.gracePeriod);
-		bi.justWait();
+
 		assertEquals(bi.ERROR_INVALID_EVALUATION_NAME, bi.getElementText(bi.statusMessage));
 		
 		System.out.println("========== testCoordAddEvaluationWithInvalidInputFailed ==========");

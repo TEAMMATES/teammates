@@ -49,21 +49,18 @@ public class CoordEvaluationEditTest extends TestCase {
 		bi.gotoEvaluations();
 		
 		bi.clickEvaluationEdit(scn.course.courseId, scn.evaluation.name);
-		bi.justWait();
 
 		bi.wdFillString(bi.inputInstruction, newInstruction);
 
-		bi.wdClick(bi.editEvaluationButton);
+		bi.waitAndClick(bi.editEvaluationButton);
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_EDITED);
 
 		// Now click Edit again to see if the text is updated.
 		bi.clickEvaluationEdit(scn.course.courseId, scn.evaluation.name);
-		bi.justWait();
 		assertEquals(newInstruction, bi.getElementText(bi.inputInstruction));
 
 		// Click back
-		bi.wdClick(bi.editEvaluationBackButton);
-		bi.justWait();
+		bi.waitAndClick(bi.editEvaluationBackButton);
 		
 	}
 }

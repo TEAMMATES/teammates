@@ -70,6 +70,5 @@ public class SystemFooterTest extends TestCase {
 		// [TEAMMATES Version 1]
 		int pos = ((bi.getElementText(bi.footer)).indexOf('n')) - ((bi.getElementText(bi.footer)).indexOf(']'));
 		assertTrue(pos < MAX_VERSION_LENGTH);
-		bi.justWait();
 	}
 }

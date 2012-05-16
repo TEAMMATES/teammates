@@ -74,9 +74,9 @@ public class CoordCourseDeleteStudentsTest extends TestCase {
 	public void testCoordDeleteIndividualStudentSuccessful() {
 		bi.gotoCourses();
 		bi.clickCourseView(scn.course.courseId);
-		bi.justWait();
+
 		bi.clickAndConfirmCourseDetailDelete(FIRST_STUDENT);
-		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_COURSE_DELETED_STUDENT);
+		bi.waitForTextInElement(bi.statusMessage, BrowserInstance.MESSAGE_COURSE_DELETED_STUDENT);
 		
 		// check for total number of teams
 		assertEquals("2", bi.getElementText(By.xpath(String.format("//div[@id='coordinatorCourseInformation']//table[@class='headerform']//tbody//tr[%d]//td[%d]", 3, 2))));
@@ -91,10 +91,10 @@ public class CoordCourseDeleteStudentsTest extends TestCase {
 	public void testCoordDeleteAllStudentsSuccessful() {
 		bi.gotoCourses();
 		bi.clickCourseView(scn.course.courseId);
-		bi.justWait();
+
 		// bi.clickAndConfirm(By.id("button_delete"));
 		bi.waitAndClickAndConfirm(bi.deleteStudentsButton);
-		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_COURSE_DELETED_ALLSTUDENTS);
+		bi.waitForTextInElement(bi.statusMessage, BrowserInstance.MESSAGE_COURSE_DELETED_ALLSTUDENTS);
 
 		// check for total number of teams
 		assertEquals("0", bi.getElementText(By.xpath(String.format("//div[@id='coordinatorCourseInformation']//table[@class='headerform']//tbody//tr[%d]//td[%d]", 3, 2))));

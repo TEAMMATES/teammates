@@ -121,11 +121,7 @@ public class CoordCourseEditStudentsTeamTest extends TestCase {
 		
 		assertEquals(4, bi.countCourseDetailTotalStudents());
 		
-		bi.justWait();
-		
 		bi.clickAndConfirmCourseDetailDelete(scn.students.get(FIRST_STUDENT).name);
-		
-		bi.justWait();
 		
 		assertEquals(3, bi.countCourseDetailTotalStudents());
 
@@ -144,19 +140,16 @@ public class CoordCourseEditStudentsTeamTest extends TestCase {
 		// Publish Evaluation
 		bi.gotoEvaluations();
 		bi.clickEvaluationPublish(scn.course.courseId, scn.evaluation.name);
-		bi.justWait();
 		bi.clickEvaluationPublish(scn.course.courseId, scn.evaluation2.name);
 
 		bi.logout();
-		bi.justWait();
 		
 		// Verify Student View (using Charlie account)
 		bi.studentLogin(CHARLIE.email, Config.inst().TEAMMATES_APP_PASSWD);
 		
 		bi.clickEvaluationTab();
 		bi.studentClickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
-		bi.justWait();
-
+		
 		bi.clickEvaluationTab();
 		bi.studentClickEvaluationViewResults(scn.course.courseId, scn.evaluation2.name);
 //		bi.waitAndClick(bi.studentEvaluationBackButton);

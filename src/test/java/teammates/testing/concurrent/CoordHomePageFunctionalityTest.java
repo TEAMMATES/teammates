@@ -112,12 +112,10 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 
 		bi.goToCoordHome();
 		bi.waitAndClick(bi.getCoordViewLink(FIRST_COURSE));
-		bi.justWait();
 		bi.verifyCoordViewCourseDetailsPage();
 		
 		bi.goToCoordHome();
 		bi.waitAndClick(bi.getCoordViewLink(SECOND_COURSE));
-		bi.justWait();
 		bi.verifyCoordViewCourseDetailsPage();
 	}
 	
@@ -127,12 +125,10 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 
 		bi.goToCoordHome();
 		bi.waitAndClick(bi.getCoordAddEvaluationLink(FIRST_COURSE));
-		bi.justWait();
 		bi.verifyCoordEvaluationsPage();
 		
 		bi.goToCoordHome();
 		bi.waitAndClick(bi.getCoordAddEvaluationLink(SECOND_COURSE));
-		bi.justWait();
 		bi.verifyCoordEvaluationsPage();
 	}
 	
@@ -141,11 +137,9 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testDeleteCoursesLink");
 
 		bi.goToCoordHome();
-		bi.justWait();
 		bi.clickAndCancelCoordCourseDelete(bi.getCoordDeleteLink(FIRST_COURSE));
 		
 		bi.goToCoordHome();
-		bi.justWait();
 		bi.clickAndCancelCoordCourseDelete(bi.getCoordDeleteLink(SECOND_COURSE));
 		
 		/*
@@ -166,7 +160,6 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		 * // Check that the course has been deleted from student page
 		 * bi.studentLogin(scn.students.get(FIRST_STUDENT).email, Config.inst().TEAMMATES_APP_PASSWD);
 		 * bi.clickCoursesTab();
-		 * bi.justWait();
 		 * assertFalse(bi.isCoordCoursePresent(scn.course.courseId, scn.course.courseName));
 		 */
 	}
@@ -177,28 +170,23 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		
 		bi.goToCoordHome();
 		bi.waitAndClick(bi.getCoordViewResultsLink(FIRST_EVALUATION));
-		bi.justWait();
 		bi.verifyCoordEvaluationResultsPage();
 		
 		bi.goToCoordHome();
 		bi.waitAndClick(bi.getCoordViewResultsLink(SECOND_EVALUATION));
-		bi.justWait();
 		bi.verifyCoordEvaluationResultsPage();
 		
 		// This should not be clickable
 		bi.goToCoordHome();
 		bi.waitAndClick(bi.getCoordViewResultsLink(THIRD_EVALUATION));
-		bi.justWait();
 		bi.verifyCoordHomePage();
 		
 		bi.goToCoordHome();
 		bi.waitAndClick(bi.getCoordViewResultsLink(FOURTH_EVALUATION));
-		bi.justWait();
 		bi.verifyCoordEvaluationResultsPage();
 		
 		bi.goToCoordHome();
 		bi.waitAndClick(bi.getCoordViewResultsLink(FIFTH_EVALUATION));
-		bi.justWait();
 		bi.verifyCoordEvaluationResultsPage();
 	}
 	
@@ -208,28 +196,23 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 
 		bi.goToCoordHome();
 		bi.waitAndClick(bi.getCoordEditEvaluationLink(FIRST_EVALUATION));
-		bi.justWait();
 		bi.verifyCoordEditEvaluationPage();
 		
 		bi.goToCoordHome();
 		bi.waitAndClick(bi.getCoordEditEvaluationLink(SECOND_EVALUATION));
-		bi.justWait();
 		bi.verifyCoordEditEvaluationPage();
 		
 		bi.goToCoordHome();
 		bi.waitAndClick(bi.getCoordEditEvaluationLink(THIRD_EVALUATION));
-		bi.justWait();
 		bi.verifyCoordEditEvaluationPage();
 		
 		// This should not be clickable
 		bi.goToCoordHome();
 		bi.waitAndClick(bi.getCoordEditEvaluationLink(FOURTH_EVALUATION));
-		bi.justWait();
 		bi.verifyCoordHomePage();
 		
 		bi.goToCoordHome();
 		bi.waitAndClick(bi.getCoordEditEvaluationLink(FIFTH_EVALUATION));
-		bi.justWait();
 		bi.verifyCoordEditEvaluationPage();
 	}
 	
@@ -238,11 +221,9 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testRemindEvaluationLink");
 		
 		bi.goToCoordHome();
-		bi.justWait();
 		bi.clickAndCancelCoordEvaluationRemind(bi.getCoordRemindEvaluationLink(FIRST_EVALUATION));
 		
 		bi.goToCoordHome();
-		bi.justWait();
 		bi.clickAndCancelCoordEvaluationRemind(bi.getCoordRemindEvaluationLink(SECOND_EVALUATION));
 		
 		/*
@@ -282,24 +263,20 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		
 		// This should not be clickable
 		bi.goToCoordHome();
-		bi.justWait();
 		bi.waitAndClick(bi.getCoordPublishEvaluationLink(FIRST_EVALUATION));
 		bi.verifyCoordHomePage();
 		
 		// This should not be clickable
 		bi.goToCoordHome();
-		bi.justWait();
 		bi.waitAndClick(bi.getCoordPublishEvaluationLink(SECOND_EVALUATION));
 		bi.verifyCoordHomePage();
 		
 		// This should not be clickable
 		bi.goToCoordHome();
-		bi.justWait();
 		bi.waitAndClick(bi.getCoordPublishEvaluationLink(THIRD_EVALUATION));
 		bi.verifyCoordHomePage();
 		
 		bi.goToCoordHome();
-		bi.justWait();
 		bi.clickAndCancelCoordEvaluationUnpublish(bi.getCoordPublishEvaluationLink(FOURTH_EVALUATION));
 		
 		/*
@@ -340,7 +317,6 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		bi.goToCoordHome();
 		
 		bi.clickAndCancelCoordEvaluationDelete(bi.getCoordDeleteEvaluationLink(FIRST_EVALUATION));
-		bi.justWait();
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_DELETED);
 
 		// Due to the manner in which IDs are being assigned to evaluations in the home page, the ID of the originally 2nd
@@ -351,12 +327,10 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		
 		// testing the delete link in two evaluations
 		bi.goToCoordHome();
-		bi.justWait();
 		bi.clickAndCancelCoordEvaluationDelete(bi.getCoordDeleteEvaluationLink(FIRST_EVALUATION));
 		
 		
 		bi.goToCoordHome();
-		bi.justWait();
 		bi.clickAndCancelCoordEvaluationDelete(bi.getCoordDeleteEvaluationLink(FOURTH_EVALUATION));
 	}
 }

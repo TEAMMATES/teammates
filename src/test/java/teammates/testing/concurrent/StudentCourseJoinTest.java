@@ -52,14 +52,15 @@ public class StudentCourseJoinTest extends TestCase {
 		bi.gotoCourses();
 		bi.clickCourseView(scn.course.courseId);
 
-		bi.justWait();
 		bi.waitAndClickAndConfirm(bi.remindStudentsButton);
 
 		assertEquals(bi.MESSAGE_ENROL_REMIND_TO_JOIN, bi.getElementText(bi.statusMessage));
 
 		// Collect keys
 		System.out.println("Collecting registration keys.");
-		bi.waitAWhile(5000);
+		
+		// FIXME: Is this the best way to check? Seems so for now, since we can't really wait for the e-mail to be sent.
+		bi.waitForEmail();
 
 		for (int i = 0; i < scn.students.size(); i++) {
 			bi.clickCourseDetailView(i);
@@ -85,7 +86,6 @@ public class StudentCourseJoinTest extends TestCase {
 		System.out.println("testStudentsJoinCourseSuccessful");
 		for (Student s : scn.students) {
 			bi.studentLogin(s.email, Config.inst().TEAMMATES_APP_PASSWD);
-			bi.justWait();
 
 			// Try a wrong course key
 			bi.wdFillString(bi.studentInputRegKey, "totally_wrong_key");
@@ -102,7 +102,6 @@ public class StudentCourseJoinTest extends TestCase {
 			}
 
 			bi.logout();
-			bi.justWait();
 		}
 
 		// Verify number of unregistered student

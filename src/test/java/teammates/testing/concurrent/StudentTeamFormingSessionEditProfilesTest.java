@@ -63,7 +63,6 @@ public class StudentTeamFormingSessionEditProfilesTest extends TestCase {
 		bi.studentLogin(student.email, student.password);
 		bi.clickCoursesTab();
 		bi.clickTeamFormingSessionViewTeams(scn.course.courseId);
-		bi.justWait();
 		
 		verifyCourseDetailsForStudent(student);
 		
@@ -137,8 +136,7 @@ public class StudentTeamFormingSessionEditProfilesTest extends TestCase {
 		bi.wdClick(bi.coordEditTeamProfile0);
 		bi.verifyTeamDetailPage();
 		assertEquals("Team 3", bi.getElementValue(bi.inputTeamName));
-		assertEquals(studentProfile, bi.getElementText(bi.inputTeamProfile));		
-		bi.justWait();
+		assertEquals(studentProfile, bi.getElementText(bi.inputTeamProfile));
 		
 		bi.logout();
 	}

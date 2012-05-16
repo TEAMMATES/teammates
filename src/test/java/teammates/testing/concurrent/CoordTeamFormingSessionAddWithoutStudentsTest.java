@@ -45,7 +45,7 @@ public class CoordTeamFormingSessionAddWithoutStudentsTest extends TestCase {
 	public void testCoordAddTeamFormingSession() {
 		bi.gotoTeamForming();
 		bi.addTeamFormingSession(scn.teamFormingSession);
-		bi.justWait();
+		
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_TEAMFORMINGSESSION_ADDED_WITH_EMPTY_CLASS);		
 		System.out.println("========== testCoordTeamFormingSessionAddWithoutStudentsFailed ==========");
 	}

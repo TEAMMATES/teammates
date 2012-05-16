@@ -66,12 +66,12 @@ public class CoordEvaluationAddWithEmptyTeamNameTest extends TestCase {
 		
 		bi.gotoEvaluations();
 		bi.addEvaluation(scn.evaluation);
-		bi.justWait();
+
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_ADDED_WITH_EMPTY_TEAMS);
 
 		bi.clickEvaluationTab();
 		bi.verifyEvaluationAdded(scn.evaluation.courseID, scn.evaluation.name, bi.EVAL_STATUS_AWAITING, "0 / 3");
-		bi.justWait();
+
 		
 		
 		System.out.println("========== testCoordAddEvaluationWithEmptyTeamNameSuccessful ==========");

@@ -50,7 +50,6 @@ public class StudentEvaluationEditTest2 extends TestCase {
 		bi.studentLogin(student.email, student.password);
 		
 		bi.clickEvaluationTab();
-		bi.justWait();
 
 		// Try open and cancel
 		bi.studentClickEditEvaluation(scn.course.courseId, scn.evaluation.name);

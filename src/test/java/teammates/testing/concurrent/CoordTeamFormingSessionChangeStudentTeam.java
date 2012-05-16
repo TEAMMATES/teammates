@@ -63,13 +63,12 @@ public class CoordTeamFormingSessionChangeStudentTeam extends TestCase {
 		bi.gotoTeamForming();
 		
 		bi.clickTeamFormingSessionEdit(scn.course.courseId);
-		bi.justWait();
 
-		bi.wdClick(bi.coordChangeStudentTeam11);
+		bi.waitAndClick(bi.coordChangeStudentTeam11);
 		bi.verifyChangeStudentTeamPage();
-		bi.wdClick(bi.resultBackButton);
+		bi.waitAndClick(bi.resultBackButton);
 		
-		bi.wdClick(bi.coordAllocateStudentTeam1);
+		bi.waitAndClick(bi.coordAllocateStudentTeam1);
 		bi.verifyChangeStudentTeamPage();
 	}
 	
@@ -80,14 +79,13 @@ public class CoordTeamFormingSessionChangeStudentTeam extends TestCase {
 		bi.gotoTeamForming();
 		
 		bi.clickTeamFormingSessionEdit(scn.course.courseId);
-		bi.justWait();
 
-		bi.wdClick(bi.coordChangeStudentTeam11);
+		bi.waitAndClick(bi.coordChangeStudentTeam11);
 		bi.verifyChangeStudentTeamPage();
 		
 		String newTeamName = "Team 1";
 		bi.selectDropdownByValue(bi.inputTeamName, newTeamName);
-		bi.wdClick(bi.saveChangeStudentTeam);
+		bi.waitAndClick(bi.saveChangeStudentTeam);
 		
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_TEAMCHANGE_SAVED);
 		assertEquals("Danny", bi.getElementText(bi.getStudentNameFromManageTeamFormingSession(4, 1)));
@@ -100,15 +98,14 @@ public class CoordTeamFormingSessionChangeStudentTeam extends TestCase {
 		bi.gotoTeamForming();
 		
 		bi.clickTeamFormingSessionEdit(scn.course.courseId);
-		bi.justWait();
 
-		bi.wdClick(bi.coordAllocateStudentTeam1);
+		bi.waitAndClick(bi.coordAllocateStudentTeam1);
 		bi.verifyChangeStudentTeamPage();
 		
 		String newTeamName = "Team 3";
-		bi.wdClick(By.xpath("//*[@id='teamchange_newteam'][@value='false']"));
+		bi.waitAndClick(By.xpath("//*[@id='teamchange_newteam'][@value='false']"));
 		bi.wdFillString(bi.inputNewTeamName, newTeamName);
-		bi.wdClick(bi.saveChangeStudentTeam);
+		bi.waitAndClick(bi.saveChangeStudentTeam);
 		
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_TEAMCHANGE_SAVED);
 		assertEquals(true, bi.isTextPresent("Team 3"));
