@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import org.junit.*;
 
+import teammates.testing.lib.SharedLib;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.*;
 import static org.junit.Assert.*;
@@ -13,6 +14,8 @@ import static org.junit.Assert.*;
 
 
 public class APIServletTest {
+	
+	private String TEST_DATA_FOLDER = "target/test-classes/data/";
 
 	
 	@BeforeClass
@@ -111,6 +114,21 @@ public class APIServletTest {
 		assertEquals("null",TMAPI.getCoordById(coord1Id));
 		
 		//TODO: test for coord cascade delete
+	}
+	
+	@Test
+	public void testPersistDataBundle(){
+		String jsonString = SharedLib.getFileContents(TEST_DATA_FOLDER+"typicalDataBundle.json");
+		assertStatusOk(TMAPI.persistDataBundle(jsonString));
+	}
+	
+	
+	
+	/*
+	 * A wrapper method to match the intent of the caller
+	 */
+	private void assertStatusOk(boolean status){
+		assertTrue(status);
 	}
 
 	
