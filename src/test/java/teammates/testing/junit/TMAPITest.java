@@ -1,11 +1,18 @@
 package teammates.testing.junit;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.*;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import teammates.Common;
+import teammates.DataBundle;
 import teammates.testing.lib.SharedLib;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.*;
@@ -13,9 +20,10 @@ import static org.junit.Assert.*;
 
 
 
-public class APIServletTest {
+public class TMAPITest {
 	
-	private String TEST_DATA_FOLDER = "target/test-classes/data/";
+	//TODO: change this to 'target' directory
+	private String TEST_DATA_FOLDER = "src/test/resources/data/";
 
 	
 	@BeforeClass
@@ -119,16 +127,25 @@ public class APIServletTest {
 	@Test
 	public void testPersistDataBundle(){
 		String jsonString = SharedLib.getFileContents(TEST_DATA_FOLDER+"typicalDataBundle.json");
-		assertStatusOk(TMAPI.persistDataBundle(jsonString));
+		String status = TMAPI.persistDataBundle(jsonString);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 	}
 	
-	
-	
-	/*
-	 * A wrapper method to match the intent of the caller
-	 */
-	private void assertStatusOk(boolean status){
-		assertTrue(status);
+	@Test 
+	public void testDataBundle(){
+		String jsonString = SharedLib.getFileContents(TEST_DATA_FOLDER+"typicalDataBundle.json");
+		Gson gson = new Gson();
+		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
+		assertEquals("teammates.coord",data.coords.get("demo coord").getGoogleID());
+		assertEquals("Coordinator",data.coords.get("demo coord").getName());
+		assertEquals("teammates.coord@gmail.com",data.coords.get("demo coord").getEmail());
+		assertEquals("teammates.demo.coord",data.coords.get("test coord").getGoogleID());
+		assertEquals("Demo Coordinator",data.coords.get("test coord").getName());
+		assertEquals("teammates.demo.coord@gmail.com",data.coords.get("test coord").getEmail());
+		
+		assertEquals("course1-id",data.courses.get("course1").getID());
+		assertEquals("course 1 name",data.courses.get("course1").getName());
+		assertEquals("teammates.coord",data.courses.get("course1").getCoordinatorID());
 	}
 
 	

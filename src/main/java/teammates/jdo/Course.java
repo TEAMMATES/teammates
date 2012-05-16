@@ -25,7 +25,7 @@ public class Course {
 	private String name;
 
 	@Persistent
-	private transient String coordinatorID;
+	private String coordinatorID;
 
 	@Persistent
 	private transient boolean archived;

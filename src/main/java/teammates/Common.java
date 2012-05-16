@@ -21,6 +21,9 @@ public class Common {
 	public static final String COORD_ADD_COURSE_RESPONSE_EXISTS = "<status>course exists</status>";
 	public static final String COORD_ADD_COURSE_RESPONSE_INVALID = "<status>course input invalid</status>";
 	
+	//APIServlet responses
+	public static final String BACKEND_STATUS_SUCCESS = "[BACKEND_STATUS_SUCCESS]";
+	
 
 	public static void println(String message) {
 		System.out.println(String.format("[%d - %s] %s", Thread.currentThread()

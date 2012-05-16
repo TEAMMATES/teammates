@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.APIServlet;
+import teammates.Common;
 import teammates.testing.object.TeamFormingSession;
 import teammates.testing.config.Config;
 import teammates.testing.object.Course;
@@ -660,6 +661,14 @@ public class TMAPI {
 		makePOSTRequest(paramsString);
 	}
 	
+
+	@Deprecated
+	public static String persistDataBundle(String dataBundleJason) {
+		// TODO Auto-generated method stub
+		return Common.BACKEND_STATUS_SUCCESS;
+	}
+	
+	
 	/**
 	 * Sends data to server and returns the response 
 	 * @param data
@@ -693,19 +702,6 @@ public class TMAPI {
 			return e.getMessage();
 		}
 	}
-
-	public static boolean persistDataBundle(String dataBundleJason) {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-
-
-
-
-
-
-
 
 
 }
