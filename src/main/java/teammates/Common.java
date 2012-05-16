@@ -15,6 +15,7 @@ public class Common {
 	//data field sizes
 	public static int COURSE_NAME_MAX_LENGTH = 38;
 	public static int COURSE_ID_MAX_LENGTH = 21;
+
 	
 	//TeammatesServlet responses
 	public static final String COORD_ADD_COURSE_RESPONSE_ADDED = "<status>course added</status>";
@@ -23,7 +24,7 @@ public class Common {
 	
 	//APIServlet responses
 	public static final String BACKEND_STATUS_SUCCESS = "[BACKEND_STATUS_SUCCESS]";
-	
+	public static String BACKEND_STATUS_FAILURE = "[BACKEND_STATUS_FAILURE]";
 
 	public static void println(String message) {
 		System.out.println(String.format("[%d - %s] %s", Thread.currentThread()

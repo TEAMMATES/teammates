@@ -1,17 +1,17 @@
 {
   "coords": {
-  	"demo coord": {"googleID": "teammates.coord", "name":"Coordinator", "email":"teammates.coord@gmail.com"},
-  	"test coord": {"googleID": "teammates.demo.coord", "name":"Demo Coordinator", "email":"teammates.demo.coord@gmail.com"}
+  	"demo coord": {"googleID": "typical.coord1", "name":"Coordinator", "email":"teammates.coord@gmail.com"},
+  	"test coord": {"googleID": "typical.coord2", "name":"Demo Coordinator", "email":"teammates.demo.coord@gmail.com"}
   },
   "courses": {
 	  "course1": {
-      "coordinatorID" : "teammates.coord",
+      "coordinatorID" : "typical.coord1",
 	    "id": "course1-id",
 	    "name": "course 1 name"
 	  },
   
 	  "course2": {
-      "coordinatorID" : "teammates.demo",
+      "coordinatorID" : "typical.coord2",
 	    "id": "course2-id",
 	    "name": "course 2 name"
 	  }

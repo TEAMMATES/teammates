@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
@@ -18,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.exception.AccountExistsException;
 import teammates.exception.CourseDoesNotExistException;
+import teammates.exception.CourseExistsException;
+import teammates.exception.CourseInputInvalidException;
 import teammates.exception.TeamFormingSessionExistsException;
 import teammates.exception.TeamProfileExistsException;
 import teammates.jdo.Coordinator;
@@ -53,17 +56,21 @@ public class APIServlet extends HttpServlet {
 	public static final String OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE = "OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE";
 	public static final String OPERATION_GET_COORD_BY_ID = "OPERATION_GET_COORD_BY_ID";
 	public static final String OPERATION_GET_COURSES_BY_COORD="get_courses_by_coord";
+	public static final String OPERATION_GET_COURSE_BY_ID = "OPERATION_GET_COURSE_BY_ID";
+	public static final String OPERATION_PERSIST_DATABUNDLE = "OPERATION_PERSIST_DATABUNDLE";
 	public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER="activate_auto_reminder";
-	
-	
+
 	public static final String PARAMETER_COURSE_ID = "PARAMETER_COURSE_ID";
 	public static final String PARAMETER_COORD_EMAIL = "PARAMETER_COORD_EMAIL";
 	public static final String PARAMETER_COORD_ID = "PARAMETER_COORD_ID";
 	public static final String PARAMETER_COORD_NAME = "PARAMETER_COORD_NAME";
+	public static final String PARAMETER_DATABUNDLE_JSON = "PARAMETER_DATABUNDLE_JSON";
 	
 	private HttpServletRequest req;
 	private HttpServletResponse resp;
 	private static final Logger log = Logger.getLogger(APIServlet.class.getName());
+	
+	
 	
 	
 
@@ -150,10 +157,23 @@ public class APIServlet extends HttpServlet {
         	String coordID = req.getParameter(PARAMETER_COORD_ID);
         	String coordName = req.getParameter(PARAMETER_COORD_NAME);
     		String coordEmail = req.getParameter(PARAMETER_COORD_EMAIL);
-    		createCoord(coordID, coordName, coordEmail);
+    		createCoordIfNew(coordID, coordName, coordEmail);
         }else if (action.equals(OPERATION_DELETE_COORD_NON_CASCADE)){
     		String coordId = req.getParameter(PARAMETER_COORD_ID);
     		deleteCoordByIdNonCascade(coordId);
+        }else if (action.equals(OPERATION_GET_COURSE_BY_ID)){
+    		String courseId = req.getParameter(PARAMETER_COURSE_ID);
+    		String courseJasonString = getCourseById(courseId);
+    		resp.getWriter().write(courseJasonString);
+        }else if (action.equals(OPERATION_PERSIST_DATABUNDLE)){
+    		String dataBundleJsonString = req.getParameter(PARAMETER_DATABUNDLE_JSON);
+    		String status;
+			try {
+				status = persistDataBundleIfNew(dataBundleJsonString);
+			} catch (Exception e) {
+				status = Common.BACKEND_STATUS_FAILURE+ e.getMessage();
+			}
+    		resp.getWriter().write(status);
         } else {
                 System.err.println("Unknown command: " + action);
         }
@@ -410,16 +430,13 @@ public class APIServlet extends HttpServlet {
 
 	protected void courseAdd() throws IOException {
 		log.info("APIServlet adding new course: ");
-		// String courseID = req.getParameter("course_id");
-		// String courseName = req.getParameter("course_name");
 		String googleID = req.getParameter("google_id");
 		String courseJson = req.getParameter("course");
 		
 		
 		Gson gson = new Gson();
-		Course c = gson.fromJson(courseJson, Course.class);
+		Course c = gson.fromJson(courseJson, Course.class);	
 		c.setCoordinatorID(googleID);
-
 		getPM().makePersistent(c);
 		
 		log.info("Course added: coord: "+ c.getCoordinatorID()
@@ -664,7 +681,8 @@ public class APIServlet extends HttpServlet {
 		return (new Gson()).toJson(coord);
 	}
 	
-	private void createCoord(String coordID, String coordName, String coordEmail) {
+	//TODO: should be named createIfNew
+	private void createCoordIfNew(String coordID, String coordName, String coordEmail) {
 		Accounts accounts = Accounts.inst();
 
 		try {
@@ -682,6 +700,40 @@ public class APIServlet extends HttpServlet {
 		} catch (Exception e) {
 			log.warning("problem while trying to delete coordinator"+coordId+"\n error:"+ e.getMessage());
 		}
+		
+	}
+	
+	private String getCourseById(String courseId) {
+		Course course = Courses.inst().getCourse(courseId);
+		return new Gson().toJson(course);
+	}
+	
+	//TODO: upgrade this to remove 'IfNew' i.e., overwrite if entity already exists
+	private String persistDataBundleIfNew(String dataBundleJsonString) throws CourseInputInvalidException {
+		Gson gson = new Gson();
+		
+		DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
+		HashMap<String, Coordinator> coords = data.coords;
+		for (Coordinator coord : coords.values()) {
+		    log.info("API Servlet adding coord :"+coord.getGoogleID());
+		    createCoordIfNew(coord.getGoogleID(), coord.getName(), coord.getEmail());
+		}
+		
+		HashMap<String, Course> courses = data.courses;
+		for (Course course: courses.values()){
+			log.info("API Servlet adding course :"+course.getID());
+			createCourseIfNew(course.getCoordinatorID(),course.getID(),course.getName());
+		}
+		return Common.BACKEND_STATUS_SUCCESS;
+	}
+
+	private void createCourseIfNew(String coordinatorId, String courseId,
+			String courseName) throws CourseInputInvalidException {
+		try {
+			Courses.inst().addCourse(courseId, courseName, coordinatorId);
+		} catch (CourseExistsException e) {
+			log.warning("Course already exists :"+courseId);
+		} 
 		
 	}
 	

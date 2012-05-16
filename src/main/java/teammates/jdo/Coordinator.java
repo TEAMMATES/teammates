@@ -22,5 +22,12 @@ public class Coordinator extends Account {
 	public Coordinator(String googleID, String name, String email) {
 		super(googleID, name, email);
 	}
+	
+	public boolean hasSameContentsAs(Coordinator otherCoord){
+		return (otherCoord!= null) &&
+				otherCoord.getGoogleID().equalsIgnoreCase(getGoogleID())&&
+				otherCoord.getName().equalsIgnoreCase(getName())&&
+				otherCoord.getEmail().equalsIgnoreCase(getEmail());
+	}
 
 }

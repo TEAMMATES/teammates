@@ -75,4 +75,12 @@ public class Course {
 	public boolean isArchived() {
 		return archived;
 	}
+
+	public boolean hasSameContentsAs(Course otherCourse) {
+		return (otherCourse!=null) &&
+				ID.equalsIgnoreCase(otherCourse.getID())&&
+				name.equalsIgnoreCase(otherCourse.getName())&&
+				coordinatorID.equalsIgnoreCase(otherCourse.getCoordinatorID())&&
+				archived==otherCourse.isArchived();
+	}
 }

@@ -661,11 +661,22 @@ public class TMAPI {
 		makePOSTRequest(paramsString);
 	}
 	
+	public static String getCourseById(String courseId) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_COURSE_BY_ID);
+		params.put(APIServlet.PARAMETER_COURSE_ID, courseId);
+		String paramsString = buildParamsString(params);
+		String courseJsonString = makePOSTRequest(paramsString);
+		return courseJsonString;
+	}
+	
 
 	@Deprecated
 	public static String persistDataBundle(String dataBundleJason) {
-		// TODO Auto-generated method stub
-		return Common.BACKEND_STATUS_SUCCESS;
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_PERSIST_DATABUNDLE);
+		params.put(APIServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJason);
+		String paramsString = buildParamsString(params);
+		String status = makePOSTRequest(paramsString);
+		return status;
 	}
 	
 	
@@ -702,6 +713,8 @@ public class TMAPI {
 			return e.getMessage();
 		}
 	}
+
+
 
 
 }

@@ -13,6 +13,8 @@ import com.google.gson.reflect.TypeToken;
 
 import teammates.Common;
 import teammates.DataBundle;
+import teammates.jdo.Coordinator;
+import teammates.jdo.Course;
 import teammates.testing.lib.SharedLib;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.*;
@@ -47,15 +49,15 @@ public class TMAPITest {
 		String coord1Id = "AST.TGCBCI.coord1";
 		String course1OfCoord1 = "AST.TGCBCI.course1OfCoord1";
 		String course2OfCoord1 = "AST.TGCBCI.course2OfCoord1";
-		TMAPI.createCourse(new Course(course1OfCoord1, "APIServletTest testGetCoursesByCoordId course1OfCoord1"), 
+		TMAPI.createCourse(new teammates.testing.object.Course(course1OfCoord1, "APIServletTest testGetCoursesByCoordId course1OfCoord1"), 
 				coord1Id);
-		TMAPI.createCourse(new Course(course2OfCoord1, "APIServletTest testGetCoursesByCoordId course2OfCoord1"), 
+		TMAPI.createCourse(new teammates.testing.object.Course(course2OfCoord1, "APIServletTest testGetCoursesByCoordId course2OfCoord1"), 
 				coord1Id);
 		
 		//add a course that belongs to a different coordinator
 		String coord2Id = "AST.TGCBCI.coord2";
 		String course1OfCoord2 = "AST.TGCBCI.course1OfCoord2";
-		TMAPI.createCourse(new Course(course1OfCoord2, "APIServletTest testGetCoursesByCoordId course1OfCoord2"), 
+		TMAPI.createCourse(new teammates.testing.object.Course(course1OfCoord2, "APIServletTest testGetCoursesByCoordId course1OfCoord2"), 
 				coord2Id);
 
 		courses = TMAPI.getCoursesByCoordId(coord1Id);
@@ -70,9 +72,9 @@ public class TMAPITest {
 		String coord1Id = "AST.TDCBINC.coord1";
 		String course1OfCoord1 = "AST.TDCBINC.course1OfCoord1";
 		String course2OfCoord1 = "AST.TDCBINC.course2OfCoord1"; 
-		TMAPI.createCourse(new Course(course1OfCoord1, "APIServletTest testDeleteCourseByIdNonCascade course1OfCoord1"), 
+		TMAPI.createCourse(new teammates.testing.object.Course(course1OfCoord1, "APIServletTest testDeleteCourseByIdNonCascade course1OfCoord1"), 
 				coord1Id);
-		TMAPI.createCourse(new Course(course2OfCoord1, "APIServletTest testDeleteCourseByIdNonCascade course2OfCoord1"), 
+		TMAPI.createCourse(new teammates.testing.object.Course(course2OfCoord1, "APIServletTest testDeleteCourseByIdNonCascade course2OfCoord1"), 
 				coord1Id);
 		
 		String[] courses = TMAPI.getCoursesByCoordId(coord1Id);
@@ -129,8 +131,29 @@ public class TMAPITest {
 		String jsonString = SharedLib.getFileContents(TEST_DATA_FOLDER+"typicalDataBundle.json");
 		String status = TMAPI.persistDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		verifyExistInDatastore(jsonString);
 	}
 	
+	private void verifyExistInDatastore(String dataBundleJsonString) {
+		Gson gson = new Gson();
+		
+		DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
+		HashMap<String, Coordinator> coords = data.coords;
+		for (Coordinator expectedCoord : coords.values()) {
+			String coordJsonString = TMAPI.getCoordById(expectedCoord.getGoogleID());
+			Coordinator actualCoord = gson.fromJson(coordJsonString, Coordinator.class);
+			assertTrue(expectedCoord.hasSameContentsAs(actualCoord));
+		}
+		
+		HashMap<String, Course> courses = data.courses;
+		for (Course expectedCourse : courses.values()) {
+			String courseJsonString = TMAPI.getCourseById(expectedCourse.getID());
+			Course actualCourse = gson.fromJson(courseJsonString, Course.class);
+			assertTrue(expectedCourse.hasSameContentsAs(actualCourse));
+		}
+		
+	}
+
 	@Test 
 	public void testDataBundle(){
 		String jsonString = SharedLib.getFileContents(TEST_DATA_FOLDER+"typicalDataBundle.json");
