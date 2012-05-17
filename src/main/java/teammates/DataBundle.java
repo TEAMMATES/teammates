@@ -11,5 +11,7 @@ public class DataBundle {
 	
 	public HashMap<String,Coordinator> coords = new HashMap<String,Coordinator>();
 	public HashMap<String, Course> courses = new HashMap<String, Course>();
-
+	public HashMap<String, Student> students = new HashMap<String, Student>();
+	public HashMap<String, Evaluation> evaluations = new HashMap<String, Evaluation>();
+	
 }

@@ -112,6 +112,21 @@ public class Accounts {
 
 		return coordinatorList.get(0);
 	}
+	
+	public Student getStudentInCourse(String courseId, String email) {
+		String query = "select from " + Student.class.getName()
+				+ " where (email == '" + email + "')"
+				+ " && (courseID == '" + courseId + "')";
+
+		@SuppressWarnings("unchecked")
+		List<Student> studentList = (List<Student>) getPM()
+				.newQuery(query).execute();
+
+		if (studentList.isEmpty()) {
+			return null;
+		}
+		return studentList.get(0);
+	}
 
 	/**
 	 * Returns the list of Coordinator objects.
@@ -235,6 +250,11 @@ public class Accounts {
 		}
 		
 		getPM().deletePersistent(coord);
+	}
+
+	//TODO: check for existing student and throw exception
+	public void createStudent(Student student) {
+		getPM().makePersistent(student);
 	}
 
 }

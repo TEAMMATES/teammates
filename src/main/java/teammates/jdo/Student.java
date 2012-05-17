@@ -58,7 +58,7 @@ public class Student {
 	
 	@Persistent
 	@SerializedName("profiledetail")
-	private Text profileDetail;
+	private transient Text profileDetail;
 
 	/**
 	 * Constructs a Student object.
@@ -185,4 +185,19 @@ public class Student {
 	public boolean isCourseArchived() {
 		return courseArchived;
 	}
+
+//	public boolean hasSameContentsAs(Student otherStudent) {
+//		return (otherStudent!=null)&&
+//				otherStudent.getID().equals(this.getID())&&
+//				otherStudent.getEmail().equals(this.getEmail())&&
+//				otherStudent.getCourseID().equals(this.getCourseID())&&
+//				otherStudent.getName().equals(this.getName())&&
+//				otherStudent.getComments().equals(this.getComments())&&
+//				otherStudent.getRegistrationKey().equals(this.getRegistrationKey())&&
+//				otherStudent.getTeamName().equals(this.getTeamName())&&
+//				otherStudent.isCourseArchived()==this.isCourseArchived()&&
+//				otherStudent.getProfileSummary().equals(this.getProfileSummary())&&
+//				otherStudent.getProfileDetail().equals(this.getProfileDetail());
+//
+//	}
 }

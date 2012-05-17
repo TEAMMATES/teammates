@@ -3,6 +3,7 @@ package teammates.testing.junit;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,11 +14,9 @@ import com.google.gson.reflect.TypeToken;
 
 import teammates.Common;
 import teammates.DataBundle;
-import teammates.jdo.Coordinator;
-import teammates.jdo.Course;
+import teammates.jdo.*;
 import teammates.testing.lib.SharedLib;
 import teammates.testing.lib.TMAPI;
-import teammates.testing.object.*;
 import static org.junit.Assert.*;
 
 
@@ -129,9 +128,51 @@ public class TMAPITest {
 	@Test
 	public void testPersistDataBundle(){
 		String jsonString = SharedLib.getFileContents(TEST_DATA_FOLDER+"typicalDataBundle.json");
-		String status = TMAPI.persistDataBundle(jsonString);
+		String status = TMAPI.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyExistInDatastore(jsonString);
+	}
+
+	@Test 
+	public void testDataBundle(){
+		String jsonString = SharedLib.getFileContents(TEST_DATA_FOLDER+"typicalDataBundle.json");
+		Gson gson = new Gson();
+		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
+		assertEquals("typical.coord1",data.coords.get("demo coord").getGoogleID());
+		assertEquals("Coordinator",data.coords.get("demo coord").getName());
+		assertEquals("teammates.coord@gmail.com",data.coords.get("demo coord").getEmail());
+		assertEquals("typical.coord2",data.coords.get("test coord").getGoogleID());
+		assertEquals("Demo Coordinator",data.coords.get("test coord").getName());
+		assertEquals("teammates.demo.coord@gmail.com",data.coords.get("test coord").getEmail());
+		
+		assertEquals("course1-id",data.courses.get("course1").getID());
+		assertEquals("course 1 name",data.courses.get("course1").getName());
+		assertEquals("typical.coord1",data.courses.get("course1").getCoordinatorID());
+		
+		assertEquals("student1InCourse1",data.students.get("student1InCourse1").getID());
+		assertEquals("student1 In Course1",data.students.get("student1InCourse1").getName());
+		assertEquals("Team 1.1",data.students.get("student1InCourse1").getTeamName());
+		assertEquals("comment for student1InCourse1",data.students.get("student1InCourse1").getComments());
+		assertEquals("profile summary for student1InCourse1",data.students.get("student1InCourse1").getProfileSummary());
+		assertEquals("course1",data.students.get("student1InCourse1").getCourseID());
+		
+		assertEquals("student2InCourse2",data.students.get("student2InCourse2").getID());
+		assertEquals("student2 In Course2",data.students.get("student2InCourse2").getName());
+		assertEquals("Team 2.1",data.students.get("student2InCourse2").getTeamName());
+		
+		assertEquals("evalution1 In Course1", data.evaluations.get("evalution1InCourse1").getName());
+		assertEquals("course1", data.evaluations.get("evalution1InCourse1").getCourseID());
+		assertEquals("instructions for evalution1InCourse1", data.evaluations.get("evalution1InCourse1").getInstructions());
+		assertEquals(10, data.evaluations.get("evalution1InCourse1").getGracePeriod());
+		assertEquals(true, data.evaluations.get("evalution1InCourse1").isCommentsEnabled());
+		System.out.println(data.evaluations.get("evalution1InCourse1").getStart());
+		
+//		Evaluation temp = data.evaluations.get("evalution1InCourse1");
+//		temp.setDeadline(new Date());
+//		Date myDate = new Date();   
+//		System.out.println("JSON : " + gson.toJson(myDate));
+//		myDate = gson.fromJson("\"Apr 12, 2012 11:56:04 AM\"", Date.class);
+//		System.out.println("Date : " + myDate);
 	}
 	
 	private void verifyExistInDatastore(String dataBundleJsonString) {
@@ -142,34 +183,25 @@ public class TMAPITest {
 		for (Coordinator expectedCoord : coords.values()) {
 			String coordJsonString = TMAPI.getCoordById(expectedCoord.getGoogleID());
 			Coordinator actualCoord = gson.fromJson(coordJsonString, Coordinator.class);
-			assertTrue(expectedCoord.hasSameContentsAs(actualCoord));
+			assertEquals(gson.toJson(expectedCoord), gson.toJson(actualCoord));
 		}
 		
 		HashMap<String, Course> courses = data.courses;
 		for (Course expectedCourse : courses.values()) {
 			String courseJsonString = TMAPI.getCourseById(expectedCourse.getID());
 			Course actualCourse = gson.fromJson(courseJsonString, Course.class);
-			assertTrue(expectedCourse.hasSameContentsAs(actualCourse));
+			assertEquals(gson.toJson(expectedCourse), gson.toJson(actualCourse));
+		}
+		
+		HashMap<String, Student> students = data.students;
+		for (Student expectedStudent : students.values()) {
+			String studentJsonString = TMAPI.getStudentById(expectedStudent.getCourseID(), expectedStudent.getEmail());
+			Student actualStudent = gson.fromJson(studentJsonString, Student.class);
+			assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
 		}
 		
 	}
 
-	@Test 
-	public void testDataBundle(){
-		String jsonString = SharedLib.getFileContents(TEST_DATA_FOLDER+"typicalDataBundle.json");
-		Gson gson = new Gson();
-		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
-		assertEquals("teammates.coord",data.coords.get("demo coord").getGoogleID());
-		assertEquals("Coordinator",data.coords.get("demo coord").getName());
-		assertEquals("teammates.coord@gmail.com",data.coords.get("demo coord").getEmail());
-		assertEquals("teammates.demo.coord",data.coords.get("test coord").getGoogleID());
-		assertEquals("Demo Coordinator",data.coords.get("test coord").getName());
-		assertEquals("teammates.demo.coord@gmail.com",data.coords.get("test coord").getEmail());
-		
-		assertEquals("course1-id",data.courses.get("course1").getID());
-		assertEquals("course 1 name",data.courses.get("course1").getName());
-		assertEquals("teammates.coord",data.courses.get("course1").getCoordinatorID());
-	}
 
 	
 }

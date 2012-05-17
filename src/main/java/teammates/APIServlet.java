@@ -58,6 +58,7 @@ public class APIServlet extends HttpServlet {
 	public static final String OPERATION_GET_COURSES_BY_COORD="get_courses_by_coord";
 	public static final String OPERATION_GET_COURSE_BY_ID = "OPERATION_GET_COURSE_BY_ID";
 	public static final String OPERATION_PERSIST_DATABUNDLE = "OPERATION_PERSIST_DATABUNDLE";
+	public static final String OPERATION_GET_STUDENT_IN_COURSE = "OPERATION_GET_STUDENT_IN_COURSE";
 	public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER="activate_auto_reminder";
 
 	public static final String PARAMETER_COURSE_ID = "PARAMETER_COURSE_ID";
@@ -65,14 +66,12 @@ public class APIServlet extends HttpServlet {
 	public static final String PARAMETER_COORD_ID = "PARAMETER_COORD_ID";
 	public static final String PARAMETER_COORD_NAME = "PARAMETER_COORD_NAME";
 	public static final String PARAMETER_DATABUNDLE_JSON = "PARAMETER_DATABUNDLE_JSON";
+	public static final String PARAMETER_STUDENT_EMAIL = "PARAMETER_STUDENT_EMAIL";
+	public static final String PARAMETER_STUDENT_ID	= "PARAMETER_STUDENT_ID";
 	
 	private HttpServletRequest req;
 	private HttpServletResponse resp;
 	private static final Logger log = Logger.getLogger(APIServlet.class.getName());
-	
-	
-	
-	
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
@@ -165,11 +164,16 @@ public class APIServlet extends HttpServlet {
     		String courseId = req.getParameter(PARAMETER_COURSE_ID);
     		String courseJasonString = getCourseById(courseId);
     		resp.getWriter().write(courseJasonString);
+        }else if (action.equals(OPERATION_GET_STUDENT_IN_COURSE)){
+    		String courseId = req.getParameter(PARAMETER_COURSE_ID);
+    		String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
+    		String studentJasonString = getStudentInCourse(courseId, email);
+    		resp.getWriter().write(studentJasonString);
         }else if (action.equals(OPERATION_PERSIST_DATABUNDLE)){
     		String dataBundleJsonString = req.getParameter(PARAMETER_DATABUNDLE_JSON);
     		String status;
 			try {
-				status = persistDataBundleIfNew(dataBundleJsonString);
+				status = persistNewDataBundle(dataBundleJsonString);
 			} catch (Exception e) {
 				status = Common.BACKEND_STATUS_FAILURE+ e.getMessage();
 			}
@@ -180,6 +184,7 @@ public class APIServlet extends HttpServlet {
 
 		resp.flushBuffer();
 	}
+
 
 
 	/**
@@ -708,8 +713,23 @@ public class APIServlet extends HttpServlet {
 		return new Gson().toJson(course);
 	}
 	
-	//TODO: upgrade this to remove 'IfNew' i.e., overwrite if entity already exists
-	private String persistDataBundleIfNew(String dataBundleJsonString) throws CourseInputInvalidException {
+
+	private String getStudentInCourse(String courseId, String email) {
+		Student student = Accounts.inst().getStudentInCourse(courseId, email);
+		return new Gson().toJson(student);
+	}
+	
+	/**
+	 * Persists given data in the datastore
+	 * Works ONLY if the data is correct and new (i.e. these entities do not already exist in the datastore).
+	 * The behavior is undefined if incorrect or not new.
+	 * @param dataBundleJsonString
+	 * @return status of the request in the form 'status meassage'+'additional info (if any)'
+	 * e.g., "[BACKEND_STATUS_SUCCESS]" 
+	 * e.g., "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
+	 * @throws CourseInputInvalidException
+	 */
+	private String persistNewDataBundle(String dataBundleJsonString) throws Exception {
 		Gson gson = new Gson();
 		
 		DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
@@ -724,7 +744,17 @@ public class APIServlet extends HttpServlet {
 			log.info("API Servlet adding course :"+course.getID());
 			createCourseIfNew(course.getCoordinatorID(),course.getID(),course.getName());
 		}
+		
+		HashMap<String, Student> students = data.students;
+		for (Student student: students.values()){
+			log.info("API Servlet adding student :"+student.getEmail()+ " to course "+ student.getCourseID());
+			createStudentIfNew(student);
+		}
 		return Common.BACKEND_STATUS_SUCCESS;
+	}
+
+	private void createStudentIfNew(Student student) {
+		Accounts.inst().createStudent(student);
 	}
 
 	private void createCourseIfNew(String coordinatorId, String courseId,

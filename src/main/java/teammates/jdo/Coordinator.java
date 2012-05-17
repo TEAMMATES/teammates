@@ -23,11 +23,4 @@ public class Coordinator extends Account {
 		super(googleID, name, email);
 	}
 	
-	public boolean hasSameContentsAs(Coordinator otherCoord){
-		return (otherCoord!= null) &&
-				otherCoord.getGoogleID().equalsIgnoreCase(getGoogleID())&&
-				otherCoord.getName().equalsIgnoreCase(getName())&&
-				otherCoord.getEmail().equalsIgnoreCase(getEmail());
-	}
-
 }

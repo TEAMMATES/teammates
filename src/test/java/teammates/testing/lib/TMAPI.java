@@ -671,7 +671,7 @@ public class TMAPI {
 	
 
 	@Deprecated
-	public static String persistDataBundle(String dataBundleJason) {
+	public static String persistNewDataBundle(String dataBundleJason) {
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_PERSIST_DATABUNDLE);
 		params.put(APIServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJason);
 		String paramsString = buildParamsString(params);
@@ -679,6 +679,16 @@ public class TMAPI {
 		return status;
 	}
 	
+
+	public static String getStudentById(String courseId, String studentEmail) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_STUDENT_IN_COURSE);
+		params.put(APIServlet.PARAMETER_COURSE_ID, courseId);
+		params.put(APIServlet.PARAMETER_STUDENT_EMAIL, studentEmail);
+		String paramsString = buildParamsString(params);
+		String status = makePOSTRequest(paramsString);
+		return status;
+	}
+
 	
 	/**
 	 * Sends data to server and returns the response 
