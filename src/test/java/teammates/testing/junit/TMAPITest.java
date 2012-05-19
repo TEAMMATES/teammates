@@ -1,6 +1,7 @@
 package teammates.testing.junit;
 
 import java.lang.reflect.Type;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Map;
 import org.junit.*;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import teammates.Common;
@@ -102,25 +104,25 @@ public class TMAPITest {
 		String coord1Email = "AST.testCoordManipulation.coord1@gmail.com";
 		
 		//test for accessing non-existent coord
-		assertEquals("null",TMAPI.getCoordById("AST.testCoordManipulation.nonexistentId"));	
+		assertEquals("null",TMAPI.getCoordAsJason("AST.testCoordManipulation.nonexistentId"));	
 				
 		//delete coord if already exists
 		TMAPI.deleteCoordByIdNonCascading(coord1Id);
-		assertEquals("null",TMAPI.getCoordById(coord1Id));
+		assertEquals("null",TMAPI.getCoordAsJason(coord1Id));
 		
 		//try to delete again, to ensure it does not crash
 		TMAPI.deleteCoordByIdNonCascading(coord1Id);
 		
 		//test creation, and accessing existing coord
 		TMAPI.createCoord(coord1Id, coord1Name, coord1Email);
-		assertEquals("{\"googleID\":\""+coord1Id+"\",\"name\":\"" +coord1Name+"\",\"email\":\"" +coord1Email+"\"}",TMAPI.getCoordById(coord1Id));
+		assertEquals("{\"googleID\":\""+coord1Id+"\",\"name\":\"" +coord1Name+"\",\"email\":\"" +coord1Email+"\"}",TMAPI.getCoordAsJason(coord1Id));
 		
 		//creating the same coord, to ensure it does not crash
 		TMAPI.createCoord(coord1Id, coord1Name, coord1Email);
 		
 		//delete existing coord
 		TMAPI.deleteCoordByIdNonCascading(coord1Id);
-		assertEquals("null",TMAPI.getCoordById(coord1Id));
+		assertEquals("null",TMAPI.getCoordAsJason(coord1Id));
 		
 		//TODO: test for coord cascade delete
 	}
@@ -136,68 +138,149 @@ public class TMAPITest {
 	@Test 
 	public void testDataBundle(){
 		String jsonString = SharedLib.getFileContents(TEST_DATA_FOLDER+"typicalDataBundle.json");
-		Gson gson = new Gson();
+		Gson gson = Common.getTeammatesGson();
+				
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
-		assertEquals("typical.coord1",data.coords.get("demo coord").getGoogleID());
-		assertEquals("Coordinator",data.coords.get("demo coord").getName());
-		assertEquals("teammates.coord@gmail.com",data.coords.get("demo coord").getEmail());
-		assertEquals("typical.coord2",data.coords.get("test coord").getGoogleID());
-		assertEquals("Demo Coordinator",data.coords.get("test coord").getName());
-		assertEquals("teammates.demo.coord@gmail.com",data.coords.get("test coord").getEmail());
 		
-		assertEquals("course1-id",data.courses.get("course1").getID());
-		assertEquals("course 1 name",data.courses.get("course1").getName());
-		assertEquals("typical.coord1",data.courses.get("course1").getCoordinatorID());
+		Coordinator typicalCoord1 = data.coords.get("typical.coord1");
+		assertEquals("typical.coord1",typicalCoord1.getGoogleID());
+		assertEquals("Typical Coordinator1",typicalCoord1.getName());
+		assertEquals("typical.coord1@gmail.com",typicalCoord1.getEmail());
 		
-		assertEquals("student1InCourse1",data.students.get("student1InCourse1").getID());
-		assertEquals("student1 In Course1",data.students.get("student1InCourse1").getName());
-		assertEquals("Team 1.1",data.students.get("student1InCourse1").getTeamName());
-		assertEquals("comment for student1InCourse1",data.students.get("student1InCourse1").getComments());
-		assertEquals("profile summary for student1InCourse1",data.students.get("student1InCourse1").getProfileSummary());
-		assertEquals("course1",data.students.get("student1InCourse1").getCourseID());
+		Coordinator typicalCoord2 = data.coords.get("typical.coord2");
+		assertEquals("typical.coord2",typicalCoord2.getGoogleID());
+		assertEquals("Typical Coordinator2",typicalCoord2.getName());
+		assertEquals("typical.coord2@gmail.com",typicalCoord2.getEmail());
 		
-		assertEquals("student2InCourse2",data.students.get("student2InCourse2").getID());
-		assertEquals("student2 In Course2",data.students.get("student2InCourse2").getName());
-		assertEquals("Team 2.1",data.students.get("student2InCourse2").getTeamName());
+		Course course1 = data.courses.get("course1");
+		assertEquals("course1-id",course1.getID());
+		assertEquals("course 1 name",course1.getName());
+		assertEquals("typical.coord1",course1.getCoordinatorID());
 		
-		assertEquals("evalution1 In Course1", data.evaluations.get("evalution1InCourse1").getName());
-		assertEquals("course1", data.evaluations.get("evalution1InCourse1").getCourseID());
-		assertEquals("instructions for evalution1InCourse1", data.evaluations.get("evalution1InCourse1").getInstructions());
-		assertEquals(10, data.evaluations.get("evalution1InCourse1").getGracePeriod());
-		assertEquals(true, data.evaluations.get("evalution1InCourse1").isCommentsEnabled());
-		System.out.println(data.evaluations.get("evalution1InCourse1").getStart());
+		Student student1InCourse1 = data.students.get("student1InCourse1");
+		assertEquals("student1InCourse1",student1InCourse1.getID());
+		assertEquals("student1 In Course1",student1InCourse1.getName());
+		assertEquals("Team 1.1",student1InCourse1.getTeamName());
+		assertEquals("comment for student1InCourse1",student1InCourse1.getComments());
+		assertEquals("profile summary for student1InCourse1",student1InCourse1.getProfileSummary());
+		assertEquals("course1",student1InCourse1.getCourseID());
 		
-//		Evaluation temp = data.evaluations.get("evalution1InCourse1");
-//		temp.setDeadline(new Date());
-//		Date myDate = new Date();   
-//		System.out.println("JSON : " + gson.toJson(myDate));
-//		myDate = gson.fromJson("\"Apr 12, 2012 11:56:04 AM\"", Date.class);
-//		System.out.println("Date : " + myDate);
+		Student student2InCourse2 = data.students.get("student2InCourse2");
+		assertEquals("student2InCourse2",student2InCourse2.getID());
+		assertEquals("student2 In Course2",student2InCourse2.getName());
+		assertEquals("Team 2.1",student2InCourse2.getTeamName());
+		
+		Evaluation evaluation1 = data.evaluations.get("evalution1InCourse1");
+		assertEquals("evaluation1 In Course1", evaluation1.getName());
+		assertEquals("course1", evaluation1.getCourseID());
+		assertEquals("instructions for evalution1InCourse1", evaluation1.getInstructions());
+		assertEquals(10, evaluation1.getGracePeriod());
+		assertEquals(true, evaluation1.isCommentsEnabled());
+		assertEquals("Sun Apr 01 23:59:00 SGT 2012",evaluation1.getStart().toString());
+		assertEquals("Tue Apr 30 23:59:00 SGT 2013",evaluation1.getDeadline().toString());
+		assertEquals(true, evaluation1.isActivated());
+		assertEquals(false, evaluation1.isPublished());
+		assertEquals(2.0, evaluation1.getTimeZone(),0.01);
+		
+		Evaluation evaluation2 = data.evaluations.get("evalution2InCourse1");
+		assertEquals("evaluation2 In Course1", evaluation2.getName());
+		assertEquals("course1", evaluation2.getCourseID());
+		
+		Submission submissionFromS1C1ToS2C1 = data.submissions.get("submissionFromS1C1ToS2C1");
+		assertEquals("student1InCourse1@gmail.com", submissionFromS1C1ToS2C1.getFromStudent());
+		assertEquals("student2InCourse1@gmail.com", submissionFromS1C1ToS2C1.getToStudent());
+		assertEquals("course1", submissionFromS1C1ToS2C1.getCourseID());
+		assertEquals("evaluation1 In Course1", submissionFromS1C1ToS2C1.getEvaluationName());
+		assertEquals(10, submissionFromS1C1ToS2C1.getPoints());
+		assertEquals("Team 1.1", submissionFromS1C1ToS2C1.getTeamName());
+		//since justification filed is of Text type, we have to use it's .getValue() method to access the string contained inside it
+		assertEquals("justification of student1InCourse1 rating to student2InCourse1", submissionFromS1C1ToS2C1.getJustification().getValue());
+		assertEquals("comments from student1InCourse1 to student2InCourse1", submissionFromS1C1ToS2C1.getCommentsToStudent().getValue());
+	
+		Submission submissionFromS2C1ToS1C1 = data.submissions.get("submissionFromS2C1ToS1C1");
+		assertEquals("student2InCourse1@gmail.com", submissionFromS2C1ToS1C1.getFromStudent());
+		assertEquals("student1InCourse1@gmail.com", submissionFromS2C1ToS1C1.getToStudent());
+		
+		TeamFormingSession tfsInCourse1 = data.teamFormingSessions.get("tfsInCourse1");
+		assertEquals("course1", tfsInCourse1.getCourseID());
+		assertEquals(8.0, tfsInCourse1.getTimeZone(),0.01);
+		assertEquals("Sun Apr 01 23:59:00 SGT 2012", tfsInCourse1.getStart().toString());
+		assertEquals("Sun Apr 15 23:59:00 SGT 2012", tfsInCourse1.getDeadline().toString());
+		assertEquals("instructions for tfsInCourse1", tfsInCourse1.getInstructions());
+		assertEquals("profile template for tfsInCourse1", tfsInCourse1.getProfileTemplate());
+		assertEquals(10, tfsInCourse1.getGracePeriod());
+		assertEquals(false, tfsInCourse1.isActivated());
+		
+		TeamProfile profileOfTeam1_1 = data.teamProfiles.get("profileOfTeam1.1");
+		assertEquals("course1", profileOfTeam1_1.getCourseID());
+		assertEquals("course 1 name", profileOfTeam1_1.getCourseName());
+		assertEquals("Team 1.1", profileOfTeam1_1.getTeamName());
+		assertEquals("team profile of Team 1.1", profileOfTeam1_1.getTeamProfile().getValue());
 	}
 	
 	private void verifyExistInDatastore(String dataBundleJsonString) {
-		Gson gson = new Gson();
+		Gson gson = Common.getTeammatesGson();
 		
 		DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
 		HashMap<String, Coordinator> coords = data.coords;
 		for (Coordinator expectedCoord : coords.values()) {
-			String coordJsonString = TMAPI.getCoordById(expectedCoord.getGoogleID());
+			String coordJsonString = TMAPI.getCoordAsJason(expectedCoord.getGoogleID());
 			Coordinator actualCoord = gson.fromJson(coordJsonString, Coordinator.class);
 			assertEquals(gson.toJson(expectedCoord), gson.toJson(actualCoord));
 		}
 		
 		HashMap<String, Course> courses = data.courses;
 		for (Course expectedCourse : courses.values()) {
-			String courseJsonString = TMAPI.getCourseById(expectedCourse.getID());
+			String courseJsonString = TMAPI.getCourseAsJason(expectedCourse.getID());
 			Course actualCourse = gson.fromJson(courseJsonString, Course.class);
 			assertEquals(gson.toJson(expectedCourse), gson.toJson(actualCourse));
 		}
 		
 		HashMap<String, Student> students = data.students;
 		for (Student expectedStudent : students.values()) {
-			String studentJsonString = TMAPI.getStudentById(expectedStudent.getCourseID(), expectedStudent.getEmail());
+			String studentJsonString = TMAPI.getStudentAsJason(expectedStudent.getCourseID(), expectedStudent.getEmail());
 			Student actualStudent = gson.fromJson(studentJsonString, Student.class);
 			assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
+		}
+		
+		HashMap<String, Evaluation> evaluations = data.evaluations;
+		for (Evaluation expectedEvaluation : evaluations.values()) {
+			String evaluationJsonString = TMAPI.getEvaluationAsJason(expectedEvaluation.getCourseID(), expectedEvaluation.getName());
+			Evaluation actualEvaluation = gson.fromJson(evaluationJsonString, Evaluation.class);
+			//equalize id field before comparing (because id field is autogenerated by GAE)
+			expectedEvaluation.id = actualEvaluation.id;
+			assertEquals(gson.toJson(expectedEvaluation), gson.toJson(actualEvaluation));
+		}
+		
+		HashMap<String, Submission> submissions = data.submissions;
+		for (Submission expectedSubmission : submissions.values()) {
+			String submissionsJsonString = TMAPI.getSubmissionAsJason(
+					expectedSubmission.getCourseID(), 
+					expectedSubmission.getEvaluationName(),
+					expectedSubmission.getFromStudent(),
+					expectedSubmission.getToStudent());
+			Submission actualSubmission = gson.fromJson(submissionsJsonString, Submission.class);
+			//equalize id field before comparing (because id field is autogenerated by GAE)
+			expectedSubmission.id = actualSubmission.id;
+			assertEquals(gson.toJson(expectedSubmission), gson.toJson(actualSubmission));
+		}
+		
+		HashMap<String, TeamFormingSession> teamFormingSessions = data.teamFormingSessions;
+		for (TeamFormingSession expectedTeamFormingSession : teamFormingSessions.values()) {
+			String teamFormingSessionsJsonString = TMAPI.getTfsAsJason(expectedTeamFormingSession.getCourseID());
+			TeamFormingSession actualTeamFormingSession = gson.fromJson(teamFormingSessionsJsonString, TeamFormingSession.class);
+			//equalize id field before comparing (because id field is autogenerated by GAE)
+			expectedTeamFormingSession.id = actualTeamFormingSession.id;
+			assertEquals(gson.toJson(expectedTeamFormingSession), gson.toJson(actualTeamFormingSession));
+		}
+		
+		HashMap<String, TeamProfile> teamProfiles = data.teamProfiles;
+		for (TeamProfile expectedTeamProfile : teamProfiles.values()) {
+			String teamProfileJsonString = TMAPI.getTeamProfileAsJason(expectedTeamProfile.getCourseID(), expectedTeamProfile.getTeamName());
+			TeamProfile actualTeamProfile = gson.fromJson(teamProfileJsonString, TeamProfile.class);
+			//equalize id field before comparing (because id field is autogenerated by GAE)
+			expectedTeamProfile.id = actualTeamProfile.id;
+			assertEquals(gson.toJson(expectedTeamProfile), gson.toJson(actualTeamProfile));
 		}
 		
 	}

@@ -150,7 +150,6 @@ public class Evaluations {
 			// Build submission objects for each student based on their team
 			// number
 			createSubmissions(e.getCourseID(), e.getName());
-			System.out.println("create evaluation");
 			return true;
 		} catch (Exception exp) {
 			exp.printStackTrace();
@@ -758,26 +757,27 @@ public class Evaluations {
 	 *            the evaluation name (Pre-condition: The parameters must be
 	 *            valid)
 	 * 
-	 * @param fromStudent
+	 * @param reviewerEmail
 	 *            the email of the sending student (Pre-condition: The
 	 *            parameters must be valid)
 	 * 
 	 * @return the submissions of the specified student pertaining to the
 	 *         specified evaluation
 	 */
-	public List<Submission> getSubmissionFromStudentList(String courseID,
-			String evaluationName, String fromStudent) {
+	public List<Submission> getSubmissionFromStudentList(
+			String courseID,
+			String evaluationName, 
+			String reviewerEmail) {
 
 		String query = "select from " + Submission.class.getName()
 				+ " where courseID == '" + courseID
 				+ "' && evaluationName == '" + evaluationName
-				+ "' && fromStudent == '" + fromStudent + "'";
+				+ "' && fromStudent == '" + reviewerEmail + "'";
 
-		log.log(Level.WARNING, query);
+		log.info(query);
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
 				query).execute();
-		log.log(Level.WARNING, submissionList.toString());
 		return submissionList;
 	}
 

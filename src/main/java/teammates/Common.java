@@ -1,8 +1,12 @@
 package teammates;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class Common {
 	
@@ -26,6 +30,14 @@ public class Common {
 	public static final String BACKEND_STATUS_SUCCESS = "[BACKEND_STATUS_SUCCESS]";
 	public static String BACKEND_STATUS_FAILURE = "[BACKEND_STATUS_FAILURE]";
 
+	/**
+	 * This creates a Gson object that can handle the Date format we use in the Json file
+	 * technique found in http://code.google.com/p/google-gson/source/browse/trunk/gson/src/test/java/com/google/gson/functional/DefaultTypeAdaptersTest.java?spec=svn327&r=327
+	 */
+	public static Gson getTeammatesGson(){
+		return new GsonBuilder().setDateFormat(DateFormat.FULL).setDateFormat("yyyy-MM-dd h:mm a").setPrettyPrinting().create();
+	}
+	
 	public static void println(String message) {
 		System.out.println(String.format("[%d - %s] %s", Thread.currentThread()
 				.getId(), Thread.currentThread().getName(), message));

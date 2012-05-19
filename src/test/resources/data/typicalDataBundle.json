@@ -1,7 +1,7 @@
 {
   "coords": {
-  	"demo coord": {"googleID": "typical.coord1", "name":"Coordinator", "email":"teammates.coord@gmail.com"},
-  	"test coord": {"googleID": "typical.coord2", "name":"Demo Coordinator", "email":"teammates.demo.coord@gmail.com"}
+  	"typical.coord1": {"googleID": "typical.coord1", "name":"Typical Coordinator1", "email":"typical.coord1@gmail.com"},
+  	"typical.coord2": {"googleID": "typical.coord2", "name":"Typical Coordinator2", "email":"typical.coord2@gmail.com"}
   },
   "courses": {
 	  "course1": {
@@ -26,8 +26,7 @@
       "google_id": "student1InCourse1",
       "comments" : "comment for student1InCourse1",
       "profilesummary" : "profile summary for student1InCourse1",
-      "coursename" : "course1",
-      "start_time" : "\"Apr 12, 2012 11:56:04 AM\""
+      "coursename" : "course1"
     },
     "student2InCourse1":{
       "email": "student2InCourse1@gmail.com",
@@ -56,64 +55,88 @@
   
     "evalution1InCourse1": {
       "course_id" : "course1",
-      "name" : "evalution1 In Course1",
+      "name" : "evaluation1 In Course1",
       "instr": "instructions for evalution1InCourse1",
       "grace": 10,
-      "comments_on" : true
+      "comments_on" : true,
+      "start_time" : "2012-04-01 11:59 PM",
+      "end_time" : "2013-04-30 11:59 PM",
+      "activated" : true,
+      "published" : false,
+      "timezone" : 2.0
     },
-    "evaluation2": {
-      "graceperiod": 10,
+    "evalution2InCourse1": {
+      "course_id" : "course1",
+      "graceperiod": 20,
       "instructions": "Please please fill in the second evaluation",
-      "name": "Second Eval",
-      "p2pcomments": "true"
-    },
-    "evaluation3": {
-      "graceperiod": 10,
-      "instructions": "Please please fill in the third evaluation",
-      "name": "Third Eval",
-      "p2pcomments": "true"
-    },
-    "evaluation4": {
-      "graceperiod": 10,
-      "instructions": "Please please fill in the forth evaluation",
-      "name": "Forth Eval",
-      "p2pcomments": "true"
+      "name": "evaluation2 In Course1",
+      "p2pcomments": true
     }
   },
-  "teamFormingSession": {
-    "graceperiod": 10,
-    "instructions": "Please please fill it in",
-    "profileTemplate": "Strengths, Past projects"
-  },    
   
-  "teams": [ "Team 1", "Team 2" ],
+  "submissions" : {
+    "submissionFromS1C1ToS2C1" :{
+    
+    	"fromStudent" : "student1InCourse1@gmail.com",
+      "toStudent" : "student2InCourse1@gmail.com",
+      "courseID" : "course1",
+      "evaluationName" : "evaluation1 In Course1",
+      "points" : 10,
+      "justification" : {"value" : "justification of student1InCourse1 rating to student2InCourse1"},
+      "commentsToStudent" : {"value" :"comments from student1InCourse1 to student2InCourse1"},
+      "teamName" : "Team 1.1"
+    },
+    "submissionFromS2C1ToS1C1" :{
+    
+    	"fromStudent" : "student2InCourse1@gmail.com",
+      "toStudent" : "student1InCourse1@gmail.com",
+      "courseID" : "course1",
+      "evaluationName" : "evaluation1 In Course1",
+      "points" : 20,
+      "justification" : {"value" : "justification of student2InCourse1 rating to student1InCourse1"},
+      "commentsToStudent" : {"value" :"comments from student2InCourse1 to student1InCourse1"},
+      "teamName" : "Team 1.1"
+    }
   
+  },
   
-  "teams2": ["Team Point"],
-  "students2": [
-  	{
-  		"name": "Alice",
-  		"email": "alice.tmms@gmail.com",
-  		"google_id": "alice.tmms",
-  		"team": "Team Point"
-  	},
-  	{
-  		"name": "Benny",
-  		"email": "benny.tmms@gmail.com",
-  		"google_id": "benny.tmms",
-  		"team": "Team Point"
-  	},
-  	{
-  		"name": "Charlie",
-  		"email": "charlie.tmms@gmail.com",
-  		"google_id": "charlie.tmms",
-  		"team": "Team Point"
-  	},
-  	{
-  		"name": "Danny",
-  		"email": "danny.tmms@gmail.com",
-  		"google_id": "danny.tmms",
-  		"team": "Team Point"
-  	}
-  ]
+  "teamFormingSessions": {
+    "tfsInCourse1":{
+      "course_id" : "course1",
+      "start_time" : "2012-04-01 11:59 PM",
+      "end_time" : "2012-04-15 11:59 PM",
+      "timezone" : 8.0,
+      "grace" : 10,
+      "instr" : "instructions for tfsInCourse1",
+      "profile_template" : "profile template for tfsInCourse1",
+      "activated" : false
+    },
+    "tfsInCourse2":{
+      "course_id" : "course2",
+      "start_time" : "2012-04-01 11:59 PM",
+      "end_time" : "2012-04-15 11:59 PM",
+      "timezone" : 6.0,
+      "grace" : 5,
+      "instr" : "instructions for tfsInCourse2",
+      "profile_template" : "profile template for tfsInCourse2",
+      "activated" : false
+    }
+  },
+  
+  "teamProfiles" : {
+    "profileOfTeam1.1" : {
+      "courseid" : "course1",
+      "coursename" : "course 1 name",
+      "teamname" : "Team 1.1",
+      "teamprofile" : {"value" :"team profile of Team 1.1"}
+    },
+    "profileOfTeam2.1" : {
+      "courseid" : "course2",
+      "coursename" : "course 2 name",
+      "teamname" : "Team 2.1",
+      "teamprofile" : {"value" :"team profile of Team 2.1"}
+    }
+  
+  }   
+
 }

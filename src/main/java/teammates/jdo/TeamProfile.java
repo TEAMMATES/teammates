@@ -20,12 +20,13 @@ public class TeamProfile {
 	@SuppressWarnings("unused")
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Long id;
+	public Long id;
 
 	@Persistent
 	@SerializedName("courseid")
 	private String courseID;
 	
+	//TODO: Why do we need this field? this can cause problems if we allow changing course name
 	@Persistent
 	@SerializedName("coursename")
 	private String courseName;

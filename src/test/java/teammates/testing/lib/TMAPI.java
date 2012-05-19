@@ -646,8 +646,8 @@ public class TMAPI {
 	 * @param coordId
 	 * @return Coordinator details in Json format. "null" if no such coord.
 	 */
-	public static String getCoordById(String coordId) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_COORD_BY_ID);
+	public static String getCoordAsJason(String coordId) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_COORD_AS_JSON);
 		params.put(APIServlet.PARAMETER_COORD_ID, coordId);
 		String paramsString = buildParamsString(params);
 		String coordJsonString = makePOSTRequest(paramsString);
@@ -661,8 +661,8 @@ public class TMAPI {
 		makePOSTRequest(paramsString);
 	}
 	
-	public static String getCourseById(String courseId) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_COURSE_BY_ID);
+	public static String getCourseAsJason(String courseId) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_COURSE_AS_JSON);
 		params.put(APIServlet.PARAMETER_COURSE_ID, courseId);
 		String paramsString = buildParamsString(params);
 		String courseJsonString = makePOSTRequest(paramsString);
@@ -670,7 +670,6 @@ public class TMAPI {
 	}
 	
 
-	@Deprecated
 	public static String persistNewDataBundle(String dataBundleJason) {
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_PERSIST_DATABUNDLE);
 		params.put(APIServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJason);
@@ -680,13 +679,51 @@ public class TMAPI {
 	}
 	
 
-	public static String getStudentById(String courseId, String studentEmail) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_STUDENT_IN_COURSE);
+	public static String getStudentAsJason(String courseId, String studentEmail) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_STUDENT_AS_JSON);
 		params.put(APIServlet.PARAMETER_COURSE_ID, courseId);
 		params.put(APIServlet.PARAMETER_STUDENT_EMAIL, studentEmail);
 		String paramsString = buildParamsString(params);
-		String status = makePOSTRequest(paramsString);
-		return status;
+		String studentJson = makePOSTRequest(paramsString);
+		return studentJson;
+	}
+	
+	public static String getEvaluationAsJason(String courseID, String evaluationName) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_EVALUATION_AS_JSON);
+		params.put(APIServlet.PARAMETER_COURSE_ID, courseID);
+		params.put(APIServlet.PARAMETER_EVALUATION_NAME, evaluationName);
+		String paramsString = buildParamsString(params);
+		String evaluationJson = makePOSTRequest(paramsString);
+		return evaluationJson;
+	}
+	
+	public static String getSubmissionAsJason(String courseID,
+			String evaluationName, String reviewerEmail, String revieweeEmail) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_SUBMISSION_AS_JSON);
+		params.put(APIServlet.PARAMETER_COURSE_ID, courseID);
+		params.put(APIServlet.PARAMETER_EVALUATION_NAME, evaluationName);
+		params.put(APIServlet.PARAMETER_REVIEWER_EMAIL, reviewerEmail);
+		params.put(APIServlet.PARAMETER_REVIEWEE_EMAIL, revieweeEmail);
+		String paramsString = buildParamsString(params);
+		String submissionJson = makePOSTRequest(paramsString);
+		return submissionJson;
+	}
+	
+	public static String getTfsAsJason(String courseID) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_TFS_AS_JSON);
+		params.put(APIServlet.PARAMETER_COURSE_ID, courseID);
+		String paramsString = buildParamsString(params);
+		String evaluationJson = makePOSTRequest(paramsString);
+		return evaluationJson;
+	}
+	
+	public static String getTeamProfileAsJason(String courseID, String teamName) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_TEAM_PROFILE_AS_JSON);
+		params.put(APIServlet.PARAMETER_COURSE_ID, courseID);
+		params.put(APIServlet.PARAMETER_TEAM_NAME, teamName);
+		String paramsString = buildParamsString(params);
+		String evaluationJson = makePOSTRequest(paramsString);
+		return evaluationJson;
 	}
 
 	
@@ -723,8 +760,6 @@ public class TMAPI {
 			return e.getMessage();
 		}
 	}
-
-
 
 
 }

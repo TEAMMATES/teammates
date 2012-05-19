@@ -16,10 +16,9 @@ import com.google.appengine.api.datastore.Text;
  */
 @PersistenceCapable
 public class Submission {
-	@SuppressWarnings("unused")
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Long id;
+	public Long id;
 
 	@Persistent
 	String fromStudent;

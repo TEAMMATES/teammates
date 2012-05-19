@@ -98,6 +98,17 @@ public class TeamForming {
 		}
 	}
 	
+	public void createTeamFormingSession(TeamFormingSession tfs) throws TeamFormingSessionExistsException {
+		createTeamFormingSession(
+				tfs.getCourseID(), 
+				tfs.getStart(), 
+				tfs.getDeadline(), 
+				tfs.getTimeZone(), 
+				tfs.getGracePeriod(), 
+				tfs.getInstructions(), 
+				tfs.getProfileTemplate());	
+	}
+	
 	/**
 	 * Adds a team profile
 	 * 
@@ -125,6 +136,14 @@ public class TeamForming {
 			getPM().makePersistent(newTeamProfile);
 		} finally {
 		}
+	}
+	
+	public void createTeamProfile(TeamProfile teamProfile) throws TeamProfileExistsException {
+		createTeamProfile(
+				teamProfile.getCourseID(),
+				teamProfile.getCourseName(),
+				teamProfile.getTeamName(),
+				teamProfile.getTeamProfile());	
 	}
 	
 	public void createTeamWithStudent(String courseId, String courseName, String newStudentEmail, 
@@ -654,7 +673,10 @@ public class TeamForming {
 	 *            the course ID (Pre-condition: Must not be null)
 	 * 
 	 * @return the list of evaluations belonging to the specified course
+	 * @deprecated This method is not relevant because a course should not have more than 
+	 * 	one team forming session.
 	 */
+	@Deprecated 
 	public List<TeamFormingSession> getTeamFormingSessionList(String courseID) {
 		String query = "select from " + TeamFormingSession.class.getName()
 				+ " where courseID == '" + courseID + "'";
@@ -663,6 +685,16 @@ public class TeamForming {
 		List<TeamFormingSession> teamFormingSessionList = (List<TeamFormingSession>) getPM().newQuery(
 				query).execute();
 		return teamFormingSessionList;
+	}
+	
+	public TeamFormingSession getTeamFormingSession(String courseID) {
+		String query = "select from " + TeamFormingSession.class.getName()
+				+ " where courseID == '" + courseID + "'";
+
+		@SuppressWarnings("unchecked")
+		List<TeamFormingSession> tfsList = (List<TeamFormingSession>) getPM().newQuery(
+				query).execute();
+		return tfsList.size()>0 ? tfsList.get(0) : null;
 	}
 	
 	public void publishTeamFormingResults(List<Student> studentList, String courseID) {
@@ -859,4 +891,8 @@ public class TeamForming {
 		}
 		return true;
 	}
+
+
+
+
 }

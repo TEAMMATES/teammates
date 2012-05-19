@@ -31,6 +31,7 @@ import teammates.jdo.Evaluation;
 import teammates.jdo.Student;
 import teammates.jdo.Submission;
 import teammates.jdo.TeamFormingSession;
+import teammates.jdo.TeamProfile;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
@@ -54,11 +55,15 @@ public class APIServlet extends HttpServlet {
 	public static final String OPERATION_CREATE_COORD = "OPERATION_CREATE_COORD";
 	public static final String OPERATION_DELETE_COORD_NON_CASCADE = "OPERATION_DELETE_COORD_NON_CASCADE";
 	public static final String OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE = "OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE";
-	public static final String OPERATION_GET_COORD_BY_ID = "OPERATION_GET_COORD_BY_ID";
+	public static final String OPERATION_GET_COORD_AS_JSON = "OPERATION_GET_COORD_AS_JSON";
 	public static final String OPERATION_GET_COURSES_BY_COORD="get_courses_by_coord";
-	public static final String OPERATION_GET_COURSE_BY_ID = "OPERATION_GET_COURSE_BY_ID";
+	public static final String OPERATION_GET_COURSE_AS_JSON = "OPERATION_GET_COURSE_AS_JSON";
 	public static final String OPERATION_PERSIST_DATABUNDLE = "OPERATION_PERSIST_DATABUNDLE";
-	public static final String OPERATION_GET_STUDENT_IN_COURSE = "OPERATION_GET_STUDENT_IN_COURSE";
+	public static final String OPERATION_GET_STUDENT_AS_JSON = "OPERATION_GET_STUDENT_AS_JSON";
+	public static final String OPERATION_GET_EVALUATION_AS_JSON = "OPERATION_GET_EVALUATION_AS_JSON";
+	public static final String OPERATION_GET_SUBMISSION_AS_JSON = "OPERATION_GET_SUBMISSION_AS_JSON";
+	public static final String OPERATION_GET_TEAM_PROFILE_AS_JSON = "OPERATION_GET_TEAM_PROFILE_AS_JSON";
+	public static final String OPERATION_GET_TFS_AS_JSON = "OPERATION_GET_TFS_AS_JSON";
 	public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER="activate_auto_reminder";
 
 	public static final String PARAMETER_COURSE_ID = "PARAMETER_COURSE_ID";
@@ -66,12 +71,18 @@ public class APIServlet extends HttpServlet {
 	public static final String PARAMETER_COORD_ID = "PARAMETER_COORD_ID";
 	public static final String PARAMETER_COORD_NAME = "PARAMETER_COORD_NAME";
 	public static final String PARAMETER_DATABUNDLE_JSON = "PARAMETER_DATABUNDLE_JSON";
+	public static final String PARAMETER_EVALUATION_NAME = "PARAMETER_EVALUATION_NAME";
 	public static final String PARAMETER_STUDENT_EMAIL = "PARAMETER_STUDENT_EMAIL";
+	public static final String PARAMETER_REVIEWER_EMAIL = "PARAMETER_REVIEWER_EMAIL";
+	public static final String PARAMETER_REVIEWEE_EMAIL = "PARAMETER_REVIEWEE_EMAIL";
 	public static final String PARAMETER_STUDENT_ID	= "PARAMETER_STUDENT_ID";
+	public static final String PARAMETER_TEAM_NAME	= "PARAMETER_TEAM_NAME";
 	
 	private HttpServletRequest req;
 	private HttpServletResponse resp;
 	private static final Logger log = Logger.getLogger(APIServlet.class.getName());
+	
+	
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
@@ -148,9 +159,9 @@ public class APIServlet extends HttpServlet {
         } else if (action.equals(OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE)){
     		String courseID = req.getParameter(PARAMETER_COURSE_ID);
     		deleteCourseByIdNonCascade(courseID);
-        }else if (action.equals(OPERATION_GET_COORD_BY_ID)){
+        }else if (action.equals(OPERATION_GET_COORD_AS_JSON)){
     		String coordID = req.getParameter(PARAMETER_COORD_ID);
-    		String coordJsonString = getCoordByID(coordID);
+    		String coordJsonString = getCoordAsJson(coordID);
     		resp.getWriter().write(coordJsonString);
         }else if (action.equals(OPERATION_CREATE_COORD)){
         	String coordID = req.getParameter(PARAMETER_COORD_ID);
@@ -160,15 +171,36 @@ public class APIServlet extends HttpServlet {
         }else if (action.equals(OPERATION_DELETE_COORD_NON_CASCADE)){
     		String coordId = req.getParameter(PARAMETER_COORD_ID);
     		deleteCoordByIdNonCascade(coordId);
-        }else if (action.equals(OPERATION_GET_COURSE_BY_ID)){
+        }else if (action.equals(OPERATION_GET_COURSE_AS_JSON)){
     		String courseId = req.getParameter(PARAMETER_COURSE_ID);
-    		String courseJasonString = getCourseById(courseId);
+    		String courseJasonString = getCourseAsJason(courseId);
     		resp.getWriter().write(courseJasonString);
-        }else if (action.equals(OPERATION_GET_STUDENT_IN_COURSE)){
+        }else if (action.equals(OPERATION_GET_STUDENT_AS_JSON)){
     		String courseId = req.getParameter(PARAMETER_COURSE_ID);
     		String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
-    		String studentJasonString = getStudentInCourse(courseId, email);
+    		String studentJasonString = getStudentAsJason(courseId, email);
     		resp.getWriter().write(studentJasonString);
+        }else if (action.equals(OPERATION_GET_EVALUATION_AS_JSON)){
+    		String courseId = req.getParameter(PARAMETER_COURSE_ID);
+    		String evaluationName = req.getParameter(PARAMETER_EVALUATION_NAME);
+    		String evaluationJasonString = getEvaluationAsJason(courseId, evaluationName);
+    		resp.getWriter().write(evaluationJasonString);
+        }else if (action.equals(OPERATION_GET_TFS_AS_JSON)){
+    		String courseId = req.getParameter(PARAMETER_COURSE_ID);
+    		String tfsJasonString = getTfsAsJason(courseId);
+    		resp.getWriter().write(tfsJasonString);
+        }else if (action.equals(OPERATION_GET_TEAM_PROFILE_AS_JSON)){
+    		String courseId = req.getParameter(PARAMETER_COURSE_ID);
+    		String teamName = req.getParameter(PARAMETER_TEAM_NAME);
+    		String teamProfileJasonString = getTeamProfileAsJason(courseId, teamName);
+    		resp.getWriter().write(teamProfileJasonString);
+        }else if (action.equals(OPERATION_GET_SUBMISSION_AS_JSON)){
+    		String courseId = req.getParameter(PARAMETER_COURSE_ID);
+    		String evaluationName = req.getParameter(PARAMETER_EVALUATION_NAME);
+    		String reviewerId = req.getParameter(PARAMETER_REVIEWER_EMAIL);
+    		String revieweeId = req.getParameter(PARAMETER_REVIEWEE_EMAIL);
+    		String submissionJasonString = getSubmissionAsJason(courseId, evaluationName, reviewerId, revieweeId);
+    		resp.getWriter().write(submissionJasonString);
         }else if (action.equals(OPERATION_PERSIST_DATABUNDLE)){
     		String dataBundleJsonString = req.getParameter(PARAMETER_DATABUNDLE_JSON);
     		String status;
@@ -176,6 +208,8 @@ public class APIServlet extends HttpServlet {
 				status = persistNewDataBundle(dataBundleJsonString);
 			} catch (Exception e) {
 				status = Common.BACKEND_STATUS_FAILURE+ e.getMessage();
+				log.warning("APIServlet Backend operation failed due to :"+e.getMessage() );
+				e.printStackTrace();
 			}
     		resp.getWriter().write(status);
         } else {
@@ -186,7 +220,6 @@ public class APIServlet extends HttpServlet {
 	}
 
 
-
 	/**
 	 * 
 	 * @author wangsha
@@ -195,7 +228,6 @@ public class APIServlet extends HttpServlet {
 	private void disableEmail() throws IOException {
 		Config.inst().emailEnabled = false;
 		resp.getWriter().write("ok");
-
 	}
 
 	/**
@@ -677,13 +709,13 @@ public class APIServlet extends HttpServlet {
 		}
 	}
 	
-	private String getCoordByID(String coordID) {
+	private String getCoordAsJson(String coordID) {
 		Accounts accounts = Accounts.inst();
 		Coordinator coord = accounts.getCoordinator(coordID);
 		if(coord==null){
 			log.warning("Trying to get non-existent coord "+coordID);
 		}
-		return (new Gson()).toJson(coord);
+		return Common.getTeammatesGson().toJson(coord);
 	}
 	
 	//TODO: should be named createIfNew
@@ -708,15 +740,46 @@ public class APIServlet extends HttpServlet {
 		
 	}
 	
-	private String getCourseById(String courseId) {
+	private String getCourseAsJason(String courseId) {
 		Course course = Courses.inst().getCourse(courseId);
-		return new Gson().toJson(course);
+		return Common.getTeammatesGson().toJson(course);
 	}
 	
 
-	private String getStudentInCourse(String courseId, String email) {
+	private String getStudentAsJason(String courseId, String email) {
 		Student student = Accounts.inst().getStudentInCourse(courseId, email);
-		return new Gson().toJson(student);
+		return Common.getTeammatesGson().toJson(student);
+	}
+	
+	private String getEvaluationAsJason(String courseId, String evaluationName) {
+		Evaluation evaluation = Evaluations.inst().getEvaluation(courseId, evaluationName);
+		return Common.getTeammatesGson().toJson(evaluation);
+	}
+	
+	private String getSubmissionAsJason(
+			String courseId, 
+			String evaluationName,
+			String reviewerEmail, 
+			String revieweeEmail) {
+		List<Submission> allSubmissionsFromReviewer = Evaluations.inst().getSubmissionFromStudentList(courseId, evaluationName, reviewerEmail);
+		Submission target = null;
+		for(Submission submission: allSubmissionsFromReviewer){
+			if(submission.getToStudent().equals(revieweeEmail)){
+				target = submission;
+				break;
+			}
+		}
+		return Common.getTeammatesGson().toJson(target);
+	}
+	
+	private String getTfsAsJason(String courseId) {
+		TeamFormingSession tfs = TeamForming.inst().getTeamFormingSession(courseId);
+		return Common.getTeammatesGson().toJson(tfs);
+	}
+	
+	private String getTeamProfileAsJason(String courseId, String teamName) {
+		TeamProfile teamProfile = TeamForming.inst().getTeamProfile(courseId, teamName);
+		return Common.getTeammatesGson().toJson(teamProfile);
 	}
 	
 	/**
@@ -730,7 +793,7 @@ public class APIServlet extends HttpServlet {
 	 * @throws CourseInputInvalidException
 	 */
 	private String persistNewDataBundle(String dataBundleJsonString) throws Exception {
-		Gson gson = new Gson();
+		Gson gson = Common.getTeammatesGson();
 		
 		DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
 		HashMap<String, Coordinator> coords = data.coords;
@@ -750,7 +813,52 @@ public class APIServlet extends HttpServlet {
 			log.info("API Servlet adding student :"+student.getEmail()+ " to course "+ student.getCourseID());
 			createStudentIfNew(student);
 		}
+		
+		HashMap<String, Evaluation> evaluations = data.evaluations;
+		for (Evaluation evaluation: evaluations.values()){
+			log.info("API Servlet adding evaluation :"+evaluation.getName()+ " to course "+ evaluation.getCourseID());
+			createEvalutionIfNew(evaluation);
+		}
+		
+		//processing is slightly different for submissions because we are adding all submissions in one go
+		HashMap<String, Submission> submissionsMap = data.submissions;
+		List<Submission> submissionsList = new ArrayList<Submission>();
+		for (Submission submission: submissionsMap.values()){
+			log.info("API Servlet adding submission for "+submission.getEvaluationName()+" from "+submission.getFromStudent()+ " to "+ submission.getToStudent());
+			submissionsList.add(submission);	
+		}
+		createSubmissions(submissionsList);
+		log.info("API Servlet added "+submissionsList.size()+" submissions");
+		
+		HashMap<String, TeamFormingSession> tfsMap = data.teamFormingSessions;
+		for (TeamFormingSession tfs: tfsMap.values()){
+			log.info("API Servlet adding TeamFormingSession to course "+ tfs.getCourseID());
+			createTfsIfNew(tfs);
+		}
+		
+		HashMap<String, TeamProfile> teamProfiles = data.teamProfiles;
+		for (TeamProfile teamProfile: teamProfiles.values()){
+			log.info("API Servlet adding TeamProfile of "+teamProfile.getTeamName()+" in course "+ teamProfile.getCourseID());
+			createTeamProfileIfNew(teamProfile);
+		}
+		
 		return Common.BACKEND_STATUS_SUCCESS;
+	}
+
+	private void createTeamProfileIfNew(TeamProfile teamProfile) throws TeamProfileExistsException {
+		TeamForming.inst().createTeamProfile(teamProfile);
+	}
+
+	private void createTfsIfNew(TeamFormingSession tfs) throws TeamFormingSessionExistsException {
+		TeamForming.inst().createTeamFormingSession(tfs);	
+	}
+
+	private void createSubmissions(List<Submission> submissionsList) {
+		Evaluations.inst().editSubmissions(submissionsList);	
+	}
+
+	private void createEvalutionIfNew(Evaluation evaluation) {
+		Evaluations.inst().addEvaluation(evaluation);
 	}
 
 	private void createStudentIfNew(Student student) {

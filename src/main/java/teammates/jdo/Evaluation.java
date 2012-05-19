@@ -18,10 +18,9 @@ import com.google.gson.annotations.SerializedName;
  */
 @PersistenceCapable
 public class Evaluation {
-	@SuppressWarnings("unused")
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Long id;
+	public Long id;
 
 	@Persistent
 	@SerializedName("course_id")
