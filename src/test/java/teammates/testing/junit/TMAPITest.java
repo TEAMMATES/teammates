@@ -108,21 +108,25 @@ public class TMAPITest {
 				
 		//delete coord if already exists
 		TMAPI.deleteCoordByIdNonCascading(coord1Id);
-		assertEquals("null",TMAPI.getCoordAsJason(coord1Id));
+		String coordAsJason = TMAPI.getCoordAsJason(coord1Id);
+		assertEquals("null",coordAsJason);
 		
 		//try to delete again, to ensure it does not crash
 		TMAPI.deleteCoordByIdNonCascading(coord1Id);
 		
 		//test creation, and accessing existing coord
 		TMAPI.createCoord(coord1Id, coord1Name, coord1Email);
-		assertEquals("{\"googleID\":\""+coord1Id+"\",\"name\":\"" +coord1Name+"\",\"email\":\"" +coord1Email+"\"}",TMAPI.getCoordAsJason(coord1Id));
+		Coordinator expectedCoord1 = new Coordinator(coord1Id, coord1Name, coord1Email);
+		String expectedCoord1JsonPrettyPrinted = Common.getTeammatesGson().toJson(expectedCoord1);
+		String actualCoord1JsonPrettyPrinted = TMAPI.reformatJasonString(TMAPI.getCoordAsJason(coord1Id), Coordinator.class);
+		assertEquals(expectedCoord1JsonPrettyPrinted,actualCoord1JsonPrettyPrinted);
 		
 		//creating the same coord, to ensure it does not crash
 		TMAPI.createCoord(coord1Id, coord1Name, coord1Email);
 		
 		//delete existing coord
 		TMAPI.deleteCoordByIdNonCascading(coord1Id);
-		assertEquals("null",TMAPI.getCoordAsJason(coord1Id));
+		assertEquals("null",coordAsJason);
 		
 		//TODO: test for coord cascade delete
 	}
@@ -164,6 +168,7 @@ public class TMAPITest {
 		assertEquals("comment for student1InCourse1",student1InCourse1.getComments());
 		assertEquals("profile summary for student1InCourse1",student1InCourse1.getProfileSummary());
 		assertEquals("course1",student1InCourse1.getCourseID());
+		assertEquals("profiledetail for student1InCourse1",student1InCourse1.getProfileDetail().getValue());
 		
 		Student student2InCourse2 = data.students.get("student2InCourse2");
 		assertEquals("student2InCourse2",student2InCourse2.getID());
@@ -216,6 +221,13 @@ public class TMAPITest {
 		assertEquals("course 1 name", profileOfTeam1_1.getCourseName());
 		assertEquals("Team 1.1", profileOfTeam1_1.getTeamName());
 		assertEquals("team profile of Team 1.1", profileOfTeam1_1.getTeamProfile().getValue());
+		
+		TeamFormingLog tfsLogMessageForTfsInCourse1 = data.teamFormingLogs.get("tfsLogMessage1ForTfsInCourse1");
+		assertEquals("course1", tfsLogMessageForTfsInCourse1.getCourseID());
+		assertEquals("student1 In Course1", tfsLogMessageForTfsInCourse1.getStudentName());
+		assertEquals("student1InCourse1@gmail.com", tfsLogMessageForTfsInCourse1.getStudentEmail());
+		assertEquals("Sun Jan 01 01:01:00 SGT 2012", tfsLogMessageForTfsInCourse1.getTime().toString());
+		assertEquals("log message 1 of course1, student1InCourse1@gmail.com", tfsLogMessageForTfsInCourse1.getMessage().getValue());
 	}
 	
 	private void verifyExistInDatastore(String dataBundleJsonString) {
@@ -283,6 +295,31 @@ public class TMAPITest {
 			assertEquals(gson.toJson(expectedTeamProfile), gson.toJson(actualTeamProfile));
 		}
 		
+		HashMap<String, TeamFormingLog> teamFormingLogs = data.teamFormingLogs;
+		for (TeamFormingLog expectedTeamFormingLogEntry : teamFormingLogs.values()) {
+			String teamFormingLogJsonString = TMAPI.getTeamFormingLogAsJason(expectedTeamFormingLogEntry.getCourseID());
+			Type collectionType = new TypeToken<ArrayList<TeamFormingLog>>(){}.getType();
+			ArrayList<TeamFormingLog> actualTeamFormingLogsForCourse = gson.fromJson(teamFormingLogJsonString, collectionType);
+			String errorMessage = gson.toJson(expectedTeamFormingLogEntry)+"\n--> was not found in -->\n"+ TMAPI.reformatJasonString(teamFormingLogJsonString, collectionType);
+			assertTrue(errorMessage, isLogEntryInList(expectedTeamFormingLogEntry, actualTeamFormingLogsForCourse));
+		}
+		
+	}
+
+	private boolean isLogEntryInList(
+			TeamFormingLog teamFormingLogEntry,
+			ArrayList<TeamFormingLog> teamFormingLogEntryList) {
+		for(TeamFormingLog logEntryInList: teamFormingLogEntryList){
+			if(
+					teamFormingLogEntry.getCourseID().equals(logEntryInList.getCourseID()) &&
+					teamFormingLogEntry.getMessage().getValue().equals(logEntryInList.getMessage().getValue()) &&
+					teamFormingLogEntry.getStudentEmail().equals(logEntryInList.getStudentEmail()) &&
+					teamFormingLogEntry.getStudentName().equals(logEntryInList.getStudentName()) &&
+					teamFormingLogEntry.getTime().toString().equals(logEntryInList.getTime().toString()) ){
+				return true;
+			}
+		}
+		return false;
 	}
 
 

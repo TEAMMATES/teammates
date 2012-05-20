@@ -22,7 +22,7 @@ public class TeamFormingLog {
 	@SuppressWarnings("unused")
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Long id;
+	public Long id;
 
 	@Persistent
 	@SerializedName("courseid")

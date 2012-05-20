@@ -17,6 +17,7 @@ import java.util.Map;
 
 import teammates.APIServlet;
 import teammates.Common;
+import teammates.jdo.Coordinator;
 import teammates.testing.object.TeamFormingSession;
 import teammates.testing.config.Config;
 import teammates.testing.object.Course;
@@ -725,6 +726,27 @@ public class TMAPI {
 		String evaluationJson = makePOSTRequest(paramsString);
 		return evaluationJson;
 	}
+	
+	public static String getTeamFormingLogAsJason(String courseID) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_TEAM_FORMING_LOG_AS_JSON);
+		params.put(APIServlet.PARAMETER_COURSE_ID, courseID);
+		String paramsString = buildParamsString(params);
+		String evaluationJson = makePOSTRequest(paramsString);
+		return evaluationJson;
+	}
+	
+	/**
+	 * This method reformats a Json string in the pretty printing format 
+	 * (i.e. not the default compact format)
+	 * e.g. to reformat a Json string whose formatting was lost during HTTP encoding
+	 * @param unformattedJason
+	 * @param typeOfObject
+	 * @return unformattedJason reformatted in pretty printing format
+	 */
+	public static String reformatJasonString(String unformattedJason, Type typeOfObject){	
+		Object obj = Common.getTeammatesGson().fromJson(unformattedJason, typeOfObject);
+		return Common.getTeammatesGson().toJson(obj);
+	}
 
 	
 	/**
@@ -760,6 +782,5 @@ public class TMAPI {
 			return e.getMessage();
 		}
 	}
-
 
 }

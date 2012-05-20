@@ -181,12 +181,13 @@ public class TeamForming {
 	
 	public void enterTeamFormingLog(String courseID, Date time, 
 			String studentName, String studentEmail, Text message) {
-		TeamFormingLog studentLog = new TeamFormingLog(courseID, time, studentName,
+		TeamFormingLog logEntry = new TeamFormingLog(courseID, time, studentName,
 				studentEmail, message);
-		try {
-			getPM().makePersistent(studentLog);
-		} finally {
-		}
+		createTeamFormingLogEntry(logEntry);
+	}
+	
+	public void createTeamFormingLogEntry(TeamFormingLog teamFormingLog){
+			getPM().makePersistent(teamFormingLog);
 	}
 	
 	/**

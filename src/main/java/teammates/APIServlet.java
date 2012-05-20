@@ -30,6 +30,7 @@ import teammates.jdo.EnrollmentReport;
 import teammates.jdo.Evaluation;
 import teammates.jdo.Student;
 import teammates.jdo.Submission;
+import teammates.jdo.TeamFormingLog;
 import teammates.jdo.TeamFormingSession;
 import teammates.jdo.TeamProfile;
 
@@ -62,6 +63,7 @@ public class APIServlet extends HttpServlet {
 	public static final String OPERATION_GET_STUDENT_AS_JSON = "OPERATION_GET_STUDENT_AS_JSON";
 	public static final String OPERATION_GET_EVALUATION_AS_JSON = "OPERATION_GET_EVALUATION_AS_JSON";
 	public static final String OPERATION_GET_SUBMISSION_AS_JSON = "OPERATION_GET_SUBMISSION_AS_JSON";
+	public static final String OPERATION_GET_TEAM_FORMING_LOG_AS_JSON = "OPERATION_GET_TEAM_FORMING_LOG_AS_JSON";
 	public static final String OPERATION_GET_TEAM_PROFILE_AS_JSON = "OPERATION_GET_TEAM_PROFILE_AS_JSON";
 	public static final String OPERATION_GET_TFS_AS_JSON = "OPERATION_GET_TFS_AS_JSON";
 	public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER="activate_auto_reminder";
@@ -112,6 +114,7 @@ public class APIServlet extends HttpServlet {
 
 		String action = req.getParameter("action");
         log.info(action);
+        //TODO: reorder in alphabetical order 
         if (action.equals("evaluation_open")) {
                 evaluationOpen();
         } else if(action.equals("teamformingsession_open")) {
@@ -189,6 +192,10 @@ public class APIServlet extends HttpServlet {
     		String courseId = req.getParameter(PARAMETER_COURSE_ID);
     		String tfsJasonString = getTfsAsJason(courseId);
     		resp.getWriter().write(tfsJasonString);
+        }else if (action.equals(OPERATION_GET_TEAM_FORMING_LOG_AS_JSON)){
+    		String courseId = req.getParameter(PARAMETER_COURSE_ID);
+    		String teamFormingLogJasonString = getTeamFormingLogAsJason(courseId);
+    		resp.getWriter().write(teamFormingLogJasonString);
         }else if (action.equals(OPERATION_GET_TEAM_PROFILE_AS_JSON)){
     		String courseId = req.getParameter(PARAMETER_COURSE_ID);
     		String teamName = req.getParameter(PARAMETER_TEAM_NAME);
@@ -782,6 +789,11 @@ public class APIServlet extends HttpServlet {
 		return Common.getTeammatesGson().toJson(teamProfile);
 	}
 	
+	private String getTeamFormingLogAsJason(String courseId) {
+		List<TeamFormingLog> teamFormingLogList = TeamForming.inst().getTeamFormingLogList(courseId);
+		return Common.getTeammatesGson().toJson(teamFormingLogList);
+	}
+	
 	/**
 	 * Persists given data in the datastore
 	 * Works ONLY if the data is correct and new (i.e. these entities do not already exist in the datastore).
@@ -842,7 +854,17 @@ public class APIServlet extends HttpServlet {
 			createTeamProfileIfNew(teamProfile);
 		}
 		
+		HashMap<String, TeamFormingLog> teamFormingLogs = data.teamFormingLogs;
+		for (TeamFormingLog teamFormingLog: teamFormingLogs.values()){
+			log.info("API Servlet adding TeamFormingLog in course "+ teamFormingLog.getCourseID()+" : "+teamFormingLog.getMessage().getValue());
+			createTeamFormingLogEntry(teamFormingLog);
+		}
+		
 		return Common.BACKEND_STATUS_SUCCESS;
+	}
+
+	private void createTeamFormingLogEntry(TeamFormingLog teamFormingLog) {
+		TeamForming.inst().createTeamFormingLogEntry(teamFormingLog);
 	}
 
 	private void createTeamProfileIfNew(TeamProfile teamProfile) throws TeamProfileExistsException {

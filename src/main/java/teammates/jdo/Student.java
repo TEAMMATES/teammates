@@ -58,7 +58,7 @@ public class Student {
 	
 	@Persistent
 	@SerializedName("profiledetail")
-	private transient Text profileDetail;
+	private Text profileDetail;
 
 	/**
 	 * Constructs a Student object.

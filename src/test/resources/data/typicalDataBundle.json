@@ -26,28 +26,32 @@
       "google_id": "student1InCourse1",
       "comments" : "comment for student1InCourse1",
       "profilesummary" : "profile summary for student1InCourse1",
-      "coursename" : "course1"
+      "coursename" : "course1",
+      "profiledetail" : {"value" : "profiledetail for student1InCourse1" }
     },
     "student2InCourse1":{
       "email": "student2InCourse1@gmail.com",
       "name": "student2 In Course1",
       "google_id": "student2InCourse1",
       "teamname": "Team 1.1",
-      "coursename" : "course1"
+      "coursename" : "course1",
+      "profiledetail" : {"value" : "profiledetail for student2InCourse1" }
     },
     "student1InCourse2":{
       "email": "student1InCourse2@gmail.com",
       "name": "student1 In Course2",
       "google_id": "student1InCourse2",
       "teamname": "Team 2.1",
-      "coursename" : "course2"
+      "coursename" : "course2",
+      "profiledetail" : {"value" : "profiledetail for student1InCourse2" }
     },
     "student2InCourse2":{
       "email": "student2InCourse2@gmail.com",
       "name": "student2 In Course2",
       "google_id": "student2InCourse2",
       "teamname": "Team 2.1",
-      "coursename" : "course2"
+      "coursename" : "course2",
+      "profiledetail" : {"value" : "profiledetail for student2InCourse2" }
     }
   },
   
@@ -136,7 +140,24 @@
       "teamname" : "Team 2.1",
       "teamprofile" : {"value" :"team profile of Team 2.1"}
     }
+  },
   
+  "teamFormingLogs" : {
+    "tfsLogMessage1ForTfsInCourse1" : {
+      "courseid" : "course1",
+      "time" : "2012-01-01 01:01 AM",
+      "studentname" : "student1 In Course1",
+      "studentemail" : "student1InCourse1@gmail.com",
+      "message" :  {"value" :"log message 1 of course1, student1InCourse1@gmail.com"}
+    },
+    
+    "tfsLogMessage2ForTfsInCourse1" : {
+      "courseid" : "course1",
+      "time" : "2012-02-02 02:02 AM",
+      "studentname" : "student2 In Course1",
+      "studentemail" : "student2InCourse1@gmail.com",
+      "message" :  {"value" :"log message 2 of course1, student2InCourse1@gmail.com"}
+    }
   }   
 
 }
