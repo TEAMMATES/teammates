@@ -380,8 +380,7 @@ public class TeamForming {
 				return null;
 
 			return tProfile.get(0);
-		}
-		catch(Exception e){
+		}catch(Exception e){
 			System.out.println(e.getMessage());
 			return null;
 		}

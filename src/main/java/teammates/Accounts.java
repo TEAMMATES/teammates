@@ -113,7 +113,7 @@ public class Accounts {
 		return coordinatorList.get(0);
 	}
 	
-	public Student getStudentInCourse(String courseId, String email) {
+	public Student getStudent(String courseId, String email) {
 		String query = "select from " + Student.class.getName()
 				+ " where (email == '" + email + "')"
 				+ " && (courseID == '" + courseId + "')";

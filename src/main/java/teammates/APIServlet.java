@@ -170,7 +170,14 @@ public class APIServlet extends HttpServlet {
         	String coordID = req.getParameter(PARAMETER_COORD_ID);
         	String coordName = req.getParameter(PARAMETER_COORD_NAME);
     		String coordEmail = req.getParameter(PARAMETER_COORD_EMAIL);
-    		createCoordIfNew(coordID, coordName, coordEmail);
+    		String status;
+    		try {
+				createCoordIfNew(coordID, coordName, coordEmail);
+			} catch (AccountExistsException e) {
+				status = Common.BACKEND_STATUS_FAILURE+e.getMessage();
+			}
+    		status = Common.BACKEND_STATUS_SUCCESS;
+    		resp.getWriter().write(status);
         }else if (action.equals(OPERATION_DELETE_COORD_NON_CASCADE)){
     		String coordId = req.getParameter(PARAMETER_COORD_ID);
     		deleteCoordByIdNonCascade(coordId);
@@ -691,7 +698,6 @@ public class APIServlet extends HttpServlet {
 	        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/automatedreminders");
 	        dispatcher.forward(this.req, this.resp);
 		}
-	
 
 
 	private String getCoursesByCoordID(String coordID) {
@@ -716,27 +722,6 @@ public class APIServlet extends HttpServlet {
 		}
 	}
 	
-	private String getCoordAsJson(String coordID) {
-		Accounts accounts = Accounts.inst();
-		Coordinator coord = accounts.getCoordinator(coordID);
-		if(coord==null){
-			log.warning("Trying to get non-existent coord "+coordID);
-		}
-		return Common.getTeammatesGson().toJson(coord);
-	}
-	
-	//TODO: should be named createIfNew
-	private void createCoordIfNew(String coordID, String coordName, String coordEmail) {
-		Accounts accounts = Accounts.inst();
-
-		try {
-			accounts.addCoordinator(coordID, coordName, coordEmail);
-		}catch (AccountExistsException e) {
-			log.warning("Trying to create a coordinator that already exists: "+coordID);
-		}
-		
-	}
-	
 	private void deleteCoordByIdNonCascade(String coordId) {
 		Accounts accounts = Accounts.inst();
 		try {
@@ -744,22 +729,43 @@ public class APIServlet extends HttpServlet {
 		} catch (Exception e) {
 			log.warning("problem while trying to delete coordinator"+coordId+"\n error:"+ e.getMessage());
 		}
-		
+	}
+	
+	
+
+	
+//--------------------- revised API ------------------------------------
+	
+	private String getCoordAsJson(String coordID) {
+		Accounts accounts = Accounts.inst();
+		Coordinator coord = accounts.getCoordinator(coordID);
+		if(coord==null){
+			log.warning("Trying to get non-existent Coord : "+coordID);
+		}
+		return Common.getTeammatesGson().toJson(coord);
 	}
 	
 	private String getCourseAsJason(String courseId) {
 		Course course = Courses.inst().getCourse(courseId);
+		if(course==null){
+			log.warning("Trying to get non-existent Course : "+courseId);
+		}
 		return Common.getTeammatesGson().toJson(course);
 	}
-	
 
 	private String getStudentAsJason(String courseId, String email) {
-		Student student = Accounts.inst().getStudentInCourse(courseId, email);
+		Student student = Accounts.inst().getStudent(courseId, email);
+		if(student==null){
+			log.warning("Trying to get non-existent Student : " + courseId + "/" + email);
+		}
 		return Common.getTeammatesGson().toJson(student);
 	}
 	
 	private String getEvaluationAsJason(String courseId, String evaluationName) {
 		Evaluation evaluation = Evaluations.inst().getEvaluation(courseId, evaluationName);
+		if(evaluation==null){
+			log.warning("Trying to get non-existent Evaluation : " + courseId + "/" + evaluationName);
+		}
 		return Common.getTeammatesGson().toJson(evaluation);
 	}
 	
@@ -776,21 +782,36 @@ public class APIServlet extends HttpServlet {
 				break;
 			}
 		}
+		if(target==null){
+			log.warning("Trying to get non-existent Submission : " + courseId 
+					+ "/" + evaluationName
+					+ "/" + reviewerEmail
+					+ "/" + revieweeEmail);
+		}
 		return Common.getTeammatesGson().toJson(target);
 	}
 	
 	private String getTfsAsJason(String courseId) {
 		TeamFormingSession tfs = TeamForming.inst().getTeamFormingSession(courseId);
+		if(tfs==null){
+			log.warning("Trying to get non-existent TeamFormingSession : " + courseId );
+		}
 		return Common.getTeammatesGson().toJson(tfs);
 	}
 	
 	private String getTeamProfileAsJason(String courseId, String teamName) {
 		TeamProfile teamProfile = TeamForming.inst().getTeamProfile(courseId, teamName);
+		if(teamProfile==null){
+			log.warning("Trying to get non-existent TeamProfile : " + courseId+ "/" + teamName );
+		}
 		return Common.getTeammatesGson().toJson(teamProfile);
 	}
 	
 	private String getTeamFormingLogAsJason(String courseId) {
 		List<TeamFormingLog> teamFormingLogList = TeamForming.inst().getTeamFormingLogList(courseId);
+		if(teamFormingLogList==null){
+			log.warning("Trying to get non-existent TeamFormingLog : " + courseId );
+		}
 		return Common.getTeammatesGson().toJson(teamFormingLogList);
 	}
 	
@@ -862,7 +883,34 @@ public class APIServlet extends HttpServlet {
 		
 		return Common.BACKEND_STATUS_SUCCESS;
 	}
+	
+	private void createCoordIfNew(String coordID, String coordName, String coordEmail) throws AccountExistsException {
+		Accounts.inst().addCoordinator(coordID, coordName, coordEmail);
+	}
+	
+	private void createCourseIfNew(String coordinatorId, String courseId,
+			String courseName) throws CourseInputInvalidException, CourseExistsException {
+		Courses.inst().addCourse(courseId, courseName, coordinatorId);
+	}
+	
+	private void createStudentIfNew(Student student) {
+		Accounts.inst().createStudent(student);
+	}
 
+
+	private void createEvalutionIfNew(Evaluation evaluation) {
+		Evaluations.inst().addEvaluation(evaluation);
+	}
+
+	private void createSubmissions(List<Submission> submissionsList) {
+		Evaluations.inst().editSubmissions(submissionsList);	
+	}
+	
+	
+	private void createTfsIfNew(TeamFormingSession tfs) throws TeamFormingSessionExistsException {
+		TeamForming.inst().createTeamFormingSession(tfs);	
+	}
+	
 	private void createTeamFormingLogEntry(TeamFormingLog teamFormingLog) {
 		TeamForming.inst().createTeamFormingLogEntry(teamFormingLog);
 	}
@@ -870,32 +918,5 @@ public class APIServlet extends HttpServlet {
 	private void createTeamProfileIfNew(TeamProfile teamProfile) throws TeamProfileExistsException {
 		TeamForming.inst().createTeamProfile(teamProfile);
 	}
-
-	private void createTfsIfNew(TeamFormingSession tfs) throws TeamFormingSessionExistsException {
-		TeamForming.inst().createTeamFormingSession(tfs);	
-	}
-
-	private void createSubmissions(List<Submission> submissionsList) {
-		Evaluations.inst().editSubmissions(submissionsList);	
-	}
-
-	private void createEvalutionIfNew(Evaluation evaluation) {
-		Evaluations.inst().addEvaluation(evaluation);
-	}
-
-	private void createStudentIfNew(Student student) {
-		Accounts.inst().createStudent(student);
-	}
-
-	private void createCourseIfNew(String coordinatorId, String courseId,
-			String courseName) throws CourseInputInvalidException {
-		try {
-			Courses.inst().addCourse(courseId, courseName, coordinatorId);
-		} catch (CourseExistsException e) {
-			log.warning("Course already exists :"+courseId);
-		} 
-		
-	}
-	
 
 }
