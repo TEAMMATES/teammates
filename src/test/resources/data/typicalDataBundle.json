@@ -65,10 +65,10 @@
   
   "evaluations" : {
   
-    "evalution1InCourse1": {
+    "evaluation1InCourse1": {
       "course_id" : "course1",
       "name" : "evaluation1 In Course1",
-      "instr": "instructions for evalution1InCourse1",
+      "instr": "instructions for evaluation1InCourse1",
       "grace": 10,
       "comments_on" : true,
       "start_time" : "2012-04-01 11:59 PM",
@@ -77,7 +77,7 @@
       "published" : false,
       "timezone" : 2.0
     },
-    "evalution2InCourse1": {
+    "evaluation2InCourse1": {
       "course_id" : "course1",
       "graceperiod": 20,
       "instructions": "Please please fill in the second evaluation",

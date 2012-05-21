@@ -808,5 +808,14 @@ public class TMAPI {
 		return status;
 	}
 
+	public static String deleteEvaluation(String courseID, String evaluationName) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_DELETE_EVALUATION);
+		params.put(APIServlet.PARAMETER_COURSE_ID, courseID);
+		params.put(APIServlet.PARAMETER_EVALUATION_NAME, evaluationName);
+		String paramsString = buildParamsString(params);
+		String status = makePOSTRequest(paramsString);
+		return status;
+	}
+
 
 }

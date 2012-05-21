@@ -260,7 +260,12 @@ public class TeammatesServlet extends HttpServlet {
 		}
 
 		else if (operation.equals(OPERATION_COORDINATOR_DELETEEVALUATION)) {
-			coordinatorDeleteEvaluation();
+			try {
+				coordinatorDeleteEvaluation();
+			} catch (EntityDoesNotExistsException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		else if (operation.equals(OPERATION_COORDINATOR_DELETESTUDENT)) {
@@ -593,7 +598,7 @@ public class TeammatesServlet extends HttpServlet {
 		
 	}
 
-	private void coordinatorDeleteEvaluation() {
+	private void coordinatorDeleteEvaluation() throws EntityDoesNotExistsException {
 		String courseID = req.getParameter(COURSE_ID);
 		String name = req.getParameter(EVALUATION_NAME);
 

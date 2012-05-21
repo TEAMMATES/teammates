@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
 
+import teammates.exception.EntityDoesNotExistsException;
 import teammates.exception.EvaluationExistsException;
 import teammates.jdo.Course;
 import teammates.jdo.Evaluation;
@@ -251,18 +252,20 @@ public class Evaluations {
 	 * @param name
 	 *            the evaluation name (Pre-condition: The courseID and
 	 *            evaluationName pair must be valid)
+	 * @throws EntityDoesNotExistsException 
 	 */
-	public void deleteEvaluation(String courseID, String name) {
+	public void deleteEvaluation(String courseID, String name) throws EntityDoesNotExistsException {
 		Evaluation evaluation = getEvaluation(courseID, name);
-
-		try {
+		if (evaluation == null) {
+			String errorMessage = "Trying to delete non-existent evaluation : "+courseID +"/"+ name;
+			log.warning(errorMessage);
+			throw new EntityDoesNotExistsException(errorMessage);
+		} else {
 			getPM().deletePersistent(evaluation);
-		} finally {
+			// Delete submission entries
+			List<Submission> submissionList = getSubmissionList(courseID, name);
+			getPM().deletePersistentAll(submissionList);
 		}
-
-		// Delete submission entries
-		List<Submission> submissionList = getSubmissionList(courseID, name);
-		getPM().deletePersistentAll(submissionList);
 	}
 
 	/**

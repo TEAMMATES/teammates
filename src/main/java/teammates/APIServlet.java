@@ -59,6 +59,7 @@ public class APIServlet extends HttpServlet {
 	public static final String OPERATION_CREATE_COORD = "OPERATION_CREATE_COORD";
 	public static final String OPERATION_DELETE_COORD_NON_CASCADE = "OPERATION_DELETE_COORD_NON_CASCADE";
 	public static final String OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE = "OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE";
+	public static final String OPERATION_DELETE_EVALUATION = "OPERATION_DELETE_EVALUATION";
 	public static final String OPERATION_DELETE_TEAM_FORMING_LOG = "OPERATION_DELETE_TEAM_FORMING_LOG";
 	public static final String OPERATION_DELETE_TEAM_PROFILE = "OPERATION_DELETE_TEAM_PROFILE";
 	public static final String OPERATION_DELETE_TFS = "OPERATION_DELETE_TFS";
@@ -190,7 +191,11 @@ public class APIServlet extends HttpServlet {
 		} else if (action.equals(OPERATION_DELETE_COORD_NON_CASCADE)) {
 			String coordId = req.getParameter(PARAMETER_COORD_ID);
 			deleteCoordByIdNonCascade(coordId);
-		} else if (action.equals(OPERATION_DELETE_TEAM_FORMING_LOG)) {
+		} else if (action.equals(OPERATION_DELETE_EVALUATION)) {
+			String courseId = req.getParameter(PARAMETER_COURSE_ID);
+			String evaluationName = req.getParameter(PARAMETER_EVALUATION_NAME);
+			deleteEvaluation(courseId, evaluationName);
+		}else if (action.equals(OPERATION_DELETE_TEAM_FORMING_LOG)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			deleteTeamFormingLog(courseId);
 		}else if (action.equals(OPERATION_DELETE_TEAM_PROFILE)) {
@@ -245,6 +250,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	
+
 	/**
 	 * 
 	 * @author wangsha
@@ -973,4 +979,9 @@ public class APIServlet extends HttpServlet {
 	private void deleteTfs(String courseId) throws EntityDoesNotExistsException {
 		TeamForming.inst().deleteTeamFormingSession(courseId);
 	}
+	
+	private void deleteEvaluation(String courseId, String evaluationName) throws EntityDoesNotExistsException {
+		Evaluations.inst().deleteEvaluation(courseId, evaluationName);
+	}
 }
+
