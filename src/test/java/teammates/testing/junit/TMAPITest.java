@@ -189,15 +189,16 @@ public class TMAPITest {
 		status = TMAPI.deleteTeamFormingLog(tfsLogMessage1ForTfsInCourse1
 				.getCourseID());
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-		assertEquals("null",
+		assertEquals("[]",
 				TMAPI.getTeamFormingLogAsJason(tfsLogMessage1ForTfsInCourse1
 						.getCourseID()));
 
-		// try to delete it again, confirm the operation fails
+		// try to delete it again, the operation SUCCEED
+		//TODO: change to clearTeamFormingLog
 		status = TMAPI.deleteTeamFormingLog(tfsLogMessage1ForTfsInCourse1
 				.getCourseID());
 		assertTrue("status not as expected:" + status,
-				status.startsWith(Common.BACKEND_STATUS_FAILURE));
+				status.startsWith(Common.BACKEND_STATUS_SUCCESS));
 
 		// ----------deleting TeamFormingSession entities------------------
 		TeamFormingSession tfsInCourse1 = data.teamFormingSessions
@@ -256,6 +257,57 @@ public class TMAPITest {
 		assertTrue(!"null".equals(TMAPI.getEvaluationAsJason(
 				evaluation2InCourse1.getCourseID(),
 				evaluation2InCourse1.getName())));
+		
+		// ----------deleting Student entities-------------------------
+		Student student1InCourse1 = data.students.get("student1InCourse1");
+		status = TMAPI.deleteStudent(student1InCourse1.getCourseID(), student1InCourse1.getEmail());
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		assertEquals("null",TMAPI.getStudentAsJason(student1InCourse1.getCourseID(), student1InCourse1.getEmail()));
+		
+		// verify that other students in the course are intact
+		Student student2InCourse1 = data.students.get("student2InCourse1");
+		assertTrue(!"null".equals(TMAPI.getStudentAsJason(student2InCourse1.getCourseID(), student2InCourse1.getEmail())));
+		
+		// try to delete the student again, confirm the operation fails
+		status = TMAPI.deleteStudent(student1InCourse1.getCourseID(), student1InCourse1.getEmail());
+		assertTrue("status not as expected:" + status,
+				status.startsWith(Common.BACKEND_STATUS_FAILURE));
+		
+		// ----------deleting Course entities-------------------------
+		
+		Course course2 = data.courses.get("course2");
+		status = TMAPI.deleteCourse(course2.getID());
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		assertEquals("null",TMAPI.getCourseAsJason(course2.getID()));
+		
+		//check if related student entities are also deleted
+		Student student2InCourse2 = data.students.get("student2InCourse2");
+		assertEquals("null",TMAPI.getStudentAsJason(student2InCourse2.getCourseID(), student2InCourse2.getEmail()));
+		
+		//check if related evalution entities are also deleted
+		Evaluation evaluation1InCourse2 = data.evaluations.get("evaluation1InCourse2");
+		assertEquals("null", TMAPI.getEvaluationAsJason(
+				evaluation1InCourse2.getCourseID(),
+				evaluation1InCourse2.getName()));
+		
+		//check if related team profile entities are also deleted
+		TeamProfile teamProfileOfTeam2_1 = data.teamProfiles
+				.get("profileOfTeam2.1");
+		assertEquals("null", TMAPI.getTeamProfileAsJason(
+				teamProfileOfTeam2_1.getCourseID(),
+				teamProfileOfTeam2_1.getTeamName()));
+		
+		//check if related Tfs entities are also deleted
+		TeamFormingSession tfsInCourse2 = data.teamFormingSessions
+				.get("tfsInCourse2");
+		assertEquals("null", TMAPI.getTfsAsJason(tfsInCourse2.getCourseID()));
+		
+		//check if related TeamFormingLog entities are also deleted
+		TeamFormingLog tfsLogMessage1ForTfsInCourse2 = data.teamFormingLogs
+				.get("tfsLogMessage1ForTfsInCourse2");
+		assertEquals("[]",
+				TMAPI.getTeamFormingLogAsJason(tfsLogMessage1ForTfsInCourse2
+						.getCourseID()));
 	}
 
 	@Test

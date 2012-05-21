@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.users.User;
 
-import teammates.exception.EntityDoesNotExistsException;
+import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.TeamFormingSessionExistsException;
 import teammates.exception.TeamProfileExistsException;
 import teammates.jdo.Course;
@@ -150,7 +150,7 @@ public class TeamFormingServlet extends HttpServlet {
 		else if (operation.equals(OPERATION_COORDINATOR_DELETETEAMPROFILE)) {
 			try {
 				coordinatorDeleteTeamProfile();
-			} catch (EntityDoesNotExistsException e) {
+			} catch (EntityDoesNotExistException e) {
 				e.printStackTrace();
 			}
 		}
@@ -419,7 +419,7 @@ public class TeamFormingServlet extends HttpServlet {
 		teamForming.deleteTeamProfiles(courseID);
 	}
 	
-	private void coordinatorDeleteTeamProfile() throws EntityDoesNotExistsException {
+	private void coordinatorDeleteTeamProfile() throws EntityDoesNotExistException {
 		String courseID = req.getParameter(COURSE_ID);
 		String teamName = req.getParameter(TEAM_NAME);
 		TeamForming teamForming = TeamForming.inst();

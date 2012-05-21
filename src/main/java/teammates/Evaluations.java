@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
 
-import teammates.exception.EntityDoesNotExistsException;
+import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.EvaluationExistsException;
 import teammates.jdo.Course;
 import teammates.jdo.Evaluation;
@@ -252,14 +252,14 @@ public class Evaluations {
 	 * @param name
 	 *            the evaluation name (Pre-condition: The courseID and
 	 *            evaluationName pair must be valid)
-	 * @throws EntityDoesNotExistsException 
+	 * @throws EntityDoesNotExistException 
 	 */
-	public void deleteEvaluation(String courseID, String name) throws EntityDoesNotExistsException {
+	public void deleteEvaluation(String courseID, String name) throws EntityDoesNotExistException {
 		Evaluation evaluation = getEvaluation(courseID, name);
 		if (evaluation == null) {
 			String errorMessage = "Trying to delete non-existent evaluation : "+courseID +"/"+ name;
 			log.warning(errorMessage);
-			throw new EntityDoesNotExistsException(errorMessage);
+			throw new EntityDoesNotExistException(errorMessage);
 		} else {
 			getPM().deletePersistent(evaluation);
 			// Delete submission entries
@@ -278,13 +278,8 @@ public class Evaluations {
 	public void deleteEvaluations(String courseID) {
 		List<Evaluation> evaluationList = getEvaluationList(courseID);
 		List<Submission> submissionList = getSubmissionList(courseID);
-
-		try {
-			getPM().deletePersistentAll(evaluationList);
-			getPM().deletePersistentAll(submissionList);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		getPM().deletePersistentAll(evaluationList);
+		getPM().deletePersistentAll(submissionList);
 	}
 
 	/**

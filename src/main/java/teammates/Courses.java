@@ -1,14 +1,18 @@
 package teammates;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
 
+import org.mortbay.log.Log;
+
 import teammates.exception.CourseDoesNotExistException;
 import teammates.exception.CourseExistsException;
 import teammates.exception.CourseInputInvalidException;
+import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.GoogleIDExistsInCourseException;
 import teammates.exception.RegistrationKeyInvalidException;
 import teammates.exception.RegistrationKeyTakenException;
@@ -196,10 +200,11 @@ public class Courses {
 	 * 
 	 * @param coordinatorID
 	 * @author wangsha
+	 * @throws EntityDoesNotExistException 
 	 * @throws CourseDoesNotExistException 
 	 * @date Sep 8, 2011
 	 */
-	public void deleteCoordinatorCourses(String coordinatorID) throws CourseDoesNotExistException {
+	public void deleteCoordinatorCourses(String coordinatorID) throws EntityDoesNotExistException  {
 		List<Course> courses = getCoordinatorCourseList(coordinatorID);
 		Iterator<Course> it = courses.iterator();
 
@@ -221,20 +226,40 @@ public class Courses {
 	 *             if the course with the specified ID cannot be found
 	 */
 	//TODO: does this actually delete students, as the comment say?
-	public void deleteCoordinatorCourse(String courseID) throws CourseDoesNotExistException {
-		// Check that the course exists
+	@Deprecated 
+	public void deleteCoordinatorCourse(String courseID)
+			throws EntityDoesNotExistException {
 		Course course = getCourse(courseID);
+
+		if (course == null) {
+			String errorMessage = "Trying to delete non-existent course : "
+					+ courseID;
+			Log.info(errorMessage);
+			throw new EntityDoesNotExistException(errorMessage);
+		}
+
+		getPM().deletePersistent(course);
+
+	}
+	
+	public void deleteCourse(String courseId) throws EntityDoesNotExistException {
+		Course course = getCourse(courseId);
+
+		if (course == null) {
+			String errorMessage = "Trying to delete non-existent course : "
+					+ courseId;
+			Log.info(errorMessage);
+			throw new EntityDoesNotExistException(errorMessage);
+		}
+		getPM().deletePersistent(course);
 		
-		if(course == null) {
-			throw new CourseDoesNotExistException();
+		deleteAllStudents(courseId);
+		
+		Evaluations.inst().deleteEvaluations(courseId);
+		
+		if(TeamForming.inst().getTeamFormingSession(courseId)!=null){
+			TeamForming.inst().deleteTeamFormingSession(courseId);
 		}
-
-		try {
-			getPM().deletePersistent(course);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	/**
@@ -244,12 +269,8 @@ public class Courses {
 	 *            the course ID (Precondition: Must not be null)
 	 */
 	public void deleteAllStudents(String courseID) {
-		try {
-			getPM().deletePersistentAll(getStudentList(courseID));
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		List<Student> studentList = getStudentList(courseID);
+		getPM().deletePersistentAll(studentList);
 	}
 
 	/**
@@ -260,13 +281,18 @@ public class Courses {
 	 * 
 	 * @param email
 	 *            the email of the student (Precondition: Must not be null)
+	 * @throws EntityDoesNotExistException
 	 */
-	public void deleteStudent(String courseID, String email) {
+	public void deleteStudent(String courseID, String email)
+			throws EntityDoesNotExistException {
 		Student s = getStudentWithEmail(courseID, email);
-
-		try {
+		if (s == null) {
+			String errorMessage = "Trying to delete non-existent student : "
+					+ courseID + "/" + email;
+			Log.warn(errorMessage);
+			throw new EntityDoesNotExistException(errorMessage);
+		} else {
 			getPM().deletePersistent(s);
-		} finally {
 		}
 	}
 

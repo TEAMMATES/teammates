@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
 
-import teammates.exception.EntityDoesNotExistsException;
+import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.TeamFormingSessionExistsException;
 import teammates.exception.TeamProfileExistsException;
 import teammates.jdo.*;
@@ -438,18 +438,10 @@ public class TeamForming {
 		String query = "select from " + TeamFormingLog.class.getName()
 				+ " where courseID == '" + courseID + "'";
 
-		try {
 			@SuppressWarnings("unchecked")
 			List<TeamFormingLog> teamFormingLogList = (List<TeamFormingLog>) getPM()
 					.newQuery(query).execute();
-			if (teamFormingLogList.isEmpty())
-				return null;
-
 			return teamFormingLogList;
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return null;
-		}
 	}
 
 	/**
@@ -611,19 +603,20 @@ public class TeamForming {
 	 * 
 	 * @param courseID
 	 *            the course ID (Pre-condition: Must be valid)
-	 * @throws EntityDoesNotExistsException 
+	 * @throws EntityDoesNotExistException 
 	 * 
 	 */
-	public void deleteTeamFormingSession(String courseId) throws EntityDoesNotExistsException {
+	public void deleteTeamFormingSession(String courseId) throws EntityDoesNotExistException {
 		TeamFormingSession teamFormingSession = getTeamFormingSession(courseId);
 		if (teamFormingSession == null) {
 			String errorMessage = "Trying to delete non-existant TeamFormingSession : "
 					+ courseId;
 			log.warning(errorMessage);
-			throw new EntityDoesNotExistsException(errorMessage);
+			throw new EntityDoesNotExistException(errorMessage);
 		} else {
 			getPM().deletePersistentAll(teamFormingSession);
 			deleteTeamProfiles(courseId);
+			deleteTeamFormingLog(courseId);
 		}
 	}
 
@@ -659,16 +652,16 @@ public class TeamForming {
 	 * 
 	 * @param teamName
 	 *            the teamName of the team to be deleted
-	 * @throws EntityDoesNotExistsException 
+	 * @throws EntityDoesNotExistException 
 	 * 
 	 */
-	public void deleteTeamProfile(String courseID, String teamName) throws EntityDoesNotExistsException {
+	public void deleteTeamProfile(String courseID, String teamName) throws EntityDoesNotExistException {
 		TeamProfile teamProfile = getTeamProfile(courseID, teamName);
 
 		if (teamProfile == null) {
 			String errorMessage = "Trying to delete non-existent team profile: "+ courseID + "/"+teamName;
 			log.warning(errorMessage);
-			throw new EntityDoesNotExistsException(errorMessage);
+			throw new EntityDoesNotExistException(errorMessage);
 		} else {
 			//TODO: is deletePersistentAll is the right method to call? we have only one object to delete.
 			getPM().deletePersistentAll(teamProfile);

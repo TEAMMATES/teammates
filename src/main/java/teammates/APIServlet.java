@@ -21,7 +21,7 @@ import teammates.exception.AccountExistsException;
 import teammates.exception.CourseDoesNotExistException;
 import teammates.exception.CourseExistsException;
 import teammates.exception.CourseInputInvalidException;
-import teammates.exception.EntityDoesNotExistsException;
+import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.TeamFormingSessionExistsException;
 import teammates.exception.TeamProfileExistsException;
 import teammates.jdo.Coordinator;
@@ -58,8 +58,10 @@ import java.util.logging.Logger;
 public class APIServlet extends HttpServlet {
 	public static final String OPERATION_CREATE_COORD = "OPERATION_CREATE_COORD";
 	public static final String OPERATION_DELETE_COORD_NON_CASCADE = "OPERATION_DELETE_COORD_NON_CASCADE";
+	public static final String OPERATION_DELETE_COURSE = "OPERATION_DELETE_COURSE";
 	public static final String OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE = "OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE";
 	public static final String OPERATION_DELETE_EVALUATION = "OPERATION_DELETE_EVALUATION";
+	public static final String OPERATION_DELETE_STUDENT = "OPERATION_DELETE_STUDENT";
 	public static final String OPERATION_DELETE_TEAM_FORMING_LOG = "OPERATION_DELETE_TEAM_FORMING_LOG";
 	public static final String OPERATION_DELETE_TEAM_PROFILE = "OPERATION_DELETE_TEAM_PROFILE";
 	public static final String OPERATION_DELETE_TFS = "OPERATION_DELETE_TFS";
@@ -91,6 +93,7 @@ public class APIServlet extends HttpServlet {
 	private HttpServletResponse resp;
 	private static final Logger log = Logger.getLogger(APIServlet.class
 			.getName());
+	
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
@@ -144,7 +147,7 @@ public class APIServlet extends HttpServlet {
 		} else if (action.equals("cleanup_course")) {
 			try {
 				cleanupCourse();
-			} catch (EntityDoesNotExistsException e) {
+			} catch (EntityDoesNotExistException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -185,17 +188,24 @@ public class APIServlet extends HttpServlet {
 			String coordName = req.getParameter(PARAMETER_COORD_NAME);
 			String coordEmail = req.getParameter(PARAMETER_COORD_EMAIL);
 			createCoordIfNew(coordID, coordName, coordEmail);
-		} else if (action.equals(OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE)) {
-			String courseID = req.getParameter(PARAMETER_COURSE_ID);
-			deleteCourseByIdNonCascade(courseID);
 		} else if (action.equals(OPERATION_DELETE_COORD_NON_CASCADE)) {
 			String coordId = req.getParameter(PARAMETER_COORD_ID);
 			deleteCoordByIdNonCascade(coordId);
-		} else if (action.equals(OPERATION_DELETE_EVALUATION)) {
+		} else if (action.equals(OPERATION_DELETE_COURSE)) {
+			String courseId = req.getParameter(PARAMETER_COURSE_ID);
+			deleteCourse(courseId);
+		} else if (action.equals(OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE)) {
+			String courseID = req.getParameter(PARAMETER_COURSE_ID);
+			deleteCourseByIdNonCascade(courseID);
+		}  else if (action.equals(OPERATION_DELETE_EVALUATION)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String evaluationName = req.getParameter(PARAMETER_EVALUATION_NAME);
 			deleteEvaluation(courseId, evaluationName);
-		}else if (action.equals(OPERATION_DELETE_TEAM_FORMING_LOG)) {
+		}else if (action.equals(OPERATION_DELETE_STUDENT)) {
+			String courseId = req.getParameter(PARAMETER_COURSE_ID);
+			String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
+			deleteStudent(courseId, email);
+		} else if (action.equals(OPERATION_DELETE_TEAM_FORMING_LOG)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			deleteTeamFormingLog(courseId);
 		}else if (action.equals(OPERATION_DELETE_TEAM_PROFILE)) {
@@ -250,7 +260,6 @@ public class APIServlet extends HttpServlet {
 	}
 
 	
-
 	/**
 	 * 
 	 * @author wangsha
@@ -458,7 +467,7 @@ public class APIServlet extends HttpServlet {
 		String coordID = req.getParameter("coordinator_id");
 		try {
 			Courses.inst().deleteCoordinatorCourses(coordID);
-		} catch (CourseDoesNotExistException e) {
+		} catch (EntityDoesNotExistException e) {
 			e.printStackTrace();
 		}
 
@@ -466,9 +475,9 @@ public class APIServlet extends HttpServlet {
 
 	/**
 	 * Clean up everything about a particular course
-	 * @throws EntityDoesNotExistsException 
+	 * @throws EntityDoesNotExistException 
 	 */
-	protected void cleanupCourse() throws EntityDoesNotExistsException {
+	protected void cleanupCourse() throws EntityDoesNotExistException {
 
 		String courseID = req.getParameter("course_id");
 		System.out.println("APIServlet.cleanupCourse() courseID = " + courseID);
@@ -480,9 +489,9 @@ public class APIServlet extends HttpServlet {
 	 * team profiles, team-forming sessions
 	 * 
 	 * @param courseID
-	 * @throws EntityDoesNotExistsException 
+	 * @throws EntityDoesNotExistException 
 	 */
-	private void cascadeCleanupCourse(String courseID) throws EntityDoesNotExistsException {
+	private void cascadeCleanupCourse(String courseID) throws EntityDoesNotExistException {
 
 		try {
 			Courses.inst().cleanUpCourse(courseID);
@@ -744,7 +753,7 @@ public class APIServlet extends HttpServlet {
 		Courses courses = Courses.inst();
 		try {
 			courses.deleteCoordinatorCourse(courseID);
-		} catch (CourseDoesNotExistException e) {
+		} catch (EntityDoesNotExistException e) {
 			log.warning("Trying to delete non-existent course " + courseID);
 		}
 	}
@@ -968,7 +977,7 @@ public class APIServlet extends HttpServlet {
 		TeamForming.inst().createTeamProfile(teamProfile);
 	}
 
-	private void deleteTeamProfile(String courseId, String teamName) throws EntityDoesNotExistsException {
+	private void deleteTeamProfile(String courseId, String teamName) throws EntityDoesNotExistException {
 		TeamForming.inst().deleteTeamProfile(courseId, teamName);
 	}
 	
@@ -976,12 +985,21 @@ public class APIServlet extends HttpServlet {
 		TeamForming.inst().deleteTeamFormingLog(courseId);
 	}
 
-	private void deleteTfs(String courseId) throws EntityDoesNotExistsException {
+	private void deleteTfs(String courseId) throws EntityDoesNotExistException {
 		TeamForming.inst().deleteTeamFormingSession(courseId);
 	}
 	
-	private void deleteEvaluation(String courseId, String evaluationName) throws EntityDoesNotExistsException {
+	private void deleteEvaluation(String courseId, String evaluationName) throws EntityDoesNotExistException {
 		Evaluations.inst().deleteEvaluation(courseId, evaluationName);
+	}
+	
+	private void deleteStudent(String courseId, String email) throws EntityDoesNotExistException {
+		Courses.inst().deleteStudent(courseId, email);
+	}
+	
+	private void deleteCourse(String courseId) throws EntityDoesNotExistException {
+		Courses.inst().deleteCourse(courseId);
+		
 	}
 }
 

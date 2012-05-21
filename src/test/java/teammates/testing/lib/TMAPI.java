@@ -817,5 +817,22 @@ public class TMAPI {
 		return status;
 	}
 
+	public static String deleteStudent(String courseId, String studentEmail) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_DELETE_STUDENT);
+		params.put(APIServlet.PARAMETER_COURSE_ID, courseId);
+		params.put(APIServlet.PARAMETER_STUDENT_EMAIL, studentEmail);
+		String paramsString = buildParamsString(params);
+		String status = makePOSTRequest(paramsString);
+		return status;
+	}
+
+	public static String deleteCourse(String courseId) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_DELETE_COURSE);
+		params.put(APIServlet.PARAMETER_COURSE_ID, courseId);
+		String paramsString = buildParamsString(params);
+		String status = makePOSTRequest(paramsString);
+		return status;
+	}
+
 
 }

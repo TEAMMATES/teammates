@@ -83,6 +83,13 @@
       "instructions": "Please please fill in the second evaluation",
       "name": "evaluation2 In Course1",
       "p2pcomments": true
+    },
+    "evaluation1InCourse2": {
+      "course_id" : "course2",
+      "graceperiod": 20,
+      "instructions": "instructions for evaluation1InCourse2",
+      "name": "evaluation1 In Course2",
+      "p2pcomments": true
     }
   },
   
@@ -108,6 +115,17 @@
       "justification" : {"value" : "justification of student2InCourse1 rating to student1InCourse1"},
       "commentsToStudent" : {"value" :"comments from student2InCourse1 to student1InCourse1"},
       "teamName" : "Team 1.1"
+    },
+    "submissionFromS1C2ToS2C2" :{
+    
+    	"fromStudent" : "student1InCourse2@gmail.com",
+      "toStudent" : "student2InCourse2@gmail.com",
+      "courseID" : "course2",
+      "evaluationName" : "evaluation1 In Course2",
+      "points" : 20,
+      "justification" : {"value" : "justification of student1InCourse2 rating to student2InCourse2"},
+      "commentsToStudent" : {"value" :"comments from student1InCourse2 to student2InCourse2"},
+      "teamName" : "Team 2.1"
     }
   
   },
@@ -171,6 +189,14 @@
       "studentname" : "student2 In Course1",
       "studentemail" : "student2InCourse1@gmail.com",
       "message" :  {"value" :"log message 2 of course1, student2InCourse1@gmail.com"}
+    },
+    
+    "tfsLogMessage1ForTfsInCourse2" : {
+      "courseid" : "course2",
+      "time" : "2012-03-03 03:03 AM",
+      "studentname" : "student1 In Course2",
+      "studentemail" : "student1InCourse2@gmail.com",
+      "message" :  {"value" :"log message 1 of course2, student1InCourse2@gmail.com"}
     }
   }   
 
