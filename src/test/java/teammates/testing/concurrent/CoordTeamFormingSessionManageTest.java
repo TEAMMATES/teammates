@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -51,20 +50,20 @@ public class CoordTeamFormingSessionManageTest extends TestCase {
 		String newInstruction = "Max team size is 5 and Min team size is 3.";
 		String newProfileTemplate = "Strengths, past projects, semester schedule and area of interest";
 		
-		bi.gotoTeamForming();
+		bi.goToTeamForming();
 		
-		bi.clickTeamFormingSessionEdit(scn.course.courseId);
+		bi.clickCoordTFSEdit(scn.course.courseId);
 
 		Integer gracePeriod = 5;
-		bi.wdFillString(bi.inputInstruction, newInstruction);
-		bi.wdFillString(bi.inputProfileTemplate, newProfileTemplate);
+		bi.fillString(bi.inputInstruction, newInstruction);
+		bi.fillString(bi.inputProfileTemplate, newProfileTemplate);
 		bi.selectDropdownByValue(bi.inputGracePeriod, gracePeriod.toString());
 
-		bi.waitAndClick(bi.editTeamFormingSessionButton);
+		bi.clickWithWait(bi.editTeamFormingSessionButton);
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_TEAMFORMINGSESSION_EDITED);
 		
 		// Now click Edit again to see if the text is updated.
-		bi.clickTeamFormingSessionEdit(scn.course.courseId);
+		bi.clickCoordTFSEdit(scn.course.courseId);
 		assertEquals(newInstruction, bi.getElementText(bi.inputInstruction));
 
 		// Click back
@@ -73,8 +72,8 @@ public class CoordTeamFormingSessionManageTest extends TestCase {
 	
 	@Test
 	public void verifyManageTeamFormingSessionPage(){
-		bi.gotoTeamForming();
-		bi.clickTeamFormingSessionEdit(scn.course.courseId);
-		bi.verifyManageTeamFormingPage(scn.students);
+		bi.goToTeamForming();
+		bi.clickCoordTFSEdit(scn.course.courseId);
+		bi.verifyCoordManageTeamFormingPage(scn.students);
 	}
 }

@@ -28,7 +28,7 @@ public class StudentLoginTest extends TestCase {
 	@Test
 	public void testStudentLoginLogoutSuccessful() {
 		//testStudentLoginSuccessful
-		bi.gotoHome();
+		bi.goToMain();
 		bi.studentLogin(Config.inst().INDIVIDUAL_ACCOUNT, Config.inst().TEAMMATES_APP_PASSWD);
 		bi.verifyStudentHomePage();
 		

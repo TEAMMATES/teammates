@@ -54,21 +54,21 @@ public class CoordCourseEditStudentsTest extends TestCase {
 	@Test
 	public void testCoordEditIndividualStudentSuccessful() {
 		bi.clickCourseTab();
-		bi.clickCourseView(scn.course.courseId);
-		bi.clickCourseDetailEdit(FIRST_STUDENT);
+		bi.clickCoordCourseView(scn.course.courseId);
+		bi.clickCoordCourseDetailStudentEdit(FIRST_STUDENT);
 		
-		bi.wdFillString(bi.studentEditName, STUDENT_NAME);
-		bi.wdFillString(bi.studentEditTeam, STUDENT_TEAM);
-		bi.wdFillString(bi.studentEditEmail, STUDENT_EMAIL);
+		bi.fillString(bi.studentEditName, STUDENT_NAME);
+		bi.fillString(bi.studentEditTeam, STUDENT_TEAM);
+		bi.fillString(bi.studentEditEmail, STUDENT_EMAIL);
 		//TODO: google ID cannot be changed after student registered
-		bi.wdFillString(bi.studentEditComments, STUDENT_COMMENT);
+		bi.fillString(bi.studentEditComments, STUDENT_COMMENT);
 		
-		bi.waitAndClick(bi.studentEditSaveButton);
+		bi.clickWithWait(bi.studentEditSaveButton);
 		
 		//wait for page loading
 		bi.waitForElementPresent(bi.courseDetailCourseID);
 		
-		bi.clickCourseDetailView(STUDENT_NAME);
+		bi.clickCoordCourseDetailStudentView(STUDENT_NAME);
 		
 		//checking value updated
 		assertEquals(STUDENT_NAME, bi.getElementText(bi.studentDetailName));
@@ -81,8 +81,8 @@ public class CoordCourseEditStudentsTest extends TestCase {
 	@Test
 	public void testCoordEditIndividualStudentsWithInvalidInputFailed() {
 		bi.clickCourseTab();
-		bi.clickCourseView(scn.course.courseId);
-		bi.clickCourseDetailEdit(FIRST_STUDENT);
+		bi.clickCoordCourseView(scn.course.courseId);
+		bi.clickCoordCourseDetailStudentEdit(FIRST_STUDENT);
 		
 		//TODO: define the rule for input
 		
@@ -94,7 +94,7 @@ public class CoordCourseEditStudentsTest extends TestCase {
 	
 	public void testCoordEditStudentWithInvalidStudentName() {
 		//TODO: test student name exceed the limit
-		bi.wdFillString(bi.studentEditName, "ASAGSAJAJ JSHA JSH AGSHA GSAJ JAHS ASJA GJASG AJHSAJHSA");
+		bi.fillString(bi.studentEditName, "ASAGSAJAJ JSHA JSH AGSHA GSAJ JAHS ASJA GJASG AJHSAJHSA");
 	}
 	
 	public void testCoordEditStudentWithInvalidTeamName() {
@@ -103,7 +103,7 @@ public class CoordCourseEditStudentsTest extends TestCase {
 	
 	public void testCoordEditStudentWithInvalidEmail() {
 		//TODO: cannot contain certain characters e.g. ' ! 
-		bi.wdFillString(bi.studentEditEmail, "");
+		bi.fillString(bi.studentEditEmail, "");
 	}
 	
 	public void testCoordEditStudentWithInvalidGoogleID() {
@@ -118,14 +118,14 @@ public class CoordCourseEditStudentsTest extends TestCase {
 
 		// To Enroll page
 		bi.clickCourseTab();
-		bi.clickCourseEnrol(scn.course.courseId);
-		bi.verifyEnrollPage();
-		bi.wdFillString(bi.coordEnrolInfo, students);
-		bi.waitAndClick(bi.coordEnrolButton);
+		bi.clickCoordCourseEnrol(scn.course.courseId);
+		bi.verifyCoordCourseEnrollPage();
+		bi.fillString(bi.coordEnrolInfo, students);
+		bi.clickWithWait(bi.coordEnrolButton);
 
 		// Make sure the error message is there
 		assertTrue(bi.isElementPresent(bi.courseErrorMessage));
 
-		bi.waitAndClick(bi.coordEnrolBackButton);
+		bi.clickWithWait(bi.coordEnrolBackButton);
 	}
 }

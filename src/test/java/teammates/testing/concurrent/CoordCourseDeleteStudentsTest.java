@@ -72,10 +72,10 @@ public class CoordCourseDeleteStudentsTest extends TestCase {
 	}
 	
 	public void testCoordDeleteIndividualStudentSuccessful() {
-		bi.gotoCourses();
-		bi.clickCourseView(scn.course.courseId);
+		bi.goToCourses();
+		bi.clickCoordCourseView(scn.course.courseId);
 
-		bi.clickAndConfirmCourseDetailDelete(FIRST_STUDENT);
+		bi.clickCoordCourseDetailStudentDeleteAndConfirm(FIRST_STUDENT);
 		bi.waitForTextInElement(bi.statusMessage, BrowserInstance.MESSAGE_COURSE_DELETED_STUDENT);
 		
 		// check for total number of teams
@@ -89,11 +89,11 @@ public class CoordCourseDeleteStudentsTest extends TestCase {
 	}
 	
 	public void testCoordDeleteAllStudentsSuccessful() {
-		bi.gotoCourses();
-		bi.clickCourseView(scn.course.courseId);
+		bi.goToCourses();
+		bi.clickCoordCourseView(scn.course.courseId);
 
 		// bi.clickAndConfirm(By.id("button_delete"));
-		bi.waitAndClickAndConfirm(bi.deleteStudentsButton);
+		bi.clickAndConfirm(bi.deleteStudentsButton);
 		bi.waitForTextInElement(bi.statusMessage, BrowserInstance.MESSAGE_COURSE_DELETED_ALLSTUDENTS);
 
 		// check for total number of teams

@@ -1,13 +1,10 @@
 package teammates.testing.concurrent;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.ArrayList;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -54,17 +51,17 @@ public class CoordTeamFormingSessionEditTeamProfile extends TestCase {
 	 */
 	@Test
 	public void testCoordTeamFormingSessionEditTeamProfileUnsuccessful() {		
-		bi.gotoTeamForming();
+		bi.goToTeamForming();
 		
-		bi.clickTeamFormingSessionEdit(scn.course.courseId);
-		bi.verifyManageTeamFormingPage(scn.students);
+		bi.clickCoordTFSEdit(scn.course.courseId);
+		bi.verifyCoordManageTeamFormingPage(scn.students);
 
-		bi.waitAndClick(bi.coordEditTeamProfile0);
-		bi.verifyTeamDetailPage();
+		bi.clickWithWait(bi.coordEditTeamProfile0);
+		bi.verifyStudentTeamDetailPage();
 		
 		String newTeamName = "Team 2";
-		bi.wdFillString(bi.inputTeamName, newTeamName);
-		bi.waitAndClick(bi.saveTeamProfile);
+		bi.fillString(bi.inputTeamName, newTeamName);
+		bi.clickWithWait(bi.saveTeamProfile);
 		bi.waitForTextInElement(bi.statusMessage, bi.ERROR_MESSAGE_TEAMPROFILE_EXISTS);
 	}
 	
@@ -73,19 +70,19 @@ public class CoordTeamFormingSessionEditTeamProfile extends TestCase {
 	 */
 	@Test
 	public void testCoordTeamFormingSessionEditTeamProfileSuccessful() {		
-		bi.gotoTeamForming();
+		bi.goToTeamForming();
 		
-		bi.clickTeamFormingSessionEdit(scn.course.courseId);
-		bi.verifyManageTeamFormingPage(scn.students);
+		bi.clickCoordTFSEdit(scn.course.courseId);
+		bi.verifyCoordManageTeamFormingPage(scn.students);
 
-		bi.waitAndClick(bi.coordEditTeamProfile0);
-		bi.verifyTeamDetailPage();
+		bi.clickWithWait(bi.coordEditTeamProfile0);
+		bi.verifyStudentTeamDetailPage();
 		
 		String newTeamName = "Team 3";
 		String newTeamProfile = "This is team 3's profile.";
-		bi.wdFillString(bi.inputTeamName, newTeamName);
-		bi.wdFillString(bi.inputTeamProfile, newTeamProfile);
-		bi.waitAndClick(bi.saveTeamProfile);
+		bi.fillString(bi.inputTeamName, newTeamName);
+		bi.fillString(bi.inputTeamProfile, newTeamProfile);
+		bi.clickWithWait(bi.saveTeamProfile);
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_TEAMPROFILE_SAVED);
 	}
 }

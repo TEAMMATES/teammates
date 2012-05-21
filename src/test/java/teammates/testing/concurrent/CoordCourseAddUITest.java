@@ -1,18 +1,12 @@
 package teammates.testing.concurrent;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.google.gson.Gson;
 
 import teammates.Common;
 import teammates.testing.lib.BrowserInstance;
@@ -21,11 +15,8 @@ import teammates.testing.lib.SharedLib;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Coordinator;
 import teammates.testing.object.Course;
-import teammates.testing.object.Evaluation;
-import teammates.testing.object.Scenario;
-import teammates.testing.object.Student;
-import teammates.testing.object.Team;
-import teammates.testing.object.TeamFormingSession;
+
+import com.google.gson.Gson;
 
 
 public class CoordCourseAddUITest extends TestCase {
@@ -103,7 +94,7 @@ public class CoordCourseAddUITest extends TestCase {
 	public  void testMaxLengthOfInputFields()	{
 		printTestCaseHeader("testMaxLengthOfInputFields");
 		
-		bi.gotoCourses();
+		bi.goToCourses();
 		String shortCourseName = "This is a short name for course";
 		assertTrue(shortCourseName.length()<Common.COURSE_NAME_MAX_LENGTH);
 		
@@ -138,8 +129,8 @@ public class CoordCourseAddUITest extends TestCase {
 		
 		//check course not added
 		bi.clickCourseTab();
-		bi.waitForElementPresent(bi.getCourseIDCellLocatorByCourseId(ts.validCourse.courseId));
-		assertTrue(bi.getElementText(bi.getCourseName(ts.validCourse.courseId)).equals(ts.validCourse.courseName));
+		bi.waitForElementPresent(bi.getCourseIDCell(ts.validCourse.courseId));
+		assertTrue(bi.getCourseName(ts.validCourse.courseId).equals(ts.validCourse.courseName));
 		//FIXME: this does not exclude the possibility that there are two courses in the list with same id
 	
 	}

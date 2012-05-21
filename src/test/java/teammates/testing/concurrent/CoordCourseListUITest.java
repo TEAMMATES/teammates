@@ -34,13 +34,13 @@ public class CoordCourseListUITest extends TestCase {
 	
 	@Test
 	public void verifyAddCoursePageSuccessful() throws Exception {
-		bi.gotoCourses();
+		bi.goToCourses();
 		//Click sort by ID
-		bi.waitAndClick(bi.coordCourseSortByIdButtonLocator);
+		bi.clickWithWait(bi.coordCourseSortByIdButton);
 		bi.verifyObjectHTML("target/test-classes/pages/coordListCourseByID.html", LIST_COURSE_TAG);
 		
 		//Click sort by Name
-		bi.waitAndClick(bi.coordCourseSortByNameButtonLocator);
+		bi.clickWithWait(bi.coordCourseSortByNameButton);
 		bi.verifyObjectHTML("target/test-classes/pages/coordListCourseByName.html", LIST_COURSE_TAG);
 	}
 }

@@ -85,7 +85,7 @@ public class CoordCourseEditStudentsTeamTest extends TestCase {
 
 		swapTeam();
 		// Mass Edit Student
-		bi.gotoCourses();
+		bi.goToCourses();
 		bi.enrollStudents(scn.students, scn.course.courseId);
 
 		SharedLib.tprintln("Creating second evaluation.");
@@ -98,11 +98,11 @@ public class CoordCourseEditStudentsTeamTest extends TestCase {
 		// Coordinator verify
 		bi.clickEvaluationTab();
 		// Verify First Evaluation
-		bi.clickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
-		bi.waitAndClick(bi.resultBackButton);
+		bi.clickCoordEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
+		bi.clickWithWait(bi.resultBackButton);
 
 		// Verify Second Evaluation
-		bi.clickEvaluationViewResults(scn.course.courseId, scn.evaluation2.name);
+		bi.clickCoordEvaluationViewResults(scn.course.courseId, scn.evaluation2.name);
 		bi.waitForElementPresent(bi.resultDetailRadio);
 
 		WebElement htmldiv = bi.getDriver().findElement(By.id("coordinatorEvaluationSummaryTable"));
@@ -116,31 +116,31 @@ public class CoordCourseEditStudentsTeamTest extends TestCase {
 	public void testDropStudentAfterEvaluation() {
 		System.out.println("delete Alice");
 		
-		bi.gotoCourses();
-		bi.clickCourseView(scn.course.courseId);
+		bi.goToCourses();
+		bi.clickCoordCourseView(scn.course.courseId);
 		
-		assertEquals(4, bi.countCourseDetailTotalStudents());
+		assertEquals(4, bi.countCourseDetailStudents());
 		
-		bi.clickAndConfirmCourseDetailDelete(scn.students.get(FIRST_STUDENT).name);
+		bi.clickCoordCourseDetailStudentDeleteAndConfirm(scn.students.get(FIRST_STUDENT).name);
 		
-		assertEquals(3, bi.countCourseDetailTotalStudents());
+		assertEquals(3, bi.countCourseDetailStudents());
 
 		// Verify Report
-		bi.gotoEvaluations();
+		bi.goToEvaluation();
 		// Verify Coordinator View
-		bi.clickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
-		bi.clickReviewerSummaryView(FIRST_STUDENT);
+		bi.clickCoordEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
+		bi.clickCoordReviewerSummaryView(FIRST_STUDENT);
 		
-		bi.gotoEvaluations();
+		bi.goToEvaluation();
 		// Verify Coordinator View
-		bi.clickEvaluationViewResults(scn.course.courseId, scn.evaluation2.name);
-		bi.clickReviewerSummaryView(FIRST_STUDENT);
+		bi.clickCoordEvaluationViewResults(scn.course.courseId, scn.evaluation2.name);
+		bi.clickCoordReviewerSummaryView(FIRST_STUDENT);
 		
 		
 		// Publish Evaluation
-		bi.gotoEvaluations();
-		bi.clickEvaluationPublish(scn.course.courseId, scn.evaluation.name);
-		bi.clickEvaluationPublish(scn.course.courseId, scn.evaluation2.name);
+		bi.goToEvaluation();
+		bi.clickCoordEvaluationPublishAndConfirm(scn.course.courseId, scn.evaluation.name);
+		bi.clickCoordEvaluationPublishAndConfirm(scn.course.courseId, scn.evaluation2.name);
 
 		bi.logout();
 		

@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -57,29 +56,29 @@ public class StudentTeamFormingSessionActionsTest extends TestCase {
 	
 	public void testStudentTeamFormingAddJoinLeaveTeam(Student student) throws Exception {
 		bi.studentLogin(student.email, student.password);
-		bi.clickCoursesTab();
-		bi.clickTeamFormingSessionViewTeams(scn.course.courseId);
+		bi.clickCourseTab();
+		bi.clickCoordTFSViewTeams(scn.course.courseId);
 		
 		bi.verifyViewTeamsPage(scn.students);
 		
 		if(!student.teamName.equals("")){
 			if(bi.isElementPresent(By.id("buttonAdd0"))){
-				bi.wdClick(By.id("buttonAdd0"));
+				bi.click(By.id("buttonAdd0"));
 				assertEquals(bi.MESSAGE_STUDENT_ADDTOTEAM, bi.getElementText(bi.statusMessage));
-				bi.wdClick(By.id("buttonJoin1"));
+				bi.click(By.id("buttonJoin1"));
 				assertEquals(bi.MESSAGE_STUDENT_JOINEDTEAM, bi.getElementText(bi.statusMessage));
-				bi.wdClick(By.id("buttonLeave0"));
+				bi.click(By.id("buttonLeave0"));
 				assertEquals(bi.MESSAGE_STUDENT_LEFTTEAM, bi.getElementText(bi.statusMessage));
-				bi.wdClick(By.id("buttonAdd1"));
+				bi.click(By.id("buttonAdd1"));
 				assertEquals(bi.MESSAGE_STUDENT_NEWTEAMCREATED, bi.getElementText(bi.statusMessage));
 				assertTrue(bi.isTextPresent("Team "+student.google_id));
 			}
 		}
 		else {
 			if(bi.isElementPresent(By.id("buttonJoin0"))){
-				bi.wdClick(By.id("buttonJoin0"));
+				bi.click(By.id("buttonJoin0"));
 				assertEquals(bi.MESSAGE_STUDENT_JOINEDTEAM, bi.getElementText(bi.statusMessage));
-				bi.wdClick(By.id("buttonLeave0"));
+				bi.click(By.id("buttonLeave0"));
 				assertEquals(bi.MESSAGE_STUDENT_LEFTTEAM, bi.getElementText(bi.statusMessage));
 			}
 		}
@@ -89,13 +88,13 @@ public class StudentTeamFormingSessionActionsTest extends TestCase {
 	
 	public void testCoordinatorCheckStudentTeamsAndLog(ArrayList<Student> students) throws Exception {		
 		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
-		bi.gotoTeamForming();		
-		bi.clickTeamFormingSessionEdit(scn.course.courseId);
+		bi.goToTeamForming();		
+		bi.clickCoordTFSEdit(scn.course.courseId);
 		verifyAllStudents(students);
 		verifyTeams();		
 		
-		bi.gotoTeamForming();
-		bi.clickTeamFormingSessionViewLog(scn.course.courseId);
+		bi.goToTeamForming();
+		bi.clickCoordTFSViewLog(scn.course.courseId);
 		
 		String actualLog;
 		for(int n=1;n<=6;n++){

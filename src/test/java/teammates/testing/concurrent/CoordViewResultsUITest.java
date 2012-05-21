@@ -1,6 +1,7 @@
 package teammates.testing.concurrent;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -54,6 +55,16 @@ public class CoordViewResultsUITest extends TestCase {
 		TMAPI.enableEmail();
 	}
 
+	public void assertEqualsOr(String e1, String e2, String a) {
+		if (e1.equalsIgnoreCase(a) || e2.equalsIgnoreCase(a)) {
+			assertTrue(true);
+		} else {
+			assertEquals(e1, a);
+			assertEquals(e2, a);
+		}
+
+	}
+
 	@Test
 	public void testFirstDataSet0() throws Exception {
 
@@ -80,10 +91,10 @@ public class CoordViewResultsUITest extends TestCase {
 
 	public void coordViewRevieweeSummaryPoints(Evaluation eval) throws Exception {
 		bi.clickEvaluationTab();
-		bi.clickEvaluationViewResults(scn.course.courseId, eval.name);
+		bi.clickCoordEvaluationViewResults(scn.course.courseId, eval.name);
 		//select reviewee summary view
-		bi.waitAndClick(bi.resultRevieweeRadio);
-		bi.waitAndClick(bi.resultStudentSorting);
+		bi.clickWithWait(bi.resultRevieweeRadio);
+		bi.clickWithWait(bi.resultStudentSorting);
 
 		for (Student s : scn.students) {
 			int studentIndex = scn.students.indexOf(s);
@@ -98,9 +109,9 @@ public class CoordViewResultsUITest extends TestCase {
 
 	public void coordViewReviewerIndividualPoints(Evaluation eval) throws Exception {
 		bi.clickEvaluationTab();
-		bi.clickEvaluationViewResults(scn.course.courseId, eval.name);
-		bi.waitAndClick(bi.resultStudentSorting);// make sure Alice is the first
-		bi.clickReviewerSummaryView(FIRST_STUDENT);
+		bi.clickCoordEvaluationViewResults(scn.course.courseId, eval.name);
+		bi.clickWithWait(bi.resultStudentSorting);// make sure Alice is the first
+		bi.clickCoordReviewerSummaryView(FIRST_STUDENT);
 
 		String claimedPoints = "CLAIMED CONTRIBUTIONS: " + TMAPI.coordGetClaimedPoints(scn.submissionPoints, FIRST_STUDENT);
 		assertEquals(claimedPoints.toUpperCase(), bi.getReviewerIndividualClaimedPoint());
@@ -124,17 +135,17 @@ public class CoordViewResultsUITest extends TestCase {
 						continue;
 					}
 				}
-				bi.assertEqualsOr(toStudent1, toStudent2, bi.getElementText(bi.getReviewerIndividualToStudentPoint(i)));
+				assertEqualsOr(toStudent1, toStudent2, bi.getElementText(bi.getReviewerIndividualToStudentPoint(i)));
 			}
 		}
 	}
 	
 	public void coordViewRevieweeIndividualPoints(Evaluation eval) throws Exception {
 		bi.clickEvaluationTab();
-		bi.clickEvaluationViewResults(scn.course.courseId, eval.name);
-		bi.waitAndClick(bi.resultRevieweeRadio);
-		bi.waitAndClick(bi.resultStudentSorting);
-		bi.clickRevieweeSummaryView(FIRST_STUDENT);
+		bi.clickCoordEvaluationViewResults(scn.course.courseId, eval.name);
+		bi.clickWithWait(bi.resultRevieweeRadio);
+		bi.clickWithWait(bi.resultStudentSorting);
+		bi.clickCoordRevieweeSummaryView(FIRST_STUDENT);
 
 		String claimedPoints = "CLAIMED CONTRIBUTIONS: " + TMAPI.coordGetClaimedPoints(scn.submissionPoints, FIRST_STUDENT);
 		assertEquals(claimedPoints.toUpperCase(), bi.getRevieweeIndividualClaimedPoint());
@@ -158,18 +169,18 @@ public class CoordViewResultsUITest extends TestCase {
 						continue;
 					}
 				}
-				bi.assertEqualsOr(fromStudent1, fromStudent2, bi.getElementText(bi.getRevieweeIndividualFromStudentPoint(i)));
+				assertEqualsOr(fromStudent1, fromStudent2, bi.getElementText(bi.getRevieweeIndividualFromStudentPoint(i)));
 			}
 		}
 	}
 
 	public void coordViewReviewerDetailPoints(Evaluation eval) throws Exception {
 		bi.clickEvaluationTab();
-		bi.clickEvaluationViewResults(eval.courseID, eval.name);
+		bi.clickCoordEvaluationViewResults(eval.courseID, eval.name);
 		//sort student list
-		bi.waitAndClick(bi.resultStudentSorting);
+		bi.clickWithWait(bi.resultStudentSorting);
 		//select detail view
-		bi.waitAndClick(bi.resultDetailRadio);
+		bi.clickWithWait(bi.resultDetailRadio);
 		
 		// check points
 		for (Student s : scn.students) {
@@ -182,7 +193,7 @@ public class CoordViewResultsUITest extends TestCase {
 			List<Student> teammates = getStudentTeammates(scn.students, studentIndex);
 			int teamIndex = getTeamIndex(s.teamName) + 1;
 			int position = getStudentIndexInTeam(s.name, s.teamName) + 1;
-			assertEquals(claimedPoints.toUpperCase(), bi.getElementText(bi.getReviewerDetailClaimedPoint(teamIndex, position)));
+			assertEquals(claimedPoints.toUpperCase(), bi.getElementText(bi.getReviewerDetailClaimed(teamIndex, position)));
 			assertEquals(perceivedPoints.toUpperCase(), bi.getElementText(bi.getReviewerDetailPerceived(teamIndex, position)));
 			for (int i = 0; i < pointList1.size(); i++) {
 				String student = bi.getElementText(bi.getReviewerDetailToStudent(teamIndex, position, i));
@@ -196,7 +207,7 @@ public class CoordViewResultsUITest extends TestCase {
 							continue;
 						}
 					}
-					bi.assertEqualsOr(toStudent1, toStudent2, bi.getElementText(bi.getReviewerDetailToStudentPoint(teamIndex, position, i)));
+					assertEqualsOr(toStudent1, toStudent2, bi.getElementText(bi.getReviewerDetailToStudentPoint(teamIndex, position, i)));
 				}
 			}
 		}
@@ -204,13 +215,13 @@ public class CoordViewResultsUITest extends TestCase {
 
 	public void coordViewRevieweeDetailPoints(Evaluation eval) throws Exception {
 		bi.clickEvaluationTab();
-		bi.clickEvaluationViewResults(eval.courseID, eval.name);
+		bi.clickCoordEvaluationViewResults(eval.courseID, eval.name);
 		// click Reviewee:
-		bi.waitAndClick(By.id("radio_reviewee"));
+		bi.clickWithWait(By.id("radio_reviewee"));
 		// click sort by name:
-		bi.waitAndClick(By.id("button_sortname"));
+		bi.clickWithWait(By.id("button_sortname"));
 		// click Detail radio (Reviewer x Detail):
-		bi.waitAndClick(By.id("radio_detail"));
+		bi.clickWithWait(By.id("radio_detail"));
 
 		// check points
 		for (Student s : scn.students) {
@@ -224,12 +235,11 @@ public class CoordViewResultsUITest extends TestCase {
 			List<Student> teammates = getStudentTeammates(scn.students, studentIndex);
 
 			assertEquals(claimedPoints.toUpperCase(),
-					bi.getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]", teamIndex, position, 2))));
+					bi.getElementText(bi.getRevieweeDetailClaimed(teamIndex, position)));
 			assertEquals(perceivedPoints.toUpperCase(),
-					bi.getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]", teamIndex, position, 3))));
+					bi.getElementText(bi.getRevieweeDetailPerceived(teamIndex, position)));
 			for (int i = 0; i < pointList2.size(); i++) {
-				String student = bi.getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", teamIndex, position,
-						i + 4, 1)));
+				String student = bi.getElementText(bi.getRevieweeDetailFromStudent(teamIndex, position, i));
 				String fromStudent1 = "";
 				String fromStudent2 = "";
 				if (!student.equalsIgnoreCase(s.name)) {
@@ -241,8 +251,7 @@ public class CoordViewResultsUITest extends TestCase {
 							continue;
 						}
 					}
-					bi.assertEqualsOr(fromStudent1, fromStudent2, bi.getElementText(By.xpath(String.format(
-							"//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", teamIndex, position, i + 4, 2))));
+					assertEqualsOr(fromStudent1, fromStudent2, bi.getElementText(bi.getRevieweeDetailFromStudentPoint(teamIndex, position, i)));
 				}
 			}
 		}

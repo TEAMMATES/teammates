@@ -1,20 +1,16 @@
 package teammates.testing.concurrent;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
-import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
-import teammates.testing.lib.SharedLib;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Scenario;
-import teammates.testing.object.Student;
 
 /*
  * author Kalpit
@@ -39,8 +35,8 @@ public class CoordTeamFormingSessionListTest extends TestCase {
 		TMAPI.enrollStudents(scn2.course.courseId, scn2.students);
 		
 		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
-		bi.gotoTeamForming();
-		teamFormingSessionsCount = bi.countTotalTeamFormingSessions(); //count existing sessions
+		bi.goToTeamForming();
+		teamFormingSessionsCount = bi.countTFS(); //count existing sessions
 		
 		TMAPI.createTeamFormingSession(scn.teamFormingSession);
 		TMAPI.createTeamFormingSession(scn2.teamFormingSession);
@@ -58,8 +54,8 @@ public class CoordTeamFormingSessionListTest extends TestCase {
 
 	@Test
 	public void verifyAddTeamFormingSessionPageSuccessful() throws Exception {
-		bi.gotoTeamForming();
-		int count = bi.countTotalTeamFormingSessions();
+		bi.goToTeamForming();
+		int count = bi.countTFS();
 		assertEquals(teamFormingSessionsCount+2, count); //check if count increased by 2
 		
 		assertEquals(true, bi.isTextPresent(scn.course.courseId));
@@ -68,8 +64,8 @@ public class CoordTeamFormingSessionListTest extends TestCase {
 	
 	@Test
 	public void coordTeamFormingSessionViewLog() throws Exception {
-		bi.gotoTeamForming();
-		bi.clickTeamFormingSessionViewLog(scn.course.courseId);
+		bi.goToTeamForming();
+		bi.clickCoordTFSViewLog(scn.course.courseId);
 		
 		String noLog = "There is no log currently available.";
 		String actualLog = bi.getElementText

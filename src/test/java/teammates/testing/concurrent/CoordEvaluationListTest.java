@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
 import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
@@ -83,23 +82,22 @@ public class CoordEvaluationListTest extends TestCase {
 		System.out.println("testCoordViewResultsEvaluationNonClickable");
 
 		//bi.clickEvaluationTab();
-		bi.gotoEvaluations();
-		bi.clickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
+		bi.goToEvaluation();
+		bi.clickCoordEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
 
-		assertTrue(bi.isElementPresent(bi.getEvaluationViewResults(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getEvaluationEditResults(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getEvaluationDeleteResults(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getEvaluationRemindResults(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getEvaluationPublishResults(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationViewResultsLink(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationEditLink(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationDeleteLink(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationRemindLink(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationPublishLink(FIRST_EVALUATION)));
 	}
 
 	// testCoordRemindEvaluationSuccessful
 	public void testCoordRemindEvaluationSuccessful() throws Exception {
 		System.out.println("testCoordRemindEvaluationSuccessful");
 
-		bi.clickEvaluationTab();
-
-		bi.clickAndConfirmEvaluationRemind(scn.course.courseId, scn.evaluation2.name);
+		bi.goToEvaluation();
+		bi.clickCoordEvaluationRemindAndConfirm(scn.course.courseId, scn.evaluation2.name);
 
 		// Confirm Email
 		bi.waitForEmail();
@@ -113,23 +111,22 @@ public class CoordEvaluationListTest extends TestCase {
 		System.out.println("testCoordRemindEvaluationNonClickable");
 
 		// Pending evaluation
-		bi.clickEvaluationTab();
+		bi.goToEvaluation();
+		bi.clickCoordEvaluationRemindAndConfirm(scn.course.courseId, scn.evaluation.name);
 
-		bi.clickAndConfirmEvaluationRemind(scn.course.courseId, scn.evaluation.name);
-		
-		assertTrue(bi.isElementPresent(bi.getEvaluationViewResults(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getEvaluationEditResults(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getEvaluationDeleteResults(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getEvaluationRemindResults(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getEvaluationPublishResults(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationViewResultsLink(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationEditLink(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationDeleteLink(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationRemindLink(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationPublishLink(FIRST_EVALUATION)));
 	}
 
 	// testCoordPublishEvaluationSuccessful
 	public void testCoordPublishEvaluationSuccessful() throws Exception {
 		System.out.println("testCoordPublishEvaluationSuccessful");
 
-		bi.clickEvaluationTab();
-		bi.clickEvaluationPublish(scn.course.courseId, scn.evaluation3.name);
+		bi.goToEvaluation();
+		bi.clickCoordEvaluationPublishAndConfirm(scn.course.courseId, scn.evaluation3.name);
 
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_PUBLISHED);
 
@@ -150,32 +147,32 @@ public class CoordEvaluationListTest extends TestCase {
 		System.out.println("testCoordPublishEvaluationNonClickable");
 
 		// Pending evaluation
-		bi.clickEvaluationTab();
-		bi.clickEvaluationPublish(scn.course.courseId, scn.evaluation.name);
+		bi.goToEvaluation();
+		bi.clickCoordEvaluationPublishAndConfirm(scn.course.courseId, scn.evaluation.name);
 
-		assertTrue(bi.isElementPresent(bi.getEvaluationViewResults(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getEvaluationEditResults(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getEvaluationDeleteResults(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getEvaluationRemindResults(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getEvaluationPublishResults(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationViewResultsLink(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationEditLink(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationDeleteLink(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationRemindLink(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationPublishLink(FIRST_EVALUATION)));
 
 		// Open evaluation
-		bi.clickEvaluationTab();
-		bi.clickEvaluationPublish(scn.course.courseId, scn.evaluation2.name);
+		bi.goToEvaluation();
+		bi.clickCoordEvaluationPublishAndConfirm(scn.course.courseId, scn.evaluation2.name);
 
-		assertTrue(bi.isElementPresent(bi.getEvaluationViewResults(SECOND_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getEvaluationEditResults(SECOND_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getEvaluationDeleteResults(SECOND_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getEvaluationRemindResults(SECOND_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getEvaluationPublishResults(SECOND_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationViewResultsLink(SECOND_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationEditLink(SECOND_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationDeleteLink(SECOND_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationRemindLink(SECOND_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationPublishLink(SECOND_EVALUATION)));
 	}
 
 	// testCoordUnpublishEvaluationSuccessful
 	public void testCoordUnpublishEvaluationSuccessful() throws Exception {
 		System.out.println("testCoordUnpublishEvaluationSuccessful");
 
-		bi.clickEvaluationTab();
-		bi.clickEvaluationUnpublish(scn.course.courseId, scn.evaluation3.name);
+		bi.goToEvaluation();
+		bi.clickCoordEvaluationUnpublishAndConfirm(scn.course.courseId, scn.evaluation3.name);
 
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_UNPUBLISHED);
 
@@ -187,8 +184,8 @@ public class CoordEvaluationListTest extends TestCase {
 	public void testCoordDeleteEvaluation() throws Exception {
 		System.out.println("testCoordDeleteEvaluationSuccessful");
 
-		bi.clickEvaluationTab();
-		bi.clickAndConfirmEvaluationDelete(scn.course.courseId, scn.evaluation4.name);
+		bi.goToEvaluation();
+		bi.clickCoordEvaluationDeleteAndConfirm(scn.course.courseId, scn.evaluation4.name);
 
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_DELETED);
 	}
@@ -197,7 +194,7 @@ public class CoordEvaluationListTest extends TestCase {
 	public void testCoordAddDeletedEvaluation() throws Exception {
 		System.out.println("testCoordAddDeletedEvaluation");
 
-		bi.clickEvaluationTab();
+		bi.goToEvaluation();
 
 		bi.addEvaluation(scn.evaluation4);
 		

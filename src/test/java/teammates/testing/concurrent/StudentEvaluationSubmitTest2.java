@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -53,7 +52,7 @@ public class StudentEvaluationSubmitTest2 extends TestCase {
 
 		bi.clickEvaluationTab();
 		bi.waitForElementPresent(bi.studentGetPendingEvaluationName(scn.course.courseId, scn.evaluation.name));
-		bi.studentClickDoEvaluation(scn.course.courseId, scn.evaluation.name);
+		bi.studentClickEvaluationDo(scn.course.courseId, scn.evaluation.name);
 
 		// Fill in information
 		for (int i = 0; i < student.team.students.size(); i++) {
@@ -63,16 +62,17 @@ public class StudentEvaluationSubmitTest2 extends TestCase {
 		}
 
 		// Submit the evaluation
-		bi.wdClick(bi.studentSubmitEvaluationButton);
+		bi.click(bi.studentSubmitEvaluationButton);
 
 		// Check to see evaluation status is "Submitted"
 		assertEquals("SUBMITTED", bi.studentGetEvaluationStatus(scn.course.courseId, scn.evaluation.name));
 
 		bi.clickEvaluationTab();
+		// Below should do nothing, since the element is disabled, since the evaluation is still open.
 		bi.studentClickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
 
-		assertTrue(bi.isElementPresent(bi.getStudentEvaluationViewResults(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getStudentEditEvaluation(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getStudentEvaluationViewResultsLink(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getStudentEditEvaluationSubmissionLink(FIRST_EVALUATION)));
 
 		bi.logout();
 	}

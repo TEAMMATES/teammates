@@ -32,7 +32,7 @@ public class CoordCourseEnrolCaseSensitivityTest extends TestCase {
 		TMAPI.createCourse(scn.course);
 		
 		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
-		bi.gotoCourses();
+		bi.goToCourses();
 	}
 	
 	@AfterClass
@@ -47,8 +47,7 @@ public class CoordCourseEnrolCaseSensitivityTest extends TestCase {
 	
 	/**
 	 * testCoordEnrolStudentTeamCaseSensitivity
-	 * testCoordEnrolStudentEmailCaseSensitivity
-	 * */
+	 */
 	@Test
 	public void testCoordEnrolStudentTeamCaseSensitivity() {
 		TMAPI.createCourse(scn.course);
@@ -57,13 +56,13 @@ public class CoordCourseEnrolCaseSensitivityTest extends TestCase {
 		String students = STUDENT_TEAM_LOWER + "|" + STUDENT_NAME_LOWER + "|" + STUDENT_EMAIL_LOWER + "|" + '\n' +
 				   			STUDENT_TEAM_UPPER + "|" + STUDENT_NAME_LOWER + "|" + STUDENT_EMAIL_LOWER + "|";
 
-		bi.clickCourseEnrol(scn.course.courseId);
-		bi.wdFillString(bi.coordEnrolInfo, students);
-		bi.waitAndClick(bi.coordEnrolButton);
-		bi.waitAndClick(bi.coordEnrolBackButton);
+		bi.clickCoordCourseEnrol(scn.course.courseId);
+		bi.fillString(bi.coordEnrolInfo, students);
+		bi.clickWithWait(bi.coordEnrolButton);
+		bi.clickWithWait(bi.coordEnrolBackButton);
 		
-		//verify teams: team 1 == TEAM 1
-		assertEquals("1", bi.getCourseTeams(scn.course.courseId));
+		// Verify number of teams, should be 1 since team 1 == TEAM 1
+		assertEquals("1", bi.getCourseNumberOfTeams(scn.course.courseId));
 		
 		TMAPI.cleanupCourse(scn.course.courseId);
 	}
@@ -77,26 +76,26 @@ public class CoordCourseEnrolCaseSensitivityTest extends TestCase {
 		String students = STUDENT_TEAM_LOWER + "|" + STUDENT_NAME_LOWER + "|" + STUDENT_EMAIL_LOWER + "|" + '\n' +
 				   			STUDENT_TEAM_LOWER + "|" + STUDENT_NAME_UPPER + "|" + STUDENT_EMAIL_LOWER + "|";
 		
-		bi.clickCourseEnrol(scn.course.courseId);
-		bi.wdFillString(bi.coordEnrolInfo, students);
-		bi.waitAndClick(bi.coordEnrolButton);
-		bi.waitAndClick(bi.coordEnrolBackButton);
+		bi.clickCoordCourseEnrol(scn.course.courseId);
+		bi.fillString(bi.coordEnrolInfo, students);
+		bi.clickWithWait(bi.coordEnrolButton);
+		bi.clickWithWait(bi.coordEnrolBackButton);
 		
 		//verify students: alice == Alice?
 		assertEquals("1", bi.getCourseTotalStudents(scn.course.courseId));
 		
 		//delete students:
-		bi.clickCourseView(scn.course.courseId);
-		bi.waitAndClickAndConfirm(bi.deleteStudentsButton);
+		bi.clickCoordCourseView(scn.course.courseId);
+		bi.clickAndConfirm(bi.deleteStudentsButton);
 		bi.waitForTextInElement(bi.statusMessage, BrowserInstance.MESSAGE_COURSE_DELETED_ALLSTUDENTS);
-		bi.waitAndClick(By.className("t_course_enrol"));//inside message link
+		bi.clickWithWait(By.className("t_course_enrol"));//inside message link
 
 		//-------------------------what if two students have the same name?
 		students = STUDENT_TEAM_LOWER + "|" + STUDENT_NAME_LOWER + "|benny.tmms@gmail.com|" + '\n' +
 				   STUDENT_TEAM_LOWER + "|" + STUDENT_NAME_UPPER + "|danny.tmms@gmail.com|";
-		bi.wdFillString(bi.coordEnrolInfo, students);
-		bi.waitAndClick(bi.coordEnrolButton);
-		bi.waitAndClick(bi.coordEnrolBackButton);
+		bi.fillString(bi.coordEnrolInfo, students);
+		bi.clickWithWait(bi.coordEnrolButton);
+		bi.clickWithWait(bi.coordEnrolBackButton);
 		
 		//TODO: verify students: alice (benny.tmms@gmail.com) != Alice (danny.tmms@gmail.com)
 		assertEquals("2", bi.getCourseTotalStudents(scn.course.courseId));
@@ -112,10 +111,10 @@ public class CoordCourseEnrolCaseSensitivityTest extends TestCase {
 		String students = STUDENT_TEAM_LOWER + "|" + STUDENT_NAME_LOWER + "|" + STUDENT_EMAIL_LOWER + "|" + '\n' +
 				   			STUDENT_TEAM_LOWER + "|" + STUDENT_NAME_LOWER + "|" + STUDENT_EMAIL_UPPER + "|";
 		
-		bi.clickCourseEnrol(scn.course.courseId);
-		bi.wdFillString(bi.coordEnrolInfo, students);
-		bi.waitAndClick(bi.coordEnrolButton);
-		bi.waitAndClick(bi.coordEnrolBackButton);
+		bi.clickCoordCourseEnrol(scn.course.courseId);
+		bi.fillString(bi.coordEnrolInfo, students);
+		bi.clickWithWait(bi.coordEnrolButton);
+		bi.clickWithWait(bi.coordEnrolBackButton);
 		
 		//TODO: verify students: alice (alice.tmms@gmail.com) == alice (ALICE.TMMS@GMAIL.COM)
 		//assertEquals("1", bi.getCourseTotalStudents(scn.course.courseId));

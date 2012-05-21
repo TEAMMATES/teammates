@@ -34,7 +34,7 @@ public class StudentHelpPageHTMLTest extends TestCase {
 	@Test
 	public void clickHelpTabOpenNewWindowSuccessful() throws Exception {
 		String helpWindow = "Teammates Online Peer Feedback System for Student Team Projects";
-		bi.clickAndOpenNewWindow(bi.helpTab, helpWindow);
+		bi.clickAndSwitchToNewWindow(bi.helpTab, helpWindow);
 
 		assertEquals(true, bi.isTextPresent("Table of Contents"));
 		assertEquals(true, bi.isTextPresent("Getting Started"));

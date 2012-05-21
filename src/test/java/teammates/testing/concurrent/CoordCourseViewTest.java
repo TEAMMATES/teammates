@@ -72,21 +72,21 @@ public class CoordCourseViewTest extends TestCase {
 
 
 		bi.clickCourseTab();
-		bi.clickCourseEnrol(scn.course.courseId);
-		bi.verifyEnrollPage();
+		bi.clickCoordCourseEnrol(scn.course.courseId);
+		bi.verifyCoordCourseEnrollPage();
 
-		bi.wdFillString(bi.coordEnrolInfo, String.format("%s|%s|%s|", FIRST_STUDENT.teamName, newStudent, newEmail));
-		bi.waitAndClick(bi.coordEnrolButton);
+		bi.fillString(bi.coordEnrolInfo, String.format("%s|%s|%s|", FIRST_STUDENT.teamName, newStudent, newEmail));
+		bi.clickWithWait(bi.coordEnrolButton);
 
 		bi.clickCourseTab();
-		bi.clickCourseView(scn.course.courseId);
-		bi.clickCourseDetailInvite(newStudent);
+		bi.clickCoordCourseView(scn.course.courseId);
+		bi.clickCoordCourseDetailInvite(newStudent);
 
 		//Collect key for the new student
-		bi.clickCourseDetailView(newStudent);
+		bi.clickCoordCourseView(newStudent);
 		bi.waitForElementPresent(bi.studentDetailKey);
 		String key = bi.getElementText(bi.studentDetailKey);
-		bi.waitAndClick(bi.courseViewBackButton);
+		bi.clickWithWait(bi.courseViewBackButton);
 		
 		System.out.println("Key for new student: " + key);
 

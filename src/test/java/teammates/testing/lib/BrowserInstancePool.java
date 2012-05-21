@@ -2,8 +2,6 @@ package teammates.testing.lib;
 
 import java.util.ArrayList;
 
-import teammates.testing.config.Config;
-
 /**
  * Manage the pool of browser instances.
  * 

@@ -61,10 +61,10 @@ public class CoordEvaluationAddWithEmptyTeamNameTest extends TestCase {
 		newStudent.name = "Charlie";
 		newStudent.email = "charlie.tmms@gmail.com";
 		students.add(newStudent);
-		bi.gotoCourses();
+		bi.goToCourses();
 		bi.enrollStudents(students, scn.course.courseId);
 		
-		bi.gotoEvaluations();
+		bi.goToEvaluation();
 		bi.addEvaluation(scn.evaluation);
 
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_ADDED_WITH_EMPTY_TEAMS);

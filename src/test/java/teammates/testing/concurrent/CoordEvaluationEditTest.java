@@ -46,21 +46,21 @@ public class CoordEvaluationEditTest extends TestCase {
 	public void testCoordEditEvaluation() {
 		String newInstruction = "New Instruction: I'm writing a new instruction to test char '. It should work fine.";
 		
-		bi.gotoEvaluations();
+		bi.goToEvaluation();
 		
-		bi.clickEvaluationEdit(scn.course.courseId, scn.evaluation.name);
+		bi.clickCoordEvaluationEdit(scn.course.courseId, scn.evaluation.name);
 
-		bi.wdFillString(bi.inputInstruction, newInstruction);
+		bi.fillString(bi.inputInstruction, newInstruction);
 
-		bi.waitAndClick(bi.editEvaluationButton);
+		bi.clickWithWait(bi.editEvaluationButton);
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_EDITED);
 
 		// Now click Edit again to see if the text is updated.
-		bi.clickEvaluationEdit(scn.course.courseId, scn.evaluation.name);
+		bi.clickCoordEvaluationEdit(scn.course.courseId, scn.evaluation.name);
 		assertEquals(newInstruction, bi.getElementText(bi.inputInstruction));
 
 		// Click back
-		bi.waitAndClick(bi.editEvaluationBackButton);
+		bi.clickWithWait(bi.editEvaluationBackButton);
 		
 	}
 }

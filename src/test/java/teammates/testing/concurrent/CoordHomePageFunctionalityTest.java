@@ -44,11 +44,13 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		// ..evaluation 1 OPEN
 		scn.evaluation.p2pcomments = "false";
 		TMAPI.createEvaluation(scn.evaluation);
+		System.out.println("Evaluation 1: "+scn.evaluation.name);
 		TMAPI.openEvaluation(scn.course.courseId, scn.evaluation.name);
 		TMAPI.studentsSubmitFeedbacks(scn.course.students, scn.course.courseId, scn.evaluation.name);
 
 		// ..evaluation 2 PUBLISHED
 		TMAPI.createEvaluation(scn.evaluation2);
+		System.out.println("Evaluation 2: "+scn.evaluation2.name);
 		TMAPI.openEvaluation(scn.course.courseId, scn.evaluation2.name);
 		TMAPI.studentsSubmitFeedbacks(scn.students.subList(1, scn.students.size() - 1), scn.course.courseId, scn.evaluation2.name);
 		TMAPI.closeEvaluation(scn.course.courseId, scn.evaluation2.name);
@@ -61,15 +63,18 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 
 		// ..evaluation 3 CLOSED
 		TMAPI.createEvaluation(scn.evaluation3);
+		System.out.println("Evaluation 3: "+scn.evaluation3.name);
 		TMAPI.openEvaluation(scn.course2.courseId, scn.evaluation3.name);
 		TMAPI.studentsSubmitFeedbacks(scn.course2.students, scn.course2.courseId, scn.evaluation3.name);
 		TMAPI.closeEvaluation(scn.course2.courseId, scn.evaluation3.name);
 
 		// ..evaluation 4 AWAITING
 		TMAPI.createEvaluation(scn.evaluation4);
+		System.out.println("Evaluation 4: "+scn.evaluation4.name);
 		
 		// ..evaluation 5 OPEN
 		TMAPI.createEvaluation(scn.evaluation5);
+		System.out.println("Evaluation 5: "+scn.evaluation5.name);
 		TMAPI.openEvaluation(scn.course2.courseId, scn.evaluation5.name);
 		
 		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
@@ -89,7 +94,8 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 	public void testCoordAddCourseLink() {
 		System.out.println("CoordLandingPageFunctionalityTest: testCoordAddCourseLink");
 		
-		bi.waitAndClick(bi.coordAddNewCourseLink);
+		bi.goToCoordHome();
+		bi.clickWithWait(bi.coordHomeAddNewCourseLink);
 		bi.verifyCoordCoursesPage();
 	}
 	
@@ -98,12 +104,19 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testEnrolLink");
 
 		bi.goToCoordHome();
-		bi.waitAndClick(bi.getCoordEnrolLink(FIRST_COURSE));
-		bi.verifyCoordEnrolPage();
+		/*
+		 * TODO: Cannot use the evaluation or course index as the key to search
+		 * Because the indices (e.g., FIRST_COURSE, THIRD_EVALUATION, etc) may not 
+		 * be the same as what is displayed in the web page.
+		 * Need to use the Course ID and Evaluation name as the key, and do searching
+		 * on the page, just like the other methods.
+		 */
+		bi.clickWithWait(bi.getCoordHomeCourseEnrolLink(FIRST_COURSE));
+		bi.verifyCoordCourseEnrollPage();
 		
 		bi.goToCoordHome();
-		bi.waitAndClick(bi.getCoordEnrolLink(SECOND_COURSE));
-		bi.verifyCoordEnrolPage();
+		bi.clickWithWait(bi.getCoordHomeCourseEnrolLink(SECOND_COURSE));
+		bi.verifyCoordCourseEnrollPage();
 	}
 	
 	@Test
@@ -111,12 +124,12 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testViewCoursesLink");
 
 		bi.goToCoordHome();
-		bi.waitAndClick(bi.getCoordViewLink(FIRST_COURSE));
-		bi.verifyCoordViewCourseDetailsPage();
+		bi.clickWithWait(bi.getCoordHomeCourseViewLink(FIRST_COURSE));
+		bi.verifyCoordCourseDetailsPage();
 		
 		bi.goToCoordHome();
-		bi.waitAndClick(bi.getCoordViewLink(SECOND_COURSE));
-		bi.verifyCoordViewCourseDetailsPage();
+		bi.clickWithWait(bi.getCoordHomeCourseViewLink(SECOND_COURSE));
+		bi.verifyCoordCourseDetailsPage();
 	}
 	
 	@Test
@@ -124,11 +137,11 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testAddEvaluationLink");
 
 		bi.goToCoordHome();
-		bi.waitAndClick(bi.getCoordAddEvaluationLink(FIRST_COURSE));
+		bi.clickWithWait(bi.getCoordHomeCourseAddEvaluationLink(FIRST_COURSE));
 		bi.verifyCoordEvaluationsPage();
 		
 		bi.goToCoordHome();
-		bi.waitAndClick(bi.getCoordAddEvaluationLink(SECOND_COURSE));
+		bi.clickWithWait(bi.getCoordHomeCourseAddEvaluationLink(SECOND_COURSE));
 		bi.verifyCoordEvaluationsPage();
 	}
 	
@@ -137,10 +150,10 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testDeleteCoursesLink");
 
 		bi.goToCoordHome();
-		bi.clickAndCancelCoordCourseDelete(bi.getCoordDeleteLink(FIRST_COURSE));
+		bi.clickCoordHomeCourseDeleteAndCancel(FIRST_COURSE);
 		
 		bi.goToCoordHome();
-		bi.clickAndCancelCoordCourseDelete(bi.getCoordDeleteLink(SECOND_COURSE));
+		bi.clickCoordHomeCourseDeleteAndCancel(SECOND_COURSE);
 		
 		/*
 		 * NOTE: We could also do something like the below - WILL CHANGE AFTER CODE REVIEW, IF NEEDED
@@ -169,24 +182,24 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testViewResultsLink");
 		
 		bi.goToCoordHome();
-		bi.waitAndClick(bi.getCoordViewResultsLink(FIRST_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationViewResultsLink(FIRST_EVALUATION));
 		bi.verifyCoordEvaluationResultsPage();
 		
 		bi.goToCoordHome();
-		bi.waitAndClick(bi.getCoordViewResultsLink(SECOND_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationViewResultsLink(SECOND_EVALUATION));
 		bi.verifyCoordEvaluationResultsPage();
 		
 		// This should not be clickable
 		bi.goToCoordHome();
-		bi.waitAndClick(bi.getCoordViewResultsLink(THIRD_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationViewResultsLink(THIRD_EVALUATION));
 		bi.verifyCoordHomePage();
 		
 		bi.goToCoordHome();
-		bi.waitAndClick(bi.getCoordViewResultsLink(FOURTH_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationViewResultsLink(FOURTH_EVALUATION));
 		bi.verifyCoordEvaluationResultsPage();
 		
 		bi.goToCoordHome();
-		bi.waitAndClick(bi.getCoordViewResultsLink(FIFTH_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationViewResultsLink(FIFTH_EVALUATION));
 		bi.verifyCoordEvaluationResultsPage();
 	}
 	
@@ -195,25 +208,25 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testEditEvaluationLink");
 
 		bi.goToCoordHome();
-		bi.waitAndClick(bi.getCoordEditEvaluationLink(FIRST_EVALUATION));
-		bi.verifyCoordEditEvaluationPage();
+		bi.clickWithWait(bi.getCoordEvaluationEditLink(FIRST_EVALUATION));
+		bi.verifyCoordEvaluationEditPage();
 		
 		bi.goToCoordHome();
-		bi.waitAndClick(bi.getCoordEditEvaluationLink(SECOND_EVALUATION));
-		bi.verifyCoordEditEvaluationPage();
+		bi.clickWithWait(bi.getCoordEvaluationEditLink(SECOND_EVALUATION));
+		bi.verifyCoordEvaluationEditPage();
 		
 		bi.goToCoordHome();
-		bi.waitAndClick(bi.getCoordEditEvaluationLink(THIRD_EVALUATION));
-		bi.verifyCoordEditEvaluationPage();
+		bi.clickWithWait(bi.getCoordEvaluationEditLink(THIRD_EVALUATION));
+		bi.verifyCoordEvaluationEditPage();
 		
 		// This should not be clickable
 		bi.goToCoordHome();
-		bi.waitAndClick(bi.getCoordEditEvaluationLink(FOURTH_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationEditLink(FOURTH_EVALUATION));
 		bi.verifyCoordHomePage();
 		
 		bi.goToCoordHome();
-		bi.waitAndClick(bi.getCoordEditEvaluationLink(FIFTH_EVALUATION));
-		bi.verifyCoordEditEvaluationPage();
+		bi.clickWithWait(bi.getCoordEvaluationEditLink(FIFTH_EVALUATION));
+		bi.verifyCoordEvaluationEditPage();
 	}
 	
 	@Test
@@ -221,10 +234,10 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testRemindEvaluationLink");
 		
 		bi.goToCoordHome();
-		bi.clickAndCancelCoordEvaluationRemind(bi.getCoordRemindEvaluationLink(FIRST_EVALUATION));
+		bi.clickCoordEvaluationRemindAndCancel(FIRST_EVALUATION);
 		
 		bi.goToCoordHome();
-		bi.clickAndCancelCoordEvaluationRemind(bi.getCoordRemindEvaluationLink(SECOND_EVALUATION));
+		bi.clickCoordEvaluationRemindAndCancel(SECOND_EVALUATION);
 		
 		/*
 		 * NOTE: We could also do something like the below - WILL CHANGE AFTER CODE REVIEW, IF NEEDED
@@ -243,17 +256,17 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		
 		// This should not be clickable
 		bi.goToCoordHome();
-		bi.clickAndCancelCoordEvaluationRemind(bi.getCoordRemindEvaluationLink(THIRD_EVALUATION));
+		bi.clickCoordEvaluationRemindAndCancel(THIRD_EVALUATION);
 		bi.verifyCoordHomePage();
 		
 		// This should not be clickable
 		bi.goToCoordHome();
-		bi.clickAndCancelCoordEvaluationRemind(bi.getCoordRemindEvaluationLink(FOURTH_EVALUATION));
+		bi.clickCoordEvaluationRemindAndCancel(FOURTH_EVALUATION);
 		bi.verifyCoordHomePage();
 		
 		// This should not be clickable
 		bi.goToCoordHome();
-		bi.clickAndCancelCoordEvaluationRemind(bi.getCoordRemindEvaluationLink(FIFTH_EVALUATION));
+		bi.clickCoordEvaluationRemindAndCancel(FIFTH_EVALUATION);
 		bi.verifyCoordHomePage();
 	}
 	
@@ -263,21 +276,21 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		
 		// This should not be clickable
 		bi.goToCoordHome();
-		bi.waitAndClick(bi.getCoordPublishEvaluationLink(FIRST_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationPublishLink(FIRST_EVALUATION));
 		bi.verifyCoordHomePage();
 		
 		// This should not be clickable
 		bi.goToCoordHome();
-		bi.waitAndClick(bi.getCoordPublishEvaluationLink(SECOND_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationPublishLink(SECOND_EVALUATION));
 		bi.verifyCoordHomePage();
 		
 		// This should not be clickable
 		bi.goToCoordHome();
-		bi.waitAndClick(bi.getCoordPublishEvaluationLink(THIRD_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationPublishLink(THIRD_EVALUATION));
 		bi.verifyCoordHomePage();
 		
 		bi.goToCoordHome();
-		bi.clickAndCancelCoordEvaluationUnpublish(bi.getCoordPublishEvaluationLink(FOURTH_EVALUATION));
+		bi.clickCoordEvaluationUnpublishAndCancel(FOURTH_EVALUATION);
 		
 		/*
 		 * NOTE: We could also do something like the below - WILL CHANGE AFTER CODE REVIEW, IF NEEDED
@@ -290,7 +303,7 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		 */
 		
 		bi.goToCoordHome();
-		bi.clickAndCancelCoordEvaluationPublish(bi.getCoordPublishEvaluationLink(FIFTH_EVALUATION));
+		bi.clickCoordEvaluationPublishAndCancel(FIFTH_EVALUATION);
 		
 		/*
 		 * NOTE: We could also do something like the below - WILL CHANGE AFTER CODE REVIEW, IF NEEDED
@@ -316,21 +329,23 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		
 		bi.goToCoordHome();
 		
-		bi.clickAndCancelCoordEvaluationDelete(bi.getCoordDeleteEvaluationLink(FIRST_EVALUATION));
+		bi.clickCoordEvaluationDeleteAndCancel(FIRST_EVALUATION);
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_DELETED);
 
-		// Due to the manner in which IDs are being assigned to evaluations in the home page, the ID of the originally 2nd
-		// evaluation (and resp. 3rd, 4th and 5th evaluations) changes to 1st (and resp. 2nd, 3rd and 4th) after the previous
-		// delete operation.
-		// Hence, we use FIRST_EVALUATION, SECOND_EVALUATION, THIRD_EVALUATION and FOURTH_EVALUATION to refer to the original
-		// 2nd, 3rd, 4th and 5th evaluations respectively in the below code.
+		 /*
+		  * Due to the manner in which IDs are being assigned to evaluations in the home page, the ID of the originally 2nd 
+		  * evaluation (and resp. 3rd, 4th and 5th evaluations) changes to 1st (and resp. 2nd, 3rd and 4th) after the previous 
+		  * delete operation. 
+		  * Hence, we use FIRST_EVALUATION, SECOND_EVALUATION, THIRD_EVALUATION and FOURTH_EVALUATION to refer to the original 
+		  * 2nd, 3rd, 4th and 5th evaluations respectively in the below code.
+		  */
 		
 		// testing the delete link in two evaluations
 		bi.goToCoordHome();
-		bi.clickAndCancelCoordEvaluationDelete(bi.getCoordDeleteEvaluationLink(FIRST_EVALUATION));
+		bi.clickCoordEvaluationDeleteAndCancel(FIRST_EVALUATION);
 		
 		
 		bi.goToCoordHome();
-		bi.clickAndCancelCoordEvaluationDelete(bi.getCoordDeleteEvaluationLink(FOURTH_EVALUATION));
+		bi.clickCoordEvaluationDeleteAndCancel(FOURTH_EVALUATION);
 	}
 }

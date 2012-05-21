@@ -58,29 +58,29 @@ public class CoordEvaluationResultsViewTest extends TestCase {
 		SharedLib.tprintln("TestCoordResultsView: View Report Summary by Reviewer");
 
 		// Click Evaluation Tab
-		bi.gotoEvaluations();
+		bi.goToEvaluation();
 
 		// click 'View Results':
-		bi.clickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
+		bi.clickCoordEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
 
 		// click 'View' 1st student:
-		bi.clickReviewerSummaryView(0);
+		bi.clickCoordReviewerSummaryView(0);
 
 		// click 'Next':
-		bi.waitAndClick(bi.resultNextButton);
+		bi.clickWithWait(bi.resultNextButton);
 
 		// click 'Previous':
-		bi.waitAndClick(bi.resultPreviousButton);
+		bi.clickWithWait(bi.resultPreviousButton);
 
 		// click 'Back':
-		bi.waitAndClick(bi.resultBackButton);
+		bi.clickWithWait(bi.resultBackButton);
 
-		bi.waitAndClick(bi.resultStudentSorting);
-		bi.waitAndClick(bi.resultSubmittedSorting);
-		bi.waitAndClick(bi.resultTeamSorting);
+		bi.clickWithWait(bi.resultStudentSorting);
+		bi.clickWithWait(bi.resultSubmittedSorting);
+		bi.clickWithWait(bi.resultTeamSorting);
 
 		// click 'Back':
-		bi.waitAndClick(bi.resultBackButton);
+		bi.clickWithWait(bi.resultBackButton);
 	}
 
 	//testCoordViewSummaryByRevieweeSuccessful
@@ -88,33 +88,33 @@ public class CoordEvaluationResultsViewTest extends TestCase {
 		SharedLib.tprintln("TestCoordResultsView: testViewSummaryByReviewee ");
 		
 		// Click Evaluation Tab
-		bi.gotoEvaluations();
+		bi.goToEvaluation();
 
 		// click 'View Results':
-		bi.clickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
+		bi.clickCoordEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
 
 		// click 'Reviewee' Radio Button:
-		bi.waitAndClick(bi.resultRevieweeRadio);
+		bi.clickWithWait(bi.resultRevieweeRadio);
 
 		// click 'View' 1st student:
-		bi.clickReviewerSummaryView(0);
+		bi.clickCoordReviewerSummaryView(0);
 
 		// click 'Previous':
-		bi.waitAndClick(bi.resultPreviousButton);
+		bi.clickWithWait(bi.resultPreviousButton);
 
 		// click 'Next':
-		bi.waitAndClick(bi.resultNextButton);
+		bi.clickWithWait(bi.resultNextButton);
 
 		// click 'Back':
-		bi.waitAndClick(bi.resultBackButton);
+		bi.clickWithWait(bi.resultBackButton);
 
-		bi.waitAndClick(bi.resultStudentSorting);
-		bi.waitAndClick(bi.resultClaimedSorting);
-		bi.waitAndClick(bi.resultDifferenceSorting);
-		bi.waitAndClick(bi.resultTeamSorting);
+		bi.clickWithWait(bi.resultStudentSorting);
+		bi.clickWithWait(bi.resultClaimedSorting);
+		bi.clickWithWait(bi.resultDifferenceSorting);
+		bi.clickWithWait(bi.resultTeamSorting);
 
 		// click 'Back':
-		bi.waitAndClick(bi.resultBackButton);
+		bi.clickWithWait(bi.resultBackButton);
 
 	}
 
@@ -122,69 +122,69 @@ public class CoordEvaluationResultsViewTest extends TestCase {
 	public void testCoordViewDetailByReviewerSuccessful() throws Exception {
 		SharedLib.tprintln("TestCoordResultsView: test view detail by reviewer");
 		// Click Evaluation Tab
-		bi.gotoEvaluations();
+		bi.goToEvaluation();
 
 		// click 'View Results':
-		bi.clickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
+		bi.clickCoordEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
 
 		// click 'Detail':
-		bi.waitAndClick(bi.resultDetailRadio);
+		bi.clickWithWait(bi.resultDetailRadio);
 
 		// click 'Back to Top':
-		bi.waitAndClick(bi.resultTopButton);
+		bi.clickWithWait(bi.resultTopButton);
 
 		// click 'Back':
-		bi.waitAndClick(bi.resultBackButton);
+		bi.clickWithWait(bi.resultBackButton);
 	}
 
 	//testCoordViewDetailByRevieweeSuccessful
 	public void testCoordViewDetailByRevieweeSuccessful() throws Exception {
 		SharedLib.tprintln("TestCoordResultsView: test view detail by reviewee");
 		// Click Evaluation Tab
-		bi.gotoEvaluations();
+		bi.goToEvaluation();
 
 		// click 'View Results':
-		bi.clickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
+		bi.clickCoordEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
 
 		// click 'Detail' and 'Reviewee':
-		bi.waitAndClick(bi.resultRevieweeRadio);
-		bi.waitAndClick(bi.resultDetailRadio);
+		bi.clickWithWait(bi.resultRevieweeRadio);
+		bi.clickWithWait(bi.resultDetailRadio);
 
 		// click 'Back to Top':
-		bi.waitAndClick(bi.resultTopButton);
+		bi.clickWithWait(bi.resultTopButton);
 
 		// click 'Back':
-		bi.waitAndClick(bi.resultBackButton);
+		bi.clickWithWait(bi.resultBackButton);
 
 	}
 
 	public void testCoordClickPublishButtonSuccessful() throws Exception {
 		SharedLib.tprintln("TestCoordResultsView: test publish");
 		// Click Evaluation Tab
-		bi.gotoEvaluations();
+		bi.goToEvaluation();
 
 		// click 'View Results':
-		bi.clickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
+		bi.clickCoordEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
 
 		System.out.println("testPublishButton: Publish Button");
 		// click 'Publish' and select 'No':
-		bi.waitAndClickAndCancel(bi.resultPublishButton);
+		bi.clickAndCancel(bi.resultPublishButton);
 
 		// check 'button_publish' remain [Publish]
 		assertEquals("Publish", bi.getElementValue(bi.resultPublishButton));
 
 		// click 'Publish' button and select 'Yes':
-		bi.waitAndClickAndConfirm(bi.resultPublishButton);
+		bi.clickAndConfirm(bi.resultPublishButton);
 
 		System.out.println("testPublishButton: Unpublish Button");
 		// click 'Unpublish' button and select 'No':
-		bi.waitAndClickAndCancel(bi.resultPublishButton);
+		bi.clickAndCancel(bi.resultPublishButton);
 
 		// check 'button_publish' update to [Unpublish]
 		assertEquals("Unpublish", bi.getElementValue(bi.resultPublishButton));
 
 		// click 'Unpublish' button and select 'Yes':
-		bi.waitAndClickAndConfirm(bi.resultPublishButton);
+		bi.clickAndConfirm(bi.resultPublishButton);
 	}
 	
 }

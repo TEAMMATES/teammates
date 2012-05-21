@@ -8,7 +8,6 @@ import java.io.IOException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -67,9 +66,9 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 		System.out.println("testCoordEditResultsByReviewerNonClickable");
 
 		bi.clickEvaluationTab();
-		bi.clickEvaluationViewResults(scn.course.courseId, scn.evaluation2.name);
+		bi.clickCoordEvaluationViewResults(scn.course.courseId, scn.evaluation2.name);
 
-		bi.clickReviewerSummaryEdit(FIRST_STUDENT);
+		bi.clickCoordReviewerSummaryEdit(FIRST_STUDENT);
 
 		assertTrue(bi.isElementPresent(bi.getReviewerSummaryView(FIRST_STUDENT)));
 		assertTrue(bi.isElementPresent(bi.getReviewerSummaryEdit(FIRST_STUDENT)));
@@ -80,7 +79,7 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 		System.out.println("testCoordEditEmptyResultSuccessful");
 
 		bi.clickEvaluationTab();
-		bi.clickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
+		bi.clickCoordEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
 
 		// TODO: Submit without changing anything: failed
 		System.out.println("testEditEmptyResult: submit without changing any data");
@@ -88,10 +87,10 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 		// ..Edit a submitted evaluation record:
 		System.out.println("testEditResultsByReviewer: Edit 1st empty evaluation record");
 
-		bi.clickReviewerSummaryEdit(FIRST_STUDENT);
+		bi.clickCoordReviewerSummaryEdit(FIRST_STUDENT);
 
 		// try 0: do nothing
-		bi.waitAndClick(bi.resultEditButton);
+		bi.clickWithWait(bi.resultEditButton);
 		bi.waitForTextInElement(bi.editEvaluationResultsStatusMessage, "Please fill in all the relevant fields.");
 
 		// try 1: fill in estimated contribution only
@@ -99,18 +98,18 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 		for (int i = 0; i < s.team.students.size(); i++) {
 			bi.setSubmissionPoint(i, "80");
 		}
-		bi.waitAndClick(bi.resultEditButton);
+		bi.clickWithWait(bi.resultEditButton);
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_RESULTS_EDITED);
 
 		// try 2: fill in \\Justification\\s only
-		bi.waitAndClick(bi.resultIndividualEditButton);
+		bi.clickWithWait(bi.resultIndividualEditButton);
 		for (int i = 0; i < s.team.students.size(); i++) {
 			// clean up contribution data added in try 1
 			bi.setSubmissionPoint(i, "-999");
 			bi.setSubmissionJustification(i, String.format("Edit:: \\Justification\\ from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
 
 		}
-		bi.waitAndClick(bi.resultEditButton);
+		bi.clickWithWait(bi.resultEditButton);
 		bi.waitForTextInElement(bi.editEvaluationResultsStatusMessage, "Please fill in all the relevant fields.");
 
 		// try 3: fill in commentsToStudent only
@@ -119,7 +118,7 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 			bi.setSubmissionJustification(i, null);
 			bi.setSubmissionComments(i, String.format("Edit:: \\\\Comments\\\\ from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
 		}
-		bi.waitAndClick(bi.resultEditButton);
+		bi.clickWithWait(bi.resultEditButton);
 		bi.waitForTextInElement(bi.editEvaluationResultsStatusMessage, "Please fill in all the relevant fields.");
 
 		// Submit with new data: successful
@@ -128,25 +127,25 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 			bi.setSubmissionJustification(i, String.format("Edit:: \\Justification\\ from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
 			bi.setSubmissionComments(i, String.format("Edit:: \\\\Comments\\\\ from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
 		}
-		bi.waitAndClick(bi.resultEditButton);
+		bi.clickWithWait(bi.resultEditButton);
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_RESULTS_EDITED);
 
 		// click 'Back':
-		bi.waitAndClick(bi.resultBackButton);// [Back] to summary
+		bi.clickWithWait(bi.resultBackButton);// [Back] to summary
 
 		// click 'Back':
-		bi.waitAndClick(bi.resultBackButton);
+		bi.clickWithWait(bi.resultBackButton);
 	}
 
 	// testCoordEditResultsByReviewerSuccessful
 	public void testCoordEditResultsByReviewerSuccessful() throws Exception {
 		System.out.println("testCoordEditResultsByReviewerSuccessful");
 
-		bi.gotoEvaluations();
-		bi.clickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
+		bi.goToEvaluation();
+		bi.clickCoordEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
 
 		// click 'Edit' 1st student:
-		bi.clickReviewerSummaryEdit(FIRST_STUDENT);
+		bi.clickCoordReviewerSummaryEdit(FIRST_STUDENT);
 
 		Student s = scn.students.get(FIRST_STUDENT);
 		for (int i = 0; i < s.team.students.size(); i++) {
@@ -156,33 +155,33 @@ public class CoordEvaluationResultsEditTest extends TestCase {
 		}
 
 		// click 'submit':
-		bi.waitAndClick(bi.resultEditButton);// [submit]
+		bi.clickWithWait(bi.resultEditButton);// [submit]
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_RESULTS_EDITED);
 
 		// ..Check content being updated:
 		// TODO: check other report has been updated as well:
 		// summary/detail/individual
 
-		bi.waitAndClick(bi.resultIndividualEditButton);
+		bi.clickWithWait(bi.resultIndividualEditButton);
 		for (int i = 0; i < s.team.students.size(); i++) {
 			assertEquals(bi.getDropdownSelectedValue(bi.getSubmissionPoint(i)), "30");
 			assertEquals(bi.getElementText(bi.getSubmissionJustification(i)), String.format("Edit:: \\Justification\\ from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
 			assertEquals(bi.getElementText(bi.getSubmissionComments(i)), String.format("Edit:: \\\\Comments\\\\ from %s's email (%s) to %s.", s.name, s.email, s.team.students.get(i).email));
 		}
-		bi.waitAndClick(bi.resultEditCancelButton);// [cancel]
+		bi.clickWithWait(bi.resultEditCancelButton);// [cancel]
 
-		bi.waitAndClick(bi.resultNextButton);
+		bi.clickWithWait(bi.resultNextButton);
 
 		// click 'Edit' 2nd student:
-		bi.waitAndClick(bi.resultIndividualEditButton);
+		bi.clickWithWait(bi.resultIndividualEditButton);
 
 		// click 'Cancel':
-		bi.waitAndClick(bi.resultEditCancelButton);// [Cancel]
+		bi.clickWithWait(bi.resultEditCancelButton);// [Cancel]
 
 		// click 'Back':
-		bi.waitAndClick(bi.resultBackButton);// [Back] to summary
+		bi.clickWithWait(bi.resultBackButton);// [Back] to summary
 
 		// click 'Back':
-		bi.waitAndClick(bi.resultBackButton);
+		bi.clickWithWait(bi.resultBackButton);
 	}
 }

@@ -1,8 +1,5 @@
 package teammates.testing.concurrent;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -43,7 +40,7 @@ public class CoordTeamFormingSessionAddWithoutStudentsTest extends TestCase {
 
 	@Test
 	public void testCoordAddTeamFormingSession() {
-		bi.gotoTeamForming();
+		bi.goToTeamForming();
 		bi.addTeamFormingSession(scn.teamFormingSession);
 		
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_TEAMFORMINGSESSION_ADDED_WITH_EMPTY_CLASS);		

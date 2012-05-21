@@ -30,7 +30,7 @@ public class CoordCourseDeleteUITest extends TestCase {
 		TMAPI.cleanupCourse(scn.course.courseId);
 		TMAPI.createCourse(scn.course);
 		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
-		bi.gotoCourses();
+		bi.goToCourses();
 	}
 	
 	@AfterClass
@@ -47,13 +47,13 @@ public class CoordCourseDeleteUITest extends TestCase {
 	public void testCoordDeleteCourseSuccessful() {
 		System.out.println("TestCoordDeleteCourseSuccessful:");
 		// Delete course
-		bi.waitForElementPresent(bi.getCourseIDCellLocatorByCourseId(scn.course.courseId));
-		bi.clickAndConfirmCourseDelete(scn.course.courseId);
+		bi.waitForElementPresent(bi.getCourseIDCell(scn.course.courseId));
+		bi.clickCoordCourseDeleteAndConfirm(scn.course.courseId);
 		bi.waitForTextInElement(bi.statusMessage, BrowserInstance.MESSAGE_COURSE_DELETED);
 		assertFalse(bi.isCoursePresent(scn.course.courseId, scn.course.courseName));
 		
 		//Check that the evaluation has also been deleted
-		bi.gotoEvaluations();
+		bi.goToEvaluation();
 		assertFalse(bi.isEvaluationPresent(scn.course.courseId, scn.evaluation.name));
 		
 		bi.logout();

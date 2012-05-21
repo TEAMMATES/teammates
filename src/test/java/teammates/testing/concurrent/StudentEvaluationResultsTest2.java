@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -61,15 +60,16 @@ public class StudentEvaluationResultsTest2 extends TestCase {
 		for (int i = 0; i < scn.students.size(); i++) {
 			Student teammate = scn.students.get(i);
 			if (teammate.teamName.equals(student.teamName) && !teammate.name.equals(student.name)) {
-				assertTrue(bi.studentGetFeedbackFromOthers(teammate.email, student.email));
+				assertTrue(bi.studentVerifyGetFeedbackFromOthers(teammate.email, student.email));
 			}
 		}
 
 		bi.clickEvaluationTab();
-		bi.studentClickEditEvaluation(scn.course.courseId, scn.evaluation.name);
+		// Below should do nothing, since the element is disabled, since the evaluation is closed.
+		bi.studentClickEvaluationEdit(scn.course.courseId, scn.evaluation.name);
 		
-		assertTrue(bi.isElementPresent(bi.getStudentEvaluationViewResults(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getStudentEditEvaluation(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getStudentEvaluationViewResultsLink(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getStudentEditEvaluationSubmissionLink(FIRST_EVALUATION)));
 
 		bi.logout();
 	}

@@ -31,13 +31,13 @@ public class CoordAddCoursePageHTMLTest extends TestCase {
 	
 	@Test
 	public void verifyAddCourse() throws Exception {
-		bi.gotoCourses();
+		bi.goToCourses();
 		bi.verifyObjectHTML("target/test-classes/pages/coordAddCourse.html", ADD_COURSE_TAG);
 	}
 	
 	@Test
 	public void verifyListCourse() throws Exception {
-		bi.gotoCourses();
+		bi.goToCourses();
 		bi.verifyObjectHTML("target/test-classes/pages/coordListCourseByID.html", LIST_COURSE_TAG);
 	}
 	

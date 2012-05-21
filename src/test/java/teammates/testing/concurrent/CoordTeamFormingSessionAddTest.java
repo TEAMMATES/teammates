@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.internal.runners.statements.Fail;
 
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -58,7 +57,7 @@ public class CoordTeamFormingSessionAddTest extends TestCase {
 
 	public void testCoordAddTeamFormingSessionSuccessful() {
 		
-		bi.gotoTeamForming();
+		bi.goToTeamForming();
 		bi.addTeamFormingSession(scn.teamFormingSession);
 		
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_TEAMFORMINGSESSION_ADDED);
@@ -70,7 +69,7 @@ public class CoordTeamFormingSessionAddTest extends TestCase {
 	}
 
 	public void testCoordAddDuplicateTeamFormingSessionFailed() {
-		bi.gotoTeamForming();
+		bi.goToTeamForming();
 		bi.addTeamFormingSession(scn.teamFormingSession);
 		
 		assertEquals(bi.ERROR_MESSAGE_TEAMFORMINGSESSION_EXISTS, bi.getElementText(bi.statusMessage));
@@ -81,7 +80,7 @@ public class CoordTeamFormingSessionAddTest extends TestCase {
 		TeamFormingSession teamForming = scn.teamFormingSession;
 		Integer nextTimeValue = Integer.parseInt(teamForming.nextTimeValue)-2;
 		
-		bi.gotoTeamForming();
+		bi.goToTeamForming();
 		bi.addTeamFormingSession(teamForming.courseID, teamForming.dateValue, nextTimeValue.toString(), 
 				teamForming.gracePeriod, teamForming.instructions, teamForming.profileTemplate);
 		

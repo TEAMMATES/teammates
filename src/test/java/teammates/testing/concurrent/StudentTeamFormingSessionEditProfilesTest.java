@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -61,8 +60,8 @@ public class StudentTeamFormingSessionEditProfilesTest extends TestCase {
 	
 	public void testStudentTeamFormingSaveProfile(Student student) throws Exception {
 		bi.studentLogin(student.email, student.password);
-		bi.clickCoursesTab();
-		bi.clickTeamFormingSessionViewTeams(scn.course.courseId);
+		bi.clickCourseTab();
+		bi.clickCoordTFSViewTeams(scn.course.courseId);
 		
 		verifyCourseDetailsForStudent(student);
 		
@@ -75,28 +74,28 @@ public class StudentTeamFormingSessionEditProfilesTest extends TestCase {
 		" I live out of campus but I will be available in the college most of the times. I am taking only"+
 		" 4 modules this semester so I will have ample of time to design a good product.";
 		
-		bi.wdFillString(bi.inputStudentProfileDetail, studentProfile);
-		bi.waitAndClick(bi.saveStudentProfile);
+		bi.fillString(bi.inputStudentProfileDetail, studentProfile);
+		bi.clickWithWait(bi.saveStudentProfile);
 		assertEquals(bi.MESSAGE_STUDENTPROFILE_SAVED, bi.getElementText(bi.statusMessage));
 		
 		if(!student.teamName.equals("")){
 			int i = scn.students.indexOf(student);
 			String viewTeamProfile = "viewTeamProfile" + i;
-			bi.waitAndClick(By.id(viewTeamProfile));
-			bi.verifyTeamDetailPage();
+			bi.clickWithWait(By.id(viewTeamProfile));
+			bi.verifyStudentTeamDetailPage();
 			
 			//save team profile unsuccessful: same profile exists
 			String newTeamName = "Team 2";
-			bi.wdFillString(bi.inputTeamName, newTeamName);
-			bi.wdClick(bi.saveTeamProfile);
+			bi.fillString(bi.inputTeamName, newTeamName);
+			bi.click(bi.saveTeamProfile);
 			bi.waitForTextInElement(bi.statusMessage, bi.ERROR_MESSAGE_TEAMPROFILE_EXISTS);		
 			
 			//save team profile successful
-			bi.waitAndClick(bi.resultBackButton);
-			bi.waitAndClick(By.id(viewTeamProfile));
-			bi.wdFillString(bi.inputTeamName, "Team 3");
-			bi.wdFillString(bi.inputTeamProfile, studentProfile);
-			bi.wdClick(bi.saveTeamProfile);
+			bi.clickWithWait(bi.resultBackButton);
+			bi.clickWithWait(By.id(viewTeamProfile));
+			bi.fillString(bi.inputTeamName, "Team 3");
+			bi.fillString(bi.inputTeamProfile, studentProfile);
+			bi.click(bi.saveTeamProfile);
 			bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_TEAMPROFILE_SAVED);
 		}
 		
@@ -127,14 +126,14 @@ public class StudentTeamFormingSessionEditProfilesTest extends TestCase {
 		" 4 modules this semester so I will have ample of time to design a good product.";
 		
 		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
-		bi.gotoTeamForming();		
-		bi.clickTeamFormingSessionEdit(scn.course.courseId);
-		bi.verifyManageTeamFormingPage(scn.students);
+		bi.goToTeamForming();		
+		bi.clickCoordTFSEdit(scn.course.courseId);
+		bi.verifyCoordManageTeamFormingPage(scn.students);
 		
 		assertEquals(studentProfile, bi.getElementText(bi.getStudentNameFromManageTeamFormingSession(2, 2)));
 		
-		bi.wdClick(bi.coordEditTeamProfile0);
-		bi.verifyTeamDetailPage();
+		bi.click(bi.coordEditTeamProfile0);
+		bi.verifyStudentTeamDetailPage();
 		assertEquals("Team 3", bi.getElementValue(bi.inputTeamName));
 		assertEquals(studentProfile, bi.getElementText(bi.inputTeamProfile));
 		

@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.internal.runners.statements.Fail;
 
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -65,7 +64,7 @@ public class CoordEvaluationAddTest extends TestCase {
 	
 	public void testInputFieldMaxLength()
 	{
-		bi.gotoEvaluations();
+		bi.goToEvaluation();
 		
 		String shortName = "This is a short name";
 		assertEquals(shortName, bi.fillInEvalName(shortName));
@@ -76,7 +75,7 @@ public class CoordEvaluationAddTest extends TestCase {
 
 	public void testCoordAddEvaluationSuccessful() {
 		
-		bi.gotoEvaluations();
+		bi.goToEvaluation();
 		bi.addEvaluation(scn.evaluation);
 //		assertEquals(bi.MESSAGE_EVALUATION_ADDED, bi.getElementText(bi.statusMessage));
 
@@ -87,7 +86,7 @@ public class CoordEvaluationAddTest extends TestCase {
 	}
 
 	public void testCoordAddDuplicateEvaluationFailed() {
-		bi.gotoEvaluations();
+		bi.goToEvaluation();
 		bi.addEvaluation(scn.evaluation);
 
 //		assertEquals(bi.ERROR_MESSAGE_EVALUATION_EXISTS, bi.getElementText(bi.statusMessage));
@@ -95,7 +94,7 @@ public class CoordEvaluationAddTest extends TestCase {
 	}
 
 	public void testCoordAddDuplicateEvaluationInDifferentCourseSuccessful() {
-		bi.gotoEvaluations();
+		bi.goToEvaluation();
 		bi.addEvaluation(scn2.evaluation);
 
 //		assertEquals(bi.MESSAGE_EVALUATION_ADDED, bi.getElementText(bi.statusMessage));
@@ -108,7 +107,7 @@ public class CoordEvaluationAddTest extends TestCase {
 		Evaluation eval = scn2.evaluation;
 		String invalidEvalName = "Evaluation =)";
 		
-		bi.gotoEvaluations();
+		bi.goToEvaluation();
 		bi.addEvaluation(eval.courseID, invalidEvalName, eval.dateValue, eval.nextTimeValue, eval.p2pcomments, eval.instructions, eval.gracePeriod);
 
 		assertEquals(bi.ERROR_INVALID_EVALUATION_NAME, bi.getElementText(bi.statusMessage));

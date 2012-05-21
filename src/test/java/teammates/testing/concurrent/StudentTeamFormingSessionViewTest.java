@@ -3,9 +3,6 @@ package teammates.testing.concurrent;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -64,8 +61,8 @@ public class StudentTeamFormingSessionViewTest extends TestCase {
 	
 	private void studentViewTeamFormingSession(Student student) {
 		bi.studentLogin(student.email, student.password);
-		bi.clickCoursesTab();
-		bi.clickTeamFormingSessionViewTeams(scn.course.courseId);
+		bi.clickCourseTab();
+		bi.clickCoordTFSViewTeams(scn.course.courseId);
 		
 		assertEquals(bi.MESSAGE_LOG_REMINDSTUDENTS, bi.getElementText(bi.statusMessage));
 		assertTrue(bi.isElementPresent(By.id("studentprofiledetail")));
@@ -86,8 +83,8 @@ public class StudentTeamFormingSessionViewTest extends TestCase {
 	public void testStudentViewTeamsWithoutNullTeamFormingSession() throws Exception {
 		Student student = scn2.students.get(0);
 		bi.studentLogin(student.email, student.password);
-		bi.clickCoursesTab();
-		bi.clickTeamFormingSessionViewTeams(scn2.course.courseId);
+		bi.clickCourseTab();
+		bi.clickCoordTFSViewTeams(scn2.course.courseId);
 		
 		String header = "TEAM DETAIL FOR "+student.courseID;
 		

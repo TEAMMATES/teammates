@@ -90,7 +90,7 @@ public class StudentHomePageFunctionalityTest extends TestCase {
 		System.out.println("StudentLandingPageFunctionalityTest: testStudentJoinCourseLink");
 		
 		bi.goToStudentHome();
-		bi.waitAndClick(bi.studentJoinNewCourseLink);
+		bi.clickWithWait(bi.studentJoinNewCourseLink);
 		bi.verifyStudentCoursesPage();
 	}
 	
@@ -99,11 +99,11 @@ public class StudentHomePageFunctionalityTest extends TestCase {
 		System.out.println("StudentLandingPageFunctionalityTest: testViewCoursesLink");
 		
 		bi.goToStudentHome();
-		bi.waitAndClick(bi.getStudentViewLink(FIRST_COURSE));
+		bi.clickWithWait(bi.getStudentViewLink(FIRST_COURSE));
 		bi.verifyStudentViewCourseDetailsPage();
 		
 		bi.goToStudentHome();
-		bi.waitAndClick(bi.getStudentViewLink(SECOND_COURSE));
+		bi.clickWithWait(bi.getStudentViewLink(SECOND_COURSE));
 		bi.verifyStudentViewCourseDetailsPage();
 	}
 	
@@ -112,7 +112,7 @@ public class StudentHomePageFunctionalityTest extends TestCase {
 		System.out.println("StudentLandingPageFunctionalityTest: testDoEvaluationLink");
 		
 		bi.goToStudentHome();
-		bi.waitAndClick(bi.getStudentDoEvaluationLink(FIRST_EVALUATION));
+		bi.clickWithWait(bi.getStudentDoEvaluationLink(FIRST_EVALUATION));
 		bi.verifyStudentDoOrEditEvaluationPage();
 	}
 	
@@ -122,17 +122,17 @@ public class StudentHomePageFunctionalityTest extends TestCase {
 		
 		// This should not be clickable
 		bi.goToStudentHome();
-		bi.waitAndClick(bi.getStudentViewResultsLink(FIRST_EVALUATION));
+		bi.clickWithWait(bi.getStudentViewResultsLink(FIRST_EVALUATION));
 		bi.verifyStudentHomePage();
 		
 		bi.goToStudentHome();
-		bi.waitAndClick(bi.getStudentViewResultsLink(SECOND_EVALUATION));
+		bi.clickWithWait(bi.getStudentViewResultsLink(SECOND_EVALUATION));
 
 		bi.verifyStudentEvaluationResultsPage();
 		
 		// This should not be clickable
 		bi.goToStudentHome();
-		bi.waitAndClick(bi.getStudentViewResultsLink(THIRD_EVALUATION));
+		bi.clickWithWait(bi.getStudentViewResultsLink(THIRD_EVALUATION));
 		bi.verifyStudentHomePage();
 	}
 	
@@ -141,17 +141,17 @@ public class StudentHomePageFunctionalityTest extends TestCase {
 		System.out.println("StudentLandingPageFunctionalityTest: testEditEvaluationSubmissionLink");
 		
 		bi.goToStudentHome();
-		bi.waitAndClick(bi.getStudentEditEvaluationSubmissionLink(FIRST_EVALUATION));
+		bi.clickWithWait(bi.getStudentEditEvaluationSubmissionLink(FIRST_EVALUATION));
 		bi.verifyStudentDoOrEditEvaluationPage();
 		
 		// This should not be clickable
 		bi.goToStudentHome();
-		bi.waitAndClick(bi.getStudentEditEvaluationSubmissionLink(SECOND_EVALUATION));
+		bi.clickWithWait(bi.getStudentEditEvaluationSubmissionLink(SECOND_EVALUATION));
 		bi.verifyStudentHomePage();
 
 		// This should not be clickable
 		bi.goToStudentHome();
-		bi.waitAndClick(bi.getStudentEditEvaluationSubmissionLink(THIRD_EVALUATION));
+		bi.clickWithWait(bi.getStudentEditEvaluationSubmissionLink(THIRD_EVALUATION));
 		bi.verifyStudentHomePage();
 	}
 }

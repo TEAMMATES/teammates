@@ -14,7 +14,7 @@ public class BaseTestCase {
 	}
 	
 	public static void printTestClassFooter(String testClassName){
-		System.out.println(testClassName+"completed");
+		System.out.println(testClassName+" completed");
 	}
 
 }

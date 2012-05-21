@@ -51,7 +51,7 @@ public class CoordEvaluationAddCaseSensitivityTest extends TestCase {
 	public void testEvaluationNameCaseSensitivity() {
 		System.out.println("testEvaluationNameCaseSensitivity: evaluation name - insensitive");
 		
-		bi.gotoEvaluations();
+		bi.goToEvaluation();
 		
 		// evaluation 1
 		Evaluation eval = Evaluation.createEvaluation(scn.course.courseId, EVALUATION_NAME_LOWER, "true", "Please please fill in the forth evaluation", 10);

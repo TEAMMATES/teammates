@@ -1,16 +1,15 @@
 package teammates.testing.junit;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.*;
+import java.util.Arrays;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import teammates.testing.lib.TMAPI;
-import teammates.testing.object.*;
-import static org.junit.Assert.*;
-
-
+import teammates.testing.object.Course;
 
 public class APIServletTest {
 

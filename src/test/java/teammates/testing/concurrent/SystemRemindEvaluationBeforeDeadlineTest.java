@@ -75,7 +75,7 @@ public class SystemRemindEvaluationBeforeDeadlineTest extends TestCase {
 		
 		bi.clickEvaluationTab();
 		bi.waitForElementPresent(bi.studentGetPendingEvaluationName(scn.course.courseId, scn.evaluation.name));
-		bi.studentClickDoEvaluation(scn.course.courseId, scn.evaluation.name);
+		bi.studentClickEvaluationDo(scn.course.courseId, scn.evaluation.name);
 
 		// Fill in information
 		for (int i = 0; i < student.team.students.size(); i++) {
@@ -85,7 +85,7 @@ public class SystemRemindEvaluationBeforeDeadlineTest extends TestCase {
 		}
 
 		// Submit the evaluation
-		bi.wdClick(bi.studentSubmitEvaluationButton);
+		bi.click(bi.studentSubmitEvaluationButton);
 
 		// Check to see evaluation status is "Submitted"
 		assertEquals("SUBMITTED", bi.studentGetEvaluationStatus(scn.course.courseId, scn.evaluation.name));

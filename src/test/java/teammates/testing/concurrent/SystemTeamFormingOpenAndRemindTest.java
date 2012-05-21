@@ -2,19 +2,14 @@ package teammates.testing.concurrent;
 
 import static org.junit.Assert.assertEquals;
 
-
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
-import teammates.testing.lib.SharedLib;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Scenario;
-import teammates.testing.object.Student;
 
 /*
  * author Kalpit
@@ -50,8 +45,8 @@ public class SystemTeamFormingOpenAndRemindTest extends TestCase {
 	@Test
 	public void systemRemindTeamFormingTest() throws Exception {
 		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
-		bi.gotoTeamForming();
-		bi.clickTeamFormingSessionRemind(scn.course.courseId);
+		bi.goToTeamForming();
+		bi.clickCoordTFSRemind(scn.course.courseId);
 		assertEquals(bi.MESSAGE_TEAMFORMINGSESSION_REMINDED, bi.getElementText(bi.statusMessage));
 		
 		TMAPI.activateAutomatedReminder();

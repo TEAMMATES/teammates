@@ -12,6 +12,11 @@ import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.object.Scenario;
 
+/**
+ * Currently doesn't work as the getElementText(bi.footer) returns only the part "Contact us"
+ * Don't know how to fix ~Aldrian~
+ *
+ */
 public class SystemFooterTest extends TestCase {
 	static BrowserInstance bi;
 	static Scenario scn = setupScenarioInstance("scenario");
@@ -42,6 +47,9 @@ public class SystemFooterTest extends TestCase {
 	@Test
 	public void testOnCoordSite() {
 		System.out.println("Test: Footer on Coordinator.jsp.");
+		if(bi.isElementPresent(bi.logoutTab)) {
+			bi.logout();
+		}
 
 		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 
@@ -53,6 +61,9 @@ public class SystemFooterTest extends TestCase {
 	@Test
 	public void testOnStudentSite() {
 		System.out.println("Test: Footer on Student.jsp.");
+		if(bi.isElementPresent(bi.logoutTab)) {
+			bi.logout();
+		}
 		
 		bi.studentLogin(scn.students.get(FIRST_STUDENT).email, Config.inst().TEAMMATES_APP_PASSWD);
 		

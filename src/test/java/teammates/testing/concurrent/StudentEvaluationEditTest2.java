@@ -52,28 +52,28 @@ public class StudentEvaluationEditTest2 extends TestCase {
 		bi.clickEvaluationTab();
 
 		// Try open and cancel
-		bi.studentClickEditEvaluation(scn.course.courseId, scn.evaluation.name);
-		bi.waitAndClick(bi.editEvaluationBackButton);
+		bi.studentClickEvaluationEdit(scn.course.courseId, scn.evaluation.name);
+		bi.clickWithWait(bi.editEvaluationBackButton);
 
 		// Try open and edit
-		bi.studentClickEditEvaluation(scn.course.courseId, scn.evaluation.name);
+		bi.studentClickEvaluationEdit(scn.course.courseId, scn.evaluation.name);
 		// edit contents
 		for (int i = 0; i < student.team.students.size(); i++) {
 			bi.setSubmissionPoint(i, "80");
 			bi.setSubmissionJustification(i, String.format("Student Edit:: Justification from %s to %s.", student.email, student.team.students.get(i).email));
 			bi.setSubmissionComments(i, String.format("Student Edit:: Comments from %s to %s.", student.email, student.team.students.get(i).email));
 		}
-		bi.waitAndClick(bi.studentSubmitEvaluationButton);
+		bi.clickWithWait(bi.studentSubmitEvaluationButton);
 		bi.waitForTextInElement(bi.statusMessage, "The evaluation has been submitted.");
 
 		// check feedbacks updated:
-		bi.studentClickEditEvaluation(scn.course.courseId, scn.evaluation.name);
+		bi.studentClickEvaluationEdit(scn.course.courseId, scn.evaluation.name);
 		for (int i = 0; i < student.team.students.size(); i++) {
 			assertEquals(bi.getDropdownSelectedValue(bi.getSubmissionPoint(i)), "80");
 			assertEquals(bi.getElementValue(bi.getSubmissionJustification(i)), String.format("Student Edit:: Justification from %s to %s.", student.email, student.team.students.get(i).email));
 			assertEquals(bi.getElementValue(bi.getSubmissionComments(i)), String.format("Student Edit:: Comments from %s to %s.", student.email, student.team.students.get(i).email));
 		}
-		bi.waitAndClick(bi.studentEvaluationCancelButton);// [cancel]
+		bi.clickWithWait(bi.studentEvaluationCancelButton);// [cancel]
 
 		bi.logout();
 		

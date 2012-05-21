@@ -60,15 +60,15 @@ public class CoordTeamFormingSessionChangeStudentTeam extends TestCase {
 	 * Change student team page verification
 	 */
 	public void verifyChangeStudentTeamPage() {		
-		bi.gotoTeamForming();
+		bi.goToTeamForming();
 		
-		bi.clickTeamFormingSessionEdit(scn.course.courseId);
+		bi.clickCoordTFSEdit(scn.course.courseId);
 
-		bi.waitAndClick(bi.coordChangeStudentTeam11);
+		bi.clickWithWait(bi.coordChangeStudentTeam11);
 		bi.verifyChangeStudentTeamPage();
-		bi.waitAndClick(bi.resultBackButton);
+		bi.clickWithWait(bi.resultBackButton);
 		
-		bi.waitAndClick(bi.coordAllocateStudentTeam1);
+		bi.clickWithWait(bi.coordAllocateStudentTeam1);
 		bi.verifyChangeStudentTeamPage();
 	}
 	
@@ -76,16 +76,16 @@ public class CoordTeamFormingSessionChangeStudentTeam extends TestCase {
 	 * Change student team
 	 */
 	public void testCoordChangeStudentTeam() {		
-		bi.gotoTeamForming();
+		bi.goToTeamForming();
 		
-		bi.clickTeamFormingSessionEdit(scn.course.courseId);
+		bi.clickCoordTFSEdit(scn.course.courseId);
 
-		bi.waitAndClick(bi.coordChangeStudentTeam11);
+		bi.clickWithWait(bi.coordChangeStudentTeam11);
 		bi.verifyChangeStudentTeamPage();
 		
 		String newTeamName = "Team 1";
 		bi.selectDropdownByValue(bi.inputTeamName, newTeamName);
-		bi.waitAndClick(bi.saveChangeStudentTeam);
+		bi.clickWithWait(bi.saveChangeStudentTeam);
 		
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_TEAMCHANGE_SAVED);
 		assertEquals("Danny", bi.getElementText(bi.getStudentNameFromManageTeamFormingSession(4, 1)));
@@ -95,17 +95,17 @@ public class CoordTeamFormingSessionChangeStudentTeam extends TestCase {
 	 * Allocate Student Team
 	 */
 	public void testCoordAllocateTeamToStudent() {		
-		bi.gotoTeamForming();
+		bi.goToTeamForming();
 		
-		bi.clickTeamFormingSessionEdit(scn.course.courseId);
+		bi.clickCoordTFSEdit(scn.course.courseId);
 
-		bi.waitAndClick(bi.coordAllocateStudentTeam1);
+		bi.clickWithWait(bi.coordAllocateStudentTeam1);
 		bi.verifyChangeStudentTeamPage();
 		
 		String newTeamName = "Team 3";
-		bi.waitAndClick(By.xpath("//*[@id='teamchange_newteam'][@value='false']"));
-		bi.wdFillString(bi.inputNewTeamName, newTeamName);
-		bi.waitAndClick(bi.saveChangeStudentTeam);
+		bi.clickWithWait(By.xpath("//*[@id='teamchange_newteam'][@value='false']"));
+		bi.fillString(bi.inputNewTeamName, newTeamName);
+		bi.clickWithWait(bi.saveChangeStudentTeam);
 		
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_TEAMCHANGE_SAVED);
 		assertEquals(true, bi.isTextPresent("Team 3"));
