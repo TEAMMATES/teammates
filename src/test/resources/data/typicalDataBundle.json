@@ -37,6 +37,14 @@
       "coursename" : "course1",
       "profiledetail" : {"value" : "profiledetail for student2InCourse1" }
     },
+    "student3InCourse1":{
+      "email": "student3InCourse1@gmail.com",
+      "name": "student3 In Course1",
+      "google_id": "student3InCourse1",
+      "teamname": "Team 1.2",
+      "coursename" : "course1",
+      "profiledetail" : {"value" : "profiledetail for student3InCourse1" }
+    },
     "student1InCourse2":{
       "email": "student1InCourse2@gmail.com",
       "name": "student1 In Course2",
@@ -133,6 +141,12 @@
       "coursename" : "course 1 name",
       "teamname" : "Team 1.1",
       "teamprofile" : {"value" :"team profile of Team 1.1"}
+    },
+    "profileOfTeam1.2" : {
+      "courseid" : "course1",
+      "coursename" : "course 1 name",
+      "teamname" : "Team 1.2",
+      "teamprofile" : {"value" :"team profile of Team 1.2"}
     },
     "profileOfTeam2.1" : {
       "courseid" : "course2",

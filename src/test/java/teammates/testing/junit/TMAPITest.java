@@ -132,12 +132,60 @@ public class TMAPITest {
 	}
 	
 	@Test
-	public void testPersistDataBundle(){
+	public void testPersistenceAndDeletion(){
 		String jsonString = SharedLib.getFileContents(TEST_DATA_FOLDER+"typicalDataBundle.json");
+		Gson gson = Common.getTeammatesGson();
+		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
+		
+		//persist some data first
 		String status = TMAPI.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyExistInDatastore(jsonString);
+		
+		//----------deleting TeamProfile entities-------------------------
+		
+		//delete one TeamProfile and confirm it is already deleted
+		TeamProfile teamProfileOfTeam1_1 = data.teamProfiles.get("profileOfTeam1.1");
+		status = TMAPI.deleteTeamProfile(teamProfileOfTeam1_1.getCourseID(),teamProfileOfTeam1_1.getTeamName());
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		assertEquals("null", TMAPI.getTeamProfileAsJason(teamProfileOfTeam1_1.getCourseID(),teamProfileOfTeam1_1.getTeamName()));
+		
+		//just to be sure, check if the other TeamProfile in the same course is intact
+		TeamProfile teamProfileOfTeam1_2 = data.teamProfiles.get("profileOfTeam1.2");
+		assertTrue(!"null".equals(TMAPI.getTeamProfileAsJason(teamProfileOfTeam1_2.getCourseID(),teamProfileOfTeam1_2.getTeamName())));
+		
+		//try to delete it again, confirm the operation fails
+		status = TMAPI.deleteTeamProfile(teamProfileOfTeam1_1.getCourseID(),teamProfileOfTeam1_1.getTeamName());
+		assertTrue("status not as expected:"+status, status.startsWith(Common.BACKEND_STATUS_FAILURE));
+		
+		//----------deleting TeamFormingLog entities-------------------------
+		
+		//delete TeamFormingLog of one course and verify it is deleted
+		TeamFormingLog tfsLogMessage1ForTfsInCourse1 = data.teamFormingLogs.get("tfsLogMessage1ForTfsInCourse1");
+		status = TMAPI.deleteTeamFormingLog(tfsLogMessage1ForTfsInCourse1.getCourseID());
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		assertEquals("null", TMAPI.getTeamFormingLogAsJason(tfsLogMessage1ForTfsInCourse1.getCourseID()));
+		
+		//try to delete it again, confirm the operation fails
+		status = TMAPI.deleteTeamFormingLog(tfsLogMessage1ForTfsInCourse1.getCourseID());
+		assertTrue("status not as expected:"+status, status.startsWith(Common.BACKEND_STATUS_FAILURE));
+		
+		//----------deleting TeamFormingSession entities-------------------------
+		TeamFormingSession tfsInCourse1 = data.teamFormingSessions.get("tfsInCourse1");
+		status = TMAPI.deleteTfs(tfsInCourse1.getCourseID());
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		assertEquals("null", TMAPI.getTfsAsJason(tfsInCourse1.getCourseID()));
+		
+		//just to be sure, check if another Tfs remains intact
+		assertTrue(!"null".equals(TMAPI.getTfsAsJason("course2")));
+		
+		//try to delete it again, confirm the operation fails
+		status = TMAPI.deleteTfs(tfsInCourse1.getCourseID());
+		assertTrue("status not as expected:"+status, status.startsWith(Common.BACKEND_STATUS_FAILURE));
+		
+
 	}
+	
 
 	@Test 
 	public void testDataBundle(){

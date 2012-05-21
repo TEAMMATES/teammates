@@ -18,6 +18,7 @@ import java.util.Map;
 import teammates.APIServlet;
 import teammates.Common;
 import teammates.jdo.Coordinator;
+import teammates.jdo.TeamProfile;
 import teammates.testing.object.TeamFormingSession;
 import teammates.testing.config.Config;
 import teammates.testing.object.Course;
@@ -727,14 +728,6 @@ public class TMAPI {
 		return evaluationJson;
 	}
 	
-	public static String getTeamFormingLogAsJason(String courseID) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_TEAM_FORMING_LOG_AS_JSON);
-		params.put(APIServlet.PARAMETER_COURSE_ID, courseID);
-		String paramsString = buildParamsString(params);
-		String evaluationJson = makePOSTRequest(paramsString);
-		return evaluationJson;
-	}
-	
 	/**
 	 * This method reformats a Json string in the pretty printing format 
 	 * (i.e. not the default compact format)
@@ -782,5 +775,38 @@ public class TMAPI {
 			return e.getMessage();
 		}
 	}
+	
+	public static String getTeamFormingLogAsJason(String courseID) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_TEAM_FORMING_LOG_AS_JSON);
+		params.put(APIServlet.PARAMETER_COURSE_ID, courseID);
+		String paramsString = buildParamsString(params);
+		String evaluationJson = makePOSTRequest(paramsString);
+		return evaluationJson;
+	}
+
+	public static String deleteTeamProfile(String courseId, String teamName) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_DELETE_TEAM_PROFILE);
+		params.put(APIServlet.PARAMETER_COURSE_ID, courseId);
+		params.put(APIServlet.PARAMETER_TEAM_NAME, teamName);
+		String paramsString = buildParamsString(params);
+		String status = makePOSTRequest(paramsString);
+		return status;
+	}
+	
+	public static String deleteTeamFormingLog(String courseId) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_DELETE_TEAM_FORMING_LOG);
+		params.put(APIServlet.PARAMETER_COURSE_ID, courseId);
+		String paramsString = buildParamsString(params);
+		String status = makePOSTRequest(paramsString);
+		return status;
+	}
+	public static String deleteTfs(String courseId) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_DELETE_TFS);
+		params.put(APIServlet.PARAMETER_COURSE_ID, courseId);
+		String paramsString = buildParamsString(params);
+		String status = makePOSTRequest(paramsString);
+		return status;
+	}
+
 
 }

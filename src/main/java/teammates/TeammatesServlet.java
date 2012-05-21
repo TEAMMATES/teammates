@@ -21,6 +21,7 @@ import teammates.exception.AccountExistsException;
 import teammates.exception.CourseDoesNotExistException;
 import teammates.exception.CourseExistsException;
 import teammates.exception.CourseInputInvalidException;
+import teammates.exception.EntityDoesNotExistsException;
 import teammates.exception.EvaluationExistsException;
 import teammates.exception.GoogleIDExistsInCourseException;
 import teammates.exception.RegistrationKeyInvalidException;
@@ -244,7 +245,12 @@ public class TeammatesServlet extends HttpServlet {
 		}
 
 		else if (operation.equals(OPERATION_COORDINATOR_DELETEALLSTUDENTS)) {
-			coordinatorDeleteAllStudents();
+			try {
+				coordinatorDeleteAllStudents();
+			} catch (EntityDoesNotExistsException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		else if (operation.equals(OPERATION_COORDINATOR_DELETECOURSE)) {
@@ -553,7 +559,7 @@ public class TeammatesServlet extends HttpServlet {
 		courses.archiveCoordinatorCourse(req.getParameter(COURSE_ID));
 	}
 
-	private void coordinatorDeleteAllStudents() {
+	private void coordinatorDeleteAllStudents() throws EntityDoesNotExistsException {
 		Courses courses = Courses.inst();
 		courses.deleteAllStudents(req.getParameter(COURSE_ID));
 
