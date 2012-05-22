@@ -98,6 +98,17 @@
   },
   
   "submissions" : {
+    "submissionFromS1C1ToS1C1" :{
+    
+    	"fromStudent" : "student1InCourse1@gmail.com",
+      "toStudent" : "student1InCourse1@gmail.com",
+      "courseID" : "idOfCourse1",
+      "evaluationName" : "evaluation1 In Course1",
+      "points" : 10,
+      "justification" : {"value" : "justification of student1InCourse1 rating to student1InCourse1"},
+      "commentsToStudent" : {"value" :"comments from student1InCourse1 to student1InCourse1"},
+      "teamName" : "Team 1.1"
+    },
     "submissionFromS1C1ToS2C1" :{
     
     	"fromStudent" : "student1InCourse1@gmail.com",

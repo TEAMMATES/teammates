@@ -551,9 +551,6 @@ public class TMAPI {
 	// PRIVATE HELPER FUNCTIONS
 	// ---------------------------------
 
-
-
-
 	// TODO: modify to use Json format?
 	public static String[] getCoursesByCoordId(String coordId) {
 		System.out.println("TMAPI Getting courses of coordinator:" + coordId);
@@ -659,14 +656,15 @@ public class TMAPI {
 		String evaluationJson = makePOSTRequest(params);
 		return evaluationJson;
 	}
-	
+
 	public static String getTeamFormingLogAsJason(String courseID) {
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_TEAM_FORMING_LOG_AS_JSON);
 		params.put(APIServlet.PARAMETER_COURSE_ID, courseID);
 		String evaluationJson = makePOSTRequest(params);
 		return evaluationJson;
 	}
-	//--------------------------------methods for creating entities----------
+
+	// --------------------------------methods for creating entities----------
 
 	public static String persistNewDataBundle(String dataBundleJason) {
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_PERSIST_DATABUNDLE);
@@ -674,9 +672,9 @@ public class TMAPI {
 		String status = makePOSTRequest(params);
 		return status;
 	}
-	
-	//--------------------------------methods for deleting entities----------
-	
+
+	// --------------------------------methods for deleting entities----------
+
 	public static String deleteTeamProfile(String courseId, String teamName) {
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_DELETE_TEAM_PROFILE);
 		params.put(APIServlet.PARAMETER_COURSE_ID, courseId);
@@ -713,6 +711,13 @@ public class TMAPI {
 		params.put(APIServlet.PARAMETER_STUDENT_EMAIL, studentEmail);
 		String status = makePOSTRequest(params);
 		return status;
+	}
+
+	public static String deleteSubmission(String courseID,
+			String evaluationName, String reviewerEmail, String revieweeEmail)
+			throws Exception {
+		throw new Exception(
+				"not implemented yet because submissions do not need to be deleted via the API");
 	}
 
 	public static String deleteCourse(String courseId) {
@@ -755,9 +760,6 @@ public class TMAPI {
 		return Common.getTeammatesGson().toJson(obj);
 	}
 
-
-	
-
 	private static HashMap<String, Object> createParamMap(String string) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("action", string);
@@ -767,7 +769,7 @@ public class TMAPI {
 
 		return map;
 	}
-	
+
 	/**
 	 * Take a map and convert it to url-friendly querystring
 	 */
@@ -786,7 +788,7 @@ public class TMAPI {
 			return "";
 		}
 	}
-	
+
 	/**
 	 * Sends data to server and returns the response
 	 * 
@@ -831,8 +833,6 @@ public class TMAPI {
 		}
 		return returnValue;
 	}
-//--------------------------------------------------------------------------
-	
+	// --------------------------------------------------------------------------
 
-	
 }

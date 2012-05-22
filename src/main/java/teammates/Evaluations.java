@@ -1120,4 +1120,21 @@ public class Evaluations {
 		}
 	}
 
+	public void deleteSubmissionsForStudent(String courseId, String studentEmail) {
+		String query1 = "select from " + Submission.class.getName()
+				+ " where courseID == '" + courseId + "' && toStudent=='"+studentEmail+"'";
+		@SuppressWarnings("unchecked")
+		List<Submission> submissionList1 = (List<Submission>) getPM().newQuery(
+				query1).execute();
+		getPM().deletePersistentAll(submissionList1);
+		
+		String query2 = "select from " + Submission.class.getName()
+				+ " where courseID == '" + courseId + "' && fromStudent=='"+studentEmail+"'";
+		@SuppressWarnings("unchecked")
+		List<Submission> submissionList2 = (List<Submission>) getPM().newQuery(
+				query2).execute();
+		getPM().deletePersistentAll(submissionList2);
+		
+	}
+
 }

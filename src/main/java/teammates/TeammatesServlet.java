@@ -365,7 +365,7 @@ public class TeammatesServlet extends HttpServlet {
 		else if (operation.equals(OPERATION_STUDENT_ARCHIVECOURSE)) {
 			studentArchiveCourse();
 		}
-
+		//TODO: this doesn't seem to be used?
 		else if (operation.equals(OPERATION_STUDENT_DELETECOURSE)) {
 			studentDeleteCourse();
 		}
@@ -564,6 +564,12 @@ public class TeammatesServlet extends HttpServlet {
 		courses.archiveCoordinatorCourse(req.getParameter(COURSE_ID));
 	}
 
+	/**
+	 * @throws EntityDoesNotExistException
+	 * @deprecated
+	 * DeleteAllStudents is an unnecessary feature. To be removed from the system.
+	 */
+	@Deprecated
 	private void coordinatorDeleteAllStudents() throws EntityDoesNotExistException {
 		Courses courses = Courses.inst();
 		courses.deleteAllStudents(req.getParameter(COURSE_ID));

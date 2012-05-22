@@ -24,11 +24,15 @@ import static org.junit.Assert.*;
 public class TMAPITest {
 
 	// TODO: change this to 'target' directory
-	private String TEST_DATA_FOLDER = "src/test/resources/data/";
+	private static String TEST_DATA_FOLDER = "src/test/resources/data/";
+	private static Gson gson = Common.getTeammatesGson();
+	String jsonString = SharedLib.getFileContents(TEST_DATA_FOLDER
+			+ "typicalDataBundle.json");
+	private DataBundle dataBundle;
 
 	@BeforeClass
 	public static void setUp() {
-
+		
 	}
 
 	@AfterClass
@@ -263,30 +267,30 @@ public class TMAPITest {
 		assertEquals("log message 1 of course1, student1InCourse1@gmail.com",
 				tfsLogMessageForTfsInCourse1.getMessage().getValue());
 	}
+	
+	@Test 
+	public void testPersistDataBundle(){
+		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
+		//to avoid clashes with existing data
+		TMAPI.deleteCoordinators(jsonString);
+		String status = TMAPI.persistNewDataBundle(jsonString);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		verifyPresentInDatastore(jsonString);
+	}
 
 	@Test
 	public void testPersistenceAndDeletion() {
-		String jsonString = SharedLib.getFileContents(TEST_DATA_FOLDER
-				+ "typicalDataBundle.json");
-		Gson gson = Common.getTeammatesGson();
-		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
 		
-		//delete coordinators to avoid clashing with existing data
-		TMAPI.deleteCoordinators(jsonString);
-
-		// persist test data 
-		String status = TMAPI.persistNewDataBundle(jsonString);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-		verifyExistInDatastore(jsonString);
+		refreshDataInDatastore();
 		
 		// ----------deleting Coordinator entities-------------------------
-		Coordinator typicalCoord1 = data.coords.get("typicalCoord1");
+		Coordinator typicalCoord1 = dataBundle.coords.get("typicalCoord1");
 		verifyPresentInDatastore(typicalCoord1);
-		status = TMAPI.deleteCoord(typicalCoord1.getGoogleID());
+		String status = TMAPI.deleteCoord(typicalCoord1.getGoogleID());
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyAbsentInDatastore(typicalCoord1);
 		
-		Coordinator typicalCoord2 = data.coords.get("typicalCoord2");
+		Coordinator typicalCoord2 = dataBundle.coords.get("typicalCoord2");
 		status = TMAPI.deleteCoord(typicalCoord2.getGoogleID());
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyAbsentInDatastore(typicalCoord2);
@@ -302,7 +306,7 @@ public class TMAPITest {
 		// ----------deleting TeamProfile entities-------------------------
 
 		// delete one TeamProfile and confirm it is already deleted
-		TeamProfile teamProfileOfTeam1_1 = data.teamProfiles
+		TeamProfile teamProfileOfTeam1_1 = dataBundle.teamProfiles
 				.get("profileOfTeam1.1");
 		verifyPresentInDatastore(teamProfileOfTeam1_1);
 		status = TMAPI.deleteTeamProfile(teamProfileOfTeam1_1.getCourseID(),
@@ -311,7 +315,7 @@ public class TMAPITest {
 		verifyAbsentInDatastore(teamProfileOfTeam1_1);
 
 		// verify if the other TeamProfile in the same course is intact
-		verifyPresentInDatastore(data.teamProfiles
+		verifyPresentInDatastore(dataBundle.teamProfiles
 				.get("profileOfTeam1.2"));
 
 		// try to delete it again, should succeed
@@ -322,7 +326,7 @@ public class TMAPITest {
 		// ----------deleting TeamFormingLog entities-------------------------
 
 		// delete TeamFormingLog of one course and verify it is deleted
-		TeamFormingLog tfsLogMessage1ForTfsInCourse1 = data.teamFormingLogs
+		TeamFormingLog tfsLogMessage1ForTfsInCourse1 = dataBundle.teamFormingLogs
 				.get("tfsLogMessage1ForTfsInCourse1");
 		verifyPresentInDatastore(tfsLogMessage1ForTfsInCourse1);
 		status = TMAPI.deleteTeamFormingLog(tfsLogMessage1ForTfsInCourse1
@@ -338,14 +342,14 @@ public class TMAPITest {
 		// ----------deleting TeamFormingSession entities------------------
 		
 		//verify at least one team profile exists for this Tfs
-		TeamProfile profileOfTeam3_1 = data.teamProfiles.get("profileOfTeam3.1");
+		TeamProfile profileOfTeam3_1 = dataBundle.teamProfiles.get("profileOfTeam3.1");
 		verifyPresentInDatastore(profileOfTeam3_1);
 		//verify at least one log entry exists for this Tfs
-		TeamFormingLog tfsLogMessage1ForTfsInCourse3 = data.teamFormingLogs
+		TeamFormingLog tfsLogMessage1ForTfsInCourse3 = dataBundle.teamFormingLogs
 				.get("tfsLogMessage1ForTfsInCourse3");
 		verifyPresentInDatastore(tfsLogMessage1ForTfsInCourse3);
 		
-		TeamFormingSession tfsInCourse3 = data.teamFormingSessions
+		TeamFormingSession tfsInCourse3 = dataBundle.teamFormingSessions
 				.get("tfsInCourse3");
 		verifyPresentInDatastore(tfsInCourse3);
 		status = TMAPI.deleteTfs(tfsInCourse3.getCourseID());
@@ -353,7 +357,7 @@ public class TMAPITest {
 		verifyAbsentInDatastore(tfsInCourse3);
 
 		// just to be sure, check if another Tfs remains intact
-		verifyPresentInDatastore(data.teamFormingSessions.get("tfsInCourse2"));
+		verifyPresentInDatastore(dataBundle.teamFormingSessions.get("tfsInCourse2"));
 
 		// try to delete it again. should succeed.
 		status = TMAPI.deleteTfs(tfsInCourse3.getCourseID());
@@ -363,18 +367,16 @@ public class TMAPITest {
 		
 		verifyTeamFormingLogEmptyInDatastore(tfsLogMessage1ForTfsInCourse3);
 		
-		//TODO: check for resetting submissions
-		//TODO: check/implement cascade delete for students
-
+		
 		// ----------deleting Evaluation entities-------------------------
 
 		// check the existence of a submission that will be deleted along with the evaluation
-		Submission subInDeletedEvaluation = data.submissions
-				.get("submissionFromS1C1ToS2C1");
+		Submission subInDeletedEvaluation = dataBundle.submissions
+				.get("submissionFromS1C1ToS1C1");
 		verifyPresentInDatastore(subInDeletedEvaluation);
 		
 		//delete the evaluation and verify it is deleted
-		Evaluation evaluation1InCourse1 = data.evaluations
+		Evaluation evaluation1InCourse1 = dataBundle.evaluations
 				.get("evaluation1InCourse1");
 		verifyPresentInDatastore(evaluation1InCourse1);
 		status = TMAPI.deleteEvaluation(evaluation1InCourse1.getCourseID(),
@@ -391,55 +393,79 @@ public class TMAPITest {
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		
 		//verify that the other evaluation in the same course is intact
-		Evaluation evaluation2InCourse1 = data.evaluations
+		Evaluation evaluation2InCourse1 = dataBundle.evaluations
 				.get("evaluation2InCourse1");
 		verifyPresentInDatastore(evaluation2InCourse1);
-		
-		// ----------deleting Student entities-------------------------
-		Student student1InCourse1 = data.students.get("student1InCourse1");
-		verifyPresentInDatastore(student1InCourse1);
-		status = TMAPI.deleteStudent(student1InCourse1.getCourseID(), student1InCourse1.getEmail());
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-		verifyAbsentInDatastore(student1InCourse1);
-		
-		// verify that other students in the course are intact
-		Student student2InCourse1 = data.students.get("student2InCourse1");
-		verifyPresentInDatastore(student2InCourse1);
-		
-		// try to delete the student again. should succeed.
-		status = TMAPI.deleteStudent(student1InCourse1.getCourseID(), student1InCourse1.getEmail());
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);	
-		
+
 		// ----------deleting Course entities-------------------------
 		
-		Course course2 = data.courses.get("course2");
+		Course course2 = dataBundle.courses.get("course2");
 		verifyPresentInDatastore(course2);
 		status = TMAPI.deleteCourse(course2.getID());
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyAbsentInDatastore(status, course2);
 		
 		//check if related student entities are also deleted
-		Student student2InCourse2 = data.students.get("student2InCourse2");
+		Student student2InCourse2 = dataBundle.students.get("student2InCourse2");
 		verifyAbsentInDatastore(student2InCourse2);
 		
 		//check if related evaluation entities are also deleted
-		Evaluation evaluation1InCourse2 = data.evaluations.get("evaluation1InCourse2");
+		Evaluation evaluation1InCourse2 = dataBundle.evaluations.get("evaluation1InCourse2");
 		verifyAbsentInDatastore(evaluation1InCourse2);
 		
 		//check if related team profile entities are also deleted
-		TeamProfile teamProfileOfTeam2_1 = data.teamProfiles
+		TeamProfile teamProfileOfTeam2_1 = dataBundle.teamProfiles
 				.get("profileOfTeam2.1");
 		verifyAbsentInDatastore(teamProfileOfTeam2_1);
 		
 		//check if related Tfs entities are also deleted
-		TeamFormingSession tfsInCourse2 = data.teamFormingSessions
+		TeamFormingSession tfsInCourse2 = dataBundle.teamFormingSessions
 				.get("tfsInCourse2");
 		verifyAbsentInDatastore(tfsInCourse2);
 		
 		//check if related TeamFormingLog entities are also deleted
-		TeamFormingLog tfsLogMessage1ForTfsInCourse2 = data.teamFormingLogs
+		TeamFormingLog tfsLogMessage1ForTfsInCourse2 = dataBundle.teamFormingLogs
 				.get("tfsLogMessage1ForTfsInCourse2");
 		verifyTeamFormingLogEmptyInDatastore(tfsLogMessage1ForTfsInCourse2);
+	}
+
+	@Test
+	public void testManipulatingStudents() {
+		
+		refreshDataInDatastore();
+
+		Submission submissionFromS1C1ToS2C1 = dataBundle.submissions.get("submissionFromS1C1ToS2C1");
+		verifyPresentInDatastore(submissionFromS1C1ToS2C1);
+		Submission submissionFromS2C1ToS1C1 = dataBundle.submissions.get("submissionFromS2C1ToS1C1");
+		verifyPresentInDatastore(submissionFromS2C1ToS1C1);
+		Submission submissionFromS1C1ToS1C1 = dataBundle.submissions.get("submissionFromS1C1ToS1C1");
+		verifyPresentInDatastore(submissionFromS1C1ToS1C1);
+		
+		Student student2InCourse1 = dataBundle.students.get("student2InCourse1");
+		verifyPresentInDatastore(student2InCourse1);
+		String status = TMAPI.deleteStudent(student2InCourse1.getCourseID(), student2InCourse1.getEmail());
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		verifyAbsentInDatastore(student2InCourse1);
+		
+		// verify that other students in the course are intact
+		Student student1InCourse1 = dataBundle.students.get("student1InCourse1");
+		verifyPresentInDatastore(student1InCourse1);
+		
+		// try to delete the student again. should succeed.
+		status = TMAPI.deleteStudent(student2InCourse1.getCourseID(), student2InCourse1.getEmail());
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		
+		verifyAbsentInDatastore(submissionFromS1C1ToS2C1);
+		verifyAbsentInDatastore(submissionFromS2C1ToS1C1);
+		verifyPresentInDatastore(submissionFromS1C1ToS1C1);
+		
+		//TODO: check for cascade deleting team profile and team forming log
+	}
+
+	private void refreshDataInDatastore() {
+		dataBundle = gson.fromJson(jsonString, DataBundle.class);
+		TMAPI.deleteCoordinators(jsonString); 
+		TMAPI.persistNewDataBundle(jsonString);
 	}
 
 	private void verifyAbsentInDatastore(String status, Course course2) {
@@ -483,7 +509,7 @@ public class TMAPITest {
 				teamProfileOfTeam1_1.getTeamName()));
 	}
 
-	private void verifyExistInDatastore(String dataBundleJsonString) {
+	private void verifyPresentInDatastore(String dataBundleJsonString) {
 		Gson gson = Common.getTeammatesGson();
 
 		DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
@@ -532,7 +558,6 @@ public class TMAPITest {
 	}
 
 	private void verifyPresentInDatastore(TeamFormingSession expectedTeamFormingSession) {
-		Gson gson = Common.getTeammatesGson();
 		String teamFormingSessionsJsonString = TMAPI
 				.getTfsAsJason(expectedTeamFormingSession.getCourseID());
 		TeamFormingSession actualTeamFormingSession = gson.fromJson(
@@ -545,7 +570,6 @@ public class TMAPITest {
 	}
 
 	private void verifyPresentInDatastore(Submission expectedSubmission) {
-		Gson gson = Common.getTeammatesGson();
 		String submissionsJsonString = TMAPI.getSubmissionAsJason(
 				expectedSubmission.getCourseID(),
 				expectedSubmission.getEvaluationName(),
@@ -561,7 +585,6 @@ public class TMAPITest {
 	}
 
 	private void verifyPresentInDatastore(Evaluation expectedEvaluation) {
-		Gson gson = Common.getTeammatesGson();
 		String evaluationJsonString = TMAPI.getEvaluationAsJason(
 				expectedEvaluation.getCourseID(),
 				expectedEvaluation.getName());
@@ -575,7 +598,6 @@ public class TMAPITest {
 	}
 
 	private void verifyPresentInDatastore(Student expectedStudent) {
-		Gson gson = Common.getTeammatesGson();
 		String studentJsonString = TMAPI.getStudentAsJason(
 				expectedStudent.getCourseID(), expectedStudent.getEmail());
 		Student actualStudent = gson.fromJson(studentJsonString,
@@ -585,7 +607,6 @@ public class TMAPITest {
 	}
 
 	private void verifyPresentInDatastore(Course expectedCourse) {
-		Gson gson = Common.getTeammatesGson();
 		String courseJsonString = TMAPI.getCourseAsJason(expectedCourse
 				.getID());
 		Course actualCourse = gson.fromJson(courseJsonString, Course.class);
@@ -593,7 +614,6 @@ public class TMAPITest {
 	}
 
 	private void verifyPresentInDatastore(TeamFormingLog expectedTeamFormingLogEntry) {
-		Gson gson = Common.getTeammatesGson();
 		String teamFormingLogJsonString = TMAPI
 				.getTeamFormingLogAsJason(expectedTeamFormingLogEntry
 						.getCourseID());
@@ -612,7 +632,6 @@ public class TMAPITest {
 	}
 
 	private void verifyPresentInDatastore(TeamProfile expectedTeamProfile) {
-		Gson gson = Common.getTeammatesGson();
 		String teamProfileJsonString = TMAPI.getTeamProfileAsJason(
 				expectedTeamProfile.getCourseID(),
 				expectedTeamProfile.getTeamName());
@@ -626,7 +645,6 @@ public class TMAPITest {
 	}
 
 	private void verifyPresentInDatastore(Coordinator expectedCoord) {
-		Gson gson = Common.getTeammatesGson();
 		String coordJsonString = TMAPI.getCoordAsJason(expectedCoord
 				.getGoogleID());
 		Coordinator actualCoord = gson.fromJson(coordJsonString,

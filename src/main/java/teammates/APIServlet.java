@@ -988,18 +988,6 @@ public class APIServlet extends HttpServlet {
 		Evaluations.inst().deleteEvaluation(courseId, evaluationName);
 	}
 	
-	private void deleteStudent(String courseId, String email) throws EntityDoesNotExistException {
-		Courses.inst().deleteStudent(courseId, email);
-	}
-	
-	private void deleteCourse(String courseId) throws EntityDoesNotExistException {
-		log.info("Deleting course : "+courseId);
-		Evaluations.inst().deleteEvaluations(courseId);
-		if(TeamForming.inst().getTeamFormingSession(courseId)!=null){
-			TeamForming.inst().deleteTeamFormingSession(courseId);
-		}
-		Courses.inst().deleteCourse(courseId);
-	}
 	
 	private void deleteCoord(String coordId) throws EntityDoesNotExistException {
 		List<Course> coordCourseList = Courses.inst().getCoordinatorCourseList(coordId);
@@ -1036,6 +1024,13 @@ public class APIServlet extends HttpServlet {
 		return course;
 	}
 	
+	public void deleteCourse(String courseId) {
+		log.info("Deleting course : "+courseId);
+		Evaluations.inst().deleteEvaluations(courseId);
+		TeamForming.inst().deleteTeamFormingSession(courseId);
+		Courses.inst().deleteCourse(courseId);
+	}
+	
 	public HashMap<String, CourseSummaryForCoordinator> coordCourse_coordGetCourseSummaryList(String coordId){
 		Courses courses = Courses.inst();
 		List<Course> courseList = courses.getCoordinatorCourseList(coordId);
@@ -1052,6 +1047,13 @@ public class APIServlet extends HttpServlet {
 			courseSummaryList.put(c.getID(),cs);
 		}
 		return courseSummaryList;
+	}
+	
+	private void deleteStudent(String courseId, String studentEmail) {
+		Courses.inst().deleteStudent(courseId, studentEmail);
+		Evaluations.inst().deleteSubmissionsForStudent(courseId, studentEmail);
+		//delete teamforming logsS
+		//delete team profile, if the last member
 	}
 	
 }
