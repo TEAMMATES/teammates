@@ -17,8 +17,8 @@ import teammates.Courses;
 import teammates.Datastore;
 import teammates.Evaluations;
 import teammates.TeammatesServlet;
-import teammates.exception.CourseDoesNotExistException;
 import teammates.exception.EntityDoesNotExistException;
+import teammates.exception.InvalidParametersException;
 import teammates.jdo.Course;
 import teammates.jdo.Evaluation;
 import teammates.jdo.Student;
@@ -31,8 +31,6 @@ public class DeleteCourseAPITest {
 	private PersistenceManager pm;
 	private final String COURSE_ID = "CS1102";
 	private final String RESPONSE_DELETED = "<status>course deleted</status>";
-	private final String RESPONSE_NOT_DELETED = "<status>course not deleted</status>";
-	
 	@Before
 	public void setUp() {
 		helper.setUp();
@@ -50,7 +48,7 @@ public class DeleteCourseAPITest {
 	}
 	
 	@Test
-	public void testCoordDeleteCourseSuccessful() throws EntityDoesNotExistException {
+	public void testCoordDeleteCourseSuccessful() throws EntityDoesNotExistException, InvalidParametersException {
 		setupTestData();
 		
 		testCoursesDeleteCourse();
@@ -92,7 +90,7 @@ public class DeleteCourseAPITest {
 	
 	//Test coordinatorDeleteCourse(courseID) function in TeammatesServlet.java
 	@Test
-	public void testTeammatesServletDeleteCourse() {
+	public void testTeammatesServletDeleteCourse() throws InvalidParametersException {
 		setupTestData();
 		
 		TeammatesServlet ts = new TeammatesServlet();
@@ -111,7 +109,7 @@ public class DeleteCourseAPITest {
 	
 
 	/*---------------------------------------------------HELPER FUNCTION---------------------------------------------------*/
-	private void setupTestData() {
+	private void setupTestData() throws InvalidParametersException {
 		pm = Datastore.getPersistenceManager();
 		//create course
 		Course a = new Course(COURSE_ID, "Testing Course", "teammates.coord");

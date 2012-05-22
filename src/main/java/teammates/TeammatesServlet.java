@@ -19,11 +19,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.exception.AccountExistsException;
 import teammates.exception.CourseDoesNotExistException;
-import teammates.exception.CourseExistsException;
+import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.CourseInputInvalidException;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.EvaluationExistsException;
 import teammates.exception.GoogleIDExistsInCourseException;
+import teammates.exception.InvalidParametersException;
 import teammates.exception.RegistrationKeyInvalidException;
 import teammates.exception.RegistrationKeyTakenException;
 import teammates.jdo.Coordinator;
@@ -496,7 +497,7 @@ public class TeammatesServlet extends HttpServlet {
 		courses.sendRegistrationKeys(studentList, "Test CourseID", "Test Course", "ADMIN", Config.inst().TEAMMATES_APP_ACCOUNT);
 	}
 
-	public String coordinatorAddCourse(String courseid, String coursename, String googleID) throws IOException, ServletException {
+	public String coordinatorAddCourse(String courseid, String coursename, String googleID) {
 		
 		Courses courses = Courses.inst();
 
@@ -504,10 +505,10 @@ public class TeammatesServlet extends HttpServlet {
 			courses.addCourse(courseid, coursename, googleID);
 			return MSG_STATUS_OPENING + MSG_COURSE_ADDED + MSG_STATUS_CLOSING;
 		}
-		catch (CourseExistsException e) {
+		catch (EntityAlreadyExistsException e) {
 			return MSG_STATUS_OPENING + MSG_COURSE_EXISTS + MSG_STATUS_CLOSING;
 		}
-		catch (CourseInputInvalidException e) {
+		catch (InvalidParametersException e) {
 			return MSG_STATUS_OPENING + MSG_COURSE_INPUT_INVALID + MSG_STATUS_CLOSING;
 		}
 	}

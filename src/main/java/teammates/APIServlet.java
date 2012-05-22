@@ -19,9 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.exception.AccountExistsException;
 import teammates.exception.CourseDoesNotExistException;
-import teammates.exception.CourseExistsException;
+import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.CourseInputInvalidException;
 import teammates.exception.EntityDoesNotExistException;
+import teammates.exception.InvalidParametersException;
 import teammates.exception.TeamFormingSessionExistsException;
 import teammates.exception.TeamProfileExistsException;
 import teammates.jdo.Coordinator;
@@ -765,6 +766,11 @@ public class APIServlet extends HttpServlet {
 	}
 
 	// --------------------- revised API ------------------------------------
+	
+	/*
+	 * Get methods should throw an exception if the entity was not found. It is 
+	 * "not expected" that UI will try to access a non-existent entity.
+	 */
 
 	private String getCoordAsJson(String coordID) {
 		Accounts accounts = Accounts.inst();
@@ -775,13 +781,12 @@ public class APIServlet extends HttpServlet {
 		return Common.getTeammatesGson().toJson(coord);
 	}
 
-	private String getCourseAsJason(String courseId) {
-		Course course = Courses.inst().getCourse(courseId);
-		if (course == null) {
-			log.warning("Trying to get non-existent Course : " + courseId);
-		}
+	private String getCourseAsJason(String courseId) throws EntityDoesNotExistException {
+		Course course = coordCourse_getCourse(courseId);
 		return Common.getTeammatesGson().toJson(course);
 	}
+	
+
 
 	private String getStudentAsJason(String courseId, String email) {
 		Student student = Accounts.inst().getStudent(courseId, email);
@@ -878,7 +883,7 @@ public class APIServlet extends HttpServlet {
 		HashMap<String, Course> courses = data.courses;
 		for (Course course : courses.values()) {
 			log.info("API Servlet adding course :" + course.getID());
-			createCourseIfNew(course.getCoordinatorID(), course.getID(),
+			coordCourse_createCourse(course.getCoordinatorID(), course.getID(),
 					course.getName());
 		}
 
@@ -939,12 +944,6 @@ public class APIServlet extends HttpServlet {
 	private void createCoordIfNew(String coordID, String coordName,
 			String coordEmail) throws AccountExistsException {
 		Accounts.inst().addCoordinator(coordID, coordName, coordEmail);
-	}
-
-	private void createCourseIfNew(String coordinatorId, String courseId,
-			String courseName) throws CourseInputInvalidException,
-			CourseExistsException {
-		Courses.inst().addCourse(courseId, courseName, coordinatorId);
 	}
 
 	private void createStudentIfNew(Student student) {
@@ -1008,6 +1007,51 @@ public class APIServlet extends HttpServlet {
 			deleteCourse(course.getID());
 		}
 		Accounts.inst().deleteCoord(coordId);
+	}
+	
+	//=======================API for JSP======================================
+	
+	public String coordGetLoginUrl(String redirectUrl)  {
+		Accounts accounts = Accounts.inst();
+		return accounts.getLoginPage(redirectUrl) ;
+	}
+
+	public String coordGetLogoutUrl(String redirectUrl) {
+		Accounts accounts = Accounts.inst();
+		return accounts.getLogoutPage(redirectUrl) ;
+	}
+	
+	public void coordCourse_createCourse(String coordinatorId, String courseId,
+			String courseName) throws EntityAlreadyExistsException, InvalidParametersException {
+		Courses.inst().addCourse(courseId, courseName, coordinatorId);
+	}
+	
+	public Course coordCourse_getCourse(String courseId) throws EntityDoesNotExistException{
+		Course course = Courses.inst().getCourse(courseId);
+		if (course == null) {
+			String errorMessage = "Trying to get non-existent Course : " + courseId;
+			log.warning(errorMessage);
+			throw new EntityDoesNotExistException(errorMessage);
+		}
+		return course;
+	}
+	
+	public HashMap<String, CourseSummaryForCoordinator> coordCourse_coordGetCourseSummaryList(String coordId){
+		Courses courses = Courses.inst();
+		List<Course> courseList = courses.getCoordinatorCourseList(coordId);
+		HashMap<String, CourseSummaryForCoordinator> courseSummaryList = new HashMap<String, CourseSummaryForCoordinator>();
+
+		for (Course c : courseList) {
+			CourseSummaryForCoordinator cs = 
+					new CourseSummaryForCoordinator(
+							c.getID(), c.getName(), c.isArchived(), 
+							courses.getNumberOfTeams(c.getID()), 
+							courses.getTotalStudents(c.getID()),
+							courses.getUnregistered(c.getID())
+						);
+			courseSummaryList.put(c.getID(),cs);
+		}
+		return courseSummaryList;
 	}
 	
 }

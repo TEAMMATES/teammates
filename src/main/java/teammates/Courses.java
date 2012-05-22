@@ -10,10 +10,11 @@ import javax.jdo.PersistenceManager;
 import org.mortbay.log.Log;
 
 import teammates.exception.CourseDoesNotExistException;
-import teammates.exception.CourseExistsException;
+import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.CourseInputInvalidException;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.GoogleIDExistsInCourseException;
+import teammates.exception.InvalidParametersException;
 import teammates.exception.RegistrationKeyInvalidException;
 import teammates.exception.RegistrationKeyTakenException;
 import teammates.jdo.Course;
@@ -63,41 +64,28 @@ public class Courses {
 	/**
 	 * Adds a Course under a specific Coordinator.
 	 * 
-	 * @param ID
+	 * @param courseId
 	 *            the course ID (Precondition: Must not be null)
 	 * 
-	 * @param name
+	 * @param courseName
 	 *            the course name (Precondition: Must not be null)
 	 * 
-	 * @param coordinatorID
+	 * @param coordId
 	 *            the Google ID of the coordinator (Precondition: Must not be
 	 *            null)
+	 * @throws InvalidParametersException 
 	 * 
-	 * @throws CourseExistsException
+	 * @throws EntityAlreadyExistsException
 	 *             if a course with the specified ID already exists
-	 * @throws CourseInputInvalidException 
 	 */
-	public void addCourse(String ID, String name, String coordinatorID) throws CourseExistsException, CourseInputInvalidException {
-		int maxCourseID = 21;
-		int maxCourseName = 38;
-
-		if (ID.isEmpty() || name.isEmpty()) {
-			throw new CourseInputInvalidException("Empty input fields.");
-
-		} else if (ID.length() > maxCourseID) {
-			throw new CourseInputInvalidException("Course ID is too long.");
-
-		} else if (name.length() > maxCourseName) {
-			throw new CourseInputInvalidException("Course name is too long");
-
-		} else if (!ID.matches("^[a-zA-Z_$0-9.-]+$")) {
-			throw new CourseInputInvalidException("Invalid course name with special characters.");
+	public void addCourse(String courseId, String courseName, String coordId) throws InvalidParametersException, EntityAlreadyExistsException {
 		
-		} else if (getCourse(ID) != null) {
-			throw new CourseExistsException();
+		Course course = new Course(courseId, courseName, coordId);
+
+		if (getCourse(courseId) != null) {
+			throw new EntityAlreadyExistsException();
 		}
 
-		Course course = new Course(ID, name, coordinatorID);
 
 		try {
 			getPM().makePersistent(course);

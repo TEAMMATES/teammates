@@ -20,8 +20,9 @@ import org.junit.Test;
 
 import teammates.Courses;
 import teammates.TeammatesServlet;
-import teammates.exception.CourseExistsException;
+import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.CourseInputInvalidException;
+import teammates.exception.InvalidParametersException;
 
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
@@ -52,7 +53,7 @@ public class TeammatesServletTest {
 	}
 
 	@Test
-	public void testCoordAddCourse() throws IOException, ServletException, CourseExistsException, CourseInputInvalidException {
+	public void testCoordAddCourse() throws IOException, ServletException, EntityAlreadyExistsException, CourseInputInvalidException, InvalidParametersException {
 
 		new NonStrictExpectations() {
 			@Mocked
@@ -75,7 +76,7 @@ public class TeammatesServletTest {
 	}
 
 	@Test
-	public void testCoordAddExistingCourse() throws IOException, ServletException, CourseExistsException, CourseInputInvalidException {
+	public void testCoordAddExistingCourse() throws IOException, ServletException, EntityAlreadyExistsException, InvalidParametersException {
 
 		new NonStrictExpectations() {
 			@Mocked
@@ -86,7 +87,7 @@ public class TeammatesServletTest {
 				Courses.inst();
 				result = courses;
 				courses.addCourse(anyString, anyString, anyString);
-				result = new CourseExistsException();
+				result = new EntityAlreadyExistsException();
 				resp.getWriter();
 				result = new PrintWriter("test.txt");
 			}

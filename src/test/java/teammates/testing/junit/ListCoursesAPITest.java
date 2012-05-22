@@ -16,6 +16,7 @@ import org.junit.Test;
 import teammates.Courses;
 import teammates.Datastore;
 import teammates.TeammatesServlet;
+import teammates.exception.InvalidParametersException;
 import teammates.jdo.Course;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
@@ -29,7 +30,7 @@ public class ListCoursesAPITest {
 	
 
 	@Before
-	public void setUp() {
+	public void setUp() throws InvalidParametersException {
 		helper.setUp();
 		try{
 			Datastore.initialize();
