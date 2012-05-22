@@ -97,7 +97,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		//check course not added
 		bi.clickCourseTab();
 		bi.waitForCourseIdToAppearInCourseList(ts.validCourse.courseId);
-		assertTrue(bi.getCourseNameForCourseId(ts.validCourse.courseId).equals(ts.validCourse.courseName));
+		assertTrue(bi.getCourseName(ts.validCourse.courseId).equals(ts.validCourse.courseName));
 		//TODO: this does not exclude the possibility that there are two courses in the list with same id
 	
 		//TODO: 2 duplicate course under different coordinators

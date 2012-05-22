@@ -37,7 +37,7 @@ public class CoordLoginTest extends TestCase {
 	@Test
 	public void testLoginLogoutSuccessful() throws Exception {
 		//login
-		bi.gotoHome();
+		bi.goToMain();
 		bi.loginCoord(Config.inst().TEAMMATES_APP_ACCOUNT, Config.inst().TEAMMATES_APP_PASSWD);
 		bi.verifyCoordHomePage();
 		//logout

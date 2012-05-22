@@ -55,7 +55,7 @@ public class CoordCourseEnrolStudentsUITest extends TestCase {
 	 * Expectation: studnets added successfully
 	 * */
 	public void testCoordEnrolStudentsSuccessful() {
-		bi.gotoCourses();
+		bi.goToCourses();
 
 		int half = scn.students.size() / 2;
 		List<Student> ls = scn.students.subList(0, half);
@@ -63,7 +63,7 @@ public class CoordCourseEnrolStudentsUITest extends TestCase {
 
 		// Check for number of successful students enrolled
 		bi.verifyEnrollment(half, 0);
-		bi.waitAndClick(bi.coordEnrolBackButton);
+		bi.clickWithWait(bi.coordEnrolBackButton);
 
 		// Calculate the number of TEAMs
 		Set<String> set = new HashSet<String>();
@@ -71,7 +71,8 @@ public class CoordCourseEnrolStudentsUITest extends TestCase {
 			set.add(s.teamName);
 		}
 
-		assertEquals(String.valueOf(set.size()), bi.getCourseTeams(scn.course.courseId));
+		// Verifies the number of teams
+		assertEquals(String.valueOf(set.size()), bi.getCourseNumberOfTeams(scn.course.courseId));
 	}
 	
 
@@ -86,7 +87,7 @@ public class CoordCourseEnrolStudentsUITest extends TestCase {
 	public void testCoordEnrolExistingStudentsSuccessful() {
 		int studentAdded = 0;
 		int studentEdited = 0;
-		bi.gotoCourses();
+		bi.goToCourses();
 		
 		int half = scn.students.size() / 2;
 		List<Student> ls = scn.students.subList(0, half);
@@ -94,7 +95,7 @@ public class CoordCourseEnrolStudentsUITest extends TestCase {
 		
 		// Check for number of successful students enrolled
 		bi.verifyEnrollment(studentAdded, studentEdited);
-		bi.waitAndClick(bi.coordEnrolBackButton);
+		bi.clickWithWait(bi.coordEnrolBackButton);
 
 		// Calculate the number of TEAMs
 		Set<String> set = new HashSet<String>();
@@ -102,7 +103,7 @@ public class CoordCourseEnrolStudentsUITest extends TestCase {
 			set.add(s.teamName);
 		}
 
-		assertEquals(String.valueOf(set.size()), bi.getCourseTeams(scn.course.courseId));
+		assertEquals(String.valueOf(set.size()), bi.getCourseNumberOfTeams(scn.course.courseId));
 	}
 	
 	/**
@@ -115,9 +116,9 @@ public class CoordCourseEnrolStudentsUITest extends TestCase {
 	 */
 	@Test
 	public void testCoordEnrolStudentsWithInvalidInputFailed() {
-		bi.gotoCourses();
-		bi.clickCourseEnrol(scn.course.courseId);
-		bi.verifyEnrollPage();
+		bi.goToCourses();
+		bi.clickCoordCourseEnrol(scn.course.courseId);
+		bi.verifyCoordCourseEnrollPage();
 		
 		testCoordEnrolStudentsWithInvalidTeamFailed();
 		testCoordEnrolStudentsWithInvalidNameFailed();
@@ -145,8 +146,8 @@ public class CoordCourseEnrolStudentsUITest extends TestCase {
 	private void testCoordEnrolStudentsWithInvalidEmailFailed() {
 		String studentList = "Team 1|User 6|\n" + "Team 1|User 0|\n|" + "Team 1|User 1| |";
 		
-		bi.wdFillString(bi.coordEnrolInfo, studentList);
-		bi.waitAndClick(bi.coordEnrolButton);
+		bi.fillString(bi.coordEnrolInfo, studentList);
+		bi.clickWithWait(bi.coordEnrolButton);
 		
 		assertEquals(bi.ERROR_MESSAGE_ENROL_INVALID_EMAIL, bi.getElementText(bi.courseErrorMessage));
 	}	

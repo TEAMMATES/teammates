@@ -8,12 +8,8 @@
 	<classpathentry excluding="**/*.java" kind="src" path="src/main/resources"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-testing/1.6.4/appengine-testing-1.6.4.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-api-1.0-sdk/1.6.4/appengine-api-1.0-sdk-1.6.4.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-api-labs/1.6.4/appengine-api-labs-1.6.4.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-api-stubs/1.6.4/appengine-api-stubs-1.6.4.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-tools-sdk/1.6.4/appengine-tools-sdk-1.6.4.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-java-sdk/1.6.4/appengine-java-sdk-1.6.4/lib/user/appengine-api-1.0-sdk-1.6.4.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-java-sdk/1.6.4/appengine-java-sdk-1.6.4/lib/appengine-tools-api.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-java-sdk/1.6.4/appengine-java-sdk-1.6.4/lib/user/orm/jdo2-api-2.3-eb.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/sun/mail/javax.mail/1.4.4/javax.mail-1.4.4.jar" sourcepath="M2_REPO/com/sun/mail/javax.mail/1.4.4/javax.mail-1.4.4-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/javax/activation/activation/1.1/activation-1.1.jar" sourcepath="M2_REPO/javax/activation/activation/1.1/activation-1.1-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/javax/jdo/jdo2-api/2.3-eb/jdo2-api-2.3-eb.jar" sourcepath="M2_REPO/javax/jdo/jdo2-api/2.3-eb/jdo2-api-2.3-eb-sources.jar"/>
@@ -27,8 +23,6 @@
 	<classpathentry kind="var" path="M2_REPO/commons-lang/commons-lang/2.6/commons-lang-2.6.jar" sourcepath="M2_REPO/commons-lang/commons-lang/2.6/commons-lang-2.6-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar" sourcepath="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/net/sourceforge/cssparser/cssparser/0.9.5/cssparser-0.9.5.jar" sourcepath="M2_REPO/net/sourceforge/cssparser/cssparser/0.9.5/cssparser-0.9.5-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/apache/geronimo/specs/geronimo-jpa_3.0_spec/1.1.1/geronimo-jpa_3.0_spec-1.1.1.jar" sourcepath="M2_REPO/org/apache/geronimo/specs/geronimo-jpa_3.0_spec/1.1.1/geronimo-jpa_3.0_spec-1.1.1-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/apache/geronimo/specs/geronimo-jta_1.1_spec/1.1.1/geronimo-jta_1.1_spec-1.1.1.jar" sourcepath="M2_REPO/org/apache/geronimo/specs/geronimo-jta_1.1_spec/1.1.1/geronimo-jta_1.1_spec-1.1.1-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/geronimo/specs/geronimo-servlet_2.5_spec/1.2/geronimo-servlet_2.5_spec-1.2.jar" sourcepath="M2_REPO/org/apache/geronimo/specs/geronimo-servlet_2.5_spec/1.2/geronimo-servlet_2.5_spec-1.2-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/code/gson/gson/2.1/gson-2.1.jar" sourcepath="M2_REPO/com/google/code/gson/gson/2.1/gson-2.1-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar" sourcepath="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1-sources.jar"/>

@@ -29,7 +29,7 @@ import teammates.testing.junit.TeammatesServletTest;
 	CoordCourseEditStudentsTest.class,
 	CoordCourseEnrolCaseSensitivityTest.class,
 	CoordCourseEnrolStudentsUITest.class,
-//	CoordCourseListUITest.class, //why disabled? seems broken
+	CoordCourseListUITest.class,
 	
 	CoordCourseViewTest.class, // has email tests
 	CoordEvaluationAddCaseSensitivityTest.class,
@@ -40,7 +40,7 @@ import teammates.testing.junit.TeammatesServletTest;
 //	CoordEvaluationListTest.class, //why disabled? has email tests, seems broken
 	CoordEvaluationResultsEditTest.class,
 	CoordEvaluationResultsViewTest.class,
-//	CoordHomePageFunctionalityTest.class, // JS alerts get disabled in testDeleteEvaluationLink()
+//	CoordHomePageFunctionalityTest.class, // The Home page (landing page) has some issue (see todo inside the file)
 
 	CoordLoginTest.class,
 	CoordViewResultsUITest.class,  

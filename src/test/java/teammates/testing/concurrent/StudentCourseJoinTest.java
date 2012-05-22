@@ -49,31 +49,32 @@ public class StudentCourseJoinTest extends TestCase {
 
 		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 
-		bi.gotoCourses();
-		bi.clickCourseView(scn.course.courseId);
+		bi.goToCourses();
+		bi.clickCoordCourseView(scn.course.courseId);
 
-		bi.justWait();
-		bi.waitAndClickAndConfirm(bi.remindStudentsButton);
+		bi.clickAndConfirm(bi.remindStudentsButton);
 
 		assertEquals(bi.MESSAGE_ENROL_REMIND_TO_JOIN, bi.getElementText(bi.statusMessage));
 
 		// Collect keys
 		System.out.println("Collecting registration keys.");
-		bi.waitAWhile(5000);
-
+		
 		for (int i = 0; i < scn.students.size(); i++) {
-			bi.clickCourseDetailView(i);
+			bi.clickCoordCourseView(i);
 			bi.waitForElementPresent(bi.studentDetailKey);
 			scn.students.get(i).courseKey = bi.getElementText(bi.studentDetailKey);
-			bi.waitAndClick(bi.studentDetailBackButton);
+			bi.clickWithWait(bi.studentDetailBackButton);
 		}
 
 		// Write key back to json file
 		scn.toJSONFile("target/test-classes/data/scenario.json.ext");
 
 		// Reserve more time to send email
+		// FIXME: Is this the best way to check? Seems so for now, since we can't really wait for the e-mail to be sent.
+		bi.waitForEmail();
+
 		for (int i = 0; i < scn.students.size(); i++) {
-			assertEquals(scn.students.get(i).courseKey, 
+			assertEquals(scn.students.get(i).courseKey,
 							SharedLib.getRegistrationKeyFromGmail(scn.students.get(i).email, Config.inst().TEAMMATES_APP_PASSWD, scn.course.courseId));
 		}
 
@@ -85,24 +86,22 @@ public class StudentCourseJoinTest extends TestCase {
 		System.out.println("testStudentsJoinCourseSuccessful");
 		for (Student s : scn.students) {
 			bi.studentLogin(s.email, Config.inst().TEAMMATES_APP_PASSWD);
-			bi.justWait();
 
 			// Try a wrong course key
-			bi.wdFillString(bi.studentInputRegKey, "totally_wrong_key");
-			bi.wdClick(bi.studentJoinCourseButton);
+			bi.fillString(bi.studentInputRegKey, "totally_wrong_key");
+			bi.click(bi.studentJoinCourseButton);
 			bi.waitForTextInElement(bi.statusMessage, bi.ERROR_STUDENT_JOIN_COURSE);
 
 			if (bi.studentCountTotalCourses() == 2) {
 				// This time the correct one
 				bi.waitForElementPresent(bi.studentInputRegKey);
-				bi.wdFillString(bi.studentInputRegKey, s.courseKey);
+				bi.fillString(bi.studentInputRegKey, s.courseKey);
 				System.out.println("key for " + s.name + " : " + s.courseKey);
-				bi.wdClick(bi.studentJoinCourseButton);
+				bi.click(bi.studentJoinCourseButton);
 				bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_STUDENT_JOIN_COURSE);
 			}
 
 			bi.logout();
-			bi.justWait();
 		}
 
 		// Verify number of unregistered student

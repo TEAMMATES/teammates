@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.internal.runners.statements.Fail;
 
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -58,22 +57,21 @@ public class CoordTeamFormingSessionAddTest extends TestCase {
 
 	public void testCoordAddTeamFormingSessionSuccessful() {
 		
-		bi.gotoTeamForming();
+		bi.goToTeamForming();
 		bi.addTeamFormingSession(scn.teamFormingSession);
-		bi.justWait();
+		
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_TEAMFORMINGSESSION_ADDED);
 		
 		bi.clickTeamFormingTab();
 		bi.verifyTeamFormingSessionAdded(scn.teamFormingSession.courseID, bi.TEAMFORMINGSESSION_STATUS_AWAITING);
-		bi.justWait();
 		
 		System.out.println("========== testCoordAddTeamFormingSessionSuccessful ==========");
 	}
 
 	public void testCoordAddDuplicateTeamFormingSessionFailed() {
-		bi.gotoTeamForming();
+		bi.goToTeamForming();
 		bi.addTeamFormingSession(scn.teamFormingSession);
-		bi.justWait();
+		
 		assertEquals(bi.ERROR_MESSAGE_TEAMFORMINGSESSION_EXISTS, bi.getElementText(bi.statusMessage));
 		System.out.println("========== testCoordAddDuplicateTeamFormingSessionFailed ==========");
 	}
@@ -82,10 +80,10 @@ public class CoordTeamFormingSessionAddTest extends TestCase {
 		TeamFormingSession teamForming = scn.teamFormingSession;
 		Integer nextTimeValue = Integer.parseInt(teamForming.nextTimeValue)-2;
 		
-		bi.gotoTeamForming();
+		bi.goToTeamForming();
 		bi.addTeamFormingSession(teamForming.courseID, teamForming.dateValue, nextTimeValue.toString(), 
 				teamForming.gracePeriod, teamForming.instructions, teamForming.profileTemplate);
-		bi.justWait();
+		
 		assertEquals(bi.ERROR_INVALID_INPUT_TEAMFORMINGSESSION, bi.getElementText(bi.statusMessage));
 		
 		System.out.println("========== testCoordAddTeamFormingSessionWithInvalidInputFailed ==========");

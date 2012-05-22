@@ -51,7 +51,7 @@ public class CoordEvaluationAddCaseSensitivityTest extends TestCase {
 	public void testEvaluationNameCaseSensitivity() {
 		System.out.println("testEvaluationNameCaseSensitivity: evaluation name - insensitive");
 		
-		bi.gotoEvaluations();
+		bi.goToEvaluation();
 		
 		// evaluation 1
 		Evaluation eval = Evaluation.createEvaluation(scn.course.courseId, EVALUATION_NAME_LOWER, "true", "Please please fill in the forth evaluation", 10);
@@ -63,7 +63,7 @@ public class CoordEvaluationAddCaseSensitivityTest extends TestCase {
 		// EVALUATION 1
 		eval = Evaluation.createEvaluation(scn.course.courseId, EVALUATION_NAME_UPPER, "true", "Please please fill in the forth evaluation", 10);
 		bi.addEvaluation(eval);
-		bi.justWait();
+
 		//TODO: temp sensitive, change to insensitive?
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_ADDED);
 		assertTrue(bi.isEvaluationPresent(scn.course.courseId, EVALUATION_NAME_UPPER));

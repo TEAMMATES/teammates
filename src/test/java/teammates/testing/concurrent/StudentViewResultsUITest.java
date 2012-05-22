@@ -67,7 +67,6 @@ public class StudentViewResultsUITest extends TestCase {
 		bi.clickEvaluationTab();
 
 		bi.studentClickEvaluationViewResults(courseId, evalName);
-		bi.waitForElementPresent(By.className("result_studentform"));
 
 		String claimed = TMAPI.studentGetClaimedPoints(scn.submissionPoints, studentIndex);
 		assertEquals(claimed, bi.studentGetEvaluationResultClaimedPoints());

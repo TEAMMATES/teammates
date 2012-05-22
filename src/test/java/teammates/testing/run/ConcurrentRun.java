@@ -28,6 +28,7 @@ public class ConcurrentRun {
 
 		Profiler.begin("========== Start: Runs the tests concurrently ==========");
 
+		@SuppressWarnings("rawtypes")
 		Class[] cls = { 
 				CoordLoginTest.class,
 				CoordCourseAddCaseSensitivityTest.class,

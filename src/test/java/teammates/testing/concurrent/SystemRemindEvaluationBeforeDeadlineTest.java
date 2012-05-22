@@ -51,7 +51,7 @@ public class SystemRemindEvaluationBeforeDeadlineTest extends TestCase {
 		studentSubmitEvaluation(scn.students.get(0));
 		
 		TMAPI.activateAutomatedReminder();
-		bi.justWait();
+		
 		// not send email to the one that has submitted
 		assertEquals("",
 				SharedLib.getEvaluationReminderFromGmail(scn.students.get(0).email,
@@ -75,8 +75,7 @@ public class SystemRemindEvaluationBeforeDeadlineTest extends TestCase {
 		
 		bi.clickEvaluationTab();
 		bi.waitForElementPresent(bi.studentGetPendingEvaluationName(scn.course.courseId, scn.evaluation.name));
-		bi.studentClickDoEvaluation(scn.course.courseId, scn.evaluation.name);
-		bi.justWait();
+		bi.studentClickEvaluationDo(scn.course.courseId, scn.evaluation.name);
 
 		// Fill in information
 		for (int i = 0; i < student.team.students.size(); i++) {
@@ -86,7 +85,7 @@ public class SystemRemindEvaluationBeforeDeadlineTest extends TestCase {
 		}
 
 		// Submit the evaluation
-		bi.wdClick(bi.studentSubmitEvaluationButton);
+		bi.click(bi.studentSubmitEvaluationButton);
 
 		// Check to see evaluation status is "Submitted"
 		assertEquals("SUBMITTED", bi.studentGetEvaluationStatus(scn.course.courseId, scn.evaluation.name));
