@@ -457,13 +457,7 @@ public class TeammatesServlet extends HttpServlet {
 	private void administratorCleanUp() {
 		Courses courses = Courses.inst();
 		String courseID = req.getParameter(COURSE_ID);
-
-		try {
-			courses.deleteCoordinatorCourse(courseID);
-		} catch (EntityDoesNotExistException e) {
-			e.printStackTrace();
-		}
-
+		courses.deleteCoordinatorCourse(courseID);
 	}
 
 	private void administratorLoginATD() throws IOException {

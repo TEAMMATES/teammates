@@ -585,17 +585,15 @@ public class TeamForming {
 	 *            the team forming session deadline (Pre-condition: The courseID
 	 *            and deadline pair must be valid)
 	 */
+	@Deprecated
 	public void deleteTeamFormingSession(String courseID, Date deadline) {
 		TeamFormingSession teamFormingSession = getTeamFormingSession(courseID,
 				deadline);
 
-		if (teamFormingSession == null)
+		if (teamFormingSession == null) {
 			System.out.println("No session found!");
-
-		try {
-			getPM().deletePersistent(teamFormingSession);
-		} finally {
 		}
+		getPM().deletePersistent(teamFormingSession);
 	}
 
 	/**
@@ -606,13 +604,12 @@ public class TeamForming {
 	 * @throws EntityDoesNotExistException 
 	 * 
 	 */
-	public void deleteTeamFormingSession(String courseId) throws EntityDoesNotExistException {
+	public void deleteTeamFormingSession(String courseId){
 		TeamFormingSession teamFormingSession = getTeamFormingSession(courseId);
 		if (teamFormingSession == null) {
 			String errorMessage = "Trying to delete non-existant TeamFormingSession : "
 					+ courseId;
 			log.warning(errorMessage);
-			throw new EntityDoesNotExistException(errorMessage);
 		} else {
 			getPM().deletePersistentAll(teamFormingSession);
 			deleteTeamProfiles(courseId);
@@ -655,13 +652,12 @@ public class TeamForming {
 	 * @throws EntityDoesNotExistException 
 	 * 
 	 */
-	public void deleteTeamProfile(String courseID, String teamName) throws EntityDoesNotExistException {
+	public void deleteTeamProfile(String courseID, String teamName){
 		TeamProfile teamProfile = getTeamProfile(courseID, teamName);
 
 		if (teamProfile == null) {
 			String errorMessage = "Trying to delete non-existent team profile: "+ courseID + "/"+teamName;
 			log.warning(errorMessage);
-			throw new EntityDoesNotExistException(errorMessage);
 		} else {
 			//TODO: is deletePersistentAll is the right method to call? we have only one object to delete.
 			getPM().deletePersistentAll(teamProfile);

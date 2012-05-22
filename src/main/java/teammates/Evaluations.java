@@ -254,12 +254,11 @@ public class Evaluations {
 	 *            evaluationName pair must be valid)
 	 * @throws EntityDoesNotExistException 
 	 */
-	public void deleteEvaluation(String courseID, String name) throws EntityDoesNotExistException {
+	public void deleteEvaluation(String courseID, String name){
 		Evaluation evaluation = getEvaluation(courseID, name);
 		if (evaluation == null) {
 			String errorMessage = "Trying to delete non-existent evaluation : "+courseID +"/"+ name;
 			log.warning(errorMessage);
-			throw new EntityDoesNotExistException(errorMessage);
 		} else {
 			getPM().deletePersistent(evaluation);
 			// Delete submission entries

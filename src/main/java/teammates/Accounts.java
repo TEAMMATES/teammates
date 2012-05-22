@@ -4,8 +4,11 @@ import java.util.List;
 
 import javax.jdo.PersistenceManager;
 
+import org.mortbay.log.Log;
+
 import teammates.exception.AccountExistsException;
 import teammates.exception.CourseDoesNotExistException;
+import teammates.exception.EntityDoesNotExistException;
 import teammates.jdo.Account;
 import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
@@ -242,19 +245,25 @@ public class Accounts {
 		return false;
 	}
 	
+	@Deprecated
 	public void deleteCoordinatorNonCascade(String coordId) throws Exception {
-		Coordinator coord = getCoordinator(coordId);
-		
-		if(coord == null) {
-			throw new Exception("Trying to delete non-existent coordinataor: "+coordId);
-		}
-		
-		getPM().deletePersistent(coord);
+		deleteCoord(coordId);
 	}
 
 	//TODO: check for existing student and throw exception
+	//TODO: move to Courses
 	public void createStudent(Student student) {
 		getPM().makePersistent(student);
+	}
+
+	public void deleteCoord(String coordId){
+		Coordinator coord = getCoordinator(coordId);
+		if (coord == null) {
+			String errorMessage = "Trying to delete non-existent coordinataor: "
+					+ coordId;
+			Log.warn(errorMessage);
+		}
+		getPM().deletePersistent(coord);
 	}
 
 }

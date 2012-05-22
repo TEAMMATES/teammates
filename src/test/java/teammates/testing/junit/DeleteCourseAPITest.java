@@ -102,18 +102,12 @@ public class DeleteCourseAPITest {
 		response = ts.coordinatorDeleteCourse(COURSE_ID);
 		assertEquals(RESPONSE_DELETED, response);
 		
-		//course not exists
+		//course not exists, but the operation is still considered successful
 		response = ts.coordinatorDeleteCourse("unknown courseID");
-		assertEquals(RESPONSE_NOT_DELETED, response);
+		assertEquals(RESPONSE_DELETED, response);
 		
 	}
-	
-	/*---------------------------------------------------EXCEPTION TESTING---------------------------------------------------*/
-	@Test (expected = CourseDoesNotExistException.class)
-	public void testCoursesDeleteCourseNotExist() throws EntityDoesNotExistException {
-		Courses courses = Courses.inst();
-		courses.deleteCoordinatorCourse("unknown course");
-	}
+
 	
 
 	/*---------------------------------------------------HELPER FUNCTION---------------------------------------------------*/

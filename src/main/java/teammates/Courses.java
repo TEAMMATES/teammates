@@ -204,7 +204,7 @@ public class Courses {
 	 * @throws CourseDoesNotExistException 
 	 * @date Sep 8, 2011
 	 */
-	public void deleteCoordinatorCourses(String coordinatorID) throws EntityDoesNotExistException  {
+	public void deleteCoordinatorCourses(String coordinatorID){
 		List<Course> courses = getCoordinatorCourseList(coordinatorID);
 		Iterator<Course> it = courses.iterator();
 
@@ -227,39 +227,31 @@ public class Courses {
 	 */
 	//TODO: does this actually delete students, as the comment say?
 	@Deprecated 
-	public void deleteCoordinatorCourse(String courseID)
-			throws EntityDoesNotExistException {
+	public void deleteCoordinatorCourse(String courseID){
 		Course course = getCourse(courseID);
 
 		if (course == null) {
 			String errorMessage = "Trying to delete non-existent course : "
 					+ courseID;
 			Log.info(errorMessage);
-			throw new EntityDoesNotExistException(errorMessage);
 		}
 
 		getPM().deletePersistent(course);
 
 	}
 	
-	public void deleteCourse(String courseId) throws EntityDoesNotExistException {
+	public void deleteCourse(String courseId) {
 		Course course = getCourse(courseId);
 
 		if (course == null) {
 			String errorMessage = "Trying to delete non-existent course : "
 					+ courseId;
-			Log.info(errorMessage);
-			throw new EntityDoesNotExistException(errorMessage);
+			Log.warn(errorMessage);
 		}
-		getPM().deletePersistent(course);
 		
 		deleteAllStudents(courseId);
+		getPM().deletePersistent(course);
 		
-		Evaluations.inst().deleteEvaluations(courseId);
-		
-		if(TeamForming.inst().getTeamFormingSession(courseId)!=null){
-			TeamForming.inst().deleteTeamFormingSession(courseId);
-		}
 	}
 
 	/**
@@ -270,6 +262,7 @@ public class Courses {
 	 */
 	public void deleteAllStudents(String courseID) {
 		List<Student> studentList = getStudentList(courseID);
+		Log.info("Deleting "+studentList.size()+" students from the course "+courseID);
 		getPM().deletePersistentAll(studentList);
 	}
 
@@ -283,14 +276,12 @@ public class Courses {
 	 *            the email of the student (Precondition: Must not be null)
 	 * @throws EntityDoesNotExistException
 	 */
-	public void deleteStudent(String courseID, String email)
-			throws EntityDoesNotExistException {
+	public void deleteStudent(String courseID, String email){
 		Student s = getStudentWithEmail(courseID, email);
 		if (s == null) {
 			String errorMessage = "Trying to delete non-existent student : "
 					+ courseID + "/" + email;
 			Log.warn(errorMessage);
-			throw new EntityDoesNotExistException(errorMessage);
 		} else {
 			getPM().deletePersistent(s);
 		}
@@ -593,8 +584,8 @@ public class Courses {
 	 * @return List<Student> the list of students that are in the course
 	 */
 	public List<Student> getStudentList(String courseID) {
-		String query = "select from " + Student.class.getName() + " where courseID == \"" + courseID + "\"";
-
+		String query = "select from " + Student.class.getName() + " where courseID == \'" + courseID + "\'";
+		Log.info(query);
 		@SuppressWarnings("unchecked")
 		List<Student> studentList = (List<Student>) getPM().newQuery(query).execute();
 

@@ -57,6 +57,7 @@ import java.util.logging.Logger;
 @SuppressWarnings("serial")
 public class APIServlet extends HttpServlet {
 	public static final String OPERATION_CREATE_COORD = "OPERATION_CREATE_COORD";
+	public static final String OPERATION_DELETE_COORD = "OPERATION_DELETE_COORD";
 	public static final String OPERATION_DELETE_COORD_NON_CASCADE = "OPERATION_DELETE_COORD_NON_CASCADE";
 	public static final String OPERATION_DELETE_COURSE = "OPERATION_DELETE_COURSE";
 	public static final String OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE = "OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE";
@@ -188,6 +189,9 @@ public class APIServlet extends HttpServlet {
 			String coordName = req.getParameter(PARAMETER_COORD_NAME);
 			String coordEmail = req.getParameter(PARAMETER_COORD_EMAIL);
 			createCoordIfNew(coordID, coordName, coordEmail);
+		} else if (action.equals(OPERATION_DELETE_COORD)) {
+			String coordID = req.getParameter(PARAMETER_COORD_ID);
+			deleteCoord(coordID);
 		} else if (action.equals(OPERATION_DELETE_COORD_NON_CASCADE)) {
 			String coordId = req.getParameter(PARAMETER_COORD_ID);
 			deleteCoordByIdNonCascade(coordId);
@@ -465,11 +469,7 @@ public class APIServlet extends HttpServlet {
 	// TODO: this method does not do a 'total cleanup'
 	protected void totalCleanupByCoordinator() {
 		String coordID = req.getParameter("coordinator_id");
-		try {
-			Courses.inst().deleteCoordinatorCourses(coordID);
-		} catch (EntityDoesNotExistException e) {
-			e.printStackTrace();
-		}
+		Courses.inst().deleteCoordinatorCourses(coordID);
 
 	}
 
@@ -751,11 +751,7 @@ public class APIServlet extends HttpServlet {
 
 	private void deleteCourseByIdNonCascade(String courseID) {
 		Courses courses = Courses.inst();
-		try {
-			courses.deleteCoordinatorCourse(courseID);
-		} catch (EntityDoesNotExistException e) {
-			log.warning("Trying to delete non-existent course " + courseID);
-		}
+		courses.deleteCoordinatorCourse(courseID);
 	}
 
 	private void deleteCoordByIdNonCascade(String coordId) {
@@ -998,8 +994,21 @@ public class APIServlet extends HttpServlet {
 	}
 	
 	private void deleteCourse(String courseId) throws EntityDoesNotExistException {
+		log.info("Deleting course : "+courseId);
+		Evaluations.inst().deleteEvaluations(courseId);
+		if(TeamForming.inst().getTeamFormingSession(courseId)!=null){
+			TeamForming.inst().deleteTeamFormingSession(courseId);
+		}
 		Courses.inst().deleteCourse(courseId);
-		
 	}
+	
+	private void deleteCoord(String coordId) throws EntityDoesNotExistException {
+		List<Course> coordCourseList = Courses.inst().getCoordinatorCourseList(coordId);
+		for(Course course: coordCourseList){
+			deleteCourse(course.getID());
+		}
+		Accounts.inst().deleteCoord(coordId);
+	}
+	
 }
 

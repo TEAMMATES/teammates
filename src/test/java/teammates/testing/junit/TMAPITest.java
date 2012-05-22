@@ -144,17 +144,160 @@ public class TMAPITest {
 	}
 
 	@Test
+	public void testDataBundle() {
+		String jsonString = SharedLib.getFileContents(TEST_DATA_FOLDER
+				+ "typicalDataBundle.json");
+		Gson gson = Common.getTeammatesGson();
+	
+		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
+	
+		Coordinator typicalCoord1 = data.coords.get("typicalCoord1");
+		assertEquals("idOfTypicalCoord1", typicalCoord1.getGoogleID());
+		assertEquals("Typical Coordinator1", typicalCoord1.getName());
+		assertEquals("typicalCoord1@gmail.com", typicalCoord1.getEmail());
+	
+		Coordinator typicalCoord2 = data.coords.get("typicalCoord2");
+		assertEquals("idOfTypicalCoord2", typicalCoord2.getGoogleID());
+		assertEquals("Typical Coordinator2", typicalCoord2.getName());
+		assertEquals("typicalCoord2@gmail.com", typicalCoord2.getEmail());
+	
+		Course course1 = data.courses.get("course1");
+		assertEquals("idOfCourse1", course1.getID());
+		assertEquals("course 1 name", course1.getName());
+		assertEquals("idOfTypicalCoord1", course1.getCoordinatorID());
+	
+		Student student1InCourse1 = data.students.get("student1InCourse1");
+		assertEquals("student1InCourse1", student1InCourse1.getID());
+		assertEquals("student1 In Course1", student1InCourse1.getName());
+		assertEquals("Team 1.1", student1InCourse1.getTeamName());
+		assertEquals("comment for student1InCourse1",
+				student1InCourse1.getComments());
+		assertEquals("profile summary for student1InCourse1",
+				student1InCourse1.getProfileSummary());
+		assertEquals("idOfCourse1", student1InCourse1.getCourseID());
+		assertEquals("profiledetail for student1InCourse1", student1InCourse1
+				.getProfileDetail().getValue());
+	
+		Student student2InCourse2 = data.students.get("student2InCourse2");
+		assertEquals("student2InCourse2", student2InCourse2.getID());
+		assertEquals("student2 In Course2", student2InCourse2.getName());
+		assertEquals("Team 2.1", student2InCourse2.getTeamName());
+	
+		Evaluation evaluation1 = data.evaluations.get("evaluation1InCourse1");
+		assertEquals("evaluation1 In Course1", evaluation1.getName());
+		assertEquals("idOfCourse1", evaluation1.getCourseID());
+		assertEquals("instructions for evaluation1InCourse1",
+				evaluation1.getInstructions());
+		assertEquals(10, evaluation1.getGracePeriod());
+		assertEquals(true, evaluation1.isCommentsEnabled());
+		assertEquals("Sun Apr 01 23:59:00 SGT 2012", evaluation1.getStart()
+				.toString());
+		assertEquals("Tue Apr 30 23:59:00 SGT 2013", evaluation1.getDeadline()
+				.toString());
+		assertEquals(true, evaluation1.isActivated());
+		assertEquals(false, evaluation1.isPublished());
+		assertEquals(2.0, evaluation1.getTimeZone(), 0.01);
+	
+		Evaluation evaluation2 = data.evaluations.get("evaluation2InCourse1");
+		assertEquals("evaluation2 In Course1", evaluation2.getName());
+		assertEquals("idOfCourse1", evaluation2.getCourseID());
+	
+		Submission submissionFromS1C1ToS2C1 = data.submissions
+				.get("submissionFromS1C1ToS2C1");
+		assertEquals("student1InCourse1@gmail.com",
+				submissionFromS1C1ToS2C1.getFromStudent());
+		assertEquals("student2InCourse1@gmail.com",
+				submissionFromS1C1ToS2C1.getToStudent());
+		assertEquals("idOfCourse1", submissionFromS1C1ToS2C1.getCourseID());
+		assertEquals("evaluation1 In Course1",
+				submissionFromS1C1ToS2C1.getEvaluationName());
+		assertEquals(10, submissionFromS1C1ToS2C1.getPoints());
+		assertEquals("Team 1.1", submissionFromS1C1ToS2C1.getTeamName());
+		// since justification filed is of Text type, we have to use it's
+		// .getValue() method to access the string contained inside it
+		assertEquals(
+				"justification of student1InCourse1 rating to student2InCourse1",
+				submissionFromS1C1ToS2C1.getJustification().getValue());
+		assertEquals("comments from student1InCourse1 to student2InCourse1",
+				submissionFromS1C1ToS2C1.getCommentsToStudent().getValue());
+	
+		Submission submissionFromS2C1ToS1C1 = data.submissions
+				.get("submissionFromS2C1ToS1C1");
+		assertEquals("student2InCourse1@gmail.com",
+				submissionFromS2C1ToS1C1.getFromStudent());
+		assertEquals("student1InCourse1@gmail.com",
+				submissionFromS2C1ToS1C1.getToStudent());
+	
+		TeamFormingSession tfsInCourse1 = data.teamFormingSessions
+				.get("tfsInCourse1");
+		assertEquals("idOfCourse1", tfsInCourse1.getCourseID());
+		assertEquals(8.0, tfsInCourse1.getTimeZone(), 0.01);
+		assertEquals("Sun Apr 01 23:59:00 SGT 2012", tfsInCourse1.getStart()
+				.toString());
+		assertEquals("Sun Apr 15 23:59:00 SGT 2012", tfsInCourse1.getDeadline()
+				.toString());
+		assertEquals("instructions for tfsInCourse1",
+				tfsInCourse1.getInstructions());
+		assertEquals("profile template for tfsInCourse1",
+				tfsInCourse1.getProfileTemplate());
+		assertEquals(10, tfsInCourse1.getGracePeriod());
+		assertEquals(false, tfsInCourse1.isActivated());
+	
+		TeamProfile profileOfTeam1_1 = data.teamProfiles
+				.get("profileOfTeam1.1");
+		assertEquals("idOfCourse1", profileOfTeam1_1.getCourseID());
+		assertEquals("course 1 name", profileOfTeam1_1.getCourseName());
+		assertEquals("Team 1.1", profileOfTeam1_1.getTeamName());
+		assertEquals("team profile of Team 1.1", profileOfTeam1_1
+				.getTeamProfile().getValue());
+	
+		TeamFormingLog tfsLogMessageForTfsInCourse1 = data.teamFormingLogs
+				.get("tfsLogMessage1ForTfsInCourse1");
+		assertEquals("idOfCourse1", tfsLogMessageForTfsInCourse1.getCourseID());
+		assertEquals("student1 In Course1",
+				tfsLogMessageForTfsInCourse1.getStudentName());
+		assertEquals("student1InCourse1@gmail.com",
+				tfsLogMessageForTfsInCourse1.getStudentEmail());
+		assertEquals("Sun Jan 01 01:01:00 SGT 2012",
+				tfsLogMessageForTfsInCourse1.getTime().toString());
+		assertEquals("log message 1 of course1, student1InCourse1@gmail.com",
+				tfsLogMessageForTfsInCourse1.getMessage().getValue());
+	}
+
+	@Test
 	public void testPersistenceAndDeletion() {
 		String jsonString = SharedLib.getFileContents(TEST_DATA_FOLDER
 				+ "typicalDataBundle.json");
 		Gson gson = Common.getTeammatesGson();
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
+		
+		//delete coordinators to avoid clashing with existing data
+		TMAPI.deleteCoordinators(jsonString);
 
-		// persist some data first
+		// persist test data 
 		String status = TMAPI.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyExistInDatastore(jsonString);
-
+		
+		// ----------deleting Coordinator entities-------------------------
+		Coordinator typicalCoord1 = data.coords.get("typicalCoord1");
+		status = TMAPI.deleteCoord(typicalCoord1.getGoogleID());
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		assertEquals("null",TMAPI.getCoordAsJason(typicalCoord1.getGoogleID()));
+		
+		Coordinator typicalCoord2 = data.coords.get("typicalCoord2");
+		status = TMAPI.deleteCoord(typicalCoord2.getGoogleID());
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		assertEquals("null",TMAPI.getCoordAsJason(typicalCoord2.getGoogleID()));
+		
+		//try to delete again. should succeed.
+		status = TMAPI.deleteCoord(typicalCoord2.getGoogleID());
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		
+		//recreate data. this should succeed if all previous data were deleted
+		status = TMAPI.persistNewDataBundle(jsonString);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		
 		// ----------deleting TeamProfile entities-------------------------
 
 		// delete one TeamProfile and confirm it is already deleted
@@ -167,19 +310,17 @@ public class TMAPITest {
 				teamProfileOfTeam1_1.getCourseID(),
 				teamProfileOfTeam1_1.getTeamName()));
 
-		// just to be sure, check if the other TeamProfile in the same course is
-		// intact
+		// verify if the other TeamProfile in the same course is intact
 		TeamProfile teamProfileOfTeam1_2 = data.teamProfiles
 				.get("profileOfTeam1.2");
 		assertTrue(!"null".equals(TMAPI.getTeamProfileAsJason(
 				teamProfileOfTeam1_2.getCourseID(),
 				teamProfileOfTeam1_2.getTeamName())));
 
-		// try to delete it again, confirm the operation fails
+		// try to delete it again, should succeed
 		status = TMAPI.deleteTeamProfile(teamProfileOfTeam1_1.getCourseID(),
 				teamProfileOfTeam1_1.getTeamName());
-		assertTrue("status not as expected:" + status,
-				status.startsWith(Common.BACKEND_STATUS_FAILURE));
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 
 		// ----------deleting TeamFormingLog entities-------------------------
 
@@ -193,27 +334,45 @@ public class TMAPITest {
 				TMAPI.getTeamFormingLogAsJason(tfsLogMessage1ForTfsInCourse1
 						.getCourseID()));
 
-		// try to delete it again, the operation SUCCEED
-		//TODO: change to clearTeamFormingLog
+		// try to delete it again, the operation should succeed
 		status = TMAPI.deleteTeamFormingLog(tfsLogMessage1ForTfsInCourse1
 				.getCourseID());
-		assertTrue("status not as expected:" + status,
-				status.startsWith(Common.BACKEND_STATUS_SUCCESS));
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 
 		// ----------deleting TeamFormingSession entities------------------
-		TeamFormingSession tfsInCourse1 = data.teamFormingSessions
-				.get("tfsInCourse1");
-		status = TMAPI.deleteTfs(tfsInCourse1.getCourseID());
+		
+		//verify at least one team profile exists for this Tfs
+		TeamProfile profileOfTeam3_1 = data.teamProfiles.get("profileOfTeam3.1");
+		assertTrue(!"null".equals(TMAPI.getTeamProfileAsJason(
+				profileOfTeam3_1.getCourseID(),
+				profileOfTeam3_1.getTeamName())));
+		//verify at least one log entry exists for this Tfs
+		TeamFormingLog tfsLogMessage1ForTfsInCourse3 = data.teamFormingLogs
+				.get("tfsLogMessage1ForTfsInCourse3");
+		assertTrue(!"[]".equals(TMAPI.getTeamFormingLogAsJason(
+				tfsLogMessage1ForTfsInCourse3.getCourseID())));
+		
+		TeamFormingSession tfsInCourse3 = data.teamFormingSessions
+				.get("tfsInCourse3");
+		status = TMAPI.deleteTfs(tfsInCourse3.getCourseID());
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-		assertEquals("null", TMAPI.getTfsAsJason(tfsInCourse1.getCourseID()));
+		assertEquals("null", TMAPI.getTfsAsJason(tfsInCourse3.getCourseID()));
 
 		// just to be sure, check if another Tfs remains intact
-		assertTrue(!"null".equals(TMAPI.getTfsAsJason("course2")));
+		assertTrue(!"null".equals(TMAPI.getTfsAsJason("idOfCourse2")));
 
-		// try to delete it again, confirm the operation fails
-		status = TMAPI.deleteTfs(tfsInCourse1.getCourseID());
-		assertTrue("status not as expected:" + status,
-				status.startsWith(Common.BACKEND_STATUS_FAILURE));
+		// try to delete it again. should succeed.
+		status = TMAPI.deleteTfs(tfsInCourse3.getCourseID());
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		
+		//verify team profiles are deleted too
+		assertEquals("null", TMAPI.getTeamProfileAsJason(
+				profileOfTeam3_1.getCourseID(),
+				profileOfTeam3_1.getTeamName()));
+		
+		//verify TeamFormingLog entities are deleted too
+		assertEquals("[]", TMAPI.getTeamFormingLogAsJason(
+				tfsLogMessage1ForTfsInCourse3.getCourseID()));
 
 		// ----------deleting Evaluation entities-------------------------
 
@@ -245,11 +404,10 @@ public class TMAPITest {
 				subInDeletedEvaluation.getToStudent());
 		assertEquals("null", submissionAsJason);
 
-		// try to delete the evaluation again, confirm the operation fails
+		// try to delete the evaluation again, should succeed
 		status = TMAPI.deleteEvaluation(evaluation1InCourse1.getCourseID(),
 				evaluation1InCourse1.getName());
-		assertTrue("status not as expected:" + status,
-				status.startsWith(Common.BACKEND_STATUS_FAILURE));
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		
 		//verify that the other evaluation in the same course is intact
 		Evaluation evaluation2InCourse1 = data.evaluations
@@ -268,10 +426,9 @@ public class TMAPITest {
 		Student student2InCourse1 = data.students.get("student2InCourse1");
 		assertTrue(!"null".equals(TMAPI.getStudentAsJason(student2InCourse1.getCourseID(), student2InCourse1.getEmail())));
 		
-		// try to delete the student again, confirm the operation fails
+		// try to delete the student again. should succeed.
 		status = TMAPI.deleteStudent(student1InCourse1.getCourseID(), student1InCourse1.getEmail());
-		assertTrue("status not as expected:" + status,
-				status.startsWith(Common.BACKEND_STATUS_FAILURE));
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		
 		// ----------deleting Course entities-------------------------
 		
@@ -284,7 +441,7 @@ public class TMAPITest {
 		Student student2InCourse2 = data.students.get("student2InCourse2");
 		assertEquals("null",TMAPI.getStudentAsJason(student2InCourse2.getCourseID(), student2InCourse2.getEmail()));
 		
-		//check if related evalution entities are also deleted
+		//check if related evaluation entities are also deleted
 		Evaluation evaluation1InCourse2 = data.evaluations.get("evaluation1InCourse2");
 		assertEquals("null", TMAPI.getEvaluationAsJason(
 				evaluation1InCourse2.getCourseID(),
@@ -308,127 +465,6 @@ public class TMAPITest {
 		assertEquals("[]",
 				TMAPI.getTeamFormingLogAsJason(tfsLogMessage1ForTfsInCourse2
 						.getCourseID()));
-	}
-
-	@Test
-	public void testDataBundle() {
-		String jsonString = SharedLib.getFileContents(TEST_DATA_FOLDER
-				+ "typicalDataBundle.json");
-		Gson gson = Common.getTeammatesGson();
-
-		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
-
-		Coordinator typicalCoord1 = data.coords.get("typical.coord1");
-		assertEquals("typical.coord1", typicalCoord1.getGoogleID());
-		assertEquals("Typical Coordinator1", typicalCoord1.getName());
-		assertEquals("typical.coord1@gmail.com", typicalCoord1.getEmail());
-
-		Coordinator typicalCoord2 = data.coords.get("typical.coord2");
-		assertEquals("typical.coord2", typicalCoord2.getGoogleID());
-		assertEquals("Typical Coordinator2", typicalCoord2.getName());
-		assertEquals("typical.coord2@gmail.com", typicalCoord2.getEmail());
-
-		Course course1 = data.courses.get("course1");
-		assertEquals("course1-id", course1.getID());
-		assertEquals("course 1 name", course1.getName());
-		assertEquals("typical.coord1", course1.getCoordinatorID());
-
-		Student student1InCourse1 = data.students.get("student1InCourse1");
-		assertEquals("student1InCourse1", student1InCourse1.getID());
-		assertEquals("student1 In Course1", student1InCourse1.getName());
-		assertEquals("Team 1.1", student1InCourse1.getTeamName());
-		assertEquals("comment for student1InCourse1",
-				student1InCourse1.getComments());
-		assertEquals("profile summary for student1InCourse1",
-				student1InCourse1.getProfileSummary());
-		assertEquals("course1", student1InCourse1.getCourseID());
-		assertEquals("profiledetail for student1InCourse1", student1InCourse1
-				.getProfileDetail().getValue());
-
-		Student student2InCourse2 = data.students.get("student2InCourse2");
-		assertEquals("student2InCourse2", student2InCourse2.getID());
-		assertEquals("student2 In Course2", student2InCourse2.getName());
-		assertEquals("Team 2.1", student2InCourse2.getTeamName());
-
-		Evaluation evaluation1 = data.evaluations.get("evaluation1InCourse1");
-		assertEquals("evaluation1 In Course1", evaluation1.getName());
-		assertEquals("course1", evaluation1.getCourseID());
-		assertEquals("instructions for evaluation1InCourse1",
-				evaluation1.getInstructions());
-		assertEquals(10, evaluation1.getGracePeriod());
-		assertEquals(true, evaluation1.isCommentsEnabled());
-		assertEquals("Sun Apr 01 23:59:00 SGT 2012", evaluation1.getStart()
-				.toString());
-		assertEquals("Tue Apr 30 23:59:00 SGT 2013", evaluation1.getDeadline()
-				.toString());
-		assertEquals(true, evaluation1.isActivated());
-		assertEquals(false, evaluation1.isPublished());
-		assertEquals(2.0, evaluation1.getTimeZone(), 0.01);
-
-		Evaluation evaluation2 = data.evaluations.get("evaluation2InCourse1");
-		assertEquals("evaluation2 In Course1", evaluation2.getName());
-		assertEquals("course1", evaluation2.getCourseID());
-
-		Submission submissionFromS1C1ToS2C1 = data.submissions
-				.get("submissionFromS1C1ToS2C1");
-		assertEquals("student1InCourse1@gmail.com",
-				submissionFromS1C1ToS2C1.getFromStudent());
-		assertEquals("student2InCourse1@gmail.com",
-				submissionFromS1C1ToS2C1.getToStudent());
-		assertEquals("course1", submissionFromS1C1ToS2C1.getCourseID());
-		assertEquals("evaluation1 In Course1",
-				submissionFromS1C1ToS2C1.getEvaluationName());
-		assertEquals(10, submissionFromS1C1ToS2C1.getPoints());
-		assertEquals("Team 1.1", submissionFromS1C1ToS2C1.getTeamName());
-		// since justification filed is of Text type, we have to use it's
-		// .getValue() method to access the string contained inside it
-		assertEquals(
-				"justification of student1InCourse1 rating to student2InCourse1",
-				submissionFromS1C1ToS2C1.getJustification().getValue());
-		assertEquals("comments from student1InCourse1 to student2InCourse1",
-				submissionFromS1C1ToS2C1.getCommentsToStudent().getValue());
-
-		Submission submissionFromS2C1ToS1C1 = data.submissions
-				.get("submissionFromS2C1ToS1C1");
-		assertEquals("student2InCourse1@gmail.com",
-				submissionFromS2C1ToS1C1.getFromStudent());
-		assertEquals("student1InCourse1@gmail.com",
-				submissionFromS2C1ToS1C1.getToStudent());
-
-		TeamFormingSession tfsInCourse1 = data.teamFormingSessions
-				.get("tfsInCourse1");
-		assertEquals("course1", tfsInCourse1.getCourseID());
-		assertEquals(8.0, tfsInCourse1.getTimeZone(), 0.01);
-		assertEquals("Sun Apr 01 23:59:00 SGT 2012", tfsInCourse1.getStart()
-				.toString());
-		assertEquals("Sun Apr 15 23:59:00 SGT 2012", tfsInCourse1.getDeadline()
-				.toString());
-		assertEquals("instructions for tfsInCourse1",
-				tfsInCourse1.getInstructions());
-		assertEquals("profile template for tfsInCourse1",
-				tfsInCourse1.getProfileTemplate());
-		assertEquals(10, tfsInCourse1.getGracePeriod());
-		assertEquals(false, tfsInCourse1.isActivated());
-
-		TeamProfile profileOfTeam1_1 = data.teamProfiles
-				.get("profileOfTeam1.1");
-		assertEquals("course1", profileOfTeam1_1.getCourseID());
-		assertEquals("course 1 name", profileOfTeam1_1.getCourseName());
-		assertEquals("Team 1.1", profileOfTeam1_1.getTeamName());
-		assertEquals("team profile of Team 1.1", profileOfTeam1_1
-				.getTeamProfile().getValue());
-
-		TeamFormingLog tfsLogMessageForTfsInCourse1 = data.teamFormingLogs
-				.get("tfsLogMessage1ForTfsInCourse1");
-		assertEquals("course1", tfsLogMessageForTfsInCourse1.getCourseID());
-		assertEquals("student1 In Course1",
-				tfsLogMessageForTfsInCourse1.getStudentName());
-		assertEquals("student1InCourse1@gmail.com",
-				tfsLogMessageForTfsInCourse1.getStudentEmail());
-		assertEquals("Sun Jan 01 01:01:00 SGT 2012",
-				tfsLogMessageForTfsInCourse1.getTime().toString());
-		assertEquals("log message 1 of course1, student1InCourse1@gmail.com",
-				tfsLogMessageForTfsInCourse1.getMessage().getValue());
 	}
 
 	private void verifyExistInDatastore(String dataBundleJsonString) {
