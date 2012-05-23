@@ -493,8 +493,9 @@ public class Evaluations {
 			submission.setPoints(s.getPoints());
 			submission.setJustification(s.getJustification());
 			submission.setCommentsToStudent(s.getCommentsToStudent());
-
 		}
+		
+		
 	}
 
 	/**
@@ -532,8 +533,11 @@ public class Evaluations {
 		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
 				query).execute();
 
-		if (evaluationList.isEmpty())
+		if (evaluationList.isEmpty()){
+			log.warning("Trying to get non-existent Evaluation : " + courseID
+					+ "/" + name);
 			return null;
+		}
 
 		return evaluationList.get(0);
 	}
@@ -776,6 +780,25 @@ public class Evaluations {
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
 				query).execute();
 		return submissionList;
+	}
+	
+	public Submission getSubmission(String courseId, String evaluationName,
+			String reviewerEmail, String revieweeEmail) {
+		List<Submission> allSubmissionsFromReviewer = getSubmissionFromStudentList(courseId, evaluationName,
+						reviewerEmail);
+		Submission target = null;
+		for (Submission submission : allSubmissionsFromReviewer) {
+			if (submission.getToStudent().equals(revieweeEmail)) {
+				target = submission;
+				break;
+			}
+		}
+		if (target == null) {
+			log.warning("Trying to get non-existent Submission : " + courseId
+					+ "/" + evaluationName + "/" + reviewerEmail + "/"
+					+ revieweeEmail);
+		}
+		return target;
 	}
 
 	/**

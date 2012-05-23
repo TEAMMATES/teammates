@@ -475,7 +475,7 @@ public class TMAPITest {
 	}
 
 	private void verifyAbsentInDatastore(String status, Course course2) {
-		assertTrue("unexpected status"+status,TMAPI.getCourseAsJason(course2.getID()).startsWith(Common.BACKEND_STATUS_FAILURE));
+		assertEquals("null",TMAPI.getCourseAsJason(course2.getID()));
 	}
 
 	private void verifyAbsentInDatastore(Student student1InCourse1) {

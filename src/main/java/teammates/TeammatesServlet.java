@@ -207,7 +207,12 @@ public class TeammatesServlet extends HttpServlet {
 		System.out.println(Thread.currentThread().getId() + ": " + operation);
 
 		if (operation.equals(OPERATION_ADMINISTRATOR_ADDCOORDINATOR)) {
-			administratorAddCoordinator();
+			try {
+				administratorAddCoordinator();
+			} catch (EntityAlreadyExistsException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		else if (operation.equals(OPERATION_ADMINISTRATOR_CLEANUP)) {
@@ -438,21 +443,14 @@ public class TeammatesServlet extends HttpServlet {
 		this.resp.flushBuffer();
 	}
 
-	private void administratorAddCoordinator() {
+	private void administratorAddCoordinator() throws EntityAlreadyExistsException {
 		String googleID = req.getParameter(COORDINATOR_GOOGLEID);
 		String name = req.getParameter(COORDINATOR_NAME);
 		String email = req.getParameter(COORDINATOR_EMAIL);
 
 		Accounts accounts = Accounts.inst();
 
-		try {
-			accounts.addCoordinator(googleID, name, email);
-		}
-
-		catch (AccountExistsException e) {
-
-		}
-
+		accounts.addCoordinator(googleID, name, email);
 	}
 
 	private void administratorCleanUp() {

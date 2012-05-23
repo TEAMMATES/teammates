@@ -1,6 +1,7 @@
 package teammates;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
@@ -8,6 +9,7 @@ import org.mortbay.log.Log;
 
 import teammates.exception.AccountExistsException;
 import teammates.exception.CourseDoesNotExistException;
+import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.jdo.Account;
 import teammates.jdo.Coordinator;
@@ -31,6 +33,8 @@ public class Accounts {
 
 	private static UserService userService;
 	private static Accounts instance = null;
+	private static final Logger log = Logger.getLogger(Accounts.class
+			.getSimpleName());
 
 	/**
 	 * Constructs an Accounts object. Initialises userService for Google User
@@ -76,20 +80,12 @@ public class Accounts {
 	 * 
 	 */
 	public void addCoordinator(String googleID, String name, String email)
-			throws AccountExistsException {
-		// Check that the account does not already exist
+			throws EntityAlreadyExistsException {
 		if (getCoordinator(googleID) != null) {
-			throw new AccountExistsException();
+			throw new EntityAlreadyExistsException("Coordinator already exists :" + googleID);
 		}
-
 		Coordinator coordinator = new Coordinator(googleID, name, email);
-
-		try {
-			getPM().makePersistent(coordinator);
-		}
-
-		finally {
-		}
+		getPM().makePersistent(coordinator);
 	}
 
 	/**
@@ -110,6 +106,7 @@ public class Accounts {
 				.newQuery(query).execute();
 
 		if (coordinatorList.isEmpty()) {
+			log.warning("Trying to get non-existent Coord : " + googleID);
 			return null;
 		}
 
@@ -126,6 +123,8 @@ public class Accounts {
 				.newQuery(query).execute();
 
 		if (studentList.isEmpty()) {
+			log.warning("Trying to get non-existent Student : " + courseId
+					+ "/" + email);
 			return null;
 		}
 		return studentList.get(0);

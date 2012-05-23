@@ -87,7 +87,7 @@ public class TeammatesServletTest {
 				Courses.inst();
 				result = courses;
 				courses.addCourse(anyString, anyString, anyString);
-				result = new EntityAlreadyExistsException();
+				result = new EntityAlreadyExistsException("any error");
 				resp.getWriter();
 				result = new PrintWriter("test.txt");
 			}

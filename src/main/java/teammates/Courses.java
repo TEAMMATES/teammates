@@ -1,9 +1,10 @@
 package teammates;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
@@ -11,13 +12,13 @@ import org.mortbay.log.Log;
 
 import teammates.exception.CourseDoesNotExistException;
 import teammates.exception.EntityAlreadyExistsException;
-import teammates.exception.CourseInputInvalidException;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.GoogleIDExistsInCourseException;
 import teammates.exception.InvalidParametersException;
 import teammates.exception.RegistrationKeyInvalidException;
 import teammates.exception.RegistrationKeyTakenException;
 import teammates.jdo.Course;
+import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.EnrollmentReport;
 import teammates.jdo.EnrollmentStatus;
 import teammates.jdo.Student;
@@ -38,6 +39,8 @@ import com.google.appengine.api.taskqueue.TaskOptions;
  */
 public class Courses {
 	private static Courses instance = null;
+	private static final Logger log = Logger.getLogger(Courses.class
+			.getSimpleName());
 
 	/**
 	 * Constructs a Courses object. Obtains an instance of PersistenceManager
@@ -83,7 +86,7 @@ public class Courses {
 		Course course = new Course(courseId, courseName, coordId);
 
 		if (getCourse(courseId) != null) {
-			throw new EntityAlreadyExistsException();
+			throw new EntityAlreadyExistsException("Course already exists : "+courseId);
 		}
 
 
@@ -455,6 +458,23 @@ public class Courses {
 		return courseList;
 	}
 	
+	public HashMap<String, CourseSummaryForCoordinator> getCourseSummaryListForCoord(String coordId){
+		List<Course> courseList = getCoordinatorCourseList(coordId);
+		HashMap<String, CourseSummaryForCoordinator> courseSummaryList = new HashMap<String, CourseSummaryForCoordinator>();
+
+		for (Course c : courseList) {
+			CourseSummaryForCoordinator courseSummary = 
+					new CourseSummaryForCoordinator(
+							c.getID(), c.getName(), c.isArchived(), 
+							getNumberOfTeams(c.getID()), 
+							getTotalStudents(c.getID()),
+							getUnregistered(c.getID())
+						);
+			courseSummaryList.put(c.getID(),courseSummary);
+		}
+		return courseSummaryList;
+	}
+	
 	/**
 	 * Returns the Student objects of the specified googleID.
 	 * 
@@ -476,19 +496,22 @@ public class Courses {
 	/**
 	 * Returns a course.
 	 * 
-	 * @param ID
+	 * @param courseId
 	 *            the course ID (Precondition: Must not be null)
 	 * 
 	 * @return Course the course that has the specified ID
 	 */
-	public Course getCourse(String ID) {
-		String query = "select from " + Course.class.getName() + " where ID == \"" + ID + "\"";
+	public Course getCourse(String courseId) {
+		String query = "select from " + Course.class.getName() + " where ID == \"" + courseId + "\"";
 
 		@SuppressWarnings("unchecked")
 		List<Course> courseList = (List<Course>) getPM().newQuery(query).execute();
 
-		if (courseList.isEmpty())
+		if (courseList.isEmpty()){
+			String errorMessage = "Trying to get non-existent Course : " + courseId;
+			log.warning(errorMessage);
 			return null;
+		}
 
 		return courseList.get(0);
 	}

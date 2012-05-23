@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
 
+import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.TeamFormingSessionExistsException;
 import teammates.exception.TeamProfileExistsException;
@@ -80,6 +81,7 @@ public class TeamForming {
 	 * @param gracePeriod
 	 *            the amount of time after the deadline within which submissions
 	 *            will still be accepted (Pre-condition: Must not be null)
+	 * @throws EntityAlreadyExistsException 
 	 * 
 	 * @throws EvaluationExistsException
 	 *             if an evaluation with the specified name exists for the
@@ -88,9 +90,9 @@ public class TeamForming {
 	public void createTeamFormingSession(String courseID, Date start,
 			Date deadline, double timeZone, int gracePeriod,
 			String instructions, String profileTemplate)
-			throws TeamFormingSessionExistsException {
+			throws EntityAlreadyExistsException {
 		if (getTeamFormingSession(courseID, deadline) != null) {
-			throw new TeamFormingSessionExistsException();
+			throw new EntityAlreadyExistsException("TeamformingSession already exists : "+courseID);
 		}
 
 		TeamFormingSession teamFormingSession = new TeamFormingSession(
@@ -103,8 +105,7 @@ public class TeamForming {
 		}
 	}
 
-	public void createTeamFormingSession(TeamFormingSession tfs)
-			throws TeamFormingSessionExistsException {
+	public void createTeamFormingSession(TeamFormingSession tfs) throws EntityAlreadyExistsException {
 		createTeamFormingSession(tfs.getCourseID(), tfs.getStart(),
 				tfs.getDeadline(), tfs.getTimeZone(), tfs.getGracePeriod(),
 				tfs.getInstructions(), tfs.getProfileTemplate());
@@ -127,22 +128,19 @@ public class TeamForming {
 	 */
 	public void createTeamProfile(String courseId, String courseName,
 			String teamName, Text teamProfile)
-			throws TeamProfileExistsException {
+			throws EntityAlreadyExistsException {
 		if (getTeamProfile(courseId, teamName) != null) {
-			throw new TeamProfileExistsException();
+			throw new EntityAlreadyExistsException("Team Profile already exists : "+courseId+"/"+teamName);
 		}
 
 		TeamProfile newTeamProfile = new TeamProfile(courseId, courseName,
 				teamName, teamProfile);
 
-		try {
 			getPM().makePersistent(newTeamProfile);
-		} finally {
-		}
 	}
 
 	public void createTeamProfile(TeamProfile teamProfile)
-			throws TeamProfileExistsException {
+			throws EntityAlreadyExistsException {
 		createTeamProfile(teamProfile.getCourseID(),
 				teamProfile.getCourseName(), teamProfile.getTeamName(),
 				teamProfile.getTeamProfile());
@@ -150,7 +148,7 @@ public class TeamForming {
 
 	public void createTeamWithStudent(String courseId, String courseName,
 			String newStudentEmail, String currentStudentEmail,
-			String currentStudentNickName) throws TeamProfileExistsException {
+			String currentStudentNickName) throws EntityAlreadyExistsException {
 		Student currentStudent = getStudent(courseId, currentStudentEmail);
 		Student newStudent = getStudent(courseId, newStudentEmail);
 
@@ -382,8 +380,11 @@ public class TeamForming {
 			@SuppressWarnings("unchecked")
 			List<TeamProfile> tProfile = (List<TeamProfile>) getPM().newQuery(
 					query).execute();
-			if (tProfile.isEmpty())
+			if (tProfile.isEmpty()){
+				log.warning("Trying to get non-existent TeamProfile : " + courseID
+						+ "/" + teamName);
 				return null;
+			}
 
 			return tProfile.get(0);
 		} catch (Exception e) {
@@ -441,6 +442,7 @@ public class TeamForming {
 			@SuppressWarnings("unchecked")
 			List<TeamFormingLog> teamFormingLogList = (List<TeamFormingLog>) getPM()
 					.newQuery(query).execute();
+			
 			return teamFormingLogList;
 	}
 

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.users.User;
 
+import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.TeamFormingSessionExistsException;
 import teammates.exception.TeamProfileExistsException;
@@ -299,7 +300,7 @@ public class TeamFormingServlet extends HttpServlet {
 		try{
 		teamForming.createTeamWithStudent(courseId, courseName, newStudentEmail, currentStudentEmail, currentStudentNickName);
 		}
-		catch (TeamProfileExistsException e){
+		catch (EntityAlreadyExistsException e){
 			resp.getWriter().write(
 					MSG_STATUS_OPENING + MSG_TEAMPROFILE_EXISTS + MSG_STATUS_CLOSING);
 		}
@@ -366,7 +367,7 @@ public class TeamFormingServlet extends HttpServlet {
 					MSG_STATUS_OPENING + MSG_TEAMFORMINGSESSION_ADDED + MSG_STATUS_CLOSING);
 		}
 		
-		catch (TeamFormingSessionExistsException e){
+		catch (EntityAlreadyExistsException e){
 			resp.getWriter().write(
 					MSG_STATUS_OPENING + MSG_TEAMFORMINGSESSION_EXISTS + MSG_STATUS_CLOSING);
 		}
@@ -388,7 +389,7 @@ public class TeamFormingServlet extends HttpServlet {
 					MSG_STATUS_OPENING + MSG_TEAMPROFILE_SAVED + MSG_STATUS_CLOSING);
 		}
 		
-		catch (TeamProfileExistsException e){
+		catch (EntityAlreadyExistsException e){
 			resp.getWriter().write(
 					MSG_STATUS_OPENING + MSG_TEAMPROFILE_EXISTS + MSG_STATUS_CLOSING);
 		}
