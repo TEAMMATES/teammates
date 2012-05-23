@@ -17,4 +17,12 @@ public class BaseTestCase {
 		System.out.println(testClassName+" completed");
 	}
 
+	protected String getNameOfThisMethod() {
+		return Thread.currentThread().getStackTrace()[2].getMethodName();
+	}
+	
+	protected static String getNameOfThisClass() {
+		return Thread.currentThread().getStackTrace()[2].getClassName();
+	}
+
 }

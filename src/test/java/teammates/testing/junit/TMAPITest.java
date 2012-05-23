@@ -1,25 +1,32 @@
 package teammates.testing.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.lang.reflect.Type;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
-import org.junit.*;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import teammates.Common;
 import teammates.DataBundle;
-import teammates.jdo.*;
+import teammates.jdo.Coordinator;
+import teammates.jdo.Course;
+import teammates.jdo.Evaluation;
+import teammates.jdo.Student;
+import teammates.jdo.Submission;
+import teammates.jdo.TeamFormingLog;
+import teammates.jdo.TeamFormingSession;
+import teammates.jdo.TeamProfile;
 import teammates.testing.lib.SharedLib;
 import teammates.testing.lib.TMAPI;
-import static org.junit.Assert.*;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class TMAPITest {
 
@@ -270,7 +277,6 @@ public class TMAPITest {
 	
 	@Test 
 	public void testPersistDataBundle(){
-		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
 		//to avoid clashes with existing data
 		TMAPI.deleteCoordinators(jsonString);
 		String status = TMAPI.persistNewDataBundle(jsonString);
