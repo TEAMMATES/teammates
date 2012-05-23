@@ -92,7 +92,6 @@ public class CoordCourseDeleteStudentsTest extends TestCase {
 		bi.goToCourses();
 		bi.clickCoordCourseView(scn.course.courseId);
 
-		// bi.clickAndConfirm(By.id("button_delete"));
 		bi.clickAndConfirm(bi.deleteStudentsButton);
 		bi.waitForTextInElement(bi.statusMessage, BrowserInstance.MESSAGE_COURSE_DELETED_ALLSTUDENTS);
 

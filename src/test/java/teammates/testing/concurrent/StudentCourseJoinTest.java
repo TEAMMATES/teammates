@@ -54,7 +54,7 @@ public class StudentCourseJoinTest extends TestCase {
 
 		bi.clickAndConfirm(bi.remindStudentsButton);
 
-		assertEquals(bi.MESSAGE_ENROL_REMIND_TO_JOIN, bi.getElementText(bi.statusMessage));
+		assertEquals(bi.MESSAGE_ENROLL_REMIND_TO_JOIN, bi.getElementText(bi.statusMessage));
 
 		// Collect keys
 		System.out.println("Collecting registration keys.");

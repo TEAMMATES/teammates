@@ -1,4 +1,4 @@
-module("Coordinator EnrolStudents");// EnrolStudents()----------------------------------------------------------------
+module("Coordinator EnrollStudents");// EnrollStudents()----------------------------------------------------------------
 
 //NOTE: all '|' characters have been replaced by '\t' before this function
 test('isEnrollmentInputValid(input)', function() {
@@ -41,22 +41,22 @@ test('isEnrollmentInputValid(input)', function() {
 });
 
 //mocked server-side test
-test('sendEnrolStudentsRequest(input,courseid)', function() {
+test('sendEnrollStudentsRequest(input,courseid)', function() {
 	var STATUS_OPEN = 1;
 	xmlhttp = new MockHttpRequest();
-	sendEnrolStudentsRequest("TeamTeam A \tAlice\talice.tmms@gmail.com","CS2103");
+	sendEnrollStudentsRequest("TeamTeam A \tAlice\talice.tmms@gmail.com","CS2103");
 	equal(xmlhttp.readyState, STATUS_OPEN, "Request State: Connection Open");
 	equal(xmlhttp.getRequestHeader("Content-Type"), 
 			"application/x-www-form-urlencoded;",
 			"Request Header: content-type = application/x-www-form-urlencoded;");
 	equal(xmlhttp.requestText,
-			"operation=coordinator_enrolstudents&information=TeamTeam%20A%20%09Alice%09alice.tmms%40gmail.com&courseid=CS2103",
-			"Request Data: operation=coordinator_enrolstudents");
+			"operation=coordinator_enrollstudents&information=TeamTeam%20A%20%09Alice%09alice.tmms%40gmail.com&courseid=CS2103",
+			"Request Data: operation=coordinator_enrollstudents");
 
 });
-test('processEnrolStudentsResponse()', function() {
+test('processEnrollStudentsResponse()', function() {
 	xmlhttp = new MockHttpRequest();
-	sendEnrolStudentsRequest("TeamTeam A \tAlice\talice.tmms@gmail.com","CS2103");
+	sendEnrollStudentsRequest("TeamTeam A \tAlice\talice.tmms@gmail.com","CS2103");
 	var response = 	'<enrollmentreports>'+
 						'<enrollmentreport>'+
 							'<name><![CDATA[Alice]]></name>'+
@@ -79,14 +79,14 @@ test('processEnrolStudentsResponse()', function() {
 		  	}
 		];
 	xmlhttp.receive(CONNECTION_OK,response);
-	deepEqual(processEnrolStudentsResponse(), expectedResult, "HttpServletResponse: enrol successfully");			
+	deepEqual(processEnrollStudentsResponse(), expectedResult, "HttpServletResponse: enroll successfully");			
 
 })
 
-test('processEnrolStudentsResponse()', function() {
+test('processEnrollStudentsResponse()', function() {
 	xmlhttp = new MockHttpRequest();
 	// the input does not matter, we only need the response
-	sendEnrolStudentsRequest("TeamTeam A \tAlice\talice.tmms@gmail.com","CS2103");
+	sendEnrollStudentsRequest("TeamTeam A \tAlice\talice.tmms@gmail.com","CS2103");
 	var response =
 			'<enrollmentreports>' +
 				'<enrollmentreport>' +
@@ -206,7 +206,7 @@ test('processEnrolStudentsResponse()', function() {
 		  }
 ]
 	xmlhttp.receive(CONNECTION_OK,response);
-	deepEqual(processEnrolStudentsResponse(), expectedResult, "HttpServletResponse: enrol successfully");	
+	deepEqual(processEnrollStudentsResponse(), expectedResult, "HttpServletResponse: enroll successfully");	
 		
 
 })

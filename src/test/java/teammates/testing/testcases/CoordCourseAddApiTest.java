@@ -35,6 +35,8 @@ public class CoordCourseAddApiTest extends BaseTestCase{
 	private final String COURSE_NAME_UPPER = "CCAAT Programming Methodology";
 	private final String COURSE_ID_LOWER = COURSE_ID_UPPER.toLowerCase();
 	private final String COURSE_NAME_LOWER = COURSE_NAME_UPPER.toLowerCase();
+	private final String COURSE_ID_DELETE = "CCAAT.CS2104";
+	private final String COURSE_NAME_DELETE = "CCAAT Programming Language Concepts";
 	private final String GOOGLE_ID = Config.inst().TEAMMATES_COORD_ID;
 	
 	@BeforeClass
@@ -107,7 +109,7 @@ public class CoordCourseAddApiTest extends BaseTestCase{
 	}
 	
 	@Test
-	public void testCourseIDCaseSensitivity() throws IOException, ServletException {
+	public void testCoordCourseAddIDCaseSensitivity() throws IOException, ServletException {
 		String response;
 		
 		// Add course with lowercase courseID
@@ -121,6 +123,23 @@ public class CoordCourseAddApiTest extends BaseTestCase{
 		// Add course with same ID but in uppercase, with same course name
 		response = ts.coordinatorAddCourse(COURSE_ID_UPPER, COURSE_NAME_UPPER, GOOGLE_ID);
 		assertEquals(Common.COORD_ADD_COURSE_RESPONSE_EXISTS,response);
+	}
+	
+	@Test
+	public void testCoordCourseDelete() throws IOException, ServletException{
+		String response;
+		
+		// Add course first, verifies that it's added
+		response = ts.coordinatorAddCourse(COURSE_ID_DELETE, COURSE_NAME_DELETE, GOOGLE_ID);
+		assertEquals(Common.COORD_ADD_COURSE_RESPONSE_ADDED,response);
+		
+		// Delete the course
+		response = ts.coordinatorDeleteCourse(COURSE_ID_DELETE);
+		assertEquals(Common.COORD_DELETE_COURSE_RESPONSE_DELETED,response);
+		
+		// Delete non-existant course
+		response = ts.coordinatorDeleteCourse(COURSE_ID_DELETE+".X");
+		assertEquals(Common.COORD_DELETE_COURSE_RESPONSE_DELETED,response);
 	}
 	
 	@AfterClass

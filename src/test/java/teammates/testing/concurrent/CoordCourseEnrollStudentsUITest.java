@@ -16,13 +16,13 @@ import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Scenario;
 import teammates.testing.object.Student;
 
-public class CoordCourseEnrolStudentsUITest extends TestCase {
+public class CoordCourseEnrollStudentsUITest extends TestCase {
 	static BrowserInstance bi;
 	static Scenario scn = setupScenarioInstance("scenario");
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		System.out.println("========== CoordCourseEnrolStudentsTest");
+		System.out.println("========== CoordCourseEnrollStudentsTest");
 		bi = BrowserInstancePool.getBrowserInstance();
 		
 		TMAPI.cleanupCourse(scn.course.courseId);
@@ -38,23 +38,23 @@ public class CoordCourseEnrolStudentsUITest extends TestCase {
 		TMAPI.cleanupCourse(scn.course.courseId);
 		
 		BrowserInstancePool.release(bi);
-		System.out.println("CoordCourseEnrolStudentsTest ==========//");
+		System.out.println("CoordCourseEnrollStudentsTest ==========//");
 	}
 
 	
 	@Test
-	public void testCoordEnrolStudents() {
-		testCoordEnrolStudentsSuccessful();
-		testCoordEnrolExistingStudentsSuccessful();
+	public void testCoordEnrollStudents() {
+		testCoordEnrollStudentsSuccessful();
+		testCoordEnrollExistingStudentsSuccessful();
 	}
 	
 	/**
-	 * Test: enrol new students
+	 * Test: enroll new students
 	 * Condition: a course has been created
-	 * Action: enter student list and click enrol button
+	 * Action: enter student list and click enroll button
 	 * Expectation: studnets added successfully
 	 * */
-	public void testCoordEnrolStudentsSuccessful() {
+	public void testCoordEnrollStudentsSuccessful() {
 		bi.goToCourses();
 
 		int half = scn.students.size() / 2;
@@ -63,7 +63,7 @@ public class CoordCourseEnrolStudentsUITest extends TestCase {
 
 		// Check for number of successful students enrolled
 		bi.verifyEnrollment(half, 0);
-		bi.clickWithWait(bi.coordEnrolBackButton);
+		bi.clickWithWait(bi.coordEnrollBackButton);
 
 		// Calculate the number of TEAMs
 		Set<String> set = new HashSet<String>();
@@ -77,14 +77,14 @@ public class CoordCourseEnrolStudentsUITest extends TestCase {
 	
 
 	/**
-	 * Test: enrol duplicate students
+	 * Test: enroll duplicate students
 	 * Condition: a course has been created, students have been added into the course
-	 * Action: enter same student list and click enrol button
+	 * Action: enter same student list and click enroll button
 	 * Expectation: studnets edited successfully, nothing change, no error message
 	 * 
-	 * Dependency: testCoordEnrolStudentsSuccessful()
+	 * Dependency: testCoordEnrollStudentsSuccessful()
 	 * */
-	public void testCoordEnrolExistingStudentsSuccessful() {
+	public void testCoordEnrollExistingStudentsSuccessful() {
 		int studentAdded = 0;
 		int studentEdited = 0;
 		bi.goToCourses();
@@ -95,7 +95,7 @@ public class CoordCourseEnrolStudentsUITest extends TestCase {
 		
 		// Check for number of successful students enrolled
 		bi.verifyEnrollment(studentAdded, studentEdited);
-		bi.clickWithWait(bi.coordEnrolBackButton);
+		bi.clickWithWait(bi.coordEnrollBackButton);
 
 		// Calculate the number of TEAMs
 		Set<String> set = new HashSet<String>();
@@ -107,29 +107,29 @@ public class CoordCourseEnrolStudentsUITest extends TestCase {
 	}
 	
 	/**
-	 *	Test: enrol students with Invalid input format
+	 *	Test: enroll students with Invalid input format
 	 *	Condition: a course has been added
 	 *	Action: enter invalid data format
 	 *	Expectation: students not added, show error message
 	 *	
-	 *	testCoordEnrolStudentWithTabSuccessful
+	 *	testCoordEnrollStudentWithTabSuccessful
 	 */
 	@Test
-	public void testCoordEnrolStudentsWithInvalidInputFailed() {
+	public void testCoordEnrollStudentsWithInvalidInputFailed() {
 		bi.goToCourses();
-		bi.clickCoordCourseEnrol(scn.course.courseId);
+		bi.clickCoordCourseEnroll(scn.course.courseId);
 		bi.verifyCoordCourseEnrollPage();
 		
-		testCoordEnrolStudentsWithInvalidTeamFailed();
-		testCoordEnrolStudentsWithInvalidNameFailed();
-		testCoordEnrolStudentsWithInvalidEmailFailed();
-		testCoordEnrolStudentWithInvalidCommentFailed();
+		testCoordEnrollStudentsWithInvalidTeamFailed();
+		testCoordEnrollStudentsWithInvalidNameFailed();
+		testCoordEnrollStudentsWithInvalidEmailFailed();
+		testCoordEnrollStudentWithInvalidCommentFailed();
 		
-		testCoordEnrolStudentsWithoutCommentSuccessful();
+		testCoordEnrollStudentsWithoutCommentSuccessful();
 	}
 	
 	//TODO:
-	private void testCoordEnrolStudentsWithInvalidTeamFailed() {
+	private void testCoordEnrollStudentsWithInvalidTeamFailed() {
 		//without team
 		
 		//invalid team
@@ -137,43 +137,43 @@ public class CoordCourseEnrolStudentsUITest extends TestCase {
 	}
 	
 	//TODO:
-	private void testCoordEnrolStudentsWithInvalidNameFailed() {
+	private void testCoordEnrollStudentsWithInvalidNameFailed() {
 		//without name
 		
 		//invalid name
 	}
 	
-	private void testCoordEnrolStudentsWithInvalidEmailFailed() {
+	private void testCoordEnrollStudentsWithInvalidEmailFailed() {
 		String studentList = "Team 1|User 6|\n" + "Team 1|User 0|\n|" + "Team 1|User 1| |";
 		
-		bi.fillString(bi.coordEnrolInfo, studentList);
-		bi.clickWithWait(bi.coordEnrolButton);
+		bi.fillString(bi.coordEnrollInfo, studentList);
+		bi.clickWithWait(bi.coordEnrollButton);
 		
-		assertEquals(bi.ERROR_MESSAGE_ENROL_INVALID_EMAIL, bi.getElementText(bi.courseErrorMessage));
+		assertEquals(bi.ERROR_MESSAGE_ENROLL_INVALID_EMAIL, bi.getElementText(bi.courseErrorMessage));
 	}	
 	
 	//TODO:
-	private void testCoordEnrolStudentWithInvalidCommentFailed() {
+	private void testCoordEnrollStudentWithInvalidCommentFailed() {
 		
 	}
 	
 	//TODO:
-	private void testCoordEnrolStudentsWithoutCommentSuccessful() {
+	private void testCoordEnrollStudentsWithoutCommentSuccessful() {
 		
 	}
 	
 	
 	
-	//TODO: testCoordEnrolStudentWithRandomTeamSuccessful
-	//TODO: testCoordEnrolStudentWithRandomStudentNameSuccessful
+	//TODO: testCoordEnrollStudentWithRandomTeamSuccessful
+	//TODO: testCoordEnrollStudentWithRandomStudentNameSuccessful
 	
 	
 	/**
-	 * testCoordEnrolStudentWithDuplicateEmailSuccessful
-	 * testCoordEnrolStudentWithDuplicateStudentNameSuccessful
+	 * testCoordEnrollStudentWithDuplicateEmailSuccessful
+	 * testCoordEnrollStudentWithDuplicateStudentNameSuccessful
 	 * */
 //	@Test
-//	public void testCoordEnrolStudentsWithDuplicateSuccessful() {
+//	public void testCoordEnrollStudentsWithDuplicateSuccessful() {
 //		
 //	}
 

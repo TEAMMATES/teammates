@@ -416,7 +416,7 @@ public class APIServlet extends HttpServlet {
 			}
 		}
 		// Add and edit Student objects in the datastore
-		boolean edited = enrollmentReportList.addAll(courses.enrolStudents(
+		boolean edited = enrollmentReportList.addAll(courses.enrollStudents(
 				studentList, courseId));
 
 		if (edited) {

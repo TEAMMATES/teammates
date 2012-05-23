@@ -72,11 +72,11 @@ public class CoordCourseViewTest extends TestCase {
 
 
 		bi.clickCourseTab();
-		bi.clickCoordCourseEnrol(scn.course.courseId);
+		bi.clickCoordCourseEnroll(scn.course.courseId);
 		bi.verifyCoordCourseEnrollPage();
 
-		bi.fillString(bi.coordEnrolInfo, String.format("%s|%s|%s|", FIRST_STUDENT.teamName, newStudent, newEmail));
-		bi.clickWithWait(bi.coordEnrolButton);
+		bi.fillString(bi.coordEnrollInfo, String.format("%s|%s|%s|", FIRST_STUDENT.teamName, newStudent, newEmail));
+		bi.clickWithWait(bi.coordEnrollButton);
 
 		bi.clickCourseTab();
 		bi.clickCoordCourseView(scn.course.courseId);

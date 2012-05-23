@@ -12,7 +12,7 @@ import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Scenario;
 
-public class CoordCourseEnrolCaseSensitivityTest extends TestCase {
+public class CoordCourseEnrollCaseSensitivityTest extends TestCase {
 	static BrowserInstance bi;
 	static Scenario scn = setupScenarioInstance("scenario");
 	
@@ -25,7 +25,7 @@ public class CoordCourseEnrolCaseSensitivityTest extends TestCase {
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		System.out.println("========== CoordCourseEnrolCaseSensitivityTest");
+		System.out.println("========== CoordCourseEnrollCaseSensitivityTest");
 		bi = BrowserInstancePool.getBrowserInstance();
 		
 		TMAPI.cleanupCourse(scn.course.courseId);
@@ -42,24 +42,24 @@ public class CoordCourseEnrolCaseSensitivityTest extends TestCase {
 		TMAPI.cleanupCourse(scn.course.courseId);
 		
 		BrowserInstancePool.release(bi);
-		System.out.println("CoordCourseEnrolCaseSensitivityTest ==========//");
+		System.out.println("CoordCourseEnrollCaseSensitivityTest ==========//");
 	}
 	
 	/**
-	 * testCoordEnrolStudentTeamCaseSensitivity
+	 * testCoordEnrollStudentTeamCaseSensitivity
 	 */
 	@Test
-	public void testCoordEnrolStudentTeamCaseSensitivity() {
+	public void testCoordEnrollStudentTeamCaseSensitivity() {
 		TMAPI.createCourse(scn.course);
 		
-		System.out.println("testCoordEnrolStudentsCaseSensitivity: team name - insensitive");
+		System.out.println("testCoordEnrollStudentsCaseSensitivity: team name - insensitive");
 		String students = STUDENT_TEAM_LOWER + "|" + STUDENT_NAME_LOWER + "|" + STUDENT_EMAIL_LOWER + "|" + '\n' +
 				   			STUDENT_TEAM_UPPER + "|" + STUDENT_NAME_LOWER + "|" + STUDENT_EMAIL_LOWER + "|";
 
-		bi.clickCoordCourseEnrol(scn.course.courseId);
-		bi.fillString(bi.coordEnrolInfo, students);
-		bi.clickWithWait(bi.coordEnrolButton);
-		bi.clickWithWait(bi.coordEnrolBackButton);
+		bi.clickCoordCourseEnroll(scn.course.courseId);
+		bi.fillString(bi.coordEnrollInfo, students);
+		bi.clickWithWait(bi.coordEnrollButton);
+		bi.clickWithWait(bi.coordEnrollBackButton);
 		
 		// Verify number of teams, should be 1 since team 1 == TEAM 1
 		assertEquals("1", bi.getCourseNumberOfTeams(scn.course.courseId));
@@ -68,18 +68,18 @@ public class CoordCourseEnrolCaseSensitivityTest extends TestCase {
 	}
 	
 	@Test
-	public void testCoordEnrolStudentNameCaseSensitivity() {
+	public void testCoordEnrollStudentNameCaseSensitivity() {
 		TMAPI.createCourse(scn.course);
 		
-		System.out.print("testCoordEnrolStudentsCaseSensitivity: student name - insensitive");
+		System.out.print("testCoordEnrollStudentsCaseSensitivity: student name - insensitive");
 		//-------------------------same student
 		String students = STUDENT_TEAM_LOWER + "|" + STUDENT_NAME_LOWER + "|" + STUDENT_EMAIL_LOWER + "|" + '\n' +
 				   			STUDENT_TEAM_LOWER + "|" + STUDENT_NAME_UPPER + "|" + STUDENT_EMAIL_LOWER + "|";
 		
-		bi.clickCoordCourseEnrol(scn.course.courseId);
-		bi.fillString(bi.coordEnrolInfo, students);
-		bi.clickWithWait(bi.coordEnrolButton);
-		bi.clickWithWait(bi.coordEnrolBackButton);
+		bi.clickCoordCourseEnroll(scn.course.courseId);
+		bi.fillString(bi.coordEnrollInfo, students);
+		bi.clickWithWait(bi.coordEnrollButton);
+		bi.clickWithWait(bi.coordEnrollBackButton);
 		
 		//verify students: alice == Alice?
 		assertEquals("1", bi.getCourseTotalStudents(scn.course.courseId));
@@ -88,14 +88,14 @@ public class CoordCourseEnrolCaseSensitivityTest extends TestCase {
 		bi.clickCoordCourseView(scn.course.courseId);
 		bi.clickAndConfirm(bi.deleteStudentsButton);
 		bi.waitForTextInElement(bi.statusMessage, BrowserInstance.MESSAGE_COURSE_DELETED_ALLSTUDENTS);
-		bi.clickWithWait(By.className("t_course_enrol"));//inside message link
+		bi.clickWithWait(By.className("t_course_enroll"));//inside message link
 
 		//-------------------------what if two students have the same name?
 		students = STUDENT_TEAM_LOWER + "|" + STUDENT_NAME_LOWER + "|benny.tmms@gmail.com|" + '\n' +
 				   STUDENT_TEAM_LOWER + "|" + STUDENT_NAME_UPPER + "|danny.tmms@gmail.com|";
-		bi.fillString(bi.coordEnrolInfo, students);
-		bi.clickWithWait(bi.coordEnrolButton);
-		bi.clickWithWait(bi.coordEnrolBackButton);
+		bi.fillString(bi.coordEnrollInfo, students);
+		bi.clickWithWait(bi.coordEnrollButton);
+		bi.clickWithWait(bi.coordEnrollBackButton);
 		
 		//TODO: verify students: alice (benny.tmms@gmail.com) != Alice (danny.tmms@gmail.com)
 		assertEquals("2", bi.getCourseTotalStudents(scn.course.courseId));
@@ -104,17 +104,17 @@ public class CoordCourseEnrolCaseSensitivityTest extends TestCase {
 	}
 	
 	@Test
-	public void testCoordEnrolStudentEmailCaseSensitivity() {
+	public void testCoordEnrollStudentEmailCaseSensitivity() {
 		TMAPI.createCourse(scn.course);
 		
 		System.out.println("testSystemCaseSensitivity: student email - insensitive");
 		String students = STUDENT_TEAM_LOWER + "|" + STUDENT_NAME_LOWER + "|" + STUDENT_EMAIL_LOWER + "|" + '\n' +
 				   			STUDENT_TEAM_LOWER + "|" + STUDENT_NAME_LOWER + "|" + STUDENT_EMAIL_UPPER + "|";
 		
-		bi.clickCoordCourseEnrol(scn.course.courseId);
-		bi.fillString(bi.coordEnrolInfo, students);
-		bi.clickWithWait(bi.coordEnrolButton);
-		bi.clickWithWait(bi.coordEnrolBackButton);
+		bi.clickCoordCourseEnroll(scn.course.courseId);
+		bi.fillString(bi.coordEnrollInfo, students);
+		bi.clickWithWait(bi.coordEnrollButton);
+		bi.clickWithWait(bi.coordEnrollBackButton);
 		
 		//TODO: verify students: alice (alice.tmms@gmail.com) == alice (ALICE.TMMS@GMAIL.COM)
 		//assertEquals("1", bi.getCourseTotalStudents(scn.course.courseId));

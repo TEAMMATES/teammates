@@ -259,7 +259,7 @@ public class Accounts {
 	public void deleteCoord(String coordId){
 		Coordinator coord = getCoordinator(coordId);
 		if (coord == null) {
-			String errorMessage = "Trying to delete non-existent coordinataor: "
+			String errorMessage = "Trying to delete non-existent coordinator: "
 					+ coordId;
 			Log.warn(errorMessage);
 		}

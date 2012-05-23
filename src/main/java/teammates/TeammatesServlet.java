@@ -66,7 +66,7 @@ public class TeammatesServlet extends HttpServlet {
 	private static final String OPERATION_COORDINATOR_EDITEVALUATION = "coordinator_editevaluation";
 	private static final String OPERATION_COORDINATOR_EDITEVALUATIONRESULTS = "coordinator_editevaluationresults";
 	private static final String OPERATION_COORDINATOR_EDITSTUDENT = "coordinator_editstudent";
-	private static final String OPERATION_COORDINATOR_ENROLSTUDENTS = "coordinator_enrolstudents";
+	private static final String OPERATION_COORDINATOR_ENROLLSTUDENTS = "coordinator_enrollstudents";
 	private static final String OPERATION_COORDINATOR_GETCOURSE = "coordinator_getcourse";
 	private static final String OPERATION_COORDINATOR_GETCOURSELIST = "coordinator_getcourselist";
 	private static final String OPERATION_COORDINATOR_GETEVALUATIONLIST = "coordinator_getevaluationlist";
@@ -289,10 +289,10 @@ public class TeammatesServlet extends HttpServlet {
 			coordinatorEditStudent();
 		}
 
-		else if (operation.equals(OPERATION_COORDINATOR_ENROLSTUDENTS)) {
+		else if (operation.equals(OPERATION_COORDINATOR_ENROLLSTUDENTS)) {
 			String information = req.getParameter(STUDENT_INFORMATION);
 			String courseID = req.getParameter(COURSE_ID);
-			String response =coordinatorEnrolStudents(information,courseID);
+			String response =coordinatorEnrollStudents(information,courseID);
 			resp.getWriter().write(response);
 		}
 
@@ -727,7 +727,7 @@ public class TeammatesServlet extends HttpServlet {
 		resp.getWriter().write(MSG_STATUS_OPENING + MSG_EVALUATION_EDITED + MSG_STATUS_CLOSING);
 	}
 
-	public String coordinatorEnrolStudents(String information,String courseID) throws IOException {
+	public String coordinatorEnrollStudents(String information,String courseID) throws IOException {
 
 
 		// Break down the input into Student objects
@@ -788,7 +788,7 @@ public class TeammatesServlet extends HttpServlet {
 		 */
 
 		// Add and edit Student objects in the datastore
-		enrollmentReportList.addAll(courses.enrolStudents(studentList, courseID));
+		enrollmentReportList.addAll(courses.enrollStudents(studentList, courseID));
 
 		return "<enrollmentreports>" + parseEnrollmentReportListToXML(enrollmentReportList).toString() + "</enrollmentreports>";
 	}
@@ -941,7 +941,7 @@ public class TeammatesServlet extends HttpServlet {
 
 	private void coordinatorLogout() throws IOException, ServletException {
 		Accounts accounts = Accounts.inst();
-		resp.getWriter().write("<url><![CDATA[" + accounts.getLogoutPage("") + "]]></url>");
+		resp.getWriter().write("<url><![CDATA[" + accounts.getLogoutPage("/index.jsp") + "]]></url>");
 
 	}
 
@@ -1599,7 +1599,7 @@ public class TeammatesServlet extends HttpServlet {
 
 	private void studentLogout() throws IOException {
 		Accounts accounts = Accounts.inst();
-		resp.getWriter().write("<url><![CDATA[" + accounts.getLogoutPage("") + "]]></url>");
+		resp.getWriter().write("<url><![CDATA[" + accounts.getLogoutPage("/index.jsp") + "]]></url>");
 	}
 
 	private void studentSubmitEvaluation() throws IOException {

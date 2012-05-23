@@ -15,7 +15,7 @@ import teammates.TeammatesServlet;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
-public class EnrolStudentsAPITest {
+public class EnrollStudentsAPITest {
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 	@Before
 	public void setUp() {
@@ -36,7 +36,7 @@ public class EnrolStudentsAPITest {
 		TeammatesServlet ts = new TeammatesServlet();
 		String information = "Team A\tStudent A\tstudenta@gmail.com";
 		String courseID = "SC2103";
-		String reponse = ts.coordinatorEnrolStudents(information, courseID);
+		String reponse = ts.coordinatorEnrollStudents(information, courseID);
 		String expectedResult =
 				"<enrollmentreports>" +
 						"<enrollmentreport>" +
