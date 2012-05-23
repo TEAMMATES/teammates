@@ -26,7 +26,6 @@ public class Datastore {
 	}
 
 	public static PersistenceManager getPersistenceManager() {
-		// Utils.println("getPersistenceManager");
 
 		PersistenceManager pm = PER_THREAD_PM.get();
 		if (pm == null) {

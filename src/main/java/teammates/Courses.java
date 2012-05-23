@@ -326,6 +326,8 @@ public class Courses {
 		student.setEmail(newEmail);
 		student.setID(newGoogleID);
 		student.setName(newName);
+		
+		getPM().close();
 	}
 
 	/**
@@ -365,6 +367,8 @@ public class Courses {
 		student.setID(newGoogleID);
 		student.setName(newName);
 		student.setTeamName(newTeamName);
+		
+		getPM().close();
 	}
 
 	/**

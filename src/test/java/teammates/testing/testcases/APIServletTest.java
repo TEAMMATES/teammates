@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 
@@ -47,6 +49,7 @@ public class APIServletTest extends BaseTestCase {
 	@BeforeClass
 	public static void setUp() {
 		printTestClassHeader(getNameOfThisClass());
+ 
 		/** LocalServiceTestHelper is supposed to run in the same timezone  as Dev server and production server i.e. (i.e. UTC timezone),
 		 * as stated in https://developers.google.com/appengine/docs/java/tools/localunittesting/javadoc/com/google/appengine/tools/development/testing/LocalServiceTestHelper#setTimeZone%28java.util.TimeZone%29
 		 * 
@@ -130,7 +133,7 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 
-
+	@Test
 	public void testDeleteStudent() throws Exception{
 		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
@@ -158,6 +161,24 @@ public class APIServletTest extends BaseTestCase {
 		verifyAbsentInDatastore(submissionFromS1C1ToS2C1);
 		verifyAbsentInDatastore(submissionFromS2C1ToS1C1);
 		verifyPresentInDatastore(submissionFromS1C1ToS1C1);
+		
+		//TODO: test for cascade delete of logs and profiles
+	}
+	
+	@Test
+	public void testEditStudent() throws Exception{
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+		
+		Student student1InCourse1 = dataBundle.students.get("student1InCourse1");
+		verifyPresentInDatastore(student1InCourse1);
+		String originalEmail = student1InCourse1.getEmail();
+		student1InCourse1.setName(student1InCourse1.getName()+"x");
+		student1InCourse1.setID(student1InCourse1.getID()+"x");
+		student1InCourse1.setComments(student1InCourse1.getComments()+"x");
+		student1InCourse1.setEmail(student1InCourse1.getEmail()+"x");
+		apiServlet.editStudent(originalEmail,student1InCourse1);
+		verifyPresentInDatastore(student1InCourse1);
 	}
 
 	private void verifyAbsentInDatastore(Submission submission) {

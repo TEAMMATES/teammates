@@ -969,6 +969,11 @@ public class APIServlet extends HttpServlet {
 		return Accounts.inst().getStudent(courseId, email);
 	}
 	
+	public void editStudent(String originalEmail, Student student) throws InvalidParametersException{
+		//TODO: make the implementation more defensive
+		Courses.inst().editStudent(student.getCourseID(), originalEmail, student.getName(), student.getEmail(), student.getID(), student.getComments());
+	}
+	
 	//------------------------Evaluations-----------------------------------
 	
 	public void createEvalution(Evaluation evaluation) throws EntityAlreadyExistsException , InvalidParametersException  {
@@ -1029,5 +1034,7 @@ public class APIServlet extends HttpServlet {
 	public TeamFormingSession getTfs(String courseId) {
 		return TeamForming.inst().getTeamFormingSession(courseId);
 	}
+
+
 }
 

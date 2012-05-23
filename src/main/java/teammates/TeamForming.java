@@ -179,6 +179,7 @@ public class TeamForming {
 			if (studentList.get(loop).getTeamName().equals(teamName))
 				studentList.get(loop).setTeamName(newTeamName);
 		}
+		getPM().close();
 	}
 
 	public void enterTeamFormingLog(String courseID, Date time,

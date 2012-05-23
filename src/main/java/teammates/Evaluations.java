@@ -494,7 +494,8 @@ public class Evaluations {
 			submission.setJustification(s.getJustification());
 			submission.setCommentsToStudent(s.getCommentsToStudent());
 		}
-		
+		//closing PM because otherwise the data is not updated during offline unit testing 
+		getPM().close();
 		
 	}
 
