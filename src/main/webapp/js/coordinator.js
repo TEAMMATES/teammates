@@ -223,9 +223,9 @@ function printCoordinatorLandingPage() {
 				<h2>[" + courseID + "] : " + courseList[loop].name + "</h2>													\
 			</div>																											\
 			<div class='result_homeLinks'>																					\
-				<a class='t_course_enrol" + loop + "' href=\"javascript:displayEnrollmentPage('" + courseID + "');			\
-					hideddrivetip();\" onmouseover=\"ddrivetip('" + HOVER_MESSAGE_ENROL + "')\"								\
-					onmouseout=\"hideddrivetip()\">Enrol</a>																\
+				<a class='t_course_enroll" + loop + "' href=\"javascript:displayEnrollmentPage('" + courseID + "');			\
+					hideddrivetip();\" onmouseover=\"ddrivetip('" + HOVER_MESSAGE_ENROLL + "')\"								\
+					onmouseout=\"hideddrivetip()\">Enroll</a>																\
 				<a class='t_course_view" + loop + "' href=\"javascript:displayCourseInformation('" + courseID + "');		\
 					hideddrivetip();\" onmouseover=\"ddrivetip('" + HOVER_MESSAGE_VIEW_COURSE + "')\"						\
 					onmouseout=\"hideddrivetip()\">View</a>																	\
@@ -1642,8 +1642,8 @@ function doDeleteAllStudents(courseID) {
 	if (results != 1) {
 		doGetCourse(courseID);
 		setStatusMessage(DISPLAY_COURSE_DELETEDALLSTUDENTS
-				+ " Click <a class='t_course_enrol' href=\"javascript:displayEnrollmentPage('"
-				+ courseID + "');\">here</a> to enrol students.");
+				+ " Click <a class='t_course_enroll' href=\"javascript:displayEnrollmentPage('"
+				+ courseID + "');\">here</a> to enroll students.");
 	}
 
 	else {
@@ -1776,10 +1776,10 @@ function doEditStudent(courseID, email, editName, editTeamName, editEmail,
 	}
 }
 
-function doEnrolStudents(input, courseID) {
+function doEnrollStudents(input, courseID) {
 	setStatusMessage(DISPLAY_LOADING);
 
-	var results = enrolStudents(input, courseID);
+	var results = enrollStudents(input, courseID);
 
 	clearStatusMessage();
 
@@ -2133,7 +2133,7 @@ function editStudent(courseID, email, editName, editTeamName, editEmail,
  * reports: successful 1: server error 2: input empty 3: input invalid
  * 
  */
-function enrolStudents(input, courseID) {
+function enrollStudents(input, courseID) {
 	input = replaceAll(input, "|", "\t");
 
 	if (xmlhttp) {
@@ -2147,8 +2147,8 @@ function enrolStudents(input, courseID) {
 		}
 
 		else if (isEnrollmentInputValid(input)) {
-			sendEnrolStudentsRequest(input,courseID);
-			return processEnrolStudentsResponse();
+			sendEnrollStudentsRequest(input,courseID);
+			return processEnrollStudentsResponse();
 		}
 
 		else {
@@ -2157,12 +2157,12 @@ function enrolStudents(input, courseID) {
 	}
 }
 
-function sendEnrolStudentsRequest(input,courseID)
+function sendEnrollStudentsRequest(input,courseID)
 {
 	xmlhttp.open("POST", "/teammates", false);
 	xmlhttp.setRequestHeader("Content-Type",
 			"application/x-www-form-urlencoded;");
-	xmlhttp.send("operation=" + OPERATION_COORDINATOR_ENROLSTUDENTS
+	xmlhttp.send("operation=" + OPERATION_COORDINATOR_ENROLLSTUDENTS
 			+ "&" + STUDENT_INFORMATION + "="
 			+ encodeURIComponent(input) + "&" + COURSE_ID + "="
 			+ encodeURIComponent(courseID));
@@ -2524,7 +2524,7 @@ function handleEditStudent() {
  * reports: successful 1: server error
  * 
  */
-function processEnrolStudentsResponse() {
+function processEnrollStudentsResponse() {
 	if (xmlhttp.status == CONNECTION_OK) {
 		var enrollmentReports = xmlhttp.responseXML
 				.getElementsByTagName("enrollmentreports")[0];

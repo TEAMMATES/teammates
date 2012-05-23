@@ -86,7 +86,7 @@ public class APITest {
 						s.setTeamName(cs.getTeamName());
 		}
 		List<EnrollmentReport> enrollmentReportList = new ArrayList<EnrollmentReport>();
-		enrollmentReportList.addAll(courses.enrolStudents(students, courseID));
+		enrollmentReportList.addAll(courses.enrollStudents(students, courseID));
 		
 	}
 	

@@ -15,5 +15,7 @@ appengine-generated
 appengine-web.xml
 chromedriver*
 *.bat
-local_db.bin
+*.bin
+*.bak
 test.txt
+doc/*

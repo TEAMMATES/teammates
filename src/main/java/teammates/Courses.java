@@ -428,7 +428,7 @@ public class Courses {
 	 * @return List<EnrollmentReport> reports on which students have been added
 	 *         or edited
 	 */
-	public List<EnrollmentReport> enrolStudents(List<Student> studentList, String courseID) {
+	public List<EnrollmentReport> enrollStudents(List<Student> studentList, String courseID) {
 		List<EnrollmentReport> enrollmentReportList = new ArrayList<EnrollmentReport>();
 
 		enrollmentReportList.addAll(addStudents(studentList, courseID));

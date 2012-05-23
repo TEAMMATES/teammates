@@ -26,7 +26,7 @@ var OPERATION_COORDINATOR_DELETESTUDENT = "coordinator_deletestudent";
 var OPERATION_COORDINATOR_EDITEVALUATION = "coordinator_editevaluation";
 var OPERATION_COORDINATOR_EDITEVALUATIONRESULTS = "coordinator_editevaluationresults";
 var OPERATION_COORDINATOR_EDITSTUDENT = "coordinator_editstudent";
-var OPERATION_COORDINATOR_ENROLSTUDENTS = "coordinator_enrolstudents";
+var OPERATION_COORDINATOR_ENROLLSTUDENTS = "coordinator_enrollstudents";
 var OPERATION_COORDINATOR_GETCOURSE = "coordinator_getcourse";
 var OPERATION_COORDINATOR_GETCOURSELIST = "coordinator_getcourselist";
 var OPERATION_COORDINATOR_GETEVALUATIONLIST = "coordinator_getevaluationlist";
@@ -170,7 +170,7 @@ var OPERATION_COORDINATOR_DELETESTUDENT = "coordinator_deletestudent";
 var OPERATION_COORDINATOR_EDITEVALUATION = "coordinator_editevaluation";
 var OPERATION_COORDINATOR_EDITEVALUATIONRESULTS = "coordinator_editevaluationresults";
 var OPERATION_COORDINATOR_EDITSTUDENT = "coordinator_editstudent";
-var OPERATION_COORDINATOR_ENROLSTUDENTS = "coordinator_enrolstudents";
+var OPERATION_COORDINATOR_ENROLLSTUDENTS = "coordinator_enrollstudents";
 var OPERATION_COORDINATOR_GETCOURSE = "coordinator_getcourse";
 var OPERATION_COORDINATOR_GETCOURSELIST = "coordinator_getcourselist";
 var OPERATION_COORDINATOR_GETEVALUATIONLIST = "coordinator_getevaluationlist";
@@ -195,7 +195,7 @@ var COORDINATOR_MESSAGE_NO_COURSE = "You have not created any courses yet. Use t
 var COORDINATOR_MESSAGE_NO_EVALUATION = "You have not created any evaluations yet. Use the form above to create a new evaluation.";
 var COORDINATOR_MESSAGE_NO_TEAMFORMINGSESSION = "You have not created any team forming sessions yet. Use the form above to create a new team forming session.";
 
-var HOVER_MESSAGE_ENROL = 'Enrol student into the course';
+var HOVER_MESSAGE_ENROLL = 'Enroll student into the course';
 var HOVER_MESSAGE_VIEW_COURSE = 'View, edit and send registration keys to the students in the course';
 var HOVER_MESSAGE_DELETE_COURSE = 'Delete the course and its corresponding students and evaluations';
 var HOVER_MESSAGE_ADD_EVALUATION = 'Add an evaluation for the course';
@@ -271,13 +271,13 @@ function printCourseList(courseList, user) {
                                             + courseList[loop].unregistered + "</td>";
                             output = output
                                             + "<td class='centeralign'>"
-                                            + "<a class='t_course_enrol' href=\"javascript:displayEnrollmentPage('"
+                                            + "<a class='t_course_enroll' href=\"javascript:displayEnrollmentPage('"
                                             + courseList[loop].ID
                                             + "');hideddrivetip();\""
                                             + "onmouseover=\"ddrivetip('"
-                                            + HOVER_MESSAGE_ENROL
+                                            + HOVER_MESSAGE_ENROLL
                                             + "')\""
-                                            + "onmouseout=\"hideddrivetip()\">Enrol</a>"
+                                            + "onmouseout=\"hideddrivetip()\">Enroll</a>"
                                             + "<a class='t_course_view' href=\"javascript:displayCourseInformation('"
                                             + courseList[loop].ID + "');hideddrivetip();\""
                                             + "onmouseover=\"ddrivetip('"
@@ -323,12 +323,12 @@ function printCourseList(courseList, user) {
 
 /*------------------------------------------PRINT COORDINATOR PAGE------------------------------------------*/
 /*
- * Coordinator enrol students TODO: Improve UI
+ * Coordinator enroll students TODO: Improve UI
  */
 function printEnrollmentPage(courseID) {
-	var outputHeader = "<h1>ENROL STUDENTS for " + courseID + "</h1>";
+	var outputHeader = "<h1>ENROLL STUDENTS for " + courseID + "</h1>";
 
-	var output = "<img src=\"/images/enrolInstructions.png\" border=\"0\" />"
+	var output = "<img src=\"/images/enrollInstructions.png\" style=\"width:1012,height:324\" border=\"0\" />"
 			+ "<p class=\"info\" style=\"text-align: center;\">Recommended maximum class size : 100 students</p>"
 			+ "<br />"
 			+ "<form>"
@@ -338,15 +338,15 @@ function printEnrollmentPage(courseID) {
 			+ "<td><textarea rows=\"6\" cols=\"135\" class =\"textvalue\" name=\"information\" id=\"information\"></textarea></td>"
 			+ "</tr>" + "</table>" + "</form>";
 
-	var outputButtons = "<input type=\"button\" class=\"button\" name=\"button_enrol\" id=\"button_enrol\" value=\"Enrol students\" />"
+	var outputButtons = "<input type=\"button\" class=\"button\" name=\"button_enroll\" id=\"button_enroll\" value=\"Enroll students\" />"
 			+ " <input type=\"button\" class=\"t_back button\" onclick=\"displayCoursesTab();\" value=\"Back\" />";
 
 	document.getElementById(DIV_COURSE_ENROLLMENT).innerHTML = output;
 	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader;
 	document.getElementById(DIV_COURSE_ENROLLMENTBUTTONS).innerHTML = outputButtons;
 
-	document.getElementById('button_enrol').onclick = function() {
-		doEnrolStudents(document.getElementById('information').value, courseID);
+	document.getElementById('button_enroll').onclick = function() {
+		doEnrollStudents(document.getElementById('information').value, courseID);
 	};
 }
 
@@ -495,8 +495,8 @@ function printStudentList(studentList, courseID) {
 
 	// Fix for empty student list
 	if (studentListLength == 0) {
-		setStatusMessage("No students enrolled in this course yet. Click <a class='t_course_enrol' href=\"javascript:displayEnrollmentPage('"
-				+ courseID + "');\">here</a> to enrol students.");
+		setStatusMessage("No students enrolled in this course yet. Click <a class='t_course_enroll' href=\"javascript:displayEnrollmentPage('"
+				+ courseID + "');\">here</a> to enroll students.");
 
 		output = output + "<tr>" + "<td></td>" + "<td></td>" + "<td></td>"
 				+ "<td></td>" + "</tr>";

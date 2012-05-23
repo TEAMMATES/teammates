@@ -204,7 +204,7 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	private void verifyPresentInDatastore(Course expected) throws EntityDoesNotExistException {
-		Course actual = apiServlet.coordCourse_getCourse(expected.getID());
+		Course actual = apiServlet.getCourse(expected.getID());
 		assertEquals(gson.toJson(expected),gson.toJson(actual));
 	}
 

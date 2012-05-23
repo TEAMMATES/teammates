@@ -9,8 +9,8 @@ import teammates.testing.concurrent.CoordCourseAddCaseSensitivityTest;
 import teammates.testing.concurrent.CoordCourseAddUITest;
 import teammates.testing.concurrent.CoordCourseDeleteStudentsTest;
 import teammates.testing.concurrent.CoordCourseEditStudentsTest;
-import teammates.testing.concurrent.CoordCourseEnrolCaseSensitivityTest;
-import teammates.testing.concurrent.CoordCourseEnrolStudentsUITest;
+import teammates.testing.concurrent.CoordCourseEnrollCaseSensitivityTest;
+import teammates.testing.concurrent.CoordCourseEnrollStudentsUITest;
 import teammates.testing.concurrent.CoordCourseDeleteUITest;
 import teammates.testing.concurrent.CoordEvaluationAddCaseSensitivityTest;
 import teammates.testing.concurrent.CoordEvaluationAddTest;
@@ -36,8 +36,8 @@ public class ConcurrentRun {
 				CoordCourseDeleteStudentsTest.class,
 //				CoordCourseEditStudentsTeamTest.class,
 				CoordCourseEditStudentsTest.class,
-				CoordCourseEnrolCaseSensitivityTest.class,
-				CoordCourseEnrolStudentsUITest.class,
+				CoordCourseEnrollCaseSensitivityTest.class,
+				CoordCourseEnrollStudentsUITest.class,
 				CoordCourseDeleteUITest.class,
 //				CoordCourseViewTest.class,
 				

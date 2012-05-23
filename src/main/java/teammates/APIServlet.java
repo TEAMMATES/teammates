@@ -417,7 +417,7 @@ public class APIServlet extends HttpServlet {
 			}
 		}
 		// Add and edit Student objects in the datastore
-		boolean edited = enrollmentReportList.addAll(courses.enrolStudents(
+		boolean edited = enrollmentReportList.addAll(courses.enrollStudents(
 				studentList, courseId));
 
 		if (edited) {
@@ -778,7 +778,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	private String getCourseAsJason(String courseId) throws EntityDoesNotExistException {
-		Course course = coordCourse_getCourse(courseId);
+		Course course = getCourse(courseId);
 		return Common.getTeammatesGson().toJson(course);
 	}
 	
@@ -907,7 +907,7 @@ public class APIServlet extends HttpServlet {
 		HashMap<String, Course> courses = data.courses;
 		for (Course course : courses.values()) {
 			log.info("API Servlet adding course :" + course.getID());
-			coordCourse_createCourse(course.getCoordinatorID(), course.getID(),
+			createCourse(course.getCoordinatorID(), course.getID(),
 					course.getName());
 		}
 
@@ -976,12 +976,12 @@ public class APIServlet extends HttpServlet {
 
 	//-----------------------CoordCourse------------------------------------------
 	
-	public void coordCourse_createCourse(String coordinatorId, String courseId,
+	public void createCourse(String coordinatorId, String courseId,
 			String courseName) throws EntityAlreadyExistsException, InvalidParametersException {
 		Courses.inst().addCourse(courseId, courseName, coordinatorId);
 	}
 	
-	public Course coordCourse_getCourse(String courseId) throws EntityDoesNotExistException{
+	public Course getCourse(String courseId) throws EntityDoesNotExistException{
 		Course course = Courses.inst().getCourse(courseId);
 		if (course == null) {
 			String errorMessage = "Trying to get non-existent Course : " + courseId;

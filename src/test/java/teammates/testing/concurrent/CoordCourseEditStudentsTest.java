@@ -118,14 +118,14 @@ public class CoordCourseEditStudentsTest extends TestCase {
 
 		// To Enroll page
 		bi.clickCourseTab();
-		bi.clickCoordCourseEnrol(scn.course.courseId);
+		bi.clickCoordCourseEnroll(scn.course.courseId);
 		bi.verifyCoordCourseEnrollPage();
-		bi.fillString(bi.coordEnrolInfo, students);
-		bi.clickWithWait(bi.coordEnrolButton);
+		bi.fillString(bi.coordEnrollInfo, students);
+		bi.clickWithWait(bi.coordEnrollButton);
 
 		// Make sure the error message is there
 		assertTrue(bi.isElementPresent(bi.courseErrorMessage));
 
-		bi.clickWithWait(bi.coordEnrolBackButton);
+		bi.clickWithWait(bi.coordEnrollBackButton);
 	}
 }

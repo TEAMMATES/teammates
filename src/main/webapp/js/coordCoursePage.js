@@ -21,9 +21,9 @@ var COURSE_STATUS_INVALID_NAME = 7;
 var COURSE_STATUS_DELETED = 8;
 
 //enroll students status codes
-var ENROL_STUDENT_SUCCESSFUL = 1;
-var ENROL_STUDENT_ERROR = 2;
-var ENROL_STUDENT_EMPTY = 3;
+var ENROLL_STUDENT_SUCCESSFUL = 1;
+var ENROLL_STUDENT_ERROR = 2;
+var ENROLL_STUDENT_EMPTY = 3;
 
 //server responses
 var COURSE_RESPONSE_EXISTS = "course exists";
@@ -31,7 +31,7 @@ var COURSE_RESPONSE_ADDED = "course added";
 var COURSE_RESPONSE_DELETED = "course deleted";
 
 //status messages
-var DISPLAY_COURSE_ADDED = "The course has been added. Click the 'Enrol' link in the table below to add students to the course.";
+var DISPLAY_COURSE_ADDED = "The course has been added. Click the 'Enroll' link in the table below to add students to the course.";
 var DISPLAY_COURSE_EXISTS = "<font color=\"#F00\">The course already exists.</font>";
 var DISPLAY_COURSE_EMPTY = "<font color=\"#F00\">Course ID and Course Name are compulsory fields.</font>";
 var DISPLAY_COURSE_LONG_ID = "<font color=\"#F00\">Course ID should not exceed " + COURSEID_MAX_LENGTH + " characters.</font>";
@@ -350,9 +350,9 @@ function printCourseList(courseList) {
 				<td class='centeralign'>" + courseList[loop].totalStudents + "</td>											\
 				<td class='centeralign'>" + courseList[loop].unregistered + "</td>											\
 				<td class='centeralign'>																					\
-					<a class='t_course_enrol' href=\"javascript:displayEnrollmentPage('" + courseList[loop].ID + "');		\
-						hideddrivetip();\" onmouseover=\"ddrivetip('" + HOVER_MESSAGE_ENROL + "')\"							\
-						onmouseout=\"hideddrivetip()\">Enrol</a>															\
+					<a class='t_course_enroll' href=\"javascript:displayEnrollmentPage('" + courseList[loop].ID + "');		\
+						hideddrivetip();\" onmouseover=\"ddrivetip('" + HOVER_MESSAGE_ENROLL + "')\"							\
+						onmouseout=\"hideddrivetip()\">Enroll</a>															\
 					<a class='t_course_view' href=\"javascript:displayCourseInformation('" + courseList[loop].ID + "');		\
 						hideddrivetip();\" onmouseover=\"ddrivetip('" + HOVER_MESSAGE_VIEW_COURSE + "')\"					\
 						onmouseout=\"hideddrivetip()\">View</a>																\
@@ -403,7 +403,7 @@ function toggleDeleteCourseConfirmation(courseID,isHome) {
 }
 
 function doDeleteCourse(courseID,isHome) {
-	setStatusMessageToLoading;
+	setStatusMessageToLoading();
 
 	// server-side request and response
 	if (!xmlhttp) {
@@ -419,7 +419,6 @@ function doDeleteCourse(courseID,isHome) {
 		return;
 	}
 	
-	getAndPrintCourseList();
 	if (isHome)
 		printCoordinatorLandingPage();
 	else

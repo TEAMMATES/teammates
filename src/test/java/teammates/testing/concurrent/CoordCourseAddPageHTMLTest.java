@@ -8,7 +8,7 @@ import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.object.Scenario;
 
-public class CoordAddCoursePageHTMLTest extends TestCase {
+public class CoordCourseAddPageHTMLTest extends TestCase {
 	
 	static Scenario scn = Scenario.scenarioForPageVerification("target/test-classes/data/page_verification.json");
 	static BrowserInstance bi;

@@ -107,13 +107,13 @@ public class BrowserInstance {
 	public By coordHomeAddNewCourseLink = By.id("addNewCourse");
 
 	// Course list at home
-	public By getCoordHomeCourseEnrolLink(int row) { return By.className("t_course_enrol" + row); }
+	public By getCoordHomeCourseEnrolLink(int row) { return By.className("t_course_enroll" + row); }
 	public By getCoordHomeCourseViewLink(int row) { return By.className("t_course_view" + row); }
 	public By getCoordHomeCourseAddEvaluationLink(int row) { return By.className("t_course_add_eval" + row); }
 	public By getCoordHomeCourseDeleteLink(int row) { return By.className("t_course_delete" + row); }
 	
 	// Course list at course page
-	public By getCoordCourseEnrolLink(int row) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_enrol']", row+2, 6)); }
+	public By getCoordCourseEnrolLink(int row) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_enroll']", row+2, 6)); }
 	public By getCoordCourseViewLink(int row) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_view']", row+2, 6)); }
 	public By getCoordCourseAddEvaluationLink(int row) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_add_eval']", row+2, 6)); }
 	public By getCoordCourseDeleteLink(int row) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_delete']", row+2, 6)); }
@@ -144,9 +144,9 @@ public class BrowserInstance {
 	public By getCourseNameCell(int row) { return By.id("courseName" + row); }
 
 	// Enrollment
-	public By coordEnrolInfo = By.id("information");
-	public By coordEnrolButton = By.id("button_enrol");
-	public By coordEnrolBackButton = By.className("t_back");
+	public By coordEnrollInfo = By.id("information");
+	public By coordEnrollButton = By.id("button_enroll");
+	public By coordEnrollBackButton = By.className("t_back");
 	
 	// Enrollment results
 	public By coordStudentsAdded = By.id("t_studentsAdded");
@@ -332,11 +332,11 @@ public class BrowserInstance {
 
 	public final static String MESSAGE_COURSE_DELETED = "The course has been deleted.";
 	public final static String MESSAGE_COURSE_DELETED_STUDENT = "The student has been removed from the course.";
-	public final static String MESSAGE_COURSE_DELETED_ALLSTUDENTS = "All students have been removed from the course. Click here to enrol students.";
+	public final static String MESSAGE_COURSE_DELETED_ALLSTUDENTS = "All students have been removed from the course. Click here to enroll students.";
 
 	public final static String ERROR_COURSE_LONG_COURSE_NAME = "Course name should not exceed 38 characters.";
-	public final String MESSAGE_ENROL_REMIND_TO_JOIN = "Emails have been sent to unregistered students.";
-	public final String ERROR_MESSAGE_ENROL_INVALID_EMAIL = "E-mail address should contain less than 40 characters and be of a valid syntax.";
+	public final String MESSAGE_ENROLL_REMIND_TO_JOIN = "Emails have been sent to unregistered students.";
+	public final String ERROR_MESSAGE_ENROLL_INVALID_EMAIL = "E-mail address should contain less than 40 characters and be of a valid syntax.";
 	
 	// Team forming session
 	public final String MESSAGE_TEAMFORMINGSESSION_ADDED = "The team forming session has been added.";
@@ -391,7 +391,7 @@ public class BrowserInstance {
 	/**
 	 * Logs in as coordinator.
 	 * Verifies that the new page is loaded correctly before returning.
-	 * @page Home page
+	 * @page Homepage
 	 */
 	public void loginCoord(String username, String password) {
 		System.out.println("Logging in coordinator " + username + ".");
@@ -442,7 +442,7 @@ public class BrowserInstance {
 			
 			// Check that we're at the main page after logging out
 			verifyMainPage();
-			clickWithWait(STUDENT_LOGIN_BUTTON);
+			click(STUDENT_LOGIN_BUTTON);
 			waitForPageLoad();
 		}
 		
@@ -598,7 +598,7 @@ public class BrowserInstance {
 	 * Consequently, this method needs to be called before the click.
 	 * The delete(window.confirm) ensures that this overriding happens only once.
 	 * <br />
-	 * Does not wait for any further action to complete (i.e., returns immediately after cancelling)
+	 * Does not wait for any further action to complete (i.e., returns immediately after confirming)
 	 * 
 	 */
 	public void clickAndConfirm(By by) {
@@ -607,13 +607,25 @@ public class BrowserInstance {
 		 * This is a workaround to press Yes in the confirmation box. Same for function below for No.
 		 * 
 		 * Aldrian: I tried driver.switchTo().alert() approach in my local Firefox and it worked.
-		 * For more general usability I removed the old one and use this one instead.
+		 * But for more general usability I removed the old one and use this one instead.
 		 */
 
 		//if (Config.inst().BROWSER.equals("chrome")) {
 			JavascriptExecutor js = (JavascriptExecutor) getDriver();
 			js.executeScript("window.confirm = function(msg){ delete(window.confirm); return true;};");
 			clickWithWait(by);
+			
+			try{
+				if((Boolean)js.executeScript("return eval(window.confirm).toString()==eval(function(msg){ delete(window.confirm); return true;}).toString()")){
+					// This means the click does not generate alert box
+					System.err.println("No alert box is shown while clicking "+by);
+				}
+			} catch (Exception e){
+				// Probably the browser does not support eval().toString()
+			} finally {
+				// Make sure it's deleted. Deleting twice does not hurt
+				js.executeScript("delete(window.confirm)");
+			}
 		//}
 	}
 
@@ -633,6 +645,18 @@ public class BrowserInstance {
 			JavascriptExecutor js = (JavascriptExecutor) getDriver();
 			js.executeScript("window.confirm = function(msg){ delete(window.confirm); return false;};");
 			clickWithWait(by);
+			
+			try{
+				if((Boolean)js.executeScript("return eval(window.confirm).toString()==eval(function(msg){ delete(window.confirm); return false;}).toString()")){
+					// This means the click does not generate alert box
+					System.err.println("No alert box is shown while clicking "+by);
+				}
+			} catch (Exception e){
+				// Probably the browser does not support eval().toString()
+			} finally {
+				// Make sure it's deleted. Deleting twice does not hurt
+				js.executeScript("delete(window.confirm)");
+			}
 		//}
 	}
 
@@ -766,7 +790,8 @@ public class BrowserInstance {
 	/**
 	 * Clicks and confirms Delete of a particular evaluation.
 	 * Pre-condition: Should be at Evaluation list page
-	 * @param row
+	 * @param courseId
+	 * @param evalName
 	 */
 	public void clickCoordEvaluationDeleteAndConfirm(String courseId, String evalName) {
 		int row = findEvaluationRow(courseId, evalName);
@@ -789,7 +814,8 @@ public class BrowserInstance {
 	/**
 	 * Clicks and cancels Delete of a particular evaluation.
 	 * Pre-condition: Should be at Evaluation list page
-	 * @param row
+	 * @param courseId
+	 * @param evalName
 	 */
 	public void clickCoordEvaluationDeleteAndCancel(String courseId, String evalName) {
 		int row = findEvaluationRow(courseId, evalName);
@@ -936,7 +962,7 @@ public class BrowserInstance {
 	 * Does not wait for the new page to be loaded.
 	 * @param row
 	 */
-	public void clickCoordCourseEnrol(int row) {
+	public void clickCoordCourseEnroll(int row) {
 		clickWithWait(getCoordCourseEnrolLink(row));
 	}
 	/**
@@ -944,10 +970,10 @@ public class BrowserInstance {
 	 * Does not wait for the new page to be loaded.
 	 * @param courseID
 	 */
-	public void clickCoordCourseEnrol(String courseID) {
+	public void clickCoordCourseEnroll(String courseID) {
 		int row = findCourseRow(courseID);
 		if (row > -1) {
-			clickCoordCourseEnrol(row);
+			clickCoordCourseEnroll(row);
 		} else {
 			fail("Course ID cannot be found");
 		}
@@ -1518,23 +1544,23 @@ public class BrowserInstance {
 		return sb.toString();
 	}
 	/**
-	 * page: Enrol Student
+	 * page: Enroll Student
 	 * 
 	 * @param row
 	 */
 	public void enrollStudents(List<Student> students, int row) {
-		clickCoordCourseEnrol(row);
+		clickCoordCourseEnroll(row);
 		verifyCoordCourseEnrollPage();
 	
-		fillString(coordEnrolInfo, enrollStudentsConvert(students));
-		clickWithWait(coordEnrolButton);
+		fillString(coordEnrollInfo, enrollStudentsConvert(students));
+		clickWithWait(coordEnrollButton);
 	}
 	public void enrollStudents(List<Student> students, String courseID) {
-		clickCoordCourseEnrol(courseID);
+		clickCoordCourseEnroll(courseID);
 		verifyCoordCourseEnrollPage();
 	
-		fillString(coordEnrolInfo, enrollStudentsConvert(students));
-		clickWithWait(coordEnrolButton);
+		fillString(coordEnrollInfo, enrollStudentsConvert(students));
+		clickWithWait(coordEnrollButton);
 	}
 	/**
 	 * Adds a new course with specified courseID and coursename.
@@ -2242,12 +2268,6 @@ public class BrowserInstance {
 
 			System.out.println(getDriver().toString());
 			selenium = new WebDriverBackedSelenium(getDriver(), Config.inst().TEAMMATES_URL);
-
-			/*
-			 * Chrome hack. Currently Chrome doesn't support confirm() yet. http://code.google.com/p/selenium/issues/detail?id=27
-			 */
-			JavascriptExecutor js = (JavascriptExecutor) getDriver();
-			js.executeScript("window.confirm = function(msg){ return true;};");
 
 		} else {
 
@@ -3174,7 +3194,7 @@ public class BrowserInstance {
 			if (x >= RETRY)
 				fail("Not in Coordinator Enroll Page");
 	
-			if (isElementPresent(coordEnrolInfo) && isElementPresent(coordEnrolButton))
+			if (isElementPresent(coordEnrollInfo) && isElementPresent(coordEnrollButton))
 				break;
 	
 			waitAWhile(RETRY_TIME);

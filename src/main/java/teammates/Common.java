@@ -11,7 +11,7 @@ import com.google.gson.GsonBuilder;
 public class Common {
 	
 	//status messages
-	public final static String MESSAGE_COURSE_ADDED = "The course has been added. Click the 'Enrol' link in the table below to add students to the course.";
+	public final static String MESSAGE_COURSE_ADDED = "The course has been added. Click the 'Enroll' link in the table below to add students to the course.";
 	public final static String MESSAGE_COURSE_EXISTS = "The course already exists.";
 	public final static String ERROR_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
 	public final static String ERROR_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
@@ -25,11 +25,12 @@ public class Common {
 	public static final String COORD_ADD_COURSE_RESPONSE_ADDED = "<status>course added</status>";
 	public static final String COORD_ADD_COURSE_RESPONSE_EXISTS = "<status>course exists</status>";
 	public static final String COORD_ADD_COURSE_RESPONSE_INVALID = "<status>course input invalid</status>";
+	public static final String COORD_DELETE_COURSE_RESPONSE_DELETED = "<status>course deleted</status>";
+	public static final String COORD_DELETE_COURSE_RESPONSE_NOT_DELETED = "<status>course not deleted</status>";
 	
 	//APIServlet responses
 	public static final String BACKEND_STATUS_SUCCESS = "[BACKEND_STATUS_SUCCESS]";
 	public static String BACKEND_STATUS_FAILURE = "[BACKEND_STATUS_FAILURE]";
-
 	/**
 	 * This creates a Gson object that can handle the Date format we use in the Json file
 	 * technique found in http://code.google.com/p/google-gson/source/browse/trunk/gson/src/test/java/com/google/gson/functional/DefaultTypeAdaptersTest.java?spec=svn327&r=327

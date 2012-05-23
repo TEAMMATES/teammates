@@ -29,6 +29,7 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 public class DeleteCourseAPITest {
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 	private PersistenceManager pm;
+	private TeammatesServlet ts;
 	private final String COURSE_ID = "CS1102";
 	private final String RESPONSE_DELETED = "<status>course deleted</status>";
 	@Before
@@ -39,6 +40,8 @@ public class DeleteCourseAPITest {
 		}catch(Exception e){
 			System.out.println("PersistenceManager has been called once.");
 		}
+		
+		ts = new TeammatesServlet();
 		pm = Datastore.getPersistenceManager();
 	}
 
@@ -60,6 +63,7 @@ public class DeleteCourseAPITest {
 	}
 	
 	//Test deleteCoordinatorCourse(courseID) function in Courses.java
+	// FIXME: No check/assertion/verification is done?
 	public void testCoursesDeleteCourse() throws EntityDoesNotExistException {
 		Courses courses = Courses.inst();
 		courses.deleteCoordinatorCourse(COURSE_ID);
@@ -92,8 +96,6 @@ public class DeleteCourseAPITest {
 	@Test
 	public void testTeammatesServletDeleteCourse() throws InvalidParametersException {
 		setupTestData();
-		
-		TeammatesServlet ts = new TeammatesServlet();
 		String response;
 		
 		//normal delete
@@ -110,7 +112,6 @@ public class DeleteCourseAPITest {
 
 	/*---------------------------------------------------HELPER FUNCTION---------------------------------------------------*/
 	private void setupTestData() throws InvalidParametersException {
-		pm = Datastore.getPersistenceManager();
 		//create course
 		Course a = new Course(COURSE_ID, "Testing Course", "teammates.coord");
 		pm.makePersistent(a);
