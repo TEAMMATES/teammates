@@ -10,6 +10,7 @@ import teammates.testing.junit.TMAPITest;
 @Suite.SuiteClasses({
 	AllJsUnitTests.class,
 	TMAPITest.class,
+	APIServletTest.class,
 	CoordCourseAddPageHtmlTest.class,
 	CoordCourseAddPageUiTest.class,
 	CoordCourseAddApiTest.class

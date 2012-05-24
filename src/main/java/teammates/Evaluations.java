@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -17,6 +18,7 @@ import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.EvaluationExistsException;
 import teammates.jdo.Course;
 import teammates.jdo.Evaluation;
+import teammates.jdo.EvaluationDetailsForCoordinator;
 import teammates.jdo.Student;
 import teammates.jdo.Submission;
 
@@ -1159,6 +1161,31 @@ public class Evaluations {
 				query2).execute();
 		getPM().deletePersistentAll(submissionList2);
 		
+	}
+
+	public ArrayList<EvaluationDetailsForCoordinator> getEvaluationsSummaryForCourse(
+			String courseId) {
+
+		ArrayList<EvaluationDetailsForCoordinator> evaluationsSummaryList = new ArrayList<EvaluationDetailsForCoordinator>();
+		List<Evaluation> evaluationList = getEvaluationList(courseId);
+
+		for (Evaluation e : evaluationList) {
+
+			int numberOfCompletedEvaluations = getNumberOfCompletedEvaluations(
+					e.getCourseID(), e.getName());
+			int numberOfEvaluations = getNumberOfEvaluations(
+					e.getCourseID(), e.getName());
+
+			EvaluationDetailsForCoordinator ed = new EvaluationDetailsForCoordinator(
+					e.getCourseID(), e.getName(), e.getInstructions(),
+					e.isCommentsEnabled(), e.getStart(), e.getDeadline(),
+					e.getTimeZone(), e.getGracePeriod(), e.isPublished(),
+					e.isActivated(), numberOfCompletedEvaluations,
+					numberOfEvaluations);
+			evaluationsSummaryList.add(ed);
+		}
+
+		return evaluationsSummaryList;
 	}
 
 }

@@ -172,9 +172,9 @@ public class TMAPITest {
 		assertEquals("Typical Coordinator2", typicalCoord2.getName());
 		assertEquals("typicalCoord2@gmail.com", typicalCoord2.getEmail());
 	
-		Course course1 = data.courses.get("course1");
-		assertEquals("idOfCourse1", course1.getID());
-		assertEquals("course 1 name", course1.getName());
+		Course course1 = data.courses.get("course1OfCoord1");
+		assertEquals("idOfCourse1OfCoord1", course1.getID());
+		assertEquals("course1OfCoord1 name", course1.getName());
 		assertEquals("idOfTypicalCoord1", course1.getCoordinatorID());
 	
 		Student student1InCourse1 = data.students.get("student1InCourse1");
@@ -185,7 +185,7 @@ public class TMAPITest {
 				student1InCourse1.getComments());
 		assertEquals("profile summary for student1InCourse1",
 				student1InCourse1.getProfileSummary());
-		assertEquals("idOfCourse1", student1InCourse1.getCourseID());
+		assertEquals("idOfCourse1OfCoord1", student1InCourse1.getCourseID());
 		assertEquals("profiledetail for student1InCourse1", student1InCourse1
 				.getProfileDetail().getValue());
 	
@@ -194,9 +194,9 @@ public class TMAPITest {
 		assertEquals("student2 In Course2", student2InCourse2.getName());
 		assertEquals("Team 2.1", student2InCourse2.getTeamName());
 	
-		Evaluation evaluation1 = data.evaluations.get("evaluation1InCourse1");
+		Evaluation evaluation1 = data.evaluations.get("evaluation1InCourse1OfCoord1");
 		assertEquals("evaluation1 In Course1", evaluation1.getName());
-		assertEquals("idOfCourse1", evaluation1.getCourseID());
+		assertEquals("idOfCourse1OfCoord1", evaluation1.getCourseID());
 		assertEquals("instructions for evaluation1InCourse1",
 				evaluation1.getInstructions());
 		assertEquals(10, evaluation1.getGracePeriod());
@@ -209,9 +209,9 @@ public class TMAPITest {
 		assertEquals(false, evaluation1.isPublished());
 		assertEquals(2.0, evaluation1.getTimeZone(), 0.01);
 	
-		Evaluation evaluation2 = data.evaluations.get("evaluation2InCourse1");
+		Evaluation evaluation2 = data.evaluations.get("evaluation2InCourse1OfCoord1");
 		assertEquals("evaluation2 In Course1", evaluation2.getName());
-		assertEquals("idOfCourse1", evaluation2.getCourseID());
+		assertEquals("idOfCourse1OfCoord1", evaluation2.getCourseID());
 	
 		Submission submissionFromS1C1ToS2C1 = data.submissions
 				.get("submissionFromS1C1ToS2C1");
@@ -219,7 +219,7 @@ public class TMAPITest {
 				submissionFromS1C1ToS2C1.getFromStudent());
 		assertEquals("student2InCourse1@gmail.com",
 				submissionFromS1C1ToS2C1.getToStudent());
-		assertEquals("idOfCourse1", submissionFromS1C1ToS2C1.getCourseID());
+		assertEquals("idOfCourse1OfCoord1", submissionFromS1C1ToS2C1.getCourseID());
 		assertEquals("evaluation1 In Course1",
 				submissionFromS1C1ToS2C1.getEvaluationName());
 		assertEquals(10, submissionFromS1C1ToS2C1.getPoints());
@@ -241,7 +241,7 @@ public class TMAPITest {
 	
 		TeamFormingSession tfsInCourse1 = data.teamFormingSessions
 				.get("tfsInCourse1");
-		assertEquals("idOfCourse1", tfsInCourse1.getCourseID());
+		assertEquals("idOfCourse1OfCoord1", tfsInCourse1.getCourseID());
 		assertEquals(8.0, tfsInCourse1.getTimeZone(), 0.01);
 		assertEquals("Sun Apr 01 23:59:00 SGT 2012", tfsInCourse1.getStart()
 				.toString());
@@ -256,15 +256,15 @@ public class TMAPITest {
 	
 		TeamProfile profileOfTeam1_1 = data.teamProfiles
 				.get("profileOfTeam1.1");
-		assertEquals("idOfCourse1", profileOfTeam1_1.getCourseID());
-		assertEquals("course 1 name", profileOfTeam1_1.getCourseName());
+		assertEquals("idOfCourse1OfCoord1", profileOfTeam1_1.getCourseID());
+		assertEquals("course1OfCoord1 name", profileOfTeam1_1.getCourseName());
 		assertEquals("Team 1.1", profileOfTeam1_1.getTeamName());
 		assertEquals("team profile of Team 1.1", profileOfTeam1_1
 				.getTeamProfile().getValue());
 	
 		TeamFormingLog tfsLogMessageForTfsInCourse1 = data.teamFormingLogs
 				.get("tfsLogMessage1ForTfsInCourse1");
-		assertEquals("idOfCourse1", tfsLogMessageForTfsInCourse1.getCourseID());
+		assertEquals("idOfCourse1OfCoord1", tfsLogMessageForTfsInCourse1.getCourseID());
 		assertEquals("student1 In Course1",
 				tfsLogMessageForTfsInCourse1.getStudentName());
 		assertEquals("student1InCourse1@gmail.com",
@@ -304,6 +304,8 @@ public class TMAPITest {
 		//try to delete again. should succeed.
 		status = TMAPI.deleteCoord(typicalCoord2.getGoogleID());
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		
+		status = TMAPI.deleteCoord("idOfTypicalCoord3");
 		
 		//recreate data. this should succeed if all previous data were deleted
 		status = TMAPI.persistNewDataBundle(jsonString);
@@ -383,7 +385,7 @@ public class TMAPITest {
 		
 		//delete the evaluation and verify it is deleted
 		Evaluation evaluation1InCourse1 = dataBundle.evaluations
-				.get("evaluation1InCourse1");
+				.get("evaluation1InCourse1OfCoord1");
 		verifyPresentInDatastore(evaluation1InCourse1);
 		status = TMAPI.deleteEvaluation(evaluation1InCourse1.getCourseID(),
 				evaluation1InCourse1.getName());
@@ -400,12 +402,12 @@ public class TMAPITest {
 		
 		//verify that the other evaluation in the same course is intact
 		Evaluation evaluation2InCourse1 = dataBundle.evaluations
-				.get("evaluation2InCourse1");
+				.get("evaluation2InCourse1OfCoord1");
 		verifyPresentInDatastore(evaluation2InCourse1);
 
 		// ----------deleting Course entities-------------------------
 		
-		Course course2 = dataBundle.courses.get("course2");
+		Course course2 = dataBundle.courses.get("course1OfCoord2");
 		verifyPresentInDatastore(course2);
 		status = TMAPI.deleteCourse(course2.getID());
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
@@ -416,7 +418,7 @@ public class TMAPITest {
 		verifyAbsentInDatastore(student2InCourse2);
 		
 		//check if related evaluation entities are also deleted
-		Evaluation evaluation1InCourse2 = dataBundle.evaluations.get("evaluation1InCourse2");
+		Evaluation evaluation1InCourse2 = dataBundle.evaluations.get("evaluation1InCourse1OfCoord2");
 		verifyAbsentInDatastore(evaluation1InCourse2);
 		
 		//check if related team profile entities are also deleted

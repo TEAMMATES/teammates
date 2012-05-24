@@ -27,6 +27,7 @@ import teammates.jdo.Course;
 import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.EnrollmentReport;
 import teammates.jdo.Evaluation;
+import teammates.jdo.EvaluationDetailsForCoordinator;
 import teammates.jdo.Student;
 import teammates.jdo.Submission;
 import teammates.jdo.TeamFormingLog;
@@ -88,7 +89,6 @@ public class APIServlet extends HttpServlet {
 	private HttpServletResponse resp;
 	private static final Logger log = Logger.getLogger(APIServlet.class
 			.getName());
-	
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
@@ -169,12 +169,12 @@ public class APIServlet extends HttpServlet {
 			disableEmail();
 		} else if (action.equals(OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER)) {
 			activateAutomatedReminder();
-		}else {
+		} else {
 			String returnValue;
 			try {
 				returnValue = executeBackendAction(req, action);
 			} catch (Exception e) {
-				returnValue = Common.BACKEND_STATUS_FAILURE+e.getMessage();
+				returnValue = Common.BACKEND_STATUS_FAILURE + e.getMessage();
 			}
 			resp.getWriter().write(returnValue);
 		}
@@ -182,7 +182,8 @@ public class APIServlet extends HttpServlet {
 		resp.flushBuffer();
 	}
 
-	private String executeBackendAction(HttpServletRequest req, String action) throws Exception {
+	private String executeBackendAction(HttpServletRequest req, String action)
+			throws Exception {
 		if (action.equals(OPERATION_CREATE_COORD)) {
 			String coordID = req.getParameter(PARAMETER_COORD_ID);
 			String coordName = req.getParameter(PARAMETER_COORD_NAME);
@@ -200,22 +201,22 @@ public class APIServlet extends HttpServlet {
 		} else if (action.equals(OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE)) {
 			String courseID = req.getParameter(PARAMETER_COURSE_ID);
 			deleteCourseByIdNonCascade(courseID);
-		}  else if (action.equals(OPERATION_DELETE_EVALUATION)) {
+		} else if (action.equals(OPERATION_DELETE_EVALUATION)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String evaluationName = req.getParameter(PARAMETER_EVALUATION_NAME);
 			deleteEvaluation(courseId, evaluationName);
-		}else if (action.equals(OPERATION_DELETE_STUDENT)) {
+		} else if (action.equals(OPERATION_DELETE_STUDENT)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
 			deleteStudent(courseId, email);
 		} else if (action.equals(OPERATION_DELETE_TEAM_FORMING_LOG)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			deleteTeamFormingLog(courseId);
-		}else if (action.equals(OPERATION_DELETE_TEAM_PROFILE)) {
+		} else if (action.equals(OPERATION_DELETE_TEAM_PROFILE)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String teamName = req.getParameter(PARAMETER_TEAM_NAME);
 			deleteTeamProfile(courseId, teamName);
-		}else if (action.equals(OPERATION_DELETE_TFS)) {
+		} else if (action.equals(OPERATION_DELETE_TFS)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			deleteTfs(courseId);
 		} else if (action.equals(OPERATION_GET_COORD_AS_JSON)) {
@@ -234,8 +235,7 @@ public class APIServlet extends HttpServlet {
 		} else if (action.equals(OPERATION_GET_EVALUATION_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String evaluationName = req.getParameter(PARAMETER_EVALUATION_NAME);
-			return getEvaluationAsJason(courseId,
-					evaluationName);
+			return getEvaluationAsJason(courseId, evaluationName);
 		} else if (action.equals(OPERATION_GET_TFS_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			return getTfsAsJason(courseId);
@@ -245,24 +245,24 @@ public class APIServlet extends HttpServlet {
 		} else if (action.equals(OPERATION_GET_TEAM_PROFILE_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String teamName = req.getParameter(PARAMETER_TEAM_NAME);
-			return getTeamProfileAsJason(courseId,
-					teamName);
+			return getTeamProfileAsJason(courseId, teamName);
 		} else if (action.equals(OPERATION_GET_SUBMISSION_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String evaluationName = req.getParameter(PARAMETER_EVALUATION_NAME);
 			String reviewerId = req.getParameter(PARAMETER_REVIEWER_EMAIL);
 			String revieweeId = req.getParameter(PARAMETER_REVIEWEE_EMAIL);
-			return getSubmissionAsJason(courseId, evaluationName, reviewerId, revieweeId);
+			return getSubmissionAsJason(courseId, evaluationName, reviewerId,
+					revieweeId);
 		} else if (action.equals(OPERATION_PERSIST_DATABUNDLE)) {
-			String dataBundleJsonString = req.getParameter(PARAMETER_DATABUNDLE_JSON);
+			String dataBundleJsonString = req
+					.getParameter(PARAMETER_DATABUNDLE_JSON);
 			persistNewDataBundle(dataBundleJsonString);
-		}  else {
+		} else {
 			throw new Exception("Unknown command: " + action);
 		}
 		return Common.BACKEND_STATUS_SUCCESS;
 	}
 
-	
 	/**
 	 * 
 	 * @author wangsha
@@ -474,7 +474,8 @@ public class APIServlet extends HttpServlet {
 
 	/**
 	 * Clean up everything about a particular course
-	 * @throws EntityDoesNotExistException 
+	 * 
+	 * @throws EntityDoesNotExistException
 	 */
 	protected void cleanupCourse() throws EntityDoesNotExistException {
 
@@ -488,9 +489,10 @@ public class APIServlet extends HttpServlet {
 	 * team profiles, team-forming sessions
 	 * 
 	 * @param courseID
-	 * @throws EntityDoesNotExistException 
+	 * @throws EntityDoesNotExistException
 	 */
-	private void cascadeCleanupCourse(String courseID) throws EntityDoesNotExistException {
+	private void cascadeCleanupCourse(String courseID)
+			throws EntityDoesNotExistException {
 
 		try {
 			Courses.inst().cleanUpCourse(courseID);
@@ -621,7 +623,8 @@ public class APIServlet extends HttpServlet {
 
 	}
 
-	protected void teamFormingSessionAdd() throws IOException, EntityAlreadyExistsException {
+	protected void teamFormingSessionAdd() throws IOException,
+			EntityAlreadyExistsException {
 		String json = req.getParameter("teamformingsession");
 
 		Gson gson = new Gson();
@@ -764,9 +767,9 @@ public class APIServlet extends HttpServlet {
 	}
 
 	// --------------------- revised API ------------------------------------
-	
+
 	/*
-	 * Get methods should throw an exception if the entity was not found. It is 
+	 * Get methods should throw an exception if the entity was not found. It is
 	 * "not expected" that UI will try to access a non-existent entity.
 	 */
 
@@ -779,7 +782,7 @@ public class APIServlet extends HttpServlet {
 		Course course = getCourse(courseId);
 		return Common.getTeammatesGson().toJson(course);
 	}
-	
+
 	private String getStudentAsJason(String courseId, String email) {
 		Student student = getStudent(courseId, email);
 		return Common.getTeammatesGson().toJson(student);
@@ -811,23 +814,23 @@ public class APIServlet extends HttpServlet {
 		List<TeamFormingLog> teamFormingLogList = getTeamFormingLog(courseId);
 		return Common.getTeammatesGson().toJson(teamFormingLogList);
 	}
-	
+
 	private void createSubmissions(List<Submission> submissionsList) {
 		Evaluations.inst().editSubmissions(submissionsList);
 	}
-	
-	//=======================API for JSP======================================
-	
-	public String coordGetLoginUrl(String redirectUrl)  {
+
+	// =======================API for JSP======================================
+
+	public String coordGetLoginUrl(String redirectUrl) {
 		Accounts accounts = Accounts.inst();
-		return accounts.getLoginPage(redirectUrl) ;
+		return accounts.getLoginPage(redirectUrl);
 	}
 
 	public String coordGetLogoutUrl(String redirectUrl) {
 		Accounts accounts = Accounts.inst();
-		return accounts.getLogoutPage(redirectUrl) ;
+		return accounts.getLogoutPage(redirectUrl);
 	}
-	
+
 	/**
 	 * Persists given data in the datastore Works ONLY if the data is correct
 	 * and new (i.e. these entities do not already exist in the datastore). The
@@ -847,8 +850,7 @@ public class APIServlet extends HttpServlet {
 		HashMap<String, Coordinator> coords = data.coords;
 		for (Coordinator coord : coords.values()) {
 			log.info("API Servlet adding coord :" + coord.getGoogleID());
-			createCoord(coord.getGoogleID(), coord.getName(),
-					coord.getEmail());
+			createCoord(coord.getGoogleID(), coord.getName(), coord.getEmail());
 		}
 
 		HashMap<String, Course> courses = data.courses;
@@ -911,11 +913,11 @@ public class APIServlet extends HttpServlet {
 
 		return Common.BACKEND_STATUS_SUCCESS;
 	}
-	
-	//-----------------------Coordinators------------------------------------------
-	
-	public void createCoord(String coordID, String coordName,
-			String coordEmail) throws EntityAlreadyExistsException , InvalidParametersException{
+
+	// -----------------------Coordinators------------------------------------------
+
+	public void createCoord(String coordID, String coordName, String coordEmail)
+			throws EntityAlreadyExistsException, InvalidParametersException {
 		Accounts.inst().addCoordinator(coordID, coordName, coordEmail);
 	}
 
@@ -923,68 +925,74 @@ public class APIServlet extends HttpServlet {
 		return Accounts.inst().getCoordinator(coordID);
 	}
 
-	public void deleteCoord(String coordId)  {
-		List<Course> coordCourseList = Courses.inst().getCoordinatorCourseList(coordId);
-		for(Course course: coordCourseList){
+	public void deleteCoord(String coordId) {
+		List<Course> coordCourseList = Courses.inst().getCoordinatorCourseList(
+				coordId);
+		for (Course course : coordCourseList) {
 			deleteCourse(course.getID());
 		}
 		Accounts.inst().deleteCoord(coordId);
 	}
 
-	
-	//-----------------------Courses------------------------------------------
+	// -----------------------Courses------------------------------------------
 
 	public void createCourse(String coordinatorId, String courseId,
-			String courseName) throws EntityAlreadyExistsException, InvalidParametersException {
+			String courseName) throws EntityAlreadyExistsException,
+			InvalidParametersException {
 		Courses.inst().addCourse(courseId, courseName, coordinatorId);
 	}
-	
+
 	public Course getCourse(String courseId) {
 		return Courses.inst().getCourse(courseId);
 	}
-	
+
 	public void deleteCourse(String courseId) {
 		Evaluations.inst().deleteEvaluations(courseId);
 		TeamForming.inst().deleteTeamFormingSession(courseId);
 		Courses.inst().deleteCourse(courseId);
 	}
-	
-	public HashMap<String, CourseSummaryForCoordinator> coordCourse_coordGetCourseSummaryList(String coordId){
+
+	public HashMap<String, CourseSummaryForCoordinator> getCourseListForCoord(
+			String coordId) {
 		return Courses.inst().getCourseSummaryListForCoord(coordId);
 	}
 
-	//----------------------Students------------------------------------------
-	public void createStudent(Student student) throws EntityAlreadyExistsException , InvalidParametersException {
+	// ----------------------Students------------------------------------------
+	public void createStudent(Student student)
+			throws EntityAlreadyExistsException, InvalidParametersException {
 		Accounts.inst().createStudent(student);
 	}
-	
+
 	public void deleteStudent(String courseId, String studentEmail) {
 		Courses.inst().deleteStudent(courseId, studentEmail);
 		Evaluations.inst().deleteSubmissionsForStudent(courseId, studentEmail);
-		//TODO:delete teamforming logsS
-		//TODO:delete team profile, if the last member
+		// TODO:delete teamforming logsS
+		// TODO:delete team profile, if the last member
 	}
-	
+
 	public Student getStudent(String courseId, String email) {
 		return Accounts.inst().getStudent(courseId, email);
 	}
-	
-	public void editStudent(String originalEmail, Student student) throws InvalidParametersException{
-		//TODO: make the implementation more defensive
-		Courses.inst().editStudent(student.getCourseID(), originalEmail, student.getName(), student.getEmail(), student.getID(), student.getComments());
+
+	public void editStudent(String originalEmail, Student student)
+			throws InvalidParametersException {
+		// TODO: make the implementation more defensive
+		Courses.inst().editStudent(student.getCourseID(), originalEmail,
+				student.getName(), student.getEmail(), student.getID(),
+				student.getComments());
 	}
-	
-	//------------------------Evaluations-----------------------------------
-	
-	public void createEvalution(Evaluation evaluation) throws EntityAlreadyExistsException , InvalidParametersException  {
+
+	// ------------------------Evaluations-----------------------------------
+
+	public void createEvalution(Evaluation evaluation)
+			throws EntityAlreadyExistsException, InvalidParametersException {
 		Evaluations.inst().addEvaluation(evaluation);
 	}
-	
+
 	public Evaluation getEvaluation(String courseId, String evaluationName) {
-		return Evaluations.inst().getEvaluation(courseId,
-				evaluationName);
+		return Evaluations.inst().getEvaluation(courseId, evaluationName);
 	}
-	
+
 	public void deleteEvaluation(String courseId, String evaluationName) {
 		Evaluations.inst().deleteEvaluation(courseId, evaluationName);
 	}
@@ -994,18 +1002,19 @@ public class APIServlet extends HttpServlet {
 		return Evaluations.inst().getSubmission(courseId, evaluationName,
 				reviewerEmail, revieweeEmail);
 	}
-	
-	//------------------------teamForming----------------------------------
-	
+
+	// ------------------------teamForming----------------------------------
+
 	public TeamProfile getTeamProfile(String courseId, String teamName) {
-		return TeamForming.inst().getTeamProfile(courseId,teamName);
+		return TeamForming.inst().getTeamProfile(courseId, teamName);
 	}
-	
+
 	public List<TeamFormingLog> getTeamFormingLog(String courseId) {
 		return TeamForming.inst().getTeamFormingLogList(courseId);
 	}
-	
-	public void createTeamFormingLogEntry(TeamFormingLog teamFormingLog) throws InvalidParametersException{
+
+	public void createTeamFormingLogEntry(TeamFormingLog teamFormingLog)
+			throws InvalidParametersException {
 		TeamForming.inst().createTeamFormingLogEntry(teamFormingLog);
 	}
 
@@ -1014,7 +1023,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	public void createTfs(TeamFormingSession tfs)
-			throws EntityAlreadyExistsException , InvalidParametersException  {
+			throws EntityAlreadyExistsException, InvalidParametersException {
 		TeamForming.inst().createTeamFormingSession(tfs);
 	}
 
@@ -1023,7 +1032,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	public void createTeamProfile(TeamProfile teamProfile)
-			throws EntityAlreadyExistsException , InvalidParametersException {
+			throws EntityAlreadyExistsException, InvalidParametersException {
 		TeamForming.inst().createTeamProfile(teamProfile);
 	}
 
@@ -1035,6 +1044,16 @@ public class APIServlet extends HttpServlet {
 		return TeamForming.inst().getTeamFormingSession(courseId);
 	}
 
+	public ArrayList<EvaluationDetailsForCoordinator> getEvaluationsListForCoord(
+			String coordId) {
+
+		List<Course> courseList = Courses.inst().getCoordinatorCourseList(coordId);
+		ArrayList<EvaluationDetailsForCoordinator> evaluationDetailsList = new ArrayList<EvaluationDetailsForCoordinator>();
+		
+		for(Course c: courseList){
+			evaluationDetailsList.addAll(Evaluations.inst().getEvaluationsSummaryForCourse(c.getID()));
+		}
+		return evaluationDetailsList;
+	}
 
 }
-

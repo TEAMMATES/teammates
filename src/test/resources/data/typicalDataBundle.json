@@ -1,23 +1,29 @@
 {
   "coords": {
   	"typicalCoord1": {"googleID": "idOfTypicalCoord1", "name":"Typical Coordinator1", "email":"typicalCoord1@gmail.com"},
-  	"typicalCoord2": {"googleID": "idOfTypicalCoord2", "name":"Typical Coordinator2", "email":"typicalCoord2@gmail.com"}
+  	"typicalCoord2": {"googleID": "idOfTypicalCoord2", "name":"Typical Coordinator2", "email":"typicalCoord2@gmail.com"},
+  	"typicalCoord3": {"googleID": "idOfTypicalCoord3", "name":"Typical Coordinator3", "email":"typicalCoord3@gmail.com"}
   },
   "courses": {
-	  "course1": {
+	  "course1OfCoord1": {
       "coordinatorID" : "idOfTypicalCoord1",
-	    "id": "idOfCourse1",
-	    "name": "course 1 name"
+	    "id": "idOfCourse1OfCoord1",
+	    "name": "course1OfCoord1 name"
 	  },
-	  "course2": {
-      "coordinatorID" : "idOfTypicalCoord2",
-	    "id": "idOfCourse2",
-	    "name": "course 2 name"
+	  "course2OfCoord1": {
+      "coordinatorID" : "idOfTypicalCoord1",
+	    "id": "idOfCourse2ofCoord1",
+	    "name": "course2OfCoord1 name"
 	  },
-	  "course3": {
+	  "course1OfCoord2": {
       "coordinatorID" : "idOfTypicalCoord2",
-	    "id": "idOfCourse3",
-	    "name": "course 3 name"
+	    "id": "idOfCourse1OfCoord2",
+	    "name": "course1OfCoord2 name"
+	  },
+	  "course2OfCoord2": {
+      "coordinatorID" : "idOfTypicalCoord2",
+	    "id": "idOfCourse2OfCoord2",
+	    "name": "course2OfCoord2 name"
 	  }
   },
   
@@ -30,7 +36,7 @@
       "google_id": "student1InCourse1",
       "comments" : "comment for student1InCourse1",
       "profilesummary" : "profile summary for student1InCourse1",
-      "coursename" : "idOfCourse1",
+      "coursename" : "idOfCourse1OfCoord1",
       "profiledetail" : {"value" : "profiledetail for student1InCourse1" }
     },
     "student2InCourse1":{
@@ -38,7 +44,7 @@
       "name": "student2 In Course1",
       "google_id": "student2InCourse1",
       "teamname": "Team 1.1",
-      "coursename" : "idOfCourse1",
+      "coursename" : "idOfCourse1OfCoord1",
       "profiledetail" : {"value" : "profiledetail for student2InCourse1" }
     },
     "student3InCourse1":{
@@ -46,7 +52,7 @@
       "name": "student3 In Course1",
       "google_id": "student3InCourse1",
       "teamname": "Team 1.2",
-      "coursename" : "idOfCourse1",
+      "coursename" : "idOfCourse1OfCoord1",
       "profiledetail" : {"value" : "profiledetail for student3InCourse1" }
     },
     "student1InCourse2":{
@@ -54,7 +60,7 @@
       "name": "student1 In Course2",
       "google_id": "student1InCourse2",
       "teamname": "Team 2.1",
-      "coursename" : "idOfCourse2",
+      "coursename" : "idOfCourse1OfCoord2",
       "profiledetail" : {"value" : "profiledetail for student1InCourse2" }
     },
     "student2InCourse2":{
@@ -62,15 +68,15 @@
       "name": "student2 In Course2",
       "google_id": "student2InCourse2",
       "teamname": "Team 2.1",
-      "coursename" : "idOfCourse2",
+      "coursename" : "idOfCourse1OfCoord2",
       "profiledetail" : {"value" : "profiledetail for student2InCourse2" }
     }
   },
   
   "evaluations" : {
   
-    "evaluation1InCourse1": {
-      "course_id" : "idOfCourse1",
+    "evaluation1InCourse1OfCoord1": {
+      "course_id" : "idOfCourse1OfCoord1",
       "name" : "evaluation1 In Course1",
       "instr": "instructions for evaluation1InCourse1",
       "grace": 10,
@@ -81,15 +87,22 @@
       "published" : false,
       "timezone" : 2.0
     },
-    "evaluation2InCourse1": {
-      "course_id" : "idOfCourse1",
+    "evaluation2InCourse1OfCoord1": {
+      "course_id" : "idOfCourse1OfCoord1",
       "graceperiod": 20,
       "instructions": "Please please fill in the second evaluation",
       "name": "evaluation2 In Course1",
       "p2pcomments": true
     },
-    "evaluation1InCourse2": {
-      "course_id" : "idOfCourse2",
+    "evaluation1InCourse2OfCoord1": {
+      "course_id" : "idOfCourse2ofCoord1",
+      "graceperiod": 20,
+      "instructions": "Please please fill in the second evaluation",
+      "name": "evaluation name",
+      "p2pcomments": true
+    },
+    "evaluation1InCourse1OfCoord2": {
+      "course_id" : "idOfCourse1OfCoord2",
       "graceperiod": 20,
       "instructions": "instructions for evaluation1InCourse2",
       "name": "evaluation1 In Course2",
@@ -102,7 +115,7 @@
     
     	"fromStudent" : "student1InCourse1@gmail.com",
       "toStudent" : "student1InCourse1@gmail.com",
-      "courseID" : "idOfCourse1",
+      "courseID" : "idOfCourse1OfCoord1",
       "evaluationName" : "evaluation1 In Course1",
       "points" : 10,
       "justification" : {"value" : "justification of student1InCourse1 rating to student1InCourse1"},
@@ -113,7 +126,7 @@
     
     	"fromStudent" : "student1InCourse1@gmail.com",
       "toStudent" : "student2InCourse1@gmail.com",
-      "courseID" : "idOfCourse1",
+      "courseID" : "idOfCourse1OfCoord1",
       "evaluationName" : "evaluation1 In Course1",
       "points" : 10,
       "justification" : {"value" : "justification of student1InCourse1 rating to student2InCourse1"},
@@ -124,7 +137,7 @@
     
     	"fromStudent" : "student2InCourse1@gmail.com",
       "toStudent" : "student1InCourse1@gmail.com",
-      "courseID" : "idOfCourse1",
+      "courseID" : "idOfCourse1OfCoord1",
       "evaluationName" : "evaluation1 In Course1",
       "points" : 20,
       "justification" : {"value" : "justification of student2InCourse1 rating to student1InCourse1"},
@@ -135,7 +148,7 @@
     
     	"fromStudent" : "student1InCourse2@gmail.com",
       "toStudent" : "student2InCourse2@gmail.com",
-      "courseID" : "idOfCourse2",
+      "courseID" : "idOfCourse1OfCoord2",
       "evaluationName" : "evaluation1 In Course2",
       "points" : 20,
       "justification" : {"value" : "justification of student1InCourse2 rating to student2InCourse2"},
@@ -147,7 +160,7 @@
   
   "teamFormingSessions": {
     "tfsInCourse1":{
-      "course_id" : "idOfCourse1",
+      "course_id" : "idOfCourse1OfCoord1",
       "start_time" : "2012-04-01 11:59 PM",
       "end_time" : "2012-04-15 11:59 PM",
       "timezone" : 8.0,
@@ -157,7 +170,7 @@
       "activated" : false
     },
     "tfsInCourse2":{
-      "course_id" : "idOfCourse2",
+      "course_id" : "idOfCourse1OfCoord2",
       "start_time" : "2012-04-01 11:59 PM",
       "end_time" : "2012-04-15 11:59 PM",
       "timezone" : 6.0,
@@ -167,7 +180,7 @@
       "activated" : false
     },
     "tfsInCourse3":{
-      "course_id" : "idOfCourse3",
+      "course_id" : "idOfCourse2OfCoord2",
       "start_time" : "2012-04-01 11:59 PM",
       "end_time" : "2012-04-15 11:59 PM",
       "timezone" : 6.0,
@@ -180,26 +193,26 @@
   
   "teamProfiles" : {
     "profileOfTeam1.1" : {
-      "courseid" : "idOfCourse1",
-      "coursename" : "course 1 name",
+      "courseid" : "idOfCourse1OfCoord1",
+      "coursename" : "course1OfCoord1 name",
       "teamname" : "Team 1.1",
       "teamprofile" : {"value" :"team profile of Team 1.1"}
     },
     "profileOfTeam1.2" : {
-      "courseid" : "idOfCourse1",
-      "coursename" : "course 1 name",
+      "courseid" : "idOfCourse1OfCoord1",
+      "coursename" : "course1OfCoord1 name",
       "teamname" : "Team 1.2",
       "teamprofile" : {"value" :"team profile of Team 1.2"}
     },
     "profileOfTeam2.1" : {
-      "courseid" : "idOfCourse2",
-      "coursename" : "course 2 name",
+      "courseid" : "idOfCourse1OfCoord2",
+      "coursename" : "course1OfCoord2 name",
       "teamname" : "Team 2.1",
       "teamprofile" : {"value" :"team profile of Team 2.1"}
     },
     "profileOfTeam3.1" : {
-      "courseid" : "idOfCourse3",
-      "coursename" : "course 3 name",
+      "courseid" : "idOfCourse2OfCoord2",
+      "coursename" : "course2OfCoord2 name",
       "teamname" : "Team 3.1",
       "teamprofile" : {"value" :"team profile of Team 3.1"}
     }
@@ -207,28 +220,28 @@
   
   "teamFormingLogs" : {
     "tfsLogMessage1ForTfsInCourse1" : {
-      "courseid" : "idOfCourse1",
+      "courseid" : "idOfCourse1OfCoord1",
       "time" : "2012-01-01 01:01 AM",
       "studentname" : "student1 In Course1",
       "studentemail" : "student1InCourse1@gmail.com",
       "message" :  {"value" :"log message 1 of course1, student1InCourse1@gmail.com"}
     },    
     "tfsLogMessage2ForTfsInCourse1" : {
-      "courseid" : "idOfCourse1",
+      "courseid" : "idOfCourse1OfCoord1",
       "time" : "2012-02-02 02:02 AM",
       "studentname" : "student2 In Course1",
       "studentemail" : "student2InCourse1@gmail.com",
       "message" :  {"value" :"log message 2 of course1, student2InCourse1@gmail.com"}
     },    
     "tfsLogMessage1ForTfsInCourse2" : {
-      "courseid" : "idOfCourse2",
+      "courseid" : "idOfCourse1OfCoord2",
       "time" : "2012-03-03 03:03 AM",
       "studentname" : "student1 In Course2",
       "studentemail" : "student1InCourse2@gmail.com",
       "message" :  {"value" :"log message 1 of course2, student1InCourse2@gmail.com"}
     },    
     "tfsLogMessage1ForTfsInCourse3" : {
-      "courseid" : "idOfCourse3",
+      "courseid" : "idOfCourse2OfCoord2",
       "time" : "2012-03-03 03:03 AM",
       "studentname" : "student1 In Course3",
       "studentemail" : "student1InCourse3@gmail.com",
