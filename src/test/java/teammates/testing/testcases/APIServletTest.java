@@ -163,6 +163,28 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(0, evalList.size());
 		//TODO: needs more testing
 	}
+	
+	@Test
+	public void testGetStudentListForCourse() throws Exception{
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+		
+		Course course1OfCoord1 = dataBundle.courses.get("course1OfCoord1");
+		List<Student> studentList = apiServlet.getStudentListForCourse(course1OfCoord1.getID());
+		assertEquals(3,studentList.size());
+		for(Student s: studentList){
+			assertEquals(course1OfCoord1.getID(),s.getCourseID());
+		}
+		
+		Course course2OfCoord1 = dataBundle.courses.get("course2OfCoord1");
+		studentList = apiServlet.getStudentListForCourse(course2OfCoord1.getID());
+		assertEquals(0,studentList.size());
+		for(Student s: studentList){
+			assertEquals(course2OfCoord1.getID(),s.getCourseID());
+		}
+		
+		//TODO: more testing
+	}
 
 	// ------------------------------------------------------------------------
 

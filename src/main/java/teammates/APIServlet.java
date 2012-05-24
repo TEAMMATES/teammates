@@ -1056,4 +1056,8 @@ public class APIServlet extends HttpServlet {
 		return evaluationDetailsList;
 	}
 
+	public List<Student> getStudentListForCourse(String courseId) {
+		return Courses.inst().getStudentList(courseId);
+	}
+
 }
