@@ -899,4 +899,14 @@ public class TeamForming {
 		return true;
 	}
 
+	public void deleteLogsForStudent(String courseId, String studentEmail) {
+		List<TeamFormingLog> teamFormingLogList = getTeamFormingLogList(courseId);
+		for(TeamFormingLog tfl: teamFormingLogList){
+			if(tfl.getStudentEmail().equals(studentEmail)){
+				log.info("Deleing teamforming log message for"+studentEmail+ " in "+courseId);
+				getPM().deletePersistent(tfl);
+			}
+		}
+	}
+
 }

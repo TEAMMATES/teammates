@@ -966,7 +966,7 @@ public class APIServlet extends HttpServlet {
 	public void deleteStudent(String courseId, String studentEmail) {
 		Courses.inst().deleteStudent(courseId, studentEmail);
 		Evaluations.inst().deleteSubmissionsForStudent(courseId, studentEmail);
-		// TODO:delete teamforming logsS
+		TeamForming.inst().deleteLogsForStudent(courseId,studentEmail);
 		// TODO:delete team profile, if the last member
 	}
 

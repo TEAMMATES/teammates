@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.servlet.ServletException;
 
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -100,6 +101,9 @@ public class APIServletTest extends BaseTestCase {
 		Student student2InCourse1 = dataBundle.students
 				.get("student2InCourse1");
 		verifyPresentInDatastore(student2InCourse1);
+		
+		//verify that the student-to-be-deleted has some log entries
+		verifyPresenceOfTfsLogsForStudent(student2InCourse1.getCourseID(),student2InCourse1.getEmail());
 
 		apiServlet.deleteStudent(student2InCourse1.getCourseID(),
 				student2InCourse1.getEmail());
@@ -117,9 +121,16 @@ public class APIServletTest extends BaseTestCase {
 		verifyAbsentInDatastore(submissionFromS1C1ToS2C1);
 		verifyAbsentInDatastore(submissionFromS2C1ToS1C1);
 		verifyPresentInDatastore(submissionFromS1C1ToS1C1);
+		
+		//verify that log entries belonging to the student was deleted
+		verifyAbsenceOfTfsLogsForStudent(student2InCourse1.getCourseID(),student2InCourse1.getEmail());
+		//verify that log entries belonging to another student remain intact
+		verifyPresenceOfTfsLogsForStudent(student1InCourse1.getCourseID(),student1InCourse1.getEmail());
 
-		// TODO: test for cascade delete of logs and profiles
+		// TODO: test for cascade delete of profiles
 	}
+
+
 
 	@Test
 	public void testEditStudent() throws Exception {
@@ -247,6 +258,23 @@ public class APIServletTest extends BaseTestCase {
 	private void verifyAbsentInDatastore(Student student) {
 		assertEquals(null, apiServlet.getStudent(student.getCourseID(),
 				student.getEmail()));
+	}
+	
+	private void verifyAbsenceOfTfsLogsForStudent(String courseId, String studentEmail) {
+		List<TeamFormingLog> teamFormingLogs = apiServlet.getTeamFormingLog(courseId);
+		for(TeamFormingLog tfl: teamFormingLogs){
+			String actualEmail = tfl.getStudentEmail();
+			assertTrue("unexpected email:"+actualEmail,!actualEmail.equals(studentEmail));
+		}
+		
+	}
+	
+	private void verifyPresenceOfTfsLogsForStudent(String courseId, String studentEmail) {
+		List<TeamFormingLog> teamFormingLogs = apiServlet.getTeamFormingLog(courseId);
+		for(TeamFormingLog tfl: teamFormingLogs){
+			if(tfl.getStudentEmail().equals(studentEmail))return;
+		}
+		Assert.fail("No log messages found for "+studentEmail+" in "+courseId);
 	}
 
 	private void verifyPresentInDatastore(Student expectedStudent) {
