@@ -107,24 +107,24 @@ public class BrowserInstance {
 	public By coordHomeAddNewCourseLink = By.id("addNewCourse");
 
 	// Course list at home
-	public By getCoordHomeCourseEnrolLink(int row) { return By.className("t_course_enroll" + row); }
-	public By getCoordHomeCourseViewLink(int row) { return By.className("t_course_view" + row); }
-	public By getCoordHomeCourseAddEvaluationLink(int row) { return By.className("t_course_add_eval" + row); }
-	public By getCoordHomeCourseDeleteLink(int row) { return By.className("t_course_delete" + row); }
+	public By getCoordHomeCourseEnrollLink(int rowID) { return By.className("t_course_enroll" + rowID); }
+	public By getCoordHomeCourseViewLink(int rowID) { return By.className("t_course_view" + rowID); }
+	public By getCoordHomeCourseAddEvaluationLink(int rowID) { return By.className("t_course_add_eval" + rowID); }
+	public By getCoordHomeCourseDeleteLink(int rowID) { return By.className("t_course_delete" + rowID); }
 	
 	// Course list at course page
-	public By getCoordCourseEnrolLink(int row) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_enroll']", row+2, 6)); }
-	public By getCoordCourseViewLink(int row) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_view']", row+2, 6)); }
-	public By getCoordCourseAddEvaluationLink(int row) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_add_eval']", row+2, 6)); }
-	public By getCoordCourseDeleteLink(int row) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_delete']", row+2, 6)); }
+	public By getCoordCourseEnrollLink(int rowID) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_enroll']", rowID+2, 6)); }
+	public By getCoordCourseViewLink(int rowID) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_view']", rowID+2, 6)); }
+	public By getCoordCourseAddEvaluationLink(int rowID) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_add_eval']", rowID+2, 6)); }
+	public By getCoordCourseDeleteLink(int rowID) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_delete']", rowID+2, 6)); }
 	
 	// Evaluation table 
-	public By getCoordEvaluationViewResultsLink(int row) { return By.id("viewEvaluation" + row); }
-	public By getCoordEvaluationEditLink(int row) { return By.id("editEvaluation" + row); }
-	public By getCoordEvaluationDeleteLink(int row) { return By.id("deleteEvaluation" + row); }
-	public By getCoordEvaluationRemindLink(int row) { return By.id("remindEvaluation" + row); }
-	public By getCoordEvaluationPublishLink(int row) { return By.id("publishEvaluation" + row); }
-	public By getCoordEvaluationUnpublishLink(int row) { return By.id("unpublishEvaluation" + row); }
+	public By getCoordEvaluationViewResultsLink(int rowID) { return By.id("viewEvaluation" + rowID); }
+	public By getCoordEvaluationEditLink(int rowID) { return By.id("editEvaluation" + rowID); }
+	public By getCoordEvaluationDeleteLink(int rowID) { return By.id("deleteEvaluation" + rowID); }
+	public By getCoordEvaluationRemindLink(int rowID) { return By.id("remindEvaluation" + rowID); }
+	public By getCoordEvaluationPublishLink(int rowID) { return By.id("publishEvaluation" + rowID); }
+	public By getCoordEvaluationUnpublishLink(int rowID) { return By.id("unpublishEvaluation" + rowID); }
 	
 	/* -------------------------------- Course Page ------------------------------- */
 	// Add course
@@ -138,10 +138,12 @@ public class BrowserInstance {
 	/*
 	 * In each row, the Cell containing course id has an HTML id attribute
 	 * e.g. <tr><td id="courseID1">CS2103-TESTING</td>...</tr>
-	 * The value depends on the row number. 1st row: "CourseID0", 2nd row: "CourseID1" and so on 
+	 * The value depends on the original row number (it may be changed after sorting)
+	 * Originally it is 1st row: "CourseID0", 2nd row: "CourseID1" and so on
+	 * So at any time the lowest course ID will always have rowID 0, and so on. 
 	 */
-	public By getCourseIDCell(int row) { return By.id("courseID" + row); }
-	public By getCourseNameCell(int row) { return By.id("courseName" + row); }
+	public By getCourseIDCell(int rowID) { return By.id("courseID" + rowID); }
+	public By getCourseNameCell(int rowID) { return By.id("courseName" + rowID); }
 
 	// Enrollment
 	public By coordEnrollInfo = By.id("information");
@@ -289,15 +291,15 @@ public class BrowserInstance {
 
 	// --------------------------------- Homepage --------------------------------- //
 	// Course box
-	public By getStudentViewLink(int row) { return By.className("t_course_view" + row); }
+	public By getStudentViewLink(int rowID) { return By.className("t_course_view" + rowID); }
 
 	// Evaluation table:
 	
 	// ------------------------------- Evaluation --------------------------------- //
-	public By getStudentDoEvaluationLink(int row) { return By.id("doEvaluation" + row); }
-	public By getStudentViewResultsLink(int row) { return By.id("viewEvaluation" + row); }
-	public By getStudentEditEvaluationSubmissionLink(int row) { return By.id("editEvaluation" + row); }
-	public By getStudentEvaluationViewResultsLink(int row) { return By.xpath(String.format("//div[@id='studentPastEvaluations']//table[@id='dataform']//tr[%d]//td[%d]//a['View Results']", row + 2, 5)); }
+	public By getStudentDoEvaluationLink(int rowID) { return By.id("doEvaluation" + rowID); }
+	public By getStudentViewResultsLink(int rowID) { return By.id("viewEvaluation" + rowID); }
+	public By getStudentEditEvaluationSubmissionLink(int rowID) { return By.id("editEvaluation" + rowID); }
+	public By getStudentEvaluationViewResultsLink(int rowID) { return By.xpath(String.format("//div[@id='studentPastEvaluations']//table[@id='dataform']//tr[%d]//td[%d]//a['View Results']", rowID + 2, 5)); }
 	
 	public final String PENDING_EVALUATIONS_HEADER = "Pending Evaluations:";
 	public final String PAST_EVALUATIONS_HEADER = "Past Evaluations:";
@@ -692,30 +694,30 @@ public class BrowserInstance {
 //	}
 
 	/**
-	 * Clicks and confirms Delete of a course at a particular row.
+	 * Clicks and confirms Delete of a course at a particular rowID.
 	 * Pre-condition: Should be at Coordinator Homepage
-	 * @param row
+	 * @param rowID
 	 */
-	public void clickCoordHomeCourseDeleteAndConfirm(int row) {
-		clickAndConfirm(getCoordHomeCourseDeleteLink(row));
+	public void clickCoordHomeCourseDeleteAndConfirm(int rowID) {
+		clickAndConfirm(getCoordHomeCourseDeleteLink(rowID));
 	}
 	
 	/**
 	 * Click and cancels Delete of a particular course of the coordinator.
 	 * Pre-condition: Should be at Coordinator Homepage
-	 * @param row
+	 * @param rowID
 	 */
-	public void clickCoordHomeCourseDeleteAndCancel(int row) {
-		clickAndCancel(getCoordHomeCourseDeleteLink(row));
+	public void clickCoordHomeCourseDeleteAndCancel(int rowID) {
+		clickAndCancel(getCoordHomeCourseDeleteLink(rowID));
 	}
 
 	/**
-	 * Clicks and confirms Delete of a course at a particular row.
+	 * Clicks and confirms Delete of a course at a particular rowID.
 	 * Pre-condition: Should be at Coordinator Course Page
-	 * @param row
+	 * @param rowID
 	 */
-	public void clickCoordCourseDeleteAndConfirm(int row) {
-		clickAndConfirm(getCoordCourseDeleteLink(row));
+	public void clickCoordCourseDeleteAndConfirm(int rowID) {
+		clickAndConfirm(getCoordCourseDeleteLink(rowID));
 	}
 
 	/**
@@ -724,9 +726,9 @@ public class BrowserInstance {
 	 * @param courseID
 	 */
 	public void clickCoordCourseDeleteAndConfirm(String courseID) {
-		int row = findCourseRow(courseID);
-		if (row > -1) {
-			clickCoordCourseDeleteAndConfirm(row);
+		int rowID = findCourseRow(courseID);
+		if (rowID > -1) {
+			clickCoordCourseDeleteAndConfirm(rowID);
 		} else {
 			fail("Course ID cannot be found.");
 		}
@@ -735,10 +737,10 @@ public class BrowserInstance {
 	/**
 	 * Click and cancels Delete of a particular course of the coordinator.
 	 * Pre-condition: Should be at Coordinator Course Page
-	 * @param row
+	 * @param rowID
 	 */
-	public void clickCoordCourseDeleteAndCancel(int row) {
-		clickAndCancel(getCoordCourseDeleteLink(row));
+	public void clickCoordCourseDeleteAndCancel(int rowID) {
+		clickAndCancel(getCoordCourseDeleteLink(rowID));
 	}
 
 	/**
@@ -747,21 +749,21 @@ public class BrowserInstance {
 	 * @param courseID
 	 */
 	public void clickCoordCourseDeleteAndCancel(String courseID) {
-		int row = findCourseRow(courseID);
-		if (row > -1) {
-			clickCoordCourseDeleteAndCancel(row);
+		int rowID = findCourseRow(courseID);
+		if (rowID > -1) {
+			clickCoordCourseDeleteAndCancel(rowID);
 		} else {
 			fail("Course ID cannot be found.");
 		}
 	}
 
 	/**
-	 * Clicks and confirms Delete a student at a particular row.
+	 * Clicks and confirms Delete a student at a particular rowID.
 	 * Pre-condition: Should be in Course detail page
-	 * @param row
+	 * @param rowID
 	 */
-	public void clickCoordCourseDetailStudentDeleteAndConfirm(int row) {
-		clickAndConfirm(By.xpath(String.format("//table[@id='dataform']//tr[%d]//a[@class='t_student_delete']", row + 2)));
+	public void clickCoordCourseDetailStudentDeleteAndConfirm(int rowID) {
+		clickAndConfirm(By.xpath(String.format("//table[@id='dataform']//tr[%d]//a[@class='t_student_delete']", rowID + 2)));
 	}
 	
 	/**
@@ -770,21 +772,21 @@ public class BrowserInstance {
 	 * @param student
 	 */
 	public void clickCoordCourseDetailStudentDeleteAndConfirm(String student) {
-		int row = findStudentRow(student);
-		if (row > -1) {
-			clickCoordCourseDetailStudentDeleteAndConfirm(row);
+		int rowID = findStudentRow(student);
+		if (rowID > -1) {
+			clickCoordCourseDetailStudentDeleteAndConfirm(rowID);
 		} else {
 			fail("Student not found in this course.");
 		}
 	}
 	
 	/**
-	 * Clicks and confirms Delete of an evaluation at a particular row.
+	 * Clicks and confirms Delete of an evaluation at a particular rowID.
 	 * Pre-condition: Should be at Evaluation list page
-	 * @param row
+	 * @param rowID
 	 */
-	public void clickCoordEvaluationDeleteAndConfirm(int row) {
-		clickAndConfirm(getCoordEvaluationDeleteLink(row));
+	public void clickCoordEvaluationDeleteAndConfirm(int rowID) {
+		clickAndConfirm(getCoordEvaluationDeleteLink(rowID));
 	}
 
 	/**
@@ -794,21 +796,21 @@ public class BrowserInstance {
 	 * @param evalName
 	 */
 	public void clickCoordEvaluationDeleteAndConfirm(String courseId, String evalName) {
-		int row = findEvaluationRow(courseId, evalName);
-		if (row > -1) {
-			clickCoordEvaluationDeleteAndConfirm(row);
+		int rowID = findEvaluationRow(courseId, evalName);
+		if (rowID > -1) {
+			clickCoordEvaluationDeleteAndConfirm(rowID);
 		} else {
 			fail("Evaluation not found.");
 		}
 	}
 
 	/**
-	 * Clicks and cancels Delete of an evaluation at a particular row.
+	 * Clicks and cancels Delete of an evaluation at a particular rowID.
 	 * Pre-condition: Should be at Evaluation list page
-	 * @param row
+	 * @param rowID
 	 */
-	public void clickCoordEvaluationDeleteAndCancel(int row) {
-		clickAndCancel(getCoordEvaluationDeleteLink(row));
+	public void clickCoordEvaluationDeleteAndCancel(int rowID) {
+		clickAndCancel(getCoordEvaluationDeleteLink(rowID));
 	}
 
 	/**
@@ -818,9 +820,9 @@ public class BrowserInstance {
 	 * @param evalName
 	 */
 	public void clickCoordEvaluationDeleteAndCancel(String courseId, String evalName) {
-		int row = findEvaluationRow(courseId, evalName);
-		if (row > -1) {
-			clickCoordEvaluationDeleteAndCancel(row);
+		int rowID = findEvaluationRow(courseId, evalName);
+		if (rowID > -1) {
+			clickCoordEvaluationDeleteAndCancel(rowID);
 		} else {
 			fail("Evaluation not found.");
 		}
@@ -828,12 +830,12 @@ public class BrowserInstance {
 
 	/**
 	 * Clicks and confirms on Publish button of an evaluation 
-	 * at particular row at evaluation page as coordinator.
+	 * at particular rowID at evaluation page as coordinator.
 	 * Pre-condition: Should be at Evaluation list page
-	 * @param row
+	 * @param rowID
 	 */
-	public void clickCoordEvaluationPublishAndConfirm(int row) {
-		clickAndConfirm(getCoordEvaluationPublishLink(row));
+	public void clickCoordEvaluationPublishAndConfirm(int rowID) {
+		clickAndConfirm(getCoordEvaluationPublishLink(rowID));
 	}
 	
 	/**
@@ -844,9 +846,9 @@ public class BrowserInstance {
 	 * @param evalName
 	 */
 	public void clickCoordEvaluationPublishAndConfirm(String courseId, String evalName) {
-		int row = findEvaluationRow(courseId, evalName);
-		if (row > -1) {
-			clickCoordEvaluationPublishAndConfirm(row);
+		int rowID = findEvaluationRow(courseId, evalName);
+		if (rowID > -1) {
+			clickCoordEvaluationPublishAndConfirm(rowID);
 		} else {
 			fail("Evaluation not found.");
 		}
@@ -854,12 +856,12 @@ public class BrowserInstance {
 	
 	/**
 	 * Clicks and cancels Publish of results of an evaluation
-	 * at particular row in the page as the coordinator.
+	 * at particular rowID in the page as the coordinator.
 	 * Pre-condition: Should be at Evaluation list page
-	 * @param row
+	 * @param rowID
 	 */
-	public void clickCoordEvaluationPublishAndCancel(int row) {
-		clickAndCancel(getCoordEvaluationPublishLink(row));
+	public void clickCoordEvaluationPublishAndCancel(int rowID) {
+		clickAndCancel(getCoordEvaluationPublishLink(rowID));
 	}
 	
 	/**
@@ -870,10 +872,10 @@ public class BrowserInstance {
 	 * @param evalName
 	 */
 	public void clickCoordEvaluationPublishAndCancel(String courseID, String evalName) {
-		int row = findEvaluationRow(courseID, evalName);
+		int rowID = findEvaluationRow(courseID, evalName);
 	
-		if (row > -1) {
-			clickCoordEvaluationPublishAndCancel(row);
+		if (rowID > -1) {
+			clickCoordEvaluationPublishAndCancel(rowID);
 		} else {
 			fail("Evaluation not found.");
 		}
@@ -881,12 +883,12 @@ public class BrowserInstance {
 	
 	/**
 	 * Clicks and confirms on Unpublish button of an evaluation
-	 * at particular row.
+	 * at particular rowID.
 	 * Pre-condition: Should be at Evaluation list page
-	 * @param row
+	 * @param rowID
 	 */
-	public void clickCoordEvaluationUnpublishAndConfirm(int row) {
-		clickAndConfirm(getCoordEvaluationUnpublishLink(row));
+	public void clickCoordEvaluationUnpublishAndConfirm(int rowID) {
+		clickAndConfirm(getCoordEvaluationUnpublishLink(rowID));
 	}
 	
 	/**
@@ -896,9 +898,9 @@ public class BrowserInstance {
 	 * @param evalName
 	 */
 	public void clickCoordEvaluationUnpublishAndConfirm(String courseId, String evalName) {
-		int row = findEvaluationRow(courseId, evalName);
-		if (row > -1) {
-			clickCoordEvaluationUnpublishAndConfirm(row);
+		int rowID = findEvaluationRow(courseId, evalName);
+		if (rowID > -1) {
+			clickCoordEvaluationUnpublishAndConfirm(rowID);
 		} else {
 			fail("Evaluation not found.");
 		}
@@ -906,12 +908,12 @@ public class BrowserInstance {
 	
 	/**
 	 * Clicks and cancels Unpublish of results of an evaluation
-	 * at a particular row in a specific course of the coordinator.
+	 * at a particular rowID in a specific course of the coordinator.
 	 * Pre-condition: Should be at Evaluation list page
-	 * @param row
+	 * @param rowID
 	 */
-	public void clickCoordEvaluationUnpublishAndCancel(int row) {
-		clickAndConfirm(getCoordEvaluationPublishLink(row));
+	public void clickCoordEvaluationUnpublishAndCancel(int rowID) {
+		clickAndConfirm(getCoordEvaluationPublishLink(rowID));
 	}
 
 	/**
@@ -922,48 +924,48 @@ public class BrowserInstance {
 	 * @param evalName
 	 */
 	public void clickCoordEvaluationUnpublishAndCancel(String courseID, String evalName) {
-		int row = findEvaluationRow(courseID, evalName);
+		int rowID = findEvaluationRow(courseID, evalName);
 	
-		if (row > -1) {
-			clickCoordEvaluationUnpublishAndCancel(row);
+		if (rowID > -1) {
+			clickCoordEvaluationUnpublishAndCancel(rowID);
 		} else {
 			fail("Evaluation not found.");
 		}
 	}
 	
-	public void clickCoordEvaluationRemindAndConfirm(int row) {
-		clickAndConfirm(getCoordEvaluationRemindLink(row));
+	public void clickCoordEvaluationRemindAndConfirm(int rowID) {
+		clickAndConfirm(getCoordEvaluationRemindLink(rowID));
 	}
 	
 	public void clickCoordEvaluationRemindAndConfirm(String courseId, String evalName) {
-		int row = findEvaluationRow(courseId, evalName);
-		if (row > -1) {
-			clickCoordEvaluationRemindAndConfirm(row);
+		int rowID = findEvaluationRow(courseId, evalName);
+		if (rowID > -1) {
+			clickCoordEvaluationRemindAndConfirm(rowID);
 		} else {
 			fail("Evaluation not found.");
 		}
 	}
 	
-	public void clickCoordEvaluationRemindAndCancel(int row) {
-		clickAndCancel(getCoordEvaluationRemindLink(row));
+	public void clickCoordEvaluationRemindAndCancel(int rowID) {
+		clickAndCancel(getCoordEvaluationRemindLink(rowID));
 	}
 	
 	public void clickCoordEvaluationRemindAndCancel(String courseId, String evalName) {
-		int row = findEvaluationRow(courseId, evalName);
-		if (row > -1) {
-			clickCoordEvaluationRemindAndCancel(row);
+		int rowID = findEvaluationRow(courseId, evalName);
+		if (rowID > -1) {
+			clickCoordEvaluationRemindAndCancel(rowID);
 		} else {
 			fail("Evaluation not found.");
 		}
 	}
 	
 	/**
-	 * Clicks on the enroll link on a specific row.
+	 * Clicks on the enroll link on a specific rowID.
 	 * Does not wait for the new page to be loaded.
-	 * @param row
+	 * @param rowID
 	 */
-	public void clickCoordCourseEnroll(int row) {
-		clickWithWait(getCoordCourseEnrolLink(row));
+	public void clickCoordCourseEnroll(int rowID) {
+		clickWithWait(getCoordCourseEnrollLink(rowID));
 	}
 	/**
 	 * Clicks on the enroll link of a specific course.
@@ -971,163 +973,163 @@ public class BrowserInstance {
 	 * @param courseID
 	 */
 	public void clickCoordCourseEnroll(String courseID) {
-		int row = findCourseRow(courseID);
-		if (row > -1) {
-			clickCoordCourseEnroll(row);
+		int rowID = findCourseRow(courseID);
+		if (rowID > -1) {
+			clickCoordCourseEnroll(rowID);
 		} else {
 			fail("Course ID cannot be found");
 		}
 	}
 	
-	public void clickCoordCourseView(int row) {
+	public void clickCoordCourseView(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		clickWithWait(getCoordCourseViewLink(row));
+		clickWithWait(getCoordCourseViewLink(rowID));
 	}
 	
 	public void clickCoordCourseView(String courseID) {
-		int row = findCourseRow(courseID);
-		if (row > -1) {
-			clickCoordCourseView(row);
+		int rowID = findCourseRow(courseID);
+		if (rowID > -1) {
+			clickCoordCourseView(rowID);
 		} else {
 			fail("Course ID cannot be found.");
 		}
 	}
 	
-	public void clickCoordCourseDetailStudentView(int row) {
-		clickWithWait(By.xpath(String.format("//table[@id='dataform']//tr[%d]//td[4]//a[@class='t_student_view']", row + 2)));
+	public void clickCoordCourseDetailStudentView(int rowID) {
+		clickWithWait(By.xpath(String.format("//table[@id='dataform']//tr[%d]//td[4]//a[@class='t_student_view']", rowID + 2)));
 	}
 	
 	public void clickCoordCourseDetailStudentView(String student) {
-		int row = findStudentRow(student);
-		if (row > -1) {
-			clickCoordCourseDetailStudentView(row);
+		int rowID = findStudentRow(student);
+		if (rowID > -1) {
+			clickCoordCourseDetailStudentView(rowID);
 		} else {
 			fail("Student not found in this course.");
 		}
 	}
 	
-	public void clickCoordCourseDetailStudentEdit(int row) {
-		clickWithWait(By.xpath(String.format("//table[@id='dataform']//tr[%d]//td[4]//a[@class='t_student_edit']", row + 2)));
+	public void clickCoordCourseDetailStudentEdit(int rowID) {
+		clickWithWait(By.xpath(String.format("//table[@id='dataform']//tr[%d]//td[4]//a[@class='t_student_edit']", rowID + 2)));
 	}
 	
 	public void clickCoordCourseDetailStudentEdit(String student) {
-		int row = findStudentRow(student);
-		if (row > -1) {
-			clickCoordCourseDetailStudentEdit(row);
+		int rowID = findStudentRow(student);
+		if (rowID > -1) {
+			clickCoordCourseDetailStudentEdit(rowID);
 		} else {
 			fail("Student not found in this course.");
 		}
 	}
 	
-	public void clickCoordCourseDetailInvite(int row) {
-		By link = By.xpath(String.format("//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_student_resend']", row + 2, 4));
+	public void clickCoordCourseDetailInvite(int rowID) {
+		By link = By.xpath(String.format("//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_student_resend']", rowID + 2, 4));
 		clickWithWait(link);
 	}
 	
 	public void clickCoordCourseDetailInvite(String student) {
-		int row = findStudentRow(student);
-		if (row > -1) {
-			clickCoordCourseDetailInvite(row);
+		int rowID = findStudentRow(student);
+		if (rowID > -1) {
+			clickCoordCourseDetailInvite(rowID);
 		} else {
 			fail("Student not found in this course.");
 		}
 	}
 	
-	public void clickCoordEvaluationViewResults(int row) {
-		clickWithWait(getCoordEvaluationViewResultsLink(row));
+	public void clickCoordEvaluationViewResults(int rowID) {
+		clickWithWait(getCoordEvaluationViewResultsLink(rowID));
 	}
 	
 	public void clickCoordEvaluationViewResults(String courseId, String evalName) {
-		int row = findEvaluationRow(courseId, evalName);
+		int rowID = findEvaluationRow(courseId, evalName);
 	
-		if (row > -1) {
-			clickCoordEvaluationViewResults(row);
+		if (rowID > -1) {
+			clickCoordEvaluationViewResults(rowID);
 		} else {
 			fail("Evaluation not found.");
 		}
 	}
 	
 	/* -------------------- Clicks without confirmation --------------------- */
-	public void clickCoordEvaluationEdit(int row) {
-		clickWithWait(getCoordEvaluationEditLink(row));
+	public void clickCoordEvaluationEdit(int rowID) {
+		clickWithWait(getCoordEvaluationEditLink(rowID));
 	}
 	
 	public void clickCoordEvaluationEdit(String courseId, String evalName) {
-		int row = findEvaluationRow(courseId, evalName);
-		if (row > -1) {
-			clickCoordEvaluationEdit(row);
+		int rowID = findEvaluationRow(courseId, evalName);
+		if (rowID > -1) {
+			clickCoordEvaluationEdit(rowID);
 		} else {
 			fail("Evaluation not found.");
 		}
 	}
 	
-	public void clickCoordTFSViewTeams(int row) {
-		clickAndConfirm(By.id("viewTeams"+row));
+	public void clickCoordTFSViewTeams(int rowID) {
+		clickAndConfirm(By.id("viewTeams"+rowID));
 	}
 	
 	public void clickCoordTFSViewTeams(String courseId) {
-		int row = findTeamFormingSessionRow(courseId);
-		if (row > -1) {
-			clickCoordTFSViewTeams(row);
+		int rowID = findTeamFormingSessionRow(courseId);
+		if (rowID > -1) {
+			clickCoordTFSViewTeams(rowID);
 		} else {
 			fail("Team forming session view teams not found.");
 		}
 	}
 	
-	public void clickCoordTFSViewLog(int row) {
-		String elementID = "viewLogTeamFormingSession" + row;
+	public void clickCoordTFSViewLog(int rowID) {
+		String elementID = "viewLogTeamFormingSession" + rowID;
 		clickAndConfirm(By.id(elementID));
 	}
 	
 	public void clickCoordTFSViewLog(String courseId) {
-		int row = findTeamFormingSessionRow(courseId);
-		if (row > -1) {
-			clickCoordTFSViewLog(row);
+		int rowID = findTeamFormingSessionRow(courseId);
+		if (rowID > -1) {
+			clickCoordTFSViewLog(rowID);
 		} else {
 			fail("Team forming session view log not found.");
 		}
 	}
 	
-	public void clickCoordTFSEdit(int row) {
-		String elementID = "manageTeamFormingSession" + row;
+	public void clickCoordTFSEdit(int rowID) {
+		String elementID = "manageTeamFormingSession" + rowID;
 		clickAndConfirm(By.id(elementID));
 	}
 	
 	public void clickCoordTFSEdit(String courseId) {
-		int row = findTeamFormingSessionRow(courseId);
-		if (row > -1) {
-			clickCoordTFSEdit(row);
+		int rowID = findTeamFormingSessionRow(courseId);
+		if (rowID > -1) {
+			clickCoordTFSEdit(rowID);
 		} else {
 			fail("Team forming session not found.");
 		}
 	}
 	
 	public void clickCoordTFSRemind(String courseId) {
-		int row = findTeamFormingSessionRow(courseId);
-		if (row > -1) {
-			String elementID = "remindTeamFormingSession" + row;
+		int rowID = findTeamFormingSessionRow(courseId);
+		if (rowID > -1) {
+			String elementID = "remindTeamFormingSession" + rowID;
 			clickAndConfirm(By.id(elementID));
 		}
 	}
 	
 	public void clickCoordTFSDelete(String courseId) {
-		int row = findTeamFormingSessionRow(courseId);
-		if(row>-1){
-			String elementID = "deleteTeamFormingSession" + row;
+		int rowID = findTeamFormingSessionRow(courseId);
+		if(rowID>-1){
+			String elementID = "deleteTeamFormingSession" + rowID;
 			clickAndConfirm(By.id(elementID));
 		}
 	}
 	
-	public void clickCoordReviewerSummaryView(int row) {
-		clickWithWait(getReviewerSummaryView(row));
+	public void clickCoordReviewerSummaryView(int rowID) {
+		clickWithWait(getReviewerSummaryView(rowID));
 	}
 	
-	public void clickCoordReviewerSummaryEdit(int row) {
-		clickWithWait(getReviewerSummaryEdit(row));
+	public void clickCoordReviewerSummaryEdit(int rowID) {
+		clickWithWait(getReviewerSummaryEdit(rowID));
 	}
 	
-	public void clickCoordRevieweeSummaryView(int row) {
-		clickWithWait(By.id("viewEvaluationResults" + row));
+	public void clickCoordRevieweeSummaryView(int rowID) {
+		clickWithWait(By.id("viewEvaluationResults" + rowID));
 	}
 	
 	/**
@@ -1151,7 +1153,7 @@ public class BrowserInstance {
 	// --------------------------------- Students -------------------------------- //
 
 	/**
-	 * Returns the row number for a specific course ID as student.
+	 * Returns the rowID number for a specific course ID as student.
 	 * Waits until the element exists or timeout.
 	 * Pre-condition: Should be at course page.
 	 * @param courseId
@@ -1166,7 +1168,7 @@ public class BrowserInstance {
 		return -1;
 	}
 	/**
-	 * Returns the row number for a specific course ID and evaluation name.
+	 * Returns the rowID number for a specific course ID and evaluation name.
 	 * Waits until the element exists or timeout.
 	 * Pre-condition: Should be at evaluation page.
 	 * @param courseId
@@ -1207,29 +1209,29 @@ public class BrowserInstance {
 		return -1;
 	}
 	/**
-	 * Returns courseID from the table at specific row as student.
+	 * Returns courseID from the table at specific rowID as student.
 	 * Waits until the element exists or timeout.
 	 * Pre-condition: Should be at course page.
-	 * @param row
+	 * @param rowID
 	 * @return
 	 */
-	public String studentGetCourseID(int row) {
+	public String studentGetCourseID(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		row++;
-		return selenium.getTable("id=dataform." + row + ".0");
+		rowID++;
+		return selenium.getTable("id=dataform." + rowID + ".0");
 	}
 
 	/**
-	 * Returns course name from the table at specific row as student.
+	 * Returns course name from the table at specific rowID as student.
 	 * Waits until the element exists or timeout.
 	 * Pre-condition: Should be at course page.
-	 * @param row
+	 * @param rowID
 	 * @return
 	 */
-	public String studentGetCourseName(int row) {
+	public String studentGetCourseName(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		row++;
-		return selenium.getTable("id=dataform." + row + ".1");
+		rowID++;
+		return selenium.getTable("id=dataform." + rowID + ".1");
 	}
 
 	/**
@@ -1240,9 +1242,9 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public String studentGetCourseName(String courseId) {
-		int row = studentFindCourseRow(courseId);
-		if (row > -1) {
-			return studentGetCourseName(row);
+		int rowID = studentFindCourseRow(courseId);
+		if (rowID > -1) {
+			return studentGetCourseName(rowID);
 		} else {
 			fail("Student's course not found.");
 			return null;
@@ -1250,16 +1252,16 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * Returns the team name for specific row as student.
+	 * Returns the team name for specific rowID as student.
 	 * Waits until the element exists or timeout.
 	 * Pre-condition: Should be at course page.
-	 * @param row
+	 * @param rowID
 	 * @return
 	 */
-	public String studentGetCourseTeamName(int row) {
+	public String studentGetCourseTeamName(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		row++;
-		return selenium.getTable("id=dataform." + row + ".2");
+		rowID++;
+		return selenium.getTable("id=dataform." + rowID + ".2");
 	}
 	
 	/**
@@ -1270,9 +1272,9 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public String studentGetCourseTeamName(String courseId) {
-		int row = studentFindCourseRow(courseId);
-		if (row > -1) {
-			return studentGetCourseTeamName(row);
+		int rowID = studentFindCourseRow(courseId);
+		if (rowID > -1) {
+			return studentGetCourseTeamName(rowID);
 		} else {
 			fail("Student's course not found.");
 			return null;
@@ -1280,13 +1282,13 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * Clicks on the view course for specific row as student.
+	 * Clicks on the view course for specific rowID as student.
 	 * Waits until the element exists or timeout.
 	 * Pre-condition: Should be at course page.
-	 * @param row
+	 * @param rowID
 	 */
-	public void studentClickCourseView(int row) {
-		By link = By.xpath(String.format("//div[@id='studentCourseTable']//table[@id='dataform']//tr[%d]//td[%d]//a[1]", row + 2, 4));
+	public void studentClickCourseView(int rowID) {
+		By link = By.xpath(String.format("//div[@id='studentCourseTable']//table[@id='dataform']//tr[%d]//td[%d]//a[1]", rowID + 2, 4));
 		clickWithWait(link);
 	}
 
@@ -1297,21 +1299,21 @@ public class BrowserInstance {
 	 * @param courseId
 	 */
 	public void studentClickCourseView(String courseId) {
-		int row = studentFindCourseRow(courseId);
-		if (row > -1) {
-			studentClickCourseView(row);
+		int rowID = studentFindCourseRow(courseId);
+		if (rowID > -1) {
+			studentClickCourseView(rowID);
 		} else {
 			fail("Student's course not found. Can't click view course.");
 		}
 	}
 
 	/**
-	 * Clicks on doEvaluation link for evaluation at specific row.
+	 * Clicks on doEvaluation link for evaluation at specific rowID.
 	 * Does not wait for the new page to load.
-	 * @param row
+	 * @param rowID
 	 */
-	public void studentClickEvaluationDo(int row) {
-		clickWithWait(By.id("doEvaluation" + row));
+	public void studentClickEvaluationDo(int rowID) {
+		clickWithWait(By.id("doEvaluation" + rowID));
 	}
 	/**
 	 * Clicks on doEvaluation link for evaluation for specific course ID and course name.
@@ -1320,22 +1322,22 @@ public class BrowserInstance {
 	 * @param evalName
 	 */
 	public void studentClickEvaluationDo(String courseId, String evalName) {
-		int row = studentFindPendingEvaluationRow(courseId, evalName);
+		int rowID = studentFindPendingEvaluationRow(courseId, evalName);
 	
-		if (row > -1) {
-			studentClickEvaluationDo(row);
+		if (rowID > -1) {
+			studentClickEvaluationDo(rowID);
 		} else {
 			fail("Student's pending evaluation not found. Cannot do evaluation.");
 		}
 	}
 	/**
-	 * Clicks on editEvaluation link for evaluation at specific row.
+	 * Clicks on editEvaluation link for evaluation at specific rowID.
 	 * Does not verify that the new page is loaded correctly before returning.
 	 * Pre-condition: Should be at evaluation page.
-	 * @param row
+	 * @param rowID
 	 */
-	public void studentClickEvaluationEdit(int row) {
-		clickWithWait(getStudentEditEvaluationSubmissionLink(row));
+	public void studentClickEvaluationEdit(int rowID) {
+		clickWithWait(getStudentEditEvaluationSubmissionLink(rowID));
 	}
 	/**
 	 * Clicks on editEvaluation link for evaluation for specific course ID and evaluation name.
@@ -1345,21 +1347,21 @@ public class BrowserInstance {
 	 * @param evalName
 	 */
 	public void studentClickEvaluationEdit(String courseId, String evalName) {
-		int row = studentFindEvaluationRow(courseId, evalName);
-		if (row > -1) {
-			studentClickEvaluationEdit(row);
+		int rowID = studentFindEvaluationRow(courseId, evalName);
+		if (rowID > -1) {
+			studentClickEvaluationEdit(rowID);
 		} else {
 			fail("Student's evaluation not found. Cannot click edit evaluation.");
 		}
 	}
 	/**
-	 * Clicks on the view results link for evaluation at specific row.
+	 * Clicks on the view results link for evaluation at specific rowID.
 	 * Does not verify that the new page is loaded correctly before returning.
 	 * Pre-condition: Should be at evaluation page.
-	 * @param row
+	 * @param rowID
 	 */
-	public void studentClickEvaluationViewResults(int row) {
-		clickWithWait(getStudentEvaluationViewResultsLink(row));
+	public void studentClickEvaluationViewResults(int rowID) {
+		clickWithWait(getStudentEvaluationViewResultsLink(rowID));
 	}
 	/**
 	 * Clicks on the view results link for evaluation for specific course ID and evaluation name.
@@ -1369,9 +1371,9 @@ public class BrowserInstance {
 	 * @param evalName
 	 */
 	public void studentClickEvaluationViewResults(String courseId, String evalName) {
-		int row = studentFindEvaluationRow(courseId, evalName);
-		if (row > -1) {
-			studentClickEvaluationViewResults(row);
+		int rowID = studentFindEvaluationRow(courseId, evalName);
+		if (rowID > -1) {
+			studentClickEvaluationViewResults(rowID);
 		} else {
 			fail("Student's evaluation not found.");
 		}
@@ -1386,9 +1388,9 @@ public class BrowserInstance {
 	 * @throws NullPointerException
 	 */
 	public By studentGetPendingEvaluationName(String courseId, String evalName) throws NullPointerException {
-		int row = studentFindPendingEvaluationRow(courseId, evalName);
-		if (row > -1) {
-			return By.xpath(String.format("//div[@id='studentPendingEvaluations']//table[@id='dataform']//tr[%d]//td[%d]", row + 1, 1));
+		int rowID = studentFindPendingEvaluationRow(courseId, evalName);
+		if (rowID > -1) {
+			return By.xpath(String.format("//div[@id='studentPendingEvaluations']//table[@id='dataform']//tr[%d]//td[%d]", rowID + 1, 1));
 		} else {
 			fail("Student's pending evaluation not found.");
 			return null;
@@ -1396,42 +1398,42 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * Returns the course ID of evaluation for specific row.
+	 * Returns the course ID of evaluation for specific rowID.
 	 * Waits until the element exists or timeout.
 	 * Pre-condition: Should be at evaluation page.
-	 * @param row
+	 * @param rowID
 	 * @return
 	 */
-	public String studentGetEvaluationCourseID(int row) {
+	public String studentGetEvaluationCourseID(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		row++;
-		return selenium.getTable("id=dataform." + row + ".1");
+		rowID++;
+		return selenium.getTable("id=dataform." + rowID + ".1");
 	}
 
 	/**
-	 * Returns the evaluation name for specific row.
+	 * Returns the evaluation name for specific rowID.
 	 * Waits until the element exists or timeout.
 	 * Pre-condition: Should be at evaluation page.
-	 * @param row
+	 * @param rowID
 	 * @return
 	 */
-	public String studentGetEvaluationName(int row) {
+	public String studentGetEvaluationName(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		row++;
-		return selenium.getTable("id=dataform." + row + ".2");
+		rowID++;
+		return selenium.getTable("id=dataform." + rowID + ".2");
 	}
 
 	/**
-	 * Returns the evaluation status for specific row.
+	 * Returns the evaluation status for specific rowID.
 	 * Waits until the element exists or timeout.
 	 * Pre-condition: Should be at evaluation page.
-	 * @param row
+	 * @param rowID
 	 * @return
 	 */
-	public String studentGetEvaluationStatus(int row) {
+	public String studentGetEvaluationStatus(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		row++;
-		return selenium.getTable("id=dataform." + row + ".3");
+		rowID++;
+		return selenium.getTable("id=dataform." + rowID + ".3");
 	}
 
 	/**
@@ -1443,9 +1445,9 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public String studentGetEvaluationStatus(String courseId, String evalName) {
-		int row = studentFindEvaluationRow(courseId, evalName);
-		if (row > -1) {
-			return studentGetEvaluationStatus(row);
+		int rowID = studentFindEvaluationRow(courseId, evalName);
+		if (rowID > -1) {
+			return studentGetEvaluationStatus(rowID);
 		} else {
 			fail("Student's evaluation not found.");
 			return null;
@@ -1546,10 +1548,10 @@ public class BrowserInstance {
 	/**
 	 * page: Enroll Student
 	 * 
-	 * @param row
+	 * @param rowID
 	 */
-	public void enrollStudents(List<Student> students, int row) {
-		clickCoordCourseEnroll(row);
+	public void enrollStudents(List<Student> students, int rowID) {
+		clickCoordCourseEnroll(rowID);
 		verifyCoordCourseEnrollPage();
 	
 		fillString(coordEnrollInfo, enrollStudentsConvert(students));
@@ -1746,9 +1748,9 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public By getCourseIDCell(String courseID) {
-		int row = findCourseRow(courseID);
-		if (row > -1) {
-			return getCourseIDCell(row);
+		int rowID = findCourseRow(courseID);
+		if (rowID > -1) {
+			return getCourseIDCell(rowID);
 		} else {
 			fail("Course not found.");
 			return null;
@@ -1763,9 +1765,9 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public String getCourseName(String courseID) {
-		int row = findCourseRow(courseID);
-		if (row > -1) {
-			return getElementText(getCourseNameCell(row));
+		int rowID = findCourseRow(courseID);
+		if (rowID > -1) {
+			return getElementText(getCourseNameCell(rowID));
 		} else {
 			fail("Course " + courseID + " not found.");
 			return null;
@@ -1773,16 +1775,16 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * Returns number of teams in specific row.
+	 * Returns number of teams in specific rowID.
 	 * Waits until element exists or timeout.
 	 * Pre-condition: Should be in the course page.
-	 * @param row
+	 * @param rowID
 	 * @return
 	 */
-	public String getCourseNumberOfTeams(int row) {
+	public String getCourseNumberOfTeams(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		row++;// row starts from 0
-		return selenium.getTable("id=dataform." + row + ".2");
+		rowID++;// rowID starts from 0
+		return selenium.getTable("id=dataform." + rowID + ".2");
 	}
 
 	/**
@@ -1793,9 +1795,9 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public String getCourseNumberOfTeams(String courseID) {
-		int row = findCourseRow(courseID);
-		if (row > -1) {
-			return getCourseNumberOfTeams(row);
+		int rowID = findCourseRow(courseID);
+		if (rowID > -1) {
+			return getCourseNumberOfTeams(rowID);
 		} else {
 			fail("Course " + courseID + " not found.");
 			return null;
@@ -1803,16 +1805,16 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * Returns total number of students in specific row.
+	 * Returns total number of students in specific rowID.
 	 * Waits until element exists or timeout.
 	 * Pre-condition: Should be in the course page.
-	 * @param row
+	 * @param rowID
 	 * @return
 	 */
-	public String getCourseTotalStudents(int row) {
+	public String getCourseTotalStudents(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		row++;
-		return selenium.getTable("id=dataform." + row + ".3");
+		rowID++;
+		return selenium.getTable("id=dataform." + rowID + ".3");
 	}
 
 	/**
@@ -1823,9 +1825,9 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public String getCourseTotalStudents(String courseID) {
-		int row = findCourseRow(courseID);
-		if (row > -1) {
-			return getCourseTotalStudents(row);
+		int rowID = findCourseRow(courseID);
+		if (rowID > -1) {
+			return getCourseTotalStudents(rowID);
 		} else {
 			fail("Course " + courseID + " not found.");
 			return null;
@@ -1836,13 +1838,13 @@ public class BrowserInstance {
 	 * Returns total number of unregistered students in specific course.
 	 * Waits until element exists or timeout.
 	 * Pre-condition: Should be in the course page.
-	 * @param row
+	 * @param rowID
 	 * @return
 	 */
-	public String getCourseUnregisteredStudents(int row) {
+	public String getCourseUnregisteredStudents(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		row++;
-		return selenium.getTable("id=dataform." + row + ".4");
+		rowID++;
+		return selenium.getTable("id=dataform." + rowID + ".4");
 	}
 
 	/**
@@ -1853,45 +1855,45 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public String getCourseUnregisteredStudents(String courseID) {
-		int row = findCourseRow(courseID);
-		if (row > -1) {
-			return getCourseUnregisteredStudents(row);
+		int rowID = findCourseRow(courseID);
+		if (rowID > -1) {
+			return getCourseUnregisteredStudents(rowID);
 		} else {
 			fail("Course " + courseID + " not found.");
 			return null;
 		}
 	}
 	
-	public String getCourseDetailStudentName(int row) {
+	public String getCourseDetailStudentName(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		row++;
-		return selenium.getTable("id=dataform." + row + ".0");
+		rowID++;
+		return selenium.getTable("id=dataform." + rowID + ".0");
 	}
 	
-	public String getCourseDetailTeamName(int row) {
+	public String getCourseDetailTeamName(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		row++;
-		return selenium.getTable("id=dataform." + row + ".1");
+		rowID++;
+		return selenium.getTable("id=dataform." + rowID + ".1");
 	}
 	
-	public String getTeamFormingSessionCourseID(int row) {
+	public String getTeamFormingSessionCourseID(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		row++;
-		return selenium.getTable("id=dataform." + row + ".0");
+		rowID++;
+		return selenium.getTable("id=dataform." + rowID + ".0");
 	}
 	
-	public String getTeamFormingSessionStatus(int row) {
+	public String getTeamFormingSessionStatus(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		row++;
-		return selenium.getTable("id=dataform." + row + ".2");
+		rowID++;
+		return selenium.getTable("id=dataform." + rowID + ".2");
 	}
 	
-	public By getStudentNameFromManageTeamFormingSession(int row, int col) {
-		return By.xpath(String.format("//div[@class='result_team']//table[@id='dataform']//tbody//tr[%d]//td[%d]", row, col));		
+	public By getStudentNameFromManageTeamFormingSession(int rowID, int col) {
+		return By.xpath(String.format("//div[@class='result_team']//table[@id='dataform']//tbody//tr[%d]//td[%d]", rowID, col));		
 	}
 	
 	/**
-	 * Finds the row number of a course based on course ID
+	 * Finds the rowID number of a course based on course ID
 	 * @param courseID
 	 * @return
 	 */
@@ -1905,7 +1907,7 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * Finds the row number of a student based on the name
+	 * Finds the rowID number of a student based on the name
 	 * @param student
 	 * @return
 	 */
@@ -1921,7 +1923,7 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * Finds the row number of a specific Team-forming session
+	 * Finds the rowID number of a specific Team-forming session
 	 * based on the course ID
 	 * @param courseId
 	 * @return
@@ -1937,7 +1939,7 @@ public class BrowserInstance {
 	}
 	
 	/**
-	 * Finds the row number of a specific evaluation based on
+	 * Finds the rowID number of a specific evaluation based on
 	 * the course ID and evaluation name 
 	 * @param courseId
 	 * @param evalName
@@ -2005,44 +2007,44 @@ public class BrowserInstance {
 		}
 	}
 
-	public String getEvaluationCourseID(int row) {
+	public String getEvaluationCourseID(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		row++;
-		return selenium.getTable("id=dataform." + row + ".0");
+		rowID++;
+		return selenium.getTable("id=dataform." + rowID + ".0");
 	}
 	
-	public String getEvaluationName(int row) {
+	public String getEvaluationName(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		row++;
-		return selenium.getTable("id=dataform." + row + ".1");
+		rowID++;
+		return selenium.getTable("id=dataform." + rowID + ".1");
 	}
 	
-	public String getEvaluationStatus(int row) {
+	public String getEvaluationStatus(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		row++;
-		return selenium.getTable("id=dataform." + row + ".2");
+		rowID++;
+		return selenium.getTable("id=dataform." + rowID + ".2");
 	}
 
 	public String getEvaluationStatus(String courseId, String evalName) {
-		int row = findEvaluationRow(courseId, evalName);
-		if (row > -1) {
-			return getEvaluationStatus(row);
+		int rowID = findEvaluationRow(courseId, evalName);
+		if (rowID > -1) {
+			return getEvaluationStatus(rowID);
 		} else {
 			fail("Evaluation not found.");
 			return "";
 		}
 	}
 
-	public String getEvaluationResponse(int row) {
+	public String getEvaluationResponse(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		row++;
-		return selenium.getTable("id=dataform." + row + ".3");
+		rowID++;
+		return selenium.getTable("id=dataform." + rowID + ".3");
 	}
 
 	public String getEvaluationResponse(String courseId, String evalName) {
-		int row = findEvaluationRow(courseId, evalName);
-		if (row > -1) {
-			return getEvaluationResponse(row);
+		int rowID = findEvaluationRow(courseId, evalName);
+		if (rowID > -1) {
+			return getEvaluationResponse(rowID);
 		} else {
 			fail("Evaluation not found.");
 			return "getEvaluationResponse(String evalName) failed.";
@@ -2054,28 +2056,28 @@ public class BrowserInstance {
 	 * Returns the locator (By object) of some links/objects on the page
 	 * -------------------------------------------------------------------- */
 	// Reviewer summary
-	public By getReviewerSummaryView(int row) { return By.id("viewEvaluationResults" + row); }
-	public By getReviewerSummaryEdit(int row) { return By.id("editEvaluationResults" + row); }
+	public By getReviewerSummaryView(int rowID) { return By.id("viewEvaluationResults" + rowID); }
+	public By getReviewerSummaryEdit(int rowID) { return By.id("editEvaluationResults" + rowID); }
 	
 	// Reviewer individual
-	public By getReviewerIndividualToStudent(int row) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", row + 4, 1)); }
-	public By getReviewerIndividualToStudentPoint(int row) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", row + 4, 2)); }
+	public By getReviewerIndividualToStudent(int rowID) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", rowID + 4, 1)); }
+	public By getReviewerIndividualToStudentPoint(int rowID) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", rowID + 4, 2)); }
 	
 	// Reviewee individual
-	public By getRevieweeIndividualFromStudent(int row) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", row + 4, 1)); }
-	public By getRevieweeIndividualFromStudentPoint(int row) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", row + 4, 2)); }
+	public By getRevieweeIndividualFromStudent(int rowID) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", rowID + 4, 1)); }
+	public By getRevieweeIndividualFromStudentPoint(int rowID) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]", rowID + 4, 2)); }
 
 	// Reviewer detail
-	public By getReviewerDetailClaimed(int teamIdx, int row) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]", teamIdx, row, 2)); }
-	public By getReviewerDetailPerceived(int teamIdx, int row) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]", teamIdx, row, 3)); }
-	public By getReviewerDetailToStudent(int teamIdx, int studentIdx, int row) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", teamIdx, studentIdx, row + 4, 1)); }
-	public By getReviewerDetailToStudentPoint(int teamIdx, int studentIdx, int row) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", teamIdx, studentIdx, row + 4, 2)); }
+	public By getReviewerDetailClaimed(int teamIdx, int rowID) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]", teamIdx, rowID, 2)); }
+	public By getReviewerDetailPerceived(int teamIdx, int rowID) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]", teamIdx, rowID, 3)); }
+	public By getReviewerDetailToStudent(int teamIdx, int studentIdx, int rowID) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", teamIdx, studentIdx, rowID + 4, 1)); }
+	public By getReviewerDetailToStudentPoint(int teamIdx, int studentIdx, int rowID) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", teamIdx, studentIdx, rowID + 4, 2)); }
 
 	// Reviewee detail
-	public By getRevieweeDetailClaimed(int teamIdx, int row) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]", teamIdx, row, 2)); }
-	public By getRevieweeDetailPerceived(int teamIdx, int row) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]", teamIdx, row, 3)); }
-	public By getRevieweeDetailFromStudent(int teamIdx, int studentIdx, int row) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", teamIdx, studentIdx, row + 4, 1)); }
-	public By getRevieweeDetailFromStudentPoint(int teamIdx, int studentIdx, int row) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", teamIdx, studentIdx, row + 4, 2)); }
+	public By getRevieweeDetailClaimed(int teamIdx, int rowID) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]", teamIdx, rowID, 2)); }
+	public By getRevieweeDetailPerceived(int teamIdx, int rowID) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]", teamIdx, rowID, 3)); }
+	public By getRevieweeDetailFromStudent(int teamIdx, int studentIdx, int rowID) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", teamIdx, studentIdx, rowID + 4, 1)); }
+	public By getRevieweeDetailFromStudentPoint(int teamIdx, int studentIdx, int rowID) { return By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]", teamIdx, studentIdx, rowID + 4, 2)); }
 
 	// Reviewee summary
 	public String getRevieweeSummaryClaimed(int studentIndex) {
@@ -2110,28 +2112,28 @@ public class BrowserInstance {
 	/**
 	 * @page edit evaluation result
 	 */
-	public By getSubmissionPoint(int row) {
-		return By.id("points" + row);
+	public By getSubmissionPoint(int rowID) {
+		return By.id("points" + rowID);
 	}
 
-	public void setSubmissionPoint(int row, String points) {
-		selectDropdownByValue(By.id("points" + row), points);
+	public void setSubmissionPoint(int rowID, String points) {
+		selectDropdownByValue(By.id("points" + rowID), points);
 	}
 
-	public By getSubmissionJustification(int row) {
-		return By.name("justification" + row);
+	public By getSubmissionJustification(int rowID) {
+		return By.name("justification" + rowID);
 	}
 
-	public void setSubmissionJustification(int row, String justification) {
-		fillString(By.name("justification" + row), justification);
+	public void setSubmissionJustification(int rowID, String justification) {
+		fillString(By.name("justification" + rowID), justification);
 	}
 	
-	public By getSubmissionComments(int row) {
-		return By.name("commentstostudent" + row);
+	public By getSubmissionComments(int rowID) {
+		return By.name("commentstostudent" + rowID);
 	}
 
-	public void setSubmissionComments(int row, String comments) {
-		fillString(By.name("commentstostudent" + row), comments);
+	public void setSubmissionComments(int rowID, String comments) {
+		fillString(By.name("commentstostudent" + rowID), comments);
 	}
 
 	/**
@@ -2866,7 +2868,9 @@ public class BrowserInstance {
 	}
 	/**
 	 * Checks that the course has been added.
-	 * Checking for the course details appearing in the table
+	 * Checking for the course details appearing in the table.
+	 * This checks for a new course, so this also verifies
+	 * the default number of teams to be 0.
 	 * Page: Coordinator home
 	 * TODO: change to any number of previous courses
 	 */

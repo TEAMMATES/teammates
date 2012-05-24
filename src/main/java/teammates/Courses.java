@@ -600,7 +600,7 @@ public class Courses {
 	 */
 	public List<Student> getStudentList(String courseID) {
 		String query = "select from " + Student.class.getName() + " where courseID == \'" + courseID + "\'";
-		Log.info(query);
+
 		@SuppressWarnings("unchecked")
 		List<Student> studentList = (List<Student>) getPM().newQuery(query).execute();
 
