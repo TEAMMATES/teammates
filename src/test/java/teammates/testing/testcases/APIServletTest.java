@@ -3,6 +3,8 @@ package teammates.testing.testcases;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -38,8 +40,8 @@ import com.google.appengine.tools.development.testing.*;
 import com.google.gson.Gson;
 
 public class APIServletTest extends BaseTestCase {
-	private final static LocalServiceTestHelper helper = new LocalServiceTestHelper(
-			new LocalDatastoreServiceTestConfig(), new LocalMailServiceTestConfig(), new LocalTaskQueueTestConfig());
+
+	private static LocalServiceTestHelper helper;
 	private final static APIServlet apiServlet = new APIServlet();
 	private static String TEST_DATA_FOLDER = "src/test/resources/data/";
 	private static Gson gson = Common.getTeammatesGson();
@@ -47,9 +49,26 @@ public class APIServletTest extends BaseTestCase {
 			+ "typicalDataBundle.json");
 	private DataBundle dataBundle;
 
+	private static String queueXmlFilePath = System.getProperty("user.dir")
+			+ File.separator + "src" + File.separator + "main" + File.separator
+			+ "webapp" + File.separator + "WEB-INF" + File.separator
+			+ "queue.xml";
+
 	@BeforeClass
-	public static void setUp() throws ServletException {
+	public static void setUp() throws ServletException, IOException {
 		printTestClassHeader(getNameOfThisClass());
+		/*
+		 * We have to explicitly set the path of queue.xml because the test 
+		 * environment cannot find it. Apparently, this is a bug in the test
+		 * environment (as mentioned in http://turbomanage.wordpress.com/2010/03/03/a-recipe-for-unit-testing-appengine-task-queues/
+		 * The bug might get fixed in future SDKs.
+		 */
+		LocalTaskQueueTestConfig ltqtc = new LocalTaskQueueTestConfig();
+		ltqtc.setQueueXmlPath(queueXmlFilePath);
+		
+		helper = new LocalServiceTestHelper(
+				new LocalDatastoreServiceTestConfig(),
+				new LocalMailServiceTestConfig(), ltqtc);
 
 		/**
 		 * LocalServiceTestHelper is supposed to run in the same timezone as Dev
@@ -69,6 +88,7 @@ public class APIServletTest extends BaseTestCase {
 		helper.setUp();
 		apiServlet.init();
 		Datastore.initialize();
+
 	}
 
 	@Test
@@ -100,9 +120,10 @@ public class APIServletTest extends BaseTestCase {
 		Student student2InCourse1 = dataBundle.students
 				.get("student2InCourse1");
 		verifyPresentInDatastore(student2InCourse1);
-		
-		//verify that the student-to-be-deleted has some log entries
-		verifyPresenceOfTfsLogsForStudent(student2InCourse1.getCourseID(),student2InCourse1.getEmail());
+
+		// verify that the student-to-be-deleted has some log entries
+		verifyPresenceOfTfsLogsForStudent(student2InCourse1.getCourseID(),
+				student2InCourse1.getEmail());
 
 		apiServlet.deleteStudent(student2InCourse1.getCourseID(),
 				student2InCourse1.getEmail());
@@ -120,16 +141,16 @@ public class APIServletTest extends BaseTestCase {
 		verifyAbsentInDatastore(submissionFromS1C1ToS2C1);
 		verifyAbsentInDatastore(submissionFromS2C1ToS1C1);
 		verifyPresentInDatastore(submissionFromS1C1ToS1C1);
-		
-		//verify that log entries belonging to the student was deleted
-		verifyAbsenceOfTfsLogsForStudent(student2InCourse1.getCourseID(),student2InCourse1.getEmail());
-		//verify that log entries belonging to another student remain intact
-		verifyPresenceOfTfsLogsForStudent(student1InCourse1.getCourseID(),student1InCourse1.getEmail());
+
+		// verify that log entries belonging to the student was deleted
+		verifyAbsenceOfTfsLogsForStudent(student2InCourse1.getCourseID(),
+				student2InCourse1.getEmail());
+		// verify that log entries belonging to another student remain intact
+		verifyPresenceOfTfsLogsForStudent(student1InCourse1.getCourseID(),
+				student1InCourse1.getEmail());
 
 		// TODO: test for cascade delete of profiles
 	}
-
-
 
 	@Test
 	public void testEditStudent() throws Exception {
@@ -156,165 +177,228 @@ public class APIServletTest extends BaseTestCase {
 		ArrayList<EvaluationDetailsForCoordinator> evalList = apiServlet
 				.getEvaluationsListForCoord(coord1.getGoogleID());
 		assertEquals(3, evalList.size());
-		for(EvaluationDetailsForCoordinator ed: evalList){
+		for (EvaluationDetailsForCoordinator ed : evalList) {
 			assertTrue(ed.getCourseID().contains("Coord1"));
 		}
 		Coordinator coord2 = dataBundle.coords.get("typicalCoord2");
 		evalList = apiServlet.getEvaluationsListForCoord(coord2.getGoogleID());
 		assertEquals(1, evalList.size());
-		for(EvaluationDetailsForCoordinator ed: evalList){
+		for (EvaluationDetailsForCoordinator ed : evalList) {
 			assertTrue(ed.getCourseID().contains("Coord2"));
 		}
 		Coordinator coord3 = dataBundle.coords.get("typicalCoord3");
 		evalList = apiServlet.getEvaluationsListForCoord(coord3.getGoogleID());
 		assertEquals(0, evalList.size());
-		
+
 		evalList = apiServlet.getEvaluationsListForCoord("nonExistentCoord");
 		assertEquals(0, evalList.size());
-		//TODO: needs more testing
+		// TODO: needs more testing
 	}
-	
+
 	@Test
-	public void testGetStudentListForCourse() throws Exception{
+	public void testGetStudentListForCourse() throws Exception {
 		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
-		
+
 		Course course1OfCoord1 = dataBundle.courses.get("course1OfCoord1");
-		List<Student> studentList = apiServlet.getStudentListForCourse(course1OfCoord1.getID());
-		assertEquals(3,studentList.size());
-		for(Student s: studentList){
-			assertEquals(course1OfCoord1.getID(),s.getCourseID());
+		List<Student> studentList = apiServlet
+				.getStudentListForCourse(course1OfCoord1.getID());
+		assertEquals(3, studentList.size());
+		for (Student s : studentList) {
+			assertEquals(course1OfCoord1.getID(), s.getCourseID());
 		}
-		
+
 		Course course2OfCoord1 = dataBundle.courses.get("course2OfCoord1");
-		studentList = apiServlet.getStudentListForCourse(course2OfCoord1.getID());
-		assertEquals(0,studentList.size());
-		for(Student s: studentList){
-			assertEquals(course2OfCoord1.getID(),s.getCourseID());
+		studentList = apiServlet.getStudentListForCourse(course2OfCoord1
+				.getID());
+		assertEquals(0, studentList.size());
+		for (Student s : studentList) {
+			assertEquals(course2OfCoord1.getID(), s.getCourseID());
 		}
-		
-		//TODO: more testing
+
+		// TODO: more testing
 	}
-	
+
 	@Test
-	public void testEditEvaluation() throws Exception{
+	public void testEditEvaluation() throws Exception {
 		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
-		
-		Evaluation eval1 = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
-		eval1.setGracePeriod(eval1.getGracePeriod()+1);
-		eval1.setInstructions(eval1.getInstructions()+"x");
+
+		Evaluation eval1 = dataBundle.evaluations
+				.get("evaluation1InCourse1OfCoord1");
+		eval1.setGracePeriod(eval1.getGracePeriod() + 1);
+		eval1.setInstructions(eval1.getInstructions() + "x");
 		eval1.setCommentsEnabled(!eval1.isCommentsEnabled());
 		eval1.setStart(getDateOffsetToCurrentTime(1));
 		eval1.setDeadline(getDateOffsetToCurrentTime(2));
 		apiServlet.editEvaluation(eval1);
 		verifyPresentInDatastore(eval1);
-		
-		//TODO: more testing
-		
+
+		// TODO: more testing
+
 	}
-	
+
 	@Test
-	public void testPublishEvaluation() throws Exception{
-		
-		//TODO: untested. need to figure out how to work task ques in unit testing mode
-		
-//		printTestCaseHeader(getNameOfThisMethod());
-//		refreshDataInDatastore();
-//		Evaluation eval1 = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
-//		assertEquals(false, apiServlet.getEvaluation(eval1.getCourseID(), eval1.getName()).isPublished());
-//		apiServlet.publishEvaluation(eval1.getCourseID(), eval1.getName());
-//		assertEquals(true, apiServlet.getEvaluation(eval1.getCourseID(), eval1.getName()).isPublished());
-		
-		
-	}
-	
-	@Test
-	public void testEditSubmission() throws Exception{
+	public void testPublishEvaluation() throws Exception {
+
+		// TODO: untested. need to figure out how to work task ques in unit
+		// testing mode
+
 		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
-		
+		Evaluation eval1 = dataBundle.evaluations
+				.get("evaluation1InCourse1OfCoord1");
+		assertEquals(false,
+				apiServlet.getEvaluation(eval1.getCourseID(), eval1.getName())
+						.isPublished());
+		apiServlet.publishEvaluation(eval1.getCourseID(), eval1.getName());
+		assertEquals(true,
+				apiServlet.getEvaluation(eval1.getCourseID(), eval1.getName())
+						.isPublished());
+
+	}
+
+	@Test
+	public void testUnpublishEvaluation() throws Exception {
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+		// TODO: to be implemented
+	}
+
+	@Test
+	public void testEditSubmission() throws Exception {
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+
 		ArrayList<Submission> submissionContainer = new ArrayList<Submission>();
-		
-		//try without empty list. Nothing should happen
+
+		// try without empty list. Nothing should happen
 		apiServlet.editSubmission(submissionContainer);
-		
+
 		Submission sub1 = dataBundle.submissions
 				.get("submissionFromS1C1ToS2C1");
-		
+
 		Submission sub2 = dataBundle.submissions
 				.get("submissionFromS2C1ToS1C1");
-		
-		//checking editing of one of the submissions
+
+		// checking editing of one of the submissions
 		alterSubmission(sub1);
-		
+
 		submissionContainer.add(sub1);
 		apiServlet.editSubmission(submissionContainer);
-		
+
 		verifyPresentInDatastore(sub1);
 		verifyPresentInDatastore(sub2);
-		
-		//check editing both submissions
+
+		// check editing both submissions
 		alterSubmission(sub1);
 		alterSubmission(sub2);
-		
+
 		submissionContainer = new ArrayList<Submission>();
 		submissionContainer.add(sub1);
 		submissionContainer.add(sub2);
 		apiServlet.editSubmission(submissionContainer);
-		
+
 		verifyPresentInDatastore(sub1);
 		verifyPresentInDatastore(sub2);
-		
-		//TODO: more testing
-		
+
+		// TODO: more testing
+
 	}
-	
+
 	@Test
-	public void testEditTfs() throws Exception{
+	public void testEditTfs() throws Exception {
 		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
-		
-		TeamFormingSession tfs1 = dataBundle.teamFormingSessions.get("tfsInCourse1");
-		tfs1.setGracePeriod(tfs1.getGracePeriod()+1);
-		tfs1.setInstructions(tfs1.getInstructions()+"x");
-		tfs1.setProfileTemplate(tfs1.getProfileTemplate()+"y");
+
+		TeamFormingSession tfs1 = dataBundle.teamFormingSessions
+				.get("tfsInCourse1");
+		tfs1.setGracePeriod(tfs1.getGracePeriod() + 1);
+		tfs1.setInstructions(tfs1.getInstructions() + "x");
+		tfs1.setProfileTemplate(tfs1.getProfileTemplate() + "y");
 		tfs1.setStart(getDateOffsetToCurrentTime(1));
 		tfs1.setDeadline(getDateOffsetToCurrentTime(2));
 		apiServlet.getTfs(tfs1);
 		verifyPresentInDatastore(tfs1);
-		
-		//TODO: more testing
+
+		// TODO: more testing
 	}
-	
+
 	@Test
-	public void testEditTeamProfile() throws Exception{
+	public void testEditTeamProfile() throws Exception {
 		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
-		
-		TeamProfile teamProfile1 = dataBundle.teamProfiles.get("profileOfTeam1.1");
+
+		TeamProfile teamProfile1 = dataBundle.teamProfiles
+				.get("profileOfTeam1.1");
 		String originalTeamName = teamProfile1.getTeamName();
-		teamProfile1.setTeamName(teamProfile1.getTeamName()+"new");
-		teamProfile1.setTeamProfile(new Text(teamProfile1.getTeamProfile().getValue()+"x"));
-		apiServlet.editTeamProfile(originalTeamName,teamProfile1);
+		teamProfile1.setTeamName(teamProfile1.getTeamName() + "new");
+		teamProfile1.setTeamProfile(new Text(teamProfile1.getTeamProfile()
+				.getValue() + "x"));
+		apiServlet.editTeamProfile(originalTeamName, teamProfile1);
 		verifyPresentInDatastore(teamProfile1);
-		
+
 	}
+
+	@Test
+	public void testSendRegistrationInviteForCourse() throws Exception {
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+		// TODO: to be implemented
+	}
+
+	@Test
+	public void testSendRegistrationInviteToStudent() throws Exception {
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+		// TODO: to be implemented
+	}
+
+	@Test
+	public void testEnrolStudents() throws Exception {
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+		// TODO: to be implemented
+	}
+
+	@Test
+	public void testGetEvaluationResult() throws Exception {
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+		// TODO: to be implemented
+	}
+
+	@Test
+	public void testTfsListForCoord() throws Exception {
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+		// TODO: to be implemented
+	}
+
+	@Test
+	public void testRenameTeam() throws Exception {
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+		// TODO: to be implemented
+	}
+
 	// ------------------------------------------------------------------------
 
 	private void alterSubmission(Submission submission) {
-		submission.setPoints(submission.getPoints()+10);
-		submission.setCommentsToStudent(new Text(submission.getCommentsToStudent().getValue()+"x"));
-		submission.setJustification(new Text(submission.getJustification().getValue()+"y"));
+		submission.setPoints(submission.getPoints() + 10);
+		submission.setCommentsToStudent(new Text(submission
+				.getCommentsToStudent().getValue() + "x"));
+		submission.setJustification(new Text(submission.getJustification()
+				.getValue() + "y"));
 	}
-	
+
 	private Date getDateOffsetToCurrentTime(int offsetDays) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(cal.getTime());
 		cal.add(Calendar.DATE, +offsetDays);
 		return cal.getTime();
 	}
-	
+
 	private void verifyPresentInDatastore(String dataBundleJsonString)
 			throws EntityDoesNotExistException {
 
@@ -375,22 +459,29 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(null, apiServlet.getStudent(student.getCourseID(),
 				student.getEmail()));
 	}
-	
-	private void verifyAbsenceOfTfsLogsForStudent(String courseId, String studentEmail) {
-		List<TeamFormingLog> teamFormingLogs = apiServlet.getTeamFormingLog(courseId);
-		for(TeamFormingLog tfl: teamFormingLogs){
+
+	private void verifyAbsenceOfTfsLogsForStudent(String courseId,
+			String studentEmail) {
+		List<TeamFormingLog> teamFormingLogs = apiServlet
+				.getTeamFormingLog(courseId);
+		for (TeamFormingLog tfl : teamFormingLogs) {
 			String actualEmail = tfl.getStudentEmail();
-			assertTrue("unexpected email:"+actualEmail,!actualEmail.equals(studentEmail));
+			assertTrue("unexpected email:" + actualEmail,
+					!actualEmail.equals(studentEmail));
 		}
-		
+
 	}
-	
-	private void verifyPresenceOfTfsLogsForStudent(String courseId, String studentEmail) {
-		List<TeamFormingLog> teamFormingLogs = apiServlet.getTeamFormingLog(courseId);
-		for(TeamFormingLog tfl: teamFormingLogs){
-			if(tfl.getStudentEmail().equals(studentEmail))return;
+
+	private void verifyPresenceOfTfsLogsForStudent(String courseId,
+			String studentEmail) {
+		List<TeamFormingLog> teamFormingLogs = apiServlet
+				.getTeamFormingLog(courseId);
+		for (TeamFormingLog tfl : teamFormingLogs) {
+			if (tfl.getStudentEmail().equals(studentEmail))
+				return;
 		}
-		Assert.fail("No log messages found for "+studentEmail+" in "+courseId);
+		Assert.fail("No log messages found for " + studentEmail + " in "
+				+ courseId);
 	}
 
 	private void verifyPresentInDatastore(Student expectedStudent) {

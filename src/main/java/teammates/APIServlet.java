@@ -931,6 +931,23 @@ public class APIServlet extends HttpServlet {
 		}
 		Accounts.inst().deleteCoord(coordId);
 	}
+	
+	public HashMap<String, CourseSummaryForCoordinator> getCourseListForCoord(
+			String coordId) {
+		return Courses.inst().getCourseSummaryListForCoord(coordId);
+	}
+	
+	public ArrayList<EvaluationDetailsForCoordinator> getEvaluationsListForCoord(
+			String coordId) {
+
+		List<Course> courseList = Courses.inst().getCoordinatorCourseList(coordId);
+		ArrayList<EvaluationDetailsForCoordinator> evaluationDetailsList = new ArrayList<EvaluationDetailsForCoordinator>();
+		
+		for(Course c: courseList){
+			evaluationDetailsList.addAll(Evaluations.inst().getEvaluationsSummaryForCourse(c.getID()));
+		}
+		return evaluationDetailsList;
+	}
 
 	// -----------------------Courses------------------------------------------
 
@@ -950,9 +967,8 @@ public class APIServlet extends HttpServlet {
 		Courses.inst().deleteCourse(courseId);
 	}
 
-	public HashMap<String, CourseSummaryForCoordinator> getCourseListForCoord(
-			String coordId) {
-		return Courses.inst().getCourseSummaryListForCoord(coordId);
+	public List<Student> getStudentListForCourse(String courseId) {
+		return Courses.inst().getStudentList(courseId);
 	}
 
 	// ----------------------Students------------------------------------------
@@ -980,9 +996,6 @@ public class APIServlet extends HttpServlet {
 				student.getComments());
 	}
 
-	public List<Student> getStudentListForCourse(String courseId) {
-		return Courses.inst().getStudentList(courseId);
-	}
 	// ------------------------Evaluations-----------------------------------
 
 	public void createEvalution(Evaluation evaluation)
@@ -1005,24 +1018,11 @@ public class APIServlet extends HttpServlet {
 				evaluation.getDeadline(), evaluation.getGracePeriod());
 	}
 	
-	public ArrayList<EvaluationDetailsForCoordinator> getEvaluationsListForCoord(
-			String coordId) {
-
-		List<Course> courseList = Courses.inst().getCoordinatorCourseList(coordId);
-		ArrayList<EvaluationDetailsForCoordinator> evaluationDetailsList = new ArrayList<EvaluationDetailsForCoordinator>();
-		
-		for(Course c: courseList){
-			evaluationDetailsList.addAll(Evaluations.inst().getEvaluationsSummaryForCourse(c.getID()));
-		}
-		return evaluationDetailsList;
-	}
-	
 	public void publishEvaluation(String courseId, String evaluationName) throws EntityDoesNotExistException{
 		Courses courses = Courses.inst();
 		List<Student> studentList = courses.getStudentList(courseId);
 
-		Evaluations evaluations = Evaluations.inst();
-		evaluations.publishEvaluation(courseId, evaluationName, studentList);
+		Evaluations.inst().publishEvaluation(courseId, evaluationName, studentList);
 	}
 	
 	public Submission getSubmission(String courseId, String evaluationName,
