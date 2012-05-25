@@ -994,12 +994,6 @@ public class APIServlet extends HttpServlet {
 	public void deleteEvaluation(String courseId, String evaluationName) {
 		Evaluations.inst().deleteEvaluation(courseId, evaluationName);
 	}
-
-	public Submission getSubmission(String courseId, String evaluationName,
-			String reviewerEmail, String revieweeEmail) {
-		return Evaluations.inst().getSubmission(courseId, evaluationName,
-				reviewerEmail, revieweeEmail);
-	}
 	
 	public void editEvaluation(Evaluation evaluation) throws EntityDoesNotExistException, InvalidParametersException{
 		Evaluations.inst().editEvaluation(evaluation.getCourseID(),
@@ -1014,6 +1008,17 @@ public class APIServlet extends HttpServlet {
 
 		Evaluations evaluations = Evaluations.inst();
 		evaluations.publishEvaluation(courseId, evaluationName, studentList);
+	}
+	
+	public Submission getSubmission(String courseId, String evaluationName,
+			String reviewerEmail, String revieweeEmail) {
+		return Evaluations.inst().getSubmission(courseId, evaluationName,
+				reviewerEmail, revieweeEmail);
+	}
+	
+
+	public void editSubmission(List<Submission> submissions) {
+		Evaluations.inst().editSubmissions(submissions);
 	}
 
 	// ------------------------teamForming----------------------------------
@@ -1072,9 +1077,5 @@ public class APIServlet extends HttpServlet {
 	public List<Student> getStudentListForCourse(String courseId) {
 		return Courses.inst().getStudentList(courseId);
 	}
-
-
-
-
 
 }

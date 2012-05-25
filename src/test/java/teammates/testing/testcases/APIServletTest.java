@@ -33,6 +33,7 @@ import teammates.jdo.TeamFormingSession;
 import teammates.jdo.TeamProfile;
 import teammates.testing.lib.SharedLib;
 
+import com.google.appengine.api.datastore.Text;
 import com.google.appengine.tools.development.testing.*;
 import com.google.gson.Gson;
 
@@ -226,6 +227,53 @@ public class APIServletTest extends BaseTestCase {
 //		assertEquals(true, apiServlet.getEvaluation(eval1.getCourseID(), eval1.getName()).isPublished());
 		
 		
+	}
+	
+	@Test
+	public void testEditSubmission() throws Exception{
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+		
+		ArrayList<Submission> submissionContainer = new ArrayList<Submission>();
+		
+		//try without empty list. Nothing should happen
+		apiServlet.editSubmission(submissionContainer);
+		
+		Submission sub1 = dataBundle.submissions
+				.get("submissionFromS1C1ToS2C1");
+		
+		Submission sub2 = dataBundle.submissions
+				.get("submissionFromS2C1ToS1C1");
+		
+		//checking editing of one of the submissions
+		alterSubmission(sub1);
+		
+		submissionContainer.add(sub1);
+		apiServlet.editSubmission(submissionContainer);
+		
+		verifyPresentInDatastore(sub1);
+		verifyPresentInDatastore(sub2);
+		
+		//check editing both submissions
+		alterSubmission(sub1);
+		alterSubmission(sub2);
+		
+		submissionContainer = new ArrayList<Submission>();
+		submissionContainer.add(sub1);
+		submissionContainer.add(sub2);
+		apiServlet.editSubmission(submissionContainer);
+		
+		verifyPresentInDatastore(sub1);
+		verifyPresentInDatastore(sub2);
+		
+		//TODO: more testing
+		
+	}
+
+	private void alterSubmission(Submission submission) {
+		submission.setPoints(submission.getPoints()+10);
+		submission.setCommentsToStudent(new Text(submission.getCommentsToStudent().getValue()+"x"));
+		submission.setJustification(new Text(submission.getJustification().getValue()+"y"));
 	}
 	
 	// ------------------------------------------------------------------------
