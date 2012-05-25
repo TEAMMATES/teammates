@@ -71,9 +71,9 @@ public class BrowserInstance {
 	protected ChromeDriverService chromeService = null;
 	private boolean inUse = false;
 	
-	private final int TIMEOUT = 15; // In seconds
-	private final int RETRY = 30;
-	private final int RETRY_TIME = TIMEOUT*1000/RETRY; // In milliseconds
+	private static final int TIMEOUT = 15; // In seconds
+	private static final int RETRY = 30;
+	private static final int RETRY_TIME = TIMEOUT*1000/RETRY; // In milliseconds
 
 	/* ---------------------------------------------------------------
 	 * UI Element
@@ -97,10 +97,10 @@ public class BrowserInstance {
 	// Table elements
 	public By pageTitle = By.xpath("//div[@id='headerOperation']//h1");
 
-	public final String HEADER_FORM_TABLE_CELL = "//table[@class='headerform']//tbody//tr//td";
-	public final String DETAIL_FORM_TABLE_CELL = "//table[@class='detailform']//tbody//tr//td";
-	public final String DATAFORM_TABLE_ROW = "//table[@id='dataform']//tr";
-	public final String DATAFORM_TABLE_CELL = DATAFORM_TABLE_ROW + "[%d]//td[%d]";
+	public static final String HEADER_FORM_TABLE_CELL = "//table[@class='headerform']//tbody//tr//td";
+	public static final String DETAIL_FORM_TABLE_CELL = "//table[@class='detailform']//tbody//tr//td";
+	public static final String DATAFORM_TABLE_ROW = "//table[@id='dataform']//tr";
+	public static final String DATAFORM_TABLE_CELL = DATAFORM_TABLE_ROW + "[%d]//td[%d]";
 
 	// -------------------------------- Coordinator -------------------------------- //
 	// Homepage
@@ -1773,6 +1773,21 @@ public class BrowserInstance {
 			return null;
 		}
 	}
+	
+	/**
+	 * Returns the number of courses with the specified courseID in the list
+	 * @param courseID
+	 * @return
+	 */
+	public int getCourseIDCount(String courseID){
+		int result = 0;
+		for (int i = 0; i < countCourses(); i++) {
+			if (getElementText(getCourseIDCell(i)).equals(courseID)) {
+				result++;
+			}
+		}
+		return result;
+	}
 
 	/**
 	 * Returns number of teams in specific rowID.
@@ -2388,21 +2403,23 @@ public class BrowserInstance {
 		}
 	}
 
-	public void waitForCourseIdToAppearInCourseList(String courseId){
-		waitForElementPresent(getCourseIDCell(courseId));	
-	}
-
 	public void waitForStatusMessage(String message){
 		waitForTextInElement(statusMessage, message);
 	}
 
+	/**
+	 * Waits for a text to appear in an element
+	 * @see {@link #TIMEOUT}
+	 * @param locator
+	 * @param value
+	 */
 	public void waitForTextInElement(By locator, String value) {
 		int counter = 0;
 		while (true) {
 			if (isElementPresent(locator) && getElementText(locator).equals(value))
 				return;
-			System.out.println("Looking for:"+locator + ": " + value);
-			System.out.println("But found  :"+locator + ": " + getElementText(locator));
+			System.err.println("Looking for:"+locator + ": " + value);
+			System.err.println("But found  :"+locator + ": " + getElementText(locator));
 			if (counter++ > RETRY)
 				fail("Timeout while waiting for "+getElementText(locator)+" to be same as "+value);
 			waitAWhile(RETRY_TIME);
@@ -2443,6 +2460,7 @@ public class BrowserInstance {
 	 * Waits for element exists or timeout.
 	 * @param name
 	 * @return
+	 * 		The final value in the field 
 	 */
 	public String fillInEvalName(String name)
 	{
@@ -2455,6 +2473,7 @@ public class BrowserInstance {
 	 * Waits for element exist or timeout.
 	 * @param name
 	 * @return
+	 * 		The final value in the field
 	 */
 	public String fillInCourseName(String name)
 	{
@@ -2467,6 +2486,7 @@ public class BrowserInstance {
 	 * Waits for element exists or timeout.
 	 * @param id
 	 * @return
+	 * 		The final value in the field
 	 */
 	public String fillInCourseID(String id)
 	{
@@ -2476,7 +2496,7 @@ public class BrowserInstance {
 	
 	/**
 	 * Retrieve element's text through WebDriver.
-	 * Similar to getElementValue()
+	 * Does not do any wait.
 	 * @return empty string if element is not found.
 	 */
 	public String getElementText(By locator) {
@@ -3185,6 +3205,7 @@ public class BrowserInstance {
 			waitAWhile(RETRY_TIME);
 		}
 	}
+	
 	/**
 	 * Helper method to verify that we're at the student enrollment page.
 	 * Checking for these fields:
@@ -3200,6 +3221,31 @@ public class BrowserInstance {
 	
 			if (isElementPresent(coordEnrollInfo) && isElementPresent(coordEnrollButton))
 				break;
+	
+			waitAWhile(RETRY_TIME);
+		}
+	}
+	
+	/**
+	 * Helper method to verify that we're at the student enrollment page for specific course
+	 * Checking for these fields:
+	 * <ul>
+	 * <li>TEXT: ENROLL STUDENTS FOR {courseID.toUpperCase()}</li>
+	 * <li>ID: information</li>
+	 * <li>ID: button_enroll</li>
+	 * </ul>
+	 * @param courseID
+	 */
+	public void verifyCoordCourseEnrollPage(String courseID) {
+		for (int x = 0;; x++) {
+			if (x >= RETRY)
+				fail("Not in Coordinator Enroll Page for "+courseID);
+			if (getElementText(pageTitle).equals("ENROLL STUDENTS FOR "+courseID.toUpperCase()) &&
+					isElementPresent(coordEnrollInfo) && isElementPresent(coordEnrollButton))
+				break;
+			
+			System.err.println("Looking for: "+"ENROLL STUDENTS FOR "+courseID.toUpperCase());
+			System.err.println("But found:   "+getElementText(pageTitle));
 	
 			waitAWhile(RETRY_TIME);
 		}

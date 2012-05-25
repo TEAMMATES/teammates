@@ -1,6 +1,7 @@
 <%@ page import="java.util.*"%>
 <%@ page import="teammates.*"%>
 <%@ page import="teammates.jdo.*" %>
+<%@ page import="teammates.jsp.*" %>
 
 <%	
 	// See if user is logged in, if not we redirect them to the login page
@@ -56,7 +57,7 @@
 	%>
 
 	<div id="frameTop">
-		<jsp:include page="/header.jsp" />
+		<jsp:include page="/coordHeader.jsp" />
 	</div>
 	
 	<div id="frameBody">
@@ -86,13 +87,9 @@
 				ArrayList<EvaluationDetailsForCoordinator> evaluations = server.getEvaluationsListForCoord(coordID);
 				
 				CourseSummaryForCoordinator[] summary = courses.values().toArray(new CourseSummaryForCoordinator[]{});
-				Arrays.sort(summary,new Comparator<CourseSummaryForCoordinator>(){
-					public int compare(CourseSummaryForCoordinator obj1, CourseSummaryForCoordinator obj2){
-						return obj1.getID().compareTo(obj2.getID());
-					}
-				});
 				int idx = 0;
 				for(idx=0; idx<summary.length; idx++){
+					// This will print the latest one first since it is already ordered with the latest one at index 0
 					CourseSummaryForCoordinator course = summary[idx];
 					out.println(
 					"<div class='result_team' id='course" + idx + "' name='course" + idx + "'>"+
@@ -100,17 +97,20 @@
 						"<h2>[" + course.getID() + "] : " + course.getName() + "</h2>"+
 					"</div>"+
 					"<div class='result_homeLinks'>"+
-						"<a class='t_course_enroll" + idx + "' href=\"coordCourseEnroll.jsp?courseID=" + course.getID() + "\"" +
+						"<a class='t_course_enroll" + idx + "' " +
+							"href=\"" + Helper.getCourseEnrollLink(course.getID()) + "\"" +
 							"onmouseover=\"ddrivetip('" + Common.HOVER_MESSAGE_ENROLL + "')\""+
 							"onmouseout=\"hideddrivetip()\">Enroll</a>"+
-						"<a class='t_course_view" + idx + "' href=\"coordCourseDetails.jsp?courseID=" + course.getID() + "\"" +
+						"<a class='t_course_view" + idx + "' " +
+							"href=\"" + Helper.getCourseDetailsLink(course.getID()) + "\"" +
 							"onmouseover=\"ddrivetip('" + Common.HOVER_MESSAGE_VIEW_COURSE + "')\""+
 							"onmouseout=\"hideddrivetip()\">View</a>"+
-						"<a class='t_course_add_eval" + idx + "' href=\"coordEval.jsp?courseID=" + course.getID() + "\"" +
+						"<a class='t_course_add_eval" + idx + "' " +
+							"href=\"coordEval.jsp\"" +
 							"onmouseover=\"ddrivetip('" + Common.HOVER_MESSAGE_ADD_EVALUATION + "')\""+
 							"onmouseout=\"hideddrivetip()\">Add Evaluation</a>"+
-						"<a class='t_course_delete" + idx + "'" +
-							"href=\"coordDeleteCourse.jsp?next=coordHome.jsp&courseid=" + course.getID() + "\"" +
+						"<a class='t_course_delete" + idx + "' " +
+							"href=\"" + Helper.getCourseDeleteLink(course.getID(), "coordHome.jsp") + "\"" +
 							"onclick=\"hideddrivetip(); return toggleDeleteCourseConfirmation('" + course.getID() + "');" +
 							"\""+"onmouseover=\"ddrivetip('" + Common.HOVER_MESSAGE_DELETE_COURSE + "')\"" +
 							"onmouseout=\"hideddrivetip()\">Delete</a>"+
@@ -118,7 +118,6 @@
 					"<div style='clear: both;'></div>"+
 					"<br />");
 					
-					// TODO Print evaluations here
 					StringBuffer evaluationResult = new StringBuffer();
 					int evalIdx = 0;
 					for(EvaluationDetailsForCoordinator eval: evaluations){
@@ -127,13 +126,13 @@
 								"<tr id='evaluation" + evalIdx + "'>" +
 								"<td class='t_eval_name'>" + eval.getName() + "</td>" +
 								"<td class='t_eval_status centeralign'>" +
-								"<span onmouseover=\"ddrivetip('" + Common.getHoverMessageForEval(eval) + "')\"" +
-								"onmouseout=\"hideddrivetip()\">" + Common.getStatusForEval(eval) + "</span></td>" +
+								"<span onmouseover=\"ddrivetip('" + Helper.getHoverMessageForEval(eval) + "')\"" +
+								"onmouseout=\"hideddrivetip()\">" + Helper.getStatusForEval(eval) + "</span></td>" +
 								"<td class='t_eval_response centeralign'>" +
 								eval.getNumberOfCompletedEvaluations() + " / " + eval.getNumberOfEvaluations() +
 								"</td>" +
 								"<td class='centeralign'>" +
-								Common.getEvaluationActions(eval, evalIdx, true) +
+								Helper.getEvaluationActions(eval, evalIdx, true) +
 								"</td>" +
 								"</tr>"						
 							);
@@ -153,6 +152,7 @@
 							"</table>" +
 							"<br />"
 						);
+						out.flush();
 					}
 					
 					out.println("</div><br /><br /><br />");

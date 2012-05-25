@@ -17,10 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.exception.AccountExistsException;
-import teammates.exception.CourseDoesNotExistException;
 import teammates.exception.EntityAlreadyExistsException;
-import teammates.exception.CourseInputInvalidException;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.EvaluationExistsException;
 import teammates.exception.GoogleIDExistsInCourseException;

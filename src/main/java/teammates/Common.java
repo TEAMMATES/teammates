@@ -5,8 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import teammates.jdo.EvaluationDetailsForCoordinator;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -40,7 +38,7 @@ public class Common {
 	public final static String EVALUATION_STATUS_CLOSED = "CLOSED";
 	public final static String EVALUATION_STATUS_PUBLISHED = "PUBLISHED";
 	
-	// IDs
+	// IDs used as div tag "id" attribute
 	public final static String COURSE_ID = "courseid";
 	public final static String COURSE_NAME = "coursename";
 	public final static String COURSE_NUMBEROFTEAMS = "coursenumberofteams";
@@ -48,11 +46,41 @@ public class Common {
 	public final static String COURSE_UNREGISTERED = "courseunregistered";
 	public final static String COURSE_STATUS = "coursestatus";
 	
+	// JSP Parameter names
+	public final static String PARAM_COURSE_ID = "courseid";
+	public final static String PARAM_EVALUATION_NAME = "evalname";
+	public final static String PARAM_NEXT_URL = "next";
+	
+	// JSP pages (NOT to be used in the JSP, but as reference for other classes)
+	public final static String JSP_COORD_HOME = "coordHome.jsp";
+	public final static String JSP_COORD_COURSE = "coordCourse.jsp";
+	public final static String JSP_COORD_COURSE_DELETE = "coordCourseDelete.jsp";
+	public final static String JSP_COORD_COURSE_DETAILS = "coordCourseDetails.jsp";
+	public final static String JSP_COORD_COURSE_STUDENT_DETAILS = "coordCourseStudentDetails.jsp";
+	public final static String JSP_COORD_COURSE_STUDENT_EDIT = "coordCourseStudentEdit.jsp";
+	public final static String JSP_COORD_COURSE_ENROLL = "coordCourseEnroll.jsp";
+	public final static String JSP_COORD_TFS = "coordTFS.jsp";
+	public final static String JSP_COORD_TFS_MANAGE = "coordTFSManage.jsp";
+	public final static String JSP_COORD_TFS_CHANGE_TEAM = "coordTFSChangeTeam.jsp";
+	public final static String JSP_COORD_TFS_LOGS = "coordTFSLogs.jsp";
+	public final static String JSP_COORD_EVAL = "coordEval.jsp";
+	public final static String JSP_COORD_EVAL_EDIT = "coordEvalEdit.jsp";
+	public final static String JSP_COORD_EVAL_RESULTS = "coordEvalResults.jsp";
+	public final static String JSP_COORD_EVAL_SUBMISSION_EDIT = "coordEvalSubmissionEdit.jsp";
+	
+	public final static String JSP_STUDENT_HOME = "studentHome.jsp";
+	public final static String JSP_STUDENT_COURSE = "studentHome.jsp";
+	public final static String JSP_STUDENT_COURSE_DETAILS = "studentCourseDetails.jsp";
+	public final static String JSP_STUDENT_TFS_MANAGE = "studentTFSManage.jsp";
+	public final static String JSP_STUDENT_EVAL = "studentEval.jsp";
+	public final static String JSP_STUDENT_EVAL_EDIT = "studentEvalEdit.jsp";
+	public final static String JSP_STUDENT_EVAL_RESULTS = "studentEvalResults.jsp";
+	
 	//status messages
 	public final static String MESSAGE_COURSE_ADDED = "The course has been added. Click the 'Enroll' link in the table below to add students to the course.";
 	public final static String MESSAGE_COURSE_EXISTS = "The course already exists.";
-	public final static String ERROR_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
-	public final static String ERROR_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
+	public final static String MESSAGE_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
+	public final static String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
 
 	//data field sizes
 	public static int COURSE_NAME_MAX_LENGTH = 38;
@@ -130,92 +158,5 @@ public class Common {
 		} catch (Exception e) {
 			return null;
 		}
-	}
-	
-	public static String getStatusForEval(EvaluationDetailsForCoordinator eval){
-		if(eval.getStart().after(new Date())) return EVALUATION_STATUS_AWAITING;
-		if(eval.getDeadline().after(new Date())) return EVALUATION_STATUS_OPEN;
-		if(!eval.isPublished())	return EVALUATION_STATUS_CLOSED;
-		return EVALUATION_STATUS_PUBLISHED;
-	}
-	
-	public static String getHoverMessageForEval(EvaluationDetailsForCoordinator eval){
-		String status = getStatusForEval(eval);
-		if(status.equals(EVALUATION_STATUS_AWAITING)) return HOVER_MESSAGE_EVALUATION_STATUS_AWAITING;
-		if(status.equals(EVALUATION_STATUS_OPEN)) return HOVER_MESSAGE_EVALUATION_STATUS_OPEN;
-		if(status.equals(EVALUATION_STATUS_CLOSED)) return HOVER_MESSAGE_EVALUATION_STATUS_CLOSED;
-		return HOVER_MESSAGE_EVALUATION_STATUS_PUBLISHED;
-	}
-	
-	public static String getEvaluationActions(EvaluationDetailsForCoordinator eval, int position, boolean isHome){
-		StringBuffer result = new StringBuffer();
-		final String disabled = "style=\"text-decoration:none; color:gray;\" onclick=\"return false\"";
-		
-		boolean hasView = false;
-		boolean hasEdit = false;
-		boolean hasRemind = false;
-		boolean hasPublish = false;
-		boolean hasUnpublish = false;
-		
-		String status = getStatusForEval(eval);
-		
-		if(status.equals(EVALUATION_STATUS_AWAITING)){
-			hasEdit = true;
-		} else if(status.equals(EVALUATION_STATUS_OPEN)){
-			hasView = true;
-			hasEdit = true;
-			hasRemind = true;
-		} else if(status.equals(EVALUATION_STATUS_CLOSED)){
-			hasView = true;
-			hasEdit = true;
-			hasPublish = true;
-		} else { // EVALUATION_STATUS_PUBLISHED
-			hasView = true;
-			hasUnpublish = true;
-		}
-		
-		result.append(
-			"<a class='t_eval_view' name='viewEvaluation" + position + "' id='viewEvaluation"+ position + "'" +
-			"href=\"coordEval.jsp?courseid="+ eval.getCourseID() + "&evalname=" + eval.getName() + "\"" +
-			"onmouseover=\"ddrivetip('"+HOVER_MESSAGE_EVALUATION_VIEW+"')\""+
-			"onmouseout=\"hideddrivetip()\"" + (hasView ? "" : disabled) + ">View Results</a>"
-		);
-		result.append(
-			"<a class='t_eval_edit' name='editEvaluation" + position + "' id='editEvaluation" + position + "'" +
-			"href=\"coordEvalEdit.jsp?courseid=" + eval.getCourseID() + "&evalname=" + eval.getName() + "\"" +
-			"onmouseover=\"ddrivetip('"+HOVER_MESSAGE_EVALUATION_EDIT+"')\" onmouseout=\"hideddrivetip()\"" +
-			(hasEdit ? "" : disabled) + ">Edit</a>"
-		);
-		result.append(
-			"<a class='t_eval_delete' name='deleteEvaluation" + position + "' id='deleteEvaluation" + position + "'" +
-			"href=\"coordDeleteEvaluation.jsp?courseid=" + eval.getCourseID() + "&evalname=" + eval.getName() + "\"" +
-			"onclick=\"hideddrivetip(); return toggleDeleteEvaluationConfirmation('" + eval.getCourseID() + "','" +
-			eval.getName() + "');\"" +
-			"onmouseover=\"ddrivetip('"+HOVER_MESSAGE_EVALUATION_DELETE+"')\" onmouseout=\"hideddrivetip()\">Delete</a>"
-		);
-		result.append(
-			"<a class='t_eval_remind' name='remindEvaluation" + position + "' id='remindEvaluation" + position + "'" +
-			"href=\"javascript: hideddrivetip(); toggleRemindStudents('" + eval.getCourseID() + "','" + eval.getName() + "');\"" +
-			"onmouseover=\"ddrivetip('"+HOVER_MESSAGE_EVALUATION_REMIND+"')\"" +
-			"onmouseout=\"hideddrivetip()\"" + (hasRemind ? "" : disabled) + ">Remind</a>"
-		);
-		if (hasUnpublish) {
-			result.append(
-				"<a class='t_eval_unpublish' name='publishEvaluation" + position + "' id='publishEvaluation" + position + "'" +
-				"href=\"javascript: hideddrivetip(); togglePublishEvaluation('" + eval.getCourseID() + "','" +
-				eval.getName() + "'," + false + "," + (isHome ? "'coordHome.jsp'" : "'coordEval.jsp'") + ");\"" +
-				"onmouseover=\"ddrivetip('"+HOVER_MESSAGE_EVALUATION_UNPUBLISH+"')\" onmouseout=\"hideddrivetip()\">" +
-				"Unpublish</a>"
-			);
-		} else {
-			result.append(
-				"<a class='t_eval_publish' name='unpublishEvaluation" + position + "' id='publishEvaluation" + position + "'" +
-				"href=\"javascript: hideddrivetip(); togglePublishEvaluation('" + eval.getCourseID() + "','" +
-				eval.getName() + "'," + true + "," + (isHome ? "'coordHome.jsp'" : "'coordEval.jsp'") + ");\"" +
-				"onmouseover=\"ddrivetip('"+HOVER_MESSAGE_EVALUATION_PUBLISH+"')\"" +
-				"onmouseout=\"hideddrivetip()\"" + (hasPublish ? "" : disabled) + ">Publish</a>"
-			);
-		}
-		return result.toString();
 	}
 }

@@ -2,6 +2,7 @@
 <%@ page import="teammates.*"%>
 <%@ page import="teammates.jdo.*" %>
 <%@ page import="teammates.exception.*" %>
+<%@ page import="teammates.jsp.*" %>
 
 <%	
 	// See if user is logged in, if not we redirect them to the login page
@@ -78,7 +79,7 @@
 	%>
 
 	<div id="frameTop">
-		<jsp:include page="/header.jsp" />
+		<jsp:include page="/coordHeader.jsp" />
 	</div>
 	
 	<div id="frameBody">
@@ -163,20 +164,25 @@
 							"<td class='centeralign'>" + course.getTotalStudents() + "</td>" +
 							"<td class='centeralign'>" + course.getUnregistered() + "</td>" +
 							"<td class='centeralign'>" +
-								"<a class='t_course_enroll' href=\"coordCourseEnroll.jsp?courseid=" + course.getID() + "\"" +
+								"<a class='t_course_enroll'" +
+									"href=\"" + Helper.getCourseEnrollLink(course.getID()) + "\"" +
 									"hideddrivetip();\" onmouseover=\"ddrivetip('" + Common.HOVER_MESSAGE_ENROLL + "')\"" +
 									"onmouseout=\"hideddrivetip()\">Enroll</a>" +
-								"<a class='t_course_view' href=\"coordCourseDetails.jsp?courseid=" + course.getID() + "\"" +
+								"<a class='t_course_view'" +
+									"href=\"" + Helper.getCourseDetailsLink(course.getID()) + "\"" +
 									"hideddrivetip();\" onmouseover=\"ddrivetip('" + Common.HOVER_MESSAGE_VIEW_COURSE + "')\"" +
 									"onmouseout=\"hideddrivetip()\">View</a>" +
 								"<a class='t_course_delete'" +
-									"href=\"coordDeleteCourse.jsp?next=coordCourse.jsp&courseid=" + course.getID() + "\"" +
+									"href=\"" + Helper.getCourseDeleteLink(course.getID(),"coordCourse.jsp") + "\"" +
 									"onclick=\"hideddrivetip(); return toggleDeleteCourseConfirmation('" + course.getID() + "');" +
 									"\" onmouseover=\"ddrivetip('" + Common.HOVER_MESSAGE_DELETE_COURSE + "')\"" +
 									"onmouseout=\"hideddrivetip()\">Delete</a>" +
 							"</td>" +
 						"</tr>"
 					);
+				}
+				if(idx==0){
+					out.println("<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
 				}
 				out.println("</table><br /><br /><br />");
 				if(idx==0){
