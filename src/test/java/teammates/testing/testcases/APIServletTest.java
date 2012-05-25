@@ -4,11 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 
@@ -32,15 +32,13 @@ import teammates.jdo.TeamFormingLog;
 import teammates.jdo.TeamFormingSession;
 import teammates.jdo.TeamProfile;
 import teammates.testing.lib.SharedLib;
-import teammates.testing.lib.TMAPI;
 
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import com.google.appengine.tools.development.testing.*;
 import com.google.gson.Gson;
 
 public class APIServletTest extends BaseTestCase {
 	private final static LocalServiceTestHelper helper = new LocalServiceTestHelper(
-			new LocalDatastoreServiceTestConfig());
+			new LocalDatastoreServiceTestConfig(), new LocalMailServiceTestConfig(), new LocalTaskQueueTestConfig());
 	private final static APIServlet apiServlet = new APIServlet();
 	private static String TEST_DATA_FOLDER = "src/test/resources/data/";
 	private static Gson gson = Common.getTeammatesGson();
@@ -196,9 +194,49 @@ public class APIServletTest extends BaseTestCase {
 		
 		//TODO: more testing
 	}
-
+	
+	@Test
+	public void testEditEvaluation() throws Exception{
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+		
+		Evaluation eval1 = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
+		eval1.setGracePeriod(eval1.getGracePeriod()+1);
+		eval1.setInstructions(eval1.getInstructions()+"x");
+		eval1.setCommentsEnabled(!eval1.isCommentsEnabled());
+		eval1.setStart(getDateOffsetToCurrentTime(1));
+		eval1.setDeadline(getDateOffsetToCurrentTime(2));
+		apiServlet.editEvaluation(eval1);
+		verifyPresentInDatastore(eval1);
+		
+		//TODO: more testing
+		
+	}
+	
+	@Test
+	public void testPublishEvaluation() throws Exception{
+		
+		//TODO: untested. need to figure out how to work task ques in unit testing mode
+		
+//		printTestCaseHeader(getNameOfThisMethod());
+//		refreshDataInDatastore();
+//		Evaluation eval1 = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
+//		assertEquals(false, apiServlet.getEvaluation(eval1.getCourseID(), eval1.getName()).isPublished());
+//		apiServlet.publishEvaluation(eval1.getCourseID(), eval1.getName());
+//		assertEquals(true, apiServlet.getEvaluation(eval1.getCourseID(), eval1.getName()).isPublished());
+		
+		
+	}
+	
 	// ------------------------------------------------------------------------
-
+	
+	private Date getDateOffsetToCurrentTime(int offsetDays) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(cal.getTime());
+		cal.add(Calendar.DATE, +offsetDays);
+		return cal.getTime();
+	}
+	
 	private void verifyPresentInDatastore(String dataBundleJsonString)
 			throws EntityDoesNotExistException {
 

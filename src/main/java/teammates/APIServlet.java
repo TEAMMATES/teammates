@@ -20,8 +20,6 @@ import teammates.exception.CourseInputInvalidException;
 import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.InvalidParametersException;
-import teammates.exception.TeamFormingSessionExistsException;
-import teammates.exception.TeamProfileExistsException;
 import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
 import teammates.jdo.CourseSummaryForCoordinator;
@@ -1002,6 +1000,21 @@ public class APIServlet extends HttpServlet {
 		return Evaluations.inst().getSubmission(courseId, evaluationName,
 				reviewerEmail, revieweeEmail);
 	}
+	
+	public void editEvaluation(Evaluation evaluation) throws EntityDoesNotExistException, InvalidParametersException{
+		Evaluations.inst().editEvaluation(evaluation.getCourseID(),
+				evaluation.getName(), evaluation.getInstructions(),
+				evaluation.isCommentsEnabled(), evaluation.getStart(),
+				evaluation.getDeadline(), evaluation.getGracePeriod());
+	}
+	
+	public void publishEvaluation(String courseId, String evaluationName) throws EntityDoesNotExistException{
+		Courses courses = Courses.inst();
+		List<Student> studentList = courses.getStudentList(courseId);
+
+		Evaluations evaluations = Evaluations.inst();
+		evaluations.publishEvaluation(courseId, evaluationName, studentList);
+	}
 
 	// ------------------------teamForming----------------------------------
 
@@ -1059,5 +1072,9 @@ public class APIServlet extends HttpServlet {
 	public List<Student> getStudentListForCourse(String courseId) {
 		return Courses.inst().getStudentList(courseId);
 	}
+
+
+
+
 
 }
