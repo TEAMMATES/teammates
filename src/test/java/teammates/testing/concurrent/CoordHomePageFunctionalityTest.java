@@ -100,8 +100,8 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 	}
 	
 	@Test
-	public void testEnrolLink() {
-		System.out.println("CoordLandingPageFunctionalityTest: testEnrolLink");
+	public void testEnrollLink() {
+		System.out.println("CoordLandingPageFunctionalityTest: testEnrollLink");
 
 		bi.goToCoordHome();
 		/*
@@ -111,11 +111,11 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		 * Need to use the Course ID and Evaluation name as the key, and do searching
 		 * on the page, just like the other methods.
 		 */
-		bi.clickWithWait(bi.getCoordHomeCourseEnrolLink(FIRST_COURSE));
+		bi.clickWithWait(bi.getCoordHomeCourseEnrollLink(FIRST_COURSE));
 		bi.verifyCoordCourseEnrollPage();
 		
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordHomeCourseEnrolLink(SECOND_COURSE));
+		bi.clickWithWait(bi.getCoordHomeCourseEnrollLink(SECOND_COURSE));
 		bi.verifyCoordCourseEnrollPage();
 	}
 	

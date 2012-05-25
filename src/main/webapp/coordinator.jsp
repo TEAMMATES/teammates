@@ -2,6 +2,7 @@
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page import="java.util.*"%>
 <%@ page import="teammates.Accounts"%>
+<%@ page import="teammates.jsp.*" %>
 
 
 <%	
@@ -78,7 +79,7 @@
 					<li><a class='t_help' href="http://www.comp.nus.edu.sg/~teams/coordinatorhelp.html" target="_blank">Help</a></li>
 					<li><a class='t_logout' href="javascript:logout();">Logout</a>
 					 ( <% 	
-					 out.println(accounts.getUser().getNickname());
+					 out.println(Helper.truncate(accounts.getUser().getNickname()));
 					%>)</li>
 				</ul>
 			</div>

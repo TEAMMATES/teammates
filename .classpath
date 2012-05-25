@@ -6,42 +6,54 @@
 	<classpathentry excluding="**/*.java" kind="src" output="target/test-classes" path="src/test/resources"/>
 	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
 	<classpathentry excluding="**/*.java" kind="src" path="src/main/resources"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-testing/1.6.4/appengine-testing-1.6.4.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-api-1.0-sdk/1.6.4/appengine-api-1.0-sdk-1.6.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-testing/1.6.4/appengine-testing-1.6.4.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/D:/Documents and Settings/Aldrian Obaja/.m2/repository/com/google/appengine/google-appengine-docs-20120228.zip!/google-appengine-docs-20120228/appengine/docs/java/javadoc"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-api-1.0-sdk/1.6.4/appengine-api-1.0-sdk-1.6.4.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/D:/Documents and Settings/Aldrian Obaja/.m2/repository/com/google/appengine/google-appengine-docs-20120228.zip!/google-appengine-docs-20120228/appengine/docs/java/javadoc"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-api-stubs/1.6.4/appengine-api-stubs-1.6.4.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-tools-sdk/1.6.4/appengine-tools-sdk-1.6.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-tools-sdk/1.6.4/appengine-tools-sdk-1.6.4.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/D:/Documents and Settings/Aldrian Obaja/.m2/repository/com/google/appengine/google-appengine-docs-20120228.zip!/google-appengine-docs-20120228/appengine/docs/java/javadoc"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="var" path="M2_REPO/com/sun/mail/javax.mail/1.4.4/javax.mail-1.4.4.jar" sourcepath="M2_REPO/com/sun/mail/javax.mail/1.4.4/javax.mail-1.4.4-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/javax/activation/activation/1.1/activation-1.1.jar" sourcepath="M2_REPO/javax/activation/activation/1.1/activation-1.1-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/javax/jdo/jdo2-api/2.3-eb/jdo2-api-2.3-eb.jar" sourcepath="M2_REPO/javax/jdo/jdo2-api/2.3-eb/jdo2-api-2.3-eb-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/javax/transaction/jta/1.1/jta-1.1.jar" sourcepath="M2_REPO/javax/transaction/jta/1.1/jta-1.1-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/javax/transaction/transaction-api/1.1/transaction-api-1.1.jar" sourcepath="M2_REPO/javax/transaction/transaction-api/1.1/transaction-api-1.1-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/bouncycastle/bcprov-jdk15/1.38/bcprov-jdk15-1.38.jar"/>
-	<classpathentry kind="var" path="M2_REPO/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3.jar" sourcepath="M2_REPO/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar" sourcepath="M2_REPO/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/apache/commons/commons-exec/1.1/commons-exec-1.1.jar" sourcepath="M2_REPO/org/apache/commons/commons-exec/1.1/commons-exec-1.1-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/commons-io/commons-io/2.0.1/commons-io-2.0.1.jar" sourcepath="M2_REPO/commons-io/commons-io/2.0.1/commons-io-2.0.1-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/commons-lang/commons-lang/2.6/commons-lang-2.6.jar" sourcepath="M2_REPO/commons-lang/commons-lang/2.6/commons-lang-2.6-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar" sourcepath="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/net/sourceforge/cssparser/cssparser/0.9.5/cssparser-0.9.5.jar" sourcepath="M2_REPO/net/sourceforge/cssparser/cssparser/0.9.5/cssparser-0.9.5-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/cglib-nodep-2.1_3.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/commons/commons-exec/1.1/commons-exec-1.1.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/commons-exec-1.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-io/commons-io/2.0.1/commons-io-2.0.1.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/commons-io-2.0.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-lang/commons-lang/2.6/commons-lang-2.6.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/commons-lang-2.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/net/sourceforge/cssparser/cssparser/0.9.5/cssparser-0.9.5.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/cssparser-0.9.5.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/geronimo/specs/geronimo-servlet_2.5_spec/1.2/geronimo-servlet_2.5_spec-1.2.jar" sourcepath="M2_REPO/org/apache/geronimo/specs/geronimo-servlet_2.5_spec/1.2/geronimo-servlet_2.5_spec-1.2-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/code/gson/gson/2.1/gson-2.1.jar" sourcepath="M2_REPO/com/google/code/gson/gson/2.1/gson-2.1-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar" sourcepath="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/net/sourceforge/htmlunit/htmlunit/2.9/htmlunit-2.9.jar" sourcepath="M2_REPO/net/sourceforge/htmlunit/htmlunit/2.9/htmlunit-2.9-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/net/sourceforge/htmlunit/htmlunit-core-js/2.9/htmlunit-core-js-2.9.jar" sourcepath="M2_REPO/net/sourceforge/htmlunit/htmlunit-core-js/2.9/htmlunit-core-js-2.9-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/jamcrest-core-1.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/net/sourceforge/htmlunit/htmlunit/2.9/htmlunit-2.9.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/htmlunit-2.9.jar"/>
+	<classpathentry kind="var" path="M2_REPO/net/sourceforge/htmlunit/htmlunit-core-js/2.9/htmlunit-core-js-2.9.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/htmlunit-core-js-2.9.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/httpcomponents/httpclient/4.1.2/httpclient-4.1.2.jar" sourcepath="M2_REPO/org/apache/httpcomponents/httpclient/4.1.2/httpclient-4.1.2-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/httpcomponents/httpcore/4.1.2/httpcore-4.1.2.jar" sourcepath="M2_REPO/org/apache/httpcomponents/httpcore/4.1.2/httpcore-4.1.2-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/httpcomponents/httpmime/4.1.2/httpmime-4.1.2.jar" sourcepath="M2_REPO/org/apache/httpcomponents/httpmime/4.1.2/httpmime-4.1.2-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/net/jcip/jcip-annotations/1.0/jcip-annotations-1.0.jar" sourcepath="M2_REPO/net/jcip/jcip-annotations/1.0/jcip-annotations-1.0-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/net/jcip/jcip-annotations/1.0/jcip-annotations-1.0.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/jcip-annotations-1.0.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/googlecode/jmockit/jmockit/0.999.13/jmockit-0.999.13.jar" sourcepath="M2_REPO/com/googlecode/jmockit/jmockit/0.999.13/jmockit-0.999.13-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/net/java/dev/jna/jna/3.3.0/jna-3.3.0.jar" sourcepath="M2_REPO/net/java/dev/jna/jna/3.3.0/jna-3.3.0-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/json/json/20080701/json-20080701.jar" sourcepath="M2_REPO/org/json/json/20080701/json-20080701-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/json/json/20080701/json-20080701.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/json-20080701.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/code/findbugs/jsr305/1.3.9/jsr305-1.3.9.jar"/>
-	<classpathentry kind="var" path="M2_REPO/junit/junit/4.10/junit-4.10.jar" sourcepath="M2_REPO/junit/junit/4.10/junit-4.10-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/junit/junit/4.10/junit-4.10.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/junit-dep-4.10.jar"/>
 	<classpathentry kind="var" path="M2_REPO/ch/qos/logback/logback-classic/0.9.24/logback-classic-0.9.24.jar" sourcepath="M2_REPO/ch/qos/logback/logback-classic/0.9.24/logback-classic-0.9.24-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/ch/qos/logback/logback-core/0.9.24/logback-core-0.9.24.jar" sourcepath="M2_REPO/ch/qos/logback/logback-core/0.9.24/logback-core-0.9.24-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/mx4j/mx4j-tools/3.0.1/mx4j-tools-3.0.1.jar" sourcepath="M2_REPO/mx4j/mx4j-tools/3.0.1/mx4j-tools-3.0.1-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/net/sourceforge/nekohtml/nekohtml/1.9.15/nekohtml-1.9.15.jar" sourcepath="M2_REPO/net/sourceforge/nekohtml/nekohtml/1.9.15/nekohtml-1.9.15-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/w3c/css/sac/1.3/sac-1.3.jar" sourcepath="M2_REPO/org/w3c/css/sac/1.3/sac-1.3-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/mx4j/mx4j-tools/3.0.1/mx4j-tools-3.0.1.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/mx4j-tools-3.0.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/net/sourceforge/nekohtml/nekohtml/1.9.15/nekohtml-1.9.15.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/nekohtml-1.9.15.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/w3c/css/sac/1.3/sac-1.3.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/sac-1.3.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/seleniumhq/selenium/selenium-android-driver/2.21.0/selenium-android-driver-2.21.0.jar" sourcepath="M2_REPO/org/seleniumhq/selenium/selenium-android-driver/2.21.0/selenium-android-driver-2.21.0-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/seleniumhq/selenium/selenium-api/2.21.0/selenium-api-2.21.0.jar" sourcepath="M2_REPO/org/seleniumhq/selenium/selenium-api/2.21.0/selenium-api-2.21.0-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/seleniumhq/selenium/selenium-chrome-driver/2.21.0/selenium-chrome-driver-2.21.0.jar" sourcepath="M2_REPO/org/seleniumhq/selenium/selenium-chrome-driver/2.21.0/selenium-chrome-driver-2.21.0-sources.jar"/>
@@ -51,15 +63,15 @@
 	<classpathentry kind="var" path="M2_REPO/org/seleniumhq/selenium/selenium-iphone-driver/2.21.0/selenium-iphone-driver-2.21.0.jar" sourcepath="M2_REPO/org/seleniumhq/selenium/selenium-iphone-driver/2.21.0/selenium-iphone-driver-2.21.0-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/seleniumhq/selenium/selenium-java/2.21.0/selenium-java-2.21.0.jar" sourcepath="M2_REPO/org/seleniumhq/selenium/selenium-java/2.21.0/selenium-java-2.21.0-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/seleniumhq/selenium/selenium-remote-driver/2.21.0/selenium-remote-driver-2.21.0.jar" sourcepath="M2_REPO/org/seleniumhq/selenium/selenium-remote-driver/2.21.0/selenium-remote-driver-2.21.0-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/seleniumhq/selenium/selenium-server/2.21.0/selenium-server-2.21.0.jar" sourcepath="M2_REPO/org/seleniumhq/selenium/selenium-server/2.21.0/selenium-server-2.21.0-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/seleniumhq/selenium/selenium-server/2.21.0/selenium-server-2.21.0.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/selenium-server-2.21.0-srcs.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/seleniumhq/selenium/selenium-support/2.21.0/selenium-support-2.21.0.jar" sourcepath="M2_REPO/org/seleniumhq/selenium/selenium-support/2.21.0/selenium-support-2.21.0-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/xalan/serializer/2.7.1/serializer-2.7.1.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/mortbay/jetty/servlet-api-2.5/6.1.9/servlet-api-2.5-6.1.9.jar" sourcepath="M2_REPO/org/mortbay/jetty/servlet-api-2.5/6.1.9/servlet-api-2.5-6.1.9-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/xalan/serializer/2.7.1/serializer-2.7.1.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/serializer-2.7.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/mortbay/jetty/servlet-api-2.5/6.1.9/servlet-api-2.5-6.1.9.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/servlet-api-2.5-6.1.9.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/yaml/snakeyaml/1.8/snakeyaml-1.8.jar" sourcepath="M2_REPO/org/yaml/snakeyaml/1.8/snakeyaml-1.8-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/yaml/snakeyaml/1.8/snakeyaml-1.8.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/snakeyaml-1.8.jar"/>
 	<classpathentry kind="var" path="M2_REPO/taglibs/standard/1.1.2/standard-1.1.2.jar" sourcepath="M2_REPO/taglibs/standard/1.1.2/standard-1.1.2-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/xalan/xalan/2.7.1/xalan-2.7.1.jar" sourcepath="M2_REPO/xalan/xalan/2.7.1/xalan-2.7.1-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/xml-apis/xml-apis/1.3.04/xml-apis-1.3.04.jar" sourcepath="M2_REPO/xml-apis/xml-apis/1.3.04/xml-apis-1.3.04-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/guava/guava/10.0.1/guava-10.0.1.jar" sourcepath="M2_REPO/com/google/guava/guava/10.0.1/guava-10.0.1-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/xalan/xalan/2.7.1/xalan-2.7.1.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/xalan-2.7.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/xml-apis/xml-apis/1.3.04/xml-apis-1.3.04.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/xml-apis-1.3.04.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/google/guava/guava/10.0.1/guava-10.0.1.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/guava-11.0.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

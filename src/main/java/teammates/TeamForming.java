@@ -7,7 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
@@ -15,14 +14,17 @@ import javax.jdo.Transaction;
 
 import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.EntityDoesNotExistException;
-import teammates.exception.TeamFormingSessionExistsException;
-import teammates.exception.TeamProfileExistsException;
-import teammates.jdo.*;
+import teammates.exception.EvaluationExistsException;
+import teammates.jdo.Course;
+import teammates.jdo.Student;
+import teammates.jdo.TeamFormingLog;
+import teammates.jdo.TeamFormingSession;
+import teammates.jdo.TeamProfile;
 
+import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
-import com.google.appengine.api.datastore.Text;
 
 
 public class TeamForming {

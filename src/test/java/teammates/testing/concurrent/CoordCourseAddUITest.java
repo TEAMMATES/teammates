@@ -79,15 +79,15 @@ public class CoordCourseAddUITest extends TestCase {
 		// Trying to add a course without ID
 		bi.clickCourseTab();
 		bi.addCourse("", ts.validCourse.courseName);
-		bi.waitForTextInElement(bi.statusMessage, Common.ERROR_COURSE_MISSING_FIELD);
+		bi.waitForTextInElement(bi.statusMessage, Common.MESSAGE_COURSE_MISSING_FIELD);
 		
 		// Adding course without name
 		bi.addCourse(ts.validCourse.courseId, "");
-		bi.waitForTextInElement(bi.statusMessage, Common.ERROR_COURSE_MISSING_FIELD);
+		bi.waitForTextInElement(bi.statusMessage, Common.MESSAGE_COURSE_MISSING_FIELD);
 		
 		//Not-allowed characters
 		bi.addCourse(ts.validCourse.courseId+"!*}", ts.validCourse.courseName + " (!*})");
-		bi.waitForTextInElement(bi.statusMessage, Common.ERROR_COURSE_INVALID_ID);
+		bi.waitForTextInElement(bi.statusMessage, Common.MESSAGE_COURSE_INVALID_ID);
 	}
 	
 	@Test

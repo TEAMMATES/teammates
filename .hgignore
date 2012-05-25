@@ -17,5 +17,6 @@ chromedriver*
 *.bat
 *.bin
 *.bak
+*.db
 test.txt
 doc/*

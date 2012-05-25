@@ -8,12 +8,9 @@ import javax.jdo.PersistenceManager;
 import org.mortbay.log.Log;
 
 import teammates.exception.AccountExistsException;
-import teammates.exception.CourseDoesNotExistException;
 import teammates.exception.EntityAlreadyExistsException;
-import teammates.exception.EntityDoesNotExistException;
 import teammates.jdo.Account;
 import teammates.jdo.Coordinator;
-import teammates.jdo.Course;
 import teammates.jdo.Student;
 
 import com.google.appengine.api.users.User;

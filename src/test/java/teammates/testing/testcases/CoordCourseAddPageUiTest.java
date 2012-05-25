@@ -1,7 +1,6 @@
 package teammates.testing.testcases;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.json.JSONException;
 import org.junit.AfterClass;
@@ -22,6 +21,8 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static TestScenario ts; 
 	
+	private static boolean testNewJSP = false;
+	private static String localhostAddress = "localhost:8080/";
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -33,9 +34,10 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		TMAPI.deleteCourseByIdCascade(ts.courseWithSameNameDifferentId.courseId);
 		
 		bi.loginCoord(ts.coordinator.username, ts.coordinator.password);
+		if(testNewJSP) bi.goToUrl(localhostAddress+Common.JSP_COORD_HOME);
 	}
 	
-	@Test
+	//@Test
 	public void testCoordAddUiFunctionality(){
 		printTestCaseHeader("testCoordAddCourseSuccessful");
 		
@@ -45,26 +47,26 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		String courseName = ts.validCourse.courseName;
 		
 		//add course:
-		bi.clickCourseTab();
+		bi.goToCourses();
 		bi.addCourse(courseID, courseName);
 		bi.waitForStatusMessage(Common.MESSAGE_COURSE_ADDED);
 		
 		//verify course is added:
-		bi.clickCourseTab();
+		bi.goToCourses();
 		bi.verifyCourseIsAdded(courseID, courseName);
 		
 		printTestCaseHeader("testCoordAddCourseWithInvalidInputsFailed");
 
 		bi.addCourse("", ts.validCourse.courseName);
-		bi.waitForStatusMessage(Common.ERROR_COURSE_MISSING_FIELD);
+		bi.waitForStatusMessage(Common.MESSAGE_COURSE_MISSING_FIELD);
 		
 		// Adding course without name
 		bi.addCourse(ts.validCourse.courseId, "");
-		bi.waitForStatusMessage(Common.ERROR_COURSE_MISSING_FIELD);
+		bi.waitForStatusMessage(Common.MESSAGE_COURSE_MISSING_FIELD);
 		
 		//Not-allowed characters
 		bi.addCourse(ts.validCourse.courseId+"!*}", ts.validCourse.courseName + " (!*})");
-		bi.waitForStatusMessage(Common.ERROR_COURSE_INVALID_ID);
+		bi.waitForStatusMessage(Common.MESSAGE_COURSE_INVALID_ID);
 
 		//===================================================================================
 		printTestCaseHeader("testMaxLengthOfInputFields");
@@ -96,16 +98,33 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		
 		//check course not added
 		bi.clickCourseTab();
-		bi.waitForCourseIdToAppearInCourseList(ts.validCourse.courseId);
 		assertTrue(bi.getCourseName(ts.validCourse.courseId).equals(ts.validCourse.courseName));
-		//TODO: this does not exclude the possibility that there are two courses in the list with same id
+		
+		// Check that there is only one course with that ID
+		assertTrue(bi.getCourseIDCount(ts.validCourse.courseId)==1);
 	
-		//TODO: 2 duplicate course under different coordinators
+		// Check that other coordinators cannot add the same courseID
+		bi.logout();
+		bi.loginCoord(ts.coordinatorDiff.username, ts.coordinatorDiff.password);
+		if(testNewJSP) bi.goToUrl(localhostAddress+Common.JSP_COORD_HOME);
+		
+		bi.goToCourses();
+		bi.addCourse(ts.validCourse.courseId, ts.validCourse.courseName);
+		bi.waitForStatusMessage(Common.MESSAGE_COURSE_EXISTS);
+		
+		bi.goToCourses();
+		assertFalse(bi.isCoursePresent(ts.validCourse.courseId, ts.validCourse.courseName));
+		
+		// Go back to the initial coordinator
+		bi.logout();
+		bi.loginCoord(ts.coordinator.username, ts.coordinator.password);
+		if(testNewJSP) bi.goToUrl(localhostAddress+Common.JSP_COORD_HOME);
 		
 		//===================================================================================
 		
 		printTestCaseHeader("testCoordAddCourseWithDuplicateNameSuccessful");
 		
+		bi.goToCourses();
 		bi.addCourse(ts.courseWithSameNameDifferentId.courseId, ts.validCourse.courseName);
 		bi.waitForStatusMessage(Common.MESSAGE_COURSE_ADDED);
 		
@@ -113,8 +132,25 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		bi.verifyCourseIsAdded(ts.courseWithSameNameDifferentId.courseId, ts.validCourse.courseName);
 	}
 	
+	@Test
+	public void testCoordCourseAddLinks(){
+		bi.goToCourses();
+		
+		// Make sure the course is there
+		bi.addCourse(ts.validCourse.courseId, ts.validCourse.courseName);
+		
+		// Checks view details link
+		bi.clickCoordCourseView(ts.validCourse.courseId);
+		bi.verifyCoordCourseDetailsPage(); // TODO verify based on courseID
+		
+		// Checks enroll link
+		bi.goToCourses();
+		bi.clickCoordCourseEnroll(ts.validCourse.courseId);
+		bi.verifyCoordCourseEnrollPage(ts.validCourse.courseId);
+	}
+	
 	private static TestScenario loadTestScenario() throws JSONException {
-		String testScenarioJsonFile = "target/test-classes/data/CoordCourseAddUITest.json";
+		String testScenarioJsonFile = "src/test/resources/data/CoordCourseAddUITest.json";
 		String jsonString = SharedLib.getFileContents(testScenarioJsonFile);
 		TestScenario scn = (new Gson()).fromJson(jsonString, TestScenario.class);
 		return scn;
@@ -122,6 +158,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 
 	private class TestScenario{
 		public Coordinator coordinator;
+		public Coordinator coordinatorDiff;
 		public Course validCourse;
 		public Course courseWithSameNameDifferentId;
 	}

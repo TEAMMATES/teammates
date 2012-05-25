@@ -11,19 +11,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.api.datastore.Text;
-import com.google.appengine.api.users.User;
-
 import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.EntityDoesNotExistException;
-import teammates.exception.TeamFormingSessionExistsException;
-import teammates.exception.TeamProfileExistsException;
 import teammates.jdo.Course;
 import teammates.jdo.CourseDetailsForStudent;
 import teammates.jdo.Student;
 import teammates.jdo.TeamFormingLog;
 import teammates.jdo.TeamFormingSession;
 import teammates.jdo.TeamProfile;
+
+import com.google.appengine.api.datastore.Text;
+import com.google.appengine.api.users.User;
 
 @SuppressWarnings("serial")
 public class TeamFormingServlet extends HttpServlet {
