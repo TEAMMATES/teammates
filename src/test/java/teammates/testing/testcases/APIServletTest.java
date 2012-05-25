@@ -269,14 +269,44 @@ public class APIServletTest extends BaseTestCase {
 		//TODO: more testing
 		
 	}
+	
+	@Test
+	public void testEditTfs() throws Exception{
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+		
+		TeamFormingSession tfs1 = dataBundle.teamFormingSessions.get("tfsInCourse1");
+		tfs1.setGracePeriod(tfs1.getGracePeriod()+1);
+		tfs1.setInstructions(tfs1.getInstructions()+"x");
+		tfs1.setProfileTemplate(tfs1.getProfileTemplate()+"y");
+		tfs1.setStart(getDateOffsetToCurrentTime(1));
+		tfs1.setDeadline(getDateOffsetToCurrentTime(2));
+		apiServlet.getTfs(tfs1);
+		verifyPresentInDatastore(tfs1);
+		
+		//TODO: more testing
+	}
+	
+	@Test
+	public void testEditTeamProfile() throws Exception{
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+		
+		TeamProfile teamProfile1 = dataBundle.teamProfiles.get("profileOfTeam1.1");
+		String originalTeamName = teamProfile1.getTeamName();
+		teamProfile1.setTeamName(teamProfile1.getTeamName()+"new");
+		teamProfile1.setTeamProfile(new Text(teamProfile1.getTeamProfile().getValue()+"x"));
+		apiServlet.editTeamProfile(originalTeamName,teamProfile1);
+		verifyPresentInDatastore(teamProfile1);
+		
+	}
+	// ------------------------------------------------------------------------
 
 	private void alterSubmission(Submission submission) {
 		submission.setPoints(submission.getPoints()+10);
 		submission.setCommentsToStudent(new Text(submission.getCommentsToStudent().getValue()+"x"));
 		submission.setJustification(new Text(submission.getJustification().getValue()+"y"));
 	}
-	
-	// ------------------------------------------------------------------------
 	
 	private Date getDateOffsetToCurrentTime(int offsetDays) {
 		Calendar cal = Calendar.getInstance();

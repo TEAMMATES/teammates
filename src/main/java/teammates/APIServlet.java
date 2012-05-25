@@ -980,6 +980,9 @@ public class APIServlet extends HttpServlet {
 				student.getComments());
 	}
 
+	public List<Student> getStudentListForCourse(String courseId) {
+		return Courses.inst().getStudentList(courseId);
+	}
 	// ------------------------Evaluations-----------------------------------
 
 	public void createEvalution(Evaluation evaluation)
@@ -1002,6 +1005,18 @@ public class APIServlet extends HttpServlet {
 				evaluation.getDeadline(), evaluation.getGracePeriod());
 	}
 	
+	public ArrayList<EvaluationDetailsForCoordinator> getEvaluationsListForCoord(
+			String coordId) {
+
+		List<Course> courseList = Courses.inst().getCoordinatorCourseList(coordId);
+		ArrayList<EvaluationDetailsForCoordinator> evaluationDetailsList = new ArrayList<EvaluationDetailsForCoordinator>();
+		
+		for(Course c: courseList){
+			evaluationDetailsList.addAll(Evaluations.inst().getEvaluationsSummaryForCourse(c.getID()));
+		}
+		return evaluationDetailsList;
+	}
+	
 	public void publishEvaluation(String courseId, String evaluationName) throws EntityDoesNotExistException{
 		Courses courses = Courses.inst();
 		List<Student> studentList = courses.getStudentList(courseId);
@@ -1015,7 +1030,6 @@ public class APIServlet extends HttpServlet {
 		return Evaluations.inst().getSubmission(courseId, evaluationName,
 				reviewerEmail, revieweeEmail);
 	}
-	
 
 	public void editSubmission(List<Submission> submissions) {
 		Evaluations.inst().editSubmissions(submissions);
@@ -1023,9 +1037,25 @@ public class APIServlet extends HttpServlet {
 
 	// ------------------------teamForming----------------------------------
 
-	public TeamProfile getTeamProfile(String courseId, String teamName) {
-		return TeamForming.inst().getTeamProfile(courseId, teamName);
+	public void createTfs(TeamFormingSession tfs)
+			throws EntityAlreadyExistsException, InvalidParametersException {
+		TeamForming.inst().createTeamFormingSession(tfs);
 	}
+
+	public void deleteTfs(String courseId) {
+		TeamForming.inst().deleteTeamFormingSession(courseId);
+	}
+
+	public TeamFormingSession getTfs(String courseId) {
+		return TeamForming.inst().getTeamFormingSession(courseId);
+	}
+
+	public void getTfs(TeamFormingSession tfs) {
+		TeamForming.inst().editTeamFormingSession(tfs.getCourseID(),
+				tfs.getStart(), tfs.getDeadline(), tfs.getGracePeriod(),
+				tfs.getInstructions(), tfs.getProfileTemplate());
+	}
+
 
 	public List<TeamFormingLog> getTeamFormingLog(String courseId) {
 		return TeamForming.inst().getTeamFormingLogList(courseId);
@@ -1040,42 +1070,28 @@ public class APIServlet extends HttpServlet {
 		TeamForming.inst().deleteTeamFormingLog(courseId);
 	}
 
-	public void createTfs(TeamFormingSession tfs)
-			throws EntityAlreadyExistsException, InvalidParametersException {
-		TeamForming.inst().createTeamFormingSession(tfs);
-	}
-
-	public void deleteTfs(String courseId) {
-		TeamForming.inst().deleteTeamFormingSession(courseId);
-	}
-
+	
+	
 	public void createTeamProfile(TeamProfile teamProfile)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 		TeamForming.inst().createTeamProfile(teamProfile);
 	}
-
+	
+	public TeamProfile getTeamProfile(String courseId, String teamName) {
+		return TeamForming.inst().getTeamProfile(courseId, teamName);
+	}
+	
 	public void deleteTeamProfile(String courseId, String teamName) {
 		TeamForming.inst().deleteTeamProfile(courseId, teamName);
 	}
 
-	public TeamFormingSession getTfs(String courseId) {
-		return TeamForming.inst().getTeamFormingSession(courseId);
+	public void editTeamProfile(String originalTeamName, TeamProfile modifieldTeamProfile) {
+		TeamForming.inst().editTeamProfile(modifieldTeamProfile.getCourseID(),
+				modifieldTeamProfile.getCourseName(),
+				originalTeamName,
+				modifieldTeamProfile.getTeamName(),
+				modifieldTeamProfile.getTeamProfile());
 	}
 
-	public ArrayList<EvaluationDetailsForCoordinator> getEvaluationsListForCoord(
-			String coordId) {
-
-		List<Course> courseList = Courses.inst().getCoordinatorCourseList(coordId);
-		ArrayList<EvaluationDetailsForCoordinator> evaluationDetailsList = new ArrayList<EvaluationDetailsForCoordinator>();
-		
-		for(Course c: courseList){
-			evaluationDetailsList.addAll(Evaluations.inst().getEvaluationsSummaryForCourse(c.getID()));
-		}
-		return evaluationDetailsList;
-	}
-
-	public List<Student> getStudentListForCourse(String courseId) {
-		return Courses.inst().getStudentList(courseId);
-	}
 
 }
