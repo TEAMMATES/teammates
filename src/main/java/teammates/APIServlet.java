@@ -978,6 +978,14 @@ public class APIServlet extends HttpServlet {
 	public List<Student> getStudentListForCourse(String courseId) {
 		return Courses.inst().getStudentList(courseId);
 	}
+	
+	public void sendRegistrationInviteForCourse(String courseId) {
+		List<Student> studentList = Courses.inst().getUnregisteredStudentList(courseId);
+
+		for(Student s: studentList){
+			sendRegistrationInviteToStudent(courseId, s.getEmail());
+		}
+	}
 
 	// ----------------------Students------------------------------------------
 	public void createStudent(Student student)
@@ -1002,6 +1010,19 @@ public class APIServlet extends HttpServlet {
 		Courses.inst().editStudent(student.getCourseID(), originalEmail,
 				student.getName(), student.getEmail(), student.getID(),
 				student.getComments());
+	}
+	
+	public void sendRegistrationInviteToStudent(String courseId, String studentEmail) {
+		
+		Course course = Courses.inst().getCourse(courseId);
+		Student student = Courses.inst().getStudentWithEmail(courseId, studentEmail);
+		Coordinator coord = Accounts.inst().getCoordinator(course.getCoordinatorID());
+		List<Student> studentList = new ArrayList<Student>();
+		studentList.add(student);
+
+		//TODO: this need not be a batch processing method
+		Courses.inst().sendRegistrationKeys(studentList, courseId, course.getName(), coord.getName(), coord.getEmail());
+		
 	}
 
 	// ------------------------Evaluations-----------------------------------
@@ -1109,6 +1130,9 @@ public class APIServlet extends HttpServlet {
 			String newTeamName) {
 		TeamForming.inst().editStudentsTeam(courseId, originalTeamName, newTeamName);
 	}
+
+
+
 
 
 }

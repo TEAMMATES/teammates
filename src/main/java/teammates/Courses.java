@@ -751,9 +751,10 @@ public class Courses {
 				taskOptionsList = new ArrayList<TaskOptions>();
 			}
 
-			taskOptionsList.add(TaskOptions.Builder.withUrl("/email").param("operation", "sendregistrationkey").param("email", s.getEmail())
+			TaskOptions emailTask = TaskOptions.Builder.withUrl("/email").param("operation", "sendregistrationkey").param("email", s.getEmail())
 					.param("regkey", KeyFactory.createKeyString(Student.class.getSimpleName(), s.getRegistrationKey())).param("courseid", courseID).param("coursename", courseName)
-					.param("name", s.getName()).param("coordinatorname", coordinatorName).param("coordinatoremail", coordinatorEmail));
+					.param("name", s.getName()).param("coordinatorname", coordinatorName).param("coordinatoremail", coordinatorEmail);
+			taskOptionsList.add(emailTask);
 		}
 
 		if (!taskOptionsList.isEmpty()) {

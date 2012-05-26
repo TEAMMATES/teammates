@@ -130,7 +130,7 @@ public class Student {
 	}
 
 	public void setComments(String comments) {
-		this.comments = comments.trim();
+		this.comments = (comments==null? "" : comments.trim());
 	}
 
 	public String getComments() {
