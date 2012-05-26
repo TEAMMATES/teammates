@@ -37,7 +37,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		if(testNewJSP) bi.goToUrl(localhostAddress+Common.JSP_COORD_HOME);
 	}
 	
-	//@Test
+	@Test
 	public void testCoordAddUiFunctionality(){
 		printTestCaseHeader("testCoordAddCourseSuccessful");
 		

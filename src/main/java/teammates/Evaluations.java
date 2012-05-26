@@ -1096,6 +1096,7 @@ public class Evaluations {
 		Evaluation evaluation = getEvaluation(courseID, name);
 
 		evaluation.setPublished(false);
+		getPM().close();
 
 		return true;
 	}

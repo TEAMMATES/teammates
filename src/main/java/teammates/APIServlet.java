@@ -1025,6 +1025,10 @@ public class APIServlet extends HttpServlet {
 		Evaluations.inst().publishEvaluation(courseId, evaluationName, studentList);
 	}
 	
+	public void unpublishEvaluation(String courseId, String evaluationName) {
+		Evaluations.inst().unpublishEvaluation(courseId, evaluationName);
+	}
+	
 	public Submission getSubmission(String courseId, String evaluationName,
 			String reviewerEmail, String revieweeEmail) {
 		return Evaluations.inst().getSubmission(courseId, evaluationName,
@@ -1092,6 +1096,5 @@ public class APIServlet extends HttpServlet {
 				modifieldTeamProfile.getTeamName(),
 				modifieldTeamProfile.getTeamProfile());
 	}
-
 
 }

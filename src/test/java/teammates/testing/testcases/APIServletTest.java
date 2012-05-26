@@ -239,10 +239,8 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testPublishEvaluation() throws Exception {
+	public void testPublishAndUnpublishEvaluation() throws Exception {
 
-		// TODO: untested. need to figure out how to work task ques in unit
-		// testing mode
 
 		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
@@ -255,15 +253,11 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(true,
 				apiServlet.getEvaluation(eval1.getCourseID(), eval1.getName())
 						.isPublished());
-
+		apiServlet.unpublishEvaluation(eval1.getCourseID(), eval1.getName());
+		assertEquals(false, apiServlet.getEvaluation(eval1.getCourseID(), eval1.getName()).isPublished());
+		//TODO: more testing
 	}
 
-	@Test
-	public void testUnpublishEvaluation() throws Exception {
-		printTestCaseHeader(getNameOfThisMethod());
-		refreshDataInDatastore();
-		// TODO: to be implemented
-	}
 
 	@Test
 	public void testEditSubmission() throws Exception {
