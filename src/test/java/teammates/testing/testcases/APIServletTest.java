@@ -366,17 +366,66 @@ public class APIServletTest extends BaseTestCase {
 	public void testTfsListForCoord() throws Exception {
 		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
-		// TODO: to be implemented
+
+		verifyTfsListForCoord(dataBundle.coords.get("typicalCoord1").getGoogleID(), 1);
+		verifyTfsListForCoord(dataBundle.coords.get("typicalCoord2").getGoogleID(), 2);
+		verifyTfsListForCoord("idOfNonExistentCoord", 0);
+		//TODO: more testing
 	}
 
 	@Test
 	public void testRenameTeam() throws Exception {
 		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
-		// TODO: to be implemented
+		Student student1InCourse1 = dataBundle.students.get("student1InCourse1");
+		String originalTeamName = student1InCourse1.getTeamName();
+		String newTeamName = originalTeamName+"x";
+		String courseID = student1InCourse1.getCourseID();
+		verifyTeamNameChange(courseID, originalTeamName, newTeamName);
+		
+		refreshDataInDatastore();
+		 originalTeamName = student1InCourse1.getTeamName();
+		 courseID = student1InCourse1.getCourseID();
+		verifyTeamNameChange(courseID, "nonExisentTeam", "newTeamName");
+		
+		//TODO: more testing
+		
 	}
 
+
+
 	// ------------------------------------------------------------------------
+	
+	private void verifyTeamNameChange(String courseID, String originalTeamName,
+			String newTeamName) {
+		List<Student> studentsInClass = apiServlet.getStudentListForCourse(courseID);
+		List<Student> studentsInTeam = new ArrayList<Student>();
+		List<Student> studentsNotInTeam = new ArrayList<Student>();
+		for(Student s: studentsInClass){
+			if(s.getTeamName().equals(originalTeamName)){
+				studentsInTeam.add(s);
+			}else{
+				studentsNotInTeam.add(s);
+			}
+		}
+		apiServlet.renameTeam(courseID,originalTeamName,newTeamName);
+		for(Student s: studentsInTeam){
+			assertEquals(newTeamName, apiServlet.getStudent(s.getCourseID(), s.getEmail()).getTeamName());
+		}
+		for(Student s: studentsNotInTeam){
+			String teamName = apiServlet.getStudent(s.getCourseID(), s.getEmail()).getTeamName();
+			assertTrue("unexpected team name: "+teamName, !teamName.equals(newTeamName));
+		}
+		//TODO: check for changes in team profile 
+	}
+
+	private void verifyTfsListForCoord(String coordId, int noOfTfs) {
+		List<TeamFormingSession> tfsList = apiServlet.getTfsListForCoord(coordId);
+		assertEquals(noOfTfs,tfsList.size());
+		for(TeamFormingSession tfs: tfsList){
+			assertEquals(coordId,apiServlet.getCourse(tfs.getCourseID()).getCoordinatorID());
+		}
+	}
 
 	private void alterSubmission(Submission submission) {
 		submission.setPoints(submission.getPoints() + 10);

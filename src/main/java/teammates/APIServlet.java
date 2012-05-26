@@ -948,6 +948,14 @@ public class APIServlet extends HttpServlet {
 		}
 		return evaluationDetailsList;
 	}
+	
+
+	public List<TeamFormingSession> getTfsListForCoord(String coordId) {
+		List<Course> courseList = Courses.inst().getCoordinatorCourseList(coordId);
+		List<TeamFormingSession> teamFormingSessionList = TeamForming.inst()
+				.getTeamFormingSessionList(courseList);	
+		return teamFormingSessionList;
+	}
 
 	// -----------------------Courses------------------------------------------
 
@@ -1096,5 +1104,11 @@ public class APIServlet extends HttpServlet {
 				modifieldTeamProfile.getTeamName(),
 				modifieldTeamProfile.getTeamProfile());
 	}
+	
+	public void renameTeam(String courseId, String originalTeamName,
+			String newTeamName) {
+		TeamForming.inst().editStudentsTeam(courseId, originalTeamName, newTeamName);
+	}
+
 
 }
