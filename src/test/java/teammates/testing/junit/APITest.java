@@ -23,6 +23,7 @@ import org.xml.sax.SAXException;
 import teammates.Courses;
 import teammates.Evaluations;
 import teammates.exception.InvalidParametersException;
+import teammates.exception.TeammatesException;
 import teammates.jdo.Course;
 import teammates.jdo.EnrollmentReport;
 import teammates.jdo.Evaluation;
@@ -63,7 +64,7 @@ public class APITest {
 	 * @param googleID
 	 * @throws InvalidParametersException 
 	 */
-	public void createCourse(String courseID, String courseName, String googleID) throws InvalidParametersException {
+	public void createCourse(String courseID, String courseName, String googleID) throws TeammatesException {
 		Course c = new Course(courseID, courseName, googleID);
 		pm.makePersistent(c);
 	}
@@ -201,7 +202,7 @@ public class APITest {
 		
 	}
 	
-	public void prepareSubmissionData(Scenario scn) throws InvalidParametersException {
+	public void prepareSubmissionData(Scenario scn) throws TeammatesException {
 		//prepare raw data
 		Evaluation eval = new Evaluation(scn.evaluation.courseID, scn.evaluation.name, scn.evaluation.instructions, true, scn.evaluation.startTime, scn.evaluation.endTime, scn.evaluation.timezone, scn.evaluation.gracePeriod);
 		List<Student> students = new ArrayList<Student>();

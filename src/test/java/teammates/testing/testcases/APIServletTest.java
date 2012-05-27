@@ -15,7 +15,6 @@ import java.util.TimeZone;
 import javax.servlet.ServletException;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -38,11 +37,13 @@ import teammates.jdo.TeamProfile;
 import teammates.testing.lib.SharedLib;
 
 import com.google.appengine.api.datastore.Text;
-import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.dev.LocalTaskQueue;
 import com.google.appengine.api.taskqueue.dev.QueueStateInfo;
 import com.google.appengine.api.taskqueue.dev.QueueStateInfo.TaskStateInfo;
-import com.google.appengine.tools.development.testing.*;
+import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
 import com.google.gson.Gson;
 
 public class APIServletTest extends BaseTestCase {
@@ -61,21 +62,24 @@ public class APIServletTest extends BaseTestCase {
 			+ "queue.xml";
 
 	@BeforeClass
-	public static void setUpDatastore(){
+	public static void setUpDatastore() {
 		Datastore.initialize();
 	}
+
 	@Before
 	public void setUp() throws ServletException, IOException {
 		printTestClassHeader(getNameOfThisClass());
 		/*
-		 * We have to explicitly set the path of queue.xml because the test 
+		 * We have to explicitly set the path of queue.xml because the test
 		 * environment cannot find it. Apparently, this is a bug in the test
-		 * environment (as mentioned in http://turbomanage.wordpress.com/2010/03/03/a-recipe-for-unit-testing-appengine-task-queues/
-		 * The bug might get fixed in future SDKs.
+		 * environment (as mentioned in
+		 * http://turbomanage.wordpress.com/2010/03/
+		 * 03/a-recipe-for-unit-testing-appengine-task-queues/ The bug might get
+		 * fixed in future SDKs.
 		 */
 		LocalTaskQueueTestConfig ltqtc = new LocalTaskQueueTestConfig();
 		ltqtc.setQueueXmlPath(queueXmlFilePath);
-		
+
 		helper = new LocalServiceTestHelper(
 				new LocalDatastoreServiceTestConfig(),
 				new LocalMailServiceTestConfig(), ltqtc);
@@ -97,7 +101,6 @@ public class APIServletTest extends BaseTestCase {
 		helper.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
 		helper.setUp();
 		apiServlet.init();
-		
 
 	}
 
@@ -251,7 +254,6 @@ public class APIServletTest extends BaseTestCase {
 	@Test
 	public void testPublishAndUnpublishEvaluation() throws Exception {
 
-
 		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
 		Evaluation eval1 = dataBundle.evaluations
@@ -264,10 +266,11 @@ public class APIServletTest extends BaseTestCase {
 				apiServlet.getEvaluation(eval1.getCourseID(), eval1.getName())
 						.isPublished());
 		apiServlet.unpublishEvaluation(eval1.getCourseID(), eval1.getName());
-		assertEquals(false, apiServlet.getEvaluation(eval1.getCourseID(), eval1.getName()).isPublished());
-		//TODO: more testing
+		assertEquals(false,
+				apiServlet.getEvaluation(eval1.getCourseID(), eval1.getName())
+						.isPublished());
+		// TODO: more testing
 	}
-
 
 	@Test
 	public void testEditSubmission() throws Exception {
@@ -349,25 +352,27 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
 		Course course1 = dataBundle.courses.get("course1OfCoord1");
-		
-		//send registration key to a class in which all are registered
+
+		// send registration key to a class in which all are registered
 		apiServlet.sendRegistrationInviteForCourse(course1.getID());
 		assertEquals(0, getNumberOfEmailTasksInQueue());
-		
-		//modify two students to make them 'unregistered' and send again
-		Student student1InCourse1 = dataBundle.students.get("student1InCourse1");
+
+		// modify two students to make them 'unregistered' and send again
+		Student student1InCourse1 = dataBundle.students
+				.get("student1InCourse1");
 		student1InCourse1.setID("");
 		apiServlet.editStudent(student1InCourse1.getEmail(), student1InCourse1);
-		Student student2InCourse1 = dataBundle.students.get("student2InCourse1");
+		Student student2InCourse1 = dataBundle.students
+				.get("student2InCourse1");
 		student2InCourse1.setID("");
 		apiServlet.editStudent(student2InCourse1.getEmail(), student2InCourse1);
 		apiServlet.sendRegistrationInviteForCourse(course1.getID());
 		assertEquals(2, getNumberOfEmailTasksInQueue());
 		verifyRegistrationEmailToStudent(student1InCourse1);
 		verifyRegistrationEmailToStudent(student2InCourse1);
-		
-		//TODO: more testing
-		
+
+		// TODO: more testing
+
 	}
 
 	@Test
@@ -375,21 +380,22 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
 		Student student1 = dataBundle.students.get("student1InCourse1");
-		apiServlet.sendRegistrationInviteToStudent(student1.getCourseID(), student1.getEmail());
-        
+		apiServlet.sendRegistrationInviteToStudent(student1.getCourseID(),
+				student1.getEmail());
+
 		assertEquals(1, getNumberOfEmailTasksInQueue());
 		verifyRegistrationEmailToStudent(student1);
-        //TODO: more testing
+		// TODO: more testing
 	}
-
 
 	@Test
 	public void testEnrolStudents() throws Exception {
 		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
-		
+
 		// TODO: to be implemented
 	}
+
 
 	@Test
 	public void testGetEvaluationResult() throws Exception {
@@ -403,84 +409,93 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
 
-		verifyTfsListForCoord(dataBundle.coords.get("typicalCoord1").getGoogleID(), 1);
-		verifyTfsListForCoord(dataBundle.coords.get("typicalCoord2").getGoogleID(), 2);
+		verifyTfsListForCoord(dataBundle.coords.get("typicalCoord1")
+				.getGoogleID(), 1);
+		verifyTfsListForCoord(dataBundle.coords.get("typicalCoord2")
+				.getGoogleID(), 2);
 		verifyTfsListForCoord("idOfNonExistentCoord", 0);
-		//TODO: more testing
+		// TODO: more testing
 	}
 
 	@Test
 	public void testRenameTeam() throws Exception {
 		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
-		Student student1InCourse1 = dataBundle.students.get("student1InCourse1");
+		Student student1InCourse1 = dataBundle.students
+				.get("student1InCourse1");
 		String originalTeamName = student1InCourse1.getTeamName();
-		String newTeamName = originalTeamName+"x";
+		String newTeamName = originalTeamName + "x";
 		String courseID = student1InCourse1.getCourseID();
 		verifyTeamNameChange(courseID, originalTeamName, newTeamName);
-		
+
 		refreshDataInDatastore();
-		 originalTeamName = student1InCourse1.getTeamName();
-		 courseID = student1InCourse1.getCourseID();
+		originalTeamName = student1InCourse1.getTeamName();
+		courseID = student1InCourse1.getCourseID();
 		verifyTeamNameChange(courseID, "nonExisentTeam", "newTeamName");
-		
-		//TODO: more testing
-		
+
+		// TODO: more testing
+
 	}
-
-
 
 	// ------------------------------------------------------------------------
 	private void verifyRegistrationEmailToStudent(Student student) {
 		LocalTaskQueue ltq = LocalTaskQueueTestConfig.getLocalTaskQueue();
-        QueueStateInfo qsi = ltq.getQueueStateInfo().get("email-queue");
-        
-        List<TaskStateInfo> taskInfoList = qsi.getTaskInfo();
-        for(TaskStateInfo tsi : taskInfoList){
-        	String emailTaskBody = tsi.getBody();
-        	if(emailTaskBody.contains("email="+student.getEmail().replace("@", "%40")) &&
-        			emailTaskBody.contains("courseid="+student.getCourseID())){
-        		return;
-        	}
-        }
+		QueueStateInfo qsi = ltq.getQueueStateInfo().get("email-queue");
+
+		List<TaskStateInfo> taskInfoList = qsi.getTaskInfo();
+		for (TaskStateInfo tsi : taskInfoList) {
+			String emailTaskBody = tsi.getBody();
+			if (emailTaskBody.contains("email="
+					+ student.getEmail().replace("@", "%40"))
+					&& emailTaskBody.contains("courseid="
+							+ student.getCourseID())) {
+				return;
+			}
+		}
 		Assert.fail();
 	}
-	
+
 	private int getNumberOfEmailTasksInQueue() {
 		LocalTaskQueue ltq = LocalTaskQueueTestConfig.getLocalTaskQueue();
-        QueueStateInfo qsi = ltq.getQueueStateInfo().get("email-queue");
-        return qsi.getTaskInfo().size();
+		QueueStateInfo qsi = ltq.getQueueStateInfo().get("email-queue");
+		return qsi.getTaskInfo().size();
 	}
-	
-	
+
 	private void verifyTeamNameChange(String courseID, String originalTeamName,
 			String newTeamName) {
-		List<Student> studentsInClass = apiServlet.getStudentListForCourse(courseID);
+		List<Student> studentsInClass = apiServlet
+				.getStudentListForCourse(courseID);
 		List<Student> studentsInTeam = new ArrayList<Student>();
 		List<Student> studentsNotInTeam = new ArrayList<Student>();
-		for(Student s: studentsInClass){
-			if(s.getTeamName().equals(originalTeamName)){
+		for (Student s : studentsInClass) {
+			if (s.getTeamName().equals(originalTeamName)) {
 				studentsInTeam.add(s);
-			}else{
+			} else {
 				studentsNotInTeam.add(s);
 			}
 		}
-		apiServlet.renameTeam(courseID,originalTeamName,newTeamName);
-		for(Student s: studentsInTeam){
-			assertEquals(newTeamName, apiServlet.getStudent(s.getCourseID(), s.getEmail()).getTeamName());
+		apiServlet.renameTeam(courseID, originalTeamName, newTeamName);
+		for (Student s : studentsInTeam) {
+			assertEquals(newTeamName,
+					apiServlet.getStudent(s.getCourseID(), s.getEmail())
+							.getTeamName());
 		}
-		for(Student s: studentsNotInTeam){
-			String teamName = apiServlet.getStudent(s.getCourseID(), s.getEmail()).getTeamName();
-			assertTrue("unexpected team name: "+teamName, !teamName.equals(newTeamName));
+		for (Student s : studentsNotInTeam) {
+			String teamName = apiServlet.getStudent(s.getCourseID(),
+					s.getEmail()).getTeamName();
+			assertTrue("unexpected team name: " + teamName,
+					!teamName.equals(newTeamName));
 		}
-		//TODO: check for changes in team profile 
+		// TODO: check for changes in team profile
 	}
 
 	private void verifyTfsListForCoord(String coordId, int noOfTfs) {
-		List<TeamFormingSession> tfsList = apiServlet.getTfsListForCoord(coordId);
-		assertEquals(noOfTfs,tfsList.size());
-		for(TeamFormingSession tfs: tfsList){
-			assertEquals(coordId,apiServlet.getCourse(tfs.getCourseID()).getCoordinatorID());
+		List<TeamFormingSession> tfsList = apiServlet
+				.getTfsListForCoord(coordId);
+		assertEquals(noOfTfs, tfsList.size());
+		for (TeamFormingSession tfs : tfsList) {
+			assertEquals(coordId, apiServlet.getCourse(tfs.getCourseID())
+					.getCoordinatorID());
 		}
 	}
 

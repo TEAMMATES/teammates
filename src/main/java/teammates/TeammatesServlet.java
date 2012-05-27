@@ -21,9 +21,9 @@ import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.EvaluationExistsException;
 import teammates.exception.GoogleIDExistsInCourseException;
-import teammates.exception.InvalidParametersException;
 import teammates.exception.RegistrationKeyInvalidException;
 import teammates.exception.RegistrationKeyTakenException;
+import teammates.exception.TeammatesException;
 import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
 import teammates.jdo.CourseDetailsForStudent;
@@ -503,7 +503,7 @@ public class TeammatesServlet extends HttpServlet {
 		catch (EntityAlreadyExistsException e) {
 			return MSG_STATUS_OPENING + MSG_COURSE_EXISTS + MSG_STATUS_CLOSING;
 		}
-		catch (InvalidParametersException e) {
+		catch (TeammatesException e) {
 			return MSG_STATUS_OPENING + MSG_COURSE_INPUT_INVALID + MSG_STATUS_CLOSING;
 		}
 	}

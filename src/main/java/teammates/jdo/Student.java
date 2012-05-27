@@ -5,6 +5,10 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import teammates.Common;
+import teammates.exception.InvalidParametersException;
+import teammates.exception.TeammatesException;
+
 import com.google.gson.annotations.SerializedName;
 import com.google.appengine.api.datastore.Text;
 
@@ -104,6 +108,49 @@ public class Student {
 	public Student() {
 
 	}
+	
+	public Student(String line, String courseId) throws InvalidParametersException{
+		
+		int TEAM_POS=0;
+		int NAME_POS=1;
+		int EMAIL_POS=2;
+		int COMMENT_POS=3;
+		
+		if ((line==null)||(courseId==null)) {
+			throw new InvalidParametersException(Common.ERRORCODE_NULL_PARAMETER, "Enrollment line cannot be null");
+		}
+		if ((line.equals(""))||(courseId.equals(""))) {
+			throw new InvalidParametersException(Common.ERRORCODE_EMPTY_STRING, "Enrollment line cannot be null");
+		}
+		
+		String[] parts = line.replace("|","\t").split("\t");
+		
+		if((parts.length<3)||(parts.length>4)) {
+			throw new InvalidParametersException(Common.ERRORCODE_INCORRECTLY_FORMATTED_STRING, "Enrollment line cannot be null");
+		}
+		
+		String paramCourseId = courseId.trim();
+		Common.validateCourseId(paramCourseId);
+		
+		String paramTeam = parts[TEAM_POS].trim();
+		Common.validateTeamName(paramTeam);
+		
+		String paramName = parts[NAME_POS].trim();
+		Common.validateStudentName(paramName);
+		
+		String paramEmail = parts[EMAIL_POS].trim();
+		Common.validateEmail(paramEmail);
+		
+		String paramComment = parts.length==4 ?parts[COMMENT_POS].trim():"";
+		Common.validateComment(paramComment);
+		
+		setTeamName(paramTeam);
+		setName(paramName);
+		setEmail(paramEmail);
+		setCourseID(paramCourseId);
+		setComments(paramComment);
+		
+	}
 
 	public void setEmail(String email) {
 		this.email = email.trim();
@@ -114,7 +161,7 @@ public class Student {
 	}
 
 	public void setID(String ID) {
-		this.ID = ID.trim();
+		this.ID = (ID==null? "" : ID.trim());
 	}
 
 	public String getID() {

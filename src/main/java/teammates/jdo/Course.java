@@ -8,6 +8,7 @@ import teammates.Common;
 import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.CourseInputInvalidException;
 import teammates.exception.InvalidParametersException;
+import teammates.exception.TeammatesException;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -44,7 +45,7 @@ public class Course {
 	 * @param coordinatorID
 	 * @throws InvalidParametersException 
 	 */
-	public Course(String ID, String name, String coordinatorID) throws InvalidParametersException {
+	public Course(String ID, String name, String coordinatorID) throws TeammatesException {
 
 		if (name.isEmpty()) {
 			throw new InvalidParametersException("Course name cannot be empty");

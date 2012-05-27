@@ -22,7 +22,7 @@ import teammates.Courses;
 import teammates.TeammatesServlet;
 import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.CourseInputInvalidException;
-import teammates.exception.InvalidParametersException;
+import teammates.exception.TeammatesException;
 
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
@@ -53,7 +53,7 @@ public class TeammatesServletTest {
 	}
 
 	@Test
-	public void testCoordAddCourse() throws IOException, ServletException, EntityAlreadyExistsException, CourseInputInvalidException, InvalidParametersException {
+	public void testCoordAddCourse() throws IOException, ServletException, EntityAlreadyExistsException, CourseInputInvalidException, TeammatesException {
 
 		new NonStrictExpectations() {
 			@Mocked
@@ -76,7 +76,7 @@ public class TeammatesServletTest {
 	}
 
 	@Test
-	public void testCoordAddExistingCourse() throws IOException, ServletException, EntityAlreadyExistsException, InvalidParametersException {
+	public void testCoordAddExistingCourse() throws IOException, ServletException, EntityAlreadyExistsException, TeammatesException {
 
 		new NonStrictExpectations() {
 			@Mocked

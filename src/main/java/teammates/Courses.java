@@ -17,6 +17,7 @@ import teammates.exception.GoogleIDExistsInCourseException;
 import teammates.exception.InvalidParametersException;
 import teammates.exception.RegistrationKeyInvalidException;
 import teammates.exception.RegistrationKeyTakenException;
+import teammates.exception.TeammatesException;
 import teammates.jdo.Course;
 import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.EnrollmentReport;
@@ -81,7 +82,7 @@ public class Courses {
 	 * @throws EntityAlreadyExistsException
 	 *             if a course with the specified ID already exists
 	 */
-	public void addCourse(String courseId, String courseName, String coordId) throws InvalidParametersException, EntityAlreadyExistsException {
+	public void addCourse(String courseId, String courseName, String coordId) throws TeammatesException, EntityAlreadyExistsException {
 		
 		Course course = new Course(courseId, courseName, coordId);
 

@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import teammates.exception.InvalidParametersException;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -85,6 +87,9 @@ public class Common {
 	//data field sizes
 	public static int COURSE_NAME_MAX_LENGTH = 38;
 	public static int COURSE_ID_MAX_LENGTH = 21;
+	public static final int STUDENT_NAME_MAX_LENGTH = 40;
+	public static final int TEAM_NAME_MAX_LENGTH = 25;
+	public static final int COMMENT_MAX_LENGTH = 500;
 	
 	//TeammatesServlet responses
 	public static final String COORD_ADD_COURSE_RESPONSE_ADDED = "<status>course added</status>";
@@ -96,6 +101,14 @@ public class Common {
 	//APIServlet responses
 	public static final String BACKEND_STATUS_SUCCESS = "[BACKEND_STATUS_SUCCESS]";
 	public static String BACKEND_STATUS_FAILURE = "[BACKEND_STATUS_FAILURE]";
+	
+	//General Error codes
+	public static final String ERRORCODE_NULL_PARAMETER = "ERRORCODE_NULL_PARAMETER";
+	public static final String ERRORCODE_EMPTY_STRING = "ERRORCODE_EMPTY_STRING";
+	public static final String ERRORCODE_INCORRECTLY_FORMATTED_STRING = "ERRORCODE_INCORRECTLY_FORMATTED_STRING";
+	public static final String ERRORCODE_STRING_TOO_LONG = "ERRORCODE_STRING_TOO_LONG";
+	public static final String ERRORCODE_INVALID_EMAIL = "ERRORCODE_INVALID_EMAIL";
+
 	
 	/**
 	 * This creates a Gson object that can handle the Date format we use in the Json file
@@ -158,5 +171,64 @@ public class Common {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	//TODO: write unit tests
+	public static void validateTeamName(String teamName) throws InvalidParametersException {
+		if(teamName.length()>TEAM_NAME_MAX_LENGTH){
+			throw new InvalidParametersException(ERRORCODE_STRING_TOO_LONG, "Team name cannot be longer than "+TEAM_NAME_MAX_LENGTH);
+		}
+	}
+
+	//TODO: write unit tests
+	public static void validateStudentName(String studentName) throws InvalidParametersException {
+		if(!studentName.trim().equals(studentName)) {
+			throw new InvalidParametersException(ERRORCODE_INCORRECTLY_FORMATTED_STRING, "Student name should not have leading or trailing spaces");
+		}
+		if(studentName.equals("")){
+			throw new InvalidParametersException(ERRORCODE_EMPTY_STRING, "Student name should not be empty");
+		}
+		if(studentName.length()>STUDENT_NAME_MAX_LENGTH){
+			throw new InvalidParametersException(ERRORCODE_STRING_TOO_LONG, "Student name cannot be longer than "+STUDENT_NAME_MAX_LENGTH);
+		}
+		
+	}
+
+	//TODO: write unit tests
+	public static void validateEmail(String email) throws InvalidParametersException {
+		if(!email.trim().equals(email)) {
+			throw new InvalidParametersException(ERRORCODE_INCORRECTLY_FORMATTED_STRING, "Email should not have leading or trailing spaces");
+		}
+		if(email.equals("")){
+			throw new InvalidParametersException(ERRORCODE_EMPTY_STRING, "Email should not be empty");
+		}
+		if(!email.contains("@")){
+			throw new InvalidParametersException(ERRORCODE_INVALID_EMAIL, "Email address should contain '@'");
+		}
+		
+	}
+
+	//TODO: write unit tests
+	public static String generateStringOfLength(int length) {
+		assert(length>=0);
+		StringBuilder sb = new StringBuilder();
+		for(int i=0; i<length; i++){
+			sb.append('a');
+		}
+		return sb.toString();
+	}
+
+	public static void validateCourseId(String courseId) throws InvalidParametersException {
+		if(courseId.contains(" ")){
+			throw new InvalidParametersException(ERRORCODE_INCORRECTLY_FORMATTED_STRING, "Course ID should not contain spaces");
+		}
+		
+	}
+
+	public static void validateComment(String comment) throws InvalidParametersException {
+		if(comment.length()>COMMENT_MAX_LENGTH){
+			throw new InvalidParametersException(ERRORCODE_STRING_TOO_LONG, "Comment cannot be longer than "+STUDENT_NAME_MAX_LENGTH);
+		}
+		
 	}
 }

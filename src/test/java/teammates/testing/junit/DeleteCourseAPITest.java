@@ -18,7 +18,7 @@ import teammates.Datastore;
 import teammates.Evaluations;
 import teammates.TeammatesServlet;
 import teammates.exception.EntityDoesNotExistException;
-import teammates.exception.InvalidParametersException;
+import teammates.exception.TeammatesException;
 import teammates.jdo.Course;
 import teammates.jdo.Evaluation;
 import teammates.jdo.Student;
@@ -51,7 +51,7 @@ public class DeleteCourseAPITest {
 	}
 	
 	@Test
-	public void testCoordDeleteCourseSuccessful() throws EntityDoesNotExistException, InvalidParametersException {
+	public void testCoordDeleteCourseSuccessful() throws EntityDoesNotExistException, TeammatesException {
 		setupTestData();
 		
 		testCoursesDeleteCourse();
@@ -94,7 +94,7 @@ public class DeleteCourseAPITest {
 	
 	//Test coordinatorDeleteCourse(courseID) function in TeammatesServlet.java
 	@Test
-	public void testTeammatesServletDeleteCourse() throws InvalidParametersException {
+	public void testTeammatesServletDeleteCourse() throws TeammatesException {
 		setupTestData();
 		String response;
 		
@@ -111,7 +111,7 @@ public class DeleteCourseAPITest {
 	
 
 	/*---------------------------------------------------HELPER FUNCTION---------------------------------------------------*/
-	private void setupTestData() throws InvalidParametersException {
+	private void setupTestData() throws TeammatesException {
 		//create course
 		Course a = new Course(COURSE_ID, "Testing Course", "teammates.coord");
 		pm.makePersistent(a);
