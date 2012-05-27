@@ -45,7 +45,7 @@ public class Course {
 	 * @param coordinatorID
 	 * @throws InvalidParametersException 
 	 */
-	public Course(String ID, String name, String coordinatorID) throws TeammatesException {
+	public Course(String ID, String name, String coordinatorID) throws InvalidParametersException {
 
 		if (name.isEmpty()) {
 			throw new InvalidParametersException("Course name cannot be empty");

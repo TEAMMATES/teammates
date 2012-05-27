@@ -82,7 +82,7 @@ public class Courses {
 	 * @throws EntityAlreadyExistsException
 	 *             if a course with the specified ID already exists
 	 */
-	public void addCourse(String courseId, String courseName, String coordId) throws TeammatesException, EntityAlreadyExistsException {
+	public void addCourse(String courseId, String courseName, String coordId) throws InvalidParametersException, EntityAlreadyExistsException {
 		
 		Course course = new Course(courseId, courseName, coordId);
 

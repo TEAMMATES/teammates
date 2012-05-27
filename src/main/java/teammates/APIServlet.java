@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.activity.InvalidActivityException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.servlet.RequestDispatcher;
@@ -19,6 +20,7 @@ import teammates.exception.CourseDoesNotExistException;
 import teammates.exception.CourseInputInvalidException;
 import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.EntityDoesNotExistException;
+import teammates.exception.InvalidParametersException;
 import teammates.exception.TeammatesException;
 import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
@@ -27,6 +29,7 @@ import teammates.jdo.EnrollmentReport;
 import teammates.jdo.Evaluation;
 import teammates.jdo.EvaluationDetailsForCoordinator;
 import teammates.jdo.Student;
+import teammates.jdo.StudentInfoForCoord;
 import teammates.jdo.Submission;
 import teammates.jdo.TeamFormingLog;
 import teammates.jdo.TeamFormingSession;
@@ -915,7 +918,7 @@ public class APIServlet extends HttpServlet {
 	// -----------------------Coordinators------------------------------------------
 
 	public void createCoord(String coordID, String coordName, String coordEmail)
-			throws EntityAlreadyExistsException, TeammatesException {
+			throws EntityAlreadyExistsException, InvalidParametersException {
 		Accounts.inst().addCoordinator(coordID, coordName, coordEmail);
 	}
 
@@ -961,7 +964,7 @@ public class APIServlet extends HttpServlet {
 
 	public void createCourse(String coordinatorId, String courseId,
 			String courseName) throws EntityAlreadyExistsException,
-			TeammatesException {
+			InvalidParametersException {
 		Courses.inst().addCourse(courseId, courseName, coordinatorId);
 	}
 
@@ -986,10 +989,35 @@ public class APIServlet extends HttpServlet {
 			sendRegistrationInviteToStudent(courseId, s.getEmail());
 		}
 	}
+	
+	public List<StudentInfoForCoord> enrollStudents(String enrollLines, String courseId) throws InvalidParametersException  {
+		Student student;
+		try {
+			student = new Student(enrollLines,courseId);
+		} catch (InvalidParametersException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw e;
+		}
+		if(isExistingStudent(courseId, student)){
+			editStudent(student.getEmail(), student);
+		}else {
+			try {
+				createStudent(student);
+			} catch (EntityAlreadyExistsException e) {
+				log.severe("Received EntityAlreadyExistsException even after ensuring the student does not exist :"+courseId+"/"+student.getEmail());
+			}
+		}
+		return null;
+	}
+
+	private boolean isExistingStudent(String courseId, Student student) {
+		return getStudent(courseId, student.getEmail())!=null;
+	}
 
 	// ----------------------Students------------------------------------------
 	public void createStudent(Student student)
-			throws EntityAlreadyExistsException, TeammatesException {
+			throws EntityAlreadyExistsException, InvalidParametersException {
 		Accounts.inst().createStudent(student);
 	}
 
@@ -1005,7 +1033,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	public void editStudent(String originalEmail, Student student)
-			throws TeammatesException {
+			throws InvalidParametersException {
 		// TODO: make the implementation more defensive
 		Courses.inst().editStudent(student.getCourseID(), originalEmail,
 				student.getName(), student.getEmail(), student.getID(),
@@ -1028,7 +1056,7 @@ public class APIServlet extends HttpServlet {
 	// ------------------------Evaluations-----------------------------------
 
 	public void createEvalution(Evaluation evaluation)
-			throws EntityAlreadyExistsException, TeammatesException {
+			throws EntityAlreadyExistsException, InvalidParametersException {
 		Evaluations.inst().addEvaluation(evaluation);
 	}
 
@@ -1040,7 +1068,7 @@ public class APIServlet extends HttpServlet {
 		Evaluations.inst().deleteEvaluation(courseId, evaluationName);
 	}
 	
-	public void editEvaluation(Evaluation evaluation) throws EntityDoesNotExistException, TeammatesException{
+	public void editEvaluation(Evaluation evaluation) throws EntityDoesNotExistException, InvalidParametersException{
 		Evaluations.inst().editEvaluation(evaluation.getCourseID(),
 				evaluation.getName(), evaluation.getInstructions(),
 				evaluation.isCommentsEnabled(), evaluation.getStart(),
@@ -1071,7 +1099,7 @@ public class APIServlet extends HttpServlet {
 	// ------------------------teamForming----------------------------------
 
 	public void createTfs(TeamFormingSession tfs)
-			throws EntityAlreadyExistsException, TeammatesException {
+			throws EntityAlreadyExistsException, InvalidParametersException {
 		TeamForming.inst().createTeamFormingSession(tfs);
 	}
 
@@ -1095,7 +1123,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	public void createTeamFormingLogEntry(TeamFormingLog teamFormingLog)
-			throws TeammatesException {
+			throws InvalidParametersException {
 		TeamForming.inst().createTeamFormingLogEntry(teamFormingLog);
 	}
 
@@ -1106,7 +1134,7 @@ public class APIServlet extends HttpServlet {
 	
 	
 	public void createTeamProfile(TeamProfile teamProfile)
-			throws EntityAlreadyExistsException, TeammatesException {
+			throws EntityAlreadyExistsException, InvalidParametersException {
 		TeamForming.inst().createTeamProfile(teamProfile);
 	}
 	
@@ -1130,9 +1158,5 @@ public class APIServlet extends HttpServlet {
 			String newTeamName) {
 		TeamForming.inst().editStudentsTeam(courseId, originalTeamName, newTeamName);
 	}
-
-
-
-
 
 }

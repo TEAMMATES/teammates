@@ -30,6 +30,7 @@ import teammates.jdo.Course;
 import teammates.jdo.Evaluation;
 import teammates.jdo.EvaluationDetailsForCoordinator;
 import teammates.jdo.Student;
+import teammates.jdo.StudentInfoForCoord;
 import teammates.jdo.Submission;
 import teammates.jdo.TeamFormingLog;
 import teammates.jdo.TeamFormingSession;
@@ -389,13 +390,37 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testEnrolStudents() throws Exception {
+	public void testEnrollStudents() throws Exception {
 		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
 
+		String coordID = "coordForEnrollTesting";
+		apiServlet.createCoord(coordID, "Coord for Enroll Testing",
+				"coordForEnrollTestin@gmail.com");
+		Coordinator coord = apiServlet.getCoord(coordID);
+		String courseId = "courseForEnrollTest";
+		apiServlet.createCourse(coordID, courseId, "Course for Enroll Testing");
+		Course course = apiServlet.getCourse(courseId);
+
+		String line1 = "t|n|e@g|c";
+
+		assertEquals(0, apiServlet.getStudentListForCourse(courseId).size());
+
+		List<StudentInfoForCoord> enrollmentResult = apiServlet.enrollStudents(
+				line1, courseId);
+		verifyEnrollmentResultForStudent(new Student(line1, courseId),
+				enrollmentResult.get(0), StudentInfoForCoord.UpdateStatus.NEW);
+
+		assertEquals(1, apiServlet.getStudentListForCourse(courseId).size());
 		// TODO: to be implemented
 	}
 
+
+	private void verifyEnrollmentResultForStudent(Student expectedStudent,
+			StudentInfoForCoord enrollmentResult, StudentInfoForCoord.UpdateStatus status) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Test
 	public void testGetEvaluationResult() throws Exception {
