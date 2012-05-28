@@ -21,7 +21,11 @@ public class StudentInfoForCoord {
 	}
 
 	public enum UpdateStatus{
-		MODIFIED, UNMODIFIED, NEW, UNKNOWN;
+		MODIFIED, 
+		UNMODIFIED, 
+		NEW, 
+		UNKNOWN, 
+		ERROR;
 	}
 	
 	public String id;

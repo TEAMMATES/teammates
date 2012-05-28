@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.exception.CourseDoesNotExistException;
 import teammates.exception.CourseInputInvalidException;
+import teammates.exception.EnrollException;
 import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.InvalidParametersException;
@@ -991,46 +992,53 @@ public class APIServlet extends HttpServlet {
 		}
 	}
 	
-	public List<StudentInfoForCoord> enrollStudents(String enrollLines, String courseId)   {
+	public List<StudentInfoForCoord> enrollStudents(String enrollLines, String courseId) throws EnrollException   {
 		ArrayList<StudentInfoForCoord> returnList = new ArrayList<StudentInfoForCoord>();
 		String[] linesArray = enrollLines.split(System.getProperty("line.separator")); 
+		ArrayList<Student> studentList = new ArrayList<Student>();
+		
 		for (int i = 0; i < linesArray.length; i++) {
+			String line = linesArray[i];
 			try {
-				 String line = linesArray[i];
 				if(Common.isWhiteSpace(line))continue;
-				StudentInfoForCoord studentInfo = processEnrollmentLine(line, courseId);
-				returnList.add(studentInfo);
+				studentList.add(new Student(line, courseId));
 			} catch (InvalidParametersException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (EntityAlreadyExistsException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new EnrollException(e.errorCode, "Problem in line : "+line+Common.EOL+e.getMessage());
 			}
+		}
+		
+		for(Student student: studentList){
+			StudentInfoForCoord studentInfo;
+			studentInfo = enrollStudent(student);
+			returnList.add(studentInfo);
 		}
 		return returnList;
 	}
-	
-	public StudentInfoForCoord processEnrollmentLine(String enrollLine, String courseId) throws InvalidParametersException, EntityAlreadyExistsException  {
-		Student student;
+		
+	public StudentInfoForCoord enrollStudent(Student student){
 		StudentInfoForCoord.UpdateStatus updateStatus = UpdateStatus.UNMODIFIED;
-			student = new Student(enrollLine,courseId);
-		if (isSameAsExistingStudent(courseId, student)){
-			updateStatus = UpdateStatus.UNMODIFIED;
-		}else if(isModificationToExistingStudent(courseId, student)){
-			editStudent(student.getEmail(), student);
-			updateStatus = UpdateStatus.MODIFIED;
-		}else {
+		try {
+			if (isSameAsExistingStudent(student)) {
+				updateStatus = UpdateStatus.UNMODIFIED;
+			} else if (isModificationToExistingStudent(student)) {
+				editStudent(student.getEmail(), student);
+				updateStatus = UpdateStatus.MODIFIED;
+			} else {
 				createStudent(student);
 				updateStatus = UpdateStatus.NEW;
+			}
+		} catch (Exception e) {
+			updateStatus = UpdateStatus.ERROR;
+			log.severe("EntityExistsExcpetion thrown unexpectedly");
+			e.printStackTrace();
 		}
 		StudentInfoForCoord studentInfo = convertToStudentInfoForCoord(student);
 		studentInfo.updateStatus = updateStatus;
 		return studentInfo;
 	}
 
-	private boolean isSameAsExistingStudent(String courseId, Student student) {
-		Student existingStudent = getStudent(courseId, student.getEmail());
+	private boolean isSameAsExistingStudent(Student student) {
+		Student existingStudent = getStudent(student.getCourseID(), student.getEmail());
 		if(existingStudent==null) return false;
 		return student.isEnrollInfoSameAs(existingStudent);
 	}
@@ -1040,8 +1048,8 @@ public class APIServlet extends HttpServlet {
 		return studentInfoForCoord;
 	}
 
-	private boolean isModificationToExistingStudent(String courseId, Student student) {
-		return getStudent(courseId, student.getEmail())!=null;
+	private boolean isModificationToExistingStudent(Student student) {
+		return getStudent(student.getCourseID(), student.getEmail())!=null;
 	}
 
 	// ----------------------Students------------------------------------------

@@ -127,7 +127,7 @@ public class Student {
 		String[] parts = line.replace("|","\t").split("\t");
 		
 		if((parts.length<3)||(parts.length>4)) {
-			throw new InvalidParametersException(Common.ERRORCODE_INCORRECTLY_FORMATTED_STRING, "Enrollment line cannot be null");
+			throw new InvalidParametersException(Common.ERRORCODE_INCORRECTLY_FORMATTED_STRING, "Enrollment line has too few or too many segments");
 		}
 		
 		String paramCourseId = courseId.trim();

@@ -24,6 +24,7 @@ import teammates.APIServlet;
 import teammates.Common;
 import teammates.DataBundle;
 import teammates.Datastore;
+import teammates.exception.EnrollException;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.InvalidParametersException;
 import teammates.jdo.Coordinator;
@@ -390,59 +391,49 @@ public class APIServletTest extends BaseTestCase {
 		verifyRegistrationEmailToStudent(student1);
 		// TODO: more testing
 	}
+	
 
 	@Test
-	public void testProcessEnrollmentLine() throws Exception {
+	public void testEnrollStudent() throws Exception {
 		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
 
 		String coordId = "coordForEnrollTesting";
+		apiServlet.deleteCoord(coordId);
 		apiServlet.createCoord(coordId, "Coord for Enroll Testing",
 				"coordForEnrollTestin@gmail.com");
 		String courseId = "courseForEnrollTest";
 		apiServlet.createCourse(coordId, courseId, "Course for Enroll Testing");
 
-		String line1 = "t|n|e@g|c";
+		Student student1 = new Student("t|n|e@g|c", courseId);
 
 		// check if the course is empty
 		assertEquals(0, apiServlet.getStudentListForCourse(courseId).size());
 
 		// add a new student and verify it is added and treated as a new student
 		StudentInfoForCoord enrollmentResult = apiServlet
-				.processEnrollmentLine(line1, courseId);
+				.enrollStudent(student1);
 		assertEquals(1, apiServlet.getStudentListForCourse(courseId).size());
-		verifyEnrollmentResultForStudent(new Student(line1, courseId),
-				enrollmentResult, StudentInfoForCoord.UpdateStatus.NEW);
+		verifyEnrollmentResultForStudent(student1, enrollmentResult,
+				StudentInfoForCoord.UpdateStatus.NEW);
 
 		// add the same student. Verify it was not added
-		enrollmentResult = apiServlet.processEnrollmentLine(line1, courseId);
-		verifyEnrollmentResultForStudent(new Student(line1, courseId),
-				enrollmentResult, StudentInfoForCoord.UpdateStatus.UNMODIFIED);
+		enrollmentResult = apiServlet.enrollStudent(student1);
+		verifyEnrollmentResultForStudent(student1, enrollmentResult,
+				StudentInfoForCoord.UpdateStatus.UNMODIFIED);
 
 		// modify info of same student and verify it was treated as modified
-		String line2 = "t|n2|e@g|c";
-		enrollmentResult = apiServlet.processEnrollmentLine(line2, courseId);
-		verifyEnrollmentResultForStudent(new Student(line2, courseId),
-				enrollmentResult, StudentInfoForCoord.UpdateStatus.MODIFIED);
+		Student student2 = new Student("t|n2|e@g|c", courseId);
+		enrollmentResult = apiServlet.enrollStudent(student2);
+		verifyEnrollmentResultForStudent(student2, enrollmentResult,
+				StudentInfoForCoord.UpdateStatus.MODIFIED);
 
 		// add a new student to non-empty course
-		String line3 = "t3|n3|e3@g|c3";
-		enrollmentResult = apiServlet.processEnrollmentLine(line3, courseId);
+		Student student3 = new Student("t3|n3|e3@g|c3", courseId);
+		enrollmentResult = apiServlet.enrollStudent(student3);
 		assertEquals(2, apiServlet.getStudentListForCourse(courseId).size());
-		verifyEnrollmentResultForStudent(new Student(line3, courseId),
-				enrollmentResult, StudentInfoForCoord.UpdateStatus.NEW);
-
-		// pass incorrect [no email] line and verify exception is thrown
-		String line4 = "t3|n3| |c3";
-		try {
-			enrollmentResult = apiServlet
-					.processEnrollmentLine(line4, courseId);
-			Assert.fail("Did not throw the expected excpetion : "
-					+ InvalidParametersException.class.getCanonicalName());
-		} catch (InvalidParametersException e) {
-			assertEquals("unexpected error code : " + e.errorCode,
-					Common.ERRORCODE_EMPTY_STRING, e.errorCode);
-		}
+		verifyEnrollmentResultForStudent(student3, enrollmentResult,
+				StudentInfoForCoord.UpdateStatus.NEW);
 	}
 
 	@Test
@@ -457,15 +448,19 @@ public class APIServletTest extends BaseTestCase {
 		apiServlet.createCourse(coordId, courseId, "Course for Enroll Testing");
 		String EOL = Common.EOL;
 		
+		// all valid students, but contains blank lines
 		String line0 = "t1|n1|e1@g|c1";
 		String line1 = " t2|  n2|  e2@g|  c2";
+		String line2 = "t3|n3|e3@g|c3  ";
+		String line3 = "t4|n4|  e4@g|c4";
+		String line4 = "t5|n5|e5@g  |c5";
 		String lines = line0+ EOL +
 				line1+ EOL +
-				"t3|n3|e3@g|c3  "+ EOL +
-				"             "+ EOL +
-				"t4|n4|  e4@g|c4"+ EOL +
+				line2+ EOL +
+				"  \t \t \t \t           "+ EOL +
+				line3+ EOL +
 				EOL +
-				"t5|n5|e5@g  |c5"+ EOL +
+				line4+ EOL +
 				"    "+ EOL +
 				EOL;
 		List<StudentInfoForCoord> enrollResults = apiServlet.enrollStudents(lines, courseId);
@@ -475,6 +470,35 @@ public class APIServletTest extends BaseTestCase {
 				enrollResults.get(0), StudentInfoForCoord.UpdateStatus.NEW);
 		verifyEnrollmentResultForStudent(new Student(line1, courseId),
 				enrollResults.get(1), StudentInfoForCoord.UpdateStatus.NEW);
+		verifyEnrollmentResultForStudent(new Student(line4, courseId),
+				enrollResults.get(4), StudentInfoForCoord.UpdateStatus.NEW);
+		
+		//includes a mix of unmodified, modified, and new
+		String line0_1 = "t3|modified name|e3@g|c3";
+		String line5 = "t6|n6|e6@g|c6";
+		lines = line0+EOL+line0_1+ EOL +line1+ EOL + line5;
+		enrollResults = apiServlet.enrollStudents(lines, courseId);
+		assertEquals(6, apiServlet.getStudentListForCourse(courseId).size());
+		verifyEnrollmentResultForStudent(new Student(line0, courseId),
+				enrollResults.get(0), StudentInfoForCoord.UpdateStatus.UNMODIFIED);
+		verifyEnrollmentResultForStudent(new Student(line0_1, courseId),
+				enrollResults.get(1), StudentInfoForCoord.UpdateStatus.MODIFIED);
+		verifyEnrollmentResultForStudent(new Student(line1, courseId),
+				enrollResults.get(2), StudentInfoForCoord.UpdateStatus.UNMODIFIED);
+		verifyEnrollmentResultForStudent(new Student(line5, courseId),
+				enrollResults.get(3), StudentInfoForCoord.UpdateStatus.NEW);
+		
+		//includes an incorrect line, no changes should be done to the database
+		String incorrectLine = "incorrectly formatted line";
+		lines = "t7|n7|e7@g|c7"+EOL+incorrectLine+ EOL +line2+ EOL + line3;
+		try {
+			enrollResults = apiServlet.enrollStudents(lines, courseId);
+			Assert.fail("Did not throw exception for incorrectly formatted line");
+		} catch (EnrollException e) {
+			assertTrue(e.getMessage().contains(incorrectLine));
+		}
+		assertEquals(6, apiServlet.getStudentListForCourse(courseId).size());
+		
 	}
 
 	@Test
