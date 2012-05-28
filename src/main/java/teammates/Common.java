@@ -12,6 +12,8 @@ import com.google.gson.GsonBuilder;
 
 public class Common {
 	
+	public final static String EOL = System.getProperty("line.separator");
+	
 	// Hover messages
 	public final static String HOVER_MESSAGE_ENROLL = "Enroll student into the course";
 	public final static String HOVER_MESSAGE_VIEW_COURSE = "View, edit and send registration keys to the students in the course";
@@ -230,5 +232,9 @@ public class Common {
 			throw new InvalidParametersException(ERRORCODE_STRING_TOO_LONG, "Comment cannot be longer than "+STUDENT_NAME_MAX_LENGTH);
 		}
 		
+	}
+
+	public static boolean isWhiteSpace(String string) {
+		return string.trim().isEmpty();
 	}
 }

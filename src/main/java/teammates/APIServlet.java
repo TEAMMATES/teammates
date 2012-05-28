@@ -991,37 +991,56 @@ public class APIServlet extends HttpServlet {
 		}
 	}
 	
-	public List<StudentInfoForCoord> enrollStudents(String enrollLines, String courseId) throws InvalidParametersException  {
+	public List<StudentInfoForCoord> enrollStudents(String enrollLines, String courseId)   {
+		ArrayList<StudentInfoForCoord> returnList = new ArrayList<StudentInfoForCoord>();
+		String[] linesArray = enrollLines.split(System.getProperty("line.separator")); 
+		for (int i = 0; i < linesArray.length; i++) {
+			try {
+				 String line = linesArray[i];
+				if(Common.isWhiteSpace(line))continue;
+				StudentInfoForCoord studentInfo = processEnrollmentLine(line, courseId);
+				returnList.add(studentInfo);
+			} catch (InvalidParametersException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (EntityAlreadyExistsException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return returnList;
+	}
+	
+	public StudentInfoForCoord processEnrollmentLine(String enrollLine, String courseId) throws InvalidParametersException, EntityAlreadyExistsException  {
 		Student student;
 		StudentInfoForCoord.UpdateStatus updateStatus = UpdateStatus.UNMODIFIED;
-		ArrayList<StudentInfoForCoord> returnList = new ArrayList<StudentInfoForCoord>();
-		try {
-			student = new Student(enrollLines,courseId);
-		} catch (InvalidParametersException e) {
-			e.printStackTrace();
-			throw e;
-		}
-		if(isExistingStudent(courseId, student)){
+			student = new Student(enrollLine,courseId);
+		if (isSameAsExistingStudent(courseId, student)){
+			updateStatus = UpdateStatus.UNMODIFIED;
+		}else if(isModificationToExistingStudent(courseId, student)){
 			editStudent(student.getEmail(), student);
 			updateStatus = UpdateStatus.MODIFIED;
 		}else {
-			try {
 				createStudent(student);
 				updateStatus = UpdateStatus.NEW;
-			} catch (EntityAlreadyExistsException e) {
-				log.severe("Received EntityAlreadyExistsException even after ensuring the student does not exist :"+courseId+"/"+student.getEmail());
-			}
 		}
-		returnList.add(convertToStudentInfoForCoord(student));
-		return returnList;
+		StudentInfoForCoord studentInfo = convertToStudentInfoForCoord(student);
+		studentInfo.updateStatus = updateStatus;
+		return studentInfo;
+	}
+
+	private boolean isSameAsExistingStudent(String courseId, Student student) {
+		Student existingStudent = getStudent(courseId, student.getEmail());
+		if(existingStudent==null) return false;
+		return student.isEnrollInfoSameAs(existingStudent);
 	}
 
 	private StudentInfoForCoord convertToStudentInfoForCoord(Student student) {
 		StudentInfoForCoord studentInfoForCoord = new StudentInfoForCoord(student);
-		return null;
+		return studentInfoForCoord;
 	}
 
-	private boolean isExistingStudent(String courseId, Student student) {
+	private boolean isModificationToExistingStudent(String courseId, Student student) {
 		return getStudent(courseId, student.getEmail())!=null;
 	}
 

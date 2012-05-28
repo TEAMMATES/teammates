@@ -1,5 +1,7 @@
 package teammates.jdo;
 
+import teammates.jdo.StudentInfoForCoord.UpdateStatus;
+
 import com.google.appengine.api.datastore.Text;
 
 public class StudentInfoForCoord {
@@ -43,5 +45,25 @@ public class StudentInfoForCoord {
 	public Text profileDetail;
 	
 	public UpdateStatus updateStatus;
+
+	public boolean isEnrollmentInfoMatchingTo(Student student, UpdateStatus updateStatus) {
+//		return (this.id.equals(student.getID())) &&
+//		(this.email.equals(student.getEmail())) &&
+//		(this.courseId.equals(student.getCourseID())) &&
+//		(this.name.equals(student.getName())) &&
+//		(this.comments.equals(student.getComments())) &&
+//		(this.registrationKey.equals(student.getRegistrationKey())) &&
+//		(this.teamName.equals(student.getTeamName())) &&
+//		(this.courseArchived== student.isCourseArchived()) &&
+//		(this.profileSummary.equals(student.getProfileSummary())) &&
+//		(this.profileDetail.equals(student.getProfileDetail())) &&
+//		(this.updateStatus == updateStatus);
+		return (this.email.equals(student.getEmail())) &&
+				(this.courseId.equals(student.getCourseID())) &&
+				(this.name.equals(student.getName())) &&
+				(this.comments.equals(student.getComments())) &&
+				(this.teamName.equals(student.getTeamName())) &&
+				(this.updateStatus == updateStatus);
+	}
 
 }

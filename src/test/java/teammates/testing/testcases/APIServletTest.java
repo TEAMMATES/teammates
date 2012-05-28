@@ -25,6 +25,7 @@ import teammates.Common;
 import teammates.DataBundle;
 import teammates.Datastore;
 import teammates.exception.EntityDoesNotExistException;
+import teammates.exception.InvalidParametersException;
 import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
 import teammates.jdo.Evaluation;
@@ -61,6 +62,7 @@ public class APIServletTest extends BaseTestCase {
 			+ File.separator + "src" + File.separator + "main" + File.separator
 			+ "webapp" + File.separator + "WEB-INF" + File.separator
 			+ "queue.xml";
+	
 
 	@BeforeClass
 	public static void setUpDatastore() {
@@ -390,49 +392,89 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testEnrollStudents() throws Exception {
+	public void testProcessEnrollmentLine() throws Exception {
 		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
 
-		String coordID = "coordForEnrollTesting";
-		apiServlet.createCoord(coordID, "Coord for Enroll Testing",
+		String coordId = "coordForEnrollTesting";
+		apiServlet.createCoord(coordId, "Coord for Enroll Testing",
 				"coordForEnrollTestin@gmail.com");
-		Coordinator coord = apiServlet.getCoord(coordID);
 		String courseId = "courseForEnrollTest";
-		apiServlet.createCourse(coordID, courseId, "Course for Enroll Testing");
-		Course course = apiServlet.getCourse(courseId);
+		apiServlet.createCourse(coordId, courseId, "Course for Enroll Testing");
 
 		String line1 = "t|n|e@g|c";
 
+		// check if the course is empty
 		assertEquals(0, apiServlet.getStudentListForCourse(courseId).size());
 
-		List<StudentInfoForCoord> enrollmentResult = apiServlet.enrollStudents(
-				line1, courseId);
-		verifyEnrollmentResultForStudent(new Student(line1, courseId),
-				enrollmentResult.get(0), StudentInfoForCoord.UpdateStatus.NEW);
-
+		// add a new student and verify it is added and treated as a new student
+		StudentInfoForCoord enrollmentResult = apiServlet
+				.processEnrollmentLine(line1, courseId);
 		assertEquals(1, apiServlet.getStudentListForCourse(courseId).size());
-		
-		enrollmentResult = apiServlet.enrollStudents(
-				line1, courseId);
 		verifyEnrollmentResultForStudent(new Student(line1, courseId),
-				enrollmentResult.get(0), StudentInfoForCoord.UpdateStatus.UNMODIFIED);
-		
-		line1 = "t|n2|e@g|c";
-		enrollmentResult = apiServlet.enrollStudents(
-				line1, courseId);
+				enrollmentResult, StudentInfoForCoord.UpdateStatus.NEW);
+
+		// add the same student. Verify it was not added
+		enrollmentResult = apiServlet.processEnrollmentLine(line1, courseId);
 		verifyEnrollmentResultForStudent(new Student(line1, courseId),
-				enrollmentResult.get(0), StudentInfoForCoord.UpdateStatus.MODIFIED);
-		
-		
-		// TODO: to be implemented
+				enrollmentResult, StudentInfoForCoord.UpdateStatus.UNMODIFIED);
+
+		// modify info of same student and verify it was treated as modified
+		String line2 = "t|n2|e@g|c";
+		enrollmentResult = apiServlet.processEnrollmentLine(line2, courseId);
+		verifyEnrollmentResultForStudent(new Student(line2, courseId),
+				enrollmentResult, StudentInfoForCoord.UpdateStatus.MODIFIED);
+
+		// add a new student to non-empty course
+		String line3 = "t3|n3|e3@g|c3";
+		enrollmentResult = apiServlet.processEnrollmentLine(line3, courseId);
+		assertEquals(2, apiServlet.getStudentListForCourse(courseId).size());
+		verifyEnrollmentResultForStudent(new Student(line3, courseId),
+				enrollmentResult, StudentInfoForCoord.UpdateStatus.NEW);
+
+		// pass incorrect [no email] line and verify exception is thrown
+		String line4 = "t3|n3| |c3";
+		try {
+			enrollmentResult = apiServlet
+					.processEnrollmentLine(line4, courseId);
+			Assert.fail("Did not throw the expected excpetion : "
+					+ InvalidParametersException.class.getCanonicalName());
+		} catch (InvalidParametersException e) {
+			assertEquals("unexpected error code : " + e.errorCode,
+					Common.ERRORCODE_EMPTY_STRING, e.errorCode);
+		}
 	}
 
-
-	private void verifyEnrollmentResultForStudent(Student expectedStudent,
-			StudentInfoForCoord enrollmentResult, StudentInfoForCoord.UpdateStatus status) {
-		// TODO Auto-generated method stub
+	@Test
+	public void testEnrollStudents() throws Exception{
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
 		
+		String coordId = "coordForEnrollTesting";
+		apiServlet.createCoord(coordId, "Coord for Enroll Testing",
+				"coordForEnrollTestin@gmail.com");
+		String courseId = "courseForEnrollTest";
+		apiServlet.createCourse(coordId, courseId, "Course for Enroll Testing");
+		String EOL = Common.EOL;
+		
+		String line0 = "t1|n1|e1@g|c1";
+		String line1 = " t2|  n2|  e2@g|  c2";
+		String lines = line0+ EOL +
+				line1+ EOL +
+				"t3|n3|e3@g|c3  "+ EOL +
+				"             "+ EOL +
+				"t4|n4|  e4@g|c4"+ EOL +
+				EOL +
+				"t5|n5|e5@g  |c5"+ EOL +
+				"    "+ EOL +
+				EOL;
+		List<StudentInfoForCoord> enrollResults = apiServlet.enrollStudents(lines, courseId);
+		
+		assertEquals(5, apiServlet.getStudentListForCourse(courseId).size());
+		verifyEnrollmentResultForStudent(new Student(line0, courseId),
+				enrollResults.get(0), StudentInfoForCoord.UpdateStatus.NEW);
+		verifyEnrollmentResultForStudent(new Student(line1, courseId),
+				enrollResults.get(1), StudentInfoForCoord.UpdateStatus.NEW);
 	}
 
 	@Test
@@ -476,6 +518,18 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	// ------------------------------------------------------------------------
+	
+	private void verifyEnrollmentResultForStudent(Student expectedStudent,
+			StudentInfoForCoord enrollmentResult,
+			StudentInfoForCoord.UpdateStatus status) {
+		String errorMessage = "mismatch! \n"
+				+ Common.getTeammatesGson().toJson(expectedStudent) + "\n"
+				+ Common.getTeammatesGson().toJson(enrollmentResult);
+		assertEquals(errorMessage, true,
+				enrollmentResult.isEnrollmentInfoMatchingTo(expectedStudent,
+						status));
+	}
+	
 	private void verifyRegistrationEmailToStudent(Student student) {
 		LocalTaskQueue ltq = LocalTaskQueueTestConfig.getLocalTaskQueue();
 		QueueStateInfo qsi = ltq.getQueueStateInfo().get("email-queue");
