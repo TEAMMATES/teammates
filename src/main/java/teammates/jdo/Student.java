@@ -56,6 +56,7 @@ public class Student {
 	@Persistent
 	private transient boolean courseArchived;
 	
+	//TODO: remove? not seem to be used
 	@Persistent
 	@SerializedName("profilesummary")
 	private String profileSummary;

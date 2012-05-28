@@ -4,15 +4,29 @@ import com.google.appengine.api.datastore.Text;
 
 public class StudentInfoForCoord {
 	
+	public StudentInfoForCoord(Student student) {
+		this.id = student.getID();
+		this.email = student.getEmail();
+		this.courseId = student.getCourseID();
+		this.name = student.getName();
+		this.comments = student.getComments();
+		this.registrationKey = student.getRegistrationKey();
+		this.teamName = student.getTeamName();
+		this.courseArchived = student.isCourseArchived();
+		this.profileSummary = student.getProfileSummary();
+		this.profileDetail = student.getProfileDetail();
+		this.updateStatus = UpdateStatus.UNKNOWN;
+	}
+
 	public enum UpdateStatus{
-		MODIFIED, UNMODIFIED, NEW;
+		MODIFIED, UNMODIFIED, NEW, UNKNOWN;
 	}
 	
-	public String ID;
+	public String id;
 
 	public String email;
 
-	public String courseID;
+	public String courseId;
 
 	public String name;
 

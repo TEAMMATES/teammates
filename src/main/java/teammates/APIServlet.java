@@ -30,6 +30,7 @@ import teammates.jdo.Evaluation;
 import teammates.jdo.EvaluationDetailsForCoordinator;
 import teammates.jdo.Student;
 import teammates.jdo.StudentInfoForCoord;
+import teammates.jdo.StudentInfoForCoord.UpdateStatus;
 import teammates.jdo.Submission;
 import teammates.jdo.TeamFormingLog;
 import teammates.jdo.TeamFormingSession;
@@ -992,22 +993,31 @@ public class APIServlet extends HttpServlet {
 	
 	public List<StudentInfoForCoord> enrollStudents(String enrollLines, String courseId) throws InvalidParametersException  {
 		Student student;
+		StudentInfoForCoord.UpdateStatus updateStatus = UpdateStatus.UNMODIFIED;
+		ArrayList<StudentInfoForCoord> returnList = new ArrayList<StudentInfoForCoord>();
 		try {
 			student = new Student(enrollLines,courseId);
 		} catch (InvalidParametersException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw e;
 		}
 		if(isExistingStudent(courseId, student)){
 			editStudent(student.getEmail(), student);
+			updateStatus = UpdateStatus.MODIFIED;
 		}else {
 			try {
 				createStudent(student);
+				updateStatus = UpdateStatus.NEW;
 			} catch (EntityAlreadyExistsException e) {
 				log.severe("Received EntityAlreadyExistsException even after ensuring the student does not exist :"+courseId+"/"+student.getEmail());
 			}
 		}
+		returnList.add(convertToStudentInfoForCoord(student));
+		return returnList;
+	}
+
+	private StudentInfoForCoord convertToStudentInfoForCoord(Student student) {
+		StudentInfoForCoord studentInfoForCoord = new StudentInfoForCoord(student);
 		return null;
 	}
 

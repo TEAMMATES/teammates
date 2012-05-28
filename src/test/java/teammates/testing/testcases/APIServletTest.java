@@ -412,6 +412,19 @@ public class APIServletTest extends BaseTestCase {
 				enrollmentResult.get(0), StudentInfoForCoord.UpdateStatus.NEW);
 
 		assertEquals(1, apiServlet.getStudentListForCourse(courseId).size());
+		
+		enrollmentResult = apiServlet.enrollStudents(
+				line1, courseId);
+		verifyEnrollmentResultForStudent(new Student(line1, courseId),
+				enrollmentResult.get(0), StudentInfoForCoord.UpdateStatus.UNMODIFIED);
+		
+		line1 = "t|n2|e@g|c";
+		enrollmentResult = apiServlet.enrollStudents(
+				line1, courseId);
+		verifyEnrollmentResultForStudent(new Student(line1, courseId),
+				enrollmentResult.get(0), StudentInfoForCoord.UpdateStatus.MODIFIED);
+		
+		
 		// TODO: to be implemented
 	}
 
