@@ -1,7 +1,5 @@
 package teammates.jdo;
 
-import teammates.jdo.StudentInfoForCoord.UpdateStatus;
-
 import com.google.appengine.api.datastore.Text;
 
 public class StudentInfoForCoord {

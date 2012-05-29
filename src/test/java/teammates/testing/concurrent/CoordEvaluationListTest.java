@@ -85,11 +85,11 @@ public class CoordEvaluationListTest extends TestCase {
 		bi.goToEvaluation();
 		bi.clickCoordEvaluationViewResults(scn.course.courseId, scn.evaluation.name);
 
-		assertTrue(bi.isElementPresent(bi.getCoordEvaluationViewResultsLink(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getCoordEvaluationEditLink(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getCoordEvaluationDeleteLink(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getCoordEvaluationRemindLink(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getCoordEvaluationPublishLink(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationViewResultsLinkLocator(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationEditLinkLocator(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationDeleteLinkLocator(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationRemindLinkLocator(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationPublishLinkLocator(FIRST_EVALUATION)));
 	}
 
 	// testCoordRemindEvaluationSuccessful
@@ -114,11 +114,11 @@ public class CoordEvaluationListTest extends TestCase {
 		bi.goToEvaluation();
 		bi.clickCoordEvaluationRemindAndConfirm(scn.course.courseId, scn.evaluation.name);
 
-		assertTrue(bi.isElementPresent(bi.getCoordEvaluationViewResultsLink(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getCoordEvaluationEditLink(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getCoordEvaluationDeleteLink(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getCoordEvaluationRemindLink(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getCoordEvaluationPublishLink(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationViewResultsLinkLocator(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationEditLinkLocator(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationDeleteLinkLocator(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationRemindLinkLocator(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationPublishLinkLocator(FIRST_EVALUATION)));
 	}
 
 	// testCoordPublishEvaluationSuccessful
@@ -150,21 +150,21 @@ public class CoordEvaluationListTest extends TestCase {
 		bi.goToEvaluation();
 		bi.clickCoordEvaluationPublishAndConfirm(scn.course.courseId, scn.evaluation.name);
 
-		assertTrue(bi.isElementPresent(bi.getCoordEvaluationViewResultsLink(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getCoordEvaluationEditLink(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getCoordEvaluationDeleteLink(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getCoordEvaluationRemindLink(FIRST_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getCoordEvaluationPublishLink(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationViewResultsLinkLocator(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationEditLinkLocator(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationDeleteLinkLocator(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationRemindLinkLocator(FIRST_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationPublishLinkLocator(FIRST_EVALUATION)));
 
 		// Open evaluation
 		bi.goToEvaluation();
 		bi.clickCoordEvaluationPublishAndConfirm(scn.course.courseId, scn.evaluation2.name);
 
-		assertTrue(bi.isElementPresent(bi.getCoordEvaluationViewResultsLink(SECOND_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getCoordEvaluationEditLink(SECOND_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getCoordEvaluationDeleteLink(SECOND_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getCoordEvaluationRemindLink(SECOND_EVALUATION)));
-		assertTrue(bi.isElementPresent(bi.getCoordEvaluationPublishLink(SECOND_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationViewResultsLinkLocator(SECOND_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationEditLinkLocator(SECOND_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationDeleteLinkLocator(SECOND_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationRemindLinkLocator(SECOND_EVALUATION)));
+		assertTrue(bi.isElementPresent(bi.getCoordEvaluationPublishLinkLocator(SECOND_EVALUATION)));
 	}
 
 	// testCoordUnpublishEvaluationSuccessful

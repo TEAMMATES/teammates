@@ -8,6 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.Common;
+import teammates.jsp.Helper;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.lib.SharedLib;
@@ -19,9 +20,8 @@ import com.google.gson.Gson;
 
 public class CoordCourseAddPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
-	private static TestScenario ts; 
+	private static TestScenario ts;
 	
-	private static boolean testNewJSP = false;
 	private static String localhostAddress = "localhost:8080/";
 	
 	@BeforeClass
@@ -32,12 +32,13 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		
 		TMAPI.deleteCourseByIdCascade(ts.validCourse.courseId);
 		TMAPI.deleteCourseByIdCascade(ts.courseWithSameNameDifferentId.courseId);
+		TMAPI.deleteCourseByIdCascade(ts.testCourse.courseId);
 		
 		bi.loginCoord(ts.coordinator.username, ts.coordinator.password);
-		if(testNewJSP) bi.goToUrl(localhostAddress+Common.JSP_COORD_HOME);
+		bi.goToUrl(localhostAddress+Common.JSP_COORD_HOME);
 	}
 	
-	@Test
+	//@Test
 	public void testCoordAddUiFunctionality(){
 		printTestCaseHeader("testCoordAddCourseSuccessful");
 		
@@ -106,7 +107,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		// Check that other coordinators cannot add the same courseID
 		bi.logout();
 		bi.loginCoord(ts.coordinatorDiff.username, ts.coordinatorDiff.password);
-		if(testNewJSP) bi.goToUrl(localhostAddress+Common.JSP_COORD_HOME);
+		bi.goToUrl(localhostAddress+Common.JSP_COORD_HOME);
 		
 		bi.goToCourses();
 		bi.addCourse(ts.validCourse.courseId, ts.validCourse.courseName);
@@ -118,7 +119,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		// Go back to the initial coordinator
 		bi.logout();
 		bi.loginCoord(ts.coordinator.username, ts.coordinator.password);
-		if(testNewJSP) bi.goToUrl(localhostAddress+Common.JSP_COORD_HOME);
+		bi.goToUrl(localhostAddress+Common.JSP_COORD_HOME);
 		
 		//===================================================================================
 		
@@ -134,19 +135,23 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testCoordCourseAddLinks(){
+		String link;
 		bi.goToCourses();
 		
 		// Make sure the course is there
-		bi.addCourse(ts.validCourse.courseId, ts.validCourse.courseName);
+		bi.addCourse(ts.testCourse.courseId, ts.testCourse.courseName);
 		
-		// Checks view details link
-		bi.clickCoordCourseView(ts.validCourse.courseId);
-		bi.verifyCoordCourseDetailsPage(); // TODO verify based on courseID
+		// Check enroll link
+		link = bi.getElementRelativeHref(bi.getCoordCourseEnrollLinkLocator(bi.getCourseRowID(ts.testCourse.courseId)));
+		assertTrue(link.equals(Helper.getCourseEnrollLink(ts.testCourse.courseId)));
 		
-		// Checks enroll link
-		bi.goToCourses();
-		bi.clickCoordCourseEnroll(ts.validCourse.courseId);
-		bi.verifyCoordCourseEnrollPage(ts.validCourse.courseId);
+		// Check view details link
+		link = bi.getElementRelativeHref(bi.getCoordCourseViewLinkLocator(bi.getCourseRowID(ts.testCourse.courseId)));
+		assertTrue(link.equals(Helper.getCourseViewLink(ts.testCourse.courseId)));
+		
+		// Check delete link
+		link = bi.getElementRelativeHref(bi.getCoordCourseDeleteLinkLocator(bi.getCourseRowID(ts.testCourse.courseId)));
+		assertTrue(link.equals(Helper.getCourseDeleteLink(ts.testCourse.courseId, Common.JSP_COORD_COURSE)));
 	}
 	
 	private static TestScenario loadTestScenario() throws JSONException {
@@ -161,6 +166,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		public Coordinator coordinatorDiff;
 		public Course validCourse;
 		public Course courseWithSameNameDifferentId;
+		public Course testCourse;
 	}
 	
 	@AfterClass

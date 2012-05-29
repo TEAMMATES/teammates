@@ -4,6 +4,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import teammates.Common;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.object.Scenario;
@@ -20,20 +21,32 @@ public class CoordCourseAddPageHtmlTest extends BaseTestCase {
 		printTestClassHeader("CoordCourseAddPageHtmlTest");
 		bi = BrowserInstancePool.getBrowserInstance();
 		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
+		bi.goToUrl("http://localhost:8080/"+Common.JSP_COORD_HOME);
 	}
 
+	@Test
+	public void verifyHeader() throws Exception{
+		bi.goToCourses();
+		bi.verifyHeader("src/test/resources/pages/coordAddCourseHeader.html");
+	}
+	
+	@Test
+	public void verifyFooter() throws Exception{
+		bi.goToCourses();
+		bi.verifyFooter("src/test/resources/pages/coordAddCourseFooter.html");
+	}
 
 	@Test
 	public void verifyAddCourse() throws Exception {
 		bi.goToCourses();
-		bi.verifyObjectHTML("target/test-classes/pages/coordAddCourse.html", ADD_COURSE_TAG);
-		bi.verifyObjectHTML("target/test-classes/pages/coordListCourseByID.html", LIST_COURSE_TAG);
+		bi.verifyObjectHTML("src/test/resources/pages/coordAddCourseNew.html", ADD_COURSE_TAG);
+		bi.verifyObjectHTMLRegex("src/test/resources/pages/coordListCourseByIDNew.html");
 	
 		bi.clickCoordCourseSortByNameButton();
-		bi.verifyObjectHTML("target/test-classes/pages/coordListCourseByName.html", LIST_COURSE_TAG);
+		bi.verifyObjectHTMLRegex("src/test/resources/pages/coordListCourseByNameNew.html");
 		
 		bi.clickCoordCourseSortByIdButton();
-		bi.verifyObjectHTML("target/test-classes/pages/coordListCourseByID.html", LIST_COURSE_TAG);
+		bi.verifyObjectHTMLRegex("src/test/resources/pages/coordListCourseByIDNew.html");
 		
 	}
 	

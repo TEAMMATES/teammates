@@ -31,7 +31,7 @@ public class Helper {
 	 */
 	public static String convertForURL(String str){
 		try {
-			return URLEncoder.encode(str, "UTF8");
+			return URLEncoder.encode(str, Common.ENCODING);
 		} catch (UnsupportedEncodingException e){
 			return str;
 		}
@@ -42,8 +42,8 @@ public class Helper {
 	 * @param courseID
 	 * @return
 	 */
-	public static String getCourseDetailsLink(String courseID){
-		return "coordCourseDetails.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID);
+	public static String getCourseViewLink(String courseID){
+		return "coordCourseView.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID);
 	}
 	
 	/**
@@ -54,7 +54,7 @@ public class Helper {
 	 * @return
 	 */
 	public static String getCourseDeleteLink(String courseID, String nextURL){
-		return "coordCourseDelete.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID)+"&"+Common.PARAM_NEXT_URL+"="+nextURL;
+		return "coordCourseDelete.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID)+"&"+Common.PARAM_NEXT_URL+"="+convertForURL(nextURL);
 	}
 
 	/**
@@ -72,8 +72,8 @@ public class Helper {
 	 * @param evalName
 	 * @return
 	 */
-	public static String getEvaluationDetailsLink(String courseID, String evalName){
-		return "coordEvalDetails.jsp?"+Common.PARAM_COURSE_ID+"="+courseID+"&"+Common.PARAM_EVALUATION_NAME+"="+evalName;
+	public static String getEvaluationViewLink(String courseID, String evalName){
+		return "coordEvalView.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID)+"&"+Common.PARAM_EVALUATION_NAME+"="+convertForURL(evalName);
 	}
 	
 	/**
@@ -85,7 +85,7 @@ public class Helper {
 	 * @return
 	 */
 	public static String getEvaluationDeleteLink(String courseID, String evalName, String nextURL){
-		return "coordEvalDelete.jsp?"+Common.PARAM_COURSE_ID+"="+courseID+"&"+Common.PARAM_EVALUATION_NAME+"="+evalName+"&"+Common.PARAM_NEXT_URL+"="+convertForURL(nextURL);
+		return "coordEvalDelete.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID)+"&"+Common.PARAM_EVALUATION_NAME+"="+convertForURL(evalName)+"&"+Common.PARAM_NEXT_URL+"="+convertForURL(nextURL);
 	}
 	
 	/**
@@ -95,7 +95,7 @@ public class Helper {
 	 * @return
 	 */
 	public static String getEvaluationEditLink(String courseID, String evalName){
-		return "coordEvalEdit.jsp?"+Common.PARAM_COURSE_ID+"="+courseID+"&"+Common.PARAM_EVALUATION_NAME+"="+evalName;
+		return "coordEvalEdit.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID)+"&"+Common.PARAM_EVALUATION_NAME+"="+convertForURL(evalName);
 	}
 	
 	/**
@@ -105,7 +105,7 @@ public class Helper {
 	 * @return
 	 */
 	public static String getEvaluationResultsLink(String courseID, String evalName){
-		return "coordEvalResults.jsp?"+Common.PARAM_COURSE_ID+"="+courseID+"&"+Common.PARAM_EVALUATION_NAME+"="+evalName;
+		return "coordEvalResults.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID)+"&"+Common.PARAM_EVALUATION_NAME+"="+convertForURL(evalName);
 	}
 	
 	/**
@@ -151,7 +151,7 @@ public class Helper {
 	 */
 	public static String getEvaluationActions(EvaluationDetailsForCoordinator eval, int position, boolean isHome){
 		StringBuffer result = new StringBuffer();
-		final String disabled = "style=\"text-decoration:none; color:gray;\" onclick=\"return false\"";
+		final String disabled = "style='text-decoration:none; color:gray;' onclick='return false'";
 		
 		boolean hasView = false;
 		boolean hasEdit = false;
@@ -177,45 +177,44 @@ public class Helper {
 		}
 		
 		result.append(
-			"<a class='t_eval_view' name='viewEvaluation" + position + "' id='viewEvaluation"+ position + "'" +
-			"href=\"" + getEvaluationDetailsLink(eval.getCourseID(),eval.getName()) + "\"" +
-			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_VIEW+"')\""+
-			"onmouseout=\"hideddrivetip()\"" + (hasView ? "" : disabled) + ">View Results</a>"
+			"<a class='t_eval_view' name='viewEvaluation" + position + "' id='viewEvaluation"+ position + "' " +
+			"href='" + getEvaluationViewLink(eval.getCourseID(),eval.getName()) + "' " +
+			"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_VIEW+"\")' "+
+			"onmouseout='hideddrivetip()'" + (hasView ? "" : disabled) + ">View Results</a>"
 		);
 		result.append(
-			"<a class='t_eval_edit' name='editEvaluation" + position + "' id='editEvaluation" + position + "'" +
-			"href=\"" + getEvaluationEditLink(eval.getCourseID(),eval.getName()) + "\"" +
-			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_EDIT+"')\" onmouseout=\"hideddrivetip()\"" +
+			"<a class='t_eval_edit' name='editEvaluation" + position + "' id='editEvaluation" + position + "' " +
+			"href='" + getEvaluationEditLink(eval.getCourseID(),eval.getName()) + "' " +
+			"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_EDIT+"\") onmouseout='hideddrivetip()' " +
 			(hasEdit ? "" : disabled) + ">Edit</a>"
 		);
 		result.append(
-			"<a class='t_eval_delete' name='deleteEvaluation" + position + "' id='deleteEvaluation" + position + "'" +
-			"href=\"" + getEvaluationDeleteLink(eval.getCourseID(),eval.getName(),(isHome ? "coordHome.jsp" : "coordEval.jsp")) + "\"" +
-			"onclick=\"hideddrivetip(); return toggleDeleteEvaluationConfirmation('" + eval.getCourseID() + "','" +
-			eval.getName() + "');\"" +
-			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_DELETE+"')\" onmouseout=\"hideddrivetip()\">Delete</a>"
+			"<a class='t_eval_delete' name='deleteEvaluation" + position + "' id='deleteEvaluation" + position + "' " +
+			"href='" + getEvaluationDeleteLink(eval.getCourseID(),eval.getName(),(isHome ? "coordHome.jsp" : "coordEval.jsp")) + "' " +
+			"onclick='hideddrivetip(); return toggleDeleteEvaluationConfirmation(\"" + eval.getCourseID() + "\",\"" + eval.getName() + "\");' " +
+			"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_DELETE+"\")' onmouseout='hideddrivetip()'>Delete</a>"
 		);
 		result.append(
-			"<a class='t_eval_remind' name='remindEvaluation" + position + "' id='remindEvaluation" + position + "'" +
-			"href=\"javascript: hideddrivetip(); toggleRemindStudents('" + eval.getCourseID() + "','" + eval.getName() + "');\"" +
-			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_REMIND+"')\"" +
-			"onmouseout=\"hideddrivetip()\"" + (hasRemind ? "" : disabled) + ">Remind</a>"
+			"<a class='t_eval_remind' name='remindEvaluation" + position + "' id='remindEvaluation" + position + "' " +
+			"href='javascript: hideddrivetip(); toggleRemindStudents(\"" + eval.getCourseID() + "\",\"" + eval.getName() + "\");' " +
+			"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_REMIND+"\")' " +
+			"onmouseout='hideddrivetip()'" + (hasRemind ? "" : disabled) + ">Remind</a>"
 		);
 		if (hasUnpublish) {
 			result.append(
-				"<a class='t_eval_unpublish' name='publishEvaluation" + position + "' id='publishEvaluation" + position + "'" +
-				"href=\"javascript: hideddrivetip(); togglePublishEvaluation('" + eval.getCourseID() + "','" +
-				eval.getName() + "'," + false + "," + (isHome ? "'coordHome.jsp'" : "'coordEval.jsp'") + ");\"" +
-				"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_UNPUBLISH+"')\" onmouseout=\"hideddrivetip()\">" +
+				"<a class='t_eval_unpublish' name='publishEvaluation" + position + "' id='publishEvaluation" + position + "' " +
+				"href='javascript: hideddrivetip(); togglePublishEvaluation(\"" + eval.getCourseID() + "\",\"" +
+				eval.getName() + "\"," + false + "," + (isHome ? "\"coordHome.jsp\"" : "\"coordEval.jsp\"") + ");' " +
+				"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_UNPUBLISH+"\")' onmouseout='hideddrivetip()'>" +
 				"Unpublish</a>"
 			);
 		} else {
 			result.append(
-				"<a class='t_eval_publish' name='unpublishEvaluation" + position + "' id='publishEvaluation" + position + "'" +
-				"href=\"javascript: hideddrivetip(); togglePublishEvaluation('" + eval.getCourseID() + "','" +
-				eval.getName() + "'," + true + "," + (isHome ? "'coordHome.jsp'" : "'coordEval.jsp'") + ");\"" +
-				"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_PUBLISH+"')\"" +
-				"onmouseout=\"hideddrivetip()\"" + (hasPublish ? "" : disabled) + ">Publish</a>"
+				"<a class='t_eval_publish' name='unpublishEvaluation" + position + "' id='publishEvaluation" + position + "' " +
+				"href='javascript: hideddrivetip(); togglePublishEvaluation(\"" + eval.getCourseID() + "\",\"" +
+				eval.getName() + "\"," + true + "," + (isHome ? "\"coordHome.jsp\"" : "\"coordEval.jsp\"") + ");' " +
+				"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_PUBLISH+"\")' " +
+				"onmouseout='hideddrivetip()'" + (hasPublish ? "" : disabled) + ">Publish</a>"
 			);
 		}
 		return result.toString();

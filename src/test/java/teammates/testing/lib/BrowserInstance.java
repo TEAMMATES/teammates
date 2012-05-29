@@ -18,6 +18,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
 
 import javax.mail.BodyPart;
 import javax.mail.Flags;
@@ -47,6 +48,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import teammates.Common;
+import teammates.exception.NoAlertAppearException;
 import teammates.testing.config.Config;
 import teammates.testing.object.Evaluation;
 import teammates.testing.object.Student;
@@ -71,8 +74,8 @@ public class BrowserInstance {
 	protected ChromeDriverService chromeService = null;
 	private boolean inUse = false;
 	
-	private static final int TIMEOUT = 15; // In seconds
-	private static final int RETRY = 30;
+	private static final int TIMEOUT = 10; // In seconds
+	private static final int RETRY = 20;
 	private static final int RETRY_TIME = TIMEOUT*1000/RETRY; // In milliseconds
 
 	/* ---------------------------------------------------------------
@@ -107,24 +110,111 @@ public class BrowserInstance {
 	public By coordHomeAddNewCourseLink = By.id("addNewCourse");
 
 	// Course list at home
-	public By getCoordHomeCourseEnrollLink(int rowID) { return By.className("t_course_enroll" + rowID); }
-	public By getCoordHomeCourseViewLink(int rowID) { return By.className("t_course_view" + rowID); }
-	public By getCoordHomeCourseAddEvaluationLink(int rowID) { return By.className("t_course_add_eval" + rowID); }
-	public By getCoordHomeCourseDeleteLink(int rowID) { return By.className("t_course_delete" + rowID); }
+	/**
+	 * Returns the rowID (at homepage) of a course based on course ID
+	 * @param courseID
+	 * @return
+	 */
+	public int getCoordHomeCourseRowID(String courseID) {
+		int id = 0;
+		while(isElementPresent(By.id("course"+id))){
+			if(getElementText(By.xpath("//div[@id='course"+id+"']/div[@class='result_homeTitle']/h2")).startsWith("["+courseID.toUpperCase()+"]")){
+				return id;
+			}
+			id++;
+		}
+		return -1;
+	}
+	
+	public By getCoordHomeCourseEnrollLinkLocator(int rowID) { return By.className("t_course_enroll" + rowID); }
+	public By getCoordHomeCourseViewLinkLocator(int rowID) { return By.className("t_course_view" + rowID); }
+	public By getCoordHomeCourseAddEvaluationLinkLocator(int rowID) { return By.className("t_course_add_eval" + rowID); }
+	public By getCoordHomeCourseDeleteLinkLocator(int rowID) { return By.className("t_course_delete" + rowID); }
+	
+	public By getCoordHomeCourseEnrollLinkLocator(String courseID) { return getCoordHomeCourseEnrollLinkLocator(getCoordHomeCourseRowID(courseID)); }
+	public By getCoordHomeCourseViewLinkLocator(String courseID) { return getCoordHomeCourseViewLinkLocator(getCoordHomeCourseRowID(courseID)); }
+	public By getCoordHomeCourseAddEvaluationLinkLocator(String courseID) { return getCoordHomeCourseAddEvaluationLinkLocator(getCoordHomeCourseRowID(courseID)); }
+	public By getCoordHomeCourseDeleteLinkLocator(String courseID) { return getCoordHomeCourseDeleteLinkLocator(getCoordHomeCourseRowID(courseID)); }
 	
 	// Course list at course page
-	public By getCoordCourseEnrollLink(int rowID) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_enroll']", rowID+2, 6)); }
-	public By getCoordCourseViewLink(int rowID) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_view']", rowID+2, 6)); }
-	public By getCoordCourseAddEvaluationLink(int rowID) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_add_eval']", rowID+2, 6)); }
-	public By getCoordCourseDeleteLink(int rowID) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_delete']", rowID+2, 6)); }
+	/**
+	 * Finds the rowID (at course page) number of a course based on course ID
+	 * @param courseID
+	 * @return
+	 */
+	public int getCourseRowID(String courseID) {
+		for (int i = 0; i < countCourses(); i++) {
+			if (getElementText(getCourseIDCell(i)).equals(courseID)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	public By getCoordCourseEnrollLinkLocator(int rowID) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_enroll']", rowID+2, 6)); }
+	public By getCoordCourseViewLinkLocator(int rowID) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_view']", rowID+2, 6)); }
+	public By getCoordCourseAddEvaluationLinkLocator(int rowID) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_add_eval']", rowID+2, 6)); }
+	public By getCoordCourseDeleteLinkLocator(int rowID) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_delete']", rowID+2, 6)); }
 	
-	// Evaluation table 
-	public By getCoordEvaluationViewResultsLink(int rowID) { return By.id("viewEvaluation" + rowID); }
-	public By getCoordEvaluationEditLink(int rowID) { return By.id("editEvaluation" + rowID); }
-	public By getCoordEvaluationDeleteLink(int rowID) { return By.id("deleteEvaluation" + rowID); }
-	public By getCoordEvaluationRemindLink(int rowID) { return By.id("remindEvaluation" + rowID); }
-	public By getCoordEvaluationPublishLink(int rowID) { return By.id("publishEvaluation" + rowID); }
-	public By getCoordEvaluationUnpublishLink(int rowID) { return By.id("unpublishEvaluation" + rowID); }
+	public By getCoordCourseEnrollLinkLocator(String courseID) { return getCoordCourseEnrollLinkLocator(getCourseRowID(courseID)); }
+	public By getCoordCourseViewLinkLocator(String courseID) { return getCoordCourseViewLinkLocator(getCourseRowID(courseID)); }
+	public By getCoordCourseAddEvaluationLinkLocator(String courseID) { return getCoordCourseAddEvaluationLinkLocator(getCourseRowID(courseID)); }
+	public By getCoordCourseDeleteLinkLocator(String courseID) { return getCoordCourseDeleteLinkLocator(getCourseRowID(courseID)); }
+	
+	// Evaluation table at evaluation page
+	/**
+	 * Finds the rowID (at evaluation page) number of a specific evaluation based on
+	 * the course ID and evaluation name 
+	 * @param courseId
+	 * @param evalName
+	 * @return
+	 */
+	public int getEvaluationRowID(String courseId, String evalName) {
+		int i = 0;
+		while (i < countEvaluations()) {
+			if (getEvaluationCourseID(i).equals(courseId) && getEvaluationName(i).equals(evalName)) {
+				return i;
+			}
+			i++;
+		}
+		return -1;
+	}
+	public By getCoordEvaluationViewResultsLinkLocator(int rowID) { return By.id("viewEvaluation" + rowID); }
+	public By getCoordEvaluationEditLinkLocator(int rowID) { return By.id("editEvaluation" + rowID); }
+	public By getCoordEvaluationDeleteLinkLocator(int rowID) { return By.id("deleteEvaluation" + rowID); }
+	public By getCoordEvaluationRemindLinkLocator(int rowID) { return By.id("remindEvaluation" + rowID); }
+	public By getCoordEvaluationPublishLinkLocator(int rowID) { return By.id("publishEvaluation" + rowID); }
+	public By getCoordEvaluationUnpublishLinkLocator(int rowID) { return By.id("unpublishEvaluation" + rowID); }
+	
+	// Evaluation table at homepage
+	/**
+	 * Finds the rowID (at evaluation page) number of a specific evaluation based on
+	 * the course ID and evaluation name 
+	 * @param courseId
+	 * @param evalName
+	 * @return
+	 */
+	public int getCoordHomeEvaluationRowID(String courseID, String evalName) {
+		int id = 0;
+		int courseRowID = getCoordHomeCourseRowID(courseID);
+		if(courseRowID==-1) return -1;
+		String template = "//div[@id='course%d']/table[@id='dataform']//tr[@id='evaluation%d']";
+		while (!isElementPresent(By.xpath(String.format(template,courseRowID,id)))) {
+			id++;
+		}
+		while (isElementPresent(By.xpath(String.format(template,courseRowID,id)))) {
+			if(getElementText(By.xpath(String.format(template+"/td[1]",courseRowID,id))).equals(evalName)){
+				return id;
+			}
+			id++;
+		}
+		return -1;
+	}
+	public By getCoordHomeEvaluationViewResultsLinkLocator(String courseID, String evalName) { return By.id("viewEvaluation" + getCoordHomeEvaluationRowID(courseID,evalName)); }
+	public By getCoordHomeEvaluationEditLinkLocator(String courseID, String evalName) { return By.id("editEvaluation" + getCoordHomeEvaluationRowID(courseID,evalName)); }
+	public By getCoordHomeEvaluationDeleteLinkLocator(String courseID, String evalName) { return By.id("deleteEvaluation" + getCoordHomeEvaluationRowID(courseID,evalName)); }
+	public By getCoordHomeEvaluationRemindLinkLocator(String courseID, String evalName) { return By.id("remindEvaluation" + getCoordHomeEvaluationRowID(courseID,evalName)); }
+	public By getCoordHomeEvaluationPublishLinkLocator(String courseID, String evalName) { return By.id("publishEvaluation" + getCoordHomeEvaluationRowID(courseID,evalName)); }
+	public By getCoordHomeEvaluationUnpublishLinkLocator(String courseID, String evalName) { return By.id("unpublishEvaluation" + getCoordHomeEvaluationRowID(courseID,evalName)); }
 	
 	/* -------------------------------- Course Page ------------------------------- */
 	// Add course
@@ -463,7 +553,6 @@ public class BrowserInstance {
 		} else if (isGoogleLoginPage()) {
 			// Fill in login credentials
 			fillString(By.id("Email"), email);
-			getDriver().findElement(By.id("Passwd")).sendKeys("aa");
 			fillString(By.id("Passwd"), password);
 			// Click sign in button
 			click(By.id("signIn"));
@@ -517,7 +606,7 @@ public class BrowserInstance {
 	 */
 	public void click(By by) {
 		if (isElementPresent(by)) {
-			getDriver().findElement(by).click();
+			driver.findElement(by).click();
 		} else {
 			fail("Element " + by.toString() + " does not exists.");
 		}
@@ -526,12 +615,11 @@ public class BrowserInstance {
 	/**
 	 * WebDriver clicks on an element.
 	 * Wait for the element to exist or timeout.
-	 * Does not wait for the action to finish (i.e., returns immediately after clicking)
 	 * @param by
 	 */
 	public void clickWithWait(By by) {
 		waitForElementPresent(by);
-		getDriver().findElement(by).click();
+		driver.findElement(by).click();
 	}
 	
 	/**
@@ -546,22 +634,10 @@ public class BrowserInstance {
 		selenium.selectWindow(window);
 		selenium.windowFocus();
 	}
-
-	/**
-	 * Clicks currentElement and verifies the result (by the appearance of nextElement) before returning.
-	 * Fails when the next element doesn't appear.  
-	 * @param currentElement
-	 * @param nextElement
-	 */
-	public void clickAndCheck(By currentElement, By nextElement) {
-		clickWithWait(currentElement);
-		waitForElementPresent(nextElement);
-	}
 	
 	/* ------------------------- Navigational Clicks ------------------------ */
 	/**
 	 * Clicks Home Tab
-	 * Does not wait for the new page to load.
 	 */
 	public void clickHomeTab() {
 		clickWithWait(homeTab);
@@ -569,7 +645,6 @@ public class BrowserInstance {
 
 	/**
 	 * Clicks Courses Tab
-	 * Does not wait until the page is loaded.
 	 */
 	public void clickCourseTab() {
 		clickWithWait(courseTab);
@@ -577,7 +652,6 @@ public class BrowserInstance {
 
 	/**
 	 * Clicks Evaluations Tab
-	 * Does not wait for the new page to load.
 	 */
 	public void clickEvaluationTab() {
 		clickWithWait(evaluationTab);
@@ -585,7 +659,6 @@ public class BrowserInstance {
 
 	/**
 	 * Clicks Team Forming Tab
-	 * Does not wait for the new page to load.
 	 */
 	public void clickTeamFormingTab() {
 		clickWithWait(teamFormingTab);
@@ -603,7 +676,7 @@ public class BrowserInstance {
 	 * Does not wait for any further action to complete (i.e., returns immediately after confirming)
 	 * 
 	 */
-	public void clickAndConfirm(By by) {
+	public void clickAndConfirm(By by) throws NoAlertAppearException{
 		/*
 		 * Huy: I have no idea why the driver.switchTo().alert() approach doesn't work even in Firefox (it supposed to!).
 		 * This is a workaround to press Yes in the confirmation box. Same for function below for No.
@@ -613,21 +686,16 @@ public class BrowserInstance {
 		 */
 
 		//if (Config.inst().BROWSER.equals("chrome")) {
-			JavascriptExecutor js = (JavascriptExecutor) getDriver();
+			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("window.confirm = function(msg){ delete(window.confirm); return true;};");
 			clickWithWait(by);
 			
-			try{
-				if((Boolean)js.executeScript("return eval(window.confirm).toString()==eval(function(msg){ delete(window.confirm); return true;}).toString()")){
-					// This means the click does not generate alert box
-					System.err.println("No alert box is shown while clicking "+by);
-				}
-			} catch (Exception e){
-				// Probably the browser does not support eval().toString()
-			} finally {
-				// Make sure it's deleted. Deleting twice does not hurt
-				js.executeScript("delete(window.confirm)");
+			if((Boolean)js.executeScript("return eval(window.confirm).toString()==eval(function(msg){ delete(window.confirm); return true;}).toString()")){
+				// This means the click does not generate alert box
+				throw new NoAlertAppearException(by.toString());
 			}
+			// Make sure it's deleted. Deleting twice does not hurt
+			js.executeScript("delete(window.confirm)");
 		//}
 	}
 
@@ -642,23 +710,18 @@ public class BrowserInstance {
 	 * Does not wait for any further action to complete (i.e., returns immediately after cancelling)
 	 * 
 	 */
-	public void clickAndCancel(By by) {
+	public void clickAndCancel(By by) throws NoAlertAppearException{
 		//if (Config.inst().BROWSER.equals("chrome")) {
-			JavascriptExecutor js = (JavascriptExecutor) getDriver();
+			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("window.confirm = function(msg){ delete(window.confirm); return false;};");
 			clickWithWait(by);
 			
-			try{
-				if((Boolean)js.executeScript("return eval(window.confirm).toString()==eval(function(msg){ delete(window.confirm); return false;}).toString()")){
-					// This means the click does not generate alert box
-					System.err.println("No alert box is shown while clicking "+by);
-				}
-			} catch (Exception e){
-				// Probably the browser does not support eval().toString()
-			} finally {
-				// Make sure it's deleted. Deleting twice does not hurt
-				js.executeScript("delete(window.confirm)");
+			if((Boolean)js.executeScript("return eval(window.confirm).toString()==eval(function(msg){ delete(window.confirm); return false;}).toString()")){
+				// This means the click does not generate alert box
+				throw new NoAlertAppearException(by.toString());
 			}
+			// Make sure it's deleted. Deleting twice does not hurt
+			js.executeScript("delete(window.confirm)");
 		//}
 	}
 
@@ -699,7 +762,7 @@ public class BrowserInstance {
 	 * @param rowID
 	 */
 	public void clickCoordHomeCourseDeleteAndConfirm(int rowID) {
-		clickAndConfirm(getCoordHomeCourseDeleteLink(rowID));
+		clickAndConfirm(getCoordHomeCourseDeleteLinkLocator(rowID));
 	}
 	
 	/**
@@ -707,8 +770,8 @@ public class BrowserInstance {
 	 * Pre-condition: Should be at Coordinator Homepage
 	 * @param rowID
 	 */
-	public void clickCoordHomeCourseDeleteAndCancel(int rowID) {
-		clickAndCancel(getCoordHomeCourseDeleteLink(rowID));
+	public void clickCoordHomeCourseDeleteAndCancel(String courseID) {
+		clickAndCancel(getCoordHomeCourseDeleteLinkLocator(courseID));
 	}
 
 	/**
@@ -717,7 +780,7 @@ public class BrowserInstance {
 	 * @param rowID
 	 */
 	public void clickCoordCourseDeleteAndConfirm(int rowID) {
-		clickAndConfirm(getCoordCourseDeleteLink(rowID));
+		clickAndConfirm(getCoordCourseDeleteLinkLocator(rowID));
 	}
 
 	/**
@@ -726,7 +789,7 @@ public class BrowserInstance {
 	 * @param courseID
 	 */
 	public void clickCoordCourseDeleteAndConfirm(String courseID) {
-		int rowID = findCourseRow(courseID);
+		int rowID = getCourseRowID(courseID);
 		if (rowID > -1) {
 			clickCoordCourseDeleteAndConfirm(rowID);
 		} else {
@@ -740,7 +803,7 @@ public class BrowserInstance {
 	 * @param rowID
 	 */
 	public void clickCoordCourseDeleteAndCancel(int rowID) {
-		clickAndCancel(getCoordCourseDeleteLink(rowID));
+		clickAndCancel(getCoordCourseDeleteLinkLocator(rowID));
 	}
 
 	/**
@@ -749,7 +812,7 @@ public class BrowserInstance {
 	 * @param courseID
 	 */
 	public void clickCoordCourseDeleteAndCancel(String courseID) {
-		int rowID = findCourseRow(courseID);
+		int rowID = getCourseRowID(courseID);
 		if (rowID > -1) {
 			clickCoordCourseDeleteAndCancel(rowID);
 		} else {
@@ -786,7 +849,7 @@ public class BrowserInstance {
 	 * @param rowID
 	 */
 	public void clickCoordEvaluationDeleteAndConfirm(int rowID) {
-		clickAndConfirm(getCoordEvaluationDeleteLink(rowID));
+		clickAndConfirm(getCoordEvaluationDeleteLinkLocator(rowID));
 	}
 
 	/**
@@ -796,7 +859,7 @@ public class BrowserInstance {
 	 * @param evalName
 	 */
 	public void clickCoordEvaluationDeleteAndConfirm(String courseId, String evalName) {
-		int rowID = findEvaluationRow(courseId, evalName);
+		int rowID = getEvaluationRowID(courseId, evalName);
 		if (rowID > -1) {
 			clickCoordEvaluationDeleteAndConfirm(rowID);
 		} else {
@@ -810,7 +873,7 @@ public class BrowserInstance {
 	 * @param rowID
 	 */
 	public void clickCoordEvaluationDeleteAndCancel(int rowID) {
-		clickAndCancel(getCoordEvaluationDeleteLink(rowID));
+		clickAndCancel(getCoordEvaluationDeleteLinkLocator(rowID));
 	}
 
 	/**
@@ -820,7 +883,7 @@ public class BrowserInstance {
 	 * @param evalName
 	 */
 	public void clickCoordEvaluationDeleteAndCancel(String courseId, String evalName) {
-		int rowID = findEvaluationRow(courseId, evalName);
+		int rowID = getEvaluationRowID(courseId, evalName);
 		if (rowID > -1) {
 			clickCoordEvaluationDeleteAndCancel(rowID);
 		} else {
@@ -835,7 +898,7 @@ public class BrowserInstance {
 	 * @param rowID
 	 */
 	public void clickCoordEvaluationPublishAndConfirm(int rowID) {
-		clickAndConfirm(getCoordEvaluationPublishLink(rowID));
+		clickAndConfirm(getCoordEvaluationPublishLinkLocator(rowID));
 	}
 	
 	/**
@@ -846,7 +909,7 @@ public class BrowserInstance {
 	 * @param evalName
 	 */
 	public void clickCoordEvaluationPublishAndConfirm(String courseId, String evalName) {
-		int rowID = findEvaluationRow(courseId, evalName);
+		int rowID = getEvaluationRowID(courseId, evalName);
 		if (rowID > -1) {
 			clickCoordEvaluationPublishAndConfirm(rowID);
 		} else {
@@ -861,7 +924,7 @@ public class BrowserInstance {
 	 * @param rowID
 	 */
 	public void clickCoordEvaluationPublishAndCancel(int rowID) {
-		clickAndCancel(getCoordEvaluationPublishLink(rowID));
+		clickAndCancel(getCoordEvaluationPublishLinkLocator(rowID));
 	}
 	
 	/**
@@ -872,7 +935,7 @@ public class BrowserInstance {
 	 * @param evalName
 	 */
 	public void clickCoordEvaluationPublishAndCancel(String courseID, String evalName) {
-		int rowID = findEvaluationRow(courseID, evalName);
+		int rowID = getEvaluationRowID(courseID, evalName);
 	
 		if (rowID > -1) {
 			clickCoordEvaluationPublishAndCancel(rowID);
@@ -888,7 +951,7 @@ public class BrowserInstance {
 	 * @param rowID
 	 */
 	public void clickCoordEvaluationUnpublishAndConfirm(int rowID) {
-		clickAndConfirm(getCoordEvaluationUnpublishLink(rowID));
+		clickAndConfirm(getCoordEvaluationUnpublishLinkLocator(rowID));
 	}
 	
 	/**
@@ -898,7 +961,7 @@ public class BrowserInstance {
 	 * @param evalName
 	 */
 	public void clickCoordEvaluationUnpublishAndConfirm(String courseId, String evalName) {
-		int rowID = findEvaluationRow(courseId, evalName);
+		int rowID = getEvaluationRowID(courseId, evalName);
 		if (rowID > -1) {
 			clickCoordEvaluationUnpublishAndConfirm(rowID);
 		} else {
@@ -913,7 +976,7 @@ public class BrowserInstance {
 	 * @param rowID
 	 */
 	public void clickCoordEvaluationUnpublishAndCancel(int rowID) {
-		clickAndConfirm(getCoordEvaluationPublishLink(rowID));
+		clickAndConfirm(getCoordEvaluationPublishLinkLocator(rowID));
 	}
 
 	/**
@@ -924,7 +987,7 @@ public class BrowserInstance {
 	 * @param evalName
 	 */
 	public void clickCoordEvaluationUnpublishAndCancel(String courseID, String evalName) {
-		int rowID = findEvaluationRow(courseID, evalName);
+		int rowID = getEvaluationRowID(courseID, evalName);
 	
 		if (rowID > -1) {
 			clickCoordEvaluationUnpublishAndCancel(rowID);
@@ -934,11 +997,11 @@ public class BrowserInstance {
 	}
 	
 	public void clickCoordEvaluationRemindAndConfirm(int rowID) {
-		clickAndConfirm(getCoordEvaluationRemindLink(rowID));
+		clickAndConfirm(getCoordEvaluationRemindLinkLocator(rowID));
 	}
 	
 	public void clickCoordEvaluationRemindAndConfirm(String courseId, String evalName) {
-		int rowID = findEvaluationRow(courseId, evalName);
+		int rowID = getEvaluationRowID(courseId, evalName);
 		if (rowID > -1) {
 			clickCoordEvaluationRemindAndConfirm(rowID);
 		} else {
@@ -947,11 +1010,11 @@ public class BrowserInstance {
 	}
 	
 	public void clickCoordEvaluationRemindAndCancel(int rowID) {
-		clickAndCancel(getCoordEvaluationRemindLink(rowID));
+		clickAndCancel(getCoordEvaluationRemindLinkLocator(rowID));
 	}
 	
 	public void clickCoordEvaluationRemindAndCancel(String courseId, String evalName) {
-		int rowID = findEvaluationRow(courseId, evalName);
+		int rowID = getEvaluationRowID(courseId, evalName);
 		if (rowID > -1) {
 			clickCoordEvaluationRemindAndCancel(rowID);
 		} else {
@@ -961,19 +1024,19 @@ public class BrowserInstance {
 	
 	/**
 	 * Clicks on the enroll link on a specific rowID.
-	 * Does not wait for the new page to be loaded.
+	 * Does not verify the new page.
 	 * @param rowID
 	 */
 	public void clickCoordCourseEnroll(int rowID) {
-		clickWithWait(getCoordCourseEnrollLink(rowID));
+		clickWithWait(getCoordCourseEnrollLinkLocator(rowID));
 	}
 	/**
 	 * Clicks on the enroll link of a specific course.
-	 * Does not wait for the new page to be loaded.
+	 * Does not verify the new page.
 	 * @param courseID
 	 */
 	public void clickCoordCourseEnroll(String courseID) {
-		int rowID = findCourseRow(courseID);
+		int rowID = getCourseRowID(courseID);
 		if (rowID > -1) {
 			clickCoordCourseEnroll(rowID);
 		} else {
@@ -983,11 +1046,11 @@ public class BrowserInstance {
 	
 	public void clickCoordCourseView(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		clickWithWait(getCoordCourseViewLink(rowID));
+		clickWithWait(getCoordCourseViewLinkLocator(rowID));
 	}
 	
 	public void clickCoordCourseView(String courseID) {
-		int rowID = findCourseRow(courseID);
+		int rowID = getCourseRowID(courseID);
 		if (rowID > -1) {
 			clickCoordCourseView(rowID);
 		} else {
@@ -1036,11 +1099,11 @@ public class BrowserInstance {
 	}
 	
 	public void clickCoordEvaluationViewResults(int rowID) {
-		clickWithWait(getCoordEvaluationViewResultsLink(rowID));
+		clickWithWait(getCoordEvaluationViewResultsLinkLocator(rowID));
 	}
 	
 	public void clickCoordEvaluationViewResults(String courseId, String evalName) {
-		int rowID = findEvaluationRow(courseId, evalName);
+		int rowID = getEvaluationRowID(courseId, evalName);
 	
 		if (rowID > -1) {
 			clickCoordEvaluationViewResults(rowID);
@@ -1051,11 +1114,11 @@ public class BrowserInstance {
 	
 	/* -------------------- Clicks without confirmation --------------------- */
 	public void clickCoordEvaluationEdit(int rowID) {
-		clickWithWait(getCoordEvaluationEditLink(rowID));
+		clickWithWait(getCoordEvaluationEditLinkLocator(rowID));
 	}
 	
 	public void clickCoordEvaluationEdit(String courseId, String evalName) {
-		int rowID = findEvaluationRow(courseId, evalName);
+		int rowID = getEvaluationRowID(courseId, evalName);
 		if (rowID > -1) {
 			clickCoordEvaluationEdit(rowID);
 		} else {
@@ -1064,7 +1127,7 @@ public class BrowserInstance {
 	}
 	
 	public void clickCoordTFSViewTeams(int rowID) {
-		clickAndConfirm(By.id("viewTeams"+rowID));
+		clickWithWait(By.id("viewTeams"+rowID));
 	}
 	
 	public void clickCoordTFSViewTeams(String courseId) {
@@ -1078,7 +1141,7 @@ public class BrowserInstance {
 	
 	public void clickCoordTFSViewLog(int rowID) {
 		String elementID = "viewLogTeamFormingSession" + rowID;
-		clickAndConfirm(By.id(elementID));
+		clickWithWait(By.id(elementID));
 	}
 	
 	public void clickCoordTFSViewLog(String courseId) {
@@ -1092,7 +1155,7 @@ public class BrowserInstance {
 	
 	public void clickCoordTFSEdit(int rowID) {
 		String elementID = "manageTeamFormingSession" + rowID;
-		clickAndConfirm(By.id(elementID));
+		clickWithWait(By.id(elementID));
 	}
 	
 	public void clickCoordTFSEdit(String courseId) {
@@ -1576,21 +1639,18 @@ public class BrowserInstance {
 		fillString(coordCourseInputCourseName, coursename);
 		clickWithWait(coordCourseAddButton);
 	}
-
-
+	
 	/**
-	 * Adds a new course with specified courseID and coursename.
-	 * Waits until the course is added before returning.
-	 * Pre-condition: Should be at coordinator course page.
-	 * @param courseid
-	 * @param coursename
-	 * @param courseIndex
+	 * Add an evaluation through the UI.
+	 * Pre-condition: Should be at Evaluation add page
+	 * @param courseID
+	 * @param evalName
+	 * @param dateValue
+	 * @param nextTimeValue
+	 * @param comments
+	 * @param instructions
+	 * @param gracePeriod
 	 */
-	public void addCourse(String courseid, String coursename, int courseIndex) {
-		fillString(coordCourseInputCourseID, courseid);
-		fillString(coordCourseInputCourseName, coursename);
-		clickAndCheck(coordCourseAddButton, By.id("courseID" + courseIndex));
-	}
 	public void addEvaluation(String courseID, String evalName, String dateValue, String nextTimeValue, String comments, String instructions, Integer gracePeriod) {
 		clickEvaluationTab();
 	
@@ -1625,6 +1685,7 @@ public class BrowserInstance {
 		// Submit the form
 		clickWithWait(addEvaluationButton);
 	}
+	
 	/**
 	 * Adds an evaluation through the UI.
 	 * Pre-condition: Should be at Evaluation page.
@@ -1633,40 +1694,7 @@ public class BrowserInstance {
 	public void addEvaluation(Evaluation eval) {
 		addEvaluation(eval.courseID, eval.name, eval.dateValue, eval.nextTimeValue, eval.p2pcomments, eval.instructions, eval.gracePeriod);
 	}
-	/**
-	 * 
-	 * @param eval
-	 * @param evalIndex
-	 */
-	public void addEvaluation(Evaluation eval, int evalIndex) {
-		clickEvaluationTab();
-		// Select the course
-		clickWithWait(coordCourseInputCourseID);
-		System.out.println("click " + eval.courseID);
-		selectDropdownByValue(coordCourseInputCourseID, eval.courseID);
 	
-		// Fill in the evaluation name
-		fillString(inputEvaluationName, eval.name);
-		// Allow P2P comment
-		clickWithWait(By.xpath("//*[@id='commentsstatus'][@value='" + eval.p2pcomments + "']"));
-		// Fill in instructions
-		fillString(inputInstruction, eval.instructions);
-		// Select deadline date
-		clickWithWait(inputClosingDate);
-		selenium.waitForPopUp("window_deadline", "30000");
-		selenium.selectWindow("name=window_deadline");
-		clickWithWait(By.xpath("//a[contains(@href, '" + eval.dateValue + "')]"));
-		for (String s : driver.getWindowHandles()) {
-			selenium.selectWindow(s);
-			break;
-		}
-		selectDropdownByValue(inputClosingTime, eval.nextTimeValue);
-		// Select grace period
-		selectDropdownByValue(inputGracePeriod, Integer.toString(eval.gracePeriod));
-		
-		// Submit the form
-		clickAndCheck(addEvaluationButton, By.id("evaluation" + evalIndex));
-	}
 	public void addTeamFormingSession(String courseID, String dateValue, String nextTimeValue, Integer gracePeriod, String instructions, String profileTemplate) {
 		clickTeamFormingTab();
 	
@@ -1681,7 +1709,7 @@ public class BrowserInstance {
 	
 		// Select deadline date
 		clickWithWait(inputClosingDate);
-		selenium.waitForPopUp("window_deadline", "30000");
+		selenium.waitForPopUp("window_deadline", TIMEOUT+"");
 		selenium.selectWindow("name=window_deadline");
 		clickWithWait(By.xpath("//a[contains(@href, '" + dateValue + "')]"));
 		for (String s : driver.getWindowHandles()) {
@@ -1748,7 +1776,7 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public By getCourseIDCell(String courseID) {
-		int rowID = findCourseRow(courseID);
+		int rowID = getCourseRowID(courseID);
 		if (rowID > -1) {
 			return getCourseIDCell(rowID);
 		} else {
@@ -1765,7 +1793,7 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public String getCourseName(String courseID) {
-		int rowID = findCourseRow(courseID);
+		int rowID = getCourseRowID(courseID);
 		if (rowID > -1) {
 			return getElementText(getCourseNameCell(rowID));
 		} else {
@@ -1810,7 +1838,7 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public String getCourseNumberOfTeams(String courseID) {
-		int rowID = findCourseRow(courseID);
+		int rowID = getCourseRowID(courseID);
 		if (rowID > -1) {
 			return getCourseNumberOfTeams(rowID);
 		} else {
@@ -1840,7 +1868,7 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public String getCourseTotalStudents(String courseID) {
-		int rowID = findCourseRow(courseID);
+		int rowID = getCourseRowID(courseID);
 		if (rowID > -1) {
 			return getCourseTotalStudents(rowID);
 		} else {
@@ -1870,7 +1898,7 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public String getCourseUnregisteredStudents(String courseID) {
-		int rowID = findCourseRow(courseID);
+		int rowID = getCourseRowID(courseID);
 		if (rowID > -1) {
 			return getCourseUnregisteredStudents(rowID);
 		} else {
@@ -1906,27 +1934,13 @@ public class BrowserInstance {
 	public By getStudentNameFromManageTeamFormingSession(int rowID, int col) {
 		return By.xpath(String.format("//div[@class='result_team']//table[@id='dataform']//tbody//tr[%d]//td[%d]", rowID, col));		
 	}
-	
-	/**
-	 * Finds the rowID number of a course based on course ID
-	 * @param courseID
-	 * @return
-	 */
-	private int findCourseRow(String courseID) {
-		for (int i = 0; i < countCourses(); i++) {
-			if (getElementText(getCourseIDCell(i)).equals(courseID)) {
-				return i;
-			}
-		}
-		return -1;
-	}
 
 	/**
 	 * Finds the rowID number of a student based on the name
 	 * @param student
 	 * @return
 	 */
-	private int findStudentRow(String student) {
+	public int findStudentRow(String student) {
 		int i = 0;
 		while (i < countCourseDetailStudents()) {
 			if (getCourseDetailStudentName(i).equals(student)) {
@@ -1943,29 +1957,11 @@ public class BrowserInstance {
 	 * @param courseId
 	 * @return
 	 */
-	private int findTeamFormingSessionRow(String courseId) {
+	public int findTeamFormingSessionRow(String courseId) {
 		int i = 0;
 		while (i < countTFS()) {
 			if (getTeamFormingSessionCourseID(i).equals(courseId))
 				return i;
-			i++;
-		}
-		return -1;
-	}
-	
-	/**
-	 * Finds the rowID number of a specific evaluation based on
-	 * the course ID and evaluation name 
-	 * @param courseId
-	 * @param evalName
-	 * @return
-	 */
-	private int findEvaluationRow(String courseId, String evalName) {
-		int i = 0;
-		while (i < countEvaluations()) {
-			if (getEvaluationCourseID(i).equals(courseId) && getEvaluationName(i).equals(evalName)) {
-				return i;
-			}
 			i++;
 		}
 		return -1;
@@ -2041,7 +2037,7 @@ public class BrowserInstance {
 	}
 
 	public String getEvaluationStatus(String courseId, String evalName) {
-		int rowID = findEvaluationRow(courseId, evalName);
+		int rowID = getEvaluationRowID(courseId, evalName);
 		if (rowID > -1) {
 			return getEvaluationStatus(rowID);
 		} else {
@@ -2057,7 +2053,7 @@ public class BrowserInstance {
 	}
 
 	public String getEvaluationResponse(String courseId, String evalName) {
-		int rowID = findEvaluationRow(courseId, evalName);
+		int rowID = getEvaluationRowID(courseId, evalName);
 		if (rowID > -1) {
 			return getEvaluationResponse(rowID);
 		} else {
@@ -2267,12 +2263,12 @@ public class BrowserInstance {
 			System.out.println("Using HTMLUnit.");
 
 			setDriver(new HtmlUnitDriver());
-			selenium = new WebDriverBackedSelenium(getDriver(), Config.inst().TEAMMATES_URL);
+			selenium = new WebDriverBackedSelenium(driver, Config.inst().TEAMMATES_URL);
 
 		} else if (Config.inst().BROWSER.equals("firefox")) {
 			System.out.println("Using Firefox.");
 			setDriver(new FirefoxDriver());
-			selenium = new WebDriverBackedSelenium(getDriver(), Config.inst().TEAMMATES_URL);
+			selenium = new WebDriverBackedSelenium(driver, Config.inst().TEAMMATES_URL);
 
 		} else if (Config.inst().BROWSER.equals("chrome")) {
 
@@ -2283,8 +2279,8 @@ public class BrowserInstance {
 			ChromeDriverService service = startChromeDriverService();
 			setDriver(new RemoteWebDriver(service.getUrl(), DesiredCapabilities.chrome()));
 
-			System.out.println(getDriver().toString());
-			selenium = new WebDriverBackedSelenium(getDriver(), Config.inst().TEAMMATES_URL);
+			System.out.println(driver.toString());
+			selenium = new WebDriverBackedSelenium(driver, Config.inst().TEAMMATES_URL);
 
 		} else {
 
@@ -2310,7 +2306,7 @@ public class BrowserInstance {
 		 * Not used yet because of the consideration that there are some DOM get action that don't want to wait, 
 		 * such as checking whether an element is not present 
 		 * 
-		 * getDriver().manage().timeouts().implicitlyWait(TIMEOUT, TimeUnit.SECONDS);
+		 * driver.manage().timeouts().implicitlyWait(TIMEOUT, TimeUnit.SECONDS);
 		 */
 		
 		selenium.windowMaximize();
@@ -2450,7 +2446,7 @@ public class BrowserInstance {
 	 */
 	public void fillString(By by, String value) {
 		waitForElementPresent(by);
-		WebElement ele = getDriver().findElement(by);
+		WebElement ele = driver.findElement(by);
 		ele.clear();
 		ele.sendKeys(value);
 	}
@@ -2486,7 +2482,7 @@ public class BrowserInstance {
 	 * Waits for element exists or timeout.
 	 * @param id
 	 * @return
-	 * 		The final value in the field
+	 * 		The final value in the field, whitespace-trimmed
 	 */
 	public String fillInCourseID(String id)
 	{
@@ -2495,25 +2491,52 @@ public class BrowserInstance {
 	}
 	
 	/**
-	 * Retrieve element's text through WebDriver.
+	 * Retrieves element's text through WebDriver.
 	 * Does not do any wait.
 	 * @return empty string if element is not found.
 	 */
 	public String getElementText(By locator) {
 		if (!isElementPresent(locator))
 			return "";
-		return getDriver().findElement(locator).getText();
+		return driver.findElement(locator).getText();
+	}
+	
+	/**
+	 * Retrieves the element's attribute based on the attribute name 
+	 * @param locator
+	 * @param attrName
+	 * @return
+	 */
+	public String getElementAttribute(By locator, String attrName){
+		waitForElementPresent(locator);
+		return driver.findElement(locator).getAttribute(attrName);
 	}
 
 	/**
-	 * Retrieve the element's `value` attribute.
+	 * Retrieves the element's `value` attribute.
 	 * Usually used for elements like input, option, etc.
 	 * @param locator
 	 * @return
 	 */
 	public String getElementValue(By locator) {
-		waitForElementPresent(locator);
-		return getDriver().findElement(locator).getAttribute("value");
+		return getElementAttribute(locator,"value");
+	}
+	
+	/**
+	 * Retrieves the element's 'href' attribute, returns the relative path
+	 * (i.e., without "http://<main-app-url>/")
+	 * @param locator
+	 * @return
+	 */
+	public String getElementRelativeHref(By locator){
+		String link = getElementAttribute(locator, "href");
+		if( !link.startsWith("http") ) return link;
+		String[] tokens = link.split("/");
+		String result = "";
+		for(int i=3; i<tokens.length; i++){
+			result+=tokens[i];
+		}
+		return result;
 	}
 
 	/**
@@ -2524,7 +2547,7 @@ public class BrowserInstance {
 	 */
 	public String getDropdownSelectedValue(By locator) {
 		waitForElementPresent(locator);
-		Select select = new Select(getDriver().findElement(locator));
+		Select select = new Select(driver.findElement(locator));
 		return select.getFirstSelectedOption().getAttribute("value");
 	}
 	
@@ -2536,7 +2559,7 @@ public class BrowserInstance {
 	 */
 	public void selectDropdownByValue(By locator, String value) {
 		waitForElementPresent(locator);
-		Select select = new Select(getDriver().findElement(locator));
+		Select select = new Select(driver.findElement(locator));
 		select.selectByValue(value);
 	}
 
@@ -2560,7 +2583,7 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public boolean isElementPresent(By by) {
-		return getDriver().findElements(by).size() != 0;
+		return driver.findElements(by).size() != 0;
 	}
 	/**
 	 * Wrapper method to check whether an element exists (already loaded),
@@ -2572,7 +2595,7 @@ public class BrowserInstance {
 	 */
 	public boolean isElementPresentWithWait(By by) {
 		waitForElementPresent(by);
-		return getDriver().findElements(by).size() != 0;
+		return driver.findElements(by).size() != 0;
 	}
 	
 	/**
@@ -2625,7 +2648,7 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public boolean isEvaluationPresent(String courseId, String evalName) {
-		return findEvaluationRow(courseId, evalName)>-1;
+		return getEvaluationRowID(courseId, evalName)>-1;
 	}
 	
 	public boolean isTeamFormingSessionPresent(String courseId) {
@@ -2679,33 +2702,6 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * Goes to Courses page by clicking on the link "Courses" in the navigation bar.
-	 * Verifies that the page is loaded correctly before returning.
-	 */
-	public void goToCourses() {
-		clickCourseTab();
-		verifyCoordCoursesPage();
-	}
-
-	/**
-	 * Goes to Team Forming page by clicking on the link "Team-forming" in the navigation bar.
-	 * Verifies that the page is loaded correctly before returning.
-	 */
-	public void goToTeamForming() {
-		clickWithWait(teamFormingTab);
-		verifyCoordTeamFormingPage();
-	}
-
-	/**
-	 * Goes to Evaluation page by clicking on the link "Evaluation" in the navigation bar.
-	 * Verifies that the page is loaded correctly before returning.
-	 */
-	public void goToEvaluation() {
-		clickEvaluationTab();
-		verifyCoordEvaluationsPage();
-	}
-
-	/**
 	 * Goes to Main page by going to the root URL
 	 * Verifies that the page is loaded correctly before returning.
 	 */
@@ -2734,6 +2730,30 @@ public class BrowserInstance {
 		verifyStudentHomePage();
 	}
 
+	/**
+	 * Goes to Courses page by clicking on the link "Courses" in the navigation bar.
+	 * Verifies that the page is loaded correctly before returning.
+	 */
+	public void goToCourses() {
+		clickCourseTab();
+		verifyCoordCoursesPage();
+	}
+	/**
+	 * Goes to Team Forming page by clicking on the link "Team-forming" in the navigation bar.
+	 * Verifies that the page is loaded correctly before returning.
+	 */
+	public void goToTeamForming() {
+		clickTeamFormingTab();
+		verifyCoordTeamFormingPage();
+	}
+	/**
+	 * Goes to Evaluation page by clicking on the link "Evaluation" in the navigation bar.
+	 * Verifies that the page is loaded correctly before returning.
+	 */
+	public void goToEvaluation() {
+		clickEvaluationTab();
+		verifyCoordEvaluationsPage();
+	}
 	/* -----------------------------------------------------------------------
 	 * Object comparison functions
 	 * Compares objects and verifies that the objects are the same
@@ -2772,6 +2792,55 @@ public class BrowserInstance {
 	}
 
 	/**
+	 * Verifies current page against the page stored at location as pointed by filepath.
+	 * @param filepath
+	 * @throws Exception
+	 */
+	public void verifyCurrentPageHTML(String filepath) throws Exception {
+		String NL = System.getProperty("line.separator");
+	
+		StringBuilder expectedContentBuilder = new StringBuilder();
+		Scanner scanner = new Scanner(new FileInputStream(filepath));
+		while (scanner.hasNextLine()){
+			expectedContentBuilder.append(scanner.nextLine() + NL);
+		}
+		scanner.close();
+		//FIXME: fix the next line so that we do not have to change the version number every time. 
+		String expectedContent = expectedContentBuilder.toString().replace("{{version}}", "4.17.02");
+	
+		String pageSrc = driver.getPageSource();
+		BufferedReader actual = new BufferedReader(new StringReader(pageSrc));
+		StringBuilder actualContentBuilder = new StringBuilder();
+		String actualLine;
+		while ((actualLine = actual.readLine()) != null) {
+			actualContentBuilder.append(actualLine + NL);		
+		}	
+		actual.close();
+		String actualContent = actualContentBuilder.toString();
+	
+		assertEquals(expectedContent, actualContent);
+	
+	}
+	/**
+	 * Method to print current page to a file.
+	 * This is to be used in HTML testing, where we can generate the reference HTML file using this method
+	 * @param destination
+	 */
+	public void printCurrentPage(String destination){
+		String pageSrc = driver.getPageSource();
+		BufferedReader actual = new BufferedReader(new StringReader(pageSrc));
+		try {
+			TestFileWriter output = new TestFileWriter(new File(destination));
+			String actualLine;
+			while((actualLine = actual.readLine())!=null){
+				output.write(actualLine+System.getProperty("line.separator"));
+			}
+			output.close();
+		} catch (IOException e) {
+			
+		}
+	}
+	/**
 	 * Verifies an object content (div) against the one stored at filepath
 	 * @param filepath
 	 * @param div
@@ -2791,7 +2860,6 @@ public class BrowserInstance {
 					while ((expectedLine = expected.readLine()) != null) {
 						assertNotNull("Expected had more lines then the actual.", actualLine);
 						assertEquals(expectedLine, actualLine);
-						System.out.println(actualLine);
 						actualLine = actual.readLine();
 					}
 					break;
@@ -2807,34 +2875,41 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * Verifies current page against the page stored at location as pointed by filepath
+	 * Verifies current page with a reference page, i.e., finding the reference
+	 * string in current page (so the reference does not have to be full page)<br />
+	 * <br />
+	 * This method has minimal placeholder capability, matching {*} in the
+	 * reference with anything in current page, trying to maximize the match.
+	 * During the match, it ignores spaces that occur more than two consecutively,
+	 * and it also ignores any newline characters.<br />
+	 * <br />
+	 * Example usage is to test sorting elements, say we want to test the order
+	 * of two known elements, which should be independent in the presence of other
+	 * elements. We can also ignore the rowID which maybe different under different
+	 * number of elements.<br />
+	 * <br />
+	 * Try to avoid this method if not necessary, because the result will only be
+	 * fail or success, i.e., we can't know which part of the page does not match
 	 * @param filepath
+	 * @param div
 	 * @throws Exception
 	 */
-	public void verifyCurrentPageHTML(String filepath) throws Exception {
-		String NL = System.getProperty("line.separator");
-
-		StringBuilder expectedContentBuilder = new StringBuilder();
-		Scanner scanner = new Scanner(new FileInputStream(filepath));
-		while (scanner.hasNextLine()){
-			expectedContentBuilder.append(scanner.nextLine() + NL);
+	public void verifyObjectHTMLRegex(String filepath) throws Exception {
+		try {
+			String pageSrc = driver.getPageSource();
+			BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(filepath)));
+			StringBuffer inputStrBuf = new StringBuffer();
+			String tmp;
+			while((tmp = input.readLine())!=null) inputStrBuf.append(tmp);
+			String inputStr = inputStrBuf.toString();
+			inputStr = inputStr.replaceAll("([()\\[.\\+?|^$])",Matcher.quoteReplacement("\\")+"$1").replaceAll("\\{\\*}", ".*").replaceAll("(\\s{2,}|[\r\n])","");
+			pageSrc = pageSrc.replaceAll("(\\s{2,}|[\r\n])","");
+			assertTrue(inputStr+"\n"+pageSrc,pageSrc.matches(".*"+inputStr+".*"));
+		} catch (Exception e) {
+			System.err.println("Error: " + e.getMessage());
+			e.printStackTrace();
+			assertTrue(false);
 		}
-		scanner.close();
-		//FIXME: fix the next line so that we do not have to change the version number every time. 
-		String expectedContent = expectedContentBuilder.toString().replace("{{version}}", "4.17.1");
-
-		String pageSrc = driver.getPageSource();
-		BufferedReader actual = new BufferedReader(new StringReader(pageSrc));
-		StringBuilder actualContentBuilder = new StringBuilder();
-		String actualLine;
-		while ((actualLine = actual.readLine()) != null) {
-			actualContentBuilder.append(actualLine + NL);		
-		}	
-		actual.close();
-		String actualContent = actualContentBuilder.toString();
-
-		assertEquals(expectedContent, actualContent);
-
 	}
 
 	/* -----------------------------------------------------------------------
@@ -2842,6 +2917,87 @@ public class BrowserInstance {
 	 * Checks whether we are in the correct page,
 	 * or checks whether something has been done correctly
 	 * --------------------------------------------------------------------- */
+	/**
+	 * Verifies the header tag of current page with the one stored at headerFile.
+	 * Ignores the username.
+	 * @param headerFile
+	 */
+	public void verifyHeader(String headerFile){
+		try {
+			String div = Common.HEADER_TAG;
+			String pageSrc = driver.getPageSource();
+			FileInputStream refSrc = new FileInputStream(headerFile);
+			BufferedReader actual = new BufferedReader(new StringReader(pageSrc));
+			BufferedReader expected = new BufferedReader(new InputStreamReader(new DataInputStream(refSrc)));
+
+			String expectedLine;
+			String actualLine;
+			while((actualLine = actual.readLine()) != null) {
+				if(actualLine.contains(div)) {
+					while ((expectedLine = expected.readLine()) != null) {
+						if(expectedLine.contains("(")){
+							int openBracket = expectedLine.indexOf("(");
+							int closeBracket = expectedLine.indexOf(")");
+							expectedLine = expectedLine.substring(0,openBracket+1)+expectedLine.substring(closeBracket);
+						}
+						if(actualLine.contains("(")){
+							int openBracket = actualLine.indexOf("(");
+							int closeBracket = actualLine.indexOf(")");
+							actualLine = actualLine.substring(0,openBracket+1)+actualLine.substring(closeBracket);
+						}
+						assertNotNull("Expected had more lines then the actual.", actualLine);
+						assertEquals(expectedLine, actualLine);
+						actualLine = actual.readLine();
+					}
+					break;
+				}
+			}
+
+			actual.close();
+			expected.close();
+		} catch (Exception e) {
+			System.err.println("Error: " + e.getMessage());
+			assertTrue(false);
+		}
+	}
+	
+	/**
+	 * Verifies the footer tag of current page with the one stored at headerFile.
+	 * Verifies the version as well against the one stored in the variable Common.VERSION
+	 * @param footerFile
+	 */
+	public void verifyFooter(String footerFile){
+		try {
+			String div = Common.FOOTER_TAG;
+			String pageSrc = driver.getPageSource();
+			FileInputStream refSrc = new FileInputStream(footerFile);
+			BufferedReader actual = new BufferedReader(new StringReader(pageSrc));
+			BufferedReader expected = new BufferedReader(new InputStreamReader(new DataInputStream(refSrc)));
+
+			String expectedLine;
+			String actualLine;
+			while((actualLine = actual.readLine()) != null) {
+				if(actualLine.contains(div)) {
+					while ((expectedLine = expected.readLine()) != null) {
+						if(expectedLine.contains("{{")){
+							expectedLine = expectedLine.replace("{{version}}", Common.VERSION);
+						}
+						assertNotNull("Expected had more lines then the actual.", actualLine);
+						assertEquals(expectedLine, actualLine);
+						actualLine = actual.readLine();
+					}
+					break;
+				}
+			}
+
+			actual.close();
+			expected.close();
+		} catch (Exception e) {
+			System.err.println("Error: " + e.getMessage());
+			assertTrue(false);
+		}
+	}
+	
 	/**
 	 * Helper method to check that we're at the main page
 	 * Checking for the Coordinator and Student links
@@ -2896,7 +3052,7 @@ public class BrowserInstance {
 	 */
 	public void verifyCourseIsAdded(String courseId, String courseName) {
 		// Check for courseId
-		int rowNumber = findCourseRow(courseId);
+		int rowNumber = getCourseRowID(courseId);
 		System.out.println("verifying course id : " + getCourseIDCell(rowNumber));
 		assertEquals(courseId, getElementText(getCourseIDCell(rowNumber)));
 	
@@ -2904,7 +3060,7 @@ public class BrowserInstance {
 		assertEquals(courseName, getElementText(getCourseNameCell(rowNumber)));
 	
 		// Check for default number of teams - 0
-		assertEquals("0", getCourseNumberOfTeams(findCourseRow(courseId)));
+		assertEquals("0", getCourseNumberOfTeams(getCourseRowID(courseId)));
 	}
 	
 	/**
@@ -3207,6 +3363,32 @@ public class BrowserInstance {
 	}
 	
 	/**
+	 * Helper method to verify that we're at the Coordinator course details page for a specific course.
+	 * Checking for these fields:
+	 * <ul>
+	 * <li>XPath: {@link #coordCourseDetailsCourseID}</li>
+	 * <li>XPath: {@link #CourseDetailsCourseName}</li>
+	 * <li>XPath: {@link #CourseDetailsTeams}</li>
+	 * <li>XPath: {@link #CourseDetailsTotalStudents}</li>
+	 * <li>TEXT: {courseID in courseDetailsCourseID}</li>
+	 * </ul>
+	 */
+	public void verifyCoordCourseDetailsPage(String courseID) {
+		for (int x=0;; x++){
+			if (x >= RETRY){
+				fail("Not in Coordinator Course Details Page");
+			}
+	
+			if (isElementPresent(coordCourseDetailsCourseID) && isElementPresent(coordCourseDetailsCourseName)
+					&& isElementPresent(coordCourseDetailsTeams) && isElementPresent(coordCourseDetailsTotalStudents)
+					&& getElementText(coordCourseDetailsCourseID).compareToIgnoreCase(courseID)==0)
+				return;
+	
+			waitAWhile(RETRY_TIME);
+		}
+	}
+	
+	/**
 	 * Helper method to verify that we're at the student enrollment page.
 	 * Checking for these fields:
 	 * <ul>
@@ -3230,7 +3412,7 @@ public class BrowserInstance {
 	 * Helper method to verify that we're at the student enrollment page for specific course
 	 * Checking for these fields:
 	 * <ul>
-	 * <li>TEXT: ENROLL STUDENTS FOR {courseID.toUpperCase()}</li>
+	 * <li>TEXT: ENROLL STUDENTS FOR {courseID.toUpperCase() in pageTitle}</li>
 	 * <li>ID: information</li>
 	 * <li>ID: button_enroll</li>
 	 * </ul>

@@ -19,7 +19,6 @@ import com.google.appengine.api.datastore.Text;
  */
 @PersistenceCapable
 public class TeamFormingLog {
-	@SuppressWarnings("unused")
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	public Long id;

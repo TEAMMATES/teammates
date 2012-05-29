@@ -17,7 +17,6 @@ import teammates.exception.GoogleIDExistsInCourseException;
 import teammates.exception.InvalidParametersException;
 import teammates.exception.RegistrationKeyInvalidException;
 import teammates.exception.RegistrationKeyTakenException;
-import teammates.exception.TeammatesException;
 import teammates.jdo.Course;
 import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.EnrollmentReport;

@@ -1,7 +1,6 @@
 package teammates.testing.object;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import teammates.testing.lib.SharedLib;
+import teammates.testing.lib.TestFileWriter;
 
 public class Scenario {
 	public Coordinator coordinator;
@@ -96,9 +96,9 @@ public class Scenario {
 
 	public void toJSONFile(String filepath) {
 
-		FileWriter fout;
+		TestFileWriter fout;
 		try {
-			fout = new FileWriter(new File(filepath));
+			fout = new TestFileWriter(new File(filepath));
 			fout.write(toJSONObject().toString(2));
 			fout.close();
 		} catch (IOException e) {

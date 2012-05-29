@@ -1,8 +1,8 @@
 <%@ page import="java.util.*"%>
 <%@ page import="teammates.*"%>
-<%@ page import="teammates.jdo.*" %>
-<%@ page import="teammates.exception.*" %>
-<%@ page import="teammates.jsp.*" %>
+<%@ page import="teammates.jdo.*"%>
+<%@ page import="teammates.exception.*"%>
+<%@ page import="teammates.jsp.*"%>
 
 <%	
 	// See if user is logged in, if not we redirect them to the login page
@@ -70,18 +70,18 @@
 		if (!accounts.isCoordinator()) {
 	%>
 	<p>
-		You are not authorized to view this page.
-		<br /><br />
+		You are not authorized to view this page. <br />
+		<br />
 		<a href="javascript:logout();">Logout and return to main page.</a>
 	</p>
 	<%
-		} else {
+		} else { // AUTHENTICATED USER
 	%>
 
 	<div id="frameTop">
 		<jsp:include page="/coordHeader.jsp" />
 	</div>
-	
+
 	<div id="frameBody">
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
@@ -89,63 +89,70 @@
 				<h1>ADD NEW COURSE</h1>
 			</div>
 			<div id="coordinatorCourseManagement">
-			<%
-				out.println(
-					"<form method='post' action='coordCourse.jsp' name='form_addcourse'>" +
-						"<table class='addform round'>" +
-						"<tr>" +
-							"<td><b>Course ID:</b></td>" +
-						"</tr>" +
-						"<tr>" +
-							"<td><input class='addinput' type='text' name='" + Common.COURSE_ID + "' id='" + Common.COURSE_ID + "'" +
-							"value=\"" + (newCourseID==null?"":newCourseID) + "\"" +
-							"onmouseover=\"ddrivetip('Enter the identifier of the course, e.g.CS3215Sem1.')\"" +
-							"onmouseout=\"hideddrivetip()\" maxlength=" + Common.COURSE_ID_MAX_LENGTH + " tabindex=1 /></td>" +
-						"</tr>" +
-						"<tr>" +
-							"<td><b>Course Name:</b></td>" +
-						"</tr>" +
-						"<tr>" +
-							"<td><input class='addinput' type='text' name='" + Common.COURSE_NAME + "' id='" + Common.COURSE_NAME + "'" +
-							"value=\"" + (newCourseName==null?"":newCourseName) + "\"" +
-							"onmouseover=\"ddrivetip('Enter the name of the course, e.g. Software Engineering.')\"" +
-							"onmouseout=\"hideddrivetip()\" maxlength=" + Common.COURSE_NAME_MAX_LENGTH + " tabindex=2 /></td>" +
-						"</tr>" +
-						"<tr>" +
-							"<td><input id='btnAddCourse' type='submit' class='button'" +
-							"onclick=\"return doAddCourse();\"" +
-							"value='Add Course' tabindex='3' /></td>" +
-						"</tr>" +
-						"</table>" +
-					"</form>");
-				%>
+				<form method='get' action='coordCourse.jsp' name='form_addcourse'>
+					<table class='addform round'>
+						<tr>
+							<td><b>Course ID:</b></td>
+						</tr>
+						<tr>
+							<td><input class='addinput' type='text'
+								name='<%= Common.COURSE_ID %>' id='<%= Common.COURSE_ID %>'
+								value='<%= (newCourseID==null?"":newCourseID) %>'
+								onmouseover='ddrivetip("Enter the identifier of the course, e.g.CS3215Sem1.")'
+								onmouseout='hideddrivetip()'
+								maxlength=<%= Common.COURSE_ID_MAX_LENGTH %> tabindex=1 /></td>
+						</tr>
+						<tr>
+							<td><b>Course Name:</b></td>
+						</tr>
+						<tr>
+							<td><input class='addinput' type='text'
+								name='<%= Common.COURSE_NAME %>' id='<%= Common.COURSE_NAME %>'
+								value='<%=(newCourseName==null?"":newCourseName)%>'
+								onmouseover='ddrivetip("Enter the name of the course, e.g. Software Engineering.")'
+								onmouseout='hideddrivetip()'
+								maxlength=<%= Common.COURSE_NAME_MAX_LENGTH %> tabindex=2 /></td>
+						</tr>
+						<tr>
+							<td><input id='btnAddCourse' type='submit' class='button'
+								onclick='return doAddCourse();' value='Add Course' tabindex='3' /></td>
+						</tr>
+					</table>
+				</form>
 			</div>
 			<br />
-			<%  if(statusMessage!=null) {%>
-				<div id="statusMessage" style="display:block;<% if(error) out.println("background:#FF9999"); %>" >
-					<% out.println(statusMessage); %>
-				</div>
-				<%} else { %>
-				<div id="statusMessage" style="display:none"></div>
-			<%	} %>
+			<%
+				if(statusMessage!=null) {
+			%>
+			<div id="statusMessage"
+				style="display:block;<% if(error) out.println("background:#FF9999"); %>">
+				<% out.println(statusMessage); %></div>
+			<%
+				} else {
+			%>
+			<div id="statusMessage" style="display: none"></div>
+			<%
+				}
+			%>
 			<div id="coordinatorCourseTable">
-				<%
-				out.println(
-					"<br /><br />" +
-					"<table id='dataform'>" +
-						"<tr>" +
-							"<th><input class='buttonSortAscending' type='button' id='button_sortcourseid'" + 
-							"onclick=\"javascript:toggleSortCoursesByID(this,1);\"" +
-							">COURSE ID</input></th>" +
-							"<th><input class='buttonSortNone' type='button' id='button_sortcoursename'" +
-							"onclick=\"javascript:toggleSortCoursesByName(this,2);\"" +
-							">COURSE NAME</input></th>" +
-							"<th class='centeralign'>TEAMS</th>" +
-							"<th class='centeralign'>TOTAL STUDENTS</th>" +
-							"<th class='centeralign'>TOTAL UNREGISTERED</th>" +
-							"<th class='centeralign'>ACTION(S)</th>" +
-						"</tr>"
-				);
+				<br />
+				<br />
+				<table id='dataform'>
+					<tr>
+						<th><input class='buttonSortAscending' type='button'
+							id='button_sortcourseid'
+							onclick='javascript:toggleSortCoursesByID(this,1);' />
+							COURSE ID</th>
+						<th><input class='buttonSortNone' type='button'
+							id='button_sortcoursename'
+							onclick='javascript:toggleSortCoursesByName(this,2);' />
+							COURSE NAME</th>
+						<th class='centeralign'>TEAMS</th>
+						<th class='centeralign'>TOTAL STUDENTS</th>
+						<th class='centeralign'>TOTAL UNREGISTERED</th>
+						<th class='centeralign'>ACTION(S)</th>
+					</tr>
+					<%
 				HashMap<String, CourseSummaryForCoordinator> courses = server.getCourseListForCoord(coordID);
 				CourseSummaryForCoordinator[] summary = courses.values().toArray(new CourseSummaryForCoordinator[]{});
 				Arrays.sort(summary,new Comparator<CourseSummaryForCoordinator>(){
@@ -156,48 +163,60 @@
 				int idx = 0;
 				for(idx=0; idx<summary.length; idx++){
 					CourseSummaryForCoordinator course = summary[idx];
-					out.println(
-						"<tr>" +
-							"<td id='courseID" + idx + "'>" + course.getID() + "</td>" +
-							"<td id='courseName" + idx + "'>" + course.getName() + "</td>" +
-							"<td class='t_course_teams centeralign'>" + course.getNumberOfTeams() + "</td>" +
-							"<td class='centeralign'>" + course.getTotalStudents() + "</td>" +
-							"<td class='centeralign'>" + course.getUnregistered() + "</td>" +
-							"<td class='centeralign'>" +
-								"<a class='t_course_enroll'" +
-									"href=\"" + Helper.getCourseEnrollLink(course.getID()) + "\"" +
-									"hideddrivetip();\" onmouseover=\"ddrivetip('" + Common.HOVER_MESSAGE_ENROLL + "')\"" +
-									"onmouseout=\"hideddrivetip()\">Enroll</a>" +
-								"<a class='t_course_view'" +
-									"href=\"" + Helper.getCourseDetailsLink(course.getID()) + "\"" +
-									"hideddrivetip();\" onmouseover=\"ddrivetip('" + Common.HOVER_MESSAGE_VIEW_COURSE + "')\"" +
-									"onmouseout=\"hideddrivetip()\">View</a>" +
-								"<a class='t_course_delete'" +
-									"href=\"" + Helper.getCourseDeleteLink(course.getID(),"coordCourse.jsp") + "\"" +
-									"onclick=\"hideddrivetip(); return toggleDeleteCourseConfirmation('" + course.getID() + "');" +
-									"\" onmouseover=\"ddrivetip('" + Common.HOVER_MESSAGE_DELETE_COURSE + "')\"" +
-									"onmouseout=\"hideddrivetip()\">Delete</a>" +
-							"</td>" +
-						"</tr>"
-					);
+					%>
+					<tr>
+						<td id='courseID<%= idx %>'><%= course.getID() %></td>
+						<td id='courseName<%= idx %>'><%= course.getName() %></td>
+						<td class='t_course_teams centeralign'><%= course.getNumberOfTeams() %></td>
+						<td class='centeralign'><%= course.getTotalStudents() %></td>
+						<td class='centeralign'><%= course.getUnregistered() %></td>
+						<td class='centeralign'>
+							<a class='t_course_enroll'
+								href='<%= Helper.getCourseEnrollLink(course.getID()) %>'
+								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_ENROLL %>")'
+								onmouseout='hideddrivetip()'>Enroll</a>
+							<a class='t_course_view'
+								href='<%= Helper.getCourseViewLink(course.getID()) %>'
+								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_VIEW_COURSE %>")'
+								onmouseout='hideddrivetip()'>View</a>
+							<a class='t_course_delete'
+								href='<%= Helper.getCourseDeleteLink(course.getID(),"coordCourse.jsp") %>'
+								onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("<%= course.getID() %>");'
+								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_DELETE_COURSE %>")'
+								onmouseout='hideddrivetip()'>Delete</a>
+						</td>
+					</tr>
+					<%
 				}
-				if(idx==0){
-					out.println("<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
-				}
-				out.println("</table><br /><br /><br />");
-				if(idx==0){
-					out.println("No records found.<br /><br /><br /><br />");
-				}
-				%>
+				if(idx==0){ // Print empty row %>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<% } %>
+				</table>
+				<br />
+				<br />
+				<br />
+				<% if(idx==0){ %>
+				No records found. <br />
+				<br />
+				<br />
+				<br />
+				<% } %>
 			</div>
 		</div>
 	</div>
-	
+
 	<div id="frameBottom">
 		<jsp:include page="/footer.jsp" />
 	</div>
 	<%
-		}
+		} // END OF AUTHENTICATED USER
 	%>
 </body>
 </html>

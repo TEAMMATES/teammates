@@ -47,7 +47,7 @@ public class CoordCourseAddApiTest extends BaseTestCase{
 			ts.init();
 			Datastore.initialize();
 		}catch(IllegalStateException e){
-			System.out.println("Error in initializing local datastore :");
+			System.out.println("Error in initializing local datastore: (this is usually OK)");
 			e.printStackTrace();
 		} catch (ServletException e) {
 			System.out.println("Error in initializing servlet");
@@ -55,7 +55,6 @@ public class CoordCourseAddApiTest extends BaseTestCase{
 		}
 	}
 	
-
 	@Test
 	public void testCoordCourseAdd() throws IOException, ServletException {
 		String response;

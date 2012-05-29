@@ -5,8 +5,7 @@
 			<div id="logo">
 				<img alt="Teammates" height="47px"
 					src="/images/teammateslogo.jpg"
-					width="150px" />	
-				
+					width="150px" />
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
@@ -16,7 +15,7 @@
 					<li><a class='t_evaluations' href="coordEval.jsp">Evaluations</a></li>
 					<li><a class='t_help' href="http://www.comp.nus.edu.sg/~teams/coordinatorhelp.html" target="_blank">Help</a></li>
 					<li><a class='t_logout' href="javascript:logout();">Logout</a>
-					 ( <% out.println(Helper.truncate(accounts.getUser().getNickname())); %>)</li>
+					 ( <% out.print(Helper.truncate(accounts.getUser().getNickname())); %>)</li>
 				</ul>
 			</div>
 		</div>

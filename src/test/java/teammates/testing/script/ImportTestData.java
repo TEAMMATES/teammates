@@ -33,7 +33,7 @@ public class ImportTestData {
 
 	private static void setupPageVerificationData() {
 		System.out.println("Importing data for page verification ...");
-		Scenario sc = Scenario.scenarioForPageVerification("target/test-classes/data/page_verification.json");
+		Scenario sc = Scenario.scenarioForPageVerification("src/test/resources/data/page_verification.json");
 		
 		//TODO: may be unify terms id, googleid, username (w.r.t. coordinator)?
 		//TODO: do a cascade delete of the coord

@@ -13,6 +13,8 @@ import com.google.gson.GsonBuilder;
 public class Common {
 	
 	public final static String EOL = System.getProperty("line.separator");
+	public final static String ENCODING = "UTF8";
+	public final static String VERSION = "4.17.02";
 	
 	// Hover messages
 	public final static String HOVER_MESSAGE_ENROLL = "Enroll student into the course";
@@ -85,6 +87,10 @@ public class Common {
 	public final static String MESSAGE_COURSE_EXISTS = "The course already exists.";
 	public final static String MESSAGE_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
 	public final static String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
+	
+	// DIV tags for HTML testing
+	public final static String HEADER_TAG = "<div id=\"frameTop\">";
+	public final static String FOOTER_TAG = "<div id=\"frameBottom\">";
 
 	//data field sizes
 	public static int COURSE_NAME_MAX_LENGTH = 38;

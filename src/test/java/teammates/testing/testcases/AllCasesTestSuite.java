@@ -15,7 +15,8 @@ import teammates.testing.junit.TMAPITest;
 	APIServletTest.class,
 	CoordCourseAddPageHtmlTest.class,
 	CoordCourseAddPageUiTest.class,
-	CoordCourseAddApiTest.class
+	CoordCourseAddApiTest.class,
+	CoordHomePageUiTest.class
 })
 
 public class AllCasesTestSuite {	

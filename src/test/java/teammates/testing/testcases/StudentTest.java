@@ -10,7 +10,7 @@ import teammates.exception.InvalidParametersException;
 import teammates.exception.TeammatesException;
 import teammates.jdo.Student;
 
-public class StudentTest {
+public class StudentTest extends BaseTestCase{
 	
 	@Test
 	public void testStudentConstructor() throws TeammatesException {

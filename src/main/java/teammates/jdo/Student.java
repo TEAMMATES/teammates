@@ -7,7 +7,6 @@ import javax.jdo.annotations.PrimaryKey;
 
 import teammates.Common;
 import teammates.exception.InvalidParametersException;
-import teammates.exception.TeammatesException;
 
 import com.google.gson.annotations.SerializedName;
 import com.google.appengine.api.datastore.Text;

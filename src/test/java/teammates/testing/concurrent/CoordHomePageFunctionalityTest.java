@@ -111,11 +111,11 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		 * Need to use the Course ID and Evaluation name as the key, and do searching
 		 * on the page, just like the other methods.
 		 */
-		bi.clickWithWait(bi.getCoordHomeCourseEnrollLink(FIRST_COURSE));
+		bi.clickWithWait(bi.getCoordHomeCourseEnrollLinkLocator(FIRST_COURSE));
 		bi.verifyCoordCourseEnrollPage();
 		
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordHomeCourseEnrollLink(SECOND_COURSE));
+		bi.clickWithWait(bi.getCoordHomeCourseEnrollLinkLocator(SECOND_COURSE));
 		bi.verifyCoordCourseEnrollPage();
 	}
 	
@@ -124,11 +124,11 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testViewCoursesLink");
 
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordHomeCourseViewLink(FIRST_COURSE));
+		bi.clickWithWait(bi.getCoordHomeCourseViewLinkLocator(FIRST_COURSE));
 		bi.verifyCoordCourseDetailsPage();
 		
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordHomeCourseViewLink(SECOND_COURSE));
+		bi.clickWithWait(bi.getCoordHomeCourseViewLinkLocator(SECOND_COURSE));
 		bi.verifyCoordCourseDetailsPage();
 	}
 	
@@ -137,11 +137,11 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testAddEvaluationLink");
 
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordHomeCourseAddEvaluationLink(FIRST_COURSE));
+		bi.clickWithWait(bi.getCoordHomeCourseAddEvaluationLinkLocator(FIRST_COURSE));
 		bi.verifyCoordEvaluationsPage();
 		
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordHomeCourseAddEvaluationLink(SECOND_COURSE));
+		bi.clickWithWait(bi.getCoordHomeCourseAddEvaluationLinkLocator(SECOND_COURSE));
 		bi.verifyCoordEvaluationsPage();
 	}
 	
@@ -150,10 +150,10 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testDeleteCoursesLink");
 
 		bi.goToCoordHome();
-		bi.clickCoordHomeCourseDeleteAndCancel(FIRST_COURSE);
+		bi.clickWithWait(bi.getCoordHomeCourseDeleteLinkLocator(FIRST_COURSE));
 		
 		bi.goToCoordHome();
-		bi.clickCoordHomeCourseDeleteAndCancel(SECOND_COURSE);
+		bi.clickWithWait(bi.getCoordHomeCourseDeleteLinkLocator(SECOND_COURSE));
 		
 		/*
 		 * NOTE: We could also do something like the below - WILL CHANGE AFTER CODE REVIEW, IF NEEDED
@@ -182,24 +182,24 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testViewResultsLink");
 		
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationViewResultsLink(FIRST_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationViewResultsLinkLocator(FIRST_EVALUATION));
 		bi.verifyCoordEvaluationResultsPage();
 		
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationViewResultsLink(SECOND_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationViewResultsLinkLocator(SECOND_EVALUATION));
 		bi.verifyCoordEvaluationResultsPage();
 		
 		// This should not be clickable
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationViewResultsLink(THIRD_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationViewResultsLinkLocator(THIRD_EVALUATION));
 		bi.verifyCoordHomePage();
 		
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationViewResultsLink(FOURTH_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationViewResultsLinkLocator(FOURTH_EVALUATION));
 		bi.verifyCoordEvaluationResultsPage();
 		
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationViewResultsLink(FIFTH_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationViewResultsLinkLocator(FIFTH_EVALUATION));
 		bi.verifyCoordEvaluationResultsPage();
 	}
 	
@@ -208,24 +208,24 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testEditEvaluationLink");
 
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationEditLink(FIRST_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationEditLinkLocator(FIRST_EVALUATION));
 		bi.verifyCoordEvaluationEditPage();
 		
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationEditLink(SECOND_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationEditLinkLocator(SECOND_EVALUATION));
 		bi.verifyCoordEvaluationEditPage();
 		
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationEditLink(THIRD_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationEditLinkLocator(THIRD_EVALUATION));
 		bi.verifyCoordEvaluationEditPage();
 		
 		// This should not be clickable
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationEditLink(FOURTH_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationEditLinkLocator(FOURTH_EVALUATION));
 		bi.verifyCoordHomePage();
 		
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationEditLink(FIFTH_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationEditLinkLocator(FIFTH_EVALUATION));
 		bi.verifyCoordEvaluationEditPage();
 	}
 	
@@ -245,7 +245,7 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		 * bi.clickAndConfirmEvaluationRemind(scn.course.courseId, scn.evaluation2.name);
 		 * 
 		 * // Confirm Email
-		 * bi.justWait();
+		 * bi.waitAWhile(5000);
 		 * for (int i = 0; i < scn.students.size(); i++) {
 		 *     assertEquals(scn.course.courseId, SharedLib.getEvaluationReminderFromGmail(scn.students.get(i).email, Config.inst().TEAMMATES_APP_PASSWD, scn.course.courseId, scn.evaluation2.name));
 		 * }
@@ -276,17 +276,17 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		
 		// This should not be clickable
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationPublishLink(FIRST_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationPublishLinkLocator(FIRST_EVALUATION));
 		bi.verifyCoordHomePage();
 		
 		// This should not be clickable
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationPublishLink(SECOND_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationPublishLinkLocator(SECOND_EVALUATION));
 		bi.verifyCoordHomePage();
 		
 		// This should not be clickable
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationPublishLink(THIRD_EVALUATION));
+		bi.clickWithWait(bi.getCoordEvaluationPublishLinkLocator(THIRD_EVALUATION));
 		bi.verifyCoordHomePage();
 		
 		bi.goToCoordHome();

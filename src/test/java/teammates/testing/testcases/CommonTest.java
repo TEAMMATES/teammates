@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import teammates.Common;
 
-public class CommonTest {
+public class CommonTest extends BaseTestCase{
 	@Test
 	public void testGenerateStringOfLength(){
 		assertEquals(5, Common.generateStringOfLength(5).length());
