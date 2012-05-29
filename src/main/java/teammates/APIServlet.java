@@ -942,6 +942,18 @@ public class APIServlet extends HttpServlet {
 		return Courses.inst().getCourseSummaryListForCoord(coordId);
 	}
 	
+	public HashMap<String, CourseSummaryForCoordinator> getCourseDetailsListForCoord(
+			String coordId) {
+		//TODO: using this method here may not be efficient as it retrieves info not required
+		HashMap<String, CourseSummaryForCoordinator> courseList = getCourseListForCoord(coordId);
+		ArrayList<EvaluationDetailsForCoordinator> evaluationList = getEvaluationsListForCoord(coordId);
+		for(EvaluationDetailsForCoordinator edfc: evaluationList){
+			CourseSummaryForCoordinator courseSummary = courseList.get(edfc.courseID);
+			courseSummary.evaluations.add(edfc);
+		}
+		return courseList;
+	}
+	
 	public ArrayList<EvaluationDetailsForCoordinator> getEvaluationsListForCoord(
 			String coordId) {
 
@@ -1216,5 +1228,7 @@ public class APIServlet extends HttpServlet {
 			String newTeamName) {
 		TeamForming.inst().editStudentsTeam(courseId, originalTeamName, newTeamName);
 	}
+
+
 
 }

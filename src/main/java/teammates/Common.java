@@ -13,6 +13,8 @@ import com.google.gson.GsonBuilder;
 public class Common {
 	
 	public final static String EOL = System.getProperty("line.separator");
+	public static final int UNINITIALIZED_INT = -9999;
+	public static final double UNINITIALIZED_DOUBLE = -9999.0;
 	
 	// Hover messages
 	public final static String HOVER_MESSAGE_ENROLL = "Enroll student into the course";
@@ -110,6 +112,7 @@ public class Common {
 	public static final String ERRORCODE_INCORRECTLY_FORMATTED_STRING = "ERRORCODE_INCORRECTLY_FORMATTED_STRING";
 	public static final String ERRORCODE_STRING_TOO_LONG = "ERRORCODE_STRING_TOO_LONG";
 	public static final String ERRORCODE_INVALID_EMAIL = "ERRORCODE_INVALID_EMAIL";
+
 
 	
 	/**

@@ -29,6 +29,7 @@ import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.InvalidParametersException;
 import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
+import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.Evaluation;
 import teammates.jdo.EvaluationDetailsForCoordinator;
 import teammates.jdo.Student;
@@ -503,6 +504,54 @@ public class APIServletTest extends BaseTestCase {
 		}
 		assertEquals(6, apiServlet.getStudentListForCourse(courseId).size());
 		
+	}
+	
+	@Test
+	public void testGetCourseDetailsListForCoord() throws Exception{
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+		
+		HashMap<String,CourseSummaryForCoordinator> courseListForCoord = apiServlet.getCourseDetailsListForCoord("idOfTypicalCoord1");
+		assertEquals(2, courseListForCoord.size());
+		String course1Id = "idOfCourse1OfCoord1";
+
+		//course with 2 evaluations
+		ArrayList<EvaluationDetailsForCoordinator> course1Evals = courseListForCoord.get(course1Id).evaluations;
+		assertEquals(2, course1Evals.size());
+		assertEquals(course1Id, course1Evals.get(0).courseID);
+		verifyEvauationInfoExistsInList(dataBundle.evaluations.get("evaluation1InCourse1OfCoord1"),course1Evals);
+		verifyEvauationInfoExistsInList(dataBundle.evaluations.get("evaluation2InCourse1OfCoord1"),course1Evals);
+		
+		//course with 1 evaluation
+		assertEquals(course1Id, course1Evals.get(1).courseID);
+		ArrayList<EvaluationDetailsForCoordinator> course2Evals = courseListForCoord.get("idOfCourse2OfCoord1").evaluations;
+		assertEquals(1, course2Evals.size());
+		verifyEvauationInfoExistsInList(dataBundle.evaluations.get("evaluation1InCourse2OfCoord1"),course2Evals);
+		
+		//course with 0 evaluations
+		courseListForCoord = apiServlet.getCourseDetailsListForCoord("idOfTypicalCoord2");
+		assertEquals(2, courseListForCoord.size());
+		assertEquals(0, courseListForCoord.get("idOfCourse2OfCoord2").evaluations.size());
+		
+		//coord with 0 courses
+		apiServlet.createCoord("coordWith0course", "Coord with 0 courses", "coordWith0course@gmail.com");
+		courseListForCoord = apiServlet.getCourseDetailsListForCoord("coordWith0course");
+		assertEquals(0, courseListForCoord.size());
+		
+		//non existent coord
+		courseListForCoord = apiServlet.getCourseDetailsListForCoord("nonexistentcoord");
+		assertEquals(0, courseListForCoord.size());
+		
+	}
+
+	private void verifyEvauationInfoExistsInList(Evaluation evaluation,
+			ArrayList<EvaluationDetailsForCoordinator> evalInfoList) {
+
+		for(EvaluationDetailsForCoordinator edfc: evalInfoList){
+			if(edfc.name.equals(evaluation.getName()))
+				return;
+		}
+		Assert.fail("Did not find "+evaluation.getName()+" in the evaluation info list");
 	}
 
 	@Test

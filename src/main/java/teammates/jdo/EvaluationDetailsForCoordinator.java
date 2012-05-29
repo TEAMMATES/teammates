@@ -2,6 +2,8 @@ package teammates.jdo;
 
 import java.util.Date;
 
+import teammates.Common;
+
 /**
  * EvaluationDetailsForCoordinator is a data class that contains information
  * from Evaluation and Submission classes that are relevant to a particular
@@ -11,20 +13,20 @@ import java.util.Date;
  * 
  */
 public class EvaluationDetailsForCoordinator {
-	private String courseID;
-	private String name;
-	private boolean commentsEnabled;
-	private String instructions;
-	private Date start;
-	private Date deadline;
-	private double timeZone;
-	private int gracePeriod;
+	public String courseID= null;
+	public String name= null;
+	public boolean commentsEnabled;
+	public String instructions= null;
+	public Date start= null;
+	public Date deadline = null;
+	public double timeZone= Common.UNINITIALIZED_DOUBLE;
+	public int gracePeriod= Common.UNINITIALIZED_INT;
 
-	private boolean published;
-	private boolean activated;
+	public boolean published;
+	public boolean activated;
 
-	private int numberOfCompletedEvaluations;
-	private int numberOfEvaluations;
+	public int numberOfCompletedEvaluations = Common.UNINITIALIZED_INT;
+	public int numberOfEvaluations= Common.UNINITIALIZED_INT;
 
 	/**
 	 * Constructs an EvaluationDetailsForCoordinator object.
@@ -60,99 +62,128 @@ public class EvaluationDetailsForCoordinator {
 		this.setNumberOfEvaluations(numberOfEvaluations);
 		this.setCommentsEnabled(commentsEnabled);
 	}
+	
+	public EvaluationDetailsForCoordinator(String courseId, String evaluationName){
+		this.courseID = courseId;
+		this.name = evaluationName;
+	}
 
+	@Deprecated
 	public void setCourseID(String courseID) {
 		this.courseID = courseID;
 	}
 
+	@Deprecated
 	public String getCourseID() {
 		return courseID;
 	}
 
+	@Deprecated
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	@Deprecated
 	public String getName() {
 		return name;
 	}
 
+	@Deprecated
 	public void setInstructions(String instructions) {
 		this.instructions = instructions;
 	}
 
+	@Deprecated
 	public String getInstructions() {
 		return instructions;
 	}
 
+	@Deprecated
 	public void setStart(Date start) {
 		this.start = start;
 	}
 
+	@Deprecated
 	public Date getStart() {
 		return start;
 	}
 
+	@Deprecated
 	public void setDeadline(Date deadline) {
 		this.deadline = deadline;
 	}
 
+	@Deprecated
 	public Date getDeadline() {
 		return deadline;
 	}
 
+	@Deprecated
 	public void setGracePeriod(int gracePeriod) {
 		this.gracePeriod = gracePeriod;
 	}
 
+	@Deprecated
 	public int getGracePeriod() {
 		return gracePeriod;
 	}
 
+	@Deprecated
 	public void setPublished(boolean published) {
 		this.published = published;
 	}
 
+	@Deprecated
 	public boolean isPublished() {
 		return published;
 	}
 
+	@Deprecated
 	public void setNumberOfCompletedEvaluations(int numberOfCompletedEvaluations) {
 		this.numberOfCompletedEvaluations = numberOfCompletedEvaluations;
 	}
 
+	@Deprecated
 	public int getNumberOfCompletedEvaluations() {
 		return numberOfCompletedEvaluations;
 	}
 
+	@Deprecated
 	public void setNumberOfEvaluations(int numberOfEvaluations) {
 		this.numberOfEvaluations = numberOfEvaluations;
 	}
 
+	@Deprecated
 	public int getNumberOfEvaluations() {
 		return numberOfEvaluations;
 	}
 
+	@Deprecated
 	public void setCommentsEnabled(boolean commentsEnabled) {
 		this.commentsEnabled = commentsEnabled;
 	}
 
+	@Deprecated
 	public boolean isCommentsEnabled() {
 		return commentsEnabled;
 	}
 
+	@Deprecated
 	public void setActivated(boolean activated) {
 		this.activated = activated;
 	}
 
+	@Deprecated
 	public boolean isActivated() {
 		return activated;
 	}
 
+	@Deprecated
 	public void setTimeZone(double timeZone) {
 		this.timeZone = timeZone;
 	}
 
+	@Deprecated
 	public double getTimeZone() {
 		return timeZone;
 	}
