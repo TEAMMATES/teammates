@@ -494,6 +494,27 @@ public class TMAPITest extends BaseTestCase{
 		status = TMAPI.editStudent(originalEmail,student1);
 		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
 	}
+	
+	@Test
+	public void testEditCoord(){
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+		Evaluation evaluation1 = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
+		evaluation1.setGracePeriod(evaluation1.getGracePeriod()+1);
+		evaluation1.setActivated(!evaluation1.isActivated());
+		evaluation1.setCommentsEnabled(!evaluation1.isCommentsEnabled());
+		evaluation1.setStart(Common.getDateOffsetToCurrentTime(1));
+		evaluation1.setDeadline(Common.getDateOffsetToCurrentTime(2));
+		evaluation1.setInstructions(evaluation1.getInstructions()+"x");
+		evaluation1.setPublished(!evaluation1.isPublished());
+		evaluation1.setTimeZone(evaluation1.getTimeZone()+0.5);
+		String status = TMAPI.editEvaluation(evaluation1);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		verifyPresentInDatastore(evaluation1);
+		evaluation1.setName("non existent");
+		status = TMAPI.editEvaluation(evaluation1);
+		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
+	}
 
 	private void refreshDataInDatastore() {
 		dataBundle = gson.fromJson(jsonString, DataBundle.class);

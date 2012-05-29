@@ -64,17 +64,18 @@ public class APIServlet extends HttpServlet {
 	public static final String OPERATION_DELETE_TEAM_FORMING_LOG = "OPERATION_DELETE_TEAM_FORMING_LOG";
 	public static final String OPERATION_DELETE_TEAM_PROFILE = "OPERATION_DELETE_TEAM_PROFILE";
 	public static final String OPERATION_DELETE_TFS = "OPERATION_DELETE_TFS";
+	public static final String OPERATION_EDIT_EVALUATION = "OPERATION_EDIT_COORD";
 	public static final String OPERATION_EDIT_STUDENT = "OPERATION_EDIT_STUDENT";
 	public static final String OPERATION_GET_COORD_AS_JSON = "OPERATION_GET_COORD_AS_JSON";
 	public static final String OPERATION_GET_COURSES_BY_COORD = "get_courses_by_coord";
 	public static final String OPERATION_GET_COURSE_AS_JSON = "OPERATION_GET_COURSE_AS_JSON";
-	public static final String OPERATION_PERSIST_DATABUNDLE = "OPERATION_PERSIST_DATABUNDLE";
 	public static final String OPERATION_GET_STUDENT_AS_JSON = "OPERATION_GET_STUDENT_AS_JSON";
 	public static final String OPERATION_GET_EVALUATION_AS_JSON = "OPERATION_GET_EVALUATION_AS_JSON";
 	public static final String OPERATION_GET_SUBMISSION_AS_JSON = "OPERATION_GET_SUBMISSION_AS_JSON";
 	public static final String OPERATION_GET_TEAM_FORMING_LOG_AS_JSON = "OPERATION_GET_TEAM_FORMING_LOG_AS_JSON";
 	public static final String OPERATION_GET_TEAM_PROFILE_AS_JSON = "OPERATION_GET_TEAM_PROFILE_AS_JSON";
 	public static final String OPERATION_GET_TFS_AS_JSON = "OPERATION_GET_TFS_AS_JSON";
+	public static final String OPERATION_PERSIST_DATABUNDLE = "OPERATION_PERSIST_DATABUNDLE";
 	public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER = "activate_auto_reminder";
 
 	public static final String PARAMETER_COURSE_ID = "PARAMETER_COURSE_ID";
@@ -262,6 +263,9 @@ public class APIServlet extends HttpServlet {
 			String dataBundleJsonString = req
 					.getParameter(PARAMETER_DATABUNDLE_JSON);
 			persistNewDataBundle(dataBundleJsonString);
+		} else if (action.equals(OPERATION_EDIT_EVALUATION)) {
+			String newValues = req.getParameter(PARAMETER_JASON_STRING);
+			editEvaluationAsJason(newValues);
 		} else if (action.equals(OPERATION_EDIT_STUDENT)) {
 			String originalEmail = req.getParameter(PARAMETER_STUDENT_EMAIL);
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
@@ -271,6 +275,8 @@ public class APIServlet extends HttpServlet {
 		}
 		return Common.BACKEND_STATUS_SUCCESS;
 	}
+
+
 
 
 
@@ -834,6 +840,11 @@ public class APIServlet extends HttpServlet {
 		Student student = Common.getTeammatesGson().fromJson(newValues, Student.class);
 		editStudent(originalEmail, student);
 	}
+	
+	private void editEvaluationAsJason(String evaluationJason) throws InvalidParametersException, EntityDoesNotExistException {
+		Evaluation evaluation = Common.getTeammatesGson().fromJson(evaluationJason, Evaluation.class);
+		editEvaluation(evaluation);
+	}
 
 	// =======================API for JSP======================================
 
@@ -1155,7 +1166,9 @@ public class APIServlet extends HttpServlet {
 		Evaluations.inst().editEvaluation(evaluation.getCourseID(),
 				evaluation.getName(), evaluation.getInstructions(),
 				evaluation.isCommentsEnabled(), evaluation.getStart(),
-				evaluation.getDeadline(), evaluation.getGracePeriod());
+				evaluation.getDeadline(), evaluation.getGracePeriod(),
+				evaluation.isActivated(), evaluation.isPublished(),
+				evaluation.getTimeZone());
 	}
 	
 	public void publishEvaluation(String courseId, String evaluationName) throws EntityDoesNotExistException{

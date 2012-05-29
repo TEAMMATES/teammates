@@ -743,7 +743,13 @@ public class TMAPI {
 		}
 	}
 	// -------------------------methods for editing entities-----------------
-	
+	public static String editEvaluation(teammates.jdo.Evaluation evaluation) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_EVALUATION);
+		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson().toJson(evaluation));
+		String status = makePOSTRequest(params);
+		return status;
+	}
+
 	public static String editStudent(String originalEmail, teammates.jdo.Student student) {
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_STUDENT);
 		params.put(APIServlet.PARAMETER_STUDENT_EMAIL, originalEmail);
@@ -842,6 +848,7 @@ public class TMAPI {
 		return returnValue;
 	}
 	// --------------------------------------------------------------------------
+
 
 
 

@@ -340,6 +340,38 @@ public class Evaluations {
 		}
 		return true;
 	}
+	
+	public boolean editEvaluation(String courseID, String name,
+			String newInstructions, boolean newCommentsEnabled, Date newStart,
+			Date newDeadline, int newGracePeriod, boolean newIsActive, boolean newIsPublished, double newTimeZone) throws EntityDoesNotExistException {
+		Evaluation evaluation = getEvaluation(courseID, name);
+		if(evaluation==null){
+			throw new EntityDoesNotExistException("Evaluation "+name+" does not exist in course "+courseID);
+		}
+		Transaction tx = getPM().currentTransaction();
+		try {
+			tx.begin();
+
+			evaluation.setInstructions(newInstructions);
+			evaluation.setStart(newStart);
+			evaluation.setDeadline(newDeadline);
+			evaluation.setGracePeriod(newGracePeriod);
+			evaluation.setCommentsEnabled(newCommentsEnabled);
+			evaluation.setActivated(newIsActive);
+			evaluation.setPublished(newIsPublished);
+			evaluation.setTimeZone(newTimeZone);
+
+			getPM().flush();
+
+			tx.commit();
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+				return false;
+			}
+		}
+		return true;
+	}
 
 	/**
 	 * Closes an Evaluation. (For testing purpose only)

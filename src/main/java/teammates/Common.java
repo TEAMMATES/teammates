@@ -240,4 +240,11 @@ public class Common {
 	public static boolean isWhiteSpace(String string) {
 		return string.trim().isEmpty();
 	}
+	
+	public static Date getDateOffsetToCurrentTime(int offsetDays) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(cal.getTime());
+		cal.add(Calendar.DATE, +offsetDays);
+		return cal.getTime();
+	}
 }

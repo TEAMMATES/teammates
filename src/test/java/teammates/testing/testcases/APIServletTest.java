@@ -251,8 +251,8 @@ public class APIServletTest extends BaseTestCase {
 		eval1.setGracePeriod(eval1.getGracePeriod() + 1);
 		eval1.setInstructions(eval1.getInstructions() + "x");
 		eval1.setCommentsEnabled(!eval1.isCommentsEnabled());
-		eval1.setStart(getDateOffsetToCurrentTime(1));
-		eval1.setDeadline(getDateOffsetToCurrentTime(2));
+		eval1.setStart(Common.getDateOffsetToCurrentTime(1));
+		eval1.setDeadline(Common.getDateOffsetToCurrentTime(2));
 		apiServlet.editEvaluation(eval1);
 		verifyPresentInDatastore(eval1);
 
@@ -332,8 +332,8 @@ public class APIServletTest extends BaseTestCase {
 		tfs1.setGracePeriod(tfs1.getGracePeriod() + 1);
 		tfs1.setInstructions(tfs1.getInstructions() + "x");
 		tfs1.setProfileTemplate(tfs1.getProfileTemplate() + "y");
-		tfs1.setStart(getDateOffsetToCurrentTime(1));
-		tfs1.setDeadline(getDateOffsetToCurrentTime(2));
+		tfs1.setStart(Common.getDateOffsetToCurrentTime(1));
+		tfs1.setDeadline(Common.getDateOffsetToCurrentTime(2));
 		apiServlet.getTfs(tfs1);
 		verifyPresentInDatastore(tfs1);
 
@@ -678,13 +678,6 @@ public class APIServletTest extends BaseTestCase {
 				.getCommentsToStudent().getValue() + "x"));
 		submission.setJustification(new Text(submission.getJustification()
 				.getValue() + "y"));
-	}
-
-	private Date getDateOffsetToCurrentTime(int offsetDays) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(cal.getTime());
-		cal.add(Calendar.DATE, +offsetDays);
-		return cal.getTime();
 	}
 
 	private void verifyPresentInDatastore(String dataBundleJsonString)
