@@ -24,11 +24,13 @@ import teammates.jdo.TeamFormingSession;
 import teammates.jdo.TeamProfile;
 import teammates.testing.lib.SharedLib;
 import teammates.testing.lib.TMAPI;
+import teammates.testing.testcases.BaseTestCase;
 
+import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class TMAPITest {
+public class TMAPITest extends BaseTestCase{
 
 	// TODO: change this to 'target' directory
 	private static String TEST_DATA_FOLDER = "src/test/resources/data/";
@@ -51,6 +53,7 @@ public class TMAPITest {
 	public void testGetCoursesByCoordId() {
 
 		String[] courses = TMAPI.getCoursesByCoordId("nonExistentCoord");
+		printTestCaseHeader(getNameOfThisMethod());
 		// testing for non-existent coordinator
 		assertEquals("[]", Arrays.toString(courses));
 
@@ -81,6 +84,7 @@ public class TMAPITest {
 
 	@Test
 	public void testDeleteCourseByIdNonCascade() throws InterruptedException {
+		printTestCaseHeader(getNameOfThisMethod());
 		// TODO: cascade delete coordinators and recreate
 		String coord1Id = "AST.TDCBINC.coord1";
 		String course1OfCoord1 = "AST.TDCBINC.course1OfCoord1";
@@ -115,7 +119,7 @@ public class TMAPITest {
 
 	@Test
 	public void testCoordManipulation() {
-
+		printTestCaseHeader(getNameOfThisMethod());
 		String coord1Id = "AST.testCoordManipulation.coord1@somemail.com";
 		String coord1Name = "AST TCM Coordinator1";
 		String coord1Email = "AST.testCoordManipulation.coord1@gmail.com";
@@ -156,6 +160,7 @@ public class TMAPITest {
 
 	@Test
 	public void testDataBundle() {
+		printTestCaseHeader(getNameOfThisMethod());
 		String jsonString = SharedLib.getFileContents(TEST_DATA_FOLDER
 				+ "typicalDataBundle.json");
 		Gson gson = Common.getTeammatesGson();
@@ -277,6 +282,7 @@ public class TMAPITest {
 	
 	@Test 
 	public void testPersistDataBundle(){
+		printTestCaseHeader(getNameOfThisMethod());
 		//to avoid clashes with existing data
 		TMAPI.deleteCoordinators(jsonString);
 		String status = TMAPI.persistNewDataBundle(jsonString);
@@ -286,7 +292,7 @@ public class TMAPITest {
 
 	@Test
 	public void testPersistenceAndDeletion() {
-		
+		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
 		
 		// ----------deleting Coordinator entities-------------------------
@@ -439,7 +445,7 @@ public class TMAPITest {
 
 	@Test
 	public void testManipulatingStudents() {
-		
+		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
 
 		Submission submissionFromS1C1ToS2C1 = dataBundle.submissions.get("submissionFromS1C1ToS2C1");
@@ -468,6 +474,25 @@ public class TMAPITest {
 		verifyPresentInDatastore(submissionFromS1C1ToS1C1);
 		
 		//TODO: check for cascade deleting team profile and team forming log
+	}
+	
+	@Test
+	public void testEditStudent(){
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+		Student student1 = dataBundle.students.get("student1InCourse1");
+		String originalEmail = student1.getEmail();
+		student1.setName("New name");
+		student1.setEmail("new@gmail.com");
+		student1.setComments("new comments");
+		student1.setProfileDetail(new Text("new profile"));
+		student1.setTeamName("new team");
+		String status = TMAPI.editStudent(originalEmail,student1);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		verifyPresentInDatastore(student1);
+		student1.setCourseID("non-existent");
+		status = TMAPI.editStudent(originalEmail,student1);
+		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
 	}
 
 	private void refreshDataInDatastore() {

@@ -64,6 +64,7 @@ public class APIServlet extends HttpServlet {
 	public static final String OPERATION_DELETE_TEAM_FORMING_LOG = "OPERATION_DELETE_TEAM_FORMING_LOG";
 	public static final String OPERATION_DELETE_TEAM_PROFILE = "OPERATION_DELETE_TEAM_PROFILE";
 	public static final String OPERATION_DELETE_TFS = "OPERATION_DELETE_TFS";
+	public static final String OPERATION_EDIT_STUDENT = "OPERATION_EDIT_STUDENT";
 	public static final String OPERATION_GET_COORD_AS_JSON = "OPERATION_GET_COORD_AS_JSON";
 	public static final String OPERATION_GET_COURSES_BY_COORD = "get_courses_by_coord";
 	public static final String OPERATION_GET_COURSE_AS_JSON = "OPERATION_GET_COURSE_AS_JSON";
@@ -82,9 +83,10 @@ public class APIServlet extends HttpServlet {
 	public static final String PARAMETER_COORD_NAME = "PARAMETER_COORD_NAME";
 	public static final String PARAMETER_DATABUNDLE_JSON = "PARAMETER_DATABUNDLE_JSON";
 	public static final String PARAMETER_EVALUATION_NAME = "PARAMETER_EVALUATION_NAME";
-	public static final String PARAMETER_STUDENT_EMAIL = "PARAMETER_STUDENT_EMAIL";
+	public static final String PARAMETER_JASON_STRING = "PARAMETER_JASON_STRING";
 	public static final String PARAMETER_REVIEWER_EMAIL = "PARAMETER_REVIEWER_EMAIL";
 	public static final String PARAMETER_REVIEWEE_EMAIL = "PARAMETER_REVIEWEE_EMAIL";
+	public static final String PARAMETER_STUDENT_EMAIL = "PARAMETER_STUDENT_EMAIL";
 	public static final String PARAMETER_STUDENT_ID = "PARAMETER_STUDENT_ID";
 	public static final String PARAMETER_TEAM_NAME = "PARAMETER_TEAM_NAME";
 
@@ -260,11 +262,17 @@ public class APIServlet extends HttpServlet {
 			String dataBundleJsonString = req
 					.getParameter(PARAMETER_DATABUNDLE_JSON);
 			persistNewDataBundle(dataBundleJsonString);
+		} else if (action.equals(OPERATION_EDIT_STUDENT)) {
+			String originalEmail = req.getParameter(PARAMETER_STUDENT_EMAIL);
+			String newValues = req.getParameter(PARAMETER_JASON_STRING);
+			editStudentAsJason(originalEmail,newValues);
 		} else {
 			throw new Exception("Unknown command: " + action);
 		}
 		return Common.BACKEND_STATUS_SUCCESS;
 	}
+
+
 
 	/**
 	 * 
@@ -821,6 +829,11 @@ public class APIServlet extends HttpServlet {
 	private void createSubmissions(List<Submission> submissionsList) {
 		Evaluations.inst().editSubmissions(submissionsList);
 	}
+	
+	private void editStudentAsJason(String originalEmail, String newValues) throws InvalidParametersException {
+		Student student = Common.getTeammatesGson().fromJson(newValues, Student.class);
+		editStudent(originalEmail, student);
+	}
 
 	// =======================API for JSP======================================
 
@@ -1106,8 +1119,8 @@ public class APIServlet extends HttpServlet {
 			throws InvalidParametersException {
 		// TODO: make the implementation more defensive
 		Courses.inst().editStudent(student.getCourseID(), originalEmail,
-				student.getName(), student.getEmail(), student.getID(),
-				student.getComments());
+				student.getName(), student.getTeamName(), student.getEmail(), student.getID(),
+				student.getComments(), student.getProfileDetail());
 	}
 	
 	public void sendRegistrationInviteToStudent(String courseId, String studentEmail) {

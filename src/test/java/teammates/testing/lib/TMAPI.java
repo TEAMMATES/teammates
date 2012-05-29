@@ -742,7 +742,15 @@ public class TMAPI {
 			deleteCoord(coord.getGoogleID());
 		}
 	}
-
+	// -------------------------methods for editing entities-----------------
+	
+	public static String editStudent(String originalEmail, teammates.jdo.Student student) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_STUDENT);
+		params.put(APIServlet.PARAMETER_STUDENT_EMAIL, originalEmail);
+		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson().toJson(student));
+		String status = makePOSTRequest(params);
+		return status;
+	}
 	// --------------------------------helper functions-----------------------
 	/**
 	 * This method reformats a Json string in the pretty printing format (i.e.
@@ -834,5 +842,7 @@ public class TMAPI {
 		return returnValue;
 	}
 	// --------------------------------------------------------------------------
+
+
 
 }

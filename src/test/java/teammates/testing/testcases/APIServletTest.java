@@ -183,8 +183,12 @@ public class APIServletTest extends BaseTestCase {
 		student1InCourse1.setID(student1InCourse1.getID() + "x");
 		student1InCourse1.setComments(student1InCourse1.getComments() + "x");
 		student1InCourse1.setEmail(student1InCourse1.getEmail() + "x");
+		student1InCourse1.setTeamName(student1InCourse1.getTeamName() + "x");
+		//TODO: make sure team profiles are deleted if this is the last student in that team
+		student1InCourse1.setProfileDetail(new Text("new profile detail abc "));
 		apiServlet.editStudent(originalEmail, student1InCourse1);
 		verifyPresentInDatastore(student1InCourse1);
+		//TODO: more testing
 	}
 
 	@Test

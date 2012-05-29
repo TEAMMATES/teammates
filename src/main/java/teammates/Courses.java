@@ -25,6 +25,7 @@ import teammates.jdo.EnrollmentStatus;
 import teammates.jdo.Student;
 
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
@@ -320,6 +321,7 @@ public class Courses {
 	 *            the new comments of the student (Precondition: Must not be
 	 *            null)
 	 */
+	@Deprecated
 	public void editStudent(String courseID, String email, String newName, String newEmail, String newGoogleID, String newComments) {
 		Student student = getStudentWithEmail(courseID, email);
 
@@ -360,6 +362,7 @@ public class Courses {
 	 *            the new comments of the student (Precondition: Must not be
 	 *            null)
 	 */
+	@Deprecated
 	public void editStudent(String courseID, String email, String newName, String newTeamName, String newEmail, String newGoogleID, String newComments) {
 		Student student = getStudentWithEmail(courseID, email);
 
@@ -368,6 +371,19 @@ public class Courses {
 		student.setID(newGoogleID);
 		student.setName(newName);
 		student.setTeamName(newTeamName);
+		
+		getPM().close();
+	}
+	
+	public void editStudent(String courseID, String email, String newName, String newTeamName, String newEmail, String newGoogleID, String newComments, Text newProfile) {
+		Student student = getStudentWithEmail(courseID, email);
+
+		student.setComments((newComments));
+		student.setEmail(newEmail);
+		student.setID(newGoogleID);
+		student.setName(newName);
+		student.setTeamName(newTeamName);
+		student.setProfileDetail(newProfile);
 		
 		getPM().close();
 	}
