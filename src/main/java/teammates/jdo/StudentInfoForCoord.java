@@ -25,7 +25,8 @@ public class StudentInfoForCoord {
 		UNMODIFIED, 
 		NEW, 
 		UNKNOWN, 
-		ERROR;
+		ERROR, 
+		NOT_IN_ENROLL_LIST;
 	}
 	
 	public String id;

@@ -997,6 +997,7 @@ public class APIServlet extends HttpServlet {
 		String[] linesArray = enrollLines.split(System.getProperty("line.separator")); 
 		ArrayList<Student> studentList = new ArrayList<Student>();
 		
+		//check if all non-empty lines are formatted correctly
 		for (int i = 0; i < linesArray.length; i++) {
 			String line = linesArray[i];
 			try {
@@ -1007,14 +1008,34 @@ public class APIServlet extends HttpServlet {
 			}
 		}
 		
+		//enroll all students
 		for(Student student: studentList){
 			StudentInfoForCoord studentInfo;
 			studentInfo = enrollStudent(student);
 			returnList.add(studentInfo);
 		}
+		
+		//add to return list students not included in the enroll list.
+		List<Student> studentsInCourse = getStudentListForCourse(courseId);
+		for(Student student: studentsInCourse){
+			if(!isInEnrollList(student,returnList)){
+				StudentInfoForCoord studentInfo = convertToStudentInfoForCoord(student);
+				studentInfo.updateStatus = StudentInfoForCoord.UpdateStatus.NOT_IN_ENROLL_LIST;
+				returnList.add(studentInfo);
+			}
+		}
 		return returnList;
 	}
 		
+	private boolean isInEnrollList(Student student,
+			ArrayList<StudentInfoForCoord> studentInfoList) {
+		for(StudentInfoForCoord studentInfo: studentInfoList){
+			if(studentInfo.email.equalsIgnoreCase(student.getEmail()))
+				return true;
+		}
+		return false;
+	}
+
 	public StudentInfoForCoord enrollStudent(Student student){
 		StudentInfoForCoord.UpdateStatus updateStatus = UpdateStatus.UNMODIFIED;
 		try {

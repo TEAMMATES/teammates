@@ -465,6 +465,7 @@ public class APIServletTest extends BaseTestCase {
 				EOL;
 		List<StudentInfoForCoord> enrollResults = apiServlet.enrollStudents(lines, courseId);
 		
+		assertEquals(5, enrollResults.size());
 		assertEquals(5, apiServlet.getStudentListForCourse(courseId).size());
 		verifyEnrollmentResultForStudent(new Student(line0, courseId),
 				enrollResults.get(0), StudentInfoForCoord.UpdateStatus.NEW);
@@ -478,6 +479,7 @@ public class APIServletTest extends BaseTestCase {
 		String line5 = "t6|n6|e6@g|c6";
 		lines = line0+EOL+line0_1+ EOL +line1+ EOL + line5;
 		enrollResults = apiServlet.enrollStudents(lines, courseId);
+		assertEquals(6, enrollResults.size());
 		assertEquals(6, apiServlet.getStudentListForCourse(courseId).size());
 		verifyEnrollmentResultForStudent(new Student(line0, courseId),
 				enrollResults.get(0), StudentInfoForCoord.UpdateStatus.UNMODIFIED);
@@ -487,6 +489,8 @@ public class APIServletTest extends BaseTestCase {
 				enrollResults.get(2), StudentInfoForCoord.UpdateStatus.UNMODIFIED);
 		verifyEnrollmentResultForStudent(new Student(line5, courseId),
 				enrollResults.get(3), StudentInfoForCoord.UpdateStatus.NEW);
+		assertEquals(StudentInfoForCoord.UpdateStatus.NOT_IN_ENROLL_LIST, enrollResults.get(4).updateStatus);
+		assertEquals(StudentInfoForCoord.UpdateStatus.NOT_IN_ENROLL_LIST, enrollResults.get(5).updateStatus);
 		
 		//includes an incorrect line, no changes should be done to the database
 		String incorrectLine = "incorrectly formatted line";

@@ -43,7 +43,6 @@ public class Datastore {
 	}
 
 	public static void finishRequest() {
-		// Utils.println("Datastore.finishRequest.");
 
 		PersistenceManager pm = PER_THREAD_PM.get();
 		if (pm != null) {
@@ -53,8 +52,9 @@ public class Datastore {
 			if (tx.isActive()) {
 				tx.rollback();
 			}
-			if (!pm.isClosed())
+			if (!pm.isClosed()){
 				pm.close();
+			}
 		}
 	}
 }
