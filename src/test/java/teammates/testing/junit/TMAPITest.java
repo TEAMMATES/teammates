@@ -590,6 +590,14 @@ public class TMAPITest extends BaseTestCase{
 		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
 
 	}
+	
+	@Test void testCreateCourse(){
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+		//TODO: complete this method
+	}
+	
+	//-----------------------------helper methods--------------------------
 
 	private void refreshDataInDatastore() {
 		dataBundle = gson.fromJson(jsonString, DataBundle.class);

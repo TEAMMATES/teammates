@@ -33,13 +33,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 /**
- * This class use REST protocol to interact directly with Teammates software to
- * make changes.
- * 
- * URL to interact: http://<teammates_url>/api
- * 
- * @author huy, wangsha
- * 
+ * This class provides an API for test driver to access TEAMMATES datastore
  */
 public class TMAPI {
 
@@ -66,6 +60,7 @@ public class TMAPI {
 
 	/**
 	 * Clean up everything related to the coordinator
+	 * @deprecated instead of this, delete coord and recreate.
 	 */
 	@Deprecated
 	public static void cleanupByCoordinator() {
@@ -73,12 +68,20 @@ public class TMAPI {
 		cleanupByCoordinator(Config.inst().TEAMMATES_COORD_ID);
 	}
 
+	/*
+	 * @deprecated instead of this, delete coord and recreate.
+	 */
+	@Deprecated
 	public static void cleanupByCoordinator(String coordId) {
 		HashMap<String, Object> params = createParamMap("cleanup_by_coordinator");
 		params.put("coordinator_id", coordId);
 		makePOSTRequest(params);
 	}
 
+	/*
+	 * @deprecated instead of this, delete course and recreate.
+	 */
+	@Deprecated
 	public static void cleanupCourse(String courseId) {
 		System.out.println("TMAPI.cleanupCourse() courseID = " + courseId);
 		HashMap<String, Object> params = createParamMap("cleanup_course");
@@ -86,12 +89,7 @@ public class TMAPI {
 		makePOSTRequest(params);
 	}
 
-	/**
-	 * Create new course
-	 */
-	public static void createCourse(Course course) {
-		createCourse(course, "teammates.coord");
-	}
+
 
 	public static void createCourse(Course course, String coordId) {
 		System.out.println("TMAPI Creating course: " + course.courseId);
@@ -593,12 +591,7 @@ public class TMAPI {
 	// =============================Revamped API================================
 
 	// -----------------------------Get*AsJason methods-------------------------
-	/**
-	 * Gets details of a coordinator.
-	 * 
-	 * @param coordId
-	 * @return Coordinator details in Json format. "null" if no such coord.
-	 */
+
 	public static String getCoordAsJason(String coordId) {
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_COORD_AS_JSON);
 		params.put(APIServlet.PARAMETER_COORD_ID, coordId);
@@ -671,6 +664,19 @@ public class TMAPI {
 		String status = makePOSTRequest(params);
 		return status;
 	}
+	
+	public static String createCoord(Coordinator coord){
+		DataBundle dataBundle = new DataBundle();
+		dataBundle.coords.put(coord.getGoogleID(), coord);
+		return persistNewDataBundle(Common.getTeammatesGson().toJson(dataBundle));
+	}
+	
+	public static String createCourse(teammates.jdo.Course course){
+		DataBundle dataBundle = new DataBundle();
+		dataBundle.courses.put(course.getID(), course);
+		return persistNewDataBundle(Common.getTeammatesGson().toJson(dataBundle));
+	}
+	
 
 	// --------------------------------methods for deleting entities----------
 
