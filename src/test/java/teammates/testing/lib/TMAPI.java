@@ -20,6 +20,7 @@ import teammates.APIServlet;
 import teammates.Common;
 import teammates.DataBundle;
 import teammates.jdo.Coordinator;
+import teammates.jdo.Submission;
 import teammates.testing.config.Config;
 import teammates.testing.object.Course;
 import teammates.testing.object.Evaluation;
@@ -754,6 +755,14 @@ public class TMAPI {
 		String status = makePOSTRequest(params);
 		return status;
 	}
+	
+	public static String editSubmission(Submission submission) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_SUBMISSION);
+		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson().toJson(submission));
+		String status = makePOSTRequest(params);
+		return status;
+	}
+
 	// --------------------------------helper functions-----------------------
 	/**
 	 * This method reformats a Json string in the pretty printing format (i.e.
@@ -845,8 +854,5 @@ public class TMAPI {
 		return returnValue;
 	}
 	// --------------------------------------------------------------------------
-
-
-
 
 }

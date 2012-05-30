@@ -64,6 +64,7 @@ public class APIServlet extends HttpServlet {
 	public static final String OPERATION_DELETE_TFS = "OPERATION_DELETE_TFS";
 	public static final String OPERATION_EDIT_EVALUATION = "OPERATION_EDIT_COORD";
 	public static final String OPERATION_EDIT_STUDENT = "OPERATION_EDIT_STUDENT";
+	public static final String OPERATION_EDIT_SUBMISSION = "OPERATION_EDIT_SUBMISSION";
 	public static final String OPERATION_GET_COORD_AS_JSON = "OPERATION_GET_COORD_AS_JSON";
 	public static final String OPERATION_GET_COURSES_BY_COORD = "get_courses_by_coord";
 	public static final String OPERATION_GET_COURSE_AS_JSON = "OPERATION_GET_COURSE_AS_JSON";
@@ -264,6 +265,9 @@ public class APIServlet extends HttpServlet {
 		} else if (action.equals(OPERATION_EDIT_EVALUATION)) {
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
 			editEvaluationAsJason(newValues);
+		} else if (action.equals(OPERATION_EDIT_SUBMISSION)) {
+			String newValues = req.getParameter(PARAMETER_JASON_STRING);
+			editSubmissionAsJason(newValues);
 		} else if (action.equals(OPERATION_EDIT_STUDENT)) {
 			String originalEmail = req.getParameter(PARAMETER_STUDENT_EMAIL);
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
@@ -273,9 +277,6 @@ public class APIServlet extends HttpServlet {
 		}
 		return Common.BACKEND_STATUS_SUCCESS;
 	}
-
-
-
 
 
 	/**
@@ -842,6 +843,13 @@ public class APIServlet extends HttpServlet {
 	private void editEvaluationAsJason(String evaluationJason) throws InvalidParametersException, EntityDoesNotExistException {
 		Evaluation evaluation = Common.getTeammatesGson().fromJson(evaluationJason, Evaluation.class);
 		editEvaluation(evaluation);
+	}
+	
+	private void editSubmissionAsJason(String submissionJason) {
+		Submission submission = Common.getTeammatesGson().fromJson(submissionJason, Submission.class);
+		ArrayList<Submission> submissionList = new ArrayList<Submission>();
+		submissionList.add(submission);
+		editSubmission(submissionList);
 	}
 
 	// =======================API for JSP======================================

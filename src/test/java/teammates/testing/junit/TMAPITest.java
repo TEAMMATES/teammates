@@ -479,6 +479,8 @@ public class TMAPITest extends BaseTestCase{
 	@Test
 	public void testEditStudent(){
 		printTestCaseHeader(getNameOfThisMethod());
+		
+		//check for successful edit
 		refreshDataInDatastore();
 		Student student1 = dataBundle.students.get("student1InCourse1");
 		String originalEmail = student1.getEmail();
@@ -490,15 +492,19 @@ public class TMAPITest extends BaseTestCase{
 		String status = TMAPI.editStudent(originalEmail,student1);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyPresentInDatastore(student1);
+		
+		//test for unsuccessful edit
 		student1.setCourseID("non-existent");
 		status = TMAPI.editStudent(originalEmail,student1);
 		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
 	}
 	
 	@Test
-	public void testEditCoord(){
+	public void testEditEvaluation(){
 		printTestCaseHeader(getNameOfThisMethod());
 		refreshDataInDatastore();
+		
+		//check for successful edit
 		Evaluation evaluation1 = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
 		evaluation1.setGracePeriod(evaluation1.getGracePeriod()+1);
 		evaluation1.setActivated(!evaluation1.isActivated());
@@ -511,8 +517,29 @@ public class TMAPITest extends BaseTestCase{
 		String status = TMAPI.editEvaluation(evaluation1);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyPresentInDatastore(evaluation1);
+		
+		//test for unsuccessful edit
 		evaluation1.setName("non existent");
 		status = TMAPI.editEvaluation(evaluation1);
+		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
+	}
+	
+	@Test
+	public void testEditSubmission(){
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+		
+		//check for successful edit
+		Submission submission = dataBundle.submissions.get("submissionFromS1C1ToS1C1");
+		submission.setJustification(new Text(submission.getJustification().getValue()+"x"));
+		submission.setPoints(submission.getPoints()+10);
+		String status = TMAPI.editSubmission(submission);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		verifyPresentInDatastore(submission);
+		
+		//test for unsuccessful edit
+		submission.setFromStudent("non-existent@gmail.com");
+		status = TMAPI.editSubmission(submission);
 		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
 	}
 
