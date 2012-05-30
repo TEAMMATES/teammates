@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
 
+import org.openqa.jetty.util.TempByteHolder;
+
 import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.EvaluationExistsException;
@@ -246,12 +248,16 @@ public class TeamForming {
 	 * 
 	 * @param team
 	 *            profile the team profile (Pre-condition: Must not be null)
+	 * @throws EntityDoesNotExistException 
 	 */
 	public boolean editTeamProfile(String courseId, String courseName,
-			String teamName, String newTeamName, Text newTeamProfile) {
+			String teamName, String newTeamName, Text newTeamProfile) throws EntityDoesNotExistException {
 		int newTeamNameExists = 0;
 
 		TeamProfile tProfile = getTeamProfile(courseId, teamName);
+		if(tProfile==null) {
+			throw new EntityDoesNotExistException("There is no team profile for team "+teamName+ " in course "+courseId);
+		}
 		List<TeamProfile> teamProfiles = getTeamProfiles(courseId);
 
 		for (int i = 0; i < teamProfiles.size(); i++) {
@@ -804,6 +810,36 @@ public class TeamForming {
 			teamFormingSession.setDeadline(newDeadline);
 			teamFormingSession.setGracePeriod(newGracePeriod);
 			teamFormingSession.setProfileTemplate(newProfileTemplate);
+
+			getPM().flush();
+
+			tx.commit();
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean editTeamFormingSession(String courseID, Date newStart,
+			Date newDeadline, int newGracePeriod, String newInstructions,
+			String newProfileTemplate, boolean newIsActivated, double newTimeZone) throws EntityDoesNotExistException {
+		TeamFormingSession teamFormingSession = getTeamFormingSession(courseID,
+				null);
+		if(teamFormingSession==null) throw new EntityDoesNotExistException("There is no team forming session for course "+courseID);
+		Transaction tx = getPM().currentTransaction();
+		try {
+			tx.begin();
+
+			teamFormingSession.setInstructions(newInstructions);
+			teamFormingSession.setStart(newStart);
+			teamFormingSession.setDeadline(newDeadline);
+			teamFormingSession.setGracePeriod(newGracePeriod);
+			teamFormingSession.setProfileTemplate(newProfileTemplate);
+			teamFormingSession.setActivated(newIsActivated);
+			teamFormingSession.setTimeZone(newTimeZone);
 
 			getPM().flush();
 

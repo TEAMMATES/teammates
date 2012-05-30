@@ -21,6 +21,7 @@ import teammates.Common;
 import teammates.DataBundle;
 import teammates.jdo.Coordinator;
 import teammates.jdo.Submission;
+import teammates.jdo.TeamProfile;
 import teammates.testing.config.Config;
 import teammates.testing.object.Course;
 import teammates.testing.object.Evaluation;
@@ -762,7 +763,21 @@ public class TMAPI {
 		String status = makePOSTRequest(params);
 		return status;
 	}
+	
+	public static String editTfs(teammates.jdo.TeamFormingSession tfs) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_TFS);
+		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson().toJson(tfs));
+		String status = makePOSTRequest(params);
+		return status;
+	}
 
+	public static String editTeamProfile(String originalTeamName, TeamProfile teamProfile) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_TEAM_PROFILE);
+		params.put(APIServlet.PARAMETER_TEAM_NAME, originalTeamName);
+		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson().toJson(teamProfile));
+		String status = makePOSTRequest(params);
+		return status;
+	}
 	// --------------------------------helper functions-----------------------
 	/**
 	 * This method reformats a Json string in the pretty printing format (i.e.

@@ -482,21 +482,22 @@ public class TMAPITest extends BaseTestCase{
 		
 		//check for successful edit
 		refreshDataInDatastore();
-		Student student1 = dataBundle.students.get("student1InCourse1");
-		String originalEmail = student1.getEmail();
-		student1.setName("New name");
-		student1.setEmail("new@gmail.com");
-		student1.setComments("new comments");
-		student1.setProfileDetail(new Text("new profile"));
-		student1.setTeamName("new team");
-		String status = TMAPI.editStudent(originalEmail,student1);
+		Student student = dataBundle.students.get("student1InCourse1");
+		String originalEmail = student.getEmail();
+		student.setName("New name");
+		student.setEmail("new@gmail.com");
+		student.setComments("new comments");
+		student.setProfileDetail(new Text("new profile"));
+		student.setTeamName("new team");
+		String status = TMAPI.editStudent(originalEmail,student);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-		verifyPresentInDatastore(student1);
+		verifyPresentInDatastore(student);
 		
 		//test for unsuccessful edit
-		student1.setCourseID("non-existent");
-		status = TMAPI.editStudent(originalEmail,student1);
+		student.setCourseID("non-existent");
+		status = TMAPI.editStudent(originalEmail,student);
 		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
+		verifyAbsentInDatastore(student);
 	}
 	
 	@Test
@@ -505,23 +506,24 @@ public class TMAPITest extends BaseTestCase{
 		refreshDataInDatastore();
 		
 		//check for successful edit
-		Evaluation evaluation1 = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
-		evaluation1.setGracePeriod(evaluation1.getGracePeriod()+1);
-		evaluation1.setActivated(!evaluation1.isActivated());
-		evaluation1.setCommentsEnabled(!evaluation1.isCommentsEnabled());
-		evaluation1.setStart(Common.getDateOffsetToCurrentTime(1));
-		evaluation1.setDeadline(Common.getDateOffsetToCurrentTime(2));
-		evaluation1.setInstructions(evaluation1.getInstructions()+"x");
-		evaluation1.setPublished(!evaluation1.isPublished());
-		evaluation1.setTimeZone(evaluation1.getTimeZone()+0.5);
-		String status = TMAPI.editEvaluation(evaluation1);
+		Evaluation evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
+		evaluation.setGracePeriod(evaluation.getGracePeriod()+1);
+		evaluation.setActivated(!evaluation.isActivated());
+		evaluation.setCommentsEnabled(!evaluation.isCommentsEnabled());
+		evaluation.setStart(Common.getDateOffsetToCurrentTime(1));
+		evaluation.setDeadline(Common.getDateOffsetToCurrentTime(2));
+		evaluation.setInstructions(evaluation.getInstructions()+"x");
+		evaluation.setPublished(!evaluation.isPublished());
+		evaluation.setTimeZone(evaluation.getTimeZone()+0.5);
+		String status = TMAPI.editEvaluation(evaluation);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-		verifyPresentInDatastore(evaluation1);
+		verifyPresentInDatastore(evaluation);
 		
 		//test for unsuccessful edit
-		evaluation1.setName("non existent");
-		status = TMAPI.editEvaluation(evaluation1);
+		evaluation.setName("non existent");
+		status = TMAPI.editEvaluation(evaluation);
 		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
+		verifyAbsentInDatastore(evaluation);
 	}
 	
 	@Test
@@ -541,6 +543,52 @@ public class TMAPITest extends BaseTestCase{
 		submission.setFromStudent("non-existent@gmail.com");
 		status = TMAPI.editSubmission(submission);
 		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
+		verifyAbsentInDatastore(submission);
+	}
+	
+	@Test 
+	public void testEditTeamFormingSession(){
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+		
+		//check for successful edit
+		TeamFormingSession tfs = dataBundle.teamFormingSessions.get("tfsInCourse1");
+		tfs.setGracePeriod(tfs.getGracePeriod()+1);
+		tfs.setStart(Common.getDateOffsetToCurrentTime(1));
+		tfs.setDeadline(Common.getDateOffsetToCurrentTime(2));
+		tfs.setInstructions(tfs.getInstructions()+"x");
+		tfs.setProfileTemplate(tfs.getProfileTemplate()+"x");
+		tfs.setTimeZone(tfs.getTimeZone()+1.0);
+		tfs.setActivated(!tfs.isActivated());
+		String status = TMAPI.editTfs(tfs);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		verifyPresentInDatastore(tfs);
+		
+		//test for unsuccessful edit
+		tfs.setCourseID("non-existent");
+		status = TMAPI.editTfs(tfs);
+		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
+		verifyAbsentInDatastore(tfs);
+	}
+	
+	@Test 
+	public void testEditTeamProfile(){
+		printTestCaseHeader(getNameOfThisMethod());
+		refreshDataInDatastore();
+		
+		//check for successful edit
+		TeamProfile teamProfile = dataBundle.teamProfiles.get("profileOfTeam1.1");
+		String originalTeamName = teamProfile.getTeamName();
+		teamProfile.setTeamName(teamProfile.getTeamName()+"x");
+		teamProfile.setTeamProfile(new Text(teamProfile.getTeamProfile().getValue()+"x"));
+		String status = TMAPI.editTeamProfile(originalTeamName,teamProfile);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		verifyPresentInDatastore(teamProfile);
+		
+		//test for unsuccessful edit
+		status = TMAPI.editTeamProfile("non-existent",teamProfile);
+		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
+
 	}
 
 	private void refreshDataInDatastore() {

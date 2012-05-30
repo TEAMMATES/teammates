@@ -65,6 +65,8 @@ public class APIServlet extends HttpServlet {
 	public static final String OPERATION_EDIT_EVALUATION = "OPERATION_EDIT_COORD";
 	public static final String OPERATION_EDIT_STUDENT = "OPERATION_EDIT_STUDENT";
 	public static final String OPERATION_EDIT_SUBMISSION = "OPERATION_EDIT_SUBMISSION";
+	public static final String OPERATION_EDIT_TEAM_PROFILE = "OPERATION_EDIT_TEAM_PROFILE";
+	public static final String OPERATION_EDIT_TFS = "OPERATION_EDIT_TFS";
 	public static final String OPERATION_GET_COORD_AS_JSON = "OPERATION_GET_COORD_AS_JSON";
 	public static final String OPERATION_GET_COURSES_BY_COORD = "get_courses_by_coord";
 	public static final String OPERATION_GET_COURSE_AS_JSON = "OPERATION_GET_COURSE_AS_JSON";
@@ -229,34 +231,34 @@ public class APIServlet extends HttpServlet {
 			return getCoordAsJson(coordID);
 		} else if (action.equals(OPERATION_GET_COURSE_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			return getCourseAsJason(courseId);
+			return getCourseAsJson(courseId);
 		} else if (action.equals(OPERATION_GET_COURSES_BY_COORD)) {
 			String coordID = req.getParameter(PARAMETER_COORD_ID);
 			return getCoursesByCoordID(coordID);
 		} else if (action.equals(OPERATION_GET_STUDENT_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
-			return getStudentAsJason(courseId, email);
+			return getStudentAsJson(courseId, email);
 		} else if (action.equals(OPERATION_GET_EVALUATION_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String evaluationName = req.getParameter(PARAMETER_EVALUATION_NAME);
-			return getEvaluationAsJason(courseId, evaluationName);
+			return getEvaluationAsJson(courseId, evaluationName);
 		} else if (action.equals(OPERATION_GET_TFS_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			return getTfsAsJason(courseId);
+			return getTfsAsJson(courseId);
 		} else if (action.equals(OPERATION_GET_TEAM_FORMING_LOG_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			return getTeamFormingLogAsJason(courseId);
+			return getTeamFormingLogAsJson(courseId);
 		} else if (action.equals(OPERATION_GET_TEAM_PROFILE_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String teamName = req.getParameter(PARAMETER_TEAM_NAME);
-			return getTeamProfileAsJason(courseId, teamName);
+			return getTeamProfileAsJson(courseId, teamName);
 		} else if (action.equals(OPERATION_GET_SUBMISSION_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String evaluationName = req.getParameter(PARAMETER_EVALUATION_NAME);
 			String reviewerId = req.getParameter(PARAMETER_REVIEWER_EMAIL);
 			String revieweeId = req.getParameter(PARAMETER_REVIEWEE_EMAIL);
-			return getSubmissionAsJason(courseId, evaluationName, reviewerId,
+			return getSubmissionAsJson(courseId, evaluationName, reviewerId,
 					revieweeId);
 		} else if (action.equals(OPERATION_PERSIST_DATABUNDLE)) {
 			String dataBundleJsonString = req
@@ -264,20 +266,26 @@ public class APIServlet extends HttpServlet {
 			persistNewDataBundle(dataBundleJsonString);
 		} else if (action.equals(OPERATION_EDIT_EVALUATION)) {
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
-			editEvaluationAsJason(newValues);
+			editEvaluationAsJson(newValues);
 		} else if (action.equals(OPERATION_EDIT_SUBMISSION)) {
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
-			editSubmissionAsJason(newValues);
+			editSubmissionAsJson(newValues);
 		} else if (action.equals(OPERATION_EDIT_STUDENT)) {
 			String originalEmail = req.getParameter(PARAMETER_STUDENT_EMAIL);
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
-			editStudentAsJason(originalEmail,newValues);
+			editStudentAsJson(originalEmail,newValues);
+		} else if (action.equals(OPERATION_EDIT_TFS)) {
+			String newValues = req.getParameter(PARAMETER_JASON_STRING);
+			editTfsAsJson(newValues);
+		} else if (action.equals(OPERATION_EDIT_TEAM_PROFILE)) {
+			String originalTeamName = req.getParameter(PARAMETER_TEAM_NAME);
+			String newValues = req.getParameter(PARAMETER_JASON_STRING);
+			editTeamProfileAsJson(originalTeamName,newValues);
 		} else {
 			throw new Exception("Unknown command: " + action);
 		}
 		return Common.BACKEND_STATUS_SUCCESS;
 	}
-
 
 	/**
 	 * 
@@ -794,39 +802,39 @@ public class APIServlet extends HttpServlet {
 		return Common.getTeammatesGson().toJson(coord);
 	}
 
-	private String getCourseAsJason(String courseId) {
+	private String getCourseAsJson(String courseId) {
 		Course course = getCourse(courseId);
 		return Common.getTeammatesGson().toJson(course);
 	}
 
-	private String getStudentAsJason(String courseId, String email) {
+	private String getStudentAsJson(String courseId, String email) {
 		Student student = getStudent(courseId, email);
 		return Common.getTeammatesGson().toJson(student);
 	}
 
-	private String getEvaluationAsJason(String courseId, String evaluationName) {
+	private String getEvaluationAsJson(String courseId, String evaluationName) {
 		Evaluation evaluation = getEvaluation(courseId, evaluationName);
 		return Common.getTeammatesGson().toJson(evaluation);
 	}
 
-	private String getSubmissionAsJason(String courseId, String evaluationName,
+	private String getSubmissionAsJson(String courseId, String evaluationName,
 			String reviewerEmail, String revieweeEmail) {
 		Submission target = getSubmission(courseId, evaluationName,
 				reviewerEmail, revieweeEmail);
 		return Common.getTeammatesGson().toJson(target);
 	}
 
-	private String getTfsAsJason(String courseId) {
+	private String getTfsAsJson(String courseId) {
 		TeamFormingSession tfs = getTfs(courseId);
 		return Common.getTeammatesGson().toJson(tfs);
 	}
 
-	private String getTeamProfileAsJason(String courseId, String teamName) {
+	private String getTeamProfileAsJson(String courseId, String teamName) {
 		TeamProfile teamProfile = getTeamProfile(courseId, teamName);
 		return Common.getTeammatesGson().toJson(teamProfile);
 	}
 
-	private String getTeamFormingLogAsJason(String courseId) {
+	private String getTeamFormingLogAsJson(String courseId) {
 		List<TeamFormingLog> teamFormingLogList = getTeamFormingLog(courseId);
 		return Common.getTeammatesGson().toJson(teamFormingLogList);
 	}
@@ -835,22 +843,38 @@ public class APIServlet extends HttpServlet {
 		Evaluations.inst().editSubmissions(submissionsList);
 	}
 	
-	private void editStudentAsJason(String originalEmail, String newValues) throws InvalidParametersException {
+	private void editStudentAsJson(String originalEmail, String newValues) throws InvalidParametersException {
 		Student student = Common.getTeammatesGson().fromJson(newValues, Student.class);
 		editStudent(originalEmail, student);
 	}
 	
-	private void editEvaluationAsJason(String evaluationJason) throws InvalidParametersException, EntityDoesNotExistException {
-		Evaluation evaluation = Common.getTeammatesGson().fromJson(evaluationJason, Evaluation.class);
+	private void editEvaluationAsJson(String evaluationJson) throws InvalidParametersException, EntityDoesNotExistException {
+		Evaluation evaluation = Common.getTeammatesGson().fromJson(evaluationJson, Evaluation.class);
 		editEvaluation(evaluation);
 	}
 	
-	private void editSubmissionAsJason(String submissionJason) {
-		Submission submission = Common.getTeammatesGson().fromJson(submissionJason, Submission.class);
+	private void editSubmissionAsJson(String submissionJson) {
+		Submission submission = Common.getTeammatesGson().fromJson(submissionJson, Submission.class);
 		ArrayList<Submission> submissionList = new ArrayList<Submission>();
 		submissionList.add(submission);
 		editSubmission(submissionList);
 	}
+	
+	private void editTfsAsJson(String tfsJson) throws EntityDoesNotExistException {
+		TeamFormingSession tfs = Common.getTeammatesGson().fromJson(tfsJson,
+				TeamFormingSession.class);
+		TeamForming.inst().editTeamFormingSession(tfs.getCourseID(),
+				tfs.getStart(), tfs.getDeadline(), tfs.getGracePeriod(),
+				tfs.getInstructions(), tfs.getProfileTemplate(),
+				tfs.isActivated(), tfs.getTimeZone());
+	}
+	
+	private void editTeamProfileAsJson(String originalTeamName, String teamProfileJson) throws EntityDoesNotExistException {
+		TeamProfile teamProfile = Common.getTeammatesGson().fromJson(teamProfileJson,
+				TeamProfile.class);
+		TeamForming.inst().editTeamProfile(teamProfile.getCourseID(), teamProfile.getCourseName(), originalTeamName, teamProfile.getTeamName(), teamProfile.getTeamProfile());
+	}
+	
 
 	// =======================API for JSP======================================
 
@@ -1248,7 +1272,7 @@ public class APIServlet extends HttpServlet {
 		TeamForming.inst().deleteTeamProfile(courseId, teamName);
 	}
 
-	public void editTeamProfile(String originalTeamName, TeamProfile modifieldTeamProfile) {
+	public void editTeamProfile(String originalTeamName, TeamProfile modifieldTeamProfile) throws EntityDoesNotExistException {
 		TeamForming.inst().editTeamProfile(modifieldTeamProfile.getCourseID(),
 				modifieldTeamProfile.getCourseName(),
 				originalTeamName,
