@@ -60,6 +60,8 @@ public class StudentCourseJoinTest extends TestCase {
 		System.out.println("Collecting registration keys.");
 		
 		for (int i = 0; i < scn.students.size(); i++) {
+			// FIXME: Incorrect method used, it is to click on Course View Details, not on students details
+			// Currently there is not yet any method to click the student details.
 			bi.clickCoordCourseView(i);
 			bi.waitForElementPresent(bi.studentDetailKey);
 			scn.students.get(i).courseKey = bi.getElementText(bi.studentDetailKey);

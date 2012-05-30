@@ -195,18 +195,14 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public int getCoordHomeEvaluationRowID(String courseID, String evalName) {
-		int id = 0;
 		int courseRowID = getCoordHomeCourseRowID(courseID);
-		if(courseRowID==-1) return -1;
-		String template = "//div[@id='course%d']/table[@id='dataform']//tr[@id='evaluation%d']";
-		while (!isElementPresent(By.xpath(String.format(template,courseRowID,id)))) {
-			id++;
-		}
-		while (isElementPresent(By.xpath(String.format(template,courseRowID,id)))) {
-			if(getElementText(By.xpath(String.format(template+"/td[1]",courseRowID,id))).equals(evalName)){
+		if(courseRowID==-1) return -2;
+		String template = "//div[@id='course%d']//table[@id='dataform']//tr[@id='evaluation%d']";
+		int max = (Integer)selenium.getXpathCount("//div//table[@id='dataform']//tr");
+		for(int id=0; id<max; id++){
+			if(getElementText(By.xpath(String.format(template+"//td[1]",courseRowID,id))).equals(evalName)){
 				return id;
 			}
-			id++;
 		}
 		return -1;
 	}
@@ -215,7 +211,7 @@ public class BrowserInstance {
 	public By getCoordHomeEvaluationDeleteLinkLocator(String courseID, String evalName) { return By.id("deleteEvaluation" + getCoordHomeEvaluationRowID(courseID,evalName)); }
 	public By getCoordHomeEvaluationRemindLinkLocator(String courseID, String evalName) { return By.id("remindEvaluation" + getCoordHomeEvaluationRowID(courseID,evalName)); }
 	public By getCoordHomeEvaluationPublishLinkLocator(String courseID, String evalName) { return By.id("publishEvaluation" + getCoordHomeEvaluationRowID(courseID,evalName)); }
-	public By getCoordHomeEvaluationUnpublishLinkLocator(String courseID, String evalName) { return By.id("unpublishEvaluation" + getCoordHomeEvaluationRowID(courseID,evalName)); }
+	public By getCoordHomeEvaluationUnpublishLinkLocator(String courseID, String evalName) { return By.id("publishEvaluation" + getCoordHomeEvaluationRowID(courseID,evalName)); }
 	
 	/* -------------------------------- Course Page ------------------------------- */
 	// Add course
@@ -2062,6 +2058,20 @@ public class BrowserInstance {
 			return "getEvaluationResponse(String evalName) failed.";
 		}
 	}
+	
+	public String getHomeEvaluationName(String courseID, String courseName){
+		waitForElementPresent(By.id("dataform"));
+		int courseRowID = getCoordHomeCourseRowID(courseID);
+		int evaluationRowID = getCoordHomeEvaluationRowID(courseID, courseName);
+		return getElementText(By.xpath(String.format("//div[@id='course%d']//table[@id='dataform']//tr[@id='evaluation%d']/td[1]",courseRowID,evaluationRowID)));
+	}
+	
+	public String getHomeEvaluationStatus(String courseID, String courseName){
+		waitForElementPresent(By.id("dataform"));
+		int courseRowID = getCoordHomeCourseRowID(courseID);
+		int evaluationRowID = getCoordHomeEvaluationRowID(courseID, courseName);
+		return getElementText(By.xpath(String.format("//div[@id='course%d']//table[@id='dataform']//tr[@id='evaluation%d']/td[2]",courseRowID,evaluationRowID)));
+	}
 
 	/* ----------------------------------------------------------------------
 	 * Locator functions
@@ -2672,8 +2682,24 @@ public class BrowserInstance {
 				break;
 			}
 		}
-	
 		return isPresent;
+	}
+	
+	/**
+	 * Checks whether a course is present in Home page
+	 * @param courseID
+	 * @param courseName
+	 * @return
+	 */
+	public boolean isHomeCoursePresent(String courseID, String courseName){
+		int id = 0;
+		while(isElementPresent(By.id("course"+id))){
+			if(getElementText(By.xpath("//div[@id='course"+id+"']/div[@class='result_homeTitle']/h2")).equalsIgnoreCase("["+courseID.toUpperCase()+"] : "+courseName)){
+				return true;
+			}
+			id++;
+		}
+		return false;
 	}
 	
 	/**

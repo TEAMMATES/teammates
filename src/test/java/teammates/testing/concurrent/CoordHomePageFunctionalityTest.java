@@ -1,9 +1,12 @@
 package teammates.testing.concurrent;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import teammates.exception.NoAlertAppearException;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.lib.TMAPI;
@@ -18,16 +21,7 @@ import teammates.testing.object.Scenario;
 
 public class CoordHomePageFunctionalityTest extends TestCase {
 	static BrowserInstance bi;
-	static Scenario scn = Scenario.scenarioForPageVerification("target/test-classes/data/landing_page_testing.json");
-	
-	private static int FIRST_COURSE = 0;
-	private static int SECOND_COURSE = 1;
-	
-	private static int FIRST_EVALUATION = 0;
-	private static int SECOND_EVALUATION = 1;
-	private static int THIRD_EVALUATION = 2;
-	private static int FOURTH_EVALUATION = 3;
-	private static int FIFTH_EVALUATION = 4;
+	static Scenario scn = Scenario.scenarioForPageVerification("src/test/resources/data/landing_page_testing.json");
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -104,19 +98,13 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testEnrollLink");
 
 		bi.goToCoordHome();
-		/*
-		 * TODO: Cannot use the evaluation or course index as the key to search
-		 * Because the indices (e.g., FIRST_COURSE, THIRD_EVALUATION, etc) may not 
-		 * be the same as what is displayed in the web page.
-		 * Need to use the Course ID and Evaluation name as the key, and do searching
-		 * on the page, just like the other methods.
-		 */
-		bi.clickWithWait(bi.getCoordHomeCourseEnrollLinkLocator(FIRST_COURSE));
-		bi.verifyCoordCourseEnrollPage();
+
+		bi.clickWithWait(bi.getCoordHomeCourseEnrollLinkLocator(scn.course.courseId));
+		bi.verifyCoordCourseEnrollPage(scn.course.courseId);
 		
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordHomeCourseEnrollLinkLocator(SECOND_COURSE));
-		bi.verifyCoordCourseEnrollPage();
+		bi.clickWithWait(bi.getCoordHomeCourseEnrollLinkLocator(scn.course2.courseId));
+		bi.verifyCoordCourseEnrollPage(scn.course2.courseId);
 	}
 	
 	@Test
@@ -124,11 +112,11 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testViewCoursesLink");
 
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordHomeCourseViewLinkLocator(FIRST_COURSE));
+		bi.clickWithWait(bi.getCoordHomeCourseViewLinkLocator(scn.course.courseId));
 		bi.verifyCoordCourseDetailsPage();
 		
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordHomeCourseViewLinkLocator(SECOND_COURSE));
+		bi.clickWithWait(bi.getCoordHomeCourseViewLinkLocator(scn.course2.courseId));
 		bi.verifyCoordCourseDetailsPage();
 	}
 	
@@ -137,11 +125,11 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testAddEvaluationLink");
 
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordHomeCourseAddEvaluationLinkLocator(FIRST_COURSE));
+		bi.clickWithWait(bi.getCoordHomeCourseAddEvaluationLinkLocator(scn.course.courseId));
 		bi.verifyCoordEvaluationsPage();
 		
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordHomeCourseAddEvaluationLinkLocator(SECOND_COURSE));
+		bi.clickWithWait(bi.getCoordHomeCourseAddEvaluationLinkLocator(scn.course2.courseId));
 		bi.verifyCoordEvaluationsPage();
 	}
 	
@@ -150,19 +138,17 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testDeleteCoursesLink");
 
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordHomeCourseDeleteLinkLocator(FIRST_COURSE));
+		bi.clickCoordHomeCourseDeleteAndCancel(scn.course.courseId);
 		
-		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordHomeCourseDeleteLinkLocator(SECOND_COURSE));
+		bi.clickCoordHomeCourseDeleteAndCancel(scn.course2.courseId);
 		
 		/*
 		 * NOTE: We could also do something like the below - WILL CHANGE AFTER CODE REVIEW, IF NEEDED
 		 * 
 		 * // Delete course
-		 * bi.waitForElementPresent(bi.getCourseID(scn.course.courseId));
-		 * bi.clickAndConfirmCourseDelete(scn.course.courseId);
+		 * bi.clickCoordHomeCourseDeleteAndConfirm(scn.course.courseId);
 		 * bi.waitForElementText(bi.statusMessage, bi.MESSAGE_COURSE_DELETED);
-		 * assertFalse(bi.isCoordCoursePresent(scn.course.courseId, scn.course.courseName));
+		 * assertFalse(bi.isHomeCoursePresent(scn.course.courseId, scn.course.courseName));
 		 * 
 		 * //Check that the evaluation has also been deleted
 		 * bi.goToCoordEvaluations();
@@ -182,24 +168,24 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testViewResultsLink");
 		
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationViewResultsLinkLocator(FIRST_EVALUATION));
+		bi.clickWithWait(bi.getCoordHomeEvaluationViewResultsLinkLocator(scn.course.courseId,scn.evaluation.name));
 		bi.verifyCoordEvaluationResultsPage();
 		
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationViewResultsLinkLocator(SECOND_EVALUATION));
+		bi.clickWithWait(bi.getCoordHomeEvaluationViewResultsLinkLocator(scn.course.courseId,scn.evaluation2.name));
 		bi.verifyCoordEvaluationResultsPage();
 		
+		bi.goToCoordHome();
+		bi.clickWithWait(bi.getCoordHomeEvaluationViewResultsLinkLocator(scn.course2.courseId,scn.evaluation3.name));
+		bi.verifyCoordEvaluationResultsPage();
+
 		// This should not be clickable
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationViewResultsLinkLocator(THIRD_EVALUATION));
+		bi.clickWithWait(bi.getCoordHomeEvaluationViewResultsLinkLocator(scn.course2.courseId,scn.evaluation4.name));
 		bi.verifyCoordHomePage();
 		
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationViewResultsLinkLocator(FOURTH_EVALUATION));
-		bi.verifyCoordEvaluationResultsPage();
-		
-		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationViewResultsLinkLocator(FIFTH_EVALUATION));
+		bi.clickWithWait(bi.getCoordHomeEvaluationViewResultsLinkLocator(scn.course2.courseId,scn.evaluation5.name));
 		bi.verifyCoordEvaluationResultsPage();
 	}
 	
@@ -208,24 +194,24 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testEditEvaluationLink");
 
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationEditLinkLocator(FIRST_EVALUATION));
-		bi.verifyCoordEvaluationEditPage();
-		
-		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationEditLinkLocator(SECOND_EVALUATION));
-		bi.verifyCoordEvaluationEditPage();
-		
-		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationEditLinkLocator(THIRD_EVALUATION));
+		bi.clickWithWait(bi.getCoordHomeEvaluationEditLinkLocator(scn.course.courseId,scn.evaluation.name));
 		bi.verifyCoordEvaluationEditPage();
 		
 		// This should not be clickable
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationEditLinkLocator(FOURTH_EVALUATION));
+		bi.clickWithWait(bi.getCoordHomeEvaluationEditLinkLocator(scn.course.courseId,scn.evaluation2.name));
 		bi.verifyCoordHomePage();
 		
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationEditLinkLocator(FIFTH_EVALUATION));
+		bi.clickWithWait(bi.getCoordHomeEvaluationEditLinkLocator(scn.course2.courseId,scn.evaluation3.name));
+		bi.verifyCoordEvaluationEditPage();
+		
+		bi.goToCoordHome();
+		bi.clickWithWait(bi.getCoordHomeEvaluationEditLinkLocator(scn.course2.courseId,scn.evaluation4.name));
+		bi.verifyCoordEvaluationEditPage();
+		
+		bi.goToCoordHome();
+		bi.clickWithWait(bi.getCoordHomeEvaluationEditLinkLocator(scn.course2.courseId,scn.evaluation5.name));
 		bi.verifyCoordEvaluationEditPage();
 	}
 	
@@ -234,18 +220,25 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testRemindEvaluationLink");
 		
 		bi.goToCoordHome();
-		bi.clickCoordEvaluationRemindAndCancel(FIRST_EVALUATION);
+		try{
+			bi.clickAndCancel(bi.getCoordHomeEvaluationRemindLinkLocator(scn.course.courseId,scn.evaluation.name));
+		} catch (NoAlertAppearException e){
+			assertTrue("Remind link unavailable on OPEN evaluation",false);
+		}
 		
-		bi.goToCoordHome();
-		bi.clickCoordEvaluationRemindAndCancel(SECOND_EVALUATION);
+		// This should not be clickable
+		try{
+			bi.clickAndCancel(bi.getCoordHomeEvaluationRemindLinkLocator(scn.course.courseId,scn.evaluation2.name));
+			assertTrue("Remind link is available on PUBLISHED evaluation",false);
+		} catch (NoAlertAppearException e){ }
 		
 		/*
 		 * NOTE: We could also do something like the below - WILL CHANGE AFTER CODE REVIEW, IF NEEDED
 		 * 
-		 * bi.clickAndConfirmEvaluationRemind(scn.course.courseId, scn.evaluation2.name);
+		 * bi.clickAndConfirm(bi.getCoordHomeEvaluationRemindLinkLocator(scn.course.courseId, scn.evaluation2.name));
 		 * 
 		 * // Confirm Email
-		 * bi.waitAWhile(5000);
+		 * bi.waitForEmail();
 		 * for (int i = 0; i < scn.students.size(); i++) {
 		 *     assertEquals(scn.course.courseId, SharedLib.getEvaluationReminderFromGmail(scn.students.get(i).email, Config.inst().TEAMMATES_APP_PASSWD, scn.course.courseId, scn.evaluation2.name));
 		 * }
@@ -255,19 +248,22 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		 */
 		
 		// This should not be clickable
-		bi.goToCoordHome();
-		bi.clickCoordEvaluationRemindAndCancel(THIRD_EVALUATION);
-		bi.verifyCoordHomePage();
+		try{
+			bi.clickAndCancel(bi.getCoordHomeEvaluationRemindLinkLocator(scn.course2.courseId,scn.evaluation3.name));
+			assertTrue("Remind link is available on CLOSED evaluation",false);
+		} catch (NoAlertAppearException e){ }
 		
 		// This should not be clickable
-		bi.goToCoordHome();
-		bi.clickCoordEvaluationRemindAndCancel(FOURTH_EVALUATION);
-		bi.verifyCoordHomePage();
+		try{
+			bi.clickAndCancel(bi.getCoordHomeEvaluationRemindLinkLocator(scn.course2.courseId,scn.evaluation4.name));
+			assertTrue("Remind link is available on AWAITING evaluation",false);
+		} catch (NoAlertAppearException e){ }
 		
-		// This should not be clickable
-		bi.goToCoordHome();
-		bi.clickCoordEvaluationRemindAndCancel(FIFTH_EVALUATION);
-		bi.verifyCoordHomePage();
+		try{
+			bi.clickAndCancel(bi.getCoordHomeEvaluationRemindLinkLocator(scn.course2.courseId,scn.evaluation5.name));
+		} catch (NoAlertAppearException e){
+			assertTrue("Remind link unavailable on OPEN evaluation",false);
+		}
 	}
 	
 	@Test
@@ -276,46 +272,56 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		
 		// This should not be clickable
 		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationPublishLinkLocator(FIRST_EVALUATION));
-		bi.verifyCoordHomePage();
+		try{
+			bi.clickAndCancel(bi.getCoordHomeEvaluationPublishLinkLocator(scn.course.courseId,scn.evaluation.name));
+			assertTrue("Publish link available on OPEN evaluation",false);
+		} catch (NoAlertAppearException e){}
 		
+		try{
+			bi.clickAndCancel(bi.getCoordHomeEvaluationUnpublishLinkLocator(scn.course.courseId,scn.evaluation2.name));
+		} catch (NoAlertAppearException e){
+			assertTrue("Unpublish link unavailable on PUBLISHED evaluation",false);
+		}
+
+		try{
+			bi.clickAndCancel(bi.getCoordHomeEvaluationPublishLinkLocator(scn.course2.courseId,scn.evaluation3.name));
+		} catch (NoAlertAppearException e){
+			assertTrue("Publish link unavailable on CLOSED evaluation",false);
+		}
+
 		// This should not be clickable
-		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationPublishLinkLocator(SECOND_EVALUATION));
-		bi.verifyCoordHomePage();
-		
-		// This should not be clickable
-		bi.goToCoordHome();
-		bi.clickWithWait(bi.getCoordEvaluationPublishLinkLocator(THIRD_EVALUATION));
-		bi.verifyCoordHomePage();
-		
-		bi.goToCoordHome();
-		bi.clickCoordEvaluationUnpublishAndCancel(FOURTH_EVALUATION);
+		try{
+			bi.clickAndCancel(bi.getCoordHomeEvaluationPublishLinkLocator(scn.course2.courseId,scn.evaluation4.name));
+			assertTrue("Publish link available on AWAITING evaluation",false);
+		} catch (NoAlertAppearException e){}
 		
 		/*
 		 * NOTE: We could also do something like the below - WILL CHANGE AFTER CODE REVIEW, IF NEEDED
 		 * 
-		 * bi.clickAndConfirmEvaluationUnpublish(scn.course.courseId, scn.evaluation3.name);
+		 * bi.clickAndConfirm(bi.getCoordHomeEvaluationUnpublishLinkLocator(scn.course.courseId, scn.evaluation3.name));
 		 * bi.waitForElementText(bi.statusMessage, bi.MESSAGE_EVALUATION_UNPUBLISHED);
 		 * 
 		 * // Check for status: PUBLISHED
-		 * assertEquals(bi.EVAL_STATUS_CLOSED, bi.getEvaluationStatus(scn.course.courseId, scn.evaluation3.name));
+		 * assertEquals(bi.EVAL_STATUS_CLOSED, bi.getHomeEvaluationStatus(scn.course.courseId, scn.evaluation3.name));
 		 */
-		
-		bi.goToCoordHome();
-		bi.clickCoordEvaluationPublishAndCancel(FIFTH_EVALUATION);
+
+		// This should not be clickable
+		try{
+			bi.clickAndCancel(bi.getCoordHomeEvaluationPublishLinkLocator(scn.course2.courseId,scn.evaluation5.name));
+			assertTrue("Publish link available on OPEN evaluation",false);
+		} catch (NoAlertAppearException e){}
 		
 		/*
 		 * NOTE: We could also do something like the below - WILL CHANGE AFTER CODE REVIEW, IF NEEDED
 		 * 
-		 * bi.clickAndConfirmEvaluationPublish(scn.course.courseId, scn.evaluation3.name);
+		 * bi.clickAndConfirm(bi.getCoordHomeEvaluationPublish(scn.course.courseId, scn.evaluation3.name));
 		 * bi.waitForElementText(bi.statusMessage, bi.MESSAGE_EVALUATION_PUBLISHED);
 		 * 
 		 * // Check for status: PUBLISHED
-		 * assertEquals(bi.EVAL_STATUS_PUBLISHED, bi.getEvaluationStatus(scn.course.courseId, scn.evaluation3.name));
+		 * assertEquals(bi.EVAL_STATUS_PUBLISHED, bi.getHomeEvaluationStatus(scn.course.courseId, scn.evaluation3.name));
 		 * 
 		 * // Check if emails have been sent to all participants
-		 * bi.waitAWhile(5000);
+		 * bi.waitForEmail();
 		 * for (Student s : scn.students) {
 		 *     System.out.println("Checking " + s.email);
 		 *     assertTrue(bi.checkResultEmailsSent(s.email, s.password, scn.course.courseId, scn.evaluation3.name));
@@ -328,24 +334,25 @@ public class CoordHomePageFunctionalityTest extends TestCase {
 		System.out.println("CoordLandingPageFunctionalityTest: testDeleteEvaluationLink");
 		
 		bi.goToCoordHome();
-		
-		bi.clickCoordEvaluationDeleteAndCancel(FIRST_EVALUATION);
+
+		try{
+			bi.clickAndConfirm(bi.getCoordHomeEvaluationDeleteLinkLocator(scn.course.courseId,scn.evaluation.name));
+		} catch (NoAlertAppearException e){
+			assertTrue("Delete link unavailable",false);
+		}
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_DELETED);
 
-		 /*
-		  * Due to the manner in which IDs are being assigned to evaluations in the home page, the ID of the originally 2nd 
-		  * evaluation (and resp. 3rd, 4th and 5th evaluations) changes to 1st (and resp. 2nd, 3rd and 4th) after the previous 
-		  * delete operation. 
-		  * Hence, we use FIRST_EVALUATION, SECOND_EVALUATION, THIRD_EVALUATION and FOURTH_EVALUATION to refer to the original 
-		  * 2nd, 3rd, 4th and 5th evaluations respectively in the below code.
-		  */
-		
 		// testing the delete link in two evaluations
-		bi.goToCoordHome();
-		bi.clickCoordEvaluationDeleteAndCancel(FIRST_EVALUATION);
-		
-		
-		bi.goToCoordHome();
-		bi.clickCoordEvaluationDeleteAndCancel(FOURTH_EVALUATION);
+		try{
+			bi.clickAndCancel(bi.getCoordHomeEvaluationDeleteLinkLocator(scn.course.courseId,scn.evaluation2.name));
+		} catch (NoAlertAppearException e){
+			assertTrue("Delete link unavailable",false);
+		}
+
+		try{
+			bi.clickAndCancel(bi.getCoordHomeEvaluationDeleteLinkLocator(scn.course2.courseId,scn.evaluation5.name));
+		} catch (NoAlertAppearException e){
+			assertTrue("Delete link unavailable",false);
+		}
 	}
 }

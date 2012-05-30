@@ -1,8 +1,5 @@
 package teammates.testing.concurrent;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -40,7 +37,6 @@ public class SystemFooterTest extends TestCase {
 	@Test
 	public void testOnMainSite() throws Exception {
 		System.out.println("Test: Footer on Main Page.");
-
 		testFooter();
 	}
 
@@ -50,11 +46,8 @@ public class SystemFooterTest extends TestCase {
 		if(bi.isElementPresent(bi.logoutTab)) {
 			bi.logout();
 		}
-
 		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
-
 		testFooter();
-
 		bi.logout();
 	}
 
@@ -64,22 +57,12 @@ public class SystemFooterTest extends TestCase {
 		if(bi.isElementPresent(bi.logoutTab)) {
 			bi.logout();
 		}
-		
 		bi.studentLogin(scn.students.get(FIRST_STUDENT).email, Config.inst().TEAMMATES_APP_PASSWD);
-		
 		testFooter();
-
 		bi.logout();
 	}
 	
 	private void testFooter() {
-		assertNotNull(bi.getElementText(bi.footer));
-		System.out.println(bi.getElementText(bi.footer));
-		assertTrue((bi.getElementText(bi.footer)).contains("[TEAMMATES Version"));
-		assertTrue((bi.getElementText(bi.footer)).contains(bi.FOOTER));
-		// difference of index of 'n' in Version and the ']' in the format
-		// [TEAMMATES Version 1]
-		int pos = ((bi.getElementText(bi.footer)).indexOf('n')) - ((bi.getElementText(bi.footer)).indexOf(']'));
-		assertTrue(pos < MAX_VERSION_LENGTH);
+		bi.verifyCurrentPageHTMLRegex("src/test/resources/pages/footerRegex.html");
 	}
 }

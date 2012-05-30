@@ -15,7 +15,6 @@ import teammates.testing.junit.TeammatesServletTest;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 	
-	
 	CoordCourseAddPageHTMLTest.class,
 	StudentHelpPageHTMLTest.class,
 	StudentHomePageHTMLTest.class,
@@ -31,21 +30,21 @@ import teammates.testing.junit.TeammatesServletTest;
 	CoordCourseEnrollStudentsUITest.class,
 	CoordCourseListUITest.class,
 	
-	CoordCourseViewTest.class, // has email tests
+	CoordCourseViewTest.class, // Has email tests (not on localhost)
 	CoordEvaluationAddCaseSensitivityTest.class,
 	CoordEvaluationAddTest.class,
 	CoordEvaluationAddWithEmptyTeamNameTest.class,
 	CoordEvaluationEditTest.class,
-//	CoordEvaluationResultsSortTest.class, //empty class, to be filled later
-//	CoordEvaluationListTest.class, //why disabled? has email tests, seems broken
+//	CoordEvaluationResultsSortTest.class, // empty class, to be filled later
+//	CoordEvaluationListTest.class, // Broken
 	CoordEvaluationResultsEditTest.class,
 	CoordEvaluationResultsViewTest.class,
-//	CoordHomePageFunctionalityTest.class, // The Home page (landing page) has some issue (see todo inside the file)
+	CoordHomePageFunctionalityTest.class,
 
 	CoordLoginTest.class,
 	CoordViewResultsUITest.class,  
 	
-//	StudentCourseJoinTest.class,  //why disabled? broken
+//	StudentCourseJoinTest.class,  // Broken
 	StudentEvaluationEditTest2.class,
 	StudentEvaluationResultsTest2.class,
 	StudentEvaluationSubmitTest2.class,
@@ -54,10 +53,9 @@ import teammates.testing.junit.TeammatesServletTest;
 	StudentLoginTest.class,
 	StudentViewResultsUITest.class,
 	
-//	SystemFooterTest.class, //broken, need to fix soon
+	SystemFooterTest.class,
 	
-	
-	SystemRemindEvaluationBeforeDeadlineTest.class, //has email tests, did not work last time
+	SystemRemindEvaluationBeforeDeadlineTest.class, // Has email tests (not on localhost)
 	
 	CoordTeamFormingSessionChangeStudentTeam.class,
 	CoordTeamFormingSessionDeleteTest.class,
@@ -71,7 +69,6 @@ import teammates.testing.junit.TeammatesServletTest;
 	StudentTeamFormingSessionActionsTest.class,
 	StudentTeamFormingSessionEditProfilesTest.class,
 	StudentTeamFormingSessionViewTest.class,
-	
 	
 	//JUnit API tests
 	TeammatesServletTest.class,
