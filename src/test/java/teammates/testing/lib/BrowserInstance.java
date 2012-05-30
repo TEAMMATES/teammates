@@ -10,15 +10,16 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.regex.Matcher;
 
 import javax.mail.BodyPart;
 import javax.mail.Flags;
@@ -2121,28 +2122,55 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * @page edit evaluation result
+	 * @page Edit evaluation result
+	 * @param rowID
+	 * @return
 	 */
 	public By getSubmissionPoint(int rowID) {
 		return By.id("points" + rowID);
 	}
 
+	/**
+	 * @page Edit evaluation result
+	 * @param rowID
+	 * @param points
+	 */
 	public void setSubmissionPoint(int rowID, String points) {
 		selectDropdownByValue(By.id("points" + rowID), points);
 	}
 
+	/**
+	 * @page Edit evaluation result
+	 * @param rowID
+	 * @return
+	 */
 	public By getSubmissionJustification(int rowID) {
 		return By.name("justification" + rowID);
 	}
 
+	/**
+	 * @page Edit evaluation result
+	 * @param rowID
+	 * @param justification
+	 */
 	public void setSubmissionJustification(int rowID, String justification) {
 		fillString(By.name("justification" + rowID), justification);
 	}
-	
+
+	/**
+	 * @page Edit evaluation result
+	 * @param rowID
+	 * @return
+	 */
 	public By getSubmissionComments(int rowID) {
 		return By.name("commentstostudent" + rowID);
 	}
 
+	/**
+	 * @page Edit evaluation result
+	 * @param rowID
+	 * @param comments
+	 */
 	public void setSubmissionComments(int rowID, String comments) {
 		fillString(By.name("commentstostudent" + rowID), comments);
 	}
@@ -2627,13 +2655,21 @@ public class BrowserInstance {
 	
 		return false;
 	}
+	
+	/**
+	 * Checks whether a course is present in Course page
+	 * @page Course page
+	 * @param courseId
+	 * @param courseName
+	 * @return
+	 */
 	public boolean isCoursePresent(String courseId, String courseName) {
 		int totalCourses = countCourses();
 		boolean isPresent = false;
 		for (int i = 0; i < totalCourses; i++) {
 			if (getElementText(By.id("courseID" + i)).equalsIgnoreCase(courseId) && getElementText(By.id("courseName" + i)).equals(courseName)) {
 				isPresent = true;
-				continue;
+				break;
 			}
 		}
 	
@@ -2643,6 +2679,7 @@ public class BrowserInstance {
 	/**
 	 * Checks whether a specific evaluation exists
 	 * (based on courseID and evaluation name)
+	 * @page Evaluation page
 	 * @param courseId
 	 * @param evalName
 	 * @return
@@ -2651,6 +2688,12 @@ public class BrowserInstance {
 		return getEvaluationRowID(courseId, evalName)>-1;
 	}
 	
+	/**
+	 * Checks whether a Team Forming Session is present for a course
+	 * @page Team Forming Session page
+	 * @param courseId
+	 * @return
+	 */
 	public boolean isTeamFormingSessionPresent(String courseId) {
 		int totalTeamFormingSession = countTFS();
 		boolean isPresent = false;
@@ -2793,33 +2836,24 @@ public class BrowserInstance {
 
 	/**
 	 * Verifies current page against the page stored at location as pointed by filepath.
+	 * This method replaces the occurence of {version} in the reference file with the
+	 * value stored at Common.VERSION
 	 * @param filepath
 	 * @throws Exception
 	 */
-	public void verifyCurrentPageHTML(String filepath) throws Exception {
-		String NL = System.getProperty("line.separator");
-	
-		StringBuilder expectedContentBuilder = new StringBuilder();
-		Scanner scanner = new Scanner(new FileInputStream(filepath));
-		while (scanner.hasNextLine()){
-			expectedContentBuilder.append(scanner.nextLine() + NL);
+	public void verifyCurrentPageHTML(String filepath){
+		try{
+			String pageSrc = driver.getPageSource();
+			FileReader reader = new FileReader(filepath);
+			StringWriter writer = new StringWriter();
+			Common.readAndWrite(reader, writer);
+			String inputStr = writer.toString().replace("{version}",Common.VERSION);
+			assertEquals(inputStr.replace("\r\n", "\n"), pageSrc.replace("\r\n", "\n"));
+		} catch (FileNotFoundException e){
+			System.err.println("Error: " + e.getMessage());
+			e.printStackTrace();
+			assertTrue(e.getMessage(),false);
 		}
-		scanner.close();
-		//FIXME: fix the next line so that we do not have to change the version number every time. 
-		String expectedContent = expectedContentBuilder.toString().replace("{{version}}", "4.17.02");
-	
-		String pageSrc = driver.getPageSource();
-		BufferedReader actual = new BufferedReader(new StringReader(pageSrc));
-		StringBuilder actualContentBuilder = new StringBuilder();
-		String actualLine;
-		while ((actualLine = actual.readLine()) != null) {
-			actualContentBuilder.append(actualLine + NL);		
-		}	
-		actual.close();
-		String actualContent = actualContentBuilder.toString();
-	
-		assertEquals(expectedContent, actualContent);
-	
 	}
 	/**
 	 * Method to print current page to a file.
@@ -2828,13 +2862,10 @@ public class BrowserInstance {
 	 */
 	public void printCurrentPage(String destination){
 		String pageSrc = driver.getPageSource();
-		BufferedReader actual = new BufferedReader(new StringReader(pageSrc));
+		StringReader input = new StringReader(pageSrc);
 		try {
 			TestFileWriter output = new TestFileWriter(new File(destination));
-			String actualLine;
-			while((actualLine = actual.readLine())!=null){
-				output.write(actualLine+System.getProperty("line.separator"));
-			}
+			Common.readAndWrite(input,output);
 			output.close();
 		} catch (IOException e) {
 			
@@ -2880,35 +2911,31 @@ public class BrowserInstance {
 	 * <br />
 	 * This method has minimal placeholder capability, matching {*} in the
 	 * reference with anything in current page, trying to maximize the match.
-	 * During the match, it ignores spaces that occur more than two consecutively,
-	 * and it also ignores any newline characters.<br />
+	 * This method also replaces {version} into the value stored at Common.VERSION<br />
 	 * <br />
 	 * Example usage is to test sorting elements, say we want to test the order
 	 * of two known elements, which should be independent in the presence of other
 	 * elements. We can also ignore the rowID which maybe different under different
 	 * number of elements.<br />
 	 * <br />
-	 * Try to avoid this method if not necessary, because the result will only be
-	 * fail or success, i.e., we can't know which part of the page does not match
+	 * This method will try to display the difference between the expected and
+	 * actual if the match fails.
 	 * @param filepath
 	 * @param div
 	 * @throws Exception
 	 */
-	public void verifyObjectHTMLRegex(String filepath) throws Exception {
+	public void verifyCurrentPageHTMLRegex(String filepath){
 		try {
 			String pageSrc = driver.getPageSource();
-			BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(filepath)));
-			StringBuffer inputStrBuf = new StringBuffer();
-			String tmp;
-			while((tmp = input.readLine())!=null) inputStrBuf.append(tmp);
-			String inputStr = inputStrBuf.toString();
-			inputStr = inputStr.replaceAll("([()\\[.\\+?|^$])",Matcher.quoteReplacement("\\")+"$1").replaceAll("\\{\\*}", ".*").replaceAll("(\\s{2,}|[\r\n])","");
-			pageSrc = pageSrc.replaceAll("(\\s{2,}|[\r\n])","");
-			assertTrue(inputStr+"\n"+pageSrc,pageSrc.matches(".*"+inputStr+".*"));
+			FileReader reader = new FileReader(filepath);
+			StringWriter writer = new StringWriter();
+			Common.readAndWrite(reader, writer);
+			String inputStr = writer.toString().replace("{version}",Common.VERSION);
+			Common.assertContainsRegex(inputStr.replace("\r\n", "\n"),pageSrc.replace("\r\n", "\n"));
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
 			e.printStackTrace();
-			assertTrue(false);
+			assertTrue(e.getMessage(),false);
 		}
 	}
 
@@ -2917,86 +2944,6 @@ public class BrowserInstance {
 	 * Checks whether we are in the correct page,
 	 * or checks whether something has been done correctly
 	 * --------------------------------------------------------------------- */
-	/**
-	 * Verifies the header tag of current page with the one stored at headerFile.
-	 * Ignores the username.
-	 * @param headerFile
-	 */
-	public void verifyHeader(String headerFile){
-		try {
-			String div = Common.HEADER_TAG;
-			String pageSrc = driver.getPageSource();
-			FileInputStream refSrc = new FileInputStream(headerFile);
-			BufferedReader actual = new BufferedReader(new StringReader(pageSrc));
-			BufferedReader expected = new BufferedReader(new InputStreamReader(new DataInputStream(refSrc)));
-
-			String expectedLine;
-			String actualLine;
-			while((actualLine = actual.readLine()) != null) {
-				if(actualLine.contains(div)) {
-					while ((expectedLine = expected.readLine()) != null) {
-						if(expectedLine.contains("(")){
-							int openBracket = expectedLine.indexOf("(");
-							int closeBracket = expectedLine.indexOf(")");
-							expectedLine = expectedLine.substring(0,openBracket+1)+expectedLine.substring(closeBracket);
-						}
-						if(actualLine.contains("(")){
-							int openBracket = actualLine.indexOf("(");
-							int closeBracket = actualLine.indexOf(")");
-							actualLine = actualLine.substring(0,openBracket+1)+actualLine.substring(closeBracket);
-						}
-						assertNotNull("Expected had more lines then the actual.", actualLine);
-						assertEquals(expectedLine, actualLine);
-						actualLine = actual.readLine();
-					}
-					break;
-				}
-			}
-
-			actual.close();
-			expected.close();
-		} catch (Exception e) {
-			System.err.println("Error: " + e.getMessage());
-			assertTrue(false);
-		}
-	}
-	
-	/**
-	 * Verifies the footer tag of current page with the one stored at headerFile.
-	 * Verifies the version as well against the one stored in the variable Common.VERSION
-	 * @param footerFile
-	 */
-	public void verifyFooter(String footerFile){
-		try {
-			String div = Common.FOOTER_TAG;
-			String pageSrc = driver.getPageSource();
-			FileInputStream refSrc = new FileInputStream(footerFile);
-			BufferedReader actual = new BufferedReader(new StringReader(pageSrc));
-			BufferedReader expected = new BufferedReader(new InputStreamReader(new DataInputStream(refSrc)));
-
-			String expectedLine;
-			String actualLine;
-			while((actualLine = actual.readLine()) != null) {
-				if(actualLine.contains(div)) {
-					while ((expectedLine = expected.readLine()) != null) {
-						if(expectedLine.contains("{{")){
-							expectedLine = expectedLine.replace("{{version}}", Common.VERSION);
-						}
-						assertNotNull("Expected had more lines then the actual.", actualLine);
-						assertEquals(expectedLine, actualLine);
-						actualLine = actual.readLine();
-					}
-					break;
-				}
-			}
-
-			actual.close();
-			expected.close();
-		} catch (Exception e) {
-			System.err.println("Error: " + e.getMessage());
-			assertTrue(false);
-		}
-	}
 	
 	/**
 	 * Helper method to check that we're at the main page

@@ -3,7 +3,7 @@ package teammates.testing.testcases;
 public class BaseTestCase {
 	
 	public static void printTestCaseHeader(String testCaseName){
-		System.out.println("[TestCase]------------:"+testCaseName);
+		System.out.println("[TestCase]---:"+testCaseName);
 	}
 	
 	public static void printTestClassHeader(String testClassName){

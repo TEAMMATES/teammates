@@ -13,7 +13,7 @@ public class Config {
 		try {
 			// This is teammates.testing.config.Config file
 			
-			prop.load(new FileInputStream("target/test-classes/test.properties"));
+			prop.load(new FileInputStream("src/test/resources/test.properties"));
 			
 			TEAMMATES_LIVE_SITE = prop.getProperty("test.app.liveSite");
 			TEAMMATES_URL = prop.getProperty("test.app.url");

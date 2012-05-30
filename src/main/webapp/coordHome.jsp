@@ -43,148 +43,136 @@
 
 <body>
 	<div id="dhtmltooltip"></div>
-	<%
-		// Check if user is allowed to view this page
+	<%	// Check if user is allowed to view this page
 		if (!accounts.isCoordinator()) {
 	%>
-	<p>
-		You are not authorized to view this page. <br />
-		<br />
-		<a href="javascript:logout();">Logout and return to main page.</a>
-	</p>
-	<%
-		} else { // Is coordinator
-	%>
-
-	<div id="frameTop">
-		<jsp:include page="/coordHeader.jsp" />
-	</div>
-
-	<div id="frameBody">
-		<div id="frameBodyWrapper">
-			<div id="topOfPage"></div>
-			<div id="headerOperation">
-				<h1>COORDINATOR HOME</h1>
-				<br />
-				<div class='result_team'>
-					<div class='result_addOrJoinCourse'>
-						<a href="coordCourse.jsp" name='addNewCourse' id='addNewCourse'>
-							Add New Course
-						</a>
+		<p>
+			You are not authorized to view this page. <br /> <br />
+			<a href="javascript:logout();">Logout and return to main page.</a>
+		</p>
+	<%	} else { // Is coordinator %>
+		<div id="frameTop">
+			<jsp:include page="coordHeader.jsp" />
+		</div>
+	
+		<div id="frameBody">
+			<div id="frameBodyWrapper">
+				<div id="topOfPage"></div>
+				<div id="headerOperation">
+					<h1>COORDINATOR HOME</h1>
+					<br />
+					<div class='result_team'>
+						<div class='result_addOrJoinCourse'>
+							<a href="coordCourse.jsp" name='addNewCourse' id='addNewCourse'>
+								Add New Course </a>
+						</div>
 					</div>
 				</div>
-			</div>
-			<br />
-			<%
-				if (statusMessage != null) {
-			%>
-			<div id="statusMessage" style="display:block;<%if (error) out.println("background:#FF9999");%>">
-				<% out.println(statusMessage); %>
-			</div>
-			<%
-				} else {
-			%>
-			<div id="statusMessage" style="display: none"></div>
-			<%
-				}
-			%>
-			<div id="coordinatorStudentTable">
-				<%
-					HashMap<String, CourseSummaryForCoordinator> courses = server.getCourseListForCoord(coordID);
-					CourseSummaryForCoordinator[] summary = courses.values().toArray(new CourseSummaryForCoordinator[] {});
-					int idx = 0;
-					int evalIdx = 0;
-					for (idx = 0; idx < summary.length; idx++) {
-						// This will print the latest one first
-						CourseSummaryForCoordinator course = summary[summary.length-1-idx];
-				%>
-				<div class='result_team' id='course<%= idx %>'>
-					<div class='result_homeTitle'>
-						<h2>[<%= course.getID() %>] : <%= course.getName() %></h2>
+				<br />
+				<%	if (statusMessage != null) { %>
+					<div id="statusMessage"
+						style="display:block;<%if (error) out.println("background:#FF9999");%>">
+						<% out.println(statusMessage); %>
 					</div>
-					<div class='result_homeLinks'>
-						<a class='t_course_enroll<%= idx %>'
-							href='<%= Helper.getCourseEnrollLink(course.getID()) %>'
-							onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_ENROLL %>")'
-							onmouseout='hideddrivetip()'>Enroll</a>
-						<a class='t_course_view<%= idx %>'
-							href='<%= Helper.getCourseViewLink(course.getID()) %>'
-							onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_VIEW_COURSE %>")'
-							onmouseout='hideddrivetip()'>View</a>
-						<a class='t_course_add_eval<%= idx %>' href='coordEval.jsp'
-							onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_ADD_EVALUATION %>")'
-							onmouseout='hideddrivetip()'>Add Evaluation</a>
-						<a class='t_course_delete<%= idx %>'
-							href='<%= Helper.getCourseDeleteLink(course.getID(),"coordHome.jsp") %>'
-							onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("<%= course.getID() %>")'
-							onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_DELETE_COURSE %>")'
-							onmouseout='hideddrivetip()'>Delete</a>
+				<%	} else { %>
+				<div id="statusMessage" style="display: none"></div>
+				<%	} %>
+				<div id="coordinatorStudentTable">
+					<%	HashMap<String, CourseSummaryForCoordinator> courses = server.getCourseListForCoord(coordID);
+						CourseSummaryForCoordinator[] summary = courses.values().toArray(new CourseSummaryForCoordinator[] {});
+						int idx = 0;
+						int evalIdx = 0;
+						for (idx = 0; idx < summary.length; idx++) {
+							// This will print the latest one first
+							CourseSummaryForCoordinator course = summary[summary.length-1-idx];
+					%>
+					<div class='result_team' id='course<%= idx %>'>
+						<div class='result_homeTitle'>
+							<h2>[<%= course.ID %>] :
+								<%= course.name %>
+							</h2>
+						</div>
+						<div class='result_homeLinks'>
+							<a class='t_course_enroll<%= idx %>'
+								href='<%= Helper.getCourseEnrollLink(course.ID) %>'
+								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_ENROLL %>")'
+								onmouseout='hideddrivetip()'>
+								Enroll
+							</a>
+							<a class='t_course_view<%= idx %>'
+								href='<%= Helper.getCourseViewLink(course.ID) %>'
+								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_VIEW_COURSE %>")'
+								onmouseout='hideddrivetip()'>
+								View
+							</a>
+							<a class='t_course_add_eval<%= idx %>' href='coordEval.jsp'
+								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_ADD_EVALUATION %>")'
+								onmouseout='hideddrivetip()'>
+								Add Evaluation
+							</a>
+							<a class='t_course_delete<%= idx %>'
+								href='<%= Helper.getCourseDeleteLink(course.ID,"coordHome.jsp") %>'
+								onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("<%= course.ID %>")'
+								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_DELETE_COURSE %>")'
+								onmouseout='hideddrivetip()'>
+								Delete
+							</a>
+						</div>
+						<div style='clear: both;'></div>
+						<br />
+						<%	ArrayList<EvaluationDetailsForCoordinator> evaluations = Evaluations.inst().getEvaluationsSummaryForCourse(course.ID);
+							EvaluationDetailsForCoordinator[] evaluationsArr = evaluations.toArray(new EvaluationDetailsForCoordinator[]{});
+							Arrays.sort(evaluationsArr, new Comparator<EvaluationDetailsForCoordinator>(){
+								public int compare(EvaluationDetailsForCoordinator eval1, EvaluationDetailsForCoordinator eval2){
+									if(eval1.deadline.after(eval2.deadline)) return 1;
+									if(eval1.deadline.before(eval2.deadline)) return -1;
+									if(eval1.start.after(eval2.start)) return 1;
+									if(eval1.start.before(eval2.start)) return -1;
+									return 0;
+								}
+							});
+							if (evaluationsArr.length > 0) {
+						%>
+							<table id='dataform'>
+								<tr>
+									<th class='leftalign'>EVALUATION NAME</th>
+									<th class='centeralign'>STATUS</th>
+									<th class='centeralign'><span
+										onmouseover='ddrivetip("Number of students submitted / Class size")'
+										onmouseout='hideddrivetip()'>RESPONSE RATE</span></th>
+									<th class='centeralign'>ACTION(S)</th>
+								</tr>
+								<%	for (int i=evaluationsArr.length-1; i>=0; i--) {
+										EvaluationDetailsForCoordinator eval = evaluationsArr[i];
+								%>
+									<tr id='evaluation<%= evalIdx %>'>
+										<td class='t_eval_name'><%= eval.name %></td>
+										<td class='t_eval_status centeralign'><span
+											onmouseover='ddrivetip(" <%= Helper.getHoverMessageForEval(eval) %>")'
+											onmouseout='hideddrivetip()'><%= Helper.getStatusForEval(eval) %></span></td>
+										<td class='t_eval_response centeralign'><%= eval.numberOfCompletedEvaluations %>
+											/ <%= eval.numberOfEvaluations %></td>
+										<td class='centeralign'><%= Helper.getEvaluationActions(eval,evalIdx, true) %>
+										</td>
+									</tr>
+								<%		evalIdx++;
+									}
+								%>
+							</table>
+							<br />
+						<%		out.flush();
+							}
+						%>
 					</div>
-					<div style='clear: both;'></div>
-					<br />
-					<%
-						ArrayList<EvaluationDetailsForCoordinator> evaluations = Evaluations.inst().getEvaluationsSummaryForCourse(course.getID());
-						EvaluationDetailsForCoordinator[] evaluationsArr = evaluations.toArray(new EvaluationDetailsForCoordinator[]{});
-						Arrays.sort(evaluationsArr, new Comparator<EvaluationDetailsForCoordinator>(){
-							public int compare(EvaluationDetailsForCoordinator eval1, EvaluationDetailsForCoordinator eval2){
-								if(eval1.getDeadline().after(eval2.getDeadline())) return 1;
-								if(eval1.getDeadline().before(eval2.getDeadline())) return -1;
-								if(eval1.getStart().after(eval2.getStart())) return 1;
-								if(eval1.getStart().before(eval2.getStart())) return -1;
-								return 0;
-							}
-						});
-						if (evaluationsArr.length > 0) {
-					%>
-					<table id='dataform'>
-						<tr>
-							<th class='leftalign'>EVALUATION NAME</th>
-							<th class='centeralign'>STATUS</th>
-							<th class='centeralign'><span
-								onmouseover='ddrivetip("Number of students submitted / Class size")'
-								onmouseout='hideddrivetip()'>RESPONSE RATE</span></th>
-							<th class='centeralign'>ACTION(S)</th>
-						</tr>
-						<%
-							for (int i=evaluationsArr.length-1; i>=0; i--) {
-								EvaluationDetailsForCoordinator eval = evaluationsArr[i];
-						%>
-						<tr id='evaluation<%= evalIdx %>'>
-							<td class='t_eval_name'><%= eval.getName() %></td>
-							<td class='t_eval_status centeralign'><span
-								onmouseover='ddrivetip(" <%= Helper.getHoverMessageForEval(eval) %>")'
-								onmouseout='hideddrivetip()'><%= Helper.getStatusForEval(eval) %></span></td>
-							<td class='t_eval_response centeralign'>
-								<%= eval.getNumberOfCompletedEvaluations() %> / <%= eval.getNumberOfEvaluations() %>
-							</td>
-							<td class='centeralign'>
-								<%= Helper.getEvaluationActions(eval,evalIdx, true) %>
-							</td>
-						</tr>
-						<%
-								evalIdx++;
-							}
-						%>
-					</table>
-					<br />
-					<%
-							out.flush();
-						}
-					%>
+					<br /> <br /> <br />
+					<%	} %>
 				</div>
-				<br />
-				<br />
-				<br />
-				<%
-					}
-				%>
 			</div>
 		</div>
-	</div>
-
-	<div id="frameBottom">
-		<jsp:include page="/footer.jsp" />
-	</div>
+	
+		<div id="frameBottom">
+			<jsp:include page="footer.jsp" />
+		</div>
 	<%
 		} // Endif (isCoordinator)
 	%>

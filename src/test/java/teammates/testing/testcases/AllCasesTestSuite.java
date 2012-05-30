@@ -13,7 +13,6 @@ import teammates.testing.junit.TMAPITest;
 	AllJsUnitTests.class,
 	TMAPITest.class,
 	APIServletTest.class,
-	CoordCourseAddPageHtmlTest.class,
 	CoordCourseAddPageUiTest.class,
 	CoordCourseAddApiTest.class,
 	CoordHomePageUiTest.class

@@ -360,7 +360,7 @@ public class Courses {
 	 * @param newComments
 	 *            the new comments of the student (Precondition: Must not be
 	 *            null)
-	 */
+	 */ 
 	@Deprecated
 	public void editStudent(String courseID, String email, String newName, String newTeamName, String newEmail, String newGoogleID, String newComments) {
 		Student student = getStudentWithEmail(courseID, email);

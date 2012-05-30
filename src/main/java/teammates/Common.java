@@ -1,9 +1,15 @@
 package teammates;
 
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
 
 import teammates.exception.InvalidParametersException;
 
@@ -17,6 +23,7 @@ public class Common {
 	public static final double UNINITIALIZED_DOUBLE = -9999.0;
 	public final static String ENCODING = "UTF8";
 	public final static String VERSION = "4.17.02";
+	public final static int BUFFER_SIZE = 1024*10;
 	
 	// Hover messages
 	public final static String HOVER_MESSAGE_ENROLL = "Enroll student into the course";
@@ -242,6 +249,86 @@ public class Common {
 			throw new InvalidParametersException(ERRORCODE_STRING_TOO_LONG, "Comment cannot be longer than "+STUDENT_NAME_MAX_LENGTH);
 		}
 		
+	}
+	
+	/**
+	 * Asserts that the superstringActual contains the exact occurence of substringExpected.
+	 * Display the difference between the two on failure (in Eclipse).
+	 * @param message
+	 * @param substringExpected
+	 * @param superstringActual
+	 */
+	public static void assertContains(String substringExpected, String superstringActual){
+		if(!superstringActual.contains(substringExpected)){
+			assertEquals(substringExpected, superstringActual);
+		}
+	}
+	
+	/**
+	 * Asserts that the superstringActual contains the exact occurence of substringExpected.
+	 * Display the difference between the two on failure (in Eclipse) with the specified message.
+	 * @param message
+	 * @param substringExpected
+	 * @param superstringActual
+	 */
+	public static void assertContains(String message, String substringExpected, String superstringActual){
+		if(!superstringActual.contains(substringExpected)){
+			assertEquals(message, substringExpected, superstringActual);
+		}
+	}
+	
+	/**
+	 * Asserts that the stringActual contains the occurence regexExpected.
+	 * Replaces occurences of {*} at regexExpected to match anything in stringActual.
+	 * Tries to display the difference between the two on failure (in Eclipse).
+	 * @param message
+	 * @param regexExpected
+	 * @param stringActual
+	 */
+	public static void assertContainsRegex(String regexExpected, String stringActual){
+		String processedRegex = regexExpected.replaceAll("([()\\[.\\+?|^$])",Matcher.quoteReplacement("\\")+"$1").replaceAll("\\{\\*}", ".*");
+		if(!stringActual.matches("(?s)(?m).*"+processedRegex+".*")){
+			assertEquals(regexExpected,stringActual);
+		}
+	}
+	
+	/**
+	 * Asserts that the stringActual contains the occurence regexExpected.
+	 * Replaces occurences of {*} at regexExpected to match anything in stringActual.
+	 * Tries to display the difference between the two on failure (in Eclipse) with the specified message.
+	 * @param message
+	 * @param regexExpected
+	 * @param stringActual
+	 */
+	public static void assertContainsRegex(String message, String regexExpected, String stringActual){
+		String processedRegex = regexExpected.replaceAll("([()\\[.\\+?|^$])",Matcher.quoteReplacement("\\")+"$1").replaceAll("\\{\\*}", ".*");
+		if(!stringActual.matches("(?s)(?m).*"+processedRegex+".*")){
+			assertEquals(message,regexExpected,stringActual);
+		}
+	}
+	
+	/**
+	 * Reads from the reader and write it using the writer object.
+	 * To get a string from the file, pass a {@link java.io.StringWriter} object as the writer.<br />
+	 * Example:
+	 * <pre>
+	 * StringWriter wr = new StringWriter();
+	 * FileReader rd = new FileReader("README.txt");
+	 * readFile(rd,wr);
+	 * String result = wr.toString();
+	 * </pre>
+	 * @param reader
+	 * @param writer
+	 */
+	public static void readAndWrite(Reader reader, Writer writer){
+		try{
+			char[] tmp = new char[Common.BUFFER_SIZE];
+			int read = 0;
+			while((read = reader.read(tmp))>0) writer.write(tmp,0,read);
+			reader.close();
+		} catch (IOException e){
+			
+		}
 	}
 
 	public static boolean isWhiteSpace(String string) {

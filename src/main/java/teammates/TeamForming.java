@@ -12,8 +12,6 @@ import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
 
-import org.openqa.jetty.util.TempByteHolder;
-
 import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.EvaluationExistsException;
