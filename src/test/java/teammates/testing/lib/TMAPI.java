@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -20,14 +19,12 @@ import java.util.logging.Logger;
 import teammates.APIServlet;
 import teammates.Common;
 import teammates.DataBundle;
-import teammates.Evaluations;
 import teammates.jdo.Coordinator;
 import teammates.testing.config.Config;
 import teammates.testing.object.Course;
 import teammates.testing.object.Evaluation;
 import teammates.testing.object.Scenario;
 import teammates.testing.object.Student;
-import teammates.testing.object.Submission;
 import teammates.testing.object.TeamFormingSession;
 
 import com.google.gson.Gson;
@@ -142,7 +139,7 @@ public class TMAPI {
 	}
 
 	public static void createProfileOfExistingTeams(String courseId,
-			String courseName, ArrayList teams) {
+			String courseName, ArrayList<String> teams) {
 		System.out.println("Creating profiles of existing teams.");
 		String teamProfile = "Please enter your team profile here.";
 

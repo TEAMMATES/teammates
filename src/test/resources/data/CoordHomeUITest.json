@@ -1,17 +1,13 @@
 {
-  "coordinator": {
-    "username": "teammates.demo.coord",
-    "name" : "Teammates Demo Coordinator",
-    "email" : "teammates.demo.coord@gmail.com",
-    },
+  "coordinator": {"username": "teammates.test", "name":"Coordinator", "email":"teammates.test@gmail.com"},
   
   "courses": [
     {
-      "id": "CS2104-TESTING",
-      "name": "Programming Language Concepts"
+      "id": "CHomeUiT.CS2104",
+      "name": "Programming Language Concept"
     },
     {
-      "id": "CS1101-TESTING",
+      "id": "CHomeUiT.CS1101",
       "name": "Programming Methodology"
     }
   ],
@@ -51,53 +47,53 @@
   
   "students": [
     {
-      "email": "alice.b.tmms@gmail.com",
-      "name": "Alice Betsy",
+      "email": "alice.tmms@gmail.com",
+      "name": "Alice",
       "team": "Team 1",
-      "google_id": "alice.b.tmms"
+      "google_id": "alice.tmms"
     },
     {
-      "email": "benny.c.tmms@gmail.com",
-      "name": "Benny Charles",
-      "google_id": "benny.c.tmms",
+      "email": "benny.tmms@gmail.com",
+      "name": "Benny",
+      "google_id": "benny.tmms",
       "team": "Team 1"
     },
     {
-      "email": "charlie.d.tmms@gmail.com",
-      "name": "Charlie Davis",
-      "google_id": "charlie.d.tmms",
+      "email": "charlie.tmms@gmail.com",
+      "name": "Charlie",
+      "google_id": "charlie.tmms",
       "team": "Team 2"
     },
     {
-      "email": "danny.e.tmms@gmail.com",
-      "name": "Danny Engrid",
-      "google_id": "danny.e.tmms",
+      "email": "danny.tmms@gmail.com",
+      "name": "Danny",
+      "google_id": "danny.tmms",
       "team": "Team 2"
     }
   ],
   "students2": [
     {
-      "email": "alice.b.tmms@gmail.com",
-      "name": "Alice Betsy",
+      "email": "alice.tmms@gmail.com",
+      "name": "Alice",
       "team": "Team 1",
-      "google_id": "alice.b.tmms"
+      "google_id": "alice.tmms"
     },
     {
-      "email": "benny.c.tmms@gmail.com",
-      "name": "Benny Charles",
-      "google_id": "benny.c.tmms",
+      "email": "benny.tmms@gmail.com",
+      "name": "Benny",
+      "google_id": "benny.tmms",
       "team": "Team 1"
     },
     {
-      "email": "charlie.d.tmms@gmail.com",
-      "name": "Charlie Davis",
-      "google_id": "charlie.d.tmms",
+      "email": "charlie.tmms@gmail.com",
+      "name": "Charlie",
+      "google_id": "charlie.tmms",
       "team": "Team 2"
     },
     {
-      "email": "danny.e.tmms@gmail.com",
-      "name": "Danny Engrid",
-      "google_id": "danny.e.tmms",
+      "email": "danny.tmms@gmail.com",
+      "name": "Danny",
+      "google_id": "danny.tmms",
       "team": "Team 2"
   
     }

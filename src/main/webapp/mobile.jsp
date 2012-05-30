@@ -28,7 +28,6 @@
                                         style="float: left; margin: 0 10px 10px 0; border: 1px solid #999;" />
                                 <h2 style="font-variant: small-caps;">Support for mobile browsers coming soon!</h2>
                                 <p>We're really sorry but our app is not supported on mobile devices currently. We're working on it and you should be able to access it on your mobile browser soon. Meanwhile, kindly switch to Mozilla Firefox or Google Chrome or Apple Safari or Microsoft Internet Explorer 8+ for best viewing experience.</p>
-                                </p>
                         </div>
                 </div>
         </div>

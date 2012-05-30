@@ -1,0 +1,47 @@
+			<div id="coordinatorCourseTable">
+				<br />
+				<br />
+				<table id="dataform">
+					<tbody><tr>
+						<th><input type="button" onclick="javascript:toggleSortCoursesByID(this,1);" id="button_sortcourseid" class="buttonSortNone" />
+							COURSE ID</th>
+						<th><input type="button" onclick="javascript:toggleSortCoursesByName(this,2);" id="button_sortcoursename" class="buttonSortAscending" />
+							COURSE NAME</th>
+						<th class="centeralign">TEAMS</th>
+						<th class="centeralign">TOTAL STUDENTS</th>
+						<th class="centeralign">TOTAL UNREGISTERED</th>
+						<th class="centeralign">ACTION(S)</th>
+					</tr>
+					{*}
+					<tr>
+						<td id="courseID{*}">CS2104-TESTING</td>
+						<td id="courseName{*}">Programming Language Concepts</td>
+						<td class="t_course_teams centeralign">2</td>
+						<td class="centeralign">4</td>
+						<td class="centeralign">0</td>
+						<td class="centeralign">
+							<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enroll student into the course")' href="coordCourseEnroll.jsp?courseid=CS2104-TESTING" class="t_course_enroll">Enroll</a>
+							<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("View, edit and send registration keys to the students in the course")' href="coordCourseView.jsp?courseid=CS2104-TESTING" class="t_course_view">View</a>
+							<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Delete the course and its corresponding students and evaluations")' onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("CS2104-TESTING");' href="coordCourseDelete.jsp?courseid=CS2104-TESTING&amp;next=coordCourse.jsp" class="t_course_delete">Delete</a>
+						</td>
+					</tr>
+					{*}
+					<tr>
+						<td id="courseID{*}">CS1101-TESTING</td>
+						<td id="courseName{*}">Programming Methodology</td>
+						<td class="t_course_teams centeralign">2</td>
+						<td class="centeralign">4</td>
+						<td class="centeralign">0</td>
+						<td class="centeralign">
+							<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enroll student into the course")' href="coordCourseEnroll.jsp?courseid=CS1101-TESTING" class="t_course_enroll">Enroll</a>
+							<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("View, edit and send registration keys to the students in the course")' href="coordCourseView.jsp?courseid=CS1101-TESTING" class="t_course_view">View</a>
+							<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Delete the course and its corresponding students and evaluations")' onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("CS1101-TESTING");' href="coordCourseDelete.jsp?courseid=CS1101-TESTING&amp;next=coordCourse.jsp" class="t_course_delete">Delete</a>
+						</td>
+					</tr>
+					{*}
+				</tbody></table>
+				<br />
+				<br />
+				<br />
+				
+			</div>

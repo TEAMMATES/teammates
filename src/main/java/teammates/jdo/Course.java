@@ -5,10 +5,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import teammates.Common;
-import teammates.exception.EntityAlreadyExistsException;
-import teammates.exception.CourseInputInvalidException;
 import teammates.exception.InvalidParametersException;
-import teammates.exception.TeammatesException;
 
 import com.google.gson.annotations.SerializedName;
 

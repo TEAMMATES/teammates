@@ -11,6 +11,11 @@
   "courseWithSameNameDifferentId": {
     "id": "CCAddUiTest.diffC",
     "name": "Software Engineering $%^&*()"
+  },
+  
+  "testCourse": {
+  	"id": "CCAddUiTest.course2",
+  	"name": "Software Engineering First"
   }
   
 }

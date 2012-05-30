@@ -18,7 +18,6 @@ import com.google.gson.annotations.SerializedName;
  */
 @PersistenceCapable
 public class TeamFormingSession {
-	@SuppressWarnings("unused")
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	public Long id;

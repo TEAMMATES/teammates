@@ -1,5 +1,6 @@
 package teammates.exception;
 
+@SuppressWarnings("serial")
 public class TeammatesException extends Exception {
 
 	public String errorCode;

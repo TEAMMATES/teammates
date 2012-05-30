@@ -26,7 +26,6 @@ import teammates.DataBundle;
 import teammates.Datastore;
 import teammates.exception.EnrollException;
 import teammates.exception.EntityDoesNotExistException;
-import teammates.exception.InvalidParametersException;
 import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
 import teammates.jdo.CourseSummaryForCoordinator;

@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.activity.InvalidActivityException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.servlet.RequestDispatcher;
@@ -22,7 +21,6 @@ import teammates.exception.EnrollException;
 import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.InvalidParametersException;
-import teammates.exception.TeammatesException;
 import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
 import teammates.jdo.CourseSummaryForCoordinator;

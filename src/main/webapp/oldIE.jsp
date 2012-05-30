@@ -28,7 +28,6 @@
                                         style="float: left; margin: 0 10px 10px 0; border: 1px solid #999;" />
                                 <h2 style="font-variant: small-caps;">This version of IE is not supported!</h2>
                                 <p>We're really sorry but our app is not supported on this version of Internet Explorer. Kindly switch to Mozilla Firefox or Google Chrome or Apple Safari or Microsoft Internet Explorer 8+ for best viewing experience.</p>
-                                </p>
                         </div>
                 </div>
         </div>

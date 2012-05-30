@@ -261,8 +261,8 @@ function sortTable(oneOfTableCell, colIdx){
 }
 
 function sortBaseCell(cell1, cell2){
-	cell1 = cell1.innerText;
-	cell2 = cell2.innerText;
+	cell1 = cell1.innerHTML;
+	cell2 = cell2.innerHTML;
 	return sortBase(cell1,cell2);
 }
 

@@ -32,7 +32,7 @@ public class CoordTeamFormingSessionChangeStudentTeam extends TestCase {
 		TMAPI.createCourse(scn.course);
 		TMAPI.enrollStudents(scn.course.courseId, scn.students);
 		TMAPI.createTeamFormingSession(scn.teamFormingSession);
-		ArrayList teams = new ArrayList();
+		ArrayList<String> teams = new ArrayList<String>();
 		teams.add("Team 1");
 		teams.add("Team 2");
 		TMAPI.createProfileOfExistingTeams(scn.course.courseId, scn.course.courseName, teams);
