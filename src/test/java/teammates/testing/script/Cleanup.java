@@ -2,6 +2,7 @@ package teammates.testing.script;
 
 import java.io.IOException;
 
+import teammates.exception.EntityDoesNotExistException;
 import teammates.testing.lib.TMAPI;
 
 /**
@@ -11,7 +12,7 @@ import teammates.testing.lib.TMAPI;
  * 
  */
 public class Cleanup {
-	public static void main(String args[]) throws IOException {
+	public static void main(String args[]) throws IOException, EntityDoesNotExistException {
 		TMAPI.cleanup();
 		TMAPI.updateBumpRatio();
 	}

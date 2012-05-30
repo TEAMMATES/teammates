@@ -5,7 +5,10 @@ import org.json.JSONObject;
 
 import teammates.testing.config.Config;
 
-
+/*
+ * @deprecated use teammates.jdo.Coordinator instead
+ */
+@Deprecated
 public class Coordinator {
 	public String username;
 	public String name;

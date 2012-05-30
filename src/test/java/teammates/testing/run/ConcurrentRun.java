@@ -4,6 +4,7 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
+import teammates.exception.EntityDoesNotExistException;
 import teammates.profiler.Profiler;
 import teammates.testing.concurrent.CoordCourseAddCaseSensitivityTest;
 import teammates.testing.concurrent.CoordCourseAddUITest;
@@ -24,7 +25,7 @@ import teammates.testing.lib.ParallelComputer2;
 import teammates.testing.lib.TMAPI;
 
 public class ConcurrentRun {
-	public static void main(String args[]) {
+	public static void main(String args[]) throws EntityDoesNotExistException {
 
 		Profiler.begin("========== Start: Runs the tests concurrently ==========");
 
