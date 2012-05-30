@@ -65,21 +65,17 @@
 
 <body>
 	<div id="dhtmltooltip"></div>
-	<%
-		// Check if user is allowed to view this page
+	<%	// Check if user is allowed to view this page
 		if (!accounts.isCoordinator()) {
 	%>
 	<p>
-		You are not authorized to view this page. <br />
-		<br />
+		You are not authorized to view this page. <br /> <br />
 		<a href="javascript:logout();">Logout and return to main page.</a>
 	</p>
-	<%
-		} else { // AUTHENTICATED USER
-	%>
+	<%	} else { // AUTHENTICATED USER %>
 
 	<div id="frameTop">
-		<jsp:include page="/coordHeader.jsp" />
+		<jsp:include page="coordHeader.jsp" />
 	</div>
 
 	<div id="frameBody">
@@ -121,19 +117,13 @@
 				</form>
 			</div>
 			<br />
-			<%
-				if(statusMessage!=null) {
-			%>
-			<div id="statusMessage"
-				style="display:block;<% if(error) out.println("background:#FF9999"); %>">
-				<% out.println(statusMessage); %></div>
-			<%
-				} else {
-			%>
-			<div id="statusMessage" style="display: none"></div>
-			<%
-				}
-			%>
+			<%	if(statusMessage!=null) { %>
+				<div id="statusMessage"
+					style="display:block;<% if(error) out.println("background:#FF9999"); %>">
+					<% out.println(statusMessage); %></div>
+			<%	} else { %>
+				<div id="statusMessage" style="display: none"></div>
+			<%	} %>
 			<div id="coordinatorCourseTable">
 				<br />
 				<br />
@@ -152,71 +142,68 @@
 						<th class='centeralign'>TOTAL UNREGISTERED</th>
 						<th class='centeralign'>ACTION(S)</th>
 					</tr>
-					<%
-				HashMap<String, CourseSummaryForCoordinator> courses = server.getCourseListForCoord(coordID);
-				CourseSummaryForCoordinator[] summary = courses.values().toArray(new CourseSummaryForCoordinator[]{});
-				Arrays.sort(summary,new Comparator<CourseSummaryForCoordinator>(){
-					public int compare(CourseSummaryForCoordinator obj1, CourseSummaryForCoordinator obj2){
-						return obj1.getID().compareTo(obj2.getID());
-					}
-				});
-				int idx = 0;
-				for(idx=0; idx<summary.length; idx++){
-					CourseSummaryForCoordinator course = summary[idx];
+					<%	HashMap<String, CourseSummaryForCoordinator> courses = server.getCourseListForCoord(coordID);
+						CourseSummaryForCoordinator[] summary = courses.values().toArray(new CourseSummaryForCoordinator[]{});
+						Arrays.sort(summary,new Comparator<CourseSummaryForCoordinator>(){
+							public int compare(CourseSummaryForCoordinator obj1, CourseSummaryForCoordinator obj2){
+								return obj1.ID.compareTo(obj2.ID);
+							}
+						});
+						int idx = 0;
+						for(idx=0; idx<summary.length; idx++){
+							CourseSummaryForCoordinator course = summary[idx];
 					%>
-					<tr>
-						<td id='courseID<%= idx %>'><%= course.getID() %></td>
-						<td id='courseName<%= idx %>'><%= course.getName() %></td>
-						<td class='t_course_teams centeralign'><%= course.getNumberOfTeams() %></td>
-						<td class='centeralign'><%= course.getTotalStudents() %></td>
-						<td class='centeralign'><%= course.getUnregistered() %></td>
-						<td class='centeralign'>
-							<a class='t_course_enroll'
-								href='<%= Helper.getCourseEnrollLink(course.getID()) %>'
-								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_ENROLL %>")'
-								onmouseout='hideddrivetip()'>Enroll</a>
-							<a class='t_course_view'
-								href='<%= Helper.getCourseViewLink(course.getID()) %>'
-								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_VIEW_COURSE %>")'
-								onmouseout='hideddrivetip()'>View</a>
-							<a class='t_course_delete'
-								href='<%= Helper.getCourseDeleteLink(course.getID(),"coordCourse.jsp") %>'
-								onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("<%= course.getID() %>");'
-								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_DELETE_COURSE %>")'
-								onmouseout='hideddrivetip()'>Delete</a>
-						</td>
-					</tr>
-					<%
-				}
-				if(idx==0){ // Print empty row %>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<% } %>
+						<tr>
+							<td id='courseID<%= idx %>'><%= course.ID %></td>
+							<td id='courseName<%= idx %>'><%= course.name %></td>
+							<td class='t_course_teams centeralign'><%= course.numberOfTeams %></td>
+							<td class='centeralign'><%= course.totalStudents %></td>
+							<td class='centeralign'><%= course.unregistered %></td>
+							<td class='centeralign'>
+								<a class='t_course_enroll'
+									href='<%= Helper.getCourseEnrollLink(course.ID) %>'
+									onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_ENROLL %>")'
+									onmouseout='hideddrivetip()'>Enroll</a>
+								<a class='t_course_view'
+									href='<%= Helper.getCourseViewLink(course.ID) %>'
+									onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_VIEW_COURSE %>")'
+									onmouseout='hideddrivetip()'>View</a>
+								<a class='t_course_delete'
+									href='<%= Helper.getCourseDeleteLink(course.ID,"coordCourse.jsp") %>'
+									onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("<%= course.ID %>");'
+									onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_DELETE_COURSE %>")'
+									onmouseout='hideddrivetip()'>Delete</a>
+							</td>
+						</tr>
+					<%	}
+						if(idx==0){ // Print empty row
+					%>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					<%	} %>
 				</table>
 				<br />
 				<br />
 				<br />
 				<% if(idx==0){ %>
-				No records found. <br />
-				<br />
-				<br />
-				<br />
+					No records found. <br />
+					<br />
+					<br />
+					<br />
 				<% } %>
 			</div>
 		</div>
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="/footer.jsp" />
+		<jsp:include page="footer.jsp" />
 	</div>
-	<%
-		} // END OF AUTHENTICATED USER
-	%>
+	<%	} // END OF AUTHENTICATED USER %>
 </body>
 </html>

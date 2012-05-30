@@ -18,9 +18,9 @@ import teammates.testing.junit.TeammatesServletTest;
 	
 	CoordCourseAddPageHTMLTest.class,
 	StudentHelpPageHTMLTest.class,
-//	StudentHomePageHTMLTest.class, //this page is sensitive to other test and the date on which test data was imported
+	StudentHomePageHTMLTest.class,
 	CoordHelpPageHTMLTest.class,
-//	CoordHomePageHTMLTest.class, //this page is sensitive to version number, need to fix json file
+	CoordHomePageHTMLTest.class,
 	
 	CoordCourseAddUITest.class,
 	CoordCourseDeleteStudentsTest.class,

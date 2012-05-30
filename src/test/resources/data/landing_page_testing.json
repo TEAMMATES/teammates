@@ -3,11 +3,11 @@
   
   "courses": [
     {
-      "id": "CS2103-TESTING",
+      "id": "CLandingTest.CS2103",
       "name": "Software Engineering"
     },
     {
-      "id": "CS1101-TESTING",
+      "id": "CLandingTest.CS1101",
       "name": "Programming Methodology"
     }
   ],

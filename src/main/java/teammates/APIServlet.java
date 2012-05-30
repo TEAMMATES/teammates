@@ -1028,7 +1028,7 @@ public class APIServlet extends HttpServlet {
 	
 	public List<StudentInfoForCoord> enrollStudents(String enrollLines, String courseId) throws EnrollException   {
 		ArrayList<StudentInfoForCoord> returnList = new ArrayList<StudentInfoForCoord>();
-		String[] linesArray = enrollLines.split(System.getProperty("line.separator")); 
+		String[] linesArray = enrollLines.split(Common.EOL); 
 		ArrayList<Student> studentList = new ArrayList<Student>();
 		
 		//check if all non-empty lines are formatted correctly
