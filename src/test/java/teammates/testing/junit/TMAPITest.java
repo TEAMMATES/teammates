@@ -538,8 +538,7 @@ public class TMAPITest extends BaseTestCase{
 	@Test
 	public void testDataBundle() {
 		printTestCaseHeader();
-		String jsonString = SharedLib.getFileContents(TEST_DATA_FOLDER
-				+ "typicalDataBundle.json");
+		String jsonString = SharedLib.getFileContents(Common.TEST_DATA_FOLDER + "typicalDataBundle.json");
 		Gson gson = Common.getTeammatesGson();
 	
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);

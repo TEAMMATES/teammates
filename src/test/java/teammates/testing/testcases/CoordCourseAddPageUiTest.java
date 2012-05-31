@@ -160,7 +160,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	}
 	
 	private static TestScenario loadTestScenario() throws JSONException {
-		String testScenarioJsonFile = "src/test/resources/data/CoordCourseAddUITest.json";
+		String testScenarioJsonFile = Common.TEST_DATA_FOLDER + "CoordCourseAddUITest.json";
 		String jsonString = SharedLib.getFileContents(testScenarioJsonFile);
 		TestScenario scn = Common.getTeammatesGson().fromJson(jsonString, TestScenario.class);
 		return scn;

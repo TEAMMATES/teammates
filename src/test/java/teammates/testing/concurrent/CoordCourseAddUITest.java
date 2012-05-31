@@ -9,14 +9,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.Common;
+import teammates.jdo.Coordinator;
+import teammates.jdo.Course;
+import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.lib.SharedLib;
 import teammates.testing.lib.TMAPI;
-import teammates.testing.object.Coordinator;
-import teammates.testing.object.Course;
-
-import com.google.gson.Gson;
 
 
 public class CoordCourseAddUITest extends TestCase {
@@ -30,17 +29,17 @@ public class CoordCourseAddUITest extends TestCase {
 		ts = loadTestScenario();
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		TMAPI.deleteCourseByIdCascade(ts.validCourse.courseId);
-		TMAPI.deleteCourseByIdCascade(ts.courseWithSameNameDifferentId.courseId);
+		TMAPI.deleteCourse(ts.validCourse.getID());
+		TMAPI.deleteCourse(ts.courseWithSameNameDifferentId.getID());
 		
-		bi.loginCoord(ts.coordinator.username, ts.coordinator.password);
+		bi.loginCoord(ts.coordinator.getGoogleID(), Config.inst().TEAMMATES_APP_PASSWD);
 	}
 
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		bi.logout();
-		TMAPI.deleteCourseByIdCascade(ts.validCourse.courseId);
-		TMAPI.deleteCourseByIdCascade(ts.courseWithSameNameDifferentId.courseId);
+		TMAPI.deleteCourse(ts.validCourse.getID());
+		TMAPI.deleteCourse(ts.courseWithSameNameDifferentId.getID());
 		
 		BrowserInstancePool.release(bi);
 		printTestClassFooter("CoordCourseAddUITest");
@@ -52,12 +51,12 @@ public class CoordCourseAddUITest extends TestCase {
 		printTestCaseHeader("testCoordAddCourseSuccessful");
 		
 		//make sure the course does not exist already
-		TMAPI.deleteCourseByIdCascade(ts.validCourse.courseId);
+		TMAPI.deleteCourse(ts.validCourse.getID());
 		
 		//course id: only contains alphabets, numbers, dots, hyphens, underscores and dollars
-		String courseID = ts.validCourse.courseId;
+		String courseID = ts.validCourse.getID();
 		//course name: any character including special characters
-		String courseName = ts.validCourse.courseName;
+		String courseName = ts.validCourse.getName();
 		
 		//add course:
 		bi.clickCourseTab();
@@ -78,15 +77,15 @@ public class CoordCourseAddUITest extends TestCase {
 
 		// Trying to add a course without ID
 		bi.clickCourseTab();
-		bi.addCourse("", ts.validCourse.courseName);
+		bi.addCourse("", ts.validCourse.getName());
 		bi.waitForTextInElement(bi.statusMessage, Common.MESSAGE_COURSE_MISSING_FIELD);
 		
 		// Adding course without name
-		bi.addCourse(ts.validCourse.courseId, "");
+		bi.addCourse(ts.validCourse.getID(), "");
 		bi.waitForTextInElement(bi.statusMessage, Common.MESSAGE_COURSE_MISSING_FIELD);
 		
 		//Not-allowed characters
-		bi.addCourse(ts.validCourse.courseId+"!*}", ts.validCourse.courseName + " (!*})");
+		bi.addCourse(ts.validCourse.getID()+"!*}", ts.validCourse.getName() + " (!*})");
 		bi.waitForTextInElement(bi.statusMessage, Common.MESSAGE_COURSE_INVALID_ID);
 	}
 	
@@ -115,48 +114,47 @@ public class CoordCourseAddUITest extends TestCase {
 		
 	}
 	
-	//TODO: 2 duplicate course under different coordinators
 	@Test
 	public  void testCoordAddCourseWithDuplicateIDFailed() {
 		printTestCaseHeader("testCoordAddCourseWithDuplicateIDFailed");
 		
-		TMAPI.deleteCourseByIdCascade(ts.validCourse.courseId);
-		TMAPI.createCourse(ts.validCourse, ts.coordinator.username);
+		TMAPI.deleteCourse(ts.validCourse.getID());
+		TMAPI.createCourse(ts.validCourse);
 		
 		bi.clickCourseTab();
-		bi.addCourse(ts.validCourse.courseId, "different course name");
+		bi.addCourse(ts.validCourse.getID(), "different course name");
 		bi.waitForTextInElement(bi.statusMessage, Common.MESSAGE_COURSE_EXISTS);
 		
 		//check course not added
 		bi.clickCourseTab();
-		bi.waitForElementPresent(bi.getCourseIDCell(ts.validCourse.courseId));
+		bi.waitForElementPresent(bi.getCourseIDCell(ts.validCourse.getID()));
 		
 		// Check that there is only one course with that ID and that it is still the old one
-		assertTrue(bi.getCourseIDCount(ts.validCourse.courseId)==1);
-		assertEquals(ts.validCourse.courseName,bi.getCourseName(ts.validCourse.courseId));
+		assertTrue(bi.getCourseIDCount(ts.validCourse.getID())==1);
+		assertEquals(ts.validCourse.getName(),bi.getCourseName(ts.validCourse.getID()));
 	}
 	
 	@Test
 	public  void testCoordAddCourseWithDuplicateNameSuccessful() throws Exception {
 		printTestCaseHeader("testCoordAddCourseWithDuplicateNameSuccessful");
 		
-		TMAPI.deleteCourseByIdCascade(ts.validCourse.courseId);
-		TMAPI.createCourse(ts.validCourse, ts.coordinator.username);
+		TMAPI.deleteCourse(ts.validCourse.getID());
+		TMAPI.createCourse(ts.validCourse);
 		
 		bi.clickCourseTab();
-		bi.addCourse(ts.courseWithSameNameDifferentId.courseId, ts.validCourse.courseName);
+		bi.addCourse(ts.courseWithSameNameDifferentId.getID(), ts.validCourse.getName());
 		bi.waitForTextInElement(bi.statusMessage, Common.MESSAGE_COURSE_ADDED);
 		
 		//check course added
 		bi.clickCourseTab();
-		bi.verifyCourseIsAdded(ts.courseWithSameNameDifferentId.courseId, ts.validCourse.courseName);
+		bi.verifyCourseIsAdded(ts.courseWithSameNameDifferentId.getID(), ts.validCourse.getName());
 
 	}
 	
 	private static TestScenario loadTestScenario() throws JSONException {
-		String testScenarioJsonFile = "target/test-classes/data/CoordCourseAddUITest.json";
+		String testScenarioJsonFile = Common.TEST_DATA_FOLDER+"CoordCourseAddUITest.json";
 		String jsonString = SharedLib.getFileContents(testScenarioJsonFile);
-		TestScenario scn = (new Gson()).fromJson(jsonString, TestScenario.class);
+		TestScenario scn = Common.getTeammatesGson().fromJson(jsonString, TestScenario.class);
 		return scn;
 	}
 
