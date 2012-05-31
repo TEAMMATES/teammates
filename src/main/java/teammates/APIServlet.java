@@ -15,12 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.exception.CourseDoesNotExistException;
-import teammates.exception.CourseInputInvalidException;
-import teammates.exception.EnrollException;
-import teammates.exception.EntityAlreadyExistsException;
-import teammates.exception.EntityDoesNotExistException;
-import teammates.exception.InvalidParametersException;
+import teammates.exception.*;
 import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
 import teammates.jdo.CourseSummaryForCoordinator;
@@ -42,12 +37,6 @@ import com.google.gson.reflect.TypeToken;
 /**
  * The API Servlet.
  * 
- * This is a hidden (to end user) servlet. It receives REST requests and
- * directly alter the data.
- * 
- * Mainly there for some automated testing purposes
- * 
- * @author nvquanghuy
  * 
  */
 @SuppressWarnings("serial")
@@ -273,35 +262,27 @@ public class APIServlet extends HttpServlet {
 		} else if (action.equals(OPERATION_EDIT_STUDENT)) {
 			String originalEmail = req.getParameter(PARAMETER_STUDENT_EMAIL);
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
-			editStudentAsJson(originalEmail,newValues);
+			editStudentAsJson(originalEmail, newValues);
 		} else if (action.equals(OPERATION_EDIT_TFS)) {
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
 			editTfsAsJson(newValues);
 		} else if (action.equals(OPERATION_EDIT_TEAM_PROFILE)) {
 			String originalTeamName = req.getParameter(PARAMETER_TEAM_NAME);
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
-			editTeamProfileAsJson(originalTeamName,newValues);
+			editTeamProfileAsJson(originalTeamName, newValues);
 		} else {
 			throw new Exception("Unknown command: " + action);
 		}
 		return Common.BACKEND_STATUS_SUCCESS;
 	}
 
-	/**
-	 * 
-	 * @author wangsha
-	 * @date Dec 19, 2011
-	 */
+	@Deprecated
 	private void disableEmail() throws IOException {
 		Config.inst().emailEnabled = false;
 		resp.getWriter().write("ok");
 	}
 
-	/**
-	 * 
-	 * @author wangsha
-	 * @date Dec 19, 2011
-	 */
+	@Deprecated
 	private void enableEmail() throws IOException {
 		Config.inst().emailEnabled = true;
 		resp.getWriter().write("ok");
@@ -842,25 +823,31 @@ public class APIServlet extends HttpServlet {
 	private void createSubmissions(List<Submission> submissionsList) {
 		Evaluations.inst().editSubmissions(submissionsList);
 	}
-	
-	private void editStudentAsJson(String originalEmail, String newValues) throws InvalidParametersException {
-		Student student = Common.getTeammatesGson().fromJson(newValues, Student.class);
+
+	private void editStudentAsJson(String originalEmail, String newValues)
+			throws InvalidParametersException {
+		Student student = Common.getTeammatesGson().fromJson(newValues,
+				Student.class);
 		editStudent(originalEmail, student);
 	}
-	
-	private void editEvaluationAsJson(String evaluationJson) throws InvalidParametersException, EntityDoesNotExistException {
-		Evaluation evaluation = Common.getTeammatesGson().fromJson(evaluationJson, Evaluation.class);
+
+	private void editEvaluationAsJson(String evaluationJson)
+			throws InvalidParametersException, EntityDoesNotExistException {
+		Evaluation evaluation = Common.getTeammatesGson().fromJson(
+				evaluationJson, Evaluation.class);
 		editEvaluation(evaluation);
 	}
-	
+
 	private void editSubmissionAsJson(String submissionJson) {
-		Submission submission = Common.getTeammatesGson().fromJson(submissionJson, Submission.class);
+		Submission submission = Common.getTeammatesGson().fromJson(
+				submissionJson, Submission.class);
 		ArrayList<Submission> submissionList = new ArrayList<Submission>();
 		submissionList.add(submission);
 		editSubmission(submissionList);
 	}
-	
-	private void editTfsAsJson(String tfsJson) throws EntityDoesNotExistException {
+
+	private void editTfsAsJson(String tfsJson)
+			throws EntityDoesNotExistException {
 		TeamFormingSession tfs = Common.getTeammatesGson().fromJson(tfsJson,
 				TeamFormingSession.class);
 		TeamForming.inst().editTeamFormingSession(tfs.getCourseID(),
@@ -868,15 +855,19 @@ public class APIServlet extends HttpServlet {
 				tfs.getInstructions(), tfs.getProfileTemplate(),
 				tfs.isActivated(), tfs.getTimeZone());
 	}
-	
-	private void editTeamProfileAsJson(String originalTeamName, String teamProfileJson) throws EntityDoesNotExistException {
-		TeamProfile teamProfile = Common.getTeammatesGson().fromJson(teamProfileJson,
-				TeamProfile.class);
-		TeamForming.inst().editTeamProfile(teamProfile.getCourseID(), teamProfile.getCourseName(), originalTeamName, teamProfile.getTeamName(), teamProfile.getTeamProfile());
-	}
-	
 
-	// =======================API for JSP======================================
+	private void editTeamProfileAsJson(String originalTeamName,
+			String teamProfileJson) throws EntityDoesNotExistException {
+		TeamProfile teamProfile = Common.getTeammatesGson().fromJson(
+				teamProfileJson, TeamProfile.class);
+		TeamForming.inst().editTeamProfile(teamProfile.getCourseID(),
+				teamProfile.getCourseName(), originalTeamName,
+				teamProfile.getTeamName(), teamProfile.getTeamProfile());
+	}
+
+	@SuppressWarnings("unused")
+	private void ____SYSTEM_LevelMethods____________________________________() {
+	}
 
 	public String coordGetLoginUrl(String redirectUrl) {
 		Accounts accounts = Accounts.inst();
@@ -897,10 +888,13 @@ public class APIServlet extends HttpServlet {
 	 * @return status of the request in the form 'status meassage'+'additional
 	 *         info (if any)' e.g., "[BACKEND_STATUS_SUCCESS]" e.g.,
 	 *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
-	 * @throws CourseInputInvalidException
+	 * @throws EntityAlreadyExistsException
+	 * @throws InvalidParametersException
+	 * @throws Exception
 	 */
 	public String persistNewDataBundle(String dataBundleJsonString)
-			throws Exception {
+			throws InvalidParametersException, EntityAlreadyExistsException {
+
 		Gson gson = Common.getTeammatesGson();
 
 		DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
@@ -971,7 +965,9 @@ public class APIServlet extends HttpServlet {
 		return Common.BACKEND_STATUS_SUCCESS;
 	}
 
-	// -----------------------Coordinators------------------------------------------
+	@SuppressWarnings("unused")
+	private void ____COORD_LevelMethods_____________________________________() {
+	}
 
 	public void createCoord(String coordID, String coordName, String coordEmail)
 			throws EntityAlreadyExistsException, InvalidParametersException {
@@ -982,6 +978,11 @@ public class APIServlet extends HttpServlet {
 		return Accounts.inst().getCoordinator(coordID);
 	}
 
+	public void editCoord(Coordinator coord) throws NotImplementedException {
+		throw new NotImplementedException("Not implemented because we do "
+				+ "not allow editing coordinators");
+	}
+
 	public void deleteCoord(String coordId) {
 		List<Course> coordCourseList = Courses.inst().getCoordinatorCourseList(
 				coordId);
@@ -990,45 +991,51 @@ public class APIServlet extends HttpServlet {
 		}
 		Accounts.inst().deleteCoord(coordId);
 	}
-	
+
 	public HashMap<String, CourseSummaryForCoordinator> getCourseListForCoord(
 			String coordId) {
 		return Courses.inst().getCourseSummaryListForCoord(coordId);
 	}
-	
+
 	public HashMap<String, CourseSummaryForCoordinator> getCourseDetailsListForCoord(
 			String coordId) {
-		//TODO: using this method here may not be efficient as it retrieves info not required
+		// TODO: using this method here may not be efficient as it retrieves
+		// info not required
 		HashMap<String, CourseSummaryForCoordinator> courseList = getCourseListForCoord(coordId);
 		ArrayList<EvaluationDetailsForCoordinator> evaluationList = getEvaluationsListForCoord(coordId);
-		for(EvaluationDetailsForCoordinator edfc: evaluationList){
-			CourseSummaryForCoordinator courseSummary = courseList.get(edfc.courseID);
+		for (EvaluationDetailsForCoordinator edfc : evaluationList) {
+			CourseSummaryForCoordinator courseSummary = courseList
+					.get(edfc.courseID);
 			courseSummary.evaluations.add(edfc);
 		}
 		return courseList;
 	}
-	
+
 	public ArrayList<EvaluationDetailsForCoordinator> getEvaluationsListForCoord(
 			String coordId) {
 
-		List<Course> courseList = Courses.inst().getCoordinatorCourseList(coordId);
+		List<Course> courseList = Courses.inst().getCoordinatorCourseList(
+				coordId);
 		ArrayList<EvaluationDetailsForCoordinator> evaluationDetailsList = new ArrayList<EvaluationDetailsForCoordinator>();
-		
-		for(Course c: courseList){
-			evaluationDetailsList.addAll(Evaluations.inst().getEvaluationsSummaryForCourse(c.getID()));
+
+		for (Course c : courseList) {
+			evaluationDetailsList.addAll(Evaluations.inst()
+					.getEvaluationsSummaryForCourse(c.getID()));
 		}
 		return evaluationDetailsList;
 	}
-	
 
 	public List<TeamFormingSession> getTfsListForCoord(String coordId) {
-		List<Course> courseList = Courses.inst().getCoordinatorCourseList(coordId);
+		List<Course> courseList = Courses.inst().getCoordinatorCourseList(
+				coordId);
 		List<TeamFormingSession> teamFormingSessionList = TeamForming.inst()
-				.getTeamFormingSessionList(courseList);	
+				.getTeamFormingSessionList(courseList);
 		return teamFormingSessionList;
 	}
 
-	// -----------------------Courses------------------------------------------
+	@SuppressWarnings("unused")
+	private void ____COURSE_LevelMethods___________________________________() {
+	}
 
 	public void createCourse(String coordinatorId, String courseId,
 			String courseName) throws EntityAlreadyExistsException,
@@ -1040,6 +1047,11 @@ public class APIServlet extends HttpServlet {
 		return Courses.inst().getCourse(courseId);
 	}
 
+	public void editCourse(Course course) throws NotImplementedException {
+		throw new NotImplementedException("Not implemented because we do "
+				+ "not allow editing courses");
+	}
+
 	public void deleteCourse(String courseId) {
 		Evaluations.inst().deleteEvaluations(courseId);
 		TeamForming.inst().deleteTeamFormingSession(courseId);
@@ -1049,42 +1061,46 @@ public class APIServlet extends HttpServlet {
 	public List<Student> getStudentListForCourse(String courseId) {
 		return Courses.inst().getStudentList(courseId);
 	}
-	
-	public void sendRegistrationInviteForCourse(String courseId) {
-		List<Student> studentList = Courses.inst().getUnregisteredStudentList(courseId);
 
-		for(Student s: studentList){
+	public void sendRegistrationInviteForCourse(String courseId) {
+		List<Student> studentList = Courses.inst().getUnregisteredStudentList(
+				courseId);
+
+		for (Student s : studentList) {
 			sendRegistrationInviteToStudent(courseId, s.getEmail());
 		}
 	}
-	
-	public List<StudentInfoForCoord> enrollStudents(String enrollLines, String courseId) throws EnrollException   {
+
+	public List<StudentInfoForCoord> enrollStudents(String enrollLines,
+			String courseId) throws EnrollException {
 		ArrayList<StudentInfoForCoord> returnList = new ArrayList<StudentInfoForCoord>();
-		String[] linesArray = enrollLines.split(Common.EOL); 
+		String[] linesArray = enrollLines.split(Common.EOL);
 		ArrayList<Student> studentList = new ArrayList<Student>();
-		
-		//check if all non-empty lines are formatted correctly
+
+		// check if all non-empty lines are formatted correctly
 		for (int i = 0; i < linesArray.length; i++) {
 			String line = linesArray[i];
 			try {
-				if(Common.isWhiteSpace(line))continue;
+				if (Common.isWhiteSpace(line))
+					continue;
 				studentList.add(new Student(line, courseId));
 			} catch (InvalidParametersException e) {
-				throw new EnrollException(e.errorCode, "Problem in line : "+line+Common.EOL+e.getMessage());
+				throw new EnrollException(e.errorCode, "Problem in line : "
+						+ line + Common.EOL + e.getMessage());
 			}
 		}
-		
-		//enroll all students
-		for(Student student: studentList){
+
+		// enroll all students
+		for (Student student : studentList) {
 			StudentInfoForCoord studentInfo;
 			studentInfo = enrollStudent(student);
 			returnList.add(studentInfo);
 		}
-		
-		//add to return list students not included in the enroll list.
+
+		// add to return list students not included in the enroll list.
 		List<Student> studentsInCourse = getStudentListForCourse(courseId);
-		for(Student student: studentsInCourse){
-			if(!isInEnrollList(student,returnList)){
+		for (Student student : studentsInCourse) {
+			if (!isInEnrollList(student, returnList)) {
 				StudentInfoForCoord studentInfo = convertToStudentInfoForCoord(student);
 				studentInfo.updateStatus = StudentInfoForCoord.UpdateStatus.NOT_IN_ENROLL_LIST;
 				returnList.add(studentInfo);
@@ -1092,17 +1108,37 @@ public class APIServlet extends HttpServlet {
 		}
 		return returnList;
 	}
-		
-	private boolean isInEnrollList(Student student,
-			ArrayList<StudentInfoForCoord> studentInfoList) {
-		for(StudentInfoForCoord studentInfo: studentInfoList){
-			if(studentInfo.email.equalsIgnoreCase(student.getEmail()))
-				return true;
-		}
-		return false;
+
+	@SuppressWarnings("unused")
+	private void ____STUDENT_LevelMethods___________________________________() {
 	}
 
-	public StudentInfoForCoord enrollStudent(Student student){
+	public void createStudent(Student student)
+			throws EntityAlreadyExistsException, InvalidParametersException {
+		Accounts.inst().createStudent(student);
+	}
+
+	public Student getStudent(String courseId, String email) {
+		return Accounts.inst().getStudent(courseId, email);
+	}
+
+	public void editStudent(String originalEmail, Student student)
+			throws InvalidParametersException {
+		// TODO: make the implementation more defensive
+		Courses.inst().editStudent(student.getCourseID(), originalEmail,
+				student.getName(), student.getTeamName(), student.getEmail(),
+				student.getID(), student.getComments(),
+				student.getProfileDetail());
+	}
+
+	public void deleteStudent(String courseId, String studentEmail) {
+		Courses.inst().deleteStudent(courseId, studentEmail);
+		Evaluations.inst().deleteSubmissionsForStudent(courseId, studentEmail);
+		TeamForming.inst().deleteLogsForStudent(courseId, studentEmail);
+		// TODO:delete team profile, if the last member
+	}
+
+	public StudentInfoForCoord enrollStudent(Student student) {
 		StudentInfoForCoord.UpdateStatus updateStatus = UpdateStatus.UNMODIFIED;
 		try {
 			if (isSameAsExistingStudent(student)) {
@@ -1124,60 +1160,26 @@ public class APIServlet extends HttpServlet {
 		return studentInfo;
 	}
 
-	private boolean isSameAsExistingStudent(Student student) {
-		Student existingStudent = getStudent(student.getCourseID(), student.getEmail());
-		if(existingStudent==null) return false;
-		return student.isEnrollInfoSameAs(existingStudent);
-	}
+	public void sendRegistrationInviteToStudent(String courseId,
+			String studentEmail) {
 
-	private StudentInfoForCoord convertToStudentInfoForCoord(Student student) {
-		StudentInfoForCoord studentInfoForCoord = new StudentInfoForCoord(student);
-		return studentInfoForCoord;
-	}
-
-	private boolean isModificationToExistingStudent(Student student) {
-		return getStudent(student.getCourseID(), student.getEmail())!=null;
-	}
-
-	// ----------------------Students------------------------------------------
-	public void createStudent(Student student)
-			throws EntityAlreadyExistsException, InvalidParametersException {
-		Accounts.inst().createStudent(student);
-	}
-
-	public void deleteStudent(String courseId, String studentEmail) {
-		Courses.inst().deleteStudent(courseId, studentEmail);
-		Evaluations.inst().deleteSubmissionsForStudent(courseId, studentEmail);
-		TeamForming.inst().deleteLogsForStudent(courseId,studentEmail);
-		// TODO:delete team profile, if the last member
-	}
-
-	public Student getStudent(String courseId, String email) {
-		return Accounts.inst().getStudent(courseId, email);
-	}
-
-	public void editStudent(String originalEmail, Student student)
-			throws InvalidParametersException {
-		// TODO: make the implementation more defensive
-		Courses.inst().editStudent(student.getCourseID(), originalEmail,
-				student.getName(), student.getTeamName(), student.getEmail(), student.getID(),
-				student.getComments(), student.getProfileDetail());
-	}
-	
-	public void sendRegistrationInviteToStudent(String courseId, String studentEmail) {
-		
 		Course course = Courses.inst().getCourse(courseId);
-		Student student = Courses.inst().getStudentWithEmail(courseId, studentEmail);
-		Coordinator coord = Accounts.inst().getCoordinator(course.getCoordinatorID());
+		Student student = Courses.inst().getStudentWithEmail(courseId,
+				studentEmail);
+		Coordinator coord = Accounts.inst().getCoordinator(
+				course.getCoordinatorID());
 		List<Student> studentList = new ArrayList<Student>();
 		studentList.add(student);
 
-		//TODO: this need not be a batch processing method
-		Courses.inst().sendRegistrationKeys(studentList, courseId, course.getName(), coord.getName(), coord.getEmail());
-		
+		// TODO: this need not be a batch processing method
+		Courses.inst().sendRegistrationKeys(studentList, courseId,
+				course.getName(), coord.getName(), coord.getEmail());
+
 	}
 
-	// ------------------------Evaluations-----------------------------------
+	@SuppressWarnings("unused")
+	private void ____EVALUATIONS_LevelMethods_______________________________() {
+	}
 
 	public void createEvalution(Evaluation evaluation)
 			throws EntityAlreadyExistsException, InvalidParametersException {
@@ -1188,11 +1190,8 @@ public class APIServlet extends HttpServlet {
 		return Evaluations.inst().getEvaluation(courseId, evaluationName);
 	}
 
-	public void deleteEvaluation(String courseId, String evaluationName) {
-		Evaluations.inst().deleteEvaluation(courseId, evaluationName);
-	}
-	
-	public void editEvaluation(Evaluation evaluation) throws EntityDoesNotExistException, InvalidParametersException{
+	public void editEvaluation(Evaluation evaluation)
+			throws EntityDoesNotExistException, InvalidParametersException {
 		Evaluations.inst().editEvaluation(evaluation.getCourseID(),
 				evaluation.getName(), evaluation.getInstructions(),
 				evaluation.isCommentsEnabled(), evaluation.getStart(),
@@ -1200,18 +1199,35 @@ public class APIServlet extends HttpServlet {
 				evaluation.isActivated(), evaluation.isPublished(),
 				evaluation.getTimeZone());
 	}
-	
-	public void publishEvaluation(String courseId, String evaluationName) throws EntityDoesNotExistException{
+
+	public void deleteEvaluation(String courseId, String evaluationName) {
+		Evaluations.inst().deleteEvaluation(courseId, evaluationName);
+	}
+
+	public void publishEvaluation(String courseId, String evaluationName)
+			throws EntityDoesNotExistException {
 		Courses courses = Courses.inst();
 		List<Student> studentList = courses.getStudentList(courseId);
 
-		Evaluations.inst().publishEvaluation(courseId, evaluationName, studentList);
+		Evaluations.inst().publishEvaluation(courseId, evaluationName,
+				studentList);
 	}
-	
+
 	public void unpublishEvaluation(String courseId, String evaluationName) {
 		Evaluations.inst().unpublishEvaluation(courseId, evaluationName);
 	}
-	
+
+	@SuppressWarnings("unused")
+	private void ____SUBMISSION_LevelMethods______________________________() {
+	}
+
+	public void createSubmission(Submission submission)
+			throws NotImplementedException {
+		throw new NotImplementedException(
+				"Not implemented because submissions "
+						+ "are created automatically");
+	}
+
 	public Submission getSubmission(String courseId, String evaluationName,
 			String reviewerEmail, String revieweeEmail) {
 		return Evaluations.inst().getSubmission(courseId, evaluationName,
@@ -1222,30 +1238,78 @@ public class APIServlet extends HttpServlet {
 		Evaluations.inst().editSubmissions(submissions);
 	}
 
-	// ------------------------teamForming----------------------------------
+	public void deleteSubmission(Submission submission)
+			throws NotImplementedException {
+		throw new NotImplementedException(
+				"Not implemented because submissions "
+						+ "are deleted automatically");
+	}
+
+	@SuppressWarnings("unused")
+	private void ____TFS_LevelMethods_______________________________________() {
+	}
 
 	public void createTfs(TeamFormingSession tfs)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 		TeamForming.inst().createTeamFormingSession(tfs);
 	}
 
-	public void deleteTfs(String courseId) {
-		TeamForming.inst().deleteTeamFormingSession(courseId);
-	}
-
 	public TeamFormingSession getTfs(String courseId) {
 		return TeamForming.inst().getTeamFormingSession(courseId);
 	}
 
-	public void getTfs(TeamFormingSession tfs) {
+	public void editTfs(TeamFormingSession tfs) {
 		TeamForming.inst().editTeamFormingSession(tfs.getCourseID(),
 				tfs.getStart(), tfs.getDeadline(), tfs.getGracePeriod(),
 				tfs.getInstructions(), tfs.getProfileTemplate());
 	}
 
+	public void deleteTfs(String courseId) {
+		TeamForming.inst().deleteTeamFormingSession(courseId);
+	}
+
+	public void renameTeam(String courseId, String originalTeamName,
+			String newTeamName) {
+		TeamForming.inst().editStudentsTeam(courseId, originalTeamName,
+				newTeamName);
+	}
+
+	@SuppressWarnings("unused")
+	private void ____TEAM_PROFILE_LevelMethods______________________________() {
+	}
+
+	public void createTeamProfile(TeamProfile teamProfile)
+			throws EntityAlreadyExistsException, InvalidParametersException {
+		TeamForming.inst().createTeamProfile(teamProfile);
+	}
+
+	public TeamProfile getTeamProfile(String courseId, String teamName) {
+		return TeamForming.inst().getTeamProfile(courseId, teamName);
+	}
+
+	public void editTeamProfile(String originalTeamName,
+			TeamProfile modifieldTeamProfile)
+			throws EntityDoesNotExistException {
+		TeamForming.inst().editTeamProfile(modifieldTeamProfile.getCourseID(),
+				modifieldTeamProfile.getCourseName(), originalTeamName,
+				modifieldTeamProfile.getTeamName(),
+				modifieldTeamProfile.getTeamProfile());
+	}
+
+	public void deleteTeamProfile(String courseId, String teamName) {
+		TeamForming.inst().deleteTeamProfile(courseId, teamName);
+	}
+
+	@SuppressWarnings("unused")
+	private void ____TEAM_FORMING_LOG_LevelMethods__________________________() {
+	}
 
 	public List<TeamFormingLog> getTeamFormingLog(String courseId) {
 		return TeamForming.inst().getTeamFormingLogList(courseId);
+	}
+
+	public void deleteTeamFormingLog(String courseId) {
+		TeamForming.inst().deleteTeamFormingLog(courseId);
 	}
 
 	public void createTeamFormingLogEntry(TeamFormingLog teamFormingLog)
@@ -1253,38 +1317,34 @@ public class APIServlet extends HttpServlet {
 		TeamForming.inst().createTeamFormingLogEntry(teamFormingLog);
 	}
 
-	public void deleteTeamFormingLog(String courseId) {
-		TeamForming.inst().deleteTeamFormingLog(courseId);
+	@SuppressWarnings("unused")
+	private void ____HelperMethods_________________________________________() {
 	}
 
-	
-	
-	public void createTeamProfile(TeamProfile teamProfile)
-			throws EntityAlreadyExistsException, InvalidParametersException {
-		TeamForming.inst().createTeamProfile(teamProfile);
-	}
-	
-	public TeamProfile getTeamProfile(String courseId, String teamName) {
-		return TeamForming.inst().getTeamProfile(courseId, teamName);
-	}
-	
-	public void deleteTeamProfile(String courseId, String teamName) {
-		TeamForming.inst().deleteTeamProfile(courseId, teamName);
+	private boolean isInEnrollList(Student student,
+			ArrayList<StudentInfoForCoord> studentInfoList) {
+		for (StudentInfoForCoord studentInfo : studentInfoList) {
+			if (studentInfo.email.equalsIgnoreCase(student.getEmail()))
+				return true;
+		}
+		return false;
 	}
 
-	public void editTeamProfile(String originalTeamName, TeamProfile modifieldTeamProfile) throws EntityDoesNotExistException {
-		TeamForming.inst().editTeamProfile(modifieldTeamProfile.getCourseID(),
-				modifieldTeamProfile.getCourseName(),
-				originalTeamName,
-				modifieldTeamProfile.getTeamName(),
-				modifieldTeamProfile.getTeamProfile());
-	}
-	
-	public void renameTeam(String courseId, String originalTeamName,
-			String newTeamName) {
-		TeamForming.inst().editStudentsTeam(courseId, originalTeamName, newTeamName);
+	private boolean isSameAsExistingStudent(Student student) {
+		Student existingStudent = getStudent(student.getCourseID(),
+				student.getEmail());
+		if (existingStudent == null)
+			return false;
+		return student.isEnrollInfoSameAs(existingStudent);
 	}
 
+	private StudentInfoForCoord convertToStudentInfoForCoord(Student student) {
+		StudentInfoForCoord studentInfoForCoord = new StudentInfoForCoord(
+				student);
+		return studentInfoForCoord;
+	}
 
-
+	private boolean isModificationToExistingStudent(Student student) {
+		return getStudent(student.getCourseID(), student.getEmail()) != null;
+	}
 }
