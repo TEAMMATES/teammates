@@ -126,11 +126,12 @@ public class Common {
 	public static String BACKEND_STATUS_FAILURE = "[BACKEND_STATUS_FAILURE]";
 	
 	//General Error codes
-	public static final String ERRORCODE_NULL_PARAMETER = "ERRORCODE_NULL_PARAMETER";
 	public static final String ERRORCODE_EMPTY_STRING = "ERRORCODE_EMPTY_STRING";
+	public static final String ERRORCODE_NULL_PARAMETER = "ERRORCODE_NULL_PARAMETER";
 	public static final String ERRORCODE_INCORRECTLY_FORMATTED_STRING = "ERRORCODE_INCORRECTLY_FORMATTED_STRING";
-	public static final String ERRORCODE_STRING_TOO_LONG = "ERRORCODE_STRING_TOO_LONG";
+	public static final String ERRORCODE_IVALID_CHARS = "ERRORCODE_IVALID_CHARS";
 	public static final String ERRORCODE_INVALID_EMAIL = "ERRORCODE_INVALID_EMAIL";
+	public static final String ERRORCODE_STRING_TOO_LONG = "ERRORCODE_STRING_TOO_LONG";
 
 	/**
 	 * This creates a Gson object that can handle the Date format we use in the Json file
@@ -218,16 +219,48 @@ public class Common {
 
 	//TODO: write unit tests
 	public static void validateEmail(String email) throws InvalidParametersException {
-		if(!email.trim().equals(email)) {
-			throw new InvalidParametersException(ERRORCODE_INCORRECTLY_FORMATTED_STRING, "Email should not have leading or trailing spaces");
-		}
-		if(email.equals("")){
-			throw new InvalidParametersException(ERRORCODE_EMPTY_STRING, "Email should not be empty");
-		}
+		verifyNoLeadingAndTrailingSpaces(email, "email");
+		verifyNotAnEmptyString(email, "email");
 		if(!email.contains("@")){
 			throw new InvalidParametersException(ERRORCODE_INVALID_EMAIL, "Email address should contain '@'");
 		}
 		
+	}
+	
+	//TODO: write unit tests
+	public static void validateGoogleId(String googleId) throws InvalidParametersException {
+		verifyNoLeadingAndTrailingSpaces(googleId, "Google ID");
+		verifyNotAnEmptyString(googleId, "Google ID");
+		verifyContainsNoSpaces(googleId, "Google ID");
+		
+	}
+
+	
+	private static void verifyContainsNoSpaces(String stringToCheck, String nameOfString)
+			throws InvalidParametersException {
+		if(stringToCheck.split(" ").length>1){
+			throw new InvalidParametersException(ERRORCODE_IVALID_CHARS, nameOfString+" cannot contain spaces");
+		}
+	}
+	
+	//TODO: write unit tests
+	public static void validateCoordName(String coordName) throws InvalidParametersException {
+		verifyNoLeadingAndTrailingSpaces(coordName, "Coordinator Name");
+		verifyNotAnEmptyString(coordName, "Coordinator Name");
+	}
+	
+	private static void verifyNotAnEmptyString(String stringToCheck, String nameOfString)
+			throws InvalidParametersException {
+		if(stringToCheck.equals("")){
+			throw new InvalidParametersException(ERRORCODE_EMPTY_STRING, nameOfString+" should not be empty");
+		}
+	}
+
+	private static void verifyNoLeadingAndTrailingSpaces(String stringToCheck, String nameOfString)
+			throws InvalidParametersException {
+		if(!stringToCheck.trim().equals(stringToCheck)) {
+			throw new InvalidParametersException(ERRORCODE_INCORRECTLY_FORMATTED_STRING, nameOfString+" should not have leading or trailing spaces");
+		}
 	}
 
 	//TODO: write unit tests

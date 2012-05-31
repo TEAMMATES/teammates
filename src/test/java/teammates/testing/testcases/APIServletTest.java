@@ -23,7 +23,9 @@ import teammates.Common;
 import teammates.DataBundle;
 import teammates.Datastore;
 import teammates.exception.EnrollException;
+import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.EntityDoesNotExistException;
+import teammates.exception.InvalidParametersException;
 import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
 import teammates.jdo.CourseSummaryForCoordinator;
@@ -36,6 +38,7 @@ import teammates.jdo.TeamFormingLog;
 import teammates.jdo.TeamFormingSession;
 import teammates.jdo.TeamProfile;
 import teammates.testing.lib.SharedLib;
+import teammates.testing.lib.TMAPI;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.taskqueue.dev.LocalTaskQueue;
@@ -82,7 +85,7 @@ public class APIServletTest extends BaseTestCase {
 		 */
 		LocalTaskQueueTestConfig ltqtc = new LocalTaskQueueTestConfig();
 		ltqtc.setQueueXmlPath(queueXmlFilePath);
-
+		dataBundle = gson.fromJson(jsonString, DataBundle.class);
 		helper = new LocalServiceTestHelper(
 				new LocalDatastoreServiceTestConfig(),
 				new LocalMailServiceTestConfig(), ltqtc);
@@ -108,7 +111,7 @@ public class APIServletTest extends BaseTestCase {
 	}
 	
 	@SuppressWarnings("unused")
-	private void ____SYSTEM_LevelMethods____________________________________(){}
+	private void ____SYSTEM_level_methods___________________________________(){}
 	
 	@Test
 	public void testCoordGetLoginUrl(){
@@ -123,37 +126,88 @@ public class APIServletTest extends BaseTestCase {
 	@Test
 	public void testPersistDataBundle() throws Exception {
 		dataBundle = gson.fromJson(jsonString, DataBundle.class);
+		//clean up the datastore first, to avoid clashes with existing data
 		HashMap<String, Coordinator> coords = dataBundle.coords;
 		for (Coordinator coord : coords.values()) {
 			apiServlet.deleteCoord(coord.getGoogleID());
 		}
-		apiServlet.persistNewDataBundle(jsonString);
+		
+		//try with empty dataBundle
+		String status = apiServlet.persistNewDataBundle(new DataBundle());
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		
+		//try with typical dataBundle
+		apiServlet.persistNewDataBundle(dataBundle);
 		verifyPresentInDatastore(jsonString);
 		
-		//TODO: more testing
+		//try again, should throw exception
+		try {
+			apiServlet.persistNewDataBundle(dataBundle);
+			Assert.fail();
+		} catch (EntityAlreadyExistsException e) {
+		}
+	
+		//TODO: test for InvalidParametersException
 	}
 
 	@SuppressWarnings("unused")
-	private void ____COORD_LevelMethods_____________________________________(){}
+	private void ____COORD_level_methods____________________________________(){}
 	
 	@Test
-	public void testCreateCoord(){
-		//TODO: implement
+	public void testCreateCoord() throws InvalidParametersException, EntityAlreadyExistsException{
+		
+		Coordinator coord = dataBundle.coords.get("typicalCoord1");
+		//delete, to avoid clashes with existing data
+		apiServlet.deleteCoord(coord.getGoogleID());
+		verifyAbsentInDatastore(coord);
+		//create
+		apiServlet.createCoord(coord.getGoogleID(), coord.getName(), coord.getEmail());
+		//read existing coord
+		verifyPresentInDatastore(coord);
+		//delete existing 
+		apiServlet.deleteCoord(coord.getGoogleID());
+		//read non-existent coord
+		verifyAbsentInDatastore(coord);
+		//delete non-existent (fails silently)
+		apiServlet.deleteCoord(coord.getGoogleID());
+		
+		//try one invalid input for each parameter
+		try {
+			apiServlet.createCoord("valid-id", "", "valid@email.com");
+			Assert.fail();
+		} catch (InvalidParametersException e) {
+			assertEquals(Common.ERRORCODE_EMPTY_STRING, e.errorCode);
+		}
+		
+		try {
+			apiServlet.createCoord("valid-id", "valid name", "invalid email.com");
+			Assert.fail();
+		} catch (InvalidParametersException e) {
+			assertEquals(Common.ERRORCODE_INVALID_EMAIL, e.errorCode);
+		}
+		
+		try {
+			apiServlet.createCoord("invalid id", "valid name", "valid@email.com");
+			Assert.fail();
+		} catch (InvalidParametersException e) {
+			assertEquals(Common.ERRORCODE_IVALID_CHARS, e.errorCode);
+		}
+		
 	}
 	
 	@Test
 	public void testGetCoord(){
-		//TODO: implement
+		//already tested in testCreateCoord
 	}
 	
 	@Test
 	public void testEditCoord(){
-		//method not implemented
+		//TODO: implement
 	}
 	
 	@Test
 	public void testDeleteCoord(){
-		//TODO: implement
+		//already tested in testCreateCoord
 	}
 	
 	@Test
@@ -239,7 +293,7 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	@SuppressWarnings("unused")
-	private void ____COURSE_LevelMethods____________________________________(){}
+	private void ____COURSE_level_methods___________________________________(){}
 	
 	@Test
 	public void testCreateCourse(){
@@ -382,7 +436,7 @@ public class APIServletTest extends BaseTestCase {
 	
 	}
 	@SuppressWarnings("unused")
-	private void ____STUDENT_LevelMethods___________________________________(){}
+	private void ____STUDENT_level_methods__________________________________(){}
 	
 	@Test
 	public void testCreateStudent(){
@@ -526,7 +580,7 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	@SuppressWarnings("unused")
-	private void ____EVALUATION_LevelMethods________________________________(){}
+	private void ____EVALUATION_level_methods_______________________________(){}
 	
 	@Test
 	public void testCreateEvaluation(){
@@ -591,7 +645,7 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	@SuppressWarnings("unused")
-	private void ____SUBMISSION_LevelMethods________________________________(){}
+	private void ____SUBMISSION_level_methods_______________________________(){}
 	
 	@Test
 	public void testCreateSubmission() {
@@ -650,7 +704,7 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	@SuppressWarnings("unused")
-	private void ____TFS_LevelMethods_______________________________________(){}
+	private void ____TFS_level_methods______________________________________(){}
 	
 	@Test
 	public void testCreateTfs() {
@@ -705,7 +759,17 @@ public class APIServletTest extends BaseTestCase {
 	
 	}
 	@SuppressWarnings("unused")
-	private void ____TEAM_PROFILE_LevelMethods______________________________(){}
+	private void ____TEAM_PROFILE_level_methods_____________________________(){}
+	
+	@Test
+	public void testCreateTeamProfile() {
+		//TODO: implement this
+	}
+	
+	@Test
+	public void testGetTeamProfile() {
+		//TODO: implement this
+	}
 	
 	@Test
 	public void testEditTeamProfile() throws Exception {
@@ -722,11 +786,37 @@ public class APIServletTest extends BaseTestCase {
 		verifyPresentInDatastore(teamProfile1);
 	
 	}
-	@SuppressWarnings("unused")
-	private void ____TEAM_FORMING_LOG_LevelMethods__________________________(){}
+	
+	@Test
+	public void testDeleteTeamProfile() {
+		//TODO: implement this
+	}
 	
 	@SuppressWarnings("unused")
-	private void ____HelperMethods__________________________________________(){}
+	private void ____TEAM_FORMING_LOG_level_methods_________________________(){}
+	
+	@Test
+	public void testCreateTeamFormingLogEntry() {
+		//TODO: implement this
+	}
+	
+	@Test
+	public void testGetTeamFormingLogEntry() {
+		//TODO: implement this
+	}
+	
+	@Test
+	public void testEditTeamFormingLogEntry() {
+		//method not implemented
+	}
+	
+	@Test
+	public void testDeleteTeamFormingLogEntry() {
+		//TODO: implement this
+	}
+	
+	@SuppressWarnings("unused")
+	private void ____helper_methods_________________________________________(){}
 
 	
 	private void verifyEvauationInfoExistsInList(Evaluation evaluation,
@@ -877,6 +967,10 @@ public class APIServletTest extends BaseTestCase {
 				apiServlet.getSubmission(submission.getCourseID(),
 						submission.getEvaluationName(),
 						submission.getFromStudent(), submission.getToStudent()));
+	}
+	
+	private void verifyAbsentInDatastore(Coordinator expectedCoord) {
+		assertEquals(null, apiServlet.getCoord(expectedCoord.getGoogleID()));
 	}
 
 	private void verifyAbsentInDatastore(Student student) {

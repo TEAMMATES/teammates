@@ -866,7 +866,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	@SuppressWarnings("unused")
-	private void ____SYSTEM_LevelMethods____________________________________() {
+	private void ____SYSTEM_level_methods___________________________________() {
 	}
 
 	public String coordGetLoginUrl(String redirectUrl) {
@@ -877,6 +877,17 @@ public class APIServlet extends HttpServlet {
 	public String coordGetLogoutUrl(String redirectUrl) {
 		Accounts accounts = Accounts.inst();
 		return accounts.getLogoutPage(redirectUrl);
+	}
+	
+	/**
+	 * @deprecated Use persistNewDataBundle(DataBundle dataBundle)
+	 */
+	public String persistNewDataBundle(String dataBundleJsonString)
+			throws InvalidParametersException, EntityAlreadyExistsException {
+		Gson gson = Common.getTeammatesGson();
+
+		DataBundle dataBundle = gson.fromJson(dataBundleJsonString, DataBundle.class);
+		return persistNewDataBundle(dataBundle);
 	}
 
 	/**
@@ -892,33 +903,30 @@ public class APIServlet extends HttpServlet {
 	 * @throws InvalidParametersException
 	 * @throws Exception
 	 */
-	public String persistNewDataBundle(String dataBundleJsonString)
+	public String persistNewDataBundle(DataBundle dataBundle)
 			throws InvalidParametersException, EntityAlreadyExistsException {
 
-		Gson gson = Common.getTeammatesGson();
-
-		DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
-		HashMap<String, Coordinator> coords = data.coords;
+		HashMap<String, Coordinator> coords = dataBundle.coords;
 		for (Coordinator coord : coords.values()) {
 			log.info("API Servlet adding coord :" + coord.getGoogleID());
 			createCoord(coord.getGoogleID(), coord.getName(), coord.getEmail());
 		}
 
-		HashMap<String, Course> courses = data.courses;
+		HashMap<String, Course> courses = dataBundle.courses;
 		for (Course course : courses.values()) {
 			log.info("API Servlet adding course :" + course.getID());
 			createCourse(course.getCoordinatorID(), course.getID(),
 					course.getName());
 		}
 
-		HashMap<String, Student> students = data.students;
+		HashMap<String, Student> students = dataBundle.students;
 		for (Student student : students.values()) {
 			log.info("API Servlet adding student :" + student.getEmail()
 					+ " to course " + student.getCourseID());
 			createStudent(student);
 		}
 
-		HashMap<String, Evaluation> evaluations = data.evaluations;
+		HashMap<String, Evaluation> evaluations = dataBundle.evaluations;
 		for (Evaluation evaluation : evaluations.values()) {
 			log.info("API Servlet adding evaluation :" + evaluation.getName()
 					+ " to course " + evaluation.getCourseID());
@@ -927,7 +935,7 @@ public class APIServlet extends HttpServlet {
 
 		// processing is slightly different for submissions because we are
 		// adding all submissions in one go
-		HashMap<String, Submission> submissionsMap = data.submissions;
+		HashMap<String, Submission> submissionsMap = dataBundle.submissions;
 		List<Submission> submissionsList = new ArrayList<Submission>();
 		for (Submission submission : submissionsMap.values()) {
 			log.info("API Servlet adding submission for "
@@ -939,14 +947,14 @@ public class APIServlet extends HttpServlet {
 		createSubmissions(submissionsList);
 		log.info("API Servlet added " + submissionsList.size() + " submissions");
 
-		HashMap<String, TeamFormingSession> tfsMap = data.teamFormingSessions;
+		HashMap<String, TeamFormingSession> tfsMap = dataBundle.teamFormingSessions;
 		for (TeamFormingSession tfs : tfsMap.values()) {
 			log.info("API Servlet adding TeamFormingSession to course "
 					+ tfs.getCourseID());
 			createTfs(tfs);
 		}
 
-		HashMap<String, TeamProfile> teamProfiles = data.teamProfiles;
+		HashMap<String, TeamProfile> teamProfiles = dataBundle.teamProfiles;
 		for (TeamProfile teamProfile : teamProfiles.values()) {
 			log.info("API Servlet adding TeamProfile of "
 					+ teamProfile.getTeamName() + " in course "
@@ -954,7 +962,7 @@ public class APIServlet extends HttpServlet {
 			createTeamProfile(teamProfile);
 		}
 
-		HashMap<String, TeamFormingLog> teamFormingLogs = data.teamFormingLogs;
+		HashMap<String, TeamFormingLog> teamFormingLogs = dataBundle.teamFormingLogs;
 		for (TeamFormingLog teamFormingLog : teamFormingLogs.values()) {
 			log.info("API Servlet adding TeamFormingLog in course "
 					+ teamFormingLog.getCourseID() + " : "
@@ -966,14 +974,22 @@ public class APIServlet extends HttpServlet {
 	}
 
 	@SuppressWarnings("unused")
-	private void ____COORD_LevelMethods_____________________________________() {
+	private void ____COORD_level_methods____________________________________() {
 	}
 
 	public void createCoord(String coordID, String coordName, String coordEmail)
 			throws EntityAlreadyExistsException, InvalidParametersException {
+		Common.validateEmail(coordEmail);
+		Common.validateCoordName(coordName);
+		Common.validateGoogleId(coordID);
 		Accounts.inst().addCoordinator(coordID, coordName, coordEmail);
 	}
 
+	/**
+	 * 
+	 * @param coordID
+	 * @return null if not found
+	 */
 	public Coordinator getCoord(String coordID) {
 		return Accounts.inst().getCoordinator(coordID);
 	}
@@ -1034,7 +1050,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	@SuppressWarnings("unused")
-	private void ____COURSE_LevelMethods___________________________________() {
+	private void ____COURSE_level_methods__________________________________() {
 	}
 
 	public void createCourse(String coordinatorId, String courseId,
@@ -1110,7 +1126,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	@SuppressWarnings("unused")
-	private void ____STUDENT_LevelMethods___________________________________() {
+	private void ____STUDENT_level_methods__________________________________() {
 	}
 
 	public void createStudent(Student student)
@@ -1178,7 +1194,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	@SuppressWarnings("unused")
-	private void ____EVALUATIONS_LevelMethods_______________________________() {
+	private void ____EVALUATIONS_level_methods______________________________() {
 	}
 
 	public void createEvalution(Evaluation evaluation)
@@ -1218,7 +1234,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	@SuppressWarnings("unused")
-	private void ____SUBMISSION_LevelMethods______________________________() {
+	private void ____SUBMISSION_level_methods_____________________________() {
 	}
 
 	public void createSubmission(Submission submission)
@@ -1246,7 +1262,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	@SuppressWarnings("unused")
-	private void ____TFS_LevelMethods_______________________________________() {
+	private void ____TFS_level_methods______________________________________() {
 	}
 
 	public void createTfs(TeamFormingSession tfs)
@@ -1275,7 +1291,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	@SuppressWarnings("unused")
-	private void ____TEAM_PROFILE_LevelMethods______________________________() {
+	private void ____TEAM_PROFILE_level_methods_____________________________() {
 	}
 
 	public void createTeamProfile(TeamProfile teamProfile)
@@ -1301,15 +1317,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	@SuppressWarnings("unused")
-	private void ____TEAM_FORMING_LOG_LevelMethods__________________________() {
-	}
-
-	public List<TeamFormingLog> getTeamFormingLog(String courseId) {
-		return TeamForming.inst().getTeamFormingLogList(courseId);
-	}
-
-	public void deleteTeamFormingLog(String courseId) {
-		TeamForming.inst().deleteTeamFormingLog(courseId);
+	private void ____TEAM_FORMING_LOG_level_methods_________________________() {
 	}
 
 	public void createTeamFormingLogEntry(TeamFormingLog teamFormingLog)
@@ -1317,8 +1325,23 @@ public class APIServlet extends HttpServlet {
 		TeamForming.inst().createTeamFormingLogEntry(teamFormingLog);
 	}
 
+	public List<TeamFormingLog> getTeamFormingLog(String courseId) {
+		return TeamForming.inst().getTeamFormingLogList(courseId);
+	}
+	
+	public void editTeamFormingLogEntry(TeamFormingLog tfl)
+			throws NotImplementedException {
+		throw new NotImplementedException(
+				"Not implemented because there is no need to "
+						+ "edit logs");
+	}
+
+	public void deleteTeamFormingLog(String courseId) {
+		TeamForming.inst().deleteTeamFormingLog(courseId);
+	}
+
 	@SuppressWarnings("unused")
-	private void ____HelperMethods_________________________________________() {
+	private void ____helper_methods________________________________________() {
 	}
 
 	private boolean isInEnrollList(Student student,
