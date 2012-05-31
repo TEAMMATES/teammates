@@ -1,5 +1,6 @@
 package teammates.testing.script;
 
+import teammates.exception.EntityDoesNotExistException;
 import teammates.testing.config.Config;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Scenario;
@@ -18,7 +19,7 @@ import teammates.testing.object.Scenario;
 
 public class ImportTestData {
 
-	public static void main(String args[]) {
+	public static void main(String args[]) throws EntityDoesNotExistException {
 		System.out.println("====[START of Importing test data]====");
 		setupPageVerificationData();
 		setupOtherTestData();
@@ -31,7 +32,7 @@ public class ImportTestData {
 		TMAPI.createCoord("teammates.test", "Coordinator", "teammates.test@gmail.com");
 	}
 
-	private static void setupPageVerificationData() {
+	private static void setupPageVerificationData() throws EntityDoesNotExistException {
 		System.out.println("Importing data for page verification ...");
 		Scenario sc = Scenario.scenarioForPageVerification("src/test/resources/data/page_verification.json");
 		

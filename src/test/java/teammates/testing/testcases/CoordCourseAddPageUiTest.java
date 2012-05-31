@@ -9,6 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.Common;
+import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.NoAlertAppearException;
 import teammates.jsp.Helper;
 import teammates.testing.lib.BrowserInstance;
@@ -43,7 +44,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	}
 
 	@Test
-	public void verifyAddCoursePage() {
+	public void verifyAddCoursePage() throws EntityDoesNotExistException {
 		TMAPI.deleteCoord(ts.coordinator.username);
 		TMAPI.createCoord(ts.coordinator.username, ts.coordinator.name, ts.coordinator.email);
 		

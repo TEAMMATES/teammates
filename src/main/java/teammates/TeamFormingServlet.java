@@ -175,7 +175,12 @@ public class TeamFormingServlet extends HttpServlet {
 		}
 		
 		else if (operation.equals(OPERATION_COORDINATOR_EDITTEAMPROFILE)) {
-			coordinatorEditTeamProfile();
+			try {
+				coordinatorEditTeamProfile();
+			} catch (EntityDoesNotExistException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		else if (operation.equals(OPERATION_COORDINATOR_GETSTUDENTSOFCOURSETEAM)) {
@@ -248,7 +253,12 @@ public class TeamFormingServlet extends HttpServlet {
 		}
 		
 		else if (operation.equals(OPERATION_STUDENT_EDITTEAMPROFILE)){
-			coordinatorEditTeamProfile();
+			try {
+				coordinatorEditTeamProfile();
+			} catch (EntityDoesNotExistException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		else if (operation.equals(OPERATION_STUDENT_GETCOURSESTUDENTDETAIL)){
@@ -471,7 +481,7 @@ public class TeamFormingServlet extends HttpServlet {
 		}
 	}
 	
-	private void coordinatorEditTeamProfile() throws IOException {
+	private void coordinatorEditTeamProfile() throws IOException, EntityDoesNotExistException {
 		String courseId = req.getParameter("courseId");
 		String courseName = req.getParameter("courseName");
 		String teamName = req.getParameter("oldteamname");

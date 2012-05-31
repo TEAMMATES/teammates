@@ -19,7 +19,11 @@ import java.util.logging.Logger;
 import teammates.APIServlet;
 import teammates.Common;
 import teammates.DataBundle;
+import teammates.exception.EntityDoesNotExistException;
+import teammates.exception.NotImplementedException;
 import teammates.jdo.Coordinator;
+import teammates.jdo.Submission;
+import teammates.jdo.TeamProfile;
 import teammates.testing.config.Config;
 import teammates.testing.object.Course;
 import teammates.testing.object.Evaluation;
@@ -31,13 +35,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 /**
- * This class use REST protocol to interact directly with Teammates software to
- * make changes.
- * 
- * URL to interact: http://<teammates_url>/api
- * 
- * @author huy, wangsha
- * 
+ * This class provides an API for test driver to access TEAMMATES datastore
  */
 public class TMAPI {
 
@@ -55,28 +53,31 @@ public class TMAPI {
 
 	/**
 	 * Clean up all tables. Except for Coordinator table.
+	 * @throws EntityDoesNotExistException 
 	 */
 	@Deprecated
-	public static void cleanup() {
+	public static void cleanup() throws EntityDoesNotExistException {
 		cleanupByCoordinator();
 
 	}
 
 	/**
 	 * Clean up everything related to the coordinator
+	 * @throws EntityDoesNotExistException 
+	 * 
+	 * @deprecated instead of this, delete coord and recreate.
 	 */
 	@Deprecated
-	public static void cleanupByCoordinator() {
+	public static void cleanupByCoordinator() throws EntityDoesNotExistException {
 		log.info("Clean up by coordinator");
 		cleanupByCoordinator(Config.inst().TEAMMATES_COORD_ID);
 	}
 
-	public static void cleanupByCoordinator(String coordId) {
-		HashMap<String, Object> params = createParamMap("cleanup_by_coordinator");
-		params.put("coordinator_id", coordId);
-		makePOSTRequest(params);
-	}
 
+	/*
+	 * @deprecated instead of this, delete course and recreate.
+	 */
+	@Deprecated
 	public static void cleanupCourse(String courseId) {
 		System.out.println("TMAPI.cleanupCourse() courseID = " + courseId);
 		HashMap<String, Object> params = createParamMap("cleanup_course");
@@ -84,14 +85,12 @@ public class TMAPI {
 		makePOSTRequest(params);
 	}
 
-	/**
-	 * Create new course
-	 */
-	public static void createCourse(Course course) {
+	public static void createCourse(teammates.testing.object.Course course) {
 		createCourse(course, "teammates.coord");
 	}
 
-	public static void createCourse(Course course, String coordId) {
+	public static void createCourse(teammates.testing.object.Course course,
+			String coordId) {
 		System.out.println("TMAPI Creating course: " + course.courseId);
 
 		HashMap<String, Object> params = createParamMap("course_add");
@@ -555,7 +554,11 @@ public class TMAPI {
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_COURSES_BY_COORD);
 		params.put(APIServlet.PARAMETER_COORD_ID, coordId);
 		String courseString = makePOSTRequest(params);
-		String[] coursesArray = courseString.split(" ");
+		String[] coursesArray = {};
+		if(Common.isWhiteSpace(courseString)){
+			return coursesArray;
+		}
+		coursesArray = courseString.trim().split(" ");
 		Arrays.sort(coursesArray);
 		return coursesArray;
 	}
@@ -591,12 +594,7 @@ public class TMAPI {
 	// =============================Revamped API================================
 
 	// -----------------------------Get*AsJason methods-------------------------
-	/**
-	 * Gets details of a coordinator.
-	 * 
-	 * @param coordId
-	 * @return Coordinator details in Json format. "null" if no such coord.
-	 */
+
 	public static String getCoordAsJason(String coordId) {
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_COORD_AS_JSON);
 		params.put(APIServlet.PARAMETER_COORD_ID, coordId);
@@ -670,6 +668,40 @@ public class TMAPI {
 		return status;
 	}
 
+	public static String createCoord(Coordinator coord) {
+		DataBundle dataBundle = new DataBundle();
+		dataBundle.coords.put(coord.getGoogleID(), coord);
+		return persistNewDataBundle(Common.getTeammatesGson()
+				.toJson(dataBundle));
+	}
+
+	public static String createCourse(teammates.jdo.Course course) {
+		DataBundle dataBundle = new DataBundle();
+		dataBundle.courses.put("dummy-key", course);
+		return persistNewDataBundle(Common.getTeammatesGson()
+				.toJson(dataBundle));
+	}
+
+	public static String createStudent(teammates.jdo.Student student) {
+		DataBundle dataBundle = new DataBundle();
+		dataBundle.students.put("dummy-key", student);
+		return persistNewDataBundle(Common.getTeammatesGson()
+				.toJson(dataBundle));
+	}
+
+	public static String createEvaluation(teammates.jdo.Evaluation evaluation) {
+		DataBundle dataBundle = new DataBundle();
+		dataBundle.evaluations.put("dummy-key", evaluation);
+		return persistNewDataBundle(Common.getTeammatesGson()
+				.toJson(dataBundle));
+	}
+
+	public static String createTfs(teammates.jdo.TeamFormingSession tfs) throws NotImplementedException {
+		throw new NotImplementedException(
+				"This method is not implemented because there is no" +
+				" need to create Tfs manually");
+	}
+
 	// --------------------------------methods for deleting entities----------
 
 	public static String deleteTeamProfile(String courseId, String teamName) {
@@ -712,8 +744,8 @@ public class TMAPI {
 
 	public static String deleteSubmission(String courseID,
 			String evaluationName, String reviewerEmail, String revieweeEmail)
-			throws Exception {
-		throw new Exception(
+			throws NotImplementedException {
+		throw new NotImplementedException(
 				"not implemented yet because submissions do not need to be deleted via the API");
 	}
 
@@ -739,21 +771,59 @@ public class TMAPI {
 			deleteCoord(coord.getGoogleID());
 		}
 	}
+	
+	public static void cleanupByCoordinator(String coordId) throws EntityDoesNotExistException {
+		Coordinator coord = Common.getTeammatesGson().fromJson(getCoordAsJason(coordId), Coordinator.class);
+		if(coord==null) throw new EntityDoesNotExistException("Coordinator does not exist : "+coordId);
+		deleteCoord(coordId);
+		createCoord(coord);
+	}
+
 	// -------------------------methods for editing entities-----------------
 	public static String editEvaluation(teammates.jdo.Evaluation evaluation) {
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_EVALUATION);
-		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson().toJson(evaluation));
+		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
+				.toJson(evaluation));
 		String status = makePOSTRequest(params);
 		return status;
 	}
 
-	public static String editStudent(String originalEmail, teammates.jdo.Student student) {
+	public static String editStudent(String originalEmail,
+			teammates.jdo.Student student) {
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_STUDENT);
 		params.put(APIServlet.PARAMETER_STUDENT_EMAIL, originalEmail);
-		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson().toJson(student));
+		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
+				.toJson(student));
 		String status = makePOSTRequest(params);
 		return status;
 	}
+
+	public static String editSubmission(Submission submission) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_SUBMISSION);
+		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
+				.toJson(submission));
+		String status = makePOSTRequest(params);
+		return status;
+	}
+
+	public static String editTfs(teammates.jdo.TeamFormingSession tfs) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_TFS);
+		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
+				.toJson(tfs));
+		String status = makePOSTRequest(params);
+		return status;
+	}
+
+	public static String editTeamProfile(String originalTeamName,
+			TeamProfile teamProfile) {
+		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_TEAM_PROFILE);
+		params.put(APIServlet.PARAMETER_TEAM_NAME, originalTeamName);
+		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
+				.toJson(teamProfile));
+		String status = makePOSTRequest(params);
+		return status;
+	}
+
 	// --------------------------------helper functions-----------------------
 	/**
 	 * This method reformats a Json string in the pretty printing format (i.e.
@@ -845,8 +915,5 @@ public class TMAPI {
 		return returnValue;
 	}
 	// --------------------------------------------------------------------------
-
-
-
 
 }

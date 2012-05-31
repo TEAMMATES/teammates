@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import teammates.Common;
 import teammates.DataBundle;
+import teammates.exception.InvalidParametersException;
 import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
 import teammates.jdo.Evaluation;
@@ -53,7 +54,7 @@ public class TMAPITest extends BaseTestCase{
 	public void testGetCoursesByCoordId() {
 
 		String[] courses = TMAPI.getCoursesByCoordId("nonExistentCoord");
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		// testing for non-existent coordinator
 		assertEquals("[]", Arrays.toString(courses));
 
@@ -84,7 +85,7 @@ public class TMAPITest extends BaseTestCase{
 
 	@Test
 	public void testDeleteCourseByIdNonCascade() throws InterruptedException {
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		// TODO: cascade delete coordinators and recreate
 		String coord1Id = "AST.TDCBINC.coord1";
 		String course1OfCoord1 = "AST.TDCBINC.course1OfCoord1";
@@ -119,7 +120,7 @@ public class TMAPITest extends BaseTestCase{
 
 	@Test
 	public void testCoordManipulation() {
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		String coord1Id = "AST.testCoordManipulation.coord1@somemail.com";
 		String coord1Name = "AST TCM Coordinator1";
 		String coord1Email = "AST.testCoordManipulation.coord1@gmail.com";
@@ -160,7 +161,7 @@ public class TMAPITest extends BaseTestCase{
 
 	@Test
 	public void testDataBundle() {
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		String jsonString = SharedLib.getFileContents(TEST_DATA_FOLDER
 				+ "typicalDataBundle.json");
 		Gson gson = Common.getTeammatesGson();
@@ -282,7 +283,7 @@ public class TMAPITest extends BaseTestCase{
 	
 	@Test 
 	public void testPersistDataBundle(){
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		//to avoid clashes with existing data
 		TMAPI.deleteCoordinators(jsonString);
 		String status = TMAPI.persistNewDataBundle(jsonString);
@@ -292,7 +293,7 @@ public class TMAPITest extends BaseTestCase{
 
 	@Test
 	public void testPersistenceAndDeletion() {
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		refreshDataInDatastore();
 		
 		// ----------deleting Coordinator entities-------------------------
@@ -417,7 +418,7 @@ public class TMAPITest extends BaseTestCase{
 		verifyPresentInDatastore(course2);
 		status = TMAPI.deleteCourse(course2.getID());
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-		verifyAbsentInDatastore(status, course2);
+		verifyAbsentInDatastore(course2);
 		
 		//check if related student entities are also deleted
 		Student student2InCourse2 = dataBundle.students.get("student2InCourse2");
@@ -445,7 +446,7 @@ public class TMAPITest extends BaseTestCase{
 
 	@Test
 	public void testManipulatingStudents() {
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		refreshDataInDatastore();
 
 		Submission submissionFromS1C1ToS2C1 = dataBundle.submissions.get("submissionFromS1C1ToS2C1");
@@ -478,43 +479,192 @@ public class TMAPITest extends BaseTestCase{
 	
 	@Test
 	public void testEditStudent(){
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
+		
+		//check for successful edit
 		refreshDataInDatastore();
-		Student student1 = dataBundle.students.get("student1InCourse1");
-		String originalEmail = student1.getEmail();
-		student1.setName("New name");
-		student1.setEmail("new@gmail.com");
-		student1.setComments("new comments");
-		student1.setProfileDetail(new Text("new profile"));
-		student1.setTeamName("new team");
-		String status = TMAPI.editStudent(originalEmail,student1);
+		Student student = dataBundle.students.get("student1InCourse1");
+		String originalEmail = student.getEmail();
+		student.setName("New name");
+		student.setEmail("new@gmail.com");
+		student.setComments("new comments");
+		student.setProfileDetail(new Text("new profile"));
+		student.setTeamName("new team");
+		String status = TMAPI.editStudent(originalEmail,student);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-		verifyPresentInDatastore(student1);
-		student1.setCourseID("non-existent");
-		status = TMAPI.editStudent(originalEmail,student1);
+		verifyPresentInDatastore(student);
+		
+		//test for unsuccessful edit
+		student.setCourseID("non-existent");
+		status = TMAPI.editStudent(originalEmail,student);
 		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
+		verifyAbsentInDatastore(student);
 	}
 	
 	@Test
-	public void testEditCoord(){
-		printTestCaseHeader(getNameOfThisMethod());
+	public void testEditEvaluation(){
+		printTestCaseHeader();
 		refreshDataInDatastore();
-		Evaluation evaluation1 = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
-		evaluation1.setGracePeriod(evaluation1.getGracePeriod()+1);
-		evaluation1.setActivated(!evaluation1.isActivated());
-		evaluation1.setCommentsEnabled(!evaluation1.isCommentsEnabled());
-		evaluation1.setStart(Common.getDateOffsetToCurrentTime(1));
-		evaluation1.setDeadline(Common.getDateOffsetToCurrentTime(2));
-		evaluation1.setInstructions(evaluation1.getInstructions()+"x");
-		evaluation1.setPublished(!evaluation1.isPublished());
-		evaluation1.setTimeZone(evaluation1.getTimeZone()+0.5);
-		String status = TMAPI.editEvaluation(evaluation1);
+		
+		//check for successful edit
+		Evaluation evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
+		evaluation.setGracePeriod(evaluation.getGracePeriod()+1);
+		evaluation.setActivated(!evaluation.isActivated());
+		evaluation.setCommentsEnabled(!evaluation.isCommentsEnabled());
+		evaluation.setStart(Common.getDateOffsetToCurrentTime(1));
+		evaluation.setDeadline(Common.getDateOffsetToCurrentTime(2));
+		evaluation.setInstructions(evaluation.getInstructions()+"x");
+		evaluation.setPublished(!evaluation.isPublished());
+		evaluation.setTimeZone(evaluation.getTimeZone()+0.5);
+		String status = TMAPI.editEvaluation(evaluation);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-		verifyPresentInDatastore(evaluation1);
-		evaluation1.setName("non existent");
-		status = TMAPI.editEvaluation(evaluation1);
+		verifyPresentInDatastore(evaluation);
+		
+		//test for unsuccessful edit
+		evaluation.setName("non existent");
+		status = TMAPI.editEvaluation(evaluation);
 		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
+		verifyAbsentInDatastore(evaluation);
 	}
+	
+	@Test
+	public void testEditSubmission(){
+		printTestCaseHeader();
+		refreshDataInDatastore();
+		
+		//check for successful edit
+		Submission submission = dataBundle.submissions.get("submissionFromS1C1ToS1C1");
+		submission.setJustification(new Text(submission.getJustification().getValue()+"x"));
+		submission.setPoints(submission.getPoints()+10);
+		String status = TMAPI.editSubmission(submission);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		verifyPresentInDatastore(submission);
+		
+		//test for unsuccessful edit
+		submission.setFromStudent("non-existent@gmail.com");
+		status = TMAPI.editSubmission(submission);
+		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
+		verifyAbsentInDatastore(submission);
+	}
+	
+	@Test 
+	public void testEditTeamFormingSession(){
+		printTestCaseHeader();
+		refreshDataInDatastore();
+		
+		//check for successful edit
+		TeamFormingSession tfs = dataBundle.teamFormingSessions.get("tfsInCourse1");
+		tfs.setGracePeriod(tfs.getGracePeriod()+1);
+		tfs.setStart(Common.getDateOffsetToCurrentTime(1));
+		tfs.setDeadline(Common.getDateOffsetToCurrentTime(2));
+		tfs.setInstructions(tfs.getInstructions()+"x");
+		tfs.setProfileTemplate(tfs.getProfileTemplate()+"x");
+		tfs.setTimeZone(tfs.getTimeZone()+1.0);
+		tfs.setActivated(!tfs.isActivated());
+		String status = TMAPI.editTfs(tfs);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		verifyPresentInDatastore(tfs);
+		
+		//test for unsuccessful edit
+		tfs.setCourseID("non-existent");
+		status = TMAPI.editTfs(tfs);
+		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
+		verifyAbsentInDatastore(tfs);
+	}
+	
+	@Test 
+	public void testEditTeamProfile(){
+		printTestCaseHeader();
+		refreshDataInDatastore();
+		
+		//check for successful edit
+		TeamProfile teamProfile = dataBundle.teamProfiles.get("profileOfTeam1.1");
+		String originalTeamName = teamProfile.getTeamName();
+		teamProfile.setTeamName(teamProfile.getTeamName()+"x");
+		teamProfile.setTeamProfile(new Text(teamProfile.getTeamProfile().getValue()+"x"));
+		String status = TMAPI.editTeamProfile(originalTeamName,teamProfile);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+		verifyPresentInDatastore(teamProfile);
+		
+		//test for unsuccessful edit
+		status = TMAPI.editTeamProfile("non-existent",teamProfile);
+		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
+
+	}
+	
+	@Test 
+	public void testCreateCoord(){
+		//only minimal testing because this is a wrapper method for
+		//another well-tested method.
+		printTestCaseHeader();
+		String coordId = "tmapitt.tcc.coord";
+		Coordinator coord = new Coordinator(coordId, coordId, "tmapitt.tcc.coord@gmail.com");
+		TMAPI.deleteCoord(coordId);
+		verifyAbsentInDatastore(coord);
+		TMAPI.createCoord(coord);
+		verifyPresentInDatastore(coord);
+		TMAPI.deleteCoord(coordId);
+		verifyAbsentInDatastore(coord);
+	}
+	
+	@Test 
+	public void testCreateCourse() throws InvalidParametersException{
+		//only minimal testing because this is a wrapper method for
+		//another well-tested method.
+		printTestCaseHeader();
+		String courseId = "tmapitt.tcc.course";
+		Course course = new Course(courseId, "Name of tmapitt.tcc.coord", "tmapitt.tcc.coord");
+		TMAPI.deleteCourse(courseId);
+		verifyAbsentInDatastore(course);
+		TMAPI.createCourse(course);
+		verifyPresentInDatastore(course);
+		TMAPI.deleteCourse(courseId);
+		verifyAbsentInDatastore(course);
+	}
+	
+	@Test 
+	public void testCreateStudent() throws InvalidParametersException{
+		//only minimal testing because this is a wrapper method for
+		//another well-tested method.
+		printTestCaseHeader();
+		Student student = new Student("|name of tcs student|tcsStudent@gmail.com|", "tmapit.tcs.course");
+		TMAPI.deleteStudent(student.getCourseID(), student.getEmail());
+		verifyAbsentInDatastore(student);
+		TMAPI.createStudent(student);
+		verifyPresentInDatastore(student);
+		TMAPI.deleteStudent(student.getCourseID(), student.getEmail());
+		verifyAbsentInDatastore(student);
+	}
+	
+	@Test 
+	public void testCreateEvaluation() throws InvalidParametersException{
+		//only minimal testing because this is a wrapper method for
+		//another well-tested method.
+		printTestCaseHeader();
+		Evaluation evaluation = new teammates.jdo.Evaluation("tmapit.tce.course","Eval for tmapit.tce.course", "inst.", true, Common.getDateOffsetToCurrentTime(1), Common.getDateOffsetToCurrentTime(2), 8.0, 5);
+		TMAPI.deleteEvaluation(evaluation.getCourseID(), evaluation.getName());
+		verifyAbsentInDatastore(evaluation);
+		TMAPI.createEvaluation(evaluation);
+		verifyPresentInDatastore(evaluation);
+		TMAPI.deleteEvaluation(evaluation.getCourseID(), evaluation.getName());
+		verifyAbsentInDatastore(evaluation);
+	}
+	
+	@Test 
+	public void testCleanByCoordinator() throws Exception{
+		//only minimal testing because this is a wrapper method for
+		//other well-tested methods.
+		printTestCaseHeader();
+		refreshDataInDatastore();
+		Coordinator coord = dataBundle.coords.get("typicalCoord1");
+		String[] coursesByCoord = TMAPI.getCoursesByCoordId(coord.getGoogleID());
+		assertEquals(2,coursesByCoord.length);
+		TMAPI.cleanupByCoordinator(coord.getGoogleID());
+		coursesByCoord = TMAPI.getCoursesByCoordId(coord.getGoogleID());
+		assertEquals(0,coursesByCoord.length);
+	}
+	
+	//-----------------------------helper methods--------------------------
 
 	private void refreshDataInDatastore() {
 		dataBundle = gson.fromJson(jsonString, DataBundle.class);
@@ -522,12 +672,12 @@ public class TMAPITest extends BaseTestCase{
 		TMAPI.persistNewDataBundle(jsonString);
 	}
 
-	private void verifyAbsentInDatastore(String status, Course course2) {
-		assertEquals("null",TMAPI.getCourseAsJason(course2.getID()));
+	private void verifyAbsentInDatastore(Course course) {
+		assertEquals("null",TMAPI.getCourseAsJason(course.getID()));
 	}
 
-	private void verifyAbsentInDatastore(Student student1InCourse1) {
-		assertEquals("null",TMAPI.getStudentAsJason(student1InCourse1.getCourseID(), student1InCourse1.getEmail()));
+	private void verifyAbsentInDatastore(Student student) {
+		assertEquals("null",TMAPI.getStudentAsJason(student.getCourseID(), student.getEmail()));
 	}
 
 	private void verifyAbsentInDatastore(Evaluation evaluation1InCourse1) {

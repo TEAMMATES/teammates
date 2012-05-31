@@ -6,8 +6,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
@@ -72,7 +70,7 @@ public class APIServletTest extends BaseTestCase {
 
 	@Before
 	public void setUp() throws ServletException, IOException {
-		printTestClassHeader(getNameOfThisClass());
+		printTestClassHeader();
 		/*
 		 * We have to explicitly set the path of queue.xml because the test
 		 * environment cannot find it. Apparently, this is a bug in the test
@@ -121,7 +119,7 @@ public class APIServletTest extends BaseTestCase {
 
 	@Test
 	public void testDeleteStudent() throws Exception {
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		refreshDataInDatastore();
 
 		Submission submissionFromS1C1ToS2C1 = dataBundle.submissions
@@ -171,7 +169,7 @@ public class APIServletTest extends BaseTestCase {
 
 	@Test
 	public void testEditStudent() throws Exception {
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		refreshDataInDatastore();
 
 		Student student1InCourse1 = dataBundle.students
@@ -192,7 +190,7 @@ public class APIServletTest extends BaseTestCase {
 
 	@Test
 	public void testGetEvalListForCoord() throws Exception {
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		refreshDataInDatastore();
 		Coordinator coord1 = dataBundle.coords.get("typicalCoord1");
 		ArrayList<EvaluationDetailsForCoordinator> evalList = apiServlet
@@ -218,7 +216,7 @@ public class APIServletTest extends BaseTestCase {
 
 	@Test
 	public void testGetStudentListForCourse() throws Exception {
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		refreshDataInDatastore();
 
 		Course course1OfCoord1 = dataBundle.courses.get("course1OfCoord1");
@@ -242,7 +240,7 @@ public class APIServletTest extends BaseTestCase {
 
 	@Test
 	public void testEditEvaluation() throws Exception {
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		refreshDataInDatastore();
 
 		Evaluation eval1 = dataBundle.evaluations
@@ -262,7 +260,7 @@ public class APIServletTest extends BaseTestCase {
 	@Test
 	public void testPublishAndUnpublishEvaluation() throws Exception {
 
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		refreshDataInDatastore();
 		Evaluation eval1 = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
@@ -282,7 +280,7 @@ public class APIServletTest extends BaseTestCase {
 
 	@Test
 	public void testEditSubmission() throws Exception {
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		refreshDataInDatastore();
 
 		ArrayList<Submission> submissionContainer = new ArrayList<Submission>();
@@ -323,7 +321,7 @@ public class APIServletTest extends BaseTestCase {
 
 	@Test
 	public void testEditTfs() throws Exception {
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		refreshDataInDatastore();
 
 		TeamFormingSession tfs1 = dataBundle.teamFormingSessions
@@ -341,7 +339,7 @@ public class APIServletTest extends BaseTestCase {
 
 	@Test
 	public void testEditTeamProfile() throws Exception {
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		refreshDataInDatastore();
 
 		TeamProfile teamProfile1 = dataBundle.teamProfiles
@@ -357,7 +355,7 @@ public class APIServletTest extends BaseTestCase {
 
 	@Test
 	public void testSendRegistrationInviteForCourse() throws Exception {
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		refreshDataInDatastore();
 		Course course1 = dataBundle.courses.get("course1OfCoord1");
 
@@ -385,7 +383,7 @@ public class APIServletTest extends BaseTestCase {
 
 	@Test
 	public void testSendRegistrationInviteToStudent() throws Exception {
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		refreshDataInDatastore();
 		Student student1 = dataBundle.students.get("student1InCourse1");
 		apiServlet.sendRegistrationInviteToStudent(student1.getCourseID(),
@@ -399,7 +397,7 @@ public class APIServletTest extends BaseTestCase {
 
 	@Test
 	public void testEnrollStudent() throws Exception {
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		refreshDataInDatastore();
 
 		String coordId = "coordForEnrollTesting";
@@ -442,7 +440,7 @@ public class APIServletTest extends BaseTestCase {
 
 	@Test
 	public void testEnrollStudents() throws Exception{
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		refreshDataInDatastore();
 		
 		String coordId = "coordForEnrollTesting";
@@ -511,7 +509,7 @@ public class APIServletTest extends BaseTestCase {
 	
 	@Test
 	public void testGetCourseDetailsListForCoord() throws Exception{
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		refreshDataInDatastore();
 		
 		HashMap<String,CourseSummaryForCoordinator> courseListForCoord = apiServlet.getCourseDetailsListForCoord("idOfTypicalCoord1");
@@ -559,14 +557,14 @@ public class APIServletTest extends BaseTestCase {
 
 	@Test
 	public void testGetEvaluationResult() throws Exception {
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		refreshDataInDatastore();
 		// TODO: to be implemented
 	}
 
 	@Test
 	public void testTfsListForCoord() throws Exception {
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		refreshDataInDatastore();
 
 		verifyTfsListForCoord(dataBundle.coords.get("typicalCoord1")
@@ -579,7 +577,7 @@ public class APIServletTest extends BaseTestCase {
 
 	@Test
 	public void testRenameTeam() throws Exception {
-		printTestCaseHeader(getNameOfThisMethod());
+		printTestCaseHeader();
 		refreshDataInDatastore();
 		Student student1InCourse1 = dataBundle.students
 				.get("student1InCourse1");
