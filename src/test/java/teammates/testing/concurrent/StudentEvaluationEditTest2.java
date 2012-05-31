@@ -73,7 +73,7 @@ public class StudentEvaluationEditTest2 extends TestCase {
 			assertEquals(bi.getElementValue(bi.getSubmissionJustification(i)), String.format("Student Edit:: Justification from %s to %s.", student.email, student.team.students.get(i).email));
 			assertEquals(bi.getElementValue(bi.getSubmissionComments(i)), String.format("Student Edit:: Comments from %s to %s.", student.email, student.team.students.get(i).email));
 		}
-		bi.clickWithWait(bi.studentEvaluationCancelButton);// [cancel]
+		bi.clickWithWait(bi.studentEvaluationBackButton);// [cancel]
 
 		bi.logout();
 		

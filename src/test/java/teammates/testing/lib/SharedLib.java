@@ -196,9 +196,9 @@ public class SharedLib {
 		// Message messages[] = inbox.getMessages();
 		int count = 0;
 		// Loop over all of the messages
+		Pattern pattern = Pattern.compile("^Teammates Mail Stree Testing ");
 		for (Message message : messages) {
 			System.out.println(message.getSubject());
-			Pattern pattern = Pattern.compile("^Teammates Mail Stree Testing ");
 			Matcher m = pattern.matcher(message.getSubject());
 
 			if (!m.find())
@@ -225,6 +225,10 @@ public class SharedLib {
 		return "(" + year + "," + month + "," + day + ")";
 	}
 
+	/**
+	 * Return the next hour from now in format D/M/YYYY
+	 * @return
+	 */
 	public static String getDateString() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.HOUR_OF_DAY, 1);
@@ -233,20 +237,6 @@ public class SharedLib {
 		int month = calendar.get(Calendar.MONTH) + 1;
 		int day = calendar.get(Calendar.DAY_OF_MONTH);
 		// int hour = calendar.get(Calendar.HOUR_OF_DAY);
-
-		return day + "/" + month + "/" + year;
-	}
-
-	// Helper method to format the date to DD/MM/YYYY
-	public static String formatDate(String date) {
-		StringTokenizer st = new StringTokenizer(date, "(,)");
-		String year = st.nextToken().trim();
-		String month = st.nextToken();
-		Integer monthInt = Integer.parseInt(month);
-		month = String.format("%02d", monthInt);
-		String day = st.nextToken();
-		Integer dayInt = Integer.parseInt(day);
-		day = String.format("%02d", dayInt);
 
 		return day + "/" + month + "/" + year;
 	}
@@ -263,11 +253,9 @@ public class SharedLib {
 
 	public static void main(String[] args) {
 		try {
-			// SharedLib.getRegistrationKeyFromGmail("alice.tmms@gmail.com",
-			// "makeitright", "CS2103-TESTING");
+//			SharedLib.getRegistrationKeyFromGmail("alice.tmms@gmail.com", "makeitright", "CS2103-TESTING");
 			SharedLib.getEvaluationReminderFromGmail("alice.tmms@gmail.com", "makeitright", "CS2103-TESTING", "First Eval");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -130,9 +130,10 @@ public class CoordCourseAddUITest extends TestCase {
 		//check course not added
 		bi.clickCourseTab();
 		bi.waitForElementPresent(bi.getCourseIDCell(ts.validCourse.courseId));
-		assertTrue(bi.getCourseName(ts.validCourse.courseId).equals(ts.validCourse.courseName));
-		//FIXME: this does not exclude the possibility that there are two courses in the list with same id
-	
+		
+		// Check that there is only one course with that ID and that it is still the old one
+		assertTrue(bi.getCourseIDCount(ts.validCourse.courseId)==1);
+		assertEquals(ts.validCourse.courseName,bi.getCourseName(ts.validCourse.courseId));
 	}
 	
 	@Test

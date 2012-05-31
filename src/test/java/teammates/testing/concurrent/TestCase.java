@@ -11,7 +11,7 @@ import teammates.testing.object.Scenario;
  */
 public class TestCase {
 
-	private static final String TEST_DATA_FOLDER = "target/test-classes/data/";
+	private static final String TEST_DATA_FOLDER = "src/test/resources/classes/data/";
 	/**
 	 * Each class groups similar tests that revolve around 1 Scenario
 	 */
@@ -28,7 +28,7 @@ public class TestCase {
 	}
 	
 	protected static void setupScenarioBumpRatioTest(int index) {
-		scn = Scenario.scenarioForBumpRatioTest("target/test-classes/data/bump_ratio_scenario.json", index);
+		scn = Scenario.scenarioForBumpRatioTest(TEST_DATA_FOLDER+"bump_ratio_scenario.json", index);
 		scn.randomizeCourseId();
 	}
 	
@@ -51,7 +51,7 @@ public class TestCase {
 	}
 	
 	public static void printTestCaseHeader(String testCaseName){
-		System.out.println("[TestCase]------------:"+testCaseName);
+		System.out.println("[TestCase]---:"+testCaseName);
 	}
 	
 	public static void printTestClassHeader(String testClassName){

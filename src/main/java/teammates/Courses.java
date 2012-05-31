@@ -505,6 +505,7 @@ public class Courses {
 	 *         ID
 	 */
 	//TODO: The method name does not match intent -damith
+	//TODO: So the googleID is not unique? -Aldrian
 	public List<Student> getStudentCourseList(String googleID) {
 		String query = "select from " + Student.class.getName() + " where ID == \"" + googleID + "\"";
 

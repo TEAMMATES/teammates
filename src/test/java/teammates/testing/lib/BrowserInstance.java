@@ -374,7 +374,6 @@ public class BrowserInstance {
 	// Student evaluation:
 	public By studentSubmitEvaluationButton = By.name("submitEvaluation");
 	public By studentEvaluationBackButton = By.className("t_back");
-	public By studentEvaluationCancelButton = By.className("t_back");
 
 	// --------------------------------- Homepage --------------------------------- //
 	// Course box
@@ -3021,7 +3020,6 @@ public class BrowserInstance {
 	 * This checks for a new course, so this also verifies
 	 * the default number of teams to be 0.
 	 * Page: Coordinator home
-	 * TODO: change to any number of previous courses
 	 */
 	public void verifyCourseIsAdded(String courseId, String courseName) {
 		// Check for courseId
