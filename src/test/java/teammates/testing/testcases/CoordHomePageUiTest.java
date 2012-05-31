@@ -1,6 +1,10 @@
 package teammates.testing.testcases;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -8,10 +12,13 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 
 import teammates.Common;
+import teammates.DataBundle;
 import teammates.exception.NoAlertAppearException;
+import teammates.jdo.Coordinator;
 import teammates.jsp.Helper;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
+import teammates.testing.lib.SharedLib;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Scenario;
 
@@ -23,8 +30,10 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
+		assertTrue(true);
 		printTestClassHeader("CoordHomeUITest");
-		scn = Scenario.scenarioForPageVerification("src/test/resources/data/CoordHomeUITest.json");
+		scn = Scenario.scenarioForPageVerification(Common.TEST_DATA_FOLDER+"CoordHomeUITest.json");
+//		scn = Common.getTeammatesGson().fromJson(SharedLib.getFileContents(Common.TEST_DATA_FOLDER+"CoordHomeUITest.json"),Scenario.class);
 		bi = BrowserInstancePool.getBrowserInstance();
 		
 		TMAPI.cleanupByCoordinator(scn.coordinator.username);
@@ -123,14 +132,17 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		viewLinkLocator = bi.getCoordHomeEvaluationViewResultsLinkLocator(scn.course2.courseId, scn.evaluation4.name);
 		link = bi.getElementRelativeHref(viewLinkLocator);
 		assertEquals(Helper.getEvaluationViewLink(scn.course2.courseId, scn.evaluation4.name),link);
-		assertEquals("none",bi.getDriver().findElement(viewLinkLocator).getCssValue("text-decoration"));
-		assertEquals("return false",bi.getElementAttribute(viewLinkLocator, "onclick"));
+		assertEquals("View link available on AWAITING evaluation","none",bi.getDriver().findElement(viewLinkLocator).getCssValue("text-decoration"));
+		assertEquals("View link available on AWAITING evaluation","return false",bi.getElementAttribute(viewLinkLocator, "onclick"));
 	}
 	
 	@Test
 	public void testCoordHomeEvalEditLink(){
-		String link = bi.getElementRelativeHref(bi.getCoordHomeEvaluationEditLinkLocator(scn.course.courseId,scn.evaluation.name));
-		assertEquals(Helper.getEvaluationEditLink(scn.course.courseId, scn.evaluation.name),link);
+		By editLinkLocator = bi.getCoordHomeEvaluationEditLinkLocator(scn.course.courseId,scn.evaluation.name);
+		String link = bi.getElementRelativeHref(editLinkLocator);
+		assertEquals("Incorrect edit link",Helper.getEvaluationEditLink(scn.course.courseId, scn.evaluation.name),link);
+		assertFalse("Edit link unavailable","none".equals(bi.getDriver().findElement(editLinkLocator).getCssValue("text-decoration")));
+		assertFalse("Edit link unavailable","return false".equals(bi.getElementAttribute(editLinkLocator, "onclick")));
 	}
 	
 	@Test
@@ -166,7 +178,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(publishLinkLocator);
 		} catch (NoAlertAppearException e){
-			assertTrue("Publish/Unpublish link unavailable on CLOSED evaluation",false);
+			assertTrue("Publish link unavailable on CLOSED evaluation",false);
 		}
 		
 		// Check the publish link on Open Evaluation: Evaluation 1 at Course 1
@@ -182,8 +194,8 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		bi.logout();
-		TMAPI.cleanupCourse(scn.course.courseId);
-		TMAPI.cleanupCourse(scn.course2.courseId);
+		TMAPI.deleteCourse(scn.course.courseId);
+		TMAPI.deleteCourse(scn.course2.courseId);
 		
 		BrowserInstancePool.release(bi);
 		printTestClassFooter("CoordHomeUITest");

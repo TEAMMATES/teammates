@@ -65,6 +65,7 @@ public class APIServletTest extends BaseTestCase {
 
 	@BeforeClass
 	public static void setUpDatastore() {
+		assertTrue(true);
 		Datastore.initialize();
 	}
 
@@ -197,13 +198,13 @@ public class APIServletTest extends BaseTestCase {
 				.getEvaluationsListForCoord(coord1.getGoogleID());
 		assertEquals(3, evalList.size());
 		for (EvaluationDetailsForCoordinator ed : evalList) {
-			assertTrue(ed.getCourseID().contains("Coord1"));
+			assertTrue(ed.courseID.contains("Coord1"));
 		}
 		Coordinator coord2 = dataBundle.coords.get("typicalCoord2");
 		evalList = apiServlet.getEvaluationsListForCoord(coord2.getGoogleID());
 		assertEquals(1, evalList.size());
 		for (EvaluationDetailsForCoordinator ed : evalList) {
-			assertTrue(ed.getCourseID().contains("Coord2"));
+			assertTrue(ed.courseID.contains("Coord2"));
 		}
 		Coordinator coord3 = dataBundle.coords.get("typicalCoord3");
 		evalList = apiServlet.getEvaluationsListForCoord(coord3.getGoogleID());

@@ -16,6 +16,10 @@ import teammates.exception.InvalidParametersException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+/**
+ * Class that stores variables and methods that are widely used across classes
+ *
+ */
 public class Common {
 	
 	public final static String EOL = System.getProperty("line.separator");
@@ -24,6 +28,8 @@ public class Common {
 	public final static String ENCODING = "UTF8";
 	public final static String VERSION = "4.17.02";
 	public final static int BUFFER_SIZE = 1024*10;
+	public final static String TEST_DATA_FOLDER = "src/test/resources/data/";
+	public final static String TEST_PAGES_FOLDER = "src/test/resources/pages/";
 	
 	// Hover messages
 	public final static String HOVER_MESSAGE_ENROLL = "Enroll student into the course";
@@ -126,9 +132,6 @@ public class Common {
 	public static final String ERRORCODE_STRING_TOO_LONG = "ERRORCODE_STRING_TOO_LONG";
 	public static final String ERRORCODE_INVALID_EMAIL = "ERRORCODE_INVALID_EMAIL";
 
-
-	
-	
 	/**
 	 * This creates a Gson object that can handle the Date format we use in the Json file
 	 * technique found in http://code.google.com/p/google-gson/source/browse/trunk/gson/src/test/java/com/google/gson/functional/DefaultTypeAdaptersTest.java?spec=svn327&r=327

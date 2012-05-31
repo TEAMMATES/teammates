@@ -3,6 +3,7 @@ package teammates.testing.testcases;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.Common;
@@ -11,6 +12,10 @@ import teammates.exception.TeammatesException;
 import teammates.jdo.Student;
 
 public class StudentTest extends BaseTestCase{
+	@BeforeClass
+	public static void setUp(){
+
+	}
 	
 	@Test
 	public void testStudentConstructor() throws TeammatesException {

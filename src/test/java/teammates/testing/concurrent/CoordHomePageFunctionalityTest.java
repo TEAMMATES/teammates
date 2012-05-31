@@ -6,6 +6,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import teammates.Common;
 import teammates.exception.NoAlertAppearException;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -21,7 +22,7 @@ import teammates.testing.object.Scenario;
 
 public class CoordHomePageFunctionalityTest extends TestCase {
 	static BrowserInstance bi;
-	static Scenario scn = Scenario.scenarioForPageVerification("src/test/resources/data/landing_page_testing.json");
+	static Scenario scn = Scenario.scenarioForPageVerification(Common.TEST_DATA_FOLDER+"landing_page_testing.json");
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {

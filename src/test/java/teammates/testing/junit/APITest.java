@@ -20,6 +20,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import teammates.Common;
 import teammates.Courses;
 import teammates.Evaluations;
 import teammates.exception.InvalidParametersException;
@@ -51,7 +52,7 @@ public class APITest {
 	}
 	
 	protected static Scenario setupBumpRatioScenarioInstance(String name, int index) {
-		Scenario s = Scenario.scenarioForBumpRatioTest("target/test-classes/data/" + name + ".json", index);
+		Scenario s = Scenario.scenarioForBumpRatioTest(Common.TEST_DATA_FOLDER + name + ".json", index);
 		s.randomizeCourseId();
 		return s;
 	}

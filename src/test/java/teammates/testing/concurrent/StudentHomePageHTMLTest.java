@@ -4,6 +4,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import teammates.Common;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -18,7 +19,7 @@ import teammates.testing.object.Scenario;
  */
 
 public class StudentHomePageHTMLTest extends TestCase {
-	static Scenario scn = Scenario.scenarioForPageVerification("src/test/resources/data/landing_page_testing.json");
+	static Scenario scn = Scenario.scenarioForPageVerification(Common.TEST_DATA_FOLDER+"landing_page_testing.json");
 	static BrowserInstance bi;
 	
 	private static String TEST_STUDENT = scn.students.get(2).email;
@@ -85,6 +86,6 @@ public class StudentHomePageHTMLTest extends TestCase {
 
 	@Test
 	public void verifyStudentLandingPageSuccessful() throws Exception {
-		bi.verifyCurrentPageHTMLRegex("src/test/resources/pages/studentHome.html");
+		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"studentHome.html");
 	}
 }

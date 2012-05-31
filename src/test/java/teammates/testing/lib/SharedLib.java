@@ -162,6 +162,7 @@ public class SharedLib {
 
 		// Retrieve the "Inbox"
 		Folder inbox = store.getFolder("inbox");
+		
 		// Reading the Email Index in Read / Write Mode
 		inbox.open(Folder.READ_WRITE);
 
@@ -237,6 +238,24 @@ public class SharedLib {
 		int month = calendar.get(Calendar.MONTH) + 1;
 		int day = calendar.get(Calendar.DAY_OF_MONTH);
 		// int hour = calendar.get(Calendar.HOUR_OF_DAY);
+
+		return day + "/" + month + "/" + year;
+	}
+
+	/**
+	 * Helper method to format the date to DD/MM/YYYY
+	 * @param date
+	 * @return
+	 */
+	public static String formatDate(String date) {
+		StringTokenizer st = new StringTokenizer(date, "(,)");
+		String year = st.nextToken().trim();
+		String month = st.nextToken();
+		Integer monthInt = Integer.parseInt(month);
+		month = String.format("%02d", monthInt);
+		String day = st.nextToken();
+		Integer dayInt = Integer.parseInt(day);
+		day = String.format("%02d", dayInt);
 
 		return day + "/" + month + "/" + year;
 	}

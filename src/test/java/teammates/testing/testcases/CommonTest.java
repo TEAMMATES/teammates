@@ -6,11 +6,17 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.StringWriter;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.Common;
 
 public class CommonTest extends BaseTestCase{
+	@BeforeClass
+	public static void setUp(){
+		
+	}
+	
 	@Test
 	public void testGenerateStringOfLength(){
 		assertEquals(5, Common.generateStringOfLength(5).length());
@@ -39,12 +45,12 @@ public class CommonTest extends BaseTestCase{
 
 		try{
 			StringWriter writer = new StringWriter();
-			FileReader reader = new FileReader("src/test/resources/pages/commonAssertRegexTestPage.html");
+			FileReader reader = new FileReader(Common.TEST_PAGES_FOLDER+"commonAssertRegexTestPage.html");
 			Common.readAndWrite(reader, writer);
 			String pageStr = writer.toString();
 			
 			writer = new StringWriter();
-			reader = new FileReader("src/test/resources/pages/commonAssertRegexTestPart.html");
+			reader = new FileReader(Common.TEST_PAGES_FOLDER+"commonAssertRegexTestPart.html");
 			Common.readAndWrite(reader, writer);
 			String inputStr = writer.toString();
 			

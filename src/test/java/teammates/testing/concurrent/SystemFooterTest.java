@@ -4,6 +4,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import teammates.Common;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -63,6 +64,6 @@ public class SystemFooterTest extends TestCase {
 	}
 	
 	private void testFooter() {
-		bi.verifyCurrentPageHTMLRegex("src/test/resources/pages/footerRegex.html");
+		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"footerRegex.html");
 	}
 }

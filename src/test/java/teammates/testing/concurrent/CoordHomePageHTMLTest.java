@@ -4,6 +4,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import teammates.Common;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.lib.TMAPI;
@@ -17,7 +18,7 @@ import teammates.testing.object.Scenario;
  */
 
 public class CoordHomePageHTMLTest extends TestCase {
-	static Scenario scn = Scenario.scenarioForPageVerification("src/test/resources/data/landing_page_testing.json");
+	static Scenario scn = Scenario.scenarioForPageVerification(Common.TEST_DATA_FOLDER+"landing_page_testing.json");
 	static BrowserInstance bi;
 
 	@BeforeClass
@@ -82,6 +83,6 @@ public class CoordHomePageHTMLTest extends TestCase {
 
 	@Test
 	public void verifyCoordLandingPageSuccessful() throws Exception {
-		bi.verifyCurrentPageHTMLRegex("src/test/resources/pages/coordHome.html");
+		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"coordHome.html");
 	}
 }

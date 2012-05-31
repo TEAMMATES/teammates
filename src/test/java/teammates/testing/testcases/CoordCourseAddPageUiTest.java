@@ -11,16 +11,15 @@ import org.junit.Test;
 import teammates.Common;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.NoAlertAppearException;
+import teammates.jdo.Coordinator;
+import teammates.jdo.Course;
 import teammates.jsp.Helper;
+import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.lib.SharedLib;
 import teammates.testing.lib.TMAPI;
-import teammates.testing.object.Coordinator;
-import teammates.testing.object.Course;
 import teammates.testing.script.ImportTestData;
-
-import com.google.gson.Gson;
 
 /**
  * Tests coordCourse.jsp from UI functionality and HTML test (exact and regex)
@@ -35,43 +34,43 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
+		assertTrue(true);
 		printTestClassHeader("CoordCourseAddUITest");
 		ts = loadTestScenario();
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		bi.loginCoord(ts.coordinator.username, ts.coordinator.password);
+		TMAPI.deleteCoord(ts.coordinator.getGoogleID());
+		TMAPI.createCoord(ts.coordinator.getGoogleID(), ts.coordinator.getName(), ts.coordinator.getEmail());
+		
+		bi.loginCoord(ts.coordinator.getGoogleID(), Config.inst().TEAMMATES_APP_PASSWD);
 		bi.goToUrl(localhostAddress+Common.JSP_COORD_COURSE);
 	}
 
 	@Test
 	public void verifyAddCoursePage() throws EntityDoesNotExistException {
-		TMAPI.deleteCoord(ts.coordinator.username);
-		TMAPI.createCoord(ts.coordinator.username, ts.coordinator.name, ts.coordinator.email);
-		
-		bi.goToCourses();
-		bi.verifyCurrentPageHTML("src/test/resources/pages/coordListCourseEmpty.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordListCourseEmpty.html");
 
 		ImportTestData.main(new String[]{});
 		bi.goToCourses();
 		
-		bi.verifyCurrentPageHTML("src/test/resources/pages/coordListCourseByIDNew.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordListCourseByIDNew.html");
 	
 		bi.clickCoordCourseSortByNameButton();
-		bi.verifyCurrentPageHTML("src/test/resources/pages/coordListCourseByNameNew.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordListCourseByNameNew.html");
 		
 		bi.clickCoordCourseSortByIdButton();
-		bi.verifyCurrentPageHTML("src/test/resources/pages/coordListCourseByIDNew.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordListCourseByIDNew.html");
 	}
 	
 	@Test
 	public void testCoordAddUiPaths(){
-		TMAPI.cleanupCourse(ts.validCourse.courseId);
-		TMAPI.cleanupCourse(ts.courseWithSameNameDifferentId.courseId);
+		TMAPI.deleteCourse(ts.validCourse.getID());
+		TMAPI.deleteCourse(ts.courseWithSameNameDifferentId.getID());
 		
 		// Course id only contains alphabets, numbers, dots, hyphens, underscores and dollars
-		String courseID = ts.validCourse.courseId;
+		String courseID = ts.validCourse.getID();
 		// Course name can be any character including special characters
-		String courseName = ts.validCourse.courseName;
+		String courseName = ts.validCourse.getName();
 		
 		/////////////////////////////////////////////////////////////////
 		printTestCaseHeader("testCoordAddCourseSuccessful");
@@ -127,43 +126,43 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		assertTrue(bi.getCourseIDCount(courseID)==1);
 		assertTrue(bi.getCourseName(courseID).equals(courseName));
 		
-		TMAPI.cleanupCourse(ts.validCourse.courseId);
-		TMAPI.cleanupCourse(ts.courseWithSameNameDifferentId.courseId);
+		TMAPI.deleteCourse(ts.validCourse.getID());
+		TMAPI.deleteCourse(ts.courseWithSameNameDifferentId.getID());
 	}
 	
 	@Test
 	public void testCoordCourseAddLinks(){
-		TMAPI.cleanupCourse(ts.testCourse.courseId);
+		TMAPI.deleteCourse(ts.testCourse.getID());
 		
 		String link;
 		
-		bi.addCourse(ts.testCourse.courseId, ts.testCourse.courseName);
+		bi.addCourse(ts.testCourse.getID(), ts.testCourse.getName());
 		
 		// Check enroll link
-		link = bi.getElementRelativeHref(bi.getCoordCourseEnrollLinkLocator(bi.getCourseRowID(ts.testCourse.courseId)));
-		assertTrue(link.equals(Helper.getCourseEnrollLink(ts.testCourse.courseId)));
+		link = bi.getElementRelativeHref(bi.getCoordCourseEnrollLinkLocator(bi.getCourseRowID(ts.testCourse.getID())));
+		assertTrue(link.equals(Helper.getCourseEnrollLink(ts.testCourse.getID())));
 		
 		// Check view details link
-		link = bi.getElementRelativeHref(bi.getCoordCourseViewLinkLocator(bi.getCourseRowID(ts.testCourse.courseId)));
-		assertTrue(link.equals(Helper.getCourseViewLink(ts.testCourse.courseId)));
+		link = bi.getElementRelativeHref(bi.getCoordCourseViewLinkLocator(bi.getCourseRowID(ts.testCourse.getID())));
+		assertTrue(link.equals(Helper.getCourseViewLink(ts.testCourse.getID())));
 		
 		// Check delete link
-		link = bi.getElementRelativeHref(bi.getCoordCourseDeleteLinkLocator(bi.getCourseRowID(ts.testCourse.courseId)));
-		assertTrue(link.equals(Helper.getCourseDeleteLink(ts.testCourse.courseId, Common.JSP_COORD_COURSE)));
+		link = bi.getElementRelativeHref(bi.getCoordCourseDeleteLinkLocator(bi.getCourseRowID(ts.testCourse.getID())));
+		assertTrue(link.equals(Helper.getCourseDeleteLink(ts.testCourse.getID(), Common.JSP_COORD_COURSE)));
 		try{
-			bi.clickCoordCourseDeleteAndCancel(ts.testCourse.courseId);
+			bi.clickCoordCourseDeleteAndCancel(ts.testCourse.getID());
 			bi.verifyCoordCoursesPage();
 		} catch (NoAlertAppearException e){
 			assertTrue("No alert box when clicking delete button at course page.",false);
 		}
 		
-		TMAPI.cleanupCourse(ts.testCourse.courseId);
+		TMAPI.deleteCourse(ts.testCourse.getID());
 	}
 	
 	private static TestScenario loadTestScenario() throws JSONException {
 		String testScenarioJsonFile = "src/test/resources/data/CoordCourseAddUITest.json";
 		String jsonString = SharedLib.getFileContents(testScenarioJsonFile);
-		TestScenario scn = (new Gson()).fromJson(jsonString, TestScenario.class);
+		TestScenario scn = Common.getTeammatesGson().fromJson(jsonString, TestScenario.class);
 		return scn;
 	}
 

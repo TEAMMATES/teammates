@@ -23,9 +23,7 @@ public class Course {
 	@SerializedName("id")
 	private String ID;
 
-	//TODO: remove SerivalizedName annotation. It is for Json only
 	@Persistent
-	@SerializedName("name")
 	private String name;
 
 	@Persistent

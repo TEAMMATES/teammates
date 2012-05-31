@@ -1,6 +1,7 @@
 package teammates.testing.testcases;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
@@ -41,6 +42,7 @@ public class CoordCourseAddApiTest extends BaseTestCase{
 	
 	@BeforeClass
 	public static void setUp() {
+		assertTrue(true);
 		printTestClassHeader("CoordCourseAddApiTest");
 		helper.setUp();
 		try{
