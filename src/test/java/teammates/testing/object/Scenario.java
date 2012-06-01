@@ -3,6 +3,7 @@ package teammates.testing.object;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Random;
@@ -11,7 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import teammates.testing.lib.SharedLib;
+import teammates.Common;
 import teammates.testing.lib.TestFileWriter;
 
 public class Scenario {
@@ -29,6 +30,12 @@ public class Scenario {
 	public HashMap<String, Team> teams2;
 	public TeamFormingSession teamFormingSession;
 	public String[] submissionPoints;
+	
+	private static boolean[] randomized = new boolean[100000];
+	private static int count = 0;
+	static {
+		Arrays.fill(randomized, false);
+	}
 
 	/**
 	 * Initialize the scenario
@@ -42,6 +49,14 @@ public class Scenario {
 	public void randomizeCourseId() {
 		Random g = new Random();
 		Integer n = g.nextInt(99999);
+		while(randomized[n]){
+			n = g.nextInt(99999);
+		}
+		randomized[n] = true;
+		if(++count>50000){
+			Arrays.fill(randomized, false);
+			count = 0;
+		}
 		String suffix = "r" + n.toString();
 
 		String newCourseID = this.course.courseId + suffix;
@@ -111,7 +126,7 @@ public class Scenario {
 
 	// basic scenario
 	public static Scenario fromJSONFile(String filepath) {
-		String s = SharedLib.getFileContents(filepath);
+		String s = Common.getFileContents(filepath);
 		try {
 			JSONObject json = new JSONObject(s);
 			return fromJSONObject(json);
@@ -163,7 +178,7 @@ public class Scenario {
 	// new scenario
 	public static Scenario newScenario(String filepath) {
 
-		String s = SharedLib.getFileContents(filepath);
+		String s = Common.getFileContents(filepath);
 		try {
 			JSONObject json = new JSONObject(s);
 			return newScenario(json);
@@ -220,7 +235,7 @@ public class Scenario {
 
 	// scenario for bump ratio test
 	public static Scenario scenarioForBumpRatioTest(String filepath, int index) {
-		String s = SharedLib.getFileContents(filepath);
+		String s = Common.getFileContents(filepath);
 		try {
 			JSONObject json = new JSONObject(s);
 			return scenarioForBumpRatioTest(json, index);
@@ -282,7 +297,7 @@ public class Scenario {
 
 	// static scenario for page verification
 	public static Scenario scenarioForPageVerification(String filepath) {
-		String s = SharedLib.getFileContents(filepath);
+		String s = Common.getFileContents(filepath);
 		try {
 			JSONObject json = new JSONObject(s);
 			return scenarioForPageVerification(json);

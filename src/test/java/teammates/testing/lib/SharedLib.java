@@ -1,10 +1,7 @@
 package teammates.testing.lib;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,17 +17,9 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.search.FlagTerm;
 
-public class SharedLib {
+import teammates.testing.config.Config;
 
-	public static String getFileContents(String filename) {
-		try {
-			String ans = new Scanner(new FileReader(filename)).useDelimiter("\\Z").next();
-			return ans;
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		return "";
-	}
+public class SharedLib {
 
 	/**
 	 * Retrieve registration key sent to Gmail inbox. After retrieve, mark the
@@ -212,8 +201,10 @@ public class SharedLib {
 		return count;
 	}
 
-	// Helper method to get the next available date for the evaluation (assuming
-	// 1 hour units)
+	/**
+	 * Return the date of next hour in format (YYYY,M,D)
+	 * @return
+	 */
 	public static String getDateValue() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.HOUR_OF_DAY, 1);
@@ -221,25 +212,8 @@ public class SharedLib {
 		int year = calendar.get(Calendar.YEAR);
 		int month = calendar.get(Calendar.MONTH) + 1;
 		int day = calendar.get(Calendar.DAY_OF_MONTH);
-		// int hour = calendar.get(Calendar.HOUR_OF_DAY);
 
 		return "(" + year + "," + month + "," + day + ")";
-	}
-
-	/**
-	 * Return the next hour from now in format D/M/YYYY
-	 * @return
-	 */
-	public static String getDateString() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.HOUR_OF_DAY, 1);
-
-		int year = calendar.get(Calendar.YEAR);
-		int month = calendar.get(Calendar.MONTH) + 1;
-		int day = calendar.get(Calendar.DAY_OF_MONTH);
-		// int hour = calendar.get(Calendar.HOUR_OF_DAY);
-
-		return day + "/" + month + "/" + year;
 	}
 
 	/**
@@ -260,8 +234,11 @@ public class SharedLib {
 		return day + "/" + month + "/" + year;
 	}
 
-	// Helper method to get the next available time for the evaluation (assuming
-	// 1 hour units)
+	/**
+	 * Returns the next full hour from now
+	 * Example: if current time is 1050, this will return 11
+	 * @return
+	 */
 	public static String getNextTimeValue() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.HOUR_OF_DAY, 1);
@@ -272,8 +249,8 @@ public class SharedLib {
 
 	public static void main(String[] args) {
 		try {
-//			SharedLib.getRegistrationKeyFromGmail("alice.tmms@gmail.com", "makeitright", "CS2103-TESTING");
-			SharedLib.getEvaluationReminderFromGmail("alice.tmms@gmail.com", "makeitright", "CS2103-TESTING", "First Eval");
+//			SharedLib.getRegistrationKeyFromGmail("alice.tmms@gmail.com", Config.inst().TEAMMATES_APP_PASSWD, "CS2103-TESTING");
+			SharedLib.getEvaluationReminderFromGmail("alice.tmms@gmail.com", Config.inst().TEAMMATES_APP_PASSWD, "CS2103-TESTING", "First Eval");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

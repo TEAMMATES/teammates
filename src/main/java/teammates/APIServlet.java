@@ -715,6 +715,7 @@ public class APIServlet extends HttpServlet {
 		// Store back to datastore
 		getPM().makePersistentAll(datastoreStudents);
 
+		// TODO: Is this correct?
 		resp.getWriter().write("Fail: something wrong");
 	}
 
@@ -866,14 +867,14 @@ public class APIServlet extends HttpServlet {
 	}
 
 	@SuppressWarnings("unused")
-	private void ____SYSTEM_level_methods___________________________________() {
-	}
-
+	private void ____SYSTEM_level_methods__________________________________() {}
+	// TODO: This is not only for coordinator right?
 	public String coordGetLoginUrl(String redirectUrl) {
 		Accounts accounts = Accounts.inst();
 		return accounts.getLoginPage(redirectUrl);
 	}
 
+	// TODO: This is not only for coordinator right?
 	public String coordGetLogoutUrl(String redirectUrl) {
 		Accounts accounts = Accounts.inst();
 		return accounts.getLogoutPage(redirectUrl);

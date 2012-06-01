@@ -10,12 +10,9 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -568,7 +565,6 @@ public class BrowserInstance {
 	 * If that's the case we simply click "Grant"
 	 */
 	private void checkGoogleApplicationApproval() {
-		waitAWhile(1000);
 		if (isElementPresent(By.id("approve_button"))) {
 			clickWithWait(By.id("persist_checkbox"));
 			clickWithWait(By.id("approve_button"));
@@ -576,18 +572,17 @@ public class BrowserInstance {
 	}
 	/**
 	 * Logs out (both for coordinator and student)
-	 * Verifies that the new page is loaded correctly before returning.
+	 * Will return immediately if logout button cannot be found at current page
 	 */
 	public void logout() {
 		System.out.println("Signing out.");
-		clickWithWait(logoutTab);
+		if(isElementPresent(logoutTab)){
+			clickWithWait(logoutTab);
+		}
 		
-		// Check that we're at the main page after logging out
 		if (Config.inst().isLocalHost()) {
 			selenium.open(Config.inst().TEAMMATES_URL);
 		}
-		
-		verifyMainPage();
 	}
 
 	/*------------------------------------------------------------------------
@@ -1965,7 +1960,8 @@ public class BrowserInstance {
 	
 	/* -----------------------------------------------------------------------
 	 * Counting functions
-	 * Currently all five are the same, which is looking for #dataform.
+	 * Currently all five are the same, which is looking for number of rows
+	 * in dataform table.
 	 * Can be modified so that each function is specific for its purpose
 	 * --------------------------------------------------------------------- */
 	
@@ -2016,20 +2012,17 @@ public class BrowserInstance {
 
 	public String getEvaluationCourseID(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		rowID++;
-		return selenium.getTable("id=dataform." + rowID + ".0");
+		return selenium.getTable("id=dataform." + (rowID+1) + ".0");
 	}
 	
 	public String getEvaluationName(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		rowID++;
-		return selenium.getTable("id=dataform." + rowID + ".1");
+		return selenium.getTable("id=dataform." + (rowID+1) + ".1");
 	}
 	
 	public String getEvaluationStatus(int rowID) {
 		waitForElementPresent(By.id("dataform"));
-		rowID++;
-		return selenium.getTable("id=dataform." + rowID + ".2");
+		return selenium.getTable("id=dataform." + (rowID+1) + ".2");
 	}
 
 	public String getEvaluationStatus(String courseId, String evalName) {
@@ -2327,24 +2320,12 @@ public class BrowserInstance {
 			// use legacy methods: Going through the RC server.
 			String selBrowserIdentifierString = "*" + Config.inst().BROWSER;
 
-			selenium = new DefaultSelenium("localhost", 4444, selBrowserIdentifierString, Config.inst().TEAMMATES_URL);
+			selenium = new DefaultSelenium(Config.inst().SELENIUMRC_HOST, Config.inst().SELENIUMRC_PORT, selBrowserIdentifierString, Config.inst().TEAMMATES_URL);
 			CommandExecutor executor = new SeleneseCommandExecutor(selenium);
 			DesiredCapabilities dc = new DesiredCapabilities();
 			setDriver(new RemoteWebDriver(executor, dc));
 
 		}
-		
-		/*
-		 * By Aldrian:
-		 * Setup the driver to wait for every DOM action if the resource required is not immediately available.
-		 * References: http://seleniumhq.org/docs/04_webdriver_advanced.html#implicit-waits
-		 * Using this one, we can remove all wait in every methods, so that the code is simpler.
-		 * 
-		 * Not used yet because of the consideration that there are some DOM get action that don't want to wait, 
-		 * such as checking whether an element is not present 
-		 * 
-		 * driver.manage().timeouts().implicitlyWait(TIMEOUT, TimeUnit.SECONDS);
-		 */
 		
 		selenium.windowMaximize();
 		selenium.open("/");
@@ -2867,19 +2848,11 @@ public class BrowserInstance {
 	 * @throws Exception
 	 */
 	public void verifyCurrentPageHTML(String filepath){
-		try{
-			String pageSrc = driver.getPageSource();
-			FileReader reader = new FileReader(filepath);
-			StringWriter writer = new StringWriter();
-			Common.readAndWrite(reader, writer);
-			String inputStr = writer.toString().replace("{version}",Common.VERSION);
-			assertEquals(inputStr.replace("\r\n", "\n"), pageSrc.replace("\r\n", "\n"));
-		} catch (FileNotFoundException e){
-			System.err.println("Error: " + e.getMessage());
-			e.printStackTrace();
-			assertTrue(e.getMessage(),false);
-		}
+		String pageSrc = driver.getPageSource();
+		String inputStr = Common.getFileContents(filepath).replace("{version}",Common.VERSION);
+		assertEquals(inputStr.replace("\r\n", "\n"), pageSrc.replace("\r\n", "\n"));
 	}
+	
 	/**
 	 * Method to print current page to a file.
 	 * This is to be used in HTML testing, where we can generate the reference HTML file using this method
@@ -2887,10 +2860,9 @@ public class BrowserInstance {
 	 */
 	public void printCurrentPage(String destination){
 		String pageSrc = driver.getPageSource();
-		StringReader input = new StringReader(pageSrc);
 		try {
 			TestFileWriter output = new TestFileWriter(new File(destination));
-			Common.readAndWrite(input,output);
+			output.write(pageSrc);
 			output.close();
 		} catch (IOException e) {
 			
@@ -2950,18 +2922,9 @@ public class BrowserInstance {
 	 * @throws Exception
 	 */
 	public void verifyCurrentPageHTMLRegex(String filepath){
-		try {
-			String pageSrc = driver.getPageSource();
-			FileReader reader = new FileReader(filepath);
-			StringWriter writer = new StringWriter();
-			Common.readAndWrite(reader, writer);
-			String inputStr = writer.toString().replace("{version}",Common.VERSION);
-			Common.assertContainsRegex(inputStr.replace("\r\n", "\n"),pageSrc.replace("\r\n", "\n"));
-		} catch (Exception e) {
-			System.err.println("Error: " + e.getMessage());
-			e.printStackTrace();
-			assertTrue(e.getMessage(),false);
-		}
+		String pageSrc = driver.getPageSource();
+		String inputStr = Common.getFileContents(filepath).replace("{version}",Common.VERSION);
+		Common.assertContainsRegex(inputStr.replace("\r\n", "\n"),pageSrc.replace("\r\n", "\n"));
 	}
 
 	/* -----------------------------------------------------------------------
@@ -3024,7 +2987,7 @@ public class BrowserInstance {
 	public void verifyCourseIsAdded(String courseId, String courseName) {
 		// Check for courseId
 		int rowNumber = getCourseRowID(courseId);
-		System.out.println("verifying course id : " + getCourseIDCell(rowNumber));
+		System.out.println("BrowserInstance: Verifying course id : " + getCourseIDCell(rowNumber));
 		assertEquals(courseId, getElementText(getCourseIDCell(rowNumber)));
 	
 		// Check for course name

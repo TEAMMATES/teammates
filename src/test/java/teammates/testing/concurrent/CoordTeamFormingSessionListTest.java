@@ -27,6 +27,7 @@ public class CoordTeamFormingSessionListTest extends TestCase {
 		bi = BrowserInstancePool.getBrowserInstance();
 
 		TMAPI.cleanupCourse(scn.course.courseId);
+		TMAPI.cleanupCourse(scn2.course.courseId);
 			
 		TMAPI.createCourse(scn.course);
 		TMAPI.enrollStudents(scn.course.courseId, scn.students);

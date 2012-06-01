@@ -405,18 +405,8 @@ public class TeamFormingServlet extends HttpServlet {
 	
 	private void coordinatorDeleteTeamFormingSession() {
 		String courseID = req.getParameter(COURSE_ID);
-		String deadlineDate = req.getParameter(TEAMFORMING_DEADLINE);
-		int deadlineTime = Integer.parseInt(req
-				.getParameter(TEAMFORMING_DEADLINETIME));
-		int deadlineTimeHour = deadlineTime/100;
-		int deadlineTimeMin = deadlineTime%100;		
-		if(deadlineTimeMin>30)
-			deadlineTimeHour++;
-		deadlineTime = deadlineTimeHour;
-		
-		Date deadline = Common.convertToDate(deadlineDate, deadlineTime);
 		TeamForming teamForming = TeamForming.inst();
-		teamForming.deleteTeamFormingSession(courseID, deadline);
+		teamForming.deleteTeamFormingSession(courseID);
 		
 		if(teamForming.getTeamFormingLogList(courseID)!=null)
 			teamForming.deleteTeamFormingLog(courseID);

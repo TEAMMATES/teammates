@@ -14,7 +14,6 @@ import teammates.jdo.Course;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
-import teammates.testing.lib.SharedLib;
 import teammates.testing.lib.TMAPI;
 
 
@@ -153,7 +152,7 @@ public class CoordCourseAddUITest extends TestCase {
 	
 	private static TestScenario loadTestScenario() throws JSONException {
 		String testScenarioJsonFile = Common.TEST_DATA_FOLDER+"CoordCourseAddUITest.json";
-		String jsonString = SharedLib.getFileContents(testScenarioJsonFile);
+		String jsonString = Common.getFileContents(testScenarioJsonFile);
 		TestScenario scn = Common.getTeammatesGson().fromJson(jsonString, TestScenario.class);
 		return scn;
 	}

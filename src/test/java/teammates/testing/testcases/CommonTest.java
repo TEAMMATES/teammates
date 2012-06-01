@@ -2,10 +2,6 @@ package teammates.testing.testcases;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.StringWriter;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -43,22 +39,15 @@ public class CommonTest extends BaseTestCase{
 		Common.assertContainsRegex("404 Page Not Found","Error: 404 Page Not Found. Check the URL.");
 		Common.assertContainsRegex("Fails on checking assert contains regex","404 Page Not Found","Error: 404 Page Not Found. Check the URL.");
 
-		try{
-			StringWriter writer = new StringWriter();
-			FileReader reader = new FileReader(Common.TEST_PAGES_FOLDER+"commonAssertRegexTestPage.html");
-			Common.readAndWrite(reader, writer);
-			String pageStr = writer.toString();
-			
-			writer = new StringWriter();
-			reader = new FileReader(Common.TEST_PAGES_FOLDER+"commonAssertRegexTestPart.html");
-			Common.readAndWrite(reader, writer);
-			String inputStr = writer.toString();
-			
-			Common.assertContainsRegex(inputStr,pageStr);
-			Common.assertContainsRegex("Fails on checking assert contains regex",inputStr,pageStr);
-		} catch (FileNotFoundException e){
-			
-		}
+		String pageStr = Common.getFileContents(Common.TEST_PAGES_FOLDER+"commonAssertRegexTestPage.html");
+		
+		String inputStr = Common.getFileContents(Common.TEST_PAGES_FOLDER+"commonAssertRegexTestPart.html");
+		
+		Common.assertContainsRegex(inputStr,pageStr);
+		Common.assertContainsRegex("Fails on checking assert contains regex",inputStr,pageStr);
+		
+		Common.assertContainsRegex("<div>{*}</div>","<html><body><div>Testing</div><a href='index.html'>HOME</a></body></html>");
+		Common.assertContainsRegex("Fails on checking assert contains regex","<div>{*}</div>","<html><body><div>Testing</div><a href='index.html'>HOME</a></body></html>");
 	}
 
 }

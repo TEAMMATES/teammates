@@ -7,7 +7,7 @@
 	// See if user is logged in, if not we redirect them to the login page
 	Accounts accounts = Accounts.inst();
 	if (accounts.getUser() == null) {
-		response.sendRedirect(accounts.getLoginPage("/coordinator.jsp"));
+		response.sendRedirect(accounts.getLoginPage("/coordHome.jsp"));
 		return;
 	}
 
@@ -48,7 +48,7 @@
 	%>
 		<p>
 			You are not authorized to view this page. <br /> <br />
-			<a href="javascript:logout();">Logout and return to main page.</a>
+			<a href="logout.jsp">Logout and return to main page.</a>
 		</p>
 	<%	} else { // Is coordinator %>
 		<div id="frameTop">
@@ -86,7 +86,7 @@
 							// This will print the latest one first
 							CourseSummaryForCoordinator course = summary[summary.length-1-idx];
 					%>
-					<div class='result_team' id='course<%= idx %>'>
+					<div class='result_team home_courses_div' id='course<%= idx %>'>
 						<div class='result_homeTitle'>
 							<h2>[<%= course.ID %>] :
 								<%= course.name %>
@@ -122,15 +122,6 @@
 						<br />
 						<%	ArrayList<EvaluationDetailsForCoordinator> evaluations = Evaluations.inst().getEvaluationsSummaryForCourse(course.ID);
 							EvaluationDetailsForCoordinator[] evaluationsArr = evaluations.toArray(new EvaluationDetailsForCoordinator[]{});
-							Arrays.sort(evaluationsArr, new Comparator<EvaluationDetailsForCoordinator>(){
-								public int compare(EvaluationDetailsForCoordinator eval1, EvaluationDetailsForCoordinator eval2){
-									if(eval1.deadline.after(eval2.deadline)) return 1;
-									if(eval1.deadline.before(eval2.deadline)) return -1;
-									if(eval1.start.after(eval2.start)) return 1;
-									if(eval1.start.before(eval2.start)) return -1;
-									return 0;
-								}
-							});
 							if (evaluationsArr.length > 0) {
 						%>
 							<table id='dataform'>
@@ -145,7 +136,7 @@
 								<%	for (int i=evaluationsArr.length-1; i>=0; i--) {
 										EvaluationDetailsForCoordinator eval = evaluationsArr[i];
 								%>
-									<tr id='evaluation<%= evalIdx %>'>
+									<tr class='home_evaluations_row' id='evaluation<%= evalIdx %>'>
 										<td class='t_eval_name'><%= eval.name %></td>
 										<td class='t_eval_status centeralign'><span
 											onmouseover='ddrivetip(" <%= Helper.getHoverMessageForEval(eval) %>")'

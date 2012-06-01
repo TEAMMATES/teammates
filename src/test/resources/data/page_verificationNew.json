@@ -1,5 +1,15 @@
 {
   "coords": {
+    "teammates.demo.coord": {
+      "googleID": "teammates.demo.coord",
+      "name" : "Teammates Demo Coordinator",
+      "email" : "teammates.demo.coord@gmail.com"
+    },
+    "teammates.coord": {
+      "googleID": "teammates.coord",
+      "name" : "Coordinator",
+      "email" : "teammates.coord@gmail.com"
+    },
     "teammates.test": {
       "googleID": "teammates.test",
       "name" : "Coordinator",
@@ -8,104 +18,104 @@
   },
   
   "courses": {
-    "CHomeUiT.CS2104": {
-      "coordinatorID": "teammates.test",
-      "id": "CHomeUiT.CS2104",
+    "CS2104-TESTING": {
+      "coordinatorID": "teammates.demo.coord",
+      "id": "CS2104-TESTING",
       "name": "Programming Language Concepts"
     },
-    "CHomeUiT.CS1101": {
-      "coordinatorID": "teammates.test",
-      "id": "CHomeUiT.CS1101",
+    "CS1101-TESTING": {
+      "coordinatorID": "teammates.demo.coord",
+      "id": "CS1101-TESTING",
       "name": "Programming Methodology"
     }
   },
   
   "students": {
-    "alice.b.tmms@CHomeUiT.CS2104": {
+    "alice.b.tmms@CS2104-TESTING": {
       "google_id": "alice.b.tmms",
       "email": "alice.b.tmms@gmail.com",
-      "coursename": "CHomeUiT.CS2104",
+      "coursename": "CS2104-TESTING",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "profilesummary": "My name is Alice Betsy",
-      "profiledetail": {"value": "My name is Alice Betsy, and I'm a student in CHomeUiT.CS2104"},
+      "profiledetail": {"value": "My name is Alice Betsy, and I'm a student in CS2104-TESTING"},
       "teamname": "Team 1"
     },
-    "benny.c.tmms@CHomeUiT.CS2104": {
+    "benny.c.tmms@CS2104-TESTING": {
       "google_id": "benny.c.tmms",
       "email": "benny.c.tmms@gmail.com",
-      "coursename": "CHomeUiT.CS2104",
+      "coursename": "CS2104-TESTING",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "profilesummary": "My name is Benny Charles",
-      "profiledetail": {"value": "My name is Benny Charles, and I'm a student in CHomeUiT.CS2104"},
+      "profiledetail": {"value": "My name is Benny Charles, and I'm a student in CS2104-TESTING"},
       "teamname": "Team 1"
     },
-    "charlie.d.tmms@CHomeUiT.CS2104": {
+    "charlie.d.tmms@CS2104-TESTING": {
       "google_id": "charlie.d.tmms",
       "email": "charlie.d.tmms@gmail.com",
-      "coursename": "CHomeUiT.CS2104",
+      "coursename": "CS2104-TESTING",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "profilesummary": "My name is Charlie Davis",
-      "profiledetail": {"value": "My name is Charlie Davis, and I'm a student in CHomeUiT.CS2104"},
+      "profiledetail": {"value": "My name is Charlie Davis, and I'm a student in CS2104-TESTING"},
       "teamname": "Team 2"
     },
-    "danny.e.tmms@CHomeUiT.CS2104": {
+    "danny.e.tmms@CS2104-TESTING": {
       "google_id": "danny.e.tmms",
       "email": "danny.e.tmms@gmail.com",
-      "coursename": "CHomeUiT.CS2104",
+      "coursename": "CS2104-TESTING",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "profilesummary": "My name is Danny Engrid",
-      "profiledetail": {"value": "My name is Danny Engrid, and I'm a student in CHomeUiT.CS2104"},
+      "profiledetail": {"value": "My name is Danny Engrid, and I'm a student in CS2104-TESTING"},
       "teamname": "Team 2"
     },
-    "alice.b.tmms@CHomeUiT.CS1101": {
+    "alice.b.tmms@CS1101-TESTING": {
       "google_id": "alice.b.tmms",
       "email": "alice.b.tmms@gmail.com",
-      "coursename": "CHomeUiT.CS1101",
+      "coursename": "CS1101-TESTING",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "profilesummary": "My name is Alice Betsy",
-      "profiledetail": {"value": "My name is Alice Betsy, and I'm a student in CHomeUiT.CS1101"},
+      "profiledetail": {"value": "My name is Alice Betsy, and I'm a student in CS1101-TESTING"},
       "teamname": "Team 1"
     },
-    "benny.c.tmms@CHomeUiT.CS1101": {
+    "benny.c.tmms@CS1101-TESTING": {
       "google_id": "benny.c.tmms",
       "email": "benny.c.tmms@gmail.com",
-      "coursename": "CHomeUiT.CS1101",
+      "coursename": "CS1101-TESTING",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "profilesummary": "My name is Benny Charles",
-      "profiledetail": {"value": "My name is Benny Charles, and I'm a student in CHomeUiT.CS1101"},
+      "profiledetail": {"value": "My name is Benny Charles, and I'm a student in CS1101-TESTING"},
       "teamname": "Team 1"
     },
-    "charlie.d.tmms@CHomeUiT.CS1101": {
+    "charlie.d.tmms@CS1101-TESTING": {
       "google_id": "charlie.d.tmms",
       "email": "charlie.d.tmms@gmail.com",
-      "coursename": "CHomeUiT.CS1101",
+      "coursename": "CS1101-TESTING",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "profilesummary": "My name is Charlie Davis",
-      "profiledetail": {"value": "My name is Charlie Davis, and I'm a student in CHomeUiT.CS1101"},
+      "profiledetail": {"value": "My name is Charlie Davis, and I'm a student in CS1101-TESTING"},
       "teamname": "Team 2"
     },
-    "danny.e.tmms@CHomeUiT.CS1101": {
+    "danny.e.tmms@CS1101-TESTING": {
       "google_id": "danny.e.tmms",
       "email": "danny.e.tmms@gmail.com",
-      "coursename": "CHomeUiT.CS1101",
+      "coursename": "CS1101-TESTING",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "profilesummary": "My name is Danny Engrid",
-      "profiledetail": {"value": "My name is Danny Engrid, and I'm a student in CHomeUiT.CS1101"},
+      "profiledetail": {"value": "My name is Danny Engrid, and I'm a student in CS1101-TESTING"},
       "teamname": "Team 2"
     }
   },
   
   "evaluations": {
-    "CHomeUiT.CS2104:First Eval": {
-      "course_id": "CHomeUiT.CS2104",
+    "CS2104-TESTING:First Eval": {
+      "course_id": "CS2104-TESTING",
       "name": "First Eval",
       "instr": "Please please fill it in",
       "start_time": "2012-04-01 11:59 PM",
@@ -115,8 +125,8 @@
       "comments_on": "true",
       "published": false
     },
-    "CHomeUiT.CS2104:Second Eval": {
-      "course_id": "CHomeUiT.CS2104",
+    "CS2104-TESTING:Second Eval": {
+      "course_id": "CS2104-TESTING",
       "name": "Second Eval",
       "instr": "Please please fill in the second evaluation",
       "start_time": "2012-04-01 11:59 PM",
@@ -126,8 +136,8 @@
       "comments_on": "true",
       "published": true
     },
-    "CHomeUiT.CS1101:Third Eval": {
-      "course_id": "CHomeUiT.CS1101",
+    "CS1101-TESTING:Third Eval": {
+      "course_id": "CS1101-TESTING",
       "name": "Third Eval",
       "instr": "Please please fill in the third evaluation",
       "start_time": "2012-04-01 11:59 PM",
@@ -137,8 +147,8 @@
       "comments_on": "true",
       "published": false
     },
-    "CHomeUiT.CS1101:Fourth Eval": {
-      "course_id": "CHomeUiT.CS1101",
+    "CS1101-TESTING:Fourth Eval": {
+      "course_id": "CS1101-TESTING",
       "name": "Fourth Eval",
       "instr": "Please please fill in the fourth evaluation",
       "start_time": "2015-04-01 11:59 PM",
@@ -148,8 +158,8 @@
       "comments_on": "true",
       "published": false
     },
-    "CHomeUiT.CS1101:Fifth Eval": {
-      "course_id": "CHomeUiT.CS1101",
+    "CS1101-TESTING:Fifth Eval": {
+      "course_id": "CS1101-TESTING",
       "name": "Fifth Eval",
       "instr": "Please please fill in the fifth evaluation",
       "start_time": "2012-04-01 11:59 PM",
@@ -165,7 +175,7 @@
     "submissionFromAliceToBennyFirstEval": {
       "fromStudent" : "alice.b.tmms@gmail.com",
       "toStudent" : "benny.c.tmms@gmail.com",
-      "courseID" : "CHomeUiT.CS2104",
+      "courseID" : "CS2104-TESTING",
       "evaluationName" : "First Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from alice.b.tmms@gmail.com to benny.c.tmms@gmail.com"},
@@ -175,7 +185,7 @@
     "submissionFromBennyToAliceFirstEval": {
       "fromStudent" : "benny.c.tmms@gmail.com",
       "toStudent" : "alice.b.tmms@gmail.com",
-      "courseID" : "CHomeUiT.CS2104",
+      "courseID" : "CS2104-TESTING",
       "evaluationName" : "First Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from benny.c.tmms@gmail.com to alice.b.tmms@gmail.com"},
@@ -185,7 +195,7 @@
     "submissionFromCharlieToDannyFirstEval": {
       "fromStudent" : "charlie.d.tmms@gmail.com",
       "toStudent" : "danny.e.tmms@gmail.com",
-      "courseID" : "CHomeUiT.CS2104",
+      "courseID" : "CS2104-TESTING",
       "evaluationName" : "First Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com"},
@@ -195,7 +205,7 @@
     "submissionFromDannyToCharlieFirstEval": {
       "fromStudent" : "danny.e.tmms@gmail.com",
       "toStudent" : "charlie.d.tmms@gmail.com",
-      "courseID" : "CHomeUiT.CS2104",
+      "courseID" : "CS2104-TESTING",
       "evaluationName" : "First Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com"},
@@ -205,7 +215,7 @@
     "submissionFromBennyToAliceSecondEval": {
       "fromStudent" : "benny.c.tmms@gmail.com",
       "toStudent" : "alice.b.tmms@gmail.com",
-      "courseID" : "CHomeUiT.CS2104",
+      "courseID" : "CS2104-TESTING",
       "evaluationName" : "Second Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from benny.c.tmms@gmail.com to alice.b.tmms@gmail.com"},
@@ -215,7 +225,7 @@
     "submissionFromCharlieToDannySecondEval": {
       "fromStudent" : "charlie.d.tmms@gmail.com",
       "toStudent" : "danny.e.tmms@gmail.com",
-      "courseID" : "CHomeUiT.CS2104",
+      "courseID" : "CS2104-TESTING",
       "evaluationName" : "Second Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com"},
@@ -225,7 +235,7 @@
     "submissionFromDannyToCharlieSecondEval": {
       "fromStudent" : "danny.e.tmms@gmail.com",
       "toStudent" : "charlie.d.tmms@gmail.com",
-      "courseID" : "CHomeUiT.CS2104",
+      "courseID" : "CS2104-TESTING",
       "evaluationName" : "Second Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com"},
@@ -235,7 +245,7 @@
     "submissionFromAliceToBennyThirdEval": {
       "fromStudent" : "alice.b.tmms@gmail.com",
       "toStudent" : "benny.c.tmms@gmail.com",
-      "courseID" : "CHomeUiT.CS1101",
+      "courseID" : "CS1101-TESTING",
       "evaluationName" : "Third Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from alice.b.tmms@gmail.com to benny.c.tmms@gmail.com"},
@@ -245,7 +255,7 @@
     "submissionFromBennyToAliceThirdEval": {
       "fromStudent" : "benny.c.tmms@gmail.com",
       "toStudent" : "alice.b.tmms@gmail.com",
-      "courseID" : "CHomeUiT.CS1101",
+      "courseID" : "CS1101-TESTING",
       "evaluationName" : "Third Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from benny.c.tmms@gmail.com to alice.b.tmms@gmail.com"},
@@ -255,7 +265,7 @@
     "submissionFromCharlieToDannyThirdEval": {
       "fromStudent" : "charlie.d.tmms@gmail.com",
       "toStudent" : "danny.e.tmms@gmail.com",
-      "courseID" : "CHomeUiT.CS1101",
+      "courseID" : "CS1101-TESTING",
       "evaluationName" : "Third Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com"},
@@ -265,7 +275,7 @@
     "submissionFromDannyToCharlieThirdEval": {
       "fromStudent" : "danny.e.tmms@gmail.com",
       "toStudent" : "charlie.d.tmms@gmail.com",
-      "courseID" : "CHomeUiT.CS1101",
+      "courseID" : "CS1101-TESTING",
       "evaluationName" : "Third Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com"},

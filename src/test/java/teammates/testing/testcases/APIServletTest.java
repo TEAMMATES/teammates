@@ -37,7 +37,6 @@ import teammates.jdo.Submission;
 import teammates.jdo.TeamFormingLog;
 import teammates.jdo.TeamFormingSession;
 import teammates.jdo.TeamProfile;
-import teammates.testing.lib.SharedLib;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.taskqueue.dev.LocalTaskQueue;
@@ -55,7 +54,7 @@ public class APIServletTest extends BaseTestCase {
 	private final static APIServlet apiServlet = new APIServlet();
 	private static String TEST_DATA_FOLDER = "src/test/resources/data/";
 	private static Gson gson = Common.getTeammatesGson();
-	String jsonString = SharedLib.getFileContents(TEST_DATA_FOLDER
+	String jsonString = Common.getFileContents(TEST_DATA_FOLDER
 			+ "typicalDataBundle.json");
 	private DataBundle dataBundle;
 
