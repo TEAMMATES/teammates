@@ -296,7 +296,7 @@ public class Common {
 
 		Date newDate = new Date();
 
-		// Perform date manipulation
+		// Perform date manipulation 
 		try {
 			newDate = sdf.parse(date);
 			calendar.setTime(newDate);
