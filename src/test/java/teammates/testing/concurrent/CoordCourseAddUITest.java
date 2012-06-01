@@ -9,6 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.Common;
+import teammates.datatransfer.CoordData;
 import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
 import teammates.testing.config.Config;
@@ -31,7 +32,7 @@ public class CoordCourseAddUITest extends TestCase {
 		TMAPI.deleteCourse(ts.validCourse.getID());
 		TMAPI.deleteCourse(ts.courseWithSameNameDifferentId.getID());
 		
-		bi.loginCoord(ts.coordinator.getGoogleID(), Config.inst().TEAMMATES_APP_PASSWD);
+		bi.loginCoord(ts.coordinator.id, Config.inst().TEAMMATES_APP_PASSWD);
 	}
 
 	@AfterClass
@@ -158,7 +159,7 @@ public class CoordCourseAddUITest extends TestCase {
 	}
 
 	private class TestScenario{
-		public Coordinator coordinator;
+		public CoordData coordinator;
 		public Course validCourse;
 		public Course courseWithSameNameDifferentId;
 	}

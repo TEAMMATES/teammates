@@ -1,5 +1,5 @@
 {
-  "coordinator": {"googleID": "teammates.demo.coord", "name":"Teammates Demo Coordinator", "email":"teammates.demo.coord@gmail.com"},
+  "coordinator": {"id": "teammates.demo.coord", "name":"Teammates Demo Coordinator", "email":"teammates.demo.coord@gmail.com"},
   
   "validCourse": {
     "id": "CCAddUiTest.course1",

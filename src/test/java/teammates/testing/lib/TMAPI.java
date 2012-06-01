@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import teammates.APIServlet;
 import teammates.Common;
 import teammates.DataBundle;
+import teammates.datatransfer.*;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.NotImplementedException;
 import teammates.jdo.Coordinator;
@@ -65,17 +66,17 @@ public class TMAPI {
 	public static void deleteCoordinators(String jsonString) {
 		Gson gson = Common.getTeammatesGson();
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
-		HashMap<String, Coordinator> coords = data.coords;
-		for (Coordinator coord : coords.values()) {
-			deleteCoord(coord.getGoogleID());
+		HashMap<String, CoordData> coords = data.coords;
+		for (CoordData coord : coords.values()) {
+			deleteCoord(coord.id);
 		}
 	}
 
 	// --------------------------[Coord-level methods]-------------------------
 
-	public static String createCoord(Coordinator coord) {
+	public static String createCoord(CoordData coord) {
 		DataBundle dataBundle = new DataBundle();
-		dataBundle.coords.put(coord.getGoogleID(), coord);
+		dataBundle.coords.put(coord.id, coord);
 		return persistNewDataBundle(Common.getTeammatesGson()
 				.toJson(dataBundle));
 	}
@@ -100,8 +101,8 @@ public class TMAPI {
 
 	public static void cleanupByCoordinator(String coordId)
 			throws EntityDoesNotExistException {
-		Coordinator coord = Common.getTeammatesGson().fromJson(
-				getCoordAsJason(coordId), Coordinator.class);
+		CoordData coord = Common.getTeammatesGson().fromJson(
+				getCoordAsJason(coordId), CoordData.class);
 		if (coord == null)
 			throw new EntityDoesNotExistException(
 					"Coordinator does not exist : " + coordId);

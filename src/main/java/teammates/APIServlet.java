@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.datatransfer.CoordData;
 import teammates.exception.*;
 import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
@@ -780,8 +781,8 @@ public class APIServlet extends HttpServlet {
 	 */
 
 	private String getCoordAsJson(String coordID) {
-		Coordinator coord = getCoord(coordID);
-		return Common.getTeammatesGson().toJson(coord);
+		CoordData coordData = getCoord(coordID);
+		return Common.getTeammatesGson().toJson(coordData);
 	}
 
 	private String getCourseAsJson(String courseId) {
@@ -867,7 +868,9 @@ public class APIServlet extends HttpServlet {
 	}
 
 	@SuppressWarnings("unused")
-	private void ____SYSTEM_level_methods__________________________________() {}
+	private void ____SYSTEM_level_methods__________________________________() {
+	}
+
 	// TODO: This is not only for coordinator right?
 	public String coordGetLoginUrl(String redirectUrl) {
 		Accounts accounts = Accounts.inst();
@@ -908,10 +911,10 @@ public class APIServlet extends HttpServlet {
 	public String persistNewDataBundle(DataBundle dataBundle)
 			throws InvalidParametersException, EntityAlreadyExistsException {
 
-		HashMap<String, Coordinator> coords = dataBundle.coords;
-		for (Coordinator coord : coords.values()) {
-			log.info("API Servlet adding coord :" + coord.getGoogleID());
-			createCoord(coord.getGoogleID(), coord.getName(), coord.getEmail());
+		HashMap<String, CoordData> coords = dataBundle.coords;
+		for (CoordData coord : coords.values()) {
+			log.info("API Servlet adding coord :" + coord.id);
+			createCoord(coord.id, coord.name, coord.email);
 		}
 
 		HashMap<String, Course> courses = dataBundle.courses;
@@ -987,8 +990,10 @@ public class APIServlet extends HttpServlet {
 		Accounts.inst().addCoordinator(coordID, coordName, coordEmail);
 	}
 
-	public Coordinator getCoord(String coordID) {
-		return Accounts.inst().getCoordinator(coordID);
+	public CoordData getCoord(String coordID) {
+		Coordinator coord = Accounts.inst().getCoordinator(coordID);
+		return (coord == null ? null : 
+			new CoordData(coord.getGoogleID(), coord.getName(), coord.getEmail()));
 	}
 
 	public void editCoord(Coordinator coord) throws NotImplementedException {
@@ -1101,9 +1106,11 @@ public class APIServlet extends HttpServlet {
 		return Courses.inst().getStudentList(courseId);
 	}
 
-	public void sendRegistrationInviteForCourse(String courseId) throws InvalidParametersException {
-		if(courseId==null){
-			throw new InvalidParametersException(Common.ERRORCODE_NULL_PARAMETER, "Course ID cannot be null");
+	public void sendRegistrationInviteForCourse(String courseId)
+			throws InvalidParametersException {
+		if (courseId == null) {
+			throw new InvalidParametersException(
+					Common.ERRORCODE_NULL_PARAMETER, "Course ID cannot be null");
 		}
 		List<Student> studentList = Courses.inst().getUnregisteredStudentList(
 				courseId);

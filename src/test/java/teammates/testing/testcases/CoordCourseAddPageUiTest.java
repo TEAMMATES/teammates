@@ -13,6 +13,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import teammates.Common;
+import teammates.datatransfer.*;
 import teammates.exception.NoAlertAppearException;
 import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
@@ -42,7 +43,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	}
 
 	private class TestScenario{
-		public Coordinator coordinator;
+		public CoordData coordinator;
 		public Course validCourse;
 		public Course courseWithSameNameDifferentId;
 		public Course testCourse;
@@ -119,13 +120,13 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		ts = loadTestScenario();
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		System.out.println("Recreating "+ts.coordinator.getGoogleID());
+		System.out.println("Recreating "+ts.coordinator.id);
 		long start = System.currentTimeMillis();
-		TMAPI.deleteCoord(ts.coordinator.getGoogleID());
+		TMAPI.deleteCoord(ts.coordinator.id);
 		TMAPI.createCoord(ts.coordinator);
 		System.out.println("Finished recreating in "+(System.currentTimeMillis()-start)+" ms");
 		
-		bi.loginCoord(ts.coordinator.getGoogleID(), Config.inst().TEAMMATES_APP_PASSWD);
+		bi.loginCoord(ts.coordinator.id, Config.inst().TEAMMATES_APP_PASSWD);
 		bi.goToUrl(localhostAddress+Common.JSP_COORD_COURSE);
 	}
 

@@ -2,6 +2,7 @@ package teammates;
 
 import java.util.HashMap;
 
+import teammates.datatransfer.*;
 import teammates.jdo.*;
 /**
  * This is a class to hold a bundle of entities
@@ -9,7 +10,7 @@ import teammates.jdo.*;
  */
 public class DataBundle {
 	
-	public HashMap<String,Coordinator> coords = new HashMap<String,Coordinator>();
+	public HashMap<String,CoordData> coords = new HashMap<String,CoordData>();
 	public HashMap<String, Course> courses = new HashMap<String, Course>();
 	public HashMap<String, Student> students = new HashMap<String, Student>();
 	public HashMap<String, Evaluation> evaluations = new HashMap<String, Evaluation>();

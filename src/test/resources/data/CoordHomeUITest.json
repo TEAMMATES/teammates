@@ -1,7 +1,7 @@
 {
   "coords": {
     "teammates.test": {
-      "googleID": "teammates.test",
+      "id": "teammates.test",
       "name" : "Coordinator",
       "email" : "teammates.test@gmail.com"
     }

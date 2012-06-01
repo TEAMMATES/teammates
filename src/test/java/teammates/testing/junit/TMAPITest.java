@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import teammates.Common;
 import teammates.DataBundle;
+import teammates.datatransfer.*;
 import teammates.exception.InvalidParametersException;
 import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
@@ -59,7 +60,7 @@ public class TMAPITest extends BaseTestCase{
 		
 		//check if deleteCoordinators worked
 		dataBundle = gson.fromJson(jsonString, DataBundle.class);
-		for(Coordinator coord: dataBundle.coords.values()){
+		for(CoordData coord: dataBundle.coords.values()){
 			verifyAbsentInDatastore(coord);
 		}
 		
@@ -69,19 +70,19 @@ public class TMAPITest extends BaseTestCase{
 		verifyPresentInDatastore(jsonString);
 		
 		// ----------deleting Coordinator entities-------------------------
-		Coordinator typicalCoord1 = dataBundle.coords.get("typicalCoord1");
+		CoordData typicalCoord1 = dataBundle.coords.get("typicalCoord1");
 		verifyPresentInDatastore(typicalCoord1);
-		status = TMAPI.deleteCoord(typicalCoord1.getGoogleID());
+		status = TMAPI.deleteCoord(typicalCoord1.id);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyAbsentInDatastore(typicalCoord1);
 		
-		Coordinator typicalCoord2 = dataBundle.coords.get("typicalCoord2");
-		status = TMAPI.deleteCoord(typicalCoord2.getGoogleID());
+		CoordData typicalCoord2 = dataBundle.coords.get("typicalCoord2");
+		status = TMAPI.deleteCoord(typicalCoord2.id);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyAbsentInDatastore(typicalCoord2);
 		
 		//try to delete again. should succeed.
-		status = TMAPI.deleteCoord(typicalCoord2.getGoogleID());
+		status = TMAPI.deleteCoord(typicalCoord2.id);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		
 		status = TMAPI.deleteCoord("idOfTypicalCoord3");
@@ -200,7 +201,7 @@ public class TMAPITest extends BaseTestCase{
 		//another well-tested method.
 		printTestCaseHeader();
 		String coordId = "tmapitt.tcc.coord";
-		Coordinator coord = new Coordinator(coordId, coordId, "tmapitt.tcc.coord@gmail.com");
+		CoordData coord = new CoordData(coordId, coordId, "tmapitt.tcc.coord@gmail.com");
 		TMAPI.deleteCoord(coordId);
 		verifyAbsentInDatastore(coord);
 		TMAPI.createCoord(coord);
@@ -230,11 +231,11 @@ public class TMAPITest extends BaseTestCase{
 		//other well-tested methods.
 		printTestCaseHeader();
 		refreshDataInDatastore();
-		Coordinator coord = dataBundle.coords.get("typicalCoord1");
-		String[] coursesByCoord = TMAPI.getCoursesByCoordId(coord.getGoogleID());
+		CoordData coord = dataBundle.coords.get("typicalCoord1");
+		String[] coursesByCoord = TMAPI.getCoursesByCoordId(coord.id);
 		assertEquals(2,coursesByCoord.length);
-		TMAPI.cleanupByCoordinator(coord.getGoogleID());
-		coursesByCoord = TMAPI.getCoursesByCoordId(coord.getGoogleID());
+		TMAPI.cleanupByCoordinator(coord.id);
+		coursesByCoord = TMAPI.getCoursesByCoordId(coord.id);
 		assertEquals(0,coursesByCoord.length);
 	}
 
@@ -250,7 +251,7 @@ public class TMAPITest extends BaseTestCase{
 		//create a fresh coordinator
 		String coord1Id = "AST.TGCBCI.coord1";
 		TMAPI.deleteCoord(coord1Id);
-		TMAPI.createCoord(new Coordinator(coord1Id, "dummy name", "dummy@email"));
+		TMAPI.createCoord(new CoordData(coord1Id, "dummy name", "dummy@email"));
 		
 		String course1OfCoord1 = "AST.TGCBCI.c1OfCoord1";
 		String course2OfCoord1 = "AST.TGCBCI.c2OfCoord1";
@@ -543,15 +544,15 @@ public class TMAPITest extends BaseTestCase{
 	
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
 	
-		Coordinator typicalCoord1 = data.coords.get("typicalCoord1");
-		assertEquals("idOfTypicalCoord1", typicalCoord1.getGoogleID());
-		assertEquals("Typical Coordinator1", typicalCoord1.getName());
-		assertEquals("typicalCoord1@gmail.com", typicalCoord1.getEmail());
+		CoordData typicalCoord1 = data.coords.get("typicalCoord1");
+		assertEquals("idOfTypicalCoord1", typicalCoord1.id);
+		assertEquals("Typical Coordinator1", typicalCoord1.name);
+		assertEquals("typicalCoord1@gmail.com", typicalCoord1.email);
 	
-		Coordinator typicalCoord2 = data.coords.get("typicalCoord2");
-		assertEquals("idOfTypicalCoord2", typicalCoord2.getGoogleID());
-		assertEquals("Typical Coordinator2", typicalCoord2.getName());
-		assertEquals("typicalCoord2@gmail.com", typicalCoord2.getEmail());
+		CoordData typicalCoord2 = data.coords.get("typicalCoord2");
+		assertEquals("idOfTypicalCoord2", typicalCoord2.id);
+		assertEquals("Typical Coordinator2", typicalCoord2.name);
+		assertEquals("typicalCoord2@gmail.com", typicalCoord2.email);
 	
 		Course course1 = data.courses.get("course1OfCoord1");
 		assertEquals("idOfCourse1OfCoord1", course1.getID());
@@ -709,8 +710,8 @@ public class TMAPITest extends BaseTestCase{
 		Gson gson = Common.getTeammatesGson();
 
 		DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
-		HashMap<String, Coordinator> coords = data.coords;
-		for (Coordinator expectedCoord : coords.values()) {
+		HashMap<String, CoordData> coords = data.coords;
+		for (CoordData expectedCoord : coords.values()) {
 			verifyPresentInDatastore(expectedCoord);
 		}
 
@@ -840,16 +841,16 @@ public class TMAPITest extends BaseTestCase{
 				gson.toJson(actualTeamProfile));
 	}
 
-	private void verifyPresentInDatastore(Coordinator expectedCoord) {
+	private void verifyPresentInDatastore(CoordData expectedCoord) {
 		String coordJsonString = TMAPI.getCoordAsJason(expectedCoord
-				.getGoogleID());
-		Coordinator actualCoord = gson.fromJson(coordJsonString,
-				Coordinator.class);
+				.id);
+		CoordData actualCoord = gson.fromJson(coordJsonString,
+				CoordData.class);
 		assertEquals(gson.toJson(expectedCoord), gson.toJson(actualCoord));
 	}
 	
-	private void verifyAbsentInDatastore(Coordinator expectedCoord) {
-		assertEquals("null", TMAPI.getCoordAsJason(expectedCoord.getGoogleID()));
+	private void verifyAbsentInDatastore(CoordData expectedCoord) {
+		assertEquals("null", TMAPI.getCoordAsJason(expectedCoord.id));
 	}
 
 	private boolean isLogEntryInList(TeamFormingLog teamFormingLogEntry,

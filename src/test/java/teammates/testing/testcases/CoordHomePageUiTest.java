@@ -58,7 +58,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		bi.loginCoord(scn.coords.get("teammates.test").getGoogleID(), Config.inst().TEAMMATES_APP_PASSWD);
+		bi.loginCoord(scn.coords.get("teammates.test").id, Config.inst().TEAMMATES_APP_PASSWD);
 		bi.goToUrl(localhostAddress+Common.JSP_COORD_HOME);
 	}
 	

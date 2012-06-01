@@ -22,11 +22,11 @@ import teammates.APIServlet;
 import teammates.Common;
 import teammates.DataBundle;
 import teammates.Datastore;
+import teammates.datatransfer.CoordData;
 import teammates.exception.EnrollException;
 import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.InvalidParametersException;
-import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
 import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.Evaluation;
@@ -127,9 +127,9 @@ public class APIServletTest extends BaseTestCase {
 	public void testPersistDataBundle() throws Exception {
 		dataBundle = gson.fromJson(jsonString, DataBundle.class);
 		// clean up the datastore first, to avoid clashes with existing data
-		HashMap<String, Coordinator> coords = dataBundle.coords;
-		for (Coordinator coord : coords.values()) {
-			apiServlet.deleteCoord(coord.getGoogleID());
+		HashMap<String, CoordData> coords = dataBundle.coords;
+		for (CoordData coord : coords.values()) {
+			apiServlet.deleteCoord(coord.id);
 		}
 
 		// try with empty dataBundle
@@ -159,21 +159,21 @@ public class APIServletTest extends BaseTestCase {
 			EntityAlreadyExistsException {
 		printTestCaseHeader();
 
-		Coordinator coord = dataBundle.coords.get("typicalCoord1");
+		CoordData coord = dataBundle.coords.get("typicalCoord1");
 		// delete, to avoid clashes with existing data
-		apiServlet.deleteCoord(coord.getGoogleID());
+		apiServlet.deleteCoord(coord.id);
 		verifyAbsentInDatastore(coord);
 		// create
-		apiServlet.createCoord(coord.getGoogleID(), coord.getName(),
-				coord.getEmail());
+		apiServlet.createCoord(coord.id, coord.name,
+				coord.email);
 		// read existing coord
 		verifyPresentInDatastore(coord);
 		// delete existing
-		apiServlet.deleteCoord(coord.getGoogleID());
+		apiServlet.deleteCoord(coord.id);
 		// read non-existent coord
 		verifyAbsentInDatastore(coord);
 		// delete non-existent (fails silently)
-		apiServlet.deleteCoord(coord.getGoogleID());
+		apiServlet.deleteCoord(coord.id);
 
 		// try one invalid input for each parameter
 		try {
@@ -225,19 +225,19 @@ public class APIServletTest extends BaseTestCase {
 		refreshDataInDatastore();
 
 		// coord with 2 courses
-		Coordinator coord = dataBundle.coords.get("typicalCoord1");
+		CoordData coord = dataBundle.coords.get("typicalCoord1");
 		HashMap<String, CourseSummaryForCoordinator> courseList = apiServlet
-				.getCourseListForCoord(coord.getGoogleID());
+				.getCourseListForCoord(coord.id);
 		assertEquals(2, courseList.size());
 		for (CourseSummaryForCoordinator item : courseList.values()) {
 			// check if course belongs to this coord
-			assertEquals(coord.getGoogleID(), apiServlet.getCourse(item.ID)
+			assertEquals(coord.id, apiServlet.getCourse(item.ID)
 					.getCoordinatorID());
 		}
 
 		// coord with 0 courses
 		coord = dataBundle.coords.get("typicalCoord3");
-		courseList = apiServlet.getCourseListForCoord(coord.getGoogleID());
+		courseList = apiServlet.getCourseListForCoord(coord.id);
 		assertEquals(0, courseList.size());
 
 		// check for null parameter
@@ -310,25 +310,25 @@ public class APIServletTest extends BaseTestCase {
 		refreshDataInDatastore();
 
 		// coord with 3 Evals
-		Coordinator coord1 = dataBundle.coords.get("typicalCoord1");
+		CoordData coord1 = dataBundle.coords.get("typicalCoord1");
 		ArrayList<EvaluationDetailsForCoordinator> evalList = apiServlet
-				.getEvaluationsListForCoord(coord1.getGoogleID());
+				.getEvaluationsListForCoord(coord1.id);
 		assertEquals(3, evalList.size());
 		for (EvaluationDetailsForCoordinator ed : evalList) {
 			assertTrue(ed.courseID.contains("Coord1"));
 		}
 
 		// coord with 1 eval
-		Coordinator coord2 = dataBundle.coords.get("typicalCoord2");
-		evalList = apiServlet.getEvaluationsListForCoord(coord2.getGoogleID());
+		CoordData coord2 = dataBundle.coords.get("typicalCoord2");
+		evalList = apiServlet.getEvaluationsListForCoord(coord2.id);
 		assertEquals(1, evalList.size());
 		for (EvaluationDetailsForCoordinator ed : evalList) {
 			assertTrue(ed.courseID.contains("Coord2"));
 		}
 
 		// coord with 0 eval
-		Coordinator coord3 = dataBundle.coords.get("typicalCoord3");
-		evalList = apiServlet.getEvaluationsListForCoord(coord3.getGoogleID());
+		CoordData coord3 = dataBundle.coords.get("typicalCoord3");
+		evalList = apiServlet.getEvaluationsListForCoord(coord3.id);
 		assertEquals(0, evalList.size());
 
 		// non-existent coord
@@ -348,7 +348,7 @@ public class APIServletTest extends BaseTestCase {
 
 		// coord with 2 Tfs
 		verifyTfsListForCoord(dataBundle.coords.get("typicalCoord2")
-				.getGoogleID(), 2);
+				.id, 2);
 		// coord with 0 Tfs
 		verifyTfsListForCoord("typicalCoord3", 0);
 
@@ -367,9 +367,9 @@ public class APIServletTest extends BaseTestCase {
 			EntityAlreadyExistsException {
 		printTestCaseHeader();
 
-		Coordinator coord = dataBundle.coords.get("typicalCoord1");
+		CoordData coord = dataBundle.coords.get("typicalCoord1");
 		// delete, to avoid clashes with existing data
-		apiServlet.deleteCoord(coord.getGoogleID());
+		apiServlet.deleteCoord(coord.id);
 
 		Course course = dataBundle.courses.get("course1OfCoord1");
 
@@ -1151,8 +1151,8 @@ public class APIServletTest extends BaseTestCase {
 			throws EntityDoesNotExistException {
 
 		DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
-		HashMap<String, Coordinator> coords = data.coords;
-		for (Coordinator expectedCoord : coords.values()) {
+		HashMap<String, CoordData> coords = data.coords;
+		for (CoordData expectedCoord : coords.values()) {
 			verifyPresentInDatastore(expectedCoord);
 		}
 
@@ -1203,8 +1203,8 @@ public class APIServletTest extends BaseTestCase {
 						submission.getFromStudent(), submission.getToStudent()));
 	}
 
-	private void verifyAbsentInDatastore(Coordinator expectedCoord) {
-		assertEquals(null, apiServlet.getCoord(expectedCoord.getGoogleID()));
+	private void verifyAbsentInDatastore(CoordData expectedCoord) {
+		assertEquals(null, apiServlet.getCoord(expectedCoord.id));
 	}
 
 	private void verifyAbsentInDatastore(Course course) {
@@ -1303,16 +1303,16 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
-	private void verifyPresentInDatastore(Coordinator expected) {
-		Coordinator actual = apiServlet.getCoord(expected.getGoogleID());
+	private void verifyPresentInDatastore(CoordData expected) {
+		CoordData actual = apiServlet.getCoord(expected.id);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
 	private void refreshDataInDatastore() throws Exception {
 		dataBundle = gson.fromJson(jsonString, DataBundle.class);
-		HashMap<String, Coordinator> coords = dataBundle.coords;
-		for (Coordinator coord : coords.values()) {
-			apiServlet.deleteCoord(coord.getGoogleID());
+		HashMap<String, CoordData> coords = dataBundle.coords;
+		for (CoordData coord : coords.values()) {
+			apiServlet.deleteCoord(coord.id);
 		}
 		apiServlet.persistNewDataBundle(jsonString);
 	}

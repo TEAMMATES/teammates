@@ -1,8 +1,8 @@
 {
   "coords": {
-  	"typicalCoord1": {"googleID": "idOfTypicalCoord1", "name":"Typical Coordinator1", "email":"typicalCoord1@gmail.com"},
-  	"typicalCoord2": {"googleID": "idOfTypicalCoord2", "name":"Typical Coordinator2", "email":"typicalCoord2@gmail.com"},
-  	"typicalCoord3": {"googleID": "idOfTypicalCoord3", "name":"Typical Coordinator3", "email":"typicalCoord3@gmail.com"}
+  	"typicalCoord1": {"id": "idOfTypicalCoord1", "name":"Typical Coordinator1", "email":"typicalCoord1@gmail.com"},
+  	"typicalCoord2": {"id": "idOfTypicalCoord2", "name":"Typical Coordinator2", "email":"typicalCoord2@gmail.com"},
+  	"typicalCoord3": {"id": "idOfTypicalCoord3", "name":"Typical Coordinator3", "email":"typicalCoord3@gmail.com"}
   },
   "courses": {
 	  "course1OfCoord1": {
