@@ -186,6 +186,17 @@ public class Courses {
 		}
 
 	}
+	
+	//TODO: check for existing student and throw exception
+	public void createStudent(Student student) throws EntityAlreadyExistsException {
+		String courseID = student.getCourseID();
+		String email = student.getEmail();
+		if(getStudentWithEmail(courseID, email)!=null){
+			throw new EntityAlreadyExistsException("This student already existis :"+ courseID + "/" + email);
+		}
+		getPM().makePersistent(student);
+	}
+
 
 	/**
 	 * Clean up courses, evaluations, submissions related to a course

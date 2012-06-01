@@ -246,11 +246,6 @@ public class Accounts {
 		deleteCoord(coordId);
 	}
 
-	//TODO: check for existing student and throw exception
-	//TODO: move to Courses
-	public void createStudent(Student student) {
-		getPM().makePersistent(student);
-	}
 
 	public void deleteCoord(String coordId){
 		Coordinator coord = getCoordinator(coordId);

@@ -878,7 +878,7 @@ public class APIServlet extends HttpServlet {
 		Accounts accounts = Accounts.inst();
 		return accounts.getLogoutPage(redirectUrl);
 	}
-	
+
 	/**
 	 * @deprecated Use persistNewDataBundle(DataBundle dataBundle)
 	 */
@@ -886,7 +886,8 @@ public class APIServlet extends HttpServlet {
 			throws InvalidParametersException, EntityAlreadyExistsException {
 		Gson gson = Common.getTeammatesGson();
 
-		DataBundle dataBundle = gson.fromJson(dataBundleJsonString, DataBundle.class);
+		DataBundle dataBundle = gson.fromJson(dataBundleJsonString,
+				DataBundle.class);
 		return persistNewDataBundle(dataBundle);
 	}
 
@@ -985,11 +986,6 @@ public class APIServlet extends HttpServlet {
 		Accounts.inst().addCoordinator(coordID, coordName, coordEmail);
 	}
 
-	/**
-	 * 
-	 * @param coordID
-	 * @return null if not found
-	 */
 	public Coordinator getCoord(String coordID) {
 		return Accounts.inst().getCoordinator(coordID);
 	}
@@ -1008,13 +1004,23 @@ public class APIServlet extends HttpServlet {
 		Accounts.inst().deleteCoord(coordId);
 	}
 
+	/**
+	 * 
+	 * @param coordId
+	 * @return null if coordId is null
+	 */
 	public HashMap<String, CourseSummaryForCoordinator> getCourseListForCoord(
 			String coordId) {
+		if (coordId == null)
+			return null;
 		return Courses.inst().getCourseSummaryListForCoord(coordId);
 	}
 
 	public HashMap<String, CourseSummaryForCoordinator> getCourseDetailsListForCoord(
 			String coordId) {
+		if (coordId == null) {
+			return null;
+		}
 		// TODO: using this method here may not be efficient as it retrieves
 		// info not required
 		HashMap<String, CourseSummaryForCoordinator> courseList = getCourseListForCoord(coordId);
@@ -1030,6 +1036,10 @@ public class APIServlet extends HttpServlet {
 	public ArrayList<EvaluationDetailsForCoordinator> getEvaluationsListForCoord(
 			String coordId) {
 
+		if (coordId == null) {
+			return null;
+		}
+
 		List<Course> courseList = Courses.inst().getCoordinatorCourseList(
 				coordId);
 		ArrayList<EvaluationDetailsForCoordinator> evaluationDetailsList = new ArrayList<EvaluationDetailsForCoordinator>();
@@ -1042,6 +1052,9 @@ public class APIServlet extends HttpServlet {
 	}
 
 	public List<TeamFormingSession> getTfsListForCoord(String coordId) {
+		if (coordId == null) {
+			return null;
+		}
 		List<Course> courseList = Courses.inst().getCoordinatorCourseList(
 				coordId);
 		List<TeamFormingSession> teamFormingSessionList = TeamForming.inst()
@@ -1056,6 +1069,9 @@ public class APIServlet extends HttpServlet {
 	public void createCourse(String coordinatorId, String courseId,
 			String courseName) throws EntityAlreadyExistsException,
 			InvalidParametersException {
+		Common.validateGoogleId(coordinatorId);
+		Common.validateCourseId(courseId);
+		Common.validateCourseName(courseName);
 		Courses.inst().addCourse(courseId, courseName, coordinatorId);
 	}
 
@@ -1069,16 +1085,25 @@ public class APIServlet extends HttpServlet {
 	}
 
 	public void deleteCourse(String courseId) {
+		if (courseId == null) {
+			return;
+		}
 		Evaluations.inst().deleteEvaluations(courseId);
 		TeamForming.inst().deleteTeamFormingSession(courseId);
 		Courses.inst().deleteCourse(courseId);
 	}
 
 	public List<Student> getStudentListForCourse(String courseId) {
+		if (courseId == null) {
+			return null;
+		}
 		return Courses.inst().getStudentList(courseId);
 	}
 
-	public void sendRegistrationInviteForCourse(String courseId) {
+	public void sendRegistrationInviteForCourse(String courseId) throws InvalidParametersException {
+		if(courseId==null){
+			throw new InvalidParametersException(Common.ERRORCODE_NULL_PARAMETER, "Course ID cannot be null");
+		}
 		List<Student> studentList = Courses.inst().getUnregisteredStudentList(
 				courseId);
 
@@ -1089,6 +1114,11 @@ public class APIServlet extends HttpServlet {
 
 	public List<StudentInfoForCoord> enrollStudents(String enrollLines,
 			String courseId) throws EnrollException {
+		if (enrollLines == null || courseId == null) {
+			throw new EnrollException(Common.ERRORCODE_NULL_PARAMETER,
+					(enrollLines == null ? "Enroll text" : "Course ID")
+							+ " cannot be null");
+		}
 		ArrayList<StudentInfoForCoord> returnList = new ArrayList<StudentInfoForCoord>();
 		String[] linesArray = enrollLines.split(Common.EOL);
 		ArrayList<Student> studentList = new ArrayList<Student>();
@@ -1131,7 +1161,10 @@ public class APIServlet extends HttpServlet {
 
 	public void createStudent(Student student)
 			throws EntityAlreadyExistsException, InvalidParametersException {
-		Accounts.inst().createStudent(student);
+		if (student == null) {
+			throw new InvalidParametersException("Student cannot be null");
+		}
+		Courses.inst().createStudent(student);
 	}
 
 	public Student getStudent(String courseId, String email) {
@@ -1328,12 +1361,11 @@ public class APIServlet extends HttpServlet {
 	public List<TeamFormingLog> getTeamFormingLog(String courseId) {
 		return TeamForming.inst().getTeamFormingLogList(courseId);
 	}
-	
+
 	public void editTeamFormingLogEntry(TeamFormingLog tfl)
 			throws NotImplementedException {
 		throw new NotImplementedException(
-				"Not implemented because there is no need to "
-						+ "edit logs");
+				"Not implemented because there is no need to " + "edit logs");
 	}
 
 	public void deleteTeamFormingLog(String courseId) {

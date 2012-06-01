@@ -129,10 +129,154 @@ public class Common {
 	public static final String ERRORCODE_EMPTY_STRING = "ERRORCODE_EMPTY_STRING";
 	public static final String ERRORCODE_NULL_PARAMETER = "ERRORCODE_NULL_PARAMETER";
 	public static final String ERRORCODE_INCORRECTLY_FORMATTED_STRING = "ERRORCODE_INCORRECTLY_FORMATTED_STRING";
-	public static final String ERRORCODE_IVALID_CHARS = "ERRORCODE_IVALID_CHARS";
+	public static final String ERRORCODE_INVALID_CHARS = "ERRORCODE_IVALID_CHARS";
 	public static final String ERRORCODE_INVALID_EMAIL = "ERRORCODE_INVALID_EMAIL";
+	public static final String ERRORCODE_LEADING_OR_TRAILING_SPACES = "ERRORCODE_LEADING_OR_TRAILING_SPACES";
 	public static final String ERRORCODE_STRING_TOO_LONG = "ERRORCODE_STRING_TOO_LONG";
 
+	
+	
+	@SuppressWarnings("unused")
+	private void ____VALIDATE_parameters___________________________________() {
+	}
+
+	//TODO: add more checks and write unit tests
+	public static void validateTeamName(String teamName) throws InvalidParametersException {
+		if(teamName.length()>TEAM_NAME_MAX_LENGTH){
+			throw new InvalidParametersException(ERRORCODE_STRING_TOO_LONG, "Team name cannot be longer than "+TEAM_NAME_MAX_LENGTH);
+		}
+	}
+
+	//TODO: add more checks and write unit tests
+	public static void validateStudentName(String studentName) throws InvalidParametersException {
+		if(!studentName.trim().equals(studentName)) {
+			throw new InvalidParametersException(ERRORCODE_INCORRECTLY_FORMATTED_STRING, "Student name should not have leading or trailing spaces");
+		}
+		if(studentName.equals("")){
+			throw new InvalidParametersException(ERRORCODE_EMPTY_STRING, "Student name should not be empty");
+		}
+		if(studentName.length()>STUDENT_NAME_MAX_LENGTH){
+			throw new InvalidParametersException(ERRORCODE_STRING_TOO_LONG, "Student name cannot be longer than "+STUDENT_NAME_MAX_LENGTH);
+		}
+	}
+
+	//TODO: add more checks and write unit tests
+	public static void validateEmail(String email) throws InvalidParametersException {
+		verifyNotNull(email, "email");
+		verifyNoLeadingAndTrailingSpaces(email, "email");
+		verifyNotAnEmptyString(email, "email");
+		if(!email.contains("@")){
+			throw new InvalidParametersException(ERRORCODE_INVALID_EMAIL, "Email address should contain '@'");
+		}
+		
+	}
+	
+
+
+	//TODO: add more checks and write unit tests
+	public static void validateGoogleId(String googleId) throws InvalidParametersException {
+		verifyNoLeadingAndTrailingSpaces(googleId, "Google ID");
+		verifyNotAnEmptyString(googleId, "Google ID");
+		verifyContainsNoSpaces(googleId, "Google ID");
+		
+	}
+
+	//TODO: add more checks and write unit tests
+	public static void validateCoordName(String coordName) throws InvalidParametersException {
+		verifyNoLeadingAndTrailingSpaces(coordName, "Coordinator name");
+		verifyNotAnEmptyString(coordName, "Coordinator name");
+	}
+	
+	//TODO: add more checks and write unit tests
+	public static void validateCourseId(String courseId) throws InvalidParametersException {
+		verifyContainsNoSpaces(courseId, "Course ID");
+		
+	}
+	
+	//TODO: add more checks and write unit tests
+	public static void validateCourseName(String stringToCheck) throws InvalidParametersException {
+		verifyNoLeadingAndTrailingSpaces(stringToCheck, "Course name");
+		verifyNotAnEmptyString(stringToCheck, "Course name");
+	}
+		
+	//TODO: add more checks and write unit tests
+	public static void validateComment(String comment) throws InvalidParametersException {
+		if(comment.length()>COMMENT_MAX_LENGTH){
+			throw new InvalidParametersException(ERRORCODE_STRING_TOO_LONG, "Comment cannot be longer than "+STUDENT_NAME_MAX_LENGTH);
+		}
+	}
+	
+	private static void verifyNotNull(String stringToCheck, String nameOfString) throws InvalidParametersException {
+		if(stringToCheck==null){
+			throw new InvalidParametersException(ERRORCODE_NULL_PARAMETER, stringToCheck+" cannot be null");
+		}
+		
+	}
+	
+	@SuppressWarnings("unused")
+	private void ____ASSERT_more_things_____________________________________() {
+	}
+	
+	/**
+	 * Asserts that the superstringActual contains the exact occurence of substringExpected.
+	 * Display the difference between the two on failure (in Eclipse).
+	 * @param message
+	 * @param substringExpected
+	 * @param superstringActual
+	 */
+	public static void assertContains(String substringExpected, String superstringActual){
+		if(!superstringActual.contains(substringExpected)){
+			assertEquals(substringExpected, superstringActual);
+		}
+	}
+	
+	/**
+	 * Asserts that the superstringActual contains the exact occurence of substringExpected.
+	 * Display the difference between the two on failure (in Eclipse) with the specified message.
+	 * @param message
+	 * @param substringExpected
+	 * @param superstringActual
+	 */
+	public static void assertContains(String message, String substringExpected, String superstringActual){
+		if(!superstringActual.contains(substringExpected)){
+			assertEquals(message, substringExpected, superstringActual);
+		}
+	}
+	
+	/**
+	 * Asserts that the stringActual contains the occurence regexExpected.
+	 * Replaces occurences of {*} at regexExpected to match anything in stringActual.
+	 * Tries to display the difference between the two on failure (in Eclipse).
+	 * @param message
+	 * @param regexExpected
+	 * @param stringActual
+	 */
+	public static void assertContainsRegex(String regexExpected, String stringActual){
+		String processedRegex = regexExpected.replaceAll("([()\\[.\\+?|^$])",Matcher.quoteReplacement("\\")+"$1").replaceAll("\\{\\*}", ".*");
+		if(!stringActual.matches("(?s)(?m).*"+processedRegex+".*")){
+			assertEquals(regexExpected,stringActual);
+		}
+	}
+	
+	/**
+	 * Asserts that the stringActual contains the occurence regexExpected.
+	 * Replaces occurences of {*} at regexExpected to match anything in stringActual.
+	 * Tries to display the difference between the two on failure (in Eclipse) with the specified message.
+	 * @param message
+	 * @param regexExpected
+	 * @param stringActual
+	 */
+	public static void assertContainsRegex(String message, String regexExpected, String stringActual){
+		String processedRegex = regexExpected.replaceAll("([()\\[.\\+?|^$])",Matcher.quoteReplacement("\\")+"$1").replaceAll("\\{\\*}", ".*");
+		if(!stringActual.matches("(?s)(?m).*"+processedRegex+".*")){
+			assertEquals(message,regexExpected,stringActual);
+		}
+	}
+	
+	@SuppressWarnings("unused")
+	private void ____MISC_utility_methods___________________________________() {
+	}
+	
 	/**
 	 * This creates a Gson object that can handle the Date format we use in the Json file
 	 * technique found in http://code.google.com/p/google-gson/source/browse/trunk/gson/src/test/java/com/google/gson/functional/DefaultTypeAdaptersTest.java?spec=svn327&r=327
@@ -196,151 +340,11 @@ public class Common {
 		}
 	}
 
-	//TODO: write unit tests
-	public static void validateTeamName(String teamName) throws InvalidParametersException {
-		if(teamName.length()>TEAM_NAME_MAX_LENGTH){
-			throw new InvalidParametersException(ERRORCODE_STRING_TOO_LONG, "Team name cannot be longer than "+TEAM_NAME_MAX_LENGTH);
-		}
-	}
-
-	//TODO: write unit tests
-	public static void validateStudentName(String studentName) throws InvalidParametersException {
-		if(!studentName.trim().equals(studentName)) {
-			throw new InvalidParametersException(ERRORCODE_INCORRECTLY_FORMATTED_STRING, "Student name should not have leading or trailing spaces");
-		}
-		if(studentName.equals("")){
-			throw new InvalidParametersException(ERRORCODE_EMPTY_STRING, "Student name should not be empty");
-		}
-		if(studentName.length()>STUDENT_NAME_MAX_LENGTH){
-			throw new InvalidParametersException(ERRORCODE_STRING_TOO_LONG, "Student name cannot be longer than "+STUDENT_NAME_MAX_LENGTH);
-		}
-		
-	}
-
-	//TODO: write unit tests
-	public static void validateEmail(String email) throws InvalidParametersException {
-		verifyNoLeadingAndTrailingSpaces(email, "email");
-		verifyNotAnEmptyString(email, "email");
-		if(!email.contains("@")){
-			throw new InvalidParametersException(ERRORCODE_INVALID_EMAIL, "Email address should contain '@'");
-		}
-		
-	}
-	
-	//TODO: write unit tests
-	public static void validateGoogleId(String googleId) throws InvalidParametersException {
-		verifyNoLeadingAndTrailingSpaces(googleId, "Google ID");
-		verifyNotAnEmptyString(googleId, "Google ID");
-		verifyContainsNoSpaces(googleId, "Google ID");
-		
-	}
-
-	
-	private static void verifyContainsNoSpaces(String stringToCheck, String nameOfString)
-			throws InvalidParametersException {
-		if(stringToCheck.split(" ").length>1){
-			throw new InvalidParametersException(ERRORCODE_IVALID_CHARS, nameOfString+" cannot contain spaces");
-		}
-	}
-	
-	//TODO: write unit tests
-	public static void validateCoordName(String coordName) throws InvalidParametersException {
-		verifyNoLeadingAndTrailingSpaces(coordName, "Coordinator Name");
-		verifyNotAnEmptyString(coordName, "Coordinator Name");
-	}
-	
-	private static void verifyNotAnEmptyString(String stringToCheck, String nameOfString)
-			throws InvalidParametersException {
-		if(stringToCheck.equals("")){
-			throw new InvalidParametersException(ERRORCODE_EMPTY_STRING, nameOfString+" should not be empty");
-		}
-	}
-
-	private static void verifyNoLeadingAndTrailingSpaces(String stringToCheck, String nameOfString)
-			throws InvalidParametersException {
-		if(!stringToCheck.trim().equals(stringToCheck)) {
-			throw new InvalidParametersException(ERRORCODE_INCORRECTLY_FORMATTED_STRING, nameOfString+" should not have leading or trailing spaces");
-		}
-	}
-
-	//TODO: write unit tests
-	public static String generateStringOfLength(int length) {
-		assert(length>=0);
-		StringBuilder sb = new StringBuilder();
-		for(int i=0; i<length; i++){
-			sb.append('a');
-		}
-		return sb.toString();
-	}
-
-	public static void validateCourseId(String courseId) throws InvalidParametersException {
-		if(courseId.contains(" ")){
-			throw new InvalidParametersException(ERRORCODE_INCORRECTLY_FORMATTED_STRING, "Course ID should not contain spaces");
-		}
-		
-	}
-
-	public static void validateComment(String comment) throws InvalidParametersException {
-		if(comment.length()>COMMENT_MAX_LENGTH){
-			throw new InvalidParametersException(ERRORCODE_STRING_TOO_LONG, "Comment cannot be longer than "+STUDENT_NAME_MAX_LENGTH);
-		}
-		
-	}
-	
-	/**
-	 * Asserts that the superstringActual contains the exact occurence of substringExpected.
-	 * Display the difference between the two on failure (in Eclipse).
-	 * @param message
-	 * @param substringExpected
-	 * @param superstringActual
-	 */
-	public static void assertContains(String substringExpected, String superstringActual){
-		if(!superstringActual.contains(substringExpected)){
-			assertEquals(substringExpected, superstringActual);
-		}
-	}
-	
-	/**
-	 * Asserts that the superstringActual contains the exact occurence of substringExpected.
-	 * Display the difference between the two on failure (in Eclipse) with the specified message.
-	 * @param message
-	 * @param substringExpected
-	 * @param superstringActual
-	 */
-	public static void assertContains(String message, String substringExpected, String superstringActual){
-		if(!superstringActual.contains(substringExpected)){
-			assertEquals(message, substringExpected, superstringActual);
-		}
-	}
-	
-	/**
-	 * Asserts that the stringActual contains the occurence regexExpected.
-	 * Replaces occurences of {*} at regexExpected to match anything in stringActual.
-	 * Tries to display the difference between the two on failure (in Eclipse).
-	 * @param message
-	 * @param regexExpected
-	 * @param stringActual
-	 */
-	public static void assertContainsRegex(String regexExpected, String stringActual){
-		String processedRegex = regexExpected.replaceAll("([()\\[.\\+?|^$])",Matcher.quoteReplacement("\\")+"$1").replaceAll("\\{\\*}", ".*");
-		if(!stringActual.matches("(?s)(?m).*"+processedRegex+".*")){
-			assertEquals(regexExpected,stringActual);
-		}
-	}
-	
-	/**
-	 * Asserts that the stringActual contains the occurence regexExpected.
-	 * Replaces occurences of {*} at regexExpected to match anything in stringActual.
-	 * Tries to display the difference between the two on failure (in Eclipse) with the specified message.
-	 * @param message
-	 * @param regexExpected
-	 * @param stringActual
-	 */
-	public static void assertContainsRegex(String message, String regexExpected, String stringActual){
-		String processedRegex = regexExpected.replaceAll("([()\\[.\\+?|^$])",Matcher.quoteReplacement("\\")+"$1").replaceAll("\\{\\*}", ".*");
-		if(!stringActual.matches("(?s)(?m).*"+processedRegex+".*")){
-			assertEquals(message,regexExpected,stringActual);
-		}
+	public static Date getDateOffsetToCurrentTime(int offsetDays) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(cal.getTime());
+		cal.add(Calendar.DATE, +offsetDays);
+		return cal.getTime();
 	}
 	
 	/**
@@ -371,10 +375,40 @@ public class Common {
 		return string.trim().isEmpty();
 	}
 	
-	public static Date getDateOffsetToCurrentTime(int offsetDays) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(cal.getTime());
-		cal.add(Calendar.DATE, +offsetDays);
-		return cal.getTime();
+	//TODO: write unit tests
+	public static String generateStringOfLength(int length) {
+		assert(length>=0);
+		StringBuilder sb = new StringBuilder();
+		for(int i=0; i<length; i++){
+			sb.append('a');
+		}
+		return sb.toString();
 	}
+	
+	@SuppressWarnings("unused")
+	private void ____PRIVATE_helper_methods_________________________________() {
+	}
+	
+	private static void verifyContainsNoSpaces(String stringToCheck, String nameOfString)
+			throws InvalidParametersException {
+		if(stringToCheck.split(" ").length>1){
+			throw new InvalidParametersException(ERRORCODE_INVALID_CHARS, nameOfString+" cannot contain spaces");
+		}
+	}
+
+	private static void verifyNotAnEmptyString(String stringToCheck, String nameOfString)
+			throws InvalidParametersException {
+		if(stringToCheck.equals("")){
+			throw new InvalidParametersException(ERRORCODE_EMPTY_STRING, nameOfString+" should not be empty");
+		}
+	}
+
+	private static void verifyNoLeadingAndTrailingSpaces(String stringToCheck, String nameOfString)
+			throws InvalidParametersException {
+		if(!stringToCheck.trim().equals(stringToCheck)) {
+			throw new InvalidParametersException(ERRORCODE_LEADING_OR_TRAILING_SPACES, nameOfString+" should not have leading or trailing spaces");
+		}
+	}
+	
+
 }

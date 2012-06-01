@@ -47,7 +47,7 @@ public class StudentTest extends BaseTestCase{
 
 		//invalid courseId
 		verifyExceptionForStudentCreation("invalid coursId [has a space]",
-				"team|name|e@e.com|c", "Cours Id with space", Common.ERRORCODE_INCORRECTLY_FORMATTED_STRING);
+				"team|name|e@e.com|c", "Cours Id with space", Common.ERRORCODE_INVALID_CHARS);
 		
 		// wrong number of parameters in the line
 		verifyExceptionForStudentCreation("only one parameters", "a",
