@@ -8,7 +8,7 @@
 	// See if user is logged in, if not we redirect them to the login page
 	Accounts accounts = Accounts.inst();
 	if (accounts.getUser() == null) {
-		response.sendRedirect( accounts.getLoginPage("/coordinator.jsp") );
+		response.sendRedirect( accounts.getLoginPage("/coordCourse.jsp") );
 		return ;
 	}
 	
@@ -70,7 +70,7 @@
 	%>
 	<p>
 		You are not authorized to view this page. <br /> <br />
-		<a href="javascript:logout();">Logout and return to main page.</a>
+		<a href="logout.jsp">Logout and return to main page.</a>
 	</p>
 	<%	} else { // AUTHENTICATED USER %>
 
@@ -153,7 +153,7 @@
 						for(idx=0; idx<summary.length; idx++){
 							CourseSummaryForCoordinator course = summary[idx];
 					%>
-						<tr>
+						<tr class='courses_row'>
 							<td id='courseID<%= idx %>'><%= course.ID %></td>
 							<td id='courseName<%= idx %>'><%= course.name %></td>
 							<td class='t_course_teams centeralign'><%= course.numberOfTeams %></td>

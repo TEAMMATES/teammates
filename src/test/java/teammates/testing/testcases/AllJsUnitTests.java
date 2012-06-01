@@ -24,8 +24,6 @@ public class AllJsUnitTests extends BaseTestCase{
 		bi = BrowserInstancePool.getBrowserInstance();
 	}
 
-	
-
 	@Test
 	public void executeJsTests() throws IOException {
 		 

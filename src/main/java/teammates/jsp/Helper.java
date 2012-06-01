@@ -120,9 +120,9 @@ public class Helper {
 	 * @return
 	 */
 	public static String getStatusForEval(EvaluationDetailsForCoordinator eval){
-		if(eval.getStart().after(new Date())) return Common.EVALUATION_STATUS_AWAITING;
-		if(eval.getDeadline().after(new Date())) return Common.EVALUATION_STATUS_OPEN;
-		if(!eval.isPublished())	return Common.EVALUATION_STATUS_CLOSED;
+		if(eval.start.after(new Date())) return Common.EVALUATION_STATUS_AWAITING;
+		if(eval.deadline.after(new Date())) return Common.EVALUATION_STATUS_OPEN;
+		if(!eval.published)	return Common.EVALUATION_STATUS_CLOSED;
 		return Common.EVALUATION_STATUS_PUBLISHED;
 	}
 	
@@ -178,41 +178,41 @@ public class Helper {
 		
 		result.append(
 			"<a class='t_eval_view' name='viewEvaluation" + position + "' id='viewEvaluation"+ position + "' " +
-			"href='" + getEvaluationViewLink(eval.getCourseID(),eval.getName()) + "' " +
+			"href='" + getEvaluationViewLink(eval.courseID,eval.name) + "' " +
 			"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_VIEW+"\")' "+
 			"onmouseout='hideddrivetip()'" + (hasView ? "" : disabled) + ">View Results</a>"
 		);
 		result.append(
 			"<a class='t_eval_edit' name='editEvaluation" + position + "' id='editEvaluation" + position + "' " +
-			"href='" + getEvaluationEditLink(eval.getCourseID(),eval.getName()) + "' " +
-			"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_EDIT+"\") onmouseout='hideddrivetip()' " +
+			"href='" + getEvaluationEditLink(eval.courseID,eval.name) + "' " +
+			"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_EDIT+"\")' onmouseout='hideddrivetip()' " +
 			(hasEdit ? "" : disabled) + ">Edit</a>"
 		);
 		result.append(
 			"<a class='t_eval_delete' name='deleteEvaluation" + position + "' id='deleteEvaluation" + position + "' " +
-			"href='" + getEvaluationDeleteLink(eval.getCourseID(),eval.getName(),(isHome ? "coordHome.jsp" : "coordEval.jsp")) + "' " +
-			"onclick='hideddrivetip(); return toggleDeleteEvaluationConfirmation(\"" + eval.getCourseID() + "\",\"" + eval.getName() + "\");' " +
+			"href='" + getEvaluationDeleteLink(eval.courseID,eval.name,(isHome ? "coordHome.jsp" : "coordEval.jsp")) + "' " +
+			"onclick='hideddrivetip(); return toggleDeleteEvaluationConfirmation(\"" + eval.courseID + "\",\"" + eval.name + "\");' " +
 			"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_DELETE+"\")' onmouseout='hideddrivetip()'>Delete</a>"
 		);
 		result.append(
 			"<a class='t_eval_remind' name='remindEvaluation" + position + "' id='remindEvaluation" + position + "' " +
-			"href='javascript: hideddrivetip(); toggleRemindStudents(\"" + eval.getCourseID() + "\",\"" + eval.getName() + "\");' " +
+			"href='javascript: hideddrivetip(); toggleRemindStudents(\"" + eval.courseID + "\",\"" + eval.name + "\");' " +
 			"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_REMIND+"\")' " +
 			"onmouseout='hideddrivetip()'" + (hasRemind ? "" : disabled) + ">Remind</a>"
 		);
 		if (hasUnpublish) {
 			result.append(
 				"<a class='t_eval_unpublish' name='publishEvaluation" + position + "' id='publishEvaluation" + position + "' " +
-				"href='javascript: hideddrivetip(); togglePublishEvaluation(\"" + eval.getCourseID() + "\",\"" +
-				eval.getName() + "\"," + false + "," + (isHome ? "\"coordHome.jsp\"" : "\"coordEval.jsp\"") + ");' " +
+				"href='javascript: hideddrivetip(); togglePublishEvaluation(\"" + eval.courseID + "\",\"" +
+				eval.name + "\"," + false + "," + (isHome ? "\"coordHome.jsp\"" : "\"coordEval.jsp\"") + ");' " +
 				"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_UNPUBLISH+"\")' onmouseout='hideddrivetip()'>" +
 				"Unpublish</a>"
 			);
 		} else {
 			result.append(
 				"<a class='t_eval_publish' name='unpublishEvaluation" + position + "' id='publishEvaluation" + position + "' " +
-				"href='javascript: hideddrivetip(); togglePublishEvaluation(\"" + eval.getCourseID() + "\",\"" +
-				eval.getName() + "\"," + true + "," + (isHome ? "\"coordHome.jsp\"" : "\"coordEval.jsp\"") + ");' " +
+				"href='javascript: hideddrivetip(); togglePublishEvaluation(\"" + eval.courseID + "\",\"" +
+				eval.name + "\"," + true + "," + (isHome ? "\"coordHome.jsp\"" : "\"coordEval.jsp\"") + ");' " +
 				"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_PUBLISH+"\")' " +
 				"onmouseout='hideddrivetip()'" + (hasPublish ? "" : disabled) + ">Publish</a>"
 			);

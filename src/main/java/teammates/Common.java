@@ -2,14 +2,13 @@ package teammates;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.regex.Matcher;
+import java.util.Scanner;
 
 import teammates.exception.InvalidParametersException;
 
@@ -27,7 +26,6 @@ public class Common {
 	public static final double UNINITIALIZED_DOUBLE = -9999.0;
 	public final static String ENCODING = "UTF8";
 	public final static String VERSION = "4.17.02";
-	public final static int BUFFER_SIZE = 1024*10;
 	public final static String TEST_DATA_FOLDER = "src/test/resources/data/";
 	public final static String TEST_PAGES_FOLDER = "src/test/resources/pages/";
 	
@@ -240,6 +238,7 @@ public class Common {
 		return sb.toString();
 	}
 
+	// TODO Finish this method and write test
 	public static void validateCourseId(String courseId) throws InvalidParametersException {
 		if(courseId.contains(" ")){
 			throw new InvalidParametersException(ERRORCODE_INCORRECTLY_FORMATTED_STRING, "Course ID should not contain spaces");
@@ -247,6 +246,7 @@ public class Common {
 		
 	}
 
+	// TODO Finish this method and write test
 	public static void validateComment(String comment) throws InvalidParametersException {
 		if(comment.length()>COMMENT_MAX_LENGTH){
 			throw new InvalidParametersException(ERRORCODE_STRING_TOO_LONG, "Comment cannot be longer than "+STUDENT_NAME_MAX_LENGTH);
@@ -289,7 +289,7 @@ public class Common {
 	 * @param stringActual
 	 */
 	public static void assertContainsRegex(String regexExpected, String stringActual){
-		String processedRegex = regexExpected.replaceAll("([()\\[.\\+?|^$])",Matcher.quoteReplacement("\\")+"$1").replaceAll("\\{\\*}", ".*");
+		String processedRegex = regexExpected.replaceAll("([()\\[.\\+?|^$])","\\\\$1").replaceAll("\\{\\*}", ".*");
 		if(!stringActual.matches("(?s)(?m).*"+processedRegex+".*")){
 			assertEquals(regexExpected,stringActual);
 		}
@@ -304,34 +304,25 @@ public class Common {
 	 * @param stringActual
 	 */
 	public static void assertContainsRegex(String message, String regexExpected, String stringActual){
-		String processedRegex = regexExpected.replaceAll("([()\\[.\\+?|^$])",Matcher.quoteReplacement("\\")+"$1").replaceAll("\\{\\*}", ".*");
+		String processedRegex = regexExpected.replaceAll("([()\\[.\\+?|^$])","\\\\$1").replaceAll("\\{\\*}", ".*");
 		if(!stringActual.matches("(?s)(?m).*"+processedRegex+".*")){
 			assertEquals(message,regexExpected,stringActual);
 		}
 	}
 	
 	/**
-	 * Reads from the reader and write it using the writer object.
-	 * To get a string from the file, pass a {@link java.io.StringWriter} object as the writer.<br />
-	 * Example:
-	 * <pre>
-	 * StringWriter wr = new StringWriter();
-	 * FileReader rd = new FileReader("README.txt");
-	 * readFile(rd,wr);
-	 * String result = wr.toString();
-	 * </pre>
-	 * @param reader
-	 * @param writer
+	 * Read a file content and return a String
+	 * @param filename
+	 * @return
 	 */
-	public static void readAndWrite(Reader reader, Writer writer){
-		try{
-			char[] tmp = new char[Common.BUFFER_SIZE];
-			int read = 0;
-			while((read = reader.read(tmp))>0) writer.write(tmp,0,read);
-			reader.close();
-		} catch (IOException e){
-			
+	public static String getFileContents(String filename) {
+		try {
+			String ans = new Scanner(new FileReader(filename)).useDelimiter("\\Z").next();
+			return ans;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
+		return "";
 	}
 
 	public static boolean isWhiteSpace(String string) {
