@@ -1168,16 +1168,31 @@ public class APIServlet extends HttpServlet {
 	}
 
 	public Student getStudent(String courseId, String email) {
+		if (courseId == null || email == null) {
+			return null;
+		}
 		return Accounts.inst().getStudent(courseId, email);
 	}
 
 	public void editStudent(String originalEmail, Student student)
 			throws InvalidParametersException {
 		// TODO: make the implementation more defensive
+		String newTeamName = student.getTeamName();
 		Courses.inst().editStudent(student.getCourseID(), originalEmail,
 				student.getName(), student.getTeamName(), student.getEmail(),
 				student.getID(), student.getComments(),
 				student.getProfileDetail());
+		if (TeamForming.inst().getTeamProfile(student.getCourseID(),
+				student.getTeamName()) == null) {
+			try {
+				TeamForming.inst().createTeamProfile(
+						new TeamProfile(student.getCourseID(), "", newTeamName,
+								new Text("")));
+			} catch (EntityAlreadyExistsException e) {
+				log.severe("EntityAlreadyExistsException thrown in "
+						+ this.getClass().getCanonicalName() + ":editStudent()");
+			}
+		}
 	}
 
 	public void deleteStudent(String courseId, String studentEmail) {
