@@ -38,7 +38,6 @@ import teammates.jdo.TeamFormingLog;
 import teammates.jdo.TeamFormingSession;
 import teammates.jdo.TeamProfile;
 import teammates.testing.lib.SharedLib;
-import teammates.testing.lib.TMAPI;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.taskqueue.dev.LocalTaskQueue;
