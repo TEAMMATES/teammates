@@ -29,7 +29,6 @@ import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.InvalidParametersException;
 import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.EvaluationDetailsForCoordinator;
-import teammates.jdo.TeamFormingLog;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.taskqueue.dev.LocalTaskQueue;
@@ -1167,8 +1166,8 @@ public class APIServletTest extends BaseTestCase {
 			verifyPresentInDatastore(expectedTeamProfile);
 		}
 
-		HashMap<String, TeamFormingLog> teamFormingLogs = data.teamFormingLogs;
-		for (TeamFormingLog expectedTeamFormingLogEntry : teamFormingLogs
+		HashMap<String, StudentActionData> teamFormingLogs = data.studentActions;
+		for (StudentActionData expectedTeamFormingLogEntry : teamFormingLogs
 				.values()) {
 			verifyPresentInDatastore(expectedTeamFormingLogEntry);
 		}
@@ -1214,10 +1213,10 @@ public class APIServletTest extends BaseTestCase {
 
 	private void verifyAbsenceOfTfsLogsForStudent(String courseId,
 			String studentEmail) {
-		List<TeamFormingLog> teamFormingLogs = apiServlet
-				.getTeamFormingLog(courseId);
-		for (TeamFormingLog tfl : teamFormingLogs) {
-			String actualEmail = tfl.getStudentEmail();
+		List<StudentActionData> teamFormingLogs = apiServlet
+				.getStudentActions(courseId);
+		for (StudentActionData tfl : teamFormingLogs) {
+			String actualEmail = tfl.email;
 			assertTrue("unexpected email:" + actualEmail,
 					!actualEmail.equals(studentEmail));
 		}
@@ -1226,10 +1225,10 @@ public class APIServletTest extends BaseTestCase {
 
 	private void verifyPresenceOfTfsLogsForStudent(String courseId,
 			String studentEmail) {
-		List<TeamFormingLog> teamFormingLogs = apiServlet
-				.getTeamFormingLog(courseId);
-		for (TeamFormingLog tfl : teamFormingLogs) {
-			if (tfl.getStudentEmail().equals(studentEmail))
+		List<StudentActionData> teamFormingLogs = apiServlet
+				.getStudentActions(courseId);
+		for (StudentActionData tfl : teamFormingLogs) {
+			if (tfl.email.equals(studentEmail))
 				return;
 		}
 		Assert.fail("No log messages found for " + studentEmail + " in "
@@ -1250,9 +1249,9 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
-	private void verifyPresentInDatastore(TeamFormingLog expected) {
-		List<TeamFormingLog> actualList = apiServlet.getTeamFormingLog(expected
-				.getCourseID());
+	private void verifyPresentInDatastore(StudentActionData expected) {
+		List<StudentActionData> actualList = apiServlet.getStudentActions(expected
+				.course);
 		assertTrue(isLogEntryInList(expected, actualList));
 	}
 
@@ -1293,19 +1292,19 @@ public class APIServletTest extends BaseTestCase {
 		apiServlet.persistNewDataBundle(data);
 	}
 
-	private boolean isLogEntryInList(TeamFormingLog teamFormingLogEntry,
-			List<TeamFormingLog> teamFormingLogEntryList) {
-		for (TeamFormingLog logEntryInList : teamFormingLogEntryList) {
-			if (teamFormingLogEntry.getCourseID().equals(
-					logEntryInList.getCourseID())
-					&& teamFormingLogEntry.getMessage().getValue()
-							.equals(logEntryInList.getMessage().getValue())
-					&& teamFormingLogEntry.getStudentEmail().equals(
-							logEntryInList.getStudentEmail())
-					&& teamFormingLogEntry.getStudentName().equals(
-							logEntryInList.getStudentName())
-					&& teamFormingLogEntry.getTime().toString()
-							.equals(logEntryInList.getTime().toString())) {
+	private boolean isLogEntryInList(StudentActionData teamFormingLogEntry,
+			List<StudentActionData> teamFormingLogEntryList) {
+		for (StudentActionData logEntryInList : teamFormingLogEntryList) {
+			if (teamFormingLogEntry.course.equals(
+					logEntryInList.course)
+					&& teamFormingLogEntry.action.getValue()
+							.equals(logEntryInList.action.getValue())
+					&& teamFormingLogEntry.email.equals(
+							logEntryInList.email)
+					&& teamFormingLogEntry.name.equals(
+							logEntryInList.name)
+					&& teamFormingLogEntry.time.toString()
+							.equals(logEntryInList.time.toString())) {
 				return true;
 			}
 		}

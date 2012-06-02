@@ -207,7 +207,7 @@ public class APIServlet extends HttpServlet {
 			deleteStudent(courseId, email);
 		} else if (action.equals(OPERATION_DELETE_TEAM_FORMING_LOG)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			deleteTeamFormingLog(courseId);
+			deleteStudentActions(courseId);
 		} else if (action.equals(OPERATION_DELETE_TEAM_PROFILE)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String teamName = req.getParameter(PARAMETER_TEAM_NAME);
@@ -819,7 +819,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	private String getTeamFormingLogAsJson(String courseId) {
-		List<TeamFormingLog> teamFormingLogList = getTeamFormingLog(courseId);
+		List<StudentActionData> teamFormingLogList = getStudentActions(courseId);
 		return Common.getTeammatesGson().toJson(teamFormingLogList);
 	}
 
@@ -972,12 +972,12 @@ public class APIServlet extends HttpServlet {
 			createTeamProfile(teamProfile);
 		}
 
-		HashMap<String, TeamFormingLog> teamFormingLogs = dataBundle.teamFormingLogs;
-		for (TeamFormingLog teamFormingLog : teamFormingLogs.values()) {
-			log.info("API Servlet adding TeamFormingLog in course "
-					+ teamFormingLog.getCourseID() + " : "
-					+ teamFormingLog.getMessage().getValue());
-			createTeamFormingLogEntry(teamFormingLog);
+		HashMap<String, StudentActionData> studentActions = dataBundle.studentActions;
+		for (StudentActionData studentAction : studentActions.values()) {
+			log.info("API Servlet adding StudentActionData in course "
+					+ studentAction.course + " : "
+					+ studentAction.action.getValue());
+			createStudentAction(studentAction);
 		}
 
 		return Common.BACKEND_STATUS_SUCCESS;
@@ -1396,25 +1396,30 @@ public class APIServlet extends HttpServlet {
 	}
 
 	@SuppressWarnings("unused")
-	private void ____TEAM_FORMING_LOG_level_methods_________________________() {
+	private void ____STUDENT_ACTION_level_methods_________________________() {
 	}
 
-	public void createTeamFormingLogEntry(TeamFormingLog teamFormingLog)
+	public void createStudentAction(StudentActionData studentAction)
 			throws InvalidParametersException {
-		TeamForming.inst().createTeamFormingLogEntry(teamFormingLog);
+		TeamForming.inst().createTeamFormingLogEntry(studentAction.toTeamFormingLog());
 	}
 
-	public List<TeamFormingLog> getTeamFormingLog(String courseId) {
-		return TeamForming.inst().getTeamFormingLogList(courseId);
+	public List<StudentActionData> getStudentActions(String courseId) {
+		List<TeamFormingLog> actionList = TeamForming.inst().getTeamFormingLogList(courseId);
+		ArrayList<StudentActionData> returnList = new ArrayList<StudentActionData>();
+		for(TeamFormingLog tfl: actionList){
+			returnList.add(new StudentActionData(tfl));
+		}
+		return returnList;
 	}
 
-	public void editTeamFormingLogEntry(TeamFormingLog tfl)
+	public void editStudentAction(StudentActionData tfl)
 			throws NotImplementedException {
 		throw new NotImplementedException(
 				"Not implemented because there is no need to " + "edit logs");
 	}
 
-	public void deleteTeamFormingLog(String courseId) {
+	public void deleteStudentActions(String courseId) {
 		TeamForming.inst().deleteTeamFormingLog(courseId);
 	}
 

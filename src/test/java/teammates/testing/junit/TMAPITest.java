@@ -16,7 +16,6 @@ import teammates.Common;
 import teammates.DataBundle;
 import teammates.datatransfer.*;
 import teammates.exception.InvalidParametersException;
-import teammates.jdo.TeamFormingLog;
 import teammates.testing.lib.SharedLib;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.testcases.BaseTestCase;
@@ -107,17 +106,17 @@ public class TMAPITest extends BaseTestCase{
 		// ----------deleting TeamFormingLog entities-------------------------
 	
 		// delete TeamFormingLog of one course and verify it is deleted
-		TeamFormingLog tfsLogMessage1ForTfsInCourse1 = dataBundle.teamFormingLogs
+		StudentActionData tfsLogMessage1ForTfsInCourse1 = dataBundle.studentActions
 				.get("tfsLogMessage1ForTfsInCourse1");
 		verifyPresentInDatastore(tfsLogMessage1ForTfsInCourse1);
 		status = TMAPI.deleteTeamFormingLog(tfsLogMessage1ForTfsInCourse1
-				.getCourseID());
+				.course);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyTeamFormingLogEmptyInDatastore(tfsLogMessage1ForTfsInCourse1);
 	
 		// try to delete it again, the operation should succeed
 		status = TMAPI.deleteTeamFormingLog(tfsLogMessage1ForTfsInCourse1
-				.getCourseID());
+				.course);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 	
 		// ----------deleting Evaluation entities-------------------------
@@ -176,7 +175,7 @@ public class TMAPITest extends BaseTestCase{
 		verifyAbsentInDatastore(tfsInCourse2);
 		
 		//check if related TeamFormingLog entities are also deleted
-		TeamFormingLog tfsLogMessage1ForTfsInCourse2 = dataBundle.teamFormingLogs
+		StudentActionData tfsLogMessage1ForTfsInCourse2 = dataBundle.studentActions
 				.get("tfsLogMessage1ForTfsInCourse2");
 		verifyTeamFormingLogEmptyInDatastore(tfsLogMessage1ForTfsInCourse2);
 	}
@@ -644,17 +643,17 @@ public class TMAPITest extends BaseTestCase{
 		assertEquals("team profile of Team 1.1", profileOfTeam1_1
 				.profile.getValue());
 	
-		TeamFormingLog tfsLogMessageForTfsInCourse1 = data.teamFormingLogs
+		StudentActionData tfsLogMessageForTfsInCourse1 = data.studentActions
 				.get("tfsLogMessage1ForTfsInCourse1");
-		assertEquals("idOfCourse1OfCoord1", tfsLogMessageForTfsInCourse1.getCourseID());
+		assertEquals("idOfCourse1OfCoord1", tfsLogMessageForTfsInCourse1.course);
 		assertEquals("student1 In Course1",
-				tfsLogMessageForTfsInCourse1.getStudentName());
+				tfsLogMessageForTfsInCourse1.name);
 		assertEquals("student1InCourse1@gmail.com",
-				tfsLogMessageForTfsInCourse1.getStudentEmail());
+				tfsLogMessageForTfsInCourse1.email);
 		assertEquals("Sun Jan 01 01:01:00 SGT 2012",
-				tfsLogMessageForTfsInCourse1.getTime().toString());
+				tfsLogMessageForTfsInCourse1.time.toString());
 		assertEquals("log message 1 of course1, student1InCourse1@gmail.com",
-				tfsLogMessageForTfsInCourse1.getMessage().getValue());
+				tfsLogMessageForTfsInCourse1.action.getValue());
 	}
 
 	//============================helper methods==============================
@@ -693,10 +692,10 @@ public class TMAPITest extends BaseTestCase{
 	}
 
 	private void verifyTeamFormingLogEmptyInDatastore(
-			TeamFormingLog tfsLogMessage1ForTfsInCourse1) {
+			StudentActionData tfsLogMessage1ForTfsInCourse1) {
 		assertEquals("[]",
 				TMAPI.getTeamFormingLogAsJason(tfsLogMessage1ForTfsInCourse1
-						.getCourseID()));
+						.course));
 	}
 
 	private void verifyAbsentInDatastore(
@@ -746,8 +745,8 @@ public class TMAPITest extends BaseTestCase{
 			verifyPresentInDatastore(expectedTeamProfile);
 		}
 
-		HashMap<String, TeamFormingLog> teamFormingLogs = data.teamFormingLogs;
-		for (TeamFormingLog expectedTeamFormingLogEntry : teamFormingLogs
+		HashMap<String, StudentActionData> teamFormingLogs = data.studentActions;
+		for (StudentActionData expectedTeamFormingLogEntry : teamFormingLogs
 				.values()) {
 			verifyPresentInDatastore(expectedTeamFormingLogEntry);
 		}
@@ -803,13 +802,13 @@ public class TMAPITest extends BaseTestCase{
 		assertEquals(gson.toJson(expectedCourse), gson.toJson(actualCourse));
 	}
 
-	private void verifyPresentInDatastore(TeamFormingLog expectedTeamFormingLogEntry) {
+	private void verifyPresentInDatastore(StudentActionData expectedTeamFormingLogEntry) {
 		String teamFormingLogJsonString = TMAPI
 				.getTeamFormingLogAsJason(expectedTeamFormingLogEntry
-						.getCourseID());
-		Type collectionType = new TypeToken<ArrayList<TeamFormingLog>>() {
+						.course);
+		Type collectionType = new TypeToken<ArrayList<StudentActionData>>() {
 		}.getType();
-		ArrayList<TeamFormingLog> actualTeamFormingLogsForCourse = gson
+		ArrayList<StudentActionData> actualTeamFormingLogsForCourse = gson
 				.fromJson(teamFormingLogJsonString, collectionType);
 		String errorMessage = gson.toJson(expectedTeamFormingLogEntry)
 				+ "\n--> was not found in -->\n"
@@ -843,19 +842,19 @@ public class TMAPITest extends BaseTestCase{
 		assertEquals("null", TMAPI.getCoordAsJason(expectedCoord.id));
 	}
 
-	private boolean isLogEntryInList(TeamFormingLog teamFormingLogEntry,
-			ArrayList<TeamFormingLog> teamFormingLogEntryList) {
-		for (TeamFormingLog logEntryInList : teamFormingLogEntryList) {
-			if (teamFormingLogEntry.getCourseID().equals(
-					logEntryInList.getCourseID())
-					&& teamFormingLogEntry.getMessage().getValue()
-							.equals(logEntryInList.getMessage().getValue())
-					&& teamFormingLogEntry.getStudentEmail().equals(
-							logEntryInList.getStudentEmail())
-					&& teamFormingLogEntry.getStudentName().equals(
-							logEntryInList.getStudentName())
-					&& teamFormingLogEntry.getTime().toString()
-							.equals(logEntryInList.getTime().toString())) {
+	private boolean isLogEntryInList(StudentActionData teamFormingLogEntry,
+			ArrayList<StudentActionData> teamFormingLogEntryList) {
+		for (StudentActionData logEntryInList : teamFormingLogEntryList) {
+			if (teamFormingLogEntry.course.equals(
+					logEntryInList.course)
+					&& teamFormingLogEntry.action.getValue()
+							.equals(logEntryInList.action.getValue())
+					&& teamFormingLogEntry.email.equals(
+							logEntryInList.email)
+					&& teamFormingLogEntry.name.equals(
+							logEntryInList.name)
+					&& teamFormingLogEntry.time.toString()
+							.equals(logEntryInList.time.toString())) {
 				return true;
 			}
 		}

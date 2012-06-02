@@ -209,34 +209,34 @@
     }
   },
   
-  "teamFormingLogs" : {
+  "studentActions" : {
     "tfsLogMessage1ForTfsInCourse1" : {
-      "courseid" : "idOfCourse1OfCoord1",
+      "course" : "idOfCourse1OfCoord1",
       "time" : "2012-01-01 01:01 AM",
-      "studentname" : "student1 In Course1",
-      "studentemail" : "student1InCourse1@gmail.com",
-      "message" :  {"value" :"log message 1 of course1, student1InCourse1@gmail.com"}
+      "name" : "student1 In Course1",
+      "email" : "student1InCourse1@gmail.com",
+      "action" :  {"value" :"log message 1 of course1, student1InCourse1@gmail.com"}
     },    
     "tfsLogMessage2ForTfsInCourse1" : {
-      "courseid" : "idOfCourse1OfCoord1",
+      "course" : "idOfCourse1OfCoord1",
       "time" : "2012-02-02 02:02 AM",
-      "studentname" : "student2 In Course1",
-      "studentemail" : "student2InCourse1@gmail.com",
-      "message" :  {"value" :"log message 2 of course1, student2InCourse1@gmail.com"}
+      "name" : "student2 In Course1",
+      "email" : "student2InCourse1@gmail.com",
+      "action" :  {"value" :"log message 2 of course1, student2InCourse1@gmail.com"}
     },    
     "tfsLogMessage1ForTfsInCourse2" : {
-      "courseid" : "idOfCourse1OfCoord2",
+      "course" : "idOfCourse1OfCoord2",
       "time" : "2012-03-03 03:03 AM",
-      "studentname" : "student1 In Course2",
-      "studentemail" : "student1InCourse2@gmail.com",
-      "message" :  {"value" :"log message 1 of course2, student1InCourse2@gmail.com"}
+      "name" : "student1 In Course2",
+      "email" : "student1InCourse2@gmail.com",
+      "action" :  {"value" :"log message 1 of course2, student1InCourse2@gmail.com"}
     },    
     "tfsLogMessage1ForTfsInCourse3" : {
-      "courseid" : "idOfCourse2OfCoord2",
+      "course" : "idOfCourse2OfCoord2",
       "time" : "2012-03-03 03:03 AM",
-      "studentname" : "student1 In Course3",
-      "studentemail" : "student1InCourse3@gmail.com",
-      "message" :  {"value" :"log message 1 of course3, student1InCourse3@gmail.com"}
+      "name" : "student1 In Course3",
+      "email" : "student1InCourse3@gmail.com",
+      "action" :  {"value" :"log message 1 of course3, student1InCourse3@gmail.com"}
     }
   }   
 

@@ -17,5 +17,5 @@ public class DataBundle {
 	public HashMap<String, SubmissionData> submissions = new HashMap<String, SubmissionData>();
 	public HashMap<String, TfsData> teamFormingSessions = new HashMap<String, TfsData>();
 	public HashMap<String, TeamProfileData> teamProfiles = new HashMap<String, TeamProfileData>();
-	public HashMap<String, TeamFormingLog> teamFormingLogs = new HashMap<String, TeamFormingLog>();
+	public HashMap<String, StudentActionData> studentActions = new HashMap<String, StudentActionData>();
 }
