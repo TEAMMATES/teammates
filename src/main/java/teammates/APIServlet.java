@@ -22,10 +22,10 @@ import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
 import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.EnrollmentReport;
-import teammates.jdo.Evaluation;
 import teammates.jdo.EvaluationDetailsForCoordinator;
 import teammates.jdo.Student;
 import teammates.jdo.Submission;
+import teammates.jdo.Evaluation;
 import teammates.jdo.TeamFormingLog;
 import teammates.jdo.TeamFormingSession;
 import teammates.jdo.TeamProfile;
@@ -363,6 +363,8 @@ public class APIServlet extends HttpServlet {
 
 		Gson gson = new Gson();
 		Evaluation e = gson.fromJson(json, Evaluation.class);
+		
+		
 
 		boolean edited = Evaluations.inst().addEvaluation(e);
 
@@ -795,7 +797,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	private String getEvaluationAsJson(String courseId, String evaluationName) {
-		Evaluation evaluation = getEvaluation(courseId, evaluationName);
+		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
 		return Common.getTeammatesGson().toJson(evaluation);
 	}
 
@@ -834,8 +836,8 @@ public class APIServlet extends HttpServlet {
 
 	private void editEvaluationAsJson(String evaluationJson)
 			throws InvalidParametersException, EntityDoesNotExistException {
-		Evaluation evaluation = Common.getTeammatesGson().fromJson(
-				evaluationJson, Evaluation.class);
+		EvaluationData evaluation = Common.getTeammatesGson().fromJson(
+				evaluationJson, EvaluationData.class);
 		editEvaluation(evaluation);
 	}
 
@@ -930,10 +932,10 @@ public class APIServlet extends HttpServlet {
 			createStudent(student);
 		}
 
-		HashMap<String, Evaluation> evaluations = dataBundle.evaluations;
-		for (Evaluation evaluation : evaluations.values()) {
-			log.info("API Servlet adding evaluation :" + evaluation.getName()
-					+ " to course " + evaluation.getCourseID());
+		HashMap<String, EvaluationData> evaluations = dataBundle.evaluations;
+		for (EvaluationData evaluation : evaluations.values()) {
+			log.info("API Servlet adding evaluation :" + evaluation.name
+					+ " to course " + evaluation.courseId);
 			createEvalution(evaluation);
 		}
 
@@ -995,7 +997,7 @@ public class APIServlet extends HttpServlet {
 			new CoordData(coord.getGoogleID(), coord.getName(), coord.getEmail()));
 	}
 
-	public void editCoord(Coordinator coord) throws NotImplementedException {
+	public void editCoord(CoordData coord) throws NotImplementedException {
 		throw new NotImplementedException("Not implemented because we do "
 				+ "not allow editing coordinators");
 	}
@@ -1085,7 +1087,7 @@ public class APIServlet extends HttpServlet {
 		return (c==null? null :new CourseData(c.getID(), c.getName(), c.getCoordinatorID()));
 	}
 
-	public void editCourse(Course course) throws NotImplementedException {
+	public void editCourse(CourseData course) throws NotImplementedException {
 		throw new NotImplementedException("Not implemented because we do "
 				+ "not allow editing courses");
 	}
@@ -1257,23 +1259,24 @@ public class APIServlet extends HttpServlet {
 	private void ____EVALUATIONS_level_methods______________________________() {
 	}
 
-	public void createEvalution(Evaluation evaluation)
+	public void createEvalution(EvaluationData evaluation)
 			throws EntityAlreadyExistsException, InvalidParametersException {
-		Evaluations.inst().addEvaluation(evaluation);
+		Evaluations.inst().addEvaluation(evaluation.toEvaluation());
 	}
 
-	public Evaluation getEvaluation(String courseId, String evaluationName) {
-		return Evaluations.inst().getEvaluation(courseId, evaluationName);
+	public EvaluationData getEvaluation(String courseId, String evaluationName) {
+		Evaluation e = Evaluations.inst().getEvaluation(courseId, evaluationName);
+		return (e==null? null:new EvaluationData(e));
 	}
 
-	public void editEvaluation(Evaluation evaluation)
+	public void editEvaluation(EvaluationData evaluation)
 			throws EntityDoesNotExistException, InvalidParametersException {
-		Evaluations.inst().editEvaluation(evaluation.getCourseID(),
-				evaluation.getName(), evaluation.getInstructions(),
-				evaluation.isCommentsEnabled(), evaluation.getStart(),
-				evaluation.getDeadline(), evaluation.getGracePeriod(),
-				evaluation.isActivated(), evaluation.isPublished(),
-				evaluation.getTimeZone());
+		Evaluations.inst().editEvaluation(evaluation.courseId,
+				evaluation.name, evaluation.instructions,
+				evaluation.p2pEnabled, evaluation.startTime,
+				evaluation.endTime, evaluation.gracePeriod,
+				evaluation.activated, evaluation.published,
+				evaluation.timeZone);
 	}
 
 	public void deleteEvaluation(String courseId, String evaluationName) {

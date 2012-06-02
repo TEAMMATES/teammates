@@ -16,7 +16,6 @@ import teammates.Common;
 import teammates.DataBundle;
 import teammates.datatransfer.*;
 import teammates.exception.InvalidParametersException;
-import teammates.jdo.Evaluation;
 import teammates.jdo.Submission;
 import teammates.jdo.TeamFormingLog;
 import teammates.jdo.TeamFormingSession;
@@ -132,11 +131,11 @@ public class TMAPITest extends BaseTestCase{
 		verifyPresentInDatastore(subInDeletedEvaluation);
 		
 		//delete the evaluation and verify it is deleted
-		Evaluation evaluation1InCourse1 = dataBundle.evaluations
+		EvaluationData evaluation1InCourse1 = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
 		verifyPresentInDatastore(evaluation1InCourse1);
-		status = TMAPI.deleteEvaluation(evaluation1InCourse1.getCourseID(),
-				evaluation1InCourse1.getName());
+		status = TMAPI.deleteEvaluation(evaluation1InCourse1.courseId,
+				evaluation1InCourse1.name);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyAbsentInDatastore(evaluation1InCourse1);
 		
@@ -144,12 +143,12 @@ public class TMAPITest extends BaseTestCase{
 		verifyAbsentInDatastore(subInDeletedEvaluation);
 	
 		// try to delete the evaluation again, should succeed
-		status = TMAPI.deleteEvaluation(evaluation1InCourse1.getCourseID(),
-				evaluation1InCourse1.getName());
+		status = TMAPI.deleteEvaluation(evaluation1InCourse1.courseId,
+				evaluation1InCourse1.name);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		
 		//verify that the other evaluation in the same course is intact
-		Evaluation evaluation2InCourse1 = dataBundle.evaluations
+		EvaluationData evaluation2InCourse1 = dataBundle.evaluations
 				.get("evaluation2InCourse1OfCoord1");
 		verifyPresentInDatastore(evaluation2InCourse1);
 	
@@ -166,7 +165,7 @@ public class TMAPITest extends BaseTestCase{
 		verifyAbsentInDatastore(student2InCourse2);
 		
 		//check if related evaluation entities are also deleted
-		Evaluation evaluation1InCourse2 = dataBundle.evaluations.get("evaluation1InCourse1OfCoord2");
+		EvaluationData evaluation1InCourse2 = dataBundle.evaluations.get("evaluation1InCourse1OfCoord2");
 		verifyAbsentInDatastore(evaluation1InCourse2);
 		
 		//check if related team profile entities are also deleted
@@ -365,13 +364,21 @@ public class TMAPITest extends BaseTestCase{
 		//only minimal testing because this is a wrapper method for
 		//another well-tested method.
 		printTestCaseHeader();
-		Evaluation evaluation = new teammates.jdo.Evaluation("tmapit.tce.course","Eval for tmapit.tce.course", "inst.", true, Common.getDateOffsetToCurrentTime(1), Common.getDateOffsetToCurrentTime(2), 8.0, 5);
-		TMAPI.deleteEvaluation(evaluation.getCourseID(), evaluation.getName());
-		verifyAbsentInDatastore(evaluation);
-		TMAPI.createEvaluation(evaluation);
-		verifyPresentInDatastore(evaluation);
-		TMAPI.deleteEvaluation(evaluation.getCourseID(), evaluation.getName());
-		verifyAbsentInDatastore(evaluation);
+		EvaluationData e = new EvaluationData();
+		e.courseId = "tmapit.tce.course";
+		e.name = "Eval for tmapit.tce.course";
+		e.instructions = "inst.";
+		e.p2pEnabled = true;
+		e.startTime = Common.getDateOffsetToCurrentTime(1);
+		e.endTime = Common.getDateOffsetToCurrentTime(2);
+		e.timeZone = 8.0;
+		e.gracePeriod = 5;
+		TMAPI.deleteEvaluation(e.courseId, e.name);
+		verifyAbsentInDatastore(e);
+		TMAPI.createEvaluation(e);
+		verifyPresentInDatastore(e);
+		TMAPI.deleteEvaluation(e.courseId, e.name);
+		verifyAbsentInDatastore(e);
 	}
 	
 	@Test
@@ -385,24 +392,26 @@ public class TMAPITest extends BaseTestCase{
 		refreshDataInDatastore();
 		
 		//check for successful edit
-		Evaluation evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
-		evaluation.setGracePeriod(evaluation.getGracePeriod()+1);
-		evaluation.setActivated(!evaluation.isActivated());
-		evaluation.setCommentsEnabled(!evaluation.isCommentsEnabled());
-		evaluation.setStart(Common.getDateOffsetToCurrentTime(1));
-		evaluation.setDeadline(Common.getDateOffsetToCurrentTime(2));
-		evaluation.setInstructions(evaluation.getInstructions()+"x");
-		evaluation.setPublished(!evaluation.isPublished());
-		evaluation.setTimeZone(evaluation.getTimeZone()+0.5);
-		String status = TMAPI.editEvaluation(evaluation);
+		EvaluationData e = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
+		
+		e.gracePeriod = e.gracePeriod + 1;
+		e.instructions = e.instructions + "x";
+		e.p2pEnabled = (!e.p2pEnabled);
+		e.startTime = Common.getDateOffsetToCurrentTime(1);
+		e.endTime = Common.getDateOffsetToCurrentTime(2);
+		e.activated = (!e.activated);
+		e.published = (!e.published);
+		e.timeZone = e.timeZone+1.0;
+		
+		String status = TMAPI.editEvaluation(e);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-		verifyPresentInDatastore(evaluation);
+		verifyPresentInDatastore(e);
 		
 		//test for unsuccessful edit
-		evaluation.setName("non existent");
-		status = TMAPI.editEvaluation(evaluation);
+		e.name = "non existent";
+		status = TMAPI.editEvaluation(e);
 		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
-		verifyAbsentInDatastore(evaluation);
+		verifyAbsentInDatastore(e);
 	}
 	
 	@Test
@@ -571,24 +580,24 @@ public class TMAPITest extends BaseTestCase{
 		assertEquals("student2 In Course2", student2InCourse2.name);
 		assertEquals("Team 2.1", student2InCourse2.team);
 	
-		Evaluation evaluation1 = data.evaluations.get("evaluation1InCourse1OfCoord1");
-		assertEquals("evaluation1 In Course1", evaluation1.getName());
-		assertEquals("idOfCourse1OfCoord1", evaluation1.getCourseID());
+		EvaluationData evaluation1 = data.evaluations.get("evaluation1InCourse1OfCoord1");
+		assertEquals("evaluation1 In Course1", evaluation1.name);
+		assertEquals("idOfCourse1OfCoord1", evaluation1.courseId);
 		assertEquals("instructions for evaluation1InCourse1",
-				evaluation1.getInstructions());
-		assertEquals(10, evaluation1.getGracePeriod());
-		assertEquals(true, evaluation1.isCommentsEnabled());
-		assertEquals("Sun Apr 01 23:59:00 SGT 2012", evaluation1.getStart()
+				evaluation1.instructions);
+		assertEquals(10, evaluation1.gracePeriod);
+		assertEquals(true, evaluation1.p2pEnabled);
+		assertEquals("Sun Apr 01 23:59:00 SGT 2012", evaluation1.startTime
 				.toString());
-		assertEquals("Tue Apr 30 23:59:00 SGT 2013", evaluation1.getDeadline()
+		assertEquals("Tue Apr 30 23:59:00 SGT 2013", evaluation1.endTime
 				.toString());
-		assertEquals(true, evaluation1.isActivated());
-		assertEquals(false, evaluation1.isPublished());
-		assertEquals(2.0, evaluation1.getTimeZone(), 0.01);
+		assertEquals(true, evaluation1.activated);
+		assertEquals(false, evaluation1.published);
+		assertEquals(2.0, evaluation1.timeZone, 0.01);
 	
-		Evaluation evaluation2 = data.evaluations.get("evaluation2InCourse1OfCoord1");
-		assertEquals("evaluation2 In Course1", evaluation2.getName());
-		assertEquals("idOfCourse1OfCoord1", evaluation2.getCourseID());
+		EvaluationData evaluation2 = data.evaluations.get("evaluation2InCourse1OfCoord1");
+		assertEquals("evaluation2 In Course1", evaluation2.name);
+		assertEquals("idOfCourse1OfCoord1", evaluation2.courseId);
 	
 		Submission submissionFromS1C1ToS2C1 = data.submissions
 				.get("submissionFromS1C1ToS2C1");
@@ -668,10 +677,10 @@ public class TMAPITest extends BaseTestCase{
 		assertEquals("null",TMAPI.getStudentAsJason(student.courseId, student.email));
 	}
 
-	private void verifyAbsentInDatastore(Evaluation evaluation1InCourse1) {
+	private void verifyAbsentInDatastore(EvaluationData evaluation1InCourse1) {
 		assertEquals("null", TMAPI.getEvaluationAsJason(
-				evaluation1InCourse1.getCourseID(),
-				evaluation1InCourse1.getName()));
+				evaluation1InCourse1.courseId,
+				evaluation1InCourse1.name));
 	}
 
 	private void verifyAbsentInDatastore(Submission subInDeletedEvaluation) {
@@ -720,8 +729,8 @@ public class TMAPITest extends BaseTestCase{
 			verifyPresentInDatastore(expectedStudent);
 		}
 
-		HashMap<String, Evaluation> evaluations = data.evaluations;
-		for (Evaluation expectedEvaluation : evaluations.values()) {
+		HashMap<String, EvaluationData> evaluations = data.evaluations;
+		for (EvaluationData expectedEvaluation : evaluations.values()) {
 			verifyPresentInDatastore(expectedEvaluation);
 		}
 
@@ -776,15 +785,14 @@ public class TMAPITest extends BaseTestCase{
 				gson.toJson(actualSubmission));
 	}
 
-	private void verifyPresentInDatastore(Evaluation expectedEvaluation) {
+	private void verifyPresentInDatastore(EvaluationData expectedEvaluation) {
 		String evaluationJsonString = TMAPI.getEvaluationAsJason(
-				expectedEvaluation.getCourseID(),
-				expectedEvaluation.getName());
-		Evaluation actualEvaluation = gson.fromJson(evaluationJsonString,
-				Evaluation.class);
+				expectedEvaluation.courseId,
+				expectedEvaluation.name);
+		EvaluationData actualEvaluation = gson.fromJson(evaluationJsonString,
+				EvaluationData.class);
 		// equalize id field before comparing (because id field is
 		// autogenerated by GAE)
-		expectedEvaluation.id = actualEvaluation.id;
 		assertEquals(gson.toJson(expectedEvaluation),
 				gson.toJson(actualEvaluation));
 	}

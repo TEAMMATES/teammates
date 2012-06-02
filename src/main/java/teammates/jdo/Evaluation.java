@@ -54,10 +54,10 @@ public class Evaluation {
 	private boolean commentsEnabled;
 
 	@Persistent
-	private boolean published;
+	private boolean published = false;
 
 	@Persistent
-	private boolean activated;
+	private boolean activated = false;
 
 	/**
 	 * Constructs an Evaluation object.

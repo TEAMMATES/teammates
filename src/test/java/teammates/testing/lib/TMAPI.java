@@ -190,7 +190,7 @@ public class TMAPI {
 
 	// ------------------------[Evaluation-level methods]-----------------
 
-	public static String createEvaluation(teammates.jdo.Evaluation evaluation) {
+	public static String createEvaluation(EvaluationData evaluation) {
 		DataBundle dataBundle = new DataBundle();
 		dataBundle.evaluations.put("dummy-key", evaluation);
 		return persistNewDataBundle(Common.getTeammatesGson()
@@ -206,7 +206,7 @@ public class TMAPI {
 		return evaluationJson;
 	}
 
-	public static String editEvaluation(teammates.jdo.Evaluation evaluation) {
+	public static String editEvaluation(EvaluationData evaluation) {
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_EVALUATION);
 		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
 				.toJson(evaluation));

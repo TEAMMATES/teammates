@@ -75,37 +75,37 @@
   "evaluations" : {
   
     "evaluation1InCourse1OfCoord1": {
-      "course_id" : "idOfCourse1OfCoord1",
+      "courseId" : "idOfCourse1OfCoord1",
       "name" : "evaluation1 In Course1",
-      "instr": "instructions for evaluation1InCourse1",
-      "grace": 10,
-      "comments_on" : true,
-      "start_time" : "2012-04-01 11:59 PM",
-      "end_time" : "2013-04-30 11:59 PM",
+      "instructions": "instructions for evaluation1InCourse1",
+      "gracePeriod": 10,
+      "p2pEnabled" : true,
+      "startTime" : "2012-04-01 11:59 PM",
+      "endTime" : "2013-04-30 11:59 PM",
       "activated" : true,
       "published" : false,
-      "timezone" : 2.0
+      "timeZone" : 2.0
     },
     "evaluation2InCourse1OfCoord1": {
-      "course_id" : "idOfCourse1OfCoord1",
-      "graceperiod": 20,
+      "courseId" : "idOfCourse1OfCoord1",
+      "gracePeriod": 20,
       "instructions": "Please please fill in the second evaluation",
       "name": "evaluation2 In Course1",
-      "p2pcomments": true
+      "p2pEnabled": true
     },
     "evaluation1InCourse2OfCoord1": {
-      "course_id" : "idOfCourse2OfCoord1",
-      "graceperiod": 20,
+      "courseId" : "idOfCourse2OfCoord1",
+      "gracePeriod": 20,
       "instructions": "Please please fill in the second evaluation",
       "name": "evaluation name",
-      "p2pcomments": true
+      "p2pEnabled": true
     },
     "evaluation1InCourse1OfCoord2": {
-      "course_id" : "idOfCourse1OfCoord2",
-      "graceperiod": 20,
+      "courseId" : "idOfCourse1OfCoord2",
+      "gracePeriod": 20,
       "instructions": "instructions for evaluation1InCourse2",
       "name": "evaluation1 In Course2",
-      "p2pcomments": true
+      "p2pEnabled": true
     }
   },
   
