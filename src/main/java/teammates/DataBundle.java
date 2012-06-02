@@ -14,7 +14,7 @@ public class DataBundle {
 	public HashMap<String, CourseData> courses = new HashMap<String, CourseData>();
 	public HashMap<String, StudentData> students = new HashMap<String, StudentData>();
 	public HashMap<String, EvaluationData> evaluations = new HashMap<String, EvaluationData>();
-	public HashMap<String, Submission> submissions = new HashMap<String, Submission>();
+	public HashMap<String, SubmissionData> submissions = new HashMap<String, SubmissionData>();
 	public HashMap<String, TeamFormingSession> teamFormingSessions = new HashMap<String, TeamFormingSession>();
 	public HashMap<String, TeamProfile> teamProfiles = new HashMap<String, TeamProfile>();
 	public HashMap<String, TeamFormingLog> teamFormingLogs = new HashMap<String, TeamFormingLog>();

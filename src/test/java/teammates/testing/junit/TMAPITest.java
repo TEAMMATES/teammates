@@ -16,7 +16,6 @@ import teammates.Common;
 import teammates.DataBundle;
 import teammates.datatransfer.*;
 import teammates.exception.InvalidParametersException;
-import teammates.jdo.Submission;
 import teammates.jdo.TeamFormingLog;
 import teammates.jdo.TeamFormingSession;
 import teammates.jdo.TeamProfile;
@@ -126,7 +125,7 @@ public class TMAPITest extends BaseTestCase{
 		// ----------deleting Evaluation entities-------------------------
 	
 		// check the existence of a submission that will be deleted along with the evaluation
-		Submission subInDeletedEvaluation = dataBundle.submissions
+		SubmissionData subInDeletedEvaluation = dataBundle.submissions
 				.get("submissionFromS1C1ToS1C1");
 		verifyPresentInDatastore(subInDeletedEvaluation);
 		
@@ -442,15 +441,15 @@ public class TMAPITest extends BaseTestCase{
 		refreshDataInDatastore();
 		
 		//check for successful edit
-		Submission submission = dataBundle.submissions.get("submissionFromS1C1ToS1C1");
-		submission.setJustification(new Text(submission.getJustification().getValue()+"x"));
-		submission.setPoints(submission.getPoints()+10);
+		SubmissionData submission = dataBundle.submissions.get("submissionFromS1C1ToS1C1");
+		submission.justification = new Text(submission.justification.getValue()+"x");
+		submission.points = submission.points+10;
 		String status = TMAPI.editSubmission(submission);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyPresentInDatastore(submission);
 		
 		//test for unsuccessful edit
-		submission.setFromStudent("non-existent@gmail.com");
+		submission.reviewer = "non-existent@gmail.com";
 		status = TMAPI.editSubmission(submission);
 		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
 		verifyAbsentInDatastore(submission);
@@ -599,31 +598,31 @@ public class TMAPITest extends BaseTestCase{
 		assertEquals("evaluation2 In Course1", evaluation2.name);
 		assertEquals("idOfCourse1OfCoord1", evaluation2.courseId);
 	
-		Submission submissionFromS1C1ToS2C1 = data.submissions
+		SubmissionData submissionFromS1C1ToS2C1 = data.submissions
 				.get("submissionFromS1C1ToS2C1");
 		assertEquals("student1InCourse1@gmail.com",
-				submissionFromS1C1ToS2C1.getFromStudent());
+				submissionFromS1C1ToS2C1.reviewer);
 		assertEquals("student2InCourse1@gmail.com",
-				submissionFromS1C1ToS2C1.getToStudent());
-		assertEquals("idOfCourse1OfCoord1", submissionFromS1C1ToS2C1.getCourseID());
+				submissionFromS1C1ToS2C1.reviewee);
+		assertEquals("idOfCourse1OfCoord1", submissionFromS1C1ToS2C1.course);
 		assertEquals("evaluation1 In Course1",
-				submissionFromS1C1ToS2C1.getEvaluationName());
-		assertEquals(10, submissionFromS1C1ToS2C1.getPoints());
-		assertEquals("Team 1.1", submissionFromS1C1ToS2C1.getTeamName());
+				submissionFromS1C1ToS2C1.evaluation);
+		assertEquals(10, submissionFromS1C1ToS2C1.points);
+		assertEquals("Team 1.1", submissionFromS1C1ToS2C1.team);
 		// since justification filed is of Text type, we have to use it's
 		// .getValue() method to access the string contained inside it
 		assertEquals(
 				"justification of student1InCourse1 rating to student2InCourse1",
-				submissionFromS1C1ToS2C1.getJustification().getValue());
+				submissionFromS1C1ToS2C1.justification.getValue());
 		assertEquals("comments from student1InCourse1 to student2InCourse1",
-				submissionFromS1C1ToS2C1.getCommentsToStudent().getValue());
+				submissionFromS1C1ToS2C1.p2pFeedback.getValue());
 	
-		Submission submissionFromS2C1ToS1C1 = data.submissions
+		SubmissionData submissionFromS2C1ToS1C1 = data.submissions
 				.get("submissionFromS2C1ToS1C1");
 		assertEquals("student2InCourse1@gmail.com",
-				submissionFromS2C1ToS1C1.getFromStudent());
+				submissionFromS2C1ToS1C1.reviewer);
 		assertEquals("student1InCourse1@gmail.com",
-				submissionFromS2C1ToS1C1.getToStudent());
+				submissionFromS2C1ToS1C1.reviewee);
 	
 		TeamFormingSession tfsInCourse1 = data.teamFormingSessions
 				.get("tfsInCourse1");
@@ -683,12 +682,12 @@ public class TMAPITest extends BaseTestCase{
 				evaluation1InCourse1.name));
 	}
 
-	private void verifyAbsentInDatastore(Submission subInDeletedEvaluation) {
+	private void verifyAbsentInDatastore(SubmissionData subInDeletedEvaluation) {
 		String submissionAsJason = TMAPI.getSubmissionAsJason(
-				subInDeletedEvaluation.getCourseID(),
-				subInDeletedEvaluation.getEvaluationName(),
-				subInDeletedEvaluation.getFromStudent(),
-				subInDeletedEvaluation.getToStudent());
+				subInDeletedEvaluation.course,
+				subInDeletedEvaluation.evaluation,
+				subInDeletedEvaluation.reviewer,
+				subInDeletedEvaluation.reviewee);
 		assertEquals("null", submissionAsJason);
 	}
 
@@ -734,8 +733,8 @@ public class TMAPITest extends BaseTestCase{
 			verifyPresentInDatastore(expectedEvaluation);
 		}
 
-		HashMap<String, Submission> submissions = data.submissions;
-		for (Submission expectedSubmission : submissions.values()) {
+		HashMap<String, SubmissionData> submissions = data.submissions;
+		for (SubmissionData expectedSubmission : submissions.values()) {
 			verifyPresentInDatastore(expectedSubmission);
 		}
 
@@ -770,17 +769,14 @@ public class TMAPITest extends BaseTestCase{
 				gson.toJson(actualTeamFormingSession));
 	}
 
-	private void verifyPresentInDatastore(Submission expectedSubmission) {
+	private void verifyPresentInDatastore(SubmissionData expectedSubmission) {
 		String submissionsJsonString = TMAPI.getSubmissionAsJason(
-				expectedSubmission.getCourseID(),
-				expectedSubmission.getEvaluationName(),
-				expectedSubmission.getFromStudent(),
-				expectedSubmission.getToStudent());
-		Submission actualSubmission = gson.fromJson(submissionsJsonString,
-				Submission.class);
-		// equalize id field before comparing (because id field is
-		// autogenerated by GAE)
-		expectedSubmission.id = actualSubmission.id;
+				expectedSubmission.course,
+				expectedSubmission.evaluation,
+				expectedSubmission.reviewer,
+				expectedSubmission.reviewee);
+		SubmissionData actualSubmission = gson.fromJson(submissionsJsonString,
+				SubmissionData.class);
 		assertEquals(gson.toJson(expectedSubmission),
 				gson.toJson(actualSubmission));
 	}

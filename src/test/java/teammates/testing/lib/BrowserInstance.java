@@ -187,7 +187,7 @@ public class BrowserInstance {
 	/**
 	 * Finds the rowID (at evaluation page) number of a specific evaluation based on
 	 * the course ID and evaluation name 
-	 * @param courseId
+	 * @param course
 	 * @param evalName
 	 * @return
 	 */

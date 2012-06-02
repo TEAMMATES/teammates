@@ -383,7 +383,7 @@ public class APIServlet extends HttpServlet {
 	 * TODO: take a look into the logic again.
 	 * 
 	 * @param studentList
-	 * @param courseId
+	 * @param course
 	 * @throws
 	 */
 	protected void enrollStudents() throws IOException {
@@ -803,7 +803,7 @@ public class APIServlet extends HttpServlet {
 
 	private String getSubmissionAsJson(String courseId, String evaluationName,
 			String reviewerEmail, String revieweeEmail) {
-		Submission target = getSubmission(courseId, evaluationName,
+		SubmissionData target = getSubmission(courseId, evaluationName,
 				reviewerEmail, revieweeEmail);
 		return Common.getTeammatesGson().toJson(target);
 	}
@@ -823,8 +823,12 @@ public class APIServlet extends HttpServlet {
 		return Common.getTeammatesGson().toJson(teamFormingLogList);
 	}
 
-	private void createSubmissions(List<Submission> submissionsList) {
-		Evaluations.inst().editSubmissions(submissionsList);
+	private void createSubmissions(List<SubmissionData> submissionDataList) {
+		ArrayList<Submission> submissions = new ArrayList<Submission>();
+		for(SubmissionData sd : submissionDataList){
+			submissions.add(sd.toSubmission());
+		}
+		Evaluations.inst().editSubmissions(submissions);
 	}
 
 	private void editStudentAsJson(String originalEmail, String newValues)
@@ -842,9 +846,9 @@ public class APIServlet extends HttpServlet {
 	}
 
 	private void editSubmissionAsJson(String submissionJson) {
-		Submission submission = Common.getTeammatesGson().fromJson(
-				submissionJson, Submission.class);
-		ArrayList<Submission> submissionList = new ArrayList<Submission>();
+		SubmissionData submission = Common.getTeammatesGson().fromJson(
+				submissionJson, SubmissionData.class);
+		ArrayList<SubmissionData> submissionList = new ArrayList<SubmissionData>();
 		submissionList.add(submission);
 		editSubmission(submissionList);
 	}
@@ -941,13 +945,13 @@ public class APIServlet extends HttpServlet {
 
 		// processing is slightly different for submissions because we are
 		// adding all submissions in one go
-		HashMap<String, Submission> submissionsMap = dataBundle.submissions;
-		List<Submission> submissionsList = new ArrayList<Submission>();
-		for (Submission submission : submissionsMap.values()) {
+		HashMap<String, SubmissionData> submissionsMap = dataBundle.submissions;
+		List<SubmissionData> submissionsList = new ArrayList<SubmissionData>();
+		for (SubmissionData submission : submissionsMap.values()) {
 			log.info("API Servlet adding submission for "
-					+ submission.getEvaluationName() + " from "
-					+ submission.getFromStudent() + " to "
-					+ submission.getToStudent());
+					+ submission.evaluation + " from "
+					+ submission.reviewer + " to "
+					+ submission.reviewee);
 			submissionsList.add(submission);
 		}
 		createSubmissions(submissionsList);
@@ -1300,24 +1304,30 @@ public class APIServlet extends HttpServlet {
 	private void ____SUBMISSION_level_methods_____________________________() {
 	}
 
-	public void createSubmission(Submission submission)
+	public void createSubmission(SubmissionData submission)
 			throws NotImplementedException {
 		throw new NotImplementedException(
 				"Not implemented because submissions "
 						+ "are created automatically");
 	}
 
-	public Submission getSubmission(String courseId, String evaluationName,
+	public SubmissionData getSubmission(String courseId, String evaluationName,
 			String reviewerEmail, String revieweeEmail) {
-		return Evaluations.inst().getSubmission(courseId, evaluationName,
-				reviewerEmail, revieweeEmail);
+		Submission submission = Evaluations.inst().getSubmission(courseId, evaluationName,
+						reviewerEmail, revieweeEmail);
+		return (submission==null? null : new SubmissionData(submission));
 	}
 
-	public void editSubmission(List<Submission> submissions) {
+	//TODO: change to editSubmissions
+	public void editSubmission(List<SubmissionData> submissionDataList) {
+		ArrayList<Submission> submissions = new ArrayList<Submission>();
+		for(SubmissionData sd : submissionDataList){
+			submissions.add(sd.toSubmission());
+		}
 		Evaluations.inst().editSubmissions(submissions);
 	}
 
-	public void deleteSubmission(Submission submission)
+	public void deleteSubmission(SubmissionData submission)
 			throws NotImplementedException {
 		throw new NotImplementedException(
 				"Not implemented because submissions "

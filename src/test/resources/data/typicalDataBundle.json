@@ -111,48 +111,44 @@
   
   "submissions" : {
     "submissionFromS1C1ToS1C1" :{
-    
-    	"fromStudent" : "student1InCourse1@gmail.com",
-      "toStudent" : "student1InCourse1@gmail.com",
-      "courseID" : "idOfCourse1OfCoord1",
-      "evaluationName" : "evaluation1 In Course1",
+      "reviewer" : "student1InCourse1@gmail.com",
+      "reviewee" : "student1InCourse1@gmail.com",
+      "course" : "idOfCourse1OfCoord1",
+      "evaluation" : "evaluation1 In Course1",
       "points" : 10,
       "justification" : {"value" : "justification of student1InCourse1 rating to student1InCourse1"},
-      "commentsToStudent" : {"value" :"comments from student1InCourse1 to student1InCourse1"},
-      "teamName" : "Team 1.1"
+      "p2pFeedback" : {"value" :"comments from student1InCourse1 to student1InCourse1"},
+      "team" : "Team 1.1"
     },
     "submissionFromS1C1ToS2C1" :{
-    
-    	"fromStudent" : "student1InCourse1@gmail.com",
-      "toStudent" : "student2InCourse1@gmail.com",
-      "courseID" : "idOfCourse1OfCoord1",
-      "evaluationName" : "evaluation1 In Course1",
+      "reviewer" : "student1InCourse1@gmail.com",
+      "reviewee" : "student2InCourse1@gmail.com",
+      "course" : "idOfCourse1OfCoord1",
+      "evaluation" : "evaluation1 In Course1",
       "points" : 10,
       "justification" : {"value" : "justification of student1InCourse1 rating to student2InCourse1"},
-      "commentsToStudent" : {"value" :"comments from student1InCourse1 to student2InCourse1"},
-      "teamName" : "Team 1.1"
+      "p2pFeedback" : {"value" :"comments from student1InCourse1 to student2InCourse1"},
+      "team" : "Team 1.1"
     },
     "submissionFromS2C1ToS1C1" :{
-    
-    	"fromStudent" : "student2InCourse1@gmail.com",
-      "toStudent" : "student1InCourse1@gmail.com",
-      "courseID" : "idOfCourse1OfCoord1",
-      "evaluationName" : "evaluation1 In Course1",
+      "reviewer" : "student2InCourse1@gmail.com",
+      "reviewee" : "student1InCourse1@gmail.com",
+      "course" : "idOfCourse1OfCoord1",
+      "evaluation" : "evaluation1 In Course1",
       "points" : 20,
       "justification" : {"value" : "justification of student2InCourse1 rating to student1InCourse1"},
-      "commentsToStudent" : {"value" :"comments from student2InCourse1 to student1InCourse1"},
-      "teamName" : "Team 1.1"
+      "p2pFeedback" : {"value" :"comments from student2InCourse1 to student1InCourse1"},
+      "team" : "Team 1.1"
     },
     "submissionFromS1C2ToS2C2" :{
-    
-    	"fromStudent" : "student1InCourse2@gmail.com",
-      "toStudent" : "student2InCourse2@gmail.com",
-      "courseID" : "idOfCourse1OfCoord2",
-      "evaluationName" : "evaluation1 In Course2",
+      "reviewer" : "student1InCourse2@gmail.com",
+      "reviewee" : "student2InCourse2@gmail.com",
+      "course" : "idOfCourse1OfCoord2",
+      "evaluation" : "evaluation1 In Course2",
       "points" : 20,
       "justification" : {"value" : "justification of student1InCourse2 rating to student2InCourse2"},
-      "commentsToStudent" : {"value" :"comments from student1InCourse2 to student2InCourse2"},
-      "teamName" : "Team 2.1"
+      "p2pFeedback" : {"value" :"comments from student1InCourse2 to student2InCourse2"},
+      "team" : "Team 2.1"
     }
   
   },

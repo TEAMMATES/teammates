@@ -29,7 +29,6 @@ import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.InvalidParametersException;
 import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.EvaluationDetailsForCoordinator;
-import teammates.jdo.Submission;
 import teammates.jdo.TeamFormingLog;
 import teammates.jdo.TeamFormingSession;
 import teammates.jdo.TeamProfile;
@@ -682,13 +681,13 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader();
 		refreshDataInDatastore();
 
-		Submission submissionFromS1C1ToS2C1 = dataBundle.submissions
+		SubmissionData submissionFromS1C1ToS2C1 = dataBundle.submissions
 				.get("submissionFromS1C1ToS2C1");
 		verifyPresentInDatastore(submissionFromS1C1ToS2C1);
-		Submission submissionFromS2C1ToS1C1 = dataBundle.submissions
+		SubmissionData submissionFromS2C1ToS1C1 = dataBundle.submissions
 				.get("submissionFromS2C1ToS1C1");
 		verifyPresentInDatastore(submissionFromS2C1ToS1C1);
-		Submission submissionFromS1C1ToS1C1 = dataBundle.submissions
+		SubmissionData submissionFromS1C1ToS1C1 = dataBundle.submissions
 				.get("submissionFromS1C1ToS1C1");
 		verifyPresentInDatastore(submissionFromS1C1ToS1C1);
 
@@ -865,8 +864,13 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testGetSubmission() {
-		// TODO: implement this
+	public void testGetSubmission() throws Exception {
+		printTestCaseHeader();
+		refreshDataInDatastore();
+		
+		SubmissionData submissionData = dataBundle.submissions.get("submissionFromS1C1ToS1C1");
+		verifyPresentInDatastore(submissionData);
+		// TODO: more testing
 	}
 
 	@Test
@@ -874,15 +878,15 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader();
 		refreshDataInDatastore();
 
-		ArrayList<Submission> submissionContainer = new ArrayList<Submission>();
+		ArrayList<SubmissionData> submissionContainer = new ArrayList<SubmissionData>();
 
 		// try without empty list. Nothing should happen
 		apiServlet.editSubmission(submissionContainer);
 
-		Submission sub1 = dataBundle.submissions
+		SubmissionData sub1 = dataBundle.submissions
 				.get("submissionFromS1C1ToS2C1");
 
-		Submission sub2 = dataBundle.submissions
+		SubmissionData sub2 = dataBundle.submissions
 				.get("submissionFromS2C1ToS1C1");
 
 		// checking editing of one of the submissions
@@ -898,7 +902,7 @@ public class APIServletTest extends BaseTestCase {
 		alterSubmission(sub1);
 		alterSubmission(sub2);
 
-		submissionContainer = new ArrayList<Submission>();
+		submissionContainer = new ArrayList<SubmissionData>();
 		submissionContainer.add(sub1);
 		submissionContainer.add(sub2);
 		apiServlet.editSubmission(submissionContainer);
@@ -1117,12 +1121,12 @@ public class APIServletTest extends BaseTestCase {
 		}
 	}
 
-	private void alterSubmission(Submission submission) {
-		submission.setPoints(submission.getPoints() + 10);
-		submission.setCommentsToStudent(new Text(submission
-				.getCommentsToStudent().getValue() + "x"));
-		submission.setJustification(new Text(submission.getJustification()
-				.getValue() + "y"));
+	private void alterSubmission(SubmissionData submission) {
+		submission.points = submission.points + 10;
+		submission.p2pFeedback = new Text(submission
+				.p2pFeedback.getValue() + "x");
+		submission.justification = new Text(submission.justification
+				.getValue() + "y");
 	}
 
 	private void verifyPresentInDatastore(String dataBundleJsonString)
@@ -1149,8 +1153,8 @@ public class APIServletTest extends BaseTestCase {
 			verifyPresentInDatastore(expectedEvaluation);
 		}
 
-		HashMap<String, Submission> submissions = data.submissions;
-		for (Submission expectedSubmission : submissions.values()) {
+		HashMap<String, SubmissionData> submissions = data.submissions;
+		for (SubmissionData expectedSubmission : submissions.values()) {
 			verifyPresentInDatastore(expectedSubmission);
 		}
 
@@ -1173,12 +1177,12 @@ public class APIServletTest extends BaseTestCase {
 
 	}
 
-	private void verifyAbsentInDatastore(Submission submission) {
+	private void verifyAbsentInDatastore(SubmissionData submission) {
 		assertEquals(
 				null,
-				apiServlet.getSubmission(submission.getCourseID(),
-						submission.getEvaluationName(),
-						submission.getFromStudent(), submission.getToStudent()));
+				apiServlet.getSubmission(submission.course,
+						submission.evaluation,
+						submission.reviewer, submission.reviewee));
 	}
 
 	private void verifyAbsentInDatastore(CoordData expectedCoord) {
@@ -1241,11 +1245,10 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
 	}
 
-	private void verifyPresentInDatastore(Submission expected) {
-		Submission actual = apiServlet.getSubmission(expected.getCourseID(),
-				expected.getEvaluationName(), expected.getFromStudent(),
-				expected.getToStudent());
-		expected.id = actual.id;
+	private void verifyPresentInDatastore(SubmissionData expected) {
+		SubmissionData actual = apiServlet.getSubmission(expected.course,
+				expected.evaluation, expected.reviewer,
+				expected.reviewee);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 

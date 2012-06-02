@@ -21,7 +21,6 @@ import teammates.DataBundle;
 import teammates.datatransfer.*;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.NotImplementedException;
-import teammates.jdo.Submission;
 import teammates.jdo.TeamProfile;
 import teammates.testing.config.Config;
 import teammates.testing.object.Course;
@@ -232,7 +231,7 @@ public class TMAPI {
 
 	// ------------------------[Submission-level methods]-----------------
 
-	public static String createSubmission(Submission submission) throws NotImplementedException{
+	public static String createSubmission(SubmissionData submission) throws NotImplementedException{
 		throw new NotImplementedException("Not implemented because creating submissions is automatically done");
 	}
 	
@@ -247,7 +246,7 @@ public class TMAPI {
 		return submissionJson;
 	}
 
-	public static String editSubmission(Submission submission) {
+	public static String editSubmission(SubmissionData submission) {
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_SUBMISSION);
 		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
 				.toJson(submission));
