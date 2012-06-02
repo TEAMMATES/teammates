@@ -4,6 +4,11 @@ import teammates.datatransfer.StudentData;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * 
+ * @deprecated Use StudentData instead
+ *
+ */
 public class StudentInfoForCoord {
 	
 	public StudentInfoForCoord(Student student) {
@@ -17,7 +22,7 @@ public class StudentInfoForCoord {
 		this.courseArchived = student.isCourseArchived();
 		this.profileSummary = student.getProfileSummary();
 		this.profileDetail = student.getProfileDetail();
-		this.updateStatus = UpdateStatus.UNKNOWN;
+		this.updateStatus = StudentData.UpdateStatus.UNKNOWN;
 	}
 	
 	public StudentInfoForCoord(StudentData student) {
@@ -33,14 +38,7 @@ public class StudentInfoForCoord {
 		this.updateStatus = student.updateStatus;
 	}
 
-	public enum UpdateStatus{
-		MODIFIED, 
-		UNMODIFIED, 
-		NEW, 
-		UNKNOWN, 
-		ERROR, 
-		NOT_IN_ENROLL_LIST;
-	}
+
 	
 	public String id;
 
@@ -62,15 +60,8 @@ public class StudentInfoForCoord {
 	
 	public Text profileDetail;
 	
-	public UpdateStatus updateStatus;
+	public StudentData.UpdateStatus updateStatus;
 
-	public boolean isEnrollmentInfoMatchingTo(StudentData student) {
-		return (this.email.equals(student.email)) &&
-				(this.courseId.equals(student.courseId)) &&
-				(this.name.equals(student.name)) &&
-				(this.comments.equals(student.comments)) &&
-				(this.teamName.equals(student.team)) &&
-				(this.updateStatus == student.updateStatus);
-	}
+
 
 }

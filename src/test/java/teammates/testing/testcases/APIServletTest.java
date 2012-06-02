@@ -30,7 +30,6 @@ import teammates.exception.InvalidParametersException;
 import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.Evaluation;
 import teammates.jdo.EvaluationDetailsForCoordinator;
-import teammates.jdo.StudentInfoForCoord;
 import teammates.jdo.Submission;
 import teammates.jdo.TeamFormingLog;
 import teammates.jdo.TeamFormingSession;
@@ -516,17 +515,17 @@ public class APIServletTest extends BaseTestCase {
 		String lines = line0 + EOL + line1 + EOL + line2 + EOL
 				+ "  \t \t \t \t           " + EOL + line3 + EOL + EOL + line4
 				+ EOL + "    " + EOL + EOL;
-		List<StudentInfoForCoord> enrollResults = apiServlet.enrollStudents(
+		List<StudentData> enrollResults = apiServlet.enrollStudents(
 				lines, courseId);
 
 		assertEquals(5, enrollResults.size());
 		assertEquals(5, apiServlet.getStudentListForCourse(courseId).size());
 		verifyEnrollmentResultForStudent(new StudentData(line0, courseId),
-				enrollResults.get(0), StudentInfoForCoord.UpdateStatus.NEW);
+				enrollResults.get(0), StudentData.UpdateStatus.NEW);
 		verifyEnrollmentResultForStudent(new StudentData(line1, courseId),
-				enrollResults.get(1), StudentInfoForCoord.UpdateStatus.NEW);
+				enrollResults.get(1), StudentData.UpdateStatus.NEW);
 		verifyEnrollmentResultForStudent(new StudentData(line4, courseId),
-				enrollResults.get(4), StudentInfoForCoord.UpdateStatus.NEW);
+				enrollResults.get(4), StudentData.UpdateStatus.NEW);
 
 		// includes a mix of unmodified, modified, and new
 		String line0_1 = "t3|modified name|e3@g|c3";
@@ -537,17 +536,17 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(6, apiServlet.getStudentListForCourse(courseId).size());
 		verifyEnrollmentResultForStudent(new StudentData(line0, courseId),
 				enrollResults.get(0),
-				StudentInfoForCoord.UpdateStatus.UNMODIFIED);
+				StudentData.UpdateStatus.UNMODIFIED);
 		verifyEnrollmentResultForStudent(new StudentData(line0_1, courseId),
-				enrollResults.get(1), StudentInfoForCoord.UpdateStatus.MODIFIED);
+				enrollResults.get(1), StudentData.UpdateStatus.MODIFIED);
 		verifyEnrollmentResultForStudent(new StudentData(line1, courseId),
 				enrollResults.get(2),
-				StudentInfoForCoord.UpdateStatus.UNMODIFIED);
+				StudentData.UpdateStatus.UNMODIFIED);
 		verifyEnrollmentResultForStudent(new StudentData(line5, courseId),
-				enrollResults.get(3), StudentInfoForCoord.UpdateStatus.NEW);
-		assertEquals(StudentInfoForCoord.UpdateStatus.NOT_IN_ENROLL_LIST,
+				enrollResults.get(3), StudentData.UpdateStatus.NEW);
+		assertEquals(StudentData.UpdateStatus.NOT_IN_ENROLL_LIST,
 				enrollResults.get(4).updateStatus);
-		assertEquals(StudentInfoForCoord.UpdateStatus.NOT_IN_ENROLL_LIST,
+		assertEquals(StudentData.UpdateStatus.NOT_IN_ENROLL_LIST,
 				enrollResults.get(5).updateStatus);
 
 		// includes an incorrect line, no changes should be done to the database
@@ -759,29 +758,29 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(0, apiServlet.getStudentListForCourse(courseId).size());
 
 		// add a new student and verify it is added and treated as a new student
-		StudentInfoForCoord enrollmentResult = apiServlet
+		StudentData enrollmentResult = apiServlet
 				.enrollStudent(student1);
 		assertEquals(1, apiServlet.getStudentListForCourse(courseId).size());
 		verifyEnrollmentResultForStudent(student1, enrollmentResult,
-				StudentInfoForCoord.UpdateStatus.NEW);
+				StudentData.UpdateStatus.NEW);
 
 		// add the same student. Verify it was not added
 		enrollmentResult = apiServlet.enrollStudent(student1);
 		verifyEnrollmentResultForStudent(student1, enrollmentResult,
-				StudentInfoForCoord.UpdateStatus.UNMODIFIED);
+				StudentData.UpdateStatus.UNMODIFIED);
 
 		// modify info of same student and verify it was treated as modified
 		StudentData student2 = new StudentData("t|n2|e@g|c", courseId);
 		enrollmentResult = apiServlet.enrollStudent(student2);
 		verifyEnrollmentResultForStudent(student2, enrollmentResult,
-				StudentInfoForCoord.UpdateStatus.MODIFIED);
+				StudentData.UpdateStatus.MODIFIED);
 
 		// add a new student to non-empty course
 		StudentData student3 = new StudentData("t3|n3|e3@g|c3", courseId);
 		enrollmentResult = apiServlet.enrollStudent(student3);
 		assertEquals(2, apiServlet.getStudentListForCourse(courseId).size());
 		verifyEnrollmentResultForStudent(student3, enrollmentResult,
-				StudentInfoForCoord.UpdateStatus.NEW);
+				StudentData.UpdateStatus.NEW);
 	}
 
 
@@ -1066,8 +1065,8 @@ public class APIServletTest extends BaseTestCase {
 	// ------------------------------------------------------------------------
 
 	private void verifyEnrollmentResultForStudent(StudentData expectedStudent,
-			StudentInfoForCoord enrollmentResult,
-			StudentInfoForCoord.UpdateStatus status) {
+			StudentData enrollmentResult,
+			StudentData.UpdateStatus status) {
 		String errorMessage = "mismatch! \n expected:\n"
 				+ Common.getTeammatesGson().toJson(expectedStudent) + "\n actual \n"
 				+ Common.getTeammatesGson().toJson(enrollmentResult);

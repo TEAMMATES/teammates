@@ -25,8 +25,4 @@ public class Coordinator extends Account {
 		super(googleID, name, email);
 	}
 	
-	public Coordinator(CoordData data){
-		super(data.id, data.name, data.email);
-	}
-	
 }

@@ -2,12 +2,19 @@ package teammates.datatransfer;
 
 import teammates.exception.InvalidParametersException;
 import teammates.jdo.Student;
-import teammates.jdo.StudentInfoForCoord;
-import teammates.jdo.StudentInfoForCoord.UpdateStatus;
 
 import com.google.appengine.api.datastore.Text;
 
 public class StudentData {
+	public enum UpdateStatus{
+		MODIFIED, 
+		UNMODIFIED, 
+		NEW, 
+		UNKNOWN, 
+		ERROR, 
+		NOT_IN_ENROLL_LIST;
+	}
+	
 	public String id = "";
 	public String email;
 	public String courseId;
@@ -16,7 +23,7 @@ public class StudentData {
 	public String team = "";
 	public Text profile = new Text("");
 	
-	public StudentInfoForCoord.UpdateStatus updateStatus = UpdateStatus.UNKNOWN ;
+	public UpdateStatus updateStatus = UpdateStatus.UNKNOWN ;
 	
 	
 	public StudentData(String email, String name, String comments,
@@ -53,5 +60,14 @@ public class StudentData {
 				&& otherStudent.name.equals(this.name)
 				&& otherStudent.comments.equals(this.comments)
 				&& otherStudent.team.equals(this.team);
+	}
+	
+	public boolean isEnrollmentInfoMatchingTo(StudentData other) {
+		return (this.email.equals(other.email)) &&
+				(this.courseId.equals(other.courseId)) &&
+				(this.name.equals(other.name)) &&
+				(this.comments.equals(other.comments)) &&
+				(this.team.equals(other.team)) &&
+				(this.updateStatus == other.updateStatus);
 	}
 }

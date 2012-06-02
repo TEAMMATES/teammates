@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.datatransfer.*;
+import teammates.datatransfer.StudentData.UpdateStatus;
 import teammates.exception.*;
 import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
@@ -24,8 +25,6 @@ import teammates.jdo.EnrollmentReport;
 import teammates.jdo.Evaluation;
 import teammates.jdo.EvaluationDetailsForCoordinator;
 import teammates.jdo.Student;
-import teammates.jdo.StudentInfoForCoord;
-import teammates.jdo.StudentInfoForCoord.UpdateStatus;
 import teammates.jdo.Submission;
 import teammates.jdo.TeamFormingLog;
 import teammates.jdo.TeamFormingSession;
@@ -1126,14 +1125,14 @@ public class APIServlet extends HttpServlet {
 		}
 	}
 
-	public List<StudentInfoForCoord> enrollStudents(String enrollLines,
+	public List<StudentData> enrollStudents(String enrollLines,
 			String courseId) throws EnrollException {
 		if (enrollLines == null || courseId == null) {
 			throw new EnrollException(Common.ERRORCODE_NULL_PARAMETER,
 					(enrollLines == null ? "Enroll text" : "Course ID")
 							+ " cannot be null");
 		}
-		ArrayList<StudentInfoForCoord> returnList = new ArrayList<StudentInfoForCoord>();
+		ArrayList<StudentData> returnList = new ArrayList<StudentData>();
 		String[] linesArray = enrollLines.split(Common.EOL);
 		ArrayList<StudentData> studentList = new ArrayList<StudentData>();
 
@@ -1152,7 +1151,7 @@ public class APIServlet extends HttpServlet {
 
 		// enroll all students
 		for (StudentData student : studentList) {
-			StudentInfoForCoord studentInfo;
+			StudentData studentInfo;
 			studentInfo = enrollStudent(student);
 			returnList.add(studentInfo);
 		}
@@ -1161,9 +1160,8 @@ public class APIServlet extends HttpServlet {
 		List<StudentData> studentsInCourse = getStudentListForCourse(courseId);
 		for (StudentData student : studentsInCourse) {
 			if (!isInEnrollList(student, returnList)) {
-				StudentInfoForCoord studentInfo = convertToStudentInfoForCoord(student);
-				studentInfo.updateStatus = StudentInfoForCoord.UpdateStatus.NOT_IN_ENROLL_LIST;
-				returnList.add(studentInfo);
+				student.updateStatus = StudentData.UpdateStatus.NOT_IN_ENROLL_LIST;
+				returnList.add(student);
 			}
 		}
 		return returnList;
@@ -1217,8 +1215,8 @@ public class APIServlet extends HttpServlet {
 		// TODO:delete team profile, if the last member
 	}
 
-	public StudentInfoForCoord enrollStudent(StudentData student) {
-		StudentInfoForCoord.UpdateStatus updateStatus = UpdateStatus.UNMODIFIED;
+	public StudentData enrollStudent(StudentData student) {
+		StudentData.UpdateStatus updateStatus = UpdateStatus.UNMODIFIED;
 		try {
 			if (isSameAsExistingStudent(student)) {
 				updateStatus = UpdateStatus.UNMODIFIED;
@@ -1234,9 +1232,8 @@ public class APIServlet extends HttpServlet {
 			log.severe("EntityExistsExcpetion thrown unexpectedly");
 			e.printStackTrace();
 		}
-		StudentInfoForCoord studentInfo = convertToStudentInfoForCoord(student);
-		studentInfo.updateStatus = updateStatus;
-		return studentInfo;
+		student.updateStatus = updateStatus;
+		return student;
 	}
 
 	public void sendRegistrationInviteToStudent(String courseId,
@@ -1407,8 +1404,8 @@ public class APIServlet extends HttpServlet {
 	}
 
 	private boolean isInEnrollList(StudentData student,
-			ArrayList<StudentInfoForCoord> studentInfoList) {
-		for (StudentInfoForCoord studentInfo : studentInfoList) {
+			ArrayList<StudentData> studentInfoList) {
+		for (StudentData studentInfo : studentInfoList) {
 			if (studentInfo.email.equalsIgnoreCase(student.email))
 				return true;
 		}
@@ -1421,12 +1418,6 @@ public class APIServlet extends HttpServlet {
 		if (existingStudent == null)
 			return false;
 		return student.isEnrollInfoSameAs(existingStudent);
-	}
-
-	private StudentInfoForCoord convertToStudentInfoForCoord(StudentData student) {
-		StudentInfoForCoord studentInfoForCoord = new StudentInfoForCoord(
-				student);
-		return studentInfoForCoord;
 	}
 
 	private boolean isModificationToExistingStudent(StudentData student) {
