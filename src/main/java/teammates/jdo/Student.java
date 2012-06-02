@@ -28,7 +28,7 @@ public class Student {
 	 */
 	@Persistent
 	@SerializedName("google_id")
-	private String ID;
+	private String ID ="";
 
 	@Persistent
 	@SerializedName("email")
@@ -43,7 +43,7 @@ public class Student {
 	private String name;
 
 	@Persistent
-	private String comments;
+	private String comments ="";
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -51,7 +51,7 @@ public class Student {
 
 	@Persistent
 	@SerializedName("teamname")
-	private String teamName;
+	private String teamName = "";
 
 	@Persistent
 	private transient boolean courseArchived;
@@ -63,7 +63,7 @@ public class Student {
 	
 	@Persistent
 	@SerializedName("profiledetail")
-	private Text profileDetail;
+	private Text profileDetail = new Text("");
 
 	/**
 	 * Constructs a Student object.
@@ -244,19 +244,4 @@ public class Student {
 	public boolean isCourseArchived() {
 		return courseArchived;
 	}
-
-
-
-	public StudentData toStudentData() {
-		StudentData data = new StudentData();
-		data.email = email;
-		data.courseId = courseID;
-		data.name = name;
-		data.comments = comments;
-		data.team = teamName;
-		data.profile = profileDetail;
-		data.id = ID;
-		return data;
-	}
-
 }

@@ -34,12 +34,17 @@ public class StudentData {
 
 	public StudentData(String enrollLine, String courseId)
 			throws InvalidParametersException {
-		StudentData s = new Student(enrollLine, courseId).toStudentData();
-		this.email = s.email;
-		this.courseId = s.courseId;
-		this.name = s.name;
-		this.comments = s.comments;
-		this.team = s.team;
+		this(new Student(enrollLine, courseId));
+	}
+	
+	public StudentData(Student student){
+		this.email = student.getEmail();
+			this.courseId = student.getCourseID();
+			this.name = student.getName();
+			this.comments = student.getComments();
+			this.team = student.getTeamName();
+			this.profile = student.getProfileDetail();
+			this.id = student.getID();
 	}
 
 	public boolean isEnrollInfoSameAs(StudentData otherStudent) {

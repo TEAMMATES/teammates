@@ -1107,7 +1107,7 @@ public class APIServlet extends HttpServlet {
 		List<Student> studentList = Courses.inst().getStudentList(courseId);
 		List<StudentData> returnList = new ArrayList<StudentData>();
 		for(Student s: studentList){
-			returnList.add(s.toStudentData());
+			returnList.add(new StudentData(s));
 		}
 		return returnList;
 	}
@@ -1143,7 +1143,7 @@ public class APIServlet extends HttpServlet {
 			try {
 				if (Common.isWhiteSpace(line))
 					continue;
-				studentList.add(new Student(line, courseId).toStudentData());
+				studentList.add(new StudentData(line, courseId));
 			} catch (InvalidParametersException e) {
 				throw new EnrollException(e.errorCode, "Problem in line : "
 						+ line + Common.EOL + e.getMessage());
@@ -1186,7 +1186,7 @@ public class APIServlet extends HttpServlet {
 			return null;
 		}
 		Student student = Accounts.inst().getStudent(courseId, email);
-		return (student == null? null : student.toStudentData());
+		return (student == null? null : new StudentData(student));
 	}
 
 	public void editStudent(String originalEmail, StudentData student)
