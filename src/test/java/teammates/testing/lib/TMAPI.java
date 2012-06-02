@@ -128,7 +128,7 @@ public class TMAPI {
 
 	// -------------------------[Course-level methods]-------------------------
 
-	public static String createCourse(teammates.jdo.Course course) {
+	public static String createCourse(CourseData course) {
 		DataBundle dataBundle = new DataBundle();
 		dataBundle.courses.put("dummy-key", course);
 		return persistNewDataBundle(Common.getTeammatesGson()

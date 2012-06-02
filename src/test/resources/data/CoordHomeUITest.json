@@ -9,12 +9,12 @@
   
   "courses": {
     "CHomeUiT.CS2104": {
-      "coordinatorID": "teammates.test",
+      "coordId": "teammates.test",
       "id": "CHomeUiT.CS2104",
       "name": "Programming Language Concepts"
     },
     "CHomeUiT.CS1101": {
-      "coordinatorID": "teammates.test",
+      "coordId": "teammates.test",
       "id": "CHomeUiT.CS1101",
       "name": "Programming Methodology"
     }

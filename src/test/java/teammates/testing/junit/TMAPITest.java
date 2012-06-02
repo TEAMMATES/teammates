@@ -158,9 +158,9 @@ public class TMAPITest extends BaseTestCase{
 	
 		// ----------deleting Course entities-------------------------
 		
-		Course course2 = dataBundle.courses.get("course1OfCoord2");
+		CourseData course2 = dataBundle.courses.get("course1OfCoord2");
 		verifyPresentInDatastore(course2);
-		status = TMAPI.deleteCourse(course2.getID());
+		status = TMAPI.deleteCourse(course2.id);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyAbsentInDatastore(course2);
 		
@@ -255,17 +255,17 @@ public class TMAPITest extends BaseTestCase{
 		
 		String course1OfCoord1 = "AST.TGCBCI.c1OfCoord1";
 		String course2OfCoord1 = "AST.TGCBCI.c2OfCoord1";
-		TMAPI.createCourse(new Course(course1OfCoord1,
+		TMAPI.createCourse(new CourseData(course1OfCoord1,
 				"tmapit tgcbci c1OfCoord1",
 				coord1Id));
-		TMAPI.createCourse(new Course(course2OfCoord1,
+		TMAPI.createCourse(new CourseData(course2OfCoord1,
 				"tmapit tgcbci c2OfCoord1",
 				coord1Id));
 
 		// add a course that belongs to a different coordinator
 		String coord2Id = "AST.TGCBCI.coord2";
 		String course1OfCoord2 = "AST.TGCBCI.c1OfCoord2";
-		TMAPI.createCourse(new Course(course1OfCoord2,
+		TMAPI.createCourse(new CourseData(course1OfCoord2,
 				"tmapit tgcbci c1OfCoord2",
 				coord2Id));
 
@@ -285,7 +285,7 @@ public class TMAPITest extends BaseTestCase{
 		//another well-tested method.
 		printTestCaseHeader();
 		String courseId = "tmapitt.tcc.course";
-		Course course = new Course(courseId, "Name of tmapitt.tcc.coord", "tmapitt.tcc.coord");
+		CourseData course = new CourseData(courseId, "Name of tmapitt.tcc.coord", "tmapitt.tcc.coord");
 		TMAPI.deleteCourse(courseId);
 		verifyAbsentInDatastore(course);
 		TMAPI.createCourse(course);
@@ -554,10 +554,10 @@ public class TMAPITest extends BaseTestCase{
 		assertEquals("Typical Coordinator2", typicalCoord2.name);
 		assertEquals("typicalCoord2@gmail.com", typicalCoord2.email);
 	
-		Course course1 = data.courses.get("course1OfCoord1");
-		assertEquals("idOfCourse1OfCoord1", course1.getID());
-		assertEquals("course1OfCoord1 name", course1.getName());
-		assertEquals("idOfTypicalCoord1", course1.getCoordinatorID());
+		CourseData course1 = data.courses.get("course1OfCoord1");
+		assertEquals("idOfCourse1OfCoord1", course1.id);
+		assertEquals("course1OfCoord1 name", course1.name);
+		assertEquals("idOfTypicalCoord1", course1.coordId);
 	
 		Student student1InCourse1 = data.students.get("student1InCourse1");
 		assertEquals("student1InCourse1", student1InCourse1.getID());
@@ -665,8 +665,8 @@ public class TMAPITest extends BaseTestCase{
 		TMAPI.persistNewDataBundle(jsonString);
 	}
 
-	private void verifyAbsentInDatastore(Course course) {
-		assertEquals("null",TMAPI.getCourseAsJason(course.getID()));
+	private void verifyAbsentInDatastore(CourseData course) {
+		assertEquals("null",TMAPI.getCourseAsJason(course.id));
 	}
 
 	private void verifyAbsentInDatastore(Student student) {
@@ -715,8 +715,8 @@ public class TMAPITest extends BaseTestCase{
 			verifyPresentInDatastore(expectedCoord);
 		}
 
-		HashMap<String, Course> courses = data.courses;
-		for (Course expectedCourse : courses.values()) {
+		HashMap<String, CourseData> courses = data.courses;
+		for (CourseData expectedCourse : courses.values()) {
 			verifyPresentInDatastore(expectedCourse);
 		}
 
@@ -803,10 +803,10 @@ public class TMAPITest extends BaseTestCase{
 				gson.toJson(actualStudent));
 	}
 
-	private void verifyPresentInDatastore(Course expectedCourse) {
+	private void verifyPresentInDatastore(CourseData expectedCourse) {
 		String courseJsonString = TMAPI.getCourseAsJason(expectedCourse
-				.getID());
-		Course actualCourse = gson.fromJson(courseJsonString, Course.class);
+				.id);
+		CourseData actualCourse = gson.fromJson(courseJsonString, CourseData.class);
 		assertEquals(gson.toJson(expectedCourse), gson.toJson(actualCourse));
 	}
 

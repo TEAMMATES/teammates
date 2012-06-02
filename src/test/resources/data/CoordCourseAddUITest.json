@@ -4,19 +4,19 @@
   "validCourse": {
     "id": "CCAddUiTest.course1",
     "name": "Software Engineering $%^&*()",
-    "coordinatorID": "teammates.demo.coord"
+    "coordId": "teammates.demo.coord"
   },
   
   "courseWithSameNameDifferentId": {
     "id": "CCAddUiTest.diffC",
     "name": "Software Engineering $%^&*()",
-    "coordinatorID": "teammates.demo.coord"
+    "coordId": "teammates.demo.coord"
   },
   
   "testCourse": {
   	"id": "CCAddUiTest.course2",
   	"name": "Software Engineering First",
-    "coordinatorID": "teammates.demo.coord"
+    "coordId": "teammates.demo.coord"
   }
   
 }

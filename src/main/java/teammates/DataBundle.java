@@ -11,7 +11,7 @@ import teammates.jdo.*;
 public class DataBundle {
 	
 	public HashMap<String,CoordData> coords = new HashMap<String,CoordData>();
-	public HashMap<String, Course> courses = new HashMap<String, Course>();
+	public HashMap<String, CourseData> courses = new HashMap<String, CourseData>();
 	public HashMap<String, Student> students = new HashMap<String, Student>();
 	public HashMap<String, Evaluation> evaluations = new HashMap<String, Evaluation>();
 	public HashMap<String, Submission> submissions = new HashMap<String, Submission>();

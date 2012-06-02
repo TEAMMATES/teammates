@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.datatransfer.CoordData;
+import teammates.datatransfer.*;
 import teammates.exception.*;
 import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
@@ -786,7 +786,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	private String getCourseAsJson(String courseId) {
-		Course course = getCourse(courseId);
+		CourseData course = getCourse(courseId);
 		return Common.getTeammatesGson().toJson(course);
 	}
 
@@ -917,11 +917,11 @@ public class APIServlet extends HttpServlet {
 			createCoord(coord.id, coord.name, coord.email);
 		}
 
-		HashMap<String, Course> courses = dataBundle.courses;
-		for (Course course : courses.values()) {
-			log.info("API Servlet adding course :" + course.getID());
-			createCourse(course.getCoordinatorID(), course.getID(),
-					course.getName());
+		HashMap<String, CourseData> courses = dataBundle.courses;
+		for (CourseData course : courses.values()) {
+			log.info("API Servlet adding course :" + course.id);
+			createCourse(course.coordId, course.id,
+					course.name);
 		}
 
 		HashMap<String, Student> students = dataBundle.students;
@@ -1081,8 +1081,9 @@ public class APIServlet extends HttpServlet {
 		Courses.inst().addCourse(courseId, courseName, coordinatorId);
 	}
 
-	public Course getCourse(String courseId) {
-		return Courses.inst().getCourse(courseId);
+	public CourseData getCourse(String courseId) {
+		Course c = Courses.inst().getCourse(courseId);
+		return (c==null? null :new CourseData(c.getID(), c.getName(), c.getCoordinatorID()));
 	}
 
 	public void editCourse(Course course) throws NotImplementedException {

@@ -73,14 +73,14 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	public void testCoordHomeCourseEnrollLink(){
 		printTestCaseHeader("testCoordHomeCourseEnrollLink");
 		String link = bi.getElementRelativeHref(By.className("t_course_enroll"+FIRST_COURSE_ROW_NUMBER));
-		assertEquals(Helper.getCourseEnrollLink(scn.courses.get("CHomeUiT.CS2104").getID()),link);
+		assertEquals(Helper.getCourseEnrollLink(scn.courses.get("CHomeUiT.CS2104").id),link);
 	}
 
 	@Test
 	public void testCoordHomeCourseViewLink(){
 		printTestCaseHeader("testCoordHomeCourseViewLink");
 		String link = bi.getElementRelativeHref(By.className("t_course_view"+FIRST_COURSE_ROW_NUMBER));
-		assertEquals(Helper.getCourseViewLink(scn.courses.get("CHomeUiT.CS2104").getID()),link);
+		assertEquals(Helper.getCourseViewLink(scn.courses.get("CHomeUiT.CS2104").id),link);
 	}
 
 	@Test
@@ -96,7 +96,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		
 		By deleteLinkLocator = By.className("t_course_delete"+FIRST_COURSE_ROW_NUMBER);
 		String link = bi.getElementRelativeHref(deleteLinkLocator);
-		assertEquals(Helper.getCourseDeleteLink(scn.courses.get("CHomeUiT.CS2104").getID(), Common.JSP_COORD_HOME),link);
+		assertEquals(Helper.getCourseDeleteLink(scn.courses.get("CHomeUiT.CS2104").id, Common.JSP_COORD_HOME),link);
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
 		} catch (NoAlertAppearException e){
@@ -111,14 +111,14 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		// Check View results link on Open evaluation: Evaluation 1 at Course 1
 		By viewLinkLocator = By.id("viewEvaluation"+FIRST_EVAL_ROW_NUMBER);
 		String link = bi.getElementRelativeHref(viewLinkLocator);
-		assertEquals("Incorrect view link",Helper.getEvaluationViewLink(scn.courses.get("CHomeUiT.CS2104").getID(), scn.evaluations.get("CHomeUiT.CS2104:First Eval").getName()),link);
+		assertEquals("Incorrect view link",Helper.getEvaluationViewLink(scn.courses.get("CHomeUiT.CS2104").id, scn.evaluations.get("CHomeUiT.CS2104:First Eval").getName()),link);
 		assertFalse("View link unavailable on OPEN evaluation","none".equals(bi.getDriver().findElement(viewLinkLocator).getCssValue("text-decoration")));
 		assertFalse("View link unavailable on OPEN evaluation","return false".equals(bi.getElementAttribute(viewLinkLocator, "onclick")));
 		
 		// Check View results link on Awaiting evaluation: Evaluation 4 at Course 2
 		viewLinkLocator = By.id("viewEvaluation"+FOURTH_EVAL_ROW_NUMBER);
 		link = bi.getElementRelativeHref(viewLinkLocator);
-		assertEquals(Helper.getEvaluationViewLink(scn.courses.get("CHomeUiT.CS1101").getID(), scn.evaluations.get("CHomeUiT.CS1101:Fourth Eval").getName()),link);
+		assertEquals(Helper.getEvaluationViewLink(scn.courses.get("CHomeUiT.CS1101").id, scn.evaluations.get("CHomeUiT.CS1101:Fourth Eval").getName()),link);
 		assertEquals("View link available on AWAITING evaluation","none",bi.getDriver().findElement(viewLinkLocator).getCssValue("text-decoration"));
 		assertEquals("View link available on AWAITING evaluation","return false",bi.getElementAttribute(viewLinkLocator, "onclick"));
 	}
@@ -130,7 +130,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		// Check the edit link for first evaluation, which is at fifth row in the page
 		By editLinkLocator = By.id("editEvaluation"+FIRST_EVAL_ROW_NUMBER);
 		String link = bi.getElementRelativeHref(editLinkLocator);
-		assertEquals("Incorrect edit link",Helper.getEvaluationEditLink(scn.courses.get("CHomeUiT.CS2104").getID(), scn.evaluations.get("CHomeUiT.CS2104:First Eval").getName()),link);
+		assertEquals("Incorrect edit link",Helper.getEvaluationEditLink(scn.courses.get("CHomeUiT.CS2104").id, scn.evaluations.get("CHomeUiT.CS2104:First Eval").getName()),link);
 		assertFalse("Edit link unavailable","none".equals(bi.getDriver().findElement(editLinkLocator).getCssValue("text-decoration")));
 		assertFalse("Edit link unavailable","return false".equals(bi.getElementAttribute(editLinkLocator, "onclick")));
 	}
@@ -141,7 +141,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		
 		By deleteLinkLocator = By.id("deleteEvaluation"+FIRST_EVAL_ROW_NUMBER);
 		String link = bi.getElementRelativeHref(deleteLinkLocator);
-		assertEquals(Helper.getEvaluationDeleteLink(scn.courses.get("CHomeUiT.CS2104").getID(), scn.evaluations.get("CHomeUiT.CS2104:First Eval").getName(), Common.JSP_COORD_HOME),link);
+		assertEquals(Helper.getEvaluationDeleteLink(scn.courses.get("CHomeUiT.CS2104").id, scn.evaluations.get("CHomeUiT.CS2104:First Eval").getName(), Common.JSP_COORD_HOME),link);
 		
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
@@ -191,8 +191,8 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	public void testCoordHomeCoursePageHTML(){
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"CoordHomeHTML.html");
 		
-		TMAPI.deleteCourse(scn.courses.get("CHomeUiT.CS2104").getID());
-		TMAPI.deleteCourse(scn.courses.get("CHomeUiT.CS1101").getID());
+		TMAPI.deleteCourse(scn.courses.get("CHomeUiT.CS2104").id);
+		TMAPI.deleteCourse(scn.courses.get("CHomeUiT.CS1101").id);
 		
 		bi.goToCoordHome();
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"CoordHomeHTMLEmpty.html");
@@ -201,8 +201,8 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		bi.logout();
-		TMAPI.deleteCourse(scn.courses.get("CHomeUiT.CS2104").getID());
-		TMAPI.deleteCourse(scn.courses.get("CHomeUiT.CS1101").getID());
+		TMAPI.deleteCourse(scn.courses.get("CHomeUiT.CS2104").id);
+		TMAPI.deleteCourse(scn.courses.get("CHomeUiT.CS1101").id);
 		
 		BrowserInstancePool.release(bi);
 		printTestClassFooter("CoordHomeUITest");

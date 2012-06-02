@@ -9,7 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.Common;
-import teammates.datatransfer.CoordData;
+import teammates.datatransfer.*;
 import teammates.jdo.Coordinator;
 import teammates.jdo.Course;
 import teammates.testing.config.Config;
@@ -29,8 +29,8 @@ public class CoordCourseAddUITest extends TestCase {
 		ts = loadTestScenario();
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		TMAPI.deleteCourse(ts.validCourse.getID());
-		TMAPI.deleteCourse(ts.courseWithSameNameDifferentId.getID());
+		TMAPI.deleteCourse(ts.validCourse.id);
+		TMAPI.deleteCourse(ts.courseWithSameNameDifferentId.id);
 		
 		bi.loginCoord(ts.coordinator.id, Config.inst().TEAMMATES_APP_PASSWD);
 	}
@@ -38,8 +38,8 @@ public class CoordCourseAddUITest extends TestCase {
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		bi.logout();
-		TMAPI.deleteCourse(ts.validCourse.getID());
-		TMAPI.deleteCourse(ts.courseWithSameNameDifferentId.getID());
+		TMAPI.deleteCourse(ts.validCourse.id);
+		TMAPI.deleteCourse(ts.courseWithSameNameDifferentId.id);
 		
 		BrowserInstancePool.release(bi);
 		printTestClassFooter("CoordCourseAddUITest");
@@ -51,12 +51,12 @@ public class CoordCourseAddUITest extends TestCase {
 		printTestCaseHeader("testCoordAddCourseSuccessful");
 		
 		//make sure the course does not exist already
-		TMAPI.deleteCourse(ts.validCourse.getID());
+		TMAPI.deleteCourse(ts.validCourse.id);
 		
 		//course id: only contains alphabets, numbers, dots, hyphens, underscores and dollars
-		String courseID = ts.validCourse.getID();
+		String courseID = ts.validCourse.id;
 		//course name: any character including special characters
-		String courseName = ts.validCourse.getName();
+		String courseName = ts.validCourse.name;
 		
 		//add course:
 		bi.clickCourseTab();
@@ -77,15 +77,15 @@ public class CoordCourseAddUITest extends TestCase {
 
 		// Trying to add a course without ID
 		bi.clickCourseTab();
-		bi.addCourse("", ts.validCourse.getName());
+		bi.addCourse("", ts.validCourse.name);
 		bi.waitForTextInElement(bi.statusMessage, Common.MESSAGE_COURSE_MISSING_FIELD);
 		
 		// Adding course without name
-		bi.addCourse(ts.validCourse.getID(), "");
+		bi.addCourse(ts.validCourse.id, "");
 		bi.waitForTextInElement(bi.statusMessage, Common.MESSAGE_COURSE_MISSING_FIELD);
 		
 		//Not-allowed characters
-		bi.addCourse(ts.validCourse.getID()+"!*}", ts.validCourse.getName() + " (!*})");
+		bi.addCourse(ts.validCourse.id+"!*}", ts.validCourse.name + " (!*})");
 		bi.waitForTextInElement(bi.statusMessage, Common.MESSAGE_COURSE_INVALID_ID);
 	}
 	
@@ -118,36 +118,36 @@ public class CoordCourseAddUITest extends TestCase {
 	public  void testCoordAddCourseWithDuplicateIDFailed() {
 		printTestCaseHeader("testCoordAddCourseWithDuplicateIDFailed");
 		
-		TMAPI.deleteCourse(ts.validCourse.getID());
+		TMAPI.deleteCourse(ts.validCourse.id);
 		TMAPI.createCourse(ts.validCourse);
 		
 		bi.clickCourseTab();
-		bi.addCourse(ts.validCourse.getID(), "different course name");
+		bi.addCourse(ts.validCourse.id, "different course name");
 		bi.waitForTextInElement(bi.statusMessage, Common.MESSAGE_COURSE_EXISTS);
 		
 		//check course not added
 		bi.clickCourseTab();
-		bi.waitForElementPresent(bi.getCourseIDCell(ts.validCourse.getID()));
+		bi.waitForElementPresent(bi.getCourseIDCell(ts.validCourse.id));
 		
 		// Check that there is only one course with that ID and that it is still the old one
-		assertTrue(bi.getCourseIDCount(ts.validCourse.getID())==1);
-		assertEquals(ts.validCourse.getName(),bi.getCourseName(ts.validCourse.getID()));
+		assertTrue(bi.getCourseIDCount(ts.validCourse.id)==1);
+		assertEquals(ts.validCourse.name,bi.getCourseName(ts.validCourse.id));
 	}
 	
 	@Test
 	public  void testCoordAddCourseWithDuplicateNameSuccessful() throws Exception {
 		printTestCaseHeader("testCoordAddCourseWithDuplicateNameSuccessful");
 		
-		TMAPI.deleteCourse(ts.validCourse.getID());
+		TMAPI.deleteCourse(ts.validCourse.id);
 		TMAPI.createCourse(ts.validCourse);
 		
 		bi.clickCourseTab();
-		bi.addCourse(ts.courseWithSameNameDifferentId.getID(), ts.validCourse.getName());
+		bi.addCourse(ts.courseWithSameNameDifferentId.id, ts.validCourse.name);
 		bi.waitForTextInElement(bi.statusMessage, Common.MESSAGE_COURSE_ADDED);
 		
 		//check course added
 		bi.clickCourseTab();
-		bi.verifyCourseIsAdded(ts.courseWithSameNameDifferentId.getID(), ts.validCourse.getName());
+		bi.verifyCourseIsAdded(ts.courseWithSameNameDifferentId.id, ts.validCourse.name);
 
 	}
 	
@@ -160,8 +160,8 @@ public class CoordCourseAddUITest extends TestCase {
 
 	private class TestScenario{
 		public CoordData coordinator;
-		public Course validCourse;
-		public Course courseWithSameNameDifferentId;
+		public CourseData validCourse;
+		public CourseData courseWithSameNameDifferentId;
 	}
 }
 

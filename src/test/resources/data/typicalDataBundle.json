@@ -6,22 +6,22 @@
   },
   "courses": {
 	  "course1OfCoord1": {
-      "coordinatorID" : "idOfTypicalCoord1",
+      "coordId" : "idOfTypicalCoord1",
 	    "id": "idOfCourse1OfCoord1",
 	    "name": "course1OfCoord1 name"
 	  },
 	  "course2OfCoord1": {
-      "coordinatorID" : "idOfTypicalCoord1",
+      "coordId" : "idOfTypicalCoord1",
 	    "id": "idOfCourse2OfCoord1",
 	    "name": "course2OfCoord1 name"
 	  },
 	  "course1OfCoord2": {
-      "coordinatorID" : "idOfTypicalCoord2",
+      "coordId" : "idOfTypicalCoord2",
 	    "id": "idOfCourse1OfCoord2",
 	    "name": "course1OfCoord2 name"
 	  },
 	  "course2OfCoord2": {
-      "coordinatorID" : "idOfTypicalCoord2",
+      "coordId" : "idOfTypicalCoord2",
 	    "id": "idOfCourse2OfCoord2",
 	    "name": "course2OfCoord2 name"
 	  }
