@@ -809,7 +809,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	private String getTfsAsJson(String courseId) {
-		TeamFormingSession tfs = getTfs(courseId);
+		TfsData tfs = getTfs(courseId);
 		return Common.getTeammatesGson().toJson(tfs);
 	}
 
@@ -855,12 +855,12 @@ public class APIServlet extends HttpServlet {
 
 	private void editTfsAsJson(String tfsJson)
 			throws EntityDoesNotExistException {
-		TeamFormingSession tfs = Common.getTeammatesGson().fromJson(tfsJson,
-				TeamFormingSession.class);
-		TeamForming.inst().editTeamFormingSession(tfs.getCourseID(),
-				tfs.getStart(), tfs.getDeadline(), tfs.getGracePeriod(),
-				tfs.getInstructions(), tfs.getProfileTemplate(),
-				tfs.isActivated(), tfs.getTimeZone());
+		TfsData tfs = Common.getTeammatesGson().fromJson(tfsJson,
+				TfsData.class);
+		TeamForming.inst().editTeamFormingSession(tfs.course,
+				tfs.startTime, tfs.endTime, tfs.gracePeriod,
+				tfs.instructions, tfs.profileTemplate,
+				tfs.activated, tfs.timeZone);
 	}
 
 	private void editTeamProfileAsJson(String originalTeamName,
@@ -957,10 +957,10 @@ public class APIServlet extends HttpServlet {
 		createSubmissions(submissionsList);
 		log.info("API Servlet added " + submissionsList.size() + " submissions");
 
-		HashMap<String, TeamFormingSession> tfsMap = dataBundle.teamFormingSessions;
-		for (TeamFormingSession tfs : tfsMap.values()) {
+		HashMap<String, TfsData> tfsMap = dataBundle.teamFormingSessions;
+		for (TfsData tfs : tfsMap.values()) {
 			log.info("API Servlet adding TeamFormingSession to course "
-					+ tfs.getCourseID());
+					+ tfs.course);
 			createTfs(tfs);
 		}
 
@@ -1062,7 +1062,7 @@ public class APIServlet extends HttpServlet {
 		return evaluationDetailsList;
 	}
 
-	public List<TeamFormingSession> getTfsListForCoord(String coordId) {
+	public List<TfsData> getTfsListForCoord(String coordId) {
 		if (coordId == null) {
 			return null;
 		}
@@ -1070,7 +1070,11 @@ public class APIServlet extends HttpServlet {
 				coordId);
 		List<TeamFormingSession> teamFormingSessionList = TeamForming.inst()
 				.getTeamFormingSessionList(courseList);
-		return teamFormingSessionList;
+		ArrayList<TfsData> returnList = new ArrayList<TfsData>();
+		for(TeamFormingSession tfs: teamFormingSessionList){
+			returnList.add(new TfsData(tfs));
+		}
+		return returnList;
 	}
 
 	@SuppressWarnings("unused")
@@ -1338,19 +1342,20 @@ public class APIServlet extends HttpServlet {
 	private void ____TFS_level_methods______________________________________() {
 	}
 
-	public void createTfs(TeamFormingSession tfs)
+	public void createTfs(TfsData tfs)
 			throws EntityAlreadyExistsException, InvalidParametersException {
-		TeamForming.inst().createTeamFormingSession(tfs);
+		TeamForming.inst().createTeamFormingSession(tfs.toTfs());
 	}
 
-	public TeamFormingSession getTfs(String courseId) {
-		return TeamForming.inst().getTeamFormingSession(courseId);
+	public TfsData getTfs(String courseId) {
+		TeamFormingSession tfs = TeamForming.inst().getTeamFormingSession(courseId);
+		return (tfs==null? null : new TfsData(tfs));
 	}
 
-	public void editTfs(TeamFormingSession tfs) {
-		TeamForming.inst().editTeamFormingSession(tfs.getCourseID(),
-				tfs.getStart(), tfs.getDeadline(), tfs.getGracePeriod(),
-				tfs.getInstructions(), tfs.getProfileTemplate());
+	public void editTfs(TfsData tfs) {
+		TeamForming.inst().editTeamFormingSession(tfs.course,
+				tfs.startTime, tfs.endTime, tfs.gracePeriod,
+				tfs.instructions, tfs.profileTemplate);
 	}
 
 	public void deleteTfs(String courseId) {

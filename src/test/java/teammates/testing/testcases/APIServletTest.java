@@ -30,7 +30,6 @@ import teammates.exception.InvalidParametersException;
 import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.EvaluationDetailsForCoordinator;
 import teammates.jdo.TeamFormingLog;
-import teammates.jdo.TeamFormingSession;
 import teammates.jdo.TeamProfile;
 
 import com.google.appengine.api.datastore.Text;
@@ -938,13 +937,13 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader();
 		refreshDataInDatastore();
 
-		TeamFormingSession tfs1 = dataBundle.teamFormingSessions
+		TfsData tfs1 = dataBundle.teamFormingSessions
 				.get("tfsInCourse1");
-		tfs1.setGracePeriod(tfs1.getGracePeriod() + 1);
-		tfs1.setInstructions(tfs1.getInstructions() + "x");
-		tfs1.setProfileTemplate(tfs1.getProfileTemplate() + "y");
-		tfs1.setStart(Common.getDateOffsetToCurrentTime(1));
-		tfs1.setDeadline(Common.getDateOffsetToCurrentTime(2));
+		tfs1.gracePeriod = tfs1.gracePeriod + 1;
+		tfs1.instructions = tfs1.instructions + "x";
+		tfs1.profileTemplate = tfs1.profileTemplate + "y";
+		tfs1.startTime = Common.getDateOffsetToCurrentTime(1);
+		tfs1.endTime = Common.getDateOffsetToCurrentTime(2);
 		apiServlet.editTfs(tfs1);
 		verifyPresentInDatastore(tfs1);
 
@@ -1112,12 +1111,12 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	private void verifyTfsListForCoord(String coordId, int noOfTfs) {
-		List<TeamFormingSession> tfsList = apiServlet
+		List<TfsData> tfsList = apiServlet
 				.getTfsListForCoord(coordId);
 		assertEquals(noOfTfs, tfsList.size());
-		for (TeamFormingSession tfs : tfsList) {
+		for (TfsData tfs : tfsList) {
 			assertEquals(coordId,
-					apiServlet.getCourse(tfs.getCourseID()).coordId);
+					apiServlet.getCourse(tfs.course).coordId);
 		}
 	}
 
@@ -1158,8 +1157,8 @@ public class APIServletTest extends BaseTestCase {
 			verifyPresentInDatastore(expectedSubmission);
 		}
 
-		HashMap<String, TeamFormingSession> teamFormingSessions = data.teamFormingSessions;
-		for (TeamFormingSession expectedTeamFormingSession : teamFormingSessions
+		HashMap<String, TfsData> teamFormingSessions = data.teamFormingSessions;
+		for (TfsData expectedTeamFormingSession : teamFormingSessions
 				.values()) {
 			verifyPresentInDatastore(expectedTeamFormingSession);
 		}
@@ -1203,8 +1202,8 @@ public class APIServletTest extends BaseTestCase {
 				apiServlet.getEvaluation(evaluation.courseId, evaluation.name));
 	}
 
-	private void verifyAbsentInDatastore(TeamFormingSession tfs) {
-		assertEquals(null, apiServlet.getTfs(tfs.getCourseID()));
+	private void verifyAbsentInDatastore(TfsData tfs) {
+		assertEquals(null, apiServlet.getTfs(tfs.course));
 	}
 
 	private void verifyAbsentInDatastore(TeamProfile profile) {
@@ -1265,9 +1264,8 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
-	private void verifyPresentInDatastore(TeamFormingSession expected) {
-		TeamFormingSession actual = apiServlet.getTfs(expected.getCourseID());
-		expected.id = actual.id;
+	private void verifyPresentInDatastore(TfsData expected) {
+		TfsData actual = apiServlet.getTfs(expected.course);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
@@ -1293,7 +1291,8 @@ public class APIServletTest extends BaseTestCase {
 		for (CoordData coord : coords.values()) {
 			apiServlet.deleteCoord(coord.id);
 		}
-		apiServlet.persistNewDataBundle(jsonString);
+		DataBundle data = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+		apiServlet.persistNewDataBundle(data);
 	}
 
 	private boolean isLogEntryInList(TeamFormingLog teamFormingLogEntry,

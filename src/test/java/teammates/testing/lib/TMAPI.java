@@ -277,7 +277,7 @@ public class TMAPI {
 		return evaluationJson;
 	}
 
-	public static String editTfs(teammates.jdo.TeamFormingSession tfs) {
+	public static String editTfs(TfsData tfs) {
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_TFS);
 		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
 				.toJson(tfs));
