@@ -27,11 +27,9 @@ import teammates.exception.EnrollException;
 import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.InvalidParametersException;
-import teammates.jdo.Course;
 import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.Evaluation;
 import teammates.jdo.EvaluationDetailsForCoordinator;
-import teammates.jdo.Student;
 import teammates.jdo.StudentInfoForCoord;
 import teammates.jdo.Submission;
 import teammates.jdo.TeamFormingLog;
@@ -479,11 +477,11 @@ public class APIServletTest extends BaseTestCase {
 
 		// course with multiple students
 		CourseData course1OfCoord1 = dataBundle.courses.get("course1OfCoord1");
-		List<Student> studentList = apiServlet
+		List<StudentData> studentList = apiServlet
 				.getStudentListForCourse(course1OfCoord1.id);
 		assertEquals(3, studentList.size());
-		for (Student s : studentList) {
-			assertEquals(course1OfCoord1.id, s.getCourseID());
+		for (StudentData s : studentList) {
+			assertEquals(course1OfCoord1.id, s.courseId);
 		}
 
 		// course with 0 students
@@ -523,11 +521,11 @@ public class APIServletTest extends BaseTestCase {
 
 		assertEquals(5, enrollResults.size());
 		assertEquals(5, apiServlet.getStudentListForCourse(courseId).size());
-		verifyEnrollmentResultForStudent(new Student(line0, courseId),
+		verifyEnrollmentResultForStudent(new StudentData(line0, courseId),
 				enrollResults.get(0), StudentInfoForCoord.UpdateStatus.NEW);
-		verifyEnrollmentResultForStudent(new Student(line1, courseId),
+		verifyEnrollmentResultForStudent(new StudentData(line1, courseId),
 				enrollResults.get(1), StudentInfoForCoord.UpdateStatus.NEW);
-		verifyEnrollmentResultForStudent(new Student(line4, courseId),
+		verifyEnrollmentResultForStudent(new StudentData(line4, courseId),
 				enrollResults.get(4), StudentInfoForCoord.UpdateStatus.NEW);
 
 		// includes a mix of unmodified, modified, and new
@@ -537,15 +535,15 @@ public class APIServletTest extends BaseTestCase {
 		enrollResults = apiServlet.enrollStudents(lines, courseId);
 		assertEquals(6, enrollResults.size());
 		assertEquals(6, apiServlet.getStudentListForCourse(courseId).size());
-		verifyEnrollmentResultForStudent(new Student(line0, courseId),
+		verifyEnrollmentResultForStudent(new StudentData(line0, courseId),
 				enrollResults.get(0),
 				StudentInfoForCoord.UpdateStatus.UNMODIFIED);
-		verifyEnrollmentResultForStudent(new Student(line0_1, courseId),
+		verifyEnrollmentResultForStudent(new StudentData(line0_1, courseId),
 				enrollResults.get(1), StudentInfoForCoord.UpdateStatus.MODIFIED);
-		verifyEnrollmentResultForStudent(new Student(line1, courseId),
+		verifyEnrollmentResultForStudent(new StudentData(line1, courseId),
 				enrollResults.get(2),
 				StudentInfoForCoord.UpdateStatus.UNMODIFIED);
-		verifyEnrollmentResultForStudent(new Student(line5, courseId),
+		verifyEnrollmentResultForStudent(new StudentData(line5, courseId),
 				enrollResults.get(3), StudentInfoForCoord.UpdateStatus.NEW);
 		assertEquals(StudentInfoForCoord.UpdateStatus.NOT_IN_ENROLL_LIST,
 				enrollResults.get(4).updateStatus);
@@ -594,14 +592,14 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(0, getNumberOfEmailTasksInQueue());
 
 		// modify two students to make them 'unregistered' and send again
-		Student student1InCourse1 = dataBundle.students
+		StudentData student1InCourse1 = dataBundle.students
 				.get("student1InCourse1");
-		student1InCourse1.setID("");
-		apiServlet.editStudent(student1InCourse1.getEmail(), student1InCourse1);
-		Student student2InCourse1 = dataBundle.students
+		student1InCourse1.id = "";
+		apiServlet.editStudent(student1InCourse1.email, student1InCourse1);
+		StudentData student2InCourse1 = dataBundle.students
 				.get("student2InCourse1");
-		student2InCourse1.setID("");
-		apiServlet.editStudent(student2InCourse1.getEmail(), student2InCourse1);
+		student2InCourse1.id ="";
+		apiServlet.editStudent(student2InCourse1.email, student2InCourse1);
 		apiServlet.sendRegistrationInviteForCourse(course1.id);
 		assertEquals(2, getNumberOfEmailTasksInQueue());
 		verifyRegistrationEmailToStudent(student1InCourse1);
@@ -629,7 +627,7 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader();
 		refreshDataInDatastore();
 
-		Student newStudent = new Student("t1|n1|e@com|c1", "tcs.course1");
+		StudentData newStudent = new StudentData("t1|n1|e@com|c1", "tcs.course1");
 		verifyAbsentInDatastore(newStudent);
 
 		apiServlet.createStudent(newStudent);
@@ -662,28 +660,28 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader();
 		refreshDataInDatastore();
 
-		Student student1InCourse1 = dataBundle.students
+		StudentData student1InCourse1 = dataBundle.students
 				.get("student1InCourse1");
 		verifyPresentInDatastore(student1InCourse1);
-		String originalEmail = student1InCourse1.getEmail();
-		student1InCourse1.setName(student1InCourse1.getName() + "x");
-		student1InCourse1.setID(student1InCourse1.getID() + "x");
-		student1InCourse1.setComments(student1InCourse1.getComments() + "x");
-		student1InCourse1.setEmail(student1InCourse1.getEmail() + "x");
-		student1InCourse1.setTeamName(student1InCourse1.getTeamName() + "x");
-		student1InCourse1.setProfileDetail(new Text("new profile detail abc "));
+		String originalEmail = student1InCourse1.email;
+		student1InCourse1.name = student1InCourse1.name + "x";
+		student1InCourse1.id = student1InCourse1.id + "x";
+		student1InCourse1.comments = student1InCourse1.comments + "x";
+		student1InCourse1.email = student1InCourse1.email + "x";
+		student1InCourse1.team = student1InCourse1.team + "x";
+		student1InCourse1.profile = new Text("new profile detail abc ");
 		apiServlet.editStudent(originalEmail, student1InCourse1);
 		verifyPresentInDatastore(student1InCourse1);
 
 		//ensure a team profile is created when moving to a  new one
-		Student student2 = dataBundle.students.get("student3InCourse1");
+		StudentData student2 = dataBundle.students.get("student3InCourse1");
 		TeamProfile teamProfileOfStudent2 = dataBundle.teamProfiles
 				.get("profileOfTeam2.1");
 		verifyPresentInDatastore(teamProfileOfStudent2);
-		student2.setTeamName("newTeam");
-		TeamProfile profileOfNewTeam = new TeamProfile(student2.getCourseID(),"", "newTeam",new Text(""));
+		student2.team = "newTeam";
+		TeamProfile profileOfNewTeam = new TeamProfile(student2.courseId,"", "newTeam",new Text(""));
 		verifyAbsentInDatastore(profileOfNewTeam);
-		apiServlet.editStudent(student2.getEmail(), student2);
+		apiServlet.editStudent(student2.email, student2);
 		verifyPresentInDatastore(profileOfNewTeam);
 		
 		// TODO: more testing e.g. disallow changing course id
@@ -707,37 +705,37 @@ public class APIServletTest extends BaseTestCase {
 				.get("submissionFromS1C1ToS1C1");
 		verifyPresentInDatastore(submissionFromS1C1ToS1C1);
 
-		Student student2InCourse1 = dataBundle.students
+		StudentData student2InCourse1 = dataBundle.students
 				.get("student2InCourse1");
 		verifyPresentInDatastore(student2InCourse1);
 
 		// verify that the student-to-be-deleted has some log entries
-		verifyPresenceOfTfsLogsForStudent(student2InCourse1.getCourseID(),
-				student2InCourse1.getEmail());
+		verifyPresenceOfTfsLogsForStudent(student2InCourse1.courseId,
+				student2InCourse1.email);
 
-		apiServlet.deleteStudent(student2InCourse1.getCourseID(),
-				student2InCourse1.getEmail());
+		apiServlet.deleteStudent(student2InCourse1.courseId,
+				student2InCourse1.email);
 		verifyAbsentInDatastore(student2InCourse1);
 
 		// verify that other students in the course are intact
-		Student student1InCourse1 = dataBundle.students
+		StudentData student1InCourse1 = dataBundle.students
 				.get("student1InCourse1");
 		verifyPresentInDatastore(student1InCourse1);
 
 		// try to delete the student again. should succeed.
-		apiServlet.deleteStudent(student2InCourse1.getCourseID(),
-				student2InCourse1.getEmail());
+		apiServlet.deleteStudent(student2InCourse1.courseId,
+				student2InCourse1.email);
 
 		verifyAbsentInDatastore(submissionFromS1C1ToS2C1);
 		verifyAbsentInDatastore(submissionFromS2C1ToS1C1);
 		verifyPresentInDatastore(submissionFromS1C1ToS1C1);
 
 		// verify that log entries belonging to the student was deleted
-		verifyAbsenceOfTfsLogsForStudent(student2InCourse1.getCourseID(),
-				student2InCourse1.getEmail());
+		verifyAbsenceOfTfsLogsForStudent(student2InCourse1.courseId,
+				student2InCourse1.email);
 		// verify that log entries belonging to another student remain intact
-		verifyPresenceOfTfsLogsForStudent(student1InCourse1.getCourseID(),
-				student1InCourse1.getEmail());
+		verifyPresenceOfTfsLogsForStudent(student1InCourse1.courseId,
+				student1InCourse1.email);
 
 		// TODO: more testing, e.g. test for cascade delete of profiles, submissions etc.
 	}
@@ -755,7 +753,7 @@ public class APIServletTest extends BaseTestCase {
 		String courseId = "courseForEnrollTest";
 		apiServlet.createCourse(coordId, courseId, "Course for Enroll Testing");
 
-		Student student1 = new Student("t|n|e@g|c", courseId);
+		StudentData student1 = new StudentData("t|n|e@g|c", courseId);
 
 		// check if the course is empty
 		assertEquals(0, apiServlet.getStudentListForCourse(courseId).size());
@@ -773,13 +771,13 @@ public class APIServletTest extends BaseTestCase {
 				StudentInfoForCoord.UpdateStatus.UNMODIFIED);
 
 		// modify info of same student and verify it was treated as modified
-		Student student2 = new Student("t|n2|e@g|c", courseId);
+		StudentData student2 = new StudentData("t|n2|e@g|c", courseId);
 		enrollmentResult = apiServlet.enrollStudent(student2);
 		verifyEnrollmentResultForStudent(student2, enrollmentResult,
 				StudentInfoForCoord.UpdateStatus.MODIFIED);
 
 		// add a new student to non-empty course
-		Student student3 = new Student("t3|n3|e3@g|c3", courseId);
+		StudentData student3 = new StudentData("t3|n3|e3@g|c3", courseId);
 		enrollmentResult = apiServlet.enrollStudent(student3);
 		assertEquals(2, apiServlet.getStudentListForCourse(courseId).size());
 		verifyEnrollmentResultForStudent(student3, enrollmentResult,
@@ -791,9 +789,9 @@ public class APIServletTest extends BaseTestCase {
 	public void testSendRegistrationInviteToStudent() throws Exception {
 		printTestCaseHeader();
 		refreshDataInDatastore();
-		Student student1 = dataBundle.students.get("student1InCourse1");
-		apiServlet.sendRegistrationInviteToStudent(student1.getCourseID(),
-				student1.getEmail());
+		StudentData student1 = dataBundle.students.get("student1InCourse1");
+		apiServlet.sendRegistrationInviteToStudent(student1.courseId,
+				student1.email);
 
 		assertEquals(1, getNumberOfEmailTasksInQueue());
 		verifyRegistrationEmailToStudent(student1);
@@ -975,16 +973,16 @@ public class APIServletTest extends BaseTestCase {
 	public void testRenameTeam() throws Exception {
 		printTestCaseHeader();
 		refreshDataInDatastore();
-		Student student1InCourse1 = dataBundle.students
+		StudentData student1InCourse1 = dataBundle.students
 				.get("student1InCourse1");
-		String originalTeamName = student1InCourse1.getTeamName();
+		String originalTeamName = student1InCourse1.team;
 		String newTeamName = originalTeamName + "x";
-		String courseID = student1InCourse1.getCourseID();
+		String courseID = student1InCourse1.courseId;
 		verifyTeamNameChange(courseID, originalTeamName, newTeamName);
 
 		refreshDataInDatastore();
-		originalTeamName = student1InCourse1.getTeamName();
-		courseID = student1InCourse1.getCourseID();
+		originalTeamName = student1InCourse1.team;
+		courseID = student1InCourse1.courseId;
 		verifyTeamNameChange(courseID, "nonExisentTeam", "newTeamName");
 
 		// TODO: more testing
@@ -1067,18 +1065,18 @@ public class APIServletTest extends BaseTestCase {
 
 	// ------------------------------------------------------------------------
 
-	private void verifyEnrollmentResultForStudent(Student expectedStudent,
+	private void verifyEnrollmentResultForStudent(StudentData expectedStudent,
 			StudentInfoForCoord enrollmentResult,
 			StudentInfoForCoord.UpdateStatus status) {
-		String errorMessage = "mismatch! \n"
-				+ Common.getTeammatesGson().toJson(expectedStudent) + "\n"
+		String errorMessage = "mismatch! \n expected:\n"
+				+ Common.getTeammatesGson().toJson(expectedStudent) + "\n actual \n"
 				+ Common.getTeammatesGson().toJson(enrollmentResult);
+		expectedStudent.updateStatus = status;
 		assertEquals(errorMessage, true,
-				enrollmentResult.isEnrollmentInfoMatchingTo(expectedStudent,
-						status));
+				enrollmentResult.isEnrollmentInfoMatchingTo(expectedStudent));
 	}
 
-	private void verifyRegistrationEmailToStudent(Student student) {
+	private void verifyRegistrationEmailToStudent(StudentData student) {
 		LocalTaskQueue ltq = LocalTaskQueueTestConfig.getLocalTaskQueue();
 		QueueStateInfo qsi = ltq.getQueueStateInfo().get("email-queue");
 
@@ -1086,9 +1084,9 @@ public class APIServletTest extends BaseTestCase {
 		for (TaskStateInfo tsi : taskInfoList) {
 			String emailTaskBody = tsi.getBody();
 			if (emailTaskBody.contains("email="
-					+ student.getEmail().replace("@", "%40"))
+					+ student.email.replace("@", "%40"))
 					&& emailTaskBody.contains("courseid="
-							+ student.getCourseID())) {
+							+ student.courseId)) {
 				return;
 			}
 		}
@@ -1103,26 +1101,26 @@ public class APIServletTest extends BaseTestCase {
 
 	private void verifyTeamNameChange(String courseID, String originalTeamName,
 			String newTeamName) {
-		List<Student> studentsInClass = apiServlet
+		List<StudentData> studentsInClass = apiServlet
 				.getStudentListForCourse(courseID);
-		List<Student> studentsInTeam = new ArrayList<Student>();
-		List<Student> studentsNotInTeam = new ArrayList<Student>();
-		for (Student s : studentsInClass) {
-			if (s.getTeamName().equals(originalTeamName)) {
+		List<StudentData> studentsInTeam = new ArrayList<StudentData>();
+		List<StudentData> studentsNotInTeam = new ArrayList<StudentData>();
+		for (StudentData s : studentsInClass) {
+			if (s.team.equals(originalTeamName)) {
 				studentsInTeam.add(s);
 			} else {
 				studentsNotInTeam.add(s);
 			}
 		}
 		apiServlet.renameTeam(courseID, originalTeamName, newTeamName);
-		for (Student s : studentsInTeam) {
+		for (StudentData s : studentsInTeam) {
 			assertEquals(newTeamName,
-					apiServlet.getStudent(s.getCourseID(), s.getEmail())
-							.getTeamName());
+					apiServlet.getStudent(s.courseId, s.email)
+							.team);
 		}
-		for (Student s : studentsNotInTeam) {
-			String teamName = apiServlet.getStudent(s.getCourseID(),
-					s.getEmail()).getTeamName();
+		for (StudentData s : studentsNotInTeam) {
+			String teamName = apiServlet.getStudent(s.courseId,
+					s.email).team;
 			assertTrue("unexpected team name: " + teamName,
 					!teamName.equals(newTeamName));
 		}
@@ -1161,8 +1159,8 @@ public class APIServletTest extends BaseTestCase {
 			verifyPresentInDatastore(expectedCourse);
 		}
 
-		HashMap<String, Student> students = data.students;
-		for (Student expectedStudent : students.values()) {
+		HashMap<String, StudentData> students = data.students;
+		for (StudentData expectedStudent : students.values()) {
 			verifyPresentInDatastore(expectedStudent);
 		}
 
@@ -1211,9 +1209,9 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(null, apiServlet.getCourse(course.id));
 	}
 
-	private void verifyAbsentInDatastore(Student student) {
-		assertEquals(null, apiServlet.getStudent(student.getCourseID(),
-				student.getEmail()));
+	private void verifyAbsentInDatastore(StudentData student) {
+		assertEquals(null, apiServlet.getStudent(student.courseId,
+				student.email));
 	}
 
 	private void verifyAbsentInDatastore(Evaluation evaluation) {
@@ -1258,9 +1256,10 @@ public class APIServletTest extends BaseTestCase {
 				+ courseId);
 	}
 
-	private void verifyPresentInDatastore(Student expectedStudent) {
-		Student actualStudent = apiServlet.getStudent(
-				expectedStudent.getCourseID(), expectedStudent.getEmail());
+	private void verifyPresentInDatastore(StudentData expectedStudent) {
+		StudentData actualStudent = apiServlet.getStudent(
+				expectedStudent.courseId, expectedStudent.email);
+		
 		assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
 	}
 

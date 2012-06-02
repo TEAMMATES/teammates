@@ -791,7 +791,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	private String getStudentAsJson(String courseId, String email) {
-		Student student = getStudent(courseId, email);
+		StudentData student = getStudent(courseId, email);
 		return Common.getTeammatesGson().toJson(student);
 	}
 
@@ -828,8 +828,8 @@ public class APIServlet extends HttpServlet {
 
 	private void editStudentAsJson(String originalEmail, String newValues)
 			throws InvalidParametersException {
-		Student student = Common.getTeammatesGson().fromJson(newValues,
-				Student.class);
+		StudentData student = Common.getTeammatesGson().fromJson(newValues,
+				StudentData.class);
 		editStudent(originalEmail, student);
 	}
 
@@ -924,10 +924,10 @@ public class APIServlet extends HttpServlet {
 					course.name);
 		}
 
-		HashMap<String, Student> students = dataBundle.students;
-		for (Student student : students.values()) {
-			log.info("API Servlet adding student :" + student.getEmail()
-					+ " to course " + student.getCourseID());
+		HashMap<String, StudentData> students = dataBundle.students;
+		for (StudentData student : students.values()) {
+			log.info("API Servlet adding student :" + student.email
+					+ " to course " + student.courseId);
 			createStudent(student);
 		}
 
@@ -1100,11 +1100,16 @@ public class APIServlet extends HttpServlet {
 		Courses.inst().deleteCourse(courseId);
 	}
 
-	public List<Student> getStudentListForCourse(String courseId) {
+	public List<StudentData> getStudentListForCourse(String courseId) {
 		if (courseId == null) {
 			return null;
 		}
-		return Courses.inst().getStudentList(courseId);
+		List<Student> studentList = Courses.inst().getStudentList(courseId);
+		List<StudentData> returnList = new ArrayList<StudentData>();
+		for(Student s: studentList){
+			returnList.add(s.toStudentData());
+		}
+		return returnList;
 	}
 
 	public void sendRegistrationInviteForCourse(String courseId)
@@ -1130,7 +1135,7 @@ public class APIServlet extends HttpServlet {
 		}
 		ArrayList<StudentInfoForCoord> returnList = new ArrayList<StudentInfoForCoord>();
 		String[] linesArray = enrollLines.split(Common.EOL);
-		ArrayList<Student> studentList = new ArrayList<Student>();
+		ArrayList<StudentData> studentList = new ArrayList<StudentData>();
 
 		// check if all non-empty lines are formatted correctly
 		for (int i = 0; i < linesArray.length; i++) {
@@ -1138,7 +1143,7 @@ public class APIServlet extends HttpServlet {
 			try {
 				if (Common.isWhiteSpace(line))
 					continue;
-				studentList.add(new Student(line, courseId));
+				studentList.add(new Student(line, courseId).toStudentData());
 			} catch (InvalidParametersException e) {
 				throw new EnrollException(e.errorCode, "Problem in line : "
 						+ line + Common.EOL + e.getMessage());
@@ -1146,15 +1151,15 @@ public class APIServlet extends HttpServlet {
 		}
 
 		// enroll all students
-		for (Student student : studentList) {
+		for (StudentData student : studentList) {
 			StudentInfoForCoord studentInfo;
 			studentInfo = enrollStudent(student);
 			returnList.add(studentInfo);
 		}
 
 		// add to return list students not included in the enroll list.
-		List<Student> studentsInCourse = getStudentListForCourse(courseId);
-		for (Student student : studentsInCourse) {
+		List<StudentData> studentsInCourse = getStudentListForCourse(courseId);
+		for (StudentData student : studentsInCourse) {
 			if (!isInEnrollList(student, returnList)) {
 				StudentInfoForCoord studentInfo = convertToStudentInfoForCoord(student);
 				studentInfo.updateStatus = StudentInfoForCoord.UpdateStatus.NOT_IN_ENROLL_LIST;
@@ -1168,34 +1173,35 @@ public class APIServlet extends HttpServlet {
 	private void ____STUDENT_level_methods__________________________________() {
 	}
 
-	public void createStudent(Student student)
+	public void createStudent(StudentData student)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 		if (student == null) {
 			throw new InvalidParametersException("Student cannot be null");
 		}
-		Courses.inst().createStudent(student);
+		Courses.inst().createStudent(new Student(student));
 	}
 
-	public Student getStudent(String courseId, String email) {
+	public StudentData getStudent(String courseId, String email) {
 		if (courseId == null || email == null) {
 			return null;
 		}
-		return Accounts.inst().getStudent(courseId, email);
+		Student student = Accounts.inst().getStudent(courseId, email);
+		return (student == null? null : student.toStudentData());
 	}
 
-	public void editStudent(String originalEmail, Student student)
+	public void editStudent(String originalEmail, StudentData student)
 			throws InvalidParametersException {
 		// TODO: make the implementation more defensive
-		String newTeamName = student.getTeamName();
-		Courses.inst().editStudent(student.getCourseID(), originalEmail,
-				student.getName(), student.getTeamName(), student.getEmail(),
-				student.getID(), student.getComments(),
-				student.getProfileDetail());
-		if (TeamForming.inst().getTeamProfile(student.getCourseID(),
-				student.getTeamName()) == null) {
+		String newTeamName = student.team;
+		Courses.inst().editStudent(student.courseId, originalEmail,
+				student.name, student.team, student.email,
+				student.id, student.comments,
+				student.profile);
+		if (TeamForming.inst().getTeamProfile(student.courseId,
+				student.team) == null) {
 			try {
 				TeamForming.inst().createTeamProfile(
-						new TeamProfile(student.getCourseID(), "", newTeamName,
+						new TeamProfile(student.courseId, "", newTeamName,
 								new Text("")));
 			} catch (EntityAlreadyExistsException e) {
 				log.severe("EntityAlreadyExistsException thrown in "
@@ -1211,13 +1217,13 @@ public class APIServlet extends HttpServlet {
 		// TODO:delete team profile, if the last member
 	}
 
-	public StudentInfoForCoord enrollStudent(Student student) {
+	public StudentInfoForCoord enrollStudent(StudentData student) {
 		StudentInfoForCoord.UpdateStatus updateStatus = UpdateStatus.UNMODIFIED;
 		try {
 			if (isSameAsExistingStudent(student)) {
 				updateStatus = UpdateStatus.UNMODIFIED;
 			} else if (isModificationToExistingStudent(student)) {
-				editStudent(student.getEmail(), student);
+				editStudent(student.email, student);
 				updateStatus = UpdateStatus.MODIFIED;
 			} else {
 				createStudent(student);
@@ -1400,30 +1406,30 @@ public class APIServlet extends HttpServlet {
 	private void ____helper_methods________________________________________() {
 	}
 
-	private boolean isInEnrollList(Student student,
+	private boolean isInEnrollList(StudentData student,
 			ArrayList<StudentInfoForCoord> studentInfoList) {
 		for (StudentInfoForCoord studentInfo : studentInfoList) {
-			if (studentInfo.email.equalsIgnoreCase(student.getEmail()))
+			if (studentInfo.email.equalsIgnoreCase(student.email))
 				return true;
 		}
 		return false;
 	}
 
-	private boolean isSameAsExistingStudent(Student student) {
-		Student existingStudent = getStudent(student.getCourseID(),
-				student.getEmail());
+	private boolean isSameAsExistingStudent(StudentData student) {
+		StudentData existingStudent = getStudent(student.courseId,
+				student.email);
 		if (existingStudent == null)
 			return false;
 		return student.isEnrollInfoSameAs(existingStudent);
 	}
 
-	private StudentInfoForCoord convertToStudentInfoForCoord(Student student) {
+	private StudentInfoForCoord convertToStudentInfoForCoord(StudentData student) {
 		StudentInfoForCoord studentInfoForCoord = new StudentInfoForCoord(
 				student);
 		return studentInfoForCoord;
 	}
 
-	private boolean isModificationToExistingStudent(Student student) {
-		return getStudent(student.getCourseID(), student.getEmail()) != null;
+	private boolean isModificationToExistingStudent(StudentData student) {
+		return getStudent(student.courseId, student.email) != null;
 	}
 }

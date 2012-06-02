@@ -1,5 +1,7 @@
 package teammates.jdo;
 
+import teammates.datatransfer.StudentData;
+
 import com.google.appengine.api.datastore.Text;
 
 public class StudentInfoForCoord {
@@ -16,6 +18,19 @@ public class StudentInfoForCoord {
 		this.profileSummary = student.getProfileSummary();
 		this.profileDetail = student.getProfileDetail();
 		this.updateStatus = UpdateStatus.UNKNOWN;
+	}
+	
+	public StudentInfoForCoord(StudentData student) {
+		this.id = student.id;
+		this.email = student.email;
+		this.courseId = student.courseId;
+		this.name = student.name;
+		this.comments = student.comments;
+		this.teamName = student.team;
+		this.courseArchived = false;
+		this.profileSummary = null;
+		this.profileDetail = student.profile;
+		this.updateStatus = student.updateStatus;
 	}
 
 	public enum UpdateStatus{
@@ -49,24 +64,13 @@ public class StudentInfoForCoord {
 	
 	public UpdateStatus updateStatus;
 
-	public boolean isEnrollmentInfoMatchingTo(Student student, UpdateStatus updateStatus) {
-//		return (this.id.equals(student.getID())) &&
-//		(this.email.equals(student.getEmail())) &&
-//		(this.courseId.equals(student.getCourseID())) &&
-//		(this.name.equals(student.getName())) &&
-//		(this.comments.equals(student.getComments())) &&
-//		(this.registrationKey.equals(student.getRegistrationKey())) &&
-//		(this.teamName.equals(student.getTeamName())) &&
-//		(this.courseArchived== student.isCourseArchived()) &&
-//		(this.profileSummary.equals(student.getProfileSummary())) &&
-//		(this.profileDetail.equals(student.getProfileDetail())) &&
-//		(this.updateStatus == updateStatus);
-		return (this.email.equals(student.getEmail())) &&
-				(this.courseId.equals(student.getCourseID())) &&
-				(this.name.equals(student.getName())) &&
-				(this.comments.equals(student.getComments())) &&
-				(this.teamName.equals(student.getTeamName())) &&
-				(this.updateStatus == updateStatus);
+	public boolean isEnrollmentInfoMatchingTo(StudentData student) {
+		return (this.email.equals(student.email)) &&
+				(this.courseId.equals(student.courseId)) &&
+				(this.name.equals(student.name)) &&
+				(this.comments.equals(student.comments)) &&
+				(this.teamName.equals(student.team)) &&
+				(this.updateStatus == student.updateStatus);
 	}
 
 }

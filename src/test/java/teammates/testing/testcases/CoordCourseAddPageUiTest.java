@@ -33,6 +33,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static TestScenario ts;
 	
+	//TODO: location of the test app is available in one of the properties files -damith
 	private static String localhostAddress = "localhost:8080/";
 	
 	private static TestScenario loadTestScenario() throws JSONException {

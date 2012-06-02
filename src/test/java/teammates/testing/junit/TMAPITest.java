@@ -16,10 +16,7 @@ import teammates.Common;
 import teammates.DataBundle;
 import teammates.datatransfer.*;
 import teammates.exception.InvalidParametersException;
-import teammates.jdo.Coordinator;
-import teammates.jdo.Course;
 import teammates.jdo.Evaluation;
-import teammates.jdo.Student;
 import teammates.jdo.Submission;
 import teammates.jdo.TeamFormingLog;
 import teammates.jdo.TeamFormingSession;
@@ -165,7 +162,7 @@ public class TMAPITest extends BaseTestCase{
 		verifyAbsentInDatastore(course2);
 		
 		//check if related student entities are also deleted
-		Student student2InCourse2 = dataBundle.students.get("student2InCourse2");
+		StudentData student2InCourse2 = dataBundle.students.get("student2InCourse2");
 		verifyAbsentInDatastore(student2InCourse2);
 		
 		//check if related evaluation entities are also deleted
@@ -318,12 +315,12 @@ public class TMAPITest extends BaseTestCase{
 		//only minimal testing because this is a wrapper method for
 		//another well-tested method.
 		printTestCaseHeader();
-		Student student = new Student("|name of tcs student|tcsStudent@gmail.com|", "tmapit.tcs.course");
-		TMAPI.deleteStudent(student.getCourseID(), student.getEmail());
+		StudentData student = new StudentData("|name of tcs student|tcsStudent@gmail.com|", "tmapit.tcs.course");
+		TMAPI.deleteStudent(student.courseId, student.email);
 		verifyAbsentInDatastore(student);
 		TMAPI.createStudent(student);
 		verifyPresentInDatastore(student);
-		TMAPI.deleteStudent(student.getCourseID(), student.getEmail());
+		TMAPI.deleteStudent(student.courseId, student.email);
 		verifyAbsentInDatastore(student);
 	}
 	
@@ -338,19 +335,19 @@ public class TMAPITest extends BaseTestCase{
 		
 		//check for successful edit
 		refreshDataInDatastore();
-		Student student = dataBundle.students.get("student1InCourse1");
-		String originalEmail = student.getEmail();
-		student.setName("New name");
-		student.setEmail("new@gmail.com");
-		student.setComments("new comments");
-		student.setProfileDetail(new Text("new profile"));
-		student.setTeamName("new team");
+		StudentData student = dataBundle.students.get("student1InCourse1");
+		String originalEmail = student.email;
+		student.name = "New name";
+		student.email = "new@gmail.com";
+		student.comments = "new comments";
+		student.profile = new Text("new profile");
+		student.team = "new team";
 		String status = TMAPI.editStudent(originalEmail,student);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyPresentInDatastore(student);
 		
 		//test for unsuccessful edit
-		student.setCourseID("non-existent");
+		student.courseId ="non-existent";
 		status = TMAPI.editStudent(originalEmail,student);
 		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
 		verifyAbsentInDatastore(student);
@@ -559,22 +556,20 @@ public class TMAPITest extends BaseTestCase{
 		assertEquals("course1OfCoord1 name", course1.name);
 		assertEquals("idOfTypicalCoord1", course1.coordId);
 	
-		Student student1InCourse1 = data.students.get("student1InCourse1");
-		assertEquals("student1InCourse1", student1InCourse1.getID());
-		assertEquals("student1 In Course1", student1InCourse1.getName());
-		assertEquals("Team 1.1", student1InCourse1.getTeamName());
+		StudentData student1InCourse1 = data.students.get("student1InCourse1");
+		assertEquals("student1InCourse1", student1InCourse1.id);
+		assertEquals("student1 In Course1", student1InCourse1.name);
+		assertEquals("Team 1.1", student1InCourse1.team);
 		assertEquals("comment for student1InCourse1",
-				student1InCourse1.getComments());
-		assertEquals("profile summary for student1InCourse1",
-				student1InCourse1.getProfileSummary());
-		assertEquals("idOfCourse1OfCoord1", student1InCourse1.getCourseID());
+				student1InCourse1.comments);
+		assertEquals("idOfCourse1OfCoord1", student1InCourse1.courseId);
 		assertEquals("profiledetail for student1InCourse1", student1InCourse1
-				.getProfileDetail().getValue());
+				.profile.getValue());
 	
-		Student student2InCourse2 = data.students.get("student2InCourse2");
-		assertEquals("student2InCourse2", student2InCourse2.getID());
-		assertEquals("student2 In Course2", student2InCourse2.getName());
-		assertEquals("Team 2.1", student2InCourse2.getTeamName());
+		StudentData student2InCourse2 = data.students.get("student2InCourse2");
+		assertEquals("student2InCourse2", student2InCourse2.id);
+		assertEquals("student2 In Course2", student2InCourse2.name);
+		assertEquals("Team 2.1", student2InCourse2.team);
 	
 		Evaluation evaluation1 = data.evaluations.get("evaluation1InCourse1OfCoord1");
 		assertEquals("evaluation1 In Course1", evaluation1.getName());
@@ -669,8 +664,8 @@ public class TMAPITest extends BaseTestCase{
 		assertEquals("null",TMAPI.getCourseAsJason(course.id));
 	}
 
-	private void verifyAbsentInDatastore(Student student) {
-		assertEquals("null",TMAPI.getStudentAsJason(student.getCourseID(), student.getEmail()));
+	private void verifyAbsentInDatastore(StudentData student) {
+		assertEquals("null",TMAPI.getStudentAsJason(student.courseId, student.email));
 	}
 
 	private void verifyAbsentInDatastore(Evaluation evaluation1InCourse1) {
@@ -720,8 +715,8 @@ public class TMAPITest extends BaseTestCase{
 			verifyPresentInDatastore(expectedCourse);
 		}
 
-		HashMap<String, Student> students = data.students;
-		for (Student expectedStudent : students.values()) {
+		HashMap<String, StudentData> students = data.students;
+		for (StudentData expectedStudent : students.values()) {
 			verifyPresentInDatastore(expectedStudent);
 		}
 
@@ -794,11 +789,11 @@ public class TMAPITest extends BaseTestCase{
 				gson.toJson(actualEvaluation));
 	}
 
-	private void verifyPresentInDatastore(Student expectedStudent) {
+	private void verifyPresentInDatastore(StudentData expectedStudent) {
 		String studentJsonString = TMAPI.getStudentAsJason(
-				expectedStudent.getCourseID(), expectedStudent.getEmail());
-		Student actualStudent = gson.fromJson(studentJsonString,
-				Student.class);
+				expectedStudent.courseId, expectedStudent.email);
+		StudentData actualStudent = gson.fromJson(studentJsonString,
+				StudentData.class);
 		assertEquals(gson.toJson(expectedStudent),
 				gson.toJson(actualStudent));
 	}

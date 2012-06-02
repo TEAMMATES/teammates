@@ -6,6 +6,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import teammates.Common;
+import teammates.datatransfer.StudentData;
 import teammates.exception.InvalidParametersException;
 
 import com.google.gson.annotations.SerializedName;
@@ -107,6 +108,17 @@ public class Student {
 
 	public Student() {
 
+	}
+	
+	public Student(StudentData data){
+		setID(data.id);
+		setEmail(data.email);
+		setCourseID(data.courseId);
+		setName(data.name);
+		setComments(data.comments);
+		setTeamName(data.team);
+		//registration key not used
+		setProfileDetail(data.profile);
 	}
 	
 	public Student(String line, String courseId) throws InvalidParametersException{
@@ -233,13 +245,18 @@ public class Student {
 		return courseArchived;
 	}
 
-	public boolean isEnrollInfoSameAs(Student otherStudent) {
-		return (otherStudent!=null)&&
-				otherStudent.getEmail().equals(this.getEmail())&&
-				otherStudent.getCourseID().equals(this.getCourseID())&&
-				otherStudent.getName().equals(this.getName())&&
-				otherStudent.getComments().equals(this.getComments())&&
-				otherStudent.getTeamName().equals(this.getTeamName());
+
+
+	public StudentData toStudentData() {
+		StudentData data = new StudentData();
+		data.email = email;
+		data.courseId = courseID;
+		data.name = name;
+		data.comments = comments;
+		data.team = teamName;
+		data.profile = profileDetail;
+		data.id = ID;
+		return data;
 	}
 
 }

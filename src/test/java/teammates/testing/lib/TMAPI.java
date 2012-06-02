@@ -21,7 +21,6 @@ import teammates.DataBundle;
 import teammates.datatransfer.*;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.NotImplementedException;
-import teammates.jdo.Coordinator;
 import teammates.jdo.Submission;
 import teammates.jdo.TeamProfile;
 import teammates.testing.config.Config;
@@ -88,7 +87,7 @@ public class TMAPI {
 		return coordJsonString;
 	}
 	
-	public static String editCoord(Coordinator coord) throws NotImplementedException{
+	public static String editCoord(CoordData coord) throws NotImplementedException{
 		throw new NotImplementedException("Not implemented because editing coordinators is not currently allowed");
 	}
 
@@ -156,7 +155,7 @@ public class TMAPI {
 
 	// ------------------------[Student-level methods]-------------------------
 
-	public static String createStudent(teammates.jdo.Student student) {
+	public static String createStudent(StudentData student) {
 		DataBundle dataBundle = new DataBundle();
 		dataBundle.students.put("dummy-key", student);
 		return persistNewDataBundle(Common.getTeammatesGson()
@@ -172,7 +171,7 @@ public class TMAPI {
 	}
 
 	public static String editStudent(String originalEmail,
-			teammates.jdo.Student student) {
+			StudentData student) {
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_STUDENT);
 		params.put(APIServlet.PARAMETER_STUDENT_EMAIL, originalEmail);
 		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()

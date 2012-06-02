@@ -32,44 +32,43 @@
     "student1InCourse1":{
       "email": "student1InCourse1@gmail.com",
       "name": "student1 In Course1",
-      "teamname": "Team 1.1",
-      "google_id": "student1InCourse1",
+      "team": "Team 1.1",
+      "id": "student1InCourse1",
       "comments" : "comment for student1InCourse1",
-      "profilesummary" : "profile summary for student1InCourse1",
-      "coursename" : "idOfCourse1OfCoord1",
-      "profiledetail" : {"value" : "profiledetail for student1InCourse1" }
+      "courseId" : "idOfCourse1OfCoord1",
+	  "profile" : {"value" : "profiledetail for student1InCourse1" }
     },
     "student2InCourse1":{
       "email": "student2InCourse1@gmail.com",
       "name": "student2 In Course1",
-      "google_id": "student2InCourse1",
-      "teamname": "Team 1.1",
-      "coursename" : "idOfCourse1OfCoord1",
-      "profiledetail" : {"value" : "profiledetail for student2InCourse1" }
+      "id": "student2InCourse1",
+      "team": "Team 1.1",
+ 	  "courseId" : "idOfCourse1OfCoord1",
+      "profile" : {"value" : "profiledetail for student2InCourse1" }
     },
     "student3InCourse1":{
       "email": "student3InCourse1@gmail.com",
       "name": "student3 In Course1",
-      "google_id": "student3InCourse1",
-      "teamname": "Team 1.2",
-      "coursename" : "idOfCourse1OfCoord1",
-      "profiledetail" : {"value" : "profiledetail for student3InCourse1" }
+      "id": "student3InCourse1",
+      "team": "Team 1.2",
+      "courseId" : "idOfCourse1OfCoord1",
+      "profile" : {"value" : "profiledetail for student3InCourse1" }
     },
     "student1InCourse2":{
       "email": "student1InCourse2@gmail.com",
       "name": "student1 In Course2",
-      "google_id": "student1InCourse2",
-      "teamname": "Team 2.1",
-      "coursename" : "idOfCourse1OfCoord2",
-      "profiledetail" : {"value" : "profiledetail for student1InCourse2" }
+      "id": "student1InCourse2",
+      "team": "Team 2.1",
+      "courseId" : "idOfCourse1OfCoord2",
+      "profile" : {"value" : "profiledetail for student1InCourse2" }
     },
     "student2InCourse2":{
       "email": "student2InCourse2@gmail.com",
       "name": "student2 In Course2",
-      "google_id": "student2InCourse2",
-      "teamname": "Team 2.1",
-      "coursename" : "idOfCourse1OfCoord2",
-      "profiledetail" : {"value" : "profiledetail for student2InCourse2" }
+      "id": "student2InCourse2",
+      "team": "Team 2.1",
+      "courseId" : "idOfCourse1OfCoord2",
+      "profile" : {"value" : "profiledetail for student2InCourse2" }
     }
   },
   
