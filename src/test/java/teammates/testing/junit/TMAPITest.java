@@ -17,7 +17,6 @@ import teammates.DataBundle;
 import teammates.datatransfer.*;
 import teammates.exception.InvalidParametersException;
 import teammates.jdo.TeamFormingLog;
-import teammates.jdo.TeamProfile;
 import teammates.testing.lib.SharedLib;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.testcases.BaseTestCase;
@@ -88,21 +87,21 @@ public class TMAPITest extends BaseTestCase{
 		// ----------deleting TeamProfile entities-------------------------
 	
 		// delete one TeamProfile and confirm it is already deleted
-		TeamProfile teamProfileOfTeam1_1 = dataBundle.teamProfiles
+		TeamProfileData teamProfileOfTeam1_1 = dataBundle.teamProfiles
 				.get("profileOfTeam1.1");
 		verifyPresentInDatastore(teamProfileOfTeam1_1);
-		status = TMAPI.deleteTeamProfile(teamProfileOfTeam1_1.getCourseID(),
-				teamProfileOfTeam1_1.getTeamName());
+		status = TMAPI.deleteTeamProfile(teamProfileOfTeam1_1.course,
+				teamProfileOfTeam1_1.team);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyAbsentInDatastore(teamProfileOfTeam1_1);
 	
-		// verify if the other TeamProfile in the same course is intact
+		// verify if the other TeamProfileData in the same course is intact
 		verifyPresentInDatastore(dataBundle.teamProfiles
 				.get("profileOfTeam1.2"));
 	
 		// try to delete it again, should succeed
-		status = TMAPI.deleteTeamProfile(teamProfileOfTeam1_1.getCourseID(),
-				teamProfileOfTeam1_1.getTeamName());
+		status = TMAPI.deleteTeamProfile(teamProfileOfTeam1_1.course,
+				teamProfileOfTeam1_1.team);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 	
 		// ----------deleting TeamFormingLog entities-------------------------
@@ -167,7 +166,7 @@ public class TMAPITest extends BaseTestCase{
 		verifyAbsentInDatastore(evaluation1InCourse2);
 		
 		//check if related team profile entities are also deleted
-		TeamProfile teamProfileOfTeam2_1 = dataBundle.teamProfiles
+		TeamProfileData teamProfileOfTeam2_1 = dataBundle.teamProfiles
 				.get("profileOfTeam2.1");
 		verifyAbsentInDatastore(teamProfileOfTeam2_1);
 		
@@ -519,10 +518,10 @@ public class TMAPITest extends BaseTestCase{
 		refreshDataInDatastore();
 		
 		//check for successful edit
-		TeamProfile teamProfile = dataBundle.teamProfiles.get("profileOfTeam1.1");
-		String originalTeamName = teamProfile.getTeamName();
-		teamProfile.setTeamName(teamProfile.getTeamName()+"x");
-		teamProfile.setTeamProfile(new Text(teamProfile.getTeamProfile().getValue()+"x"));
+		TeamProfileData teamProfile = dataBundle.teamProfiles.get("profileOfTeam1.1");
+		String originalTeamName = teamProfile.team;
+		teamProfile.team = teamProfile.team+"x";
+		teamProfile.profile = new Text(teamProfile.profile.getValue()+"x");
 		String status = TMAPI.editTeamProfile(originalTeamName,teamProfile);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyPresentInDatastore(teamProfile);
@@ -638,13 +637,12 @@ public class TMAPITest extends BaseTestCase{
 		assertEquals(10, tfsInCourse1.gracePeriod);
 		assertEquals(false, tfsInCourse1.activated);
 	
-		TeamProfile profileOfTeam1_1 = data.teamProfiles
+		TeamProfileData profileOfTeam1_1 = data.teamProfiles
 				.get("profileOfTeam1.1");
-		assertEquals("idOfCourse1OfCoord1", profileOfTeam1_1.getCourseID());
-		assertEquals("course1OfCoord1 name", profileOfTeam1_1.getCourseName());
-		assertEquals("Team 1.1", profileOfTeam1_1.getTeamName());
+		assertEquals("idOfCourse1OfCoord1", profileOfTeam1_1.course);
+		assertEquals("Team 1.1", profileOfTeam1_1.team);
 		assertEquals("team profile of Team 1.1", profileOfTeam1_1
-				.getTeamProfile().getValue());
+				.profile.getValue());
 	
 		TeamFormingLog tfsLogMessageForTfsInCourse1 = data.teamFormingLogs
 				.get("tfsLogMessage1ForTfsInCourse1");
@@ -702,10 +700,10 @@ public class TMAPITest extends BaseTestCase{
 	}
 
 	private void verifyAbsentInDatastore(
-			TeamProfile teamProfileOfTeam1_1) {
+			TeamProfileData teamProfileOfTeam1_1) {
 		assertEquals("null", TMAPI.getTeamProfileAsJason(
-				teamProfileOfTeam1_1.getCourseID(),
-				teamProfileOfTeam1_1.getTeamName()));
+				teamProfileOfTeam1_1.course,
+				teamProfileOfTeam1_1.team));
 	}
 
 	private void verifyPresentInDatastore(String dataBundleJsonString) {
@@ -743,8 +741,8 @@ public class TMAPITest extends BaseTestCase{
 			verifyPresentInDatastore(expectedTeamFormingSession);
 		}
 
-		HashMap<String, TeamProfile> teamProfiles = data.teamProfiles;
-		for (TeamProfile expectedTeamProfile : teamProfiles.values()) {
+		HashMap<String, TeamProfileData> teamProfiles = data.teamProfiles;
+		for (TeamProfileData expectedTeamProfile : teamProfiles.values()) {
 			verifyPresentInDatastore(expectedTeamProfile);
 		}
 
@@ -823,15 +821,12 @@ public class TMAPITest extends BaseTestCase{
 						actualTeamFormingLogsForCourse));
 	}
 
-	private void verifyPresentInDatastore(TeamProfile expectedTeamProfile) {
+	private void verifyPresentInDatastore(TeamProfileData expectedTeamProfile) {
 		String teamProfileJsonString = TMAPI.getTeamProfileAsJason(
-				expectedTeamProfile.getCourseID(),
-				expectedTeamProfile.getTeamName());
-		TeamProfile actualTeamProfile = gson.fromJson(
-				teamProfileJsonString, TeamProfile.class);
-		// equalize id field before comparing (because id field is
-		// autogenerated by GAE)
-		expectedTeamProfile.id = actualTeamProfile.id;
+				expectedTeamProfile.course,
+				expectedTeamProfile.team);
+		TeamProfileData actualTeamProfile = gson.fromJson(
+				teamProfileJsonString, TeamProfileData.class);
 		assertEquals(gson.toJson(expectedTeamProfile),
 				gson.toJson(actualTeamProfile));
 	}

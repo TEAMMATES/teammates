@@ -21,7 +21,6 @@ import teammates.DataBundle;
 import teammates.datatransfer.*;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.NotImplementedException;
-import teammates.jdo.TeamProfile;
 import teammates.testing.config.Config;
 import teammates.testing.object.Course;
 import teammates.testing.object.Evaluation;
@@ -309,7 +308,7 @@ public class TMAPI {
 	}
 
 	public static String editTeamProfile(String originalTeamName,
-			TeamProfile teamProfile) {
+			TeamProfileData teamProfile) {
 		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_TEAM_PROFILE);
 		params.put(APIServlet.PARAMETER_TEAM_NAME, originalTeamName);
 		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()

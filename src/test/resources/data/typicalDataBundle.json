@@ -188,28 +188,24 @@
   
   "teamProfiles" : {
     "profileOfTeam1.1" : {
-      "courseid" : "idOfCourse1OfCoord1",
-      "coursename" : "course1OfCoord1 name",
-      "teamname" : "Team 1.1",
-      "teamprofile" : {"value" :"team profile of Team 1.1"}
+      "course" : "idOfCourse1OfCoord1",
+      "team" : "Team 1.1",
+      "profile" : {"value" :"team profile of Team 1.1"}
     },
     "profileOfTeam1.2" : {
-      "courseid" : "idOfCourse1OfCoord1",
-      "coursename" : "course1OfCoord1 name",
-      "teamname" : "Team 1.2",
-      "teamprofile" : {"value" :"team profile of Team 1.2"}
+      "course" : "idOfCourse1OfCoord1",
+      "team" : "Team 1.2",
+      "profile" : {"value" :"team profile of Team 1.2"}
     },
     "profileOfTeam2.1" : {
-      "courseid" : "idOfCourse1OfCoord2",
-      "coursename" : "course1OfCoord2 name",
-      "teamname" : "Team 2.1",
-      "teamprofile" : {"value" :"team profile of Team 2.1"}
+      "course" : "idOfCourse1OfCoord2",
+      "team" : "Team 2.1",
+      "profile" : {"value" :"team profile of Team 2.1"}
     },
     "profileOfTeam3.1" : {
-      "courseid" : "idOfCourse2OfCoord2",
-      "coursename" : "course2OfCoord2 name",
-      "teamname" : "Team 3.1",
-      "teamprofile" : {"value" :"team profile of Team 3.1"}
+      "course" : "idOfCourse2OfCoord2",
+      "team" : "Team 3.1",
+      "profile" : {"value" :"team profile of Team 3.1"}
     }
   },
   

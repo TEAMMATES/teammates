@@ -2,11 +2,9 @@ package teammates.datatransfer;
 
 import java.util.Date;
 
-import javax.jdo.annotations.Persistent;
 
 import teammates.jdo.TeamFormingSession;
 
-import com.google.gson.annotations.SerializedName;
 
 public class TfsData {
 	public String course;

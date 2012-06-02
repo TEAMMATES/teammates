@@ -814,7 +814,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	private String getTeamProfileAsJson(String courseId, String teamName) {
-		TeamProfile teamProfile = getTeamProfile(courseId, teamName);
+		TeamProfileData teamProfile = getTeamProfile(courseId, teamName);
 		return Common.getTeammatesGson().toJson(teamProfile);
 	}
 
@@ -865,11 +865,11 @@ public class APIServlet extends HttpServlet {
 
 	private void editTeamProfileAsJson(String originalTeamName,
 			String teamProfileJson) throws EntityDoesNotExistException {
-		TeamProfile teamProfile = Common.getTeammatesGson().fromJson(
-				teamProfileJson, TeamProfile.class);
-		TeamForming.inst().editTeamProfile(teamProfile.getCourseID(),
-				teamProfile.getCourseName(), originalTeamName,
-				teamProfile.getTeamName(), teamProfile.getTeamProfile());
+		TeamProfileData teamProfile = Common.getTeammatesGson().fromJson(
+				teamProfileJson, TeamProfileData.class);
+		TeamForming.inst().editTeamProfile(teamProfile.course,
+				"", originalTeamName,
+				teamProfile.team, teamProfile.profile);
 	}
 
 	@SuppressWarnings("unused")
@@ -964,11 +964,11 @@ public class APIServlet extends HttpServlet {
 			createTfs(tfs);
 		}
 
-		HashMap<String, TeamProfile> teamProfiles = dataBundle.teamProfiles;
-		for (TeamProfile teamProfile : teamProfiles.values()) {
+		HashMap<String, TeamProfileData> teamProfiles = dataBundle.teamProfiles;
+		for (TeamProfileData teamProfile : teamProfiles.values()) {
 			log.info("API Servlet adding TeamProfile of "
-					+ teamProfile.getTeamName() + " in course "
-					+ teamProfile.getCourseID());
+					+ teamProfile.team + " in course "
+					+ teamProfile.course);
 			createTeamProfile(teamProfile);
 		}
 
@@ -1372,22 +1372,23 @@ public class APIServlet extends HttpServlet {
 	private void ____TEAM_PROFILE_level_methods_____________________________() {
 	}
 
-	public void createTeamProfile(TeamProfile teamProfile)
+	public void createTeamProfile(TeamProfileData teamProfile)
 			throws EntityAlreadyExistsException, InvalidParametersException {
-		TeamForming.inst().createTeamProfile(teamProfile);
+		TeamForming.inst().createTeamProfile(teamProfile.toTeamProfile());
 	}
 
-	public TeamProfile getTeamProfile(String courseId, String teamName) {
-		return TeamForming.inst().getTeamProfile(courseId, teamName);
+	public TeamProfileData getTeamProfile(String courseId, String teamName) {
+		TeamProfile teamProfile = TeamForming.inst().getTeamProfile(courseId, teamName);
+		return (teamProfile==null? null : new TeamProfileData(teamProfile));
 	}
 
 	public void editTeamProfile(String originalTeamName,
-			TeamProfile modifieldTeamProfile)
+			TeamProfileData modifieldTeamProfile)
 			throws EntityDoesNotExistException {
-		TeamForming.inst().editTeamProfile(modifieldTeamProfile.getCourseID(),
-				modifieldTeamProfile.getCourseName(), originalTeamName,
-				modifieldTeamProfile.getTeamName(),
-				modifieldTeamProfile.getTeamProfile());
+		TeamForming.inst().editTeamProfile(modifieldTeamProfile.course,
+				"", originalTeamName,
+				modifieldTeamProfile.team,
+				modifieldTeamProfile.profile);
 	}
 
 	public void deleteTeamProfile(String courseId, String teamName) {

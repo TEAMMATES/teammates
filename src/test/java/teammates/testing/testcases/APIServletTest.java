@@ -30,7 +30,6 @@ import teammates.exception.InvalidParametersException;
 import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.EvaluationDetailsForCoordinator;
 import teammates.jdo.TeamFormingLog;
-import teammates.jdo.TeamProfile;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.taskqueue.dev.LocalTaskQueue;
@@ -659,11 +658,11 @@ public class APIServletTest extends BaseTestCase {
 
 		// ensure a team profile is created when moving to a new one
 		StudentData student2 = dataBundle.students.get("student3InCourse1");
-		TeamProfile teamProfileOfStudent2 = dataBundle.teamProfiles
+		TeamProfileData teamProfileOfStudent2 = dataBundle.teamProfiles
 				.get("profileOfTeam2.1");
 		verifyPresentInDatastore(teamProfileOfStudent2);
 		student2.team = "newTeam";
-		TeamProfile profileOfNewTeam = new TeamProfile(student2.courseId, "",
+		TeamProfileData profileOfNewTeam = new TeamProfileData(student2.courseId, 
 				"newTeam", new Text(""));
 		verifyAbsentInDatastore(profileOfNewTeam);
 		apiServlet.editStudent(student2.email, student2);
@@ -994,12 +993,12 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader();
 		refreshDataInDatastore();
 
-		TeamProfile teamProfile1 = dataBundle.teamProfiles
+		TeamProfileData teamProfile1 = dataBundle.teamProfiles
 				.get("profileOfTeam1.1");
-		String originalTeamName = teamProfile1.getTeamName();
-		teamProfile1.setTeamName(teamProfile1.getTeamName() + "new");
-		teamProfile1.setTeamProfile(new Text(teamProfile1.getTeamProfile()
-				.getValue() + "x"));
+		String originalTeamName = teamProfile1.team;
+		teamProfile1.team = teamProfile1.team + "new";
+		teamProfile1.profile = new Text(teamProfile1.profile
+				.getValue() + "x");
 		apiServlet.editTeamProfile(originalTeamName, teamProfile1);
 		verifyPresentInDatastore(teamProfile1);
 
@@ -1163,8 +1162,8 @@ public class APIServletTest extends BaseTestCase {
 			verifyPresentInDatastore(expectedTeamFormingSession);
 		}
 
-		HashMap<String, TeamProfile> teamProfiles = data.teamProfiles;
-		for (TeamProfile expectedTeamProfile : teamProfiles.values()) {
+		HashMap<String, TeamProfileData> teamProfiles = data.teamProfiles;
+		for (TeamProfileData expectedTeamProfile : teamProfiles.values()) {
 			verifyPresentInDatastore(expectedTeamProfile);
 		}
 
@@ -1206,11 +1205,11 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(null, apiServlet.getTfs(tfs.course));
 	}
 
-	private void verifyAbsentInDatastore(TeamProfile profile) {
+	private void verifyAbsentInDatastore(TeamProfileData profile) {
 		assertEquals(
 				null,
-				apiServlet.getTeamProfile(profile.getCourseID(),
-						profile.getTeamName()));
+				apiServlet.getTeamProfile(profile.course,
+						profile.team));
 	}
 
 	private void verifyAbsenceOfTfsLogsForStudent(String courseId,
@@ -1257,10 +1256,9 @@ public class APIServletTest extends BaseTestCase {
 		assertTrue(isLogEntryInList(expected, actualList));
 	}
 
-	private void verifyPresentInDatastore(TeamProfile expected) {
-		TeamProfile actual = apiServlet.getTeamProfile(expected.getCourseID(),
-				expected.getTeamName());
-		expected.id = actual.id;
+	private void verifyPresentInDatastore(TeamProfileData expected) {
+		TeamProfileData actual = apiServlet.getTeamProfile(expected.course,
+				expected.team);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
