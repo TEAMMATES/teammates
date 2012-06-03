@@ -69,9 +69,16 @@ public class Common {
 	public final static String COURSE_STATUS = "coursestatus";
 	
 	// JSP Parameter names
+	public final static String PARAM_ACTION = "action";
 	public final static String PARAM_COURSE_ID = "courseid";
+	public final static String PARAM_COURSE_NAME = "coursename";
 	public final static String PARAM_EVALUATION_NAME = "evalname";
 	public final static String PARAM_NEXT_URL = "next";
+	public static final String PARAM_USER_ID = "user";
+	
+	//JSP actions
+	public static final String ACTION_ADD_COURSE = "addcourse";
+	
 	
 	// JSP pages (NOT to be used in the JSP, but as reference for other classes)
 	public final static String JSP_COORD_HOME = "coordHome.jsp";

@@ -4,6 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+
+import teammates.api.APIServlet;
 import teammates.api.Common;
 import teammates.datatransfer.*;
 
@@ -35,6 +38,16 @@ public class Helper {
 		} catch (UnsupportedEncodingException e){
 			return str;
 		}
+	}
+	
+	public static boolean isUserLoggedIn() {
+		return APIServlet.isUserLoggedIn();
+	}
+
+	public static String getLoginUrl(HttpServletRequest request) {
+		String queryString = request.getQueryString();
+		String redirectUrl = request.getRequestURI()+(queryString!=null?"?"+queryString:"");
+		return APIServlet.getLoginUrl(redirectUrl);
 	}
 	
 
@@ -192,4 +205,6 @@ public class Helper {
 		}
 		return result.toString();
 	}
+
+
 }

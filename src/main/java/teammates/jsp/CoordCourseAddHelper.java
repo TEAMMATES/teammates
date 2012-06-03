@@ -8,7 +8,7 @@ import teammates.api.*;
 import teammates.datatransfer.*;
 
 public class CoordCourseAddHelper extends Helper{
-	APIServlet server = new APIServlet();
+	APIServlet server; 
 	public UserData loggedInUser;
 	public String requestedUser;
 	public String coordID;
@@ -19,9 +19,10 @@ public class CoordCourseAddHelper extends Helper{
 	public CourseData[] summary;
 	
 
-	public void init(HttpServletRequest request) {
+	public CoordCourseAddHelper(HttpServletRequest request) {
+		server = new APIServlet();
 		loggedInUser = server.getLoggedInUser();
-		requestedUser = request.getParameter("user");
+		requestedUser = request.getParameter(Common.PARAM_USER_ID);
 		statusMessage = null;
 		error = false;
 		
@@ -33,10 +34,10 @@ public class CoordCourseAddHelper extends Helper{
 		}
 		
 		
-		//create course, update status accordingly
-		String newCourseID = request.getParameter(Common.COURSE_ID);
-		String newCourseName = request.getParameter(Common.COURSE_NAME);
-		if(newCourseID!=null && newCourseName!=null){
+		//if required, add course and update status accordingly
+		if(isAddingCourse(request)){
+			newCourseID = request.getParameter(Common.PARAM_COURSE_ID);
+			newCourseName = request.getParameter(Common.PARAM_COURSE_NAME);
 			try{
 				server.createCourse(coordID, newCourseID, newCourseName);
 				statusMessage = Common.MESSAGE_COURSE_ADDED;
@@ -47,14 +48,15 @@ public class CoordCourseAddHelper extends Helper{
 				statusMessage = e.getMessage();
 				error = true;
 			}
+			// If adding was successful, do not display it again in the input boxes
+			if(!error){
+				newCourseID = null;
+				newCourseName = null;
+			}
 		}
 		
-		// If adding was successful, do not display it again in the input boxes
-		if(error==false){
-			newCourseID = null;
-			newCourseName = null;
-		}
-		
+
+		//TODO: is to better if APIServlet returned an ArrayList?
 		//load course details
 		HashMap<String, CourseData> courses = server.getCourseListForCoord(coordID);
 		summary = courses.values().toArray(new CourseData[]{});
@@ -66,22 +68,22 @@ public class CoordCourseAddHelper extends Helper{
 	}
 	
 	
-	public boolean isUserLoggedIn(){
-		return server.isUserLoggedIn();
+	private boolean isAddingCourse(HttpServletRequest request) {
+		return request.getParameter(Common.COURSE_ID)!=null 
+				&& request.getParameter(Common.PARAM_COURSE_NAME)!=null;
+		
+		//TODO: instead of the above, can we have this?
+		//return request.getParameter(Common.PARAM_ACTION).equals(Common.ACTION_ADD_COURSE);
 	}
-	
-	public String getLoginUrl(HttpServletRequest request){
-		String queryString = request.getQueryString();
-		String redirectUrl = request.getRequestURI()+(queryString!=null?"?"+queryString:"");
-		return server.getLoginUrl(redirectUrl);
-	}
-	
+
+	//TODO: enhance get*Link methods to cater for masquerade mode
+
 	/**
 	 * Returns the link to show course detail for specific courseID
 	 * @param courseID
 	 * @return
 	 */
-	public String getCourseViewLink(String courseID){
+	public static String getCourseViewLink(String courseID){
 		return "coordCourseView.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID);
 	}
 	
@@ -92,7 +94,7 @@ public class CoordCourseAddHelper extends Helper{
 	 * @param nextURL
 	 * @return
 	 */
-	public String getCourseDeleteLink(String courseID, String nextURL){
+	public static String getCourseDeleteLink(String courseID, String nextURL){
 		return "coordCourseDelete.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID)+"&"+Common.PARAM_NEXT_URL+"="+convertForURL(nextURL);
 	}
 
@@ -101,7 +103,7 @@ public class CoordCourseAddHelper extends Helper{
 	 * @param courseID
 	 * @return
 	 */
-	public String getCourseEnrollLink(String courseID){
+	public static String getCourseEnrollLink(String courseID){
 		return "coordCourseEnroll.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID);
 	}
 	

@@ -44,7 +44,6 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	private static int FOURTH_EVAL_ROW_NUMBER = 2;
 	private static int FIFTH_EVAL_ROW_NUMBER = 1;
 	
-	CoordCourseAddHelper helper = new CoordCourseAddHelper();
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -76,14 +75,14 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	public void testCoordHomeCourseEnrollLink(){
 		printTestCaseHeader("testCoordHomeCourseEnrollLink");
 		String link = bi.getElementRelativeHref(By.className("t_course_enroll"+FIRST_COURSE_ROW_NUMBER));
-		assertEquals(helper.getCourseEnrollLink(scn.courses.get("CHomeUiT.CS2104").id),link);
+		assertEquals(CoordCourseAddHelper.getCourseEnrollLink(scn.courses.get("CHomeUiT.CS2104").id),link);
 	}
 
 	@Test
 	public void testCoordHomeCourseViewLink(){
 		printTestCaseHeader("testCoordHomeCourseViewLink");
 		String link = bi.getElementRelativeHref(By.className("t_course_view"+FIRST_COURSE_ROW_NUMBER));
-		assertEquals(helper.getCourseViewLink(scn.courses.get("CHomeUiT.CS2104").id),link);
+		assertEquals(CoordCourseAddHelper.getCourseViewLink(scn.courses.get("CHomeUiT.CS2104").id),link);
 	}
 
 	@Test
@@ -99,7 +98,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		
 		By deleteLinkLocator = By.className("t_course_delete"+FIRST_COURSE_ROW_NUMBER);
 		String link = bi.getElementRelativeHref(deleteLinkLocator);
-		assertEquals(helper.getCourseDeleteLink(scn.courses.get("CHomeUiT.CS2104").id, Common.JSP_COORD_HOME),link);
+		assertEquals(CoordCourseAddHelper.getCourseDeleteLink(scn.courses.get("CHomeUiT.CS2104").id, Common.JSP_COORD_HOME),link);
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
 		} catch (NoAlertAppearException e){

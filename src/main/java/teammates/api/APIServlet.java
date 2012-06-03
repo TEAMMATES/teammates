@@ -886,26 +886,28 @@ public class APIServlet extends HttpServlet {
 	private void ____SYSTEM_level_methods__________________________________() {
 	}
 
-	public String getLoginUrl(String redirectUrl) {
+	public static String getLoginUrl(String redirectUrl) {
 		Accounts accounts = Accounts.inst();
 		return accounts.getLoginPage(redirectUrl);
 	}
 
-	public String getLogoutUrl(String redirectUrl) {
+	public static String getLogoutUrl(String redirectUrl) {
 		Accounts accounts = Accounts.inst();
 		return accounts.getLogoutPage(redirectUrl);
 	}
 	
-	public boolean isUserLoggedIn(){
+	public static boolean isUserLoggedIn(){
 		Accounts accounts = Accounts.inst();
 		return (accounts.getUser() != null) ;
 	}
 	
+	@Deprecated
 	public String getUserId(){
 		Accounts accounts = Accounts.inst();
 		return accounts.getUser().getNickname();
 	}
 
+	@Deprecated
 	public UserType getUserType(){
 		Accounts accounts = Accounts.inst();
 		if(accounts.isAdministrator()){return UserType.ADMIN;}
@@ -1060,6 +1062,8 @@ public class APIServlet extends HttpServlet {
 	 * @param coordId
 	 * @return null if coordId is null
 	 */
+	
+	//TODO: return Array instead?
 	public HashMap<String, CourseData> getCourseListForCoord(String coordId) {
 		if (coordId == null)
 			return null;

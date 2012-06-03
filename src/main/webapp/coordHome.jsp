@@ -6,13 +6,13 @@
 <%
 	// See if user is logged in, if not we redirect them to the login page
 	APIServlet server = new APIServlet();
-	if (!server.isUserLoggedIn()) {
-		response.sendRedirect(server.getLoginUrl("/coordHome.jsp"));
+	if (!Helper.isUserLoggedIn()) {
+		response.sendRedirect(Helper.getLoginUrl(request));
 		return;
 	}
 
 	
-	CoordCourseAddHelper helper = new CoordCourseAddHelper();
+	 
 	String coordID = server.getUserId().toLowerCase();
 	String statusMessage = null;
 	boolean error = false;
@@ -94,13 +94,13 @@
 						</div>
 						<div class='result_homeLinks'>
 							<a class='t_course_enroll<%= idx %>'
-								href='<%= helper.getCourseEnrollLink(course.id) %>'
+								href='<%= CoordCourseAddHelper.getCourseEnrollLink(course.id) %>'
 								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_ENROLL %>")'
 								onmouseout='hideddrivetip()'>
 								Enroll
 							</a>
 							<a class='t_course_view<%= idx %>'
-								href='<%= helper.getCourseViewLink(course.id) %>'
+								href='<%= CoordCourseAddHelper.getCourseViewLink(course.id) %>'
 								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_VIEW_COURSE %>")'
 								onmouseout='hideddrivetip()'>
 								View
@@ -111,7 +111,7 @@
 								Add Evaluation
 							</a>
 							<a class='t_course_delete<%= idx %>'
-								href='<%= helper.getCourseDeleteLink(course.id,"coordHome.jsp") %>'
+								href='<%= CoordCourseAddHelper.getCourseDeleteLink(course.id,"coordHome.jsp") %>'
 								onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("<%= course.id %>")'
 								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_DELETE_COURSE %>")'
 								onmouseout='hideddrivetip()'>

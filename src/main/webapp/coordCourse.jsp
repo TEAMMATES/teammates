@@ -4,14 +4,14 @@
 <%@ page import="teammates.jsp.*"%>
 
 <%	
-	CoordCourseAddHelper helper = new CoordCourseAddHelper();
+	
 	// See if user is logged in, if not we redirect them to the login page
-	if (!helper.isUserLoggedIn()) {
-		response.sendRedirect(helper.getLoginUrl(request));
+	if (!CoordCourseAddHelper.isUserLoggedIn()) {
+		response.sendRedirect(CoordCourseAddHelper.getLoginUrl(request));
 		return ;
 	}
 
-	helper.init(request);
+    CoordCourseAddHelper helper = new CoordCourseAddHelper(request);
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -130,15 +130,15 @@
 							<td class='centeralign'><%= course.unregisteredTotal %></td>
 							<td class='centeralign'>
 								<a class='t_course_enroll'
-									href='<%= helper.getCourseEnrollLink(course.id) %>'
+									href='<%= CoordCourseAddHelper.getCourseEnrollLink(course.id) %>'
 									onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_ENROLL %>")'
 									onmouseout='hideddrivetip()'>Enroll</a>
 								<a class='t_course_view'
-									href='<%= helper.getCourseViewLink(course.id) %>'
+									href='<%= CoordCourseAddHelper.getCourseViewLink(course.id) %>'
 									onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_VIEW_COURSE %>")'
 									onmouseout='hideddrivetip()'>View</a>
 								<a class='t_course_delete'
-									href='<%= helper.getCourseDeleteLink(course.id,"coordCourse.jsp") %>'
+									href='<%= CoordCourseAddHelper.getCourseDeleteLink(course.id,"coordCourse.jsp") %>'
 									onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("<%= course.id %>");'
 									onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_DELETE_COURSE %>")'
 									onmouseout='hideddrivetip()'>Delete</a>
