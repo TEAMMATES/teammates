@@ -93,6 +93,12 @@ public class APIServlet extends HttpServlet {
 	private static final Logger log = Logger.getLogger(APIServlet.class
 			.getName());
 
+	public enum UserType{
+		STUDENT, 
+		COORDINATOR, 
+		ADMIN, UNREGISTERED, 
+	}
+	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
 		doPost(req, resp);
@@ -879,14 +885,12 @@ public class APIServlet extends HttpServlet {
 	private void ____SYSTEM_level_methods__________________________________() {
 	}
 
-	// TODO: This is not only for coordinator right?
-	public String coordGetLoginUrl(String redirectUrl) {
+	public String getLoginUrl(String redirectUrl) {
 		Accounts accounts = Accounts.inst();
 		return accounts.getLoginPage(redirectUrl);
 	}
 
-	// TODO: This is not only for coordinator right?
-	public String coordGetLogoutUrl(String redirectUrl) {
+	public String getLogoutUrl(String redirectUrl) {
 		Accounts accounts = Accounts.inst();
 		return accounts.getLogoutPage(redirectUrl);
 	}
@@ -894,6 +898,19 @@ public class APIServlet extends HttpServlet {
 	public boolean isUserLoggedIn(){
 		Accounts accounts = Accounts.inst();
 		return (accounts.getUser() != null) ;
+	}
+	
+	public String getUserId(){
+		Accounts accounts = Accounts.inst();
+		return accounts.getUser().getNickname();
+	}
+
+	public UserType getUserType(){
+		Accounts accounts = Accounts.inst();
+		if(accounts.isAdministrator()){return UserType.ADMIN;}
+		if(accounts.isCoordinator()){return UserType.COORDINATOR;}
+		return UserType.UNREGISTERED;
+		//TODO: do the same for student 
 	}
 
 	/**

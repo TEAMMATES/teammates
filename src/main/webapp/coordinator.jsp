@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page import="java.util.*"%>
-<%@ page import="teammates.manager.Accounts"%>
 <%@ page import="teammates.jsp.*" %>
+<%@ page import="teammates.api.*" %>
 
 
 <%	
 	// See if user is logged in, if not we redirect them to the login page
-	Accounts accounts = Accounts.inst();
-	if (accounts.getUser() == null) {
-		response.sendRedirect( accounts.getLoginPage("/coordinator.jsp") );
+	APIServlet server = new APIServlet();
+	if (!server.isUserLoggedIn()) {
+		response.sendRedirect( server.getLoginUrl("/coordinator.jsp") );
 		return ;
 	}
 %>
@@ -40,7 +40,7 @@
 	<div id="dhtmltooltip"></div>
 	<%
 		// Check if user is allowed to view this page
-		if (!accounts.isCoordinator()) {
+		if (server.getUserType() != APIServlet.UserType.COORDINATOR) {
 	%>
 	<p>
 		You are not authorized to view this page.
@@ -79,7 +79,7 @@
 					<li><a class='t_help' href="http://www.comp.nus.edu.sg/~teams/coordinatorhelp.html" target="_blank">Help</a></li>
 					<li><a class='t_logout' href="javascript:logout();">Logout</a>
 					 ( <% 	
-					 out.println(Helper.truncate(accounts.getUser().getNickname()));
+					 out.println(Helper.truncate(server.getUserId()));
 					%>)</li>
 				</ul>
 			</div>

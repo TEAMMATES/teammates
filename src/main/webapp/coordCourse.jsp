@@ -1,5 +1,4 @@
 <%@ page import="java.util.*"%>
-<%@ page import="teammates.manager.Accounts"%>
 <%@ page import="teammates.api.*"%>
 <%@ page import="teammates.datatransfer.*"%>
 <%@ page import="teammates.jsp.*"%>
@@ -8,15 +7,14 @@
 	// See if user is logged in, if not we redirect them to the login page
 	APIServlet server = new APIServlet();
 
-	Accounts accounts = Accounts.inst();
-	if (accounts.getUser() == null) {
-		response.sendRedirect( accounts.getLoginPage("/coordCourse.jsp") );
+	if (!server.isUserLoggedIn()) {
+		response.sendRedirect( server.getLoginUrl("/coordCourse.jsp") );
 		return ;
 	}
 	
 	
 	
-	String coordID = accounts.getUser().getNickname().toLowerCase();
+	String coordID = server.getUserId().toLowerCase();
 	String statusMessage = null;
 	boolean error = false;
 %>
@@ -68,7 +66,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<%	// Check if user is allowed to view this page
-		if (!accounts.isCoordinator()) {
+		if (server.getUserType() != APIServlet.UserType.COORDINATOR) {
 	%>
 	<p>
 		You are not authorized to view this page. <br /> <br />

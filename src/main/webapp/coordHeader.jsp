@@ -1,7 +1,7 @@
+<%@page import="teammates.api.APIServlet"%>
 <%@ page import="teammates.*" %>
-<%@ page import="teammates.manager.Accounts" %>
 <%@ page import="teammates.jsp.*" %>
-<% Accounts accounts = Accounts.inst(); %>
+<% APIServlet server = new APIServlet(); %>
 		<div id="frameTopWrapper">
 			<div id="logo">
 				<img alt="Teammates" height="47px"
@@ -16,7 +16,7 @@
 					<li><a class='t_evaluations' href="coordEval.jsp">Evaluations</a></li>
 					<li><a class='t_help' href="http://www.comp.nus.edu.sg/~teams/coordinatorhelp.html" target="_blank">Help</a></li>
 					<li><a class='t_logout' href="javascript:logout();">Logout</a>
-					 (<% out.print(Helper.truncate(accounts.getUser().getNickname())); %>)</li>
+					 (<% out.print(Helper.truncate(server.getUserId())); %>)</li>
 				</ul>
 			</div>
 		</div>

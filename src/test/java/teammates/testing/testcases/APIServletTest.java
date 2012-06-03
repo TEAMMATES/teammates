@@ -103,13 +103,13 @@ public class APIServletTest extends BaseTestCase {
 	@Test
 	public void testCoordGetLoginUrl() {
 		assertEquals("/_ah/login?continue=www.abc.com",
-				apiServlet.coordGetLoginUrl("www.abc.com"));
+				apiServlet.getLoginUrl("www.abc.com"));
 	}
 
 	@Test
 	public void testCoordGetLogoutUrl() {
 		assertEquals("/_ah/logout?continue=www.def.com",
-				apiServlet.coordGetLogoutUrl("www.def.com"));
+				apiServlet.getLogoutUrl("www.def.com"));
 	}
 
 	@Test
