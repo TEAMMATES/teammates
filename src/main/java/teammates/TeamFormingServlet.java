@@ -13,12 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.EntityDoesNotExistException;
-import teammates.jdo.Course;
 import teammates.jdo.CourseDetailsForStudent;
-import teammates.jdo.Student;
-import teammates.jdo.TeamFormingLog;
-import teammates.jdo.TeamFormingSession;
-import teammates.jdo.TeamProfile;
+import teammates.persistent.Course;
+import teammates.persistent.Student;
+import teammates.persistent.TeamFormingLog;
+import teammates.persistent.TeamFormingSession;
+import teammates.persistent.TeamProfile;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.users.User;

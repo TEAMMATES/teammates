@@ -1,5 +1,8 @@
 package teammates.jdo;
 
+import teammates.persistent.Student;
+import teammates.persistent.Submission;
+
 import com.google.appengine.api.datastore.Text;
 
 /**

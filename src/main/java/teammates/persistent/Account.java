@@ -1,4 +1,4 @@
-package teammates.jdo;
+package teammates.persistent;
 
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;

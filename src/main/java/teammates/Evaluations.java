@@ -14,11 +14,11 @@ import javax.jdo.Transaction;
 
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.EvaluationExistsException;
-import teammates.jdo.Course;
-import teammates.jdo.Evaluation;
 import teammates.jdo.EvaluationDetailsForCoordinator;
-import teammates.jdo.Student;
-import teammates.jdo.Submission;
+import teammates.persistent.Course;
+import teammates.persistent.Evaluation;
+import teammates.persistent.Student;
+import teammates.persistent.Submission;
 
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;

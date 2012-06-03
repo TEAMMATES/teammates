@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.jdo.Evaluation;
-import teammates.jdo.Student;
+import teammates.persistent.Evaluation;
+import teammates.persistent.Student;
 
 @SuppressWarnings("serial")
 public class AutomatedRemindersServlet extends HttpServlet {

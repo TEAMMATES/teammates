@@ -6,10 +6,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.jdo.Coordinator;
-import teammates.jdo.Course;
-import teammates.jdo.Evaluation;
-import teammates.jdo.Student;
+import teammates.persistent.Coordinator;
+import teammates.persistent.Course;
+import teammates.persistent.Evaluation;
+import teammates.persistent.Student;
 
 @SuppressWarnings("serial")
 public class EvaluationActivationServlet extends HttpServlet {

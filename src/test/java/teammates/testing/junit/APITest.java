@@ -25,11 +25,11 @@ import teammates.Courses;
 import teammates.Evaluations;
 import teammates.exception.InvalidParametersException;
 import teammates.exception.TeammatesException;
-import teammates.jdo.Course;
 import teammates.jdo.EnrollmentReport;
-import teammates.jdo.Evaluation;
-import teammates.jdo.Student;
-import teammates.jdo.Submission;
+import teammates.persistent.Course;
+import teammates.persistent.Evaluation;
+import teammates.persistent.Student;
+import teammates.persistent.Submission;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Scenario;
 

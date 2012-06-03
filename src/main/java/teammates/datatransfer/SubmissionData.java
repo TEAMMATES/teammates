@@ -1,6 +1,6 @@
 package teammates.datatransfer;
 
-import teammates.jdo.Submission;
+import teammates.persistent.Submission;
 
 import com.google.appengine.api.datastore.Text;
 

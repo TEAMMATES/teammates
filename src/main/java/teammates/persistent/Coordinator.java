@@ -1,26 +1,15 @@
-package teammates.jdo;
+package teammates.persistent;
 
 import javax.jdo.annotations.PersistenceCapable;
 
-import teammates.datatransfer.CoordData;
 
 /**
  * Coordinator is a persistent data class that holds information pertaining to a
- * coordinator on Teammates. It inherits from AccountHolder.
- * 
- * @author Gerald GOH
- * @see AccountHolder
- * 
+ * coordinator on Teammates. 
  */
 @PersistenceCapable
 public class Coordinator extends Account {
-	/**
-	 * Constructs a Coordinator object.
-	 * 
-	 * @param googleID
-	 * @param name
-	 * @param email
-	 */
+	
 	public Coordinator(String googleID, String name, String email) {
 		super(googleID, name, email);
 	}

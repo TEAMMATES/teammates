@@ -9,7 +9,7 @@ import org.junit.Test;
 import teammates.Common;
 import teammates.exception.InvalidParametersException;
 import teammates.exception.TeammatesException;
-import teammates.jdo.Student;
+import teammates.persistent.Student;
 
 public class StudentTest extends BaseTestCase{
 	@BeforeClass

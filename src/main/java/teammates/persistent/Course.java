@@ -1,4 +1,4 @@
-package teammates.jdo;
+package teammates.persistent;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;

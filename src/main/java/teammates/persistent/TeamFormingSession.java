@@ -1,4 +1,4 @@
-package teammates.jdo;
+package teammates.persistent;
 
 import java.util.Date;
 
@@ -10,14 +10,14 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Evaluation is a persistent data class that holds information pertaining to an
- * evaluation on Teammates.
+ * TeamForming is a persistent data class that holds information pertaining to an
+ * TeamForming Session on Teammates.
  * 
- * @author Gerald GOH
+ * @author Kalpit Jain
  * 
  */
 @PersistenceCapable
-public class Evaluation {
+public class TeamFormingSession {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	public Long id;
@@ -25,18 +25,11 @@ public class Evaluation {
 	@Persistent
 	@SerializedName("course_id")
 	private String courseID;
-
-	@Persistent
-	@SerializedName("name")
-	private String name;
-
-	@Persistent
-	@SerializedName("instr")
-	private String instructions;
-
+	
 	@Persistent
 	@SerializedName("start_time")
 	private Date startTime;
+	
 	@Persistent
 	@SerializedName("end_time")
 	private Date endTime;
@@ -44,70 +37,52 @@ public class Evaluation {
 	@Persistent
 	@SerializedName("timezone")
 	private double timeZone;
-
+	
 	@Persistent
 	@SerializedName("grace")
 	private int gracePeriod;
+	
+	@Persistent
+	@SerializedName("instr")
+	private String instructions;
+	
+	@Persistent
+	@SerializedName("profile_template")
+	private String profileTemplate;
 
 	@Persistent
-	@SerializedName("comments_on")
-	private boolean commentsEnabled;
-
-	@Persistent
-	private boolean published = false;
-
-	@Persistent
-	private boolean activated = false;
+	private boolean activated;
 
 	/**
-	 * Constructs an Evaluation object.
+	 * Constructs an TeamFormingSession object.
 	 * 
-	 * @param courseID
-	 * @param name
-	 * @param instructions
-	 * @param commentsEnabled
+	 * @param courseID	
 	 * @param start
 	 * @param deadline
+	 * @param timeZone
 	 * @param gracePeriod
+	 * @param instructions
+	 * @param profileTemplate
 	 */
-	public Evaluation(String courseID, String name, String instructions,
-			boolean commentsEnabled, Date start, Date deadline,
-			double timeZone, int gracePeriod) {
+	public TeamFormingSession(String courseID, Date start, Date deadline, double timeZone,
+			int gracePeriod, String instructions, String profileTemplate) {
 		this.setCourseID(courseID);
-		this.setName(name);
-		this.setInstructions(instructions);
-		this.setCommentsEnabled(commentsEnabled);
 		this.setStart(start);
 		this.setDeadline(deadline);
-		this.setGracePeriod(gracePeriod);
-		this.setPublished(false);
 		this.setTimeZone(timeZone);
+		this.setGracePeriod(gracePeriod);
+		this.setInstructions(instructions);
+		this.setProfileTemplate(profileTemplate);		
 	}
 
 	public void setCourseID(String courseID) {
-		this.courseID = courseID.trim();
+		this.courseID = courseID;
 	}
 
 	public String getCourseID() {
 		return courseID;
 	}
-
-	public void setName(String name) {
-		this.name = name.trim();
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setInstructions(String instructions) {
-		this.instructions = instructions.trim();
-	}
-
-	public String getInstructions() {
-		return instructions;
-	}
-
+	
 	public void setStart(Date start) {
 		this.startTime = start;
 	}
@@ -123,6 +98,14 @@ public class Evaluation {
 	public Date getDeadline() {
 		return endTime;
 	}
+	
+	public void setTimeZone(double timeZone) {
+		this.timeZone = timeZone;
+	}
+
+	public double getTimeZone() {
+		return timeZone;
+	}
 
 	public void setGracePeriod(int gracePeriod) {
 		this.gracePeriod = gracePeriod;
@@ -132,20 +115,20 @@ public class Evaluation {
 		return gracePeriod;
 	}
 
-	public void setPublished(boolean published) {
-		this.published = published;
+	public void setInstructions(String instructions) {
+		this.instructions = instructions;
 	}
 
-	public boolean isPublished() {
-		return published;
+	public String getInstructions() {
+		return instructions;
+	}
+	
+	public void setProfileTemplate(String profileTemplate) {
+		this.profileTemplate = profileTemplate;
 	}
 
-	public void setCommentsEnabled(boolean commentsEnabled) {
-		this.commentsEnabled = commentsEnabled;
-	}
-
-	public boolean isCommentsEnabled() {
-		return commentsEnabled;
+	public String getProfileTemplate() {
+		return profileTemplate;
 	}
 
 	public void setActivated(boolean activated) {
@@ -156,21 +139,13 @@ public class Evaluation {
 		return activated;
 	}
 
-	public void setTimeZone(double timeZone2) {
-		this.timeZone = timeZone2;
-	}
-
-	public double getTimeZone() {
-		return timeZone;
-	}
-
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("courseID: " + courseID);
-		sb.append("\nname:" + name);
-		sb.append("\ninstruction: " + instructions);
 		sb.append("\nstarttime: " + startTime);
 		sb.append("\nendtime: " + endTime);
+		sb.append("\ninstruction: " + instructions);
+		sb.append("\nprofiletemplate:" + profileTemplate);
 		return sb.toString();
 	}
 }

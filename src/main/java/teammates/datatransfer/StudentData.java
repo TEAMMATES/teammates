@@ -1,7 +1,7 @@
 package teammates.datatransfer;
 
 import teammates.exception.InvalidParametersException;
-import teammates.jdo.Student;
+import teammates.persistent.Student;
 
 import com.google.appengine.api.datastore.Text;
 

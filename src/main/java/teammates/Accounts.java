@@ -9,9 +9,9 @@ import org.mortbay.log.Log;
 
 import teammates.exception.AccountExistsException;
 import teammates.exception.EntityAlreadyExistsException;
-import teammates.jdo.Account;
-import teammates.jdo.Coordinator;
-import teammates.jdo.Student;
+import teammates.persistent.Account;
+import teammates.persistent.Coordinator;
+import teammates.persistent.Student;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;

@@ -3,7 +3,7 @@ package teammates.datatransfer;
 import java.util.Date;
 
 import teammates.Common;
-import teammates.jdo.Evaluation;
+import teammates.persistent.Evaluation;
 
 public class EvaluationData {
 	public String course;

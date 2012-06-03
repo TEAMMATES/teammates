@@ -1,4 +1,4 @@
-package teammates.jdo;
+package teammates.persistent;
 
 import java.util.Date;
 

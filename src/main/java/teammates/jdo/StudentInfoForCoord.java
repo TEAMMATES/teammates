@@ -1,6 +1,7 @@
 package teammates.jdo;
 
 import teammates.datatransfer.StudentData;
+import teammates.persistent.Student;
 
 import com.google.appengine.api.datastore.Text;
 

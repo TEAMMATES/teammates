@@ -17,11 +17,11 @@ import teammates.exception.GoogleIDExistsInCourseException;
 import teammates.exception.InvalidParametersException;
 import teammates.exception.RegistrationKeyInvalidException;
 import teammates.exception.RegistrationKeyTakenException;
-import teammates.jdo.Course;
 import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.EnrollmentReport;
 import teammates.jdo.EnrollmentStatus;
-import teammates.jdo.Student;
+import teammates.persistent.Course;
+import teammates.persistent.Student;
 
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;

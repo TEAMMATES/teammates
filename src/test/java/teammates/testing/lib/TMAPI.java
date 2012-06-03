@@ -262,7 +262,7 @@ public class TMAPI {
 
 	// --------------------------------[Tfs-level methods]----------
 
-	public static String createTfs(teammates.jdo.TeamFormingSession tfs)
+	public static String createTfs(teammates.persistent.TeamFormingSession tfs)
 			throws NotImplementedException {
 		throw new NotImplementedException(
 				"This method is not implemented because there is no"
@@ -292,7 +292,7 @@ public class TMAPI {
 
 	// --------------------------------[TeamProfile-level methods]----------
 
-	public static String createTeamProfile(teammates.jdo.TeamProfile teamProfile)
+	public static String createTeamProfile(teammates.persistent.TeamProfile teamProfile)
 			throws NotImplementedException {
 		throw new NotImplementedException(
 				"This method is not implemented because there is no"
@@ -327,7 +327,7 @@ public class TMAPI {
 
 	// -----------------------------[TeamFormingLog-level methods]-------------
 
-	public static String createTeamFormingLog(teammates.jdo.TeamFormingLog tfl)
+	public static String createTeamFormingLog(teammates.persistent.TeamFormingLog tfl)
 			throws NotImplementedException {
 		throw new NotImplementedException(
 				"This method is not implemented because there is no"
@@ -341,7 +341,7 @@ public class TMAPI {
 		return evaluationJson;
 	}
 	
-	public static String editTeamFormingLog(teammates.jdo.TeamFormingLog tfl)
+	public static String editTeamFormingLog(teammates.persistent.TeamFormingLog tfl)
 			throws NotImplementedException {
 		throw new NotImplementedException(
 				"This method is not implemented because there is no"

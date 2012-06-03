@@ -6,10 +6,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.jdo.Coordinator;
-import teammates.jdo.Course;
-import teammates.jdo.Student;
-import teammates.jdo.TeamFormingSession;
+import teammates.persistent.Coordinator;
+import teammates.persistent.Course;
+import teammates.persistent.Student;
+import teammates.persistent.TeamFormingSession;
 
 @SuppressWarnings("serial")
 public class TeamFormingSessionActivationServlet extends HttpServlet {

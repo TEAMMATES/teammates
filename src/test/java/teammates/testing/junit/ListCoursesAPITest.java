@@ -17,7 +17,7 @@ import teammates.Courses;
 import teammates.Datastore;
 import teammates.TeammatesServlet;
 import teammates.exception.TeammatesException;
-import teammates.jdo.Course;
+import teammates.persistent.Course;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;

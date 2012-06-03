@@ -10,8 +10,8 @@ import org.junit.Test;
 
 import teammates.Common;
 import teammates.datatransfer.*;
-import teammates.jdo.Coordinator;
-import teammates.jdo.Course;
+import teammates.persistent.Coordinator;
+import teammates.persistent.Course;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;

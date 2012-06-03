@@ -19,9 +19,9 @@ import teammates.Evaluations;
 import teammates.TeammatesServlet;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.TeammatesException;
-import teammates.jdo.Course;
-import teammates.jdo.Evaluation;
-import teammates.jdo.Student;
+import teammates.persistent.Course;
+import teammates.persistent.Evaluation;
+import teammates.persistent.Student;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
