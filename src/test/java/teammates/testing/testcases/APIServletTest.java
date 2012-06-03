@@ -27,7 +27,6 @@ import teammates.exception.EnrollException;
 import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.InvalidParametersException;
-import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.EvaluationDetailsForCoordinator;
 
 import com.google.appengine.api.datastore.Text;
@@ -217,12 +216,12 @@ public class APIServletTest extends BaseTestCase {
 
 		// coord with 2 courses
 		CoordData coord = dataBundle.coords.get("typicalCoord1");
-		HashMap<String, CourseSummaryForCoordinator> courseList = apiServlet
+		HashMap<String, CourseData> courseList = apiServlet
 				.getCourseListForCoord(coord.id);
 		assertEquals(2, courseList.size());
-		for (CourseSummaryForCoordinator item : courseList.values()) {
+		for (CourseData item : courseList.values()) {
 			// check if course belongs to this coord
-			assertEquals(coord.id, apiServlet.getCourse(item.ID).coordId);
+			assertEquals(coord.id, apiServlet.getCourse(item.id).coordId);
 		}
 
 		// coord with 0 courses
@@ -241,7 +240,7 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader();
 		refreshDataInDatastore();
 
-		HashMap<String, CourseSummaryForCoordinator> courseListForCoord = apiServlet
+		HashMap<String, CourseData> courseListForCoord = apiServlet
 				.getCourseDetailsListForCoord("idOfTypicalCoord1");
 		assertEquals(2, courseListForCoord.size());
 		String course1Id = "idOfCourse1OfCoord1";

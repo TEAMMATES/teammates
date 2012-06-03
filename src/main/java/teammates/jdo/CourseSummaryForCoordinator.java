@@ -10,6 +10,7 @@ import teammates.Common;
  * currently in the course.
  * 
  * @author Gerald GOH
+ * @deprecated Use CourseData instead.
  * 
  */
 public class CourseSummaryForCoordinator {
