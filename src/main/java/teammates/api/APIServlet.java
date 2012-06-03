@@ -38,6 +38,7 @@ import teammates.persistent.TeamFormingSession;
 import teammates.persistent.TeamProfile;
 
 import com.google.appengine.api.datastore.Text;
+import com.google.appengine.api.users.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -911,6 +912,23 @@ public class APIServlet extends HttpServlet {
 		if(accounts.isCoordinator()){return UserType.COORDINATOR;}
 		return UserType.UNREGISTERED;
 		//TODO: do the same for student 
+	}
+	
+	public UserData getLoggedInUser(){
+		Accounts accounts = Accounts.inst();
+		 User user = accounts.getUser();
+		 if(user==null){
+			 return null;
+		 }
+		 if(accounts.isAdministrator()){
+			 return new AdminData(user.getNickname());
+		 }else if(accounts.isCoordinator()){
+			 return getCoord(user.getNickname());
+		 }else {
+			 return new UserData(user.getNickname());
+		 }
+		 
+		 //FIXME: do the same for Student
 	}
 
 	/**

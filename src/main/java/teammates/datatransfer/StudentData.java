@@ -1,11 +1,12 @@
 package teammates.datatransfer;
 
+import teammates.api.APIServlet.UserType;
 import teammates.api.InvalidParametersException;
 import teammates.persistent.Student;
 
 import com.google.appengine.api.datastore.Text;
 
-public class StudentData {
+public class StudentData extends UserData{
 	public enum UpdateStatus{
 		MODIFIED, 
 		UNMODIFIED, 
@@ -15,19 +16,18 @@ public class StudentData {
 		NOT_IN_ENROLL_LIST;
 	}
 	
-	public String id = "";
-	public String email;
 	public String course;
-	public String name;
 	public String comments = "";
 	public String team = "";
 	public Text profile = new Text("");
+	
 	
 	public UpdateStatus updateStatus = UpdateStatus.UNKNOWN ;
 	
 	
 	public StudentData(String email, String name, String comments,
 			String courseId, String team) {
+		this();
 		this.email = email;
 		this.course = courseId;
 		this.name = name;
@@ -36,7 +36,7 @@ public class StudentData {
 	}
 
 	public StudentData() {
-
+		type = UserType.STUDENT;
 	}
 
 	public StudentData(String enrollLine, String courseId)
@@ -45,6 +45,7 @@ public class StudentData {
 	}
 	
 	public StudentData(Student student){
+		this();
 		this.email = student.getEmail();
 			this.course = student.getCourseID();
 			this.name = student.getName();

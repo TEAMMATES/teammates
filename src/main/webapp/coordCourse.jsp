@@ -4,17 +4,21 @@
 <%@ page import="teammates.jsp.*"%>
 
 <%	
-	// See if user is logged in, if not we redirect them to the login page
 	APIServlet server = new APIServlet();
 
+	// See if user is logged in, if not we redirect them to the login page
 	if (!server.isUserLoggedIn()) {
 		response.sendRedirect( server.getLoginUrl("/coordCourse.jsp") );
 		return ;
 	}
 	
+	UserData loggedInUser = server.getLoggedInUser();
+	String requestedUser = request.getParameter("user");
 	
-	
-	String coordID = server.getUserId().toLowerCase();
+	String coordID = loggedInUser.id.toLowerCase();
+	if((loggedInUser.isAdmin())&&(requestedUser!=null)){
+		coordID = requestedUser;
+	}
 	String statusMessage = null;
 	boolean error = false;
 %>
@@ -66,7 +70,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<%	// Check if user is allowed to view this page
-		if (server.getUserType() != APIServlet.UserType.COORDINATOR) {
+		if ((!loggedInUser.isAdmin()) && (!loggedInUser.isCoord())) {
 	%>
 	<p>
 		You are not authorized to view this page. <br /> <br />
