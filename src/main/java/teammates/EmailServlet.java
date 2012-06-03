@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.manager.Emails;
+
 @SuppressWarnings("serial")
 public class EmailServlet extends HttpServlet {
 	private HttpServletRequest req;

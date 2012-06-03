@@ -13,12 +13,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import teammates.Courses;
 import teammates.Datastore;
-import teammates.Evaluations;
 import teammates.TeammatesServlet;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.TeammatesException;
+import teammates.manager.Courses;
+import teammates.manager.Evaluations;
 import teammates.persistent.Course;
 import teammates.persistent.Evaluation;
 import teammates.persistent.Student;

@@ -1,4 +1,4 @@
-package teammates;
+package teammates.manager;
 
 import java.util.Properties;
 
@@ -8,6 +8,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import teammates.Config;
 
 /**
  * Email handles all operations with regards to sending e-mails.

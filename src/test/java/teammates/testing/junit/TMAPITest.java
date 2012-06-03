@@ -13,7 +13,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.Common;
-import teammates.DataBundle;
 import teammates.datatransfer.*;
 import teammates.exception.InvalidParametersException;
 import teammates.testing.lib.SharedLib;

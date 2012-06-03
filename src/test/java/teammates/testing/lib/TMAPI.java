@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 
 import teammates.APIServlet;
 import teammates.Common;
-import teammates.DataBundle;
 import teammates.datatransfer.*;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.NotImplementedException;

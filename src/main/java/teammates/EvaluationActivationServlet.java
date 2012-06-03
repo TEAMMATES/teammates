@@ -6,6 +6,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.manager.Accounts;
+import teammates.manager.Courses;
+import teammates.manager.Evaluations;
 import teammates.persistent.Coordinator;
 import teammates.persistent.Course;
 import teammates.persistent.Evaluation;

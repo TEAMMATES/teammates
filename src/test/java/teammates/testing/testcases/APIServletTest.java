@@ -20,7 +20,6 @@ import org.junit.Test;
 
 import teammates.APIServlet;
 import teammates.Common;
-import teammates.DataBundle;
 import teammates.Datastore;
 import teammates.datatransfer.*;
 import teammates.exception.EnrollException;

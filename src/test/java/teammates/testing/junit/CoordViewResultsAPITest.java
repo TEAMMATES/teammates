@@ -13,8 +13,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import teammates.Datastore;
-import teammates.Evaluations;
 import teammates.TeammatesServlet;
+import teammates.manager.Evaluations;
 import teammates.persistent.Submission;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Scenario;

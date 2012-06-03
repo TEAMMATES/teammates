@@ -21,11 +21,11 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import teammates.Common;
-import teammates.Courses;
-import teammates.Evaluations;
 import teammates.exception.InvalidParametersException;
 import teammates.exception.TeammatesException;
 import teammates.jdo.EnrollmentReport;
+import teammates.manager.Courses;
+import teammates.manager.Evaluations;
 import teammates.persistent.Course;
 import teammates.persistent.Evaluation;
 import teammates.persistent.Student;

@@ -1,4 +1,4 @@
-package teammates;
+package teammates.manager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +10,7 @@ import javax.jdo.PersistenceManager;
 
 import org.mortbay.log.Log;
 
+import teammates.Datastore;
 import teammates.exception.CourseDoesNotExistException;
 import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.EntityDoesNotExistException;

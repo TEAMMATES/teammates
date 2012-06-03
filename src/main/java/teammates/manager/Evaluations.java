@@ -1,4 +1,4 @@
-package teammates;
+package teammates.manager;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
 
+import teammates.Datastore;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.EvaluationExistsException;
 import teammates.jdo.EvaluationDetailsForCoordinator;

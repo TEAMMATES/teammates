@@ -18,11 +18,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import teammates.Courses;
 import teammates.TeammatesServlet;
 import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.CourseInputInvalidException;
 import teammates.exception.TeammatesException;
+import teammates.manager.Courses;
 
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;

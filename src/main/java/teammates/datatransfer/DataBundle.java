@@ -1,9 +1,7 @@
-package teammates;
+package teammates.datatransfer;
 
 import java.util.HashMap;
 
-import teammates.datatransfer.*;
-import teammates.jdo.*;
 /**
  * This is a class to hold a bundle of entities
  * This class is mainly used for serializing JSON strings

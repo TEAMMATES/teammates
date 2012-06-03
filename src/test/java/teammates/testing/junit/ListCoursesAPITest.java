@@ -13,10 +13,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import teammates.Courses;
 import teammates.Datastore;
 import teammates.TeammatesServlet;
 import teammates.exception.TeammatesException;
+import teammates.manager.Courses;
 import teammates.persistent.Course;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
