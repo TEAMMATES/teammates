@@ -10,8 +10,10 @@ import teammates.Common;
  * coordinator.
  * 
  * @author Gerald GOH
+ * @deprecated Use EvaluationData instead.
  * 
  */
+
 public class EvaluationDetailsForCoordinator {
 	public String courseID= null;
 	public String name= null;

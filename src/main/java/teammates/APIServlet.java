@@ -1040,16 +1040,16 @@ public class APIServlet extends HttpServlet {
 		// TODO: using this method here may not be efficient as it retrieves
 		// info not required
 		HashMap<String, CourseData> courseList = getCourseListForCoord(coordId);
-		ArrayList<EvaluationDetailsForCoordinator> evaluationList = getEvaluationsListForCoord(coordId);
-		for (EvaluationDetailsForCoordinator edfc : evaluationList) {
+		ArrayList<EvaluationData> evaluationList = getEvaluationsListForCoord(coordId);
+		for (EvaluationData ed : evaluationList) {
 			CourseData courseSummary = courseList
-					.get(edfc.courseID);
-			courseSummary.evaluations.add(edfc);
+					.get(ed.course);
+			courseSummary.evaluations.add(ed);
 		}
 		return courseList;
 	}
 
-	public ArrayList<EvaluationDetailsForCoordinator> getEvaluationsListForCoord(
+	public ArrayList<EvaluationData> getEvaluationsListForCoord(
 			String coordId) {
 
 		if (coordId == null) {
@@ -1058,11 +1058,27 @@ public class APIServlet extends HttpServlet {
 
 		List<Course> courseList = Courses.inst().getCoordinatorCourseList(
 				coordId);
-		ArrayList<EvaluationDetailsForCoordinator> evaluationDetailsList = new ArrayList<EvaluationDetailsForCoordinator>();
+		ArrayList<EvaluationData> evaluationDetailsList = new ArrayList<EvaluationData>();
 
 		for (Course c : courseList) {
-			evaluationDetailsList.addAll(Evaluations.inst()
-					.getEvaluationsSummaryForCourse(c.getID()));
+			ArrayList<EvaluationDetailsForCoordinator> evaluationsSummaryForCourse = Evaluations.inst()
+					.getEvaluationsSummaryForCourse(c.getID());
+			for(EvaluationDetailsForCoordinator edfc: evaluationsSummaryForCourse){
+				EvaluationData e = new EvaluationData();
+				e.course = edfc.getCourseID();
+				e.name = edfc.getName();
+				e.instructions = edfc.getInstructions();
+				e.startTime = edfc.getStart();
+				e.endTime = edfc.getDeadline();
+				e.timeZone = edfc.getTimeZone();
+				e.gracePeriod = edfc.getGracePeriod();
+				e.p2pEnabled = edfc.isCommentsEnabled();
+				e.published = edfc.isPublished();
+				e.activated = edfc.isActivated();
+				e.expectedTotal = edfc.numberOfEvaluations;
+				e.submittedTotal = edfc.numberOfCompletedEvaluations;
+				evaluationDetailsList.add(e);
+			}
 		}
 		return evaluationDetailsList;
 	}
@@ -1268,7 +1284,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	@SuppressWarnings("unused")
-	private void ____EVALUATIONS_level_methods______________________________() {
+	private void ____EVALUATION_level_methods______________________________() {
 	}
 
 	public void createEvalution(EvaluationData evaluation)

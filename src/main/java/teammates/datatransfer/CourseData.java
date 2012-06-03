@@ -3,7 +3,6 @@ package teammates.datatransfer;
 import java.util.ArrayList;
 
 import teammates.Common;
-import teammates.jdo.EvaluationDetailsForCoordinator;
 
 
 public class CourseData {
@@ -16,7 +15,7 @@ public class CourseData {
 	public transient int teamsTotal = Common.UNINITIALIZED_INT;
 	public transient int studentsTotal = Common.UNINITIALIZED_INT;
 	public transient int unregisteredTotal = Common.UNINITIALIZED_INT;
-	public transient ArrayList<EvaluationDetailsForCoordinator> evaluations = new ArrayList<EvaluationDetailsForCoordinator>();
+	public transient ArrayList<EvaluationData> evaluations = new ArrayList<EvaluationData>();
 
 
 public CourseData(){

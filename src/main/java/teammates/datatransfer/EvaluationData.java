@@ -2,6 +2,7 @@ package teammates.datatransfer;
 
 import java.util.Date;
 
+import teammates.Common;
 import teammates.jdo.Evaluation;
 
 public class EvaluationData {
@@ -15,6 +16,10 @@ public class EvaluationData {
 	public boolean p2pEnabled;
 	public boolean published = false;
 	public boolean activated = false;
+	
+	//marked transient to avoid converting to json
+	public transient int submittedTotal = Common.UNINITIALIZED_INT;
+	public transient int expectedTotal= Common.UNINITIALIZED_INT;
 
 	public EvaluationData() {
 

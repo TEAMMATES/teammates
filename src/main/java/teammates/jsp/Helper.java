@@ -5,7 +5,7 @@ import java.net.URLEncoder;
 import java.util.Date;
 
 import teammates.Common;
-import teammates.jdo.EvaluationDetailsForCoordinator;
+import teammates.datatransfer.*;
 
 public class Helper {
 	
@@ -119,9 +119,9 @@ public class Helper {
 	 * @param eval
 	 * @return
 	 */
-	public static String getStatusForEval(EvaluationDetailsForCoordinator eval){
-		if(eval.start.after(new Date())) return Common.EVALUATION_STATUS_AWAITING;
-		if(eval.deadline.after(new Date())) return Common.EVALUATION_STATUS_OPEN;
+	public static String getStatusForEval(EvaluationData eval){
+		if(eval.startTime.after(new Date())) return Common.EVALUATION_STATUS_AWAITING;
+		if(eval.endTime.after(new Date())) return Common.EVALUATION_STATUS_OPEN;
 		if(!eval.published)	return Common.EVALUATION_STATUS_CLOSED;
 		return Common.EVALUATION_STATUS_PUBLISHED;
 	}
@@ -131,7 +131,7 @@ public class Helper {
 	 * @param eval
 	 * @return
 	 */
-	public static String getHoverMessageForEval(EvaluationDetailsForCoordinator eval){
+	public static String getHoverMessageForEval(EvaluationData eval){
 		String status = getStatusForEval(eval);
 		if(status.equals(Common.EVALUATION_STATUS_AWAITING)) return Common.HOVER_MESSAGE_EVALUATION_STATUS_AWAITING;
 		if(status.equals(Common.EVALUATION_STATUS_OPEN)) return Common.HOVER_MESSAGE_EVALUATION_STATUS_OPEN;
@@ -149,7 +149,7 @@ public class Helper {
 	 * 		Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
 	 * @return
 	 */
-	public static String getEvaluationActions(EvaluationDetailsForCoordinator eval, int position, boolean isHome){
+	public static String getEvaluationActions(EvaluationData eval, int position, boolean isHome){
 		StringBuffer result = new StringBuffer();
 		final String disabled = "style='text-decoration:none; color:gray;' onclick='return false'";
 		
@@ -178,32 +178,32 @@ public class Helper {
 		
 		result.append(
 			"<a class='t_eval_view' name='viewEvaluation" + position + "' id='viewEvaluation"+ position + "' " +
-			"href='" + getEvaluationViewLink(eval.courseID,eval.name) + "' " +
+			"href='" + getEvaluationViewLink(eval.course,eval.name) + "' " +
 			"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_VIEW+"\")' "+
 			"onmouseout='hideddrivetip()'" + (hasView ? "" : disabled) + ">View Results</a>"
 		);
 		result.append(
 			"<a class='t_eval_edit' name='editEvaluation" + position + "' id='editEvaluation" + position + "' " +
-			"href='" + getEvaluationEditLink(eval.courseID,eval.name) + "' " +
+			"href='" + getEvaluationEditLink(eval.course,eval.name) + "' " +
 			"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_EDIT+"\")' onmouseout='hideddrivetip()' " +
 			(hasEdit ? "" : disabled) + ">Edit</a>"
 		);
 		result.append(
 			"<a class='t_eval_delete' name='deleteEvaluation" + position + "' id='deleteEvaluation" + position + "' " +
-			"href='" + getEvaluationDeleteLink(eval.courseID,eval.name,(isHome ? "coordHome.jsp" : "coordEval.jsp")) + "' " +
-			"onclick='hideddrivetip(); return toggleDeleteEvaluationConfirmation(\"" + eval.courseID + "\",\"" + eval.name + "\");' " +
+			"href='" + getEvaluationDeleteLink(eval.course,eval.name,(isHome ? "coordHome.jsp" : "coordEval.jsp")) + "' " +
+			"onclick='hideddrivetip(); return toggleDeleteEvaluationConfirmation(\"" + eval.course + "\",\"" + eval.name + "\");' " +
 			"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_DELETE+"\")' onmouseout='hideddrivetip()'>Delete</a>"
 		);
 		result.append(
 			"<a class='t_eval_remind' name='remindEvaluation" + position + "' id='remindEvaluation" + position + "' " +
-			"href='javascript: hideddrivetip(); toggleRemindStudents(\"" + eval.courseID + "\",\"" + eval.name + "\");' " +
+			"href='javascript: hideddrivetip(); toggleRemindStudents(\"" + eval.course + "\",\"" + eval.name + "\");' " +
 			"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_REMIND+"\")' " +
 			"onmouseout='hideddrivetip()'" + (hasRemind ? "" : disabled) + ">Remind</a>"
 		);
 		if (hasUnpublish) {
 			result.append(
 				"<a class='t_eval_unpublish' name='publishEvaluation" + position + "' id='publishEvaluation" + position + "' " +
-				"href='javascript: hideddrivetip(); togglePublishEvaluation(\"" + eval.courseID + "\",\"" +
+				"href='javascript: hideddrivetip(); togglePublishEvaluation(\"" + eval.course + "\",\"" +
 				eval.name + "\"," + false + "," + (isHome ? "\"coordHome.jsp\"" : "\"coordEval.jsp\"") + ");' " +
 				"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_UNPUBLISH+"\")' onmouseout='hideddrivetip()'>" +
 				"Unpublish</a>"
@@ -211,7 +211,7 @@ public class Helper {
 		} else {
 			result.append(
 				"<a class='t_eval_publish' name='unpublishEvaluation" + position + "' id='publishEvaluation" + position + "' " +
-				"href='javascript: hideddrivetip(); togglePublishEvaluation(\"" + eval.courseID + "\",\"" +
+				"href='javascript: hideddrivetip(); togglePublishEvaluation(\"" + eval.course + "\",\"" +
 				eval.name + "\"," + true + "," + (isHome ? "\"coordHome.jsp\"" : "\"coordEval.jsp\"") + ");' " +
 				"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_PUBLISH+"\")' " +
 				"onmouseout='hideddrivetip()'" + (hasPublish ? "" : disabled) + ">Publish</a>"

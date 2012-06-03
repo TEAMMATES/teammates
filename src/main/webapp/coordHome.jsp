@@ -1,7 +1,6 @@
 <%@ page import="java.util.*"%>
 <%@ page import="teammates.*"%>
 <%@ page import="teammates.datatransfer.*"%>
-<%@ page import="teammates.jdo.EvaluationDetailsForCoordinator" %>
 <%@ page import="teammates.jsp.*"%>
 
 <%
@@ -121,8 +120,8 @@
 						</div>
 						<div style='clear: both;'></div>
 						<br />
-						<%	ArrayList<EvaluationDetailsForCoordinator> evaluations = course.evaluations;
-							EvaluationDetailsForCoordinator[] evaluationsArr = evaluations.toArray(new EvaluationDetailsForCoordinator[]{});
+						<%	ArrayList<EvaluationData> evaluations = course.evaluations;
+							EvaluationData[] evaluationsArr = evaluations.toArray(new EvaluationData[]{});
 							if (evaluationsArr.length > 0) {
 						%>
 							<table id='dataform'>
@@ -135,15 +134,15 @@
 									<th class='centeralign'>ACTION(S)</th>
 								</tr>
 								<%	for (int i=evaluationsArr.length-1; i>=0; i--) {
-										EvaluationDetailsForCoordinator eval = evaluationsArr[i];
+										EvaluationData eval = evaluationsArr[i];
 								%>
 									<tr class='home_evaluations_row' id='evaluation<%= evalIdx %>'>
 										<td class='t_eval_name'><%= eval.name %></td>
 										<td class='t_eval_status centeralign'><span
 											onmouseover='ddrivetip(" <%= Helper.getHoverMessageForEval(eval) %>")'
 											onmouseout='hideddrivetip()'><%= Helper.getStatusForEval(eval) %></span></td>
-										<td class='t_eval_response centeralign'><%= eval.numberOfCompletedEvaluations %>
-											/ <%= eval.numberOfEvaluations %></td>
+										<td class='t_eval_response centeralign'><%= eval.submittedTotal %>
+											/ <%= eval.expectedTotal %></td>
 										<td class='centeralign'><%= Helper.getEvaluationActions(eval,evalIdx, true) %>
 										</td>
 									</tr>

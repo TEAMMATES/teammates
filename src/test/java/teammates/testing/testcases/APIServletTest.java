@@ -27,7 +27,6 @@ import teammates.exception.EnrollException;
 import teammates.exception.EntityAlreadyExistsException;
 import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.InvalidParametersException;
-import teammates.jdo.EvaluationDetailsForCoordinator;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.taskqueue.dev.LocalTaskQueue;
@@ -246,10 +245,10 @@ public class APIServletTest extends BaseTestCase {
 		String course1Id = "idOfCourse1OfCoord1";
 
 		// course with 2 evaluations
-		ArrayList<EvaluationDetailsForCoordinator> course1Evals = courseListForCoord
+		ArrayList<EvaluationData> course1Evals = courseListForCoord
 				.get(course1Id).evaluations;
 		assertEquals(2, course1Evals.size());
-		assertEquals(course1Id, course1Evals.get(0).courseID);
+		assertEquals(course1Id, course1Evals.get(0).course);
 		verifyEvauationInfoExistsInList(
 				dataBundle.evaluations.get("evaluation1InCourse1OfCoord1"),
 				course1Evals);
@@ -258,8 +257,8 @@ public class APIServletTest extends BaseTestCase {
 				course1Evals);
 
 		// course with 1 evaluation
-		assertEquals(course1Id, course1Evals.get(1).courseID);
-		ArrayList<EvaluationDetailsForCoordinator> course2Evals = courseListForCoord
+		assertEquals(course1Id, course1Evals.get(1).course);
+		ArrayList<EvaluationData> course2Evals = courseListForCoord
 				.get("idOfCourse2OfCoord1").evaluations;
 		assertEquals(1, course2Evals.size());
 		verifyEvauationInfoExistsInList(
@@ -300,19 +299,19 @@ public class APIServletTest extends BaseTestCase {
 
 		// coord with 3 Evals
 		CoordData coord1 = dataBundle.coords.get("typicalCoord1");
-		ArrayList<EvaluationDetailsForCoordinator> evalList = apiServlet
+		ArrayList<EvaluationData> evalList = apiServlet
 				.getEvaluationsListForCoord(coord1.id);
 		assertEquals(3, evalList.size());
-		for (EvaluationDetailsForCoordinator ed : evalList) {
-			assertTrue(ed.courseID.contains("Coord1"));
+		for (EvaluationData ed : evalList) {
+			assertTrue(ed.course.contains("Coord1"));
 		}
 
 		// coord with 1 eval
 		CoordData coord2 = dataBundle.coords.get("typicalCoord2");
 		evalList = apiServlet.getEvaluationsListForCoord(coord2.id);
 		assertEquals(1, evalList.size());
-		for (EvaluationDetailsForCoordinator ed : evalList) {
-			assertTrue(ed.courseID.contains("Coord2"));
+		for (EvaluationData ed : evalList) {
+			assertTrue(ed.course.contains("Coord2"));
 		}
 
 		// coord with 0 eval
@@ -1036,10 +1035,10 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	private void verifyEvauationInfoExistsInList(EvaluationData evaluation,
-			ArrayList<EvaluationDetailsForCoordinator> evalInfoList) {
+			ArrayList<EvaluationData> evalInfoList) {
 
-		for (EvaluationDetailsForCoordinator edfc : evalInfoList) {
-			if (edfc.name.equals(evaluation.name))
+		for (EvaluationData ed : evalInfoList) {
+			if (ed.name.equals(evaluation.name))
 				return;
 		}
 		Assert.fail("Did not find " + evaluation.name
