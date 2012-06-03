@@ -4,44 +4,15 @@
 <%@ page import="teammates.jsp.*"%>
 
 <%	
-	APIServlet server = new APIServlet();
-
+	CoordCourseAddHelper helper = new CoordCourseAddHelper();
 	// See if user is logged in, if not we redirect them to the login page
-	if (!server.isUserLoggedIn()) {
-		response.sendRedirect( server.getLoginUrl("/coordCourse.jsp") );
+	if (!helper.isUserLoggedIn()) {
+		response.sendRedirect(helper.getLoginUrl(request));
 		return ;
 	}
-	
-	UserData loggedInUser = server.getLoggedInUser();
-	String requestedUser = request.getParameter("user");
-	
-	String coordID = loggedInUser.id.toLowerCase();
-	if((loggedInUser.isAdmin())&&(requestedUser!=null)){
-		coordID = requestedUser;
-	}
-	String statusMessage = null;
-	boolean error = false;
-%>
-<%
-	String newCourseID = request.getParameter(Common.COURSE_ID);
-	String newCourseName = request.getParameter(Common.COURSE_NAME);
-	if(newCourseID!=null && newCourseName!=null){
-		try{
-			server.createCourse(coordID, newCourseID, newCourseName);
-			statusMessage = Common.MESSAGE_COURSE_ADDED;
-		} catch (EntityAlreadyExistsException e){
-			statusMessage = Common.MESSAGE_COURSE_EXISTS;
-			error = true;
-		} catch (InvalidParametersException e){
-			statusMessage = e.getMessage();
-			error = true;
-		}
-	}
-	// If the course add was successful, do not display it again in the input boxes
-	if(error==false){
-		newCourseID = null;
-		newCourseName = null;
-	}
+
+	helper.init(request);
+
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -70,7 +41,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<%	// Check if user is allowed to view this page
-		if ((!loggedInUser.isAdmin()) && (!loggedInUser.isCoord())) {
+		if ((!helper.loggedInUser.isAdmin()) && (!helper.loggedInUser.isCoord())) {
 	%>
 	<p>
 		You are not authorized to view this page. <br /> <br />
@@ -97,7 +68,7 @@
 						<tr>
 							<td><input class='addinput' type='text'
 								name='<%= Common.COURSE_ID %>' id='<%= Common.COURSE_ID %>'
-								value='<%= (newCourseID==null?"":newCourseID) %>'
+								value='<%= (helper.newCourseID==null?"":helper.newCourseID) %>'
 								onmouseover='ddrivetip("Enter the identifier of the course, e.g.CS3215Sem1.")'
 								onmouseout='hideddrivetip()'
 								maxlength=<%= Common.COURSE_ID_MAX_LENGTH %> tabindex=1 /></td>
@@ -108,7 +79,7 @@
 						<tr>
 							<td><input class='addinput' type='text'
 								name='<%= Common.COURSE_NAME %>' id='<%= Common.COURSE_NAME %>'
-								value='<%=(newCourseName==null?"":newCourseName)%>'
+								value='<%=(helper.newCourseName==null?"":helper.newCourseName)%>'
 								onmouseover='ddrivetip("Enter the name of the course, e.g. Software Engineering.")'
 								onmouseout='hideddrivetip()'
 								maxlength=<%= Common.COURSE_NAME_MAX_LENGTH %> tabindex=2 /></td>
@@ -121,10 +92,10 @@
 				</form>
 			</div>
 			<br />
-			<%	if(statusMessage!=null) { %>
+			<%	if(helper.statusMessage!=null) { %>
 				<div id="statusMessage"
-					style="display:block;<% if(error) out.println("background:#FF9999"); %>">
-					<% out.println(statusMessage); %></div>
+					style="display:block;<% if(helper.error) out.println("background:#FF9999"); %>">
+					<% out.println(helper.statusMessage); %></div>
 			<%	} else { %>
 				<div id="statusMessage" style="display: none"></div>
 			<%	} %>
@@ -146,16 +117,10 @@
 						<th class='centeralign'>TOTAL UNREGISTERED</th>
 						<th class='centeralign'>ACTION(S)</th>
 					</tr>
-					<%	HashMap<String, CourseData> courses = server.getCourseListForCoord(coordID);
-						CourseData[] summary = courses.values().toArray(new CourseData[]{});
-						Arrays.sort(summary,new Comparator<CourseData>(){
-							public int compare(CourseData obj1, CourseData obj2){
-								return obj1.id.compareTo(obj2.id);
-							}
-						});
+					<%	
 						int idx = 0;
-						for(idx=0; idx<summary.length; idx++){
-							CourseData course = summary[idx];
+						for(idx=0; idx<helper.summary.length; idx++){
+							CourseData course = helper.summary[idx];
 					%>
 						<tr class='courses_row'>
 							<td id='courseID<%= idx %>'><%= course.id %></td>
@@ -165,15 +130,15 @@
 							<td class='centeralign'><%= course.unregisteredTotal %></td>
 							<td class='centeralign'>
 								<a class='t_course_enroll'
-									href='<%= Helper.getCourseEnrollLink(course.id) %>'
+									href='<%= helper.getCourseEnrollLink(course.id) %>'
 									onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_ENROLL %>")'
 									onmouseout='hideddrivetip()'>Enroll</a>
 								<a class='t_course_view'
-									href='<%= Helper.getCourseViewLink(course.id) %>'
+									href='<%= helper.getCourseViewLink(course.id) %>'
 									onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_VIEW_COURSE %>")'
 									onmouseout='hideddrivetip()'>View</a>
 								<a class='t_course_delete'
-									href='<%= Helper.getCourseDeleteLink(course.id,"coordCourse.jsp") %>'
+									href='<%= helper.getCourseDeleteLink(course.id,"coordCourse.jsp") %>'
 									onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("<%= course.id %>");'
 									onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_DELETE_COURSE %>")'
 									onmouseout='hideddrivetip()'>Delete</a>

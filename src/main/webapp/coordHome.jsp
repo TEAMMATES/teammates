@@ -12,7 +12,7 @@
 	}
 
 	
-
+	CoordCourseAddHelper helper = new CoordCourseAddHelper();
 	String coordID = server.getUserId().toLowerCase();
 	String statusMessage = null;
 	boolean error = false;
@@ -94,13 +94,13 @@
 						</div>
 						<div class='result_homeLinks'>
 							<a class='t_course_enroll<%= idx %>'
-								href='<%= Helper.getCourseEnrollLink(course.id) %>'
+								href='<%= helper.getCourseEnrollLink(course.id) %>'
 								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_ENROLL %>")'
 								onmouseout='hideddrivetip()'>
 								Enroll
 							</a>
 							<a class='t_course_view<%= idx %>'
-								href='<%= Helper.getCourseViewLink(course.id) %>'
+								href='<%= helper.getCourseViewLink(course.id) %>'
 								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_VIEW_COURSE %>")'
 								onmouseout='hideddrivetip()'>
 								View
@@ -111,7 +111,7 @@
 								Add Evaluation
 							</a>
 							<a class='t_course_delete<%= idx %>'
-								href='<%= Helper.getCourseDeleteLink(course.id,"coordHome.jsp") %>'
+								href='<%= helper.getCourseDeleteLink(course.id,"coordHome.jsp") %>'
 								onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("<%= course.id %>")'
 								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_DELETE_COURSE %>")'
 								onmouseout='hideddrivetip()'>

@@ -15,6 +15,7 @@ import org.openqa.selenium.WebElement;
 import teammates.api.Common;
 import teammates.datatransfer.*;
 import teammates.exception.NoAlertAppearException;
+import teammates.jsp.CoordCourseAddHelper;
 import teammates.jsp.Helper;
 import teammates.persistent.Coordinator;
 import teammates.persistent.Course;
@@ -231,18 +232,20 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		int courseRowID = getCourseRowNumber(courseID);
 		assertTrue(courseRowID!=-1);
 		
+		CoordCourseAddHelper helper = new CoordCourseAddHelper();
+		
 		// Check enroll link
 		link = bi.getElementRelativeHref(getCoordCourseLinkLocator(courseRowID,"t_course_enroll"));
-		assertEquals(Helper.getCourseEnrollLink(courseID),link);
+		assertEquals(helper.getCourseEnrollLink(courseID),link);
 		
 		// Check view details link
 		link = bi.getElementRelativeHref(getCoordCourseLinkLocator(courseRowID,"t_course_view"));
-		assertEquals(Helper.getCourseViewLink(courseID),link);
+		assertEquals(helper.getCourseViewLink(courseID),link);
 		
 		// Check delete link
 		By deleteLinkLocator = getCoordCourseLinkLocator(courseRowID,"t_course_delete");
 		link = bi.getElementRelativeHref(deleteLinkLocator);
-		assertEquals(Helper.getCourseDeleteLink(courseID, Common.JSP_COORD_COURSE),link);
+		assertEquals(helper.getCourseDeleteLink(courseID, Common.JSP_COORD_COURSE),link);
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
 			bi.verifyCoordCoursesPage();

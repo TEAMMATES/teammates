@@ -37,34 +37,7 @@ public class Helper {
 		}
 	}
 	
-	/**
-	 * Returns the link to show course detail for specific courseID
-	 * @param courseID
-	 * @return
-	 */
-	public static String getCourseViewLink(String courseID){
-		return "coordCourseView.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID);
-	}
-	
-	/**
-	 * Returns the link to delete a course and redirects to the nextURL after deletion<br />
-	 * The nextURL is usually used to refresh the page after deletion
-	 * @param courseID
-	 * @param nextURL
-	 * @return
-	 */
-	public static String getCourseDeleteLink(String courseID, String nextURL){
-		return "coordCourseDelete.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID)+"&"+Common.PARAM_NEXT_URL+"="+convertForURL(nextURL);
-	}
 
-	/**
-	 * Returns the link to the course enroll link for specified courseID
-	 * @param courseID
-	 * @return
-	 */
-	public static String getCourseEnrollLink(String courseID){
-		return "coordCourseEnroll.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID);
-	}
 	
 	/**
 	 * Returns the link to see evaluation details for a specified evaluation name and courseID
