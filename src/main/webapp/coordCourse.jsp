@@ -1,7 +1,7 @@
 <%@ page import="java.util.*"%>
 <%@ page import="teammates.*"%>
-<%@ page import="teammates.jdo.*"%>
 <%@ page import="teammates.exception.*"%>
+<%@ page import="teammates.datatransfer.*"%>
 <%@ page import="teammates.jsp.*"%>
 
 <%	
@@ -142,35 +142,35 @@
 						<th class='centeralign'>TOTAL UNREGISTERED</th>
 						<th class='centeralign'>ACTION(S)</th>
 					</tr>
-					<%	HashMap<String, CourseSummaryForCoordinator> courses = server.getCourseListForCoord(coordID);
-						CourseSummaryForCoordinator[] summary = courses.values().toArray(new CourseSummaryForCoordinator[]{});
-						Arrays.sort(summary,new Comparator<CourseSummaryForCoordinator>(){
-							public int compare(CourseSummaryForCoordinator obj1, CourseSummaryForCoordinator obj2){
-								return obj1.ID.compareTo(obj2.ID);
+					<%	HashMap<String, CourseData> courses = server.getCourseListForCoord(coordID);
+						CourseData[] summary = courses.values().toArray(new CourseData[]{});
+						Arrays.sort(summary,new Comparator<CourseData>(){
+							public int compare(CourseData obj1, CourseData obj2){
+								return obj1.id.compareTo(obj2.id);
 							}
 						});
 						int idx = 0;
 						for(idx=0; idx<summary.length; idx++){
-							CourseSummaryForCoordinator course = summary[idx];
+							CourseData course = summary[idx];
 					%>
 						<tr class='courses_row'>
-							<td id='courseID<%= idx %>'><%= course.ID %></td>
+							<td id='courseID<%= idx %>'><%= course.id %></td>
 							<td id='courseName<%= idx %>'><%= course.name %></td>
-							<td class='t_course_teams centeralign'><%= course.numberOfTeams %></td>
-							<td class='centeralign'><%= course.totalStudents %></td>
-							<td class='centeralign'><%= course.unregistered %></td>
+							<td class='t_course_teams centeralign'><%= course.teamsTotal %></td>
+							<td class='centeralign'><%= course.studentsTotal %></td>
+							<td class='centeralign'><%= course.unregisteredTotal %></td>
 							<td class='centeralign'>
 								<a class='t_course_enroll'
-									href='<%= Helper.getCourseEnrollLink(course.ID) %>'
+									href='<%= Helper.getCourseEnrollLink(course.id) %>'
 									onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_ENROLL %>")'
 									onmouseout='hideddrivetip()'>Enroll</a>
 								<a class='t_course_view'
-									href='<%= Helper.getCourseViewLink(course.ID) %>'
+									href='<%= Helper.getCourseViewLink(course.id) %>'
 									onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_VIEW_COURSE %>")'
 									onmouseout='hideddrivetip()'>View</a>
 								<a class='t_course_delete'
-									href='<%= Helper.getCourseDeleteLink(course.ID,"coordCourse.jsp") %>'
-									onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("<%= course.ID %>");'
+									href='<%= Helper.getCourseDeleteLink(course.id,"coordCourse.jsp") %>'
+									onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("<%= course.id %>");'
 									onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_DELETE_COURSE %>")'
 									onmouseout='hideddrivetip()'>Delete</a>
 							</td>

@@ -28,7 +28,7 @@ public class StudentInfoForCoord {
 	public StudentInfoForCoord(StudentData student) {
 		this.id = student.id;
 		this.email = student.email;
-		this.courseId = student.courseId;
+		this.courseId = student.course;
 		this.name = student.name;
 		this.comments = student.comments;
 		this.teamName = student.team;

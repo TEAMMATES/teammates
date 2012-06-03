@@ -9,7 +9,7 @@ import teammates.jdo.EvaluationDetailsForCoordinator;
 public class CourseData {
 	public String id;
 	public String name;
-	public String coordId;
+	public String coord;
 	
 	//these are marked transient because we don't want to involve them in
 	//Json conversions.
@@ -26,7 +26,7 @@ public CourseData(){
 public CourseData (String id, String name, String coordId){
 	this.id = id;
 	this.name = name;
-	this.coordId = coordId;
+	this.coord = coordId;
 }
 
 }

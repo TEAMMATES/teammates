@@ -113,7 +113,7 @@ public class Student {
 	public Student(StudentData data){
 		setID(data.id);
 		setEmail(data.email);
-		setCourseID(data.courseId);
+		setCourseID(data.course);
 		setName(data.name);
 		setComments(data.comments);
 		setTeamName(data.team);

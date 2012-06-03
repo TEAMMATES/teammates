@@ -9,12 +9,12 @@
   
   "courses": {
     "CHomeUiT.CS2104": {
-      "coordId": "teammates.test",
+      "coord": "teammates.test",
       "id": "CHomeUiT.CS2104",
       "name": "Programming Language Concepts"
     },
     "CHomeUiT.CS1101": {
-      "coordId": "teammates.test",
+      "coord": "teammates.test",
       "id": "CHomeUiT.CS1101",
       "name": "Programming Methodology"
     }
@@ -24,7 +24,7 @@
     "alice.b.tmms@CHomeUiT.CS2104": {
       "id": "alice.b.tmms",
       "email": "alice.b.tmms@gmail.com",
-      "courseId": "CHomeUiT.CS2104",
+      "course": "CHomeUiT.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "profile": {"value": "My name is Alice Betsy, and I'm a student in CHomeUiT.CS2104"},
@@ -33,7 +33,7 @@
     "benny.c.tmms@CHomeUiT.CS2104": {
       "id": "benny.c.tmms",
       "email": "benny.c.tmms@gmail.com",
-      "courseId": "CHomeUiT.CS2104",
+      "course": "CHomeUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "profile": {"value": "My name is Benny Charles, and I'm a student in CHomeUiT.CS2104"},
@@ -42,7 +42,7 @@
     "charlie.d.tmms@CHomeUiT.CS2104": {
       "id": "charlie.d.tmms",
       "email": "charlie.d.tmms@gmail.com",
-      "courseId": "CHomeUiT.CS2104",
+      "course": "CHomeUiT.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "profile": {"value": "My name is Charlie Davis, and I'm a student in CHomeUiT.CS2104"},
@@ -51,7 +51,7 @@
     "danny.e.tmms@CHomeUiT.CS2104": {
       "id": "danny.e.tmms",
       "email": "danny.e.tmms@gmail.com",
-      "courseId": "CHomeUiT.CS2104",
+      "course": "CHomeUiT.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "profile": {"value": "My name is Danny Engrid, and I'm a student in CHomeUiT.CS2104"},
@@ -60,7 +60,7 @@
     "alice.b.tmms@CHomeUiT.CS1101": {
       "id": "alice.b.tmms",
       "email": "alice.b.tmms@gmail.com",
-      "courseId": "CHomeUiT.CS1101",
+      "course": "CHomeUiT.CS1101",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "profile": {"value": "My name is Alice Betsy, and I'm a student in CHomeUiT.CS1101"},
@@ -69,7 +69,7 @@
     "benny.c.tmms@CHomeUiT.CS1101": {
       "id": "benny.c.tmms",
       "email": "benny.c.tmms@gmail.com",
-      "courseId": "CHomeUiT.CS1101",
+      "course": "CHomeUiT.CS1101",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "profile": {"value": "My name is Benny Charles, and I'm a student in CHomeUiT.CS1101"},
@@ -78,7 +78,7 @@
     "charlie.d.tmms@CHomeUiT.CS1101": {
       "id": "charlie.d.tmms",
       "email": "charlie.d.tmms@gmail.com",
-      "courseId": "CHomeUiT.CS1101",
+      "course": "CHomeUiT.CS1101",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "profile": {"value": "My name is Charlie Davis, and I'm a student in CHomeUiT.CS1101"},
@@ -87,7 +87,7 @@
     "danny.e.tmms@CHomeUiT.CS1101": {
       "id": "danny.e.tmms",
       "email": "danny.e.tmms@gmail.com",
-      "courseId": "CHomeUiT.CS1101",
+      "course": "CHomeUiT.CS1101",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "profile": {"value": "My name is Danny Engrid, and I'm a student in CHomeUiT.CS1101"},
@@ -97,7 +97,7 @@
   
   "evaluations": {
     "CHomeUiT.CS2104:First Eval": {
-      "courseId": "CHomeUiT.CS2104",
+      "course": "CHomeUiT.CS2104",
       "name": "First Eval",
       "instructions": "Please please fill it in",
       "startTime": "2012-04-01 11:59 PM",
@@ -108,7 +108,7 @@
       "published": false
     },
     "CHomeUiT.CS2104:Second Eval": {
-      "courseId": "CHomeUiT.CS2104",
+      "course": "CHomeUiT.CS2104",
       "name": "Second Eval",
       "instructions": "Please please fill in the second evaluation",
       "startTime": "2012-04-01 11:59 PM",
@@ -119,7 +119,7 @@
       "published": true
     },
     "CHomeUiT.CS1101:Third Eval": {
-      "courseId": "CHomeUiT.CS1101",
+      "course": "CHomeUiT.CS1101",
       "name": "Third Eval",
       "instructions": "Please please fill in the third evaluation",
       "startTime": "2012-04-01 11:59 PM",
@@ -130,7 +130,7 @@
       "published": false
     },
     "CHomeUiT.CS1101:Fourth Eval": {
-      "courseId": "CHomeUiT.CS1101",
+      "course": "CHomeUiT.CS1101",
       "name": "Fourth Eval",
       "instructions": "Please please fill in the fourth evaluation",
       "startTime": "2015-04-01 11:59 PM",
@@ -141,7 +141,7 @@
       "published": false
     },
     "CHomeUiT.CS1101:Fifth Eval": {
-      "courseId": "CHomeUiT.CS1101",
+      "course": "CHomeUiT.CS1101",
       "name": "Fifth Eval",
       "instructions": "Please please fill in the fifth evaluation",
       "startTime": "2012-04-01 11:59 PM",

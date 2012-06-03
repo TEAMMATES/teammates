@@ -1,6 +1,7 @@
 <%@ page import="java.util.*"%>
 <%@ page import="teammates.*"%>
-<%@ page import="teammates.jdo.*"%>
+<%@ page import="teammates.datatransfer.*"%>
+<%@ page import="teammates.jdo.EvaluationDetailsForCoordinator" %>
 <%@ page import="teammates.jsp.*"%>
 
 <%
@@ -78,29 +79,29 @@
 				<div id="statusMessage" style="display: none"></div>
 				<%	} %>
 				<div id="coordinatorStudentTable">
-					<%	HashMap<String, CourseSummaryForCoordinator> courses = server.getCourseListForCoord(coordID);
-						CourseSummaryForCoordinator[] summary = courses.values().toArray(new CourseSummaryForCoordinator[] {});
+					<%	HashMap<String, CourseData> courses = server.getCourseDetailsListForCoord(coordID);
+						CourseData[] summary = courses.values().toArray(new CourseData[] {});
 						int idx = 0;
 						int evalIdx = 0;
 						for (idx = 0; idx < summary.length; idx++) {
 							// This will print the latest one first
-							CourseSummaryForCoordinator course = summary[summary.length-1-idx];
+							CourseData course = summary[summary.length-1-idx];
 					%>
 					<div class='result_team home_courses_div' id='course<%= idx %>'>
 						<div class='result_homeTitle'>
-							<h2>[<%= course.ID %>] :
+							<h2>[<%= course.id %>] :
 								<%= course.name %>
 							</h2>
 						</div>
 						<div class='result_homeLinks'>
 							<a class='t_course_enroll<%= idx %>'
-								href='<%= Helper.getCourseEnrollLink(course.ID) %>'
+								href='<%= Helper.getCourseEnrollLink(course.id) %>'
 								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_ENROLL %>")'
 								onmouseout='hideddrivetip()'>
 								Enroll
 							</a>
 							<a class='t_course_view<%= idx %>'
-								href='<%= Helper.getCourseViewLink(course.ID) %>'
+								href='<%= Helper.getCourseViewLink(course.id) %>'
 								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_VIEW_COURSE %>")'
 								onmouseout='hideddrivetip()'>
 								View
@@ -111,8 +112,8 @@
 								Add Evaluation
 							</a>
 							<a class='t_course_delete<%= idx %>'
-								href='<%= Helper.getCourseDeleteLink(course.ID,"coordHome.jsp") %>'
-								onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("<%= course.ID %>")'
+								href='<%= Helper.getCourseDeleteLink(course.id,"coordHome.jsp") %>'
+								onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("<%= course.id %>")'
 								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_DELETE_COURSE %>")'
 								onmouseout='hideddrivetip()'>
 								Delete
@@ -120,7 +121,7 @@
 						</div>
 						<div style='clear: both;'></div>
 						<br />
-						<%	ArrayList<EvaluationDetailsForCoordinator> evaluations = Evaluations.inst().getEvaluationsSummaryForCourse(course.ID);
+						<%	ArrayList<EvaluationDetailsForCoordinator> evaluations = course.evaluations;
 							EvaluationDetailsForCoordinator[] evaluationsArr = evaluations.toArray(new EvaluationDetailsForCoordinator[]{});
 							if (evaluationsArr.length > 0) {
 						%>

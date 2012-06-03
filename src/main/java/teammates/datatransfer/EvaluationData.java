@@ -5,7 +5,7 @@ import java.util.Date;
 import teammates.jdo.Evaluation;
 
 public class EvaluationData {
-	public String courseId;
+	public String course;
 	public String name;
 	public String instructions = "";
 	public Date startTime;
@@ -21,7 +21,7 @@ public class EvaluationData {
 	}
 
 	public EvaluationData(Evaluation e) {
-		this.courseId = e.getCourseID();
+		this.course = e.getCourseID();
 		this.name = e.getName();
 		this.instructions = e.getInstructions();
 		this.startTime = e.getStart();
@@ -34,7 +34,7 @@ public class EvaluationData {
 	}
 
 	public Evaluation toEvaluation() {
-		Evaluation evaluation = new Evaluation(courseId, name, instructions, p2pEnabled,
+		Evaluation evaluation = new Evaluation(course, name, instructions, p2pEnabled,
 				startTime, endTime, timeZone, gracePeriod);
 		evaluation.setActivated(activated);
 		evaluation.setPublished(published);

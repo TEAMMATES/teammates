@@ -6,22 +6,22 @@
   },
   "courses": {
 	  "course1OfCoord1": {
-      "coordId" : "idOfTypicalCoord1",
+      "coord" : "idOfTypicalCoord1",
 	    "id": "idOfCourse1OfCoord1",
 	    "name": "course1OfCoord1 name"
 	  },
 	  "course2OfCoord1": {
-      "coordId" : "idOfTypicalCoord1",
+      "coord" : "idOfTypicalCoord1",
 	    "id": "idOfCourse2OfCoord1",
 	    "name": "course2OfCoord1 name"
 	  },
 	  "course1OfCoord2": {
-      "coordId" : "idOfTypicalCoord2",
+      "coord" : "idOfTypicalCoord2",
 	    "id": "idOfCourse1OfCoord2",
 	    "name": "course1OfCoord2 name"
 	  },
 	  "course2OfCoord2": {
-      "coordId" : "idOfTypicalCoord2",
+      "coord" : "idOfTypicalCoord2",
 	    "id": "idOfCourse2OfCoord2",
 	    "name": "course2OfCoord2 name"
 	  }
@@ -35,7 +35,7 @@
       "team": "Team 1.1",
       "id": "student1InCourse1",
       "comments" : "comment for student1InCourse1",
-      "courseId" : "idOfCourse1OfCoord1",
+      "course" : "idOfCourse1OfCoord1",
 	  "profile" : {"value" : "profiledetail for student1InCourse1" }
     },
     "student2InCourse1":{
@@ -43,7 +43,7 @@
       "name": "student2 In Course1",
       "id": "student2InCourse1",
       "team": "Team 1.1",
- 	  "courseId" : "idOfCourse1OfCoord1",
+ 	  "course" : "idOfCourse1OfCoord1",
       "profile" : {"value" : "profiledetail for student2InCourse1" }
     },
     "student3InCourse1":{
@@ -51,7 +51,7 @@
       "name": "student3 In Course1",
       "id": "student3InCourse1",
       "team": "Team 1.2",
-      "courseId" : "idOfCourse1OfCoord1",
+      "course" : "idOfCourse1OfCoord1",
       "profile" : {"value" : "profiledetail for student3InCourse1" }
     },
     "student1InCourse2":{
@@ -59,7 +59,7 @@
       "name": "student1 In Course2",
       "id": "student1InCourse2",
       "team": "Team 2.1",
-      "courseId" : "idOfCourse1OfCoord2",
+      "course" : "idOfCourse1OfCoord2",
       "profile" : {"value" : "profiledetail for student1InCourse2" }
     },
     "student2InCourse2":{
@@ -67,7 +67,7 @@
       "name": "student2 In Course2",
       "id": "student2InCourse2",
       "team": "Team 2.1",
-      "courseId" : "idOfCourse1OfCoord2",
+      "course" : "idOfCourse1OfCoord2",
       "profile" : {"value" : "profiledetail for student2InCourse2" }
     }
   },
@@ -75,7 +75,7 @@
   "evaluations" : {
   
     "evaluation1InCourse1OfCoord1": {
-      "courseId" : "idOfCourse1OfCoord1",
+      "course" : "idOfCourse1OfCoord1",
       "name" : "evaluation1 In Course1",
       "instructions": "instructions for evaluation1InCourse1",
       "gracePeriod": 10,
@@ -87,21 +87,21 @@
       "timeZone" : 2.0
     },
     "evaluation2InCourse1OfCoord1": {
-      "courseId" : "idOfCourse1OfCoord1",
+      "course" : "idOfCourse1OfCoord1",
       "gracePeriod": 20,
       "instructions": "Please please fill in the second evaluation",
       "name": "evaluation2 In Course1",
       "p2pEnabled": true
     },
     "evaluation1InCourse2OfCoord1": {
-      "courseId" : "idOfCourse2OfCoord1",
+      "course" : "idOfCourse2OfCoord1",
       "gracePeriod": 20,
       "instructions": "Please please fill in the second evaluation",
       "name": "evaluation name",
       "p2pEnabled": true
     },
     "evaluation1InCourse1OfCoord2": {
-      "courseId" : "idOfCourse1OfCoord2",
+      "course" : "idOfCourse1OfCoord2",
       "gracePeriod": 20,
       "instructions": "instructions for evaluation1InCourse2",
       "name": "evaluation1 In Course2",

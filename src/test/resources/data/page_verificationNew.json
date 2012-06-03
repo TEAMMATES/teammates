@@ -19,12 +19,12 @@
   
   "courses": {
     "CS2104-TESTING": {
-      "coordId": "teammates.demo.coord",
+      "coord": "teammates.demo.coord",
       "id": "CS2104-TESTING",
       "name": "Programming Language Concepts"
     },
     "CS1101-TESTING": {
-      "coordId": "teammates.demo.coord",
+      "coord": "teammates.demo.coord",
       "id": "CS1101-TESTING",
       "name": "Programming Methodology"
     }
@@ -34,7 +34,7 @@
     "alice.b.tmms@CS2104-TESTING": {
       "id": "alice.b.tmms",
       "email": "alice.b.tmms@gmail.com",
-      "courseId": "CS2104-TESTING",
+      "course": "CS2104-TESTING",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "profile": {"value": "My name is Alice Betsy, and I'm a student in CS2104-TESTING"},
@@ -43,7 +43,7 @@
     "benny.c.tmms@CS2104-TESTING": {
       "id": "benny.c.tmms",
       "email": "benny.c.tmms@gmail.com",
-      "courseId": "CS2104-TESTING",
+      "course": "CS2104-TESTING",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "profile": {"value": "My name is Benny Charles, and I'm a student in CS2104-TESTING"},
@@ -52,7 +52,7 @@
     "charlie.d.tmms@CS2104-TESTING": {
       "id": "charlie.d.tmms",
       "email": "charlie.d.tmms@gmail.com",
-      "courseId": "CS2104-TESTING",
+      "course": "CS2104-TESTING",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "profile": {"value": "My name is Charlie Davis, and I'm a student in CS2104-TESTING"},
@@ -61,7 +61,7 @@
     "danny.e.tmms@CS2104-TESTING": {
       "id": "danny.e.tmms",
       "email": "danny.e.tmms@gmail.com",
-      "courseId": "CS2104-TESTING",
+      "course": "CS2104-TESTING",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "profile": {"value": "My name is Danny Engrid, and I'm a student in CS2104-TESTING"},
@@ -70,7 +70,7 @@
     "alice.b.tmms@CS1101-TESTING": {
       "id": "alice.b.tmms",
       "email": "alice.b.tmms@gmail.com",
-      "courseId": "CS1101-TESTING",
+      "course": "CS1101-TESTING",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "profile": {"value": "My name is Alice Betsy, and I'm a student in CS1101-TESTING"},
@@ -79,7 +79,7 @@
     "benny.c.tmms@CS1101-TESTING": {
       "id": "benny.c.tmms",
       "email": "benny.c.tmms@gmail.com",
-      "courseId": "CS1101-TESTING",
+      "course": "CS1101-TESTING",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "profile": {"value": "My name is Benny Charles, and I'm a student in CS1101-TESTING"},
@@ -88,7 +88,7 @@
     "charlie.d.tmms@CS1101-TESTING": {
       "id": "charlie.d.tmms",
       "email": "charlie.d.tmms@gmail.com",
-      "courseId": "CS1101-TESTING",
+      "course": "CS1101-TESTING",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "profile": {"value": "My name is Charlie Davis, and I'm a student in CS1101-TESTING"},
@@ -97,7 +97,7 @@
     "danny.e.tmms@CS1101-TESTING": {
       "id": "danny.e.tmms",
       "email": "danny.e.tmms@gmail.com",
-      "courseId": "CS1101-TESTING",
+      "course": "CS1101-TESTING",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "profile": {"value": "My name is Danny Engrid, and I'm a student in CS1101-TESTING"},
@@ -107,7 +107,7 @@
   
   "evaluations": {
     "CS2104-TESTING:First Eval": {
-      "courseId": "CS2104-TESTING",
+      "course": "CS2104-TESTING",
       "name": "First Eval",
       "instructions": "Please please fill it in",
       "startTime": "2012-04-01 11:59 PM",
@@ -118,7 +118,7 @@
       "published": false
     },
     "CS2104-TESTING:Second Eval": {
-      "courseId": "CS2104-TESTING",
+      "course": "CS2104-TESTING",
       "name": "Second Eval",
       "instructions": "Please please fill in the second evaluation",
       "startTime": "2012-04-01 11:59 PM",
@@ -129,7 +129,7 @@
       "published": true
     },
     "CS1101-TESTING:Third Eval": {
-      "courseId": "CS1101-TESTING",
+      "course": "CS1101-TESTING",
       "name": "Third Eval",
       "instructions": "Please please fill in the third evaluation",
       "startTime": "2012-04-01 11:59 PM",
@@ -140,7 +140,7 @@
       "published": false
     },
     "CS1101-TESTING:Fourth Eval": {
-      "courseId": "CS1101-TESTING",
+      "course": "CS1101-TESTING",
       "name": "Fourth Eval",
       "instructions": "Please please fill in the fourth evaluation",
       "startTime": "2015-04-01 11:59 PM",
@@ -151,7 +151,7 @@
       "published": false
     },
     "CS1101-TESTING:Fifth Eval": {
-      "courseId": "CS1101-TESTING",
+      "course": "CS1101-TESTING",
       "name": "Fifth Eval",
       "instructions": "Please please fill in the fifth evaluation",
       "startTime": "2012-04-01 11:59 PM",

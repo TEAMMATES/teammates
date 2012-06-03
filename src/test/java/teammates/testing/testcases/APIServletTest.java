@@ -221,7 +221,7 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(2, courseList.size());
 		for (CourseData item : courseList.values()) {
 			// check if course belongs to this coord
-			assertEquals(coord.id, apiServlet.getCourse(item.id).coordId);
+			assertEquals(coord.id, apiServlet.getCourse(item.id).coord);
 		}
 
 		// coord with 0 courses
@@ -365,20 +365,20 @@ public class APIServletTest extends BaseTestCase {
 		verifyAbsentInDatastore(course);
 
 		// create and read
-		apiServlet.createCourse(course.coordId, course.id, course.name);
+		apiServlet.createCourse(course.coord, course.id, course.name);
 		verifyPresentInDatastore(course);
 
 		// try to create again
 		try {
-			apiServlet.createCourse(course.coordId, course.id, course.name);
+			apiServlet.createCourse(course.coord, course.id, course.name);
 			Assert.fail();
 		} catch (EntityAlreadyExistsException e) {
 		}
 
 		// create with invalid coord-id
-		course.coordId = "invalid id";
+		course.coord = "invalid id";
 		try {
-			apiServlet.createCourse(course.coordId, course.id, course.name);
+			apiServlet.createCourse(course.coord, course.id, course.name);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_INVALID_CHARS, e.errorCode);
@@ -386,10 +386,10 @@ public class APIServletTest extends BaseTestCase {
 		}
 
 		// create with invalid course ID
-		course.coordId = "typicalCoord1";
+		course.coord = "typicalCoord1";
 		course.id = "invalid id";
 		try {
-			apiServlet.createCourse(course.coordId, course.id, course.name);
+			apiServlet.createCourse(course.coord, course.id, course.name);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_INVALID_CHARS, e.errorCode);
@@ -400,7 +400,7 @@ public class APIServletTest extends BaseTestCase {
 		course.id = "valid-course-id";
 		course.name = "";
 		try {
-			apiServlet.createCourse(course.coordId, course.id, course.name);
+			apiServlet.createCourse(course.coord, course.id, course.name);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_EMPTY_STRING, e.errorCode);
@@ -464,7 +464,7 @@ public class APIServletTest extends BaseTestCase {
 				.getStudentListForCourse(course1OfCoord1.id);
 		assertEquals(3, studentList.size());
 		for (StudentData s : studentList) {
-			assertEquals(course1OfCoord1.id, s.courseId);
+			assertEquals(course1OfCoord1.id, s.course);
 		}
 
 		// course with 0 students
@@ -660,7 +660,7 @@ public class APIServletTest extends BaseTestCase {
 				.get("profileOfTeam2.1");
 		verifyPresentInDatastore(teamProfileOfStudent2);
 		student2.team = "newTeam";
-		TeamProfileData profileOfNewTeam = new TeamProfileData(student2.courseId, 
+		TeamProfileData profileOfNewTeam = new TeamProfileData(student2.course, 
 				"newTeam", new Text(""));
 		verifyAbsentInDatastore(profileOfNewTeam);
 		apiServlet.editStudent(student2.email, student2);
@@ -692,10 +692,10 @@ public class APIServletTest extends BaseTestCase {
 		verifyPresentInDatastore(student2InCourse1);
 
 		// verify that the student-to-be-deleted has some log entries
-		verifyPresenceOfTfsLogsForStudent(student2InCourse1.courseId,
+		verifyPresenceOfTfsLogsForStudent(student2InCourse1.course,
 				student2InCourse1.email);
 
-		apiServlet.deleteStudent(student2InCourse1.courseId,
+		apiServlet.deleteStudent(student2InCourse1.course,
 				student2InCourse1.email);
 		verifyAbsentInDatastore(student2InCourse1);
 
@@ -705,7 +705,7 @@ public class APIServletTest extends BaseTestCase {
 		verifyPresentInDatastore(student1InCourse1);
 
 		// try to delete the student again. should succeed.
-		apiServlet.deleteStudent(student2InCourse1.courseId,
+		apiServlet.deleteStudent(student2InCourse1.course,
 				student2InCourse1.email);
 
 		verifyAbsentInDatastore(submissionFromS1C1ToS2C1);
@@ -713,10 +713,10 @@ public class APIServletTest extends BaseTestCase {
 		verifyPresentInDatastore(submissionFromS1C1ToS1C1);
 
 		// verify that log entries belonging to the student was deleted
-		verifyAbsenceOfTfsLogsForStudent(student2InCourse1.courseId,
+		verifyAbsenceOfTfsLogsForStudent(student2InCourse1.course,
 				student2InCourse1.email);
 		// verify that log entries belonging to another student remain intact
-		verifyPresenceOfTfsLogsForStudent(student1InCourse1.courseId,
+		verifyPresenceOfTfsLogsForStudent(student1InCourse1.course,
 				student1InCourse1.email);
 
 		// TODO: more testing, e.g. test for cascade delete of profiles,
@@ -770,7 +770,7 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader();
 		refreshDataInDatastore();
 		StudentData student1 = dataBundle.students.get("student1InCourse1");
-		apiServlet.sendRegistrationInviteToStudent(student1.courseId,
+		apiServlet.sendRegistrationInviteToStudent(student1.course,
 				student1.email);
 
 		assertEquals(1, getNumberOfEmailTasksInQueue());
@@ -790,7 +790,7 @@ public class APIServletTest extends BaseTestCase {
 		EvaluationData evaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
 		verifyPresentInDatastore(evaluation);
-		apiServlet.deleteEvaluation(evaluation.courseId, evaluation.name);
+		apiServlet.deleteEvaluation(evaluation.course, evaluation.name);
 		verifyAbsentInDatastore(evaluation);
 		apiServlet.createEvalution(evaluation);
 		verifyPresentInDatastore(evaluation);
@@ -835,13 +835,13 @@ public class APIServletTest extends BaseTestCase {
 		EvaluationData eval1 = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
 		assertEquals(false,
-				apiServlet.getEvaluation(eval1.courseId, eval1.name).published);
-		apiServlet.publishEvaluation(eval1.courseId, eval1.name);
+				apiServlet.getEvaluation(eval1.course, eval1.name).published);
+		apiServlet.publishEvaluation(eval1.course, eval1.name);
 		assertEquals(true,
-				apiServlet.getEvaluation(eval1.courseId, eval1.name).published);
-		apiServlet.unpublishEvaluation(eval1.courseId, eval1.name);
+				apiServlet.getEvaluation(eval1.course, eval1.name).published);
+		apiServlet.unpublishEvaluation(eval1.course, eval1.name);
 		assertEquals(false,
-				apiServlet.getEvaluation(eval1.courseId, eval1.name).published);
+				apiServlet.getEvaluation(eval1.course, eval1.name).published);
 		// TODO: more testing
 	}
 
@@ -960,12 +960,12 @@ public class APIServletTest extends BaseTestCase {
 				.get("student1InCourse1");
 		String originalTeamName = student1InCourse1.team;
 		String newTeamName = originalTeamName + "x";
-		String courseID = student1InCourse1.courseId;
+		String courseID = student1InCourse1.course;
 		verifyTeamNameChange(courseID, originalTeamName, newTeamName);
 
 		refreshDataInDatastore();
 		originalTeamName = student1InCourse1.team;
-		courseID = student1InCourse1.courseId;
+		courseID = student1InCourse1.course;
 		verifyTeamNameChange(courseID, "nonExisentTeam", "newTeamName");
 
 		// TODO: more testing
@@ -1068,7 +1068,7 @@ public class APIServletTest extends BaseTestCase {
 			String emailTaskBody = tsi.getBody();
 			if (emailTaskBody.contains("email="
 					+ student.email.replace("@", "%40"))
-					&& emailTaskBody.contains("courseid=" + student.courseId)) {
+					&& emailTaskBody.contains("courseid=" + student.course)) {
 				return;
 			}
 		}
@@ -1097,10 +1097,10 @@ public class APIServletTest extends BaseTestCase {
 		apiServlet.renameTeam(courseID, originalTeamName, newTeamName);
 		for (StudentData s : studentsInTeam) {
 			assertEquals(newTeamName,
-					apiServlet.getStudent(s.courseId, s.email).team);
+					apiServlet.getStudent(s.course, s.email).team);
 		}
 		for (StudentData s : studentsNotInTeam) {
-			String teamName = apiServlet.getStudent(s.courseId, s.email).team;
+			String teamName = apiServlet.getStudent(s.course, s.email).team;
 			assertTrue("unexpected team name: " + teamName,
 					!teamName.equals(newTeamName));
 		}
@@ -1113,7 +1113,7 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(noOfTfs, tfsList.size());
 		for (TfsData tfs : tfsList) {
 			assertEquals(coordId,
-					apiServlet.getCourse(tfs.course).coordId);
+					apiServlet.getCourse(tfs.course).coord);
 		}
 	}
 
@@ -1191,12 +1191,12 @@ public class APIServletTest extends BaseTestCase {
 
 	private void verifyAbsentInDatastore(StudentData student) {
 		assertEquals(null,
-				apiServlet.getStudent(student.courseId, student.email));
+				apiServlet.getStudent(student.course, student.email));
 	}
 
 	private void verifyAbsentInDatastore(EvaluationData evaluation) {
 		assertEquals(null,
-				apiServlet.getEvaluation(evaluation.courseId, evaluation.name));
+				apiServlet.getEvaluation(evaluation.course, evaluation.name));
 	}
 
 	private void verifyAbsentInDatastore(TfsData tfs) {
@@ -1236,7 +1236,7 @@ public class APIServletTest extends BaseTestCase {
 
 	private void verifyPresentInDatastore(StudentData expectedStudent) {
 		StudentData actualStudent = apiServlet.getStudent(
-				expectedStudent.courseId, expectedStudent.email);
+				expectedStudent.course, expectedStudent.email);
 
 		assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
 	}
@@ -1266,7 +1266,7 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	private void verifyPresentInDatastore(EvaluationData expected) {
-		EvaluationData actual = apiServlet.getEvaluation(expected.courseId,
+		EvaluationData actual = apiServlet.getEvaluation(expected.course,
 				expected.name);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}

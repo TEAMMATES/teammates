@@ -17,7 +17,7 @@ public class StudentData {
 	
 	public String id = "";
 	public String email;
-	public String courseId;
+	public String course;
 	public String name;
 	public String comments = "";
 	public String team = "";
@@ -29,7 +29,7 @@ public class StudentData {
 	public StudentData(String email, String name, String comments,
 			String courseId, String team) {
 		this.email = email;
-		this.courseId = courseId;
+		this.course = courseId;
 		this.name = name;
 		this.comments = comments;
 		this.team = team;
@@ -46,7 +46,7 @@ public class StudentData {
 	
 	public StudentData(Student student){
 		this.email = student.getEmail();
-			this.courseId = student.getCourseID();
+			this.course = student.getCourseID();
 			this.name = student.getName();
 			this.comments = student.getComments();
 			this.team = student.getTeamName();
@@ -56,7 +56,7 @@ public class StudentData {
 
 	public boolean isEnrollInfoSameAs(StudentData otherStudent) {
 		return (otherStudent != null) && otherStudent.email.equals(this.email)
-				&& otherStudent.courseId.equals(this.courseId)
+				&& otherStudent.course.equals(this.course)
 				&& otherStudent.name.equals(this.name)
 				&& otherStudent.comments.equals(this.comments)
 				&& otherStudent.team.equals(this.team);
@@ -64,7 +64,7 @@ public class StudentData {
 	
 	public boolean isEnrollmentInfoMatchingTo(StudentData other) {
 		return (this.email.equals(other.email)) &&
-				(this.courseId.equals(other.courseId)) &&
+				(this.course.equals(other.course)) &&
 				(this.name.equals(other.name)) &&
 				(this.comments.equals(other.comments)) &&
 				(this.team.equals(other.team)) &&

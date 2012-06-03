@@ -921,20 +921,20 @@ public class APIServlet extends HttpServlet {
 		HashMap<String, CourseData> courses = dataBundle.courses;
 		for (CourseData course : courses.values()) {
 			log.info("API Servlet adding course :" + course.id);
-			createCourse(course.coordId, course.id, course.name);
+			createCourse(course.coord, course.id, course.name);
 		}
 
 		HashMap<String, StudentData> students = dataBundle.students;
 		for (StudentData student : students.values()) {
 			log.info("API Servlet adding student :" + student.email
-					+ " to course " + student.courseId);
+					+ " to course " + student.course);
 			createStudent(student);
 		}
 
 		HashMap<String, EvaluationData> evaluations = dataBundle.evaluations;
 		for (EvaluationData evaluation : evaluations.values()) {
 			log.info("API Servlet adding evaluation :" + evaluation.name
-					+ " to course " + evaluation.courseId);
+					+ " to course " + evaluation.course);
 			createEvalution(evaluation);
 		}
 
@@ -1021,7 +1021,7 @@ public class APIServlet extends HttpServlet {
 		HashMap<String, CourseData> returnList = new HashMap<String, CourseData>();
 		for(CourseSummaryForCoordinator csfc: courseSummaryListForCoord.values()){
 			CourseData c = new CourseData();
-			c.coordId = coordId;
+			c.coord = coordId;
 			c.id = csfc.getID();
 			c.name = csfc.getName();
 			c.studentsTotal = csfc.getTotalStudents();
@@ -1207,13 +1207,13 @@ public class APIServlet extends HttpServlet {
 			throws InvalidParametersException {
 		// TODO: make the implementation more defensive
 		String newTeamName = student.team;
-		Courses.inst().editStudent(student.courseId, originalEmail,
+		Courses.inst().editStudent(student.course, originalEmail,
 				student.name, student.team, student.email, student.id,
 				student.comments, student.profile);
-		if (TeamForming.inst().getTeamProfile(student.courseId, student.team) == null) {
+		if (TeamForming.inst().getTeamProfile(student.course, student.team) == null) {
 			try {
 				TeamForming.inst().createTeamProfile(
-						new TeamProfile(student.courseId, "", newTeamName,
+						new TeamProfile(student.course, "", newTeamName,
 								new Text("")));
 			} catch (EntityAlreadyExistsException e) {
 				log.severe("EntityAlreadyExistsException thrown in "
@@ -1284,7 +1284,7 @@ public class APIServlet extends HttpServlet {
 
 	public void editEvaluation(EvaluationData evaluation)
 			throws EntityDoesNotExistException, InvalidParametersException {
-		Evaluations.inst().editEvaluation(evaluation.courseId, evaluation.name,
+		Evaluations.inst().editEvaluation(evaluation.course, evaluation.name,
 				evaluation.instructions, evaluation.p2pEnabled,
 				evaluation.startTime, evaluation.endTime,
 				evaluation.gracePeriod, evaluation.activated,
@@ -1444,7 +1444,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	private boolean isSameAsExistingStudent(StudentData student) {
-		StudentData existingStudent = getStudent(student.courseId,
+		StudentData existingStudent = getStudent(student.course,
 				student.email);
 		if (existingStudent == null)
 			return false;
@@ -1452,6 +1452,6 @@ public class APIServlet extends HttpServlet {
 	}
 
 	private boolean isModificationToExistingStudent(StudentData student) {
-		return getStudent(student.courseId, student.email) != null;
+		return getStudent(student.course, student.email) != null;
 	}
 }
