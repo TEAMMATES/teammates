@@ -1,4 +1,5 @@
 <%@ page import="teammates.*" %>
+<%@ page import="teammates.manager.Accounts" %>
 <%@ page import="teammates.jsp.*" %>
 <% Accounts accounts = Accounts.inst(); %>
 		<div id="frameTopWrapper">

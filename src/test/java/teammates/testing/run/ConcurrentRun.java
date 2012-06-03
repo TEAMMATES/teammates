@@ -4,7 +4,7 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
-import teammates.exception.EntityDoesNotExistException;
+import teammates.api.EntityDoesNotExistException;
 import teammates.profiler.Profiler;
 import teammates.testing.concurrent.CoordCourseAddCaseSensitivityTest;
 import teammates.testing.concurrent.CoordCourseAddUITest;

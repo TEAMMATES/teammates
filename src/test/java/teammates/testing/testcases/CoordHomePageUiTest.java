@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import teammates.Common;
+import teammates.api.Common;
 import teammates.datatransfer.DataBundle;
 import teammates.exception.NoAlertAppearException;
 import teammates.jsp.Helper;

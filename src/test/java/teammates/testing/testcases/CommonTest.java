@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import teammates.Common;
+import teammates.api.Common;
 
 public class CommonTest extends BaseTestCase{
 	@BeforeClass

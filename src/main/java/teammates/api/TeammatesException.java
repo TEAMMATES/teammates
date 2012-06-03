@@ -1,4 +1,4 @@
-package teammates.exception;
+package teammates.api;
 
 @SuppressWarnings("serial")
 public class TeammatesException extends Exception {

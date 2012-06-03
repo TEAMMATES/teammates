@@ -2,7 +2,7 @@ package teammates.jdo;
 
 import java.util.ArrayList;
 
-import teammates.Common;
+import teammates.api.Common;
 
 /**
  * CourseSummaryForCoordinator is a data class that contains some information

@@ -15,11 +15,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import teammates.APIServlet;
-import teammates.Common;
+import teammates.api.APIServlet;
+import teammates.api.Common;
+import teammates.api.EntityDoesNotExistException;
+import teammates.api.NotImplementedException;
 import teammates.datatransfer.*;
-import teammates.exception.EntityDoesNotExistException;
-import teammates.exception.NotImplementedException;
 import teammates.testing.config.Config;
 import teammates.testing.object.Course;
 import teammates.testing.object.Evaluation;

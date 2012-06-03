@@ -1,6 +1,7 @@
 <%@ page import="java.util.*"%>
-<%@ page import="teammates.*"%>
+<%@ page import="teammates.manager.Accounts"%>
 <%@ page import="teammates.datatransfer.*"%>
+<%@ page import="teammates.api.*"%>
 <%@ page import="teammates.jsp.*"%>
 
 <%

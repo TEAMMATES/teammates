@@ -8,7 +8,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import teammates.Common;
+import teammates.api.Common;
 import teammates.datatransfer.*;
 import teammates.persistent.Coordinator;
 import teammates.persistent.Course;

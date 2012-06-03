@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
 
-import teammates.Common;
+import teammates.api.Common;
 import teammates.datatransfer.*;
 
 public class Helper {

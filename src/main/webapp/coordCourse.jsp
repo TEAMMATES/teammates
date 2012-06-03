@@ -1,18 +1,20 @@
 <%@ page import="java.util.*"%>
-<%@ page import="teammates.*"%>
-<%@ page import="teammates.exception.*"%>
+<%@ page import="teammates.manager.Accounts"%>
+<%@ page import="teammates.api.*"%>
 <%@ page import="teammates.datatransfer.*"%>
 <%@ page import="teammates.jsp.*"%>
 
 <%	
 	// See if user is logged in, if not we redirect them to the login page
+	APIServlet server = new APIServlet();
+
 	Accounts accounts = Accounts.inst();
 	if (accounts.getUser() == null) {
 		response.sendRedirect( accounts.getLoginPage("/coordCourse.jsp") );
 		return ;
 	}
 	
-	APIServlet server = new APIServlet();
+	
 	
 	String coordID = accounts.getUser().getNickname().toLowerCase();
 	String statusMessage = null;

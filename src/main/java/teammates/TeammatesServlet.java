@@ -17,13 +17,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.exception.EntityAlreadyExistsException;
-import teammates.exception.EntityDoesNotExistException;
+import teammates.api.Common;
+import teammates.api.EntityAlreadyExistsException;
+import teammates.api.EntityDoesNotExistException;
+import teammates.api.TeammatesException;
 import teammates.exception.EvaluationExistsException;
 import teammates.exception.GoogleIDExistsInCourseException;
 import teammates.exception.RegistrationKeyInvalidException;
 import teammates.exception.RegistrationKeyTakenException;
-import teammates.exception.TeammatesException;
 import teammates.jdo.CourseDetailsForStudent;
 import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.CourseSummaryForStudent;

@@ -2,7 +2,7 @@ package teammates.datatransfer;
 
 import java.util.ArrayList;
 
-import teammates.Common;
+import teammates.api.Common;
 
 
 public class CourseData {

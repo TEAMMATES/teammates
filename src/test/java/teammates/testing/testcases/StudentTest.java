@@ -6,9 +6,9 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import teammates.Common;
-import teammates.exception.InvalidParametersException;
-import teammates.exception.TeammatesException;
+import teammates.api.Common;
+import teammates.api.InvalidParametersException;
+import teammates.api.TeammatesException;
 import teammates.persistent.Student;
 
 public class StudentTest extends BaseTestCase{

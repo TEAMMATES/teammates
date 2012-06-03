@@ -11,8 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.exception.EntityAlreadyExistsException;
-import teammates.exception.EntityDoesNotExistException;
+import teammates.api.Common;
+import teammates.api.EntityAlreadyExistsException;
+import teammates.api.EntityDoesNotExistException;
 import teammates.jdo.CourseDetailsForStudent;
 import teammates.manager.Accounts;
 import teammates.manager.Courses;

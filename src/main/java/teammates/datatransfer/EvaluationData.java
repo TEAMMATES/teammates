@@ -2,7 +2,7 @@ package teammates.datatransfer;
 
 import java.util.Date;
 
-import teammates.Common;
+import teammates.api.Common;
 import teammates.persistent.Evaluation;
 
 public class EvaluationData {

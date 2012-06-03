@@ -1,6 +1,6 @@
 package teammates.testing.script;
 
-import teammates.Common;
+import teammates.api.Common;
 import teammates.testing.lib.TMAPI;
 
 /**

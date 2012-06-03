@@ -13,7 +13,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
 
 import teammates.Datastore;
-import teammates.exception.EntityDoesNotExistException;
+import teammates.api.EntityDoesNotExistException;
 import teammates.exception.EvaluationExistsException;
 import teammates.jdo.EvaluationDetailsForCoordinator;
 import teammates.persistent.Course;

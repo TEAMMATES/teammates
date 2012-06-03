@@ -8,8 +8,8 @@ import javax.jdo.PersistenceManager;
 import org.mortbay.log.Log;
 
 import teammates.Datastore;
+import teammates.api.EntityAlreadyExistsException;
 import teammates.exception.AccountExistsException;
-import teammates.exception.EntityAlreadyExistsException;
 import teammates.persistent.Account;
 import teammates.persistent.Coordinator;
 import teammates.persistent.Student;

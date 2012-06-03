@@ -11,9 +11,9 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import teammates.Common;
 import teammates.Datastore;
 import teammates.TeammatesServlet;
+import teammates.api.Common;
 import teammates.testing.config.Config;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;

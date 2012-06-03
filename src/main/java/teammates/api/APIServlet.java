@@ -1,4 +1,4 @@
-package teammates;
+package teammates.api;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.Config;
+import teammates.Datastore;
 import teammates.datatransfer.*;
 import teammates.datatransfer.StudentData.UpdateStatus;
 import teammates.exception.*;
@@ -887,6 +889,11 @@ public class APIServlet extends HttpServlet {
 	public String coordGetLogoutUrl(String redirectUrl) {
 		Accounts accounts = Accounts.inst();
 		return accounts.getLogoutPage(redirectUrl);
+	}
+	
+	public boolean isUserLoggedIn(){
+		Accounts accounts = Accounts.inst();
+		return (accounts.getUser() != null) ;
 	}
 
 	/**

@@ -1,4 +1,5 @@
-<%@ page import="teammates.*"%>
+<%@ page import="teammates.manager.Accounts"%>
+<%@ page import="teammates.api.*"%>
 <%
 	// See if user is logged in, if not we redirect them to main page
 	Accounts accounts = Accounts.inst();

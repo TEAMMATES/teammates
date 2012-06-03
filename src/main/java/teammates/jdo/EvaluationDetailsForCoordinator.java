@@ -2,7 +2,7 @@ package teammates.jdo;
 
 import java.util.Date;
 
-import teammates.Common;
+import teammates.api.Common;
 
 /**
  * EvaluationDetailsForCoordinator is a data class that contains information

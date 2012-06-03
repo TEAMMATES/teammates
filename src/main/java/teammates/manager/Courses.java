@@ -11,11 +11,11 @@ import javax.jdo.PersistenceManager;
 import org.mortbay.log.Log;
 
 import teammates.Datastore;
+import teammates.api.EntityAlreadyExistsException;
+import teammates.api.EntityDoesNotExistException;
+import teammates.api.InvalidParametersException;
 import teammates.exception.CourseDoesNotExistException;
-import teammates.exception.EntityAlreadyExistsException;
-import teammates.exception.EntityDoesNotExistException;
 import teammates.exception.GoogleIDExistsInCourseException;
-import teammates.exception.InvalidParametersException;
 import teammates.exception.RegistrationKeyInvalidException;
 import teammates.exception.RegistrationKeyTakenException;
 import teammates.jdo.CourseSummaryForCoordinator;

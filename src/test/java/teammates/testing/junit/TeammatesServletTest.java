@@ -19,9 +19,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import teammates.TeammatesServlet;
-import teammates.exception.EntityAlreadyExistsException;
+import teammates.api.EntityAlreadyExistsException;
+import teammates.api.TeammatesException;
 import teammates.exception.CourseInputInvalidException;
-import teammates.exception.TeammatesException;
 import teammates.manager.Courses;
 
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;

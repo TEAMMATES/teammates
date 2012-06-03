@@ -1,5 +1,6 @@
-package teammates.exception;
+package teammates.api;
 
+@SuppressWarnings("serial")
 public class NotImplementedException extends TeammatesException {
 
 	public NotImplementedException(String message) {

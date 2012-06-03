@@ -18,14 +18,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import teammates.APIServlet;
-import teammates.Common;
 import teammates.Datastore;
+import teammates.api.APIServlet;
+import teammates.api.Common;
+import teammates.api.EnrollException;
+import teammates.api.EntityAlreadyExistsException;
+import teammates.api.EntityDoesNotExistException;
+import teammates.api.InvalidParametersException;
 import teammates.datatransfer.*;
-import teammates.exception.EnrollException;
-import teammates.exception.EntityAlreadyExistsException;
-import teammates.exception.EntityDoesNotExistException;
-import teammates.exception.InvalidParametersException;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.taskqueue.dev.LocalTaskQueue;

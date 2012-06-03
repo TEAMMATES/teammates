@@ -1,6 +1,6 @@
 package teammates.testing.concurrent;
 
-import teammates.Common;
+import teammates.api.Common;
 import teammates.testing.object.Scenario;
 
 /**

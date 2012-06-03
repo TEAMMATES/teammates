@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import teammates.Datastore;
 import teammates.TeammatesServlet;
-import teammates.exception.TeammatesException;
+import teammates.api.TeammatesException;
 import teammates.manager.Courses;
 import teammates.persistent.Course;
 

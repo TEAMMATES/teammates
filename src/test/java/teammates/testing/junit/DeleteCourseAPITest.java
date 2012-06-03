@@ -15,8 +15,8 @@ import org.junit.Test;
 
 import teammates.Datastore;
 import teammates.TeammatesServlet;
-import teammates.exception.EntityDoesNotExistException;
-import teammates.exception.TeammatesException;
+import teammates.api.EntityDoesNotExistException;
+import teammates.api.TeammatesException;
 import teammates.manager.Courses;
 import teammates.manager.Evaluations;
 import teammates.persistent.Course;

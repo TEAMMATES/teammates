@@ -20,9 +20,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import teammates.Common;
-import teammates.exception.InvalidParametersException;
-import teammates.exception.TeammatesException;
+import teammates.api.Common;
+import teammates.api.InvalidParametersException;
+import teammates.api.TeammatesException;
 import teammates.jdo.EnrollmentReport;
 import teammates.manager.Courses;
 import teammates.manager.Evaluations;

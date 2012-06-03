@@ -1,4 +1,5 @@
-package teammates.exception;
+package teammates.api;
+
 
 @SuppressWarnings("serial")
 public class InvalidParametersException extends TeammatesException {

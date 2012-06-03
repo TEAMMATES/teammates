@@ -12,7 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import teammates.Common;
+import teammates.api.Common;
 import teammates.testing.lib.TestFileWriter;
 
 public class Scenario {

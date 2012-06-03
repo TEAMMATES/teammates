@@ -1,4 +1,5 @@
-package teammates;
+package teammates.api;
+
 
 import static org.junit.Assert.assertEquals;
 
@@ -10,7 +11,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
-import teammates.exception.InvalidParametersException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,6 +19,9 @@ import com.google.gson.GsonBuilder;
  * Class that stores variables and methods that are widely used across classes
  *
  */
+
+//TODO: create a subclass (e.g., InternalUtil) and move all internal utility 
+//      functions to that sub class. It should be in util package.
 public class Common {
 	
 	public final static String EOL = System.getProperty("line.separator");

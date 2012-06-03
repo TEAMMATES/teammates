@@ -2,7 +2,7 @@ package teammates.testing.script;
 
 import java.io.IOException;
 
-import teammates.exception.EntityDoesNotExistException;
+import teammates.api.EntityDoesNotExistException;
 import teammates.testing.lib.TMAPI;
 
 /**
