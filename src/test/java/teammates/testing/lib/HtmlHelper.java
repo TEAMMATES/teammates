@@ -4,6 +4,13 @@ package teammates.testing.lib;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.StringWriter;
+
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.cyberneko.html.parsers.DOMParser;
 import org.w3c.dom.Document;
@@ -36,16 +43,20 @@ public class HtmlHelper {
 	}
 
 	public static boolean isSame(String html1, String html2)
-			throws SAXException, IOException {
+			throws SAXException, IOException, TransformerException {
 		Node node1 = getNodeFromString(html1);
+		removeWhiteSpaceChildren(node1);
+		System.out.println(nodeToString(node1));
+		
 		Node node2 = getNodeFromString(html2);
+		removeWhiteSpaceChildren(node2);
+		System.out.println(nodeToString(node2));
 		return isSame(node1, node2);
 	}
 
-	private static boolean isSame(Node node1, Node node2) {
+	private static boolean isSame(Node node1, Node node2) throws TransformerException {
 		NodeList childnodes1 = node1.getChildNodes();
 		NodeList childnodes2 = node2.getChildNodes();
-		childnodes1 = removeWhiteSpaceChildren(childnodes1);
 		int childCount1 = childnodes1.getLength();
 		int childCount2 = childnodes2.getLength();
 		if (childCount1 != childCount2) {
@@ -64,9 +75,44 @@ public class HtmlHelper {
 		return true;
 	}
 
-	private static NodeList removeWhiteSpaceChildren(NodeList nodes) {
+	private static void removeWhiteSpaceChildren(Node node) {
+		NodeList nodes = node.getChildNodes();
+		for (int i = 0; i < nodes.getLength(); i++) {
+			Node child = nodes.item(i);
+			
+			System.out.println("checking for white space ["+child.getNodeName()+"] ");
+			if ((child.getNodeType()==Node.TEXT_NODE) && (child.getNodeValue().trim().isEmpty())) {
+				System.out.println("removing whitespace node");
+				node.removeChild(child);
+			}else{
+				removeWhiteSpaceChildren(child);
+			}
+		}
+	}
+	
+	public static String cleanupHtml(String htmlString) throws TransformerException, SAXException, IOException{
+		Node node = getNodeFromString(htmlString);
+		removeWhiteSpaceChildren(node);
+		return nodeToString(node);
+	}
+	
+	private static String nodeToString(Node node) throws TransformerException{
+//		StringWriter writer = new StringWriter();
+//		Transformer transformer = TransformerFactory.newInstance().newTransformer();
+//		transformer.transform(new DOMSource(node), new StreamResult(writer));
+//		String string = writer.toString();
+//		return string;
 		
-		return null;
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		DOMSource source = new DOMSource(node);
+		StringWriter writer = new StringWriter();
+		StreamResult result = new StreamResult(writer);
+		transformer.transform(source, result);
+		return writer.toString()
+				.replace(" xmlns=\"http://www.w3.org/1999/xhtml\"", "")
+				.replace("<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">", "");
+
 	}
 
 	private static Node getNodeFromString(String string) throws SAXException,
