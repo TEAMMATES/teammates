@@ -63,6 +63,13 @@
       <scope>runtime</scope>
     </dependency>
     
+    <!-- Used for parsing HTML-->
+    <dependency>
+      <groupId>net.sourceforge.nekohtml</groupId>
+      <artifactId>nekohtml</artifactId>
+      <version>1.9.15</version>
+    </dependency>
+    
     <!-- what is the purpose of this jar? -damith -->
     
     <dependency>
