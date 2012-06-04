@@ -134,7 +134,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testCoordCourseAddHTML() {
+	public void testCoordCourseAddHTML() throws Exception{
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordListCourseEmpty.html");
 
 		ImportTestData.main(new String[]{});

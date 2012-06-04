@@ -2847,10 +2847,10 @@ public class BrowserInstance {
 	 * @param filepath
 	 * @throws Exception
 	 */
-	public void verifyCurrentPageHTML(String filepath){
+	public void verifyCurrentPageHTML(String filepath)throws Exception{
 		String pageSrc = driver.getPageSource();
 		String inputStr = Common.getFileContents(filepath).replace("{version}",Common.VERSION);
-		assertEquals(inputStr.replace("\r\n", "\n"), pageSrc.replace("\r\n", "\n"));
+		HtmlHelper.assertSameHtml(inputStr, pageSrc);
 	}
 	
 	/**
