@@ -17,7 +17,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
 	<servlet>
 		<servlet-name>APIServlet</servlet-name>
-		<servlet-class>teammates.APIServlet</servlet-class>
+		<servlet-class>teammates.api.APIServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>APIServlet</servlet-name>

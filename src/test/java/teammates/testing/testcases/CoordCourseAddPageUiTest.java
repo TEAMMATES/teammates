@@ -16,9 +16,6 @@ import teammates.api.Common;
 import teammates.datatransfer.*;
 import teammates.exception.NoAlertAppearException;
 import teammates.jsp.CoordCourseAddHelper;
-import teammates.jsp.Helper;
-import teammates.persistent.Coordinator;
-import teammates.persistent.Course;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -35,8 +32,11 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	private static TestScenario ts;
 	
 	//TODO: location of the test app is available in one of the properties files -damith
+	//try Config.inst().TEAMMATES_URL
 	private static String localhostAddress = "localhost:8080/";
 	
+	
+	//TODO: put private methods at the bottom?
 	private static TestScenario loadTestScenario() throws JSONException {
 		String testScenarioJsonFile = Common.TEST_DATA_FOLDER + "CoordCourseAddUITest.json";
 		String jsonString = Common.getFileContents(testScenarioJsonFile);
@@ -46,9 +46,9 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 
 	private class TestScenario{
 		public CoordData coordinator;
-		public Course validCourse;
-		public Course courseWithSameNameDifferentId;
-		public Course testCourse;
+		public CourseData validCourse;
+		public CourseData courseWithSameNameDifferentId;
+		public CourseData testCourse;
 	}
 	
 	private By getCoordCourseLinkLocator(int rowID, String linkClassName) {
@@ -117,6 +117,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
+		//TODO: why?
 		assertTrue(true);
 		printTestClassHeader("CoordCourseAddUITest");
 		ts = loadTestScenario();
@@ -150,13 +151,13 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 
 	@Test
 	public void testCoordCourseAddUiPaths(){
-		TMAPI.deleteCourse(ts.validCourse.getID());
-		TMAPI.deleteCourse(ts.courseWithSameNameDifferentId.getID());
+		TMAPI.deleteCourse(ts.validCourse.id);
+		TMAPI.deleteCourse(ts.courseWithSameNameDifferentId.id);
 		
 		// Course id only contains alphabets, numbers, dots, hyphens, underscores and dollars
-		String courseID = ts.validCourse.getID();
+		String courseID = ts.validCourse.id;
 		// Course name can be any character including special characters
-		String courseName = ts.validCourse.getName();
+		String courseName = ts.validCourse.name;
 		
 		/////////////////////////////////////////////////////////////////
 		printTestCaseHeader("testCoordAddCourseSuccessful");
@@ -166,6 +167,8 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		
 		//verify course is added
 		bi.verifyCourseIsAdded(courseID, courseName);
+		
+		//TODO: verify the above two checks with one html test?
 		
 		/////////////////////////////////////////////////////////////////
 		printTestCaseHeader("testCoordAddCourseWithInvalidInputsFailed");
@@ -184,12 +187,14 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		////////////////////////////////////////////////////////////////
 		printTestCaseHeader("testMaxLengthOfInputFields");
 		
+		//TODO: use Common.generateStringOfLength(Common.COURSE_NAME_MAX_LENGTH) instead
 		String shortCourseName = "This is a short name for course";
 		assertTrue(shortCourseName.length()<Common.COURSE_NAME_MAX_LENGTH);
 		
 		String longCourseName = "This is a long name for course which exceeds " + Common.COURSE_NAME_MAX_LENGTH+ "char limit";
 		assertTrue(longCourseName.length()>Common.COURSE_NAME_MAX_LENGTH);
 		
+		//TODO: this id has an illegal char '/'?
 		String shortCourseId = "CS2103-SEM1-AY11/12";
 		assertTrue(shortCourseId.length()<Common.COURSE_ID_MAX_LENGTH);
 		
@@ -215,24 +220,26 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		System.out.println("Time to assert a course: "+(System.currentTimeMillis()-start)+" ms");
 		
 		bi.verifyCoordCoursesPage();
+		//TODO: replace above 3 checks with one HTML test?
 		
+		//TODO: omit cleaning up, since we clean up at start?
 		TMAPI.deleteCourse(courseID);
-		TMAPI.deleteCourse(ts.courseWithSameNameDifferentId.getID());
+		TMAPI.deleteCourse(ts.courseWithSameNameDifferentId.id);
 	}
 
 	@Test
 	public void testCoordCourseAddLinks(){
-		TMAPI.deleteCourse(ts.testCourse.getID());
+		TMAPI.deleteCourse(ts.testCourse.id);
 		
 		String link;
-		String courseID = ts.testCourse.getID();
-		String courseName = ts.testCourse.getID();
+		String courseID = ts.testCourse.id;
+		String courseName = ts.testCourse.id;
 		
 		addCourse(courseID, courseName);
 		int courseRowID = getCourseRowNumber(courseID);
 		assertTrue(courseRowID!=-1);
 		
-		
+		//TODO: the three checks below are redundant?
 		// Check enroll link
 		link = bi.getElementRelativeHref(getCoordCourseLinkLocator(courseRowID,"t_course_enroll"));
 		assertEquals(CoordCourseAddHelper.getCourseEnrollLink(courseID),link);
@@ -257,6 +264,8 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	
 	@AfterClass
 	public static void classTearDown() throws Exception {
+		
+		//TODO: might not need to logout. I think BrowserInstancePool.getBrowserInstance() automatically logs out 
 		bi.logout();
 		
 		BrowserInstancePool.release(bi);

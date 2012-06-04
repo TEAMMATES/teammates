@@ -29,7 +29,7 @@ public class CoordCourseAddHelper extends Helper{
 		coordID = loggedInUser.id.toLowerCase();
 		
 		//if admin is trying to masquerade, modify user id
-		if((loggedInUser.isAdmin())&&(requestedUser!=null)){
+		if(isMasqueradeMode()){
 			coordID = requestedUser;
 		}
 		
@@ -65,6 +65,11 @@ public class CoordCourseAddHelper extends Helper{
 				return obj1.id.compareTo(obj2.id);
 			}
 		});
+	}
+
+
+	private boolean isMasqueradeMode() {
+		return (loggedInUser.isAdmin())&&(requestedUser!=null);
 	}
 	
 	
