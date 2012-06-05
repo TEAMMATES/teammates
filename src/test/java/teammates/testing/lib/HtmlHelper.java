@@ -62,7 +62,7 @@ public class HtmlHelper {
 		transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
 		//from http://stackoverflow.com/questions/2571866/java-xml-output-proper-indenting-for-child-items
 		transformer.setOutputProperty(
-				   "{http://xml.apache.org/xslt}indent-amount", "5");
+				   "{http://xml.apache.org/xslt}indent-amount", "2");
 		DOMSource source = new DOMSource(node);
 		StringWriter writer = new StringWriter();
 		StreamResult result = new StreamResult(writer);
