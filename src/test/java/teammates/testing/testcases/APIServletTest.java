@@ -160,50 +160,48 @@ public class APIServletTest extends BaseTestCase {
 		
 		helper.setEnvEmail(coord.id);
 		helper.setEnvAuthDomain("gmail.com");
-		UserData user = apiServlet.getLoggedInUser(UserType.ADMIN);
+		UserData user = apiServlet.getLoggedInUser();
 		assertEquals(coord.id, user.id);
-		assertEquals(UserType.ADMIN, user.type);
-		user = apiServlet.getLoggedInUser(UserType.COORDINATOR);
-		assertEquals(UserType.COORDINATOR, user.type);
-		user = apiServlet.getLoggedInUser(UserType.STUDENT);
-		assertEquals(UserType.STUDENT, user.type);
+		assertEquals(true, user.isAdmin);
+		assertEquals(true, user.isCoord);
+		assertEquals(true, user.isStudent);
+
 		
 		//this user is no longer a student
 		apiServlet.deleteStudent(coordAsStudent.course, coordAsStudent.email);
 		//this user is no longer an admin
 		helper.setEnvIsAdmin(false);
 		
-		user = apiServlet.getLoggedInUser(UserType.COORDINATOR);;
+		user = apiServlet.getLoggedInUser();
 		assertEquals(coord.id, user.id);
-		assertEquals(UserType.COORDINATOR, user.type);
-		assertEquals(UserType.UNREGISTERED, apiServlet.getLoggedInUser(UserType.ADMIN).type);
-		assertEquals(UserType.UNREGISTERED, apiServlet.getLoggedInUser(UserType.STUDENT).type);
+		assertEquals(false, user.isAdmin);
+		assertEquals(true, user.isCoord);
+		assertEquals(false, user.isStudent);
 
 		//check for unregistered student
 		helper.setEnvEmail("unknown");
 		helper.setEnvAuthDomain("gmail.com");
-		user = apiServlet.getLoggedInUser(UserType.STUDENT);
+		user = apiServlet.getLoggedInUser();
 		assertEquals("unknown", user.id);
-		assertEquals(UserType.UNREGISTERED, user.type);
+		assertEquals(false, user.isAdmin);
+		assertEquals(false, user.isCoord);
+		assertEquals(false, user.isStudent);
 		
 		//check for user who is only a student
 		StudentData student = dataBundle.students.get("student1InCourse1");
 		helper.setEnvEmail(student.id);
 		helper.setEnvAuthDomain("gmail.com");
-		user = apiServlet.getLoggedInUser(UserType.STUDENT);
+		user = apiServlet.getLoggedInUser();
 		assertEquals(student.id, user.id);
-		assertEquals(UserType.STUDENT, user.type);
-		
-		user = apiServlet.getLoggedInUser(UserType.COORDINATOR);
-		assertEquals(UserType.UNREGISTERED, user.type);
-		user = apiServlet.getLoggedInUser(UserType.ADMIN);
-		assertEquals(UserType.UNREGISTERED, user.type);
+		assertEquals(false, user.isAdmin);
+		assertEquals(false, user.isCoord);
+		assertEquals(true, user.isStudent);
 		
 		//check for user not logged in
 		helper.setEnvIsLoggedIn(false);
-		assertEquals(null, apiServlet.getLoggedInUser(UserType.ADMIN));
-		assertEquals(null, apiServlet.getLoggedInUser(UserType.COORDINATOR));
-		assertEquals(null, apiServlet.getLoggedInUser(UserType.STUDENT));
+		assertEquals(null, apiServlet.getLoggedInUser());
+		assertEquals(null, apiServlet.getLoggedInUser());
+		assertEquals(null, apiServlet.getLoggedInUser());
 	}
 
 	@SuppressWarnings("unused")

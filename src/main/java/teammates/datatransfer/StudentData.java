@@ -36,7 +36,7 @@ public class StudentData extends UserData{
 	}
 
 	public StudentData() {
-		type = UserType.STUDENT;
+		isStudent=true;
 	}
 
 	public StudentData(String enrollLine, String courseId)

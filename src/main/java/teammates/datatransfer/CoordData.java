@@ -16,7 +16,7 @@ public class CoordData extends UserData{
 	}
 	
 	public CoordData(){
-		type = UserType.COORDINATOR;
+		isCoord = true;
 	}
 	
 }

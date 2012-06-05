@@ -6,7 +6,10 @@ public class UserData {
 	public String name;
 	public String id;
 	public String email;
-	public UserType type = UserType.UNREGISTERED;
+	
+	public boolean isAdmin = false;
+	public boolean isCoord = false;
+	public boolean isStudent = false;
 	
 	public UserData(){
 	}
@@ -15,16 +18,20 @@ public class UserData {
 		this.id = googleId;
 	}
 
+	@Deprecated
 	public boolean isAdmin(){
-		return (type == UserType.ADMIN); 
+		return isAdmin; 
 	}
 	
+	@Deprecated
 	public boolean isCoord(){
-		return (type == UserType.COORDINATOR); 
+		return isCoord; 
 	}
 	
+	@Deprecated
 	public boolean isStudent(){
-		return (type == UserType.STUDENT); 
+		return  isStudent; 
 	} 
+	
 	
 }

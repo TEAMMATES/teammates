@@ -926,46 +926,48 @@ public class APIServlet extends HttpServlet {
 		//TODO: do the same for student 
 	}
 	
-	@Deprecated
-	public UserData getLoggedInUser(){
-		Accounts accounts = Accounts.inst();
-		 User user = accounts.getUser();
-		 if(user==null){
-			 return null;
-		 }
-		 
-		 //TODO: inefficient
-		 if(accounts.isAdministrator()){
-			 return new AdminData(user.getNickname());
-		 }else if(accounts.isCoordinator()){
-			 return getCoord(user.getNickname());
-		 }else if(accounts.getStudentWithID(user.getNickname())!=null){
-			 return getStudentWithId(user.getNickname());
-		 }else{
-			 return new UserData(user.getNickname());
-		 }
-		 
-	}
+//	@Deprecated
+//	public UserData getLoggedInUser(){
+//		Accounts accounts = Accounts.inst();
+//		 User user = accounts.getUser();
+//		 if(user==null){
+//			 return null;
+//		 }
+//		 
+//		 //TODO: inefficient
+//		 if(accounts.isAdministrator()){
+//			 return new AdminData(user.getNickname());
+//		 }else if(accounts.isCoordinator()){
+//			 return getCoord(user.getNickname());
+//		 }else if(accounts.getStudentWithID(user.getNickname())!=null){
+//			 return getStudentWithId(user.getNickname());
+//		 }else{
+//			 return new UserData(user.getNickname());
+//		 }
+//		 
+//	}
 	
-	public UserData getLoggedInUser(UserType expecteUserType){
+	public UserData getLoggedInUser() {
 		Accounts accounts = Accounts.inst();
-		 User user = accounts.getUser();
-		 if(user==null){
-			 return null;
-		 }
-		 
-		 //TODO: inefficient
-		 if(expecteUserType==UserType.ADMIN && accounts.isAdministrator()){
-			 return new AdminData(user.getNickname());
-		 }else if(expecteUserType==UserType.COORDINATOR && accounts.isCoordinator()){
-			 return getCoord(user.getNickname());
-		 }else if(expecteUserType==UserType.STUDENT 
-				 && (accounts.getStudentWithID(user.getNickname())!=null)){
-			 return getStudentWithId(user.getNickname());
-		 }else{
-			 return new UserData(user.getNickname());
-		 }
-		 
+		User user = accounts.getUser();
+		if (user == null) {
+			return null;
+		}
+
+		UserData userData = new UserData(user.getNickname());
+
+		// TODO: make more efficient?
+		if (accounts.isAdministrator()) {
+			userData.isAdmin = true;
+		}
+		if (accounts.isCoordinator()) {
+			userData.isCoord = true;
+		}
+
+		if (accounts.isStudent(user.getNickname())) {
+			userData.isStudent = true;
+		}
+		return userData;
 	}
 
 
