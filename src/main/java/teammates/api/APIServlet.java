@@ -999,6 +999,10 @@ public class APIServlet extends HttpServlet {
 	 */
 	public String persistNewDataBundle(DataBundle dataBundle)
 			throws InvalidParametersException, EntityAlreadyExistsException {
+		
+		if(dataBundle==null){
+			throw new InvalidParametersException(Common.ERRORCODE_NULL_PARAMETER, "Null data bundle");
+		}
 
 		HashMap<String, CoordData> coords = dataBundle.coords;
 		for (CoordData coord : coords.values()) {
@@ -1146,6 +1150,7 @@ public class APIServlet extends HttpServlet {
 			return null;
 		}
 
+		//TODO: throw exception if coord not found
 		List<Course> courseList = Courses.inst().getCoordinatorCourseList(
 				coordId);
 		ArrayList<EvaluationData> evaluationDetailsList = new ArrayList<EvaluationData>();
@@ -1174,6 +1179,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	public List<TfsData> getTfsListForCoord(String coordId) {
+		//TODO: throw exception if coord not found
 		if (coordId == null) {
 			return null;
 		}
@@ -1286,6 +1292,8 @@ public class APIServlet extends HttpServlet {
 				returnList.add(student);
 			}
 		}
+		
+		//TODO: adjust team profiles
 		return returnList;
 	}
 
@@ -1309,6 +1317,20 @@ public class APIServlet extends HttpServlet {
 		return (student == null ? null : new StudentData(student));
 	}
 
+	/**
+	 * This method ignores changes to courseId. All other attributes can be 
+	 *   changed.<br>
+	 * Changing team name will not delete existing team profile even if there 
+	 *   are no more members in the team. This can cause orphan team profiles
+	 *   but the effect is considered insignificant and not worth the effort 
+	 *   required to avoid it. A side benefit of this strategy is the team can
+	 *   reclaim the profile by changing the team name back to the original one.
+	 *   But note that orphaned team profiles can be inherited by others
+	 *   if another team adopts the team name previously discarded by a team.  
+	 * @param originalEmail 
+	 * @param student
+	 * @throws InvalidParametersException
+	 */
 	public void editStudent(String originalEmail, StudentData student)
 			throws InvalidParametersException {
 		// TODO: make the implementation more defensive

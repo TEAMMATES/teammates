@@ -188,6 +188,7 @@ public class Common {
 
 	//TODO: add more checks and write unit tests
 	public static void validateGoogleId(String googleId) throws InvalidParametersException {
+		verifyNotNull(googleId, "Google ID");
 		verifyNoLeadingAndTrailingSpaces(googleId, "Google ID");
 		verifyNotAnEmptyString(googleId, "Google ID");
 		verifyContainsNoSpaces(googleId, "Google ID");

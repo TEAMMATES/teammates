@@ -23,6 +23,8 @@ public class StudentData extends UserData{
 	
 	
 	public UpdateStatus updateStatus = UpdateStatus.UNKNOWN ;
+	public String name;
+	public String email;
 	
 	
 	public StudentData(String email, String name, String comments,

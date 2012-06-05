@@ -3,9 +3,7 @@ package teammates.datatransfer;
 import teammates.api.APIServlet.UserType;
 
 public class UserData {
-	public String name;
 	public String id;
-	public String email;
 	
 	public boolean isAdmin = false;
 	public boolean isCoord = false;

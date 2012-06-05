@@ -14,14 +14,13 @@ import javax.servlet.ServletException;
 
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.Datastore;
 import teammates.api.APIServlet;
-import teammates.api.APIServlet.UserType;
 import teammates.api.Common;
 import teammates.api.EnrollException;
 import teammates.api.EntityAlreadyExistsException;
@@ -138,11 +137,32 @@ public class APIServletTest extends BaseTestCase {
 		// try again, should throw exception
 		try {
 			apiServlet.persistNewDataBundle(dataBundle);
-			Assert.fail();
+			fail();
 		} catch (EntityAlreadyExistsException e) {
 		}
+		
+		//try with null
+		DataBundle nullDataBundle = null;
+		try {
+			apiServlet.persistNewDataBundle(nullDataBundle);
+			fail();
+		} catch (InvalidParametersException e) {
+			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
+		}
+		
+		//try with invalid parameters in an entity
+		CourseData invalidCourse = new CourseData(); 
+		dataBundle = new DataBundle();
+		dataBundle.courses.put("invalid", invalidCourse);
+		try {
+			apiServlet.persistNewDataBundle(dataBundle);
+			fail();
+		} catch (InvalidParametersException e) {
+			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
+		}
 
-		// TODO: test for InvalidParametersException
+		// Not checking for invalid values in other entities because they 
+		//   should be checked at lower level methods
 	}
 	
 	@Test
@@ -165,7 +185,6 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(true, user.isAdmin);
 		assertEquals(true, user.isCoord);
 		assertEquals(true, user.isStudent);
-
 		
 		//this user is no longer a student
 		apiServlet.deleteStudent(coordAsStudent.course, coordAsStudent.email);
@@ -227,11 +246,13 @@ public class APIServletTest extends BaseTestCase {
 		verifyAbsentInDatastore(coord);
 		// delete non-existent (fails silently)
 		apiServlet.deleteCoord(coord.id);
+		
+		//TODO: check for cascade delete of courses
 
 		// try one invalid input for each parameter
 		try {
 			apiServlet.createCoord("valid-id", "", "valid@email.com");
-			Assert.fail();
+			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_EMPTY_STRING, e.errorCode);
 			Common.assertContains("Coordinator name", e.getMessage());
@@ -240,7 +261,7 @@ public class APIServletTest extends BaseTestCase {
 		try {
 			apiServlet.createCoord("valid-id", "valid name",
 					"invalid email.com");
-			Assert.fail();
+			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_INVALID_EMAIL, e.errorCode);
 			Common.assertContains("Email address", e.getMessage());
@@ -249,7 +270,7 @@ public class APIServletTest extends BaseTestCase {
 		try {
 			apiServlet.createCoord("invalid id", "valid name",
 					"valid@email.com");
-			Assert.fail();
+			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_INVALID_CHARS, e.errorCode);
 			Common.assertContains("Google ID", e.getMessage());
@@ -434,7 +455,7 @@ public class APIServletTest extends BaseTestCase {
 		// try to create again
 		try {
 			apiServlet.createCourse(course.coord, course.id, course.name);
-			Assert.fail();
+			fail();
 		} catch (EntityAlreadyExistsException e) {
 		}
 
@@ -442,7 +463,7 @@ public class APIServletTest extends BaseTestCase {
 		course.coord = "invalid id";
 		try {
 			apiServlet.createCourse(course.coord, course.id, course.name);
-			Assert.fail();
+			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_INVALID_CHARS, e.errorCode);
 			Common.assertContains("Google ID", e.getMessage());
@@ -453,7 +474,7 @@ public class APIServletTest extends BaseTestCase {
 		course.id = "invalid id";
 		try {
 			apiServlet.createCourse(course.coord, course.id, course.name);
-			Assert.fail();
+			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_INVALID_CHARS, e.errorCode);
 			Common.assertContains("Course ID", e.getMessage());
@@ -464,11 +485,13 @@ public class APIServletTest extends BaseTestCase {
 		course.name = "";
 		try {
 			apiServlet.createCourse(course.coord, course.id, course.name);
-			Assert.fail();
+			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_EMPTY_STRING, e.errorCode);
 			Common.assertContains("Course name", e.getMessage());
 		}
+		
+		//TODO: check if Tfs is created
 	}
 
 	@Test
@@ -599,7 +622,7 @@ public class APIServletTest extends BaseTestCase {
 				+ line3;
 		try {
 			enrollResults = apiServlet.enrollStudents(lines, courseId);
-			Assert.fail("Did not throw exception for incorrectly formatted line");
+			fail("Did not throw exception for incorrectly formatted line");
 		} catch (EnrollException e) {
 			assertTrue(e.getMessage().contains(incorrectLine));
 		}
@@ -608,7 +631,7 @@ public class APIServletTest extends BaseTestCase {
 		// try null parameters
 		try {
 			apiServlet.enrollStudents(null, courseId);
-			Assert.fail();
+			fail();
 		} catch (EnrollException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
 			Common.assertContains("Enroll text", e.getMessage());
@@ -616,11 +639,13 @@ public class APIServletTest extends BaseTestCase {
 
 		try {
 			apiServlet.enrollStudents("any text", null);
-			Assert.fail();
+			fail();
 		} catch (EnrollException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
 			Common.assertContains("Course ID", e.getMessage());
 		}
+		
+		//TODO: check if team profiles are created
 
 	}
 
@@ -655,7 +680,7 @@ public class APIServletTest extends BaseTestCase {
 		// try null parameters
 		try {
 			apiServlet.sendRegistrationInviteForCourse(null);
-			Assert.fail();
+			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
 		}
@@ -680,13 +705,13 @@ public class APIServletTest extends BaseTestCase {
 		// try to create the same student
 		try {
 			apiServlet.createStudent(newStudent);
-			Assert.fail();
+			fail();
 		} catch (EntityAlreadyExistsException e) {
 		}
 
 		try {
 			apiServlet.createStudent(null);
-			Assert.fail();
+			fail();
 		} catch (InvalidParametersException e) {
 		}
 
@@ -1105,7 +1130,7 @@ public class APIServletTest extends BaseTestCase {
 			if (ed.name.equals(evaluation.name))
 				return;
 		}
-		Assert.fail("Did not find " + evaluation.name
+		fail("Did not find " + evaluation.name
 				+ " in the evaluation info list");
 	}
 
@@ -1135,7 +1160,7 @@ public class APIServletTest extends BaseTestCase {
 				return;
 			}
 		}
-		Assert.fail();
+		fail();
 	}
 
 	private int getNumberOfEmailTasksInQueue() {
@@ -1293,7 +1318,7 @@ public class APIServletTest extends BaseTestCase {
 			if (tfl.email.equals(studentEmail))
 				return;
 		}
-		Assert.fail("No log messages found for " + studentEmail + " in "
+		fail("No log messages found for " + studentEmail + " in "
 				+ courseId);
 	}
 
