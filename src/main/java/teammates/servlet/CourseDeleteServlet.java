@@ -17,32 +17,21 @@ import teammates.jsp.Helper;
  */
 public class CourseDeleteServlet extends ActionServlet {
 	// Specific variables
-	@SuppressWarnings("unused")
-	private String coordID;
 
 	// Specific parameters
 	private String courseID;
 	
-	public void doPost(HttpServletRequest req, HttpServletResponse resp)
+	public void doPostAction(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
-		
-		// Don't forget this one!
-		super.doPost(req, resp);
 		
 		// Authenticate user
 		if(!user.isCoord() && !user.isAdmin()){
 			resp.sendRedirect("coordCourse.jsp");
 			return;
 		}
-		coordID = user.id;
 		
 		// Get parameters
 		courseID = req.getParameter(Common.PARAM_COURSE_ID);
-		
-		// Process masquerade
-		if(isMasqueradeMode()){
-			coordID = requestedUser;
-		}
 		
 		// Process action
 		server.deleteCourse(courseID);

@@ -13,11 +13,15 @@ import teammates.datatransfer.UserData;
 
 @SuppressWarnings("serial")
 /**
- * Superclass servlet to handle actions
+ * Abstract servlet to handle actions.
+ * Child class must implement doPostAction, which will be called from the doPost
+ * method in the superclass.
+ * This is template pattern as said in:
+ * http://stackoverflow.com/questions/7350297/good-method-to-make-it-obvious-that-an-overriden-method-should-call-super
  * @author Aldrian Obaja
  *
  */
-public class ActionServlet extends HttpServlet {
+public abstract class ActionServlet extends HttpServlet {
 	protected APIServlet server = new APIServlet();
 	
 	/**
@@ -52,12 +56,14 @@ public class ActionServlet extends HttpServlet {
 	 */
 	protected boolean error;
 	
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+	@Override
+	public final void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
 		this.doPost(req,resp);
 	}
-	
-	public void doPost(HttpServletRequest req, HttpServletResponse resp)
+
+	@Override
+	public final void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException{
 		user = server.getLoggedInUser();
 		
@@ -72,7 +78,13 @@ public class ActionServlet extends HttpServlet {
 		} else {
 			userID = user.id;
 		}
+		
+		doPostAction(req, resp);
 	}
+	
+	protected abstract void doPostAction(HttpServletRequest req,
+										HttpServletResponse resp)
+			throws IOException, ServletException;
 	
 	protected boolean isMasqueradeMode(){
 		return user.isAdmin() && requestedUser!=null;

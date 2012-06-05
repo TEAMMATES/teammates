@@ -25,11 +25,8 @@ public class CourseAddServlet extends ActionServlet {
 	private String courseID;
 	private String courseName;
 	
-	public void doPost(HttpServletRequest req, HttpServletResponse resp)
+	public void doPostAction(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
-		
-		// Don't forget this one!
-		super.doPost(req, resp);
 		
 		// Authenticate user
 		if(!user.isCoord() && !user.isAdmin()){
