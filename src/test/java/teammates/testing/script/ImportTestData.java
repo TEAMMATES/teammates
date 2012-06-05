@@ -36,12 +36,12 @@ public class ImportTestData {
 
 	private static void setupPageVerificationData() {
 		System.out.println("Importing data for page verification ...");
-		String jsonString = Common.getFileContents(Common.TEST_DATA_FOLDER+"page_verificationNew.json");
+		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"page_verificationNew.json");
 		TMAPI.deleteCoordinators(jsonString);
 		System.out.println(TMAPI.persistNewDataBundle(jsonString));
 //		Scenario sc = Scenario.scenarioForPageVerification(Common.TEST_DATA_FOLDER+"page_verification.json");
 //		TMAPI.deleteCoord(sc.coordinator.username);
-//		TMAPI.createCoord(new Coordinator(sc.coordinator.username, sc.coordinator.name, sc.coordinator.email));
+//		TMAPI.createCoord(sc.coordinator.username, sc.coordinator.name, sc.coordinator.email);
 //
 //		// -----Course 1-----//
 //		TMAPI.createCourse(sc.course, sc.coordinator.username);
@@ -57,7 +57,7 @@ public class ImportTestData {
 //		// ..evaluation 2 PUBLISHED
 //		TMAPI.createEvaluation(sc.evaluation2);
 //		TMAPI.openEvaluation(sc.course.courseId, sc.evaluation2.name);
-//		TMAPI.studentsSubmitFeedbacks(sc.students.subList(1, sc.students.size() - 1), sc.course.courseId, sc.evaluation2.name);
+//		TMAPI.studentsSubmitFeedbacks(sc.students.subList(1, sc.students.size()), sc.course.courseId, sc.evaluation2.name);
 //		TMAPI.closeEvaluation(sc.course.courseId, sc.evaluation2.name);
 //		TMAPI.publishEvaluation(sc.course.courseId, sc.evaluation2.name);
 //		// -----Course 2-----//

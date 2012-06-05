@@ -2,7 +2,6 @@ package teammates.testing.lib;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -2817,26 +2816,13 @@ public class BrowserInstance {
 		try {
 			URL help = new URL(url);
 			URLConnection yc = help.openConnection();
-			FileInputStream helpFile = new FileInputStream(filepath);
-			BufferedReader actual = new BufferedReader(new InputStreamReader(yc.getInputStream()));
-			BufferedReader expected = new BufferedReader(new InputStreamReader(new DataInputStream(helpFile)));
-
-			String expectedLine;
-			String actualLine;
-			while ((expectedLine = expected.readLine()) != null) {
-				actualLine = actual.readLine();
-				assertNotNull("Expected had more lines then the actual.", actualLine);
-				assertEquals(expectedLine, actualLine);
-				System.out.println(actualLine);
-			}
-
-			assertNull("Actual had more lines then the expected.", actual.readLine());
-
-			actual.close();
-			expected.close();
+			String actual = Common.readStream(yc.getInputStream());
+			String expected = Common.readFile(filepath);
+			
+			HtmlHelper.assertSameHtml(actual, expected);
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
-			assertTrue(false);
+			fail("Error: " + e.getMessage());
 		}
 	}
 
@@ -2849,25 +2835,24 @@ public class BrowserInstance {
 	 */
 	public void verifyCurrentPageHTML(String filepath)throws Exception{
 		String pageSrc = driver.getPageSource();
-		String inputStr = Common.getFileContents(filepath).replace("{version}",Common.VERSION);
+		String inputStr = Common.readFile(filepath).replace("{version}",Common.VERSION);
 		HtmlHelper.assertSameHtml(inputStr, pageSrc);
 	}
 	
 	/**
 	 * Method to print current page to a file.
-	 * This is to be used in HTML testing, where we can generate the reference HTML file using this method
+	 * This is to be used in HTML testing, where we can generate the reference HTML file using this method.
+	 * This method is deprecated so that you will not forget to remove it from the file after printing.
 	 * @param destination
+	 * @deprecated
 	 */
-	public void printCurrentPage(String destination){
+	public void printCurrentPage(String destination) throws Exception{
 		String pageSrc = driver.getPageSource();
-		try {
-			TestFileWriter output = new TestFileWriter(new File(destination));
-			output.write(pageSrc);
-			output.close();
-		} catch (IOException e) {
-			
-		}
+		TestFileWriter output = new TestFileWriter(new File(destination));
+		output.write(pageSrc);
+		output.close();
 	}
+	
 	/**
 	 * Verifies an object content (div) against the one stored at filepath
 	 * @param filepath
@@ -2921,9 +2906,9 @@ public class BrowserInstance {
 	 * @param div
 	 * @throws Exception
 	 */
-	public void verifyCurrentPageHTMLRegex(String filepath){
+	public void verifyCurrentPageHTMLRegex(String filepath) throws Exception{
 		String pageSrc = driver.getPageSource();
-		String inputStr = Common.getFileContents(filepath).replace("{version}",Common.VERSION);
+		String inputStr = Common.readFile(filepath).replace("{version}",Common.VERSION);
 		Common.assertContainsRegex(inputStr.replace("\r\n", "\n"),pageSrc.replace("\r\n", "\n"));
 	}
 

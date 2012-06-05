@@ -19,7 +19,7 @@
 	<link rel="shortcut icon" href="/favicon.png" /> 
 	<meta http-equiv="X-UA-Compatible" content="IE=8" />
 	<title>Teammates - Automated Test Driver</title>
-	<link rel=stylesheet href="/stylesheets/main.css" type="text/css">
+	<link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
 	<script language="JavaScript" src="js/jquery-1.6.2.min.js"></script>
 	<script language="JavaScript" src="js/administrator.js"></script>
 </head>

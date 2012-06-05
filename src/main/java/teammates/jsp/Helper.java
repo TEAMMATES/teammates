@@ -11,6 +11,84 @@ import teammates.api.Common;
 import teammates.datatransfer.*;
 
 public class Helper {
+	/**
+	 * The request object from the browser
+	 */
+	public HttpServletRequest request;
+	
+	/**
+	 * The APIServlet object
+	 */
+	public APIServlet server;
+	
+	/**
+	 * The user that is currently logged in, authenticated by Google
+	 */
+	public UserData user;
+	
+	/**
+	 * The userID that the admin wants to masquerade
+	 */
+	public String requestedUser;
+	
+	/**
+	 * The userID of the logged in user (<code>user.id</code>), or the userID
+	 * requested by admin if in masquerade mode (<code>requestedUser</code>).
+	 */
+	public String userID;
+	
+	/**
+	 * The status message that want to be displayed
+	 */
+	public String statusMessage = null;
+	
+	/**
+	 * Flag whether there was an error, to be used to display status message style
+	 * accordingly.
+	 */
+	public boolean error = false;
+	
+	public Helper(HttpServletRequest request){
+		this.request = request;
+		
+		server = new APIServlet();
+		user = server.getLoggedInUser();
+		requestedUser = request.getParameter(Common.PARAM_USER_ID);
+		
+		statusMessage = request.getParameter(Common.PARAM_STATUS_MESSAGE);
+		error = "true".equalsIgnoreCase(request.getParameter(Common.PARAM_ERROR));
+		
+		if(isMasqueradeMode()){
+			userID = requestedUser;
+		} else {
+			userID = user.id;
+		}
+	}
+
+	protected boolean isMasqueradeMode() {
+		return (user.isAdmin())&&(requestedUser!=null);
+	}
+	
+	/**
+	 * Returns the URL with the specified key-value pair parameter added.
+	 * Unchanged if either the key or value is null<br />
+	 * Example:
+	 * <ul>
+	 * <li><code>addParam("index.jsp","action","add")</code> returns <code>index.jsp?action=add</code></li>
+	 * <li><code>addParam("index.jsp?action=add","courseid","cs1101")</code> returns <code>index.jsp?action=add&courseid=cs1101</code></li>
+	 * <li><code>addParam("index.jsp","message",null)</code> returns <code>index.jsp</code></li>
+	 * </ul>
+	 * @param url
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public static String addParam(String url, String key, String value){
+		if(key==null || value==null) return url;
+		url += url.indexOf('?')>=0 ? '&' : '?';
+		url += key+"="+convertForURL(value);
+		return url;
+	}
 	
 	/**
 	 * Checks whether a name is longer than 20 characters,
@@ -49,8 +127,6 @@ public class Helper {
 		String redirectUrl = request.getRequestURI()+(queryString!=null?"?"+queryString:"");
 		return APIServlet.getLoginUrl(redirectUrl);
 	}
-	
-
 	
 	/**
 	 * Returns the link to see evaluation details for a specified evaluation name and courseID

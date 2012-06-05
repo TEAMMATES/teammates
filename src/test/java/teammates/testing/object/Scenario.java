@@ -126,7 +126,7 @@ public class Scenario {
 
 	// basic scenario
 	public static Scenario fromJSONFile(String filepath) {
-		String s = Common.getFileContents(filepath);
+		String s = Common.readFile(filepath);
 		try {
 			JSONObject json = new JSONObject(s);
 			return fromJSONObject(json);
@@ -178,7 +178,7 @@ public class Scenario {
 	// new scenario
 	public static Scenario newScenario(String filepath) {
 
-		String s = Common.getFileContents(filepath);
+		String s = Common.readFile(filepath);
 		try {
 			JSONObject json = new JSONObject(s);
 			return newScenario(json);
@@ -235,7 +235,7 @@ public class Scenario {
 
 	// scenario for bump ratio test
 	public static Scenario scenarioForBumpRatioTest(String filepath, int index) {
-		String s = Common.getFileContents(filepath);
+		String s = Common.readFile(filepath);
 		try {
 			JSONObject json = new JSONObject(s);
 			return scenarioForBumpRatioTest(json, index);
@@ -297,7 +297,7 @@ public class Scenario {
 
 	// static scenario for page verification
 	public static Scenario scenarioForPageVerification(String filepath) {
-		String s = Common.getFileContents(filepath);
+		String s = Common.readFile(filepath);
 		try {
 			JSONObject json = new JSONObject(s);
 			return scenarioForPageVerification(json);

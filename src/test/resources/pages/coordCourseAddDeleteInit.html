@@ -21,7 +21,7 @@
 </head>
 
 <body>
-	<div id="dhtmltooltip"></div>
+	<div id="dhtmltooltip"{*}>{*}</div>
 	
 
 	<div id="frameTop">
@@ -76,16 +76,18 @@
 			</div>
 			<br />
 			
-				<div style="display: none" id="statusMessage"></div>
+				<div style="display:block;" id="statusMessage">
+					The course has been added. Click the 'Enroll' link in the table below to add students to the course.
+</div>
 			
 			<div id="coordinatorCourseTable">
 				<br />
 				<br />
 				<table id="dataform">
 					<tbody><tr>
-						<th><input type="button" onclick="javascript:toggleSortCoursesByID(this,1);" id="button_sortcourseid" class="buttonSortNone" />
+						<th><input type="button" onclick="javascript:toggleSortCoursesByID(this,1);" id="button_sortcourseid" class="buttonSortAscending" />
 							COURSE ID</th>
-						<th><input type="button" onclick="javascript:toggleSortCoursesByName(this,2);" id="button_sortcoursename" class="buttonSortAscending" />
+						<th><input type="button" onclick="javascript:toggleSortCoursesByName(this,2);" id="button_sortcoursename" class="buttonSortNone" />
 							COURSE NAME</th>
 						<th class="centeralign">TEAMS</th>
 						<th class="centeralign">TOTAL STUDENTS</th>
@@ -94,21 +96,34 @@
 					</tr>
 					
 						<tr class="courses_row">
-							<td id="courseID1">CS2104-TESTING</td>
-							<td id="courseName1">Programming Language Concepts</td>
-							<td class="t_course_teams centeralign">2</td>
-							<td class="centeralign">4</td>
+							<td id="courseID0">CCAddUiTest.course1</td>
+							<td id="courseName0">Software Engineering $%^&amp;*()</td>
+							<td class="t_course_teams centeralign">0</td>
+							<td class="centeralign">0</td>
 							<td class="centeralign">0</td>
 							<td class="centeralign">
-								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enroll student into the course")' href="coordCourseEnroll.jsp?courseid=CS2104-TESTING" class="t_course_enroll">Enroll</a>
-								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("View, edit and send registration keys to the students in the course")' href="coordCourseView.jsp?courseid=CS2104-TESTING" class="t_course_view">View</a>
-								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Delete the course and its corresponding students and evaluations")' onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("CS2104-TESTING");' href="courseDelete?courseid=CS2104-TESTING&amp;next=coordCourse.jsp" class="t_course_delete">Delete</a>
+								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enroll student into the course")' href="coordCourseEnroll.jsp?courseid=CCAddUiTest.course1" class="t_course_enroll">Enroll</a>
+								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("View, edit and send registration keys to the students in the course")' href="coordCourseView.jsp?courseid=CCAddUiTest.course1" class="t_course_view">View</a>
+								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Delete the course and its corresponding students and evaluations")' onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("CCAddUiTest.course1");' href="courseDelete?courseid=CCAddUiTest.course1&amp;next=coordCourse.jsp" class="t_course_delete">Delete</a>
 							</td>
 						</tr>
 					
 						<tr class="courses_row">
-							<td id="courseID0">CS1101-TESTING</td>
-							<td id="courseName0">Programming Methodology</td>
+							<td id="courseID1">CCAddUiTest.course2</td>
+							<td id="courseName1">CCAddUiTest.course2</td>
+							<td class="t_course_teams centeralign">0</td>
+							<td class="centeralign">0</td>
+							<td class="centeralign">0</td>
+							<td class="centeralign">
+								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enroll student into the course")' href="coordCourseEnroll.jsp?courseid=CCAddUiTest.course2" class="t_course_enroll">Enroll</a>
+								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("View, edit and send registration keys to the students in the course")' href="coordCourseView.jsp?courseid=CCAddUiTest.course2" class="t_course_view">View</a>
+								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Delete the course and its corresponding students and evaluations")' onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("CCAddUiTest.course2");' href="courseDelete?courseid=CCAddUiTest.course2&amp;next=coordCourse.jsp" class="t_course_delete">Delete</a>
+							</td>
+						</tr>
+					
+						<tr class="courses_row">
+							<td id="courseID2">CS1101-TESTING</td>
+							<td id="courseName2">Programming Methodology</td>
 							<td class="t_course_teams centeralign">2</td>
 							<td class="centeralign">4</td>
 							<td class="centeralign">0</td>
@@ -116,6 +131,19 @@
 								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enroll student into the course")' href="coordCourseEnroll.jsp?courseid=CS1101-TESTING" class="t_course_enroll">Enroll</a>
 								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("View, edit and send registration keys to the students in the course")' href="coordCourseView.jsp?courseid=CS1101-TESTING" class="t_course_view">View</a>
 								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Delete the course and its corresponding students and evaluations")' onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("CS1101-TESTING");' href="courseDelete?courseid=CS1101-TESTING&amp;next=coordCourse.jsp" class="t_course_delete">Delete</a>
+							</td>
+						</tr>
+					
+						<tr class="courses_row">
+							<td id="courseID3">CS2104-TESTING</td>
+							<td id="courseName3">Programming Language Concepts</td>
+							<td class="t_course_teams centeralign">2</td>
+							<td class="centeralign">4</td>
+							<td class="centeralign">0</td>
+							<td class="centeralign">
+								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enroll student into the course")' href="coordCourseEnroll.jsp?courseid=CS2104-TESTING" class="t_course_enroll">Enroll</a>
+								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("View, edit and send registration keys to the students in the course")' href="coordCourseView.jsp?courseid=CS2104-TESTING" class="t_course_view">View</a>
+								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Delete the course and its corresponding students and evaluations")' onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("CS2104-TESTING");' href="courseDelete?courseid=CS2104-TESTING&amp;next=coordCourse.jsp" class="t_course_delete">Delete</a>
 							</td>
 						</tr>
 					
@@ -131,7 +159,7 @@
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
+[TEAMMATES Version 4.17.02] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
 
 <a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html" class="footer">Contact Us</a>
 </div>

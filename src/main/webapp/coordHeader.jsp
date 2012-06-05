@@ -1,7 +1,7 @@
-<%@page import="teammates.api.APIServlet"%>
+<%@page import="teammates.jsp.Helper"%>
 <%@ page import="teammates.*" %>
 <%@ page import="teammates.jsp.*" %>
-<% APIServlet server = new APIServlet(); %>
+<% Helper helper = new Helper(request); %>
 		<div id="frameTopWrapper">
 			<div id="logo">
 				<img alt="Teammates" height="47px"
@@ -16,7 +16,7 @@
 					<li><a class='t_evaluations' href="coordEval.jsp">Evaluations</a></li>
 					<li><a class='t_help' href="http://www.comp.nus.edu.sg/~teams/coordinatorhelp.html" target="_blank">Help</a></li>
 					<li><a class='t_logout' href="javascript:logout();">Logout</a>
-					 (<% out.print(Helper.truncate(server.getUserId())); %>)</li>
+					 (<%= Helper.truncate(helper.userID.toLowerCase()) %>)</li>
 				</ul>
 			</div>
 		</div>

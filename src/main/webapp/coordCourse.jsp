@@ -40,8 +40,9 @@
 
 <body>
 	<div id="dhtmltooltip"></div>
-	<%	// Check if user is allowed to view this page
-		if ((!helper.loggedInUser.isAdmin()) && (!helper.loggedInUser.isCoord())) {
+	<%
+		// Check if user is allowed to view this page
+			if ((!helper.user.isAdmin()) && (!helper.user.isCoord())) {
 	%>
 	<p>
 		You are not authorized to view this page. <br /> <br />
@@ -60,7 +61,7 @@
 				<h1>ADD NEW COURSE</h1>
 			</div>
 			<div id="coordinatorCourseManagement">
-				<form method='get' action='coordCourse.jsp' name='form_addcourse'>
+				<form method='get' action='courseAdd' name='form_addcourse'>
 					<table class='addform round'>
 						<tr>
 							<td><b>Course ID:</b></td>
@@ -69,7 +70,7 @@
 							<td><input class='addinput' type='text'
 								name='<%= Common.COURSE_ID %>' id='<%= Common.COURSE_ID %>'
 								value='<%= (helper.newCourseID==null?"":helper.newCourseID) %>'
-								onmouseover='ddrivetip("Enter the identifier of the course, e.g.CS3215Sem1.")'
+								onmouseover='ddrivetip("Enter the identifier of the course, e.g.CS3215-Sem1.")'
 								onmouseout='hideddrivetip()'
 								maxlength=<%= Common.COURSE_ID_MAX_LENGTH %> tabindex=1 /></td>
 						</tr>
@@ -130,15 +131,15 @@
 							<td class='centeralign'><%= course.unregisteredTotal %></td>
 							<td class='centeralign'>
 								<a class='t_course_enroll'
-									href='<%= CoordCourseAddHelper.getCourseEnrollLink(course.id) %>'
+									href='<%= helper.getCourseEnrollLink(course.id) %>'
 									onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_ENROLL %>")'
 									onmouseout='hideddrivetip()'>Enroll</a>
 								<a class='t_course_view'
-									href='<%= CoordCourseAddHelper.getCourseViewLink(course.id) %>'
+									href='<%= helper.getCourseViewLink(course.id) %>'
 									onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_VIEW_COURSE %>")'
 									onmouseout='hideddrivetip()'>View</a>
 								<a class='t_course_delete'
-									href='<%= CoordCourseAddHelper.getCourseDeleteLink(course.id,"coordCourse.jsp") %>'
+									href='<%= helper.getCourseDeleteLink(course.id,"coordCourse.jsp") %>'
 									onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("<%= course.id %>");'
 									onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_DELETE_COURSE %>")'
 									onmouseout='hideddrivetip()'>Delete</a>

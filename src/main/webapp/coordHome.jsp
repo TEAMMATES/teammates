@@ -1,21 +1,16 @@
-<%@ page import="java.util.*"%>
-<%@ page import="teammates.datatransfer.*"%>
-<%@ page import="teammates.api.*"%>
-<%@ page import="teammates.jsp.*"%>
+<%@ page import="teammates.api.Common" %>
+<%@ page import="teammates.datatransfer.CourseData"%>
+<%@ page import="teammates.datatransfer.EvaluationData"%>
+<%@ page import="teammates.jsp.CoordHomeHelper"%>
 
 <%
 	// See if user is logged in, if not we redirect them to the login page
-	APIServlet server = new APIServlet();
-	if (!Helper.isUserLoggedIn()) {
-		response.sendRedirect(Helper.getLoginUrl(request));
+	if (!CoordHomeHelper.isUserLoggedIn()) {
+		response.sendRedirect(CoordHomeHelper.getLoginUrl(request));
 		return;
 	}
 
-	
-	 
-	String coordID = server.getUserId().toLowerCase();
-	String statusMessage = null;
-	boolean error = false;
+	CoordHomeHelper helper = new CoordHomeHelper(request);
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -43,8 +38,9 @@
 
 <body>
 	<div id="dhtmltooltip"></div>
-	<%	// Check if user is allowed to view this page
-		if (server.getUserType() != APIServlet.UserType.COORDINATOR) {
+	<%
+		// Check if user is allowed to view this page
+			if (!helper.user.isCoord() && !helper.user.isAdmin()) {
 	%>
 		<p>
 			You are not authorized to view this page. <br /> <br />
@@ -69,17 +65,16 @@
 					</div>
 				</div>
 				<br />
-				<%	if (statusMessage != null) { %>
+				<%	if (helper.statusMessage != null) { %>
 					<div id="statusMessage"
-						style="display:block;<%if (error) out.println("background:#FF9999");%>">
-						<% out.println(statusMessage); %>
+						style="display:block;<%if (helper.error) out.println("background:#FF9999");%>">
+						<% out.println(helper.statusMessage); %>
 					</div>
 				<%	} else { %>
 				<div id="statusMessage" style="display: none"></div>
 				<%	} %>
 				<div id="coordinatorStudentTable">
-					<%	HashMap<String, CourseData> courses = server.getCourseDetailsListForCoord(coordID);
-						CourseData[] summary = courses.values().toArray(new CourseData[] {});
+					<%	CourseData[] summary = helper.summary;
 						int idx = 0;
 						int evalIdx = 0;
 						for (idx = 0; idx < summary.length; idx++) {
@@ -94,13 +89,13 @@
 						</div>
 						<div class='result_homeLinks'>
 							<a class='t_course_enroll<%= idx %>'
-								href='<%= CoordCourseAddHelper.getCourseEnrollLink(course.id) %>'
+								href='<%= helper.getCourseEnrollLink(course.id) %>'
 								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_ENROLL %>")'
 								onmouseout='hideddrivetip()'>
 								Enroll
 							</a>
 							<a class='t_course_view<%= idx %>'
-								href='<%= CoordCourseAddHelper.getCourseViewLink(course.id) %>'
+								href='<%= helper.getCourseViewLink(course.id) %>'
 								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_VIEW_COURSE %>")'
 								onmouseout='hideddrivetip()'>
 								View
@@ -111,7 +106,7 @@
 								Add Evaluation
 							</a>
 							<a class='t_course_delete<%= idx %>'
-								href='<%= CoordCourseAddHelper.getCourseDeleteLink(course.id,"coordHome.jsp") %>'
+								href='<%= helper.getCourseDeleteLink(course.id,"coordHome.jsp") %>'
 								onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("<%= course.id %>")'
 								onmouseover='ddrivetip("<%= Common.HOVER_MESSAGE_DELETE_COURSE %>")'
 								onmouseout='hideddrivetip()'>
@@ -120,8 +115,7 @@
 						</div>
 						<div style='clear: both;'></div>
 						<br />
-						<%	ArrayList<EvaluationData> evaluations = course.evaluations;
-							EvaluationData[] evaluationsArr = evaluations.toArray(new EvaluationData[]{});
+						<%	EvaluationData[] evaluationsArr = CoordHomeHelper.getEvaluationsForCourse(course);
 							if (evaluationsArr.length > 0) {
 						%>
 							<table id='dataform'>
@@ -139,11 +133,11 @@
 									<tr class='home_evaluations_row' id='evaluation<%= evalIdx %>'>
 										<td class='t_eval_name'><%= eval.name %></td>
 										<td class='t_eval_status centeralign'><span
-											onmouseover='ddrivetip(" <%= Helper.getHoverMessageForEval(eval) %>")'
-											onmouseout='hideddrivetip()'><%= Helper.getStatusForEval(eval) %></span></td>
+											onmouseover='ddrivetip(" <%= CoordHomeHelper.getHoverMessageForEval(eval) %>")'
+											onmouseout='hideddrivetip()'><%= CoordHomeHelper.getStatusForEval(eval) %></span></td>
 										<td class='t_eval_response centeralign'><%= eval.submittedTotal %>
 											/ <%= eval.expectedTotal %></td>
-										<td class='centeralign'><%= Helper.getEvaluationActions(eval,evalIdx, true) %>
+										<td class='centeralign'><%= CoordHomeHelper.getEvaluationActions(eval,evalIdx, true) %>
 										</td>
 									</tr>
 								<%		evalIdx++;

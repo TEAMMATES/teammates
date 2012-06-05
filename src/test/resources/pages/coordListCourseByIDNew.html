@@ -54,19 +54,19 @@
 				<h1>ADD NEW COURSE</h1>
 			</div>
 			<div id="coordinatorCourseManagement">
-				<form name="form_addcourse" action="coordCourse.jsp" method="get">
+				<form name="form_addcourse" action="courseAdd" method="get">
 					<table class="addform round">
 						<tbody><tr>
 							<td><b>Course ID:</b></td>
 						</tr>
 						<tr>
-							<td><input type="text" tabindex="1" maxlength="21" onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enter the identifier of the course, e.g.CS3215Sem1.")' value="" id="courseid" name="courseid" class="addinput" /></td>
+							<td><input type="text" tabindex="1" maxlength="21" onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enter the identifier of the course, e.g.CS3215-Sem1.")' value="" id="courseid" name="courseid" class="addinput" /></td>
 						</tr>
 						<tr>
 							<td><b>Course Name:</b></td>
 						</tr>
 						<tr>
-							<td><input type="text" tabindex="2" maxlength="38" onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enter the name of the course, e.g. Software Engineering.")' value="" name="coursename" id="coursename" class="addinput" /></td>
+							<td><input type="text" tabindex="2" maxlength="38" onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enter the name of the course, e.g. Software Engineering.")' value="" id="coursename" name="coursename" class="addinput" /></td>
 						</tr>
 						<tr>
 							<td><input type="submit" tabindex="3" value="Add Course" onclick="return doAddCourse();" class="button" id="btnAddCourse" /></td>
@@ -102,7 +102,7 @@
 							<td class="centeralign">
 								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enroll student into the course")' href="coordCourseEnroll.jsp?courseid=CS1101-TESTING" class="t_course_enroll">Enroll</a>
 								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("View, edit and send registration keys to the students in the course")' href="coordCourseView.jsp?courseid=CS1101-TESTING" class="t_course_view">View</a>
-								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Delete the course and its corresponding students and evaluations")' onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("CS1101-TESTING");' href="coordCourseDelete.jsp?courseid=CS1101-TESTING&amp;next=coordCourse.jsp" class="t_course_delete">Delete</a>
+								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Delete the course and its corresponding students and evaluations")' onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("CS1101-TESTING");' href="courseDelete?courseid=CS1101-TESTING&amp;next=coordCourse.jsp" class="t_course_delete">Delete</a>
 							</td>
 						</tr>
 					
@@ -115,12 +115,11 @@
 							<td class="centeralign">
 								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enroll student into the course")' href="coordCourseEnroll.jsp?courseid=CS2104-TESTING" class="t_course_enroll">Enroll</a>
 								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("View, edit and send registration keys to the students in the course")' href="coordCourseView.jsp?courseid=CS2104-TESTING" class="t_course_view">View</a>
-								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Delete the course and its corresponding students and evaluations")' onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("CS2104-TESTING");' href="coordCourseDelete.jsp?courseid=CS2104-TESTING&amp;next=coordCourse.jsp" class="t_course_delete">Delete</a>
+								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Delete the course and its corresponding students and evaluations")' onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("CS2104-TESTING");' href="courseDelete?courseid=CS2104-TESTING&amp;next=coordCourse.jsp" class="t_course_delete">Delete</a>
 							</td>
 						</tr>
 					
-				</tbody>
-				</table>
+				</tbody></table>
 				<br />
 				<br />
 				<br />
@@ -132,7 +131,7 @@
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
+[TEAMMATES Version 4.17.02] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
 
 <a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html" class="footer">Contact Us</a>
 </div>

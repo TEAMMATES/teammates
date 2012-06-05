@@ -1,22 +1,15 @@
 package teammates.testing.testcases;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
-import java.util.List;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import teammates.api.Common;
 import teammates.datatransfer.DataBundle;
 import teammates.exception.NoAlertAppearException;
-import teammates.jsp.CoordCourseAddHelper;
-import teammates.jsp.Helper;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -30,11 +23,13 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static DataBundle scn;
 	
-	private static String localhostAddress = "localhost:8080/";
+	private static String appURL = Config.inst().TEAMMATES_URL;
 	
-	// Currently we just hardcode the row number of the courses and evaluations
-	// If later deemed bad, we should change to the searching, although it takes longer
-	// to code and also longer to run.
+	/* TODO
+	 * Currently we just hardcode the row number of the courses and evaluations
+	 * If later deemed bad, we should change to the searching, although it takes longer
+	 * to code and also longer to run.
+	 */
 	private static int FIRST_COURSE_ROW_NUMBER = 1;
 	private static int SECOND_COURSE_ROW_NUMBER = 0;
 
@@ -43,13 +38,11 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	private static int THIRD_EVAL_ROW_NUMBER = 0;
 	private static int FOURTH_EVAL_ROW_NUMBER = 2;
 	private static int FIFTH_EVAL_ROW_NUMBER = 1;
-	
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		assertTrue(true);
 		printTestClassHeader("CoordHomeUITest");
-		String jsonString = Common.getFileContents(Common.TEST_DATA_FOLDER+"CoordHomeUITest.json");
+		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"CoordHomeUITest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 		
 		TMAPI.deleteCoordinators(jsonString);
@@ -61,98 +54,43 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		bi = BrowserInstancePool.getBrowserInstance();
 		
 		bi.loginCoord(scn.coords.get("teammates.test").id, Config.inst().TEAMMATES_APP_PASSWD);
-		bi.goToUrl(localhostAddress+Common.JSP_COORD_HOME);
+		bi.goToUrl(appURL+Common.JSP_COORD_HOME);
 	}
 	
 	@Test
-	public void testCoordHomeCourseAddLink(){
-		printTestCaseHeader("testCoordHomeCourseAddLink");
-		String link = bi.getElementRelativeHref(By.id("addNewCourse"));
-		assertEquals(Common.JSP_COORD_COURSE,link);
+	public void testCoordHomePage() throws Exception{
+		testCoordHomeCourseDeleteLink();
+		testCoordHomeEvalDeleteLink();
+		testCoordHomeEvalRemindLink();
+		testCoordHomeEvalPublishLink();
+		testCoordHomeCoursePageHTML();
 	}
 
-	@Test
-	public void testCoordHomeCourseEnrollLink(){
-		printTestCaseHeader("testCoordHomeCourseEnrollLink");
-		String link = bi.getElementRelativeHref(By.className("t_course_enroll"+FIRST_COURSE_ROW_NUMBER));
-		assertEquals(CoordCourseAddHelper.getCourseEnrollLink(scn.courses.get("CHomeUiT.CS2104").id),link);
-	}
-
-	@Test
-	public void testCoordHomeCourseViewLink(){
-		printTestCaseHeader("testCoordHomeCourseViewLink");
-		String link = bi.getElementRelativeHref(By.className("t_course_view"+FIRST_COURSE_ROW_NUMBER));
-		assertEquals(CoordCourseAddHelper.getCourseViewLink(scn.courses.get("CHomeUiT.CS2104").id),link);
-	}
-
-	@Test
-	public void testCoordHomeCourseAddEvaluationLink(){
-		printTestCaseHeader("testCoordHomeCourseAddEvaluationLink");
-		String link = bi.getElementRelativeHref(By.className("t_course_add_eval"+FIRST_COURSE_ROW_NUMBER));
-		assertEquals(Common.JSP_COORD_EVAL,link);
-	}
-
-	@Test
 	public void testCoordHomeCourseDeleteLink(){
 		printTestCaseHeader("testCoordHomeCourseDeleteLink");
 		
 		By deleteLinkLocator = By.className("t_course_delete"+FIRST_COURSE_ROW_NUMBER);
-		String link = bi.getElementRelativeHref(deleteLinkLocator);
-		assertEquals(CoordCourseAddHelper.getCourseDeleteLink(scn.courses.get("CHomeUiT.CS2104").id, Common.JSP_COORD_HOME),link);
+//		String link = bi.getElementRelativeHref(deleteLinkLocator);
+//		assertEquals(CoordCourseAddHelper.getCourseDeleteLink(scn.courses.get("CHomeUiT.CS2104").id, Common.JSP_COORD_HOME),link);
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
 		} catch (NoAlertAppearException e){
-			assertTrue("Delete course button unavailable",false);
+			assertTrue("Delete course button unavailable, or it is available but no confirmation box",false);
 		}
 	}
 
-	@Test
-	public void testCoordHomeEvalViewLink(){
-		printTestCaseHeader("testCoordHomeEvalViewLink");
-		
-		// Check View results link on Open evaluation: Evaluation 1 at Course 1
-		By viewLinkLocator = By.id("viewEvaluation"+FIRST_EVAL_ROW_NUMBER);
-		String link = bi.getElementRelativeHref(viewLinkLocator);
-		assertEquals("Incorrect view link",Helper.getEvaluationViewLink(scn.courses.get("CHomeUiT.CS2104").id, scn.evaluations.get("CHomeUiT.CS2104:First Eval").name),link);
-		assertFalse("View link unavailable on OPEN evaluation","none".equals(bi.getDriver().findElement(viewLinkLocator).getCssValue("text-decoration")));
-		assertFalse("View link unavailable on OPEN evaluation","return false".equals(bi.getElementAttribute(viewLinkLocator, "onclick")));
-		
-		// Check View results link on Awaiting evaluation: Evaluation 4 at Course 2
-		viewLinkLocator = By.id("viewEvaluation"+FOURTH_EVAL_ROW_NUMBER);
-		link = bi.getElementRelativeHref(viewLinkLocator);
-		assertEquals(Helper.getEvaluationViewLink(scn.courses.get("CHomeUiT.CS1101").id, scn.evaluations.get("CHomeUiT.CS1101:Fourth Eval").name),link);
-		assertEquals("View link available on AWAITING evaluation","none",bi.getDriver().findElement(viewLinkLocator).getCssValue("text-decoration"));
-		assertEquals("View link available on AWAITING evaluation","return false",bi.getElementAttribute(viewLinkLocator, "onclick"));
-	}
-
-	@Test
-	public void testCoordHomeEvalEditLink(){
-		printTestCaseHeader("testCoordHomeEvalEditLink");
-		
-		// Check the edit link for first evaluation, which is at fifth row in the page
-		By editLinkLocator = By.id("editEvaluation"+FIRST_EVAL_ROW_NUMBER);
-		String link = bi.getElementRelativeHref(editLinkLocator);
-		assertEquals("Incorrect edit link",Helper.getEvaluationEditLink(scn.courses.get("CHomeUiT.CS2104").id, scn.evaluations.get("CHomeUiT.CS2104:First Eval").name),link);
-		assertFalse("Edit link unavailable","none".equals(bi.getDriver().findElement(editLinkLocator).getCssValue("text-decoration")));
-		assertFalse("Edit link unavailable","return false".equals(bi.getElementAttribute(editLinkLocator, "onclick")));
-	}
-
-	@Test
 	public void testCoordHomeEvalDeleteLink(){
 		printTestCaseHeader("testCoordHomeEvalDeleteLink");
 		
 		By deleteLinkLocator = By.id("deleteEvaluation"+FIRST_EVAL_ROW_NUMBER);
-		String link = bi.getElementRelativeHref(deleteLinkLocator);
-		assertEquals(Helper.getEvaluationDeleteLink(scn.courses.get("CHomeUiT.CS2104").id, scn.evaluations.get("CHomeUiT.CS2104:First Eval").name, Common.JSP_COORD_HOME),link);
 		
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
 		} catch (NoAlertAppearException e){
-			assertTrue("Delete link unavailable",false);
+			assertTrue("Delete link is unavailable or it is available but no confirmation box",false);
 		}
 	}
 
-	@Test
 	public void testCoordHomeEvalRemindLink(){
 		printTestCaseHeader("testCoordHomeEvalRemindLink");
 		
@@ -162,11 +100,10 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(remindLinkLocator);
 		} catch (NoAlertAppearException e){
-			assertTrue("Remind link unavailable on OPEN evaluation",false);
+			assertTrue("Remind link unavailable on OPEN evaluation, or it is available but no confirmation box",false);
 		}
 	}
 
-	@Test
 	public void testCoordHomeEvalPublishLink(){
 		printTestCaseHeader("testCoordHomeEvalPublishLink");
 		
@@ -176,7 +113,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(publishLinkLocator);
 		} catch (NoAlertAppearException e){
-			assertTrue("Publish link unavailable on CLOSED evaluation",false);
+			assertTrue("Publish link unavailable on CLOSED evaluation, or it is available but no confirmation box",false);
 		}
 		
 		// Check the publish link on Open Evaluation: Evaluation 1 at Course 1
@@ -184,12 +121,9 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(publishLinkLocator);
 			assertTrue("Publish link available on OPEN evaluation",false);
-		} catch (NoAlertAppearException e){
-			assertTrue(true);
-		}
+		} catch (NoAlertAppearException e){}
 	}
 	
-	@Test
 	public void testCoordHomeCoursePageHTML() throws Exception{
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"CoordHomeHTML.html");
 		
@@ -202,10 +136,6 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	
 	@AfterClass
 	public static void classTearDown() throws Exception {
-		bi.logout();
-		TMAPI.deleteCourse(scn.courses.get("CHomeUiT.CS2104").id);
-		TMAPI.deleteCourse(scn.courses.get("CHomeUiT.CS1101").id);
-		
 		BrowserInstancePool.release(bi);
 		printTestClassFooter("CoordHomeUITest");
 	}

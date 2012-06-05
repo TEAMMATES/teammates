@@ -5,12 +5,14 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.io.Reader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
-
+import java.util.regex.Pattern;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -73,6 +75,8 @@ public class Common {
 	public final static String PARAM_COURSE_ID = "courseid";
 	public final static String PARAM_COURSE_NAME = "coursename";
 	public final static String PARAM_EVALUATION_NAME = "evalname";
+	public final static String PARAM_STATUS_MESSAGE = "message";
+	public final static String PARAM_ERROR = "error";
 	public final static String PARAM_NEXT_URL = "next";
 	public static final String PARAM_USER_ID = "user";
 	
@@ -110,6 +114,7 @@ public class Common {
 	public final static String MESSAGE_COURSE_EXISTS = "The course already exists.";
 	public final static String MESSAGE_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
 	public final static String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
+	public final static String MESSAGE_COURSE_DELETED = "The course has been deleted.";
 	
 	// DIV tags for HTML testing
 	public final static String HEADER_TAG = "<div id=\"frameTop\">";
@@ -260,7 +265,7 @@ public class Common {
 	 * @param stringActual
 	 */
 	public static void assertContainsRegex(String regexExpected, String stringActual){
-		String processedRegex = regexExpected.replaceAll("([()\\[.\\+?|^$])","\\\\$1").replaceAll("\\{\\*}", ".*");
+		String processedRegex = Pattern.quote(regexExpected).replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q");
 		if(!stringActual.matches("(?s)(?m).*"+processedRegex+".*")){
 			assertEquals(regexExpected,stringActual);
 		}
@@ -275,7 +280,7 @@ public class Common {
 	 * @param stringActual
 	 */
 	public static void assertContainsRegex(String message, String regexExpected, String stringActual){
-		String processedRegex = regexExpected.replaceAll("([()\\[.\\+?|^$])","\\\\$1").replaceAll("\\{\\*}", ".*");
+		String processedRegex = Pattern.quote(regexExpected).replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q");
 		if(!stringActual.matches("(?s)(?m).*"+processedRegex+".*")){
 			assertEquals(message,regexExpected,stringActual);
 		}
@@ -360,7 +365,7 @@ public class Common {
 	 * @param filename
 	 * @return
 	 */
-	public static String getFileContents(String filename) {
+	public static String readFile(String filename) {
 		try {
 			String ans = new Scanner(new FileReader(filename)).useDelimiter("\\Z").next();
 			return ans;
@@ -368,6 +373,15 @@ public class Common {
 			e.printStackTrace();
 		}
 		return "";
+	}
+	
+	/**
+	 * Reads from a stream and returns the string
+	 * @param reader
+	 * @return
+	 */
+	public static String readStream(InputStream stream){
+		return new Scanner(stream).useDelimiter("\\Z").next();
 	}
 
 	public static boolean isWhiteSpace(String string) {

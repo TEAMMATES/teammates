@@ -517,7 +517,11 @@ public class Courses {
 	 *         ID
 	 */
 	//TODO: The method name does not match intent -damith
-	//TODO: So the googleID is not unique? -Aldrian
+	/*
+	 * FIXME: This method is to return list of courses for a specific student.
+	 * But it returns it as list of Students object (which contains the Course).
+	 * It's not very intuitive, probably convert to list of Course? ~Aldrian~
+	 */
 	public List<Student> getStudentCourseList(String googleID) {
 		String query = "select from " + Student.class.getName() + " where ID == \"" + googleID + "\"";
 

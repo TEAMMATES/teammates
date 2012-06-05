@@ -6,13 +6,13 @@
 <%	
 	// See if user is logged in, if not we redirect them to the login page
 	APIServlet server = new APIServlet();
-	if (!server.isUserLoggedIn()) {
-		response.sendRedirect( server.getLoginUrl("/coordHome.jsp") );
+	if (!APIServlet.isUserLoggedIn()) {
+		response.sendRedirect( APIServlet.getLoginUrl("/coordHome.jsp") );
 		return ;
 	}
 	
 	
-	String coordID = server.getUserId().toLowerCase();
+	String coordID = server.getLoggedInUser().id.toLowerCase();
 %>
 <%
 	String courseID = URLDecoder.decode(request.getParameter(Common.PARAM_COURSE_ID),Common.ENCODING);

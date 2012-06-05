@@ -101,13 +101,13 @@ public class CoordCourseViewTest extends TestCase {
 		bi.logout();
 	}
 
-	/**
+	/*
 	 * TODO:
 	 * Student list under a course
 	 * testCoordViewCourseSortByStudentNameSuccessful
 	 * testCoordViewCourseSortByTeamSuccessful
 	 * testCoordViewCourseSortByStatusSuccessful
-	 * */
+	 */
 	@Test
 	public void testCoordViewCourseSortStudents() {
 

@@ -9,9 +9,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.api.Common;
-import teammates.datatransfer.*;
-import teammates.persistent.Coordinator;
-import teammates.persistent.Course;
+import teammates.datatransfer.CoordData;
+import teammates.datatransfer.CourseData;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -153,7 +152,7 @@ public class CoordCourseAddUITest extends TestCase {
 	
 	private static TestScenario loadTestScenario() throws JSONException {
 		String testScenarioJsonFile = Common.TEST_DATA_FOLDER+"CoordCourseAddUITest.json";
-		String jsonString = Common.getFileContents(testScenarioJsonFile);
+		String jsonString = Common.readFile(testScenarioJsonFile);
 		TestScenario scn = Common.getTeammatesGson().fromJson(jsonString, TestScenario.class);
 		return scn;
 	}

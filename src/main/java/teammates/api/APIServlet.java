@@ -17,9 +17,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.Config;
 import teammates.Datastore;
-import teammates.datatransfer.*;
+import teammates.datatransfer.AdminData;
+import teammates.datatransfer.CoordData;
+import teammates.datatransfer.CourseData;
+import teammates.datatransfer.DataBundle;
+import teammates.datatransfer.EvaluationData;
+import teammates.datatransfer.StudentActionData;
+import teammates.datatransfer.StudentData;
 import teammates.datatransfer.StudentData.UpdateStatus;
-import teammates.exception.*;
+import teammates.datatransfer.SubmissionData;
+import teammates.datatransfer.TeamProfileData;
+import teammates.datatransfer.TfsData;
+import teammates.datatransfer.UserData;
+import teammates.exception.CourseDoesNotExistException;
 import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.EnrollmentReport;
 import teammates.jdo.EvaluationDetailsForCoordinator;
@@ -44,7 +54,7 @@ import com.google.gson.reflect.TypeToken;
 
 /**
  * The API Servlet.
- * 
+ * @author Damith C Rajapakse
  * 
  */
 @SuppressWarnings("serial")

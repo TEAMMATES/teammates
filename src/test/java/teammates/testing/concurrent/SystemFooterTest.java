@@ -42,7 +42,7 @@ public class SystemFooterTest extends TestCase {
 	}
 
 	@Test
-	public void testOnCoordSite() {
+	public void testOnCoordSite() throws Exception{
 		System.out.println("Test: Footer on Coordinator.jsp.");
 		if(bi.isElementPresent(bi.logoutTab)) {
 			bi.logout();
@@ -53,7 +53,7 @@ public class SystemFooterTest extends TestCase {
 	}
 
 	@Test
-	public void testOnStudentSite() {
+	public void testOnStudentSite() throws Exception{
 		System.out.println("Test: Footer on Student.jsp.");
 		if(bi.isElementPresent(bi.logoutTab)) {
 			bi.logout();
@@ -63,7 +63,7 @@ public class SystemFooterTest extends TestCase {
 		bi.logout();
 	}
 	
-	private void testFooter() {
+	private void testFooter() throws Exception{
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"footerRegex.html");
 	}
 }

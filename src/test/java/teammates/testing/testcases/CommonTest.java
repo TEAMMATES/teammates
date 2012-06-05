@@ -39,14 +39,14 @@ public class CommonTest extends BaseTestCase{
 		Common.assertContainsRegex("404 Page Not Found","Error: 404 Page Not Found. Check the URL.");
 		Common.assertContainsRegex("Fails on checking assert contains regex","404 Page Not Found","Error: 404 Page Not Found. Check the URL.");
 
-		String pageStr = Common.getFileContents(Common.TEST_PAGES_FOLDER+"commonAssertRegexTestPage.html");
+		String pageStr = Common.readFile(Common.TEST_PAGES_FOLDER+"commonAssertRegexTestPage.html");
 		
-		String inputStr = Common.getFileContents(Common.TEST_PAGES_FOLDER+"commonAssertRegexTestPart.html");
+		String inputStr = Common.readFile(Common.TEST_PAGES_FOLDER+"commonAssertRegexTestPart.html");
 		
 		Common.assertContainsRegex(inputStr,pageStr);
 		Common.assertContainsRegex("Fails on checking assert contains regex",inputStr,pageStr);
 		
-		Common.assertContainsRegex("<div>{*}</div>","<html><body><div>Testing</div><a href='index.html'>HOME</a></body></html>");
+		Common.assertContainsRegex("<div>{*}</div><p>!@#$%^&*(){}_+[]</p>","<html><body><div>Testing</div><p>!@#$%^&*(){}_+[]</p><a href='index.html'>HOME</a></body></html>");
 		Common.assertContainsRegex("Fails on checking assert contains regex","<div>{*}</div>","<html><body><div>Testing</div><a href='index.html'>HOME</a></body></html>");
 	}
 

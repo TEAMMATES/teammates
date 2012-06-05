@@ -14,8 +14,15 @@ import org.junit.Test;
 
 import teammates.api.Common;
 import teammates.api.InvalidParametersException;
-import teammates.datatransfer.*;
-import teammates.testing.lib.SharedLib;
+import teammates.datatransfer.CoordData;
+import teammates.datatransfer.CourseData;
+import teammates.datatransfer.DataBundle;
+import teammates.datatransfer.EvaluationData;
+import teammates.datatransfer.StudentActionData;
+import teammates.datatransfer.StudentData;
+import teammates.datatransfer.SubmissionData;
+import teammates.datatransfer.TeamProfileData;
+import teammates.datatransfer.TfsData;
 import teammates.testing.lib.TMAPI;
 import teammates.testing.testcases.BaseTestCase;
 
@@ -26,7 +33,7 @@ import com.google.gson.reflect.TypeToken;
 public class TMAPITest extends BaseTestCase{
 
 	private static Gson gson = Common.getTeammatesGson();
-	String jsonString = Common.getFileContents(Common.TEST_DATA_FOLDER + "typicalDataBundle.json");
+	String jsonString = Common.readFile(Common.TEST_DATA_FOLDER + "typicalDataBundle.json");
 	private DataBundle dataBundle;
 
 	@BeforeClass
@@ -348,7 +355,7 @@ public class TMAPITest extends BaseTestCase{
 	}
 	
 	@Test
-	public void testDeletetStudent() {
+	public void testDeleteStudent() {
 		// already tested by testPersistenceAndDeletion
 	}
 	
@@ -540,7 +547,7 @@ public class TMAPITest extends BaseTestCase{
 	@Test
 	public void testDataBundle() {
 		printTestCaseHeader();
-		String jsonString = Common.getFileContents(Common.TEST_DATA_FOLDER + "typicalDataBundle.json");
+		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER + "typicalDataBundle.json");
 		Gson gson = Common.getTeammatesGson();
 	
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);

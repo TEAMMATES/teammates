@@ -72,7 +72,6 @@ public class StudentCourseJoinTest extends TestCase {
 		scn.toJSONFile("target/test-classes/data/scenario.json.ext");
 
 		// Reserve more time to send email
-		// FIXME: Is this the best way to check? Seems so for now, since we can't really wait for the e-mail to be sent.
 		bi.waitForEmail();
 
 		for (int i = 0; i < scn.students.size(); i++) {

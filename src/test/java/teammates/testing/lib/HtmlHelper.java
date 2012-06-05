@@ -21,6 +21,15 @@ import org.xml.sax.SAXException;
 
 public class HtmlHelper {
 
+	/**
+	 * Assert whether two HTML strings are the same in the DOM representation.
+	 * This ignores the order of attributes, and ignores unnecessary whitespaces as well.
+	 * @param html1
+	 * @param html2
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws TransformerException
+	 */
 	public static void assertSameHtml(String html1, String html2)
 			throws SAXException, IOException, TransformerException {
 		html1 = cleanupHtml(html1);
@@ -28,12 +37,20 @@ public class HtmlHelper {
 		assertEquals(html1,html2);
 	}
 
+	/**
+	 * Cleanup an HTML string to remove unnecessary whitespaces.
+	 * This converts all tag names into uppercase.
+	 * @param htmlString
+	 * @return
+	 * @throws TransformerException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
 	public static String cleanupHtml(String htmlString) throws TransformerException, SAXException, IOException{
 		Node node = getNodeFromString(htmlString);
 		removeWhiteSpace(node);
 		return nodeToString(node);
 	}
-
 
 	private static void removeWhiteSpace(Node node) {
 		NodeList nodes = node.getChildNodes();
@@ -69,7 +86,8 @@ public class HtmlHelper {
 		transformer.transform(source, result);
 		String formatted =  writer.toString();
 		//TODO: find a better way to omit this attribute
-		formatted.replace(" xmlns=\"http://www.w3.org/1999/xhtml\"", "");
+		formatted = formatted.replaceAll("[ ]*xmlns=\"http://www.w3.org/1999/xhtml\"", "");
+		formatted = formatted.replaceAll("[ ]*<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">","");
 		return formatted;
 	}
 	

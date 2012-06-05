@@ -8,54 +8,22 @@ import teammates.api.*;
 import teammates.datatransfer.*;
 
 public class CoordCourseAddHelper extends Helper{
-	APIServlet server; 
-	public UserData loggedInUser;
-	public String requestedUser;
 	public String coordID;
-	public String statusMessage = null;
-	public boolean error;
+	
 	public String newCourseID;
 	public String newCourseName;
 	public CourseData[] summary;
-	
 
 	public CoordCourseAddHelper(HttpServletRequest request) {
-		server = new APIServlet();
-		loggedInUser = server.getLoggedInUser();
-		requestedUser = request.getParameter(Common.PARAM_USER_ID);
-		statusMessage = null;
-		error = false;
-		
-		coordID = loggedInUser.id.toLowerCase();
-		
-		//if admin is trying to masquerade, modify user id
-		if(isMasqueradeMode()){
-			coordID = requestedUser;
-		}
-		
-		
-		//if required, add course and update status accordingly
-		if(isAddingCourse(request)){
+		super(request);
+
+		if(error){
 			newCourseID = request.getParameter(Common.PARAM_COURSE_ID);
 			newCourseName = request.getParameter(Common.PARAM_COURSE_NAME);
-			try{
-				server.createCourse(coordID, newCourseID, newCourseName);
-				statusMessage = Common.MESSAGE_COURSE_ADDED;
-			} catch (EntityAlreadyExistsException e){
-				statusMessage = Common.MESSAGE_COURSE_EXISTS;
-				error = true;
-			} catch (InvalidParametersException e){
-				statusMessage = e.getMessage();
-				error = true;
-			}
-			// If adding was successful, do not display it again in the input boxes
-			if(!error){
-				newCourseID = null;
-				newCourseName = null;
-			}
 		}
 		
-
+		coordID = userID.toLowerCase();
+		
 		//TODO: is to better if APIServlet returned an ArrayList?
 		//load course details
 		HashMap<String, CourseData> courses = server.getCourseListForCoord(coordID);
@@ -66,30 +34,18 @@ public class CoordCourseAddHelper extends Helper{
 			}
 		});
 	}
-
-
-	private boolean isMasqueradeMode() {
-		return (loggedInUser.isAdmin())&&(requestedUser!=null);
-	}
 	
-	
-	private boolean isAddingCourse(HttpServletRequest request) {
-		return request.getParameter(Common.COURSE_ID)!=null 
-				&& request.getParameter(Common.PARAM_COURSE_NAME)!=null;
-		
-		//TODO: instead of the above, can we have this?
-		//return request.getParameter(Common.PARAM_ACTION).equals(Common.ACTION_ADD_COURSE);
-	}
-
-	//TODO: enhance get*Link methods to cater for masquerade mode
-
 	/**
 	 * Returns the link to show course detail for specific courseID
 	 * @param courseID
 	 * @return
 	 */
-	public static String getCourseViewLink(String courseID){
-		return "coordCourseView.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID);
+	public String getCourseViewLink(String courseID){
+		String result = "coordCourseView.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID); 
+		if(isMasqueradeMode()){
+			result = addParam(result,Common.PARAM_USER_ID,requestedUser);
+		}
+		return result;
 	}
 	
 	/**
@@ -99,8 +55,12 @@ public class CoordCourseAddHelper extends Helper{
 	 * @param nextURL
 	 * @return
 	 */
-	public static String getCourseDeleteLink(String courseID, String nextURL){
-		return "coordCourseDelete.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID)+"&"+Common.PARAM_NEXT_URL+"="+convertForURL(nextURL);
+	public String getCourseDeleteLink(String courseID, String nextURL){
+		String result = "courseDelete?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID)+"&"+Common.PARAM_NEXT_URL+"="+convertForURL(nextURL);
+		if(isMasqueradeMode()){
+			result = addParam(result,Common.PARAM_USER_ID,requestedUser);
+		}
+		return result;
 	}
 
 	/**
@@ -108,8 +68,12 @@ public class CoordCourseAddHelper extends Helper{
 	 * @param courseID
 	 * @return
 	 */
-	public static String getCourseEnrollLink(String courseID){
-		return "coordCourseEnroll.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID);
+	public String getCourseEnrollLink(String courseID){
+		String result = "coordCourseEnroll.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID);
+		if(isMasqueradeMode()){
+			result = addParam(result,Common.PARAM_USER_ID,requestedUser);
+		}
+		return result;
 	}
 	
 }

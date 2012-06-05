@@ -8,8 +8,8 @@
 <%	
 	// See if user is logged in, if not we redirect them to the login page
 	APIServlet server = new APIServlet();
-	if (!server.isUserLoggedIn()) {
-		response.sendRedirect( server.getLoginUrl("/coordinator.jsp") );
+	if (!APIServlet.isUserLoggedIn()) {
+		response.sendRedirect( APIServlet.getLoginUrl("/coordinator.jsp") );
 		return ;
 	}
 %>
@@ -40,7 +40,7 @@
 	<div id="dhtmltooltip"></div>
 	<%
 		// Check if user is allowed to view this page
-		if (server.getUserType() != APIServlet.UserType.COORDINATOR) {
+		if (!server.getLoggedInUser().isCoord() && !server.getLoggedInUser().isAdmin()) {
 	%>
 	<p>
 		You are not authorized to view this page.
@@ -79,7 +79,7 @@
 					<li><a class='t_help' href="http://www.comp.nus.edu.sg/~teams/coordinatorhelp.html" target="_blank">Help</a></li>
 					<li><a class='t_logout' href="javascript:logout();">Logout</a>
 					 ( <% 	
-					 out.println(Helper.truncate(server.getUserId()));
+					 out.println(Helper.truncate(server.getLoggedInUser().id));
 					%>)</li>
 				</ul>
 			</div>

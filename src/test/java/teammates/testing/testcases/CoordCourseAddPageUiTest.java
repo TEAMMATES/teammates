@@ -2,6 +2,7 @@ package teammates.testing.testcases;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -13,9 +14,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import teammates.api.Common;
-import teammates.datatransfer.*;
+import teammates.datatransfer.CoordData;
+import teammates.datatransfer.CourseData;
 import teammates.exception.NoAlertAppearException;
-import teammates.jsp.CoordCourseAddHelper;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -31,15 +32,150 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static TestScenario ts;
 	
-	//TODO: location of the test app is available in one of the properties files -damith
-	//try Config.inst().TEAMMATES_URL
-	private static String localhostAddress = "localhost:8080/";
+	private static String appURL = Config.inst().TEAMMATES_URL;
 	
+	@BeforeClass
+	public static void classSetup() throws Exception {
+		printTestClassHeader("CoordCourseAddUITest");
+		ts = loadTestScenario();
+		bi = BrowserInstancePool.getBrowserInstance();
+		
+		System.out.println("Recreating "+ts.coordinator.id);
+		long start = System.currentTimeMillis();
+		TMAPI.deleteCoord(ts.coordinator.id);
+		TMAPI.createCoord(ts.coordinator);
+		System.out.println("Finished recreating in "+(System.currentTimeMillis()-start)+" ms");
+		
+		bi.loginCoord(ts.coordinator.id, Config.inst().TEAMMATES_APP_PASSWD);
+		bi.goToUrl(appURL+Common.JSP_COORD_COURSE);
+	}
 	
-	//TODO: put private methods at the bottom?
+	@Test
+	public void testCoordCourseAddPage() throws Exception{
+		testCoordCourseAddHTML();
+		testCoordCourseAddUiPaths();
+		testCoordCourseAddLinks();
+	}
+
+	public void testCoordCourseAddHTML() throws Exception{
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordListCourseEmpty.html");
+
+		ImportTestData.main(new String[]{});
+		bi.goToCourses();
+
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordListCourseByIDNew.html");
+
+		bi.click(By.id("button_sortcoursename"));
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordListCourseByNameNew.html");
+		
+		bi.click(By.id("button_sortcourseid"));
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordListCourseByIDNew.html");
+	}
+
+	public void testCoordCourseAddUiPaths() throws Exception{
+		TMAPI.deleteCourse(ts.validCourse.id);
+		TMAPI.deleteCourse(ts.courseWithSameNameDifferentId.id);
+		
+		// Course id only contains alphabets, numbers, dots, hyphens, underscores and dollars
+		String courseID = ts.validCourse.id;
+		// Course name can be any character including special characters
+		String courseName = ts.validCourse.name;
+		
+		/////////////////////////////////////////////////////////////////
+		printTestCaseHeader("testCoordAddCourseSuccessful");
+		
+		addCourse(courseID, courseName);
+
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordCourseAddSuccessful.html");
+		
+		/////////////////////////////////////////////////////////////////
+		printTestCaseHeader("testCoordAddCourseWithInvalidInputsFailed");
+
+		addCourse("", courseName);
+		bi.waitForStatusMessage(Common.MESSAGE_COURSE_MISSING_FIELD);
+		
+		// Adding course without name
+		addCourse(courseID, "");
+		bi.waitForStatusMessage(Common.MESSAGE_COURSE_MISSING_FIELD);
+		
+		//Not-allowed characters
+		addCourse(courseID+"!*}", courseName + " (!*})");
+		bi.waitForStatusMessage(Common.MESSAGE_COURSE_INVALID_ID);
+
+		////////////////////////////////////////////////////////////////
+		printTestCaseHeader("testMaxLengthOfInputFields");
+		
+		String shortCourseId = Common.generateStringOfLength(Common.COURSE_ID_MAX_LENGTH);
+		String longCourseId = Common.generateStringOfLength(Common.COURSE_ID_MAX_LENGTH+1);
+		
+		String shortCourseName = Common.generateStringOfLength(Common.COURSE_NAME_MAX_LENGTH);
+		String longCourseName = Common.generateStringOfLength(Common.COURSE_NAME_MAX_LENGTH+1);
+		
+		assertEquals(shortCourseId, fillCourseID(shortCourseId));
+		assertEquals(longCourseId.substring(0, Common.COURSE_ID_MAX_LENGTH), fillCourseID(longCourseId));
+		
+		assertEquals(shortCourseName, fillCourseName(shortCourseName));
+		assertEquals(longCourseName.substring(0, Common.COURSE_NAME_MAX_LENGTH), fillCourseName(longCourseName));
+
+		////////////////////////////////////////////////////////////////
+		printTestCaseHeader("testCoordAddCourseWithDuplicateIDFailed");
+		
+		addCourse(courseID, "different course name");
+		
+		long start = System.currentTimeMillis();
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordCourseAddDupIDFailed.html");
+		System.out.println("Time to assert a page: "+(System.currentTimeMillis()-start)+" ms");
+	}
+
+	public void testCoordCourseAddLinks() throws Exception{
+		TMAPI.deleteCourse(ts.testCourse.id);
+		
+//		String link;
+		String courseID = ts.testCourse.id;
+		String courseName = ts.testCourse.id;
+		
+		addCourse(courseID, courseName);
+		int courseRowID = getCourseRowNumber(courseID);
+		assertTrue(courseRowID!=-1);
+		
+		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"coordCourseAddDeleteInit.html");
+		
+//		// Check enroll link
+//		link = bi.getElementRelativeHref(getCoordCourseLinkLocator(courseRowID,"t_course_enroll"));
+//		assertEquals(CoordCourseAddHelper.getCourseEnrollLink(courseID),link);
+//		
+//		// Check view details link
+//		link = bi.getElementRelativeHref(getCoordCourseLinkLocator(courseRowID,"t_course_view"));
+//		assertEquals(CoordCourseAddHelper.getCourseViewLink(courseID),link);
+//		
+//		// Check delete link
+		By deleteLinkLocator = getCoordCourseLinkLocator(courseRowID,"t_course_delete");
+//		link = bi.getElementRelativeHref(deleteLinkLocator);
+//		assertEquals(CoordCourseAddHelper.getCourseDeleteLink(courseID, Common.JSP_COORD_COURSE),link);
+		try{
+			bi.clickAndCancel(deleteLinkLocator);
+			bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"coordCourseAddDeleteInit.html");
+		} catch (NoAlertAppearException e){
+			fail("No alert box when clicking delete button at course page.");
+		}
+
+		try{
+			bi.clickAndConfirm(deleteLinkLocator);
+			bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"coordCourseAddDeleteSuccessful.html");
+		} catch (NoAlertAppearException e){
+			fail("No alert box when clicking delete button at course page.");
+		}
+	}
+	
+	@AfterClass
+	public static void classTearDown() throws Exception {
+		BrowserInstancePool.release(bi);
+		printTestClassFooter("CoordCourseAddUITest");
+	}
+	
 	private static TestScenario loadTestScenario() throws JSONException {
 		String testScenarioJsonFile = Common.TEST_DATA_FOLDER + "CoordCourseAddUITest.json";
-		String jsonString = Common.getFileContents(testScenarioJsonFile);
+		String jsonString = Common.readFile(testScenarioJsonFile);
 		TestScenario scn = Common.getTeammatesGson().fromJson(jsonString, TestScenario.class);
 		return scn;
 	}
@@ -93,182 +229,25 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		return -1;
 	}
 	
-	private int getCourseIDCount(String courseID){
-		List<WebElement> courses = getCourses();
-		By courseIDLocator = By.xpath(".//td[1]");
-		int result = 0;
-		for(WebElement el: courses){
-			if(el.findElement(courseIDLocator).getText().equals(courseID)) result++;
-		}
-		return result;
-	}
-	
-	private String findCourseName(String courseID){
-		List<WebElement> courses = getCourses();
-		By courseIDLocator = By.xpath(".//td[1]");
-		for(WebElement el: courses){
-			String id = el.findElement(courseIDLocator).getText();
-			if(id.equals(courseID)){
-				return el.findElement(By.xpath(".//td[2]")).getText();
-			}
-		}
-		return "";
-	}
-	
-	@BeforeClass
-	public static void classSetup() throws Exception {
-		//TODO: why?
-		assertTrue(true);
-		printTestClassHeader("CoordCourseAddUITest");
-		ts = loadTestScenario();
-		bi = BrowserInstancePool.getBrowserInstance();
-		
-		System.out.println("Recreating "+ts.coordinator.id);
-		long start = System.currentTimeMillis();
-		TMAPI.deleteCoord(ts.coordinator.id);
-		TMAPI.createCoord(ts.coordinator);
-		System.out.println("Finished recreating in "+(System.currentTimeMillis()-start)+" ms");
-		
-		bi.loginCoord(ts.coordinator.id, Config.inst().TEAMMATES_APP_PASSWD);
-		bi.goToUrl(localhostAddress+Common.JSP_COORD_COURSE);
-	}
-
-	@Test
-	public void testCoordCourseAddHTML() throws Exception{
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordListCourseEmpty.html");
-
-		ImportTestData.main(new String[]{});
-		bi.goToCourses();
-
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordListCourseByIDNew.html");
-	
-		bi.click(By.id("button_sortcoursename"));
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordListCourseByNameNew.html");
-		
-		bi.click(By.id("button_sortcourseid"));
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordListCourseByIDNew.html");
-	}
-
-	@Test
-	public void testCoordCourseAddUiPaths(){
-		TMAPI.deleteCourse(ts.validCourse.id);
-		TMAPI.deleteCourse(ts.courseWithSameNameDifferentId.id);
-		
-		// Course id only contains alphabets, numbers, dots, hyphens, underscores and dollars
-		String courseID = ts.validCourse.id;
-		// Course name can be any character including special characters
-		String courseName = ts.validCourse.name;
-		
-		/////////////////////////////////////////////////////////////////
-		printTestCaseHeader("testCoordAddCourseSuccessful");
-		
-		addCourse(courseID, courseName);
-		bi.waitForStatusMessage(Common.MESSAGE_COURSE_ADDED);
-		
-		//verify course is added
-		bi.verifyCourseIsAdded(courseID, courseName);
-		
-		//TODO: verify the above two checks with one html test?
-		
-		/////////////////////////////////////////////////////////////////
-		printTestCaseHeader("testCoordAddCourseWithInvalidInputsFailed");
-
-		addCourse("", courseName);
-		bi.waitForStatusMessage(Common.MESSAGE_COURSE_MISSING_FIELD);
-		
-		// Adding course without name
-		addCourse(courseID, "");
-		bi.waitForStatusMessage(Common.MESSAGE_COURSE_MISSING_FIELD);
-		
-		//Not-allowed characters
-		addCourse(courseID+"!*}", courseName + " (!*})");
-		bi.waitForStatusMessage(Common.MESSAGE_COURSE_INVALID_ID);
-
-		////////////////////////////////////////////////////////////////
-		printTestCaseHeader("testMaxLengthOfInputFields");
-		
-		//TODO: use Common.generateStringOfLength(Common.COURSE_NAME_MAX_LENGTH) instead
-		String shortCourseName = "This is a short name for course";
-		assertTrue(shortCourseName.length()<Common.COURSE_NAME_MAX_LENGTH);
-		
-		String longCourseName = "This is a long name for course which exceeds " + Common.COURSE_NAME_MAX_LENGTH+ "char limit";
-		assertTrue(longCourseName.length()>Common.COURSE_NAME_MAX_LENGTH);
-		
-		//TODO: this id has an illegal char '/'?
-		String shortCourseId = "CS2103-SEM1-AY11/12";
-		assertTrue(shortCourseId.length()<Common.COURSE_ID_MAX_LENGTH);
-		
-		String longCourseId = "CS2103-SOFTWAREENGINEERING-SEM1-AY2011/2012";
-		assertTrue(longCourseId.length()>Common.COURSE_ID_MAX_LENGTH);
-		
-		assertEquals(shortCourseId, fillCourseID(shortCourseId));
-		assertEquals(longCourseId.substring(0, Common.COURSE_ID_MAX_LENGTH), fillCourseID(longCourseId));
-		
-		assertEquals(shortCourseName, fillCourseName(shortCourseName));
-		assertEquals(longCourseName.substring(0, Common.COURSE_NAME_MAX_LENGTH), fillCourseName(longCourseName));
-
-		////////////////////////////////////////////////////////////////
-		printTestCaseHeader("testCoordAddCourseWithDuplicateIDFailed");
-		
-		addCourse(courseID, "different course name");
-		bi.waitForStatusMessage(Common.MESSAGE_COURSE_EXISTS);
-		
-		// Check that there is only one course with that ID and that it is still the old one
-		long start = System.currentTimeMillis();
-		assertEquals(1,getCourseIDCount(courseID));
-		assertEquals(courseName,findCourseName(courseID));
-		System.out.println("Time to assert a course: "+(System.currentTimeMillis()-start)+" ms");
-		
-		bi.verifyCoordCoursesPage();
-		//TODO: replace above 3 checks with one HTML test?
-		
-		//TODO: omit cleaning up, since we clean up at start?
-		TMAPI.deleteCourse(courseID);
-		TMAPI.deleteCourse(ts.courseWithSameNameDifferentId.id);
-	}
-
-	@Test
-	public void testCoordCourseAddLinks(){
-		TMAPI.deleteCourse(ts.testCourse.id);
-		
-		String link;
-		String courseID = ts.testCourse.id;
-		String courseName = ts.testCourse.id;
-		
-		addCourse(courseID, courseName);
-		int courseRowID = getCourseRowNumber(courseID);
-		assertTrue(courseRowID!=-1);
-		
-		//TODO: the three checks below are redundant?
-		// Check enroll link
-		link = bi.getElementRelativeHref(getCoordCourseLinkLocator(courseRowID,"t_course_enroll"));
-		assertEquals(CoordCourseAddHelper.getCourseEnrollLink(courseID),link);
-		
-		// Check view details link
-		link = bi.getElementRelativeHref(getCoordCourseLinkLocator(courseRowID,"t_course_view"));
-		assertEquals(CoordCourseAddHelper.getCourseViewLink(courseID),link);
-		
-		// Check delete link
-		By deleteLinkLocator = getCoordCourseLinkLocator(courseRowID,"t_course_delete");
-		link = bi.getElementRelativeHref(deleteLinkLocator);
-		assertEquals(CoordCourseAddHelper.getCourseDeleteLink(courseID, Common.JSP_COORD_COURSE),link);
-		try{
-			bi.clickAndCancel(deleteLinkLocator);
-			bi.verifyCoordCoursesPage();
-		} catch (NoAlertAppearException e){
-			assertTrue("No alert box when clicking delete button at course page.",false);
-		}
-		
-		TMAPI.deleteCourse(courseID);
-	}
-	
-	@AfterClass
-	public static void classTearDown() throws Exception {
-		
-		//TODO: might not need to logout. I think BrowserInstancePool.getBrowserInstance() automatically logs out 
-		bi.logout();
-		
-		BrowserInstancePool.release(bi);
-		printTestClassFooter("CoordCourseAddUITest");
-	}
+//	private int getCourseIDCount(String courseID){
+//		List<WebElement> courses = getCourses();
+//		By courseIDLocator = By.xpath(".//td[1]");
+//		int result = 0;
+//		for(WebElement el: courses){
+//			if(el.findElement(courseIDLocator).getText().equals(courseID)) result++;
+//		}
+//		return result;
+//	}
+//	
+//	private String findCourseName(String courseID){
+//		List<WebElement> courses = getCourses();
+//		By courseIDLocator = By.xpath(".//td[1]");
+//		for(WebElement el: courses){
+//			String id = el.findElement(courseIDLocator).getText();
+//			if(id.equals(courseID)){
+//				return el.findElement(By.xpath(".//td[2]")).getText();
+//			}
+//		}
+//		return "";
+//	}
 }

@@ -43,7 +43,7 @@ public class APIServletTest extends BaseTestCase {
 	private final static APIServlet apiServlet = new APIServlet();
 	private static String TEST_DATA_FOLDER = "src/test/resources/data/";
 	private static Gson gson = Common.getTeammatesGson();
-	String jsonString = Common.getFileContents(TEST_DATA_FOLDER
+	String jsonString = Common.readFile(TEST_DATA_FOLDER
 			+ "typicalDataBundle.json");
 	private DataBundle dataBundle;
 

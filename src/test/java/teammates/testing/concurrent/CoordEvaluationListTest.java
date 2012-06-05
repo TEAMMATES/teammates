@@ -134,7 +134,6 @@ public class CoordEvaluationListTest extends TestCase {
 		assertEquals(bi.EVAL_STATUS_PUBLISHED, bi.getEvaluationStatus(scn.course.courseId, scn.evaluation3.name));
 
 		// Check if emails have been sent to all participants
-		// FIXME: Is this the best way to check? Seems so for now, since we can't really wait for the e-mail to be sent.
 		bi.waitForEmail();
 		for (Student s : scn.students) {
 			System.out.println("Checking " + s.email);
