@@ -127,6 +127,19 @@ public class Accounts {
 		}
 		return studentList.get(0);
 	}
+	
+	public Student getStudentWithID(String googleID) {
+		String query = "select from " + Student.class.getName() + " where ID == \"" + googleID + "\"";
+
+		@SuppressWarnings("unchecked")
+		List<Student> studentList = (List<Student>) getPM().newQuery(query).execute();
+
+		if (studentList.isEmpty()) {
+			return null;
+		}
+
+		return studentList.get(0);
+	}
 
 	/**
 	 * Returns the list of Coordinator objects.

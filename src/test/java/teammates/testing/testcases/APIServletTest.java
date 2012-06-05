@@ -13,6 +13,7 @@ import java.util.TimeZone;
 import javax.servlet.ServletException;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -20,6 +21,7 @@ import org.junit.Test;
 
 import teammates.Datastore;
 import teammates.api.APIServlet;
+import teammates.api.APIServlet.UserType;
 import teammates.api.Common;
 import teammates.api.EnrollException;
 import teammates.api.EntityAlreadyExistsException;
@@ -35,6 +37,7 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
+import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
 import com.google.gson.Gson;
 
 public class APIServletTest extends BaseTestCase {
@@ -53,14 +56,13 @@ public class APIServletTest extends BaseTestCase {
 			+ "queue.xml";
 
 	@BeforeClass
-	public static void setUpDatastore() {
-		assertTrue(true);
+	public static void classSetUp() {
+		printTestClassHeader();
 		Datastore.initialize();
 	}
 
 	@Before
-	public void setUp() throws ServletException, IOException {
-		printTestClassHeader();
+	public void caseSetUp() throws ServletException, IOException {
 		/*
 		 * We have to explicitly set the path of queue.xml because the test
 		 * environment cannot find it. Apparently, this is a bug in the test
@@ -72,9 +74,10 @@ public class APIServletTest extends BaseTestCase {
 		LocalTaskQueueTestConfig ltqtc = new LocalTaskQueueTestConfig();
 		ltqtc.setQueueXmlPath(queueXmlFilePath);
 		dataBundle = gson.fromJson(jsonString, DataBundle.class);
+		LocalUserServiceTestConfig localUserServiceTestConfig = new LocalUserServiceTestConfig();
 		helper = new LocalServiceTestHelper(
 				new LocalDatastoreServiceTestConfig(),
-				new LocalMailServiceTestConfig(), ltqtc);
+				new LocalMailServiceTestConfig(),localUserServiceTestConfig, ltqtc);
 
 		/**
 		 * LocalServiceTestHelper is supposed to run in the same timezone as Dev
@@ -102,18 +105,21 @@ public class APIServletTest extends BaseTestCase {
 
 	@Test
 	public void testCoordGetLoginUrl() {
+		printTestCaseHeader();
 		assertEquals("/_ah/login?continue=www.abc.com",
 				apiServlet.getLoginUrl("www.abc.com"));
 	}
 
 	@Test
 	public void testCoordGetLogoutUrl() {
+		printTestCaseHeader();
 		assertEquals("/_ah/logout?continue=www.def.com",
 				apiServlet.getLogoutUrl("www.def.com"));
 	}
 
 	@Test
 	public void testPersistDataBundle() throws Exception {
+		printTestCaseHeader();
 		dataBundle = gson.fromJson(jsonString, DataBundle.class);
 		// clean up the datastore first, to avoid clashes with existing data
 		HashMap<String, CoordData> coords = dataBundle.coords;
@@ -137,6 +143,67 @@ public class APIServletTest extends BaseTestCase {
 		}
 
 		// TODO: test for InvalidParametersException
+	}
+	
+	@Test
+	public void testGetLoggedInUser() throws Exception{
+		printTestCaseHeader();
+		refreshDataInDatastore();
+		CoordData coord = dataBundle.coords.get("typicalCoord1");
+		//also make this user a student
+		StudentData coordAsStudent = new StudentData("|Coord As Student|coordasstudent@yahoo.com|", "some-course");
+		coordAsStudent.id = coord.id;
+		apiServlet.createStudent(coordAsStudent);
+		
+		helper.setEnvIsLoggedIn(true);
+		helper.setEnvIsAdmin(true);
+		
+		helper.setEnvEmail(coord.id);
+		helper.setEnvAuthDomain("gmail.com");
+		UserData user = apiServlet.getLoggedInUser(UserType.ADMIN);
+		assertEquals(coord.id, user.id);
+		assertEquals(UserType.ADMIN, user.type);
+		user = apiServlet.getLoggedInUser(UserType.COORDINATOR);
+		assertEquals(UserType.COORDINATOR, user.type);
+		user = apiServlet.getLoggedInUser(UserType.STUDENT);
+		assertEquals(UserType.STUDENT, user.type);
+		
+		//this user is no longer a student
+		apiServlet.deleteStudent(coordAsStudent.course, coordAsStudent.email);
+		//this user is no longer an admin
+		helper.setEnvIsAdmin(false);
+		
+		user = apiServlet.getLoggedInUser(UserType.COORDINATOR);;
+		assertEquals(coord.id, user.id);
+		assertEquals(UserType.COORDINATOR, user.type);
+		assertEquals(UserType.UNREGISTERED, apiServlet.getLoggedInUser(UserType.ADMIN).type);
+		assertEquals(UserType.UNREGISTERED, apiServlet.getLoggedInUser(UserType.STUDENT).type);
+
+		//check for unregistered student
+		helper.setEnvEmail("unknown");
+		helper.setEnvAuthDomain("gmail.com");
+		user = apiServlet.getLoggedInUser(UserType.STUDENT);
+		assertEquals("unknown", user.id);
+		assertEquals(UserType.UNREGISTERED, user.type);
+		
+		//check for user who is only a student
+		StudentData student = dataBundle.students.get("student1InCourse1");
+		helper.setEnvEmail(student.id);
+		helper.setEnvAuthDomain("gmail.com");
+		user = apiServlet.getLoggedInUser(UserType.STUDENT);
+		assertEquals(student.id, user.id);
+		assertEquals(UserType.STUDENT, user.type);
+		
+		user = apiServlet.getLoggedInUser(UserType.COORDINATOR);
+		assertEquals(UserType.UNREGISTERED, user.type);
+		user = apiServlet.getLoggedInUser(UserType.ADMIN);
+		assertEquals(UserType.UNREGISTERED, user.type);
+		
+		//check for user not logged in
+		helper.setEnvIsLoggedIn(false);
+		assertEquals(null, apiServlet.getLoggedInUser(UserType.ADMIN));
+		assertEquals(null, apiServlet.getLoggedInUser(UserType.COORDINATOR));
+		assertEquals(null, apiServlet.getLoggedInUser(UserType.STUDENT));
 	}
 
 	@SuppressWarnings("unused")
@@ -1308,11 +1375,15 @@ public class APIServletTest extends BaseTestCase {
 		return false;
 	}
 
+	@AfterClass()
+	public static void classTearDown(){
+		printTestClassFooter("CoordCourseAddApiTest");
+	}
+	
 	@After
-	public void tearDown() {
+	public void caseTearDown() {
 		apiServlet.destroy();
 		helper.tearDown();
-		printTestClassFooter("CoordCourseAddApiTest");
 	}
 
 }

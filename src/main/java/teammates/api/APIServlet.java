@@ -926,22 +926,49 @@ public class APIServlet extends HttpServlet {
 		//TODO: do the same for student 
 	}
 	
+	@Deprecated
 	public UserData getLoggedInUser(){
 		Accounts accounts = Accounts.inst();
 		 User user = accounts.getUser();
 		 if(user==null){
 			 return null;
 		 }
+		 
+		 //TODO: inefficient
 		 if(accounts.isAdministrator()){
 			 return new AdminData(user.getNickname());
 		 }else if(accounts.isCoordinator()){
 			 return getCoord(user.getNickname());
-		 }else {
+		 }else if(accounts.getStudentWithID(user.getNickname())!=null){
+			 return getStudentWithId(user.getNickname());
+		 }else{
 			 return new UserData(user.getNickname());
 		 }
 		 
-		 //FIXME: do the same for Student
 	}
+	
+	public UserData getLoggedInUser(UserType expecteUserType){
+		Accounts accounts = Accounts.inst();
+		 User user = accounts.getUser();
+		 if(user==null){
+			 return null;
+		 }
+		 
+		 //TODO: inefficient
+		 if(expecteUserType==UserType.ADMIN && accounts.isAdministrator()){
+			 return new AdminData(user.getNickname());
+		 }else if(expecteUserType==UserType.COORDINATOR && accounts.isCoordinator()){
+			 return getCoord(user.getNickname());
+		 }else if(expecteUserType==UserType.STUDENT 
+				 && (accounts.getStudentWithID(user.getNickname())!=null)){
+			 return getStudentWithId(user.getNickname());
+		 }else{
+			 return new UserData(user.getNickname());
+		 }
+		 
+	}
+
+
 
 	/**
 	 * @deprecated Use persistNewDataBundle(DataBundle dataBundle)
@@ -1342,6 +1369,12 @@ public class APIServlet extends HttpServlet {
 		Courses.inst().sendRegistrationKeys(studentList, courseId,
 				course.getName(), coord.getName(), coord.getEmail());
 
+	}
+	
+	//TODO: testing
+	private StudentData getStudentWithId(String googleId) {
+		Student student = Accounts.inst().getStudentWithID(googleId);
+		return (student==null? null : new StudentData(student));
 	}
 
 	@SuppressWarnings("unused")
