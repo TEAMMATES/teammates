@@ -386,9 +386,9 @@ public class Courses {
 		getPM().close();
 	}
 	
-	public void editStudent(String courseID, String email, String newName, String newTeamName, String newEmail, String newGoogleID, String newComments, Text newProfile) {
+	public void editStudent(String courseID, String email, String newName, String newTeamName, String newEmail, String newGoogleID, String newComments, Text newProfile) throws EntityDoesNotExistException {
 		Student student = getStudentWithEmail(courseID, email);
-
+		if(student==null) throw new EntityDoesNotExistException("Student "+email+" does not exist in course "+courseID);
 		student.setComments((newComments));
 		student.setEmail(newEmail);
 		student.setID(newGoogleID);

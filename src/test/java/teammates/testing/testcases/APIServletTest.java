@@ -106,14 +106,14 @@ public class APIServletTest extends BaseTestCase {
 	public void testCoordGetLoginUrl() {
 		printTestCaseHeader();
 		assertEquals("/_ah/login?continue=www.abc.com",
-				apiServlet.getLoginUrl("www.abc.com"));
+				APIServlet.getLoginUrl("www.abc.com"));
 	}
 
 	@Test
 	public void testCoordGetLogoutUrl() {
 		printTestCaseHeader();
 		assertEquals("/_ah/logout?continue=www.def.com",
-				apiServlet.getLogoutUrl("www.def.com"));
+				APIServlet.getLogoutUrl("www.def.com"));
 	}
 
 	@Test
@@ -240,15 +240,19 @@ public class APIServletTest extends BaseTestCase {
 		apiServlet.createCoord(coord.id, coord.name, coord.email);
 		// read existing coord
 		verifyPresentInDatastore(coord);
+		CourseData course = dataBundle.courses.get("course1OfCoord1");
+		//create a course to check cascade delete later
+		apiServlet.createCourse(coord.id, course.id, course.name);
+		verifyPresentInDatastore(course);
 		// delete existing
 		apiServlet.deleteCoord(coord.id);
 		// read non-existent coord
 		verifyAbsentInDatastore(coord);
+		// check for cascade delete
+		verifyAbsentInDatastore(course);
 		// delete non-existent (fails silently)
 		apiServlet.deleteCoord(coord.id);
 		
-		//TODO: check for cascade delete of courses
-
 		// try one invalid input for each parameter
 		try {
 			apiServlet.createCoord("valid-id", "", "valid@email.com");
@@ -451,7 +455,7 @@ public class APIServletTest extends BaseTestCase {
 		// create and read
 		apiServlet.createCourse(course.coord, course.id, course.name);
 		verifyPresentInDatastore(course);
-
+		
 		// try to create again
 		try {
 			apiServlet.createCourse(course.coord, course.id, course.name);
@@ -490,8 +494,6 @@ public class APIServletTest extends BaseTestCase {
 			assertEquals(Common.ERRORCODE_EMPTY_STRING, e.errorCode);
 			Common.assertContains("Course name", e.getMessage());
 		}
-		
-		//TODO: check if Tfs is created
 	}
 
 	@Test
@@ -645,8 +647,6 @@ public class APIServletTest extends BaseTestCase {
 			Common.assertContains("Course ID", e.getMessage());
 		}
 		
-		//TODO: check if team profiles are created
-
 	}
 
 	@Test
@@ -741,6 +741,16 @@ public class APIServletTest extends BaseTestCase {
 		student1InCourse1.profile = new Text("new profile detail abc ");
 		apiServlet.editStudent(originalEmail, student1InCourse1);
 		verifyPresentInDatastore(student1InCourse1);
+		
+		//non-existent student
+		student1InCourse1.course = "new-course";
+		verifyAbsentInDatastore(student1InCourse1);
+		try {
+			apiServlet.editStudent(originalEmail, student1InCourse1);
+			fail();
+		} catch (EntityDoesNotExistException e) {
+			Common.assertContains("new-course", e.getMessage());
+		}
 
 		// ensure a team profile is created when moving to a new one
 		StudentData student2 = dataBundle.students.get("student3InCourse1");
@@ -754,7 +764,6 @@ public class APIServletTest extends BaseTestCase {
 		apiServlet.editStudent(student2.email, student2);
 		verifyPresentInDatastore(profileOfNewTeam);
 
-		// TODO: more testing e.g. disallow changing course id
 		// TODO: make sure team profiles are deleted if this is the last student
 		// in that team
 

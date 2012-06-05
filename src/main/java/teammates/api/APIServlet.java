@@ -3,6 +3,7 @@ package teammates.api;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -854,7 +855,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	private void editStudentAsJson(String originalEmail, String newValues)
-			throws InvalidParametersException {
+			throws InvalidParametersException, EntityDoesNotExistException {
 		StudentData student = Common.getTeammatesGson().fromJson(newValues,
 				StudentData.class);
 		editStudent(originalEmail, student);
@@ -1205,6 +1206,7 @@ public class APIServlet extends HttpServlet {
 		Common.validateCourseId(courseId);
 		Common.validateCourseName(courseName);
 		Courses.inst().addCourse(courseId, courseName, coordinatorId);
+		Date now = Common.getDateOffsetToCurrentTime(0);
 	}
 
 	public CourseData getCourse(String courseId) {
@@ -1330,9 +1332,10 @@ public class APIServlet extends HttpServlet {
 	 * @param originalEmail 
 	 * @param student
 	 * @throws InvalidParametersException
+	 * @throws EntityDoesNotExistException 
 	 */
 	public void editStudent(String originalEmail, StudentData student)
-			throws InvalidParametersException {
+			throws InvalidParametersException, EntityDoesNotExistException {
 		// TODO: make the implementation more defensive
 		String newTeamName = student.team;
 		Courses.inst().editStudent(student.course, originalEmail,
