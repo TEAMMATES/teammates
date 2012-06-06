@@ -1273,12 +1273,62 @@ public class APIServlet extends HttpServlet {
 		return returnList;
 	}
 	
-	public List<TeamData> getTeamsForCourse(String courseId) {
+	/**
+	 * 
+	 * @param courseId
+	 * @return The CourseData object that is returned will contain attributes
+	 *   teams(type:TeamData) and loners(type:StudentData)  
+	 * @throws EntityDoesNotExistException if the course does not exist
+	 */
+	public CourseData getTeamsForCourse(String courseId) throws EntityDoesNotExistException{
 		if(courseId == null) {
 			return null;
 		}
 		List<StudentData> students = getStudentListForCourse(courseId);
-		// sort by team name
+		sortByTeamName(students);
+		
+		CourseData course = getCourse(courseId);
+		
+		if(course==null){
+			throw new EntityDoesNotExistException("The course "+courseId+" does not exist");
+		}
+		
+		TeamData team = null;
+		TeamData studentWithoutTeams = new TeamData();
+		for(int i=0; i<students.size(); i++){
+			
+			StudentData s = students.get(i);
+			
+			//first iteration
+			if(s.team == null){
+				course.loners.add(s);
+			}else if (i==0){
+				team = new TeamData();
+				team.name = s.team;
+				team.profile = getTeamProfile(courseId, team.name);
+				team.students.add(s);
+			//student in the same team as the previous student
+			}else if(s.team.equals(team.name)){
+				team.students.add(s);
+			//first student of a new team
+			}else{
+				course.teams.add(team);
+				team = new TeamData();
+				team.name = s.team;
+				team.profile = getTeamProfile(courseId, team.name);
+				team.students.add(s);
+			}
+			
+			//if last iteration
+			if (i == (students.size()-1)){
+				course.teams.add(team);
+			}
+		}
+		
+		return course;
+	}
+
+	private void sortByTeamName(List<StudentData> students) {
 		Collections.sort(students, new Comparator<StudentData>() {
 			public int compare(StudentData s1, StudentData s2) {
 				String t1 = s1.team;
@@ -1293,43 +1343,6 @@ public class APIServlet extends HttpServlet {
 				return t1.compareTo(t2);
 			}
 		});
-		
-		ArrayList<TeamData> returnList = new ArrayList<TeamData>();
-		TeamData team = null;
-		TeamData studentWithoutTeams = new TeamData();
-		for(int i=0; i<students.size(); i++){
-			
-			StudentData s = students.get(i);
-			
-			//first iteration
-			if(s.team == null){
-				studentWithoutTeams.students.add(s);
-			}if (i==0){
-				team = new TeamData();
-				team.name = s.team;
-				team.profile = getTeamProfile(courseId, team.name);
-				team.students.add(s);
-			//student in the same team as the previous student
-			}else if(s.team.equals(team.name)){
-				team.students.add(s);
-			//first student of a new team
-			}else{
-				returnList.add(team);
-				team = new TeamData();
-				team.name = s.team;
-				team.profile = getTeamProfile(courseId, team.name);
-				team.students.add(s);
-			}
-			
-			//if last iteration
-			if (i == (students.size()-1)){
-				returnList.add(team);
-			}
-		}
-		if(studentWithoutTeams.students.size()>0){
-			returnList.add(studentWithoutTeams);
-		}
-		return returnList;
 	}
 		
 
