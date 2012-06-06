@@ -1493,6 +1493,49 @@ public class APIServlet extends HttpServlet {
 	public void unpublishEvaluation(String courseId, String evaluationName) {
 		Evaluations.inst().unpublishEvaluation(courseId, evaluationName);
 	}
+	
+	public EvaluationData getEvauationResult(String courseId,
+			String evaluationName) throws EntityDoesNotExistException {
+		CourseData course = getTeamsForCourse(courseId);
+		EvaluationData returnValue = new EvaluationData();
+		HashMap<String, SubmissionData> submissionDataList = getSubmissionsForEvaluation(
+				courseId, evaluationName);
+		returnValue.teams = course.teams;
+		for (TeamData team : returnValue.teams) {
+			for (StudentData student : team.students) {
+				student.result = new EvalResultData();
+				extractSelfEvaluation(submissionDataList, student);
+				extractPeerSubmissions(submissionDataList, team, student);
+				student.result = calculateResults(student.result);
+			}
+		}
+		return returnValue;
+	}
+
+
+
+	public HashMap<String, SubmissionData> getSubmissionsForEvaluation(String courseId,
+			String evaluationName) {
+		//create SubmissionData Hashmap 
+		List<Submission> submissionsList = Evaluations.inst().getSubmissionList(courseId, evaluationName);
+		HashMap<String, SubmissionData> submissionDataList = new HashMap<String, SubmissionData>();
+		for(Submission s: submissionsList){
+			SubmissionData sd = new SubmissionData(s);
+			submissionDataList.put(sd.reviewer+"->"+sd.reviewee, sd);
+		}
+		return submissionDataList;
+	}
+	
+	public List<SubmissionData> getSubmissionsFromStudent(String courseId, String evaluationName,
+			String reviewerEmail) {
+		 List<Submission> submissions = Evaluations.inst().getSubmissionFromStudentList(courseId,
+				evaluationName, reviewerEmail);
+		 ArrayList<SubmissionData> returnList = new ArrayList<SubmissionData>();
+		 for(Submission s: submissions){
+			 returnList.add(new SubmissionData(s));
+		 }
+		return returnList;
+	}
 
 	@SuppressWarnings("unused")
 	private void ____SUBMISSION_level_methods_____________________________() {
@@ -1619,6 +1662,41 @@ public class APIServlet extends HttpServlet {
 	@SuppressWarnings("unused")
 	private void ____helper_methods________________________________________() {
 	}
+	
+	private EvalResultData calculateResults(EvalResultData result) {
+		// FIXME implement this properly
+		result.claimedActual = 100;
+		result.claimedToCoord = 120;
+		result.claimedToStudent = 130;
+		result.perceivedToCoord = 80;
+		result.perceivedToStudent = 70;
+		for(SubmissionData s: result.incoming){
+			s.normalized = 90;
+		}
+		for(SubmissionData s: result.outgoing){
+			s.normalized = 110;
+		}
+		return result;
+	}
+
+	private void extractPeerSubmissions(
+			HashMap<String, SubmissionData> list, TeamData team,
+			StudentData student) {
+		for(StudentData peer: team.students){
+			if(peer.email.equals(student.email)){
+				continue;
+			}
+			student.result.incoming.add(list.get(peer.email+"->"+student.email));
+			student.result.outgoing.add(list.get(student.email+"->"+peer.email));
+		}
+	}
+
+	private void extractSelfEvaluation(
+			HashMap<String, SubmissionData> submissionDataList,
+			StudentData student) {
+		student.result.own = submissionDataList.get(student.email
+				+ "->" + student.email);
+	}
 
 	private boolean isInEnrollList(StudentData student,
 			ArrayList<StudentData> studentInfoList) {
@@ -1640,6 +1718,8 @@ public class APIServlet extends HttpServlet {
 	private boolean isModificationToExistingStudent(StudentData student) {
 		return getStudent(student.course, student.email) != null;
 	}
+
+
 
 
 }

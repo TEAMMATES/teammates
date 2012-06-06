@@ -25,7 +25,7 @@ public class StudentData extends UserData{
 	
 	public UpdateStatus updateStatus = UpdateStatus.UNKNOWN ;
 	
-	
+	public transient EvalResultData result;
 	
 	
 	public StudentData(String email, String name, String comments,

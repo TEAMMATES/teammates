@@ -1028,8 +1028,42 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testGetEvaluationResult() {
-		// TODO: to be implemented
+	public void testGetEvaluationResult() throws Exception {
+		printTestCaseHeader();
+		refreshDataInDatastore();
+		
+		CourseData course = dataBundle.courses.get("course1OfCoord1");
+		EvaluationData evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
+		EvaluationData result = apiServlet.getEvauationResult(course.id, evaluation.name);
+		
+		assertEquals(2, result.teams.size());
+		TeamData team1_1 = result.teams.get(0);
+		assertEquals(2, team1_1.students.size());
+		StudentData student2InCourse1 = team1_1.students.get(0);
+		assertEquals("student2InCourse1", student2InCourse1.id);
+		StudentData student1InCourse1 = team1_1.students.get(1);
+		assertEquals("student1InCourse1", student1InCourse1.id);
+		assertTrue(student1InCourse1.result.own != null);
+		assertEquals(1, student1InCourse1.result.incoming.size());
+		assertEquals(1, student1InCourse1.result.outgoing.size());
+		assertTrue(student1InCourse1.result.claimedActual != Common.UNINITIALIZED_INT);
+		assertTrue(student1InCourse1.result.claimedToCoord != Common.UNINITIALIZED_INT);
+		assertTrue(student1InCourse1.result.claimedToStudent != Common.UNINITIALIZED_INT);
+		assertTrue(student1InCourse1.result.perceivedToCoord != Common.UNINITIALIZED_INT);
+		assertTrue(student1InCourse1.result.perceivedToStudent != Common.UNINITIALIZED_INT);
+		assertTrue(student1InCourse1.result.incoming.get(0).normalized != Common.UNINITIALIZED_INT);
+		assertTrue(student1InCourse1.result.outgoing.get(0).normalized != Common.UNINITIALIZED_INT);
+		// TODO: more testing
+	}
+	
+	@Test
+	public void testGetSubmissoinsForEvaluation(){
+		//TODO: test this
+	}
+	
+	@Test
+	public void testGetSubmissionsFromStudent(){
+		//TODO: test this
 	}
 
 	@SuppressWarnings("unused")
@@ -1089,19 +1123,9 @@ public class APIServletTest extends BaseTestCase {
 		verifyPresentInDatastore(sub2);
 
 		// TODO: more testing
-
+		// check for lazyCreationPolicy
+		
 	}
-	
-	@Test
-	public void testEditSubmissionList(){
-		//TODO: implement this
-		//input: List<Submission>
-		// creates if submission does not exist
-		//output: void
-		//throws: InvalidParametersException
-	}
-	
-	
 
 	@Test
 	public void testDeleteSubmission() {

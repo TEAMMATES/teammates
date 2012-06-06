@@ -1,5 +1,6 @@
 package teammates.datatransfer;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import teammates.api.Common;
@@ -20,6 +21,8 @@ public class EvaluationData {
 	//marked transient to avoid converting to json
 	public transient int submittedTotal = Common.UNINITIALIZED_INT;
 	public transient int expectedTotal= Common.UNINITIALIZED_INT;
+	
+	public transient ArrayList<TeamData> teams = new ArrayList<TeamData>();
 
 	public EvaluationData() {
 

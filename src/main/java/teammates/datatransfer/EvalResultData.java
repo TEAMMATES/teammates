@@ -13,7 +13,6 @@ public class EvalResultData {
 	public int claimedActual = Common.UNINITIALIZED_INT;
 	public int claimedToStudent = Common.UNINITIALIZED_INT;
 	public int claimedToCoord = Common.UNINITIALIZED_INT;
-	public int perceivedActual = Common.UNINITIALIZED_INT;
 	public int perceivedToCoord = Common.UNINITIALIZED_INT;
 	public int perceivedToStudent = Common.UNINITIALIZED_INT;
 	

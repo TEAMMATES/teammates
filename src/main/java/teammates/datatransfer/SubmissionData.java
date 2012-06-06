@@ -1,5 +1,6 @@
 package teammates.datatransfer;
 
+import teammates.api.Common;
 import teammates.persistent.Submission;
 
 import com.google.appengine.api.datastore.Text;
@@ -19,7 +20,7 @@ public class SubmissionData {
 	public Text justification;
 	public Text p2pFeedback;
 	
-	public transient int normalizedPoints;
+	public transient int normalized = Common.UNINITIALIZED_INT;
 
 	public SubmissionData() {
 
