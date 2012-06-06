@@ -1065,7 +1065,7 @@ public class APIServletTest extends BaseTestCase {
 		courseID = student1InCourse1.course;
 		verifyTeamNameChange(courseID, "nonExisentTeam", "newTeamName");
 
-		// TODO: more testing
+		// TODO: more testing 
 
 	}
 
