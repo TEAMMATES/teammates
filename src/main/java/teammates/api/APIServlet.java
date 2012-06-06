@@ -3,6 +3,8 @@ package teammates.api;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,17 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.Config;
 import teammates.Datastore;
-import teammates.datatransfer.CoordData;
-import teammates.datatransfer.CourseData;
-import teammates.datatransfer.DataBundle;
-import teammates.datatransfer.EvaluationData;
-import teammates.datatransfer.StudentActionData;
-import teammates.datatransfer.StudentData;
+import teammates.datatransfer.*;
 import teammates.datatransfer.StudentData.UpdateStatus;
-import teammates.datatransfer.SubmissionData;
-import teammates.datatransfer.TeamProfileData;
-import teammates.datatransfer.TfsData;
-import teammates.datatransfer.UserData;
 import teammates.exception.CourseDoesNotExistException;
 import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.EnrollmentReport;
@@ -1279,6 +1272,67 @@ public class APIServlet extends HttpServlet {
 		//TODO: adjust team profiles
 		return returnList;
 	}
+	
+	public List<TeamData> getTeamsForCourse(String courseId) {
+		if(courseId == null) {
+			return null;
+		}
+		List<StudentData> students = getStudentListForCourse(courseId);
+		// sort by team name
+		Collections.sort(students, new Comparator<StudentData>() {
+			public int compare(StudentData s1, StudentData s2) {
+				String t1 = s1.team;
+				String t2 = s2.team;
+				if ((t1 == null) && (t2==null)){
+					return 0;
+				}else if (t1==null){
+					return 1;
+				}else if (t2==null){
+					return -1;
+				}
+				return t1.compareTo(t2);
+			}
+		});
+		
+		ArrayList<TeamData> returnList = new ArrayList<TeamData>();
+		TeamData team = null;
+		TeamData studentWithoutTeams = new TeamData();
+		for(int i=0; i<students.size(); i++){
+			
+			StudentData s = students.get(i);
+			
+			//first iteration
+			if(s.team == null){
+				studentWithoutTeams.students.add(s);
+			}if (i==0){
+				team = new TeamData();
+				team.name = s.team;
+				team.profile = getTeamProfile(courseId, team.name);
+				team.students.add(s);
+			//student in the same team as the previous student
+			}else if(s.team.equals(team.name)){
+				team.students.add(s);
+			//first student of a new team
+			}else{
+				returnList.add(team);
+				team = new TeamData();
+				team.name = s.team;
+				team.profile = getTeamProfile(courseId, team.name);
+				team.students.add(s);
+			}
+			
+			//if last iteration
+			if (i == (students.size()-1)){
+				returnList.add(team);
+			}
+		}
+		if(studentWithoutTeams.students.size()>0){
+			returnList.add(studentWithoutTeams);
+		}
+		return returnList;
+	}
+		
+
 
 	@SuppressWarnings("unused")
 	private void ____STUDENT_level_methods__________________________________() {
@@ -1573,4 +1627,6 @@ public class APIServlet extends HttpServlet {
 	private boolean isModificationToExistingStudent(StudentData student) {
 		return getStudent(student.course, student.email) != null;
 	}
+
+
 }

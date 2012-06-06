@@ -688,11 +688,42 @@ public class APIServletTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testGetTeamsForCourse(){
+	public void testGetTeamsForCourse() throws Exception{
+		printTestCaseHeader();
+		refreshDataInDatastore();
+		
+		//testing for typical course
+		CourseData course = dataBundle.courses.get("course1OfCoord1");
+		apiServlet.createStudent(new StudentData("|s1|s1@e|", course.id));
+		List<TeamData> teams = apiServlet.getTeamsForCourse(course.id);
+		assertEquals(2, teams.size());
+		
+		String team1Id = "Team 1.1";
+		assertEquals(team1Id, teams.get(0).name);
+		assertEquals(team1Id, teams.get(0).profile.team);
+		assertEquals(3, teams.get(0).students.size());
+		assertEquals(team1Id, teams.get(0).students.get(0).team);
+		assertEquals(team1Id, teams.get(0).students.get(1).team);
+		
+		String team2Id = "Team 1.2";
+		assertEquals(team2Id, teams.get(1).name);
+		assertEquals(team2Id, teams.get(1).profile.team);
+		assertEquals(1, teams.get(1).students.size());
+		assertEquals(team2Id, teams.get(1).students.get(0).team);
+		
+		assertEquals(null, apiServlet.getTeamsForCourse(null));
+		
+		//course without teams
+		apiServlet.createCourse("coord1", "course1", "Course 1");
+		assertEquals(0, apiServlet.getTeamsForCourse("course1").size());
+		
+		
 		//TODO: implement this
 		//input: course, 
 		//output: List<team>
-		//throws: EntityDoesNotExist (if course exist)
+		//throws: EntityDoesNotExist (if course does not exist)
+		//students without teams will be in a special team having null as team name
+		
 	}
 
 	@SuppressWarnings("unused")
@@ -702,7 +733,6 @@ public class APIServletTest extends BaseTestCase {
 	@Test
 	public void testCreateStudent() throws Exception {
 		printTestCaseHeader();
-		//refreshDataInDatastore();
 
 		StudentData newStudent = new StudentData("t1|n1|e@com|c1",
 				"tcs.course1");
