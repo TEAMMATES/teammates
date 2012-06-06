@@ -43,10 +43,15 @@ public class APIServletTest extends BaseTestCase {
 
 	private static LocalServiceTestHelper helper;
 	private final static APIServlet apiServlet = new APIServlet();
-	private static String TEST_DATA_FOLDER = "src/test/resources/data/";
 	private static Gson gson = Common.getTeammatesGson();
-	String jsonString = Common.readFile(TEST_DATA_FOLDER
-			+ "typicalDataBundle.json");
+	static String jsonString;
+	static{
+		try{
+			jsonString = Common.readFile(Common.TEST_DATA_FOLDER + "typicalDataBundle.json");
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+	}
 	private DataBundle dataBundle;
 
 	private static String queueXmlFilePath = System.getProperty("user.dir")

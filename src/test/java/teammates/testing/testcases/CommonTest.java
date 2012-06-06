@@ -35,7 +35,7 @@ public class CommonTest extends BaseTestCase{
 	}
 	
 	@Test
-	public void testAssertContainsRegex(){
+	public void testAssertContainsRegex() throws Exception{
 		Common.assertContainsRegex("404 Page Not Found","Error: 404 Page Not Found. Check the URL.");
 		Common.assertContainsRegex("Fails on checking assert contains regex","404 Page Not Found","Error: 404 Page Not Found. Check the URL.");
 

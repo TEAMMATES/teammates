@@ -48,11 +48,11 @@ public class Datastore {
 		if (pm != null) {
 			PER_THREAD_PM.remove();
 
-			Transaction tx = pm.currentTransaction();
-			if (tx.isActive()) {
-				tx.rollback();
-			}
 			if (!pm.isClosed()){
+				Transaction tx = pm.currentTransaction();
+				if (tx.isActive()) {
+					tx.rollback();
+				}
 				pm.close();
 			}
 		}

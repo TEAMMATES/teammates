@@ -1,10 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page import="java.util.*"%>
 <%@ page import="teammates.jsp.*" %>
 <%@ page import="teammates.api.*" %>
-
-
 <%	
 	// See if user is logged in, if not we redirect them to the login page
 	APIServlet server = new APIServlet();
@@ -13,7 +9,8 @@
 		return ;
 	}
 %>
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
 	<link rel="shortcut icon" href="/favicon.png" />
@@ -40,7 +37,7 @@
 	<div id="dhtmltooltip"></div>
 	<%
 		// Check if user is allowed to view this page
-		if (!server.getLoggedInUser().isCoord() && !server.getLoggedInUser().isAdmin()) {
+		if (!server.getLoggedInUser().isCoord && !server.getLoggedInUser().isAdmin) {
 	%>
 	<p>
 		You are not authorized to view this page.

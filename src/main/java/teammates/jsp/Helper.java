@@ -10,12 +10,7 @@ import teammates.api.APIServlet;
 import teammates.api.Common;
 import teammates.datatransfer.*;
 
-public class Helper {
-	/**
-	 * The request object from the browser
-	 */
-	public HttpServletRequest request;
-	
+public class Helper {	
 	/**
 	 * The APIServlet object
 	 */
@@ -32,10 +27,15 @@ public class Helper {
 	public String requestedUser;
 	
 	/**
+	 * The URL to forward to after finish processing this action
+	 */
+	public String nextUrl;
+	
+	/**
 	 * The userID of the logged in user (<code>user.id</code>), or the userID
 	 * requested by admin if in masquerade mode (<code>requestedUser</code>).
 	 */
-	public String userID;
+	public String userId;
 	
 	/**
 	 * The status message that want to be displayed
@@ -48,25 +48,19 @@ public class Helper {
 	 */
 	public boolean error = false;
 	
-	public Helper(HttpServletRequest request){
-		this.request = request;
-		
-		server = new APIServlet();
-		user = server.getLoggedInUser();
-		requestedUser = request.getParameter(Common.PARAM_USER_ID);
-		
-		statusMessage = request.getParameter(Common.PARAM_STATUS_MESSAGE);
-		error = "true".equalsIgnoreCase(request.getParameter(Common.PARAM_ERROR));
-		
-		if(isMasqueradeMode()){
-			userID = requestedUser;
-		} else {
-			userID = user.id;
-		}
+	public Helper(){}
+	
+	public Helper(Helper helper){
+		server = helper.server;
+		user = helper.user;
+		requestedUser = helper.requestedUser;
+		userId = helper.userId;
+		statusMessage = helper.statusMessage;
+		error = helper.error;
 	}
 
-	protected boolean isMasqueradeMode() {
-		return (user.isAdmin())&&(requestedUser!=null);
+	public boolean isMasqueradeMode() {
+		return (user.isAdmin)&&(requestedUser!=null);
 	}
 	
 	/**
@@ -82,6 +76,7 @@ public class Helper {
 	 * @param key
 	 * @param value
 	 * @return
+	 * TODO Check for existing parameters
 	 */
 	public static String addParam(String url, String key, String value){
 		if(key==null || value==null) return url;
@@ -135,7 +130,10 @@ public class Helper {
 	 * @return
 	 */
 	public static String getEvaluationViewLink(String courseID, String evalName){
-		return "coordEvalView.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID)+"&"+Common.PARAM_EVALUATION_NAME+"="+convertForURL(evalName);
+		String link = Common.JSP_COORD_EVAL_VIEW;
+		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
+		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
+		return link;
 	}
 	
 	/**
@@ -147,7 +145,11 @@ public class Helper {
 	 * @return
 	 */
 	public static String getEvaluationDeleteLink(String courseID, String evalName, String nextURL){
-		return "coordEvalDelete.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID)+"&"+Common.PARAM_EVALUATION_NAME+"="+convertForURL(evalName)+"&"+Common.PARAM_NEXT_URL+"="+convertForURL(nextURL);
+		String link = Common.JSP_COORD_EVAL_DELETE;
+		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
+		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = addParam(link,Common.PARAM_NEXT_URL,nextURL);
+		return link;
 	}
 	
 	/**
@@ -157,7 +159,10 @@ public class Helper {
 	 * @return
 	 */
 	public static String getEvaluationEditLink(String courseID, String evalName){
-		return "coordEvalEdit.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID)+"&"+Common.PARAM_EVALUATION_NAME+"="+convertForURL(evalName);
+		String link = Common.JSP_COORD_EVAL_EDIT;
+		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
+		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
+		return link;
 	}
 	
 	/**
@@ -167,7 +172,10 @@ public class Helper {
 	 * @return
 	 */
 	public static String getEvaluationResultsLink(String courseID, String evalName){
-		return "coordEvalResults.jsp?"+Common.PARAM_COURSE_ID+"="+convertForURL(courseID)+"&"+Common.PARAM_EVALUATION_NAME+"="+convertForURL(evalName);
+		String link = Common.JSP_COORD_EVAL_RESULTS;
+		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
+		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
+		return link;
 	}
 	
 	/**
@@ -183,7 +191,10 @@ public class Helper {
 	 */
 	public static String getStatusForEval(EvaluationData eval){
 		if(eval.startTime.after(new Date())) return Common.EVALUATION_STATUS_AWAITING;
-		if(eval.endTime.after(new Date())) return Common.EVALUATION_STATUS_OPEN;
+		if(eval.endTime.after(new Date(
+					new Date().getTime()+eval.gracePeriod*60*1000
+				))
+			) return Common.EVALUATION_STATUS_OPEN;
 		if(!eval.published)	return Common.EVALUATION_STATUS_CLOSED;
 		return Common.EVALUATION_STATUS_PUBLISHED;
 	}
@@ -239,44 +250,44 @@ public class Helper {
 		}
 		
 		result.append(
-			"<a class='t_eval_view' name='viewEvaluation" + position + "' id='viewEvaluation"+ position + "' " +
-			"href='" + getEvaluationViewLink(eval.course,eval.name) + "' " +
-			"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_VIEW+"\")' "+
-			"onmouseout='hideddrivetip()'" + (hasView ? "" : disabled) + ">View Results</a>"
+			"<a class=\"t_eval_view\" name=\"viewEvaluation" + position + "\" id=\"viewEvaluation"+ position + "\" " +
+			"href=\"" + getEvaluationViewLink(eval.course,eval.name) + "\" " +
+			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_VIEW+"')\" "+
+			"onmouseout=\"hideddrivetip()\"" + (hasView ? "" : disabled) + ">View Results</a>"
 		);
 		result.append(
-			"<a class='t_eval_edit' name='editEvaluation" + position + "' id='editEvaluation" + position + "' " +
-			"href='" + getEvaluationEditLink(eval.course,eval.name) + "' " +
-			"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_EDIT+"\")' onmouseout='hideddrivetip()' " +
+			"<a class=\"t_eval_edit\" name=\"editEvaluation" + position + "\" id=\"editEvaluation" + position + "\" " +
+			"href=\"" + getEvaluationEditLink(eval.course,eval.name) + "\" " +
+			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_EDIT+"')\" onmouseout=\"hideddrivetip()\" " +
 			(hasEdit ? "" : disabled) + ">Edit</a>"
 		);
 		result.append(
-			"<a class='t_eval_delete' name='deleteEvaluation" + position + "' id='deleteEvaluation" + position + "' " +
-			"href='" + getEvaluationDeleteLink(eval.course,eval.name,(isHome ? "coordHome.jsp" : "coordEval.jsp")) + "' " +
-			"onclick='hideddrivetip(); return toggleDeleteEvaluationConfirmation(\"" + eval.course + "\",\"" + eval.name + "\");' " +
-			"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_DELETE+"\")' onmouseout='hideddrivetip()'>Delete</a>"
+			"<a class=\"t_eval_delete\" name=\"deleteEvaluation" + position + "\" id=\"deleteEvaluation" + position + "\" " +
+			"href=\"" + getEvaluationDeleteLink(eval.course,eval.name,(isHome ? Common.JSP_COORD_HOME : Common.JSP_COORD_EVAL)) + "\" " +
+			"onclick=\"hideddrivetip(); return toggleDeleteEvaluationConfirmation('" + eval.course + "','" + eval.name + "');\" " +
+			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_DELETE+"')\" onmouseout=\"hideddrivetip()\">Delete</a>"
 		);
 		result.append(
-			"<a class='t_eval_remind' name='remindEvaluation" + position + "' id='remindEvaluation" + position + "' " +
-			"href='javascript: hideddrivetip(); toggleRemindStudents(\"" + eval.course + "\",\"" + eval.name + "\");' " +
-			"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_REMIND+"\")' " +
-			"onmouseout='hideddrivetip()'" + (hasRemind ? "" : disabled) + ">Remind</a>"
+			"<a class=\"t_eval_remind\" name=\"remindEvaluation" + position + "\" id=\"remindEvaluation" + position + "\" " +
+			"href=\"javascript: hideddrivetip(); toggleRemindStudents('" + eval.course + "','" + eval.name + "');\" " +
+			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_REMIND+"')\" " +
+			"onmouseout=\"hideddrivetip()\"" + (hasRemind ? "" : disabled) + ">Remind</a>"
 		);
 		if (hasUnpublish) {
 			result.append(
-				"<a class='t_eval_unpublish' name='publishEvaluation" + position + "' id='publishEvaluation" + position + "' " +
-				"href='javascript: hideddrivetip(); togglePublishEvaluation(\"" + eval.course + "\",\"" +
-				eval.name + "\"," + false + "," + (isHome ? "\"coordHome.jsp\"" : "\"coordEval.jsp\"") + ");' " +
-				"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_UNPUBLISH+"\")' onmouseout='hideddrivetip()'>" +
+				"<a class=\"t_eval_unpublish\" name=\"publishEvaluation" + position + "\" id=\"publishEvaluation" + position + "\" " +
+				"href=\"javascript: hideddrivetip(); togglePublishEvaluation('" + eval.course + "','" +
+				eval.name + "'," + false + "," + (isHome ? "'"+Common.JSP_COORD_HOME+"'" : "'"+Common.JSP_COORD_EVAL+"'") + ");\" " +
+				"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_UNPUBLISH+"')\" onmouseout=\"hideddrivetip()\">" +
 				"Unpublish</a>"
 			);
 		} else {
 			result.append(
-				"<a class='t_eval_publish' name='unpublishEvaluation" + position + "' id='publishEvaluation" + position + "' " +
-				"href='javascript: hideddrivetip(); togglePublishEvaluation(\"" + eval.course + "\",\"" +
-				eval.name + "\"," + true + "," + (isHome ? "\"coordHome.jsp\"" : "\"coordEval.jsp\"") + ");' " +
-				"onmouseover='ddrivetip(\""+Common.HOVER_MESSAGE_EVALUATION_PUBLISH+"\")' " +
-				"onmouseout='hideddrivetip()'" + (hasPublish ? "" : disabled) + ">Publish</a>"
+				"<a class=\"t_eval_publish\" name=\"unpublishEvaluation" + position + "\" id=\"publishEvaluation" + position + "\" " +
+				"href=\"javascript: hideddrivetip(); togglePublishEvaluation('" + eval.course + "','" +
+				eval.name + "'," + true + "," + (isHome ? "'"+Common.JSP_COORD_HOME+"'" : "'"+Common.JSP_COORD_EVAL+"'") + ");\" " +
+				"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_PUBLISH+"')\" " +
+				"onmouseout=\"hideddrivetip()\"" + (hasPublish ? "" : disabled) + ">Publish</a>"
 			);
 		}
 		return result.toString();

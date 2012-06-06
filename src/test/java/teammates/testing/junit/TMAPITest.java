@@ -33,12 +33,12 @@ import com.google.gson.reflect.TypeToken;
 public class TMAPITest extends BaseTestCase{
 
 	private static Gson gson = Common.getTeammatesGson();
-	String jsonString = Common.readFile(Common.TEST_DATA_FOLDER + "typicalDataBundle.json");
+	private static String jsonString;
 	private DataBundle dataBundle;
 
 	@BeforeClass
-	public static void setUp() {
-
+	public static void setUp() throws Exception{
+		 jsonString = Common.readFile(Common.TEST_DATA_FOLDER + "typicalDataBundle.json");
 	}
 
 	@AfterClass
@@ -545,7 +545,7 @@ public class TMAPITest extends BaseTestCase{
 	// --------------------------------[Testing helper methods]--------------
 	
 	@Test
-	public void testDataBundle() {
+	public void testDataBundle() throws Exception{
 		printTestCaseHeader();
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER + "typicalDataBundle.json");
 		Gson gson = Common.getTeammatesGson();

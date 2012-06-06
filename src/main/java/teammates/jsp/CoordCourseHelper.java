@@ -1,26 +1,24 @@
 package teammates.jsp;
 
-import java.util.ArrayList;
-
 import teammates.api.Common;
 import teammates.datatransfer.CourseData;
-import teammates.datatransfer.EvaluationData;
 
-public class CoordHomeHelper extends Helper {
+public class CoordCourseHelper extends Helper{
+	// Specific parameters
 	public String coordID;
-	
+	public String courseID;
+	public String courseName;
 	public CourseData[] summary;
 	
-	public CoordHomeHelper(Helper helper){
+	public CoordCourseHelper(Helper helper){
 		super(helper);
 	}
 	
-	public static EvaluationData[] getEvaluationsForCourse(CourseData course){
-		ArrayList<EvaluationData> evaluations = course.evaluations;
-		EvaluationData[] evaluationsArr = evaluations.toArray(new EvaluationData[]{});
-		return evaluationsArr;
-	}
-	
+	/**
+	 * Returns the link to the course enroll link for specified courseID
+	 * @param courseID
+	 * @return
+	 */
 	public String getCourseEnrollLink(String courseID){
 		String link = Common.JSP_COORD_COURSE_ENROLL;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
@@ -30,6 +28,11 @@ public class CoordHomeHelper extends Helper {
 		return link;
 	}
 
+	/**
+	 * Returns the link to show course detail for specific courseID
+	 * @param courseID
+	 * @return
+	 */
 	public String getCourseViewLink(String courseID){
 		String link = Common.JSP_COORD_COURSE_DETAILS;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID); 
@@ -39,13 +42,21 @@ public class CoordHomeHelper extends Helper {
 		return link;
 	}
 	
+	/**
+	 * Returns the link to delete a course and redirects to the nextURL after deletion<br />
+	 * The nextURL is usually used to refresh the page after deletion
+	 * @param courseID
+	 * @param nextURL
+	 * @return
+	 */
 	public String getCourseDeleteLink(String courseID){
 		String link = Common.JSP_COORD_COURSE_DELETE;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
-		link = addParam(link,Common.PARAM_NEXT_URL,Common.JSP_COORD_HOME);
+		link = addParam(link,Common.PARAM_NEXT_URL,Common.JSP_COORD_COURSE);
 		if(isMasqueradeMode()){
 			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
 		}
 		return link;
 	}
+	
 }

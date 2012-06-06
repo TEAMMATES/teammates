@@ -287,9 +287,6 @@ function printCourseList(courseList, user) {
 }
 
 /*------------------------------------------PRINT COORDINATOR PAGE------------------------------------------*/
-/*
- * Coordinator enroll students TODO: Improve UI
- */
 function printEnrollmentPage(courseID) {
 	var outputHeader = "<h1>ENROLL STUDENTS for " + courseID + "</h1>";
 
@@ -1537,34 +1534,6 @@ function printEditEvaluationResultsByReviewer(submissionList, summaryList,
 }
 
 /*------------------------------------------PRINT STUDENT PAGE------------------------------------------*/
-/*
- * Student join course
- */
-function printJoinCourse() {
-	var outputHeader = "<h1>JOIN NEW COURSE</h1>";
-
-	var outputForm = ""
-		+ "<form method=\"post\" action=\"\" name=\"form_joincourse\">"
-		+ "<table class=\"headerform\">"
-		+ "<tr>"
-		+ "<td width=\"30%\" class=\"attribute\">Registration Key:</td>"
-		+ "<td width=\"30%\">"
-		+ "<input class=\"keyvalue\" type=\"text\" name=\""
-		+ STUDENT_REGKEY
-		+ "\" id=\""
-		+ STUDENT_REGKEY
-		+ "\""
-		+ "onmouseover=\"ddrivetip('Enter your registration key for the course.')\""
-		+ "onmouseout=\"hideddrivetip()\" tabindex=1 />"
-		+ "</td>"
-		+ "<td width=\"30%\">"
-		+ "<input id='btnJoinCourse' type=\"button\" class=\"button\" onclick=\"doJoinCourse(this.form."
-		+ STUDENT_REGKEY + ".value);\" value=\"Join Course\" tabindex=2 />"
-		+ "</td>" + "</tr>" + "</table>" + "</form>";
-
-	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader;
-	document.getElementById(DIV_COURSE_MANAGEMENT).innerHTML = outputForm;
-}
 
 /*
  * Student view course info
@@ -2029,11 +1998,7 @@ function printSubmissionForm(submissionList, commentsEnabled) {
 	};
 }
 
-/*------------------------------------------PRINT FUNCTION HELPER------------------------------------------*/
-function helpPrintTitle(title) {
-	var output = "<div><h1>" + title + "</h1></div>";
-	return output;
-}
+/*--------------------------PRINT FUNCTION HELPER---------------------------*/
 function helpPrintResultTeam(teamName) {
 	var output = "<div class=\"result_team\">" + "<p>"
 	+ encodeCharForPrint(teamName) + "</p>";
@@ -2313,6 +2278,41 @@ function getGracePeriodOptionString() {
 	+ "<option value=\"20\">20 min</option>"
 	+ "<option value=\"25\">25 min</option>"
 	+ "<option value=\"30\">30 min</option>";
+}
+
+function isEvaluationNameLengthValid(name) {
+	return name.length<=22;
+}
+
+function isEvaluationNameValid(name) {
+	if (name.indexOf("\\") >= 0 || name.indexOf("'") >= 0
+			|| name.indexOf("\"") >= 0) {
+		return false;
+	}
+	if (name.match(/^[a-zA-Z0-9 ]*$/) == null) {
+		return false;
+	}
+	return true;
+}
+
+function isStudentEmailValid(email) {
+	return email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i)!=null;
+}
+
+function isStudentNameValid(name) {
+	if (name.indexOf("\\") >= 0 || name.indexOf("'") >= 0
+			|| name.indexOf("\"") >= 0) {
+		return false;
+	} else if (name.match(/^.[^\t]*$/) == null) {
+		return false;
+	} else if (name.length > 40) {
+		return false;
+	}
+	return true;
+}
+
+function isStudentTeamNameValid(teamName) {
+	return teamName.length<=24;
 }
 
 function getXMLObject() {

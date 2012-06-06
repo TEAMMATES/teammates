@@ -9,10 +9,23 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<filter-name>DatastoreFilter</filter-name>
 		<filter-class>teammates.DatastoreFilter</filter-class>
 	</filter>
-
 	<filter-mapping>
 		<filter-name>DatastoreFilter</filter-name>
 		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+	    <filter-name>LoginFilter</filter-name>
+	    <filter-class>teammates.jsp.LoginFilter</filter-class>
+	    <init-param>
+	        <description>Excluded files, |-separated</description>
+	        <param-name>ExcludedFiles</param-name>
+	        <param-value>/index.jsp|/logout.jsp</param-value>
+	    </init-param>
+	</filter>
+	<filter-mapping>
+	    <filter-name>LoginFilter</filter-name>
+	    <url-pattern>/*.jsp</url-pattern>
 	</filter-mapping>
 
 	<servlet>
@@ -87,24 +100,41 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet-mapping>
 	
 	<servlet>
-	    <servlet-name>CourseAdd</servlet-name>
-	    <servlet-class>teammates.servlet.CourseAddServlet</servlet-class>
+	    <servlet-name>CoordHome</servlet-name>
+	    <servlet-class>teammates.servlet.CoordHomeServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-	    <servlet-name>CourseAdd</servlet-name>
-	    <url-pattern>/courseAdd</url-pattern>
+	    <servlet-name>CoordHome</servlet-name>
+	    <url-pattern>/coordHome</url-pattern>
 	</servlet-mapping>
 	<servlet>
-	    <servlet-name>CourseDelete</servlet-name>
-	    <servlet-class>teammates.servlet.CourseDeleteServlet</servlet-class>
+	    <servlet-name>CoordCourse</servlet-name>
+	    <servlet-class>teammates.servlet.CoordCourseServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-	    <servlet-name>CourseDelete</servlet-name>
-	    <url-pattern>/courseDelete</url-pattern>
+	    <servlet-name>CoordCourse</servlet-name>
+	    <url-pattern>/coordCourse</url-pattern>
+	</servlet-mapping>
+	<servlet>
+	    <servlet-name>CoordCourseDelete</servlet-name>
+	    <servlet-class>teammates.servlet.CoordCourseDeleteServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>CoordCourseDelete</servlet-name>
+	    <url-pattern>/coordCourseDelete</url-pattern>
+	</servlet-mapping>
+	<servlet>
+	    <servlet-name>CoordCourseEnroll</servlet-name>
+	    <servlet-class>teammates.servlet.CoordCourseEnrollServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>CoordCourseEnroll</servlet-name>
+	    <url-pattern>/coordCourseEnroll</url-pattern>
 	</servlet-mapping>
 	
     <security-constraint>
         <web-resource-collection>
+            <web-resource-name>AutomatedEmails</web-resource-name>
             <url-pattern>/automatedreminders</url-pattern>
             <url-pattern>/evaluationactivation</url-pattern>
             <url-pattern>/teamformingsessionactivation</url-pattern>
@@ -113,4 +143,32 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <role-name>admin</role-name>
         </auth-constraint>
     </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>DisallowDirectAccess</web-resource-name>
+            <description>Pages that should not be accessed directly</description>
+            <url-pattern>*.jsp</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>AllowDirectAccess</web-resource-name>
+            <description>Pages that are allowed to be accessed directly</description>
+            <description>This have precedence over the disallowance</description>
+            <url-pattern>administrator.jsp</url-pattern>
+            <url-pattern>coordinator.jsp</url-pattern>
+            <url-pattern>index.jsp</url-pattern>
+            <url-pattern>student.jsp</url-pattern>
+            <url-pattern>mobile.jsp</url-pattern>
+            <url-pattern>oldIE.jsp</url-pattern>
+            <url-pattern>unauthorized.jsp</url-pattern>
+        </web-resource-collection>
+    </security-constraint>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/unauthorized.jsp</location>
+    </error-page>
 </web-app>

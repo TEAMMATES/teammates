@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
+import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Scenario;
 
 public class CoordCourseAddPageHTMLTest extends TestCase {
@@ -18,6 +19,8 @@ public class CoordCourseAddPageHTMLTest extends TestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		bi = BrowserInstancePool.getBrowserInstance();
+		TMAPI.deleteCoord(scn.coordinator.username);
+		TMAPI.createCoord(scn.coordinator.username,scn.coordinator.name,scn.coordinator.email);
 		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
 	}
 

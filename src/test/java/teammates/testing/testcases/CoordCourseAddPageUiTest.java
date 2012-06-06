@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import org.json.JSONException;
@@ -173,7 +174,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		printTestClassFooter("CoordCourseAddUITest");
 	}
 	
-	private static TestScenario loadTestScenario() throws JSONException {
+	private static TestScenario loadTestScenario() throws JSONException, FileNotFoundException {
 		String testScenarioJsonFile = Common.TEST_DATA_FOLDER + "CoordCourseAddUITest.json";
 		String jsonString = Common.readFile(testScenarioJsonFile);
 		TestScenario scn = Common.getTeammatesGson().fromJson(jsonString, TestScenario.class);

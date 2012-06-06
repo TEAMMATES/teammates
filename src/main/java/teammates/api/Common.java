@@ -6,7 +6,6 @@ import static org.junit.Assert.assertEquals;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStream;
-import java.io.Reader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -74,6 +73,7 @@ public class Common {
 	public final static String PARAM_ACTION = "action";
 	public final static String PARAM_COURSE_ID = "courseid";
 	public final static String PARAM_COURSE_NAME = "coursename";
+	public final static String PARAM_STUDENTS_ENROLLMENT_INFO = "enrollstudents";
 	public final static String PARAM_EVALUATION_NAME = "evalname";
 	public final static String PARAM_STATUS_MESSAGE = "message";
 	public final static String PARAM_ERROR = "error";
@@ -84,30 +84,35 @@ public class Common {
 	public static final String ACTION_ADD_COURSE = "addcourse";
 	
 	
-	// JSP pages (NOT to be used in the JSP, but as reference for other classes)
-	public final static String JSP_COORD_HOME = "coordHome.jsp";
-	public final static String JSP_COORD_COURSE = "coordCourse.jsp";
-	public final static String JSP_COORD_COURSE_DELETE = "coordCourseDelete.jsp";
-	public final static String JSP_COORD_COURSE_DETAILS = "coordCourseDetails.jsp";
-	public final static String JSP_COORD_COURSE_STUDENT_DETAILS = "coordCourseStudentDetails.jsp";
-	public final static String JSP_COORD_COURSE_STUDENT_EDIT = "coordCourseStudentEdit.jsp";
-	public final static String JSP_COORD_COURSE_ENROLL = "coordCourseEnroll.jsp";
-	public final static String JSP_COORD_TFS = "coordTFS.jsp";
-	public final static String JSP_COORD_TFS_MANAGE = "coordTFSManage.jsp";
-	public final static String JSP_COORD_TFS_CHANGE_TEAM = "coordTFSChangeTeam.jsp";
-	public final static String JSP_COORD_TFS_LOGS = "coordTFSLogs.jsp";
-	public final static String JSP_COORD_EVAL = "coordEval.jsp";
-	public final static String JSP_COORD_EVAL_EDIT = "coordEvalEdit.jsp";
-	public final static String JSP_COORD_EVAL_RESULTS = "coordEvalResults.jsp";
-	public final static String JSP_COORD_EVAL_SUBMISSION_EDIT = "coordEvalSubmissionEdit.jsp";
+	// JSP pages links (most are links to the servlet, since the JSP are made inaccessible directly)
+	public final static String JSP_COORD_HOME = "coordHome";
+	public final static String JSP_COORD_COURSE = "coordCourse";
+	public final static String JSP_COORD_COURSE_DELETE = "coordCourseDelete";
+	public final static String JSP_COORD_COURSE_DETAILS = "coordCourseDetails";
+	public final static String JSP_COORD_COURSE_STUDENT_DETAILS = "coordCourseStudentDetails";
+	public final static String JSP_COORD_COURSE_STUDENT_EDIT = "coordCourseStudentEdit";
+	public final static String JSP_COORD_COURSE_ENROLL = "coordCourseEnroll";
+	public final static String JSP_COORD_TFS = "coordTFS";
+	public final static String JSP_COORD_TFS_MANAGE = "coordTFSManage";
+	public final static String JSP_COORD_TFS_CHANGE_TEAM = "coordTFSChangeTeam";
+	public final static String JSP_COORD_TFS_LOGS = "coordTFSLogs";
+	public final static String JSP_COORD_EVAL = "coordEval";
+	public final static String JSP_COORD_EVAL_DELETE = "coordEvalDelete";
+	public final static String JSP_COORD_EVAL_VIEW = "coordEvalView";
+	public final static String JSP_COORD_EVAL_EDIT = "coordEvalEdit";
+	public final static String JSP_COORD_EVAL_RESULTS = "coordEvalResults";
+	public final static String JSP_COORD_EVAL_SUBMISSION_EDIT = "coordEvalSubmissionEdit";
 	
-	public final static String JSP_STUDENT_HOME = "studentHome.jsp";
-	public final static String JSP_STUDENT_COURSE = "studentHome.jsp";
-	public final static String JSP_STUDENT_COURSE_DETAILS = "studentCourseDetails.jsp";
-	public final static String JSP_STUDENT_TFS_MANAGE = "studentTFSManage.jsp";
-	public final static String JSP_STUDENT_EVAL = "studentEval.jsp";
-	public final static String JSP_STUDENT_EVAL_EDIT = "studentEvalEdit.jsp";
-	public final static String JSP_STUDENT_EVAL_RESULTS = "studentEvalResults.jsp";
+	public final static String JSP_STUDENT_HOME = "studentHome";
+	public final static String JSP_STUDENT_COURSE = "studentHome";
+	public final static String JSP_STUDENT_COURSE_DETAILS = "studentCourseDetails";
+	public final static String JSP_STUDENT_TFS_MANAGE = "studentTFSManage";
+	public final static String JSP_STUDENT_EVAL = "studentEval";
+	public final static String JSP_STUDENT_EVAL_EDIT = "studentEvalEdit";
+	public final static String JSP_STUDENT_EVAL_RESULTS = "studentEvalResults";
+	
+	public final static String JSP_LOGOUT = "logout.jsp";
+	public final static String JSP_UNAUTHORIZED = "unauthorized.jsp";
 	
 	//status messages
 	public final static String MESSAGE_COURSE_ADDED = "The course has been added. Click the 'Enroll' link in the table below to add students to the course.";
@@ -366,14 +371,9 @@ public class Common {
 	 * @param filename
 	 * @return
 	 */
-	public static String readFile(String filename) {
-		try {
-			String ans = new Scanner(new FileReader(filename)).useDelimiter("\\Z").next();
-			return ans;
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		return "";
+	public static String readFile(String filename) throws FileNotFoundException{
+		String ans = new Scanner(new FileReader(filename)).useDelimiter("\\Z").next();
+		return ans;
 	}
 	
 	/**

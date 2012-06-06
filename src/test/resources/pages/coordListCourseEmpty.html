@@ -12,21 +12,17 @@
 	<script src="/js/CalendarPopup.js" language="JavaScript"></script>
 	<script src="/js/AnchorPosition.js" language="JavaScript"></script>
 	<script src="/js/helperNew.js" language="JavaScript"></script>
-	<script src="/js/constants.js" language="JavaScript"></script>
 	<script src="/js/commonNew.js" language="JavaScript"></script>
 	
-	<script src="/js/coordCoursePageNew.js" language="JavaScript"></script>
+	<script src="/js/coordCourse.js" language="JavaScript"></script>
 	<script src="/js/coordinatorNew.js" language="JavaScript"></script>
 
 </head>
 
 <body>
 	<div id="dhtmltooltip"></div>
-	
-
 	<div id="frameTop">
 		
-
 
 
 		<div id="frameTopWrapper">
@@ -35,12 +31,12 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="coordHome.jsp" class="t_home">Home</a></li>
-					<li><a href="coordCourse.jsp" class="t_courses">Courses</a></li>
-					<li><a href="coordTFS.jsp" class="t_teamForming">Team-Forming</a></li>
-					<li><a href="coordEval.jsp" class="t_evaluations">Evaluations</a></li>
+					<li><a href="coordHome" class="t_home">Home</a></li>
+					<li><a href="coordCourse" class="t_courses">Courses</a></li>
+					<li><a href="coordTFS" class="t_teamForming">Team-Forming</a></li>
+					<li><a href="coordEval" class="t_evaluations">Evaluations</a></li>
 					<li><a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/coordinatorhelp.html" class="t_help">Help</a></li>
-					<li><a href="javascript:logout();" class="t_logout">Logout</a>
+					<li><a href="logout.jsp" class="t_logout">Logout</a>
 					 (teammates.demo.coord)</li>
 				</ul>
 			</div>
@@ -54,22 +50,22 @@
 				<h1>ADD NEW COURSE</h1>
 			</div>
 			<div id="coordinatorCourseManagement">
-				<form name="form_addcourse" action="courseAdd" method="get">
+				<form name="form_addcourse" action="coordCourse" method="get">
 					<table class="addform round">
 						<tbody><tr>
 							<td><b>Course ID:</b></td>
 						</tr>
 						<tr>
-							<td><input type="text" tabindex="1" maxlength="21" onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enter the identifier of the course, e.g.CS3215-Sem1.")' value="" id="courseid" name="courseid" class="addinput" /></td>
+							<td><input type="text" tabindex="1" maxlength="21" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the identifier of the course, e.g.CS3215-Sem1.')" value="" id="courseid" name="courseid" class="addinput" /></td>
 						</tr>
 						<tr>
 							<td><b>Course Name:</b></td>
 						</tr>
 						<tr>
-							<td><input type="text" tabindex="2" maxlength="38" onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enter the name of the course, e.g. Software Engineering.")' value="" id="coursename" name="coursename" class="addinput" /></td>
+							<td><input type="text" tabindex="2" maxlength="38" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')" value="" id="coursename" name="coursename" class="addinput" /></td>
 						</tr>
 						<tr>
-							<td><input type="submit" tabindex="3" value="Add Course" onclick="return doAddCourse();" class="button" id="btnAddCourse" /></td>
+							<td><input type="submit" tabindex="3" value="Add Course" onclick="return verifyAddCourse();" class="button" id="btnAddCourse" /></td>
 						</tr>
 					</tbody></table>
 				</form>
@@ -124,6 +120,5 @@
 <a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html" class="footer">Contact Us</a>
 </div>
 	</div>
-	
 
 </body></html>

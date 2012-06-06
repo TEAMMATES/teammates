@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -115,7 +116,7 @@ public class BrowserInstance {
 	public int getCoordHomeCourseRowID(String courseID) {
 		int id = 0;
 		while(isElementPresent(By.id("course"+id))){
-			if(getElementText(By.xpath("//div[@id='course"+id+"']/div[@class='result_homeTitle']/h2")).startsWith("["+courseID.toUpperCase()+"]")){
+			if(getElementText(By.xpath("//div[@id='course"+id+"']/div[@class='result_homeTitle']/h2")).startsWith("["+courseID+"]")){
 				return id;
 			}
 			id++;
@@ -2673,7 +2674,7 @@ public class BrowserInstance {
 	public boolean isHomeCoursePresent(String courseID, String courseName){
 		int id = 0;
 		while(isElementPresent(By.id("course"+id))){
-			if(getElementText(By.xpath("//div[@id='course"+id+"']/div[@class='result_homeTitle']/h2")).equalsIgnoreCase("["+courseID.toUpperCase()+"] : "+courseName)){
+			if(getElementText(By.xpath("//div[@id='course"+id+"']/div[@class='result_homeTitle']/h2")).equalsIgnoreCase("["+courseID+"] : "+courseName)){
 				return true;
 			}
 			id++;
@@ -2842,7 +2843,7 @@ public class BrowserInstance {
 	/**
 	 * Method to print current page to a file.
 	 * This is to be used in HTML testing, where we can generate the reference HTML file using this method.
-	 * This method is deprecated so that you will not forget to remove it from the file after printing.
+	 * This method is deprecated so that you won't forget to remove it
 	 * @param destination
 	 * @deprecated
 	 */
@@ -3331,7 +3332,7 @@ public class BrowserInstance {
 	 * Helper method to verify that we're at the student enrollment page for specific course
 	 * Checking for these fields:
 	 * <ul>
-	 * <li>TEXT: ENROLL STUDENTS FOR {courseID.toUpperCase() in pageTitle}</li>
+	 * <li>TEXT: ENROLL STUDENTS FOR {courseID in pageTitle}</li>
 	 * <li>ID: information</li>
 	 * <li>ID: button_enroll</li>
 	 * </ul>
@@ -3341,7 +3342,7 @@ public class BrowserInstance {
 		for (int x = 0;; x++) {
 			if (x >= RETRY)
 				fail("Not in Coordinator Enroll Page for "+courseID);
-			if (getElementText(pageTitle).equals("ENROLL STUDENTS FOR "+courseID.toUpperCase()) &&
+			if (getElementText(pageTitle).equalsIgnoreCase("Enroll Students for "+courseID) &&
 					isElementPresent(coordEnrollInfo) && isElementPresent(coordEnrollButton))
 				break;
 			

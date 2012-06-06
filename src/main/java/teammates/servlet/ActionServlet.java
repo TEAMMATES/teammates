@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.APIServlet;
 import teammates.api.Common;
-import teammates.datatransfer.UserData;
+import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
 /**
@@ -22,39 +22,6 @@ import teammates.datatransfer.UserData;
  *
  */
 public abstract class ActionServlet extends HttpServlet {
-	protected APIServlet server = new APIServlet();
-	
-	/**
-	 * The user that is currently logged in, authenticated by Google
-	 */
-	protected UserData user;
-
-	/**
-	 * The userID that the admin wants to masquerade
-	 */
-	protected String requestedUser;
-	
-	/**
-	 * The userID of the logged in user (<code>user.id</code>), or the userID
-	 * requested by admin if in masquerade mode (<code>requestedUser</code>).
-	 */
-	protected String userID;
-	
-	/**
-	 * The next URL to forward to after finished processing the request
-	 */
-	protected String nextUrl;
-
-	/**
-	 * The status message that want to be displayed
-	 */
-	protected String statusMessage;
-	
-	/**
-	 * Flag whether there was an error, to be used to display status message style
-	 * accordingly.
-	 */
-	protected boolean error;
 	
 	@Override
 	public final void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -65,28 +32,48 @@ public abstract class ActionServlet extends HttpServlet {
 	@Override
 	public final void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException{
-		user = server.getLoggedInUser();
+		// Check log in has been done in LoginFilter
+		Helper helper = new Helper();
+		helper.server = new APIServlet();
+		helper.user = helper.server.getLoggedInUser();
 		
-		requestedUser = req.getParameter(Common.PARAM_USER_ID);
-		nextUrl = req.getParameter(Common.PARAM_NEXT_URL);
+		helper.requestedUser = req.getParameter(Common.PARAM_USER_ID);
+		helper.nextUrl = req.getParameter(Common.PARAM_NEXT_URL);
 		
-		statusMessage = null;
-		error = false;
+		helper.statusMessage = null;
+		helper.error = false;
 		
-		if(isMasqueradeMode()){
-			userID = requestedUser;
+		if(helper.isMasqueradeMode()){
+			helper.userId = helper.requestedUser;
 		} else {
-			userID = user.id;
+			helper.userId = helper.user.id;
 		}
 		
-		doPostAction(req, resp);
+		doPostAction(req, resp, helper);
 	}
 	
+	/**
+	 * The method to do specific actions
+	 * @param req
+	 * @param resp
+	 * @throws IOException
+	 * @throws ServletException
+	 */
 	protected abstract void doPostAction(HttpServletRequest req,
-										HttpServletResponse resp)
+										HttpServletResponse resp,
+										Helper helper)
 			throws IOException, ServletException;
 	
-	protected boolean isMasqueradeMode(){
-		return user.isAdmin() && requestedUser!=null;
+	/**
+	 * Returns the URL used to call this servlet.
+	 * Reminder: This URL cannot be used to repeat sending POST data
+	 * @param req
+	 * @return
+	 */
+	protected String getRequestedURL(HttpServletRequest req){
+		String link = req.getRequestURI();
+		String query = req.getQueryString();
+		if(query!=null) link+="?"+query;
+		return link;
 	}
 }
