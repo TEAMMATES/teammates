@@ -125,7 +125,8 @@ public class Accounts {
 					+ "/" + email);
 			return null;
 		}
-		return studentList.get(0);
+		Student student = studentList.get(0);
+		return student;
 	}
 	
 	public Student getStudentWithID(String googleId) {

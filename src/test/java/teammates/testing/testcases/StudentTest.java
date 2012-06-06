@@ -87,13 +87,13 @@ public class StudentTest extends BaseTestCase{
 
 		// comment left out
 		expected = generateTypicalStudentObject();
-		expected.setComments("");
+		expected.setComments(null);
 		enrollmentLine = "  team 1   |   name 1   |   email@email.com ";
 		verifyStudentContent(expected, new Student(enrollmentLine, "courseId1"));
 
 		// team name left out
 		expected = generateTypicalStudentObject();
-		expected.setTeamName("");
+		expected.setTeamName(null);
 		enrollmentLine = "|name 1|email@email.com|comment 1";
 		verifyStudentContent(expected, new Student(enrollmentLine, "courseId1"));
 

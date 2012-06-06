@@ -16,10 +16,10 @@ public class StudentData extends UserData{
 		NOT_IN_ENROLL_LIST;
 	}
 	
-	public String course;
-	public String comments = "";
-	public String team = "";
-	public Text profile = new Text("");
+	public String course = null;
+	public String comments = null;
+	public String team = null;
+	public Text profile = null;
 	
 	
 	public UpdateStatus updateStatus = UpdateStatus.UNKNOWN ;

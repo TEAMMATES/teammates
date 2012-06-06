@@ -28,7 +28,7 @@ public class Student {
 	 */
 	@Persistent
 	@SerializedName("google_id")
-	private String ID ="";
+	private String ID =null;
 
 	@Persistent
 	@SerializedName("email")
@@ -40,18 +40,18 @@ public class Student {
 
 	@Persistent
 	@SerializedName("name")
-	private String name;
+	private String name=null;
 
 	@Persistent
-	private String comments ="";
+	private String comments =null;
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private transient Long registrationKey;
+	private transient Long registrationKey=null;
 
 	@Persistent
 	@SerializedName("teamname")
-	private String teamName = "";
+	private String teamName = null;
 
 	@Persistent
 	private transient boolean courseArchived;
@@ -63,7 +63,7 @@ public class Student {
 	
 	@Persistent
 	@SerializedName("profiledetail")
-	private Text profileDetail = new Text("");
+	private Text profileDetail = null;
 
 	/**
 	 * Constructs a Student object.
@@ -78,11 +78,9 @@ public class Student {
 			String teamName) {
 		this.setEmail(email);
 		this.setName(name);
-		this.setID("");
 		this.setComments(comments);
 		this.setCourseID(courseID);
 		this.setTeamName(teamName);
-		this.setCourseArchived(false);
 	}
 
 	/**
@@ -132,7 +130,7 @@ public class Student {
 			throw new InvalidParametersException(Common.ERRORCODE_NULL_PARAMETER, "Enrollment line cannot be null");
 		}
 		if ((line.equals(""))||(courseId.equals(""))) {
-			throw new InvalidParametersException(Common.ERRORCODE_EMPTY_STRING, "Enrollment line cannot be null");
+			throw new InvalidParametersException(Common.ERRORCODE_EMPTY_STRING, "Enrollment line cannot be empty");
 		}
 		
 		String[] parts = line.replace("|","\t").split("\t");
@@ -144,7 +142,7 @@ public class Student {
 		String paramCourseId = courseId.trim();
 		Common.validateCourseId(paramCourseId);
 		
-		String paramTeam = parts[TEAM_POS].trim();
+		String paramTeam = parts[TEAM_POS].trim().isEmpty()?null:parts[TEAM_POS].trim() ;
 		Common.validateTeamName(paramTeam);
 		
 		String paramName = parts[NAME_POS].trim();
@@ -153,7 +151,8 @@ public class Student {
 		String paramEmail = parts[EMAIL_POS].trim();
 		Common.validateEmail(paramEmail);
 		
-		String paramComment = parts.length==4 ?parts[COMMENT_POS].trim():"";
+		String paramComment = parts.length==4 ? parts[COMMENT_POS].trim():"";
+		paramComment = paramComment.isEmpty()? null : paramComment;
 		Common.validateComment(paramComment);
 		
 		setTeamName(paramTeam);
@@ -173,7 +172,7 @@ public class Student {
 	}
 
 	public void setID(String ID) {
-		this.ID = (ID==null? "" : ID.trim());
+		this.ID = (ID==null? null : ID.trim());
 	}
 
 	public String getID() {
@@ -189,7 +188,7 @@ public class Student {
 	}
 
 	public void setComments(String comments) {
-		this.comments = (comments==null? "" : comments.trim());
+		this.comments = (comments==null? null : comments.trim());
 	}
 
 	public String getComments() {
@@ -214,7 +213,7 @@ public class Student {
 	}
 
 	public void setTeamName(String teamName) {
-		this.teamName = teamName.trim();
+		this.teamName = (teamName==null ? null :teamName.trim());
 	}
 
 	public String getTeamName() {

@@ -386,16 +386,25 @@ public class Courses {
 		getPM().close();
 	}
 	
-	public void editStudent(String courseID, String email, String newName, String newTeamName, String newEmail, String newGoogleID, String newComments, Text newProfile) throws EntityDoesNotExistException {
+	public void editStudent(String courseID, String email, String newName,
+			String newTeamName, String newEmail, String newGoogleID,
+			String newComments, Text newProfile)
+			throws EntityDoesNotExistException {
 		Student student = getStudentWithEmail(courseID, email);
-		if(student==null) throw new EntityDoesNotExistException("Student "+email+" does not exist in course "+courseID);
-		student.setComments((newComments));
+		if (student == null)
+			throw new EntityDoesNotExistException("Student " + email
+					+ " does not exist in course " + courseID);
+		student.setComments(newComments);
 		student.setEmail(newEmail);
-		student.setID(newGoogleID);
+		if (newGoogleID != null) {
+			student.setID(newGoogleID);
+		}
 		student.setName(newName);
 		student.setTeamName(newTeamName);
-		student.setProfileDetail(newProfile);
-		
+		if(newProfile != null) {
+			student.setProfileDetail(newProfile);
+		}
+
 		getPM().close();
 	}
 

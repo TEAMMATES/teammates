@@ -1303,12 +1303,13 @@ public class APIServlet extends HttpServlet {
 	private void ____STUDENT_level_methods__________________________________() {
 	}
 
-	public void createStudent(StudentData student)
+	public void createStudent(StudentData studentData)
 			throws EntityAlreadyExistsException, InvalidParametersException {
-		if (student == null) {
+		if (studentData == null) {
 			throw new InvalidParametersException("Student cannot be null");
 		}
-		Courses.inst().createStudent(new Student(student));
+		Student student = new Student(studentData);
+		Courses.inst().createStudent(student);
 	}
 
 	public StudentData getStudent(String courseId, String email) {
@@ -1399,7 +1400,7 @@ public class APIServlet extends HttpServlet {
 	}
 	
 	//TODO: testing
-	private StudentData getStudentWithId(String googleId) {
+	public StudentData getStudentWithId(String googleId) {
 		Student student = Accounts.inst().getStudentWithID(googleId);
 		return (student==null? null : new StudentData(student));
 	}
@@ -1413,7 +1414,7 @@ public class APIServlet extends HttpServlet {
 		Evaluations.inst().addEvaluation(evaluation.toEvaluation());
 	}
 
-	public EvaluationData getEvaluation(String courseId, String evaluationName) {
+	public EvaluationData getEvaluation(String courseId, String evaluationName){
 		Evaluation e = Evaluations.inst().getEvaluation(courseId,
 				evaluationName);
 		return (e == null ? null : new EvaluationData(e));

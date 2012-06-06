@@ -155,6 +155,9 @@ public class Common {
 
 	//TODO: add more checks and write unit tests
 	public static void validateTeamName(String teamName) throws InvalidParametersException {
+		if(teamName==null){
+			return;
+		}
 		if(teamName.length()>TEAM_NAME_MAX_LENGTH){
 			throw new InvalidParametersException(ERRORCODE_STRING_TOO_LONG, "Team name cannot be longer than "+TEAM_NAME_MAX_LENGTH);
 		}
@@ -215,6 +218,7 @@ public class Common {
 		
 	//TODO: add more checks and write unit tests
 	public static void validateComment(String comment) throws InvalidParametersException {
+		if (comment==null){return;}
 		if(comment.length()>COMMENT_MAX_LENGTH){
 			throw new InvalidParametersException(ERRORCODE_STRING_TOO_LONG, "Comment cannot be longer than "+STUDENT_NAME_MAX_LENGTH);
 		}

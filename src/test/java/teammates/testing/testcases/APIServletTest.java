@@ -27,6 +27,7 @@ import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
 import teammates.datatransfer.*;
+import teammates.datatransfer.StudentData.UpdateStatus;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.taskqueue.dev.LocalTaskQueue;
@@ -685,6 +686,14 @@ public class APIServletTest extends BaseTestCase {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
 		}
 	}
+	
+	@Test
+	public void testGetTeamsForCourse(){
+		//TODO: implement this
+		//input: course, 
+		//output: List<team>
+		//throws: EntityDoesNotExist (if course exist)
+	}
 
 	@SuppressWarnings("unused")
 	private void ____STUDENT_level_methods__________________________________() {
@@ -693,7 +702,7 @@ public class APIServletTest extends BaseTestCase {
 	@Test
 	public void testCreateStudent() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		//refreshDataInDatastore();
 
 		StudentData newStudent = new StudentData("t1|n1|e@com|c1",
 				"tcs.course1");
@@ -722,6 +731,11 @@ public class APIServletTest extends BaseTestCase {
 		// mostly tested in testCreateStudent
 		assertEquals(null, apiServlet.getStudent(null, "email@email.com"));
 		assertEquals(null, apiServlet.getStudent("course-id", null));
+	}
+	
+	@Test
+	public void testGetStudentWithId(){
+		//TODO: implement this
 	}
 
 	@Test
@@ -766,6 +780,7 @@ public class APIServletTest extends BaseTestCase {
 
 		// TODO: make sure team profiles are deleted if this is the last student
 		// in that team
+		// TODO: check for KeepExistingPolicy
 
 	}
 
@@ -849,10 +864,15 @@ public class APIServletTest extends BaseTestCase {
 				StudentData.UpdateStatus.UNMODIFIED);
 
 		// modify info of same student and verify it was treated as modified
-		StudentData student2 = new StudentData("t|n2|e@g|c", courseId);
-		enrollmentResult = apiServlet.enrollStudent(student2);
-		verifyEnrollmentResultForStudent(student2, enrollmentResult,
+		StudentData student2 = dataBundle.students.get("student1InCourse1");
+		student2.name = student2.name+"y";
+		StudentData studentToEnroll = new StudentData(student2.email,student2.name, student2.comments, student2.course, student2.team);
+		enrollmentResult = apiServlet.enrollStudent(studentToEnroll);
+		verifyEnrollmentResultForStudent(studentToEnroll, enrollmentResult,
 				StudentData.UpdateStatus.MODIFIED);
+		//check if the student is actually modified in datastore and existing 
+		// values not specified in enroll action (e.g, id) prevail 
+		verifyPresentInDatastore(student2);
 
 		// add a new student to non-empty course
 		StudentData student3 = new StudentData("t3|n3|e3@g|c3", courseId);
@@ -873,6 +893,30 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(1, getNumberOfEmailTasksInQueue());
 		verifyRegistrationEmailToStudent(student1);
 		// TODO: more testing
+	}
+	
+	@Test
+	public void testRegisterForCourse(){
+		//TODO: implement this
+		//input: key, course, email, googleId
+		//output: status
+		//throws: InvalidParametersException, EntityDoesNotExist
+	}
+	
+	@Test
+	public void testGetCourseListForStudent(){
+		//TODO: implement this
+		//input: googleId
+		//output: List<CourseData>, including List<EvaluationData>
+		//throws: InvalidParametersException, EntityDoesNotExist (if student does not exist)
+	}
+	
+	@Test
+	public void testGetEvauationResultForStudent(){
+		//TODO: implement this
+		//input: course, email,evalName
+		//output: EvaluationResult
+		//throws: InvalidParametersException, EntityDoesNotExist (if eval or student does not exist)
 	}
 
 	@SuppressWarnings("unused")
@@ -1006,6 +1050,17 @@ public class APIServletTest extends BaseTestCase {
 		// TODO: more testing
 
 	}
+	
+	@Test
+	public void testEditSubmissionList(){
+		//TODO: implement this
+		//input: List<Submission>
+		// creates if submission does not exist
+		//output: void
+		//throws: InvalidParametersException
+	}
+	
+	
 
 	@Test
 	public void testDeleteSubmission() {
@@ -1334,7 +1389,7 @@ public class APIServletTest extends BaseTestCase {
 	private void verifyPresentInDatastore(StudentData expectedStudent) {
 		StudentData actualStudent = apiServlet.getStudent(
 				expectedStudent.course, expectedStudent.email);
-
+		expectedStudent.updateStatus = UpdateStatus.UNKNOWN;
 		assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
 	}
 
