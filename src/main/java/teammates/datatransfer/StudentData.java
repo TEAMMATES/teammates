@@ -15,6 +15,8 @@ public class StudentData extends UserData{
 		NOT_IN_ENROLL_LIST;
 	}
 	
+	public String name;
+	public String email;
 	public String course = null;
 	public String comments = null;
 	public String team = null;
@@ -22,8 +24,8 @@ public class StudentData extends UserData{
 	
 	
 	public UpdateStatus updateStatus = UpdateStatus.UNKNOWN ;
-	public String name;
-	public String email;
+	
+	
 	
 	
 	public StudentData(String email, String name, String comments,

@@ -18,6 +18,8 @@ public class SubmissionData {
 	public int points;
 	public Text justification;
 	public Text p2pFeedback;
+	
+	public transient int normalizedPoints;
 
 	public SubmissionData() {
 
