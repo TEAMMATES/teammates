@@ -1,6 +1,5 @@
 package teammates.datatransfer;
 
-import teammates.api.APIServlet.UserType;
 import teammates.api.InvalidParametersException;
 import teammates.persistent.Student;
 

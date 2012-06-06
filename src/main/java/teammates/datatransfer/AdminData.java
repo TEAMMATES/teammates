@@ -1,6 +1,5 @@
 package teammates.datatransfer;
 
-import teammates.api.APIServlet.UserType;
 
 public class AdminData extends UserData {
 	public String name;

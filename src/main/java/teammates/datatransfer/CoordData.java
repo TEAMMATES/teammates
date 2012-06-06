@@ -2,7 +2,6 @@ package teammates.datatransfer;
 
 import java.util.HashMap;
 
-import teammates.api.APIServlet.UserType;
 
 
 public class CoordData extends UserData{

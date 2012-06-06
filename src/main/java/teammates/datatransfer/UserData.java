@@ -1,6 +1,5 @@
 package teammates.datatransfer;
 
-import teammates.api.APIServlet.UserType;
 
 public class UserData {
 	public String id = null;

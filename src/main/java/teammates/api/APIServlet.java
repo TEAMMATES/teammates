@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.Config;
 import teammates.Datastore;
-import teammates.datatransfer.AdminData;
 import teammates.datatransfer.CoordData;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.DataBundle;
@@ -53,11 +52,7 @@ import com.google.appengine.api.users.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-/**
- * The API Servlet.
- * @author Damith C Rajapakse
- * 
- */
+
 @SuppressWarnings("serial")
 public class APIServlet extends HttpServlet {
 	public static final String OPERATION_CREATE_COORD = "OPERATION_CREATE_COORD";
@@ -105,12 +100,6 @@ public class APIServlet extends HttpServlet {
 	private static final Logger log = Logger.getLogger(APIServlet.class
 			.getName());
 
-	public enum UserType{
-		STUDENT, 
-		COORDINATOR, 
-		ADMIN, UNREGISTERED, 
-	}
-	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
 		doPost(req, resp);
@@ -918,14 +907,6 @@ public class APIServlet extends HttpServlet {
 		return accounts.getUser().getNickname();
 	}
 
-	@Deprecated
-	public UserType getUserType(){
-		Accounts accounts = Accounts.inst();
-		if(accounts.isAdministrator()){return UserType.ADMIN;}
-		if(accounts.isCoordinator()){return UserType.COORDINATOR;}
-		return UserType.UNREGISTERED;
-		//TODO: do the same for student 
-	}
 	
 //	@Deprecated
 //	public UserData getLoggedInUser(){
