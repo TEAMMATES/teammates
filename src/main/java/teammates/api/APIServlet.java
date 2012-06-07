@@ -1294,15 +1294,16 @@ public class APIServlet extends HttpServlet {
 		}
 		
 		TeamData team = null;
-		TeamData studentWithoutTeams = new TeamData();
 		for(int i=0; i<students.size(); i++){
 			
 			StudentData s = students.get(i);
 			
-			//first iteration
-			if(s.team == null){
+					
+			//if loner
+			if(s.team.equals("")){
 				course.loners.add(s);
-			}else if (i==0){
+			//first student of first team
+			}else if (team==null){
 				team = new TeamData();
 				team.name = s.team;
 				team.profile = getTeamProfile(courseId, team.name);
@@ -1310,7 +1311,7 @@ public class APIServlet extends HttpServlet {
 			//student in the same team as the previous student
 			}else if(s.team.equals(team.name)){
 				team.students.add(s);
-			//first student of a new team
+			//first student of subsequent teams (not the first team)
 			}else{
 				course.teams.add(team);
 				team = new TeamData();
@@ -1362,6 +1363,12 @@ public class APIServlet extends HttpServlet {
 		//  null as unregistered.
 		if(student.getID()==null){
 			student.setID("");
+		}
+		if(student.getComments()==null){
+			student.setComments("");
+		}
+		if(student.getTeamName()==null){
+			student.setTeamName("");
 		}
 		Courses.inst().createStudent(student);
 	}
@@ -1510,15 +1517,12 @@ public class APIServlet extends HttpServlet {
 		for (TeamData team : returnValue.teams) {
 			for (StudentData student : team.students) {
 				student.result = new EvalResultData();
-				extractSelfEvaluation(submissionDataList, student);
-				extractPeerSubmissions(submissionDataList, team, student);
+				extractSubmissionsAndSetNames(submissionDataList, team, student);
 				student.result = calculateResults(student.result);
 			}
 		}
 		return returnValue;
 	}
-
-
 
 	public HashMap<String, SubmissionData> getSubmissionsForEvaluation(String courseId,
 			String evaluationName) {
@@ -1684,24 +1688,35 @@ public class APIServlet extends HttpServlet {
 		}
 		return result;
 	}
-
-	private void extractPeerSubmissions(
-			HashMap<String, SubmissionData> list, TeamData team,
-			StudentData student) {
-		for(StudentData peer: team.students){
-			if(peer.email.equals(student.email)){
-				continue;
+	
+	private void extractSubmissionsAndSetNames(HashMap<String, SubmissionData> list,
+			TeamData team, StudentData student) {
+		for (StudentData peer : team.students) {
+			//peer is self
+			if (peer.email.equals(student.email)) {
+				student.result.own = list.get(student.email + "->"
+						+ student.email);
+				student.result.own.revieweeName = student.name;
+				student.result.own.reviewerName = student.name;
+			// peer is not self
+			} else {
+				//set incoming submission from peer
+				SubmissionData submissionFromPeer = list.get(peer.email + "->"
+						+ student.email);
+				student.result.incoming.add(submissionFromPeer);
+				
+				//set names in incoming submission
+				submissionFromPeer.revieweeName = student.name;
+				submissionFromPeer.reviewerName = peer.name;
+				
+				//set outgoing submission to peer
+				student.result.outgoing.add(list.get(student.email + "->"
+						+ peer.email));
+				
+				//no need to set names in outgoing submission as it will be
+				//processed again as an incoming submission of this peer
 			}
-			student.result.incoming.add(list.get(peer.email+"->"+student.email));
-			student.result.outgoing.add(list.get(student.email+"->"+peer.email));
 		}
-	}
-
-	private void extractSelfEvaluation(
-			HashMap<String, SubmissionData> submissionDataList,
-			StudentData student) {
-		student.result.own = submissionDataList.get(student.email
-				+ "->" + student.email);
 	}
 
 	private boolean isInEnrollList(StudentData student,

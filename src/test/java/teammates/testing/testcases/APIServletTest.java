@@ -653,6 +653,7 @@ public class APIServletTest extends BaseTestCase {
 			Common.assertContains("Course ID", e.getMessage());
 		}
 		
+		
 		//TODO: check for duplicate students in enroll lines
 		
 	}
@@ -929,6 +930,13 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(2, apiServlet.getStudentListForCourse(courseId).size());
 		verifyEnrollmentResultForStudent(student3, enrollmentResult,
 				StudentData.UpdateStatus.NEW);
+		
+		// student without team
+		StudentData student4 = new StudentData("|n4|e4@g", courseId);
+		enrollmentResult = apiServlet.enrollStudent(student4);
+		assertEquals(3, apiServlet.getStudentListForCourse(courseId).size());
+		verifyEnrollmentResultForStudent(student4, enrollmentResult,
+				StudentData.UpdateStatus.NEW);
 	}
 
 	@Test
@@ -1052,6 +1060,9 @@ public class APIServletTest extends BaseTestCase {
 		StudentData student1InCourse1 = team1_1.students.get(1);
 		assertEquals("student1InCourse1", student1InCourse1.id);
 		assertTrue(student1InCourse1.result.own != null);
+		assertEquals(student1InCourse1.name, student1InCourse1.result.own.revieweeName);
+		assertEquals(student1InCourse1.name, student1InCourse1.result.own.reviewerName);
+		
 		assertEquals(1, student1InCourse1.result.incoming.size());
 		assertEquals(1, student1InCourse1.result.outgoing.size());
 		assertTrue(student1InCourse1.result.claimedActual != Common.UNINITIALIZED_INT);
@@ -1059,8 +1070,14 @@ public class APIServletTest extends BaseTestCase {
 		assertTrue(student1InCourse1.result.claimedToStudent != Common.UNINITIALIZED_INT);
 		assertTrue(student1InCourse1.result.perceivedToCoord != Common.UNINITIALIZED_INT);
 		assertTrue(student1InCourse1.result.perceivedToStudent != Common.UNINITIALIZED_INT);
+		
 		assertTrue(student1InCourse1.result.incoming.get(0).normalized != Common.UNINITIALIZED_INT);
+		assertEquals(student1InCourse1.name, student1InCourse1.result.incoming.get(0).revieweeName);
+		assertEquals(student2InCourse1.name, student1InCourse1.result.incoming.get(0).reviewerName);
+		
 		assertTrue(student1InCourse1.result.outgoing.get(0).normalized != Common.UNINITIALIZED_INT);
+		assertEquals(student2InCourse1.name, student1InCourse1.result.outgoing.get(0).revieweeName);
+		assertEquals(student1InCourse1.name, student1InCourse1.result.outgoing.get(0).reviewerName);
 		// TODO: more testing
 	}
 	
@@ -1466,6 +1483,12 @@ public class APIServletTest extends BaseTestCase {
 		//TODO: this is for backward compatibility with old system. to be removed.
 		if((expectedStudent.id==null)&&(actualStudent.id.equals(""))){
 			actualStudent.id=null;
+		}
+		if((expectedStudent.team==null)&&(actualStudent.team.equals(""))){
+			actualStudent.team=null;
+		}
+		if((expectedStudent.comments==null)&&(actualStudent.comments.equals(""))){
+			actualStudent.comments=null;
 		}
 		assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
 	}
