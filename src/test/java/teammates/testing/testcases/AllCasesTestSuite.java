@@ -12,6 +12,7 @@ import teammates.testing.lib.HtmlHelperTest;
 	CommonTest.class,
 	StudentTest.class,
 	TeamDataTest.class,
+	EvalResultDataTest.class,
 	HtmlHelperTest.class,
 	AllJsUnitTests.class,
 	TMAPITest.class,

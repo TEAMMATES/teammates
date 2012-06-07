@@ -653,6 +653,8 @@ public class APIServletTest extends BaseTestCase {
 			Common.assertContains("Course ID", e.getMessage());
 		}
 		
+		//TODO: check for duplicate students in enroll lines
+		
 	}
 
 	@Test
@@ -903,7 +905,8 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(1, apiServlet.getStudentListForCourse(courseId).size());
 		verifyEnrollmentResultForStudent(student1, enrollmentResult,
 				StudentData.UpdateStatus.NEW);
-
+		verifyPresentInDatastore(student1);
+		
 		// add the same student. Verify it was not added
 		enrollmentResult = apiServlet.enrollStudent(student1);
 		verifyEnrollmentResultForStudent(student1, enrollmentResult,
@@ -1039,7 +1042,7 @@ public class APIServletTest extends BaseTestCase {
 		
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
 		EvaluationData evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
-		EvaluationData result = apiServlet.getEvauationResult(course.id, evaluation.name);
+		EvaluationData result = apiServlet.getEvaluationResult(course.id, evaluation.name);
 		
 		assertEquals(2, result.teams.size());
 		TeamData team1_1 = result.teams.get(0);

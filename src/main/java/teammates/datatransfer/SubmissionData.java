@@ -8,16 +8,27 @@ import com.google.appengine.api.datastore.Text;
 public class SubmissionData {
 	/** course ID */
 	public String course;
+	
 	/** evaluation name */
 	public String evaluation;
+	
 	/** team name */
 	public String team;
+	
 	/** reviewer email */
 	public String reviewer;
+	
+	public transient String reviewerName = null;
+	
 	/** reviewee email */
 	public String reviewee;
+	
+	public transient String revieweeName = null;
+	
 	public int points;
+	
 	public Text justification;
+	
 	public Text p2pFeedback;
 	
 	public transient int normalized = Common.UNINITIALIZED_INT;

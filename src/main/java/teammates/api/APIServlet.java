@@ -1494,7 +1494,7 @@ public class APIServlet extends HttpServlet {
 		Evaluations.inst().unpublishEvaluation(courseId, evaluationName);
 	}
 	
-	public EvaluationData getEvauationResult(String courseId,
+	public EvaluationData getEvaluationResult(String courseId,
 			String evaluationName) throws EntityDoesNotExistException {
 		CourseData course = getTeamsForCourse(courseId);
 		EvaluationData returnValue = new EvaluationData();

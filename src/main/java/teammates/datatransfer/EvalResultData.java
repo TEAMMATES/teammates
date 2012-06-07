@@ -1,6 +1,8 @@
 package teammates.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import teammates.api.Common;
 import teammates.api.NotImplementedException;
@@ -17,19 +19,28 @@ public class EvalResultData {
 	public int perceivedToCoord = Common.UNINITIALIZED_INT;
 	public int perceivedToStudent = Common.UNINITIALIZED_INT;
 	
-	public void sortOutgoingByStudentNameAscending() throws NotImplementedException{
-		//TODO:
-		throw new NotImplementedException("to be implemented soon");
+	public void sortOutgoingByStudentNameAscending(){
+		Collections.sort(outgoing, new Comparator<SubmissionData>() {
+			public int compare(SubmissionData s1, SubmissionData s2) {
+				return s1.revieweeName.compareTo(s2.revieweeName);
+			}
+		});
 	}
 	
-	public void sortIncomingByStudentNameAscending() throws NotImplementedException{
-		//TODO:
-		throw new NotImplementedException("to be implemented soon");
+	public void sortIncomingByStudentNameAscending(){
+		Collections.sort(incoming, new Comparator<SubmissionData>() {
+			public int compare(SubmissionData s1, SubmissionData s2) {
+				return s1.reviewerName.compareTo(s2.reviewerName);
+			}
+		});
 	}
 	
-	public void sortIncomingByFeedbackAscending() throws NotImplementedException{
-		//TODO:
-		throw new NotImplementedException("to be implemented soon");
+	public void sortIncomingByFeedbackAscending(){
+		Collections.sort(incoming, new Comparator<SubmissionData>() {
+			public int compare(SubmissionData s1, SubmissionData s2) {
+				return s1.p2pFeedback.getValue().compareTo(s2.p2pFeedback.getValue());
+			}
+		});
 	}
 
 }
