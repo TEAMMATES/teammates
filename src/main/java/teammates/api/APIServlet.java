@@ -1294,15 +1294,16 @@ public class APIServlet extends HttpServlet {
 		}
 		
 		TeamData team = null;
-		TeamData studentWithoutTeams = new TeamData();
 		for(int i=0; i<students.size(); i++){
 			
 			StudentData s = students.get(i);
 			
-			//first iteration
-			if(s.team == null){
+					
+			//if loner
+			if(s.team.equals("")){
 				course.loners.add(s);
-			}else if (i==0){
+			//first student of first team
+			}else if (team==null){
 				team = new TeamData();
 				team.name = s.team;
 				team.profile = getTeamProfile(courseId, team.name);
@@ -1310,7 +1311,7 @@ public class APIServlet extends HttpServlet {
 			//student in the same team as the previous student
 			}else if(s.team.equals(team.name)){
 				team.students.add(s);
-			//first student of a new team
+			//first student of subsequent teams (not the first team)
 			}else{
 				course.teams.add(team);
 				team = new TeamData();
@@ -1362,6 +1363,12 @@ public class APIServlet extends HttpServlet {
 		//  null as unregistered.
 		if(student.getID()==null){
 			student.setID("");
+		}
+		if(student.getComments()==null){
+			student.setComments("");
+		}
+		if(student.getTeamName()==null){
+			student.setTeamName("");
 		}
 		Courses.inst().createStudent(student);
 	}

@@ -142,7 +142,7 @@ public class Student {
 		String paramCourseId = courseId.trim();
 		Common.validateCourseId(paramCourseId);
 		
-		String paramTeam = parts[TEAM_POS].trim().isEmpty()?null:parts[TEAM_POS].trim() ;
+		String paramTeam = parts[TEAM_POS].trim() ;
 		Common.validateTeamName(paramTeam);
 		
 		String paramName = parts[NAME_POS].trim();
@@ -152,7 +152,6 @@ public class Student {
 		Common.validateEmail(paramEmail);
 		
 		String paramComment = parts.length==4 ? parts[COMMENT_POS].trim():"";
-		paramComment = paramComment.isEmpty()? null : paramComment;
 		Common.validateComment(paramComment);
 		
 		setTeamName(paramTeam);

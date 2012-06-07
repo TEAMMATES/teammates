@@ -394,13 +394,18 @@ public class Courses {
 		if (student == null)
 			throw new EntityDoesNotExistException("Student " + email
 					+ " does not exist in course " + courseID);
-		student.setComments(newComments);
 		student.setEmail(newEmail);
+		student.setName(newName);
+		
+		if(newComments!=null){
+			student.setComments(newComments);
+		}
 		if (newGoogleID != null) {
 			student.setID(newGoogleID);
 		}
-		student.setName(newName);
-		student.setTeamName(newTeamName);
+		if (newTeamName != null) {
+			student.setTeamName(newTeamName);
+		}
 		if(newProfile != null) {
 			student.setProfileDetail(newProfile);
 		}

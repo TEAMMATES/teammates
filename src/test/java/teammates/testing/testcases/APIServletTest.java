@@ -653,6 +653,7 @@ public class APIServletTest extends BaseTestCase {
 			Common.assertContains("Course ID", e.getMessage());
 		}
 		
+		
 		//TODO: check for duplicate students in enroll lines
 		
 	}
@@ -928,6 +929,13 @@ public class APIServletTest extends BaseTestCase {
 		enrollmentResult = apiServlet.enrollStudent(student3);
 		assertEquals(2, apiServlet.getStudentListForCourse(courseId).size());
 		verifyEnrollmentResultForStudent(student3, enrollmentResult,
+				StudentData.UpdateStatus.NEW);
+		
+		// student without team
+		StudentData student4 = new StudentData("|n4|e4@g", courseId);
+		enrollmentResult = apiServlet.enrollStudent(student4);
+		assertEquals(3, apiServlet.getStudentListForCourse(courseId).size());
+		verifyEnrollmentResultForStudent(student4, enrollmentResult,
 				StudentData.UpdateStatus.NEW);
 	}
 
@@ -1475,6 +1483,12 @@ public class APIServletTest extends BaseTestCase {
 		//TODO: this is for backward compatibility with old system. to be removed.
 		if((expectedStudent.id==null)&&(actualStudent.id.equals(""))){
 			actualStudent.id=null;
+		}
+		if((expectedStudent.team==null)&&(actualStudent.team.equals(""))){
+			actualStudent.team=null;
+		}
+		if((expectedStudent.comments==null)&&(actualStudent.comments.equals(""))){
+			actualStudent.comments=null;
 		}
 		assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
 	}

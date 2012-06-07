@@ -801,6 +801,12 @@ public class TMAPITest extends BaseTestCase{
 		if((expectedStudent.id==null)&&(actualStudent.id.equals(""))){
 			actualStudent.id=null;
 		}
+		if((expectedStudent.team==null)&&(actualStudent.team.equals(""))){
+			actualStudent.team=null;
+		}
+		if((expectedStudent.comments==null)&&(actualStudent.comments.equals(""))){
+			actualStudent.comments=null;
+		}
 		assertEquals(gson.toJson(expectedStudent),
 				gson.toJson(actualStudent));
 	}
