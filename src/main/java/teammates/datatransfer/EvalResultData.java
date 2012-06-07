@@ -3,6 +3,7 @@ package teammates.datatransfer;
 import java.util.ArrayList;
 
 import teammates.api.Common;
+import teammates.api.NotImplementedException;
 
 public class EvalResultData {
 	
@@ -16,5 +17,19 @@ public class EvalResultData {
 	public int perceivedToCoord = Common.UNINITIALIZED_INT;
 	public int perceivedToStudent = Common.UNINITIALIZED_INT;
 	
+	public void sortOutgoingByStudentNameAscending() throws NotImplementedException{
+		//TODO:
+		throw new NotImplementedException("to be implemented soon");
+	}
+	
+	public void sortIncomingByStudentNameAscending() throws NotImplementedException{
+		//TODO:
+		throw new NotImplementedException("to be implemented soon");
+	}
+	
+	public void sortIncomingByFeedbackAscending() throws NotImplementedException{
+		//TODO:
+		throw new NotImplementedException("to be implemented soon");
+	}
 
 }

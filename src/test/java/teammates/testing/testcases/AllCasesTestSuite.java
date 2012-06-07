@@ -4,7 +4,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import teammates.testing.junit.TMAPITest;
-import teammates.testing.lib.HtmlHelper;
 import teammates.testing.lib.HtmlHelperTest;
 
 
@@ -21,6 +20,6 @@ import teammates.testing.lib.HtmlHelperTest;
 	CoordHomePageUiTest.class
 })
 
-public class AllCasesTestSuite {	
-	
+public class AllCasesTestSuite {
+
 }
