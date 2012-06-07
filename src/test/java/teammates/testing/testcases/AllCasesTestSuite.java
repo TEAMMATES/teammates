@@ -11,6 +11,7 @@ import teammates.testing.lib.HtmlHelperTest;
 @Suite.SuiteClasses({
 	CommonTest.class,
 	StudentTest.class,
+	TeamDataTest.class,
 	HtmlHelperTest.class,
 	AllJsUnitTests.class,
 	TMAPITest.class,
