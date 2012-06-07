@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
 import com.google.gson.Gson;
@@ -55,6 +56,18 @@ public class Common {
 	public final static String HOVER_MESSAGE_EVALUATION_PUBLISH = "Publish evaluation results for students to view";
 	public final static String HOVER_MESSAGE_EVALUATION_UNPUBLISH = "Make results not visible to students";
 	
+	public final static String HOVER_MESSAGE_EVALUATION_INPUT_COURSE = "Please select the course for which the evaluation is to be created.";
+	public final static String HOVER_MESSAGE_EVALUATION_INPUT_START = "Please enter the start date for the evaluation.";
+	public final static String HOVER_MESSAGE_EVALUATION_INPUT_NAME = "Enter the name of the evaluation e.g. Mid-term.";
+	public final static String HOVER_MESSAGE_EVALUATION_INPUT_DEADLINE = "Please enter deadline for the evaluation.";
+	public final static String HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS = "Enable this if you want students to give anonymous feedback to team members.<br />" +
+																				"You can moderate those peer feedback before publishing it to the team.";
+	public final static String HOVER_MESSAGE_EVALUATION_INPUT_TIMEZONE = "Daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />" +
+																			"daylight saving, you should choose UTC -7:00 and its corresponding timings.";
+	public final static String HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD = "Please select the amount of time that the system will continue accepting <br />" +
+																			"submissions after the specified deadline.";
+	public final static String HOVER_MESSAGE_EVALUATION_INPUT_INSTRUCTIONS = "Please enter instructions for your students, e.g. Avoid comments which are too critical.";
+	
 	// Evaluation status
 	public final static String EVALUATION_STATUS_AWAITING = "AWAITING";
 	public final static String EVALUATION_STATUS_OPEN = "OPEN";
@@ -74,11 +87,27 @@ public class Common {
 	public final static String PARAM_COURSE_ID = "courseid";
 	public final static String PARAM_COURSE_NAME = "coursename";
 	public final static String PARAM_STUDENTS_ENROLLMENT_INFO = "enrollstudents";
+	
 	public final static String PARAM_EVALUATION_NAME = "evalname";
+	
+	public final static String PARAM_EVALUATION_START = "start";
+	public final static String PARAM_EVALUATION_STARTTIME = "starttime";
+	public final static String PARAM_EVALUATION_DEADLINE = "deadline";
+	public final static String PARAM_EVALUATION_DEADLINETIME = "deadlinetime";
+	public final static String PARAM_EVALUATION_TIMEZONE = "timezone";
+	
+	public final static String PARAM_EVALUATION_COMMENTSENABLED = "commentsstatus";
+	public final static String PARAM_EVALUATION_GRACEPERIOD = "graceperiod";
+	public final static String PARAM_EVALUATION_INSTRUCTIONS = "instr";
+	public final static String PARAM_EVALUATION_NUMBEROFCOMPLETEDEVALUATIONS = "numberofevaluations";
+	public final static String PARAM_EVALUATION_NUMBEROFEVALUATIONS = "numberofcompletedevaluations";
+	public final static String PARAM_EVALUATION_PUBLISHED = "published";
+	public final static String PARAM_EVALUATION_TYPE = "evaluationtype";
+	
 	public final static String PARAM_STATUS_MESSAGE = "message";
 	public final static String PARAM_ERROR = "error";
 	public final static String PARAM_NEXT_URL = "next";
-	public static final String PARAM_USER_ID = "user";
+	public final static String PARAM_USER_ID = "user";
 	
 	//JSP actions
 	public static final String ACTION_ADD_COURSE = "addcourse";
@@ -121,13 +150,28 @@ public class Common {
 	public final static String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
 	public final static String MESSAGE_COURSE_DELETED = "The course has been deleted.";
 	
+	public final static String MESSAGE_EVALUATION_ADDED = "The evaluation has been added.";
+	public final static String MESSAGE_EVALUATION_DELETED = "The evaluation has been deleted.";
+	public final static String MESSAGE_EVALUATION_EDITED = "The evaluation has been edited.";
+	public final static String MESSAGE_EVALUATION_INFORMEDSTUDENTSOFCHANGES = "E-mails have been sent out to inform the students of the changes to the evaluation.";
+	public final static String MESSAGE_EVALUATION_PUBLISHED = "The evaluation has been published.";
+	public final static String MESSAGE_EVALUATION_UNPUBLISHED = "The evaluation has been unpublished.";
+	public final static String MESSAGE_EVALUATION_REMINDERSSENT = "Reminder e-mails have been sent out to those students.";
+	public final static String MESSAGE_EVALUATION_RESULTSEDITED = "The particular evaluation results have been edited.";
+	
+	public final static String MESSAGE_EVALUATION_EXISTS = "The evaluation exists already.";
+	public final static String MESSAGE_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
+	public final static String MESSAGE_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
+	public final static String MESSAGE_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.";
+	
 	// DIV tags for HTML testing
 	public final static String HEADER_TAG = "<div id=\"frameTop\">";
 	public final static String FOOTER_TAG = "<div id=\"frameBottom\">";
 
 	//data field sizes
-	public static int COURSE_NAME_MAX_LENGTH = 38;
-	public static int COURSE_ID_MAX_LENGTH = 21;
+	public static final int COURSE_NAME_MAX_LENGTH = 38;
+	public static final int COURSE_ID_MAX_LENGTH = 21;
+	public static final int EVALUATION_NAME_MAX_LENGTH = 38;
 	public static final int STUDENT_NAME_MAX_LENGTH = 40;
 	public static final int TEAM_NAME_MAX_LENGTH = 25;
 	public static final int COMMENT_MAX_LENGTH = 500;
@@ -192,8 +236,6 @@ public class Common {
 		
 	}
 	
-
-
 	//TODO: add more checks and write unit tests
 	public static void validateGoogleId(String googleId) throws InvalidParametersException {
 		verifyNotNull(googleId, "Google ID");
@@ -313,32 +355,17 @@ public class Common {
 				.getId(), Thread.currentThread().getName(), message));
 	}
 
-	public static Date convertToDate(String date, int time) {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Calendar calendar = Calendar.getInstance();
-
-		Date newDate = new Date();
-
-		// Perform date manipulation 
-		try {
-			newDate = sdf.parse(date);
-			calendar.setTime(newDate);
-
-			if (time == 24) {
-				calendar.set(Calendar.HOUR, 23);
-				calendar.set(Calendar.MINUTE, 59);
-			} else {
-				calendar.set(Calendar.HOUR, time);
-			}
-
-			return calendar.getTime();
-		} catch (Exception e) {
-			return null;
-		}
-
-	}
 	
-	public static Date convertToExactDateTime(String date, int time) {
+	/**
+	 * Convert a date string and time into a Date object.
+	 * Returns null on error.
+	 * @param date
+	 * 		The date in format dd/MM/yyyy
+	 * @param time
+	 * 		The time in format HHMM
+	 * @return
+	 */
+	public static Date convertToDate(String date, int time) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Calendar calendar = Calendar.getInstance();
 
@@ -349,7 +376,7 @@ public class Common {
 			newDate = sdf.parse(date);
 			calendar.setTime(newDate);
 
-			if (time == 24) {
+			if (time == 2400) {
 				calendar.set(Calendar.HOUR, 23);
 				calendar.set(Calendar.MINUTE, 59);
 			} else {
@@ -361,6 +388,7 @@ public class Common {
 		} catch (Exception e) {
 			return null;
 		}
+
 	}
 
 	public static Date getDateOffsetToCurrentTime(int offsetDays) {
@@ -368,6 +396,53 @@ public class Common {
 		cal.setTime(cal.getTime());
 		cal.add(Calendar.DATE, +offsetDays);
 		return cal.getTime();
+	}
+
+	/**
+	 * Return the date of next hour in format (YYYY,M,D)
+	 * @return
+	 */
+	public static String getDateValue() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.HOUR_OF_DAY, 1);
+
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH) + 1;
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+		return "(" + year + "," + month + "," + day + ")";
+	}
+
+	/**
+	 * Returns the next full hour from now
+	 * Example: if current time is 1050, this will return 11
+	 * @return
+	 */
+	public static String getNextTimeValue() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.HOUR_OF_DAY, 1);
+
+		String nextHour = Integer.toString(calendar.get(Calendar.HOUR_OF_DAY) + 1);
+		return nextHour;
+	}
+
+	/**
+	 * Helper method to format date from format (YYYY,M,D) to DD/MM/YYYY.
+	 * Usually used in conjunction with {@link #getDateValue()}
+	 * @param date
+	 * @return
+	 */
+	public static String formatDate(String date) {
+		StringTokenizer st = new StringTokenizer(date, "(,)");
+		String year = st.nextToken().trim();
+		String month = st.nextToken();
+		Integer monthInt = Integer.parseInt(month);
+		month = String.format("%02d", monthInt);
+		String day = st.nextToken();
+		Integer dayInt = Integer.parseInt(day);
+		day = String.format("%02d", dayInt);
+
+		return day + "/" + month + "/" + year;
 	}
 	
 	/**
@@ -427,6 +502,4 @@ public class Common {
 			throw new InvalidParametersException(ERRORCODE_LEADING_OR_TRAILING_SPACES, nameOfString+" should not have leading or trailing spaces");
 		}
 	}
-	
-
 }

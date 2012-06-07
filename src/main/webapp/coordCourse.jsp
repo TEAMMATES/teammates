@@ -118,7 +118,7 @@
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_VIEW_COURSE %>')"
 									onmouseout="hideddrivetip()">View</a>
 								<a class="t_course_delete"
-									href="<%= helper.getCourseDeleteLink(course.id) %>"
+									href="<%= helper.getCourseDeleteLink(course.id,false) %>"
 									onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%= course.id %>');"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_DELETE_COURSE %>')"
 									onmouseout="hideddrivetip()">Delete</a>

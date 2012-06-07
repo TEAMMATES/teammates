@@ -155,13 +155,13 @@ public class Helper {
 	 * Returns the link to delete a course and redirects to the nextURL after deletion<br />
 	 * The nextURL is usually used to refresh the page after deletion
 	 * @param courseID
-	 * @param nextURL
+	 * @param isHome
 	 * @return
 	 */
-	public String getCourseDeleteLink(String courseID){
+	public String getCourseDeleteLink(String courseID, boolean isHome){
 		String link = Common.JSP_COORD_COURSE_DELETE;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
-		link = addParam(link,Common.PARAM_NEXT_URL,Common.JSP_COORD_COURSE);
+		link = addParam(link,Common.PARAM_NEXT_URL,(isHome? Common.JSP_COORD_HOME : Common.JSP_COORD_COURSE));
 		if(isMasqueradeMode()){
 			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
 		}

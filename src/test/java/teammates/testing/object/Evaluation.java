@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import teammates.api.Common;
 import teammates.testing.lib.SharedLib;
 
 import com.google.gson.Gson;
@@ -58,8 +59,8 @@ public class Evaluation {
 		evaluation.p2pcomments = p2pcomments;
 		evaluation.instructions = instructions;
 
-		evaluation.nextTimeValue = SharedLib.getNextTimeValue();
-		evaluation.dateValue = SharedLib.getDateValue();
+		evaluation.nextTimeValue = Common.getNextTimeValue();
+		evaluation.dateValue = Common.getDateValue();
 
 		return evaluation;
 	}
@@ -72,8 +73,8 @@ public class Evaluation {
 			evaluation.instructions = json.getString("instructions");
 			evaluation.gracePeriod = json.getInt("graceperiod");
 
-			evaluation.dateValue = SharedLib.getDateValue();
-			evaluation.nextTimeValue = SharedLib.getNextTimeValue();
+			evaluation.dateValue = Common.getDateValue();
+			evaluation.nextTimeValue = Common.getNextTimeValue();
 
 			// evaluation.startDate = SharedLib.getDateString();
 			evaluation.startTime = new Date(System.currentTimeMillis());

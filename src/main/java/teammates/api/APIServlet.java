@@ -1081,7 +1081,8 @@ public class APIServlet extends HttpServlet {
 	 * @return null if coordId is null
 	 */
 	
-	//TODO: return Array instead?
+	//TODO: return ArrayList instead?
+	// That's better probably ~Aldrian~
 	public HashMap<String, CourseData> getCourseListForCoord(String coordId) {
 		if (coordId == null)
 			return null;

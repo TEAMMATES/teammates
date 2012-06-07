@@ -201,52 +201,6 @@ public class SharedLib {
 		return count;
 	}
 
-	/**
-	 * Return the date of next hour in format (YYYY,M,D)
-	 * @return
-	 */
-	public static String getDateValue() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.HOUR_OF_DAY, 1);
-
-		int year = calendar.get(Calendar.YEAR);
-		int month = calendar.get(Calendar.MONTH) + 1;
-		int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-		return "(" + year + "," + month + "," + day + ")";
-	}
-
-	/**
-	 * Helper method to format the date to DD/MM/YYYY
-	 * @param date
-	 * @return
-	 */
-	public static String formatDate(String date) {
-		StringTokenizer st = new StringTokenizer(date, "(,)");
-		String year = st.nextToken().trim();
-		String month = st.nextToken();
-		Integer monthInt = Integer.parseInt(month);
-		month = String.format("%02d", monthInt);
-		String day = st.nextToken();
-		Integer dayInt = Integer.parseInt(day);
-		day = String.format("%02d", dayInt);
-
-		return day + "/" + month + "/" + year;
-	}
-
-	/**
-	 * Returns the next full hour from now
-	 * Example: if current time is 1050, this will return 11
-	 * @return
-	 */
-	public static String getNextTimeValue() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.HOUR_OF_DAY, 1);
-
-		String nextHour = Integer.toString(calendar.get(Calendar.HOUR_OF_DAY) + 1);
-		return nextHour;
-	}
-
 	public static void main(String[] args) {
 		try {
 //			SharedLib.getRegistrationKeyFromGmail("alice.tmms@gmail.com", Config.inst().TEAMMATES_APP_PASSWD, "CS2103-TESTING");
