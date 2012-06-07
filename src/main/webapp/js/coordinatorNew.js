@@ -204,50 +204,6 @@ function addEvaluation(courseID, name, instructions, commentsEnabled, start,
 
 }
 
-
-
-//----------------------------------------------------------LIST EVALUATION FUNCTIONS
-function doGetEvaluationList() {
-	setStatusMessage(DISPLAY_LOADING);
-
-	var results = getEvaluationList();
-
-	clearStatusMessage();
-
-	if (results != 1) {
-
-		// Toggle calls printEvaluationList too
-		if (evaluationSortStatus == evaluationSort.name) {
-			toggleSortEvaluationsByName(results);
-
-		}
-
-		else {
-			toggleSortEvaluationsByCourseID(results);
-		}
-	}
-
-	else {
-		alert(DISPLAY_SERVERERROR);
-	}
-}
-
-function toggleSortEvaluationsByCourseID(evaluationList) {
-	printEvaluationList(evaluationList.sort(sortByCourseID));
-	evaluationSortStatus = evaluationSort.courseID;
-	document.getElementById("button_sortcourseid").setAttribute("class",
-	"buttonSortAscending");
-}
-
-function toggleSortEvaluationsByName(evaluationList) {
-	printEvaluationList(evaluationList.sort(sortByName));
-	evaluationSortStatus = evaluationSort.name;
-	document.getElementById("button_sortname").setAttribute("class",
-	"buttonSortAscending");
-}
-
-
-
 /***********************************************************EVALUATION RESULT PAGE***********************************************************/
 /*----------------------------------------------------------EVALUATION RESULT PAGE----------------------------------------------------------*/
 function displayEvaluationResults(evaluationList, loop) {
@@ -1056,26 +1012,6 @@ function printEvaluationIndividualForm(submissionList, summaryList, position,
 
 
 /*----------------------------------------------------------OLD FUNCTIONS----------------------------------------------------------*/
-/*
- * Returns
- * 
- * 0: successful 1: server error
- * 
- */
-function archiveCourse(courseID) {
-	setStatusMessage(DISPLAY_LOADING);
-
-	if (xmlhttp) {
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-		"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_ARCHIVECOURSE + "&"
-				+ COURSE_ID + "=" + encodeURIComponent(courseID));
-
-		return handleArchiveCourse();
-	}
-}
-
 function checkEditStudentInput(editName, editTeamName, editEmail, editGoogleID) {
 	if (editName == "" || editTeamName == "" || editEmail == "") {
 		setStatusMessage(DISPLAY_EDITSTUDENT_FIELDSEMPTY);
@@ -1184,12 +1120,6 @@ function deleteStudent(courseID, studentEmail) {
 	}
 }
 
-function displayCourseInformation(courseID) {
-	clearDisplay();
-	doGetCourse(courseID);
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-}
-
 
 
 function displayEditEvaluation(evaluationList, loop) {
@@ -1217,19 +1147,6 @@ function displayEditStudent(courseID, email, name, teamName, googleID,
 	printEditStudent(courseID, email, name, teamName, googleID,
 			registrationKey, comments);
 }
-
-function displayEnrollmentPage(courseID) {
-	clearDisplay();
-	printEnrollmentPage(courseID);
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-}
-
-function displayEnrollmentResultsPage(reports) {
-	clearDisplay();
-	printEnrollmentResultsPage(reports);
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-}
-
 
 function displayStudentInformation(courseID, email, name, teamName, googleID,
 		registrationKey, comments) {
@@ -1453,96 +1370,6 @@ function doEditStudent(courseID, email, editName, editTeamName, editEmail,
 	}
 }
 
-function doEnrollStudents(input, courseID) {
-	setStatusMessage(DISPLAY_LOADING);
-
-	var results = enrollStudents(input, courseID);
-
-	clearStatusMessage();
-
-	if (results == 1) {
-		alert(DISPLAY_SERVERERROR);
-	}
-
-	else if (results == 2) {
-
-	}
-
-	else if (results == 3) {
-		checkEnrollmentInput(input);
-	}
-
-	else {
-		displayEnrollmentResultsPage(results);
-		createProfileOfExistingTeams(courseID);
-	}
-
-}
-
-function doGetCourse(courseID) {
-	setStatusMessage(DISPLAY_LOADING);
-
-	var courseInfo = getCourse(courseID);
-	var studentInfo = getStudentList(courseID);
-
-	clearStatusMessage();
-
-	if (courseInfo != 1) {
-		printCourseCoordinatorForm(courseInfo);
-	} else {
-		alert(DISPLAY_SERVERERROR);
-	}
-
-	if (studentInfo != 1) {
-		// toggleSortStudentsByName calls printStudentList too
-		if (studentSortStatus == studentSort.name) {
-			toggleSortStudentsByName(studentInfo, courseID);
-		} else if (studentSortStatus == studentSort.status) {
-			toggleSortStudentsByStatus(studentInfo, courseID);
-		} else {
-			toggleSortStudentsByTeamName(studentInfo, courseID);
-		}
-	} else {
-		alert(DISPLAY_SERVERERROR);
-	}
-}
-
-function doGetCourseIDList() {
-	setStatusMessage(DISPLAY_LOADING);
-
-	sendGetCourseListRequest();
-	var results = processGetCourseListResponse();
-
-	if (results != 1) {
-		var resultsLength = results.length;
-		var courseIDList = new Array();
-
-		for (var loop = 0; loop < resultsLength; loop++) {
-			courseIDList[loop] = {
-					courseID : results[loop].ID
-			};
-		}
-
-		return courseIDList;
-	}
-
-	else {
-		alert(DISPLAY_SERVERERROR);
-	}
-}
-function doGetCourseIDOptions(courseID) {
-	setStatusMessage(DISPLAY_LOADING);
-
-	sendGetCourseListRequest();
-	var results = processGetCourseListResponse();
-
-	if (results != 1) {
-		populateCourseIDOptions(courseID, results);
-	} else {
-		alert(DISPLAY_SERVERERROR);
-	}
-}
-
 function doInformStudentsOfEvaluationChanges(courseID, name) {
 	setStatusMessage(DISPLAY_LOADING);
 
@@ -1730,49 +1557,6 @@ function editStudent(courseID, email, editName, editTeamName, editEmail,
 	}
 }
 
-/*
- * Returns
- * 
- * reports: successful 1: server error 2: input empty 3: input invalid
- * 
- */
-function enrollStudents(input, courseID) {
-	input = replaceAll(input, "|", "\t");
-
-	if (xmlhttp) {
-		// Remove trailing "\n"
-		if (input.lastIndexOf("\n") == input.length - 1) {
-			input = input.substring(0, input.length - 1);
-		}
-
-		if (input == "") {
-			return 2;
-		}
-
-		else if (isEnrollmentInputValid(input)) {
-			sendEnrollStudentsRequest(input,courseID);
-			return processEnrollStudentsResponse();
-		}
-
-		else {
-			return 3;
-		}
-	}
-}
-
-function sendEnrollStudentsRequest(input,courseID)
-{
-	xmlhttp.open("POST", "/teammates", false);
-	xmlhttp.setRequestHeader("Content-Type",
-	"application/x-www-form-urlencoded;");
-	xmlhttp.send("operation=" + OPERATION_COORDINATOR_ENROLLSTUDENTS
-			+ "&" + STUDENT_INFORMATION + "="
-			+ encodeURIComponent(input) + "&" + COURSE_ID + "="
-			+ encodeURIComponent(courseID));
-
-}
-
-
 function extractSubmissionList(form) {
 	var submissionList = [];
 
@@ -1852,43 +1636,6 @@ function getDateWithTimeZoneOffset(timeZone) {
 	now.setTime(nowMilliS);
 
 	return now;
-}
-
-/*
- * Returns
- * 
- * evaluationList: successful 1: server error
- * 
- */
-function getEvaluationList() {
-	if (xmlhttp) {
-		OPERATION_CURRENT = OPERATION_COORDINATOR_GETEVALUATIONLIST;
-
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-		"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_GETEVALUATIONLIST);
-
-		return handleGetEvaluationList();
-	}
-}
-/*
- * Returns
- * 
- * evaluationList: successful 1: server error
- */
-function getEvaluationListOfCourse(courseID) {
-	if (xmlhttp) {
-		OPERATION_CURRENT = OPERATION_COORDINATOR_GETEVALUATIONLISTOFCOURSE;
-
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-		"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_GETEVALUATIONLISTOFCOURSE + "&"
-				+ COURSE_ID + "=" + encodeURIComponent(courseID));
-
-		return handleGetEvaluationList();
-	}
 }
 
 //return the value of the radio button that is checked
@@ -2102,67 +1849,6 @@ function handleEditStudent() {
 /*
  * Returns
  * 
- * reports: successful 1: server error
- * 
- */
-function processEnrollStudentsResponse() {
-	if (xmlhttp.status == CONNECTION_OK) {
-		var enrollmentReports = xmlhttp.responseXML
-		.getElementsByTagName("enrollmentreports")[0];
-
-		var reports = [];
-
-		if (enrollmentReports != null) {
-			var enrollmentReport;
-			var studentName;
-			var studentEmail;
-			var status;
-			var nameEdited;
-			var teamNameEdited;
-			var commentsEdited;
-
-			var enrollmentReportsChildNodesLength = enrollmentReports.childNodes.length;
-			for (var loop = 0; loop < enrollmentReportsChildNodesLength; loop++) {
-				enrollmentReport = enrollmentReports.childNodes[loop];
-
-				studentName = enrollmentReport
-				.getElementsByTagName(STUDENT_NAME)[0].firstChild.nodeValue;
-				studentEmail = enrollmentReport
-				.getElementsByTagName(STUDENT_EMAIL)[0].firstChild.nodeValue;
-				status = enrollmentReport.getElementsByTagName(STUDENT_STATUS)[0].firstChild.nodeValue;
-				nameEdited = enrollmentReport
-				.getElementsByTagName(STUDENT_NAMEEDITED)[0].firstChild.nodeValue;
-				teamNameEdited = enrollmentReport
-				.getElementsByTagName(STUDENT_TEAMNAMEEDITED)[0].firstChild.nodeValue;
-				commentsEdited = enrollmentReport
-				.getElementsByTagName(STUDENT_COMMENTSEDITED)[0].firstChild.nodeValue;
-
-				enrollmentReport = {
-						studentName : studentName,
-						studentEmail : studentEmail,
-						nameEdited : nameEdited,
-						teamNameEdited : teamNameEdited,
-						commentsEdited : commentsEdited,
-						status : status
-				};
-
-				reports.push(enrollmentReport);
-
-			}
-		}
-
-		return reports;
-	}
-
-	else {
-		return 1;
-	}
-
-}
-
-/*
- * Returns
- * 
  * 0: successful 1: server error
  * 
  */
@@ -2175,79 +1861,6 @@ function handleInformStudentsOfEvaluationChanges() {
 		return 1;
 	}
 }
-
-/*
- * Returns
- * 
- * courseInfo: successful 1: server error
- * 
- */
-function handleGetCourse() {
-	if (xmlhttp.status == CONNECTION_OK) {
-		var courses = xmlhttp.responseXML.getElementsByTagName("courses")[0];
-		var courseInfo;
-
-		if (courses != null) {
-			var course;
-			var ID;
-			var name;
-			var status;
-
-			course = courses.childNodes[0];
-			ID = course.getElementsByTagName(COURSE_ID)[0].firstChild.nodeValue;
-			name = course.getElementsByTagName(COURSE_NAME)[0].firstChild.nodeValue;
-			numberOfTeams = course.getElementsByTagName(COURSE_NUMBEROFTEAMS)[0].firstChild.nodeValue;
-			status = course.getElementsByTagName(COURSE_STATUS)[0].firstChild.nodeValue;
-			courseInfo = {
-					ID : ID,
-					name : name,
-					numberOfTeams : numberOfTeams,
-					status : status
-			};
-
-			return courseInfo;
-		}
-
-	}
-
-	else {
-		return 1;
-	}
-}
-
-/*
- * Returns
- * 
- * courseIDList: successful 1: server error
- * 
- */
-function handleGetCourseIDList() {
-	if (xmlhttp.status == CONNECTION_OK) {
-		clearStatusMessage();
-
-		var courses = xmlhttp.responseXML.getElementsByTagName("courses")[0];
-		var course;
-		var courseID;
-		var courseIDList = new Array();
-
-		var coursesChildNodesLength = courses.childNodes.length;
-		for (var loop = 0; loop < coursesChildNodesLength; loop++) {
-			course = courses.childNodes[loop];
-			courseID = course.getElementsByTagName(COURSE_ID)[0].firstChild.nodeValue;
-			courseIDList[loop] = {
-					courseID : courseID
-			};
-		}
-
-		return courseIDList;
-	}
-
-	else {
-		return 1;
-	}
-}
-
-
 
 /*
  * Returns
