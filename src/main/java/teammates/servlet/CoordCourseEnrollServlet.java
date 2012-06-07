@@ -29,7 +29,7 @@ public class CoordCourseEnrollServlet extends ActionServlet {
 		
 		// Authenticate user
 		if(!helper.user.isCoord && !helper.user.isAdmin){
-			resp.sendRedirect("unauthorized.jsp");
+			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return;
 		}
 		
@@ -53,6 +53,8 @@ public class CoordCourseEnrollServlet extends ActionServlet {
 				int nextIdx = 0;
 				int id = 0;
 				for(StudentData student: students){
+					if(student.comments==null) student.comments = "";
+					if(student.team==null) student.team = "";
 					while(getNum(student.updateStatus)>id){
 						lists[id] = students.subList(prevIdx, nextIdx);
 						id++;
@@ -80,14 +82,15 @@ public class CoordCourseEnrollServlet extends ActionServlet {
 			helper.error = true;
 		}
 		
-		// Goto display page
-		if(helper.nextUrl==null) helper.nextUrl = "coordCourseEnroll.jsp";
-		helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
+		if(helper.nextUrl==null) helper.nextUrl = "/coordCourseEnroll.jsp";
 		
-		if(helper.nextUrl.startsWith("coordCourseEnroll.jsp")){
+		if(helper.nextUrl.startsWith("/coordCourseEnroll.jsp")){
+			// Goto display page
 			req.setAttribute("helper", helper);
 			req.getRequestDispatcher(helper.nextUrl).forward(req, resp);
 		} else {
+			// Goto next page
+			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
 			resp.sendRedirect(helper.nextUrl);
 		}
 	}

@@ -64,6 +64,6 @@ public class SystemFooterTest extends TestCase {
 	}
 	
 	private void testFooter() throws Exception{
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"footerRegex.html");
+		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/footerRegex.html");
 	}
 }

@@ -163,7 +163,7 @@
 				<div id="headerOperation">
 					<h1>Enroll Students for <%= helper.courseID %></h1>
 				</div>
-				<form action="<%= Common.JSP_COORD_COURSE_ENROLL %>" method="post">
+				<form action="<%= helper.getCourseEnrollLink(helper.courseID) %>" method="post">
 				<input type="hidden" name="courseid" value="<%= helper.courseID %>"></input>
 				<div id="coordinatorCourseEnrollment">
 					<img src="/images/enrollInstructions.png" style="width:1012,height:324" border="0" />
@@ -184,7 +184,7 @@
 				<%	} %>
 				<div id="coordinatorCourseEnrollmentButtons">
 					<input type="submit" class="button" name="button_enroll" id="button_enroll" value="Enroll students"
-						onclick="return checkEnrollmentInput(document.getElementById('information').value)"/>
+						onclick="return checkEnrollmentInput(document.getElementById('enrollstudents').value)"/>
 					<input type="button" class="t_back button" onclick="location.href='<%= Common.JSP_COORD_COURSE %>'" value="Back" />
 				</div>
 				</form>

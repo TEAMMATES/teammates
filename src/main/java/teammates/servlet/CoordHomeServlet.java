@@ -26,7 +26,7 @@ public class CoordHomeServlet extends ActionServlet {
 		
 		// Authenticate user
 		if(!helper.user.isCoord && !helper.user.isAdmin){
-			resp.sendRedirect("unauthorized.jsp");
+			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return;
 		}
 		helper.coordID = helper.userId;
@@ -35,14 +35,15 @@ public class CoordHomeServlet extends ActionServlet {
 		HashMap<String, CourseData> courses = helper.server.getCourseDetailsListForCoord(helper.coordID);
 		helper.summary = courses.values().toArray(new CourseData[] {});
 
-		// Goto display page
-		if(helper.nextUrl==null) helper.nextUrl = "coordHome.jsp";
-		helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.userId);
+		if(helper.nextUrl==null) helper.nextUrl = "/coordHome.jsp";
 		
-		if(helper.nextUrl.startsWith("coordHome.jsp")){
+		if(helper.nextUrl.startsWith("/coordHome.jsp")){
+			// Goto display page
 			req.setAttribute("helper", helper);
 			req.getRequestDispatcher(helper.nextUrl).forward(req, resp);
 		} else {
+			// Goto next page
+			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.userId);
 			resp.sendRedirect(helper.nextUrl);
 		}
 	}

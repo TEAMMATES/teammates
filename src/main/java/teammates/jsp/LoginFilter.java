@@ -19,9 +19,10 @@ public class LoginFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
+		String param = filterConfig.getInitParameter("ExcludedFiles");
+		if(param==null) return;
+		String[] excludedFiles = param.split("[|]");
 		exclude = new ArrayList<String>();
-		String[] excludedFiles = filterConfig.getInitParameter("ExcludedFiles")
-				.split("|");
 		for(int i=0; i<excludedFiles.length; i++){
 			exclude.add(excludedFiles[i].trim());
 		}
@@ -32,7 +33,10 @@ public class LoginFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse resp = (HttpServletResponse)response;
-		if(exclude.contains(req.getRequestURI())) return;
+		if(exclude.contains(req.getRequestURI())){
+			chain.doFilter(request, response);
+			return;
+		}
 		if(!APIServlet.isUserLoggedIn()){
 			String link = req.getRequestURI();
 			String query = req.getQueryString();

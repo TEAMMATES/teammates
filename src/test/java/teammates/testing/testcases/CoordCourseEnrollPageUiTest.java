@@ -23,12 +23,12 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 	
 	private static String enrollString = "";
 	
-	private static String appURL = Config.inst().TEAMMATES_URL;
+	private static String appURL = Config.inst().TEAMMATES_URL.replaceAll("/(?=$)","");
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader("CoordCourseEnrollTest");
-		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"CoordCourseEnrollUiTest.json");
+		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/CoordCourseEnrollUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 
 		System.out.println("Importing test data...");
@@ -37,6 +37,10 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 		System.out.println(TMAPI.persistNewDataBundle(jsonString));
 		// NEW
 		enrollString += "Team 3 | Emily France | emily.f.tmms@gmail.com | This student has just been added\n";
+		// Student with no comment
+		enrollString += "Team 3 | Frank Galoe | frank.g.tmms@gmail.com\n";
+		// Student with no team
+		enrollString += " | Gary Harbine | gary.h.tmms@gmail.com | This student has no team\n";
 		// MODIFIED
 		enrollString += "Team 1 | Alice Betsy | alice.b.tmms@gmail.com | This comment has been changed\n";
 		// UNMODIFIED
@@ -57,18 +61,12 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testCoordCourseEnrollPage() throws Exception{
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"CoordCourseEnrollPage.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/CoordCourseEnrollPage.html");
 		
 		bi.fillString(By.id("enrollstudents"), enrollString);
 		bi.click(By.id("button_enroll"));
-		
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"CoordCourseEnrollPageResult.html");
-		bi.goToUrl(Helper.addParam(appURL+Common.JSP_COORD_COURSE_ENROLL,Common.PARAM_COURSE_ID,scn.courses.get("CCEnrollUiT.CS2104").id));
-		enrollString = "";
-		for(int i=0; i<250; i++){
-			enrollString += "Team "+(i/5)+"|Student no: "+i+"|email.student."+i+"@gmail.com|This is comments for student number "+i+"\n";
-		}
-		System.out.print(enrollString);
+
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/CoordCourseEnrollPageResult.html");
 		
 	}
 }

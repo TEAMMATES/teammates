@@ -119,7 +119,7 @@
 										onmouseout="hideddrivetip()"><%= CoordHomeHelper.getStatusForEval(eval) %></span></td>
 									<td class="t_eval_response centeralign"><%= eval.submittedTotal %>
 										/ <%= eval.expectedTotal %></td>
-									<td class="centeralign"><%= CoordHomeHelper.getEvaluationActions(eval,evalIdx, true) %>
+									<td class="centeralign"><%= helper.getEvaluationActions(eval,evalIdx, true) %>
 									</td>
 								</tr>
 							<%		evalIdx++;

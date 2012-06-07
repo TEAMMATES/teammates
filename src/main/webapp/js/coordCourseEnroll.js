@@ -6,38 +6,50 @@ var DISPLAY_STUDENT_NAME_INVALID = "Name should only consist of alphanumerics an
 var DISPLAY_STUDENT_TEAMNAME_INVALID = "Team name should contain less than 25 characters.";
 
 function checkEnrollmentInput(input) {
-	input = replaceAll(input,"|","\t");
+	input = replaceAll(input,"\t","|");
 	var entries = input.split("\n");
 	var fields;
+	var totalLen = 0;
 
 	var entriesLength = entries.length;
 	for ( var x = 0; x < entriesLength; x++) {
 		if (entries[x] != "") {
 			// Separate the fields
-			fields = entries[x].split("\t");
+			fields = entries[x].split("|");
 			var fieldsLength = fields.length;
 
 			// Make sure that all fields are present
 			if (fieldsLength<3) {
 				setStatusMessage(DISPLAY_ENROLLMENT_FIELDS_MISSING,true);
+				document.getElementById("enrollstudents").selectionStart = totalLen;
+				document.getElementById("enrollstudents").selectionEnd = totalLen+entries[x].length+1;
 				return false;
 			} else if(fieldsLength>4){
 				setStatusMessage(DISPLAY_ENROLLMENT_FIELDS_EXTRA,true);
+				document.getElementById("enrollstudents").selectionStart = totalLen;
+				document.getElementById("enrollstudents").selectionEnd = totalLen+entries[x].length+1;
 				return false;
 			}
 
 			// Check that fields are correct
 			if (!isStudentNameValid(trim(fields[1]))) {
 				setStatusMessage(DISPLAY_STUDENT_NAME_INVALID,true);
+				document.getElementById("enrollstudents").selectionStart = totalLen;
+				document.getElementById("enrollstudents").selectionEnd = totalLen+entries[x].length+1;
 				return false;
 			} else if (!isStudentEmailValid(trim(fields[2]))) {
 				setStatusMessage(DISPLAY_STUDENT_EMAIL_INVALID,true);
+				document.getElementById("enrollstudents").selectionStart = totalLen;
+				document.getElementById("enrollstudents").selectionEnd = totalLen+entries[x].length+1;
 				return false;
 			} else if (!isStudentTeamNameValid(trim(fields[0]))) {
 				setStatusMessage(DISPLAY_STUDENT_TEAMNAME_INVALID,true);
+				document.getElementById("enrollstudents").selectionStart = totalLen;
+				document.getElementById("enrollstudents").selectionEnd = totalLen+entries[x].length+1;
 				return false;
 			}
 		}
+		totalLen += entries[x].length+1;
 	}
 	return true;
 }

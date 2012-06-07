@@ -31,12 +31,12 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="coordHome" class="t_home">Home</a></li>
-					<li><a href="coordCourse" class="t_courses">Courses</a></li>
-					<li><a href="coordTFS" class="t_teamForming">Team-Forming</a></li>
-					<li><a href="coordEval" class="t_evaluations">Evaluations</a></li>
+					<li><a href="/page/coordHome" class="t_home">Home</a></li>
+					<li><a href="/page/coordCourse" class="t_courses">Courses</a></li>
+					<li><a href="/page/coordTFS" class="t_teamForming">Team-Forming</a></li>
+					<li><a href="/page/coordEval" class="t_evaluations">Evaluations</a></li>
 					<li><a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/coordinatorhelp.html" class="t_help">Help</a></li>
-					<li><a href="logout.jsp" class="t_logout">Logout</a>
+					<li><a href="/logout.jsp" class="t_logout">Logout</a>
 					 (teammates.test)</li>
 				</ul>
 			</div>
@@ -46,14 +46,14 @@
 	<div id="frameBody">
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
-			<div id="headerOperation">
-				<h1>Enrollment Results for CCEnrollUiT.CS2104</h1>
-			</div>
 			
+				<div id="headerOperation">
+					<h1>Enrollment Results for CCEnrollUiT.CS2104</h1>
+				</div>
 				<div id="coordinatorCourseEnrollmentResults">
 					
 					
-						<p>There are 1 student(s) added:</p>
+						<p>There are 3 student(s) added:</p>
 						<table id="dataform">
 						<tbody><tr>
 							<th>Student Name</th>
@@ -69,6 +69,22 @@
 								<td>Team 3</td>
 								<td>New</td>
 								<td>This student has just been added</td>
+							</tr>
+						
+							<tr>
+								<td>Frank Galoe</td>
+								<td>frank.g.tmms@gmail.com</td>
+								<td>Team 3</td>
+								<td>New</td>
+								<td></td>
+							</tr>
+						
+							<tr>
+								<td>Gary Harbine</td>
+								<td>gary.h.tmms@gmail.com</td>
+								<td></td>
+								<td>New</td>
+								<td>This student has no team</td>
 							</tr>
 						
 						</tbody></table>
@@ -150,7 +166,7 @@
 					
 				</div>
 				<div id="coordinatorCourseEnrollmentButtons">
-					<input type="button" value="Back" onclick="location.href='coordCourse'" class="t_back button" />
+					<input type="button" value="Back" onclick="location.href='/page/coordCourse'" class="t_back button" />
 				</div>
 			
 		</div>

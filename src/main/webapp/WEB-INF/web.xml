@@ -15,17 +15,18 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</filter-mapping>
 	
 	<filter>
+	    <description>Filter that do the login part for each JSP page</description>
 	    <filter-name>LoginFilter</filter-name>
 	    <filter-class>teammates.jsp.LoginFilter</filter-class>
 	    <init-param>
-	        <description>Excluded files, |-separated</description>
+	        <description>Files excluded from login check. "|"-separated</description>
 	        <param-name>ExcludedFiles</param-name>
-	        <param-value>/index.jsp|/logout.jsp</param-value>
+	        <param-value></param-value>
 	    </init-param>
 	</filter>
 	<filter-mapping>
 	    <filter-name>LoginFilter</filter-name>
-	    <url-pattern>/*.jsp</url-pattern>
+	    <url-pattern>/page/*</url-pattern>
 	</filter-mapping>
 
 	<servlet>
@@ -100,36 +101,40 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet-mapping>
 	
 	<servlet>
+	    <description>Servlet that handles Coordinator homepage</description>
 	    <servlet-name>CoordHome</servlet-name>
 	    <servlet-class>teammates.servlet.CoordHomeServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordHome</servlet-name>
-	    <url-pattern>/coordHome</url-pattern>
+	    <url-pattern>/page/coordHome</url-pattern>
 	</servlet-mapping>
 	<servlet>
+	    <description>Servlet that handles Coordinator Course page (including add course)</description>
 	    <servlet-name>CoordCourse</servlet-name>
 	    <servlet-class>teammates.servlet.CoordCourseServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordCourse</servlet-name>
-	    <url-pattern>/coordCourse</url-pattern>
+	    <url-pattern>/page/coordCourse</url-pattern>
 	</servlet-mapping>
 	<servlet>
+	    <description>Servlet that handles course deletion action</description>
 	    <servlet-name>CoordCourseDelete</servlet-name>
 	    <servlet-class>teammates.servlet.CoordCourseDeleteServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordCourseDelete</servlet-name>
-	    <url-pattern>/coordCourseDelete</url-pattern>
+	    <url-pattern>/page/coordCourseDelete</url-pattern>
 	</servlet-mapping>
 	<servlet>
+	    <description>Servlet that handles course enroll page (includes enroll result page)</description>
 	    <servlet-name>CoordCourseEnroll</servlet-name>
 	    <servlet-class>teammates.servlet.CoordCourseEnrollServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordCourseEnroll</servlet-name>
-	    <url-pattern>/coordCourseEnroll</url-pattern>
+	    <url-pattern>/page/coordCourseEnroll</url-pattern>
 	</servlet-mapping>
 	
     <security-constraint>

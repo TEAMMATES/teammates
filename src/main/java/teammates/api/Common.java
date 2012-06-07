@@ -30,8 +30,8 @@ public class Common {
 	public static final double UNINITIALIZED_DOUBLE = -9999.0;
 	public final static String ENCODING = "UTF8";
 	public final static String VERSION = "4.17.02";
-	public final static String TEST_DATA_FOLDER = "src/test/resources/data/";
-	public final static String TEST_PAGES_FOLDER = "src/test/resources/pages/";
+	public final static String TEST_DATA_FOLDER = "src/test/resources/data";
+	public final static String TEST_PAGES_FOLDER = "src/test/resources/pages";
 	
 	// Hover messages
 	public final static String HOVER_MESSAGE_ENROLL = "Enroll student into the course";
@@ -85,34 +85,34 @@ public class Common {
 	
 	
 	// JSP pages links (most are links to the servlet, since the JSP are made inaccessible directly)
-	public final static String JSP_COORD_HOME = "coordHome";
-	public final static String JSP_COORD_COURSE = "coordCourse";
-	public final static String JSP_COORD_COURSE_DELETE = "coordCourseDelete";
-	public final static String JSP_COORD_COURSE_DETAILS = "coordCourseDetails";
-	public final static String JSP_COORD_COURSE_STUDENT_DETAILS = "coordCourseStudentDetails";
-	public final static String JSP_COORD_COURSE_STUDENT_EDIT = "coordCourseStudentEdit";
-	public final static String JSP_COORD_COURSE_ENROLL = "coordCourseEnroll";
-	public final static String JSP_COORD_TFS = "coordTFS";
-	public final static String JSP_COORD_TFS_MANAGE = "coordTFSManage";
-	public final static String JSP_COORD_TFS_CHANGE_TEAM = "coordTFSChangeTeam";
-	public final static String JSP_COORD_TFS_LOGS = "coordTFSLogs";
-	public final static String JSP_COORD_EVAL = "coordEval";
-	public final static String JSP_COORD_EVAL_DELETE = "coordEvalDelete";
-	public final static String JSP_COORD_EVAL_VIEW = "coordEvalView";
-	public final static String JSP_COORD_EVAL_EDIT = "coordEvalEdit";
-	public final static String JSP_COORD_EVAL_RESULTS = "coordEvalResults";
-	public final static String JSP_COORD_EVAL_SUBMISSION_EDIT = "coordEvalSubmissionEdit";
+	public final static String JSP_COORD_HOME = "/page/coordHome";
+	public final static String JSP_COORD_COURSE = "/page/coordCourse";
+	public final static String JSP_COORD_COURSE_DELETE = "/page/coordCourseDelete";
+	public final static String JSP_COORD_COURSE_DETAILS = "/page/coordCourseDetails";
+	public final static String JSP_COORD_COURSE_STUDENT_DETAILS = "/page/coordCourseStudentDetails";
+	public final static String JSP_COORD_COURSE_STUDENT_EDIT = "/page/coordCourseStudentEdit";
+	public final static String JSP_COORD_COURSE_ENROLL = "/page/coordCourseEnroll";
+	public final static String JSP_COORD_TFS = "/page/coordTFS";
+	public final static String JSP_COORD_TFS_MANAGE = "/page/coordTFSManage";
+	public final static String JSP_COORD_TFS_CHANGE_TEAM = "/page/coordTFSChangeTeam";
+	public final static String JSP_COORD_TFS_LOGS = "/page/coordTFSLogs";
+	public final static String JSP_COORD_EVAL = "/page/coordEval";
+	public final static String JSP_COORD_EVAL_DELETE = "/page/coordEvalDelete";
+	public final static String JSP_COORD_EVAL_VIEW = "/page/coordEvalView";
+	public final static String JSP_COORD_EVAL_EDIT = "/page/coordEvalEdit";
+	public final static String JSP_COORD_EVAL_RESULTS = "/page/coordEvalResults";
+	public final static String JSP_COORD_EVAL_SUBMISSION_EDIT = "/page/coordEvalSubmissionEdit";
 	
-	public final static String JSP_STUDENT_HOME = "studentHome";
-	public final static String JSP_STUDENT_COURSE = "studentHome";
-	public final static String JSP_STUDENT_COURSE_DETAILS = "studentCourseDetails";
-	public final static String JSP_STUDENT_TFS_MANAGE = "studentTFSManage";
-	public final static String JSP_STUDENT_EVAL = "studentEval";
-	public final static String JSP_STUDENT_EVAL_EDIT = "studentEvalEdit";
-	public final static String JSP_STUDENT_EVAL_RESULTS = "studentEvalResults";
+	public final static String JSP_STUDENT_HOME = "/page/studentHome";
+	public final static String JSP_STUDENT_COURSE = "/page/studentHome";
+	public final static String JSP_STUDENT_COURSE_DETAILS = "/page/studentCourseDetails";
+	public final static String JSP_STUDENT_TFS_MANAGE = "/page/studentTFSManage";
+	public final static String JSP_STUDENT_EVAL = "/page/studentEval";
+	public final static String JSP_STUDENT_EVAL_EDIT = "/page/studentEvalEdit";
+	public final static String JSP_STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
 	
-	public final static String JSP_LOGOUT = "logout.jsp";
-	public final static String JSP_UNAUTHORIZED = "unauthorized.jsp";
+	public final static String JSP_LOGOUT = "/logout.jsp";
+	public final static String JSP_UNAUTHORIZED = "/unauthorized.jsp";
 	
 	//status messages
 	public final static String MESSAGE_COURSE_ADDED = "The course has been added. Click the 'Enroll' link in the table below to add students to the course.";

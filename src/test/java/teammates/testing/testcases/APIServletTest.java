@@ -48,7 +48,7 @@ public class APIServletTest extends BaseTestCase {
 	static String jsonString;
 	static{
 		try{
-			jsonString = Common.readFile(Common.TEST_DATA_FOLDER + "typicalDataBundle.json");
+			jsonString = Common.readFile(Common.TEST_DATA_FOLDER + "/typicalDataBundle.json");
 		} catch (Exception e){
 			e.printStackTrace();
 		}

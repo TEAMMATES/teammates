@@ -19,7 +19,7 @@ import teammates.testing.object.Scenario;
  */
 
 public class StudentHomePageHTMLTest extends TestCase {
-	static Scenario scn = Scenario.scenarioForPageVerification(Common.TEST_DATA_FOLDER+"landing_page_testing.json");
+	static Scenario scn = Scenario.scenarioForPageVerification(Common.TEST_DATA_FOLDER+"/landing_page_testing.json");
 	static BrowserInstance bi;
 	
 	private static String TEST_STUDENT = scn.students.get(2).email;
@@ -86,6 +86,6 @@ public class StudentHomePageHTMLTest extends TestCase {
 
 	@Test
 	public void verifyStudentLandingPageSuccessful() throws Exception {
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"studentHome.html");
+		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/studentHome.html");
 	}
 }

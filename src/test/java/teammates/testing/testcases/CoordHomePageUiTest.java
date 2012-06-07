@@ -23,7 +23,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static DataBundle scn;
 	
-	private static String appURL = Config.inst().TEAMMATES_URL;
+	private static String appURL = Config.inst().TEAMMATES_URL.replaceAll("/(?=$)","");
 	
 	/* TODO Test hardcode values?
 	 * Currently we just hardcode the row number of the courses and evaluations
@@ -46,7 +46,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader("CoordHomeUITest");
-		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"CoordHomeUiTest.json");
+		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/CoordHomeUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 		
 		TMAPI.deleteCoordinators(jsonString);
@@ -130,13 +130,13 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	
 	public void testCoordHomeCoursePageHTML() throws Exception{
 		// Regex test due to the tooltip from previous click (it differs based on screen size)
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"CoordHomeHTML.html");
+		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/CoordHomeHTML.html");
 		
 		TMAPI.deleteCourse(scn.courses.get("CHomeUiT.CS2104").id);
 		TMAPI.deleteCourse(scn.courses.get("CHomeUiT.CS1101").id);
 		
 		bi.goToCoordHome();
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"CoordHomeHTMLEmpty.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/CoordHomeHTMLEmpty.html");
 	}
 	
 	@AfterClass

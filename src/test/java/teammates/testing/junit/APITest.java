@@ -52,7 +52,7 @@ public class APITest {
 	}
 	
 	protected static Scenario setupBumpRatioScenarioInstance(String name, int index) {
-		Scenario s = Scenario.scenarioForBumpRatioTest(Common.TEST_DATA_FOLDER + name + ".json", index);
+		Scenario s = Scenario.scenarioForBumpRatioTest(Common.TEST_DATA_FOLDER + "/" + name + ".json", index);
 		s.randomizeCourseId();
 		return s;
 	}

@@ -30,7 +30,7 @@ public class CoordCourseServlet extends ActionServlet {
 		
 		// Authenticate user
 		if(!helper.user.isCoord && !helper.user.isAdmin){
-			resp.sendRedirect("unauthorized.jsp");
+			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return;
 		}
 		helper.coordID = helper.userId;
@@ -63,14 +63,15 @@ public class CoordCourseServlet extends ActionServlet {
 			}
 		});
 		
-		// Goto display page
-		if(helper.nextUrl==null) helper.nextUrl = "coordCourse.jsp";
-		helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.userId);
+		if(helper.nextUrl==null) helper.nextUrl = "/coordCourse.jsp";
 		
-		if(helper.nextUrl.startsWith("coordCourse.jsp")){
+		if(helper.nextUrl.startsWith("/coordCourse.jsp")){
+			// Goto display page
 			req.setAttribute("helper", helper);
 			req.getRequestDispatcher(helper.nextUrl).forward(req, resp);
 		} else {
+			// Goto next page
+			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.userId);
 			resp.sendRedirect(helper.nextUrl);
 		}
 	}

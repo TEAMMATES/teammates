@@ -33,7 +33,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static TestScenario ts;
 	
-	private static String appURL = Config.inst().TEAMMATES_URL;
+	private static String appUrl = Config.inst().TEAMMATES_URL.replaceAll("/(?=$)","");
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -48,7 +48,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		System.out.println("Finished recreating in "+(System.currentTimeMillis()-start)+" ms");
 		
 		bi.loginCoord(ts.coordinator.id, Config.inst().TEAMMATES_APP_PASSWD);
-		bi.goToUrl(appURL+Common.JSP_COORD_COURSE);
+		bi.goToUrl(appUrl+Common.JSP_COORD_COURSE);
 	}
 	
 	@AfterClass
@@ -65,18 +65,18 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordCourseAddHTML() throws Exception{
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordListCourseEmpty.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordListCourseEmpty.html");
 
 		ImportTestData.main(new String[]{});
 		bi.goToCourses();
 
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordListCourseByIDNew.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordListCourseByIdNew.html");
 
 		bi.click(By.id("button_sortcoursename"));
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordListCourseByNameNew.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordListCourseByNameNew.html");
 		
 		bi.click(By.id("button_sortcourseid"));
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordListCourseByIDNew.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordListCourseByIdNew.html");
 	}
 
 	public void testCoordCourseAddUiPaths() throws Exception{
@@ -84,16 +84,16 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		TMAPI.deleteCourse(ts.courseWithSameNameDifferentId.id);
 		
 		// Course id only contains alphabets, numbers, dots, hyphens, underscores and dollars
-		String courseID = ts.validCourse.id;
+		String courseId = ts.validCourse.id;
 		// Course name can be any character including special characters
 		String courseName = ts.validCourse.name;
 		
 		/////////////////////////////////////////////////////////////////
 		printTestCaseHeader("testCoordAddCourseSuccessful");
 		
-		addCourse(courseID, courseName);
+		addCourse(courseId, courseName);
 
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordCourseAddSuccessful.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseAddSuccessful.html");
 		
 		/////////////////////////////////////////////////////////////////
 		printTestCaseHeader("testCoordAddCourseWithInvalidInputsFailed");
@@ -102,11 +102,11 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		bi.waitForStatusMessage(Common.MESSAGE_COURSE_MISSING_FIELD);
 		
 		// Adding course without name
-		addCourse(courseID, "");
+		addCourse(courseId, "");
 		bi.waitForStatusMessage(Common.MESSAGE_COURSE_MISSING_FIELD);
 		
 		//Not-allowed characters
-		addCourse(courseID+"!*}", courseName + " (!*})");
+		addCourse(courseId+"!*}", courseName + " (!*})");
 		bi.waitForStatusMessage(Common.MESSAGE_COURSE_INVALID_ID);
 
 		////////////////////////////////////////////////////////////////
@@ -118,19 +118,19 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		String shortCourseName = Common.generateStringOfLength(Common.COURSE_NAME_MAX_LENGTH);
 		String longCourseName = Common.generateStringOfLength(Common.COURSE_NAME_MAX_LENGTH+1);
 		
-		assertEquals(shortCourseId, fillCourseID(shortCourseId));
-		assertEquals(longCourseId.substring(0, Common.COURSE_ID_MAX_LENGTH), fillCourseID(longCourseId));
+		assertEquals(shortCourseId, fillCourseId(shortCourseId));
+		assertEquals(longCourseId.substring(0, Common.COURSE_ID_MAX_LENGTH), fillCourseId(longCourseId));
 		
 		assertEquals(shortCourseName, fillCourseName(shortCourseName));
 		assertEquals(longCourseName.substring(0, Common.COURSE_NAME_MAX_LENGTH), fillCourseName(longCourseName));
 
 		////////////////////////////////////////////////////////////////
-		printTestCaseHeader("testCoordAddCourseWithDuplicateIDFailed");
+		printTestCaseHeader("testCoordAddCourseWithDuplicateIdFailed");
 		
-		addCourse(courseID, "different course name");
+		addCourse(courseId, "different course name");
 		
 		long start = System.currentTimeMillis();
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"coordCourseAddDupIDFailed.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseAddDupIdFailed.html");
 		System.out.println("Time to assert a page: "+(System.currentTimeMillis()-start)+" ms");
 	}
 
@@ -138,44 +138,44 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		TMAPI.deleteCourse(ts.testCourse.id);
 		
 //		String link;
-		String courseID = ts.testCourse.id;
+		String courseId = ts.testCourse.id;
 		String courseName = ts.testCourse.id;
 		
-		addCourse(courseID, courseName);
-		int courseRowID = getCourseRowNumber(courseID);
-		assertTrue(courseRowID!=-1);
+		addCourse(courseId, courseName);
+		int courseRowId = getCourseRowNumber(courseId);
+		assertTrue(courseRowId!=-1);
 		
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"coordCourseAddDeleteInit.html");
+		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseAddDeleteInit.html");
 		
 //		// Check enroll link
-//		link = bi.getElementRelativeHref(getCoordCourseLinkLocator(courseRowID,"t_course_enroll"));
-//		assertEquals(CoordCourseAddHelper.getCourseEnrollLink(courseID),link);
+//		link = bi.getElementRelativeHref(getCoordCourseLinkLocator(courseRowId,"t_course_enroll"));
+//		assertEquals(CoordCourseAddHelper.getCourseEnrollLink(courseId),link);
 //		
 //		// Check view details link
-//		link = bi.getElementRelativeHref(getCoordCourseLinkLocator(courseRowID,"t_course_view"));
-//		assertEquals(CoordCourseAddHelper.getCourseViewLink(courseID),link);
+//		link = bi.getElementRelativeHref(getCoordCourseLinkLocator(courseRowId,"t_course_view"));
+//		assertEquals(CoordCourseAddHelper.getCourseViewLink(courseId),link);
 //		
 //		// Check delete link
-		By deleteLinkLocator = getCoordCourseLinkLocator(courseRowID,"t_course_delete");
+		By deleteLinkLocator = getCoordCourseLinkLocator(courseRowId,"t_course_delete");
 //		link = bi.getElementRelativeHref(deleteLinkLocator);
-//		assertEquals(CoordCourseAddHelper.getCourseDeleteLink(courseID, Common.JSP_COORD_COURSE),link);
+//		assertEquals(CoordCourseAddHelper.getCourseDeleteLink(courseId, Common.JSP_COORD_COURSE),link);
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
-			bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"coordCourseAddDeleteInit.html");
+			bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseAddDeleteInit.html");
 		} catch (NoAlertAppearException e){
 			fail("No alert box when clicking delete button at course page.");
 		}
 
 		try{
 			bi.clickAndConfirm(deleteLinkLocator);
-			bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"coordCourseAddDeleteSuccessful.html");
+			bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseAddDeleteSuccessful.html");
 		} catch (NoAlertAppearException e){
 			fail("No alert box when clicking delete button at course page.");
 		}
 	}
 	
 	private static TestScenario loadTestScenario() throws JSONException, FileNotFoundException {
-		String testScenarioJsonFile = Common.TEST_DATA_FOLDER + "CoordCourseAddUiTest.json";
+		String testScenarioJsonFile = Common.TEST_DATA_FOLDER + "/CoordCourseAddUiTest.json";
 		String jsonString = Common.readFile(testScenarioJsonFile);
 		TestScenario scn = Common.getTeammatesGson().fromJson(jsonString, TestScenario.class);
 		return scn;
@@ -188,19 +188,19 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		public CourseData testCourse;
 	}
 	
-	private By getCoordCourseLinkLocator(int rowID, String linkClassName) {
+	private By getCoordCourseLinkLocator(int rowId, String linkClassName) {
 		return By.xpath(String.format(
 				"//div[@id='coordinatorCourseTable']"+
 					"//table[@id='dataform']//tr[%d]//td[%d]"+
 					"//a[@class='%s']",
-				rowID+2,
+				rowId+2,
 				6,
 				linkClassName)
 			);
 	}
 	
-	private String fillCourseID(String courseID){
-		bi.fillString(By.id("courseid"),courseID);
+	private String fillCourseId(String courseId){
+		bi.fillString(By.id("courseid"),courseId);
 		return bi.getElementValue(By.id("courseid"));
 	}
 	
@@ -209,8 +209,8 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		return bi.getElementValue(By.id("coursename"));
 	}
 	
-	private void addCourse(String courseID, String courseName){
-		fillCourseID(courseID);
+	private void addCourse(String courseId, String courseName){
+		fillCourseId(courseId);
 		fillCourseName(courseName);
 		bi.click(By.id("btnAddCourse"));
 	}
@@ -219,33 +219,33 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		return bi.getDriver().findElements(By.className("courses_row"));
 	}
 	
-	private int getCourseRowNumber(String courseID){
+	private int getCourseRowNumber(String courseId){
 		List<WebElement> courses = getCourses();
-		By courseIDLocator = By.xpath(".//td[1]");
+		By courseIdLocator = By.xpath(".//td[1]");
 		int id = 0;
 		for(WebElement el: courses){
-			if(el.findElement(courseIDLocator).getText().equals(courseID)) return id;
+			if(el.findElement(courseIdLocator).getText().equals(courseId)) return id;
 			id++;
 		}
 		return -1;
 	}
 	
-//	private int getCourseIDCount(String courseID){
+//	private int getCourseIdCount(String courseId){
 //		List<WebElement> courses = getCourses();
-//		By courseIDLocator = By.xpath(".//td[1]");
+//		By courseIdLocator = By.xpath(".//td[1]");
 //		int result = 0;
 //		for(WebElement el: courses){
-//			if(el.findElement(courseIDLocator).getText().equals(courseID)) result++;
+//			if(el.findElement(courseIdLocator).getText().equals(courseId)) result++;
 //		}
 //		return result;
 //	}
 //	
-//	private String findCourseName(String courseID){
+//	private String findCourseName(String courseId){
 //		List<WebElement> courses = getCourses();
-//		By courseIDLocator = By.xpath(".//td[1]");
+//		By courseIdLocator = By.xpath(".//td[1]");
 //		for(WebElement el: courses){
-//			String id = el.findElement(courseIDLocator).getText();
-//			if(id.equals(courseID)){
+//			String id = el.findElement(courseIdLocator).getText();
+//			if(id.equals(courseId)){
 //				return el.findElement(By.xpath(".//td[2]")).getText();
 //			}
 //		}

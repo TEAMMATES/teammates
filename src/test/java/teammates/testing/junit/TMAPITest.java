@@ -38,7 +38,7 @@ public class TMAPITest extends BaseTestCase{
 
 	@BeforeClass
 	public static void setUp() throws Exception{
-		 jsonString = Common.readFile(Common.TEST_DATA_FOLDER + "typicalDataBundle.json");
+		 jsonString = Common.readFile(Common.TEST_DATA_FOLDER + "/typicalDataBundle.json");
 	}
 
 	@AfterClass
@@ -547,7 +547,7 @@ public class TMAPITest extends BaseTestCase{
 	@Test
 	public void testDataBundle() throws Exception{
 		printTestCaseHeader();
-		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER + "typicalDataBundle.json");
+		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER + "/typicalDataBundle.json");
 		Gson gson = Common.getTeammatesGson();
 	
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);

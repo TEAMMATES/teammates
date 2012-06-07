@@ -124,15 +124,63 @@ public class Helper {
 	}
 	
 	/**
+	 * Returns the link to the course enroll link for specified courseID
+	 * @param courseID
+	 * @return
+	 */
+	public String getCourseEnrollLink(String courseID){
+		String link = Common.JSP_COORD_COURSE_ENROLL;
+		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
+		if(isMasqueradeMode()){
+			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
+		}
+		return link;
+	}
+
+	/**
+	 * Returns the link to show course detail for specific courseID
+	 * @param courseID
+	 * @return
+	 */
+	public String getCourseViewLink(String courseID){
+		String link = Common.JSP_COORD_COURSE_DETAILS;
+		link = addParam(link,Common.PARAM_COURSE_ID,courseID); 
+		if(isMasqueradeMode()){
+			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
+		}
+		return link;
+	}
+	
+	/**
+	 * Returns the link to delete a course and redirects to the nextURL after deletion<br />
+	 * The nextURL is usually used to refresh the page after deletion
+	 * @param courseID
+	 * @param nextURL
+	 * @return
+	 */
+	public String getCourseDeleteLink(String courseID){
+		String link = Common.JSP_COORD_COURSE_DELETE;
+		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
+		link = addParam(link,Common.PARAM_NEXT_URL,Common.JSP_COORD_COURSE);
+		if(isMasqueradeMode()){
+			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
+		}
+		return link;
+	}
+	
+	/**
 	 * Returns the link to see evaluation details for a specified evaluation name and courseID
 	 * @param courseID
 	 * @param evalName
 	 * @return
 	 */
-	public static String getEvaluationViewLink(String courseID, String evalName){
+	public String getEvaluationViewLink(String courseID, String evalName){
 		String link = Common.JSP_COORD_EVAL_VIEW;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
+		if(isMasqueradeMode()){
+			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
+		}
 		return link;
 	}
 	
@@ -144,11 +192,14 @@ public class Helper {
 	 * @param nextURL
 	 * @return
 	 */
-	public static String getEvaluationDeleteLink(String courseID, String evalName, String nextURL){
+	public String getEvaluationDeleteLink(String courseID, String evalName, String nextURL){
 		String link = Common.JSP_COORD_EVAL_DELETE;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = addParam(link,Common.PARAM_NEXT_URL,nextURL);
+		if(isMasqueradeMode()){
+			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
+		}
 		return link;
 	}
 	
@@ -158,10 +209,13 @@ public class Helper {
 	 * @param evalName
 	 * @return
 	 */
-	public static String getEvaluationEditLink(String courseID, String evalName){
+	public String getEvaluationEditLink(String courseID, String evalName){
 		String link = Common.JSP_COORD_EVAL_EDIT;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
+		if(isMasqueradeMode()){
+			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
+		}
 		return link;
 	}
 	
@@ -171,10 +225,13 @@ public class Helper {
 	 * @param evalName
 	 * @return
 	 */
-	public static String getEvaluationResultsLink(String courseID, String evalName){
+	public String getEvaluationResultsLink(String courseID, String evalName){
 		String link = Common.JSP_COORD_EVAL_RESULTS;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
+		if(isMasqueradeMode()){
+			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
+		}
 		return link;
 	}
 	
@@ -222,7 +279,7 @@ public class Helper {
 	 * 		Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
 	 * @return
 	 */
-	public static String getEvaluationActions(EvaluationData eval, int position, boolean isHome){
+	public String getEvaluationActions(EvaluationData eval, int position, boolean isHome){
 		StringBuffer result = new StringBuffer();
 		final String disabled = "style=\"text-decoration:none; color:gray;\" onclick=\"return false\"";
 		

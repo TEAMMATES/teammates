@@ -18,7 +18,7 @@ import teammates.testing.object.Scenario;
  */
 
 public class CoordHomePageHTMLTest extends TestCase {
-	static Scenario scn = Scenario.scenarioForPageVerification(Common.TEST_DATA_FOLDER+"landing_page_testing.json");
+	static Scenario scn = Scenario.scenarioForPageVerification(Common.TEST_DATA_FOLDER+"/landing_page_testing.json");
 	static BrowserInstance bi;
 
 	@BeforeClass
@@ -83,6 +83,6 @@ public class CoordHomePageHTMLTest extends TestCase {
 
 	@Test
 	public void verifyCoordLandingPageSuccessful() throws Exception {
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"coordHome.html");
+		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordHome.html");
 	}
 }

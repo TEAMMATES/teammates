@@ -153,7 +153,7 @@ public class CoordCourseAddUITest extends TestCase {
 	}
 	
 	private static TestScenario loadTestScenario() throws JSONException, FileNotFoundException {
-		String testScenarioJsonFile = Common.TEST_DATA_FOLDER+"CoordCourseAddUITest.json";
+		String testScenarioJsonFile = Common.TEST_DATA_FOLDER+"/CoordCourseAddUITest.json";
 		String jsonString = Common.readFile(testScenarioJsonFile);
 		TestScenario scn = Common.getTeammatesGson().fromJson(jsonString, TestScenario.class);
 		return scn;

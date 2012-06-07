@@ -19,6 +19,8 @@ import teammates.testing.lib.HtmlHelperTest;
 	APIServletTest.class,
 	CoordCourseAddPageUiTest.class,
 	CoordCourseAddApiTest.class,
+	CoordCourseEnrollPageUiTest.class,
+	CoordCourseEnrollApiTest.class,
 	CoordHomePageUiTest.class
 })
 

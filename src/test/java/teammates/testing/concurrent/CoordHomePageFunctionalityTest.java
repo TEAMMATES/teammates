@@ -22,7 +22,7 @@ import teammates.testing.object.Scenario;
 
 public class CoordHomePageFunctionalityTest extends TestCase {
 	static BrowserInstance bi;
-	static Scenario scn = Scenario.scenarioForPageVerification(Common.TEST_DATA_FOLDER+"landing_page_testing.json");
+	static Scenario scn = Scenario.scenarioForPageVerification(Common.TEST_DATA_FOLDER+"/landing_page_testing.json");
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {

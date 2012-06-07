@@ -36,7 +36,7 @@ public class ImportTestData {
 
 	private static void setupPageVerificationData() throws Exception{
 		System.out.println("Importing data for page verification ...");
-		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"page_verificationNew.json");
+		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/page_verificationNew.json");
 		TMAPI.deleteCoordinators(jsonString);
 		System.out.println(TMAPI.persistNewDataBundle(jsonString));
 //		Scenario sc = Scenario.scenarioForPageVerification(Common.TEST_DATA_FOLDER+"page_verification.json");
