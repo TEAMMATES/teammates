@@ -224,7 +224,7 @@ public class Helper {
 	 */
 	public static String getEvaluationActions(EvaluationData eval, int position, boolean isHome){
 		StringBuffer result = new StringBuffer();
-		final String disabled = "style='text-decoration:none; color:gray;' onclick='return false'";
+		final String disabled = "style=\"text-decoration:none; color:gray;\" onclick=\"return false\"";
 		
 		boolean hasView = false;
 		boolean hasEdit = false;

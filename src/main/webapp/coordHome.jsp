@@ -37,7 +37,7 @@
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
-				<h1>COORDINATOR HOME</h1>
+				<h1>Coordinator Home</h1>
 				<br />
 				<div class="result_team">
 					<div class="result_addOrJoinCourse">
@@ -102,12 +102,12 @@
 					%>
 						<table id="dataform">
 							<tr>
-								<th class="leftalign">EVALUATION NAME</th>
-								<th class="centeralign">STATUS</th>
+								<th class="leftalign">Evaluation Name</th>
+								<th class="centeralign">Status</th>
 								<th class="centeralign"><span
 									onmouseover="ddrivetip('Number of students submitted / Class size')"
-									onmouseout="hideddrivetip()">RESPONSE RATE</span></th>
-								<th class="centeralign">ACTION(S)</th>
+									onmouseout="hideddrivetip()">Response Rate</span></th>
+								<th class="centeralign">Action(s)</th>
 							</tr>
 							<%	for (int i=evaluationsArr.length-1; i>=0; i--) {
 									EvaluationData eval = evaluationsArr[i];

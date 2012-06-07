@@ -162,6 +162,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <url-pattern>coordinator.jsp</url-pattern>
             <url-pattern>index.jsp</url-pattern>
             <url-pattern>student.jsp</url-pattern>
+            <url-pattern>logout.jsp</url-pattern>
             <url-pattern>mobile.jsp</url-pattern>
             <url-pattern>oldIE.jsp</url-pattern>
             <url-pattern>unauthorized.jsp</url-pattern>

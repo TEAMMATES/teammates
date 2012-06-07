@@ -37,7 +37,7 @@
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
-				<h1>ADD NEW COURSE</h1>
+				<h1>Add New Course</h1>
 			</div>
 			<div id="coordinatorCourseManagement">
 				<form method="get" action="<%= Common.JSP_COORD_COURSE %>" name="form_addcourse">
@@ -87,15 +87,15 @@
 						<th><input class="buttonSortAscending" type="button"
 							id="button_sortcourseid"
 							onclick="javascript:toggleSortCoursesByID(this,1);" />
-							COURSE ID</th>
+							Course ID</th>
 						<th><input class="buttonSortNone" type="button"
 							id="button_sortcoursename"
 							onclick="javascript:toggleSortCoursesByName(this,2);" />
-							COURSE NAME</th>
-						<th class="centeralign">TEAMS</th>
-						<th class="centeralign">TOTAL STUDENTS</th>
-						<th class="centeralign">TOTAL UNREGISTERED</th>
-						<th class="centeralign">ACTION(S)</th>
+							Course Name</th>
+						<th class="centeralign">Teams</th>
+						<th class="centeralign">Total Students</th>
+						<th class="centeralign">Total Unregistered</th>
+						<th class="centeralign">Action(s)</th>
 					</tr>
 					<%	
 						int idx = 0;

@@ -51,6 +51,12 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		bi.goToUrl(appURL+Common.JSP_COORD_COURSE);
 	}
 	
+	@AfterClass
+	public static void classTearDown() throws Exception {
+		BrowserInstancePool.release(bi);
+		printTestClassFooter("CoordCourseAddUITest");
+	}
+
 	@Test
 	public void testCoordCourseAddPage() throws Exception{
 		testCoordCourseAddHTML();
@@ -168,14 +174,8 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		}
 	}
 	
-	@AfterClass
-	public static void classTearDown() throws Exception {
-		BrowserInstancePool.release(bi);
-		printTestClassFooter("CoordCourseAddUITest");
-	}
-	
 	private static TestScenario loadTestScenario() throws JSONException, FileNotFoundException {
-		String testScenarioJsonFile = Common.TEST_DATA_FOLDER + "CoordCourseAddUITest.json";
+		String testScenarioJsonFile = Common.TEST_DATA_FOLDER + "CoordCourseAddUiTest.json";
 		String jsonString = Common.readFile(testScenarioJsonFile);
 		TestScenario scn = Common.getTeammatesGson().fromJson(jsonString, TestScenario.class);
 		return scn;

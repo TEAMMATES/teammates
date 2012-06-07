@@ -25,20 +25,4 @@ public class BaseTestCase {
 		System.out.println(testClassName+" completed");
 	}
 
-	/*
-	 * @deprecated No need to use this anymore.  
-	 */
-	@Deprecated
-	protected String getNameOfThisMethod() {
-		return Thread.currentThread().getStackTrace()[2].getMethodName();
-	}
-	
-	/*
-	 * @deprecated No need to use this anymore.  
-	 */
-	@Deprecated
-	protected static String getNameOfThisClass() {
-		return Thread.currentThread().getStackTrace()[2].getClassName();
-	}
-
 }

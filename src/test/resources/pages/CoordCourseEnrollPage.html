@@ -12,10 +12,9 @@
 	<script src="/js/CalendarPopup.js" language="JavaScript"></script>
 	<script src="/js/AnchorPosition.js" language="JavaScript"></script>
 	<script src="/js/helperNew.js" language="JavaScript"></script>
-	<script src="/js/constants.js" language="JavaScript"></script>
 	<script src="/js/commonNew.js" language="JavaScript"></script>
 	
-	<script src="/js/coordCourse.js" language="JavaScript"></script>
+	<script src="/js/coordCourseEnroll.js" language="JavaScript"></script>
 	<script src="/js/coordinatorNew.js" language="JavaScript"></script>
 
 </head>
@@ -48,22 +47,30 @@
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
-				<h1>Coordinator Home</h1>
-				<br />
-				<div class="result_team">
-					<div class="result_addOrJoinCourse">
-						<a id="addNewCourse" name="addNewCourse" href="coordCourse">
-							Add New Course </a>
-					</div>
+				<h1>Enroll Students for CCEnrollUiT.CS2104</h1>
+			</div>
+			
+				<form method="post" action="coordCourseEnroll">
+				<input type="hidden" value="CCEnrollUiT.CS2104" name="courseid" />
+				<div id="coordinatorCourseEnrollment">
+					<img border="0" style="width:1012,height:324" src="/images/enrollInstructions.png" />
+					<p style="text-align: center;" class="info">Recommended maximum class size : 100 students</p>
+					<br />
+					<table class="headerform"><tbody><tr>
+						<td style="width: 250px;" class="fieldname">Student details:</td>
+						<td><textarea id="enrollstudents" name="enrollstudents" class="textvalue" cols="135" rows="6"></textarea></td>
+					</tr></tbody></table>
 				</div>
-			</div>
-			<br />
-			
-			<div style="display: none" id="statusMessage"></div>
-			
-			<div id="coordinatorStudentTable">
+				<br />
 				
-			</div>
+					<div style="display: none" id="statusMessage"></div>
+				
+				<div id="coordinatorCourseEnrollmentButtons">
+					<input type="submit" onclick="return checkEnrollmentInput(document.getElementById('information').value)" value="Enroll students" id="button_enroll" name="button_enroll" class="button" />
+					<input type="button" value="Back" onclick="location.href='coordCourse'" class="t_back button" />
+				</div>
+				</form>
+			
 		</div>
 	</div>
 
