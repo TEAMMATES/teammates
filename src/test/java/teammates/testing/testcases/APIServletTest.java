@@ -1052,6 +1052,9 @@ public class APIServletTest extends BaseTestCase {
 		StudentData student1InCourse1 = team1_1.students.get(1);
 		assertEquals("student1InCourse1", student1InCourse1.id);
 		assertTrue(student1InCourse1.result.own != null);
+		assertEquals(student1InCourse1.name, student1InCourse1.result.own.revieweeName);
+		assertEquals(student1InCourse1.name, student1InCourse1.result.own.reviewerName);
+		
 		assertEquals(1, student1InCourse1.result.incoming.size());
 		assertEquals(1, student1InCourse1.result.outgoing.size());
 		assertTrue(student1InCourse1.result.claimedActual != Common.UNINITIALIZED_INT);
@@ -1059,8 +1062,14 @@ public class APIServletTest extends BaseTestCase {
 		assertTrue(student1InCourse1.result.claimedToStudent != Common.UNINITIALIZED_INT);
 		assertTrue(student1InCourse1.result.perceivedToCoord != Common.UNINITIALIZED_INT);
 		assertTrue(student1InCourse1.result.perceivedToStudent != Common.UNINITIALIZED_INT);
+		
 		assertTrue(student1InCourse1.result.incoming.get(0).normalized != Common.UNINITIALIZED_INT);
+		assertEquals(student1InCourse1.name, student1InCourse1.result.incoming.get(0).revieweeName);
+		assertEquals(student2InCourse1.name, student1InCourse1.result.incoming.get(0).reviewerName);
+		
 		assertTrue(student1InCourse1.result.outgoing.get(0).normalized != Common.UNINITIALIZED_INT);
+		assertEquals(student2InCourse1.name, student1InCourse1.result.outgoing.get(0).revieweeName);
+		assertEquals(student1InCourse1.name, student1InCourse1.result.outgoing.get(0).reviewerName);
 		// TODO: more testing
 	}
 	

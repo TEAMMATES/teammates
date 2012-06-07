@@ -1510,15 +1510,12 @@ public class APIServlet extends HttpServlet {
 		for (TeamData team : returnValue.teams) {
 			for (StudentData student : team.students) {
 				student.result = new EvalResultData();
-				extractSelfEvaluation(submissionDataList, student);
-				extractPeerSubmissions(submissionDataList, team, student);
+				extractSubmissionsAndSetNames(submissionDataList, team, student);
 				student.result = calculateResults(student.result);
 			}
 		}
 		return returnValue;
 	}
-
-
 
 	public HashMap<String, SubmissionData> getSubmissionsForEvaluation(String courseId,
 			String evaluationName) {
@@ -1684,24 +1681,35 @@ public class APIServlet extends HttpServlet {
 		}
 		return result;
 	}
-
-	private void extractPeerSubmissions(
-			HashMap<String, SubmissionData> list, TeamData team,
-			StudentData student) {
-		for(StudentData peer: team.students){
-			if(peer.email.equals(student.email)){
-				continue;
+	
+	private void extractSubmissionsAndSetNames(HashMap<String, SubmissionData> list,
+			TeamData team, StudentData student) {
+		for (StudentData peer : team.students) {
+			//peer is self
+			if (peer.email.equals(student.email)) {
+				student.result.own = list.get(student.email + "->"
+						+ student.email);
+				student.result.own.revieweeName = student.name;
+				student.result.own.reviewerName = student.name;
+			// peer is not self
+			} else {
+				//set incoming submission from peer
+				SubmissionData submissionFromPeer = list.get(peer.email + "->"
+						+ student.email);
+				student.result.incoming.add(submissionFromPeer);
+				
+				//set names in incoming submission
+				submissionFromPeer.revieweeName = student.name;
+				submissionFromPeer.reviewerName = peer.name;
+				
+				//set outgoing submission to peer
+				student.result.outgoing.add(list.get(student.email + "->"
+						+ peer.email));
+				
+				//no need to set names in outgoing submission as it will be
+				//processed again as an incoming submission of this peer
 			}
-			student.result.incoming.add(list.get(peer.email+"->"+student.email));
-			student.result.outgoing.add(list.get(student.email+"->"+peer.email));
 		}
-	}
-
-	private void extractSelfEvaluation(
-			HashMap<String, SubmissionData> submissionDataList,
-			StudentData student) {
-		student.result.own = submissionDataList.get(student.email
-				+ "->" + student.email);
 	}
 
 	private boolean isInEnrollList(StudentData student,
