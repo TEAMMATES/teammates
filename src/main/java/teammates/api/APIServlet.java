@@ -1357,6 +1357,12 @@ public class APIServlet extends HttpServlet {
 			throw new InvalidParametersException("Student cannot be null");
 		}
 		Student student = new Student(studentData);
+		//TODO: this if for backward compatibility with old system. Old system 
+		//  considers "" as unregistered. It should be changed to consider
+		//  null as unregistered.
+		if(student.getID()==null){
+			student.setID("");
+		}
 		Courses.inst().createStudent(student);
 	}
 

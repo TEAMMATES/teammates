@@ -1463,6 +1463,10 @@ public class APIServletTest extends BaseTestCase {
 		StudentData actualStudent = apiServlet.getStudent(
 				expectedStudent.course, expectedStudent.email);
 		expectedStudent.updateStatus = UpdateStatus.UNKNOWN;
+		//TODO: this is for backward compatibility with old system. to be removed.
+		if((expectedStudent.id==null)&&(actualStudent.id.equals(""))){
+			actualStudent.id=null;
+		}
 		assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
 	}
 

@@ -125,7 +125,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	}
 	
 	public void testCoordHomeCoursePageHTML() throws Exception{
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"CoordHomeHTML.html");
+		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"CoordHomeHTML.html");
 		
 		TMAPI.deleteCourse(scn.courses.get("CHomeUiT.CS2104").id);
 		TMAPI.deleteCourse(scn.courses.get("CHomeUiT.CS1101").id);

@@ -797,6 +797,10 @@ public class TMAPITest extends BaseTestCase{
 				expectedStudent.course, expectedStudent.email);
 		StudentData actualStudent = gson.fromJson(studentJsonString,
 				StudentData.class);
+		//TODO: this is for backward compatibility with old system. to be removed.
+		if((expectedStudent.id==null)&&(actualStudent.id.equals(""))){
+			actualStudent.id=null;
+		}
 		assertEquals(gson.toJson(expectedStudent),
 				gson.toJson(actualStudent));
 	}
