@@ -78,4 +78,9 @@ public class EvalResultDataTest {
 		assertEquals("def", result.incoming.get(1).p2pFeedback.getValue());
 		assertEquals("ghk", result.incoming.get(2).p2pFeedback.getValue());
 	}
+	
+	@Test
+	public void testCalculateInputNormalizer(){
+		
+	}
 }
