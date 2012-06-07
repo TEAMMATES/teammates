@@ -24,8 +24,8 @@ public final class DatastoreFilter implements javax.servlet.Filter {
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 
-		// System.out.println( Thread.currentThread().getId() +
-		// " - DatastoreFilter::doFilter.");
+//		System.out.println( Thread.currentThread().getId() +
+//				" - DatastoreFilter::doFilter.");
 
 		try {
 			chain.doFilter(request, response);

@@ -1,7 +1,6 @@
-<%@page import="teammates.jsp.Helper"%>
-<%@ page import="teammates.*" %>
-<%@ page import="teammates.jsp.*" %>
-<% Helper helper = new Helper(request); %>
+<%@ page import="teammates.api.Common"%>
+<%@ page import="teammates.jsp.Helper"%>
+<% Helper helper = (Helper)request.getAttribute("helper"); %>
 		<div id="frameTopWrapper">
 			<div id="logo">
 				<img alt="Teammates" height="47px"
@@ -10,13 +9,13 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a class='t_home' href="coordHome.jsp">Home</a></li>
-					<li><a class='t_courses' href="coordCourse.jsp">Courses</a></li>
-					<li><a class='t_teamForming' href="coordTFS.jsp">Team-Forming</a></li>
-					<li><a class='t_evaluations' href="coordEval.jsp">Evaluations</a></li>
+					<li><a class='t_home' href="<%= Common.JSP_COORD_HOME %>">Home</a></li>
+					<li><a class='t_courses' href="<%= Common.JSP_COORD_COURSE %>">Courses</a></li>
+					<li><a class='t_teamForming' href="<%= Common.JSP_COORD_TFS %>">Team-Forming</a></li>
+					<li><a class='t_evaluations' href="<%= Common.JSP_COORD_EVAL %>">Evaluations</a></li>
 					<li><a class='t_help' href="http://www.comp.nus.edu.sg/~teams/coordinatorhelp.html" target="_blank">Help</a></li>
-					<li><a class='t_logout' href="javascript:logout();">Logout</a>
-					 (<%= Helper.truncate(helper.userID.toLowerCase()) %>)</li>
+					<li><a class='t_logout' href="<%= Common.JSP_LOGOUT %>">Logout</a>
+					 (<%=Helper.truncate(helper.userId.toLowerCase())%>)</li>
 				</ul>
 			</div>
 		</div>

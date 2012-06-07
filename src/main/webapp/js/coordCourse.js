@@ -13,11 +13,6 @@ var COURSE_STATUS_INVALID_ID = 6;
 var COURSE_STATUS_INVALID_NAME = 7;
 var COURSE_STATUS_DELETED = 8;
 
-//server responses
-var COURSE_RESPONSE_EXISTS = "course exists";
-var COURSE_RESPONSE_ADDED = "course added";
-var COURSE_RESPONSE_DELETED = "course deleted";
-
 //status messages
 var DISPLAY_COURSE_ADDED = "The course has been added. Click the 'Enroll' link in the table below to add students to the course.";
 var DISPLAY_COURSE_EXISTS = "The course already exists.";
@@ -33,7 +28,7 @@ function prepareAddCourseParams(courseID, courseName) {
 	courseName = trim(courseName);
 }
 
-function doAddCourse() {
+function verifyAddCourse() {
 	var courseID = $("#"+COURSE_ID).val();
 	var courseName = $("#"+COURSE_NAME).val();
 	prepareAddCourseParams(courseID, courseName);

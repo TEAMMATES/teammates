@@ -3,6 +3,8 @@ package teammates.testing.concurrent;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.FileNotFoundException;
+
 import org.json.JSONException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -150,7 +152,7 @@ public class CoordCourseAddUITest extends TestCase {
 
 	}
 	
-	private static TestScenario loadTestScenario() throws JSONException {
+	private static TestScenario loadTestScenario() throws JSONException, FileNotFoundException {
 		String testScenarioJsonFile = Common.TEST_DATA_FOLDER+"CoordCourseAddUITest.json";
 		String jsonString = Common.readFile(testScenarioJsonFile);
 		TestScenario scn = Common.getTeammatesGson().fromJson(jsonString, TestScenario.class);

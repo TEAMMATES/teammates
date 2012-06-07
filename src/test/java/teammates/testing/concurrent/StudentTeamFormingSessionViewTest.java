@@ -86,9 +86,9 @@ public class StudentTeamFormingSessionViewTest extends TestCase {
 		bi.clickCourseTab();
 		bi.clickCoordTFSViewTeams(scn2.course.courseId);
 		
-		String header = "TEAM DETAIL FOR "+student.courseID;
+		String header = "Team Detail for "+student.courseID;
 		
-		assertTrue(bi.getElementText(By.id("headerOperation")).contains(header.toUpperCase()));
+		assertTrue(bi.getElementText(By.id("headerOperation")).toUpperCase().contains(header.toUpperCase()));
 		assertTrue(bi.isElementPresent(bi.resultBackButton));
 		bi.logout();
 	}

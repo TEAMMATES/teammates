@@ -15,7 +15,7 @@
 	</classpathentry>
 	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-api-1.0-sdk/1.6.4/appengine-api-1.0-sdk-1.6.4.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:file:/D:/Documents and Settings/Aldrian Obaja/.m2/repository/com/google/appengine/google-appengine-docs-20120228.zip!/google-appengine-docs-20120228/appengine/docs/java"/>
+			<attribute name="javadoc_location" value="jar:file:/D:/Documents and Settings/Aldrian Obaja/.m2/repository/com/google/appengine/google-appengine-docs-20120228.zip!/google-appengine-docs-20120228/appengine/docs/java/javadoc"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-api-stubs/1.6.4/appengine-api-stubs-1.6.4.jar"/>

@@ -17,7 +17,7 @@ import teammates.testing.lib.TMAPI;
 
 public class ImportTestData {
 
-	public static void main(String args[]) {
+	public static void main(String args[]) throws Exception{
 		System.out.println("====[START of Importing test data]====");
 		long start = System.currentTimeMillis();
 		setupPageVerificationData();
@@ -34,7 +34,7 @@ public class ImportTestData {
 //		TMAPI.createCoord(new Coordinator("teammates.test", "Coordinator", "teammates.test@gmail.com"));
 //	}
 
-	private static void setupPageVerificationData() {
+	private static void setupPageVerificationData() throws Exception{
 		System.out.println("Importing data for page verification ...");
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"page_verificationNew.json");
 		TMAPI.deleteCoordinators(jsonString);

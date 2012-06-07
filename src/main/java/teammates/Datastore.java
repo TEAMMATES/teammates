@@ -51,10 +51,10 @@ public class Datastore {
 			//TODO: this line moved here due to unit testing problem
 			//  to be reconsidered.
 			if (!pm.isClosed()){
-			Transaction tx = pm.currentTransaction();
-			if (tx.isActive()) {
-				tx.rollback();
-			}
+				Transaction tx = pm.currentTransaction();
+				if (tx.isActive()) {
+					tx.rollback();
+				}
 			//if (!pm.isClosed()){
 				pm.close();
 			}

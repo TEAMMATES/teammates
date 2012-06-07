@@ -26,7 +26,6 @@ caption {
  letter-spacing:20px;
  padding:6px 4px 8px 0px;
  text-align:center;
- text-transform:uppercase;
 }
 td, th { 
  color:#363636;
@@ -262,7 +261,6 @@ tfoot td {
 	margin: 0 auto;
 	padding: 15px 0;
 	text-align: left;
-	text-transform: uppercase;
 }
 
 .result_homeLinks {
@@ -342,7 +340,6 @@ h1 {
    margin: 0 auto;
    padding: 15px 0 15px;
    text-align: center;
-   text-transform: uppercase;
 }
 
 p {

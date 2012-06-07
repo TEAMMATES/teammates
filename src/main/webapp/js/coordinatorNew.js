@@ -16,8 +16,6 @@ var DISPLAY_COURSE_SENTREGISTRATIONKEY = "Registration key has been sent to ";
 var DISPLAY_COURSE_SENTREGISTRATIONKEYS = "Registration keys are sent to the students.";
 var DISPLAY_COURSE_UNARCHIVED = "The course has been unarchived.";
 var DISPLAY_EDITSTUDENT_FIELDSEMPTY = "<font color=\"#F00\">Please fill in all fields marked with an *.</font>";
-var DISPLAY_ENROLLMENT_FIELDSEXTRA = "<font color=\"#F00\">There are too many fields.</font>";
-var DISPLAY_ENROLLMENT_FIELDSMISSING = "<font color=\"#F00\">There are missing fields.</font>";
 var DISPLAY_EVALUATION_ADDED = "The evaluation has been added.";
 var DISPLAY_EVALUATION_ADDED_WITH_EMPTY_TEAMS = "The evaluation has been added. <font color=\"#F00\">Some students are without teams.</font>";
 var DISPLAY_EVALUATION_ARCHIVED = "The evaluation has been archived.";
@@ -39,27 +37,6 @@ var DISPLAY_LOADING = "<img src=/images/ajax-loader.gif /><br />";
 var DISPLAY_STUDENT_DELETED = "The student has been removed.";
 var DISPLAY_STUDENT_EDITED = "The student's details have been edited.";
 var DISPLAY_STUDENT_EDITEDEXCEPTTEAM = "The student's details have been edited, except for his team<br /> as there is an ongoing evaluation.";
-var DISPLAY_STUDENT_EMAILINVALID = "<font color=\"#F00\">E-mail address should contain less than 40 characters and be of a valid syntax.</font>";
-var DISPLAY_STUDENT_NAMEINVALID = "<font color=\"#F00\">Name should only consist of alphabets and numbers and not<br />be more than 40 characters.</font>";
-var DISPLAY_STUDENT_TEAMNAMEINVALID = "<font color=\"#F00\">Team name should contain less than 25 characters.</font>";
-
-function handleLogout() {
-	if (xmlhttp.status == CONNECTION_OK) {
-		var url = xmlhttp.responseXML.getElementsByTagName("url")[0];
-		window.location = url.firstChild.nodeValue;
-	}
-}
-
-function logout() {
-	if (xmlhttp) {
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-		"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_LOGOUT);
-	}
-
-	handleLogout();
-}
 
 //GLOBAL VARIABLES FOR GUI
 var courseSort = {
@@ -111,10 +88,7 @@ var MSG_EVALUATION_EDITED = "evaluation edited";
 var MSG_EVALUATION_EXISTS = "evaluation exists";
 var MSG_EVALUATION_UNABLETOCHANGETEAMS = "evaluation ongoing unable to change teams";
 
-
 //PARAMETERS
-
-
 var EVALUATION_ACTIVATED = "activated";
 var EVALUATION_ARCHIVED = "evaluationarchived";
 var EVALUATION_COMMENTSENABLED = "commentsstatus";
@@ -160,9 +134,6 @@ var STUDENT_TOSTUDENT = "toemail";
 var STUDENT_TOSTUDENTCOMMENTS = "tostudentcomments";
 var STUDENT_TOSTUDENTNAME = "toname";
 
-
-
-
 /***
  * Submission Constants
  */
@@ -173,173 +144,7 @@ var NOTSURE_POINTS = -999;
 var YES = "YES";
 var NO = "NO";
 
-/***********************************************************LANDING PAGE**********************************************************/
-/*----------------------------------------------------------LANDING PAGE---------------------------------------------------------*/
-
-//----------------------------------------------------------LANDING PAGE FUNCTIONS
-function printCoordinatorLandingPage() {
-	var outputHeader =
-		"<h1>COORDINATOR HOME</h1>																							\																						\
-		<br />																												\
-		<div class='result_team'>																							\
-		<div class='result_addOrJoinCourse'>																			\
-		<a href=\"javascript:displayCoursesTab()\" name='addNewCourse' id='addNewCourse'>Add New Course</a>			\
-		</div>																											\
-		</div>";
-
-	var output = "<form method='post' action='' name='form_coursessummary'>";
-
-	var courseID;
-	sendGetCourseListRequest();
-	var courseList = processGetCourseListResponse();
-	var courseListLength = courseList.length;
-
-	var evaluationList = getEvaluationList();
-	evaluationList = evaluationList.sort(sortByName);
-	evaluationListLength = evaluationList.length;
-
-	for (var loop = 0; loop < courseListLength; loop++) {
-		courseID = courseList[loop].ID;
-
-		output = output +
-		"<div class='result_team' id='course" + loop + "' name='course" + loop + "'>										\
-		<div class='result_homeTitle'>																					\
-		<h2>[" + courseID + "] : " + courseList[loop].name + "</h2>													\
-		</div>																											\
-		<div class='result_homeLinks'>																					\
-		<a class='t_course_enroll" + loop + "' href=\"javascript:displayEnrollmentPage('" + courseID + "');			\
-		hideddrivetip();\" onmouseover=\"ddrivetip('" + HOVER_MESSAGE_ENROLL + "')\"								\
-		onmouseout=\"hideddrivetip()\">Enroll</a>																\
-		<a class='t_course_view" + loop + "' href=\"javascript:displayCourseInformation('" + courseID + "');		\
-		hideddrivetip();\" onmouseover=\"ddrivetip('" + HOVER_MESSAGE_VIEW_COURSE + "')\"						\
-		onmouseout=\"hideddrivetip()\">View</a>																	\
-		<a class='t_course_add_eval" + loop + "' href=\"javascript:displayEvaluationsTab('" + courseID + "');		\
-		hideddrivetip();\" onmouseover=\"ddrivetip('" + HOVER_MESSAGE_ADD_EVALUATION + "')\"					\
-		onmouseout=\"hideddrivetip()\">Add Evaluation</a>														\
-		<a class='t_course_delete" + loop + "' 																		\
-		href=\"javascript:toggleDeleteCourseConfirmation('" + courseID + "'," + true + ");hideddrivetip();\"	\
-		onmouseover=\"ddrivetip('" + HOVER_MESSAGE_DELETE_COURSE + "')\"" + "onmouseout=\"hideddrivetip()\">	\
-		Delete</a>																								\
-		</div>																											\
-		<div style='clear: both;'></div>																				\
-		<br />";
-
-		var evaluationStatus = "";
-		var evaluationsPresent = false;
-		var evaluationOutput = "";
-
-		if (evaluationListLength > 0) {			
-			for (var i = 0; i < evaluationListLength; i++) {
-				if (evaluationList[i].courseID == courseID) {
-					evaluationsPresent = true;
-
-					if (evaluationList[i].status == "AWAITING")
-						evaluationStatus =
-							"<td class='t_eval_status centeralign'>																	\
-							<span onmouseover=\"ddrivetip('The evaluation is created but has not yet started')\"					\
-							onmouseout=\"hideddrivetip()\">" + evaluationList[i].status + "</span></td>";
-					else if (evaluationList[i].status == "OPEN")
-						evaluationStatus =
-							"<td class='t_eval_status centeralign'>																	\
-							<span 																									\
-							onmouseover=\"ddrivetip('The evaluation has started and students can submit feedback until the closing time')\"\
-							onmouseout=\"hideddrivetip()\">" + evaluationList[i].status + "</span></td>";
-					else if (evaluationList[i].status == "CLOSED")
-						evaluationStatus =
-							"<td class='t_eval_status centeralign'>																	\
-							<span 																									\
-							onmouseover=\"ddrivetip('The evaluation has finished but the results are not yet sent to the students')\"\
-							onmouseout=\"hideddrivetip()\">" + evaluationList[i].status + "</span></td>";
-					else if (evaluationList[i].status == "PUBLISHED")
-						evaluationStatus =
-							"<td class='t_eval_status centeralign'>																	\
-							<span 																									\
-							onmouseover=\"ddrivetip('The evaluation has finished and the results have been sent to students')\"		\
-							onmouseout=\"hideddrivetip()\">" + evaluationList[i].status + "</span></td>";
-
-					evaluationOutput = evaluationOutput +
-					"<tr id='evaluation" + i + "'>																				\
-					<td class='t_eval_name'>" + encodeChar(evaluationList[i].name) + "</td>									\
-					" + evaluationStatus + "																				\
-					<td class='t_eval_response centeralign'>																\
-					" + evaluationList[i].numberOfCompletedEvaluations + " / " + evaluationList[i].numberOfEvaluations + "	\
-					</td>";
-
-					// display actions:
-					evaluationOutput = evaluationOutput +
-					"<td class='centeralign'>																				\
-					" + printEvaluationActions(evaluationList, i, true) + "													\
-					</td>																									\
-					</tr>";
-				}
-			}
-		}
-
-		if (evaluationsPresent) {
-			output = output +
-			"<table id='dataform'>																							\
-			<tr>																										\
-			<th class='leftalign'>EVALUATION NAME</th>																\
-			<th class='centeralign'>STATUS</th>																		\
-			<th class='centeralign'><span onmouseover=\"ddrivetip('Number of students submitted / Class size')\"	\
-			onmouseout=\"hideddrivetip()\">RESPONSE RATE</span></th>												\
-			<th class='centeralign'>ACTION(S)</th>																	\
-			</tr>																										\
-			" + evaluationOutput + "																					\
-			</table>																										\
-			<br />";;
-		}
-
-		output = output +
-		"</div>																												\
-		<br /><br /><br />";
-	}
-
-	output = output + "</form>";
-
-	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader;
-	document.getElementById(DIV_STUDENT_TABLE).innerHTML = output;
-
-	for (var loop = 0; loop < courseListLength; loop++) {
-		courseID = courseList[loop].ID;
-
-		for (var i = 0; i < evaluationListLength; i++) {
-			if (evaluationList[i].courseID == courseID) {
-				if (document.getElementById('editEvaluation' + i) != null
-						&& document.getElementById('editEvaluation' + i).onclick == null) {
-					document.getElementById('editEvaluation' + i).onclick = function() {
-						hideddrivetip();
-						displayEditEvaluation(evaluationList, this.id.substring(
-								14, this.id.length));
-					};
-				}
-
-				if (document.getElementById('viewEvaluation' + i) != null
-						&& document.getElementById('viewEvaluation' + i).onclick == null) {
-					document.getElementById('viewEvaluation' + i).onclick = function() {
-						hideddrivetip();
-						displayEvaluationResults(evaluationList, this.id.substring(
-								14, this.id.length));
-					};
-				}
-			}
-		}
-	}
-}
-
-
-
 /***********************************************************EVALUATION PAGE***********************************************************/
-/*----------------------------------------------------------EVALUATION PAGE----------------------------------------------------------*/
-function displayEvaluationsTab(courseID) {
-	clearDisplay();
-	printEvaluationAddForm(courseID);
-	//doGetCourseIDList();;
-	doGetEvaluationList();
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-}
-
-
 
 //----------------------------------------------------------ADD EVALUATION FUNCTIONS
 /**
@@ -1271,27 +1076,6 @@ function archiveCourse(courseID) {
 	}
 }
 
-function clearDisplay() {
-	document.getElementById(DIV_COURSE_INFORMATION).innerHTML = "";
-	document.getElementById(DIV_COURSE_ENROLLMENT).innerHTML = "";
-	document.getElementById(DIV_COURSE_ENROLLMENTBUTTONS).innerHTML = "";
-	document.getElementById(DIV_COURSE_ENROLLMENTRESULTS).innerHTML = "";
-	document.getElementById(DIV_COURSE_MANAGEMENT).innerHTML = "";
-	document.getElementById(DIV_COURSE_TABLE).innerHTML = "";
-	document.getElementById(DIV_EVALUATION_EDITBUTTONS).innerHTML = "";
-	document.getElementById(DIV_EVALUATION_EDITRESULTSBUTTON).innerHTML = "";
-	document.getElementById(DIV_EVALUATION_INFORMATION).innerHTML = "";
-	document.getElementById(DIV_EVALUATION_MANAGEMENT).innerHTML = "";
-	document.getElementById(DIV_EVALUATION_SUMMARYTABLE).innerHTML = "";
-	document.getElementById(DIV_EVALUATION_TABLE).innerHTML = "";
-	document.getElementById(DIV_HEADER_OPERATION).innerHTML = "";
-	document.getElementById(DIV_STATUS_EDITEVALUATIONRESULTS).innerHTML = "";
-	document.getElementById(DIV_STUDENT_EDITBUTTONS).innerHTML = "";
-	document.getElementById(DIV_STUDENT_INFORMATION).innerHTML = "";
-	document.getElementById(DIV_STUDENT_TABLE).innerHTML = "";
-	clearStatusMessage();
-}
-
 function checkEditStudentInput(editName, editTeamName, editEmail, editGoogleID) {
 	if (editName == "" || editTeamName == "" || editEmail == "") {
 		setStatusMessage(DISPLAY_EDITSTUDENT_FIELDSEMPTY);
@@ -1308,51 +1092,6 @@ function checkEditStudentInput(editName, editTeamName, editEmail, editGoogleID) 
 	else if (!isStudentTeamNameValid(editTeamName)) {
 		setStatusMessage(DISPLAY_STUDENT_TEAMNAMEINVALID);
 	}
-}
-
-function checkEnrollmentInput(input) {
-	input = replaceAll(input, "|", "\t");
-
-	var entries = input.split("\n");
-	var fields;
-
-	var entriesLength = entries.length;
-	for ( var x = 0; x < entriesLength; x++) {
-		// Ignore blank line
-		if (entries[x] != "") {
-			// Separate the fields
-			fields = entries[x].split("\t");
-			var fieldsLength = fields.length;
-
-			// Make sure that all fields are present
-			if (fieldsLength < 3) {
-				setStatusMessage("<font color=\"#F00\">Line " + (x + 1)
-						+ ":</font> " + DISPLAY_ENROLLMENT_FIELDSMISSING);
-			}
-
-			else if (fieldsLength > 4) {
-				setStatusMessage("<font color=\"#F00\">Line " + (x + 1)
-						+ ":</font> " + DISPLAY_ENROLLMENT_FIELDSEXTRA);
-			}
-
-			// Check that fields are correct
-			if (!isStudentNameValid(trim(fields[1]))) {
-				setStatusMessage("<font color=\"#F00\">Line " + (x + 1)
-						+ ":</font> " + DISPLAY_STUDENT_NAMEINVALID);
-			}
-
-			else if (!isStudentEmailValid(trim(fields[2]))) {
-				setStatusMessage("<font color=\"#F00\">Line " + (x + 1)
-						+ ":</font> " + DISPLAY_STUDENT_EMAILINVALID);
-			}
-
-			else if (!isStudentTeamNameValid(trim(fields[0]))) {
-				setStatusMessage("<font color=\"#F00\">Line " + (x + 1)
-						+ ":</font> " + DISPLAY_STUDENT_TEAMNAMEINVALID);
-			}
-		}
-	}
-
 }
 
 function convertDateFromDDMMYYYYToMMDDYYYY(dateString) {
@@ -2808,8 +2547,6 @@ function isAddEvaluationScheduleValid(start, startTime, deadline, deadlineTime) 
 	return true;
 }
 
-
-
 function isEditEvaluationScheduleValid(start, startTime, deadline,
 		deadlineTime, timeZone, activated, status) {
 	var startString = convertDateFromDDMMYYYYToMMDDYYYY(start);
@@ -2887,100 +2624,6 @@ function isEditStudentInputValid(editName, editTeamName, editEmail,
 	}
 
 	else if (!isStudentTeamNameValid(editTeamName)) {
-		return false;
-	}
-
-	return true;
-}
-
-function isEnrollmentInputValid(input) {
-	var entries = input.split("\n");
-	var fields;
-
-	var entriesLength = entries.length;
-	for ( var x = 0; x < entriesLength; x++) {
-		if (entries[x] != "") {
-			// Separate the fields
-			fields = entries[x].split("\t");
-			var fieldsLength = fields.length;
-
-			// Make sure that all fields are present
-			if (fieldsLength < 3) {
-				return false;
-			}
-
-			else if (fieldsLength > 4) {
-				return false;
-			}
-
-			// Check that fields are correct
-			if (!isStudentNameValid(trim(fields[1]))) {
-				return false;
-			}
-
-			else if (!isStudentEmailValid(trim(fields[2]))) {
-				return false;
-			}
-
-			else if (!isStudentTeamNameValid(trim(fields[0]))) {
-				return false;
-			}
-		}
-	}
-
-	return true;
-}
-
-function isEvaluationNameValid(name) {
-	if (name.indexOf("\\") >= 0 || name.indexOf("'") >= 0
-			|| name.indexOf("\"") >= 0) {
-		return false;
-	}
-
-	if (name.match(/^[a-zA-Z0-9 ]*$/) == null) {
-		return false;
-	}
-
-	return true;
-}
-
-function isEvaluationNameLengthValid(name) {
-	if (name.length > 22) {
-		return false;
-	}
-
-	return true;
-}
-
-function isStudentEmailValid(email) {
-	if (email
-			.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) != null
-			&& email.length <= 40) {
-		return true;
-	}
-
-	return false;
-}
-
-function isStudentNameValid(name) {
-	if (name.indexOf("\\") >= 0 || name.indexOf("'") >= 0
-			|| name.indexOf("\"") >= 0) {
-		return false;
-	}
-
-	else if (name.match(/^.[^\t]*$/) == null) {
-		return false;
-	}
-
-	else if (name.length > 40) {
-		return false;
-	}
-
-	return true;
-}
-
-function isStudentTeamNameValid(teamName) {
-	if (teamName.length > 24) {
 		return false;
 	}
 

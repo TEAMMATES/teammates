@@ -1,6 +1,7 @@
 package teammates.testing.object;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -126,11 +127,13 @@ public class Scenario {
 
 	// basic scenario
 	public static Scenario fromJSONFile(String filepath) {
-		String s = Common.readFile(filepath);
 		try {
+			String s = Common.readFile(filepath);
 			JSONObject json = new JSONObject(s);
 			return fromJSONObject(json);
 		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -177,12 +180,13 @@ public class Scenario {
 
 	// new scenario
 	public static Scenario newScenario(String filepath) {
-
-		String s = Common.readFile(filepath);
 		try {
+			String s = Common.readFile(filepath);
 			JSONObject json = new JSONObject(s);
 			return newScenario(json);
 		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -235,11 +239,13 @@ public class Scenario {
 
 	// scenario for bump ratio test
 	public static Scenario scenarioForBumpRatioTest(String filepath, int index) {
-		String s = Common.readFile(filepath);
 		try {
+			String s = Common.readFile(filepath);
 			JSONObject json = new JSONObject(s);
 			return scenarioForBumpRatioTest(json, index);
 		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -297,11 +303,13 @@ public class Scenario {
 
 	// static scenario for page verification
 	public static Scenario scenarioForPageVerification(String filepath) {
-		String s = Common.readFile(filepath);
 		try {
+			String s = Common.readFile(filepath);
 			JSONObject json = new JSONObject(s);
 			return scenarioForPageVerification(json);
 		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		return null;
