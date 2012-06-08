@@ -78,12 +78,16 @@ public class CoordEvalServlet extends ActionServlet {
 		if(newEval.instructions!=null){
 			isSubmit = true;
 		}
-		helper.submittedEval = newEval;
+		if(isSubmit){
+			helper.submittedEval = newEval;
+		} else { 
+			helper.submittedEval = null;
+		}
 		
 		// Process action
 		try {
 			if(isSubmit){
-				helper.server.createEvalution(newEval);
+				helper.server.createEvaluation(newEval);
 				helper.statusMessage = Common.MESSAGE_EVALUATION_ADDED;
 			}
 		} catch (EntityAlreadyExistsException e) {

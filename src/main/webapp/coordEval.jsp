@@ -24,9 +24,11 @@
 	
 	<script language="JavaScript" src="/js/coordinatorNew.js"></script>
 	<script language="JavaScript" src="/js/coordEval.js"></script>
+	<% if(helper.submittedEval==null){ %>
 	<script language="JavaScript">
 		var doPageSpecificOnload = selectDefaultTimeOptions;
 	</script>
+	<%	} %>
 
 </head>
 
@@ -52,9 +54,7 @@
 									id="<%= Common.PARAM_COURSE_ID %>"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_COURSE %>')"
 									onmouseout="hideddrivetip()" tabindex=1>
-							<% for(CourseData course: helper.courses){ %>
-								<option value="<%= course.id %>"><%= course.id %></option>
-							<% } %>
+							<% for(String opt: helper.getCourseIDOptions()) out.println(opt); %>
 							</select></td>
 						<td class="attribute" >Opening time:</td>
 						<td><input style="width: 100px;" type="text"
@@ -63,13 +63,14 @@
 									onclick ="cal.select(this,'<%= Common.PARAM_EVALUATION_START %>','dd/MM/yyyy')"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_START %>')"
 									onmouseout="hideddrivetip()"
-									value="<%= Common.formatDate(Common.getDateValue()) %>" readonly="readonly" tabindex=3 />
+									value="<%= (helper.submittedEval==null? Common.formatDate(Common.getDateValue()) : Common.formatDate(helper.submittedEval.startTime)) %>"
+									readonly="readonly" tabindex=3 />
 									@
 							<select style="width: 70px;"
 									name="<%= Common.PARAM_EVALUATION_STARTTIME %>"
 									id="<%= Common.PARAM_EVALUATION_STARTTIME %>"
 									tabindex=4>
-								<% for(String opt: CoordEvalHelper.getTimeOptions()) out.println(opt); %>
+								<% for(String opt: helper.getTimeOptions(true)) out.println(opt); %>
 							</select></td>
 					</tr>
 					<tr>
@@ -77,29 +78,35 @@
 						<td><input style="width: 260px;" type="text"
 									name="<%= Common.PARAM_EVALUATION_NAME %>" id="<%= Common.PARAM_EVALUATION_NAME %>"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_NAME %>')"
-									onmouseout="hideddrivetip()" maxlength =<%= Common.EVALUATION_NAME_MAX_LENGTH %> tabindex=2 /></td>
+									onmouseout="hideddrivetip()" maxlength =<%= Common.EVALUATION_NAME_MAX_LENGTH %>
+									value="<% if(helper.submittedEval!=null) out.print(CoordEvalHelper.escape(helper.submittedEval.name)); %>"
+									tabindex=2 /></td>
 						<td class="attribute" >Closing time:</td>
 						<td><input style="width: 100px;" type="text"
 									name="<%= Common.PARAM_EVALUATION_DEADLINE %>" id="<%= Common.PARAM_EVALUATION_DEADLINE %>"
 									onclick ="cal.select(this,'<%= Common.PARAM_EVALUATION_DEADLINE %>','dd/MM/yyyy')"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_DEADLINE %>')"
-									onmouseout="hideddrivetip()" value="" readonly="readonly" tabindex=5 />
+									onmouseout="hideddrivetip()"
+									value="<%= (helper.submittedEval==null? "" : Common.formatDate(helper.submittedEval.endTime)) %>"
+									readonly="readonly" tabindex=5 />
 									@
 							<select style="width: 70px;"
 									name="<%= Common.PARAM_EVALUATION_DEADLINETIME %>"
 									id="<%= Common.PARAM_EVALUATION_DEADLINETIME %>"
 									tabindex=6>
-								<% for(String opt: CoordEvalHelper.getTimeOptions()) out.println(opt); %>
+								<% for(String opt: helper.getTimeOptions(false)) out.println(opt); %>
 							</select></td>
 					</tr>
 					<tr>
 						<td class="attribute" >Peer feedback:</td>
 						<td><input type="radio" name="<%= Common.PARAM_EVALUATION_COMMENTSENABLED %>"
-									id="<%= Common.PARAM_EVALUATION_COMMENTSENABLED %>" value="true" checked="checked"
+									id="<%= Common.PARAM_EVALUATION_COMMENTSENABLED %>" value="true"
+									<% if(helper.submittedEval==null || helper.submittedEval.p2pEnabled) out.print("checked=\"checked\""); %>
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS %>')"
 									onmouseout="hideddrivetip()" />Enabled&nbsp;&nbsp;
 							<input type="radio" name="<%= Common.PARAM_EVALUATION_COMMENTSENABLED %>"
 									id="<%= Common.PARAM_EVALUATION_COMMENTSENABLED %>" value="false"
+									<% if(helper.submittedEval!=null && !helper.submittedEval.p2pEnabled) out.print("checked=\"checked\""); %>
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS %>')"
 									onmouseout="hideddrivetip()" />Disabled
 						</td>
@@ -107,7 +114,7 @@
 						<td><select style="width: 100px;" name="<%= Common.PARAM_EVALUATION_TIMEZONE %>" id="<%= Common.PARAM_EVALUATION_TIMEZONE %>"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_TIMEZONE %>')"
 									onmouseout="hideddrivetip()" tabindex=7>
-							<% 	for(String opt: CoordEvalHelper.getTimeZoneOptions()) out.println(opt);%>
+							<% 	for(String opt: helper.getTimeZoneOptions()) out.println(opt);%>
 							</select>
 						</td>
 					</tr>
@@ -120,15 +127,22 @@
 								id="<%= Common.PARAM_EVALUATION_GRACEPERIOD %>"
 								onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD %>')"
 								onmouseout="hideddrivetip()" tabindex=7>
-							<% for(String opt: CoordEvalHelper.getGracePeriodOptions()) out.println(opt); %>
+							<% for(String opt: helper.getGracePeriodOptions()) out.println(opt); %>
 						</select></td>
 					</tr>
 					<tr>
 						<td class="attribute" >Instructions to students:</td>
 						<td colspan="3">
-							<textarea rows="2" cols="100" class="textvalue" name="<%= Common.PARAM_EVALUATION_INSTRUCTIONS %>" id="<%= Common.PARAM_EVALUATION_INSTRUCTIONS %>"
-									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_INSTRUCTIONS %>')"
-									onmouseout="hideddrivetip()" tabindex=8>Please submit your peer evaluation based on the overall contribution of your teammates so far.</textarea></td>
+							<%	if(helper.submittedEval==null){ %>
+								<textarea rows="2" cols="100" class="textvalue" name="<%= Common.PARAM_EVALUATION_INSTRUCTIONS %>" id="<%= Common.PARAM_EVALUATION_INSTRUCTIONS %>"
+										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_INSTRUCTIONS %>')"
+										onmouseout="hideddrivetip()" tabindex=8>Please submit your peer evaluation based on the overall contribution of your teammates so far.</textarea>
+							<%	} else { %>
+								<textarea rows="2" cols="100" class="textvalue" name="<%= Common.PARAM_EVALUATION_INSTRUCTIONS %>" id="<%= Common.PARAM_EVALUATION_INSTRUCTIONS %>"
+										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_INSTRUCTIONS %>')"
+										onmouseout="hideddrivetip()" tabindex=8><%= CoordEvalHelper.escape(helper.submittedEval.instructions) %></textarea>
+							<%	} %>
+						</td>
 					</tr>
 					<tr>
 						<td></td>
@@ -151,7 +165,7 @@
 				<table id="dataform">
 					<tr>
 						<th class="leftalign">
-							<input class="buttonSortNone" type="button" id="button_sortcourseid" 
+							<input class="buttonSortAscending" type="button" id="button_sortcourseid" 
 									onclick="toggleSort(this,1)" />Course ID</th>
 						<th class="leftalign">
 							<input class="buttonSortNone" type="button" id="button_sortname"

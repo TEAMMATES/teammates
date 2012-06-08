@@ -371,7 +371,13 @@ public class APIServlet extends HttpServlet {
 		Gson gson = new Gson();
 		Evaluation e = gson.fromJson(json, Evaluation.class);
 
-		boolean edited = Evaluations.inst().addEvaluation(e);
+		boolean edited = false;
+		try {
+			edited = Evaluations.inst().addEvaluation(e);
+		} catch (EntityAlreadyExistsException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		// TODO take a snapshot of submissions
 
@@ -1002,7 +1008,7 @@ public class APIServlet extends HttpServlet {
 		for (EvaluationData evaluation : evaluations.values()) {
 			log.info("API Servlet adding evaluation :" + evaluation.name
 					+ " to course " + evaluation.course);
-			createEvalution(evaluation);
+			createEvaluation(evaluation);
 		}
 
 		// processing is slightly different for submissions because we are
@@ -1471,8 +1477,9 @@ public class APIServlet extends HttpServlet {
 	private void ____EVALUATION_level_methods______________________________() {
 	}
 
-	public void createEvalution(EvaluationData evaluation)
+	public void createEvaluation(EvaluationData evaluation)
 			throws EntityAlreadyExistsException, InvalidParametersException {
+		
 		Evaluations.inst().addEvaluation(evaluation.toEvaluation());
 	}
 

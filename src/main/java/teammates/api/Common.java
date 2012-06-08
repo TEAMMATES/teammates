@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
@@ -88,7 +89,7 @@ public class Common {
 	public final static String PARAM_COURSE_NAME = "coursename";
 	public final static String PARAM_STUDENTS_ENROLLMENT_INFO = "enrollstudents";
 	
-	public final static String PARAM_EVALUATION_NAME = "evalname";
+	public final static String PARAM_EVALUATION_NAME = "evaluationname";
 	
 	public final static String PARAM_EVALUATION_START = "start";
 	public final static String PARAM_EVALUATION_STARTTIME = "starttime";
@@ -159,7 +160,7 @@ public class Common {
 	public final static String MESSAGE_EVALUATION_REMINDERSSENT = "Reminder e-mails have been sent out to those students.";
 	public final static String MESSAGE_EVALUATION_RESULTSEDITED = "The particular evaluation results have been edited.";
 	
-	public final static String MESSAGE_EVALUATION_EXISTS = "The evaluation exists already.";
+	public final static String MESSAGE_EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
 	public final static String MESSAGE_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
 	public final static String MESSAGE_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
 	public final static String MESSAGE_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.";
@@ -440,6 +441,21 @@ public class Common {
 		String day = st.nextToken();
 		Integer dayInt = Integer.parseInt(day);
 		day = String.format("%02d", dayInt);
+
+		return day + "/" + month + "/" + year;
+	}
+	
+	/**
+	 * Helper method to format a date object to DD/MM/YYYY
+	 * @param date
+	 * @return
+	 */
+	public static String formatDate(Date date) {
+		Calendar cal = GregorianCalendar.getInstance();
+		cal.setTime(date);
+		int year = cal.get(Calendar.YEAR);
+		String month = String.format("%02d",cal.get(Calendar.MONTH)+1);
+		String day = String.format("%02d",cal.get(Calendar.DATE));
 
 		return day + "/" + month + "/" + year;
 	}

@@ -1,6 +1,9 @@
 package teammates.jsp;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.EvaluationData;
@@ -21,7 +24,7 @@ public class CoordEvalHelper extends Helper{
 	 * None is selected, since the selection should only be done in client side.
 	 * @return
 	 */
-	public static ArrayList<String> getTimeZoneOptions(){
+	public ArrayList<String> getTimeZoneOptions(){
 		double[] options = new double[]{-12,-11,-10,-9,-8,-7,-6,-5,-4.5,-4,-3.5,
 										-3,-2,-1,0,1,2,3,3.5,4,4.5,5,5.5,5.75,6,
 										7,8,9,10,11,12,13};
@@ -35,7 +38,11 @@ public class CoordEvalHelper extends Helper{
 					temp+=String.format(" %+03d:%02d", (int)options[i],
 							(int)(Math.abs(options[i]-(int)options[i])*300/5));
 			}
-			result.add("<option value=\""+format(options[i])+"\">"+temp+"</option>");
+			result.add("<option value=\""+format(options[i])+"\"" +
+						(submittedEval!=null && submittedEval.timeZone==options[i]
+							? "selected=\"selected\""
+							: "") +
+						">"+temp+"</option>");
 		}
 		return result;
 	}
@@ -44,10 +51,14 @@ public class CoordEvalHelper extends Helper{
 	 * Returns the grace period options as HTML code
 	 * @return
 	 */
-	public static ArrayList<String> getGracePeriodOptions(){
+	public ArrayList<String> getGracePeriodOptions(){
 		ArrayList<String> result = new ArrayList<String>();
 		for(int i=5; i<=30; i+=5){
-			result.add("<option value=\""+i+"\">"+i+" mins</option>");
+			result.add("<option value=\""+i+"\"" +
+						(submittedEval!=null && submittedEval.gracePeriod==i
+							? " selected=\"selected\""
+							: "") +
+						">" + i+" mins</option>");
 		}
 		return result;
 	}
@@ -58,14 +69,29 @@ public class CoordEvalHelper extends Helper{
 	 * @param selectCurrentTime
 	 * @return
 	 */
-	public static ArrayList<String> getTimeOptions(){
+	public ArrayList<String> getTimeOptions(boolean isStartTime){
 		ArrayList<String> result = new ArrayList<String>();
-		for(int i=1; i<=23; i++){
-			result.add("<option value=\""+i+"\">" +
-					   String.format("%04dH", i*100) +
+		for(int i=1; i<=24; i++){
+			result.add("<option value=\""+i+"\"" +
+						(checkTimeSelected(i,isStartTime)
+							? " selected=\"selected\""
+							: "") +
+						">" +
+					   String.format("%04dH", i*100 - (i==24 ? 41 : 0)) +
 					   "</option>");
 		}
-		result.add("<option value=\"24\" selected=\"selected\">2359H</option>");
+		return result;
+	}
+	
+	public ArrayList<String> getCourseIDOptions(){
+		ArrayList<String> result = new ArrayList<String>();
+		for(CourseData course: courses){
+			result.add("<option value=\"" + course.id + "\"" +
+						(submittedEval!=null && course.id==submittedEval.course
+							? " selected=\"selected\""
+							: "" ) +
+						">"+course.id+"</option>");
+		}
 		return result;
 	}
 	
@@ -80,8 +106,24 @@ public class CoordEvalHelper extends Helper{
 		return ""+num;
 	}
 	
+	private boolean checkTimeSelected(int hour, boolean isStart){
+		if(submittedEval!=null){
+			Date time = (isStart ? submittedEval.startTime : submittedEval.endTime);
+			Calendar cal = GregorianCalendar.getInstance();
+			cal.setTime(time);
+			if(cal.get(Calendar.MINUTE)==0){
+				if(cal.get(Calendar.HOUR_OF_DAY)==hour) return true;
+			} else {
+				if(hour==24) return true;
+			}
+		} else {
+			if(hour==24) return true;
+		}
+		return false;
+	}
+	
 	public static void main(String[] args){
-		for(String opt: getTimeZoneOptions()){
+		for(String opt: new CoordEvalHelper(new Helper()).getTimeZoneOptions()){
 			System.out.println(opt);
 		}
 	}

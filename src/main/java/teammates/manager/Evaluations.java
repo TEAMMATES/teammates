@@ -13,6 +13,8 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
 
 import teammates.Datastore;
+import teammates.api.Common;
+import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
 import teammates.exception.EvaluationExistsException;
 import teammates.jdo.EvaluationDetailsForCoordinator;
@@ -144,8 +146,12 @@ public class Evaluations {
 	 *            An evaluation object
 	 * 
 	 * @author wangsha
+	 * @throws EntityAlreadyExistsException 
 	 */
-	public boolean addEvaluation(Evaluation e) {
+	public boolean addEvaluation(Evaluation e) throws EntityAlreadyExistsException {
+		if(getEvaluation(e.getCourseID(), e.getName())!= null){
+			throw new EntityAlreadyExistsException(Common.MESSAGE_EVALUATION_EXISTS);
+		}
 		try {
 			getPM().makePersistent(e);
 

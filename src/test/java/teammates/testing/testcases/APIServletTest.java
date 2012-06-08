@@ -990,8 +990,15 @@ public class APIServletTest extends BaseTestCase {
 		verifyPresentInDatastore(evaluation);
 		apiServlet.deleteEvaluation(evaluation.course, evaluation.name);
 		verifyAbsentInDatastore(evaluation);
-		apiServlet.createEvalution(evaluation);
+		apiServlet.createEvaluation(evaluation);
 		verifyPresentInDatastore(evaluation);
+		
+		try {
+			apiServlet.createEvaluation(evaluation);
+			fail();
+		} catch (EntityAlreadyExistsException e) {
+			assertEquals(Common.MESSAGE_EVALUATION_EXISTS, e.getMessage());
+		}
 		// TODO: more testing
 
 	}
