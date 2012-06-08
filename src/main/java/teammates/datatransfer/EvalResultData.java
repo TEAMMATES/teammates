@@ -53,7 +53,7 @@ public class EvalResultData {
 
 		// create the three sub containers
 		int[][] actualInput = new int[teamSize][teamSize];
-		int[] perceivedForCoord = new int[teamSize];
+		double[] perceivedForCoord = new double[teamSize];
 		int[][] perceivedForStudent =  new int[teamSize][teamSize];
 		
 		//fill first sub-container
@@ -62,13 +62,13 @@ public class EvalResultData {
 		}
 		
 		//fill second sub-container
-		int[][] normalizedInput = new int[teamSize][teamSize];
+		double[][] normalizedInput = new double[teamSize][teamSize];
 		for (int i = 0; i < teamSize; i++) {
 			normalizedInput[i] = normalizeValues(input[i]);
 		}
-		int[][] selfRatingsRemoved = excludeSelfRatings(normalizedInput);
+		double[][] selfRatingsRemoved = excludeSelfRatings(normalizedInput);
 
-		int[][] selfRatingRemovedAndNormalized = new int[teamSize][teamSize];
+		double[][] selfRatingRemovedAndNormalized = new double[teamSize][teamSize];
 		for (int i = 0; i < teamSize; i++) {
 			selfRatingRemovedAndNormalized[i] = normalizeValues(selfRatingsRemoved[i]);
 		}
@@ -83,9 +83,9 @@ public class EvalResultData {
 		//transfer values to output container
 		int i=0;
 		for (; i < teamSize; i++) {
-			output[i] = normalizedInput[i];
+			output[i] = doubleToInt(normalizedInput[i]);
 		}
-		output[i] = perceivedForCoord;
+		output[i] = doubleToInt(perceivedForCoord);
 		i++;
 		for (int k = 0; k < teamSize; k++) {
 			output[i] = perceivedForStudent[k];
@@ -96,22 +96,22 @@ public class EvalResultData {
 	}
 
 	public static int[] calculatePerceivedForStudent(int[] actualInput,
-			int[] perceivedForCoord) {
+			double[] perceivedForCoord) {
 		int[] perceivedForStudent = new int[actualInput.length];
 		for (int i = 0; i < perceivedForStudent.length; i++) {
-			int sumOfActual = sum(actualInput);
-			int sumOfperceivedForCoord = sum(perceivedForCoord);
+			double sumOfActual = sum(actualInput);
+			double sumOfperceivedForCoord = sum(perceivedForCoord);
 			if(sumOfActual==NA){
 				sumOfActual = sumOfperceivedForCoord;
 			}
-			double factor = ((double)sumOfActual)/ sumOfperceivedForCoord;
+			double factor = sumOfActual/ sumOfperceivedForCoord;
 			perceivedForStudent[i] = (int)(perceivedForCoord[i] * factor);
 		}
 		return perceivedForStudent;
 	}
 
-	public static int sum(int[] input) {
-		int sum = NA;
+	public static double sum(double[] input) {
+		double sum = NA;
 		if (input.length == 0) {
 			return 0;
 		}
@@ -122,10 +122,14 @@ public class EvalResultData {
 		}
 		return sum;
 	}
+	
+	public static int sum(int[] input) {
+		return (int)sum(intToDouble(input));
+	}
 
 	// TODO: make this private and use reflection to test
-	public static int[][] excludeSelfRatings(int[][] input) {
-		int[][] output = new int[input.length][input.length];
+	public static double[][] excludeSelfRatings(double[][] input) {
+		double[][] output = new double[input.length][input.length];
 		for (int i = 0; i < input.length; i++) {
 			for (int j = 0; j < input[i].length; j++) {
 				if (i == j) {
@@ -139,10 +143,10 @@ public class EvalResultData {
 	}
 
 	// TODO: make this private and use reflection to test
-	public static int[] normalizeValues(int[] input) {
+	public static double[] normalizeValues(double[] input) {
 		int sum = 0;
 		int count = 0;
-		int[] output = new int[input.length];
+		double[] output = new double[input.length];
 
 		for (int j = 0; j < input.length; j++) {
 			if (input[j] == NA) {
@@ -155,21 +159,41 @@ public class EvalResultData {
 		double factor = (sum == 0 ? 0 : count * 100.0 / sum);
 
 		for (int j = 0; j < input.length; j++) {
-			output[j] = (int) (input[j] == NA ? NA : Math.round(input[j]
+			output[j] = (input[j] == NA ? NA : Math.round(input[j]
 					* factor));
 		}
 		return output;
 	}
+	
+	public static double[] normalizeValues(int[] input) {
+		return normalizeValues(intToDouble(input));
+	}
+
+	private static double[] intToDouble(int[] input) {
+		double[] converted = new double[input.length];
+		for (int i = 0; i < input.length; i++) {
+			converted[i] = input[i];
+		}
+		return converted;
+	}
+	
+	private static int[] doubleToInt(double[] input) {
+		int[] converted = new int[input.length];
+		for (int i = 0; i < input.length; i++) {
+			converted[i] = (int)(Math.round(input[i]));
+		}
+		return converted;
+	}
 
 	// TODO: make this private and use reflection to test
-	public static int[] averageColumns(int[][] input) {
-		int[] output = new int[input.length];
+	public static double[] averageColumns(double[][] input) {
+		double[] output = new double[input.length];
 
 		for (int i = 0; i < input.length; i++) {
 			int sum = 0;
 			int count = 0;
 			for (int j = 0; j < input.length; j++) {
-				int value = input[j][i];
+				double value = input[j][i];
 				if (value == NA) {
 					continue;
 				} else {
@@ -177,7 +201,7 @@ public class EvalResultData {
 					count++;
 				}
 			}
-			output[i] = (count == 0 ? NA : Math.round(sum / count));
+			output[i] = (count == 0 ? NA : Math.round((double)sum / count));
 		}
 		return output;
 	}

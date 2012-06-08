@@ -131,7 +131,6 @@ public class EvalResultDataTest {
 			 {  10,  10,  10,  10 }};
 		assertEquals(pointsToString(expected3),
 				pointsToString(EvalResultData.calculatePoints(input3)));
-		
 		int[][] input2 = 
 			{{ 100, 100, 100, 100 }, 
 			 { 110, 110, 110, 110 },
@@ -144,40 +143,40 @@ public class EvalResultDataTest {
 			 { 100, 100, 100, 100 },
 			 {  74,  84, 116, 126 },
 			 
-			 {  93, 97, 109, 100 },
+			 {  94, 97, 109, 100 },
 			 
-			 {  93,  97, 109, 100 }, 
-			 { 102, 106, 120, 110 },
-			 {  83,  87,  98,  90 },
-			 {  88,  92, 103,  95 }};
+			 {  94,  97, 109, 100 }, 
+			 { 103, 107, 120, 110 },
+			 {  84,  88,  98,  90 },
+			 {  89,  93, 104,  95 }};
 		assertEquals(pointsToString(expected2),
 				pointsToString(EvalResultData.calculatePoints(input2)));
 	}
 	
 	@Test
 	public void testNormalizeValues(){
-		verifyNormalized(new int[] {}, new int[] {});
-		verifyNormalized(new int[] {100}, new int[] {100});
-		verifyNormalized(new int[] {100}, new int[] {50});
-		verifyNormalized(new int[] {150,90,60}, new int[] {50,30,20});
-		verifyNormalized(new int[] {0,0,0}, new int[] {0,0,0});
-		verifyNormalized(new int[] {0,0,300},new int[] {0,0,100});
-		verifyNormalized(new int[] {0,NA,200},new int[] {0,NA,100});
-		verifyNormalized(new int[] {100,100,100},new int[] {110,110,110});
-		verifyNormalized(new int[]{NA,NA},new int[]{NA,NA});
+		verifyNormalized(new double[] {}, new double[] {});
+		verifyNormalized(new double[] {100}, new double[] {100});
+		verifyNormalized(new double[] {100}, new double[] {50});
+		verifyNormalized(new double[] {150,90,60}, new double[] {50,30,20});
+		verifyNormalized(new double[] {0,0,0}, new double[] {0,0,0});
+		verifyNormalized(new double[] {0,0,300},new double[] {0,0,100});
+		verifyNormalized(new double[] {0,NA,200},new double[] {0,NA,100});
+		verifyNormalized(new double[] {100,100,100},new double[] {110,110,110});
+		verifyNormalized(new double[]{NA,NA},new double[]{NA,NA});
 	}
 
 
 	@Test 
 	public void testExcludeSelfRatings(){
 		
-		int[][] input = 
+		double[][] input = 
 			{{ 11, 12, 13, 14 }, 
 			 { 21, 22, 23, 24 },
 			 { 31, 32, 33, 34 },
 			 { 41, 42, 43, 44 }};
 		
-		int[][] expected = 
+		double[][] expected = 
 			{{ NA, 12, 13, 14 }, 
 			 { 21, NA, 23, 24 },
 			 { 31, 32, NA, 34 },
@@ -188,12 +187,12 @@ public class EvalResultDataTest {
 	
 	@Test
 	public void testAverageColumns(){
-		int[][] input = 
+		double[][] input = 
 			{{ 10, 20,  0, NA }, 
 			 { 10, NA,  0, NA },
 			 { 10, 20, NA, NA },
 			 { 10, 20,  0, NA }};
-		int[] expected = {10, 20, 0, NA};
+		double[] expected = {10, 20, 0, NA};
 		assertEquals(Arrays.toString(expected), 
 				Arrays.toString(EvalResultData.averageColumns(input)));
 		
@@ -201,11 +200,11 @@ public class EvalResultDataTest {
 	
 	@Test
 	public void testSum(){
-		assertEquals(6,EvalResultData.sum(new int[]{1,2,3}));
-		assertEquals(0,EvalResultData.sum(new int[]{}));
-		assertEquals(6,EvalResultData.sum(new int[]{NA, 2, 4}));
-		assertEquals(0,EvalResultData.sum(new int[]{NA, 0, 0}));
-		assertEquals(NA,EvalResultData.sum(new int[]{NA, NA, NA}));
+		assertEquals(6,EvalResultData.sum(new double[]{1,2,3}),0.001);
+		assertEquals(0,EvalResultData.sum(new double[]{}),0.001);
+		assertEquals(6,EvalResultData.sum(new double[]{NA, 2, 4}),0.001);
+		assertEquals(0,EvalResultData.sum(new double[]{NA, 0, 0}),0.001);
+		assertEquals(NA,EvalResultData.sum(new double[]{NA, NA, NA}),0.001);
 	}
 	
 	@Test
@@ -213,39 +212,54 @@ public class EvalResultDataTest {
 		
 		assertEquals(Arrays.toString(new int[]{}),
 				Arrays.toString(EvalResultData.calculatePerceivedForStudent
-						(new int[]{}, new int[]{})));
+						(new int[]{}, new double[]{})));
 		
 		assertEquals(Arrays.toString(new int[]{10}),
 				Arrays.toString(EvalResultData.calculatePerceivedForStudent
-						(new int[]{10}, new int[]{5})));
+						(new int[]{10}, new double[]{5})));
 		
 		assertEquals(Arrays.toString(new int[]{100,50,50}),
 				Arrays.toString(EvalResultData.calculatePerceivedForStudent
-						(new int[]{50,100,50}, new int[]{50,25,25})));
+						(new int[]{50,100,50}, new double[]{50,25,25})));
 		
 		assertEquals(Arrays.toString(new int[]{100,50,50}),
 				Arrays.toString(EvalResultData.calculatePerceivedForStudent
-						(new int[]{NA,150,50}, new int[]{50,25,25})));
+						(new int[]{NA,150,50}, new double[]{50,25,25})));
 		
 		assertEquals(Arrays.toString(new int[]{NA,NA,NA}),
 				Arrays.toString(EvalResultData.calculatePerceivedForStudent
-						(new int[]{NA,NA,NA}, new int[]{NA,NA,NA})));
+						(new int[]{NA,NA,NA}, new double[]{NA,NA,NA})));
 		
 		assertEquals(Arrays.toString(new int[]{100,50,50}),
 				Arrays.toString(EvalResultData.calculatePerceivedForStudent
-						(new int[]{NA,NA,NA}, new int[]{100,50,50})));
+						(new int[]{NA,NA,NA}, new double[]{100,50,50})));
 
 	}
 	// @formatter:on
 	
 	//--------------------------------------------------------------------
 	
-	private void verifyNormalized(int[] expected, int[] input) {
+	private void verifyNormalized(double[] expected, double[] input) {
 		assertEquals(Arrays.toString(expected), 
 				Arrays.toString(EvalResultData.normalizeValues(input)));
 	}
 	
 	private String pointsToString(int[][] array) {
+		String returnValue = "";
+		int firstDividerLocation = (array.length - 1) / 2 - 1;
+		int secondDividerLocation = firstDividerLocation + 1;
+		for (int i = 0; i < array.length; i++) {
+			returnValue = returnValue + Arrays.toString(array[i]) + Common.EOL;
+			if ((i == firstDividerLocation) || (i == secondDividerLocation)) {
+				returnValue = returnValue + "======================="
+						+ Common.EOL;
+			}
+		}
+		return returnValue;
+	}
+	
+	//TODO: this is a clone of previous method. refactor.
+	private String pointsToString(double[][] array) {
 		String returnValue = "";
 		int firstDividerLocation = (array.length - 1) / 2 - 1;
 		int secondDividerLocation = firstDividerLocation + 1;
