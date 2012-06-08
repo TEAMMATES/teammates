@@ -14,8 +14,8 @@
 	<script src="/js/helperNew.js" language="JavaScript"></script>
 	<script src="/js/commonNew.js" language="JavaScript"></script>
 	
-	<script src="/js/coordCourse.js" language="JavaScript"></script>
 	<script src="/js/coordinatorNew.js" language="JavaScript"></script>
+	<script src="/js/coordCourse.js" language="JavaScript"></script>
 
 </head>
 
@@ -70,7 +70,6 @@
 					</tbody></table>
 				</form>
 			</div>
-			<br />
 			
 				<div style="display: none" id="statusMessage"></div>
 			
@@ -79,9 +78,9 @@
 				<br />
 				<table id="dataform">
 					<tbody><tr>
-						<th><input type="button" onclick="javascript:toggleSortCoursesByID(this,1);" id="button_sortcourseid" class="buttonSortNone" />
+						<th><input type="button" onclick="toggleSort(this,1);" id="button_sortcourseid" class="buttonSortNone" />
 							Course ID</th>
-						<th><input type="button" onclick="javascript:toggleSortCoursesByName(this,2);" id="button_sortcoursename" class="buttonSortAscending" />
+						<th><input type="button" onclick="toggleSort(this,2);" id="button_sortcoursename" class="buttonSortAscending" />
 							Course Name</th>
 						<th class="centeralign">Teams</th>
 						<th class="centeralign">Total Students</th>

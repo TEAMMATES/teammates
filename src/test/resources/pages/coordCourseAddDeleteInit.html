@@ -14,8 +14,8 @@
 	<script src="/js/helperNew.js" language="JavaScript"></script>
 	<script src="/js/commonNew.js" language="JavaScript"></script>
 	
-	<script src="/js/coordCourse.js" language="JavaScript"></script>
 	<script src="/js/coordinatorNew.js" language="JavaScript"></script>
+	<script src="/js/coordCourse.js" language="JavaScript"></script>
 
 </head>
 
@@ -70,7 +70,6 @@
 					</tbody></table>
 				</form>
 			</div>
-			<br />
 			
 				<div style="display:block;" id="statusMessage">
 					The course has been added. Click the 'Enroll' link in the table below to add students to the course.</div>
@@ -80,9 +79,9 @@
 				<br />
 				<table id="dataform">
 					<tbody><tr>
-						<th><input type="button" onclick="javascript:toggleSortCoursesByID(this,1);" id="button_sortcourseid" class="buttonSortAscending" />
+						<th><input type="button" onclick="toggleSort(this,1);" id="button_sortcourseid" class="buttonSortAscending" />
 							Course ID</th>
-						<th><input type="button" onclick="javascript:toggleSortCoursesByName(this,2);" id="button_sortcoursename" class="buttonSortNone" />
+						<th><input type="button" onclick="toggleSort(this,2);" id="button_sortcoursename" class="buttonSortNone" />
 							Course Name</th>
 						<th class="centeralign">Teams</th>
 						<th class="centeralign">Total Students</th>
@@ -154,7 +153,7 @@
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
+[TEAMMATES Version 4.17.02] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
 
 <a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html" class="footer">Contact Us</a>
 </div>

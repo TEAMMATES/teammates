@@ -99,7 +99,12 @@ public class EvalResultData {
 			int[] perceivedForCoord) {
 		int[] perceivedForStudent = new int[actualInput.length];
 		for (int i = 0; i < perceivedForStudent.length; i++) {
-			double factor = sum(actualInput)/ sum(perceivedForCoord);
+			int sumOfActual = sum(actualInput);
+			int sumOfperceivedForCoord = sum(perceivedForCoord);
+			if(sumOfActual==NA){
+				sumOfActual = sumOfperceivedForCoord;
+			}
+			double factor = ((double)sumOfActual)/ sumOfperceivedForCoord;
 			perceivedForStudent[i] = (int)(perceivedForCoord[i] * factor);
 		}
 		return perceivedForStudent;

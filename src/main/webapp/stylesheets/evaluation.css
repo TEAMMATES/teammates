@@ -70,7 +70,7 @@ tbody td+td+td+td a {
  background-position:left center;
  background-repeat:no-repeat;
  color:#03476F;
- padding-left:15px;
+ margin-left:15px;
 }
 tbody td+td+td+td a:visited { 
  background-position:left center;
@@ -274,7 +274,7 @@ tfoot td {
 .result_homeLinks a:link {
 	color: #FFFFFF;
 	font-size: 13px;
-	padding-left: 15px;
+	margin-left: 15px;
 	text-decoration: underline;
 }
 

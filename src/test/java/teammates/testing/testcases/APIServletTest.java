@@ -344,10 +344,10 @@ public class APIServletTest extends BaseTestCase {
 				.get(course1Id).evaluations;
 		assertEquals(2, course1Evals.size());
 		assertEquals(course1Id, course1Evals.get(0).course);
-		verifyEvauationInfoExistsInList(
+		verifyEvaluationInfoExistsInList(
 				dataBundle.evaluations.get("evaluation1InCourse1OfCoord1"),
 				course1Evals);
-		verifyEvauationInfoExistsInList(
+		verifyEvaluationInfoExistsInList(
 				dataBundle.evaluations.get("evaluation2InCourse1OfCoord1"),
 				course1Evals);
 
@@ -356,7 +356,7 @@ public class APIServletTest extends BaseTestCase {
 		ArrayList<EvaluationData> course2Evals = courseListForCoord
 				.get("idOfCourse2OfCoord1").evaluations;
 		assertEquals(1, course2Evals.size());
-		verifyEvauationInfoExistsInList(
+		verifyEvaluationInfoExistsInList(
 				dataBundle.evaluations.get("evaluation1InCourse2OfCoord1"),
 				course2Evals);
 
@@ -990,11 +990,11 @@ public class APIServletTest extends BaseTestCase {
 		verifyPresentInDatastore(evaluation);
 		apiServlet.deleteEvaluation(evaluation.course, evaluation.name);
 		verifyAbsentInDatastore(evaluation);
-		apiServlet.createEvalution(evaluation);
+		apiServlet.createEvaluation(evaluation);
 		verifyPresentInDatastore(evaluation);
 		
 		try {
-			apiServlet.createEvalution(evaluation);
+			apiServlet.createEvaluation(evaluation);
 			fail();
 		} catch (EntityAlreadyExistsException e) {
 			assertEquals(Common.MESSAGE_EVALUATION_EXISTS, e.getMessage());
@@ -1284,7 +1284,7 @@ public class APIServletTest extends BaseTestCase {
 	private void ____helper_methods_________________________________________() {
 	}
 
-	private void verifyEvauationInfoExistsInList(EvaluationData evaluation,
+	private void verifyEvaluationInfoExistsInList(EvaluationData evaluation,
 			ArrayList<EvaluationData> evalInfoList) {
 
 		for (EvaluationData ed : evalInfoList) {

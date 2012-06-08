@@ -43,14 +43,6 @@ function logSummaryList(lst) {
 		}
 	}
 }
-function replaceAll(source, stringToFind, stringToReplace) {
-	return source.split(stringToFind).join(stringToReplace);
-
-}
-
-function trim(stringToTrim) {
-	return stringToTrim.replace(/^\s+|\s+$/g, "");
-}
 
 function escape(str) {
 	str = str.replace(/'/g, "\\'");
@@ -73,10 +65,10 @@ function encodeChar(str) {
 	// Skipping character 32 (space)
 	str = str.replace(/!/g, "&#33;");
 	str = str.replace(/"/g, "&quot;");
-	// Replace # second since it appears in ASCII equivalent of characters
+	// Replace # second (see above) since it appears in ASCII equivalent of characters
 	str = str.replace(/\$/g, "&#36;");
 	str = str.replace(/%/g, "&#37;");
-	// Replace & first since it appears in ASCII equivalent of characters
+	// Replace & first (see above) since it appears in ASCII equivalent of characters
 	str = str.replace(/'/g, "\\'");
 	str = str.replace(/\(/g, "&#40;");
 	str = str.replace(/\)/g, "&#41;");
@@ -242,6 +234,19 @@ $.fn.sortElements = (function(){
 		});
 	};
 })();
+
+/**
+ * Sorts a table
+ * @param divElement
+ * 		The sort button
+ * @param colIdx
+ * 		The column index (1-based) as key for the sort
+ */
+function toggleSort(divElement,colIdx) {
+	sortTable(divElement,colIdx);
+	$(".buttonSortAscending").attr("class","buttonSortNone");
+	$(divElement).attr("class","buttonSortAscending");
+}
 
 /**
  * Sorts a table ascending based on certain column

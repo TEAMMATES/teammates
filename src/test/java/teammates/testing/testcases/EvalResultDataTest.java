@@ -231,9 +231,9 @@ public class EvalResultDataTest {
 				Arrays.toString(EvalResultData.calculatePerceivedForStudent
 						(new int[]{NA,NA,NA}, new int[]{NA,NA,NA})));
 		
-//		assertEquals(Arrays.toString(new int[]{100,50,50}),
-//				Arrays.toString(EvalResultData.calculatePerceivedForStudent
-//						(new int[]{NA,NA,NA}, new int[]{100,50,50})));
+		assertEquals(Arrays.toString(new int[]{100,50,50}),
+				Arrays.toString(EvalResultData.calculatePerceivedForStudent
+						(new int[]{NA,NA,NA}, new int[]{100,50,50})));
 
 	}
 	// @formatter:on

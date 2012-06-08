@@ -144,7 +144,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		addCourse(courseId, courseName);
 		int courseRowId = getCourseRowNumber(courseId);
 		assertTrue(courseRowId!=-1);
-		
+
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseAddDeleteInit.html");
 		
 //		// Check enroll link

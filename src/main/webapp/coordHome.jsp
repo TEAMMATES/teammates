@@ -22,15 +22,16 @@
 	<script language="JavaScript" src="/js/constants.js"></script>
 	<script language="JavaScript" src="/js/commonNew.js"></script>
 	
-	<script language="JavaScript" src="/js/coordCourse.js"></script>
 	<script language="JavaScript" src="/js/coordinatorNew.js"></script>
+	<script language="JavaScript" src="/js/coordCourse.js"></script>
+	<script language="JavaScript" src="/js/coordEval.js"></script>
 
 </head>
 
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="coordHeader.jsp" />
+		<jsp:include page="/coordHeader.jsp" />
 	</div>
 
 	<div id="frameBody">
@@ -46,7 +47,6 @@
 					</div>
 				</div>
 			</div>
-			<br />
 			<%	if (helper.statusMessage != null) { %>
 				<div id="statusMessage"
 					style="display:block;<%if (helper.error) out.println("background:#FF9999");%>">
@@ -140,7 +140,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="footer.jsp" />
+		<jsp:include page="/footer.jsp" />
 	</div>
 </body>
 </html>

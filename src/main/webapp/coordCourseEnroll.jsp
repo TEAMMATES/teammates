@@ -21,15 +21,15 @@
 	<script language="JavaScript" src="/js/helperNew.js"></script>
 	<script language="JavaScript" src="/js/commonNew.js"></script>
 	
-	<script language="JavaScript" src="/js/coordCourseEnroll.js"></script>
 	<script language="JavaScript" src="/js/coordinatorNew.js"></script>
+	<script language="JavaScript" src="/js/coordCourseEnroll.js"></script>
 
 </head>
 
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="coordHeader.jsp" />
+		<jsp:include page="/coordHeader.jsp" />
 	</div>
 
 	<div id="frameBody">
@@ -164,36 +164,36 @@
 					<h1>Enroll Students for <%= helper.courseID %></h1>
 				</div>
 				<form action="<%= helper.getCourseEnrollLink(helper.courseID) %>" method="post">
-				<input type="hidden" name="courseid" value="<%= helper.courseID %>"></input>
-				<div id="coordinatorCourseEnrollment">
-					<img src="/images/enrollInstructions.png" style="width:1012,height:324" border="0" />
-					<p class="info" style="text-align: center;">Recommended maximum class size : 100 students</p>
-					<br />
-					<table class="headerform"><tr>
-						<td class="fieldname" style="width: 250px;">Student details:</td>
-						<td><textarea rows="6" cols="135" class ="textvalue" name="enrollstudents" id="enrollstudents"></textarea></td>
-					</tr></table>
-				</div>
-				<br />
-				<%	if(helper.statusMessage!=null) { %>
-					<div id="statusMessage"
-						style="display:block;<% if(helper.error) out.println("background:#FF9999"); %>">
-						<%= helper.statusMessage %></div>
-				<%	} else { %>
-					<div id="statusMessage" style="display: none"></div>
-				<%	} %>
-				<div id="coordinatorCourseEnrollmentButtons">
-					<input type="submit" class="button" name="button_enroll" id="button_enroll" value="Enroll students"
-						onclick="return checkEnrollmentInput(document.getElementById('enrollstudents').value)"/>
-					<input type="button" class="t_back button" onclick="location.href='<%= Common.JSP_COORD_COURSE %>'" value="Back" />
-				</div>
+					<input type="hidden" name="courseid" value="<%= helper.courseID %>"></input>
+					<div id="coordinatorCourseEnrollment">
+						<img src="/images/enrollInstructions.png" style="width:1012,height:324" border="0" />
+						<p class="info" style="text-align: center;">Recommended maximum class size : 100 students</p>
+						<br />
+						<table class="headerform"><tr>
+							<td class="fieldname" style="width: 250px;">Student details:</td>
+							<td><textarea rows="6" cols="135" class ="textvalue" name="enrollstudents" id="enrollstudents"></textarea></td>
+						</tr></table>
+					</div>
+					<%	if(helper.statusMessage!=null) { %>
+						<div id="statusMessage"
+							style="display:block;<% if(helper.error) out.println("background:#FF9999"); %>">
+							<%= helper.statusMessage %></div>
+					<%	} else { %>
+						<div id="statusMessage" style="display: none"></div>
+					<%	} %>
+					<div id="coordinatorCourseEnrollmentButtons">
+						<input type="submit" class="button" name="button_enroll" id="button_enroll" value="Enroll students"
+							onclick="return checkEnrollmentInput(document.getElementById('enrollstudents').value)"/>
+						<input type="button" class="t_back button" onclick="location.href='<%= Common.JSP_COORD_COURSE %>'" value="Back" />
+						<br /><br /><br /><br />
+					</div>
 				</form>
 			<% } %>
 		</div>
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="footer.jsp" />
+		<jsp:include page="/footer.jsp" />
 	</div>
 </body>
 </html>

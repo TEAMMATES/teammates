@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
@@ -88,7 +89,7 @@ public class Common {
 	public final static String PARAM_COURSE_NAME = "coursename";
 	public final static String PARAM_STUDENTS_ENROLLMENT_INFO = "enrollstudents";
 	
-	public final static String PARAM_EVALUATION_NAME = "evalname";
+	public final static String PARAM_EVALUATION_NAME = "evaluationname";
 	
 	public final static String PARAM_EVALUATION_START = "start";
 	public final static String PARAM_EVALUATION_STARTTIME = "starttime";
@@ -414,16 +415,15 @@ public class Common {
 	}
 
 	/**
-	 * Returns the next full hour from now
-	 * Example: if current time is 1050, this will return 11
+	 * Returns the next hour from the next full hour.
+	 * Example: if current time is 1050, this will return 12 (i.e., one hour after 11)
 	 * @return
 	 */
 	public static String getNextTimeValue() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.HOUR_OF_DAY, 1);
 
-		String nextHour = Integer.toString(calendar.get(Calendar.HOUR_OF_DAY) + 1);
-		return nextHour;
+		return Integer.toString(calendar.get(Calendar.HOUR_OF_DAY)+1);
 	}
 
 	/**
@@ -441,6 +441,21 @@ public class Common {
 		String day = st.nextToken();
 		Integer dayInt = Integer.parseInt(day);
 		day = String.format("%02d", dayInt);
+
+		return day + "/" + month + "/" + year;
+	}
+	
+	/**
+	 * Helper method to format a date object to DD/MM/YYYY
+	 * @param date
+	 * @return
+	 */
+	public static String formatDate(Date date) {
+		Calendar cal = GregorianCalendar.getInstance();
+		cal.setTime(date);
+		int year = cal.get(Calendar.YEAR);
+		String month = String.format("%02d",cal.get(Calendar.MONTH)+1);
+		String day = String.format("%02d",cal.get(Calendar.DATE));
 
 		return day + "/" + month + "/" + year;
 	}

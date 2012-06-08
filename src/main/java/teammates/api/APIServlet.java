@@ -1008,7 +1008,7 @@ public class APIServlet extends HttpServlet {
 		for (EvaluationData evaluation : evaluations.values()) {
 			log.info("API Servlet adding evaluation :" + evaluation.name
 					+ " to course " + evaluation.course);
-			createEvalution(evaluation);
+			createEvaluation(evaluation);
 		}
 
 		// processing is slightly different for submissions because we are
@@ -1477,7 +1477,7 @@ public class APIServlet extends HttpServlet {
 	private void ____EVALUATION_level_methods______________________________() {
 	}
 
-	public void createEvalution(EvaluationData evaluation)
+	public void createEvaluation(EvaluationData evaluation)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 		
 		Evaluations.inst().addEvaluation(evaluation.toEvaluation());

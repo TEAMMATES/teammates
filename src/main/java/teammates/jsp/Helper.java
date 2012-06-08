@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.api.APIServlet;
 import teammates.api.Common;
-import teammates.datatransfer.*;
+import teammates.datatransfer.EvaluationData;
+import teammates.datatransfer.UserData;
 
 public class Helper {	
 	/**
@@ -111,6 +112,14 @@ public class Helper {
 		} catch (UnsupportedEncodingException e){
 			return str;
 		}
+	}
+	
+	public static String escape(String str){
+		return str.replace("&", "&amp;")
+				.replace("<", "&lt;")
+				.replace(">", "&gt;")
+				.replace("\"", "&quot;")
+				.replace("'", "&#39;");
 	}
 	
 	public static boolean isUserLoggedIn() {

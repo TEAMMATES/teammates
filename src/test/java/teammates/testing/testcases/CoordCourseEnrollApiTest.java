@@ -20,7 +20,7 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 /**
- * Tests API for Course - Enroll Page
+ * Tests API (TeammatesServlet) for Course - Enroll Page
  * 
  * @author Aldrian Obaja
  */

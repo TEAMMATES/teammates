@@ -25,172 +25,6 @@ var DISPLAY_STUDENT_DELETED = "The student has been removed.";
 var DISPLAY_STUDENT_EDITED = "The student's details have been edited.";
 var DISPLAY_STUDENT_EDITEDEXCEPTTEAM = "The student's details have been edited, except for his team<br /> as there is an ongoing evaluation.";
 
-//GLOBAL VARIABLES FOR GUI
-var courseSort = {
-		ID : 0,
-		name : 1
-};
-var courseSortStatus = courseSort.ID;
-
-var evaluationSort = {
-		courseID : 0,
-		name : 1
-};
-var evaluationSortStatus = evaluationSort.courseID;
-
-var studentSort = {
-		name : 0,
-		teamName : 1,
-		status : 2
-};
-var studentSortStatus = studentSort.name;
-
-var courseViewArchived = {
-		show : 0,
-		hide : 1
-};
-var courseViewArchivedStatus = courseViewArchived.hide;
-
-var evaluationResultsView = {
-		reviewee : 0,
-		reviewer : 1
-};
-var evaluationResultsViewStatus = evaluationResultsView.reviewee;
-
-var evaluationResultsSummaryListSort = {
-		teamName : 0,
-		name : 1,
-		average : 2,
-		submitted : 3,
-		diff : 4
-};
-var evaluationResultsSummaryListSortStatus = evaluationResultsSummaryListSort.teamName;
-
-//MESSAGES
-var MSG_COURSE_EXISTS = "course exists";
-var MSG_COURSE_NOTEAMS = "course has no teams";
-
-var MSG_EVALUATION_ADDED = "evaluation added";
-var MSG_EVALUATION_EDITED = "evaluation edited";
-var MSG_EVALUATION_EXISTS = "evaluation exists";
-var MSG_EVALUATION_UNABLETOCHANGETEAMS = "evaluation ongoing unable to change teams";
-
-//PARAMETERS
-var EVALUATION_ACTIVATED = "activated";
-var EVALUATION_ARCHIVED = "evaluationarchived";
-var EVALUATION_COMMENTSENABLED = "commentsstatus";
-var EVALUATION_DEADLINE = "deadline";
-var EVALUATION_DEADLINETIME = "deadlinetime";
-var EVALUATION_GRACEPERIOD = "graceperiod";
-var EVALUATION_INSTRUCTIONS = "instr";
-var EVALUATION_NAME = "evaluationname";
-var EVALUATION_NUMBEROFCOMPLETEDEVALUATIONS = "numberofevaluations";
-var EVALUATION_NUMBEROFEVALUATIONS = "numberofcompletedevaluations";
-var EVALUATION_PUBLISHED = "published";
-var EVALUATION_START = "start";
-var EVALUATION_STARTTIME = "starttime";
-var EVALUATION_TIMEZONE = "timezone";
-var EVALUATION_TYPE = "evaluationtype";
-
-var STUDENT_COMMENTS = "comments";
-var STUDENT_COMMENTSEDITED = "commentsedited";
-var STUDENT_COMMENTSTOSTUDENT = "commentstostudent";
-var STUDENT_COURSEID = "courseid";
-var STUDENT_EDITCOMMENTS = "editcomments";
-var STUDENT_EDITEMAIL = "editemail";
-var STUDENT_EDITGOOGLEID = "editgoogleid";
-var STUDENT_EDITNAME = "editname";
-var STUDENT_EDITTEAMNAME = "editteamname";
-var STUDENT_EMAIL = "email";
-var STUDENT_FROMSTUDENT = "fromemail";
-var STUDENT_FROMSTUDENTCOMMENTS = "fromstudentcomments";
-var STUDENT_FROMSTUDENTNAME = "fromname";
-var STUDENT_ID = "id";
-var STUDENT_INFORMATION = "information";
-var STUDENT_JUSTIFICATION = "justification";
-var STUDENT_NAME = "name";
-var STUDENT_NAMEEDITED = "nameedited";
-var STUDENT_NUMBEROFSUBMISSIONS = "numberofsubmissions";
-var STUDENT_POINTS = "points";
-var STUDENT_POINTSBUMPRATIO = "pointsbumpratio";
-var STUDENT_REGKEY = "regkey";
-var STUDENT_STATUS = "status";
-var STUDENT_TEAMNAME = "teamname";
-var STUDENT_TEAMNAMEEDITED = "teamnameedited";
-var STUDENT_TOSTUDENT = "toemail";
-var STUDENT_TOSTUDENTCOMMENTS = "tostudentcomments";
-var STUDENT_TOSTUDENTNAME = "toname";
-
-/***
- * Submission Constants
- */
-var NA = "N/A";
-var NA_POINTS = -101;
-var NOTSURE = "NOT SURE";
-var NOTSURE_POINTS = -999;
-var YES = "YES";
-var NO = "NO";
-
-/***********************************************************EVALUATION PAGE***********************************************************/
-
-//----------------------------------------------------------ADD EVALUATION FUNCTIONS
-/**
- * Coordinator Add Evaluation
- *  
- **/
-/*
- * Returns
- * 
- * 0: successful 1: server error 2: fields empty 3: evaluation name invalid 4:
- * evaluation name long 5: evaluation schedule invalid 6: evaluation exists 7:
- * course has no teams
- */
-function addEvaluation(courseID, name, instructions, commentsEnabled, start,
-		startTime, deadline, deadlineTime, timeZone, gracePeriod) {
-	if (courseID == "" || name == "" || start == "" || startTime == ""
-		|| deadline == "" || deadlineTime == "" || timeZone == ""
-			|| gracePeriod == "" || instructions == "") {
-		return 2;
-	}
-
-	else if (!isEvaluationNameValid(name)) {
-		return 3;
-	}
-
-	else if (!isEvaluationNameLengthValid(name)) {
-		return 4;
-	}
-
-	else if (!isAddEvaluationScheduleValid(start, startTime, deadline,
-			deadlineTime)) {
-		return 5;
-	}
-
-	else {
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-		"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_ADDEVALUATION + "&"
-				+ COURSE_ID + "=" + encodeURIComponent(courseID) + "&"
-				+ EVALUATION_NAME + "=" + encodeURIComponent(name) + "&"
-				+ EVALUATION_DEADLINE + "=" + encodeURIComponent(deadline)
-				+ "&" + EVALUATION_DEADLINETIME + "="
-				+ encodeURIComponent(deadlineTime) + "&"
-				+ EVALUATION_INSTRUCTIONS + "="
-				+ encodeURIComponent(instructions) + "&" + EVALUATION_START
-				+ "=" + encodeURIComponent(start) + "&" + EVALUATION_STARTTIME
-				+ "=" + encodeURIComponent(startTime) + "&"
-				+ EVALUATION_GRACEPERIOD + "="
-				+ encodeURIComponent(gracePeriod) + "&" + EVALUATION_TIMEZONE
-				+ "=" + encodeURIComponent(timeZone) + "&"
-				+ EVALUATION_COMMENTSENABLED + "="
-				+ encodeURIComponent(commentsEnabled));
-
-		return handleAddEvaluation();
-	}
-
-}
-
 /***********************************************************EVALUATION RESULT PAGE***********************************************************/
 /*----------------------------------------------------------EVALUATION RESULT PAGE----------------------------------------------------------*/
 function displayEvaluationResults(evaluationList, loop) {
@@ -292,20 +126,6 @@ function printEvaluationHeaderForm(courseID, evaluationName, start, deadline, st
 	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader;
 	document.getElementById(DIV_EVALUATION_INFORMATION).innerHTML = output;
 }
-
-function doGetEvaluationListOfCourse(courseID) {
-	setStatusMessage(DISPLAY_LOADING);
-
-	var results = getEvaluationListOfCourse(courseID);
-
-	clearStatusMessage();
-	if (results != 1) {
-		return results;
-	} else {
-		alert(DISPLAY_SERVERERROR);
-	}
-}
-
 
 //----------------------------------------------------------LIST EVALUATION RESULTS FUNCTIONS
 function doGetSubmissionResultsList(courseID, evaluationName, status, commentsEnabled) {
@@ -1017,59 +837,18 @@ function checkEditStudentInput(editName, editTeamName, editEmail, editGoogleID) 
 	}
 }
 
-function convertDateFromDDMMYYYYToMMDDYYYY(dateString) {
-	var newDateString = dateString.substring(3, 5) + "/"
-	+ dateString.substring(0, 2) + "/" + dateString.substring(6, 10);
-
-	return newDateString;
+function formatDigit(num){
+	return (num<10?"0":"")+num;
 }
 
 function convertDateToDDMMYYYY(date) {
-	var string;
-
-	if (date.getDate() < 10) {
-		string = "0" + date.getDate();
-	}
-
-	else {
-		string = date.getDate();
-	}
-
-	string = string + "/";
-
-	if (date.getMonth() + 1 < 10) {
-		string = string + "0" + (date.getMonth() + 1);
-	}
-
-	else {
-		string = string + (date.getMonth() + 1);
-	}
-
-	string = string + "/" + date.getFullYear();
-
-	return string;
+	return formatDigit(date.getDate()) + "/" +
+			formatDigit(date.getMonth()+1) + "/" +
+			date.getFullYear();
 }
 
 function convertDateToHHMM(date) {
-	var string;
-
-	if (date.getHours() < 10) {
-		string = "0" + date.getHours();
-	}
-
-	else {
-		string = "" + date.getHours();
-	}
-
-	if (date.getMinutes() < 10) {
-		string = string + "0" + date.getMinutes();
-	}
-
-	else {
-		string = string + date.getMinutes();
-	}
-
-	return string;
+	return formatDigit(date.getHours()) + formatDigit(date.getMinutes());
 }
 
 /*
@@ -1141,78 +920,6 @@ function displayStudentInformation(courseID, email, name, teamName, googleID,
 	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
 	printStudent(courseID, email, name, teamName, googleID, registrationKey,
 			comments);
-}
-
-function doAddEvaluation(courseID, name, instructions, commentsEnabled, start,
-		startTime, deadline, deadlineTime, timeZone, gracePeriod) {
-	setStatusMessage(DISPLAY_LOADING);
-
-	var results = addEvaluation(courseID, name, instructions, commentsEnabled,
-			start, startTime, deadline, deadlineTime, timeZone, gracePeriod);
-
-	clearStatusMessage();
-	var emptyTeam = 0;
-
-	if (results == 0) {
-		displayEvaluationsTab();
-		var studentList = getStudentList(courseID);
-		if (studentList != 1) {
-			for (var i = 0; i < studentList.length; i++) {
-				studentList[i].teamName = studentList[i].teamName.replace(
-						/^\s*|\s*$/, "");
-				if (studentList[i].teamName == "")
-					emptyTeam = 1;
-			}
-		}
-		if (emptyTeam == 1)
-			setStatusMessage(DISPLAY_EVALUATION_ADDED_WITH_EMPTY_TEAMS);
-		else
-			setStatusMessage(DISPLAY_EVALUATION_ADDED);
-	}
-
-	else if (results == 1) {
-		alert(DISPLAY_SERVERERROR);
-	}
-
-	else if (results == 2) {
-		setStatusMessage(DISPLAY_FIELDS_EMPTY);
-	}
-
-	else if (results == 3) {
-		setStatusMessage(DISPLAY_EVALUATION_NAMEINVALID);
-	}
-
-	else if (results == 4) {
-		setStatusMessage(DISPLAY_EVALUATION_NAME_LENGTHINVALID);
-	}
-
-	else if (results == 5) {
-		setStatusMessage(DISPLAY_EVALUATION_SCHEDULEINVALID);
-	}
-
-	else if (results == 6) {
-		setStatusMessage(DISPLAY_EVALUATION_EXISTS);
-	}
-
-	else if (results == 7) {
-		setStatusMessage(DISPLAY_COURSE_NOTEAMS);
-	}
-
-}
-
-function doArchiveCourse(courseID) {
-	setStatusMessage(DISPLAY_LOADING);
-
-	var results = archiveCourse(courseID);
-
-	if (results == 0) {
-		getAndPrintCourseList();
-		setStatusMessage(DISPLAY_COURSE_ARCHIVED);
-	}
-
-	else {
-		alert(DISPLAY_SERVERERROR);
-	}
 }
 
 function doDeleteAllStudents(courseID) {
@@ -1401,22 +1108,6 @@ function doSendRegistrationKeys(courseID) {
 		alert(DISPLAY_SERVERERROR);
 	}
 }
-
-function doUnarchiveCourse(courseID) {
-	setStatusMessage(DISPLAY_LOADING);
-
-	var results = unarchiveCourse(courseID);
-
-	if (results == 0) {
-		getAndPrintCourseList();
-		setStatusMessage(DISPLAY_COURSE_UNARCHIVED);
-	}
-
-	else {
-		alert(DISPLAY_SERVERERROR);
-	}
-}
-
 /*
  * Returns
  * 
@@ -1518,10 +1209,10 @@ function editEvaluationResults(submissionList, commentsEnabled) {
  */
 function editStudent(courseID, email, editName, editTeamName, editEmail,
 		editGoogleID, editComments) {
-	editName = trim(editName);
-	editTeamName = trim(editTeamName);
-	editEmail = trim(editEmail);
-	editGoogleID = trim(editGoogleID);
+	editName = editName.trim();
+	editTeamName = editTeamName.trim();
+	editEmail = editEmail.trim();
+	editGoogleID = editGoogleID.trim();
 
 	if (isEditStudentInputValid(editName, editTeamName, editEmail, editGoogleID)) {
 		if (xmlhttp) {
@@ -1583,24 +1274,6 @@ function extractSubmissionList(form) {
 	}
 
 	return submissionList;
-}
-
-/*
- * Returns
- * 
- * courseInfo: successful 1: server error
- * 
- */
-function getCourse(courseID) {
-	if (xmlhttp) {
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-		"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_GETCOURSE + "&"
-				+ COURSE_ID + "=" + encodeURIComponent(courseID));
-
-		return handleGetCourse();
-	}
 }
 
 
@@ -1667,75 +1340,10 @@ function getStudentList(courseID) {
 /*
  * Returns
  * 
- * 0: successful 1: server error 6: evaluation exists 7: course has no teams
- * 
- */
-function handleAddEvaluation() {
-	if (xmlhttp.status == CONNECTION_OK) {
-		var status = xmlhttp.responseXML.getElementsByTagName("status")[0];
-
-		if (status != null) {
-			var message = status.firstChild.nodeValue;
-
-			if (message == MSG_EVALUATION_EXISTS) {
-				return 6;
-			}
-
-			else if (message == MSG_COURSE_NOTEAMS) {
-				return 7;
-			}
-
-			else {
-				return 0;
-			}
-		}
-	}
-
-	else {
-		return 1;
-	}
-}
-
-/*
- * Returns
- * 
- * 0: successful 1: server error
- * 
- */
-function handleArchiveCourse() {
-	if (xmlhttp) {
-		return 0;
-	}
-
-	else {
-		return 1;
-	}
-}
-
-/*
- * Returns
- * 
  * 0: successful 1: server error
  * 
  */
 function handleDeleteAllStudents(courseID) {
-	if (xmlhttp) {
-		return 0;
-	}
-
-	else {
-		return 1;
-	}
-}
-
-
-/*
- * Returns
- * 
- * 0: successful 1: server error
- * 
- */
-function handleDeleteEvaluation() {
 	if (xmlhttp) {
 		return 0;
 	}
@@ -2006,48 +1614,6 @@ function handleGetStudentList() {
  * 0: successful 1: server error
  * 
  */
-function handlePublishEvaluation() {
-	if (xmlhttp.status == CONNECTION_OK) {
-		return 0;
-	}
-
-	else {
-		return 1;
-	}
-}
-
-/*
- * Returns
- * 
- * 0: successful 1: server error
- * 
- */
-function handleUnpublishEvaluation() {
-	if (xmlhttp.status == CONNECTION_OK) {
-		return 0;
-	}
-
-	else {
-		return 1;
-	}
-}
-
-function handleRemindStudents() {
-	if (xmlhttp.status == CONNECTION_OK) {
-		return 0;
-	}
-
-	else {
-		return 1;
-	}
-}
-
-/*
- * Returns
- * 
- * 0: successful 1: server error
- * 
- */
 function handleSendRegistrationKey() {
 	if (xmlhttp.status == CONNECTION_OK) {
 		return 0;
@@ -2073,22 +1639,6 @@ function handleSendRegistrationKeys() {
 	}
 }
 
-/*
- * Returns
- * 
- * 0: successful 1: server error
- * 
- */
-function handleUnarchiveCourse() {
-	if (xmlhttp) {
-		return 0;
-	}
-
-	else {
-		return 1;
-	}
-}
-
 function informStudentsOfEvaluationChanges(courseID, name) {
 	if (xmlhttp) {
 		xmlhttp.open("POST", "/teammates", false);
@@ -2101,112 +1651,6 @@ function informStudentsOfEvaluationChanges(courseID, name) {
 	}
 
 	return handleInformStudentsOfEvaluationChanges();
-}
-
-function isAddEvaluationScheduleValid(start, startTime, deadline, deadlineTime) {
-	start = convertDateFromDDMMYYYYToMMDDYYYY(start);
-	deadline = convertDateFromDDMMYYYYToMMDDYYYY(deadline);
-
-	var now = new Date();
-
-	start = new Date(start);
-	deadline = new Date(deadline);
-
-	if (startTime != "24") {
-		start.setHours(parseInt(startTime));
-	}
-
-	else {
-		start.setHours(23);
-		start.setMinutes(59);
-	}
-
-	if (deadlineTime != "24") {
-		deadline.setHours(parseInt(deadlineTime));
-	}
-
-	else {
-		deadline.setHours(23);
-		deadline.setMinutes(59);
-	}
-
-	if (start > deadline) {
-		return false;
-	}
-
-	else if (now > start) {
-		return false;
-	}
-
-	else if (!(start > deadline || deadline > start)) {
-		if (parseInt(startTime) >= parseInt(deadlineTime)) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-function isEditEvaluationScheduleValid(start, startTime, deadline,
-		deadlineTime, timeZone, activated, status) {
-	var startString = convertDateFromDDMMYYYYToMMDDYYYY(start);
-	var deadlineString = convertDateFromDDMMYYYYToMMDDYYYY(deadline);
-
-	var now = getDateWithTimeZoneOffset(timeZone);
-
-	start = new Date(startString);
-	deadline = new Date(deadlineString);
-
-	if (startTime != "24") {
-		start.setHours(parseInt(startTime));
-	}
-
-	else {
-		start.setHours(23);
-		start.setMinutes(59);
-	}
-
-	if (deadlineTime != "24") {
-		deadline.setHours(parseInt(deadlineTime));
-	}
-
-	else {
-		deadline.setHours(23);
-		deadline.setMinutes(59);
-	}
-
-	if (start > deadline) {
-		return false;
-	}
-
-	else if (status == "AWAITING") {
-		// Open evaluation should be done by system only.
-		// Thus, coordinator cannot change evaluation ststus from AWAITING to
-		// OPEN
-		if (start < now) {
-			return false;
-		}
-	}
-
-	// else if(now > deadline)
-	// {
-	// return false;
-	// }
-	//
-	// else if(!(start > deadline || deadline > start))
-	// {
-	// if(parseInt(startTime) >= parseInt(deadlineTime))
-	// {
-	// return false;
-	// }
-	// }
-	//	
-	// else if(!activated && start < now)
-	// {
-	// return false;
-	// }
-	//	
-	return true;
 }
 
 function isEditStudentInputValid(editName, editTeamName, editEmail,
@@ -2228,23 +1672,6 @@ function isEditStudentInputValid(editName, editTeamName, editEmail,
 	}
 
 	return true;
-}
-
-function populateCourseIDOptions(courseID,courseList) {
-	var option = document.createElement("OPTION");
-
-	var courseListLength = courseList.length;
-	for (var x = 0; x < courseListLength; x++) {
-		option = document.createElement("OPTION");
-		option.text = courseList[x].ID;
-		option.value = courseList[x].ID;
-		if (courseID != "") {
-			if (courseID == courseList[x].ID) {
-				option.selected = true;
-			}
-		}
-		document.form_addevaluation.courseid.options.add(option);
-	}
 }
 
 function populateEditEvaluationResultsPointsForm(form, submissionList) {
@@ -2309,93 +1736,6 @@ function printEvaluationReportByAction(submissionList, summaryList, status, comm
 		// do nothing
 	}
 
-}
-
-/**
- * Sends an AJAX request to the server to publish an evaluation
- * and goes to specified URL on success
- * @param courseID
- * @param name
- * @param url
- */
-function publishEvaluation(courseID, name, url) {
-	if (xmlhttp) {
-		xmlhttp.onreadystatechange = function(){
-			if (xmlhttp.readyState==4) {
-				if(xmlhttp.status==200){
-					setStatusMessage(DISPLAY_EVALUATION_PUBLISHED);
-					window.location = url;
-				} else {
-					alert(DISPLAY_SERVERERROR);
-				}
-			}
-		};
-		xmlhttp.open("POST", "/teammates", true);
-		xmlhttp.setRequestHeader("Content-Type",
-		"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_PUBLISHEVALUATION
-				+ "&" + COURSE_ID + "=" + encodeURIComponent(courseID) + "&"
-				+ EVALUATION_NAME + "=" + encodeURIComponent(name));
-	} else {
-		setStatusMessage(DISPLAY_BROWSERERROR);
-	}
-}
-
-/**
- * Sends an AJAX request to the server to unpublish an evaluation
- * and goes to specified URL on success
- * @param courseID
- * @param name
- * @param url
- */
-function unpublishEvaluation(courseID, name, url) {
-	if (xmlhttp) {
-		xmlhttp.onreadystatechange = function(){
-			if (xmlhttp.readyState==4) {
-				if(xmlhttp.status==200){
-					setStatusMessage(DISPLAY_EVALUATION_UNPUBLISHED);
-					window.location = url;
-				} else {
-					alert(DISPLAY_SERVERERROR);
-				}
-			}
-		};
-		xmlhttp.open("POST", "/teammates", true);
-		xmlhttp.setRequestHeader("Content-Type",
-		"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_UNPUBLISHEVALUATION
-				+ "&" + COURSE_ID + "=" + encodeURIComponent(courseID) + "&"
-				+ EVALUATION_NAME + "=" + encodeURIComponent(name));
-	} else {
-		setStatusMessage(DISPLAY_BROWSERERROR);
-	}
-}
-
-/**
- * Sends an AJAX request to the server to remind students to do evaluation
- * @param courseID
- * @param evaluationName
- */
-function remindStudents(courseID, evaluationName) {
-	if (xmlhttp) {
-		xmlhttp.onreadystatechange = function(){
-			clearStatusMessage();
-			if (xmlhttp.readyState==4) {
-				if(xmlhttp.status==200){
-					setStatusMessage(DISPLAY_EVALUATION_REMINDERSSENT);
-				} else {
-					alert(DISPLAY_SERVERERROR);
-				}
-			}
-		};
-		xmlhttp.open("POST", "/teammates", true);
-		xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_REMINDSTUDENTS + "&"
-				+ COURSE_ID + "=" + encodeURIComponent(courseID) + "&"
-				+ EVALUATION_NAME + "=" + encodeURIComponent(evaluationName));
-	} else {
-		alert(DISPLAY_BROWSERERROR);
-	}
 }
 
 /*
@@ -2465,10 +1805,6 @@ function setSelectedOption(s, v) {
 	}
 }
 
-function toggleDeleteEvaluationConfirmation(courseID, name) {
-	return confirm("Are you sure you want to delete the evaluation " + name + " in " + courseID + "?");
-}
-
 function toggleDeleteAllStudentsConfirmation(courseID) {
 	var s = confirm("Are you sure you want to remove all students from this course?");
 	if (s == true) {
@@ -2515,33 +1851,6 @@ function toggleInformStudentsOfEvaluationChanges(courseID, name) {
 	document.getElementById(DIV_EVALUATION_MANAGEMENT).scrollIntoView(true);
 }
 
-function togglePublishEvaluation(courseID, name, publish, url) {
-	if (publish) {
-		var s = confirm("Are you sure you want to publish the evaluation?");
-		if (s == true) {
-			scrollToTop();
-			setStatusMessage(DISPLAY_LOADING);
-			publishEvaluation(courseID, name, url);
-		}
-	} else {
-		var s = confirm("Are you sure you want to unpublish the evaluation?");
-		if (s == true) {
-			scrollToTop();
-			setStatusMessage(DISPLAY_LOADING);
-			unpublishEvaluation(courseID, name, url);
-		}
-	}
-}
-
-function toggleRemindStudents(courseID, evaluationName) {
-	var s = confirm("Send e-mails to remind students who have not submitted their evaluations?");
-	if (s == true) {
-		scrollToTop();
-		setStatusMessage(DISPLAY_LOADING);
-		remindStudents(courseID, evaluationName);
-	}
-}
-
 function toggleSendRegistrationKeysConfirmation(courseID) {
 	var s = confirm("Are you sure you want to send registration keys to all the unregistered students for them to join your course?");
 	if (s == true) {
@@ -2573,56 +1882,11 @@ function toggleSortStudentsByTeamName(studentList, courseID) {
 	"buttonSortAscending");
 }
 
-function toggleViewAddedStudents() {
-	var currentClass = document.getElementById('button_viewaddedstudents')
-	.getAttribute("class");
-
-	if (currentClass == "plusButton") {
-		document.getElementById("button_viewaddedstudents").setAttribute(
-				"class", "minusButton");
-		document.getElementById("rowAddedStudents").style.display = "";
-	} else {
-		document.getElementById("button_viewaddedstudents").setAttribute(
-				"class", "plusButton");
-		document.getElementById("rowAddedStudents").style.display = "none";
-	}
-}
-
-function toggleViewEditedStudents() {
-	var currentClass = document.getElementById('button_vieweditedstudents')
-	.getAttribute("class");
-
-	if (currentClass == "plusButton") {
-		document.getElementById("button_vieweditedstudents").setAttribute(
-				"class", "minusButton");
-		document.getElementById("rowEditedStudents").style.display = "";
-	} else {
-		document.getElementById("button_vieweditedstudents").setAttribute(
-				"class", "plusButton");
-		document.getElementById("rowEditedStudents").style.display = "none";
-	}
-}
-
-/*
- * Returns
- * 
- * 0: successful 1: server error
- * 
- */
-function unarchiveCourse(courseID) {
-	if (xmlhttp) {
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-		"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_UNARCHIVECOURSE + "&"
-				+ COURSE_ID + "=" + encodeURIComponent(courseID));
-
-		return handleUnarchiveCourse();
-	}
-}
-
 window.onload = function() {
 	initializetooltip();
+	if(typeof doPageSpecificOnload !== 'undefined'){
+		doPageSpecificOnload();
+	};
 };
 
 //DynamicDrive JS mouse-hover
