@@ -1,8 +1,6 @@
 package teammates.testing.lib;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

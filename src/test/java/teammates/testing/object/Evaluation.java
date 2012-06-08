@@ -8,7 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import teammates.api.Common;
-import teammates.testing.lib.SharedLib;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;

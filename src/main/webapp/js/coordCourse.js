@@ -24,8 +24,8 @@ var DISPLAY_COURSE_INVALID_NAME = "Course name is invalid.";
 
 //------------------------------Add Course Validation-----------------------------
 function prepareAddCourseParams(courseID, courseName) {
-	courseID = trim(courseID);
-	courseName = trim(courseName);
+	courseID = courseID.trim();
+	courseName = courseName.trim();
 }
 
 function verifyAddCourse() {
@@ -90,20 +90,6 @@ function checkAddCourseParam(courseID, courseName) {
 
 function isCourseIDValid(courseID) {
 	return courseID.match(/^[a-zA-Z_$0-9.-]+$/);
-}
-
-function toggleSortCoursesByID(divElement,colIdx) {
-	sortTable(divElement,colIdx);
-	courseSortStatus = courseSort.ID;
-	$(".buttonSortAscending").attr("class","buttonSortNone");
-	$("#button_sortcourseid").attr("class","buttonSortAscending");
-}
-
-function toggleSortCoursesByName(divElement,colIdx) {
-	sortTable(divElement,colIdx);
-	courseSortStatus = courseSort.name;
-	$(".buttonSortAscending").attr("class","buttonSortNone");
-	$("#button_sortcoursename").attr("class","buttonSortAscending");
 }
 
 /**

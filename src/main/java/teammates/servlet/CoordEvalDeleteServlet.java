@@ -11,11 +11,11 @@ import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
 /**
- * Servlet to handle Delete Course action
+ * Servlet to handle Delete Evaluation action
  * @author Aldrian Obaja
  *
  */
-public class CoordCourseDeleteServlet extends ActionServlet {
+public class CoordEvalDeleteServlet extends ActionServlet {
 	
 	protected void doPostAction(HttpServletRequest req, HttpServletResponse resp, Helper help)
 			throws IOException, ServletException {
@@ -29,13 +29,15 @@ public class CoordCourseDeleteServlet extends ActionServlet {
 		
 		// Get parameters
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
+		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
+		System.out.println(evalName);
 		
 		// Process action
-		helper.server.deleteCourse(courseID);
-		helper.statusMessage = Common.MESSAGE_COURSE_DELETED;
+		helper.server.deleteEvaluation(courseID,evalName);
+		helper.statusMessage = Common.MESSAGE_EVALUATION_DELETED;
 		
 		// Send response
-		if(helper.nextUrl==null) helper.nextUrl = "/page/coordCourse";
+		if(helper.nextUrl==null) helper.nextUrl = "/page/coordEval";
 		helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
 		
 		resp.sendRedirect(helper.nextUrl);

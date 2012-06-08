@@ -106,9 +106,10 @@ public class CoordEvaluationAddTest extends TestCase {
 	public void testCoordAddEvaluationWithInvalidInputFailed() {
 		Evaluation eval = scn2.evaluation;
 		String invalidEvalName = "Evaluation =)";
+		eval.name = invalidEvalName;
 		
 		bi.goToEvaluation();
-		bi.addEvaluation(eval.courseID, invalidEvalName, eval.dateValue, eval.nextTimeValue, eval.p2pcomments, eval.instructions, eval.gracePeriod);
+		bi.addEvaluation(eval);
 
 		assertEquals(bi.ERROR_INVALID_EVALUATION_NAME, bi.getElementText(bi.statusMessage));
 		

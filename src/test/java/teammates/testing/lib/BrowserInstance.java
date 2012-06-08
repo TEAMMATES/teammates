@@ -1642,8 +1642,6 @@ public class BrowserInstance {
 	 * @param gracePeriod
 	 */
 	public void addEvaluation(String courseID, String evalName, String dateValue, String nextTimeValue, String comments, String instructions, Integer gracePeriod) {
-		clickEvaluationTab();
-	
 		// Select the course
 		clickWithWait(coordCourseInputCourseID);
 		

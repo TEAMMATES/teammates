@@ -194,7 +194,6 @@ public class CoordEvaluationListTest extends TestCase {
 		System.out.println("testCoordAddDeletedEvaluation");
 
 		bi.goToEvaluation();
-
 		bi.addEvaluation(scn.evaluation4);
 		
 		bi.verifyEvaluationAdded(scn.course.courseId, scn.evaluation4.name, "AWAITING", "0 / " + scn.students.size());

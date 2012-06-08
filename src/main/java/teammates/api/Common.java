@@ -414,16 +414,15 @@ public class Common {
 	}
 
 	/**
-	 * Returns the next full hour from now
-	 * Example: if current time is 1050, this will return 11
+	 * Returns the next hour from the next full hour.
+	 * Example: if current time is 1050, this will return 12 (i.e., one hour after 11)
 	 * @return
 	 */
 	public static String getNextTimeValue() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.HOUR_OF_DAY, 1);
 
-		String nextHour = Integer.toString(calendar.get(Calendar.HOUR_OF_DAY) + 1);
-		return nextHour;
+		return Integer.toString(calendar.get(Calendar.HOUR_OF_DAY)+1);
 	}
 
 	/**

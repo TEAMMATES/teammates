@@ -89,6 +89,7 @@ public class CoordCourseEditStudentsTeamTest extends TestCase {
 		bi.enrollStudents(scn.students, scn.course.courseId);
 
 		SharedLib.tprintln("Creating second evaluation.");
+		bi.goToEvaluation();
 		bi.addEvaluation(scn.evaluation2);
 		
 		TMAPI.openEvaluation(scn.course.courseId, scn.evaluation2.name);
