@@ -8,7 +8,6 @@ var cal = new CalendarPopup();
 
 //DISPLAY
 var DISPLAY_COURSE_ARCHIVED = "The course has been archived.";
-var DISPLAY_COURSE_DELETED = "The course has been deleted.";
 var DISPLAY_COURSE_DELETEDALLSTUDENTS = "All students have been removed from the course.";
 var DISPLAY_COURSE_DELETEDSTUDENT = "The student has been removed from the course.";
 var DISPLAY_COURSE_NOTEAMS = "<font color=\"#F00\">The course does not have any teams.</font>";
@@ -16,20 +15,8 @@ var DISPLAY_COURSE_SENTREGISTRATIONKEY = "Registration key has been sent to ";
 var DISPLAY_COURSE_SENTREGISTRATIONKEYS = "Registration keys are sent to the students.";
 var DISPLAY_COURSE_UNARCHIVED = "The course has been unarchived.";
 var DISPLAY_EDITSTUDENT_FIELDSEMPTY = "<font color=\"#F00\">Please fill in all fields marked with an *.</font>";
-var DISPLAY_EVALUATION_ADDED = "The evaluation has been added.";
 var DISPLAY_EVALUATION_ADDED_WITH_EMPTY_TEAMS = "The evaluation has been added. <font color=\"#F00\">Some students are without teams.</font>";
 var DISPLAY_EVALUATION_ARCHIVED = "The evaluation has been archived.";
-var DISPLAY_EVALUATION_DELETED = "The evaluation has been deleted.";
-var DISPLAY_EVALUATION_EDITED = "The evaluation has been edited.";
-var DISPLAY_EVALUATION_EXISTS = "<font color=\"#F00\">The evaluation exists already.</font>";
-var DISPLAY_EVALUATION_INFORMEDSTUDENTSOFCHANGES = "E-mails have been sent out to inform the students of the changes to the evaluation.";
-var DISPLAY_EVALUATION_NAMEINVALID = "<font color=\"#F00\">Please use only alphabets, numbers and whitespace in evaluation name.</font>";
-var DISPLAY_EVALUATION_NAME_LENGTHINVALID = "<font color=\"#F00\">Evaluation name should not exceed 38 characters.</font>";
-var DISPLAY_EVALUATION_PUBLISHED = "The evaluation has been published.";
-var DISPLAY_EVALUATION_UNPUBLISHED = "The evaluation has been unpublished.";
-var DISPLAY_EVALUATION_REMINDERSSENT = "Reminder e-mails have been sent out to those students.";
-var DISPLAY_EVALUATION_RESULTSEDITED = "The particular evaluation results have been edited.";
-var DISPLAY_EVALUATION_SCHEDULEINVALID = "<font color=\"#F00\">The evaluation schedule (start/deadline) is not valid.</font>";
 var DISPLAY_EVALUATION_UNARCHIVED = "The evaluation has been unarchived.";
 var DISPLAY_FIELDS_EMPTY = "<font color=\"#F00\">Please fill in all the relevant fields.</font>";
 var DISPLAY_LOADING = "<img src=/images/ajax-loader.gif /><br />";

@@ -992,6 +992,13 @@ public class APIServletTest extends BaseTestCase {
 		verifyAbsentInDatastore(evaluation);
 		apiServlet.createEvalution(evaluation);
 		verifyPresentInDatastore(evaluation);
+		
+		try {
+			apiServlet.createEvalution(evaluation);
+			fail();
+		} catch (EntityAlreadyExistsException e) {
+			assertEquals(Common.MESSAGE_EVALUATION_EXISTS, e.getMessage());
+		}
 		// TODO: more testing
 
 	}

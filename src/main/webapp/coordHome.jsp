@@ -88,7 +88,7 @@
 							Add Evaluation
 						</a>
 						<a class="t_course_delete<%= idx %>"
-							href="<%= helper.getCourseDeleteLink(course.id) %>"
+							href="<%= helper.getCourseDeleteLink(course.id,true) %>"
 							onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%= course.id %>')"
 							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_DELETE_COURSE %>')"
 							onmouseout="hideddrivetip()">

@@ -371,7 +371,13 @@ public class APIServlet extends HttpServlet {
 		Gson gson = new Gson();
 		Evaluation e = gson.fromJson(json, Evaluation.class);
 
-		boolean edited = Evaluations.inst().addEvaluation(e);
+		boolean edited = false;
+		try {
+			edited = Evaluations.inst().addEvaluation(e);
+		} catch (EntityAlreadyExistsException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		// TODO take a snapshot of submissions
 
@@ -1081,7 +1087,8 @@ public class APIServlet extends HttpServlet {
 	 * @return null if coordId is null
 	 */
 	
-	//TODO: return Array instead?
+	//TODO: return ArrayList instead?
+	// That's better probably ~Aldrian~
 	public HashMap<String, CourseData> getCourseListForCoord(String coordId) {
 		if (coordId == null)
 			return null;
@@ -1472,6 +1479,7 @@ public class APIServlet extends HttpServlet {
 
 	public void createEvalution(EvaluationData evaluation)
 			throws EntityAlreadyExistsException, InvalidParametersException {
+		
 		Evaluations.inst().addEvaluation(evaluation.toEvaluation());
 	}
 
