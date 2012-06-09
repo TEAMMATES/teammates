@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +22,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.Datastore;
+import teammates.TeamEvalResult;
 import teammates.api.APIServlet;
 import teammates.api.Common;
 import teammates.api.EnrollException;
@@ -1062,9 +1065,9 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(2, result.teams.size());
 		TeamData team1_1 = result.teams.get(0);
 		assertEquals(2, team1_1.students.size());
-		StudentData student2InCourse1 = team1_1.students.get(0);
+		StudentData student2InCourse1 = team1_1.students.get(1);
 		assertEquals("student2InCourse1", student2InCourse1.id);
-		StudentData student1InCourse1 = team1_1.students.get(1);
+		StudentData student1InCourse1 = team1_1.students.get(0);
 		assertEquals("student1InCourse1", student1InCourse1.id);
 		assertTrue(student1InCourse1.result.own != null);
 		assertEquals(student1InCourse1.name, student1InCourse1.result.own.revieweeName);
@@ -1086,6 +1089,96 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(student2InCourse1.name, student1InCourse1.result.outgoing.get(0).revieweeName);
 		assertEquals(student1InCourse1.name, student1InCourse1.result.outgoing.get(0).reviewerName);
 		// TODO: more testing
+	}
+	
+	@Test
+	public void testCalculateTeamResult() throws Exception{
+		printTestCaseHeader();
+		
+		assertEquals(null, invokeCalclulateTeamResult(null));
+		
+		TeamData team = new TeamData();
+		StudentData s1 = new StudentData("t1|s1|e1@c","course1");
+		s1.result = new EvalResultData();
+		StudentData s2 = new StudentData("t1|s2|e2@c","course1");
+		s2.result = new EvalResultData();
+		StudentData s3 = new StudentData("t1|s3|e3@c","course1");
+		s3.result = new EvalResultData();
+		
+		SubmissionData s1_to_s1 = createSubmission(1,1);
+		SubmissionData s1_to_s2 = createSubmission(1,2);
+		SubmissionData s1_to_s3 = createSubmission(1,3);
+		
+		SubmissionData s2_to_s1 = createSubmission(2,1);
+		SubmissionData s2_to_s2 = createSubmission(2,2);
+		SubmissionData s2_to_s3 = createSubmission(2,3);
+		
+		SubmissionData s3_to_s1 = createSubmission(3,1);
+		SubmissionData s3_to_s2 = createSubmission(3,2);
+		SubmissionData s3_to_s3 = createSubmission(3,3);
+	
+// this is the additions neatly ordered
+//		s1.result.own = s1_to_s1;
+//		s1.result.outgoing.add(s1_to_s2);
+//		s1.result.outgoing.add(s1_to_s3);
+//		s1.result.incoming.add(s2_to_s1);
+//		s1.result.incoming.add(s3_to_s1);
+//		s2.result.own = s2_to_s2;
+//		s2.result.outgoing.add(s2_to_s1);
+//		s2.result.outgoing.add(s2_to_s3);
+//		s2.result.incoming.add(s1_to_s2);
+//		s2.result.incoming.add(s3_to_s2);
+//		s3.result.own = s3_to_s3;
+//		s3.result.incoming.add(s1_to_s3);
+//		s3.result.incoming.add(s2_to_s3);
+//		s3.result.outgoing.add(s3_to_s1);
+//		s3.result.outgoing.add(s3_to_s2);
+	
+		//this is the same as above commented out code, excpet the order is
+		//purposely messed up to ensure that the method works even when 
+		//submissions are added in random order
+		s1.result.own = s1_to_s1;
+		s1.result.outgoing.add(s1_to_s2);
+		s1.result.incoming.add(s2_to_s1);
+		s2.result.own = s2_to_s2;
+		s1.result.incoming.add(s3_to_s1);
+		s2.result.outgoing.add(s2_to_s1);
+		s1.result.outgoing.add(s1_to_s3);
+		s2.result.incoming.add(s3_to_s2);
+		s2.result.outgoing.add(s2_to_s3);
+		s3.result.outgoing.add(s3_to_s1);
+		s3.result.incoming.add(s1_to_s3);
+		s3.result.own = s3_to_s3;
+		s3.result.incoming.add(s2_to_s3);
+		s3.result.outgoing.add(s3_to_s2);
+		s2.result.incoming.add(s1_to_s2);
+		
+		team.students.add(s2);
+		team.students.add(s1);
+		team.students.add(s3);
+		
+		TeamEvalResult teamResult = invokeCalclulateTeamResult(team);
+		//note the pattern in numbers. due to the way we generate submissions,
+		//110 means it is from s1 to s1 and 
+		//should appear in the 1,1 location in the matrix.
+		int[][] expected = {{110, 120, 130},
+							{210, 220, 230},
+							{310, 320, 330}};
+		assertEquals(TeamEvalResult.pointsToString(expected),
+				TeamEvalResult.pointsToString(teamResult.claimedFromStudents));
+		
+	}
+
+	private SubmissionData createSubmission(int from, int to) {
+		SubmissionData submission = new SubmissionData();
+		submission.course = "course1";
+		submission.evaluation = "eval1";
+		submission.points = from*100+to*10;
+		submission.reviewer = "e"+from+"@c";
+		submission.reviewerName = "s"+from;
+		submission.reviewee = "e"+to+"@c";
+		submission.revieweeName = "s"+to;
+		return submission;
 	}
 	
 	@Test
@@ -1567,6 +1660,17 @@ public class APIServletTest extends BaseTestCase {
 			}
 		}
 		return false;
+	}
+	
+	private TeamEvalResult invokeCalclulateTeamResult(TeamData team)
+			throws NoSuchMethodException, IllegalAccessException,
+			InvocationTargetException {
+		Method privateStringMethod = APIServlet.class.
+		        getDeclaredMethod("calculateTeamResult", new Class[]{TeamData.class});
+		privateStringMethod.setAccessible(true);
+		Object[] params = new Object[]{team};
+		 return (TeamEvalResult)
+		        privateStringMethod.invoke(apiServlet, params);
 	}
 
 	@AfterClass()

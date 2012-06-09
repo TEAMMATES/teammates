@@ -29,7 +29,10 @@ public class EvalResultData {
 	public void sortOutgoingByStudentNameAscending() {
 		Collections.sort(outgoing, new Comparator<SubmissionData>() {
 			public int compare(SubmissionData s1, SubmissionData s2) {
-				return s1.revieweeName.compareTo(s2.revieweeName);
+				//email is prefixed to avoid mix ups due to two students with
+				//same name.
+				return (s1.revieweeName+s1.reviewee)
+						.compareTo(s2.revieweeName+s2.reviewee);
 			}
 		});
 	}
@@ -37,7 +40,10 @@ public class EvalResultData {
 	public void sortIncomingByStudentNameAscending() {
 		Collections.sort(incoming, new Comparator<SubmissionData>() {
 			public int compare(SubmissionData s1, SubmissionData s2) {
-				return s1.reviewerName.compareTo(s2.reviewerName);
+				//email is prefixed to avoid mix ups due to two students with
+				//same name.
+				return (s1.reviewerName+s1.reviewer)
+						.compareTo(s2.reviewerName+s2.reviewer);
 			}
 		});
 	}

@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.Config;
 import teammates.Datastore;
+import teammates.TeamEvalResult;
 import teammates.datatransfer.*;
 import teammates.datatransfer.StudentData.UpdateStatus;
 import teammates.exception.CourseDoesNotExistException;
@@ -1528,9 +1529,13 @@ public class APIServlet extends HttpServlet {
 				extractSubmissionsAndSetNames(submissionDataList, team, student);
 				student.result = calculateResults(student.result);
 			}
+			TeamEvalResult teamResult = calculateTeamResult(team);
+			
 		}
 		return returnValue;
 	}
+
+
 
 	public HashMap<String, SubmissionData> getSubmissionsForEvaluation(String courseId,
 			String evaluationName) {
@@ -1679,6 +1684,27 @@ public class APIServlet extends HttpServlet {
 
 	@SuppressWarnings("unused")
 	private void ____helper_methods________________________________________() {
+	}
+	
+	private TeamEvalResult calculateTeamResult(TeamData team) {
+		if(team==null){
+			return null;
+		}
+		int teamSize = team.students.size();
+		int[][] claimedFromStudents = new int[teamSize][teamSize];
+		team.sortByStudentNameAscending();
+		for(int i=0; i<teamSize;i++){
+			StudentData studentData = team.students.get(i);
+			studentData.result.outgoing.add(studentData.result.own);
+			studentData.result.sortOutgoingByStudentNameAscending();
+			for(int j=0; j<teamSize;j++){
+				SubmissionData submissionData = studentData.result.outgoing.get(j);
+				claimedFromStudents[i][j] = submissionData.points;
+			}
+			studentData.result.outgoing.remove(studentData.result.own);
+			
+		}
+		return new TeamEvalResult(claimedFromStudents);
 	}
 	
 	private EvalResultData calculateResults(EvalResultData result) {

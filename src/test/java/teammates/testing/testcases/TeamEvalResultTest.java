@@ -1,8 +1,10 @@
 package teammates.testing.testcases;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.Arrays;
+import java.util.logging.Level;
+
 import teammates.TeamEvalResult;
 import static teammates.TeamEvalResult.NA;
 import static teammates.TeamEvalResult.NSB;
@@ -11,13 +13,21 @@ import static teammates.TeamEvalResult.replaceMagicNumbers;
 import static teammates.api.Common.EOL;
 import static teammates.TeamEvalResult.pointsToString;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class TeamEvalResultTest {
-	@Test
+public class TeamEvalResultTest extends BaseTestCase{
+	
+	@BeforeClass
+	public static void setup() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
+		setLogLevelOfClass(TeamEvalResult.class, Level.FINE);
+	    setConsoleLoggingLevel(Level.FINE);
+	}
+
+	 @Test
 	// @formatter:off
 	public void testCalculatePoints() {
-		
+		printTestCaseHeader();
 		int[][] input = 
 			{{ 100, 100, 100, 100 }, 
 			 { 100, 100, 100, 100 },
@@ -194,19 +204,9 @@ public class TeamEvalResultTest {
 		verifyCalculatePoints(input9, expected9);
 	}
 
-	private void verifyCalculatePoints(int[][] input, int[][] expected) {
-		TeamEvalResult t = new TeamEvalResult(input);
-		String actual = pointsToString(t.submissionValuesNormalized)
-				+ "======================="+EOL
-				+ Arrays.toString(t.perceivedForCoord) + EOL
-				+ "=======================" + EOL
-				+pointsToString(t.perceivedForStudent);
-		actual = replaceMagicNumbers(actual);
-		assertEquals(pointsToString(expected), actual);
-	}
-	
 	@Test
 	public void testNormalizeValues(){
+		printTestCaseHeader();
 		verifyNormalized(new double[] {}, new double[] {});
 		verifyNormalized(new double[] {100}, new double[] {100});
 		verifyNormalized(new double[] {100}, new double[] {50});
@@ -222,6 +222,9 @@ public class TeamEvalResultTest {
 
 	@Test 
 	public void testExcludeSelfRatings(){
+		printTestCaseHeader();
+		assertEquals(pointsToString(new double[][]{{NA}}),
+				pointsToString(TeamEvalResult.excludeSelfRatings(new double[][]{{1}})));
 		
 		double[][] input = 
 			{{ 11, 12, 13, 14 }, 
@@ -240,6 +243,7 @@ public class TeamEvalResultTest {
 	
 	@Test
 	public void testAverageColumns(){
+		printTestCaseHeader();
 		double[][] input = 
 			{{ 10, 20,  0, NA }, 
 			 { 10, NA,  0, NA },
@@ -257,19 +261,35 @@ public class TeamEvalResultTest {
 		assertEquals(Arrays.toString(expected2), 
 				Arrays.toString(TeamEvalResult.averageColumns(input2)));
 		
+		try {
+			TeamEvalResult.averageColumns(new double[][]{{NSU}});
+			fail();
+		} catch (RuntimeException e) {
+			//expected exception
+		}
+		
 	}
 	
 	@Test
 	public void testSum(){
+		printTestCaseHeader();
 		assertEquals(6,TeamEvalResult.sum(new double[]{1,2,3}),0.001);
 		assertEquals(0,TeamEvalResult.sum(new double[]{}),0.001);
 		assertEquals(6,TeamEvalResult.sum(new double[]{NA, 2, 4}),0.001);
 		assertEquals(0,TeamEvalResult.sum(new double[]{NA, 0, 0}),0.001);
 		assertEquals(NA,TeamEvalResult.sum(new double[]{NA, NA, NA}),0.001);
+		
+		try {
+			TeamEvalResult.sum(new double[]{NSU, 1,2});
+			fail();
+		} catch (RuntimeException e) {
+			//expected exception
+		}
 	}
 	
 	@Test
 	public void testCalculatePerceivedForStudent(){
+		printTestCaseHeader();
 		
 		assertEquals(Arrays.toString(new int[]{}),
 				Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
@@ -306,11 +326,12 @@ public class TeamEvalResultTest {
 		assertEquals(Arrays.toString(new int[]{NA,25,75}),
 				Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
 						(new int[]{25,25,75}, new double[]{NA,50,150})));
-
 	}
 	
 	@Test
 	public void testIsSanitized(){
+		printTestCaseHeader();
+		
 		assertEquals(true, TeamEvalResult.isSanitized(new int[]{}));
 		assertEquals(true, TeamEvalResult.isSanitized(new int[]{1, 2, NA}));
 		assertEquals(false, TeamEvalResult.isSanitized(new int[]{1, NSU, 2, NA}));
@@ -319,6 +340,8 @@ public class TeamEvalResultTest {
 	
 	@Test
 	public void testPurgeValuesCorrespondingToSpecialValuesInFilter(){
+		printTestCaseHeader();
+		
 		verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
 				new double[]{}, 
 				new double[]{}, new double[]{});
@@ -343,13 +366,13 @@ public class TeamEvalResultTest {
 				new double[]{1.0, 2.0, NA }, 
 				new double[]{1,2,NSU}, new double[]{1.0, 2.0, 3.0});
 		
-		//mix of special values
+		//mix of special values in filter
 		verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
 				new double[]{1.0, 2.0, NA, 4.0, NA, 6.0, NA}, 
 				new double[]{1,2,NSB,4,NSU,6,NA}, 
 				new double[]{1.0, 2.0, 3.0, 4.0, 5.0, 6.0});
 		
-		// perceived values have NA
+		// target array has special values
 		verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
 				new double[]{1.0, 2.0, NA, NA, NA, 6.0, NA}, 
 				new double[]{1,2,NSB,4,NSU,6,NA}, 
@@ -359,6 +382,18 @@ public class TeamEvalResultTest {
 
 	
 	//--------------------------------------------------------------------
+	
+	private void verifyCalculatePoints(int[][] input, int[][] expected) {
+		TeamEvalResult t = new TeamEvalResult(input);
+		String actual = pointsToString(t.claimedToCoord)
+				+ "======================="+EOL
+				+ Arrays.toString(t.perceivedForCoord) + EOL
+				+ "=======================" + EOL
+				+pointsToString(t.perceivedForStudents);
+		actual = replaceMagicNumbers(actual);
+		assertEquals(pointsToString(expected), actual);
+	}
+	
 	private void verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
 			double[] expected, double[] filterArray, double[] valueArray) {
 		assertEquals(Arrays.toString(expected), 

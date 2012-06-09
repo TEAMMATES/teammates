@@ -14,7 +14,9 @@ public class TeamData {
 	public void sortByStudentNameAscending() {
 		Collections.sort(students, new Comparator<StudentData>() {
 			public int compare(StudentData s1, StudentData s2) {
-				return s1.name.compareTo(s2.name);
+				//email is prefixed to avoid mix ups due to two students with
+				//same name.
+				return (s1.name+s1.email).compareTo(s2.name+s2.email);
 			}
 		});
 	}
