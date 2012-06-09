@@ -7,6 +7,8 @@ import teammates.TeamEvalResult;
 import static teammates.TeamEvalResult.NA;
 import static teammates.TeamEvalResult.NSB;
 import static teammates.TeamEvalResult.NSU;
+import static teammates.TeamEvalResult.replaceMagicNumbers;
+import static teammates.api.Common.EOL;
 import static teammates.TeamEvalResult.pointsToString;
 
 import org.junit.Test;
@@ -35,8 +37,7 @@ public class TeamEvalResultTest {
 			 { 100, 100, 100, 100 },
 			 { 100, 100, 100, 100 }};
 		
-		int[][] output = TeamEvalResult.calculatePoints(input);
-		assertEquals(pointsToString(expected), pointsToString(output));
+		verifyCalculatePoints(input, expected);
 		
 		int[][] input3 = 
 			{{ 100, 100, 100, 100 }, 
@@ -56,8 +57,9 @@ public class TeamEvalResultTest {
 			 { 110, 110, 110, 110 },
 			 {  90,  90,  90,  90 },
 			 {  10,  10,  10,  10 }};
-		assertEquals(pointsToString(expected3),
-				pointsToString(TeamEvalResult.calculatePoints(input3)));
+		verifyCalculatePoints(input3, expected3);
+		
+		
 		int[][] input2 = 
 			{{ 100, 100, 100, 100 }, 
 			 { 110, 110, 110, 110 },
@@ -76,8 +78,8 @@ public class TeamEvalResultTest {
 			 { 103, 107, 120, 110 },
 			 {  85,  87,  98,  90 },
 			 {  89,  92, 104,  95 }};
-		assertEquals(pointsToString(expected2),
-				pointsToString(TeamEvalResult.calculatePoints(input2)));
+		verifyCalculatePoints(input2, expected2);
+		
 		int[][] input4 = 
 			{{ NSB, NSB, NSB, NSB }, 
 			 { NSU, NSU, NSU, NSU },
@@ -96,8 +98,8 @@ public class TeamEvalResultTest {
 			 { NA, NA, NA, NA },
 			 { NA, NA, NA, NA },
 			 { NA, NA, NA, NA }};
-		assertEquals(pointsToString(expected4),
-				pointsToString(TeamEvalResult.calculatePoints(input4)));
+
+		verifyCalculatePoints(input4, expected4);
 		
 		int[][] input5 = 
 			{{ 0, 0, 0, 0 }, 
@@ -117,8 +119,7 @@ public class TeamEvalResultTest {
 			 { 0, 0, 0, 0 },
 			 { 0, 0, 0, 0 },
 			 { 0, 0, 0, 0 }};
-		assertEquals(pointsToString(expected5),
-				pointsToString(TeamEvalResult.calculatePoints(input5)));
+		verifyCalculatePoints(input5, expected5);
 		
 		int[][] input6 = 
 			{{   0,   0,   0, NSU }, 
@@ -138,8 +139,7 @@ public class TeamEvalResultTest {
 			 { 0, 0, 0, NA },
 			 { 0, 0, 0, NA },
 			 { 0, 0, 0, NA }};
-		assertEquals(pointsToString(expected6),
-				pointsToString(TeamEvalResult.calculatePoints(input6)));
+		verifyCalculatePoints(input6, expected6);
 		
 		//only one person submitted
 		int[][] input7 = 
@@ -157,8 +157,8 @@ public class TeamEvalResultTest {
 			 {  NA,  NA,  NA }, 
 			 {  NA,  NA,  NA },
 			 {  NA,  NA,  NA }};
-		assertEquals(pointsToString(expected7),
-				pointsToString(TeamEvalResult.calculatePoints(input7)));
+
+		verifyCalculatePoints(input7, expected7);
 		
 		//only one person, submitted for self only
 		int[][] input8 = 
@@ -176,8 +176,7 @@ public class TeamEvalResultTest {
 			 {  NA,  NA,  NA }, 
 			 {  NA,  NA,  NA },
 			 {  NA,  NA,  NA }};
-		assertEquals(pointsToString(expected8),
-				pointsToString(TeamEvalResult.calculatePoints(input8)));
+		verifyCalculatePoints(input8, expected8);
 		
 		//two-person team
 		int[][] input9 = 
@@ -192,8 +191,18 @@ public class TeamEvalResultTest {
 			 
 			 {  NA,  NA }, 
 			 {  NA,  NA }};
-		assertEquals(pointsToString(expected9),
-				pointsToString(TeamEvalResult.calculatePoints(input9)));
+		verifyCalculatePoints(input9, expected9);
+	}
+
+	private void verifyCalculatePoints(int[][] input, int[][] expected) {
+		TeamEvalResult t = new TeamEvalResult(input);
+		String actual = pointsToString(t.submissionValuesNormalized)
+				+ "======================="+EOL
+				+ Arrays.toString(t.perceivedForCoord) + EOL
+				+ "=======================" + EOL
+				+pointsToString(t.perceivedForStudent);
+		actual = replaceMagicNumbers(actual);
+		assertEquals(pointsToString(expected), actual);
 	}
 	
 	@Test

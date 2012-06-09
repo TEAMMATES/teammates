@@ -14,71 +14,77 @@ public class TeamEvalResult {
 	public static int NSB = Common.POINTS_NOT_SUBMITTED;
 	private static Logger log = Common.getLogger();
 
-	private double[][] submissionValues;
+	public int[][] submissionValues;
+	public int[][] submissionValuesNormalized;
+	public int[] perceivedForCoord;
+	public int[][] perceivedForStudent;
 
-	public TeamEvalResult(double[][] submissionValues) {
+	public TeamEvalResult(int[][] submissionValues) {
+		int teamSize = submissionValues.length;
 		this.submissionValues = submissionValues;
+		
+		init(submissionValues);
 	}
 	
-	public static int[][] calculatePoints(int[][] input) {
+	public void init(int[][] input) {
 		log .info("==================\n" + "starting result calculation for\n"
 				+ pointsToString(input));
+		
 		int teamSize = input.length;
-		int containerSize = teamSize * 2 + 1;
-		int[][] output = new int[containerSize][teamSize];
 
-		// create the three sub containers
-		int[][] actualInputNormalized = new int[teamSize][teamSize];
-		double[] perceivedForCoord = new double[teamSize];
-		int[][] perceivedForStudent = new int[teamSize][teamSize];
+		double[][] submissionValuesNormalizedAsDouble = fillSubmissionValuesNormalized(submissionValues);
 
-		// fill first sub-container
-		for (int i = 0; i < teamSize; i++) {
-			actualInputNormalized[i] = doubleToInt(normalizeValues(input[i]));
-		}
+		submissionValuesNormalized = doubleToInt(submissionValuesNormalizedAsDouble);
+		
 
 		// fill second sub-container
-		int[][] actualInputSanitized = new int[teamSize][teamSize];
+		int[][] actualInputSanitized = sanitizeInput(input);
+		log.info("actual values sanitized :\n"
+				+ pointsToString(actualInputSanitized));
+		
+		double[][] sanitizedAndNormalizedInput = normalizeValues(
+				intToDouble(actualInputSanitized));
+//		for (int i = 0; i < teamSize; i++) {
+//			sanitizedAndNormalizedInput[i] = normalizeValues(actualInputSanitized[i]);
+//		}
+
+		double[] perceivedForCoordAsDouble = calculatePerceivedForCoord(sanitizedAndNormalizedInput);
+
+		// fill third sub-container
+		perceivedForStudent = new int[teamSize][teamSize];
+		for (int k = 0; k < teamSize; k++) {
+			perceivedForStudent[k] = calculatePerceivedForStudent(
+					actualInputSanitized[k], perceivedForCoordAsDouble);
+		}
+		log.info("perceived to student :\n"
+				+ pointsToString(perceivedForStudent));
+
+		perceivedForCoord = doubleToInt(perceivedForCoordAsDouble);
+		
+		log.info("==================");
+
+	}
+
+	private int[][] sanitizeInput(int[][] input) {
+		int teamSize = input.length;
+		int[][] output = new int[teamSize][teamSize];
 		for (int i = 0; i < teamSize; i++) {
 			for (int j = 0; j < teamSize; j++) {
 				int points = input[i][j];
 				boolean pointsNotGiven = (points == Common.POINTS_NOT_SUBMITTED)
 						|| (points == Common.POINTS_NOT_SURE);
-				actualInputSanitized[i][j] = pointsNotGiven ? NA : points;
+				output[i][j] = pointsNotGiven ? NA : points;
 			}
-
 		}
-		log.info("actual values sanitized :\n"
-				+ pointsToString(actualInputSanitized));
-		
-		double[][] sanitizedAndNormalizedInput = new double[teamSize][teamSize];
+		return output;
+	}
+
+	private double[][] fillSubmissionValuesNormalized(int[][] input) {
+		int  teamSize = input.length;
+		double[][] output = new double[teamSize][teamSize];
 		for (int i = 0; i < teamSize; i++) {
-			sanitizedAndNormalizedInput[i] = normalizeValues(actualInputSanitized[i]);
+			output[i] = normalizeValues(input[i]);
 		}
-
-		perceivedForCoord = calculatePerceivedForCoord(sanitizedAndNormalizedInput);
-
-		// fill third sub-container
-		for (int k = 0; k < teamSize; k++) {
-			perceivedForStudent[k] = calculatePerceivedForStudent(
-					actualInputSanitized[k], perceivedForCoord);
-		}
-		log.info("perceived to student :\n"
-				+ pointsToString(perceivedForStudent));
-
-		// transfer values to output container
-		int i = 0;
-		for (; i < teamSize; i++) {
-			output[i] = actualInputNormalized[i];
-		}
-		output[i] = doubleToInt(perceivedForCoord);
-		i++;
-		for (int k = 0; k < teamSize; k++) {
-			output[i] = perceivedForStudent[k];
-			i++;
-		}
-		log.info("==================");
-
 		return output;
 	}
 
@@ -207,6 +213,14 @@ public class TeamEvalResult {
 		}
 		return output;
 	}
+	
+	private static double[][] normalizeValues(double[][] input){
+		double[][] output = new double[input.length][input.length];
+		for (int i = 0; i < input.length; i++) {
+			output[i] = normalizeValues(input[i]);
+		}
+		return output;
+	}
 
 	// TODO: make this private and use reflection to test
 	public static double[] normalizeValues(double[] input) {
@@ -275,6 +289,14 @@ public class TeamEvalResult {
 		}
 		return converted;
 	}
+	
+	private static int[][] doubleToInt(double[][] input){
+		int[][] output = new int[input.length][input.length];
+		for (int i = 0; i < input.length; i++) {
+			output[i] = doubleToInt(input[i]);
+		}
+		return output;
+	}
 
 	// TODO: make this private and use reflection to test
 	public static double[] averageColumns(double[][] input) {
@@ -321,8 +343,9 @@ public class TeamEvalResult {
 		return returnValue;
 	}
 
-	private static String replaceMagicNumbers(String returnValue) {
+	public static String replaceMagicNumbers(String returnValue) {
 		returnValue = returnValue.replace(NA + ".0", " NA");
+		returnValue = returnValue.replace(NA+"" , " NA");
 		returnValue = returnValue.replace(NSB + ".0", "NSB");
 		returnValue = returnValue.replace(NSU + ".0", "NSU");
 		return returnValue;
