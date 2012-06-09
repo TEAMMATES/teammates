@@ -12,8 +12,11 @@ import teammates.api.NotImplementedException;
 
 public class EvalResultData {
 
+	/** N/A */
 	public static int NA = Common.UNINITIALIZED_INT;
+	/** submitted 'Not SUre' */
 	public static int NSU = Common.POINTS_NOT_SURE;
+	/** did Not SuBmit */
 	public static int NSB = Common.POINTS_NOT_SUBMITTED;
 
 	public SubmissionData own;
@@ -148,9 +151,13 @@ public class EvalResultData {
 		double factor = sumOfActual / sumOfperceivedForCoord;
 		
 		for (int i = 0; i < perceivedForStudent.length; i++) {
-			perceivedForStudent[i] = (int)Math.round(perceivedForCoord[i] * factor);
+			double perceived = perceivedForCoord[i];
+			if(perceived==NA){
+				perceivedForStudent[i] = NA;
+			}else {
+				perceivedForStudent[i] = (int)Math.round(perceived * factor);
+			}
 		}
-		
 		return perceivedForStudent;
 	}
 
@@ -197,8 +204,6 @@ public class EvalResultData {
 		}
 		return sum;
 	}
-
-
 
 	public static int sum(int[] input) {
 		return (int) sum(intToDouble(input));

@@ -93,130 +93,148 @@ public class EvalResultDataTest {
 	// @formatter:off
 	public void testCalculatePoints() {
 		
-		int[][] input = 
-			{{ 100, 100, 100, 100 }, 
-			 { 100, 100, 100, 100 },
-			 { 100, 100, 100, 100 },
-			 { 100, 100, 100, 100 }};
+//		int[][] input = 
+//			{{ 100, 100, 100, 100 }, 
+//			 { 100, 100, 100, 100 },
+//			 { 100, 100, 100, 100 },
+//			 { 100, 100, 100, 100 }};
+//		
+//		int[][] expected = 
+//			{{ 100, 100, 100, 100 }, 
+//			 { 100, 100, 100, 100 },
+//			 { 100, 100, 100, 100 },
+//			 { 100, 100, 100, 100 },
+//			 
+//			 { 100, 100, 100, 100 },
+//			 
+//			 { 100, 100, 100, 100 }, 
+//			 { 100, 100, 100, 100 },
+//			 { 100, 100, 100, 100 },
+//			 { 100, 100, 100, 100 }};
+//		
+//		int[][] output = EvalResultData.calculatePoints(input);
+//		assertEquals(pointsToString(expected), pointsToString(output));
+//		
+//		int[][] input3 = 
+//			{{ 100, 100, 100, 100 }, 
+//			 { 110, 110, 110, 110 },
+//			 {  90,  90,  90,  90 },
+//			 {  10,  10,  10,  10 }};
+//		
+//		int[][] expected3 = 
+//			{{ 100, 100, 100, 100 }, 
+//			 { 100, 100, 100, 100 },
+//			 { 100, 100, 100, 100 },
+//			 { 100, 100, 100, 100 },
+//			 
+//			 { 100, 100, 100, 100 },
+//			 
+//			 { 100, 100, 100, 100 }, 
+//			 { 110, 110, 110, 110 },
+//			 {  90,  90,  90,  90 },
+//			 {  10,  10,  10,  10 }};
+//		assertEquals(pointsToString(expected3),
+//				pointsToString(EvalResultData.calculatePoints(input3)));
+//		int[][] input2 = 
+//			{{ 100, 100, 100, 100 }, 
+//			 { 110, 110, 110, 110 },
+//			 {  90,  90,  90,  90 },
+//			 {  70,  80, 110, 120 }};
+//		
+//		int[][] expected2 = 
+//			{{ 100, 100, 100, 100 }, 
+//			 { 100, 100, 100, 100 },
+//			 { 100, 100, 100, 100 },
+//			 {  74,  84, 116, 126 },
+//			 
+//			 {  94, 97, 109, 100 },
+//			 
+//			 {  94,  97, 109, 100 }, 
+//			 { 103, 107, 120, 110 },
+//			 {  85,  87,  98,  90 },
+//			 {  89,  92, 104,  95 }};
+//		assertEquals(pointsToString(expected2),
+//				pointsToString(EvalResultData.calculatePoints(input2)));
+//		int[][] input4 = 
+//			{{ NSB, NSB, NSB, NSB }, 
+//			 { NSU, NSU, NSU, NSU },
+//			 { NSU, NSU, NSU, NSU },
+//			 { NSB, NSB, NSB, NSB }};
+//		
+//		int[][] expected4 = 
+//			{{ NSB, NSB, NSB, NSB }, 
+//			 { NSU, NSU, NSU, NSU },
+//			 { NSU, NSU, NSU, NSU },
+//			 { NSB, NSB, NSB, NSB },
+//			 
+//			 { NA, NA, NA, NA },
+//			 
+//			 { NA, NA, NA, NA }, 
+//			 { NA, NA, NA, NA },
+//			 { NA, NA, NA, NA },
+//			 { NA, NA, NA, NA }};
+//		assertEquals(pointsToString(expected4),
+//				pointsToString(EvalResultData.calculatePoints(input4)));
+//		
+//		int[][] input5 = 
+//			{{ 0, 0, 0, 0 }, 
+//			 { 0, 0, 0, 0 },
+//			 { 0, 0, 0, 0 },
+//			 { 0, 0, 0, 0 }};
+//		
+//		int[][] expected5 = 
+//			{{ 0, 0, 0, 0 }, 
+//			 { 0, 0, 0, 0 },
+//			 { 0, 0, 0, 0 },
+//			 { 0, 0, 0, 0 },
+//			 
+//			 { 0, 0, 0, 0 },
+//			 
+//			 { 0, 0, 0, 0 }, 
+//			 { 0, 0, 0, 0 },
+//			 { 0, 0, 0, 0 },
+//			 { 0, 0, 0, 0 }};
+//		assertEquals(pointsToString(expected5),
+//				pointsToString(EvalResultData.calculatePoints(input5)));
+//		
+//		int[][] input6 = 
+//			{{   0,   0,   0, NSU }, 
+//			 {   0,   0,   0, NSU },
+//			 { NSB, NSB, NSB, NSB },
+//			 {   0,   0, NSU, NSU }};
+//		
+//		int[][] expected6 = 
+//			{{   0,   0,   0, NSU }, 
+//			 {   0,   0,   0, NSU },
+//			 { NSB, NSB, NSB, NSB },
+//			 {   0,   0, NSU, NSU },
+//			 
+//			 { 0, 0, 0, NA },
+//			 
+//			 { 0, 0, 0, NA }, 
+//			 { 0, 0, 0, NA },
+//			 { 0, 0, 0, NA },
+//			 { 0, 0, 0, NA }};
+//		assertEquals(pointsToString(expected6),
+//				pointsToString(EvalResultData.calculatePoints(input6)));
 		
-		int[][] expected = 
-			{{ 100, 100, 100, 100 }, 
-			 { 100, 100, 100, 100 },
-			 { 100, 100, 100, 100 },
-			 { 100, 100, 100, 100 },
-			 
-			 { 100, 100, 100, 100 },
-			 
-			 { 100, 100, 100, 100 }, 
-			 { 100, 100, 100, 100 },
-			 { 100, 100, 100, 100 },
-			 { 100, 100, 100, 100 }};
+		int[][] input7 = 
+			{{  25,  25,  75 }, 
+			 { NSB, NSB, NSB },
+			 { NSB, NSB, NSB }};
 		
-		int[][] output = EvalResultData.calculatePoints(input);
-		assertEquals(pointsToString(expected), pointsToString(output));
-		
-		int[][] input3 = 
-			{{ 100, 100, 100, 100 }, 
-			 { 110, 110, 110, 110 },
-			 {  90,  90,  90,  90 },
-			 {  10,  10,  10,  10 }};
-		
-		int[][] expected3 = 
-			{{ 100, 100, 100, 100 }, 
-			 { 100, 100, 100, 100 },
-			 { 100, 100, 100, 100 },
-			 { 100, 100, 100, 100 },
+		int[][] expected7 = 
+			{{  60,  60, 180 }, 
+			 { NSB, NSB, NSB },
+			 { NSB, NSB, NSB },
 			 
-			 { 100, 100, 100, 100 },
+			 {  NA,  50, 150 },
 			 
-			 { 100, 100, 100, 100 }, 
-			 { 110, 110, 110, 110 },
-			 {  90,  90,  90,  90 },
-			 {  10,  10,  10,  10 }};
-		assertEquals(pointsToString(expected3),
-				pointsToString(EvalResultData.calculatePoints(input3)));
-		int[][] input2 = 
-			{{ 100, 100, 100, 100 }, 
-			 { 110, 110, 110, 110 },
-			 {  90,  90,  90,  90 },
-			 {  70,  80, 110, 120 }};
-		
-		int[][] expected2 = 
-			{{ 100, 100, 100, 100 }, 
-			 { 100, 100, 100, 100 },
-			 { 100, 100, 100, 100 },
-			 {  74,  84, 116, 126 },
-			 
-			 {  94, 97, 109, 100 },
-			 
-			 {  94,  97, 109, 100 }, 
-			 { 103, 107, 120, 110 },
-			 {  85,  87,  98,  90 },
-			 {  89,  92, 104,  95 }};
-		assertEquals(pointsToString(expected2),
-				pointsToString(EvalResultData.calculatePoints(input2)));
-		int[][] input4 = 
-			{{ NSU, NSU, NSB, NSU }, 
-			 { NSU, NSB, NSU, NSU },
-			 { NSU, NSU, NSU, NSU },
-			 { NSB, NSU, NSU, NSB }};
-		
-		int[][] expected4 = 
-			{{ NSU, NSU, NSB, NSU }, 
-			 { NSU, NSB, NSU, NSU },
-			 { NSU, NSU, NSU, NSU },
-			 { NSB, NSU, NSU, NSB },
-			 
-			 { NA, NA, NA, NA },
-			 
-			 { NA, NA, NA, NA }, 
-			 { NA, NA, NA, NA },
-			 { NA, NA, NA, NA },
-			 { NA, NA, NA, NA }};
-		assertEquals(pointsToString(expected4),
-				pointsToString(EvalResultData.calculatePoints(input4)));
-		
-		int[][] input5 = 
-			{{ 0, 0, 0, 0 }, 
-			 { 0, 0, 0, 0 },
-			 { 0, 0, 0, 0 },
-			 { 0, 0, 0, 0 }};
-		
-		int[][] expected5 = 
-			{{ 0, 0, 0, 0 }, 
-			 { 0, 0, 0, 0 },
-			 { 0, 0, 0, 0 },
-			 { 0, 0, 0, 0 },
-			 
-			 { 0, 0, 0, 0 },
-			 
-			 { 0, 0, 0, 0 }, 
-			 { 0, 0, 0, 0 },
-			 { 0, 0, 0, 0 },
-			 { 0, 0, 0, 0 }};
-		assertEquals(pointsToString(expected5),
-				pointsToString(EvalResultData.calculatePoints(input5)));
-		
-		int[][] input6 = 
-			{{   0,   0,   0, NSU }, 
-			 {   0,   0,   0, NSU },
-			 { NSB, NSB, NSB, NSB },
-			 {   0,   0, NSU, NSU }};
-		
-		int[][] expected6 = 
-			{{   0,   0,   0, NSU }, 
-			 {   0,   0,   0, NSU },
-			 { NSB, NSB, NSB, NSB },
-			 {   0,   0, NSU, NSU },
-			 
-			 { 0, 0, 0, NA },
-			 
-			 { 0, 0, 0, NA }, 
-			 { 0, 0, 0, NA },
-			 { 0, 0, 0, NA },
-			 { 0, 0, 0, NA }};
-		assertEquals(pointsToString(expected6),
-				pointsToString(EvalResultData.calculatePoints(input6)));
+			 {  NA,  25,  75 }, 
+			 {  NA,  50, 150 },
+			 {  NA,  50, 150 }};
+		assertEquals(pointsToString(expected7),
+				pointsToString(EvalResultData.calculatePoints(input7)));
 	}
 	
 	@Test
@@ -313,9 +331,13 @@ public class EvalResultDataTest {
 				Arrays.toString(EvalResultData.calculatePerceivedForStudent
 						(new int[]{50,150,NA}, new double[]{50,50,200})));
 		
-//		assertEquals(Arrays.toString(new int[]{0,0,NA}),
-//				Arrays.toString(EvalResultData.calculatePerceivedForStudent
-//						(new int[]{0,0,NA}, new double[]{0,0,NA})));
+		assertEquals(Arrays.toString(new int[]{0,0,NA}),
+				Arrays.toString(EvalResultData.calculatePerceivedForStudent
+						(new int[]{0,0,NA}, new double[]{0,0,NA})));
+		
+		assertEquals(Arrays.toString(new int[]{NA,25,75}),
+				Arrays.toString(EvalResultData.calculatePerceivedForStudent
+						(new int[]{25,25,75}, new double[]{NA,50,150})));
 
 	}
 	
