@@ -4,8 +4,11 @@ import static org.junit.Assert.*;
 
 import java.util.Arrays;
 
-import org.junit.Ignore;
 import org.junit.Test;
+import static teammates.datatransfer.EvalResultData.pointsToString;
+import static teammates.datatransfer.EvalResultData.NA;
+import static teammates.datatransfer.EvalResultData.NSU;
+import static teammates.datatransfer.EvalResultData.NSB;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -14,7 +17,8 @@ import teammates.datatransfer.*;
 
 public class EvalResultDataTest {
 
-	private static int NA = Common.UNINITIALIZED_INT;;
+	private static int NA = Common.UNINITIALIZED_INT;
+	
 	@Test
 	public void testSortOutgoingByStudentNameAscending() {
 		EvalResultData result = new EvalResultData();
@@ -147,10 +151,72 @@ public class EvalResultDataTest {
 			 
 			 {  94,  97, 109, 100 }, 
 			 { 103, 107, 120, 110 },
-			 {  84,  88,  98,  90 },
-			 {  89,  93, 104,  95 }};
+			 {  85,  87,  98,  90 },
+			 {  89,  92, 104,  95 }};
 		assertEquals(pointsToString(expected2),
 				pointsToString(EvalResultData.calculatePoints(input2)));
+		int[][] input4 = 
+			{{ NSU, NSU, NSB, NSU }, 
+			 { NSU, NSB, NSU, NSU },
+			 { NSU, NSU, NSU, NSU },
+			 { NSB, NSU, NSU, NSB }};
+		
+		int[][] expected4 = 
+			{{ NSU, NSU, NSB, NSU }, 
+			 { NSU, NSB, NSU, NSU },
+			 { NSU, NSU, NSU, NSU },
+			 { NSB, NSU, NSU, NSB },
+			 
+			 { NA, NA, NA, NA },
+			 
+			 { NA, NA, NA, NA }, 
+			 { NA, NA, NA, NA },
+			 { NA, NA, NA, NA },
+			 { NA, NA, NA, NA }};
+		assertEquals(pointsToString(expected4),
+				pointsToString(EvalResultData.calculatePoints(input4)));
+		
+		int[][] input5 = 
+			{{ 0, 0, 0, 0 }, 
+			 { 0, 0, 0, 0 },
+			 { 0, 0, 0, 0 },
+			 { 0, 0, 0, 0 }};
+		
+		int[][] expected5 = 
+			{{ 0, 0, 0, 0 }, 
+			 { 0, 0, 0, 0 },
+			 { 0, 0, 0, 0 },
+			 { 0, 0, 0, 0 },
+			 
+			 { 0, 0, 0, 0 },
+			 
+			 { 0, 0, 0, 0 }, 
+			 { 0, 0, 0, 0 },
+			 { 0, 0, 0, 0 },
+			 { 0, 0, 0, 0 }};
+		assertEquals(pointsToString(expected5),
+				pointsToString(EvalResultData.calculatePoints(input5)));
+		
+		int[][] input6 = 
+			{{   0,   0,   0, NSU }, 
+			 {   0,   0,   0, NSU },
+			 { NSB, NSB, NSB, NSB },
+			 {   0,   0, NSU, NSU }};
+		
+		int[][] expected6 = 
+			{{   0,   0,   0, NSU }, 
+			 {   0,   0,   0, NSU },
+			 { NSB, NSB, NSB, NSB },
+			 {   0,   0, NSU, NSU },
+			 
+			 { 0, 0, 0, NA },
+			 
+			 { 0, 0, 0, NA }, 
+			 { 0, 0, 0, NA },
+			 { 0, 0, 0, NA },
+			 { 0, 0, 0, NA }};
+		assertEquals(pointsToString(expected6),
+				pointsToString(EvalResultData.calculatePoints(input6)));
 	}
 	
 	@Test
@@ -164,6 +230,7 @@ public class EvalResultDataTest {
 		verifyNormalized(new double[] {0,NA,200},new double[] {0,NA,100});
 		verifyNormalized(new double[] {100,100,100},new double[] {110,110,110});
 		verifyNormalized(new double[]{NA,NA},new double[]{NA,NA});
+		verifyNormalized(new double[]{NSU,0,NSB},new double[]{NSU,0,NSB});
 	}
 
 
@@ -195,6 +262,14 @@ public class EvalResultDataTest {
 		double[] expected = {10, 20, 0, NA};
 		assertEquals(Arrays.toString(expected), 
 				Arrays.toString(EvalResultData.averageColumns(input)));
+		double[][] input2 = 
+			{{ NA, NA, NA, NA }, 
+			 { NA, NA, NA, NA },
+			 { NA, NA, NA, NA },
+			 { NA, NA, NA, NA }};
+		double[] expected2 = {NA, NA, NA, NA};
+		assertEquals(Arrays.toString(expected2), 
+				Arrays.toString(EvalResultData.averageColumns(input2)));
 		
 	}
 	
@@ -222,7 +297,7 @@ public class EvalResultDataTest {
 				Arrays.toString(EvalResultData.calculatePerceivedForStudent
 						(new int[]{50,100,50}, new double[]{50,25,25})));
 		
-		assertEquals(Arrays.toString(new int[]{100,50,50}),
+		assertEquals(Arrays.toString(new int[]{200,100,100}),
 				Arrays.toString(EvalResultData.calculatePerceivedForStudent
 						(new int[]{NA,150,50}, new double[]{50,25,25})));
 		
@@ -233,43 +308,78 @@ public class EvalResultDataTest {
 		assertEquals(Arrays.toString(new int[]{100,50,50}),
 				Arrays.toString(EvalResultData.calculatePerceivedForStudent
 						(new int[]{NA,NA,NA}, new double[]{100,50,50})));
+		
+		assertEquals(Arrays.toString(new int[]{100,100,400}),
+				Arrays.toString(EvalResultData.calculatePerceivedForStudent
+						(new int[]{50,150,NA}, new double[]{50,50,200})));
+		
+//		assertEquals(Arrays.toString(new int[]{0,0,NA}),
+//				Arrays.toString(EvalResultData.calculatePerceivedForStudent
+//						(new int[]{0,0,NA}, new double[]{0,0,NA})));
 
 	}
+	
+	@Test
+	public void testIsSanitized(){
+		assertEquals(true, EvalResultData.isSanitized(new int[]{}));
+		assertEquals(true, EvalResultData.isSanitized(new int[]{1, 2, NA}));
+		assertEquals(false, EvalResultData.isSanitized(new int[]{1, NSU, 2, NA}));
+		assertEquals(false, EvalResultData.isSanitized(new int[]{NSB, 2, -1}));
+	}
+	
+	@Test
+	public void testTextractPerceivedValuesWithCorrespondingInputValues(){
+		verifyExtractPerceivedValuesWithCorrespondingInputValues(
+				new double[]{}, 
+				new int[]{}, new double[]{});
+		
+		verifyExtractPerceivedValuesWithCorrespondingInputValues(
+				new double[]{2.0}, 
+				new int[]{1}, new double[]{2.0});
+		
+		verifyExtractPerceivedValuesWithCorrespondingInputValues(
+				new double[]{1.0, 2.0, 3.0 }, 
+				new int[]{1,2,3}, new double[]{1.0, 2.0, 3.0});
+		
+		verifyExtractPerceivedValuesWithCorrespondingInputValues(
+				new double[]{1.0, 2.0, NA }, 
+				new int[]{1,2,NA}, new double[]{1.0, 2.0, 3.0});
+		
+		verifyExtractPerceivedValuesWithCorrespondingInputValues(
+				new double[]{1.0, 2.0, NA }, 
+				new int[]{1,2,NSB}, new double[]{1.0, 2.0, 3.0});
+		
+		verifyExtractPerceivedValuesWithCorrespondingInputValues(
+				new double[]{1.0, 2.0, NA }, 
+				new int[]{1,2,NSU}, new double[]{1.0, 2.0, 3.0});
+		
+		//mix of special values
+		verifyExtractPerceivedValuesWithCorrespondingInputValues(
+				new double[]{1.0, 2.0, NA, 4.0, NA, 6.0, NA}, 
+				new int[]{1,2,NSB,4,NSU,6,NA}, 
+				new double[]{1.0, 2.0, 3.0, 4.0, 5.0, 6.0});
+		
+		// perceived values have NA
+		verifyExtractPerceivedValuesWithCorrespondingInputValues(
+				new double[]{1.0, 2.0, NA, NA, NA, 6.0, NA}, 
+				new int[]{1,2,NSB,4,NSU,6,NA}, 
+				new double[]{1.0, 2.0, 3.0, NA, 5.0, 6.0});
+	}
 	// @formatter:on
+
 	
 	//--------------------------------------------------------------------
+	private void verifyExtractPerceivedValuesWithCorrespondingInputValues(
+			double[] expected, int[] filterArray, double[] valueArray) {
+		assertEquals(Arrays.toString(expected), 
+				Arrays.toString(EvalResultData.extractPerceivedValuesWithCorrespondingInputValues(
+						filterArray, valueArray)));
+	}
 	
 	private void verifyNormalized(double[] expected, double[] input) {
 		assertEquals(Arrays.toString(expected), 
 				Arrays.toString(EvalResultData.normalizeValues(input)));
 	}
 	
-	private String pointsToString(int[][] array) {
-		String returnValue = "";
-		int firstDividerLocation = (array.length - 1) / 2 - 1;
-		int secondDividerLocation = firstDividerLocation + 1;
-		for (int i = 0; i < array.length; i++) {
-			returnValue = returnValue + Arrays.toString(array[i]) + Common.EOL;
-			if ((i == firstDividerLocation) || (i == secondDividerLocation)) {
-				returnValue = returnValue + "======================="
-						+ Common.EOL;
-			}
-		}
-		return returnValue;
-	}
-	
-	//TODO: this is a clone of previous method. refactor.
-	private String pointsToString(double[][] array) {
-		String returnValue = "";
-		int firstDividerLocation = (array.length - 1) / 2 - 1;
-		int secondDividerLocation = firstDividerLocation + 1;
-		for (int i = 0; i < array.length; i++) {
-			returnValue = returnValue + Arrays.toString(array[i]) + Common.EOL;
-			if ((i == firstDividerLocation) || (i == secondDividerLocation)) {
-				returnValue = returnValue + "======================="
-						+ Common.EOL;
-			}
-		}
-		return returnValue;
-	}
+
 }

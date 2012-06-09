@@ -196,6 +196,8 @@ public class Common {
 	public static final String ERRORCODE_INVALID_EMAIL = "ERRORCODE_INVALID_EMAIL";
 	public static final String ERRORCODE_LEADING_OR_TRAILING_SPACES = "ERRORCODE_LEADING_OR_TRAILING_SPACES";
 	public static final String ERRORCODE_STRING_TOO_LONG = "ERRORCODE_STRING_TOO_LONG";
+	public static final int POINTS_NOT_SURE = -101;
+	public static final int POINTS_NOT_SUBMITTED = -999;
 
 	
 	
