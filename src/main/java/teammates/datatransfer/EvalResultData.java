@@ -28,9 +28,9 @@ public class EvalResultData {
 	public int claimedToCoord = Common.UNINITIALIZED_INT;
 	public int perceivedToCoord = Common.UNINITIALIZED_INT;
 	public int perceivedToStudent = Common.UNINITIALIZED_INT;
-	
-	private static final Logger log = Logger.getLogger(
-			EvalResultData.class.getName());
+
+	private static final Logger log = Logger.getLogger(EvalResultData.class
+			.getName());
 
 	public void sortOutgoingByStudentNameAscending() {
 		Collections.sort(outgoing, new Comparator<SubmissionData>() {
@@ -58,9 +58,8 @@ public class EvalResultData {
 	}
 
 	public static int[][] calculatePoints(int[][] input) {
-		log.info("==================\n"
-				+"starting result calculation for\n"
-				+pointsToString(input));
+		log.info("==================\n" + "starting result calculation for\n"
+				+ pointsToString(input));
 		int teamSize = input.length;
 		int containerSize = teamSize * 2 + 1;
 		int[][] output = new int[containerSize][teamSize];
@@ -70,13 +69,11 @@ public class EvalResultData {
 		double[] perceivedForCoord = new double[teamSize];
 		int[][] perceivedForStudent = new int[teamSize][teamSize];
 
-		
 		// fill first sub-container
 		for (int i = 0; i < teamSize; i++) {
 			actualInputNormalized[i] = doubleToInt(normalizeValues(input[i]));
 		}
-		
-				
+
 		// fill second sub-container
 		int[][] actualInputSanitized = new int[teamSize][teamSize];
 		for (int i = 0; i < teamSize; i++) {
@@ -90,28 +87,13 @@ public class EvalResultData {
 		}
 		log.info("actual values sanitized :\n"
 				+ pointsToString(actualInputSanitized));
-
+		
 		double[][] sanitizedAndNormalizedInput = new double[teamSize][teamSize];
 		for (int i = 0; i < teamSize; i++) {
 			sanitizedAndNormalizedInput[i] = normalizeValues(actualInputSanitized[i]);
 		}
-		log.info("actual values sanitiezed and normalized :\n"
-				+ pointsToString(sanitizedAndNormalizedInput));
-		
-		double[][] selfRatingsRemoved = excludeSelfRatings(sanitizedAndNormalizedInput);
-		log.info("self ratings removed :\n"
-				+ pointsToString(selfRatingsRemoved));
-		
-		double[][] selfRatingRemovedAndNormalized = new double[teamSize][teamSize];
-		for (int i = 0; i < teamSize; i++) {
-			selfRatingRemovedAndNormalized[i] = normalizeValues(selfRatingsRemoved[i]);
-		}
-		log.info("self ratings removed and normalized :\n"
-				+ pointsToString(selfRatingRemovedAndNormalized));
-		
-		perceivedForCoord = normalizeValues(averageColumns(selfRatingRemovedAndNormalized));
-		log.info("perceived to coord :\n"
-				+ replaceMagicNumbers(Arrays.toString(perceivedForCoord)));
+
+		perceivedForCoord = calculatePerceivedForCoord(sanitizedAndNormalizedInput);
 
 		// fill third sub-container
 		for (int k = 0; k < teamSize; k++) {
@@ -137,43 +119,90 @@ public class EvalResultData {
 		return output;
 	}
 
-	public static int[] calculatePerceivedForStudent(int[] sanitizedActualInput,
-			double[] perceivedForCoord) {
-		verify("Unsanitized value received ", isSanitized(sanitizedActualInput));
+	private static double[] calculatePerceivedForCoord(double[][] sanitizedAndNormalizedInput) {
+		int teamSize = sanitizedAndNormalizedInput.length;
+		double[] perceivedForCoord;
 		
+		log.info("actual values sanitiezed and normalized :\n"
+				+ pointsToString(sanitizedAndNormalizedInput));
+
+		double[][] selfRatingsRemoved = excludeSelfRatings(sanitizedAndNormalizedInput);
+		log.info("self ratings removed :\n"
+				+ pointsToString(selfRatingsRemoved));
+
+		double[][] selfRatingRemovedAndNormalized = new double[teamSize][teamSize];
+		for (int i = 0; i < teamSize; i++) {
+			selfRatingRemovedAndNormalized[i] = normalizeValues(selfRatingsRemoved[i]);
+		}
+		log.info("self ratings removed and normalized :\n"
+				+ pointsToString(selfRatingRemovedAndNormalized));
+
+		perceivedForCoord = normalizeValues(averageColumns(selfRatingRemovedAndNormalized));
+		log.info("perceived to coord :\n"
+				+ replaceMagicNumbers(Arrays.toString(perceivedForCoord)));
+		return perceivedForCoord;
+	}
+
+	public static int[] calculatePerceivedForStudent(
+			int[] sanitizedActualInput, double[] perceivedForCoord) {
+		verify("Unsanitized value received ", isSanitized(sanitizedActualInput));
+
 		int[] perceivedForStudent = new int[sanitizedActualInput.length];
-		double sumOfActual = sum(sanitizedActualInput);
-		double[] filteredPerceivedForCoord = extractPerceivedValuesWithCorrespondingInputValues(sanitizedActualInput, perceivedForCoord);
+
+		// remove from each array values matching special values in the other
+		double[] filteredPerceivedForCoord = purgeValuesCorrespondingToSpecialValuesInFilter(
+				intToDouble(sanitizedActualInput), perceivedForCoord);
+		int[] filteredSanitizedActual = doubleToInt(purgeValuesCorrespondingToSpecialValuesInFilter(
+				perceivedForCoord, intToDouble(sanitizedActualInput)));
+
 		double sumOfperceivedForCoord = sum(filteredPerceivedForCoord);
+		double sumOfActual = sum(filteredSanitizedActual);
+
 		if (sumOfActual == NA) {
 			sumOfActual = sumOfperceivedForCoord;
 		}
-		double factor = sumOfActual / sumOfperceivedForCoord;
 		
+		double factor = sumOfActual / sumOfperceivedForCoord;
+
 		for (int i = 0; i < perceivedForStudent.length; i++) {
 			double perceived = perceivedForCoord[i];
-			if(perceived==NA){
+			if (perceived == NA) {
 				perceivedForStudent[i] = NA;
-			}else {
-				perceivedForStudent[i] = (int)Math.round(perceived * factor);
+			} else {
+				perceivedForStudent[i] = (int) Math.round(perceived * factor);
 			}
 		}
 		return perceivedForStudent;
 	}
 
-	public static double[] extractPerceivedValuesWithCorrespondingInputValues(int[] filterArray, double[] valueArray) {
+	@Deprecated
+	public static double[] extractPerceivedValuesWithCorrespondingInputValues(
+			int[] filterArray, double[] valueArray) {
 		double[] returnValue = new double[filterArray.length];
 		for (int i = 0; i < filterArray.length; i++) {
 			int filterValue = filterArray[i];
-			boolean isSpecialValue = !isSanitized(filterValue) || filterValue==NA;
-			returnValue[i] = (isSpecialValue? NA :valueArray[i]);
+			boolean isSpecialValue = !isSanitized(filterValue)
+					|| filterValue == NA;
+			returnValue[i] = (isSpecialValue ? NA : valueArray[i]);
+		}
+		return returnValue;
+	}
+
+	public static double[] purgeValuesCorrespondingToSpecialValuesInFilter(
+			double[] filterArray, double[] valueArray) {
+		double[] returnValue = new double[filterArray.length];
+		for (int i = 0; i < filterArray.length; i++) {
+			int filterValue = (int) filterArray[i];
+			boolean isSpecialValue = !isSanitized(filterValue)
+					|| filterValue == NA;
+			returnValue[i] = (isSpecialValue ? NA : valueArray[i]);
 		}
 		return returnValue;
 	}
 
 	public static boolean isSanitized(int[] array) {
 		for (int i = 0; i < array.length; i++) {
-			if(!isSanitized(array[i])){
+			if (!isSanitized(array[i])) {
 				return false;
 			}
 		}
@@ -181,8 +210,12 @@ public class EvalResultData {
 	}
 
 	private static boolean isSanitized(int i) {
-		if(i==NSU){return false;}
-		if(i==NSB){return false;}
+		if (i == NSU) {
+			return false;
+		}
+		if (i == NSB) {
+			return false;
+		}
 		return true;
 	}
 
@@ -191,12 +224,12 @@ public class EvalResultData {
 		if (input.length == 0) {
 			return 0;
 		}
-		
-		verify("Unsanitized value in "+Arrays.toString(input), 
+
+		verify("Unsanitized value in " + Arrays.toString(input),
 				isSanitized(doubleToInt(input)));
-		
+
 		for (int i = 0; i < input.length; i++) {
-			
+
 			double value = input[i];
 			if (value != NA) {
 				sum = (sum == NA ? value : sum + value);
@@ -230,10 +263,10 @@ public class EvalResultData {
 		int count = 0;
 		double[] output = new double[input.length];
 
-		//calcuate factor
+		// calcuate factor
 		for (int j = 0; j < input.length; j++) {
 			double value = input[j];
-			int valueAsInt = (int)value;
+			int valueAsInt = (int) value;
 			if (isSpecialValue(valueAsInt)) {
 				continue;
 			}
@@ -243,17 +276,17 @@ public class EvalResultData {
 
 		double factor = (sum == 0 ? 0 : count * 100.0 / sum);
 
-		//normalize values
+		// normalize values
 		for (int j = 0; j < input.length; j++) {
 			double value = input[j];
-			int valueAsInt = (int)value;
-			if(valueAsInt==NSU){
+			int valueAsInt = (int) value;
+			if (valueAsInt == NSU) {
 				output[j] = NSU;
-			}else if(valueAsInt==NSB){
+			} else if (valueAsInt == NSB) {
 				output[j] = NSB;
-			}else if(valueAsInt==NA){
+			} else if (valueAsInt == NA) {
 				output[j] = NA;
-			}else{
+			} else {
 				output[j] = value * factor;
 			}
 		}
@@ -261,7 +294,7 @@ public class EvalResultData {
 	}
 
 	private static boolean isSpecialValue(int value) {
-		return (value == NA)||(value == NSU)||(value == NSB);
+		return (value == NA) || (value == NSU) || (value == NSB);
 	}
 
 	public static double[] normalizeValues(int[] input) {
@@ -308,7 +341,7 @@ public class EvalResultData {
 					count++;
 				}
 			}
-			output[i] = (count == 0 ? NA : Math.round((double) sum / count));
+			output[i] = (count < 2 ? NA : Math.round((double) sum / count));
 		}
 		return output;
 	}
@@ -317,7 +350,6 @@ public class EvalResultData {
 		return pointsToString(intToDouble(array)).replace(".0", "");
 	}
 
-	
 	public static String pointsToString(double[][] array) {
 		String returnValue = "";
 		boolean isSquareArray = (array.length == array[0].length);
@@ -338,16 +370,17 @@ public class EvalResultData {
 	}
 
 	private static String replaceMagicNumbers(String returnValue) {
-		returnValue = returnValue.replace(NA+".0", " NA");
-		returnValue = returnValue.replace(NSB+".0", "NSB");
-		returnValue = returnValue.replace(NSU+".0", "NSU");
+		returnValue = returnValue.replace(NA + ".0", " NA");
+		returnValue = returnValue.replace(NSB + ".0", "NSB");
+		returnValue = returnValue.replace(NSU + ".0", "NSU");
 		return returnValue;
 	}
-	
+
 	private static void verify(String message, boolean condition) {
-		//TODO: replace with assert?
-		if(!condition){
-			throw new RuntimeException("Internal assertion failuer : "+message);
+		// TODO: replace with assert?
+		if (!condition) {
+			throw new RuntimeException("Internal assertion failuer : "
+					+ message);
 		}
 	}
 

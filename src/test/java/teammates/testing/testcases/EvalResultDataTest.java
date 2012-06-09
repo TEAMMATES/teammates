@@ -93,131 +93,132 @@ public class EvalResultDataTest {
 	// @formatter:off
 	public void testCalculatePoints() {
 		
-//		int[][] input = 
-//			{{ 100, 100, 100, 100 }, 
-//			 { 100, 100, 100, 100 },
-//			 { 100, 100, 100, 100 },
-//			 { 100, 100, 100, 100 }};
-//		
-//		int[][] expected = 
-//			{{ 100, 100, 100, 100 }, 
-//			 { 100, 100, 100, 100 },
-//			 { 100, 100, 100, 100 },
-//			 { 100, 100, 100, 100 },
-//			 
-//			 { 100, 100, 100, 100 },
-//			 
-//			 { 100, 100, 100, 100 }, 
-//			 { 100, 100, 100, 100 },
-//			 { 100, 100, 100, 100 },
-//			 { 100, 100, 100, 100 }};
-//		
-//		int[][] output = EvalResultData.calculatePoints(input);
-//		assertEquals(pointsToString(expected), pointsToString(output));
-//		
-//		int[][] input3 = 
-//			{{ 100, 100, 100, 100 }, 
-//			 { 110, 110, 110, 110 },
-//			 {  90,  90,  90,  90 },
-//			 {  10,  10,  10,  10 }};
-//		
-//		int[][] expected3 = 
-//			{{ 100, 100, 100, 100 }, 
-//			 { 100, 100, 100, 100 },
-//			 { 100, 100, 100, 100 },
-//			 { 100, 100, 100, 100 },
-//			 
-//			 { 100, 100, 100, 100 },
-//			 
-//			 { 100, 100, 100, 100 }, 
-//			 { 110, 110, 110, 110 },
-//			 {  90,  90,  90,  90 },
-//			 {  10,  10,  10,  10 }};
-//		assertEquals(pointsToString(expected3),
-//				pointsToString(EvalResultData.calculatePoints(input3)));
-//		int[][] input2 = 
-//			{{ 100, 100, 100, 100 }, 
-//			 { 110, 110, 110, 110 },
-//			 {  90,  90,  90,  90 },
-//			 {  70,  80, 110, 120 }};
-//		
-//		int[][] expected2 = 
-//			{{ 100, 100, 100, 100 }, 
-//			 { 100, 100, 100, 100 },
-//			 { 100, 100, 100, 100 },
-//			 {  74,  84, 116, 126 },
-//			 
-//			 {  94, 97, 109, 100 },
-//			 
-//			 {  94,  97, 109, 100 }, 
-//			 { 103, 107, 120, 110 },
-//			 {  85,  87,  98,  90 },
-//			 {  89,  92, 104,  95 }};
-//		assertEquals(pointsToString(expected2),
-//				pointsToString(EvalResultData.calculatePoints(input2)));
-//		int[][] input4 = 
-//			{{ NSB, NSB, NSB, NSB }, 
-//			 { NSU, NSU, NSU, NSU },
-//			 { NSU, NSU, NSU, NSU },
-//			 { NSB, NSB, NSB, NSB }};
-//		
-//		int[][] expected4 = 
-//			{{ NSB, NSB, NSB, NSB }, 
-//			 { NSU, NSU, NSU, NSU },
-//			 { NSU, NSU, NSU, NSU },
-//			 { NSB, NSB, NSB, NSB },
-//			 
-//			 { NA, NA, NA, NA },
-//			 
-//			 { NA, NA, NA, NA }, 
-//			 { NA, NA, NA, NA },
-//			 { NA, NA, NA, NA },
-//			 { NA, NA, NA, NA }};
-//		assertEquals(pointsToString(expected4),
-//				pointsToString(EvalResultData.calculatePoints(input4)));
-//		
-//		int[][] input5 = 
-//			{{ 0, 0, 0, 0 }, 
-//			 { 0, 0, 0, 0 },
-//			 { 0, 0, 0, 0 },
-//			 { 0, 0, 0, 0 }};
-//		
-//		int[][] expected5 = 
-//			{{ 0, 0, 0, 0 }, 
-//			 { 0, 0, 0, 0 },
-//			 { 0, 0, 0, 0 },
-//			 { 0, 0, 0, 0 },
-//			 
-//			 { 0, 0, 0, 0 },
-//			 
-//			 { 0, 0, 0, 0 }, 
-//			 { 0, 0, 0, 0 },
-//			 { 0, 0, 0, 0 },
-//			 { 0, 0, 0, 0 }};
-//		assertEquals(pointsToString(expected5),
-//				pointsToString(EvalResultData.calculatePoints(input5)));
-//		
-//		int[][] input6 = 
-//			{{   0,   0,   0, NSU }, 
-//			 {   0,   0,   0, NSU },
-//			 { NSB, NSB, NSB, NSB },
-//			 {   0,   0, NSU, NSU }};
-//		
-//		int[][] expected6 = 
-//			{{   0,   0,   0, NSU }, 
-//			 {   0,   0,   0, NSU },
-//			 { NSB, NSB, NSB, NSB },
-//			 {   0,   0, NSU, NSU },
-//			 
-//			 { 0, 0, 0, NA },
-//			 
-//			 { 0, 0, 0, NA }, 
-//			 { 0, 0, 0, NA },
-//			 { 0, 0, 0, NA },
-//			 { 0, 0, 0, NA }};
-//		assertEquals(pointsToString(expected6),
-//				pointsToString(EvalResultData.calculatePoints(input6)));
+		int[][] input = 
+			{{ 100, 100, 100, 100 }, 
+			 { 100, 100, 100, 100 },
+			 { 100, 100, 100, 100 },
+			 { 100, 100, 100, 100 }};
 		
+		int[][] expected = 
+			{{ 100, 100, 100, 100 }, 
+			 { 100, 100, 100, 100 },
+			 { 100, 100, 100, 100 },
+			 { 100, 100, 100, 100 },
+			 
+			 { 100, 100, 100, 100 },
+			 
+			 { 100, 100, 100, 100 }, 
+			 { 100, 100, 100, 100 },
+			 { 100, 100, 100, 100 },
+			 { 100, 100, 100, 100 }};
+		
+		int[][] output = EvalResultData.calculatePoints(input);
+		assertEquals(pointsToString(expected), pointsToString(output));
+		
+		int[][] input3 = 
+			{{ 100, 100, 100, 100 }, 
+			 { 110, 110, 110, 110 },
+			 {  90,  90,  90,  90 },
+			 {  10,  10,  10,  10 }};
+		
+		int[][] expected3 = 
+			{{ 100, 100, 100, 100 }, 
+			 { 100, 100, 100, 100 },
+			 { 100, 100, 100, 100 },
+			 { 100, 100, 100, 100 },
+			 
+			 { 100, 100, 100, 100 },
+			 
+			 { 100, 100, 100, 100 }, 
+			 { 110, 110, 110, 110 },
+			 {  90,  90,  90,  90 },
+			 {  10,  10,  10,  10 }};
+		assertEquals(pointsToString(expected3),
+				pointsToString(EvalResultData.calculatePoints(input3)));
+		int[][] input2 = 
+			{{ 100, 100, 100, 100 }, 
+			 { 110, 110, 110, 110 },
+			 {  90,  90,  90,  90 },
+			 {  70,  80, 110, 120 }};
+		
+		int[][] expected2 = 
+			{{ 100, 100, 100, 100 }, 
+			 { 100, 100, 100, 100 },
+			 { 100, 100, 100, 100 },
+			 {  74,  84, 116, 126 },
+			 
+			 {  94, 97, 109, 100 },
+			 
+			 {  94,  97, 109, 100 }, 
+			 { 103, 107, 120, 110 },
+			 {  85,  87,  98,  90 },
+			 {  89,  92, 104,  95 }};
+		assertEquals(pointsToString(expected2),
+				pointsToString(EvalResultData.calculatePoints(input2)));
+		int[][] input4 = 
+			{{ NSB, NSB, NSB, NSB }, 
+			 { NSU, NSU, NSU, NSU },
+			 { NSU, NSU, NSU, NSU },
+			 { NSB, NSB, NSB, NSB }};
+		
+		int[][] expected4 = 
+			{{ NSB, NSB, NSB, NSB }, 
+			 { NSU, NSU, NSU, NSU },
+			 { NSU, NSU, NSU, NSU },
+			 { NSB, NSB, NSB, NSB },
+			 
+			 { NA, NA, NA, NA },
+			 
+			 { NA, NA, NA, NA }, 
+			 { NA, NA, NA, NA },
+			 { NA, NA, NA, NA },
+			 { NA, NA, NA, NA }};
+		assertEquals(pointsToString(expected4),
+				pointsToString(EvalResultData.calculatePoints(input4)));
+		
+		int[][] input5 = 
+			{{ 0, 0, 0, 0 }, 
+			 { 0, 0, 0, 0 },
+			 { 0, 0, 0, 0 },
+			 { 0, 0, 0, 0 }};
+		
+		int[][] expected5 = 
+			{{ 0, 0, 0, 0 }, 
+			 { 0, 0, 0, 0 },
+			 { 0, 0, 0, 0 },
+			 { 0, 0, 0, 0 },
+			 
+			 { 0, 0, 0, 0 },
+			 
+			 { 0, 0, 0, 0 }, 
+			 { 0, 0, 0, 0 },
+			 { 0, 0, 0, 0 },
+			 { 0, 0, 0, 0 }};
+		assertEquals(pointsToString(expected5),
+				pointsToString(EvalResultData.calculatePoints(input5)));
+		
+		int[][] input6 = 
+			{{   0,   0,   0, NSU }, 
+			 {   0,   0,   0, NSU },
+			 { NSB, NSB, NSB, NSB },
+			 {   0,   0, NSU, NSU }};
+		
+		int[][] expected6 = 
+			{{   0,   0,   0, NSU }, 
+			 {   0,   0,   0, NSU },
+			 { NSB, NSB, NSB, NSB },
+			 {   0,   0, NSU, NSU },
+			 
+			 { 0, 0, 0, NA },
+			 
+			 { 0, 0, 0, NA }, 
+			 { 0, 0, 0, NA },
+			 { 0, 0, 0, NA },
+			 { 0, 0, 0, NA }};
+		assertEquals(pointsToString(expected6),
+				pointsToString(EvalResultData.calculatePoints(input6)));
+		
+		//only one person submitted
 		int[][] input7 = 
 			{{  25,  25,  75 }, 
 			 { NSB, NSB, NSB },
@@ -228,13 +229,48 @@ public class EvalResultDataTest {
 			 { NSB, NSB, NSB },
 			 { NSB, NSB, NSB },
 			 
-			 {  NA,  50, 150 },
+			 {  NA,  NA,  NA },
 			 
-			 {  NA,  25,  75 }, 
-			 {  NA,  50, 150 },
-			 {  NA,  50, 150 }};
+			 {  NA,  NA,  NA }, 
+			 {  NA,  NA,  NA },
+			 {  NA,  NA,  NA }};
 		assertEquals(pointsToString(expected7),
 				pointsToString(EvalResultData.calculatePoints(input7)));
+		
+		//only one person, submitted for self only
+		int[][] input8 = 
+			{{  25, NSU, NSU }, 
+			 { NSB, NSB, NSB },
+			 { NSB, NSB, NSB }};
+		
+		int[][] expected8 = 
+			{{ 100, NSU, NSU }, 
+			 { NSB, NSB, NSB },
+			 { NSB, NSB, NSB },
+			 
+			 {  NA,  NA, NA },
+			 
+			 {  NA,  NA,  NA }, 
+			 {  NA,  NA,  NA },
+			 {  NA,  NA,  NA }};
+		assertEquals(pointsToString(expected8),
+				pointsToString(EvalResultData.calculatePoints(input8)));
+		
+		//two-person team
+		int[][] input9 = 
+			{{  50, 150 }, 
+			 {  80, 80 }};
+		
+		int[][] expected9 = 
+			{{  50, 150 }, 
+			 { 100, 100 },
+			 
+			 {  NA,  NA },
+			 
+			 {  NA,  NA }, 
+			 {  NA,  NA }};
+		assertEquals(pointsToString(expected9),
+				pointsToString(EvalResultData.calculatePoints(input9)));
 	}
 	
 	@Test
@@ -350,51 +386,51 @@ public class EvalResultDataTest {
 	}
 	
 	@Test
-	public void testTextractPerceivedValuesWithCorrespondingInputValues(){
-		verifyExtractPerceivedValuesWithCorrespondingInputValues(
+	public void testPurgeValuesCorrespondingToSpecialValuesInFilter(){
+		verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
 				new double[]{}, 
-				new int[]{}, new double[]{});
+				new double[]{}, new double[]{});
 		
-		verifyExtractPerceivedValuesWithCorrespondingInputValues(
+		verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
 				new double[]{2.0}, 
-				new int[]{1}, new double[]{2.0});
+				new double[]{1}, new double[]{2.0});
 		
-		verifyExtractPerceivedValuesWithCorrespondingInputValues(
+		verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
 				new double[]{1.0, 2.0, 3.0 }, 
-				new int[]{1,2,3}, new double[]{1.0, 2.0, 3.0});
+				new double[]{1,2,3}, new double[]{1.0, 2.0, 3.0});
 		
-		verifyExtractPerceivedValuesWithCorrespondingInputValues(
+		verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
 				new double[]{1.0, 2.0, NA }, 
-				new int[]{1,2,NA}, new double[]{1.0, 2.0, 3.0});
+				new double[]{1,2,NA}, new double[]{1.0, 2.0, 3.0});
 		
-		verifyExtractPerceivedValuesWithCorrespondingInputValues(
+		verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
 				new double[]{1.0, 2.0, NA }, 
-				new int[]{1,2,NSB}, new double[]{1.0, 2.0, 3.0});
+				new double[]{1,2,NSB}, new double[]{1.0, 2.0, 3.0});
 		
-		verifyExtractPerceivedValuesWithCorrespondingInputValues(
+		verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
 				new double[]{1.0, 2.0, NA }, 
-				new int[]{1,2,NSU}, new double[]{1.0, 2.0, 3.0});
+				new double[]{1,2,NSU}, new double[]{1.0, 2.0, 3.0});
 		
 		//mix of special values
-		verifyExtractPerceivedValuesWithCorrespondingInputValues(
+		verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
 				new double[]{1.0, 2.0, NA, 4.0, NA, 6.0, NA}, 
-				new int[]{1,2,NSB,4,NSU,6,NA}, 
+				new double[]{1,2,NSB,4,NSU,6,NA}, 
 				new double[]{1.0, 2.0, 3.0, 4.0, 5.0, 6.0});
 		
 		// perceived values have NA
-		verifyExtractPerceivedValuesWithCorrespondingInputValues(
+		verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
 				new double[]{1.0, 2.0, NA, NA, NA, 6.0, NA}, 
-				new int[]{1,2,NSB,4,NSU,6,NA}, 
+				new double[]{1,2,NSB,4,NSU,6,NA}, 
 				new double[]{1.0, 2.0, 3.0, NA, 5.0, 6.0});
 	}
 	// @formatter:on
 
 	
 	//--------------------------------------------------------------------
-	private void verifyExtractPerceivedValuesWithCorrespondingInputValues(
-			double[] expected, int[] filterArray, double[] valueArray) {
+	private void verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
+			double[] expected, double[] filterArray, double[] valueArray) {
 		assertEquals(Arrays.toString(expected), 
-				Arrays.toString(EvalResultData.extractPerceivedValuesWithCorrespondingInputValues(
+				Arrays.toString(EvalResultData.purgeValuesCorrespondingToSpecialValuesInFilter(
 						filterArray, valueArray)));
 	}
 	
