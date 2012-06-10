@@ -1392,8 +1392,8 @@ public class APIServlet extends HttpServlet {
 	}
 
 	/**
-	 * This method ignores changes to courseId. All other attributes can be 
-	 *   changed.<br>
+	 * All attributes except courseId be changed. Trying to change courseId
+	 * will be treated as trying to edit a student in a different course.<br>
 	 * Changing team name will not delete existing team profile even if there 
 	 *   are no more members in the team. This can cause orphan team profiles
 	 *   but the effect is considered insignificant and not worth the effort 
@@ -1518,8 +1518,19 @@ public class APIServlet extends HttpServlet {
 		Evaluations.inst().unpublishEvaluation(courseId, evaluationName);
 	}
 	
+	/**
+	 * 
+	 * @param courseId
+	 * @param evaluationName
+	 * @return Returns null if any of the parameters is null.
+	 * @throws EntityDoesNotExistException if the course or the evaluation does
+	 *    not exists.
+	 */
 	public EvaluationData getEvaluationResult(String courseId,
 			String evaluationName) throws EntityDoesNotExistException {
+		if((courseId==null)||(evaluationName==null)){
+			return null;
+		}
 		CourseData course = getTeamsForCourse(courseId);
 		EvaluationData returnValue = new EvaluationData();
 		HashMap<String, SubmissionData> submissionDataList = getSubmissionsForEvaluation(
@@ -1541,7 +1552,10 @@ public class APIServlet extends HttpServlet {
 
 
 	public HashMap<String, SubmissionData> getSubmissionsForEvaluation(String courseId,
-			String evaluationName) {
+			String evaluationName) throws EntityDoesNotExistException {
+		if(getEvaluation(courseId, evaluationName)==null){
+			throw new EntityDoesNotExistException("There is no evaluation named ["+evaluationName+"] under the course ["+courseId+"]");
+		}
 		//create SubmissionData Hashmap 
 		List<Submission> submissionsList = Evaluations.inst().getSubmissionList(courseId, evaluationName);
 		HashMap<String, SubmissionData> submissionDataList = new HashMap<String, SubmissionData>();

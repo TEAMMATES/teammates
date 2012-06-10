@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +19,7 @@ import org.junit.AfterClass;
 import static org.junit.Assert.fail;
 import static teammates.TeamEvalResult.NSB;
 import static teammates.TeamEvalResult.NSU;
+import static teammates.TeamEvalResult.NA;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -1065,23 +1065,27 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader();
 		refreshDataInDatastore();
 		
+		//reconfigure points of an existing evaluation in the datastore
+		CourseData course = dataBundle.courses.get("course1OfCoord1");
+		EvaluationData evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
+		
 		setPointsForSubmissions(new int[][]{
 				{ 100, 100, 100, 100 }, 
 				{ 110, 110, NSU, 110 },
 				{ NSB, NSB, NSB, NSB },
 				{  70,  80, 110, 120 }});
 		
-		CourseData course = dataBundle.courses.get("course1OfCoord1");
-		EvaluationData evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
+		
 		EvaluationData result = apiServlet.getEvaluationResult(course.id, evaluation.name);
 		
 		//no need to sort, the result should be sorted by default
 		
-		//number of teams and team sizes
+		//check number of teams and team sizes
 		assertEquals(2, result.teams.size());
+		
+		//check students in team 1.1
 		TeamData team1_1 = result.teams.get(0);
 		assertEquals(4, team1_1.students.size());
-		assertEquals(1, result.teams.get(1).students.size());
 		
 		int S1_POS = 0;
 		int S2_POS = 1;
@@ -1093,20 +1097,31 @@ public class APIServletTest extends BaseTestCase {
 		StudentData s3 = team1_1.students.get(S3_POS);
 		StudentData s4 = team1_1.students.get(S4_POS);
 		
-		assertEquals("student2InCourse1", s2.id);
 		assertEquals("student1InCourse1", s1.id);
+		assertEquals("student2InCourse1", s2.id);
+		assertEquals("student3InCourse1", s3.id);
+		assertEquals("student4InCourse1", s4.id);
 		
-		assertTrue(s1.result.getSelfEvaluation() != null);
+		//check self-evaluations of some students
 		assertEquals(s1.name, s1.result.getSelfEvaluation().revieweeName);
 		assertEquals(s1.name, s1.result.getSelfEvaluation().reviewerName);
+		assertEquals(s3.name, s3.result.getSelfEvaluation().revieweeName);
+		assertEquals(s3.name, s3.result.getSelfEvaluation().reviewerName);
 		
-		assertEquals(4, s1.result.incoming.size());
-		assertEquals(4, s1.result.outgoing.size());
-		
+		//check individual values for s1
 		assertEquals(100, s1.result.claimedFromStudent);
 		assertEquals(100, s1.result.claimedToCoord);
 		assertEquals(91, s1.result.perceivedToStudent);
 		assertEquals(91, s1.result.perceivedToCoord);
+		//check some more individual values 
+		assertEquals(110, s2.result.claimedFromStudent);
+		assertEquals(NSB, s3.result.claimedToCoord);
+		assertEquals(95, s4.result.perceivedToStudent);
+		assertEquals(96, s2.result.perceivedToCoord);
+		
+		//check outgoing submissions (s1 more intensely than others)
+		
+		assertEquals(4, s1.result.outgoing.size());
 		
 		SubmissionData s1_s1 = s1.result.outgoing.get(S1_POS);
 		assertEquals(100, s1_s1.normalized);
@@ -1124,7 +1139,17 @@ public class APIServletTest extends BaseTestCase {
 		
 		assertEquals(100, s1.result.outgoing.get(S3_POS).normalized);
 		assertEquals(100, s1.result.outgoing.get(S4_POS).normalized);
+		
+		assertEquals(NSU, s2.result.outgoing.get(S3_POS).normalized);
+		assertEquals(100, s2.result.outgoing.get(S4_POS).normalized);
+		assertEquals(NSB, s3.result.outgoing.get(S2_POS).normalized);
+		assertEquals(84, s4.result.outgoing.get(S2_POS).normalized);
+		
+		//check incoming submissions (s2 more intensely than others)
+		
+		assertEquals(4, s1.result.incoming.size());
 		assertEquals( 91, s1.result.incoming.get(S1_POS).normalized);
+		assertEquals(100, s1.result.incoming.get(S4_POS).normalized);
 		
 		SubmissionData s2_s1 = s1.result.incoming.get(S2_POS);
 		assertEquals( 96, s2_s1.normalized);
@@ -1132,50 +1157,47 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(expected, s2_s1.justification.getValue());
 		expected = "comments from student2InCourse1 to student1InCourse1";
 		assertEquals(expected, s2_s1.p2pFeedback.getValue());
+		assertEquals(115, s2.result.incoming.get(S4_POS).normalized);
 		
 		SubmissionData s3_s1 = s1.result.incoming.get(S3_POS);
 		assertEquals(114, s3_s1.normalized);
 		assertEquals("", s3_s1.justification.getValue());
 		assertEquals("", s3_s1.p2pFeedback.getValue());
-		
-		assertEquals(100, s1.result.incoming.get(S4_POS).normalized);
-
-		//verifying some of the values (no point checking all)
-		assertEquals(NSU, s2.result.outgoing.get(S3_POS).normalized);
-		assertEquals(100, s2.result.outgoing.get(S4_POS).normalized);
-		assertEquals(NSB, s3.result.outgoing.get(S2_POS).normalized);
-		assertEquals(84, s4.result.outgoing.get(S2_POS).normalized);
-		
-		//some values from incoming 
-		assertEquals(115, s2.result.incoming.get(S4_POS).normalized);
 		assertEquals(114, s3.result.incoming.get(S3_POS).normalized);
+		
 		assertEquals(108, s4.result.incoming.get(S3_POS).normalized);
 		
-		//some values for perceivedToCoord 
-		assertEquals(96, s2.result.perceivedToCoord);
-		assertEquals(114, s3.result.perceivedToCoord);
-		assertEquals(100, s4.result.perceivedToCoord);
+		//check team 1.2
+		TeamData team1_2 = result.teams.get(1);
+		assertEquals(1, team1_2.students.size());
+		StudentData team1_2student = team1_2.students.get(0);
+		assertEquals(NSB, team1_2student.result.claimedFromStudent);
+		assertEquals(1, team1_2student.result.outgoing.size());
+		assertEquals(NSB, team1_2student.result.claimedToCoord);
+		assertEquals(NSB, team1_2student.result.outgoing.get(0).points);
+		assertEquals(NA, team1_2student.result.incoming.get(0).normalized);
 		
-		// TODO: more testing
+		//try with null parameters
+		assertEquals(null,apiServlet.getEvaluationResult(null, evaluation.name));
+		assertEquals(null,apiServlet.getEvaluationResult(course.id, null));
+		
+		//try for non-existent courses/evaluations
+		try {
+			apiServlet.getEvaluationResult(course.id, "non existent evaluation");
+			fail();
+		} catch (EntityDoesNotExistException e) {
+			Common.assertContains("non existent evaluation", e.getMessage());
+		}
+		
+		try {
+			apiServlet.getEvaluationResult("non-existent-course", "any name");
+			fail();
+		} catch (EntityDoesNotExistException e) {
+			Common.assertContains("non-existent-course", e.getMessage());
+		}
+		
 	}
 	
-	private void setPointsForSubmissions(int[][] points) {
-		int teamSize = points.length;
-		ArrayList<SubmissionData> submissions = new ArrayList<SubmissionData>();
-		for (int i = 0; i < teamSize; i++) {
-			for (int j = 0; j < teamSize; j++) {
-				SubmissionData s = apiServlet.getSubmission(
-						"idOfCourse1OfCoord1",
-						"evaluation1 In Course1", 
-						"student"+(i+1)+"InCourse1@gmail.com", 
-						"student"+(j+1)+"InCourse1@gmail.com");
-				s.points = points[i][j];
-				submissions.add(s);
-			}
-		}
-		apiServlet.editSubmissions(submissions);
-	}
-
 	@Test
 	public void testCalculateTeamResult() throws Exception{
 		printTestCaseHeader();
@@ -1821,6 +1843,23 @@ public class APIServletTest extends BaseTestCase {
 		submission.reviewee = "e"+to+"@c";
 		submission.revieweeName = "s"+to;
 		return submission;
+	}
+
+	private void setPointsForSubmissions(int[][] points) {
+		int teamSize = points.length;
+		ArrayList<SubmissionData> submissions = new ArrayList<SubmissionData>();
+		for (int i = 0; i < teamSize; i++) {
+			for (int j = 0; j < teamSize; j++) {
+				SubmissionData s = apiServlet.getSubmission(
+						"idOfCourse1OfCoord1",
+						"evaluation1 In Course1", 
+						"student"+(i+1)+"InCourse1@gmail.com", 
+						"student"+(j+1)+"InCourse1@gmail.com");
+				s.points = points[i][j];
+				submissions.add(s);
+			}
+		}
+		apiServlet.editSubmissions(submissions);
 	}
 
 	@AfterClass()
