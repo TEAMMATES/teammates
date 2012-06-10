@@ -9,18 +9,21 @@ import teammates.testing.lib.HtmlHelperTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+	//Unit tests
 	CommonTest.class,
 	StudentTest.class,
 	TeamDataTest.class,
 	EvalResultDataTest.class,
+	TeamEvalResultTest.class,
 	HtmlHelperTest.class,
+	//Js tests
 	AllJsUnitTests.class,
+	//Api tests
 	TMAPITest.class,
 	APIServletTest.class,
+	//Ui tests
 	CoordCourseAddPageUiTest.class,
-	CoordCourseAddApiTest.class,
 	CoordCourseEnrollPageUiTest.class,
-	CoordCourseEnrollApiTest.class,
 	CoordHomePageUiTest.class
 })
 

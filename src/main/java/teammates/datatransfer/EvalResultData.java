@@ -16,10 +16,10 @@ public class EvalResultData {
 
 	public SubmissionData own;
 	public ArrayList<SubmissionData> incoming = new ArrayList<SubmissionData>();
-	public ArrayList<SubmissionData> outgoing = new ArrayList<SubmissionData>();
+	public ArrayList<SubmissionData> outgoingOriginal = new ArrayList<SubmissionData>();
+	public ArrayList<SubmissionData> outgoingNormalized = new ArrayList<SubmissionData>();
 
-	public int claimedActual = Common.UNINITIALIZED_INT;
-	public int claimedToStudent = Common.UNINITIALIZED_INT;
+	public int claimedFromStudent = Common.UNINITIALIZED_INT;
 	public int claimedToCoord = Common.UNINITIALIZED_INT;
 	public int perceivedToCoord = Common.UNINITIALIZED_INT;
 	public int perceivedToStudent = Common.UNINITIALIZED_INT;
@@ -27,7 +27,12 @@ public class EvalResultData {
 	private static final Logger log = Common.getLogger();
 
 	public void sortOutgoingByStudentNameAscending() {
-		Collections.sort(outgoing, new Comparator<SubmissionData>() {
+		sortOutgoingSubmissionsByName(outgoingOriginal);
+		sortOutgoingSubmissionsByName(outgoingNormalized);
+	}
+
+	private void sortOutgoingSubmissionsByName(ArrayList<SubmissionData> submissions) {
+		Collections.sort(submissions, new Comparator<SubmissionData>() {
 			public int compare(SubmissionData s1, SubmissionData s2) {
 				//email is prefixed to avoid mix ups due to two students with
 				//same name.

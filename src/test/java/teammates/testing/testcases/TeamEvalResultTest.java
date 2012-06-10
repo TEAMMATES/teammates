@@ -20,6 +20,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 	
 	@BeforeClass
 	public static void setup() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
+		setGeneralLoggingLevel(Level.WARNING);
 		setLogLevelOfClass(TeamEvalResult.class, Level.FINE);
 	    setConsoleLoggingLevel(Level.FINE);
 	}
@@ -202,6 +203,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 			 {  NA,  NA }, 
 			 {  NA,  NA }};
 		verifyCalculatePoints(input9, expected9);
+		
 	}
 
 	@Test
@@ -387,9 +389,9 @@ public class TeamEvalResultTest extends BaseTestCase{
 		TeamEvalResult t = new TeamEvalResult(input);
 		String actual = pointsToString(t.claimedToCoord)
 				+ "======================="+EOL
-				+ Arrays.toString(t.perceivedForCoord) + EOL
+				+ Arrays.toString(t.perceivedToCoord) + EOL
 				+ "=======================" + EOL
-				+pointsToString(t.perceivedForStudents);
+				+pointsToString(t.perceivedToStudents);
 		actual = replaceMagicNumbers(actual);
 		assertEquals(pointsToString(expected), actual);
 	}

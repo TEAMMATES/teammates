@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.logging.Level;
 
 import javax.servlet.ServletException;
 
@@ -66,6 +67,7 @@ public class APIServletTest extends BaseTestCase {
 	@BeforeClass
 	public static void classSetUp() {
 		printTestClassHeader();
+		setGeneralLoggingLevel(Level.WARNING);
 		Datastore.initialize();
 	}
 
@@ -1074,20 +1076,20 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(student1InCourse1.name, student1InCourse1.result.own.reviewerName);
 		
 		assertEquals(1, student1InCourse1.result.incoming.size());
-		assertEquals(1, student1InCourse1.result.outgoing.size());
-		assertTrue(student1InCourse1.result.claimedActual != Common.UNINITIALIZED_INT);
-		assertTrue(student1InCourse1.result.claimedToCoord != Common.UNINITIALIZED_INT);
-		assertTrue(student1InCourse1.result.claimedToStudent != Common.UNINITIALIZED_INT);
-		assertTrue(student1InCourse1.result.perceivedToCoord != Common.UNINITIALIZED_INT);
-		assertTrue(student1InCourse1.result.perceivedToStudent != Common.UNINITIALIZED_INT);
-		
-		assertTrue(student1InCourse1.result.incoming.get(0).normalized != Common.UNINITIALIZED_INT);
-		assertEquals(student1InCourse1.name, student1InCourse1.result.incoming.get(0).revieweeName);
-		assertEquals(student2InCourse1.name, student1InCourse1.result.incoming.get(0).reviewerName);
-		
-		assertTrue(student1InCourse1.result.outgoing.get(0).normalized != Common.UNINITIALIZED_INT);
-		assertEquals(student2InCourse1.name, student1InCourse1.result.outgoing.get(0).revieweeName);
-		assertEquals(student1InCourse1.name, student1InCourse1.result.outgoing.get(0).reviewerName);
+		assertEquals(1, student1InCourse1.result.outgoingOriginal.size());
+//		assertTrue(student1InCourse1.result.claimedActual != Common.UNINITIALIZED_INT);
+//		assertTrue(student1InCourse1.result.claimedToCoord != Common.UNINITIALIZED_INT);
+//		assertTrue(student1InCourse1.result.claimedToStudent != Common.UNINITIALIZED_INT);
+//		assertTrue(student1InCourse1.result.perceivedToCoord != Common.UNINITIALIZED_INT);
+//		assertTrue(student1InCourse1.result.perceivedToStudent != Common.UNINITIALIZED_INT);
+//		
+//		assertTrue(student1InCourse1.result.incoming.get(0).normalized != Common.UNINITIALIZED_INT);
+//		assertEquals(student1InCourse1.name, student1InCourse1.result.incoming.get(0).revieweeName);
+//		assertEquals(student2InCourse1.name, student1InCourse1.result.incoming.get(0).reviewerName);
+//		
+//		assertTrue(student1InCourse1.result.outgoing.get(0).normalized != Common.UNINITIALIZED_INT);
+//		assertEquals(student2InCourse1.name, student1InCourse1.result.outgoing.get(0).revieweeName);
+//		assertEquals(student1InCourse1.name, student1InCourse1.result.outgoing.get(0).reviewerName);
 		// TODO: more testing
 	}
 	
@@ -1138,19 +1140,19 @@ public class APIServletTest extends BaseTestCase {
 		//purposely messed up to ensure that the method works even when 
 		//submissions are added in random order
 		s1.result.own = s1_to_s1;
-		s1.result.outgoing.add(s1_to_s2);
+		s1.result.outgoingOriginal.add(s1_to_s2);
 		s1.result.incoming.add(s2_to_s1);
 		s2.result.own = s2_to_s2;
 		s1.result.incoming.add(s3_to_s1);
-		s2.result.outgoing.add(s2_to_s1);
-		s1.result.outgoing.add(s1_to_s3);
+		s2.result.outgoingOriginal.add(s2_to_s1);
+		s1.result.outgoingOriginal.add(s1_to_s3);
 		s2.result.incoming.add(s3_to_s2);
-		s2.result.outgoing.add(s2_to_s3);
-		s3.result.outgoing.add(s3_to_s1);
+		s2.result.outgoingOriginal.add(s2_to_s3);
+		s3.result.outgoingOriginal.add(s3_to_s1);
 		s3.result.incoming.add(s1_to_s3);
 		s3.result.own = s3_to_s3;
 		s3.result.incoming.add(s2_to_s3);
-		s3.result.outgoing.add(s3_to_s2);
+		s3.result.outgoingOriginal.add(s3_to_s2);
 		s2.result.incoming.add(s1_to_s2);
 		
 		team.students.add(s2);
@@ -1165,20 +1167,48 @@ public class APIServletTest extends BaseTestCase {
 							{210, 220, 230},
 							{310, 320, 330}};
 		assertEquals(TeamEvalResult.pointsToString(expected),
-				TeamEvalResult.pointsToString(teamResult.claimedFromStudents));
+				TeamEvalResult.pointsToString(teamResult.claimedToStudents));
+		
+//expected result
+//claimedToCoord		[ 92, 100, 108]
+//						[ 95, 100, 105]
+//						[ 97, 100, 103]
+//						===============
+//perceivedToCoord		[ 97,  99, 105]
+//						===============
+//perceivedToStudents	[116, 118, 126]
+//						[213, 217, 230]
+//						[309, 316, 335]
+						
+		invokePopulateTeamResult(team, teamResult);
+		team.sortByStudentNameAscending();
+		s1 = team.students.get(0);
+		assertEquals(110, s1.result.claimedFromStudent);
+		assertEquals(92, s1.result.claimedToCoord);
+		assertEquals(116, s1.result.perceivedToStudent);
+		assertEquals(97, s1.result.perceivedToCoord);
+
+		
+		
+		s2 = team.students.get(1);
+		assertEquals(220, s2.result.claimedFromStudent);
+		assertEquals(100, s2.result.claimedToCoord);
+		assertEquals(217, s2.result.perceivedToStudent);
+		assertEquals(99, s2.result.perceivedToCoord);
+		
+		s3 = team.students.get(2);
+		assertEquals(330, s3.result.claimedFromStudent);
+		assertEquals(103, s3.result.claimedToCoord);
+		assertEquals(335, s3.result.perceivedToStudent);
+		assertEquals(105, s3.result.perceivedToCoord);
+		
 		
 	}
 
-	private SubmissionData createSubmission(int from, int to) {
-		SubmissionData submission = new SubmissionData();
-		submission.course = "course1";
-		submission.evaluation = "eval1";
-		submission.points = from*100+to*10;
-		submission.reviewer = "e"+from+"@c";
-		submission.reviewerName = "s"+from;
-		submission.reviewee = "e"+to+"@c";
-		submission.revieweeName = "s"+to;
-		return submission;
+
+	@Test
+	public void testPopulateResults(){
+		//tested in testCalculateTeamResult()
 	}
 	
 	@Test
@@ -1663,14 +1693,36 @@ public class APIServletTest extends BaseTestCase {
 	}
 	
 	private TeamEvalResult invokeCalclulateTeamResult(TeamData team)
-			throws NoSuchMethodException, IllegalAccessException,
-			InvocationTargetException {
-		Method privateStringMethod = APIServlet.class.
+			throws Exception {
+		Method privateMethod = APIServlet.class.
 		        getDeclaredMethod("calculateTeamResult", new Class[]{TeamData.class});
-		privateStringMethod.setAccessible(true);
+		privateMethod.setAccessible(true);
 		Object[] params = new Object[]{team};
 		 return (TeamEvalResult)
-		        privateStringMethod.invoke(apiServlet, params);
+		        privateMethod.invoke(apiServlet, params);
+	}
+	
+	//TODO: try to generalize invoke*() methods and push to parent class
+	private void invokePopulateTeamResult(TeamData team,
+			TeamEvalResult teamResult) throws Exception{
+		Method privateMethod = APIServlet.class.
+		        getDeclaredMethod("populateTeamResult", 
+		        		new Class[]{TeamData.class, TeamEvalResult.class});
+		privateMethod.setAccessible(true);
+		Object[] params = new Object[]{team, teamResult};
+		privateMethod.invoke(apiServlet, params);
+	}
+	
+	private SubmissionData createSubmission(int from, int to) {
+		SubmissionData submission = new SubmissionData();
+		submission.course = "course1";
+		submission.evaluation = "eval1";
+		submission.points = from*100+to*10;
+		submission.reviewer = "e"+from+"@c";
+		submission.reviewerName = "s"+from;
+		submission.reviewee = "e"+to+"@c";
+		submission.revieweeName = "s"+to;
+		return submission;
 	}
 
 	@AfterClass()

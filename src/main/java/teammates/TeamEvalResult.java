@@ -16,22 +16,22 @@ public class TeamEvalResult {
 	private static Logger log = Common.getLogger();
 
 	/** submission values originally from students of the team */
-	public int[][] claimedFromStudents;
+	public int[][] claimedToStudents;
 	/** submission values to be shown to coordinator (after normalization) */
 	public int[][] claimedToCoord;
 	/** average perception of team shown to coord. Excludes self evaluations) */
-	public int[] perceivedForCoord;
+	public int[] perceivedToCoord;
 	/** team perception shown to students. normalized based on their own claims */
-	public int[][] perceivedForStudents;
+	public int[][] perceivedToStudents;
 	
 	
 	public TeamEvalResult(int[][] submissionValues) {
-		claimedFromStudents = submissionValues;
+		claimedToStudents = submissionValues;
 		
 		log.fine("==================\n" + "starting result calculation for\n"
 				+ pointsToString(submissionValues));
 
-		claimedToCoord = doubleToInt(normalizeValues(intToDouble(claimedFromStudents)));
+		claimedToCoord = doubleToInt(normalizeValues(intToDouble(claimedToStudents)));
 
 		int[][] claimedSanitized = sanitizeInput(submissionValues);
 		log.fine("submission values sanitized :\n"
@@ -48,12 +48,12 @@ public class TeamEvalResult {
 				+ replaceMagicNumbers(Arrays
 						.toString(perceivedForCoordAsDouble)));
 
-		perceivedForStudents = calculatePerceivedForStudents(
+		perceivedToStudents = calculatePerceivedForStudents(
 				claimedSanitized, perceivedForCoordAsDouble);
 		log.fine("perceived to students :\n"
-				+ pointsToString(perceivedForStudents));
+				+ pointsToString(perceivedToStudents));
 
-		perceivedForCoord = doubleToInt(perceivedForCoordAsDouble);
+		perceivedToCoord = doubleToInt(perceivedForCoordAsDouble);
 
 		log.fine("==================");
 	}

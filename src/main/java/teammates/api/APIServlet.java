@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.openqa.selenium.internal.seleniumemulation.SetNextConfirmationState;
+
 import teammates.Config;
 import teammates.Datastore;
 import teammates.TeamEvalResult;
@@ -1527,9 +1529,10 @@ public class APIServlet extends HttpServlet {
 			for (StudentData student : team.students) {
 				student.result = new EvalResultData();
 				extractSubmissionsAndSetNames(submissionDataList, team, student);
-				student.result = calculateResults(student.result);
 			}
+			
 			TeamEvalResult teamResult = calculateTeamResult(team);
+			populateTeamResult(team, teamResult);
 			
 		}
 		return returnValue;
@@ -1695,32 +1698,42 @@ public class APIServlet extends HttpServlet {
 		team.sortByStudentNameAscending();
 		for(int i=0; i<teamSize;i++){
 			StudentData studentData = team.students.get(i);
-			studentData.result.outgoing.add(studentData.result.own);
+			studentData.result.outgoingOriginal.add(studentData.result.own);
 			studentData.result.sortOutgoingByStudentNameAscending();
 			for(int j=0; j<teamSize;j++){
-				SubmissionData submissionData = studentData.result.outgoing.get(j);
+				SubmissionData submissionData = studentData.result.outgoingOriginal.get(j);
 				claimedFromStudents[i][j] = submissionData.points;
 			}
-			studentData.result.outgoing.remove(studentData.result.own);
+			studentData.result.outgoingOriginal.remove(studentData.result.own);
 			
 		}
 		return new TeamEvalResult(claimedFromStudents);
 	}
 	
-	private EvalResultData calculateResults(EvalResultData result) {
+	private void populateTeamResult(TeamData team, TeamEvalResult teamResult) {
 		// FIXME implement this properly
-		result.claimedActual = 100;
-		result.claimedToCoord = 120;
-		result.claimedToStudent = 130;
-		result.perceivedToCoord = 80;
-		result.perceivedToStudent = 70;
-		for(SubmissionData s: result.incoming){
-			s.normalized = 90;
+//		result.claimedActual = 100;
+//		result.claimedToCoord = 120;
+//		result.claimedToStudent = 130;
+//		result.perceivedToCoord = 80;
+//		result.perceivedToStudent = 70;
+//		for(SubmissionData s: result.incoming){
+//			s.normalized = 90;
+//		}
+//		for(SubmissionData s: result.outgoing){
+//			s.normalized = 110;
+//		}
+//		return result;
+		
+		team.sortByStudentNameAscending();
+		int teamSize = team.students.size();
+		for(int i=0; i<teamSize; i++){
+			StudentData s = team.students.get(i);
+			s.result.claimedFromStudent = teamResult.claimedToStudents[i][i];
+			s.result.claimedToCoord = teamResult.claimedToCoord[i][i];
+			s.result.perceivedToStudent = teamResult.perceivedToStudents[i][i];
+			s.result.perceivedToCoord = teamResult.perceivedToCoord[i];
 		}
-		for(SubmissionData s: result.outgoing){
-			s.normalized = 110;
-		}
-		return result;
 	}
 	
 	private void extractSubmissionsAndSetNames(HashMap<String, SubmissionData> list,
@@ -1744,7 +1757,7 @@ public class APIServlet extends HttpServlet {
 				submissionFromPeer.reviewerName = peer.name;
 				
 				//set outgoing submission to peer
-				student.result.outgoing.add(list.get(student.email + "->"
+				student.result.outgoingOriginal.add(list.get(student.email + "->"
 						+ peer.email));
 				
 				//no need to set names in outgoing submission as it will be

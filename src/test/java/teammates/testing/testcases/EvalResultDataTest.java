@@ -15,21 +15,21 @@ public class EvalResultDataTest {
 
 		SubmissionData s1 = new SubmissionData();
 		s1.revieweeName = "Benny";
-		result.outgoing.add(s1);
+		result.outgoingOriginal.add(s1);
 
 		SubmissionData s2 = new SubmissionData();
 		s2.revieweeName = "Alice";
-		result.outgoing.add(s2);
+		result.outgoingOriginal.add(s2);
 
 		SubmissionData s3 = new SubmissionData();
 		s3.revieweeName = "Charlie";
-		result.outgoing.add(s3);
+		result.outgoingOriginal.add(s3);
 
 		result.sortOutgoingByStudentNameAscending();
 
-		assertEquals("Alice", result.outgoing.get(0).revieweeName);
-		assertEquals("Benny", result.outgoing.get(1).revieweeName);
-		assertEquals("Charlie", result.outgoing.get(2).revieweeName);
+		assertEquals("Alice", result.outgoingOriginal.get(0).revieweeName);
+		assertEquals("Benny", result.outgoingOriginal.get(1).revieweeName);
+		assertEquals("Charlie", result.outgoingOriginal.get(2).revieweeName);
 	}
 
 	@Test
