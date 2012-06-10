@@ -65,9 +65,11 @@ public class APIServletTest extends BaseTestCase {
 			+ "queue.xml";
 
 	@BeforeClass
-	public static void classSetUp() {
+	public static void classSetUp() throws Exception{
 		printTestClassHeader();
 		setGeneralLoggingLevel(Level.WARNING);
+		setLogLevelOfClass(APIServlet.class, Level.FINE);
+		setConsoleLoggingLevel(Level.FINE);
 		Datastore.initialize();
 	}
 
@@ -1121,25 +1123,25 @@ public class APIServletTest extends BaseTestCase {
 	
 // Here are the additions neatly ordered
 //		s1.result.own = s1_to_s1;
-//		s1.result.outgoingOriginal.add(s1_to_s1);
-//		s1.result.outgoingOriginal.add(s1_to_s2);
-//		s1.result.outgoingOriginal.add(s1_to_s3);
+//		s1.result.outgoing.add(s1_to_s1);
+//		s1.result.outgoing.add(s1_to_s2);
+//		s1.result.outgoing.add(s1_to_s3);
 //		s1.result.incoming.add(s1_to_s1);
 //		s1.result.incoming.add(s2_to_s1);
 //		s1.result.incoming.add(s3_to_s1);
 //		
 //		s2.result.own = s2_to_s2;
-//		s2.result.outgoingOriginal.add(s2_to_s1);
-//		s2.result.outgoingOriginal.add(s2_to_s2);
-//		s2.result.outgoingOriginal.add(s2_to_s3);
+//		s2.result.outgoing.add(s2_to_s1);
+//		s2.result.outgoing.add(s2_to_s2);
+//		s2.result.outgoing.add(s2_to_s3);
 //		s2.result.incoming.add(s1_to_s2);
 //		s2.result.incoming.add(s2_to_s2);
 //		s2.result.incoming.add(s3_to_s2);
 //		
 //		s3.result.own = s3_to_s3;
-//		s3.result.outgoingOriginal.add(s3_to_s1);
-//		s3.result.outgoingOriginal.add(s3_to_s2);
-//		s3.result.outgoingOriginal.add(s3_to_s3);
+//		s3.result.outgoing.add(s3_to_s1);
+//		s3.result.outgoing.add(s3_to_s2);
+//		s3.result.outgoing.add(s3_to_s3);
 //		s3.result.incoming.add(s1_to_s3);
 //		s3.result.incoming.add(s2_to_s3);
 //		s3.result.incoming.add(s3_to_s3);
@@ -1147,27 +1149,30 @@ public class APIServletTest extends BaseTestCase {
 		//These are the same additions as above commented out code, 
 		// except the order is purposely messed up to ensure that the 
 		// method works even when submissions are added in random order
-		s1.result.own = s1_to_s1;
-		s1.result.outgoing.add(s1_to_s2);
-		s1.result.incoming.add(s2_to_s1);
-		s2.result.own = s2_to_s2;
-		s1.result.incoming.add(s3_to_s1);
-		s3.result.outgoing.add(s3_to_s3);
-		s2.result.outgoing.add(s2_to_s1);
-		s1.result.outgoing.add(s1_to_s3);
-		s2.result.incoming.add(s3_to_s2);
-		s2.result.outgoing.add(s2_to_s3);
-		s3.result.outgoing.add(s3_to_s1);
-		s2.result.incoming.add(s2_to_s2);
-		s3.result.incoming.add(s1_to_s3);
-		s3.result.own = s3_to_s3;
-		s1.result.outgoing.add(s1_to_s1);
-		s3.result.incoming.add(s2_to_s3);
-		s3.result.outgoing.add(s3_to_s2);
-		s2.result.incoming.add(s1_to_s2);
-		s1.result.incoming.add(s1_to_s1);
-		s2.result.outgoing.add(s2_to_s2);
-		s3.result.incoming.add(s3_to_s3);
+		
+		
+		
+		s1.result.own = s1_to_s1.getCopy();
+		s1.result.outgoing.add(s1_to_s2.getCopy());
+		s1.result.incoming.add(s2_to_s1.getCopy());
+		s2.result.own = s2_to_s2.getCopy();
+		s1.result.incoming.add(s3_to_s1.getCopy());
+		s3.result.outgoing.add(s3_to_s3.getCopy());
+		s2.result.outgoing.add(s2_to_s1.getCopy());
+		s1.result.outgoing.add(s1_to_s3.getCopy());
+		s2.result.incoming.add(s3_to_s2.getCopy());
+		s2.result.outgoing.add(s2_to_s3.getCopy());
+		s3.result.outgoing.add(s3_to_s1.getCopy());
+		s2.result.incoming.add(s2_to_s2.getCopy());
+		s3.result.incoming.add(s1_to_s3.getCopy());
+		s3.result.own = s3_to_s3.getCopy();
+		s1.result.outgoing.add(s1_to_s1.getCopy());
+		s3.result.incoming.add(s2_to_s3.getCopy());
+		s3.result.outgoing.add(s3_to_s2.getCopy());
+		s2.result.incoming.add(s1_to_s2.getCopy());
+		s1.result.incoming.add(s1_to_s1.getCopy());
+		s2.result.outgoing.add(s2_to_s2.getCopy());
+		s3.result.incoming.add(s3_to_s3.getCopy());
 		
 		team.students.add(s2);
 		team.students.add(s1);
@@ -1198,27 +1203,54 @@ public class APIServletTest extends BaseTestCase {
 		int S2_POS = 1;
 		int S3_POS = 2;
 		
+		//verify incoming and outgoing do not refer to same copy of submissions
+		s1.result.sortIncomingByStudentNameAscending();
+		s1.result.sortOutgoingByStudentNameAscending();
+		s1.result.incoming.get(S1_POS).normalized = 0;
+		s1.result.outgoing.get(S1_POS).normalized = 1;
+		s1.result.incoming.get(S1_POS).normalized = 0;
+		assertEquals(0,s1.result.incoming.get(S1_POS).normalized);
+		assertEquals(1,s1.result.outgoing.get(S1_POS).normalized);
+		
 		invokePopulateTeamResult(team, teamResult);
-		team.sortByStudentNameAscending();
+	
 		s1 = team.students.get(S1_POS);
 		assertEquals(110, s1.result.claimedFromStudent);
 		assertEquals(92, s1.result.claimedToCoord);
 		assertEquals(116, s1.result.perceivedToStudent);
 		assertEquals(97, s1.result.perceivedToCoord);
-		assertEquals(116, s1.result.incoming.get(S1_POS).points);
+		assertEquals(92, s1.result.outgoing.get(S1_POS).normalized);
+		assertEquals(100, s1.result.outgoing.get(S2_POS).normalized);
+		assertEquals(108, s1.result.outgoing.get(S3_POS).normalized);
+		assertEquals(s1.name, s1.result.incoming.get(S1_POS).revieweeName);
+		assertEquals(s1.name, s1.result.incoming.get(S1_POS).reviewerName);
+		assertEquals(116, s1.result.incoming.get(S1_POS).normalized);
+		assertEquals(118, s1.result.incoming.get(S2_POS).normalized);
+		assertEquals(126, s1.result.incoming.get(S3_POS).normalized);
 
 		s2 = team.students.get(S2_POS);
 		assertEquals(220, s2.result.claimedFromStudent);
 		assertEquals(100, s2.result.claimedToCoord);
 		assertEquals(217, s2.result.perceivedToStudent);
 		assertEquals(99, s2.result.perceivedToCoord);
+		assertEquals(95, s2.result.outgoing.get(S1_POS).normalized);
+		assertEquals(100, s2.result.outgoing.get(S2_POS).normalized);
+		assertEquals(105, s2.result.outgoing.get(S3_POS).normalized);
+		assertEquals(213, s2.result.incoming.get(S1_POS).normalized);
+		assertEquals(217, s2.result.incoming.get(S2_POS).normalized);
+		assertEquals(230, s2.result.incoming.get(S3_POS).normalized);
 		
 		s3 = team.students.get(S3_POS);
 		assertEquals(330, s3.result.claimedFromStudent);
 		assertEquals(103, s3.result.claimedToCoord);
 		assertEquals(335, s3.result.perceivedToStudent);
 		assertEquals(105, s3.result.perceivedToCoord);
-		
+		assertEquals(97, s3.result.outgoing.get(S1_POS).normalized);
+		assertEquals(100, s3.result.outgoing.get(S2_POS).normalized);
+		assertEquals(103, s3.result.outgoing.get(S3_POS).normalized);
+		assertEquals(309, s3.result.incoming.get(S1_POS).normalized);
+		assertEquals(316, s3.result.incoming.get(S2_POS).normalized);
+		assertEquals(335, s3.result.incoming.get(S3_POS).normalized);
 		
 	}
 

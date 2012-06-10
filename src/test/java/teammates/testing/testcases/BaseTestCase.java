@@ -36,7 +36,7 @@ public class BaseTestCase {
 		System.out.println(testClassName+" completed");
 	}
 
-	protected static void setLogLevelOfClass(Class<TeamEvalResult> testedClass, Level level)
+	protected static void setLogLevelOfClass(Class<?> testedClass, Level level)
 			throws NoSuchFieldException, IllegalAccessException {
 				Field logField = testedClass.getDeclaredField("log");
 				logField.setAccessible(true);

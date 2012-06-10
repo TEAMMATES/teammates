@@ -24,6 +24,15 @@ public class EvalResultData {
 	public int perceivedToStudent = Common.UNINITIALIZED_INT;
 
 	private static final Logger log = Common.getLogger();
+	
+	public SubmissionData getSelfEvaluation(){
+		for(SubmissionData s: outgoing){
+			if(s.reviewee.equals(s.reviewer)){
+				return s;
+			}
+		}
+		return null;
+	}
 
 	public void sortOutgoingByStudentNameAscending() {
 		Collections.sort(outgoing, new Comparator<SubmissionData>() {
@@ -36,16 +45,6 @@ public class EvalResultData {
 		});
 	}
 
-	private void sortOutgoingSubmissionsByName(ArrayList<SubmissionData> submissions) {
-		Collections.sort(submissions, new Comparator<SubmissionData>() {
-			public int compare(SubmissionData s1, SubmissionData s2) {
-				//email is prefixed to avoid mix ups due to two students with
-				//same name.
-				return (s1.revieweeName+s1.reviewee)
-						.compareTo(s2.revieweeName+s2.reviewee);
-			}
-		});
-	}
 
 	public void sortIncomingByStudentNameAscending() {
 		Collections.sort(incoming, new Comparator<SubmissionData>() {

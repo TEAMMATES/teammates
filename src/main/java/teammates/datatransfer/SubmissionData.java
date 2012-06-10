@@ -69,8 +69,8 @@ public class SubmissionData {
 		copy.reviewee = this.reviewee;
 		copy.revieweeName = this.revieweeName;
 		copy.points = this.points;
-		copy.justification = new Text(this.justification.getValue());
-		copy.p2pFeedback = new Text(this.p2pFeedback.getValue());
+		copy.justification = new Text(justification==null?null:justification.getValue());
+		copy.p2pFeedback = new Text(p2pFeedback==null?null:p2pFeedback.getValue());
 		copy.normalized = this.normalized;
 		return copy;
 	}

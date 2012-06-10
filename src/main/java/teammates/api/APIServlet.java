@@ -1711,30 +1711,26 @@ public class APIServlet extends HttpServlet {
 	}
 	
 	private void populateTeamResult(TeamData team, TeamEvalResult teamResult) {
-		// FIXME implement this properly
-//		result.claimedActual = 100;
-//		result.claimedToCoord = 120;
-//		result.claimedToStudent = 130;
-//		result.perceivedToCoord = 80;
-//		result.perceivedToStudent = 70;
-//		for(SubmissionData s: result.incoming){
-//			s.normalized = 90;
-//		}
-//		for(SubmissionData s: result.outgoing){
-//			s.normalized = 110;
-//		}
-//		return result;
-		
 		team.sortByStudentNameAscending();
 		int teamSize = team.students.size();
 		for(int i=0; i<teamSize; i++){
 			StudentData s = team.students.get(i);
+			s.result.sortIncomingByStudentNameAscending();
+			s.result.sortOutgoingByStudentNameAscending();
 			s.result.claimedFromStudent = teamResult.claimedToStudents[i][i];
 			s.result.claimedToCoord = teamResult.claimedToCoord[i][i];
 			s.result.perceivedToStudent = teamResult.perceivedToStudents[i][i];
 			s.result.perceivedToCoord = teamResult.perceivedToCoord[i];
 			for (int j = 0; j < teamSize; j++) {
-				s.result.incoming.get(j).points = teamResult.perceivedToStudents[i][j];
+				SubmissionData incomingSub = s.result.incoming.get(j);
+				int normalizedIncoming = teamResult.perceivedToStudents[i][j];
+				incomingSub.normalized = normalizedIncoming;
+				log.fine("Setting normalized incoming of "+s.name+" from "+incomingSub.reviewerName+ " to "+normalizedIncoming);
+				
+				SubmissionData outgoingSub = s.result.outgoing.get(j);
+				int normalizedOutgoing = teamResult.claimedToCoord[i][j];
+				outgoingSub.normalized = normalizedOutgoing;
+				log.fine("Setting normalized outgoing of "+s.name+" to "+outgoingSub.revieweeName+ " to "+normalizedOutgoing);
 			}
 		}
 	}
