@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
 import teammates.api.EnrollException;
+import teammates.api.EntityDoesNotExistException;
+import teammates.api.TeammatesException;
 import teammates.datatransfer.StudentData;
 import teammates.jsp.CoordCourseEnrollHelper;
 import teammates.jsp.Helper;
@@ -22,6 +25,7 @@ import teammates.jsp.Helper;
  *
  */
 public class CoordCourseEnrollServlet extends ActionServlet {
+	Logger log = Common.getLogger();
 	
 	protected void doPostAction(HttpServletRequest req, HttpServletResponse resp, Helper help)
 			throws IOException, ServletException {
@@ -80,6 +84,10 @@ public class CoordCourseEnrollServlet extends ActionServlet {
 		} catch (EnrollException e) {
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
+		} catch (EntityDoesNotExistException e) {
+			helper.statusMessage = e.getMessage();
+			helper.error = true;
+			log.severe("Unexpected exception: "+TeammatesException.stackTraceToString(e));
 		}
 		
 		if(helper.nextUrl==null) helper.nextUrl = "/coordCourseEnroll.jsp";

@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import teammates.Config;
 import teammates.Datastore;
 import teammates.TeamEvalResult;
@@ -1073,6 +1072,12 @@ public class APIServlet extends HttpServlet {
 			return null;
 		HashMap<String, CourseSummaryForCoordinator> courseSummaryListForCoord = Courses
 				.inst().getCourseSummaryListForCoord(coordId);
+		if (courseSummaryListForCoord.size() == 0) {
+			if (getCoord(coordId) == null) {
+				throw new EntityDoesNotExistException(
+						"Coordinator does not exist :" + coordId);
+			}
+		}
 		HashMap<String, CourseData> returnList = new HashMap<String, CourseData>();
 		for (CourseSummaryForCoordinator csfc : courseSummaryListForCoord
 				.values()) {
@@ -1104,15 +1109,19 @@ public class APIServlet extends HttpServlet {
 		return courseList;
 	}
 
-	public ArrayList<EvaluationData> getEvaluationsListForCoord(String coordId) {
+	public ArrayList<EvaluationData> getEvaluationsListForCoord(String coordId)
+			throws EntityDoesNotExistException {
 
 		if (coordId == null) {
 			return null;
 		}
 
-		// TODO: throw exception if coord not found
 		List<Course> courseList = Courses.inst().getCoordinatorCourseList(
 				coordId);
+		if ((courseList.size() == 0) && (getCoord(coordId) == null)) {
+			throw new EntityDoesNotExistException(
+					"Coordinator does not exist :" + coordId);
+		}
 		ArrayList<EvaluationData> evaluationDetailsList = new ArrayList<EvaluationData>();
 
 		for (Course c : courseList) {
@@ -1138,13 +1147,17 @@ public class APIServlet extends HttpServlet {
 		return evaluationDetailsList;
 	}
 
-	public List<TfsData> getTfsListForCoord(String coordId) {
-		// TODO: throw exception if coord not found
+	public List<TfsData> getTfsListForCoord(String coordId)
+			throws EntityDoesNotExistException {
 		if (coordId == null) {
 			return null;
 		}
 		List<Course> courseList = Courses.inst().getCoordinatorCourseList(
 				coordId);
+		if ((courseList.size() == 0) && (getCoord(coordId) == null)) {
+			throw new EntityDoesNotExistException(
+					"Coordinator does not exist :" + coordId);
+		}
 		List<TeamFormingSession> teamFormingSessionList = TeamForming.inst()
 				.getTeamFormingSessionList(courseList);
 		ArrayList<TfsData> returnList = new ArrayList<TfsData>();
@@ -1187,11 +1200,17 @@ public class APIServlet extends HttpServlet {
 		Courses.inst().deleteCourse(courseId);
 	}
 
-	public List<StudentData> getStudentListForCourse(String courseId) {
+	public List<StudentData> getStudentListForCourse(String courseId) 
+			throws EntityDoesNotExistException{
 		if (courseId == null) {
 			return null;
 		}
 		List<Student> studentList = Courses.inst().getStudentList(courseId);
+		
+		if((studentList.size()==0)&&(getCourse(courseId)==null)){
+			throw new EntityDoesNotExistException("Course does not exist :"+courseId);
+		}
+		
 		List<StudentData> returnList = new ArrayList<StudentData>();
 		for (Student s : studentList) {
 			returnList.add(new StudentData(s));
@@ -1219,11 +1238,14 @@ public class APIServlet extends HttpServlet {
 	}
 
 	public List<StudentData> enrollStudents(String enrollLines, String courseId)
-			throws EnrollException {
+			throws EnrollException, EntityDoesNotExistException {
 		if (enrollLines == null || courseId == null) {
 			throw new EnrollException(Common.ERRORCODE_NULL_PARAMETER,
 					(enrollLines == null ? "Enroll text" : "Course ID")
 							+ " cannot be null");
+		}
+		if(getCourse(courseId)==null){
+			throw new EntityDoesNotExistException("Course does not exist :"+courseId);
 		}
 		ArrayList<StudentData> returnList = new ArrayList<StudentData>();
 		String[] linesArray = enrollLines.split(Common.EOL);

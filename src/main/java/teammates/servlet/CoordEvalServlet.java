@@ -1,6 +1,7 @@
 package teammates.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,6 +16,7 @@ import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
+import teammates.api.TeammatesException;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.EvaluationData;
 import teammates.jsp.CoordEvalHelper;
@@ -121,7 +123,13 @@ public class CoordEvalServlet extends ActionServlet {
 				return obj1.id.compareTo(obj2.id);
 			}
 		});
-		helper.evaluations = helper.server.getEvaluationsListForCoord(helper.coordID);
+		try {
+			helper.evaluations = helper.server.getEvaluationsListForCoord(helper.coordID);
+		} catch (EntityDoesNotExistException e) {
+			//TODO: do better error handling here?
+			helper.evaluations = new ArrayList<EvaluationData>();
+			log.severe("Unexpected exception :"+TeammatesException.stackTraceToString(e));
+		}
 		Collections.sort(helper.evaluations, new Comparator<EvaluationData>(){
 			public int compare(EvaluationData obj1, EvaluationData obj2){
 				int result = obj1.course.compareTo(obj2.course);

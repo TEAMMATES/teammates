@@ -33,6 +33,7 @@ import teammates.api.EnrollException;
 import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
+import teammates.api.TeammatesException;
 import teammates.datatransfer.*;
 import teammates.datatransfer.StudentData.UpdateStatus;
 
@@ -335,8 +336,13 @@ public class APIServletTest extends BaseTestCase {
 
 		// check for null parameter
 		assertEquals(null, apiServlet.getCourseListForCoord(null));
-
-		// TODO: check for exception when coord does not exist
+		
+		try {
+			apiServlet.getCourseListForCoord("non-existent");
+			fail();
+		} catch (EntityDoesNotExistException e) {
+			Common.assertContains("non-existent", e.getMessage());
+		}
 	}
 
 	@Test
@@ -385,15 +391,15 @@ public class APIServletTest extends BaseTestCase {
 				.getCourseDetailsListForCoord("coordWith0course");
 		assertEquals(0, courseListForCoord.size());
 
-		// non existent coord
-		courseListForCoord = apiServlet
-				.getCourseDetailsListForCoord("nonexistentcoord");
-		assertEquals(0, courseListForCoord.size());
-
 		// null parameters
 		assertEquals(null, apiServlet.getCourseDetailsListForCoord(null));
 
-		// TODO: change to above to expect exception when coord does not exist
+		try {
+			apiServlet.getCourseDetailsListForCoord("non-existent");
+			fail();
+		} catch (EntityDoesNotExistException e) {
+			Common.assertContains("non-existent", e.getMessage());
+		}
 
 	}
 
@@ -424,14 +430,16 @@ public class APIServletTest extends BaseTestCase {
 		evalList = apiServlet.getEvaluationsListForCoord(coord3.id);
 		assertEquals(0, evalList.size());
 
-		// non-existent coord
-		evalList = apiServlet.getEvaluationsListForCoord("nonExistentCoord");
-		assertEquals(0, evalList.size());
-
+		
 		// null parameter
 		assertEquals(null, apiServlet.getEvaluationsListForCoord(null));
-
-		// TODO: change to above to expect exception when coord does not exist
+		
+		try {
+			apiServlet.getEvaluationsListForCoord("non-existent");
+			fail();
+		} catch (EntityDoesNotExistException e) {
+			Common.assertContains("non-existent", e.getMessage());
+		}
 	}
 
 	@Test
@@ -442,12 +450,17 @@ public class APIServletTest extends BaseTestCase {
 		// coord with 2 Tfs
 		verifyTfsListForCoord(dataBundle.coords.get("typicalCoord2").id, 2);
 		// coord with 0 Tfs
-		verifyTfsListForCoord("typicalCoord3", 0);
+		verifyTfsListForCoord(dataBundle.coords.get("typicalCoord3").id, 0);
 
 		// null parameters
 		assertEquals(null, apiServlet.getTfsListForCoord(null));
-
-		// FIXME: check for non-existent coord
+		
+		try {
+			apiServlet.getTfsListForCoord("non-existent");
+			fail();
+		} catch (EntityDoesNotExistException e) {
+			Common.assertContains("non-existent", e.getMessage());
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -537,13 +550,16 @@ public class APIServletTest extends BaseTestCase {
 				.get("evaluation1InCourse1OfCoord1"));
 		verifyPresentInDatastore(dataBundle.teamFormingSessions
 				.get("tfsInCourse1"));
-
+		
+		StudentData studentInCourse = dataBundle.students.get("student1InCourse1");
+		assertEquals(course1OfCoord.id, studentInCourse.course);
+		verifyPresentInDatastore(studentInCourse);
+		
 		apiServlet.deleteCourse(course1OfCoord.id);
 
 		// ensure the course and related entities are deleted
 		verifyAbsentInDatastore(course1OfCoord);
-		assertEquals(0, apiServlet.getStudentListForCourse(course1OfCoord.id)
-				.size());
+		verifyAbsentInDatastore(studentInCourse);
 		verifyAbsentInDatastore(dataBundle.students.get("student1InCourse1"));
 		verifyAbsentInDatastore(dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1"));
@@ -577,6 +593,13 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(0, studentList.size());
 
 		assertEquals(null, apiServlet.getStudentListForCourse(null));
+		
+		try {
+			apiServlet.getStudentListForCourse("non-existent");
+			fail();
+		} catch (EntityDoesNotExistException e) {
+			Common.assertContains("non-existent", e.getMessage());
+		}
 
 		// TODO: test for non-existent course
 	}
@@ -1599,7 +1622,7 @@ public class APIServletTest extends BaseTestCase {
 		// TODO: check for changes in team profile
 	}
 
-	private void verifyTfsListForCoord(String coordId, int noOfTfs) {
+	private void verifyTfsListForCoord(String coordId, int noOfTfs) throws EntityDoesNotExistException {
 		List<TfsData> tfsList = apiServlet
 				.getTfsListForCoord(coordId);
 		assertEquals(noOfTfs, tfsList.size());

@@ -503,7 +503,6 @@ public class Courses {
 
 		@SuppressWarnings("unchecked")
 		List<Course> courseList = (List<Course>) getPM().newQuery(query).execute();
-
 		return courseList;
 	}
 	
