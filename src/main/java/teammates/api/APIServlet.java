@@ -1761,12 +1761,6 @@ public class APIServlet extends HttpServlet {
 			//add outgoing submission
 			student.result.outgoing.add(submissionToPeer);
 			
-			//if peer is self
-			//this will be done twice per student, but that's ok
-			if (peer.email.equals(student.email)) {
-				student.result.own = submissionToPeer.getCopy();
-			}
-			
 		}
 	}
 

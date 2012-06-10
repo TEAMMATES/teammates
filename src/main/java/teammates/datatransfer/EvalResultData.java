@@ -14,7 +14,6 @@ public class EvalResultData {
 
 
 
-	public SubmissionData own;
 	public ArrayList<SubmissionData> incoming = new ArrayList<SubmissionData>();
 	public ArrayList<SubmissionData> outgoing = new ArrayList<SubmissionData>();
 
@@ -25,6 +24,7 @@ public class EvalResultData {
 
 	private static final Logger log = Common.getLogger();
 	
+	/** returns the self-evaluation selected from outgoing submissions*/
 	public SubmissionData getSelfEvaluation(){
 		for(SubmissionData s: outgoing){
 			if(s.reviewee.equals(s.reviewer)){

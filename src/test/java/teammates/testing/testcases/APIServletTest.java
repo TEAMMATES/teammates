@@ -1073,9 +1073,9 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals("student2InCourse1", student2InCourse1.id);
 		StudentData student1InCourse1 = team1_1.students.get(0);
 		assertEquals("student1InCourse1", student1InCourse1.id);
-		assertTrue(student1InCourse1.result.own != null);
-		assertEquals(student1InCourse1.name, student1InCourse1.result.own.revieweeName);
-		assertEquals(student1InCourse1.name, student1InCourse1.result.own.reviewerName);
+		assertTrue(student1InCourse1.result.getSelfEvaluation() != null);
+		assertEquals(student1InCourse1.name, student1InCourse1.result.getSelfEvaluation().revieweeName);
+		assertEquals(student1InCourse1.name, student1InCourse1.result.getSelfEvaluation().reviewerName);
 		
 		assertEquals(2, student1InCourse1.result.incoming.size());
 		assertEquals(2, student1InCourse1.result.outgoing.size());
@@ -1121,41 +1121,11 @@ public class APIServletTest extends BaseTestCase {
 		SubmissionData s3_to_s2 = createSubmission(3,2);
 		SubmissionData s3_to_s3 = createSubmission(3,3);
 	
-// Here are the additions neatly ordered
-//		s1.result.own = s1_to_s1;
-//		s1.result.outgoing.add(s1_to_s1);
-//		s1.result.outgoing.add(s1_to_s2);
-//		s1.result.outgoing.add(s1_to_s3);
-//		s1.result.incoming.add(s1_to_s1);
-//		s1.result.incoming.add(s2_to_s1);
-//		s1.result.incoming.add(s3_to_s1);
-//		
-//		s2.result.own = s2_to_s2;
-//		s2.result.outgoing.add(s2_to_s1);
-//		s2.result.outgoing.add(s2_to_s2);
-//		s2.result.outgoing.add(s2_to_s3);
-//		s2.result.incoming.add(s1_to_s2);
-//		s2.result.incoming.add(s2_to_s2);
-//		s2.result.incoming.add(s3_to_s2);
-//		
-//		s3.result.own = s3_to_s3;
-//		s3.result.outgoing.add(s3_to_s1);
-//		s3.result.outgoing.add(s3_to_s2);
-//		s3.result.outgoing.add(s3_to_s3);
-//		s3.result.incoming.add(s1_to_s3);
-//		s3.result.incoming.add(s2_to_s3);
-//		s3.result.incoming.add(s3_to_s3);
-	
-		//These are the same additions as above commented out code, 
-		// except the order is purposely messed up to ensure that the 
+		//These additions are randomly ordered to ensure that the 
 		// method works even when submissions are added in random order
 		
-		
-		
-		s1.result.own = s1_to_s1.getCopy();
 		s1.result.outgoing.add(s1_to_s2.getCopy());
 		s1.result.incoming.add(s2_to_s1.getCopy());
-		s2.result.own = s2_to_s2.getCopy();
 		s1.result.incoming.add(s3_to_s1.getCopy());
 		s3.result.outgoing.add(s3_to_s3.getCopy());
 		s2.result.outgoing.add(s2_to_s1.getCopy());
@@ -1165,7 +1135,6 @@ public class APIServletTest extends BaseTestCase {
 		s3.result.outgoing.add(s3_to_s1.getCopy());
 		s2.result.incoming.add(s2_to_s2.getCopy());
 		s3.result.incoming.add(s1_to_s3.getCopy());
-		s3.result.own = s3_to_s3.getCopy();
 		s1.result.outgoing.add(s1_to_s1.getCopy());
 		s3.result.incoming.add(s2_to_s3.getCopy());
 		s3.result.outgoing.add(s3_to_s2.getCopy());
@@ -1208,7 +1177,6 @@ public class APIServletTest extends BaseTestCase {
 		s1.result.sortOutgoingByStudentNameAscending();
 		s1.result.incoming.get(S1_POS).normalized = 0;
 		s1.result.outgoing.get(S1_POS).normalized = 1;
-		s1.result.incoming.get(S1_POS).normalized = 0;
 		assertEquals(0,s1.result.incoming.get(S1_POS).normalized);
 		assertEquals(1,s1.result.outgoing.get(S1_POS).normalized);
 		
