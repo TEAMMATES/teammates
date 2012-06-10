@@ -18,6 +18,9 @@ import javax.servlet.ServletException;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.fail;
+import static teammates.TeamEvalResult.NSB;
+import static teammates.TeamEvalResult.NSU;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -563,7 +566,7 @@ public class APIServletTest extends BaseTestCase {
 		CourseData course1OfCoord1 = dataBundle.courses.get("course1OfCoord1");
 		List<StudentData> studentList = apiServlet
 				.getStudentListForCourse(course1OfCoord1.id);
-		assertEquals(3, studentList.size());
+		assertEquals(5, studentList.size());
 		for (StudentData s : studentList) {
 			assertEquals(course1OfCoord1.id, s.course);
 		}
@@ -717,7 +720,7 @@ public class APIServletTest extends BaseTestCase {
 		String team1Id = "Team 1.1";
 		assertEquals(team1Id, courseAsTeams.teams.get(0).name);
 		assertEquals(team1Id, courseAsTeams.teams.get(0).profile.team);
-		assertEquals(2, courseAsTeams.teams.get(0).students.size());
+		assertEquals(4, courseAsTeams.teams.get(0).students.size());
 		assertEquals(team1Id, courseAsTeams.teams.get(0).students.get(0).team);
 		assertEquals(team1Id, courseAsTeams.teams.get(0).students.get(1).team);
 		
@@ -734,7 +737,7 @@ public class APIServletTest extends BaseTestCase {
 		//try again without the loners
 		refreshDataInDatastore();
 		courseAsTeams = apiServlet.getTeamsForCourse(course.id);
-		assertEquals(2, courseAsTeams.teams.get(0).students.size());
+		assertEquals(4, courseAsTeams.teams.get(0).students.size());
 		assertEquals(0, courseAsTeams.loners.size());
 		
 		assertEquals(null, apiServlet.getTeamsForCourse(null));
@@ -1062,39 +1065,117 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader();
 		refreshDataInDatastore();
 		
+		setPointsForSubmissions(new int[][]{
+				{ 100, 100, 100, 100 }, 
+				{ 110, 110, NSU, 110 },
+				{ NSB, NSB, NSB, NSB },
+				{  70,  80, 110, 120 }});
+		
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
 		EvaluationData evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
 		EvaluationData result = apiServlet.getEvaluationResult(course.id, evaluation.name);
 		
+		//no need to sort, the result should be sorted by default
+		
+		//number of teams and team sizes
 		assertEquals(2, result.teams.size());
 		TeamData team1_1 = result.teams.get(0);
-		assertEquals(2, team1_1.students.size());
-		StudentData student2InCourse1 = team1_1.students.get(1);
-		assertEquals("student2InCourse1", student2InCourse1.id);
-		StudentData student1InCourse1 = team1_1.students.get(0);
-		assertEquals("student1InCourse1", student1InCourse1.id);
-		assertTrue(student1InCourse1.result.getSelfEvaluation() != null);
-		assertEquals(student1InCourse1.name, student1InCourse1.result.getSelfEvaluation().revieweeName);
-		assertEquals(student1InCourse1.name, student1InCourse1.result.getSelfEvaluation().reviewerName);
+		assertEquals(4, team1_1.students.size());
+		assertEquals(1, result.teams.get(1).students.size());
 		
-		assertEquals(2, student1InCourse1.result.incoming.size());
-		assertEquals(2, student1InCourse1.result.outgoing.size());
-//		assertTrue(student1InCourse1.result.claimedActual != Common.UNINITIALIZED_INT);
-//		assertTrue(student1InCourse1.result.claimedToCoord != Common.UNINITIALIZED_INT);
-//		assertTrue(student1InCourse1.result.claimedToStudent != Common.UNINITIALIZED_INT);
-//		assertTrue(student1InCourse1.result.perceivedToCoord != Common.UNINITIALIZED_INT);
-//		assertTrue(student1InCourse1.result.perceivedToStudent != Common.UNINITIALIZED_INT);
-//		
-//		assertTrue(student1InCourse1.result.incoming.get(0).normalized != Common.UNINITIALIZED_INT);
-//		assertEquals(student1InCourse1.name, student1InCourse1.result.incoming.get(0).revieweeName);
-//		assertEquals(student2InCourse1.name, student1InCourse1.result.incoming.get(0).reviewerName);
-//		
-//		assertTrue(student1InCourse1.result.outgoing.get(0).normalized != Common.UNINITIALIZED_INT);
-//		assertEquals(student2InCourse1.name, student1InCourse1.result.outgoing.get(0).revieweeName);
-//		assertEquals(student1InCourse1.name, student1InCourse1.result.outgoing.get(0).reviewerName);
+		int S1_POS = 0;
+		int S2_POS = 1;
+		int S3_POS = 2;
+		int S4_POS = 3;
+		
+		StudentData s1 = team1_1.students.get(S1_POS);
+		StudentData s2 = team1_1.students.get(S2_POS);
+		StudentData s3 = team1_1.students.get(S3_POS);
+		StudentData s4 = team1_1.students.get(S4_POS);
+		
+		assertEquals("student2InCourse1", s2.id);
+		assertEquals("student1InCourse1", s1.id);
+		
+		assertTrue(s1.result.getSelfEvaluation() != null);
+		assertEquals(s1.name, s1.result.getSelfEvaluation().revieweeName);
+		assertEquals(s1.name, s1.result.getSelfEvaluation().reviewerName);
+		
+		assertEquals(4, s1.result.incoming.size());
+		assertEquals(4, s1.result.outgoing.size());
+		
+		assertEquals(100, s1.result.claimedFromStudent);
+		assertEquals(100, s1.result.claimedToCoord);
+		assertEquals(91, s1.result.perceivedToStudent);
+		assertEquals(91, s1.result.perceivedToCoord);
+		
+		SubmissionData s1_s1 = s1.result.outgoing.get(S1_POS);
+		assertEquals(100, s1_s1.normalized);
+		String expected = "justification of student1InCourse1 rating to student1InCourse1";
+		assertEquals(expected, s1_s1.justification.getValue());
+		expected = "student1InCourse1 view of team dynamics";
+		assertEquals(expected, s1_s1.p2pFeedback.getValue());
+		
+		SubmissionData s1_s2 = s1.result.outgoing.get(S2_POS);
+		assertEquals(100, s1_s2.normalized);
+		expected = "justification of student1InCourse1 rating to student2InCourse1";
+		assertEquals(expected, s1_s2.justification.getValue());
+		expected = "comments from student1InCourse1 to student2InCourse1";
+		assertEquals(expected, s1_s2.p2pFeedback.getValue());
+		
+		assertEquals(100, s1.result.outgoing.get(S3_POS).normalized);
+		assertEquals(100, s1.result.outgoing.get(S4_POS).normalized);
+		assertEquals( 91, s1.result.incoming.get(S1_POS).normalized);
+		
+		SubmissionData s2_s1 = s1.result.incoming.get(S2_POS);
+		assertEquals( 96, s2_s1.normalized);
+		expected = "justification of student2InCourse1 rating to student1InCourse1";
+		assertEquals(expected, s2_s1.justification.getValue());
+		expected = "comments from student2InCourse1 to student1InCourse1";
+		assertEquals(expected, s2_s1.p2pFeedback.getValue());
+		
+		SubmissionData s3_s1 = s1.result.incoming.get(S3_POS);
+		assertEquals(114, s3_s1.normalized);
+		assertEquals("", s3_s1.justification.getValue());
+		assertEquals("", s3_s1.p2pFeedback.getValue());
+		
+		assertEquals(100, s1.result.incoming.get(S4_POS).normalized);
+
+		//verifying some of the values (no point checking all)
+		assertEquals(NSU, s2.result.outgoing.get(S3_POS).normalized);
+		assertEquals(100, s2.result.outgoing.get(S4_POS).normalized);
+		assertEquals(NSB, s3.result.outgoing.get(S2_POS).normalized);
+		assertEquals(84, s4.result.outgoing.get(S2_POS).normalized);
+		
+		//some values from incoming 
+		assertEquals(115, s2.result.incoming.get(S4_POS).normalized);
+		assertEquals(114, s3.result.incoming.get(S3_POS).normalized);
+		assertEquals(108, s4.result.incoming.get(S3_POS).normalized);
+		
+		//some values for perceivedToCoord 
+		assertEquals(96, s2.result.perceivedToCoord);
+		assertEquals(114, s3.result.perceivedToCoord);
+		assertEquals(100, s4.result.perceivedToCoord);
+		
 		// TODO: more testing
 	}
 	
+	private void setPointsForSubmissions(int[][] points) {
+		int teamSize = points.length;
+		ArrayList<SubmissionData> submissions = new ArrayList<SubmissionData>();
+		for (int i = 0; i < teamSize; i++) {
+			for (int j = 0; j < teamSize; j++) {
+				SubmissionData s = apiServlet.getSubmission(
+						"idOfCourse1OfCoord1",
+						"evaluation1 In Course1", 
+						"student"+(i+1)+"InCourse1@gmail.com", 
+						"student"+(j+1)+"InCourse1@gmail.com");
+				s.points = points[i][j];
+				submissions.add(s);
+			}
+		}
+		apiServlet.editSubmissions(submissions);
+	}
+
 	@Test
 	public void testCalculateTeamResult() throws Exception{
 		printTestCaseHeader();
@@ -1265,7 +1346,7 @@ public class APIServletTest extends BaseTestCase {
 		ArrayList<SubmissionData> submissionContainer = new ArrayList<SubmissionData>();
 
 		// try without empty list. Nothing should happen
-		apiServlet.editSubmission(submissionContainer);
+		apiServlet.editSubmissions(submissionContainer);
 
 		SubmissionData sub1 = dataBundle.submissions
 				.get("submissionFromS1C1ToS2C1");
@@ -1277,7 +1358,7 @@ public class APIServletTest extends BaseTestCase {
 		alterSubmission(sub1);
 
 		submissionContainer.add(sub1);
-		apiServlet.editSubmission(submissionContainer);
+		apiServlet.editSubmissions(submissionContainer);
 
 		verifyPresentInDatastore(sub1);
 		verifyPresentInDatastore(sub2);
@@ -1289,7 +1370,7 @@ public class APIServletTest extends BaseTestCase {
 		submissionContainer = new ArrayList<SubmissionData>();
 		submissionContainer.add(sub1);
 		submissionContainer.add(sub2);
-		apiServlet.editSubmission(submissionContainer);
+		apiServlet.editSubmissions(submissionContainer);
 
 		verifyPresentInDatastore(sub1);
 		verifyPresentInDatastore(sub2);

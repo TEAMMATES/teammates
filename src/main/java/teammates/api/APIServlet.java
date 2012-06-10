@@ -864,7 +864,7 @@ public class APIServlet extends HttpServlet {
 				submissionJson, SubmissionData.class);
 		ArrayList<SubmissionData> submissionList = new ArrayList<SubmissionData>();
 		submissionList.add(submission);
-		editSubmission(submissionList);
+		editSubmissions(submissionList);
 	}
 
 	private void editTfsAsJson(String tfsJson)
@@ -1582,7 +1582,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	// TODO: change to editSubmissions
-	public void editSubmission(List<SubmissionData> submissionDataList) {
+	public void editSubmissions(List<SubmissionData> submissionDataList) {
 		ArrayList<Submission> submissions = new ArrayList<Submission>();
 		for (SubmissionData sd : submissionDataList) {
 			submissions.add(sd.toSubmission());

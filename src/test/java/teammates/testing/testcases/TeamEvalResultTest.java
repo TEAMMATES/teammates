@@ -204,6 +204,18 @@ public class TeamEvalResultTest extends BaseTestCase{
 			 {  NA,  NA }};
 		verifyCalculatePoints(input9, expected9);
 		
+		//one-person team
+			int[][] input10 = 
+				{{100}};
+			
+			int[][] expected10 = 
+				{{100},
+				 
+				 {NA},
+				 
+				 {NA}};
+			verifyCalculatePoints(input9, expected9);
+		
 	}
 
 	@Test

@@ -50,9 +50,25 @@
       "email": "student3InCourse1@gmail.com",
       "name": "student3 In Course1",
       "id": "student3InCourse1",
-      "team": "Team 1.2",
+      "team": "Team 1.1",
       "course" : "idOfCourse1OfCoord1",
       "profile" : {"value" : "profiledetail for student3InCourse1" }
+    },
+    "student4InCourse1":{
+      "email": "student4InCourse1@gmail.com",
+      "name": "student4 In Course1",
+      "id": "student4InCourse1",
+      "team": "Team 1.1",
+ 	  "course" : "idOfCourse1OfCoord1",
+      "profile" : {"value" : "profiledetail for student4InCourse1" }
+    },
+    "student5InCourse1":{
+      "email": "student5InCourse1@gmail.com",
+      "name": "student5 In Course1",
+      "id": "student5InCourse1",
+      "team": "Team 1.2",
+      "course" : "idOfCourse1OfCoord1",
+      "profile" : {"value" : "profiledetail for student5InCourse1" }
     },
     "student1InCourse2":{
       "email": "student1InCourse2@gmail.com",
@@ -117,7 +133,7 @@
       "evaluation" : "evaluation1 In Course1",
       "points" : 10,
       "justification" : {"value" : "justification of student1InCourse1 rating to student1InCourse1"},
-      "p2pFeedback" : {"value" :"comments from student1InCourse1 to student1InCourse1"},
+      "p2pFeedback" : {"value" :"student1InCourse1 view of team dynamics"},
       "team" : "Team 1.1"
     },
     "submissionFromS1C1ToS2C1" :{
@@ -138,6 +154,16 @@
       "points" : 20,
       "justification" : {"value" : "justification of student2InCourse1 rating to student1InCourse1"},
       "p2pFeedback" : {"value" :"comments from student2InCourse1 to student1InCourse1"},
+      "team" : "Team 1.1"
+    },
+    "submissionFromS4C1ToS1C1" :{
+      "reviewer" : "student4InCourse1@gmail.com",
+      "reviewee" : "student1InCourse1@gmail.com",
+      "course" : "idOfCourse1OfCoord1",
+      "evaluation" : "evaluation1 In Course1",
+      "points" : 150,
+      "justification" : {"value" : "justification of student4InCourse1 rating to student1InCourse1"},
+      "p2pFeedback" : {"value" :"comments from student4InCourse1 to student1InCourse1"},
       "team" : "Team 1.1"
     },
     "submissionFromS1C2ToS2C2" :{
