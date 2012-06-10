@@ -1574,7 +1574,7 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	private void verifyTeamNameChange(String courseID, String originalTeamName,
-			String newTeamName) {
+			String newTeamName) throws InvalidParametersException, EntityDoesNotExistException {
 		List<StudentData> studentsInClass = apiServlet
 				.getStudentListForCourse(courseID);
 		List<StudentData> studentsInTeam = new ArrayList<StudentData>();
@@ -1703,7 +1703,7 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	private void verifyAbsenceOfTfsLogsForStudent(String courseId,
-			String studentEmail) {
+			String studentEmail) throws EntityDoesNotExistException {
 		List<StudentActionData> teamFormingLogs = apiServlet
 				.getStudentActions(courseId);
 		for (StudentActionData tfl : teamFormingLogs) {
@@ -1715,7 +1715,7 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	private void verifyPresenceOfTfsLogsForStudent(String courseId,
-			String studentEmail) {
+			String studentEmail) throws EntityDoesNotExistException {
 		List<StudentActionData> teamFormingLogs = apiServlet
 				.getStudentActions(courseId);
 		for (StudentActionData tfl : teamFormingLogs) {
@@ -1750,7 +1750,7 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
-	private void verifyPresentInDatastore(StudentActionData expected) {
+	private void verifyPresentInDatastore(StudentActionData expected) throws EntityDoesNotExistException {
 		List<StudentActionData> actualList = apiServlet.getStudentActions(expected
 				.course);
 		assertTrue(isLogEntryInList(expected, actualList));
@@ -1863,8 +1863,10 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	@AfterClass()
-	public static void classTearDown(){
+	public static void classTearDown() throws Exception{
 		printTestClassFooter("CoordCourseAddApiTest");
+		setLogLevelOfClass(APIServlet.class, Level.WARNING);
+		setConsoleLoggingLevel(Level.WARNING);
 	}
 	
 	@After

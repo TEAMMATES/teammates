@@ -3,9 +3,6 @@ package teammates.api;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -18,7 +15,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.openqa.selenium.internal.seleniumemulation.SetNextConfirmationState;
 
 import teammates.Config;
 import teammates.Datastore;
@@ -47,7 +43,6 @@ import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.users.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 
 @SuppressWarnings("serial")
 public class APIServlet extends HttpServlet {
@@ -832,7 +827,8 @@ public class APIServlet extends HttpServlet {
 		return Common.getTeammatesGson().toJson(teamProfile);
 	}
 
-	private String getTeamFormingLogAsJson(String courseId) {
+	private String getTeamFormingLogAsJson(String courseId)
+			throws EntityDoesNotExistException {
 		List<StudentActionData> teamFormingLogList = getStudentActions(courseId);
 		return Common.getTeammatesGson().toJson(teamFormingLogList);
 	}
@@ -897,40 +893,18 @@ public class APIServlet extends HttpServlet {
 		Accounts accounts = Accounts.inst();
 		return accounts.getLogoutPage(redirectUrl);
 	}
-	
-	public static boolean isUserLoggedIn(){
+
+	public static boolean isUserLoggedIn() {
 		Accounts accounts = Accounts.inst();
-		return (accounts.getUser() != null) ;
+		return (accounts.getUser() != null);
 	}
-	
+
 	@Deprecated
-	public String getUserId(){
+	public String getUserId() {
 		Accounts accounts = Accounts.inst();
 		return accounts.getUser().getNickname();
 	}
 
-	
-//	@Deprecated
-//	public UserData getLoggedInUser(){
-//		Accounts accounts = Accounts.inst();
-//		 User user = accounts.getUser();
-//		 if(user==null){
-//			 return null;
-//		 }
-//		 
-//		 //TODO: inefficient
-//		 if(accounts.isAdministrator()){
-//			 return new AdminData(user.getNickname());
-//		 }else if(accounts.isCoordinator()){
-//			 return getCoord(user.getNickname());
-//		 }else if(accounts.getStudentWithID(user.getNickname())!=null){
-//			 return getStudentWithId(user.getNickname());
-//		 }else{
-//			 return new UserData(user.getNickname());
-//		 }
-//		 
-//	}
-	
 	public UserData getLoggedInUser() {
 		Accounts accounts = Accounts.inst();
 		User user = accounts.getUser();
@@ -953,8 +927,6 @@ public class APIServlet extends HttpServlet {
 		}
 		return userData;
 	}
-
-
 
 	/**
 	 * @deprecated Use persistNewDataBundle(DataBundle dataBundle)
@@ -981,11 +953,14 @@ public class APIServlet extends HttpServlet {
 	 * @throws InvalidParametersException
 	 * @throws Exception
 	 */
+
+	// For TMAPI only.
 	public String persistNewDataBundle(DataBundle dataBundle)
 			throws InvalidParametersException, EntityAlreadyExistsException {
-		
-		if(dataBundle==null){
-			throw new InvalidParametersException(Common.ERRORCODE_NULL_PARAMETER, "Null data bundle");
+
+		if (dataBundle == null) {
+			throw new InvalidParametersException(
+					Common.ERRORCODE_NULL_PARAMETER, "Null data bundle");
 		}
 
 		HashMap<String, CoordData> coords = dataBundle.coords;
@@ -1089,16 +1064,18 @@ public class APIServlet extends HttpServlet {
 	 * @param coordId
 	 * @return null if coordId is null
 	 */
-	
-	//TODO: return ArrayList instead?
+
+	// TODO: return ArrayList instead?
 	// That's better probably ~Aldrian~
-	public HashMap<String, CourseData> getCourseListForCoord(String coordId) {
+	public HashMap<String, CourseData> getCourseListForCoord(String coordId)
+			throws EntityDoesNotExistException {
 		if (coordId == null)
 			return null;
 		HashMap<String, CourseSummaryForCoordinator> courseSummaryListForCoord = Courses
 				.inst().getCourseSummaryListForCoord(coordId);
 		HashMap<String, CourseData> returnList = new HashMap<String, CourseData>();
-		for(CourseSummaryForCoordinator csfc: courseSummaryListForCoord.values()){
+		for (CourseSummaryForCoordinator csfc : courseSummaryListForCoord
+				.values()) {
 			CourseData c = new CourseData();
 			c.coord = coordId;
 			c.id = csfc.getID();
@@ -1112,7 +1089,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	public HashMap<String, CourseData> getCourseDetailsListForCoord(
-			String coordId) {
+			String coordId) throws EntityDoesNotExistException {
 		if (coordId == null) {
 			return null;
 		}
@@ -1121,29 +1098,27 @@ public class APIServlet extends HttpServlet {
 		HashMap<String, CourseData> courseList = getCourseListForCoord(coordId);
 		ArrayList<EvaluationData> evaluationList = getEvaluationsListForCoord(coordId);
 		for (EvaluationData ed : evaluationList) {
-			CourseData courseSummary = courseList
-					.get(ed.course);
+			CourseData courseSummary = courseList.get(ed.course);
 			courseSummary.evaluations.add(ed);
 		}
 		return courseList;
 	}
 
-	public ArrayList<EvaluationData> getEvaluationsListForCoord(
-			String coordId) {
+	public ArrayList<EvaluationData> getEvaluationsListForCoord(String coordId) {
 
 		if (coordId == null) {
 			return null;
 		}
 
-		//TODO: throw exception if coord not found
+		// TODO: throw exception if coord not found
 		List<Course> courseList = Courses.inst().getCoordinatorCourseList(
 				coordId);
 		ArrayList<EvaluationData> evaluationDetailsList = new ArrayList<EvaluationData>();
 
 		for (Course c : courseList) {
-			ArrayList<EvaluationDetailsForCoordinator> evaluationsSummaryForCourse = Evaluations.inst()
-					.getEvaluationsSummaryForCourse(c.getID());
-			for(EvaluationDetailsForCoordinator edfc: evaluationsSummaryForCourse){
+			ArrayList<EvaluationDetailsForCoordinator> evaluationsSummaryForCourse = Evaluations
+					.inst().getEvaluationsSummaryForCourse(c.getID());
+			for (EvaluationDetailsForCoordinator edfc : evaluationsSummaryForCourse) {
 				EvaluationData e = new EvaluationData();
 				e.course = edfc.getCourseID();
 				e.name = edfc.getName();
@@ -1164,7 +1139,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	public List<TfsData> getTfsListForCoord(String coordId) {
-		//TODO: throw exception if coord not found
+		// TODO: throw exception if coord not found
 		if (coordId == null) {
 			return null;
 		}
@@ -1190,7 +1165,6 @@ public class APIServlet extends HttpServlet {
 		Common.validateCourseId(courseId);
 		Common.validateCourseName(courseName);
 		Courses.inst().addCourse(courseId, courseName, coordinatorId);
-		Date now = Common.getDateOffsetToCurrentTime(0);
 	}
 
 	public CourseData getCourse(String courseId) {
@@ -1235,7 +1209,12 @@ public class APIServlet extends HttpServlet {
 				courseId);
 
 		for (Student s : studentList) {
-			sendRegistrationInviteToStudent(courseId, s.getEmail());
+			try {
+				sendRegistrationInviteToStudent(courseId, s.getEmail());
+			} catch (EntityDoesNotExistException e) {
+				log.severe("Unexpected exception");
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -1278,85 +1257,68 @@ public class APIServlet extends HttpServlet {
 				returnList.add(student);
 			}
 		}
-		
-		//TODO: adjust team profiles
+
+		// TODO: adjust team profiles
 		return returnList;
 	}
-	
+
 	/**
 	 * 
 	 * @param courseId
 	 * @return The CourseData object that is returned will contain attributes
-	 *   teams(type:TeamData) and loners(type:StudentData)  
-	 * @throws EntityDoesNotExistException if the course does not exist
+	 *         teams(type:TeamData) and loners(type:StudentData)
+	 * @throws EntityDoesNotExistException
+	 *             if the course does not exist
 	 */
-	public CourseData getTeamsForCourse(String courseId) throws EntityDoesNotExistException{
-		if(courseId == null) {
+	public CourseData getTeamsForCourse(String courseId)
+			throws EntityDoesNotExistException {
+		if (courseId == null) {
 			return null;
 		}
 		List<StudentData> students = getStudentListForCourse(courseId);
-		sortByTeamName(students);
-		
+		Courses.sortByTeamName(students);
+
 		CourseData course = getCourse(courseId);
-		
-		if(course==null){
-			throw new EntityDoesNotExistException("The course "+courseId+" does not exist");
+
+		if (course == null) {
+			throw new EntityDoesNotExistException("The course " + courseId
+					+ " does not exist");
 		}
-		
+
 		TeamData team = null;
-		for(int i=0; i<students.size(); i++){
-			
+		for (int i = 0; i < students.size(); i++) {
+
 			StudentData s = students.get(i);
-			
-					
-			//if loner
-			if(s.team.equals("")){
+
+			// if loner
+			if (s.team.equals("")) {
 				course.loners.add(s);
-			//first student of first team
-			}else if (team==null){
+				// first student of first team
+			} else if (team == null) {
 				team = new TeamData();
 				team.name = s.team;
 				team.profile = getTeamProfile(courseId, team.name);
 				team.students.add(s);
-			//student in the same team as the previous student
-			}else if(s.team.equals(team.name)){
+				// student in the same team as the previous student
+			} else if (s.team.equals(team.name)) {
 				team.students.add(s);
-			//first student of subsequent teams (not the first team)
-			}else{
+				// first student of subsequent teams (not the first team)
+			} else {
 				course.teams.add(team);
 				team = new TeamData();
 				team.name = s.team;
 				team.profile = getTeamProfile(courseId, team.name);
 				team.students.add(s);
 			}
-			
-			//if last iteration
-			if (i == (students.size()-1)){
+
+			// if last iteration
+			if (i == (students.size() - 1)) {
 				course.teams.add(team);
 			}
 		}
-		
+
 		return course;
 	}
-
-	private void sortByTeamName(List<StudentData> students) {
-		Collections.sort(students, new Comparator<StudentData>() {
-			public int compare(StudentData s1, StudentData s2) {
-				String t1 = s1.team;
-				String t2 = s2.team;
-				if ((t1 == null) && (t2==null)){
-					return 0;
-				}else if (t1==null){
-					return 1;
-				}else if (t2==null){
-					return -1;
-				}
-				return t1.compareTo(t2);
-			}
-		});
-	}
-		
-
 
 	@SuppressWarnings("unused")
 	private void ____STUDENT_level_methods__________________________________() {
@@ -1368,16 +1330,16 @@ public class APIServlet extends HttpServlet {
 			throw new InvalidParametersException("Student cannot be null");
 		}
 		Student student = new Student(studentData);
-		//TODO: this if for backward compatibility with old system. Old system 
-		//  considers "" as unregistered. It should be changed to consider
-		//  null as unregistered.
-		if(student.getID()==null){
+		// TODO: this if for backward compatibility with old system. Old system
+		// considers "" as unregistered. It should be changed to consider
+		// null as unregistered.
+		if (student.getID() == null) {
 			student.setID("");
 		}
-		if(student.getComments()==null){
+		if (student.getComments() == null) {
 			student.setComments("");
 		}
-		if(student.getTeamName()==null){
+		if (student.getTeamName() == null) {
 			student.setTeamName("");
 		}
 		Courses.inst().createStudent(student);
@@ -1392,27 +1354,28 @@ public class APIServlet extends HttpServlet {
 	}
 
 	/**
-	 * All attributes except courseId be changed. Trying to change courseId
-	 * will be treated as trying to edit a student in a different course.<br>
-	 * Changing team name will not delete existing team profile even if there 
-	 *   are no more members in the team. This can cause orphan team profiles
-	 *   but the effect is considered insignificant and not worth the effort 
-	 *   required to avoid it. A side benefit of this strategy is the team can
-	 *   reclaim the profile by changing the team name back to the original one.
-	 *   But note that orphaned team profiles can be inherited by others
-	 *   if another team adopts the team name previously discarded by a team.  
-	 * @param originalEmail 
+	 * All attributes except courseId be changed. Trying to change courseId will
+	 * be treated as trying to edit a student in a different course.<br>
+	 * Changing team name will not delete existing team profile even if there
+	 * are no more members in the team. This can cause orphan team profiles but
+	 * the effect is considered insignificant and not worth the effort required
+	 * to avoid it. A side benefit of this strategy is the team can reclaim the
+	 * profile by changing the team name back to the original one. But note that
+	 * orphaned team profiles can be inherited by others if another team adopts
+	 * the team name previously discarded by a team.
+	 * 
+	 * @param originalEmail
 	 * @param student
 	 * @throws InvalidParametersException
-	 * @throws EntityDoesNotExistException 
+	 * @throws EntityDoesNotExistException
 	 */
 	public void editStudent(String originalEmail, StudentData student)
 			throws InvalidParametersException, EntityDoesNotExistException {
 		// TODO: make the implementation more defensive
 		String newTeamName = student.team;
-		Courses.inst().editStudent(student.course, originalEmail,
-				student.name, student.team, student.email, student.id,
-				student.comments, student.profile);
+		Courses.inst().editStudent(student.course, originalEmail, student.name,
+				student.team, student.email, student.id, student.comments,
+				student.profile);
 		if (TeamForming.inst().getTeamProfile(student.course, student.team) == null) {
 			try {
 				TeamForming.inst().createTeamProfile(
@@ -1432,6 +1395,7 @@ public class APIServlet extends HttpServlet {
 		// TODO:delete team profile, if the last member
 	}
 
+	// TODO: make this private
 	public StudentData enrollStudent(StudentData student) {
 		StudentData.UpdateStatus updateStatus = UpdateStatus.UNMODIFIED;
 		try {
@@ -1454,7 +1418,8 @@ public class APIServlet extends HttpServlet {
 	}
 
 	public void sendRegistrationInviteToStudent(String courseId,
-			String studentEmail) {
+			String studentEmail) throws EntityDoesNotExistException,
+			InvalidParametersException {
 
 		Course course = Courses.inst().getCourse(courseId);
 		Student student = Courses.inst().getStudentWithEmail(courseId,
@@ -1469,11 +1434,11 @@ public class APIServlet extends HttpServlet {
 				course.getName(), coord.getName(), coord.getEmail());
 
 	}
-	
-	//TODO: testing
+
+	// TODO: testing
 	public StudentData getStudentWithId(String googleId) {
 		Student student = Accounts.inst().getStudentWithID(googleId);
-		return (student==null? null : new StudentData(student));
+		return (student == null ? null : new StudentData(student));
 	}
 
 	@SuppressWarnings("unused")
@@ -1482,11 +1447,11 @@ public class APIServlet extends HttpServlet {
 
 	public void createEvaluation(EvaluationData evaluation)
 			throws EntityAlreadyExistsException, InvalidParametersException {
-		
+
 		Evaluations.inst().addEvaluation(evaluation.toEvaluation());
 	}
 
-	public EvaluationData getEvaluation(String courseId, String evaluationName){
+	public EvaluationData getEvaluation(String courseId, String evaluationName) {
 		Evaluation e = Evaluations.inst().getEvaluation(courseId,
 				evaluationName);
 		return (e == null ? null : new EvaluationData(e));
@@ -1514,21 +1479,22 @@ public class APIServlet extends HttpServlet {
 				studentList);
 	}
 
-	public void unpublishEvaluation(String courseId, String evaluationName) {
+	public void unpublishEvaluation(String courseId, String evaluationName)
+			throws EntityDoesNotExistException {
 		Evaluations.inst().unpublishEvaluation(courseId, evaluationName);
 	}
-	
+
 	/**
 	 * 
 	 * @param courseId
 	 * @param evaluationName
 	 * @return Returns null if any of the parameters is null.
-	 * @throws EntityDoesNotExistException if the course or the evaluation does
-	 *    not exists.
+	 * @throws EntityDoesNotExistException
+	 *             if the course or the evaluation does not exists.
 	 */
 	public EvaluationData getEvaluationResult(String courseId,
 			String evaluationName) throws EntityDoesNotExistException {
-		if((courseId==null)||(evaluationName==null)){
+		if ((courseId == null) || (evaluationName == null)) {
 			return null;
 		}
 		CourseData course = getTeamsForCourse(courseId);
@@ -1539,41 +1505,47 @@ public class APIServlet extends HttpServlet {
 		for (TeamData team : returnValue.teams) {
 			for (StudentData student : team.students) {
 				student.result = new EvalResultData();
-				extractSubmissionsAndSetNames(submissionDataList, team, student);
+				// TODO: refactor this method. May be have a return value?
+				populateSubmissionsAndNames(submissionDataList, team, student);
 			}
-			
+
 			TeamEvalResult teamResult = calculateTeamResult(team);
 			populateTeamResult(team, teamResult);
-			
+
 		}
 		return returnValue;
 	}
 
-
-
-	public HashMap<String, SubmissionData> getSubmissionsForEvaluation(String courseId,
-			String evaluationName) throws EntityDoesNotExistException {
-		if(getEvaluation(courseId, evaluationName)==null){
-			throw new EntityDoesNotExistException("There is no evaluation named ["+evaluationName+"] under the course ["+courseId+"]");
+	// TODO: make this private
+	public HashMap<String, SubmissionData> getSubmissionsForEvaluation(
+			String courseId, String evaluationName)
+			throws EntityDoesNotExistException {
+		if (getEvaluation(courseId, evaluationName) == null) {
+			throw new EntityDoesNotExistException(
+					"There is no evaluation named [" + evaluationName
+							+ "] under the course [" + courseId + "]");
 		}
-		//create SubmissionData Hashmap 
-		List<Submission> submissionsList = Evaluations.inst().getSubmissionList(courseId, evaluationName);
+		// create SubmissionData Hashmap
+		List<Submission> submissionsList = Evaluations.inst()
+				.getSubmissionList(courseId, evaluationName);
 		HashMap<String, SubmissionData> submissionDataList = new HashMap<String, SubmissionData>();
-		for(Submission s: submissionsList){
+		for (Submission s : submissionsList) {
 			SubmissionData sd = new SubmissionData(s);
-			submissionDataList.put(sd.reviewer+"->"+sd.reviewee, sd);
+			submissionDataList.put(sd.reviewer + "->" + sd.reviewee, sd);
 		}
 		return submissionDataList;
 	}
-	
-	public List<SubmissionData> getSubmissionsFromStudent(String courseId, String evaluationName,
-			String reviewerEmail) {
-		 List<Submission> submissions = Evaluations.inst().getSubmissionFromStudentList(courseId,
-				evaluationName, reviewerEmail);
-		 ArrayList<SubmissionData> returnList = new ArrayList<SubmissionData>();
-		 for(Submission s: submissions){
-			 returnList.add(new SubmissionData(s));
-		 }
+
+	public List<SubmissionData> getSubmissionsFromStudent(String courseId,
+			String evaluationName, String reviewerEmail)
+			throws EntityDoesNotExistException {
+		List<Submission> submissions = Evaluations.inst()
+				.getSubmissionFromStudentList(courseId, evaluationName,
+						reviewerEmail);
+		ArrayList<SubmissionData> returnList = new ArrayList<SubmissionData>();
+		for (Submission s : submissions) {
+			returnList.add(new SubmissionData(s));
+		}
 		return returnList;
 	}
 
@@ -1588,6 +1560,7 @@ public class APIServlet extends HttpServlet {
 						+ "are created automatically");
 	}
 
+	// only for TMAPI
 	public SubmissionData getSubmission(String courseId, String evaluationName,
 			String reviewerEmail, String revieweeEmail) {
 		Submission submission = Evaluations.inst().getSubmission(courseId,
@@ -1615,6 +1588,7 @@ public class APIServlet extends HttpServlet {
 	private void ____TFS_level_methods______________________________________() {
 	}
 
+	// only for TMAPI
 	public void createTfs(TfsData tfs) throws EntityAlreadyExistsException,
 			InvalidParametersException {
 		TeamForming.inst().createTeamFormingSession(tfs.toTfs());
@@ -1626,7 +1600,8 @@ public class APIServlet extends HttpServlet {
 		return (tfs == null ? null : new TfsData(tfs));
 	}
 
-	public void editTfs(TfsData tfs) {
+	public void editTfs(TfsData tfs) throws EntityDoesNotExistException,
+			InvalidParametersException {
 		TeamForming.inst().editTeamFormingSession(tfs.course, tfs.startTime,
 				tfs.endTime, tfs.gracePeriod, tfs.instructions,
 				tfs.profileTemplate);
@@ -1637,7 +1612,8 @@ public class APIServlet extends HttpServlet {
 	}
 
 	public void renameTeam(String courseId, String originalTeamName,
-			String newTeamName) {
+			String newTeamName) throws EntityDoesNotExistException,
+			InvalidParametersException {
 		TeamForming.inst().editStudentsTeam(courseId, originalTeamName,
 				newTeamName);
 	}
@@ -1646,6 +1622,7 @@ public class APIServlet extends HttpServlet {
 	private void ____TEAM_PROFILE_level_methods_____________________________() {
 	}
 
+	// only for TMAPI
 	public void createTeamProfile(TeamProfileData teamProfile)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 		TeamForming.inst().createTeamProfile(teamProfile.toTeamProfile());
@@ -1659,7 +1636,7 @@ public class APIServlet extends HttpServlet {
 
 	public void editTeamProfile(String originalTeamName,
 			TeamProfileData modifieldTeamProfile)
-			throws EntityDoesNotExistException {
+			throws EntityDoesNotExistException, InvalidParametersException {
 		TeamForming.inst().editTeamProfile(modifieldTeamProfile.course, "",
 				originalTeamName, modifieldTeamProfile.team,
 				modifieldTeamProfile.profile);
@@ -1673,13 +1650,22 @@ public class APIServlet extends HttpServlet {
 	private void ____STUDENT_ACTION_level_methods_________________________() {
 	}
 
+	// only for TMAPI
 	public void createStudentAction(StudentActionData studentAction)
 			throws InvalidParametersException {
 		TeamForming.inst().createTeamFormingLogEntry(
 				studentAction.toTeamFormingLog());
 	}
 
-	public List<StudentActionData> getStudentActions(String courseId) {
+	/**
+	 * 
+	 * @param courseId
+	 * @return
+	 * @throws EntityDoesNotExistException
+	 *             if the course does not exist
+	 */
+	public List<StudentActionData> getStudentActions(String courseId)
+			throws EntityDoesNotExistException {
 		List<TeamFormingLog> actionList = TeamForming.inst()
 				.getTeamFormingLogList(courseId);
 		ArrayList<StudentActionData> returnList = new ArrayList<StudentActionData>();
@@ -1702,32 +1688,33 @@ public class APIServlet extends HttpServlet {
 	@SuppressWarnings("unused")
 	private void ____helper_methods________________________________________() {
 	}
-	
+
 	private TeamEvalResult calculateTeamResult(TeamData team) {
-		if(team==null){
+		if (team == null) {
 			return null;
 		}
 		int teamSize = team.students.size();
 		int[][] claimedFromStudents = new int[teamSize][teamSize];
 		team.sortByStudentNameAscending();
-		for(int i=0; i<teamSize;i++){
+		for (int i = 0; i < teamSize; i++) {
 			StudentData studentData = team.students.get(i);
-			//studentData.result.outgoingOriginal.add(studentData.result.own);
+			// studentData.result.outgoingOriginal.add(studentData.result.own);
 			studentData.result.sortOutgoingByStudentNameAscending();
-			for(int j=0; j<teamSize;j++){
-				SubmissionData submissionData = studentData.result.outgoing.get(j);
+			for (int j = 0; j < teamSize; j++) {
+				SubmissionData submissionData = studentData.result.outgoing
+						.get(j);
 				claimedFromStudents[i][j] = submissionData.points;
 			}
-			//studentData.result.outgoingOriginal.remove(studentData.result.own);
-			
+			// studentData.result.outgoingOriginal.remove(studentData.result.own);
+
 		}
 		return new TeamEvalResult(claimedFromStudents);
 	}
-	
+
 	private void populateTeamResult(TeamData team, TeamEvalResult teamResult) {
 		team.sortByStudentNameAscending();
 		int teamSize = team.students.size();
-		for(int i=0; i<teamSize; i++){
+		for (int i = 0; i < teamSize; i++) {
 			StudentData s = team.students.get(i);
 			s.result.sortIncomingByStudentNameAscending();
 			s.result.sortOutgoingByStudentNameAscending();
@@ -1739,42 +1726,47 @@ public class APIServlet extends HttpServlet {
 				SubmissionData incomingSub = s.result.incoming.get(j);
 				int normalizedIncoming = teamResult.perceivedToStudents[i][j];
 				incomingSub.normalized = normalizedIncoming;
-				log.fine("Setting normalized incoming of "+s.name+" from "+incomingSub.reviewerName+ " to "+normalizedIncoming);
-				
+				log.fine("Setting normalized incoming of " + s.name + " from "
+						+ incomingSub.reviewerName + " to "
+						+ normalizedIncoming);
+
 				SubmissionData outgoingSub = s.result.outgoing.get(j);
 				int normalizedOutgoing = teamResult.claimedToCoord[i][j];
 				outgoingSub.normalized = normalizedOutgoing;
-				log.fine("Setting normalized outgoing of "+s.name+" to "+outgoingSub.revieweeName+ " to "+normalizedOutgoing);
+				log.fine("Setting normalized outgoing of " + s.name + " to "
+						+ outgoingSub.revieweeName + " to "
+						+ normalizedOutgoing);
 			}
 		}
 	}
-	
-	private void extractSubmissionsAndSetNames(HashMap<String, SubmissionData> list,
-			TeamData team, StudentData student) {
+
+	private void populateSubmissionsAndNames(
+			HashMap<String, SubmissionData> list, TeamData team,
+			StudentData student) {
 		for (StudentData peer : team.students) {
-			
-			//get incoming submission from peer
-			SubmissionData submissionFromPeer = list.get(peer.email + "->"
-					+ student.email).getCopy();
-			
-			//set names in incoming submission
+
+			// get incoming submission from peer
+			SubmissionData submissionFromPeer = list.get(
+					peer.email + "->" + student.email).getCopy();
+
+			// set names in incoming submission
 			submissionFromPeer.revieweeName = student.name;
 			submissionFromPeer.reviewerName = peer.name;
-			
-			//add incoming submission
+
+			// add incoming submission
 			student.result.incoming.add(submissionFromPeer);
-			
-			//get outgoing submission to peer
-			SubmissionData submissionToPeer = list.get(student.email + "->"
-					+ peer.email).getCopy();
-			
-			//set names in outgoing submission
+
+			// get outgoing submission to peer
+			SubmissionData submissionToPeer = list.get(
+					student.email + "->" + peer.email).getCopy();
+
+			// set names in outgoing submission
 			submissionToPeer.reviewerName = student.name;
 			submissionToPeer.revieweeName = peer.name;
-			
-			//add outgoing submission
+
+			// add outgoing submission
 			student.result.outgoing.add(submissionToPeer);
-			
+
 		}
 	}
 
@@ -1788,8 +1780,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	private boolean isSameAsExistingStudent(StudentData student) {
-		StudentData existingStudent = getStudent(student.course,
-				student.email);
+		StudentData existingStudent = getStudent(student.course, student.email);
 		if (existingStudent == null)
 			return false;
 		return student.isEnrollInfoSameAs(existingStudent);
@@ -1798,8 +1789,5 @@ public class APIServlet extends HttpServlet {
 	private boolean isModificationToExistingStudent(StudentData student) {
 		return getStudent(student.course, student.email) != null;
 	}
-
-
-
 
 }

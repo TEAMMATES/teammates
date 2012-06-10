@@ -1,6 +1,8 @@
 package teammates.manager;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +16,7 @@ import teammates.Datastore;
 import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
+import teammates.datatransfer.StudentData;
 import teammates.exception.CourseDoesNotExistException;
 import teammates.exception.GoogleIDExistsInCourseException;
 import teammates.exception.RegistrationKeyInvalidException;
@@ -848,6 +851,23 @@ public class Courses {
 	@SuppressWarnings("unchecked")
 	public List<Course> getAllCourses() {
 		return (List<Course>) getPM().newQuery(Course.class).execute();
+	}
+	
+	public static void sortByTeamName(List<StudentData> students) {
+		Collections.sort(students, new Comparator<StudentData>() {
+			public int compare(StudentData s1, StudentData s2) {
+				String t1 = s1.team;
+				String t2 = s2.team;
+				if ((t1 == null) && (t2==null)){
+					return 0;
+				}else if (t1==null){
+					return 1;
+				}else if (t2==null){
+					return -1;
+				}
+				return t1.compareTo(t2);
+			}
+		});
 	}
 
 }

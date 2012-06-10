@@ -13,6 +13,7 @@ import static teammates.TeamEvalResult.replaceMagicNumbers;
 import static teammates.api.Common.EOL;
 import static teammates.TeamEvalResult.pointsToString;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -418,6 +419,12 @@ public class TeamEvalResultTest extends BaseTestCase{
 	private void verifyNormalized(double[] expected, double[] input) {
 		assertEquals(Arrays.toString(expected), 
 				Arrays.toString(TeamEvalResult.normalizeValues(input)));
+	}
+	
+	@AfterClass
+	public static void tearDownClass() throws Exception{
+		setLogLevelOfClass(TeamEvalResult.class, Level.WARNING);
+	    setConsoleLoggingLevel(Level.WARNING);
 	}
 	
 

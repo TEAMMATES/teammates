@@ -2,12 +2,14 @@ package teammates.servlet;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
+import teammates.api.EntityDoesNotExistException;
 import teammates.datatransfer.CourseData;
 import teammates.jsp.CoordHomeHelper;
 import teammates.jsp.Helper;
@@ -19,6 +21,7 @@ import teammates.jsp.Helper;
  *
  */
 public class CoordHomeServlet extends ActionServlet {
+	Logger log = Common.getLogger();
 	
 	protected void doPostAction(HttpServletRequest req, HttpServletResponse resp, Helper help)
 			throws IOException, ServletException {
@@ -32,7 +35,14 @@ public class CoordHomeServlet extends ActionServlet {
 		helper.coordID = helper.userId;
 		
 		// Process data
-		HashMap<String, CourseData> courses = helper.server.getCourseDetailsListForCoord(helper.coordID);
+		HashMap<String, CourseData> courses;
+		try {
+			courses = helper.server.getCourseDetailsListForCoord(helper.coordID);
+		} catch (EntityDoesNotExistException e) {
+			//TODO: handle this in a better way, probably redirect to error page
+			courses = new HashMap<String, CourseData>();
+			log.severe("Unexpected exception :"+e.getMessage());
+		}
 		helper.summary = courses.values().toArray(new CourseData[] {});
 
 		if(helper.nextUrl==null) helper.nextUrl = "/coordHome.jsp";
