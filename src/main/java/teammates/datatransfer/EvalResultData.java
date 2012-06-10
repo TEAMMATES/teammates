@@ -16,8 +16,7 @@ public class EvalResultData {
 
 	public SubmissionData own;
 	public ArrayList<SubmissionData> incoming = new ArrayList<SubmissionData>();
-	public ArrayList<SubmissionData> outgoingOriginal = new ArrayList<SubmissionData>();
-	public ArrayList<SubmissionData> outgoingNormalized = new ArrayList<SubmissionData>();
+	public ArrayList<SubmissionData> outgoing = new ArrayList<SubmissionData>();
 
 	public int claimedFromStudent = Common.UNINITIALIZED_INT;
 	public int claimedToCoord = Common.UNINITIALIZED_INT;
@@ -27,8 +26,14 @@ public class EvalResultData {
 	private static final Logger log = Common.getLogger();
 
 	public void sortOutgoingByStudentNameAscending() {
-		sortOutgoingSubmissionsByName(outgoingOriginal);
-		sortOutgoingSubmissionsByName(outgoingNormalized);
+		Collections.sort(outgoing, new Comparator<SubmissionData>() {
+			public int compare(SubmissionData s1, SubmissionData s2) {
+				//email is prefixed to avoid mix ups due to two students with
+				//same name.
+				return (s1.revieweeName+s1.reviewee)
+						.compareTo(s2.revieweeName+s2.reviewee);
+			}
+		});
 	}
 
 	private void sortOutgoingSubmissionsByName(ArrayList<SubmissionData> submissions) {

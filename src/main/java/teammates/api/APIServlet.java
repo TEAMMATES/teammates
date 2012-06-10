@@ -1698,13 +1698,13 @@ public class APIServlet extends HttpServlet {
 		team.sortByStudentNameAscending();
 		for(int i=0; i<teamSize;i++){
 			StudentData studentData = team.students.get(i);
-			studentData.result.outgoingOriginal.add(studentData.result.own);
+			//studentData.result.outgoingOriginal.add(studentData.result.own);
 			studentData.result.sortOutgoingByStudentNameAscending();
 			for(int j=0; j<teamSize;j++){
-				SubmissionData submissionData = studentData.result.outgoingOriginal.get(j);
+				SubmissionData submissionData = studentData.result.outgoing.get(j);
 				claimedFromStudents[i][j] = submissionData.points;
 			}
-			studentData.result.outgoingOriginal.remove(studentData.result.own);
+			//studentData.result.outgoingOriginal.remove(studentData.result.own);
 			
 		}
 		return new TeamEvalResult(claimedFromStudents);
@@ -1733,36 +1733,44 @@ public class APIServlet extends HttpServlet {
 			s.result.claimedToCoord = teamResult.claimedToCoord[i][i];
 			s.result.perceivedToStudent = teamResult.perceivedToStudents[i][i];
 			s.result.perceivedToCoord = teamResult.perceivedToCoord[i];
+			for (int j = 0; j < teamSize; j++) {
+				s.result.incoming.get(j).points = teamResult.perceivedToStudents[i][j];
+			}
 		}
 	}
 	
 	private void extractSubmissionsAndSetNames(HashMap<String, SubmissionData> list,
 			TeamData team, StudentData student) {
 		for (StudentData peer : team.students) {
-			//peer is self
+			
+			//get incoming submission from peer
+			SubmissionData submissionFromPeer = list.get(peer.email + "->"
+					+ student.email).getCopy();
+			
+			//set names in incoming submission
+			submissionFromPeer.revieweeName = student.name;
+			submissionFromPeer.reviewerName = peer.name;
+			
+			//add incoming submission
+			student.result.incoming.add(submissionFromPeer);
+			
+			//get outgoing submission to peer
+			SubmissionData submissionToPeer = list.get(student.email + "->"
+					+ peer.email).getCopy();
+			
+			//set names in outgoing submission
+			submissionToPeer.reviewerName = student.name;
+			submissionToPeer.revieweeName = peer.name;
+			
+			//add outgoing submission
+			student.result.outgoing.add(submissionToPeer);
+			
+			//if peer is self
+			//this will be done twice per student, but that's ok
 			if (peer.email.equals(student.email)) {
-				student.result.own = list.get(student.email + "->"
-						+ student.email);
-				student.result.own.revieweeName = student.name;
-				student.result.own.reviewerName = student.name;
-			// peer is not self
-			} else {
-				//set incoming submission from peer
-				SubmissionData submissionFromPeer = list.get(peer.email + "->"
-						+ student.email);
-				student.result.incoming.add(submissionFromPeer);
-				
-				//set names in incoming submission
-				submissionFromPeer.revieweeName = student.name;
-				submissionFromPeer.reviewerName = peer.name;
-				
-				//set outgoing submission to peer
-				student.result.outgoingOriginal.add(list.get(student.email + "->"
-						+ peer.email));
-				
-				//no need to set names in outgoing submission as it will be
-				//processed again as an incoming submission of this peer
+				student.result.own = submissionToPeer.getCopy();
 			}
+			
 		}
 	}
 

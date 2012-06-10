@@ -52,5 +52,27 @@ public class SubmissionData {
 		return new Submission(reviewer, reviewee, course, evaluation, team,
 				points, justification, p2pFeedback);
 	}
+	
+	
+	/** using a simple copy method instead of clone().
+	 * Reason: seems it is overly complicated and not well thought out
+	 *   see http://stackoverflow.com/questions/2326758/how-to-properly-override-clone-method
+	 * @return a copy of the object
+	 */
+	public SubmissionData getCopy(){
+		SubmissionData copy = new SubmissionData();
+		copy.course = this.course;
+		copy.evaluation = this.evaluation;
+		copy.team = this.team;
+		copy.reviewer = this.reviewer;
+		copy.reviewerName = this.reviewerName;
+		copy.reviewee = this.reviewee;
+		copy.revieweeName = this.revieweeName;
+		copy.points = this.points;
+		copy.justification = new Text(this.justification.getValue());
+		copy.p2pFeedback = new Text(this.p2pFeedback.getValue());
+		copy.normalized = this.normalized;
+		return copy;
+	}
 
 }

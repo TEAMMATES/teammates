@@ -1075,8 +1075,8 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(student1InCourse1.name, student1InCourse1.result.own.revieweeName);
 		assertEquals(student1InCourse1.name, student1InCourse1.result.own.reviewerName);
 		
-		assertEquals(1, student1InCourse1.result.incoming.size());
-		assertEquals(1, student1InCourse1.result.outgoingOriginal.size());
+		assertEquals(2, student1InCourse1.result.incoming.size());
+		assertEquals(2, student1InCourse1.result.outgoing.size());
 //		assertTrue(student1InCourse1.result.claimedActual != Common.UNINITIALIZED_INT);
 //		assertTrue(student1InCourse1.result.claimedToCoord != Common.UNINITIALIZED_INT);
 //		assertTrue(student1InCourse1.result.claimedToStudent != Common.UNINITIALIZED_INT);
@@ -1119,41 +1119,55 @@ public class APIServletTest extends BaseTestCase {
 		SubmissionData s3_to_s2 = createSubmission(3,2);
 		SubmissionData s3_to_s3 = createSubmission(3,3);
 	
-// this is the additions neatly ordered
+// Here are the additions neatly ordered
 //		s1.result.own = s1_to_s1;
-//		s1.result.outgoing.add(s1_to_s2);
-//		s1.result.outgoing.add(s1_to_s3);
+//		s1.result.outgoingOriginal.add(s1_to_s1);
+//		s1.result.outgoingOriginal.add(s1_to_s2);
+//		s1.result.outgoingOriginal.add(s1_to_s3);
+//		s1.result.incoming.add(s1_to_s1);
 //		s1.result.incoming.add(s2_to_s1);
 //		s1.result.incoming.add(s3_to_s1);
+//		
 //		s2.result.own = s2_to_s2;
-//		s2.result.outgoing.add(s2_to_s1);
-//		s2.result.outgoing.add(s2_to_s3);
+//		s2.result.outgoingOriginal.add(s2_to_s1);
+//		s2.result.outgoingOriginal.add(s2_to_s2);
+//		s2.result.outgoingOriginal.add(s2_to_s3);
 //		s2.result.incoming.add(s1_to_s2);
+//		s2.result.incoming.add(s2_to_s2);
 //		s2.result.incoming.add(s3_to_s2);
+//		
 //		s3.result.own = s3_to_s3;
+//		s3.result.outgoingOriginal.add(s3_to_s1);
+//		s3.result.outgoingOriginal.add(s3_to_s2);
+//		s3.result.outgoingOriginal.add(s3_to_s3);
 //		s3.result.incoming.add(s1_to_s3);
 //		s3.result.incoming.add(s2_to_s3);
-//		s3.result.outgoing.add(s3_to_s1);
-//		s3.result.outgoing.add(s3_to_s2);
+//		s3.result.incoming.add(s3_to_s3);
 	
-		//this is the same as above commented out code, excpet the order is
-		//purposely messed up to ensure that the method works even when 
-		//submissions are added in random order
+		//These are the same additions as above commented out code, 
+		// except the order is purposely messed up to ensure that the 
+		// method works even when submissions are added in random order
 		s1.result.own = s1_to_s1;
-		s1.result.outgoingOriginal.add(s1_to_s2);
+		s1.result.outgoing.add(s1_to_s2);
 		s1.result.incoming.add(s2_to_s1);
 		s2.result.own = s2_to_s2;
 		s1.result.incoming.add(s3_to_s1);
-		s2.result.outgoingOriginal.add(s2_to_s1);
-		s1.result.outgoingOriginal.add(s1_to_s3);
+		s3.result.outgoing.add(s3_to_s3);
+		s2.result.outgoing.add(s2_to_s1);
+		s1.result.outgoing.add(s1_to_s3);
 		s2.result.incoming.add(s3_to_s2);
-		s2.result.outgoingOriginal.add(s2_to_s3);
-		s3.result.outgoingOriginal.add(s3_to_s1);
+		s2.result.outgoing.add(s2_to_s3);
+		s3.result.outgoing.add(s3_to_s1);
+		s2.result.incoming.add(s2_to_s2);
 		s3.result.incoming.add(s1_to_s3);
 		s3.result.own = s3_to_s3;
+		s1.result.outgoing.add(s1_to_s1);
 		s3.result.incoming.add(s2_to_s3);
-		s3.result.outgoingOriginal.add(s3_to_s2);
+		s3.result.outgoing.add(s3_to_s2);
 		s2.result.incoming.add(s1_to_s2);
+		s1.result.incoming.add(s1_to_s1);
+		s2.result.outgoing.add(s2_to_s2);
+		s3.result.incoming.add(s3_to_s3);
 		
 		team.students.add(s2);
 		team.students.add(s1);
@@ -1180,23 +1194,26 @@ public class APIServletTest extends BaseTestCase {
 //						[213, 217, 230]
 //						[309, 316, 335]
 						
+		int S1_POS = 0;
+		int S2_POS = 1;
+		int S3_POS = 2;
+		
 		invokePopulateTeamResult(team, teamResult);
 		team.sortByStudentNameAscending();
-		s1 = team.students.get(0);
+		s1 = team.students.get(S1_POS);
 		assertEquals(110, s1.result.claimedFromStudent);
 		assertEquals(92, s1.result.claimedToCoord);
 		assertEquals(116, s1.result.perceivedToStudent);
 		assertEquals(97, s1.result.perceivedToCoord);
+		assertEquals(116, s1.result.incoming.get(S1_POS).points);
 
-		
-		
-		s2 = team.students.get(1);
+		s2 = team.students.get(S2_POS);
 		assertEquals(220, s2.result.claimedFromStudent);
 		assertEquals(100, s2.result.claimedToCoord);
 		assertEquals(217, s2.result.perceivedToStudent);
 		assertEquals(99, s2.result.perceivedToCoord);
 		
-		s3 = team.students.get(2);
+		s3 = team.students.get(S3_POS);
 		assertEquals(330, s3.result.claimedFromStudent);
 		assertEquals(103, s3.result.claimedToCoord);
 		assertEquals(335, s3.result.perceivedToStudent);
