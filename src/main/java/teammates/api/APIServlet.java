@@ -1560,7 +1560,7 @@ public class APIServlet extends HttpServlet {
 			return null;
 		}
 		CourseData course = getTeamsForCourse(courseId);
-		EvaluationData returnValue = new EvaluationData();
+		EvaluationData returnValue = getEvaluation(courseId, evaluationName); 
 		HashMap<String, SubmissionData> submissionDataList = getSubmissionsForEvaluation(
 				courseId, evaluationName);
 		returnValue.teams = course.teams;

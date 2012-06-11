@@ -1320,6 +1320,20 @@ public class APIServletTest extends BaseTestCase {
 				evaluation.name);
 
 		// no need to sort, the result should be sorted by default
+		
+		// check for evaluation details
+		assertEquals(evaluation.course, result.course);
+		assertEquals(evaluation.name, result.name);
+		assertEquals(evaluation.startTime, result.startTime);
+		assertEquals(evaluation.endTime, result.endTime);
+		assertEquals(evaluation.gracePeriod, result.gracePeriod);
+		assertEquals(evaluation.instructions, result.instructions);
+		assertEquals(evaluation.timeZone, result.timeZone, 0.1);
+		assertEquals(evaluation.p2pEnabled, result.p2pEnabled);
+		assertEquals(evaluation.published, result.published);
+		assertEquals(Common.UNINITIALIZED_INT, result.submittedTotal);
+		assertEquals(Common.UNINITIALIZED_INT, result.expectedTotal);
+		
 
 		// check number of teams and team sizes
 		assertEquals(2, result.teams.size());
