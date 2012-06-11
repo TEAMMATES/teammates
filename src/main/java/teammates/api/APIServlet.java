@@ -512,8 +512,8 @@ public class APIServlet extends HttpServlet {
 		try {
 			Courses.inst().cleanUpCourse(courseID);
 		} catch (CourseDoesNotExistException e) {
-			log.fine("Course " + courseID
-					+ " could not be deleted because " + "it does not exist");
+			log.fine("Course " + courseID + " could not be deleted because "
+					+ "it does not exist");
 			return;
 		}
 		Evaluations.inst().deleteEvaluations(courseID);
@@ -1200,17 +1200,18 @@ public class APIServlet extends HttpServlet {
 		Courses.inst().deleteCourse(courseId);
 	}
 
-	public List<StudentData> getStudentListForCourse(String courseId) 
-			throws EntityDoesNotExistException{
+	public List<StudentData> getStudentListForCourse(String courseId)
+			throws EntityDoesNotExistException {
 		if (courseId == null) {
 			return null;
 		}
 		List<Student> studentList = Courses.inst().getStudentList(courseId);
-		
-		if((studentList.size()==0)&&(getCourse(courseId)==null)){
-			throw new EntityDoesNotExistException("Course does not exist :"+courseId);
+
+		if ((studentList.size() == 0) && (getCourse(courseId) == null)) {
+			throw new EntityDoesNotExistException("Course does not exist :"
+					+ courseId);
 		}
-		
+
 		List<StudentData> returnList = new ArrayList<StudentData>();
 		for (Student s : studentList) {
 			returnList.add(new StudentData(s));
@@ -1244,8 +1245,9 @@ public class APIServlet extends HttpServlet {
 					(enrollLines == null ? "Enroll text" : "Course ID")
 							+ " cannot be null");
 		}
-		if(getCourse(courseId)==null){
-			throw new EntityDoesNotExistException("Course does not exist :"+courseId);
+		if (getCourse(courseId) == null) {
+			throw new EntityDoesNotExistException("Course does not exist :"
+					+ courseId);
 		}
 		ArrayList<StudentData> returnList = new ArrayList<StudentData>();
 		String[] linesArray = enrollLines.split(Common.EOL);
@@ -1433,9 +1435,17 @@ public class APIServlet extends HttpServlet {
 			String studentEmail) throws EntityDoesNotExistException,
 			InvalidParametersException {
 
+		if ((courseId == null) || (studentEmail == null)) {
+			throw new InvalidParametersException(
+					"Course ID and Student email cannot be null");
+		}
 		Course course = Courses.inst().getCourse(courseId);
 		Student student = Courses.inst().getStudentWithEmail(courseId,
 				studentEmail);
+		if (student == null) {
+			throw new EntityDoesNotExistException("Student [" + studentEmail
+					+ "] does not exist in course [" + courseId + "]");
+		}
 		Coordinator coord = Accounts.inst().getCoordinator(
 				course.getCoordinatorID());
 		List<Student> studentList = new ArrayList<Student>();
@@ -1450,11 +1460,11 @@ public class APIServlet extends HttpServlet {
 	// TODO: testing
 	public ArrayList<StudentData> getStudentsWithId(String googleId) {
 		List<Student> students = Accounts.inst().getStudentWithID(googleId);
-		if(students==null){
+		if (students == null) {
 			return null;
 		}
 		ArrayList<StudentData> returnList = new ArrayList<StudentData>();
-		for(Student s: students){
+		for (Student s : students) {
 			returnList.add(new StudentData(s));
 		}
 		return returnList;

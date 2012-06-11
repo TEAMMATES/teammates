@@ -1015,6 +1015,7 @@ public class APIServletTest extends BaseTestCase {
 		String courseId = "courseForEnrollTest";
 		apiServlet.createCourse(coordId, courseId, "Course for Enroll Testing");
 
+		______TS("add student into empty course");
 		StudentData student1 = new StudentData("t|n|e@g|c", courseId);
 
 		// check if the course is empty
@@ -1027,12 +1028,14 @@ public class APIServletTest extends BaseTestCase {
 				StudentData.UpdateStatus.NEW);
 		verifyPresentInDatastore(student1);
 
-		// add the same student. Verify it was not added
+		______TS("add existing student");
+		//Verify it was not added
 		enrollmentResult = apiServlet.enrollStudent(student1);
 		verifyEnrollmentResultForStudent(student1, enrollmentResult,
 				StudentData.UpdateStatus.UNMODIFIED);
 
-		// modify info of same student and verify it was treated as modified
+		______TS("modify info of existing student");
+		//verify it was treated as modified
 		StudentData student2 = dataBundle.students.get("student1InCourse1");
 		student2.name = student2.name + "y";
 		StudentData studentToEnroll = new StudentData(student2.email,
@@ -1045,14 +1048,14 @@ public class APIServletTest extends BaseTestCase {
 		// values not specified in enroll action (e.g, id) prevail
 		verifyPresentInDatastore(student2);
 
-		// add a new student to non-empty course
+		______TS("add student into non-empty course");
 		StudentData student3 = new StudentData("t3|n3|e3@g|c3", courseId);
 		enrollmentResult = apiServlet.enrollStudent(student3);
 		assertEquals(2, apiServlet.getStudentListForCourse(courseId).size());
 		verifyEnrollmentResultForStudent(student3, enrollmentResult,
 				StudentData.UpdateStatus.NEW);
 
-		// student without team
+		______TS("add student without team");
 		StudentData student4 = new StudentData("|n4|e4@g", courseId);
 		enrollmentResult = apiServlet.enrollStudent(student4);
 		assertEquals(3, apiServlet.getStudentListForCourse(courseId).size());
@@ -1064,13 +1067,45 @@ public class APIServletTest extends BaseTestCase {
 	public void testSendRegistrationInviteToStudent() throws Exception {
 		printTestCaseHeader();
 		refreshDataInDatastore();
+		
+		______TS("send to existing student");
 		StudentData student1 = dataBundle.students.get("student1InCourse1");
 		apiServlet.sendRegistrationInviteToStudent(student1.course,
 				student1.email);
 
 		assertEquals(1, getNumberOfEmailTasksInQueue());
 		verifyRegistrationEmailToStudent(student1);
-		// TODO: more testing
+		
+		//send to another student
+		StudentData student2 = dataBundle.students.get("student2InCourse1");
+		apiServlet.sendRegistrationInviteToStudent(student2.course,
+				student2.email);
+
+		assertEquals(2, getNumberOfEmailTasksInQueue());
+		verifyRegistrationEmailToStudent(student2);
+		
+		______TS("send to non-existing student");
+		try {
+			apiServlet.sendRegistrationInviteToStudent(student1.course,
+					"non@existent");
+			fail();
+		} catch (EntityDoesNotExistException e) {
+			Common.assertContains("non@existent", e.getMessage());
+			Common.assertContains(student1.course, e.getMessage());
+		}
+		assertEquals(2, getNumberOfEmailTasksInQueue());
+		
+		______TS("try with null parameters");
+		try {
+			apiServlet.sendRegistrationInviteToStudent(student1.course,	null);
+			fail();
+		} catch (InvalidParametersException e) {
+		}
+		try {
+			apiServlet.sendRegistrationInviteToStudent(null,student1.email);
+			fail();
+		} catch (InvalidParametersException e) {
+		}
 	}
 
 	@Test
