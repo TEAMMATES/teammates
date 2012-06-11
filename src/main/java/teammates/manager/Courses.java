@@ -17,6 +17,7 @@ import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
+import teammates.api.TeammatesException;
 import teammates.datatransfer.StudentData;
 import teammates.exception.CourseDoesNotExistException;
 import teammates.exception.GoogleIDExistsInCourseException;
@@ -754,25 +755,39 @@ public class Courses {
 
 		try {
 			student = getPM().getObjectById(Student.class, KeyFactory.stringToKey(registrationKey));
+		}catch (Exception e) {
+			throw new RegistrationKeyInvalidException(TeammatesException.stackTraceToString(e));
 		}
-
-		catch (Exception e) {
-			throw new RegistrationKeyInvalidException();
-		}
-
-		List<Student> studentList = getStudentCourseList(googleID);
-
-		for (Student s : studentList) {
-			if (s.getCourseID().equals(student.getCourseID())) {
+		
+		if(!student.getID().equals("")){
+			if(!student.getID().equals(googleID)){
+				throw new RegistrationKeyTakenException();
+			}else {
 				throw new GoogleIDExistsInCourseException();
 			}
 		}
+		
+//		if ((!student.getID().equals(googleID)) &&(!student.getID().equals(""))){
+//			throw new RegistrationKeyTakenException();
+//		}
+//		
+//		if ((student.getID().equals(googleID)) &&(!student.getID().equals(""))){
+//			throw new GoogleIDExistsInCourseException();
+//		}
+//
+//		List<Student> studentList = getStudentCourseList(googleID);
+//
+//		for (Student s : studentList) {
+//			if (s.getCourseID().equals(student.getCourseID())) {
+//				throw new GoogleIDExistsInCourseException();
+//			}
+//		}
 
-		if (!student.getID().equals("")) {
-			throw new RegistrationKeyTakenException();
-		}
+
 
 		student.setID(googleID);
+		//TODO: using this to help unit testing, might not work in live server
+		getPM().close();
 	}
 
 	/**

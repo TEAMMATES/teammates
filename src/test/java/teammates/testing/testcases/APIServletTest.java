@@ -29,14 +29,12 @@ import teammates.Datastore;
 import teammates.TeamEvalResult;
 import teammates.api.APIServlet;
 import teammates.api.Common;
-import teammates.api.EnrollException;
-import teammates.api.EntityAlreadyExistsException;
-import teammates.api.EntityDoesNotExistException;
-import teammates.api.InvalidParametersException;
-import teammates.api.TeammatesException;
+import teammates.api.*;
 import teammates.datatransfer.*;
 import teammates.datatransfer.StudentData.UpdateStatus;
+import teammates.persistent.Student;
 
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.taskqueue.dev.LocalTaskQueue;
 import com.google.appengine.api.taskqueue.dev.QueueStateInfo;
@@ -840,7 +838,8 @@ public class APIServletTest extends BaseTestCase {
 				.get("student1InCourse1");
 		assertEquals(1, apiServlet.getStudentsWithId(studentInOneCourse.id)
 				.size());
-		assertEquals(studentInOneCourse.email,
+		assertEquals(
+				studentInOneCourse.email,
 				apiServlet.getStudentsWithId(studentInOneCourse.id).get(0).email);
 		assertEquals(studentInOneCourse.name,
 				apiServlet.getStudentsWithId(studentInOneCourse.id).get(0).name);
@@ -849,36 +848,36 @@ public class APIServletTest extends BaseTestCase {
 				apiServlet.getStudentsWithId(studentInOneCourse.id).get(0).course);
 
 		______TS("student in two courses");
-		//this student is in two courses, course1 and course 2.
-		
-		//get list using student data from course 1
+		// this student is in two courses, course1 and course 2.
+
+		// get list using student data from course 1
 		StudentData studentInTwoCoursesInCourse1 = dataBundle.students
 				.get("student2InCourse1");
 		ArrayList<StudentData> listReceivedUsingStudentInCourse1 = apiServlet
 				.getStudentsWithId(studentInTwoCoursesInCourse1.id);
 		assertEquals(2, listReceivedUsingStudentInCourse1.size());
 
-		//get list using student data from course 2
+		// get list using student data from course 2
 		StudentData studentInTwoCoursesInCourse2 = dataBundle.students
 				.get("student2InCourse2");
 		ArrayList<StudentData> listReceivedUsingStudentInCourse2 = apiServlet
 				.getStudentsWithId(studentInTwoCoursesInCourse2.id);
 		assertEquals(2, listReceivedUsingStudentInCourse2.size());
 
-		//check the content from first list (we assume the content of the 
-		//  second list is similar. 
-		
+		// check the content from first list (we assume the content of the
+		// second list is similar.
+
 		StudentData firstStudentReceived = listReceivedUsingStudentInCourse1
 				.get(0);
-		//First student received turned out to be the one from course 2 
+		// First student received turned out to be the one from course 2
 		assertEquals(studentInTwoCoursesInCourse2.email,
 				firstStudentReceived.email);
 		assertEquals(studentInTwoCoursesInCourse2.name,
 				firstStudentReceived.name);
 		assertEquals(studentInTwoCoursesInCourse2.course,
 				firstStudentReceived.course);
-		
-		//then the second student received must be from course 1
+
+		// then the second student received must be from course 1
 		StudentData secondStudentReceived = listReceivedUsingStudentInCourse1
 				.get(1);
 		assertEquals(studentInTwoCoursesInCourse1.email,
@@ -912,17 +911,17 @@ public class APIServletTest extends BaseTestCase {
 		verifyPresentInDatastore(student1InCourse1);
 
 		______TS("check for KeepExistingPolicy");
-		//try changing email only
+		// try changing email only
 		StudentData copyOfStudent1 = new StudentData();
 		copyOfStudent1.course = student1InCourse1.course;
 		originalEmail = student1InCourse1.email;
-		
+
 		student1InCourse1.email = student1InCourse1.email + "y";
 		copyOfStudent1.email = student1InCourse1.email;
-		
+
 		apiServlet.editStudent(originalEmail, copyOfStudent1);
 		verifyPresentInDatastore(student1InCourse1);
-		
+
 		______TS("non-existent student");
 		student1InCourse1.course = "new-course";
 		verifyAbsentInDatastore(student1InCourse1);
@@ -932,9 +931,9 @@ public class APIServletTest extends BaseTestCase {
 		} catch (EntityDoesNotExistException e) {
 			Common.assertContains("new-course", e.getMessage());
 		}
-		
-		//no need to check for cascade delete/creates due to LazyCreationPolicy
-		//  and TolerateOrphansPolicy.
+
+		// no need to check for cascade delete/creates due to LazyCreationPolicy
+		// and TolerateOrphansPolicy.
 	}
 
 	@Test
@@ -943,20 +942,20 @@ public class APIServletTest extends BaseTestCase {
 		refreshDataInDatastore();
 
 		______TS("typical delete");
-		//this is the student to be deleted
+		// this is the student to be deleted
 		StudentData student2InCourse1 = dataBundle.students
 				.get("student2InCourse1");
 		verifyPresentInDatastore(student2InCourse1);
-		
-		//ensure student-to-be-deleted has some submissions
+
+		// ensure student-to-be-deleted has some submissions
 		SubmissionData submissionFromS1C1ToS2C1 = dataBundle.submissions
 				.get("submissionFromS1C1ToS2C1");
 		verifyPresentInDatastore(submissionFromS1C1ToS2C1);
-		
+
 		SubmissionData submissionFromS2C1ToS1C1 = dataBundle.submissions
 				.get("submissionFromS2C1ToS1C1");
 		verifyPresentInDatastore(submissionFromS2C1ToS1C1);
-		
+
 		SubmissionData submissionFromS1C1ToS1C1 = dataBundle.submissions
 				.get("submissionFromS1C1ToS1C1");
 		verifyPresentInDatastore(submissionFromS1C1ToS1C1);
@@ -968,34 +967,34 @@ public class APIServletTest extends BaseTestCase {
 		apiServlet.deleteStudent(student2InCourse1.course,
 				student2InCourse1.email);
 		verifyAbsentInDatastore(student2InCourse1);
-		
+
 		// verify that other students in the course are intact
 		StudentData student1InCourse1 = dataBundle.students
 				.get("student1InCourse1");
 		verifyPresentInDatastore(student1InCourse1);
-		
-		//verify that submissions are deleted
+
+		// verify that submissions are deleted
 		verifyAbsentInDatastore(submissionFromS1C1ToS2C1);
 		verifyAbsentInDatastore(submissionFromS2C1ToS1C1);
-		
-		//verify other student's submissions are intact
+
+		// verify other student's submissions are intact
 		verifyPresentInDatastore(submissionFromS1C1ToS1C1);
 
 		// verify that log entries belonging to the student was deleted
 		verifyAbsenceOfTfsLogsForStudent(student2InCourse1.course,
 				student2InCourse1.email);
-		
+
 		// verify that log entries belonging to another student remain intact
 		verifyPresenceOfTfsLogsForStudent(student1InCourse1.course,
 				student1InCourse1.email);
 
 		______TS("delete non-existent student");
-		//should fail silently.
+		// should fail silently.
 		apiServlet.deleteStudent(student2InCourse1.course,
 				student2InCourse1.email);
 
 		______TS("null parameters");
-		//should fail silently.
+		// should fail silently.
 		apiServlet.deleteStudent(null, student1InCourse1.email);
 		apiServlet.deleteStudent(student1InCourse1.course, null);
 
@@ -1029,13 +1028,13 @@ public class APIServletTest extends BaseTestCase {
 		verifyPresentInDatastore(student1);
 
 		______TS("add existing student");
-		//Verify it was not added
+		// Verify it was not added
 		enrollmentResult = apiServlet.enrollStudent(student1);
 		verifyEnrollmentResultForStudent(student1, enrollmentResult,
 				StudentData.UpdateStatus.UNMODIFIED);
 
 		______TS("modify info of existing student");
-		//verify it was treated as modified
+		// verify it was treated as modified
 		StudentData student2 = dataBundle.students.get("student1InCourse1");
 		student2.name = student2.name + "y";
 		StudentData studentToEnroll = new StudentData(student2.email,
@@ -1067,7 +1066,7 @@ public class APIServletTest extends BaseTestCase {
 	public void testSendRegistrationInviteToStudent() throws Exception {
 		printTestCaseHeader();
 		refreshDataInDatastore();
-		
+
 		______TS("send to existing student");
 		StudentData student1 = dataBundle.students.get("student1InCourse1");
 		apiServlet.sendRegistrationInviteToStudent(student1.course,
@@ -1075,15 +1074,15 @@ public class APIServletTest extends BaseTestCase {
 
 		assertEquals(1, getNumberOfEmailTasksInQueue());
 		verifyRegistrationEmailToStudent(student1);
-		
-		//send to another student
+
+		// send to another student
 		StudentData student2 = dataBundle.students.get("student2InCourse1");
 		apiServlet.sendRegistrationInviteToStudent(student2.course,
 				student2.email);
 
 		assertEquals(2, getNumberOfEmailTasksInQueue());
 		verifyRegistrationEmailToStudent(student2);
-		
+
 		______TS("send to non-existing student");
 		try {
 			apiServlet.sendRegistrationInviteToStudent(student1.course,
@@ -1094,26 +1093,121 @@ public class APIServletTest extends BaseTestCase {
 			Common.assertContains(student1.course, e.getMessage());
 		}
 		assertEquals(2, getNumberOfEmailTasksInQueue());
-		
+
 		______TS("try with null parameters");
 		try {
-			apiServlet.sendRegistrationInviteToStudent(student1.course,	null);
+			apiServlet.sendRegistrationInviteToStudent(student1.course, null);
 			fail();
 		} catch (InvalidParametersException e) {
 		}
 		try {
-			apiServlet.sendRegistrationInviteToStudent(null,student1.email);
+			apiServlet.sendRegistrationInviteToStudent(null, student1.email);
 			fail();
 		} catch (InvalidParametersException e) {
 		}
 	}
+	
+	@Test
+	public void testKeyGeneration(){
+		long key = 5;
+		String longKey = KeyFactory.createKeyString(Student.class.getSimpleName(), key);
+		long reverseKey = KeyFactory.stringToKey(longKey).getId();
+		assertEquals(key, reverseKey);
+		assertEquals("Student", KeyFactory.stringToKey(longKey).getKind());
+	}
 
 	@Test
-	public void testRegisterForCourse() {
-		// TODO: implement this
-		// input: key, course, email, googleId
-		// output: status
-		// throws: InvalidParametersException, EntityDoesNotExist
+	public void testJoinCourse() throws Exception {
+		printTestCaseHeader();
+		refreshDataInDatastore();
+
+		______TS("register an unregistered student");
+
+		// make a student 'unregistered'
+		StudentData student = dataBundle.students.get("student1InCourse1");
+		String googleId = "student1InCourse1";
+		long keyLong = Long.parseLong(apiServlet.getKeyForStudent(student.course, student.email));
+		String key = KeyFactory.createKeyString(Student.class.getSimpleName(), keyLong);
+		student.id = "";
+		apiServlet.editStudent(student.email, student);
+		assertEquals("",
+				apiServlet.getStudent(student.course, student.email).id);
+
+		helper.setEnvIsLoggedIn(true);
+		helper.setEnvEmail(googleId);
+		helper.setEnvAuthDomain("gmail.com");
+		
+		apiServlet.joinCourse(googleId,key);
+		assertEquals(googleId,
+				apiServlet.getStudent(student.course, student.email).id);
+
+		______TS("try to register again with a valid key");
+		
+		try {
+			apiServlet.joinCourse(googleId, key);
+			fail();
+		} catch (JoinCourseException e) {
+			assertEquals(Common.ERRORCODE_ALREADY_JOINED, e.errorCode);
+		}
+		assertEquals(googleId,
+				apiServlet.getStudent(student.course, student.email).id);
+
+		______TS("use a valid key belonging to a different user");
+		
+		helper.setEnvEmail("student2InCourse1");
+		helper.setEnvAuthDomain("gmail.com");
+		try {
+			apiServlet.joinCourse("student2InCourse1", key);
+			fail();
+		} catch (JoinCourseException e) {
+			assertEquals(Common.ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER, e.errorCode);
+		}
+		assertEquals(googleId,
+				apiServlet.getStudent(student.course, student.email).id);
+		
+		______TS("try to register with invalid key");
+
+		// make a student 'unregistered'
+		student.id = "";
+		apiServlet.editStudent(student.email, student);
+
+		try {
+			apiServlet.joinCourse(googleId, "invalidkey");
+			fail();
+		} catch (JoinCourseException e) {
+			assertEquals(Common.ERRORCODE_INVALID_KEY, e.errorCode);
+		}
+		
+		assertEquals("",
+				apiServlet.getStudent(student.course, student.email).id);
+		
+		______TS("null parameters");
+		
+		try {
+			apiServlet.joinCourse(googleId, null);
+			fail();
+		} catch (InvalidParametersException e) {
+		}
+		try {
+			apiServlet.joinCourse(null, null);
+			fail();
+		} catch (InvalidParametersException e) {
+		}
+
+	}
+
+	@Test
+	public void testGetKeyForStudent() {
+		// mostly tested in testJoinCourse()
+		______TS("null parameters");
+		StudentData student = dataBundle.students.get("student1InCourse1");
+		assertEquals(null, apiServlet.getKeyForStudent(student.course, null));
+		assertEquals(null, apiServlet.getKeyForStudent(null, student.email));
+		assertEquals(null, apiServlet.getKeyForStudent(null, null));
+
+		______TS("non-existent student");
+		assertEquals(null,
+				apiServlet.getKeyForStudent(student.course, "non@existent"));
 	}
 
 	@Test
@@ -1567,7 +1661,7 @@ public class APIServletTest extends BaseTestCase {
 	@Test
 	public void testGetTfs() {
 		// TODO: implement this
-		//ensure LazyCreation
+		// ensure LazyCreation
 	}
 
 	@Test
@@ -1683,8 +1777,6 @@ public class APIServletTest extends BaseTestCase {
 		}
 		fail("Did not find " + evaluation.name + " in the evaluation info list");
 	}
-
-	// ------------------------------------------------------------------------
 
 	private void verifyEnrollmentResultForStudent(StudentData expectedStudent,
 			StudentData enrollmentResult, StudentData.UpdateStatus status) {

@@ -193,15 +193,21 @@ public class Common {
 	public static String BACKEND_STATUS_FAILURE = "[BACKEND_STATUS_FAILURE]";
 
 	// General Error codes
+	public static final String ERRORCODE_ALREADY_JOINED = "ERRORCODE_ALREADY_JOINED";
 	public static final String ERRORCODE_EMPTY_STRING = "ERRORCODE_EMPTY_STRING";
 	public static final String ERRORCODE_NULL_PARAMETER = "ERRORCODE_NULL_PARAMETER";
 	public static final String ERRORCODE_INCORRECTLY_FORMATTED_STRING = "ERRORCODE_INCORRECTLY_FORMATTED_STRING";
 	public static final String ERRORCODE_INVALID_CHARS = "ERRORCODE_IVALID_CHARS";
 	public static final String ERRORCODE_INVALID_EMAIL = "ERRORCODE_INVALID_EMAIL";
+	public static final String ERRORCODE_INVALID_KEY = "ERRORCODE_INVALID_KEY";
+	public static final String ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER = "ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER";
 	public static final String ERRORCODE_LEADING_OR_TRAILING_SPACES = "ERRORCODE_LEADING_OR_TRAILING_SPACES";
 	public static final String ERRORCODE_STRING_TOO_LONG = "ERRORCODE_STRING_TOO_LONG";
 	public static final int POINTS_NOT_SURE = -101;
 	public static final int POINTS_NOT_SUBMITTED = -999;
+
+
+
 
 	@SuppressWarnings("unused")
 	private void ____VALIDATE_parameters___________________________________() {

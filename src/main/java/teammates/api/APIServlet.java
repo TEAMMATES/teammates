@@ -21,6 +21,9 @@ import teammates.TeamEvalResult;
 import teammates.datatransfer.*;
 import teammates.datatransfer.StudentData.UpdateStatus;
 import teammates.exception.CourseDoesNotExistException;
+import teammates.exception.GoogleIDExistsInCourseException;
+import teammates.exception.RegistrationKeyInvalidException;
+import teammates.exception.RegistrationKeyTakenException;
 import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.EnrollmentReport;
 import teammates.jdo.EvaluationDetailsForCoordinator;
@@ -1457,7 +1460,6 @@ public class APIServlet extends HttpServlet {
 
 	}
 
-	// TODO: testing
 	public ArrayList<StudentData> getStudentsWithId(String googleId) {
 		List<Student> students = Accounts.inst().getStudentWithID(googleId);
 		if (students == null) {
@@ -1468,6 +1470,37 @@ public class APIServlet extends HttpServlet {
 			returnList.add(new StudentData(s));
 		}
 		return returnList;
+	}
+
+	public void joinCourse(String googleId, String key)
+			throws JoinCourseException, InvalidParametersException {
+		if((googleId==null)||(key==null)){
+			throw new InvalidParametersException("GoogleId or key cannot be null");
+		}
+		try {
+			Courses.inst().joinCourse(key, googleId);
+		} catch (RegistrationKeyInvalidException e) {
+			throw new JoinCourseException(Common.ERRORCODE_INVALID_KEY,
+					"Invalid key :" + key);
+		} catch (GoogleIDExistsInCourseException e) {
+			throw new JoinCourseException(Common.ERRORCODE_ALREADY_JOINED,
+					googleId + " is already joined this course");
+		} catch (RegistrationKeyTakenException e) {
+			throw new JoinCourseException(
+					Common.ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER, googleId
+							+ " belongs to a different user");
+		}
+
+	}
+
+	public String getKeyForStudent(String courseId, String email) {
+		if ((courseId == null) || (email == null)) {
+			return null;
+		}
+		Student student = Accounts.inst().getStudent(courseId, email);
+
+		return (student == null ? null : student.getRegistrationKey()
+				.toString());
 	}
 
 	@SuppressWarnings("unused")
