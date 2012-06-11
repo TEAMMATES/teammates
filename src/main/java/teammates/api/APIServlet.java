@@ -297,7 +297,7 @@ public class APIServlet extends HttpServlet {
 	 * Open an evaluation to students
 	 */
 	protected void evaluationOpen() throws IOException {
-		System.out.println("Opening evaluation.");
+		log.fine("Opening evaluation.");
 		String courseID = req.getParameter("course_id");
 		String name = req.getParameter("evaluation_name");
 
@@ -314,7 +314,7 @@ public class APIServlet extends HttpServlet {
 	 * Close an evaluation
 	 */
 	protected void evaluationClose() throws IOException {
-		System.out.println("Closing evaluation.");
+		log.fine("Closing evaluation.");
 		String courseID = req.getParameter("course_id");
 		String name = req.getParameter("evaluation_name");
 
@@ -395,7 +395,7 @@ public class APIServlet extends HttpServlet {
 	 * @throws
 	 */
 	protected void enrollStudents() throws IOException {
-		System.out.println("Enrolling students.");
+		log.fine("Enrolling students.");
 		String courseId = req.getParameter("course_id");
 		String str_json = req.getParameter("students");
 
@@ -447,7 +447,7 @@ public class APIServlet extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	protected void totalCleanup() throws IOException {
 		if (!Config.inst().APP_PRODUCTION_MOLD) {
-			System.out.println("Cleaning up.");
+			log.fine("Cleaning up.");
 
 			// Delete all courses
 			getPM().deletePersistentAll(Courses.inst().getAllCourses());
@@ -495,7 +495,7 @@ public class APIServlet extends HttpServlet {
 	protected void cleanupCourse() throws EntityDoesNotExistException {
 
 		String courseID = req.getParameter("course_id");
-		System.out.println("APIServlet.cleanupCourse() courseID = " + courseID);
+		log.fine("APIServlet.cleanupCourse() courseID = " + courseID);
 		cascadeCleanupCourse(courseID);
 	}
 
@@ -512,7 +512,7 @@ public class APIServlet extends HttpServlet {
 		try {
 			Courses.inst().cleanUpCourse(courseID);
 		} catch (CourseDoesNotExistException e) {
-			System.out.println("Course " + courseID
+			log.fine("Course " + courseID
 					+ " could not be deleted because " + "it does not exist");
 			return;
 		}
@@ -546,7 +546,7 @@ public class APIServlet extends HttpServlet {
 		String course_id = req.getParameter("course_id");
 		String evaluation_name = req.getParameter("evaluation_name");
 		String student_email = req.getParameter("student_email");
-		System.out.println("Submitting feedback for student." + student_email);
+		log.fine("Submitting feedback for student." + student_email);
 
 		/*
 		 * huy- Unable to use Transaction here. It says transaction batch
@@ -578,7 +578,7 @@ public class APIServlet extends HttpServlet {
 		}
 
 		// Store back to datastore
-		System.out.println(getPM().makePersistentAll(submissions));
+		log.fine(getPM().makePersistentAll(submissions).toString());
 
 		resp.getWriter().write("ok");
 	}
@@ -657,7 +657,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	protected void teamFormingSessionOpen() throws IOException {
-		System.out.println("Opening team forming session.");
+		log.fine("Opening team forming session.");
 		String courseID = req.getParameter("course_id");
 
 		boolean edited = TeamForming.inst().openTeamFormingSession(courseID);
@@ -670,7 +670,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	protected void createProfileOfExistingTeams() throws IOException {
-		System.out.println("Creating profiles of existing teams.");
+		log.fine("Creating profiles of existing teams.");
 		String courseId = req.getParameter("course_id");
 		String courseName = req.getParameter("course_name");
 		String teamName = req.getParameter("team_name");
@@ -691,7 +691,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	protected void studentsJoinCourse() throws IOException {
-		System.out.println("Joining course for students.");
+		log.fine("Joining course for students.");
 
 		// Set the Student.ID to emails.
 		String course_id = req.getParameter("course_id");
@@ -1398,16 +1398,6 @@ public class APIServlet extends HttpServlet {
 		Courses.inst().editStudent(student.course, originalEmail, student.name,
 				student.team, student.email, student.id, student.comments,
 				student.profile);
-		if (TeamForming.inst().getTeamProfile(student.course, student.team) == null) {
-			try {
-				TeamForming.inst().createTeamProfile(
-						new TeamProfile(student.course, "", newTeamName,
-								new Text("")));
-			} catch (EntityAlreadyExistsException e) {
-				log.severe("EntityAlreadyExistsException thrown in "
-						+ this.getClass().getCanonicalName() + ":editStudent()");
-			}
-		}
 	}
 
 	public void deleteStudent(String courseId, String studentEmail) {

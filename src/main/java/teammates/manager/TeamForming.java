@@ -309,7 +309,7 @@ public class TeamForming {
 				return null;
 			return teams;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.severe(e.getMessage());
 			return null;
 		}
 	}
@@ -396,7 +396,7 @@ public class TeamForming {
 
 			return tProfile.get(0);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.severe(e.getMessage());
 			return null;
 		}
 	}
@@ -438,7 +438,7 @@ public class TeamForming {
 
 			return teamFormingSessionList.get(0);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.severe(e.getMessage());
 			return null;
 		}
 	}
@@ -601,7 +601,7 @@ public class TeamForming {
 				deadline);
 
 		if (teamFormingSession == null) {
-			System.out.println("No session found!");
+			log.info("No session found!");
 		}
 		getPM().deletePersistent(teamFormingSession);
 	}

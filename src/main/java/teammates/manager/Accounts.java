@@ -121,7 +121,7 @@ public class Accounts {
 				.newQuery(query).execute();
 
 		if (studentList.isEmpty()) {
-			log.warning("Trying to get non-existent Student : " + courseId
+			log.fine("Trying to get non-existent Student : " + courseId
 					+ "/" + email);
 			return null;
 		}

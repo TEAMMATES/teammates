@@ -1,6 +1,7 @@
 package teammates.manager;
 
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -10,6 +11,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import teammates.Config;
+import teammates.api.Common;
 
 /**
  * Email handles all operations with regards to sending e-mails.
@@ -20,6 +22,7 @@ import teammates.Config;
 public class Emails {
 	private String from;
 	private Properties props;
+	Logger log = Common.getLogger();
 
 	private final String HEADER_REGISTRATION_INVITATION = "TEAMMATES: Registration Invitation: Register in the course %s";
 	private final String HEADER_REGISTRATION_REMINDER = "TEAMMATES: Registration Reminder: Register in the course %s";
@@ -175,7 +178,7 @@ public class Emails {
 		}
 
 		catch (MessagingException e) {
-			System.out.println("teamFormingSessionChanges: fail to send email.");
+			log.fine("teamFormingSessionChanges: fail to send email.");
 		}
 	}
 	
@@ -201,7 +204,7 @@ public class Emails {
 		}
 
 		catch (MessagingException e) {
-			System.out.println("teamFormingSessionOpening: fail to send email.");
+			log.severe("teamFormingSessionOpening: fail to send email.");
 		}
 	}
 
@@ -270,7 +273,7 @@ public class Emails {
 		}
 
 		catch (MessagingException e) {
-			System.out.println("teamFormingPublished: fail to send email.");
+			log.severe("teamFormingPublished: fail to send email.");
 		}
 	}
 
@@ -316,7 +319,7 @@ public class Emails {
 		}
 
 		catch (MessagingException e) {
-			System.out.println("remindStudent: fail to send message");
+			log.severe("remindStudent: fail to send message");
 		}
 	}
 	
@@ -359,7 +362,7 @@ public class Emails {
 		}
 
 		catch (MessagingException e) {
-			System.out.println("remindStudentOfTeamForming: fail to send message");
+			log.severe("remindStudentOfTeamForming: fail to send message");
 		}
 	}
 
@@ -442,7 +445,7 @@ public class Emails {
 		}
 
 		catch (MessagingException e) {
-			System.out.println("sendRegistrationKey: fail to send email.");
+			log.severe("sendRegistrationKey: fail to send email.");
 		}
 	}
 
@@ -469,7 +472,7 @@ public class Emails {
 				message.setText("This is a testing email");
 
 				Transport.send(message);
-				System.out.println("send email " + i + "|" + size);
+				log.fine("send email " + i + "|" + size);
 			}
 
 		}

@@ -398,7 +398,9 @@ public class Courses {
 			throw new EntityDoesNotExistException("Student " + email
 					+ " does not exist in course " + courseID);
 		student.setEmail(newEmail);
-		student.setName(newName);
+		if(newName!=null){
+			student.setName(newName);
+		}
 		
 		if(newComments!=null){
 			student.setComments(newComments);

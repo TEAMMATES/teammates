@@ -897,6 +897,7 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader();
 		refreshDataInDatastore();
 
+		______TS("typical edit");
 		StudentData student1InCourse1 = dataBundle.students
 				.get("student1InCourse1");
 		verifyPresentInDatastore(student1InCourse1);
@@ -910,7 +911,19 @@ public class APIServletTest extends BaseTestCase {
 		apiServlet.editStudent(originalEmail, student1InCourse1);
 		verifyPresentInDatastore(student1InCourse1);
 
-		// non-existent student
+		______TS("check for KeepExistingPolicy");
+		//try changing email only
+		StudentData copyOfStudent1 = new StudentData();
+		copyOfStudent1.course = student1InCourse1.course;
+		originalEmail = student1InCourse1.email;
+		
+		student1InCourse1.email = student1InCourse1.email + "y";
+		copyOfStudent1.email = student1InCourse1.email;
+		
+		apiServlet.editStudent(originalEmail, copyOfStudent1);
+		verifyPresentInDatastore(student1InCourse1);
+		
+		______TS("non-existent student");
 		student1InCourse1.course = "new-course";
 		verifyAbsentInDatastore(student1InCourse1);
 		try {
@@ -919,23 +932,9 @@ public class APIServletTest extends BaseTestCase {
 		} catch (EntityDoesNotExistException e) {
 			Common.assertContains("new-course", e.getMessage());
 		}
-
-		// ensure a team profile is created when moving to a new one
-		StudentData student2 = dataBundle.students.get("student3InCourse1");
-		TeamProfileData teamProfileOfStudent2 = dataBundle.teamProfiles
-				.get("profileOfTeam2.1");
-		verifyPresentInDatastore(teamProfileOfStudent2);
-		student2.team = "newTeam";
-		TeamProfileData profileOfNewTeam = new TeamProfileData(student2.course,
-				"newTeam", new Text(""));
-		verifyAbsentInDatastore(profileOfNewTeam);
-		apiServlet.editStudent(student2.email, student2);
-		verifyPresentInDatastore(profileOfNewTeam);
-
-		// TODO: make sure team profiles are deleted if this is the last student
-		// in that team
-		// TODO: check for KeepExistingPolicy
-
+		
+		//no need to check for cascade delete/creates due to LazyCreationPolicy
+		//  and TolerateOrphansPolicy.
 	}
 
 	@Test
@@ -943,50 +942,65 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader();
 		refreshDataInDatastore();
 
+		______TS("typical delete");
+		//this is the student to be deleted
+		StudentData student2InCourse1 = dataBundle.students
+				.get("student2InCourse1");
+		verifyPresentInDatastore(student2InCourse1);
+		
+		//ensure student-to-be-deleted has some submissions
 		SubmissionData submissionFromS1C1ToS2C1 = dataBundle.submissions
 				.get("submissionFromS1C1ToS2C1");
 		verifyPresentInDatastore(submissionFromS1C1ToS2C1);
+		
 		SubmissionData submissionFromS2C1ToS1C1 = dataBundle.submissions
 				.get("submissionFromS2C1ToS1C1");
 		verifyPresentInDatastore(submissionFromS2C1ToS1C1);
+		
 		SubmissionData submissionFromS1C1ToS1C1 = dataBundle.submissions
 				.get("submissionFromS1C1ToS1C1");
 		verifyPresentInDatastore(submissionFromS1C1ToS1C1);
 
-		StudentData student2InCourse1 = dataBundle.students
-				.get("student2InCourse1");
-		verifyPresentInDatastore(student2InCourse1);
-
-		// verify that the student-to-be-deleted has some log entries
+		// ensure student-to-be-deleted has some log entries
 		verifyPresenceOfTfsLogsForStudent(student2InCourse1.course,
 				student2InCourse1.email);
 
 		apiServlet.deleteStudent(student2InCourse1.course,
 				student2InCourse1.email);
 		verifyAbsentInDatastore(student2InCourse1);
-
+		
 		// verify that other students in the course are intact
 		StudentData student1InCourse1 = dataBundle.students
 				.get("student1InCourse1");
 		verifyPresentInDatastore(student1InCourse1);
-
-		// try to delete the student again. should succeed.
-		apiServlet.deleteStudent(student2InCourse1.course,
-				student2InCourse1.email);
-
+		
+		//verify that submissions are deleted
 		verifyAbsentInDatastore(submissionFromS1C1ToS2C1);
 		verifyAbsentInDatastore(submissionFromS2C1ToS1C1);
+		
+		//verify other student's submissions are intact
 		verifyPresentInDatastore(submissionFromS1C1ToS1C1);
 
 		// verify that log entries belonging to the student was deleted
 		verifyAbsenceOfTfsLogsForStudent(student2InCourse1.course,
 				student2InCourse1.email);
+		
 		// verify that log entries belonging to another student remain intact
 		verifyPresenceOfTfsLogsForStudent(student1InCourse1.course,
 				student1InCourse1.email);
 
-		// TODO: more testing, e.g. test for cascade delete of profiles,
-		// submissions etc.
+		______TS("delete non-existent student");
+		//should fail silently.
+		apiServlet.deleteStudent(student2InCourse1.course,
+				student2InCourse1.email);
+
+		______TS("null parameters");
+		//should fail silently.
+		apiServlet.deleteStudent(null, student1InCourse1.email);
+		apiServlet.deleteStudent(student1InCourse1.course, null);
+
+		// No need to test for cascade delete of TeamProfiles because we follow
+		// tolerateOrphansPolicy for TeamProfiles
 	}
 
 	@Test
@@ -1518,6 +1532,7 @@ public class APIServletTest extends BaseTestCase {
 	@Test
 	public void testGetTfs() {
 		// TODO: implement this
+		//ensure LazyCreation
 	}
 
 	@Test

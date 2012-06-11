@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -50,6 +51,8 @@ import com.google.appengine.api.datastore.Text;
 public class TeammatesServlet extends HttpServlet {
 	private HttpServletRequest req;
 	private HttpServletResponse resp;
+	
+	private Logger log = Common.getLogger();
 
 	// OPERATIONS
 	private static final String OPERATION_ADMINISTRATOR_ADDCOORDINATOR = "administrator_addcoordinator";
@@ -202,11 +205,11 @@ public class TeammatesServlet extends HttpServlet {
 		String operation = this.req.getParameter("operation");
 
 		if (operation == null) {
-			System.out.println("no operation specified");
+			log.severe("no operation specified");
 			return;
 		}
 
-		System.out.println(Thread.currentThread().getId() + ": " + operation);
+		log.fine(Thread.currentThread().getId() + ": " + operation);
 
 		if (operation.equals(OPERATION_ADMINISTRATOR_ADDCOORDINATOR)) {
 			try {
@@ -439,7 +442,7 @@ public class TeammatesServlet extends HttpServlet {
 		else if (operation.equals(OPERATION_TEST_AWAITEVALUATION)) {
 			testAwaitEvaluation();
 		} else {
-			System.out.println("unknown command");
+			log.severe("unknown command");
 		}
 		// Clean-up
 		this.resp.flushBuffer();
@@ -713,13 +716,13 @@ public class TeammatesServlet extends HttpServlet {
 		Courses courses = Courses.inst();
 		Evaluations evaluations = Evaluations.inst();
 
-		System.out.println(newEmail + "|" + email);
+		log.fine(newEmail + "|" + email);
 
 		// Check duplicate email
 		Student dupStudent = courses.getStudentWithEmail(courseID, newEmail);
 		if (dupStudent != null && !dupStudent.getID().equals(newGoogleID)) {
-			System.out.println(courses.getStudentWithEmail(courseID, newEmail).getID());
-			System.out.println(newGoogleID);
+			log.fine(courses.getStudentWithEmail(courseID, newEmail).getID());
+			log.fine(newGoogleID);
 
 			resp.getWriter().write(MSG_STATUS_OPENING + MSG_EVALUATION_UNABLETOCHANGETEAMS + MSG_STATUS_CLOSING);
 			return;
@@ -1566,7 +1569,7 @@ public class TeammatesServlet extends HttpServlet {
 		});
 
 		submissionResultsList.add(0, selfEvaluation);
-		System.out.println(parseSubmissionResultsForStudentListToXML(submissionResultsList).toString());
+		log.fine(parseSubmissionResultsForStudentListToXML(submissionResultsList).toString());
 		return "<submissions>" + parseSubmissionResultsForStudentListToXML(submissionResultsList).toString() + "</submissions>";
 
 	}
@@ -1680,7 +1683,7 @@ public class TeammatesServlet extends HttpServlet {
 	private void testOpenEvaluation() throws IOException {
 		String courseID = req.getParameter(COURSE_ID);
 		String name = req.getParameter(EVALUATION_NAME);
-		System.out.println(courseID + "|" + name + "|" + System.currentTimeMillis());
+		log.fine(courseID + "|" + name + "|" + System.currentTimeMillis());
 		Evaluations evaluations = Evaluations.inst();
 
 		boolean edited = evaluations.openEvaluation(courseID, name);

@@ -28,6 +28,8 @@ import com.google.gson.GsonBuilder;
 // TODO: create a subclass (e.g., InternalUtil) and move all internal utility
 // functions to that sub class. It should be in util package.
 public class Common {
+	
+	private static Logger log = Logger.getLogger(Common.class.getName());
 
 	public final static String EOL = System.getProperty("line.separator");
 	public static final int UNINITIALIZED_INT = -9999;
@@ -394,7 +396,7 @@ public class Common {
 	}
 
 	public static void println(String message) {
-		System.out.println(String.format("[%d - %s] %s", Thread.currentThread()
+		log.fine(String.format("[%d - %s] %s", Thread.currentThread()
 				.getId(), Thread.currentThread().getName(), message));
 	}
 

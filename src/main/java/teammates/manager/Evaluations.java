@@ -203,7 +203,7 @@ public class Evaluations {
 			for (Submission s : submissionList) {
 				if (s.getPoints() != -101) {
 					s.setPoints(100);
-					System.out.println("MSG:" + s.getFromStudent() + "|" + s.getToStudent() + "|" + s.getPoints());
+					log.fine("MSG:" + s.getFromStudent() + "|" + s.getToStudent() + "|" + s.getPoints());
 				}
 
 			}
@@ -481,7 +481,7 @@ public class Evaluations {
 				return false;
 			}
 		}
-		System.out.println("awaiting submission pass");
+		log.fine("awaiting submission pass");
 		return true;
 	}
 
@@ -568,7 +568,7 @@ public class Evaluations {
 		String query = "select from " + Evaluation.class.getName()
 				+ " where name == '" + name + "' && courseID == '" + courseID
 				+ "'";
-		System.out.println(query);
+		log.fine(query);
 		@SuppressWarnings("unchecked")
 		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
 				query).execute();

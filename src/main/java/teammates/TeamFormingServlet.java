@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,6 +32,8 @@ import com.google.appengine.api.users.User;
 public class TeamFormingServlet extends HttpServlet {
 	private HttpServletRequest req;
 	private HttpServletResponse resp;
+	
+	private static Logger log = Common.getLogger();
 
 	// OPERATIONS	
 	private static final String OPERATION_COORDINATOR_CHECKTEAMEXISTS = "coordinator_checkteamexists";
@@ -124,11 +127,11 @@ public class TeamFormingServlet extends HttpServlet {
 		String operation = this.req.getParameter("operation");
 
 		if (operation == null) {
-			System.out.println("no operation specified");
+			log.severe("no operation specified");
 			return;
 		}
 
-		System.out.println(Thread.currentThread().getId() + ": " + operation);
+		log.fine(Thread.currentThread().getId() + ": " + operation);
 		
 		if(operation.equals(OPERATION_COORDINATOR_CREATETEAMFORMINGSESSION)){
 			coordinatorCreateTeamFormingSession();
@@ -270,7 +273,7 @@ public class TeamFormingServlet extends HttpServlet {
 		}
 		
 		else {
-			System.out.println("unknown command");
+			log.severe("unknown command");
 		}
 		// Clean-up
 		this.resp.flushBuffer();
