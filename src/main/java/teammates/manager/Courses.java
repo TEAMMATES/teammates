@@ -13,6 +13,7 @@ import javax.jdo.PersistenceManager;
 import org.mortbay.log.Log;
 
 import teammates.Datastore;
+import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
@@ -44,8 +45,7 @@ import com.google.appengine.api.taskqueue.TaskOptions;
  */
 public class Courses {
 	private static Courses instance = null;
-	private static final Logger log = Logger.getLogger(Courses.class
-			.getSimpleName());
+	private static final Logger log = Common.getLogger();
 
 	/**
 	 * Constructs a Courses object. Obtains an instance of PersistenceManager
@@ -240,7 +240,7 @@ public class Courses {
 		if (course == null) {
 			String errorMessage = "Trying to delete non-existent course : "
 					+ courseID;
-			Log.info(errorMessage);
+			log.info(errorMessage);
 		}
 
 		getPM().deletePersistent(course);
@@ -253,7 +253,7 @@ public class Courses {
 		if (course == null) {
 			String errorMessage = "Trying to delete non-existent course : "
 					+ courseId;
-			Log.warn(errorMessage);
+			log.warning(errorMessage);
 		}
 		
 		deleteAllStudents(courseId);
@@ -269,7 +269,7 @@ public class Courses {
 	 */
 	public void deleteAllStudents(String courseID) {
 		List<Student> studentList = getStudentList(courseID);
-		Log.info("Deleting "+studentList.size()+" students from the course "+courseID);
+		log.info("Deleting "+studentList.size()+" students from the course "+courseID);
 		getPM().deletePersistentAll(studentList);
 	}
 
@@ -288,7 +288,7 @@ public class Courses {
 		if (s == null) {
 			String errorMessage = "Trying to delete non-existent student : "
 					+ courseID + "/" + email;
-			Log.warn(errorMessage);
+			log.warning(errorMessage);
 		} else {
 			getPM().deletePersistent(s);
 		}

@@ -81,7 +81,8 @@
     "student2InCourse2":{
       "email": "student2InCourse2@gmail.com",
       "name": "student2 In Course2",
-      "id": "student2InCourse2",
+      "id": "student2InCourse1",
+      "comments": "#####This is the same student as student2InCourse1 but using different name and email #####",
       "team": "Team 2.1",
       "course" : "idOfCourse1OfCoord2",
       "profile" : {"value" : "profiledetail for student2InCourse2" }

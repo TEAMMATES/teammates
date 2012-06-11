@@ -54,10 +54,11 @@ public class APIServletTest extends BaseTestCase {
 	private final static APIServlet apiServlet = new APIServlet();
 	private static Gson gson = Common.getTeammatesGson();
 	static String jsonString;
-	static{
-		try{
-			jsonString = Common.readFile(Common.TEST_DATA_FOLDER + "/typicalDataBundle.json");
-		} catch (Exception e){
+	static {
+		try {
+			jsonString = Common.readFile(Common.TEST_DATA_FOLDER
+					+ "/typicalDataBundle.json");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -69,7 +70,7 @@ public class APIServletTest extends BaseTestCase {
 			+ "queue.xml";
 
 	@BeforeClass
-	public static void classSetUp() throws Exception{
+	public static void classSetUp() throws Exception {
 		printTestClassHeader();
 		setGeneralLoggingLevel(Level.WARNING);
 		setLogLevelOfClass(APIServlet.class, Level.FINE);
@@ -93,7 +94,8 @@ public class APIServletTest extends BaseTestCase {
 		LocalUserServiceTestConfig localUserServiceTestConfig = new LocalUserServiceTestConfig();
 		helper = new LocalServiceTestHelper(
 				new LocalDatastoreServiceTestConfig(),
-				new LocalMailServiceTestConfig(),localUserServiceTestConfig, ltqtc);
+				new LocalMailServiceTestConfig(), localUserServiceTestConfig,
+				ltqtc);
 
 		/**
 		 * LocalServiceTestHelper is supposed to run in the same timezone as Dev
@@ -157,8 +159,8 @@ public class APIServletTest extends BaseTestCase {
 			fail();
 		} catch (EntityAlreadyExistsException e) {
 		}
-		
-		//try with null
+
+		// try with null
 		DataBundle nullDataBundle = null;
 		try {
 			apiServlet.persistNewDataBundle(nullDataBundle);
@@ -166,9 +168,9 @@ public class APIServletTest extends BaseTestCase {
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
 		}
-		
-		//try with invalid parameters in an entity
-		CourseData invalidCourse = new CourseData(); 
+
+		// try with invalid parameters in an entity
+		CourseData invalidCourse = new CourseData();
 		dataBundle = new DataBundle();
 		dataBundle.courses.put("invalid", invalidCourse);
 		try {
@@ -178,23 +180,24 @@ public class APIServletTest extends BaseTestCase {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
 		}
 
-		// Not checking for invalid values in other entities because they 
-		//   should be checked at lower level methods
+		// Not checking for invalid values in other entities because they
+		// should be checked at lower level methods
 	}
-	
+
 	@Test
-	public void testGetLoggedInUser() throws Exception{
+	public void testGetLoggedInUser() throws Exception {
 		printTestCaseHeader();
 		refreshDataInDatastore();
 		CoordData coord = dataBundle.coords.get("typicalCoord1");
-		//also make this user a student
-		StudentData coordAsStudent = new StudentData("|Coord As Student|coordasstudent@yahoo.com|", "some-course");
+		// also make this user a student
+		StudentData coordAsStudent = new StudentData(
+				"|Coord As Student|coordasstudent@yahoo.com|", "some-course");
 		coordAsStudent.id = coord.id;
 		apiServlet.createStudent(coordAsStudent);
-		
+
 		helper.setEnvIsLoggedIn(true);
 		helper.setEnvIsAdmin(true);
-		
+
 		helper.setEnvEmail(coord.id);
 		helper.setEnvAuthDomain("gmail.com");
 		UserData user = apiServlet.getLoggedInUser();
@@ -202,19 +205,19 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(true, user.isAdmin);
 		assertEquals(true, user.isCoord);
 		assertEquals(true, user.isStudent);
-		
-		//this user is no longer a student
+
+		// this user is no longer a student
 		apiServlet.deleteStudent(coordAsStudent.course, coordAsStudent.email);
-		//this user is no longer an admin
+		// this user is no longer an admin
 		helper.setEnvIsAdmin(false);
-		
+
 		user = apiServlet.getLoggedInUser();
 		assertEquals(coord.id, user.id);
 		assertEquals(false, user.isAdmin);
 		assertEquals(true, user.isCoord);
 		assertEquals(false, user.isStudent);
 
-		//check for unregistered student
+		// check for unregistered student
 		helper.setEnvEmail("unknown");
 		helper.setEnvAuthDomain("gmail.com");
 		user = apiServlet.getLoggedInUser();
@@ -222,8 +225,8 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(false, user.isAdmin);
 		assertEquals(false, user.isCoord);
 		assertEquals(false, user.isStudent);
-		
-		//check for user who is only a student
+
+		// check for user who is only a student
 		StudentData student = dataBundle.students.get("student1InCourse1");
 		helper.setEnvEmail(student.id);
 		helper.setEnvAuthDomain("gmail.com");
@@ -232,8 +235,8 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(false, user.isAdmin);
 		assertEquals(false, user.isCoord);
 		assertEquals(true, user.isStudent);
-		
-		//check for user not logged in
+
+		// check for user not logged in
 		helper.setEnvIsLoggedIn(false);
 		assertEquals(null, apiServlet.getLoggedInUser());
 		assertEquals(null, apiServlet.getLoggedInUser());
@@ -258,7 +261,7 @@ public class APIServletTest extends BaseTestCase {
 		// read existing coord
 		verifyPresentInDatastore(coord);
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
-		//create a course to check cascade delete later
+		// create a course to check cascade delete later
 		apiServlet.createCourse(coord.id, course.id, course.name);
 		verifyPresentInDatastore(course);
 		// delete existing
@@ -269,7 +272,7 @@ public class APIServletTest extends BaseTestCase {
 		verifyAbsentInDatastore(course);
 		// delete non-existent (fails silently)
 		apiServlet.deleteCoord(coord.id);
-		
+
 		// try one invalid input for each parameter
 		try {
 			apiServlet.createCoord("valid-id", "", "valid@email.com");
@@ -336,7 +339,8 @@ public class APIServletTest extends BaseTestCase {
 
 		// check for null parameter
 		assertEquals(null, apiServlet.getCourseListForCoord(null));
-		
+
+		// non-existent coord
 		try {
 			apiServlet.getCourseListForCoord("non-existent");
 			fail();
@@ -394,6 +398,7 @@ public class APIServletTest extends BaseTestCase {
 		// null parameters
 		assertEquals(null, apiServlet.getCourseDetailsListForCoord(null));
 
+		// non-existent coord
 		try {
 			apiServlet.getCourseDetailsListForCoord("non-existent");
 			fail();
@@ -430,10 +435,10 @@ public class APIServletTest extends BaseTestCase {
 		evalList = apiServlet.getEvaluationsListForCoord(coord3.id);
 		assertEquals(0, evalList.size());
 
-		
 		// null parameter
 		assertEquals(null, apiServlet.getEvaluationsListForCoord(null));
-		
+
+		// non-existent coord
 		try {
 			apiServlet.getEvaluationsListForCoord("non-existent");
 			fail();
@@ -454,7 +459,7 @@ public class APIServletTest extends BaseTestCase {
 
 		// null parameters
 		assertEquals(null, apiServlet.getTfsListForCoord(null));
-		
+
 		try {
 			apiServlet.getTfsListForCoord("non-existent");
 			fail();
@@ -484,7 +489,7 @@ public class APIServletTest extends BaseTestCase {
 		// create and read
 		apiServlet.createCourse(course.coord, course.id, course.name);
 		verifyPresentInDatastore(course);
-		
+
 		// try to create again
 		try {
 			apiServlet.createCourse(course.coord, course.id, course.name);
@@ -550,11 +555,12 @@ public class APIServletTest extends BaseTestCase {
 				.get("evaluation1InCourse1OfCoord1"));
 		verifyPresentInDatastore(dataBundle.teamFormingSessions
 				.get("tfsInCourse1"));
-		
-		StudentData studentInCourse = dataBundle.students.get("student1InCourse1");
+
+		StudentData studentInCourse = dataBundle.students
+				.get("student1InCourse1");
 		assertEquals(course1OfCoord.id, studentInCourse.course);
 		verifyPresentInDatastore(studentInCourse);
-		
+
 		apiServlet.deleteCourse(course1OfCoord.id);
 
 		// ensure the course and related entities are deleted
@@ -593,15 +599,14 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(0, studentList.size());
 
 		assertEquals(null, apiServlet.getStudentListForCourse(null));
-		
+
+		// non-existent course
 		try {
 			apiServlet.getStudentListForCourse("non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
 			Common.assertContains("non-existent", e.getMessage());
 		}
-
-		// TODO: test for non-existent course
 	}
 
 	@Test
@@ -685,10 +690,20 @@ public class APIServletTest extends BaseTestCase {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
 			Common.assertContains("Course ID", e.getMessage());
 		}
-		
-		
-		//TODO: check for duplicate students in enroll lines
-		
+
+		// same student added, modified and unmodified in one shot
+		apiServlet.createCourse("tes.coord", "tes.course", "TES Course");
+		lines = "t8|n8|e8@g|c1" + EOL + "t8|n8a|e8@g|c1" + EOL
+				+ "t8|n8a|e8@g|c1";
+		enrollResults = apiServlet.enrollStudents(lines, "tes.course");
+
+		assertEquals(3, enrollResults.size());
+		assertEquals(StudentData.UpdateStatus.NEW,
+				enrollResults.get(0).updateStatus);
+		assertEquals(StudentData.UpdateStatus.MODIFIED,
+				enrollResults.get(1).updateStatus);
+		assertEquals(StudentData.UpdateStatus.UNMODIFIED,
+				enrollResults.get(2).updateStatus);
 	}
 
 	@Test
@@ -727,49 +742,49 @@ public class APIServletTest extends BaseTestCase {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
 		}
 	}
-	
+
 	@Test
-	public void testGetTeamsForCourse() throws Exception{
+	public void testGetTeamsForCourse() throws Exception {
 		printTestCaseHeader();
 		refreshDataInDatastore();
-		
-		//testing for typical course
+
+		// testing for typical course
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
 		apiServlet.createStudent(new StudentData("|s1|s1@e|", course.id));
 		apiServlet.createStudent(new StudentData("|s2|s2@e|", course.id));
 		CourseData courseAsTeams = apiServlet.getTeamsForCourse(course.id);
 		assertEquals(2, courseAsTeams.teams.size());
-		
+
 		String team1Id = "Team 1.1";
 		assertEquals(team1Id, courseAsTeams.teams.get(0).name);
 		assertEquals(team1Id, courseAsTeams.teams.get(0).profile.team);
 		assertEquals(4, courseAsTeams.teams.get(0).students.size());
 		assertEquals(team1Id, courseAsTeams.teams.get(0).students.get(0).team);
 		assertEquals(team1Id, courseAsTeams.teams.get(0).students.get(1).team);
-		
+
 		String team2Id = "Team 1.2";
 		assertEquals(team2Id, courseAsTeams.teams.get(1).name);
 		assertEquals(team2Id, courseAsTeams.teams.get(1).profile.team);
 		assertEquals(1, courseAsTeams.teams.get(1).students.size());
 		assertEquals(team2Id, courseAsTeams.teams.get(1).students.get(0).team);
-		
+
 		assertEquals(2, courseAsTeams.loners.size());
 		assertEquals("s1@e", courseAsTeams.loners.get(0).email);
 		assertEquals("s2@e", courseAsTeams.loners.get(1).email);
-		
-		//try again without the loners
+
+		// try again without the loners
 		refreshDataInDatastore();
 		courseAsTeams = apiServlet.getTeamsForCourse(course.id);
 		assertEquals(4, courseAsTeams.teams.get(0).students.size());
 		assertEquals(0, courseAsTeams.loners.size());
-		
+
 		assertEquals(null, apiServlet.getTeamsForCourse(null));
-		
-		//course without teams
+
+		// course without teams
 		apiServlet.createCourse("coord1", "course1", "Course 1");
 		assertEquals(0, apiServlet.getTeamsForCourse("course1").teams.size());
-		
-		//non-existent course
+
+		// non-existent course
 		try {
 			apiServlet.getTeamsForCourse("non-existent");
 			fail();
@@ -814,10 +829,67 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(null, apiServlet.getStudent(null, "email@email.com"));
 		assertEquals(null, apiServlet.getStudent("course-id", null));
 	}
-	
+
 	@Test
-	public void testGetStudentWithId(){
-		//TODO: implement this
+	public void testGetStudentWithId() throws Exception {
+		printTestCaseHeader();
+		refreshDataInDatastore();
+
+		______TS("student in one course");
+		StudentData studentInOneCourse = dataBundle.students
+				.get("student1InCourse1");
+		assertEquals(1, apiServlet.getStudentsWithId(studentInOneCourse.id)
+				.size());
+		assertEquals(studentInOneCourse.email,
+				apiServlet.getStudentsWithId(studentInOneCourse.id).get(0).email);
+		assertEquals(studentInOneCourse.name,
+				apiServlet.getStudentsWithId(studentInOneCourse.id).get(0).name);
+		assertEquals(
+				studentInOneCourse.course,
+				apiServlet.getStudentsWithId(studentInOneCourse.id).get(0).course);
+
+		______TS("student in two courses");
+		//this student is in two courses, course1 and course 2.
+		
+		//get list using student data from course 1
+		StudentData studentInTwoCoursesInCourse1 = dataBundle.students
+				.get("student2InCourse1");
+		ArrayList<StudentData> listReceivedUsingStudentInCourse1 = apiServlet
+				.getStudentsWithId(studentInTwoCoursesInCourse1.id);
+		assertEquals(2, listReceivedUsingStudentInCourse1.size());
+
+		//get list using student data from course 2
+		StudentData studentInTwoCoursesInCourse2 = dataBundle.students
+				.get("student2InCourse2");
+		ArrayList<StudentData> listReceivedUsingStudentInCourse2 = apiServlet
+				.getStudentsWithId(studentInTwoCoursesInCourse2.id);
+		assertEquals(2, listReceivedUsingStudentInCourse2.size());
+
+		//check the content from first list (we assume the content of the 
+		//  second list is similar. 
+		
+		StudentData firstStudentReceived = listReceivedUsingStudentInCourse1
+				.get(0);
+		//First student received turned out to be the one from course 2 
+		assertEquals(studentInTwoCoursesInCourse2.email,
+				firstStudentReceived.email);
+		assertEquals(studentInTwoCoursesInCourse2.name,
+				firstStudentReceived.name);
+		assertEquals(studentInTwoCoursesInCourse2.course,
+				firstStudentReceived.course);
+		
+		//then the second student received must be from course 1
+		StudentData secondStudentReceived = listReceivedUsingStudentInCourse1
+				.get(1);
+		assertEquals(studentInTwoCoursesInCourse1.email,
+				secondStudentReceived.email);
+		assertEquals(studentInTwoCoursesInCourse1.name,
+				secondStudentReceived.name);
+		assertEquals(studentInTwoCoursesInCourse1.course,
+				secondStudentReceived.course);
+
+		______TS("non existent student");
+		assertEquals(null, apiServlet.getStudentsWithId("non-existent"));
 	}
 
 	@Test
@@ -837,8 +909,8 @@ public class APIServletTest extends BaseTestCase {
 		student1InCourse1.profile = new Text("new profile detail abc ");
 		apiServlet.editStudent(originalEmail, student1InCourse1);
 		verifyPresentInDatastore(student1InCourse1);
-		
-		//non-existent student
+
+		// non-existent student
 		student1InCourse1.course = "new-course";
 		verifyAbsentInDatastore(student1InCourse1);
 		try {
@@ -854,7 +926,7 @@ public class APIServletTest extends BaseTestCase {
 				.get("profileOfTeam2.1");
 		verifyPresentInDatastore(teamProfileOfStudent2);
 		student2.team = "newTeam";
-		TeamProfileData profileOfNewTeam = new TeamProfileData(student2.course, 
+		TeamProfileData profileOfNewTeam = new TeamProfileData(student2.course,
 				"newTeam", new Text(""));
 		verifyAbsentInDatastore(profileOfNewTeam);
 		apiServlet.editStudent(student2.email, student2);
@@ -940,7 +1012,7 @@ public class APIServletTest extends BaseTestCase {
 		verifyEnrollmentResultForStudent(student1, enrollmentResult,
 				StudentData.UpdateStatus.NEW);
 		verifyPresentInDatastore(student1);
-		
+
 		// add the same student. Verify it was not added
 		enrollmentResult = apiServlet.enrollStudent(student1);
 		verifyEnrollmentResultForStudent(student1, enrollmentResult,
@@ -948,13 +1020,15 @@ public class APIServletTest extends BaseTestCase {
 
 		// modify info of same student and verify it was treated as modified
 		StudentData student2 = dataBundle.students.get("student1InCourse1");
-		student2.name = student2.name+"y";
-		StudentData studentToEnroll = new StudentData(student2.email,student2.name, student2.comments, student2.course, student2.team);
+		student2.name = student2.name + "y";
+		StudentData studentToEnroll = new StudentData(student2.email,
+				student2.name, student2.comments, student2.course,
+				student2.team);
 		enrollmentResult = apiServlet.enrollStudent(studentToEnroll);
 		verifyEnrollmentResultForStudent(studentToEnroll, enrollmentResult,
 				StudentData.UpdateStatus.MODIFIED);
-		//check if the student is actually modified in datastore and existing 
-		// values not specified in enroll action (e.g, id) prevail 
+		// check if the student is actually modified in datastore and existing
+		// values not specified in enroll action (e.g, id) prevail
 		verifyPresentInDatastore(student2);
 
 		// add a new student to non-empty course
@@ -963,7 +1037,7 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(2, apiServlet.getStudentListForCourse(courseId).size());
 		verifyEnrollmentResultForStudent(student3, enrollmentResult,
 				StudentData.UpdateStatus.NEW);
-		
+
 		// student without team
 		StudentData student4 = new StudentData("|n4|e4@g", courseId);
 		enrollmentResult = apiServlet.enrollStudent(student4);
@@ -984,29 +1058,31 @@ public class APIServletTest extends BaseTestCase {
 		verifyRegistrationEmailToStudent(student1);
 		// TODO: more testing
 	}
-	
+
 	@Test
-	public void testRegisterForCourse(){
-		//TODO: implement this
-		//input: key, course, email, googleId
-		//output: status
-		//throws: InvalidParametersException, EntityDoesNotExist
+	public void testRegisterForCourse() {
+		// TODO: implement this
+		// input: key, course, email, googleId
+		// output: status
+		// throws: InvalidParametersException, EntityDoesNotExist
 	}
-	
+
 	@Test
-	public void testGetCourseListForStudent(){
-		//TODO: implement this
-		//input: googleId
-		//output: List<CourseData>, including List<EvaluationData>
-		//throws: InvalidParametersException, EntityDoesNotExist (if student does not exist)
+	public void testGetCourseListForStudent() {
+		// TODO: implement this
+		// input: googleId
+		// output: List<CourseData>, including List<EvaluationData>
+		// throws: InvalidParametersException, EntityDoesNotExist (if student
+		// does not exist)
 	}
-	
+
 	@Test
-	public void testGetEvauationResultForStudent(){
-		//TODO: implement this
-		//input: course, email,evalName
-		//output: EvaluationResult
-		//throws: InvalidParametersException, EntityDoesNotExist (if eval or student does not exist)
+	public void testGetEvauationResultForStudent() {
+		// TODO: implement this
+		// input: course, email,evalName
+		// output: EvaluationResult
+		// throws: InvalidParametersException, EntityDoesNotExist (if eval or
+		// student does not exist)
 	}
 
 	@SuppressWarnings("unused")
@@ -1025,7 +1101,7 @@ public class APIServletTest extends BaseTestCase {
 		verifyAbsentInDatastore(evaluation);
 		apiServlet.createEvaluation(evaluation);
 		verifyPresentInDatastore(evaluation);
-		
+
 		try {
 			apiServlet.createEvaluation(evaluation);
 			fail();
@@ -1087,110 +1163,109 @@ public class APIServletTest extends BaseTestCase {
 	public void testGetEvaluationResult() throws Exception {
 		printTestCaseHeader();
 		refreshDataInDatastore();
-		
-		//reconfigure points of an existing evaluation in the datastore
+
+		// reconfigure points of an existing evaluation in the datastore
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
-		EvaluationData evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
-		
-		setPointsForSubmissions(new int[][]{
-				{ 100, 100, 100, 100 }, 
-				{ 110, 110, NSU, 110 },
-				{ NSB, NSB, NSB, NSB },
-				{  70,  80, 110, 120 }});
-		
-		
-		EvaluationData result = apiServlet.getEvaluationResult(course.id, evaluation.name);
-		
-		//no need to sort, the result should be sorted by default
-		
-		//check number of teams and team sizes
+		EvaluationData evaluation = dataBundle.evaluations
+				.get("evaluation1InCourse1OfCoord1");
+
+		setPointsForSubmissions(new int[][] { { 100, 100, 100, 100 },
+				{ 110, 110, NSU, 110 }, { NSB, NSB, NSB, NSB },
+				{ 70, 80, 110, 120 } });
+
+		EvaluationData result = apiServlet.getEvaluationResult(course.id,
+				evaluation.name);
+
+		// no need to sort, the result should be sorted by default
+
+		// check number of teams and team sizes
 		assertEquals(2, result.teams.size());
-		
-		//check students in team 1.1
+
+		// check students in team 1.1
 		TeamData team1_1 = result.teams.get(0);
 		assertEquals(4, team1_1.students.size());
-		
+
 		int S1_POS = 0;
 		int S2_POS = 1;
 		int S3_POS = 2;
 		int S4_POS = 3;
-		
+
 		StudentData s1 = team1_1.students.get(S1_POS);
 		StudentData s2 = team1_1.students.get(S2_POS);
 		StudentData s3 = team1_1.students.get(S3_POS);
 		StudentData s4 = team1_1.students.get(S4_POS);
-		
+
 		assertEquals("student1InCourse1", s1.id);
 		assertEquals("student2InCourse1", s2.id);
 		assertEquals("student3InCourse1", s3.id);
 		assertEquals("student4InCourse1", s4.id);
-		
-		//check self-evaluations of some students
+
+		// check self-evaluations of some students
 		assertEquals(s1.name, s1.result.getSelfEvaluation().revieweeName);
 		assertEquals(s1.name, s1.result.getSelfEvaluation().reviewerName);
 		assertEquals(s3.name, s3.result.getSelfEvaluation().revieweeName);
 		assertEquals(s3.name, s3.result.getSelfEvaluation().reviewerName);
-		
-		//check individual values for s1
+
+		// check individual values for s1
 		assertEquals(100, s1.result.claimedFromStudent);
 		assertEquals(100, s1.result.claimedToCoord);
 		assertEquals(91, s1.result.perceivedToStudent);
 		assertEquals(91, s1.result.perceivedToCoord);
-		//check some more individual values 
+		// check some more individual values
 		assertEquals(110, s2.result.claimedFromStudent);
 		assertEquals(NSB, s3.result.claimedToCoord);
 		assertEquals(95, s4.result.perceivedToStudent);
 		assertEquals(96, s2.result.perceivedToCoord);
-		
-		//check outgoing submissions (s1 more intensely than others)
-		
+
+		// check outgoing submissions (s1 more intensely than others)
+
 		assertEquals(4, s1.result.outgoing.size());
-		
+
 		SubmissionData s1_s1 = s1.result.outgoing.get(S1_POS);
 		assertEquals(100, s1_s1.normalized);
 		String expected = "justification of student1InCourse1 rating to student1InCourse1";
 		assertEquals(expected, s1_s1.justification.getValue());
 		expected = "student1InCourse1 view of team dynamics";
 		assertEquals(expected, s1_s1.p2pFeedback.getValue());
-		
+
 		SubmissionData s1_s2 = s1.result.outgoing.get(S2_POS);
 		assertEquals(100, s1_s2.normalized);
 		expected = "justification of student1InCourse1 rating to student2InCourse1";
 		assertEquals(expected, s1_s2.justification.getValue());
 		expected = "comments from student1InCourse1 to student2InCourse1";
 		assertEquals(expected, s1_s2.p2pFeedback.getValue());
-		
+
 		assertEquals(100, s1.result.outgoing.get(S3_POS).normalized);
 		assertEquals(100, s1.result.outgoing.get(S4_POS).normalized);
-		
+
 		assertEquals(NSU, s2.result.outgoing.get(S3_POS).normalized);
 		assertEquals(100, s2.result.outgoing.get(S4_POS).normalized);
 		assertEquals(NSB, s3.result.outgoing.get(S2_POS).normalized);
 		assertEquals(84, s4.result.outgoing.get(S2_POS).normalized);
-		
-		//check incoming submissions (s2 more intensely than others)
-		
+
+		// check incoming submissions (s2 more intensely than others)
+
 		assertEquals(4, s1.result.incoming.size());
-		assertEquals( 91, s1.result.incoming.get(S1_POS).normalized);
+		assertEquals(91, s1.result.incoming.get(S1_POS).normalized);
 		assertEquals(100, s1.result.incoming.get(S4_POS).normalized);
-		
+
 		SubmissionData s2_s1 = s1.result.incoming.get(S2_POS);
-		assertEquals( 96, s2_s1.normalized);
+		assertEquals(96, s2_s1.normalized);
 		expected = "justification of student2InCourse1 rating to student1InCourse1";
 		assertEquals(expected, s2_s1.justification.getValue());
 		expected = "comments from student2InCourse1 to student1InCourse1";
 		assertEquals(expected, s2_s1.p2pFeedback.getValue());
 		assertEquals(115, s2.result.incoming.get(S4_POS).normalized);
-		
+
 		SubmissionData s3_s1 = s1.result.incoming.get(S3_POS);
 		assertEquals(114, s3_s1.normalized);
 		assertEquals("", s3_s1.justification.getValue());
 		assertEquals("", s3_s1.p2pFeedback.getValue());
 		assertEquals(114, s3.result.incoming.get(S3_POS).normalized);
-		
+
 		assertEquals(108, s4.result.incoming.get(S3_POS).normalized);
-		
-		//check team 1.2
+
+		// check team 1.2
 		TeamData team1_2 = result.teams.get(1);
 		assertEquals(1, team1_2.students.size());
 		StudentData team1_2student = team1_2.students.get(0);
@@ -1199,57 +1274,59 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(NSB, team1_2student.result.claimedToCoord);
 		assertEquals(NSB, team1_2student.result.outgoing.get(0).points);
 		assertEquals(NA, team1_2student.result.incoming.get(0).normalized);
-		
-		//try with null parameters
-		assertEquals(null,apiServlet.getEvaluationResult(null, evaluation.name));
-		assertEquals(null,apiServlet.getEvaluationResult(course.id, null));
-		
-		//try for non-existent courses/evaluations
+
+		// try with null parameters
+		assertEquals(null,
+				apiServlet.getEvaluationResult(null, evaluation.name));
+		assertEquals(null, apiServlet.getEvaluationResult(course.id, null));
+
+		// try for non-existent courses/evaluations
 		try {
-			apiServlet.getEvaluationResult(course.id, "non existent evaluation");
+			apiServlet
+					.getEvaluationResult(course.id, "non existent evaluation");
 			fail();
 		} catch (EntityDoesNotExistException e) {
 			Common.assertContains("non existent evaluation", e.getMessage());
 		}
-		
+
 		try {
 			apiServlet.getEvaluationResult("non-existent-course", "any name");
 			fail();
 		} catch (EntityDoesNotExistException e) {
 			Common.assertContains("non-existent-course", e.getMessage());
 		}
-		
+
 	}
-	
+
 	@Test
-	public void testCalculateTeamResult() throws Exception{
+	public void testCalculateTeamResult() throws Exception {
 		printTestCaseHeader();
-		
+
 		assertEquals(null, invokeCalclulateTeamResult(null));
-		
+
 		TeamData team = new TeamData();
-		StudentData s1 = new StudentData("t1|s1|e1@c","course1");
+		StudentData s1 = new StudentData("t1|s1|e1@c", "course1");
 		s1.result = new EvalResultData();
-		StudentData s2 = new StudentData("t1|s2|e2@c","course1");
+		StudentData s2 = new StudentData("t1|s2|e2@c", "course1");
 		s2.result = new EvalResultData();
-		StudentData s3 = new StudentData("t1|s3|e3@c","course1");
+		StudentData s3 = new StudentData("t1|s3|e3@c", "course1");
 		s3.result = new EvalResultData();
-		
-		SubmissionData s1_to_s1 = createSubmission(1,1);
-		SubmissionData s1_to_s2 = createSubmission(1,2);
-		SubmissionData s1_to_s3 = createSubmission(1,3);
-		
-		SubmissionData s2_to_s1 = createSubmission(2,1);
-		SubmissionData s2_to_s2 = createSubmission(2,2);
-		SubmissionData s2_to_s3 = createSubmission(2,3);
-		
-		SubmissionData s3_to_s1 = createSubmission(3,1);
-		SubmissionData s3_to_s2 = createSubmission(3,2);
-		SubmissionData s3_to_s3 = createSubmission(3,3);
-	
-		//These additions are randomly ordered to ensure that the 
+
+		SubmissionData s1_to_s1 = createSubmission(1, 1);
+		SubmissionData s1_to_s2 = createSubmission(1, 2);
+		SubmissionData s1_to_s3 = createSubmission(1, 3);
+
+		SubmissionData s2_to_s1 = createSubmission(2, 1);
+		SubmissionData s2_to_s2 = createSubmission(2, 2);
+		SubmissionData s2_to_s3 = createSubmission(2, 3);
+
+		SubmissionData s3_to_s1 = createSubmission(3, 1);
+		SubmissionData s3_to_s2 = createSubmission(3, 2);
+		SubmissionData s3_to_s3 = createSubmission(3, 3);
+
+		// These additions are randomly ordered to ensure that the
 		// method works even when submissions are added in random order
-		
+
 		s1.result.outgoing.add(s1_to_s2.getCopy());
 		s1.result.incoming.add(s2_to_s1.getCopy());
 		s1.result.incoming.add(s3_to_s1.getCopy());
@@ -1268,46 +1345,45 @@ public class APIServletTest extends BaseTestCase {
 		s1.result.incoming.add(s1_to_s1.getCopy());
 		s2.result.outgoing.add(s2_to_s2.getCopy());
 		s3.result.incoming.add(s3_to_s3.getCopy());
-		
+
 		team.students.add(s2);
 		team.students.add(s1);
 		team.students.add(s3);
-		
+
 		TeamEvalResult teamResult = invokeCalclulateTeamResult(team);
-		//note the pattern in numbers. due to the way we generate submissions,
-		//110 means it is from s1 to s1 and 
-		//should appear in the 1,1 location in the matrix.
-		int[][] expected = {{110, 120, 130},
-							{210, 220, 230},
-							{310, 320, 330}};
+		// note the pattern in numbers. due to the way we generate submissions,
+		// 110 means it is from s1 to s1 and
+		// should appear in the 1,1 location in the matrix.
+		int[][] expected = { { 110, 120, 130 }, { 210, 220, 230 },
+				{ 310, 320, 330 } };
 		assertEquals(TeamEvalResult.pointsToString(expected),
 				TeamEvalResult.pointsToString(teamResult.claimedToStudents));
-		
-//expected result
-//claimedToCoord		[ 92, 100, 108]
-//						[ 95, 100, 105]
-//						[ 97, 100, 103]
-//						===============
-//perceivedToCoord		[ 97,  99, 105]
-//						===============
-//perceivedToStudents	[116, 118, 126]
-//						[213, 217, 230]
-//						[309, 316, 335]
-						
+
+		// expected result
+		// claimedToCoord [ 92, 100, 108]
+		// [ 95, 100, 105]
+		// [ 97, 100, 103]
+		// ===============
+		// perceivedToCoord [ 97, 99, 105]
+		// ===============
+		// perceivedToStudents [116, 118, 126]
+		// [213, 217, 230]
+		// [309, 316, 335]
+
 		int S1_POS = 0;
 		int S2_POS = 1;
 		int S3_POS = 2;
-		
-		//verify incoming and outgoing do not refer to same copy of submissions
+
+		// verify incoming and outgoing do not refer to same copy of submissions
 		s1.result.sortIncomingByStudentNameAscending();
 		s1.result.sortOutgoingByStudentNameAscending();
 		s1.result.incoming.get(S1_POS).normalized = 0;
 		s1.result.outgoing.get(S1_POS).normalized = 1;
-		assertEquals(0,s1.result.incoming.get(S1_POS).normalized);
-		assertEquals(1,s1.result.outgoing.get(S1_POS).normalized);
-		
+		assertEquals(0, s1.result.incoming.get(S1_POS).normalized);
+		assertEquals(1, s1.result.outgoing.get(S1_POS).normalized);
+
 		invokePopulateTeamResult(team, teamResult);
-	
+
 		s1 = team.students.get(S1_POS);
 		assertEquals(110, s1.result.claimedFromStudent);
 		assertEquals(92, s1.result.claimedToCoord);
@@ -1333,7 +1409,7 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(213, s2.result.incoming.get(S1_POS).normalized);
 		assertEquals(217, s2.result.incoming.get(S2_POS).normalized);
 		assertEquals(230, s2.result.incoming.get(S3_POS).normalized);
-		
+
 		s3 = team.students.get(S3_POS);
 		assertEquals(330, s3.result.claimedFromStudent);
 		assertEquals(103, s3.result.claimedToCoord);
@@ -1345,23 +1421,22 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(309, s3.result.incoming.get(S1_POS).normalized);
 		assertEquals(316, s3.result.incoming.get(S2_POS).normalized);
 		assertEquals(335, s3.result.incoming.get(S3_POS).normalized);
-		
+
 	}
 
+	@Test
+	public void testPopulateResults() {
+		// tested in testCalculateTeamResult()
+	}
 
 	@Test
-	public void testPopulateResults(){
-		//tested in testCalculateTeamResult()
+	public void testGetSubmissoinsForEvaluation() {
+		// TODO: test this
 	}
-	
+
 	@Test
-	public void testGetSubmissoinsForEvaluation(){
-		//TODO: test this
-	}
-	
-	@Test
-	public void testGetSubmissionsFromStudent(){
-		//TODO: test this
+	public void testGetSubmissionsFromStudent() {
+		// TODO: test this
 	}
 
 	@SuppressWarnings("unused")
@@ -1377,8 +1452,9 @@ public class APIServletTest extends BaseTestCase {
 	public void testGetSubmission() throws Exception {
 		printTestCaseHeader();
 		refreshDataInDatastore();
-		
-		SubmissionData submissionData = dataBundle.submissions.get("submissionFromS1C1ToS1C1");
+
+		SubmissionData submissionData = dataBundle.submissions
+				.get("submissionFromS1C1ToS1C1");
 		verifyPresentInDatastore(submissionData);
 		// TODO: more testing
 	}
@@ -1422,7 +1498,7 @@ public class APIServletTest extends BaseTestCase {
 
 		// TODO: more testing
 		// check for lazyCreationPolicy
-		
+
 	}
 
 	@Test
@@ -1449,8 +1525,7 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader();
 		refreshDataInDatastore();
 
-		TfsData tfs1 = dataBundle.teamFormingSessions
-				.get("tfsInCourse1");
+		TfsData tfs1 = dataBundle.teamFormingSessions.get("tfsInCourse1");
 		tfs1.gracePeriod = tfs1.gracePeriod + 1;
 		tfs1.instructions = tfs1.instructions + "x";
 		tfs1.profileTemplate = tfs1.profileTemplate + "y";
@@ -1483,7 +1558,7 @@ public class APIServletTest extends BaseTestCase {
 		courseID = student1InCourse1.course;
 		verifyTeamNameChange(courseID, "nonExisentTeam", "newTeamName");
 
-		// TODO: more testing 
+		// TODO: more testing
 
 	}
 
@@ -1510,8 +1585,7 @@ public class APIServletTest extends BaseTestCase {
 				.get("profileOfTeam1.1");
 		String originalTeamName = teamProfile1.team;
 		teamProfile1.team = teamProfile1.team + "new";
-		teamProfile1.profile = new Text(teamProfile1.profile
-				.getValue() + "x");
+		teamProfile1.profile = new Text(teamProfile1.profile.getValue() + "x");
 		apiServlet.editTeamProfile(originalTeamName, teamProfile1);
 		verifyPresentInDatastore(teamProfile1);
 
@@ -1557,8 +1631,7 @@ public class APIServletTest extends BaseTestCase {
 			if (ed.name.equals(evaluation.name))
 				return;
 		}
-		fail("Did not find " + evaluation.name
-				+ " in the evaluation info list");
+		fail("Did not find " + evaluation.name + " in the evaluation info list");
 	}
 
 	// ------------------------------------------------------------------------
@@ -1597,7 +1670,8 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	private void verifyTeamNameChange(String courseID, String originalTeamName,
-			String newTeamName) throws InvalidParametersException, EntityDoesNotExistException {
+			String newTeamName) throws InvalidParametersException,
+			EntityDoesNotExistException {
 		List<StudentData> studentsInClass = apiServlet
 				.getStudentListForCourse(courseID);
 		List<StudentData> studentsInTeam = new ArrayList<StudentData>();
@@ -1622,22 +1696,21 @@ public class APIServletTest extends BaseTestCase {
 		// TODO: check for changes in team profile
 	}
 
-	private void verifyTfsListForCoord(String coordId, int noOfTfs) throws EntityDoesNotExistException {
-		List<TfsData> tfsList = apiServlet
-				.getTfsListForCoord(coordId);
+	private void verifyTfsListForCoord(String coordId, int noOfTfs)
+			throws EntityDoesNotExistException {
+		List<TfsData> tfsList = apiServlet.getTfsListForCoord(coordId);
 		assertEquals(noOfTfs, tfsList.size());
 		for (TfsData tfs : tfsList) {
-			assertEquals(coordId,
-					apiServlet.getCourse(tfs.course).coord);
+			assertEquals(coordId, apiServlet.getCourse(tfs.course).coord);
 		}
 	}
 
 	private void alterSubmission(SubmissionData submission) {
 		submission.points = submission.points + 10;
-		submission.p2pFeedback = new Text(submission
-				.p2pFeedback.getValue() + "x");
-		submission.justification = new Text(submission.justification
-				.getValue() + "y");
+		submission.p2pFeedback = new Text(submission.p2pFeedback.getValue()
+				+ "x");
+		submission.justification = new Text(submission.justification.getValue()
+				+ "y");
 	}
 
 	private void verifyPresentInDatastore(String dataBundleJsonString)
@@ -1670,8 +1743,7 @@ public class APIServletTest extends BaseTestCase {
 		}
 
 		HashMap<String, TfsData> teamFormingSessions = data.teamFormingSessions;
-		for (TfsData expectedTeamFormingSession : teamFormingSessions
-				.values()) {
+		for (TfsData expectedTeamFormingSession : teamFormingSessions.values()) {
 			verifyPresentInDatastore(expectedTeamFormingSession);
 		}
 
@@ -1689,11 +1761,10 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	private void verifyAbsentInDatastore(SubmissionData submission) {
-		assertEquals(
-				null,
+		assertEquals(null,
 				apiServlet.getSubmission(submission.course,
-						submission.evaluation,
-						submission.reviewer, submission.reviewee));
+						submission.evaluation, submission.reviewer,
+						submission.reviewee));
 	}
 
 	private void verifyAbsentInDatastore(CoordData expectedCoord) {
@@ -1705,8 +1776,7 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	private void verifyAbsentInDatastore(StudentData student) {
-		assertEquals(null,
-				apiServlet.getStudent(student.course, student.email));
+		assertEquals(null, apiServlet.getStudent(student.course, student.email));
 	}
 
 	private void verifyAbsentInDatastore(EvaluationData evaluation) {
@@ -1719,10 +1789,8 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	private void verifyAbsentInDatastore(TeamProfileData profile) {
-		assertEquals(
-				null,
-				apiServlet.getTeamProfile(profile.course,
-						profile.team));
+		assertEquals(null,
+				apiServlet.getTeamProfile(profile.course, profile.team));
 	}
 
 	private void verifyAbsenceOfTfsLogsForStudent(String courseId,
@@ -1745,37 +1813,38 @@ public class APIServletTest extends BaseTestCase {
 			if (tfl.email.equals(studentEmail))
 				return;
 		}
-		fail("No log messages found for " + studentEmail + " in "
-				+ courseId);
+		fail("No log messages found for " + studentEmail + " in " + courseId);
 	}
 
 	private void verifyPresentInDatastore(StudentData expectedStudent) {
 		StudentData actualStudent = apiServlet.getStudent(
 				expectedStudent.course, expectedStudent.email);
 		expectedStudent.updateStatus = UpdateStatus.UNKNOWN;
-		//TODO: this is for backward compatibility with old system. to be removed.
-		if((expectedStudent.id==null)&&(actualStudent.id.equals(""))){
-			actualStudent.id=null;
+		// TODO: this is for backward compatibility with old system. to be
+		// removed.
+		if ((expectedStudent.id == null) && (actualStudent.id.equals(""))) {
+			actualStudent.id = null;
 		}
-		if((expectedStudent.team==null)&&(actualStudent.team.equals(""))){
-			actualStudent.team=null;
+		if ((expectedStudent.team == null) && (actualStudent.team.equals(""))) {
+			actualStudent.team = null;
 		}
-		if((expectedStudent.comments==null)&&(actualStudent.comments.equals(""))){
-			actualStudent.comments=null;
+		if ((expectedStudent.comments == null)
+				&& (actualStudent.comments.equals(""))) {
+			actualStudent.comments = null;
 		}
 		assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
 	}
 
 	private void verifyPresentInDatastore(SubmissionData expected) {
 		SubmissionData actual = apiServlet.getSubmission(expected.course,
-				expected.evaluation, expected.reviewer,
-				expected.reviewee);
+				expected.evaluation, expected.reviewer, expected.reviewee);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
-	private void verifyPresentInDatastore(StudentActionData expected) throws EntityDoesNotExistException {
-		List<StudentActionData> actualList = apiServlet.getStudentActions(expected
-				.course);
+	private void verifyPresentInDatastore(StudentActionData expected)
+			throws EntityDoesNotExistException {
+		List<StudentActionData> actualList = apiServlet
+				.getStudentActions(expected.course);
 		assertTrue(isLogEntryInList(expected, actualList));
 	}
 
@@ -1807,64 +1876,65 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	private void refreshDataInDatastore() throws Exception {
+		setGeneralLoggingLevel(Level.SEVERE);
+		setLogLevelOfClass(APIServlet.class, Level.SEVERE);
 		dataBundle = gson.fromJson(jsonString, DataBundle.class);
 		HashMap<String, CoordData> coords = dataBundle.coords;
 		for (CoordData coord : coords.values()) {
 			apiServlet.deleteCoord(coord.id);
 		}
-		DataBundle data = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+		DataBundle data = Common.getTeammatesGson().fromJson(jsonString,
+				DataBundle.class);
 		apiServlet.persistNewDataBundle(data);
+		setGeneralLoggingLevel(Level.WARNING);
+		setLogLevelOfClass(APIServlet.class, Level.FINE);
 	}
 
 	private boolean isLogEntryInList(StudentActionData teamFormingLogEntry,
 			List<StudentActionData> teamFormingLogEntryList) {
 		for (StudentActionData logEntryInList : teamFormingLogEntryList) {
-			if (teamFormingLogEntry.course.equals(
-					logEntryInList.course)
-					&& teamFormingLogEntry.action.getValue()
-							.equals(logEntryInList.action.getValue())
-					&& teamFormingLogEntry.email.equals(
-							logEntryInList.email)
-					&& teamFormingLogEntry.name.equals(
-							logEntryInList.name)
-					&& teamFormingLogEntry.time.toString()
-							.equals(logEntryInList.time.toString())) {
+			if (teamFormingLogEntry.course.equals(logEntryInList.course)
+					&& teamFormingLogEntry.action.getValue().equals(
+							logEntryInList.action.getValue())
+					&& teamFormingLogEntry.email.equals(logEntryInList.email)
+					&& teamFormingLogEntry.name.equals(logEntryInList.name)
+					&& teamFormingLogEntry.time.toString().equals(
+							logEntryInList.time.toString())) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	private TeamEvalResult invokeCalclulateTeamResult(TeamData team)
 			throws Exception {
-		Method privateMethod = APIServlet.class.
-		        getDeclaredMethod("calculateTeamResult", new Class[]{TeamData.class});
+		Method privateMethod = APIServlet.class.getDeclaredMethod(
+				"calculateTeamResult", new Class[] { TeamData.class });
 		privateMethod.setAccessible(true);
-		Object[] params = new Object[]{team};
-		 return (TeamEvalResult)
-		        privateMethod.invoke(apiServlet, params);
+		Object[] params = new Object[] { team };
+		return (TeamEvalResult) privateMethod.invoke(apiServlet, params);
 	}
-	
-	//TODO: try to generalize invoke*() methods and push to parent class
+
+	// TODO: try to generalize invoke*() methods and push to parent class
 	private void invokePopulateTeamResult(TeamData team,
-			TeamEvalResult teamResult) throws Exception{
-		Method privateMethod = APIServlet.class.
-		        getDeclaredMethod("populateTeamResult", 
-		        		new Class[]{TeamData.class, TeamEvalResult.class});
+			TeamEvalResult teamResult) throws Exception {
+		Method privateMethod = APIServlet.class.getDeclaredMethod(
+				"populateTeamResult", new Class[] { TeamData.class,
+						TeamEvalResult.class });
 		privateMethod.setAccessible(true);
-		Object[] params = new Object[]{team, teamResult};
+		Object[] params = new Object[] { team, teamResult };
 		privateMethod.invoke(apiServlet, params);
 	}
-	
+
 	private SubmissionData createSubmission(int from, int to) {
 		SubmissionData submission = new SubmissionData();
 		submission.course = "course1";
 		submission.evaluation = "eval1";
-		submission.points = from*100+to*10;
-		submission.reviewer = "e"+from+"@c";
-		submission.reviewerName = "s"+from;
-		submission.reviewee = "e"+to+"@c";
-		submission.revieweeName = "s"+to;
+		submission.points = from * 100 + to * 10;
+		submission.reviewer = "e" + from + "@c";
+		submission.reviewerName = "s" + from;
+		submission.reviewee = "e" + to + "@c";
+		submission.revieweeName = "s" + to;
 		return submission;
 	}
 
@@ -1874,10 +1944,9 @@ public class APIServletTest extends BaseTestCase {
 		for (int i = 0; i < teamSize; i++) {
 			for (int j = 0; j < teamSize; j++) {
 				SubmissionData s = apiServlet.getSubmission(
-						"idOfCourse1OfCoord1",
-						"evaluation1 In Course1", 
-						"student"+(i+1)+"InCourse1@gmail.com", 
-						"student"+(j+1)+"InCourse1@gmail.com");
+						"idOfCourse1OfCoord1", "evaluation1 In Course1",
+						"student" + (i + 1) + "InCourse1@gmail.com", "student"
+								+ (j + 1) + "InCourse1@gmail.com");
 				s.points = points[i][j];
 				submissions.add(s);
 			}
@@ -1886,12 +1955,12 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	@AfterClass()
-	public static void classTearDown() throws Exception{
+	public static void classTearDown() throws Exception {
 		printTestClassFooter("CoordCourseAddApiTest");
 		setLogLevelOfClass(APIServlet.class, Level.WARNING);
 		setConsoleLoggingLevel(Level.WARNING);
 	}
-	
+
 	@After
 	public void caseTearDown() {
 		apiServlet.destroy();

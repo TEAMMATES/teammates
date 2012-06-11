@@ -1458,9 +1458,16 @@ public class APIServlet extends HttpServlet {
 	}
 
 	// TODO: testing
-	public StudentData getStudentWithId(String googleId) {
-		Student student = Accounts.inst().getStudentWithID(googleId);
-		return (student == null ? null : new StudentData(student));
+	public ArrayList<StudentData> getStudentsWithId(String googleId) {
+		List<Student> students = Accounts.inst().getStudentWithID(googleId);
+		if(students==null){
+			return null;
+		}
+		ArrayList<StudentData> returnList = new ArrayList<StudentData>();
+		for(Student s: students){
+			returnList.add(new StudentData(s));
+		}
+		return returnList;
 	}
 
 	@SuppressWarnings("unused")

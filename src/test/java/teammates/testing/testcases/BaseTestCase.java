@@ -27,6 +27,14 @@ public class BaseTestCase {
 				+className
 				+"=============================]");
 	}
+	/**
+	 * Test Segment divider. Used to divide a test case into logical sections.
+	 * The weird name is for easy spotting.
+	 * @param description of the logical section. This will be printed.
+	 */
+	public static void ______TS(String description){
+		System.out.println(" * "+description);
+	}
 	
 	public static void printTestClassHeader(){
 		printTestClassHeader(Thread.currentThread().getStackTrace()[2].getClassName());
@@ -59,6 +67,8 @@ public class BaseTestCase {
 	protected static void setGeneralLoggingLevel(Level level) {
 		java.util.logging.Logger.getLogger("").setLevel(level);
 	}
+	
+	
 	
 
 

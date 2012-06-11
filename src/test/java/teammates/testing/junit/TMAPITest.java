@@ -578,7 +578,7 @@ public class TMAPITest extends BaseTestCase{
 				.profile.getValue());
 	
 		StudentData student2InCourse2 = data.students.get("student2InCourse2");
-		assertEquals("student2InCourse2", student2InCourse2.id);
+		assertEquals("student2InCourse1", student2InCourse2.id);
 		assertEquals("student2 In Course2", student2InCourse2.name);
 		assertEquals("Team 2.1", student2InCourse2.team);
 	

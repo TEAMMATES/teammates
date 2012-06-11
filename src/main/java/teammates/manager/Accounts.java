@@ -8,6 +8,7 @@ import javax.jdo.PersistenceManager;
 import org.mortbay.log.Log;
 
 import teammates.Datastore;
+import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
 import teammates.exception.AccountExistsException;
 import teammates.persistent.Account;
@@ -31,8 +32,7 @@ public class Accounts {
 
 	private static UserService userService;
 	private static Accounts instance = null;
-	private static final Logger log = Logger.getLogger(Accounts.class
-			.getSimpleName());
+	private static final Logger log = Common.getLogger();
 
 	/**
 	 * Constructs an Accounts object. Initialises userService for Google User
@@ -129,7 +129,7 @@ public class Accounts {
 		return student;
 	}
 	
-	public Student getStudentWithID(String googleId) {
+	public List<Student> getStudentWithID(String googleId) {
 		String query = "select from " + Student.class.getName() + " where ID == \"" + googleId + "\"";
 
 		@SuppressWarnings("unchecked")
@@ -139,7 +139,7 @@ public class Accounts {
 			return null;
 		}
 
-		return studentList.get(0);
+		return studentList;
 	}
 	
 	public boolean isStudent(String googleId){
@@ -271,7 +271,7 @@ public class Accounts {
 		if (coord == null) {
 			String errorMessage = "Trying to delete non-existent coordinator: "
 					+ coordId;
-			Log.warn(errorMessage);
+			log.warning(errorMessage);
 		}
 		getPM().deletePersistent(coord);
 	}
