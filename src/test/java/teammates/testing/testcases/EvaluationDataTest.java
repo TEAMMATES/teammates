@@ -2,6 +2,9 @@ package teammates.testing.testcases;
 
 import static org.junit.Assert.*;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -90,6 +93,45 @@ public class EvaluationDataTest extends BaseTestCase {
 		// already PUBLISHED
 		evaluation.published = true;
 		assertEquals(EvalStatus.PUBLISHED, evaluation.getStatus());
+	}
+
+	@Test
+	public void testGetStartInUserTimeZone() {
+		printTestCaseHeader();
+
+		EvaluationData evaluation = new EvaluationData();
+
+		// use a random time (e.g, now+5hrs) as baseline
+		Calendar baseTime = Calendar.getInstance();
+		baseTime.add(Calendar.HOUR, 5);
+
+		double timeZone = 1.0;
+		Calendar expectedCalendar = (Calendar) baseTime.clone();
+		expectedCalendar.add(Calendar.MINUTE, (int) (-timeZone * 60));
+
+		evaluation.timeZone = timeZone;
+		evaluation.startTime = baseTime.getTime();
+
+		Date actualDate = evaluation.getStartInUserTimeZone();
+		Calendar actualCalendar = Calendar.getInstance();
+		actualCalendar.setTime(actualDate);
+		assertEquals(Common.calendarToString(expectedCalendar),
+				Common.calendarToString(actualCalendar));
+
+		// use the same data to test the sister method
+		evaluation.endTime = baseTime.getTime();
+
+		actualDate = evaluation.getEndInUserTimeZone();
+		actualCalendar = Calendar.getInstance();
+		actualCalendar.setTime(actualDate);
+		assertEquals(Common.calendarToString(expectedCalendar),
+				Common.calendarToString(actualCalendar));
+
+	}
+
+	@Test
+	public void testGetEndInUserTimeZone() {
+		// tested in testGetStartInUserTimeZone
 	}
 
 	@AfterClass
