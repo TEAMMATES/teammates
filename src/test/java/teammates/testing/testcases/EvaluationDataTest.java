@@ -2,8 +2,6 @@ package teammates.testing.testcases;
 
 import static org.junit.Assert.*;
 
-import java.util.logging.Level;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,9 +15,7 @@ public class EvaluationDataTest extends BaseTestCase {
 	@BeforeClass
 	public static void setupClass() throws Exception {
 		printTestClassHeader();
-		setGeneralLoggingLevel(Level.WARNING);
-		setLogLevelOfClass(EvaluationData.class, Level.FINE);
-		setConsoleLoggingLevel(Level.FINE);
+		turnLogginUp(EvaluationData.class);
 	}
 
 	@Test
@@ -63,24 +59,42 @@ public class EvaluationDataTest extends BaseTestCase {
 		assertEquals(EvalStatus.PUBLISHED, evaluation.getStatus());
 
 		______TS("checking for user in different time zone");
+		// do similar testing for +1.0 time zone
+
 		evaluation.published = false;
 		evaluation.timeZone = 1.0;
-		int anHourInMilliSec = 60 * 60 * 1000;
+		int timeZoneOffsetInMilliSec = 60 * 60 * 1000;
 
+		// in AWAITING period
 		evaluation.startTime = Common
-				.getMilliSecondOffsetToCurrentTime(anHourInMilliSec + 1000);
+				.getMilliSecondOffsetToCurrentTime(-timeZoneOffsetInMilliSec + 1000);
 		evaluation.endTime = Common.getDateOffsetToCurrentTime(1);
 		assertEquals(EvalStatus.AWAITING, evaluation.getStatus());
 
+		// in OPEN period
 		evaluation.startTime = Common
-				.getMilliSecondOffsetToCurrentTime(anHourInMilliSec - 1000);
-		// assertEquals(EvalStatus.OPEN, evaluation.getStatus());
-		// TODO: finish testing
+				.getMilliSecondOffsetToCurrentTime(-timeZoneOffsetInMilliSec - 1000);
+		assertEquals(EvalStatus.OPEN, evaluation.getStatus());
+
+		// just after grace period
+		gracePeriod = 5;
+
+		evaluation.startTime = Common.getMilliSecondOffsetToCurrentTime(-1);
+		evaluation.endTime = Common
+				.getMilliSecondOffsetToCurrentTime(-timeZoneOffsetInMilliSec
+						- gracePeriod * 60 * 1000);
+		evaluation.gracePeriod = gracePeriod;
+		Thread.sleep(5);
+		assertEquals(EvalStatus.CLOSED, evaluation.getStatus());
+
+		// already PUBLISHED
+		evaluation.published = true;
+		assertEquals(EvalStatus.PUBLISHED, evaluation.getStatus());
 	}
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {
-		setLogLevelOfClass(EvaluationData.class, Level.WARNING);
+		turnLoggingDown(EvaluationData.class);
 	}
 
 }

@@ -215,7 +215,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 				 {NA},
 				 
 				 {NA}};
-			verifyCalculatePoints(input9, expected9);
+			verifyCalculatePoints(input10, expected10);
 		
 	}
 
