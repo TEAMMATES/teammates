@@ -1236,6 +1236,8 @@ public class APIServletTest extends BaseTestCase {
 	public void testCreateEvaluation() throws Exception {
 		printTestCaseHeader();
 		refreshDataInDatastore();
+		
+		______TS("typical case");
 
 		EvaluationData evaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
@@ -1244,6 +1246,8 @@ public class APIServletTest extends BaseTestCase {
 		verifyAbsentInDatastore(evaluation);
 		apiServlet.createEvaluation(evaluation);
 		verifyPresentInDatastore(evaluation);
+		
+		______TS("Duplicate evaluation name");
 
 		try {
 			apiServlet.createEvaluation(evaluation);
@@ -1251,7 +1255,27 @@ public class APIServletTest extends BaseTestCase {
 		} catch (EntityAlreadyExistsException e) {
 			assertEquals(Common.MESSAGE_EVALUATION_EXISTS, e.getMessage());
 		}
-		// TODO: more testing
+		
+		______TS("invalid parameters");
+		try {
+			apiServlet.createEvaluation(null);
+			fail();
+		} catch (InvalidParametersException e) {
+			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
+		}
+		
+		evaluation.name = evaluation.name+"new";
+		evaluation.course = null;
+		try {
+			apiServlet.createEvaluation(evaluation);
+			fail();
+		} catch (InvalidParametersException e) {
+			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
+			Common.assertContains("course id", e.getMessage().toLowerCase());
+		}
+		// invalid values to other parameters should be checked in lower level
+		//    unit tests.
+		
 
 	}
 

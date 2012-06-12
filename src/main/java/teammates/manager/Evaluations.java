@@ -16,6 +16,7 @@ import teammates.Datastore;
 import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
+import teammates.api.InvalidParametersException;
 import teammates.exception.EvaluationExistsException;
 import teammates.jdo.EvaluationDetailsForCoordinator;
 import teammates.persistent.Course;
@@ -117,12 +118,13 @@ public class Evaluations {
 	 * @throws EvaluationExistsException
 	 *             if an evaluation with the specified name exists for the
 	 *             course
+	 * @throws InvalidParametersException 
 	 */
 
 	public void addEvaluation(String courseID, String name,
 			String instructions, boolean commentsEnabled, Date start,
 			Date deadline, double timeZone, int gracePeriod)
-			throws EvaluationExistsException {
+			throws EvaluationExistsException, InvalidParametersException {
 		if (getEvaluation(courseID, name) != null) {
 			throw new EvaluationExistsException();
 		}

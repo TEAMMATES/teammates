@@ -300,13 +300,38 @@ public class Common {
 		}
 	}
 
-	private static void verifyNotNull(String stringToCheck, String nameOfString)
+	public static void verifyContainsNoSpaces(String stringToCheck,
+			String nameOfString) throws InvalidParametersException {
+		if (stringToCheck.split(" ").length > 1) {
+			throw new InvalidParametersException(ERRORCODE_INVALID_CHARS,
+					nameOfString + " cannot contain spaces");
+		}
+	}
+
+	public static void verifyNotNull(String stringToCheck, String nameOfString)
 			throws InvalidParametersException {
 		if (stringToCheck == null) {
 			throw new InvalidParametersException(ERRORCODE_NULL_PARAMETER,
-					stringToCheck + " cannot be null");
+					nameOfString + " cannot be null");
 		}
 
+	}
+
+	public static void verifyNotAnEmptyString(String stringToCheck,
+			String nameOfString) throws InvalidParametersException {
+		if (stringToCheck.equals("")) {
+			throw new InvalidParametersException(ERRORCODE_EMPTY_STRING,
+					nameOfString + " should not be empty");
+		}
+	}
+
+	public static void verifyNoLeadingAndTrailingSpaces(String stringToCheck,
+			String nameOfString) throws InvalidParametersException {
+		if (!stringToCheck.trim().equals(stringToCheck)) {
+			throw new InvalidParametersException(
+					ERRORCODE_LEADING_OR_TRAILING_SPACES, nameOfString
+							+ " should not have leading or trailing spaces");
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -549,37 +574,12 @@ public class Common {
 		return sb.toString();
 	}
 
-	@SuppressWarnings("unused")
-	private void ____PRIVATE_helper_methods_________________________________() {
-	}
-
-	private static void verifyContainsNoSpaces(String stringToCheck,
-			String nameOfString) throws InvalidParametersException {
-		if (stringToCheck.split(" ").length > 1) {
-			throw new InvalidParametersException(ERRORCODE_INVALID_CHARS,
-					nameOfString + " cannot contain spaces");
-		}
-	}
-
-	private static void verifyNotAnEmptyString(String stringToCheck,
-			String nameOfString) throws InvalidParametersException {
-		if (stringToCheck.equals("")) {
-			throw new InvalidParametersException(ERRORCODE_EMPTY_STRING,
-					nameOfString + " should not be empty");
-		}
-	}
-
-	private static void verifyNoLeadingAndTrailingSpaces(String stringToCheck,
-			String nameOfString) throws InvalidParametersException {
-		if (!stringToCheck.trim().equals(stringToCheck)) {
-			throw new InvalidParametersException(
-					ERRORCODE_LEADING_OR_TRAILING_SPACES, nameOfString
-							+ " should not have leading or trailing spaces");
-		}
-	}
-
 	public static Logger getLogger() {
 		return Logger.getLogger(Thread.currentThread().getStackTrace()[2]
 				.getClassName());
+	}
+
+	@SuppressWarnings("unused")
+	private void ____PRIVATE_helper_methods_________________________________() {
 	}
 }

@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
+import teammates.api.InvalidParametersException;
 import teammates.api.TeammatesException;
 import teammates.exception.EvaluationExistsException;
 import teammates.exception.GoogleIDExistsInCourseException;
@@ -556,6 +557,9 @@ public class TeammatesServlet extends HttpServlet {
 
 			catch (EvaluationExistsException e) {
 				resp.getWriter().write(MSG_STATUS_OPENING + MSG_EVALUATION_EXISTS + MSG_STATUS_CLOSING);
+			} catch (InvalidParametersException e) {
+				log.severe("Unexpected exception "+TeammatesException.stackTraceToString(e));
+				resp.getWriter().write(MSG_STATUS_OPENING + e.getMessage() + MSG_STATUS_CLOSING);
 			}
 		}
 

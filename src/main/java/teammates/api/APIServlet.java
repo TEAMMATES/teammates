@@ -1509,7 +1509,11 @@ public class APIServlet extends HttpServlet {
 
 	public void createEvaluation(EvaluationData evaluation)
 			throws EntityAlreadyExistsException, InvalidParametersException {
-
+		if (evaluation == null) {
+			throw new InvalidParametersException(
+					Common.ERRORCODE_NULL_PARAMETER,
+					"Evaluation cannot be null ");
+		}
 		Evaluations.inst().addEvaluation(evaluation.toEvaluation());
 	}
 

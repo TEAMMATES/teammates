@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import teammates.api.Common;
+import teammates.api.InvalidParametersException;
 import teammates.persistent.Evaluation;
 
 public class EvaluationData {
@@ -41,7 +42,7 @@ public class EvaluationData {
 		this.activated = e.isActivated();
 	}
 
-	public Evaluation toEvaluation() {
+	public Evaluation toEvaluation() throws InvalidParametersException {
 		Evaluation evaluation = new Evaluation(course, name, instructions, p2pEnabled,
 				startTime, endTime, timeZone, gracePeriod);
 		evaluation.setActivated(activated);

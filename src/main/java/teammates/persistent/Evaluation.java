@@ -7,6 +7,9 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import teammates.api.Common;
+import teammates.api.InvalidParametersException;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -69,10 +72,11 @@ public class Evaluation {
 	 * @param start
 	 * @param deadline
 	 * @param gracePeriod
+	 * @throws InvalidParametersException 
 	 */
 	public Evaluation(String courseID, String name, String instructions,
 			boolean commentsEnabled, Date start, Date deadline,
-			double timeZone, int gracePeriod) {
+			double timeZone, int gracePeriod) throws InvalidParametersException {
 		this.setCourseID(courseID);
 		this.setName(name);
 		this.setInstructions(instructions);
@@ -84,7 +88,8 @@ public class Evaluation {
 		this.setTimeZone(timeZone);
 	}
 
-	public void setCourseID(String courseID) {
+	public void setCourseID(String courseID) throws InvalidParametersException {
+		Common.verifyNotNull(courseID, "course ID");
 		this.courseID = courseID.trim();
 	}
 
@@ -92,7 +97,8 @@ public class Evaluation {
 		return courseID;
 	}
 
-	public void setName(String name) {
+	public void setName(String name) throws InvalidParametersException {
+		Common.verifyNotNull(name, "evaluation name");
 		this.name = name.trim();
 	}
 
@@ -173,4 +179,6 @@ public class Evaluation {
 		sb.append("\nendtime: " + endTime);
 		return sb.toString();
 	}
+
+
 }
