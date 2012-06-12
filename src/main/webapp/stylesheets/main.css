@@ -158,10 +158,12 @@ div#coordinatorEvaluationManagement {
 	text-align: center;
 }
 
-div#coordinatorEvaluationSummaryTable {
+div#coordinatorEvaluationSummaryTable, 
+	div#coordinatorEvaluationDetailedReviewerTable,
+	div#coordinatorEvaluationDetailedRevieweeTable {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 18px;
-	margin-top: 16px;
+	margin-top: 20px;
 	text-align: center;
 }
 

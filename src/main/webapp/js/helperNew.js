@@ -369,7 +369,7 @@ function scrollToTop() {
 	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
 }
 
-//Selector for status message div tag
+//Selector for status message div tag (to be used in JQuery)
 var DIV_STATUS_MESSAGE = "#statusMessage";
 
 /**

@@ -1,15 +1,10 @@
 package teammates.testing.testcases;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import teammates.TeamEvalResult;
-import teammates.api.APIServlet;
-import teammates.datatransfer.TeamData;
 
 public class BaseTestCase {
 	
@@ -70,6 +65,4 @@ public class BaseTestCase {
 	
 	
 	
-
-
 }

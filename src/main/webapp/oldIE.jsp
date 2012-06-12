@@ -13,7 +13,7 @@
 	<div id="frameTop">
 		<div id="frameTopWrapper">
 			<div id="logo">
-				<img alt="Teammates" height="47px" src="images/teammateslogo.jpg"
+				<img alt="Teammates" height="47px" src="/images/teammateslogo.jpg"
 					width="150px" />
 			</div>
 		</div>
@@ -22,8 +22,8 @@
 	<div id="frameBody">
 		<div id="frameBodyWrapper">
 			<div style="margin: 30px auto; border: 1px solid #333; padding: 10px; text-align: left; width: 550px; background: #FFFFCC;">
-				<img src="images/warning.jpg"
-					style="float: left; margin: 0 10px 10px 0; border: 1px solid #999;" />
+				<img src="/images/warning.jpg"
+					style="float: left; height: 90px; margin: 0 10px 10px 0; border: 1px solid #999;" />
 				<h2 style="font-variant: small-caps;">This version of IE is not
 					supported!</h2>
 				<p>We're really sorry but our app is not supported on this
@@ -35,7 +35,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="footer.jsp" />
+		<jsp:include page="/footer.jsp" />
 	</div>
 </body>
 </html>

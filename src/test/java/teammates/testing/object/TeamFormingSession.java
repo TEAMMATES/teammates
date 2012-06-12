@@ -4,7 +4,7 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import teammates.api.Common;
+import teammates.testing.lib.SharedLib;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
@@ -53,8 +53,8 @@ public class TeamFormingSession {
 		teamFormingSession.profileTemplate = profileTemplate;
 		teamFormingSession.instructions = instructions;
 		
-		teamFormingSession.nextTimeValue = Common.getNextTimeValue();
-		teamFormingSession.dateValue = Common.getDateValue();
+		teamFormingSession.nextTimeValue = SharedLib.getNextTimeValue();
+		teamFormingSession.dateValue = SharedLib.getDateValue();
 		
 		
 		return teamFormingSession;
@@ -67,8 +67,8 @@ public class TeamFormingSession {
 			teamFormingSession.instructions = json.getString("instructions");
 			teamFormingSession.gracePeriod = json.getInt("graceperiod");
 			
-			teamFormingSession.dateValue = Common.getDateValue();
-			teamFormingSession.nextTimeValue = Common.getNextTimeValue();
+			teamFormingSession.dateValue = SharedLib.getDateValue();
+			teamFormingSession.nextTimeValue = SharedLib.getNextTimeValue();
 			
 			//teamFormingSession.startDate = SharedLib.getDateString();
 			teamFormingSession.startTime = new Date(System.currentTimeMillis());

@@ -10,14 +10,9 @@ import teammates.datatransfer.EvaluationData;
 
 public class CoordEvalHelper extends Helper{
 	// Specific parameters
-	public String coordID;
 	public CourseData[] courses;
 	public EvaluationData submittedEval;
 	public ArrayList<EvaluationData> evaluations;
-	
-	public CoordEvalHelper(Helper helper){
-		super(helper);
-	}
 	
 	/**
 	 * Returns the timezone options as HTML code.
@@ -53,7 +48,7 @@ public class CoordEvalHelper extends Helper{
 	 */
 	public ArrayList<String> getGracePeriodOptions(){
 		ArrayList<String> result = new ArrayList<String>();
-		for(int i=5; i<=30; i+=5){
+		for(int i=0; i<=30; i+=5){
 			result.add("<option value=\""+i+"\"" +
 						(submittedEval!=null && submittedEval.gracePeriod==i
 							? " selected=\"selected\""
@@ -123,7 +118,7 @@ public class CoordEvalHelper extends Helper{
 	}
 	
 	public static void main(String[] args){
-		for(String opt: new CoordEvalHelper(new Helper()).getTimeZoneOptions()){
+		for(String opt: new CoordEvalHelper().getTimeZoneOptions()){
 			System.out.println(opt);
 		}
 	}

@@ -154,6 +154,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <servlet-name>CoordEvalDelete</servlet-name>
 	    <url-pattern>/page/coordEvalDelete</url-pattern>
 	</servlet-mapping>
+	<servlet>
+	    <description>Servlet that handles evaluation results page</description>
+	    <servlet-name>CoordEvalResults</servlet-name>
+	    <servlet-class>teammates.servlet.CoordEvalResultsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>CoordEvalResults</servlet-name>
+	    <url-pattern>/page/coordEvalResults</url-pattern>
+	</servlet-mapping>
 	
     <security-constraint>
         <web-resource-collection>
@@ -189,6 +198,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <url-pattern>mobile.jsp</url-pattern>
             <url-pattern>oldIE.jsp</url-pattern>
             <url-pattern>unauthorized.jsp</url-pattern>
+            <url-pattern>errorPage.jsp</url-pattern>
         </web-resource-collection>
     </security-constraint>
     <error-page>

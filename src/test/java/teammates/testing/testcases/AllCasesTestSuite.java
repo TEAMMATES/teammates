@@ -6,7 +6,6 @@ import org.junit.runners.Suite;
 import teammates.testing.junit.TMAPITest;
 import teammates.testing.lib.HtmlHelperTest;
 
-
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 	//Unit tests
@@ -24,6 +23,8 @@ import teammates.testing.lib.HtmlHelperTest;
 	//Ui tests
 	CoordCourseAddPageUiTest.class,
 	CoordCourseEnrollPageUiTest.class,
+	CoordEvalPageUiTest.class,
+	CoordEvalResultsPageUiTest.class,
 	CoordHomePageUiTest.class
 })
 

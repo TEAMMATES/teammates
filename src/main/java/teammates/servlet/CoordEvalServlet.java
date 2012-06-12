@@ -1,12 +1,10 @@
 package teammates.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +14,6 @@ import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
-import teammates.api.TeammatesException;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.EvaluationData;
 import teammates.jsp.CoordEvalHelper;
@@ -28,21 +25,28 @@ import teammates.jsp.Helper;
  * @author Aldrian Obaja
  *
  */
-public class CoordEvalServlet extends ActionServlet {
+public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 	
-	Logger log = Common.getLogger();
-	
-	protected void doPostAction(HttpServletRequest req, HttpServletResponse resp, Helper help)
-			throws IOException, ServletException {
-		CoordEvalHelper helper = new CoordEvalHelper(help);
-		
-		// Authenticate user
+	private static final String DISPLAY_URL = "/coordEval.jsp";
+
+	@Override
+	protected CoordEvalHelper instantiateHelper() {
+		return new CoordEvalHelper();
+	}
+
+	@Override
+	protected boolean doAuthenticateUser(HttpServletRequest req,
+			HttpServletResponse resp, CoordEvalHelper helper)
+			throws IOException {
 		if(!helper.user.isCoord && !helper.user.isAdmin){
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
-			return;
+			return false;
 		}
-		helper.coordID = helper.userId;
-		
+		return true;
+	}
+
+	@Override
+	protected void doAction(HttpServletRequest req, CoordEvalHelper helper) throws EntityDoesNotExistException{
 		// Get parameters
 		boolean isSubmit = false; // Flag whether this request is an add evaluation request
 		EvaluationData newEval = new EvaluationData();
@@ -107,40 +111,16 @@ public class CoordEvalServlet extends ActionServlet {
 			helper.error = true;
 		}
 		
-		// Process data for display
-		//TODO: is to better if APIServlet returned an ArrayList?
-		HashMap<String, CourseData> summary;
-		try {
-			summary = helper.server.getCourseListForCoord(helper.coordID);
-		} catch (EntityDoesNotExistException e) {
-			//TODO: handle this in a better way, probably redirect to error page
-			summary = new HashMap<String, CourseData>();
-			log.severe("Unexpected exception :"+e.getMessage());
-		}
-		helper.courses = summary.values().toArray(new CourseData[]{});
-		Arrays.sort(helper.courses,new Comparator<CourseData>(){
-			public int compare(CourseData obj1, CourseData obj2){
-				return obj1.id.compareTo(obj2.id);
-			}
-		});
-		try {
-			helper.evaluations = helper.server.getEvaluationsListForCoord(helper.coordID);
-		} catch (EntityDoesNotExistException e) {
-			//TODO: do better error handling here?
-			helper.evaluations = new ArrayList<EvaluationData>();
-			log.severe("Unexpected exception :"+TeammatesException.stackTraceToString(e));
-		}
-		Collections.sort(helper.evaluations, new Comparator<EvaluationData>(){
-			public int compare(EvaluationData obj1, EvaluationData obj2){
-				int result = obj1.course.compareTo(obj2.course);
-				if(result==0) result = obj1.name.compareTo(obj2.name);
-				return result;
-			}
-		});
+		sortCoursesAndEvaluations(helper);
+	}
+
+	@Override
+	protected void doCreateResponse(HttpServletRequest req,
+			HttpServletResponse resp, CoordEvalHelper helper)
+			throws ServletException, IOException {
+		if(helper.nextUrl==null) helper.nextUrl = DISPLAY_URL;
 		
-		if(helper.nextUrl==null) helper.nextUrl = "/coordEval.jsp";
-		
-		if(helper.nextUrl.startsWith("/coordEval.jsp")){
+		if(helper.nextUrl.startsWith(DISPLAY_URL)){
 			// Goto display page
 			req.setAttribute("helper", helper);
 			req.getRequestDispatcher(helper.nextUrl).forward(req, resp);
@@ -149,5 +129,26 @@ public class CoordEvalServlet extends ActionServlet {
 			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.userId);
 			resp.sendRedirect(helper.nextUrl);
 		}
+	}
+
+	private void sortCoursesAndEvaluations(CoordEvalHelper helper) throws EntityDoesNotExistException{
+		// Sort courses based on course ID
+		HashMap<String, CourseData> summary = helper.server.getCourseListForCoord(helper.userId);
+		helper.courses = summary.values().toArray(new CourseData[]{});
+		Arrays.sort(helper.courses,new Comparator<CourseData>(){
+			public int compare(CourseData obj1, CourseData obj2){
+				return obj1.id.compareTo(obj2.id);
+			}
+		});
+		
+		// Sort evaluations based on course ID then name
+		helper.evaluations = helper.server.getEvaluationsListForCoord(helper.userId);
+		Collections.sort(helper.evaluations, new Comparator<EvaluationData>(){
+			public int compare(EvaluationData obj1, EvaluationData obj2){
+				int result = obj1.course.compareTo(obj2.course);
+				if(result==0) result = obj1.name.compareTo(obj2.name);
+				return result;
+			}
+		});
 	}
 }

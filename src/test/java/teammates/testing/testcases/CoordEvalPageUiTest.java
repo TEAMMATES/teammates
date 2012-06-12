@@ -58,54 +58,32 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 	public void testCoordEvalPage() throws Exception{
 		testCoordEvalHTML();
 		testCoordEvalUiPaths();
-//		testCoordEvalLinks();
+		testCoordEvalLinks();
 	}
 
 	public void testCoordEvalHTML() throws Exception{
-		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalEmptyNew.html");
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalEmptyNew.html");
+		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalEmptyNew.html");
 
 		ImportTestData.main(new String[]{});
 		bi.goToEvaluation();
 
-		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalByIdNew.html");
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalByIdNew.html");
+		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalByIdNew.html");
 
 		bi.click(By.id("button_sortname"));
-		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalByNameNew.html");
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalByNameNew.html");
+		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalByNameNew.html");
 		
 		bi.click(By.id("button_sortcourseid"));
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalByIdNew.html");
+		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalByIdNew.html");
 	}
 
+	// TODO: Finish Evaluation UI Path test
 	public void testCoordEvalUiPaths() throws Exception{
-		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalDupNameFailed.html");
 		
-		long start = System.currentTimeMillis();
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalDupNameFailed.html");
-		System.out.println("Time to assert a page: "+(System.currentTimeMillis()-start)+" ms");
 	}
 
+	// TODO: Finish Evaluation Links test
 	public void testCoordEvalLinks() throws Exception{
-
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseAddDeleteInit.html");
 		
-//		// Check delete link
-		By deleteLinkLocator = bi.getCoordEvaluationDeleteLinkLocator(0);
-		try{
-			bi.clickAndCancel(deleteLinkLocator);
-			bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseAddDeleteInit.html");
-		} catch (NoAlertAppearException e){
-			fail("No alert box when clicking delete button at course page.");
-		}
-
-		try{
-			bi.clickAndConfirm(deleteLinkLocator);
-			bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseAddDeleteSuccessful.html");
-		} catch (NoAlertAppearException e){
-			fail("No alert box when clicking delete button at course page.");
-		}
 	}
 	
 	private static TestScenario loadTestScenario() throws JSONException, FileNotFoundException {
