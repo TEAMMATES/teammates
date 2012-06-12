@@ -87,19 +87,6 @@ public class EvaluationData {
 		return EvalStatus.AWAITING;
 	}
 
-	public Date getStartInUserTimeZone() {
-		Calendar startAsCalendar = Calendar.getInstance();
-		startAsCalendar.setTime(startTime);
-		return convertToUserTimeZone(startAsCalendar, timeZone).getTime();
-	}
-
-	/** This does not include the grace period */
-	public Date getEndInUserTimeZone() {
-		Calendar startAsCalendar = Calendar.getInstance();
-		startAsCalendar.setTime(startTime);
-		return convertToUserTimeZone(startAsCalendar, timeZone).getTime();
-	}
-
 	private Calendar convertToUserTimeZone(Calendar time, double timeZone) {
 		time.add(Calendar.MILLISECOND, (int) (-60 * 60 * 1000 * timeZone));
 		return time; // for chaining
