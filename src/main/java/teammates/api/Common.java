@@ -28,7 +28,7 @@ import com.google.gson.GsonBuilder;
 // TODO: create a subclass (e.g., InternalUtil) and move all internal utility
 // functions to that sub class. It should be in util package.
 public class Common {
-	
+
 	private static Logger log = Logger.getLogger(Common.class.getName());
 
 	public final static String EOL = System.getProperty("line.separator");
@@ -205,9 +205,6 @@ public class Common {
 	public static final String ERRORCODE_STRING_TOO_LONG = "ERRORCODE_STRING_TOO_LONG";
 	public static final int POINTS_NOT_SURE = -101;
 	public static final int POINTS_NOT_SUBMITTED = -999;
-
-
-
 
 	@SuppressWarnings("unused")
 	private void ____VALIDATE_parameters___________________________________() {
@@ -427,8 +424,8 @@ public class Common {
 	}
 
 	public static void println(String message) {
-		log.fine(String.format("[%d - %s] %s", Thread.currentThread()
-				.getId(), Thread.currentThread().getName(), message));
+		log.fine(String.format("[%d - %s] %s", Thread.currentThread().getId(),
+				Thread.currentThread().getName(), message));
 	}
 
 	/**
@@ -470,6 +467,13 @@ public class Common {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(cal.getTime());
 		cal.add(Calendar.DATE, +offsetDays);
+		return cal.getTime();
+	}
+
+	public static Date getMilliSecondOffsetToCurrentTime(int offsetMilliseconds) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(cal.getTime());
+		cal.add(Calendar.MILLISECOND, +offsetMilliseconds);
 		return cal.getTime();
 	}
 
@@ -536,6 +540,11 @@ public class Common {
 		String day = String.format("%02d", cal.get(Calendar.DATE));
 
 		return day + "/" + month + "/" + year;
+	}
+
+	public static String calendarToString(Calendar c) {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss SSS");
+		return sdf.format(c.getTime());
 	}
 
 	/**

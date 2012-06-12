@@ -1,7 +1,9 @@
 package teammates.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import teammates.api.Common;
 import teammates.api.InvalidParametersException;
@@ -18,12 +20,18 @@ public class EvaluationData {
 	public boolean p2pEnabled;
 	public boolean published = false;
 	public boolean activated = false;
-	
-	//marked transient to avoid converting to json
+
+	// marked transient to avoid converting to json
 	public transient int submittedTotal = Common.UNINITIALIZED_INT;
-	public transient int expectedTotal= Common.UNINITIALIZED_INT;
-	
+	public transient int expectedTotal = Common.UNINITIALIZED_INT;
+
 	public transient ArrayList<TeamData> teams = new ArrayList<TeamData>();
+
+	private static Logger log = Common.getLogger();
+
+	public enum EvalStatus {
+		AWAITING, OPEN, CLOSED, PUBLISHED
+	}
 
 	public EvaluationData() {
 
@@ -43,10 +51,43 @@ public class EvaluationData {
 	}
 
 	public Evaluation toEvaluation() throws InvalidParametersException {
-		Evaluation evaluation = new Evaluation(course, name, instructions, p2pEnabled,
-				startTime, endTime, timeZone, gracePeriod);
+		Evaluation evaluation = new Evaluation(course, name, instructions,
+				p2pEnabled, startTime, endTime, timeZone, gracePeriod);
 		evaluation.setActivated(activated);
 		evaluation.setPublished(published);
 		return evaluation;
+	}
+
+	public EvalStatus getStatus() {
+		Calendar now = Calendar.getInstance();
+		convertToUserTimeZone(now, timeZone);
+		long nowInMilliSec = now.getTimeInMillis();
+
+		Calendar start = Calendar.getInstance();
+		start.setTime(startTime);
+		long startInMilliSec = start.getTimeInMillis();
+
+		Calendar end = Calendar.getInstance();
+		end.setTime(endTime);
+		end.add(Calendar.MILLISECOND, gracePeriod * 60 * 1000);
+		long endInMilliSec = end.getTimeInMillis();
+
+		log.fine(Common.EOL + "Now  : " + Common.calendarToString(now)
+				+ Common.EOL + "Start: " + Common.calendarToString(start)
+				+ Common.EOL + "End  : " + Common.calendarToString(end));
+
+		if (published) {
+			return EvalStatus.PUBLISHED;
+		} else if ((startInMilliSec <= nowInMilliSec)
+				&& (nowInMilliSec <= endInMilliSec)) {
+			return EvalStatus.OPEN;
+		} else if (nowInMilliSec > endInMilliSec) {
+			return EvalStatus.CLOSED;
+		}
+		return EvalStatus.AWAITING;
+	}
+
+	private void convertToUserTimeZone(Calendar time, double timeZone) {
+		time.add(Calendar.MILLISECOND, (int) (-60 * 60 * 1000 * timeZone));
 	}
 }
