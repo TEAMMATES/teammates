@@ -27,8 +27,6 @@ import org.junit.Test;
 
 import teammates.Datastore;
 import teammates.TeamEvalResult;
-import teammates.api.APIServlet;
-import teammates.api.Common;
 import teammates.api.*;
 import teammates.datatransfer.*;
 import teammates.datatransfer.StudentData.UpdateStatus;
@@ -1106,11 +1104,12 @@ public class APIServletTest extends BaseTestCase {
 		} catch (InvalidParametersException e) {
 		}
 	}
-	
+
 	@Test
-	public void testKeyGeneration(){
+	public void testKeyGeneration() {
 		long key = 5;
-		String longKey = KeyFactory.createKeyString(Student.class.getSimpleName(), key);
+		String longKey = KeyFactory.createKeyString(
+				Student.class.getSimpleName(), key);
 		long reverseKey = KeyFactory.stringToKey(longKey).getId();
 		assertEquals(key, reverseKey);
 		assertEquals("Student", KeyFactory.stringToKey(longKey).getKind());
@@ -1126,8 +1125,10 @@ public class APIServletTest extends BaseTestCase {
 		// make a student 'unregistered'
 		StudentData student = dataBundle.students.get("student1InCourse1");
 		String googleId = "student1InCourse1";
-		long keyLong = Long.parseLong(apiServlet.getKeyForStudent(student.course, student.email));
-		String key = KeyFactory.createKeyString(Student.class.getSimpleName(), keyLong);
+		long keyLong = Long.parseLong(apiServlet.getKeyForStudent(
+				student.course, student.email));
+		String key = KeyFactory.createKeyString(Student.class.getSimpleName(),
+				keyLong);
 		student.id = "";
 		apiServlet.editStudent(student.email, student);
 		assertEquals("",
@@ -1136,13 +1137,13 @@ public class APIServletTest extends BaseTestCase {
 		helper.setEnvIsLoggedIn(true);
 		helper.setEnvEmail(googleId);
 		helper.setEnvAuthDomain("gmail.com");
-		
-		apiServlet.joinCourse(googleId,key);
+
+		apiServlet.joinCourse(googleId, key);
 		assertEquals(googleId,
 				apiServlet.getStudent(student.course, student.email).id);
 
 		______TS("try to register again with a valid key");
-		
+
 		try {
 			apiServlet.joinCourse(googleId, key);
 			fail();
@@ -1153,18 +1154,19 @@ public class APIServletTest extends BaseTestCase {
 				apiServlet.getStudent(student.course, student.email).id);
 
 		______TS("use a valid key belonging to a different user");
-		
+
 		helper.setEnvEmail("student2InCourse1");
 		helper.setEnvAuthDomain("gmail.com");
 		try {
 			apiServlet.joinCourse("student2InCourse1", key);
 			fail();
 		} catch (JoinCourseException e) {
-			assertEquals(Common.ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER, e.errorCode);
+			assertEquals(Common.ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER,
+					e.errorCode);
 		}
 		assertEquals(googleId,
 				apiServlet.getStudent(student.course, student.email).id);
-		
+
 		______TS("try to register with invalid key");
 
 		// make a student 'unregistered'
@@ -1177,12 +1179,12 @@ public class APIServletTest extends BaseTestCase {
 		} catch (JoinCourseException e) {
 			assertEquals(Common.ERRORCODE_INVALID_KEY, e.errorCode);
 		}
-		
+
 		assertEquals("",
 				apiServlet.getStudent(student.course, student.email).id);
-		
+
 		______TS("null parameters");
-		
+
 		try {
 			apiServlet.joinCourse(googleId, null);
 			fail();
@@ -1199,6 +1201,8 @@ public class APIServletTest extends BaseTestCase {
 	@Test
 	public void testGetKeyForStudent() {
 		// mostly tested in testJoinCourse()
+		printTestCaseHeader();
+
 		______TS("null parameters");
 		StudentData student = dataBundle.students.get("student1InCourse1");
 		assertEquals(null, apiServlet.getKeyForStudent(student.course, null));
@@ -1211,7 +1215,63 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testGetCourseListForStudent() {
+	public void testGetCourseListForStudent() throws Exception {
+		printTestCaseHeader();
+		refreshDataInDatastore();
+
+		______TS("student having two courses");
+		StudentData studentInTwoCourses = dataBundle.students
+				.get("student2InCourse1");
+		List<CourseData> courseList = apiServlet
+				.getCourseListForStudent(studentInTwoCourses.id);
+		assertEquals(2, courseList.size());
+		CourseData course1 = dataBundle.courses.get("course1OfCoord2");
+		assertEquals(course1.id, courseList.get(0).id);
+		assertEquals(course1.name, courseList.get(0).name);
+
+		CourseData course2 = dataBundle.courses.get("course1OfCoord1");
+		assertEquals(course2.id, courseList.get(1).id);
+		assertEquals(course2.name, courseList.get(1).name);
+
+		______TS("student having one course");
+		StudentData studentInOneCourse = dataBundle.students
+				.get("student1InCourse1");
+		courseList = apiServlet.getCourseListForStudent(studentInOneCourse.id);
+		assertEquals(1, courseList.size());
+		course1 = dataBundle.courses.get("course1OfCoord1");
+		assertEquals(course1.id, courseList.get(0).id);
+		assertEquals(course1.name, courseList.get(0).name);
+
+		// student having zero courses is not applicable
+
+		______TS("non-existent student");
+		try {
+			apiServlet.getCourseListForStudent("non-existent");
+			fail();
+		} catch (EntityDoesNotExistException e) {
+			Common.assertContains("non-existent", e.getMessage());
+		}
+
+		______TS("null parameter");
+		try {
+			apiServlet.getCourseListForStudent(null);
+			fail();
+		} catch (InvalidParametersException e) {
+			Common.assertContains(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
+		}
+	}
+
+	@Test
+	public void testGetCourseDetailsListForStudent() throws Exception {
+		printTestCaseHeader();
+		refreshDataInDatastore();
+
+		StudentData studentInTwoCourses = dataBundle.students
+				.get("student2InCourse1");
+		List<CourseData> courseList = apiServlet
+				.getCourseDetailsListForStudent(studentInTwoCourses.id);
+		// assertEquals(2, courseList.size());
+
 		// TODO: implement this
 		// input: googleId
 		// output: List<CourseData>, including List<EvaluationData>
@@ -1236,7 +1296,7 @@ public class APIServletTest extends BaseTestCase {
 	public void testCreateEvaluation() throws Exception {
 		printTestCaseHeader();
 		refreshDataInDatastore();
-		
+
 		______TS("typical case");
 
 		EvaluationData evaluation = dataBundle.evaluations
@@ -1246,7 +1306,7 @@ public class APIServletTest extends BaseTestCase {
 		verifyAbsentInDatastore(evaluation);
 		apiServlet.createEvaluation(evaluation);
 		verifyPresentInDatastore(evaluation);
-		
+
 		______TS("Duplicate evaluation name");
 
 		try {
@@ -1255,7 +1315,7 @@ public class APIServletTest extends BaseTestCase {
 		} catch (EntityAlreadyExistsException e) {
 			assertEquals(Common.MESSAGE_EVALUATION_EXISTS, e.getMessage());
 		}
-		
+
 		______TS("invalid parameters");
 		try {
 			apiServlet.createEvaluation(null);
@@ -1263,8 +1323,8 @@ public class APIServletTest extends BaseTestCase {
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
 		}
-		
-		evaluation.name = evaluation.name+"new";
+
+		evaluation.name = evaluation.name + "new";
 		evaluation.course = null;
 		try {
 			apiServlet.createEvaluation(evaluation);
@@ -1274,8 +1334,7 @@ public class APIServletTest extends BaseTestCase {
 			Common.assertContains("course id", e.getMessage().toLowerCase());
 		}
 		// invalid values to other parameters should be checked in lower level
-		//    unit tests.
-		
+		// unit tests.
 
 	}
 
@@ -1344,7 +1403,7 @@ public class APIServletTest extends BaseTestCase {
 				evaluation.name);
 
 		// no need to sort, the result should be sorted by default
-		
+
 		// check for evaluation details
 		assertEquals(evaluation.course, result.course);
 		assertEquals(evaluation.name, result.name);
@@ -1357,7 +1416,6 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(evaluation.published, result.published);
 		assertEquals(Common.UNINITIALIZED_INT, result.submittedTotal);
 		assertEquals(Common.UNINITIALIZED_INT, result.expectedTotal);
-		
 
 		// check number of teams and team sizes
 		assertEquals(2, result.teams.size());
@@ -1638,6 +1696,7 @@ public class APIServletTest extends BaseTestCase {
 				.get("submissionFromS1C1ToS1C1");
 		verifyPresentInDatastore(submissionData);
 		// TODO: more testing
+		// e.g., lazyCreation
 	}
 
 	@Test

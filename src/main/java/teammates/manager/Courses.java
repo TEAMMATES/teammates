@@ -18,12 +18,14 @@ import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
 import teammates.api.TeammatesException;
+import teammates.datatransfer.CourseData;
 import teammates.datatransfer.StudentData;
 import teammates.exception.CourseDoesNotExistException;
 import teammates.exception.GoogleIDExistsInCourseException;
 import teammates.exception.RegistrationKeyInvalidException;
 import teammates.exception.RegistrationKeyTakenException;
 import teammates.jdo.CourseSummaryForCoordinator;
+import teammates.jdo.CourseSummaryForStudent;
 import teammates.jdo.EnrollmentReport;
 import teammates.jdo.EnrollmentStatus;
 import teammates.persistent.Course;
@@ -884,6 +886,20 @@ public class Courses {
 				return t1.compareTo(t2);
 			}
 		});
+	}
+
+	public List<CourseData> getCourseListForStudent(String googleId) {
+		List<Student> studentList = getStudentCourseList(googleId);
+		ArrayList<CourseData> courseList = new ArrayList<CourseData>();
+		
+		for (Student s : studentList) {
+			CourseData c = new CourseData();
+			c.id = s.getCourseID();
+			c.name = Courses.inst().getCourse(c.id).getName();
+			courseList.add(c);
+		}
+		return courseList;
+		
 	}
 
 }

@@ -1474,8 +1474,9 @@ public class APIServlet extends HttpServlet {
 
 	public void joinCourse(String googleId, String key)
 			throws JoinCourseException, InvalidParametersException {
-		if((googleId==null)||(key==null)){
-			throw new InvalidParametersException("GoogleId or key cannot be null");
+		if ((googleId == null) || (key == null)) {
+			throw new InvalidParametersException(
+					"GoogleId or key cannot be null");
 		}
 		try {
 			Courses.inst().joinCourse(key, googleId);
@@ -1501,6 +1502,24 @@ public class APIServlet extends HttpServlet {
 
 		return (student == null ? null : student.getRegistrationKey()
 				.toString());
+	}
+
+	public List<CourseData> getCourseListForStudent(String googleId)
+			throws EntityDoesNotExistException, InvalidParametersException {
+
+		Common.verifyNotNull(googleId, "Google Id");
+
+		if (getStudentsWithId(googleId) == null) {
+			throw new EntityDoesNotExistException("Student with " + googleId
+					+ " does not exist");
+		}
+
+		return Courses.inst().getCourseListForStudent(googleId);
+	}
+
+	public List<CourseData> getCourseDetailsListForStudent(String googleId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@SuppressWarnings("unused")
@@ -1564,7 +1583,7 @@ public class APIServlet extends HttpServlet {
 			return null;
 		}
 		CourseData course = getTeamsForCourse(courseId);
-		EvaluationData returnValue = getEvaluation(courseId, evaluationName); 
+		EvaluationData returnValue = getEvaluation(courseId, evaluationName);
 		HashMap<String, SubmissionData> submissionDataList = getSubmissionsForEvaluation(
 				courseId, evaluationName);
 		returnValue.teams = course.teams;
