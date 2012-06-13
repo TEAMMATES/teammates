@@ -1390,7 +1390,7 @@ public class APIServletTest extends BaseTestCase {
 
 		printTestCaseHeader();
 		refreshDataInDatastore();
-		
+
 		______TS("typical case");
 
 		// reconfigure points of an existing evaluation in the datastore
@@ -1424,112 +1424,128 @@ public class APIServletTest extends BaseTestCase {
 		// [91, 96, 114, 100]
 		// [86, 91, 108, 95]
 
-		//check calculated values
+		// check calculated values
 		assertEquals(student1email, result.getOwnerEmail());
 		assertEquals(100, result.claimedFromStudent);
 		assertEquals(100, result.claimedToCoord);
 		assertEquals(91, result.perceivedToCoord);
 		assertEquals(91, result.perceivedToStudent);
 		int teamSize = 4;
-		
-		//check size of submission lists
+
+		// check size of submission lists
 		assertEquals(teamSize, result.outgoing.size());
 		assertEquals(teamSize, result.incoming.size());
 		assertEquals(teamSize, result.selfEvaluations.size());
-		
-		//check reviewee of incoming
-		assertEquals("student1InCourse1@gmail.com", result.outgoing.get(0).reviewee);
-		assertEquals("student2InCourse1@gmail.com", result.outgoing.get(1).reviewee);
-		assertEquals("student3InCourse1@gmail.com", result.outgoing.get(2).reviewee);
-		assertEquals("student4InCourse1@gmail.com", result.outgoing.get(3).reviewee);
+
+		// check reviewee of incoming
+		assertEquals("student1InCourse1@gmail.com",
+				result.outgoing.get(0).reviewee);
+		assertEquals("student2InCourse1@gmail.com",
+				result.outgoing.get(1).reviewee);
+		assertEquals("student3InCourse1@gmail.com",
+				result.outgoing.get(2).reviewee);
+		assertEquals("student4InCourse1@gmail.com",
+				result.outgoing.get(3).reviewee);
 
 		// check sorting of 'incoming' (should be sorted feedback)
 		String feedback1 = result.incoming.get(0).p2pFeedback.getValue();
 		String feedback2 = result.incoming.get(1).p2pFeedback.getValue();
 		String feedback3 = result.incoming.get(2).p2pFeedback.getValue();
 		String feedback4 = result.incoming.get(3).p2pFeedback.getValue();
-		assertTrue(0 > feedback1
-				.compareTo(feedback2));
-		assertTrue(0 > feedback2
-				.compareTo(feedback3));
-		assertTrue(0 >  feedback3
-				.compareTo(feedback4));
-		
-		//check reviewer of outgoing
-		assertEquals("student3InCourse1@gmail.com", result.incoming.get(0).reviewer);
-		assertEquals("student2InCourse1@gmail.com", result.incoming.get(1).reviewer);
-		assertEquals("student4InCourse1@gmail.com", result.incoming.get(2).reviewer);
-		assertEquals("student1InCourse1@gmail.com", result.incoming.get(3).reviewer);
-		
-		//check some random values from submission lists
-		assertEquals(100, result.outgoing.get(1).points); //reviewee=student2
-		assertEquals(NSB, result.incoming.get(0).points); //reviewer=student3
-		assertEquals(114, result.incoming.get(0).normalized); //reviewer=student3
-		assertEquals("justification of student1InCourse1 rating to student1InCourse1", 
-				result.selfEvaluations.get(0).justification.getValue()); //student2
-		
+		assertTrue(0 > feedback1.compareTo(feedback2));
+		assertTrue(0 > feedback2.compareTo(feedback3));
+		assertTrue(0 > feedback3.compareTo(feedback4));
+
+		// check reviewer of outgoing
+		assertEquals("student3InCourse1@gmail.com",
+				result.incoming.get(0).reviewer);
+		assertEquals("student2InCourse1@gmail.com",
+				result.incoming.get(1).reviewer);
+		assertEquals("student4InCourse1@gmail.com",
+				result.incoming.get(2).reviewer);
+		assertEquals("student1InCourse1@gmail.com",
+				result.incoming.get(3).reviewer);
+
+		// check some random values from submission lists
+		assertEquals(100, result.outgoing.get(1).points); // reviewee=student2
+		assertEquals(NSB, result.incoming.get(0).points); // reviewer=student3
+		assertEquals(114, result.incoming.get(0).normalized); // reviewer=student3
+		assertEquals(
+				"justification of student1InCourse1 rating to student1InCourse1",
+				result.selfEvaluations.get(0).justification.getValue()); // student2
+
 		______TS("null parameter");
-		
+
 		try {
-			apiServlet.getEvaluationResultForStudent(null,"eval name","e@gmail.com");
+			apiServlet.getEvaluationResultForStudent(null, "eval name",
+					"e@gmail.com");
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
 			Common.assertContains("course id", e.getMessage().toLowerCase());
 		}
-		
+
 		try {
-			apiServlet.getEvaluationResultForStudent("course-id",null,"e@gmail.com");
+			apiServlet.getEvaluationResultForStudent("course-id", null,
+					"e@gmail.com");
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
-			Common.assertContains("evaluation name", e.getMessage().toLowerCase());
+			Common.assertContains("evaluation name", e.getMessage()
+					.toLowerCase());
 		}
-		
+
 		try {
-			apiServlet.getEvaluationResultForStudent("course-id","eval name",null);
+			apiServlet.getEvaluationResultForStudent("course-id", "eval name",
+					null);
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
 			Common.assertContains("student email", e.getMessage().toLowerCase());
 		}
-		
+
 		______TS("non-existent course");
-		
+
 		try {
-			apiServlet.getEvaluationResultForStudent("non-existent-course",evaluation.name,student1email);
+			apiServlet.getEvaluationResultForStudent("non-existent-course",
+					evaluation.name, student1email);
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non-existent-course", e.getMessage().toLowerCase());
+			Common.assertContains("non-existent-course", e.getMessage()
+					.toLowerCase());
 		}
-		
+
 		______TS("non-existent evaluation");
-		
+
 		try {
-			apiServlet.getEvaluationResultForStudent(course.id,"non existent eval",student1email);
+			apiServlet.getEvaluationResultForStudent(course.id,
+					"non existent eval", student1email);
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non existent eval", e.getMessage().toLowerCase());
+			Common.assertContains("non existent eval", e.getMessage()
+					.toLowerCase());
 		}
-		
+
 		______TS("non-existent student");
-		
+
 		try {
-			apiServlet.getEvaluationResultForStudent(course.id,evaluation.name,"non-existent@email.com");
+			apiServlet.getEvaluationResultForStudent(course.id,
+					evaluation.name, "non-existent@email.com");
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non-existent@email.com", e.getMessage().toLowerCase());
+			Common.assertContains("non-existent@email.com", e.getMessage()
+					.toLowerCase());
 		}
-		
+
 		______TS("student added after evaluation");
-		
-		//TODO: test this after implementing lazy creation of submissions
+
+		// TODO: test this after implementing lazy creation of submissions
 
 	}
 
 	@SuppressWarnings("unused")
 	private void ____EVALUATION_level_methods_______________________________() {
-		
+
 	}
 
 	@Test
@@ -1582,9 +1598,25 @@ public class APIServletTest extends BaseTestCase {
 	public void testGetEvaluation() throws Exception {
 		printTestCaseHeader();
 		refreshDataInDatastore();
+
+		______TS("typical case");
 		
-		dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
-		// TODO: implement this
+		EvaluationData expected = dataBundle.evaluations
+				.get("evaluation1InCourse1OfCoord1");
+		EvaluationData actual = apiServlet.getEvaluation(expected.course,
+				expected.name);
+		verifySameEvaluationData(expected, actual);
+		
+		______TS("null parameters");
+		
+		assertEquals(null, apiServlet.getEvaluation(null, expected.name));
+		assertEquals(null, apiServlet.getEvaluation(expected.course, null));
+
+		______TS("non-existent");
+		
+		assertEquals(null, apiServlet.getEvaluation("non-existent", expected.name));
+		assertEquals(null, apiServlet.getEvaluation(expected.course,"non-existent"));
+
 	}
 
 	@Test
@@ -1592,6 +1624,8 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader();
 		refreshDataInDatastore();
 
+		______TS("typical case");
+		
 		EvaluationData eval1 = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
 		eval1.gracePeriod = eval1.gracePeriod + 1;
@@ -1602,6 +1636,7 @@ public class APIServletTest extends BaseTestCase {
 		apiServlet.editEvaluation(eval1);
 		verifyPresentInDatastore(eval1);
 
+		______TS("null parameters");
 		// TODO: more testing
 
 	}
@@ -2372,6 +2407,10 @@ public class APIServletTest extends BaseTestCase {
 		assertSameDates(expected.startTime, actual.startTime);
 		assertSameDates(expected.endTime, actual.endTime);
 		assertEquals(expected.timeZone, actual.timeZone, 0.1);
+		assertEquals(expected.instructions, actual.instructions);
+		assertEquals(expected.p2pEnabled, actual.p2pEnabled);
+		assertEquals(expected.published, actual.published);
+		assertEquals(expected.activated, actual.activated);
 	}
 
 	private void refreshDataInDatastore() throws Exception {
