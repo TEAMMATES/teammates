@@ -533,6 +533,23 @@ public class APIServletTest extends BaseTestCase {
 		// mostly tested in testCreateCourse
 		assertEquals(null, apiServlet.getCourse(null));
 	}
+	
+	@Test
+	public void testGetCourseDetails() throws Exception {
+		printTestCaseHeader();
+		refreshDataInDatastore();
+		
+		CourseData course = dataBundle.courses.get("course1OfCoord1");
+		CourseData courseDetials = apiServlet.getCourseDetails(course.id);
+		assertEquals(course.id, courseDetials.id);
+		assertEquals(course.name, courseDetials.name);
+		assertEquals(2, courseDetials.teamsTotal);
+		assertEquals(5, courseDetials.studentsTotal);
+		assertEquals(0, courseDetials.unregisteredTotal);
+		
+		//TODO: more testing e.g, course without students etc.
+		
+	}
 
 	@Test
 	public void testEditCourse() {
@@ -1270,9 +1287,7 @@ public class APIServletTest extends BaseTestCase {
 
 		______TS("student having multiple evaluations in multiple courses");
 
-		StudentData studentInTwoCourses = dataBundle.students
-				.get("student2InCourse1");
-
+		// Let's call this course 1. It has 2 evaluations.
 		CourseData expectedCourse1 = dataBundle.courses.get("course1OfCoord1");
 
 		EvaluationData expectedEval1InCourse1 = dataBundle.evaluations
@@ -1280,12 +1295,17 @@ public class APIServletTest extends BaseTestCase {
 		EvaluationData expectedEval2InCourse1 = dataBundle.evaluations
 				.get("evaluation2InCourse1OfCoord1");
 
+		// Let's call this course 2. I has only 1 evaluation.
 		CourseData expectedCourse2 = dataBundle.courses.get("course1OfCoord2");
 
 		EvaluationData expectedEval1InCourse2 = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord2");
 
-		// make sure all evaluations in course1 are visible (i.e., not AWAITING)
+		// This student is in both course 1 and 2
+		StudentData studentInTwoCourses = dataBundle.students
+				.get("student2InCourse1");
+
+		// Make sure all evaluations in course1 are visible (i.e., not AWAITING)
 		expectedEval1InCourse1.startTime = Common
 				.getDateOffsetToCurrentTime(-2);
 		expectedEval1InCourse1.endTime = Common.getDateOffsetToCurrentTime(-1);
@@ -1299,18 +1319,20 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(EvalStatus.OPEN, expectedEval2InCourse1.getStatus());
 		apiServlet.editEvaluation(expectedEval2InCourse1);
 
-		// make sure all evaluations in course2 are still AWAITING
+		// Make sure all evaluations in course2 are still AWAITING
 		expectedEval1InCourse2.startTime = Common.getDateOffsetToCurrentTime(1);
 		expectedEval1InCourse2.endTime = Common.getDateOffsetToCurrentTime(2);
 		assertEquals(EvalStatus.AWAITING, expectedEval1InCourse2.getStatus());
 		apiServlet.editEvaluation(expectedEval1InCourse2);
 
+		// Get course details for student
 		List<CourseData> courseList = apiServlet
 				.getCourseDetailsListForStudent(studentInTwoCourses.id);
 
+		// verify number of courses received
 		assertEquals(2, courseList.size());
 
-		// verify details of course 1 (note the index of course 1 is not 0)
+		// verify details of course 1 (note: index of course 1 is not 0)
 		CourseData actualCourse1 = courseList.get(1);
 		assertEquals(expectedCourse1.id, actualCourse1.id);
 		assertEquals(expectedCourse1.name, actualCourse1.name);
@@ -1324,8 +1346,8 @@ public class APIServletTest extends BaseTestCase {
 		EvaluationData actualEval2InCourse1 = actualCourse1.evaluations.get(0);
 		verifySameEvaluationData(expectedEval2InCourse1, actualEval2InCourse1);
 
-		// verify no evaluations returned (because the evaluation in this
-		// course is still AWAITING.
+		// for course 2, verify no evaluations returned (because the evaluation
+		// in this course is still AWAITING.
 		CourseData actualCourse2 = courseList.get(0);
 		assertEquals(expectedCourse2.id, actualCourse2.id);
 		assertEquals(expectedCourse2.name, actualCourse2.name);
@@ -1368,6 +1390,43 @@ public class APIServletTest extends BaseTestCase {
 
 		printTestCaseHeader();
 		refreshDataInDatastore();
+
+		// reconfigure points of an existing evaluation in the datastore
+		CourseData course = dataBundle.courses.get("course1OfCoord1");
+		EvaluationData evaluation = dataBundle.evaluations
+				.get("evaluation1InCourse1OfCoord1");
+		//@formatter:off
+		setPointsForSubmissions(new int[][] { 
+				{ 100, 100, 100, 100 },
+				{ 110, 110, NSU, 110 }, 
+				{ NSB, NSB, NSB, NSB },
+				{ 70, 80, 110, 120 } });
+		//@formatter:on
+
+		String student1email = "student1InCourse1@gmail.com";
+		// "idOfCourse1OfCoord1", "evaluation1 In Course1",
+
+		EvalResultData result = apiServlet.getEvaluationResultForStudent(
+				course.id, evaluation.name, student1email);
+
+		// expected result:
+		// [100, 100, 100, 100]
+		// [100, 100, NSU, 100]
+		// [NSB, NSB, NSB, NSB]
+		// [74, 84, 116, 126]
+		// =======================
+		// [91, 96, 114, 100]
+		// =======================
+		// [91, 96, 114, 100]
+		// [105, 110, 131, 115]
+		// [91, 96, 114, 100]
+		// [86, 91, 108, 95]
+
+		assertEquals(student1email, result.getOwnerEmail());
+		assertEquals(100, result.claimedFromStudent);
+		assertEquals(100, result.claimedToCoord);
+		assertEquals(91, result.perceivedToCoord);
+		assertEquals(91, result.perceivedToStudent);
 
 		// TODO: implement this
 		// input: course, email,evalName
@@ -1483,9 +1542,13 @@ public class APIServletTest extends BaseTestCase {
 		EvaluationData evaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
 
-		setPointsForSubmissions(new int[][] { { 100, 100, 100, 100 },
-				{ 110, 110, NSU, 110 }, { NSB, NSB, NSB, NSB },
+		//@formatter:off
+		setPointsForSubmissions(new int[][] { 
+				{ 100, 100, 100, 100 },
+				{ 110, 110, NSU, 110 }, 
+				{ NSB, NSB, NSB, NSB },
 				{ 70, 80, 110, 120 } });
+		//@formatter:on
 
 		EvaluationData result = apiServlet.getEvaluationResult(course.id,
 				evaluation.name);
@@ -1622,6 +1685,9 @@ public class APIServletTest extends BaseTestCase {
 		} catch (EntityDoesNotExistException e) {
 			Common.assertContains("non-existent-course", e.getMessage());
 		}
+
+		// TODO: reduce rounding off error during
+		// "self rating removed and normalized"
 
 	}
 

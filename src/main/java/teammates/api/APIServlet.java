@@ -1200,6 +1200,13 @@ public class APIServlet extends HttpServlet {
 		return (c == null ? null : new CourseData(c.getID(), c.getName(),
 				c.getCoordinatorID()));
 	}
+	
+	public CourseData getCourseDetails(String courseId) throws EntityDoesNotExistException {
+		//TODO: very inefficient. Should be optimized.
+		CourseData course = getCourse(courseId);
+		HashMap<String, CourseData> courseList = getCourseDetailsListForCoord(course.coord);
+		return courseList.get(courseId);
+	}
 
 	public void editCourse(CourseData course) throws NotImplementedException {
 		throw new NotImplementedException("Not implemented because we do "
@@ -1522,7 +1529,7 @@ public class APIServlet extends HttpServlet {
 		Common.verifyNotNull(googleId, "Google Id");
 
 		if (getStudentsWithId(googleId) == null) {
-			throw new EntityDoesNotExistException("Student with " + googleId
+			throw new EntityDoesNotExistException("Student with Google ID " + googleId
 					+ " does not exist");
 		}
 
@@ -1544,6 +1551,30 @@ public class APIServlet extends HttpServlet {
 			}
 		}
 		return courseList;
+	}
+	
+	public EvalResultData getEvaluationResultForStudent(String courseId,
+			String evaluationName, String studentEmail)
+			throws EntityDoesNotExistException, InvalidParametersException {
+		StudentData student = getStudent(courseId, studentEmail);
+		// TODO: this is very inefficient as it calculates the results for the
+		// whole class first
+		EvaluationData courseResult = getEvaluationResult(courseId,
+				evaluationName);
+		TeamData teamData = courseResult.getTeamData(student.team);
+		EvalResultData returnValue = null;
+		
+		for (StudentData sd : teamData.students) {
+			if (sd.email.equals(student.email)) {
+				returnValue = sd.result;
+				break;
+			}
+		}
+		
+		for (StudentData sd : teamData.students) {
+			returnValue.selfEvaluations.add(sd.result.getSelfEvaluation());
+		}
+		return returnValue;
 	}
 
 	@SuppressWarnings("unused")
@@ -1903,5 +1934,8 @@ public class APIServlet extends HttpServlet {
 	private boolean isModificationToExistingStudent(StudentData student) {
 		return getStudent(student.course, student.email) != null;
 	}
+
+
+
 
 }

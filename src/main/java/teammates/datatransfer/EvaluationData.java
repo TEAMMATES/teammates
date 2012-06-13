@@ -91,4 +91,13 @@ public class EvaluationData {
 		time.add(Calendar.MILLISECOND, (int) (-60 * 60 * 1000 * timeZone));
 		return time; // for chaining
 	}
+
+	public TeamData getTeamData(String teamName) {
+		for (TeamData team : teams) {
+			if(team.name.equals(teamName)){
+				return team;
+			}
+		}
+		return null;
+	}
 }

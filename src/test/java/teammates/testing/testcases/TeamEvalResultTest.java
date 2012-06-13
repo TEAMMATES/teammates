@@ -427,5 +427,36 @@ public class TeamEvalResultTest extends BaseTestCase{
 	    setConsoleLoggingLevel(Level.WARNING);
 	}
 	
+	public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
+		turnLogginUp(TeamEvalResult.class);
+		int[][] input = 
+			{{  100,  100,  110 }, 
+			 { 100,  100,  110 },
+			 { 100,  100,  110 }};
+		
+		showCalculationSteps(input);
+		
+		int[][] input2 = {
+			{ 100, 100, 100, 100 },
+			{ 110, 110, NSU, 110 }, 
+			{ NSB, NSB, NSB, NSB },
+			{ 70, 80, 110, 120 } };
+		
+		showCalculationSteps(input2);
+		
+	}
+
+	private static void showCalculationSteps(int[][] input) {
+		TeamEvalResult t = new TeamEvalResult(input);
+		String actual = pointsToString(t.claimedToCoord)
+				+ "======================="+EOL
+				+ Arrays.toString(t.perceivedToCoord) + EOL
+				+ "=======================" + EOL
+				+pointsToString(t.perceivedToStudents);
+		actual = replaceMagicNumbers(actual);
+		
+		System.out.println(actual);
+	}
+	
 
 }

@@ -13,6 +13,7 @@ public class EvalResultData {
 
 	public ArrayList<SubmissionData> incoming = new ArrayList<SubmissionData>();
 	public ArrayList<SubmissionData> outgoing = new ArrayList<SubmissionData>();
+	public ArrayList<SubmissionData> selfEvaluations = new ArrayList<SubmissionData>();
 
 	public int claimedFromStudent = Common.UNINITIALIZED_INT;
 	public int claimedToCoord = Common.UNINITIALIZED_INT;
@@ -63,6 +64,13 @@ public class EvalResultData {
 		});
 	}
 
+	public String getOwnerEmail() {
+		for(SubmissionData sb: outgoing){
+			if(sb.reviewee.equals(sb.reviewer)){
+				return sb.reviewer;
+			}
+		}
+		return null;
+	}
 	
-
 }

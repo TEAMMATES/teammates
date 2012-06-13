@@ -15,7 +15,6 @@ import teammates.testing.junit.TMAPITest;
 		AllJsUnitTests.class,
 		// Api tests
 		TMAPITest.class, 
-		APIServletTest.class,
 		// Ui tests
 		CoordCourseAddPageUiTest.class, 
 		CoordCourseEnrollPageUiTest.class,
