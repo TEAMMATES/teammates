@@ -1529,6 +1529,7 @@ public class APIServletTest extends BaseTestCase {
 
 	@SuppressWarnings("unused")
 	private void ____EVALUATION_level_methods_______________________________() {
+		
 	}
 
 	@Test
@@ -1578,7 +1579,11 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testGetEvaluation() {
+	public void testGetEvaluation() throws Exception {
+		printTestCaseHeader();
+		refreshDataInDatastore();
+		
+		dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
 		// TODO: implement this
 	}
 
