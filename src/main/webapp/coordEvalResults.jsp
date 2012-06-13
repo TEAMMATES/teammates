@@ -64,13 +64,13 @@
 							<b>Report Type:</b> 
 							<input type="radio" name="radio_reporttype" id="radio_summary" value="coordinatorEvaluationSummaryTable" checked="checked"
 									onclick="showReport(this.value)" />
-							<label for="radio_summary">Summary</label>&nbsp;&nbsp;&nbsp;
-							<input type="radio" name="radio_reporttype" id="radio_detail" value="coordinatorEvaluationDetailedReviewerTable"
+							<label for="radio_summary">Summary</label>
+							<input type="radio" name="radio_reporttype" id="radio_reviewer" value="coordinatorEvaluationDetailedReviewerTable"
 									onclick="showReport(this.value)" />
-							<label for="radio_detail">Detailed: By Reviewer</label>&nbsp;&nbsp;&nbsp;
-							<input type="radio" name="radio_reporttype" id="radio_reviewer" value="coordinatorEvaluationDetailedRevieweeTable"
+							<label for="radio_reviewer">Detailed: By Reviewer</label>
+							<input type="radio" name="radio_reporttype" id="radio_reviewee" value="coordinatorEvaluationDetailedRevieweeTable"
 									onclick="showReport(this.value)" />
-							<label for="radio_reviewer">Detailed: By Reviewee</label>
+							<label for="radio_reviewee">Detailed: By Reviewee</label>
 						</td>
 					</tr> 
 					<tr>

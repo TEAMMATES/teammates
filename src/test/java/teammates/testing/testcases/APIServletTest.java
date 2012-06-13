@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
@@ -1243,7 +1244,7 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(course1.id, courseList.get(0).id);
 		assertEquals(course1.name, courseList.get(0).name);
 
-		 //student having zero courses is not applicable
+		// student having zero courses is not applicable
 
 		______TS("non-existent student");
 		try {
@@ -1271,16 +1272,16 @@ public class APIServletTest extends BaseTestCase {
 
 		StudentData studentInTwoCourses = dataBundle.students
 				.get("student2InCourse1");
-		
+
 		CourseData expectedCourse1 = dataBundle.courses.get("course1OfCoord1");
-		
+
 		EvaluationData expectedEval1InCourse1 = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
 		EvaluationData expectedEval2InCourse1 = dataBundle.evaluations
 				.get("evaluation2InCourse1OfCoord1");
-		
+
 		CourseData expectedCourse2 = dataBundle.courses.get("course1OfCoord2");
-		
+
 		EvaluationData expectedEval1InCourse2 = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord2");
 
@@ -1291,80 +1292,76 @@ public class APIServletTest extends BaseTestCase {
 		expectedEval1InCourse1.published = false;
 		assertEquals(EvalStatus.CLOSED, expectedEval1InCourse1.getStatus());
 		apiServlet.editEvaluation(expectedEval1InCourse1);
-		assertEquals(EvalStatus.CLOSED, apiServlet.getEvaluation(
-				expectedEval1InCourse1.course,expectedEval1InCourse1.name).getStatus());
 
 		expectedEval2InCourse1.startTime = Common
 				.getDateOffsetToCurrentTime(-1);
 		expectedEval2InCourse1.endTime = Common.getDateOffsetToCurrentTime(1);
 		assertEquals(EvalStatus.OPEN, expectedEval2InCourse1.getStatus());
 		apiServlet.editEvaluation(expectedEval2InCourse1);
-		assertEquals(EvalStatus.OPEN, apiServlet.getEvaluation(
-				expectedEval2InCourse1.course,expectedEval2InCourse1.name).getStatus());
 
 		// make sure all evaluations in course2 are still AWAITING
 		expectedEval1InCourse2.startTime = Common.getDateOffsetToCurrentTime(1);
 		expectedEval1InCourse2.endTime = Common.getDateOffsetToCurrentTime(2);
 		assertEquals(EvalStatus.AWAITING, expectedEval1InCourse2.getStatus());
 		apiServlet.editEvaluation(expectedEval1InCourse2);
-		assertEquals(EvalStatus.AWAITING, apiServlet.getEvaluation(
-				expectedEval1InCourse2.course,expectedEval1InCourse2.name).getStatus());
-		
-		 List<CourseData> courseList = apiServlet
-		 .getCourseDetailsListForStudent(studentInTwoCourses.id);
-		
-		 
-		 assertEquals(2, courseList.size());
-		 
-		 CourseData actualCourse1 = courseList.get(1);
-		 assertEquals(expectedCourse1.id, actualCourse1.id);
-		 assertEquals(expectedCourse1.name, actualCourse1.name);
-		 assertEquals(2, actualCourse1.evaluations.size());
-		
-		 EvaluationData actualEval1InCourse1 = actualCourse1.evaluations.get(1);
-		 assertEquals(expectedCourse1.id, actualEval1InCourse1.course);
-		 assertEquals(expectedEval1InCourse1.name, actualEval1InCourse1.name);
-		 
-		 EvaluationData actualEval2InCourse1 = actualCourse1.evaluations.get(0);
-		 assertEquals(expectedCourse1.id, actualEval2InCourse1.course);
-		 assertEquals(expectedEval2InCourse1.name, actualEval2InCourse1.name);
 
-		 CourseData actualCourse2 = courseList.get(0);
-		 assertEquals(expectedCourse2.id, actualCourse2.id);
-		 assertEquals(expectedCourse2.name, actualCourse2.name);
-		 assertEquals(0, actualCourse2.evaluations.size());
-		 
-		 ______TS("student in a course with no evaluations");
-		 
-		 //apiServlet.deleteEvaluation(expectedEval2InCourse1.course, expectedEval2InCourse1.name);
+		List<CourseData> courseList = apiServlet
+				.getCourseDetailsListForStudent(studentInTwoCourses.id);
 
-		// TODO: implement this
-		// input: googleId
-		// output: List<CourseData>, including List<EvaluationData>
-		// throws: InvalidParametersException, EntityDoesNotExist (if student
-		// does not exist)
+		assertEquals(2, courseList.size());
+
+		// verify details of course 1 (note the index of course 1 is not 0)
+		CourseData actualCourse1 = courseList.get(1);
+		assertEquals(expectedCourse1.id, actualCourse1.id);
+		assertEquals(expectedCourse1.name, actualCourse1.name);
+		assertEquals(2, actualCourse1.evaluations.size());
+
+		// verify details of evaluation 1 in course 1
+		EvaluationData actualEval1InCourse1 = actualCourse1.evaluations.get(1);
+		verifySameEvaluationData(expectedEval1InCourse1, actualEval1InCourse1);
+
+		// verify some details of evaluation 2 in course 1
+		EvaluationData actualEval2InCourse1 = actualCourse1.evaluations.get(0);
+		verifySameEvaluationData(expectedEval2InCourse1, actualEval2InCourse1);
+
+		// verify no evaluations returned (because the evaluation in this
+		// course is still AWAITING.
+		CourseData actualCourse2 = courseList.get(0);
+		assertEquals(expectedCourse2.id, actualCourse2.id);
+		assertEquals(expectedCourse2.name, actualCourse2.name);
+		assertEquals(0, actualCourse2.evaluations.size());
+
+		______TS("student in a course with no evaluations");
+
+		StudentData studentWithNoEvaluations = dataBundle.students
+				.get("student1InCourse2");
+		courseList = apiServlet
+				.getCourseDetailsListForStudent(studentWithNoEvaluations.id);
+		assertEquals(1, courseList.size());
+		assertEquals(0, courseList.get(0).evaluations.size());
+
+		// student with 0 courses not applicable
+
+		______TS("non-existent student");
+
+		try {
+			apiServlet.getCourseDetailsListForStudent("non-existent");
+			fail();
+		} catch (EntityDoesNotExistException e) {
+			Common.assertContains("non-existent", e.getMessage());
+		}
+
+		______TS("null parameter");
+
+		try {
+			apiServlet.getCourseDetailsListForStudent(null);
+			fail();
+		} catch (InvalidParametersException e) {
+			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
+			Common.assertContains("google id", e.getMessage().toLowerCase());
+		}
+
 	}
-
-	// @Test
-	// public void testGetEvaulationListForStudent() throws Exception {
-	//
-	// printTestCaseHeader();
-	// refreshDataInDatastore();
-	//
-	// ______TS("student having multiple evaluations in multiple courses");
-	//
-	// StudentData studentInTwoCourses = dataBundle.students
-	// .get("student2InCourse1");
-	// List<EvaluationData> evaluations =
-	// invokeGetEvaluationListForStudent(studentInTwoCourses.id);
-	// assertEquals(2, evaluations.size());
-	// // CourseData course1 = dataBundle.evaluations.get("course1OfCoord2");
-	// // assertEquals(course1.id, evaluations.get(0).id);
-	// // assertEquals(course1.name, evaluations.get(0).name);
-	//
-	// // TODO: implement this
-	//
-	// }
 
 	@Test
 	public void testGetEvauationResultForStudent() throws Exception {
@@ -2205,6 +2202,15 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
+	private void verifySameEvaluationData(EvaluationData expected,
+			EvaluationData actual) {
+		assertEquals(expected.course, actual.course);
+		assertEquals(expected.name, actual.name);
+		assertSameDates(expected.startTime, actual.startTime);
+		assertSameDates(expected.endTime, actual.endTime);
+		assertEquals(expected.timeZone, actual.timeZone, 0.1);
+	}
+
 	private void refreshDataInDatastore() throws Exception {
 		setGeneralLoggingLevel(Level.SEVERE);
 		setLogLevelOfClass(APIServlet.class, Level.SEVERE);
@@ -2255,17 +2261,6 @@ public class APIServletTest extends BaseTestCase {
 		Object[] params = new Object[] { team, teamResult };
 		privateMethod.invoke(apiServlet, params);
 	}
-
-	// @SuppressWarnings("unchecked")
-	// private ArrayList<EvaluationData> invokeGetEvaluationListForStudent(
-	// String googleId) throws Exception {
-	// Method privateMethod = APIServlet.class.getDeclaredMethod(
-	// "getEvaluationListForStudent", new Class[] { String.class });
-	// privateMethod.setAccessible(true);
-	// Object[] params = new Object[] { googleId };
-	// return (ArrayList<EvaluationData>) privateMethod.invoke(apiServlet,
-	// params);
-	// }
 
 	private SubmissionData createSubmission(int from, int to) {
 		SubmissionData submission = new SubmissionData();

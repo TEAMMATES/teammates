@@ -103,12 +103,14 @@
 									id="<%= Common.PARAM_EVALUATION_COMMENTSENABLED %>" value="true"
 									<% if(helper.submittedEval==null || helper.submittedEval.p2pEnabled) out.print("checked=\"checked\""); %>
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS %>')"
-									onmouseout="hideddrivetip()" />Enabled&nbsp;&nbsp;
+									onmouseout="hideddrivetip()" />
+							<label for="commentsstatus_enabled">Enabled</label>
 							<input type="radio" name="<%= Common.PARAM_EVALUATION_COMMENTSENABLED %>"
 									id="<%= Common.PARAM_EVALUATION_COMMENTSENABLED %>" value="false"
 									<% if(helper.submittedEval!=null && !helper.submittedEval.p2pEnabled) out.print("checked=\"checked\""); %>
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS %>')"
-									onmouseout="hideddrivetip()" />Disabled
+									onmouseout="hideddrivetip()" />
+							<label for="commentsstatus_disabled">Disabled</label>
 						</td>
 						<td class="attribute" >Time zone:</td>
 						<td><select style="width: 100px;" name="<%= Common.PARAM_EVALUATION_TIMEZONE %>" id="<%= Common.PARAM_EVALUATION_TIMEZONE %>"

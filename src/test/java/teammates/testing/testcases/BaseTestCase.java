@@ -1,10 +1,15 @@
 package teammates.testing.testcases;
 
+import static org.junit.Assert.assertEquals;
+
 import java.lang.reflect.Field;
+import java.util.Date;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import teammates.api.Common;
 
 public class BaseTestCase {
 
@@ -77,6 +82,11 @@ public class BaseTestCase {
 			throws NoSuchFieldException, IllegalAccessException {
 		setLogLevelOfClass(classBeingTested, Level.WARNING);
 		setConsoleLoggingLevel(Level.WARNING);
+	}
+
+	protected void assertSameDates(Date expected, Date actual) {
+		assertEquals(Common.calendarToString(Common.dateToCalendar(expected)),
+				Common.calendarToString(Common.dateToCalendar(actual)));
 	}
 
 }

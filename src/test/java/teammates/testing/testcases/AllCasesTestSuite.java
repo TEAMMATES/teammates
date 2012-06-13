@@ -4,7 +4,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import teammates.testing.junit.TMAPITest;
-import teammates.testing.lib.HtmlHelperTest;
 
 //@formatter:off
 
