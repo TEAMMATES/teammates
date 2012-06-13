@@ -533,12 +533,12 @@ public class APIServletTest extends BaseTestCase {
 		// mostly tested in testCreateCourse
 		assertEquals(null, apiServlet.getCourse(null));
 	}
-	
+
 	@Test
 	public void testGetCourseDetails() throws Exception {
 		printTestCaseHeader();
 		refreshDataInDatastore();
-		
+
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
 		CourseData courseDetials = apiServlet.getCourseDetails(course.id);
 		assertEquals(course.id, courseDetials.id);
@@ -546,9 +546,9 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(2, courseDetials.teamsTotal);
 		assertEquals(5, courseDetials.studentsTotal);
 		assertEquals(0, courseDetials.unregisteredTotal);
-		
-		//TODO: more testing e.g, course without students etc.
-		
+
+		// TODO: more testing e.g, course without students etc.
+
 	}
 
 	@Test
@@ -1390,6 +1390,8 @@ public class APIServletTest extends BaseTestCase {
 
 		printTestCaseHeader();
 		refreshDataInDatastore();
+		
+		______TS("typical case");
 
 		// reconfigure points of an existing evaluation in the datastore
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
@@ -1422,17 +1424,107 @@ public class APIServletTest extends BaseTestCase {
 		// [91, 96, 114, 100]
 		// [86, 91, 108, 95]
 
+		//check calculated values
 		assertEquals(student1email, result.getOwnerEmail());
 		assertEquals(100, result.claimedFromStudent);
 		assertEquals(100, result.claimedToCoord);
 		assertEquals(91, result.perceivedToCoord);
 		assertEquals(91, result.perceivedToStudent);
+		int teamSize = 4;
+		
+		//check size of submission lists
+		assertEquals(teamSize, result.outgoing.size());
+		assertEquals(teamSize, result.incoming.size());
+		assertEquals(teamSize, result.selfEvaluations.size());
+		
+		//check reviewee of incoming
+		assertEquals("student1InCourse1@gmail.com", result.outgoing.get(0).reviewee);
+		assertEquals("student2InCourse1@gmail.com", result.outgoing.get(1).reviewee);
+		assertEquals("student3InCourse1@gmail.com", result.outgoing.get(2).reviewee);
+		assertEquals("student4InCourse1@gmail.com", result.outgoing.get(3).reviewee);
 
-		// TODO: implement this
-		// input: course, email,evalName
-		// output: EvaluationResult
-		// throws: InvalidParametersException, EntityDoesNotExist (if eval or
-		// student does not exist)
+		// check sorting of 'incoming' (should be sorted feedback)
+		String feedback1 = result.incoming.get(0).p2pFeedback.getValue();
+		String feedback2 = result.incoming.get(1).p2pFeedback.getValue();
+		String feedback3 = result.incoming.get(2).p2pFeedback.getValue();
+		String feedback4 = result.incoming.get(3).p2pFeedback.getValue();
+		assertTrue(0 > feedback1
+				.compareTo(feedback2));
+		assertTrue(0 > feedback2
+				.compareTo(feedback3));
+		assertTrue(0 >  feedback3
+				.compareTo(feedback4));
+		
+		//check reviewer of outgoing
+		assertEquals("student3InCourse1@gmail.com", result.incoming.get(0).reviewer);
+		assertEquals("student2InCourse1@gmail.com", result.incoming.get(1).reviewer);
+		assertEquals("student4InCourse1@gmail.com", result.incoming.get(2).reviewer);
+		assertEquals("student1InCourse1@gmail.com", result.incoming.get(3).reviewer);
+		
+		//check some random values from submission lists
+		assertEquals(100, result.outgoing.get(1).points); //reviewee=student2
+		assertEquals(NSB, result.incoming.get(0).points); //reviewer=student3
+		assertEquals(114, result.incoming.get(0).normalized); //reviewer=student3
+		assertEquals("justification of student1InCourse1 rating to student1InCourse1", 
+				result.selfEvaluations.get(0).justification.getValue()); //student2
+		
+		______TS("null parameter");
+		
+		try {
+			apiServlet.getEvaluationResultForStudent(null,"eval name","e@gmail.com");
+			fail();
+		} catch (InvalidParametersException e) {
+			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
+			Common.assertContains("course id", e.getMessage().toLowerCase());
+		}
+		
+		try {
+			apiServlet.getEvaluationResultForStudent("course-id",null,"e@gmail.com");
+			fail();
+		} catch (InvalidParametersException e) {
+			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
+			Common.assertContains("evaluation name", e.getMessage().toLowerCase());
+		}
+		
+		try {
+			apiServlet.getEvaluationResultForStudent("course-id","eval name",null);
+			fail();
+		} catch (InvalidParametersException e) {
+			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
+			Common.assertContains("student email", e.getMessage().toLowerCase());
+		}
+		
+		______TS("non-existent course");
+		
+		try {
+			apiServlet.getEvaluationResultForStudent("non-existent-course",evaluation.name,student1email);
+			fail();
+		} catch (EntityDoesNotExistException e) {
+			Common.assertContains("non-existent-course", e.getMessage().toLowerCase());
+		}
+		
+		______TS("non-existent evaluation");
+		
+		try {
+			apiServlet.getEvaluationResultForStudent(course.id,"non existent eval",student1email);
+			fail();
+		} catch (EntityDoesNotExistException e) {
+			Common.assertContains("non existent eval", e.getMessage().toLowerCase());
+		}
+		
+		______TS("non-existent student");
+		
+		try {
+			apiServlet.getEvaluationResultForStudent(course.id,evaluation.name,"non-existent@email.com");
+			fail();
+		} catch (EntityDoesNotExistException e) {
+			Common.assertContains("non-existent@email.com", e.getMessage().toLowerCase());
+		}
+		
+		______TS("student added after evaluation");
+		
+		//TODO: test this after implementing lazy creation of submissions
+
 	}
 
 	@SuppressWarnings("unused")

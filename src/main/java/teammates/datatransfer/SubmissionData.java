@@ -74,5 +74,9 @@ public class SubmissionData {
 		copy.normalized = this.normalized;
 		return copy;
 	}
+	
+	public boolean isSelfEvaluation(){
+		return reviewee.equals(reviewer);
+	}
 
 }

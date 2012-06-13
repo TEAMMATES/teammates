@@ -1200,9 +1200,10 @@ public class APIServlet extends HttpServlet {
 		return (c == null ? null : new CourseData(c.getID(), c.getName(),
 				c.getCoordinatorID()));
 	}
-	
-	public CourseData getCourseDetails(String courseId) throws EntityDoesNotExistException {
-		//TODO: very inefficient. Should be optimized.
+
+	public CourseData getCourseDetails(String courseId)
+			throws EntityDoesNotExistException {
+		// TODO: very inefficient. Should be optimized.
 		CourseData course = getCourse(courseId);
 		HashMap<String, CourseData> courseList = getCourseDetailsListForCoord(course.coord);
 		return courseList.get(courseId);
@@ -1529,8 +1530,8 @@ public class APIServlet extends HttpServlet {
 		Common.verifyNotNull(googleId, "Google Id");
 
 		if (getStudentsWithId(googleId) == null) {
-			throw new EntityDoesNotExistException("Student with Google ID " + googleId
-					+ " does not exist");
+			throw new EntityDoesNotExistException("Student with Google ID "
+					+ googleId + " does not exist");
 		}
 
 		return Courses.inst().getCourseListForStudent(googleId);
@@ -1552,28 +1553,39 @@ public class APIServlet extends HttpServlet {
 		}
 		return courseList;
 	}
-	
+
 	public EvalResultData getEvaluationResultForStudent(String courseId,
 			String evaluationName, String studentEmail)
 			throws EntityDoesNotExistException, InvalidParametersException {
+
+		Common.verifyNotNull(courseId, "course id");
+		Common.verifyNotNull(evaluationName, "evaluation name");
+		Common.verifyNotNull(studentEmail, "student email");
+
 		StudentData student = getStudent(courseId, studentEmail);
+		if (student == null) {
+			throw new EntityDoesNotExistException("The student " + studentEmail
+					+ " does not exist in course " + courseId);
+		}
 		// TODO: this is very inefficient as it calculates the results for the
 		// whole class first
 		EvaluationData courseResult = getEvaluationResult(courseId,
 				evaluationName);
 		TeamData teamData = courseResult.getTeamData(student.team);
 		EvalResultData returnValue = null;
-		
+
 		for (StudentData sd : teamData.students) {
 			if (sd.email.equals(student.email)) {
 				returnValue = sd.result;
 				break;
 			}
 		}
-		
+
 		for (StudentData sd : teamData.students) {
 			returnValue.selfEvaluations.add(sd.result.getSelfEvaluation());
 		}
+
+		returnValue.sortIncomingByFeedbackAscending();
 		return returnValue;
 	}
 
@@ -1934,8 +1946,5 @@ public class APIServlet extends HttpServlet {
 	private boolean isModificationToExistingStudent(StudentData student) {
 		return getStudent(student.course, student.email) != null;
 	}
-
-
-
 
 }
