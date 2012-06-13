@@ -19,6 +19,7 @@ import teammates.Config;
 import teammates.Datastore;
 import teammates.TeamEvalResult;
 import teammates.datatransfer.*;
+import teammates.datatransfer.EvaluationData.EvalStatus;
 import teammates.datatransfer.StudentData.UpdateStatus;
 import teammates.exception.CourseDoesNotExistException;
 import teammates.exception.GoogleIDExistsInCourseException;
@@ -1526,7 +1527,9 @@ public class APIServlet extends HttpServlet {
 			for (Evaluation e : evaluationList) {
 				EvaluationData ed = new EvaluationData(e);
 				log.fine("Adding evaluation " + ed.name + " to course " + c.id);
-				c.evaluations.add(ed);
+				if (ed.getStatus() != EvalStatus.AWAITING) {
+					c.evaluations.add(ed);
+				}
 			}
 		}
 		return courseList;

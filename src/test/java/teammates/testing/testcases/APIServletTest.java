@@ -29,6 +29,7 @@ import teammates.Datastore;
 import teammates.TeamEvalResult;
 import teammates.api.*;
 import teammates.datatransfer.*;
+import teammates.datatransfer.EvaluationData.EvalStatus;
 import teammates.datatransfer.StudentData.UpdateStatus;
 import teammates.persistent.Student;
 
@@ -1270,20 +1271,50 @@ public class APIServletTest extends BaseTestCase {
 
 		StudentData studentInTwoCourses = dataBundle.students
 				.get("student2InCourse1");
-		List<CourseData> courseList = apiServlet
-				.getCourseDetailsListForStudent(studentInTwoCourses.id);
-		assertEquals(2, courseList.size());
 		CourseData expectedCourse1 = dataBundle.courses.get("course1OfCoord2");
-		CourseData actualCourse1 = courseList.get(0);
-		assertEquals(expectedCourse1.id, actualCourse1.id);
-		assertEquals(expectedCourse1.name, actualCourse1.name);
-		assertEquals(1, actualCourse1.evaluations.size());
-
+		EvaluationData expectedEval1InCourse1 = dataBundle.evaluations
+				.get("evaluation1InCourse2OfCoord1");
+		EvaluationData expectedEval2InCourse1 = dataBundle.evaluations
+				.get("evaluation1InCourse1OfCoord1");
 		CourseData expectedCourse2 = dataBundle.courses.get("course1OfCoord1");
-		CourseData actualCourse2 = courseList.get(1);
-		assertEquals(expectedCourse2.id, actualCourse2.id);
-		assertEquals(expectedCourse2.name, actualCourse2.name);
-		assertEquals(2, actualCourse2.evaluations.size());
+		EvaluationData expectedEval1InCourse2 = dataBundle.evaluations
+				.get("evaluation1InCourse1OfCoord2");
+
+		// make sure all evaluations in course1 are visible (i.e., not AWAITING)
+		expectedEval1InCourse1.startTime = Common
+				.getDateOffsetToCurrentTime(-2);
+		expectedEval1InCourse1.endTime = Common.getDateOffsetToCurrentTime(-1);
+		expectedEval1InCourse1.published = false;
+		assertEquals(EvalStatus.CLOSED, expectedEval1InCourse1.getStatus());
+		apiServlet.editEvaluation(expectedEval1InCourse1);
+
+		expectedEval2InCourse1.startTime = Common
+				.getDateOffsetToCurrentTime(-1);
+		expectedEval2InCourse1.endTime = Common.getDateOffsetToCurrentTime(1);
+		assertEquals(EvalStatus.OPEN, expectedEval2InCourse1.getStatus());
+		apiServlet.editEvaluation(expectedEval2InCourse1);
+
+		// make sure all evaluations in course2 are still AWAITING
+		expectedEval1InCourse2.startTime = Common.getDateOffsetToCurrentTime(1);
+		expectedEval1InCourse2.endTime = Common.getDateOffsetToCurrentTime(2);
+		assertEquals(EvalStatus.AWAITING, expectedEval1InCourse2.getStatus());
+		apiServlet.editEvaluation(expectedEval1InCourse2);
+
+		// List<CourseData> courseList = apiServlet
+		// .getCourseDetailsListForStudent(studentInTwoCourses.id);
+		// assertEquals(2, courseList.size());
+		// CourseData actualCourse1 = courseList.get(0);
+		// assertEquals(expectedCourse1.id, actualCourse1.id);
+		// assertEquals(expectedCourse1.name, actualCourse1.name);
+		// assertEquals(0, actualCourse1.evaluations.size());
+		// EvaluationData c1e1 = actualCourse1.evaluations.get(0);
+		// assertEquals(expectedCourse1.id, c1e1.course);
+		// assertEquals("evaluation1 In Course2", c1e1.name);
+
+		// CourseData actualCourse2 = courseList.get(1);
+		// assertEquals(expectedCourse2.id, actualCourse2.id);
+		// assertEquals(expectedCourse2.name, actualCourse2.name);
+		// assertEquals(2, actualCourse2.evaluations.size());
 
 		// TODO: implement this
 		// input: googleId
