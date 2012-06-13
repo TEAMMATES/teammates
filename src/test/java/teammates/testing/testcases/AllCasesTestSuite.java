@@ -20,6 +20,8 @@ import teammates.testing.lib.HtmlHelperTest;
 		// Ui tests
 		CoordCourseAddPageUiTest.class, 
 		CoordCourseEnrollPageUiTest.class,
+		CoordEvalPageUiTest.class,
+		CoordEvalResultsPageUiTest.class,
 		CoordHomePageUiTest.class })
 
 //@formatter:on

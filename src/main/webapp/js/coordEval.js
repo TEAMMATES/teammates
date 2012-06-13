@@ -108,12 +108,12 @@ function isEditEvaluationScheduleValid(start, startTime, deadline,
  * @param form
  * @returns {Boolean}
  */
-function checkEvaluationInput(form){
+function checkAddEvaluation(form){
 	var courseID = form.courseid.value;
-	var name = form.evalname.value;
+	var name = form.evaluationname.value;
 	var commentsEnabled = form.commentsstatus.value;
 	var start = form.start.value;
-	var startTime = form.startTime.value;
+	var startTime = form.starttime.value;
 	var deadline = form.deadline.value;
 	var deadlineTime = form.deadlinetime.value;
 	var timeZone = form.timezone.value;
@@ -157,7 +157,8 @@ function selectDefaultTimeOptions(){
 
 /**
  * Sends an AJAX request to the server to publish an evaluation
- * and goes to specified URL on success
+ * and goes to specified URL on success.
+ * Just don't provide the URL or give empty URL if no page change is desired
  * @param courseID
  * @param name
  * @param url
@@ -168,7 +169,9 @@ function publishEvaluation(courseID, name, url) {
 			if (xmlhttp.readyState==4) {
 				if(xmlhttp.status==200){
 					setStatusMessage(DISPLAY_EVALUATION_PUBLISHED);
-					window.location = url;
+					if(url){
+						window.location = url;
+					}
 				} else {
 					alert(DISPLAY_SERVERERROR);
 				}
@@ -188,6 +191,7 @@ function publishEvaluation(courseID, name, url) {
 /**
  * Sends an AJAX request to the server to unpublish an evaluation
  * and goes to specified URL on success
+ * Just don't provide the URL or give empty URL if no page change is desired
  * @param courseID
  * @param name
  * @param url
@@ -198,7 +202,9 @@ function unpublishEvaluation(courseID, name, url) {
 			if (xmlhttp.readyState==4) {
 				if(xmlhttp.status==200){
 					setStatusMessage(DISPLAY_EVALUATION_UNPUBLISHED);
-					window.location = url;
+					if(url){
+						window.location = url;
+					}
 				} else {
 					alert(DISPLAY_SERVERERROR);
 				}
@@ -253,6 +259,15 @@ function toggleDeleteEvaluationConfirmation(courseID, name) {
 }
 
 /**
+ * Shows the desired report based on the id
+ * @param id
+ */
+function showReport(id){
+	$(".evaluation_result").hide();
+	$("#"+id).show();
+}
+
+/**
  * Pops up confirmation dialog whether to publish or unpublish the specified
  * evaluation, depending on the boolean value in publish.
  * @param courseID
@@ -260,7 +275,8 @@ function toggleDeleteEvaluationConfirmation(courseID, name) {
  * @param publish
  * 		true to publish, false to unpublish
  * @param url
- * 		The URL to go to after publishing
+ * 		The URL to go to after publishing. If no page change is desired,
+ * 		just don't provide the URL or give empty URL 
  */
 function togglePublishEvaluation(courseID, name, publish, url) {
 	if (publish) {

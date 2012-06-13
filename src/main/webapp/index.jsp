@@ -15,7 +15,7 @@
 	<div id="frameTop">
 		<div id="frameTopWrapper">
 			<div id="logo">
-				<img alt="Teammates" height="47px" src="images/teammateslogo.jpg"
+				<img alt="Teammates" height="47px" src="/images/teammateslogo.jpg"
 					width="150px" />
 			</div>
 		</div>
@@ -41,7 +41,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="./footer.jsp" />
+		<jsp:include page="/footer.jsp" />
 	</div>
 </body>
 </html>

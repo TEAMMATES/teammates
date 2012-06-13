@@ -47,7 +47,7 @@
 						</tr>
 						<tr>
 							<td><input class="addinput" type="text"
-								name="<%= Common.COURSE_ID %>" id="<%= Common.COURSE_ID %>"
+								name="<%= Common.PARAM_COURSE_ID %>" id="<%= Common.PARAM_COURSE_ID %>"
 								value="<%= (helper.courseID==null?"":helper.courseID) %>"
 								onmouseover="ddrivetip('Enter the identifier of the course, e.g.CS3215-Sem1.')"
 								onmouseout="hideddrivetip()"
@@ -58,7 +58,7 @@
 						</tr>
 						<tr>
 							<td><input class="addinput" type="text"
-								name="<%= Common.COURSE_NAME %>" id="<%= Common.COURSE_NAME %>"
+								name="<%= Common.PARAM_COURSE_NAME %>" id="<%= Common.PARAM_COURSE_NAME %>"
 								value="<%=(helper.courseName==null?"":helper.courseName)%>"
 								onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
 								onmouseout="hideddrivetip()"
@@ -71,16 +71,8 @@
 					</table>
 				</form>
 			</div>
-			<%	if(helper.statusMessage!=null) { %>
-				<div id="statusMessage"
-					style="display:block;<% if(helper.error) out.println("background:#FF9999"); %>">
-					<%= helper.statusMessage %></div>
-			<%	} else { %>
-				<div id="statusMessage" style="display: none"></div>
-			<%	} %>
+			<jsp:include page="/statusMessage.jsp" />
 			<div id="coordinatorCourseTable">
-				<br />
-				<br />
 				<table id="dataform">
 					<tr>
 						<th><input class="buttonSortAscending" type="button"
@@ -110,16 +102,16 @@
 							<td class="centeralign">
 								<a class="t_course_enroll"
 									href="<%= helper.getCourseEnrollLink(course.id) %>"
-									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_ENROLL %>')"
+									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ENROLL %>')"
 									onmouseout="hideddrivetip()">Enroll</a>
 								<a class="t_course_view"
 									href="<%= helper.getCourseViewLink(course.id) %>"
-									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_VIEW_COURSE %>')"
+									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_VIEW %>')"
 									onmouseout="hideddrivetip()">View</a>
 								<a class="t_course_delete"
 									href="<%= helper.getCourseDeleteLink(course.id,false) %>"
 									onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%= course.id %>');"
-									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_DELETE_COURSE %>')"
+									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_DELETE %>')"
 									onmouseout="hideddrivetip()">Delete</a>
 							</td>
 						</tr>

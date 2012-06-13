@@ -63,7 +63,7 @@
 							
 							</select></td>
 						<td class="attribute">Opening time:</td>
-						<td><input type="text" tabindex="3" readonly="readonly" value="08/06/2012" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the start date for the evaluation.')" onclick="cal.select(this,'start','dd/MM/yyyy')" id="start" name="start" style="width: 100px;" />
+						<td><input type="text" tabindex="3" readonly="readonly" value="{*}" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the start date for the evaluation.')" onclick="cal.select(this,'start','dd/MM/yyyy')" id="start" name="start" style="width: 100px;" />
 									@
 							<select tabindex="4" id="starttime" name="starttime" style="width: 70px;">
 								<option value="1">0100H</option>
@@ -176,7 +176,8 @@
 					<td class="attribute">Grace Period:</td>
 					<td class="inputField">
 						<select tabindex="7" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline.')" id="graceperiod" name="graceperiod" style="width: 70px;">
-							<option value="5">5 mins</option>
+							<option value="0">0 mins</option>
+<option value="5">5 mins</option>
 <option value="10">10 mins</option>
 <option value="15">15 mins</option>
 <option value="20">20 mins</option>
@@ -196,7 +197,7 @@
 					<tr>
 						<td></td>
 						<td colspan="3">
-							<input type="submit" tabindex="9" value="Create Evaluation" onclick="checkAddEvaluation(this.form);" class="button" id="t_btnAddEvaluation" /></td>
+							<input type="submit" tabindex="9" value="Create Evaluation" onclick="return checkAddEvaluation(this.form);" class="button" id="t_btnAddEvaluation" /></td>
 					</tr>
 				</tbody></table>
 			</form>

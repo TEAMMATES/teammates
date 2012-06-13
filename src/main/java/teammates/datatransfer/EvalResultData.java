@@ -1,14 +1,11 @@
 package teammates.datatransfer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.logging.Logger;
 
-import teammates.api.APIServlet;
 import teammates.api.Common;
-import teammates.api.NotImplementedException;
 
 public class EvalResultData {
 

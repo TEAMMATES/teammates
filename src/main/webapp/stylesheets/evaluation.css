@@ -70,7 +70,8 @@ tbody td+td+td+td a {
  background-position:left center;
  background-repeat:no-repeat;
  color:#03476F;
- margin-left:15px;
+ margin-left:8px;
+ margin-right:7px;
 }
 tbody td+td+td+td a:visited { 
  background-position:left center;
@@ -318,6 +319,10 @@ tfoot td {
 }
 .color_negative { 
 	color:#F00;
+	font-weight:bold;
+}
+.color_neutral{
+	color:black;
 	font-weight:bold;
 }
 .color_gray {

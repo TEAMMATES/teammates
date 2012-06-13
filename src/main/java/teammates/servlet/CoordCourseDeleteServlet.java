@@ -15,28 +15,42 @@ import teammates.jsp.Helper;
  * @author Aldrian Obaja
  *
  */
-public class CoordCourseDeleteServlet extends ActionServlet {
+public class CoordCourseDeleteServlet extends ActionServlet<Helper> {
 	
-	protected void doPostAction(HttpServletRequest req, HttpServletResponse resp, Helper help)
-			throws IOException, ServletException {
-		Helper helper = help;
-		
-		// Authenticate user
+	private static final String DISPLAY_URL = "/page/coordCourse";
+
+	@Override
+	protected Helper instantiateHelper() {
+		return new Helper();
+	}
+
+	@Override
+	protected boolean doAuthenticateUser(HttpServletRequest req,
+			HttpServletResponse resp, Helper helper) throws IOException {
 		if(!helper.user.isCoord && !helper.user.isAdmin){
-			resp.sendRedirect("unauthorized.html");
-			return;
+			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
+			return false;
 		}
-		
+		return true;
+	}
+
+	@Override
+	protected void doAction(HttpServletRequest req, Helper helper) {
 		// Get parameters
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		
 		// Process action
 		helper.server.deleteCourse(courseID);
 		helper.statusMessage = Common.MESSAGE_COURSE_DELETED;
-		
-		// Send response
-		if(helper.nextUrl==null) helper.nextUrl = "/page/coordCourse";
+	}
+
+	@Override
+	protected void doCreateResponse(HttpServletRequest req,
+			HttpServletResponse resp, Helper helper) throws ServletException,
+			IOException {
+		if(helper.nextUrl==null) helper.nextUrl = DISPLAY_URL;
 		helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
+		helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_STATUS_MESSAGE, helper.statusMessage);
 		
 		resp.sendRedirect(helper.nextUrl);
 	}

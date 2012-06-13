@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import teammates.api.NotImplementedException;
-
 public class TeamData {
 	public String name;
 	public TeamProfileData profile;

@@ -20,11 +20,11 @@
 	<div id="frameBody">
 		<div id="frameBodyWrapper">
 			<div style="margin: 30px auto; border: 1px solid #333; padding: 10px; text-align: left; width: 550px; background: #FFFFCC;">
-				<img src="/images/warning.jpg"
-					style="float: left; height: 90px; margin: 0 10px 10px 0; border: 1px solid #999;" />
+				<img src="/images/error.png"
+					style="float: left; margin: 0 10px 10px 0; height: 90px; border: 1px solid #999;" />
 				<p>
-					You are not authorized to view this page. <br /> <br />
-					<a href="/logout.jsp">Logout and return to main page.</a>
+					There was an error in our server.<br /> <br />
+					Please try again in a few moments.
 				</p>
 			</div>
 		</div>

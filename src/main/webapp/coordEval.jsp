@@ -63,7 +63,7 @@
 									onclick ="cal.select(this,'<%= Common.PARAM_EVALUATION_START %>','dd/MM/yyyy')"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_START %>')"
 									onmouseout="hideddrivetip()"
-									value="<%= (helper.submittedEval==null? Common.formatDate(Common.getDateValue()) : Common.formatDate(helper.submittedEval.startTime)) %>"
+									value="<%= (helper.submittedEval==null? Common.formatDate(Common.getNextHour()) : Common.formatDate(helper.submittedEval.startTime)) %>"
 									readonly="readonly" tabindex=3 />
 									@
 							<select style="width: 70px;"
@@ -79,7 +79,7 @@
 									name="<%= Common.PARAM_EVALUATION_NAME %>" id="<%= Common.PARAM_EVALUATION_NAME %>"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_NAME %>')"
 									onmouseout="hideddrivetip()" maxlength =<%= Common.EVALUATION_NAME_MAX_LENGTH %>
-									value="<% if(helper.submittedEval!=null) out.print(CoordEvalHelper.escape(helper.submittedEval.name)); %>"
+									value="<% if(helper.submittedEval!=null) out.print(CoordEvalHelper.escapeHTML(helper.submittedEval.name)); %>"
 									tabindex=2 /></td>
 						<td class="attribute" >Closing time:</td>
 						<td><input style="width: 100px;" type="text"
@@ -140,7 +140,7 @@
 							<%	} else { %>
 								<textarea rows="2" cols="100" class="textvalue" name="<%= Common.PARAM_EVALUATION_INSTRUCTIONS %>" id="<%= Common.PARAM_EVALUATION_INSTRUCTIONS %>"
 										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_INSTRUCTIONS %>')"
-										onmouseout="hideddrivetip()" tabindex=8><%= CoordEvalHelper.escape(helper.submittedEval.instructions) %></textarea>
+										onmouseout="hideddrivetip()" tabindex=8><%= CoordEvalHelper.escapeHTML(helper.submittedEval.instructions) %></textarea>
 							<%	} %>
 						</td>
 					</tr>
@@ -148,19 +148,13 @@
 						<td></td>
 						<td colspan="3">
 							<input id="t_btnAddEvaluation" type="submit" class="button"
-									onclick="checkAddEvaluation(this.form);"
+									onclick="return checkAddEvaluation(this.form);"
 									value="Create Evaluation" tabindex=9 /></td>
 					</tr>
 				</table>
 			</form>
 			</div>
-			<%	if(helper.statusMessage!=null) { %>
-				<div id="statusMessage"
-					style="display:block;<% if(helper.error) out.println("background:#FF9999"); %>">
-					<%= helper.statusMessage %></div>
-			<%	} else { %>
-				<div id="statusMessage" style="display: none"></div>
-			<%	} %>
+			<jsp:include page="/statusMessage.jsp" />
 			<div id="coordinatorEvaluationTable">
 				<table id="dataform">
 					<tr>
@@ -172,7 +166,7 @@
 									onclick="toggleSort(this,2)" />Evaluation</th>
 						<th class="centeralign">Status</th>
 						<th class="centeralign"><span
-							onmouseover="ddrivetip('Number of students submitted / Class size')"
+							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_RESPONSE_RATE %>')"
 							onmouseout="hideddrivetip()">Response Rate</span></th>
 						<th class="centeralign">Action(s)</th>
 					</tr>

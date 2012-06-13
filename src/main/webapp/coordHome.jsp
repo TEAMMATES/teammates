@@ -47,21 +47,13 @@
 					</div>
 				</div>
 			</div>
-			<%	if (helper.statusMessage != null) { %>
-				<div id="statusMessage"
-					style="display:block;<%if (helper.error) out.println("background:#FF9999");%>">
-					<%= helper.statusMessage %>
-				</div>
-			<%	} else { %>
-			<div id="statusMessage" style="display: none"></div>
-			<%	} %>
+			<jsp:include page="/statusMessage.jsp" />
 			<div id="coordinatorStudentTable">
 				<%	CourseData[] summary = helper.summary;
 					int idx = 0;
 					int evalIdx = 0;
 					for (idx = 0; idx < summary.length; idx++) {
-						// This will print the latest one first
-						CourseData course = summary[summary.length-1-idx];
+						CourseData course = summary[idx];
 				%>
 				<div class="result_team home_courses_div" id="course<%= idx %>">
 					<div class="result_homeTitle">
@@ -72,25 +64,25 @@
 					<div class="result_homeLinks">
 						<a class="t_course_enroll<%= idx %>"
 							href="<%= helper.getCourseEnrollLink(course.id) %>"
-							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_ENROLL %>')"
+							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ENROLL %>')"
 							onmouseout="hideddrivetip()">
 							Enroll
 						</a>
 						<a class="t_course_view<%= idx %>"
 							href="<%= helper.getCourseViewLink(course.id) %>"
-							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_VIEW_COURSE %>')"
+							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_VIEW %>')"
 							onmouseout="hideddrivetip()">
 							View
 						</a>
 						<a class="t_course_add_eval<%= idx %>" href="<%= Common.JSP_COORD_EVAL %>"
-							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_ADD_EVALUATION %>')"
+							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ADD_EVALUATION %>')"
 							onmouseout="hideddrivetip()">
 							Add Evaluation
 						</a>
 						<a class="t_course_delete<%= idx %>"
 							href="<%= helper.getCourseDeleteLink(course.id,true) %>"
 							onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%= course.id %>')"
-							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_DELETE_COURSE %>')"
+							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_DELETE %>')"
 							onmouseout="hideddrivetip()">
 							Delete
 						</a>
@@ -105,7 +97,7 @@
 								<th class="leftalign">Evaluation Name</th>
 								<th class="centeralign">Status</th>
 								<th class="centeralign"><span
-									onmouseover="ddrivetip('Number of students submitted / Class size')"
+									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_RESPONSE_RATE %>')"
 									onmouseout="hideddrivetip()">Response Rate</span></th>
 								<th class="centeralign">Action(s)</th>
 							</tr>

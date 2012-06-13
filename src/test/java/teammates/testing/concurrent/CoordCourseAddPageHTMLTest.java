@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
-import teammates.testing.lib.TMAPI;
 import teammates.testing.object.Scenario;
 
 public class CoordCourseAddPageHTMLTest extends TestCase {

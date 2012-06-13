@@ -68,19 +68,6 @@ var TAG_COORDINATOR_COURSE = "courses";
 //user type
 var STUDENT = "Student";
 var COORDINATOR = "Coordinator";
-//report type
-var SUMMARY = "Summary";
-var DETAIL = "Detail";
-var REVIEWER = "Reviewer";
-var REVIEWEE = "Reviewee";
-
-//point options
-var NA = "N/A";
-var NA_POINTS = -101;
-var NOTSURE = "NOT SURE";
-var NOTSURE_POINTS = -999;
-var YES = "YES";
-var NO = "NO";
 
 //title names:
 var EVALUATION_PENDING = "Pending Evaluations:";
@@ -116,33 +103,12 @@ var SERVERERROR = 1;
 var CONNECTION_OK = 200;
 
 //OPERATIONS
-var OPERATION_COORDINATOR_ADDCOURSE = "coordinator_addcourse";
-var OPERATION_COORDINATOR_ADDEVALUATION = "coordinator_addevaluation";
-var OPERATION_COORDINATOR_ARCHIVECOURSE = "coordinator_archivecourse";
-var OPERATION_COORDINATOR_ARCHIVEEVALUATION = "coordinator_archiveevaluation";
-var OPERATION_COORDINATOR_DELETEALLSTUDENTS = "coordinator_deleteallstudents";
-var OPERATION_COORDINATOR_DELETECOURSE = "coordinator_deletecourse";
-var OPERATION_COORDINATOR_DELETEEVALUATION = "coordinator_deleteevaluation";
-var OPERATION_COORDINATOR_DELETESTUDENT = "coordinator_deletestudent";
-var OPERATION_COORDINATOR_EDITEVALUATION = "coordinator_editevaluation";
-var OPERATION_COORDINATOR_EDITEVALUATIONRESULTS = "coordinator_editevaluationresults";
-var OPERATION_COORDINATOR_EDITSTUDENT = "coordinator_editstudent";
-var OPERATION_COORDINATOR_ENROLLSTUDENTS = "coordinator_enrollstudents";
-var OPERATION_COORDINATOR_GETCOURSE = "coordinator_getcourse";
-var OPERATION_COORDINATOR_GETCOURSELIST = "coordinator_getcourselist";
-var OPERATION_COORDINATOR_GETEVALUATIONLIST = "coordinator_getevaluationlist";
-var OPERATION_COORDINATOR_GETEVALUATIONLISTOFCOURSE = "coordinator_getevaluationlistofcourse";
-var OPERATION_COORDINATOR_GETSTUDENTLIST = "coordinator_getstudentlist";
-var OPERATION_COORDINATOR_GETSUBMISSIONLIST = "coordinator_getsubmissionlist";
 var OPERATION_COORDINATOR_INFORMSTUDENTSOFEVALUATIONCHANGES = "coordinator_informstudentsofevaluationchanges";
-var OPERATION_COORDINATOR_LOGOUT = "coordinator_logout";
 var OPERATION_COORDINATOR_PUBLISHEVALUATION = "coordinator_publishevaluation";
 var OPERATION_COORDINATOR_UNPUBLISHEVALUATION = "coordinator_unpublishevaluation";
 var OPERATION_COORDINATOR_REMINDSTUDENTS = "coordinator_remindstudents";
 var OPERATION_COORDINATOR_SENDREGISTRATIONKEY = "coordinator_sendregistrationkey";
 var OPERATION_COORDINATOR_SENDREGISTRATIONKEYS = "coordinator_sendregistrationkeys";
-var OPERATION_COORDINATOR_UNARCHIVECOURSE = "coordinator_unarchivecourse";
-var OPERATION_COORDINATOR_UNARCHIVEEVALUATION = "coordinator_unarchiveevaluation";
 
 //messages:
 var DISPLAY_ERROR_UNDEFINED_HTTPREQUEST = "Error: Undefined XMLHttpRequest.";
@@ -156,44 +122,6 @@ var HOVER_MESSAGE_CLAIMED = "This is student own estimation of his/her contribut
 var HOVER_MESSAGE_PERCEIVED = "This is the average of what other team members think this student contributed to the project";
 var HOVER_MESSAGE_PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
 /*------------------------------------------PRINT COORDINATOR PAGE------------------------------------------*/
-
-/*
- * Coordinator view course details
- */
-function printCourseCoordinatorForm(course) {
-	var studentList = getStudentList(course.ID);
-
-	var outputHeader = "<h1>COURSE DETAILS</h1>";
-	var output = "" + "<table class=\"headerform\">" + "<tr>"
-	+ "<td class=\"fieldname\">Course ID:</td>" + "<td>" + course.ID
-	+ "</td>" + "</tr>" + "<tr>"
-	+ "<td class=\"fieldname\">Course name:</td>" + "<td>"
-	+ encodeChar(course.name) + "</td>" + "</tr>" + "<tr>"
-	+ "<td class=\"fieldname\">Teams:</td>" + "<td>"
-	+ course.numberOfTeams + "</td>" + "</tr>" + "<tr>"
-	+ "<td class=\"fieldname\">Total students:</td>" + "<td>"
-	+ studentList.length + "</td>" + "</tr>";
-
-	if ((studentList != 1) && (studentList.length > 0)) {
-		output = output
-		+ "<tr>"
-		+ "<td class=\"centeralign\" colspan=\"2\">"
-		+ "<input type=\"button\" class=\"button t_remind_students\" id='button_remind' onmouseover=\"ddrivetip('Send a reminder to all students yet to join the class');\" "
-		+ "onmouseout=\"hideddrivetip();\" "
-		+ "onClick=\"toggleSendRegistrationKeysConfirmation('"
-		+ course.ID
-		+ "');hideddrivetip();\" value=\"Remind to Join\" tabindex=1 />"
-		+ " <input type=\"button\" class=\"button t_delete_students\" id='button_delete' onmouseover=\"ddrivetip('Delete all students in this course');\""
-		+ "onmouseout=\"hideddrivetip();\""
-		+ "onclick=\"toggleDeleteAllStudentsConfirmation('" + course.ID
-		+ "')\" value=\"Delete all students\" />" + "</td>" + "</tr>";
-	}
-
-	output = output + "</table>";
-
-	document.getElementById(DIV_COURSE_INFORMATION).innerHTML = output;
-	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader;
-}
 
 /*
  * helper: print course student list TODO: Merge into printCourseCoordinatorForm
@@ -1216,179 +1144,6 @@ function printSubmissionForm(submissionList, commentsEnabled) {
 		doSubmitEvaluation(document.forms[0], submissionListLength,
 				commentsEnabled);
 	};
-}
-
-/*--------------------------PRINT FUNCTION HELPER---------------------------*/
-function helpPrintResultTeam(teamName) {
-	var output = "<div class=\"result_team\">" + "<p>"
-	+ encodeCharForPrint(teamName) + "</p>";
-
-	return output;
-}
-function helpPrintResultHeader(type, name, claimedPoints, perceivedPoints) {
-	console.log("header :" + type + " " + name + " " + claimedPoints + " "
-			+ perceivedPoints);
-
-	var output = "<br /><table class=\"result_table\">" + "<thead>"
-	+ "<th colspan=\"2\" width=\"10%\"><span class=\"fontcolor\">"
-	+ type + ": </span>" + name + "</th>"
-	+ "<th><span class=\"fontcolor\" onmouseover=\"ddrivetip('"
-	+ HOVER_MESSAGE_CLAIMED + "')\" onmouseout=\"hideddrivetip('')\">"
-	+ CLAIMED + ":</span> " + claimedPoints + "</th>"
-	+ "<th><span class=\"fontcolor\" onmouseover=\"ddrivetip('"
-	+ HOVER_MESSAGE_PERCEIVED
-	+ "')\" onmouseout=\"hideddrivetip('')\">" + PERCEIVED
-	+ ": </span> " + perceivedPoints + "</th>" + "</thead>";
-	return output;
-}
-function helpPrintResultSelfComments(justification, commentsToStudent) {
-	var output = "<tr>" + "<td colspan=\"4\"><b>Self evaluation:</b><br />"
-	+ encodeCharForPrint(justification) + "</td>" + "</tr>" + "<tr>"
-	+ "<td colspan=\"4\"><b>Comments about team:</b><br />"
-	+ encodeCharForPrint(commentsToStudent) + "</td>" + "</tr>";
-	return output;
-}
-
-function helpPrintResultOtherComments(student, points, justification,
-		commentsToStudent) {
-	var output = "<tr>" + "<td><b>" + student + "</b></td>";
-	// ws
-	var idx = points.indexOf("-");
-	if (idx == 0) {
-		idx = points.indexOf("+");
-	}
-	if (idx > 0) {
-		points = points.slice(0, idx) + "<br />" + points.slice(idx);
-	}
-	output = output + "<td>" + points + "</td>";
-
-	output = output + "<td>" + encodeCharForPrint(justification) + "</td>"
-	+ "<td>" + encodeCharForPrint(commentsToStudent) + "</td>"
-	+ "</tr>";
-	return output;
-}
-
-function helpPrintResultSubheader(type) {
-	var output = "<tr class='result_subheader'>" +
-	"<td width='15%'>" + type + "</td>" +
-	"<td width='5%'>" + CONTRIBUTION + "</td>" +
-	"<td width='40%'>" + COMMENTS + "</td>" +
-	"<td width='40%'>" + MESSAGES + "</td>" +
-	"</tr>";
-	return output;
-}
-
-function helpPrintPoints(submission) {
-	var points;
-	if (submission.points == -999) {
-		points = NA;
-	} else if (submission.points == -101) {
-		points = NOTSURE;
-	} else {
-		points = displayEvaluationPoints(Math.round(submission.points * submission.pointsBumpRatio));
-	}
-
-	return points;
-
-}
-function displayEvaluationPoints(points) {
-
-	delta = null;
-
-	if (points > 100) {
-		delta = points - 100;
-		return "Equal Share<span class=\"color_positive\"> + " + delta + "%</span>";
-	} else if (points == -999) {
-		return NA;
-	} else if (points == -101) {
-		console.log("not sure");
-		return NOTSURE;
-	} else if (points == -100) {
-		return "0%";
-	} else if (points < 100) {
-		delta = 100 - points;
-		return "Equal Share<span class=\"color_negative\"> - " + delta + "%</span>";
-	} else if (points == 100) {
-		return "Equal Share";
-	} else {
-		return points;
-	}
-}
-function helpPrintJustification(submission) {
-	var justification;
-	if (submission.justification == "") {
-		justification = "N/A";
-	} else {
-		justification = submission.justification;
-	}
-
-	return justification;
-
-}
-function helpPrintComments(submission, commentsEnabled) {
-	var commentsToStudent;
-	if (commentsEnabled == true) {
-		if (submission.commentsToStudent == "") {
-			commentsToStudent = "N/A";
-		} else {
-			commentsToStudent = submission.commentsToStudent;
-		}
-	} else {
-		commentsToStudent = "Disabled";
-	}
-
-	return commentsToStudent;
-}
-function helpPrintSubmission(submissionList, summaryList, position, status, commentsEnabled, type) {
-	var output = "";
-	var toStudent = summaryList[position].toStudent;
-	// points:
-	output = output
-	+ helpPrintResultHeader(
-			type,
-			summaryList[position].toStudentName,
-			displayEvaluationPoints(summaryList[position].claimedPoints),
-			displayEvaluationPoints(summaryList[position].average));
-
-	console.log("points:" + summaryList[position].toStudentName + "|"
-			+ summaryList[position].claimedPoints + "|"
-			+ summaryList[position].average);
-
-	// evaluation to others header:
-	student = (type == REVIEWEE) ? FROM_STUDENT : TO_STUDENT;
-	outputTemp = helpPrintResultSubheader(student);
-
-	// justification and comments:
-	var submissionListLength = submissionList.length;
-	for (var loop = 0; loop < submissionListLength; loop++) {
-		if ((type == REVIEWEE && submissionList[loop].toStudent == toStudent)
-				|| (type == REVIEWER && submissionList[loop].fromStudent == toStudent)) {
-			// Extract data
-			points = helpPrintPoints(submissionList[loop]);
-			justification = helpPrintJustification(submissionList[loop]);
-			commentsToStudent = helpPrintComments(submissionList[loop],
-					commentsEnabled);
-
-			// Print data
-			if (submissionList[loop].fromStudent == submissionList[loop].toStudent) {
-				outputTemp = helpPrintResultSelfComments(justification,
-						commentsToStudent)
-						+ outputTemp;
-
-			} else {
-				student = (type == REVIEWEE) ? submissionList[loop].fromStudentName
-						: submissionList[loop].toStudentName;
-				outputTemp = outputTemp
-				+ helpPrintResultOtherComments(student, points,
-						justification, commentsToStudent);
-			}
-
-		}
-	}
-
-	output = output + outputTemp + "</table>";
-
-	return output;
 }
 
 /*------------------------------------------OTHERS------------------------------------------*/

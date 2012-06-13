@@ -40,120 +40,28 @@
 					<h1>Enrollment Results for <%= helper.courseID %></h1>
 				</div>
 				<div id="coordinatorCourseEnrollmentResults">
-					<%	List<StudentData> students = helper.studentsError;
-						if(students.size()>0){ %>
-						<p>There were errors on <%= students.size() %> student(s):</p>
-						<table id="dataform">
-						<tr>
-							<th>Student Name</th>
-							<th>E-mail address</th>
-							<th>Team</th>
-							<th>Status</th>
-							<th>Comments</th>
-						</tr>
-						<% for(StudentData student: students){ %>
+					<%	for(int i=0; i<5; i++){
+							List<StudentData> students = helper.students[i]; %>
+						<%	if(students.size()>0){ %>
+							<p><%= helper.getMessageForStudentsListID(i) %></p>
+							<table id="dataform">
 							<tr>
-								<td><%= student.name %></td>
-								<td><%= student.email %></td>
-								<td><%= student.team %></td>
-								<td><%= CoordCourseEnrollHelper.getEnrollmentStatus(student.updateStatus) %></td>
-								<td><%= student.comments %></td>
+								<th>Student Name</th>
+								<th>E-mail address</th>
+								<th>Team</th>
+								<th width="40%">Comments</th>
 							</tr>
-						<% 	} %>
-						</table>
-						<br />
-					<%	} %>
-					<%	students = helper.studentsNew;
-						if(students.size()>0){ %>
-						<p>There are <%= students.size() %> student(s) added:</p>
-						<table id="dataform">
-						<tr>
-							<th>Student Name</th>
-							<th>E-mail address</th>
-							<th>Team</th>
-							<th>Status</th>
-							<th>Comments</th>
-						</tr>
-						<% for(StudentData student: students){ %>
-							<tr>
-								<td><%= student.name %></td>
-								<td><%= student.email %></td>
-								<td><%= student.team %></td>
-								<td><%= CoordCourseEnrollHelper.getEnrollmentStatus(student.updateStatus) %></td>
-								<td><%= student.comments %></td>
-							</tr>
-						<% 	} %>
-						</table>
-						<br />
-					<%	} %>
-					<%	students = helper.studentsModified;
-						if(students.size()>0){ %>
-						<p>There are <%= students.size() %> student(s) modified:</p>
-						<table id="dataform">
-						<tr>
-							<th>Student Name</th>
-							<th>E-mail address</th>
-							<th>Team</th>
-							<th>Status</th>
-							<th>Comments</th>
-						</tr>
-						<% for(StudentData student: students){ %>
-							<tr>
-								<td><%= student.name %></td>
-								<td><%= student.email %></td>
-								<td><%= student.team %></td>
-								<td><%= CoordCourseEnrollHelper.getEnrollmentStatus(student.updateStatus) %></td>
-								<td><%= student.comments %></td>
-							</tr>
-						<% 	} %>
-						</table>
-						<br />
-					<%	} %>
-					<%	students = helper.studentsUnmodified;
-						if(students.size()>0){ %>
-						<p>There are <%= students.size() %> student(s) unmodified:</p>
-						<table id="dataform">
-						<tr>
-							<th>Student Name</th>
-							<th>E-mail address</th>
-							<th>Team</th>
-							<th>Status</th>
-							<th>Comments</th>
-						</tr>
-						<% for(StudentData student: students){ %>
-							<tr>
-								<td><%= student.name %></td>
-								<td><%= student.email %></td>
-								<td><%= student.team %></td>
-								<td><%= CoordCourseEnrollHelper.getEnrollmentStatus(student.updateStatus) %></td>
-								<td><%= student.comments %></td>
-							</tr>
-						<% 	} %>
-						</table>
-						<br />
-					<%	} %>
-					<%	students = helper.studentsOld;
-						if(students.size()>0){ %>
-						<p>There are <%= students.size() %> other student(s) previously in the course:</p>
-						<table id="dataform">
-						<tr>
-							<th>Student Name</th>
-							<th>E-mail address</th>
-							<th>Team</th>
-							<th>Status</th>
-							<th>Comments</th>
-						</tr>
-						<% for(StudentData student: students){ %>
-							<tr>
-								<td><%= student.name %></td>
-								<td><%= student.email %></td>
-								<td><%= student.team %></td>
-								<td><%= CoordCourseEnrollHelper.getEnrollmentStatus(student.updateStatus) %></td>
-								<td><%= student.comments %></td>
-							</tr>
-						<% 	} %>
-						</table>
-						<br />
+							<% for(StudentData student: students){ %>
+								<tr>
+									<td><%= student.name %></td>
+									<td><%= student.email %></td>
+									<td><%= student.team %></td>
+									<td><%= student.comments %></td>
+								</tr>
+							<% 	} %>
+							</table>
+							<br />
+						<%	} %>
 					<%	} %>
 				</div>
 				<div id="coordinatorCourseEnrollmentButtons">
@@ -174,13 +82,7 @@
 							<td><textarea rows="6" cols="135" class ="textvalue" name="enrollstudents" id="enrollstudents"></textarea></td>
 						</tr></table>
 					</div>
-					<%	if(helper.statusMessage!=null) { %>
-						<div id="statusMessage"
-							style="display:block;<% if(helper.error) out.println("background:#FF9999"); %>">
-							<%= helper.statusMessage %></div>
-					<%	} else { %>
-						<div id="statusMessage" style="display: none"></div>
-					<%	} %>
+					<jsp:include page="/statusMessage.jsp" />
 					<div id="coordinatorCourseEnrollmentButtons">
 						<input type="submit" class="button" name="button_enroll" id="button_enroll" value="Enroll students"
 							onclick="return checkEnrollmentInput(document.getElementById('enrollstudents').value)"/>

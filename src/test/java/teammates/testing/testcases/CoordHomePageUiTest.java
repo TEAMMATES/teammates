@@ -1,6 +1,6 @@
 package teammates.testing.testcases;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -30,18 +30,18 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	 * If later deemed bad, we should change to the searching, although it takes longer
 	 * to code and also longer to run.
 	 */
-	private static int FIRST_COURSE_ROW_NUMBER = 1;
+	private static int FIRST_COURSE_ROW_NUMBER = 0;
 	@SuppressWarnings("unused")
-	private static int SECOND_COURSE_ROW_NUMBER = 0;
+	private static int SECOND_COURSE_ROW_NUMBER = 1;
 
-	private static int FIRST_EVAL_ROW_NUMBER = 4;
+	private static int FIRST_EVAL_ROW_NUMBER = 1;
 	@SuppressWarnings("unused")
-	private static int SECOND_EVAL_ROW_NUMBER = 3;
-	private static int THIRD_EVAL_ROW_NUMBER = 0;
+	private static int SECOND_EVAL_ROW_NUMBER = 0;
+	private static int THIRD_EVAL_ROW_NUMBER = 2;
 	@SuppressWarnings("unused")
-	private static int FOURTH_EVAL_ROW_NUMBER = 2;
+	private static int FOURTH_EVAL_ROW_NUMBER = 3;
 	@SuppressWarnings("unused")
-	private static int FIFTH_EVAL_ROW_NUMBER = 1;
+	private static int FIFTH_EVAL_ROW_NUMBER = 4;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -61,6 +61,12 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		bi.goToUrl(appURL+Common.JSP_COORD_HOME);
 	}
 	
+	@AfterClass
+	public static void classTearDown() throws Exception {
+		BrowserInstancePool.release(bi);
+		printTestClassFooter("CoordHomeUITest");
+	}
+
 	@Test
 	public void testCoordHomePage() throws Exception{
 		testCoordHomeCourseDeleteLink();
@@ -79,7 +85,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
 		} catch (NoAlertAppearException e){
-			assertTrue("Delete course button unavailable, or it is available but no confirmation box",false);
+			fail("Delete course button unavailable, or it is available but no confirmation box");
 		}
 	}
 
@@ -91,7 +97,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
 		} catch (NoAlertAppearException e){
-			assertTrue("Delete link is unavailable or it is available but no confirmation box",false);
+			fail("Delete link is unavailable or it is available but no confirmation box");
 		}
 	}
 
@@ -104,7 +110,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(remindLinkLocator);
 		} catch (NoAlertAppearException e){
-			assertTrue("Remind link unavailable on OPEN evaluation, or it is available but no confirmation box",false);
+			fail("Remind link unavailable on OPEN evaluation, or it is available but no confirmation box");
 		}
 	}
 
@@ -117,14 +123,14 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(publishLinkLocator);
 		} catch (NoAlertAppearException e){
-			assertTrue("Publish link unavailable on CLOSED evaluation, or it is available but no confirmation box",false);
+			fail("Publish link unavailable on CLOSED evaluation, or it is available but no confirmation box");
 		}
 		
 		// Check the publish link on Open Evaluation: Evaluation 1 at Course 1
 		publishLinkLocator = By.id("publishEvaluation"+FIRST_EVAL_ROW_NUMBER);
 		try{
 			bi.clickAndCancel(publishLinkLocator);
-			assertTrue("Publish link available on OPEN evaluation",false);
+			fail("Publish link available on OPEN evaluation");
 		} catch (NoAlertAppearException e){}
 	}
 	
@@ -137,11 +143,5 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		
 		bi.goToCoordHome();
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/CoordHomeHTMLEmpty.html");
-	}
-	
-	@AfterClass
-	public static void classTearDown() throws Exception {
-		BrowserInstancePool.release(bi);
-		printTestClassFooter("CoordHomeUITest");
 	}
 }

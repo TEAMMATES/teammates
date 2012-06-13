@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
@@ -31,147 +32,158 @@ public class Common {
 
 	private static Logger log = Logger.getLogger(Common.class.getName());
 
-	public final static String EOL = System.getProperty("line.separator");
+	public static final String EOL = System.getProperty("line.separator");
 	public static final int UNINITIALIZED_INT = -9999;
 	public static final double UNINITIALIZED_DOUBLE = -9999.0;
-	public final static String ENCODING = "UTF8";
-	public final static String VERSION = "4.17.02";
-	public final static String TEST_DATA_FOLDER = "src/test/resources/data";
-	public final static String TEST_PAGES_FOLDER = "src/test/resources/pages";
+	public static final String ENCODING = "UTF8";
+	public static final String VERSION = "4.17.02";
+	public static final String TEST_DATA_FOLDER = "src/test/resources/data";
+	public static final String TEST_PAGES_FOLDER = "src/test/resources/pages";
+
+	public static final int POINTS_NOT_SURE = -101;
+	public static final int POINTS_NOT_SUBMITTED = -999;
 
 	// Hover messages
-	public final static String HOVER_MESSAGE_ENROLL = "Enroll student into the course";
-	public final static String HOVER_MESSAGE_VIEW_COURSE = "View, edit and send registration keys to the students in the course";
-	public final static String HOVER_MESSAGE_DELETE_COURSE = "Delete the course and its corresponding students and evaluations";
-	public final static String HOVER_MESSAGE_ADD_EVALUATION = "Add an evaluation for the course";
-	public final static String HOVER_MESSAGE_CLAIMED = "This is student own estimation of his/her contributions to the project";
-	public final static String HOVER_MESSAGE_PERCEIVED = "This is the average of what other team members think this student contributed to the project";
-	public final static String HOVER_MESSAGE_PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
-	public final static String HOVER_MESSAGE_STUDENT_VIEW_COURSE = "View course details";
+	public static final String HOVER_MESSAGE_COURSE_ENROLL = "Enroll student into the course";
+	public static final String HOVER_MESSAGE_COURSE_VIEW = "View, edit and send registration keys to the students in the course";
+	public static final String HOVER_MESSAGE_COURSE_DELETE = "Delete the course and its corresponding students and evaluations";
+	public static final String HOVER_MESSAGE_COURSE_ADD_EVALUATION = "Add an evaluation for the course";
+	public static final String HOVER_MESSAGE_CLAIMED = "This is student own estimation of his/her contributions to the project";
+	public static final String HOVER_MESSAGE_PERCEIVED = "This is the average of what other team members think this student contributed to the project";
+	public static final String HOVER_MESSAGE_PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
+	
+	public static final String HOVER_MESSAGE_COURSE_REMIND = "Send a reminder to all students yet to join the class";
+	public static final String HOVER_MESSAGE_COURSE_DELETE_ALL_STUDENTS = "Delete all students in this course"; 
 
-	public final static String HOVER_MESSAGE_EVALUATION_STATUS_AWAITING = "The evaluation is created but has not yet started";
-	public final static String HOVER_MESSAGE_EVALUATION_STATUS_OPEN = "The evaluation has started and students can submit feedback until the closing time";
-	public final static String HOVER_MESSAGE_EVALUATION_STATUS_CLOSED = "The evaluation has finished but the results have not been made available to the students";
-	public final static String HOVER_MESSAGE_EVALUATION_STATUS_PUBLISHED = "The evaluation has finished and the results have been made available to students";
+	public static final String HOVER_MESSAGE_EVALUATION_STATUS_AWAITING = "The evaluation is created but has not yet started";
+	public static final String HOVER_MESSAGE_EVALUATION_STATUS_OPEN = "The evaluation has started and students can submit feedback until the closing time";
+	public static final String HOVER_MESSAGE_EVALUATION_STATUS_CLOSED = "The evaluation has finished but the results have not been made available to the students";
+	public static final String HOVER_MESSAGE_EVALUATION_STATUS_PUBLISHED = "The evaluation has finished and the results have been made available to students";
 
-	public final static String HOVER_MESSAGE_EVALUATION_VIEW = "View the current results of the evaluation";
-	public final static String HOVER_MESSAGE_EVALUATION_EDIT = "Edit evaluation details";
-	public final static String HOVER_MESSAGE_EVALUATION_REMIND = "Send e-mails to remind students who have not submitted their evaluations to do so";
-	public final static String HOVER_MESSAGE_EVALUATION_DELETE = "Delete the evaluation";
-	public final static String HOVER_MESSAGE_EVALUATION_PUBLISH = "Publish evaluation results for students to view";
-	public final static String HOVER_MESSAGE_EVALUATION_UNPUBLISH = "Make results not visible to students";
+	public static final String HOVER_MESSAGE_EVALUATION_VIEW = "View the current results of the evaluation";
+	public static final String HOVER_MESSAGE_EVALUATION_EDIT = "Edit evaluation details";
+	public static final String HOVER_MESSAGE_EVALUATION_REMIND = "Send e-mails to remind students who have not submitted their evaluations to do so";
+	public static final String HOVER_MESSAGE_EVALUATION_DELETE = "Delete the evaluation";
+	public static final String HOVER_MESSAGE_EVALUATION_PUBLISH = "Publish evaluation results for students to view";
+	public static final String HOVER_MESSAGE_EVALUATION_UNPUBLISH = "Make results not visible to students";
+	
+	public static final String HOVER_MESSAGE_EVALUATION_RESPONSE_RATE = "Number of students submitted / Class size";
+	public static final String HOVER_MESSAGE_EVALUATION_POINTS_GIVEN = "The list of points that this student gives to others";
+	public static final String HOVER_MESSAGE_EVALUATION_POINTS_RECEIVED = "The list of points that this student received from others";
 
-	public final static String HOVER_MESSAGE_EVALUATION_INPUT_COURSE = "Please select the course for which the evaluation is to be created.";
-	public final static String HOVER_MESSAGE_EVALUATION_INPUT_START = "Please enter the start date for the evaluation.";
-	public final static String HOVER_MESSAGE_EVALUATION_INPUT_NAME = "Enter the name of the evaluation e.g. Mid-term.";
-	public final static String HOVER_MESSAGE_EVALUATION_INPUT_DEADLINE = "Please enter deadline for the evaluation.";
-	public final static String HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS = "Enable this if you want students to give anonymous feedback to team members.<br />"
+	public static final String HOVER_MESSAGE_EVALUATION_INPUT_COURSE = "Please select the course for which the evaluation is to be created.";
+	public static final String HOVER_MESSAGE_EVALUATION_INPUT_START = "Please enter the start date for the evaluation.";
+	public static final String HOVER_MESSAGE_EVALUATION_INPUT_NAME = "Enter the name of the evaluation e.g. Mid-term.";
+	public static final String HOVER_MESSAGE_EVALUATION_INPUT_DEADLINE = "Please enter deadline for the evaluation.";
+	public static final String HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS = "Enable this if you want students to give anonymous feedback to team members.<br />"
 			+ "You can moderate those peer feedback before publishing it to the team.";
-	public final static String HOVER_MESSAGE_EVALUATION_INPUT_TIMEZONE = "Daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />"
+	public static final String HOVER_MESSAGE_EVALUATION_INPUT_TIMEZONE = "Daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />"
 			+ "daylight saving, you should choose UTC -7:00 and its corresponding timings.";
-	public final static String HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD = "Please select the amount of time that the system will continue accepting <br />"
+	public static final String HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD = "Please select the amount of time that the system will continue accepting <br />"
 			+ "submissions after the specified deadline.";
-	public final static String HOVER_MESSAGE_EVALUATION_INPUT_INSTRUCTIONS = "Please enter instructions for your students, e.g. Avoid comments which are too critical.";
+	public static final String HOVER_MESSAGE_EVALUATION_INPUT_INSTRUCTIONS = "Please enter instructions for your students, e.g. Avoid comments which are too critical.";
+	
+	public static final String HOVER_MESSAGE_EVALUATION_SUBMISSION_VIEW_REVIEWER = "View feedback from the student for his team<br />This opens in a new window";
+	public static final String HOVER_MESSAGE_EVALUATION_SUBMISSION_VIEW_REVIEWEE = "View feedback from the team for the student<br />This opens in a new window";
+	public static final String HOVER_MESSAGE_EVALUATION_SUBMISSION_EDIT = "Edit feedback from the student for his team<br />This opens in a new window";
+	
+	public static final String HOVER_MESSAGE_EVALUATION_SUBMISSION_NOT_AVAILABLE = "Not Available: There is no data for this<br />or the data is not enough";
+	public static final String HOVER_MESSAGE_EVALUATION_SUBMISSION_NOT_SURE = "Not Sure: The student was not sure about the contribution";
 
 	// Evaluation status
-	public final static String EVALUATION_STATUS_AWAITING = "AWAITING";
-	public final static String EVALUATION_STATUS_OPEN = "OPEN";
-	public final static String EVALUATION_STATUS_CLOSED = "CLOSED";
-	public final static String EVALUATION_STATUS_PUBLISHED = "PUBLISHED";
-
-	// IDs used as div tag "id" attribute
-	public final static String COURSE_ID = "courseid";
-	public final static String COURSE_NAME = "coursename";
-	public final static String COURSE_NUMBEROFTEAMS = "coursenumberofteams";
-	public final static String COURSE_TOTALSTUDENTS = "coursetotalstudents";
-	public final static String COURSE_UNREGISTERED = "courseunregistered";
-	public final static String COURSE_STATUS = "coursestatus";
+	public static final String EVALUATION_STATUS_AWAITING = "AWAITING";
+	public static final String EVALUATION_STATUS_OPEN = "OPEN";
+	public static final String EVALUATION_STATUS_CLOSED = "CLOSED";
+	public static final String EVALUATION_STATUS_PUBLISHED = "PUBLISHED";
 
 	// JSP Parameter names
-	public final static String PARAM_ACTION = "action";
-	public final static String PARAM_COURSE_ID = "courseid";
-	public final static String PARAM_COURSE_NAME = "coursename";
-	public final static String PARAM_STUDENTS_ENROLLMENT_INFO = "enrollstudents";
+	public static final String PARAM_ACTION = "action";
+	public static final String PARAM_COURSE_ID = "courseid";
+	public static final String PARAM_COURSE_NAME = "coursename";
+	public static final String PARAM_STUDENTS_ENROLLMENT_INFO = "enrollstudents";
 
-	public final static String PARAM_EVALUATION_NAME = "evaluationname";
+	public static final String PARAM_EVALUATION_NAME = "evaluationname";
 
-	public final static String PARAM_EVALUATION_START = "start";
-	public final static String PARAM_EVALUATION_STARTTIME = "starttime";
-	public final static String PARAM_EVALUATION_DEADLINE = "deadline";
-	public final static String PARAM_EVALUATION_DEADLINETIME = "deadlinetime";
-	public final static String PARAM_EVALUATION_TIMEZONE = "timezone";
+	public static final String PARAM_EVALUATION_START = "start";
+	public static final String PARAM_EVALUATION_STARTTIME = "starttime";
+	public static final String PARAM_EVALUATION_DEADLINE = "deadline";
+	public static final String PARAM_EVALUATION_DEADLINETIME = "deadlinetime";
+	public static final String PARAM_EVALUATION_TIMEZONE = "timezone";
 
-	public final static String PARAM_EVALUATION_COMMENTSENABLED = "commentsstatus";
-	public final static String PARAM_EVALUATION_GRACEPERIOD = "graceperiod";
-	public final static String PARAM_EVALUATION_INSTRUCTIONS = "instr";
-	public final static String PARAM_EVALUATION_NUMBEROFCOMPLETEDEVALUATIONS = "numberofevaluations";
-	public final static String PARAM_EVALUATION_NUMBEROFEVALUATIONS = "numberofcompletedevaluations";
-	public final static String PARAM_EVALUATION_PUBLISHED = "published";
-	public final static String PARAM_EVALUATION_TYPE = "evaluationtype";
+	public static final String PARAM_EVALUATION_COMMENTSENABLED = "commentsstatus";
+	public static final String PARAM_EVALUATION_GRACEPERIOD = "graceperiod";
+	public static final String PARAM_EVALUATION_INSTRUCTIONS = "instr";
+	public static final String PARAM_EVALUATION_NUMBEROFCOMPLETEDEVALUATIONS = "numberofevaluations";
+	public static final String PARAM_EVALUATION_NUMBEROFEVALUATIONS = "numberofcompletedevaluations";
+	public static final String PARAM_EVALUATION_PUBLISHED = "published";
+	public static final String PARAM_EVALUATION_TYPE = "evaluationtype";
+	
+	public static final String PARAM_STUDENT_ID = "studentid";
 
-	public final static String PARAM_STATUS_MESSAGE = "message";
-	public final static String PARAM_ERROR = "error";
-	public final static String PARAM_NEXT_URL = "next";
-	public final static String PARAM_USER_ID = "user";
+	public static final String PARAM_STATUS_MESSAGE = "message";
+	public static final String PARAM_ERROR = "error";
+	public static final String PARAM_NEXT_URL = "next";
+	public static final String PARAM_USER_ID = "user";
 
 	// JSP actions
 	public static final String ACTION_ADD_COURSE = "addcourse";
 
 	// JSP pages links (most are links to the servlet, since the JSP are made
 	// inaccessible directly)
-	public final static String JSP_COORD_HOME = "/page/coordHome";
-	public final static String JSP_COORD_COURSE = "/page/coordCourse";
-	public final static String JSP_COORD_COURSE_DELETE = "/page/coordCourseDelete";
-	public final static String JSP_COORD_COURSE_DETAILS = "/page/coordCourseDetails";
-	public final static String JSP_COORD_COURSE_STUDENT_DETAILS = "/page/coordCourseStudentDetails";
-	public final static String JSP_COORD_COURSE_STUDENT_EDIT = "/page/coordCourseStudentEdit";
-	public final static String JSP_COORD_COURSE_ENROLL = "/page/coordCourseEnroll";
-	public final static String JSP_COORD_TFS = "/page/coordTFS";
-	public final static String JSP_COORD_TFS_MANAGE = "/page/coordTFSManage";
-	public final static String JSP_COORD_TFS_CHANGE_TEAM = "/page/coordTFSChangeTeam";
-	public final static String JSP_COORD_TFS_LOGS = "/page/coordTFSLogs";
-	public final static String JSP_COORD_EVAL = "/page/coordEval";
-	public final static String JSP_COORD_EVAL_DELETE = "/page/coordEvalDelete";
-	public final static String JSP_COORD_EVAL_VIEW = "/page/coordEvalView";
-	public final static String JSP_COORD_EVAL_EDIT = "/page/coordEvalEdit";
-	public final static String JSP_COORD_EVAL_RESULTS = "/page/coordEvalResults";
-	public final static String JSP_COORD_EVAL_SUBMISSION_EDIT = "/page/coordEvalSubmissionEdit";
+	public static final String JSP_COORD_HOME = "/page/coordHome"; // Done
+	public static final String JSP_COORD_COURSE = "/page/coordCourse"; // Done
+	public static final String JSP_COORD_COURSE_DELETE = "/page/coordCourseDelete"; // Done
+	public static final String JSP_COORD_COURSE_DETAILS = "/page/coordCourseDetails";
+	public static final String JSP_COORD_COURSE_STUDENT_DETAILS = "/page/coordCourseStudentDetails";
+	public static final String JSP_COORD_COURSE_STUDENT_EDIT = "/page/coordCourseStudentEdit";
+	public static final String JSP_COORD_COURSE_ENROLL = "/page/coordCourseEnroll"; // Done
+	public static final String JSP_COORD_TFS = "/page/coordTFS";
+	public static final String JSP_COORD_TFS_MANAGE = "/page/coordTFSManage";
+	public static final String JSP_COORD_TFS_CHANGE_TEAM = "/page/coordTFSChangeTeam";
+	public static final String JSP_COORD_TFS_LOGS = "/page/coordTFSLogs";
+	public static final String JSP_COORD_EVAL = "/page/coordEval"; // Done
+	public static final String JSP_COORD_EVAL_DELETE = "/page/coordEvalDelete"; // Done
+	public static final String JSP_COORD_EVAL_EDIT = "/page/coordEvalEdit";
+	public static final String JSP_COORD_EVAL_RESULTS = "/page/coordEvalResults";
+	public static final String JSP_COORD_EVAL_SUBMISSION_VIEW = "/page/coordEvalSubmissionView";
+	public static final String JSP_COORD_EVAL_SUBMISSION_EDIT = "/page/coordEvalSubmissionEdit";
 
-	public final static String JSP_STUDENT_HOME = "/page/studentHome";
-	public final static String JSP_STUDENT_COURSE = "/page/studentHome";
-	public final static String JSP_STUDENT_COURSE_DETAILS = "/page/studentCourseDetails";
-	public final static String JSP_STUDENT_TFS_MANAGE = "/page/studentTFSManage";
-	public final static String JSP_STUDENT_EVAL = "/page/studentEval";
-	public final static String JSP_STUDENT_EVAL_EDIT = "/page/studentEvalEdit";
-	public final static String JSP_STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
+	public static final String JSP_STUDENT_HOME = "/page/studentHome";
+	public static final String JSP_STUDENT_COURSE = "/page/studentHome";
+	public static final String JSP_STUDENT_COURSE_DETAILS = "/page/studentCourseDetails";
+	public static final String JSP_STUDENT_TFS_MANAGE = "/page/studentTFSManage";
+	public static final String JSP_STUDENT_EVAL = "/page/studentEval";
+	public static final String JSP_STUDENT_EVAL_EDIT = "/page/studentEvalEdit";
+	public static final String JSP_STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
 
-	public final static String JSP_LOGOUT = "/logout.jsp";
-	public final static String JSP_UNAUTHORIZED = "/unauthorized.jsp";
+	public static final String JSP_LOGOUT = "/logout.jsp";
+	public static final String JSP_UNAUTHORIZED = "/unauthorized.jsp";
+	public static final String JSP_ERROR_PAGE = "/errorPage.jsp";
 
 	// status messages
-	public final static String MESSAGE_COURSE_ADDED = "The course has been added. Click the 'Enroll' link in the table below to add students to the course.";
-	public final static String MESSAGE_COURSE_EXISTS = "The course already exists.";
-	public final static String MESSAGE_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
-	public final static String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
-	public final static String MESSAGE_COURSE_DELETED = "The course has been deleted.";
+	public static final String MESSAGE_COURSE_ADDED = "The course has been added. Click the 'Enroll' link in the table below to add students to the course.";
+	public static final String MESSAGE_COURSE_EXISTS = "The course already exists.";
+	public static final String MESSAGE_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
+	public static final String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
+	public static final String MESSAGE_COURSE_DELETED = "The course has been deleted.";
 
-	public final static String MESSAGE_EVALUATION_ADDED = "The evaluation has been added.";
-	public final static String MESSAGE_EVALUATION_DELETED = "The evaluation has been deleted.";
-	public final static String MESSAGE_EVALUATION_EDITED = "The evaluation has been edited.";
-	public final static String MESSAGE_EVALUATION_INFORMEDSTUDENTSOFCHANGES = "E-mails have been sent out to inform the students of the changes to the evaluation.";
-	public final static String MESSAGE_EVALUATION_PUBLISHED = "The evaluation has been published.";
-	public final static String MESSAGE_EVALUATION_UNPUBLISHED = "The evaluation has been unpublished.";
-	public final static String MESSAGE_EVALUATION_REMINDERSSENT = "Reminder e-mails have been sent out to those students.";
-	public final static String MESSAGE_EVALUATION_RESULTSEDITED = "The particular evaluation results have been edited.";
+	public static final String MESSAGE_EVALUATION_ADDED = "The evaluation has been added.";
+	public static final String MESSAGE_EVALUATION_DELETED = "The evaluation has been deleted.";
+	public static final String MESSAGE_EVALUATION_EDITED = "The evaluation has been edited.";
+	public static final String MESSAGE_EVALUATION_INFORMEDSTUDENTSOFCHANGES = "E-mails have been sent out to inform the students of the changes to the evaluation.";
+	public static final String MESSAGE_EVALUATION_PUBLISHED = "The evaluation has been published.";
+	public static final String MESSAGE_EVALUATION_UNPUBLISHED = "The evaluation has been unpublished.";
+	public static final String MESSAGE_EVALUATION_REMINDERSSENT = "Reminder e-mails have been sent out to those students.";
+	public static final String MESSAGE_EVALUATION_RESULTSEDITED = "The particular evaluation results have been edited.";
 
-	public final static String MESSAGE_EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
-	public final static String MESSAGE_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
-	public final static String MESSAGE_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
-	public final static String MESSAGE_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.";
+	public static final String MESSAGE_EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
+	public static final String MESSAGE_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
+	public static final String MESSAGE_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
+	public static final String MESSAGE_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.";
 
 	// DIV tags for HTML testing
-	public final static String HEADER_TAG = "<div id=\"frameTop\">";
-	public final static String FOOTER_TAG = "<div id=\"frameBottom\">";
+	public static final String HEADER_TAG = "<div id=\"frameTop\">";
+	public static final String FOOTER_TAG = "<div id=\"frameBottom\">";
 
 	// data field sizes
 	public static final int COURSE_NAME_MAX_LENGTH = 38;
@@ -203,8 +215,6 @@ public class Common {
 	public static final String ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER = "ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER";
 	public static final String ERRORCODE_LEADING_OR_TRAILING_SPACES = "ERRORCODE_LEADING_OR_TRAILING_SPACES";
 	public static final String ERRORCODE_STRING_TOO_LONG = "ERRORCODE_STRING_TOO_LONG";
-	public static final int POINTS_NOT_SURE = -101;
-	public static final int POINTS_NOT_SUBMITTED = -999;
 
 	@SuppressWarnings("unused")
 	private void ____VALIDATE_parameters___________________________________() {
@@ -372,16 +382,17 @@ public class Common {
 	 * Replaces occurences of {*} at regexExpected to match anything in
 	 * stringActual. Tries to display the difference between the two on failure
 	 * (in Eclipse).
+	 * Ignores the tab character (i.e., ignore indentation using tabs) and
+	 * ignores the newline when comparing.
 	 * 
 	 * @param message
 	 * @param regexExpected
 	 * @param stringActual
 	 */
-	public static void assertContainsRegex(String regexExpected,
-			String stringActual) {
-		String processedRegex = Pattern.quote(regexExpected).replaceAll(
-				Pattern.quote("{*}"), "\\\\E.*\\\\Q");
-		if (!stringActual.matches("(?s)(?m).*" + processedRegex + ".*")) {
+	public static void assertContainsRegex(String regexExpected, String stringActual){
+		String processedActual = stringActual.replaceAll("[\t\r\n]","");
+		String processedRegex = Pattern.quote(regexExpected).replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q").replaceAll("[\t\r\n]","");
+		if(!processedActual.matches("(?s)(?m).*"+processedRegex+".*")){
 			assertEquals(regexExpected, stringActual);
 		}
 	}
@@ -462,7 +473,11 @@ public class Common {
 		}
 
 	}
-
+	/**
+	 * Returns the date object with specified offset in number of days from now
+	 * @param offsetDays
+	 * @return
+	 */
 	public static Date getDateOffsetToCurrentTime(int offsetDays) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(cal.getTime());
@@ -476,54 +491,12 @@ public class Common {
 		cal.add(Calendar.MILLISECOND, +offsetMilliseconds);
 		return cal.getTime();
 	}
-
-	/**
-	 * Return the date of next hour in format (YYYY,M,D)
-	 * 
-	 * @return
-	 */
-	public static String getDateValue() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.HOUR_OF_DAY, 1);
-
-		int year = calendar.get(Calendar.YEAR);
-		int month = calendar.get(Calendar.MONTH) + 1;
-		int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-		return "(" + year + "," + month + "," + day + ")";
-	}
-
-	/**
-	 * Returns the next hour from the next full hour. Example: if current time
-	 * is 1050, this will return 12 (i.e., one hour after 11)
-	 * 
-	 * @return
-	 */
-	public static String getNextTimeValue() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.HOUR_OF_DAY, 1);
-
-		return Integer.toString(calendar.get(Calendar.HOUR_OF_DAY) + 1);
-	}
-
-	/**
-	 * Helper method to format date from format (YYYY,M,D) to DD/MM/YYYY.
-	 * Usually used in conjunction with {@link #getDateValue()}
-	 * 
-	 * @param date
-	 * @return
-	 */
-	public static String formatDate(String date) {
-		StringTokenizer st = new StringTokenizer(date, "(,)");
-		String year = st.nextToken().trim();
-		String month = st.nextToken();
-		Integer monthInt = Integer.parseInt(month);
-		month = String.format("%02d", monthInt);
-		String day = st.nextToken();
-		Integer dayInt = Integer.parseInt(day);
-		day = String.format("%02d", dayInt);
-
-		return day + "/" + month + "/" + year;
+	
+	public static Date getNextHour() {
+		Calendar cal = GregorianCalendar.getInstance();
+		cal.add(Calendar.HOUR_OF_DAY, 1);
+		cal.set(Calendar.MINUTE, 0);
+		return cal.getTime();
 	}
 
 	/**
@@ -540,6 +513,25 @@ public class Common {
 		String day = String.format("%02d", cal.get(Calendar.DATE));
 
 		return day + "/" + month + "/" + year;
+	}
+
+
+	/**
+	 * Formats a date in the format DD MMM YYYY, hh:mm.
+	 * Example: 05 May 2012, 22:04
+	 * @param date
+	 * @return
+	 */
+	public static String formatTime(Date date){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		String result = "%02d %s %d, %02d:%02d";
+		int day = cal.get(Calendar.DATE);
+		String month = cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.US);
+		int year = cal.get(Calendar.YEAR);
+		int hour = cal.get(Calendar.HOUR_OF_DAY);
+		int minutes = cal.get(Calendar.MINUTE);
+		return String.format(result,day,month,year,hour,minutes);
 	}
 
 	public static String calendarToString(Calendar c) {

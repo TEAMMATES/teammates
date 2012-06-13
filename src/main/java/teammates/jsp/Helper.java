@@ -2,6 +2,7 @@ package teammates.jsp;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,6 +49,8 @@ public class Helper {
 	 * accordingly.
 	 */
 	public boolean error = false;
+	
+	public static final String DISABLED = "style=\"text-decoration:none; color:gray;\" onclick=\"return false\"";
 	
 	public Helper(){}
 	
@@ -114,12 +117,31 @@ public class Helper {
 		}
 	}
 	
+	/**
+	 * Escape the string for inserting into code
+	 * @param str
+	 * @return
+	 */
 	public static String escape(String str){
+		return str.replace("\\", "\\\\")
+				.replace("\"", "\\\"")
+				.replace("'", "\\'")
+				.replace("#", "\\#");
+	}
+
+	/**
+	 * Escape the string for inserting into HTML
+	 * @param str
+	 * @return
+	 */
+	public static String escapeHTML(String str){
 		return str.replace("&", "&amp;")
+				.replace("#", "&#35;")
 				.replace("<", "&lt;")
 				.replace(">", "&gt;")
 				.replace("\"", "&quot;")
-				.replace("'", "&#39;");
+				.replace("'", "&#39;")
+				.replace("\\", "&#92;");
 	}
 	
 	public static boolean isUserLoggedIn() {
@@ -178,22 +200,6 @@ public class Helper {
 	}
 	
 	/**
-	 * Returns the link to see evaluation details for a specified evaluation name and courseID
-	 * @param courseID
-	 * @param evalName
-	 * @return
-	 */
-	public String getEvaluationViewLink(String courseID, String evalName){
-		String link = Common.JSP_COORD_EVAL_VIEW;
-		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
-		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
-		if(isMasqueradeMode()){
-			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
-		}
-		return link;
-	}
-	
-	/**
 	 * Returns the link to delete an evaluation as specified and redirects to the nextURL after deletion<br />
 	 * The nextURL is usually used to refresh the page after deletion
 	 * @param courseID
@@ -245,20 +251,57 @@ public class Helper {
 	}
 	
 	/**
+	 * Returns the link to see submission details for a specified student in
+	 * specified evaluation name and courseID
+	 * @param courseID
+	 * @param evalName
+	 * @return
+	 */
+	public String getEvaluationSubmissionViewLink(String courseID, String evalName, String studentID){
+		String link = Common.JSP_COORD_EVAL_SUBMISSION_VIEW;
+		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
+		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = addParam(link,Common.PARAM_STUDENT_ID,studentID);
+		if(isMasqueradeMode()){
+			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
+		}
+		return link;
+	}
+	
+	/**
+	 * Returns the link to edit submission details for a specified student in
+	 * specified evaluation name and courseID
+	 * @param courseID
+	 * @param evalName
+	 * @return
+	 */
+	public String getEvaluationSubmissionEditLink(String courseID, String evalName, String studentID){
+		String link = Common.JSP_COORD_EVAL_SUBMISSION_EDIT;
+		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
+		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = addParam(link,Common.PARAM_STUDENT_ID,studentID);
+		if(isMasqueradeMode()){
+			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
+		}
+		return link;
+	}
+
+	/**
 	 * Returns the evaluaton status. Can be any one of these:
 	 * <ul>
 	 * <li>AWAITING - When the evaluation start time is still in the future</li>
 	 * <li>OPEN - When the evaluation is started and has not passed the deadline</li>
-	 * <li>CLOSED - When the evaluation deadline has passed</li>
+	 * <li>CLOSED - When the evaluation deadline has passed but not published yet</li>
 	 * <li>PUBLISHED - When the evaluation results has been published to students</li>
 	 * </ul>
 	 * @param eval
 	 * @return
 	 */
 	public static String getStatusForEval(EvaluationData eval){
-		if(eval.startTime.after(new Date())) return Common.EVALUATION_STATUS_AWAITING;
+		Date now = Calendar.getInstance().getTime();
+		if(eval.startTime.after(now)) return Common.EVALUATION_STATUS_AWAITING;
 		if(eval.endTime.after(new Date(
-					new Date().getTime()+eval.gracePeriod*60*1000
+					now.getTime()+eval.gracePeriod*60*1000
 				))
 			) return Common.EVALUATION_STATUS_OPEN;
 		if(!eval.published)	return Common.EVALUATION_STATUS_CLOSED;
@@ -290,7 +333,6 @@ public class Helper {
 	 */
 	public String getEvaluationActions(EvaluationData eval, int position, boolean isHome){
 		StringBuffer result = new StringBuffer();
-		final String disabled = "style=\"text-decoration:none; color:gray;\" onclick=\"return false\"";
 		
 		boolean hasView = false;
 		boolean hasEdit = false;
@@ -317,15 +359,15 @@ public class Helper {
 		
 		result.append(
 			"<a class=\"t_eval_view\" name=\"viewEvaluation" + position + "\" id=\"viewEvaluation"+ position + "\" " +
-			"href=\"" + getEvaluationViewLink(eval.course,eval.name) + "\" " +
+			"href=\"" + getEvaluationResultsLink(eval.course,eval.name) + "\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_VIEW+"')\" "+
-			"onmouseout=\"hideddrivetip()\"" + (hasView ? "" : disabled) + ">View Results</a>"
+			"onmouseout=\"hideddrivetip()\"" + (hasView ? "" : DISABLED) + ">View Results</a>"
 		);
 		result.append(
 			"<a class=\"t_eval_edit\" name=\"editEvaluation" + position + "\" id=\"editEvaluation" + position + "\" " +
 			"href=\"" + getEvaluationEditLink(eval.course,eval.name) + "\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_EDIT+"')\" onmouseout=\"hideddrivetip()\" " +
-			(hasEdit ? "" : disabled) + ">Edit</a>"
+			(hasEdit ? "" : DISABLED) + ">Edit</a>"
 		);
 		result.append(
 			"<a class=\"t_eval_delete\" name=\"deleteEvaluation" + position + "\" id=\"deleteEvaluation" + position + "\" " +
@@ -337,7 +379,7 @@ public class Helper {
 			"<a class=\"t_eval_remind\" name=\"remindEvaluation" + position + "\" id=\"remindEvaluation" + position + "\" " +
 			"href=\"javascript: hideddrivetip(); toggleRemindStudents('" + eval.course + "','" + eval.name + "');\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_REMIND+"')\" " +
-			"onmouseout=\"hideddrivetip()\"" + (hasRemind ? "" : disabled) + ">Remind</a>"
+			"onmouseout=\"hideddrivetip()\"" + (hasRemind ? "" : DISABLED) + ">Remind</a>"
 		);
 		if (hasUnpublish) {
 			result.append(
@@ -353,11 +395,10 @@ public class Helper {
 				"href=\"javascript: hideddrivetip(); togglePublishEvaluation('" + eval.course + "','" +
 				eval.name + "'," + true + "," + (isHome ? "'"+Common.JSP_COORD_HOME+"'" : "'"+Common.JSP_COORD_EVAL+"'") + ");\" " +
 				"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_PUBLISH+"')\" " +
-				"onmouseout=\"hideddrivetip()\"" + (hasPublish ? "" : disabled) + ">Publish</a>"
+				"onmouseout=\"hideddrivetip()\"" + (hasPublish ? "" : DISABLED) + ">Publish</a>"
 			);
 		}
 		return result.toString();
 	}
-
 
 }

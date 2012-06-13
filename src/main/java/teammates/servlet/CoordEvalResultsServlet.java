@@ -1,7 +1,6 @@
 package teammates.servlet;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -9,27 +8,27 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
-import teammates.datatransfer.CourseData;
-import teammates.jsp.CoordHomeHelper;
+import teammates.jsp.CoordEvalResultsHelper;
 import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
 /**
- * Servlet to handle Home actions
+ * Servlet to handle Evaluation Results action
  * @author Aldrian Obaja
  *
  */
-public class CoordHomeServlet extends ActionServlet<CoordHomeHelper> {
-	private static final String DISPLAY_URL = "/coordHome.jsp";
+public class CoordEvalResultsServlet extends ActionServlet<CoordEvalResultsHelper> {
+	
+	private static final String DISPLAY_URL = "/coordEvalResults.jsp";
 
 	@Override
-	protected CoordHomeHelper instantiateHelper() {
-		return new CoordHomeHelper();
+	protected CoordEvalResultsHelper instantiateHelper() {
+		return new CoordEvalResultsHelper();
 	}
 
 	@Override
 	protected boolean doAuthenticateUser(HttpServletRequest req,
-			HttpServletResponse resp, CoordHomeHelper helper)
+			HttpServletResponse resp, CoordEvalResultsHelper helper)
 			throws IOException {
 		if(!helper.user.isCoord && !helper.user.isAdmin){
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
@@ -39,16 +38,19 @@ public class CoordHomeServlet extends ActionServlet<CoordHomeHelper> {
 	}
 
 	@Override
-	protected void doAction(HttpServletRequest req, CoordHomeHelper helper) throws EntityDoesNotExistException{
-		HashMap<String, CourseData> courses = helper.server.getCourseDetailsListForCoord(helper.userId);
-		helper.summary = courses.values().toArray(new CourseData[] {});
+	protected void doAction(HttpServletRequest req, CoordEvalResultsHelper helper) throws EntityDoesNotExistException{
+		// Get parameters
+		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
+		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
+		
+		// Process action
+		helper.evaluation = helper.server.getEvaluationResult(courseID, evalName);
 	}
 
 	@Override
 	protected void doCreateResponse(HttpServletRequest req,
-			HttpServletResponse resp, CoordHomeHelper helper)
+			HttpServletResponse resp, CoordEvalResultsHelper helper)
 			throws ServletException, IOException {
-
 		if(helper.nextUrl==null) helper.nextUrl = DISPLAY_URL;
 		
 		if(helper.nextUrl.startsWith(DISPLAY_URL)){
