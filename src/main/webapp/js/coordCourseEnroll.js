@@ -5,11 +5,22 @@ var DISPLAY_STUDENT_EMAIL_INVALID = "The e-mail address is invalid.";
 var DISPLAY_STUDENT_NAME_INVALID = "Name should only consist of alphanumerics and not<br />more than 40 characters.";
 var DISPLAY_STUDENT_TEAMNAME_INVALID = "Team name should contain less than 25 characters.";
 
+/**
+ * Highlight the enrollstudents textarea at specified positions.
+ * @param start
+ * @param end
+ */
 function highlightError(start, end){
 	document.getElementById("enrollstudents").selectionStart = start;
 	document.getElementById("enrollstudents").selectionEnd = end;
 }
 
+/**
+ * Checks enrollment input, highlight the problematic line, if any.
+ * Returns the result of the validation.
+ * @param input
+ * @returns {Boolean}
+ */
 function checkEnrollmentInput(input) {
 	input = input.replace(/\t/g,"|");
 	var entries = input.split("\n");

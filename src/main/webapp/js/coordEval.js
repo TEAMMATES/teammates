@@ -5,6 +5,10 @@ var EVALUATION_TIMEZONE = "timezone";
 var DISPLAY_EVALUATION_PUBLISHED = "The evaluation has been published.";
 var DISPLAY_EVALUATION_UNPUBLISHED = "The evaluation has been unpublished.";
 var DISPLAY_EVALUATION_REMINDERSSENT = "Reminder e-mails have been sent out to those students.";
+var DISPLAY_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
+var DISPLAY_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
+var DISPLAY_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.";
+var DISPLAY_FIELDS_EMPTY = "Please fill in all the relevant fields.";
 
 function isEvaluationNameLengthValid(name) {
 	return name.length <= 22;
@@ -118,28 +122,29 @@ function checkAddEvaluation(form){
 	var deadlineTime = form.deadlinetime.value;
 	var timeZone = form.timezone.value;
 	var gracePeriod = form.graceperiod.value;
+	var instructions = form.instr.value;
 
 	if (courseID == "" || name == "" || start == "" || startTime == ""
 		|| deadline == "" || deadlineTime == "" || timeZone == ""
 			|| gracePeriod == "" || instructions == "") {
-		setStatusMessage(DISPLAY_FIELDS_EMPTY);
+		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
 		return false;
 	} else if (!isEvaluationNameValid(name)) {
-		setStatusMessage(DISPLAY_EVALUATION_NAMEINVALID);
+		setStatusMessage(DISPLAY_EVALUATION_NAMEINVALID, true);
 		return false;
 	} else if (!isEvaluationNameLengthValid(name)) {
-		setStatusMessage(DISPLAY_EVALUATION_NAME_LENGTHINVALID);
+		setStatusMessage(DISPLAY_EVALUATION_NAME_LENGTHINVALID, true);
 		return false;
 	} else if (!isAddEvaluationScheduleValid(start, startTime, deadline, deadlineTime)) {
-		setStatusMessage(DISPLAY_EVALUATION_SCHEDULEINVALID);
+		setStatusMessage(DISPLAY_EVALUATION_SCHEDULEINVALID, true);
 		return false;
 	}
 	return true;
 }
 
 /**
- * To be run on finish loading, this will select the input: start date, start
- * time, and timezone based on client's time.
+ * To be run on page finish loading, this will select the input: start date,
+ * start time, and timezone based on client's time.
  */
 function selectDefaultTimeOptions(){
 	var now = new Date();
@@ -184,7 +189,7 @@ function publishEvaluation(courseID, name, url) {
 				+ "&" + COURSE_ID + "=" + encodeURIComponent(courseID) + "&"
 				+ EVALUATION_NAME + "=" + encodeURIComponent(name));
 	} else {
-		setStatusMessage(DISPLAY_BROWSERERROR);
+		alert(DISPLAY_BROWSERERROR);
 	}
 }
 
@@ -217,7 +222,7 @@ function unpublishEvaluation(courseID, name, url) {
 				+ "&" + COURSE_ID + "=" + encodeURIComponent(courseID) + "&"
 				+ EVALUATION_NAME + "=" + encodeURIComponent(name));
 	} else {
-		setStatusMessage(DISPLAY_BROWSERERROR);
+		alert(DISPLAY_BROWSERERROR);
 	}
 }
 
@@ -259,8 +264,15 @@ function toggleDeleteEvaluationConfirmation(courseID, name) {
 }
 
 /**
- * Shows the desired report based on the id
+ * Shows the desired evaluation report based on the id.
+ * This is for the evaluation results page.
  * @param id
+ * 		One of:
+ * 		<ul>
+ * 		<li>coordinatorEvaluationSummaryTable</li>
+ * 		<li>coordinatorEvaluationDetailedReviewerTable</li>
+ * 		<li>coordinatorEvaluationDetailedRevieweeTable</li>
+ * 		</ul>
  */
 function showReport(id){
 	$(".evaluation_result").hide();

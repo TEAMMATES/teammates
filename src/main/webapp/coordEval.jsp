@@ -100,13 +100,13 @@
 					<tr>
 						<td class="attribute" >Peer feedback:</td>
 						<td><input type="radio" name="<%= Common.PARAM_EVALUATION_COMMENTSENABLED %>"
-									id="<%= Common.PARAM_EVALUATION_COMMENTSENABLED %>" value="true"
+									id="commentsstatus_enabled" value="true"
 									<% if(helper.submittedEval==null || helper.submittedEval.p2pEnabled) out.print("checked=\"checked\""); %>
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS %>')"
 									onmouseout="hideddrivetip()" />
 							<label for="commentsstatus_enabled">Enabled</label>
 							<input type="radio" name="<%= Common.PARAM_EVALUATION_COMMENTSENABLED %>"
-									id="<%= Common.PARAM_EVALUATION_COMMENTSENABLED %>" value="false"
+									id="commentsstatus_disabled" value="false"
 									<% if(helper.submittedEval!=null && !helper.submittedEval.p2pEnabled) out.print("checked=\"checked\""); %>
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS %>')"
 									onmouseout="hideddrivetip()" />
@@ -201,7 +201,13 @@
 						</tr>
 					<%	} %>
 				</table>
-				<br /><br /><br /><br />
+				<br /><br /><br />
+				<%	if(evalIdx==0){ %>
+					No records found.<br />
+					<br />
+					<br />
+				<%	} %>
+				<br />
 			</div>
 		</div>
 	</div>

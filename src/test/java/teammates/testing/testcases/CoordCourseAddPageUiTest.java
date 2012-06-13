@@ -65,14 +65,17 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordCourseAddHTML() throws Exception{
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordListCourseEmpty.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordListCourseEmpty.html");
 
 		ImportTestData.main(new String[]{});
 		bi.goToCourses();
 
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordListCourseByIdNew.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordListCourseByIdNew.html");
 
 		bi.click(By.id("button_sortcoursename"));
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordListCourseByNameNew.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordListCourseByNameNew.html");
 		
 		bi.click(By.id("button_sortcourseid"));

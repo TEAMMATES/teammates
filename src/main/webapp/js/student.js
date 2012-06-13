@@ -364,7 +364,7 @@ function doGetSubmissionResultsList(courseID, evaluationName, start, deadline)
 	clearStatusMessage();
 	
 	if(results == SERVERERROR){
-		alertServerError();
+		alert(DISPLAY_SERVERERROR);
 		return;
 	}
 	

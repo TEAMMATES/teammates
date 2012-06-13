@@ -58,7 +58,7 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testCoordEvalPage() throws Exception{
+	public void testCoordEvalResultsPage() throws Exception{
 		testCoordEvalResultsHTML();
 		testCoordEvalResultsUiPaths();
 		testCoordEvalResultsLinks();
@@ -69,18 +69,21 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalUiT.CS1101").id);
 		link = Helper.addParam(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("First Eval").name);
 		bi.goToUrl(appUrl+link);
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalResultsOpenEval.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsOpenEval.html");
 
 		link = Common.JSP_COORD_EVAL_RESULTS;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalUiT.CS1101").id);
 		link = Helper.addParam(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("Second Eval").name);
 		bi.goToUrl(appUrl+link);
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalResultsPublishedEval.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsPublishedEval.html");
 		
 		link = Common.JSP_COORD_EVAL_RESULTS;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalUiT.CS1101").id);
 		link = Helper.addParam(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("Third Eval").name);
 		bi.goToUrl(appUrl+link);
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalResultsClosedEval.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsClosedEval.html");
 		
 	}

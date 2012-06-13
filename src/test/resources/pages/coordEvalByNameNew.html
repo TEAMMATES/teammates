@@ -131,9 +131,9 @@
 					</tr>
 					<tr>
 						<td class="attribute">Peer feedback:</td>
-						<td><input type="radio" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enable this if you want students to give anonymous feedback to team members.<br />You can moderate those peer feedback before publishing it to the team.')" checked="checked" value="true" id="commentsstatus" name="commentsstatus" />
+						<td><input type="radio" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enable this if you want students to give anonymous feedback to team members.<br />You can moderate those peer feedback before publishing it to the team.')" checked="checked" value="true" id="commentsstatus_enabled" name="commentsstatus" />
 							<label for="commentsstatus_enabled">Enabled</label>
-							<input type="radio" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enable this if you want students to give anonymous feedback to team members.<br />You can moderate those peer feedback before publishing it to the team.')" value="false" id="commentsstatus" name="commentsstatus" />
+							<input type="radio" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enable this if you want students to give anonymous feedback to team members.<br />You can moderate those peer feedback before publishing it to the team.')" value="false" id="commentsstatus_disabled" name="commentsstatus" />
 							<label for="commentsstatus_disabled">Disabled</label>
 						</td>
 						<td class="attribute">Time zone:</td>
@@ -275,7 +275,9 @@
 							
 					
 				</tbody></table>
-				<br /><br /><br /><br />
+				<br /><br /><br />
+				
+				<br />
 			</div>
 		</div>
 	</div>

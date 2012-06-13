@@ -118,15 +118,17 @@ public class Helper {
 	}
 	
 	/**
-	 * Escape the string for inserting into code
+	 * Escape the string for inserting into javascript code.
+	 * This automatically calls {@link #escapeHTML} so that it is actually
+	 * inserted correctly to the code.
 	 * @param str
 	 * @return
 	 */
 	public static String escape(String str){
-		return str.replace("\\", "\\\\")
+		return escapeHTML(str.replace("\\", "\\\\")
 				.replace("\"", "\\\"")
 				.replace("'", "\\'")
-				.replace("#", "\\#");
+				.replace("#", "\\#"));
 	}
 
 	/**
@@ -173,7 +175,7 @@ public class Helper {
 	 * @param courseID
 	 * @return
 	 */
-	public String getCourseViewLink(String courseID){
+	public String getCourseDetailsLink(String courseID){
 		String link = Common.JSP_COORD_COURSE_DETAILS;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID); 
 		if(isMasqueradeMode()){
@@ -249,19 +251,48 @@ public class Helper {
 		}
 		return link;
 	}
+
+	/**
+	 * Returns the link to see the result of an evaluation as specified
+	 * @param courseID
+	 * @param evalName
+	 * @return
+	 */
+	public String getEvaluationRemindLink(String courseID, String evalName){
+		return "javascript: hideddrivetip(); toggleRemindStudents('"+courseID+"','"+evalName+"');";
+	}
+	
+	/**
+	 * Returns the link to publish or unpublish an evaluation, and redirects
+	 * to appropriate page.
+	 * @param courseID
+	 * @param evalName
+	 * @param publish
+	 * 		true to publish, false to unpublish
+	 * @param isHome
+	 * @return
+	 */
+	public String getEvaluationPublishLink(String courseID, String evalName, boolean publish, boolean isHome){
+		return "javascript: hideddrivetip(); togglePublishEvaluation(" +
+				"'" + courseID + "'," +
+				"'" + evalName + "'," +
+				publish + "," +
+				"'" + (isHome? Common.JSP_COORD_HOME : Common.JSP_COORD_EVAL) +"');";
+	}
 	
 	/**
 	 * Returns the link to see submission details for a specified student in
 	 * specified evaluation name and courseID
 	 * @param courseID
 	 * @param evalName
+	 * @param studentEmail
 	 * @return
 	 */
-	public String getEvaluationSubmissionViewLink(String courseID, String evalName, String studentID){
+	public String getEvaluationSubmissionViewLink(String courseID, String evalName, String studentEmail){
 		String link = Common.JSP_COORD_EVAL_SUBMISSION_VIEW;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
-		link = addParam(link,Common.PARAM_STUDENT_ID,studentID);
+		link = addParam(link,Common.PARAM_STUDENT_EMAIL,studentEmail);
 		if(isMasqueradeMode()){
 			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
 		}
@@ -273,13 +304,14 @@ public class Helper {
 	 * specified evaluation name and courseID
 	 * @param courseID
 	 * @param evalName
+	 * @param studentEmail
 	 * @return
 	 */
-	public String getEvaluationSubmissionEditLink(String courseID, String evalName, String studentID){
+	public String getEvaluationSubmissionEditLink(String courseID, String evalName, String studentEmail){
 		String link = Common.JSP_COORD_EVAL_SUBMISSION_EDIT;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
-		link = addParam(link,Common.PARAM_STUDENT_ID,studentID);
+		link = addParam(link,Common.PARAM_STUDENT_EMAIL,studentEmail);
 		if(isMasqueradeMode()){
 			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
 		}
@@ -360,7 +392,7 @@ public class Helper {
 		result.append(
 			"<a class=\"t_eval_view\" name=\"viewEvaluation" + position + "\" id=\"viewEvaluation"+ position + "\" " +
 			"href=\"" + getEvaluationResultsLink(eval.course,eval.name) + "\" " +
-			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_VIEW+"')\" "+
+			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_RESULTS+"')\" "+
 			"onmouseout=\"hideddrivetip()\"" + (hasView ? "" : DISABLED) + ">View Results</a>"
 		);
 		result.append(
@@ -377,23 +409,21 @@ public class Helper {
 		);
 		result.append(
 			"<a class=\"t_eval_remind\" name=\"remindEvaluation" + position + "\" id=\"remindEvaluation" + position + "\" " +
-			"href=\"javascript: hideddrivetip(); toggleRemindStudents('" + eval.course + "','" + eval.name + "');\" " +
+			"href=\"" + getEvaluationRemindLink(eval.course,eval.name) + "\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_REMIND+"')\" " +
 			"onmouseout=\"hideddrivetip()\"" + (hasRemind ? "" : DISABLED) + ">Remind</a>"
 		);
 		if (hasUnpublish) {
 			result.append(
 				"<a class=\"t_eval_unpublish\" name=\"publishEvaluation" + position + "\" id=\"publishEvaluation" + position + "\" " +
-				"href=\"javascript: hideddrivetip(); togglePublishEvaluation('" + eval.course + "','" +
-				eval.name + "'," + false + "," + (isHome ? "'"+Common.JSP_COORD_HOME+"'" : "'"+Common.JSP_COORD_EVAL+"'") + ");\" " +
+				"href=\"" + getEvaluationPublishLink(eval.course,eval.name,false,isHome) + "\" " +
 				"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_UNPUBLISH+"')\" onmouseout=\"hideddrivetip()\">" +
 				"Unpublish</a>"
 			);
 		} else {
 			result.append(
 				"<a class=\"t_eval_publish\" name=\"unpublishEvaluation" + position + "\" id=\"publishEvaluation" + position + "\" " +
-				"href=\"javascript: hideddrivetip(); togglePublishEvaluation('" + eval.course + "','" +
-				eval.name + "'," + true + "," + (isHome ? "'"+Common.JSP_COORD_HOME+"'" : "'"+Common.JSP_COORD_EVAL+"'") + ");\" " +
+				"href=\"" + getEvaluationPublishLink(eval.course,eval.name,true,isHome) + "\" " +
 				"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_PUBLISH+"')\" " +
 				"onmouseout=\"hideddrivetip()\"" + (hasPublish ? "" : DISABLED) + ">Publish</a>"
 			);

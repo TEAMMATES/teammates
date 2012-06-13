@@ -42,12 +42,17 @@ public class Common {
 
 	// Hover messages
 	public static final String HOVER_MESSAGE_COURSE_ENROLL = "Enroll student into the course";
-	public static final String HOVER_MESSAGE_COURSE_VIEW = "View, edit and send registration keys to the students in the course";
+	public static final String HOVER_MESSAGE_COURSE_DETAILS = "View, edit and send registration keys to the students in the course";
 	public static final String HOVER_MESSAGE_COURSE_DELETE = "Delete the course and its corresponding students and evaluations";
 	public static final String HOVER_MESSAGE_COURSE_ADD_EVALUATION = "Add an evaluation for the course";
 	public static final String HOVER_MESSAGE_CLAIMED = "This is student own estimation of his/her contributions to the project";
 	public static final String HOVER_MESSAGE_PERCEIVED = "This is the average of what other team members think this student contributed to the project";
 	public static final String HOVER_MESSAGE_PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
+	
+	public static final String HOVER_MESSAGE_COURSE_STUDENT_DETAILS = "View the details of the student";
+	public static final String HOVER_MESSAGE_COURSE_STUDENT_EDIT = "Edit the details of the student";
+	public static final String HOVER_MESSAGE_COURSE_STUDENT_REMIND = "E-mail the registration key to the student";
+	public static final String HOVER_MESSAGE_COURSE_STUDENT_DELETE = "Delete the student and the corresponding evaluations from the course";
 	
 	public static final String HOVER_MESSAGE_COURSE_REMIND = "Send a reminder to all students yet to join the class";
 	public static final String HOVER_MESSAGE_COURSE_DELETE_ALL_STUDENTS = "Delete all students in this course"; 
@@ -57,13 +62,14 @@ public class Common {
 	public static final String HOVER_MESSAGE_EVALUATION_STATUS_CLOSED = "The evaluation has finished but the results have not been made available to the students";
 	public static final String HOVER_MESSAGE_EVALUATION_STATUS_PUBLISHED = "The evaluation has finished and the results have been made available to students";
 
-	public static final String HOVER_MESSAGE_EVALUATION_VIEW = "View the current results of the evaluation";
+	public static final String HOVER_MESSAGE_EVALUATION_RESULTS = "View the current results of the evaluation";
 	public static final String HOVER_MESSAGE_EVALUATION_EDIT = "Edit evaluation details";
 	public static final String HOVER_MESSAGE_EVALUATION_REMIND = "Send e-mails to remind students who have not submitted their evaluations to do so";
 	public static final String HOVER_MESSAGE_EVALUATION_DELETE = "Delete the evaluation";
 	public static final String HOVER_MESSAGE_EVALUATION_PUBLISH = "Publish evaluation results for students to view";
 	public static final String HOVER_MESSAGE_EVALUATION_UNPUBLISH = "Make results not visible to students";
 	
+	public static final String HOVER_MESSAGE_EVALUATION_DIFF = "Perceived Contribution - Claimed Contribution";
 	public static final String HOVER_MESSAGE_EVALUATION_RESPONSE_RATE = "Number of students submitted / Class size";
 	public static final String HOVER_MESSAGE_EVALUATION_POINTS_GIVEN = "The list of points that this student gives to others";
 	public static final String HOVER_MESSAGE_EVALUATION_POINTS_RECEIVED = "The list of points that this student received from others";
@@ -92,6 +98,10 @@ public class Common {
 	public static final String EVALUATION_STATUS_OPEN = "OPEN";
 	public static final String EVALUATION_STATUS_CLOSED = "CLOSED";
 	public static final String EVALUATION_STATUS_PUBLISHED = "PUBLISHED";
+	
+	// Student status
+	public static final String STUDENT_STATUS_YET_TO_JOIN = "Yet to join";
+	public static final String STUDENT_STATUS_JOINED = "Joined";
 
 	// JSP Parameter names
 	public static final String PARAM_ACTION = "action";
@@ -115,7 +125,10 @@ public class Common {
 	public static final String PARAM_EVALUATION_PUBLISHED = "published";
 	public static final String PARAM_EVALUATION_TYPE = "evaluationtype";
 	
-	public static final String PARAM_STUDENT_ID = "studentid";
+	/**
+	 * The student's e-mail is used as the ID of the student
+	 */
+	public static final String PARAM_STUDENT_EMAIL = "studentemail";
 
 	public static final String PARAM_STATUS_MESSAGE = "message";
 	public static final String PARAM_ERROR = "error";
@@ -133,6 +146,7 @@ public class Common {
 	public static final String JSP_COORD_COURSE_DETAILS = "/page/coordCourseDetails";
 	public static final String JSP_COORD_COURSE_STUDENT_DETAILS = "/page/coordCourseStudentDetails";
 	public static final String JSP_COORD_COURSE_STUDENT_EDIT = "/page/coordCourseStudentEdit";
+	public static final String JSP_COORD_COURSE_STUDENT_DELETE = "/page/coordCourseStudentDelete";
 	public static final String JSP_COORD_COURSE_ENROLL = "/page/coordCourseEnroll"; // Done
 	public static final String JSP_COORD_TFS = "/page/coordTFS";
 	public static final String JSP_COORD_TFS_MANAGE = "/page/coordTFSManage";
@@ -141,7 +155,7 @@ public class Common {
 	public static final String JSP_COORD_EVAL = "/page/coordEval"; // Done
 	public static final String JSP_COORD_EVAL_DELETE = "/page/coordEvalDelete"; // Done
 	public static final String JSP_COORD_EVAL_EDIT = "/page/coordEvalEdit";
-	public static final String JSP_COORD_EVAL_RESULTS = "/page/coordEvalResults";
+	public static final String JSP_COORD_EVAL_RESULTS = "/page/coordEvalResults"; // Done
 	public static final String JSP_COORD_EVAL_SUBMISSION_VIEW = "/page/coordEvalSubmissionView";
 	public static final String JSP_COORD_EVAL_SUBMISSION_EDIT = "/page/coordEvalSubmissionEdit";
 
@@ -163,6 +177,10 @@ public class Common {
 	public static final String MESSAGE_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
 	public static final String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
 	public static final String MESSAGE_COURSE_DELETED = "The course has been deleted.";
+	public static final String MESSAGE_COURSE_EMPTY = "You have not created any courses yet. Use the form above to create a course.";
+	public static final String MESSAGE_COURSE_EMPTY_IN_EVALUATION = "You have not created any courses yet. Go <a href=\""+JSP_COORD_COURSE+"\">here</a> to create one.";
+	
+	public static final String MESSAGE_STUDENT_DELETED = "The student has been removed from the course";
 
 	public static final String MESSAGE_EVALUATION_ADDED = "The evaluation has been added.";
 	public static final String MESSAGE_EVALUATION_DELETED = "The evaluation has been deleted.";
@@ -172,6 +190,7 @@ public class Common {
 	public static final String MESSAGE_EVALUATION_UNPUBLISHED = "The evaluation has been unpublished.";
 	public static final String MESSAGE_EVALUATION_REMINDERSSENT = "Reminder e-mails have been sent out to those students.";
 	public static final String MESSAGE_EVALUATION_RESULTSEDITED = "The particular evaluation results have been edited.";
+	public static final String MESSAGE_EVALUATION_EMPTY = "You have not created any evaluations yet. Use the form above to create a new evaluation.";
 
 	public static final String MESSAGE_EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
 	public static final String MESSAGE_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";

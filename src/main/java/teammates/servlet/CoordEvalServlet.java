@@ -150,5 +150,12 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 				return result;
 			}
 		});
+		
+		if(helper.evaluations.size()==0 && !helper.error){
+			helper.statusMessage = Common.MESSAGE_EVALUATION_EMPTY;
+		}
+		if(helper.courses.length==0 && !helper.error){
+			helper.statusMessage = Common.MESSAGE_COURSE_EMPTY_IN_EVALUATION;
+		}
 	}
 }

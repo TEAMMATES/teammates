@@ -69,8 +69,8 @@
 							Enroll
 						</a>
 						<a class="t_course_view<%= idx %>"
-							href="<%= helper.getCourseViewLink(course.id) %>"
-							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_VIEW %>')"
+							href="<%= helper.getCourseDetailsLink(course.id) %>"
+							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_DETAILS %>')"
 							onmouseout="hideddrivetip()">
 							View
 						</a>

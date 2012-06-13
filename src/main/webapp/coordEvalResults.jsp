@@ -96,11 +96,19 @@
 				<div style="text-align:right; font-style:italic; font-size: small; padding:0 35px;">CC = Claimed Contribution; PC = Perceived Contribution; E = Equal Share</div>
 				<table id="dataform">
 					<tr>
-						<th class="centeralign" width="13%"><input class="buttonSortNone" type="button" id="button_sortteamname" />Team</th>
-						<th class="centeralign"><input class="buttonSortNone" type="button" id="button_sortname" />Student</th>
-						<th class="centeralign" width="6.5%"><input class="buttonSortNone" type="button" id="button_sortclaimed" />CC</th>
-						<th class="centeralign" width="6.5%"><input class="buttonSortNone" type="button" id="button_sortperceived" />PC</th>
-						<th class="centeralign" width="6.5%"><input class="buttonSortNone" type="button" id="button_sortdiff" />Diff</th>
+						<th class="centeralign" width="13%"><input class="buttonSortAscending" type="button" id="button_sortteamname"
+								onclick="toggleSort(this,1)"/>Team</th>
+						<th class="centeralign"><input class="buttonSortNone" type="button" id="button_sortname" 
+								onclick="toggleSort(this,2)"/>Student</th>
+						<th class="centeralign" width="6.5%"><input class="buttonSortNone" type="button" id="button_sortclaimed"
+								onclick="toggleSort(this,3,sortByPoint)"/>CC</th>
+						<th class="centeralign" width="6.5%"><input class="buttonSortNone" type="button" id="button_sortperceived"
+								onclick="toggleSort(this,4,sortByPoint)"/>PC</th>
+						<th class="centeralign" width="6.5%"><input class="buttonSortNone" type="button" id="button_sortdiff"
+								onclick="toggleSort(this,5,sortByDiff)"/>
+							<span onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_DIFF %>')"
+									onmouseout="hideddrivetip()">Diff</span>
+						</th>
 						<th class="centeralign" width="18%">
 							<span onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_POINTS_GIVEN %>')" onmouseout="hideddrivetip()">
 							Points Given</span>
@@ -118,7 +126,7 @@
 						<tr>
 							<td><%= team.name %></td>
 							<td>
-								<span onmouseover="ddrivetip('<%= CoordEvalResultsHelper.escape(CoordEvalResultsHelper.escapeHTML(student.comments)) %>')"
+								<span onmouseover="ddrivetip('<%= CoordEvalResultsHelper.escape(student.comments) %>')"
 										onmouseout="hideddrivetip()">
 									<%= student.name %>
 								</span>
@@ -131,13 +139,13 @@
 							<td class="centeralign">
 								<a name="viewEvaluationResults<%= idx %>" id="viewEvaluationResults<%= idx %>"
 										target="_blank"
-										href="<%= helper.getEvaluationSubmissionViewLink(helper.evaluation.course, helper.evaluation.name, student.id)%>"
+										href="<%= helper.getEvaluationSubmissionViewLink(helper.evaluation.course, helper.evaluation.name, student.email)%>"
 										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_VIEW_REVIEWER %>')"
 										onmouseout="hideddrivetip()">
 										View</a>
 								<a name="editEvaluationResults<%= idx %>" id="editEvaluationResults<%= idx %>"
 										target="_blank"
-										href="<%= helper.getEvaluationSubmissionEditLink(helper.evaluation.course, helper.evaluation.name, student.id) %>"
+										href="<%= helper.getEvaluationSubmissionEditLink(helper.evaluation.course, helper.evaluation.name, student.email) %>"
 										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_EDIT %>')"
 										onmouseout="hideddrivetip()"
 										<%= CoordEvalResultsHelper
