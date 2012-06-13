@@ -653,3 +653,7 @@ ul#navbar li a:visited {
 .bold {
 	font-weight: bold;
 }
+
+label{
+	margin-right: 5px;
+}

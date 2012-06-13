@@ -12,11 +12,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
-
-import teammates.datatransfer.EvalResultData;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -485,6 +482,11 @@ public class Common {
 		return cal.getTime();
 	}
 
+	/**
+	 * Returns the date object with specified offset in number of ms from now
+	 * @param offsetMilliseconds
+	 * @return
+	 */
 	public static Date getMilliSecondOffsetToCurrentTime(int offsetMilliseconds) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(cal.getTime());
@@ -492,6 +494,11 @@ public class Common {
 		return cal.getTime();
 	}
 	
+	/**
+	 * Returns the date object representing the next full hour from now.
+	 * Example: If now is 1055, this will return 1100
+	 * @return
+	 */
 	public static Date getNextHour() {
 		Calendar cal = GregorianCalendar.getInstance();
 		cal.add(Calendar.HOUR_OF_DAY, 1);
@@ -565,7 +572,6 @@ public class Common {
 		return string.trim().isEmpty();
 	}
 
-	// TODO: write unit tests
 	public static String generateStringOfLength(int length) {
 		assert (length >= 0);
 		StringBuilder sb = new StringBuilder();
