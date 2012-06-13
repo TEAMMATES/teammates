@@ -1266,11 +1266,24 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader();
 		refreshDataInDatastore();
 
+		______TS("student having multiple evaluations in multiple courses");
+
 		StudentData studentInTwoCourses = dataBundle.students
 				.get("student2InCourse1");
 		List<CourseData> courseList = apiServlet
 				.getCourseDetailsListForStudent(studentInTwoCourses.id);
-		// assertEquals(2, courseList.size());
+		assertEquals(2, courseList.size());
+		CourseData expectedCourse1 = dataBundle.courses.get("course1OfCoord2");
+		CourseData actualCourse1 = courseList.get(0);
+		assertEquals(expectedCourse1.id, actualCourse1.id);
+		assertEquals(expectedCourse1.name, actualCourse1.name);
+		assertEquals(1, actualCourse1.evaluations.size());
+
+		CourseData expectedCourse2 = dataBundle.courses.get("course1OfCoord1");
+		CourseData actualCourse2 = courseList.get(1);
+		assertEquals(expectedCourse2.id, actualCourse2.id);
+		assertEquals(expectedCourse2.name, actualCourse2.name);
+		assertEquals(2, actualCourse2.evaluations.size());
 
 		// TODO: implement this
 		// input: googleId
@@ -1279,8 +1292,33 @@ public class APIServletTest extends BaseTestCase {
 		// does not exist)
 	}
 
+	// @Test
+	// public void testGetEvaulationListForStudent() throws Exception {
+	//
+	// printTestCaseHeader();
+	// refreshDataInDatastore();
+	//
+	// ______TS("student having multiple evaluations in multiple courses");
+	//
+	// StudentData studentInTwoCourses = dataBundle.students
+	// .get("student2InCourse1");
+	// List<EvaluationData> evaluations =
+	// invokeGetEvaluationListForStudent(studentInTwoCourses.id);
+	// assertEquals(2, evaluations.size());
+	// // CourseData course1 = dataBundle.evaluations.get("course1OfCoord2");
+	// // assertEquals(course1.id, evaluations.get(0).id);
+	// // assertEquals(course1.name, evaluations.get(0).name);
+	//
+	// // TODO: implement this
+	//
+	// }
+
 	@Test
-	public void testGetEvauationResultForStudent() {
+	public void testGetEvauationResultForStudent() throws Exception {
+
+		printTestCaseHeader();
+		refreshDataInDatastore();
+
 		// TODO: implement this
 		// input: course, email,evalName
 		// output: EvaluationResult
@@ -2164,6 +2202,17 @@ public class APIServletTest extends BaseTestCase {
 		Object[] params = new Object[] { team, teamResult };
 		privateMethod.invoke(apiServlet, params);
 	}
+
+	// @SuppressWarnings("unchecked")
+	// private ArrayList<EvaluationData> invokeGetEvaluationListForStudent(
+	// String googleId) throws Exception {
+	// Method privateMethod = APIServlet.class.getDeclaredMethod(
+	// "getEvaluationListForStudent", new Class[] { String.class });
+	// privateMethod.setAccessible(true);
+	// Object[] params = new Object[] { googleId };
+	// return (ArrayList<EvaluationData>) privateMethod.invoke(apiServlet,
+	// params);
+	// }
 
 	private SubmissionData createSubmission(int from, int to) {
 		SubmissionData submission = new SubmissionData();

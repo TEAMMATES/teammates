@@ -1517,9 +1517,19 @@ public class APIServlet extends HttpServlet {
 		return Courses.inst().getCourseListForStudent(googleId);
 	}
 
-	public List<CourseData> getCourseDetailsListForStudent(String googleId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<CourseData> getCourseDetailsListForStudent(String googleId)
+			throws EntityDoesNotExistException, InvalidParametersException {
+		List<CourseData> courseList = getCourseListForStudent(googleId);
+		for (CourseData c : courseList) {
+			List<Evaluation> evaluationList = Evaluations.inst()
+					.getEvaluationList(c.id);
+			for (Evaluation e : evaluationList) {
+				EvaluationData ed = new EvaluationData(e);
+				log.fine("Adding evaluation " + ed.name + " to course " + c.id);
+				c.evaluations.add(ed);
+			}
+		}
+		return courseList;
 	}
 
 	@SuppressWarnings("unused")
@@ -1854,6 +1864,11 @@ public class APIServlet extends HttpServlet {
 
 		}
 	}
+
+	// private List<EvaluationData> getEvaluationListForStudent(String googleId)
+	// {
+	// return null;
+	// }
 
 	private boolean isInEnrollList(StudentData student,
 			ArrayList<StudentData> studentInfoList) {

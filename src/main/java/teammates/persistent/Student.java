@@ -1,5 +1,7 @@
 package teammates.persistent;
 
+import java.util.logging.Logger;
+
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -23,12 +25,14 @@ import com.google.appengine.api.datastore.Text;
  */
 @PersistenceCapable
 public class Student {
+
+	private static Logger log = Common.getLogger();
 	/**
 	 * The student's Google ID
 	 */
 	@Persistent
 	@SerializedName("google_id")
-	private String ID =null;
+	private String ID = null;
 
 	@Persistent
 	@SerializedName("email")
@@ -40,14 +44,14 @@ public class Student {
 
 	@Persistent
 	@SerializedName("name")
-	private String name=null;
+	private String name = null;
 
 	@Persistent
-	private String comments =null;
+	private String comments = null;
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private transient Long registrationKey=null;
+	private transient Long registrationKey = null;
 
 	@Persistent
 	@SerializedName("teamname")
@@ -55,12 +59,12 @@ public class Student {
 
 	@Persistent
 	private transient boolean courseArchived;
-	
-	//TODO: remove? not seem to be used
+
+	// TODO: remove? not seem to be used
 	@Persistent
 	@SerializedName("profilesummary")
 	private String profileSummary;
-	
+
 	@Persistent
 	@SerializedName("profiledetail")
 	private Text profileDetail = null;
@@ -107,59 +111,66 @@ public class Student {
 	public Student() {
 
 	}
-	
-	public Student(StudentData data){
+
+	public Student(StudentData data) {
 		setID(data.id);
 		setEmail(data.email);
 		setCourseID(data.course);
 		setName(data.name);
 		setComments(data.comments);
 		setTeamName(data.team);
-		//registration key not used
+		// registration key not used
 		setProfileDetail(data.profile);
 	}
-	
-	public Student(String line, String courseId) throws InvalidParametersException{
-		
-		int TEAM_POS=0;
-		int NAME_POS=1;
-		int EMAIL_POS=2;
-		int COMMENT_POS=3;
-		
-		if ((line==null)||(courseId==null)) {
-			throw new InvalidParametersException(Common.ERRORCODE_NULL_PARAMETER, "Enrollment line cannot be null");
+
+	public Student(String line, String courseId)
+			throws InvalidParametersException {
+
+		int TEAM_POS = 0;
+		int NAME_POS = 1;
+		int EMAIL_POS = 2;
+		int COMMENT_POS = 3;
+
+		if ((line == null) || (courseId == null)) {
+			throw new InvalidParametersException(
+					Common.ERRORCODE_NULL_PARAMETER,
+					"Enrollment line cannot be null");
 		}
-		if ((line.equals(""))||(courseId.equals(""))) {
-			throw new InvalidParametersException(Common.ERRORCODE_EMPTY_STRING, "Enrollment line cannot be empty");
+		if ((line.equals("")) || (courseId.equals(""))) {
+			throw new InvalidParametersException(Common.ERRORCODE_EMPTY_STRING,
+					"Enrollment line cannot be empty");
 		}
-		
-		String[] parts = line.replace("|","\t").split("\t");
-		
-		if((parts.length<3)||(parts.length>4)) {
-			throw new InvalidParametersException(Common.ERRORCODE_INCORRECTLY_FORMATTED_STRING, "Enrollment line has too few or too many segments");
+
+		String[] parts = line.replace("|", "\t").split("\t");
+
+		if ((parts.length < 3) || (parts.length > 4)) {
+			throw new InvalidParametersException(
+					Common.ERRORCODE_INCORRECTLY_FORMATTED_STRING,
+					"Enrollment line has too few or too many segments");
 		}
-		
+
 		String paramCourseId = courseId.trim();
 		Common.validateCourseId(paramCourseId);
-		
-		String paramTeam = parts[TEAM_POS].trim() ;
+
+		String paramTeam = parts[TEAM_POS].trim();
 		Common.validateTeamName(paramTeam);
-		
+
 		String paramName = parts[NAME_POS].trim();
 		Common.validateStudentName(paramName);
-		
+
 		String paramEmail = parts[EMAIL_POS].trim();
 		Common.validateEmail(paramEmail);
-		
-		String paramComment = parts.length==4 ? parts[COMMENT_POS].trim():"";
+
+		String paramComment = parts.length == 4 ? parts[COMMENT_POS].trim()
+				: "";
 		Common.validateComment(paramComment);
-		
+
 		setTeamName(paramTeam);
 		setName(paramName);
 		setEmail(paramEmail);
 		setCourseID(paramCourseId);
 		setComments(paramComment);
-		
+
 	}
 
 	public void setEmail(String email) {
@@ -171,7 +182,7 @@ public class Student {
 	}
 
 	public void setID(String ID) {
-		this.ID = (ID==null? null : ID.trim());
+		this.ID = (ID == null ? null : ID.trim());
 	}
 
 	public String getID() {
@@ -187,7 +198,7 @@ public class Student {
 	}
 
 	public void setComments(String comments) {
-		this.comments = (comments==null? null : comments.trim());
+		this.comments = (comments == null ? null : comments.trim());
 	}
 
 	public String getComments() {
@@ -212,13 +223,13 @@ public class Student {
 	}
 
 	public void setTeamName(String teamName) {
-		this.teamName = (teamName==null ? null :teamName.trim());
+		this.teamName = (teamName == null ? null : teamName.trim());
 	}
 
 	public String getTeamName() {
 		return teamName;
 	}
-	
+
 	public void setProfileSummary(String profileSummary) {
 		this.profileSummary = profileSummary.trim();
 	}
@@ -226,7 +237,7 @@ public class Student {
 	public String getProfileSummary() {
 		return profileSummary;
 	}
-	
+
 	public void setProfileDetail(Text profileDetail) {
 		this.profileDetail = profileDetail;
 	}

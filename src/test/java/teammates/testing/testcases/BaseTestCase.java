@@ -72,14 +72,14 @@ public class BaseTestCase {
 		java.util.logging.Logger.getLogger("").setLevel(level);
 	}
 
-	protected static void turnLogginUp(Class<EvaluationData> classBeingTested)
+	protected static void turnLogginUp(Class<?> classBeingTested)
 			throws NoSuchFieldException, IllegalAccessException {
 		setGeneralLoggingLevel(Level.WARNING);
 		setLogLevelOfClass(classBeingTested, Level.FINE);
 		setConsoleLoggingLevel(Level.FINE);
 	}
 
-	protected static void turnLoggingDown(Class<EvaluationData> classBeingTested)
+	protected static void turnLoggingDown(Class<?> classBeingTested)
 			throws NoSuchFieldException, IllegalAccessException {
 		setLogLevelOfClass(classBeingTested, Level.WARNING);
 		setConsoleLoggingLevel(Level.WARNING);

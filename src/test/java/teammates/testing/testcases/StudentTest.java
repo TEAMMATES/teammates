@@ -2,6 +2,7 @@ package teammates.testing.testcases;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -11,15 +12,16 @@ import teammates.api.InvalidParametersException;
 import teammates.api.TeammatesException;
 import teammates.persistent.Student;
 
-public class StudentTest extends BaseTestCase{
+public class StudentTest extends BaseTestCase {
 	@BeforeClass
-	public static void setUp(){
-
+	public static void setUp() throws Exception {
+		printTestClassHeader();
+		turnLogginUp(Student.class);
 	}
-	
+
 	@Test
 	public void testStudentConstructor() throws TeammatesException {
-
+		printTestCaseHeader();
 		// null parameters
 		verifyExceptionForStudentCreation("null line", null, "anyCoursId",
 				Common.ERRORCODE_NULL_PARAMETER);
@@ -30,8 +32,8 @@ public class StudentTest extends BaseTestCase{
 		verifyExceptionForStudentCreation("for empty line", "", "anyCoursId",
 				Common.ERRORCODE_EMPTY_STRING);
 		verifyExceptionForStudentCreation("for empty courseId", "any line", "",
-				Common.ERRORCODE_EMPTY_STRING);		
-		
+				Common.ERRORCODE_EMPTY_STRING);
+
 		Student expected;
 
 		// normal input, using tab as separator
@@ -45,10 +47,11 @@ public class StudentTest extends BaseTestCase{
 		enrollmentLine = "team 1|name 1\temail@email.com|comment 1";
 		verifyStudentContent(expected, new Student(enrollmentLine, "courseId1"));
 
-		//invalid courseId
+		// invalid courseId
 		verifyExceptionForStudentCreation("invalid coursId [has a space]",
-				"team|name|e@e.com|c", "Cours Id with space", Common.ERRORCODE_INVALID_CHARS);
-		
+				"team|name|e@e.com|c", "Cours Id with space",
+				Common.ERRORCODE_INVALID_CHARS);
+
 		// wrong number of parameters in the line
 		verifyExceptionForStudentCreation("only one parameters", "a",
 				"anyCoursId", Common.ERRORCODE_INCORRECTLY_FORMATTED_STRING);
@@ -65,20 +68,26 @@ public class StudentTest extends BaseTestCase{
 				"anyCoursId", Common.ERRORCODE_EMPTY_STRING);
 
 		// invalid values for attributes in the line
-		String longTeamName = Common.generateStringOfLength(Common.TEAM_NAME_MAX_LENGTH+1);
+		String longTeamName = Common
+				.generateStringOfLength(Common.TEAM_NAME_MAX_LENGTH + 1);
 		verifyExceptionForStudentCreation("invalid team name [too long]",
-				longTeamName+"|name|e@e.com|c", "anyCoursId", Common.ERRORCODE_STRING_TOO_LONG);
-		String longStudentName = Common.generateStringOfLength(Common.STUDENT_NAME_MAX_LENGTH+1);
+				longTeamName + "|name|e@e.com|c", "anyCoursId",
+				Common.ERRORCODE_STRING_TOO_LONG);
+		String longStudentName = Common
+				.generateStringOfLength(Common.STUDENT_NAME_MAX_LENGTH + 1);
 		verifyExceptionForStudentCreation("invalid student name [too long]",
-				"t1|"+longStudentName+"|e@e.com|c", "anyCoursId", Common.ERRORCODE_STRING_TOO_LONG);
+				"t1|" + longStudentName + "|e@e.com|c", "anyCoursId",
+				Common.ERRORCODE_STRING_TOO_LONG);
 		verifyExceptionForStudentCreation("invalid email [no '@']",
 				"t1|n|ee.com|c", "anyCoursId", Common.ERRORCODE_INVALID_EMAIL);
-		String longComment = Common.generateStringOfLength(Common.COMMENT_MAX_LENGTH+1);
+		String longComment = Common
+				.generateStringOfLength(Common.COMMENT_MAX_LENGTH + 1);
 		verifyExceptionForStudentCreation("invalid comment [too long]",
-				"t|name|e@e.com|"+longComment, "anyCoursId", Common.ERRORCODE_STRING_TOO_LONG);
+				"t|name|e@e.com|" + longComment, "anyCoursId",
+				Common.ERRORCODE_STRING_TOO_LONG);
 
 		// Other invalid parameters cases are omitted because they are already
-		//  unit-tested in validate*() methods in Common.java
+		// unit-tested in validate*() methods in Common.java
 
 		// extra white space
 		expected = generateTypicalStudentObject();
@@ -98,8 +107,9 @@ public class StudentTest extends BaseTestCase{
 		verifyStudentContent(expected, new Student(enrollmentLine, "courseId1"));
 
 	}
-	
+
 	private Student generateTypicalStudentObject() {
+		printTestCaseHeader();
 		Student expected = new Student("email@email.com", "name 1",
 				"comment 1", "courseId1", "team 1");
 		return expected;
@@ -107,6 +117,7 @@ public class StudentTest extends BaseTestCase{
 
 	private void verifyExceptionForStudentCreation(String testCaseDesc,
 			String line, String courseId, String errorCode) {
+		printTestCaseHeader();
 		try {
 			new Student(line, courseId);
 			Assert.fail("Did not throw exception for " + testCaseDesc);
@@ -117,11 +128,16 @@ public class StudentTest extends BaseTestCase{
 	}
 
 	private void verifyStudentContent(Student expected, Student actual) {
+		printTestCaseHeader();
 		assertEquals(expected.getTeamName(), actual.getTeamName());
 		assertEquals(expected.getName(), actual.getName());
 		assertEquals(expected.getEmail(), actual.getEmail());
 		assertEquals(expected.getComments(), actual.getComments());
 	}
 
+	@AfterClass
+	public static void tearDownClass() throws Exception {
+		turnLoggingDown(Student.class);
+	}
 
 }
