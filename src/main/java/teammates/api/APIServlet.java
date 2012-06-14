@@ -1618,13 +1618,17 @@ public class APIServlet extends HttpServlet {
 	private void ____EVALUATION_level_methods______________________________() {
 	}
 
+	/**
+	 * Note: 
+	 * @throws EntityAlreadyExistsException
+	 * @throws InvalidParametersException is thrown if any of the parameters  
+	 * puts the evaluation in an invalid state (e.g., endTime is set before
+	 * startTime). However, setting start time to a past time is allowed.
+	 */
 	public void createEvaluation(EvaluationData evaluation)
 			throws EntityAlreadyExistsException, InvalidParametersException {
-		if (evaluation == null) {
-			throw new InvalidParametersException(
-					Common.ERRORCODE_NULL_PARAMETER,
-					"Evaluation cannot be null ");
-		}
+		Common.verifyNotNull(evaluation, "evaluation");
+		evaluation.validate();
 		Evaluations.inst().addEvaluation(evaluation.toEvaluation());
 	}
 
@@ -1636,6 +1640,8 @@ public class APIServlet extends HttpServlet {
 
 	public void editEvaluation(EvaluationData evaluation)
 			throws EntityDoesNotExistException, InvalidParametersException {
+		Common.verifyNotNull(evaluation, "evaluation");
+		evaluation.validate();
 		Evaluations.inst().editEvaluation(evaluation.course, evaluation.name,
 				evaluation.instructions, evaluation.p2pEnabled,
 				evaluation.startTime, evaluation.endTime,

@@ -1694,7 +1694,7 @@ public class APIServletTest extends BaseTestCase {
 		eval1.gracePeriod = eval1.gracePeriod + 1;
 		eval1.instructions = eval1.instructions + "x";
 		eval1.p2pEnabled = (!eval1.p2pEnabled);
-		eval1.startTime = Common.getDateOffsetToCurrentTime(1);
+		eval1.startTime = Common.getDateOffsetToCurrentTime(-1);
 		eval1.endTime = Common.getDateOffsetToCurrentTime(2);
 		apiServlet.editEvaluation(eval1);
 		verifyPresentInDatastore(eval1);
