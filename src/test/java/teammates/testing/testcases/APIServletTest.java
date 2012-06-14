@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
@@ -1927,7 +1926,8 @@ public class APIServletTest extends BaseTestCase {
 
 	private void createNewEvaluationWithSubmissions(String courseId,
 			String evaluationName, int[][] input)
-			throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+			throws EntityAlreadyExistsException, InvalidParametersException,
+			EntityDoesNotExistException {
 		// create course
 		apiServlet.createCourse("coordForTestingER", courseId,
 				"Course For Testing Evaluation Results");
@@ -2183,32 +2183,37 @@ public class APIServletTest extends BaseTestCase {
 			assertEquals(evaluation.course, s.course);
 			assertEquals(evaluation.name, s.evaluation);
 			assertEquals(student.email, s.reviewer);
+			assertEquals(student.name, s.reviewerName);
+			assertEquals(
+					apiServlet.getStudent(evaluation.course, s.reviewee).name,
+					s.revieweeName);
 		}
-		
+
 		______TS("orphan submissions");
 
-		//TODO: test this after implementing lazy creation
-		
+		// TODO: test this after implementing lazy creation
+
 		______TS("null parameters");
 
 		try {
-			apiServlet.getSubmissionsFromStudent(null,
-					evaluation.name, student.email);
+			apiServlet.getSubmissionsFromStudent(null, evaluation.name,
+					student.email);
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
 			Common.assertContains("course id", e.getMessage().toLowerCase());
 		}
-		
+
 		try {
-			apiServlet.getSubmissionsFromStudent(evaluation.course,
-					null, student.email);
+			apiServlet.getSubmissionsFromStudent(evaluation.course, null,
+					student.email);
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
-			Common.assertContains("evaluation name", e.getMessage().toLowerCase());
+			Common.assertContains("evaluation name", e.getMessage()
+					.toLowerCase());
 		}
-		
+
 		try {
 			apiServlet.getSubmissionsFromStudent(evaluation.course,
 					evaluation.name, null);
@@ -2217,9 +2222,9 @@ public class APIServletTest extends BaseTestCase {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
 			Common.assertContains("student email", e.getMessage().toLowerCase());
 		}
-		
+
 		______TS("course/evaluation/student does not exist");
-		
+
 		try {
 			apiServlet.getSubmissionsFromStudent("non-existent",
 					evaluation.name, student.email);
@@ -2227,15 +2232,15 @@ public class APIServletTest extends BaseTestCase {
 		} catch (EntityDoesNotExistException e) {
 			Common.assertContains("non-existent", e.getMessage());
 		}
-		
+
 		try {
 			apiServlet.getSubmissionsFromStudent(evaluation.course,
-					"non-existent"	, student.email);
+					"non-existent", student.email);
 			fail();
 		} catch (EntityDoesNotExistException e) {
 			Common.assertContains("non-existent", e.getMessage());
 		}
-		
+
 		try {
 			apiServlet.getSubmissionsFromStudent(evaluation.course,
 					evaluation.name, "non-existent");
@@ -2259,11 +2264,28 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader();
 		refreshDataInDatastore();
 
-		SubmissionData submissionData = dataBundle.submissions
+		______TS("typical case");
+		SubmissionData expected = dataBundle.submissions
 				.get("submissionFromS1C1ToS1C1");
-		verifyPresentInDatastore(submissionData);
-		// TODO: more testing
-		// e.g., lazyCreation
+		verifyPresentInDatastore(expected);
+		
+		______TS("null parameters");
+		//no need to check for null as this is a private method
+		
+		______TS("non-existent");
+		
+		assertEquals(null, invokeGetSubmission("non-existent",
+				expected.evaluation, expected.reviewer, expected.reviewee));
+		assertEquals(null, invokeGetSubmission(expected.course,
+				"non-existent", expected.reviewer, expected.reviewee));
+		assertEquals(null, invokeGetSubmission(expected.course,
+				expected.evaluation, "non-existent", expected.reviewee));
+		assertEquals(null, invokeGetSubmission(expected.course,
+				expected.evaluation, expected.reviewer, "non-existent"));
+		
+		______TS("lazy creation");
+		// This need not be tested here because this method does not have
+		// enough information to activate lazy creation.
 	}
 
 	@Test
@@ -2520,7 +2542,7 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	private void verifyPresentInDatastore(String dataBundleJsonString)
-			throws EntityDoesNotExistException {
+			throws Exception {
 
 		DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
 		HashMap<String, CoordData> coords = data.coords;
@@ -2566,9 +2588,9 @@ public class APIServletTest extends BaseTestCase {
 
 	}
 
-	private void verifyAbsentInDatastore(SubmissionData submission) {
+	private void verifyAbsentInDatastore(SubmissionData submission) throws Exception {
 		assertEquals(null,
-				apiServlet.getSubmission(submission.course,
+				invokeGetSubmission(submission.course,
 						submission.evaluation, submission.reviewer,
 						submission.reviewee));
 	}
@@ -2641,8 +2663,8 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
 	}
 
-	private void verifyPresentInDatastore(SubmissionData expected) {
-		SubmissionData actual = apiServlet.getSubmission(expected.course,
+	private void verifyPresentInDatastore(SubmissionData expected) throws Exception {
+		SubmissionData actual = invokeGetSubmission(expected.course,
 				expected.evaluation, expected.reviewer, expected.reviewee);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
@@ -2756,6 +2778,17 @@ public class APIServletTest extends BaseTestCase {
 		return (HashMap<String, SubmissionData>) privateMethod.invoke(
 				apiServlet, params);
 	}
+	
+	private SubmissionData invokeGetSubmission(String course,
+			String evaluation, String reviewer, String reviewee)
+			throws Exception {
+		Method privateMethod = APIServlet.class.getDeclaredMethod(
+				"getSubmission", new Class[] { String.class, String.class,
+						String.class, String.class });
+		privateMethod.setAccessible(true);
+		Object[] params = new Object[] { course, evaluation, reviewer, reviewee };
+		return (SubmissionData) privateMethod.invoke(apiServlet, params);
+	}
 
 	private SubmissionData createSubmission(int from, int to) {
 		SubmissionData submission = new SubmissionData();
@@ -2769,12 +2802,13 @@ public class APIServletTest extends BaseTestCase {
 		return submission;
 	}
 
-	private void setPointsForSubmissions(int[][] points) throws InvalidParametersException, EntityDoesNotExistException {
+	private void setPointsForSubmissions(int[][] points)
+			throws Exception {
 		int teamSize = points.length;
 		ArrayList<SubmissionData> submissions = new ArrayList<SubmissionData>();
 		for (int i = 0; i < teamSize; i++) {
 			for (int j = 0; j < teamSize; j++) {
-				SubmissionData s = apiServlet.getSubmission(
+				SubmissionData s = invokeGetSubmission(
 						"idOfCourse1OfCoord1", "evaluation1 In Course1",
 						"student" + (i + 1) + "InCourse1@gmail.com", "student"
 								+ (j + 1) + "InCourse1@gmail.com");

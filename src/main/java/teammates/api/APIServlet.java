@@ -1713,11 +1713,26 @@ public class APIServlet extends HttpServlet {
 		StudentData student = getStudent(courseId, reviewerEmail);
 		ArrayList<SubmissionData> returnList = new ArrayList<SubmissionData>();
 		for (Submission s : submissions) {
-			if (student.team.equals(s.getTeamName())) {
-				returnList.add(new SubmissionData(s));
+			StudentData reviewee = getStudent(courseId, s.getToStudent());
+			if (!isOrphanSubmission(student, reviewee, s)) {
+				SubmissionData sd = new SubmissionData(s);
+				sd.reviewerName = student.name;
+				sd.revieweeName = reviewee.name;
+				returnList.add(sd);
 			}
 		}
 		return returnList;
+	}
+
+	private boolean isOrphanSubmission(StudentData reviewer,
+			StudentData reviewee, Submission submission) {
+		if (!submission.getTeamName().equals(reviewer.team)) {
+			return true;
+		}
+		if (!submission.getTeamName().equals(reviewee.team)) {
+			return true;
+		}
+		return false;
 	}
 
 	@SuppressWarnings("unused")
@@ -1731,15 +1746,8 @@ public class APIServlet extends HttpServlet {
 						+ "are created automatically");
 	}
 
-	// only for TMAPI
-	public SubmissionData getSubmission(String courseId, String evaluationName,
-			String reviewerEmail, String revieweeEmail) {
-		Submission submission = Evaluations.inst().getSubmission(courseId,
-				evaluationName, reviewerEmail, revieweeEmail);
-		return (submission == null ? null : new SubmissionData(submission));
-	}
 
-	// TODO: change to editSubmissions
+
 	public void editSubmissions(List<SubmissionData> submissionDataList) 
 			throws EntityDoesNotExistException, InvalidParametersException{
 		ArrayList<Submission> submissions = new ArrayList<Submission>();
@@ -1959,10 +1967,12 @@ public class APIServlet extends HttpServlet {
 		}
 	}
 
-	// private List<EvaluationData> getEvaluationListForStudent(String googleId)
-	// {
-	// return null;
-	// }
+	private SubmissionData getSubmission(String courseId, String evaluationName,
+			String reviewerEmail, String revieweeEmail) {
+		Submission submission = Evaluations.inst().getSubmission(courseId,
+				evaluationName, reviewerEmail, revieweeEmail);
+		return (submission == null ? null : new SubmissionData(submission));
+	}
 
 	private boolean isInEnrollList(StudentData student,
 			ArrayList<StudentData> studentInfoList) {
