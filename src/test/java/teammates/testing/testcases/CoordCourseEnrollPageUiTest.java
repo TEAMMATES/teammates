@@ -56,7 +56,7 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
-		printTestClassFooter("CoordHomeUITest");
+		printTestClassFooter("CoordCourseEnrollUITest");
 	}
 	
 	@Test

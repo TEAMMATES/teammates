@@ -18,6 +18,7 @@ import teammates.testing.junit.TMAPITest;
 		// Ui tests
 		CoordCourseAddPageUiTest.class, 
 		CoordCourseEnrollPageUiTest.class,
+		CoordCourseDetailsPageUiTest.class,
 		CoordEvalPageUiTest.class,
 		CoordEvalResultsPageUiTest.class,
 		CoordHomePageUiTest.class })

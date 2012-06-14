@@ -11,73 +11,15 @@ var EVAL_NAME_MAX_LENGTH = 38;
 
 //PARAMETERS
 var COURSE_ID = "courseid";
-var COURSE_NAME = "coursename";
-var COURSE_NUMBEROFTEAMS = "coursenumberofteams";
-var COURSE_TOTALSTUDENTS = "coursetotalstudents";
-var COURSE_UNREGISTERED = "courseunregistered";
-var COURSE_STATUS = "coursestatus";
 
-var EVALUATION_ACTIVATED = "activated";
-var EVALUATION_ARCHIVED = "evaluationarchived";
-var EVALUATION_COMMENTSENABLED = "commentsstatus";
-var EVALUATION_DEADLINE = "deadline";
-var EVALUATION_DEADLINETIME = "deadlinetime";
-var EVALUATION_GRACEPERIOD = "graceperiod";
-var EVALUATION_INSTRUCTIONS = "instr";
 var EVALUATION_NAME = "evaluationname";
-var EVALUATION_NUMBEROFCOMPLETEDEVALUATIONS = "numberofevaluations";
-var EVALUATION_NUMBEROFEVALUATIONS = "numberofcompletedevaluations";
-var EVALUATION_PUBLISHED = "published";
-var EVALUATION_START = "start";
-var EVALUATION_STARTTIME = "starttime";
-var EVALUATION_TIMEZONE = "timezone";
-var EVALUATION_TYPE = "evaluationtype";
 
-var STUDENT_COMMENTS = "comments";
-var STUDENT_COMMENTSEDITED = "commentsedited";
-var STUDENT_COMMENTSTOSTUDENT = "commentstostudent";
-var STUDENT_COURSEID = "courseid";
-var STUDENT_EDITCOMMENTS = "editcomments";
-var STUDENT_EDITEMAIL = "editemail";
-var STUDENT_EDITGOOGLEID = "editgoogleid";
-var STUDENT_EDITNAME = "editname";
-var STUDENT_EDITTEAMNAME = "editteamname";
 var STUDENT_EMAIL = "email";
-var STUDENT_FROMSTUDENT = "fromemail";
-var STUDENT_FROMSTUDENTCOMMENTS = "fromstudentcomments";
-var STUDENT_FROMSTUDENTNAME = "fromname";
 var STUDENT_ID = "id";
-var STUDENT_INFORMATION = "information";
-var STUDENT_JUSTIFICATION = "justification";
-var STUDENT_NAME = "name";
-var STUDENT_NAMEEDITED = "nameedited";
-var STUDENT_NUMBEROFSUBMISSIONS = "numberofsubmissions";
-var STUDENT_POINTS = "points";
-var STUDENT_POINTSBUMPRATIO = "pointsbumpratio";
-var STUDENT_REGKEY = "regkey";
-var STUDENT_STATUS = "status";
-var STUDENT_TEAMNAME = "teamname";
-var STUDENT_TEAMNAMEEDITED = "teamnameedited";
-var STUDENT_TOSTUDENT = "toemail";
-var STUDENT_TOSTUDENTCOMMENTS = "tostudentcomments";
-var STUDENT_TOSTUDENTNAME = "toname";
-
-//RESPONSE TAG
-var TAG_COORDINATOR_COURSE = "courses";
-
-//user type
-var STUDENT = "Student";
-var COORDINATOR = "Coordinator";
 
 //title names:
 var EVALUATION_PENDING = "Pending Evaluations:";
 var EVALUATION_PAST = "Past Evaluations:";
-
-//evaluation contents:
-var REVIEWEE_TITLE_INDIVIDUAL = "Individual Submission - By Reviewee";
-var REVIEWER_TITLE_INDIVIDUAL = "Individual Submission - By Reviewer";
-var REVIEWEE_TITLE_DETAIL = "Detailed Evaluation Results - By Reviewee";
-var REVIEWER_TITLE_DETAIL = "Detailed Evaluation Results - By Reviewer";
 
 //attributes names:
 var TEAM = "Team";
@@ -113,139 +55,9 @@ var OPERATION_COORDINATOR_SENDREGISTRATIONKEYS = "coordinator_sendregistrationke
 //messages:
 var DISPLAY_ERROR_UNDEFINED_HTTPREQUEST = "Error: Undefined XMLHttpRequest.";
 var DISPLAY_SERVERERROR = "Connection to the server has timed out. Please refresh the page.";
-
-var COORDINATOR_MESSAGE_NO_COURSE = "You have not created any courses yet. Use the form above to create a course.";
-var COORDINATOR_MESSAGE_NO_EVALUATION = "You have not created any evaluations yet. Use the form above to create a new evaluation.";
-var COORDINATOR_MESSAGE_NO_TEAMFORMINGSESSION = "You have not created any team forming sessions yet. Use the form above to create a new team forming session.";
-
-var HOVER_MESSAGE_CLAIMED = "This is student own estimation of his/her contributions to the project";
-var HOVER_MESSAGE_PERCEIVED = "This is the average of what other team members think this student contributed to the project";
-var HOVER_MESSAGE_PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
 /*------------------------------------------PRINT COORDINATOR PAGE------------------------------------------*/
 
-/*
- * helper: print course student list TODO: Merge into printCourseCoordinatorForm
- */
-function printStudentList(studentList, courseID) {
-	clearStatusMessage();
-
-	var output;
-	var unregisteredCount = 0;
-	var studentListLength = studentList.length;
-
-	output = "<table id=\"dataform\">"
-		+ "<tr>"
-		+ "<th><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortstudentname\">STUDENT NAME</input></th>"
-		+ "<th><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortstudentteam\">TEAM</input></th>"
-		+ "<th class='centeralign'><input class=\"buttonSortNone\" type=\"button\" id=\"button_sortstudentstatus\">STATUS</input></th>"
-		+ "<th class='centeralign'>ACTION(S)</th>" + "</tr>";
-
-	// Fix for empty student list
-	if (studentListLength == 0) {
-		setStatusMessage("No students enrolled in this course yet. Click <a class='t_course_enroll' href=\"javascript:displayEnrollmentPage('"
-				+ courseID + "');\">here</a> to enroll students.");
-
-		output = output + "<tr>" + "<td></td>" + "<td></td>" + "<td></td>"
-		+ "<td></td>" + "</tr>";
-	}
-
-	for (var loop = 0; loop < studentListLength; loop++) {
-		output = output + "<tr>" + "<td>" + studentList[loop].name + "</td>"
-		+ "<td>" + encodeCharForPrint(studentList[loop].teamName)
-		+ "</td>" + "<td class='centeralign'>";
-
-		if (studentList[loop].googleID == "")
-			output = output + "YET TO JOIN";
-		else
-			output = output + "JOINED";
-
-		output = output
-		+ "</td>"
-		+ "<td class='centeralign'>"
-		+ "<a class='t_student_view' href=\"javascript:displayStudentInformation('"
-		+ studentList[loop].courseID
-		+ "', '"
-		+ studentList[loop].email
-		+ "', '"
-		+ escape(studentList[loop].name)
-		+ "','"
-		+ escape(studentList[loop].teamName)
-		+ "','"
-		+ studentList[loop].googleID
-		+ "','"
-		+ studentList[loop].registrationKey
-		+ "','"
-		+ encodeChar(studentList[loop].comments)
-		+ "');hideddrivetip();\""
-		+ "onmouseover=\"ddrivetip('View the details of the student')\""
-		+ "onmouseout=\"hideddrivetip()\">View</a>"
-		+ "<a class='t_student_edit' href=\"javascript:displayEditStudent('"
-		+ studentList[loop].courseID
-		+ "', '"
-		+ studentList[loop].email
-		+ "', '"
-		+ escape(studentList[loop].name)
-		+ "','"
-		+ escape(studentList[loop].teamName)
-		+ "','"
-		+ studentList[loop].googleID
-		+ "','"
-		+ studentList[loop].registrationKey
-		+ "','"
-		+ encodeChar(studentList[loop].comments)
-		+ "');hideddrivetip();\""
-		+ "onmouseover=\"ddrivetip('Edit the details of the student')\""
-		+ "onmouseout=\"hideddrivetip()\">Edit</a>";
-
-		if (studentList[loop].googleID == "") {
-			output = output
-			+ "<a class='t_student_resend' href=\"javascript:doSendRegistrationKey('"
-			+ studentList[loop].courseID
-			+ "', '"
-			+ studentList[loop].email
-			+ "','"
-			+ studentList[loop].name
-			+ "');hideddrivetip();\""
-			+ "onmouseover=\"ddrivetip('E-mail the registration key to the student')\""
-			+ "onmouseout=\"hideddrivetip()\">Resend Invite</a>";
-		}
-
-		output = output
-		+ "<a class='t_student_delete' href=\"javascript:toggleDeleteStudentConfirmation('"
-		+ studentList[loop].courseID
-		+ "', '"
-		+ studentList[loop].email
-		+ "', '"
-		+ escape(studentList[loop].name)
-		+ "');hideddrivetip();\""
-		+ "onmouseover=\"ddrivetip('Delete the student and the corresponding evaluations from the course')\""
-		+ "onmouseout=\"hideddrivetip()\">Delete</a>" + "</td>"
-		+ "</tr>";
-
-		if (studentList[loop].googleID == "")
-			unregisteredCount++;
-	}
-
-	output = output + "</table>" + "<br />";
-
-	output = output
-	+ "<br /><br />"
-	+ "<input type=\"button\" class=\"button\" onclick=\"displayCoursesTab();\" value=\"Back\" />"
-	+ "<br /><br />";
-
-	document.getElementById(DIV_STUDENT_TABLE).innerHTML = output;
-	document.getElementById('button_sortstudentname').onclick = function() {
-		toggleSortStudentsByName(studentList);
-	};
-	document.getElementById('button_sortstudentteam').onclick = function() {
-		toggleSortStudentsByTeamName(studentList);
-	};
-	document.getElementById('button_sortstudentstatus').onclick = function() {
-		toggleSortStudentsByStatus(studentList);
-	};
-}
-
-/*
+/**
  * Coordinator view student detail (individual record) TODO: Improve UI,
  * abstract print_detail function:: printCourseStudentForm
  */
@@ -291,7 +103,7 @@ function printStudent(courseID, email, name, teamName, googleID,
 	document.getElementById(DIV_HEADER_OPERATION).innerHTML = outputHeader;
 }
 
-/*
+/**
  * Coordinator edit student detail TODO: Merge into printStudent
  */
 function printEditStudent(courseID, email, name, teamName, googleID,
@@ -360,7 +172,7 @@ function printEditStudent(courseID, email, name, teamName, googleID,
 	};
 }
 
-/*
+/**
  * Coordinator edit evaluation results
  */
 function printEditEvaluationResultsByReviewer(submissionList, summaryList,
@@ -726,7 +538,7 @@ function printEditEvaluationResultsByReviewer(submissionList, summaryList,
 
 /*------------------------------------------PRINT STUDENT PAGE------------------------------------------*/
 
-/*
+/**
  * Student view course info
  */
 function printCourseStudentForm(course) {
@@ -795,7 +607,7 @@ function printCourseStudentForm(course) {
 
 }
 
-/*
+/**
  * Student view pending evaluation list
  */
 function printPendingEvaluationList(evaluationList) {
@@ -844,7 +656,7 @@ function printPendingEvaluationList(evaluationList) {
 	}
 }
 
-/*
+/**
  * Student view past evaluation list
  */
 function printPastEvaluationList(evaluationList) {
@@ -968,7 +780,7 @@ function printPastEvaluationList(evaluationList) {
 	}
 }
 
-/*
+/**
  * Student do evaluation Student edit evaluation submission TODO: Improve UI
  */
 function printSubmissionForm(submissionList, commentsEnabled) {

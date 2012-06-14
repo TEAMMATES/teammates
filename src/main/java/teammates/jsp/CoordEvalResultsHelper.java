@@ -74,18 +74,18 @@ public class CoordEvalResultsHelper extends Helper{
 	public String printSharePoints(int points, boolean inline){
 		int delta = 0;
 		if (points == Common.POINTS_NOT_SUBMITTED || points==Common.UNINITIALIZED_INT) {
-			return "N/A";
+			return "<span class=\"color_negative\">N/A</span>";
 		} else if (points == Common.POINTS_NOT_SURE) {
-			return "Not sure";
+			return "<span class=\"color_negative\">Not sure</span>";
 		} else if (points == 0) {
-			return "0%";
+			return "<span class=\"color_negative\">0%</span>";
 		} else if (points > 100) {
 			delta = points - 100;
 			if(inline) return "Equal Share<span class=\"color_positive\"> + " + delta + "%</span>";
 			else return "Equal Share<br /><span class=\"color_positive\"> + " + delta + "%</span>";
 		} else if (points < 100) {
 			delta = 100 - points;
-			if(inline) return "Equal Share<span class=\"color_positive\"> - " + delta + "%</span>";
+			if(inline) return "Equal Share<span class=\"color_negative\"> - " + delta + "%</span>";
 			else return "Equal Share<br /><span class=\"color_negative\"> - " + delta + "%</span>";
 		} else {
 			return "Equal Share";

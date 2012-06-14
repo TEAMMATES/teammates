@@ -501,7 +501,7 @@ public class BrowserInstance {
 
 		login(username, password);
 
-		verifyCoordHomePage();
+		//verifyCoordHomePage();
 	}
 
 	/**
@@ -3356,7 +3356,6 @@ public class BrowserInstance {
 	 * <ul>
 	 * <li>ID: courseid</li>
 	 * <li>ID: coursename</li>
-	 * <li>ID: commentsstatus</li>
 	 * <li>ID: instr</li>
 	 * <li>ID: start</li>
 	 * <li>ID: starttime</li>
@@ -3370,7 +3369,7 @@ public class BrowserInstance {
 			if (x >= RETRY)
 				fail("Not in Coordinator Evaluation Page");
 	
-			if (isElementPresent(coordCourseInputCourseID) && isElementPresent(inputEvaluationName) && isElementPresent(inputPeerFeedbackStatus)
+			if (isElementPresent(coordCourseInputCourseID) && isElementPresent(inputEvaluationName)
 					&& isElementPresent(inputInstruction) && isElementPresent(inputOpeningDate) && isElementPresent(inputOpeningTime)
 					&& isElementPresent(inputClosingDate) && isElementPresent(inputClosingTime) && isElementPresent(inputGracePeriod))
 				break;

@@ -21,13 +21,22 @@ var DISPLAY_COURSE_LONG_ID = "Course ID should not exceed " + COURSE_ID_MAX_LENG
 var DISPLAY_COURSE_LONG_NAME = "Course name should not exceed " + COURSE_NAME_MAX_LENGTH + " characters.";
 var DISPLAY_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
 var DISPLAY_COURSE_INVALID_NAME = "Course name is invalid.";
+var DISPLAY_REMINDER_SENT = "Registration key has been sent to ";
+var DISPLAY_REMINDERS_SENT = "Emails have been sent to unregistered students.";
 
 //------------------------------Add Course Validation-----------------------------
+/**
+ * Prepares the input by trimming it
+ */
 function prepareAddCourseParams(courseID, courseName) {
 	courseID = courseID.trim();
 	courseName = courseName.trim();
 }
 
+/**
+ * Do pre-processing on the user's input, and then return the validation result.
+ * @returns {Boolean}
+ */
 function verifyAddCourse() {
 	var courseID = $("#"+COURSE_ID).val();
 	var courseName = $("#"+COURSE_NAME).val();
@@ -44,6 +53,11 @@ function verifyAddCourse() {
 	return true;
 }
 
+/**
+ * Converts error codes into displayable message
+ * @param statusCode
+ * @returns
+ */
 function courseStatusToMessage(statusCode) {
 	switch (statusCode) {
 	case COURSE_STATUS_SUCCESSFUL:
@@ -59,10 +73,16 @@ function courseStatusToMessage(statusCode) {
 	case COURSE_STATUS_INVALID_ID:
 		return DISPLAY_COURSE_INVALID_ID;
 	default:
-		return DISPLAY_SERVERERROR;
+		return "";
 	}
 }
 
+/**
+ * Function to check the user's input in addCourse page
+ * @param courseID
+ * @param courseName
+ * @returns {Number}
+ */
 function checkAddCourseParam(courseID, courseName) {
 	// empty fields
 	if (courseID == "" || courseName == "") {
@@ -93,8 +113,98 @@ function isCourseIDValid(courseID) {
 }
 
 /**
- * Coordinator Delete Course
+ * Functions to trigger registration key sending to a specific student in the
+ * course.
+ * Currently no confirmation dialog is shown.
+ * @param courseID
+ * @param email
+ * @param name
+ */
+function toggleSendRegistrationKey(courseID, email, name) {
+	scrollToTop();
+	setStatusMessage(DISPLAY_LOADING);
+	sendRegistrationKey(courseID, email);
+}
+
+/**
+ * Functions that actually sends the registration key request to server
+ * using AJAX (asynchronous)
+ * @param courseID
+ * @param email
+ * @param name
+ */
+function sendRegistrationKey(courseID, email, name) {
+	if (xmlhttp) {
+		xmlhttp.onreadystatechange = function(){
+			if (xmlhttp.readyState==4) {
+				if(xmlhttp.status==200){
+					setStatusMessage(DISPLAY_REMINDER_SENT+name);
+				} else {
+					alert(DISPLAY_SERVERERROR);
+				}
+			}
+		};
+		xmlhttp.open("POST", "/teammates", true);
+		xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded;");
+		xmlhttp.send("operation=" + OPERATION_COORDINATOR_SENDREGISTRATIONKEY
+				+ "&" + COURSE_ID + "=" + encodeURIComponent(courseID) + "&"
+				+ STUDENT_EMAIL + "=" + encodeURIComponent(email));
+	} else {
+		alert(DISPLAY_BROWSERERROR);
+	}
+}
+
+/**
+ * Function to trigger registration key sending to every unregistered students
+ * in the course.
+ * @param courseID
+ */
+function toggleSendRegistrationKeysConfirmation(courseID) {
+	if(confirm("Are you sure you want to send registration keys to all the unregistered students for them to join your course?"))
+		sendRegistrationKeys(courseID);
+}
+
+/**
+ * Function that actually send the registration key request to the server
+ * using AJAX (asynchronous)
+ * @param courseID
+ */
+function sendRegistrationKeys(courseID) {
+	if (xmlhttp) {
+		xmlhttp.onreadystatechange = function(){
+			if (xmlhttp.readyState==4) {
+				if(xmlhttp.status==200){
+					setStatusMessage(DISPLAY_REMINDERS_SENT);
+				} else {
+					alert(DISPLAY_SERVERERROR);
+				}
+			}
+		};
+		xmlhttp.open("POST", "/teammates", true);
+		xmlhttp.setRequestHeader("Content-Type",
+		"application/x-www-form-urlencoded;");
+		xmlhttp.send("operation=" + OPERATION_COORDINATOR_SENDREGISTRATIONKEYS
+				+ "&" + COURSE_ID + "=" + encodeURIComponent(courseID));
+	} else {
+		alert(DISPLAY_BROWSERERROR);
+	}
+}
+
+/**
+ * Function that shows confirmation dialog for removing a student from a course
+ * @param studentName
+ * @returns
+ */
+function toggleDeleteStudentConfirmation(studentName) {
+	return confirm("Are you sure you want to remove " + studentName + " from the course?");
+}
+
+/**
+ * Function that shows confirmation dialog for deleting a course
+ * @param courseID
+ * @returns
  */
 function toggleDeleteCourseConfirmation(courseID) {
-	return confirm("Are you sure you want to delete the course, \"" + courseID + "\"? This operation will delete all evaluations and students in this course.");
+	return confirm("Are you sure you want to delete the course: " + courseID + "?" +
+			"This operation will delete all students and evaluations in this course.");
 }

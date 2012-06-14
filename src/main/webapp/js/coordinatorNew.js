@@ -7,17 +7,13 @@ var cal = new CalendarPopup();
 /*-----------------------------------------------------------CONSTANTS-------------------------------------------------------*/
 
 //DISPLAY
-var DISPLAY_COURSE_ARCHIVED = "The course has been archived.";
 var DISPLAY_COURSE_DELETEDALLSTUDENTS = "All students have been removed from the course.";
 var DISPLAY_COURSE_DELETEDSTUDENT = "The student has been removed from the course.";
 var DISPLAY_COURSE_NOTEAMS = "<font color=\"#F00\">The course does not have any teams.</font>";
 var DISPLAY_COURSE_SENTREGISTRATIONKEY = "Registration key has been sent to ";
 var DISPLAY_COURSE_SENTREGISTRATIONKEYS = "Registration keys are sent to the students.";
-var DISPLAY_COURSE_UNARCHIVED = "The course has been unarchived.";
 var DISPLAY_EDITSTUDENT_FIELDSEMPTY = "<font color=\"#F00\">Please fill in all fields marked with an *.</font>";
 var DISPLAY_EVALUATION_ADDED_WITH_EMPTY_TEAMS = "The evaluation has been added. <font color=\"#F00\">Some students are without teams.</font>";
-var DISPLAY_EVALUATION_ARCHIVED = "The evaluation has been archived.";
-var DISPLAY_EVALUATION_UNARCHIVED = "The evaluation has been unarchived.";
 var DISPLAY_FIELDS_EMPTY = "<font color=\"#F00\">Please fill in all the relevant fields.</font>";
 var DISPLAY_LOADING = "<img src=/images/ajax-loader.gif /><br />";
 
@@ -174,43 +170,6 @@ function convertDateToHHMM(date) {
 	return formatDigit(date.getHours()) + formatDigit(date.getMinutes());
 }
 
-/*
- * Returns
- * 
- * 0: successful 1: server error
- */
-function deleteAllStudents(courseID) {
-	if (xmlhttp) {
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-		"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_DELETEALLSTUDENTS
-				+ "&" + COURSE_ID + "=" + encodeURIComponent(courseID));
-
-		return handleDeleteAllStudents(courseID);
-	}
-}
-
-/*
- * Returns
- * 
- * 0: successful 1: server error
- */
-function deleteStudent(courseID, studentEmail) {
-	if (xmlhttp) {
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-		"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_DELETESTUDENT + "&"
-				+ COURSE_ID + "=" + encodeURIComponent(courseID) + "&"
-				+ STUDENT_EMAIL + "=" + encodeURIComponent(studentEmail));
-
-		return handleDeleteStudent();
-	}
-}
-
-
-
 function displayEditEvaluation(evaluationList, loop) {
 	var courseID = evaluationList[loop].courseID;
 	var name = evaluationList[loop].name;
@@ -243,52 +202,6 @@ function displayStudentInformation(courseID, email, name, teamName, googleID,
 	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
 	printStudent(courseID, email, name, teamName, googleID, registrationKey,
 			comments);
-}
-
-function doDeleteAllStudents(courseID) {
-	setStatusMessage(DISPLAY_LOADING);
-
-	var results = deleteAllStudents(courseID);
-
-	if (results != 1) {
-		doGetCourse(courseID);
-		setStatusMessage(DISPLAY_COURSE_DELETEDALLSTUDENTS
-				+ " Click <a class='t_course_enroll' href=\"javascript:displayEnrollmentPage('"
-				+ courseID + "');\">here</a> to enroll students.");
-	}
-
-	else {
-		alert(DISPLAY_SERVERERROR);
-	}
-}
-
-function doDeleteStudent(courseID, email) {
-	setStatusMessage(DISPLAY_LOADING);
-
-	var student = getStudent(courseID, email);
-
-	var results = deleteStudent(courseID, email);
-
-	if (results != 1) {
-		displayCourseInformation(courseID);
-		setStatusMessage(DISPLAY_COURSE_DELETEDSTUDENT);
-
-		// deleting team profile if all students of a particular team are
-		// deleted
-		var teams = getTeamsOfCourse(courseID);
-		var loop;
-		var teamNameExists = 0;
-		for (loop = 0; loop < teams.length; loop++) {
-			if (teams[loop].teamName == student.teamName)
-				teamNameExists = 1;
-		}
-		if (teamNameExists == 0)
-			deleteTeamProfile(courseID, student.teamName);
-	}
-
-	else {
-		alert(DISPLAY_SERVERERROR);
-	}
 }
 
 function doEditEvaluation(courseID, name, editStart, editStartTime,
@@ -403,34 +316,6 @@ function doInformStudentsOfEvaluationChanges(courseID, name) {
 	}
 }
 
-function doSendRegistrationKey(courseID, email, name) {
-	setStatusMessage(DISPLAY_LOADING);
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-
-	var results = sendRegistrationKey(courseID, email);
-
-	clearStatusMessage();
-
-	if (results != 1) {
-		setStatusMessage(DISPLAY_COURSE_SENTREGISTRATIONKEY + name + ".");
-	} else {
-		alert(DISPLAY_SERVERERROR);
-	}
-}
-
-function doSendRegistrationKeys(courseID) {
-	setStatusMessage(DISPLAY_LOADING);
-
-	var results = sendRegistrationKeys(courseID);
-
-	clearStatusMessage();
-
-	if (results != 1) {
-		setStatusMessage(DISPLAY_COURSE_SENTREGISTRATIONKEYS);
-	} else {
-		alert(DISPLAY_SERVERERROR);
-	}
-}
 /*
  * Returns
  * 
@@ -830,37 +715,6 @@ function handleGetStudentList() {
 	}
 }
 
-/*
- * Returns
- * 
- * 0: successful 1: server error
- * 
- */
-function handleSendRegistrationKey() {
-	if (xmlhttp.status == CONNECTION_OK) {
-		return 0;
-	}
-
-	else {
-		return 1;
-	}
-}
-
-/*
- * Returns
- * 
- * 0: successful 1: server error
- */
-function handleSendRegistrationKeys() {
-	if (xmlhttp.status == CONNECTION_OK) {
-		return 0;
-	}
-
-	else {
-		return 1;
-	}
-}
-
 function informStudentsOfEvaluationChanges(courseID, name) {
 	if (xmlhttp) {
 		xmlhttp.open("POST", "/teammates", false);
@@ -920,25 +774,6 @@ function populateEditEvaluationResultsPointsForm(form, submissionList) {
  * 0: successful 1: server error
  * 
  */
-function sendRegistrationKey(courseID, email) {
-	if (xmlhttp) {
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-		"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_SENDREGISTRATIONKEY
-				+ "&" + COURSE_ID + "=" + encodeURIComponent(courseID) + "&"
-				+ STUDENT_EMAIL + "=" + encodeURIComponent(email));
-
-		return handleSendRegistrationKey();
-	}
-}
-
-/*
- * Returns
- * 
- * 0: successful 1: server error
- * 
- */
 function sendRegistrationKeys(courseID) {
 	if (xmlhttp) {
 		xmlhttp.open("POST", "/teammates", false);
@@ -981,29 +816,6 @@ function setSelectedOption(s, v) {
 	}
 }
 
-function toggleDeleteAllStudentsConfirmation(courseID) {
-	var s = confirm("Are you sure you want to remove all students from this course?");
-	if (s == true) {
-		doDeleteAllStudents(courseID);
-	} else {
-		clearStatusMessage();
-	}
-
-	document.getElementById(DIV_COURSE_INFORMATION).scrollIntoView(true);
-}
-
-function toggleDeleteStudentConfirmation(courseID, studentEmail, studentName) {
-	var s = confirm("Are you sure you want to remove " + studentName
-			+ " from the course?");
-	if (s == true) {
-		doDeleteStudent(courseID, studentEmail);
-	} else {
-		clearStatusMessage();
-	}
-
-	document.getElementById(DIV_COURSE_INFORMATION).scrollIntoView(true);
-}
-
 function toggleInformStudentsOfEvaluationChanges(courseID, name) {
 	var s = confirm("Do you want to send e-mails to the students to inform them of changes to the evaluation?");
 	if (s == true) {
@@ -1013,16 +825,6 @@ function toggleInformStudentsOfEvaluationChanges(courseID, name) {
 	}
 
 	document.getElementById(DIV_EVALUATION_MANAGEMENT).scrollIntoView(true);
-}
-
-function toggleSendRegistrationKeysConfirmation(courseID) {
-	var s = confirm("Are you sure you want to send registration keys to all the unregistered students for them to join your course?");
-	if (s == true) {
-		doSendRegistrationKeys(courseID);
-		setStatusMessage("Emails have been sent to unregistered students.");
-	} else {
-		clearStatusMessage();
-	}
 }
 
 function toggleSortStudentsByName(studentList, courseID) {

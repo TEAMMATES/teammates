@@ -62,14 +62,17 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordEvalHTML() throws Exception{
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalEmptyNew.html");
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalEmptyNew.html");
 
 		ImportTestData.main(new String[]{});
 		bi.goToEvaluation();
 
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalByIdNew.html");
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalByIdNew.html");
 
 		bi.click(By.id("button_sortname"));
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalByNameNew.html");
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalByNameNew.html");
 		
 		bi.click(By.id("button_sortcourseid"));

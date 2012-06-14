@@ -44,6 +44,11 @@ function logSummaryList(lst) {
 	}
 }
 
+/**
+ * Escape quotes
+ * @param str
+ * @returns
+ */
 function escape(str) {
 	str = str.replace(/'/g, "\\'");
 	return str;
@@ -242,8 +247,8 @@ $.fn.sortElements = (function(){
  * @param colIdx
  * 		The column index (1-based) as key for the sort
  */
-function toggleSort(divElement,colIdx) {
-	sortTable(divElement,colIdx);
+function toggleSort(divElement,colIdx,comparator) {
+	sortTable(divElement,colIdx,comparator);
 	$(".buttonSortAscending").attr("class","buttonSortNone");
 	$(divElement).attr("class","buttonSortAscending");
 }
@@ -255,14 +260,15 @@ function toggleSort(divElement,colIdx) {
  * @param colIdx
  * 		The column index (1-based) as key for the sort
  */
-function sortTable(oneOfTableCell, colIdx){
+function sortTable(oneOfTableCell, colIdx, comparator){
+	if(!comparator) comparator = sortBaseCell;
 	var table = $(oneOfTableCell);
 	if(!table.is("table")){
 		table = $(oneOfTableCell).parentsUntil("table");
 		table = $(table[table.length-1].parentNode);
 	}
 	keys = $("td:nth-child("+colIdx+")",table);
-	keys.sortElements( sortBaseCell, function(){return this.parentNode;} );
+	keys.sortElements( comparator, function(){return this.parentNode;} );
 }
 
 function sortBaseCell(cell1, cell2){
@@ -275,90 +281,57 @@ function sortBase(x, y) {
 	return ((x < y) ? -1 : ((x > y) ? 1 : 0));
 }
 
-function sortByAverage(a, b) {
-	var x = a.average;
-	var y = b.average;
+/**
+ * Comparator to sort strings in format: E([+-]x%) | N/A | N/S | 0%
+ * with possibly a tag that surrounds it.
+ * @param a
+ * @param b
+ */
+function sortByPoint(a, b){
+	a = getPointValue(a,true);
+	b = getPointValue(b,true);
+	
+	return sortBase(a,b);
+}
 
-	if (x == "N/A") {
-		x = 1000;
+/**
+ * Comparator to sort strings in format: [+-]x% | N/A
+ * with possibly a tag that surrounds it.
+ * @param a
+ * @param b
+ */
+function sortByDiff(a, b){
+	a = getPointValue(a,false);
+	b = getPointValue(b,false);
+	
+	return sortBase(a,b);
+}
+
+/**
+ * To get point value from a formatted string
+ * @param s
+ * @param ditchZero
+ * 		Whether 0% should be treated as lower than -90 or not
+ * @returns
+ */
+function getPointValue(s, ditchZero){
+	s = s.innerHTML;
+	if(s.lastIndexOf("<")!=-1){
+		s = s.substring(0,s.lastIndexOf("<"));
+		s = s.substring(s.lastIndexOf(">")+1);
 	}
-
-	if (y == "N/A") {
-		y = 1000;
+	if(s.indexOf("/")!=-1){
+		if(s.indexOf("S")!=-1) return 999; // Case N/S
+		return 1000; // Case N/A
 	}
-
-	return sortBase(x, y);
-}
-
-function sortByCourseID(a, b) {
-	var x = a.courseID.toLowerCase();
-	var y = b.courseID.toLowerCase();
-
-	return sortBase(x, y);
-}
-
-function sortByDiff(a, b) {
-	var x = a.difference;
-	var y = b.difference;
-
-	if (x == "N/A") {
-		x = 1000;
+	if(s=="0%"){ // Case 0%
+		if(ditchZero) return 0;
+		else return 100;
 	}
-
-	if (y == "N/A") {
-		y = 1000;
-	}
-
-	return sortBase(x, y);
-}
-
-function sortByFromStudentName(a, b) {
-	var x = a.fromStudentName;
-	var y = b.fromStudentName;
-
-	return sortBase(x, y);
-}
-
-function sortByID(a, b) {
-	var x = a.ID.toLowerCase();
-	var y = b.ID.toLowerCase();
-
-	return sortBase(x, y);
-}
-
-function sortByName(a, b) {
-	var x = a.name.toLowerCase();
-	var y = b.name.toLowerCase();
-
-	return sortBase(x, y);
-}
-
-function sortByGoogleID(a, b) {
-	var x = a.googleID;
-	var y = b.googleID;
-
-	return sortBase(x, y);
-}
-
-function sortBySubmitted(a, b) {
-	var x = a.submitted;
-	var y = b.submitted;
-
-	return sortBase(x, y);
-}
-
-function sortByTeamName(a, b) {
-	var x = a.teamName;
-	var y = b.teamName;
-
-	return sortBase(x, y);
-}
-
-function sortByToStudentName(a, b) {
-	var x = a.toStudentName;
-	var y = b.toStudentName;
-
-	return sortBase(x, y);
+	s = s.replace("E","");
+	s = s.replace("%","");
+	if(s=="") return 100; // Case E
+	return 100+eval(s); // Other typical cases
 }
 
 /**-----------------------UI Related Helper Functions-----------------------**/
@@ -392,14 +365,6 @@ function setStatusMessage(message, error) {
 	$(DIV_STATUS_MESSAGE).show();
 }
 
-function setStatusMessageToLoading() {
-	$(DIV_STATUS_MESSAGE).html(DISPLAY_LOADING).css("background","").show();
-}
-
 function clearStatusMessage() {
 	$(DIV_STATUS_MESSAGE).html("").css("background","").hide();
-}
-
-function alertServerError() {
-	alert(DISPLAY_SERVERERROR);
 }

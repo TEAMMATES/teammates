@@ -239,7 +239,7 @@ function getAndPrintCourseList() {
 	clearStatusMessage();
 
 	if (results == COURSE_STATUS_SERVERERROR) {
-		alertServerError();
+		alert(DISPLAY_SERVERERROR);
 		return;
 	}
 

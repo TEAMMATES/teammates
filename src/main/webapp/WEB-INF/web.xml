@@ -137,6 +137,24 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <url-pattern>/page/coordCourseEnroll</url-pattern>
 	</servlet-mapping>
 	<servlet>
+	    <description>Servlet that handles course details page</description>
+	    <servlet-name>CoordCourseDetails</servlet-name>
+	    <servlet-class>teammates.servlet.CoordCourseDetailsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>CoordCourseDetails</servlet-name>
+	    <url-pattern>/page/coordCourseDetails</url-pattern>
+	</servlet-mapping>
+	<servlet>
+	    <description>Servlet that handles course student delete page</description>
+	    <servlet-name>CoordCourseStudentDelete</servlet-name>
+	    <servlet-class>teammates.servlet.CoordCourseStudentDeleteServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>CoordCourseStudentDelete</servlet-name>
+	    <url-pattern>/page/coordCourseStudentDelete</url-pattern>
+	</servlet-mapping>
+	<servlet>
 	    <description>Servlet that handles evaluation page (includes evaluation add)</description>
 	    <servlet-name>CoordEval</servlet-name>
 	    <servlet-class>teammates.servlet.CoordEvalServlet</servlet-class>

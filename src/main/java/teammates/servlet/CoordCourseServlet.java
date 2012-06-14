@@ -91,5 +91,8 @@ public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
 				return obj1.id.compareTo(obj2.id);
 			}
 		});
+		if(helper.summary.length==0 && !helper.error){
+			helper.statusMessage = Common.MESSAGE_COURSE_EMPTY;
+		}
 	}
 }

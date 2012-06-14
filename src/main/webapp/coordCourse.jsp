@@ -105,8 +105,8 @@
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ENROLL %>')"
 									onmouseout="hideddrivetip()">Enroll</a>
 								<a class="t_course_view"
-									href="<%= helper.getCourseViewLink(course.id) %>"
-									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_VIEW %>')"
+									href="<%= helper.getCourseDetailsLink(course.id) %>"
+									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_DETAILS %>')"
 									onmouseout="hideddrivetip()">View</a>
 								<a class="t_course_delete"
 									href="<%= helper.getCourseDeleteLink(course.id,false) %>"
