@@ -70,6 +70,10 @@ public class EvalResultData {
 		}
 		return null;
 	}
+	
+	public String toString(){
+		return toString(0);
+	}
 
 	public String toString(int indent) {
 		String indentString = Common.getIndent(indent);
@@ -90,6 +94,12 @@ public class EvalResultData {
 		for (SubmissionData submission : incoming) {
 			sb.append(submission.toString(indent + 2) + EOL);
 		}
+		
+		sb.append(indentString + "self evaluations:" + EOL);
+		for (SubmissionData submission : selfEvaluations) {
+			sb.append(submission.toString(indent + 2) + EOL);
+		}
+		
 		return sb.toString().replace(Common.UNINITIALIZED_INT + ".0", " NA")
 				.replace(Common.UNINITIALIZED_INT + "", " NA")
 				.replace(Common.POINTS_NOT_SUBMITTED + "", "NSB")

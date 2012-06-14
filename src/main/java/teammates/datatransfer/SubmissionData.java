@@ -80,12 +80,18 @@ public class SubmissionData {
 		return reviewee.equals(reviewer);
 	}
 	
+	public String toString(){
+		return toString(0);
+	}
+	
 	public String toString(int indent){
 		String indentString = Common.getIndent(indent);
 		StringBuilder sb = new StringBuilder();
 		sb.append(indentString+reviewer+"->"+reviewee+EOL);
 		sb.append(indentString+" points:"+points);
-		sb.append("[normalized:"+normalized+"]");
+		sb.append(" [normalized:"+normalized+"]");
+		sb.append(EOL+indentString+" justificatoin:"+justification.getValue());
+		sb.append(EOL+indentString+" p2pFeedback:"+p2pFeedback.getValue());
 		return sb.toString();
 	}
 

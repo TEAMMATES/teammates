@@ -103,6 +103,7 @@ public class EvaluationData {
 	
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
+		sb.append("course:" +course+ ", name:"+name+Common.EOL);
 		for(TeamData team: teams){
 			sb.append(team.toString(1));
 		}
