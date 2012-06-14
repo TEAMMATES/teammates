@@ -25,7 +25,7 @@
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="/studentHeader.jsp" />
+		<jsp:include page="/jsp/studentHeader.jsp" />
 	</div>
 
 	<div id="frameBody">
@@ -56,7 +56,7 @@
 					</form>
 				</div>
 			</div>
-			<jsp:include page="/statusMessage.jsp" />
+			<jsp:include page="/jsp/statusMessage.jsp" />
 			<div id="studentHomeTable">
 				<%	int idx = 0;
 					int evalIdx = 0;
@@ -121,7 +121,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="/footer.jsp" />
+		<jsp:include page="/jsp/footer.jsp" />
 	</div>
 </body>
 </html>

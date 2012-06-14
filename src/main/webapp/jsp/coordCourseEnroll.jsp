@@ -29,7 +29,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="/coordHeader.jsp" />
+		<jsp:include page="/jsp/coordHeader.jsp" />
 	</div>
 
 	<div id="frameBody">
@@ -82,7 +82,7 @@
 							<td><textarea rows="6" cols="135" class ="textvalue" name="enrollstudents" id="enrollstudents"></textarea></td>
 						</tr></table>
 					</div>
-					<jsp:include page="/statusMessage.jsp" />
+					<jsp:include page="/jsp/statusMessage.jsp" />
 					<div id="coordinatorCourseEnrollmentButtons">
 						<input type="submit" class="button" name="button_enroll" id="button_enroll" value="Enroll students"
 							onclick="return checkEnrollmentInput(document.getElementById('enrollstudents').value)"/>
@@ -95,7 +95,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="/footer.jsp" />
+		<jsp:include page="/jsp/footer.jsp" />
 	</div>
 </body>
 </html>

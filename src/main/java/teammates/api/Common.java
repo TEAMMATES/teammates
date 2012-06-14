@@ -185,9 +185,7 @@ public class Common {
 	public static final String JSP_STUDENT_JOIN_COURSE = "/page/studentCourseJoin"; // Done
 	public static final String JSP_STUDENT_COURSE_PROFILE = "/page/studentCourseProfile";
 	public static final String JSP_STUDENT_COURSE_DETAILS = "/page/studentCourseDetails";
-	/**
-	 * To submit evaluation and also to edit
-	 */
+	/** To submit evaluation and also to edit */
 	public static final String JSP_STUDENT_EVAL_SUBMISSION_EDIT = "/page/studentEvalEdit"; // Done
 	public static final String JSP_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER = "/page/studentEvalEditHandler"; // Done
 	public static final String JSP_STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
@@ -452,9 +450,9 @@ public class Common {
 	 */
 	public static void assertContainsRegex(String message,
 			String regexExpected, String stringActual) {
-		String processedRegex = Pattern.quote(regexExpected).replaceAll(
-				Pattern.quote("{*}"), "\\\\E.*\\\\Q");
-		if (!stringActual.matches("(?s)(?m).*" + processedRegex + ".*")) {
+		String processedActual = stringActual.replaceAll("[\t\r\n]","");
+		String processedRegex = Pattern.quote(regexExpected).replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q").replaceAll("[\t\r\n]","");
+		if(!processedActual.matches("(?s)(?m).*"+processedRegex+".*")){
 			assertEquals(message, regexExpected, stringActual);
 		}
 	}

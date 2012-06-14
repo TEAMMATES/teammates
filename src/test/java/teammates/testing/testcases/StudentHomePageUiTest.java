@@ -35,7 +35,7 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		bi.loginStudent(scn.students.get("amy.b.tmms@SHomeUiT.CS2104").id, Config.inst().TEAMMATES_APP_PASSWD);
+		bi.loginStudent(scn.students.get("alice.tmms@SHomeUiT.CS2104").id, Config.inst().TEAMMATES_APP_PASSWD);
 		bi.goToUrl(appURL+Common.JSP_STUDENT_HOME);
 	}
 	

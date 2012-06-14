@@ -127,7 +127,7 @@
 	</div>
 	
 	<div id="frameBottom">
-		<jsp:include page="/footer.jsp" />
+		<jsp:include page="/jsp/footer.jsp" />
 	</div>
 	<%
 		}

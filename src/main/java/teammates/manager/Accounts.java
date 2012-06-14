@@ -5,8 +5,6 @@ import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
-import org.mortbay.log.Log;
-
 import teammates.Datastore;
 import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;

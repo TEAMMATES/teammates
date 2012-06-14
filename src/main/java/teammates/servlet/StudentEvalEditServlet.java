@@ -16,7 +16,7 @@ import teammates.jsp.StudentEvalEditHelper;
 @SuppressWarnings("serial")
 public class StudentEvalEditServlet extends ActionServlet<StudentEvalEditHelper> {
 	
-	private static final String DISPLAY_URL = "/studentEvalEdit.jsp";
+	private static final String DISPLAY_URL = "/jsp/studentEvalEdit.jsp";
 
 	@Override
 	protected StudentEvalEditHelper instantiateHelper() {

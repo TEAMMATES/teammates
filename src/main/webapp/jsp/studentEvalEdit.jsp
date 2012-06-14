@@ -26,7 +26,7 @@
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="/studentHeader.jsp" />
+		<jsp:include page="/jsp/studentHeader.jsp" />
 	</div>
 
 	<div id="frameBody">
@@ -131,7 +131,7 @@
 						<%		idx++;
 							} %>
 					</table>
-					<jsp:include page="/statusMessage.jsp" />
+					<jsp:include page="/jsp/statusMessage.jsp" />
 					<div id="studentEvaluationSubmissionButtons">
 						<input type="button" class="button t_back" id="button_back"
 								onclick="window.location.href='<%= Common.JSP_STUDENT_HOME %>'" value="Back" />
@@ -146,7 +146,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="/footer.jsp" />
+		<jsp:include page="/jsp/footer.jsp" />
 	</div>
 </body>
 </html>

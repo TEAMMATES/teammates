@@ -31,7 +31,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="/coordHeader.jsp" />
+		<jsp:include page="/jsp/coordHeader.jsp" />
 	</div>
 
 	<div id="frameBody">
@@ -72,7 +72,7 @@
 		 			<%	} %>
 				</table>
 			</div>
-			<jsp:include page="/statusMessage.jsp" />
+			<jsp:include page="/jsp/statusMessage.jsp" />
 			<div id="coordinatorStudentTable">
 				<table id="dataform">
 					<tr>
@@ -121,7 +121,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="/footer.jsp" />
+		<jsp:include page="/jsp/footer.jsp" />
 	</div>
 </body>
 </html>

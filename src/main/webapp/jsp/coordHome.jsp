@@ -31,7 +31,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="/coordHeader.jsp" />
+		<jsp:include page="/jsp/coordHeader.jsp" />
 	</div>
 
 	<div id="frameBody">
@@ -47,7 +47,7 @@
 					</div>
 				</div>
 			</div>
-			<jsp:include page="/statusMessage.jsp" />
+			<jsp:include page="/jsp/statusMessage.jsp" />
 			<div id="coordinatorHomeTable">
 				<%	CourseData[] summary = helper.courses;
 					int idx = 0;
@@ -132,7 +132,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="/footer.jsp" />
+		<jsp:include page="/jsp/footer.jsp" />
 	</div>
 </body>
 </html>

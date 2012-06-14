@@ -15,7 +15,7 @@ import teammates.jsp.StudentHomeHelper;
 @SuppressWarnings("serial")
 public class StudentHomeServlet extends ActionServlet<StudentHomeHelper> {
 	
-	private static final String DISPLAY_URL = "/studentHome.jsp";
+	private static final String DISPLAY_URL = "/jsp/studentHome.jsp";
 
 	@Override
 	protected StudentHomeHelper instantiateHelper() {

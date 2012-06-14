@@ -32,7 +32,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="/coordHeader.jsp" />
+		<jsp:include page="/jsp/coordHeader.jsp" />
 	</div>
 
 	<div id="frameBody">
@@ -97,7 +97,7 @@
 					</tr>
 				</table>
 			</div>
-			<jsp:include page="/statusMessage.jsp" />
+			<jsp:include page="/jsp/statusMessage.jsp" />
 			<div id="coordinatorEvaluationSummaryTable" class="evaluation_result">
 				<div style="text-align:right; font-style:italic; font-size: small; padding:0 35px;">CC = Claimed Contribution; PC = Perceived Contribution; E = Equal Share</div>
 				<table id="dataform">
@@ -232,7 +232,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="/footer.jsp" />
+		<jsp:include page="/jsp/footer.jsp" />
 	</div>
 </body>
 </html>

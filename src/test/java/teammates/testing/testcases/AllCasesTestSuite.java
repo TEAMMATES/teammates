@@ -14,14 +14,10 @@ import teammates.testing.junit.TMAPITest;
 		// Js tests
 		AllJsUnitTests.class,
 		// Api tests
-		TMAPITest.class, 
-		// Ui tests
-		CoordCourseAddPageUiTest.class, 
-		CoordCourseEnrollPageUiTest.class,
-		CoordCourseDetailsPageUiTest.class,
-		CoordEvalPageUiTest.class,
-		CoordEvalResultsPageUiTest.class,
-		CoordHomePageUiTest.class })
+		TMAPITest.class,
+		// Ui test
+		AllUiTests.class
+})
 
 //@formatter:on
 public class AllCasesTestSuite {

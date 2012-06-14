@@ -234,27 +234,11 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <web-resource-collection>
             <web-resource-name>DisallowDirectAccess</web-resource-name>
             <description>Pages that should not be accessed directly</description>
-            <url-pattern>*.jsp</url-pattern>
+            <url-pattern>/jsp/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
         </auth-constraint>
-    </security-constraint>
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>AllowDirectAccess</web-resource-name>
-            <description>Pages that are allowed to be accessed directly</description>
-            <description>This have precedence over the disallowance</description>
-            <url-pattern>administrator.jsp</url-pattern>
-            <url-pattern>coordinator.jsp</url-pattern>
-            <url-pattern>index.jsp</url-pattern>
-            <url-pattern>student.jsp</url-pattern>
-            <url-pattern>logout.jsp</url-pattern>
-            <url-pattern>mobile.jsp</url-pattern>
-            <url-pattern>oldIE.jsp</url-pattern>
-            <url-pattern>unauthorized.jsp</url-pattern>
-            <url-pattern>errorPage.jsp</url-pattern>
-        </web-resource-collection>
     </security-constraint>
     <error-page>
         <error-code>403</error-code>

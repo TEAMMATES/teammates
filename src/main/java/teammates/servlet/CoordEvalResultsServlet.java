@@ -19,7 +19,7 @@ import teammates.jsp.Helper;
  */
 public class CoordEvalResultsServlet extends ActionServlet<CoordEvalResultsHelper> {
 	
-	private static final String DISPLAY_URL = "/coordEvalResults.jsp";
+	private static final String DISPLAY_URL = "/jsp/coordEvalResults.jsp";
 
 	@Override
 	protected CoordEvalResultsHelper instantiateHelper() {

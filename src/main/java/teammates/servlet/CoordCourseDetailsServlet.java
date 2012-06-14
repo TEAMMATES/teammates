@@ -23,7 +23,7 @@ import teammates.jsp.Helper;
  */
 public class CoordCourseDetailsServlet extends ActionServlet<CoordCourseDetailsHelper> {
 	
-	private static final String DISPLAY_URL = "/coordCourseDetails.jsp";
+	private static final String DISPLAY_URL = "/jsp/coordCourseDetails.jsp";
 
 	@Override
 	protected CoordCourseDetailsHelper instantiateHelper() {

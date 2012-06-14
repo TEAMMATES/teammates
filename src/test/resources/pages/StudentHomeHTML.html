@@ -28,9 +28,9 @@
 			<div id="contentLinks">
 				<ul id="navbar">
 					<li><a href="/page/studentHome" class="t_home">Home</a></li>
-					<li><a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/studentHelp.html" class="t_help">Help</a></li>
+					<li><a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/studenthelp.html" class="t_help">Help</a></li>
 					<li><a href="/logout.jsp" class="t_logout">Logout</a>
-					 (amy.b.tmms)</li>
+					 (alice.tmms)</li>
 				</ul>
 			</div>
 		</div>
@@ -51,7 +51,7 @@
 									<input type="text" tabindex="1" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter your registration key for the course.')" id="regkey" name="regkey" class="keyvalue" />
 								</td>
 								<td width="30%">
-									<input type="submit" tabindex="2" value="Join Course" onclick='return this.form.regkey.value!=""' class="button" id="btnJoinCourse" />
+									<input type="submit" tabindex="2" value="Join Course" onclick="return this.form.regkey.value!=''" class="button" id="btnJoinCourse" />
 								</td>
 							</tr>
 						 </tbody></table>
@@ -67,15 +67,15 @@
 				
 				<div id="course0" class="result_team home_courses_div">
 					<div class="result_homeTitle">
-						<h2>[SHomeUiT.CS1101] :
-							Programming Methodology
+						<h2>[SHomeUiT.CS2104] :
+							Programming Language Concepts
 						</h2>
 					</div>
 					<div class="result_homeLinks">
-						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Your profile in this course')" href="/page/studentCourseProfile?courseid=SHomeUiT.CS1101" class="t_course_profile0">
+						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Your profile in this course')" href="/page/studentCourseProfile?courseid=SHomeUiT.CS2104" class="t_course_profile0">
 							Profile
 						</a>
-						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start evaluation')" href="/page/studentCourseDetails?courseid=SHomeUiT.CS1101" class="t_course_view0">
+						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View and edit information regarding your team')" href="/page/studentCourseDetails?courseid=SHomeUiT.CS2104" class="t_course_view0">
 							View Team
 						</a>
 					</div>
@@ -91,18 +91,18 @@
 							</tr>
 							
 								<tr id="evaluation0" class="home_evaluations_row">
-									<td class="t_eval_name">Third Eval</td>
+									<td class="t_eval_name">Second Eval</td>
 									<td class="t_eval_deadline centeralign">02 Apr 2012, 23:59</td>
-									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation has finished but the coordinator has not published the results yet')">Closed</span></td>
-									<td class="centeralign"><a onclick="return false" style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" id="viewEvaluationResults0" name="viewEvaluationResults0" href="/page/studentEvalResults?courseid=SHomeUiT.CS1101&amp;evaluationname=Third+Eval">View Results</a><a onclick="return false" style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit submitted evaluation')" id="editEvaluationSubmission0" name="editEvaluationSubmission0" href="/page/studentEvalEdit?courseid=SHomeUiT.CS1101&amp;evaluationname=Third+Eval">Edit</a>
+									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation has finished and you can check the results')">Published</span></td>
+									<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" id="viewEvaluationResults0" name="viewEvaluationResults0" href="/page/studentEvalResults?courseid=SHomeUiT.CS2104&amp;evaluationname=Second+Eval">View Results</a><a onclick="return false" style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit submitted evaluation')" id="editEvaluationSubmission0" name="editEvaluationSubmission0" href="/page/studentEvalEdit?courseid=SHomeUiT.CS2104&amp;evaluationname=Second+Eval">Edit</a>
 									</td>
 								</tr>
 							
 								<tr id="evaluation1" class="home_evaluations_row">
-									<td class="t_eval_name">Fifth Eval</td>
+									<td class="t_eval_name">First Eval</td>
 									<td class="t_eval_deadline centeralign">01 Apr 2015, 23:59</td>
-									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation is yet to be completed by you')">Pending</span></td>
-									<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start evaluation')" href="/page/studentEvalEdit?courseid=SHomeUiT.CS1101&amp;evaluationname=Fifth+Eval" id="doEvaluation1">Submit</a>
+									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' You have submitted your feedback for this evaluation')">Submitted</span></td>
+									<td class="centeralign"><a onclick="return false" style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" id="viewEvaluationResults1" name="viewEvaluationResults1" href="/page/studentEvalResults?courseid=SHomeUiT.CS2104&amp;evaluationname=First+Eval">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit submitted evaluation')" id="editEvaluationSubmission1" name="editEvaluationSubmission1" href="/page/studentEvalEdit?courseid=SHomeUiT.CS2104&amp;evaluationname=First+Eval">Edit</a>
 									</td>
 								</tr>
 							
@@ -114,15 +114,15 @@
 				
 				<div id="course1" class="result_team home_courses_div">
 					<div class="result_homeTitle">
-						<h2>[SHomeUiT.CS2104] :
-							Programming Language Concepts
+						<h2>[SHomeUiT.CS1101] :
+							Programming Methodology
 						</h2>
 					</div>
 					<div class="result_homeLinks">
-						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Your profile in this course')" href="/page/studentCourseProfile?courseid=SHomeUiT.CS2104" class="t_course_profile1">
+						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Your profile in this course')" href="/page/studentCourseProfile?courseid=SHomeUiT.CS1101" class="t_course_profile1">
 							Profile
 						</a>
-						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start evaluation')" href="/page/studentCourseDetails?courseid=SHomeUiT.CS2104" class="t_course_view1">
+						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View and edit information regarding your team')" href="/page/studentCourseDetails?courseid=SHomeUiT.CS1101" class="t_course_view1">
 							View Team
 						</a>
 					</div>
@@ -138,18 +138,18 @@
 							</tr>
 							
 								<tr id="evaluation2" class="home_evaluations_row">
-									<td class="t_eval_name">Second Eval</td>
+									<td class="t_eval_name">Third Eval</td>
 									<td class="t_eval_deadline centeralign">02 Apr 2012, 23:59</td>
-									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation has finished and you can check the results')">Published</span></td>
-									<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" id="viewEvaluationResults2" name="viewEvaluationResults2" href="/page/studentEvalResults?courseid=SHomeUiT.CS2104&amp;evaluationname=Second+Eval">View Results</a><a onclick="return false" style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit submitted evaluation')" id="editEvaluationSubmission2" name="editEvaluationSubmission2" href="/page/studentEvalEdit?courseid=SHomeUiT.CS2104&amp;evaluationname=Second+Eval">Edit</a>
+									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation has finished but the coordinator has not published the results yet')">Closed</span></td>
+									<td class="centeralign"><a onclick="return false" style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" id="viewEvaluationResults2" name="viewEvaluationResults2" href="/page/studentEvalResults?courseid=SHomeUiT.CS1101&amp;evaluationname=Third+Eval">View Results</a><a onclick="return false" style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit submitted evaluation')" id="editEvaluationSubmission2" name="editEvaluationSubmission2" href="/page/studentEvalEdit?courseid=SHomeUiT.CS1101&amp;evaluationname=Third+Eval">Edit</a>
 									</td>
 								</tr>
 							
 								<tr id="evaluation3" class="home_evaluations_row">
-									<td class="t_eval_name">First Eval</td>
+									<td class="t_eval_name">Fifth Eval</td>
 									<td class="t_eval_deadline centeralign">01 Apr 2015, 23:59</td>
-									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' You have submitted your feedback for this evaluation')">Submitted</span></td>
-									<td class="centeralign"><a onclick="return false" style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" id="viewEvaluationResults3" name="viewEvaluationResults3" href="/page/studentEvalResults?courseid=SHomeUiT.CS2104&amp;evaluationname=First+Eval">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit submitted evaluation')" id="editEvaluationSubmission3" name="editEvaluationSubmission3" href="/page/studentEvalEdit?courseid=SHomeUiT.CS2104&amp;evaluationname=First+Eval">Edit</a>
+									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation is yet to be completed by you')">Pending</span></td>
+									<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start evaluation')" href="/page/studentEvalEdit?courseid=SHomeUiT.CS1101&amp;evaluationname=Fifth+Eval" id="doEvaluation3">Submit</a>
 									</td>
 								</tr>
 							

@@ -1,7 +1,5 @@
 package teammates.testing.testcases;
 
-import static org.junit.Assert.fail;
-
 import java.io.FileNotFoundException;
 
 import org.json.JSONException;
@@ -14,7 +12,6 @@ import teammates.api.Common;
 import teammates.datatransfer.CoordData;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.EvaluationData;
-import teammates.exception.NoAlertAppearException;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;

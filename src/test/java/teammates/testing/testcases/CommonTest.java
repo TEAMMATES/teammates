@@ -67,6 +67,13 @@ public class CommonTest extends BaseTestCase {
 		Common.assertContainsRegex("Fails on checking assert contains regex",
 				"<div>{*}</div>",
 				"<html><body><div>Testing</div><a href='index.html'>HOME</a></body></html>");
+		
+		Common.assertContainsRegex(
+				"<html>\n\t<body>\n\t\t<div{*}>Hello world!</div>\n\t</body>\n\t</html>",
+				"<html><body><div style=\"display:none\">Hello world!</div></body></html>");
+		Common.assertContainsRegex("Fails on checking assert contains regex",
+				"<html>\n\t<body>\n\t\t<div{*}>Hello world!</div>\n\t</body>\n\t</html>",
+				"<html><body><div style=\"display:none\">Hello world!</div></body></html>");
 	}
 
 	@AfterClass

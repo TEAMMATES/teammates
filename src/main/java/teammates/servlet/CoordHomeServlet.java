@@ -20,7 +20,7 @@ import teammates.jsp.Helper;
  *
  */
 public class CoordHomeServlet extends ActionServlet<CoordHomeHelper> {
-	private static final String DISPLAY_URL = "/coordHome.jsp";
+	private static final String DISPLAY_URL = "/jsp/coordHome.jsp";
 
 	@Override
 	protected CoordHomeHelper instantiateHelper() {

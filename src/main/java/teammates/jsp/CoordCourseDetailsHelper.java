@@ -35,6 +35,9 @@ public class CoordCourseDetailsHelper extends Helper{
 		String link = Common.JSP_COORD_COURSE_STUDENT_DETAILS;
 		link = addParam(link,Common.PARAM_COURSE_ID,course.id);
 		link = addParam(link,Common.PARAM_STUDENT_EMAIL,student.email);
+		if(isMasqueradeMode()){
+			link = addParam(link, Common.PARAM_USER_ID, requestedUser);
+		}
 		return link;
 	}
 	
@@ -47,6 +50,9 @@ public class CoordCourseDetailsHelper extends Helper{
 		String link = Common.JSP_COORD_COURSE_STUDENT_EDIT;
 		link = addParam(link,Common.PARAM_COURSE_ID,course.id);
 		link = addParam(link,Common.PARAM_STUDENT_EMAIL,student.email);
+		if(isMasqueradeMode()){
+			link = addParam(link, Common.PARAM_USER_ID, requestedUser);
+		}
 		return link;
 	}
 	
