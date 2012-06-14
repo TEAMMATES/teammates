@@ -1,5 +1,6 @@
 package teammates.datatransfer;
 
+import static teammates.api.Common.EOL;
 import teammates.api.Common;
 import teammates.persistent.Submission;
 
@@ -77,6 +78,15 @@ public class SubmissionData {
 	
 	public boolean isSelfEvaluation(){
 		return reviewee.equals(reviewer);
+	}
+	
+	public String toString(int indent){
+		String indentString = Common.getIndent(indent);
+		StringBuilder sb = new StringBuilder();
+		sb.append(indentString+reviewer+"->"+reviewee+EOL);
+		sb.append(indentString+" points:"+points);
+		sb.append("[normalized:"+normalized+"]");
+		return sb.toString();
 	}
 
 }

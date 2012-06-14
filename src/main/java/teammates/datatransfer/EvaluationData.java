@@ -100,4 +100,12 @@ public class EvaluationData {
 		}
 		return null;
 	}
+	
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		for(TeamData team: teams){
+			sb.append(team.toString(1));
+		}
+		return sb.toString();
+	}
 }

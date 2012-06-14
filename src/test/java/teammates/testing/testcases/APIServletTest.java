@@ -1684,6 +1684,7 @@ public class APIServletTest extends BaseTestCase {
 
 		EvaluationData result = apiServlet.getEvaluationResult(course.id,
 				evaluation.name);
+		System.out.println(result);
 
 		// no need to sort, the result should be sorted by default
 
@@ -1820,7 +1821,33 @@ public class APIServletTest extends BaseTestCase {
 
 		// TODO: reduce rounding off error during
 		// "self rating removed and normalized"
+		
+		//@formatter:off
+				
+				createNewEvaluationWithSubmissions(new int[][] { 
+						{ 110, 100, 110 },
+						{ 90, 110, NSU }, 
+						{ 90, 100, 110 } });
+				//@formatter:on
 
+				result = apiServlet.getEvaluationResult(course.id,
+						evaluation.name);
+				System.out.println(result);
+
+	}
+
+	private void createNewEvaluationWithSubmissions(int[][] input) throws EntityAlreadyExistsException, InvalidParametersException {
+		// TODO Auto-generated method stub
+		String courseId = "courseForTestingER";
+		apiServlet.createCourse("coordForTestingER", courseId,"Course For Testing Evaluation Results");
+		int teamSize = input.length;
+		for (int i = 0; i < teamSize; i++) {
+			StudentData student = new StudentData();
+			student.email = "s"+i+"@gmail.com";
+			student.name = "Student 1";
+			student.course = courseId;
+			apiServlet.createStudent(student);
+		}
 	}
 
 	@Test

@@ -3,6 +3,8 @@ package teammates.datatransfer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import static teammates.api.Common.EOL;
+import teammates.api.Common;
 
 public class TeamData {
 	public String name;
@@ -17,6 +19,16 @@ public class TeamData {
 				return (s1.name+s1.email).compareTo(s2.name+s2.email);
 			}
 		});
+	}
+	
+	public String toString(int indent){
+		String indentString = Common.getIndent(indent);
+		StringBuilder sb = new StringBuilder();
+		sb.append(indentString+"Team:"+name+EOL);
+		for(StudentData student: students){
+			sb.append(indentString+student.toString(indent+2)+EOL);
+		}
+		return sb.toString();
 	}
 
 }

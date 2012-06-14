@@ -579,10 +579,19 @@ public class Common {
 	}
 
 	public static String generateStringOfLength(int length) {
+		return generateStringOfLength(length, 'a');
+	}
+	
+	public static String getIndent(int length) {
+		return generateStringOfLength(length, ' ');
+	}
+
+	
+	public static String generateStringOfLength(int length, char character) {
 		assert (length >= 0);
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < length; i++) {
-			sb.append('a');
+			sb.append(character);
 		}
 		return sb.toString();
 	}
@@ -595,5 +604,6 @@ public class Common {
 	@SuppressWarnings("unused")
 	private void ____PRIVATE_helper_methods_________________________________() {
 	}
+
 
 }

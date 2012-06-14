@@ -1,5 +1,7 @@
 package teammates.datatransfer;
 
+import static teammates.api.Common.EOL;
+import teammates.api.Common;
 import teammates.api.InvalidParametersException;
 import teammates.persistent.Student;
 
@@ -73,5 +75,13 @@ public class StudentData extends UserData{
 				(this.comments.equals(other.comments)) &&
 				(this.team.equals(other.team)) &&
 				(this.updateStatus == other.updateStatus);
+	}
+	
+	public String toString(int indent){
+		String indentString = Common.getIndent(indent);
+		StringBuilder sb = new StringBuilder();
+		sb.append(indentString+"Student:"+name+"["+email+"]"+EOL);
+		sb.append(result.toString(indent+2));
+		return sb.toString();
 	}
 }
