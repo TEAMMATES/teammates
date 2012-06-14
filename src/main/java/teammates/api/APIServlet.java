@@ -1536,6 +1536,31 @@ public class APIServlet extends HttpServlet {
 
 		return Courses.inst().getCourseListForStudent(googleId);
 	}
+	
+	public boolean hasStudentSubmittedEvaluation(String courseId, String evaluationName,
+			String studentEmail) throws InvalidParametersException {
+		Common.verifyNotNull(courseId, "course ID");
+		Common.verifyNotNull(evaluationName, "evaluation name");
+		Common.verifyNotNull(studentEmail, "student email");
+		
+		List<SubmissionData> submissions = null;
+		try {
+			submissions = getSubmissionsFromStudent(courseId, evaluationName, studentEmail);
+		} catch (EntityDoesNotExistException e) {
+			return false;
+		}
+		
+		if(submissions==null){
+			return false;
+		}
+		
+		for(SubmissionData sd: submissions){
+			if(sd.points!=Common.POINTS_NOT_SUBMITTED){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public List<CourseData> getCourseDetailsListForStudent(String googleId)
 			throws EntityDoesNotExistException, InvalidParametersException {
@@ -1662,6 +1687,7 @@ public class APIServlet extends HttpServlet {
 			}
 
 			TeamEvalResult teamResult = calculateTeamResult(team);
+			team.result = teamResult;
 			populateTeamResult(team, teamResult);
 
 		}
@@ -1946,5 +1972,7 @@ public class APIServlet extends HttpServlet {
 	private boolean isModificationToExistingStudent(StudentData student) {
 		return getStudent(student.course, student.email) != null;
 	}
+
+
 
 }

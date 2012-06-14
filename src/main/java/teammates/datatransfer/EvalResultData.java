@@ -81,12 +81,12 @@ public class EvalResultData {
 				+ EOL);
 		sb.append(indentString + "perceivedToCoord:" + perceivedToCoord + EOL);
 
-		sb.append(indentString + "outgoing:" + perceivedToCoord + EOL);
+		sb.append(indentString + "outgoing:" + EOL);
 		for (SubmissionData submission : outgoing) {
 			sb.append(submission.toString(indent + 2) + EOL);
 		}
 
-		sb.append(indentString + "incoming:" + perceivedToCoord + EOL);
+		sb.append(indentString + "incoming:" + EOL);
 		for (SubmissionData submission : incoming) {
 			sb.append(submission.toString(indent + 2) + EOL);
 		}

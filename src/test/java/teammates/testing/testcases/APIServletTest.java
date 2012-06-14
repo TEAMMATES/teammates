@@ -1386,6 +1386,68 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	@Test
+	public void testHasStudentSubmittedEvaluation() throws Exception {
+		printTestCaseHeader();
+		refreshDataInDatastore();
+
+		EvaluationData evaluation = dataBundle.evaluations
+				.get("evaluation1InCourse1OfCoord1");
+		StudentData student = dataBundle.students.get("student1InCourse1");
+
+		______TS("student has submitted");
+
+		assertEquals(true, apiServlet.hasStudentSubmittedEvaluation(
+				evaluation.course, evaluation.name, student.email));
+
+		______TS("student has not submitted");
+
+		// create a new evaluation reusing data from previous one
+		evaluation.name = "New evaluation";
+		apiServlet.createEvaluation(evaluation);
+		assertEquals(false, apiServlet.hasStudentSubmittedEvaluation(
+				evaluation.course, evaluation.name, student.email));
+
+		______TS("null parameters");
+
+		try {
+			apiServlet.hasStudentSubmittedEvaluation(null, evaluation.name,
+					student.email);
+			fail();
+		} catch (InvalidParametersException e) {
+			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
+			Common.assertContains("course id", e.getMessage().toLowerCase());
+		}
+		try {
+			apiServlet.hasStudentSubmittedEvaluation(evaluation.course, null,
+					student.email);
+			fail();
+		} catch (InvalidParametersException e) {
+			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
+			Common.assertContains("evaluation name", e.getMessage()
+					.toLowerCase());
+		}
+
+		try {
+			apiServlet.hasStudentSubmittedEvaluation(evaluation.course,
+					evaluation.name, null);
+			fail();
+		} catch (InvalidParametersException e) {
+			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
+			Common.assertContains("student email", e.getMessage().toLowerCase());
+		}
+
+		______TS("non-existent course/evaluation/student");
+
+		assertEquals(false, apiServlet.hasStudentSubmittedEvaluation(
+				"non-existent-course", evaluation.name, student.email));
+		assertEquals(false, apiServlet.hasStudentSubmittedEvaluation(
+				evaluation.course, "non-existent-eval", student.email));
+		assertEquals(false, apiServlet.hasStudentSubmittedEvaluation(
+				evaluation.course, evaluation.name, "non-existent@student"));
+
+	}
+
+	@Test
 	public void testGetEvauationResultForStudent() throws Exception {
 
 		printTestCaseHeader();
@@ -1600,22 +1662,24 @@ public class APIServletTest extends BaseTestCase {
 		refreshDataInDatastore();
 
 		______TS("typical case");
-		
+
 		EvaluationData expected = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
 		EvaluationData actual = apiServlet.getEvaluation(expected.course,
 				expected.name);
 		verifySameEvaluationData(expected, actual);
-		
+
 		______TS("null parameters");
-		
+
 		assertEquals(null, apiServlet.getEvaluation(null, expected.name));
 		assertEquals(null, apiServlet.getEvaluation(expected.course, null));
 
 		______TS("non-existent");
-		
-		assertEquals(null, apiServlet.getEvaluation("non-existent", expected.name));
-		assertEquals(null, apiServlet.getEvaluation(expected.course,"non-existent"));
+
+		assertEquals(null,
+				apiServlet.getEvaluation("non-existent", expected.name));
+		assertEquals(null,
+				apiServlet.getEvaluation(expected.course, "non-existent"));
 
 	}
 
@@ -1625,7 +1689,7 @@ public class APIServletTest extends BaseTestCase {
 		refreshDataInDatastore();
 
 		______TS("typical case");
-		
+
 		EvaluationData eval1 = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
 		eval1.gracePeriod = eval1.gracePeriod + 1;
@@ -1821,33 +1885,68 @@ public class APIServletTest extends BaseTestCase {
 
 		// TODO: reduce rounding off error during
 		// "self rating removed and normalized"
-		
+
 		//@formatter:off
 				
-				createNewEvaluationWithSubmissions(new int[][] { 
+				createNewEvaluationWithSubmissions("courseForTestingER", "Eval 1", new int[][] { 
 						{ 110, 100, 110 },
 						{ 90, 110, NSU }, 
 						{ 90, 100, 110 } });
 				//@formatter:on
 
-				result = apiServlet.getEvaluationResult(course.id,
-						evaluation.name);
-				System.out.println(result);
+		result = apiServlet.getEvaluationResult("courseForTestingER", "Eval 1");
+		System.out.println(result.toString());
 
 	}
 
-	private void createNewEvaluationWithSubmissions(int[][] input) throws EntityAlreadyExistsException, InvalidParametersException {
-		// TODO Auto-generated method stub
-		String courseId = "courseForTestingER";
-		apiServlet.createCourse("coordForTestingER", courseId,"Course For Testing Evaluation Results");
+	private void createNewEvaluationWithSubmissions(String courseId,
+			String evaluationName, int[][] input)
+			throws EntityAlreadyExistsException, InvalidParametersException {
+		// create course
+		apiServlet.createCourse("coordForTestingER", courseId,
+				"Course For Testing Evaluation Results");
+		// create students
 		int teamSize = input.length;
+		String teamName = "team1";
 		for (int i = 0; i < teamSize; i++) {
 			StudentData student = new StudentData();
-			student.email = "s"+i+"@gmail.com";
-			student.name = "Student 1";
+			int studentNumber = i + 1;
+			student.email = "s" + studentNumber + "@gmail.com";
+			student.name = "Student " + studentNumber;
+			student.team = teamName;
 			student.course = courseId;
 			apiServlet.createStudent(student);
 		}
+		// create evaluation
+		EvaluationData e = new EvaluationData();
+		e.course = courseId;
+		e.name = evaluationName;
+		e.startTime = Common.getDateOffsetToCurrentTime(-1);
+		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.gracePeriod = 0;
+		e.instructions = "instructions for " + e.name;
+		apiServlet.createEvaluation(e);
+		// create submissions
+		ArrayList<SubmissionData> submissions = new ArrayList<SubmissionData>();
+		for (int i = 0; i < teamSize; i++) {
+			for (int j = 0; j < teamSize; j++) {
+				SubmissionData sub = new SubmissionData();
+				sub.course = courseId;
+				sub.evaluation = e.name;
+				sub.team = teamName;
+				int reviewerNumber = i + 1;
+				sub.reviewer = "s" + reviewerNumber + "@gmail.com";
+				int revieweeNumber = j + 1;
+				sub.reviewee = "s" + revieweeNumber + "@gmail.com";
+				sub.points = input[i][j];
+				sub.justification = new Text("jus[s" + reviewerNumber + "->s"
+						+ revieweeNumber + "]");
+				sub.p2pFeedback = new Text("p2p[s" + reviewerNumber + "->s"
+						+ revieweeNumber + "]");
+				submissions.add(sub);
+			}
+		}
+		apiServlet.editSubmissions(submissions);
 	}
 
 	@Test

@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import static teammates.api.Common.EOL;
+import teammates.TeamEvalResult;
 import teammates.api.Common;
 
 public class TeamData {
 	public String name;
 	public TeamProfileData profile;
 	public ArrayList<StudentData> students = new ArrayList<StudentData>();
+	public TeamEvalResult result;
 	
 	public void sortByStudentNameAscending() {
 		Collections.sort(students, new Comparator<StudentData>() {
@@ -25,6 +27,7 @@ public class TeamData {
 		String indentString = Common.getIndent(indent);
 		StringBuilder sb = new StringBuilder();
 		sb.append(indentString+"Team:"+name+EOL);
+		sb.append(indentString+result.toString(indent+1));
 		for(StudentData student: students){
 			sb.append(indentString+student.toString(indent+2)+EOL);
 		}

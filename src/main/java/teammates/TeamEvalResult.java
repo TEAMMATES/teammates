@@ -319,6 +319,10 @@ public class TeamEvalResult {
 	public static String pointsToString(int[][] array) {
 		return pointsToString(intToDouble(array)).replace(".0", "");
 	}
+	
+	private String pointsToString(int[] input) {
+		return replaceMagicNumbers(Arrays.toString(input))+Common.EOL;
+	}
 
 	public static String pointsToString(double[][] array) {
 		String returnValue = "";
@@ -354,4 +358,21 @@ public class TeamEvalResult {
 					+ message);
 		}
 	}
+	
+	public String toString(int indent){
+		String indentString = Common.getIndent(indent);
+		String divider = "=============================="+Common.EOL;
+		StringBuilder sb = new StringBuilder();
+		sb.append(indentString+pointsToString((claimedToStudents)).replace(Common.EOL, Common.EOL+indentString));
+		sb.append(divider);
+		sb.append(indentString+pointsToString((claimedToCoord)).replace(Common.EOL, Common.EOL+indentString));
+		sb.append(divider);
+		sb.append(indentString+pointsToString(perceivedToCoord).replace(Common.EOL, Common.EOL+indentString));
+		sb.append(divider);
+		sb.append(indentString+pointsToString((perceivedToStudents)).replace(Common.EOL, Common.EOL+indentString));
+		sb.append(divider);
+		return sb.toString();
+	}
+
+
 }
