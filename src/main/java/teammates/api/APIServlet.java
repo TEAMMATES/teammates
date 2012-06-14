@@ -1876,14 +1876,12 @@ public class APIServlet extends HttpServlet {
 		team.sortByStudentNameAscending();
 		for (int i = 0; i < teamSize; i++) {
 			StudentData studentData = team.students.get(i);
-			// studentData.result.outgoingOriginal.add(studentData.result.own);
 			studentData.result.sortOutgoingByStudentNameAscending();
 			for (int j = 0; j < teamSize; j++) {
 				SubmissionData submissionData = studentData.result.outgoing
 						.get(j);
 				claimedFromStudents[i][j] = submissionData.points;
 			}
-			// studentData.result.outgoingOriginal.remove(studentData.result.own);
 
 		}
 		return new TeamEvalResult(claimedFromStudents);

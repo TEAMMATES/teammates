@@ -1706,8 +1706,33 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testDeleteEvaluation() {
-		// TODO: implement this
+	public void testDeleteEvaluation() throws Exception {
+		printTestCaseHeader();
+		refreshDataInDatastore();
+		
+		______TS("typical delete");
+		EvaluationData eval = dataBundle.evaluations
+				.get("evaluation1InCourse1OfCoord1");
+		verifyPresentInDatastore(eval);
+		//verify there are submissions under this evaluation
+		SubmissionData submission = dataBundle.submissions.get("submissionFromS1C1ToS1C1");
+		verifyPresentInDatastore(submission);
+		
+		apiServlet.deleteEvaluation(eval.course, eval.name);
+		verifyAbsentInDatastore(eval);
+		//verify submissions are deleted too
+		verifyAbsentInDatastore(submission);
+		
+		______TS("null parameters");
+		//should fail silently
+		apiServlet.deleteEvaluation(null, eval.name);
+		apiServlet.deleteEvaluation(eval.course, null);
+		
+		______TS("non-existent");
+		//should fail silently
+		apiServlet.deleteEvaluation("non-existent", eval.name);
+		apiServlet.deleteEvaluation(eval.course, "non-existent");
+		
 	}
 
 	@Test
@@ -2081,7 +2106,9 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testGetSubmissoinsForEvaluation() {
+	public void testGetSubmissoinsForEvaluation() throws Exception {
+		printTestCaseHeader();
+		refreshDataInDatastore();
 		// TODO: test this
 	}
 

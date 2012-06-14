@@ -22,6 +22,9 @@ public class TeamEvalResult {
 	public int[] perceivedToCoord;
 	/** team perception shown to students. normalized based on their own claims */
 	public int[][] perceivedToStudents;
+	
+	/** ratings after removing bias for self ratings*/
+	public int[][] unbiased;
 
 	public TeamEvalResult(int[][] submissionValues) {
 		claimedToStudents = submissionValues;
@@ -39,8 +42,16 @@ public class TeamEvalResult {
 
 		log.fine("submission values sanitized and normalized :\n"
 				+ pointsToString(claimedSanitizedNormalized));
-
-		double[] perceivedForCoordAsDouble = calculatePerceivedForCoord(claimedSanitizedNormalized);
+		
+		double[][] unbiasedAsDouble = calculateUnbiased(claimedSanitizedNormalized); 
+		log.fine("unbiased (i.e.self ratings removed and normalized) :\n"
+				+ pointsToString(unbiasedAsDouble));
+		
+		unbiased = doubleToInt(unbiasedAsDouble);
+		log.fine("unbiased as int :\n"
+				+ pointsToString(unbiased));
+		
+		double[] perceivedForCoordAsDouble = calculatePerceivedForCoord(unbiasedAsDouble);
 
 		log.fine("perceived to coord as double:\n"
 				+ replaceMagicNumbers(Arrays
@@ -70,10 +81,9 @@ public class TeamEvalResult {
 		return output;
 	}
 
-	private static double[] calculatePerceivedForCoord(
+	private static double[][] calculateUnbiased(
 			double[][] sanitizedAndNormalizedInput) {
 		int teamSize = sanitizedAndNormalizedInput.length;
-		double[] perceivedForCoord;
 
 		double[][] selfRatingsRemoved = excludeSelfRatings(sanitizedAndNormalizedInput);
 		log.fine("self ratings removed :\n"
@@ -83,11 +93,13 @@ public class TeamEvalResult {
 		for (int i = 0; i < teamSize; i++) {
 			selfRatingRemovedAndNormalized[i] = normalizeValues(selfRatingsRemoved[i]);
 		}
-		log.fine("self ratings removed and normalized :\n"
-				+ pointsToString(selfRatingRemovedAndNormalized));
-
-		perceivedForCoord = normalizeValues(averageColumns(selfRatingRemovedAndNormalized));
-
+		return selfRatingRemovedAndNormalized;
+	}
+	
+	private static double[] calculatePerceivedForCoord(
+			double[][] unbiased) {
+		double[] perceivedForCoord;
+		perceivedForCoord = normalizeValues(averageColumns(unbiased));
 		return perceivedForCoord;
 	}
 
