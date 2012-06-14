@@ -48,8 +48,8 @@
 				</div>
 			</div>
 			<jsp:include page="/statusMessage.jsp" />
-			<div id="coordinatorStudentTable">
-				<%	CourseData[] summary = helper.summary;
+			<div id="coordinatorHomeTable">
+				<%	CourseData[] summary = helper.courses;
 					int idx = 0;
 					int evalIdx = 0;
 					for (idx = 0; idx < summary.length; idx++) {
@@ -58,18 +58,18 @@
 				<div class="result_team home_courses_div" id="course<%= idx %>">
 					<div class="result_homeTitle">
 						<h2>[<%= course.id %>] :
-							<%= course.name %>
+							<%= CoordHomeHelper.escapeHTML(course.name) %>
 						</h2>
 					</div>
 					<div class="result_homeLinks">
 						<a class="t_course_enroll<%= idx %>"
-							href="<%= helper.getCourseEnrollLink(course.id) %>"
+							href="<%= helper.getCoordCourseEnrollLink(course.id) %>"
 							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ENROLL %>')"
 							onmouseout="hideddrivetip()">
 							Enroll
 						</a>
 						<a class="t_course_view<%= idx %>"
-							href="<%= helper.getCourseDetailsLink(course.id) %>"
+							href="<%= helper.getCoordCourseDetailsLink(course.id) %>"
 							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_DETAILS %>')"
 							onmouseout="hideddrivetip()">
 							View
@@ -80,7 +80,7 @@
 							Add Evaluation
 						</a>
 						<a class="t_course_delete<%= idx %>"
-							href="<%= helper.getCourseDeleteLink(course.id,true) %>"
+							href="<%= helper.getCoordCourseDeleteLink(course.id,true) %>"
 							onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%= course.id %>')"
 							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_DELETE %>')"
 							onmouseout="hideddrivetip()">
@@ -105,13 +105,13 @@
 									EvaluationData eval = evaluationsArr[i];
 							%>
 								<tr class="home_evaluations_row" id="evaluation<%= evalIdx %>">
-									<td class="t_eval_name"><%= eval.name %></td>
+									<td class="t_eval_name"><%= CoordHomeHelper.escapeHTML(eval.name) %></td>
 									<td class="t_eval_status centeralign"><span
-										onmouseover="ddrivetip(' <%= CoordHomeHelper.getHoverMessageForEval(eval) %>')"
-										onmouseout="hideddrivetip()"><%= CoordHomeHelper.getStatusForEval(eval) %></span></td>
+										onmouseover="ddrivetip(' <%= CoordHomeHelper.getCoordHoverMessageForEval(eval) %>')"
+										onmouseout="hideddrivetip()"><%= CoordHomeHelper.getCoordStatusForEval(eval) %></span></td>
 									<td class="t_eval_response centeralign"><%= eval.submittedTotal %>
 										/ <%= eval.expectedTotal %></td>
-									<td class="centeralign"><%= helper.getEvaluationActions(eval,evalIdx, true) %>
+									<td class="centeralign"><%= helper.getCoordEvaluationActions(eval,evalIdx, true) %>
 									</td>
 								</tr>
 							<%		evalIdx++;

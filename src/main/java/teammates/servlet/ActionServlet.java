@@ -17,8 +17,8 @@ import teammates.jsp.Helper;
 @SuppressWarnings("serial")
 /**
  * Abstract servlet to handle actions.
- * Child class must implement doPostAction, which will be called from the doPost
- * method in the superclass.
+ * Child class must implement all the abstract methods,
+ * which will be called from the doPost method in the superclass.
  * This is template pattern as said in:
  * http://stackoverflow.com/questions/7350297/good-method-to-make-it-obvious-that-an-overriden-method-should-call-super
  * @author Aldrian Obaja
@@ -64,14 +64,14 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * <li>user</li>
 	 * <li>requestedUser</li>
 	 * <li>userId - depends on the masquerade mode</li>
-	 * <li>nextUrl</li>
+	 * <li>nextUrl - get from the request</li>
 	 * <li>statusMessage - set to null</li>
 	 * <li>error - set to false</li>
 	 * </ul>
 	 * @param req
 	 * @param helper
 	 */
-	protected void prepareHelper(HttpServletRequest req, T helper){		
+	private void prepareHelper(HttpServletRequest req, T helper){		
 		helper.server = new APIServlet();
 		helper.user = helper.server.getLoggedInUser();
 		
@@ -125,7 +125,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * the error page with customized error message depending on the Exception
 	 * @param req
 	 * @param resp
-	 * @param helper
+	 * @param helper 
 	 * @throws Exception
 	 */
 	protected abstract void doAction(HttpServletRequest req, T helper)

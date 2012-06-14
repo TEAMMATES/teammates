@@ -86,7 +86,7 @@ public class StudentCourseJoinTest extends TestCase {
 	public void testStudentsJoinCourseSuccessful() throws Exception {
 		System.out.println("testStudentsJoinCourseSuccessful");
 		for (Student s : scn.students) {
-			bi.studentLogin(s.email, Config.inst().TEAMMATES_APP_PASSWD);
+			bi.loginStudent(s.email, Config.inst().TEAMMATES_APP_PASSWD);
 
 			// Try a wrong course key
 			bi.fillString(bi.studentInputRegKey, "totally_wrong_key");

@@ -41,7 +41,7 @@ public class CoordHomeServlet extends ActionServlet<CoordHomeHelper> {
 	@Override
 	protected void doAction(HttpServletRequest req, CoordHomeHelper helper) throws EntityDoesNotExistException{
 		HashMap<String, CourseData> courses = helper.server.getCourseDetailsListForCoord(helper.userId);
-		helper.summary = courses.values().toArray(new CourseData[] {});
+		helper.courses = courses.values().toArray(new CourseData[] {});
 	}
 
 	@Override

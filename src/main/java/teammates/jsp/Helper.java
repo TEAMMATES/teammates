@@ -2,8 +2,6 @@ package teammates.jsp;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Calendar;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,7 +12,7 @@ import teammates.datatransfer.UserData;
 
 public class Helper {	
 	/**
-	 * The APIServlet object
+	 * The APIServlet object. Used to access the API.
 	 */
 	public APIServlet server;
 	
@@ -93,6 +91,8 @@ public class Helper {
 	 * Checks whether a name is longer than 20 characters,
 	 * if so returns the truncated name appended by ellipsis,
 	 * otherwise returns the original nickname.
+	 * This is used for displaying nickname in the header, so that the
+	 * nickname won't be too long that messes up with the header formatting.
 	 * @param nickname
 	 * @return
 	 */
@@ -161,7 +161,7 @@ public class Helper {
 	 * @param courseID
 	 * @return
 	 */
-	public String getCourseEnrollLink(String courseID){
+	public String getCoordCourseEnrollLink(String courseID){
 		String link = Common.JSP_COORD_COURSE_ENROLL;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		if(isMasqueradeMode()){
@@ -175,7 +175,7 @@ public class Helper {
 	 * @param courseID
 	 * @return
 	 */
-	public String getCourseDetailsLink(String courseID){
+	public String getCoordCourseDetailsLink(String courseID){
 		String link = Common.JSP_COORD_COURSE_DETAILS;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID); 
 		if(isMasqueradeMode()){
@@ -191,7 +191,7 @@ public class Helper {
 	 * @param isHome
 	 * @return
 	 */
-	public String getCourseDeleteLink(String courseID, boolean isHome){
+	public String getCoordCourseDeleteLink(String courseID, boolean isHome){
 		String link = Common.JSP_COORD_COURSE_DELETE;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_NEXT_URL,(isHome? Common.JSP_COORD_HOME : Common.JSP_COORD_COURSE));
@@ -209,7 +209,7 @@ public class Helper {
 	 * @param nextURL
 	 * @return
 	 */
-	public String getEvaluationDeleteLink(String courseID, String evalName, String nextURL){
+	public String getCoordEvaluationDeleteLink(String courseID, String evalName, String nextURL){
 		String link = Common.JSP_COORD_EVAL_DELETE;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
@@ -226,7 +226,7 @@ public class Helper {
 	 * @param evalName
 	 * @return
 	 */
-	public String getEvaluationEditLink(String courseID, String evalName){
+	public String getCoordEvaluationEditLink(String courseID, String evalName){
 		String link = Common.JSP_COORD_EVAL_EDIT;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
@@ -242,7 +242,7 @@ public class Helper {
 	 * @param evalName
 	 * @return
 	 */
-	public String getEvaluationResultsLink(String courseID, String evalName){
+	public String getCoordEvaluationResultsLink(String courseID, String evalName){
 		String link = Common.JSP_COORD_EVAL_RESULTS;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
@@ -258,7 +258,7 @@ public class Helper {
 	 * @param evalName
 	 * @return
 	 */
-	public String getEvaluationRemindLink(String courseID, String evalName){
+	public String getCoordEvaluationRemindLink(String courseID, String evalName){
 		return "javascript: hideddrivetip(); toggleRemindStudents('"+courseID+"','"+evalName+"');";
 	}
 	
@@ -272,7 +272,7 @@ public class Helper {
 	 * @param isHome
 	 * @return
 	 */
-	public String getEvaluationPublishLink(String courseID, String evalName, boolean publish, boolean isHome){
+	public String getCoordEvaluationPublishLink(String courseID, String evalName, boolean publish, boolean isHome){
 		return "javascript: hideddrivetip(); togglePublishEvaluation(" +
 				"'" + courseID + "'," +
 				"'" + evalName + "'," +
@@ -288,7 +288,7 @@ public class Helper {
 	 * @param studentEmail
 	 * @return
 	 */
-	public String getEvaluationSubmissionViewLink(String courseID, String evalName, String studentEmail){
+	public String getCoordEvaluationSubmissionViewLink(String courseID, String evalName, String studentEmail){
 		String link = Common.JSP_COORD_EVAL_SUBMISSION_VIEW;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
@@ -307,7 +307,7 @@ public class Helper {
 	 * @param studentEmail
 	 * @return
 	 */
-	public String getEvaluationSubmissionEditLink(String courseID, String evalName, String studentEmail){
+	public String getCoordEvaluationSubmissionEditLink(String courseID, String evalName, String studentEmail){
 		String link = Common.JSP_COORD_EVAL_SUBMISSION_EDIT;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
@@ -317,7 +317,7 @@ public class Helper {
 		}
 		return link;
 	}
-
+	
 	/**
 	 * Returns the evaluaton status. Can be any one of these:
 	 * <ul>
@@ -329,15 +329,13 @@ public class Helper {
 	 * @param eval
 	 * @return
 	 */
-	public static String getStatusForEval(EvaluationData eval){
-		Date now = Calendar.getInstance().getTime();
-		if(eval.startTime.after(now)) return Common.EVALUATION_STATUS_AWAITING;
-		if(eval.endTime.after(new Date(
-					now.getTime()+eval.gracePeriod*60*1000
-				))
-			) return Common.EVALUATION_STATUS_OPEN;
-		if(!eval.published)	return Common.EVALUATION_STATUS_CLOSED;
-		return Common.EVALUATION_STATUS_PUBLISHED;
+	public static String getCoordStatusForEval(EvaluationData eval){
+		switch(eval.getStatus()){
+		case AWAITING: return Common.EVALUATION_STATUS_AWAITING;
+		case OPEN: return Common.EVALUATION_STATUS_OPEN;
+		case CLOSED: return Common.EVALUATION_STATUS_CLOSED;
+		default: return Common.EVALUATION_STATUS_PUBLISHED;
+		}
 	}
 	
 	/**
@@ -345,12 +343,13 @@ public class Helper {
 	 * @param eval
 	 * @return
 	 */
-	public static String getHoverMessageForEval(EvaluationData eval){
-		String status = getStatusForEval(eval);
-		if(status.equals(Common.EVALUATION_STATUS_AWAITING)) return Common.HOVER_MESSAGE_EVALUATION_STATUS_AWAITING;
-		if(status.equals(Common.EVALUATION_STATUS_OPEN)) return Common.HOVER_MESSAGE_EVALUATION_STATUS_OPEN;
-		if(status.equals(Common.EVALUATION_STATUS_CLOSED)) return Common.HOVER_MESSAGE_EVALUATION_STATUS_CLOSED;
-		return Common.HOVER_MESSAGE_EVALUATION_STATUS_PUBLISHED;
+	public static String getCoordHoverMessageForEval(EvaluationData eval){
+		switch(eval.getStatus()){
+		case AWAITING: return Common.HOVER_MESSAGE_EVALUATION_STATUS_AWAITING;
+		case OPEN: return Common.HOVER_MESSAGE_EVALUATION_STATUS_OPEN;
+		case CLOSED: return Common.HOVER_MESSAGE_EVALUATION_STATUS_CLOSED;
+		default: return Common.HOVER_MESSAGE_EVALUATION_STATUS_PUBLISHED;
+		}
 	}
 	
 	/**
@@ -363,7 +362,7 @@ public class Helper {
 	 * 		Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
 	 * @return
 	 */
-	public String getEvaluationActions(EvaluationData eval, int position, boolean isHome){
+	public String getCoordEvaluationActions(EvaluationData eval, int position, boolean isHome){
 		StringBuffer result = new StringBuffer();
 		
 		boolean hasView = false;
@@ -372,58 +371,59 @@ public class Helper {
 		boolean hasPublish = false;
 		boolean hasUnpublish = false;
 		
-		String status = getStatusForEval(eval);
-		
-		if(status.equals(Common.EVALUATION_STATUS_AWAITING)){
+		switch(eval.getStatus()){
+		case AWAITING:
 			hasEdit = true;
-		} else if(status.equals(Common.EVALUATION_STATUS_OPEN)){
+			break;
+		case OPEN:
 			hasView = true;
 			hasEdit = true;
 			hasRemind = true;
-		} else if(status.equals(Common.EVALUATION_STATUS_CLOSED)){
+			break;
+		case CLOSED:
 			hasView = true;
 			hasEdit = true;
 			hasPublish = true;
-		} else { // EVALUATION_STATUS_PUBLISHED
-			hasView = true;
+			break;
+		case PUBLISHED:
 			hasUnpublish = true;
 		}
 		
 		result.append(
 			"<a class=\"t_eval_view\" name=\"viewEvaluation" + position + "\" id=\"viewEvaluation"+ position + "\" " +
-			"href=\"" + getEvaluationResultsLink(eval.course,eval.name) + "\" " +
+			"href=\"" + getCoordEvaluationResultsLink(eval.course,eval.name) + "\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_RESULTS+"')\" "+
 			"onmouseout=\"hideddrivetip()\"" + (hasView ? "" : DISABLED) + ">View Results</a>"
 		);
 		result.append(
 			"<a class=\"t_eval_edit\" name=\"editEvaluation" + position + "\" id=\"editEvaluation" + position + "\" " +
-			"href=\"" + getEvaluationEditLink(eval.course,eval.name) + "\" " +
+			"href=\"" + getCoordEvaluationEditLink(eval.course,eval.name) + "\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_EDIT+"')\" onmouseout=\"hideddrivetip()\" " +
 			(hasEdit ? "" : DISABLED) + ">Edit</a>"
 		);
 		result.append(
 			"<a class=\"t_eval_delete\" name=\"deleteEvaluation" + position + "\" id=\"deleteEvaluation" + position + "\" " +
-			"href=\"" + getEvaluationDeleteLink(eval.course,eval.name,(isHome ? Common.JSP_COORD_HOME : Common.JSP_COORD_EVAL)) + "\" " +
+			"href=\"" + getCoordEvaluationDeleteLink(eval.course,eval.name,(isHome ? Common.JSP_COORD_HOME : Common.JSP_COORD_EVAL)) + "\" " +
 			"onclick=\"hideddrivetip(); return toggleDeleteEvaluationConfirmation('" + eval.course + "','" + eval.name + "');\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_DELETE+"')\" onmouseout=\"hideddrivetip()\">Delete</a>"
 		);
 		result.append(
 			"<a class=\"t_eval_remind\" name=\"remindEvaluation" + position + "\" id=\"remindEvaluation" + position + "\" " +
-			"href=\"" + getEvaluationRemindLink(eval.course,eval.name) + "\" " +
+			"href=\"" + getCoordEvaluationRemindLink(eval.course,eval.name) + "\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_REMIND+"')\" " +
 			"onmouseout=\"hideddrivetip()\"" + (hasRemind ? "" : DISABLED) + ">Remind</a>"
 		);
 		if (hasUnpublish) {
 			result.append(
-				"<a class=\"t_eval_unpublish\" name=\"publishEvaluation" + position + "\" id=\"publishEvaluation" + position + "\" " +
-				"href=\"" + getEvaluationPublishLink(eval.course,eval.name,false,isHome) + "\" " +
+				"<a class=\"t_eval_unpublish\" name=\"unpublishEvaluation" + position + "\" id=\"publishEvaluation" + position + "\" " +
+				"href=\"" + getCoordEvaluationPublishLink(eval.course,eval.name,false,isHome) + "\" " +
 				"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_UNPUBLISH+"')\" onmouseout=\"hideddrivetip()\">" +
 				"Unpublish</a>"
 			);
 		} else {
 			result.append(
-				"<a class=\"t_eval_publish\" name=\"unpublishEvaluation" + position + "\" id=\"publishEvaluation" + position + "\" " +
-				"href=\"" + getEvaluationPublishLink(eval.course,eval.name,true,isHome) + "\" " +
+				"<a class=\"t_eval_publish\" name=\"publishEvaluation" + position + "\" id=\"publishEvaluation" + position + "\" " +
+				"href=\"" + getCoordEvaluationPublishLink(eval.course,eval.name,true,isHome) + "\" " +
 				"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_PUBLISH+"')\" " +
 				"onmouseout=\"hideddrivetip()\"" + (hasPublish ? "" : DISABLED) + ">Publish</a>"
 			);

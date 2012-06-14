@@ -59,7 +59,7 @@ public class CoordCourseDeleteUITest extends TestCase {
 		bi.logout();
 		
 		// Check that the course has been deleted from student page 
-		bi.studentLogin(scn.students.get(FIRST_STUDENT).email, Config.inst().TEAMMATES_APP_PASSWD);
+		bi.loginStudent(scn.students.get(FIRST_STUDENT).email, Config.inst().TEAMMATES_APP_PASSWD);
 		bi.clickCourseTab();
 
 		assertFalse(bi.isCoursePresent(scn.course.courseId, scn.course.courseName));

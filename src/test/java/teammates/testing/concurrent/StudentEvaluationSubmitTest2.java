@@ -47,7 +47,7 @@ public class StudentEvaluationSubmitTest2 extends TestCase {
 	}
 
 	private void studentSubmitEvaluation(Student student) {
-		bi.studentLogin(student.email, student.password);
+		bi.loginStudent(student.email, student.password);
 
 		bi.clickEvaluationTab();
 		bi.waitForElementPresent(bi.studentGetPendingEvaluationName(scn.course.courseId, scn.evaluation.name));

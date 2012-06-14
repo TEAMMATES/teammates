@@ -869,7 +869,7 @@ public class APIServlet extends HttpServlet {
 		editEvaluation(evaluation);
 	}
 
-	private void editSubmissionAsJson(String submissionJson) {
+	private void editSubmissionAsJson(String submissionJson) throws InvalidParametersException, EntityDoesNotExistException {
 		SubmissionData submission = Common.getTeammatesGson().fromJson(
 				submissionJson, SubmissionData.class);
 		ArrayList<SubmissionData> submissionList = new ArrayList<SubmissionData>();
@@ -1747,7 +1747,7 @@ public class APIServlet extends HttpServlet {
 	}
 
 	// TODO: change to editSubmissions
-	public void editSubmissions(List<SubmissionData> submissionDataList) {
+	public void editSubmissions(List<SubmissionData> submissionDataList) throws EntityDoesNotExistException, InvalidParametersException{
 		ArrayList<Submission> submissions = new ArrayList<Submission>();
 		for (SubmissionData sd : submissionDataList) {
 			submissions.add(sd.toSubmission());

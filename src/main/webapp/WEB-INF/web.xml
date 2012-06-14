@@ -182,6 +182,43 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <url-pattern>/page/coordEvalResults</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+	    <description>Servlet that handles student home page</description>
+	    <servlet-name>StudentHome</servlet-name>
+	    <servlet-class>teammates.servlet.StudentHomeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>StudentHome</servlet-name>
+	    <url-pattern>/page/studentHome</url-pattern>
+	</servlet-mapping>
+	<servlet>
+	    <description>Servlet that handles student join course action</description>
+	    <servlet-name>StudentCourseJoin</servlet-name>
+	    <servlet-class>teammates.servlet.StudentCourseJoinServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>StudentCourseJoin</servlet-name>
+	    <url-pattern>/page/studentCourseJoin</url-pattern>
+	</servlet-mapping>
+	<servlet>
+	    <description>Servlet that handles student edit/submit evaluation page</description>
+	    <servlet-name>StudentEvalEdit</servlet-name>
+	    <servlet-class>teammates.servlet.StudentEvalEditServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>StudentEvalEdit</servlet-name>
+	    <url-pattern>/page/studentEvalEdit</url-pattern>
+	</servlet-mapping>
+	<servlet>
+	    <description>Servlet that handles student edit/submit evaluation page</description>
+	    <servlet-name>StudentEvalEditHandler</servlet-name>
+	    <servlet-class>teammates.servlet.StudentEvalEditHandlerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>StudentEvalEditHandler</servlet-name>
+	    <url-pattern>/page/studentEvalEditHandler</url-pattern>
+	</servlet-mapping>
+	
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>AutomatedEmails</web-resource-name>

@@ -49,7 +49,7 @@ public class StudentEvaluationResultsTest2 extends TestCase {
 	}
 
 	private void studentViewEvaluationResults(Student student) {
-		bi.studentLogin(student.email, student.password);
+		bi.loginStudent(student.email, student.password);
 
 		bi.clickEvaluationTab();
 

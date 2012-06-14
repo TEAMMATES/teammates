@@ -48,7 +48,7 @@
 		 			</tr>
 		 			<tr>
 		 				<td class="fieldname">Course name:</td>
-		 				<td><%= helper.course.name %></td>
+		 				<td><%= CoordCourseDetailsHelper.escapeHTML(helper.course.name) %></td>
 					</tr>
 					<tr>
 		 				<td class="fieldname">Teams:</td>
@@ -76,32 +76,39 @@
 			<div id="coordinatorStudentTable">
 				<table id="dataform">
 					<tr>
-						<th><input class="buttonSortAscending" type="button" id="button_sortstudentname" />Student Name</th>
-						<th><input class="buttonSortNone" type="button" id="button_sortstudentteam" />Team</th>
-						<th class="centeralign"><input class="buttonSortNone" type="button" id="button_sortstudentstatus" />Status</th>
+						<th><input class="buttonSortAscending" type="button" id="button_sortstudentname" 
+								onclick="toggleSort(this,1)"/>Student Name</th>
+						<th><input class="buttonSortNone" type="button" id="button_sortstudentteam"
+								onclick="toggleSort(this,2)"/>Team</th>
+						<th class="centeralign"><input class="buttonSortNone" type="button" id="button_sortstudentstatus"
+								onclick="toggleSort(this,3)"/>Status</th>
 						<th class="centeralign">Action(s)</th>
 					</tr>
 					<%	for(StudentData student: helper.students){ %>
 							<tr>
 								<td><%= student.name %></td>
-	 							<td><%= student.team %></td>
+	 							<td><%= CoordCourseDetailsHelper.escapeHTML(student.team) %></td>
 	 							<td class="centeralign"><%= helper.status(student) %></td>
 	 							<td class="centeralign">
 									<a class="t_student_details" href="<%= helper.getCourseStudentDetailsLink(student) %>"
 											onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_STUDENT_DETAILS %>')"
-											onmouseout="hideddrivetip()">View</a>
+											onmouseout="hideddrivetip()">
+											View</a>
 									<a class="t_student_edit" href="<%= helper.getCourseStudentEditLink(student) %>"
 											onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_STUDENT_EDIT %>')"
-											onmouseout="hideddrivetip()">Edit</a>
+											onmouseout="hideddrivetip()">
+											Edit</a>
 									<%	if(helper.status(student).equals(Common.STUDENT_STATUS_YET_TO_JOIN)){ %>
 										<a class="t_student_resend" href="<%= helper.getCourseStudentRemindLink(student) %>"
 												onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_STUDENT_REMIND %>')"
-												onmouseout="hideddrivetip()">Resend Invite</a>
+												onmouseout="hideddrivetip()">
+												Resend Invite</a>
 									<%	} %>
 									<a class="t_student_delete" href="<%= helper.getCourseStudentDeleteLink(student) %>"
 											onclick="return toggleDeleteStudentConfirmation('<%= CoordCourseDetailsHelper.escape(student.name) %>')"
 											onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_STUDENT_DELETE %>')"
-											onmouseout="hideddrivetip()">Delete</a>
+											onmouseout="hideddrivetip()">
+											Delete</a>
 								</td>
 	 						</tr>
 					<%	} %>

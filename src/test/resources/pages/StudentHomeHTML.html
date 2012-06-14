@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+	<link href="/favicon.png" rel="shortcut icon" />
+	<meta content="IE=8" http-equiv="X-UA-Compatible" />
+	<title>Teammates - Student</title>
+	<link type="text/css" href="/stylesheets/main.css" rel="stylesheet" />
+	<link type="text/css" href="/stylesheets/evaluation.css" rel="stylesheet" />
+
+	<script src="/js/jquery-1.6.2.min.js" language="JavaScript"></script>
+	<script src="/js/tooltip.js" language="JavaScript"></script>
+	<script src="/js/helperNew.js" language="JavaScript"></script>
+	<script src="/js/commonNew.js" language="JavaScript"></script>
+	
+	<script src="/js/studentNew.js" language="JavaScript"></script>	
+</head>
+
+<body>
+	<div id="dhtmltooltip"></div>
+
+	<div id="frameTop">
+		
+
+
+		<div id="frameTopWrapper">
+			<div id="logo">
+				<img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="Teammates" />
+			</div>			
+			<div id="contentLinks">
+				<ul id="navbar">
+					<li><a href="/page/studentHome" class="t_home">Home</a></li>
+					<li><a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/studentHelp.html" class="t_help">Help</a></li>
+					<li><a href="/logout.jsp" class="t_logout">Logout</a>
+					 (amy.b.tmms)</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div id="frameBody">
+		<div id="frameBodyWrapper">
+			<div id="topOfPage"></div>
+			<div id="headerOperation">
+				<h1>STUDENT HOME</h1>
+				<br />
+				<div class="result_addOrJoinCourse">
+					<form name="form_joincourse" action="/page/studentCourseJoin" method="post">
+						<table class="headerform">
+							<tbody><tr>
+								<td width="30%" class="attribute">Registration Key:</td>
+								<td width="30%">
+									<input type="text" tabindex="1" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter your registration key for the course.')" id="regkey" name="regkey" class="keyvalue" />
+								</td>
+								<td width="30%">
+									<input type="submit" tabindex="2" value="Join Course" onclick='return this.form.regkey.value!=""' class="button" id="btnJoinCourse" />
+								</td>
+							</tr>
+						 </tbody></table>
+					</form>
+				</div>
+			</div>
+			
+
+
+	<div style="display: none" id="statusMessage"></div>
+
+			<div id="studentHomeTable">
+				
+				<div id="course0" class="result_team home_courses_div">
+					<div class="result_homeTitle">
+						<h2>[SHomeUiT.CS1101] :
+							Programming Methodology
+						</h2>
+					</div>
+					<div class="result_homeLinks">
+						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Your profile in this course')" href="/page/studentCourseProfile?courseid=SHomeUiT.CS1101" class="t_course_profile0">
+							Profile
+						</a>
+						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start evaluation')" href="/page/studentCourseDetails?courseid=SHomeUiT.CS1101" class="t_course_view0">
+							View Team
+						</a>
+					</div>
+					<div style="clear: both;"></div>
+					<br />
+					
+						<table id="dataform">
+							<tbody><tr>
+								<th class="leftalign">Evaluation Name</th>
+								<th class="centeralign">Deadline</th>
+								<th class="centeralign">Status</th>
+								<th class="centeralign">Action(s)</th>
+							</tr>
+							
+								<tr id="evaluation0" class="home_evaluations_row">
+									<td class="t_eval_name">Third Eval</td>
+									<td class="t_eval_deadline centeralign">02 Apr 2012, 23:59</td>
+									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation has finished but the coordinator has not published the results yet')">Closed</span></td>
+									<td class="centeralign"><a onclick="return false" style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" id="viewEvaluationResults0" name="viewEvaluationResults0" href="/page/studentEvalResults?courseid=SHomeUiT.CS1101&amp;evaluationname=Third+Eval">View Results</a><a onclick="return false" style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit submitted evaluation')" id="editEvaluationSubmission0" name="editEvaluationSubmission0" href="/page/studentEvalEdit?courseid=SHomeUiT.CS1101&amp;evaluationname=Third+Eval">Edit</a>
+									</td>
+								</tr>
+							
+								<tr id="evaluation1" class="home_evaluations_row">
+									<td class="t_eval_name">Fifth Eval</td>
+									<td class="t_eval_deadline centeralign">01 Apr 2015, 23:59</td>
+									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation is yet to be completed by you')">Pending</span></td>
+									<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start evaluation')" href="/page/studentEvalEdit?courseid=SHomeUiT.CS1101&amp;evaluationname=Fifth+Eval" id="doEvaluation1">Submit</a>
+									</td>
+								</tr>
+							
+						</tbody></table>
+						<br />
+					
+				</div>
+				<br /> <br /> <br />
+				
+				<div id="course1" class="result_team home_courses_div">
+					<div class="result_homeTitle">
+						<h2>[SHomeUiT.CS2104] :
+							Programming Language Concepts
+						</h2>
+					</div>
+					<div class="result_homeLinks">
+						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Your profile in this course')" href="/page/studentCourseProfile?courseid=SHomeUiT.CS2104" class="t_course_profile1">
+							Profile
+						</a>
+						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start evaluation')" href="/page/studentCourseDetails?courseid=SHomeUiT.CS2104" class="t_course_view1">
+							View Team
+						</a>
+					</div>
+					<div style="clear: both;"></div>
+					<br />
+					
+						<table id="dataform">
+							<tbody><tr>
+								<th class="leftalign">Evaluation Name</th>
+								<th class="centeralign">Deadline</th>
+								<th class="centeralign">Status</th>
+								<th class="centeralign">Action(s)</th>
+							</tr>
+							
+								<tr id="evaluation2" class="home_evaluations_row">
+									<td class="t_eval_name">Second Eval</td>
+									<td class="t_eval_deadline centeralign">02 Apr 2012, 23:59</td>
+									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation has finished and you can check the results')">Published</span></td>
+									<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" id="viewEvaluationResults2" name="viewEvaluationResults2" href="/page/studentEvalResults?courseid=SHomeUiT.CS2104&amp;evaluationname=Second+Eval">View Results</a><a onclick="return false" style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit submitted evaluation')" id="editEvaluationSubmission2" name="editEvaluationSubmission2" href="/page/studentEvalEdit?courseid=SHomeUiT.CS2104&amp;evaluationname=Second+Eval">Edit</a>
+									</td>
+								</tr>
+							
+								<tr id="evaluation3" class="home_evaluations_row">
+									<td class="t_eval_name">First Eval</td>
+									<td class="t_eval_deadline centeralign">01 Apr 2015, 23:59</td>
+									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' You have submitted your feedback for this evaluation')">Submitted</span></td>
+									<td class="centeralign"><a onclick="return false" style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" id="viewEvaluationResults3" name="viewEvaluationResults3" href="/page/studentEvalResults?courseid=SHomeUiT.CS2104&amp;evaluationname=First+Eval">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit submitted evaluation')" id="editEvaluationSubmission3" name="editEvaluationSubmission3" href="/page/studentEvalEdit?courseid=SHomeUiT.CS2104&amp;evaluationname=First+Eval">Edit</a>
+									</td>
+								</tr>
+							
+						</tbody></table>
+						<br />
+					
+				</div>
+				<br /> <br /> <br />
+				
+			</div>
+		</div>
+	</div>
+
+	<div id="frameBottom">
+		
+<div id="contentFooter">
+[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
+
+<a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html" class="footer">Contact Us</a>
+</div>
+	</div>
+
+</body></html>

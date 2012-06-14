@@ -136,12 +136,14 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	
 	public void testCoordHomeCoursePageHTML() throws Exception{
 		// Regex test due to the tooltip from previous click (it differs based on screen size)
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/CoordHomeHTML.html");
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/CoordHomeHTML.html");
 		
 		TMAPI.deleteCourse(scn.courses.get("CHomeUiT.CS2104").id);
 		TMAPI.deleteCourse(scn.courses.get("CHomeUiT.CS1101").id);
 		
 		bi.goToCoordHome();
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/CoordHomeHTMLEmpty.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/CoordHomeHTMLEmpty.html");
 	}
 }

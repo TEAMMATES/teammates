@@ -71,7 +71,7 @@
 				<div id="headerOperation">
 					<h1>Enroll Students for <%= helper.courseID %></h1>
 				</div>
-				<form action="<%= helper.getCourseEnrollLink(helper.courseID) %>" method="post">
+				<form action="<%= helper.getCoordCourseEnrollLink(helper.courseID) %>" method="post">
 					<input type="hidden" name="courseid" value="<%= helper.courseID %>"></input>
 					<div id="coordinatorCourseEnrollment">
 						<img src="/images/enrollInstructions.png" style="width:1012,height:324" border="0" />

@@ -1,47 +1,57 @@
-/**
+/*
  * Helper functions for Teammates Require: jquery
  */
 
-var debugEnabled = true;
-
-function logSubmission(s) {
-	if (debugEnabled) {
-		var msg = "SUBMISSION: ";
-		msg += s.fromStudent + "|";
-		msg += s.toStudent + "|";
-		msg += s.points + "|";
-		msg += s.pointsBumpRatio + "|";
-		msg += s.courseID + "|";
-		msg += s.evaluationName + "|";
-		msg += s.teamName + "|";
-		msg += s.commentsToStudent + "\n";
-		msg += s.justification;
-		console.log(msg);
-	}
+/**
+ * Format a number to be two digits
+ */
+function formatDigit(num){
+	return (num<10?"0":"")+num;
 }
 
-function logSubmissionList(lst) {
-	if (debugEnabled) {
-		for ( var i = 0; i < lst.length; i++) {
-			logSubmission(lst[i]);
-		}
-	}
+/**
+ * Format a date object into DD/MM/YYYY format
+ * @param date
+ * @returns {String}
+ */
+function convertDateToDDMMYYYY(date) {
+	return formatDigit(date.getDate()) + "/" +
+			formatDigit(date.getMonth()+1) + "/" +
+			date.getFullYear();
 }
 
-function logSummaryList(lst) {
-	if (debugEnabled) {
-		for ( var i = 0; i < lst.length; i++) {
-			var msg = "summary list " + i + " ";
-			msg += lst[i].toStudent + "|";
-			msg += lst[i].claimedPoints + "|";
-			msg += lst[i].average + "|";
-			msg += lst[i].difference + "|";
-			msg += lst[i].courseID + "|";
-			msg += lst[i].evaluationName + "|";
-			msg += lst[i].teamName + "|";
-			console.log(msg);
-		}
-	}
+/**
+ * Format a date object into HHMM format
+ * @param date
+ * @returns {String}
+ */
+function convertDateToHHMM(date) {
+	return formatDigit(date.getHours()) + formatDigit(date.getMinutes());
+}
+
+/**
+ * Returns Date object that shows the current time at specific timeZone
+ * @param timeZone
+ * @returns {Date}
+ */
+function getDateWithTimeZoneOffset(timeZone) {
+	var now = new Date();
+
+	// Convert local time zone to ms
+	var nowTime = now.getTime();
+
+	// Obtain local time zone offset
+	var localOffset = now.getTimezoneOffset() * 60000;
+
+	// Obtain UTC time
+	var UTC = nowTime + localOffset;
+
+	// Add the time zone of evaluation
+	var nowMilliS = UTC + (timeZone * 60 * 60 * 1000);
+
+	now.setTime(nowMilliS);
+
+	return now;
 }
 
 /**
@@ -163,23 +173,6 @@ function encodeCharForPrint(str) {
 	return str;
 }
 
-function setEditEvaluationResultsStatusMessage(message) {
-	if (message == "") {
-		clearEditEvaluationResultsStatusMessage();
-		return;
-	}
-
-	$("#coordinatorEditEvaluationResultsStatusMessage").html(message).show();
-}
-
-function clearEditEvaluationResultsStatusMessage() {
-	$("#coordinatorEditEvaluationResultsStatusMessage").html("").hide();
-}
-
-function toggleEditEvaluationResultsStatusMessage(statusMsg) {
-	setEditEvaluationResultsStatusMessage(statusMsg);
-}
-
 /**---------------------------- Sorting Functions --------------------------**/
 /**
  * jQuery.fn.sortElements
@@ -254,11 +247,14 @@ function toggleSort(divElement,colIdx,comparator) {
 }
 
 /**
- * Sorts a table ascending based on certain column
+ * Sorts a table based on certain column and comparator
  * @param oneOfTableCell
  * 		One of the table cell
  * @param colIdx
  * 		The column index (1-based) as key for the sort
+ * @param comparator
+ * 		This will be used to compare two cells. If not specified,
+ * 		sortBaseCell will be used
  */
 function sortTable(oneOfTableCell, colIdx, comparator){
 	if(!comparator) comparator = sortBaseCell;
@@ -271,12 +267,24 @@ function sortTable(oneOfTableCell, colIdx, comparator){
 	keys.sortElements( comparator, function(){return this.parentNode;} );
 }
 
+/**
+ * The base comparator for a cell
+ * @param cell1
+ * @param cell2
+ * @returns
+ */
 function sortBaseCell(cell1, cell2){
 	cell1 = cell1.innerHTML;
 	cell2 = cell2.innerHTML;
 	return sortBase(cell1,cell2);
 }
 
+/**
+ * The base comparator (ascending)
+ * @param x
+ * @param y
+ * @returns
+ */
 function sortBase(x, y) {
 	return ((x < y) ? -1 : ((x > y) ? 1 : 0));
 }
@@ -310,6 +318,7 @@ function sortByDiff(a, b){
 /**
  * To get point value from a formatted string
  * @param s
+ * 		A table cell (td tag) that contains the formatted string
  * @param ditchZero
  * 		Whether 0% should be treated as lower than -90 or not
  * @returns
@@ -365,6 +374,9 @@ function setStatusMessage(message, error) {
 	$(DIV_STATUS_MESSAGE).show();
 }
 
+/**
+ * Clears the status message div tag and hides it
+ */
 function clearStatusMessage() {
 	$(DIV_STATUS_MESSAGE).html("").css("background","").hide();
 }

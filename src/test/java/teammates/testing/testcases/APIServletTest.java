@@ -1901,7 +1901,7 @@ public class APIServletTest extends BaseTestCase {
 
 	private void createNewEvaluationWithSubmissions(String courseId,
 			String evaluationName, int[][] input)
-			throws EntityAlreadyExistsException, InvalidParametersException {
+			throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
 		// create course
 		apiServlet.createCourse("coordForTestingER", courseId,
 				"Course For Testing Evaluation Results");
@@ -2602,7 +2602,7 @@ public class APIServletTest extends BaseTestCase {
 		return submission;
 	}
 
-	private void setPointsForSubmissions(int[][] points) {
+	private void setPointsForSubmissions(int[][] points) throws InvalidParametersException, EntityDoesNotExistException {
 		int teamSize = points.length;
 		ArrayList<SubmissionData> submissions = new ArrayList<SubmissionData>();
 		for (int i = 0; i < teamSize; i++) {

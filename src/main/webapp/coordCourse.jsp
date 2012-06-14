@@ -59,7 +59,7 @@
 						<tr>
 							<td><input class="addinput" type="text"
 								name="<%= Common.PARAM_COURSE_NAME %>" id="<%= Common.PARAM_COURSE_NAME %>"
-								value="<%=(helper.courseName==null?"":helper.courseName)%>"
+								value="<%= (helper.courseName==null?"":CoordCourseHelper.escapeHTML(helper.courseName)) %>"
 								onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
 								onmouseout="hideddrivetip()"
 								maxlength=<%= Common.COURSE_NAME_MAX_LENGTH %> tabindex=2 /></td>
@@ -95,21 +95,21 @@
 					%>
 						<tr class="courses_row">
 							<td id="courseID<%= idx %>"><%= course.id %></td>
-							<td id="courseName<%= idx %>"><%= course.name %></td>
+							<td id="courseName<%= idx %>"><%= CoordCourseHelper.escapeHTML(course.name) %></td>
 							<td class="t_course_teams centeralign"><%= course.teamsTotal %></td>
 							<td class="centeralign"><%= course.studentsTotal %></td>
 							<td class="centeralign"><%= course.unregisteredTotal %></td>
 							<td class="centeralign">
 								<a class="t_course_enroll"
-									href="<%= helper.getCourseEnrollLink(course.id) %>"
+									href="<%= helper.getCoordCourseEnrollLink(course.id) %>"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ENROLL %>')"
 									onmouseout="hideddrivetip()">Enroll</a>
 								<a class="t_course_view"
-									href="<%= helper.getCourseDetailsLink(course.id) %>"
+									href="<%=helper.getCoordCourseDetailsLink(course.id)%>"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_DETAILS %>')"
 									onmouseout="hideddrivetip()">View</a>
 								<a class="t_course_delete"
-									href="<%= helper.getCourseDeleteLink(course.id,false) %>"
+									href="<%=helper.getCoordCourseDeleteLink(course.id,false)%>"
 									onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%= course.id %>');"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_DELETE %>')"
 									onmouseout="hideddrivetip()">Delete</a>

@@ -49,7 +49,7 @@
 					</tr>
 					<tr>
 						<td class="fieldname">Evaluation name:</td>
-						<td><%= helper.evaluation.name %></td>
+						<td><%= CoordEvalResultsHelper.escapeHTML(helper.evaluation.name) %></td>
 					</tr>
 					<tr>
 						<td class="fieldname">Opening time:</td>
@@ -76,17 +76,23 @@
 					<tr>
 						<td></td>
 						<td>
-						<%	if(CoordEvalResultsHelper.getStatusForEval(helper.evaluation).equals(Common.EVALUATION_STATUS_CLOSED)) { %>
+						<%
+							if(CoordEvalResultsHelper.getCoordStatusForEval(helper.evaluation).equals(Common.EVALUATION_STATUS_CLOSED)) {
+						%>
 							<input type="button" class="button"
 								id = "button_publish"
 								value = "Publish"
-								onclick = "togglePublishEvaluation('<%= helper.evaluation.course %>','<%= helper.evaluation.name %>', true, '<%= helper.getForwardURL() %>')" />
-						<%	} else if (CoordEvalResultsHelper.getStatusForEval(helper.evaluation).equals(Common.EVALUATION_STATUS_PUBLISHED)) { %>
+								onclick = "togglePublishEvaluation('<%=helper.evaluation.course%>','<%=helper.evaluation.name%>', true, '<%=helper.getForwardURL()%>')" />
+						<%
+							} else if (CoordEvalResultsHelper.getCoordStatusForEval(helper.evaluation).equals(Common.EVALUATION_STATUS_PUBLISHED)) {
+						%>
 							<input type="button" class="button"
 								id = "button_publish"
 								value = "Unpublish"
-								onclick = "togglePublishEvaluation('<%= helper.evaluation.course %>','<%= helper.evaluation.name %>', false, '<%= helper.getForwardURL() %>')" />
-						<%	} %>
+								onclick = "togglePublishEvaluation('<%=helper.evaluation.course%>','<%=helper.evaluation.name%>', false, '<%=helper.getForwardURL()%>')" />
+						<%
+							}
+						%>
 						</td>
 					</tr>
 				</table>
@@ -106,53 +112,54 @@
 								onclick="toggleSort(this,4,sortByPoint)"/>PC</th>
 						<th class="centeralign" width="6.5%"><input class="buttonSortNone" type="button" id="button_sortdiff"
 								onclick="toggleSort(this,5,sortByDiff)"/>
-							<span onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_DIFF %>')"
+							<span onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_DIFF%>')"
 									onmouseout="hideddrivetip()">Diff</span>
 						</th>
 						<th class="centeralign" width="18%">
-							<span onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_POINTS_GIVEN %>')" onmouseout="hideddrivetip()">
+							<span onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_POINTS_GIVEN%>')" onmouseout="hideddrivetip()">
 							Points Given</span>
 						</th>
 						<th class="centeralign" width="18%">
-							<span onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_POINTS_RECEIVED %>')" onmouseout="hideddrivetip()">
+							<span onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_POINTS_RECEIVED%>')" onmouseout="hideddrivetip()">
 							Points Received</span>
 						</th>
 						<th class="centeralign" width="11%">Action(s)</th>
 					</tr>
-					<%	int idx = 0;
-						for(TeamData team: helper.evaluation.teams){
-							for(StudentData student: team.students){
-							%>
+					<%
+						int idx = 0;
+									for(TeamData team: helper.evaluation.teams){
+										for(StudentData student: team.students){
+					%>
 						<tr>
-							<td><%= team.name %></td>
+							<td><%= CoordEvalResultsHelper.escapeHTML(team.name) %></td>
 							<td>
-								<span onmouseover="ddrivetip('<%= CoordEvalResultsHelper.escape(student.comments) %>')"
+								<span onmouseover="ddrivetip('<%=CoordEvalResultsHelper.escape(student.comments)%>')"
 										onmouseout="hideddrivetip()">
 									<%= student.name %>
 								</span>
 							</td>
-							<td><%= helper.colorizePoints(student.result.claimedToCoord) %></td>
-							<td><%= helper.colorizePoints(student.result.perceivedToCoord) %></td>
-							<td><%= helper.printDiff(student.result) %></td>
-							<td><%= helper.getPointsList(student.result.outgoing) %></td>
-							<td><%= helper.getPointsList(student.result.incoming) %></td>
+							<td><%=helper.colorizePoints(student.result.claimedToCoord)%></td>
+							<td><%=helper.colorizePoints(student.result.perceivedToCoord)%></td>
+							<td><%=helper.printDiff(student.result)%></td>
+							<td><%=helper.getPointsList(student.result.outgoing)%></td>
+							<td><%=helper.getPointsList(student.result.incoming)%></td>
 							<td class="centeralign">
-								<a name="viewEvaluationResults<%= idx %>" id="viewEvaluationResults<%= idx %>"
+								<a name="viewEvaluationResults<%=idx%>" id="viewEvaluationResults<%=idx%>"
 										target="_blank"
-										href="<%= helper.getEvaluationSubmissionViewLink(helper.evaluation.course, helper.evaluation.name, student.email)%>"
-										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_VIEW_REVIEWER %>')"
+										href="<%=helper.getCoordEvaluationSubmissionViewLink(helper.evaluation.course, helper.evaluation.name, student.email)%>"
+										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_VIEW_REVIEWER%>')"
 										onmouseout="hideddrivetip()">
 										View</a>
-								<a name="editEvaluationResults<%= idx %>" id="editEvaluationResults<%= idx %>"
+								<a name="editEvaluationResults<%=idx%>" id="editEvaluationResults<%=idx%>"
 										target="_blank"
-										href="<%= helper.getEvaluationSubmissionEditLink(helper.evaluation.course, helper.evaluation.name, student.email) %>"
-										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_EDIT %>')"
+										href="<%=helper.getCoordEvaluationSubmissionEditLink(helper.evaluation.course, helper.evaluation.name, student.email)%>"
+										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_EDIT%>')"
 										onmouseout="hideddrivetip()"
-										<%= CoordEvalResultsHelper
-											.getStatusForEval(helper.evaluation)
+										<%=CoordEvalResultsHelper
+											.getCoordStatusForEval(helper.evaluation)
 											.equals(Common.EVALUATION_STATUS_CLOSED)
 											? ""
-											: CoordEvalResultsHelper.DISABLED %> >
+											: CoordEvalResultsHelper.DISABLED%> >
 										Edit</a></td>
 						</tr>
 					<%			idx++;

@@ -474,7 +474,6 @@ public class BrowserInstance {
 	
 	/**
 	 * Logs in as coordinator.
-	 * Verifies that the new page is loaded correctly before returning.
 	 * @page Homepage
 	 */
 	public void loginCoord(String username, String password) {
@@ -492,24 +491,18 @@ public class BrowserInstance {
 			driver.findElement(logoutTab).click();
 			waitForPageLoad();
 
-			// Check that we're at the main page after logging out
-			verifyMainPage();
-
 			click(COORD_LOGIN_BUTTON);
 			waitForPageLoad();
 		}
 
 		login(username, password);
-
-		//verifyCoordHomePage();
 	}
 
 	/**
 	 * Logs in as student.
-	 * Waits until the new page is fully loaded before returning.
 	 * @page Homepage
 	 */
-	public void studentLogin(String username, String password) {
+	public void loginStudent(String username, String password) {
 		System.out.println("Logging in student " + username + ".");
 		
 		// Click the Student button on the main page
@@ -531,8 +524,6 @@ public class BrowserInstance {
 		}
 		
 		login(username, password);
-		
-		verifyStudentHomePage();
 	}
 	
 	private void login(String email, String password) {
