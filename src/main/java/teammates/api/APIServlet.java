@@ -1694,25 +1694,7 @@ public class APIServlet extends HttpServlet {
 		return returnValue;
 	}
 
-	// TODO: make this private
-	public HashMap<String, SubmissionData> getSubmissionsForEvaluation(
-			String courseId, String evaluationName)
-			throws EntityDoesNotExistException {
-		if (getEvaluation(courseId, evaluationName) == null) {
-			throw new EntityDoesNotExistException(
-					"There is no evaluation named [" + evaluationName
-							+ "] under the course [" + courseId + "]");
-		}
-		// create SubmissionData Hashmap
-		List<Submission> submissionsList = Evaluations.inst()
-				.getSubmissionList(courseId, evaluationName);
-		HashMap<String, SubmissionData> submissionDataList = new HashMap<String, SubmissionData>();
-		for (Submission s : submissionsList) {
-			SubmissionData sd = new SubmissionData(s);
-			submissionDataList.put(sd.reviewer + "->" + sd.reviewee, sd);
-		}
-		return submissionDataList;
-	}
+	
 
 	public List<SubmissionData> getSubmissionsFromStudent(String courseId,
 			String evaluationName, String reviewerEmail)
@@ -1865,6 +1847,25 @@ public class APIServlet extends HttpServlet {
 
 	@SuppressWarnings("unused")
 	private void ____helper_methods________________________________________() {
+	}
+	
+	private HashMap<String, SubmissionData> getSubmissionsForEvaluation (
+			String courseId, String evaluationName)
+			throws EntityDoesNotExistException {
+		if (getEvaluation(courseId, evaluationName) == null) {
+			throw new EntityDoesNotExistException(
+					"There is no evaluation named [" + evaluationName
+							+ "] under the course [" + courseId + "]");
+		}
+		// create SubmissionData Hashmap
+		List<Submission> submissionsList = Evaluations.inst()
+				.getSubmissionList(courseId, evaluationName);
+		HashMap<String, SubmissionData> submissionDataList = new HashMap<String, SubmissionData>();
+		for (Submission s : submissionsList) {
+			SubmissionData sd = new SubmissionData(s);
+			submissionDataList.put(sd.reviewer + "->" + sd.reviewee, sd);
+		}
+		return submissionDataList;
 	}
 
 	private TeamEvalResult calculateTeamResult(TeamData team) {

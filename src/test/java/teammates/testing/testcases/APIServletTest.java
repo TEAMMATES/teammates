@@ -2109,7 +2109,50 @@ public class APIServletTest extends BaseTestCase {
 	public void testGetSubmissoinsForEvaluation() throws Exception {
 		printTestCaseHeader();
 		refreshDataInDatastore();
-		// TODO: test this
+		
+		______TS("typical case");
+		
+		EvaluationData evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
+		//reuse this evaluation data to create a new one
+		evaluation.name = "new evaluation";
+		apiServlet.createEvaluation(evaluation);
+		
+		HashMap<String, SubmissionData> submissions = invokeGetSubmissionsForEvaluation(evaluation.course, evaluation.name);
+		//team 1.1 has 4 students, team 1.2 has only 1 student.
+		//there should be 4*4+1=17 submissions.
+		assertEquals(17, submissions.keySet().size());
+		//verify they all belong to this evaluation
+		for(String key: submissions.keySet()){
+			assertEquals(evaluation.course, submissions.get(key).course);
+			assertEquals(evaluation.name, submissions.get(key).evaluation);
+		}
+		
+		______TS("evaluation in empty class");
+		
+		apiServlet.createCourse("coord1", "course1", "Course 1");
+		evaluation.course = "course1";
+		apiServlet.createEvaluation(evaluation);
+		
+		submissions = invokeGetSubmissionsForEvaluation(evaluation.course, evaluation.name);
+		assertEquals(0, submissions.keySet().size());
+		
+		
+		______TS("non-existent course/evaluation");
+		
+		try {
+			invokeGetSubmissionsForEvaluation(evaluation.course, "non-existent");
+		} catch (Exception e) {
+			Common.assertContains("non-existent", e.getCause().getMessage());
+		}
+		
+		try {
+			invokeGetSubmissionsForEvaluation("non-existent", evaluation.name);
+		} catch (Exception e) {
+			Common.assertContains("non-existent", e.getCause().getMessage());
+		}
+		
+		//no need to check for invalid parameters as it is a private method
+		// TODO: verify orphan submissions are not returned
 	}
 
 	@Test
@@ -2615,6 +2658,17 @@ public class APIServletTest extends BaseTestCase {
 		privateMethod.setAccessible(true);
 		Object[] params = new Object[] { team, teamResult };
 		privateMethod.invoke(apiServlet, params);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private HashMap<String, SubmissionData> invokeGetSubmissionsForEvaluation(String courseId, 
+			String evaluationName) throws Exception {
+		Method privateMethod = APIServlet.class.getDeclaredMethod(
+				"getSubmissionsForEvaluation", new Class[] { String.class,
+						String.class });
+		privateMethod.setAccessible(true);
+		Object[] params = new Object[] { courseId, evaluationName };
+		return (HashMap<String,SubmissionData>)privateMethod.invoke(apiServlet, params);
 	}
 
 	private SubmissionData createSubmission(int from, int to) {
