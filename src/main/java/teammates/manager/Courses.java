@@ -902,4 +902,11 @@ public class Courses {
 		
 	}
 
+	public void verifyCourseExists(String courseId) throws EntityDoesNotExistException {
+		if(getCourse(courseId)==null){
+			throw new EntityDoesNotExistException("The course "+courseId+" does not exist");
+		}
+		
+	}
+
 }

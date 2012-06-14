@@ -869,7 +869,7 @@ public class APIServlet extends HttpServlet {
 		editEvaluation(evaluation);
 	}
 
-	private void editSubmissionAsJson(String submissionJson) {
+	private void editSubmissionAsJson(String submissionJson) throws InvalidParametersException, EntityDoesNotExistException {
 		SubmissionData submission = Common.getTeammatesGson().fromJson(
 				submissionJson, SubmissionData.class);
 		ArrayList<SubmissionData> submissionList = new ArrayList<SubmissionData>();
@@ -1698,13 +1698,24 @@ public class APIServlet extends HttpServlet {
 
 	public List<SubmissionData> getSubmissionsFromStudent(String courseId,
 			String evaluationName, String reviewerEmail)
-			throws EntityDoesNotExistException {
+			throws EntityDoesNotExistException, InvalidParametersException {
+		Common.verifyNotNull(courseId, "course ID");
+		Common.verifyNotNull(evaluationName, "evaluation name");
+		Common.verifyNotNull(reviewerEmail, "student email");
 		List<Submission> submissions = Evaluations.inst()
 				.getSubmissionFromStudentList(courseId, evaluationName,
 						reviewerEmail);
+		if (submissions.size() == 0) {
+			Courses.inst().verifyCourseExists(courseId);
+			Evaluations.inst().verifyEvaluationExists(courseId, evaluationName);
+			Accounts.inst().verifyStudentExists(courseId, reviewerEmail);
+		}
+		StudentData student = getStudent(courseId, reviewerEmail);
 		ArrayList<SubmissionData> returnList = new ArrayList<SubmissionData>();
 		for (Submission s : submissions) {
-			returnList.add(new SubmissionData(s));
+			if (student.team.equals(s.getTeamName())) {
+				returnList.add(new SubmissionData(s));
+			}
 		}
 		return returnList;
 	}
@@ -1729,7 +1740,8 @@ public class APIServlet extends HttpServlet {
 	}
 
 	// TODO: change to editSubmissions
-	public void editSubmissions(List<SubmissionData> submissionDataList) {
+	public void editSubmissions(List<SubmissionData> submissionDataList) 
+			throws EntityDoesNotExistException, InvalidParametersException{
 		ArrayList<Submission> submissions = new ArrayList<Submission>();
 		for (SubmissionData sd : submissionDataList) {
 			submissions.add(sd.toSubmission());

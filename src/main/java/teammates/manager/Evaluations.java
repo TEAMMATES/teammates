@@ -1228,4 +1228,10 @@ public class Evaluations {
 		return evaluationsSummaryList;
 	}
 
+	public void verifyEvaluationExists(String courseId, String evaluationName) throws EntityDoesNotExistException {
+		if(getEvaluation(courseId,evaluationName)==null){
+			throw new EntityDoesNotExistException("The evaluation "+evaluationName+" does not exist in course "+courseId);
+		}
+	}
+
 }
