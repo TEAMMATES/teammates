@@ -673,6 +673,7 @@ public class BrowserInstance {
 			
 			if((Boolean)js.executeScript("return eval(window.confirm).toString()==eval(function(msg){ delete(window.confirm); return true;}).toString()")){
 				// This means the click does not generate alert box
+				js.executeScript("delete(window.confirm)");
 				throw new NoAlertAppearException(by.toString());
 			}
 			// Make sure it's deleted. Deleting twice does not hurt
@@ -699,6 +700,7 @@ public class BrowserInstance {
 			
 			if((Boolean)js.executeScript("return eval(window.confirm).toString()==eval(function(msg){ delete(window.confirm); return false;}).toString()")){
 				// This means the click does not generate alert box
+				js.executeScript("delete(window.confirm)");
 				throw new NoAlertAppearException(by.toString());
 			}
 			// Make sure it's deleted. Deleting twice does not hurt

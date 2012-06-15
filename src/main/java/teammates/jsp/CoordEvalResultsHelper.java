@@ -18,7 +18,7 @@ public class CoordEvalResultsHelper extends Helper{
 	 * @return
 	 */
 	public String getForwardURL(){
-		String link = Common.JSP_COORD_EVAL_RESULTS;
+		String link = Common.PAGE_COORD_EVAL_RESULTS;
 		link = addParam(link,Common.PARAM_COURSE_ID,evaluation.course);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME, evaluation.name);
 		return link;

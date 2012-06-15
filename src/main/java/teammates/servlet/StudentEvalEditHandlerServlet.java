@@ -18,7 +18,7 @@ import com.google.appengine.api.datastore.Text;
 @SuppressWarnings("serial")
 public class StudentEvalEditHandlerServlet extends ActionServlet<Helper> {
 	
-	private static final String DISPLAY_URL = Common.JSP_STUDENT_HOME;
+	private static final String DISPLAY_URL = Common.PAGE_STUDENT_HOME;
 
 	@Override
 	protected Helper instantiateHelper() {
@@ -79,7 +79,7 @@ public class StudentEvalEditHandlerServlet extends ActionServlet<Helper> {
 		if(helper.error){
 			// Go back to edit page
 			req.setAttribute("helper", helper);
-			req.getRequestDispatcher(Common.JSP_STUDENT_EVAL_SUBMISSION_EDIT).forward(req, resp);
+			req.getRequestDispatcher(Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT).forward(req, resp);
 		} else {
 			// Goto next page
 			helper.nextUrl = DISPLAY_URL;

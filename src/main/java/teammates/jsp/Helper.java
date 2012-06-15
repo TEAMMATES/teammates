@@ -162,7 +162,7 @@ public class Helper {
 	 * @return
 	 */
 	public String getCoordCourseEnrollLink(String courseID){
-		String link = Common.JSP_COORD_COURSE_ENROLL;
+		String link = Common.PAGE_COORD_COURSE_ENROLL;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		if(isMasqueradeMode()){
 			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
@@ -176,7 +176,7 @@ public class Helper {
 	 * @return
 	 */
 	public String getCoordCourseDetailsLink(String courseID){
-		String link = Common.JSP_COORD_COURSE_DETAILS;
+		String link = Common.PAGE_COORD_COURSE_DETAILS;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID); 
 		if(isMasqueradeMode()){
 			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
@@ -192,9 +192,9 @@ public class Helper {
 	 * @return
 	 */
 	public String getCoordCourseDeleteLink(String courseID, boolean isHome){
-		String link = Common.JSP_COORD_COURSE_DELETE;
+		String link = Common.PAGE_COORD_COURSE_DELETE;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
-		link = addParam(link,Common.PARAM_NEXT_URL,(isHome? Common.JSP_COORD_HOME : Common.JSP_COORD_COURSE));
+		link = addParam(link,Common.PARAM_NEXT_URL,(isHome? Common.PAGE_COORD_HOME : Common.PAGE_COORD_COURSE));
 		if(isMasqueradeMode()){
 			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
 		}
@@ -210,7 +210,7 @@ public class Helper {
 	 * @return
 	 */
 	public String getCoordEvaluationDeleteLink(String courseID, String evalName, String nextURL){
-		String link = Common.JSP_COORD_EVAL_DELETE;
+		String link = Common.PAGE_COORD_EVAL_DELETE;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = addParam(link,Common.PARAM_NEXT_URL,nextURL);
@@ -227,7 +227,7 @@ public class Helper {
 	 * @return
 	 */
 	public String getCoordEvaluationEditLink(String courseID, String evalName){
-		String link = Common.JSP_COORD_EVAL_EDIT;
+		String link = Common.PAGE_COORD_EVAL_EDIT;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
 		if(isMasqueradeMode()){
@@ -243,7 +243,7 @@ public class Helper {
 	 * @return
 	 */
 	public String getCoordEvaluationResultsLink(String courseID, String evalName){
-		String link = Common.JSP_COORD_EVAL_RESULTS;
+		String link = Common.PAGE_COORD_EVAL_RESULTS;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
 		if(isMasqueradeMode()){
@@ -277,7 +277,7 @@ public class Helper {
 				"'" + courseID + "'," +
 				"'" + evalName + "'," +
 				publish + "," +
-				"'" + (isHome? Common.JSP_COORD_HOME : Common.JSP_COORD_EVAL) +"');";
+				"'" + (isHome? Common.PAGE_COORD_HOME : Common.PAGE_COORD_EVAL) +"');";
 	}
 	
 	/**
@@ -289,7 +289,7 @@ public class Helper {
 	 * @return
 	 */
 	public String getCoordEvaluationSubmissionViewLink(String courseID, String evalName, String studentEmail){
-		String link = Common.JSP_COORD_EVAL_SUBMISSION_VIEW;
+		String link = Common.PAGE_COORD_EVAL_SUBMISSION_VIEW;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = addParam(link,Common.PARAM_STUDENT_EMAIL,studentEmail);
@@ -308,7 +308,7 @@ public class Helper {
 	 * @return
 	 */
 	public String getCoordEvaluationSubmissionEditLink(String courseID, String evalName, String studentEmail){
-		String link = Common.JSP_COORD_EVAL_SUBMISSION_EDIT;
+		String link = Common.PAGE_COORD_EVAL_SUBMISSION_EDIT;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = addParam(link,Common.PARAM_STUDENT_EMAIL,studentEmail);
@@ -403,7 +403,7 @@ public class Helper {
 		);
 		result.append(
 			"<a class=\"t_eval_delete\" name=\"deleteEvaluation" + position + "\" id=\"deleteEvaluation" + position + "\" " +
-			"href=\"" + getCoordEvaluationDeleteLink(eval.course,eval.name,(isHome ? Common.JSP_COORD_HOME : Common.JSP_COORD_EVAL)) + "\" " +
+			"href=\"" + getCoordEvaluationDeleteLink(eval.course,eval.name,(isHome ? Common.PAGE_COORD_HOME : Common.PAGE_COORD_EVAL)) + "\" " +
 			"onclick=\"hideddrivetip(); return toggleDeleteEvaluationConfirmation('" + eval.course + "','" + eval.name + "');\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_DELETE+"')\" onmouseout=\"hideddrivetip()\">Delete</a>"
 		);

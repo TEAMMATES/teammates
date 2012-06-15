@@ -7,7 +7,8 @@ var DISPLAY_EVALUATION_UNPUBLISHED = "The evaluation has been unpublished.";
 var DISPLAY_EVALUATION_REMINDERSSENT = "Reminder e-mails have been sent out to those students.";
 var DISPLAY_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
 var DISPLAY_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
-var DISPLAY_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.";
+var DISPLAY_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.<br />" +
+										 "The start time should be in the future, and the deadline should be after start time.";
 var DISPLAY_FIELDS_EMPTY = "Please fill in all the relevant fields.";
 
 function isEvaluationNameLengthValid(name) {

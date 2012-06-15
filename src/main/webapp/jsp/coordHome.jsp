@@ -31,7 +31,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="/jsp/coordHeader.jsp" />
+		<jsp:include page="<%= Common.JSP_COORD_HEADER %>" />
 	</div>
 
 	<div id="frameBody">
@@ -47,13 +47,11 @@
 					</div>
 				</div>
 			</div>
-			<jsp:include page="/jsp/statusMessage.jsp" />
+			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 			<div id="coordinatorHomeTable">
-				<%	CourseData[] summary = helper.courses;
-					int idx = 0;
-					int evalIdx = 0;
-					for (idx = 0; idx < summary.length; idx++) {
-						CourseData course = summary[idx];
+				<%	int idx = -1;
+					int evalIdx = -1;
+					for (CourseData course: helper.courses) { idx++;
 				%>
 				<div class="result_team home_courses_div" id="course<%= idx %>">
 					<div class="result_homeTitle">
@@ -89,8 +87,7 @@
 					</div>
 					<div style="clear: both;"></div>
 					<br />
-					<%	EvaluationData[] evaluationsArr = CoordHomeHelper.getEvaluationsForCourse(course);
-						if (evaluationsArr.length > 0) {
+					<%	if (course.evaluations.size() > 0) {
 					%>
 						<table id="dataform">
 							<tr>
@@ -101,8 +98,7 @@
 									onmouseout="hideddrivetip()">Response Rate</span></th>
 								<th class="centeralign">Action(s)</th>
 							</tr>
-							<%	for (int i=evaluationsArr.length-1; i>=0; i--) {
-									EvaluationData eval = evaluationsArr[i];
+							<%	for (EvaluationData eval: course.evaluations){ evalIdx++;
 							%>
 								<tr class="home_evaluations_row" id="evaluation<%= evalIdx %>">
 									<td class="t_eval_name"><%= CoordHomeHelper.escapeHTML(eval.name) %></td>
@@ -114,9 +110,7 @@
 									<td class="centeralign"><%= helper.getCoordEvaluationActions(eval,evalIdx, true) %>
 									</td>
 								</tr>
-							<%		evalIdx++;
-								}
-							%>
+							<%	} %>
 						</table>
 						<br />
 					<%
@@ -132,7 +126,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="/jsp/footer.jsp" />
+		<jsp:include page="<%= Common.JSP_FOOTER %>" />
 	</div>
 </body>
 </html>

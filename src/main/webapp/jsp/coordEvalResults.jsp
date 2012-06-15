@@ -1,4 +1,3 @@
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="teammates.api.Common"%>
 <%@ page import="teammates.datatransfer.EvaluationData"%>
 <%@ page import="teammates.datatransfer.StudentData"%>
@@ -32,7 +31,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="/jsp/coordHeader.jsp" />
+		<jsp:include page="<%= Common.JSP_COORD_HEADER %>" />
 	</div>
 
 	<div id="frameBody">
@@ -97,7 +96,7 @@
 					</tr>
 				</table>
 			</div>
-			<jsp:include page="/jsp/statusMessage.jsp" />
+			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 			<div id="coordinatorEvaluationSummaryTable" class="evaluation_result">
 				<div style="text-align:right; font-style:italic; font-size: small; padding:0 35px;">CC = Claimed Contribution; PC = Perceived Contribution; E = Equal Share</div>
 				<table id="dataform">
@@ -222,7 +221,7 @@
 						<%	} %>
 					</div><br /><br />
 					<input type="button" class ="button" name="button_back" id="button_back" value="Back"
-							onclick="window.location.href='<%= Common.JSP_COORD_EVAL %>'"/>
+							onclick="window.location.href='<%= Common.PAGE_COORD_EVAL %>'"/>
 					<input type="button" class ="button" name="button_top" id="button_top" value="To Top"
 							onclick="scrollToTop()"/>
 					<br /><br /><br /><br />
@@ -232,7 +231,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="/jsp/footer.jsp" />
+		<jsp:include page="<%= Common.JSP_FOOTER %>" />
 	</div>
 </body>
 </html>

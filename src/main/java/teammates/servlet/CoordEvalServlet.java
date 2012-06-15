@@ -1,9 +1,7 @@
 package teammates.servlet;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -27,7 +25,7 @@ import teammates.jsp.Helper;
  */
 public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 	
-	private static final String DISPLAY_URL = "/jsp/coordEval.jsp";
+	private static final String DISPLAY_URL = Common.JSP_COORD_EVAL;
 
 	@Override
 	protected CoordEvalHelper instantiateHelper() {
@@ -110,8 +108,20 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 			// TODO When is the case where start/end date is invalid?
 			helper.error = true;
 		}
-		
-		sortCoursesAndEvaluations(helper);
+
+		HashMap<String, CourseData> summary = helper.server.getCourseListForCoord(helper.userId);
+		helper.courses = new ArrayList<CourseData>(summary.values());
+		sortCourses(helper.courses);
+
+		helper.evaluations = helper.server.getEvaluationsListForCoord(helper.userId);
+		sortEvaluationsByDeadline(helper.evaluations);
+
+		if(helper.evaluations.size()==0 && !helper.error){
+			helper.statusMessage = Common.MESSAGE_EVALUATION_EMPTY;
+		}
+		if(helper.courses.size()==0 && !helper.error){
+			helper.statusMessage = Common.MESSAGE_COURSE_EMPTY_IN_EVALUATION;
+		}
 	}
 
 	@Override
@@ -128,34 +138,6 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 			// Goto next page
 			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.userId);
 			resp.sendRedirect(helper.nextUrl);
-		}
-	}
-
-	private void sortCoursesAndEvaluations(CoordEvalHelper helper) throws EntityDoesNotExistException{
-		// Sort courses based on course ID
-		HashMap<String, CourseData> summary = helper.server.getCourseListForCoord(helper.userId);
-		helper.courses = summary.values().toArray(new CourseData[]{});
-		Arrays.sort(helper.courses,new Comparator<CourseData>(){
-			public int compare(CourseData obj1, CourseData obj2){
-				return obj1.id.compareTo(obj2.id);
-			}
-		});
-		
-		// Sort evaluations based on course ID then name
-		helper.evaluations = helper.server.getEvaluationsListForCoord(helper.userId);
-		Collections.sort(helper.evaluations, new Comparator<EvaluationData>(){
-			public int compare(EvaluationData obj1, EvaluationData obj2){
-				int result = obj1.course.compareTo(obj2.course);
-				if(result==0) result = obj1.name.compareTo(obj2.name);
-				return result;
-			}
-		});
-		
-		if(helper.evaluations.size()==0 && !helper.error){
-			helper.statusMessage = Common.MESSAGE_EVALUATION_EMPTY;
-		}
-		if(helper.courses.length==0 && !helper.error){
-			helper.statusMessage = Common.MESSAGE_COURSE_EMPTY_IN_EVALUATION;
 		}
 	}
 }

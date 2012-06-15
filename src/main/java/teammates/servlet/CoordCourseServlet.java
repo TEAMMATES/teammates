@@ -1,8 +1,7 @@
 package teammates.servlet;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -25,7 +24,7 @@ import teammates.jsp.Helper;
  */
 public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
 	
-	private static final String DISPLAY_URL = "/jsp/coordCourse.jsp";
+	private static final String DISPLAY_URL = Common.JSP_COORD_COURSE;
 
 	@Override
 	protected CoordCourseHelper instantiateHelper() {
@@ -62,8 +61,13 @@ public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
 				helper.error = true;
 			}
 		}
-		
-		sortCourses(helper);
+
+		HashMap<String, CourseData> courses = helper.server.getCourseListForCoord(helper.userId);
+		helper.courses = new ArrayList<CourseData>(courses.values());
+		sortCourses(helper.courses);
+		if(helper.courses.size()==0 && !helper.error){
+			helper.statusMessage = Common.MESSAGE_COURSE_EMPTY;
+		}
 	}
 
 	@Override
@@ -80,19 +84,6 @@ public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
 			// Goto next page
 			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.userId);
 			resp.sendRedirect(helper.nextUrl);
-		}
-	}
-
-	private void sortCourses(CoordCourseHelper helper) throws EntityDoesNotExistException{
-		HashMap<String, CourseData> courses = helper.server.getCourseListForCoord(helper.userId);
-		helper.summary = courses.values().toArray(new CourseData[]{});
-		Arrays.sort(helper.summary,new Comparator<CourseData>(){
-			public int compare(CourseData obj1, CourseData obj2){
-				return obj1.id.compareTo(obj2.id);
-			}
-		});
-		if(helper.summary.length==0 && !helper.error){
-			helper.statusMessage = Common.MESSAGE_COURSE_EMPTY;
 		}
 	}
 }

@@ -16,7 +16,7 @@ import teammates.jsp.StudentEvalEditHelper;
 @SuppressWarnings("serial")
 public class StudentEvalEditServlet extends ActionServlet<StudentEvalEditHelper> {
 	
-	private static final String DISPLAY_URL = "/jsp/studentEvalEdit.jsp";
+	private static final String DISPLAY_URL = Common.JSP_STUDENT_EVAL_SUBMISSION_EDIT;
 
 	@Override
 	protected StudentEvalEditHelper instantiateHelper() {
@@ -41,7 +41,7 @@ public class StudentEvalEditServlet extends ActionServlet<StudentEvalEditHelper>
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
 		if(courseID==null || evalName==null){
-			helper.nextUrl = Common.JSP_STUDENT_HOME;
+			helper.nextUrl = Common.PAGE_STUDENT_HOME;
 			return;
 		}
 		for(StudentData student: helper.server.getStudentsWithId(helper.user.id)){
@@ -52,6 +52,7 @@ public class StudentEvalEditServlet extends ActionServlet<StudentEvalEditHelper>
 		}
 		helper.eval = helper.server.getEvaluation(courseID, evalName);
 		helper.submissions = helper.server.getSubmissionsFromStudent(courseID, evalName, helper.student.email);
+		sortSubmissionsByReviewee(helper.submissions);
 		
 		// Put self submission at first
 		for(int i=0; i<helper.submissions.size(); i++){

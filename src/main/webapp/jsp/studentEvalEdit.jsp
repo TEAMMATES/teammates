@@ -26,7 +26,7 @@
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="/jsp/studentHeader.jsp" />
+		<jsp:include page="<%= Common.JSP_STUDENT_HEADER %>" />
 	</div>
 
 	<div id="frameBody">
@@ -61,7 +61,7 @@
 			</div>
 			<div id="studentEvaluationSubmissions">
 				<form name="form_submitevaluation" id="form_submitevaluation" method="post"
-						action="<%= Common.JSP_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER %>">
+						action="<%= Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER %>">
 					<input type="hidden" value="<%= helper.eval.course %>"
 							name="<%= Common.PARAM_COURSE_ID %>"
 							id="<%= Common.PARAM_COURSE_ID %>" />
@@ -131,10 +131,10 @@
 						<%		idx++;
 							} %>
 					</table>
-					<jsp:include page="/jsp/statusMessage.jsp" />
+					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 					<div id="studentEvaluationSubmissionButtons">
 						<input type="button" class="button t_back" id="button_back"
-								onclick="window.location.href='<%= Common.JSP_STUDENT_HOME %>'" value="Back" />
+								onclick="window.location.href='<%= Common.PAGE_STUDENT_HOME %>'" value="Back" />
 						<input type="submit" class="button" name="submitEvaluation"
 								onclick="return checkEvaluationForm(this.form)"
 								id="submitEvaluation" value="Submit Evaluation" />
@@ -146,7 +146,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="/jsp/footer.jsp" />
+		<jsp:include page="<%= Common.JSP_FOOTER %>" />
 	</div>
 </body>
 </html>

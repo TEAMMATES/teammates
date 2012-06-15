@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
+import teammates.datatransfer.StudentData;
+import teammates.datatransfer.TeamData;
 import teammates.jsp.CoordEvalResultsHelper;
 import teammates.jsp.Helper;
 
@@ -19,7 +21,7 @@ import teammates.jsp.Helper;
  */
 public class CoordEvalResultsServlet extends ActionServlet<CoordEvalResultsHelper> {
 	
-	private static final String DISPLAY_URL = "/jsp/coordEvalResults.jsp";
+	private static final String DISPLAY_URL = Common.JSP_COORD_EVAL_RESULTS;
 
 	@Override
 	protected CoordEvalResultsHelper instantiateHelper() {
@@ -46,8 +48,18 @@ public class CoordEvalResultsServlet extends ActionServlet<CoordEvalResultsHelpe
 		// Process action
 		if(courseID!=null && evalName!=null){
 			helper.evaluation = helper.server.getEvaluationResult(courseID, evalName);
-		} else {
-			helper.nextUrl = Common.JSP_COORD_EVAL;
+			long start = System.currentTimeMillis();
+			sortTeams(helper.evaluation.teams);
+			for(TeamData team: helper.evaluation.teams){
+				team.sortByStudentNameAscending();
+				for(StudentData student: team.students){
+					sortSubmissionsByFeedback(student.result.incoming);
+					sortSubmissionsByReviewee(student.result.outgoing);
+				}
+			}
+			log.fine("Time to sort evaluation, teams, students, and results: "+(System.currentTimeMillis()-start)+" ms");
+		} else { // Incomplete request, just go back to Evaluations Page
+			helper.nextUrl = Common.PAGE_COORD_EVAL;
 		}
 	}
 

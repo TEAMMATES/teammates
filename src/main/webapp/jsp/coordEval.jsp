@@ -1,4 +1,3 @@
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="teammates.api.Common"%>
 <%@ page import="teammates.datatransfer.CourseData"%>
 <%@ page import="teammates.datatransfer.EvaluationData"%>
@@ -35,7 +34,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="/jsp/coordHeader.jsp" />
+		<jsp:include page="<%= Common.JSP_COORD_HEADER %>" />
 	</div>
 
 	<div id="frameBody">
@@ -156,7 +155,7 @@
 					</table>
 				</form>
 			</div>
-			<jsp:include page="/jsp/statusMessage.jsp" />
+			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 			<div id="coordinatorEvaluationTable">
 				<table id="dataform">
 					<tr>
@@ -172,10 +171,9 @@
 							onmouseout="hideddrivetip()">Response Rate</span></th>
 						<th class="centeralign">Action(s)</th>
 					</tr>
-					<%	ArrayList<EvaluationData> evaluations = helper.evaluations;
-						int evalIdx = 0;
-						if (evaluations.size() > 0) {
-							for(EvaluationData eval: evaluations){
+					<%	int evalIdx = -1;
+						if (helper.evaluations.size() > 0) {
+							for(EvaluationData eval: helper.evaluations){ evalIdx++;
 					%>
 								<tr class="evaluations_row" id="evaluation<%= evalIdx %>">
 									<td class="t_eval_coursecode"><%= eval.course %></td>
@@ -188,9 +186,7 @@
 									<td class="centeralign"><%=helper.getCoordEvaluationActions(eval,evalIdx, false)%>
 									</td>
 								</tr>
-							<%		evalIdx++;
-								}
-							%>
+							<%	} %>
 					<%	} else { %>
 						<tr>
 							<td></td>
@@ -202,7 +198,7 @@
 					<%	} %>
 				</table>
 				<br /><br /><br />
-				<%	if(evalIdx==0){ %>
+				<%	if(evalIdx==-1){ %>
 					No records found.<br />
 					<br />
 					<br />
@@ -213,7 +209,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="/jsp/footer.jsp" />
+		<jsp:include page="<%= Common.JSP_FOOTER %>" />
 	</div>
 </body>
 </html>

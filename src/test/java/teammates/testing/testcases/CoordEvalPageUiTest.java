@@ -42,7 +42,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		System.out.println("Finished recreating in "+(System.currentTimeMillis()-start)+" ms");
 		
 		bi.loginCoord(ts.coordinator.id, Config.inst().TEAMMATES_APP_PASSWD);
-		bi.goToUrl(appUrl+Common.JSP_COORD_EVAL);
+		bi.goToUrl(appUrl+Common.PAGE_COORD_EVAL);
 	}
 	
 	@AfterClass
@@ -65,14 +65,15 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		ImportTestData.main(new String[]{});
 		bi.goToEvaluation();
 
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalByIdNew.html");
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalByIdNew.html");
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalByDeadlineNew.html");
+		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalByDeadlineNew.html");
 
 		bi.click(By.id("button_sortname"));
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalByNameNew.html");
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalByNameNew.html");
 		
 		bi.click(By.id("button_sortcourseid"));
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalByIdNew.html");
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalByIdNew.html");
 	}
 

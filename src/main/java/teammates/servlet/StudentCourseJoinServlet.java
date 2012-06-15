@@ -19,7 +19,7 @@ import teammates.jsp.Helper;
  */
 public class StudentCourseJoinServlet extends ActionServlet<Helper> {
 	
-	private static final String DISPLAY_URL = Common.JSP_STUDENT_HOME;
+	private static final String DISPLAY_URL = Common.PAGE_STUDENT_HOME;
 
 	@Override
 	protected Helper instantiateHelper() {

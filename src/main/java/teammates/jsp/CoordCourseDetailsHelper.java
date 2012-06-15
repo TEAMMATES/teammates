@@ -32,7 +32,7 @@ public class CoordCourseDetailsHelper extends Helper{
 	 * @return
 	 */
 	public String getCourseStudentDetailsLink(StudentData student){
-		String link = Common.JSP_COORD_COURSE_STUDENT_DETAILS;
+		String link = Common.PAGE_COORD_COURSE_STUDENT_DETAILS;
 		link = addParam(link,Common.PARAM_COURSE_ID,course.id);
 		link = addParam(link,Common.PARAM_STUDENT_EMAIL,student.email);
 		if(isMasqueradeMode()){
@@ -47,7 +47,7 @@ public class CoordCourseDetailsHelper extends Helper{
 	 * @return
 	 */
 	public String getCourseStudentEditLink(StudentData student){
-		String link = Common.JSP_COORD_COURSE_STUDENT_EDIT;
+		String link = Common.PAGE_COORD_COURSE_STUDENT_EDIT;
 		link = addParam(link,Common.PARAM_COURSE_ID,course.id);
 		link = addParam(link,Common.PARAM_STUDENT_EMAIL,student.email);
 		if(isMasqueradeMode()){
@@ -74,7 +74,7 @@ public class CoordCourseDetailsHelper extends Helper{
 	 * @return
 	 */
 	public String getCourseStudentDeleteLink(StudentData student){
-		String link = Common.JSP_COORD_COURSE_STUDENT_DELETE;
+		String link = Common.PAGE_COORD_COURSE_STUDENT_DELETE;
 		link = addParam(link,Common.PARAM_COURSE_ID,course.id);
 		link = addParam(link,Common.PARAM_STUDENT_EMAIL,student.email);
 		return link;

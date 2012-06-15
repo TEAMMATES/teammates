@@ -25,7 +25,7 @@
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="/jsp/studentHeader.jsp" />
+		<jsp:include page="<%= Common.JSP_STUDENT_HEADER %>" />
 	</div>
 
 	<div id="frameBody">
@@ -35,7 +35,7 @@
 				<h1>STUDENT HOME</h1>
 				<br />
 				<div class="result_addOrJoinCourse">
-					<form method="post" action="<%= Common.JSP_STUDENT_JOIN_COURSE %>" name="form_joincourse">
+					<form method="post" action="<%= Common.PAGE_STUDENT_JOIN_COURSE %>" name="form_joincourse">
 						<table class="headerform">
 							<tr>
 								<td width="30%" class="attribute">Registration Key:</td>
@@ -56,7 +56,7 @@
 					</form>
 				</div>
 			</div>
-			<jsp:include page="/jsp/statusMessage.jsp" />
+			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 			<div id="studentHomeTable">
 				<%	int idx = 0;
 					int evalIdx = 0;
@@ -121,7 +121,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="/jsp/footer.jsp" />
+		<jsp:include page="<%= Common.JSP_FOOTER %>" />
 	</div>
 </body>
 </html>

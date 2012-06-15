@@ -36,7 +36,7 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		bi = BrowserInstancePool.getBrowserInstance();
 		
 		bi.loginStudent(scn.students.get("alice.tmms@SHomeUiT.CS2104").id, Config.inst().TEAMMATES_APP_PASSWD);
-		bi.goToUrl(appURL+Common.JSP_STUDENT_HOME);
+		bi.goToUrl(appURL+Common.PAGE_STUDENT_HOME);
 	}
 	
 	@AfterClass
@@ -54,7 +54,7 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		TMAPI.deleteCourse(scn.courses.get("SHomeUiT.CS1101").id);
 
 		// Should be unauthorized since the student is not in any course, and hence not a student
-		bi.goToUrl(appURL+Common.JSP_STUDENT_HOME);
+		bi.goToUrl(appURL+Common.PAGE_STUDENT_HOME);
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/unauthorized.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/unauthorized.html");
 	}

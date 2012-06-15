@@ -82,7 +82,7 @@ public class StudentHomeHelper extends Helper {
 	 * @return
 	 */
 	public String getStudentCourseProfileLink(String courseID){
-		String link = Common.JSP_STUDENT_COURSE_PROFILE;
+		String link = Common.PAGE_STUDENT_COURSE_PROFILE;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		if(isMasqueradeMode()){
 			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
@@ -97,7 +97,7 @@ public class StudentHomeHelper extends Helper {
 	 * @return
 	 */
 	public String getStudentCourseDetailsLink(String courseID){
-		String link = Common.JSP_STUDENT_COURSE_DETAILS;
+		String link = Common.PAGE_STUDENT_COURSE_DETAILS;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		if(isMasqueradeMode()){
 			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
@@ -112,7 +112,7 @@ public class StudentHomeHelper extends Helper {
 	 * @return
 	 */
 	public String getStudentEvaluationResultsLink(String courseID, String evalName){
-		String link = Common.JSP_STUDENT_EVAL_RESULTS;
+		String link = Common.PAGE_STUDENT_EVAL_RESULTS;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
 		if(isMasqueradeMode()){
@@ -129,7 +129,7 @@ public class StudentHomeHelper extends Helper {
 	 * @return
 	 */
 	public String getStudentEvaluationSubmissionEditLink(String courseID, String evalName){
-		String link = Common.JSP_STUDENT_EVAL_SUBMISSION_EDIT;
+		String link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
 		if(isMasqueradeMode()){

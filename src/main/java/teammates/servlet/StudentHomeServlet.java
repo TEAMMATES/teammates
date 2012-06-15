@@ -9,13 +9,14 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
+import teammates.datatransfer.CourseData;
 import teammates.jsp.Helper;
 import teammates.jsp.StudentHomeHelper;
 
 @SuppressWarnings("serial")
 public class StudentHomeServlet extends ActionServlet<StudentHomeHelper> {
 	
-	private static final String DISPLAY_URL = "/jsp/studentHome.jsp";
+	private static final String DISPLAY_URL = Common.JSP_STUDENT_HOME;
 
 	@Override
 	protected StudentHomeHelper instantiateHelper() {
@@ -39,6 +40,10 @@ public class StudentHomeServlet extends ActionServlet<StudentHomeHelper> {
 			throws EntityDoesNotExistException {
 		try{
 			helper.courses = helper.server.getCourseDetailsListForStudent(helper.user.id);
+			sortCourses(helper.courses);
+			for(CourseData course: helper.courses){
+				sortEvaluationsByDeadline(course.evaluations);
+			}
 		} catch (InvalidParametersException e){
 			helper.statusMessage = e.getMessage();
 			helper.error = true;

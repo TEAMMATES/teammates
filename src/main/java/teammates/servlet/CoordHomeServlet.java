@@ -1,6 +1,7 @@
 package teammates.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -20,7 +21,8 @@ import teammates.jsp.Helper;
  *
  */
 public class CoordHomeServlet extends ActionServlet<CoordHomeHelper> {
-	private static final String DISPLAY_URL = "/jsp/coordHome.jsp";
+	
+	private static final String DISPLAY_URL = Common.JSP_COORD_HOME;
 
 	@Override
 	protected CoordHomeHelper instantiateHelper() {
@@ -41,7 +43,11 @@ public class CoordHomeServlet extends ActionServlet<CoordHomeHelper> {
 	@Override
 	protected void doAction(HttpServletRequest req, CoordHomeHelper helper) throws EntityDoesNotExistException{
 		HashMap<String, CourseData> courses = helper.server.getCourseDetailsListForCoord(helper.userId);
-		helper.courses = courses.values().toArray(new CourseData[] {});
+		helper.courses = new ArrayList<CourseData>(courses.values());
+		sortCourses(helper.courses);
+		for(CourseData course: helper.courses){
+			sortEvaluationsByDeadline(course.evaluations);
+		}
 	}
 
 	@Override

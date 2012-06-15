@@ -29,7 +29,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="/jsp/coordHeader.jsp" />
+		<jsp:include page="<%= Common.JSP_COORD_HEADER %>" />
 	</div>
 
 	<div id="frameBody">
@@ -65,7 +65,7 @@
 					<%	} %>
 				</div>
 				<div id="coordinatorCourseEnrollmentButtons">
-					<input type="button" class="t_back button" onclick="location.href='<%= Common.JSP_COORD_COURSE %>'" value="Back" />
+					<input type="button" class="t_back button" onclick="location.href='<%= Common.PAGE_COORD_COURSE %>'" value="Back" />
 				</div>
 			<% } else { %>
 				<div id="headerOperation">
@@ -82,11 +82,11 @@
 							<td><textarea rows="6" cols="135" class ="textvalue" name="enrollstudents" id="enrollstudents"></textarea></td>
 						</tr></table>
 					</div>
-					<jsp:include page="/jsp/statusMessage.jsp" />
+					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 					<div id="coordinatorCourseEnrollmentButtons">
 						<input type="submit" class="button" name="button_enroll" id="button_enroll" value="Enroll students"
 							onclick="return checkEnrollmentInput(document.getElementById('enrollstudents').value)"/>
-						<input type="button" class="t_back button" onclick="location.href='<%= Common.JSP_COORD_COURSE %>'" value="Back" />
+						<input type="button" class="t_back button" onclick="location.href='<%= Common.PAGE_COORD_COURSE %>'" value="Back" />
 						<br /><br /><br /><br />
 					</div>
 				</form>
@@ -95,7 +95,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="/jsp/footer.jsp" />
+		<jsp:include page="<%= Common.JSP_FOOTER %>" />
 	</div>
 </body>
 </html>

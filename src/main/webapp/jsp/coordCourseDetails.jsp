@@ -1,4 +1,3 @@
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="teammates.api.Common"%>
 <%@ page import="teammates.datatransfer.CourseData"%>
 <%@ page import="teammates.datatransfer.StudentData"%>
@@ -31,7 +30,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="/jsp/coordHeader.jsp" />
+		<jsp:include page="<%= Common.JSP_COORD_HEADER %>" />
 	</div>
 
 	<div id="frameBody">
@@ -72,7 +71,7 @@
 		 			<%	} %>
 				</table>
 			</div>
-			<jsp:include page="/jsp/statusMessage.jsp" />
+			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 			<div id="coordinatorStudentTable">
 				<table id="dataform">
 					<tr>
@@ -114,14 +113,14 @@
 					<%	} %>
 				</table>
 				<br /><br />
-				<input type="button" class="button" onclick="window.location.href='<%= Common.JSP_COORD_COURSE %>'" value="Back" />
+				<input type="button" class="button" onclick="window.location.href='<%= Common.PAGE_COORD_COURSE %>'" value="Back" />
 				<br /><br />
 			</div>
 		</div>
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="/jsp/footer.jsp" />
+		<jsp:include page="<%= Common.JSP_FOOTER %>" />
 	</div>
 </body>
 </html>
