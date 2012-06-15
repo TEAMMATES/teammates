@@ -74,7 +74,7 @@ public class EvaluationData {
 		end.add(Calendar.MILLISECOND, gracePeriod * 60 * 1000);
 		long endInMilliSec = end.getTimeInMillis();
 
-		log.fine(Common.EOL + "Now  : " + Common.calendarToString(now)
+		log.finer(Common.EOL + "Now  : " + Common.calendarToString(now)
 				+ Common.EOL + "Start: " + Common.calendarToString(start)
 				+ Common.EOL + "End  : " + Common.calendarToString(end));
 

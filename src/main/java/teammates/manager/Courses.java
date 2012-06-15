@@ -567,7 +567,7 @@ public class Courses {
 
 		if (courseList.isEmpty()){
 			String errorMessage = "Trying to get non-existent Course : " + courseId;
-			log.warning(errorMessage);
+			log.fine(errorMessage);
 			return null;
 		}
 

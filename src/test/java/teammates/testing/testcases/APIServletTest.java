@@ -2289,7 +2289,7 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testEditSubmission() throws Exception {
+	public void testEditSubmissions() throws Exception {
 		printTestCaseHeader();
 		refreshDataInDatastore();
 

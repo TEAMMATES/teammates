@@ -576,7 +576,7 @@ public class Evaluations {
 				query).execute();
 
 		if (evaluationList.isEmpty()){
-			log.warning("Trying to get non-existent Evaluation : " + courseID
+			log.fine("Trying to get non-existent Evaluation : " + courseID
 					+ "/" + name);
 			return null;
 		}
@@ -836,7 +836,7 @@ public class Evaluations {
 			}
 		}
 		if (target == null) {
-			log.warning("Trying to get non-existent Submission : " + courseId
+			log.fine("Trying to get non-existent Submission : " + courseId
 					+ "/" + evaluationName + "/" + reviewerEmail + "/"
 					+ revieweeEmail);
 		}

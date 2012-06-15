@@ -979,26 +979,26 @@ public class APIServlet extends HttpServlet {
 
 		HashMap<String, CoordData> coords = dataBundle.coords;
 		for (CoordData coord : coords.values()) {
-			log.info("API Servlet adding coord :" + coord.id);
+			log.fine("API Servlet adding coord :" + coord.id);
 			createCoord(coord.id, coord.name, coord.email);
 		}
 
 		HashMap<String, CourseData> courses = dataBundle.courses;
 		for (CourseData course : courses.values()) {
-			log.info("API Servlet adding course :" + course.id);
+			log.fine("API Servlet adding course :" + course.id);
 			createCourse(course.coord, course.id, course.name);
 		}
 
 		HashMap<String, StudentData> students = dataBundle.students;
 		for (StudentData student : students.values()) {
-			log.info("API Servlet adding student :" + student.email
+			log.fine("API Servlet adding student :" + student.email
 					+ " to course " + student.course);
 			createStudent(student);
 		}
 
 		HashMap<String, EvaluationData> evaluations = dataBundle.evaluations;
 		for (EvaluationData evaluation : evaluations.values()) {
-			log.info("API Servlet adding evaluation :" + evaluation.name
+			log.fine("API Servlet adding evaluation :" + evaluation.name
 					+ " to course " + evaluation.course);
 			createEvaluation(evaluation);
 		}
@@ -1008,31 +1008,31 @@ public class APIServlet extends HttpServlet {
 		HashMap<String, SubmissionData> submissionsMap = dataBundle.submissions;
 		List<SubmissionData> submissionsList = new ArrayList<SubmissionData>();
 		for (SubmissionData submission : submissionsMap.values()) {
-			log.info("API Servlet adding submission for "
+			log.fine("API Servlet adding submission for "
 					+ submission.evaluation + " from " + submission.reviewer
 					+ " to " + submission.reviewee);
 			submissionsList.add(submission);
 		}
 		createSubmissions(submissionsList);
-		log.info("API Servlet added " + submissionsList.size() + " submissions");
+		log.fine("API Servlet added " + submissionsList.size() + " submissions");
 
 		HashMap<String, TfsData> tfsMap = dataBundle.teamFormingSessions;
 		for (TfsData tfs : tfsMap.values()) {
-			log.info("API Servlet adding TeamFormingSession to course "
+			log.fine("API Servlet adding TeamFormingSession to course "
 					+ tfs.course);
 			createTfs(tfs);
 		}
 
 		HashMap<String, TeamProfileData> teamProfiles = dataBundle.teamProfiles;
 		for (TeamProfileData teamProfile : teamProfiles.values()) {
-			log.info("API Servlet adding TeamProfile of " + teamProfile.team
+			log.fine("API Servlet adding TeamProfile of " + teamProfile.team
 					+ " in course " + teamProfile.course);
 			createTeamProfile(teamProfile);
 		}
 
 		HashMap<String, StudentActionData> studentActions = dataBundle.studentActions;
 		for (StudentActionData studentAction : studentActions.values()) {
-			log.info("API Servlet adding StudentActionData in course "
+			log.fine("API Servlet adding StudentActionData in course "
 					+ studentAction.course + " : "
 					+ studentAction.action.getValue());
 			createStudentAction(studentAction);
@@ -1929,7 +1929,7 @@ public class APIServlet extends HttpServlet {
 				SubmissionData incomingSub = s.result.incoming.get(j);
 				int normalizedIncoming = teamResult.perceivedToStudents[i][j];
 				incomingSub.normalized = normalizedIncoming;
-				log.fine("Setting normalized incoming of " + s.name + " from "
+				log.finer("Setting normalized incoming of " + s.name + " from "
 						+ incomingSub.reviewerName + " to "
 						+ normalizedIncoming);
 
