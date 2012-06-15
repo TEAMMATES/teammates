@@ -12,7 +12,7 @@ import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.lib.TMAPI;
 
 /**
- * Tests Studentinator Homepage UI
+ * Tests Student Homepage UI
  * @author Aldrian Obaja
  */
 public class StudentHomePageUiTest extends BaseTestCase {

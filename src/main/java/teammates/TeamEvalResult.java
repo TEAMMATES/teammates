@@ -23,10 +23,12 @@ public class TeamEvalResult {
 	/** team perception shown to students. normalized based on their own claims */
 	public int[][] perceivedToStudents;
 	
-	
+	/** ratings after removing bias for self ratings*/
+	public int[][] unbiased;
+
 	public TeamEvalResult(int[][] submissionValues) {
 		claimedToStudents = submissionValues;
-		
+
 		log.fine("==================\n" + "starting result calculation for\n"
 				+ pointsToString(submissionValues));
 
@@ -40,15 +42,23 @@ public class TeamEvalResult {
 
 		log.fine("submission values sanitized and normalized :\n"
 				+ pointsToString(claimedSanitizedNormalized));
-
-		double[] perceivedForCoordAsDouble = calculatePerceivedForCoord(claimedSanitizedNormalized);
+		
+		double[][] unbiasedAsDouble = calculateUnbiased(claimedSanitizedNormalized); 
+		log.fine("unbiased (i.e.self ratings removed and normalized) :\n"
+				+ pointsToString(unbiasedAsDouble));
+		
+		unbiased = doubleToInt(unbiasedAsDouble);
+		log.fine("unbiased as int :\n"
+				+ pointsToString(unbiased));
+		
+		double[] perceivedForCoordAsDouble = calculatePerceivedForCoord(unbiasedAsDouble);
 
 		log.fine("perceived to coord as double:\n"
 				+ replaceMagicNumbers(Arrays
 						.toString(perceivedForCoordAsDouble)));
 
-		perceivedToStudents = calculatePerceivedForStudents(
-				claimedSanitized, perceivedForCoordAsDouble);
+		perceivedToStudents = calculatePerceivedForStudents(claimedSanitized,
+				perceivedForCoordAsDouble);
 		log.fine("perceived to students :\n"
 				+ pointsToString(perceivedToStudents));
 
@@ -71,10 +81,9 @@ public class TeamEvalResult {
 		return output;
 	}
 
-	private static double[] calculatePerceivedForCoord(
+	private static double[][] calculateUnbiased(
 			double[][] sanitizedAndNormalizedInput) {
 		int teamSize = sanitizedAndNormalizedInput.length;
-		double[] perceivedForCoord;
 
 		double[][] selfRatingsRemoved = excludeSelfRatings(sanitizedAndNormalizedInput);
 		log.fine("self ratings removed :\n"
@@ -84,11 +93,13 @@ public class TeamEvalResult {
 		for (int i = 0; i < teamSize; i++) {
 			selfRatingRemovedAndNormalized[i] = normalizeValues(selfRatingsRemoved[i]);
 		}
-		log.fine("self ratings removed and normalized :\n"
-				+ pointsToString(selfRatingRemovedAndNormalized));
-
-		perceivedForCoord = normalizeValues(averageColumns(selfRatingRemovedAndNormalized));
-
+		return selfRatingRemovedAndNormalized;
+	}
+	
+	private static double[] calculatePerceivedForCoord(
+			double[][] unbiased) {
+		double[] perceivedForCoord;
+		perceivedForCoord = normalizeValues(averageColumns(unbiased));
 		return perceivedForCoord;
 	}
 
@@ -319,9 +330,9 @@ public class TeamEvalResult {
 	public static String pointsToString(int[][] array) {
 		return pointsToString(intToDouble(array)).replace(".0", "");
 	}
-	
+
 	private String pointsToString(int[] input) {
-		return replaceMagicNumbers(Arrays.toString(input))+Common.EOL;
+		return replaceMagicNumbers(Arrays.toString(input)) + Common.EOL;
 	}
 
 	public static String pointsToString(double[][] array) {
@@ -358,21 +369,42 @@ public class TeamEvalResult {
 					+ message);
 		}
 	}
-	
-	public String toString(int indent){
+
+	public String toString() {
+		return toString(0);
+	}
+
+	public String toString(int indent) {
 		String indentString = Common.getIndent(indent);
-		String divider = "=============================="+Common.EOL;
+		String divider = "====================" + Common.EOL;
 		StringBuilder sb = new StringBuilder();
-		sb.append(indentString+pointsToString((claimedToStudents)).replace(Common.EOL, Common.EOL+indentString));
+		sb.append("claimed from student:");
+		String filler = "                     ";
+		sb.append(indentString
+				+ pointsToString((claimedToStudents)).replace(Common.EOL,
+						Common.EOL + indentString + filler));
 		sb.append(divider);
-		sb.append(indentString+pointsToString((claimedToCoord)).replace(Common.EOL, Common.EOL+indentString));
+		sb.append("    claimed to coord:");
+		sb.append(indentString
+				+ pointsToString((claimedToCoord)).replace(Common.EOL,
+						Common.EOL + indentString+ filler));
 		sb.append(divider);
-		sb.append(indentString+pointsToString(perceivedToCoord).replace(Common.EOL, Common.EOL+indentString));
+		sb.append("  perceived to coord:");
+		sb.append(indentString
+				+ pointsToString(perceivedToCoord).replace(Common.EOL,
+						Common.EOL + indentString+ filler));
 		sb.append(divider);
-		sb.append(indentString+pointsToString((perceivedToStudents)).replace(Common.EOL, Common.EOL+indentString));
+		sb.append("            unbiased:");
+		sb.append(indentString
+				+ pointsToString(unbiased).replace(Common.EOL,
+						Common.EOL + indentString+ filler));
+		sb.append(divider);
+		sb.append("perceived to student:");
+		sb.append(indentString
+				+ pointsToString((perceivedToStudents)).replace(Common.EOL,
+						Common.EOL + indentString+ filler));
 		sb.append(divider);
 		return sb.toString();
 	}
-
 
 }

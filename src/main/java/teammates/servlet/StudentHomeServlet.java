@@ -27,11 +27,11 @@ public class StudentHomeServlet extends ActionServlet<StudentHomeHelper> {
 	protected boolean doAuthenticateUser(HttpServletRequest req,
 			HttpServletResponse resp, StudentHomeHelper helper)
 			throws IOException {
-		if(!helper.user.isStudent){
+		if(!helper.user.isStudent && !helper.user.isAdmin){
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return false;
 		}
-		helper.studentEmail = helper.server.getStudentsWithId(helper.user.id).get(0).email;
+		helper.studentEmail = helper.server.getStudentsWithId(helper.userId).get(0).email;
 		return true;
 	}
 
@@ -39,7 +39,7 @@ public class StudentHomeServlet extends ActionServlet<StudentHomeHelper> {
 	protected void doAction(HttpServletRequest req, StudentHomeHelper helper)
 			throws EntityDoesNotExistException {
 		try{
-			helper.courses = helper.server.getCourseDetailsListForStudent(helper.user.id);
+			helper.courses = helper.server.getCourseDetailsListForStudent(helper.userId);
 			sortCourses(helper.courses);
 			for(CourseData course: helper.courses){
 				sortEvaluationsByDeadline(course.evaluations);
@@ -63,7 +63,8 @@ public class StudentHomeServlet extends ActionServlet<StudentHomeHelper> {
 		} else {
 			// Goto next page
 			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_STATUS_MESSAGE, helper.statusMessage);
-			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_ERROR, ""+helper.error);
+			if(helper.error)
+				helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_ERROR, ""+helper.error);
 			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
 			resp.sendRedirect(helper.nextUrl);
 		}

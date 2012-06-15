@@ -77,6 +77,10 @@ public class StudentData extends UserData{
 				(this.updateStatus == other.updateStatus);
 	}
 	
+	public String toString(){
+		return toString(0);
+	}
+	
 	public String toString(int indent){
 		String indentString = Common.getIndent(indent);
 		StringBuilder sb = new StringBuilder();

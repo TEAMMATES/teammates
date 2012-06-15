@@ -8,6 +8,7 @@ import javax.jdo.PersistenceManager;
 import teammates.Datastore;
 import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
+import teammates.api.EntityDoesNotExistException;
 import teammates.exception.AccountExistsException;
 import teammates.persistent.Account;
 import teammates.persistent.Coordinator;
@@ -272,6 +273,12 @@ public class Accounts {
 			log.warning(errorMessage);
 		}
 		getPM().deletePersistent(coord);
+	}
+	public void verifyStudentExists(String courseId, String studentEmail) throws EntityDoesNotExistException {
+		if(getStudent(courseId, studentEmail)==null){
+			throw new EntityDoesNotExistException("The student "+studentEmail+ " does not exist in course "+courseId);
+		}
+		
 	}
 
 }

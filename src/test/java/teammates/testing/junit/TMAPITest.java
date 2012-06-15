@@ -399,8 +399,8 @@ public class TMAPITest extends BaseTestCase{
 		e.gracePeriod = e.gracePeriod + 1;
 		e.instructions = e.instructions + "x";
 		e.p2pEnabled = (!e.p2pEnabled);
-		e.startTime = Common.getDateOffsetToCurrentTime(1);
-		e.endTime = Common.getDateOffsetToCurrentTime(2);
+		e.startTime = Common.getDateOffsetToCurrentTime(-2);
+		e.endTime = Common.getDateOffsetToCurrentTime(-1);
 		e.activated = (!e.activated);
 		e.published = (!e.published);
 		e.timeZone = e.timeZone+1.0;

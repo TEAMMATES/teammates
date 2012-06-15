@@ -29,7 +29,7 @@ public class StudentEvalEditHandlerServlet extends ActionServlet<Helper> {
 	protected boolean doAuthenticateUser(HttpServletRequest req,
 			HttpServletResponse resp, Helper helper)
 			throws IOException {
-		if(!helper.user.isStudent){
+		if(!helper.user.isStudent && !helper.user.isAdmin){
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return false;
 		}

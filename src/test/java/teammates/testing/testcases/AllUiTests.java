@@ -14,7 +14,8 @@ import org.junit.runners.Suite;
 		CoordEvalResultsPageUiTest.class,
 		CoordHomePageUiTest.class,
 		
-		StudentHomePageUiTest.class
+		StudentHomePageUiTest.class,
+		StudentEvalEditPageUiTest.class
 })
 
 //@formatter:on

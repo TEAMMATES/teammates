@@ -120,6 +120,7 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 			helper.statusMessage = Common.MESSAGE_EVALUATION_EMPTY;
 		}
 		if(helper.courses.size()==0 && !helper.error){
+			// This will override the empty evaluation
 			helper.statusMessage = Common.MESSAGE_COURSE_EMPTY_IN_EVALUATION;
 		}
 	}
@@ -136,7 +137,7 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 			req.getRequestDispatcher(helper.nextUrl).forward(req, resp);
 		} else {
 			// Goto next page
-			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.userId);
+			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
 			resp.sendRedirect(helper.nextUrl);
 		}
 	}

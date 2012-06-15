@@ -224,6 +224,7 @@ public class Common {
 	public static final String JSP_LOGOUT = "/logout.jsp"; // Done
 	public static final String JSP_UNAUTHORIZED = "/unauthorized.jsp"; // Done
 	public static final String JSP_ERROR_PAGE = "/errorPage.jsp"; // Done
+	public static final String JSP_ENTITY_NOT_FOUND_PAGE = "/entityNotFoundPage.jsp"; // Done
 
 	// status messages
 	public static final String MESSAGE_COURSE_ADDED = "The course has been added. Click the 'Enroll' link in the table below to add students to the course.";
@@ -277,8 +278,10 @@ public class Common {
 	public static String BACKEND_STATUS_FAILURE = "[BACKEND_STATUS_FAILURE]";
 
 	// General Error codes
+	public static final String ERRORCODE_ACTIVATED_BEFORE_START = "ERRORCODE_ACTIVATED_BEFORE_START";
 	public static final String ERRORCODE_ALREADY_JOINED = "ERRORCODE_ALREADY_JOINED";
 	public static final String ERRORCODE_EMPTY_STRING = "ERRORCODE_EMPTY_STRING";
+	public static final String ERRORCODE_END_BEFORE_START = "ERRORCODE_END_BEFORE_START";
 	public static final String ERRORCODE_NULL_PARAMETER = "ERRORCODE_NULL_PARAMETER";
 	public static final String ERRORCODE_INCORRECTLY_FORMATTED_STRING = "ERRORCODE_INCORRECTLY_FORMATTED_STRING";
 	public static final String ERRORCODE_INVALID_CHARS = "ERRORCODE_IVALID_CHARS";
@@ -286,7 +289,11 @@ public class Common {
 	public static final String ERRORCODE_INVALID_KEY = "ERRORCODE_INVALID_KEY";
 	public static final String ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER = "ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER";
 	public static final String ERRORCODE_LEADING_OR_TRAILING_SPACES = "ERRORCODE_LEADING_OR_TRAILING_SPACES";
+	public static final String ERRORCODE_PUBLISHED_BEFORE_CLOSING = "ERRORCODE_PUBLISHED_BEFORE_CLOSING";
 	public static final String ERRORCODE_STRING_TOO_LONG = "ERRORCODE_STRING_TOO_LONG";
+
+
+
 
 	@SuppressWarnings("unused")
 	private void ____VALIDATE_parameters___________________________________() {
@@ -387,11 +394,11 @@ public class Common {
 		}
 	}
 
-	public static void verifyNotNull(String stringToCheck, String nameOfString)
+	public static void verifyNotNull(Object objectToCheck, String nameOfObject)
 			throws InvalidParametersException {
-		if (stringToCheck == null) {
+		if (objectToCheck == null) {
 			throw new InvalidParametersException(ERRORCODE_NULL_PARAMETER,
-					nameOfString + " cannot be null");
+					nameOfObject + " cannot be null");
 		}
 
 	}

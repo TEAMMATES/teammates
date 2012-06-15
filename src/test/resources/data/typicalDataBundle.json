@@ -105,6 +105,8 @@
     },
     "evaluation2InCourse1OfCoord1": {
       "course" : "idOfCourse1OfCoord1",
+      "startTime" : "2012-04-01 11:59 PM",
+      "endTime" : "2013-04-30 11:59 PM",
       "gracePeriod": 20,
       "instructions": "Please please fill in the second evaluation",
       "name": "evaluation2 In Course1",
@@ -112,6 +114,8 @@
     },
     "evaluation1InCourse2OfCoord1": {
       "course" : "idOfCourse2OfCoord1",
+      "startTime" : "2012-04-01 11:59 PM",
+      "endTime" : "2013-04-30 11:59 PM",
       "gracePeriod": 20,
       "instructions": "Please please fill in the second evaluation",
       "name": "evaluation name",
@@ -119,6 +123,8 @@
     },
     "evaluation1InCourse1OfCoord2": {
       "course" : "idOfCourse1OfCoord2",
+      "startTime" : "2012-04-01 11:59 PM",
+      "endTime" : "2013-04-30 11:59 PM",
       "gracePeriod": 20,
       "instructions": "instructions for evaluation1InCourse2",
       "name": "evaluation1 In Course2",

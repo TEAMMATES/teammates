@@ -57,6 +57,10 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		try{
 			doAction(req, helper);
 		} catch (EntityDoesNotExistException e){
+			log.warning(e.getMessage());
+			resp.sendRedirect(Common.JSP_ENTITY_NOT_FOUND_PAGE);
+			return;
+		} catch (Exception e){
 			log.severe("Unexpected exception: "+TeammatesException.stackTraceToString(e));
 			resp.sendRedirect(Common.JSP_ERROR_PAGE);
 			return;

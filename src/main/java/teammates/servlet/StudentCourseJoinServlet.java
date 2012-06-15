@@ -29,7 +29,7 @@ public class StudentCourseJoinServlet extends ActionServlet<Helper> {
 	@Override
 	protected boolean doAuthenticateUser(HttpServletRequest req,
 			HttpServletResponse resp, Helper helper) throws IOException {
-		if(!helper.user.isStudent){
+		if(!helper.user.isStudent && !helper.user.isAdmin){
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return false;
 		}
@@ -44,7 +44,7 @@ public class StudentCourseJoinServlet extends ActionServlet<Helper> {
 		
 		// Process action
 		try {
-			helper.server.joinCourse(helper.user.id, regKey);
+			helper.server.joinCourse(helper.userId, regKey);
 		} catch (JoinCourseException e) {
 			helper.statusMessage = Helper.escapeHTML(e.getMessage());
 			helper.error = true;
@@ -59,10 +59,10 @@ public class StudentCourseJoinServlet extends ActionServlet<Helper> {
 			HttpServletResponse resp, Helper helper) throws ServletException,
 			IOException {
 		if(helper.nextUrl==null) helper.nextUrl = DISPLAY_URL;
-		helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
 		helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_STATUS_MESSAGE, helper.statusMessage);
 		if(helper.error)
 			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_ERROR, ""+helper.error);
+		helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
 		
 		resp.sendRedirect(helper.nextUrl);
 	}

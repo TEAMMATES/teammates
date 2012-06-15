@@ -65,7 +65,7 @@ public class CoordCourseDetailsServlet extends ActionServlet<CoordCourseDetailsH
 			req.getRequestDispatcher(helper.nextUrl).forward(req, resp);
 		} else {
 			// Goto next page
-			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.userId);
+			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
 			resp.sendRedirect(helper.nextUrl);
 		}
 	}

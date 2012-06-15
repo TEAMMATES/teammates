@@ -51,6 +51,7 @@ public class CoordEvalDeleteServlet extends ActionServlet<Helper> {
 			HttpServletResponse resp, Helper helper) throws ServletException,
 			IOException {
 		if(helper.nextUrl==null) helper.nextUrl = DISPLAY_URL;
+		helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_STATUS_MESSAGE, helper.statusMessage);
 		helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
 		
 		resp.sendRedirect(helper.nextUrl);

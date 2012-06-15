@@ -389,7 +389,7 @@ public class TeamForming {
 			List<TeamProfile> tProfile = (List<TeamProfile>) getPM().newQuery(
 					query).execute();
 			if (tProfile.isEmpty()){
-				log.warning("Trying to get non-existent TeamProfile : " + courseID
+				log.fine("Trying to get non-existent TeamProfile : " + courseID
 						+ "/" + teamName);
 				return null;
 			}

@@ -50,10 +50,12 @@ public class CoordCourseStudentDeleteServlet extends ActionServlet<Helper> {
 	protected void doCreateResponse(HttpServletRequest req,
 			HttpServletResponse resp, Helper helper) throws ServletException,
 			IOException {
-		if(helper.nextUrl==null) helper.nextUrl = DISPLAY_URL;
-		helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_COURSE_ID, req.getParameter(Common.PARAM_COURSE_ID));
-		helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
+		if(helper.nextUrl==null){
+			helper.nextUrl = DISPLAY_URL;
+			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_COURSE_ID, req.getParameter(Common.PARAM_COURSE_ID));
+		}
 		helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_STATUS_MESSAGE, helper.statusMessage);
+		helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
 		
 		resp.sendRedirect(helper.nextUrl);
 	}

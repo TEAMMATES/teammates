@@ -564,7 +564,7 @@ public class Courses {
 
 		if (courseList.isEmpty()){
 			String errorMessage = "Trying to get non-existent Course : " + courseId;
-			log.warning(errorMessage);
+			log.fine(errorMessage);
 			return null;
 		}
 
@@ -896,6 +896,13 @@ public class Courses {
 			courseList.add(c);
 		}
 		return courseList;
+		
+	}
+
+	public void verifyCourseExists(String courseId) throws EntityDoesNotExistException {
+		if(getCourse(courseId)==null){
+			throw new EntityDoesNotExistException("The course "+courseId+" does not exist");
+		}
 		
 	}
 

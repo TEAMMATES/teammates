@@ -109,7 +109,6 @@ public class StudentTest extends BaseTestCase {
 	}
 
 	private Student generateTypicalStudentObject() {
-		printTestCaseHeader();
 		Student expected = new Student("email@email.com", "name 1",
 				"comment 1", "courseId1", "team 1");
 		return expected;
@@ -117,7 +116,6 @@ public class StudentTest extends BaseTestCase {
 
 	private void verifyExceptionForStudentCreation(String testCaseDesc,
 			String line, String courseId, String errorCode) {
-		printTestCaseHeader();
 		try {
 			new Student(line, courseId);
 			Assert.fail("Did not throw exception for " + testCaseDesc);
@@ -128,7 +126,6 @@ public class StudentTest extends BaseTestCase {
 	}
 
 	private void verifyStudentContent(Student expected, Student actual) {
-		printTestCaseHeader();
 		assertEquals(expected.getTeamName(), actual.getTeamName());
 		assertEquals(expected.getName(), actual.getName());
 		assertEquals(expected.getEmail(), actual.getEmail());

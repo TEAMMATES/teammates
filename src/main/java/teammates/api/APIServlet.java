@@ -979,26 +979,26 @@ public class APIServlet extends HttpServlet {
 
 		HashMap<String, CoordData> coords = dataBundle.coords;
 		for (CoordData coord : coords.values()) {
-			log.info("API Servlet adding coord :" + coord.id);
+			log.fine("API Servlet adding coord :" + coord.id);
 			createCoord(coord.id, coord.name, coord.email);
 		}
 
 		HashMap<String, CourseData> courses = dataBundle.courses;
 		for (CourseData course : courses.values()) {
-			log.info("API Servlet adding course :" + course.id);
+			log.fine("API Servlet adding course :" + course.id);
 			createCourse(course.coord, course.id, course.name);
 		}
 
 		HashMap<String, StudentData> students = dataBundle.students;
 		for (StudentData student : students.values()) {
-			log.info("API Servlet adding student :" + student.email
+			log.fine("API Servlet adding student :" + student.email
 					+ " to course " + student.course);
 			createStudent(student);
 		}
 
 		HashMap<String, EvaluationData> evaluations = dataBundle.evaluations;
 		for (EvaluationData evaluation : evaluations.values()) {
-			log.info("API Servlet adding evaluation :" + evaluation.name
+			log.fine("API Servlet adding evaluation :" + evaluation.name
 					+ " to course " + evaluation.course);
 			createEvaluation(evaluation);
 		}
@@ -1008,31 +1008,31 @@ public class APIServlet extends HttpServlet {
 		HashMap<String, SubmissionData> submissionsMap = dataBundle.submissions;
 		List<SubmissionData> submissionsList = new ArrayList<SubmissionData>();
 		for (SubmissionData submission : submissionsMap.values()) {
-			log.info("API Servlet adding submission for "
+			log.fine("API Servlet adding submission for "
 					+ submission.evaluation + " from " + submission.reviewer
 					+ " to " + submission.reviewee);
 			submissionsList.add(submission);
 		}
 		createSubmissions(submissionsList);
-		log.info("API Servlet added " + submissionsList.size() + " submissions");
+		log.fine("API Servlet added " + submissionsList.size() + " submissions");
 
 		HashMap<String, TfsData> tfsMap = dataBundle.teamFormingSessions;
 		for (TfsData tfs : tfsMap.values()) {
-			log.info("API Servlet adding TeamFormingSession to course "
+			log.fine("API Servlet adding TeamFormingSession to course "
 					+ tfs.course);
 			createTfs(tfs);
 		}
 
 		HashMap<String, TeamProfileData> teamProfiles = dataBundle.teamProfiles;
 		for (TeamProfileData teamProfile : teamProfiles.values()) {
-			log.info("API Servlet adding TeamProfile of " + teamProfile.team
+			log.fine("API Servlet adding TeamProfile of " + teamProfile.team
 					+ " in course " + teamProfile.course);
 			createTeamProfile(teamProfile);
 		}
 
 		HashMap<String, StudentActionData> studentActions = dataBundle.studentActions;
 		for (StudentActionData studentAction : studentActions.values()) {
-			log.info("API Servlet adding StudentActionData in course "
+			log.fine("API Servlet adding StudentActionData in course "
 					+ studentAction.course + " : "
 					+ studentAction.action.getValue());
 			createStudentAction(studentAction);
@@ -1618,13 +1618,17 @@ public class APIServlet extends HttpServlet {
 	private void ____EVALUATION_level_methods______________________________() {
 	}
 
+	/**
+	 * Note: 
+	 * @throws EntityAlreadyExistsException
+	 * @throws InvalidParametersException is thrown if any of the parameters  
+	 * puts the evaluation in an invalid state (e.g., endTime is set before
+	 * startTime). However, setting start time to a past time is allowed.
+	 */
 	public void createEvaluation(EvaluationData evaluation)
 			throws EntityAlreadyExistsException, InvalidParametersException {
-		if (evaluation == null) {
-			throw new InvalidParametersException(
-					Common.ERRORCODE_NULL_PARAMETER,
-					"Evaluation cannot be null ");
-		}
+		Common.verifyNotNull(evaluation, "evaluation");
+		evaluation.validate();
 		Evaluations.inst().addEvaluation(evaluation.toEvaluation());
 	}
 
@@ -1636,6 +1640,8 @@ public class APIServlet extends HttpServlet {
 
 	public void editEvaluation(EvaluationData evaluation)
 			throws EntityDoesNotExistException, InvalidParametersException {
+		Common.verifyNotNull(evaluation, "evaluation");
+		evaluation.validate();
 		Evaluations.inst().editEvaluation(evaluation.course, evaluation.name,
 				evaluation.instructions, evaluation.p2pEnabled,
 				evaluation.startTime, evaluation.endTime,
@@ -1694,37 +1700,45 @@ public class APIServlet extends HttpServlet {
 		return returnValue;
 	}
 
-	// TODO: make this private
-	public HashMap<String, SubmissionData> getSubmissionsForEvaluation(
-			String courseId, String evaluationName)
-			throws EntityDoesNotExistException {
-		if (getEvaluation(courseId, evaluationName) == null) {
-			throw new EntityDoesNotExistException(
-					"There is no evaluation named [" + evaluationName
-							+ "] under the course [" + courseId + "]");
-		}
-		// create SubmissionData Hashmap
-		List<Submission> submissionsList = Evaluations.inst()
-				.getSubmissionList(courseId, evaluationName);
-		HashMap<String, SubmissionData> submissionDataList = new HashMap<String, SubmissionData>();
-		for (Submission s : submissionsList) {
-			SubmissionData sd = new SubmissionData(s);
-			submissionDataList.put(sd.reviewer + "->" + sd.reviewee, sd);
-		}
-		return submissionDataList;
-	}
+	
 
 	public List<SubmissionData> getSubmissionsFromStudent(String courseId,
 			String evaluationName, String reviewerEmail)
-			throws EntityDoesNotExistException {
+			throws EntityDoesNotExistException, InvalidParametersException {
+		Common.verifyNotNull(courseId, "course ID");
+		Common.verifyNotNull(evaluationName, "evaluation name");
+		Common.verifyNotNull(reviewerEmail, "student email");
 		List<Submission> submissions = Evaluations.inst()
 				.getSubmissionFromStudentList(courseId, evaluationName,
 						reviewerEmail);
+		if (submissions.size() == 0) {
+			Courses.inst().verifyCourseExists(courseId);
+			Evaluations.inst().verifyEvaluationExists(courseId, evaluationName);
+			Accounts.inst().verifyStudentExists(courseId, reviewerEmail);
+		}
+		StudentData student = getStudent(courseId, reviewerEmail);
 		ArrayList<SubmissionData> returnList = new ArrayList<SubmissionData>();
 		for (Submission s : submissions) {
-			returnList.add(new SubmissionData(s));
+			StudentData reviewee = getStudent(courseId, s.getToStudent());
+			if (!isOrphanSubmission(student, reviewee, s)) {
+				SubmissionData sd = new SubmissionData(s);
+				sd.reviewerName = student.name;
+				sd.revieweeName = reviewee.name;
+				returnList.add(sd);
+			}
 		}
 		return returnList;
+	}
+
+	private boolean isOrphanSubmission(StudentData reviewer,
+			StudentData reviewee, Submission submission) {
+		if (!submission.getTeamName().equals(reviewer.team)) {
+			return true;
+		}
+		if (!submission.getTeamName().equals(reviewee.team)) {
+			return true;
+		}
+		return false;
 	}
 
 	@SuppressWarnings("unused")
@@ -1738,16 +1752,10 @@ public class APIServlet extends HttpServlet {
 						+ "are created automatically");
 	}
 
-	// only for TMAPI
-	public SubmissionData getSubmission(String courseId, String evaluationName,
-			String reviewerEmail, String revieweeEmail) {
-		Submission submission = Evaluations.inst().getSubmission(courseId,
-				evaluationName, reviewerEmail, revieweeEmail);
-		return (submission == null ? null : new SubmissionData(submission));
-	}
 
-	// TODO: change to editSubmissions
-	public void editSubmissions(List<SubmissionData> submissionDataList) throws EntityDoesNotExistException, InvalidParametersException{
+
+	public void editSubmissions(List<SubmissionData> submissionDataList) 
+			throws EntityDoesNotExistException, InvalidParametersException{
 		ArrayList<Submission> submissions = new ArrayList<Submission>();
 		for (SubmissionData sd : submissionDataList) {
 			submissions.add(sd.toSubmission());
@@ -1866,6 +1874,25 @@ public class APIServlet extends HttpServlet {
 	@SuppressWarnings("unused")
 	private void ____helper_methods________________________________________() {
 	}
+	
+	private HashMap<String, SubmissionData> getSubmissionsForEvaluation (
+			String courseId, String evaluationName)
+			throws EntityDoesNotExistException {
+		if (getEvaluation(courseId, evaluationName) == null) {
+			throw new EntityDoesNotExistException(
+					"There is no evaluation named [" + evaluationName
+							+ "] under the course [" + courseId + "]");
+		}
+		// create SubmissionData Hashmap
+		List<Submission> submissionsList = Evaluations.inst()
+				.getSubmissionList(courseId, evaluationName);
+		HashMap<String, SubmissionData> submissionDataList = new HashMap<String, SubmissionData>();
+		for (Submission s : submissionsList) {
+			SubmissionData sd = new SubmissionData(s);
+			submissionDataList.put(sd.reviewer + "->" + sd.reviewee, sd);
+		}
+		return submissionDataList;
+	}
 
 	private TeamEvalResult calculateTeamResult(TeamData team) {
 		if (team == null) {
@@ -1876,14 +1903,12 @@ public class APIServlet extends HttpServlet {
 		team.sortByStudentNameAscending();
 		for (int i = 0; i < teamSize; i++) {
 			StudentData studentData = team.students.get(i);
-			// studentData.result.outgoingOriginal.add(studentData.result.own);
 			studentData.result.sortOutgoingByStudentNameAscending();
 			for (int j = 0; j < teamSize; j++) {
 				SubmissionData submissionData = studentData.result.outgoing
 						.get(j);
 				claimedFromStudents[i][j] = submissionData.points;
 			}
-			// studentData.result.outgoingOriginal.remove(studentData.result.own);
 
 		}
 		return new TeamEvalResult(claimedFromStudents);
@@ -1904,7 +1929,7 @@ public class APIServlet extends HttpServlet {
 				SubmissionData incomingSub = s.result.incoming.get(j);
 				int normalizedIncoming = teamResult.perceivedToStudents[i][j];
 				incomingSub.normalized = normalizedIncoming;
-				log.fine("Setting normalized incoming of " + s.name + " from "
+				log.finer("Setting normalized incoming of " + s.name + " from "
 						+ incomingSub.reviewerName + " to "
 						+ normalizedIncoming);
 
@@ -1948,10 +1973,12 @@ public class APIServlet extends HttpServlet {
 		}
 	}
 
-	// private List<EvaluationData> getEvaluationListForStudent(String googleId)
-	// {
-	// return null;
-	// }
+	private SubmissionData getSubmission(String courseId, String evaluationName,
+			String reviewerEmail, String revieweeEmail) {
+		Submission submission = Evaluations.inst().getSubmission(courseId,
+				evaluationName, reviewerEmail, revieweeEmail);
+		return (submission == null ? null : new SubmissionData(submission));
+	}
 
 	private boolean isInEnrollList(StudentData student,
 			ArrayList<StudentData> studentInfoList) {

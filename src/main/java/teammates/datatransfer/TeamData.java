@@ -23,6 +23,10 @@ public class TeamData {
 		});
 	}
 	
+	public String toString(){
+		return toString(0);
+	}
+	
 	public String toString(int indent){
 		String indentString = Common.getIndent(indent);
 		StringBuilder sb = new StringBuilder();
