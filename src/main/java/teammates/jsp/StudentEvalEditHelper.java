@@ -34,7 +34,8 @@ public class StudentEvalEditHelper extends Helper {
 	 */
 	public String getJustificationInstr(SubmissionData sub){
 		if(sub.reviewee.equals(sub.reviewer)){
-			return "Comments about your contribution:";
+			return "Comments about your contribution:<br />" +
+					"(this will be shown to other teammates)";
 		} else {
 			return "Confidential comments about this teammate:<br />" + 
 					"(not shown to the teammate)";

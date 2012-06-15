@@ -132,33 +132,33 @@
 						<tr>
 							<td><%= CoordEvalResultsHelper.escapeHTML(team.name) %></td>
 							<td>
-								<span onmouseover="ddrivetip('<%=CoordEvalResultsHelper.escape(student.comments)%>')"
+								<span onmouseover="ddrivetip('<%= CoordEvalResultsHelper.escape(student.comments) %>')"
 										onmouseout="hideddrivetip()">
 									<%= student.name %>
 								</span>
 							</td>
-							<td><%=helper.colorizePoints(student.result.claimedToCoord)%></td>
-							<td><%=helper.colorizePoints(student.result.perceivedToCoord)%></td>
-							<td><%=helper.printDiff(student.result)%></td>
-							<td><%=helper.getPointsList(student.result.outgoing)%></td>
-							<td><%=helper.getPointsList(student.result.incoming)%></td>
+							<td><%= CoordEvalResultsHelper.colorizePoints(student.result.claimedToCoord) %></td>
+							<td><%= CoordEvalResultsHelper.colorizePoints(student.result.perceivedToCoord) %></td>
+							<td><%= CoordEvalResultsHelper.printDiff(student.result) %></td>
+							<td><%= CoordEvalResultsHelper.getPointsList(student.result.outgoing, true) %></td>
+							<td><%= CoordEvalResultsHelper.getPointsList(student.result.incoming, true) %></td>
 							<td class="centeralign">
-								<a name="viewEvaluationResults<%=idx%>" id="viewEvaluationResults<%=idx%>"
+								<a name="viewEvaluationResults<%= idx %>" id="viewEvaluationResults<%= idx %>"
 										target="_blank"
-										href="<%=helper.getCoordEvaluationSubmissionViewLink(helper.evaluation.course, helper.evaluation.name, student.email)%>"
-										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_VIEW_REVIEWER%>')"
+										href="<%= helper.getCoordEvaluationSubmissionViewLink(helper.evaluation.course, helper.evaluation.name, student.email) %>"
+										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_VIEW_REVIEWER %>')"
 										onmouseout="hideddrivetip()">
 										View</a>
-								<a name="editEvaluationResults<%=idx%>" id="editEvaluationResults<%=idx%>"
+								<a name="editEvaluationResults<%= idx %>" id="editEvaluationResults<%= idx %>"
 										target="_blank"
-										href="<%=helper.getCoordEvaluationSubmissionEditLink(helper.evaluation.course, helper.evaluation.name, student.email)%>"
-										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_EDIT%>')"
+										href="<%= helper.getCoordEvaluationSubmissionEditLink(helper.evaluation.course, helper.evaluation.name, student.email) %>"
+										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_EDIT %>')"
 										onmouseout="hideddrivetip()"
-										<%=CoordEvalResultsHelper
+										<%= CoordEvalResultsHelper
 											.getCoordStatusForEval(helper.evaluation)
 											.equals(Common.EVALUATION_STATUS_CLOSED)
 											? ""
-											: CoordEvalResultsHelper.DISABLED%> >
+											: CoordEvalResultsHelper.DISABLED %> >
 										Edit</a></td>
 						</tr>
 					<%			idx++;
@@ -187,19 +187,19 @@
 											<th><span class="fontcolor"
 													onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_CLAIMED %>')"
 													onmouseout="hideddrivetip()">
-												Claimed Contributions: </span><%= helper.printSharePoints(student.result.claimedToCoord,true) %></th>
+												Claimed Contributions: </span><%= CoordEvalResultsHelper.printSharePoints(student.result.claimedToCoord,true) %></th>
 											<th><span class="fontcolor"
 													onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_PERCEIVED %>')"
 													onmouseout="hideddrivetip()">
-												Perceived Contributions: </span><%= helper.printSharePoints(student.result.perceivedToCoord,true) %></th>
+												Perceived Contributions: </span><%= CoordEvalResultsHelper.printSharePoints(student.result.perceivedToCoord,true) %></th>
 										</tr></thead>
 										<tr>
 											<td colspan="4"><b>Self evaluation:</b><br />
-		 										<%= helper.printJustification(student.result.getSelfEvaluation()) %></td>
+		 										<%= CoordEvalResultsHelper.printJustification(student.result.getSelfEvaluation()) %></td>
 		 								</tr>
 		 								<tr>
 		 									<td colspan="4"><b>Comments about team:</b><br />
-		 										<%= helper.printComments(student.result.getSelfEvaluation(), helper.evaluation.p2pEnabled) %></td>
+		 										<%= CoordEvalResultsHelper.printComments(student.result.getSelfEvaluation(), helper.evaluation.p2pEnabled) %></td>
 		 								</tr>
 										<tr class="result_subheader">
 											<td width="15%"><%= byReviewer ? "To" : "From" %> Student</td>
@@ -210,9 +210,9 @@
 										<%	for(SubmissionData sub: (byReviewer ? student.result.outgoing : student.result.incoming)){ if(sub.reviewer.equals(sub.reviewee)) continue; %>
 											<tr>
 												<td><b><%= CoordEvalResultsHelper.escapeHTML(byReviewer ? sub.revieweeName : sub.reviewerName) %></b></td>
-												<td><%= helper.printSharePoints(sub.normalized,false) %></td>
-												<td><%= helper.printJustification(sub) %></td>
-												<td><%= helper.printComments(sub, helper.evaluation.p2pEnabled) %></td>
+												<td><%= CoordEvalResultsHelper.printSharePoints(sub.normalized,false) %></td>
+												<td><%= CoordEvalResultsHelper.printJustification(sub) %></td>
+												<td><%= CoordEvalResultsHelper.printComments(sub, helper.evaluation.p2pEnabled) %></td>
 											</tr>
 										<%	} %>
 									</table>

@@ -270,4 +270,17 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			}
 		});
 	}
+	
+	/**
+	 * Sorts submissions based on points (not the normalized one, although
+	 * the relative ordering should be the same)
+	 * @param submissions
+	 */
+	protected void sortSubmissionsByPoints(List<SubmissionData> submissions){
+		Collections.sort(submissions, new Comparator<SubmissionData>(){
+			public int compare(SubmissionData s1, SubmissionData s2){
+				return Integer.valueOf(s1.points).compareTo(Integer.valueOf(s2.points));
+			}
+		});
+	}
 }

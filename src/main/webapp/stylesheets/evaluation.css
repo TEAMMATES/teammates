@@ -221,7 +221,7 @@ tfoot td {
 
 .result_subheader {
 	background-color: #d0d8e8;
-	
+	margin-top: 10px;
 }
 .result_subheader td{
 	color: #4E80BB;
@@ -297,11 +297,11 @@ tfoot td {
 	border: 1px dotted #CCC;
 }
 
-.result_studentform td:nth-of-type(even) {
+.result_studentform td {
 	background-color: #eaeff5;
 }
 
-.result_studentform td:nth-of-type(odd) {
+.result_studentform td:first-child {
 	background-color: #4E80BB;
 	color:#FFF;
 	font-weight:bold;
