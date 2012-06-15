@@ -1,40 +1,36 @@
 package teammates.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
-import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
-import teammates.datatransfer.CourseData;
 import teammates.datatransfer.EvaluationData;
-import teammates.jsp.CoordEvalHelper;
+import teammates.jsp.CoordEvalEditHelper;
 import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
 /**
- * Servlet to handle Add Evaluation and Display Evaluations action
+ * Servlet to handle Edit Evaluation action
  * @author Aldrian Obaja
  *
  */
-public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
+public class CoordEvalEditServlet extends ActionServlet<CoordEvalEditHelper> {
 	
-	private static final String DISPLAY_URL = Common.JSP_COORD_EVAL;
+	private static final String DISPLAY_URL = Common.JSP_COORD_EVAL_EDIT;
 
 	@Override
-	protected CoordEvalHelper instantiateHelper() {
-		return new CoordEvalHelper();
+	protected CoordEvalEditHelper instantiateHelper() {
+		return new CoordEvalEditHelper();
 	}
 
 	@Override
 	protected boolean doAuthenticateUser(HttpServletRequest req,
-			HttpServletResponse resp, CoordEvalHelper helper)
+			HttpServletResponse resp, CoordEvalEditHelper helper)
 			throws IOException {
 		if(!helper.user.isCoord && !helper.user.isAdmin){
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
@@ -44,14 +40,19 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 	}
 
 	@Override
-	protected void doAction(HttpServletRequest req, CoordEvalHelper helper) throws EntityDoesNotExistException{
+	protected void doAction(HttpServletRequest req, CoordEvalEditHelper helper) throws EntityDoesNotExistException{
 		// Get parameters
-		boolean isSubmit = false; // Flag whether this request is an add evaluation request
+		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
+		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
+		if(courseID==null && evalName==null){
+			helper.nextUrl = Common.PAGE_COORD_EVAL;
+			return;
+		}
+		
+		boolean isSubmit = false; // Flag whether this request is an edit evaluation request
 		EvaluationData newEval = new EvaluationData();
-		newEval.course = req.getParameter(Common.PARAM_COURSE_ID);
-		if(newEval.course!=null) isSubmit = true;
-		newEval.name = req.getParameter(Common.PARAM_EVALUATION_NAME);
-		if(newEval.name!=null) isSubmit = true;
+		newEval.course = courseID;
+		newEval.name = evalName;
 		newEval.p2pEnabled = "true".equalsIgnoreCase(req.getParameter(Common.PARAM_EVALUATION_COMMENTSENABLED));
 		String startDate = req.getParameter(Common.PARAM_EVALUATION_START);
 		String paramStartTime = req.getParameter(Common.PARAM_EVALUATION_STARTTIME);
@@ -89,18 +90,16 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 		if(isSubmit){
 			helper.submittedEval = newEval;
 		} else { 
-			helper.submittedEval = null;
+			helper.submittedEval = helper.server.getEvaluation(courseID, evalName);
 		}
 		
 		// Process action
 		try {
 			if(isSubmit){
-				helper.server.createEvaluation(newEval);
-				helper.statusMessage = Common.MESSAGE_EVALUATION_ADDED;
+				helper.server.editEvaluation(newEval);
+				helper.statusMessage = Common.MESSAGE_EVALUATION_EDITED;
+				helper.nextUrl = Common.PAGE_COORD_EVAL;
 			}
-		} catch (EntityAlreadyExistsException e) {
-			helper.statusMessage = Common.MESSAGE_EVALUATION_EXISTS;
-			helper.error = true;
 		} catch (InvalidParametersException e) {
 			helper.statusMessage = e.getMessage();
 			// TODO When is the case where no teams yet?
@@ -108,26 +107,11 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 			// TODO When is the case where start/end date is invalid?
 			helper.error = true;
 		}
-
-		HashMap<String, CourseData> summary = helper.server.getCourseListForCoord(helper.userId);
-		helper.courses = new ArrayList<CourseData>(summary.values());
-		sortCourses(helper.courses);
-
-		helper.evaluations = helper.server.getEvaluationsListForCoord(helper.userId);
-		sortEvaluationsByDeadline(helper.evaluations);
-
-		if(helper.evaluations.size()==0 && !helper.error){
-			helper.statusMessage = Common.MESSAGE_EVALUATION_EMPTY;
-		}
-		if(helper.courses.size()==0 && !helper.error){
-			// This will override the empty evaluation
-			helper.statusMessage = Common.MESSAGE_COURSE_EMPTY_IN_EVALUATION;
-		}
 	}
 
 	@Override
 	protected void doCreateResponse(HttpServletRequest req,
-			HttpServletResponse resp, CoordEvalHelper helper)
+			HttpServletResponse resp, CoordEvalEditHelper helper)
 			throws ServletException, IOException {
 		if(helper.nextUrl==null) helper.nextUrl = DISPLAY_URL;
 		
