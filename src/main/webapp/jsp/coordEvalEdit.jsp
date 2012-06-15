@@ -98,7 +98,7 @@
 							<td class="attribute" >Time zone:</td>
 							<td><select style="width: 100px;" name="<%= Common.PARAM_EVALUATION_TIMEZONE %>" id="<%= Common.PARAM_EVALUATION_TIMEZONE %>"
 										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_TIMEZONE %>')"
-										onmouseout="hideddrivetip()" tabindex=7>
+										onmouseout="hideddrivetip()" disabled="disabled" tabindex=7>
 								<% 	for(String opt: helper.getTimeZoneOptions()) out.println(opt);%>
 								</select>
 							</td>

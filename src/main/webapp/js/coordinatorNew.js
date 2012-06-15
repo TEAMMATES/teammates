@@ -237,53 +237,6 @@ function doInformStudentsOfEvaluationChanges(courseID, name) {
 /*
  * Returns
  * 
- * 0: successful 1: server error 2: fields missing
- * 
- */
-function editEvaluationResults(submissionList, commentsEnabled) {
-	var submissionListLength = submissionList.length;
-	for (var loop = 0; loop < submissionListLength; loop++) {
-		if (submissionList[loop].points == -999) {
-			return 2;
-		}
-
-		if (!commentsEnabled) {
-			submissionList[loop].commentsToStudent = "";
-		}
-	}
-
-	var request = "operation=" + OPERATION_COORDINATOR_EDITEVALUATIONRESULTS
-	+ "&" + STUDENT_NUMBEROFSUBMISSIONS + "=" + submissionListLength
-	+ "&" + COURSE_ID + "=" + submissionList[0].courseID + "&"
-	+ EVALUATION_NAME + "=" + submissionList[0].evaluationName + "&"
-	+ STUDENT_TEAMNAME + "=" + submissionList[0].teamName;
-
-	for (var loop = 0; loop < submissionListLength; loop++) {
-		request = request + "&" + STUDENT_FROMSTUDENT + loop + "="
-		+ encodeURIComponent(submissionList[loop].fromStudent) + "&"
-		+ STUDENT_TOSTUDENT + loop + "="
-		+ encodeURIComponent(submissionList[loop].toStudent) + "&"
-		+ STUDENT_POINTS + loop + "="
-		+ encodeURIComponent(submissionList[loop].points) + "&"
-		+ STUDENT_JUSTIFICATION + loop + "="
-		+ encodeURIComponent(submissionList[loop].justification) + "&"
-		+ STUDENT_COMMENTSTOSTUDENT + loop + "="
-		+ encodeURIComponent(submissionList[loop].commentsToStudent);
-	}
-
-	if (xmlhttp) {
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-		"application/x-www-form-urlencoded;");
-		xmlhttp.send(request);
-
-		return handleEditEvaluationResults();
-	}
-}
-
-/*
- * Returns
- * 
  * 0: successful 1: server error 2: unable to change teams
  * 
  */
@@ -327,24 +280,6 @@ function informStudentsOfEvaluationChanges(courseID, name) {
 	}
 
 	return handleInformStudentsOfEvaluationChanges();
-}
-
-/*
- * Returns
- * 
- * 0: successful 1: server error
- * 
- */
-function sendRegistrationKeys(courseID) {
-	if (xmlhttp) {
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-		"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_SENDREGISTRATIONKEYS
-				+ "&" + COURSE_ID + "=" + encodeURIComponent(courseID));
-
-		return handleSendRegistrationKeys();
-	}
 }
 
 function toggleInformStudentsOfEvaluationChanges(courseID, name) {
