@@ -36,7 +36,6 @@
 			</div>
 			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 			<div id="studentEvaluationResults">
-				<table class="result_table"><tr class="result_header"><td>Your Result:</td></tr></table>
 				<table class="result_studentform">
 					<tr>
 						<td width="15%">Evaluation:</td>
@@ -95,7 +94,7 @@
 					</tr>
 				</table>
 				<br /><br />
-				<table class="result_table"><tr class="result_header"><td>Your Submission:</td></tr></table>
+				<table class="result_table"><tr class="result_subheader"><td>Your Submission:</td></tr></table>
 				<table class="result_studentform">
 					<tr>
 						<td width="15%">Points to yourself:</td>
