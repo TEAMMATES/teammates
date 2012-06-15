@@ -30,7 +30,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="/coordHeader.jsp" />
+		<jsp:include page="<%= Common.JSP_COORD_HEADER %>" />
 	</div>
 
 	<div id="frameBody">
@@ -40,7 +40,7 @@
 				<h1>Add New Course</h1>
 			</div>
 			<div id="coordinatorCourseManagement">
-				<form method="get" action="<%= Common.JSP_COORD_COURSE %>" name="form_addcourse">
+				<form method="get" action="<%= Common.PAGE_COORD_COURSE %>" name="form_addcourse">
 					<table class="addform round">
 						<tr>
 							<td><b>Course ID:</b></td>
@@ -59,7 +59,7 @@
 						<tr>
 							<td><input class="addinput" type="text"
 								name="<%= Common.PARAM_COURSE_NAME %>" id="<%= Common.PARAM_COURSE_NAME %>"
-								value="<%=(helper.courseName==null?"":helper.courseName)%>"
+								value="<%= (helper.courseName==null?"":CoordCourseHelper.escapeHTML(helper.courseName)) %>"
 								onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
 								onmouseout="hideddrivetip()"
 								maxlength=<%= Common.COURSE_NAME_MAX_LENGTH %> tabindex=2 /></td>
@@ -71,7 +71,7 @@
 					</table>
 				</form>
 			</div>
-			<jsp:include page="/statusMessage.jsp" />
+			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 			<div id="coordinatorCourseTable">
 				<table id="dataform">
 					<tr>
@@ -89,34 +89,33 @@
 						<th class="centeralign">Action(s)</th>
 					</tr>
 					<%	
-						int idx = 0;
-						for(idx=0; idx<helper.summary.length; idx++){
-							CourseData course = helper.summary[idx];
+						int idx = -1;
+						for(CourseData course: helper.courses){ idx++;
 					%>
 						<tr class="courses_row">
 							<td id="courseID<%= idx %>"><%= course.id %></td>
-							<td id="courseName<%= idx %>"><%= course.name %></td>
+							<td id="courseName<%= idx %>"><%= CoordCourseHelper.escapeHTML(course.name) %></td>
 							<td class="t_course_teams centeralign"><%= course.teamsTotal %></td>
 							<td class="centeralign"><%= course.studentsTotal %></td>
 							<td class="centeralign"><%= course.unregisteredTotal %></td>
 							<td class="centeralign">
 								<a class="t_course_enroll"
-									href="<%= helper.getCourseEnrollLink(course.id) %>"
+									href="<%= helper.getCoordCourseEnrollLink(course.id) %>"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ENROLL %>')"
 									onmouseout="hideddrivetip()">Enroll</a>
 								<a class="t_course_view"
-									href="<%= helper.getCourseDetailsLink(course.id) %>"
+									href="<%=helper.getCoordCourseDetailsLink(course.id)%>"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_DETAILS %>')"
 									onmouseout="hideddrivetip()">View</a>
 								<a class="t_course_delete"
-									href="<%= helper.getCourseDeleteLink(course.id,false) %>"
+									href="<%=helper.getCoordCourseDeleteLink(course.id,false)%>"
 									onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%= course.id %>');"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_DELETE %>')"
 									onmouseout="hideddrivetip()">Delete</a>
 							</td>
 						</tr>
 					<%	}
-						if(idx==0){ // Print empty row
+						if(idx==-1){ // Print empty row
 					%>
 						<tr>
 							<td></td>
@@ -131,7 +130,7 @@
 				<br />
 				<br />
 				<br />
-				<% if(idx==0){ %>
+				<% if(idx==-1){ %>
 					No records found. <br />
 					<br />
 					<br />
@@ -142,7 +141,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="/footer.jsp" />
+		<jsp:include page="<%= Common.JSP_FOOTER %>" />
 	</div>
 </body>
 </html>

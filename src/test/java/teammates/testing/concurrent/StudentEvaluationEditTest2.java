@@ -47,7 +47,7 @@ public class StudentEvaluationEditTest2 extends TestCase {
 
 	public void studentEditEvaluation(Student student) {
 		
-		bi.studentLogin(student.email, student.password);
+		bi.loginStudent(student.email, student.password);
 		
 		bi.clickEvaluationTab();
 

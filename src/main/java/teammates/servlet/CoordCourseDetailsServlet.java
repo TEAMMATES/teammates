@@ -1,9 +1,6 @@
 package teammates.servlet;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
-import teammates.datatransfer.StudentData;
 import teammates.jsp.CoordCourseDetailsHelper;
 import teammates.jsp.Helper;
 
@@ -23,7 +19,7 @@ import teammates.jsp.Helper;
  */
 public class CoordCourseDetailsServlet extends ActionServlet<CoordCourseDetailsHelper> {
 	
-	private static final String DISPLAY_URL = "/coordCourseDetails.jsp";
+	private static final String DISPLAY_URL = Common.JSP_COORD_COURSE_DETAILS;
 
 	@Override
 	protected CoordCourseDetailsHelper instantiateHelper() {
@@ -51,7 +47,7 @@ public class CoordCourseDetailsServlet extends ActionServlet<CoordCourseDetailsH
 			helper.course = helper.server.getCourseDetails(courseID);
 			helper.students = helper.server.getStudentListForCourse(courseID);
 		} else {
-			helper.nextUrl = Common.JSP_COORD_COURSE;
+			helper.nextUrl = Common.PAGE_COORD_COURSE;
 		}
 		
 		sortStudents(helper.students);
@@ -69,16 +65,8 @@ public class CoordCourseDetailsServlet extends ActionServlet<CoordCourseDetailsH
 			req.getRequestDispatcher(helper.nextUrl).forward(req, resp);
 		} else {
 			// Goto next page
-			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.userId);
+			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
 			resp.sendRedirect(helper.nextUrl);
 		}
-	}
-	
-	private void sortStudents(List<StudentData> students){
-		Collections.sort(students,new Comparator<StudentData>(){
-			public int compare(StudentData s1, StudentData s2){
-				return s1.name.compareTo(s2.name);
-			}
-		});
 	}
 }

@@ -37,7 +37,7 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 		bi = BrowserInstancePool.getBrowserInstance();
 		
 		bi.loginCoord(scn.coords.get("teammates.test").id, Config.inst().TEAMMATES_APP_PASSWD);
-		bi.goToUrl(Helper.addParam(appURL+Common.JSP_COORD_COURSE_DETAILS,Common.PARAM_COURSE_ID,scn.courses.get("CCDetailsUiT.CS2104").id));
+		bi.goToUrl(Helper.addParam(appURL+Common.PAGE_COORD_COURSE_DETAILS,Common.PARAM_COURSE_ID,scn.courses.get("CCDetailsUiT.CS2104").id));
 	}
 	
 	@AfterClass

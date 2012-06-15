@@ -1,5 +1,6 @@
 package teammates.api;
 
+@SuppressWarnings("serial")
 public class JoinCourseException extends TeammatesException{
 
 	public JoinCourseException() {

@@ -53,7 +53,7 @@ public class StudentViewResultsUITest extends TestCase {
 	public void testStudentViewResultPoints() {
 		for (int i = 0; i < scn.students.size(); i++) {
 			Student s = scn.students.get(i);
-			bi.studentLogin(s.email, s.password);
+			bi.loginStudent(s.email, s.password);
 
 			studentViewResultPoints(scn.course.courseId, scn.evaluation.name, i);
 			studentViewResultPoints(scn.course.courseId, scn.evaluation2.name, i);

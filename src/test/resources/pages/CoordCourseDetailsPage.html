@@ -84,9 +84,9 @@
 			<div id="coordinatorStudentTable">
 				<table id="dataform">
 					<tbody><tr>
-						<th><input type="button" id="button_sortstudentname" class="buttonSortAscending" />Student Name</th>
-						<th><input type="button" id="button_sortstudentteam" class="buttonSortNone" />Team</th>
-						<th class="centeralign"><input type="button" id="button_sortstudentstatus" class="buttonSortNone" />Status</th>
+						<th><input type="button" onclick="toggleSort(this,1)" id="button_sortstudentname" class="buttonSortAscending" />Student Name</th>
+						<th><input type="button" onclick="toggleSort(this,2)" id="button_sortstudentteam" class="buttonSortNone" />Team</th>
+						<th class="centeralign"><input type="button" onclick="toggleSort(this,3)" id="button_sortstudentstatus" class="buttonSortNone" />Status</th>
 						<th class="centeralign">Action(s)</th>
 					</tr>
 					
@@ -95,10 +95,13 @@
 	 							<td>Team 1</td>
 	 							<td class="centeralign">Joined</td>
 	 							<td class="centeralign">
-									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the details of the student')" href="/page/coordCourseStudentDetails?courseid=CCDetailsUiT.CS2104&amp;studentemail=alice.b.tmms%40gmail.com" class="t_student_details">View</a>
-									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit the details of the student')" href="/page/coordCourseStudentEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=alice.b.tmms%40gmail.com" class="t_student_edit">Edit</a>
+									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the details of the student')" href="/page/coordCourseStudentDetails?courseid=CCDetailsUiT.CS2104&amp;studentemail=alice.b.tmms%40gmail.com" class="t_student_details">
+											View</a>
+									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit the details of the student')" href="/page/coordCourseStudentEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=alice.b.tmms%40gmail.com" class="t_student_edit">
+											Edit</a>
 									
-									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')" onclick="return toggleDeleteStudentConfirmation('Alice Betsy')" href="/page/coordCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=alice.b.tmms%40gmail.com" class="t_student_delete">Delete</a>
+									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')" onclick="return toggleDeleteStudentConfirmation('Alice Betsy')" href="/page/coordCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=alice.b.tmms%40gmail.com" class="t_student_delete">
+											Delete</a>
 								</td>
 	 						</tr>
 					
@@ -107,10 +110,13 @@
 	 							<td>Team 1</td>
 	 							<td class="centeralign">Joined</td>
 	 							<td class="centeralign">
-									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the details of the student')" href="/page/coordCourseStudentDetails?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.c.tmms%40gmail.com" class="t_student_details">View</a>
-									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit the details of the student')" href="/page/coordCourseStudentEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.c.tmms%40gmail.com" class="t_student_edit">Edit</a>
+									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the details of the student')" href="/page/coordCourseStudentDetails?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.c.tmms%40gmail.com" class="t_student_details">
+											View</a>
+									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit the details of the student')" href="/page/coordCourseStudentEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.c.tmms%40gmail.com" class="t_student_edit">
+											Edit</a>
 									
-									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')" onclick="return toggleDeleteStudentConfirmation('Benny Charles')" href="/page/coordCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.c.tmms%40gmail.com" class="t_student_delete">Delete</a>
+									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')" onclick="return toggleDeleteStudentConfirmation('Benny Charles')" href="/page/coordCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.c.tmms%40gmail.com" class="t_student_delete">
+											Delete</a>
 								</td>
 	 						</tr>
 					
@@ -119,10 +125,13 @@
 	 							<td>Team 2</td>
 	 							<td class="centeralign">Joined</td>
 	 							<td class="centeralign">
-									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the details of the student')" href="/page/coordCourseStudentDetails?courseid=CCDetailsUiT.CS2104&amp;studentemail=charlie.d.tmms%40gmail.com" class="t_student_details">View</a>
-									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit the details of the student')" href="/page/coordCourseStudentEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=charlie.d.tmms%40gmail.com" class="t_student_edit">Edit</a>
+									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the details of the student')" href="/page/coordCourseStudentDetails?courseid=CCDetailsUiT.CS2104&amp;studentemail=charlie.d.tmms%40gmail.com" class="t_student_details">
+											View</a>
+									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit the details of the student')" href="/page/coordCourseStudentEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=charlie.d.tmms%40gmail.com" class="t_student_edit">
+											Edit</a>
 									
-									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')" onclick="return toggleDeleteStudentConfirmation('Charlie Davis')" href="/page/coordCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=charlie.d.tmms%40gmail.com" class="t_student_delete">Delete</a>
+									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')" onclick="return toggleDeleteStudentConfirmation('Charlie Davis')" href="/page/coordCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=charlie.d.tmms%40gmail.com" class="t_student_delete">
+											Delete</a>
 								</td>
 	 						</tr>
 					
@@ -131,10 +140,13 @@
 	 							<td>Team 2</td>
 	 							<td class="centeralign">Joined</td>
 	 							<td class="centeralign">
-									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the details of the student')" href="/page/coordCourseStudentDetails?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com" class="t_student_details">View</a>
-									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit the details of the student')" href="/page/coordCourseStudentEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com" class="t_student_edit">Edit</a>
+									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the details of the student')" href="/page/coordCourseStudentDetails?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com" class="t_student_details">
+											View</a>
+									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit the details of the student')" href="/page/coordCourseStudentEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com" class="t_student_edit">
+											Edit</a>
 									
-									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')" onclick="return toggleDeleteStudentConfirmation('Danny Engrid')" href="/page/coordCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com" class="t_student_delete">Delete</a>
+									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')" onclick="return toggleDeleteStudentConfirmation('Danny Engrid')" href="/page/coordCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com" class="t_student_delete">
+											Delete</a>
 								</td>
 	 						</tr>
 					
@@ -149,7 +161,7 @@
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-[TEAMMATES Version 4.17.02] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
+[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
 
 <a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html" class="footer">Contact Us</a>
 </div>

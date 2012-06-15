@@ -191,6 +191,13 @@ div#coordinatorStudentInformation {
 	text-align: center;
 }
 
+div#coordinatorHomeTable {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	margin-top: 20px;
+	text-align: center;
+}
+
 div#coordinatorStudentTable {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 14px;
@@ -278,6 +285,13 @@ div#studentCourseTable {
 	text-align: center;
 }
 
+div#studentHomeTable {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	margin-top: 20px;
+	text-align: center;
+}
+
 div#studentEvaluationInformation {
 	margin-top: 35px;
 	text-align: center;
@@ -294,7 +308,7 @@ div#studentEvaluationSubmissionButtons {
 }
 
 div#studentEvaluationSubmissions {
-	margin-top: 60px;
+	margin-top: 40px;
 	text-align: center;
 }
 

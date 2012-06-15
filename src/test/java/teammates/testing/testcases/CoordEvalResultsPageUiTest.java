@@ -1,27 +1,15 @@
 package teammates.testing.testcases;
 
-import static org.junit.Assert.fail;
-
-import java.io.FileNotFoundException;
-
-import org.json.JSONException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
-
 import teammates.api.Common;
-import teammates.datatransfer.CoordData;
-import teammates.datatransfer.CourseData;
 import teammates.datatransfer.DataBundle;
-import teammates.datatransfer.EvaluationData;
-import teammates.exception.NoAlertAppearException;
 import teammates.jsp.Helper;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.lib.TMAPI;
-import teammates.testing.script.ImportTestData;
 
 /**
  * Tests coordEval.jsp from UI functionality and HTML test
@@ -65,21 +53,21 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordEvalResultsHTML() throws Exception{
-		String link = Common.JSP_COORD_EVAL_RESULTS;
+		String link = Common.PAGE_COORD_EVAL_RESULTS;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalUiT.CS1101").id);
 		link = Helper.addParam(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("First Eval").name);
 		bi.goToUrl(appUrl+link);
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalResultsOpenEval.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsOpenEval.html");
 
-		link = Common.JSP_COORD_EVAL_RESULTS;
+		link = Common.PAGE_COORD_EVAL_RESULTS;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalUiT.CS1101").id);
 		link = Helper.addParam(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("Second Eval").name);
 		bi.goToUrl(appUrl+link);
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalResultsPublishedEval.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsPublishedEval.html");
 		
-		link = Common.JSP_COORD_EVAL_RESULTS;
+		link = Common.PAGE_COORD_EVAL_RESULTS;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalUiT.CS1101").id);
 		link = Helper.addParam(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("Third Eval").name);
 		bi.goToUrl(appUrl+link);

@@ -17,7 +17,7 @@ import teammates.jsp.Helper;
  */
 public class CoordCourseDeleteServlet extends ActionServlet<Helper> {
 	
-	private static final String DISPLAY_URL = "/page/coordCourse";
+	private static final String DISPLAY_URL = Common.PAGE_COORD_COURSE;
 
 	@Override
 	protected Helper instantiateHelper() {

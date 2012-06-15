@@ -474,7 +474,6 @@ public class BrowserInstance {
 	
 	/**
 	 * Logs in as coordinator.
-	 * Verifies that the new page is loaded correctly before returning.
 	 * @page Homepage
 	 */
 	public void loginCoord(String username, String password) {
@@ -492,24 +491,18 @@ public class BrowserInstance {
 			driver.findElement(logoutTab).click();
 			waitForPageLoad();
 
-			// Check that we're at the main page after logging out
-			verifyMainPage();
-
 			click(COORD_LOGIN_BUTTON);
 			waitForPageLoad();
 		}
 
 		login(username, password);
-
-		//verifyCoordHomePage();
 	}
 
 	/**
 	 * Logs in as student.
-	 * Waits until the new page is fully loaded before returning.
 	 * @page Homepage
 	 */
-	public void studentLogin(String username, String password) {
+	public void loginStudent(String username, String password) {
 		System.out.println("Logging in student " + username + ".");
 		
 		// Click the Student button on the main page
@@ -531,8 +524,6 @@ public class BrowserInstance {
 		}
 		
 		login(username, password);
-		
-		verifyStudentHomePage();
 	}
 	
 	private void login(String email, String password) {
@@ -682,6 +673,7 @@ public class BrowserInstance {
 			
 			if((Boolean)js.executeScript("return eval(window.confirm).toString()==eval(function(msg){ delete(window.confirm); return true;}).toString()")){
 				// This means the click does not generate alert box
+				js.executeScript("delete(window.confirm)");
 				throw new NoAlertAppearException(by.toString());
 			}
 			// Make sure it's deleted. Deleting twice does not hurt
@@ -708,6 +700,7 @@ public class BrowserInstance {
 			
 			if((Boolean)js.executeScript("return eval(window.confirm).toString()==eval(function(msg){ delete(window.confirm); return false;}).toString()")){
 				// This means the click does not generate alert box
+				js.executeScript("delete(window.confirm)");
 				throw new NoAlertAppearException(by.toString());
 			}
 			// Make sure it's deleted. Deleting twice does not hurt

@@ -146,7 +146,7 @@ public class CoordCourseEditStudentsTeamTest extends TestCase {
 		bi.logout();
 		
 		// Verify Student View (using Charlie account)
-		bi.studentLogin(CHARLIE.email, Config.inst().TEAMMATES_APP_PASSWD);
+		bi.loginStudent(CHARLIE.email, Config.inst().TEAMMATES_APP_PASSWD);
 		
 		bi.clickEvaluationTab();
 		bi.studentClickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);

@@ -30,18 +30,20 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	 * If later deemed bad, we should change to the searching, although it takes longer
 	 * to code and also longer to run.
 	 */
-	private static int FIRST_COURSE_ROW_NUMBER = 0;
+	// The course and evaluation numbers: refer to JSON file
+	// In this case First Course is CHomeUiT.CS2104
+	private static int FIRST_COURSE_ROW_NUMBER = 1;
 	@SuppressWarnings("unused")
-	private static int SECOND_COURSE_ROW_NUMBER = 1;
+	private static int SECOND_COURSE_ROW_NUMBER = 0;
 
-	private static int FIRST_EVAL_ROW_NUMBER = 1;
+	private static int FIRST_EVAL_ROW_NUMBER = 4;
 	@SuppressWarnings("unused")
-	private static int SECOND_EVAL_ROW_NUMBER = 0;
-	private static int THIRD_EVAL_ROW_NUMBER = 2;
+	private static int SECOND_EVAL_ROW_NUMBER = 3;
+	private static int THIRD_EVAL_ROW_NUMBER = 0;
 	@SuppressWarnings("unused")
-	private static int FOURTH_EVAL_ROW_NUMBER = 3;
+	private static int FOURTH_EVAL_ROW_NUMBER = 2;
 	@SuppressWarnings("unused")
-	private static int FIFTH_EVAL_ROW_NUMBER = 4;
+	private static int FIFTH_EVAL_ROW_NUMBER = 1;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -58,7 +60,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		bi = BrowserInstancePool.getBrowserInstance();
 		
 		bi.loginCoord(scn.coords.get("teammates.test").id, Config.inst().TEAMMATES_APP_PASSWD);
-		bi.goToUrl(appURL+Common.JSP_COORD_HOME);
+		bi.goToUrl(appURL+Common.PAGE_COORD_HOME);
 	}
 	
 	@AfterClass
@@ -81,7 +83,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		
 		By deleteLinkLocator = By.className("t_course_delete"+FIRST_COURSE_ROW_NUMBER);
 //		String link = bi.getElementRelativeHref(deleteLinkLocator);
-//		assertEquals(CoordCourseAddHelper.getCourseDeleteLink(scn.courses.get("CHomeUiT.CS2104").id, Common.JSP_COORD_HOME),link);
+//		assertEquals(CoordCourseAddHelper.getCourseDeleteLink(scn.courses.get("CHomeUiT.CS2104").id, Common.PAGE_COORD_HOME),link);
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
 		} catch (NoAlertAppearException e){
@@ -136,12 +138,14 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	
 	public void testCoordHomeCoursePageHTML() throws Exception{
 		// Regex test due to the tooltip from previous click (it differs based on screen size)
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/CoordHomeHTML.html");
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/CoordHomeHTML.html");
 		
 		TMAPI.deleteCourse(scn.courses.get("CHomeUiT.CS2104").id);
 		TMAPI.deleteCourse(scn.courses.get("CHomeUiT.CS1101").id);
 		
 		bi.goToCoordHome();
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/CoordHomeHTMLEmpty.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/CoordHomeHTMLEmpty.html");
 	}
 }

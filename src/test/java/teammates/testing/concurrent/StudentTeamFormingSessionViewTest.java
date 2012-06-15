@@ -60,7 +60,7 @@ public class StudentTeamFormingSessionViewTest extends TestCase {
 	}
 	
 	private void studentViewTeamFormingSession(Student student) {
-		bi.studentLogin(student.email, student.password);
+		bi.loginStudent(student.email, student.password);
 		bi.clickCourseTab();
 		bi.clickCoordTFSViewTeams(scn.course.courseId);
 		
@@ -82,7 +82,7 @@ public class StudentTeamFormingSessionViewTest extends TestCase {
 	@Test
 	public void testStudentViewTeamsWithoutNullTeamFormingSession() throws Exception {
 		Student student = scn2.students.get(0);
-		bi.studentLogin(student.email, student.password);
+		bi.loginStudent(student.email, student.password);
 		bi.clickCourseTab();
 		bi.clickCoordTFSViewTeams(scn2.course.courseId);
 		

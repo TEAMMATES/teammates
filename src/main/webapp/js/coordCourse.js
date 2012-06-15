@@ -1,26 +1,22 @@
 var COURSE_ID = "courseid";
 var COURSE_NAME = "coursename";
 
+var OPERATION_COORDINATOR_SENDREGISTRATIONKEY = "coordinator_sendregistrationkey";
+var OPERATION_COORDINATOR_SENDREGISTRATIONKEYS = "coordinator_sendregistrationkeys";
+
 //Add course status codes
 var COURSE_STATUS_SERVERERROR = -1;
 var COURSE_STATUS_VALID_INPUT = 0;
-var COURSE_STATUS_SUCCESSFUL = 1;
-var COURSE_STATUS_EXISTS = 2;
 var COURSE_STATUS_EMPTY = 3;
 var COURSE_STATUS_LONG_ID = 4;
 var COURSE_STATUS_LONG_NAME = 5;
 var COURSE_STATUS_INVALID_ID = 6;
-var COURSE_STATUS_INVALID_NAME = 7;
-var COURSE_STATUS_DELETED = 8;
 
 //status messages
-var DISPLAY_COURSE_ADDED = "The course has been added. Click the 'Enroll' link in the table below to add students to the course.";
-var DISPLAY_COURSE_EXISTS = "The course already exists.";
 var DISPLAY_COURSE_EMPTY = "Course ID and Course Name are compulsory fields.";
 var DISPLAY_COURSE_LONG_ID = "Course ID should not exceed " + COURSE_ID_MAX_LENGTH + " characters.";
 var DISPLAY_COURSE_LONG_NAME = "Course name should not exceed " + COURSE_NAME_MAX_LENGTH + " characters.";
 var DISPLAY_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
-var DISPLAY_COURSE_INVALID_NAME = "Course name is invalid.";
 var DISPLAY_REMINDER_SENT = "Registration key has been sent to ";
 var DISPLAY_REMINDERS_SENT = "Emails have been sent to unregistered students.";
 
@@ -60,10 +56,6 @@ function verifyAddCourse() {
  */
 function courseStatusToMessage(statusCode) {
 	switch (statusCode) {
-	case COURSE_STATUS_SUCCESSFUL:
-		return DISPLAY_COURSE_ADDED;
-	case COURSE_STATUS_EXISTS:
-		return DISPLAY_COURSE_EXISTS;
 	case COURSE_STATUS_EMPTY:
 		return DISPLAY_COURSE_EMPTY;
 	case COURSE_STATUS_LONG_ID:

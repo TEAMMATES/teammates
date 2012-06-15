@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.EvaluationData;
 
 public class CoordEvalHelper extends Helper{
 	// Specific parameters
-	public CourseData[] courses;
+	public List<CourseData> courses;
 	public EvaluationData submittedEval;
-	public ArrayList<EvaluationData> evaluations;
+	public List<EvaluationData> evaluations;
 	
 	/**
 	 * Returns the timezone options as HTML code.
@@ -115,11 +116,5 @@ public class CoordEvalHelper extends Helper{
 			if(hour==24) return true;
 		}
 		return false;
-	}
-	
-	public static void main(String[] args){
-		for(String opt: new CoordEvalHelper().getTimeZoneOptions()){
-			System.out.println(opt);
-		}
 	}
 }

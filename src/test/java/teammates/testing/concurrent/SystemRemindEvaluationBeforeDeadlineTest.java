@@ -27,7 +27,6 @@ public class SystemRemindEvaluationBeforeDeadlineTest extends TestCase {
 		TMAPI.cleanupCourse(scn.course.courseId);
 
 		TMAPI.createCourse(scn.course);
-		TMAPI.createEvaluation(scn.evaluation);
 		TMAPI.enrollStudents(scn.course.courseId, scn.students);
 		TMAPI.createEvaluation(scn.evaluation);
 		TMAPI.studentsJoinCourse(scn.students, scn.course.courseId);
@@ -71,7 +70,7 @@ public class SystemRemindEvaluationBeforeDeadlineTest extends TestCase {
 	
 	private void studentSubmitEvaluation(Student student) {
 		
-		bi.studentLogin(student.email, student.password);
+		bi.loginStudent(student.email, student.password);
 		
 		bi.clickEvaluationTab();
 		bi.waitForElementPresent(bi.studentGetPendingEvaluationName(scn.course.courseId, scn.evaluation.name));

@@ -56,17 +56,17 @@
 			</div>
 			<div id="coordinatorEvaluationManagement">
 				<form name="form_addevaluation" action="" method="post">
-				<table class="headerform">
-					<tbody><tr>
-						<td class="attribute">Course ID:</td>
-						<td><select tabindex="1" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the course for which the evaluation is to be created.')" id="courseid" name="courseid" style="width: 260px;">
-							
-							</select></td>
-						<td class="attribute">Opening time:</td>
-						<td><input type="text" tabindex="3" readonly="readonly" value="{*}" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the start date for the evaluation.')" onclick="cal.select(this,'start','dd/MM/yyyy')" id="start" name="start" style="width: 100px;" />
-									@
-							<select tabindex="4" id="starttime" name="starttime" style="width: 70px;">
-								<option value="1">0100H</option>
+					<table class="headerform">
+						<tbody><tr>
+							<td class="attribute">Course ID:</td>
+							<td><select tabindex="1" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the course for which the evaluation is to be created.')" id="courseid" name="courseid" style="width: 260px;">
+								
+								</select></td>
+							<td class="attribute">Opening time:</td>
+							<td><input type="text" tabindex="3" readonly="readonly" value="{*}" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the start date for the evaluation.')" onclick="cal.select(this,'start','dd/MM/yyyy')" id="start" name="start" style="width: 100px;" />
+										@
+								<select tabindex="4" id="starttime" name="starttime" style="width: 70px;">
+									<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
 <option value="4">0400H</option>
@@ -91,16 +91,16 @@
 <option value="23">2300H</option>
 <option selected="selected" value="24">2359H</option>
 
-							</select></td>
-					</tr>
-					<tr>
-						<td class="attribute">Evaluation name:</td>
-						<td><input type="text" tabindex="2" value="" maxlength="38" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the name of the evaluation e.g. Mid-term.')" id="evaluationname" name="evaluationname" style="width: 260px;" /></td>
-						<td class="attribute">Closing time:</td>
-						<td><input type="text" tabindex="5" readonly="readonly" value="" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter deadline for the evaluation.')" onclick="cal.select(this,'deadline','dd/MM/yyyy')" id="deadline" name="deadline" style="width: 100px;" />
-									@
-							<select tabindex="6" id="deadlinetime" name="deadlinetime" style="width: 70px;">
-								<option value="1">0100H</option>
+								</select></td>
+						</tr>
+						<tr>
+							<td class="attribute">Evaluation name:</td>
+							<td><input type="text" tabindex="2" value="" maxlength="38" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the name of the evaluation e.g. Mid-term.')" id="evaluationname" name="evaluationname" style="width: 260px;" /></td>
+							<td class="attribute">Closing time:</td>
+							<td><input type="text" tabindex="5" readonly="readonly" value="" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter deadline for the evaluation.')" onclick="cal.select(this,'deadline','dd/MM/yyyy')" id="deadline" name="deadline" style="width: 100px;" />
+										@
+								<select tabindex="6" id="deadlinetime" name="deadlinetime" style="width: 70px;">
+									<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
 <option value="4">0400H</option>
@@ -125,18 +125,18 @@
 <option value="23">2300H</option>
 <option selected="selected" value="24">2359H</option>
 
-							</select></td>
-					</tr>
-					<tr>
-						<td class="attribute">Peer feedback:</td>
-						<td><input type="radio" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enable this if you want students to give anonymous feedback to team members.<br />You can moderate those peer feedback before publishing it to the team.')" checked="checked" value="true" id="commentsstatus_enabled" name="commentsstatus" />
-							<label for="commentsstatus_enabled">Enabled</label>
-							<input type="radio" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enable this if you want students to give anonymous feedback to team members.<br />You can moderate those peer feedback before publishing it to the team.')" value="false" id="commentsstatus_disabled" name="commentsstatus" />
-							<label for="commentsstatus_disabled">Disabled</label>
-						</td>
-						<td class="attribute">Time zone:</td>
-						<td><select tabindex="7" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />daylight saving, you should choose UTC -7:00 and its corresponding timings.')" id="timezone" name="timezone" style="width: 100px;">
-							<option value="-12">UTC -12:00</option>
+								</select></td>
+						</tr>
+						<tr>
+							<td class="attribute">Peer feedback:</td>
+							<td><input type="radio" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enable this if you want students to give anonymous feedback to team members.<br />You can moderate those peer feedback before publishing it to the team.')" checked="checked" value="true" id="commentsstatus_enabled" name="commentsstatus" />
+								<label for="commentsstatus_enabled">Enabled</label>
+								<input type="radio" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enable this if you want students to give anonymous feedback to team members.<br />You can moderate those peer feedback before publishing it to the team.')" value="false" id="commentsstatus_disabled" name="commentsstatus" />
+								<label for="commentsstatus_disabled">Disabled</label>
+							</td>
+							<td class="attribute">Time zone:</td>
+							<td><select tabindex="7" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />daylight saving, you should choose UTC -7:00 and its corresponding timings.')" id="timezone" name="timezone" style="width: 100px;">
+								<option value="-12">UTC -12:00</option>
 <option value="-11">UTC -11:00</option>
 <option value="-10">UTC -10:00</option>
 <option value="-9">UTC -09:00</option>
@@ -169,16 +169,16 @@
 <option value="12">UTC +12:00</option>
 <option value="13">UTC +13:00</option>
 
-							</select>
-						</td>
-					</tr>
-					<tr>
-					<td></td>
-					<td></td>
-					<td class="attribute">Grace Period:</td>
-					<td class="inputField">
-						<select tabindex="7" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline.')" id="graceperiod" name="graceperiod" style="width: 70px;">
-							<option value="0">0 mins</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+						<td></td>
+						<td></td>
+						<td class="attribute">Grace Period:</td>
+						<td class="inputField">
+							<select tabindex="7" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline.')" id="graceperiod" name="graceperiod" style="width: 70px;">
+								<option value="0">0 mins</option>
 <option value="5">5 mins</option>
 <option value="10">10 mins</option>
 <option value="15">15 mins</option>
@@ -186,23 +186,23 @@
 <option value="25">25 mins</option>
 <option value="30">30 mins</option>
 
-						</select></td>
-					</tr>
-					<tr>
-						<td class="attribute">Instructions to students:</td>
-						<td colspan="3">
-							
-								<textarea tabindex="8" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter instructions for your students, e.g. Avoid comments which are too critical.')" id="instr" name="instr" class="textvalue" cols="100" rows="2">Please submit your peer evaluation based on the overall contribution of your teammates so far.</textarea>
-							
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td colspan="3">
-							<input type="submit" tabindex="9" value="Create Evaluation" onclick="return checkAddEvaluation(this.form);" class="button" id="t_btnAddEvaluation" /></td>
-					</tr>
-				</tbody></table>
-			</form>
+							</select></td>
+						</tr>
+						<tr>
+							<td class="attribute">Instructions to students:</td>
+							<td colspan="3">
+								
+									<textarea tabindex="8" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter instructions for your students, e.g. Avoid comments which are too critical.')" id="instr" name="instr" class="textvalue" cols="100" rows="2">Please submit your peer evaluation based on the overall contribution of your teammates so far.</textarea>
+								
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td colspan="3">
+								<input type="submit" tabindex="9" value="Create Evaluation" onclick="return checkAddEvaluation(this.form);" class="button" id="t_btnAddEvaluation" /></td>
+						</tr>
+					</tbody></table>
+				</form>
 			</div>
 			
 

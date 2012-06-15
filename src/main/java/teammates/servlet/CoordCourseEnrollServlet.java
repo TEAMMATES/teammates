@@ -23,7 +23,8 @@ import teammates.jsp.Helper;
  *
  */
 public class CoordCourseEnrollServlet extends ActionServlet<CoordCourseEnrollHelper> {
-	private static final String DISPLAY_URL = "/coordCourseEnroll.jsp";
+	
+	private static final String DISPLAY_URL = Common.JSP_COORD_COURSE_ENROLL;
 
 	@Override
 	protected CoordCourseEnrollHelper instantiateHelper() {
@@ -108,6 +109,7 @@ public class CoordCourseEnrollServlet extends ActionServlet<CoordCourseEnrollHel
 		}
 		while(id<6){
 			lists[id++] = students.subList(prevIdx, nextIdx);
+			sortStudents(lists[id-1]);
 			prevIdx = nextIdx;
 		}
 		return lists;

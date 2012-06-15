@@ -48,7 +48,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		System.out.println("Finished recreating in "+(System.currentTimeMillis()-start)+" ms");
 		
 		bi.loginCoord(ts.coordinator.id, Config.inst().TEAMMATES_APP_PASSWD);
-		bi.goToUrl(appUrl+Common.JSP_COORD_COURSE);
+		bi.goToUrl(appUrl+Common.PAGE_COORD_COURSE);
 	}
 	
 	@AfterClass
@@ -161,7 +161,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 //		// Check delete link
 		By deleteLinkLocator = getCoordCourseLinkLocator(courseRowId,"t_course_delete");
 //		link = bi.getElementRelativeHref(deleteLinkLocator);
-//		assertEquals(CoordCourseAddHelper.getCourseDeleteLink(courseId, Common.JSP_COORD_COURSE),link);
+//		assertEquals(CoordCourseAddHelper.getCourseDeleteLink(courseId, Common.PAGE_COORD_COURSE),link);
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
 			bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseAddDeleteInit.html");
