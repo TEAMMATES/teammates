@@ -7,7 +7,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 		//@formatter:off 
 		// Ui tests
-		CoordCourseAddPageUiTest.class, 
+		CoordCourseAddPageUiTest.class,
 		CoordCourseEnrollPageUiTest.class,
 		CoordCourseDetailsPageUiTest.class,
 		CoordEvalPageUiTest.class,

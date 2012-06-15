@@ -146,24 +146,6 @@ function checkEditStudentInput(editName, editTeamName, editEmail, editGoogleID) 
 	}
 }
 
-function displayEditEvaluation(evaluationList, loop) {
-	var courseID = evaluationList[loop].courseID;
-	var name = evaluationList[loop].name;
-	var instructions = evaluationList[loop].instructions;
-	var start = evaluationList[loop].start;
-	var deadline = evaluationList[loop].deadline;
-	var timeZone = evaluationList[loop].timeZone;
-	var gracePeriod = evaluationList[loop].gracePeriod;
-	var status = evaluationList[loop].status;
-	var activated = evaluationList[loop].activated;
-	var commentsEnabled = evaluationList[loop].commentsEnabled;
-
-	clearDisplay();
-	printEditEvaluation(courseID, name, instructions, commentsEnabled, start,
-			deadline, timeZone, gracePeriod, status, activated);
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
-}
-
 function displayEditStudent(courseID, email, name, teamName, googleID,
 		registrationKey, comments) {
 	clearDisplay();
@@ -178,46 +160,6 @@ function displayStudentInformation(courseID, email, name, teamName, googleID,
 	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
 	printStudent(courseID, email, name, teamName, googleID, registrationKey,
 			comments);
-}
-
-function doEditEvaluation(courseID, name, editStart, editStartTime,
-		editDeadline, editDeadlineTime, timeZone, editGracePeriod,
-		editInstructions, editCommentsEnabled, activated, status) {
-	setStatusMessage(DISPLAY_LOADING);
-
-	var results = editEvaluation(courseID, name, editStart, editStartTime,
-			editDeadline, editDeadlineTime, timeZone, editGracePeriod,
-			editInstructions, editCommentsEnabled, activated, status);
-
-	if (results == 0) {
-		if (activated == true) {
-			displayEvaluationsTab();
-			toggleInformStudentsOfEvaluationChanges(courseID, name);
-		}
-
-		else {
-			displayEvaluationsTab();
-			setStatusMessage(DISPLAY_EVALUATION_EDITED);
-		}
-
-	}
-
-	else if (results == 2) {
-		setStatusMessage(DISPLAY_FIELDS_EMPTY);
-	}
-
-	else if (results == 3) {
-		setStatusMessage(DISPLAY_EVALUATION_SCHEDULEINVALID);
-	}
-
-	else if (results == 4) {
-		displayEvaluationsTab();
-		setStatusMessage(DISPLAY_EVALUATION_EDITED);
-	}
-
-	else {
-		alert(DISPLAY_SERVERERROR);
-	}
 }
 
 function doEditEvaluationResultsByReviewer(form, summaryList, position,
@@ -295,99 +237,6 @@ function doInformStudentsOfEvaluationChanges(courseID, name) {
 /*
  * Returns
  * 
- * 0: successful 1: server error 2: fields empty 3: schedule invalid 4: no
- * changes made
- */
-function editEvaluation(courseID, name, editStart, editStartTime, editDeadline,
-		editDeadlineTime, timeZone, editGracePeriod, editInstructions,
-		editCommentsEnabled, activated, status) {
-	setStatusMessage(DISPLAY_LOADING);
-
-	if (courseID == "" || name == "" || editStart == "" || editStartTime == ""
-		|| editDeadline == "" || editDeadlineTime == ""
-			|| editGracePeriod == "" || editInstructions == ""
-				|| editCommentsEnabled == "") {
-		return 2;
-	}
-
-	else if (!isEditEvaluationScheduleValid(editStart, editStartTime,
-			editDeadline, editDeadlineTime, timeZone, activated, status)) {
-		return 3;
-	}
-
-	else {
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-		"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_EDITEVALUATION + "&"
-				+ COURSE_ID + "=" + encodeURIComponent(courseID) + "&"
-				+ EVALUATION_NAME + "=" + encodeURIComponent(name) + "&"
-				+ EVALUATION_DEADLINE + "=" + encodeURIComponent(editDeadline)
-				+ "&" + EVALUATION_DEADLINETIME + "="
-				+ encodeURIComponent(editDeadlineTime) + "&"
-				+ EVALUATION_INSTRUCTIONS + "="
-				+ encodeURIComponent(editInstructions) + "&" + EVALUATION_START
-				+ "=" + encodeURIComponent(editStart) + "&"
-				+ EVALUATION_STARTTIME + "="
-				+ encodeURIComponent(editStartTime) + "&"
-				+ EVALUATION_GRACEPERIOD + "="
-				+ encodeURIComponent(editGracePeriod) + "&"
-				+ EVALUATION_COMMENTSENABLED + "=" + editCommentsEnabled);
-
-		return handleEditEvaluation();
-	}
-}
-
-/*
- * Returns
- * 
- * 0: successful 1: server error 2: fields missing
- * 
- */
-function editEvaluationResults(submissionList, commentsEnabled) {
-	var submissionListLength = submissionList.length;
-	for (var loop = 0; loop < submissionListLength; loop++) {
-		if (submissionList[loop].points == -999) {
-			return 2;
-		}
-
-		if (!commentsEnabled) {
-			submissionList[loop].commentsToStudent = "";
-		}
-	}
-
-	var request = "operation=" + OPERATION_COORDINATOR_EDITEVALUATIONRESULTS
-	+ "&" + STUDENT_NUMBEROFSUBMISSIONS + "=" + submissionListLength
-	+ "&" + COURSE_ID + "=" + submissionList[0].courseID + "&"
-	+ EVALUATION_NAME + "=" + submissionList[0].evaluationName + "&"
-	+ STUDENT_TEAMNAME + "=" + submissionList[0].teamName;
-
-	for (var loop = 0; loop < submissionListLength; loop++) {
-		request = request + "&" + STUDENT_FROMSTUDENT + loop + "="
-		+ encodeURIComponent(submissionList[loop].fromStudent) + "&"
-		+ STUDENT_TOSTUDENT + loop + "="
-		+ encodeURIComponent(submissionList[loop].toStudent) + "&"
-		+ STUDENT_POINTS + loop + "="
-		+ encodeURIComponent(submissionList[loop].points) + "&"
-		+ STUDENT_JUSTIFICATION + loop + "="
-		+ encodeURIComponent(submissionList[loop].justification) + "&"
-		+ STUDENT_COMMENTSTOSTUDENT + loop + "="
-		+ encodeURIComponent(submissionList[loop].commentsToStudent);
-	}
-
-	if (xmlhttp) {
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-		"application/x-www-form-urlencoded;");
-		xmlhttp.send(request);
-
-		return handleEditEvaluationResults();
-	}
-}
-
-/*
- * Returns
- * 
  * 0: successful 1: server error 2: unable to change teams
  * 
  */
@@ -431,24 +280,6 @@ function informStudentsOfEvaluationChanges(courseID, name) {
 	}
 
 	return handleInformStudentsOfEvaluationChanges();
-}
-
-/*
- * Returns
- * 
- * 0: successful 1: server error
- * 
- */
-function sendRegistrationKeys(courseID) {
-	if (xmlhttp) {
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-		"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_SENDREGISTRATIONKEYS
-				+ "&" + COURSE_ID + "=" + encodeURIComponent(courseID));
-
-		return handleSendRegistrationKeys();
-	}
 }
 
 function toggleInformStudentsOfEvaluationChanges(courseID, name) {

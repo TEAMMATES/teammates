@@ -387,6 +387,7 @@ public class Helper {
 			break;
 		case PUBLISHED:
 			hasUnpublish = true;
+			hasView = true;
 		}
 		
 		result.append(

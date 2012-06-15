@@ -12,7 +12,7 @@ import teammates.testing.junit.TMAPITest;
 		// Unit tests
 		AllUnitTests.class,
 		// Js tests
-		AllJsUnitTests.class,
+//		AllJsUnitTests.class,
 		// Api tests
 		TMAPITest.class,
 		// Ui test

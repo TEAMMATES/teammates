@@ -32,7 +32,7 @@
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
-				<h1>STUDENT HOME</h1>
+				<h1>Student Home</h1>
 				<br />
 				<div class="result_addOrJoinCourse">
 					<form method="post" action="<%= Common.PAGE_STUDENT_JOIN_COURSE %>" name="form_joincourse">

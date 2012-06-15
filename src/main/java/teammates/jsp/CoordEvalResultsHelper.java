@@ -1,8 +1,8 @@
 package teammates.jsp;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import teammates.api.Common;
 import teammates.datatransfer.EvalResultData;
@@ -21,6 +21,9 @@ public class CoordEvalResultsHelper extends Helper{
 		String link = Common.PAGE_COORD_EVAL_RESULTS;
 		link = addParam(link,Common.PARAM_COURSE_ID,evaluation.course);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME, evaluation.name);
+		if(isMasqueradeMode()){
+			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
+		}
 		return link;
 	}
 	
@@ -38,7 +41,7 @@ public class CoordEvalResultsHelper extends Helper{
 	 * 		from equal share will be 120, etc.
 	 * @return
 	 */
-	public String colorizePoints(int points){
+	public static String colorizePoints(int points){
 		if(points==Common.POINTS_NOT_SUBMITTED || points==Common.UNINITIALIZED_INT)
 			return "<span class=\"color_negative\" onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_NOT_AVAILABLE+"')\" onmouseout=\"hideddrivetip()\">N/A</span>";
 		else if(points==Common.POINTS_NOT_SURE)
@@ -71,7 +74,7 @@ public class CoordEvalResultsHelper extends Helper{
 	 * 		displayed in one line.
 	 * @return
 	 */
-	public String printSharePoints(int points, boolean inline){
+	public static String printSharePoints(int points, boolean inline){
 		int delta = 0;
 		if (points == Common.POINTS_NOT_SUBMITTED || points==Common.UNINITIALIZED_INT) {
 			return "<span class=\"color_negative\">N/A</span>";
@@ -105,7 +108,7 @@ public class CoordEvalResultsHelper extends Helper{
 	 * @param sub
 	 * @return
 	 */
-	public String printDiff(EvalResultData sub){
+	public static String printDiff(EvalResultData sub){
 		int claimed = sub.claimedToCoord;
 		int perceived = sub.perceivedToCoord;
 		int diff = perceived - claimed;
@@ -129,7 +132,7 @@ public class CoordEvalResultsHelper extends Helper{
 	 * @param sub
 	 * @return
 	 */
-	public String printJustification(SubmissionData sub){
+	public static String printJustification(SubmissionData sub){
 		if(sub.justification==null || sub.justification.getValue()==null
 				|| sub.justification.getValue().equals(""))
 			return "N/A";
@@ -143,7 +146,7 @@ public class CoordEvalResultsHelper extends Helper{
 	 * @param enabled
 	 * @return
 	 */
-	public String printComments(SubmissionData sub, boolean enabled){
+	public static String printComments(SubmissionData sub, boolean enabled){
 		if(!enabled) return "<span style=\"font-style:italic\">Disabled</span>";
 		if(sub.p2pFeedback==null || sub.p2pFeedback.getValue()==null
 				|| sub.p2pFeedback.getValue().equals("")){
@@ -153,17 +156,20 @@ public class CoordEvalResultsHelper extends Helper{
 	}
 	
 	/**
-	 * Prints the list of points from the given list of submission data.
+	 * Prints the list of normalized points from the given list of submission data.
 	 * It will be colorized and printed descending.
 	 * @param subs
 	 * @return
 	 */
-	public String getPointsList(ArrayList<SubmissionData> subs){
+	public static String getPointsList(List<SubmissionData> subs, final boolean normalized){
 		String result = "";
 		Collections.sort(subs, new Comparator<SubmissionData>(){
 			@Override
 			public int compare(SubmissionData s1, SubmissionData s2){
-				return Integer.valueOf(s2.normalized).compareTo(s1.normalized);
+				if(normalized)
+					return Integer.valueOf(s2.normalized).compareTo(s1.normalized);
+				else
+					return Integer.valueOf(s2.points).compareTo(s1.points);
 			}
 		});
 		for(SubmissionData sub: subs){

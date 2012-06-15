@@ -78,6 +78,12 @@ div#contentLinks {
 	color: #00FF00;
 }
 
+div.space {
+	display:inline;
+	width:10px;
+	visibility:hidden;
+}
+
 div#buffer {
 	float: left;
 	width: 450px;;

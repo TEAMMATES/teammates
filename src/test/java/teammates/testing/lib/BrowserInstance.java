@@ -478,22 +478,13 @@ public class BrowserInstance {
 	 */
 	public void loginCoord(String username, String password) {
 		System.out.println("Logging in coordinator " + username + ".");
+		
+		// Logout first to make sure we will be in login page later
+		goToUrl(Config.inst().TEAMMATES_URL+"logout.jsp");
 
 		// Click the Coordinator button on the main page
 		clickWithWait(COORD_LOGIN_BUTTON);
 		waitForPageLoad();
-
-		/*
-		 * IE Fix
-		 * For some reason in IE new profile is not created, thus user is already logged in. This will log user out.
-		 */
-		if (isElementPresent(logoutTab)) {
-			driver.findElement(logoutTab).click();
-			waitForPageLoad();
-
-			click(COORD_LOGIN_BUTTON);
-			waitForPageLoad();
-		}
 
 		login(username, password);
 	}
@@ -505,23 +496,12 @@ public class BrowserInstance {
 	public void loginStudent(String username, String password) {
 		System.out.println("Logging in student " + username + ".");
 		
+		// Logout first to make sure we will be in login page later
+		goToUrl(Config.inst().TEAMMATES_URL+"logout.jsp");
+		
 		// Click the Student button on the main page
 		clickWithWait(STUDENT_LOGIN_BUTTON);
 		waitForPageLoad();
-		
-		/*
-		 * IE Fix
-		 * For some reason in IE new profile is not created, thus user is already logged in. This will log user out.
-		 */
-		if (isElementPresent(logoutTab)) {
-			driver.findElement(logoutTab).click();
-			waitForPageLoad();
-			
-			// Check that we're at the main page after logging out
-			verifyMainPage();
-			click(STUDENT_LOGIN_BUTTON);
-			waitForPageLoad();
-		}
 		
 		login(username, password);
 	}
