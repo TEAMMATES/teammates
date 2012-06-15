@@ -43,7 +43,7 @@
 					<table class="headerform">
 						<tr>
 							<td class="attribute" >Course ID:</td>
-							<td><%= helper.submittedEval.course %></td>
+							<td style="vertical-align:middle"><%= helper.submittedEval.course %></td>
 							<td class="attribute" >Opening time:</td>
 							<td><input style="width: 100px;" type="text"
 										name="<%= Common.PARAM_EVALUATION_START %>"
@@ -63,7 +63,7 @@
 						</tr>
 						<tr>
 							<td class="attribute" >Evaluation name:</td>
-							<td><%= CoordEvalEditHelper.escapeHTML(helper.submittedEval.name) %></td>
+							<td style="vertical-align:middle"><%= CoordEvalEditHelper.escapeHTML(helper.submittedEval.name) %></td>
 							<td class="attribute" >Closing time:</td>
 							<td><input style="width: 100px;" type="text"
 										name="<%= Common.PARAM_EVALUATION_DEADLINE %>" id="<%= Common.PARAM_EVALUATION_DEADLINE %>"
