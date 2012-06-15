@@ -1481,14 +1481,22 @@ public class APIServletTest extends BaseTestCase {
 
 		printTestCaseHeader();
 		refreshDataInDatastore();
-		StudentData studentInTwoCourses = dataBundle.students
+		StudentData studentInTwoCoursesInCourse1 = dataBundle.students
 				.get("student2InCourse1");
 
+		String googleIdOfstudentInTwoCourses = studentInTwoCoursesInCourse1.id;
 		assertEquals(
-				studentInTwoCourses.email,
+				studentInTwoCoursesInCourse1.email,
 				apiServlet.getStudentInCourseForGoogleId(
-						studentInTwoCourses.course, studentInTwoCourses.id).email);
+						studentInTwoCoursesInCourse1.course, googleIdOfstudentInTwoCourses).email);
 
+		StudentData studentInTwoCoursesInCourse2 = dataBundle.students
+				.get("student2InCourse2");
+		assertEquals(
+				studentInTwoCoursesInCourse2.email,
+				apiServlet.getStudentInCourseForGoogleId(
+						studentInTwoCoursesInCourse2.course, googleIdOfstudentInTwoCourses).email);
+		
 		// TODO: more testing
 	}
 
