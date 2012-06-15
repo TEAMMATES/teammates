@@ -137,9 +137,6 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 			req.getRequestDispatcher(helper.nextUrl).forward(req, resp);
 		} else {
 			// Goto next page
-			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_STATUS_MESSAGE, helper.statusMessage);
-			if(helper.error)
-				helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_ERROR, ""+helper.error);
 			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
 			resp.sendRedirect(helper.nextUrl);
 		}
