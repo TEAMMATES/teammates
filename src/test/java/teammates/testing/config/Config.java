@@ -5,8 +5,49 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class Config {
+	
+	// Live Site URL
+	public String TEAMMATES_LIVE_SITE;
+
+	// TeamMates-related configuration
+	public String TEAMMATES_APP;
+	public String TEAMMATES_URL;
+	// public static final String TEAMMATES_URL = "http://localhost:8080/";
+	public String MAIL_HOST;
+
+	public String TEAMMATES_APP_ACCOUNT;
+	public String TEAMMATES_APP_PASSWD;
+
+	public String TEAMMATES_COORD_ID;
+
+	// Individual Evaluation Reminder Testing Account
+	public String INDIVIDUAL_NAME;
+	public String INDIVIDUAL_ACCOUNT;
+
+	/**
+	 * Password for TestSuite to communicate with the Teammates APIServlet.
+	 * Remember to change this to match the server's auth code before running
+	 */
+	public String API_AUTH_CODE;
+
+	/**
+	 * Which browser are we using? Please use the following: firefox, chrome,
+	 * iexplore, opera, htmlunit, safariproxy
+	 */
+	public String BROWSER;
+
+	public String SELENIUMRC_HOST;
+	public int SELENIUMRC_PORT;
+
+	public String MAIL_STRESS_TEST_ACCOUNT;
+	public int MAIL_STRESS_TEST_SIZE;
+	
 	private static Config instance;
 	private Properties prop;
+	
+	
+	
+	
 
 	private Config() {
 		prop = new Properties();
@@ -44,41 +85,6 @@ public class Config {
 		return instance;
 	}
 
-	// Live Site URL
-	public String TEAMMATES_LIVE_SITE;
-
-	// TeamMates-related configuration
-	public String TEAMMATES_APP;
-	public String TEAMMATES_URL;
-	// public static final String TEAMMATES_URL = "http://localhost:8080/";
-	public String MAIL_HOST;
-
-	public String TEAMMATES_APP_ACCOUNT;
-	public String TEAMMATES_APP_PASSWD;
-
-	public String TEAMMATES_COORD_ID;
-
-	// Individual Evaluation Reminder Testing Account
-	public String INDIVIDUAL_NAME;
-	public String INDIVIDUAL_ACCOUNT;
-
-	/**
-	 * Password for TestSuite to communicate with the Teammates APIServlet.
-	 * Remember to change this to match the server's auth code before running
-	 */
-	public String API_AUTH_CODE;
-
-	/**
-	 * Which browser are we using? Please use the following: firefox, chrome,
-	 * iexplore, opera, htmlunit, safariproxy
-	 */
-	public String BROWSER;
-
-	public String SELENIUMRC_HOST;
-	public int SELENIUMRC_PORT;
-
-	public String MAIL_STRESS_TEST_ACCOUNT;
-	public int MAIL_STRESS_TEST_SIZE;
 
 	public static String getChromeDriverPath() {
 		String os = System.getProperty("os.name");

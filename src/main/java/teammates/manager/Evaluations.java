@@ -1091,12 +1091,12 @@ public class Evaluations {
 	public boolean isEvaluationSubmitted(Evaluation evaluation, String email) {
 		List<Submission> submissionList = getSubmissionFromStudentList(
 				evaluation.getCourseID(), evaluation.getName(), email);
-		if (submissionList.size() == 0)
-			return false;
-		if (submissionList.get(0).getPoints() != -999) {
-			return true;
+		for(Submission s: submissionList) {
+			if(s.getPoints()== -999){
+				return false;
+			}
 		}
-		return false;
+		return true;
 	}
 
 	/**

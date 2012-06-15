@@ -525,6 +525,9 @@ public class APIServletTest extends BaseTestCase {
 			assertEquals(Common.ERRORCODE_EMPTY_STRING, e.errorCode);
 			Common.assertContains("Course name", e.getMessage());
 		}
+
+		// other combinations of invalid input should be checked against
+		// CourseDataTest.validate()
 	}
 
 	@Test
@@ -538,6 +541,8 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader();
 		refreshDataInDatastore();
 
+		______TS("typical case");
+
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
 		CourseData courseDetials = apiServlet.getCourseDetails(course.id);
 		assertEquals(course.id, courseDetials.id);
@@ -545,6 +550,27 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(2, courseDetials.teamsTotal);
 		assertEquals(5, courseDetials.studentsTotal);
 		assertEquals(0, courseDetials.unregisteredTotal);
+
+		______TS("course without students");
+
+		apiServlet.createCourse("coord1", "course1", "course 1");
+		courseDetials = apiServlet.getCourseDetails("course1");
+		assertEquals("course1", courseDetials.id);
+		assertEquals("course 1", courseDetials.name);
+		assertEquals(0, courseDetials.teamsTotal);
+		assertEquals(0, courseDetials.studentsTotal);
+		assertEquals(0, courseDetials.unregisteredTotal);
+
+		______TS("non-existent");
+
+		try {
+			apiServlet.getCourseDetails("non-existent");
+			fail();
+		} catch (EntityDoesNotExistException e) {
+			Common.assertContains("non-existent", e.getMessage());
+		}
+
+		// TODO: handle null parameters
 
 		// TODO: more testing e.g, course without students etc.
 
@@ -835,6 +861,8 @@ public class APIServletTest extends BaseTestCase {
 		} catch (InvalidParametersException e) {
 		}
 
+		// TODO: test for invalid parameters in StudentData
+
 	}
 
 	@Test
@@ -950,6 +978,8 @@ public class APIServletTest extends BaseTestCase {
 
 		// no need to check for cascade delete/creates due to LazyCreationPolicy
 		// and TolerateOrphansPolicy.
+
+		// TODO: test for invalid parameters in StudentData
 	}
 
 	@Test
@@ -1447,6 +1477,22 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	@Test
+	public void testGetStudentInCourseForGoogleId() throws Exception {
+
+		printTestCaseHeader();
+		refreshDataInDatastore();
+		StudentData studentInTwoCourses = dataBundle.students
+				.get("student2InCourse1");
+
+		assertEquals(
+				studentInTwoCourses.email,
+				apiServlet.getStudentInCourseForGoogleId(
+						studentInTwoCourses.course, studentInTwoCourses.id).email);
+
+		// TODO: more testing
+	}
+
+	@Test
 	public void testGetEvauationResultForStudent() throws Exception {
 
 		printTestCaseHeader();
@@ -1650,8 +1696,8 @@ public class APIServletTest extends BaseTestCase {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
 			Common.assertContains("course id", e.getMessage().toLowerCase());
 		}
-		// invalid values to other parameters should be checked in lower level
-		// unit tests.
+		// invalid values to other parameters should be checked against
+		// EvaluationData.validate();
 
 	}
 
@@ -1689,19 +1735,45 @@ public class APIServletTest extends BaseTestCase {
 
 		______TS("typical case");
 
-		EvaluationData eval1 = dataBundle.evaluations
+		EvaluationData eval = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
-		eval1.gracePeriod = eval1.gracePeriod + 1;
-		eval1.instructions = eval1.instructions + "x";
-		eval1.p2pEnabled = (!eval1.p2pEnabled);
-		eval1.startTime = Common.getDateOffsetToCurrentTime(-1);
-		eval1.endTime = Common.getDateOffsetToCurrentTime(2);
-		apiServlet.editEvaluation(eval1);
-		verifyPresentInDatastore(eval1);
+		eval.gracePeriod = eval.gracePeriod + 1;
+		eval.instructions = eval.instructions + "x";
+		eval.p2pEnabled = (!eval.p2pEnabled);
+		eval.startTime = Common.getDateOffsetToCurrentTime(-1);
+		eval.endTime = Common.getDateOffsetToCurrentTime(2);
+		apiServlet.editEvaluation(eval);
+		verifyPresentInDatastore(eval);
 
 		______TS("null parameters");
-		// TODO: more testing
 
+		try {
+			apiServlet.editEvaluation(null);
+			fail();
+		} catch (InvalidParametersException e) {
+			verifyNullParameterDetectedCorrectly(e, "evaluation");
+		}
+
+		______TS("invalid parameters");
+
+		// make the evaluation invalid;
+		eval.course = null;
+		try {
+			apiServlet.editEvaluation(eval);
+			fail();
+		} catch (InvalidParametersException e) {
+			verifyNullParameterDetectedCorrectly(e, "course id");
+		}
+
+		// Checking for other type of invalid parameter situations
+		// is done in EvaluationDataTest
+
+	}
+
+	private void verifyNullParameterDetectedCorrectly(
+			InvalidParametersException e, String nameOfNullParameter) {
+		assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
+		Common.assertContains(nameOfNullParameter, e.getMessage().toLowerCase());
 	}
 
 	@Test
@@ -2250,6 +2322,33 @@ public class APIServletTest extends BaseTestCase {
 		}
 	}
 
+	@Test
+	public void testSendReminderForEvaluation() throws Exception {
+		printTestCaseHeader();
+		refreshDataInDatastore();
+
+		______TS("no one has submitted fully");
+
+		EvaluationData eval = dataBundle.evaluations
+				.get("evaluation1InCourse1OfCoord1");
+		apiServlet.sendReminderForEvaluation(eval.course, eval.name);
+
+		assertEquals(5, getNumberOfEmailTasksInQueue());
+
+		______TS("some have submitted fully");
+
+		// this student is the only memeber in the team
+		StudentData singleStudnetInTeam1_2 = dataBundle.students
+				.get("student5InCourse1");
+		SubmissionData sub = new SubmissionData();
+		sub.course = singleStudnetInTeam1_2.comments;
+		sub.evaluation = eval.name;
+		sub.points = 100;
+		// TODO: complete this
+
+		// verifyRegistrationEmailToStudent(student1InCourse1);
+	}
+
 	@SuppressWarnings("unused")
 	private void ____SUBMISSION_level_methods_______________________________() {
 	}
@@ -2268,21 +2367,29 @@ public class APIServletTest extends BaseTestCase {
 		SubmissionData expected = dataBundle.submissions
 				.get("submissionFromS1C1ToS1C1");
 		verifyPresentInDatastore(expected);
-		
+
 		______TS("null parameters");
-		//no need to check for null as this is a private method
-		
+		// no need to check for null as this is a private method
+
 		______TS("non-existent");
-		
-		assertEquals(null, invokeGetSubmission("non-existent",
-				expected.evaluation, expected.reviewer, expected.reviewee));
-		assertEquals(null, invokeGetSubmission(expected.course,
-				"non-existent", expected.reviewer, expected.reviewee));
-		assertEquals(null, invokeGetSubmission(expected.course,
-				expected.evaluation, "non-existent", expected.reviewee));
-		assertEquals(null, invokeGetSubmission(expected.course,
-				expected.evaluation, expected.reviewer, "non-existent"));
-		
+
+		assertEquals(
+				null,
+				invokeGetSubmission("non-existent", expected.evaluation,
+						expected.reviewer, expected.reviewee));
+		assertEquals(
+				null,
+				invokeGetSubmission(expected.course, "non-existent",
+						expected.reviewer, expected.reviewee));
+		assertEquals(
+				null,
+				invokeGetSubmission(expected.course, expected.evaluation,
+						"non-existent", expected.reviewee));
+		assertEquals(
+				null,
+				invokeGetSubmission(expected.course, expected.evaluation,
+						expected.reviewer, "non-existent"));
+
 		______TS("lazy creation");
 		// This need not be tested here because this method does not have
 		// enough information to activate lazy creation.
@@ -2588,11 +2695,12 @@ public class APIServletTest extends BaseTestCase {
 
 	}
 
-	private void verifyAbsentInDatastore(SubmissionData submission) throws Exception {
-		assertEquals(null,
-				invokeGetSubmission(submission.course,
-						submission.evaluation, submission.reviewer,
-						submission.reviewee));
+	private void verifyAbsentInDatastore(SubmissionData submission)
+			throws Exception {
+		assertEquals(
+				null,
+				invokeGetSubmission(submission.course, submission.evaluation,
+						submission.reviewer, submission.reviewee));
 	}
 
 	private void verifyAbsentInDatastore(CoordData expectedCoord) {
@@ -2663,7 +2771,8 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
 	}
 
-	private void verifyPresentInDatastore(SubmissionData expected) throws Exception {
+	private void verifyPresentInDatastore(SubmissionData expected)
+			throws Exception {
 		SubmissionData actual = invokeGetSubmission(expected.course,
 				expected.evaluation, expected.reviewer, expected.reviewee);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
@@ -2778,7 +2887,7 @@ public class APIServletTest extends BaseTestCase {
 		return (HashMap<String, SubmissionData>) privateMethod.invoke(
 				apiServlet, params);
 	}
-	
+
 	private SubmissionData invokeGetSubmission(String course,
 			String evaluation, String reviewer, String reviewee)
 			throws Exception {
@@ -2802,16 +2911,15 @@ public class APIServletTest extends BaseTestCase {
 		return submission;
 	}
 
-	private void setPointsForSubmissions(int[][] points)
-			throws Exception {
+	private void setPointsForSubmissions(int[][] points) throws Exception {
 		int teamSize = points.length;
 		ArrayList<SubmissionData> submissions = new ArrayList<SubmissionData>();
 		for (int i = 0; i < teamSize; i++) {
 			for (int j = 0; j < teamSize; j++) {
-				SubmissionData s = invokeGetSubmission(
-						"idOfCourse1OfCoord1", "evaluation1 In Course1",
-						"student" + (i + 1) + "InCourse1@gmail.com", "student"
-								+ (j + 1) + "InCourse1@gmail.com");
+				SubmissionData s = invokeGetSubmission("idOfCourse1OfCoord1",
+						"evaluation1 In Course1", "student" + (i + 1)
+								+ "InCourse1@gmail.com", "student" + (j + 1)
+								+ "InCourse1@gmail.com");
 				s.points = points[i][j];
 				submissions.add(s);
 			}
