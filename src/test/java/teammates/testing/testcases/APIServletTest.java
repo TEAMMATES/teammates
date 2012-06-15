@@ -2321,12 +2321,25 @@ public class APIServletTest extends BaseTestCase {
 			Common.assertContains("non-existent", e.getMessage());
 		}
 	}
-
+	
 	@Test
-	public void testSendReminderForEvaluation() throws Exception {
+	public void testSendReminderForEvaluation_1() throws Exception {
 		printTestCaseHeader();
 		refreshDataInDatastore();
-
+		
+		______TS("empty class");
+		
+		apiServlet.createCourse("coord1", "course1", "course 1");
+		EvaluationData newEval = new EvaluationData();
+		newEval.course = "course1";
+		newEval.name = "new eval";
+		newEval.startTime = Common.getDateOffsetToCurrentTime(1);
+		newEval.endTime = Common.getDateOffsetToCurrentTime(2);
+		apiServlet.createEvaluation(newEval);
+		//reuse exisitng evaluation to create a new one
+		apiServlet.sendReminderForEvaluation("course1", "new eval");
+		assertEquals(0, getNumberOfEmailTasksInQueue());
+		
 		______TS("no one has submitted fully");
 
 		EvaluationData eval = dataBundle.evaluations
@@ -2334,11 +2347,29 @@ public class APIServletTest extends BaseTestCase {
 		apiServlet.sendReminderForEvaluation(eval.course, eval.name);
 
 		assertEquals(5, getNumberOfEmailTasksInQueue());
-
-		______TS("some have submitted fully");
+		List<StudentData> studentList = apiServlet.getStudentListForCourse(eval.course);
 		
-		// This student is the only member in the team. If he submits his 
-		//  self-evaluation, he sill be considered 'fully submitted'.
+		for(StudentData sd: studentList){
+			verifyRegistrationEmailToStudent(sd);
+		}
+		
+		//This test continues in the next test case. We had to break it into
+		//  mulitiple cases to reset email queue before sending reminder
+		//  emails again.
+	}
+
+	@Test
+	public void testSendReminderForEvaluation_2() throws Exception {
+		printTestCaseHeader();
+		refreshDataInDatastore();
+		
+		______TS("some have submitted fully");
+
+		EvaluationData eval = dataBundle.evaluations
+				.get("evaluation1InCourse1OfCoord1");
+		// This student is the only member in Team 1.2. If he submits his 
+		//  self-evaluation, he sill be considered 'fully submitted'. Only 
+		//  student in Team 1.2 should receive emails.
 		StudentData singleStudnetInTeam1_2 = dataBundle.students
 				.get("student5InCourse1");
 		SubmissionData sub = new SubmissionData();
@@ -2355,11 +2386,22 @@ public class APIServletTest extends BaseTestCase {
 		apiServlet.editSubmissions(submissions);
 		apiServlet.sendReminderForEvaluation(eval.course, eval.name);
 		//4 more tasks should be added to the queue (for 4 students in Team1.1)
-		assertEquals(9, getNumberOfEmailTasksInQueue());
+		assertEquals(4, getNumberOfEmailTasksInQueue());
 		
+		List<StudentData> studentList = apiServlet.getStudentListForCourse(eval.course);
+		
+		//verify all students in Team 1.1 received emails.
+		for(StudentData sd: studentList){
+			if(sd.team.equals("Team 1.1")){
+			verifyRegistrationEmailToStudent(sd);
+			}
+		}
 		// TODO: complete this
+		
+		______TS("null parameter");
+		
+		______TS("non-existent course");
 
-		// verifyRegistrationEmailToStudent(student1InCourse1);
 	}
 
 	@SuppressWarnings("unused")
@@ -2616,6 +2658,7 @@ public class APIServletTest extends BaseTestCase {
 		QueueStateInfo qsi = ltq.getQueueStateInfo().get("email-queue");
 		return qsi.getTaskInfo().size();
 	}
+	
 	
 	private void verifyTeamNameChange(String courseID, String originalTeamName,
 			String newTeamName) throws InvalidParametersException,
