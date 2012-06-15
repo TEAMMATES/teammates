@@ -31,7 +31,6 @@ public class StudentHomeServlet extends ActionServlet<StudentHomeHelper> {
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return false;
 		}
-		helper.studentEmail = helper.server.getStudentsWithId(helper.userId).get(0).email;
 		return true;
 	}
 

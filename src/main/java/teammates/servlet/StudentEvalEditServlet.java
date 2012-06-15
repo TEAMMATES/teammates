@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
-import teammates.datatransfer.StudentData;
 import teammates.datatransfer.SubmissionData;
 import teammates.jsp.Helper;
 import teammates.jsp.StudentEvalEditHelper;
@@ -45,12 +44,7 @@ public class StudentEvalEditServlet extends ActionServlet<StudentEvalEditHelper>
 			helper.nextUrl = Common.PAGE_STUDENT_HOME;
 			return;
 		}
-		for(StudentData student: helper.server.getStudentsWithId(helper.userId)){
-			if(student.course.equals(courseID)){
-				helper.student = student;
-				break;
-			}
-		}
+		helper.student = helper.server.getStudentInCourseForGoogleId(courseID, helper.userId);
 		if(helper.student==null){
 			helper.statusMessage = "You are not registered in the course "+courseID;
 			helper.error = true;

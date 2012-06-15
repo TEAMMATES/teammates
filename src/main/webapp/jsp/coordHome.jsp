@@ -87,8 +87,7 @@
 					</div>
 					<div style="clear: both;"></div>
 					<br />
-					<%	if (course.evaluations.size() > 0) {
-					%>
+					<%	if (course.evaluations.size() > 0) { %>
 						<table id="dataform">
 							<tr>
 								<th class="leftalign">Evaluation Name</th>
@@ -98,8 +97,7 @@
 									onmouseout="hideddrivetip()">Response Rate</span></th>
 								<th class="centeralign">Action(s)</th>
 							</tr>
-							<%	for (EvaluationData eval: course.evaluations){ evalIdx++;
-							%>
+							<%	for (EvaluationData eval: course.evaluations){ evalIdx++; %>
 								<tr class="home_evaluations_row" id="evaluation<%= evalIdx %>">
 									<td class="t_eval_name"><%= CoordHomeHelper.escapeHTML(eval.name) %></td>
 									<td class="t_eval_status centeralign"><span

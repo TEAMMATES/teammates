@@ -104,6 +104,7 @@ public class Common {
 	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_SUBMITTED = "You have submitted your feedback for this evaluation";
 	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_CLOSED = "The evaluation has finished but the coordinator has not published the results yet";
 	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_PUBLISHED = "The evaluation has finished and you can check the results";
+	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_ERROR = "There were some errors in retrieving this evaluation.";
 
 	// Evaluation status
 	public static final String EVALUATION_STATUS_AWAITING = "Awaiting";
@@ -115,6 +116,7 @@ public class Common {
 	public static final String STUDENT_EVALUATION_STATUS_SUBMITTED = "Submitted";
 	public static final String STUDENT_EVALUATION_STATUS_CLOSED = "Closed";
 	public static final String STUDENT_EVALUATION_STATUS_PUBLISHED = "Published";
+	public static final String STUDENT_EVALUATION_STATUS_ERROR = "Error";
 	
 	// Student status
 	public static final String STUDENT_STATUS_YET_TO_JOIN = "Yet to join";

@@ -58,10 +58,9 @@
 			</div>
 			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 			<div id="studentHomeTable">
-				<%	int idx = 0;
-					int evalIdx = 0;
-					for (idx = 0; idx < helper.courses.size(); idx++) {
-						CourseData course = helper.courses.get(idx);
+				<%	int idx = -1;
+					int evalIdx = -1;
+					for (CourseData course: helper.courses) { idx++;
 				%>
 				<div class="result_team home_courses_div" id="course<%= idx %>">
 					<div class="result_homeTitle">
@@ -85,9 +84,7 @@
 					</div>
 					<div style="clear: both;"></div>
 					<br />
-					<%	EvaluationData[] evaluationsArr = StudentHomeHelper.getEvaluationsForCourse(course);
-						if (evaluationsArr.length > 0) {
-					%>
+					<%	if (course.evaluations.size() > 0) { %>
 						<table id="dataform">
 							<tr>
 								<th class="leftalign">Evaluation Name</th>
@@ -95,9 +92,7 @@
 								<th class="centeralign">Status</th>
 								<th class="centeralign">Action(s)</th>
 							</tr>
-							<%	for (int i=evaluationsArr.length-1; i>=0; i--, evalIdx++) {
-									EvaluationData eval = evaluationsArr[i];
-							%>
+							<%	for (EvaluationData eval: course.evaluations) { evalIdx++; %>
 								<tr class="home_evaluations_row" id="evaluation<%= evalIdx %>">
 									<td class="t_eval_name"><%= StudentHomeHelper.escapeHTML(eval.name) %></td>
 									<td class="t_eval_deadline centeralign"><%= Common.formatTime(eval.endTime) %></td>

@@ -3,6 +3,7 @@ package teammates.api;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -1204,7 +1205,11 @@ public class APIServlet extends HttpServlet {
 	public CourseData getCourseDetails(String courseId)
 			throws EntityDoesNotExistException {
 		// TODO: very inefficient. Should be optimized.
+		
 		CourseData course = getCourse(courseId);
+		if(course==null){
+			throw new EntityDoesNotExistException("The course does not exist: "+courseId);
+		}
 		HashMap<String, CourseData> courseList = getCourseDetailsListForCoord(course.coord);
 		return courseList.get(courseId);
 	}
@@ -1491,6 +1496,17 @@ public class APIServlet extends HttpServlet {
 		}
 		return returnList;
 	}
+	
+	public StudentData getStudentInCourseForGoogleId(String courseId, String googleId) {
+		//TODO: make more inefficient?
+		ArrayList<StudentData> studentList = getStudentsWithId(googleId);
+		for(StudentData sd: studentList){
+			if(sd.course.equals(courseId)){
+				return sd;
+			}
+		}
+		return null;
+	}
 
 	public void joinCourse(String googleId, String key)
 			throws JoinCourseException, InvalidParametersException {
@@ -1729,16 +1745,32 @@ public class APIServlet extends HttpServlet {
 		}
 		return returnList;
 	}
+	
+	public void sendReminderForEvaluation(String courseId, String evaluationName) {
+		
+		List<Student> studentList = Courses.inst().getStudentList(courseId);
 
-	private boolean isOrphanSubmission(StudentData reviewer,
-			StudentData reviewee, Submission submission) {
-		if (!submission.getTeamName().equals(reviewer.team)) {
-			return true;
+		// Filter out students who have submitted the evaluation
+		Evaluations evaluations = Evaluations.inst();
+		Evaluation evaluation = evaluations.getEvaluation(courseId, evaluationName);
+
+		if (evaluation == null) {
+			//TODO: throw exception
+			return;
 		}
-		if (!submission.getTeamName().equals(reviewee.team)) {
-			return true;
+
+		List<Student> studentsToRemindList = new ArrayList<Student>();
+
+		for (Student s : studentList) {
+			if (!evaluations.isEvaluationSubmitted(evaluation, s.getEmail())) {
+				studentsToRemindList.add(s);
+			}
 		}
-		return false;
+
+		Date deadline = evaluation.getDeadline();
+
+		evaluations.remindStudents(studentsToRemindList, courseId, evaluationName, deadline);
+		
 	}
 
 	@SuppressWarnings("unused")
@@ -1875,6 +1907,17 @@ public class APIServlet extends HttpServlet {
 	private void ____helper_methods________________________________________() {
 	}
 	
+	private boolean isOrphanSubmission(StudentData reviewer,
+			StudentData reviewee, Submission submission) {
+		if (!submission.getTeamName().equals(reviewer.team)) {
+			return true;
+		}
+		if (!submission.getTeamName().equals(reviewee.team)) {
+			return true;
+		}
+		return false;
+	}
+
 	private HashMap<String, SubmissionData> getSubmissionsForEvaluation (
 			String courseId, String evaluationName)
 			throws EntityDoesNotExistException {
@@ -1999,6 +2042,10 @@ public class APIServlet extends HttpServlet {
 	private boolean isModificationToExistingStudent(StudentData student) {
 		return getStudent(student.course, student.email) != null;
 	}
+
+	
+
+
 
 
 

@@ -6,13 +6,12 @@ import java.util.List;
 
 import teammates.api.Common;
 import teammates.api.InvalidParametersException;
-import teammates.api.TeammatesException;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.EvaluationData;
+import teammates.datatransfer.StudentData;
 
 public class StudentHomeHelper extends Helper {
 	public List<CourseData> courses;
-	public String studentEmail;
 	
 	/**
 	 * Returns the list of evaluation for a specific course.
@@ -44,6 +43,9 @@ public class StudentHomeHelper extends Helper {
 	 * @return
 	 */
 	public String getStudentStatusForEval(EvaluationData eval){
+		String studentEmail = null;
+		StudentData student = server.getStudentInCourseForGoogleId(eval.course, userId);
+		if(student!=null) studentEmail = student.email;
 		switch(eval.getStatus()){
 		case PUBLISHED: return Common.STUDENT_EVALUATION_STATUS_PUBLISHED;
 		case CLOSED: return Common.STUDENT_EVALUATION_STATUS_CLOSED;
@@ -52,7 +54,8 @@ public class StudentHomeHelper extends Helper {
 		try {
 			submitted = server.hasStudentSubmittedEvaluation(eval.course, eval.name, studentEmail);
 		} catch (InvalidParametersException e) {
-			System.err.println(TeammatesException.stackTraceToString(e));
+			System.err.println(e.getMessage());
+			return Common.STUDENT_EVALUATION_STATUS_ERROR;
 		}
 		if(submitted) return Common.STUDENT_EVALUATION_STATUS_SUBMITTED;
 		else return Common.STUDENT_EVALUATION_STATUS_PENDING;
@@ -71,8 +74,10 @@ public class StudentHomeHelper extends Helper {
 			return Common.HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_SUBMITTED;
 		} else if(status.equals(Common.STUDENT_EVALUATION_STATUS_CLOSED)){
 			return Common.HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_CLOSED;
-		} else {
+		} else if(status.equals(Common.STUDENT_EVALUATION_STATUS_PUBLISHED)){
 			return Common.HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_PUBLISHED;
+		} else {
+			return Common.HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_ERROR;
 		}
 	}
 	
