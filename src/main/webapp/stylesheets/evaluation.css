@@ -219,9 +219,14 @@ tfoot td {
 	border:1px dotted gray;
 }
 
+.result_header, .result_header td{
+	background-color: #036;
+	color: white;
+	font-weight:bold;
+}
+
 .result_subheader {
 	background-color: #d0d8e8;
-	margin-top: 10px;
 }
 .result_subheader td{
 	color: #4E80BB;

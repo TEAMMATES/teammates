@@ -164,6 +164,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <url-pattern>/page/coordEval</url-pattern>
 	</servlet-mapping>
 	<servlet>
+	    <description>Servlet that handles evaluation edit page</description>
+	    <servlet-name>CoordEvalEdit</servlet-name>
+	    <servlet-class>teammates.servlet.CoordEvalEditServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>CoordEvalEdit</servlet-name>
+	    <url-pattern>/page/coordEvalEdit</url-pattern>
+	</servlet-mapping>
+	<servlet>
 	    <description>Servlet that handles evaluation deletion</description>
 	    <servlet-name>CoordEvalDelete</servlet-name>
 	    <servlet-class>teammates.servlet.CoordEvalDeleteServlet</servlet-class>
