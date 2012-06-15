@@ -1498,7 +1498,7 @@ public class APIServlet extends HttpServlet {
 	}
 	
 	public StudentData getStudentInCourseForGoogleId(String courseId, String googleId) {
-		//TODO: make more inefficient?
+		//TODO: make more efficient?
 		ArrayList<StudentData> studentList = getStudentsWithId(googleId);
 		for(StudentData sd: studentList){
 			if(sd.course.equals(courseId)){

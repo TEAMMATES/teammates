@@ -2336,14 +2336,27 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(5, getNumberOfEmailTasksInQueue());
 
 		______TS("some have submitted fully");
-
-		// this student is the only memeber in the team
+		
+		// This student is the only member in the team. If he submits his 
+		//  self-evaluation, he sill be considered 'fully submitted'.
 		StudentData singleStudnetInTeam1_2 = dataBundle.students
 				.get("student5InCourse1");
 		SubmissionData sub = new SubmissionData();
-		sub.course = singleStudnetInTeam1_2.comments;
+		sub.course = singleStudnetInTeam1_2.course;
 		sub.evaluation = eval.name;
+		sub.team = singleStudnetInTeam1_2.team;
+		sub.reviewer = singleStudnetInTeam1_2.email;
+		sub.reviewee = singleStudnetInTeam1_2.email;
 		sub.points = 100;
+		sub.justification = new Text("j");
+		sub.p2pFeedback = new Text("y");
+		ArrayList<SubmissionData> submissions = new ArrayList<SubmissionData>();
+		submissions.add(sub);
+		apiServlet.editSubmissions(submissions);
+		apiServlet.sendReminderForEvaluation(eval.course, eval.name);
+		//4 more tasks should be added to the queue (for 4 students in Team1.1)
+		assertEquals(9, getNumberOfEmailTasksInQueue());
+		
 		// TODO: complete this
 
 		// verifyRegistrationEmailToStudent(student1InCourse1);
@@ -2603,7 +2616,7 @@ public class APIServletTest extends BaseTestCase {
 		QueueStateInfo qsi = ltq.getQueueStateInfo().get("email-queue");
 		return qsi.getTaskInfo().size();
 	}
-
+	
 	private void verifyTeamNameChange(String courseID, String originalTeamName,
 			String newTeamName) throws InvalidParametersException,
 			EntityDoesNotExistException {
