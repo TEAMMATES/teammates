@@ -84,7 +84,7 @@ public class BaseTestCase {
 		setConsoleLoggingLevel(Level.WARNING);
 	}
 
-	protected void assertSameDates(Date expected, Date actual) {
+	protected static void assertSameDates(Date expected, Date actual) {
 		assertEquals(Common.calendarToString(Common.dateToCalendar(expected)),
 				Common.calendarToString(Common.dateToCalendar(actual)));
 	}

@@ -3,7 +3,6 @@ package teammates.api;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -18,48 +17,24 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.Config;
 import teammates.Datastore;
-import teammates.TeamEvalResult;
-import teammates.datatransfer.CoordData;
-import teammates.datatransfer.CourseData;
-import teammates.datatransfer.DataBundle;
-import teammates.datatransfer.EvalResultData;
-import teammates.datatransfer.EvaluationData;
-import teammates.datatransfer.EvaluationData.EvalStatus;
-import teammates.datatransfer.StudentActionData;
-import teammates.datatransfer.StudentData;
-import teammates.datatransfer.StudentData.UpdateStatus;
-import teammates.datatransfer.SubmissionData;
-import teammates.datatransfer.TeamData;
-import teammates.datatransfer.TeamProfileData;
-import teammates.datatransfer.TfsData;
-import teammates.datatransfer.UserData;
 import teammates.exception.CourseDoesNotExistException;
-import teammates.exception.GoogleIDExistsInCourseException;
-import teammates.exception.RegistrationKeyInvalidException;
-import teammates.exception.RegistrationKeyTakenException;
-import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.EnrollmentReport;
-import teammates.jdo.EvaluationDetailsForCoordinator;
-import teammates.manager.Accounts;
 import teammates.manager.Courses;
 import teammates.manager.Emails;
 import teammates.manager.Evaluations;
 import teammates.manager.TeamForming;
-import teammates.persistent.Coordinator;
 import teammates.persistent.Course;
 import teammates.persistent.Evaluation;
 import teammates.persistent.Student;
 import teammates.persistent.Submission;
-import teammates.persistent.TeamFormingLog;
 import teammates.persistent.TeamFormingSession;
-import teammates.persistent.TeamProfile;
 
 import com.google.appengine.api.datastore.Text;
-import com.google.appengine.api.users.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 @SuppressWarnings("serial")
+@Deprecated
 public class APIServlet extends HttpServlet {
 	public static final String OPERATION_CREATE_COORD = "OPERATION_CREATE_COORD";
 	public static final String OPERATION_DELETE_COORD = "OPERATION_DELETE_COORD";
@@ -186,113 +161,12 @@ public class APIServlet extends HttpServlet {
 		} else if (action.equals(OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER)) {
 			activateAutomatedReminder();
 		} else {
-			String returnValue;
-			try {
-				returnValue = executeBackendAction(req, action);
-			} catch (Exception e) {
-				returnValue = Common.BACKEND_STATUS_FAILURE + e.getMessage();
-			}
-			resp.getWriter().write(returnValue);
+			resp.getWriter().write("Unknown command : "+action);
 		}
 
 		resp.flushBuffer();
 	}
 
-	private String executeBackendAction(HttpServletRequest req, String action)
-			throws Exception {
-		Logic logic = new Logic();
-		if (action.equals(OPERATION_CREATE_COORD)) {
-			String coordID = req.getParameter(PARAMETER_COORD_ID);
-			String coordName = req.getParameter(PARAMETER_COORD_NAME);
-			String coordEmail = req.getParameter(PARAMETER_COORD_EMAIL);
-			logic.createCoord(coordID, coordName, coordEmail);
-		} else if (action.equals(OPERATION_DELETE_COORD)) {
-			String coordID = req.getParameter(PARAMETER_COORD_ID);
-			logic.deleteCoord(coordID);
-		} else if (action.equals(OPERATION_DELETE_COURSE)) {
-			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			logic.deleteCourse(courseId);
-		} else if (action.equals(OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE)) {
-			String courseID = req.getParameter(PARAMETER_COURSE_ID);
-			deleteCourseByIdNonCascade(courseID);
-		} else if (action.equals(OPERATION_DELETE_EVALUATION)) {
-			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			String evaluationName = req.getParameter(PARAMETER_EVALUATION_NAME);
-			logic.deleteEvaluation(courseId, evaluationName);
-		} else if (action.equals(OPERATION_DELETE_STUDENT)) {
-			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
-			logic.deleteStudent(courseId, email);
-		} else if (action.equals(OPERATION_DELETE_TEAM_FORMING_LOG)) {
-			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			logic.deleteStudentActions(courseId);
-		} else if (action.equals(OPERATION_DELETE_TEAM_PROFILE)) {
-			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			String teamName = req.getParameter(PARAMETER_TEAM_NAME);
-			logic.deleteTeamProfile(courseId, teamName);
-		} else if (action.equals(OPERATION_DELETE_TFS)) {
-			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			logic.deleteTfs(courseId);
-		} else if (action.equals(OPERATION_GET_COORD_AS_JSON)) {
-			String coordID = req.getParameter(PARAMETER_COORD_ID);
-			return logic.getCoordAsJson(coordID);
-		} else if (action.equals(OPERATION_GET_COURSE_AS_JSON)) {
-			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			return logic.getCourseAsJson(courseId);
-		} else if (action.equals(OPERATION_GET_COURSES_BY_COORD)) {
-			String coordID = req.getParameter(PARAMETER_COORD_ID);
-			return getCoursesByCoordID(coordID);
-		} else if (action.equals(OPERATION_GET_STUDENT_AS_JSON)) {
-			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
-			return logic.getStudentAsJson(courseId, email);
-		} else if (action.equals(OPERATION_GET_EVALUATION_AS_JSON)) {
-			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			String evaluationName = req.getParameter(PARAMETER_EVALUATION_NAME);
-			return logic.getEvaluationAsJson(courseId, evaluationName);
-		} else if (action.equals(OPERATION_GET_TFS_AS_JSON)) {
-			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			return logic.getTfsAsJson(courseId);
-		} else if (action.equals(OPERATION_GET_TEAM_FORMING_LOG_AS_JSON)) {
-			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			return logic.getTeamFormingLogAsJson(courseId);
-		} else if (action.equals(OPERATION_GET_TEAM_PROFILE_AS_JSON)) {
-			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			String teamName = req.getParameter(PARAMETER_TEAM_NAME);
-			return logic.getTeamProfileAsJson(courseId, teamName);
-		} else if (action.equals(OPERATION_GET_SUBMISSION_AS_JSON)) {
-			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			String evaluationName = req.getParameter(PARAMETER_EVALUATION_NAME);
-			String reviewerId = req.getParameter(PARAMETER_REVIEWER_EMAIL);
-			String revieweeId = req.getParameter(PARAMETER_REVIEWEE_EMAIL);
-			return logic.getSubmissionAsJson(courseId, evaluationName, reviewerId,
-					revieweeId);
-		} else if (action.equals(OPERATION_PERSIST_DATABUNDLE)) {
-			String dataBundleJsonString = req
-					.getParameter(PARAMETER_DATABUNDLE_JSON);
-			logic.persistNewDataBundle(dataBundleJsonString);
-		} else if (action.equals(OPERATION_EDIT_EVALUATION)) {
-			String newValues = req.getParameter(PARAMETER_JASON_STRING);
-			logic.editEvaluationAsJson(newValues);
-		} else if (action.equals(OPERATION_EDIT_SUBMISSION)) {
-			String newValues = req.getParameter(PARAMETER_JASON_STRING);
-			logic.editSubmissionAsJson(newValues);
-		} else if (action.equals(OPERATION_EDIT_STUDENT)) {
-			String originalEmail = req.getParameter(PARAMETER_STUDENT_EMAIL);
-			String newValues = req.getParameter(PARAMETER_JASON_STRING);
-			logic.editStudentAsJson(originalEmail, newValues);
-		} else if (action.equals(OPERATION_EDIT_TFS)) {
-			String newValues = req.getParameter(PARAMETER_JASON_STRING);
-			logic.editTfsAsJson(newValues);
-		} else if (action.equals(OPERATION_EDIT_TEAM_PROFILE)) {
-			String originalTeamName = req.getParameter(PARAMETER_TEAM_NAME);
-			String newValues = req.getParameter(PARAMETER_JASON_STRING);
-			logic.editTeamProfileAsJson(originalTeamName, newValues);
-		} else {
-			throw new Exception("Unknown command: " + action);
-		}
-		return Common.BACKEND_STATUS_SUCCESS;
-	}
 
 	@Deprecated
 	private void disableEmail() throws IOException {
@@ -766,35 +640,7 @@ public class APIServlet extends HttpServlet {
 		dispatcher.forward(this.req, this.resp);
 	}
 
-	private String getCoursesByCoordID(String coordID) {
-		String query = "select from " + Course.class.getName()
-				+ " where coordinatorID == '" + coordID + "'";
-
-		@SuppressWarnings("unchecked")
-		List<Course> courseList = (List<Course>) getPM().newQuery(query)
-				.execute();
-		String courseIDs = "";
-
-		for (Course c : courseList) {
-			courseIDs = courseIDs + c.getID() + " ";
-		}
-		return courseIDs.trim();
-	}
-
-	private void deleteCourseByIdNonCascade(String courseID) {
-		Courses courses = Courses.inst();
-		courses.deleteCoordinatorCourse(courseID);
-	}
-
-	private void deleteCoordByIdNonCascade(String coordId) {
-		Accounts accounts = Accounts.inst();
-		try {
-			accounts.deleteCoordinatorNonCascade(coordId);
-		} catch (Exception e) {
-			log.warning("problem while trying to delete coordinator" + coordId
-					+ "\n error:" + e.getMessage());
-		}
-	}
+	
 
 
 

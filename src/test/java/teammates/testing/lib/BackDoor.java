@@ -10,8 +10,9 @@ import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
-import teammates.api.APIServlet;
+import teammates.BackDoorServlet;
 import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.NotImplementedException;
@@ -29,11 +30,12 @@ import teammates.testing.object.Course;
 import com.google.gson.Gson;
 
 public class BackDoor {
+	private static Logger log = Common.getLogger();
 	// --------------------[System-level methods]-----------------------------
 
 	public static String persistNewDataBundle(String dataBundleJason) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_PERSIST_DATABUNDLE);
-		params.put(APIServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJason);
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_PERSIST_DATABUNDLE);
+		params.put(BackDoorServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJason);
 		String status = makePOSTRequest(params);
 		return status;
 	}
@@ -46,6 +48,8 @@ public class BackDoor {
 			deleteCoord(coord.id);
 		}
 	}
+	
+	
 
 	// --------------------------[Coord-level methods]-------------------------
 
@@ -57,8 +61,8 @@ public class BackDoor {
 	}
 
 	public static String getCoordAsJason(String coordId) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_COORD_AS_JSON);
-		params.put(APIServlet.PARAMETER_COORD_ID, coordId);
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_COORD_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_COORD_ID, coordId);
 		String coordJsonString = makePOSTRequest(params);
 		return coordJsonString;
 	}
@@ -70,8 +74,8 @@ public class BackDoor {
 	}
 
 	public static String deleteCoord(String coordId) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_DELETE_COORD);
-		params.put(APIServlet.PARAMETER_COORD_ID, coordId);
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_COORD);
+		params.put(BackDoorServlet.PARAMETER_COORD_ID, coordId);
 		String status = makePOSTRequest(params);
 		return status;
 	}
@@ -91,8 +95,8 @@ public class BackDoor {
 	public static String[] getCoursesByCoordId(String coordId) {
 		System.out.println("TMAPI Getting courses of coordinator:" + coordId);
 
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_COURSES_BY_COORD);
-		params.put(APIServlet.PARAMETER_COORD_ID, coordId);
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_COURSES_BY_COORD);
+		params.put(BackDoorServlet.PARAMETER_COORD_ID, coordId);
 		String courseString = makePOSTRequest(params);
 		String[] coursesArray = {};
 		if (Common.isWhiteSpace(courseString)) {
@@ -113,8 +117,8 @@ public class BackDoor {
 	}
 
 	public static String getCourseAsJason(String courseId) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_COURSE_AS_JSON);
-		params.put(APIServlet.PARAMETER_COURSE_ID, courseId);
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_COURSE_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
 		String courseJsonString = makePOSTRequest(params);
 		return courseJsonString;
 	}
@@ -126,8 +130,8 @@ public class BackDoor {
 	}
 
 	public static String deleteCourse(String courseId) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_DELETE_COURSE);
-		params.put(APIServlet.PARAMETER_COURSE_ID, courseId);
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_COURSE);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
 		String status = makePOSTRequest(params);
 		return status;
 	}
@@ -142,26 +146,26 @@ public class BackDoor {
 	}
 
 	public static String getStudentAsJason(String courseId, String studentEmail) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_STUDENT_AS_JSON);
-		params.put(APIServlet.PARAMETER_COURSE_ID, courseId);
-		params.put(APIServlet.PARAMETER_STUDENT_EMAIL, studentEmail);
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_STUDENT_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
+		params.put(BackDoorServlet.PARAMETER_STUDENT_EMAIL, studentEmail);
 		String studentJson = makePOSTRequest(params);
 		return studentJson;
 	}
 
 	public static String editStudent(String originalEmail, StudentData student) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_STUDENT);
-		params.put(APIServlet.PARAMETER_STUDENT_EMAIL, originalEmail);
-		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_STUDENT);
+		params.put(BackDoorServlet.PARAMETER_STUDENT_EMAIL, originalEmail);
+		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
 				.toJson(student));
 		String status = makePOSTRequest(params);
 		return status;
 	}
 
 	public static String deleteStudent(String courseId, String studentEmail) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_DELETE_STUDENT);
-		params.put(APIServlet.PARAMETER_COURSE_ID, courseId);
-		params.put(APIServlet.PARAMETER_STUDENT_EMAIL, studentEmail);
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_STUDENT);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
+		params.put(BackDoorServlet.PARAMETER_STUDENT_EMAIL, studentEmail);
 		String status = makePOSTRequest(params);
 		return status;
 	}
@@ -177,25 +181,25 @@ public class BackDoor {
 
 	public static String getEvaluationAsJason(String courseID,
 			String evaluationName) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_EVALUATION_AS_JSON);
-		params.put(APIServlet.PARAMETER_COURSE_ID, courseID);
-		params.put(APIServlet.PARAMETER_EVALUATION_NAME, evaluationName);
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_EVALUATION_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseID);
+		params.put(BackDoorServlet.PARAMETER_EVALUATION_NAME, evaluationName);
 		String evaluationJson = makePOSTRequest(params);
 		return evaluationJson;
 	}
 
 	public static String editEvaluation(EvaluationData evaluation) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_EVALUATION);
-		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_EVALUATION);
+		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
 				.toJson(evaluation));
 		String status = makePOSTRequest(params);
 		return status;
 	}
 
 	public static String deleteEvaluation(String courseID, String evaluationName) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_DELETE_EVALUATION);
-		params.put(APIServlet.PARAMETER_COURSE_ID, courseID);
-		params.put(APIServlet.PARAMETER_EVALUATION_NAME, evaluationName);
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_EVALUATION);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseID);
+		params.put(BackDoorServlet.PARAMETER_EVALUATION_NAME, evaluationName);
 		String status = makePOSTRequest(params);
 		return status;
 	}
@@ -218,18 +222,18 @@ public class BackDoor {
 
 	public static String getSubmissionAsJason(String courseID,
 			String evaluationName, String reviewerEmail, String revieweeEmail) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_SUBMISSION_AS_JSON);
-		params.put(APIServlet.PARAMETER_COURSE_ID, courseID);
-		params.put(APIServlet.PARAMETER_EVALUATION_NAME, evaluationName);
-		params.put(APIServlet.PARAMETER_REVIEWER_EMAIL, reviewerEmail);
-		params.put(APIServlet.PARAMETER_REVIEWEE_EMAIL, revieweeEmail);
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_SUBMISSION_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseID);
+		params.put(BackDoorServlet.PARAMETER_EVALUATION_NAME, evaluationName);
+		params.put(BackDoorServlet.PARAMETER_REVIEWER_EMAIL, reviewerEmail);
+		params.put(BackDoorServlet.PARAMETER_REVIEWEE_EMAIL, revieweeEmail);
 		String submissionJson = makePOSTRequest(params);
 		return submissionJson;
 	}
 
 	public static String editSubmission(SubmissionData submission) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_SUBMISSION);
-		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_SUBMISSION);
+		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
 				.toJson(submission));
 		String status = makePOSTRequest(params);
 		return status;
@@ -252,15 +256,15 @@ public class BackDoor {
 	}
 
 	public static String getTfsAsJason(String courseID) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_TFS_AS_JSON);
-		params.put(APIServlet.PARAMETER_COURSE_ID, courseID);
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_TFS_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseID);
 		String evaluationJson = makePOSTRequest(params);
 		return evaluationJson;
 	}
 
 	public static String editTfs(TfsData tfs) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_TFS);
-		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_TFS);
+		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
 				.toJson(tfs));
 		String status = makePOSTRequest(params);
 		return status;
@@ -284,27 +288,27 @@ public class BackDoor {
 	}
 
 	public static String getTeamProfileAsJason(String courseID, String teamName) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_TEAM_PROFILE_AS_JSON);
-		params.put(APIServlet.PARAMETER_COURSE_ID, courseID);
-		params.put(APIServlet.PARAMETER_TEAM_NAME, teamName);
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_TEAM_PROFILE_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseID);
+		params.put(BackDoorServlet.PARAMETER_TEAM_NAME, teamName);
 		String evaluationJson = makePOSTRequest(params);
 		return evaluationJson;
 	}
 
 	public static String editTeamProfile(String originalTeamName,
 			TeamProfileData teamProfile) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_EDIT_TEAM_PROFILE);
-		params.put(APIServlet.PARAMETER_TEAM_NAME, originalTeamName);
-		params.put(APIServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_TEAM_PROFILE);
+		params.put(BackDoorServlet.PARAMETER_TEAM_NAME, originalTeamName);
+		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
 				.toJson(teamProfile));
 		String status = makePOSTRequest(params);
 		return status;
 	}
 
 	public static String deleteTeamProfile(String courseId, String teamName) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_DELETE_TEAM_PROFILE);
-		params.put(APIServlet.PARAMETER_COURSE_ID, courseId);
-		params.put(APIServlet.PARAMETER_TEAM_NAME, teamName);
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_TEAM_PROFILE);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
+		params.put(BackDoorServlet.PARAMETER_TEAM_NAME, teamName);
 		String status = makePOSTRequest(params);
 		return status;
 	}
@@ -320,8 +324,8 @@ public class BackDoor {
 	}
 
 	public static String getTeamFormingLogAsJason(String courseID) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_GET_TEAM_FORMING_LOG_AS_JSON);
-		params.put(APIServlet.PARAMETER_COURSE_ID, courseID);
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_TEAM_FORMING_LOG_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseID);
 		String evaluationJson = makePOSTRequest(params);
 		return evaluationJson;
 	}
@@ -335,8 +339,8 @@ public class BackDoor {
 	}
 
 	public static String deleteTeamFormingLog(String courseId) {
-		HashMap<String, Object> params = createParamMap(APIServlet.OPERATION_DELETE_TEAM_FORMING_LOG);
-		params.put(APIServlet.PARAMETER_COURSE_ID, courseId);
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_TEAM_FORMING_LOG);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
 		String status = makePOSTRequest(params);
 		return status;
 	}
@@ -388,7 +392,7 @@ public class BackDoor {
 			String data = dataStringBuilder.toString();
 
 			// http://teammates/api
-			URL url = new URL(Config.inst().TEAMMATES_URL + "api");
+			URL url = new URL(Config.inst().TEAMMATES_URL + "backdoor");
 			URLConnection conn = url.openConnection();
 			conn.setDoOutput(true);
 			OutputStreamWriter wr = new OutputStreamWriter(

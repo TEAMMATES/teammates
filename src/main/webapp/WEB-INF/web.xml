@@ -37,6 +37,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>APIServlet</servlet-name>
 		<url-pattern>/api</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>BackDoorServlet</servlet-name>
+		<servlet-class>teammates.BackDoorServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BackDoorServlet</servlet-name>
+		<url-pattern>/backdoor</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>TeamFormingServlet</servlet-name>

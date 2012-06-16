@@ -25,6 +25,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import teammates.BackDoorLogic;
+import teammates.BackDoorServlet;
 import teammates.Datastore;
 import teammates.TeamEvalResult;
 import teammates.api.*;
@@ -32,6 +34,7 @@ import teammates.datatransfer.*;
 import teammates.datatransfer.EvaluationData.EvalStatus;
 import teammates.datatransfer.StudentData.UpdateStatus;
 import teammates.persistent.Student;
+import teammates.testing.lib.BackDoor;
 
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
@@ -59,7 +62,7 @@ public class LogicTest extends BaseTestCase {
 			e.printStackTrace();
 		}
 	}
-	private DataBundle dataBundle;
+	private static DataBundle dataBundle;
 
 	private static String queueXmlFilePath = System.getProperty("user.dir")
 			+ File.separator + "src" + File.separator + "main" + File.separator
@@ -131,54 +134,7 @@ public class LogicTest extends BaseTestCase {
 				Logic.getLogoutUrl("www.def.com"));
 	}
 
-	@Test
-	public void testPersistDataBundle() throws Exception {
-		printTestCaseHeader();
-		dataBundle = gson.fromJson(jsonString, DataBundle.class);
-		// clean up the datastore first, to avoid clashes with existing data
-		HashMap<String, CoordData> coords = dataBundle.coords;
-		for (CoordData coord : coords.values()) {
-			logic.deleteCoord(coord.id);
-		}
-
-		// try with empty dataBundle
-		String status = logic.persistNewDataBundle(new DataBundle());
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-
-		// try with typical dataBundle
-		logic.persistNewDataBundle(dataBundle);
-		verifyPresentInDatastore(jsonString);
-
-		// try again, should throw exception
-		try {
-			logic.persistNewDataBundle(dataBundle);
-			fail();
-		} catch (EntityAlreadyExistsException e) {
-		}
-
-		// try with null
-		DataBundle nullDataBundle = null;
-		try {
-			logic.persistNewDataBundle(nullDataBundle);
-			fail();
-		} catch (InvalidParametersException e) {
-			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
-		}
-
-		// try with invalid parameters in an entity
-		CourseData invalidCourse = new CourseData();
-		dataBundle = new DataBundle();
-		dataBundle.courses.put("invalid", invalidCourse);
-		try {
-			logic.persistNewDataBundle(dataBundle);
-			fail();
-		} catch (InvalidParametersException e) {
-			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
-		}
-
-		// Not checking for invalid values in other entities because they
-		// should be checked at lower level methods
-	}
+	
 
 	@Test
 	public void testGetLoggedInUser() throws Exception {
@@ -2711,53 +2667,7 @@ public class LogicTest extends BaseTestCase {
 				+ "y");
 	}
 
-	private void verifyPresentInDatastore(String dataBundleJsonString)
-			throws Exception {
-
-		DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
-		HashMap<String, CoordData> coords = data.coords;
-		for (CoordData expectedCoord : coords.values()) {
-			verifyPresentInDatastore(expectedCoord);
-		}
-
-		HashMap<String, CourseData> courses = data.courses;
-		for (CourseData expectedCourse : courses.values()) {
-			verifyPresentInDatastore(expectedCourse);
-		}
-
-		HashMap<String, StudentData> students = data.students;
-		for (StudentData expectedStudent : students.values()) {
-			verifyPresentInDatastore(expectedStudent);
-		}
-
-		HashMap<String, EvaluationData> evaluations = data.evaluations;
-		for (EvaluationData expectedEvaluation : evaluations.values()) {
-			verifyPresentInDatastore(expectedEvaluation);
-		}
-
-		HashMap<String, SubmissionData> submissions = data.submissions;
-		for (SubmissionData expectedSubmission : submissions.values()) {
-			verifyPresentInDatastore(expectedSubmission);
-		}
-
-		HashMap<String, TfsData> teamFormingSessions = data.teamFormingSessions;
-		for (TfsData expectedTeamFormingSession : teamFormingSessions.values()) {
-			verifyPresentInDatastore(expectedTeamFormingSession);
-		}
-
-		HashMap<String, TeamProfileData> teamProfiles = data.teamProfiles;
-		for (TeamProfileData expectedTeamProfile : teamProfiles.values()) {
-			verifyPresentInDatastore(expectedTeamProfile);
-		}
-
-		HashMap<String, StudentActionData> teamFormingLogs = data.studentActions;
-		for (StudentActionData expectedTeamFormingLogEntry : teamFormingLogs
-				.values()) {
-			verifyPresentInDatastore(expectedTeamFormingLogEntry);
-		}
-
-	}
-
+	
 	private void verifyAbsentInDatastore(SubmissionData submission)
 			throws Exception {
 		assertEquals(
@@ -2787,12 +2697,13 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(null, logic.getTfs(tfs.course));
 	}
 
+	@SuppressWarnings("unused")
 	private void verifyAbsentInDatastore(TeamProfileData profile) {
 		assertEquals(null,
 				logic.getTeamProfile(profile.course, profile.team));
 	}
 
-	private void verifyAbsenceOfTfsLogsForStudent(String courseId,
+	public static void verifyAbsenceOfTfsLogsForStudent(String courseId,
 			String studentEmail) throws EntityDoesNotExistException {
 		List<StudentActionData> teamFormingLogs = logic
 				.getStudentActions(courseId);
@@ -2804,7 +2715,7 @@ public class LogicTest extends BaseTestCase {
 
 	}
 
-	private void verifyPresenceOfTfsLogsForStudent(String courseId,
+	public static void verifyPresenceOfTfsLogsForStudent(String courseId,
 			String studentEmail) throws EntityDoesNotExistException {
 		List<StudentActionData> teamFormingLogs = logic
 				.getStudentActions(courseId);
@@ -2815,7 +2726,7 @@ public class LogicTest extends BaseTestCase {
 		fail("No log messages found for " + studentEmail + " in " + courseId);
 	}
 
-	private void verifyPresentInDatastore(StudentData expectedStudent) {
+	public static void verifyPresentInDatastore(StudentData expectedStudent) {
 		StudentData actualStudent = logic.getStudent(
 				expectedStudent.course, expectedStudent.email);
 		expectedStudent.updateStatus = UpdateStatus.UNKNOWN;
@@ -2834,48 +2745,48 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
 	}
 
-	private void verifyPresentInDatastore(SubmissionData expected)
+	public static void verifyPresentInDatastore(SubmissionData expected)
 			throws Exception {
 		SubmissionData actual = invokeGetSubmission(expected.course,
 				expected.evaluation, expected.reviewer, expected.reviewee);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
-	private void verifyPresentInDatastore(StudentActionData expected)
+	public static void verifyPresentInDatastore(StudentActionData expected)
 			throws EntityDoesNotExistException {
 		List<StudentActionData> actualList = logic
 				.getStudentActions(expected.course);
 		assertTrue(isLogEntryInList(expected, actualList));
 	}
 
-	private void verifyPresentInDatastore(TeamProfileData expected) {
+	public static void verifyPresentInDatastore(TeamProfileData expected) {
 		TeamProfileData actual = logic.getTeamProfile(expected.course,
 				expected.team);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
-	private void verifyPresentInDatastore(TfsData expected) {
+	public static void verifyPresentInDatastore(TfsData expected) {
 		TfsData actual = logic.getTfs(expected.course);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
-	private void verifyPresentInDatastore(EvaluationData expected) {
+	public static void verifyPresentInDatastore(EvaluationData expected) {
 		EvaluationData actual = logic.getEvaluation(expected.course,
 				expected.name);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
-	private void verifyPresentInDatastore(CourseData expected) {
+	public static void verifyPresentInDatastore(CourseData expected) {
 		CourseData actual = logic.getCourse(expected.id);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
-	private void verifyPresentInDatastore(CoordData expected) {
+	public static void verifyPresentInDatastore(CoordData expected) {
 		CoordData actual = logic.getCoord(expected.id);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
-	private void verifySameEvaluationData(EvaluationData expected,
+	public static void verifySameEvaluationData(EvaluationData expected,
 			EvaluationData actual) {
 		assertEquals(expected.course, actual.course);
 		assertEquals(expected.name, actual.name);
@@ -2888,9 +2799,13 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(expected.activated, actual.activated);
 	}
 
-	private void refreshDataInDatastore() throws Exception {
+	public static void refreshDataInDatastore() throws Exception {
 		setGeneralLoggingLevel(Level.SEVERE);
-		setLogLevelOfClass(APIServlet.class, Level.SEVERE);
+		//also reduce logging verbosity of these classes as we are going to
+		//  use them intensively here.
+		setLogLevelOfClass(BackDoorServlet.class, Level.SEVERE);
+		setLogLevelOfClass(BackDoor.class, Level.SEVERE);
+		setLogLevelOfClass(Logic.class, Level.SEVERE);
 		dataBundle = gson.fromJson(jsonString, DataBundle.class);
 		HashMap<String, CoordData> coords = dataBundle.coords;
 		for (CoordData coord : coords.values()) {
@@ -2898,12 +2813,14 @@ public class LogicTest extends BaseTestCase {
 		}
 		DataBundle data = Common.getTeammatesGson().fromJson(jsonString,
 				DataBundle.class);
-		logic.persistNewDataBundle(data);
+		new BackDoorLogic().persistNewDataBundle(data);
 		setGeneralLoggingLevel(Level.WARNING);
-		setLogLevelOfClass(APIServlet.class, Level.FINE);
+		setLogLevelOfClass(BackDoorServlet.class, Level.FINE);
+		setLogLevelOfClass(BackDoor.class, Level.FINE);
+		setLogLevelOfClass(Logic.class, Level.FINE);
 	}
 
-	private boolean isLogEntryInList(StudentActionData teamFormingLogEntry,
+	public static boolean isLogEntryInList(StudentActionData teamFormingLogEntry,
 			List<StudentActionData> teamFormingLogEntryList) {
 		for (StudentActionData logEntryInList : teamFormingLogEntryList) {
 			if (teamFormingLogEntry.course.equals(logEntryInList.course)
@@ -2940,7 +2857,7 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	@SuppressWarnings("unchecked")
-	private HashMap<String, SubmissionData> invokeGetSubmissionsForEvaluation(
+	private static HashMap<String, SubmissionData> invokeGetSubmissionsForEvaluation(
 			String courseId, String evaluationName) throws Exception {
 		Method privateMethod = Logic.class.getDeclaredMethod(
 				"getSubmissionsForEvaluation", new Class[] { String.class,
@@ -2951,7 +2868,7 @@ public class LogicTest extends BaseTestCase {
 				logic, params);
 	}
 
-	private SubmissionData invokeGetSubmission(String course,
+	private static SubmissionData invokeGetSubmission(String course,
 			String evaluation, String reviewer, String reviewee)
 			throws Exception {
 		Method privateMethod = Logic.class.getDeclaredMethod(
@@ -2962,7 +2879,7 @@ public class LogicTest extends BaseTestCase {
 		return (SubmissionData) privateMethod.invoke(logic, params);
 	}
 
-	private SubmissionData createSubmission(int from, int to) {
+	private static SubmissionData createSubmission(int from, int to) {
 		SubmissionData submission = new SubmissionData();
 		submission.course = "course1";
 		submission.evaluation = "eval1";

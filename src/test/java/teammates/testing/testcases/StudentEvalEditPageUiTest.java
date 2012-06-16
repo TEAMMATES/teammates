@@ -7,7 +7,6 @@ import org.junit.Test;
 import teammates.api.Common;
 import teammates.datatransfer.DataBundle;
 import teammates.jsp.Helper;
-import teammates.jsp.StudentHomeHelper;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;

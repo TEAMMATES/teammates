@@ -94,6 +94,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		return scn;
 	}
 
+	@SuppressWarnings("unused")
 	private class TestScenario{
 		public CoordData coordinator;
 		public CourseData course;

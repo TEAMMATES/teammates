@@ -11,7 +11,6 @@ import teammates.testing.config.Config;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
-import teammates.testing.lib.TMAPI;
 
 /**
  * Tests Coordinator Course Details UI
