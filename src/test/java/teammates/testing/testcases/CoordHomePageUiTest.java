@@ -11,9 +11,9 @@ import teammates.api.Common;
 import teammates.datatransfer.DataBundle;
 import teammates.exception.NoAlertAppearException;
 import teammates.testing.config.Config;
+import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
-import teammates.testing.lib.TMAPI;
 
 /**
  * Tests Coordinator Homepage UI
@@ -51,10 +51,10 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/CoordHomeUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 		
-		TMAPI.deleteCoordinators(jsonString);
+		BackDoor.deleteCoordinators(jsonString);
 		System.out.println("Importing test data...");
 		long start = System.currentTimeMillis();
-		System.out.println(TMAPI.persistNewDataBundle(jsonString));
+		System.out.println(BackDoor.persistNewDataBundle(jsonString));
 		System.out.println("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
 		
 		bi = BrowserInstancePool.getBrowserInstance();
@@ -141,8 +141,8 @@ public class CoordHomePageUiTest extends BaseTestCase {
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/CoordHomeHTML.html");
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/CoordHomeHTML.html");
 		
-		TMAPI.deleteCourse(scn.courses.get("CHomeUiT.CS2104").id);
-		TMAPI.deleteCourse(scn.courses.get("CHomeUiT.CS1101").id);
+		BackDoor.deleteCourse(scn.courses.get("CHomeUiT.CS2104").id);
+		BackDoor.deleteCourse(scn.courses.get("CHomeUiT.CS1101").id);
 		
 		bi.goToCoordHome();
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/CoordHomeHTMLEmpty.html");

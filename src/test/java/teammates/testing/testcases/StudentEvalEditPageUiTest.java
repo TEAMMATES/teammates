@@ -9,9 +9,9 @@ import teammates.datatransfer.DataBundle;
 import teammates.jsp.Helper;
 import teammates.jsp.StudentHomeHelper;
 import teammates.testing.config.Config;
+import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
-import teammates.testing.lib.TMAPI;
 
 /**
  * Tests Student Evaluation Edit (submit) Page
@@ -29,10 +29,10 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/StudentEvalEditUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 		
-		TMAPI.deleteCoordinators(jsonString);
+		BackDoor.deleteCoordinators(jsonString);
 		System.out.println("Importing test data...");
 		long start = System.currentTimeMillis();
-		System.out.println(TMAPI.persistNewDataBundle(jsonString));
+		System.out.println(BackDoor.persistNewDataBundle(jsonString));
 		System.out.println("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
 		
 		bi = BrowserInstancePool.getBrowserInstance();

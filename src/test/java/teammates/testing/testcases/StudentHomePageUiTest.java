@@ -7,9 +7,9 @@ import org.junit.Test;
 import teammates.api.Common;
 import teammates.datatransfer.DataBundle;
 import teammates.testing.config.Config;
+import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
-import teammates.testing.lib.TMAPI;
 
 /**
  * Tests Student Homepage UI
@@ -27,10 +27,10 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/StudentHomeUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 		
-		TMAPI.deleteCoordinators(jsonString);
+		BackDoor.deleteCoordinators(jsonString);
 		System.out.println("Importing test data...");
 		long start = System.currentTimeMillis();
-		System.out.println(TMAPI.persistNewDataBundle(jsonString));
+		System.out.println(BackDoor.persistNewDataBundle(jsonString));
 		System.out.println("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
 		
 		bi = BrowserInstancePool.getBrowserInstance();
@@ -50,8 +50,8 @@ public class StudentHomePageUiTest extends BaseTestCase {
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/StudentHomeHTML.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/StudentHomeHTML.html");
 		
-		TMAPI.deleteCourse(scn.courses.get("SHomeUiT.CS2104").id);
-		TMAPI.deleteCourse(scn.courses.get("SHomeUiT.CS1101").id);
+		BackDoor.deleteCourse(scn.courses.get("SHomeUiT.CS2104").id);
+		BackDoor.deleteCourse(scn.courses.get("SHomeUiT.CS1101").id);
 
 		// Should be unauthorized since the student is not in any course, and hence not a student
 		bi.goToUrl(appURL+Common.PAGE_STUDENT_HOME);

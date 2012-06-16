@@ -1,7 +1,7 @@
 package teammates.testing.script;
 
 import teammates.api.Common;
-import teammates.testing.lib.TMAPI;
+import teammates.testing.lib.BackDoor;
 
 
 public class ImportTestData {
@@ -17,8 +17,8 @@ public class ImportTestData {
 	private static void setupPageVerificationData() throws Exception{
 		System.out.println("Importing data for page verification ...");
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/page_verificationNew.json");
-		TMAPI.deleteCoordinators(jsonString);
-		System.out.println(TMAPI.persistNewDataBundle(jsonString));
+		BackDoor.deleteCoordinators(jsonString);
+		System.out.println(BackDoor.persistNewDataBundle(jsonString));
 
 	}
 }

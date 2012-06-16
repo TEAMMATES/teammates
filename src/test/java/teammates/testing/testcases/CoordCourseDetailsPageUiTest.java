@@ -8,6 +8,7 @@ import teammates.api.Common;
 import teammates.datatransfer.DataBundle;
 import teammates.jsp.Helper;
 import teammates.testing.config.Config;
+import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.lib.TMAPI;
@@ -30,8 +31,8 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 
 		System.out.println("Importing test data...");
 		long start = System.currentTimeMillis();
-		TMAPI.deleteCoordinators(jsonString);
-		System.out.println(TMAPI.persistNewDataBundle(jsonString));
+		BackDoor.deleteCoordinators(jsonString);
+		System.out.println(BackDoor.persistNewDataBundle(jsonString));
 		System.out.println("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
 		
 		bi = BrowserInstancePool.getBrowserInstance();

@@ -3,7 +3,7 @@ package teammates.testing.testcases;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import teammates.testing.junit.TMAPITest;
+import teammates.testing.junit.BackDoorTest;
 
 //@formatter:off
 
@@ -14,7 +14,7 @@ import teammates.testing.junit.TMAPITest;
 		// Js tests
 //		AllJsUnitTests.class,
 		// Api tests
-		TMAPITest.class,
+		BackDoorTest.class,
 		// Ui test
 		AllUiTests.class
 })

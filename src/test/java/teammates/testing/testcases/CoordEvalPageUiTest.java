@@ -13,9 +13,9 @@ import teammates.datatransfer.CoordData;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.EvaluationData;
 import teammates.testing.config.Config;
+import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
-import teammates.testing.lib.TMAPI;
 import teammates.testing.script.ImportTestData;
 
 /**
@@ -37,8 +37,8 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		
 		System.out.println("Recreating "+ts.coordinator.id);
 		long start = System.currentTimeMillis();
-		TMAPI.deleteCoord(ts.coordinator.id);
-		TMAPI.createCoord(ts.coordinator);
+		BackDoor.deleteCoord(ts.coordinator.id);
+		BackDoor.createCoord(ts.coordinator);
 		System.out.println("Finished recreating in "+(System.currentTimeMillis()-start)+" ms");
 		
 		bi.loginCoord(ts.coordinator.id, Config.inst().TEAMMATES_APP_PASSWD);

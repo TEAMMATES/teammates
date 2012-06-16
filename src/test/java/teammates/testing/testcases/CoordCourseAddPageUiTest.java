@@ -19,6 +19,7 @@ import teammates.datatransfer.CoordData;
 import teammates.datatransfer.CourseData;
 import teammates.exception.NoAlertAppearException;
 import teammates.testing.config.Config;
+import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.lib.TMAPI;
@@ -43,8 +44,8 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		
 		System.out.println("Recreating "+ts.coordinator.id);
 		long start = System.currentTimeMillis();
-		TMAPI.deleteCoord(ts.coordinator.id);
-		TMAPI.createCoord(ts.coordinator);
+		BackDoor.deleteCoord(ts.coordinator.id);
+		BackDoor.createCoord(ts.coordinator);
 		System.out.println("Finished recreating in "+(System.currentTimeMillis()-start)+" ms");
 		
 		bi.loginCoord(ts.coordinator.id, Config.inst().TEAMMATES_APP_PASSWD);
@@ -83,8 +84,8 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordCourseAddUiPaths() throws Exception{
-		TMAPI.deleteCourse(ts.validCourse.id);
-		TMAPI.deleteCourse(ts.courseWithSameNameDifferentId.id);
+		BackDoor.deleteCourse(ts.validCourse.id);
+		BackDoor.deleteCourse(ts.courseWithSameNameDifferentId.id);
 		
 		// Course id only contains alphabets, numbers, dots, hyphens, underscores and dollars
 		String courseId = ts.validCourse.id;
@@ -138,7 +139,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordCourseAddLinks() throws Exception{
-		TMAPI.deleteCourse(ts.testCourse.id);
+		BackDoor.deleteCourse(ts.testCourse.id);
 		
 //		String link;
 		String courseId = ts.testCourse.id;

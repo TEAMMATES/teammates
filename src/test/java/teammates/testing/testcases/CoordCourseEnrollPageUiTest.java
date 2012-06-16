@@ -9,9 +9,9 @@ import teammates.api.Common;
 import teammates.datatransfer.DataBundle;
 import teammates.jsp.Helper;
 import teammates.testing.config.Config;
+import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
-import teammates.testing.lib.TMAPI;
 
 /**
  * Tests Coordinator Course Enroll UI
@@ -33,8 +33,8 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 
 		System.out.println("Importing test data...");
 		long start = System.currentTimeMillis();
-		TMAPI.deleteCoordinators(jsonString);
-		System.out.println(TMAPI.persistNewDataBundle(jsonString));
+		BackDoor.deleteCoordinators(jsonString);
+		System.out.println(BackDoor.persistNewDataBundle(jsonString));
 		// NEW
 		enrollString += "Team 3 | Emily France | emily.f.tmms@gmail.com | This student has just been added\n";
 		// Student with no comment
