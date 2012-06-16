@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.api.APIServlet;
 import teammates.api.Common;
+import teammates.api.Logic;
 import teammates.datatransfer.EvaluationData;
 import teammates.datatransfer.UserData;
 
@@ -14,7 +15,7 @@ public class Helper {
 	/**
 	 * The APIServlet object. Used to access the API.
 	 */
-	public APIServlet server;
+	public Logic server;
 	
 	/**
 	 * The user that is currently logged in, authenticated by Google
@@ -147,13 +148,13 @@ public class Helper {
 	}
 	
 	public static boolean isUserLoggedIn() {
-		return APIServlet.isUserLoggedIn();
+		return Logic.isUserLoggedIn();
 	}
 
 	public static String getLoginUrl(HttpServletRequest request) {
 		String queryString = request.getQueryString();
 		String redirectUrl = request.getRequestURI()+(queryString!=null?"?"+queryString:"");
-		return APIServlet.getLoginUrl(redirectUrl);
+		return Logic.getLoginUrl(redirectUrl);
 	}
 	
 	/**

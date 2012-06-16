@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.api.APIServlet;
 import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
+import teammates.api.Logic;
 import teammates.api.TeammatesException;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.EvaluationData;
@@ -84,7 +85,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * @param helper
 	 */
 	private void prepareHelper(HttpServletRequest req, T helper){		
-		helper.server = new APIServlet();
+		helper.server = new Logic();
 		helper.user = helper.server.getLoggedInUser();
 		
 		helper.requestedUser = req.getParameter(Common.PARAM_USER_ID);

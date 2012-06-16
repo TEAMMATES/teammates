@@ -15,7 +15,7 @@ import teammates.testing.lib.HtmlHelperTest;
 		EvalResultDataTest.class,
 		TeamEvalResultTest.class, 
 		HtmlHelperTest.class,
-		APIServletTest.class})
+		LogicTest.class})
 		//@formatter:on
 public class AllUnitTests {
 

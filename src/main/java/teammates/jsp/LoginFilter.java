@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.APIServlet;
+import teammates.api.Logic;
 
 public class LoginFilter implements Filter {
 	private ArrayList<String> exclude;
@@ -37,11 +38,11 @@ public class LoginFilter implements Filter {
 			chain.doFilter(request, response);
 			return;
 		}
-		if(!APIServlet.isUserLoggedIn()){
+		if(!Logic.isUserLoggedIn()){
 			String link = req.getRequestURI();
 			String query = req.getQueryString();
 			if(query!=null) link+="?"+query;
-			resp.sendRedirect(APIServlet.getLoginUrl(link));
+			resp.sendRedirect(Logic.getLoginUrl(link));
 		} else {
 			chain.doFilter(request, response);
 		}

@@ -45,10 +45,10 @@ import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
 import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
 import com.google.gson.Gson;
 
-public class APIServletTest extends BaseTestCase {
+public class LogicTest extends BaseTestCase {
 
 	private static LocalServiceTestHelper helper;
-	private final static APIServlet apiServlet = new APIServlet();
+	private final static Logic logic = new Logic();
 	private static Gson gson = Common.getTeammatesGson();
 	static String jsonString;
 	static {
@@ -70,7 +70,7 @@ public class APIServletTest extends BaseTestCase {
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
 		setGeneralLoggingLevel(Level.WARNING);
-		setLogLevelOfClass(APIServlet.class, Level.FINE);
+		setLogLevelOfClass(Logic.class, Level.FINE);
 		setConsoleLoggingLevel(Level.FINE);
 		Datastore.initialize();
 	}
@@ -110,7 +110,6 @@ public class APIServletTest extends BaseTestCase {
 		 */
 		helper.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
 		helper.setUp();
-		apiServlet.init();
 
 	}
 
@@ -122,14 +121,14 @@ public class APIServletTest extends BaseTestCase {
 	public void testCoordGetLoginUrl() {
 		printTestCaseHeader();
 		assertEquals("/_ah/login?continue=www.abc.com",
-				APIServlet.getLoginUrl("www.abc.com"));
+				Logic.getLoginUrl("www.abc.com"));
 	}
 
 	@Test
 	public void testCoordGetLogoutUrl() {
 		printTestCaseHeader();
 		assertEquals("/_ah/logout?continue=www.def.com",
-				APIServlet.getLogoutUrl("www.def.com"));
+				Logic.getLogoutUrl("www.def.com"));
 	}
 
 	@Test
@@ -139,20 +138,20 @@ public class APIServletTest extends BaseTestCase {
 		// clean up the datastore first, to avoid clashes with existing data
 		HashMap<String, CoordData> coords = dataBundle.coords;
 		for (CoordData coord : coords.values()) {
-			apiServlet.deleteCoord(coord.id);
+			logic.deleteCoord(coord.id);
 		}
 
 		// try with empty dataBundle
-		String status = apiServlet.persistNewDataBundle(new DataBundle());
+		String status = logic.persistNewDataBundle(new DataBundle());
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 
 		// try with typical dataBundle
-		apiServlet.persistNewDataBundle(dataBundle);
+		logic.persistNewDataBundle(dataBundle);
 		verifyPresentInDatastore(jsonString);
 
 		// try again, should throw exception
 		try {
-			apiServlet.persistNewDataBundle(dataBundle);
+			logic.persistNewDataBundle(dataBundle);
 			fail();
 		} catch (EntityAlreadyExistsException e) {
 		}
@@ -160,7 +159,7 @@ public class APIServletTest extends BaseTestCase {
 		// try with null
 		DataBundle nullDataBundle = null;
 		try {
-			apiServlet.persistNewDataBundle(nullDataBundle);
+			logic.persistNewDataBundle(nullDataBundle);
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
@@ -171,7 +170,7 @@ public class APIServletTest extends BaseTestCase {
 		dataBundle = new DataBundle();
 		dataBundle.courses.put("invalid", invalidCourse);
 		try {
-			apiServlet.persistNewDataBundle(dataBundle);
+			logic.persistNewDataBundle(dataBundle);
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
@@ -190,25 +189,25 @@ public class APIServletTest extends BaseTestCase {
 		StudentData coordAsStudent = new StudentData(
 				"|Coord As Student|coordasstudent@yahoo.com|", "some-course");
 		coordAsStudent.id = coord.id;
-		apiServlet.createStudent(coordAsStudent);
+		logic.createStudent(coordAsStudent);
 
 		helper.setEnvIsLoggedIn(true);
 		helper.setEnvIsAdmin(true);
 
 		helper.setEnvEmail(coord.id);
 		helper.setEnvAuthDomain("gmail.com");
-		UserData user = apiServlet.getLoggedInUser();
+		UserData user = logic.getLoggedInUser();
 		assertEquals(coord.id, user.id);
 		assertEquals(true, user.isAdmin);
 		assertEquals(true, user.isCoord);
 		assertEquals(true, user.isStudent);
 
 		// this user is no longer a student
-		apiServlet.deleteStudent(coordAsStudent.course, coordAsStudent.email);
+		logic.deleteStudent(coordAsStudent.course, coordAsStudent.email);
 		// this user is no longer an admin
 		helper.setEnvIsAdmin(false);
 
-		user = apiServlet.getLoggedInUser();
+		user = logic.getLoggedInUser();
 		assertEquals(coord.id, user.id);
 		assertEquals(false, user.isAdmin);
 		assertEquals(true, user.isCoord);
@@ -217,7 +216,7 @@ public class APIServletTest extends BaseTestCase {
 		// check for unregistered student
 		helper.setEnvEmail("unknown");
 		helper.setEnvAuthDomain("gmail.com");
-		user = apiServlet.getLoggedInUser();
+		user = logic.getLoggedInUser();
 		assertEquals("unknown", user.id);
 		assertEquals(false, user.isAdmin);
 		assertEquals(false, user.isCoord);
@@ -227,7 +226,7 @@ public class APIServletTest extends BaseTestCase {
 		StudentData student = dataBundle.students.get("student1InCourse1");
 		helper.setEnvEmail(student.id);
 		helper.setEnvAuthDomain("gmail.com");
-		user = apiServlet.getLoggedInUser();
+		user = logic.getLoggedInUser();
 		assertEquals(student.id, user.id);
 		assertEquals(false, user.isAdmin);
 		assertEquals(false, user.isCoord);
@@ -235,9 +234,9 @@ public class APIServletTest extends BaseTestCase {
 
 		// check for user not logged in
 		helper.setEnvIsLoggedIn(false);
-		assertEquals(null, apiServlet.getLoggedInUser());
-		assertEquals(null, apiServlet.getLoggedInUser());
-		assertEquals(null, apiServlet.getLoggedInUser());
+		assertEquals(null, logic.getLoggedInUser());
+		assertEquals(null, logic.getLoggedInUser());
+		assertEquals(null, logic.getLoggedInUser());
 	}
 
 	@SuppressWarnings("unused")
@@ -251,28 +250,28 @@ public class APIServletTest extends BaseTestCase {
 
 		CoordData coord = dataBundle.coords.get("typicalCoord1");
 		// delete, to avoid clashes with existing data
-		apiServlet.deleteCoord(coord.id);
+		logic.deleteCoord(coord.id);
 		verifyAbsentInDatastore(coord);
 		// create
-		apiServlet.createCoord(coord.id, coord.name, coord.email);
+		logic.createCoord(coord.id, coord.name, coord.email);
 		// read existing coord
 		verifyPresentInDatastore(coord);
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
 		// create a course to check cascade delete later
-		apiServlet.createCourse(coord.id, course.id, course.name);
+		logic.createCourse(coord.id, course.id, course.name);
 		verifyPresentInDatastore(course);
 		// delete existing
-		apiServlet.deleteCoord(coord.id);
+		logic.deleteCoord(coord.id);
 		// read non-existent coord
 		verifyAbsentInDatastore(coord);
 		// check for cascade delete
 		verifyAbsentInDatastore(course);
 		// delete non-existent (fails silently)
-		apiServlet.deleteCoord(coord.id);
+		logic.deleteCoord(coord.id);
 
 		// try one invalid input for each parameter
 		try {
-			apiServlet.createCoord("valid-id", "", "valid@email.com");
+			logic.createCoord("valid-id", "", "valid@email.com");
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_EMPTY_STRING, e.errorCode);
@@ -280,7 +279,7 @@ public class APIServletTest extends BaseTestCase {
 		}
 
 		try {
-			apiServlet.createCoord("valid-id", "valid name",
+			logic.createCoord("valid-id", "valid name",
 					"invalid email.com");
 			fail();
 		} catch (InvalidParametersException e) {
@@ -289,7 +288,7 @@ public class APIServletTest extends BaseTestCase {
 		}
 
 		try {
-			apiServlet.createCoord("invalid id", "valid name",
+			logic.createCoord("invalid id", "valid name",
 					"valid@email.com");
 			fail();
 		} catch (InvalidParametersException e) {
@@ -321,25 +320,25 @@ public class APIServletTest extends BaseTestCase {
 
 		// coord with 2 courses
 		CoordData coord = dataBundle.coords.get("typicalCoord1");
-		HashMap<String, CourseData> courseList = apiServlet
+		HashMap<String, CourseData> courseList = logic
 				.getCourseListForCoord(coord.id);
 		assertEquals(2, courseList.size());
 		for (CourseData item : courseList.values()) {
 			// check if course belongs to this coord
-			assertEquals(coord.id, apiServlet.getCourse(item.id).coord);
+			assertEquals(coord.id, logic.getCourse(item.id).coord);
 		}
 
 		// coord with 0 courses
 		coord = dataBundle.coords.get("typicalCoord3");
-		courseList = apiServlet.getCourseListForCoord(coord.id);
+		courseList = logic.getCourseListForCoord(coord.id);
 		assertEquals(0, courseList.size());
 
 		// check for null parameter
-		assertEquals(null, apiServlet.getCourseListForCoord(null));
+		assertEquals(null, logic.getCourseListForCoord(null));
 
 		// non-existent coord
 		try {
-			apiServlet.getCourseListForCoord("non-existent");
+			logic.getCourseListForCoord("non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
 			Common.assertContains("non-existent", e.getMessage());
@@ -351,7 +350,7 @@ public class APIServletTest extends BaseTestCase {
 		printTestCaseHeader();
 		refreshDataInDatastore();
 
-		HashMap<String, CourseData> courseListForCoord = apiServlet
+		HashMap<String, CourseData> courseListForCoord = logic
 				.getCourseDetailsListForCoord("idOfTypicalCoord1");
 		assertEquals(2, courseListForCoord.size());
 		String course1Id = "idOfCourse1OfCoord1";
@@ -378,7 +377,7 @@ public class APIServletTest extends BaseTestCase {
 				course2Evals);
 
 		// course with 0 evaluations
-		courseListForCoord = apiServlet
+		courseListForCoord = logic
 				.getCourseDetailsListForCoord("idOfTypicalCoord2");
 		assertEquals(2, courseListForCoord.size());
 		assertEquals(0,
@@ -386,18 +385,18 @@ public class APIServletTest extends BaseTestCase {
 						.size());
 
 		// coord with 0 courses
-		apiServlet.createCoord("coordWith0course", "Coord with 0 courses",
+		logic.createCoord("coordWith0course", "Coord with 0 courses",
 				"coordWith0course@gmail.com");
-		courseListForCoord = apiServlet
+		courseListForCoord = logic
 				.getCourseDetailsListForCoord("coordWith0course");
 		assertEquals(0, courseListForCoord.size());
 
 		// null parameters
-		assertEquals(null, apiServlet.getCourseDetailsListForCoord(null));
+		assertEquals(null, logic.getCourseDetailsListForCoord(null));
 
 		// non-existent coord
 		try {
-			apiServlet.getCourseDetailsListForCoord("non-existent");
+			logic.getCourseDetailsListForCoord("non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
 			Common.assertContains("non-existent", e.getMessage());
@@ -412,7 +411,7 @@ public class APIServletTest extends BaseTestCase {
 
 		// coord with 3 Evals
 		CoordData coord1 = dataBundle.coords.get("typicalCoord1");
-		ArrayList<EvaluationData> evalList = apiServlet
+		ArrayList<EvaluationData> evalList = logic
 				.getEvaluationsListForCoord(coord1.id);
 		assertEquals(3, evalList.size());
 		for (EvaluationData ed : evalList) {
@@ -421,7 +420,7 @@ public class APIServletTest extends BaseTestCase {
 
 		// coord with 1 eval
 		CoordData coord2 = dataBundle.coords.get("typicalCoord2");
-		evalList = apiServlet.getEvaluationsListForCoord(coord2.id);
+		evalList = logic.getEvaluationsListForCoord(coord2.id);
 		assertEquals(1, evalList.size());
 		for (EvaluationData ed : evalList) {
 			assertTrue(ed.course.contains("Coord2"));
@@ -429,15 +428,15 @@ public class APIServletTest extends BaseTestCase {
 
 		// coord with 0 eval
 		CoordData coord3 = dataBundle.coords.get("typicalCoord3");
-		evalList = apiServlet.getEvaluationsListForCoord(coord3.id);
+		evalList = logic.getEvaluationsListForCoord(coord3.id);
 		assertEquals(0, evalList.size());
 
 		// null parameter
-		assertEquals(null, apiServlet.getEvaluationsListForCoord(null));
+		assertEquals(null, logic.getEvaluationsListForCoord(null));
 
 		// non-existent coord
 		try {
-			apiServlet.getEvaluationsListForCoord("non-existent");
+			logic.getEvaluationsListForCoord("non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
 			Common.assertContains("non-existent", e.getMessage());
@@ -455,10 +454,10 @@ public class APIServletTest extends BaseTestCase {
 		verifyTfsListForCoord(dataBundle.coords.get("typicalCoord3").id, 0);
 
 		// null parameters
-		assertEquals(null, apiServlet.getTfsListForCoord(null));
+		assertEquals(null, logic.getTfsListForCoord(null));
 
 		try {
-			apiServlet.getTfsListForCoord("non-existent");
+			logic.getTfsListForCoord("non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
 			Common.assertContains("non-existent", e.getMessage());
@@ -476,7 +475,7 @@ public class APIServletTest extends BaseTestCase {
 
 		CoordData coord = dataBundle.coords.get("typicalCoord1");
 		// delete, to avoid clashes with existing data
-		apiServlet.deleteCoord(coord.id);
+		logic.deleteCoord(coord.id);
 
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
 
@@ -484,12 +483,12 @@ public class APIServletTest extends BaseTestCase {
 		verifyAbsentInDatastore(course);
 
 		// create and read
-		apiServlet.createCourse(course.coord, course.id, course.name);
+		logic.createCourse(course.coord, course.id, course.name);
 		verifyPresentInDatastore(course);
 
 		// try to create again
 		try {
-			apiServlet.createCourse(course.coord, course.id, course.name);
+			logic.createCourse(course.coord, course.id, course.name);
 			fail();
 		} catch (EntityAlreadyExistsException e) {
 		}
@@ -497,7 +496,7 @@ public class APIServletTest extends BaseTestCase {
 		// create with invalid coord-id
 		course.coord = "invalid id";
 		try {
-			apiServlet.createCourse(course.coord, course.id, course.name);
+			logic.createCourse(course.coord, course.id, course.name);
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_INVALID_CHARS, e.errorCode);
@@ -508,7 +507,7 @@ public class APIServletTest extends BaseTestCase {
 		course.coord = "typicalCoord1";
 		course.id = "invalid id";
 		try {
-			apiServlet.createCourse(course.coord, course.id, course.name);
+			logic.createCourse(course.coord, course.id, course.name);
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_INVALID_CHARS, e.errorCode);
@@ -519,7 +518,7 @@ public class APIServletTest extends BaseTestCase {
 		course.id = "valid-course-id";
 		course.name = "";
 		try {
-			apiServlet.createCourse(course.coord, course.id, course.name);
+			logic.createCourse(course.coord, course.id, course.name);
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_EMPTY_STRING, e.errorCode);
@@ -533,7 +532,7 @@ public class APIServletTest extends BaseTestCase {
 	@Test
 	public void testGetCourse() {
 		// mostly tested in testCreateCourse
-		assertEquals(null, apiServlet.getCourse(null));
+		assertEquals(null, logic.getCourse(null));
 	}
 
 	@Test
@@ -544,7 +543,7 @@ public class APIServletTest extends BaseTestCase {
 		______TS("typical case");
 
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
-		CourseData courseDetials = apiServlet.getCourseDetails(course.id);
+		CourseData courseDetials = logic.getCourseDetails(course.id);
 		assertEquals(course.id, courseDetials.id);
 		assertEquals(course.name, courseDetials.name);
 		assertEquals(2, courseDetials.teamsTotal);
@@ -553,8 +552,8 @@ public class APIServletTest extends BaseTestCase {
 
 		______TS("course without students");
 
-		apiServlet.createCourse("coord1", "course1", "course 1");
-		courseDetials = apiServlet.getCourseDetails("course1");
+		logic.createCourse("coord1", "course1", "course 1");
+		courseDetials = logic.getCourseDetails("course1");
 		assertEquals("course1", courseDetials.id);
 		assertEquals("course 1", courseDetials.name);
 		assertEquals(0, courseDetials.teamsTotal);
@@ -564,7 +563,7 @@ public class APIServletTest extends BaseTestCase {
 		______TS("non-existent");
 
 		try {
-			apiServlet.getCourseDetails("non-existent");
+			logic.getCourseDetails("non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
 			Common.assertContains("non-existent", e.getMessage());
@@ -589,7 +588,7 @@ public class APIServletTest extends BaseTestCase {
 		CourseData course1OfCoord = dataBundle.courses.get("course1OfCoord1");
 
 		// ensure there are entities in the datastore under this course
-		assertTrue(apiServlet.getStudentListForCourse(course1OfCoord.id).size() != 0);
+		assertTrue(logic.getStudentListForCourse(course1OfCoord.id).size() != 0);
 		verifyPresentInDatastore(dataBundle.students.get("student1InCourse1"));
 		verifyPresentInDatastore(dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1"));
@@ -601,7 +600,7 @@ public class APIServletTest extends BaseTestCase {
 		assertEquals(course1OfCoord.id, studentInCourse.course);
 		verifyPresentInDatastore(studentInCourse);
 
-		apiServlet.deleteCourse(course1OfCoord.id);
+		logic.deleteCourse(course1OfCoord.id);
 
 		// ensure the course and related entities are deleted
 		verifyAbsentInDatastore(course1OfCoord);
@@ -613,10 +612,10 @@ public class APIServletTest extends BaseTestCase {
 				.get("tfsInCourse1"));
 
 		// try to delete again. Should fail silently.
-		apiServlet.deleteCourse(course1OfCoord.id);
+		logic.deleteCourse(course1OfCoord.id);
 
 		// try null parameter. Should fail silently.
-		apiServlet.deleteCourse(null);
+		logic.deleteCourse(null);
 	}
 
 	@Test
@@ -626,7 +625,7 @@ public class APIServletTest extends BaseTestCase {
 
 		// course with multiple students
 		CourseData course1OfCoord1 = dataBundle.courses.get("course1OfCoord1");
-		List<StudentData> studentList = apiServlet
+		List<StudentData> studentList = logic
 				.getStudentListForCourse(course1OfCoord1.id);
 		assertEquals(5, studentList.size());
 		for (StudentData s : studentList) {
@@ -635,14 +634,14 @@ public class APIServletTest extends BaseTestCase {
 
 		// course with 0 students
 		CourseData course2OfCoord1 = dataBundle.courses.get("course2OfCoord1");
-		studentList = apiServlet.getStudentListForCourse(course2OfCoord1.id);
+		studentList = logic.getStudentListForCourse(course2OfCoord1.id);
 		assertEquals(0, studentList.size());
 
-		assertEquals(null, apiServlet.getStudentListForCourse(null));
+		assertEquals(null, logic.getStudentListForCourse(null));
 
 		// non-existent course
 		try {
-			apiServlet.getStudentListForCourse("non-existent");
+			logic.getStudentListForCourse("non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
 			Common.assertContains("non-existent", e.getMessage());
@@ -655,10 +654,10 @@ public class APIServletTest extends BaseTestCase {
 		refreshDataInDatastore();
 
 		String coordId = "coordForEnrollTesting";
-		apiServlet.createCoord(coordId, "Coord for Enroll Testing",
+		logic.createCoord(coordId, "Coord for Enroll Testing",
 				"coordForEnrollTestin@gmail.com");
 		String courseId = "courseForEnrollTest";
-		apiServlet.createCourse(coordId, courseId, "Course for Enroll Testing");
+		logic.createCourse(coordId, courseId, "Course for Enroll Testing");
 		String EOL = Common.EOL;
 
 		// all valid students, but contains blank lines
@@ -670,11 +669,11 @@ public class APIServletTest extends BaseTestCase {
 		String lines = line0 + EOL + line1 + EOL + line2 + EOL
 				+ "  \t \t \t \t           " + EOL + line3 + EOL + EOL + line4
 				+ EOL + "    " + EOL + EOL;
-		List<StudentData> enrollResults = apiServlet.enrollStudents(lines,
+		List<StudentData> enrollResults = logic.enrollStudents(lines,
 				courseId);
 
 		assertEquals(5, enrollResults.size());
-		assertEquals(5, apiServlet.getStudentListForCourse(courseId).size());
+		assertEquals(5, logic.getStudentListForCourse(courseId).size());
 		verifyEnrollmentResultForStudent(new StudentData(line0, courseId),
 				enrollResults.get(0), StudentData.UpdateStatus.NEW);
 		verifyEnrollmentResultForStudent(new StudentData(line1, courseId),
@@ -686,9 +685,9 @@ public class APIServletTest extends BaseTestCase {
 		String line0_1 = "t3|modified name|e3@g|c3";
 		String line5 = "t6|n6|e6@g|c6";
 		lines = line0 + EOL + line0_1 + EOL + line1 + EOL + line5;
-		enrollResults = apiServlet.enrollStudents(lines, courseId);
+		enrollResults = logic.enrollStudents(lines, courseId);
 		assertEquals(6, enrollResults.size());
-		assertEquals(6, apiServlet.getStudentListForCourse(courseId).size());
+		assertEquals(6, logic.getStudentListForCourse(courseId).size());
 		verifyEnrollmentResultForStudent(new StudentData(line0, courseId),
 				enrollResults.get(0), StudentData.UpdateStatus.UNMODIFIED);
 		verifyEnrollmentResultForStudent(new StudentData(line0_1, courseId),
@@ -707,16 +706,16 @@ public class APIServletTest extends BaseTestCase {
 		lines = "t7|n7|e7@g|c7" + EOL + incorrectLine + EOL + line2 + EOL
 				+ line3;
 		try {
-			enrollResults = apiServlet.enrollStudents(lines, courseId);
+			enrollResults = logic.enrollStudents(lines, courseId);
 			fail("Did not throw exception for incorrectly formatted line");
 		} catch (EnrollException e) {
 			assertTrue(e.getMessage().contains(incorrectLine));
 		}
-		assertEquals(6, apiServlet.getStudentListForCourse(courseId).size());
+		assertEquals(6, logic.getStudentListForCourse(courseId).size());
 
 		// try null parameters
 		try {
-			apiServlet.enrollStudents(null, courseId);
+			logic.enrollStudents(null, courseId);
 			fail();
 		} catch (EnrollException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
@@ -724,7 +723,7 @@ public class APIServletTest extends BaseTestCase {
 		}
 
 		try {
-			apiServlet.enrollStudents("any text", null);
+			logic.enrollStudents("any text", null);
 			fail();
 		} catch (EnrollException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
@@ -732,10 +731,10 @@ public class APIServletTest extends BaseTestCase {
 		}
 
 		// same student added, modified and unmodified in one shot
-		apiServlet.createCourse("tes.coord", "tes.course", "TES Course");
+		logic.createCourse("tes.coord", "tes.course", "TES Course");
 		lines = "t8|n8|e8@g|c1" + EOL + "t8|n8a|e8@g|c1" + EOL
 				+ "t8|n8a|e8@g|c1";
-		enrollResults = apiServlet.enrollStudents(lines, "tes.course");
+		enrollResults = logic.enrollStudents(lines, "tes.course");
 
 		assertEquals(3, enrollResults.size());
 		assertEquals(StudentData.UpdateStatus.NEW,
@@ -753,30 +752,30 @@ public class APIServletTest extends BaseTestCase {
 		CourseData course1 = dataBundle.courses.get("course1OfCoord1");
 
 		// send registration key to a class in which all are registered
-		apiServlet.sendRegistrationInviteForCourse(course1.id);
+		logic.sendRegistrationInviteForCourse(course1.id);
 		assertEquals(0, getNumberOfEmailTasksInQueue());
 
 		// modify two students to make them 'unregistered' and send again
 		StudentData student1InCourse1 = dataBundle.students
 				.get("student1InCourse1");
 		student1InCourse1.id = "";
-		apiServlet.editStudent(student1InCourse1.email, student1InCourse1);
+		logic.editStudent(student1InCourse1.email, student1InCourse1);
 		StudentData student2InCourse1 = dataBundle.students
 				.get("student2InCourse1");
 		student2InCourse1.id = "";
-		apiServlet.editStudent(student2InCourse1.email, student2InCourse1);
-		apiServlet.sendRegistrationInviteForCourse(course1.id);
+		logic.editStudent(student2InCourse1.email, student2InCourse1);
+		logic.sendRegistrationInviteForCourse(course1.id);
 		assertEquals(2, getNumberOfEmailTasksInQueue());
 		verifyRegistrationEmailToStudent(student1InCourse1);
 		verifyRegistrationEmailToStudent(student2InCourse1);
 
 		// send again
-		apiServlet.sendRegistrationInviteForCourse(course1.id);
+		logic.sendRegistrationInviteForCourse(course1.id);
 		assertEquals(4, getNumberOfEmailTasksInQueue());
 
 		// try null parameters
 		try {
-			apiServlet.sendRegistrationInviteForCourse(null);
+			logic.sendRegistrationInviteForCourse(null);
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
@@ -790,9 +789,9 @@ public class APIServletTest extends BaseTestCase {
 
 		// testing for typical course
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
-		apiServlet.createStudent(new StudentData("|s1|s1@e|", course.id));
-		apiServlet.createStudent(new StudentData("|s2|s2@e|", course.id));
-		CourseData courseAsTeams = apiServlet.getTeamsForCourse(course.id);
+		logic.createStudent(new StudentData("|s1|s1@e|", course.id));
+		logic.createStudent(new StudentData("|s2|s2@e|", course.id));
+		CourseData courseAsTeams = logic.getTeamsForCourse(course.id);
 		assertEquals(2, courseAsTeams.teams.size());
 
 		String team1Id = "Team 1.1";
@@ -814,19 +813,19 @@ public class APIServletTest extends BaseTestCase {
 
 		// try again without the loners
 		refreshDataInDatastore();
-		courseAsTeams = apiServlet.getTeamsForCourse(course.id);
+		courseAsTeams = logic.getTeamsForCourse(course.id);
 		assertEquals(4, courseAsTeams.teams.get(0).students.size());
 		assertEquals(0, courseAsTeams.loners.size());
 
-		assertEquals(null, apiServlet.getTeamsForCourse(null));
+		assertEquals(null, logic.getTeamsForCourse(null));
 
 		// course without teams
-		apiServlet.createCourse("coord1", "course1", "Course 1");
-		assertEquals(0, apiServlet.getTeamsForCourse("course1").teams.size());
+		logic.createCourse("coord1", "course1", "Course 1");
+		assertEquals(0, logic.getTeamsForCourse("course1").teams.size());
 
 		// non-existent course
 		try {
-			apiServlet.getTeamsForCourse("non-existent");
+			logic.getTeamsForCourse("non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
 			Common.assertContains("non-existent", e.getMessage());
@@ -845,18 +844,18 @@ public class APIServletTest extends BaseTestCase {
 				"tcs.course1");
 		verifyAbsentInDatastore(newStudent);
 
-		apiServlet.createStudent(newStudent);
+		logic.createStudent(newStudent);
 		verifyPresentInDatastore(newStudent);
 
 		// try to create the same student
 		try {
-			apiServlet.createStudent(newStudent);
+			logic.createStudent(newStudent);
 			fail();
 		} catch (EntityAlreadyExistsException e) {
 		}
 
 		try {
-			apiServlet.createStudent(null);
+			logic.createStudent(null);
 			fail();
 		} catch (InvalidParametersException e) {
 		}
@@ -868,8 +867,8 @@ public class APIServletTest extends BaseTestCase {
 	@Test
 	public void testGetStudent() {
 		// mostly tested in testCreateStudent
-		assertEquals(null, apiServlet.getStudent(null, "email@email.com"));
-		assertEquals(null, apiServlet.getStudent("course-id", null));
+		assertEquals(null, logic.getStudent(null, "email@email.com"));
+		assertEquals(null, logic.getStudent("course-id", null));
 	}
 
 	@Test
@@ -880,16 +879,16 @@ public class APIServletTest extends BaseTestCase {
 		______TS("student in one course");
 		StudentData studentInOneCourse = dataBundle.students
 				.get("student1InCourse1");
-		assertEquals(1, apiServlet.getStudentsWithId(studentInOneCourse.id)
+		assertEquals(1, logic.getStudentsWithId(studentInOneCourse.id)
 				.size());
 		assertEquals(
 				studentInOneCourse.email,
-				apiServlet.getStudentsWithId(studentInOneCourse.id).get(0).email);
+				logic.getStudentsWithId(studentInOneCourse.id).get(0).email);
 		assertEquals(studentInOneCourse.name,
-				apiServlet.getStudentsWithId(studentInOneCourse.id).get(0).name);
+				logic.getStudentsWithId(studentInOneCourse.id).get(0).name);
 		assertEquals(
 				studentInOneCourse.course,
-				apiServlet.getStudentsWithId(studentInOneCourse.id).get(0).course);
+				logic.getStudentsWithId(studentInOneCourse.id).get(0).course);
 
 		______TS("student in two courses");
 		// this student is in two courses, course1 and course 2.
@@ -897,14 +896,14 @@ public class APIServletTest extends BaseTestCase {
 		// get list using student data from course 1
 		StudentData studentInTwoCoursesInCourse1 = dataBundle.students
 				.get("student2InCourse1");
-		ArrayList<StudentData> listReceivedUsingStudentInCourse1 = apiServlet
+		ArrayList<StudentData> listReceivedUsingStudentInCourse1 = logic
 				.getStudentsWithId(studentInTwoCoursesInCourse1.id);
 		assertEquals(2, listReceivedUsingStudentInCourse1.size());
 
 		// get list using student data from course 2
 		StudentData studentInTwoCoursesInCourse2 = dataBundle.students
 				.get("student2InCourse2");
-		ArrayList<StudentData> listReceivedUsingStudentInCourse2 = apiServlet
+		ArrayList<StudentData> listReceivedUsingStudentInCourse2 = logic
 				.getStudentsWithId(studentInTwoCoursesInCourse2.id);
 		assertEquals(2, listReceivedUsingStudentInCourse2.size());
 
@@ -932,7 +931,7 @@ public class APIServletTest extends BaseTestCase {
 				secondStudentReceived.course);
 
 		______TS("non existent student");
-		assertEquals(null, apiServlet.getStudentsWithId("non-existent"));
+		assertEquals(null, logic.getStudentsWithId("non-existent"));
 	}
 
 	@Test
@@ -951,7 +950,7 @@ public class APIServletTest extends BaseTestCase {
 		student1InCourse1.email = student1InCourse1.email + "x";
 		student1InCourse1.team = student1InCourse1.team + "x";
 		student1InCourse1.profile = new Text("new profile detail abc ");
-		apiServlet.editStudent(originalEmail, student1InCourse1);
+		logic.editStudent(originalEmail, student1InCourse1);
 		verifyPresentInDatastore(student1InCourse1);
 
 		______TS("check for KeepExistingPolicy");
@@ -963,14 +962,14 @@ public class APIServletTest extends BaseTestCase {
 		student1InCourse1.email = student1InCourse1.email + "y";
 		copyOfStudent1.email = student1InCourse1.email;
 
-		apiServlet.editStudent(originalEmail, copyOfStudent1);
+		logic.editStudent(originalEmail, copyOfStudent1);
 		verifyPresentInDatastore(student1InCourse1);
 
 		______TS("non-existent student");
 		student1InCourse1.course = "new-course";
 		verifyAbsentInDatastore(student1InCourse1);
 		try {
-			apiServlet.editStudent(originalEmail, student1InCourse1);
+			logic.editStudent(originalEmail, student1InCourse1);
 			fail();
 		} catch (EntityDoesNotExistException e) {
 			Common.assertContains("new-course", e.getMessage());
@@ -1010,7 +1009,7 @@ public class APIServletTest extends BaseTestCase {
 		verifyPresenceOfTfsLogsForStudent(student2InCourse1.course,
 				student2InCourse1.email);
 
-		apiServlet.deleteStudent(student2InCourse1.course,
+		logic.deleteStudent(student2InCourse1.course,
 				student2InCourse1.email);
 		verifyAbsentInDatastore(student2InCourse1);
 
@@ -1036,13 +1035,13 @@ public class APIServletTest extends BaseTestCase {
 
 		______TS("delete non-existent student");
 		// should fail silently.
-		apiServlet.deleteStudent(student2InCourse1.course,
+		logic.deleteStudent(student2InCourse1.course,
 				student2InCourse1.email);
 
 		______TS("null parameters");
 		// should fail silently.
-		apiServlet.deleteStudent(null, student1InCourse1.email);
-		apiServlet.deleteStudent(student1InCourse1.course, null);
+		logic.deleteStudent(null, student1InCourse1.email);
+		logic.deleteStudent(student1InCourse1.course, null);
 
 		// No need to test for cascade delete of TeamProfiles because we follow
 		// tolerateOrphansPolicy for TeamProfiles
@@ -1054,28 +1053,28 @@ public class APIServletTest extends BaseTestCase {
 		refreshDataInDatastore();
 
 		String coordId = "coordForEnrollTesting";
-		apiServlet.deleteCoord(coordId);
-		apiServlet.createCoord(coordId, "Coord for Enroll Testing",
+		logic.deleteCoord(coordId);
+		logic.createCoord(coordId, "Coord for Enroll Testing",
 				"coordForEnrollTestin@gmail.com");
 		String courseId = "courseForEnrollTest";
-		apiServlet.createCourse(coordId, courseId, "Course for Enroll Testing");
+		logic.createCourse(coordId, courseId, "Course for Enroll Testing");
 
 		______TS("add student into empty course");
 		StudentData student1 = new StudentData("t|n|e@g|c", courseId);
 
 		// check if the course is empty
-		assertEquals(0, apiServlet.getStudentListForCourse(courseId).size());
+		assertEquals(0, logic.getStudentListForCourse(courseId).size());
 
 		// add a new student and verify it is added and treated as a new student
-		StudentData enrollmentResult = apiServlet.enrollStudent(student1);
-		assertEquals(1, apiServlet.getStudentListForCourse(courseId).size());
+		StudentData enrollmentResult = logic.enrollStudent(student1);
+		assertEquals(1, logic.getStudentListForCourse(courseId).size());
 		verifyEnrollmentResultForStudent(student1, enrollmentResult,
 				StudentData.UpdateStatus.NEW);
 		verifyPresentInDatastore(student1);
 
 		______TS("add existing student");
 		// Verify it was not added
-		enrollmentResult = apiServlet.enrollStudent(student1);
+		enrollmentResult = logic.enrollStudent(student1);
 		verifyEnrollmentResultForStudent(student1, enrollmentResult,
 				StudentData.UpdateStatus.UNMODIFIED);
 
@@ -1086,7 +1085,7 @@ public class APIServletTest extends BaseTestCase {
 		StudentData studentToEnroll = new StudentData(student2.email,
 				student2.name, student2.comments, student2.course,
 				student2.team);
-		enrollmentResult = apiServlet.enrollStudent(studentToEnroll);
+		enrollmentResult = logic.enrollStudent(studentToEnroll);
 		verifyEnrollmentResultForStudent(studentToEnroll, enrollmentResult,
 				StudentData.UpdateStatus.MODIFIED);
 		// check if the student is actually modified in datastore and existing
@@ -1095,15 +1094,15 @@ public class APIServletTest extends BaseTestCase {
 
 		______TS("add student into non-empty course");
 		StudentData student3 = new StudentData("t3|n3|e3@g|c3", courseId);
-		enrollmentResult = apiServlet.enrollStudent(student3);
-		assertEquals(2, apiServlet.getStudentListForCourse(courseId).size());
+		enrollmentResult = logic.enrollStudent(student3);
+		assertEquals(2, logic.getStudentListForCourse(courseId).size());
 		verifyEnrollmentResultForStudent(student3, enrollmentResult,
 				StudentData.UpdateStatus.NEW);
 
 		______TS("add student without team");
 		StudentData student4 = new StudentData("|n4|e4@g", courseId);
-		enrollmentResult = apiServlet.enrollStudent(student4);
-		assertEquals(3, apiServlet.getStudentListForCourse(courseId).size());
+		enrollmentResult = logic.enrollStudent(student4);
+		assertEquals(3, logic.getStudentListForCourse(courseId).size());
 		verifyEnrollmentResultForStudent(student4, enrollmentResult,
 				StudentData.UpdateStatus.NEW);
 	}
@@ -1115,7 +1114,7 @@ public class APIServletTest extends BaseTestCase {
 
 		______TS("send to existing student");
 		StudentData student1 = dataBundle.students.get("student1InCourse1");
-		apiServlet.sendRegistrationInviteToStudent(student1.course,
+		logic.sendRegistrationInviteToStudent(student1.course,
 				student1.email);
 
 		assertEquals(1, getNumberOfEmailTasksInQueue());
@@ -1123,7 +1122,7 @@ public class APIServletTest extends BaseTestCase {
 
 		// send to another student
 		StudentData student2 = dataBundle.students.get("student2InCourse1");
-		apiServlet.sendRegistrationInviteToStudent(student2.course,
+		logic.sendRegistrationInviteToStudent(student2.course,
 				student2.email);
 
 		assertEquals(2, getNumberOfEmailTasksInQueue());
@@ -1131,7 +1130,7 @@ public class APIServletTest extends BaseTestCase {
 
 		______TS("send to non-existing student");
 		try {
-			apiServlet.sendRegistrationInviteToStudent(student1.course,
+			logic.sendRegistrationInviteToStudent(student1.course,
 					"non@existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
@@ -1142,12 +1141,12 @@ public class APIServletTest extends BaseTestCase {
 
 		______TS("try with null parameters");
 		try {
-			apiServlet.sendRegistrationInviteToStudent(student1.course, null);
+			logic.sendRegistrationInviteToStudent(student1.course, null);
 			fail();
 		} catch (InvalidParametersException e) {
 		}
 		try {
-			apiServlet.sendRegistrationInviteToStudent(null, student1.email);
+			logic.sendRegistrationInviteToStudent(null, student1.email);
 			fail();
 		} catch (InvalidParametersException e) {
 		}
@@ -1173,73 +1172,73 @@ public class APIServletTest extends BaseTestCase {
 		// make a student 'unregistered'
 		StudentData student = dataBundle.students.get("student1InCourse1");
 		String googleId = "student1InCourse1";
-		long keyLong = Long.parseLong(apiServlet.getKeyForStudent(
+		long keyLong = Long.parseLong(logic.getKeyForStudent(
 				student.course, student.email));
 		String key = KeyFactory.createKeyString(Student.class.getSimpleName(),
 				keyLong);
 		student.id = "";
-		apiServlet.editStudent(student.email, student);
+		logic.editStudent(student.email, student);
 		assertEquals("",
-				apiServlet.getStudent(student.course, student.email).id);
+				logic.getStudent(student.course, student.email).id);
 
 		helper.setEnvIsLoggedIn(true);
 		helper.setEnvEmail(googleId);
 		helper.setEnvAuthDomain("gmail.com");
 
-		apiServlet.joinCourse(googleId, key);
+		logic.joinCourse(googleId, key);
 		assertEquals(googleId,
-				apiServlet.getStudent(student.course, student.email).id);
+				logic.getStudent(student.course, student.email).id);
 
 		______TS("try to register again with a valid key");
 
 		try {
-			apiServlet.joinCourse(googleId, key);
+			logic.joinCourse(googleId, key);
 			fail();
 		} catch (JoinCourseException e) {
 			assertEquals(Common.ERRORCODE_ALREADY_JOINED, e.errorCode);
 		}
 		assertEquals(googleId,
-				apiServlet.getStudent(student.course, student.email).id);
+				logic.getStudent(student.course, student.email).id);
 
 		______TS("use a valid key belonging to a different user");
 
 		helper.setEnvEmail("student2InCourse1");
 		helper.setEnvAuthDomain("gmail.com");
 		try {
-			apiServlet.joinCourse("student2InCourse1", key);
+			logic.joinCourse("student2InCourse1", key);
 			fail();
 		} catch (JoinCourseException e) {
 			assertEquals(Common.ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER,
 					e.errorCode);
 		}
 		assertEquals(googleId,
-				apiServlet.getStudent(student.course, student.email).id);
+				logic.getStudent(student.course, student.email).id);
 
 		______TS("try to register with invalid key");
 
 		// make a student 'unregistered'
 		student.id = "";
-		apiServlet.editStudent(student.email, student);
+		logic.editStudent(student.email, student);
 
 		try {
-			apiServlet.joinCourse(googleId, "invalidkey");
+			logic.joinCourse(googleId, "invalidkey");
 			fail();
 		} catch (JoinCourseException e) {
 			assertEquals(Common.ERRORCODE_INVALID_KEY, e.errorCode);
 		}
 
 		assertEquals("",
-				apiServlet.getStudent(student.course, student.email).id);
+				logic.getStudent(student.course, student.email).id);
 
 		______TS("null parameters");
 
 		try {
-			apiServlet.joinCourse(googleId, null);
+			logic.joinCourse(googleId, null);
 			fail();
 		} catch (InvalidParametersException e) {
 		}
 		try {
-			apiServlet.joinCourse(null, null);
+			logic.joinCourse(null, null);
 			fail();
 		} catch (InvalidParametersException e) {
 		}
@@ -1253,13 +1252,13 @@ public class APIServletTest extends BaseTestCase {
 
 		______TS("null parameters");
 		StudentData student = dataBundle.students.get("student1InCourse1");
-		assertEquals(null, apiServlet.getKeyForStudent(student.course, null));
-		assertEquals(null, apiServlet.getKeyForStudent(null, student.email));
-		assertEquals(null, apiServlet.getKeyForStudent(null, null));
+		assertEquals(null, logic.getKeyForStudent(student.course, null));
+		assertEquals(null, logic.getKeyForStudent(null, student.email));
+		assertEquals(null, logic.getKeyForStudent(null, null));
 
 		______TS("non-existent student");
 		assertEquals(null,
-				apiServlet.getKeyForStudent(student.course, "non@existent"));
+				logic.getKeyForStudent(student.course, "non@existent"));
 	}
 
 	@Test
@@ -1270,7 +1269,7 @@ public class APIServletTest extends BaseTestCase {
 		______TS("student having two courses");
 		StudentData studentInTwoCourses = dataBundle.students
 				.get("student2InCourse1");
-		List<CourseData> courseList = apiServlet
+		List<CourseData> courseList = logic
 				.getCourseListForStudent(studentInTwoCourses.id);
 		assertEquals(2, courseList.size());
 		CourseData course1 = dataBundle.courses.get("course1OfCoord2");
@@ -1284,7 +1283,7 @@ public class APIServletTest extends BaseTestCase {
 		______TS("student having one course");
 		StudentData studentInOneCourse = dataBundle.students
 				.get("student1InCourse1");
-		courseList = apiServlet.getCourseListForStudent(studentInOneCourse.id);
+		courseList = logic.getCourseListForStudent(studentInOneCourse.id);
 		assertEquals(1, courseList.size());
 		course1 = dataBundle.courses.get("course1OfCoord1");
 		assertEquals(course1.id, courseList.get(0).id);
@@ -1294,7 +1293,7 @@ public class APIServletTest extends BaseTestCase {
 
 		______TS("non-existent student");
 		try {
-			apiServlet.getCourseListForStudent("non-existent");
+			logic.getCourseListForStudent("non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
 			Common.assertContains("non-existent", e.getMessage());
@@ -1302,7 +1301,7 @@ public class APIServletTest extends BaseTestCase {
 
 		______TS("null parameter");
 		try {
-			apiServlet.getCourseListForStudent(null);
+			logic.getCourseListForStudent(null);
 			fail();
 		} catch (InvalidParametersException e) {
 			Common.assertContains(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
@@ -1340,22 +1339,22 @@ public class APIServletTest extends BaseTestCase {
 		expectedEval1InCourse1.endTime = Common.getDateOffsetToCurrentTime(-1);
 		expectedEval1InCourse1.published = false;
 		assertEquals(EvalStatus.CLOSED, expectedEval1InCourse1.getStatus());
-		apiServlet.editEvaluation(expectedEval1InCourse1);
+		logic.editEvaluation(expectedEval1InCourse1);
 
 		expectedEval2InCourse1.startTime = Common
 				.getDateOffsetToCurrentTime(-1);
 		expectedEval2InCourse1.endTime = Common.getDateOffsetToCurrentTime(1);
 		assertEquals(EvalStatus.OPEN, expectedEval2InCourse1.getStatus());
-		apiServlet.editEvaluation(expectedEval2InCourse1);
+		logic.editEvaluation(expectedEval2InCourse1);
 
 		// Make sure all evaluations in course2 are still AWAITING
 		expectedEval1InCourse2.startTime = Common.getDateOffsetToCurrentTime(1);
 		expectedEval1InCourse2.endTime = Common.getDateOffsetToCurrentTime(2);
 		assertEquals(EvalStatus.AWAITING, expectedEval1InCourse2.getStatus());
-		apiServlet.editEvaluation(expectedEval1InCourse2);
+		logic.editEvaluation(expectedEval1InCourse2);
 
 		// Get course details for student
-		List<CourseData> courseList = apiServlet
+		List<CourseData> courseList = logic
 				.getCourseDetailsListForStudent(studentInTwoCourses.id);
 
 		// verify number of courses received
@@ -1386,7 +1385,7 @@ public class APIServletTest extends BaseTestCase {
 
 		StudentData studentWithNoEvaluations = dataBundle.students
 				.get("student1InCourse2");
-		courseList = apiServlet
+		courseList = logic
 				.getCourseDetailsListForStudent(studentWithNoEvaluations.id);
 		assertEquals(1, courseList.size());
 		assertEquals(0, courseList.get(0).evaluations.size());
@@ -1396,7 +1395,7 @@ public class APIServletTest extends BaseTestCase {
 		______TS("non-existent student");
 
 		try {
-			apiServlet.getCourseDetailsListForStudent("non-existent");
+			logic.getCourseDetailsListForStudent("non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
 			Common.assertContains("non-existent", e.getMessage());
@@ -1405,7 +1404,7 @@ public class APIServletTest extends BaseTestCase {
 		______TS("null parameter");
 
 		try {
-			apiServlet.getCourseDetailsListForStudent(null);
+			logic.getCourseDetailsListForStudent(null);
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
@@ -1425,21 +1424,21 @@ public class APIServletTest extends BaseTestCase {
 
 		______TS("student has submitted");
 
-		assertEquals(true, apiServlet.hasStudentSubmittedEvaluation(
+		assertEquals(true, logic.hasStudentSubmittedEvaluation(
 				evaluation.course, evaluation.name, student.email));
 
 		______TS("student has not submitted");
 
 		// create a new evaluation reusing data from previous one
 		evaluation.name = "New evaluation";
-		apiServlet.createEvaluation(evaluation);
-		assertEquals(false, apiServlet.hasStudentSubmittedEvaluation(
+		logic.createEvaluation(evaluation);
+		assertEquals(false, logic.hasStudentSubmittedEvaluation(
 				evaluation.course, evaluation.name, student.email));
 
 		______TS("null parameters");
 
 		try {
-			apiServlet.hasStudentSubmittedEvaluation(null, evaluation.name,
+			logic.hasStudentSubmittedEvaluation(null, evaluation.name,
 					student.email);
 			fail();
 		} catch (InvalidParametersException e) {
@@ -1447,7 +1446,7 @@ public class APIServletTest extends BaseTestCase {
 			Common.assertContains("course id", e.getMessage().toLowerCase());
 		}
 		try {
-			apiServlet.hasStudentSubmittedEvaluation(evaluation.course, null,
+			logic.hasStudentSubmittedEvaluation(evaluation.course, null,
 					student.email);
 			fail();
 		} catch (InvalidParametersException e) {
@@ -1457,7 +1456,7 @@ public class APIServletTest extends BaseTestCase {
 		}
 
 		try {
-			apiServlet.hasStudentSubmittedEvaluation(evaluation.course,
+			logic.hasStudentSubmittedEvaluation(evaluation.course,
 					evaluation.name, null);
 			fail();
 		} catch (InvalidParametersException e) {
@@ -1467,11 +1466,11 @@ public class APIServletTest extends BaseTestCase {
 
 		______TS("non-existent course/evaluation/student");
 
-		assertEquals(false, apiServlet.hasStudentSubmittedEvaluation(
+		assertEquals(false, logic.hasStudentSubmittedEvaluation(
 				"non-existent-course", evaluation.name, student.email));
-		assertEquals(false, apiServlet.hasStudentSubmittedEvaluation(
+		assertEquals(false, logic.hasStudentSubmittedEvaluation(
 				evaluation.course, "non-existent-eval", student.email));
-		assertEquals(false, apiServlet.hasStudentSubmittedEvaluation(
+		assertEquals(false, logic.hasStudentSubmittedEvaluation(
 				evaluation.course, evaluation.name, "non-existent@student"));
 
 	}
@@ -1487,14 +1486,14 @@ public class APIServletTest extends BaseTestCase {
 		String googleIdOfstudentInTwoCourses = studentInTwoCoursesInCourse1.id;
 		assertEquals(
 				studentInTwoCoursesInCourse1.email,
-				apiServlet.getStudentInCourseForGoogleId(
+				logic.getStudentInCourseForGoogleId(
 						studentInTwoCoursesInCourse1.course, googleIdOfstudentInTwoCourses).email);
 
 		StudentData studentInTwoCoursesInCourse2 = dataBundle.students
 				.get("student2InCourse2");
 		assertEquals(
 				studentInTwoCoursesInCourse2.email,
-				apiServlet.getStudentInCourseForGoogleId(
+				logic.getStudentInCourseForGoogleId(
 						studentInTwoCoursesInCourse2.course, googleIdOfstudentInTwoCourses).email);
 		
 		// TODO: more testing
@@ -1523,7 +1522,7 @@ public class APIServletTest extends BaseTestCase {
 		String student1email = "student1InCourse1@gmail.com";
 		// "idOfCourse1OfCoord1", "evaluation1 In Course1",
 
-		EvalResultData result = apiServlet.getEvaluationResultForStudent(
+		EvalResultData result = logic.getEvaluationResultForStudent(
 				course.id, evaluation.name, student1email);
 
 		// expected result:
@@ -1592,7 +1591,7 @@ public class APIServletTest extends BaseTestCase {
 		______TS("null parameter");
 
 		try {
-			apiServlet.getEvaluationResultForStudent(null, "eval name",
+			logic.getEvaluationResultForStudent(null, "eval name",
 					"e@gmail.com");
 			fail();
 		} catch (InvalidParametersException e) {
@@ -1601,7 +1600,7 @@ public class APIServletTest extends BaseTestCase {
 		}
 
 		try {
-			apiServlet.getEvaluationResultForStudent("course-id", null,
+			logic.getEvaluationResultForStudent("course-id", null,
 					"e@gmail.com");
 			fail();
 		} catch (InvalidParametersException e) {
@@ -1611,7 +1610,7 @@ public class APIServletTest extends BaseTestCase {
 		}
 
 		try {
-			apiServlet.getEvaluationResultForStudent("course-id", "eval name",
+			logic.getEvaluationResultForStudent("course-id", "eval name",
 					null);
 			fail();
 		} catch (InvalidParametersException e) {
@@ -1622,7 +1621,7 @@ public class APIServletTest extends BaseTestCase {
 		______TS("non-existent course");
 
 		try {
-			apiServlet.getEvaluationResultForStudent("non-existent-course",
+			logic.getEvaluationResultForStudent("non-existent-course",
 					evaluation.name, student1email);
 			fail();
 		} catch (EntityDoesNotExistException e) {
@@ -1633,7 +1632,7 @@ public class APIServletTest extends BaseTestCase {
 		______TS("non-existent evaluation");
 
 		try {
-			apiServlet.getEvaluationResultForStudent(course.id,
+			logic.getEvaluationResultForStudent(course.id,
 					"non existent eval", student1email);
 			fail();
 		} catch (EntityDoesNotExistException e) {
@@ -1644,7 +1643,7 @@ public class APIServletTest extends BaseTestCase {
 		______TS("non-existent student");
 
 		try {
-			apiServlet.getEvaluationResultForStudent(course.id,
+			logic.getEvaluationResultForStudent(course.id,
 					evaluation.name, "non-existent@email.com");
 			fail();
 		} catch (EntityDoesNotExistException e) {
@@ -1673,15 +1672,15 @@ public class APIServletTest extends BaseTestCase {
 		EvaluationData evaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
 		verifyPresentInDatastore(evaluation);
-		apiServlet.deleteEvaluation(evaluation.course, evaluation.name);
+		logic.deleteEvaluation(evaluation.course, evaluation.name);
 		verifyAbsentInDatastore(evaluation);
-		apiServlet.createEvaluation(evaluation);
+		logic.createEvaluation(evaluation);
 		verifyPresentInDatastore(evaluation);
 
 		______TS("Duplicate evaluation name");
 
 		try {
-			apiServlet.createEvaluation(evaluation);
+			logic.createEvaluation(evaluation);
 			fail();
 		} catch (EntityAlreadyExistsException e) {
 			assertEquals(Common.MESSAGE_EVALUATION_EXISTS, e.getMessage());
@@ -1689,7 +1688,7 @@ public class APIServletTest extends BaseTestCase {
 
 		______TS("invalid parameters");
 		try {
-			apiServlet.createEvaluation(null);
+			logic.createEvaluation(null);
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
@@ -1698,7 +1697,7 @@ public class APIServletTest extends BaseTestCase {
 		evaluation.name = evaluation.name + "new";
 		evaluation.course = null;
 		try {
-			apiServlet.createEvaluation(evaluation);
+			logic.createEvaluation(evaluation);
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
@@ -1718,21 +1717,21 @@ public class APIServletTest extends BaseTestCase {
 
 		EvaluationData expected = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
-		EvaluationData actual = apiServlet.getEvaluation(expected.course,
+		EvaluationData actual = logic.getEvaluation(expected.course,
 				expected.name);
 		verifySameEvaluationData(expected, actual);
 
 		______TS("null parameters");
 
-		assertEquals(null, apiServlet.getEvaluation(null, expected.name));
-		assertEquals(null, apiServlet.getEvaluation(expected.course, null));
+		assertEquals(null, logic.getEvaluation(null, expected.name));
+		assertEquals(null, logic.getEvaluation(expected.course, null));
 
 		______TS("non-existent");
 
 		assertEquals(null,
-				apiServlet.getEvaluation("non-existent", expected.name));
+				logic.getEvaluation("non-existent", expected.name));
 		assertEquals(null,
-				apiServlet.getEvaluation(expected.course, "non-existent"));
+				logic.getEvaluation(expected.course, "non-existent"));
 
 	}
 
@@ -1750,13 +1749,13 @@ public class APIServletTest extends BaseTestCase {
 		eval.p2pEnabled = (!eval.p2pEnabled);
 		eval.startTime = Common.getDateOffsetToCurrentTime(-1);
 		eval.endTime = Common.getDateOffsetToCurrentTime(2);
-		apiServlet.editEvaluation(eval);
+		logic.editEvaluation(eval);
 		verifyPresentInDatastore(eval);
 
 		______TS("null parameters");
 
 		try {
-			apiServlet.editEvaluation(null);
+			logic.editEvaluation(null);
 			fail();
 		} catch (InvalidParametersException e) {
 			verifyNullParameterDetectedCorrectly(e, "evaluation");
@@ -1767,7 +1766,7 @@ public class APIServletTest extends BaseTestCase {
 		// make the evaluation invalid;
 		eval.course = null;
 		try {
-			apiServlet.editEvaluation(eval);
+			logic.editEvaluation(eval);
 			fail();
 		} catch (InvalidParametersException e) {
 			verifyNullParameterDetectedCorrectly(e, "course id");
@@ -1798,20 +1797,20 @@ public class APIServletTest extends BaseTestCase {
 				.get("submissionFromS1C1ToS1C1");
 		verifyPresentInDatastore(submission);
 
-		apiServlet.deleteEvaluation(eval.course, eval.name);
+		logic.deleteEvaluation(eval.course, eval.name);
 		verifyAbsentInDatastore(eval);
 		// verify submissions are deleted too
 		verifyAbsentInDatastore(submission);
 
 		______TS("null parameters");
 		// should fail silently
-		apiServlet.deleteEvaluation(null, eval.name);
-		apiServlet.deleteEvaluation(eval.course, null);
+		logic.deleteEvaluation(null, eval.name);
+		logic.deleteEvaluation(eval.course, null);
 
 		______TS("non-existent");
 		// should fail silently
-		apiServlet.deleteEvaluation("non-existent", eval.name);
-		apiServlet.deleteEvaluation(eval.course, "non-existent");
+		logic.deleteEvaluation("non-existent", eval.name);
+		logic.deleteEvaluation(eval.course, "non-existent");
 
 	}
 
@@ -1823,13 +1822,13 @@ public class APIServletTest extends BaseTestCase {
 		EvaluationData eval1 = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
 		assertEquals(false,
-				apiServlet.getEvaluation(eval1.course, eval1.name).published);
-		apiServlet.publishEvaluation(eval1.course, eval1.name);
+				logic.getEvaluation(eval1.course, eval1.name).published);
+		logic.publishEvaluation(eval1.course, eval1.name);
 		assertEquals(true,
-				apiServlet.getEvaluation(eval1.course, eval1.name).published);
-		apiServlet.unpublishEvaluation(eval1.course, eval1.name);
+				logic.getEvaluation(eval1.course, eval1.name).published);
+		logic.unpublishEvaluation(eval1.course, eval1.name);
 		assertEquals(false,
-				apiServlet.getEvaluation(eval1.course, eval1.name).published);
+				logic.getEvaluation(eval1.course, eval1.name).published);
 		// TODO: more testing
 	}
 
@@ -1851,7 +1850,7 @@ public class APIServletTest extends BaseTestCase {
 				{ 70, 80, 110, 120 } });
 		//@formatter:on
 
-		EvaluationData result = apiServlet.getEvaluationResult(course.id,
+		EvaluationData result = logic.getEvaluationResult(course.id,
 				evaluation.name);
 		System.out.println(result);
 
@@ -1969,12 +1968,12 @@ public class APIServletTest extends BaseTestCase {
 
 		// try with null parameters
 		assertEquals(null,
-				apiServlet.getEvaluationResult(null, evaluation.name));
-		assertEquals(null, apiServlet.getEvaluationResult(course.id, null));
+				logic.getEvaluationResult(null, evaluation.name));
+		assertEquals(null, logic.getEvaluationResult(course.id, null));
 
 		// try for non-existent courses/evaluations
 		try {
-			apiServlet
+			logic
 					.getEvaluationResult(course.id, "non existent evaluation");
 			fail();
 		} catch (EntityDoesNotExistException e) {
@@ -1982,7 +1981,7 @@ public class APIServletTest extends BaseTestCase {
 		}
 
 		try {
-			apiServlet.getEvaluationResult("non-existent-course", "any name");
+			logic.getEvaluationResult("non-existent-course", "any name");
 			fail();
 		} catch (EntityDoesNotExistException e) {
 			Common.assertContains("non-existent-course", e.getMessage());
@@ -1999,7 +1998,7 @@ public class APIServletTest extends BaseTestCase {
 						{ 90, 100, 110 } });
 				//@formatter:on
 
-		result = apiServlet.getEvaluationResult("courseForTestingER", "Eval 1");
+		result = logic.getEvaluationResult("courseForTestingER", "Eval 1");
 		System.out.println(result.toString());
 
 	}
@@ -2009,7 +2008,7 @@ public class APIServletTest extends BaseTestCase {
 			throws EntityAlreadyExistsException, InvalidParametersException,
 			EntityDoesNotExistException {
 		// create course
-		apiServlet.createCourse("coordForTestingER", courseId,
+		logic.createCourse("coordForTestingER", courseId,
 				"Course For Testing Evaluation Results");
 		// create students
 		int teamSize = input.length;
@@ -2021,7 +2020,7 @@ public class APIServletTest extends BaseTestCase {
 			student.name = "Student " + studentNumber;
 			student.team = teamName;
 			student.course = courseId;
-			apiServlet.createStudent(student);
+			logic.createStudent(student);
 		}
 		// create evaluation
 		EvaluationData e = new EvaluationData();
@@ -2031,7 +2030,7 @@ public class APIServletTest extends BaseTestCase {
 		e.endTime = Common.getDateOffsetToCurrentTime(1);
 		e.gracePeriod = 0;
 		e.instructions = "instructions for " + e.name;
-		apiServlet.createEvaluation(e);
+		logic.createEvaluation(e);
 		// create submissions
 		ArrayList<SubmissionData> submissions = new ArrayList<SubmissionData>();
 		for (int i = 0; i < teamSize; i++) {
@@ -2052,7 +2051,7 @@ public class APIServletTest extends BaseTestCase {
 				submissions.add(sub);
 			}
 		}
-		apiServlet.editSubmissions(submissions);
+		logic.editSubmissions(submissions);
 	}
 
 	@Test
@@ -2197,7 +2196,7 @@ public class APIServletTest extends BaseTestCase {
 				.get("evaluation1InCourse1OfCoord1");
 		// reuse this evaluation data to create a new one
 		evaluation.name = "new evaluation";
-		apiServlet.createEvaluation(evaluation);
+		logic.createEvaluation(evaluation);
 
 		HashMap<String, SubmissionData> submissions = invokeGetSubmissionsForEvaluation(
 				evaluation.course, evaluation.name);
@@ -2212,9 +2211,9 @@ public class APIServletTest extends BaseTestCase {
 
 		______TS("evaluation in empty class");
 
-		apiServlet.createCourse("coord1", "course1", "Course 1");
+		logic.createCourse("coord1", "course1", "Course 1");
 		evaluation.course = "course1";
-		apiServlet.createEvaluation(evaluation);
+		logic.createEvaluation(evaluation);
 
 		submissions = invokeGetSubmissionsForEvaluation(evaluation.course,
 				evaluation.name);
@@ -2249,11 +2248,11 @@ public class APIServletTest extends BaseTestCase {
 				.get("evaluation1InCourse1OfCoord1");
 		// reuse this evaluation data to create a new one
 		evaluation.name = "new evaluation";
-		apiServlet.createEvaluation(evaluation);
+		logic.createEvaluation(evaluation);
 		// this is the student we are going to check
 		StudentData student = dataBundle.students.get("student1InCourse1");
 
-		List<SubmissionData> submissions = apiServlet
+		List<SubmissionData> submissions = logic
 				.getSubmissionsFromStudent(evaluation.course, evaluation.name,
 						student.email);
 		// there should be 4 submissions as this student is in a 4-person team
@@ -2265,7 +2264,7 @@ public class APIServletTest extends BaseTestCase {
 			assertEquals(student.email, s.reviewer);
 			assertEquals(student.name, s.reviewerName);
 			assertEquals(
-					apiServlet.getStudent(evaluation.course, s.reviewee).name,
+					logic.getStudent(evaluation.course, s.reviewee).name,
 					s.revieweeName);
 		}
 
@@ -2276,7 +2275,7 @@ public class APIServletTest extends BaseTestCase {
 		______TS("null parameters");
 
 		try {
-			apiServlet.getSubmissionsFromStudent(null, evaluation.name,
+			logic.getSubmissionsFromStudent(null, evaluation.name,
 					student.email);
 			fail();
 		} catch (InvalidParametersException e) {
@@ -2285,7 +2284,7 @@ public class APIServletTest extends BaseTestCase {
 		}
 
 		try {
-			apiServlet.getSubmissionsFromStudent(evaluation.course, null,
+			logic.getSubmissionsFromStudent(evaluation.course, null,
 					student.email);
 			fail();
 		} catch (InvalidParametersException e) {
@@ -2295,7 +2294,7 @@ public class APIServletTest extends BaseTestCase {
 		}
 
 		try {
-			apiServlet.getSubmissionsFromStudent(evaluation.course,
+			logic.getSubmissionsFromStudent(evaluation.course,
 					evaluation.name, null);
 			fail();
 		} catch (InvalidParametersException e) {
@@ -2306,7 +2305,7 @@ public class APIServletTest extends BaseTestCase {
 		______TS("course/evaluation/student does not exist");
 
 		try {
-			apiServlet.getSubmissionsFromStudent("non-existent",
+			logic.getSubmissionsFromStudent("non-existent",
 					evaluation.name, student.email);
 			fail();
 		} catch (EntityDoesNotExistException e) {
@@ -2314,7 +2313,7 @@ public class APIServletTest extends BaseTestCase {
 		}
 
 		try {
-			apiServlet.getSubmissionsFromStudent(evaluation.course,
+			logic.getSubmissionsFromStudent(evaluation.course,
 					"non-existent", student.email);
 			fail();
 		} catch (EntityDoesNotExistException e) {
@@ -2322,7 +2321,7 @@ public class APIServletTest extends BaseTestCase {
 		}
 
 		try {
-			apiServlet.getSubmissionsFromStudent(evaluation.course,
+			logic.getSubmissionsFromStudent(evaluation.course,
 					evaluation.name, "non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
@@ -2337,25 +2336,25 @@ public class APIServletTest extends BaseTestCase {
 		
 		______TS("empty class");
 		
-		apiServlet.createCourse("coord1", "course1", "course 1");
+		logic.createCourse("coord1", "course1", "course 1");
 		EvaluationData newEval = new EvaluationData();
 		newEval.course = "course1";
 		newEval.name = "new eval";
 		newEval.startTime = Common.getDateOffsetToCurrentTime(1);
 		newEval.endTime = Common.getDateOffsetToCurrentTime(2);
-		apiServlet.createEvaluation(newEval);
+		logic.createEvaluation(newEval);
 		//reuse exisitng evaluation to create a new one
-		apiServlet.sendReminderForEvaluation("course1", "new eval");
+		logic.sendReminderForEvaluation("course1", "new eval");
 		assertEquals(0, getNumberOfEmailTasksInQueue());
 		
 		______TS("no one has submitted fully");
 
 		EvaluationData eval = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
-		apiServlet.sendReminderForEvaluation(eval.course, eval.name);
+		logic.sendReminderForEvaluation(eval.course, eval.name);
 
 		assertEquals(5, getNumberOfEmailTasksInQueue());
-		List<StudentData> studentList = apiServlet.getStudentListForCourse(eval.course);
+		List<StudentData> studentList = logic.getStudentListForCourse(eval.course);
 		
 		for(StudentData sd: studentList){
 			verifyRegistrationEmailToStudent(sd);
@@ -2391,12 +2390,12 @@ public class APIServletTest extends BaseTestCase {
 		sub.p2pFeedback = new Text("y");
 		ArrayList<SubmissionData> submissions = new ArrayList<SubmissionData>();
 		submissions.add(sub);
-		apiServlet.editSubmissions(submissions);
-		apiServlet.sendReminderForEvaluation(eval.course, eval.name);
+		logic.editSubmissions(submissions);
+		logic.sendReminderForEvaluation(eval.course, eval.name);
 		//4 more tasks should be added to the queue (for 4 students in Team1.1)
 		assertEquals(4, getNumberOfEmailTasksInQueue());
 		
-		List<StudentData> studentList = apiServlet.getStudentListForCourse(eval.course);
+		List<StudentData> studentList = logic.getStudentListForCourse(eval.course);
 		
 		//verify all students in Team 1.1 received emails.
 		for(StudentData sd: studentList){
@@ -2466,7 +2465,7 @@ public class APIServletTest extends BaseTestCase {
 		ArrayList<SubmissionData> submissionContainer = new ArrayList<SubmissionData>();
 
 		// try without empty list. Nothing should happen
-		apiServlet.editSubmissions(submissionContainer);
+		logic.editSubmissions(submissionContainer);
 
 		SubmissionData sub1 = dataBundle.submissions
 				.get("submissionFromS1C1ToS2C1");
@@ -2478,7 +2477,7 @@ public class APIServletTest extends BaseTestCase {
 		alterSubmission(sub1);
 
 		submissionContainer.add(sub1);
-		apiServlet.editSubmissions(submissionContainer);
+		logic.editSubmissions(submissionContainer);
 
 		verifyPresentInDatastore(sub1);
 		verifyPresentInDatastore(sub2);
@@ -2490,7 +2489,7 @@ public class APIServletTest extends BaseTestCase {
 		submissionContainer = new ArrayList<SubmissionData>();
 		submissionContainer.add(sub1);
 		submissionContainer.add(sub2);
-		apiServlet.editSubmissions(submissionContainer);
+		logic.editSubmissions(submissionContainer);
 
 		verifyPresentInDatastore(sub1);
 		verifyPresentInDatastore(sub2);
@@ -2531,7 +2530,7 @@ public class APIServletTest extends BaseTestCase {
 		tfs1.profileTemplate = tfs1.profileTemplate + "y";
 		tfs1.startTime = Common.getDateOffsetToCurrentTime(1);
 		tfs1.endTime = Common.getDateOffsetToCurrentTime(2);
-		apiServlet.editTfs(tfs1);
+		logic.editTfs(tfs1);
 		verifyPresentInDatastore(tfs1);
 
 		// TODO: more testing
@@ -2586,7 +2585,7 @@ public class APIServletTest extends BaseTestCase {
 		String originalTeamName = teamProfile1.team;
 		teamProfile1.team = teamProfile1.team + "new";
 		teamProfile1.profile = new Text(teamProfile1.profile.getValue() + "x");
-		apiServlet.editTeamProfile(originalTeamName, teamProfile1);
+		logic.editTeamProfile(originalTeamName, teamProfile1);
 		verifyPresentInDatastore(teamProfile1);
 
 	}
@@ -2671,7 +2670,7 @@ public class APIServletTest extends BaseTestCase {
 	private void verifyTeamNameChange(String courseID, String originalTeamName,
 			String newTeamName) throws InvalidParametersException,
 			EntityDoesNotExistException {
-		List<StudentData> studentsInClass = apiServlet
+		List<StudentData> studentsInClass = logic
 				.getStudentListForCourse(courseID);
 		List<StudentData> studentsInTeam = new ArrayList<StudentData>();
 		List<StudentData> studentsNotInTeam = new ArrayList<StudentData>();
@@ -2682,13 +2681,13 @@ public class APIServletTest extends BaseTestCase {
 				studentsNotInTeam.add(s);
 			}
 		}
-		apiServlet.renameTeam(courseID, originalTeamName, newTeamName);
+		logic.renameTeam(courseID, originalTeamName, newTeamName);
 		for (StudentData s : studentsInTeam) {
 			assertEquals(newTeamName,
-					apiServlet.getStudent(s.course, s.email).team);
+					logic.getStudent(s.course, s.email).team);
 		}
 		for (StudentData s : studentsNotInTeam) {
-			String teamName = apiServlet.getStudent(s.course, s.email).team;
+			String teamName = logic.getStudent(s.course, s.email).team;
 			assertTrue("unexpected team name: " + teamName,
 					!teamName.equals(newTeamName));
 		}
@@ -2697,10 +2696,10 @@ public class APIServletTest extends BaseTestCase {
 
 	private void verifyTfsListForCoord(String coordId, int noOfTfs)
 			throws EntityDoesNotExistException {
-		List<TfsData> tfsList = apiServlet.getTfsListForCoord(coordId);
+		List<TfsData> tfsList = logic.getTfsListForCoord(coordId);
 		assertEquals(noOfTfs, tfsList.size());
 		for (TfsData tfs : tfsList) {
-			assertEquals(coordId, apiServlet.getCourse(tfs.course).coord);
+			assertEquals(coordId, logic.getCourse(tfs.course).coord);
 		}
 	}
 
@@ -2768,34 +2767,34 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	private void verifyAbsentInDatastore(CoordData expectedCoord) {
-		assertEquals(null, apiServlet.getCoord(expectedCoord.id));
+		assertEquals(null, logic.getCoord(expectedCoord.id));
 	}
 
 	private void verifyAbsentInDatastore(CourseData course) {
-		assertEquals(null, apiServlet.getCourse(course.id));
+		assertEquals(null, logic.getCourse(course.id));
 	}
 
 	private void verifyAbsentInDatastore(StudentData student) {
-		assertEquals(null, apiServlet.getStudent(student.course, student.email));
+		assertEquals(null, logic.getStudent(student.course, student.email));
 	}
 
 	private void verifyAbsentInDatastore(EvaluationData evaluation) {
 		assertEquals(null,
-				apiServlet.getEvaluation(evaluation.course, evaluation.name));
+				logic.getEvaluation(evaluation.course, evaluation.name));
 	}
 
 	private void verifyAbsentInDatastore(TfsData tfs) {
-		assertEquals(null, apiServlet.getTfs(tfs.course));
+		assertEquals(null, logic.getTfs(tfs.course));
 	}
 
 	private void verifyAbsentInDatastore(TeamProfileData profile) {
 		assertEquals(null,
-				apiServlet.getTeamProfile(profile.course, profile.team));
+				logic.getTeamProfile(profile.course, profile.team));
 	}
 
 	private void verifyAbsenceOfTfsLogsForStudent(String courseId,
 			String studentEmail) throws EntityDoesNotExistException {
-		List<StudentActionData> teamFormingLogs = apiServlet
+		List<StudentActionData> teamFormingLogs = logic
 				.getStudentActions(courseId);
 		for (StudentActionData tfl : teamFormingLogs) {
 			String actualEmail = tfl.email;
@@ -2807,7 +2806,7 @@ public class APIServletTest extends BaseTestCase {
 
 	private void verifyPresenceOfTfsLogsForStudent(String courseId,
 			String studentEmail) throws EntityDoesNotExistException {
-		List<StudentActionData> teamFormingLogs = apiServlet
+		List<StudentActionData> teamFormingLogs = logic
 				.getStudentActions(courseId);
 		for (StudentActionData tfl : teamFormingLogs) {
 			if (tfl.email.equals(studentEmail))
@@ -2817,7 +2816,7 @@ public class APIServletTest extends BaseTestCase {
 	}
 
 	private void verifyPresentInDatastore(StudentData expectedStudent) {
-		StudentData actualStudent = apiServlet.getStudent(
+		StudentData actualStudent = logic.getStudent(
 				expectedStudent.course, expectedStudent.email);
 		expectedStudent.updateStatus = UpdateStatus.UNKNOWN;
 		// TODO: this is for backward compatibility with old system. to be
@@ -2844,35 +2843,35 @@ public class APIServletTest extends BaseTestCase {
 
 	private void verifyPresentInDatastore(StudentActionData expected)
 			throws EntityDoesNotExistException {
-		List<StudentActionData> actualList = apiServlet
+		List<StudentActionData> actualList = logic
 				.getStudentActions(expected.course);
 		assertTrue(isLogEntryInList(expected, actualList));
 	}
 
 	private void verifyPresentInDatastore(TeamProfileData expected) {
-		TeamProfileData actual = apiServlet.getTeamProfile(expected.course,
+		TeamProfileData actual = logic.getTeamProfile(expected.course,
 				expected.team);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
 	private void verifyPresentInDatastore(TfsData expected) {
-		TfsData actual = apiServlet.getTfs(expected.course);
+		TfsData actual = logic.getTfs(expected.course);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
 	private void verifyPresentInDatastore(EvaluationData expected) {
-		EvaluationData actual = apiServlet.getEvaluation(expected.course,
+		EvaluationData actual = logic.getEvaluation(expected.course,
 				expected.name);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
 	private void verifyPresentInDatastore(CourseData expected) {
-		CourseData actual = apiServlet.getCourse(expected.id);
+		CourseData actual = logic.getCourse(expected.id);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
 	private void verifyPresentInDatastore(CoordData expected) {
-		CoordData actual = apiServlet.getCoord(expected.id);
+		CoordData actual = logic.getCoord(expected.id);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
@@ -2895,11 +2894,11 @@ public class APIServletTest extends BaseTestCase {
 		dataBundle = gson.fromJson(jsonString, DataBundle.class);
 		HashMap<String, CoordData> coords = dataBundle.coords;
 		for (CoordData coord : coords.values()) {
-			apiServlet.deleteCoord(coord.id);
+			logic.deleteCoord(coord.id);
 		}
 		DataBundle data = Common.getTeammatesGson().fromJson(jsonString,
 				DataBundle.class);
-		apiServlet.persistNewDataBundle(data);
+		logic.persistNewDataBundle(data);
 		setGeneralLoggingLevel(Level.WARNING);
 		setLogLevelOfClass(APIServlet.class, Level.FINE);
 	}
@@ -2922,45 +2921,45 @@ public class APIServletTest extends BaseTestCase {
 
 	private TeamEvalResult invokeCalclulateTeamResult(TeamData team)
 			throws Exception {
-		Method privateMethod = APIServlet.class.getDeclaredMethod(
+		Method privateMethod = Logic.class.getDeclaredMethod(
 				"calculateTeamResult", new Class[] { TeamData.class });
 		privateMethod.setAccessible(true);
 		Object[] params = new Object[] { team };
-		return (TeamEvalResult) privateMethod.invoke(apiServlet, params);
+		return (TeamEvalResult) privateMethod.invoke(logic, params);
 	}
 
 	// TODO: try to generalize invoke*() methods and push to parent class
 	private void invokePopulateTeamResult(TeamData team,
 			TeamEvalResult teamResult) throws Exception {
-		Method privateMethod = APIServlet.class.getDeclaredMethod(
+		Method privateMethod = Logic.class.getDeclaredMethod(
 				"populateTeamResult", new Class[] { TeamData.class,
 						TeamEvalResult.class });
 		privateMethod.setAccessible(true);
 		Object[] params = new Object[] { team, teamResult };
-		privateMethod.invoke(apiServlet, params);
+		privateMethod.invoke(logic, params);
 	}
 
 	@SuppressWarnings("unchecked")
 	private HashMap<String, SubmissionData> invokeGetSubmissionsForEvaluation(
 			String courseId, String evaluationName) throws Exception {
-		Method privateMethod = APIServlet.class.getDeclaredMethod(
+		Method privateMethod = Logic.class.getDeclaredMethod(
 				"getSubmissionsForEvaluation", new Class[] { String.class,
 						String.class });
 		privateMethod.setAccessible(true);
 		Object[] params = new Object[] { courseId, evaluationName };
 		return (HashMap<String, SubmissionData>) privateMethod.invoke(
-				apiServlet, params);
+				logic, params);
 	}
 
 	private SubmissionData invokeGetSubmission(String course,
 			String evaluation, String reviewer, String reviewee)
 			throws Exception {
-		Method privateMethod = APIServlet.class.getDeclaredMethod(
+		Method privateMethod = Logic.class.getDeclaredMethod(
 				"getSubmission", new Class[] { String.class, String.class,
 						String.class, String.class });
 		privateMethod.setAccessible(true);
 		Object[] params = new Object[] { course, evaluation, reviewer, reviewee };
-		return (SubmissionData) privateMethod.invoke(apiServlet, params);
+		return (SubmissionData) privateMethod.invoke(logic, params);
 	}
 
 	private SubmissionData createSubmission(int from, int to) {
@@ -2988,19 +2987,18 @@ public class APIServletTest extends BaseTestCase {
 				submissions.add(s);
 			}
 		}
-		apiServlet.editSubmissions(submissions);
+		logic.editSubmissions(submissions);
 	}
 
 	@AfterClass()
 	public static void classTearDown() throws Exception {
 		printTestClassFooter("CoordCourseAddApiTest");
-		setLogLevelOfClass(APIServlet.class, Level.WARNING);
+		setLogLevelOfClass(Logic.class, Level.WARNING);
 		setConsoleLoggingLevel(Level.WARNING);
 	}
 
 	@After
 	public void caseTearDown() {
-		apiServlet.destroy();
 		helper.tearDown();
 	}
 

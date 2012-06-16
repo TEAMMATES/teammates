@@ -1,2 +1,2 @@
 <%@ page import="teammates.api.*"%>
-<%	response.sendRedirect(APIServlet.getLogoutUrl("/index.jsp")); %>
+<%	response.sendRedirect(Logic.getLogoutUrl("/index.jsp")); %>

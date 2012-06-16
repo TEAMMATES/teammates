@@ -3,9 +3,9 @@
 <%@ page import="teammates.api.*" %>
 <%	
 	// See if user is logged in, if not we redirect them to the login page
-	APIServlet server = new APIServlet();
-	if (!APIServlet.isUserLoggedIn()) {
-		response.sendRedirect( APIServlet.getLoginUrl("/coordinator.jsp") );
+	Logic server = new Logic();
+	if (!Logic.isUserLoggedIn()) {
+		response.sendRedirect( Logic.getLoginUrl("/coordinator.jsp") );
 		return ;
 	}
 %>
