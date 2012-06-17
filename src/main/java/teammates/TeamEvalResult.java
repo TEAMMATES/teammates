@@ -22,8 +22,8 @@ public class TeamEvalResult {
 	public int[] perceivedToCoord;
 	/** team perception shown to students. normalized based on their own claims */
 	public int[][] perceivedToStudents;
-	
-	/** ratings after removing bias for self ratings*/
+
+	/** ratings after removing bias for self ratings */
 	public int[][] unbiased;
 
 	public TeamEvalResult(int[][] submissionValues) {
@@ -42,15 +42,14 @@ public class TeamEvalResult {
 
 		log.fine("submission values sanitized and normalized :\n"
 				+ pointsToString(claimedSanitizedNormalized));
-		
-		double[][] unbiasedAsDouble = calculateUnbiased(claimedSanitizedNormalized); 
+
+		double[][] unbiasedAsDouble = calculateUnbiased(claimedSanitizedNormalized);
 		log.fine("unbiased (i.e.self ratings removed and normalized) :\n"
 				+ pointsToString(unbiasedAsDouble));
-		
+
 		unbiased = doubleToInt(unbiasedAsDouble);
-		log.fine("unbiased as int :\n"
-				+ pointsToString(unbiased));
-		
+		log.fine("unbiased as int :\n" + pointsToString(unbiased));
+
 		double[] perceivedForCoordAsDouble = calculatePerceivedForCoord(unbiasedAsDouble);
 
 		log.fine("perceived to coord as double:\n"
@@ -95,9 +94,8 @@ public class TeamEvalResult {
 		}
 		return selfRatingRemovedAndNormalized;
 	}
-	
-	private static double[] calculatePerceivedForCoord(
-			double[][] unbiased) {
+
+	private static double[] calculatePerceivedForCoord(double[][] unbiased) {
 		double[] perceivedForCoord;
 		perceivedForCoord = normalizeValues(averageColumns(unbiased));
 		return perceivedForCoord;
@@ -248,7 +246,7 @@ public class TeamEvalResult {
 	}
 
 	private static double calculateFactor(double[] input) {
-		int sum = 0;
+		double sum = 0;
 		int count = 0;
 		for (int j = 0; j < input.length; j++) {
 			double value = input[j];
@@ -311,7 +309,7 @@ public class TeamEvalResult {
 	}
 
 	private static double averageColumn(double[][] array, int columnIndex) {
-		int sum = 0;
+		double sum = 0;
 		int count = 0;
 		for (int j = 0; j < array.length; j++) {
 			double value = array[j][columnIndex];
@@ -338,14 +336,17 @@ public class TeamEvalResult {
 	public static String pointsToString(double[][] array) {
 		String returnValue = "";
 		boolean isSquareArray = (array.length == array[0].length);
-		int firstDividerLocation = (array.length - 1) / 2 - 1;
-		int secondDividerLocation = firstDividerLocation + 1;
+		int teamSize = (array.length - 1) / 3;
+		int firstDividerLocation = teamSize - 1;
+		int secondDividerLocation = teamSize * 2 - 1;
+		int thirdDividerLocation = secondDividerLocation + 1;
 		for (int i = 0; i < array.length; i++) {
 			returnValue = returnValue + Arrays.toString(array[i]) + Common.EOL;
 			if (isSquareArray) {
 				continue;
 			}
-			if ((i == firstDividerLocation) || (i == secondDividerLocation)) {
+			if ((i == firstDividerLocation) || (i == secondDividerLocation)
+					|| (i == thirdDividerLocation)) {
 				returnValue = returnValue + "======================="
 						+ Common.EOL;
 			}
@@ -387,22 +388,22 @@ public class TeamEvalResult {
 		sb.append("    claimed to coord:");
 		sb.append(indentString
 				+ pointsToString((claimedToCoord)).replace(Common.EOL,
-						Common.EOL + indentString+ filler));
+						Common.EOL + indentString + filler));
 		sb.append(divider);
 		sb.append("  perceived to coord:");
 		sb.append(indentString
 				+ pointsToString(perceivedToCoord).replace(Common.EOL,
-						Common.EOL + indentString+ filler));
+						Common.EOL + indentString + filler));
 		sb.append(divider);
 		sb.append("            unbiased:");
 		sb.append(indentString
 				+ pointsToString(unbiased).replace(Common.EOL,
-						Common.EOL + indentString+ filler));
+						Common.EOL + indentString + filler));
 		sb.append(divider);
 		sb.append("perceived to student:");
 		sb.append(indentString
 				+ pointsToString((perceivedToStudents)).replace(Common.EOL,
-						Common.EOL + indentString+ filler));
+						Common.EOL + indentString + filler));
 		sb.append(divider);
 		return sb.toString();
 	}

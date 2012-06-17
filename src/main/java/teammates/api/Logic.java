@@ -1033,6 +1033,20 @@ public class Logic {
 			s.result.claimedToCoord = teamResult.claimedToCoord[i][i];
 			s.result.perceivedToStudent = teamResult.perceivedToStudents[i][i];
 			s.result.perceivedToCoord = teamResult.perceivedToCoord[i];
+			s.result.unbiased = new int[teamSize-1];
+			
+			//Here, we populate the unbiased array. 
+			// Note that there is no unbiased value from self. Hence, we have 
+			// only (teamSize-1) unbiased values.
+			int indexOfUnbiasedValue = 0;
+			for (int j = 0; j < teamSize; j++) {
+				if(i!=j){
+					s.result.unbiased[indexOfUnbiasedValue]= teamResult.unbiased[j][i];
+					indexOfUnbiasedValue++;
+				}
+			}
+			
+			//populate incoming and outgoing
 			for (int j = 0; j < teamSize; j++) {
 				SubmissionData incomingSub = s.result.incoming.get(j);
 				int normalizedIncoming = teamResult.perceivedToStudents[i][j];

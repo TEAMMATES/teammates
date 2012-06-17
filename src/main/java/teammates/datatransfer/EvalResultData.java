@@ -18,6 +18,7 @@ public class EvalResultData {
 	public int claimedToCoord = Common.UNINITIALIZED_INT;
 	public int perceivedToCoord = Common.UNINITIALIZED_INT;
 	public int perceivedToStudent = Common.UNINITIALIZED_INT;
+	public int[] unbiased;
 
 	@SuppressWarnings("unused")
 	private static final Logger log = Common.getLogger();

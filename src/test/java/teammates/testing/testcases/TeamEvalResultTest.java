@@ -42,6 +42,11 @@ public class TeamEvalResultTest extends BaseTestCase{
 			 { 100, 100, 100, 100 },
 			 { 100, 100, 100, 100 },
 			 
+			 {  NA, 100, 100, 100 }, 
+			 { 100,  NA, 100, 100 },
+			 { 100, 100,  NA, 100 },
+			 { 100, 100, 100,  NA },
+			 
 			 { 100, 100, 100, 100 },
 			 
 			 { 100, 100, 100, 100 }, 
@@ -62,6 +67,11 @@ public class TeamEvalResultTest extends BaseTestCase{
 			 { 100, 100, 100, 100 },
 			 { 100, 100, 100, 100 },
 			 { 100, 100, 100, 100 },
+			 
+			 {  NA, 100, 100, 100 },
+			 { 100,  NA, 100, 100 },
+			 { 100, 100,  NA, 100 },
+			 { 100, 100, 100,  NA },
 			 
 			 { 100, 100, 100, 100 },
 			 
@@ -84,7 +94,12 @@ public class TeamEvalResultTest extends BaseTestCase{
 			 { 100, 100, 100, 100 },
 			 {  74,  84, 116, 126 },
 			 
-			 {  94, 97, 109, 100 },
+			 {  NA, 100, 100, 100 },
+			 { 100,  NA, 100, 100 },
+			 { 100, 100,  NA, 100 },
+			 {  81,  92, 127,  NA },
+			 
+			 {  94,  97, 109, 100 },
 			 
 			 {  94,  97, 109, 100 }, 
 			 { 103, 107, 120, 110 },
@@ -103,6 +118,11 @@ public class TeamEvalResultTest extends BaseTestCase{
 			 { NSU, NSU, NSU, NSU },
 			 { NSU, NSU, NSU, NSU },
 			 { NSB, NSB, NSB, NSB },
+			 
+			 { NA, NA, NA, NA }, 
+			 { NA, NA, NA, NA },
+			 { NA, NA, NA, NA },
+			 { NA, NA, NA, NA },
 			 
 			 { NA, NA, NA, NA },
 			 
@@ -125,6 +145,11 @@ public class TeamEvalResultTest extends BaseTestCase{
 			 { 0, 0, 0, 0 },
 			 { 0, 0, 0, 0 },
 			 
+			 { NA,  0,  0,  0 }, 
+			 {  0, NA,  0,  0 },
+			 {  0,  0, NA,  0 },
+			 {  0,  0,  0, NA },
+			 
 			 { 0, 0, 0, 0 },
 			 
 			 { 0, 0, 0, 0 }, 
@@ -145,6 +170,11 @@ public class TeamEvalResultTest extends BaseTestCase{
 			 { NSB, NSB, NSB, NSB },
 			 {   0,   0, NSU, NSU },
 			 
+			 { NA,  0,  0, NA }, 
+			 {  0, NA,  0, NA },
+			 { NA, NA, NA, NA },
+			 {  0,  0, NA, NA },
+			 
 			 { 0, 0, 0, NA },
 			 
 			 { 0, 0, 0, NA }, 
@@ -163,6 +193,10 @@ public class TeamEvalResultTest extends BaseTestCase{
 			{{  60,  60, 180 }, 
 			 { NSB, NSB, NSB },
 			 { NSB, NSB, NSB },
+			 
+			 {  NA,  50, 150 }, 
+			 {  NA,  NA,  NA },
+			 {  NA,  NA,  NA },
 			 
 			 {  NA,  NA,  NA },
 			 
@@ -183,6 +217,10 @@ public class TeamEvalResultTest extends BaseTestCase{
 			 { NSB, NSB, NSB },
 			 { NSB, NSB, NSB },
 			 
+			 {  NA,  NA,  NA }, 
+			 {  NA,  NA,  NA },
+			 {  NA,  NA,  NA },
+			 
 			 {  NA,  NA, NA },
 			 
 			 {  NA,  NA,  NA }, 
@@ -199,6 +237,9 @@ public class TeamEvalResultTest extends BaseTestCase{
 			{{  50, 150 }, 
 			 { 100, 100 },
 			 
+			 {  NA, 100 }, 
+			 { 100,  NA },
+			 
 			 {  NA,  NA },
 			 
 			 {  NA,  NA }, 
@@ -211,6 +252,8 @@ public class TeamEvalResultTest extends BaseTestCase{
 			
 			int[][] expected10 = 
 				{{100},
+					
+				 {NA},
 				 
 				 {NA},
 				 
@@ -400,6 +443,8 @@ public class TeamEvalResultTest extends BaseTestCase{
 	private void verifyCalculatePoints(int[][] input, int[][] expected) {
 		TeamEvalResult t = new TeamEvalResult(input);
 		String actual = pointsToString(t.claimedToCoord)
+				+ "======================="+EOL
+				+ pointsToString(t.unbiased)
 				+ "======================="+EOL
 				+ Arrays.toString(t.perceivedToCoord) + EOL
 				+ "=======================" + EOL
