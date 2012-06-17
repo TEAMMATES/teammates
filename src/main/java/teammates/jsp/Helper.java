@@ -5,7 +5,6 @@ import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.api.APIServlet;
 import teammates.api.Common;
 import teammates.api.Logic;
 import teammates.datatransfer.EvaluationData;

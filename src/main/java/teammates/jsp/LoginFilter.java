@@ -12,7 +12,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.api.APIServlet;
 import teammates.api.Logic;
 
 public class LoginFilter implements Filter {

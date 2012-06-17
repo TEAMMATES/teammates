@@ -26,6 +26,7 @@ import com.google.appengine.api.datastore.Text;
 @PersistenceCapable
 public class Student {
 
+	@SuppressWarnings("unused")
 	private static Logger log = Common.getLogger();
 	/**
 	 * The student's Google ID

@@ -19,6 +19,7 @@ public class EvalResultData {
 	public int perceivedToCoord = Common.UNINITIALIZED_INT;
 	public int perceivedToStudent = Common.UNINITIALIZED_INT;
 
+	@SuppressWarnings("unused")
 	private static final Logger log = Common.getLogger();
 
 	/** returns the self-evaluation selected from outgoing submissions */

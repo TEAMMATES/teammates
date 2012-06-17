@@ -5,8 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Logger;
 
-import org.apache.bcel.generic.GETSTATIC;
-
 import teammates.api.Common;
 import teammates.api.InvalidParametersException;
 import teammates.persistent.Evaluation;
