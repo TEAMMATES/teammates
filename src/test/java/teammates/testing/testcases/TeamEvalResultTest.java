@@ -198,11 +198,11 @@ public class TeamEvalResultTest extends BaseTestCase{
 			 {  NA,  NA,  NA },
 			 {  NA,  NA,  NA },
 			 
-			 {  NA,  NA,  NA },
+			 {  NA,  50, 150 },
 			 
-			 {  NA,  NA,  NA }, 
-			 {  NA,  NA,  NA },
-			 {  NA,  NA,  NA }};
+			 {  NA,  25,  75 }, 
+			 {  NA,  50,  150 },
+			 {  NA,  50,  150 }};
 
 		verifyCalculatePoints(input7, expected7);
 		
@@ -229,6 +229,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 		verifyCalculatePoints(input8, expected8);
 		
 		//two-person team
+		//TODO: special treatment for two-person teams?
 		int[][] input9 = 
 			{{  50, 150 }, 
 			 {  80, 80 }};
@@ -240,10 +241,10 @@ public class TeamEvalResultTest extends BaseTestCase{
 			 {  NA, 100 }, 
 			 { 100,  NA },
 			 
-			 {  NA,  NA },
+			 {  100,  100 },
 			 
-			 {  NA,  NA }, 
-			 {  NA,  NA }};
+			 {  100,  100 }, 
+			 {  80,  80 }};
 		verifyCalculatePoints(input9, expected9);
 		
 		//one-person team
@@ -271,15 +272,15 @@ public class TeamEvalResultTest extends BaseTestCase{
 				 {  90, 110, NSU },
 				 { 100,  90, 110 },
 				 
-				 {  NA, 103,  94 }, 
-				 {  99,  NA,  NA },
-				 { 104,  93,  NA },
+				 {  NA, 105,  96 }, 
+				 { 101,  NA,  NA },
+				 { 106,  95,  NA },
 				 
-				 { 101,  99,  NA },
+				 { 104,  101,  96 },
 				 
-				 { 105, 101,  NA }, 
-				 { 101,  99,  NA },
-				 {  96,  94,  NA }};
+				 { 104, 101,  96 }, 
+				 { 101,  99,  94 },
+				 { 104, 101,  96 }};
 			verifyCalculatePoints(input11, expected11);
 	}
 

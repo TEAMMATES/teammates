@@ -338,8 +338,8 @@ public class TeamEvalResult {
 				count++;
 			}
 		}
-		// omit calculation if fewer than two data points
-		return (count < 2 ? NA : Math.round((double) sum / count));
+		// omit calculation if no data points
+		return (count ==0 ? NA : Math.round((double) sum / count));
 	}
 
 	public static String pointsToString(int[][] array) {
