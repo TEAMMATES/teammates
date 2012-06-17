@@ -259,6 +259,28 @@ public class TeamEvalResultTest extends BaseTestCase{
 				 
 				 {NA}};
 			verifyCalculatePoints(input10, expected10);
+			
+			//only one person, submitted for self only
+			int[][] input11 = 
+				{{ 103, 103,  94 }, 
+				 {  90, 110, NSU },
+				 { 100,  90, 110 }};
+			
+			int[][] expected11 = 
+				{{ 103, 103,  94 }, 
+				 {  90, 110, NSU },
+				 { 100,  90, 110 },
+				 
+				 {  NA, 103,  94 }, 
+				 {  99,  NA,  NA },
+				 { 104,  93,  NA },
+				 
+				 { 101,  99,  NA },
+				 
+				 { 105, 101,  NA }, 
+				 { 101,  99,  NA },
+				 {  96,  94,  NA }};
+			verifyCalculatePoints(input11, expected11);
 	}
 
 	@Test
@@ -487,6 +509,13 @@ public class TeamEvalResultTest extends BaseTestCase{
 			{ 70, 80, 110, 120 } };
 		
 		showCalculationSteps(input2);
+		
+		int[][] input3 = {
+				{  103,  103,  94 }, 
+				{ 90,  110,  NSU },
+				{ 100,  90, 110 }};
+			
+			showCalculationSteps(input3);
 		
 	}
 

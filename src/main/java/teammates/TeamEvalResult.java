@@ -46,11 +46,13 @@ public class TeamEvalResult {
 		double[][] unbiasedAsDouble = calculateUnbiased(claimedSanitizedNormalized);
 		log.fine("unbiased (i.e.self ratings removed and normalized) :\n"
 				+ pointsToString(unbiasedAsDouble));
+		
+		double[] perceivedForCoordAsDouble = calculatePerceivedForCoordAndAdjsutUnbiased(unbiasedAsDouble);
+		
+		log.fine("unbiased after multipying by factor :\n" + pointsToString(unbiasedAsDouble));
 
 		unbiased = doubleToInt(unbiasedAsDouble);
 		log.fine("unbiased as int :\n" + pointsToString(unbiased));
-
-		double[] perceivedForCoordAsDouble = calculatePerceivedForCoord(unbiasedAsDouble);
 
 		log.fine("perceived to coord as double:\n"
 				+ replaceMagicNumbers(Arrays
@@ -95,10 +97,25 @@ public class TeamEvalResult {
 		return selfRatingRemovedAndNormalized;
 	}
 
-	private static double[] calculatePerceivedForCoord(double[][] unbiased) {
+	private static double[] calculatePerceivedForCoordAndAdjsutUnbiased(double[][] unbiased) {
 		double[] perceivedForCoord;
-		perceivedForCoord = normalizeValues(averageColumns(unbiased));
+		double[] columnsAveraged = averageColumns(unbiased);
+		double factor = calculateFactor(columnsAveraged);
+		multiplyByFactor(factor, unbiased);
+		perceivedForCoord = normalizeValues(columnsAveraged);
 		return perceivedForCoord;
+	}
+
+	private static void multiplyByFactor(double factor, double[][] input) {
+		int teamSize = input.length;
+		for (int i = 0; i < teamSize; i++) {
+			for (int j = 0; j < teamSize; j++) {
+				double value = input[i][j];
+				if(!isSpecialValue((int)value)){
+					input[i][j] = (factor==0 ? value : value*factor);
+				}
+			}
+		}
 	}
 
 	private int[][] calculatePerceivedForStudents(int[][] actualInputSanitized,

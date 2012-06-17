@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import teammates.TeamEvalResult;
 import teammates.api.Common;
 import teammates.datatransfer.EvalResultData;
 import teammates.datatransfer.EvaluationData;
@@ -176,6 +177,15 @@ public class CoordEvalResultsHelper extends Helper{
 			if(sub.reviewee.equals(sub.reviewer)) continue;
 			if(result!="") result+=", ";
 			result+=colorizePoints(sub.normalized);
+		}
+		return result;
+	}
+	
+	public static String getUnbiasedPointsList(EvalResultData studentResult){
+		String result = "";
+		for (int i = 0; i < studentResult.unbiased.length; i++) {
+			if(result!="") result+=", ";
+			result+=colorizePoints(studentResult.unbiased[i]);
 		}
 		return result;
 	}
