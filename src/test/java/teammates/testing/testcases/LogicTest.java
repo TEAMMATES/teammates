@@ -231,7 +231,7 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_EMPTY_STRING, e.errorCode);
-			Common.assertContains("Coordinator name", e.getMessage());
+			BaseTestCase.assertContains("Coordinator name", e.getMessage());
 		}
 
 		try {
@@ -240,7 +240,7 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_INVALID_EMAIL, e.errorCode);
-			Common.assertContains("Email address", e.getMessage());
+			BaseTestCase.assertContains("Email address", e.getMessage());
 		}
 
 		try {
@@ -249,7 +249,7 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_INVALID_CHARS, e.errorCode);
-			Common.assertContains("Google ID", e.getMessage());
+			BaseTestCase.assertContains("Google ID", e.getMessage());
 		}
 
 	}
@@ -297,7 +297,7 @@ public class LogicTest extends BaseTestCase {
 			logic.getCourseListForCoord("non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non-existent", e.getMessage());
+			BaseTestCase.assertContains("non-existent", e.getMessage());
 		}
 	}
 
@@ -355,7 +355,7 @@ public class LogicTest extends BaseTestCase {
 			logic.getCourseDetailsListForCoord("non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non-existent", e.getMessage());
+			BaseTestCase.assertContains("non-existent", e.getMessage());
 		}
 
 	}
@@ -395,7 +395,7 @@ public class LogicTest extends BaseTestCase {
 			logic.getEvaluationsListForCoord("non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non-existent", e.getMessage());
+			BaseTestCase.assertContains("non-existent", e.getMessage());
 		}
 	}
 
@@ -416,7 +416,7 @@ public class LogicTest extends BaseTestCase {
 			logic.getTfsListForCoord("non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non-existent", e.getMessage());
+			BaseTestCase.assertContains("non-existent", e.getMessage());
 		}
 	}
 
@@ -456,7 +456,7 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_INVALID_CHARS, e.errorCode);
-			Common.assertContains("Google ID", e.getMessage());
+			BaseTestCase.assertContains("Google ID", e.getMessage());
 		}
 
 		// create with invalid course ID
@@ -467,7 +467,7 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_INVALID_CHARS, e.errorCode);
-			Common.assertContains("Course ID", e.getMessage());
+			BaseTestCase.assertContains("Course ID", e.getMessage());
 		}
 
 		// create with invalid course ID
@@ -478,7 +478,7 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_EMPTY_STRING, e.errorCode);
-			Common.assertContains("Course name", e.getMessage());
+			BaseTestCase.assertContains("Course name", e.getMessage());
 		}
 
 		// other combinations of invalid input should be checked against
@@ -522,7 +522,7 @@ public class LogicTest extends BaseTestCase {
 			logic.getCourseDetails("non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non-existent", e.getMessage());
+			BaseTestCase.assertContains("non-existent", e.getMessage());
 		}
 
 		// TODO: handle null parameters
@@ -600,7 +600,7 @@ public class LogicTest extends BaseTestCase {
 			logic.getStudentListForCourse("non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non-existent", e.getMessage());
+			BaseTestCase.assertContains("non-existent", e.getMessage());
 		}
 	}
 
@@ -675,7 +675,7 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (EnrollException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
-			Common.assertContains("Enroll text", e.getMessage());
+			BaseTestCase.assertContains("Enroll text", e.getMessage());
 		}
 
 		try {
@@ -683,7 +683,7 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (EnrollException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
-			Common.assertContains("Course ID", e.getMessage());
+			BaseTestCase.assertContains("Course ID", e.getMessage());
 		}
 
 		// same student added, modified and unmodified in one shot
@@ -784,7 +784,7 @@ public class LogicTest extends BaseTestCase {
 			logic.getTeamsForCourse("non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non-existent", e.getMessage());
+			BaseTestCase.assertContains("non-existent", e.getMessage());
 		}
 	}
 
@@ -928,7 +928,7 @@ public class LogicTest extends BaseTestCase {
 			logic.editStudent(originalEmail, student1InCourse1);
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("new-course", e.getMessage());
+			BaseTestCase.assertContains("new-course", e.getMessage());
 		}
 
 		// no need to check for cascade delete/creates due to LazyCreationPolicy
@@ -1090,8 +1090,8 @@ public class LogicTest extends BaseTestCase {
 					"non@existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non@existent", e.getMessage());
-			Common.assertContains(student1.course, e.getMessage());
+			BaseTestCase.assertContains("non@existent", e.getMessage());
+			BaseTestCase.assertContains(student1.course, e.getMessage());
 		}
 		assertEquals(2, getNumberOfEmailTasksInQueue());
 
@@ -1252,7 +1252,7 @@ public class LogicTest extends BaseTestCase {
 			logic.getCourseListForStudent("non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non-existent", e.getMessage());
+			BaseTestCase.assertContains("non-existent", e.getMessage());
 		}
 
 		______TS("null parameter");
@@ -1260,7 +1260,7 @@ public class LogicTest extends BaseTestCase {
 			logic.getCourseListForStudent(null);
 			fail();
 		} catch (InvalidParametersException e) {
-			Common.assertContains(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
+			BaseTestCase.assertContains(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
 		}
 	}
 
@@ -1354,7 +1354,7 @@ public class LogicTest extends BaseTestCase {
 			logic.getCourseDetailsListForStudent("non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non-existent", e.getMessage());
+			BaseTestCase.assertContains("non-existent", e.getMessage());
 		}
 
 		______TS("null parameter");
@@ -1364,7 +1364,7 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
-			Common.assertContains("google id", e.getMessage().toLowerCase());
+			BaseTestCase.assertContains("google id", e.getMessage().toLowerCase());
 		}
 
 	}
@@ -1399,7 +1399,7 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
-			Common.assertContains("course id", e.getMessage().toLowerCase());
+			BaseTestCase.assertContains("course id", e.getMessage().toLowerCase());
 		}
 		try {
 			logic.hasStudentSubmittedEvaluation(evaluation.course, null,
@@ -1407,7 +1407,7 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
-			Common.assertContains("evaluation name", e.getMessage()
+			BaseTestCase.assertContains("evaluation name", e.getMessage()
 					.toLowerCase());
 		}
 
@@ -1417,7 +1417,7 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
-			Common.assertContains("student email", e.getMessage().toLowerCase());
+			BaseTestCase.assertContains("student email", e.getMessage().toLowerCase());
 		}
 
 		______TS("non-existent course/evaluation/student");
@@ -1552,7 +1552,7 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
-			Common.assertContains("course id", e.getMessage().toLowerCase());
+			BaseTestCase.assertContains("course id", e.getMessage().toLowerCase());
 		}
 
 		try {
@@ -1561,7 +1561,7 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
-			Common.assertContains("evaluation name", e.getMessage()
+			BaseTestCase.assertContains("evaluation name", e.getMessage()
 					.toLowerCase());
 		}
 
@@ -1571,7 +1571,7 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
-			Common.assertContains("student email", e.getMessage().toLowerCase());
+			BaseTestCase.assertContains("student email", e.getMessage().toLowerCase());
 		}
 
 		______TS("non-existent course");
@@ -1581,7 +1581,7 @@ public class LogicTest extends BaseTestCase {
 					evaluation.name, student1email);
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non-existent-course", e.getMessage()
+			BaseTestCase.assertContains("non-existent-course", e.getMessage()
 					.toLowerCase());
 		}
 
@@ -1592,7 +1592,7 @@ public class LogicTest extends BaseTestCase {
 					"non existent eval", student1email);
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non existent eval", e.getMessage()
+			BaseTestCase.assertContains("non existent eval", e.getMessage()
 					.toLowerCase());
 		}
 
@@ -1603,7 +1603,7 @@ public class LogicTest extends BaseTestCase {
 					evaluation.name, "non-existent@email.com");
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non-existent@email.com", e.getMessage()
+			BaseTestCase.assertContains("non-existent@email.com", e.getMessage()
 					.toLowerCase());
 		}
 
@@ -1657,7 +1657,7 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
-			Common.assertContains("course id", e.getMessage().toLowerCase());
+			BaseTestCase.assertContains("course id", e.getMessage().toLowerCase());
 		}
 		// invalid values to other parameters should be checked against
 		// EvaluationData.validate();
@@ -1736,7 +1736,7 @@ public class LogicTest extends BaseTestCase {
 	private void verifyNullParameterDetectedCorrectly(
 			InvalidParametersException e, String nameOfNullParameter) {
 		assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
-		Common.assertContains(nameOfNullParameter, e.getMessage().toLowerCase());
+		BaseTestCase.assertContains(nameOfNullParameter, e.getMessage().toLowerCase());
 	}
 
 	@Test
@@ -1933,14 +1933,14 @@ public class LogicTest extends BaseTestCase {
 					.getEvaluationResult(course.id, "non existent evaluation");
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non existent evaluation", e.getMessage());
+			BaseTestCase.assertContains("non existent evaluation", e.getMessage());
 		}
 
 		try {
 			logic.getEvaluationResult("non-existent-course", "any name");
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non-existent-course", e.getMessage());
+			BaseTestCase.assertContains("non-existent-course", e.getMessage());
 		}
 
 		// TODO: reduce rounding off error during
@@ -2180,13 +2180,13 @@ public class LogicTest extends BaseTestCase {
 		try {
 			invokeGetSubmissionsForEvaluation(evaluation.course, "non-existent");
 		} catch (Exception e) {
-			Common.assertContains("non-existent", e.getCause().getMessage());
+			BaseTestCase.assertContains("non-existent", e.getCause().getMessage());
 		}
 
 		try {
 			invokeGetSubmissionsForEvaluation("non-existent", evaluation.name);
 		} catch (Exception e) {
-			Common.assertContains("non-existent", e.getCause().getMessage());
+			BaseTestCase.assertContains("non-existent", e.getCause().getMessage());
 		}
 
 		// no need to check for invalid parameters as it is a private method
@@ -2236,7 +2236,7 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
-			Common.assertContains("course id", e.getMessage().toLowerCase());
+			BaseTestCase.assertContains("course id", e.getMessage().toLowerCase());
 		}
 
 		try {
@@ -2245,7 +2245,7 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
-			Common.assertContains("evaluation name", e.getMessage()
+			BaseTestCase.assertContains("evaluation name", e.getMessage()
 					.toLowerCase());
 		}
 
@@ -2255,7 +2255,7 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
-			Common.assertContains("student email", e.getMessage().toLowerCase());
+			BaseTestCase.assertContains("student email", e.getMessage().toLowerCase());
 		}
 
 		______TS("course/evaluation/student does not exist");
@@ -2265,7 +2265,7 @@ public class LogicTest extends BaseTestCase {
 					evaluation.name, student.email);
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non-existent", e.getMessage());
+			BaseTestCase.assertContains("non-existent", e.getMessage());
 		}
 
 		try {
@@ -2273,7 +2273,7 @@ public class LogicTest extends BaseTestCase {
 					"non-existent", student.email);
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non-existent", e.getMessage());
+			BaseTestCase.assertContains("non-existent", e.getMessage());
 		}
 
 		try {
@@ -2281,7 +2281,7 @@ public class LogicTest extends BaseTestCase {
 					evaluation.name, "non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
-			Common.assertContains("non-existent", e.getMessage());
+			BaseTestCase.assertContains("non-existent", e.getMessage());
 		}
 	}
 	

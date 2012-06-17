@@ -1,6 +1,5 @@
 package teammates.api;
 
-import static org.junit.Assert.assertEquals;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,7 +12,6 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -419,81 +417,6 @@ public class Common {
 			throw new InvalidParametersException(
 					ERRORCODE_LEADING_OR_TRAILING_SPACES, nameOfString
 							+ " should not have leading or trailing spaces");
-		}
-	}
-
-	@SuppressWarnings("unused")
-	private void ____ASSERT_more_things_____________________________________() {
-	}
-
-	/**
-	 * Asserts that the superstringActual contains the exact occurence of
-	 * substringExpected. Display the difference between the two on failure (in
-	 * Eclipse).
-	 * 
-	 * @param message
-	 * @param substringExpected
-	 * @param superstringActual
-	 */
-	public static void assertContains(String substringExpected,
-			String superstringActual) {
-		if (!superstringActual.contains(substringExpected)) {
-			assertEquals(substringExpected, superstringActual);
-		}
-	}
-
-	/**
-	 * Asserts that the superstringActual contains the exact occurence of
-	 * substringExpected. Display the difference between the two on failure (in
-	 * Eclipse) with the specified message.
-	 * 
-	 * @param message
-	 * @param substringExpected
-	 * @param superstringActual
-	 */
-	public static void assertContains(String message, String substringExpected,
-			String superstringActual) {
-		if (!superstringActual.contains(substringExpected)) {
-			assertEquals(message, substringExpected, superstringActual);
-		}
-	}
-
-	/**
-	 * Asserts that the stringActual contains the occurence regexExpected.
-	 * Replaces occurences of {*} at regexExpected to match anything in
-	 * stringActual. Tries to display the difference between the two on failure
-	 * (in Eclipse).
-	 * Ignores the tab character (i.e., ignore indentation using tabs) and
-	 * ignores the newline when comparing.
-	 * 
-	 * @param message
-	 * @param regexExpected
-	 * @param stringActual
-	 */
-	public static void assertContainsRegex(String regexExpected, String stringActual){
-		String processedActual = stringActual.replaceAll("[\t\r\n]","");
-		String processedRegex = Pattern.quote(regexExpected).replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q").replaceAll("[\t\r\n]","");
-		if(!processedActual.matches("(?s)(?m).*"+processedRegex+".*")){
-			assertEquals(regexExpected, stringActual);
-		}
-	}
-
-	/**
-	 * Asserts that the stringActual contains the occurence regexExpected.
-	 * Replaces occurences of {*} at regexExpected to match anything in
-	 * stringActual. Tries to display the difference between the two on failure
-	 * (in Eclipse) with the specified message.
-	 * 
-	 * @param message
-	 * @param regexExpected
-	 * @param stringActual
-	 */
-	public static void assertContainsRegex(String message,
-			String regexExpected, String stringActual) {
-		String processedActual = stringActual.replaceAll("[\t\r\n]","");
-		String processedRegex = Pattern.quote(regexExpected).replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q").replaceAll("[\t\r\n]","");
-		if(!processedActual.matches("(?s)(?m).*"+processedRegex+".*")){
-			assertEquals(message, regexExpected, stringActual);
 		}
 	}
 

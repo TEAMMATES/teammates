@@ -35,9 +35,9 @@ public class CommonTest extends BaseTestCase {
 	@Test
 	public void testAssertContains() {
 		printTestCaseHeader();
-		Common.assertContains("404 Page Not Found",
+		BaseTestCase.assertContains("404 Page Not Found",
 				"Error: 404 Page Not Found. Check the URL.");
-		Common.assertContains("Fails on checking assert contains",
+		BaseTestCase.assertContains("Fails on checking assert contains",
 				"404 Page Not Found",
 				"Error: 404 Page Not Found. Check the URL.");
 	}
@@ -45,9 +45,9 @@ public class CommonTest extends BaseTestCase {
 	@Test
 	public void testAssertContainsRegex() throws Exception {
 		printTestCaseHeader();
-		Common.assertContainsRegex("404 Page Not Found",
+		BaseTestCase.assertContainsRegex("404 Page Not Found",
 				"Error: 404 Page Not Found. Check the URL.");
-		Common.assertContainsRegex("Fails on checking assert contains regex",
+		BaseTestCase.assertContainsRegex("Fails on checking assert contains regex",
 				"404 Page Not Found",
 				"Error: 404 Page Not Found. Check the URL.");
 
@@ -57,21 +57,21 @@ public class CommonTest extends BaseTestCase {
 		String inputStr = Common.readFile(Common.TEST_PAGES_FOLDER
 				+ "/commonAssertRegexTestPart.html");
 
-		Common.assertContainsRegex(inputStr, pageStr);
-		Common.assertContainsRegex("Fails on checking assert contains regex",
+		BaseTestCase.assertContainsRegex(inputStr, pageStr);
+		BaseTestCase.assertContainsRegex("Fails on checking assert contains regex",
 				inputStr, pageStr);
 
-		Common.assertContainsRegex(
+		BaseTestCase.assertContainsRegex(
 				"<div>{*}</div><p>!@#$%^&*(){}_+[]</p>",
 				"<html><body><div>Testing</div><p>!@#$%^&*(){}_+[]</p><a href='index.html'>HOME</a></body></html>");
-		Common.assertContainsRegex("Fails on checking assert contains regex",
+		BaseTestCase.assertContainsRegex("Fails on checking assert contains regex",
 				"<div>{*}</div>",
 				"<html><body><div>Testing</div><a href='index.html'>HOME</a></body></html>");
 		
-		Common.assertContainsRegex(
+		BaseTestCase.assertContainsRegex(
 				"<html>\n\t<body>\n\t\t<div{*}>Hello world!</div>\n\t</body>\n\t</html>",
 				"<html><body><div style=\"display:none\">Hello world!</div></body></html>");
-		Common.assertContainsRegex("Fails on checking assert contains regex",
+		BaseTestCase.assertContainsRegex("Fails on checking assert contains regex",
 				"<html>\n\t<body>\n\t\t<div{*}>Hello world!</div>\n\t</body>\n\t</html>",
 				"<html><body><div style=\"display:none\">Hello world!</div></body></html>");
 	}

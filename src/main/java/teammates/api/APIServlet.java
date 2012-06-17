@@ -161,6 +161,7 @@ public class APIServlet extends HttpServlet {
 		} else if (action.equals(OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER)) {
 			activateAutomatedReminder();
 		} else {
+			log.severe("Unknown command !!!!!!!!!!!!!!!!! : "+action);
 			resp.getWriter().write("Unknown command : "+action);
 		}
 

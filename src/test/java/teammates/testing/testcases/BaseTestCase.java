@@ -8,6 +8,7 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 import teammates.api.Common;
 
@@ -87,6 +88,77 @@ public class BaseTestCase {
 	protected static void assertSameDates(Date expected, Date actual) {
 		assertEquals(Common.calendarToString(Common.dateToCalendar(expected)),
 				Common.calendarToString(Common.dateToCalendar(actual)));
+	}
+
+	/**
+	 * Asserts that the superstringActual contains the exact occurence of
+	 * substringExpected. Display the difference between the two on failure (in
+	 * Eclipse).
+	 * 
+	 * @param message
+	 * @param substringExpected
+	 * @param superstringActual
+	 */
+	public static void assertContains(String substringExpected,
+			String superstringActual) {
+		if (!superstringActual.contains(substringExpected)) {
+			assertEquals(substringExpected, superstringActual);
+		}
+	}
+
+	/**
+	 * Asserts that the superstringActual contains the exact occurence of
+	 * substringExpected. Display the difference between the two on failure (in
+	 * Eclipse) with the specified message.
+	 * 
+	 * @param message
+	 * @param substringExpected
+	 * @param superstringActual
+	 */
+	public static void assertContains(String message, String substringExpected,
+			String superstringActual) {
+		if (!superstringActual.contains(substringExpected)) {
+			assertEquals(message, substringExpected, superstringActual);
+		}
+	}
+
+	/**
+	 * Asserts that the stringActual contains the occurence regexExpected.
+	 * Replaces occurences of {*} at regexExpected to match anything in
+	 * stringActual. Tries to display the difference between the two on failure
+	 * (in Eclipse).
+	 * Ignores the tab character (i.e., ignore indentation using tabs) and
+	 * ignores the newline when comparing.
+	 * 
+	 * @param message
+	 * @param regexExpected
+	 * @param stringActual
+	 */
+	public static void assertContainsRegex(String regexExpected, String stringActual){
+		String processedActual = stringActual.replaceAll("[\t\r\n]","");
+		String processedRegex = Pattern.quote(regexExpected).replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q").replaceAll("[\t\r\n]","");
+		if(!processedActual.matches("(?s)(?m).*"+processedRegex+".*")){
+			assertEquals(regexExpected, stringActual);
+		}
+	}
+
+	/**
+	 * Asserts that the stringActual contains the occurence regexExpected.
+	 * Replaces occurences of {*} at regexExpected to match anything in
+	 * stringActual. Tries to display the difference between the two on failure
+	 * (in Eclipse) with the specified message.
+	 * 
+	 * @param message
+	 * @param regexExpected
+	 * @param stringActual
+	 */
+	public static void assertContainsRegex(String message,
+			String regexExpected, String stringActual) {
+		String processedActual = stringActual.replaceAll("[\t\r\n]","");
+		String processedRegex = Pattern.quote(regexExpected).replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q").replaceAll("[\t\r\n]","");
+		if(!processedActual.matches("(?s)(?m).*"+processedRegex+".*")){
+			assertEquals(message, regexExpected, stringActual);
+		}
 	}
 
 }

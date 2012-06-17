@@ -51,6 +51,7 @@ import teammates.testing.config.Config;
 import teammates.testing.object.Evaluation;
 import teammates.testing.object.Student;
 import teammates.testing.object.TeamFormingSession;
+import teammates.testing.testcases.BaseTestCase;
 
 import com.thoughtworks.selenium.DefaultSelenium;
 import com.thoughtworks.selenium.SeleniumException;
@@ -2880,7 +2881,7 @@ public class BrowserInstance {
 	public void verifyCurrentPageHTMLRegex(String filepath) throws Exception{
 		String pageSrc = driver.getPageSource();
 		String inputStr = Common.readFile(filepath).replace("{version}",Common.VERSION);
-		Common.assertContainsRegex(inputStr.replace("\r\n", "\n"),pageSrc.replace("\r\n", "\n"));
+		BaseTestCase.assertContainsRegex(inputStr.replace("\r\n", "\n"),pageSrc.replace("\r\n", "\n"));
 	}
 
 	/* -----------------------------------------------------------------------
