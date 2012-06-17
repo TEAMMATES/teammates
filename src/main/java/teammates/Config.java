@@ -1,16 +1,15 @@
 package teammates;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.Logger;
+
+import teammates.api.Common;
 
 public class Config {
-	// TeamMates-related configuration
-	// public static final String TEAMMATES_APP_ACCOUNT = "xialin.z21@gmail.com";
-	// public static final String TEAMMATES_APP_ACCOUNT = "wangshasg@gmail.com";
-	// public static final String TEAMMATES_APP_ACCOUNT =
-	// "app.teammates@gmail.com";
-	// public static final String TEAMMATES_APP_ACCOUNT =
-	// "kalpitjain03@gmail.com";
+	
+	Logger log = Common.getLogger();
 	public String TEAMMATES_APP_ACCOUNT = null;
 	public String TEAMMATES_APP_URL = null;
 
@@ -28,13 +27,25 @@ public class Config {
 	public static Config instance = null;
 	private Properties prop = null;
 
-	private Config() {
-		prop = new Properties();
-		try {
+	public static Config inst(String propertiesFile){
+		return createInstance(propertiesFile);
+	}
 
-			// prop.load(new FileInputStream("/build.properties"));
-			prop.load(this.getClass().getClassLoader().getResourceAsStream(
-				"build.properties"));
+	public static Config inst() {
+		return createInstance("build.properties");
+	}
+	
+	private static Config createInstance(String propertiesFile) {
+		if (instance == null) {
+			instance = new Config(propertiesFile);
+		}
+		return instance;
+	}
+	
+	private Config(String propertiesFile) {
+		try {
+			log.info("Loading properties file: "+ propertiesFile);
+			prop = getProperties(propertiesFile);
 			TEAMMATES_APP_ACCOUNT = prop.getProperty("app.account");
 			TEAMMATES_APP_URL = prop.getProperty("app.url");
 			development_mode = Boolean.parseBoolean(prop.getProperty("app.mode.development"));
@@ -48,11 +59,18 @@ public class Config {
 
 	}
 
-	public static Config inst() {
-		if (instance == null) {
-			instance = new Config();
-		}
-		return instance;
+	public static Properties getProperties(String propertiesFile) throws IOException {
+		Properties returnValue = new Properties();
+		//TODO: check if the commented out alternative is better than the one
+		//  used.
+		
+		//returnValue.load(Config.class.getClassLoader().getResourceAsStream(
+		//	propertiesFile));
+		returnValue.load(new FileInputStream(propertiesFile));
+		return returnValue;
 	}
+	
+
+
 
 }

@@ -2909,7 +2909,7 @@ public class LogicTest extends BaseTestCase {
 
 	@AfterClass()
 	public static void classTearDown() throws Exception {
-		printTestClassFooter("CoordCourseAddApiTest");
+		printTestClassFooter();
 		setLogLevelOfClass(Logic.class, Level.WARNING);
 		setConsoleLoggingLevel(Level.WARNING);
 	}

@@ -43,6 +43,11 @@ public class BaseTestCase {
 		printTestClassHeader(Thread.currentThread().getStackTrace()[2]
 				.getClassName());
 	}
+	
+	public static void printTestClassFooter() {
+		printTestClassFooter(Thread.currentThread().getStackTrace()[2]
+				.getClassName());
+	}
 
 	public static void printTestClassFooter(String testClassName) {
 		System.out.println(testClassName + " completed");

@@ -1,11 +1,13 @@
 package teammates;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.api.Common;
 import teammates.manager.Accounts;
 import teammates.manager.Courses;
 import teammates.manager.Evaluations;
@@ -16,7 +18,14 @@ import teammates.persistent.Student;
 
 @SuppressWarnings("serial")
 public class EvaluationActivationServlet extends HttpServlet {
+	
+	private static Logger log = Common.getLogger();
+	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+		activateReadyEvaluations();
+	}
+
+	private void activateReadyEvaluations() {
 		Evaluations evaluations = Evaluations.inst();
 
 		List<Evaluation> evaluationList = evaluations.activateEvaluations();

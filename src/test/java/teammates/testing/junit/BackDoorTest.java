@@ -46,8 +46,10 @@ public class BackDoorTest extends BaseTestCase{
 		//TODO: clean up data
 	}
 	
-	//-------------------[Testing system-level methods]-------------------------
-
+	@SuppressWarnings("unused")
+	private void ____SYSTEM_level_methods_________________________________() {
+	}
+	
 
 	@Test
 	public void testPersistenceAndDeletion() {
@@ -186,12 +188,15 @@ public class BackDoorTest extends BaseTestCase{
 		verifyTeamFormingLogEmptyInDatastore(tfsLogMessage1ForTfsInCourse2);
 	}
 	
+	@SuppressWarnings("unused")
+	private void ____COORD_level_methods_________________________________() {
+	}
+	
 	@Test
 	public void testDeleteCoords(){
 		//already tested by testPersistenceAndDeletion
 	}
 	
-	//-------------------[Testing system-level methods]------------------------
 
 	@Test 
 	public void testCreateCoord(){
@@ -275,7 +280,9 @@ public class BackDoorTest extends BaseTestCase{
 		BackDoor.deleteCoord(coord2Id);
 	}
 	
-	// -------------------------[Course-level methods]-------------------------
+	@SuppressWarnings("unused")
+	private void ____COURSE_level_methods_________________________________() {
+	}
 	
 	@Test 
 	public void testCreateCourse() throws InvalidParametersException{
@@ -309,7 +316,9 @@ public class BackDoorTest extends BaseTestCase{
 
 
 
-	// ------------------------[Student-level methods]-------------------------
+	@SuppressWarnings("unused")
+	private void ____STUDENT_level_methods_________________________________() {
+	}
 	
 	@Test 
 	public void testCreateStudent() throws InvalidParametersException{
@@ -359,7 +368,9 @@ public class BackDoorTest extends BaseTestCase{
 		// already tested by testPersistenceAndDeletion
 	}
 	
-	// ------------------------[Evaluation-level methods]-----------------
+	@SuppressWarnings("unused")
+	private void ____EVALUATION_level_methods______________________________() {
+	}
 	
 	@Test 
 	public void testCreateEvaluation() throws InvalidParametersException{
@@ -426,7 +437,9 @@ public class BackDoorTest extends BaseTestCase{
 		//TODO:
 	}
 	
-	// ------------------------[Submission-level methods]-----------------
+	@SuppressWarnings("unused")
+	private void ____SUBMISSION_level_methods______________________________() {
+	}
 	
 	@Test
 	public void testCreateSubmission() {
@@ -463,7 +476,9 @@ public class BackDoorTest extends BaseTestCase{
 		// not implemented
 	}
 	
-	// --------------------------------[Tfs-level methods]----------
+	@SuppressWarnings("unused")
+	private void ____TFS_level_methods_________________________________() {
+	}
 	
 	@Test
 	public void testCreateTfs() {
@@ -505,7 +520,9 @@ public class BackDoorTest extends BaseTestCase{
 		// not implemented
 	}
 	
-	// --------------------------------[TeamProfile-level methods]----------
+	@SuppressWarnings("unused")
+	private void ____TEAM_PROFILE_level_methods____________________________() {
+	}
 	
 	@Test
 	public void testCreateTeamProfile() {
@@ -542,7 +559,9 @@ public class BackDoorTest extends BaseTestCase{
 		// already tested by testPersistenceAndDeletion
 	}
 	
-	// --------------------------------[Testing helper methods]--------------
+	@SuppressWarnings("unused")
+	private void ____helper_methods_________________________________() {
+	}
 	
 	@Test
 	public void testDataBundle() throws Exception{

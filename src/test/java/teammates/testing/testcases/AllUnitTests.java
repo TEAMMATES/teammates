@@ -9,6 +9,8 @@ import teammates.testing.lib.HtmlHelperTest;
 @Suite.SuiteClasses({
 		//@formatter:off
 		CommonTest.class, 
+		ConfigTest.class,
+		EmailsTest.class,
 		StudentTest.class, 
 		TeamDataTest.class,
 		EvaluationDataTest.class, 

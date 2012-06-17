@@ -22,7 +22,7 @@ import teammates.api.Common;
 public class Emails {
 	private String from;
 	private Properties props;
-	Logger log = Common.getLogger();
+	private static Logger log = Common.getLogger();
 
 	private final String HEADER_REGISTRATION_INVITATION = "TEAMMATES: Registration Invitation: Register in the course %s";
 	private final String HEADER_REGISTRATION_REMINDER = "TEAMMATES: Registration Reminder: Register in the course %s";
@@ -43,7 +43,11 @@ public class Emails {
 	 * 
 	 */
 	public Emails() {
-		from = Config.inst().TEAMMATES_APP_ACCOUNT;
+		this("build.properties");
+	}
+	
+	public Emails(String propertiesFile){
+		from = Config.inst(propertiesFile).TEAMMATES_APP_ACCOUNT;
 		props = new Properties();
 	}
 
@@ -480,5 +484,23 @@ public class Emails {
 		catch (MessagingException e) {
 
 		}
+	}
+
+	public void sendEmail() throws MessagingException {
+		Session session = Session.getDefaultInstance(props, null);
+		MimeMessage message = new MimeMessage(session);
+
+		String to = "damith@gmail.com";
+		message.addRecipient(Message.RecipientType.TO,
+				new InternetAddress(to));
+
+		message.setFrom(new InternetAddress(from));
+		String subject = "Teammates Testing";
+		message.setSubject(subject);
+		message.setText("This is a testing email");
+		
+		log.fine("Sending email to "+to+ "["+subject+"]");
+
+		Transport.send(message);
 	}
 }
