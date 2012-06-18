@@ -2105,27 +2105,27 @@ public class LogicTest extends BaseTestCase {
 		s2 = team.students.get(S2_POS);
 		assertEquals(220, s2.result.claimedFromStudent);
 		assertEquals(100, s2.result.claimedToCoord);
-		assertEquals(218, s2.result.perceivedToStudent);
+		assertEquals(217, s2.result.perceivedToStudent);
 		assertEquals(99, s2.result.perceivedToCoord);
 		assertEquals(95, s2.result.outgoing.get(S1_POS).normalized);
 		assertEquals(100, s2.result.outgoing.get(S2_POS).normalized);
 		assertEquals(105, s2.result.outgoing.get(S3_POS).normalized);
 		assertEquals(213, s2.result.incoming.get(S1_POS).normalized);
-		assertEquals(218, s2.result.incoming.get(S2_POS).normalized);
+		assertEquals(217, s2.result.incoming.get(S2_POS).normalized);
 		assertEquals(229, s2.result.incoming.get(S3_POS).normalized);
 		verifyUnbiased(new int[] { 96, 102 }, s2.result.unbiased);
 
 		s3 = team.students.get(S3_POS);
 		assertEquals(330, s3.result.claimedFromStudent);
 		assertEquals(103, s3.result.claimedToCoord);
-		assertEquals(333, s3.result.perceivedToStudent);
+		assertEquals(334, s3.result.perceivedToStudent);
 		assertEquals(104, s3.result.perceivedToCoord);
 		assertEquals(97, s3.result.outgoing.get(S1_POS).normalized);
 		assertEquals(100, s3.result.outgoing.get(S2_POS).normalized);
 		assertEquals(103, s3.result.outgoing.get(S3_POS).normalized);
 		assertEquals(310, s3.result.incoming.get(S1_POS).normalized);
-		assertEquals(317, s3.result.incoming.get(S2_POS).normalized);
-		assertEquals(333, s3.result.incoming.get(S3_POS).normalized);
+		assertEquals(316, s3.result.incoming.get(S2_POS).normalized);
+		assertEquals(334, s3.result.incoming.get(S3_POS).normalized);
 		verifyUnbiased(new int[] { 104, 105 }, s3.result.unbiased);
 
 	}

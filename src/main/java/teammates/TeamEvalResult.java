@@ -101,6 +101,7 @@ public class TeamEvalResult {
 		double[] perceivedForCoord;
 		double[] columnsAveraged = averageColumns(unbiased);
 		double factor = calculateFactor(columnsAveraged);
+		log.fine("Factor: "+factor);
 		multiplyByFactor(factor, unbiased);
 		perceivedForCoord = normalizeValues(columnsAveraged);
 		return perceivedForCoord;
@@ -339,7 +340,9 @@ public class TeamEvalResult {
 			}
 		}
 		// omit calculation if no data points
-		return (count ==0 ? NA : Math.round((double) sum / count));
+		double average = (double)(sum / count);
+		log.fine("Average="+average);
+		return (count ==0 ? NA : average);
 	}
 
 	public static String pointsToString(int[][] array) {
