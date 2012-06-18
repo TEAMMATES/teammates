@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import teammates.TeamEvalResult;
 import teammates.api.Common;
 import teammates.datatransfer.EvalResultData;
 import teammates.datatransfer.EvaluationData;

@@ -210,6 +210,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <url-pattern>/page/studentHome</url-pattern>
 	</servlet-mapping>
 	<servlet>
+	    <description>Servlet that handles student course details action</description>
+	    <servlet-name>StudentCourseDetails</servlet-name>
+	    <servlet-class>teammates.servlet.StudentCourseDetailsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>StudentCourseDetails</servlet-name>
+	    <url-pattern>/page/studentCourseDetails</url-pattern>
+	</servlet-mapping>
+	<servlet>
 	    <description>Servlet that handles student join course action</description>
 	    <servlet-name>StudentCourseJoin</servlet-name>
 	    <servlet-class>teammates.servlet.StudentCourseJoinServlet</servlet-class>
