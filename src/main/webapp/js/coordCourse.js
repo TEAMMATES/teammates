@@ -1,6 +1,3 @@
-var COURSE_ID = "courseid";
-var COURSE_NAME = "coursename";
-
 var OPERATION_COORDINATOR_SENDREGISTRATIONKEY = "coordinator_sendregistrationkey";
 var OPERATION_COORDINATOR_SENDREGISTRATIONKEYS = "coordinator_sendregistrationkeys";
 
@@ -12,23 +9,7 @@ var COURSE_STATUS_LONG_ID = 4;
 var COURSE_STATUS_LONG_NAME = 5;
 var COURSE_STATUS_INVALID_ID = 6;
 
-//status messages
-var DISPLAY_COURSE_EMPTY = "Course ID and Course Name are compulsory fields.";
-var DISPLAY_COURSE_LONG_ID = "Course ID should not exceed " + COURSE_ID_MAX_LENGTH + " characters.";
-var DISPLAY_COURSE_LONG_NAME = "Course name should not exceed " + COURSE_NAME_MAX_LENGTH + " characters.";
-var DISPLAY_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
-var DISPLAY_REMINDER_SENT = "Registration key has been sent to ";
-var DISPLAY_REMINDERS_SENT = "Emails have been sent to unregistered students.";
-
 //------------------------------Add Course Validation-----------------------------
-/**
- * Prepares the input by trimming it
- */
-function prepareAddCourseParams(courseID, courseName) {
-	courseID = courseID.trim();
-	courseName = courseName.trim();
-}
-
 /**
  * Do pre-processing on the user's input, and then return the validation result.
  * @returns {Boolean}
@@ -36,7 +17,8 @@ function prepareAddCourseParams(courseID, courseName) {
 function verifyAddCourse() {
 	var courseID = $("#"+COURSE_ID).val();
 	var courseName = $("#"+COURSE_NAME).val();
-	prepareAddCourseParams(courseID, courseName);
+	courseID = courseID.trim();
+	courseName = courseName.trim();
 
 	// client-side validation
 	var statusCode = checkAddCourseParam(courseID, courseName);

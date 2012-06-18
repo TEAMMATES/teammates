@@ -144,7 +144,8 @@ public class Common {
 	public static final String PARAM_JOIN_COURSE = "regkey";
 	public static final String PARAM_STUDENT_EMAIL = "studentemail";
 	public static final String PARAM_BY_REVIEWER = "byreviewer";
-	
+
+	public static final String PARAM_STUDENT_NAME = "studentname";
 	public static final String PARAM_FROM_EMAIL = "fromemail";
 	public static final String PARAM_TO_EMAIL = "toemail";
 	public static final String PARAM_TEAM_NAME = "teamname";
@@ -167,24 +168,24 @@ public class Common {
 	public static final String PAGE_COORD_COURSE_DELETE = "/page/coordCourseDelete"; // Done
 	public static final String PAGE_COORD_COURSE_DETAILS = "/page/coordCourseDetails"; // Done
 	public static final String PAGE_COORD_COURSE_STUDENT_DETAILS = "/page/coordCourseStudentDetails"; // Done
-	public static final String PAGE_COORD_COURSE_STUDENT_EDIT = "/page/coordCourseStudentEdit";
+	public static final String PAGE_COORD_COURSE_STUDENT_EDIT = "/page/coordCourseStudentEdit"; // Done
 	public static final String PAGE_COORD_COURSE_STUDENT_DELETE = "/page/coordCourseStudentDelete"; // Done
 	public static final String PAGE_COORD_COURSE_ENROLL = "/page/coordCourseEnroll"; // Done
-	public static final String PAGE_COORD_TFS = "/page/coordTFS";
-	public static final String PAGE_COORD_TFS_MANAGE = "/page/coordTFSManage";
-	public static final String PAGE_COORD_TFS_CHANGE_TEAM = "/page/coordTFSChangeTeam";
-	public static final String PAGE_COORD_TFS_LOGS = "/page/coordTFSLogs";
+	public static final String PAGE_COORD_TFS = "/page/coordTFS"; // Pending
+	public static final String PAGE_COORD_TFS_MANAGE = "/page/coordTFSManage"; // Pending
+	public static final String PAGE_COORD_TFS_CHANGE_TEAM = "/page/coordTFSChangeTeam"; // Pending
+	public static final String PAGE_COORD_TFS_LOGS = "/page/coordTFSLogs"; // Pending
 	public static final String PAGE_COORD_EVAL = "/page/coordEval"; // Done
 	public static final String PAGE_COORD_EVAL_DELETE = "/page/coordEvalDelete"; // Done
-	public static final String PAGE_COORD_EVAL_EDIT = "/page/coordEvalEdit";
+	public static final String PAGE_COORD_EVAL_EDIT = "/page/coordEvalEdit"; // Done
 	public static final String PAGE_COORD_EVAL_RESULTS = "/page/coordEvalResults"; // Done
-	public static final String PAGE_COORD_EVAL_SUBMISSION_VIEW = "/page/coordEvalSubmissionView";
-	public static final String PAGE_COORD_EVAL_SUBMISSION_EDIT = "/page/coordEvalSubmissionEdit";
+	public static final String PAGE_COORD_EVAL_SUBMISSION_VIEW = "/page/coordEvalSubmissionView"; // Done
+	public static final String PAGE_COORD_EVAL_SUBMISSION_EDIT = "/page/coordEvalSubmissionEdit"; // Done
 	public static final String PAGE_COORD_EVAL_SUBMISSION_EDIT_HANDLER = "/page/coordEvalSubmissionEditHandler"; // Done
 
 	public static final String PAGE_STUDENT_HOME = "/page/studentHome"; // Done
 	public static final String PAGE_STUDENT_JOIN_COURSE = "/page/studentCourseJoin"; // Done
-	public static final String PAGE_STUDENT_COURSE_PROFILE = "/page/studentCourseProfile";
+	public static final String PAGE_STUDENT_COURSE_PROFILE = "/page/studentCourseProfile"; // Pending
 	public static final String PAGE_STUDENT_COURSE_DETAILS = "/page/studentCourseDetails"; // Done
 	/** To submit evaluation and also to edit */
 	public static final String PAGE_STUDENT_EVAL_SUBMISSION_EDIT = "/page/studentEvalEdit"; // Done
@@ -238,7 +239,8 @@ public class Common {
 	public static final String MESSAGE_COURSE_DELETED = "The course has been deleted.";
 	public static final String MESSAGE_COURSE_EMPTY = "You have not created any courses yet. Use the form above to create a course.";
 	public static final String MESSAGE_COURSE_EMPTY_IN_EVALUATION = "You have not created any courses yet. Go <a href=\""+PAGE_COORD_COURSE+"\">here</a> to create one.";
-	
+
+	public static final String MESSAGE_STUDENT_EDITED = "The student has been edited successfully";
 	public static final String MESSAGE_STUDENT_DELETED = "The student has been removed from the course";
 
 	public static final String MESSAGE_EVALUATION_ADDED = "The evaluation has been added.";

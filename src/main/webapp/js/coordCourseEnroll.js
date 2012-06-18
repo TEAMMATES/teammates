@@ -1,10 +1,3 @@
-// Display messages
-var DISPLAY_ENROLLMENT_FIELDS_EXTRA = "There are too many fields.";
-var DISPLAY_ENROLLMENT_FIELDS_MISSING = "There are missing fields.";
-var DISPLAY_STUDENT_EMAIL_INVALID = "The e-mail address is invalid.";
-var DISPLAY_STUDENT_NAME_INVALID = "Name should only consist of alphanumerics and not<br />more than 40 characters.";
-var DISPLAY_STUDENT_TEAMNAME_INVALID = "Team name should contain less than 25 characters.";
-
 /**
  * Highlight the enrollstudents textarea at specified positions.
  * @param start

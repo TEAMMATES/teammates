@@ -164,6 +164,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <url-pattern>/page/coordCourseStudentDetails</url-pattern>
 	</servlet-mapping>
 	<servlet>
+	    <description>Servlet that handles the edit page of a student in a course</description>
+	    <servlet-name>CoordCourseStudentEdit</servlet-name>
+	    <servlet-class>teammates.servlet.CoordCourseStudentEditServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>CoordCourseStudentEdit</servlet-name>
+	    <url-pattern>/page/coordCourseStudentEdit</url-pattern>
+	</servlet-mapping>
+	<servlet>
 	    <description>Servlet that handles course student delete page</description>
 	    <servlet-name>CoordCourseStudentDelete</servlet-name>
 	    <servlet-class>teammates.servlet.CoordCourseStudentDeleteServlet</servlet-class>

@@ -258,9 +258,15 @@ function setStatusMessage(message, error) {
 }
 
 /**
+ * Clears the status message div tag and hides it
+ */
+function clearStatusMessage() {
+	$(DIV_STATUS_MESSAGE).html("").css("background","").hide();
+}
+
+/**
  * Checks whether an e-mail is valid.
- * Currently used only in coordCourseEnroll page (through coordCourseEnroll.js)
- * Later will be used in coordCourseStudentEdit page
+ * Used in coordCourseEnroll page (through coordCourseEnroll.js)
  * @param email
  * @returns {Boolean}
  */
@@ -270,8 +276,7 @@ function isStudentEmailValid(email) {
 
 /**
  * Checks whether a student's name is valid
- * Currently used only in coordCourseEnroll page (through coordCourseEnroll.js)
- * Later will be used in coordCourseStudentEdit page
+ * Used in coordCourseEnroll page (through coordCourseEnroll.js)
  * @param name
  * @returns {Boolean}
  */
@@ -289,8 +294,7 @@ function isStudentNameValid(name) {
 
 /**
  * Checks whether a team's name is valid
- * Currently used only in coordCourseEnroll page (through coordCourseEnroll.js)
- * Later will be used in coordCourseStudentEdit page
+ * Used in coordCourseEnroll page (through coordCourseEnroll.js)
  * @param teamName
  * @returns {Boolean}
  */
@@ -299,8 +303,21 @@ function isStudentTeamNameValid(teamName) {
 }
 
 /**
- * Clears the status message div tag and hides it
+ * To check whether a student's name and team name are valid
+ * @param editName
+ * @param editTeamName
+ * @returns {Boolean}
  */
-function clearStatusMessage() {
-	$(DIV_STATUS_MESSAGE).html("").css("background","").hide();
+function isStudentInputValid(editName, editTeamName) {
+	if (editName == "" || editTeamName == "") {
+		setStatusMessage(DISPLAY_FIELDS_EMPTY,true);
+		return false;
+	} else if (!isStudentNameValid(editName)) {
+		setStatusMessage(DISPLAY_STUDENT_NAME_INVALID,true);
+		return false;
+	} else if (!isStudentTeamNameValid(editTeamName)) {
+		setStatusMessage(DISPLAY_STUDENT_TEAMNAME_INVALID,true);
+		return false;
+	}
+	return true;
 }
