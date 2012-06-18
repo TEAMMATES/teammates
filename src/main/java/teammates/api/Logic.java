@@ -39,6 +39,7 @@ import teammates.persistent.TeamFormingLog;
 import teammates.persistent.TeamFormingSession;
 import teammates.persistent.TeamProfile;
 
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import com.google.gson.Gson;
 
@@ -601,8 +602,13 @@ public class Logic {
 		}
 		Student student = Accounts.inst().getStudent(courseId, email);
 
-		return (student == null ? null : student.getRegistrationKey()
-				.toString());
+		if(student == null ){
+			return null;
+		}
+		
+		long keyLong = Long.parseLong(student.getRegistrationKey().toString());
+		return KeyFactory.createKeyString(Student.class.getSimpleName(),
+				keyLong);
 	}
 
 	public List<CourseData> getCourseListForStudent(String googleId)

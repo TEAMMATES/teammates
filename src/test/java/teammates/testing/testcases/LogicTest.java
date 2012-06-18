@@ -1117,10 +1117,8 @@ public class LogicTest extends BaseTestCase {
 		// make a student 'unregistered'
 		StudentData student = dataBundle.students.get("student1InCourse1");
 		String googleId = "student1InCourse1";
-		long keyLong = Long.parseLong(logic.getKeyForStudent(student.course,
-				student.email));
-		String key = KeyFactory.createKeyString(Student.class.getSimpleName(),
-				keyLong);
+		String key = logic.getKeyForStudent(student.course,
+				student.email);
 		student.id = "";
 		logic.editStudent(student.email, student);
 		assertEquals("", logic.getStudent(student.course, student.email).id);
