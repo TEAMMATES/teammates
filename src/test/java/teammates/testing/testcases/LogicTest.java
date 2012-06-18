@@ -1810,26 +1810,26 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(4, s1.result.outgoing.size());
 
 		SubmissionData s1_s1 = s1.result.outgoing.get(S1_POS);
-		assertEquals(100, s1_s1.normalized);
+		assertEquals(100, s1_s1.normalizedToCoord);
 		String expected = "justification of student1InCourse1 rating to student1InCourse1";
 		assertEquals(expected, s1_s1.justification.getValue());
 		expected = "student1InCourse1 view of team dynamics";
 		assertEquals(expected, s1_s1.p2pFeedback.getValue());
 
 		SubmissionData s1_s2 = s1.result.outgoing.get(S2_POS);
-		assertEquals(100, s1_s2.normalized);
+		assertEquals(100, s1_s2.normalizedToCoord);
 		expected = "justification of student1InCourse1 rating to student2InCourse1";
 		assertEquals(expected, s1_s2.justification.getValue());
 		expected = "comments from student1InCourse1 to student2InCourse1";
 		assertEquals(expected, s1_s2.p2pFeedback.getValue());
 
-		assertEquals(100, s1.result.outgoing.get(S3_POS).normalized);
-		assertEquals(100, s1.result.outgoing.get(S4_POS).normalized);
+		assertEquals(100, s1.result.outgoing.get(S3_POS).normalizedToCoord);
+		assertEquals(100, s1.result.outgoing.get(S4_POS).normalizedToCoord);
 
-		assertEquals(NSU, s2.result.outgoing.get(S3_POS).normalized);
-		assertEquals(100, s2.result.outgoing.get(S4_POS).normalized);
-		assertEquals(NSB, s3.result.outgoing.get(S2_POS).normalized);
-		assertEquals(84, s4.result.outgoing.get(S2_POS).normalized);
+		assertEquals(NSU, s2.result.outgoing.get(S3_POS).normalizedToCoord);
+		assertEquals(100, s2.result.outgoing.get(S4_POS).normalizedToCoord);
+		assertEquals(NSB, s3.result.outgoing.get(S2_POS).normalizedToCoord);
+		assertEquals(84, s4.result.outgoing.get(S2_POS).normalizedToCoord);
 
 		// check incoming submissions (s2 more intensely than others)
 
@@ -1999,41 +1999,47 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(92, s1.result.claimedToCoord);
 		assertEquals(116, s1.result.perceivedToStudent);
 		assertEquals(97, s1.result.perceivedToCoord);
-		assertEquals(92, s1.result.outgoing.get(S1_POS).normalized);
-		assertEquals(100, s1.result.outgoing.get(S2_POS).normalized);
-		assertEquals(108, s1.result.outgoing.get(S3_POS).normalized);
+		assertEquals(92, s1.result.outgoing.get(S1_POS).normalizedToCoord);
+		assertEquals(100, s1.result.outgoing.get(S2_POS).normalizedToCoord);
+		assertEquals(108, s1.result.outgoing.get(S3_POS).normalizedToCoord);
 		assertEquals(s1.name, s1.result.incoming.get(S1_POS).revieweeName);
 		assertEquals(s1.name, s1.result.incoming.get(S1_POS).reviewerName);
 		assertEquals(116, s1.result.incoming.get(S1_POS).normalized);
 		assertEquals(119, s1.result.incoming.get(S2_POS).normalized);
 		assertEquals(125, s1.result.incoming.get(S3_POS).normalized);
-		verifyUnbiased(new int[] { 95, 98 }, s1.result.unbiased);
+		assertEquals(NA, s1.result.incoming.get(S1_POS).normalizedToCoord);
+		assertEquals(95, s1.result.incoming.get(S2_POS).normalizedToCoord);
+		assertEquals(98, s1.result.incoming.get(S3_POS).normalizedToCoord);
 
 		s2 = team.students.get(S2_POS);
 		assertEquals(220, s2.result.claimedFromStudent);
 		assertEquals(100, s2.result.claimedToCoord);
 		assertEquals(217, s2.result.perceivedToStudent);
 		assertEquals(99, s2.result.perceivedToCoord);
-		assertEquals(95, s2.result.outgoing.get(S1_POS).normalized);
-		assertEquals(100, s2.result.outgoing.get(S2_POS).normalized);
-		assertEquals(105, s2.result.outgoing.get(S3_POS).normalized);
+		assertEquals(95, s2.result.outgoing.get(S1_POS).normalizedToCoord);
+		assertEquals(100, s2.result.outgoing.get(S2_POS).normalizedToCoord);
+		assertEquals(105, s2.result.outgoing.get(S3_POS).normalizedToCoord);
 		assertEquals(213, s2.result.incoming.get(S1_POS).normalized);
 		assertEquals(217, s2.result.incoming.get(S2_POS).normalized);
 		assertEquals(229, s2.result.incoming.get(S3_POS).normalized);
-		verifyUnbiased(new int[] { 96, 102 }, s2.result.unbiased);
+		assertEquals(96, s2.result.incoming.get(S1_POS).normalizedToCoord);
+		assertEquals(NA, s2.result.incoming.get(S2_POS).normalizedToCoord);
+		assertEquals(102, s2.result.incoming.get(S3_POS).normalizedToCoord);
 
 		s3 = team.students.get(S3_POS);
 		assertEquals(330, s3.result.claimedFromStudent);
 		assertEquals(103, s3.result.claimedToCoord);
 		assertEquals(334, s3.result.perceivedToStudent);
 		assertEquals(104, s3.result.perceivedToCoord);
-		assertEquals(97, s3.result.outgoing.get(S1_POS).normalized);
-		assertEquals(100, s3.result.outgoing.get(S2_POS).normalized);
-		assertEquals(103, s3.result.outgoing.get(S3_POS).normalized);
+		assertEquals(97, s3.result.outgoing.get(S1_POS).normalizedToCoord);
+		assertEquals(100, s3.result.outgoing.get(S2_POS).normalizedToCoord);
+		assertEquals(103, s3.result.outgoing.get(S3_POS).normalizedToCoord);
 		assertEquals(310, s3.result.incoming.get(S1_POS).normalized);
 		assertEquals(316, s3.result.incoming.get(S2_POS).normalized);
 		assertEquals(334, s3.result.incoming.get(S3_POS).normalized);
-		verifyUnbiased(new int[] { 104, 105 }, s3.result.unbiased);
+		assertEquals(104, s3.result.incoming.get(S1_POS).normalizedToCoord);
+		assertEquals(105, s3.result.incoming.get(S2_POS).normalizedToCoord);
+		assertEquals(NA, s3.result.incoming.get(S3_POS).normalizedToCoord);
 
 	}
 
@@ -2041,37 +2047,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testPopulateTeamResults() throws Exception {
-		// mostly tested in testCalculateTeamResult()
-		
-		// Below are some additional testing for unbiased values
-		int[][] input1 = 
-			{{ 103, 103,  94 }, 
-			 {  90, 110, NSU },
-			 { 100,  90, 110 }};
-		
-		//this is here for reference only
-		int[][] expectedTeamResltValues = 
-			{{ 103, 103,  94 }, 
-			 {  90, 110, NSU },
-			 { 100,  90, 110 },
-			 
-			 {  NA, 105,  96 }, 
-			 { 101,  NA,  NA },
-			 { 106,  95,  NA },
-			 
-			 { 103,  100,  96 },
-			 
-			 { 103, 100,  96 }, 
-			 { 101,  99,  94 },
-			 { 103, 100,  96 }};
-		
-		TeamEvalResult teamResult = new TeamEvalResult(input1);
-		TeamData teamData = createTeamData(input1);
-		invokePopulateTeamResult(teamData, teamResult);
-		//check if unbiased values are populated correctly
-		verifyUnbiased(new int[]{101,106}, teamData.students.get(0).result.unbiased);
-		verifyUnbiased(new int[]{105, 95}, teamData.students.get(1).result.unbiased);
-		verifyUnbiased(new int[]{96,NA}, teamData.students.get(2).result.unbiased);
+		// tested in testCalculateTeamResult()
 	}
 
 	@Test
@@ -2722,11 +2698,6 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(null, logic.getTeamProfile(profile.course, profile.team));
 	}
 	
-	private void verifyUnbiased(int[] expectedUnbiased, int[] actualUnbiased) {
-		assertEquals(Arrays.toString(expectedUnbiased),
-				Arrays.toString(actualUnbiased));
-	}
-
 	public static void verifyAbsenceOfTfsLogsForStudent(String courseId,
 			String studentEmail) throws EntityDoesNotExistException {
 		List<StudentActionData> teamFormingLogs = logic
