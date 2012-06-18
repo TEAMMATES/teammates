@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.mail.internet.MimeMessage;
+
 import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
@@ -191,6 +193,16 @@ public class BackDoorLogic extends Logic{
 				teamProfileJson, TeamProfileData.class);
 		TeamForming.inst().editTeamProfile(teamProfile.course, "",
 				originalTeamName, teamProfile.team, teamProfile.profile);
+	}
+	
+	public List<MimeMessage> activateReadyEvaluations(){
+		//TODO:
+		//Evaluations.getReadyEvaluations();
+		//for each eval
+		//  studentList = getStudentList
+		//  emailList = Emails.generateAlertEmails(eval,studentList)
+		//  Emails.sendEmails(emailList)
+		return null;
 	}
 
 
