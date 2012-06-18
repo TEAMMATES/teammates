@@ -12,7 +12,7 @@ public class CommonTest extends BaseTestCase {
 	@BeforeClass
 	public static void setUp() throws Exception {
 		printTestClassHeader();
-		turnLogginUp(Common.class);
+		turnLoggingUp(Common.class);
 	}
 
 	@Test

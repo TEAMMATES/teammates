@@ -3,7 +3,6 @@ package teammates.testing.testcases;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -26,8 +25,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import teammates.BackDoorLogic;
-import teammates.BackDoorServlet;
 import teammates.Datastore;
 import teammates.TeamEvalResult;
 import teammates.api.*;
@@ -35,12 +32,9 @@ import teammates.datatransfer.*;
 import teammates.datatransfer.EvaluationData.EvalStatus;
 import teammates.datatransfer.StudentData.UpdateStatus;
 import teammates.persistent.Student;
-import teammates.testing.lib.BackDoor;
 
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
-import com.google.appengine.api.taskqueue.dev.LocalTaskQueue;
-import com.google.appengine.api.taskqueue.dev.QueueStateInfo;
 import com.google.appengine.api.taskqueue.dev.QueueStateInfo.TaskStateInfo;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
@@ -55,20 +49,8 @@ public class LogicTest extends BaseTestCase {
 	private final static Logic logic = new Logic();
 	private static Gson gson = Common.getTeammatesGson();
 	static String jsonString;
-	static {
-		try {
-			jsonString = Common.readFile(Common.TEST_DATA_FOLDER
-					+ "/typicalDataBundle.json");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	private static DataBundle dataBundle;
 
-	private static String queueXmlFilePath = System.getProperty("user.dir")
-			+ File.separator + "src" + File.separator + "main" + File.separator
-			+ "webapp" + File.separator + "WEB-INF" + File.separator
-			+ "queue.xml";
+	private static DataBundle dataBundle = getTypicalDataBundle();
 
 	@BeforeClass
 	public static void classSetUp() throws Exception {
@@ -80,41 +62,17 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	@Before
-	public void caseSetUp() throws ServletException, IOException {
-		/*
-		 * We have to explicitly set the path of queue.xml because the test
-		 * environment cannot find it. Apparently, this is a bug in the test
-		 * environment (as mentioned in
-		 * http://turbomanage.wordpress.com/2010/03/
-		 * 03/a-recipe-for-unit-testing-appengine-task-queues/ The bug might get
-		 * fixed in future SDKs.
-		 */
+	public void caseSetUp() throws ServletException {
 		LocalTaskQueueTestConfig ltqtc = new LocalTaskQueueTestConfig();
-		ltqtc.setQueueXmlPath(queueXmlFilePath);
-		dataBundle = gson.fromJson(jsonString, DataBundle.class);
+		setEmailQueuePath(ltqtc);
+		dataBundle = getTypicalDataBundle();
 		LocalUserServiceTestConfig localUserServiceTestConfig = new LocalUserServiceTestConfig();
 		helper = new LocalServiceTestHelper(
 				new LocalDatastoreServiceTestConfig(),
 				new LocalMailServiceTestConfig(), localUserServiceTestConfig,
 				ltqtc);
-
-		/**
-		 * LocalServiceTestHelper is supposed to run in the same timezone as Dev
-		 * server and production server i.e. (i.e. UTC timezone), as stated in
-		 * https
-		 * ://developers.google.com/appengine/docs/java/tools/localunittesting
-		 * /javadoc/com/google/appengine/tools/development/testing/
-		 * LocalServiceTestHelper#setTimeZone%28java.util.TimeZone%29
-		 * 
-		 * But it seems Dev server does not run on UTC timezone, but it runs on
-		 * "GMT+8:00" (Possibly, a bug). Therefore, I'm changing timeZone of
-		 * LocalServiceTestHelper to match the Dev server. But note that tests
-		 * that run on Dev server might fail on Production server due to this
-		 * problem. We need to find a fix.
-		 */
-		helper.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+		setHelperTimeZone(helper);
 		helper.setUp();
-
 	}
 
 	@SuppressWarnings("unused")
@@ -138,7 +96,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetLoggedInUser() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 		CoordData coord = dataBundle.coords.get("typicalCoord1");
 		// also make this user a student
 		StudentData coordAsStudent = new StudentData(
@@ -269,7 +227,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetCourseListForCoord() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		// coord with 2 courses
 		CoordData coord = dataBundle.coords.get("typicalCoord1");
@@ -301,7 +259,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetCourseDetailsListForCoord() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		HashMap<String, CourseData> courseListForCoord = logic
 				.getCourseDetailsListForCoord("idOfTypicalCoord1");
@@ -360,7 +318,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetEvalListForCoord() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		// coord with 3 Evals
 		CoordData coord1 = dataBundle.coords.get("typicalCoord1");
@@ -399,7 +357,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testTfsListForCoord() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		// coord with 2 Tfs
 		verifyTfsListForCoord(dataBundle.coords.get("typicalCoord2").id, 2);
@@ -491,7 +449,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetCourseDetails() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		______TS("typical case");
 
@@ -536,7 +494,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testDeleteCourse() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		CourseData course1OfCoord = dataBundle.courses.get("course1OfCoord1");
 
@@ -574,7 +532,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetStudentListForCourse() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		// course with multiple students
 		CourseData course1OfCoord1 = dataBundle.courses.get("course1OfCoord1");
@@ -604,7 +562,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testEnrollStudents() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		String coordId = "coordForEnrollTesting";
 		logic.createCoord(coordId, "Coord for Enroll Testing",
@@ -700,7 +658,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testSendRegistrationInviteForCourse() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 		CourseData course1 = dataBundle.courses.get("course1OfCoord1");
 
 		// send registration key to a class in which all are registered
@@ -737,7 +695,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetTeamsForCourse() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		// testing for typical course
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
@@ -764,7 +722,7 @@ public class LogicTest extends BaseTestCase {
 		assertEquals("s2@e", courseAsTeams.loners.get(1).email);
 
 		// try again without the loners
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 		courseAsTeams = logic.getTeamsForCourse(course.id);
 		assertEquals(4, courseAsTeams.teams.get(0).students.size());
 		assertEquals(0, courseAsTeams.loners.size());
@@ -826,7 +784,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetStudentWithId() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		______TS("student in one course");
 		StudentData studentInOneCourse = dataBundle.students
@@ -886,7 +844,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testEditStudent() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		______TS("typical edit");
 		StudentData student1InCourse1 = dataBundle.students
@@ -933,7 +891,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testDeleteStudent() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		______TS("typical delete");
 		// this is the student to be deleted
@@ -997,7 +955,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testEnrollStudent() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		String coordId = "coordForEnrollTesting";
 		logic.deleteCoord(coordId);
@@ -1057,7 +1015,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testSendRegistrationInviteToStudent() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		______TS("send to existing student");
 		StudentData student1 = dataBundle.students.get("student1InCourse1");
@@ -1110,7 +1068,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testJoinCourse() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		______TS("register an unregistered student");
 
@@ -1205,7 +1163,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetCourseListForStudent() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		______TS("student having two courses");
 		StudentData studentInTwoCourses = dataBundle.students
@@ -1253,7 +1211,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetCourseDetailsListForStudent() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		______TS("student having multiple evaluations in multiple courses");
 
@@ -1359,7 +1317,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testHasStudentSubmittedEvaluation() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		EvaluationData evaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
@@ -1424,7 +1382,7 @@ public class LogicTest extends BaseTestCase {
 	public void testGetStudentInCourseForGoogleId() throws Exception {
 
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 		StudentData studentInTwoCoursesInCourse1 = dataBundle.students
 				.get("student2InCourse1");
 
@@ -1448,7 +1406,7 @@ public class LogicTest extends BaseTestCase {
 	public void testGetEvauationResultForStudent() throws Exception {
 
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		______TS("typical case");
 
@@ -1611,7 +1569,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testCreateEvaluation() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		______TS("typical case");
 
@@ -1658,7 +1616,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetEvaluation() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		______TS("typical case");
 
@@ -1683,7 +1641,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testEditEvaluation() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		______TS("typical case");
 
@@ -1722,17 +1680,10 @@ public class LogicTest extends BaseTestCase {
 
 	}
 
-	private void verifyNullParameterDetectedCorrectly(
-			InvalidParametersException e, String nameOfNullParameter) {
-		assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
-		BaseTestCase.assertContains(nameOfNullParameter, e.getMessage()
-				.toLowerCase());
-	}
-
 	@Test
 	public void testDeleteEvaluation() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		______TS("typical delete");
 		EvaluationData eval = dataBundle.evaluations
@@ -1764,7 +1715,7 @@ public class LogicTest extends BaseTestCase {
 	public void testPublishAndUnpublishEvaluation() throws Exception {
 
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 		EvaluationData eval1 = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
 		assertEquals(false,
@@ -1781,7 +1732,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetEvaluationResult() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		// reconfigure points of an existing evaluation in the datastore
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
@@ -1948,57 +1899,6 @@ public class LogicTest extends BaseTestCase {
 
 	}
 
-	private void createNewEvaluationWithSubmissions(String courseId,
-			String evaluationName, int[][] input)
-			throws EntityAlreadyExistsException, InvalidParametersException,
-			EntityDoesNotExistException {
-		// create course
-		logic.createCourse("coordForTestingER", courseId,
-				"Course For Testing Evaluation Results");
-		// create students
-		int teamSize = input.length;
-		String teamName = "team1";
-		for (int i = 0; i < teamSize; i++) {
-			StudentData student = new StudentData();
-			int studentNumber = i + 1;
-			student.email = "s" + studentNumber + "@gmail.com";
-			student.name = "Student " + studentNumber;
-			student.team = teamName;
-			student.course = courseId;
-			logic.createStudent(student);
-		}
-		// create evaluation
-		EvaluationData e = new EvaluationData();
-		e.course = courseId;
-		e.name = evaluationName;
-		e.startTime = Common.getDateOffsetToCurrentTime(-1);
-		e.endTime = Common.getDateOffsetToCurrentTime(1);
-		e.gracePeriod = 0;
-		e.instructions = "instructions for " + e.name;
-		logic.createEvaluation(e);
-		// create submissions
-		ArrayList<SubmissionData> submissions = new ArrayList<SubmissionData>();
-		for (int i = 0; i < teamSize; i++) {
-			for (int j = 0; j < teamSize; j++) {
-				SubmissionData sub = new SubmissionData();
-				sub.course = courseId;
-				sub.evaluation = e.name;
-				sub.team = teamName;
-				int reviewerNumber = i + 1;
-				sub.reviewer = "s" + reviewerNumber + "@gmail.com";
-				int revieweeNumber = j + 1;
-				sub.reviewee = "s" + revieweeNumber + "@gmail.com";
-				sub.points = input[i][j];
-				sub.justification = new Text("jus[s" + reviewerNumber + "->s"
-						+ revieweeNumber + "]");
-				sub.p2pFeedback = new Text("p2p[s" + reviewerNumber + "->s"
-						+ revieweeNumber + "]");
-				submissions.add(sub);
-			}
-		}
-		logic.editSubmissions(submissions);
-	}
-
 	@Test
 	public void testCalculateTeamResult() throws Exception {
 		printTestCaseHeader();
@@ -2149,6 +2049,7 @@ public class LogicTest extends BaseTestCase {
 			 {  90, 110, NSU },
 			 { 100,  90, 110 }};
 		
+		//this is here for reference only
 		int[][] expectedTeamResltValues = 
 			{{ 103, 103,  94 }, 
 			 {  90, 110, NSU },
@@ -2173,47 +2074,10 @@ public class LogicTest extends BaseTestCase {
 		verifyUnbiased(new int[]{96,NA}, teamData.students.get(2).result.unbiased);
 	}
 
-	private TeamData createTeamData(int[][] submissionValues) {
-		int teamSize = submissionValues.length;
-		TeamData team = new TeamData();
-		String courseId = "test-course";
-		String evaluationName = "test evaluation";
-		for (int i = 0; i < teamSize; i++) {
-			int studentIndex = i+1;
-			StudentData s = new StudentData();
-			s.email = "s"+studentIndex+"@com";
-			s.name = "Student "+studentIndex;
-			s.course = courseId;
-			s.result = new EvalResultData();
-			team.students.add(s);
-			for (int j = 0; j < teamSize; j++) {
-				int peerIndex = j+1;
-				String peerEmail = "s"+peerIndex+"@com";
-				
-				SubmissionData outgoing = new SubmissionData();
-				outgoing.course = courseId;
-				outgoing.evaluation = evaluationName;
-				outgoing.points = submissionValues[i][j];
-				outgoing.reviewer = s.email;
-				outgoing.reviewer = peerEmail;
-				s.result.outgoing.add(outgoing);
-				
-				SubmissionData incoming = new SubmissionData();
-				incoming.course = courseId;
-				incoming.evaluation = evaluationName;
-				incoming.points = submissionValues[j][i];
-				incoming.reviewer = peerEmail;
-				incoming.reviewer = s.email;
-				s.result.incoming.add(incoming);
-			}
-		}
-		return team;
-	}
-
 	@Test
 	public void testGetSubmissoinsForEvaluation() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		______TS("typical case");
 
@@ -2267,7 +2131,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetSubmissionsFromStudent() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		______TS("typical case");
 
@@ -2359,7 +2223,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testSendReminderForEvaluation_1() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		______TS("empty class");
 
@@ -2396,7 +2260,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testSendReminderForEvaluation_2() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		______TS("some have submitted fully");
 
@@ -2452,7 +2316,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetSubmission() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		______TS("typical case");
 		SubmissionData expected = dataBundle.submissions
@@ -2489,7 +2353,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testEditSubmissions() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		ArrayList<SubmissionData> submissionContainer = new ArrayList<SubmissionData>();
 
@@ -2551,7 +2415,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testEditTfs() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		TfsData tfs1 = dataBundle.teamFormingSessions.get("tfsInCourse1");
 		tfs1.gracePeriod = tfs1.gracePeriod + 1;
@@ -2573,7 +2437,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testRenameTeam() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 		StudentData student1InCourse1 = dataBundle.students
 				.get("student1InCourse1");
 		String originalTeamName = student1InCourse1.team;
@@ -2581,7 +2445,7 @@ public class LogicTest extends BaseTestCase {
 		String courseID = student1InCourse1.course;
 		verifyTeamNameChange(courseID, originalTeamName, newTeamName);
 
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 		originalTeamName = student1InCourse1.team;
 		courseID = student1InCourse1.course;
 		verifyTeamNameChange(courseID, "nonExisentTeam", "newTeamName");
@@ -2607,7 +2471,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testEditTeamProfile() throws Exception {
 		printTestCaseHeader();
-		refreshDataInDatastore();
+		restoreTypicalDataInDatastore();
 
 		TeamProfileData teamProfile1 = dataBundle.teamProfiles
 				.get("profileOfTeam1.1");
@@ -2652,6 +2516,101 @@ public class LogicTest extends BaseTestCase {
 	private void ____helper_methods_________________________________________() {
 	}
 
+	private void verifyNullParameterDetectedCorrectly(
+			InvalidParametersException e, String nameOfNullParameter) {
+		assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
+		BaseTestCase.assertContains(nameOfNullParameter, e.getMessage()
+				.toLowerCase());
+	}
+
+	private void createNewEvaluationWithSubmissions(String courseId,
+			String evaluationName, int[][] input)
+			throws EntityAlreadyExistsException, InvalidParametersException,
+			EntityDoesNotExistException {
+		// create course
+		logic.createCourse("coordForTestingER", courseId,
+				"Course For Testing Evaluation Results");
+		// create students
+		int teamSize = input.length;
+		String teamName = "team1";
+		for (int i = 0; i < teamSize; i++) {
+			StudentData student = new StudentData();
+			int studentNumber = i + 1;
+			student.email = "s" + studentNumber + "@gmail.com";
+			student.name = "Student " + studentNumber;
+			student.team = teamName;
+			student.course = courseId;
+			logic.createStudent(student);
+		}
+		// create evaluation
+		EvaluationData e = new EvaluationData();
+		e.course = courseId;
+		e.name = evaluationName;
+		e.startTime = Common.getDateOffsetToCurrentTime(-1);
+		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.gracePeriod = 0;
+		e.instructions = "instructions for " + e.name;
+		logic.createEvaluation(e);
+		// create submissions
+		ArrayList<SubmissionData> submissions = new ArrayList<SubmissionData>();
+		for (int i = 0; i < teamSize; i++) {
+			for (int j = 0; j < teamSize; j++) {
+				SubmissionData sub = new SubmissionData();
+				sub.course = courseId;
+				sub.evaluation = e.name;
+				sub.team = teamName;
+				int reviewerNumber = i + 1;
+				sub.reviewer = "s" + reviewerNumber + "@gmail.com";
+				int revieweeNumber = j + 1;
+				sub.reviewee = "s" + revieweeNumber + "@gmail.com";
+				sub.points = input[i][j];
+				sub.justification = new Text("jus[s" + reviewerNumber + "->s"
+						+ revieweeNumber + "]");
+				sub.p2pFeedback = new Text("p2p[s" + reviewerNumber + "->s"
+						+ revieweeNumber + "]");
+				submissions.add(sub);
+			}
+		}
+		logic.editSubmissions(submissions);
+	}
+
+	private TeamData createTeamData(int[][] submissionValues) {
+		int teamSize = submissionValues.length;
+		TeamData team = new TeamData();
+		String courseId = "test-course";
+		String evaluationName = "test evaluation";
+		for (int i = 0; i < teamSize; i++) {
+			int studentIndex = i+1;
+			StudentData s = new StudentData();
+			s.email = "s"+studentIndex+"@com";
+			s.name = "Student "+studentIndex;
+			s.course = courseId;
+			s.result = new EvalResultData();
+			team.students.add(s);
+			for (int j = 0; j < teamSize; j++) {
+				int peerIndex = j+1;
+				String peerEmail = "s"+peerIndex+"@com";
+				
+				SubmissionData outgoing = new SubmissionData();
+				outgoing.course = courseId;
+				outgoing.evaluation = evaluationName;
+				outgoing.points = submissionValues[i][j];
+				outgoing.reviewer = s.email;
+				outgoing.reviewer = peerEmail;
+				s.result.outgoing.add(outgoing);
+				
+				SubmissionData incoming = new SubmissionData();
+				incoming.course = courseId;
+				incoming.evaluation = evaluationName;
+				incoming.points = submissionValues[j][i];
+				incoming.reviewer = peerEmail;
+				incoming.reviewer = s.email;
+				s.result.incoming.add(incoming);
+			}
+		}
+		return team;
+	}
+
 	private void verifyEvaluationInfoExistsInList(EvaluationData evaluation,
 			ArrayList<EvaluationData> evalInfoList) {
 
@@ -2674,10 +2633,7 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	private void verifyRegistrationEmailToStudent(StudentData student) {
-		LocalTaskQueue ltq = LocalTaskQueueTestConfig.getLocalTaskQueue();
-		QueueStateInfo qsi = ltq.getQueueStateInfo().get("email-queue");
-
-		List<TaskStateInfo> taskInfoList = qsi.getTaskInfo();
+		List<TaskStateInfo> taskInfoList = getTasksInQueue("email-queue");
 		for (TaskStateInfo tsi : taskInfoList) {
 			String emailTaskBody = tsi.getBody();
 			if (emailTaskBody.contains("email="
@@ -2687,12 +2643,6 @@ public class LogicTest extends BaseTestCase {
 			}
 		}
 		fail();
-	}
-
-	private int getNumberOfEmailTasksInQueue() {
-		LocalTaskQueue ltq = LocalTaskQueueTestConfig.getLocalTaskQueue();
-		QueueStateInfo qsi = ltq.getQueueStateInfo().get("email-queue");
-		return qsi.getTaskInfo().size();
 	}
 
 	private void verifyTeamNameChange(String courseID, String originalTeamName,
@@ -2871,27 +2821,6 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(expected.p2pEnabled, actual.p2pEnabled);
 		assertEquals(expected.published, actual.published);
 		assertEquals(expected.activated, actual.activated);
-	}
-
-	public static void refreshDataInDatastore() throws Exception {
-		setGeneralLoggingLevel(Level.SEVERE);
-		// also reduce logging verbosity of these classes as we are going to
-		// use them intensively here.
-		setLogLevelOfClass(BackDoorServlet.class, Level.SEVERE);
-		setLogLevelOfClass(BackDoor.class, Level.SEVERE);
-		setLogLevelOfClass(Logic.class, Level.SEVERE);
-		dataBundle = gson.fromJson(jsonString, DataBundle.class);
-		HashMap<String, CoordData> coords = dataBundle.coords;
-		for (CoordData coord : coords.values()) {
-			logic.deleteCoord(coord.id);
-		}
-		DataBundle data = Common.getTeammatesGson().fromJson(jsonString,
-				DataBundle.class);
-		new BackDoorLogic().persistNewDataBundle(data);
-		setGeneralLoggingLevel(Level.WARNING);
-		setLogLevelOfClass(BackDoorServlet.class, Level.FINE);
-		setLogLevelOfClass(BackDoor.class, Level.FINE);
-		setLogLevelOfClass(Logic.class, Level.FINE);
 	}
 
 	public static boolean isLogEntryInList(

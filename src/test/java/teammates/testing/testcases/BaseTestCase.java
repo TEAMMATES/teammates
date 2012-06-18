@@ -2,17 +2,39 @@ package teammates.testing.testcases;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TimeZone;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
+import com.google.appengine.api.taskqueue.dev.LocalTaskQueue;
+import com.google.appengine.api.taskqueue.dev.QueueStateInfo;
+import com.google.appengine.api.taskqueue.dev.QueueStateInfo.TaskStateInfo;
+import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
+
+import teammates.BackDoorLogic;
+import teammates.BackDoorServlet;
 import teammates.api.Common;
+import teammates.api.Logic;
+import teammates.datatransfer.CoordData;
+import teammates.datatransfer.DataBundle;
+import teammates.testing.lib.BackDoor;
 
 public class BaseTestCase {
+
+	protected static String queueXmlFilePath = System.getProperty("user.dir")
+				+ File.separator + "src" + File.separator + "main" + File.separator
+				+ "webapp" + File.separator + "WEB-INF" + File.separator
+				+ "queue.xml";
 
 	public static void printTestCaseHeader(String testCaseName) {
 		System.out.println("[TestCase]---:" + testCaseName);
@@ -77,7 +99,7 @@ public class BaseTestCase {
 		java.util.logging.Logger.getLogger("").setLevel(level);
 	}
 
-	protected static void turnLogginUp(Class<?> classBeingTested)
+	protected static void turnLoggingUp(Class<?> classBeingTested)
 			throws NoSuchFieldException, IllegalAccessException {
 		setGeneralLoggingLevel(Level.WARNING);
 		setLogLevelOfClass(classBeingTested, Level.FINE);
@@ -164,6 +186,83 @@ public class BaseTestCase {
 		if(!processedActual.matches("(?s)(?m).*"+processedRegex+".*")){
 			assertEquals(message, regexExpected, stringActual);
 		}
+	}
+
+	protected static DataBundle getTypicalDataBundle() {
+		String jsonString;
+		try {
+			jsonString = Common.readFile(Common.TEST_DATA_FOLDER
+					+ "/typicalDataBundle.json");
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+		return Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+	}
+
+	public static void restoreTypicalDataInDatastore() throws Exception {
+		setGeneralLoggingLevel(Level.SEVERE);
+		// also reduce logging verbosity of these classes as we are going to
+		// use them intensively here.
+		setLogLevelOfClass(BackDoorServlet.class, Level.SEVERE);
+		setLogLevelOfClass(BackDoor.class, Level.SEVERE);
+		setLogLevelOfClass(Logic.class, Level.SEVERE);
+		DataBundle dataBundle = getTypicalDataBundle();
+		HashMap<String, CoordData> coords = dataBundle.coords;
+		BackDoorLogic backDoorLogic = new BackDoorLogic();
+		for (CoordData coord : coords.values()) {
+			backDoorLogic.deleteCoord(coord.id);
+		}
+		backDoorLogic.persistNewDataBundle(dataBundle);
+		setGeneralLoggingLevel(Level.WARNING);
+		setLogLevelOfClass(BackDoorServlet.class, Level.FINE);
+		setLogLevelOfClass(BackDoor.class, Level.FINE);
+		setLogLevelOfClass(Logic.class, Level.FINE);
+	}
+
+	//TODO: check if this bug is fixed in new SDK
+	protected void setEmailQueuePath(LocalTaskQueueTestConfig ltqtc) {
+		/*
+		 * We have to explicitly set the path of queue.xml because the test
+		 * environment cannot find it. Apparently, this is a bug in the test
+		 * environment (as mentioned in
+		 * http://turbomanage.wordpress.com/2010/03/
+		 * 03/a-recipe-for-unit-testing-appengine-task-queues/ The bug might get
+		 * fixed in future SDKs.
+		 */
+		ltqtc.setQueueXmlPath(queueXmlFilePath);
+	}
+
+	//TODO: check if this bug is fixed in new SDK
+	protected void setHelperTimeZone(LocalServiceTestHelper localTestHelper) {
+		/**
+		 * LocalServiceTestHelper is supposed to run in the same timezone as Dev
+		 * server and production server i.e. (i.e. UTC timezone), as stated in
+		 * https
+		 * ://developers.google.com/appengine/docs/java/tools/localunittesting
+		 * /javadoc/com/google/appengine/tools/development/testing/
+		 * LocalServiceTestHelper#setTimeZone%28java.util.TimeZone%29
+		 * 
+		 * But it seems Dev server does not run on UTC timezone, but it runs on
+		 * "GMT+8:00" (Possibly, a bug). Therefore, I'm changing timeZone of
+		 * LocalServiceTestHelper to match the Dev server. But note that tests
+		 * that run on Dev server might fail on Production server due to this
+		 * problem. We need to find a fix.
+		 */
+		localTestHelper.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+	}
+
+	protected int getNumberOfEmailTasksInQueue() {
+		LocalTaskQueue ltq = LocalTaskQueueTestConfig.getLocalTaskQueue();
+		QueueStateInfo qsi = ltq.getQueueStateInfo().get("email-queue");
+		return qsi.getTaskInfo().size();
+	}
+
+	protected List<TaskStateInfo> getTasksInQueue(String queueName) {
+		LocalTaskQueue ltq = LocalTaskQueueTestConfig.getLocalTaskQueue();
+		QueueStateInfo qsi = ltq.getQueueStateInfo().get(queueName);
+	
+		List<TaskStateInfo> taskInfoList = qsi.getTaskInfo();
+		return taskInfoList;
 	}
 
 }

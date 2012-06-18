@@ -16,7 +16,7 @@ public class StudentTest extends BaseTestCase {
 	@BeforeClass
 	public static void setUp() throws Exception {
 		printTestClassHeader();
-		turnLogginUp(Student.class);
+		turnLoggingUp(Student.class);
 	}
 
 	@Test

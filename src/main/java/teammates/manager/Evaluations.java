@@ -56,7 +56,7 @@ public class Evaluations {
 	 * 
 	 * @return list of evaluations that were activated in the function call
 	 */
-	public List<Evaluation> activateEvaluations() {
+	public List<Evaluation> setEvaluationsAsActivated() {
 		List<Evaluation> evaluationList = getAllEvaluations();
 		List<Evaluation> activatedEvaluationList = new ArrayList<Evaluation>();
 
@@ -85,6 +85,8 @@ public class Evaluations {
 		return activatedEvaluationList;
 
 	}
+	
+
 
 	/**
 	 * Adds an evaluation to the specified course.
@@ -1233,5 +1235,7 @@ public class Evaluations {
 			throw new EntityDoesNotExistException("The evaluation "+evaluationName+" does not exist in course "+courseId);
 		}
 	}
+
+
 
 }

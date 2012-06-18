@@ -21,40 +21,42 @@ public class EvaluationActivationServlet extends HttpServlet {
 	
 	private static Logger log = Common.getLogger();
 	
+	public void doPost(HttpServletRequest req, HttpServletResponse resp) {
+		doGet(req, resp);
+	}	
+	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
 		activateReadyEvaluations();
 	}
 
-	private void activateReadyEvaluations() {
+	public void activateReadyEvaluations() {
 		Evaluations evaluations = Evaluations.inst();
 
-		List<Evaluation> evaluationList = evaluations.activateEvaluations();
+		List<Evaluation> evaluationList = evaluations.setEvaluationsAsActivated();
 		List<Student> studentList;
 
-		Course course;
-
-		Accounts accounts = Accounts.inst();
-
 		for (Evaluation e : evaluationList) {
-			// Send registration keys to unregistered students
-			Courses courses = Courses.inst();
-			studentList = courses.getUnregisteredStudentList(e.getCourseID());
+			//TODO: this should be absorbed in to the evaluation opening email
+			remindUnregisteredStudents(e.getCourseID());
 
-			course = courses.getCourse(e.getCourseID());
-			Coordinator coord = accounts.getCoordinator(course
-					.getCoordinatorID());
-			courses.sendRegistrationKeys(studentList, course.getID(),
-					course.getName(), coord.getName(), coord.getEmail());
-
-			// Send e-mails to inform the students that an evaluation is opened
-			studentList = courses.getStudentList(e.getCourseID());
+			log.info("sending evalaution opening email to students in "+e.getCourseID());
+			studentList = Courses.inst().getStudentList(e.getCourseID());
 
 			evaluations.informStudentsOfEvaluationOpening(studentList,
 					e.getCourseID(), e.getName());
 		}
 	}
 
-	public void doPost(HttpServletRequest req, HttpServletResponse resp) {
-		doGet(req, resp);
+	private void remindUnregisteredStudents(String courseId) {
+		List<Student> studentList;
+		Courses courses = Courses.inst();
+		Course course = courses.getCourse(courseId);
+		studentList = courses.getUnregisteredStudentList(courseId);
+		Coordinator coord = Accounts.inst().getCoordinator(course
+				.getCoordinatorID());
+		courses.sendRegistrationKeys(studentList, course.getID(),
+				course.getName(), coord.getName(), coord.getEmail());
 	}
+
+
 }

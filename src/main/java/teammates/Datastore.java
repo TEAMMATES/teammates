@@ -1,9 +1,13 @@
 package teammates;
 
+import java.util.logging.Logger;
+
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
+
+import teammates.api.Common;
 
 /**
  * New Datastore class
@@ -16,13 +20,15 @@ import javax.jdo.Transaction;
  */
 public class Datastore {
 	private static PersistenceManagerFactory PMF = null;
+	private static Logger log = Common.getLogger();
 	private static final ThreadLocal<PersistenceManager> PER_THREAD_PM = new ThreadLocal<PersistenceManager>();
 
 	public static void initialize() {
-		if (PMF != null) {
-			throw new IllegalStateException("initialize() already called");
+		if (PMF == null) {
+			PMF = JDOHelper.getPersistenceManagerFactory("transactions-optional");
+		}else{
+			log.warning("Trying to initialize Datastore again");
 		}
-		PMF = JDOHelper.getPersistenceManagerFactory("transactions-optional");
 	}
 
 	public static PersistenceManager getPersistenceManager() {
