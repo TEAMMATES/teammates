@@ -2057,21 +2057,30 @@ public class LogicTest extends BaseTestCase {
 		// note the pattern in numbers. due to the way we generate submissions,
 		// 110 means it is from s1 to s1 and
 		// should appear in the 1,1 location in the matrix.
-		int[][] expected = { { 110, 120, 130 }, { 210, 220, 230 },
+		//@formatter:off
+		int[][] expected = { 
+				{ 110, 120, 130 }, 
+				{ 210, 220, 230 },
 				{ 310, 320, 330 } };
 		assertEquals(TeamEvalResult.pointsToString(expected),
 				TeamEvalResult.pointsToString(teamResult.claimedToStudents));
 
+		
 		// expected result
-		// claimedToCoord [ 92, 100, 108]
-		// [ 95, 100, 105]
-		// [ 97, 100, 103]
+		// claimedToCoord 		[ 92, 100, 108]
+		//                		[ 95, 100, 105]
+		// 				  		[ 97, 100, 103]
 		// ===============
-		// perceivedToCoord [ 97, 99, 105]
+		// unbiased   			[ NA,  96, 104]
+		//                		[ 95,  NA, 105]
+		// 				  		[ 98, 102,  NA]
 		// ===============
-		// perceivedToStudents [116, 118, 126]
-		// [213, 217, 230]
-		// [309, 316, 335]
+		// perceivedToCoord 	[ 97, 99, 105]
+		// ===============
+		// perceivedToStudents 	[116, 118, 126]
+		// 						[213, 217, 230]
+		// 						[309, 316, 335]
+		//@formatter:on
 
 		int S1_POS = 0;
 		int S2_POS = 1;
@@ -2133,8 +2142,74 @@ public class LogicTest extends BaseTestCase {
 
 
 	@Test
-	public void testPopulateResults() {
-		// tested in testCalculateTeamResult()
+	public void testPopulateTeamResults() throws Exception {
+		// mostly tested in testCalculateTeamResult()
+		
+		// Below are some additional testing for unbiased values
+		int[][] input1 = 
+			{{ 103, 103,  94 }, 
+			 {  90, 110, NSU },
+			 { 100,  90, 110 }};
+		
+		int[][] expectedTeamResltValues = 
+			{{ 103, 103,  94 }, 
+			 {  90, 110, NSU },
+			 { 100,  90, 110 },
+			 
+			 {  NA, 105,  96 }, 
+			 { 101,  NA,  NA },
+			 { 106,  95,  NA },
+			 
+			 { 103,  100,  96 },
+			 
+			 { 103, 100,  96 }, 
+			 { 101,  99,  94 },
+			 { 103, 100,  96 }};
+		
+		TeamEvalResult teamResult = new TeamEvalResult(input1);
+		TeamData teamData = createTeamData(input1);
+		invokePopulateTeamResult(teamData, teamResult);
+		//check if unbiased values are populated correctly
+		verifyUnbiased(new int[]{101,106}, teamData.students.get(0).result.unbiased);
+		verifyUnbiased(new int[]{105, 95}, teamData.students.get(1).result.unbiased);
+		verifyUnbiased(new int[]{96,NA}, teamData.students.get(2).result.unbiased);
+	}
+
+	private TeamData createTeamData(int[][] submissionValues) {
+		int teamSize = submissionValues.length;
+		TeamData team = new TeamData();
+		String courseId = "test-course";
+		String evaluationName = "test evaluation";
+		for (int i = 0; i < teamSize; i++) {
+			int studentIndex = i+1;
+			StudentData s = new StudentData();
+			s.email = "s"+studentIndex+"@com";
+			s.name = "Student "+studentIndex;
+			s.course = courseId;
+			s.result = new EvalResultData();
+			team.students.add(s);
+			for (int j = 0; j < teamSize; j++) {
+				int peerIndex = j+1;
+				String peerEmail = "s"+peerIndex+"@com";
+				
+				SubmissionData outgoing = new SubmissionData();
+				outgoing.course = courseId;
+				outgoing.evaluation = evaluationName;
+				outgoing.points = submissionValues[i][j];
+				outgoing.reviewer = s.email;
+				outgoing.reviewer = peerEmail;
+				s.result.outgoing.add(outgoing);
+				
+				SubmissionData incoming = new SubmissionData();
+				incoming.course = courseId;
+				incoming.evaluation = evaluationName;
+				incoming.points = submissionValues[j][i];
+				incoming.reviewer = peerEmail;
+				incoming.reviewer = s.email;
+				s.result.incoming.add(incoming);
+			}
+		}
+		return team;
 	}
 
 	@Test

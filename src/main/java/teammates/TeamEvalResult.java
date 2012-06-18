@@ -410,16 +410,17 @@ public class TeamEvalResult {
 				+ pointsToString((claimedToCoord)).replace(Common.EOL,
 						Common.EOL + indentString + filler));
 		sb.append(divider);
+		sb.append("            unbiased:");
+		sb.append(indentString
+				+ pointsToString(unbiased).replace(Common.EOL,
+						Common.EOL + indentString + filler));
+		sb.append(divider);		
 		sb.append("  perceived to coord:");
 		sb.append(indentString
 				+ pointsToString(perceivedToCoord).replace(Common.EOL,
 						Common.EOL + indentString + filler));
 		sb.append(divider);
-		sb.append("            unbiased:");
-		sb.append(indentString
-				+ pointsToString(unbiased).replace(Common.EOL,
-						Common.EOL + indentString + filler));
-		sb.append(divider);
+
 		sb.append("perceived to student:");
 		sb.append(indentString
 				+ pointsToString((perceivedToStudents)).replace(Common.EOL,

@@ -516,7 +516,14 @@ public class TeamEvalResultTest extends BaseTestCase{
 				{ 90,  110,  NSU },
 				{ 100,  90, 110 }};
 			
-			showCalculationSteps(input3);
+		showCalculationSteps(input3);
+		
+		int[][] input4 = {
+				{ 110, 120, 130 }, 
+				{ 210, 220, 230 },
+				{ 310, 320, 330 }};
+			
+		showCalculationSteps(input4);
 		
 	}
 
