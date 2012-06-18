@@ -1,5 +1,15 @@
 {
   "coords": {
+    "teammates.demo.coord": {
+      "id": "teammates.demo.coord",
+      "name" : "Teammates Demo Coordinator",
+      "email" : "teammates.demo.coord@gmail.com"
+    },
+    "teammates.coord": {
+      "id": "teammates.coord",
+      "name" : "Coordinator",
+      "email" : "teammates.coord@gmail.com"
+    },
     "teammates.test": {
       "id": "teammates.test",
       "name" : "Coordinator",

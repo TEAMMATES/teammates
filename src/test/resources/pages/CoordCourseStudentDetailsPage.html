@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+	<link href="/favicon.png" rel="shortcut icon" />
+	<meta content="IE=8" http-equiv="X-UA-Compatible" />
+	<title>Teammates - Coordinator</title>
+	<link type="text/css" href="/stylesheets/main.css" rel="stylesheet" />
+	<link type="text/css" href="/stylesheets/evaluation.css" rel="stylesheet" />
+	
+	<script src="/js/jquery-1.6.2.min.js" language="JavaScript"></script>
+	<script src="/js/tooltip.js" language="JavaScript"></script>
+	<script src="/js/date.js" language="JavaScript"></script>
+	<script src="/js/CalendarPopup.js" language="JavaScript"></script>
+	<script src="/js/AnchorPosition.js" language="JavaScript"></script>
+	<script src="/js/helperNew.js" language="JavaScript"></script>
+	<script src="/js/constants.js" language="JavaScript"></script>
+	<script src="/js/commonNew.js" language="JavaScript"></script>
+	
+	<script src="/js/coordinatorNew.js" language="JavaScript"></script>
+
+</head>
+
+<body>
+	<div id="dhtmltooltip"></div>
+	<div id="frameTop">
+		
+
+
+		<div id="frameTopWrapper">
+			<div id="logo">
+				<img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="Teammates" />
+			</div>			
+			<div id="contentLinks">
+				<ul id="navbar">
+					<li><a href="/page/coordHome" class="t_home">Home</a></li>
+					<li><a href="/page/coordCourse" class="t_courses">Courses</a></li>
+					<li><a href="/page/coordTFS" class="t_teamForming">Team-Forming</a></li>
+					<li><a href="/page/coordEval" class="t_evaluations">Evaluations</a></li>
+					<li><a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/coordinatorhelp.html" class="t_help">Help</a></li>
+					<li><a href="/logout.jsp" class="t_logout">Logout</a>
+					 (teammates.test)</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div id="frameBody">
+		<div id="frameBodyWrapper">
+			<div id="topOfPage"></div>
+			<div id="headerOperation">
+				<h1>Student Details</h1>
+			</div>
+			
+
+
+	<div style="display: none" id="statusMessage"></div>
+
+			<div id="coordinatorStudentInformation">
+				<table class="detailform">
+					<tbody><tr>
+			 			<td class="fieldname">Student Name:</td>
+			 			<td>Alice Betsy</td>
+			 		</tr>
+				 	<tr>
+				 		<td class="fieldname">Team Name:</td>
+				 		<td>Team 1</td>
+				 	</tr>
+				 	<tr>
+				 		<td class="fieldname">E-mail Address:</td>
+				 		<td>alice.tmms@gmail.com</td>
+				 	</tr>
+				 	<tr>
+						<td class="fieldname">Google ID:</td>
+						<td>alice.tmms</td>
+					</tr>
+					<tr>
+						<td class="fieldname">Registration Key:</td>
+						<td id="t_courseKey">{*}</td>
+					</tr>
+				 	<tr>
+				 		<td class="fieldname">Comments:</td>
+				 		<td>This student's name is Alice Betsy</td>
+				 	</tr>
+				 </tbody></table>
+				 <br /><br />
+				 <input type="button" onclick="window.location.href='/page/coordCourseDetails?courseid=CCSDetailsUiT.CS2104'" value="Back" id="button_back" class="button" />
+			</div>
+		</div>
+	</div>
+
+	<div id="frameBottom">
+		
+<div id="contentFooter">
+[TEAMMATES Version 4.17.02] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
+
+<a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html" class="footer">Contact Us</a>
+</div>
+	</div>
+
+</body></html>

@@ -47,6 +47,11 @@ public class CoordEvalSubmissionViewServlet extends ActionServlet<CoordEvalSubmi
 		String studentEmail = req.getParameter(Common.PARAM_STUDENT_EMAIL);
 		helper.byReviewer = !("false".equalsIgnoreCase(req.getParameter(Common.PARAM_BY_REVIEWER))); // Default to true
 		
+		if(courseID==null || evalName==null || studentEmail==null){
+			helper.nextUrl = Common.PAGE_COORD_EVAL;
+			return;
+		}
+		
 		try {
 			helper.student = helper.server.getStudent(courseID, studentEmail);
 			helper.evaluation = helper.server.getEvaluation(courseID, evalName);

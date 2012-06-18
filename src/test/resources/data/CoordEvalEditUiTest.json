@@ -1,0 +1,20 @@
+{
+  "coordinator": {"id": "teammates.demo.coord", "name":"Teammates Demo Coordinator", "email":"teammates.demo.coord@gmail.com"},
+  
+  "course": {
+    "id": "CEvEditUiTest.CS1101",
+    "name": "Programming Methodology",
+    "coord": "teammates.demo.coord"
+  },
+  
+  "evaluation": {
+    "course": "CEvEditUiTest.CS1101",
+    "name": "Testing Evaluation",
+    "instructions": "This is the instructions, please follow",
+    "startTime": "2012-04-20 11:59 PM",
+	"endTime": "2015-04-20 11:59 PM",
+	"timeZone": 8.0,
+	"gracePeriod": 5,
+	"p2pEnabled": true
+  }
+}

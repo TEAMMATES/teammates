@@ -10,12 +10,21 @@ import org.junit.runners.Suite;
 		CoordCourseAddPageUiTest.class,
 		CoordCourseEnrollPageUiTest.class,
 		CoordCourseDetailsPageUiTest.class,
+		CoordCourseStudentDetailsPageUiTest.class,
+		
 		CoordEvalPageUiTest.class,
+		CoordEvalEditPageUiTest.class,
 		CoordEvalResultsPageUiTest.class,
+		CoordEvalSubmissionEditPageUiTest.class,
+		CoordEvalSubmissionViewPageUiTest.class,
+		
 		CoordHomePageUiTest.class,
 		
-		StudentHomePageUiTest.class,
-		StudentEvalEditPageUiTest.class
+		StudentCourseDetailsPageUiTest.class,
+		StudentEvalEditPageUiTest.class,
+		StudentEvalResultsPageUiTest.class,
+		
+		StudentHomePageUiTest.class
 })
 
 //@formatter:on

@@ -1,0 +1,218 @@
+{
+  "coords": {
+    "teammates.test": {
+      "id": "teammates.test",
+      "name" : "Coordinator",
+      "email" : "teammates.test@gmail.com"
+    }
+  },
+  
+  "courses": {
+    "SCDetailsUiT.CS2104": {
+      "coord": "teammates.test",
+      "id": "SCDetailsUiT.CS2104",
+      "name": "Programming Language Concepts"
+    },
+    "SCDetailsUiT.CS1101": {
+      "coord": "teammates.test",
+      "id": "SCDetailsUiT.CS1101",
+      "name": "Programming Methodology"
+    }
+  },
+  
+  "students": {
+    "alice.tmms@SCDetailsUiT.CS2104": {
+      "id": "alice.tmms",
+      "email": "alice.tmms@gmail.com",
+      "course": "SCDetailsUiT.CS2104",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy",
+      "profile": {"value": "My name is Alice Betsy, and I'm a student in SCDetailsUiT.CS2104"},
+      "team": "Team 1"
+    },
+    "benny.c.tmms@SCDetailsUiT.CS2104": {
+      "id": "benny.c.tmms",
+      "email": "benny.c.tmms@gmail.com",
+      "course": "SCDetailsUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "profile": {"value": "My name is Benny Charles, and I'm a student in SCDetailsUiT.CS2104"},
+      "team": "Team 1"
+    },
+    "charlie.d.tmms@SCDetailsUiT.CS2104": {
+      "id": "charlie.d.tmms",
+      "email": "charlie.d.tmms@gmail.com",
+      "course": "SCDetailsUiT.CS2104",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "profile": {"value": "My name is Charlie Davis, and I'm a student in SCDetailsUiT.CS2104"},
+      "team": "Team 2"
+    },
+    "danny.e.tmms@SCDetailsUiT.CS2104": {
+      "id": "danny.e.tmms",
+      "email": "danny.e.tmms@gmail.com",
+      "course": "SCDetailsUiT.CS2104",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "profile": {"value": "My name is Danny Engrid, and I'm a student in SCDetailsUiT.CS2104"},
+      "team": "Team 2"
+    },
+    "alice.tmms@SCDetailsUiT.CS1101": {
+      "id": "alice.tmms",
+      "email": "alice.tmms@gmail.com",
+      "course": "SCDetailsUiT.CS1101",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy",
+      "profile": {"value": "My name is Alice Betsy, and I'm a student in SCDetailsUiT.CS1101"},
+      "team": "Team 1"
+    },
+    "benny.c.tmms@SCDetailsUiT.CS1101": {
+      "id": "benny.c.tmms",
+      "email": "benny.c.tmms@gmail.com",
+      "course": "SCDetailsUiT.CS1101",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "profile": {"value": "My name is Benny Charles, and I'm a student in SCDetailsUiT.CS1101"},
+      "team": "Team 1"
+    },
+    "charlie.d.tmms@SCDetailsUiT.CS1101": {
+      "id": "charlie.d.tmms",
+      "email": "charlie.d.tmms@gmail.com",
+      "course": "SCDetailsUiT.CS1101",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "profile": {"value": "My name is Charlie Davis, and I'm a student in SCDetailsUiT.CS1101"},
+      "team": "Team 2"
+    },
+    "danny.e.tmms@SCDetailsUiT.CS1101": {
+      "id": "danny.e.tmms",
+      "email": "danny.e.tmms@gmail.com",
+      "course": "SCDetailsUiT.CS1101",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "profile": {"value": "My name is Danny Engrid, and I'm a student in SCDetailsUiT.CS1101"},
+      "team": "Team 2"
+    }
+  },
+  
+  "evaluations": {
+    "SCDetailsUiT.CS2104:First Eval": {
+      "course": "SCDetailsUiT.CS2104",
+      "name": "First Eval",
+      "instructions": "Please please fill it in",
+      "startTime": "2012-04-01 11:59 PM",
+      "endTime": "2015-04-01 11:59 PM",
+      "timeZone": 8.0,
+      "gracePeriod": 10,
+      "p2pEnabled": "true",
+      "published": false
+    },
+    "SCDetailsUiT.CS2104:Second Eval": {
+      "course": "SCDetailsUiT.CS2104",
+      "name": "Second Eval",
+      "instructions": "Please please fill in the second evaluation",
+      "startTime": "2012-04-01 11:59 PM",
+      "endTime": "2012-04-02 11:59 PM",
+      "timeZone": 8.0,
+      "gracePeriod": 10,
+      "p2pEnabled": "true",
+      "published": true
+    },
+    "SCDetailsUiT.CS1101:Third Eval": {
+      "course": "SCDetailsUiT.CS1101",
+      "name": "Third Eval",
+      "instructions": "Please please fill in the third evaluation",
+      "startTime": "2012-04-01 11:59 PM",
+      "endTime": "2012-04-02 11:59 PM",
+      "timeZone": 8.0,
+      "gracePeriod": 10,
+      "p2pEnabled": "true",
+      "published": false
+    },
+    "SCDetailsUiT.CS1101:Fourth Eval": {
+      "course": "SCDetailsUiT.CS1101",
+      "name": "Fourth Eval",
+      "instructions": "Please please fill in the fourth evaluation",
+      "startTime": "2015-04-01 11:59 PM",
+      "endTime": "2015-04-02 11:59 PM",
+      "timeZone": 8.0,
+      "gracePeriod": 10,
+      "p2pEnabled": "true",
+      "published": false
+    },
+    "SCDetailsUiT.CS1101:Fifth Eval": {
+      "course": "SCDetailsUiT.CS1101",
+      "name": "Fifth Eval",
+      "instructions": "Please please fill in the fifth evaluation",
+      "startTime": "2012-04-01 11:59 PM",
+      "endTime": "2015-04-01 11:59 PM",
+      "timeZone": 8.0,
+      "gracePeriod": 10,
+      "p2pEnabled": "true",
+      "published": false
+    }
+  },
+  
+  "submissions" : {
+    "submissionFromAliceToAliceFirstEval": {
+      "reviewer" : "alice.tmms@gmail.com",
+      "reviewee" : "alice.tmms@gmail.com",
+      "course" : "SCDetailsUiT.CS2104",
+      "evaluation" : "First Eval",
+      "points" : 120,
+      "justification" : {"value" : "This is a justification from alice.tmms@gmail.com to alice.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from alice.tmms@gmail.com to alice.tmms@gmail.com"},
+      "team" : "Team 1"
+    },
+    "submissionFromAliceToBennyFirstEval": {
+      "reviewer" : "alice.tmms@gmail.com",
+      "reviewee" : "benny.c.tmms@gmail.com",
+      "course" : "SCDetailsUiT.CS2104",
+      "evaluation" : "First Eval",
+      "points" : 90,
+      "justification" : {"value" : "This is a justification from alice.tmms@gmail.com to benny.c.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from alice.tmms@gmail.com to benny.c.tmms@gmail.com"},
+      "team" : "Team 1"
+    },
+    "submissionFromBennyToAliceFirstEval": {
+      "reviewer" : "benny.c.tmms@gmail.com",
+      "reviewee" : "alice.tmms@gmail.com",
+      "course" : "SCDetailsUiT.CS2104",
+      "evaluation" : "First Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from benny.c.tmms@gmail.com to alice.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from benny.c.tmms@gmail.com to alice.tmms@gmail.com"},
+      "team" : "Team 1"
+    },
+    "submissionFromBennyToAliceSecondEval": {
+      "reviewer" : "benny.c.tmms@gmail.com",
+      "reviewee" : "alice.tmms@gmail.com",
+      "course" : "SCDetailsUiT.CS2104",
+      "evaluation" : "Second Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from benny.c.tmms@gmail.com to alice.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from benny.c.tmms@gmail.com to alice.tmms@gmail.com"},
+      "team" : "Team 1"
+    },
+    "submissionFromAliceToBennyThirdEval": {
+      "reviewer" : "alice.tmms@gmail.com",
+      "reviewee" : "benny.c.tmms@gmail.com",
+      "course" : "SCDetailsUiT.CS1101",
+      "evaluation" : "Third Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from alice.tmms@gmail.com to benny.c.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from alice.tmms@gmail.com to benny.c.tmms@gmail.com"},
+      "team" : "Team 1"
+    },
+    "submissionFromBennyToAliceThirdEval": {
+      "reviewer" : "benny.c.tmms@gmail.com",
+      "reviewee" : "alice.tmms@gmail.com",
+      "course" : "SCDetailsUiT.CS1101",
+      "evaluation" : "Third Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from benny.c.tmms@gmail.com to alice.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from benny.c.tmms@gmail.com to alice.tmms@gmail.com"},
+      "team" : "Team 1"
+    }
+  }
+}

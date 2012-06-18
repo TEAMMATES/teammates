@@ -91,6 +91,10 @@ public class CoordEvalEditServlet extends ActionServlet<CoordEvalEditHelper> {
 			helper.submittedEval = newEval;
 		} else { 
 			helper.submittedEval = helper.server.getEvaluation(courseID, evalName);
+			if(helper.submittedEval==null){
+				helper.nextUrl = Common.PAGE_COORD_EVAL;
+				return;
+			}
 		}
 		
 		// Process action

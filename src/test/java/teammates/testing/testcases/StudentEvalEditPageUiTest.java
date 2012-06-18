@@ -46,7 +46,7 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 	}
 
 	@Test	
-	public void testStudentHomeCoursePageHTML() throws Exception{
+	public void testStudentEvalEditPageHTML() throws Exception{
 		// Submitted evaluation
 		String link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("SEvalEditUiT.CS2104:First Eval").course);
