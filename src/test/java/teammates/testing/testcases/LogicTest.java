@@ -55,9 +55,7 @@ public class LogicTest extends BaseTestCase {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		setGeneralLoggingLevel(Level.WARNING);
-		setLogLevelOfClass(Logic.class, Level.FINE);
-		setConsoleLoggingLevel(Level.FINE);
+		turnLoggingUp(Logic.class);
 		Datastore.initialize();
 	}
 
@@ -2885,8 +2883,7 @@ public class LogicTest extends BaseTestCase {
 	@AfterClass()
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();
-		setLogLevelOfClass(Logic.class, Level.WARNING);
-		setConsoleLoggingLevel(Level.WARNING);
+		turnLoggingDown(Logic.class);
 	}
 
 	@After

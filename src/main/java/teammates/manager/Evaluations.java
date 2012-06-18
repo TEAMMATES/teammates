@@ -985,8 +985,7 @@ public class Evaluations {
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HHmm");
 		for (Student s : studentList) {
 			// There is a limit of 100 tasks per batch addition to Queue in
-			// Google App
-			// Engine
+			// Google App Engine
 			if (taskOptionsList.size() == 100) {
 				queue.add(taskOptionsList);
 				taskOptionsList = new ArrayList<TaskOptions>();

@@ -6,7 +6,6 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
 
 import javax.servlet.ServletException;
 
@@ -14,20 +13,17 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import teammates.BackDoorLogic;
 import teammates.Datastore;
 import teammates.EvaluationActivationServlet;
 import teammates.api.Common;
-import teammates.api.Logic;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.DataBundle;
 import teammates.datatransfer.EvaluationData;
-import teammates.datatransfer.StudentData;
 import teammates.datatransfer.EvaluationData.EvalStatus;
-import teammates.manager.Evaluations;
+import teammates.datatransfer.StudentData;
 
 import com.google.appengine.api.taskqueue.dev.QueueStateInfo.TaskStateInfo;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
@@ -80,60 +76,67 @@ public class EvaluationActivationServletTest extends BaseTestCase {
 		assertEquals(0, getNumberOfEmailTasksInQueue());
 
 		______TS("typical case, two evaluations activated");
-		// reuse an existing evaluation to create a new one
+		// Reuse an existing evaluation to create a new one that is ready to 
+		//  activate. Put this evaluation in a negative time zone.
 		EvaluationData evaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
 		evaluation.activated = false;
 		String nameOfEvalInCourse1 = "new-evaluation-in-course-1";
 		evaluation.name = nameOfEvalInCourse1;
-		evaluation.startTime = Common.getDateOffsetToCurrentTime(0);
+		int oneHourInMilliSeconds = 60*60*1000;
+		evaluation.startTime = Common.getMilliSecondOffsetToCurrentTime(-1*oneHourInMilliSeconds);
+		evaluation.timeZone = -1.0; 
 		backdoor.createEvaluation(evaluation);
 
-		// verify that there are no unregistered students
+		// Verify that there are no unregistered students.
 		// TODO: this should be removed after absorbing registration reminder
 		// into the evaluation opening alert.
 		CourseData course1 = backdoor.getCourseDetails(evaluation.course);
 		assertEquals(0, course1.unregisteredTotal);
 
-		// create another evaluation in another course in similar fashion
+		// Create another evaluation in another course in similar fashion. 
+		// Put this evaluation in a positive time zone.
+		// This one too is ready to activate. 
 		evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord2");
 		evaluation.activated = false;
 		String nameOfEvalInCourse2 = "new-evaluation-in-course-2";
 		evaluation.name = nameOfEvalInCourse2;
-		evaluation.startTime = Common.getDateOffsetToCurrentTime(0);
+		evaluation.startTime = Common.getMilliSecondOffsetToCurrentTime(2*oneHourInMilliSeconds);
+		evaluation.timeZone = 2.0;
 		backdoor.createEvaluation(evaluation);
 
-		// verify that there are no unregistered students
+		// Verify that there are no unregistered students
 		// TODO: this should be removed after absorbing registration reminder
 		// into the evaluation opening alert.
 		CourseData course2 = backdoor.getCourseDetails(evaluation.course);
 		assertEquals(0, course2.unregisteredTotal);
 		
-		// create another evaluation not ready to be activated yet
+		// Create another evaluation not ready to be activated yet.
+		// Put this evaluation in same time zone.
 		evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord2");
 		evaluation.activated = false;
 		evaluation.name = "new evaluation - start time in future";
+		evaluation.timeZone = 0;
 		evaluation.startTime = Common.getMilliSecondOffsetToCurrentTime(1000);
 		backdoor.createEvaluation(evaluation);
 
-		//activate evaluations
+		//Activate evaluations.
 		activator.activateReadyEvaluations();
 
-		//check the number of emails created
+		//Check the number of emails created.
 		assertEquals(course1.studentsTotal + course2.studentsTotal,
 				getNumberOfEmailTasksInQueue());
 		
-		//ensure they are sent to the right students in course 1
+		//Ensure they are sent to the right students in course 1.
 		List<StudentData> studentsInCourse1 = backdoor.getStudentListForCourse(course1.id);
 		for(StudentData s: studentsInCourse1){
 			verifyActivationEmailToStudent(s, nameOfEvalInCourse1);
 		}
-		//ensure they are sent to the right students in course 2
+		//Ensure they are sent to the right students in course 2.
 		List<StudentData> studentsInCourse2 = backdoor.getStudentListForCourse(course2.id);
 		for(StudentData s: studentsInCourse2){
 			verifyActivationEmailToStudent(s, nameOfEvalInCourse2);
 		}
-
 	}
 
 	@AfterClass()

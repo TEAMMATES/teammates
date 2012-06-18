@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
+import teammates.api.EntityDoesNotExistException;
+import teammates.api.InvalidParametersException;
+import teammates.api.TeammatesException;
 import teammates.manager.Accounts;
 import teammates.manager.Courses;
 import teammates.manager.Evaluations;
@@ -48,15 +51,11 @@ public class EvaluationActivationServlet extends HttpServlet {
 	}
 
 	private void remindUnregisteredStudents(String courseId) {
-		List<Student> studentList;
-		Courses courses = Courses.inst();
-		Course course = courses.getCourse(courseId);
-		studentList = courses.getUnregisteredStudentList(courseId);
-		Coordinator coord = Accounts.inst().getCoordinator(course
-				.getCoordinatorID());
-		courses.sendRegistrationKeys(studentList, course.getID(),
-				course.getName(), coord.getName(), coord.getEmail());
+		try {
+			new teammates.api.Logic().sendRegistrationInviteForCourse(courseId);
+		} catch (InvalidParametersException e) {
+			log.severe("unexpected exception:"+TeammatesException.stackTraceToString(e));
+		}
 	}
-
 
 }
