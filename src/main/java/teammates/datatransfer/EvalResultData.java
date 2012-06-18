@@ -1,6 +1,7 @@
 package teammates.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.logging.Logger;
@@ -85,6 +86,7 @@ public class EvalResultData {
 		sb.append(indentString + "claimedToCoord:" + claimedToCoord + EOL);
 		sb.append(indentString + "perceivedToStudent:" + perceivedToStudent
 				+ EOL);
+		sb.append(indentString + "unbiased:" + Arrays.toString(unbiased) + EOL);
 		sb.append(indentString + "perceivedToCoord:" + perceivedToCoord + EOL);
 
 		sb.append(indentString + "outgoing:" + EOL);
@@ -102,7 +104,11 @@ public class EvalResultData {
 			sb.append(submission.toString(indent + 2) + EOL);
 		}
 		
-		return sb.toString().replace(Common.UNINITIALIZED_INT + ".0", " NA")
+		return replaceMagicNumbers(sb.toString());
+	}
+	
+	private String replaceMagicNumbers(String input){
+		return input.replace(Common.UNINITIALIZED_INT + ".0", " NA")
 				.replace(Common.UNINITIALIZED_INT + "", " NA")
 				.replace(Common.POINTS_NOT_SUBMITTED + "", "NSB")
 				.replace(Common.POINTS_NOT_SURE + "", "NSU");

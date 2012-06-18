@@ -152,6 +152,7 @@
 								<a name="editEvaluationResults<%= idx %>" id="editEvaluationResults<%= idx %>"
 										target="_blank"
 										href="<%= helper.getCoordEvaluationSubmissionEditLink(helper.evaluation.course, helper.evaluation.name, student.email) %>"
+										onclick="return openEditSubmission(this.href)"
 										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_EDIT %>')"
 										onmouseout="hideddrivetip()"
 										<%= CoordEvalResultsHelper

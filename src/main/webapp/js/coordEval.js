@@ -11,6 +11,10 @@ var DISPLAY_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadlin
 										 "The start time should be in the future, and the deadline should be after start time.";
 var DISPLAY_FIELDS_EMPTY = "Please fill in all the relevant fields.";
 
+var OPERATION_COORDINATOR_PUBLISHEVALUATION = "coordinator_publishevaluation";
+var OPERATION_COORDINATOR_UNPUBLISHEVALUATION = "coordinator_unpublishevaluation";
+var OPERATION_COORDINATOR_REMINDSTUDENTS = "coordinator_remindstudents";
+
 function isEvaluationNameLengthValid(name) {
 	return name.length <= 22;
 }
@@ -322,4 +326,16 @@ function toggleRemindStudents(courseID, evaluationName) {
 		setStatusMessage(DISPLAY_LOADING);
 		remindStudents(courseID, evaluationName);
 	}
+}
+
+/**
+ * Opens new window from link.
+ * Javascript is used here so that the newly opened window will be able to
+ * access this parent window.
+ * @param obj
+ * @returns {Boolean}
+ */
+function openEditSubmission(link){
+	window.open(link, "childWindow");
+	return false;
 }

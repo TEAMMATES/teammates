@@ -25,10 +25,19 @@ public abstract class EvalSubmissionEditHandlerServlet extends ActionServlet<Hel
 	protected abstract String getDisplayURL();
 	
 	/**
-	 * Returns the submission edit page link to be forwarded on error
+	 * Returns the submission edit page link.
+	 * The link is used as the link to forward to on error.
 	 * @return
 	 */
 	protected abstract String getEditSubmissionLink();
+	
+	/**
+	 * Returns the message to be displayed when the edit is successful
+	 * @param req
+	 * @param helper
+	 * @return
+	 */
+	protected abstract String getSuccessMessage(HttpServletRequest req, Helper helper);
 
 	@Override
 	protected Helper instantiateHelper() {
@@ -64,7 +73,7 @@ public abstract class EvalSubmissionEditHandlerServlet extends ActionServlet<Hel
 		
 		try{
 			helper.server.editSubmissions(submissionData);
-			helper.statusMessage = String.format(Common.MESSAGE_EVALUATION_SUBMISSION_RECEIVED,evalName, courseID);
+			helper.statusMessage = getSuccessMessage(req,helper);
 		} catch (InvalidParametersException e) {
 			helper.statusMessage = e.getMessage();
 			helper.error = true;

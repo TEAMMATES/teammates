@@ -143,6 +143,7 @@ public class Common {
 	
 	public static final String PARAM_JOIN_COURSE = "regkey";
 	public static final String PARAM_STUDENT_EMAIL = "studentemail";
+	public static final String PARAM_BY_REVIEWER = "byreviewer";
 	
 	public static final String PARAM_FROM_EMAIL = "fromemail";
 	public static final String PARAM_TO_EMAIL = "toemail";
@@ -224,6 +225,7 @@ public class Common {
 	public static final String JSP_EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp"; // Done
 
 	public static final String JSP_LOGOUT = "/logout.jsp"; // Done
+	public static final String JSP_SAVE_MESSAGE = "/saveMessage.jsp";
 	public static final String JSP_UNAUTHORIZED = "/unauthorized.jsp"; // Done
 	public static final String JSP_ERROR_PAGE = "/errorPage.jsp"; // Done
 	public static final String JSP_ENTITY_NOT_FOUND_PAGE = "/entityNotFoundPage.jsp"; // Done
@@ -253,7 +255,9 @@ public class Common {
 	public static final String MESSAGE_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
 	public static final String MESSAGE_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
 	public static final String MESSAGE_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.";
-	
+
+	public static final String MESSAGE_COORD_EVALUATION_SUBMISSION_RECEIVED = "You have edited %s's submission for evaluation %s in course %s successfully<br />" +
+																			"This change will not be reflected here until you refresh the page.";
 	public static final String MESSAGE_EVALUATION_SUBMISSION_RECEIVED = "Your submission for %s in course %s has been saved successfully";
 
 	// DIV tags for HTML testing

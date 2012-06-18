@@ -59,7 +59,7 @@
 								onclick="window.close()" value="Cancel" />
 						<input type="submit" class="button" name="submitEvaluation"
 								onclick="return checkEvaluationForm(this.form)"
-								id="submitEvaluation" value="Submit Evaluation" />
+								id="submitEvaluation" value="Save Changes" />
 					</div>
 				</form>
 		 		<br /><br />

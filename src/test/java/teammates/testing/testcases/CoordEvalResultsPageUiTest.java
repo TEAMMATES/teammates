@@ -25,7 +25,6 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader("CoordEvalResultsUITest");
-		bi = BrowserInstancePool.getBrowserInstance();
 
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/CoordEvalResultsUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
@@ -35,6 +34,8 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 		long start = System.currentTimeMillis();
 		System.out.println(BackDoor.persistNewDataBundle(jsonString));
 		System.out.println("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
+
+		bi = BrowserInstancePool.getBrowserInstance();
 		
 		bi.loginCoord(scn.coords.get("teammates.demo.coord").id, Config.inst().TEAMMATES_APP_PASSWD);
 	}

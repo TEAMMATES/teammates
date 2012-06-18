@@ -12,7 +12,7 @@ import teammates.datatransfer.UserData;
 
 public class Helper {	
 	/**
-	 * The APIServlet object. Used to access the API.
+	 * The Logic object. Used to access the API.
 	 */
 	public Logic server;
 	
@@ -142,8 +142,7 @@ public class Helper {
 				.replace("<", "&lt;")
 				.replace(">", "&gt;")
 				.replace("\"", "&quot;")
-				.replace("'", "&#39;")
-				.replace("\\", "&#92;");
+				.replace("'", "&#39;");
 	}
 	
 	public static boolean isUserLoggedIn() {

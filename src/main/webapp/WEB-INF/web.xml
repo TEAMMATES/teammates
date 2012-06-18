@@ -226,6 +226,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <servlet-name>CoordEvalResults</servlet-name>
 	    <url-pattern>/page/coordEvalResults</url-pattern>
 	</servlet-mapping>
+	<servlet>
+	    <description>Servlet that handles evaluation individual result page</description>
+	    <servlet-name>CoordEvalSubmissionView</servlet-name>
+	    <servlet-class>teammates.servlet.CoordEvalSubmissionViewServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>CoordEvalSubmissionView</servlet-name>
+	    <url-pattern>/page/coordEvalSubmissionView</url-pattern>
+	</servlet-mapping>
 	
 	<servlet>
 	    <description>Servlet that handles student home page</description>
