@@ -1,0 +1,62 @@
+package teammates.servlet;
+
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import teammates.api.Common;
+import teammates.datatransfer.StudentData;
+import teammates.jsp.CoordEvalSubmissionEditHelper;
+import teammates.jsp.EvalSubmissionEditHelper;
+
+@SuppressWarnings("serial")
+/**
+ * Servlet to handle Edit evaluation submission page.
+ * This is for coordinator to edit student's submission
+ * @author Aldrian Obaja
+ *
+ */
+public class CoordEvalSubmissionEditServlet extends EvalSubmissionEditServlet {
+
+	@Override
+	protected String getDisplayURL(){
+		return Common.JSP_COORD_EVAL_SUBMISSION_EDIT;
+	}
+	
+	@Override
+	protected String getErrorPage(){
+		return Common.PAGE_COORD_EVAL;
+	}
+
+	@Override
+	protected StudentData getStudentObject(HttpServletRequest req, EvalSubmissionEditHelper helper){
+		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
+		String studentEmail = req.getParameter(Common.PARAM_STUDENT_EMAIL);
+		return helper.server.getStudent(courseID, studentEmail);
+	}
+	
+	@Override
+	protected String getMessageOnNullStudent(HttpServletRequest req,
+			EvalSubmissionEditHelper helper) {
+		return "There is no student with e-mail: " +
+				EvalSubmissionEditHelper.escapeHTML(req.getParameter(Common.PARAM_STUDENT_EMAIL)) +
+				" registered in the course " + req.getParameter(Common.PARAM_COURSE_ID);
+	}
+
+	@Override
+	protected CoordEvalSubmissionEditHelper instantiateHelper() {
+		return new CoordEvalSubmissionEditHelper();
+	}
+
+	@Override
+	protected boolean doAuthenticateUser(HttpServletRequest req,
+			HttpServletResponse resp, EvalSubmissionEditHelper helper)
+			throws IOException {
+		if(!helper.user.isCoord && !helper.user.isAdmin){
+			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
+			return false;
+		}
+		return true;
+	}
+}

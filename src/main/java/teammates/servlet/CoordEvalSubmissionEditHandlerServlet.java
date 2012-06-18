@@ -9,21 +9,21 @@ import teammates.api.Common;
 import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
-public class StudentEvalEditHandlerServlet extends EvalSubmissionEditHandlerServlet {
+public class CoordEvalSubmissionEditHandlerServlet extends EvalSubmissionEditHandlerServlet {
 	
 	protected String getDisplayURL(){
-		return Common.PAGE_STUDENT_HOME;
+		return Common.PAGE_COORD_EVAL;
 	}
 	
 	protected String getEditSubmissionLink(){
-		return Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
+		return Common.PAGE_COORD_EVAL_SUBMISSION_EDIT;
 	}
 
 	@Override
 	protected boolean doAuthenticateUser(HttpServletRequest req,
 			HttpServletResponse resp, Helper helper)
 			throws IOException {
-		if(!helper.user.isStudent && !helper.user.isAdmin){
+		if(!helper.user.isCoord && !helper.user.isAdmin){
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return false;
 		}

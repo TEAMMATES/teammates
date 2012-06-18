@@ -200,6 +200,24 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <url-pattern>/page/coordEvalDelete</url-pattern>
 	</servlet-mapping>
 	<servlet>
+	    <description>Servlet that handles evaluation submission edit page to edit student's submission</description>
+	    <servlet-name>CoordEvalSubmissionEdit</servlet-name>
+	    <servlet-class>teammates.servlet.CoordEvalSubmissionEditServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>CoordEvalSubmissionEdit</servlet-name>
+	    <url-pattern>/page/coordEvalSubmissionEdit</url-pattern>
+	</servlet-mapping>
+	<servlet>
+	    <description>Servlet that handles coordinator edit student's submission page</description>
+	    <servlet-name>CoordEvalSubmissionEditHandler</servlet-name>
+	    <servlet-class>teammates.servlet.CoordEvalSubmissionEditHandlerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>CoordEvalSubmissionEditHandler</servlet-name>
+	    <url-pattern>/page/coordEvalSubmissionEditHandler</url-pattern>
+	</servlet-mapping>
+	<servlet>
 	    <description>Servlet that handles evaluation results page</description>
 	    <servlet-name>CoordEvalResults</servlet-name>
 	    <servlet-class>teammates.servlet.CoordEvalResultsServlet</servlet-class>

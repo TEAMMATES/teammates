@@ -165,7 +165,7 @@ public class Common {
 	public static final String PAGE_COORD_COURSE = "/page/coordCourse"; // Done
 	public static final String PAGE_COORD_COURSE_DELETE = "/page/coordCourseDelete"; // Done
 	public static final String PAGE_COORD_COURSE_DETAILS = "/page/coordCourseDetails"; // Done
-	public static final String PAGE_COORD_COURSE_STUDENT_DETAILS = "/page/coordCourseStudentDetails";
+	public static final String PAGE_COORD_COURSE_STUDENT_DETAILS = "/page/coordCourseStudentDetails"; // Done
 	public static final String PAGE_COORD_COURSE_STUDENT_EDIT = "/page/coordCourseStudentEdit";
 	public static final String PAGE_COORD_COURSE_STUDENT_DELETE = "/page/coordCourseStudentDelete"; // Done
 	public static final String PAGE_COORD_COURSE_ENROLL = "/page/coordCourseEnroll"; // Done
@@ -179,15 +179,16 @@ public class Common {
 	public static final String PAGE_COORD_EVAL_RESULTS = "/page/coordEvalResults"; // Done
 	public static final String PAGE_COORD_EVAL_SUBMISSION_VIEW = "/page/coordEvalSubmissionView";
 	public static final String PAGE_COORD_EVAL_SUBMISSION_EDIT = "/page/coordEvalSubmissionEdit";
+	public static final String PAGE_COORD_EVAL_SUBMISSION_EDIT_HANDLER = "/page/coordEvalSubmissionEditHandler"; // Done
 
 	public static final String PAGE_STUDENT_HOME = "/page/studentHome"; // Done
 	public static final String PAGE_STUDENT_JOIN_COURSE = "/page/studentCourseJoin"; // Done
 	public static final String PAGE_STUDENT_COURSE_PROFILE = "/page/studentCourseProfile";
-	public static final String PAGE_STUDENT_COURSE_DETAILS = "/page/studentCourseDetails";
+	public static final String PAGE_STUDENT_COURSE_DETAILS = "/page/studentCourseDetails"; // Done
 	/** To submit evaluation and also to edit */
 	public static final String PAGE_STUDENT_EVAL_SUBMISSION_EDIT = "/page/studentEvalEdit"; // Done
 	public static final String PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER = "/page/studentEvalEditHandler"; // Done
-	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
+	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults"; // Done
 
 	/*
 	 * JSP pages links. These links are there to provide easeness in case of
@@ -220,6 +221,7 @@ public class Common {
 	public static final String JSP_STUDENT_HEADER = "/jsp/studentHeader.jsp"; // Done
 	public static final String JSP_FOOTER = "/jsp/footer.jsp"; // Done
 	public static final String JSP_STATUS_MESSAGE = "/jsp/statusMessage.jsp"; // Done
+	public static final String JSP_EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp"; // Done
 
 	public static final String JSP_LOGOUT = "/logout.jsp"; // Done
 	public static final String JSP_UNAUTHORIZED = "/unauthorized.jsp"; // Done

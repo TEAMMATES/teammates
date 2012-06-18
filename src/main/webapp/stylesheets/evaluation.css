@@ -312,6 +312,27 @@ tfoot td {
 	font-weight:bold;
 }
 
+/* Evaluation info table for Coordinator */
+.evaluation_info{
+	width:50%;
+	text-align: center;
+}
+
+.evaluation_info tr{
+	border: 1px dotted #CCC;
+}
+
+.evaluation_info td {
+	background-color: #eaeff5;
+}
+
+.evaluation_info td:first-child {
+	background-color: #4E80BB;
+	color:#FFF;
+	font-weight:bold;
+	width: 30%;
+}
+
 /* Table Elements */
 .fontcolor {
 	color: #036;
