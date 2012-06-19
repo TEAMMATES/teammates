@@ -55,6 +55,7 @@ public class Evaluations {
 	 * is later than start time.
 	 * 
 	 * @return list of evaluations that were activated in the function call
+	 * @deprecated
 	 */
 	public List<Evaluation> setEvaluationsAsActivated() {
 		List<Evaluation> evaluationList = getAllEvaluations();
@@ -84,6 +85,20 @@ public class Evaluations {
 
 		return activatedEvaluationList;
 
+	}
+	
+	public List<Evaluation> getReadyEvaluations(){
+		//TODO: very inefficient to go through all evaluations
+		List<Evaluation> evaluationList = getAllEvaluations();
+		List<Evaluation> readyEvaluations = new ArrayList<Evaluation>();
+
+
+		for (Evaluation e : evaluationList) {
+			if(e.isReady()){
+				readyEvaluations.add(e);
+			}
+		}
+		return readyEvaluations;
 	}
 	
 

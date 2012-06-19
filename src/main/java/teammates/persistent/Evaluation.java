@@ -1,6 +1,8 @@
 package teammates.persistent;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
@@ -72,7 +74,7 @@ public class Evaluation {
 	 * @param start
 	 * @param deadline
 	 * @param gracePeriod
-	 * @throws InvalidParametersException 
+	 * @throws InvalidParametersException
 	 */
 	public Evaluation(String courseID, String name, String instructions,
 			boolean commentsEnabled, Date start, Date deadline,
@@ -180,5 +182,24 @@ public class Evaluation {
 		return sb.toString();
 	}
 
+	public boolean isReady() {
+		Calendar currentTimeInUserTimeZone = convertToUserTimeZone(
+				Calendar.getInstance(TimeZone.getTimeZone("GMT")), timeZone);
+
+		Calendar evalStartTime = Calendar.getInstance(TimeZone
+				.getTimeZone("GMT"));
+		evalStartTime.setTime(startTime);
+
+		if (currentTimeInUserTimeZone.before(evalStartTime)){
+			return false;
+		}else {
+			return (!activated);
+		}
+	}
+
+	public static Calendar convertToUserTimeZone(Calendar time, double timeZone) {
+		time.add(Calendar.MILLISECOND, (int) (-60 * 60 * 1000 * timeZone));
+		return time; // for chaining
+	}
 
 }

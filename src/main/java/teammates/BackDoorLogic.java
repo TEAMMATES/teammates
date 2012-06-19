@@ -199,7 +199,7 @@ public class BackDoorLogic extends Logic{
 		//TODO:
 		//Evaluations.getReadyEvaluations();
 		//for each eval
-		//  studentList = getStudentList
+		//  studentList = getStudentList {already tested}
 		//  emailList = Emails.generateAlertEmails(eval,studentList)
 		//  Emails.sendEmails(emailList)
 		return null;

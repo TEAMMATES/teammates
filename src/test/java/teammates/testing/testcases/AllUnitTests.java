@@ -13,6 +13,7 @@ import teammates.testing.lib.HtmlHelperTest;
 		EmailsTest.class,
 		StudentTest.class, 
 		TeamDataTest.class,
+		EvaluationTest.class,
 		EvaluationDataTest.class, 
 		EvalResultDataTest.class,
 		TeamEvalResultTest.class, 

@@ -60,7 +60,7 @@ public class EvaluationData {
 
 	public EvalStatus getStatus() {
 		Calendar now = Calendar.getInstance();
-		convertToUserTimeZone(now, timeZone);
+		Evaluation.convertToUserTimeZone(now, timeZone);
 		long nowInMilliSec = now.getTimeInMillis();
 
 		Calendar start = Calendar.getInstance();
@@ -87,10 +87,7 @@ public class EvaluationData {
 		return EvalStatus.AWAITING;
 	}
 
-	private Calendar convertToUserTimeZone(Calendar time, double timeZone) {
-		time.add(Calendar.MILLISECOND, (int) (-60 * 60 * 1000 * timeZone));
-		return time; // for chaining
-	}
+
 
 	public TeamData getTeamData(String teamName) {
 		for (TeamData team : teams) {
@@ -132,12 +129,10 @@ public class EvaluationData {
 					Common.ERRORCODE_ACTIVATED_BEFORE_START,
 					"Cannot be activated before the evaluation is OPEN");
 		}
-		
-		
 	}
 
 	private boolean beforeTime(Date time) {
-		Date nowInUserTimeZone = convertToUserTimeZone(Calendar.getInstance(),timeZone).getTime();
+		Date nowInUserTimeZone = Evaluation.convertToUserTimeZone(Calendar.getInstance(),timeZone).getTime();
 		return time.before(nowInUserTimeZone);
 	}
 
