@@ -27,7 +27,8 @@ public class CoordCourseDetailsHelper extends Helper{
 	}
 	
 	/**
-	 * Returns the link to the student's detail page
+	 * Returns the link to the student's detail page<br />
+	 * This includes masquerade mode as well.
 	 * @param student
 	 * @return
 	 */
@@ -35,14 +36,13 @@ public class CoordCourseDetailsHelper extends Helper{
 		String link = Common.PAGE_COORD_COURSE_STUDENT_DETAILS;
 		link = addParam(link,Common.PARAM_COURSE_ID,course.id);
 		link = addParam(link,Common.PARAM_STUDENT_EMAIL,student.email);
-		if(isMasqueradeMode()){
-			link = addParam(link, Common.PARAM_USER_ID, requestedUser);
-		}
+		link = processMasquerade(link);
 		return link;
 	}
 	
 	/**
-	 * Returns the link to the student's detail edit page
+	 * Returns the link to the student's detail edit page<br />
+	 * This includes masquerade mode as well.
 	 * @param student
 	 * @return
 	 */
@@ -50,15 +50,14 @@ public class CoordCourseDetailsHelper extends Helper{
 		String link = Common.PAGE_COORD_COURSE_STUDENT_EDIT;
 		link = addParam(link,Common.PARAM_COURSE_ID,course.id);
 		link = addParam(link,Common.PARAM_STUDENT_EMAIL,student.email);
-		if(isMasqueradeMode()){
-			link = addParam(link, Common.PARAM_USER_ID, requestedUser);
-		}
+		link = processMasquerade(link);
 		return link;
 	}
 	
 	/**
 	 * Returns the link remind students to join the course, which is done
-	 * through javascript.
+	 * through javascript.<br />
+	 * This includes masquerade mode as well.
 	 * @param student
 	 * @return
 	 */
@@ -69,7 +68,8 @@ public class CoordCourseDetailsHelper extends Helper{
 	}
 	
 	/**
-	 * Returns the link to delete a student
+	 * Returns the link to delete a student<br />
+	 * This includes masquerade mode as well.
 	 * @param student
 	 * @return
 	 */
@@ -77,6 +77,7 @@ public class CoordCourseDetailsHelper extends Helper{
 		String link = Common.PAGE_COORD_COURSE_STUDENT_DELETE;
 		link = addParam(link,Common.PARAM_COURSE_ID,course.id);
 		link = addParam(link,Common.PARAM_STUDENT_EMAIL,student.email);
+		link = processMasquerade(link);
 		return link;
 	}
 }

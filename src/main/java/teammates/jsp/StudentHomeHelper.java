@@ -82,36 +82,35 @@ public class StudentHomeHelper extends Helper {
 	}
 	
 	/**
-	 * Returns the link to see student's profile in a course
+	 * Returns the link to see student's profile in a course<br />
+	 * This includes masquerade mode as well.
 	 * @param courseID
 	 * @return
 	 */
 	public String getStudentCourseProfileLink(String courseID){
 		String link = Common.PAGE_STUDENT_COURSE_PROFILE;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
-		if(isMasqueradeMode()){
-			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
-		}
+		link = processMasquerade(link);
 		return link;
 	}
 	
 	/**
 	 * Returns the link to see course details, which includes the information
-	 * about current student team
+	 * about current student team<br />
+	 * This includes masquerade mode as well.
 	 * @param courseID
 	 * @return
 	 */
 	public String getStudentCourseDetailsLink(String courseID){
 		String link = Common.PAGE_STUDENT_COURSE_DETAILS;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
-		if(isMasqueradeMode()){
-			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
-		}
+		link = processMasquerade(link);
 		return link;
 	}
 	
 	/**
-	 * Returns the link to see evaluation result
+	 * Returns the link to see evaluation result<br />
+	 * This includes masquerade mode as well.
 	 * @param courseID
 	 * @param evalName
 	 * @return
@@ -120,15 +119,14 @@ public class StudentHomeHelper extends Helper {
 		String link = Common.PAGE_STUDENT_EVAL_RESULTS;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
-		if(isMasqueradeMode()){
-			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
-		}
+		link = processMasquerade(link);
 		return link;
 	}
 	
 	/**
 	 * Returns the link to submit or edit a submission for a specific evaluation.
-	 * Note that the submit is essentially an edit to a blank submission.
+	 * Note that the submit is essentially an edit to a blank submission.<br />
+	 * This includes masquerade mode as well.
 	 * @param courseID
 	 * @param evalName
 	 * @return
@@ -137,14 +135,13 @@ public class StudentHomeHelper extends Helper {
 		String link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
-		if(isMasqueradeMode()){
-			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
-		}
+		link = processMasquerade(link);
 		return link;
 	}
 	
 	/**
-	 * Returns the list of available actions for a specific evaluation.
+	 * Returns the list of available actions for a specific evaluation.<br />
+	 * This includes masquerade mode as well.
 	 * @param eval
 	 * @param idx
 	 * @return

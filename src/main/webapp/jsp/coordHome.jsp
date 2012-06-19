@@ -72,7 +72,7 @@
 							onmouseout="hideddrivetip()">
 							View
 						</a>
-						<a class="t_course_add_eval<%= idx %>" href="<%= Common.JSP_COORD_EVAL %>"
+						<a class="t_course_add_eval<%= idx %>" href="<%= helper.getCoordEvaluationLink() %>"
 							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ADD_EVALUATION %>')"
 							onmouseout="hideddrivetip()">
 							Add Evaluation

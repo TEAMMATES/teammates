@@ -114,8 +114,9 @@
       "endTime": "2015-04-01 11:59 PM",
       "timeZone": 8.0,
       "gracePeriod": 10,
-      "p2pEnabled": "true",
-      "published": false
+      "p2pEnabled": true,
+      "published": false,
+      "activated": true
     },
     "CS2104-TESTING:Second Eval": {
       "course": "CS2104-TESTING",
@@ -125,8 +126,9 @@
       "endTime": "2012-04-02 11:59 PM",
       "timeZone": 8.0,
       "gracePeriod": 10,
-      "p2pEnabled": "true",
-      "published": true
+      "p2pEnabled": true,
+      "published": true,
+      "activated": true
     },
     "CS1101-TESTING:Third Eval": {
       "course": "CS1101-TESTING",
@@ -136,8 +138,9 @@
       "endTime": "2012-04-02 11:59 PM",
       "timeZone": 8.0,
       "gracePeriod": 10,
-      "p2pEnabled": "true",
-      "published": false
+      "p2pEnabled": true,
+      "published": false,
+      "activated": true
     },
     "CS1101-TESTING:Fourth Eval": {
       "course": "CS1101-TESTING",
@@ -147,7 +150,7 @@
       "endTime": "2015-04-02 11:59 PM",
       "timeZone": 8.0,
       "gracePeriod": 10,
-      "p2pEnabled": "true",
+      "p2pEnabled": true,
       "published": false
     },
     "CS1101-TESTING:Fifth Eval": {
@@ -158,8 +161,9 @@
       "endTime": "2015-04-01 11:59 PM",
       "timeZone": 8.0,
       "gracePeriod": 10,
-      "p2pEnabled": "true",
-      "published": false
+      "p2pEnabled": true,
+      "published": false,
+      "activated": true
     }
   },
   

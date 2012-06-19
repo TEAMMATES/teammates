@@ -114,8 +114,9 @@
       "endTime": "2015-04-01 11:59 PM",
       "timeZone": 8.0,
       "gracePeriod": 10,
-      "p2pEnabled": "true",
-      "published": false
+      "p2pEnabled": true,
+      "published": false,
+      "activated": true
     },
     "SHomeUiT.CS2104:Second Eval": {
       "course": "SHomeUiT.CS2104",
@@ -125,8 +126,9 @@
       "endTime": "2012-04-02 11:59 PM",
       "timeZone": 8.0,
       "gracePeriod": 10,
-      "p2pEnabled": "true",
-      "published": true
+      "p2pEnabled": true,
+      "published": true,
+      "activated": true
     },
     "SHomeUiT.CS1101:Third Eval": {
       "course": "SHomeUiT.CS1101",
@@ -136,8 +138,9 @@
       "endTime": "2012-04-02 11:59 PM",
       "timeZone": 8.0,
       "gracePeriod": 10,
-      "p2pEnabled": "true",
-      "published": false
+      "p2pEnabled": true,
+      "published": false,
+      "activated": true
     },
     "SHomeUiT.CS1101:Fourth Eval": {
       "course": "SHomeUiT.CS1101",
@@ -147,7 +150,7 @@
       "endTime": "2015-04-02 11:59 PM",
       "timeZone": 8.0,
       "gracePeriod": 10,
-      "p2pEnabled": "true",
+      "p2pEnabled": true,
       "published": false
     },
     "SHomeUiT.CS1101:Fifth Eval": {
@@ -158,8 +161,9 @@
       "endTime": "2015-04-01 11:59 PM",
       "timeZone": 8.0,
       "gracePeriod": 10,
-      "p2pEnabled": "true",
-      "published": false
+      "p2pEnabled": true,
+      "published": false,
+      "activated": true
     }
   },
   

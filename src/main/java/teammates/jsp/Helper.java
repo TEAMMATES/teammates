@@ -156,36 +156,35 @@ public class Helper {
 	}
 	
 	/**
-	 * Returns the link to the course enroll link for specified courseID
+	 * Returns the link to the course enroll link for specified courseID<br />
+	 * This includes masquerade mode as well.
 	 * @param courseID
 	 * @return
 	 */
 	public String getCoordCourseEnrollLink(String courseID){
 		String link = Common.PAGE_COORD_COURSE_ENROLL;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
-		if(isMasqueradeMode()){
-			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
-		}
+		link = processMasquerade(link);
 		return link;
 	}
 
 	/**
-	 * Returns the link to show course detail for specific courseID
+	 * Returns the link to show course detail for specific courseID<br />
+	 * This includes masquerade mode as well.
 	 * @param courseID
 	 * @return
 	 */
 	public String getCoordCourseDetailsLink(String courseID){
 		String link = Common.PAGE_COORD_COURSE_DETAILS;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID); 
-		if(isMasqueradeMode()){
-			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
-		}
+		link = processMasquerade(link);
 		return link;
 	}
 	
 	/**
-	 * Returns the link to delete a course and redirects to the nextURL after deletion<br />
-	 * The nextURL is usually used to refresh the page after deletion
+	 * Returns the link to delete a course and redirects to the specific page
+	 * after deletion depending on the isHome value<br />
+	 * This includes masquerade mode as well.
 	 * @param courseID
 	 * @param isHome
 	 * @return
@@ -193,16 +192,26 @@ public class Helper {
 	public String getCoordCourseDeleteLink(String courseID, boolean isHome){
 		String link = Common.PAGE_COORD_COURSE_DELETE;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
-		link = addParam(link,Common.PARAM_NEXT_URL,(isHome? Common.PAGE_COORD_HOME : Common.PAGE_COORD_COURSE));
-		if(isMasqueradeMode()){
-			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
-		}
+		link = addParam(link,Common.PARAM_NEXT_URL,(isHome? processMasquerade(Common.PAGE_COORD_HOME) : processMasquerade(Common.PAGE_COORD_COURSE)));
+		link = processMasquerade(link);
+		return link;
+	}
+	
+	/**
+	 * Returns the link to evaluation page<br />
+	 * This includes masquerade mode as well.
+	 * @return
+	 */
+	public String getCoordEvaluationLink(){
+		String link = Common.PAGE_COORD_EVAL;
+		link = processMasquerade(link);
 		return link;
 	}
 	
 	/**
 	 * Returns the link to delete an evaluation as specified and redirects to the nextURL after deletion<br />
-	 * The nextURL is usually used to refresh the page after deletion
+	 * The nextURL is usually used to refresh the page after deletion<br />
+	 * This includes masquerade mode as well.
 	 * @param courseID
 	 * @param evalName
 	 * @param nextURL
@@ -213,14 +222,13 @@ public class Helper {
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = addParam(link,Common.PARAM_NEXT_URL,nextURL);
-		if(isMasqueradeMode()){
-			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
-		}
+		link = processMasquerade(link);
 		return link;
 	}
 	
 	/**
-	 * Returns the link to edit an evaluation as specified
+	 * Returns the link to edit an evaluation as specified<br />
+	 * This includes masquerade mode as well.
 	 * @param courseID
 	 * @param evalName
 	 * @return
@@ -229,14 +237,13 @@ public class Helper {
 		String link = Common.PAGE_COORD_EVAL_EDIT;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
-		if(isMasqueradeMode()){
-			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
-		}
+		link = processMasquerade(link);
 		return link;
 	}
 	
 	/**
-	 * Returns the link to see the result of an evaluation as specified
+	 * Returns the link to see the result of an evaluation as specified<br />
+	 * This includes masquerade mode as well.
 	 * @param courseID
 	 * @param evalName
 	 * @return
@@ -245,14 +252,13 @@ public class Helper {
 		String link = Common.PAGE_COORD_EVAL_RESULTS;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
-		if(isMasqueradeMode()){
-			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
-		}
+		link = processMasquerade(link);
 		return link;
 	}
 
 	/**
-	 * Returns the link to see the result of an evaluation as specified
+	 * Returns the link to see the result of an evaluation as specified<br />
+	 * This includes masquerade mode as well.
 	 * @param courseID
 	 * @param evalName
 	 * @return
@@ -263,7 +269,8 @@ public class Helper {
 	
 	/**
 	 * Returns the link to publish or unpublish an evaluation, and redirects
-	 * to appropriate page.
+	 * to appropriate page.<br />
+	 * This includes masquerade mode as well.
 	 * @param courseID
 	 * @param evalName
 	 * @param publish
@@ -276,12 +283,13 @@ public class Helper {
 				"'" + courseID + "'," +
 				"'" + evalName + "'," +
 				publish + "," +
-				"'" + (isHome? Common.PAGE_COORD_HOME : Common.PAGE_COORD_EVAL) +"');";
+				"'" + (isHome? processMasquerade(Common.PAGE_COORD_HOME) : processMasquerade(Common.PAGE_COORD_EVAL)) +"');";
 	}
 	
 	/**
 	 * Returns the link to see submission details for a specified student in
-	 * specified evaluation name and courseID
+	 * specified evaluation name and courseID<br />
+	 * This includes masquerade mode as well.
 	 * @param courseID
 	 * @param evalName
 	 * @param studentEmail
@@ -292,15 +300,14 @@ public class Helper {
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = addParam(link,Common.PARAM_STUDENT_EMAIL,studentEmail);
-		if(isMasqueradeMode()){
-			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
-		}
+		link = processMasquerade(link);
 		return link;
 	}
 	
 	/**
 	 * Returns the link to edit submission details for a specified student in
-	 * specified evaluation name and courseID
+	 * specified evaluation name and courseID<br />
+	 * This includes masquerade mode as well.
 	 * @param courseID
 	 * @param evalName
 	 * @param studentEmail
@@ -311,9 +318,7 @@ public class Helper {
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = addParam(link,Common.PARAM_STUDENT_EMAIL,studentEmail);
-		if(isMasqueradeMode()){
-			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
-		}
+		link = processMasquerade(link);
 		return link;
 	}
 	
@@ -429,6 +434,18 @@ public class Helper {
 			);
 		}
 		return result.toString();
+	}
+	
+	/**
+	 * Returns the link with appended requested user ID if on masquerade mode
+	 * @param link
+	 * @return
+	 */
+	public String processMasquerade(String link){
+		if(isMasqueradeMode()){
+			return addParam(link,Common.PARAM_USER_ID,requestedUser);
+		}
+		return link;
 	}
 
 }

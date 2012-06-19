@@ -12,10 +12,11 @@
     "name": "Testing Evaluation",
     "instructions": "This is the instructions, please follow",
     "startTime": "2012-04-20 11:59 PM",
-	"endTime": "2015-04-20 11:59 PM",
-	"timeZone": 8.0,
-	"gracePeriod": 5,
-	"p2pEnabled": true
+    "endTime": "2015-04-20 11:59 PM",
+    "timeZone": 8.0,
+    "gracePeriod": 5,
+    "p2pEnabled": true,
+    "activated": true
   },
   
   "evaluationInCourseWithNoTeams": {
@@ -23,10 +24,11 @@
     "name": "Unrelated Evaluation",
     "instructions": "This is the instructions, please follow",
     "startTime": "2012-04-20 11:59 PM",
-	"endTime": "2015-04-20 11:59 PM",
-	"timeZone": 8.0,
-	"gracePeriod": 5,
-	"p2pEnabled": true
+    "endTime": "2015-04-20 11:59 PM",
+    "timeZone": 8.0,
+    "gracePeriod": 5,
+    "p2pEnabled": true,
+    "activated": true
   }
   
 }
