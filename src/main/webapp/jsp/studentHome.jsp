@@ -15,8 +15,6 @@
 
 	<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
 	<script language="JavaScript" src="/js/tooltip.js"></script>
-	<script language="JavaScript" src="/js/helperNew.js"></script>
-	<script language="JavaScript" src="/js/commonNew.js"></script>
 	
 	<script language="JavaScript" src="/js/studentNew.js"></script>	
 </head>
