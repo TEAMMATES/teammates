@@ -7,6 +7,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import teammates.api.Common;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.lib.TMAPI;
@@ -70,7 +71,7 @@ public class CoordEvaluationAddWithEmptyTeamNameTest extends TestCase {
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_ADDED_WITH_EMPTY_TEAMS);
 
 		bi.clickEvaluationTab();
-		bi.verifyEvaluationAdded(scn.evaluation.courseID, scn.evaluation.name, bi.EVAL_STATUS_AWAITING, "0 / 3");
+		bi.verifyEvaluationAdded(scn.evaluation.courseID, scn.evaluation.name, Common.EVALUATION_STATUS_AWAITING, "0 / 3");
 
 		
 		

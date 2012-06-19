@@ -37,23 +37,23 @@
 				<table class="headerform">
 					<tr>
 						<td class="fieldname">Course ID:</td>
-						<td><%= helper.eval.course %></td>
+						<td id="<%= Common.PARAM_COURSE_ID %>"><%= helper.eval.course %></td>
 					</tr>
 					<tr>
 						<td class="fieldname">Evaluation name:</td>
-						<td><%= StudentEvalEditHelper.escapeHTML(helper.eval.name) %></td>
+						<td id="<%= Common.PARAM_EVALUATION_NAME %>"><%= StudentEvalEditHelper.escapeHTML(helper.eval.name) %></td>
 					</tr>
 					<tr>
 						<td class="fieldname">Opening time:</td>
-						<td><%= Common.formatTime(helper.eval.startTime) %></td>
+						<td id="<%= Common.PARAM_EVALUATION_STARTTIME %>"><%= Common.formatTime(helper.eval.startTime) %></td>
 					</tr>
 					<tr>
 						<td class="fieldname">Closing time:</td>
-						<td><%= Common.formatTime(helper.eval.endTime) %></td>
+						<td id="<%= Common.PARAM_EVALUATION_DEADLINETIME %>"><%= Common.formatTime(helper.eval.endTime) %></td>
 					</tr>
 					<tr>
 						<td class="fieldname">Instructions:</td>
-						<td><%= StudentEvalEditHelper.escapeHTML(helper.eval.instructions) %></td>
+						<td id="<%= Common.PARAM_EVALUATION_INSTRUCTIONS %>"><%= StudentEvalEditHelper.escapeHTML(helper.eval.instructions) %></td>
 					</tr>
 				</table>
 			</div>
@@ -63,11 +63,11 @@
 					<jsp:include page="<%= Common.JSP_EVAL_SUBMISSION_EDIT %>" />
 					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 					<div id="studentEvaluationSubmissionButtons">
-						<input type="button" class="button t_back" id="button_back"
+						<input type="button" class="button" id="button_back"
 								onclick="window.location.href='<%= helper.getStudentHomeLink() %>'" value="Back" />
 						<input type="submit" class="button" name="submitEvaluation"
 								onclick="return checkEvaluationForm(this.form)"
-								id="submitEvaluation" value="Submit Evaluation" />
+								id="button_submit" value="Submit Evaluation" />
 					</div>
 					<% if(helper.isMasqueradeMode()){ %>
 						<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>" />

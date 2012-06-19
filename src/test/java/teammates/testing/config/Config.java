@@ -23,6 +23,9 @@ public class Config {
 	// Individual Evaluation Reminder Testing Account
 	public String INDIVIDUAL_NAME;
 	public String INDIVIDUAL_ACCOUNT;
+	
+	public String TEAMMATES_ADMIN_ACCOUNT;
+	public String TEAMMATES_ADMIN_PASSWORD;
 
 	/**
 	 * Password for TestSuite to communicate with the Teammates APIServlet.
@@ -64,6 +67,8 @@ public class Config {
 			TEAMMATES_COORD_ID = prop.getProperty("test.coord.id");
 			INDIVIDUAL_ACCOUNT = prop.getProperty("test.individual.account");
 			INDIVIDUAL_NAME = prop.getProperty("test.individual.name");
+			TEAMMATES_ADMIN_ACCOUNT = prop.getProperty("test.admin.account");
+			TEAMMATES_ADMIN_PASSWORD = prop.getProperty("test.admin.password");
 			API_AUTH_CODE = prop.getProperty("test.app.authCode");
 			BROWSER = prop.getProperty("test.selenium.browser");
 			SELENIUMRC_HOST = prop.getProperty("test.selenium.host");

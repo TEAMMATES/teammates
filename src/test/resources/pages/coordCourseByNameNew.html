@@ -33,7 +33,7 @@
 				<ul id="navbar">
 					<li><a href="/page/coordHome" class="t_home">Home</a></li>
 					<li><a href="/page/coordCourse" class="t_courses">Courses</a></li>
-					<li><a href="/page/coordTFS" class="t_teamForming">Team-Forming</a></li>
+					<!-- <li><a class='t_teamForming' href="/page/coordTFS">Team-Forming</a></li> -->
 					<li><a href="/page/coordEval" class="t_evaluations">Evaluations</a></li>
 					<li><a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/coordinatorhelp.html" class="t_help">Help</a></li>
 					<li><a href="/logout.jsp" class="t_logout">Logout</a>
@@ -68,20 +68,20 @@
 							<td><input type="submit" tabindex="3" value="Add Course" onclick="return verifyAddCourse();" class="button" id="btnAddCourse" /></td>
 						</tr>
 					</tbody></table>
+					
 				</form>
 			</div>
 			
 
 
-	<div style="display:block;" id="statusMessage">
-		You have not created any courses yet. Use the form above to create a course.</div>
+	<div style="display: none" id="statusMessage"></div>
 
 			<div id="coordinatorCourseTable">
 				<table id="dataform">
 					<tbody><tr>
-						<th><input type="button" onclick="toggleSort(this,1);" id="button_sortcourseid" class="buttonSortAscending" />
+						<th><input type="button" onclick="toggleSort(this,1);" id="button_sortcourseid" class="buttonSortNone" />
 							Course ID</th>
-						<th><input type="button" onclick="toggleSort(this,2);" id="button_sortcoursename" class="buttonSortNone" />
+						<th><input type="button" onclick="toggleSort(this,2);" id="button_sortcoursename" class="buttonSortAscending" />
 							Course Name</th>
 						<th class="centeralign">Teams</th>
 						<th class="centeralign">Total Students</th>
@@ -89,24 +89,36 @@
 						<th class="centeralign">Action(s)</th>
 					</tr>
 					
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
+						<tr class="courses_row">
+							<td id="courseid1">CS2104-TESTING</td>
+							<td id="coursename1">Programming Language Concepts</td>
+							<td class="t_course_teams centeralign">2</td>
+							<td class="centeralign">4</td>
+							<td class="centeralign">0</td>
+							<td class="centeralign">
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/coordCourseEnroll?courseid=CS2104-TESTING" class="t_course_enroll1">Enroll</a>
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/coordCourseDetails?courseid=CS2104-TESTING" class="t_course_view1">View</a>
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CS2104-TESTING');" href="/page/coordCourseDelete?courseid=CS2104-TESTING&amp;next=%2Fpage%2FcoordCourse" class="t_course_delete1">Delete</a>
+							</td>
+						</tr>
+					
+						<tr class="courses_row">
+							<td id="courseid0">CS1101-TESTING</td>
+							<td id="coursename0">Programming Methodology</td>
+							<td class="t_course_teams centeralign">2</td>
+							<td class="centeralign">4</td>
+							<td class="centeralign">0</td>
+							<td class="centeralign">
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/coordCourseEnroll?courseid=CS1101-TESTING" class="t_course_enroll0">Enroll</a>
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/coordCourseDetails?courseid=CS1101-TESTING" class="t_course_view0">View</a>
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CS1101-TESTING');" href="/page/coordCourseDelete?courseid=CS1101-TESTING&amp;next=%2Fpage%2FcoordCourse" class="t_course_delete0">Delete</a>
+							</td>
 						</tr>
 					
 				</tbody></table>
 				<br />
 				<br />
 				<br />
-				
-					No records found. <br />
-					<br />
-					<br />
-					<br />
 				
 			</div>
 		</div>
@@ -115,7 +127,7 @@
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
+[TEAMMATES Version 4.17.02] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
 
 <a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html" class="footer">Contact Us</a>
 </div>

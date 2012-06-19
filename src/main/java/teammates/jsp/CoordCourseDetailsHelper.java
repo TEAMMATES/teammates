@@ -27,6 +27,19 @@ public class CoordCourseDetailsHelper extends Helper{
 	}
 	
 	/**
+	 * Returns the link to send registration key to all students<br />
+	 * This includes masquerade mode as well.
+	 * @param courseID
+	 * @return
+	 */
+	public String getCoordCourseRemindLink(){
+		String link = Common.PAGE_COORD_COURSE_REMIND;
+		link = addParam(link,Common.PARAM_COURSE_ID,course.id);
+		link = processMasquerade(link);
+		return link;
+	}
+	
+	/**
 	 * Returns the link to the student's detail page<br />
 	 * This includes masquerade mode as well.
 	 * @param student
@@ -55,16 +68,17 @@ public class CoordCourseDetailsHelper extends Helper{
 	}
 	
 	/**
-	 * Returns the link remind students to join the course, which is done
-	 * through javascript.<br />
+	 * Returns the link remind students to join the course.<br />
 	 * This includes masquerade mode as well.
 	 * @param student
 	 * @return
 	 */
 	public String getCourseStudentRemindLink(StudentData student){
-		return "javascript: hideddrivetip(); sendRegistrationKey('"+course.id+"'," +
-				"'"+student.email+"'," +
-				"'"+escape(student.name)+"')";
+		String link = Common.PAGE_COORD_COURSE_REMIND;
+		link = addParam(link,Common.PARAM_COURSE_ID,course.id);
+		link = addParam(link,Common.PARAM_STUDENT_EMAIL,student.email);
+		link = processMasquerade(link);
+		return link;
 	}
 	
 	/**

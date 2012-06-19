@@ -39,14 +39,14 @@
 								<td width="30%" class="attribute">Registration Key:</td>
 								<td width="30%">
 									<input class="keyvalue" type="text"
-											name="<%= Common.PARAM_JOIN_COURSE %>"
-											id="<%= Common.PARAM_JOIN_COURSE %>"
+											name="<%= Common.PARAM_REGKEY %>"
+											id="<%= Common.PARAM_REGKEY %>"
 											onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_JOIN_COURSE %>')"
 											onmouseout="hideddrivetip()" tabindex=1 />
 								</td>
 								<td width="30%">
-									<input id="btnJoinCourse" type="submit" class="button"
-											onclick="return this.form.<%= Common.PARAM_JOIN_COURSE %>.value!=''"
+									<input id="button_join_course" type="submit" class="button"
+											onclick="return this.form.<%= Common.PARAM_REGKEY %>.value!=''"
 											value="Join Course" tabindex=2 />
 								</td>
 							</tr>

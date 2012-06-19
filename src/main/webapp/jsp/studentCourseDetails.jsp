@@ -36,31 +36,31 @@
 				<table width="600" class="detailform">
 					<tr>
 	 					<td>Course ID:</td>
-	 					<td><%= helper.course.id %></td>
+	 					<td id="<%= Common.PARAM_COURSE_ID %>"><%= helper.course.id %></td>
 	 				</tr>
 					<tr>
 	 					<td>Course name:</td>
-	 					<td><%= StudentCourseDetailsHelper.escapeHTML(helper.course.name) %></td>
+	 					<td id="<%= Common.PARAM_COURSE_NAME %>"><%= StudentCourseDetailsHelper.escapeHTML(helper.course.name) %></td>
 	 				</tr>
 	 				<tr>
 	 					<td>Coordinator name:</td>
-	 					<td><%= StudentCourseDetailsHelper.escapeHTML(helper.coordName) %></td>
+	 					<td id="<%= Common.PARAM_COORD_NAME %>"><%= StudentCourseDetailsHelper.escapeHTML(helper.coordName) %></td>
 	 				</tr>
 	 				<tr>
 	 					<td>Your team:</td>
-	 					<td><%= StudentCourseDetailsHelper.escapeHTML(helper.student.team) %></td>
+	 					<td id="<%= Common.PARAM_TEAM_NAME %>"><%= StudentCourseDetailsHelper.escapeHTML(helper.student.team) %></td>
 	 				</tr>
 	 				<tr>
 	 					<td>Your name:</td>
-	 					<td><%= StudentCourseDetailsHelper.escapeHTML(helper.student.name) %></td>
+	 					<td id="<%= Common.PARAM_STUDENT_NAME %>"><%= StudentCourseDetailsHelper.escapeHTML(helper.student.name) %></td>
 	 				</tr>
 	 				<tr>
 	 					<td>Your e-mail:</td>
-	 					<td><%= helper.student.email %></td>
+	 					<td id="<%= Common.PARAM_STUDENT_EMAIL %>"><%= helper.student.email %></td>
 	 				</tr>
 	 				<tr>
 	 					<td>Your teammates:</td>
-	 					<td>
+	 					<td id="<%= Common.PARAM_TEAMMATES %>">
 	 						<%	if(helper.team==null || helper.team.students.size()==0){ %>
 	 							<span style="font-style:italic">You have no team members or you are not registered in any team</span>
 	 						<%	} else {%>

@@ -81,14 +81,14 @@
 							<input type="button" class="button"
 								id = "button_publish"
 								value = "Publish"
-								onclick = "togglePublishEvaluation('<%=helper.evaluation.course%>','<%=helper.evaluation.name%>', true, '<%=helper.getForwardURL()%>')" />
+								onclick = "if(togglePublishEvaluation('<%= helper.evaluation.name %>')) window.location.href='<%= helper.getCoordEvaluationPublishLink(helper.evaluation.course,helper.evaluation.name,false) %>';" />
 						<%
 							} else if (CoordEvalResultsHelper.getCoordStatusForEval(helper.evaluation).equals(Common.EVALUATION_STATUS_PUBLISHED)) {
 						%>
 							<input type="button" class="button"
 								id = "button_publish"
 								value = "Unpublish"
-								onclick = "togglePublishEvaluation('<%=helper.evaluation.course%>','<%=helper.evaluation.name%>', false, '<%=helper.getForwardURL()%>')" />
+								onclick = "if(toggleUnpublishEvaluation('<%= helper.evaluation.name %>')) window.location.href='<%= helper.getCoordEvaluationUnpublishLink(helper.evaluation.course,helper.evaluation.name,false) %>';" />
 						<%
 							}
 						%>

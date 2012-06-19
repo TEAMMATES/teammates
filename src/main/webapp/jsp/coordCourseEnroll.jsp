@@ -44,7 +44,7 @@
 							List<StudentData> students = helper.students[i]; %>
 						<%	if(students.size()>0){ %>
 							<p><%= helper.getMessageForStudentsListID(i) %></p>
-							<table id="dataform">
+							<table id="dataform" class="enroll_result<%= i %>">
 							<tr>
 								<th>Student Name</th>
 								<th>E-mail address</th>
@@ -65,7 +65,7 @@
 					<%	} %>
 				</div>
 				<div id="coordinatorCourseEnrollmentButtons">
-					<input type="button" class="t_back button" onclick="location.href='<%= helper.getCoordCourseLink() %>'" value="Back" />
+					<input type="button" class="button" id="button_back" onclick="location.href='<%= helper.getCoordCourseLink() %>'" value="Back" />
 				</div>
 			<% } else { %>
 				<div id="headerOperation">
@@ -86,7 +86,7 @@
 					<div id="coordinatorCourseEnrollmentButtons">
 						<input type="submit" class="button" name="button_enroll" id="button_enroll" value="Enroll students"
 							onclick="return checkEnrollmentInput(document.getElementById('enrollstudents').value)"/>
-						<input type="button" class="t_back button" onclick="location.href='<%= helper.getCoordCourseLink() %>'" value="Back" />
+						<input type="button" class="button" id="button_back" onclick="location.href='<%= helper.getCoordCourseLink() %>'" value="Back" />
 						<br /><br /><br /><br />
 					</div>
 				</form>

@@ -121,6 +121,7 @@ public class Common {
 	// JSP Parameter names
 	public static final String PARAM_COURSE_ID = "courseid";
 	public static final String PARAM_COURSE_NAME = "coursename";
+	public static final String PARAM_COORD_NAME = "coordname";
 	public static final String PARAM_STUDENTS_ENROLLMENT_INFO = "enrollstudents";
 
 	public static final String PARAM_EVALUATION_NAME = "evaluationname";
@@ -139,7 +140,9 @@ public class Common {
 	public static final String PARAM_EVALUATION_PUBLISHED = "published";
 	public static final String PARAM_EVALUATION_TYPE = "evaluationtype";
 	
-	public static final String PARAM_JOIN_COURSE = "regkey";
+	public static final String PARAM_STUDENT_ID = "googleid";
+	
+	public static final String PARAM_REGKEY = "regkey";
 	public static final String PARAM_STUDENT_EMAIL = "studentemail";
 	public static final String PARAM_BY_REVIEWER = "byreviewer";
 
@@ -150,6 +153,7 @@ public class Common {
 	public static final String PARAM_POINTS = "points";
 	public static final String PARAM_JUSTIFICATION = "justification";
 	public static final String PARAM_COMMENTS = "comments";
+	public static final String PARAM_TEAMMATES = "teammates";
 
 	public static final String PARAM_STATUS_MESSAGE = "message";
 	public static final String PARAM_ERROR = "error";
@@ -184,6 +188,7 @@ public class Common {
 	public static final String PAGE_COORD_COURSE_STUDENT_EDIT = "/page/coordCourseStudentEdit"; // Done
 	public static final String PAGE_COORD_COURSE_STUDENT_DELETE = "/page/coordCourseStudentDelete"; // Done
 	public static final String PAGE_COORD_COURSE_ENROLL = "/page/coordCourseEnroll"; // Done
+	public static final String PAGE_COORD_COURSE_REMIND = "/page/coordCourseRemind"; // Done
 	public static final String PAGE_COORD_TFS = "/page/coordTFS"; // Pending
 	public static final String PAGE_COORD_TFS_MANAGE = "/page/coordTFSManage"; // Pending
 	public static final String PAGE_COORD_TFS_CHANGE_TEAM = "/page/coordTFSChangeTeam"; // Pending
@@ -195,6 +200,9 @@ public class Common {
 	public static final String PAGE_COORD_EVAL_SUBMISSION_VIEW = "/page/coordEvalSubmissionView"; // Done
 	public static final String PAGE_COORD_EVAL_SUBMISSION_EDIT = "/page/coordEvalSubmissionEdit"; // Done
 	public static final String PAGE_COORD_EVAL_SUBMISSION_EDIT_HANDLER = "/page/coordEvalSubmissionEditHandler"; // Done
+	public static final String PAGE_COORD_EVAL_REMIND = "/page/coordEvalRemind"; // Done
+	public static final String PAGE_COORD_EVAL_PUBLISH = "/page/coordEvalPublish"; // Done
+	public static final String PAGE_COORD_EVAL_UNPUBLISH = "/page/coordEvalUnpublish"; // Done
 
 	public static final String PAGE_STUDENT_HOME = "/page/studentHome"; // Done
 	public static final String PAGE_STUDENT_JOIN_COURSE = "/page/studentCourseJoin"; // Done
@@ -255,6 +263,8 @@ public class Common {
 	public static final String MESSAGE_COURSE_DELETED = "The course has been deleted.";
 	public static final String MESSAGE_COURSE_EMPTY = "You have not created any courses yet. Use the form above to create a course.";
 	public static final String MESSAGE_COURSE_EMPTY_IN_EVALUATION = "You have not created any courses yet. Go <a href=\""+PAGE_COORD_COURSE+"\">here</a> to create one.";
+	public static final String MESSAGE_COURSE_REMINDER_SENT = "Registration key has been sent to ";
+	public static final String MESSAGE_COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
 
 	public static final String MESSAGE_STUDENT_EDITED = "The student has been edited successfully";
 	public static final String MESSAGE_STUDENT_DELETED = "The student has been removed from the course";

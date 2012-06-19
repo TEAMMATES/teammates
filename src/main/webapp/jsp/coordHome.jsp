@@ -72,7 +72,8 @@
 							onmouseout="hideddrivetip()">
 							View
 						</a>
-						<a class="t_course_add_eval<%= idx %>" href="<%= helper.getCoordEvaluationLink() %>"
+						<a class="t_course_add_eval<%= idx %>"
+							href="<%= helper.getCoordEvaluationLink() %>"
 							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ADD_EVALUATION %>')"
 							onmouseout="hideddrivetip()">
 							Add Evaluation
@@ -99,11 +100,11 @@
 							</tr>
 							<%	for (EvaluationData eval: course.evaluations){ evalIdx++; %>
 								<tr class="home_evaluations_row" id="evaluation<%= evalIdx %>">
-									<td class="t_eval_name"><%= CoordHomeHelper.escapeHTML(eval.name) %></td>
-									<td class="t_eval_status centeralign"><span
-										onmouseover="ddrivetip(' <%= CoordHomeHelper.getCoordHoverMessageForEval(eval) %>')"
+									<td class="t_eval_name<%= idx %>"><%= CoordHomeHelper.escapeHTML(eval.name) %></td>
+									<td class="t_eval_status<%= idx %> centeralign"><span
+										onmouseover="ddrivetip('<%= CoordHomeHelper.getCoordHoverMessageForEval(eval) %>')"
 										onmouseout="hideddrivetip()"><%= CoordHomeHelper.getCoordStatusForEval(eval) %></span></td>
-									<td class="t_eval_response centeralign"><%= eval.submittedTotal %>
+									<td class="t_eval_response<%= idx %> centeralign"><%= eval.submittedTotal %>
 										/ <%= eval.expectedTotal %></td>
 									<td class="centeralign"><%= helper.getCoordEvaluationActions(eval,evalIdx, true) %>
 									</td>

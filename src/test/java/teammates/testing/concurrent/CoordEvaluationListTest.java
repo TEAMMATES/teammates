@@ -7,6 +7,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import teammates.api.Common;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
@@ -131,7 +132,7 @@ public class CoordEvaluationListTest extends TestCase {
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_PUBLISHED);
 
 		// Check for status: PUBLISHED
-		assertEquals(bi.EVAL_STATUS_PUBLISHED, bi.getEvaluationStatus(scn.course.courseId, scn.evaluation3.name));
+		assertEquals(Common.EVALUATION_STATUS_PUBLISHED, bi.getEvaluationStatus(scn.course.courseId, scn.evaluation3.name));
 
 		// Check if emails have been sent to all participants
 		bi.waitForEmail();
@@ -175,8 +176,8 @@ public class CoordEvaluationListTest extends TestCase {
 
 		bi.waitForTextInElement(bi.statusMessage, bi.MESSAGE_EVALUATION_UNPUBLISHED);
 
-		// Check for status: PUBLISHED
-		assertEquals(bi.EVAL_STATUS_CLOSED, bi.getEvaluationStatus(scn.course.courseId, scn.evaluation3.name));
+		// Check for status: CLOSED
+		assertEquals(Common.EVALUATION_STATUS_CLOSED, bi.getEvaluationStatus(scn.course.courseId, scn.evaluation3.name));
 	}
 
 	// testCoordDeleteEvaluationSuccessful

@@ -6,16 +6,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
+import teammates.api.EntityDoesNotExistException;
 import teammates.datatransfer.CourseData;
 import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
 /**
- * Servlet to handle Delete Course action
+ * Servlet to handle Publish evaluation action
  * @author Aldrian Obaja
  *
  */
-public class CoordCourseStudentDeleteServlet extends ActionServlet<Helper> {
+public class CoordEvalPublishServlet extends ActionServlet<Helper> {
 
 	@Override
 	protected Helper instantiateHelper() {
@@ -33,23 +34,20 @@ public class CoordCourseStudentDeleteServlet extends ActionServlet<Helper> {
 	}
 
 	@Override
-	protected void doAction(HttpServletRequest req, Helper helper) {
+	protected void doAction(HttpServletRequest req, Helper helper) throws EntityDoesNotExistException {
 		// Get parameters
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
-		String studentEmail = req.getParameter(Common.PARAM_STUDENT_EMAIL);
+		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
 		CourseData course = helper.server.getCourse(courseID);
 		if(course!=null && !course.coord.equals(helper.userId)){
-			helper.statusMessage = "You are not authorized to delete the student " +
-					Helper.escapeHTML(studentEmail)+" in course "+courseID;
-			helper.redirectUrl = Common.PAGE_COORD_COURSE;
+			helper.statusMessage = "You are not authorized to publish the result for evaluation " +
+					Helper.escapeHTML(evalName)+" in course "+courseID;
 			return;
 		}
 		
 		// Process action
-		helper.server.deleteStudent(courseID, studentEmail);
-		helper.statusMessage = Common.MESSAGE_STUDENT_DELETED;
-		helper.redirectUrl = Common.PAGE_COORD_COURSE_DETAILS;
-		helper.redirectUrl = Helper.addParam(helper.redirectUrl,Common.PARAM_COURSE_ID,courseID);
+		helper.server.publishEvaluation(courseID,evalName);
+		helper.statusMessage = Common.MESSAGE_EVALUATION_PUBLISHED;
 	}
 
 	@Override

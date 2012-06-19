@@ -67,7 +67,7 @@ public class Helper {
 	}
 
 	public boolean isMasqueradeMode() {
-		return (user.isAdmin)&&(requestedUser!=null);
+		return (user!=null) && (user.isAdmin) && (requestedUser!=null);
 	}
 	
 	/**
@@ -298,33 +298,55 @@ public class Helper {
 	}
 
 	/**
-	 * Returns the link to see the result of an evaluation as specified<br />
+	 * Returns the link to send reminders to student who hasn't submit their
+	 * evaluations<br />
 	 * This includes masquerade mode as well.
 	 * @param courseID
 	 * @param evalName
 	 * @return
 	 */
 	public String getCoordEvaluationRemindLink(String courseID, String evalName){
-		return "javascript: hideddrivetip(); toggleRemindStudents('"+courseID+"','"+evalName+"');";
+		String link = Common.PAGE_COORD_EVAL_REMIND;
+		link = addParam(link,Common.PARAM_COURSE_ID, courseID);
+		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = processMasquerade(link);
+		return link;
 	}
 	
 	/**
-	 * Returns the link to publish or unpublish an evaluation, and redirects
+	 * Returns the link to publish an evaluation, and redirects
 	 * to appropriate page.<br />
 	 * This includes masquerade mode as well.
 	 * @param courseID
 	 * @param evalName
-	 * @param publish
-	 * 		true to publish, false to unpublish
 	 * @param isHome
 	 * @return
 	 */
-	public String getCoordEvaluationPublishLink(String courseID, String evalName, boolean publish, boolean isHome){
-		return "javascript: hideddrivetip(); togglePublishEvaluation(" +
-				"'" + courseID + "'," +
-				"'" + evalName + "'," +
-				publish + "," +
-				"'" + (isHome? processMasquerade(Common.PAGE_COORD_HOME) : processMasquerade(Common.PAGE_COORD_EVAL)) +"');";
+	public String getCoordEvaluationPublishLink(String courseID, String evalName, boolean isHome){
+		String link = Common.PAGE_COORD_EVAL_PUBLISH;
+		link = addParam(link,Common.PARAM_COURSE_ID, courseID);
+		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = addParam(link,Common.PARAM_NEXT_URL,(isHome ? processMasquerade(Common.PAGE_COORD_HOME): processMasquerade(Common.PAGE_COORD_EVAL)));
+		link = processMasquerade(link);
+		return link;
+	}
+	
+	/**
+	 * Returns the link to unpublish an evaluation, and redirects
+	 * to appropriate page.<br />
+	 * This includes masquerade mode as well.
+	 * @param courseID
+	 * @param evalName
+	 * @param isHome
+	 * @return
+	 */
+	public String getCoordEvaluationUnpublishLink(String courseID, String evalName, boolean isHome){
+		String link = Common.PAGE_COORD_EVAL_UNPUBLISH;
+		link = addParam(link,Common.PARAM_COURSE_ID, courseID);
+		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = addParam(link,Common.PARAM_NEXT_URL,(isHome ? processMasquerade(Common.PAGE_COORD_HOME): processMasquerade(Common.PAGE_COORD_EVAL)));
+		link = processMasquerade(link);
+		return link;
 	}
 	
 	/**
@@ -436,40 +458,43 @@ public class Helper {
 		}
 		
 		result.append(
-			"<a class=\"t_eval_view\" name=\"viewEvaluation" + position + "\" id=\"viewEvaluation"+ position + "\" " +
+			"<a class=\"t_eval_view"+ position + "\" " +
 			"href=\"" + getCoordEvaluationResultsLink(eval.course,eval.name) + "\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_RESULTS+"')\" "+
 			"onmouseout=\"hideddrivetip()\"" + (hasView ? "" : DISABLED) + ">View Results</a>"
 		);
 		result.append(
-			"<a class=\"t_eval_edit\" name=\"editEvaluation" + position + "\" id=\"editEvaluation" + position + "\" " +
+			"<a class=\"t_eval_edit" + position + "\" " +
 			"href=\"" + getCoordEvaluationEditLink(eval.course,eval.name) + "\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_EDIT+"')\" onmouseout=\"hideddrivetip()\" " +
 			(hasEdit ? "" : DISABLED) + ">Edit</a>"
 		);
 		result.append(
-			"<a class=\"t_eval_delete\" name=\"deleteEvaluation" + position + "\" id=\"deleteEvaluation" + position + "\" " +
+			"<a class=\"t_eval_delete" + position + "\" " +
 			"href=\"" + getCoordEvaluationDeleteLink(eval.course,eval.name,(isHome ? Common.PAGE_COORD_HOME : Common.PAGE_COORD_EVAL)) + "\" " +
 			"onclick=\"hideddrivetip(); return toggleDeleteEvaluationConfirmation('" + eval.course + "','" + eval.name + "');\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_DELETE+"')\" onmouseout=\"hideddrivetip()\">Delete</a>"
 		);
 		result.append(
-			"<a class=\"t_eval_remind\" name=\"remindEvaluation" + position + "\" id=\"remindEvaluation" + position + "\" " +
+			"<a class=\"t_eval_remind" + position + "\" " +
 			"href=\"" + getCoordEvaluationRemindLink(eval.course,eval.name) + "\" " +
+			"onclick=\"hideddrivetip(); return toggleRemindStudents('" + eval.name + "');\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_REMIND+"')\" " +
 			"onmouseout=\"hideddrivetip()\"" + (hasRemind ? "" : DISABLED) + ">Remind</a>"
 		);
 		if (hasUnpublish) {
 			result.append(
-				"<a class=\"t_eval_unpublish\" name=\"unpublishEvaluation" + position + "\" id=\"publishEvaluation" + position + "\" " +
-				"href=\"" + getCoordEvaluationPublishLink(eval.course,eval.name,false,isHome) + "\" " +
+				"<a class=\"t_eval_unpublish" + position + "\" " +
+				"href=\"" + getCoordEvaluationUnpublishLink(eval.course,eval.name,isHome) + "\" " +
+				"onclick=\"hideddrivetip(); return toggleUnpublishEvaluation('" + eval.name + "');\" " +
 				"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_UNPUBLISH+"')\" onmouseout=\"hideddrivetip()\">" +
 				"Unpublish</a>"
 			);
 		} else {
 			result.append(
-				"<a class=\"t_eval_publish\" name=\"publishEvaluation" + position + "\" id=\"publishEvaluation" + position + "\" " +
-				"href=\"" + getCoordEvaluationPublishLink(eval.course,eval.name,true,isHome) + "\" " +
+				"<a class=\"t_eval_publish" + position + "\" " +
+				"href=\"" + getCoordEvaluationPublishLink(eval.course,eval.name,isHome) + "\" " +
+				"onclick=\"hideddrivetip(); return togglePublishEvaluation('" + eval.name + "');\" " +
 				"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_PUBLISH+"')\" " +
 				"onmouseout=\"hideddrivetip()\"" + (hasPublish ? "" : DISABLED) + ">Publish</a>"
 			);

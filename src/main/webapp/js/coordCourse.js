@@ -1,6 +1,3 @@
-var OPERATION_COORDINATOR_SENDREGISTRATIONKEY = "coordinator_sendregistrationkey";
-var OPERATION_COORDINATOR_SENDREGISTRATIONKEYS = "coordinator_sendregistrationkeys";
-
 //Add course status codes
 var COURSE_STATUS_SERVERERROR = -1;
 var COURSE_STATUS_VALID_INPUT = 0;
@@ -92,40 +89,9 @@ function isCourseIDValid(courseID) {
  * Currently no confirmation dialog is shown.
  * @param courseID
  * @param email
- * @param name
  */
-function toggleSendRegistrationKey(courseID, email, name) {
-	scrollToTop();
-	setStatusMessage(DISPLAY_LOADING);
-	sendRegistrationKey(courseID, email);
-}
-
-/**
- * Functions that actually sends the registration key request to server
- * using AJAX (asynchronous)
- * @param courseID
- * @param email
- * @param name
- */
-function sendRegistrationKey(courseID, email, name) {
-	if (xmlhttp) {
-		xmlhttp.onreadystatechange = function(){
-			if (xmlhttp.readyState==4) {
-				if(xmlhttp.status==200){
-					setStatusMessage(DISPLAY_REMINDER_SENT+name);
-				} else {
-					alert(DISPLAY_SERVERERROR);
-				}
-			}
-		};
-		xmlhttp.open("POST", "/teammates", true);
-		xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_SENDREGISTRATIONKEY
-				+ "&" + COURSE_ID + "=" + encodeURIComponent(courseID) + "&"
-				+ STUDENT_EMAIL + "=" + encodeURIComponent(email));
-	} else {
-		alert(DISPLAY_BROWSERERROR);
-	}
+function toggleSendRegistrationKey(courseID, email) {
+	return true;
 }
 
 /**
@@ -134,34 +100,9 @@ function sendRegistrationKey(courseID, email, name) {
  * @param courseID
  */
 function toggleSendRegistrationKeysConfirmation(courseID) {
-	if(confirm("Are you sure you want to send registration keys to all the unregistered students for them to join your course?"))
-		sendRegistrationKeys(courseID);
-}
-
-/**
- * Function that actually send the registration key request to the server
- * using AJAX (asynchronous)
- * @param courseID
- */
-function sendRegistrationKeys(courseID) {
-	if (xmlhttp) {
-		xmlhttp.onreadystatechange = function(){
-			if (xmlhttp.readyState==4) {
-				if(xmlhttp.status==200){
-					setStatusMessage(DISPLAY_REMINDERS_SENT);
-				} else {
-					alert(DISPLAY_SERVERERROR);
-				}
-			}
-		};
-		xmlhttp.open("POST", "/teammates", true);
-		xmlhttp.setRequestHeader("Content-Type",
-		"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_SENDREGISTRATIONKEYS
-				+ "&" + COURSE_ID + "=" + encodeURIComponent(courseID));
-	} else {
-		alert(DISPLAY_BROWSERERROR);
-	}
+	return confirm("Are you sure you want to send registration keys to all " +
+			"the unregistered students in " + courseID + " for them to " +
+			"join your course?");
 }
 
 /**
@@ -170,7 +111,8 @@ function sendRegistrationKeys(courseID) {
  * @returns
  */
 function toggleDeleteStudentConfirmation(studentName) {
-	return confirm("Are you sure you want to remove " + studentName + " from the course?");
+	return confirm("Are you sure you want to remove " + studentName + " from " +
+			"the course?");
 }
 
 /**

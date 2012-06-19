@@ -57,11 +57,11 @@ public class CoordCourseEditStudentsTest extends TestCase {
 		bi.clickCoordCourseView(scn.course.courseId);
 		bi.clickCoordCourseDetailStudentEdit(FIRST_STUDENT);
 		
-		bi.fillString(bi.studentEditName, STUDENT_NAME);
-		bi.fillString(bi.studentEditTeam, STUDENT_TEAM);
-		bi.fillString(bi.studentEditEmail, STUDENT_EMAIL);
+		bi.fillString(bi.studentDetailName, STUDENT_NAME);
+		bi.fillString(bi.studentDetailTeam, STUDENT_TEAM);
+		bi.fillString(bi.studentDetailEmail, STUDENT_EMAIL);
 		//TODO: google ID cannot be changed after student registered
-		bi.fillString(bi.studentEditComments, STUDENT_COMMENT);
+		bi.fillString(bi.studentDetailComment, STUDENT_COMMENT);
 		
 		bi.clickWithWait(bi.studentEditSaveButton);
 		
@@ -94,7 +94,7 @@ public class CoordCourseEditStudentsTest extends TestCase {
 	
 	public void testCoordEditStudentWithInvalidStudentName() {
 		//TODO: test student name exceed the limit
-		bi.fillString(bi.studentEditName, "ASAGSAJAJ JSHA JSH AGSHA GSAJ JAHS ASJA GJASG AJHSAJHSA");
+		bi.fillString(bi.studentDetailName, "ASAGSAJAJ JSHA JSH AGSHA GSAJ JAHS ASJA GJASG AJHSAJHSA");
 	}
 	
 	public void testCoordEditStudentWithInvalidTeamName() {
@@ -103,7 +103,7 @@ public class CoordCourseEditStudentsTest extends TestCase {
 	
 	public void testCoordEditStudentWithInvalidEmail() {
 		//TODO: cannot contain certain characters e.g. ' ! 
-		bi.fillString(bi.studentEditEmail, "");
+		bi.fillString(bi.studentDetailEmail, "");
 	}
 	
 	public void testCoordEditStudentWithInvalidGoogleID() {

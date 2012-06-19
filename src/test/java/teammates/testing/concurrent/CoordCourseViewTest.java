@@ -86,7 +86,7 @@ public class CoordCourseViewTest extends TestCase {
 		bi.clickCoordCourseView(newStudent);
 		bi.waitForElementPresent(bi.studentDetailKey);
 		String key = bi.getElementText(bi.studentDetailKey);
-		bi.clickWithWait(bi.courseViewBackButton);
+		bi.clickWithWait(bi.courseDetailBackButton);
 		
 		System.out.println("Key for new student: " + key);
 

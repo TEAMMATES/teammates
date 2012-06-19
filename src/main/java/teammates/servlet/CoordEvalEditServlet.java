@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
+import teammates.datatransfer.CourseData;
 import teammates.datatransfer.EvaluationData;
 import teammates.jsp.CoordEvalEditHelper;
+import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
 /**
@@ -41,6 +43,13 @@ public class CoordEvalEditServlet extends ActionServlet<CoordEvalEditHelper> {
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
 		if(courseID==null && evalName==null){
+			helper.redirectUrl = Common.PAGE_COORD_EVAL;
+			return;
+		}
+		CourseData course = helper.server.getCourse(courseID);
+		if(course!=null && !course.coord.equals(helper.userId)){
+			helper.statusMessage = "You are not authorized to edit the evaluation " +
+					Helper.escapeHTML(evalName)+" in course "+courseID;
 			helper.redirectUrl = Common.PAGE_COORD_EVAL;
 			return;
 		}

@@ -148,10 +148,10 @@ public class BrowserInstance {
 		}
 		return -1;
 	}
-	public By getCoordCourseEnrollLinkLocator(int rowID) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_enroll']", rowID+2, 6)); }
-	public By getCoordCourseViewLinkLocator(int rowID) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_view']", rowID+2, 6)); }
-	public By getCoordCourseAddEvaluationLinkLocator(int rowID) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_add_eval']", rowID+2, 6)); }
-	public By getCoordCourseDeleteLinkLocator(int rowID) { return By.xpath(String.format("//div[@id='coordinatorCourseTable']"+DATAFORM_TABLE_CELL+"//a[@class='t_course_delete']", rowID+2, 6)); }
+	public By getCoordCourseEnrollLinkLocator(int rowID) { return By.className("t_course_enroll" + rowID); }
+	public By getCoordCourseViewLinkLocator(int rowID) { return By.className("t_course_view" + rowID); }
+	public By getCoordCourseAddEvaluationLinkLocator(int rowID) { return By.className("t_course_add_eval" + rowID); }
+	public By getCoordCourseDeleteLinkLocator(int rowID) { return By.className("t_course_delete" + rowID); }
 	
 	public By getCoordCourseEnrollLinkLocator(String courseID) { return getCoordCourseEnrollLinkLocator(getCourseRowID(courseID)); }
 	public By getCoordCourseViewLinkLocator(String courseID) { return getCoordCourseViewLinkLocator(getCourseRowID(courseID)); }
@@ -176,12 +176,12 @@ public class BrowserInstance {
 		}
 		return -1;
 	}
-	public By getCoordEvaluationViewResultsLinkLocator(int rowID) { return By.id("viewEvaluation" + rowID); }
-	public By getCoordEvaluationEditLinkLocator(int rowID) { return By.id("editEvaluation" + rowID); }
-	public By getCoordEvaluationDeleteLinkLocator(int rowID) { return By.id("deleteEvaluation" + rowID); }
-	public By getCoordEvaluationRemindLinkLocator(int rowID) { return By.id("remindEvaluation" + rowID); }
-	public By getCoordEvaluationPublishLinkLocator(int rowID) { return By.id("publishEvaluation" + rowID); }
-	public By getCoordEvaluationUnpublishLinkLocator(int rowID) { return By.id("unpublishEvaluation" + rowID); }
+	public By getCoordEvaluationViewResultsLinkLocator(int rowID) { return By.className("t_eval_view" + rowID); }
+	public By getCoordEvaluationEditLinkLocator(int rowID) { return By.className("t_eval_edit" + rowID); }
+	public By getCoordEvaluationDeleteLinkLocator(int rowID) { return By.className("t_eval_edit" + rowID); }
+	public By getCoordEvaluationRemindLinkLocator(int rowID) { return By.className("t_eval_remind" + rowID); }
+	public By getCoordEvaluationPublishLinkLocator(int rowID) { return By.className("t_eval_publish" + rowID); }
+	public By getCoordEvaluationUnpublishLinkLocator(int rowID) { return By.className("t_eval_unpublish" + rowID); }
 	
 	// Evaluation table at homepage
 	/**
@@ -203,12 +203,12 @@ public class BrowserInstance {
 		}
 		return -1;
 	}
-	public By getCoordHomeEvaluationViewResultsLinkLocator(String courseID, String evalName) { return By.id("viewEvaluation" + getCoordHomeEvaluationRowID(courseID,evalName)); }
-	public By getCoordHomeEvaluationEditLinkLocator(String courseID, String evalName) { return By.id("editEvaluation" + getCoordHomeEvaluationRowID(courseID,evalName)); }
-	public By getCoordHomeEvaluationDeleteLinkLocator(String courseID, String evalName) { return By.id("deleteEvaluation" + getCoordHomeEvaluationRowID(courseID,evalName)); }
-	public By getCoordHomeEvaluationRemindLinkLocator(String courseID, String evalName) { return By.id("remindEvaluation" + getCoordHomeEvaluationRowID(courseID,evalName)); }
-	public By getCoordHomeEvaluationPublishLinkLocator(String courseID, String evalName) { return By.id("publishEvaluation" + getCoordHomeEvaluationRowID(courseID,evalName)); }
-	public By getCoordHomeEvaluationUnpublishLinkLocator(String courseID, String evalName) { return By.id("publishEvaluation" + getCoordHomeEvaluationRowID(courseID,evalName)); }
+	public By getCoordHomeEvaluationViewResultsLinkLocator(String courseID, String evalName) { return By.className("t_eval_view" + getCoordHomeEvaluationRowID(courseID,evalName)); }
+	public By getCoordHomeEvaluationEditLinkLocator(String courseID, String evalName) { return By.className("t_eval_edit" + getCoordHomeEvaluationRowID(courseID,evalName)); }
+	public By getCoordHomeEvaluationDeleteLinkLocator(String courseID, String evalName) { return By.className("t_eval_delete" + getCoordHomeEvaluationRowID(courseID,evalName)); }
+	public By getCoordHomeEvaluationRemindLinkLocator(String courseID, String evalName) { return By.className("t_eval_remind" + getCoordHomeEvaluationRowID(courseID,evalName)); }
+	public By getCoordHomeEvaluationPublishLinkLocator(String courseID, String evalName) { return By.className("t_eval_publish" + getCoordHomeEvaluationRowID(courseID,evalName)); }
+	public By getCoordHomeEvaluationUnpublishLinkLocator(String courseID, String evalName) { return By.className("t_eval_unpublish" + getCoordHomeEvaluationRowID(courseID,evalName)); }
 	
 	/* -------------------------------- Course Page ------------------------------- */
 	// Add course
@@ -221,71 +221,54 @@ public class BrowserInstance {
 	// ------------------------------- Courses Table ----------------------------- //
 	/*
 	 * In each row, the Cell containing course id has an HTML id attribute
-	 * e.g. <tr><td id="courseID1">CS2103-TESTING</td>...</tr>
+	 * e.g. <tr><td id="courseid1">CS2103-TESTING</td>...</tr>
 	 * The value depends on the original row number (it may be changed after sorting)
-	 * Originally it is 1st row: "CourseID0", 2nd row: "CourseID1" and so on
-	 * So at any time the lowest course ID will always have rowID 0, and so on. 
+	 * Originally it is 1st row: "courseid0", 2nd row: "courseid1" and so on
+	 * So at any time the lowest course ID will always have rowID 0, and so on.
 	 */
-	public By getCourseIDCell(int rowID) { return By.id("courseID" + rowID); }
-	public By getCourseNameCell(int rowID) { return By.id("courseName" + rowID); }
+	public By getCourseIDCell(int rowID) { return By.id("courseid" + rowID); }
+	public By getCourseNameCell(int rowID) { return By.id("coursename" + rowID); }
 
 	// Enrollment
 	public By coordEnrollInfo = By.id("information");
 	public By coordEnrollButton = By.id("button_enroll");
-	public By coordEnrollBackButton = By.className("t_back");
+	public By coordEnrollBackButton = By.id("button_back");
 	
 	// Enrollment results
-	public By coordStudentsAdded = By.id("t_studentsAdded");
-	public By coordStudentsEdited = By.id("t_studentsEdited");
-	public By coordStudentsAddedRow = By.xpath("//tr[@id='rowAddedStudents']//td");
-	public By coordStudentsEditedRow = By.xpath("//tr[@id='rowEditedStudents']//td");
+	public By coordEnrollResultError = By.className("enroll_result0");
+	public By coordEnrollResultAdded = By.className("enroll_result1");
+	public By coordEnrollResultModified = By.className("enroll_result2");
+	public By coordEnrollResultUnmodified = By.className("enroll_result3");
+	public By coordEnrollResultUnknown = By.className("enroll_result4");
 	
 	// Course details
-	public By courseDetailCourseID = By.xpath("//table[@class='headerform']//tbody//tr[1]//td[2]");
-	public By courseDetailCourseName = By.xpath("//table[@class='headerform']//tbody//tr[2]//td[2]");
-	public By courseDetailTeams = By.xpath("//table[@class='headerform']//tbody//tr[3]//td[2]");
-	public By courseDetailTotalStudents = By.xpath("//table[@class='headerform']//tbody//tr[4]//td[2]");
+	public By courseDetailCourseID = By.id("courseid");
+	public By courseDetailCourseName = By.id("coursename");
+	public By courseDetailTotalTeams = By.id("total_teams");
+	public By courseDetailTotalStudents = By.id("total_students");
 
 	public By courseDetailStudentNameSorting = By.id("button_sortstudentname");
 	public By courseDetailTeamSorting = By.id("button_sortstudentteam");
 	public By courseDetailJoinStatusSorting = By.id("button_sortstudentstatus");
 
 	public By remindStudentsButton = By.id("button_remind");
+	public By courseDetailBackButton = By.id("button_back");
+	@Deprecated
 	public By deleteStudentsButton = By.className("t_delete_students");
-	public By courseViewBackButton = By.className("t_back");
 
 	// Student details
-	public By studentDetailName = By.xpath("//table[@class='detailform']//tbody//tr[1]//td[2]");
-	public By studentDetailTeam = By.xpath("//table[@class='detailform']//tbody//tr[2]//td[2]");
-	public By studentDetailEmail = By.xpath("//table[@class='detailform']//tbody//tr[3]//td[2]");
-	public By studentDetailGoogle = By.xpath("//table[@class='detailform']//tbody//tr[4]//td[2]");
-	public By studentDetailComment = By.xpath("//table[@class='detailform']//tbody//tr[6]//td[2]");
-	public By studentDetailKey = By.id("t_courseKey");
-	public By studentDetailBackButton = By.className("t_back");
+	public By studentDetailName = By.id(Common.PARAM_STUDENT_NAME);
+	public By studentDetailTeam = By.id(Common.PARAM_TEAM_NAME);
+	public By studentDetailEmail = By.id(Common.PARAM_STUDENT_EMAIL);
+	public By studentDetailGoogle = By.id(Common.PARAM_USER_ID);
+	public By studentDetailComment = By.id(Common.PARAM_COMMENTS);
+	public By studentDetailKey = By.id(Common.PARAM_REGKEY);
+	public By studentDetailBackButton = By.className("button_back");
 
 	// Edit student
-	public By studentEditName = By.id("editname");
-	public By studentEditTeam = By.id("editteamname");
-	public By studentEditEmail = By.id("editemail");
-	public By studentEditID = By.id("editgoogleid");
-	public By studentEditComments = By.id("editcomments");
+	public By studentEditSaveButton = By.id("button_save");
 
-	public By studentEditSaveButton = By.id("button_editstudent");
-	
-	// Team forming
-	public final String TEAMFORMINGSESSION_STATUS_AWAITING = "AWAITING";
-	public By inputTeamName = By.id("teamName");
-	public By inputTeamProfile = By.id("teamProfile");        
-	public By inputNewTeamName = By.id("newteamName");
-	public By inputStudentProfileDetail = By.id("studentprofiledetail");
-	public By createTeamFormingSessionButton = By.id("t_btnCreateTeamFormingSession");
-	public By editTeamFormingSessionButton = By.id("button_editteamformingsession");
-
-	// Evaluation default
-	public final String EVAL_STATUS_AWAITING = "AWAITING";
-	public final String EVAL_STATUS_PUBLISHED = "PUBLISHED";
-	public final String EVAL_STATUS_CLOSED = "CLOSED";
-
+	// Input on evaluation
 	public By inputEvaluationName = By.id("evaluationname");
 	public By inputPeerFeedbackStatus = By.id("commentsstatus");
 	
@@ -297,8 +280,61 @@ public class BrowserInstance {
 	
 	public By inputTimeZone = By.id("timezone");
 	public By inputGracePeriod = By.id("graceperiod");
-	public By inputProfileTemplate = By.id("profile_template");
 
+	// Edit evaluation
+	public By editEvaluationButton = By.id("button_editevaluation");
+	public By editEvaluationBackButton = By.className("t_back");
+
+	// Evaluation Result
+	public By resultSummaryRadio = By.id("radio_summary");
+	public By resultReviewerRadio = By.id("radio_reviewer");
+	public By resultRevieweeRadio = By.id("radio_reviewee");
+	@Deprecated
+	public By resultDetailRadio = By.id("radio_detail");
+
+	public By resultPublishButton = By.id("button_publish");
+	public By resultBackButton = By.id("button_back");
+
+	// Summary result
+	public By resultTeamSorting = By.id("button_sortteamname");
+	public By resultStudentSorting = By.id("button_sortname");
+	public By resultClaimedSorting = By.id("button_sortclaimed");
+	public By resultPerceivedSorting = By.id("button_sortperceived");
+	public By resultDifferenceSorting = By.id("button_sortdiff");
+	public By resultEditButton = By.id("button_editevaluationresultsbyreviewee");
+	public By resultEditCancelButton = By.id("button_back");
+	@Deprecated
+	public By resultSubmittedSorting = By.id("button_sortsubmitted");
+
+	// Individual result
+	public By resultIndividualEditButton = By.id("button_edit");
+	@Deprecated
+	public By resultNextButton = By.id("button_next");
+	@Deprecated
+	public By resultPreviousButton = By.id("button_previous");
+
+	private final String COORD_EVALUATION_RESULT_TABLE = "//div[@id='coordinatorEvaluationSummaryTable']//table[@id='result_table']//th[%d]";
+	public By pointReviewerIndividualClaimed = By.xpath(String.format(COORD_EVALUATION_RESULT_TABLE,2));
+	public By pointReviewerIndividualPerceived = By.xpath(String.format(COORD_EVALUATION_RESULT_TABLE,3));
+	public By pointRevieweeIndividualClaimed = By.xpath(String.format(COORD_EVALUATION_RESULT_TABLE,2));
+	public By pointRevieweeIndividualPerceived = By.xpath(String.format(COORD_EVALUATION_RESULT_TABLE,3));
+
+	// Detailed result
+	public By resultTopButton = By.id("button_top");
+
+	// Edit result
+	public By coordEvaluationSaveButton = By.id("button_save");
+	
+	// Team forming
+	public final String TEAMFORMINGSESSION_STATUS_AWAITING = "AWAITING";
+	public By inputTeamName = By.id("teamName");
+	public By inputTeamProfile = By.id("teamProfile");        
+	public By inputNewTeamName = By.id("newteamName");
+	public By inputStudentProfileDetail = By.id("studentprofiledetail");
+	public By createTeamFormingSessionButton = By.id("t_btnCreateTeamFormingSession");
+	public By editTeamFormingSessionButton = By.id("button_editteamformingsession");
+	public By inputProfileTemplate = By.id("profile_template");
+	
 	// Edit team profile
 	public By coordEditTeamProfile0 = By.id("viewTeamProfile0");
 	public By saveTeamProfile = By.id("button_saveTeamProfile");
@@ -313,86 +349,49 @@ public class BrowserInstance {
 
 	public By evaluationCourseIDSorting = By.id("button_sortcourseid");
 	public By evaluationNameSorting = By.id("button_sortname");
-
-	// Edit evaluation
-	public By editEvaluationButton = By.id("button_editevaluation");
-	public By editEvaluationBackButton = By.className("t_back");
-
-	// Evaluation Result
-	public By resultSummaryRadio = By.id("radio_summary");
-	public By resultDetailRadio = By.id("radio_detail");
-	public By resultReviewerRadio = By.id("radio_reviewer");
-	public By resultRevieweeRadio = By.id("radio_reviewee");
-
-	public By resultPublishButton = By.id("button_publish");
-	public By resultBackButton = By.id("button_back");
-
-	// Summary result
-	public By resultTeamSorting = By.id("button_sortteamname");
-	public By resultStudentSorting = By.id("button_sortname");
-	public By resultSubmittedSorting = By.id("button_sortsubmitted");
-	public By resultClaimedSorting = By.id("button_sortaverage");
-	public By resultDifferenceSorting = By.id("button_sortdiff");
-	public By resultEditButton = By.id("button_editevaluationresultsbyreviewee");
-	public By resultEditCancelButton = By.id("button_back");
-
-	// Individual result
-	public By resultNextButton = By.id("button_next");
-	public By resultPreviousButton = By.id("button_previous");
-	public By resultIndividualEditButton = By.id("button_edit");
-
-	private final String COORD_EVALUATION_RESULT_TABLE = "//div[@id='coordinatorEvaluationSummaryTable']//table[@id='result_table']//th[%d]";
-	public By pointReviewerIndividualClaimed = By.xpath(String.format(COORD_EVALUATION_RESULT_TABLE,2));
-	public By pointReviewerIndividualPerceived = By.xpath(String.format(COORD_EVALUATION_RESULT_TABLE,3));
-	public By pointRevieweeIndividualClaimed = By.xpath(String.format(COORD_EVALUATION_RESULT_TABLE,2));
-	public By pointRevieweeIndividualPerceived = By.xpath(String.format(COORD_EVALUATION_RESULT_TABLE,3));
-
-	// Detailed result
-	public By resultTopButton = By.id("button_top");
-
-	// Edit result
-	public By coordEvaluationSubmitButton = By.id("button_editevaluationresultsbyreviewee");
 	
 	// ---------------------------------- Student --------------------------------- //
 	// Course details
-	public By studentCourseDetailCourseID = By.xpath(String.format(DETAIL_FORM_TABLE_CELL, 1, 2));
-	public By studentCourseDetailTeamName = By.xpath(String.format(DETAIL_FORM_TABLE_CELL, 2, 2));
-	public By studentCourseDetailCourseName = By.xpath(String.format(DETAIL_FORM_TABLE_CELL, 3, 2));
-	public By studentCourseDetailStudentName = By.xpath(String.format(DETAIL_FORM_TABLE_CELL, 4, 2));
-	public By studentCourseDetailCoordinatorName = By.xpath(String.format(DETAIL_FORM_TABLE_CELL, 5, 2));
-	public By studentCourseDetailStudentEmail = By.xpath(String.format(DETAIL_FORM_TABLE_CELL, 6, 2));
-	public By studentCourseDetailStudentTeammates = By.xpath(String.format(DETAIL_FORM_TABLE_CELL, 7, 2));
+	public By studentCourseDetailCourseID = By.id(Common.PARAM_COURSE_ID);
+	public By studentCourseDetailCourseName = By.id(Common.PARAM_COURSE_NAME);
+	public By studentCourseDetailTeamName = By.id(Common.PARAM_TEAM_NAME);
+	public By studentCourseDetailStudentName = By.id(Common.PARAM_STUDENT_NAME);
+	public By studentCourseDetailCoordinatorName = By.id(Common.PARAM_COORD_NAME);
+	public By studentCourseDetailStudentEmail = By.id(Common.PARAM_STUDENT_EMAIL);
+	public By studentCourseDetailStudentTeammates = By.id(Common.PARAM_TEAMMATES);
 	
 	// Student course
 	public By studentInputRegKey = By.id("regkey");
-	public By studentJoinCourseButton = By.id("btnJoinCourse");
+	public By studentJoinCourseButton = By.id("button_join_course");
+	@Deprecated
 	public By studentJoinNewCourseLink = By.id("joinNewCourse");
 
 	// Student evaluation:
-	public By studentSubmitEvaluationButton = By.name("submitEvaluation");
-	public By studentEvaluationBackButton = By.className("t_back");
+	public By studentSubmitEvaluationButton = By.id("button_submit");
+	public By studentEvaluationBackButton = By.id("button_back");
 
 	// --------------------------------- Homepage --------------------------------- //
 	// Course box
 	public By getStudentViewLink(int rowID) { return By.className("t_course_view" + rowID); }
 
-	// Evaluation table:
-	
 	// ------------------------------- Evaluation --------------------------------- //
 	public By getStudentDoEvaluationLink(int rowID) { return By.id("doEvaluation" + rowID); }
-	public By getStudentViewResultsLink(int rowID) { return By.id("viewEvaluation" + rowID); }
-	public By getStudentEditEvaluationSubmissionLink(int rowID) { return By.id("editEvaluation" + rowID); }
+	public By getStudentViewResultsLink(int rowID) { return By.id("viewEvaluationResults" + rowID); }
+	public By getStudentEditEvaluationSubmissionLink(int rowID) { return By.id("editEvaluationSubmission" + rowID); }
+	@Deprecated
 	public By getStudentEvaluationViewResultsLink(int rowID) { return By.xpath(String.format("//div[@id='studentPastEvaluations']//table[@id='dataform']//tr[%d]//td[%d]//a['View Results']", rowID + 2, 5)); }
 	
+	@Deprecated
 	public final String PENDING_EVALUATIONS_HEADER = "Pending Evaluations:";
+	@Deprecated
 	public final String PAST_EVALUATIONS_HEADER = "Past Evaluations:";
 	
 	// Edit evaluation submission
-	public By studentEvaluationCourseID = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 1, 2));
-	public By studentEvaluationEvaluationName = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 2, 2));
-	public By studentEvaluationOpeningTime = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 3, 2));
-	public By studentEvaluationClosingTime = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 4, 2));
-	public By studentEvaluationInstructions = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 5, 2));
+	public By studentEvaluationCourseID = By.id(Common.PARAM_COURSE_ID);
+	public By studentEvaluationEvaluationName = By.id(Common.PARAM_EVALUATION_NAME);
+	public By studentEvaluationOpeningTime = By.id(Common.PARAM_EVALUATION_STARTTIME);
+	public By studentEvaluationClosingTime = By.id(Common.PARAM_EVALUATION_DEADLINETIME);
+	public By studentEvaluationInstructions = By.id(Common.PARAM_EVALUATION_INSTRUCTIONS);
 	
 	// Evaluation results table
 	public final String STUDENT_EVALUATION_RESULTS_TABLE_ROW = "//div[@id='studentEvaluationResults']//table[@class='result_studentform']//tbody//tr";
@@ -407,14 +406,17 @@ public class BrowserInstance {
 	public By studentEvaluationResultPerceivedPoints = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 4, 2));
 	public By studentEvaluationResultClosingTime = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 4, 4));
 	
-	// --------------------------------- Messages --------------------------------- //
-	public By courseMessage = By.xpath("//div[@id='statusMessage']/font[1]");
-	public By courseErrorMessage = By.xpath("//div[@id='statusMessage']/font[2]");
 	public By statusMessage = By.id("statusMessage");
+	public By footer = By.id("contentFooter");
+	
+	@Deprecated
+	public By courseMessage = By.xpath("//div[@id='statusMessage']/font[1]");
+	@Deprecated
+	public By courseErrorMessage = By.xpath("//div[@id='statusMessage']/font[2]");
+	@Deprecated
 	public By editEvaluationResultsStatusMessage = By.id("coordinatorEditEvaluationResultsStatusMessage");
 
-	public By footer = By.id("contentFooter");
-
+	// --------------------------------- Messages --------------------------------- //
 	public final static String MESSAGE_COURSE_DELETED = "The course has been deleted.";
 	public final static String MESSAGE_COURSE_DELETED_STUDENT = "The student has been removed from the course.";
 	public final static String MESSAGE_COURSE_DELETED_ALLSTUDENTS = "All students have been removed from the course. Click here to enroll students.";
@@ -487,7 +489,7 @@ public class BrowserInstance {
 		clickWithWait(COORD_LOGIN_BUTTON);
 		waitForPageLoad();
 
-		login(username, password);
+		login(username, password, false);
 	}
 
 	/**
@@ -504,13 +506,33 @@ public class BrowserInstance {
 		clickWithWait(STUDENT_LOGIN_BUTTON);
 		waitForPageLoad();
 		
-		login(username, password);
+		login(username, password, false);
 	}
 	
-	private void login(String email, String password) {
+	/**
+	 * Logs in as administrator.
+	 * @page Homepage
+	 */
+	public void loginAdmin(String username, String password) {
+		System.out.println("Logging in administrator " + username + ".");
+		
+		// Logout first to make sure we will be in login page later
+		goToUrl(Config.inst().TEAMMATES_URL+"logout.jsp");
+
+		// Click the Coordinator button on the main page
+		clickWithWait(COORD_LOGIN_BUTTON);
+		waitForPageLoad();
+
+		login(username, password, true);
+	}
+	
+	private void login(String email, String password, boolean isAdmin) {
 		waitForPageLoad();
 		if (isLocalLoginPage()) {
 			fillString(By.id("email"), email);
+			if(isAdmin){
+				selenium.check("id='isAdmin'");
+			}
 			selenium.click("css=input[value='Log In']");
 			checkGoogleApplicationApproval();
 			waitForPageLoad();

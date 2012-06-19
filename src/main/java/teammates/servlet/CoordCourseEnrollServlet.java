@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.api.Common;
 import teammates.api.EnrollException;
 import teammates.api.EntityDoesNotExistException;
+import teammates.datatransfer.CourseData;
 import teammates.datatransfer.StudentData;
 import teammates.jsp.CoordCourseEnrollHelper;
 
@@ -47,7 +48,13 @@ public class CoordCourseEnrollServlet extends ActionServlet<CoordCourseEnrollHel
 		
 		// Process action
 		try {
-			processEnrollmentForDisplay(helper, studentsInfo);
+			CourseData course = helper.server.getCourse(helper.courseID);
+			if(course==null || course.coord.equals(helper.userId)){
+				processEnrollmentForDisplay(helper, studentsInfo);
+			} else {
+				helper.statusMessage = "You are not authorized to enroll students in the course "+helper.courseID;
+				helper.redirectUrl = Common.PAGE_COORD_COURSE;
+			}
 		} catch (EnrollException e) {
 			helper.statusMessage = e.getMessage();
 			helper.error = true;

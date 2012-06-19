@@ -43,19 +43,19 @@
 				<table class="headerform">
 					<tr>
 		 				<td class="fieldname">Course ID:</td>
-		 				<td><%= helper.course.id %></td>
+		 				<td id="courseid"><%= helper.course.id %></td>
 		 			</tr>
 		 			<tr>
 		 				<td class="fieldname">Course name:</td>
-		 				<td><%= CoordCourseDetailsHelper.escapeHTML(helper.course.name) %></td>
+		 				<td id="coursename"><%= CoordCourseDetailsHelper.escapeHTML(helper.course.name) %></td>
 					</tr>
 					<tr>
 		 				<td class="fieldname">Teams:</td>
-		 				<td><%= helper.course.teamsTotal %></td>
+		 				<td id="total_teams"><%= helper.course.teamsTotal %></td>
 		 			</tr>
 		 			<tr>
 		 				<td class="fieldname">Total students:</td>
-		 				<td><%= helper.course.studentsTotal %></td>
+		 				<td id="total_students"><%= helper.course.studentsTotal %></td>
 		 			</tr>
 		 			<%	if(helper.course.studentsTotal>1){ %>
 		 			<tr>
@@ -63,8 +63,8 @@
 		 					<input type="button" class="button t_remind_students"
 		 							id="button_remind"
 		 							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_REMIND %>')" 
-		 							onmouseout="hideddrivetip();" 
-		 							onclick="hideddrivetip(); toggleSendRegistrationKeysConfirmation('<%= helper.course.id %>');"
+		 							onmouseout="hideddrivetip();"
+		 							onclick="hideddrivetip(); if(toggleSendRegistrationKeysConfirmation('<%= helper.course.id %>')) window.location.href='<%= helper.getCoordCourseRemindLink() %>';"
 		 							value="Remind Students to Join" tabindex=1 />
 		 				</td>
 		 			</tr>
@@ -100,6 +100,7 @@
 											Edit</a>
 									<%	if(helper.status(student).equals(Common.STUDENT_STATUS_YET_TO_JOIN)){ %>
 										<a class="t_student_resend" href="<%= helper.getCourseStudentRemindLink(student) %>"
+												onclick="return toggleSendRegistrationKey()"
 												onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_STUDENT_REMIND %>')"
 												onmouseout="hideddrivetip()">
 												Resend Invite</a>

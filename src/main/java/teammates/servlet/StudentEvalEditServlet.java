@@ -39,6 +39,15 @@ public class StudentEvalEditServlet extends EvalSubmissionEditServlet {
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return false;
 		}
+		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
+		String studentEmail = req.getParameter(Common.PARAM_FROM_EMAIL);
+		if(studentEmail==null) return true;
+		StudentData student = helper.server.getStudentInCourseForGoogleId(courseID, helper.userId);
+		if(student!=null && !student.email.equals(studentEmail)){
+			helper.statusMessage = "You are only allowed to edit your own submission";
+			helper.redirectUrl = Common.PAGE_STUDENT_HOME;
+			return false;
+		}
 		return true;
 	}
 

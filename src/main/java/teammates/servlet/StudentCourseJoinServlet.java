@@ -36,7 +36,7 @@ public class StudentCourseJoinServlet extends ActionServlet<Helper> {
 	@Override
 	protected void doAction(HttpServletRequest req, Helper helper){
 		// Get parameters
-		String regKey = req.getParameter(Common.PARAM_JOIN_COURSE);
+		String regKey = req.getParameter(Common.PARAM_REGKEY);
 		if(regKey==null) return;
 		
 		// Process action
@@ -49,10 +49,12 @@ public class StudentCourseJoinServlet extends ActionServlet<Helper> {
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
 		}
+		helper.redirectUrl = Common.PAGE_STUDENT_HOME;
 	}
 
 	@Override
 	protected String getDefaultForwardUrl() {
-		return Common.PAGE_STUDENT_HOME;
+		// Not used
+		return "";
 	}
 }

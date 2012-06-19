@@ -6,9 +6,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
+import teammates.datatransfer.CourseData;
 import teammates.datatransfer.StudentData;
 import teammates.jsp.CoordEvalSubmissionEditHelper;
 import teammates.jsp.EvalSubmissionEditHelper;
+import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
 /**
@@ -45,6 +47,17 @@ public class CoordEvalSubmissionEditServlet extends EvalSubmissionEditServlet {
 			throws IOException {
 		if(!helper.user.isCoord && !helper.user.isAdmin){
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
+			return false;
+		}
+		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
+		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
+		String studentEmail = req.getParameter(Common.PARAM_FROM_EMAIL);
+		CourseData course = helper.server.getCourse(courseID);
+		if(course!=null && !course.coord.equals(helper.userId)){
+			helper.statusMessage = "You are not authorized to edit the submission for student " +
+					Helper.escapeHTML(studentEmail)+" in evaluation "+Helper.escapeHTML(evalName) +
+					" in course "+courseID;
+			helper.redirectUrl = Common.PAGE_COORD_EVAL;
 			return false;
 		}
 		return true;

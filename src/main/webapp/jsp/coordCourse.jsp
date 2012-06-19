@@ -96,21 +96,21 @@
 						for(CourseData course: helper.courses){ idx++;
 					%>
 						<tr class="courses_row">
-							<td id="courseID<%= idx %>"><%= course.id %></td>
-							<td id="courseName<%= idx %>"><%= CoordCourseHelper.escapeHTML(course.name) %></td>
+							<td id="courseid<%= idx %>"><%= course.id %></td>
+							<td id="coursename<%= idx %>"><%= CoordCourseHelper.escapeHTML(course.name) %></td>
 							<td class="t_course_teams centeralign"><%= course.teamsTotal %></td>
 							<td class="centeralign"><%= course.studentsTotal %></td>
 							<td class="centeralign"><%= course.unregisteredTotal %></td>
 							<td class="centeralign">
-								<a class="t_course_enroll"
+								<a class="t_course_enroll<%= idx %>"
 									href="<%= helper.getCoordCourseEnrollLink(course.id) %>"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ENROLL %>')"
 									onmouseout="hideddrivetip()">Enroll</a>
-								<a class="t_course_view"
+								<a class="t_course_view<%= idx %>"
 									href="<%=helper.getCoordCourseDetailsLink(course.id)%>"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_DETAILS %>')"
 									onmouseout="hideddrivetip()">View</a>
-								<a class="t_course_delete"
+								<a class="t_course_delete<%= idx %>"
 									href="<%=helper.getCoordCourseDeleteLink(course.id,false)%>"
 									onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%= course.id %>');"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_DELETE %>')"

@@ -6,6 +6,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import teammates.api.Common;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.lib.TMAPI;
@@ -80,7 +81,7 @@ public class CoordEvaluationAddTest extends TestCase {
 //		assertEquals(bi.MESSAGE_EVALUATION_ADDED, bi.getElementText(bi.statusMessage));
 
 		bi.clickEvaluationTab();
-		bi.verifyEvaluationAdded(scn.evaluation.courseID, scn.evaluation.name, bi.EVAL_STATUS_AWAITING, "0 / " + scn.students.size());
+		bi.verifyEvaluationAdded(scn.evaluation.courseID, scn.evaluation.name, Common.EVALUATION_STATUS_AWAITING, "0 / " + scn.students.size());
 		
 		System.out.println("========== testCoordAddEvaluationSuccessful ==========");
 	}
@@ -98,7 +99,7 @@ public class CoordEvaluationAddTest extends TestCase {
 		bi.addEvaluation(scn2.evaluation);
 
 //		assertEquals(bi.MESSAGE_EVALUATION_ADDED, bi.getElementText(bi.statusMessage));
-		bi.verifyEvaluationAdded(scn2.evaluation.courseID, scn2.evaluation.name, bi.EVAL_STATUS_AWAITING, "0 / " + scn2.students.size());
+		bi.verifyEvaluationAdded(scn2.evaluation.courseID, scn2.evaluation.name, Common.EVALUATION_STATUS_AWAITING, "0 / " + scn2.students.size());
 		System.out.println("========== testCoordAddDuplicateEvaluationInDifferentCourseSuccessful ==========");
 	}
 

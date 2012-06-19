@@ -33,7 +33,7 @@
 				<ul id="navbar">
 					<li><a href="/page/coordHome" class="t_home">Home</a></li>
 					<li><a href="/page/coordCourse" class="t_courses">Courses</a></li>
-					<li><a href="/page/coordTFS" class="t_teamForming">Team-Forming</a></li>
+					<!-- <li><a class='t_teamForming' href="/page/coordTFS">Team-Forming</a></li> -->
 					<li><a href="/page/coordEval" class="t_evaluations">Evaluations</a></li>
 					<li><a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/coordinatorhelp.html" class="t_help">Help</a></li>
 					<li><a href="/logout.jsp" class="t_logout">Logout</a>
@@ -73,14 +73,15 @@
 			
 
 
-	<div style="display: none" id="statusMessage"></div>
+	<div style="display:block;" id="statusMessage">
+		You have not created any courses yet. Use the form above to create a course.</div>
 
 			<div id="coordinatorCourseTable">
 				<table id="dataform">
 					<tbody><tr>
-						<th><input type="button" onclick="toggleSort(this,1);" id="button_sortcourseid" class="buttonSortNone" />
+						<th><input type="button" onclick="toggleSort(this,1);" id="button_sortcourseid" class="buttonSortAscending" />
 							Course ID</th>
-						<th><input type="button" onclick="toggleSort(this,2);" id="button_sortcoursename" class="buttonSortAscending" />
+						<th><input type="button" onclick="toggleSort(this,2);" id="button_sortcoursename" class="buttonSortNone" />
 							Course Name</th>
 						<th class="centeralign">Teams</th>
 						<th class="centeralign">Total Students</th>
@@ -88,36 +89,24 @@
 						<th class="centeralign">Action(s)</th>
 					</tr>
 					
-						<tr class="courses_row">
-							<td id="courseID1">CS2104-TESTING</td>
-							<td id="courseName1">Programming Language Concepts</td>
-							<td class="t_course_teams centeralign">2</td>
-							<td class="centeralign">4</td>
-							<td class="centeralign">0</td>
-							<td class="centeralign">
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/coordCourseEnroll?courseid=CS2104-TESTING" class="t_course_enroll">Enroll</a>
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/coordCourseDetails?courseid=CS2104-TESTING" class="t_course_view">View</a>
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CS2104-TESTING');" href="/page/coordCourseDelete?courseid=CS2104-TESTING&amp;next=%2Fpage%2FcoordCourse" class="t_course_delete">Delete</a>
-							</td>
-						</tr>
-					
-						<tr class="courses_row">
-							<td id="courseID0">CS1101-TESTING</td>
-							<td id="courseName0">Programming Methodology</td>
-							<td class="t_course_teams centeralign">2</td>
-							<td class="centeralign">4</td>
-							<td class="centeralign">0</td>
-							<td class="centeralign">
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/coordCourseEnroll?courseid=CS1101-TESTING" class="t_course_enroll">Enroll</a>
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/coordCourseDetails?courseid=CS1101-TESTING" class="t_course_view">View</a>
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CS1101-TESTING');" href="/page/coordCourseDelete?courseid=CS1101-TESTING&amp;next=%2Fpage%2FcoordCourse" class="t_course_delete">Delete</a>
-							</td>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 					
 				</tbody></table>
 				<br />
 				<br />
 				<br />
+				
+					No records found. <br />
+					<br />
+					<br />
+					<br />
 				
 			</div>
 		</div>

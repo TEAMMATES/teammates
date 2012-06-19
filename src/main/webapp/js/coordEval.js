@@ -1,7 +1,3 @@
-var OPERATION_COORDINATOR_PUBLISHEVALUATION = "coordinator_publishevaluation";
-var OPERATION_COORDINATOR_UNPUBLISHEVALUATION = "coordinator_unpublishevaluation";
-var OPERATION_COORDINATOR_REMINDSTUDENTS = "coordinator_remindstudents";
-
 function isEvaluationNameLengthValid(name) {
 	return name.length <= 22;
 }
@@ -186,100 +182,6 @@ function selectDefaultTimeOptions(){
 	document.getElementById(EVALUATION_TIMEZONE).value = ""+timeZone;
 }
 
-
-/**
- * Sends an AJAX request to the server to publish an evaluation
- * and goes to specified URL on success.
- * Just don't provide the URL or give empty URL if no page change is desired
- * @param courseID
- * @param name
- * @param url
- */
-function publishEvaluation(courseID, name, url) {
-	if (xmlhttp) {
-		xmlhttp.onreadystatechange = function(){
-			if (xmlhttp.readyState==4) {
-				if(xmlhttp.status==200){
-					setStatusMessage(DISPLAY_EVALUATION_PUBLISHED);
-					if(url){
-						window.location = url;
-					}
-				} else {
-					alert(DISPLAY_SERVERERROR);
-				}
-			}
-		};
-		xmlhttp.open("POST", "/teammates", true);
-		xmlhttp.setRequestHeader("Content-Type",
-		"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_PUBLISHEVALUATION
-				+ "&" + COURSE_ID + "=" + encodeURIComponent(courseID) + "&"
-				+ EVALUATION_NAME + "=" + encodeURIComponent(name));
-	} else {
-		alert(DISPLAY_BROWSERERROR);
-	}
-}
-
-/**
- * Sends an AJAX request to the server to unpublish an evaluation
- * and goes to specified URL on success
- * Just don't provide the URL or give empty URL if no page change is desired
- * @param courseID
- * @param name
- * @param url
- */
-function unpublishEvaluation(courseID, name, url) {
-	if (xmlhttp) {
-		xmlhttp.onreadystatechange = function(){
-			if (xmlhttp.readyState==4) {
-				if(xmlhttp.status==200){
-					setStatusMessage(DISPLAY_EVALUATION_UNPUBLISHED);
-					if(url){
-						window.location = url;
-					}
-				} else {
-					alert(DISPLAY_SERVERERROR);
-				}
-			}
-		};
-		xmlhttp.open("POST", "/teammates", true);
-		xmlhttp.setRequestHeader("Content-Type",
-		"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_UNPUBLISHEVALUATION
-				+ "&" + COURSE_ID + "=" + encodeURIComponent(courseID) + "&"
-				+ EVALUATION_NAME + "=" + encodeURIComponent(name));
-	} else {
-		alert(DISPLAY_BROWSERERROR);
-	}
-}
-
-/**
- * Sends an AJAX request to the server to remind students to do evaluation
- * @param courseID
- * @param evaluationName
- */
-function remindStudents(courseID, evaluationName) {
-	if (xmlhttp) {
-		xmlhttp.onreadystatechange = function(){
-			clearStatusMessage();
-			if (xmlhttp.readyState==4) {
-				if(xmlhttp.status==200){
-					setStatusMessage(DISPLAY_EVALUATION_REMINDERSSENT);
-				} else {
-					alert(DISPLAY_SERVERERROR);
-				}
-			}
-		};
-		xmlhttp.open("POST", "/teammates", true);
-		xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_REMINDSTUDENTS + "&"
-				+ COURSE_ID + "=" + encodeURIComponent(courseID) + "&"
-				+ EVALUATION_NAME + "=" + encodeURIComponent(evaluationName));
-	} else {
-		alert(DISPLAY_BROWSERERROR);
-	}
-}
-
 /**
  * Pops up confirmation dialog whether to delete specified evaluation
  * @param courseID
@@ -307,32 +209,21 @@ function showReport(id){
 }
 
 /**
- * Pops up confirmation dialog whether to publish or unpublish the specified
- * evaluation, depending on the boolean value in publish.
- * @param courseID
- * @param name
- * @param publish
- * 		true to publish, false to unpublish
- * @param url
- * 		The URL to go to after publishing. If no page change is desired,
- * 		just don't provide the URL or give empty URL 
+ * Pops up confirmation dialog whether to publish the specified
+ * evaluation
+ * @param name 
  */
-function togglePublishEvaluation(courseID, name, publish, url) {
-	if (publish) {
-		var s = confirm("Are you sure you want to publish the evaluation?");
-		if (s == true) {
-			scrollToTop();
-			setStatusMessage(DISPLAY_LOADING);
-			publishEvaluation(courseID, name, url);
-		}
-	} else {
-		var s = confirm("Are you sure you want to unpublish the evaluation?");
-		if (s == true) {
-			scrollToTop();
-			setStatusMessage(DISPLAY_LOADING);
-			unpublishEvaluation(courseID, name, url);
-		}
-	}
+function togglePublishEvaluation(name) {
+	return confirm("Are you sure you want to publish the evaluation " + name + "?");
+}
+
+/**
+ * Pops up confirmation dialog whether to unpublish the specified
+ * evaluation
+ * @param name 
+ */
+function toggleUnpublishEvaluation(name){
+	return confirm("Are you sure you want to unpublish the evaluation " + name + "?");
 }
 
 /**
@@ -341,13 +232,8 @@ function togglePublishEvaluation(courseID, name, publish, url) {
  * @param courseID
  * @param evaluationName
  */
-function toggleRemindStudents(courseID, evaluationName) {
-	var s = confirm("Send e-mails to remind students who have not submitted their evaluations?");
-	if (s == true) {
-		scrollToTop();
-		setStatusMessage(DISPLAY_LOADING);
-		remindStudents(courseID, evaluationName);
-	}
+function toggleRemindStudents(evaluationName) {
+	return confirm("Send e-mails to remind students who have not submitted their evaluations for " + evaluationName + "?");
 }
 
 /**

@@ -1,6 +1,5 @@
 package teammates;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Logger;
@@ -61,12 +60,10 @@ public class Config {
 
 	public static Properties getProperties(String propertiesFile) throws IOException {
 		Properties returnValue = new Properties();
-		//TODO: check if the commented out alternative is better than the one
-		//  used.
 		
-		//returnValue.load(Config.class.getClassLoader().getResourceAsStream(
-		//	propertiesFile));
-		returnValue.load(new FileInputStream(propertiesFile));
+		returnValue.load(Config.class.getClassLoader().getResourceAsStream(
+			propertiesFile));
+
 		return returnValue;
 	}
 	

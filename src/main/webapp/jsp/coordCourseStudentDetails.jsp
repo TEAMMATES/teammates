@@ -43,27 +43,27 @@
 				<table class="detailform">
 					<tr>
 			 			<td class="fieldname">Student Name:</td>
-			 			<td><%= helper.student.name %></td>
+			 			<td id="<%= Common.PARAM_STUDENT_NAME %>"><%= helper.student.name %></td>
 			 		</tr>
 				 	<tr>
 				 		<td class="fieldname">Team Name:</td>
-				 		<td><%= CoordCourseStudentDetailsHelper.escapeHTML(helper.student.team) %></td>
+				 		<td id="<%= Common.PARAM_TEAM_NAME %>"><%= CoordCourseStudentDetailsHelper.escapeHTML(helper.student.team) %></td>
 				 	</tr>
 				 	<tr>
 				 		<td class="fieldname">E-mail Address:</td>
-				 		<td><%= CoordCourseStudentDetailsHelper.escapeHTML(helper.student.email) %></td>
+				 		<td id="<%= Common.PARAM_STUDENT_EMAIL %>"><%= CoordCourseStudentDetailsHelper.escapeHTML(helper.student.email) %></td>
 				 	</tr>
 				 	<tr>
 						<td class="fieldname">Google ID:</td>
-						<td><%= (helper.student.id!= null ? CoordCourseStudentDetailsHelper.escapeHTML(helper.student.id) : "-") %></td>
+						<td id="<%= Common.PARAM_USER_ID %>"><%= (helper.student.id!= null ? CoordCourseStudentDetailsHelper.escapeHTML(helper.student.id) : "") %></td>
 					</tr>
 					<tr>
 						<td class="fieldname">Registration Key:</td>
-						<td id="t_courseKey"><%= CoordCourseStudentDetailsHelper.escapeHTML(helper.regKey) %></td>
+						<td id="<%= Common.PARAM_REGKEY %>"><%= CoordCourseStudentDetailsHelper.escapeHTML(helper.regKey) %></td>
 					</tr>
 				 	<tr>
 				 		<td class="fieldname">Comments:</td>
-				 		<td><%= CoordCourseStudentDetailsHelper.escapeHTML(helper.student.comments) %></td>
+				 		<td id="<%= Common.PARAM_COMMENTS %>"><%= CoordCourseStudentDetailsHelper.escapeHTML(helper.student.comments) %></td>
 				 	</tr>
 				 </table>
 				 <br /><br />

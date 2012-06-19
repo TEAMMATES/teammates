@@ -137,6 +137,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <url-pattern>/page/coordCourseDelete</url-pattern>
 	</servlet-mapping>
 	<servlet>
+	    <description>Servlet that handles coordinator remind students to join course action</description>
+	    <servlet-name>CoordCourseRemind</servlet-name>
+	    <servlet-class>teammates.servlet.CoordCourseRemindServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>CoordCourseRemind</servlet-name>
+	    <url-pattern>/page/coordCourseRemind</url-pattern>
+	</servlet-mapping>
+	<servlet>
 	    <description>Servlet that handles course enroll page (includes enroll result page)</description>
 	    <servlet-name>CoordCourseEnroll</servlet-name>
 	    <servlet-class>teammates.servlet.CoordCourseEnrollServlet</servlet-class>
@@ -207,6 +216,33 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet-mapping>
 	    <servlet-name>CoordEvalDelete</servlet-name>
 	    <url-pattern>/page/coordEvalDelete</url-pattern>
+	</servlet-mapping>
+	<servlet>
+	    <description>Servlet that handles evaluation publish action</description>
+	    <servlet-name>CoordEvalPublish</servlet-name>
+	    <servlet-class>teammates.servlet.CoordEvalPublishServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>CoordEvalPublish</servlet-name>
+	    <url-pattern>/page/coordEvalPublish</url-pattern>
+	</servlet-mapping>
+	<servlet>
+	    <description>Servlet that handles evaluation unpublish action</description>
+	    <servlet-name>CoordEvalUnpublish</servlet-name>
+	    <servlet-class>teammates.servlet.CoordEvalUnpublishServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>CoordEvalUnpublish</servlet-name>
+	    <url-pattern>/page/coordEvalUnpublish</url-pattern>
+	</servlet-mapping>
+	<servlet>
+	    <description>Servlet that handles evaluation remind action</description>
+	    <servlet-name>CoordEvalRemind</servlet-name>
+	    <servlet-class>teammates.servlet.CoordEvalRemindServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>CoordEvalRemind</servlet-name>
+	    <url-pattern>/page/coordEvalRemind</url-pattern>
 	</servlet-mapping>
 	<servlet>
 	    <description>Servlet that handles evaluation submission edit page to edit student's submission</description>

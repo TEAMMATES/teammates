@@ -55,11 +55,11 @@
 					<jsp:include page="<%= Common.JSP_EVAL_SUBMISSION_EDIT %>" />
 					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 					<div id="studentEvaluationSubmissionButtons">
-						<input type="button" class="button t_back" id="button_back"
+						<input type="button" class="button" id="button_back"
 								onclick="window.close()" value="Cancel" />
 						<input type="submit" class="button" name="submitEvaluation"
 								onclick="return checkEvaluationForm(this.form)"
-								id="submitEvaluation" value="Save Changes" />
+								id="button_save" value="Save Changes" />
 					</div>
 					<% if(helper.isMasqueradeMode()){ %>
 						<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>" />
