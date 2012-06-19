@@ -86,8 +86,8 @@ public class HtmlHelper {
 		transformer.transform(source, result);
 		String formatted =  writer.toString();
 		//TODO: find a better way to omit this attribute
-		formatted = formatted.replaceAll("[ ]*xmlns=\"http://www.w3.org/1999/xhtml\"", "");
-		formatted = formatted.replaceAll("[ ]*<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">","");
+		formatted = formatted.replaceAll("\\s*xmlns=\"http://www.w3.org/1999/xhtml\"", "");
+		formatted = formatted.replaceAll("\\s*<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">","");
 		return formatted;
 	}
 	

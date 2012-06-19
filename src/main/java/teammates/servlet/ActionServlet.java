@@ -77,7 +77,6 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * <li>requestedUser</li>
 	 * <li>userId - depends on the masquerade mode</li>
 	 * <li>redirectUrl - get from the request</li>
-	 * <li>redirect - true if redirectUrl is not null, false otherwise</li>
 	 * <li>statusMessage - set to null</li>
 	 * <li>error - set to false</li>
 	 * </ul>

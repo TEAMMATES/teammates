@@ -54,6 +54,7 @@ public class CoordEvalResultsServlet extends ActionServlet<CoordEvalResultsHelpe
 				}
 			}
 			log.fine("Time to sort evaluation, teams, students, and results: "+(System.currentTimeMillis()-start)+" ms");
+			helper.statusMessage = Common.MESSAGE_LOADING;
 		} else { // Incomplete request, just go back to Evaluations Page
 			helper.redirectUrl = Common.PAGE_COORD_EVAL;
 		}

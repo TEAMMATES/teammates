@@ -1,6 +1,5 @@
 package teammates.api;
 
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStream;
@@ -9,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -166,6 +164,17 @@ public class Common {
 	 * the helper methods get*Link which automatically includes masqueraded
 	 * userId.
 	 * Otherwise, you need to call helper.processMasquerade(link) yourself
+	 * In forms, you need to include a hidden input field with parameter
+	 * PARAM_USER_ID and value helper.requestedUser to support masquerade mode.
+	 * It should only be shown if the session is in masquerade mode.
+	 * Below is the code to be put at the end of the form to include masquerade
+	 * mode in forms. It is put at the end of the form so that it will be at
+	 * the end of the URL. Just a convention.
+		
+		<% if(helper.isMasqueradeMode()){ %>
+			<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>" />
+		<% } %>
+		
 	 */
 	public static final String PAGE_COORD_HOME = "/page/coordHome"; // Done
 	public static final String PAGE_COORD_COURSE = "/page/coordCourse"; // Done
@@ -197,31 +206,31 @@ public class Common {
 	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults"; // Done
 
 	/*
-	 * JSP pages links. These links are there to provide easeness in case of
+	 * JSP pages links. These links are here to provide easeness in case of
 	 * moving the JSP folder or renaming.
 	 */
 	public static final String JSP_COORD_HOME = "/jsp/coordHome.jsp"; // Done
 	public static final String JSP_COORD_COURSE = "/jsp/coordCourse.jsp"; // Done
 	public static final String JSP_COORD_COURSE_DETAILS = "/jsp/coordCourseDetails.jsp"; // Done
-	public static final String JSP_COORD_COURSE_STUDENT_DETAILS = "/jsp/coordCourseStudentDetails.jsp";
-	public static final String JSP_COORD_COURSE_STUDENT_EDIT = "/jsp/coordCourseStudentEdit.jsp";
+	public static final String JSP_COORD_COURSE_STUDENT_DETAILS = "/jsp/coordCourseStudentDetails.jsp"; // Done
+	public static final String JSP_COORD_COURSE_STUDENT_EDIT = "/jsp/coordCourseStudentEdit.jsp"; // Done
 	public static final String JSP_COORD_COURSE_ENROLL = "/jsp/coordCourseEnroll.jsp"; // Done
-	public static final String JSP_COORD_TFS = "/jsp/coordTFS.jsp";
-	public static final String JSP_COORD_TFS_MANAGE = "/jsp/coordTFSManage.jsp";
-	public static final String JSP_COORD_TFS_CHANGE_TEAM = "/jsp/coordTFSChangeTeam.jsp";
-	public static final String JSP_COORD_TFS_LOGS = "/jsp/coordTFSLogs.jsp";
+	public static final String JSP_COORD_TFS = "/jsp/coordTFS.jsp"; // Pending
+	public static final String JSP_COORD_TFS_MANAGE = "/jsp/coordTFSManage.jsp"; // Pending
+	public static final String JSP_COORD_TFS_CHANGE_TEAM = "/jsp/coordTFSChangeTeam.jsp"; // Pending
+	public static final String JSP_COORD_TFS_LOGS = "/jsp/coordTFSLogs.jsp"; // Pending
 	public static final String JSP_COORD_EVAL = "/jsp/coordEval.jsp"; // Done
-	public static final String JSP_COORD_EVAL_EDIT = "/jsp/coordEvalEdit.jsp";
+	public static final String JSP_COORD_EVAL_EDIT = "/jsp/coordEvalEdit.jsp"; // Done
 	public static final String JSP_COORD_EVAL_RESULTS = "/jsp/coordEvalResults.jsp"; // Done
-	public static final String JSP_COORD_EVAL_SUBMISSION_VIEW = "/jsp/coordEvalSubmissionView.jsp";
-	public static final String JSP_COORD_EVAL_SUBMISSION_EDIT = "/jsp/coordEvalSubmissionEdit.jsp";
+	public static final String JSP_COORD_EVAL_SUBMISSION_VIEW = "/jsp/coordEvalSubmissionView.jsp"; // Done
+	public static final String JSP_COORD_EVAL_SUBMISSION_EDIT = "/jsp/coordEvalSubmissionEdit.jsp"; // Done
 
 	public static final String JSP_STUDENT_HOME = "/jsp/studentHome.jsp"; // Done
-	public static final String JSP_STUDENT_COURSE_PROFILE = "/jsp/studentCourseProfile.jsp";
-	public static final String JSP_STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp";
+	public static final String JSP_STUDENT_COURSE_PROFILE = "/jsp/studentCourseProfile.jsp"; // Pending
+	public static final String JSP_STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp"; // Done
 	/** To submit evaluation and also to edit */
 	public static final String JSP_STUDENT_EVAL_SUBMISSION_EDIT = "/jsp/studentEvalEdit.jsp"; // Done
-	public static final String JSP_STUDENT_EVAL_RESULTS = "/jsp/studentEvalResults.jsp";
+	public static final String JSP_STUDENT_EVAL_RESULTS = "/jsp/studentEvalResults.jsp"; // Done
 	
 	public static final String JSP_COORD_HEADER = "/jsp/coordHeader.jsp"; // Done
 	public static final String JSP_STUDENT_HEADER = "/jsp/studentHeader.jsp"; // Done
@@ -230,12 +239,15 @@ public class Common {
 	public static final String JSP_EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp"; // Done
 
 	public static final String JSP_LOGOUT = "/logout.jsp"; // Done
-	public static final String JSP_SAVE_MESSAGE = "/saveMessage.jsp";
+	public static final String JSP_SHOW_MESSAGE = "/showMessage.jsp"; // Done
 	public static final String JSP_UNAUTHORIZED = "/unauthorized.jsp"; // Done
 	public static final String JSP_ERROR_PAGE = "/errorPage.jsp"; // Done
 	public static final String JSP_ENTITY_NOT_FOUND_PAGE = "/entityNotFoundPage.jsp"; // Done
+	public static final String JSP_PAGE_NOT_FOUND_PAGE = "/pageNotFound.jsp"; // Done
 
 	// status messages
+	public static final String MESSAGE_LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
+	
 	public static final String MESSAGE_COURSE_ADDED = "The course has been added. Click the 'Enroll' link in the table below to add students to the course.";
 	public static final String MESSAGE_COURSE_EXISTS = "The course already exists.";
 	public static final String MESSAGE_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
@@ -263,7 +275,7 @@ public class Common {
 	public static final String MESSAGE_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.";
 
 	public static final String MESSAGE_COORD_EVALUATION_SUBMISSION_RECEIVED = "You have edited %s's submission for evaluation %s in course %s successfully<br />" +
-																			"This change will not be reflected here until you refresh the page.";
+																			"The change will not be reflected here until you refresh the page.";
 	public static final String MESSAGE_EVALUATION_SUBMISSION_RECEIVED = "Your submission for %s in course %s has been saved successfully";
 
 	// DIV tags for HTML testing
@@ -523,44 +535,28 @@ public class Common {
 	}
 
 	/**
-	 * Helper method to format a date object to DD/MM/YYYY
-	 * 
+	 * Formats a date in the format dd/MM/yyyy
 	 * @param date
 	 * @return
 	 */
 	public static String formatDate(Date date) {
-		Calendar cal = GregorianCalendar.getInstance();
-		cal.setTime(date);
-		int year = cal.get(Calendar.YEAR);
-		String month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
-		String day = String.format("%02d", cal.get(Calendar.DATE));
-
-		return day + "/" + month + "/" + year;
+		return new SimpleDateFormat("dd/MM/yyyy").format(date);
 	}
 
-
 	/**
-	 * Formats a date in the format DD MMM YYYY, hh:mm.
+	 * Formats a date in the format dd MMM yyyy, hh:mm.
 	 * Example: 05 May 2012, 22:04<br />
 	 * This is used in JSP pages to display time information to users
 	 * @param date
 	 * @return
 	 */
 	public static String formatTime(Date date){
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		String result = "%02d %s %d, %02d:%02d";
-		int day = cal.get(Calendar.DATE);
-		String month = cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.US);
-		int year = cal.get(Calendar.YEAR);
-		int hour = cal.get(Calendar.HOUR_OF_DAY);
-		int minutes = cal.get(Calendar.MINUTE);
-		return String.format(result,day,month,year,hour,minutes);
+		return new SimpleDateFormat("dd MMM yyyy, hh:mm").format(date);
 	}
 
 	public static String calendarToString(Calendar c) {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss SSS");
-		return sdf.format(c.getTime());
+		return new SimpleDateFormat("MM/dd/yyyy hh:mm:ss SSS")
+				.format(c.getTime());
 	}
 	
 	public static Calendar dateToCalendar(Date date) {

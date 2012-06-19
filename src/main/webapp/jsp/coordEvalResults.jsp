@@ -97,6 +97,7 @@
 				</table>
 			</div>
 			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			<% out.flush(); %>
 			<div id="coordinatorEvaluationSummaryTable" class="evaluation_result">
 				<div style="text-align:right; font-style:italic; font-size: small; padding:0 35px;">CC = Claimed Contribution; PC = Perceived Contribution; E = Equal Share</div>
 				<table id="dataform">
@@ -168,6 +169,7 @@
 				</table>
 				<br /><br /><br /><br />
 			</div>
+			<% out.flush(); %>
 			<%	for(boolean byReviewer = true, repeat=true; repeat; repeat = byReviewer, byReviewer=false){ %>
 				<div id="coordinatorEvaluationDetailed<%= byReviewer ? "Reviewer" : "Reviewee" %>Table" class="evaluation_result"
 						style="display:none">
@@ -211,7 +213,7 @@
 										<%	for(SubmissionData sub: (byReviewer ? student.result.outgoing : student.result.incoming)){ if(sub.reviewer.equals(sub.reviewee)) continue; %>
 											<tr>
 												<td><b><%= CoordEvalResultsHelper.escapeHTML(byReviewer ? sub.revieweeName : sub.reviewerName) %></b></td>
-												<td><%= CoordEvalResultsHelper.printSharePoints(sub.normalized,false) %></td>
+												<td><%= CoordEvalResultsHelper.printSharePoints(sub.normalizedToCoord,false) %></td>
 												<td><%= CoordEvalResultsHelper.printJustification(sub) %></td>
 												<td><%= CoordEvalResultsHelper.printComments(sub, helper.evaluation.p2pEnabled) %></td>
 											</tr>
@@ -228,11 +230,13 @@
 					<br /><br /><br /><br />
 				</div>
 			<%	} %>
+			<% out.flush(); %>
 		</div>
 	</div>
 
 	<div id="frameBottom">
 		<jsp:include page="<%= Common.JSP_FOOTER %>" />
 	</div>
+	<script>setStatusMessage("");</script>
 </body>
 </html>

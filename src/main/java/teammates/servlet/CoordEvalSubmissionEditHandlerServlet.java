@@ -40,7 +40,7 @@ public class CoordEvalSubmissionEditHandlerServlet extends EvalSubmissionEditHan
 
 	@Override
 	protected String getSuccessUrl() {
-		return Common.JSP_SAVE_MESSAGE;
+		return Common.JSP_SHOW_MESSAGE;
 	}
 
 	@Override

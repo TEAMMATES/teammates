@@ -85,7 +85,7 @@
       "timeZone": 8.0,
       "gracePeriod": 10,
       "p2pEnabled": true,
-      "published": true
+      "published": true,
       "activated": true
     },
     "Third Eval": {

@@ -77,12 +77,12 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 		
 	}
 
-	// TODO: Finish Evaluation UI Path test
+	// TODO: Finish Evaluation Results UI Path test
 	public void testCoordEvalResultsUiPaths() throws Exception{
 		
 	}
 
-	// TODO: Finish Evaluation Links test
+	// TODO: Finish Evaluation Results Links test
 	public void testCoordEvalResultsLinks() throws Exception{
 		
 	}

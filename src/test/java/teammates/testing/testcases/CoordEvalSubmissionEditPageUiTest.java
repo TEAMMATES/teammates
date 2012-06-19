@@ -63,7 +63,7 @@ public class CoordEvalSubmissionEditPageUiTest extends BaseTestCase {
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalSubmissionEditNew.html");
 	}
 
-	// TODO: Finish Evaluation UI Path test
+	// TODO: Finish Evaluation Submission Edit UI Path test
 	public void testCoordEvalSubmissionEditUiPaths() throws Exception{
 		
 	}

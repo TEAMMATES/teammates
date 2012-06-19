@@ -83,8 +83,9 @@
 								onclick="toggleSort(this,3)"/>Status</th>
 						<th class="centeralign">Action(s)</th>
 					</tr>
-					<%	for(StudentData student: helper.students){ %>
-							<tr>
+					<%	int idx = -1;
+						for(StudentData student: helper.students){ idx++;%>
+							<tr class="student_row" id="student<%= idx %>">
 								<td><%= student.name %></td>
 	 							<td><%= CoordCourseDetailsHelper.escapeHTML(student.team) %></td>
 	 							<td class="centeralign"><%= helper.status(student) %></td>
@@ -110,6 +111,7 @@
 											Delete</a>
 								</td>
 	 						</tr>
+	 					<% if(idx%10==0) out.flush(); %>
 					<%	} %>
 				</table>
 				<br /><br />
