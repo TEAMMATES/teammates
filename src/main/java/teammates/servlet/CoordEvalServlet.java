@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,7 +14,6 @@ import teammates.api.InvalidParametersException;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.EvaluationData;
 import teammates.jsp.CoordEvalHelper;
-import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
 /**
@@ -24,8 +22,6 @@ import teammates.jsp.Helper;
  *
  */
 public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
-	
-	private static final String DISPLAY_URL = Common.JSP_COORD_EVAL;
 
 	@Override
 	protected CoordEvalHelper instantiateHelper() {
@@ -126,22 +122,7 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 	}
 
 	@Override
-	protected void doCreateResponse(HttpServletRequest req,
-			HttpServletResponse resp, CoordEvalHelper helper)
-			throws ServletException, IOException {
-		if(helper.nextUrl==null) helper.nextUrl = DISPLAY_URL;
-		
-		if(helper.nextUrl.startsWith(DISPLAY_URL)){
-			// Goto display page
-			req.setAttribute("helper", helper);
-			req.getRequestDispatcher(helper.nextUrl).forward(req, resp);
-		} else {
-			// Goto next page
-			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_STATUS_MESSAGE, helper.statusMessage);
-			if(helper.error)
-				helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_ERROR, ""+helper.error);
-			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
-			resp.sendRedirect(helper.nextUrl);
-		}
+	protected String getDefaultForwardUrl() {
+		return Common.JSP_COORD_EVAL;
 	}
 }

@@ -1,11 +1,8 @@
 package teammates.servlet;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
@@ -19,17 +16,10 @@ import com.google.appengine.api.datastore.Text;
 public abstract class EvalSubmissionEditHandlerServlet extends ActionServlet<Helper> {
 	
 	/**
-	 * Returns the display URL to be redirected to on success
+	 * The URL to redirect to in case of success
 	 * @return
 	 */
-	protected abstract String getDisplayURL();
-	
-	/**
-	 * Returns the submission edit page link.
-	 * The link is used as the link to forward to on error.
-	 * @return
-	 */
-	protected abstract String getEditSubmissionLink();
+	protected abstract String getSuccessUrl();
 	
 	/**
 	 * Returns the message to be displayed when the edit is successful
@@ -74,29 +64,10 @@ public abstract class EvalSubmissionEditHandlerServlet extends ActionServlet<Hel
 		try{
 			helper.server.editSubmissions(submissionData);
 			helper.statusMessage = getSuccessMessage(req,helper);
+			helper.redirectUrl = getSuccessUrl();
 		} catch (InvalidParametersException e) {
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
-		}
-	}
-
-	@Override
-	protected void doCreateResponse(HttpServletRequest req,
-			HttpServletResponse resp, Helper helper)
-			throws ServletException, IOException {
-		if(helper.error){
-			// Go back to edit page
-			req.setAttribute("helper", helper);
-			req.getRequestDispatcher(getEditSubmissionLink()).forward(req, resp);
-		} else {
-			// Goto next page
-			helper.nextUrl = getDisplayURL();
-			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_STATUS_MESSAGE, helper.statusMessage);
-			if(helper.error){
-				helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_ERROR, ""+helper.error);
-			}
-			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
-			resp.sendRedirect(helper.nextUrl);
 		}
 	}
 

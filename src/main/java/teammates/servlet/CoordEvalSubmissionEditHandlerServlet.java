@@ -12,14 +12,6 @@ import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
 public class CoordEvalSubmissionEditHandlerServlet extends EvalSubmissionEditHandlerServlet {
-	
-	protected String getDisplayURL(){
-		return Common.JSP_SAVE_MESSAGE;
-	}
-	
-	protected String getEditSubmissionLink(){
-		return Common.PAGE_COORD_EVAL_SUBMISSION_EDIT;
-	}
 
 	@Override
 	protected String getSuccessMessage(HttpServletRequest req, Helper helper) {
@@ -44,6 +36,16 @@ public class CoordEvalSubmissionEditHandlerServlet extends EvalSubmissionEditHan
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	protected String getSuccessUrl() {
+		return Common.JSP_SAVE_MESSAGE;
+	}
+
+	@Override
+	protected String getDefaultForwardUrl() {
+		return Common.JSP_COORD_EVAL_SUBMISSION_EDIT;
 	}
 
 }

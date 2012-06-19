@@ -14,16 +14,6 @@ import teammates.jsp.StudentEvalEditHelper;
 public class StudentEvalEditServlet extends EvalSubmissionEditServlet {
 
 	@Override
-	protected String getDisplayURL() {
-		return Common.JSP_STUDENT_EVAL_SUBMISSION_EDIT;
-	}
-
-	@Override
-	protected String getErrorPage() {
-		return Common.PAGE_STUDENT_HOME;
-	}
-
-	@Override
 	protected StudentData getStudentObject(HttpServletRequest req,
 			EvalSubmissionEditHelper helper) {
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
@@ -50,6 +40,16 @@ public class StudentEvalEditServlet extends EvalSubmissionEditServlet {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	protected String getDefaultRedirectUrl() {
+		return Common.PAGE_STUDENT_HOME;
+	}
+
+	@Override
+	protected String getDefaultForwardUrl() {
+		return Common.JSP_STUDENT_EVAL_SUBMISSION_EDIT;
 	}
 
 }

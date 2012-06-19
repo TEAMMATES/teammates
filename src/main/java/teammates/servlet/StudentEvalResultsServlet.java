@@ -3,7 +3,6 @@ package teammates.servlet;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,8 +15,6 @@ import teammates.jsp.StudentEvalResultsHelper;
 
 @SuppressWarnings("serial")
 public class StudentEvalResultsServlet extends ActionServlet<StudentEvalResultsHelper> {
-	
-	private static final String DISPLAY_URL = Common.JSP_STUDENT_EVAL_RESULTS;
 
 	@Override
 	protected StudentEvalResultsHelper instantiateHelper() {
@@ -42,14 +39,14 @@ public class StudentEvalResultsServlet extends ActionServlet<StudentEvalResultsH
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
 		if(courseID==null || evalName==null){
-			helper.nextUrl = Common.PAGE_STUDENT_HOME;
+			helper.redirectUrl = Common.PAGE_STUDENT_HOME;
 			return;
 		}
 		helper.student = helper.server.getStudentInCourseForGoogleId(courseID, helper.userId);
 		if(helper.student==null){
 			helper.statusMessage = "You are not registered in the course "+Helper.escapeHTML(courseID);
 			helper.error = true;
-			helper.nextUrl = Common.PAGE_STUDENT_HOME;
+			helper.redirectUrl = Common.PAGE_STUDENT_HOME;
 			return;
 		}
 		
@@ -66,7 +63,7 @@ public class StudentEvalResultsServlet extends ActionServlet<StudentEvalResultsH
 		} catch (InvalidParametersException e) {
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
-			helper.nextUrl = Common.PAGE_STUDENT_HOME;
+			helper.redirectUrl = Common.PAGE_STUDENT_HOME;
 			return;
 		}
 	}
@@ -91,24 +88,8 @@ public class StudentEvalResultsServlet extends ActionServlet<StudentEvalResultsH
 	}
 
 	@Override
-	protected void doCreateResponse(HttpServletRequest req,
-			HttpServletResponse resp, StudentEvalResultsHelper helper)
-			throws ServletException, IOException {
-		if(helper.nextUrl==null) helper.nextUrl = DISPLAY_URL;
-
-		if(helper.nextUrl.startsWith(DISPLAY_URL)){
-			// Goto display page
-			req.setAttribute("helper", helper);
-			req.getRequestDispatcher(helper.nextUrl).forward(req, resp);
-		} else {
-			// Goto next page
-			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_STATUS_MESSAGE, helper.statusMessage);
-			if(helper.error){
-				helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_ERROR, ""+helper.error);
-			}
-			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
-			resp.sendRedirect(helper.nextUrl);
-		}
+	protected String getDefaultForwardUrl() {
+		return Common.JSP_STUDENT_EVAL_RESULTS;
 	}
 
 }

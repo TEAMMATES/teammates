@@ -2,7 +2,6 @@ package teammates.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,7 +10,6 @@ import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
 import teammates.datatransfer.EvalResultData;
 import teammates.jsp.CoordEvalSubmissionViewHelper;
-import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
 /**
@@ -20,8 +18,6 @@ import teammates.jsp.Helper;
  *
  */
 public class CoordEvalSubmissionViewServlet extends ActionServlet<CoordEvalSubmissionViewHelper> {
-	
-	private static final String DISPLAY_URL = Common.JSP_COORD_EVAL_SUBMISSION_VIEW;
 
 	@Override
 	protected CoordEvalSubmissionViewHelper instantiateHelper() {
@@ -48,7 +44,7 @@ public class CoordEvalSubmissionViewServlet extends ActionServlet<CoordEvalSubmi
 		helper.byReviewer = !("false".equalsIgnoreCase(req.getParameter(Common.PARAM_BY_REVIEWER))); // Default to true
 		
 		if(courseID==null || evalName==null || studentEmail==null){
-			helper.nextUrl = Common.PAGE_COORD_EVAL;
+			helper.redirectUrl = Common.PAGE_COORD_EVAL;
 			return;
 		}
 		
@@ -65,19 +61,7 @@ public class CoordEvalSubmissionViewServlet extends ActionServlet<CoordEvalSubmi
 	}
 
 	@Override
-	protected void doCreateResponse(HttpServletRequest req,
-			HttpServletResponse resp, CoordEvalSubmissionViewHelper helper)
-			throws ServletException, IOException {
-		if(helper.nextUrl==null) helper.nextUrl = DISPLAY_URL;
-		
-		if(helper.nextUrl.startsWith(DISPLAY_URL)){
-			// Goto display page
-			req.setAttribute("helper", helper);
-			req.getRequestDispatcher(helper.nextUrl).forward(req, resp);
-		} else {
-			// Goto next page
-			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.userId);
-			resp.sendRedirect(helper.nextUrl);
-		}
+	protected String getDefaultForwardUrl() {
+		return Common.JSP_COORD_EVAL_SUBMISSION_VIEW;
 	}
 }

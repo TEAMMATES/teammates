@@ -2,7 +2,6 @@ package teammates.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,7 +10,6 @@ import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
 import teammates.datatransfer.EvaluationData;
 import teammates.jsp.CoordEvalEditHelper;
-import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
 /**
@@ -20,8 +18,6 @@ import teammates.jsp.Helper;
  *
  */
 public class CoordEvalEditServlet extends ActionServlet<CoordEvalEditHelper> {
-	
-	private static final String DISPLAY_URL = Common.JSP_COORD_EVAL_EDIT;
 
 	@Override
 	protected CoordEvalEditHelper instantiateHelper() {
@@ -45,7 +41,7 @@ public class CoordEvalEditServlet extends ActionServlet<CoordEvalEditHelper> {
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
 		if(courseID==null && evalName==null){
-			helper.nextUrl = Common.PAGE_COORD_EVAL;
+			helper.redirectUrl = Common.PAGE_COORD_EVAL;
 			return;
 		}
 		
@@ -92,7 +88,7 @@ public class CoordEvalEditServlet extends ActionServlet<CoordEvalEditHelper> {
 		} else { 
 			helper.submittedEval = helper.server.getEvaluation(courseID, evalName);
 			if(helper.submittedEval==null){
-				helper.nextUrl = Common.PAGE_COORD_EVAL;
+				helper.redirectUrl = Common.PAGE_COORD_EVAL;
 				return;
 			}
 		}
@@ -102,7 +98,7 @@ public class CoordEvalEditServlet extends ActionServlet<CoordEvalEditHelper> {
 			if(isSubmit){
 				helper.server.editEvaluation(newEval);
 				helper.statusMessage = Common.MESSAGE_EVALUATION_EDITED;
-				helper.nextUrl = Common.PAGE_COORD_EVAL;
+				helper.redirectUrl = Common.PAGE_COORD_EVAL;
 			}
 		} catch (InvalidParametersException e) {
 			helper.statusMessage = e.getMessage();
@@ -114,22 +110,7 @@ public class CoordEvalEditServlet extends ActionServlet<CoordEvalEditHelper> {
 	}
 
 	@Override
-	protected void doCreateResponse(HttpServletRequest req,
-			HttpServletResponse resp, CoordEvalEditHelper helper)
-			throws ServletException, IOException {
-		if(helper.nextUrl==null) helper.nextUrl = DISPLAY_URL;
-		
-		if(helper.nextUrl.startsWith(DISPLAY_URL)){
-			// Goto display page
-			req.setAttribute("helper", helper);
-			req.getRequestDispatcher(helper.nextUrl).forward(req, resp);
-		} else {
-			// Goto next page
-			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_STATUS_MESSAGE, helper.statusMessage);
-			if(helper.error)
-				helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_ERROR, ""+helper.error);
-			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
-			resp.sendRedirect(helper.nextUrl);
-		}
+	protected String getDefaultForwardUrl() {
+		return Common.JSP_COORD_EVAL_EDIT;
 	}
 }

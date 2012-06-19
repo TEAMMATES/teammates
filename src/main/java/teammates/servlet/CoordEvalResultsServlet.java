@@ -2,7 +2,6 @@ package teammates.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,7 +10,6 @@ import teammates.api.EntityDoesNotExistException;
 import teammates.datatransfer.StudentData;
 import teammates.datatransfer.TeamData;
 import teammates.jsp.CoordEvalResultsHelper;
-import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
 /**
@@ -20,8 +18,6 @@ import teammates.jsp.Helper;
  *
  */
 public class CoordEvalResultsServlet extends ActionServlet<CoordEvalResultsHelper> {
-	
-	private static final String DISPLAY_URL = Common.JSP_COORD_EVAL_RESULTS;
 
 	@Override
 	protected CoordEvalResultsHelper instantiateHelper() {
@@ -59,24 +55,12 @@ public class CoordEvalResultsServlet extends ActionServlet<CoordEvalResultsHelpe
 			}
 			log.fine("Time to sort evaluation, teams, students, and results: "+(System.currentTimeMillis()-start)+" ms");
 		} else { // Incomplete request, just go back to Evaluations Page
-			helper.nextUrl = Common.PAGE_COORD_EVAL;
+			helper.redirectUrl = Common.PAGE_COORD_EVAL;
 		}
 	}
 
 	@Override
-	protected void doCreateResponse(HttpServletRequest req,
-			HttpServletResponse resp, CoordEvalResultsHelper helper)
-			throws ServletException, IOException {
-		if(helper.nextUrl==null) helper.nextUrl = DISPLAY_URL;
-		
-		if(helper.nextUrl.startsWith(DISPLAY_URL)){
-			// Goto display page
-			req.setAttribute("helper", helper);
-			req.getRequestDispatcher(helper.nextUrl).forward(req, resp);
-		} else {
-			// Goto next page
-			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.userId);
-			resp.sendRedirect(helper.nextUrl);
-		}
+	protected String getDefaultForwardUrl() {
+		return Common.JSP_COORD_EVAL_RESULTS;
 	}
 }

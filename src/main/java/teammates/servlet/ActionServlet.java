@@ -76,7 +76,8 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * <li>user</li>
 	 * <li>requestedUser</li>
 	 * <li>userId - depends on the masquerade mode</li>
-	 * <li>nextUrl - get from the request</li>
+	 * <li>redirectUrl - get from the request</li>
+	 * <li>redirect - true if redirectUrl is not null, false otherwise</li>
 	 * <li>statusMessage - set to null</li>
 	 * <li>error - set to false</li>
 	 * </ul>
@@ -88,7 +89,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		helper.user = helper.server.getLoggedInUser();
 		
 		helper.requestedUser = req.getParameter(Common.PARAM_USER_ID);
-		helper.nextUrl = req.getParameter(Common.PARAM_NEXT_URL);
+		helper.redirectUrl = req.getParameter(Common.PARAM_NEXT_URL);
 		
 		helper.statusMessage = req.getParameter(Common.PARAM_STATUS_MESSAGE);
 		helper.error = "true".equalsIgnoreCase(req.getParameter(Common.PARAM_ERROR));
@@ -144,10 +145,19 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			throws EntityDoesNotExistException;
 	
 	/**
-	 * Method to create the response to be sent back to the client,
-	 * or to another servlet/JSP if the request is dispatched.
-	 * If the request is to be dispatched to another servlet/JSP,
-	 * this method must set the attribute "helper" in the request object.
+	 * Method to redirect or forward the request to appropriate display handler.<br />
+	 * If helper.redirectUrl is not null, it will redirect there.
+	 * Otherwise it will forward the request to helper.forwardUrl.
+	 * If the link to be forwarded is null, it will get the default
+	 * link from {@link #getDefaultForwardUrl}.<br />
+	 * For redirection, any status message according to the helper.statusMessage
+	 * will be displayed together with the error status (helper.error) as new
+	 * parameters in the redirect URL<br />
+	 * This method will also append the requested user ID in case of masquerade
+	 * mode by admin.<br />
+	 * For forwarding, the helper object will be attached to the request as an
+	 * attribute with name "helper".
+	 * The forward URL is used as is without any modification.<br />
 	 * This method is called directly after {@link #doAction} method.
 	 * @param req
 	 * @param resp
@@ -155,8 +165,28 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	protected abstract void doCreateResponse(HttpServletRequest req,
-			HttpServletResponse resp, T helper) throws ServletException, IOException;
+	protected final void doCreateResponse(HttpServletRequest req,
+			HttpServletResponse resp, T helper) throws ServletException, IOException{
+		if(helper.redirectUrl!=null){
+			helper.redirectUrl = Helper.addParam(helper.redirectUrl, Common.PARAM_STATUS_MESSAGE, helper.statusMessage);
+			if(helper.error)
+				helper.redirectUrl = Helper.addParam(helper.redirectUrl, Common.PARAM_ERROR, ""+helper.error);
+			helper.redirectUrl = helper.processMasquerade(helper.redirectUrl);
+			resp.sendRedirect(helper.redirectUrl);
+		} else {
+			if(helper.forwardUrl==null) helper.forwardUrl = getDefaultForwardUrl();
+			req.setAttribute("helper",helper);
+			req.getRequestDispatcher(helper.forwardUrl).forward(req,resp);
+		}
+	}
+
+	/**
+	 * Returns the default link to forward to in case the redirectUrl is null<br />
+	 * This is usually the display URL, which is a link to real JSP file used to
+	 * display the result of the actions performed in this servlet.
+	 * @return
+	 */
+	protected abstract String getDefaultForwardUrl();
 	
 	/**
 	 * Returns the URL used to call this servlet.

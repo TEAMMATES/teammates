@@ -2,7 +2,6 @@ package teammates.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,7 +10,6 @@ import teammates.api.EntityDoesNotExistException;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.StudentData;
 import teammates.datatransfer.TeamData;
-import teammates.jsp.Helper;
 import teammates.jsp.StudentCourseDetailsHelper;
 
 @SuppressWarnings("serial")
@@ -21,8 +19,6 @@ import teammates.jsp.StudentCourseDetailsHelper;
  *
  */
 public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDetailsHelper> {
-	
-	private static final String DISPLAY_URL = Common.JSP_STUDENT_COURSE_DETAILS;
 
 	@Override
 	protected StudentCourseDetailsHelper instantiateHelper() {
@@ -46,7 +42,7 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 		// Get parameters
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		if(courseID==null){
-			helper.nextUrl = Common.PAGE_STUDENT_HOME;
+			helper.redirectUrl = Common.PAGE_STUDENT_HOME;
 			return;
 		}
 		
@@ -54,26 +50,6 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 		helper.coordName = helper.server.getCoord(helper.course.coord).name;
 		helper.student = helper.server.getStudentInCourseForGoogleId(courseID, helper.userId);
 		helper.team = getTeam(helper.server.getTeamsForCourse(courseID),helper.student);
-	}
-
-	@Override
-	protected void doCreateResponse(HttpServletRequest req,
-			HttpServletResponse resp, StudentCourseDetailsHelper helper)
-			throws ServletException, IOException {
-		if(helper.nextUrl==null) helper.nextUrl = DISPLAY_URL;
-
-		if(helper.nextUrl.startsWith(DISPLAY_URL)){
-			// Goto display page
-			req.setAttribute("helper", helper);
-			req.getRequestDispatcher(helper.nextUrl).forward(req, resp);
-		} else {
-			// Goto next page
-			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_STATUS_MESSAGE, helper.statusMessage);
-			if(helper.error)
-				helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_ERROR, ""+helper.error);
-			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
-			resp.sendRedirect(helper.nextUrl);
-		}
 	}
 	
 	/**
@@ -89,6 +65,11 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 			}
 		}
 		return null;
+	}
+
+	@Override
+	protected String getDefaultForwardUrl() {
+		return Common.JSP_STUDENT_COURSE_DETAILS;
 	}
 
 }

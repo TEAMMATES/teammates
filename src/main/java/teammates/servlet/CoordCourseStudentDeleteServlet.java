@@ -2,7 +2,6 @@ package teammates.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,8 +15,6 @@ import teammates.jsp.Helper;
  *
  */
 public class CoordCourseStudentDeleteServlet extends ActionServlet<Helper> {
-	
-	private static final String DISPLAY_URL = Common.PAGE_COORD_COURSE_DETAILS;
 
 	@Override
 	protected Helper instantiateHelper() {
@@ -42,21 +39,13 @@ public class CoordCourseStudentDeleteServlet extends ActionServlet<Helper> {
 		
 		// Process action
 		helper.server.deleteStudent(courseID, studentEmail);
-		System.out.println(studentEmail);
 		helper.statusMessage = Common.MESSAGE_STUDENT_DELETED;
+		helper.redirectUrl = Common.PAGE_COORD_COURSE_DETAILS;
 	}
 
 	@Override
-	protected void doCreateResponse(HttpServletRequest req,
-			HttpServletResponse resp, Helper helper) throws ServletException,
-			IOException {
-		if(helper.nextUrl==null){
-			helper.nextUrl = DISPLAY_URL;
-			helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_COURSE_ID, req.getParameter(Common.PARAM_COURSE_ID));
-		}
-		helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_STATUS_MESSAGE, helper.statusMessage);
-		helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
-		
-		resp.sendRedirect(helper.nextUrl);
+	protected String getDefaultForwardUrl() {
+		// Not used
+		return "";
 	}
 }

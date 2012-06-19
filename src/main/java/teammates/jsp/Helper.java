@@ -27,9 +27,14 @@ public class Helper {
 	public String requestedUser;
 	
 	/**
-	 * The URL to forward to after finish processing this action
+	 * The URL to redirect to after finish processing the action
 	 */
-	public String nextUrl;
+	public String redirectUrl;
+	
+	/**
+	 * The URL to forward to after finish processing the action
+	 */
+	public String forwardUrl;
 	
 	/**
 	 * The userID of the logged in user (<code>user.id</code>), or the userID

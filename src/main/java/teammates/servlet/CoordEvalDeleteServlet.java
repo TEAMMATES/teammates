@@ -2,7 +2,6 @@ package teammates.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,8 +15,6 @@ import teammates.jsp.Helper;
  *
  */
 public class CoordEvalDeleteServlet extends ActionServlet<Helper> {
-	
-	private static final String DISPLAY_URL = Common.PAGE_COORD_EVAL;
 
 	@Override
 	protected Helper instantiateHelper() {
@@ -44,16 +41,12 @@ public class CoordEvalDeleteServlet extends ActionServlet<Helper> {
 		// Process action
 		helper.server.deleteEvaluation(courseID,evalName);
 		helper.statusMessage = Common.MESSAGE_EVALUATION_DELETED;
+		helper.redirectUrl = Common.PAGE_COORD_EVAL;
 	}
 
 	@Override
-	protected void doCreateResponse(HttpServletRequest req,
-			HttpServletResponse resp, Helper helper) throws ServletException,
-			IOException {
-		if(helper.nextUrl==null) helper.nextUrl = DISPLAY_URL;
-		helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_STATUS_MESSAGE, helper.statusMessage);
-		helper.nextUrl = Helper.addParam(helper.nextUrl, Common.PARAM_USER_ID, helper.requestedUser);
-		
-		resp.sendRedirect(helper.nextUrl);
+	protected String getDefaultForwardUrl() {
+		// Not used
+		return "";
 	}
 }
