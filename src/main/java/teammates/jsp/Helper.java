@@ -156,6 +156,18 @@ public class Helper {
 	}
 	
 	/**
+	 * Returns the link to the course link<br />
+	 * This includes masquerade mode as well.
+	 * @param courseID
+	 * @return
+	 */
+	public String getCoordCourseLink(){
+		String link = Common.PAGE_COORD_COURSE;
+		link = processMasquerade(link);
+		return link;
+	}
+	
+	/**
 	 * Returns the link to the course enroll link for specified courseID<br />
 	 * This includes masquerade mode as well.
 	 * @param courseID

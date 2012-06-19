@@ -42,7 +42,7 @@
 				<br />
 				<div class="result_team">
 					<div class="result_addOrJoinCourse">
-						<a href="coordCourse" name="addNewCourse" id="addNewCourse">
+						<a href="<%= helper.getCoordCourseLink() %>" name="addNewCourse" id="addNewCourse">
 							Add New Course </a>
 					</div>
 				</div>
