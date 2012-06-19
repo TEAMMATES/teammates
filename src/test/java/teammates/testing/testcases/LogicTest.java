@@ -46,7 +46,7 @@ import com.google.gson.Gson;
 
 public class LogicTest extends BaseTestCase {
 
-	private static LocalServiceTestHelper helper;
+	private LocalServiceTestHelper helper;
 	private final static Logic logic = new Logic();
 	private static Gson gson = Common.getTeammatesGson();
 	static String jsonString;
@@ -256,7 +256,6 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	@Test
-	@Ignore
 	public void testGetCourseDetailsListForCoord() throws Exception {
 		printTestCaseHeader();
 		restoreTypicalDataInDatastore();

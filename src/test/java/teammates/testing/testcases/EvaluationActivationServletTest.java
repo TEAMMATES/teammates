@@ -37,7 +37,7 @@ import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig
 
 public class EvaluationActivationServletTest extends BaseTestCase {
 
-	private static LocalServiceTestHelper helper;
+	private LocalServiceTestHelper helper;
 
 	@BeforeClass
 	public static void classSetUp() throws Exception {

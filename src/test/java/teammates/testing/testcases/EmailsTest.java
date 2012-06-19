@@ -19,7 +19,7 @@ import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class EmailsTest extends BaseTestCase{
-	private static LocalServiceTestHelper helper;
+	private LocalServiceTestHelper helper;
 	private LocalMailServiceTestConfig localMailService;
 	
 	

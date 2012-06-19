@@ -29,7 +29,7 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class EvaluationsTest extends BaseTestCase{
 	
-	private static LocalServiceTestHelper helper;
+	private LocalServiceTestHelper helper;
 	
 	@BeforeClass
 	public static void classSetUp() throws Exception {
