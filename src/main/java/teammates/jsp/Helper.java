@@ -67,7 +67,7 @@ public class Helper {
 	
 	/**
 	 * Returns the URL with the specified key-value pair parameter added.
-	 * Unchanged if either the key or value is null<br />
+	 * Unchanged if either the key or value is null, or the key already exists<br />
 	 * Example:
 	 * <ul>
 	 * <li><code>addParam("index.jsp","action","add")</code> returns <code>index.jsp?action=add</code></li>
@@ -78,10 +78,10 @@ public class Helper {
 	 * @param key
 	 * @param value
 	 * @return
-	 * TODO Check for existing parameters
 	 */
 	public static String addParam(String url, String key, String value){
 		if(key==null || value==null) return url;
+		if(url.contains("?"+key+"=") || url.contains("&"+key+"=")) return url;
 		url += url.indexOf('?')>=0 ? '&' : '?';
 		url += key+"="+convertForURL(value);
 		return url;
@@ -153,6 +153,30 @@ public class Helper {
 		String queryString = request.getQueryString();
 		String redirectUrl = request.getRequestURI()+(queryString!=null?"?"+queryString:"");
 		return Logic.getLoginUrl(redirectUrl);
+	}
+	
+	/**
+	 * Returns the link to the coordinator home link<br />
+	 * This includes masquerade mode as well.
+	 * @param courseID
+	 * @return
+	 */
+	public String getCoordHomeLink(){
+		String link = Common.PAGE_COORD_HOME;
+		link = processMasquerade(link);
+		return link;
+	}
+	
+	/**
+	 * Returns the link to the student home link<br />
+	 * This includes masquerade mode as well.
+	 * @param courseID
+	 * @return
+	 */
+	public String getStudentHomeLink(){
+		String link = Common.PAGE_STUDENT_HOME;
+		link = processMasquerade(link);
+		return link;
 	}
 	
 	/**
@@ -233,7 +257,7 @@ public class Helper {
 		String link = Common.PAGE_COORD_EVAL_DELETE;
 		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
 		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
-		link = addParam(link,Common.PARAM_NEXT_URL,nextURL);
+		link = addParam(link,Common.PARAM_NEXT_URL,processMasquerade(nextURL));
 		link = processMasquerade(link);
 		return link;
 	}
