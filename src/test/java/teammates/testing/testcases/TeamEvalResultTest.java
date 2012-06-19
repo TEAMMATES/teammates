@@ -495,7 +495,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 	}
 	
 	public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
-		turnLogginUp(TeamEvalResult.class);
+		turnLoggingUp(TeamEvalResult.class);
 		int[][] input = 
 			{{  100,  100,  110 }, 
 			 { 100,  100,  110 },

@@ -141,7 +141,7 @@
 							<td><%= CoordEvalResultsHelper.colorizePoints(student.result.perceivedToCoord) %></td>
 							<td><%= CoordEvalResultsHelper.printDiff(student.result) %></td>
 							<td><%= CoordEvalResultsHelper.getPointsList(student.result.outgoing, true) %></td>
-							<td><%= CoordEvalResultsHelper.getUnbiasedPointsList(student.result) %></td>
+							<td><%= CoordEvalResultsHelper.getPointsList(student.result.incoming, true) %></td>
 							<td class="centeralign">
 								<a name="viewEvaluationResults<%= idx %>" id="viewEvaluationResults<%= idx %>"
 										target="_blank"

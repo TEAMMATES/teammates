@@ -19,7 +19,6 @@ public class EvalResultData {
 	public int claimedToCoord = Common.UNINITIALIZED_INT;
 	public int perceivedToCoord = Common.UNINITIALIZED_INT;
 	public int perceivedToStudent = Common.UNINITIALIZED_INT;
-	public int[] unbiased;
 
 	@SuppressWarnings("unused")
 	private static final Logger log = Common.getLogger();
@@ -86,7 +85,6 @@ public class EvalResultData {
 		sb.append(indentString + "claimedToCoord:" + claimedToCoord + EOL);
 		sb.append(indentString + "perceivedToStudent:" + perceivedToStudent
 				+ EOL);
-		sb.append(indentString + "unbiased:" + Arrays.toString(unbiased) + EOL);
 		sb.append(indentString + "perceivedToCoord:" + perceivedToCoord + EOL);
 
 		sb.append(indentString + "outgoing:" + EOL);

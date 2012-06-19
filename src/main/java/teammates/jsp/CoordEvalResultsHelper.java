@@ -167,7 +167,7 @@ public class CoordEvalResultsHelper extends Helper{
 			@Override
 			public int compare(SubmissionData s1, SubmissionData s2){
 				if(normalized)
-					return Integer.valueOf(s2.normalized).compareTo(s1.normalized);
+					return Integer.valueOf(s2.normalizedToCoord).compareTo(s1.normalizedToCoord);
 				else
 					return Integer.valueOf(s2.points).compareTo(s1.points);
 			}
@@ -175,17 +175,10 @@ public class CoordEvalResultsHelper extends Helper{
 		for(SubmissionData sub: subs){
 			if(sub.reviewee.equals(sub.reviewer)) continue;
 			if(result!="") result+=", ";
-			result+=colorizePoints(sub.normalized);
+			result+=colorizePoints(sub.normalizedToCoord);
 		}
 		return result;
 	}
 	
-	public static String getUnbiasedPointsList(EvalResultData studentResult){
-		String result = "";
-		for (int i = 0; i < studentResult.unbiased.length; i++) {
-			if(result!="") result+=", ";
-			result+=colorizePoints(studentResult.unbiased[i]);
-		}
-		return result;
-	}
+
 }
