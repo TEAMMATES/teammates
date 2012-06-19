@@ -3,6 +3,7 @@ package teammates.persistent;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.logging.Logger;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
@@ -23,6 +24,9 @@ import com.google.gson.annotations.SerializedName;
  */
 @PersistenceCapable
 public class Evaluation {
+	
+	private static Logger log = Common.getLogger();
+	
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	public Long id;
@@ -184,11 +188,12 @@ public class Evaluation {
 
 	public boolean isReady() {
 		Calendar currentTimeInUserTimeZone = convertToUserTimeZone(
-				Calendar.getInstance(TimeZone.getTimeZone("GMT")), timeZone);
+				Calendar.getInstance(), timeZone);
 
-		Calendar evalStartTime = Calendar.getInstance(TimeZone
-				.getTimeZone("GMT"));
+		Calendar evalStartTime = Calendar.getInstance();
 		evalStartTime.setTime(startTime);
+		
+		log.fine("current:"+Common.calendarToString(currentTimeInUserTimeZone)+"|start:"+Common.calendarToString(evalStartTime));
 
 		if (currentTimeInUserTimeZone.before(evalStartTime)){
 			return false;
@@ -201,5 +206,6 @@ public class Evaluation {
 		time.add(Calendar.MILLISECOND, (int) (-60 * 60 * 1000 * timeZone));
 		return time; // for chaining
 	}
+	
 
 }

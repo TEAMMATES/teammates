@@ -97,7 +97,7 @@ public class EvaluationsTest extends BaseTestCase{
 		String nameOfEvalInCourse1 = "new-evaluation-in-course-1";
 		evaluation.name = nameOfEvalInCourse1;
 		int oneHourInMilliSeconds = 60*60*1000;
-		evaluation.startTime = Common.getMilliSecondOffsetToCurrentTime(-1*oneHourInMilliSeconds);
+		evaluation.startTime = Common.getMsOffsetToCurrentTime(-1*oneHourInMilliSeconds);
 		evaluation.timeZone = -1.0; 
 		backdoor.createEvaluation(evaluation);
 
@@ -114,7 +114,7 @@ public class EvaluationsTest extends BaseTestCase{
 		evaluation.activated = false;
 		String nameOfEvalInCourse2 = "new-evaluation-in-course-2";
 		evaluation.name = nameOfEvalInCourse2;
-		evaluation.startTime = Common.getMilliSecondOffsetToCurrentTime(2*oneHourInMilliSeconds+10000);
+		evaluation.startTime = Common.getMsOffsetToCurrentTime(2*oneHourInMilliSeconds+10000);
 		evaluation.timeZone = 2.0;
 		backdoor.createEvaluation(evaluation);
 
@@ -130,7 +130,7 @@ public class EvaluationsTest extends BaseTestCase{
 		evaluation.activated = false;
 		evaluation.name = "new evaluation - start time in future";
 		evaluation.timeZone = 0;
-		evaluation.startTime = Common.getMilliSecondOffsetToCurrentTime(1000);
+		evaluation.startTime = Common.getMsOffsetToCurrentTime(1000);
 		backdoor.createEvaluation(evaluation);
 
 		//verify number of ready evaluations.

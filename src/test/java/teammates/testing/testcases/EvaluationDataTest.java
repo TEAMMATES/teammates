@@ -26,7 +26,7 @@ public class EvaluationDataTest extends BaseTestCase {
 		______TS("in the awaiting period");
 
 		EvaluationData evaluation = new EvaluationData();
-		evaluation.startTime = Common.getMilliSecondOffsetToCurrentTime(1000);
+		evaluation.startTime = Common.getMsOffsetToCurrentTime(1000);
 		evaluation.endTime = Common.getDateOffsetToCurrentTime(1);
 		evaluation.timeZone = 0.0;
 		evaluation.gracePeriod = 0;
@@ -34,7 +34,7 @@ public class EvaluationDataTest extends BaseTestCase {
 		assertEquals(EvalStatus.AWAITING, evaluation.getStatus());
 
 		______TS("in the middle of open period");
-		evaluation.startTime = Common.getMilliSecondOffsetToCurrentTime(-1);
+		evaluation.startTime = Common.getMsOffsetToCurrentTime(-1);
 		assertEquals(EvalStatus.OPEN, evaluation.getStatus());
 
 		______TS("in the grace period");
@@ -51,7 +51,7 @@ public class EvaluationDataTest extends BaseTestCase {
 		int safetyMargin = 1000; // we use this to compensate for test execution
 									// time
 		evaluation.endTime = Common
-				.getMilliSecondOffsetToCurrentTime(-gracePeriod * 60 * 1000
+				.getMsOffsetToCurrentTime(-gracePeriod * 60 * 1000
 						- safetyMargin);
 		evaluation.timeZone = 0.0;
 		evaluation.gracePeriod = gracePeriod;
@@ -71,21 +71,21 @@ public class EvaluationDataTest extends BaseTestCase {
 
 		// in AWAITING period
 		evaluation.startTime = Common
-				.getMilliSecondOffsetToCurrentTime(-timeZoneOffsetInMilliSec + safetyMargin);
+				.getMsOffsetToCurrentTime(-timeZoneOffsetInMilliSec + safetyMargin);
 		evaluation.endTime = Common.getDateOffsetToCurrentTime(1);
 		assertEquals(EvalStatus.AWAITING, evaluation.getStatus());
 
 		// in OPEN period
 		evaluation.startTime = Common
-				.getMilliSecondOffsetToCurrentTime(-timeZoneOffsetInMilliSec - safetyMargin);
+				.getMsOffsetToCurrentTime(-timeZoneOffsetInMilliSec - safetyMargin);
 		assertEquals(EvalStatus.OPEN, evaluation.getStatus());
 
 		// just after grace period
 		gracePeriod = 5;
 
-		evaluation.startTime = Common.getMilliSecondOffsetToCurrentTime(-safetyMargin);
+		evaluation.startTime = Common.getMsOffsetToCurrentTime(-safetyMargin);
 		evaluation.endTime = Common
-				.getMilliSecondOffsetToCurrentTime(-timeZoneOffsetInMilliSec
+				.getMsOffsetToCurrentTime(-timeZoneOffsetInMilliSec
 						- gracePeriod * 60 * 1000 - safetyMargin);
 		evaluation.gracePeriod = gracePeriod;
 		Thread.sleep(5);
@@ -148,12 +148,12 @@ public class EvaluationDataTest extends BaseTestCase {
 		// published before endtime: invalid
 		e.published = true;
 		e.startTime = Common.getDateOffsetToCurrentTime(0);
-		e.endTime = Common.getMilliSecondOffsetToCurrentTime(5);
+		e.endTime = Common.getMsOffsetToCurrentTime(5);
 		verifyInvalidState(e, Common.ERRORCODE_PUBLISHED_BEFORE_CLOSING);
 
 		// just after endtime and published: valid
 		e.startTime = Common.getDateOffsetToCurrentTime(-1);
-		e.endTime = Common.getMilliSecondOffsetToCurrentTime(-5);
+		e.endTime = Common.getMsOffsetToCurrentTime(-5);
 		e.published = true;
 		e.validate();
 

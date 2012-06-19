@@ -13,6 +13,8 @@ import java.util.Locale;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import teammates.persistent.Evaluation;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -494,11 +496,18 @@ public class Common {
 	 * @param offsetMilliseconds
 	 * @return
 	 */
-	public static Date getMilliSecondOffsetToCurrentTime(int offsetMilliseconds) {
+	public static Date getMsOffsetToCurrentTime(int offsetMilliseconds) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(cal.getTime());
 		cal.add(Calendar.MILLISECOND, +offsetMilliseconds);
 		return cal.getTime();
+	}
+	
+	public static Date getMsOffsetToCurrentTimeInUserTimeZone(int offset, double timeZone) {
+		Date d = Common.getMsOffsetToCurrentTime(offset);
+		Calendar c = Calendar.getInstance();
+		c.setTime(d);
+		return Evaluation.convertToUserTimeZone(c,timeZone).getTime();
 	}
 	
 	/**
