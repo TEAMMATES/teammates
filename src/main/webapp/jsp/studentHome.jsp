@@ -35,7 +35,7 @@
 				<h1>Student Home</h1>
 				<br />
 				<div class="result_addOrJoinCourse">
-					<form method="post" action="<%= helper.processMasquerade(Common.PAGE_STUDENT_JOIN_COURSE) %>" name="form_joincourse">
+					<form method="post" action="<%= Common.PAGE_STUDENT_JOIN_COURSE %>" name="form_joincourse">
 						<table class="headerform">
 							<tr>
 								<td width="30%" class="attribute">Registration Key:</td>
@@ -53,6 +53,9 @@
 								</td>
 							</tr>
 						 </table>
+						<% if(helper.isMasqueradeMode()){ %>
+							<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>" />
+						<% } %>
 					</form>
 				</div>
 			</div>

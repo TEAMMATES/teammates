@@ -39,11 +39,14 @@
 				<h1>Edit Evaluation</h1>
 			</div>
 			<div id="coordinatorEvaluationManagement">
-				<form method="post" action="" name="form_addevaluation">
+				<form method="post" action="<%= Common.PAGE_COORD_EVAL_EDIT %>" name="form_addevaluation">
 					<table class="headerform">
 						<tr>
 							<td class="attribute" >Course ID:</td>
-							<td style="vertical-align:middle"><%= helper.submittedEval.course %></td>
+							<td style="vertical-align:middle">
+								<input type="hidden" name="<%= Common.PARAM_COURSE_ID %>" value="<%= helper.submittedEval.course %>" />
+								<%= helper.submittedEval.course %>
+							</td>
 							<td class="attribute" >Opening time:</td>
 							<td><input style="width: 100px;" type="text"
 										name="<%= Common.PARAM_EVALUATION_START %>"
@@ -63,7 +66,10 @@
 						</tr>
 						<tr>
 							<td class="attribute" >Evaluation name:</td>
-							<td style="vertical-align:middle"><%= CoordEvalEditHelper.escapeHTML(helper.submittedEval.name) %></td>
+							<td style="vertical-align:middle">
+								<input type="hidden" name="<%= Common.PARAM_EVALUATION_NAME %>" value="<%= CoordEvalEditHelper.escapeHTML(helper.submittedEval.name) %>" />
+								<%= CoordEvalEditHelper.escapeHTML(helper.submittedEval.name) %>
+							</td>
 							<td class="attribute" >Closing time:</td>
 							<td><input style="width: 100px;" type="text"
 										name="<%= Common.PARAM_EVALUATION_DEADLINE %>" id="<%= Common.PARAM_EVALUATION_DEADLINE %>"
@@ -101,6 +107,7 @@
 										onmouseout="hideddrivetip()" disabled="disabled" tabindex=7>
 								<% 	for(String opt: helper.getTimeZoneOptions()) out.println(opt);%>
 								</select>
+								<input type="hidden" name="<%= Common.PARAM_EVALUATION_TIMEZONE %>" value="<%= helper.submittedEval.timeZone %>" />
 							</td>
 						</tr>
 						<tr>
@@ -127,13 +134,16 @@
 							<td></td>
 							<td colspan="3">
 								<input id="t_btnAddEvaluation" type="submit" class="button"
-										onclick="return checkAddEvaluation(this.form);"
+										onclick="return checkEditEvaluation(this.form);"
 										value="Save Changes" tabindex=9 />
 								<input id="t_btnAddEvaluation" type="button" class="button"
 										onclick="window.location.href='<%= helper.getCoordEvaluationLink() %>'"
 										value="Cancel" tabindex=10 /></td>
 						</tr>
 					</table>
+					<% if(helper.isMasqueradeMode()){ %>
+						<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>" />
+					<% } %>
 				</form>
 			</div>
 			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />

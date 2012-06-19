@@ -61,7 +61,7 @@
 			</div>
 			<div id="studentEvaluationSubmissions">
 				<form name="form_submitevaluation" id="form_submitevaluation" method="post"
-						action="<%= helper.processMasquerade(Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER) %>">
+						action="<%= Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER %>">
 					<jsp:include page="<%= Common.JSP_EVAL_SUBMISSION_EDIT %>" />
 					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 					<div id="studentEvaluationSubmissionButtons">
@@ -71,6 +71,9 @@
 								onclick="return checkEvaluationForm(this.form)"
 								id="submitEvaluation" value="Submit Evaluation" />
 					</div>
+					<% if(helper.isMasqueradeMode()){ %>
+						<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>" />
+					<% } %>
 				</form>
 		 		<br /><br />
 			</div>

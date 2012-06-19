@@ -37,7 +37,7 @@
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
 				<h1>Edit Student Details</h1>
-				<form action="<%= helper.processMasquerade(Common.PAGE_COORD_COURSE_STUDENT_EDIT) %>" method="post">
+				<form action="<%= Common.PAGE_COORD_COURSE_STUDENT_EDIT %>" method="post">
 					<input type="hidden" name="<%= Common.PARAM_COURSE_ID %>" value="<%= helper.student.course %>" />
 					<table class="detailform">
 						<tr>
@@ -83,6 +83,9 @@
 					<input type="submit" class="button" id="button_back" name="submit" value="Save Changes"
 							onclick="return isStudentInputValid(this.form.<%= Common.PARAM_STUDENT_NAME %>.value,this.form.<%= Common.PARAM_TEAM_NAME %>.value)" />
 					<br /><br />
+					<% if(helper.isMasqueradeMode()){ %>
+						<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>" />
+					<% } %>
 				</form>
 			</div>
 		</div>

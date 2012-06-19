@@ -135,6 +135,41 @@ function checkAddEvaluation(form){
 }
 
 /**
+ * Check whether the evaluation input (which is passed as a form) is valid
+ * @param form
+ * @returns {Boolean}
+ */
+function checkEditEvaluation(form){
+	var courseID = form.courseid.value;
+	var name = form.evaluationname.value;
+	var commentsEnabled = form.commentsstatus.value;
+	var start = form.start.value;
+	var startTime = form.starttime.value;
+	var deadline = form.deadline.value;
+	var deadlineTime = form.deadlinetime.value;
+	var timeZone = form.timezone.value;
+	var gracePeriod = form.graceperiod.value;
+	var instructions = form.instr.value;
+
+	if (courseID == "" || name == "" || start == "" || startTime == ""
+		|| deadline == "" || deadlineTime == "" || timeZone == ""
+			|| gracePeriod == "" || instructions == "") {
+		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
+		return false;
+	} else if (!isEvaluationNameValid(name)) {
+		setStatusMessage(DISPLAY_EVALUATION_NAMEINVALID, true);
+		return false;
+	} else if (!isEvaluationNameLengthValid(name)) {
+		setStatusMessage(DISPLAY_EVALUATION_NAME_LENGTHINVALID, true);
+		return false;
+	} else if (!isEditEvaluationScheduleValid(start, startTime, deadline, deadlineTime)) {
+		setStatusMessage(DISPLAY_EVALUATION_SCHEDULEINVALID, true);
+		return false;
+	}
+	return true;
+}
+
+/**
  * To be run on page finish loading, this will select the input: start date,
  * start time, and timezone based on client's time.
  */
