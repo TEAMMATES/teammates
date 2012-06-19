@@ -61,12 +61,12 @@
 			</div>
 			<div id="studentEvaluationSubmissions">
 				<form name="form_submitevaluation" id="form_submitevaluation" method="post"
-						action="<%= Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER %>">
+						action="<%= helper.processMasquerade(Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER) %>">
 					<jsp:include page="<%= Common.JSP_EVAL_SUBMISSION_EDIT %>" />
 					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 					<div id="studentEvaluationSubmissionButtons">
 						<input type="button" class="button t_back" id="button_back"
-								onclick="window.location.href='<%= Common.PAGE_STUDENT_HOME %>'" value="Back" />
+								onclick="window.location.href='<%= helper.getStudentHomeLink() %>'" value="Back" />
 						<input type="submit" class="button" name="submitEvaluation"
 								onclick="return checkEvaluationForm(this.form)"
 								id="submitEvaluation" value="Submit Evaluation" />

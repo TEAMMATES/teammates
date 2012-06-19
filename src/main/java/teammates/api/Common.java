@@ -161,7 +161,11 @@ public class Common {
 	/*
 	 * Logical pages links. These are the links which should be accessed as
 	 * the URL to get the real pages. The JSP pages in the next section are
-	 * the pages to display, which should not be accessed directly
+	 * the pages to display, which should not be accessed directly.
+	 * In order to cater with masquerade mode, it is highly encourage to use
+	 * the helper methods get*Link which automatically includes masqueraded
+	 * userId.
+	 * Otherwise, you need to call helper.processMasquerade(link) yourself
 	 */
 	public static final String PAGE_COORD_HOME = "/page/coordHome"; // Done
 	public static final String PAGE_COORD_COURSE = "/page/coordCourse"; // Done

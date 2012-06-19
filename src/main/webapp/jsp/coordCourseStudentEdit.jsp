@@ -37,7 +37,7 @@
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
 				<h1>Edit Student Details</h1>
-				<form action="<%= Common.PAGE_COORD_COURSE_STUDENT_EDIT %>" method="post">
+				<form action="<%= helper.processMasquerade(Common.PAGE_COORD_COURSE_STUDENT_EDIT) %>" method="post">
 					<input type="hidden" name="<%= Common.PARAM_COURSE_ID %>" value="<%= helper.student.course %>" />
 					<table class="detailform">
 						<tr>

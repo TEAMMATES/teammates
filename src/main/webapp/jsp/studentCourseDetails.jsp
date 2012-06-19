@@ -79,7 +79,7 @@
 	 			</table>
 	 			<br /><br />
 	 			<input type="button" class="button" id="button_back" value="Back"
-	 					onclick="window.location.href='<%= Common.PAGE_STUDENT_HOME %>'" />
+	 					onclick="window.location.href='<%= helper.getStudentHomeLink() %>'" />
 			</div>
 		</div>
 	</div>

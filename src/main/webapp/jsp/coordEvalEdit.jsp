@@ -130,7 +130,7 @@
 										onclick="return checkAddEvaluation(this.form);"
 										value="Save Changes" tabindex=9 />
 								<input id="t_btnAddEvaluation" type="button" class="button"
-										onclick="window.location.href='<%= Common.PAGE_COORD_EVAL %>'"
+										onclick="window.location.href='<%= helper.getCoordEvaluationLink() %>'"
 										value="Cancel" tabindex=10 /></td>
 						</tr>
 					</table>

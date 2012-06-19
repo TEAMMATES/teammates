@@ -40,7 +40,7 @@
 				<h1>Add New Course</h1>
 			</div>
 			<div id="coordinatorCourseManagement">
-				<form method="get" action="<%= Common.PAGE_COORD_COURSE %>" name="form_addcourse">
+				<form method="get" action="<%= helper.getCoordCourseLink() %>" name="form_addcourse">
 					<table class="addform round">
 						<tr>
 							<td><b>Course ID:</b></td>
