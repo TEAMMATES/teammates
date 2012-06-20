@@ -90,7 +90,7 @@ public class EvaluationsTest extends BaseTestCase{
 		//  activate. Put this evaluation in a negative time zone.
 		EvaluationData evaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
-		String nameOfEvalInCourse1 = "new-evaluation-in-course-1";
+		String nameOfEvalInCourse1 = "new-evaluation-in-course-1-tGRE";
 		evaluation.name = nameOfEvalInCourse1;
 		
 		evaluation.activated = false;
@@ -114,7 +114,7 @@ public class EvaluationsTest extends BaseTestCase{
 		// This one too is ready to activate. 
 		evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord2");
 		evaluation.activated = false;
-		String nameOfEvalInCourse2 = "new-evaluation-in-course-2";
+		String nameOfEvalInCourse2 = "new-evaluation-in-course-2-tGRE";
 		evaluation.name = nameOfEvalInCourse2;
 		
 		timeZone = 2.0;

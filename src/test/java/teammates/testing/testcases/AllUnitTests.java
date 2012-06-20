@@ -8,18 +8,20 @@ import teammates.testing.lib.HtmlHelperTest;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 		//@formatter:off
+	//TODO: there seems to be a state leak from this test to LogicTest if 
+	//  this test is put right above LogicTest.
+	EvaluationsTest.class,
 		CommonTest.class, 
 		ConfigTest.class,
 		EmailsTest.class,
 		StudentTest.class, 
 		TeamDataTest.class,
 		EvaluationTest.class,
-		EvaluationsTest.class,
+		EvaluationActivationServletTest.class,
 		EvaluationDataTest.class, 
 		EvalResultDataTest.class,
 		TeamEvalResultTest.class, 
 		HtmlHelperTest.class,
-		EvaluationActivationServletTest.class,
 		LogicTest.class})
 		//@formatter:on
 public class AllUnitTests {

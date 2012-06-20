@@ -86,7 +86,7 @@ public class EvaluationActivationServletTest extends BaseTestCase {
 		evaluation.activated = false;
 		double timeZone = -1.0;
 		int oneSecondInMs = 1000;
-		String nameOfEvalInCourse1 = "new-evaluation-in-course-1";
+		String nameOfEvalInCourse1 = "new-evaluation-in-course-1-tARE";
 		evaluation.name = nameOfEvalInCourse1;
 		evaluation.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(-oneSecondInMs, timeZone);
 		evaluation.timeZone = timeZone; 
