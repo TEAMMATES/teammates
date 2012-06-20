@@ -117,93 +117,93 @@ public class BackDoorServlet extends HttpServlet {
 
 	private String executeBackendAction(HttpServletRequest req, String action)
 			throws Exception {
-		BackDoorLogic logic = new BackDoorLogic();
+		BackDoorLogic backDoorLogic = new BackDoorLogic();
 		if (action.equals(OPERATION_CREATE_COORD)) {
 			String coordID = req.getParameter(PARAMETER_COORD_ID);
 			String coordName = req.getParameter(PARAMETER_COORD_NAME);
 			String coordEmail = req.getParameter(PARAMETER_COORD_EMAIL);
-			logic.createCoord(coordID, coordName, coordEmail);
+			backDoorLogic.createCoord(coordID, coordName, coordEmail);
 		} else if (action.equals(OPERATION_DELETE_COORD)) {
 			String coordID = req.getParameter(PARAMETER_COORD_ID);
-			logic.deleteCoord(coordID);
+			backDoorLogic.deleteCoord(coordID);
 		} else if (action.equals(OPERATION_DELETE_COURSE)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			logic.deleteCourse(courseId);
+			backDoorLogic.deleteCourse(courseId);
 		} else if (action.equals(OPERATION_DELETE_EVALUATION)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String evaluationName = req.getParameter(PARAMETER_EVALUATION_NAME);
-			logic.deleteEvaluation(courseId, evaluationName);
+			backDoorLogic.deleteEvaluation(courseId, evaluationName);
 		} else if (action.equals(OPERATION_DELETE_STUDENT)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
-			logic.deleteStudent(courseId, email);
+			backDoorLogic.deleteStudent(courseId, email);
 		} else if (action.equals(OPERATION_DELETE_TEAM_FORMING_LOG)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			logic.deleteStudentActions(courseId);
+			backDoorLogic.deleteStudentActions(courseId);
 		} else if (action.equals(OPERATION_DELETE_TEAM_PROFILE)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String teamName = req.getParameter(PARAMETER_TEAM_NAME);
-			logic.deleteTeamProfile(courseId, teamName);
+			backDoorLogic.deleteTeamProfile(courseId, teamName);
 		} else if (action.equals(OPERATION_DELETE_TFS)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			logic.deleteTfs(courseId);
+			backDoorLogic.deleteTfs(courseId);
 		} else if (action.equals(OPERATION_GET_COORD_AS_JSON)) {
 			String coordID = req.getParameter(PARAMETER_COORD_ID);
-			return logic.getCoordAsJson(coordID);
+			return backDoorLogic.getCoordAsJson(coordID);
 		} else if (action.equals(OPERATION_GET_COURSE_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			return logic.getCourseAsJson(courseId);
+			return backDoorLogic.getCourseAsJson(courseId);
 		} else if (action.equals(OPERATION_GET_COURSES_BY_COORD)) {
 			String coordID = req.getParameter(PARAMETER_COORD_ID);
 			return getCoursesByCoordID(coordID);
 		} else if (action.equals(OPERATION_GET_STUDENT_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
-			return logic.getStudentAsJson(courseId, email);
+			return backDoorLogic.getStudentAsJson(courseId, email);
 		} else if (action.equals(OPERATION_GET_EVALUATION_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String evaluationName = req.getParameter(PARAMETER_EVALUATION_NAME);
-			return logic.getEvaluationAsJson(courseId, evaluationName);
+			return backDoorLogic.getEvaluationAsJson(courseId, evaluationName);
 		} else if (action.equals(OPERATION_GET_TFS_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			return logic.getTfsAsJson(courseId);
+			return backDoorLogic.getTfsAsJson(courseId);
 		} else if (action.equals(OPERATION_GET_TEAM_FORMING_LOG_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			return logic.getTeamFormingLogAsJson(courseId);
+			return backDoorLogic.getTeamFormingLogAsJson(courseId);
 		} else if (action.equals(OPERATION_GET_TEAM_PROFILE_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String teamName = req.getParameter(PARAMETER_TEAM_NAME);
-			return logic.getTeamProfileAsJson(courseId, teamName);
+			return backDoorLogic.getTeamProfileAsJson(courseId, teamName);
 		} else if (action.equals(OPERATION_GET_SUBMISSION_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String evaluationName = req.getParameter(PARAMETER_EVALUATION_NAME);
 			String reviewerId = req.getParameter(PARAMETER_REVIEWER_EMAIL);
 			String revieweeId = req.getParameter(PARAMETER_REVIEWEE_EMAIL);
-			return logic.getSubmissionAsJson(courseId, evaluationName,
+			return backDoorLogic.getSubmissionAsJson(courseId, evaluationName,
 					reviewerId, revieweeId);
 		} else if (action.equals(OPERATION_PERSIST_DATABUNDLE)) {
 			String dataBundleJsonString = req
 					.getParameter(PARAMETER_DATABUNDLE_JSON);
 			DataBundle dataBundle = Common.getTeammatesGson().fromJson(
 					dataBundleJsonString, DataBundle.class);
-			logic.persistNewDataBundle(dataBundle);
+			backDoorLogic.persistNewDataBundle(dataBundle);
 		} else if (action.equals(OPERATION_EDIT_EVALUATION)) {
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
-			logic.editEvaluationAsJson(newValues);
+			backDoorLogic.editEvaluationAsJson(newValues);
 		} else if (action.equals(OPERATION_EDIT_SUBMISSION)) {
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
-			logic.editSubmissionAsJson(newValues);
+			backDoorLogic.editSubmissionAsJson(newValues);
 		} else if (action.equals(OPERATION_EDIT_STUDENT)) {
 			String originalEmail = req.getParameter(PARAMETER_STUDENT_EMAIL);
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
-			logic.editStudentAsJson(originalEmail, newValues);
+			backDoorLogic.editStudentAsJson(originalEmail, newValues);
 		} else if (action.equals(OPERATION_EDIT_TFS)) {
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
-			logic.editTfsAsJson(newValues);
+			backDoorLogic.editTfsAsJson(newValues);
 		} else if (action.equals(OPERATION_EDIT_TEAM_PROFILE)) {
 			String originalTeamName = req.getParameter(PARAMETER_TEAM_NAME);
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
-			logic.editTeamProfileAsJson(originalTeamName, newValues);
+			backDoorLogic.editTeamProfileAsJson(originalTeamName, newValues);
 		} else {
 			throw new Exception("Unknown command: " + action);
 		}

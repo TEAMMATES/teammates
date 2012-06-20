@@ -67,9 +67,11 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollPage.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollPage.html");
 		
+		System.out.println("Enrolling...");
 		bi.fillString(By.id("enrollstudents"), enrollString);
 		bi.click(By.id("button_enroll"));
 
+		System.out.println("Verifying result...");
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollPageResult.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollPageResult.html");
 		

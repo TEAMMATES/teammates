@@ -32,6 +32,8 @@ public class EvaluationActivationServlet extends HttpServlet {
 		activateReadyEvaluations();
 	}
 
+	//TODO: move to BackDoorLogic
+	@Deprecated
 	public void activateReadyEvaluations() {
 		Evaluations evaluations = Evaluations.inst();
 

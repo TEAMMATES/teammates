@@ -197,10 +197,10 @@ public class BackDoorLogic extends Logic{
 	
 	public List<MimeMessage> activateReadyEvaluations(){
 		//TODO:
-		//Evaluations.getReadyEvaluations();
+		//Evaluations.getReadyEvaluations(); {already tested}
 		//for each eval
-		//  studentList = getStudentList
-		//  emailList = Emails.generateAlertEmails(eval,studentList)
+		//  studentList = getStudentList {already tested}
+		//  emailList = Emails.generateAlertEmails(eval,studentList) 
 		//  Emails.sendEmails(emailList)
 		return null;
 	}

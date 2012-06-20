@@ -53,6 +53,7 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 
 	@Test
 	public void testCoordEvalResultsOpenEval() throws Exception{
+		printTestCaseHeader("CoordEvalResultsOpenEvalHTML");
 		// Open Evaluation //
 		String link = appUrl+Common.PAGE_COORD_EVAL_RESULTS;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
@@ -61,13 +62,15 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 		bi.goToUrl(link);
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalResultsOpenEval.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsOpenEval.html");
-		
+
+		printTestCaseHeader("CoordEvalResultsDetailReviewerOpenEvalHTML");
 		// Check detailed view by reviewer
 		bi.getSelenium().check("id=radio_reviewer");
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalResultsOpenEvalByReviewer.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsOpenEvalByReviewer.html");
 		
 		// Check detailed view by reviewee
+		printTestCaseHeader("CoordEvalResultsDetailRevieweeOpenEvalHTML");
 		bi.getSelenium().check("id=radio_reviewee");
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalResultsOpenEvalByReviewee.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsOpenEvalByReviewee.html");
@@ -75,6 +78,7 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testCoordEvalResultsPublishedEval() throws Exception{
+		printTestCaseHeader("CoordEvalResultsPublishedEvalHTML");
 		// Published Evaluation //
 		String link = appUrl + Common.PAGE_COORD_EVAL_RESULTS;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
@@ -84,6 +88,7 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalResultsPublishedEval.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsPublishedEval.html");
 
+		printTestCaseHeader("CoordEvalResultsPublishedEvalUnpublish");
 		// Check unpublish button
 		By unpublishButton = By.id("button_unpublish");
 		try{
@@ -102,6 +107,7 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testCoordEvalResultsClosedEval() throws Exception{
+		printTestCaseHeader("CoordEvalResultsUnpublishedEvalHTML");
 		// Closed Evaluation //
 		String link = appUrl + Common.PAGE_COORD_EVAL_RESULTS;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
@@ -111,6 +117,7 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalResultsClosedEval.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsClosedEval.html");
 
+		printTestCaseHeader("CoordEvalResultsUnpublishedEvalPublish");
 		// Check publish button
 		By publishButton = By.id("button_publish");
 		try{

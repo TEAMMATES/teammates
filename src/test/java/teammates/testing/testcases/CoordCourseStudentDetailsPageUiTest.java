@@ -27,7 +27,7 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		printTestClassHeader("CoordCourseDetailsTest");
+		printTestClassHeader("CoordCourseStudentDetailsTest");
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/CoordCourseStudentDetailsUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 
@@ -50,6 +50,7 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testCoordCourseStudentDetailsPage() throws Exception{
+		printTestCaseHeader("CoordCourseStudentDetailsRegisteredStudent");
 		String link = appUrl+Common.PAGE_COORD_COURSE_STUDENT_DETAILS;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CCSDetailsUiT.CS2104").id);
 		link = Helper.addParam(link,Common.PARAM_STUDENT_EMAIL,scn.students.get("registeredStudent").email);
@@ -59,6 +60,7 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseStudentDetailsPage.html");
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseStudentDetailsPage.html");
 
+		printTestCaseHeader("CoordCourseStudentDetailsUnregisteredStudent");
 		link = appUrl+Common.PAGE_COORD_COURSE_STUDENT_DETAILS;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CCSDetailsUiT.CS2104").id);
 		link = Helper.addParam(link,Common.PARAM_STUDENT_EMAIL,scn.students.get("unregisteredStudent").email);
@@ -71,6 +73,7 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testCoordCourseStudentEditPage() throws Exception{
+		printTestCaseHeader("CoordCourseStudentEditUnregisteredStudent");
 		String link = appUrl+Common.PAGE_COORD_COURSE_STUDENT_EDIT;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CCSDetailsUiT.CS2104").id);
 		link = Helper.addParam(link,Common.PARAM_STUDENT_EMAIL,scn.students.get("unregisteredStudent").email);
@@ -80,6 +83,7 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseStudentEditUnregisteredPage.html");
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseStudentEditUnregisteredPage.html");
 
+		printTestCaseHeader("CoordCourseStudentEditRegisteredStudent");
 		link = appUrl+Common.PAGE_COORD_COURSE_STUDENT_EDIT;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CCSDetailsUiT.CS2104").id);
 		link = Helper.addParam(link,Common.PARAM_STUDENT_EMAIL,scn.students.get("registeredStudent").email);
@@ -88,7 +92,8 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 		
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseStudentEditPage.html");
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseStudentEditPage.html");
-		
+
+		printTestCaseHeader("CoordCourseStudentEditRegisteredStudentChange");
 		// Edit the student
 		bi.fillString(bi.studentDetailName, "New name");
 		bi.fillString(bi.studentDetailTeam, "New team");

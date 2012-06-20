@@ -107,6 +107,14 @@ public class StudentTest extends BaseTestCase {
 		verifyStudentContent(expected, new Student(enrollmentLine, "courseId1"));
 
 	}
+	
+	@Test 
+	public void testIsRegistered() throws Exception{
+		Student student = new Student("team 1|name 1|email@email.com|comment 1", "course1");
+		assertEquals(true, student.isRegistered());
+		student.setID("name1");
+		assertEquals(false, student.isRegistered());
+	}
 
 	private Student generateTypicalStudentObject() {
 		Student expected = new Student("email@email.com", "name 1",

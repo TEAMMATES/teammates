@@ -55,22 +55,26 @@ public class Evaluations {
 	 * is later than start time.
 	 * 
 	 * @return list of evaluations that were activated in the function call
+	 * @deprecated
 	 */
 	public List<Evaluation> setEvaluationsAsActivated() {
 		List<Evaluation> evaluationList = getAllEvaluations();
 		List<Evaluation> activatedEvaluationList = new ArrayList<Evaluation>();
 
-		Calendar c1 = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-		Calendar c2 = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		Calendar current = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		Calendar start = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
 
 		for (Evaluation e : evaluationList) {
 			// Fix the time zone accordingly
-			c1.add(Calendar.MILLISECOND,
+			current.add(Calendar.MILLISECOND,
 					(int) (60 * 60 * 1000 * e.getTimeZone()));
 
-			c2.setTime(e.getStart());
+			start.setTime(e.getStart());
+			
+			log.fine("checking "+e.getName()+"|current:"+Common.calendarToString(current)+"|start:"+Common.calendarToString(start));
 
-			if (c1.after(c2) || c1.equals(c2)) {
+
+			if (current.after(start) || current.equals(start)) {
 				if (e.isActivated() == false) {
 					e.setActivated(true);
 					activatedEvaluationList.add(e);
@@ -78,12 +82,25 @@ public class Evaluations {
 			}
 
 			// Revert time zone change
-			c1.add(Calendar.MILLISECOND,
+			current.add(Calendar.MILLISECOND,
 					(int) (-60 * 60 * 1000 * e.getTimeZone()));
 		}
 
 		return activatedEvaluationList;
 
+	}
+	
+	public List<Evaluation> getReadyEvaluations(){
+		//TODO: very inefficient to go through all evaluations
+		List<Evaluation> evaluationList = getAllEvaluations();
+		List<Evaluation> readyEvaluations = new ArrayList<Evaluation>();
+
+		for (Evaluation e : evaluationList) {
+			if(e.isReady()){
+				readyEvaluations.add(e);
+			}
+		}
+		return readyEvaluations;
 	}
 	
 
@@ -153,15 +170,17 @@ public class Evaluations {
 	 * @throws EntityAlreadyExistsException 
 	 */
 	public boolean addEvaluation(Evaluation e) throws EntityAlreadyExistsException {
-		if(getEvaluation(e.getCourseID(), e.getName())!= null){
-			throw new EntityAlreadyExistsException(Common.MESSAGE_EVALUATION_EXISTS);
+		String courseID = e.getCourseID();
+		String evaluationName = e.getName();
+		if(getEvaluation(courseID, evaluationName)!= null){
+			throw new EntityAlreadyExistsException("The course "+courseID+" already has an evaluation by this name: "+evaluationName);
 		}
 		try {
 			getPM().makePersistent(e);
 
 			// Build submission objects for each student based on their team
 			// number
-			createSubmissions(e.getCourseID(), e.getName());
+			createSubmissions(courseID, evaluationName);
 			return true;
 		} catch (Exception exp) {
 			exp.printStackTrace();

@@ -1,5 +1,6 @@
 package teammates.manager;
 
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -12,6 +13,8 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.Config;
 import teammates.api.Common;
+import teammates.persistent.Evaluation;
+import teammates.persistent.Student;
 
 /**
  * Email handles all operations with regards to sending e-mails.
@@ -36,6 +39,8 @@ public class Emails {
 	private final String HEADER_TEAMFORMING_PUBLISH = "TEAMMATES: Team Forming Published: %s %s";
 	private final String TEAMMATES_APP_SIGNATURE = "\n\nIf you encounter any problems using the system, email TEAMMATES support team at teammates@comp.nus.edu.sg"
 			+ "\n\nRegards, \nTEAMMATES System";
+	
+	private String EMAIL_EVALUATION_OPENING = "";
 
 	/**
 	 * Constructs an Email object. Sets the sender's e-mail address and
@@ -43,11 +48,7 @@ public class Emails {
 	 * 
 	 */
 	public Emails() {
-		this("build.properties");
-	}
-	
-	public Emails(String propertiesFile){
-		from = Config.inst(propertiesFile).TEAMMATES_APP_ACCOUNT;
+		from = Config.inst().TEAMMATES_APP_ACCOUNT;
 		props = new Properties();
 	}
 
@@ -99,7 +100,7 @@ public class Emails {
 					+ "\n You can access the evaluation here: "
 					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
 
-			Transport.send(message);
+			sendEmail(message);
 
 		}
 
@@ -143,7 +144,7 @@ public class Emails {
 					+ "You can access the evaluation here: "
 					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
 
-			Transport.send(message);
+			sendEmail(message);
 
 		}
 
@@ -151,6 +152,27 @@ public class Emails {
 
 		}
 
+	}
+	
+	public void sendEmails(List<MimeMessage> messages) throws MessagingException{
+		for(MimeMessage m: messages){
+			sendEmail(m);
+		}
+	}
+
+	public void sendEmail(MimeMessage message) throws MessagingException {
+		log.info(getEmailInfo(message));
+		Transport.send(message);
+	}
+
+	public static String getEmailInfo(MimeMessage message)
+			throws MessagingException {
+		StringBuffer messageInfo = new StringBuffer();
+		messageInfo.append("[Email sent]");
+		messageInfo.append("to="+message.getRecipients(Message.RecipientType.TO)[0].toString());
+		messageInfo.append("|from="+message.getFrom()[0].toString());
+		messageInfo.append("|subject="+message.getSubject());
+		return messageInfo.toString();
 	}
 	
 	public void informStudentsOfTeamFormingChanges(String email, String studentName, String courseID,
@@ -178,7 +200,7 @@ public class Emails {
 					+ "\n You can access the team forming session here: "
 					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
 
-			Transport.send(message);
+			sendEmail(message);
 		}
 
 		catch (MessagingException e) {
@@ -203,7 +225,7 @@ public class Emails {
 					+ "You can access the list of students here: "
 					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
 
-			Transport.send(message);
+			sendEmail(message);
 
 		}
 
@@ -246,7 +268,7 @@ public class Emails {
 					+ "You can view the result here: "
 					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
 
-			Transport.send(message);
+			sendEmail(message);
 
 		}
 
@@ -273,7 +295,7 @@ public class Emails {
 					+ "You can view the result here: "
 					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
 
-			Transport.send(message);
+			sendEmail(message);
 		}
 
 		catch (MessagingException e) {
@@ -318,7 +340,7 @@ public class Emails {
 					+ "You can access the evaluation here: "
 					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
 
-			Transport.send(message);
+			sendEmail(message);
 
 		}
 
@@ -361,7 +383,7 @@ public class Emails {
 					+ "You can access the team forming session here: "
 					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
 
-			Transport.send(message);
+			sendEmail(message);
 
 		}
 
@@ -445,7 +467,7 @@ public class Emails {
 					+ "If any of your details in the system are incorrect, please contact the coordinator of "
 					+ courseID + ".\n" + TEAMMATES_APP_SIGNATURE);
 
-			Transport.send(message);
+			sendEmail(message);
 		}
 
 		catch (MessagingException e) {
@@ -475,7 +497,7 @@ public class Emails {
 						+ size + "]");
 				message.setText("This is a testing email");
 
-				Transport.send(message);
+				sendEmail(message);
 				log.fine("send email " + i + "|" + size);
 			}
 
@@ -501,6 +523,12 @@ public class Emails {
 		
 		log.fine("Sending email to "+to+ "["+subject+"]");
 
-		Transport.send(message);
+		sendEmail(message);
+	}
+
+	public static MimeMessage generateEvaluationOpeningEmail(Student s,
+			Evaluation e) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

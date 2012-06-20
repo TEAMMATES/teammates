@@ -60,37 +60,31 @@ public class EvaluationData {
 
 	public EvalStatus getStatus() {
 		Calendar now = Calendar.getInstance();
-		convertToUserTimeZone(now, timeZone);
-		long nowInMilliSec = now.getTimeInMillis();
+		Evaluation.convertToUserTimeZone(now, timeZone);
 
 		Calendar start = Calendar.getInstance();
 		start.setTime(startTime);
-		long startInMilliSec = start.getTimeInMillis();
 
 		Calendar end = Calendar.getInstance();
 		end.setTime(endTime);
-		end.add(Calendar.MILLISECOND, gracePeriod * 60 * 1000);
-		long endInMilliSec = end.getTimeInMillis();
+		end.add(Calendar.MINUTE, gracePeriod);
 
-		log.finer(Common.EOL + "Now  : " + Common.calendarToString(now)
+		log.fine(Common.EOL + "Now  : " + Common.calendarToString(now)
 				+ Common.EOL + "Start: " + Common.calendarToString(start)
 				+ Common.EOL + "End  : " + Common.calendarToString(end));
 
 		if (published) {
 			return EvalStatus.PUBLISHED;
-		} else if ((startInMilliSec <= nowInMilliSec)
-				&& (nowInMilliSec <= endInMilliSec)) {
-			return EvalStatus.OPEN;
-		} else if (nowInMilliSec > endInMilliSec) {
+		} else if (now.after(end)){
 			return EvalStatus.CLOSED;
+		} else if (now.after(start)){
+			return EvalStatus.OPEN;
+		} else {
+			return EvalStatus.AWAITING;
 		}
-		return EvalStatus.AWAITING;
 	}
 
-	private Calendar convertToUserTimeZone(Calendar time, double timeZone) {
-		time.add(Calendar.MILLISECOND, (int) (-60 * 60 * 1000 * timeZone));
-		return time; // for chaining
-	}
+
 
 	public TeamData getTeamData(String teamName) {
 		for (TeamData team : teams) {
@@ -132,12 +126,10 @@ public class EvaluationData {
 					Common.ERRORCODE_ACTIVATED_BEFORE_START,
 					"Cannot be activated before the evaluation is OPEN");
 		}
-		
-		
 	}
 
 	private boolean beforeTime(Date time) {
-		Date nowInUserTimeZone = convertToUserTimeZone(Calendar.getInstance(),timeZone).getTime();
+		Date nowInUserTimeZone = Evaluation.convertToUserTimeZone(Calendar.getInstance(),timeZone).getTime();
 		return time.before(nowInUserTimeZone);
 	}
 

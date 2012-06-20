@@ -61,12 +61,14 @@ public class CoordEvalEditPageUiTest extends BaseTestCase {
 
 	@Test
 	public void testCoordEvalEditHTML() throws Exception{
+		printTestCaseHeader("CoordEvalEditHTML");
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalEdit.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalEdit.html");
 	}
 	
 	@Test
 	public void testCoordEvalEditUiPaths() throws Exception{
+		printTestCaseHeader("CoordEvalEditChange");
 		bi.editEvaluation(ts.newEvaluation.startTime, ts.newEvaluation.endTime, ts.newEvaluation.p2pEnabled, ts.newEvaluation.instructions, ts.newEvaluation.gracePeriod);
 		
 		// Verify status message

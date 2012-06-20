@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.servlet.ServletException;
 
@@ -24,6 +25,7 @@ import teammates.datatransfer.DataBundle;
 import teammates.datatransfer.EvaluationData;
 import teammates.datatransfer.EvaluationData.EvalStatus;
 import teammates.datatransfer.StudentData;
+import teammates.manager.Evaluations;
 
 import com.google.appengine.api.taskqueue.dev.QueueStateInfo.TaskStateInfo;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
@@ -34,12 +36,13 @@ import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig
 
 public class EvaluationActivationServletTest extends BaseTestCase {
 
-	private static LocalServiceTestHelper helper;
+	private LocalServiceTestHelper helper;
 
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
 		turnLoggingUp(EvaluationActivationServlet.class);
+		setLogLevelOfClass(Evaluations.class, Level.FINE);
 		Datastore.initialize();
 	}
 
@@ -81,11 +84,12 @@ public class EvaluationActivationServletTest extends BaseTestCase {
 		EvaluationData evaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
 		evaluation.activated = false;
+		double timeZone = -1.0;
+		int oneSecondInMs = 1000;
 		String nameOfEvalInCourse1 = "new-evaluation-in-course-1";
 		evaluation.name = nameOfEvalInCourse1;
-		int oneHourInMilliSeconds = 60*60*1000;
-		evaluation.startTime = Common.getMilliSecondOffsetToCurrentTime(-1*oneHourInMilliSeconds);
-		evaluation.timeZone = -1.0; 
+		evaluation.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(-oneSecondInMs, timeZone);
+		evaluation.timeZone = timeZone; 
 		backdoor.createEvaluation(evaluation);
 
 		// Verify that there are no unregistered students.
@@ -99,10 +103,11 @@ public class EvaluationActivationServletTest extends BaseTestCase {
 		// This one too is ready to activate. 
 		evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord2");
 		evaluation.activated = false;
+		timeZone = 2.0;
 		String nameOfEvalInCourse2 = "new-evaluation-in-course-2";
 		evaluation.name = nameOfEvalInCourse2;
-		evaluation.startTime = Common.getMilliSecondOffsetToCurrentTime(2*oneHourInMilliSeconds);
-		evaluation.timeZone = 2.0;
+		evaluation.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(-oneSecondInMs, timeZone);
+		evaluation.timeZone = timeZone;
 		backdoor.createEvaluation(evaluation);
 
 		// Verify that there are no unregistered students
@@ -117,7 +122,7 @@ public class EvaluationActivationServletTest extends BaseTestCase {
 		evaluation.activated = false;
 		evaluation.name = "new evaluation - start time in future";
 		evaluation.timeZone = 0;
-		evaluation.startTime = Common.getMilliSecondOffsetToCurrentTime(1000);
+		evaluation.startTime = Common.getMsOffsetToCurrentTime(oneSecondInMs);
 		backdoor.createEvaluation(evaluation);
 
 		//Activate evaluations.
@@ -143,6 +148,7 @@ public class EvaluationActivationServletTest extends BaseTestCase {
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();
 		turnLoggingDown(EvaluationActivationServlet.class);
+		setLogLevelOfClass(Evaluations.class, Level.WARNING);
 	}
 
 	@After

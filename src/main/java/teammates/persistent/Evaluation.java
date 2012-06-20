@@ -1,6 +1,9 @@
 package teammates.persistent;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
+import java.util.logging.Logger;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
@@ -21,6 +24,9 @@ import com.google.gson.annotations.SerializedName;
  */
 @PersistenceCapable
 public class Evaluation {
+	
+	private static Logger log = Common.getLogger();
+	
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	public Long id;
@@ -72,7 +78,7 @@ public class Evaluation {
 	 * @param start
 	 * @param deadline
 	 * @param gracePeriod
-	 * @throws InvalidParametersException 
+	 * @throws InvalidParametersException
 	 */
 	public Evaluation(String courseID, String name, String instructions,
 			boolean commentsEnabled, Date start, Date deadline,
@@ -180,5 +186,26 @@ public class Evaluation {
 		return sb.toString();
 	}
 
+	public boolean isReady() {
+		Calendar currentTimeInUserTimeZone = convertToUserTimeZone(
+				Calendar.getInstance(), timeZone);
+
+		Calendar evalStartTime = Calendar.getInstance();
+		evalStartTime.setTime(startTime);
+		
+		log.fine("current:"+Common.calendarToString(currentTimeInUserTimeZone)+"|start:"+Common.calendarToString(evalStartTime));
+
+		if (currentTimeInUserTimeZone.before(evalStartTime)){
+			return false;
+		}else {
+			return (!activated);
+		}
+	}
+
+	public static Calendar convertToUserTimeZone(Calendar time, double timeZone) {
+		time.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
+		return time; // for chaining
+	}
+	
 
 }

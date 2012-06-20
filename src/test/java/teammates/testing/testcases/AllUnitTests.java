@@ -13,11 +13,12 @@ import teammates.testing.lib.HtmlHelperTest;
 		EmailsTest.class,
 		StudentTest.class, 
 		TeamDataTest.class,
+		EvaluationTest.class,
+		EvaluationsTest.class,
 		EvaluationDataTest.class, 
 		EvalResultDataTest.class,
 		TeamEvalResultTest.class, 
 		HtmlHelperTest.class,
-		EvaluationsTest.class,
 		EvaluationActivationServletTest.class,
 		LogicTest.class})
 		//@formatter:on
