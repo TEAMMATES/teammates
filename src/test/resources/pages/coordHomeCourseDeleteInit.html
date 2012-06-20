@@ -22,7 +22,7 @@
 </head>
 
 <body>
-	<div id="dhtmltooltip"></div>
+	<div id="dhtmltooltip"{*}>{*}</div>
 	<div id="frameTop">
 		
 
@@ -61,7 +61,8 @@
 			
 
 
-	<div style="display: none" id="statusMessage"></div>
+	<div style="display:block;" id="statusMessage">
+		The evaluation has been deleted.</div>
 
 			<div id="coordinatorHomeTable">
 				
@@ -166,15 +167,6 @@
 									<td class="t_eval_response1 centeralign">3
 										/ 4</td>
 									<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/coordEvalResults?courseid=CHomeUiT.CS2104&amp;evaluationname=Second+Eval" class="t_eval_view3">View Results</a><a onclick="return false" style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/coordEvalEdit?courseid=CHomeUiT.CS2104&amp;evaluationname=Second+Eval" class="t_eval_edit3">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CHomeUiT.CS2104','Second Eval');" href="/page/coordEvalDelete?courseid=CHomeUiT.CS2104&amp;evaluationname=Second+Eval&amp;next=%2Fpage%2FcoordHome" class="t_eval_delete3">Delete</a><a onclick="return false" style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" href="/page/coordEvalRemind?courseid=CHomeUiT.CS2104&amp;evaluationname=Second+Eval" class="t_eval_remind3">Remind</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Make results not visible to students')" onclick="hideddrivetip(); return toggleUnpublishEvaluation('Second Eval');" href="/page/coordEvalUnpublish?courseid=CHomeUiT.CS2104&amp;evaluationname=Second+Eval&amp;next=%2Fpage%2FcoordHome" class="t_eval_unpublish3">Unpublish</a>
-									</td>
-								</tr>
-							
-								<tr id="evaluation4" class="home_evaluations_row">
-									<td class="t_eval_name1">First Eval</td>
-									<td class="t_eval_status1 centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('The evaluation has started and students can submit feedback until the closing time')">Open</span></td>
-									<td class="t_eval_response1 centeralign">4
-										/ 4</td>
-									<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/coordEvalResults?courseid=CHomeUiT.CS2104&amp;evaluationname=First+Eval" class="t_eval_view4">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/coordEvalEdit?courseid=CHomeUiT.CS2104&amp;evaluationname=First+Eval" class="t_eval_edit4">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CHomeUiT.CS2104','First Eval');" href="/page/coordEvalDelete?courseid=CHomeUiT.CS2104&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FcoordHome" class="t_eval_delete4">Delete</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" onclick="hideddrivetip(); return toggleRemindStudents('First Eval');" href="/page/coordEvalRemind?courseid=CHomeUiT.CS2104&amp;evaluationname=First+Eval" class="t_eval_remind4">Remind</a><a onclick="return false" style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Publish evaluation results for students to view')" href="/page/coordEvalPublish?courseid=CHomeUiT.CS2104&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FcoordHome" class="t_eval_publish4">Publish</a>
 									</td>
 								</tr>
 							

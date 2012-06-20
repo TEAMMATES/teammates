@@ -48,7 +48,7 @@ public class CoordEvalDeleteServlet extends ActionServlet<Helper> {
 		// Process action
 		helper.server.deleteEvaluation(courseID,evalName);
 		helper.statusMessage = Common.MESSAGE_EVALUATION_DELETED;
-		helper.redirectUrl = Common.PAGE_COORD_EVAL;
+		if(helper.redirectUrl==null) helper.redirectUrl = Common.PAGE_COORD_EVAL;
 	}
 
 	@Override

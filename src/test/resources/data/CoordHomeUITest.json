@@ -96,7 +96,7 @@
   },
   
   "evaluations": {
-    "CHomeUiT.CS2104:First Eval": {
+    "First Eval": {
       "course": "CHomeUiT.CS2104",
       "name": "First Eval",
       "instructions": "Please please fill it in",
@@ -108,7 +108,7 @@
       "published": false,
       "activated": true
     },
-    "CHomeUiT.CS2104:Second Eval": {
+    "Second Eval": {
       "course": "CHomeUiT.CS2104",
       "name": "Second Eval",
       "instructions": "Please please fill in the second evaluation",
@@ -120,7 +120,7 @@
       "published": true,
       "activated": true
     },
-    "CHomeUiT.CS1101:Third Eval": {
+    "Third Eval": {
       "course": "CHomeUiT.CS1101",
       "name": "Third Eval",
       "instructions": "Please please fill in the third evaluation",
@@ -132,7 +132,7 @@
       "published": false,
       "activated": true
     },
-    "CHomeUiT.CS1101:Fourth Eval": {
+    "Fourth Eval": {
       "course": "CHomeUiT.CS1101",
       "name": "Fourth Eval",
       "instructions": "Please please fill in the fourth evaluation",
@@ -143,7 +143,7 @@
       "p2pEnabled": true,
       "published": false
     },
-    "CHomeUiT.CS1101:Fifth Eval": {
+    "Fifth Eval": {
       "course": "CHomeUiT.CS1101",
       "name": "Fifth Eval",
       "instructions": "Please please fill in the fifth evaluation",

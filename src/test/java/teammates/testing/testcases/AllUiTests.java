@@ -19,11 +19,11 @@ import org.junit.runners.Suite;
 		
 		CoordHomePageUiTest.class,
 		
-		StudentCourseDetailsPageUiTest.class,
-		StudentEvalEditPageUiTest.class,
-		StudentEvalResultsPageUiTest.class,
-		
-		StudentHomePageUiTest.class
+//		StudentCourseDetailsPageUiTest.class,
+//		StudentEvalEditPageUiTest.class,
+//		StudentEvalResultsPageUiTest.class,
+//		
+//		StudentHomePageUiTest.class
 })
 
 //@formatter:on

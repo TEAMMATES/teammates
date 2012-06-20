@@ -61,8 +61,8 @@ public class CoordEvalEditPageUiTest extends BaseTestCase {
 
 	@Test
 	public void testCoordEvalEditHTML() throws Exception{
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalEditNew.html");
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalEditNew.html");
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalEdit.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalEdit.html");
 	}
 	
 	@Test

@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 
 import teammates.api.Common;
 import teammates.datatransfer.DataBundle;
+import teammates.datatransfer.EvaluationData;
 import teammates.exception.NoAlertAppearException;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BackDoor;
@@ -23,33 +24,20 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static DataBundle scn;
 	
-	private static String appURL = Config.inst().TEAMMATES_URL.replaceAll("/(?=$)","");
+	private static EvaluationData firstEval;
+	private static EvaluationData secondEval;
+	private static EvaluationData thirdEval;
 	
-	/* TODO Test hardcode values?
-	 * Currently we just hardcode the row number of the courses and evaluations
-	 * If later deemed bad, we should change to the searching, although it takes longer
-	 * to code and also longer to run.
-	 */
-	// The course and evaluation numbers: refer to JSON file
-	// In this case First Course is CHomeUiT.CS2104
-	private static int FIRST_COURSE_ROW_NUMBER = 1;
-	@SuppressWarnings("unused")
-	private static int SECOND_COURSE_ROW_NUMBER = 0;
-
-	private static int FIRST_EVAL_ROW_NUMBER = 4;
-	@SuppressWarnings("unused")
-	private static int SECOND_EVAL_ROW_NUMBER = 3;
-	private static int THIRD_EVAL_ROW_NUMBER = 0;
-	@SuppressWarnings("unused")
-	private static int FOURTH_EVAL_ROW_NUMBER = 2;
-	@SuppressWarnings("unused")
-	private static int FIFTH_EVAL_ROW_NUMBER = 1;
+	private static String appURL = Config.inst().TEAMMATES_URL.replaceAll("/(?=$)","");
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader("CoordHomeUITest");
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/CoordHomeUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+		firstEval = scn.evaluations.get("First Eval");
+		secondEval = scn.evaluations.get("Second Eval");
+		thirdEval = scn.evaluations.get("Third Eval");
 		
 		BackDoor.deleteCoordinators(jsonString);
 		System.out.println("Importing test data...");
@@ -71,43 +59,24 @@ public class CoordHomePageUiTest extends BaseTestCase {
 
 	@Test
 	public void testCoordHomePage() throws Exception{
-		testCoordHomeCourseDeleteLink();
-		testCoordHomeEvalDeleteLink();
+		testCoordHomeHTML();
 		testCoordHomeEvalRemindLink();
 		testCoordHomeEvalPublishLink();
-		testCoordHomeCoursePageHTML();
+		testCoordHomeEvalDeleteLink();
+		testCoordHomeCourseDeleteLink();
+		testCoordHomeEmptyHTML();
 	}
-
-	public void testCoordHomeCourseDeleteLink(){
-		printTestCaseHeader("testCoordHomeCourseDeleteLink");
-		
-		By deleteLinkLocator = By.className("t_course_delete"+FIRST_COURSE_ROW_NUMBER);
-//		String link = bi.getElementRelativeHref(deleteLinkLocator);
-//		assertEquals(CoordCourseAddHelper.getCourseDeleteLink(scn.courses.get("CHomeUiT.CS2104").id, Common.PAGE_COORD_HOME),link);
-		try{
-			bi.clickAndCancel(deleteLinkLocator);
-		} catch (NoAlertAppearException e){
-			fail("Delete course button unavailable, or it is available but no confirmation box");
-		}
-	}
-
-	public void testCoordHomeEvalDeleteLink(){
-		printTestCaseHeader("testCoordHomeEvalDeleteLink");
-		
-		By deleteLinkLocator = By.id("deleteEvaluation"+FIRST_EVAL_ROW_NUMBER);
-		
-		try{
-			bi.clickAndCancel(deleteLinkLocator);
-		} catch (NoAlertAppearException e){
-			fail("Delete link is unavailable or it is available but no confirmation box");
-		}
+	
+	public void testCoordHomeHTML() throws Exception{
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordHomeHTML.html");
+		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordHomeHTML.html");
 	}
 
 	public void testCoordHomeEvalRemindLink(){
 		printTestCaseHeader("testCoordHomeEvalRemindLink");
 		
 		// Check the remind link on Open Evaluation: Evaluation 1 at Course 1
-		By remindLinkLocator = By.id("remindEvaluation"+FIRST_EVAL_ROW_NUMBER);
+		By remindLinkLocator = bi.getCoordHomeEvaluationRemindLinkLocator(firstEval.course, firstEval.name);
 		
 		try{
 			bi.clickAndCancel(remindLinkLocator);
@@ -120,7 +89,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		printTestCaseHeader("testCoordHomeEvalPublishLink");
 		
 		// Check the publish link on Closed Evaluation: Evaluation 3 at Course 2
-		By publishLinkLocator = By.id("publishEvaluation"+THIRD_EVAL_ROW_NUMBER);
+		By publishLinkLocator = bi.getCoordHomeEvaluationPublishLinkLocator(thirdEval.course, thirdEval.name);
 		
 		try{
 			bi.clickAndCancel(publishLinkLocator);
@@ -129,23 +98,74 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		}
 		
 		// Check the publish link on Open Evaluation: Evaluation 1 at Course 1
-		publishLinkLocator = By.id("publishEvaluation"+FIRST_EVAL_ROW_NUMBER);
+		publishLinkLocator = bi.getCoordHomeEvaluationPublishLinkLocator(firstEval.course, firstEval.name);
 		try{
 			bi.clickAndCancel(publishLinkLocator);
 			fail("Publish link available on OPEN evaluation");
 		} catch (NoAlertAppearException e){}
+
+		// Check the unpublish link on Published Evaluation: Evaluation 2 at Course 1
+		By unpublishLinkLocator = bi.getCoordHomeEvaluationUnpublishLinkLocator(secondEval.course, secondEval.name);
+		try{
+			bi.clickAndCancel(unpublishLinkLocator);
+		} catch (NoAlertAppearException e){
+			fail("Unpublish link unavailable on PUBLISHED evaluation");
+		}
+	}
+
+	public void testCoordHomeEvalDeleteLink() throws Exception{
+		printTestCaseHeader("testCoordHomeEvalDeleteLink");
+		
+		By deleteLinkLocator = bi.getCoordHomeEvaluationDeleteLinkLocator(firstEval.course, firstEval.name);
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordHomeEvalDeleteInit.html");
+		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordHomeEvalDeleteInit.html");
+		
+		try{
+			bi.clickAndCancel(deleteLinkLocator);
+			bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordHomeEvalDeleteInit.html");
+		} catch (NoAlertAppearException e){
+			fail("Delete link is unavailable or it is available but no confirmation box");
+		}
+		
+		try{
+			bi.clickAndConfirm(deleteLinkLocator);
+//			bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordHomeEvalDeleteSuccessful.html");
+			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordHomeEvalDeleteSuccessful.html");
+		} catch (NoAlertAppearException e){
+			fail("Delete link is unavailable or it is available but no confirmation box");
+		}
+	}
+
+	public void testCoordHomeCourseDeleteLink() throws Exception{
+		printTestCaseHeader("testCoordHomeCourseDeleteLink");
+		
+		By deleteLinkLocator = bi.getCoordHomeCourseDeleteLinkLocator(scn.courses.get("CHomeUiT.CS2104").id);
+		
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordHomeCourseDeleteInit.html");
+		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordHomeCourseDeleteInit.html");
+		
+		try{
+			bi.clickAndCancel(deleteLinkLocator);
+			bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordHomeCourseDeleteInit.html");
+		} catch (NoAlertAppearException e){
+			fail("Delete course button unavailable, or it is available but no confirmation box");
+		}
+		
+		try{
+			bi.clickAndConfirm(deleteLinkLocator);
+//			bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordHomeCourseDeleteSuccessful.html");
+			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordHomeCourseDeleteSuccessful.html");
+		} catch (NoAlertAppearException e){
+			fail("Delete course button unavailable, or it is available but no confirmation box");
+		}
 	}
 	
-	public void testCoordHomeCoursePageHTML() throws Exception{
-		// Regex test due to the tooltip from previous click (it differs based on screen size)
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/CoordHomeHTML.html");
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/CoordHomeHTML.html");
-		
+	public void testCoordHomeEmptyHTML() throws Exception{
 		BackDoor.deleteCourse(scn.courses.get("CHomeUiT.CS2104").id);
 		BackDoor.deleteCourse(scn.courses.get("CHomeUiT.CS1101").id);
 		
 		bi.goToCoordHome();
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/CoordHomeHTMLEmpty.html");
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/CoordHomeHTMLEmpty.html");
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordHomeHTMLEmpty.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordHomeHTMLEmpty.html");
 	}
 }

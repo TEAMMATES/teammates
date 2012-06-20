@@ -39,7 +39,7 @@ public class CoordCourseDeleteServlet extends ActionServlet<Helper> {
 		// Process action
 		helper.server.deleteCourse(courseID);
 		helper.statusMessage = Common.MESSAGE_COURSE_DELETED;
-		helper.redirectUrl = Common.PAGE_COORD_COURSE;
+		if(helper.redirectUrl==null) helper.redirectUrl = Common.PAGE_COORD_COURSE;
 	}
 
 	@Override

@@ -72,15 +72,15 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		ImportTestData.main(new String[]{});
 		bi.goToCourses();
 
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseByIdNew.html");
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseByIdNew.html");
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseById.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseById.html");
 
 		bi.click(bi.coordCourseSortByNameButton);
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseByNameNew.html");
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseByNameNew.html");
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseByName.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseByName.html");
 		
 		bi.click(bi.coordCourseSortByIdButton);
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseByIdNew.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseById.html");
 	}
 
 	public void testCoordCourseAddUiPaths() throws Exception{
