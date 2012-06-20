@@ -22,73 +22,107 @@ public class EvaluationDataTest extends BaseTestCase {
 	@Test
 	public void testCalculateEvalStatus() throws InterruptedException {
 		printTestCaseHeader();
+		double timeZone;
+		int gracePeriod;
+		EvaluationData evaluation = new EvaluationData();
+		int safetyMargin = 1000; // we use this to compensate for test execution
 
 		______TS("in the awaiting period");
 
-		EvaluationData evaluation = new EvaluationData();
-		evaluation.startTime = Common.getMsOffsetToCurrentTime(1000);
+		evaluation.startTime = Common.getMsOffsetToCurrentTime(safetyMargin);
 		evaluation.endTime = Common.getDateOffsetToCurrentTime(1);
-		evaluation.timeZone = 0.0;
-		evaluation.gracePeriod = 0;
+
+		timeZone = 0.0;
+		evaluation.timeZone = timeZone;
+
+		gracePeriod = 0;
+		;
+		evaluation.gracePeriod = gracePeriod;
+
 		evaluation.published = false;
 		assertEquals(EvalStatus.AWAITING, evaluation.getStatus());
 
 		______TS("in the middle of open period");
-		evaluation.startTime = Common.getMsOffsetToCurrentTime(-1);
+
+		evaluation.startTime = Common.getDateOffsetToCurrentTime(-1);
 		assertEquals(EvalStatus.OPEN, evaluation.getStatus());
 
-		______TS("in the grace period");
-		evaluation.endTime = Common.getDateOffsetToCurrentTime(0);
-		evaluation.timeZone = 0.0;
-		evaluation.gracePeriod = 0;
-		Thread.sleep(5);
-		assertEquals(EvalStatus.CLOSED, evaluation.getStatus());
+		______TS("just before grace period expires");
 
-		______TS("just after the grace period");
-
-		// set it us such that grace period just expired
-		int gracePeriod = 5;
-		int safetyMargin = 1000; // we use this to compensate for test execution
-									// time
-		evaluation.endTime = Common
-				.getMsOffsetToCurrentTime(-gracePeriod * 60 * 1000
-						- safetyMargin);
-		evaluation.timeZone = 0.0;
+		gracePeriod = 5;
+		int gracePeriodInMs = gracePeriod * 60 * 1000;
 		evaluation.gracePeriod = gracePeriod;
-		Thread.sleep(5);
+		
+		evaluation.endTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(
+				gracePeriodInMs - safetyMargin, timeZone);
+		
+		timeZone = 0.0;
+		evaluation.timeZone = timeZone;
+		
+		assertEquals(EvalStatus.OPEN, evaluation.getStatus());
+
+		______TS("just after the grace period expired");
+
+		gracePeriod = 5;
+		gracePeriodInMs = gracePeriod * 60 * 1000;
+		evaluation.gracePeriod = gracePeriod;
+		
+		timeZone = 0.0;
+		evaluation.timeZone = timeZone;
+		
+		evaluation.endTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(
+				- gracePeriodInMs - safetyMargin, timeZone);
+		
 		assertEquals(EvalStatus.CLOSED, evaluation.getStatus());
 
 		______TS("already published");
+		
 		evaluation.published = true;
 		assertEquals(EvalStatus.PUBLISHED, evaluation.getStatus());
+		evaluation.published = false;
 
 		______TS("checking for user in different time zone");
 		// do similar testing for +1.0 time zone
-
-		evaluation.published = false;
-		evaluation.timeZone = 1.0;
-		int timeZoneOffsetInMilliSec = 60 * 60 * 1000;
+		
+		timeZone = 1.0;
+		evaluation.timeZone = timeZone;
 
 		// in AWAITING period
-		evaluation.startTime = Common
-				.getMsOffsetToCurrentTime(-timeZoneOffsetInMilliSec + safetyMargin);
+		evaluation.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(
+				safetyMargin, timeZone);
 		evaluation.endTime = Common.getDateOffsetToCurrentTime(1);
 		assertEquals(EvalStatus.AWAITING, evaluation.getStatus());
 
 		// in OPEN period
-		evaluation.startTime = Common
-				.getMsOffsetToCurrentTime(-timeZoneOffsetInMilliSec - safetyMargin);
+		evaluation.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(
+				-safetyMargin, timeZone);
 		assertEquals(EvalStatus.OPEN, evaluation.getStatus());
 
+		//TODO: just before grace period expired
+		
+		gracePeriod = 5;
+		evaluation.gracePeriod = gracePeriod;
+
+		timeZone = 1.0;
+		evaluation.timeZone = timeZone;
+
+		evaluation.startTime = Common.getDateOffsetToCurrentTime(-2);
+		evaluation.endTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(
+				- gracePeriodInMs + safetyMargin, timeZone);
+
+		assertEquals(EvalStatus.OPEN, evaluation.getStatus());
+		
 		// just after grace period
 		gracePeriod = 5;
-
-		evaluation.startTime = Common.getMsOffsetToCurrentTime(-safetyMargin);
-		evaluation.endTime = Common
-				.getMsOffsetToCurrentTime(-timeZoneOffsetInMilliSec
-						- gracePeriod * 60 * 1000 - safetyMargin);
 		evaluation.gracePeriod = gracePeriod;
-		Thread.sleep(5);
+
+		timeZone = 1.0;
+		evaluation.timeZone = timeZone;
+
+		evaluation.startTime = Common.getDateOffsetToCurrentTime(-2);
+		evaluation.endTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(
+				- gracePeriodInMs - safetyMargin, timeZone);
+
 		assertEquals(EvalStatus.CLOSED, evaluation.getStatus());
 
 		// already PUBLISHED

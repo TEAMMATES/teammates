@@ -63,20 +63,18 @@ public class EvaluationsTest extends BaseTestCase{
 		//reuse an existing evaluation to create a new one
 		EvaluationData evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
 		evaluation.activated = false;
+		evaluation.timeZone = 0.0;
 		evaluation.name = "new evaluation";
-		evaluation.startTime = Common.getDateOffsetToCurrentTime(0);
-		assertEquals(EvalStatus.AWAITING,evaluation.getStatus());
+		evaluation.startTime = Common.getMsOffsetToCurrentTime(0);
 		backdoor.createEvaluation(evaluation);
 		assertEquals(1, Evaluations.inst().setEvaluationsAsActivated().size());
 		//TODO: more testing
 	}
 	
 	@Test
-	@Ignore //still failing, in the middle of testing this
 	public void testGetReadyEvaluations() throws Exception {
 		
 		______TS("no evaluations activated");
-		assertEquals(0, Evaluations.inst().getReadyEvaluations().size());
 		//ensure there are no existing evaluations ready for activation
 		restoreTypicalDataInDatastore();
 		DataBundle dataBundle = getTypicalDataBundle();
@@ -93,12 +91,17 @@ public class EvaluationsTest extends BaseTestCase{
 		//  activate. Put this evaluation in a negative time zone.
 		EvaluationData evaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
-		evaluation.activated = false;
 		String nameOfEvalInCourse1 = "new-evaluation-in-course-1";
 		evaluation.name = nameOfEvalInCourse1;
-		int oneHourInMilliSeconds = 60*60*1000;
-		evaluation.startTime = Common.getMsOffsetToCurrentTime(-1*oneHourInMilliSeconds);
-		evaluation.timeZone = -1.0; 
+		
+		evaluation.activated = false;
+		
+		double timeZone = -1.0;
+		evaluation.timeZone = timeZone; 
+
+		evaluation.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(0, timeZone);
+		evaluation.endTime = Common.getDateOffsetToCurrentTime(2);
+		
 		backdoor.createEvaluation(evaluation);
 
 		// Verify that there are no unregistered students.
@@ -114,8 +117,13 @@ public class EvaluationsTest extends BaseTestCase{
 		evaluation.activated = false;
 		String nameOfEvalInCourse2 = "new-evaluation-in-course-2";
 		evaluation.name = nameOfEvalInCourse2;
-		evaluation.startTime = Common.getMsOffsetToCurrentTime(2*oneHourInMilliSeconds+10000);
-		evaluation.timeZone = 2.0;
+		
+		timeZone = 2.0;
+		evaluation.timeZone = timeZone;
+		
+		evaluation.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(0, timeZone);
+		evaluation.endTime = Common.getDateOffsetToCurrentTime(2);
+		
 		backdoor.createEvaluation(evaluation);
 
 		// Verify that there are no unregistered students
@@ -129,8 +137,13 @@ public class EvaluationsTest extends BaseTestCase{
 		evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord2");
 		evaluation.activated = false;
 		evaluation.name = "new evaluation - start time in future";
-		evaluation.timeZone = 0;
-		evaluation.startTime = Common.getMsOffsetToCurrentTime(1000);
+		
+		
+		timeZone = 0.0;
+		evaluation.timeZone = timeZone;
+		
+		int oneSecondInMs = 1000;
+		evaluation.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(oneSecondInMs, timeZone);
 		backdoor.createEvaluation(evaluation);
 
 		//verify number of ready evaluations.

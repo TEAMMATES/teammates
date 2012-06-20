@@ -62,7 +62,6 @@ public class EvaluationActivationServletTest extends BaseTestCase {
 	}
 
 	@Test
-	@Ignore //to be fixed
 	public void testActivateReadyEvaluations() throws Exception {
 		// ensure no emails in the queue
 		assertEquals(0, getNumberOfEmailTasksInQueue());

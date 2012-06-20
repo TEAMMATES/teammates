@@ -1,18 +1,15 @@
 package teammates.testing.testcases;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import teammates.Datastore;
 import teammates.api.Common;
 import teammates.api.InvalidParametersException;
-import teammates.manager.Evaluations;
 import teammates.persistent.Evaluation;
 
 public class EvaluationTest extends BaseTestCase {

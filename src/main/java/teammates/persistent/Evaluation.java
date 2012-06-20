@@ -203,7 +203,7 @@ public class Evaluation {
 	}
 
 	public static Calendar convertToUserTimeZone(Calendar time, double timeZone) {
-		time.add(Calendar.MILLISECOND, (int) (-60 * 60 * 1000 * timeZone));
+		time.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
 		return time; // for chaining
 	}
 	

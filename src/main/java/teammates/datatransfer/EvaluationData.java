@@ -61,30 +61,27 @@ public class EvaluationData {
 	public EvalStatus getStatus() {
 		Calendar now = Calendar.getInstance();
 		Evaluation.convertToUserTimeZone(now, timeZone);
-		long nowInMilliSec = now.getTimeInMillis();
 
 		Calendar start = Calendar.getInstance();
 		start.setTime(startTime);
-		long startInMilliSec = start.getTimeInMillis();
 
 		Calendar end = Calendar.getInstance();
 		end.setTime(endTime);
-		end.add(Calendar.MILLISECOND, gracePeriod * 60 * 1000);
-		long endInMilliSec = end.getTimeInMillis();
+		end.add(Calendar.MINUTE, gracePeriod);
 
-		log.finer(Common.EOL + "Now  : " + Common.calendarToString(now)
+		log.fine(Common.EOL + "Now  : " + Common.calendarToString(now)
 				+ Common.EOL + "Start: " + Common.calendarToString(start)
 				+ Common.EOL + "End  : " + Common.calendarToString(end));
 
 		if (published) {
 			return EvalStatus.PUBLISHED;
-		} else if ((startInMilliSec <= nowInMilliSec)
-				&& (nowInMilliSec <= endInMilliSec)) {
-			return EvalStatus.OPEN;
-		} else if (nowInMilliSec > endInMilliSec) {
+		} else if (now.after(end)){
 			return EvalStatus.CLOSED;
+		} else if (now.after(start)){
+			return EvalStatus.OPEN;
+		} else {
+			return EvalStatus.AWAITING;
 		}
-		return EvalStatus.AWAITING;
 	}
 
 
