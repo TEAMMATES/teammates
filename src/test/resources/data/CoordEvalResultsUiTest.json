@@ -8,9 +8,9 @@
   },
   
   "courses": {
-    "CEvalUiT.CS1101": {
+    "CEvalRUiT.CS1101": {
       "coord": "teammates.demo.coord",
-      "id": "CEvalUiT.CS1101",
+      "id": "CEvalRUiT.CS1101",
       "name": "Programming Methodology"
     }
   },
@@ -19,53 +19,53 @@
     "alice.b.tmms@CS1101": {
       "id": "alice.b.tmms",
       "email": "alice.b.tmms@gmail.com",
-      "course": "CEvalUiT.CS1101",
+      "course": "CEvalRUiT.CS1101",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
-      "profile": {"value": "My name is Alice Betsy, and I'm a student in CS1101"},
+      "profile": {"value": "My name is Alice Betsy, and I'm a student in CEvalRUiT.CS1101"},
       "team": "Team 1"
     },
-    "benny.c.tmms@CEvalUiT.CS1101": {
+    "benny.c.tmms@CEvalRUiT.CS1101": {
       "id": "benny.c.tmms",
       "email": "benny.c.tmms@gmail.com",
-      "course": "CEvalUiT.CS1101",
+      "course": "CEvalRUiT.CS1101",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "profile": {"value": "My name is Benny Charles, and I'm a student in CEvalUiT.CS1101"},
+      "profile": {"value": "My name is Benny Charles, and I'm a student in CEvalRUiT.CS1101"},
       "team": "Team 1"
     },
-    "charlie.d.tmms@CEvalUiT.CS1101": {
+    "charlie.d.tmms@CEvalRUiT.CS1101": {
       "id": "charlie.d.tmms",
       "email": "charlie.d.tmms@gmail.com",
-      "course": "CEvalUiT.CS1101",
+      "course": "CEvalRUiT.CS1101",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "profile": {"value": "My name is Charlie Davis, and I'm a student in CEvalUiT.CS1101"},
+      "profile": {"value": "My name is Charlie Davis, and I'm a student in CEvalRUiT.CS1101"},
       "team": "Team 2"
     },
-    "danny.e.tmms@CEvalUiT.CS1101": {
+    "danny.e.tmms@CEvalRUiT.CS1101": {
       "id": "danny.e.tmms",
       "email": "danny.e.tmms@gmail.com",
-      "course": "CEvalUiT.CS1101",
+      "course": "CEvalRUiT.CS1101",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "profile": {"value": "My name is Danny Engrid, and I'm a student in CEvalUiT.CS1101"},
+      "profile": {"value": "My name is Danny Engrid, and I'm a student in CEvalRUiT.CS1101"},
       "team": "Team 2"
     },
-    "emily.tmms@CEvalUiT.CS1101": {
+    "emily.tmms@CEvalRUiT.CS1101": {
       "id": "emily.tmms",
       "email": "emily.tmms@gmail.com",
-      "course": "CEvalUiT.CS1101",
+      "course": "CEvalRUiT.CS1101",
       "name": "Emily",
       "comments": "This student's name is Emily",
-      "profile": {"value": "My name is Emily, and I'm a student in CEvalUiT.CS1101"},
+      "profile": {"value": "My name is Emily, and I'm a student in CEvalRUiT.CS1101"},
       "team": "Team 2"
     }
   },
   
   "evaluations": {
     "First Eval": {
-      "course": "CEvalUiT.CS1101",
+      "course": "CEvalRUiT.CS1101",
       "name": "First Eval",
       "instructions": "Please please fill it in",
       "startTime": "2012-04-01 11:59 PM",
@@ -77,7 +77,7 @@
       "activated": true
     },
     "Second Eval": {
-      "course": "CEvalUiT.CS1101",
+      "course": "CEvalRUiT.CS1101",
       "name": "Second Eval",
       "instructions": "Please please fill in the second evaluation",
       "startTime": "2012-04-01 11:59 PM",
@@ -89,7 +89,7 @@
       "activated": true
     },
     "Third Eval": {
-      "course": "CEvalUiT.CS1101",
+      "course": "CEvalRUiT.CS1101",
       "name": "Third Eval",
       "instructions": "Please please fill in the third evaluation",
       "startTime": "2012-04-01 11:59 PM",
@@ -101,7 +101,7 @@
       "activated": true
     },
     "Fourth Eval": {
-      "course": "CEvalUiT.CS1101",
+      "course": "CEvalRUiT.CS1101",
       "name": "Fourth Eval",
       "instructions": "Please please fill in the fourth evaluation",
       "startTime": "2015-04-01 11:59 PM",
@@ -117,7 +117,7 @@
     "submissionFromAliceToAliceFirstEval": {
       "reviewer" : "alice.b.tmms@gmail.com",
       "reviewee" : "alice.b.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "First Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from alice.b.tmms@gmail.com to alice.b.tmms@gmail.com"},
@@ -127,7 +127,7 @@
     "submissionFromAliceToBennyFirstEval": {
       "reviewer" : "alice.b.tmms@gmail.com",
       "reviewee" : "benny.c.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "First Eval",
       "points" : 110,
       "justification" : {"value" : "This is a justification from alice.b.tmms@gmail.com to benny.c.tmms@gmail.com"},
@@ -137,7 +137,7 @@
     "submissionFromBennyToBennyFirstEval": {
       "reviewer" : "benny.c.tmms@gmail.com",
       "reviewee" : "benny.c.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "First Eval",
       "points" : 110,
       "justification" : {"value" : "This is a justification from benny.c.tmms@gmail.com to benny.c.tmms@gmail.com"},
@@ -147,7 +147,7 @@
     "submissionFromBennyToAliceFirstEval": {
       "reviewer" : "benny.c.tmms@gmail.com",
       "reviewee" : "alice.b.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "First Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from benny.c.tmms@gmail.com to alice.b.tmms@gmail.com"},
@@ -157,7 +157,7 @@
     "submissionFromCharlieToCharlieFirstEval": {
       "reviewer" : "charlie.d.tmms@gmail.com",
       "reviewee" : "charlie.d.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "First Eval",
       "points" : 110,
       "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to charlie.d.tmms@gmail.com"},
@@ -167,7 +167,7 @@
     "submissionFromCharlieToDannyFirstEval": {
       "reviewer" : "charlie.d.tmms@gmail.com",
       "reviewee" : "danny.e.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "First Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com"},
@@ -177,7 +177,7 @@
     "submissionFromCharlieToEmilyFirstEval": {
       "reviewer" : "charlie.d.tmms@gmail.com",
       "reviewee" : "emily.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "First Eval",
       "points" : 110,
       "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to emily.tmms@gmail.com"},
@@ -187,7 +187,7 @@
     "submissionFromDannyToDannyFirstEval": {
       "reviewer" : "danny.e.tmms@gmail.com",
       "reviewee" : "danny.e.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "First Eval",
       "points" : 110,
       "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to danny.e.tmms@gmail.com"},
@@ -197,7 +197,7 @@
     "submissionFromDannyToCharlieFirstEval": {
       "reviewer" : "danny.e.tmms@gmail.com",
       "reviewee" : "charlie.d.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "First Eval",
       "points" : 90,
       "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com"},
@@ -207,7 +207,7 @@
     "submissionFromDannyToEmilyFirstEval": {
       "reviewer" : "danny.e.tmms@gmail.com",
       "reviewee" : "emily.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "First Eval",
       "points" : -101,
       "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to emily.tmms@gmail.com"},
@@ -217,7 +217,7 @@
     "submissionFromEmilyToEmilyFirstEval": {
       "reviewer" : "emily.tmms@gmail.com",
       "reviewee" : "emily.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "First Eval",
       "points" : 110,
       "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to emily.tmms@gmail.com"},
@@ -227,7 +227,7 @@
     "submissionFromEmilyToCharlieFirstEval": {
       "reviewer" : "emily.tmms@gmail.com",
       "reviewee" : "charlie.d.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "First Eval",
       "points" : 90,
       "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to charlie.d.tmms@gmail.com"},
@@ -237,7 +237,7 @@
     "submissionFromEmilyToDannyFirstEval": {
       "reviewer" : "emily.tmms@gmail.com",
       "reviewee" : "danny.e.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "First Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to danny.e.tmms@gmail.com"},
@@ -247,7 +247,7 @@
     "submissionFromBennyToBennySecondEval": {
       "reviewer" : "benny.c.tmms@gmail.com",
       "reviewee" : "benny.c.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Second Eval",
       "points" : -101,
       "justification" : {"value" : "This is a justification from benny.c.tmms@gmail.com to benny.c.tmms@gmail.com"},
@@ -257,7 +257,7 @@
     "submissionFromBennyToAliceSecondEval": {
       "reviewer" : "benny.c.tmms@gmail.com",
       "reviewee" : "alice.b.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Second Eval",
       "points" : 150,
       "justification" : {"value" : "This is a justification from benny.c.tmms@gmail.com to alice.b.tmms@gmail.com"},
@@ -267,7 +267,7 @@
     "submissionFromCharlieToCharlieSecondEval": {
       "reviewer" : "charlie.d.tmms@gmail.com",
       "reviewee" : "charlie.d.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Second Eval",
       "points" : 200,
       "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to charlie.d.tmms@gmail.com"},
@@ -277,7 +277,7 @@
     "submissionFromCharlieToDannySecondEval": {
       "reviewer" : "charlie.d.tmms@gmail.com",
       "reviewee" : "danny.e.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Second Eval",
       "points" : 0,
       "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com"},
@@ -287,7 +287,7 @@
     "submissionFromCharlieToEmilySecondEval": {
       "reviewer" : "charlie.d.tmms@gmail.com",
       "reviewee" : "emily.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Second Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to emily.tmms@gmail.com"},
@@ -297,7 +297,7 @@
     "submissionFromDannyToDannySecondEval": {
       "reviewer" : "danny.e.tmms@gmail.com",
       "reviewee" : "danny.e.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Second Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to danny.e.tmms@gmail.com"},
@@ -307,7 +307,7 @@
     "submissionFromDannyToCharlieSecondEval": {
       "reviewer" : "danny.e.tmms@gmail.com",
       "reviewee" : "charlie.d.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Second Eval",
       "points" : 110,
       "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com"},
@@ -317,7 +317,7 @@
     "submissionFromDannyToEmilySecondEval": {
       "reviewer" : "danny.e.tmms@gmail.com",
       "reviewee" : "emily.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Second Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to emily.tmms@gmail.com"},
@@ -327,7 +327,7 @@
     "submissionFromEmilyToEmilySecondEval": {
       "reviewer" : "emily.tmms@gmail.com",
       "reviewee" : "emily.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Second Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to emily.tmms@gmail.com"},
@@ -337,7 +337,7 @@
     "submissionFromEmilyToCharlieSecondEval": {
       "reviewer" : "emily.tmms@gmail.com",
       "reviewee" : "charlie.d.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Second Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to charlie.d.tmms@gmail.com"},
@@ -347,7 +347,7 @@
     "submissionFromEmilyToDannySecondEval": {
       "reviewer" : "emily.tmms@gmail.com",
       "reviewee" : "danny.e.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Second Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to danny.e.tmms@gmail.com"},
@@ -357,9 +357,9 @@
     "submissionFromAliceToAliceThirdEval": {
       "reviewer" : "alice.b.tmms@gmail.com",
       "reviewee" : "alice.b.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Third Eval",
-      "points" : 100,
+      "points" : 120,
       "justification" : {"value" : "This is a justification from alice.b.tmms@gmail.com to alice.b.tmms@gmail.com"},
       "p2pFeedback" : {"value" :"This is a public comment from alice.b.tmms@gmail.com to alice.b.tmms@gmail.com"},
       "team" : "Team 1"
@@ -367,9 +367,9 @@
     "submissionFromAliceToBennyThirdEval": {
       "reviewer" : "alice.b.tmms@gmail.com",
       "reviewee" : "benny.c.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Third Eval",
-      "points" : 100,
+      "points" : 80,
       "justification" : {"value" : "This is a justification from alice.b.tmms@gmail.com to benny.c.tmms@gmail.com"},
       "p2pFeedback" : {"value" :"This is a public comment from alice.b.tmms@gmail.com to benny.c.tmms@gmail.com"},
       "team" : "Team 1"
@@ -377,9 +377,9 @@
     "submissionFromBennyToBennyThirdEval": {
       "reviewer" : "benny.c.tmms@gmail.com",
       "reviewee" : "benny.c.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Third Eval",
-      "points" : 100,
+      "points" : 90,
       "justification" : {"value" : "This is a justification from benny.c.tmms@gmail.com to benny.c.tmms@gmail.com"},
       "p2pFeedback" : {"value" :"This is a public comment from benny.c.tmms@gmail.com to benny.c.tmms@gmail.com"},
       "team" : "Team 1"
@@ -387,9 +387,9 @@
     "submissionFromBennyToAliceThirdEval": {
       "reviewer" : "benny.c.tmms@gmail.com",
       "reviewee" : "alice.b.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Third Eval",
-      "points" : 100,
+      "points" : 110,
       "justification" : {"value" : "This is a justification from benny.c.tmms@gmail.com to alice.b.tmms@gmail.com"},
       "p2pFeedback" : {"value" :"This is a public comment from benny.c.tmms@gmail.com to alice.b.tmms@gmail.com"},
       "team" : "Team 1"
@@ -397,7 +397,7 @@
     "submissionFromCharlieToCharlieThirdEval": {
       "reviewer" : "charlie.d.tmms@gmail.com",
       "reviewee" : "charlie.d.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Third Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to charlie.d.tmms@gmail.com"},
@@ -407,7 +407,7 @@
     "submissionFromCharlieToDannyThirdEval": {
       "reviewer" : "charlie.d.tmms@gmail.com",
       "reviewee" : "danny.e.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Third Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com"},
@@ -417,7 +417,7 @@
     "submissionFromCharlieToEmilyThirdEval": {
       "reviewer" : "charlie.d.tmms@gmail.com",
       "reviewee" : "emily.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Third Eval",
       "points" : 110,
       "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to emily.tmms@gmail.com"},
@@ -427,7 +427,7 @@
     "submissionFromDannyToDannyThirdEval": {
       "reviewer" : "danny.e.tmms@gmail.com",
       "reviewee" : "danny.e.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Third Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to danny.e.tmms@gmail.com"},
@@ -437,7 +437,7 @@
     "submissionFromDannyToCharlieThirdEval": {
       "reviewer" : "danny.e.tmms@gmail.com",
       "reviewee" : "charlie.d.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Third Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com"},
@@ -447,7 +447,7 @@
     "submissionFromDannyToEmilyThirdEval": {
       "reviewer" : "danny.e.tmms@gmail.com",
       "reviewee" : "emily.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Third Eval",
       "points" : 110,
       "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to emily.tmms@gmail.com"},
@@ -457,7 +457,7 @@
     "submissionFromEmilyToEmilyThirdEval": {
       "reviewer" : "emily.tmms@gmail.com",
       "reviewee" : "emily.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Third Eval",
       "points" : 110,
       "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to emily.tmms@gmail.com"},
@@ -467,7 +467,7 @@
     "submissionFromEmilyToCharlieThirdEval": {
       "reviewer" : "emily.tmms@gmail.com",
       "reviewee" : "charlie.d.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Third Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to charlie.d.tmms@gmail.com"},
@@ -477,7 +477,7 @@
     "submissionFromEmilyToDannyThirdEval": {
       "reviewer" : "emily.tmms@gmail.com",
       "reviewee" : "danny.e.tmms@gmail.com",
-      "course" : "CEvalUiT.CS1101",
+      "course" : "CEvalRUiT.CS1101",
       "evaluation" : "Third Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to danny.e.tmms@gmail.com"},

@@ -5,6 +5,7 @@
 	<script>
 		opener.setStatusMessage("<%= request.getParameter(Common.PARAM_STATUS_MESSAGE) %>",<%= request.getParameter(Common.PARAM_ERROR) %>);
 		top.close();
+		opener.scrollToTop();
 	</script>
 </head>
 </html>

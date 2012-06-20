@@ -1,10 +1,15 @@
 package teammates.testing.testcases;
 
+import static org.junit.Assert.fail;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openqa.selenium.By;
+
 import teammates.api.Common;
 import teammates.datatransfer.DataBundle;
+import teammates.exception.NoAlertAppearException;
 import teammates.jsp.Helper;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BackDoor;
@@ -12,7 +17,7 @@ import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 
 /**
- * Tests coordEval.jsp from UI functionality and HTML test
+ * Tests coordEvalResults.jsp from UI functionality and HTML test
  * @author Aldrian Obaja
  *
  */
@@ -36,8 +41,8 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 		System.out.println("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
 
 		bi = BrowserInstancePool.getBrowserInstance();
-		
-		bi.loginCoord(scn.coords.get("teammates.demo.coord").id, Config.inst().TEAMMATES_APP_PASSWORD);
+
+		bi.loginAdmin(Config.inst().TEAMMATES_ADMIN_ACCOUNT, Config.inst().TEAMMATES_ADMIN_PASSWORD);
 	}
 	
 	@AfterClass
@@ -47,43 +52,78 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testCoordEvalResultsPage() throws Exception{
-		testCoordEvalResultsHTML();
-		testCoordEvalResultsUiPaths();
-		testCoordEvalResultsLinks();
-	}
-
-	public void testCoordEvalResultsHTML() throws Exception{
-		String link = Common.PAGE_COORD_EVAL_RESULTS;
-		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalUiT.CS1101").id);
+	public void testCoordEvalResultsOpenEval() throws Exception{
+		// Open Evaluation //
+		String link = appUrl+Common.PAGE_COORD_EVAL_RESULTS;
+		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
 		link = Helper.addParam(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("First Eval").name);
-		bi.goToUrl(appUrl+link);
+		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.demo.coord").id);
+		bi.goToUrl(link);
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalResultsOpenEval.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsOpenEval.html");
-
-		link = Common.PAGE_COORD_EVAL_RESULTS;
-		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalUiT.CS1101").id);
+		
+		// Check detailed view by reviewer
+		bi.getSelenium().check("id=radio_reviewer");
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalResultsOpenEvalByReviewer.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsOpenEvalByReviewer.html");
+		
+		// Check detailed view by reviewee
+		bi.getSelenium().check("id=radio_reviewee");
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalResultsOpenEvalByReviewee.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsOpenEvalByReviewee.html");
+	}
+	
+	@Test
+	public void testCoordEvalResultsPublishedEval() throws Exception{
+		// Published Evaluation //
+		String link = appUrl + Common.PAGE_COORD_EVAL_RESULTS;
+		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
 		link = Helper.addParam(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("Second Eval").name);
-		bi.goToUrl(appUrl+link);
+		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.demo.coord").id);
+		bi.goToUrl(link);
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalResultsPublishedEval.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsPublishedEval.html");
-		
-		link = Common.PAGE_COORD_EVAL_RESULTS;
-		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalUiT.CS1101").id);
+
+		// Check unpublish button
+		By unpublishButton = By.id("button_unpublish");
+		try{
+			bi.clickAndCancel(unpublishButton);
+			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsPublishedEval.html");
+		} catch (NoAlertAppearException e){
+			fail("No confirmation box when clicking unpublish button");
+		}
+		try{
+			bi.clickAndConfirm(unpublishButton);
+			bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_UNPUBLISHED);
+		} catch (NoAlertAppearException e){
+			fail("No confirmation box when clicking unpublish button");
+		}
+	}
+	
+	@Test
+	public void testCoordEvalResultsClosedEval() throws Exception{
+		// Closed Evaluation //
+		String link = appUrl + Common.PAGE_COORD_EVAL_RESULTS;
+		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
 		link = Helper.addParam(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("Third Eval").name);
-		bi.goToUrl(appUrl+link);
+		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.demo.coord").id);
+		bi.goToUrl(link);
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalResultsClosedEval.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsClosedEval.html");
-		
-	}
 
-	// TODO: Finish Evaluation Results UI Path test
-	public void testCoordEvalResultsUiPaths() throws Exception{
-		
-	}
-
-	// TODO: Finish Evaluation Results Links test
-	public void testCoordEvalResultsLinks() throws Exception{
-		
+		// Check publish button
+		By publishButton = By.id("button_publish");
+		try{
+			bi.clickAndCancel(publishButton);
+			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsClosedEval.html");
+		} catch (NoAlertAppearException e){
+			fail("No confirmation box when clicking publish button");
+		}
+		try{
+			bi.clickAndConfirm(publishButton);
+			bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_PUBLISHED);
+		} catch (NoAlertAppearException e){
+			fail("No confirmation box when clicking publish button");
+		}
 	}
 }

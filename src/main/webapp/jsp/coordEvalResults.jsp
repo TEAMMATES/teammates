@@ -86,7 +86,7 @@
 							} else if (CoordEvalResultsHelper.getCoordStatusForEval(helper.evaluation).equals(Common.EVALUATION_STATUS_PUBLISHED)) {
 						%>
 							<input type="button" class="button"
-								id = "button_publish"
+								id = "button_unpublish"
 								value = "Unpublish"
 								onclick = "if(toggleUnpublishEvaluation('<%= helper.evaluation.name %>')) window.location.href='<%= helper.getCoordEvaluationUnpublishLink(helper.evaluation.course,helper.evaluation.name,false) %>';" />
 						<%

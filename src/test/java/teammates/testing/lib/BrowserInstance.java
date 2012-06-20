@@ -2306,8 +2306,8 @@ public class BrowserInstance {
 		Message messages[] = inbox.search(ft);
 		System.out.println(messages.length + " unread message");
 
-		// Loop over all of the messages
-		for (int i = messages.length - 1; i >= 0; i--) {
+		// Loop over the last 5 messages
+		for (int i = messages.length - 1; i >= messages.length-5; i--) {
 			Message message = messages[i];
 			System.out.println(message.getSubject());
 
