@@ -488,7 +488,7 @@ public class Helper {
 		result.append(
 			"<a class=\"t_eval_remind" + position + "\" " +
 			"href=\"" + getCoordEvaluationRemindLink(eval.course,eval.name) + "\" " +
-			"onclick=\"hideddrivetip(); return toggleRemindStudents('" + eval.name + "');\" " +
+			(hasRemind ? "onclick=\"hideddrivetip(); return toggleRemindStudents('" + eval.name + "');\" " : "") +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_REMIND+"')\" " +
 			"onmouseout=\"hideddrivetip()\"" + (hasRemind ? "" : DISABLED) + ">Remind</a>"
 		);
@@ -504,7 +504,7 @@ public class Helper {
 			result.append(
 				"<a class=\"t_eval_publish" + position + "\" " +
 				"href=\"" + getCoordEvaluationPublishLink(eval.course,eval.name,isHome) + "\" " +
-				"onclick=\"hideddrivetip(); return togglePublishEvaluation('" + eval.name + "');\" " +
+				(hasPublish ? "onclick=\"hideddrivetip(); return togglePublishEvaluation('" + eval.name + "');\" " : "") +
 				"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_PUBLISH+"')\" " +
 				"onmouseout=\"hideddrivetip()\"" + (hasPublish ? "" : DISABLED) + ">Publish</a>"
 			);

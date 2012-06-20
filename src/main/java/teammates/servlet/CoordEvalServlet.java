@@ -93,6 +93,7 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 			if(isSubmit){
 				helper.server.createEvaluation(newEval);
 				helper.statusMessage = Common.MESSAGE_EVALUATION_ADDED;
+				helper.submittedEval = null;
 			}
 		} catch (EntityAlreadyExistsException e) {
 			helper.statusMessage = Common.MESSAGE_EVALUATION_EXISTS;

@@ -36,13 +36,13 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="/page/coordHome?user=teammates.demo.coord" class="t_home">Home</a></li>
-					<li><a href="/page/coordCourse?user=teammates.demo.coord" class="t_courses">Courses</a></li>
+					<li><a href="/page/coordHome?user=teammates.test" class="t_home">Home</a></li>
+					<li><a href="/page/coordCourse?user=teammates.test" class="t_courses">Courses</a></li>
 					<!-- <li><a class='t_teamForming' href="/page/coordTFS">Team-Forming</a></li> -->
-					<li><a href="/page/coordEval?user=teammates.demo.coord" class="t_evaluations">Evaluations</a></li>
+					<li><a href="/page/coordEval?user=teammates.test" class="t_evaluations">Evaluations</a></li>
 					<li><a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/coordinatorhelp.html" class="t_help">Help</a></li>
 					<li><a href="/logout.jsp" class="t_logout">Logout</a>
-					 (teammates.demo.coord)</li>
+					 (teammates.test)</li>
 				</ul>
 			</div>
 		</div>
@@ -60,11 +60,12 @@
 						<tbody><tr>
 							<td class="attribute">Course ID:</td>
 							<td><select tabindex="1" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the course for which the evaluation is to be created.')" id="courseid" name="courseid" style="width: 260px;">
-								<option value="CEvEditUiTest.CS1101">CEvEditUiTest.CS1101</option>
+								<option value="CEvalUiT.CS1101">CEvalUiT.CS1101</option>
+<option value="CEvalUiT.CS2104">CEvalUiT.CS2104</option>
 
 								</select></td>
 							<td class="attribute">Opening time:</td>
-							<td><input type="text" tabindex="3" readonly="readonly" value="20/06/2012" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the start date for the evaluation.')" onclick="cal.select(this,'start','dd/MM/yyyy')" id="start" name="start" style="width: 100px;" />
+							<td><input type="text" tabindex="3" readonly="readonly" value="{*}" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the start date for the evaluation.')" onclick="cal.select(this,'start','dd/MM/yyyy')" id="start" name="start" style="width: 100px;" />
 										@
 								<select tabindex="4" id="starttime" name="starttime" style="width: 70px;">
 									<option value="1">0100H</option>
@@ -209,7 +210,7 @@
 
 
 	<div style="display:block;" id="statusMessage">
-		The evaluation has been edited.</div>
+		You have not created any evaluations yet. Use the form above to create a new evaluation.</div>
 
 			<div id="coordinatorEvaluationTable">
 				<table id="dataform">
@@ -223,19 +224,20 @@
 						<th class="centeralign">Action(s)</th>
 					</tr>
 					
-								<tr id="evaluation0" class="evaluations_row">
-									<td class="t_eval_coursecode">CEvEditUiTest.CS1101</td>
-									<td class="t_eval_name">Testing Evaluation</td>
-									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation is created but has not yet started')">Awaiting</span></td>
-									<td class="t_eval_response centeralign">0
-										/ 0</td>
-									<td class="centeralign"><a onclick="return false" style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/coordEvalResults?courseid=CEvEditUiTest.CS1101&amp;evaluationname=Testing+Evaluation&amp;user=teammates.demo.coord" class="t_eval_view0">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/coordEvalEdit?courseid=CEvEditUiTest.CS1101&amp;evaluationname=Testing+Evaluation&amp;user=teammates.demo.coord" class="t_eval_edit0">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CEvEditUiTest.CS1101','Testing Evaluation');" href="/page/coordEvalDelete?courseid=CEvEditUiTest.CS1101&amp;evaluationname=Testing+Evaluation&amp;next=%2Fpage%2FcoordEval%3Fuser%3Dteammates.demo.coord&amp;user=teammates.demo.coord" class="t_eval_delete0">Delete</a><a style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" onclick="hideddrivetip(); return toggleRemindStudents('Testing Evaluation');" href="/page/coordEvalRemind?courseid=CEvEditUiTest.CS1101&amp;evaluationname=Testing+Evaluation&amp;user=teammates.demo.coord" class="t_eval_remind0">Remind</a><a style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Publish evaluation results for students to view')" onclick="hideddrivetip(); return togglePublishEvaluation('Testing Evaluation');" href="/page/coordEvalPublish?courseid=CEvEditUiTest.CS1101&amp;evaluationname=Testing+Evaluation&amp;next=%2Fpage%2FcoordEval%3Fuser%3Dteammates.demo.coord&amp;user=teammates.demo.coord" class="t_eval_publish0">Publish</a>
-									</td>
-								</tr>
-							
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
 					
 				</tbody></table>
 				<br /><br /><br />
+				
+					No records found.<br />
+					<br />
+					<br />
 				
 				<br />
 			</div>

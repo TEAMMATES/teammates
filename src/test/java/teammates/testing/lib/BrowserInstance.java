@@ -179,7 +179,7 @@ public class BrowserInstance {
 	}
 	public By getCoordEvaluationViewResultsLinkLocator(int rowID) { return By.className("t_eval_view" + rowID); }
 	public By getCoordEvaluationEditLinkLocator(int rowID) { return By.className("t_eval_edit" + rowID); }
-	public By getCoordEvaluationDeleteLinkLocator(int rowID) { return By.className("t_eval_edit" + rowID); }
+	public By getCoordEvaluationDeleteLinkLocator(int rowID) { return By.className("t_eval_delete" + rowID); }
 	public By getCoordEvaluationRemindLinkLocator(int rowID) { return By.className("t_eval_remind" + rowID); }
 	public By getCoordEvaluationPublishLinkLocator(int rowID) { return By.className("t_eval_publish" + rowID); }
 	public By getCoordEvaluationUnpublishLinkLocator(int rowID) { return By.className("t_eval_unpublish" + rowID); }

@@ -70,8 +70,7 @@ public class CoordEvalEditPageUiTest extends BaseTestCase {
 		bi.editEvaluation(ts.newEvaluation.startTime, ts.newEvaluation.endTime, ts.newEvaluation.p2pEnabled, ts.newEvaluation.instructions, ts.newEvaluation.gracePeriod);
 		
 		// Verify status message
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalEditSuccess.html");
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalEditSuccess.html");
+		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_EDITED);
 		
 		// Verify data
 		String json = BackDoor.getEvaluationAsJason(ts.newEvaluation.course, ts.newEvaluation.name);

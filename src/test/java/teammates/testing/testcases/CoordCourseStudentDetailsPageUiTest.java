@@ -97,8 +97,7 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 		bi.click(bi.coordCourseDetailsStudentEditSaveButton);
 		
 		// Verify status message
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseStudentEditSaved.html");
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseStudentEditSaved.html");
+		bi.waitForStatusMessage(Common.MESSAGE_STUDENT_EDITED);
 		
 		// Verify data
 		String json = BackDoor.getStudentAsJason(scn.courses.get("CCSDetailsUiT.CS2104").id, "newemail@gmail.com");

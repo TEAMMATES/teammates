@@ -123,8 +123,8 @@ public class SharedLib {
 		FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
 		Message messages[] = inbox.search(ft);
 
-		// Loop over all of the messages
-		for (int i = messages.length - 1; i >= 0; i--) {
+		// Loop over the last 5 messages
+		for (int i = messages.length - 1; i >= messages.length-5; i--) {
 			Message message = messages[i];
 
 			if (!message.getSubject().equals(String.format("TEAMMATES: Evaluation Reminder: %s %s", courseId, evalId)))

@@ -99,9 +99,9 @@
       "p2pEnabled" : true,
       "startTime" : "2012-04-01 11:59 PM",
       "endTime" : "2013-04-30 11:59 PM",
+      "timeZone" : 2.0,
       "activated" : true,
-      "published" : false,
-      "timeZone" : 2.0
+      "published" : false
     },
     "evaluation2InCourse1OfCoord1": {
       "course" : "idOfCourse1OfCoord1",
@@ -110,7 +110,8 @@
       "gracePeriod": 20,
       "instructions": "Please please fill in the second evaluation",
       "name": "evaluation2 In Course1",
-      "p2pEnabled": true
+      "p2pEnabled": true,
+	  "activated": true
     },
     "evaluation1InCourse2OfCoord1": {
       "course" : "idOfCourse2OfCoord1",
@@ -119,7 +120,8 @@
       "gracePeriod": 20,
       "instructions": "Please please fill in the second evaluation",
       "name": "evaluation name",
-      "p2pEnabled": true
+      "p2pEnabled": true,
+	  "activated": true
     },
     "evaluation1InCourse1OfCoord2": {
       "course" : "idOfCourse1OfCoord2",
@@ -128,7 +130,8 @@
       "gracePeriod": 20,
       "instructions": "instructions for evaluation1InCourse2",
       "name": "evaluation1 In Course2",
-      "p2pEnabled": true
+      "p2pEnabled": true,
+	  "activated": true
     }
   },
   

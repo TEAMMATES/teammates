@@ -295,6 +295,7 @@ public class Common {
 	public static final String MESSAGE_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
 	public static final String MESSAGE_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.<br />" +
 											 "The start time should be in the future, and the deadline should be after start time.";
+	public static final String MESSAGE_FIELDS_EMPTY = "Please fill in all the relevant fields.";
 
 	// Messages that are templates only
 	/** Template String. Parameters: Student's name, Evaluation name, Course ID */
@@ -568,6 +569,7 @@ public class Common {
 	 * @return
 	 */
 	public static String formatDate(Date date) {
+		if(date==null) return "";
 		return new SimpleDateFormat("dd/MM/yyyy").format(date);
 	}
 
@@ -579,16 +581,19 @@ public class Common {
 	 * @return
 	 */
 	public static String formatTime(Date date){
+		if(date==null) return "";
 		return new SimpleDateFormat("dd MMM yyyy, hh:mm").format(date);
 	}
 
 	public static String calendarToString(Calendar c) {
+		if(c==null) return "";
 		return new SimpleDateFormat("MM/dd/yyyy hh:mm:ss SSS")
 				.format(c.getTime());
 	}
 	
 	public static Calendar dateToCalendar(Date date) {
 		Calendar c = Calendar.getInstance();
+		if(date==null) return c;
 		c.setTime(date);
 		return c;
 	}
