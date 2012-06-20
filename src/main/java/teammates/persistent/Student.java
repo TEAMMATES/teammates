@@ -254,4 +254,8 @@ public class Student {
 	public boolean isCourseArchived() {
 		return courseArchived;
 	}
+
+	public boolean isRegistered() {
+		return (ID==null || ID.isEmpty());
+	}
 }

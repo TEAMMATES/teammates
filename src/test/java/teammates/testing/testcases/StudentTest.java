@@ -10,6 +10,8 @@ import org.junit.Test;
 import teammates.api.Common;
 import teammates.api.InvalidParametersException;
 import teammates.api.TeammatesException;
+import teammates.datatransfer.DataBundle;
+import teammates.datatransfer.StudentData;
 import teammates.persistent.Student;
 
 public class StudentTest extends BaseTestCase {
@@ -106,6 +108,14 @@ public class StudentTest extends BaseTestCase {
 		enrollmentLine = "|name 1|email@email.com|comment 1";
 		verifyStudentContent(expected, new Student(enrollmentLine, "courseId1"));
 
+	}
+	
+	@Test 
+	public void testIsRegistered() throws Exception{
+		Student student = new Student("team 1|name 1|email@email.com|comment 1", "course1");
+		assertEquals(true, student.isRegistered());
+		student.setID("name1");
+		assertEquals(false, student.isRegistered());
 	}
 
 	private Student generateTypicalStudentObject() {

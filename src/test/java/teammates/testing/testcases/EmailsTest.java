@@ -22,6 +22,8 @@ import org.junit.Test;
 import teammates.Config;
 import teammates.Datastore;
 import teammates.manager.Emails;
+import teammates.persistent.Evaluation;
+import teammates.persistent.Student;
 
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -73,9 +75,20 @@ public class EmailsTest extends BaseTestCase{
 		message.setFrom(new InternetAddress(from));
 		String subject = "email subject";
 		message.setSubject(subject);
-		message.setText("email body");
+		message.setContent("<h1>email body</h1>", "text/html" );
 
 		assertEquals("[Email sent]to=reciever@gmail.com|from=sender@gmail.com|subject=email subject",Emails.getEmailInfo(message));
+	}
+	
+	@Test
+	public void testGenerateEvaluationOpeningEmail(){
+		printTestCaseHeader();
+		
+		Student s = null;
+		Evaluation e = null;
+		MimeMessage email = Emails.generateEvaluationOpeningEmail(s,e);
+		
+		//TODO: complete this
 	}
 	
 

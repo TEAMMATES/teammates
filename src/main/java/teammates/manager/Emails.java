@@ -13,6 +13,8 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.Config;
 import teammates.api.Common;
+import teammates.persistent.Evaluation;
+import teammates.persistent.Student;
 
 /**
  * Email handles all operations with regards to sending e-mails.
@@ -37,6 +39,8 @@ public class Emails {
 	private final String HEADER_TEAMFORMING_PUBLISH = "TEAMMATES: Team Forming Published: %s %s";
 	private final String TEAMMATES_APP_SIGNATURE = "\n\nIf you encounter any problems using the system, email TEAMMATES support team at teammates@comp.nus.edu.sg"
 			+ "\n\nRegards, \nTEAMMATES System";
+	
+	private String EMAIL_EVALUATION_OPENING = "";
 
 	/**
 	 * Constructs an Email object. Sets the sender's e-mail address and
@@ -520,5 +524,11 @@ public class Emails {
 		log.fine("Sending email to "+to+ "["+subject+"]");
 
 		sendEmail(message);
+	}
+
+	public static MimeMessage generateEvaluationOpeningEmail(Student s,
+			Evaluation e) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
