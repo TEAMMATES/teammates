@@ -3,11 +3,14 @@ package teammates.testing.testcases;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 import java.util.TimeZone;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
@@ -23,13 +26,33 @@ import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
 
 import teammates.BackDoorLogic;
 import teammates.BackDoorServlet;
+import teammates.Config;
 import teammates.api.Common;
 import teammates.api.Logic;
+import teammates.api.TeammatesException;
 import teammates.datatransfer.CoordData;
 import teammates.datatransfer.DataBundle;
 import teammates.testing.lib.BackDoor;
 
 public class BaseTestCase {
+	/* 
+	 * Here, we initialize the Config object using Config.inst(Properties) 
+	 *   because Config.inst() that is usually used cannot find the 
+	 *   build.properties files when called from test suite. 
+	 *   An alternative approach may be to add the build.properties location
+	 *   to the test suit's classpath.
+	 */
+	static {
+		String buildFile = System.getProperty("user.dir")+"\\src\\main\\webapp\\WEB-INF\\classes\\"+"build.properties";
+		Properties buildProperties = new Properties();
+		try {
+			buildProperties.load(new FileInputStream(buildFile));
+		} catch (Exception e){
+			e.printStackTrace();
+			throw new RuntimeException("Could not initialize Config object"+TeammatesException.stackTraceToString(e));
+		}
+		Config.inst(buildProperties);
+	}
 
 	protected static String queueXmlFilePath = System.getProperty("user.dir")
 				+ File.separator + "src" + File.separator + "main" + File.separator

@@ -9,21 +9,11 @@ import org.junit.Test;
 
 import teammates.Config;
 
-public class ConfigTest {
+public class ConfigTest extends BaseTestCase{
 	
-	private String buildFile = System.getProperty("user.dir")+"\\src\\main\\webapp\\WEB-INF\\classes\\"+"build.properties";
-	
-	@Test
-	public void testGetProperties() throws IOException{
-		Properties properties = Config.getProperties(buildFile);
-		assertTrue(null != properties.get("app.url"));
-	}
-	
-	@Test
-	public void testInst(){
-		Config.inst(buildFile);
-		//cannot test Config.inst() as the build.properties files is not in the
-		//  folder being used for testing.
-	}
+@Test
+public void checkPresence(){
+	assertTrue(null != Config.inst().TEAMMATES_APP_URL);
+}
 
 }
