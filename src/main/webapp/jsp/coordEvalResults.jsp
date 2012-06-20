@@ -130,9 +130,9 @@
 									for(TeamData team: helper.evaluation.teams){
 										for(StudentData student: team.students){
 					%>
-						<tr class="student_row">
+						<tr class="student_row" id="student<%= idx %>">
 							<td><%= CoordEvalResultsHelper.escapeHTML(team.name) %></td>
-							<td>
+							<td id="<%= Common.PARAM_STUDENT_NAME %>">
 								<span onmouseover="ddrivetip('<%= CoordEvalResultsHelper.escape(student.comments) %>')"
 										onmouseout="hideddrivetip()">
 									<%= student.name %>
@@ -153,7 +153,7 @@
 								<a name="editEvaluationResults<%= idx %>" id="editEvaluationResults<%= idx %>"
 										target="_blank"
 										href="<%= helper.getCoordEvaluationSubmissionEditLink(helper.evaluation.course, helper.evaluation.name, student.email) %>"
-										onclick="return openEditSubmission(this.href)"
+										onclick="return openChildWindow(this.href)"
 										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_EDIT %>')"
 										onmouseout="hideddrivetip()"
 										<%= CoordEvalResultsHelper

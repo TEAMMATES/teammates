@@ -243,7 +243,7 @@ function toggleRemindStudents(evaluationName) {
  * @param obj
  * @returns {Boolean}
  */
-function openEditSubmission(link){
+function openChildWindow(link){
 	window.open(link, "childWindow");
 	return false;
 }

@@ -1339,6 +1339,7 @@ public class BrowserInstance {
 	 * @param courseId
 	 * @param evalName
 	 * @return
+	 * @deprecated
 	 */
 	public int studentFindPendingEvaluationRow(String courseId, String evalName) {
 		for (int i = 0; i < studentCountTotalPendingEvaluations(); i++) {
@@ -2168,6 +2169,7 @@ public class BrowserInstance {
 	/* ----------------------------------------------------------------------
 	 * Locator functions
 	 * Returns the locator (By object) of some links/objects on the page
+	 * To get the rowID, call getStudentRowID method
 	 * -------------------------------------------------------------------- */
 	// Reviewer summary
 	public By getReviewerSummaryView(int rowID) { return By.id("viewEvaluationResults" + rowID); }
@@ -2223,13 +2225,23 @@ public class BrowserInstance {
 		return getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]", 3)));
 	}
 
+	public int getStudentRowIdInEditSubmission(String studentName){
+		int max = driver.findElements(By.className("reportheader")).size();
+		for(int i=0; i<max; i++){
+			if(driver.findElement(By.id("sectiontitle"+i)).getText().toUpperCase().contains(studentName.toUpperCase())){
+				return i;
+			}
+		}
+		return -1;
+	}
+	
 	/**
 	 * @page Edit evaluation result
 	 * @param rowID
 	 * @return
 	 */
 	public By getSubmissionPoint(int rowID) {
-		return By.id("points" + rowID);
+		return By.id(Common.PARAM_POINTS + rowID);
 	}
 
 	/**
@@ -2238,7 +2250,7 @@ public class BrowserInstance {
 	 * @param points
 	 */
 	public void setSubmissionPoint(int rowID, String points) {
-		selectDropdownByValue(By.id("points" + rowID), points);
+		selectDropdownByValue(By.id(Common.PARAM_POINTS + rowID), points);
 	}
 
 	/**
@@ -2247,7 +2259,7 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public By getSubmissionJustification(int rowID) {
-		return By.name("justification" + rowID);
+		return By.id(Common.PARAM_JUSTIFICATION + rowID);
 	}
 
 	/**
@@ -2256,7 +2268,7 @@ public class BrowserInstance {
 	 * @param justification
 	 */
 	public void setSubmissionJustification(int rowID, String justification) {
-		fillString(By.name("justification" + rowID), justification);
+		fillString(By.id(Common.PARAM_JUSTIFICATION + rowID), justification);
 	}
 
 	/**
@@ -2265,7 +2277,7 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public By getSubmissionComments(int rowID) {
-		return By.name("commentstostudent" + rowID);
+		return By.id(Common.PARAM_COMMENTS + rowID);
 	}
 
 	/**
@@ -2274,7 +2286,7 @@ public class BrowserInstance {
 	 * @param comments
 	 */
 	public void setSubmissionComments(int rowID, String comments) {
-		fillString(By.name("commentstostudent" + rowID), comments);
+		fillString(By.id(Common.PARAM_COMMENTS + rowID), comments);
 	}
 
 	/**

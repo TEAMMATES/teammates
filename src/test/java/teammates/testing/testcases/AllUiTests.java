@@ -15,8 +15,7 @@ import org.junit.runners.Suite;
 		CoordEvalPageUiTest.class,
 		CoordEvalEditPageUiTest.class,
 		CoordEvalResultsPageUiTest.class,
-		CoordEvalSubmissionEditPageUiTest.class,
-		CoordEvalSubmissionViewPageUiTest.class,
+		CoordEvalSubmissionPageUiTest.class,
 		
 		CoordHomePageUiTest.class,
 		

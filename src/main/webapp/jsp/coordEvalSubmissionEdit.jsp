@@ -59,7 +59,7 @@
 								onclick="window.close(); opener.setStatusMessage('')" value="Cancel" />
 						<input type="submit" class="button" name="submitEvaluation"
 								onclick="return checkEvaluationForm(this.form)"
-								id="button_save" value="Save Changes" />
+								id="button_submit" value="Save Changes" />
 					</div>
 					<% if(helper.isMasqueradeMode()){ %>
 						<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>" />

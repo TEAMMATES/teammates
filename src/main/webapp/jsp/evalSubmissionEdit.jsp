@@ -25,7 +25,7 @@
 		 						</td>
 		 					</tr>
 		 					<tr>
-		 						<td class="reportheader" colspan="2">
+		 						<td class="reportheader" colspan="2" id="sectiontitle<%= idx %>">
 		 							<%= helper.getEvaluationSectionTitle(sub) %>
 		 						</td>
 		 					</tr>
