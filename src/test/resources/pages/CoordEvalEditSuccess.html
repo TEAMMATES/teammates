@@ -16,6 +16,11 @@
 	
 	<script src="/js/coordinatorNew.js" language="JavaScript"></script>
 	<script src="/js/coordEval.js" language="JavaScript"></script>
+	
+	<script language="JavaScript">
+		var doPageSpecificOnload = selectDefaultTimeOptions;
+	</script>
+	
 
 </head>
 
@@ -47,19 +52,19 @@
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
-				<h1>Edit Evaluation</h1>
+				<h1>Add New Evaluation</h1>
 			</div>
 			<div id="coordinatorEvaluationManagement">
-				<form name="form_addevaluation" action="/page/coordEvalEdit" method="post">
+				<form name="form_addevaluation" action="" method="post">
 					<table class="headerform">
 						<tbody><tr>
 							<td class="attribute">Course ID:</td>
-							<td style="vertical-align:middle">
-								<input type="hidden" value="CEvEditUiTest.CS1101" name="courseid" />
-								CEvEditUiTest.CS1101
-							</td>
+							<td><select tabindex="1" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the course for which the evaluation is to be created.')" id="courseid" name="courseid" style="width: 260px;">
+								<option value="CEvEditUiTest.CS1101">CEvEditUiTest.CS1101</option>
+
+								</select></td>
 							<td class="attribute">Opening time:</td>
-							<td><input type="text" tabindex="3" readonly="readonly" value="20/04/2012" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the start date for the evaluation.')" onclick="cal.select(this,'start','dd/MM/yyyy')" id="start" name="start" style="width: 100px;" />
+							<td><input type="text" tabindex="3" readonly="readonly" value="20/06/2012" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the start date for the evaluation.')" onclick="cal.select(this,'start','dd/MM/yyyy')" id="start" name="start" style="width: 100px;" />
 										@
 								<select tabindex="4" id="starttime" name="starttime" style="width: 70px;">
 									<option value="1">0100H</option>
@@ -91,12 +96,9 @@
 						</tr>
 						<tr>
 							<td class="attribute">Evaluation name:</td>
-							<td style="vertical-align:middle">
-								<input type="hidden" value="Testing Evaluation" name="evaluationname" />
-								Testing Evaluation
-							</td>
+							<td><input type="text" tabindex="2" value="" maxlength="38" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the name of the evaluation e.g. Mid-term.')" id="evaluationname" name="evaluationname" style="width: 260px;" /></td>
 							<td class="attribute">Closing time:</td>
-							<td><input type="text" tabindex="5" readonly="readonly" value="20/04/2015" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter deadline for the evaluation.')" onclick="cal.select(this,'deadline','dd/MM/yyyy')" id="deadline" name="deadline" style="width: 100px;" />
+							<td><input type="text" tabindex="5" readonly="readonly" value="" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter deadline for the evaluation.')" onclick="cal.select(this,'deadline','dd/MM/yyyy')" id="deadline" name="deadline" style="width: 100px;" />
 										@
 								<select tabindex="6" id="deadlinetime" name="deadlinetime" style="width: 70px;">
 									<option value="1">0100H</option>
@@ -134,7 +136,7 @@
 								<label for="commentsstatus_disabled">Disabled</label>
 							</td>
 							<td class="attribute">Time zone:</td>
-							<td><select tabindex="7" disabled="disabled" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />daylight saving, you should choose UTC -7:00 and its corresponding timings.')" id="timezone" name="timezone" style="width: 100px;">
+							<td><select tabindex="7" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />daylight saving, you should choose UTC -7:00 and its corresponding timings.')" id="timezone" name="timezone" style="width: 100px;">
 								<option value="-12">UTC -12:00</option>
 <option value="-11">UTC -11:00</option>
 <option value="-10">UTC -10:00</option>
@@ -161,7 +163,7 @@
 <option value="5.75">UTC +05:45</option>
 <option value="6">UTC +06:00</option>
 <option value="7">UTC +07:00</option>
-<option selected="selected" value="8">UTC +08:00</option>
+<option value="8">UTC +08:00</option>
 <option value="9">UTC +09:00</option>
 <option value="10">UTC +10:00</option>
 <option value="11">UTC +11:00</option>
@@ -169,7 +171,6 @@
 <option value="13">UTC +13:00</option>
 
 								</select>
-								<input type="hidden" value="8.0" name="timezone" />
 							</td>
 						</tr>
 						<tr>
@@ -179,7 +180,7 @@
 						<td class="inputField">
 							<select tabindex="7" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline.')" id="graceperiod" name="graceperiod" style="width: 70px;">
 								<option value="0">0 mins</option>
-<option selected="selected" value="5">5 mins</option>
+<option value="5">5 mins</option>
 <option value="10">10 mins</option>
 <option value="15">15 mins</option>
 <option value="20">20 mins</option>
@@ -191,26 +192,53 @@
 						<tr>
 							<td class="attribute">Instructions to students:</td>
 							<td colspan="3">
-								<textarea tabindex="8" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter instructions for your students, e.g. Avoid comments which are too critical.')" id="instr" name="instr" class="textvalue" cols="100" rows="2">This is the instructions, please follow</textarea>
+								
+									<textarea tabindex="8" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter instructions for your students, e.g. Avoid comments which are too critical.')" id="instr" name="instr" class="textvalue" cols="100" rows="2">Please submit your peer evaluation based on the overall contribution of your teammates so far.</textarea>
+								
 							</td>
 						</tr>
 						<tr>
 							<td></td>
 							<td colspan="3">
-								<input type="submit" tabindex="9" value="Save Changes" onclick="return checkEditEvaluation(this.form);" class="button" id="button_submit" />
-								<input type="button" tabindex="10" value="Cancel" onclick="window.location.href='/page/coordEval?user=teammates.demo.coord'" class="button" id="button_back" /></td>
+								<input type="submit" tabindex="9" value="Create Evaluation" onclick="return checkAddEvaluation(this.form);" class="button" id="button_submit" /></td>
 						</tr>
 					</tbody></table>
-					
-						<input type="hidden" value="teammates.demo.coord" name="user" />
-					
 				</form>
 			</div>
 			
 
 
-	<div style="display: none" id="statusMessage"></div>
+	<div style="display:block;" id="statusMessage">
+		The evaluation has been edited.</div>
 
+			<div id="coordinatorEvaluationTable">
+				<table id="dataform">
+					<tbody><tr>
+						<th class="leftalign">
+							<input type="button" onclick="toggleSort(this,1)" id="button_sortcourseid" class="buttonSortAscending" />Course ID</th>
+						<th class="leftalign">
+							<input type="button" onclick="toggleSort(this,2)" id="button_sortname" class="buttonSortNone" />Evaluation</th>
+						<th class="centeralign">Status</th>
+						<th class="centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('Number of students submitted / Class size')">Response Rate</span></th>
+						<th class="centeralign">Action(s)</th>
+					</tr>
+					
+								<tr id="evaluation0" class="evaluations_row">
+									<td class="t_eval_coursecode">CEvEditUiTest.CS1101</td>
+									<td class="t_eval_name">Testing Evaluation</td>
+									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation is created but has not yet started')">Awaiting</span></td>
+									<td class="t_eval_response centeralign">0
+										/ 0</td>
+									<td class="centeralign"><a onclick="return false" style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/coordEvalResults?courseid=CEvEditUiTest.CS1101&amp;evaluationname=Testing+Evaluation&amp;user=teammates.demo.coord" class="t_eval_view0">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/coordEvalEdit?courseid=CEvEditUiTest.CS1101&amp;evaluationname=Testing+Evaluation&amp;user=teammates.demo.coord" class="t_eval_edit0">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CEvEditUiTest.CS1101','Testing Evaluation');" href="/page/coordEvalDelete?courseid=CEvEditUiTest.CS1101&amp;evaluationname=Testing+Evaluation&amp;next=%2Fpage%2FcoordEval%3Fuser%3Dteammates.demo.coord&amp;user=teammates.demo.coord" class="t_eval_delete0">Delete</a><a style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" onclick="hideddrivetip(); return toggleRemindStudents('Testing Evaluation');" href="/page/coordEvalRemind?courseid=CEvEditUiTest.CS1101&amp;evaluationname=Testing+Evaluation&amp;user=teammates.demo.coord" class="t_eval_remind0">Remind</a><a style="text-decoration:none; color:gray;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Publish evaluation results for students to view')" onclick="hideddrivetip(); return togglePublishEvaluation('Testing Evaluation');" href="/page/coordEvalPublish?courseid=CEvEditUiTest.CS1101&amp;evaluationname=Testing+Evaluation&amp;next=%2Fpage%2FcoordEval%3Fuser%3Dteammates.demo.coord&amp;user=teammates.demo.coord" class="t_eval_publish0">Publish</a>
+									</td>
+								</tr>
+							
+					
+				</tbody></table>
+				<br /><br /><br />
+				
+				<br />
+			</div>
 		</div>
 	</div>
 

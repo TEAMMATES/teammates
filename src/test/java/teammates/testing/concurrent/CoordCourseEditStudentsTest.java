@@ -63,7 +63,7 @@ public class CoordCourseEditStudentsTest extends TestCase {
 		//TODO: google ID cannot be changed after student registered
 		bi.fillString(bi.studentDetailComment, STUDENT_COMMENT);
 		
-		bi.clickWithWait(bi.studentEditSaveButton);
+		bi.clickWithWait(bi.coordCourseDetailsStudentEditSaveButton);
 		
 		//wait for page loading
 		bi.waitForElementPresent(bi.coordCourseDetailCourseID);

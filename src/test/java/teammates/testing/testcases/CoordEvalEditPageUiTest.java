@@ -1,5 +1,7 @@
 package teammates.testing.testcases;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.FileNotFoundException;
 
 import org.json.JSONException;
@@ -32,19 +34,22 @@ public class CoordEvalEditPageUiTest extends BaseTestCase {
 	public static void classSetup() throws Exception {
 		printTestClassHeader("CoordEvalEditUITest");
 		ts = loadTestScenario();
-		bi = BrowserInstancePool.getBrowserInstance();
 		
 		System.out.println("Recreating "+ts.coordinator.id);
 		long start = System.currentTimeMillis();
 		BackDoor.deleteCoord(ts.coordinator.id);
 		BackDoor.createCoord(ts.coordinator);
+		BackDoor.createCourse(ts.course);
 		BackDoor.createEvaluation(ts.evaluation);
 		System.out.println("Finished recreating in "+(System.currentTimeMillis()-start)+" ms");
+
+		bi = BrowserInstancePool.getBrowserInstance();
 		
-		bi.loginCoord(ts.coordinator.id, Config.inst().TEAMMATES_APP_PASSWORD);
+		bi.loginAdmin(Config.inst().TEAMMATES_ADMIN_ACCOUNT, Config.inst().TEAMMATES_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_COORD_EVAL_EDIT;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ts.evaluation.course);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, ts.evaluation.name);
+		link = Helper.addParam(link,Common.PARAM_COURSE_ID,ts.evaluation.course);
+		link = Helper.addParam(link,Common.PARAM_EVALUATION_NAME,ts.evaluation.name);
+		link = Helper.addParam(link,Common.PARAM_USER_ID,ts.coordinator.id);
 		bi.goToUrl(link);
 	}
 	
@@ -55,25 +60,28 @@ public class CoordEvalEditPageUiTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testCoordEvalEditPage() throws Exception{
-		testCoordEvalEditHTML();
-		testCoordEvalEditUiPaths();
-		testCoordEvalEditLinks();
-	}
-
 	public void testCoordEvalEditHTML() throws Exception{
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalEditNew.html");
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalEditNew.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalEditNew.html");
 	}
-
-	// TODO: Finish Evaluation Edit UI Path test
+	
+	@Test
 	public void testCoordEvalEditUiPaths() throws Exception{
+		bi.editEvaluation(ts.newEvaluation.startTime, ts.newEvaluation.endTime, ts.newEvaluation.p2pEnabled, ts.newEvaluation.instructions, ts.newEvaluation.gracePeriod);
 		
-	}
-
-	// TODO: Finish Evaluation Edit Links test
-	public void testCoordEvalEditLinks() throws Exception{
+		// Verify status message
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalEditSuccess.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalEditSuccess.html");
 		
+		// Verify data
+		String json = BackDoor.getEvaluationAsJason(ts.newEvaluation.course, ts.newEvaluation.name);
+		EvaluationData newEval = Common.getTeammatesGson().fromJson(json, EvaluationData.class);
+		assertEquals(ts.newEvaluation.startTime,newEval.startTime);
+		assertEquals(ts.newEvaluation.endTime,newEval.endTime);
+		assertEquals(ts.newEvaluation.instructions,newEval.instructions);
+		assertEquals(ts.newEvaluation.timeZone+"",newEval.timeZone+"");
+		assertEquals(ts.newEvaluation.gracePeriod,newEval.gracePeriod);
+		assertEquals(ts.newEvaluation.p2pEnabled,newEval.p2pEnabled);
 	}
 	
 	private static TestScenario loadTestScenario() throws JSONException, FileNotFoundException {
@@ -83,11 +91,10 @@ public class CoordEvalEditPageUiTest extends BaseTestCase {
 		return scn;
 	}
 
-	@SuppressWarnings("unused")
 	private class TestScenario{
 		public CoordData coordinator;
 		public CourseData course;
 		public EvaluationData evaluation;
-		public EvaluationData evaluationInCourseWithNoTeams;
+		public EvaluationData newEvaluation;
 	}
 }

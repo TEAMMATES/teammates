@@ -15,6 +15,7 @@ import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.mail.BodyPart;
@@ -275,13 +276,14 @@ public class BrowserInstance {
 	public By studentDetailName = By.id(Common.PARAM_STUDENT_NAME);
 	public By studentDetailTeam = By.id(Common.PARAM_TEAM_NAME);
 	public By studentDetailEmail = By.id(Common.PARAM_STUDENT_EMAIL);
+	public By studentDetailNewEmail = By.id(Common.PARAM_NEW_STUDENT_EMAIL);
 	public By studentDetailGoogle = By.id(Common.PARAM_USER_ID);
 	public By studentDetailComment = By.id(Common.PARAM_COMMENTS);
 	public By studentDetailKey = By.id(Common.PARAM_REGKEY);
 	public By studentDetailBackButton = By.className("button_back");
 
 	// Edit student
-	public By studentEditSaveButton = By.id("button_save");
+	public By coordCourseDetailsStudentEditSaveButton = By.id("button_submit");
 
 	// Input on evaluation
 	public By inputEvaluationName = By.id("evaluationname");
@@ -295,10 +297,12 @@ public class BrowserInstance {
 	
 	public By inputTimeZone = By.id("timezone");
 	public By inputGracePeriod = By.id("graceperiod");
+	
+	public By addEvaluationButton = By.id("button_submit");
 
 	// Edit evaluation
-	public By editEvaluationButton = By.id("button_editevaluation");
-	public By editEvaluationBackButton = By.className("t_back");
+	public By editEvaluationButton = By.id("button_submit");
+	public By editEvaluationBackButton = By.id("button_back");
 
 	// Evaluation Result
 	public By resultSummaryRadio = By.id("radio_summary");
@@ -365,7 +369,6 @@ public class BrowserInstance {
 	// Edit student team
 	public By coordChangeStudentTeam11 = By.id("changeStudentTeam-1/1");
 	public By coordAllocateStudentTeam1 = By.id("allocateStudentTeam1");
-	public By addEvaluationButton = By.id("t_btnAddEvaluation");
 
 	public By evaluationCourseIDSorting = By.id("button_sortcourseid");
 	public By evaluationNameSorting = By.id("button_sortname");
@@ -1716,18 +1719,25 @@ public class BrowserInstance {
 		clickWithWait(coordCourseAddButton);
 	}
 	
+	@Deprecated
+	public void addEvaluation(String courseID, String evalName, String dateValue, String nextTimeValue, String comments, String instructions, Integer gracePeriod) {
+		
+	}
+	
 	/**
 	 * Add an evaluation through the UI.
 	 * Pre-condition: Should be at Evaluation add page
 	 * @param courseID
 	 * @param evalName
 	 * @param dateValue
+	 * 		Format: (YYYY,MM,DD)
 	 * @param nextTimeValue
+	 * 		Format: HHMM
 	 * @param comments
 	 * @param instructions
 	 * @param gracePeriod
 	 */
-	public void addEvaluation(String courseID, String evalName, String dateValue, String nextTimeValue, String comments, String instructions, Integer gracePeriod) {
+	public void addEvaluation(String courseID, String evalName, Date startTime, Date endTime, boolean p2pEnabled, String instructions, Integer gracePeriod) {
 		// Select the course
 		clickWithWait(coordCourseInputCourseID);
 		
@@ -1735,38 +1745,77 @@ public class BrowserInstance {
 	
 		// Fill in the evaluation name
 		fillString(inputEvaluationName, evalName);
-	
+
+		// Select start date
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("$('#"+Common.PARAM_EVALUATION_START+"')[0].value='"+Common.formatDate(startTime)+"';");
+		selectDropdownByValue(inputOpeningTime, Common.formatTimeForEvaluation(startTime));
+		
 		// Select deadline date
-		clickWithWait(inputClosingDate);
-		selenium.waitForPopUp("window_deadline", "30000");
-		selenium.selectWindow("name=window_deadline");
-		clickWithWait(By.xpath("//a[contains(@href, '" + dateValue + "')]"));
-		for (String s : driver.getWindowHandles()) {
-			selenium.selectWindow(s);
-			break;
-		}
-		selectDropdownByValue(inputClosingTime, nextTimeValue);
-	
+		js.executeScript("$('#"+Common.PARAM_EVALUATION_DEADLINE+"')[0].value='"+Common.formatDate(endTime)+"';");
+		selectDropdownByValue(inputClosingTime, Common.formatTimeForEvaluation(endTime));
+
 		// Allow P2P comment
-		clickWithWait(By.xpath("//*[@id='commentsstatus'][@value='" + comments + "']"));
+		if(p2pEnabled){
+			clickWithWait(By.id("commentsstatus_enabled"));
+		} else {
+			clickWithWait(By.id("commentsstatus_disabled"));
+		}
 	
 		// Fill in instructions
 		fillString(inputInstruction, instructions);
 	
 		// Select grace period
 		selectDropdownByValue(inputGracePeriod, Integer.toString(gracePeriod));
-	
+		
 		// Submit the form
 		clickWithWait(addEvaluationButton);
+	}
+	
+	/**
+	 * Edit an evaluation through the UI.
+	 * Pre-condition: Should be at Evaluation page.
+	 * @param startTime
+	 * 		Format: (YYYY,MM,DD)
+	 * @param nextTimeValue
+	 * 		Format: HHMM
+	 * @param comments
+	 * @param instructions
+	 * @param gracePeriod
+	 */
+	public void editEvaluation(Date startTime, Date endTime, boolean p2pEnabled, String instructions, Integer gracePeriod) {
+		// Select start date
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("$('#"+Common.PARAM_EVALUATION_START+"')[0].value='"+Common.formatDate(startTime)+"';");
+		selectDropdownByValue(inputOpeningTime, Common.formatTimeForEvaluation(startTime));
+		
+		// Select deadline date
+		js.executeScript("$('#"+Common.PARAM_EVALUATION_DEADLINE+"')[0].value='"+Common.formatDate(endTime)+"';");
+		selectDropdownByValue(inputClosingTime, Common.formatTimeForEvaluation(endTime));
+	
+		// Allow P2P comment
+		if(p2pEnabled){
+			clickWithWait(By.id("commentsstatus_enabled"));
+		} else {
+			clickWithWait(By.id("commentsstatus_disabled"));
+		}
+	
+		// Fill in instructions
+		fillString(inputInstruction, instructions);
+	
+		// Select grace period
+		selectDropdownByValue(inputGracePeriod, Integer.toString(gracePeriod));
+		// Submit the form
+		clickWithWait(editEvaluationButton);
 	}
 	
 	/**
 	 * Adds an evaluation through the UI.
 	 * Pre-condition: Should be at Evaluation page.
 	 * @param eval
+	 * @deprecated
 	 */
 	public void addEvaluation(Evaluation eval) {
-		addEvaluation(eval.courseID, eval.name, eval.dateValue, eval.nextTimeValue, eval.p2pcomments, eval.instructions, eval.gracePeriod);
 	}
 	
 	public void addTeamFormingSession(String courseID, String dateValue, String nextTimeValue, Integer gracePeriod, String instructions, String profileTemplate) {

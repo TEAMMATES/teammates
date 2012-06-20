@@ -31,10 +31,10 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="/page/coordHome" class="t_home">Home</a></li>
-					<li><a href="/page/coordCourse" class="t_courses">Courses</a></li>
+					<li><a href="/page/coordHome?user=teammates.test" class="t_home">Home</a></li>
+					<li><a href="/page/coordCourse?user=teammates.test" class="t_courses">Courses</a></li>
 					<!-- <li><a class='t_teamForming' href="/page/coordTFS">Team-Forming</a></li> -->
-					<li><a href="/page/coordEval" class="t_evaluations">Evaluations</a></li>
+					<li><a href="/page/coordEval?user=teammates.test" class="t_evaluations">Evaluations</a></li>
 					<li><a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/coordinatorhelp.html" class="t_help">Help</a></li>
 					<li><a href="/logout.jsp" class="t_logout">Logout</a>
 					 (teammates.test)</li>
@@ -50,7 +50,7 @@
 				<div id="headerOperation">
 					<h1>Enroll Students for CCEnrollUiT.CS2104</h1>
 				</div>
-				<form method="post" action="/page/coordCourseEnroll?courseid=CCEnrollUiT.CS2104">
+				<form method="post" action="/page/coordCourseEnroll?courseid=CCEnrollUiT.CS2104&amp;user=teammates.test">
 					<input type="hidden" value="CCEnrollUiT.CS2104" name="courseid" />
 					<div id="coordinatorCourseEnrollment">
 						<img border="0" style="width:1012,height:324" src="/images/enrollInstructions.png" />
@@ -62,11 +62,13 @@
 						</tr></tbody></table>
 					</div>
 					
-						<div style="display: none" id="statusMessage"></div>
-					
+
+
+	<div style="display: none" id="statusMessage"></div>
+
 					<div id="coordinatorCourseEnrollmentButtons">
 						<input type="submit" onclick="return checkEnrollmentInput(document.getElementById('enrollstudents').value)" value="Enroll students" id="button_enroll" name="button_enroll" class="button" />
-						<input type="button" value="Back" onclick="location.href='/page/coordCourse'" class="t_back button" />
+						<input type="button" value="Back" onclick="location.href='/page/coordCourse?user=teammates.test'" id="button_back" class="button" />
 						<br /><br /><br /><br />
 					</div>
 				</form>

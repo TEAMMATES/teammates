@@ -47,42 +47,58 @@
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
-				<h1>Student Details</h1>
-			</div>
-			
+				<h1>Edit Student Details</h1>
+				<form method="post" action="/page/coordCourseStudentEdit">
+					<input type="hidden" value="CCSDetailsUiT.CS2104" name="courseid" />
+					<table class="detailform">
+						<tbody><tr>
+				 			<td class="fieldname">Student Name:</td>
+				 			<td>
+				 				<input value="Benny Charles" id="studentname" name="studentname" class="fieldvalue" />
+				 			</td>
+				 		</tr>
+					 	<tr>
+					 		<td class="fieldname">Team Name:</td>
+					 		<td>
+					 			<input value="Team 1" id="teamname" name="teamname" class="fieldvalue" />
+					 		</td>
+					 	</tr>
+					 	<tr>
+					 		<td class="fieldname">E-mail Address:
+					 			<input type="hidden" value="benny.c.tmms@gmail.com" id="studentemail" name="studentemail" />
+					 		</td>
+					 		<td>
+					 			<input value="benny.c.tmms@gmail.com" id="newstudentemail" name="newstudentemail" class="fieldvalue" />
+					 		</td>
+					 	</tr>
+					 	<tr>
+							<td class="fieldname">Google ID:</td>
+							<td id="user"></td>
+						</tr>
+						<tr>
+							<td class="fieldname">Registration Key:</td>
+							<td id="regkey">{*}</td>
+						</tr>
+					 	<tr>
+					 		<td class="fieldname">Comments:</td>
+					 		<td>
+					 			<textarea id="comments" name="comments" cols="80" rows="6" class="textvalue">This student's name is Benny Charles</textarea>
+					 		</td>
+					 	</tr>
+					</tbody></table>
+					
 
 
 	<div style="display: none" id="statusMessage"></div>
 
-			<div id="coordinatorStudentInformation">
-				<table class="detailform">
-					<tbody><tr>
-			 			<td class="fieldname">Student Name:</td>
-			 			<td id="studentname">Alice Betsy</td>
-			 		</tr>
-				 	<tr>
-				 		<td class="fieldname">Team Name:</td>
-				 		<td id="teamname">Team 1</td>
-				 	</tr>
-				 	<tr>
-				 		<td class="fieldname">E-mail Address:</td>
-				 		<td id="studentemail">alice.tmms@gmail.com</td>
-				 	</tr>
-				 	<tr>
-						<td class="fieldname">Google ID:</td>
-						<td id="user">alice.tmms</td>
-					</tr>
-					<tr>
-						<td class="fieldname">Registration Key:</td>
-						<td id="regkey">{*}</td>
-					</tr>
-				 	<tr>
-				 		<td class="fieldname">Comments:</td>
-				 		<td id="comments">This student's name is Alice Betsy</td>
-				 	</tr>
-				 </tbody></table>
-				 <br /><br />
-				 <input type="button" onclick="window.location.href='/page/coordCourseDetails?courseid=CCSDetailsUiT.CS2104&amp;user=teammates.test'" value="Back" id="button_back" class="button" />
+					<br /><br />
+					<input type="button" onclick="window.location.href='/page/coordCourseDetails?courseid=CCSDetailsUiT.CS2104&amp;user=teammates.test'" value="Cancel" id="button_back" class="button" />
+					<input type="submit" onclick="return isStudentInputValid(this.form.studentname.value,this.form.teamname.value)" value="Save Changes" name="submit" id="button_submit" class="button" />
+					<br /><br />
+					
+						<input type="hidden" value="teammates.test" name="user" />
+					
+				</form>
 			</div>
 		</div>
 	</div>

@@ -51,6 +51,7 @@ public class CoordCourseStudentEditServlet extends ActionServlet<CoordCourseStud
 		
 		boolean submit = (req.getParameter("submit")!=null);
 		String studentName = req.getParameter(Common.PARAM_STUDENT_NAME);
+		String newEmail = req.getParameter(Common.PARAM_NEW_STUDENT_EMAIL);
 		String teamName = req.getParameter(Common.PARAM_TEAM_NAME);
 		String comments = req.getParameter(Common.PARAM_COMMENTS);
 		
@@ -59,6 +60,7 @@ public class CoordCourseStudentEditServlet extends ActionServlet<CoordCourseStud
 		
 		if(submit){
 			helper.student.name = studentName;
+			helper.student.email = newEmail;
 			helper.student.team = teamName;
 			helper.student.comments = comments;
 			try {

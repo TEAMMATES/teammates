@@ -31,10 +31,10 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="/page/coordHome" class="t_home">Home</a></li>
-					<li><a href="/page/coordCourse" class="t_courses">Courses</a></li>
+					<li><a href="/page/coordHome?user=teammates.test" class="t_home">Home</a></li>
+					<li><a href="/page/coordCourse?user=teammates.test" class="t_courses">Courses</a></li>
 					<!-- <li><a class='t_teamForming' href="/page/coordTFS">Team-Forming</a></li> -->
-					<li><a href="/page/coordEval" class="t_evaluations">Evaluations</a></li>
+					<li><a href="/page/coordEval?user=teammates.test" class="t_evaluations">Evaluations</a></li>
 					<li><a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/coordinatorhelp.html" class="t_help">Help</a></li>
 					<li><a href="/logout.jsp" class="t_logout">Logout</a>
 					 (teammates.test)</li>
@@ -65,17 +65,19 @@
 					 	</tr>
 					 	<tr>
 					 		<td class="fieldname">E-mail Address:
-					 			<input type="hidden" value="alice.tmms@gmail.com" name="studentemail" />
+					 			<input type="hidden" value="alice.tmms@gmail.com" id="studentemail" name="studentemail" />
 					 		</td>
-					 		<td>alice.tmms@gmail.com</td>
+					 		<td>
+					 			<input value="alice.tmms@gmail.com" id="newstudentemail" name="newstudentemail" class="fieldvalue" />
+					 		</td>
 					 	</tr>
 					 	<tr>
 							<td class="fieldname">Google ID:</td>
-							<td>alice.tmms</td>
+							<td id="user">alice.tmms</td>
 						</tr>
 						<tr>
 							<td class="fieldname">Registration Key:</td>
-							<td id="t_courseKey">{*}</td>
+							<td id="regkey">{*}</td>
 						</tr>
 					 	<tr>
 					 		<td class="fieldname">Comments:</td>
@@ -90,9 +92,12 @@
 	<div style="display: none" id="statusMessage"></div>
 
 					<br /><br />
-					<input type="button" onclick="window.location.href='/page/coordCourseDetails?courseid=CCSDetailsUiT.CS2104'" value="Cancel" id="button_back" class="button" />
-					<input type="submit" onclick="return isStudentInputValid(this.form.studentname.value,this.form.teamname.value)" value="Save Changes" name="submit" id="button_back" class="button" />
+					<input type="button" onclick="window.location.href='/page/coordCourseDetails?courseid=CCSDetailsUiT.CS2104&amp;user=teammates.test'" value="Cancel" id="button_back" class="button" />
+					<input type="submit" onclick="return isStudentInputValid(this.form.studentname.value,this.form.teamname.value)" value="Save Changes" name="submit" id="button_submit" class="button" />
 					<br /><br />
+					
+						<input type="hidden" value="teammates.test" name="user" />
+					
 				</form>
 			</div>
 		</div>
@@ -101,7 +106,7 @@
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-[TEAMMATES Version 4.17.02] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
+[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
 
 <a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html" class="footer">Contact Us</a>
 </div>

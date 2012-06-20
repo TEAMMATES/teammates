@@ -6,6 +6,10 @@ var EVAL_NAME_MAX_LENGTH = 38;
 var COURSE_ID = "courseid"; // Used in coordCourse.js
 var COURSE_NAME = "coursename"; // Used in coordCourse.js
 
+var EVALUATION_START = "start"; // Used in coordEval.js
+var EVALUATION_STARTTIME = "starttime"; // Used in coordEval.js
+var EVALUATION_TIMEZONE = "timezone"; // Used in coordEval.js
+
 // Display messages
 // Used in coordCourseEnroll.js only
 var DISPLAY_ENROLLMENT_FIELDS_EXTRA = "There are too many fields.";

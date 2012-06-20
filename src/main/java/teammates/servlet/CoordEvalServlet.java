@@ -112,12 +112,17 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 		helper.evaluations = helper.server.getEvaluationsListForCoord(helper.userId);
 		sortEvaluationsByDeadline(helper.evaluations);
 
+		String additionalMessage = null;
 		if(helper.evaluations.size()==0 && !helper.error){
-			helper.statusMessage = Common.MESSAGE_EVALUATION_EMPTY;
+			additionalMessage = Common.MESSAGE_EVALUATION_EMPTY;
 		}
 		if(helper.courses.size()==0 && !helper.error){
-			// This will override the empty evaluation
-			helper.statusMessage = Common.MESSAGE_COURSE_EMPTY_IN_EVALUATION;
+			additionalMessage = Common.MESSAGE_COURSE_EMPTY_IN_EVALUATION;
+		}
+		if(additionalMessage!=null){
+			if(helper.statusMessage==null) helper.statusMessage = "";
+			else helper.statusMessage += "<br />";
+			helper.statusMessage += additionalMessage;
 		}
 	}
 

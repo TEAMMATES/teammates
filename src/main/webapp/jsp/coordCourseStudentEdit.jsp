@@ -59,7 +59,10 @@
 					 			<input type="hidden" name="<%= Common.PARAM_STUDENT_EMAIL %>" id="<%= Common.PARAM_STUDENT_EMAIL %>"
 					 					value="<%= CoordCourseStudentDetailsHelper.escapeHTML(helper.student.email) %>" />
 					 		</td>
-					 		<td><%= CoordCourseStudentDetailsHelper.escapeHTML(helper.student.email) %></td>
+					 		<td>
+					 			<input class="fieldvalue" name="<%= Common.PARAM_NEW_STUDENT_EMAIL %>" id="<%= Common.PARAM_NEW_STUDENT_EMAIL %>"
+					 					value="<%= CoordCourseStudentDetailsHelper.escapeHTML(helper.student.email) %>" />
+					 		</td>
 					 	</tr>
 					 	<tr>
 							<td class="fieldname">Google ID:</td>
@@ -80,7 +83,7 @@
 					<br /><br />
 					<input type="button" class="button" id="button_back" value="Cancel"
 							onclick="window.location.href='<%= helper.getCoordCourseDetailsLink(helper.student.course) %>'" />
-					<input type="submit" class="button" id="button_save" name="submit" value="Save Changes"
+					<input type="submit" class="button" id="button_submit" name="submit" value="Save Changes"
 							onclick="return isStudentInputValid(this.form.<%= Common.PARAM_STUDENT_NAME %>.value,this.form.<%= Common.PARAM_TEAM_NAME %>.value)" />
 					<br /><br />
 					<% if(helper.isMasqueradeMode()){ %>

@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import teammates.api.Common;
 import teammates.datatransfer.DataBundle;
-import teammates.datatransfer.StudentData;
 import teammates.exception.NoAlertAppearException;
 import teammates.jsp.Helper;
 import teammates.testing.config.Config;
@@ -56,33 +55,23 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testCoordCourseDetailsPage() throws Exception{
-		testCoordCourseDetailsPageHTML();
-		testCoordCourseDetailsUiPaths();
-	}
-	
 	public void testCoordCourseDetailsPageHTML() throws Exception{
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/CoordCourseDetailsPage.html");
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/CoordCourseDetailsPage.html");
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsPage.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsPage.html");
 		
 		bi.click(bi.coordCourseDetailSortByTeamName);
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/CoordCourseDetailsByTeam.html");
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/CoordCourseDetailsByTeam.html");
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsByTeam.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsByTeam.html");
 		
 		bi.click(bi.coordCourseDetailSortByStatus);
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/CoordCourseDetailsByStatus.html");
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/CoordCourseDetailsByStatus.html");
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsByStatus.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsByStatus.html");
 		
 		bi.click(bi.coordCourseDetailSortByStudentName);
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/CoordCourseDetailsPage.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsPage.html");
 	}
 	
-	public void testCoordCourseDetailsUiPaths() throws Exception{
-		testCoordCourseDetailsRemindStudent();
-		
-		testCoordCourseDetailsDeleteStudent();
-	}
-	
+	@Test
 	public void testCoordCourseDetailsRemindStudent(){
 		if(Config.inst().isLocalHost()) return;
 		String studentName = scn.students.get("benny.tmms@CCDetailsUiT.CS2104").name;
@@ -101,7 +90,9 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 		assertTrue(SharedLib.getRegistrationKeyFromGmail(otherStudentEmail, Config.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id)!=null);
 		assertTrue(SharedLib.getRegistrationKeyFromGmail(registeredStudentEmail, Config.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id)==null);
 	}
-	
+
+	@Test
+	// Should be the last test
 	public void testCoordCourseDetailsDeleteStudent() throws Exception{
 		// Test delete student
 		String studentName = scn.students.get("benny.tmms@CCDetailsUiT.CS2104").name;

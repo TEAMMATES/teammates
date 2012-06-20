@@ -17,5 +17,17 @@
     "gracePeriod": 5,
     "p2pEnabled": true,
     "activated": true
+  },
+  
+  "newEvaluation": {
+    "course": "CEvEditUiTest.CS1101",
+    "name": "Testing Evaluation",
+    "instructions": "This is the new instructions",
+    "startTime": "2013-04-20 11:59 PM",
+    "endTime": "2014-04-20 11:59 PM",
+    "timeZone": 8.0,
+    "gracePeriod": 0,
+    "p2pEnabled": false,
+    "activated": false
   }
 }

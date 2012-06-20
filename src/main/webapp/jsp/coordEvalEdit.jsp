@@ -133,10 +133,10 @@
 						<tr>
 							<td></td>
 							<td colspan="3">
-								<input id="t_btnAddEvaluation" type="submit" class="button"
+								<input id="button_submit" type="submit" class="button"
 										onclick="return checkEditEvaluation(this.form);"
 										value="Save Changes" tabindex=9 />
-								<input id="t_btnAddEvaluation" type="button" class="button"
+								<input id="button_back" type="button" class="button"
 										onclick="window.location.href='<%= helper.getCoordEvaluationLink() %>'"
 										value="Cancel" tabindex=10 /></td>
 						</tr>

@@ -148,7 +148,7 @@
 						<tr>
 							<td></td>
 							<td colspan="3">
-								<input id="t_btnAddEvaluation" type="submit" class="button"
+								<input id="button_submit" type="submit" class="button"
 										onclick="return checkAddEvaluation(this.form);"
 										value="Create Evaluation" tabindex=9 /></td>
 						</tr>

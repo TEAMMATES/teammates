@@ -23,7 +23,7 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 	
 	private static String enrollString = "";
 	
-	private static String appURL = Config.inst().TEAMMATES_URL.replaceAll("/(?=$)","");
+	private static String appUrl = Config.inst().TEAMMATES_URL.replaceAll("/(?=$)","");
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -49,8 +49,11 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		bi.loginCoord(scn.coords.get("teammates.test").id, Config.inst().TEAMMATES_APP_PASSWORD);
-		bi.goToUrl(Helper.addParam(appURL+Common.PAGE_COORD_COURSE_ENROLL,Common.PARAM_COURSE_ID,scn.courses.get("CCEnrollUiT.CS2104").id));
+		bi.loginAdmin(Config.inst().TEAMMATES_ADMIN_ACCOUNT, Config.inst().TEAMMATES_ADMIN_PASSWORD);
+		String link = appUrl+Common.PAGE_COORD_COURSE_ENROLL;
+		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CCEnrollUiT.CS2104").id);
+		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
+		bi.goToUrl(link);
 	}
 	
 	@AfterClass
@@ -61,12 +64,14 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testCoordCourseEnrollPage() throws Exception{
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/CoordCourseEnrollPage.html");
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollPage.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollPage.html");
 		
 		bi.fillString(By.id("enrollstudents"), enrollString);
 		bi.click(By.id("button_enroll"));
 
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/CoordCourseEnrollPageResult.html");
+//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollPageResult.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollPageResult.html");
 		
 	}
 }

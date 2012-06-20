@@ -144,7 +144,7 @@ public class Common {
 	
 	public static final String PARAM_REGKEY = "regkey";
 	public static final String PARAM_STUDENT_EMAIL = "studentemail";
-	public static final String PARAM_BY_REVIEWER = "byreviewer";
+	public static final String PARAM_NEW_STUDENT_EMAIL = "newstudentemail";
 
 	public static final String PARAM_STUDENT_NAME = "studentname";
 	public static final String PARAM_FROM_EMAIL = "fromemail";
@@ -549,6 +549,17 @@ public class Common {
 		cal.add(Calendar.HOUR_OF_DAY, 1);
 		cal.set(Calendar.MINUTE, 0);
 		return cal.getTime();
+	}
+	
+	/**
+	 * Formats a date in the format HH for evaluation.
+	 * This will return "24" for time 2359
+	 * @param date
+	 * @return
+	 */
+	public static String formatTimeForEvaluation(Date date) {
+		if(new SimpleDateFormat("mm").format(date).equals("59")) return "24";
+		return new SimpleDateFormat("HH").format(date);
 	}
 
 	/**
