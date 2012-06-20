@@ -120,11 +120,11 @@ public class CoordCourseEditStudentsTeamTest extends TestCase {
 		bi.goToCourses();
 		bi.clickCoordCourseView(scn.course.courseId);
 		
-		assertEquals(4, bi.countCourseDetailStudents());
+		assertEquals(4, bi.countStudents());
 		
 		bi.clickCoordCourseDetailStudentDeleteAndConfirm(scn.students.get(FIRST_STUDENT).name);
 		
-		assertEquals(3, bi.countCourseDetailStudents());
+		assertEquals(3, bi.countStudents());
 
 		// Verify Report
 		bi.goToEvaluation();
@@ -146,7 +146,7 @@ public class CoordCourseEditStudentsTeamTest extends TestCase {
 		bi.logout();
 		
 		// Verify Student View (using Charlie account)
-		bi.loginStudent(CHARLIE.email, Config.inst().TEAMMATES_APP_PASSWD);
+		bi.loginStudent(CHARLIE.email, Config.inst().TEAMMATES_APP_PASSWORD);
 		
 		bi.clickEvaluationTab();
 		bi.studentClickEvaluationViewResults(scn.course.courseId, scn.evaluation.name);

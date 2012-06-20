@@ -36,8 +36,8 @@ public class CoordCourseViewTest extends TestCase {
 			System.out.println("Omitting email testing because testing on local host");
 		}else{
 			System.out.println("Clean inbox for " + FIRST_STUDENT.name);
-			SharedLib.markAllEmailsSeen(FIRST_STUDENT.email, Config.inst().TEAMMATES_APP_PASSWD);
-			SharedLib.markAllEmailsSeen(Config.inst().INDIVIDUAL_ACCOUNT, Config.inst().TEAMMATES_APP_PASSWD);
+			SharedLib.markAllEmailsSeen(FIRST_STUDENT.email, Config.inst().TEAMMATES_APP_PASSWORD);
+			SharedLib.markAllEmailsSeen(Config.inst().INDIVIDUAL_ACCOUNT, Config.inst().TEAMMATES_APP_PASSWORD);
 		}
 		
 		bi.loginCoord(scn.coordinator.username, scn.coordinator.password);
@@ -86,17 +86,17 @@ public class CoordCourseViewTest extends TestCase {
 		bi.clickCoordCourseView(newStudent);
 		bi.waitForElementPresent(bi.studentDetailKey);
 		String key = bi.getElementText(bi.studentDetailKey);
-		bi.clickWithWait(bi.courseDetailBackButton);
+		bi.clickWithWait(bi.coordCourseDetailBackButton);
 		
 		System.out.println("Key for new student: " + key);
 
 		// Assert that student gets a notification email
 		bi.waitAWhile(1500);
-		assertEquals(key, SharedLib.getRegistrationKeyFromGmail(newEmail, Config.inst().TEAMMATES_APP_PASSWD, scn.course.courseId));
+		assertEquals(key, SharedLib.getRegistrationKeyFromGmail(newEmail, Config.inst().TEAMMATES_APP_PASSWORD, scn.course.courseId));
 
 		// Assert that rest of the students don't get spammed
 		bi.waitAWhile(1500);
-		assertEquals("", SharedLib.getRegistrationKeyFromGmail(FIRST_STUDENT.email, Config.inst().TEAMMATES_APP_PASSWD, scn.course.courseId));
+		assertEquals("", SharedLib.getRegistrationKeyFromGmail(FIRST_STUDENT.email, Config.inst().TEAMMATES_APP_PASSWORD, scn.course.courseId));
 			
 		bi.logout();
 	}

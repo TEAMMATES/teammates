@@ -11,9 +11,9 @@ public class MarkAllEmailsSeen {
 	 */
 	public static void main(String args[]) {
 		try {
-			SharedLib.markAllEmailsSeen("alice.tmms", Config.inst().TEAMMATES_APP_PASSWD);
-			SharedLib.markAllEmailsSeen("benny.tmms", Config.inst().TEAMMATES_APP_PASSWD);
-			SharedLib.markAllEmailsSeen("charlie.tmms", Config.inst().TEAMMATES_APP_PASSWD);
+			SharedLib.markAllEmailsSeen("alice.tmms", Config.inst().TEAMMATES_APP_PASSWORD);
+			SharedLib.markAllEmailsSeen("benny.tmms", Config.inst().TEAMMATES_APP_PASSWORD);
+			SharedLib.markAllEmailsSeen("charlie.tmms", Config.inst().TEAMMATES_APP_PASSWORD);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

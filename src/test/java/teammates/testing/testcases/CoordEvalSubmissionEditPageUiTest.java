@@ -38,7 +38,7 @@ public class CoordEvalSubmissionEditPageUiTest extends BaseTestCase {
 
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		bi.loginCoord(scn.coords.get("teammates.demo.coord").id, Config.inst().TEAMMATES_APP_PASSWD);
+		bi.loginCoord(scn.coords.get("teammates.demo.coord").id, Config.inst().TEAMMATES_APP_PASSWORD);
 		String link = appUrl+Common.PAGE_COORD_EVAL_SUBMISSION_EDIT;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("First Eval").course);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("First Eval").name);

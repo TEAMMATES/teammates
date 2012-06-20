@@ -33,7 +33,7 @@ public class CoordCourseAddUITest extends TestCase {
 		TMAPI.deleteCourse(ts.validCourse.id);
 		TMAPI.deleteCourse(ts.courseWithSameNameDifferentId.id);
 		
-		bi.loginCoord(ts.coordinator.id, Config.inst().TEAMMATES_APP_PASSWD);
+		bi.loginCoord(ts.coordinator.id, Config.inst().TEAMMATES_APP_PASSWORD);
 	}
 
 	@AfterClass

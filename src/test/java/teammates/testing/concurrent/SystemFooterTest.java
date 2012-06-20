@@ -58,7 +58,7 @@ public class SystemFooterTest extends TestCase {
 		if(bi.isElementPresent(bi.logoutTab)) {
 			bi.logout();
 		}
-		bi.loginStudent(scn.students.get(FIRST_STUDENT).email, Config.inst().TEAMMATES_APP_PASSWD);
+		bi.loginStudent(scn.students.get(FIRST_STUDENT).email, Config.inst().TEAMMATES_APP_PASSWORD);
 		testFooter();
 		bi.logout();
 	}

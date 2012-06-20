@@ -50,7 +50,7 @@ public class CoordCourseRemindServlet extends ActionServlet<Helper> {
 		try{
 			if(studentEmail!=null){
 				helper.server.sendRegistrationInviteToStudent(courseID, studentEmail);
-				helper.statusMessage = Common.MESSAGE_COURSE_REMINDER_SENT+studentEmail;
+				helper.statusMessage = Common.MESSAGE_COURSE_REMINDER_SENT_TO+studentEmail;
 			} else {
 				helper.server.sendRegistrationInviteForCourse(courseID);
 				helper.statusMessage = Common.MESSAGE_COURSE_REMINDERS_SENT;

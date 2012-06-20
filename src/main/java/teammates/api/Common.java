@@ -253,19 +253,25 @@ public class Common {
 	public static final String JSP_ENTITY_NOT_FOUND_PAGE = "/entityNotFoundPage.jsp"; // Done
 	public static final String JSP_PAGE_NOT_FOUND_PAGE = "/pageNotFound.jsp"; // Done
 
+	// data field sizes
+	public static final int COURSE_NAME_MAX_LENGTH = 38;
+	public static final int COURSE_ID_MAX_LENGTH = 21;
+	public static final int EVALUATION_NAME_MAX_LENGTH = 38;
+	public static final int STUDENT_NAME_MAX_LENGTH = 40;
+	public static final int TEAM_NAME_MAX_LENGTH = 25;
+	public static final int COMMENT_MAX_LENGTH = 500;
+	
 	// status messages
 	public static final String MESSAGE_LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
 	
 	public static final String MESSAGE_COURSE_ADDED = "The course has been added. Click the 'Enroll' link in the table below to add students to the course.";
 	public static final String MESSAGE_COURSE_EXISTS = "The course already exists.";
-	public static final String MESSAGE_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
-	public static final String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
 	public static final String MESSAGE_COURSE_DELETED = "The course has been deleted.";
 	public static final String MESSAGE_COURSE_EMPTY = "You have not created any courses yet. Use the form above to create a course.";
 	public static final String MESSAGE_COURSE_EMPTY_IN_EVALUATION = "You have not created any courses yet. Go <a href=\""+PAGE_COORD_COURSE+"\">here</a> to create one.";
-	public static final String MESSAGE_COURSE_REMINDER_SENT = "Registration key has been sent to ";
+	public static final String MESSAGE_COURSE_REMINDER_SENT_TO = "Registration key has been sent to ";
 	public static final String MESSAGE_COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
-
+	
 	public static final String MESSAGE_STUDENT_EDITED = "The student has been edited successfully";
 	public static final String MESSAGE_STUDENT_DELETED = "The student has been removed from the course";
 
@@ -280,25 +286,26 @@ public class Common {
 	public static final String MESSAGE_EVALUATION_EMPTY = "You have not created any evaluations yet. Use the form above to create a new evaluation.";
 
 	public static final String MESSAGE_EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
+	// Status messages from Javascript
+	public static final String MESSAGE_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
+	public static final String MESSAGE_COURSE_LONG_ID = "Course ID should not exceed " + COURSE_ID_MAX_LENGTH + " characters.";
+	public static final String MESSAGE_COURSE_LONG_NAME = "Course name should not exceed " + COURSE_NAME_MAX_LENGTH + " characters.";
+	public static final String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
 	public static final String MESSAGE_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
 	public static final String MESSAGE_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
-	public static final String MESSAGE_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.";
+	public static final String MESSAGE_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.<br />" +
+											 "The start time should be in the future, and the deadline should be after start time.";
 
+	// Messages that are templates only
+	/** Template String. Parameters: Student's name, Evaluation name, Course ID */
 	public static final String MESSAGE_COORD_EVALUATION_SUBMISSION_RECEIVED = "You have edited %s's submission for evaluation %s in course %s successfully<br />" +
 																			"The change will not be reflected here until you refresh the page.";
-	public static final String MESSAGE_EVALUATION_SUBMISSION_RECEIVED = "Your submission for %s in course %s has been saved successfully";
+	/** Template String. Parameters: Evaluation name, Course ID */
+	public static final String MESSAGE_STUDENT_EVALUATION_SUBMISSION_RECEIVED = "Your submission for %s in course %s has been saved successfully";
 
 	// DIV tags for HTML testing
 	public static final String HEADER_TAG = "<div id=\"frameTop\">";
 	public static final String FOOTER_TAG = "<div id=\"frameBottom\">";
-
-	// data field sizes
-	public static final int COURSE_NAME_MAX_LENGTH = 38;
-	public static final int COURSE_ID_MAX_LENGTH = 21;
-	public static final int EVALUATION_NAME_MAX_LENGTH = 38;
-	public static final int STUDENT_NAME_MAX_LENGTH = 40;
-	public static final int TEAM_NAME_MAX_LENGTH = 25;
-	public static final int COMMENT_MAX_LENGTH = 500;
 
 	// TeammatesServlet responses
 	public static final String COORD_ADD_COURSE_RESPONSE_ADDED = "<status>course added</status>";

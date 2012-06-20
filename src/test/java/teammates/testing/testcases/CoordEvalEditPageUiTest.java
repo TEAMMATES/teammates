@@ -41,7 +41,7 @@ public class CoordEvalEditPageUiTest extends BaseTestCase {
 		BackDoor.createEvaluation(ts.evaluation);
 		System.out.println("Finished recreating in "+(System.currentTimeMillis()-start)+" ms");
 		
-		bi.loginCoord(ts.coordinator.id, Config.inst().TEAMMATES_APP_PASSWD);
+		bi.loginCoord(ts.coordinator.id, Config.inst().TEAMMATES_APP_PASSWORD);
 		String link = appUrl+Common.PAGE_COORD_EVAL_EDIT;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ts.evaluation.course);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, ts.evaluation.name);

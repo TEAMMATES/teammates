@@ -149,7 +149,7 @@ public class StudentHomeHelper extends Helper {
 	public String getStudentEvaluationActions(EvaluationData eval, int idx){
 		String studentStatus = getStudentStatusForEval(eval);
 		if(studentStatus.equals(Common.STUDENT_EVALUATION_STATUS_PENDING)){
-			return "<a id=\"doEvaluation" + idx + "\" " +
+			return "<a id=\"submitEvaluation" + idx + "\" " +
 					"href=\"" + getStudentEvaluationSubmissionEditLink(eval.course,eval.name) + "\" " +
 					"onmouseover=\"ddrivetip('" + Common.HOVER_MESSAGE_STUDENT_EVALUATION_SUBMIT + "')\" " +
 					"onmouseout=\"hideddrivetip()\">Submit</a>";

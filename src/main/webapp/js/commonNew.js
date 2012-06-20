@@ -16,7 +16,7 @@ var DISPLAY_STUDENT_NAME_INVALID = "Name should only consist of alphanumerics an
 var DISPLAY_STUDENT_TEAMNAME_INVALID = "Team name should contain less than 25 characters.";
 
 // Used in coordCourse.js only
-var DISPLAY_COURSE_EMPTY = "Course ID and Course Name are compulsory fields.";
+var DISPLAY_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
 var DISPLAY_COURSE_LONG_ID = "Course ID should not exceed " + COURSE_ID_MAX_LENGTH + " characters.";
 var DISPLAY_COURSE_LONG_NAME = "Course name should not exceed " + COURSE_NAME_MAX_LENGTH + " characters.";
 var DISPLAY_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";

@@ -16,6 +16,7 @@ import teammates.api.Common;
 import teammates.datatransfer.CoordData;
 import teammates.datatransfer.CourseData;
 import teammates.exception.NoAlertAppearException;
+import teammates.jsp.Helper;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
@@ -45,8 +46,10 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		BackDoor.createCoord(ts.coordinator);
 		System.out.println("Finished recreating in "+(System.currentTimeMillis()-start)+" ms");
 		
-		bi.loginCoord(ts.coordinator.id, Config.inst().TEAMMATES_APP_PASSWD);
-		bi.goToUrl(appUrl+Common.PAGE_COORD_COURSE);
+		bi.loginAdmin(Config.inst().TEAMMATES_ADMIN_ACCOUNT, Config.inst().TEAMMATES_ADMIN_PASSWORD);
+		String link = appUrl+Common.PAGE_COORD_COURSE;
+		link = Helper.addParam(link,Common.PARAM_USER_ID,ts.coordinator.id);
+		bi.goToUrl(link);
 	}
 	
 	@AfterClass
@@ -72,11 +75,11 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseByIdNew.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseByIdNew.html");
 
-		bi.click(By.id("button_sortcoursename"));
+		bi.click(bi.coordCourseSortByNameButton);
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseByNameNew.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseByNameNew.html");
 		
-		bi.click(By.id("button_sortcourseid"));
+		bi.click(bi.coordCourseSortByIdButton);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseByIdNew.html");
 	}
 
@@ -90,25 +93,25 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		String courseName = ts.validCourse.name;
 		
 		/////////////////////////////////////////////////////////////////
-		printTestCaseHeader("testCoordAddCourseSuccessful");
+		printTestCaseHeader("testCoordaddCourseSuccessful");
 		
-		addCourse(courseId, courseName);
+		bi.addCourse(courseId, courseName);
 
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseAddSuccessful.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseAddSuccessful.html");
 		
 		/////////////////////////////////////////////////////////////////
-		printTestCaseHeader("testCoordAddCourseWithInvalidInputsFailed");
+		printTestCaseHeader("testCoordaddCourseWithInvalidInputsFailed");
 
-		addCourse("", courseName);
+		bi.addCourse("", courseName);
 		bi.waitForStatusMessage(Common.MESSAGE_COURSE_MISSING_FIELD);
 		
 		// Adding course without name
-		addCourse(courseId, "");
+		bi.addCourse(courseId, "");
 		bi.waitForStatusMessage(Common.MESSAGE_COURSE_MISSING_FIELD);
 		
 		//Not-allowed characters
-		addCourse(courseId+"!*}", courseName + " (!*})");
+		bi.addCourse(courseId+"!*}", courseName + " (!*})");
 		bi.waitForStatusMessage(Common.MESSAGE_COURSE_INVALID_ID);
 
 		////////////////////////////////////////////////////////////////
@@ -127,9 +130,9 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		assertEquals(longCourseName.substring(0, Common.COURSE_NAME_MAX_LENGTH), bi.fillInCourseName(longCourseName));
 
 		////////////////////////////////////////////////////////////////
-		printTestCaseHeader("testCoordAddCourseWithDuplicateIdFailed");
+		printTestCaseHeader("testCoordaddCourseWithDuplicateIdFailed");
 		
-		addCourse(courseId, "different course name");
+		bi.addCourse(courseId, "different course name");
 		
 		long start = System.currentTimeMillis();
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseAddDupIdFailed.html");
@@ -138,12 +141,8 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordCourseAddLinks() throws Exception{
-		BackDoor.deleteCourse(ts.testCourse.id);
+		String courseId = ts.validCourse.id;
 		
-		String courseId = ts.testCourse.id;
-		String courseName = ts.testCourse.id;
-		
-		addCourse(courseId, courseName);
 		int courseRowId = bi.getCourseRowID(courseId);
 		assertTrue(courseRowId!=-1);
 
@@ -179,12 +178,5 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		public CoordData coordinator;
 		public CourseData validCourse;
 		public CourseData courseWithSameNameDifferentId;
-		public CourseData testCourse;
-	}
-	
-	private void addCourse(String courseId, String courseName){
-		bi.fillInCourseID(courseId);
-		bi.fillInCourseName(courseName);
-		bi.click(By.id("btnAddCourse"));
 	}
 }

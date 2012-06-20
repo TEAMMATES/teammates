@@ -20,7 +20,7 @@ public class StudentHelpPageHTMLTest extends TestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		bi = BrowserInstancePool.getBrowserInstance();
-		bi.loginStudent(TEST_STUDENT, Config.inst().TEAMMATES_APP_PASSWD);
+		bi.loginStudent(TEST_STUDENT, Config.inst().TEAMMATES_APP_PASSWORD);
 	}
 
 	@AfterClass

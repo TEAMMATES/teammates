@@ -16,7 +16,7 @@ public class Config {
 	public String MAIL_HOST;
 
 	public String TEAMMATES_APP_ACCOUNT;
-	public String TEAMMATES_APP_PASSWD;
+	public String TEAMMATES_APP_PASSWORD;
 
 	public String TEAMMATES_COORD_ID;
 
@@ -48,10 +48,6 @@ public class Config {
 	private static Config instance;
 	private Properties prop;
 	
-	
-	
-	
-
 	private Config() {
 		prop = new Properties();
 		try {
@@ -63,7 +59,7 @@ public class Config {
 			TEAMMATES_URL = prop.getProperty("test.app.url");
 			TEAMMATES_APP = prop.getProperty("test.app.id");
 			TEAMMATES_APP_ACCOUNT = prop.getProperty("test.app.account");
-			TEAMMATES_APP_PASSWD = prop.getProperty("test.app.password");
+			TEAMMATES_APP_PASSWORD = prop.getProperty("test.app.password");
 			TEAMMATES_COORD_ID = prop.getProperty("test.coord.id");
 			INDIVIDUAL_ACCOUNT = prop.getProperty("test.individual.account");
 			INDIVIDUAL_NAME = prop.getProperty("test.individual.name");

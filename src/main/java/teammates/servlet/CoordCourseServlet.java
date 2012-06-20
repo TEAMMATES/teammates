@@ -62,7 +62,9 @@ public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
 		helper.courses = new ArrayList<CourseData>(courses.values());
 		sortCourses(helper.courses);
 		if(helper.courses.size()==0 && !helper.error){
-			helper.statusMessage = Common.MESSAGE_COURSE_EMPTY;
+			if(helper.statusMessage==null) helper.statusMessage="";
+			else helper.statusMessage += "<br />";
+			helper.statusMessage += Common.MESSAGE_COURSE_EMPTY;
 		}
 	}
 

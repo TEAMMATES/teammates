@@ -73,7 +73,7 @@ public class StudentHomePageFunctionalityTest extends TestCase {
 		TMAPI.createEvaluation(scn.evaluation5);
 		TMAPI.openEvaluation(scn.course2.courseId, scn.evaluation5.name);
 		
-		bi.loginStudent(TEST_STUDENT, Config.inst().TEAMMATES_APP_PASSWD);
+		bi.loginStudent(TEST_STUDENT, Config.inst().TEAMMATES_APP_PASSWORD);
 	}
 	
 	@AfterClass

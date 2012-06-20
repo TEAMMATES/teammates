@@ -31,10 +31,10 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="/page/coordHome" class="t_home">Home</a></li>
-					<li><a href="/page/coordCourse" class="t_courses">Courses</a></li>
+					<li><a href="/page/coordHome?user=teammates.demo.coord" class="t_home">Home</a></li>
+					<li><a href="/page/coordCourse?user=teammates.demo.coord" class="t_courses">Courses</a></li>
 					<!-- <li><a class='t_teamForming' href="/page/coordTFS">Team-Forming</a></li> -->
-					<li><a href="/page/coordEval" class="t_evaluations">Evaluations</a></li>
+					<li><a href="/page/coordEval?user=teammates.demo.coord" class="t_evaluations">Evaluations</a></li>
 					<li><a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/coordinatorhelp.html" class="t_help">Help</a></li>
 					<li><a href="/logout.jsp" class="t_logout">Logout</a>
 					 (teammates.demo.coord)</li>
@@ -69,6 +69,8 @@
 						</tr>
 					</tbody></table>
 					
+						<input type="hidden" value="teammates.demo.coord" name="user" />
+					
 				</form>
 			</div>
 			
@@ -96,9 +98,9 @@
 							<td class="centeralign">4</td>
 							<td class="centeralign">0</td>
 							<td class="centeralign">
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/coordCourseEnroll?courseid=CS1101-TESTING" class="t_course_enroll0">Enroll</a>
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/coordCourseDetails?courseid=CS1101-TESTING" class="t_course_view0">View</a>
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CS1101-TESTING');" href="/page/coordCourseDelete?courseid=CS1101-TESTING&amp;next=%2Fpage%2FcoordCourse" class="t_course_delete0">Delete</a>
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/coordCourseEnroll?courseid=CS1101-TESTING&amp;user=teammates.demo.coord" class="t_course_enroll0">Enroll</a>
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/coordCourseDetails?courseid=CS1101-TESTING&amp;user=teammates.demo.coord" class="t_course_view0">View</a>
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CS1101-TESTING');" href="/page/coordCourseDelete?courseid=CS1101-TESTING&amp;next=%2Fpage%2FcoordCourse%3Fuser%3Dteammates.demo.coord&amp;user=teammates.demo.coord" class="t_course_delete0">Delete</a>
 							</td>
 						</tr>
 					
@@ -109,9 +111,9 @@
 							<td class="centeralign">4</td>
 							<td class="centeralign">0</td>
 							<td class="centeralign">
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/coordCourseEnroll?courseid=CS2104-TESTING" class="t_course_enroll1">Enroll</a>
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/coordCourseDetails?courseid=CS2104-TESTING" class="t_course_view1">View</a>
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CS2104-TESTING');" href="/page/coordCourseDelete?courseid=CS2104-TESTING&amp;next=%2Fpage%2FcoordCourse" class="t_course_delete1">Delete</a>
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/coordCourseEnroll?courseid=CS2104-TESTING&amp;user=teammates.demo.coord" class="t_course_enroll1">Enroll</a>
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/coordCourseDetails?courseid=CS2104-TESTING&amp;user=teammates.demo.coord" class="t_course_view1">View</a>
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CS2104-TESTING');" href="/page/coordCourseDelete?courseid=CS2104-TESTING&amp;next=%2Fpage%2FcoordCourse%3Fuser%3Dteammates.demo.coord&amp;user=teammates.demo.coord" class="t_course_delete1">Delete</a>
 							</td>
 						</tr>
 					
@@ -127,7 +129,7 @@
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-[TEAMMATES Version 4.17.02] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
+[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
 
 <a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html" class="footer">Contact Us</a>
 </div>

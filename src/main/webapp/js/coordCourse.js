@@ -36,7 +36,7 @@ function verifyAddCourse() {
 function courseStatusToMessage(statusCode) {
 	switch (statusCode) {
 	case COURSE_STATUS_EMPTY:
-		return DISPLAY_COURSE_EMPTY;
+		return DISPLAY_COURSE_MISSING_FIELD;
 	case COURSE_STATUS_LONG_ID:
 		return DISPLAY_COURSE_LONG_ID;
 	case COURSE_STATUS_LONG_NAME:

@@ -39,11 +39,13 @@ public class SharedLib {
 			store = sessioned.getStore("imaps");
 		} catch (NoSuchProviderException e) {
 			e.printStackTrace();
+			return null;
 		}
 		try {
 			store.connect("imap.gmail.com", gmail, password);
 		} catch (MessagingException e) {
 			e.printStackTrace();
+			return null;
 		}
 
 		try {
@@ -54,8 +56,8 @@ public class SharedLib {
 			FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
 			Message messages[] = inbox.search(ft);
 
-			// Loop over all of the messages
-			for (int i = messages.length - 1; i >= 0; i--) {
+			// Loop over the last 5 messages
+			for (int i = messages.length-1; i >= messages.length-5; i--) {
 				Message message = messages[i];
 				// If this is the right message (by matching header)
 
@@ -91,13 +93,11 @@ public class SharedLib {
 			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
-
 		} catch (MessagingException e) {
 			e.printStackTrace();
-			return "";
 		}
 
-		return "";
+		return null;
 	}
 
 	/**
@@ -253,7 +253,7 @@ public class SharedLib {
 	public static void main(String[] args) {
 		try {
 //			SharedLib.getRegistrationKeyFromGmail("alice.tmms@gmail.com", Config.inst().TEAMMATES_APP_PASSWD, "CS2103-TESTING");
-			SharedLib.getEvaluationReminderFromGmail("alice.tmms@gmail.com", Config.inst().TEAMMATES_APP_PASSWD, "CS2103-TESTING", "First Eval");
+			SharedLib.getEvaluationReminderFromGmail("alice.tmms@gmail.com", Config.inst().TEAMMATES_APP_PASSWORD, "CS2103-TESTING", "First Eval");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

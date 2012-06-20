@@ -50,7 +50,7 @@ public class Student {
 			if (json.has("coursekey")) {
 				student.courseKey = json.getString("coursekey");
 			}
-			student.password = Config.inst().TEAMMATES_APP_PASSWD;
+			student.password = Config.inst().TEAMMATES_APP_PASSWORD;
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

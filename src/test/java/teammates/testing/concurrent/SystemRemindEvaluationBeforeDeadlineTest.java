@@ -54,13 +54,13 @@ public class SystemRemindEvaluationBeforeDeadlineTest extends TestCase {
 		// not send email to the one that has submitted
 		assertEquals("",
 				SharedLib.getEvaluationReminderFromGmail(scn.students.get(0).email,
-						Config.inst().TEAMMATES_APP_PASSWD, scn.course.courseId, scn.evaluation.name));		
+						Config.inst().TEAMMATES_APP_PASSWORD, scn.course.courseId, scn.evaluation.name));		
 		
 		// Confirm Email 
 		for (int i = 1; i < scn.students.size(); i++) {
 			assertEquals(scn.course.courseId,
 					SharedLib.getEvaluationReminderFromGmail(scn.students.get(i).email,
-							Config.inst().TEAMMATES_APP_PASSWD, scn.course.courseId, scn.evaluation.name));
+							Config.inst().TEAMMATES_APP_PASSWORD, scn.course.courseId, scn.evaluation.name));
 		}
 		
 		

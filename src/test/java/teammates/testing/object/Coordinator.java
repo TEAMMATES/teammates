@@ -28,7 +28,7 @@ public class Coordinator {
 			e.printStackTrace();
 		}
 		//TODO: password should be part of Json? -damith
-		coord.password = Config.inst().TEAMMATES_APP_PASSWD;
+		coord.password = Config.inst().TEAMMATES_APP_PASSWORD;
 		return coord;
 	}
 

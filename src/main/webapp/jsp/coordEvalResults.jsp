@@ -130,7 +130,7 @@
 									for(TeamData team: helper.evaluation.teams){
 										for(StudentData student: team.students){
 					%>
-						<tr>
+						<tr class="student_row">
 							<td><%= CoordEvalResultsHelper.escapeHTML(team.name) %></td>
 							<td>
 								<span onmouseover="ddrivetip('<%= CoordEvalResultsHelper.escape(student.comments) %>')"
@@ -194,7 +194,14 @@
 											<th><span class="fontcolor"
 													onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_PERCEIVED %>')"
 													onmouseout="hideddrivetip()">
-												Perceived Contributions: </span><%= CoordEvalResultsHelper.printSharePoints(student.result.perceivedToCoord,true) %></th>
+												Perceived Contributions: </span><%= CoordEvalResultsHelper.printSharePoints(student.result.perceivedToCoord,true) %>
+												<% if(byReviewer){ %>
+													<a style="float:right; font-weight:normal" target="_blank"
+															href="<%= helper.getCoordEvaluationSubmissionEditLink(student.course, helper.evaluation.name, student.email) %>"
+															onclick="return openChildWindow(this.href)">
+															Edit</a>
+												<% } %>
+											</th>
 										</tr></thead>
 										<tr>
 											<td colspan="4"><b>Self evaluation:</b><br />

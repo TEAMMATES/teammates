@@ -52,7 +52,7 @@ public class StudentCourseJoinTest extends TestCase {
 		bi.goToCourses();
 		bi.clickCoordCourseView(scn.course.courseId);
 
-		bi.clickAndConfirm(bi.remindStudentsButton);
+		bi.clickAndConfirm(bi.coordCourseDetailRemindButton);
 
 		assertEquals(bi.MESSAGE_ENROLL_REMIND_TO_JOIN, bi.getElementText(bi.statusMessage));
 
@@ -76,7 +76,7 @@ public class StudentCourseJoinTest extends TestCase {
 
 		for (int i = 0; i < scn.students.size(); i++) {
 			assertEquals(scn.students.get(i).courseKey,
-							SharedLib.getRegistrationKeyFromGmail(scn.students.get(i).email, Config.inst().TEAMMATES_APP_PASSWD, scn.course.courseId));
+							SharedLib.getRegistrationKeyFromGmail(scn.students.get(i).email, Config.inst().TEAMMATES_APP_PASSWORD, scn.course.courseId));
 		}
 
 		// TODO: remove email-related testing into a single test case
@@ -86,7 +86,7 @@ public class StudentCourseJoinTest extends TestCase {
 	public void testStudentsJoinCourseSuccessful() throws Exception {
 		System.out.println("testStudentsJoinCourseSuccessful");
 		for (Student s : scn.students) {
-			bi.loginStudent(s.email, Config.inst().TEAMMATES_APP_PASSWD);
+			bi.loginStudent(s.email, Config.inst().TEAMMATES_APP_PASSWORD);
 
 			// Try a wrong course key
 			bi.fillString(bi.studentInputRegKey, "totally_wrong_key");

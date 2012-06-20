@@ -37,7 +37,7 @@
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
-				<h1>View Student's Result</h1>
+				<h1>View Student's Evaluation</h1>
 				<table class="evaluation_info">
 					<tr>
 						<td>Course ID:</td>
@@ -50,10 +50,12 @@
 				</table>
 			</div>
 			<div id="studentEvaluationSubmissions">
+			<%	for(boolean byReviewee = true, repeat=true; repeat; repeat = byReviewee, byReviewee=false){ %>
+				<h2 style="text-align:center"><%= CoordEvalSubmissionViewHelper.escapeHTML(helper.student.name) + (byReviewee ? "'s Result" : "'s Submission") %></h2>
 				<table class="result_table">
 					<thead><tr>
 						<th colspan="2" width="10%">
-							<span class="fontcolor"><%= helper.byReviewer ? "Reviewer" : "Reviewee" %>: </span><%= helper.student.name %></th>
+							<span class="fontcolor"><%= byReviewee ? "Reviewee" : "Reviewer" %>: </span><%= helper.student.name %></th>
 						<th><span class="fontcolor"
 								onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_CLAIMED %>')"
 								onmouseout="hideddrivetip()">
@@ -72,27 +74,27 @@
 								<%= CoordEvalSubmissionViewHelper.printComments(helper.result.getSelfEvaluation(), helper.evaluation.p2pEnabled) %></td>
 						</tr>
 					<tr class="result_subheader">
-						<td width="15%"><%= helper.byReviewer ? "To" : "From" %> Student</td>
+						<td width="15%"><%= byReviewee ? "From" : "To" %> Student</td>
 						<td width="5%">Contribution</td>
 						<td width="40%">Comments</td>
 						<td width="40%">Messages</td>
 					</tr>
-					<%	for(SubmissionData sub: (helper.byReviewer ? helper.result.outgoing : helper.result.incoming)){ if(sub.reviewer.equals(sub.reviewee)) continue; %>
+					<%	for(SubmissionData sub: (byReviewee ? helper.result.incoming : helper.result.outgoing)){ if(sub.reviewer.equals(sub.reviewee)) continue; %>
 						<tr>
-							<td><b><%= CoordEvalSubmissionViewHelper.escapeHTML(helper.byReviewer ? sub.revieweeName : sub.reviewerName) %></b></td>
-							<td><%= CoordEvalSubmissionViewHelper.printSharePoints(sub.normalized,false) %></td>
+							<td><b><%= CoordEvalSubmissionViewHelper.escapeHTML(byReviewee ? sub.reviewerName : sub.revieweeName) %></b></td>
+							<td><%= CoordEvalSubmissionViewHelper.printSharePoints(sub.normalizedToCoord,false) %></td>
 							<td><%= CoordEvalSubmissionViewHelper.printJustification(sub) %></td>
 							<td><%= CoordEvalSubmissionViewHelper.printComments(sub, helper.evaluation.p2pEnabled) %></td>
 						</tr>
 					<%	} %>
 				</table>
 				<br /><br />
+				<% } %>
 				<input type="button" class="button" id="button_back" value="Close"
 						onclick="window.close()"/>
-				<% if(helper.byReviewer){ %>
-					<input type="button" class="button" id="button_edit" value="Edit Submission"
-							onclick="window.location.href='<%= helper.getCoordEvaluationSubmissionEditLink(helper.evaluation.course, helper.evaluation.name, helper.student.email) %>'"/>
-				<% } %>
+				<input type="button" class="button" id="button_edit" value="Edit Submission"
+						onclick="window.location.href='<%= helper.getCoordEvaluationSubmissionEditLink(helper.evaluation.course, helper.evaluation.name, helper.student.email) %>'"/>
+				<br /><br />
 			</div>
 		</div>
 	</div>

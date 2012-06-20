@@ -56,7 +56,7 @@
 					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 					<div id="studentEvaluationSubmissionButtons">
 						<input type="button" class="button" id="button_back"
-								onclick="window.close()" value="Cancel" />
+								onclick="window.close(); opener.setStatusMessage('')" value="Cancel" />
 						<input type="submit" class="button" name="submitEvaluation"
 								onclick="return checkEvaluationForm(this.form)"
 								id="button_save" value="Save Changes" />

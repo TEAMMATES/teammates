@@ -86,26 +86,27 @@
 					<%	int idx = -1;
 						for(StudentData student: helper.students){ idx++;%>
 							<tr class="student_row" id="student<%= idx %>">
-								<td><%= student.name %></td>
-	 							<td><%= CoordCourseDetailsHelper.escapeHTML(student.team) %></td>
+								<td id="<%= Common.PARAM_STUDENT_NAME %>"><%= student.name %></td>
+	 							<td id="<%= Common.PARAM_TEAM_NAME %>"><%= CoordCourseDetailsHelper.escapeHTML(student.team) %></td>
 	 							<td class="centeralign"><%= helper.status(student) %></td>
 	 							<td class="centeralign">
-									<a class="t_student_details" href="<%= helper.getCourseStudentDetailsLink(student) %>"
+									<a class="t_student_details<%= idx %>"
+											href="<%= helper.getCourseStudentDetailsLink(student) %>"
 											onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_STUDENT_DETAILS %>')"
 											onmouseout="hideddrivetip()">
 											View</a>
-									<a class="t_student_edit" href="<%= helper.getCourseStudentEditLink(student) %>"
+									<a class="t_student_edit<%= idx %>" href="<%= helper.getCourseStudentEditLink(student) %>"
 											onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_STUDENT_EDIT %>')"
 											onmouseout="hideddrivetip()">
 											Edit</a>
 									<%	if(helper.status(student).equals(Common.STUDENT_STATUS_YET_TO_JOIN)){ %>
-										<a class="t_student_resend" href="<%= helper.getCourseStudentRemindLink(student) %>"
+										<a class="t_student_resend<%= idx %>" href="<%= helper.getCourseStudentRemindLink(student) %>"
 												onclick="return toggleSendRegistrationKey()"
 												onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_STUDENT_REMIND %>')"
 												onmouseout="hideddrivetip()">
 												Resend Invite</a>
 									<%	} %>
-									<a class="t_student_delete" href="<%= helper.getCourseStudentDeleteLink(student) %>"
+									<a class="t_student_delete<%= idx %>" href="<%= helper.getCourseStudentDeleteLink(student) %>"
 											onclick="return toggleDeleteStudentConfirmation('<%= CoordCourseDetailsHelper.escape(student.name) %>')"
 											onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_STUDENT_DELETE %>')"
 											onmouseout="hideddrivetip()">

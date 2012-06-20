@@ -7,5 +7,4 @@ public class CoordEvalSubmissionViewHelper extends CoordEvalResultsHelper{
 	// Specific parameters
 	public StudentData student;
 	public EvalResultData result;
-	public boolean byReviewer;
 }

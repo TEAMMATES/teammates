@@ -161,7 +161,7 @@ public class BrowserInstance {
 	// Evaluation table at evaluation page
 	/**
 	 * Finds the rowID (at evaluation page) number of a specific evaluation based on
-	 * the course ID and evaluation name 
+	 * the course ID and evaluation name
 	 * @param courseId
 	 * @param evalName
 	 * @return
@@ -242,17 +242,32 @@ public class BrowserInstance {
 	public By coordEnrollResultUnknown = By.className("enroll_result4");
 	
 	// Course details
-	public By courseDetailCourseID = By.id("courseid");
-	public By courseDetailCourseName = By.id("coursename");
-	public By courseDetailTotalTeams = By.id("total_teams");
-	public By courseDetailTotalStudents = By.id("total_students");
+	public By coordCourseDetailCourseID = By.id("courseid");
+	public By coordCourseDetailCourseName = By.id("coursename");
+	public By coordCourseDetailTotalTeams = By.id("total_teams");
+	public By coordCourseDetailTotalStudents = By.id("total_students");
 
-	public By courseDetailStudentNameSorting = By.id("button_sortstudentname");
-	public By courseDetailTeamSorting = By.id("button_sortstudentteam");
-	public By courseDetailJoinStatusSorting = By.id("button_sortstudentstatus");
+	public By coordCourseDetailSortByStudentName = By.id("button_sortstudentname");
+	public By coordCourseDetailSortByTeamName = By.id("button_sortstudentteam");
+	public By coordCourseDetailSortByStatus = By.id("button_sortstudentstatus");
+	
+	public int getStudentRowId(String studentName){
+		int studentCount = driver.findElements(By.className("student_row")).size();
+		for(int i=0; i<studentCount; i++){
+			if(driver.findElement(By.xpath("//tr[@class='student_row' and @id='student"+i+"']//td[@id='" + Common.PARAM_STUDENT_NAME + "']")).getText().equals(studentName)){
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	public By getCoordCourseDetailStudentViewLinkLocator(int rowId){ return By.className("t_student_view"+rowId); }
+	public By getCoordCourseDetailStudentEditLinkLocator(int rowId){ return By.className("t_student_edit"+rowId); }
+	public By getCoordCourseDetailStudentResendLinkLocator(int rowId){ return By.className("t_student_resend"+rowId); }
+	public By getCoordCourseDetailStudentDeleteLinkLocator(int rowId){ return By.className("t_student_delete"+rowId); }
 
-	public By remindStudentsButton = By.id("button_remind");
-	public By courseDetailBackButton = By.id("button_back");
+	public By coordCourseDetailRemindButton = By.id("button_remind");
+	public By coordCourseDetailBackButton = By.id("button_back");
 	@Deprecated
 	public By deleteStudentsButton = By.className("t_delete_students");
 
@@ -313,10 +328,15 @@ public class BrowserInstance {
 	@Deprecated
 	public By resultPreviousButton = By.id("button_previous");
 
+	@Deprecated
 	private final String COORD_EVALUATION_RESULT_TABLE = "//div[@id='coordinatorEvaluationSummaryTable']//table[@id='result_table']//th[%d]";
+	@Deprecated
 	public By pointReviewerIndividualClaimed = By.xpath(String.format(COORD_EVALUATION_RESULT_TABLE,2));
+	@Deprecated
 	public By pointReviewerIndividualPerceived = By.xpath(String.format(COORD_EVALUATION_RESULT_TABLE,3));
+	@Deprecated
 	public By pointRevieweeIndividualClaimed = By.xpath(String.format(COORD_EVALUATION_RESULT_TABLE,2));
+	@Deprecated
 	public By pointRevieweeIndividualPerceived = By.xpath(String.format(COORD_EVALUATION_RESULT_TABLE,3));
 
 	// Detailed result
@@ -375,7 +395,7 @@ public class BrowserInstance {
 	public By getStudentViewLink(int rowID) { return By.className("t_course_view" + rowID); }
 
 	// ------------------------------- Evaluation --------------------------------- //
-	public By getStudentDoEvaluationLink(int rowID) { return By.id("doEvaluation" + rowID); }
+	public By getStudentDoEvaluationLink(int rowID) { return By.id("submitEvaluation" + rowID); }
 	public By getStudentViewResultsLink(int rowID) { return By.id("viewEvaluationResults" + rowID); }
 	public By getStudentEditEvaluationSubmissionLink(int rowID) { return By.id("editEvaluationSubmission" + rowID); }
 	@Deprecated
@@ -393,21 +413,33 @@ public class BrowserInstance {
 	public By studentEvaluationClosingTime = By.id(Common.PARAM_EVALUATION_DEADLINETIME);
 	public By studentEvaluationInstructions = By.id(Common.PARAM_EVALUATION_INSTRUCTIONS);
 	
-	// Evaluation results table
-	public final String STUDENT_EVALUATION_RESULTS_TABLE_ROW = "//div[@id='studentEvaluationResults']//table[@class='result_studentform']//tbody//tr";
-	public final String STUDENT_EVALUATION_RESULTS_TABLE_CELL = STUDENT_EVALUATION_RESULTS_TABLE_ROW + "[%d]//td[%d]";
-
-	public By studentEvaluationResultStudentName = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 1, 2));
-	public By studentEvaluationResultCourseID = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 1, 4));
-	public By studentEvaluationResultTeamName = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 2, 2));
-	public By studentEvaluationResultEvaluationName = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 2, 4));
-	public By studentEvaluationResultClaimedPoints = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 3, 2));
-	public By studentEvaluationResultOpeningTime = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 3, 4));
-	public By studentEvaluationResultPerceivedPoints = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 4, 2));
-	public By studentEvaluationResultClosingTime = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 4, 4));
-	
 	public By statusMessage = By.id("statusMessage");
 	public By footer = By.id("contentFooter");
+
+	public static final String FOOTER = "Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:";
+	
+	// Evaluation results table
+	@Deprecated
+	public final String STUDENT_EVALUATION_RESULTS_TABLE_ROW = "//div[@id='studentEvaluationResults']//table[@class='result_studentform']//tbody//tr";
+	@Deprecated
+	public final String STUDENT_EVALUATION_RESULTS_TABLE_CELL = STUDENT_EVALUATION_RESULTS_TABLE_ROW + "[%d]//td[%d]";
+
+	@Deprecated
+	public By studentEvaluationResultStudentName = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 1, 2));
+	@Deprecated
+	public By studentEvaluationResultCourseID = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 1, 4));
+	@Deprecated
+	public By studentEvaluationResultTeamName = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 2, 2));
+	@Deprecated
+	public By studentEvaluationResultEvaluationName = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 2, 4));
+	@Deprecated
+	public By studentEvaluationResultClaimedPoints = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 3, 2));
+	@Deprecated
+	public By studentEvaluationResultOpeningTime = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 3, 4));
+	@Deprecated
+	public By studentEvaluationResultPerceivedPoints = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 4, 2));
+	@Deprecated
+	public By studentEvaluationResultClosingTime = By.xpath(String.format(STUDENT_EVALUATION_RESULTS_TABLE_CELL, 4, 4));
 	
 	@Deprecated
 	public By courseMessage = By.xpath("//div[@id='statusMessage']/font[1]");
@@ -417,52 +449,85 @@ public class BrowserInstance {
 	public By editEvaluationResultsStatusMessage = By.id("coordinatorEditEvaluationResultsStatusMessage");
 
 	// --------------------------------- Messages --------------------------------- //
-	public final static String MESSAGE_COURSE_DELETED = "The course has been deleted.";
-	public final static String MESSAGE_COURSE_DELETED_STUDENT = "The student has been removed from the course.";
-	public final static String MESSAGE_COURSE_DELETED_ALLSTUDENTS = "All students have been removed from the course. Click here to enroll students.";
+	// The messages are in the class Common, do not use the one here
+	@Deprecated
+	public static final String MESSAGE_COURSE_DELETED = "The course has been deleted.";
+	@Deprecated
+	public static final String MESSAGE_COURSE_DELETED_STUDENT = "The student has been removed from the course.";
+	@Deprecated
+	public static final String MESSAGE_COURSE_DELETED_ALLSTUDENTS = "All students have been removed from the course. Click here to enroll students.";
 
-	public final static String ERROR_COURSE_LONG_COURSE_NAME = "Course name should not exceed 38 characters.";
-	public final String MESSAGE_ENROLL_REMIND_TO_JOIN = "Emails have been sent to unregistered students.";
-	public final String ERROR_MESSAGE_ENROLL_INVALID_EMAIL = "E-mail address should contain less than 40 characters and be of a valid syntax.";
+	@Deprecated
+	public static final String ERROR_COURSE_LONG_COURSE_NAME = "Course name should not exceed 38 characters.";
+	@Deprecated
+	public static final String MESSAGE_ENROLL_REMIND_TO_JOIN = "Emails have been sent to unregistered students.";
+	@Deprecated
+	public static final String ERROR_MESSAGE_ENROLL_INVALID_EMAIL = "E-mail address should contain less than 40 characters and be of a valid syntax.";
 	
 	// Team forming session
-	public final String MESSAGE_TEAMFORMINGSESSION_ADDED = "The team forming session has been added.";
-	public final String MESSAGE_TEAMFORMINGSESSION_ADDED_WITH_EMPTY_CLASS = "The course does not have any students.";
-	public final String MESSAGE_TEAMFORMINGSESSION_DELETED = "The team forming session has been deleted.";
-	public final String MESSAGE_TEAMFORMINGSESSION_REMINDED = "Reminder e-mails have been sent out to those students.";
-	public final String ERROR_MESSAGE_TEAMFORMINGSESSION_EXISTS = "The team forming session exists already.";
-	public final String ERROR_INVALID_INPUT_TEAMFORMINGSESSION = "The team forming session schedule (start/deadline) is not valid.";
-	public final String MESSAGE_TEAMFORMINGSESSION_EDITED = "The team forming session has been edited.";
-	public final String ERROR_MESSAGE_TEAMPROFILE_EXISTS = "Same team profile exists already.";
-	public final String MESSAGE_TEAMPROFILE_SAVED = "The team profile has been saved.";
-	public final String MESSAGE_TEAMCHANGE_SAVED = "Student team has been changed.";
-	public final String MESSAGE_LOG_REMINDSTUDENTS = "All your actions will be logged and can be viewed by the course coordinator.";
-	public final String MESSAGE_STUDENTPROFILE_SAVED = "Your profile has been saved.";
-	public final String MESSAGE_STUDENT_JOINEDTEAM = "You have joined a team.";
-	public final String MESSAGE_STUDENT_LEFTTEAM = "You have left the team.";
-	public final String MESSAGE_STUDENT_ADDTOTEAM = "Student has been added to your team.";
-	public final String MESSAGE_STUDENT_NEWTEAMCREATED = "A new team has been created with the student.";
+	@Deprecated
+	public static final String MESSAGE_TEAMFORMINGSESSION_ADDED = "The team forming session has been added.";
+	@Deprecated
+	public static final String MESSAGE_TEAMFORMINGSESSION_ADDED_WITH_EMPTY_CLASS = "The course does not have any students.";
+	@Deprecated
+	public static final String MESSAGE_TEAMFORMINGSESSION_DELETED = "The team forming session has been deleted.";
+	@Deprecated
+	public static final String MESSAGE_TEAMFORMINGSESSION_REMINDED = "Reminder e-mails have been sent out to those students.";
+	@Deprecated
+	public static final String ERROR_MESSAGE_TEAMFORMINGSESSION_EXISTS = "The team forming session exists already.";
+	@Deprecated
+	public static final String ERROR_INVALID_INPUT_TEAMFORMINGSESSION = "The team forming session schedule (start/deadline) is not valid.";
+	@Deprecated
+	public static final String MESSAGE_TEAMFORMINGSESSION_EDITED = "The team forming session has been edited.";
+	@Deprecated
+	public static final String ERROR_MESSAGE_TEAMPROFILE_EXISTS = "Same team profile exists already.";
+	@Deprecated
+	public static final String MESSAGE_TEAMPROFILE_SAVED = "The team profile has been saved.";
+	@Deprecated
+	public static final String MESSAGE_TEAMCHANGE_SAVED = "Student team has been changed.";
+	@Deprecated
+	public static final String MESSAGE_LOG_REMINDSTUDENTS = "All your actions will be logged and can be viewed by the course coordinator.";
+	@Deprecated
+	public static final String MESSAGE_STUDENTPROFILE_SAVED = "Your profile has been saved.";
+	@Deprecated
+	public static final String MESSAGE_STUDENT_JOINEDTEAM = "You have joined a team.";
+	@Deprecated
+	public static final String MESSAGE_STUDENT_LEFTTEAM = "You have left the team.";
+	@Deprecated
+	public static final String MESSAGE_STUDENT_ADDTOTEAM = "Student has been added to your team.";
+	@Deprecated
+	public static final String MESSAGE_STUDENT_NEWTEAMCREATED = "A new team has been created with the student.";
 	
 	// Evaluations
-	public final String MESSAGE_EVALUATION_ADDED = "The evaluation has been added.";
-	public final String MESSAGE_EVALUATION_ADDED_WITH_EMPTY_TEAMS = "The evaluation has been added. Some students are without teams.";
-	public final String MESSAGE_EVALUATION_DELETED = "The evaluation has been deleted.";
-	public final String MESSAGE_EVALUATION_EDITED = "The evaluation has been edited.";
-	public final String MESSAGE_EVALUATION_PUBLISHED = "The evaluation has been published.";
-	public final String MESSAGE_EVALUATION_UNPUBLISHED = "The evaluation has been unpublished.";
+	@Deprecated
+	public static final String MESSAGE_EVALUATION_ADDED = "The evaluation has been added.";
+	@Deprecated
+	public static final String MESSAGE_EVALUATION_ADDED_WITH_EMPTY_TEAMS = "The evaluation has been added. Some students are without teams.";
+	@Deprecated
+	public static final String MESSAGE_EVALUATION_DELETED = "The evaluation has been deleted.";
+	@Deprecated
+	public static final String MESSAGE_EVALUATION_EDITED = "The evaluation has been edited.";
+	@Deprecated
+	public static final String MESSAGE_EVALUATION_PUBLISHED = "The evaluation has been published.";
+	@Deprecated
+	public static final String MESSAGE_EVALUATION_UNPUBLISHED = "The evaluation has been unpublished.";
 
-	public final String ERROR_LONG_EVALUATION_NAME = "Evaluation name should not exceed 38 characters.";
-	public final String ERROR_INVALID_EVALUATION_NAME = "Please use only alphabets, numbers and whitespace in evaluation name.";
+	@Deprecated
+	public static final String ERROR_LONG_EVALUATION_NAME = "Evaluation name should not exceed 38 characters.";
+	@Deprecated
+	public static final String ERROR_INVALID_EVALUATION_NAME = "Please use only alphabets, numbers and whitespace in evaluation name.";
 
-	public final String MESSAGE_EVALUATION_RESULTS_EDITED = "The particular evaluation results have been edited.";
+	@Deprecated
+	public static final String MESSAGE_EVALUATION_RESULTS_EDITED = "The particular evaluation results have been edited.";
 
-	public final String ERROR_MESSAGE_EVALUATION_EXISTS = "The evaluation exists already.";
+	@Deprecated
+	public static final String ERROR_MESSAGE_EVALUATION_EXISTS = "The evaluation exists already.";
 
 	// Student
-	public final String ERROR_STUDENT_JOIN_COURSE = "Registration key is invalid.";
-	public final String MESSAGE_STUDENT_JOIN_COURSE = "You have successfully joined the course.";
-
-	public final String FOOTER = "Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:";
+	@Deprecated
+	public static final String ERROR_STUDENT_JOIN_COURSE = "Registration key is invalid.";
+	@Deprecated
+	public static final String MESSAGE_STUDENT_JOIN_COURSE = "You have successfully joined the course.";
 
 	/**
 	 * Loads the TEAMMATES homepage into the browser
@@ -531,7 +596,7 @@ public class BrowserInstance {
 		if (isLocalLoginPage()) {
 			fillString(By.id("email"), email);
 			if(isAdmin){
-				selenium.check("id='isAdmin'");
+				selenium.check("id=isAdmin");
 			}
 			selenium.click("css=input[value='Log In']");
 			checkGoogleApplicationApproval();
@@ -812,7 +877,7 @@ public class BrowserInstance {
 	 * @param rowID
 	 */
 	public void clickCoordCourseDetailStudentDeleteAndConfirm(int rowID) {
-		clickAndConfirm(By.xpath(String.format("//table[@id='dataform']//tr[%d]//a[@class='t_student_delete']", rowID + 2)));
+		clickAndConfirm(getCoordCourseDetailStudentDeleteLinkLocator(rowID));
 	}
 	
 	/**
@@ -821,9 +886,32 @@ public class BrowserInstance {
 	 * @param student
 	 */
 	public void clickCoordCourseDetailStudentDeleteAndConfirm(String student) {
-		int rowID = findStudentRow(student);
+		int rowID = getStudentRowId(student);
 		if (rowID > -1) {
 			clickCoordCourseDetailStudentDeleteAndConfirm(rowID);
+		} else {
+			fail("Student not found in this course.");
+		}
+	}
+
+	/**
+	 * Clicks and confirms Delete a student at a particular rowID.
+	 * Pre-condition: Should be in Course detail page
+	 * @param rowID
+	 */
+	public void clickCoordCourseDetailStudentDeleteAndCancel(int rowID) {
+		clickAndCancel(getCoordCourseDetailStudentDeleteLinkLocator(rowID));
+	}
+	
+	/**
+	 * Clicks and confirms Delete a particular student.
+	 * Pre-condition: Should be in Course detail page
+	 * @param student
+	 */
+	public void clickCoordCourseDetailStudentDeleteAndCancel(String student) {
+		int rowID = getStudentRowId(student);
+		if (rowID > -1) {
+			clickCoordCourseDetailStudentDeleteAndCancel(rowID);
 		} else {
 			fail("Student not found in this course.");
 		}
@@ -1045,11 +1133,12 @@ public class BrowserInstance {
 	}
 	
 	public void clickCoordCourseDetailStudentView(int rowID) {
-		clickWithWait(By.xpath(String.format("//table[@id='dataform']//tr[%d]//td[4]//a[@class='t_student_view']", rowID + 2)));
+		By link = By.className("//a[@class='t_student_view" + rowID + "']");
+		clickWithWait(link);
 	}
 	
 	public void clickCoordCourseDetailStudentView(String student) {
-		int rowID = findStudentRow(student);
+		int rowID = getStudentRowId(student);
 		if (rowID > -1) {
 			clickCoordCourseDetailStudentView(rowID);
 		} else {
@@ -1058,11 +1147,12 @@ public class BrowserInstance {
 	}
 	
 	public void clickCoordCourseDetailStudentEdit(int rowID) {
-		clickWithWait(By.xpath(String.format("//table[@id='dataform']//tr[%d]//td[4]//a[@class='t_student_edit']", rowID + 2)));
+		By link = By.className("//a[@class='t_student_edit" + rowID + "']");
+		clickWithWait(link);
 	}
 	
 	public void clickCoordCourseDetailStudentEdit(String student) {
-		int rowID = findStudentRow(student);
+		int rowID = getStudentRowId(student);
 		if (rowID > -1) {
 			clickCoordCourseDetailStudentEdit(rowID);
 		} else {
@@ -1071,12 +1161,12 @@ public class BrowserInstance {
 	}
 	
 	public void clickCoordCourseDetailInvite(int rowID) {
-		By link = By.xpath(String.format("//table[@id='dataform']//tr[%d]//td[%d]//a[@class='t_student_resend']", rowID + 2, 4));
+		By link = By.className("//a[@class='t_student_resend" + rowID + "']");
 		clickWithWait(link);
 	}
 	
 	public void clickCoordCourseDetailInvite(String student) {
-		int rowID = findStudentRow(student);
+		int rowID = getStudentRowId(student);
 		if (rowID > -1) {
 			clickCoordCourseDetailInvite(rowID);
 		} else {
@@ -1920,22 +2010,6 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * Finds the rowID number of a student based on the name
-	 * @param student
-	 * @return
-	 */
-	public int findStudentRow(String student) {
-		int i = 0;
-		while (i < countCourseDetailStudents()) {
-			if (getCourseDetailStudentName(i).equals(student)) {
-				return i;
-			}
-			i++;
-		}
-		return -1;
-	}
-
-	/**
 	 * Finds the rowID number of a specific Team-forming session
 	 * based on the course ID
 	 * @param courseId
@@ -1959,48 +2033,32 @@ public class BrowserInstance {
 	 * --------------------------------------------------------------------- */
 	
 	public int countCourses() {
-		waitForElementPresent(By.id("dataform"));
-		if (getElementText(By.xpath(String.format("//table[@id='dataform']//tr[2]//td[1]"))).isEmpty()) {
-			return 0;
-		} else {
-			return selenium.getXpathCount(DATAFORM_TABLE_ROW).intValue() - 1;
-		}
+		waitForElementPresent(By.className("courses_row"));
+		return driver.findElements(By.className("courses_row")).size();
 	}
 	
-	public int countCourseDetailStudents() {
-		waitForElementPresent(By.id("dataform"));
-		if (getElementText(By.xpath(String.format("//table[@id='dataform']//tr[2]//td[1]"))).isEmpty()) {
-			return 0;
-		} else {
-			return selenium.getXpathCount(DATAFORM_TABLE_ROW).intValue() - 1;
-		}
+	public int countHomeCourses() {
+		waitForElementPresent(By.className("home_courses_div"));
+		return driver.findElements(By.className("home_courses_div")).size();
 	}
-
-	public int countTFS() {
-		waitForElementPresent(By.id("dataform"));
-		if (getElementText(By.xpath(String.format("//table[@id='dataform']//tr[2]//td[1]"))).isEmpty()) {
-			return 0;
-		} else {
-			return selenium.getXpathCount(DATAFORM_TABLE_ROW).intValue() - 1;
-		}
-	}
-
-	public int countReviewerSummaryStudents() {
-		waitForElementPresent(By.id("dataform"));
-		if (getElementText(By.xpath(String.format("//table[@id='dataform']//tr[2]//td[1]"))).isEmpty()) {
-			return 0;
-		} else {
-			return selenium.getXpathCount(DATAFORM_TABLE_ROW).intValue() - 1;
-		}
+	
+	public int countStudents() {
+		waitForElementPresent(By.className("student_row"));
+		return driver.findElements(By.className("student_row")).size();
 	}
 	
 	public int countEvaluations() {
-		waitForElementPresent(By.id("dataform"));
-		if (getElementText(By.xpath(String.format("//table[@id='dataform']//tr[2]//td[1]"))).isEmpty()) {
-			return 0;
-		} else {
-			return selenium.getXpathCount(DATAFORM_TABLE_ROW).intValue() - 1;
-		}
+		waitForElementPresent(By.className("evaluations_row"));
+		return driver.findElements(By.className("evaluations_row")).size();
+	}
+	
+	public int countHomeEvaluations(){
+		waitForElementPresent(By.className("home_evaluations_row"));
+		return driver.findElements(By.className("home_evaluations_row")).size();
+	}
+
+	public int countTFS() {
+		return 0;
 	}
 
 	public String getEvaluationCourseID(int rowID) {
@@ -2028,7 +2086,7 @@ public class BrowserInstance {
 		}
 	}
 
-	public String getEvaluationResponse(int rowID) {
+	public String getEvaluationResponseRate(int rowID) {
 		waitForElementPresent(By.id("dataform"));
 		rowID++;
 		return selenium.getTable("id=dataform." + rowID + ".3");
@@ -2037,10 +2095,10 @@ public class BrowserInstance {
 	public String getEvaluationResponse(String courseId, String evalName) {
 		int rowID = getEvaluationRowID(courseId, evalName);
 		if (rowID > -1) {
-			return getEvaluationResponse(rowID);
+			return getEvaluationResponseRate(rowID);
 		} else {
 			fail("Evaluation not found.");
-			return "getEvaluationResponse(String evalName) failed.";
+			return null;
 		}
 	}
 	
@@ -3011,7 +3069,7 @@ public class BrowserInstance {
 		for (int i = 0; i < countEvaluations(); i++) {
 			if (getEvaluationCourseID(i).equals(courseId) && getEvaluationName(i).equals(evalName)) {
 				assertEquals(status, getEvaluationStatus(i));
-				assertEquals(resp, getEvaluationResponse(i));
+				assertEquals(resp, getEvaluationResponseRate(i));
 			}
 		}
 	}

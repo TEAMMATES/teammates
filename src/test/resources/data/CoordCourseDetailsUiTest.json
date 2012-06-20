@@ -16,35 +16,35 @@
   },
   
   "students": {
-    "alice.b.tmms@CCDetailsUiT.CS2104": {
-      "id": "alice.b.tmms",
-      "email": "alice.b.tmms@gmail.com",
+    "alice.tmms@CCDetailsUiT.CS2104": {
+      "id": "alice.tmms",
+      "email": "alice.tmms@gmail.com",
       "course": "CCDetailsUiT.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "profile": {"value": "My name is Alice Betsy, and I'm a student in CCDetailsUiT.CS2104"},
       "team": "Team 1"
     },
-    "benny.c.tmms@CCDetailsUiT.CS2104": {
-      "id": "benny.c.tmms",
-      "email": "benny.c.tmms@gmail.com",
+    "benny.tmms@CCDetailsUiT.CS2104": {
+      "id": "",
+      "email": "benny.tmms@gmail.com",
       "course": "CCDetailsUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "profile": {"value": "My name is Benny Charles, and I'm a student in CCDetailsUiT.CS2104"},
-      "team": "Team 1"
+      "team": "Team 2"
     },
-    "charlie.d.tmms@CCDetailsUiT.CS2104": {
-      "id": "charlie.d.tmms",
-      "email": "charlie.d.tmms@gmail.com",
+    "charlie.tmms@CCDetailsUiT.CS2104": {
+      "id": "",
+      "email": "charlie.tmms@gmail.com",
       "course": "CCDetailsUiT.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "profile": {"value": "My name is Charlie Davis, and I'm a student in CCDetailsUiT.CS2104"},
-      "team": "Team 2"
+      "team": "Team 1"
     },
-    "danny.e.tmms@CCDetailsUiT.CS2104": {
-      "id": "danny.e.tmms",
+    "danny.tmms@CCDetailsUiT.CS2104": {
+      "id": "danny.tmms",
       "email": "danny.e.tmms@gmail.com",
       "course": "CCDetailsUiT.CS2104",
       "name": "Danny Engrid",

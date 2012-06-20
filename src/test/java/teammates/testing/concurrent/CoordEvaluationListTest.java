@@ -103,7 +103,7 @@ public class CoordEvaluationListTest extends TestCase {
 		// Confirm Email
 		bi.waitForEmail();
 		for (int i = 0; i < scn.students.size(); i++) {
-			assertEquals(scn.course.courseId, SharedLib.getEvaluationReminderFromGmail(scn.students.get(i).email, Config.inst().TEAMMATES_APP_PASSWD, scn.course.courseId, scn.evaluation2.name));
+			assertEquals(scn.course.courseId, SharedLib.getEvaluationReminderFromGmail(scn.students.get(i).email, Config.inst().TEAMMATES_APP_PASSWORD, scn.course.courseId, scn.evaluation2.name));
 		}
 	}
 

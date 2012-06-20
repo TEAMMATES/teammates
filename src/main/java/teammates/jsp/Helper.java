@@ -71,6 +71,16 @@ public class Helper {
 	}
 	
 	/**
+	 * For testing purpose
+	 * @param userID
+	 */
+	public void setMasqueradeUser(String userID){
+		user = new UserData();
+		user.isAdmin = true;
+		requestedUser = userID;
+	}
+	
+	/**
 	 * Returns the URL with the specified key-value pair parameter added.
 	 * Unchanged if either the key or value is null, or the key already exists<br />
 	 * Example:
