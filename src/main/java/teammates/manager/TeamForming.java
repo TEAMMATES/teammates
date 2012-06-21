@@ -13,8 +13,10 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
 
 import teammates.Datastore;
+import teammates.TeammatesServlet;
 import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
+import teammates.api.TeammatesException;
 import teammates.exception.EvaluationExistsException;
 import teammates.persistent.Course;
 import teammates.persistent.Student;
@@ -309,7 +311,7 @@ public class TeamForming {
 				return null;
 			return teams;
 		} catch (Exception e) {
-			log.severe(e.getMessage());
+			log.severe(TeammatesException.stackTraceToString(e));
 			return null;
 		}
 	}
@@ -396,7 +398,7 @@ public class TeamForming {
 
 			return tProfile.get(0);
 		} catch (Exception e) {
-			log.severe(e.getMessage());
+			log.severe(TeammatesException.stackTraceToString(e));
 			return null;
 		}
 	}
@@ -438,7 +440,7 @@ public class TeamForming {
 
 			return teamFormingSessionList.get(0);
 		} catch (Exception e) {
-			log.severe(e.getMessage());
+			log.severe(TeammatesException.stackTraceToString(e));
 			return null;
 		}
 	}
