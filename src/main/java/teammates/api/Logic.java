@@ -818,7 +818,7 @@ public class Logic {
 	}
 	
 	public void sendReminderForEvaluation(String courseId, String evaluationName) {
-		
+		//TODO: apply isAuthorized*()
 		List<Student> studentList = Courses.inst().getStudentList(courseId);
 
 		// Filter out students who have submitted the evaluation
@@ -861,6 +861,7 @@ public class Logic {
 			throws EntityDoesNotExistException, InvalidParametersException{
 		ArrayList<Submission> submissions = new ArrayList<Submission>();
 		for (SubmissionData sd : submissionDataList) {
+			//TODO: apply isAuthorizedToEditSubmission()
 			submissions.add(sd.toSubmission());
 		}
 		Evaluations.inst().editSubmissions(submissions);

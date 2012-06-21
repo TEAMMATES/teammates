@@ -31,7 +31,8 @@ public class Common {
 	public static final int UNINITIALIZED_INT = -9999;
 	public static final double UNINITIALIZED_DOUBLE = -9999.0;
 	public static final String ENCODING = "UTF8";
-	public static final String VERSION = "4.17.02";
+	//TODO: get this value from a config file
+	public static final String VERSION = "4.18";
 	public static final String TEST_DATA_FOLDER = "src/test/resources/data";
 	public static final String TEST_PAGES_FOLDER = "src/test/resources/pages";
 
