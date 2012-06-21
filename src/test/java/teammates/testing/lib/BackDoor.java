@@ -152,6 +152,16 @@ public class BackDoor {
 		String studentJson = makePOSTRequest(params);
 		return studentJson;
 	}
+	
+	public static String getKeyForStudent(String courseId, String studentEmail) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_KEY_FOR_STUDENT);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
+		params.put(BackDoorServlet.PARAMETER_STUDENT_EMAIL, studentEmail);
+		String regKey = makePOSTRequest(params);
+		return regKey;
+		
+	}
+
 
 	public static String editStudent(String originalEmail, StudentData student) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_STUDENT);
@@ -417,9 +427,5 @@ public class BackDoor {
 		return returnValue;
 	}
 
-	public static String getRegistrationKey(String course, String email) {
-		return null;
-		
-	}
 
 }

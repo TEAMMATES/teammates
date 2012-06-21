@@ -66,7 +66,7 @@ public class CoordCourseEditStudentsTest extends TestCase {
 		bi.clickWithWait(bi.coordCourseDetailsStudentEditSaveButton);
 		
 		//wait for page loading
-		bi.waitForElementPresent(bi.coordCourseDetailCourseID);
+		bi.waitForElementPresent(bi.coordCourseDetailsCourseID);
 		
 		bi.clickCoordCourseDetailStudentView(STUDENT_NAME);
 		

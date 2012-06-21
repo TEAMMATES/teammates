@@ -335,12 +335,13 @@ public class BackDoorTest extends BaseTestCase{
 	}
 	
 	@Test
-	public void testGetRegistrationKey() throws InvalidParametersException{
+	public void testGetKeyForStudent() throws InvalidParametersException{
 		printTestCaseHeader();
 		StudentData student = new StudentData("t1|name of tgsr student|tgsr@gmail.com|", "course1");
 		BackDoor.createStudent(student);
-		assertEquals(14, BackDoor.getRegistrationKey(student.course, student.email).length());
-		
+		String key = BackDoor.getKeyForStudent(student.course, student.email);
+		System.out.println("Key for "+student.email+" is:"+key);
+		assertEquals(44, key.length());
 	}
 	
 	@Test
