@@ -351,7 +351,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <url-pattern>/automatedreminders</url-pattern>
             <url-pattern>/evaluationactivation</url-pattern>
             <url-pattern>/teamformingsessionactivation</url-pattern>
-            <url-pattern>/backdoor</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>

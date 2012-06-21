@@ -37,6 +37,7 @@ import com.google.gson.reflect.TypeToken;
 
 @SuppressWarnings("serial")
 public class BackDoorServlet extends HttpServlet {
+	
 	public static final String OPERATION_CREATE_COORD = "OPERATION_CREATE_COORD";
 	public static final String OPERATION_DELETE_COORD = "OPERATION_DELETE_COORD";
 	public static final String OPERATION_DELETE_COORD_NON_CASCADE = "OPERATION_DELETE_COORD_NON_CASCADE";
@@ -65,6 +66,8 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String OPERATION_PERSIST_DATABUNDLE = "OPERATION_PERSIST_DATABUNDLE";
 	public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER = "activate_auto_reminder";
 
+	public static final String PARAMETER_BACKDOOR_KEY = "PARAM_BACKDOOR_KEY";
+	public static final String PARAMETER_BACKDOOR_OPERATION = "PARAMETER_BACKDOOR_OPERATION";
 	public static final String PARAMETER_COURSE_ID = "PARAMETER_COURSE_ID";
 	public static final String PARAMETER_COORD_EMAIL = "PARAMETER_COORD_EMAIL";
 	public static final String PARAMETER_COORD_ID = "PARAMETER_COORD_ID";
@@ -80,8 +83,7 @@ public class BackDoorServlet extends HttpServlet {
 
 	private HttpServletRequest req;
 	private HttpServletResponse resp;
-	private static final Logger log = Logger.getLogger(BackDoorServlet.class
-			.getName());
+	private static final Logger log = Common.getLogger();
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
@@ -101,23 +103,31 @@ public class BackDoorServlet extends HttpServlet {
 		// TODO: Change to JSON/XML
 		resp.setContentType("text/plain");
 
-		String action = req.getParameter("action");
+		String action = req.getParameter(PARAMETER_BACKDOOR_OPERATION);
 		log.info(action);
-		// TODO: reorder in alphabetical order
 
 		String returnValue;
-		try {
-			returnValue = executeBackendAction(req, action);
-		} catch (Exception e) {
-			returnValue = Common.BACKEND_STATUS_FAILURE + e.getMessage();
-		}
-		resp.getWriter().write(returnValue);
 
+		String auth = req.getParameter(PARAMETER_BACKDOOR_KEY);
+		if (!auth.equals(Config.inst().API_AUTH_CODE)) {
+			returnValue = "Not authorized to access Backdoor Services";
+
+		} else {
+
+			try {
+				returnValue = executeBackendAction(req, action);
+			} catch (Exception e) {
+				returnValue = Common.BACKEND_STATUS_FAILURE + e.getMessage();
+			}
+		}
+		
+		resp.getWriter().write(returnValue);
 		resp.flushBuffer();
 	}
 
 	private String executeBackendAction(HttpServletRequest req, String action)
 			throws Exception {
+		// TODO: reorder in alphabetical order
 		BackDoorLogic backDoorLogic = new BackDoorLogic();
 		if (action.equals(OPERATION_CREATE_COORD)) {
 			String coordID = req.getParameter(PARAMETER_COORD_ID);

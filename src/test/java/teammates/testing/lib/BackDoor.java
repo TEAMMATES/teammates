@@ -372,12 +372,12 @@ public class BackDoor {
 		return Common.getTeammatesGson().toJson(obj);
 	}
 
-	private static HashMap<String, Object> createParamMap(String string) {
+	private static HashMap<String, Object> createParamMap(String operation) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("action", string);
+		map.put(BackDoorServlet.PARAMETER_BACKDOOR_OPERATION, operation);
 
-		// API Authentication
-		map.put("tm_auth", Config.inst().API_AUTH_CODE);
+		// For Authentication
+		map.put(BackDoorServlet.PARAMETER_BACKDOOR_KEY, Config.inst().API_AUTH_CODE);
 
 		return map;
 	}

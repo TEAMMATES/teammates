@@ -45,9 +45,6 @@ public class BackDoorTest extends BaseTestCase{
 		printTestClassHeader();
 		jsonString = Common.readFile(Common.TEST_DATA_FOLDER
 				+ "/typicalDataBundle.json");
-		BrowserInstance bi = BrowserInstancePool.getBrowserInstance();
-		bi.loginAdmin(Config.inst().TEAMMATES_ADMIN_ACCOUNT,
-				Config.inst().TEAMMATES_ADMIN_PASSWORD);
 	}
 
 	@AfterClass
@@ -350,8 +347,9 @@ public class BackDoorTest extends BaseTestCase{
 		BackDoor.createStudent(student);
 		String key = BackDoor.getKeyForStudent(student.course, student.email);
 		System.out.println("Key for "+student.email+" is:"+key);
-		//key length seems to vary from server to server
-		assertTrue(key.length()==44 || key.length()==39);
+		//check for some characteristics of the key
+		assertTrue(key.length()>30 && key.length()<50);
+		assertTrue(key.indexOf(" ")<0);
 	}
 	
 	@Test
