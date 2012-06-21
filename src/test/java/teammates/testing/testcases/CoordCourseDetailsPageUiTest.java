@@ -93,7 +93,7 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 		assertTrue(SharedLib.getRegistrationKeyFromGmail(studentEmail, Config.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id)!=null);
 		
 		// Test remind students
-		bi.click(bi.coordCourseDetailRemindButton);
+		bi.clickAndConfirm(bi.coordCourseDetailRemindButton);
 		bi.waitForEmail();
 		assertTrue(SharedLib.getRegistrationKeyFromGmail(otherStudentEmail, Config.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id)!=null);
 		assertTrue(SharedLib.getRegistrationKeyFromGmail(registeredStudentEmail, Config.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id)==null);
