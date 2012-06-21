@@ -388,7 +388,7 @@ public class TeamForming {
 
 		try {
 			@SuppressWarnings("unchecked")
-			List<TeamProfile> tProfile = (List<TeamProfile>) getPM().newQuery(
+			List<Object> tProfile = (List<Object>) getPM().newQuery(
 					query).execute();
 			if (tProfile.isEmpty()){
 				log.fine("Trying to get non-existent TeamProfile : " + courseID
@@ -396,7 +396,7 @@ public class TeamForming {
 				return null;
 			}
 
-			return tProfile.get(0);
+			return (TeamProfile)tProfile.get(0);
 		} catch (Exception e) {
 			log.severe(TeammatesException.stackTraceToString(e));
 			return null;
