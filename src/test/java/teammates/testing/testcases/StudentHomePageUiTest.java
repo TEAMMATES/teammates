@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import teammates.api.Common;
 import teammates.datatransfer.DataBundle;
+import teammates.datatransfer.StudentData;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
@@ -47,7 +48,7 @@ public class StudentHomePageUiTest extends BaseTestCase {
 
 	@Test	
 	public void testStudentHomeCoursePageHTML() throws Exception{
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/StudentHomeHTML.html");
+		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/StudentHomeHTML.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/StudentHomeHTML.html");
 		
 		BackDoor.deleteCourse(scn.courses.get("SHomeUiT.CS2104").id);
@@ -55,7 +56,19 @@ public class StudentHomePageUiTest extends BaseTestCase {
 
 		// Should be unauthorized since the student is not in any course, and hence not a student
 		bi.goToUrl(appURL+Common.PAGE_STUDENT_HOME);
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/unauthorized.html");
+		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/unauthorized.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/unauthorized.html");
+		
+		BackDoor.createCourse(scn.courses.get("SHomeUiT.CS2104"));
+		StudentData alice = scn.students.get("alice.tmms@SHomeUiT.CS2104");
+		alice.id = null;
+		BackDoor.createStudent(alice);
+		
+		bi.goToUrl(appURL+Common.PAGE_STUDENT_HOME);
+		bi.fillString(bi.studentInputRegKey, "");
+		bi.click(bi.studentJoinCourseButton);
+
+		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/StudentHomeJoined.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/StudentHomeJoined.html");
 	}
 }

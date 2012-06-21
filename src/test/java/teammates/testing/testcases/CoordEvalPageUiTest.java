@@ -227,14 +227,15 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 			fail("Remind link not clickable on OPEN evaluation, or it is clickable but no confirmation box");
 		}
 		
-		// Check email
-		if(Config.inst().isLocalHost()) return;
+		// Actually click the link
 		try{
 			bi.clickAndConfirm(remindLinkLocator);
 		} catch (NoAlertAppearException e){
 			fail("Remind link not clickable on OPEN evaluation, or it is clickable but no confirmation box");
 		}
-		
+
+		// Check email
+		if(Config.inst().isLocalHost()) return;
 		bi.waitForEmail();
 		assertTrue(null!=SharedLib.getEvaluationReminderFromGmail(scn.students.get("alice.tmms@CEvalUiT.CS2104").email, Config.inst().TEAMMATES_APP_PASSWORD, courseID, evalName));
 	}

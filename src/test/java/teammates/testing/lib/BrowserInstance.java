@@ -1136,7 +1136,7 @@ public class BrowserInstance {
 	}
 	
 	public void clickCoordCourseDetailStudentView(int rowID) {
-		By link = By.className("//a[@class='t_student_view" + rowID + "']");
+		By link = By.className("t_student_view" + rowID);
 		clickWithWait(link);
 	}
 	
@@ -1150,7 +1150,7 @@ public class BrowserInstance {
 	}
 	
 	public void clickCoordCourseDetailStudentEdit(int rowID) {
-		By link = By.className("//a[@class='t_student_edit" + rowID + "']");
+		By link = By.className("t_student_edit" + rowID);
 		clickWithWait(link);
 	}
 	
@@ -1164,7 +1164,7 @@ public class BrowserInstance {
 	}
 	
 	public void clickCoordCourseDetailInvite(int rowID) {
-		By link = By.className("//a[@class='t_student_resend" + rowID + "']");
+		By link = By.className("t_student_resend" + rowID);
 		clickWithWait(link);
 	}
 	
@@ -2225,10 +2225,19 @@ public class BrowserInstance {
 		return getElementText(By.xpath(String.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]", 3)));
 	}
 
-	public int getStudentRowIdInEditSubmission(String studentName){
+	/**
+	 * Returns the rowID of the specified student for use in edit submission
+	 * both in coordinator page and student page.<br />
+	 * This works by looking up the name in the section title.
+	 * To get the row ID for the student itself (in case of student self
+	 * submission which has no name in its title), put "self" as the student name.
+	 * @param studentNameOrSelf
+	 * @return
+	 */
+	public int getStudentRowIdInEditSubmission(String studentNameOrSelf){
 		int max = driver.findElements(By.className("reportheader")).size();
 		for(int i=0; i<max; i++){
-			if(driver.findElement(By.id("sectiontitle"+i)).getText().toUpperCase().contains(studentName.toUpperCase())){
+			if(driver.findElement(By.id("sectiontitle"+i)).getText().toUpperCase().contains(studentNameOrSelf.toUpperCase())){
 				return i;
 			}
 		}
@@ -2860,6 +2869,7 @@ public class BrowserInstance {
 	 */
 	public void goToUrl(String url){
 		driver.get(url);
+		waitForPageLoad();
 	}
 
 	/**
@@ -2960,6 +2970,7 @@ public class BrowserInstance {
 	 * @deprecated
 	 */
 	public void printCurrentPage(String destination) throws Exception{
+		waitForPageLoad();
 		String pageSrc = driver.getPageSource();
 		TestFileWriter output = new TestFileWriter(new File(destination));
 		output.write(pageSrc);

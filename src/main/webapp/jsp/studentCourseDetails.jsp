@@ -61,7 +61,7 @@
 	 				<tr>
 	 					<td>Your teammates:</td>
 	 					<td id="<%= Common.PARAM_TEAMMATES %>">
-	 						<%	if(helper.team==null || helper.team.students.size()==0){ %>
+	 						<%	if(helper.team==null || helper.team.students.size()==1){ %>
 	 							<span style="font-style:italic">You have no team members or you are not registered in any team</span>
 	 						<%	} else {%>
 	 							<ul>
