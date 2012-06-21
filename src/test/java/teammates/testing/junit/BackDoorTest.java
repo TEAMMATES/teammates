@@ -335,6 +335,15 @@ public class BackDoorTest extends BaseTestCase{
 	}
 	
 	@Test
+	public void testGetRegistrationKey() throws InvalidParametersException{
+		printTestCaseHeader();
+		StudentData student = new StudentData("t1|name of tgsr student|tgsr@gmail.com|", "course1");
+		BackDoor.createStudent(student);
+		assertEquals(14, BackDoor.getRegistrationKey(student.course, student.email).length());
+		
+	}
+	
+	@Test
 	public void testGetStudentAsJason() {
 		// already tested by testPersistenceAndDeletion
 	}

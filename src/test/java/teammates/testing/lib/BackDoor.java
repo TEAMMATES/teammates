@@ -417,4 +417,9 @@ public class BackDoor {
 		return returnValue;
 	}
 
+	public static String getRegistrationKey(String course, String email) {
+		return null;
+		
+	}
+
 }
