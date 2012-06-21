@@ -85,8 +85,8 @@ public class BrowserInstance {
 	
 	// --------------------------- General ----------------------------- //
 	// Homepage buttons
-	public final By COORD_LOGIN_BUTTON = By.name("COORDINATOR_LOGIN");
-	public final By STUDENT_LOGIN_BUTTON = By.name("STUDENT_LOGIN");
+	public final By COORD_LOGIN_BUTTON = By.name(Common.PARAM_LOGIN_COORDINATOR);
+	public final By STUDENT_LOGIN_BUTTON = By.name(Common.PARAM_LOGIN_STUDENT);
 
 	// Tabs
 	public By homeTab = By.className("t_home");
@@ -243,10 +243,10 @@ public class BrowserInstance {
 	public By coordEnrollResultUnknown = By.className("enroll_result4");
 	
 	// Course details
-	public By coordCourseDetailCourseID = By.id("courseid");
-	public By coordCourseDetailCourseName = By.id("coursename");
-	public By coordCourseDetailTotalTeams = By.id("total_teams");
-	public By coordCourseDetailTotalStudents = By.id("total_students");
+	public By coordCourseDetailsCourseID = By.id("courseid");
+	public By coordCourseDetailsCourseName = By.id("coursename");
+	public By coordCourseDetailsTotalTeams = By.id("total_teams");
+	public By coordCourseDetailsTotalStudents = By.id("total_students");
 
 	public By coordCourseDetailSortByStudentName = By.id("button_sortstudentname");
 	public By coordCourseDetailSortByTeamName = By.id("button_sortstudentteam");
@@ -554,8 +554,7 @@ public class BrowserInstance {
 		goToUrl(Config.inst().TEAMMATES_URL+"logout.jsp");
 
 		// Click the Coordinator button on the main page
-		clickWithWait(COORD_LOGIN_BUTTON);
-		waitForPageLoad();
+		goToUrl(Config.inst().TEAMMATES_URL+"login?coordinator");
 
 		login(username, password, false);
 	}
@@ -571,8 +570,7 @@ public class BrowserInstance {
 		goToUrl(Config.inst().TEAMMATES_URL+"logout.jsp");
 		
 		// Click the Student button on the main page
-		clickWithWait(STUDENT_LOGIN_BUTTON);
-		waitForPageLoad();
+		goToUrl(Config.inst().TEAMMATES_URL+"login?student");
 		
 		login(username, password, false);
 	}
@@ -588,7 +586,7 @@ public class BrowserInstance {
 		goToUrl(Config.inst().TEAMMATES_URL+"logout.jsp");
 
 		// Click the Coordinator button on the main page
-		clickWithWait(COORD_LOGIN_BUTTON);
+		goToUrl(Config.inst().TEAMMATES_URL+"login?coordinator");
 		waitForPageLoad();
 
 		login(username, password, true);
@@ -2869,7 +2867,9 @@ public class BrowserInstance {
 	 */
 	public void goToUrl(String url){
 		driver.get(url);
-		waitForPageLoad();
+		if( !Config.inst().isLocalHost() ){
+			waitForPageLoad();
+		}
 	}
 
 	/**
@@ -3375,11 +3375,6 @@ public class BrowserInstance {
 		}
 	
 	}
-
-	public By coordCourseDetailsCourseID = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 1, 2));
-	public By coordCourseDetailsCourseName = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 2, 2));
-	public By coordCourseDetailsTeams = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 3, 2));
-	public By coordCourseDetailsTotalStudents = By.xpath(String.format(HEADER_FORM_TABLE_CELL, 4, 2));
 	
 	/**
 	 * Helper method to verify that we're at the Coordinator course details page.
@@ -3398,7 +3393,7 @@ public class BrowserInstance {
 			}
 	
 			if (isElementPresent(coordCourseDetailsCourseID) && isElementPresent(coordCourseDetailsCourseName)
-					&& isElementPresent(coordCourseDetailsTeams) && isElementPresent(coordCourseDetailsTotalStudents))
+					&& isElementPresent(coordCourseDetailsTotalTeams) && isElementPresent(coordCourseDetailsTotalStudents))
 				return;
 	
 			waitAWhile(RETRY_TIME);
@@ -3409,11 +3404,11 @@ public class BrowserInstance {
 	 * Helper method to verify that we're at the Coordinator course details page for a specific course.
 	 * Checking for these fields:
 	 * <ul>
-	 * <li>XPath: {@link #coordCourseDetailsCourseID}</li>
-	 * <li>XPath: {@link #CourseDetailsCourseName}</li>
-	 * <li>XPath: {@link #CourseDetailsTeams}</li>
-	 * <li>XPath: {@link #CourseDetailsTotalStudents}</li>
-	 * <li>TEXT: {courseID in courseDetailsCourseID}</li>
+	 * <li>ID: {@link #coordCourseDetailsCourseID}</li>
+	 * <li>ID: {@link #coordCourseDetailsCourseName}</li>
+	 * <li>ID: {@link #coordCourseDetailsTotalTeams}</li>
+	 * <li>ID: {@link #coordCourseDetailsTotalStudents}</li>
+	 * <li>TEXT: {courseID in coordCourseDetailsCourseID}</li>
 	 * </ul>
 	 */
 	public void verifyCoordCourseDetailsPage(String courseID) {
@@ -3423,7 +3418,7 @@ public class BrowserInstance {
 			}
 	
 			if (isElementPresent(coordCourseDetailsCourseID) && isElementPresent(coordCourseDetailsCourseName)
-					&& isElementPresent(coordCourseDetailsTeams) && isElementPresent(coordCourseDetailsTotalStudents)
+					&& isElementPresent(coordCourseDetailsTotalTeams) && isElementPresent(coordCourseDetailsTotalStudents)
 					&& getElementText(coordCourseDetailsCourseID).compareToIgnoreCase(courseID)==0)
 				return;
 	
@@ -3455,7 +3450,7 @@ public class BrowserInstance {
 	 * Helper method to verify that we're at the student enrollment page for specific course
 	 * Checking for these fields:
 	 * <ul>
-	 * <li>TEXT: ENROLL STUDENTS FOR {courseID in pageTitle}</li>
+	 * <li>TEXT: Enroll Students for {courseID} in pageTitle</li>
 	 * <li>ID: information</li>
 	 * <li>ID: button_enroll</li>
 	 * </ul>
@@ -3469,7 +3464,7 @@ public class BrowserInstance {
 					isElementPresent(coordEnrollInfo) && isElementPresent(coordEnrollButton))
 				break;
 			
-			System.err.println("Looking for: "+"ENROLL STUDENTS FOR "+courseID.toUpperCase());
+			System.err.println("Looking for: "+"Enroll Students for "+courseID);
 			System.err.println("But found:   "+getElementText(pageTitle));
 	
 			waitAWhile(RETRY_TIME);
@@ -3537,7 +3532,6 @@ public class BrowserInstance {
 	 * Checking for these fields:
 	 * <ul>
 	 * <li>ID: radio_summary</li>
-	 * <li>ID: radio_detail</li>
 	 * <li>ID: radio_reviewer</li>
 	 * <li>ID: radio_reviewee</li>
 	 * </ul>
@@ -3548,8 +3542,7 @@ public class BrowserInstance {
 				fail("Not in Coordinator Evaluation Results Page");
 			}
 			
-			if (isElementPresent(resultSummaryRadio) && isElementPresent(resultDetailRadio)
-					&& isElementPresent(resultReviewerRadio) && isElementPresent(resultRevieweeRadio))
+			if (isElementPresent(resultSummaryRadio) && isElementPresent(resultReviewerRadio) && isElementPresent(resultRevieweeRadio))
 				break;
 			
 			waitAWhile(RETRY_TIME);
