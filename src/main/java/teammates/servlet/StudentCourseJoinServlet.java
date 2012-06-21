@@ -26,15 +26,14 @@ public class StudentCourseJoinServlet extends ActionServlet<Helper> {
 	@Override
 	protected boolean doAuthenticateUser(HttpServletRequest req,
 			HttpServletResponse resp, Helper helper) throws IOException {
-		if(!helper.user.isStudent && !helper.user.isAdmin){
-			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
-			return false;
-		}
+		// Everyone is permitted, so that they can join course
 		return true;
 	}
 
 	@Override
 	protected void doAction(HttpServletRequest req, Helper helper){
+		helper.redirectUrl = Common.PAGE_STUDENT_HOME;
+		
 		// Get parameters
 		String regKey = req.getParameter(Common.PARAM_REGKEY);
 		if(regKey==null) return;
@@ -49,7 +48,6 @@ public class StudentCourseJoinServlet extends ActionServlet<Helper> {
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
 		}
-		helper.redirectUrl = Common.PAGE_STUDENT_HOME;
 	}
 
 	@Override
