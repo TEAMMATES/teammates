@@ -23,7 +23,11 @@ import teammates.datatransfer.StudentData;
 import teammates.datatransfer.SubmissionData;
 import teammates.datatransfer.TeamProfileData;
 import teammates.datatransfer.TfsData;
+import teammates.jsp.Helper;
+import teammates.testing.config.Config;
 import teammates.testing.lib.BackDoor;
+import teammates.testing.lib.BrowserInstance;
+import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.testcases.BaseTestCase;
 
 import com.google.appengine.api.datastore.Text;
@@ -37,8 +41,13 @@ public class BackDoorTest extends BaseTestCase{
 	private DataBundle dataBundle;
 
 	@BeforeClass
-	public static void setUp() throws Exception{
-		 jsonString = Common.readFile(Common.TEST_DATA_FOLDER + "/typicalDataBundle.json");
+	public static void setUp() throws Exception {
+		printTestClassHeader();
+		jsonString = Common.readFile(Common.TEST_DATA_FOLDER
+				+ "/typicalDataBundle.json");
+		BrowserInstance bi = BrowserInstancePool.getBrowserInstance();
+		bi.loginAdmin(Config.inst().TEAMMATES_ADMIN_ACCOUNT,
+				Config.inst().TEAMMATES_ADMIN_PASSWORD);
 	}
 
 	@AfterClass
