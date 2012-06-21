@@ -28,7 +28,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	private static EvaluationData secondEval;
 	private static EvaluationData thirdEval;
 	
-	private static String appURL = Config.inst().TEAMMATES_URL;
+//	private static String appURL = Config.inst().TEAMMATES_URL;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -39,16 +39,16 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		secondEval = scn.evaluations.get("Second Eval");
 		thirdEval = scn.evaluations.get("Third Eval");
 		
-		BackDoor.deleteCoordinators(jsonString);
 		System.out.println("Importing test data...");
 		long start = System.currentTimeMillis();
+		BackDoor.deleteCoordinators(jsonString);
 		System.out.println(BackDoor.persistNewDataBundle(jsonString));
 		System.out.println("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
 		bi.loginCoord(scn.coords.get("teammates.test").id, Config.inst().TEAMMATES_APP_PASSWORD);
-		bi.goToUrl(appURL+Common.PAGE_COORD_HOME);
+//		bi.goToUrl(appURL+Common.PAGE_COORD_HOME); // Not needed as it will by default go to homepage
 	}
 	
 	@AfterClass
