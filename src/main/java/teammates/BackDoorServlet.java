@@ -57,6 +57,7 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String OPERATION_GET_COURSE_AS_JSON = "OPERATION_GET_COURSE_AS_JSON";
 	public static final String OPERATION_GET_STUDENT_AS_JSON = "OPERATION_GET_STUDENT_AS_JSON";
 	public static final String OPERATION_GET_EVALUATION_AS_JSON = "OPERATION_GET_EVALUATION_AS_JSON";
+	public static final String OPERATION_GET_KEY_FOR_STUDENT = "OPERATION_GET_KEY_FOR_STUDENT";
 	public static final String OPERATION_GET_SUBMISSION_AS_JSON = "OPERATION_GET_SUBMISSION_AS_JSON";
 	public static final String OPERATION_GET_TEAM_FORMING_LOG_AS_JSON = "OPERATION_GET_TEAM_FORMING_LOG_AS_JSON";
 	public static final String OPERATION_GET_TEAM_PROFILE_AS_JSON = "OPERATION_GET_TEAM_PROFILE_AS_JSON";
@@ -160,6 +161,10 @@ public class BackDoorServlet extends HttpServlet {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
 			return backDoorLogic.getStudentAsJson(courseId, email);
+		} else if (action.equals(OPERATION_GET_KEY_FOR_STUDENT)) {
+			String courseId = req.getParameter(PARAMETER_COURSE_ID);
+			String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
+			return backDoorLogic.getKeyForStudent(courseId, email);
 		} else if (action.equals(OPERATION_GET_EVALUATION_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String evaluationName = req.getParameter(PARAMETER_EVALUATION_NAME);

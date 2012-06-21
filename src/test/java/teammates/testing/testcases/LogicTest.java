@@ -1266,6 +1266,7 @@ public class LogicTest extends BaseTestCase {
 		// Make sure all evaluations in course2 are still AWAITING
 		expectedEval1InCourse2.startTime = Common.getDateOffsetToCurrentTime(1);
 		expectedEval1InCourse2.endTime = Common.getDateOffsetToCurrentTime(2);
+		expectedEval1InCourse2.activated = false;
 		assertEquals(EvalStatus.AWAITING, expectedEval1InCourse2.getStatus());
 		logic.editEvaluation(expectedEval1InCourse2);
 
