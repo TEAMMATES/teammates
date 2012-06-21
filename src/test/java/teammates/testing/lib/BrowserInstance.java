@@ -28,7 +28,6 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.search.FlagTerm;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.SeleneseCommandExecutor;
@@ -551,10 +550,10 @@ public class BrowserInstance {
 		System.out.println("Logging in coordinator " + username + ".");
 		
 		// Logout first to make sure we will be in login page later
-		goToUrl(Config.inst().TEAMMATES_URL+"logout.jsp");
+		goToUrl(Config.inst().TEAMMATES_URL+Common.JSP_LOGOUT);
 
-		// Click the Coordinator button on the main page
-		goToUrl(Config.inst().TEAMMATES_URL+"login?coordinator");
+		// Login as coordinator
+		goToUrl(Config.inst().TEAMMATES_URL+Common.PAGE_LOGIN+"?coordinator");
 
 		login(username, password, false);
 	}
@@ -565,12 +564,12 @@ public class BrowserInstance {
 	 */
 	public void loginStudent(String username, String password) {
 		System.out.println("Logging in student " + username + ".");
-		
+
 		// Logout first to make sure we will be in login page later
-		goToUrl(Config.inst().TEAMMATES_URL+"logout.jsp");
+		goToUrl(Config.inst().TEAMMATES_URL+Common.JSP_LOGOUT);
 		
-		// Click the Student button on the main page
-		goToUrl(Config.inst().TEAMMATES_URL+"login?student");
+		// Login as student
+		goToUrl(Config.inst().TEAMMATES_URL+Common.PAGE_LOGIN+"?student");
 		
 		login(username, password, false);
 	}
@@ -581,13 +580,12 @@ public class BrowserInstance {
 	 */
 	public void loginAdmin(String username, String password) {
 		System.out.println("Logging in administrator " + username + ".");
-		
-		// Logout first to make sure we will be in login page later
-		goToUrl(Config.inst().TEAMMATES_URL+"logout.jsp");
 
-		// Click the Coordinator button on the main page
-		goToUrl(Config.inst().TEAMMATES_URL+"login?coordinator");
-		waitForPageLoad();
+		// Logout first to make sure we will be in login page later
+		goToUrl(Config.inst().TEAMMATES_URL+Common.JSP_LOGOUT);
+
+		// Login as coordinator (this will show entityNotFoundPage.jsp later)
+		goToUrl(Config.inst().TEAMMATES_URL+Common.PAGE_LOGIN+"?coordinator");
 
 		login(username, password, true);
 	}
@@ -600,8 +598,6 @@ public class BrowserInstance {
 				selenium.check("id=isAdmin");
 			}
 			selenium.click("css=input[value='Log In']");
-			checkGoogleApplicationApproval();
-			waitForPageLoad();
 		} else if (isGoogleLoginPage()) {
 			// Fill in login credentials
 			fillString(By.id("Email"), email);
@@ -611,7 +607,6 @@ public class BrowserInstance {
 			// Wait and check for the main Coordinator page to see
 			// if login was successful
 			checkGoogleApplicationApproval();
-			waitForPageLoad();
 	
 		} else {
 			fail("Not in the correct Login page");
@@ -627,6 +622,7 @@ public class BrowserInstance {
 		if (isElementPresent(By.id("approve_button"))) {
 			clickWithWait(By.id("persist_checkbox"));
 			clickWithWait(By.id("approve_button"));
+			waitForPageLoad();
 		}
 	}
 	/**
@@ -635,13 +631,7 @@ public class BrowserInstance {
 	 */
 	public void logout() {
 		System.out.println("Signing out.");
-		if(isElementPresent(logoutTab)){
-			clickWithWait(logoutTab);
-		}
-		
-		if (Config.inst().isLocalHost()) {
-			selenium.open(Config.inst().TEAMMATES_URL);
-		}
+		goToUrl(Config.inst().TEAMMATES_URL+Common.JSP_LOGOUT);
 	}
 
 	/*------------------------------------------------------------------------
@@ -674,15 +664,19 @@ public class BrowserInstance {
 	
 	/**
 	 * To be used for clicks on a link that opens a new window.
-	 * Switch to the title of the window as specified.
+	 * Switch to the new window.
 	 * @param link
 	 * @param window
 	 */
-	public void clickAndSwitchToNewWindow(By link, String window) {
+	public void clickAndSwitchToNewWindow(By link) {
 		clickWithWait(link);
-	
-		selenium.selectWindow(window);
-		selenium.windowFocus();
+		
+		String curWin = driver.getWindowHandle();
+		for(String handle: driver.getWindowHandles()){
+			if(handle.equals(curWin)) continue;
+			selenium.selectWindow(handle);
+			selenium.windowFocus();
+		}
 	}
 	
 	/* ------------------------- Navigational Clicks ------------------------ */
@@ -734,20 +728,17 @@ public class BrowserInstance {
 		 * Aldrian: I tried driver.switchTo().alert() approach in my local Firefox and it worked.
 		 * But for more general usability I removed the old one and use this one instead.
 		 */
-
-		//if (Config.inst().BROWSER.equals("chrome")) {
-			JavascriptExecutor js = (JavascriptExecutor) driver;
-			js.executeScript("window.confirm = function(msg){ delete(window.confirm); return true;};");
-			clickWithWait(by);
-			
-			if((Boolean)js.executeScript("return eval(window.confirm).toString()==eval(function(msg){ delete(window.confirm); return true;}).toString()")){
-				// This means the click does not generate alert box
-				js.executeScript("delete(window.confirm)");
-				throw new NoAlertAppearException(by.toString());
-			}
-			// Make sure it's deleted. Deleting twice does not hurt
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.confirm = function(msg){ delete(window.confirm); return true;};");
+		clickWithWait(by);
+		
+		if((Boolean)js.executeScript("return eval(window.confirm).toString()==eval(function(msg){ delete(window.confirm); return true;}).toString()")){
+			// This means the click does not generate alert box
 			js.executeScript("delete(window.confirm)");
-		//}
+			throw new NoAlertAppearException(by.toString());
+		}
+		// Make sure it's deleted. Deleting twice does not hurt
+		js.executeScript("delete(window.confirm)");
 	}
 
 	/**
@@ -762,51 +753,18 @@ public class BrowserInstance {
 	 * 
 	 */
 	public void clickAndCancel(By by) throws NoAlertAppearException{
-		//if (Config.inst().BROWSER.equals("chrome")) {
-			JavascriptExecutor js = (JavascriptExecutor) driver;
-			js.executeScript("window.confirm = function(msg){ delete(window.confirm); return false;};");
-			clickWithWait(by);
-			
-			if((Boolean)js.executeScript("return eval(window.confirm).toString()==eval(function(msg){ delete(window.confirm); return false;}).toString()")){
-				// This means the click does not generate alert box
-				js.executeScript("delete(window.confirm)");
-				throw new NoAlertAppearException(by.toString());
-			}
-			// Make sure it's deleted. Deleting twice does not hurt
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.confirm = function(msg){ delete(window.confirm); return false;};");
+		clickWithWait(by);
+		
+		if((Boolean)js.executeScript("return eval(window.confirm).toString()==eval(function(msg){ delete(window.confirm); return false;}).toString()")){
+			// This means the click does not generate alert box
 			js.executeScript("delete(window.confirm)");
-		//}
+			throw new NoAlertAppearException(by.toString());
+		}
+		// Make sure it's deleted. Deleting twice does not hurt
+		js.executeScript("delete(window.confirm)");
 	}
-
-	/**
-	 * Click and confirm (Yes)
-	 * @deprecated Reported to not work on Firefox on some instances. Use more general one {{@link #clickAndConfirm(By)}
-	 */
-	@SuppressWarnings("unused")
-	private void confirmYes() {
-		if (!Config.inst().BROWSER.equals("chrome")) { Alert alert = driver.switchTo().alert(); alert.accept(); }
-	}
-
-	/**
-	 * Click and cancel (No)
-	 * @deprecated Reported to not work on Firefox on some instances. Use more general one {{@link #clickAndConfirm(By)}
-	 */
-	@SuppressWarnings("unused")
-	private void confirmNo() {
-		if (!Config.inst().BROWSER.equals("chrome")) { Alert alert = driver.switchTo().alert(); alert.dismiss(); }
-	}
-	
-	// The old methods
-//	public void waitAndClickAndConfirm(By by){
-//		chromeConfirmYes();
-//		waitAndClick(by);
-//		confirmYes();
-//	}
-
-//	public void waitAndClickAndCancel(By by){
-//		chromeConfirmNo();
-//		waitAndClick(by);
-//		confirmNo();
-//	}
 
 	/**
 	 * Clicks and confirms Delete of a course at a particular rowID.
@@ -1070,11 +1028,24 @@ public class BrowserInstance {
 			fail("Evaluation not found.");
 		}
 	}
-	
+
+	/**
+	 * Clicks and confirms Remind to do an evaluation
+	 * at a particular rowID in a specific course of the coordinator.
+	 * Pre-condition: Should be at Evaluation list page
+	 * @param rowID
+	 */
 	public void clickCoordEvaluationRemindAndConfirm(int rowID) {
 		clickAndConfirm(getCoordEvaluationRemindLinkLocator(rowID));
 	}
-	
+
+	/**
+	 * Clicks and confirms Remind to do a particular evaluation
+	 * in a specific course of the coordinator.
+	 * Pre-condition: Should be at Evaluation list page
+	 * @param courseID
+	 * @param evalName
+	 */
 	public void clickCoordEvaluationRemindAndConfirm(String courseId, String evalName) {
 		int rowID = getEvaluationRowID(courseId, evalName);
 		if (rowID > -1) {
@@ -1083,11 +1054,24 @@ public class BrowserInstance {
 			fail("Evaluation not found.");
 		}
 	}
-	
+
+	/**
+	 * Clicks and cancels Remind to do an evaluation
+	 * at a particular rowID in a specific course of the coordinator.
+	 * Pre-condition: Should be at Evaluation list page
+	 * @param rowID
+	 */
 	public void clickCoordEvaluationRemindAndCancel(int rowID) {
 		clickAndCancel(getCoordEvaluationRemindLinkLocator(rowID));
 	}
-	
+
+	/**
+	 * Clicks and cancels Remind to do a particular evaluation
+	 * in a specific course of the coordinator.
+	 * Pre-condition: Should be at Evaluation list page
+	 * @param courseID
+	 * @param evalName
+	 */
 	public void clickCoordEvaluationRemindAndCancel(String courseId, String evalName) {
 		int rowID = getEvaluationRowID(courseId, evalName);
 		if (rowID > -1) {
@@ -1161,15 +1145,15 @@ public class BrowserInstance {
 		}
 	}
 	
-	public void clickCoordCourseDetailInvite(int rowID) {
+	public void clickCoordCourseDetailRemind(int rowID) {
 		By link = By.className("t_student_resend" + rowID);
 		clickWithWait(link);
 	}
 	
-	public void clickCoordCourseDetailInvite(String student) {
+	public void clickCoordCourseDetailRemind(String student) {
 		int rowID = getStudentRowId(student);
 		if (rowID > -1) {
-			clickCoordCourseDetailInvite(rowID);
+			clickCoordCourseDetailRemind(rowID);
 		} else {
 			fail("Student not found in this course.");
 		}
@@ -1268,6 +1252,7 @@ public class BrowserInstance {
 		clickWithWait(getReviewerSummaryEdit(rowID));
 	}
 	
+	@Deprecated
 	public void clickCoordRevieweeSummaryView(int rowID) {
 		clickWithWait(By.id("viewEvaluationResults" + rowID));
 	}
@@ -1298,6 +1283,7 @@ public class BrowserInstance {
 	 * Pre-condition: Should be at course page.
 	 * @param courseId
 	 * @return
+	 * @deprecated
 	 */
 	public int studentFindCourseRow(String courseId) {
 		for (int i = 0; i < countCourses(); i++) {
@@ -1314,6 +1300,7 @@ public class BrowserInstance {
 	 * @param courseId
 	 * @param evalName
 	 * @return
+	 * @deprecated
 	 */
 	public int studentFindEvaluationRow(String courseId, String evalName) {
 		waitForElementPresent(By.id("dataform"));
@@ -1352,7 +1339,7 @@ public class BrowserInstance {
 	/**
 	 * Returns courseID from the table at specific rowID as student.
 	 * Waits until the element exists or timeout.
-	 * Pre-condition: Should be at course page.
+	 * Pre-condition: Should be at home page.
 	 * @param rowID
 	 * @return
 	 */

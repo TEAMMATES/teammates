@@ -662,7 +662,7 @@ public class TMAPI {
 				String data = dataStringBuilder.toString();
 
 				// http://teammates/api
-				URL url = new URL(Config.inst().TEAMMATES_URL + "api");
+				URL url = new URL(Config.inst().TEAMMATES_URL + "/api");
 				URLConnection conn = url.openConnection();
 				conn.setDoOutput(true);
 				OutputStreamWriter wr = new OutputStreamWriter(

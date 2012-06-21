@@ -252,8 +252,8 @@ public class SharedLib {
 
 	public static void main(String[] args) {
 		try {
-//			SharedLib.getRegistrationKeyFromGmail("alice.tmms@gmail.com", Config.inst().TEAMMATES_APP_PASSWD, "CS2103-TESTING");
-			SharedLib.getEvaluationReminderFromGmail("alice.tmms@gmail.com", Config.inst().TEAMMATES_APP_PASSWORD, "CS2103-TESTING", "First Eval");
+			System.out.println(SharedLib.getRegistrationKeyFromGmail("benny.tmms@gmail.com", Config.inst().TEAMMATES_APP_PASSWORD, "CCDetailsUiT.CS2104"));
+//			SharedLib.getEvaluationReminderFromGmail("alice.tmms@gmail.com", Config.inst().TEAMMATES_APP_PASSWORD, "CS2103-TESTING", "First Eval");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

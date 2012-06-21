@@ -20,7 +20,7 @@ public class StudentHomePageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static DataBundle scn;
 	
-	private static String appURL = Config.inst().TEAMMATES_URL.replaceAll("/(?=$)","");
+	private static String appURL = Config.inst().TEAMMATES_URL;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {

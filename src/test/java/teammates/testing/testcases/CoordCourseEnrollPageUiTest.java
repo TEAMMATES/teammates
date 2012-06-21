@@ -23,7 +23,7 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 	
 	private static String enrollString = "";
 	
-	private static String appUrl = Config.inst().TEAMMATES_URL.replaceAll("/(?=$)","");
+	private static String appUrl = Config.inst().TEAMMATES_URL;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {

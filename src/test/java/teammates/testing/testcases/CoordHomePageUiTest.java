@@ -28,7 +28,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	private static EvaluationData secondEval;
 	private static EvaluationData thirdEval;
 	
-	private static String appURL = Config.inst().TEAMMATES_URL.replaceAll("/(?=$)","");
+	private static String appURL = Config.inst().TEAMMATES_URL;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {

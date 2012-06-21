@@ -30,7 +30,7 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static DataBundle scn;
 	
-	private static String appUrl = Config.inst().TEAMMATES_URL.replaceAll("/(?=$)","");
+	private static String appUrl = Config.inst().TEAMMATES_URL;
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {

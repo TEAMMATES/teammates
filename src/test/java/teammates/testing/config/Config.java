@@ -56,7 +56,8 @@ public class Config {
 			prop.load(new FileInputStream("src/test/resources/test.properties"));
 			
 			TEAMMATES_LIVE_SITE = prop.getProperty("test.app.liveSite");
-			TEAMMATES_URL = prop.getProperty("test.app.url");
+			// Remove trailing space and remove slash at the end
+			TEAMMATES_URL = prop.getProperty("test.app.url").trim().replaceAll("/(?=$)","");
 			TEAMMATES_APP = prop.getProperty("test.app.id");
 			TEAMMATES_APP_ACCOUNT = prop.getProperty("test.app.account");
 			TEAMMATES_APP_PASSWORD = prop.getProperty("test.app.password");
