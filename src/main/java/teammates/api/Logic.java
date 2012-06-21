@@ -9,18 +9,17 @@ import java.util.logging.Logger;
 import teammates.TeamEvalResult;
 import teammates.datatransfer.CoordData;
 import teammates.datatransfer.CourseData;
-import teammates.datatransfer.DataBundle;
 import teammates.datatransfer.EvalResultData;
 import teammates.datatransfer.EvaluationData;
+import teammates.datatransfer.EvaluationData.EvalStatus;
 import teammates.datatransfer.StudentActionData;
 import teammates.datatransfer.StudentData;
+import teammates.datatransfer.StudentData.UpdateStatus;
 import teammates.datatransfer.SubmissionData;
 import teammates.datatransfer.TeamData;
 import teammates.datatransfer.TeamProfileData;
 import teammates.datatransfer.TfsData;
 import teammates.datatransfer.UserData;
-import teammates.datatransfer.EvaluationData.EvalStatus;
-import teammates.datatransfer.StudentData.UpdateStatus;
 import teammates.exception.GoogleIDExistsInCourseException;
 import teammates.exception.RegistrationKeyInvalidException;
 import teammates.exception.RegistrationKeyTakenException;
@@ -40,8 +39,8 @@ import teammates.persistent.TeamFormingSession;
 import teammates.persistent.TeamProfile;
 
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.users.User;
-import com.google.gson.Gson;
 
 public class Logic {
 	
@@ -1068,8 +1067,18 @@ public class Logic {
 		for (StudentData peer : team.students) {
 
 			// get incoming submission from peer
-			SubmissionData submissionFromPeer = list.get(
-					peer.email + "->" + student.email).getCopy();
+			String key = peer.email + "->" + student.email;
+			SubmissionData submissionFromPeer = list.get(key);
+			//this workaround is to cater for missing submissions in 
+			//  legacy data.
+			if(submissionFromPeer==null){
+				log.warning("Cannot find submission for"+key);
+				submissionFromPeer = createEmptySubmission(peer.email, student.email);
+			} else{
+				//use a copy to prevent accidental overwriting of data
+				submissionFromPeer = submissionFromPeer.getCopy();
+			}
+			 
 
 			// set names in incoming submission
 			submissionFromPeer.revieweeName = student.name;
@@ -1079,9 +1088,19 @@ public class Logic {
 			student.result.incoming.add(submissionFromPeer);
 
 			// get outgoing submission to peer
-			SubmissionData submissionToPeer = list.get(
-					student.email + "->" + peer.email).getCopy();
+			key = student.email + "->" + peer.email;
+			SubmissionData submissionToPeer = list.get(key);
 
+			//this workaround is to cater for missing submissions in 
+			//  legacy data.
+			if(submissionToPeer==null){
+				log.warning("Cannot find submission for"+key);
+				submissionToPeer = createEmptySubmission(student.email, peer.email);
+			} else{
+				//use a copy to prevent accidental overwriting of data
+				submissionToPeer = submissionToPeer.getCopy();
+			}
+			
 			// set names in outgoing submission
 			submissionToPeer.reviewerName = student.name;
 			submissionToPeer.revieweeName = peer.name;
@@ -1090,6 +1109,21 @@ public class Logic {
 			student.result.outgoing.add(submissionToPeer);
 
 		}
+	}
+
+
+
+	private SubmissionData createEmptySubmission(String reviewer, String reviewee) {
+		SubmissionData s;
+		s = new SubmissionData();
+		s.reviewer = reviewer;
+		s.reviewee = reviewee;
+		s.points = Common.UNINITIALIZED_INT;
+		s.justification = new Text("");
+		s.p2pFeedback = new Text("");
+		s.course = "";
+		s.evaluation = "";
+		return s;
 	}
 
 	protected SubmissionData getSubmission(String courseId, String evaluationName,
