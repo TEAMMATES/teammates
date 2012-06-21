@@ -162,6 +162,9 @@ public class Common {
 	public static final String PARAM_NEXT_URL = "next";
 	public static final String PARAM_USER_ID = "user";
 
+	public static final String PARAM_LOGIN_COORDINATOR = "coordinator";
+	public static final String PARAM_LOGIN_STUDENT = "student";
+
 	/*
 	 * Logical pages links. These are the links which should be accessed as
 	 * the URL to get the real pages. The JSP pages in the next section are
@@ -214,6 +217,8 @@ public class Common {
 	public static final String PAGE_STUDENT_EVAL_SUBMISSION_EDIT = "/page/studentEvalEdit"; // Done
 	public static final String PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER = "/page/studentEvalEditHandler"; // Done
 	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults"; // Done
+	
+	public static final String PAGE_LOGIN = "/login"; // Done
 
 	/*
 	 * JSP pages links. These links are here to provide easeness in case of
