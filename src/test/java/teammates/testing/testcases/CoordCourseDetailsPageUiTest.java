@@ -28,7 +28,7 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 	
 	private static boolean deleteStudentTestWasRun = false;
 	
-	private static String appUrl = Config.inst().TEAMMATES_URL.replaceAll("/(?=$)","");
+	private static String appUrl = Config.inst().TEAMMATES_URL;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -86,7 +86,7 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 		String registeredStudentEmail = scn.students.get("alice.tmms@CCDetailsUiT.CS2104").email;
 		
 		// Test remind student
-		bi.clickCoordCourseDetailInvite(studentName);
+		bi.clickCoordCourseDetailRemind(studentName);
 		
 		if(Config.inst().isLocalHost()) return;
 		bi.waitForEmail();

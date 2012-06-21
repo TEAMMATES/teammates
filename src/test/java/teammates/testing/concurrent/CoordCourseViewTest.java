@@ -80,7 +80,7 @@ public class CoordCourseViewTest extends TestCase {
 
 		bi.clickCourseTab();
 		bi.clickCoordCourseView(scn.course.courseId);
-		bi.clickCoordCourseDetailInvite(newStudent);
+		bi.clickCoordCourseDetailRemind(newStudent);
 
 		//Collect key for the new student
 		bi.clickCoordCourseView(newStudent);

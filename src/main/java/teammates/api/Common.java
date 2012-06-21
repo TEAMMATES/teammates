@@ -271,6 +271,8 @@ public class Common {
 	
 	// status messages
 	public static final String MESSAGE_LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
+	public static final String MESSAGE_STUDENT_FIRST_TIME = "It seems that you are not in the system. If you are trying to register to a course,<br />" +
+			"												please do so by filling in the above box with the registration key given to you through your e-mail.";
 	
 	public static final String MESSAGE_COURSE_ADDED = "The course has been added. Click the 'Enroll' link in the table below to add students to the course.";
 	public static final String MESSAGE_COURSE_EXISTS = "The course already exists.";

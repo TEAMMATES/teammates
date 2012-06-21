@@ -1,7 +1,7 @@
 package teammates.testing.testcases;
 
 import static org.junit.Assert.fail;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -30,7 +30,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static DataBundle scn;
 	
-	private static String appUrl = Config.inst().TEAMMATES_URL.replaceAll("/(?=$)","");
+	private static String appUrl = Config.inst().TEAMMATES_URL;
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -237,7 +237,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		// Check email
 		if(Config.inst().isLocalHost()) return;
 		bi.waitForEmail();
-		assertTrue(null!=SharedLib.getEvaluationReminderFromGmail(scn.students.get("alice.tmms@CEvalUiT.CS2104").email, Config.inst().TEAMMATES_APP_PASSWORD, courseID, evalName));
+		assertEquals(courseID,SharedLib.getEvaluationReminderFromGmail(scn.students.get("alice.tmms@CEvalUiT.CS2104").email, Config.inst().TEAMMATES_APP_PASSWORD, courseID, evalName));
 	}
 	
 	public void testCoordEvalDeleteLink() throws Exception{

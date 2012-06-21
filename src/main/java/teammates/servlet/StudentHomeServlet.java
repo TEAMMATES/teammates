@@ -1,6 +1,7 @@
 package teammates.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,16 +24,12 @@ public class StudentHomeServlet extends ActionServlet<StudentHomeHelper> {
 	protected boolean doAuthenticateUser(HttpServletRequest req,
 			HttpServletResponse resp, StudentHomeHelper helper)
 			throws IOException {
-		if(!helper.user.isStudent && !helper.user.isAdmin){
-			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
-			return false;
-		}
+		// Everyone is permitted, so that they can join course
 		return true;
 	}
 
 	@Override
-	protected void doAction(HttpServletRequest req, StudentHomeHelper helper)
-			throws EntityDoesNotExistException {
+	protected void doAction(HttpServletRequest req, StudentHomeHelper helper){
 		try{
 			helper.courses = helper.server.getCourseDetailsListForStudent(helper.userId);
 			sortCourses(helper.courses);
@@ -42,6 +39,9 @@ public class StudentHomeServlet extends ActionServlet<StudentHomeHelper> {
 		} catch (InvalidParametersException e){
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
+		} catch (EntityDoesNotExistException e){
+			helper.courses = new ArrayList<CourseData>();
+			helper.statusMessage = Common.MESSAGE_STUDENT_FIRST_TIME;
 		}
 	}
 
