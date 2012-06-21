@@ -34,6 +34,7 @@
 			</div>
 			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 			<div id="studentEvaluationResults">
+				<div style="text-align:right; font-style:italic; font-size: small; margin-bottom:15px">E = Equal Share</div>
 				<table class="result_table"><tr class="result_header"><td>Your Result:</td></tr></table>
 				<table class="result_studentform">
 					<tr>

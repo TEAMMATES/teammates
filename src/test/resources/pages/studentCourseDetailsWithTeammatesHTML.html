@@ -8,8 +8,6 @@
 
 	<script src="/js/jquery-1.6.2.min.js" language="JavaScript"></script>
 	<script src="/js/tooltip.js" language="JavaScript"></script>
-	<script src="/js/helperNew.js" language="JavaScript"></script>
-	<script src="/js/commonNew.js" language="JavaScript"></script>
 	
 	<script src="/js/studentNew.js" language="JavaScript"></script>	
 </head>
@@ -27,7 +25,7 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="/page/studentHome" class="t_home">Home</a></li>
+					<li><a href="/page/studentHome?user=alice.tmms" class="t_home">Home</a></li>
 					<li><a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/studenthelp.html" class="t_help">Help</a></li>
 					<li><a href="/logout.jsp" class="t_logout">Logout</a>
 					 (alice.tmms)</li>
@@ -51,38 +49,38 @@
 				<table width="600" class="detailform">
 					<tbody><tr>
 	 					<td>Course ID:</td>
-	 					<td>SCDetailsUiT.CS2104</td>
+	 					<td id="courseid">SCDetailsUiT.CS2104</td>
 	 				</tr>
 					<tr>
 	 					<td>Course name:</td>
-	 					<td>Programming Language Concepts</td>
+	 					<td id="coursename">Programming Language Concepts</td>
 	 				</tr>
 	 				<tr>
 	 					<td>Coordinator name:</td>
-	 					<td>Coordinator</td>
+	 					<td id="coordname">Coordinator</td>
 	 				</tr>
 	 				<tr>
 	 					<td>Your team:</td>
-	 					<td>Team 1</td>
+	 					<td id="teamname">Team 1</td>
 	 				</tr>
 	 				<tr>
 	 					<td>Your name:</td>
-	 					<td>Alice Betsy</td>
+	 					<td id="studentname">Alice Betsy</td>
 	 				</tr>
 	 				<tr>
 	 					<td>Your e-mail:</td>
-	 					<td>alice.tmms@gmail.com</td>
+	 					<td id="studentemail">alice.tmms@gmail.com</td>
 	 				</tr>
 	 				<tr>
 	 					<td>Your teammates:</td>
-	 					<td>
+	 					<td id="teammates">
 	 						
 	 							<ul>
 			 						
 			 							
-			 								<li>Benny Charles</li>
-			 							
 			 						
+			 							
+			 								<li>Benny Charles</li>
 			 							
 			 						
 		 						</ul>
@@ -91,7 +89,7 @@
 	 				</tr>
 	 			</tbody></table>
 	 			<br /><br />
-	 			<input type="button" onclick="window.location.href='/page/studentHome'" value="Back" id="button_back" class="button" />
+	 			<input type="button" onclick="window.location.href='/page/studentHome?user=alice.tmms'" value="Back" id="button_back" class="button" />
 			</div>
 		</div>
 	</div>
@@ -99,7 +97,7 @@
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-[TEAMMATES Version 4.17.02] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
+[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
 
 <a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html" class="footer">Contact Us</a>
 </div>

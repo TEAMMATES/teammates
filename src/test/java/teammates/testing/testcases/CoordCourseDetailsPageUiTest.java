@@ -1,5 +1,6 @@
 package teammates.testing.testcases;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -24,6 +25,8 @@ import teammates.testing.lib.SharedLib;
 public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static DataBundle scn;
+	
+	private static boolean deleteStudentTestWasRun = false;
 	
 	private static String appUrl = Config.inst().TEAMMATES_URL.replaceAll("/(?=$)","");
 
@@ -56,6 +59,8 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testCoordCourseDetailsPageHTML() throws Exception{
+		assertFalse("Delete student test was run before this test. This test will fail due to difference in HTML.",deleteStudentTestWasRun);
+		
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsPage.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsPage.html");
 		
@@ -73,7 +78,8 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testCoordCourseDetailsRemindStudent(){
-		if(Config.inst().isLocalHost()) return;
+		assertFalse("Delete student test was run before this test. This test will fail due to difference in HTML.",deleteStudentTestWasRun);
+		
 		String studentName = scn.students.get("benny.tmms@CCDetailsUiT.CS2104").name;
 		String studentEmail = scn.students.get("benny.tmms@CCDetailsUiT.CS2104").email;
 		String otherStudentEmail = scn.students.get("charlie.tmms@CCDetailsUiT.CS2104").email;
@@ -81,6 +87,8 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 		
 		// Test remind student
 		bi.clickCoordCourseDetailInvite(studentName);
+		
+		if(Config.inst().isLocalHost()) return;
 		bi.waitForEmail();
 		assertTrue(SharedLib.getRegistrationKeyFromGmail(studentEmail, Config.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id)!=null);
 		
@@ -94,6 +102,7 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 	@Test
 	// Should be the last test
 	public void testCoordCourseDetailsDeleteStudent() throws Exception{
+		deleteStudentTestWasRun = true;
 		// Test delete student
 		String studentName = scn.students.get("benny.tmms@CCDetailsUiT.CS2104").name;
 		
