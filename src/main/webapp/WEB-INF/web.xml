@@ -39,6 +39,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet-mapping>
 	
 	<servlet>
+		<servlet-name>LoginServlet</servlet-name>
+		<servlet-class>teammates.servlet.LoginServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+		<url-pattern>/login</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>BackDoorServlet</servlet-name>
 		<servlet-class>teammates.BackDoorServlet</servlet-class>
 	</servlet>
