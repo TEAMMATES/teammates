@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="var" path="M2_REPO/com/sun/mail/javax.mail/1.4.4/javax.mail-1.4.4.jar" sourcepath="M2_REPO/com/sun/mail/javax.mail/1.4.4/javax.mail-1.4.4-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/sun/mail/javax.mail/1.4.4/javax.mail-1.4.4.jar" sourcepath="/M2_REPO/com/sun/mail/javax.mail/1.4.4/javax.mail-1.4.4-sources"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry including="**/*.java" kind="src" output="target/test-classes" path="src/test/java"/>

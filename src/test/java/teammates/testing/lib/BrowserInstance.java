@@ -2688,9 +2688,19 @@ public class BrowserInstance {
 		select.selectByValue(value);
 	}
 
+	/**
+	 * To be used in concurrent mode (which is no longer used),
+	 * returns whether there is still a test using this browser instance
+	 * @return
+	 */
 	public boolean isInUse() {
 		return inUse;
 	}
+	
+	/**
+	 * To be used in concurrent mode
+	 * @param b
+	 */
 	public void setInUse(boolean b) {
 		inUse = b;
 	}
@@ -2764,7 +2774,7 @@ public class BrowserInstance {
 		int totalCourses = countCourses();
 		boolean isPresent = false;
 		for (int i = 0; i < totalCourses; i++) {
-			if (getElementText(By.id("courseID" + i)).equalsIgnoreCase(courseId) && getElementText(By.id("courseName" + i)).equals(courseName)) {
+			if (getElementText(By.id("courseid" + i)).equalsIgnoreCase(courseId) && getElementText(By.id("courseName" + i)).equals(courseName)) {
 				isPresent = true;
 				break;
 			}
@@ -3077,7 +3087,7 @@ public class BrowserInstance {
 			if (x >= RETRY)
 				fail("Not in main page");
 	
-			if (isElementPresent(By.name("STUDENT_LOGIN")) && isElementPresent(By.name("COORDINATOR_LOGIN")))
+			if (isElementPresent(By.name(Common.PARAM_LOGIN_STUDENT)) && isElementPresent(By.name(Common.PARAM_LOGIN_COORDINATOR)))
 				break;
 	
 			waitAWhile(RETRY_TIME);
