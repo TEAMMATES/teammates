@@ -18,16 +18,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.mail.BodyPart;
-import javax.mail.Flags;
-import javax.mail.Folder;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Session;
-import javax.mail.Store;
-import javax.mail.search.FlagTerm;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.SeleneseCommandExecutor;
@@ -585,7 +575,7 @@ public class BrowserInstance {
 		// Logout first to make sure we will be in login page later
 		goToUrl(Config.inst().TEAMMATES_URL+Common.JSP_LOGOUT);
 
-		// Login as coordinator (this will show entityNotFoundPage.jsp later)
+		// Login as administrator
 		goToUrl(Config.inst().TEAMMATES_URL+Common.PAGE_LOGIN+"?administrator");
 
 		login(username, password, true);
@@ -704,6 +694,7 @@ public class BrowserInstance {
 
 	/**
 	 * Clicks Team Forming Tab
+	 * @deprecated
 	 */
 	public void clickTeamFormingTab() {
 		clickWithWait(teamFormingTab);
@@ -1187,11 +1178,13 @@ public class BrowserInstance {
 			fail("Evaluation not found.");
 		}
 	}
-	
+
+	@Deprecated
 	public void clickCoordTFSViewTeams(int rowID) {
 		clickWithWait(By.id("viewTeams"+rowID));
 	}
-	
+
+	@Deprecated
 	public void clickCoordTFSViewTeams(String courseId) {
 		int rowID = findTeamFormingSessionRow(courseId);
 		if (rowID > -1) {
@@ -1200,12 +1193,14 @@ public class BrowserInstance {
 			fail("Team forming session view teams not found.");
 		}
 	}
-	
+
+	@Deprecated
 	public void clickCoordTFSViewLog(int rowID) {
 		String elementID = "viewLogTeamFormingSession" + rowID;
 		clickWithWait(By.id(elementID));
 	}
-	
+
+	@Deprecated
 	public void clickCoordTFSViewLog(String courseId) {
 		int rowID = findTeamFormingSessionRow(courseId);
 		if (rowID > -1) {
@@ -1214,12 +1209,14 @@ public class BrowserInstance {
 			fail("Team forming session view log not found.");
 		}
 	}
-	
+
+	@Deprecated
 	public void clickCoordTFSEdit(int rowID) {
 		String elementID = "manageTeamFormingSession" + rowID;
 		clickWithWait(By.id(elementID));
 	}
-	
+
+	@Deprecated
 	public void clickCoordTFSEdit(String courseId) {
 		int rowID = findTeamFormingSessionRow(courseId);
 		if (rowID > -1) {
@@ -1228,7 +1225,8 @@ public class BrowserInstance {
 			fail("Team forming session not found.");
 		}
 	}
-	
+
+	@Deprecated
 	public void clickCoordTFSRemind(String courseId) {
 		int rowID = findTeamFormingSessionRow(courseId);
 		if (rowID > -1) {
@@ -1237,6 +1235,7 @@ public class BrowserInstance {
 		}
 	}
 	
+	@Deprecated
 	public void clickCoordTFSDelete(String courseId) {
 		int rowID = findTeamFormingSessionRow(courseId);
 		if(rowID>-1){
@@ -1515,6 +1514,7 @@ public class BrowserInstance {
 	 * @param evalName
 	 * @return
 	 * @throws NullPointerException
+	 * @deprecated
 	 */
 	public By studentGetPendingEvaluationName(String courseId, String evalName) throws NullPointerException {
 		int rowID = studentFindPendingEvaluationRow(courseId, evalName);
@@ -1588,6 +1588,7 @@ public class BrowserInstance {
 	 * Waits until the element exists or timeout.
 	 * Pre-condition: Should be at evaluation page.
 	 * @return
+	 * @deprecated
 	 */
 	public int studentCountTotalPendingEvaluations() {
 		waitForElementPresent(By.id("dataform"));
@@ -1805,6 +1806,16 @@ public class BrowserInstance {
 	public void addEvaluation(Evaluation eval) {
 	}
 	
+	/**
+	 * 
+	 * @param courseID
+	 * @param dateValue
+	 * @param nextTimeValue
+	 * @param gracePeriod
+	 * @param instructions
+	 * @param profileTemplate
+	 * @deprecated
+	 */
 	public void addTeamFormingSession(String courseID, String dateValue, String nextTimeValue, Integer gracePeriod, String instructions, String profileTemplate) {
 		clickTeamFormingTab();
 	
@@ -1833,6 +1844,12 @@ public class BrowserInstance {
 		// Submit the form
 		clickWithWait(createTeamFormingSessionButton);
 	}
+	
+	/**
+	 * 
+	 * @param teamForming
+	 * @deprecated
+	 */
 	public void addTeamFormingSession(TeamFormingSession teamForming) {
 		addTeamFormingSession(teamForming.courseID, teamForming.dateValue, teamForming.nextTimeValue, 
 				teamForming.gracePeriod, teamForming.instructions, teamForming.profileTemplate);
@@ -2050,6 +2067,7 @@ public class BrowserInstance {
 	 * based on the course ID
 	 * @param courseId
 	 * @return
+	 * @deprecated
 	 */
 	public int findTeamFormingSessionRow(String courseId) {
 		int i = 0;
@@ -2093,6 +2111,7 @@ public class BrowserInstance {
 		return driver.findElements(By.className("home_evaluations_row")).size();
 	}
 
+	@Deprecated
 	public int countTFS() {
 		return 0;
 	}
@@ -2284,93 +2303,6 @@ public class BrowserInstance {
 		fillString(By.id(Common.PARAM_COMMENTS + rowID), comments);
 	}
 
-	/**
-	 * Checks whether the Publish had actually sent the e-mails to students
-	 * @param gmail
-	 * @param password
-	 * @param courseCode
-	 * @param evaluationName
-	 * @return
-	 * @throws MessagingException
-	 * @throws IOException
-	 */
-	public boolean checkResultEmailsSent(String gmail, String password, String courseCode, String evaluationName) throws MessagingException, IOException {
-
-		// Publish RESULTS Format
-		final String HEADER_EVALUATION_PUBLISH = "TEAMMATES: Evaluation Published: %s %s";
-		final String TEAMMATES_APP_URL = "You can view the result here: " + Config.inst().TEAMMATES_LIVE_SITE;
-		final String TEAMMATES_APP_SIGNATURE = "If you encounter any problems using the system, email TEAMMATES support";
-
-		Session sessioned = Session.getDefaultInstance(System.getProperties(), null);
-		Store store = sessioned.getStore("imaps");
-		store.connect("imap.gmail.com", gmail, password);
-
-		// Retrieve the "Inbox"
-		Folder inbox = store.getFolder("inbox");
-		// Reading the Email Index in Read / Write Mode
-		inbox.open(Folder.READ_WRITE);
-		FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
-		Message messages[] = inbox.search(ft);
-		System.out.println(messages.length + " unread message");
-
-		// Loop over the last 5 messages
-		for (int i = messages.length - 1; i >= messages.length-5; i--) {
-			Message message = messages[i];
-			System.out.println(message.getSubject());
-
-			System.out.println(String.format(HEADER_EVALUATION_PUBLISH, courseCode, evaluationName));
-			// matching email subject:
-			if (!message.getSubject().equals(String.format(HEADER_EVALUATION_PUBLISH, courseCode, evaluationName))) {
-				continue;
-			} else {
-				System.out.println("match");
-			}
-
-			// matching email content:
-			String body = "";
-			if (message.getContent() instanceof String) {
-				body = message.getContent().toString();
-			} else if (message.getContent() instanceof Multipart) {
-				Multipart multipart = (Multipart) message.getContent();
-				BodyPart bodypart = multipart.getBodyPart(0);
-				body = bodypart.getContent().toString();
-			}
-
-			// check line 1: "The results of the evaluation:"
-			if (body.indexOf("The results of the evaluation:") == -1) {
-				System.out.println("fail 1");
-				continue;
-			}
-			// check line 2: courseCode evaluationName
-			if (body.indexOf(body.indexOf(courseCode + " " + evaluationName)) == -1) {
-				System.out.println("fail 2");
-				continue;
-			}
-			// check line 3: "have been published."
-			if (body.indexOf("have been published.") == -1) {
-				System.out.println("fail 3");
-				continue;
-			}
-			// check line 4: "You can view the result here: [URL]"
-			if (body.indexOf(TEAMMATES_APP_URL) == -1) {
-				System.out.println("fail 4");
-				continue;
-
-			}
-			// check line 5: teammates signature
-			if (body.indexOf(TEAMMATES_APP_SIGNATURE) == -1) {
-				System.out.println("fail 5");
-				continue;
-			}
-
-			// Mark the message as read
-			message.setFlag(Flags.Flag.SEEN, true);
-
-			return true;
-		}
-		return false;
-	}
-
 	/* -----------------------------------------------------------------------
 	 * Functions dealing with UI testing setup
 	 * ----------------------------------------------------------------------*/
@@ -2453,7 +2385,7 @@ public class BrowserInstance {
 	 * ----------------------------------------------------------------- */
 	/**
 	 * Do not use fixed duration wait, use wait on other elements to appear.
-	 * @deprecated
+	 * @deprecated Do not use this function for local testing.
 	 */
 	public void justWait() {
 		waitAWhile(1500);
@@ -2524,6 +2456,11 @@ public class BrowserInstance {
 		}
 	}
 
+	/**
+	 * Waits for the status message (div id=statusMessage) to have the exact
+	 * content as specified)
+	 * @param message
+	 */
 	public void waitForStatusMessage(String message){
 		waitForTextInElement(statusMessage, message);
 	}
@@ -2577,7 +2514,7 @@ public class BrowserInstance {
 	}
 	
 	/**
-	 * Fills in Evaluation Name.
+	 * Fills in Evaluation Name (using id=evaluationname)
 	 * Waits for element exists or timeout.
 	 * @param name
 	 * @return
@@ -2590,7 +2527,7 @@ public class BrowserInstance {
 	}
 	
 	/**
-	 * Fills in Course Name.
+	 * Fills in Course Name (using id=coursename)
 	 * Waits for element exist or timeout.
 	 * @param name
 	 * @return
@@ -2603,7 +2540,7 @@ public class BrowserInstance {
 	}
 	
 	/**
-	 * Fills in course ID.
+	 * Fills in course ID (using id=courseid)
 	 * Waits for element exists or timeout.
 	 * @param id
 	 * @return
@@ -2816,6 +2753,7 @@ public class BrowserInstance {
 	 * @page Team Forming Session page
 	 * @param courseId
 	 * @return
+	 * @deprecated
 	 */
 	public boolean isTeamFormingSessionPresent(String courseId) {
 		int totalTeamFormingSession = countTFS();
@@ -2860,22 +2798,30 @@ public class BrowserInstance {
 	 * ------------------------------------------------------------------ */
 	/**
 	 * Goes to the URL as specified.
-	 * Obviously, no verification is done for this.
+	 * If the url is an absolute path, it will go directly there.
+	 * Otherwise, it will go to TEAMMATES_URL+url (with url checked for "/"-prefix)
 	 * @param url
 	 */
 	public void goToUrl(String url){
-		driver.get(url);
+		if(url.startsWith("http")){
+			driver.get(url);
+		} else {
+			if(!url.startsWith("/")){
+				url = "/"+url;
+			}
+			driver.get(Config.inst().TEAMMATES_URL+url);
+		}
 		if( !Config.inst().isLocalHost() ){
 			waitForPageLoad();
 		}
 	}
 
 	/**
-	 * Goes to Main page by going to the root URL
-	 * Verifies that the page is loaded correctly before returning.
+	 * Goes to Main page by going to the TEAMMATES_URL
+	 * @deprecated
 	 */
 	public void goToMain() {
-		selenium.open("/");
+		goToUrl("");
 		verifyMainPage();
 	}
 	
@@ -2883,6 +2829,7 @@ public class BrowserInstance {
 	 * Goes to Coordinator Home page by clicking on the link "Home" in the navigation bar.
 	 * Pre-condition: Should be logged in as Coordinator
 	 * Verifies that the page is loaded correctly before returning.
+	 * @deprecated
 	 */
 	public void goToCoordHome() {
 		clickHomeTab();
@@ -2893,6 +2840,7 @@ public class BrowserInstance {
 	 * Goes to Student home page by clicking on the link "Home" in the navigation bar.
 	 * Pre-condition: Should be logged in as Student
 	 * Verifies that the page is loaded correctly before returning.
+	 * @deprecated
 	 */
 	public void goToStudentHome() {
 		clickHomeTab();
@@ -2902,6 +2850,7 @@ public class BrowserInstance {
 	/**
 	 * Goes to Courses page by clicking on the link "Courses" in the navigation bar.
 	 * Verifies that the page is loaded correctly before returning.
+	 * @deprecated
 	 */
 	public void goToCourses() {
 		clickCourseTab();
@@ -2910,6 +2859,7 @@ public class BrowserInstance {
 	/**
 	 * Goes to Team Forming page by clicking on the link "Team-forming" in the navigation bar.
 	 * Verifies that the page is loaded correctly before returning.
+	 * @deprecated
 	 */
 	public void goToTeamForming() {
 		clickTeamFormingTab();
@@ -2918,6 +2868,7 @@ public class BrowserInstance {
 	/**
 	 * Goes to Evaluation page by clicking on the link "Evaluation" in the navigation bar.
 	 * Verifies that the page is loaded correctly before returning.
+	 * @deprecated
 	 */
 	public void goToEvaluation() {
 		clickEvaluationTab();
@@ -2989,7 +2940,7 @@ public class BrowserInstance {
 	 * Verifies current page with a reference page, i.e., finding the reference
 	 * string in current page (so the reference does not have to be full page)<br />
 	 * This will reload the page from the given url up to two more times
-	 * (that is, three times checking)<br />
+	 * (that is, three times checking), depending on the variable {@link #PAGE_VERIFY_RETRY}<br />
 	 * <br />
 	 * This method has minimal placeholder capability, matching {*} in the
 	 * reference with anything in current page, trying to maximize the match.
@@ -3028,7 +2979,8 @@ public class BrowserInstance {
 	 * This is to be used in HTML testing, where we can generate the reference HTML file using this method.
 	 * This method is deprecated so that you won't forget to remove it
 	 * @param destination
-	 * @deprecated
+	 * @deprecated Still used, don't remove this one.
+	 * @
 	 */
 	public void printCurrentPage(String destination) throws Exception{
 		waitForPageLoad();
@@ -3081,6 +3033,7 @@ public class BrowserInstance {
 	/**
 	 * Helper method to check that we're at the main page
 	 * Checking for the Coordinator and Student links
+	 * @deprecated
 	 */
 	public void verifyMainPage() {
 		for (int x = 0;; x++) {
@@ -3097,6 +3050,7 @@ public class BrowserInstance {
 	/**
 	 * Helper method to verify that we're at the login page.
 	 * Checking for the e-mail and password fields and the sign in button
+	 * @deprecated
 	 */
 	public void verifyGoogleLoginPage() {
 		for (int x = 0;; x++){
@@ -3114,6 +3068,7 @@ public class BrowserInstance {
 	 * Checks for the details of the evaluation that was added.
 	 * @param courseId
 	 * @param status
+	 * @deprecated
 	 */
 	public void verifyTeamFormingSessionAdded(String courseId, String status) {
 		for (int i = 0; i < countTFS(); i++) {
@@ -3128,6 +3083,7 @@ public class BrowserInstance {
 	 * This checks for a new course, so this also verifies
 	 * the default number of teams to be 0.
 	 * Page: Coordinator home
+	 * @deprecated Use getCourseRowID!=-1 instead
 	 */
 	public void verifyCourseIsAdded(String courseId, String courseName) {
 		// Check for courseId
@@ -3148,6 +3104,7 @@ public class BrowserInstance {
 	 * expected.
 	 * @param added
 	 * @param edited
+	 * @deprecated
 	 */
 	public void verifyEnrollment(int added, int edited) {
 		for (int x = 0;; x++) {
@@ -3171,6 +3128,7 @@ public class BrowserInstance {
 	 * @param evalName
 	 * @param status
 	 * @param resp
+	 * @deprecated
 	 */
 	public void verifyEvaluationAdded(String courseId, String evalName, String status, String resp) {
 	
@@ -3193,6 +3151,7 @@ public class BrowserInstance {
 	 * <li>Class: t_logout</li>
 	 * <li>ID: joinNewCourse</li>
 	 * </ul>
+	 * @deprecated
 	 */
 	public void verifyStudentHomePage() {
 		for (int x=0;; x++){
@@ -3216,6 +3175,7 @@ public class BrowserInstance {
 	 * <li>ID: regkey</li>
 	 * <li>ID: btnJoinCourse</li>
 	 * </ul>
+	 * @deprecated
 	 */
 	public void verifyStudentCoursesPage() {
 		for (int x=0;; x++){
@@ -3238,6 +3198,7 @@ public class BrowserInstance {
 	 * <li>Text: Pending Evaluations:</li>
 	 * <li>Text: Past Evaluations:</li>
 	 * </ul>
+	 * @deprecated
 	 */
 	public void verifyStudentEvaluationsPage() {
 		for (int x=0;; x++){
@@ -3263,6 +3224,7 @@ public class BrowserInstance {
 	 * <li>XPath: StudentEvaluationClosingTime</li>
 	 * <li>XPath: StudentEvaluationInstructions</li>
 	 * </ul>
+	 * @deprecated
 	 */
 	public void verifyStudentDoOrEditEvaluationPage() {
 		for (int x=0;; x++){
@@ -3293,6 +3255,7 @@ public class BrowserInstance {
 	 * <li>XPath: StudentEvaluationResultPerceivedPoints</li>
 	 * <li>XPath: StudentEvaluationResultClosingTime</li>\
 	 * </ul>
+	 * @deprecated
 	 */
 	public void verifyStudentEvaluationResultsPage() {
 		waitForPageLoad();
@@ -3322,6 +3285,7 @@ public class BrowserInstance {
 	 * <li>XPath: StudentCourseDetailStudentEmail</li>
 	 * <li>XPath: StudentCourseDetailStudentTeammates</li>
 	 * </ul>
+	 * @deprecated
 	 */
 	public void verifyStudentViewCourseDetailsPage() {
 		for (int x=0;; x++){
@@ -3348,6 +3312,7 @@ public class BrowserInstance {
 	 * <li>ID: button_back</li>
 	 * <li>ID: button_saveTeamProfile</li>
 	 * </ul>
+	 * @deprecated
 	 */
 	public void verifyStudentTeamDetailPage() {
 		for (int x = 0;; x++) {
@@ -3373,6 +3338,7 @@ public class BrowserInstance {
 	 * <li>Logout Tab</li>
 	 * <li>Coordinator Add New Course Link</li>
 	 * </ul>
+	 * @deprecated
 	 */
 	public void verifyCoordHomePage() {
 		for (int x=0;; x++){
@@ -3396,6 +3362,7 @@ public class BrowserInstance {
 	 * <li>ID: courseid</li>
 	 * <li>ID: coursename</li>
 	 * <li>ID: btnAddCourse</li>
+	 * @deprecated
 	 */
 	public void verifyCoordCoursesPage() {
 		for (int x = 0;; x++){
@@ -3421,6 +3388,7 @@ public class BrowserInstance {
 	 * <li>XPath: CourseDetailsTeams</li>
 	 * <li>XPath: CourseDetailsTotalStudents</li>
 	 * </ul>
+	 * @deprecated
 	 */
 	public void verifyCoordCourseDetailsPage() {
 		for (int x=0;; x++){
@@ -3446,6 +3414,7 @@ public class BrowserInstance {
 	 * <li>ID: {@link #coordCourseDetailsTotalStudents}</li>
 	 * <li>TEXT: {courseID in coordCourseDetailsCourseID}</li>
 	 * </ul>
+	 * @deprecated
 	 */
 	public void verifyCoordCourseDetailsPage(String courseID) {
 		for (int x=0;; x++){
@@ -3469,6 +3438,7 @@ public class BrowserInstance {
 	 * <li>ID: information</li>
 	 * <li>ID: button_enroll</li>
 	 * </ul>
+	 * @deprecated
 	 */
 	public void verifyCoordCourseEnrollPage() {
 		for (int x = 0;; x++) {
@@ -3491,6 +3461,7 @@ public class BrowserInstance {
 	 * <li>ID: button_enroll</li>
 	 * </ul>
 	 * @param courseID
+	 * @deprecated
 	 */
 	public void verifyCoordCourseEnrollPage(String courseID) {
 		for (int x = 0;; x++) {
@@ -3520,6 +3491,7 @@ public class BrowserInstance {
 	 * <li>ID: deadlinetime</li>
 	 * <li>ID: graceperiod</li>
 	 * </ul>
+	 * @deprecated
 	 */
 	public void verifyCoordEvaluationsPage() {
 		for (int x = 0;; x++) {
@@ -3548,6 +3520,7 @@ public class BrowserInstance {
 	 * <li>ID: deadlinetime</li>
 	 * <li>ID: graceperiod</li>
 	 * </ul>
+	 * @deprecated
 	 */
 	public void verifyCoordEvaluationEditPage() {
 		for (int x=0;; x++){
@@ -3571,6 +3544,7 @@ public class BrowserInstance {
 	 * <li>ID: radio_reviewer</li>
 	 * <li>ID: radio_reviewee</li>
 	 * </ul>
+	 * @deprecated
 	 */
 	public void verifyCoordEvaluationResultsPage() {
 		for (int x=0;; x++){
@@ -3597,6 +3571,7 @@ public class BrowserInstance {
 	 * <li>ID: deadlinetime</li>
 	 * <li>ID: graceperiod</li>
 	 * </ul>
+	 * @deprecated
 	 */
 	public void verifyCoordTeamFormingPage() {
 		for (int x = 0;; x++) {
@@ -3616,6 +3591,7 @@ public class BrowserInstance {
 	 * Helper method to check that we're at the manage team forming page.
 	 * Checks for the various fields expected.
 	 * @param students
+	 * @deprecated
 	 */
 	public void verifyCoordManageTeamFormingPage(ArrayList<Student> students) {
 		boolean studentsChecked = true;
@@ -3648,6 +3624,7 @@ public class BrowserInstance {
 	 * <li>ID: buttonAdd1</li>
 	 * </ul>
 	 * @param students
+	 * @deprecated
 	 */
 	public void verifyViewTeamsPage(ArrayList<Student> students) {
 		boolean studentsChecked = true;
@@ -3680,6 +3657,7 @@ public class BrowserInstance {
 	 * <li>ID: button_saveTeamChange</li>
 	 * <li>ID: button_back</li>
 	 * </ul>
+	 * @deprecated
 	 */
 	public void verifyChangeStudentTeamPage() {
 		for (int x = 0;; x++) {

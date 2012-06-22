@@ -138,7 +138,7 @@ public class CoordEvaluationListTest extends TestCase {
 		bi.waitForEmail();
 		for (Student s : scn.students) {
 			System.out.println("Checking " + s.email);
-			assertTrue(bi.checkResultEmailsSent(s.email, s.password, scn.course.courseId, scn.evaluation3.name));
+			assertTrue(SharedLib.checkResultEmailsSent(s.email, s.password, scn.course.courseId, scn.evaluation3.name));
 		}
 	}
 

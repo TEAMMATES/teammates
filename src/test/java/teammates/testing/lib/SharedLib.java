@@ -141,6 +141,93 @@ public class SharedLib {
 	}
 
 	/**
+	 * Checks whether the Publish had actually sent the e-mails to students
+	 * @param gmail
+	 * @param password
+	 * @param courseCode
+	 * @param evaluationName
+	 * @return
+	 * @throws MessagingException
+	 * @throws IOException
+	 */
+	public static boolean checkResultEmailsSent(String gmail, String password, String courseCode, String evaluationName) throws MessagingException, IOException {
+
+		// Publish RESULTS Format
+		final String HEADER_EVALUATION_PUBLISH = "TEAMMATES: Evaluation Published: %s %s";
+		final String TEAMMATES_APP_URL = "You can view the result here: " + Config.inst().TEAMMATES_LIVE_SITE;
+		final String TEAMMATES_APP_SIGNATURE = "If you encounter any problems using the system, email TEAMMATES support";
+
+		Session sessioned = Session.getDefaultInstance(System.getProperties(), null);
+		Store store = sessioned.getStore("imaps");
+		store.connect("imap.gmail.com", gmail, password);
+
+		// Retrieve the "Inbox"
+		Folder inbox = store.getFolder("inbox");
+		// Reading the Email Index in Read / Write Mode
+		inbox.open(Folder.READ_WRITE);
+		FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
+		Message messages[] = inbox.search(ft);
+		System.out.println(messages.length + " unread message");
+
+		// Loop over the last 5 messages
+		for (int i = messages.length - 1; i >= messages.length-5; i--) {
+			Message message = messages[i];
+			System.out.println(message.getSubject());
+
+			System.out.println(String.format(HEADER_EVALUATION_PUBLISH, courseCode, evaluationName));
+			// matching email subject:
+			if (!message.getSubject().equals(String.format(HEADER_EVALUATION_PUBLISH, courseCode, evaluationName))) {
+				continue;
+			} else {
+				System.out.println("match");
+			}
+
+			// matching email content:
+			String body = "";
+			if (message.getContent() instanceof String) {
+				body = message.getContent().toString();
+			} else if (message.getContent() instanceof Multipart) {
+				Multipart multipart = (Multipart) message.getContent();
+				BodyPart bodypart = multipart.getBodyPart(0);
+				body = bodypart.getContent().toString();
+			}
+
+			// check line 1: "The results of the evaluation:"
+			if (body.indexOf("The results of the evaluation:") == -1) {
+				System.out.println("fail 1");
+				continue;
+			}
+			// check line 2: courseCode evaluationName
+			if (body.indexOf(body.indexOf(courseCode + " " + evaluationName)) == -1) {
+				System.out.println("fail 2");
+				continue;
+			}
+			// check line 3: "have been published."
+			if (body.indexOf("have been published.") == -1) {
+				System.out.println("fail 3");
+				continue;
+			}
+			// check line 4: "You can view the result here: [URL]"
+			if (body.indexOf(TEAMMATES_APP_URL) == -1) {
+				System.out.println("fail 4");
+				continue;
+
+			}
+			// check line 5: teammates signature
+			if (body.indexOf(TEAMMATES_APP_SIGNATURE) == -1) {
+				System.out.println("fail 5");
+				continue;
+			}
+
+			// Mark the message as read
+			message.setFlag(Flags.Flag.SEEN, true);
+
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Helper function - Mark all emails of an account as read.
 	 * 
 	 */
