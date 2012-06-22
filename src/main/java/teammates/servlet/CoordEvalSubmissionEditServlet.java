@@ -32,7 +32,7 @@ public class CoordEvalSubmissionEditServlet extends EvalSubmissionEditServlet {
 	protected String getMessageOnNullStudent(HttpServletRequest req,
 			EvalSubmissionEditHelper helper) {
 		return "There is no student with e-mail: " +
-				EvalSubmissionEditHelper.escapeHTML(req.getParameter(Common.PARAM_STUDENT_EMAIL)) +
+				EvalSubmissionEditHelper.escapeForHTML(req.getParameter(Common.PARAM_STUDENT_EMAIL)) +
 				" registered in the course " + req.getParameter(Common.PARAM_COURSE_ID);
 	}
 
@@ -55,7 +55,7 @@ public class CoordEvalSubmissionEditServlet extends EvalSubmissionEditServlet {
 		CourseData course = helper.server.getCourse(courseID);
 		if(course!=null && !course.coord.equals(helper.userId)){
 			helper.statusMessage = "You are not authorized to edit the submission for student " +
-					Helper.escapeHTML(studentEmail)+" in evaluation "+Helper.escapeHTML(evalName) +
+					Helper.escapeForHTML(studentEmail)+" in evaluation "+Helper.escapeForHTML(evalName) +
 					" in course "+courseID;
 			helper.redirectUrl = Common.PAGE_COORD_EVAL;
 			return false;

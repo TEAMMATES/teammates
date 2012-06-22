@@ -59,22 +59,26 @@
 						<tr>
 							<td><input class="addinput" type="text"
 								name="<%= Common.PARAM_COURSE_NAME %>" id="<%= Common.PARAM_COURSE_NAME %>"
-								value="<%= (helper.courseName==null ? "" : CoordCourseHelper.escapeHTML(helper.courseName)) %>"
+								value="<%=(helper.courseName==null ? "" : CoordCourseHelper.escapeForHTML(helper.courseName))%>"
 								onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
 								onmouseout="hideddrivetip()"
-								maxlength=<%= Common.COURSE_NAME_MAX_LENGTH %> tabindex=2 /></td>
+								maxlength=<%=Common.COURSE_NAME_MAX_LENGTH%> tabindex=2 /></td>
 						</tr>
 						<tr>
 							<td><input id="btnAddCourse" type="submit" class="button"
 								onclick="return verifyAddCourse();" value="Add Course" tabindex="3" /></td>
 						</tr>
 					</table>
-					<% if(helper.isMasqueradeMode()){ %>
-						<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>" />
-					<% } %>
+					<%
+						if(helper.isMasqueradeMode()){
+					%>
+						<input type="hidden" name="<%=Common.PARAM_USER_ID%>" value="<%=helper.requestedUser%>" />
+					<%
+						}
+					%>
 				</form>
 			</div>
-			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
 			<div id="coordinatorCourseTable">
 				<table id="dataform">
 					<tr>
@@ -91,13 +95,13 @@
 						<th class="centeralign">Total Unregistered</th>
 						<th class="centeralign">Action(s)</th>
 					</tr>
-					<%	
+					<%
 						int idx = -1;
-						for(CourseData course: helper.courses){ idx++;
+									for(CourseData course: helper.courses){ idx++;
 					%>
 						<tr class="courses_row">
-							<td id="courseid<%= idx %>"><%= course.id %></td>
-							<td id="coursename<%= idx %>"><%= CoordCourseHelper.escapeHTML(course.name) %></td>
+							<td id="courseid<%=idx%>"><%=course.id%></td>
+							<td id="coursename<%=idx%>"><%=CoordCourseHelper.escapeForHTML(course.name)%></td>
 							<td class="t_course_teams centeralign"><%= course.teamsTotal %></td>
 							<td class="centeralign"><%= course.studentsTotal %></td>
 							<td class="centeralign"><%= course.unregisteredTotal %></td>

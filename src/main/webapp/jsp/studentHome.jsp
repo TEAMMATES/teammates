@@ -66,26 +66,28 @@
 				<div class="result_team home_courses_div" id="course<%= idx %>">
 					<div class="result_homeTitle">
 						<h2>[<%= course.id %>] :
-							<%= StudentHomeHelper.escapeHTML(course.name) %>
+							<%=StudentHomeHelper.escapeForHTML(course.name)%>
 						</h2>
 					</div>
 					<div class="result_homeLinks">
-						<!-- <a class="t_course_profile<%= idx %>"
-							href="<%= helper.getStudentCourseProfileLink(course.id) %>"
-							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_STUDENT_COURSE_PROFILE %>')"
+						<!-- <a class="t_course_profile<%=idx%>"
+							href="<%=helper.getStudentCourseProfileLink(course.id)%>"
+							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_STUDENT_COURSE_PROFILE%>')"
 							onmouseout="hideddrivetip()">
 							Profile
 						</a> -->
-						<a class="t_course_view<%= idx %>"
-							href="<%= helper.getStudentCourseDetailsLink(course.id) %>"
-							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_STUDENT_COURSE_DETAILS %>')"
+						<a class="t_course_view<%=idx%>"
+							href="<%=helper.getStudentCourseDetailsLink(course.id)%>"
+							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_STUDENT_COURSE_DETAILS%>')"
 							onmouseout="hideddrivetip()">
 							View Team
 						</a>
 					</div>
 					<div style="clear: both;"></div>
 					<br />
-					<%	if (course.evaluations.size() > 0) { %>
+					<%
+						if (course.evaluations.size() > 0) {
+					%>
 						<table id="dataform">
 							<tr>
 								<th class="leftalign">Evaluation Name</th>
@@ -93,9 +95,11 @@
 								<th class="centeralign">Status</th>
 								<th class="centeralign">Action(s)</th>
 							</tr>
-							<%	for (EvaluationData eval: course.evaluations) { evalIdx++; %>
-								<tr class="home_evaluations_row" id="evaluation<%= evalIdx %>">
-									<td class="t_eval_name"><%= StudentHomeHelper.escapeHTML(eval.name) %></td>
+							<%
+								for (EvaluationData eval: course.evaluations) { evalIdx++;
+							%>
+								<tr class="home_evaluations_row" id="evaluation<%=evalIdx%>">
+									<td class="t_eval_name"><%=StudentHomeHelper.escapeForHTML(eval.name)%></td>
 									<td class="t_eval_deadline centeralign"><%= Common.formatTime(eval.endTime) %></td>
 									<td class="t_eval_status centeralign"><span
 										onmouseover="ddrivetip(' <%= helper.getStudentHoverMessageForEval(eval)%>')"

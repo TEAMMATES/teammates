@@ -136,7 +136,7 @@ public class CoordEvalResultsHelper extends Helper{
 		if(sub.justification==null || sub.justification.getValue()==null
 				|| sub.justification.getValue().equals(""))
 			return "N/A";
-		else return escapeHTML(sub.justification.getValue());
+		else return escapeForHTML(sub.justification.getValue());
 	}
 	
 	/**
@@ -152,7 +152,7 @@ public class CoordEvalResultsHelper extends Helper{
 				|| sub.p2pFeedback.getValue().equals("")){
 			return "N/A";
 		}
-		return escapeHTML(sub.p2pFeedback.getValue());
+		return escapeForHTML(sub.p2pFeedback.getValue());
 	}
 	
 	/**

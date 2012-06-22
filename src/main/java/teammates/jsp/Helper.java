@@ -74,6 +74,7 @@ public class Helper {
 	 * For testing purpose
 	 * @param userID
 	 */
+	@Deprecated
 	public void setMasqueradeUser(String userID){
 		user = new UserData();
 		user.isAdmin = true;
@@ -103,18 +104,20 @@ public class Helper {
 	}
 	
 	/**
-	 * Checks whether a name is longer than 20 characters,
+	 * Checks whether a name is longer than a specified length
 	 * if so returns the truncated name appended by ellipsis,
 	 * otherwise returns the original nickname.
-	 * This is used for displaying nickname in the header, so that the
-	 * nickname won't be too long that messes up with the header formatting.
-	 * @param nickname
+	 * @param inputString
+	 * @param truncateLength the maximum length of the truncated string
 	 * @return
 	 */
-	public static String truncate(String nickname){
-		String result = nickname;
-		if(nickname.length()>20){
-			result = nickname.substring(0,20)+"...";
+	public static String truncate(String inputString, int truncateLength){
+		if(!(inputString.length()>truncateLength)){
+			return inputString;
+		}
+		String result = inputString;
+		if(inputString.length()>truncateLength){
+			result = inputString.substring(0,truncateLength-3)+"...";
 		}
 		return result;
 	}
@@ -139,8 +142,8 @@ public class Helper {
 	 * @param str
 	 * @return
 	 */
-	public static String escape(String str){
-		return escapeHTML(str.replace("\\", "\\\\")
+	public static String escapeForJavaScript(String str){
+		return escapeForHTML(str.replace("\\", "\\\\")
 				.replace("\"", "\\\"")
 				.replace("'", "\\'")
 				.replace("#", "\\#"));
@@ -151,7 +154,7 @@ public class Helper {
 	 * @param str
 	 * @return
 	 */
-	public static String escapeHTML(String str){
+	public static String escapeForHTML(String str){
 		return str.replace("&", "&amp;")
 				.replace("#", "&#35;")
 				.replace("<", "&lt;")

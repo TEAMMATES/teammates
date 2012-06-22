@@ -24,8 +24,8 @@ public class CoordEvalSubmissionEditHandlerServlet extends EvalSubmissionEditHan
 		if(student==null) fromName = fromEmail;
 		else fromName = student.name;
 		return String.format(Common.MESSAGE_COORD_EVALUATION_SUBMISSION_RECEIVED,
-				EvalSubmissionEditHelper.escapeHTML(fromName),
-				EvalSubmissionEditHelper.escapeHTML(evalName), courseID);
+				EvalSubmissionEditHelper.escapeForHTML(fromName),
+				EvalSubmissionEditHelper.escapeForHTML(evalName), courseID);
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class CoordEvalSubmissionEditHandlerServlet extends EvalSubmissionEditHan
 		CourseData course = helper.server.getCourse(courseID);
 		if(course!=null && !course.coord.equals(helper.userId)){
 			helper.statusMessage = "You are not authorized to edit the submission for student " +
-					Helper.escapeHTML(studentEmail)+" in evaluation "+Helper.escapeHTML(evalName) +
+					Helper.escapeForHTML(studentEmail)+" in evaluation "+Helper.escapeForHTML(evalName) +
 					" in course "+courseID;
 			helper.redirectUrl = Common.PAGE_COORD_EVAL;
 			return false;

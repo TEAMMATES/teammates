@@ -45,7 +45,7 @@
 					</tr>
 					<tr>
 						<td>Evaluation Name:</td>
-						<td><%= CoordEvalSubmissionEditHelper.escapeHTML(helper.eval.name) %></td>
+						<td><%=CoordEvalSubmissionEditHelper.escapeForHTML(helper.eval.name)%></td>
 					</tr>
 				</table>
 			</div>

@@ -51,31 +51,31 @@
 					 		<td class="fieldname">Team Name:</td>
 					 		<td>
 					 			<input class="fieldvalue" name="<%= Common.PARAM_TEAM_NAME %>" id="<%= Common.PARAM_TEAM_NAME %>"
-					 					value="<%= CoordCourseStudentDetailsHelper.escapeHTML(helper.student.team) %>" />
+					 					value="<%=CoordCourseStudentDetailsHelper.escapeForHTML(helper.student.team)%>" />
 					 		</td>
 					 	</tr>
 					 	<tr>
 					 		<td class="fieldname">E-mail Address:
-					 			<input type="hidden" name="<%= Common.PARAM_STUDENT_EMAIL %>" id="<%= Common.PARAM_STUDENT_EMAIL %>"
-					 					value="<%= CoordCourseStudentDetailsHelper.escapeHTML(helper.student.email) %>" />
+					 			<input type="hidden" name="<%=Common.PARAM_STUDENT_EMAIL%>" id="<%=Common.PARAM_STUDENT_EMAIL%>"
+					 					value="<%=CoordCourseStudentDetailsHelper.escapeForHTML(helper.student.email)%>" />
 					 		</td>
 					 		<td>
-					 			<input class="fieldvalue" name="<%= Common.PARAM_NEW_STUDENT_EMAIL %>" id="<%= Common.PARAM_NEW_STUDENT_EMAIL %>"
-					 					value="<%= CoordCourseStudentDetailsHelper.escapeHTML(helper.student.email) %>" />
+					 			<input class="fieldvalue" name="<%=Common.PARAM_NEW_STUDENT_EMAIL%>" id="<%=Common.PARAM_NEW_STUDENT_EMAIL%>"
+					 					value="<%=CoordCourseStudentDetailsHelper.escapeForHTML(helper.student.email)%>" />
 					 		</td>
 					 	</tr>
 					 	<tr>
 							<td class="fieldname">Google ID:</td>
-							<td id="<%= Common.PARAM_USER_ID %>"><%= (helper.student.id!= null ? CoordCourseStudentDetailsHelper.escapeHTML(helper.student.id) : "") %></td>
+							<td id="<%=Common.PARAM_USER_ID%>"><%=(helper.student.id!= null ? CoordCourseStudentDetailsHelper.escapeForHTML(helper.student.id) : "")%></td>
 						</tr>
 						<tr>
 							<td class="fieldname">Registration Key:</td>
-							<td id="<%= Common.PARAM_REGKEY %>"><%= CoordCourseStudentDetailsHelper.escapeHTML(helper.regKey) %></td>
+							<td id="<%=Common.PARAM_REGKEY%>"><%=CoordCourseStudentDetailsHelper.escapeForHTML(helper.regKey)%></td>
 						</tr>
 					 	<tr>
 					 		<td class="fieldname">Comments:</td>
 					 		<td>
-					 			<textarea class="textvalue" rows="6" cols="80" name="<%= Common.PARAM_COMMENTS %>" id="<%= Common.PARAM_COMMENTS %>"><%= CoordCourseStudentDetailsHelper.escapeHTML(helper.student.comments) %></textarea>
+					 			<textarea class="textvalue" rows="6" cols="80" name="<%=Common.PARAM_COMMENTS%>" id="<%=Common.PARAM_COMMENTS%>"><%=CoordCourseStudentDetailsHelper.escapeForHTML(helper.student.comments)%></textarea>
 					 		</td>
 					 	</tr>
 					</table>

@@ -39,34 +39,34 @@
 				<table class="result_studentform">
 					<tr>
 						<td width="15%">Evaluation:</td>
-						<td colspan="2"><%= StudentEvalResultsHelper.escapeHTML(helper.eval.name) %>
+						<td colspan="2"><%=StudentEvalResultsHelper.escapeForHTML(helper.eval.name)%>
 							in
-							<%= helper.eval.course %>
+							<%=helper.eval.course%>
 						</td>
 					</tr>
 					<tr>
 						<td>Student:</td>
-						<td colspan="2"><%= StudentEvalResultsHelper.escapeHTML(helper.student.name) %>
+						<td colspan="2"><%=StudentEvalResultsHelper.escapeForHTML(helper.student.name)%>
 							in
-							<%= StudentEvalResultsHelper.escapeHTML(helper.student.team) %>
+							<%=StudentEvalResultsHelper.escapeForHTML(helper.student.team)%>
 						</td>
 					</tr>
 					<tr>
 						<td>My View:</td>
 						<td width="12%">
-							Of me: <%= StudentEvalResultsHelper.colorizePoint(helper.evalResult.outgoing.get(0).points) %>
+							Of me: <%=StudentEvalResultsHelper.colorizePoint(helper.evalResult.outgoing.get(0).points)%>
 						</td>
 						<td>
-							Of others: <%= StudentEvalResultsHelper.getPointsListOriginal(helper.outgoing) %>
+							Of others: <%=StudentEvalResultsHelper.getPointsListOriginal(helper.outgoing)%>
 						</td>
 					</tr>
 					<tr>
 						<td>Teammates View:</td>
 						<td>
-							Of me: <%= StudentEvalResultsHelper.colorizePoint(helper.evalResult.incoming.get(0).normalized) %>
+							Of me: <%=StudentEvalResultsHelper.colorizePoint(helper.evalResult.incoming.get(0).normalized)%>
 						</td>
 						<td>
-							Of others: <%= StudentEvalResultsHelper.getPointsListNormalized(helper.incoming) %>
+							Of others: <%=StudentEvalResultsHelper.getPointsListNormalized(helper.incoming)%>
 						</td>
 					</tr>
 				</table>
@@ -75,9 +75,13 @@
 					<tr>
 						<td>
 							<ul>
-								<%	for(SubmissionData sub: helper.incoming){ %>
-									<li><%= StudentEvalResultsHelper.escapeHTML(sub.p2pFeedback.getValue()) %></li>
-								<%	} %>
+								<%
+									for(SubmissionData sub: helper.incoming){
+								%>
+									<li><%=StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue())%></li>
+								<%
+									}
+								%>
 							</ul>
 						</td>
 					</tr>
@@ -85,10 +89,14 @@
 					<tr>
 						<td>
 							<ul>
-								<%	for(SubmissionData sub: helper.selfEvaluations){ %>
-									<li><%= StudentEvalResultsHelper.escapeHTML(sub.reviewerName) %>: 
-										<%= StudentEvalResultsHelper.escapeHTML(sub.p2pFeedback.getValue()) %></li>
-								<%	} %>
+								<%
+									for(SubmissionData sub: helper.selfEvaluations){
+								%>
+									<li><%=StudentEvalResultsHelper.escapeForHTML(sub.reviewerName)%>: 
+										<%=StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue())%></li>
+								<%
+									}
+								%>
 							</ul>
 						</td>
 					</tr>
@@ -98,15 +106,15 @@
 				<table class="result_studentform">
 					<tr>
 						<td width="15%">Points to yourself:</td>
-						<td><%= StudentEvalResultsHelper.colorizePoint(helper.evalResult.getSelfEvaluation().points) %></td>
+						<td><%=StudentEvalResultsHelper.colorizePoint(helper.evalResult.getSelfEvaluation().points)%></td>
 					</tr>
 					<tr>
 						<td>Your contribution:</td>
-						<td><%= StudentEvalResultsHelper.escapeHTML(helper.evalResult.getSelfEvaluation().justification.getValue()) %></td>
+						<td><%=StudentEvalResultsHelper.escapeForHTML(helper.evalResult.getSelfEvaluation().justification.getValue())%></td>
 					</tr>
 					<tr>
 						<td>Team dynamics:</td>
-						<td><%= StudentEvalResultsHelper.escapeHTML(helper.evalResult.getSelfEvaluation().p2pFeedback.getValue()) %></td>
+						<td><%=StudentEvalResultsHelper.escapeForHTML(helper.evalResult.getSelfEvaluation().p2pFeedback.getValue())%></td>
 					</tr>
 				</table>
 				<table id="dataform" style="margin:0; width:100%">
@@ -116,12 +124,14 @@
 						<th>Comments about teammate</th>
 						<th>Feedback to teammate</th>
 					</tr>
-					<%	for(SubmissionData sub: helper.outgoing){ %>
+					<%
+						for(SubmissionData sub: helper.outgoing){
+					%>
 						<tr>
-							<td><%= StudentEvalResultsHelper.escapeHTML(sub.revieweeName) %></td>
-							<td><%= StudentEvalResultsHelper.colorizePoint(sub.points) %></td> 
-							<td><%= StudentEvalResultsHelper.escapeHTML(sub.justification.getValue()) %></td>
-							<td><%= StudentEvalResultsHelper.escapeHTML(sub.p2pFeedback.getValue()) %></td>
+							<td><%=StudentEvalResultsHelper.escapeForHTML(sub.revieweeName)%></td>
+							<td><%=StudentEvalResultsHelper.colorizePoint(sub.points)%></td> 
+							<td><%=StudentEvalResultsHelper.escapeForHTML(sub.justification.getValue())%></td>
+							<td><%=StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue())%></td>
 						</tr>
 					<%	} %>
 				</table>

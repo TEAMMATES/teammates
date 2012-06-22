@@ -67,47 +67,51 @@
 						<tr>
 							<td class="attribute" >Evaluation name:</td>
 							<td style="vertical-align:middle">
-								<input type="hidden" name="<%= Common.PARAM_EVALUATION_NAME %>" value="<%= CoordEvalEditHelper.escapeHTML(helper.submittedEval.name) %>" />
-								<%= CoordEvalEditHelper.escapeHTML(helper.submittedEval.name) %>
+								<input type="hidden" name="<%= Common.PARAM_EVALUATION_NAME %>" value="<%=CoordEvalEditHelper.escapeForHTML(helper.submittedEval.name)%>" />
+								<%=CoordEvalEditHelper.escapeForHTML(helper.submittedEval.name)%>
 							</td>
 							<td class="attribute" >Closing time:</td>
 							<td><input style="width: 100px;" type="text"
-										name="<%= Common.PARAM_EVALUATION_DEADLINE %>" id="<%= Common.PARAM_EVALUATION_DEADLINE %>"
-										onclick ="cal.select(this,'<%= Common.PARAM_EVALUATION_DEADLINE %>','dd/MM/yyyy')"
-										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_DEADLINE %>')"
+										name="<%=Common.PARAM_EVALUATION_DEADLINE%>" id="<%=Common.PARAM_EVALUATION_DEADLINE%>"
+										onclick ="cal.select(this,'<%=Common.PARAM_EVALUATION_DEADLINE%>','dd/MM/yyyy')"
+										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_DEADLINE%>')"
 										onmouseout="hideddrivetip()"
-										value="<%= Common.formatDate(helper.submittedEval.endTime) %>"
+										value="<%=Common.formatDate(helper.submittedEval.endTime)%>"
 										readonly="readonly" tabindex=5 />
 										@
 								<select style="width: 70px;"
-										name="<%= Common.PARAM_EVALUATION_DEADLINETIME %>"
-										id="<%= Common.PARAM_EVALUATION_DEADLINETIME %>"
+										name="<%=Common.PARAM_EVALUATION_DEADLINETIME%>"
+										id="<%=Common.PARAM_EVALUATION_DEADLINETIME%>"
 										tabindex=6>
-									<% for(String opt: helper.getTimeOptions(false)) out.println(opt); %>
+									<%
+										for(String opt: helper.getTimeOptions(false)) out.println(opt);
+									%>
 								</select></td>
 						</tr>
 						<tr>
 							<td class="attribute" >Peer feedback:</td>
-							<td><input type="radio" name="<%= Common.PARAM_EVALUATION_COMMENTSENABLED %>"
+							<td><input type="radio" name="<%=Common.PARAM_EVALUATION_COMMENTSENABLED%>"
 										id="commentsstatus_enabled" value="true"
-										<%= helper.submittedEval.p2pEnabled ? "checked=\"checked\"" : "" %>
-										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS %>')"
+										<%=helper.submittedEval.p2pEnabled ? "checked=\"checked\"" : ""%>
+										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS%>')"
 										onmouseout="hideddrivetip()" />
 								<label for="commentsstatus_enabled">Enabled</label>
-								<input type="radio" name="<%= Common.PARAM_EVALUATION_COMMENTSENABLED %>"
+								<input type="radio" name="<%=Common.PARAM_EVALUATION_COMMENTSENABLED%>"
 										id="commentsstatus_disabled" value="false"
-										<%= !helper.submittedEval.p2pEnabled ? "checked=\"checked\"" : "" %>
-										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS %>')"
+										<%=!helper.submittedEval.p2pEnabled ? "checked=\"checked\"" : ""%>
+										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS%>')"
 										onmouseout="hideddrivetip()" />
 								<label for="commentsstatus_disabled">Disabled</label>
 							</td>
 							<td class="attribute" >Time zone:</td>
-							<td><select style="width: 100px;" name="<%= Common.PARAM_EVALUATION_TIMEZONE %>" id="<%= Common.PARAM_EVALUATION_TIMEZONE %>"
-										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_TIMEZONE %>')"
+							<td><select style="width: 100px;" name="<%=Common.PARAM_EVALUATION_TIMEZONE%>" id="<%=Common.PARAM_EVALUATION_TIMEZONE%>"
+										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_TIMEZONE%>')"
 										onmouseout="hideddrivetip()" disabled="disabled" tabindex=7>
-								<% 	for(String opt: helper.getTimeZoneOptions()) out.println(opt);%>
+								<%
+									for(String opt: helper.getTimeZoneOptions()) out.println(opt);
+								%>
 								</select>
-								<input type="hidden" name="<%= Common.PARAM_EVALUATION_TIMEZONE %>" value="<%= helper.submittedEval.timeZone %>" />
+								<input type="hidden" name="<%=Common.PARAM_EVALUATION_TIMEZONE%>" value="<%=helper.submittedEval.timeZone%>" />
 							</td>
 						</tr>
 						<tr>
@@ -115,19 +119,21 @@
 						<td></td>
 						<td class="attribute" >Grace Period:</td>
 						<td class="inputField">
-							<select style="width: 70px;" name="<%= Common.PARAM_EVALUATION_GRACEPERIOD %>"
-									id="<%= Common.PARAM_EVALUATION_GRACEPERIOD %>"
-									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD %>')"
+							<select style="width: 70px;" name="<%=Common.PARAM_EVALUATION_GRACEPERIOD%>"
+									id="<%=Common.PARAM_EVALUATION_GRACEPERIOD%>"
+									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD%>')"
 									onmouseout="hideddrivetip()" tabindex=7>
-								<% for(String opt: helper.getGracePeriodOptions()) out.println(opt); %>
+								<%
+									for(String opt: helper.getGracePeriodOptions()) out.println(opt);
+								%>
 							</select></td>
 						</tr>
 						<tr>
 							<td class="attribute" >Instructions to students:</td>
 							<td colspan="3">
-								<textarea rows="2" cols="100" class="textvalue" name="<%= Common.PARAM_EVALUATION_INSTRUCTIONS %>" id="<%= Common.PARAM_EVALUATION_INSTRUCTIONS %>"
-										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_INSTRUCTIONS %>')"
-										onmouseout="hideddrivetip()" tabindex=8><%= CoordEvalEditHelper.escapeHTML(helper.submittedEval.instructions) %></textarea>
+								<textarea rows="2" cols="100" class="textvalue" name="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>" id="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>"
+										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_INSTRUCTIONS%>')"
+										onmouseout="hideddrivetip()" tabindex=8><%=CoordEvalEditHelper.escapeForHTML(helper.submittedEval.instructions)%></textarea>
 							</td>
 						</tr>
 						<tr>

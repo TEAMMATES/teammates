@@ -41,7 +41,7 @@ public class CoordEvalUnpublishServlet extends ActionServlet<Helper> {
 		CourseData course = helper.server.getCourse(courseID);
 		if(course!=null && !course.coord.equals(helper.userId)){
 			helper.statusMessage = "You are not authorized to unpublish the result for evaluation " +
-					Helper.escapeHTML(evalName)+" in course "+courseID;
+					Helper.escapeForHTML(evalName)+" in course "+courseID;
 			return;
 		}
 		

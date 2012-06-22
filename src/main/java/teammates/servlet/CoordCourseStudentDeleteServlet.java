@@ -40,7 +40,7 @@ public class CoordCourseStudentDeleteServlet extends ActionServlet<Helper> {
 		CourseData course = helper.server.getCourse(courseID);
 		if(course!=null && !course.coord.equals(helper.userId)){
 			helper.statusMessage = "You are not authorized to delete the student " +
-					Helper.escapeHTML(studentEmail)+" in course "+courseID;
+					Helper.escapeForHTML(studentEmail)+" in course "+courseID;
 			helper.redirectUrl = Common.PAGE_COORD_COURSE;
 			return;
 		}

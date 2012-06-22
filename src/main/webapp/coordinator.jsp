@@ -76,7 +76,7 @@
 					<li><a class='t_help' href="http://www.comp.nus.edu.sg/~teams/coordinatorhelp.html" target="_blank">Help</a></li>
 					<li><a class='t_logout' href="javascript:logout();">Logout</a>
 					 ( <% 	
-					 out.println(Helper.truncate(server.getLoggedInUser().id));
+					 out.println(Helper.truncate(server.getLoggedInUser().id,23));
 					%>)</li>
 				</ul>
 			</div>

@@ -42,7 +42,7 @@ public class StudentCourseJoinServlet extends ActionServlet<Helper> {
 		try {
 			helper.server.joinCourse(helper.userId, regKey);
 		} catch (JoinCourseException e) {
-			helper.statusMessage = Helper.escapeHTML(e.getMessage());
+			helper.statusMessage = Helper.escapeForHTML(e.getMessage());
 			helper.error = true;
 		} catch (InvalidParametersException e) {
 			helper.statusMessage = e.getMessage();

@@ -11,8 +11,6 @@ import teammates.jsp.Helper;
 @SuppressWarnings("serial")
 /**
  * Servlet to handle Delete Course action
- * @author Aldrian Obaja
- *
  */
 public class CoordCourseDeleteServlet extends ActionServlet<Helper> {
 
@@ -33,13 +31,13 @@ public class CoordCourseDeleteServlet extends ActionServlet<Helper> {
 
 	@Override
 	protected void doAction(HttpServletRequest req, Helper helper) {
-		// Get parameters
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		
-		// Process action
 		helper.server.deleteCourse(courseID);
 		helper.statusMessage = Common.MESSAGE_COURSE_DELETED;
-		if(helper.redirectUrl==null) helper.redirectUrl = Common.PAGE_COORD_COURSE;
+		if(helper.redirectUrl==null) {
+			helper.redirectUrl = Common.PAGE_COORD_COURSE;
+		}
 	}
 
 	@Override

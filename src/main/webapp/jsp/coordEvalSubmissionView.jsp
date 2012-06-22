@@ -45,43 +45,47 @@
 					</tr>
 					<tr>
 						<td>Evaluation Name:</td>
-						<td><%= CoordEvalSubmissionViewHelper.escapeHTML(helper.evaluation.name) %></td>
+						<td><%=CoordEvalSubmissionViewHelper.escapeForHTML(helper.evaluation.name)%></td>
 					</tr>
 				</table>
 			</div>
 			<div id="studentEvaluationSubmissions">
-			<%	for(boolean byReviewee = true, repeat=true; repeat; repeat = byReviewee, byReviewee=false){ %>
-				<h2 style="text-align:center"><%= CoordEvalSubmissionViewHelper.escapeHTML(helper.student.name) + (byReviewee ? "'s Result" : "'s Submission") %></h2>
+			<%
+				for(boolean byReviewee = true, repeat=true; repeat; repeat = byReviewee, byReviewee=false){
+			%>
+				<h2 style="text-align:center"><%=CoordEvalSubmissionViewHelper.escapeForHTML(helper.student.name) + (byReviewee ? "'s Result" : "'s Submission")%></h2>
 				<table class="result_table">
 					<thead><tr>
 						<th colspan="2" width="10%">
-							<span class="fontcolor"><%= byReviewee ? "Reviewee" : "Reviewer" %>: </span><%= helper.student.name %></th>
+							<span class="fontcolor"><%=byReviewee ? "Reviewee" : "Reviewer"%>: </span><%=helper.student.name%></th>
 						<th><span class="fontcolor"
-								onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_CLAIMED %>')"
+								onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_CLAIMED%>')"
 								onmouseout="hideddrivetip()">
-							Claimed Contributions: </span><%= CoordEvalSubmissionViewHelper.printSharePoints(helper.result.claimedToCoord,true) %></th>
+							Claimed Contributions: </span><%=CoordEvalSubmissionViewHelper.printSharePoints(helper.result.claimedToCoord,true)%></th>
 						<th><span class="fontcolor"
-								onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_PERCEIVED %>')"
+								onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_PERCEIVED%>')"
 								onmouseout="hideddrivetip()">
-							Perceived Contributions: </span><%= CoordEvalSubmissionViewHelper.printSharePoints(helper.result.perceivedToCoord,true) %></th>
+							Perceived Contributions: </span><%=CoordEvalSubmissionViewHelper.printSharePoints(helper.result.perceivedToCoord,true)%></th>
 					</tr></thead>
 					<tr>
 						<td colspan="4"><b>Self evaluation:</b><br />
-								<%= CoordEvalSubmissionViewHelper.printJustification(helper.result.getSelfEvaluation()) %></td>
+								<%=CoordEvalSubmissionViewHelper.printJustification(helper.result.getSelfEvaluation())%></td>
 						</tr>
 						<tr>
 							<td colspan="4"><b>Comments about team:</b><br />
-								<%= CoordEvalSubmissionViewHelper.printComments(helper.result.getSelfEvaluation(), helper.evaluation.p2pEnabled) %></td>
+								<%=CoordEvalSubmissionViewHelper.printComments(helper.result.getSelfEvaluation(), helper.evaluation.p2pEnabled)%></td>
 						</tr>
 					<tr class="result_subheader">
-						<td width="15%"><%= byReviewee ? "From" : "To" %> Student</td>
+						<td width="15%"><%=byReviewee ? "From" : "To"%> Student</td>
 						<td width="5%">Contribution</td>
 						<td width="40%">Comments</td>
 						<td width="40%">Messages</td>
 					</tr>
-					<%	for(SubmissionData sub: (byReviewee ? helper.result.incoming : helper.result.outgoing)){ if(sub.reviewer.equals(sub.reviewee)) continue; %>
+					<%
+						for(SubmissionData sub: (byReviewee ? helper.result.incoming : helper.result.outgoing)){ if(sub.reviewer.equals(sub.reviewee)) continue;
+					%>
 						<tr>
-							<td><b><%= CoordEvalSubmissionViewHelper.escapeHTML(byReviewee ? sub.reviewerName : sub.revieweeName) %></b></td>
+							<td><b><%=CoordEvalSubmissionViewHelper.escapeForHTML(byReviewee ? sub.reviewerName : sub.revieweeName)%></b></td>
 							<td><%= CoordEvalSubmissionViewHelper.printSharePoints(sub.normalizedToCoord,false) %></td>
 							<td><%= CoordEvalSubmissionViewHelper.printJustification(sub) %></td>
 							<td><%= CoordEvalSubmissionViewHelper.printComments(sub, helper.evaluation.p2pEnabled) %></td>

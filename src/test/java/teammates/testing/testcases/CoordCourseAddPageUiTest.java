@@ -24,8 +24,6 @@ import teammates.testing.lib.BrowserInstancePool;
 
 /**
  * Tests coordCourse.jsp from UI functionality and HTML test
- * @author Aldrian Obaja
- *
  */
 public class CoordCourseAddPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
@@ -35,14 +33,14 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		printTestClassHeader("CoordCourseAddUITest");
-		ts = loadTestScenario();
+		printTestClassHeader();
+		ts = loadTestScenario(Common.TEST_DATA_FOLDER + "/coordCourseAddUiTest.json");
 		
-		System.out.println("Recreating "+ts.coordinator.id);
+		print("Recreating "+ts.coordinator.id);
 		long start = System.currentTimeMillis();
 		BackDoor.deleteCoord(ts.coordinator.id);
 		BackDoor.createCoord(ts.coordinator);
-		System.out.println("Finished recreating in "+(System.currentTimeMillis()-start)+" ms");
+		print("Finished recreating in "+(System.currentTimeMillis()-start)+" ms");
 
 		bi = BrowserInstancePool.getBrowserInstance();
 		
@@ -66,18 +64,15 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordCourseAddHTML() throws Exception{
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseEmpty.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEmpty.html");
 
 		BackDoor.createCourse(ts.CS1101);
 		BackDoor.createCourse(ts.CS2104);
-		bi.goToCourses();
+		bi.clickCourseTab();
 
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseById.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseById.html");
 
 		bi.click(bi.coordCourseSortByNameButton);
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseByName.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseByName.html");
 		
 		bi.click(bi.coordCourseSortByIdButton);
@@ -93,18 +88,15 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		// Course name can be any character including special characters
 		String courseName = ts.validCourse.name;
 		
-		/////////////////////////////////////////////////////////////////
-		printTestCaseHeader("testCoordaddCourseSuccessful");
+		______TS("testCoordaddCourseSuccessful");
 		
 		bi.addCourse(courseId, courseName);
 		
 		bi.waitForStatusMessage(Common.MESSAGE_COURSE_ADDED);
 
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseAddSuccessful.html");
 		bi.verifyCurrentPageHTMLRegexWithRetry(Common.TEST_PAGES_FOLDER+"/coordCourseAddSuccessful.html", link);
 		
-		/////////////////////////////////////////////////////////////////
-		printTestCaseHeader("testCoordaddCourseWithInvalidInputsFailed");
+		______TS("testCoordaddCourseWithInvalidInputsFailed");
 
 		bi.addCourse("", courseName);
 		bi.waitForStatusMessage(Common.MESSAGE_COURSE_MISSING_FIELD);
@@ -117,8 +109,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		bi.addCourse(courseId+"!*}", courseName + " (!*})");
 		bi.waitForStatusMessage(Common.MESSAGE_COURSE_INVALID_ID);
 
-		////////////////////////////////////////////////////////////////
-		printTestCaseHeader("testMaxLengthOfInputFields");
+		______TS("testMaxLengthOfInputFields");
 		
 		String shortCourseId = Common.generateStringOfLength(Common.COURSE_ID_MAX_LENGTH);
 		String longCourseId = Common.generateStringOfLength(Common.COURSE_ID_MAX_LENGTH+1);
@@ -132,15 +123,13 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		assertEquals(shortCourseName, bi.fillInCourseName(shortCourseName));
 		assertEquals(longCourseName.substring(0, Common.COURSE_NAME_MAX_LENGTH), bi.fillInCourseName(longCourseName));
 
-		////////////////////////////////////////////////////////////////
-		printTestCaseHeader("testCoordaddCourseWithDuplicateIdFailed");
+		______TS("testCoordaddCourseWithDuplicateIdFailed");
 		
 		bi.addCourse(courseId, "different course name");
 		
 		long start = System.currentTimeMillis();
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseAddDupIdFailed.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseAddDupIdFailed.html");
-		System.out.println("Time to assert a page: "+(System.currentTimeMillis()-start)+" ms");
+		print("Time to assert page: "+(System.currentTimeMillis()-start)+" ms");
 	}
 
 	public void testCoordCourseAddLinks() throws Exception{
@@ -161,15 +150,14 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 
 		try{
 			bi.clickAndConfirm(deleteLinkLocator);
-//			bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseDeleteSuccessful.html");
 			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseDeleteSuccessful.html");
 		} catch (NoAlertAppearException e){
 			fail("No alert box when clicking delete button at course page.");
 		}
 	}
 	
-	private static TestScenario loadTestScenario() throws JSONException, FileNotFoundException {
-		String testScenarioJsonFile = Common.TEST_DATA_FOLDER + "/coordCourseAddUiTest.json";
+	private static TestScenario loadTestScenario(String scenarioJsonFile) throws JSONException, FileNotFoundException {
+		String testScenarioJsonFile = scenarioJsonFile;
 		String jsonString = Common.readFile(testScenarioJsonFile);
 		TestScenario scn = Common.getTeammatesGson().fromJson(jsonString, TestScenario.class);
 		return scn;

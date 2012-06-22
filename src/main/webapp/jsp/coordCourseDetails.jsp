@@ -47,31 +47,35 @@
 		 			</tr>
 		 			<tr>
 		 				<td class="fieldname">Course name:</td>
-		 				<td id="coursename"><%= CoordCourseDetailsHelper.escapeHTML(helper.course.name) %></td>
+		 				<td id="coursename"><%=CoordCourseDetailsHelper.escapeForHTML(helper.course.name)%></td>
 					</tr>
 					<tr>
 		 				<td class="fieldname">Teams:</td>
-		 				<td id="total_teams"><%= helper.course.teamsTotal %></td>
+		 				<td id="total_teams"><%=helper.course.teamsTotal%></td>
 		 			</tr>
 		 			<tr>
 		 				<td class="fieldname">Total students:</td>
-		 				<td id="total_students"><%= helper.course.studentsTotal %></td>
+		 				<td id="total_students"><%=helper.course.studentsTotal%></td>
 		 			</tr>
-		 			<%	if(helper.course.studentsTotal>1){ %>
+		 			<%
+		 				if(helper.course.studentsTotal>1){
+		 			%>
 		 			<tr>
 		 				<td class="centeralign" colspan="2">
 		 					<input type="button" class="button t_remind_students"
 		 							id="button_remind"
-		 							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_REMIND %>')" 
+		 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_REMIND%>')" 
 		 							onmouseout="hideddrivetip();"
-		 							onclick="hideddrivetip(); if(toggleSendRegistrationKeysConfirmation('<%= helper.course.id %>')) window.location.href='<%= helper.getCoordCourseRemindLink() %>';"
+		 							onclick="hideddrivetip(); if(toggleSendRegistrationKeysConfirmation('<%=helper.course.id%>')) window.location.href='<%=helper.getCoordCourseRemindLink()%>';"
 		 							value="Remind Students to Join" tabindex=1 />
 		 				</td>
 		 			</tr>
-		 			<%	} %>
+		 			<%
+		 				}
+		 			%>
 				</table>
 			</div>
-			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
 			<div id="coordinatorStudentTable">
 				<table id="dataform">
 					<tr>
@@ -83,11 +87,13 @@
 								onclick="toggleSort(this,3)"/>Status</th>
 						<th class="centeralign">Action(s)</th>
 					</tr>
-					<%	int idx = -1;
-						for(StudentData student: helper.students){ idx++;%>
-							<tr class="student_row" id="student<%= idx %>">
-								<td id="<%= Common.PARAM_STUDENT_NAME %>"><%= student.name %></td>
-	 							<td id="<%= Common.PARAM_TEAM_NAME %>"><%= CoordCourseDetailsHelper.escapeHTML(student.team) %></td>
+					<%
+						int idx = -1;
+									for(StudentData student: helper.students){ idx++;
+					%>
+							<tr class="student_row" id="student<%=idx%>">
+								<td id="<%=Common.PARAM_STUDENT_NAME%>"><%=student.name%></td>
+	 							<td id="<%=Common.PARAM_TEAM_NAME%>"><%=CoordCourseDetailsHelper.escapeForHTML(student.team)%></td>
 	 							<td class="centeralign"><%= helper.status(student) %></td>
 	 							<td class="centeralign">
 									<a class="t_student_details<%= idx %>"
@@ -107,7 +113,7 @@
 												Resend Invite</a>
 									<%	} %>
 									<a class="t_student_delete<%= idx %>" href="<%= helper.getCourseStudentDeleteLink(student) %>"
-											onclick="return toggleDeleteStudentConfirmation('<%= CoordCourseDetailsHelper.escape(student.name) %>')"
+											onclick="return toggleDeleteStudentConfirmation('<%=CoordCourseDetailsHelper.escapeForJavaScript(student.name)%>')"
 											onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_STUDENT_DELETE %>')"
 											onmouseout="hideddrivetip()">
 											Delete</a>

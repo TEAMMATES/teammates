@@ -40,34 +40,42 @@
 	 				</tr>
 					<tr>
 	 					<td>Course name:</td>
-	 					<td id="<%= Common.PARAM_COURSE_NAME %>"><%= StudentCourseDetailsHelper.escapeHTML(helper.course.name) %></td>
+	 					<td id="<%= Common.PARAM_COURSE_NAME %>"><%=StudentCourseDetailsHelper.escapeForHTML(helper.course.name)%></td>
 	 				</tr>
 	 				<tr>
 	 					<td>Coordinator name:</td>
-	 					<td id="<%= Common.PARAM_COORD_NAME %>"><%= StudentCourseDetailsHelper.escapeHTML(helper.coordName) %></td>
+	 					<td id="<%=Common.PARAM_COORD_NAME%>"><%=StudentCourseDetailsHelper.escapeForHTML(helper.coordName)%></td>
 	 				</tr>
 	 				<tr>
 	 					<td>Your team:</td>
-	 					<td id="<%= Common.PARAM_TEAM_NAME %>"><%= StudentCourseDetailsHelper.escapeHTML(helper.student.team) %></td>
+	 					<td id="<%=Common.PARAM_TEAM_NAME%>"><%=StudentCourseDetailsHelper.escapeForHTML(helper.student.team)%></td>
 	 				</tr>
 	 				<tr>
 	 					<td>Your name:</td>
-	 					<td id="<%= Common.PARAM_STUDENT_NAME %>"><%= StudentCourseDetailsHelper.escapeHTML(helper.student.name) %></td>
+	 					<td id="<%=Common.PARAM_STUDENT_NAME%>"><%=StudentCourseDetailsHelper.escapeForHTML(helper.student.name)%></td>
 	 				</tr>
 	 				<tr>
 	 					<td>Your e-mail:</td>
-	 					<td id="<%= Common.PARAM_STUDENT_EMAIL %>"><%= helper.student.email %></td>
+	 					<td id="<%=Common.PARAM_STUDENT_EMAIL%>"><%=helper.student.email%></td>
 	 				</tr>
 	 				<tr>
 	 					<td>Your teammates:</td>
-	 					<td id="<%= Common.PARAM_TEAMMATES %>">
-	 						<%	if(helper.team==null || helper.team.students.size()==1){ %>
+	 					<td id="<%=Common.PARAM_TEAMMATES%>">
+	 						<%
+	 							if(helper.team==null || helper.team.students.size()==1){
+	 						%>
 	 							<span style="font-style:italic">You have no team members or you are not registered in any team</span>
-	 						<%	} else {%>
+	 						<%
+	 							} else {
+	 						%>
 	 							<ul>
-			 						<%	for(StudentData student: helper.team.students){ %>
-			 							<%	if(!student.email.equals(helper.student.email)) { %>
-			 								<li><%= StudentCourseDetailsHelper.escapeHTML(student.name) %></li>
+			 						<%
+			 							for(StudentData student: helper.team.students){
+			 						%>
+			 							<%
+			 								if(!student.email.equals(helper.student.email)) {
+			 							%>
+			 								<li><%=StudentCourseDetailsHelper.escapeForHTML(student.name)%></li>
 			 							<%	} %>
 			 						<%	} %>
 		 						</ul>

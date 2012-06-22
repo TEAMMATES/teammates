@@ -40,7 +40,7 @@ public class CoordEvalRemindServlet extends ActionServlet<Helper> {
 		CourseData course = helper.server.getCourse(courseID);
 		if(course!=null && !course.coord.equals(helper.userId)){
 			helper.statusMessage = "You are not authorized to remind students for the evaluation " +
-					Helper.escapeHTML(evalName)+" in course "+courseID;
+					Helper.escapeForHTML(evalName)+" in course "+courseID;
 			helper.redirectUrl = Common.PAGE_COORD_EVAL;
 			return;
 		}

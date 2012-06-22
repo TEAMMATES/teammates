@@ -41,19 +41,19 @@
 					</tr>
 					<tr>
 						<td class="fieldname">Evaluation name:</td>
-						<td id="<%= Common.PARAM_EVALUATION_NAME %>"><%= StudentEvalEditHelper.escapeHTML(helper.eval.name) %></td>
+						<td id="<%= Common.PARAM_EVALUATION_NAME %>"><%=StudentEvalEditHelper.escapeForHTML(helper.eval.name)%></td>
 					</tr>
 					<tr>
 						<td class="fieldname">Opening time:</td>
-						<td id="<%= Common.PARAM_EVALUATION_STARTTIME %>"><%= Common.formatTime(helper.eval.startTime) %></td>
+						<td id="<%=Common.PARAM_EVALUATION_STARTTIME%>"><%=Common.formatTime(helper.eval.startTime)%></td>
 					</tr>
 					<tr>
 						<td class="fieldname">Closing time:</td>
-						<td id="<%= Common.PARAM_EVALUATION_DEADLINETIME %>"><%= Common.formatTime(helper.eval.endTime) %></td>
+						<td id="<%=Common.PARAM_EVALUATION_DEADLINETIME%>"><%=Common.formatTime(helper.eval.endTime)%></td>
 					</tr>
 					<tr>
 						<td class="fieldname">Instructions:</td>
-						<td id="<%= Common.PARAM_EVALUATION_INSTRUCTIONS %>"><%= StudentEvalEditHelper.escapeHTML(helper.eval.instructions) %></td>
+						<td id="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>"><%=StudentEvalEditHelper.escapeForHTML(helper.eval.instructions)%></td>
 					</tr>
 				</table>
 			</div>

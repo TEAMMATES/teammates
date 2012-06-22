@@ -11,7 +11,8 @@ import teammates.testing.lib.HtmlHelperTest;
 	//TODO: there seems to be a state leak from this test to LogicTest if 
 	//  this test is put right above LogicTest.
 	EvaluationsTest.class,
-		CommonTest.class, 
+		CommonTest.class,
+		HelperTest.class,
 		ConfigTest.class,
 		EmailsTest.class,
 		StudentTest.class, 

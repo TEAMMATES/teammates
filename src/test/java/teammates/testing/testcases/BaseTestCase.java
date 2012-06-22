@@ -310,5 +310,9 @@ public class BaseTestCase {
 	protected boolean isNullJSON(String json){
 		return json==null || json.equals("null");
 	}
+	
+	protected static void print(String message){
+		System.out.println(message);
+	}
 
 }

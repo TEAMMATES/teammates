@@ -31,7 +31,7 @@ public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
 	protected boolean doAuthenticateUser(HttpServletRequest req,
 			HttpServletResponse resp, CoordCourseHelper helper)
 			throws IOException {
-		if(!helper.user.isCoord && !helper.user.isAdmin){
+		if (!helper.user.isCoord && !helper.user.isAdmin) {
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return false;
 		}
@@ -39,15 +39,17 @@ public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
 	}
 
 	@Override
-	protected void doAction(HttpServletRequest req, CoordCourseHelper helper) throws EntityDoesNotExistException{
+	protected void doAction(HttpServletRequest req, CoordCourseHelper helper)
+			throws EntityDoesNotExistException {
 		// Get parameters
 		helper.courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		helper.courseName = req.getParameter(Common.PARAM_COURSE_NAME);
-		
+
 		// Process action
-		if(helper.courseID!=null && helper.courseName!=null){
+		if (helper.courseID != null && helper.courseName != null) {
 			try {
-				helper.server.createCourse(helper.userId, helper.courseID, helper.courseName);
+				helper.server.createCourse(helper.userId, helper.courseID,
+						helper.courseName);
 				helper.courseID = null;
 				helper.courseName = null;
 				helper.statusMessage = Common.MESSAGE_COURSE_ADDED;
@@ -60,12 +62,19 @@ public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
 			}
 		}
 
-		HashMap<String, CourseData> courses = helper.server.getCourseListForCoord(helper.userId);
+		HashMap<String, CourseData> courses = helper.server
+				.getCourseListForCoord(helper.userId);
 		helper.courses = new ArrayList<CourseData>(courses.values());
 		sortCourses(helper.courses);
-		if(helper.courses.size()==0 && !helper.error && (helper.statusMessage==null || !helper.statusMessage.equals(Common.MESSAGE_COURSE_ADDED))){
-			if(helper.statusMessage==null) helper.statusMessage="";
-			else helper.statusMessage += "<br />";
+		if (helper.courses.size() == 0
+				&& !helper.error
+				&& (helper.statusMessage == null || !helper.statusMessage
+						.equals(Common.MESSAGE_COURSE_ADDED))) {
+			if (helper.statusMessage == null){
+				helper.statusMessage = "";
+			}else{
+				helper.statusMessage += "<br />";
+			}
 			helper.statusMessage += Common.MESSAGE_COURSE_EMPTY;
 		}
 	}

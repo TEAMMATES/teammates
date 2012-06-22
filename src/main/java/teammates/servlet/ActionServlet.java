@@ -29,8 +29,6 @@ import teammates.jsp.Helper;
  * which will be called from the doPost method in the superclass.
  * This is template pattern as said in:
  * http://stackoverflow.com/questions/7350297/good-method-to-make-it-obvious-that-an-overriden-method-should-call-super
- * @author Aldrian Obaja
- *
  */
 public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	
