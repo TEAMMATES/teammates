@@ -18,8 +18,6 @@ import teammates.jsp.CoordCourseEnrollHelper;
 @SuppressWarnings("serial")
 /**
  * Servlet to handle Enroll Students action
- * @author Aldrian Obaja
- *
  */
 public class CoordCourseEnrollServlet extends ActionServlet<CoordCourseEnrollHelper> {
 
@@ -42,15 +40,15 @@ public class CoordCourseEnrollServlet extends ActionServlet<CoordCourseEnrollHel
 	@Override
 	protected void doAction(HttpServletRequest req, CoordCourseEnrollHelper helper)
 			throws EntityDoesNotExistException{
-		// Get parameters
+
 		helper.courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String studentsInfo = req.getParameter(Common.PARAM_STUDENTS_ENROLLMENT_INFO);
 		
-		// Process action
 		try {
 			CourseData course = helper.server.getCourse(helper.courseID);
+			//TODO: why do we proceed if course==null?
 			if(course==null || course.coord.equals(helper.userId)){
-				processEnrollmentForDisplay(helper, studentsInfo);
+				enrollAndProcessResultForDisplay(helper, studentsInfo);
 			} else {
 				helper.statusMessage = "You are not authorized to enroll students in the course "+helper.courseID;
 				helper.redirectUrl = Common.PAGE_COORD_COURSE;
@@ -61,14 +59,14 @@ public class CoordCourseEnrollServlet extends ActionServlet<CoordCourseEnrollHel
 		}
 	}
 
-	private void processEnrollmentForDisplay(CoordCourseEnrollHelper helper,
+	private void enrollAndProcessResultForDisplay(CoordCourseEnrollHelper helper,
 			String studentsInfo) throws EnrollException, EntityDoesNotExistException {
 		if(studentsInfo==null) return;
 		List<StudentData> students = helper.server.enrollStudents(studentsInfo, helper.courseID);
 		Collections.sort(students,new Comparator<StudentData>(){
 			@Override
 			public int compare(StudentData o1, StudentData o2) {
-				return getNum(o1.updateStatus).compareTo(getNum(o2.updateStatus));
+				return (o1.updateStatus.numericRepresentation - o2.updateStatus.numericRepresentation);
 			}
 		});
 		helper.students = separateStudents(students);
@@ -86,7 +84,7 @@ public class CoordCourseEnrollServlet extends ActionServlet<CoordCourseEnrollHel
 		for(StudentData student: students){
 			if(student.comments==null) student.comments = "";
 			if(student.team==null) student.team = "";
-			while(getNum(student.updateStatus)>id){
+			while(student.updateStatus.numericRepresentation>id){
 				lists[id] = students.subList(prevIdx, nextIdx);
 				id++;
 				prevIdx = nextIdx;
@@ -101,16 +99,16 @@ public class CoordCourseEnrollServlet extends ActionServlet<CoordCourseEnrollHel
 		return lists;
 	}
 	
-	private Integer getNum(StudentData.UpdateStatus en){
-		switch(en){
-		case ERROR: return 0;
-		case NEW: return 1;
-		case MODIFIED: return 2;
-		case UNMODIFIED: return 3;
-		case NOT_IN_ENROLL_LIST: return 4;
-		default: return 5;
-		}
-	}
+//	private Integer getNum(StudentData.UpdateStatus en){
+//		switch(en){
+//		case ERROR: return 0;
+//		case NEW: return 1;
+//		case MODIFIED: return 2;
+//		case UNMODIFIED: return 3;
+//		case NOT_IN_ENROLL_LIST: return 4;
+//		default: return 5;
+//		}
+//	}
 
 	@Override
 	protected String getDefaultForwardUrl() {

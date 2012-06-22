@@ -67,6 +67,7 @@ public class BaseTestCase {
 				.getMethodName());
 	}
 
+	@Deprecated
 	public static void printTestClassHeader(String className) {
 		System.out.println("[=============================" + className
 				+ "=============================]");
@@ -93,6 +94,7 @@ public class BaseTestCase {
 				.getClassName());
 	}
 
+	@Deprecated
 	public static void printTestClassFooter(String testClassName) {
 		System.out.println(testClassName + " completed");
 	}

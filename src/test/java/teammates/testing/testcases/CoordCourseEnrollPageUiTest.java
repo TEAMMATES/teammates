@@ -15,7 +15,6 @@ import teammates.testing.lib.BrowserInstancePool;
 
 /**
  * Tests Coordinator Course Enroll UI
- * @author Aldrian Obaja
  */
 public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
@@ -27,14 +26,16 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		printTestClassHeader("CoordCourseEnrollTest");
+		printTestClassHeader();
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/CoordCourseEnrollUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 
-		System.out.println("Importing test data...");
+		print("Importing test data...");
 		long start = System.currentTimeMillis();
 		BackDoor.deleteCoordinators(jsonString);
-		System.out.println(BackDoor.persistNewDataBundle(jsonString));
+		String status = BackDoor.persistNewDataBundle(jsonString);
+		print(status);
+		
 		// NEW
 		enrollString += "Team 3 | Emily France | emily.f.tmms@gmail.com | This student has just been added\n";
 		// Student with no comment
@@ -45,7 +46,8 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 		enrollString += "Team 1 | Alice Betsy | alice.b.tmms@gmail.com | This comment has been changed\n";
 		// UNMODIFIED
 		enrollString += "Team 1 | Benny Charles | benny.c.tmms@gmail.com | This student's name is Benny Charles";
-		System.out.println("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
+		
+		print("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
@@ -59,21 +61,20 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
-		printTestClassFooter("CoordCourseEnrollUITest");
+		printTestClassFooter();
 	}
 	
 	@Test
 	public void testCoordCourseEnrollPage() throws Exception{
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollPage.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollPage.html");
 		
-		System.out.println("Enrolling...");
+		print("Enrolling...");
 		bi.fillString(By.id("enrollstudents"), enrollString);
 		bi.click(By.id("button_enroll"));
 
-		System.out.println("Verifying result...");
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollPageResult.html");
+		print("Verifying result...");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollPageResult.html");
 		
+		//TODO: check for case: enrollment failure
 	}
 }
