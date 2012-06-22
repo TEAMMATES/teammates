@@ -7,15 +7,15 @@
     "coord": "teammates.demo.coord"
   },
   
-  "courseWithSameNameDifferentId": {
-    "id": "CCAddUiTest.diffC",
-    "name": "Software Engineering $%^&*()",
+  "CS1101": {
+    "id": "CCAddUiTest.CS1101",
+    "name": "Programming Methodology",
     "coord": "teammates.demo.coord"
   },
   
-  "testCourse": {
-  	"id": "CCAddUiTest.course2",
-  	"name": "Software Engineering First",
+  "CS2104": {
+  	"id": "CCAddUiTest.CS2104",
+  	"name": "Programming Language Concept",
     "coord": "teammates.demo.coord"
   }
   

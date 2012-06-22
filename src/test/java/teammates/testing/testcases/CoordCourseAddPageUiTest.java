@@ -21,7 +21,6 @@ import teammates.testing.config.Config;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
-import teammates.testing.script.ImportTestData;
 
 /**
  * Tests coordCourse.jsp from UI functionality and HTML test
@@ -38,13 +37,14 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	public static void classSetup() throws Exception {
 		printTestClassHeader("CoordCourseAddUITest");
 		ts = loadTestScenario();
-		bi = BrowserInstancePool.getBrowserInstance();
 		
 		System.out.println("Recreating "+ts.coordinator.id);
 		long start = System.currentTimeMillis();
 		BackDoor.deleteCoord(ts.coordinator.id);
 		BackDoor.createCoord(ts.coordinator);
 		System.out.println("Finished recreating in "+(System.currentTimeMillis()-start)+" ms");
+
+		bi = BrowserInstancePool.getBrowserInstance();
 		
 		bi.loginAdmin(Config.inst().TEAMMATES_ADMIN_ACCOUNT, Config.inst().TEAMMATES_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_COORD_COURSE;
@@ -69,7 +69,8 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseEmpty.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEmpty.html");
 
-		ImportTestData.main(new String[]{});
+		BackDoor.createCourse(ts.CS1101);
+		BackDoor.createCourse(ts.CS2104);
 		bi.goToCourses();
 
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseById.html");
@@ -84,8 +85,8 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordCourseAddUiPaths() throws Exception{
-		BackDoor.deleteCourse(ts.validCourse.id);
-		BackDoor.deleteCourse(ts.courseWithSameNameDifferentId.id);
+		String link = appUrl+Common.PAGE_COORD_COURSE;
+		link = Helper.addParam(link,Common.PARAM_USER_ID,ts.coordinator.id);
 		
 		// Course id only contains alphabets, numbers, dots, hyphens, underscores and dollars
 		String courseId = ts.validCourse.id;
@@ -98,7 +99,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		bi.addCourse(courseId, courseName);
 
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseAddSuccessful.html");
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseAddSuccessful.html");
+		bi.verifyCurrentPageHTMLRegexWithRetry(Common.TEST_PAGES_FOLDER+"/coordCourseAddSuccessful.html", link);
 		
 		/////////////////////////////////////////////////////////////////
 		printTestCaseHeader("testCoordaddCourseWithInvalidInputsFailed");
@@ -175,6 +176,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	private class TestScenario{
 		public CoordData coordinator;
 		public CourseData validCourse;
-		public CourseData courseWithSameNameDifferentId;
+		public CourseData CS1101;
+		public CourseData CS2104;
 	}
 }

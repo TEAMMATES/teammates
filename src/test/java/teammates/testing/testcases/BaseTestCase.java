@@ -210,6 +210,21 @@ public class BaseTestCase {
 		}
 	}
 
+	/**
+	 * Checks that the stringActual contains the occurence regexExpected.
+	 * Replaces occurences of {*} at regexExpected to match anything in
+	 * stringActual.
+	 * @param regexExpected
+	 * @param stringActual
+	 * @return
+	 * 		boolean whether the actual matches the expected
+	 */
+	public static boolean isContainsRegex(String regexExpected, String stringActual){
+		String processedActual = stringActual.replaceAll("[\t\r\n]","");
+		String processedRegex = Pattern.quote(regexExpected).replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q").replaceAll("[\t\r\n]","");
+		return processedActual.matches("(?s)(?m).*"+processedRegex+".*");
+	}
+
 	protected static DataBundle getTypicalDataBundle() {
 		String jsonString;
 		try {

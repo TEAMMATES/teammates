@@ -75,6 +75,7 @@ public class BrowserInstance {
 	private static final int TIMEOUT = 10; // In seconds
 	private static final int RETRY = 20;
 	private static final int RETRY_TIME = TIMEOUT*1000/RETRY; // In milliseconds
+	private static final int PAGE_VERIFY_RETRY = 3;
 
 	/* ---------------------------------------------------------------
 	 * UI Element
@@ -2950,6 +2951,69 @@ public class BrowserInstance {
 	}
 	
 	/**
+	 * Verifies current page with a reference page, i.e., finding the reference
+	 * string in current page (so the reference does not have to be full page)<br />
+	 * <br />
+	 * This method has minimal placeholder capability, matching {*} in the
+	 * reference with anything in current page, trying to maximize the match.
+	 * This method also replaces {version} into the value stored at Common.VERSION<br />
+	 * <br />
+	 * Example usage is to test sorting elements, say we want to test the order
+	 * of two known elements, which should be independent in the presence of other
+	 * elements. We can also ignore the rowID which maybe different under different
+	 * number of elements.<br />
+	 * <br />
+	 * This method will try to display the difference between the expected and
+	 * actual if the match fails.
+	 * @param filepath
+	 * @param div
+	 * @throws Exception
+	 */
+	public void verifyCurrentPageHTMLRegex(String filepath) throws Exception{
+		String pageSrc = driver.getPageSource();
+		String inputStr = Common.readFile(filepath).replace("{version}",Common.VERSION);
+		BaseTestCase.assertContainsRegex(inputStr.replace("\r\n", "\n"),pageSrc.replace("\r\n", "\n"));
+	}
+	
+	/**
+	 * Verifies current page with a reference page, i.e., finding the reference
+	 * string in current page (so the reference does not have to be full page)<br />
+	 * This will reload the page from the given url up to two more times
+	 * (that is, three times checking)<br />
+	 * <br />
+	 * This method has minimal placeholder capability, matching {*} in the
+	 * reference with anything in current page, trying to maximize the match.
+	 * This method also replaces {version} into the value stored at Common.VERSION<br />
+	 * <br />
+	 * Example usage is to test sorting elements, say we want to test the order
+	 * of two known elements, which should be independent in the presence of other
+	 * elements. We can also ignore the rowID which maybe different under different
+	 * number of elements.<br />
+	 * <br />
+	 * This method will try to display the difference between the expected and
+	 * actual if the match fails.<br />
+	 * 
+	 * @param filepath
+	 * @param url
+	 * @throws Exception
+	 */
+	public void verifyCurrentPageHTMLRegexWithRetry(String filepath, String url) throws Exception{
+		String pageSrc = null;
+		String inputStr = null;
+		for(int i=0; i<PAGE_VERIFY_RETRY; i++){
+			pageSrc = driver.getPageSource();
+			inputStr = Common.readFile(filepath).replace("{version}",Common.VERSION);
+			if(BaseTestCase.isContainsRegex(inputStr.replace("\r\n", "\n"),pageSrc.replace("\r\n", "\n"))){
+				return;
+			}
+			if(i==PAGE_VERIFY_RETRY-1) break;
+			waitAWhile(1000);
+			goToUrl(url);
+		}
+		assertEquals(inputStr,pageSrc);
+	}
+
+	/**
 	 * Method to print current page to a file.
 	 * This is to be used in HTML testing, where we can generate the reference HTML file using this method.
 	 * This method is deprecated so that you won't forget to remove it
@@ -2996,31 +3060,6 @@ public class BrowserInstance {
 			System.err.println("Error: " + e.getMessage());
 			assertTrue(false);
 		}
-	}
-
-	/**
-	 * Verifies current page with a reference page, i.e., finding the reference
-	 * string in current page (so the reference does not have to be full page)<br />
-	 * <br />
-	 * This method has minimal placeholder capability, matching {*} in the
-	 * reference with anything in current page, trying to maximize the match.
-	 * This method also replaces {version} into the value stored at Common.VERSION<br />
-	 * <br />
-	 * Example usage is to test sorting elements, say we want to test the order
-	 * of two known elements, which should be independent in the presence of other
-	 * elements. We can also ignore the rowID which maybe different under different
-	 * number of elements.<br />
-	 * <br />
-	 * This method will try to display the difference between the expected and
-	 * actual if the match fails.
-	 * @param filepath
-	 * @param div
-	 * @throws Exception
-	 */
-	public void verifyCurrentPageHTMLRegex(String filepath) throws Exception{
-		String pageSrc = driver.getPageSource();
-		String inputStr = Common.readFile(filepath).replace("{version}",Common.VERSION);
-		BaseTestCase.assertContainsRegex(inputStr.replace("\r\n", "\n"),pageSrc.replace("\r\n", "\n"));
 	}
 
 	/* -----------------------------------------------------------------------

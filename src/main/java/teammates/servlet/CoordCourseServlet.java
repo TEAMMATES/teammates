@@ -48,6 +48,8 @@ public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
 		if(helper.courseID!=null && helper.courseName!=null){
 			try {
 				helper.server.createCourse(helper.userId, helper.courseID, helper.courseName);
+				helper.courseID = null;
+				helper.courseName = null;
 				helper.statusMessage = Common.MESSAGE_COURSE_ADDED;
 			} catch (EntityAlreadyExistsException e) {
 				helper.statusMessage = Common.MESSAGE_COURSE_EXISTS;
