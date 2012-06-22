@@ -76,7 +76,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		BackDoor.createStudent(scn.students.get("benny.tmms@CEvalUiT.CS2104"));
 		BackDoor.createStudent(scn.students.get("charlie.tmms@CEvalUiT.CS1101"));
 		BackDoor.createStudent(scn.students.get("danny.tmms@CEvalUiT.CS1101"));
-		bi.goToEvaluation();
+		bi.clickEvaluationTab();
 		
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalEmptyEval.html");
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalEmptyEval.html");
@@ -84,7 +84,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		BackDoor.createEvaluation(scn.evaluations.get("openEval"));
 		BackDoor.createEvaluation(scn.evaluations.get("publishedEval"));
 		BackDoor.createEvaluation(scn.evaluations.get("closedEval"));
-		bi.goToEvaluation();
+		bi.clickEvaluationTab();
 
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalByDeadline.html");
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalByDeadline.html");
@@ -105,7 +105,10 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		bi.addEvaluation(eval.course, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
 		
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalAddSuccess.html");
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalAddSuccess.html");
+		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_ADDED);
+		String link = appUrl+Common.PAGE_COORD_EVAL;
+		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
+		bi.verifyCurrentPageHTMLRegexWithRetry(Common.TEST_PAGES_FOLDER+"/coordEvalAddSuccess.html",link);
 
 		printTestCaseHeader("CoordEvalInputValidationTest");
 		// Empty name, closing date
