@@ -145,15 +145,13 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		
 		int courseRowId = bi.getCourseRowID(courseId);
 		assertTrue(courseRowId!=-1);
-
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseDeleteInit.html");
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseDeleteInit.html");
 		
 		// Check delete link
 		By deleteLinkLocator = bi.getCoordCourseDeleteLinkLocator(courseRowId);
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
-			bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseDeleteInit.html");
+			String course = BackDoor.getCourseAsJason(ts.validCourse.id);
+			if(isNullJSON(course)) fail("Course was deleted when it's not supposed to be");
 		} catch (NoAlertAppearException e){
 			fail("No alert box when clicking delete button at course page.");
 		}
@@ -161,7 +159,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndConfirm(deleteLinkLocator);
 //			bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseDeleteSuccessful.html");
-			bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseDeleteSuccessful.html");
+			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseDeleteSuccessful.html");
 		} catch (NoAlertAppearException e){
 			fail("No alert box when clicking delete button at course page.");
 		}

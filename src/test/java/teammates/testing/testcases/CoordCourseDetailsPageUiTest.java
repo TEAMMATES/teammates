@@ -1,5 +1,6 @@
 package teammates.testing.testcases;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -88,15 +89,20 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 		// Test remind student
 		bi.clickCoordCourseDetailRemind(studentName);
 		
-		if(Config.inst().isLocalHost()) return;
-		bi.waitForEmail();
-		assertTrue(SharedLib.getRegistrationKeyFromGmail(studentEmail, Config.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id)!=null);
+		if(!Config.inst().isLocalHost()){
+			String key = BackDoor.getKeyForStudent(scn.courses.get("CCDetailsUiT.CS2104").id, studentEmail);
+			bi.waitForEmail();
+			assertEquals(key,SharedLib.getRegistrationKeyFromGmail(studentEmail, Config.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id));
+		}
 		
 		// Test remind students
 		bi.clickAndConfirm(bi.coordCourseDetailRemindButton);
-		bi.waitForEmail();
-		assertTrue(SharedLib.getRegistrationKeyFromGmail(otherStudentEmail, Config.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id)!=null);
-		assertTrue(SharedLib.getRegistrationKeyFromGmail(registeredStudentEmail, Config.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id)==null);
+		if(!Config.inst().isLocalHost()){
+			bi.waitForEmail();
+			String key = BackDoor.getKeyForStudent(scn.courses.get("CCDetailsUiT.CS2104").id, otherStudentEmail);
+			assertEquals(key,SharedLib.getRegistrationKeyFromGmail(otherStudentEmail, Config.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id));
+			assertEquals(null,SharedLib.getRegistrationKeyFromGmail(registeredStudentEmail, Config.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id));
+		}
 	}
 
 	@Test
@@ -105,17 +111,16 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 		deleteStudentTestWasRun = true;
 		// Test delete student
 		String studentName = scn.students.get("benny.tmms@CCDetailsUiT.CS2104").name;
+		String studentEmail = scn.students.get("benny.tmms@CCDetailsUiT.CS2104").email;
 		
 		int studentRowId = bi.getStudentRowId(studentName);
 		assertTrue(studentRowId!=-1);
-
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsStudentDeleteInit.html");
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsStudentDeleteInit.html");
 		
 		// Check delete link
 		try{
 			bi.clickCoordCourseDetailStudentDeleteAndCancel(studentRowId);
-			bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsStudentDeleteInit.html");
+			String student = BackDoor.getStudentAsJason(scn.courses.get("CCDetailsUiT.CS2104").id, studentEmail);
+			if(isNullJSON(student)) fail("Student was deleted when it's not supposed to be");
 		} catch (NoAlertAppearException e){
 			fail("No alert box when clicking delete button at course details page.");
 		}
@@ -123,7 +128,7 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 		try{
 			bi.clickCoordCourseDetailStudentDeleteAndConfirm(studentRowId);
 //			bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsStudentDeleteSuccessful.html");
-			bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsStudentDeleteSuccessful.html");
+			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsStudentDeleteSuccessful.html");
 		} catch (NoAlertAppearException e){
 			fail("No alert box when clicking delete button at course details page.");
 		}

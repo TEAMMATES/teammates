@@ -39,12 +39,20 @@ public class LoginServlet extends HttpServlet {
 			} else {
 				resp.sendRedirect(Logic.getLoginUrl(Common.PAGE_COORD_HOME));
 			}
-		} else {
+		} else if(req.getParameter(Common.PARAM_LOGIN_STUDENT)!=null){
 			if(user!=null){
 				resp.sendRedirect(Common.PAGE_STUDENT_HOME);
 			} else {
 				resp.sendRedirect(Logic.getLoginUrl(Common.PAGE_STUDENT_HOME));
 			}
+		} else if(req.getParameter(Common.PARAM_LOGIN_ADMINISTRATOR)!=null){
+			if(user!=null){
+				resp.sendRedirect(Common.PAGE_ADMINISTRATOR_HOME);
+			} else {
+				resp.sendRedirect(Logic.getLoginUrl(Common.PAGE_ADMINISTRATOR_HOME));
+			}
+		} else {
+			resp.sendRedirect(Common.JSP_ERROR_PAGE);
 		}
 	}
 }

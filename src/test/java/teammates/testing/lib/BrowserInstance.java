@@ -585,7 +585,7 @@ public class BrowserInstance {
 		goToUrl(Config.inst().TEAMMATES_URL+Common.JSP_LOGOUT);
 
 		// Login as coordinator (this will show entityNotFoundPage.jsp later)
-		goToUrl(Config.inst().TEAMMATES_URL+Common.PAGE_LOGIN+"?coordinator");
+		goToUrl(Config.inst().TEAMMATES_URL+Common.PAGE_LOGIN+"?administrator");
 
 		login(username, password, true);
 	}

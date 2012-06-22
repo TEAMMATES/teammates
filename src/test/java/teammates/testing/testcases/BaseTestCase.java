@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,13 +20,11 @@ import java.util.regex.Pattern;
 import teammates.BackDoorLogic;
 import teammates.BackDoorServlet;
 import teammates.Config;
-import teammates.Datastore;
 import teammates.api.Common;
 import teammates.api.Logic;
 import teammates.api.TeammatesException;
 import teammates.datatransfer.CoordData;
 import teammates.datatransfer.DataBundle;
-import teammates.datatransfer.EvaluationData;
 import teammates.testing.lib.BackDoor;
 
 import com.google.appengine.api.taskqueue.dev.LocalTaskQueue;
@@ -288,6 +285,15 @@ public class BaseTestCase {
 	
 		List<TaskStateInfo> taskInfoList = qsi.getTaskInfo();
 		return taskInfoList;
+	}
+	
+	/**
+	 * Checks whether a JSON string represents a null object
+	 * @param json
+	 * @return
+	 */
+	protected boolean isNullJSON(String json){
+		return json==null || json.equals("null");
 	}
 
 }

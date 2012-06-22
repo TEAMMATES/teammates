@@ -52,7 +52,10 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		
 		prepareHelper(req, helper);
 		
-		if(!doAuthenticateUser(req, resp, helper)) return;
+		if(!doAuthenticateUser(req, resp, helper)){
+			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
+			return;
+		}
 		
 		try{
 			doAction(req, helper);

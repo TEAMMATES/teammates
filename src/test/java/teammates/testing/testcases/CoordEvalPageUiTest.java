@@ -243,9 +243,6 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 	public void testCoordEvalDeleteLink() throws Exception{
 		printTestCaseHeader("testCoordEvalDeleteLink");
 		
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalDeleteInit.html");
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalDeleteInit.html");
-		
 		// Delete link should be clickable
 		String courseID = scn.evaluations.get("awaitingEval").course;
 		String evalName = scn.evaluations.get("awaitingEval").name;
@@ -253,13 +250,15 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		By deleteLinkLocator = bi.getCoordEvaluationDeleteLinkLocator(evalRowID);
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
-			bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalDeleteInit.html");
+			String evaluation = BackDoor.getEvaluationAsJason(courseID, evalName);
+			if(isNullJSON(evaluation)) fail("Evaluation was deleted when it's not supposed to be");
 		} catch (NoAlertAppearException e){
 			fail("Delete link not clickable or it is clickable but no confirmation box");
 		}
 
 		try{
 			bi.clickAndConfirm(deleteLinkLocator);
+			// Regex test due to the date in the evaluation form
 //			bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalDeleteSuccessful.html");
 			bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalDeleteSuccessful.html");
 		} catch (NoAlertAppearException e){

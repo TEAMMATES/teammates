@@ -119,6 +119,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet-mapping>
 	
 	<servlet>
+	    	<servlet-name>AdminHome</servlet-name>
+	    	<servlet-class>teammates.servlet.AdministratorHomeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>AdminHome</servlet-name>
+	    <url-pattern>/page/administrator</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 	    <description>Servlet that handles Coordinator homepage</description>
 	    <servlet-name>CoordHome</servlet-name>
 	    <servlet-class>teammates.servlet.CoordHomeServlet</servlet-class>

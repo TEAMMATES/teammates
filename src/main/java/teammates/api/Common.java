@@ -124,6 +124,8 @@ public class Common {
 	// JSP Parameter names
 	public static final String PARAM_COURSE_ID = "courseid";
 	public static final String PARAM_COURSE_NAME = "coursename";
+	public static final String PARAM_COORD_ID = "coordid";
+	public static final String PARAM_COORD_EMAIL = "coordemail";
 	public static final String PARAM_COORD_NAME = "coordname";
 	public static final String PARAM_STUDENTS_ENROLLMENT_INFO = "enrollstudents";
 
@@ -163,6 +165,7 @@ public class Common {
 	public static final String PARAM_NEXT_URL = "next";
 	public static final String PARAM_USER_ID = "user";
 
+	public static final String PARAM_LOGIN_ADMINISTRATOR = "administrator";
 	public static final String PARAM_LOGIN_COORDINATOR = "coordinator";
 	public static final String PARAM_LOGIN_STUDENT = "student";
 
@@ -219,6 +222,7 @@ public class Common {
 	public static final String PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER = "/page/studentEvalEditHandler"; // Done
 	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults"; // Done
 	
+	public static final String PAGE_ADMINISTRATOR_HOME = "/page/administrator"; // Done
 	public static final String PAGE_LOGIN = "/login"; // Done
 
 	/*
@@ -254,6 +258,7 @@ public class Common {
 	public static final String JSP_STATUS_MESSAGE = "/jsp/statusMessage.jsp"; // Done
 	public static final String JSP_EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp"; // Done
 
+	public static final String JSP_ADMINISTRATOR_HOME = "/jsp/administratorHome.jsp";
 	public static final String JSP_LOGOUT = "/logout.jsp"; // Done
 	public static final String JSP_SHOW_MESSAGE = "/showMessage.jsp"; // Done
 	public static final String JSP_UNAUTHORIZED = "/unauthorized.jsp"; // Done
