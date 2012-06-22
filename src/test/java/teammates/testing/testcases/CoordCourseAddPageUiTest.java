@@ -97,6 +97,8 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		printTestCaseHeader("testCoordaddCourseSuccessful");
 		
 		bi.addCourse(courseId, courseName);
+		
+		bi.waitForStatusMessage(Common.MESSAGE_COURSE_ADDED);
 
 //		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseAddSuccessful.html");
 		bi.verifyCurrentPageHTMLRegexWithRetry(Common.TEST_PAGES_FOLDER+"/coordCourseAddSuccessful.html", link);
