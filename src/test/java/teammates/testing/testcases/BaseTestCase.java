@@ -58,6 +58,7 @@ public class BaseTestCase {
 				+ "webapp" + File.separator + "WEB-INF" + File.separator
 				+ "queue.xml";
 
+	@Deprecated
 	public static void printTestCaseHeader(String testCaseName) {
 		System.out.println("[TestCase]---:" + testCaseName);
 	}

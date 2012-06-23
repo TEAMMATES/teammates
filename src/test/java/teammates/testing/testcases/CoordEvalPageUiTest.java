@@ -23,8 +23,6 @@ import teammates.testing.lib.SharedLib;
 
 /**
  * Tests coordEval.jsp from UI functionality and HTML test
- * @author Aldrian Obaja
- *
  */
 public class CoordEvalPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
@@ -34,15 +32,15 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		printTestClassHeader("CoordEvalAddUITest");
+		printTestClassHeader();
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/CoordEvalUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 		
-		System.out.println("Importing test data...");
+		print("Importing test data...");
 		long start = System.currentTimeMillis();
 		BackDoor.deleteCoordinators(jsonString);
 		BackDoor.createCoord(scn.coords.get("teammates.test"));
-		System.out.println("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
+		print("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
 
 		bi = BrowserInstancePool.getBrowserInstance();
 
@@ -55,7 +53,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
-		printTestClassFooter("CoordEvalAddUITest");
+		printTestClassFooter();
 	}
 
 	@Test
@@ -66,10 +64,13 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordEvalHTML() throws Exception{
-		printTestCaseHeader("CoordEvalHTMLTest");
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalEmptyAll.html");
+		printTestCaseHeader();
+		
+		______TS("no courses");
+		
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalEmptyAll.html");
 		
+		______TS("no evaluations");
 		BackDoor.createCourse(scn.courses.get("course"));
 		BackDoor.createCourse(scn.courses.get("anotherCourse"));
 		BackDoor.createStudent(scn.students.get("alice.tmms@CEvalUiT.CS2104"));
@@ -78,7 +79,6 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		BackDoor.createStudent(scn.students.get("danny.tmms@CEvalUiT.CS1101"));
 		bi.clickEvaluationTab();
 		
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalEmptyEval.html");
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalEmptyEval.html");
 		
 		BackDoor.createEvaluation(scn.evaluations.get("openEval"));
@@ -86,31 +86,35 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		BackDoor.createEvaluation(scn.evaluations.get("closedEval"));
 		bi.clickEvaluationTab();
 
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalByDeadline.html");
+		______TS("typical view, sort by deadline");
+		
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalByDeadline.html");
 
+		______TS("sort by name");
+		
 		bi.click(By.id("button_sortname"));
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalByName.html");
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalByName.html");
 		
+		______TS("sort by course id");
+		
 		bi.click(By.id("button_sortcourseid"));
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalById.html");
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalById.html");
 	}
 
 	public void testCoordEvalUiPaths() throws Exception{
-		printTestCaseHeader("CoordEvalUiPathsTest");
+		printTestCaseHeader();
 		
+		______TS("typical success case");
 		EvaluationData eval = scn.evaluations.get("awaitingEval");
 		bi.addEvaluation(eval.course, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
 		
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalAddSuccess.html");
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_ADDED);
 		String link = appUrl+Common.PAGE_COORD_EVAL;
 		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
 		bi.verifyCurrentPageHTMLRegexWithRetry(Common.TEST_PAGES_FOLDER+"/coordEvalAddSuccess.html",link);
 
-		printTestCaseHeader("CoordEvalInputValidationTest");
+		______TS("client-side input validation");
+		printTestCaseHeader();
 		// Empty name, closing date
 		bi.click(bi.addEvaluationButton);
 		bi.waitForStatusMessage(Common.MESSAGE_FIELDS_EMPTY);
@@ -136,7 +140,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		bi.addEvaluation(eval.course, eval.name, eval.endTime, eval.startTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_SCHEDULEINVALID.replace("<br />", "\n"));
 
-		printTestCaseHeader("CoordEvalExistsTest");
+		______TS("duplicate evalution name");
 		// Evaluation exists
 		bi.addEvaluation(eval.course, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_EXISTS);
@@ -149,9 +153,10 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 	}
 	
 	public void testCoordEvalPublishLink(){
-		printTestCaseHeader("testCoordEvalPublishLink");
+		printTestCaseHeader();
 
-		// Publish link should be clickable in closed eval
+		______TS("CLOSED: publish link clickable");
+
 		String courseID = scn.evaluations.get("closedEval").course;
 		String evalName = scn.evaluations.get("closedEval").name;
 		int evalRowID = bi.getEvaluationRowID(courseID, evalName);
@@ -168,7 +173,8 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 			fail("Publish link not clickable on closed evaluation");
 		}
 		
-		// Unpublish link should be clickable in published eval
+		______TS("PUBLISHED: unpublish link clickable");
+		
 		courseID = scn.evaluations.get("publishedEval").course;
 		evalName = scn.evaluations.get("publishedEval").name;
 		evalRowID = bi.getEvaluationRowID(courseID, evalName);
@@ -187,9 +193,10 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 	}
 	
 	public void testCoordEvalRemindLink() throws Exception{
-		printTestCaseHeader("testCoordEvalRemindLink");
+		printTestCaseHeader();
 
-		// Remind link should be not clickable in published eval
+		______TS("PUBLISHED: remind link unclickable");
+		
 		String courseID = scn.evaluations.get("publishedEval").course;
 		String evalName = scn.evaluations.get("publishedEval").name;
 		int evalRowID = bi.getEvaluationRowID(courseID, evalName);
@@ -199,7 +206,8 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 			fail("Remind link clickable on published evaluation");
 		} catch (NoAlertAppearException e){}
 
-		// Remind link should be not clickable in closed eval
+		______TS("CLOSED: remind link unclickable");
+		
 		courseID = scn.evaluations.get("closedEval").course;
 		evalName = scn.evaluations.get("closedEval").name;
 		evalRowID = bi.getEvaluationRowID(courseID, evalName);
@@ -209,7 +217,8 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 			fail("Remind link clickable on closed evaluation");
 		} catch (NoAlertAppearException e){}
 
-		// Remind link should be not clickable in awaiting eval
+		______TS("AWAITING: remind link unclickable");
+		
 		courseID = scn.evaluations.get("awaitingEval").course;
 		evalName = scn.evaluations.get("awaitingEval").name;
 		evalRowID = bi.getEvaluationRowID(courseID, evalName);
@@ -219,7 +228,8 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 			fail("Remind link clickable on awaiting evaluation");
 		} catch (NoAlertAppearException e){}
 
-		// Remind link should be clickable in open eval
+		______TS("OPEN: remind link clickable, click and cancel");
+
 		courseID = scn.evaluations.get("openEval").course;
 		evalName = scn.evaluations.get("openEval").name;
 		evalRowID = bi.getEvaluationRowID(courseID, evalName);
@@ -230,7 +240,8 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 			fail("Remind link not clickable on OPEN evaluation, or it is clickable but no confirmation box");
 		}
 		
-		// Actually click the link
+		______TS("OPEN: click and confirm");
+		
 		try{
 			bi.clickAndConfirm(remindLinkLocator);
 		} catch (NoAlertAppearException e){
@@ -244,9 +255,10 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 	}
 	
 	public void testCoordEvalDeleteLink() throws Exception{
-		printTestCaseHeader("testCoordEvalDeleteLink");
+		printTestCaseHeader();
 		
-		// Delete link should be clickable
+		______TS("click and cancel");
+		
 		String courseID = scn.evaluations.get("awaitingEval").course;
 		String evalName = scn.evaluations.get("awaitingEval").name;
 		int evalRowID = bi.getEvaluationRowID(courseID, evalName);
@@ -259,10 +271,10 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 			fail("Delete link not clickable or it is clickable but no confirmation box");
 		}
 
+		______TS("click and confirm");
 		try{
 			bi.clickAndConfirm(deleteLinkLocator);
 			// Regex test due to the date in the evaluation form
-//			bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalDeleteSuccessful.html");
 			bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalDeleteSuccessful.html");
 		} catch (NoAlertAppearException e){
 			fail("Delete link not clickable or it is clickable but no confirmation box");

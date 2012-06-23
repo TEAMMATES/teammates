@@ -13,12 +13,11 @@ import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
 import teammates.datatransfer.CourseData;
 import teammates.jsp.CoordCourseHelper;
+import teammates.jsp.CoordEvalHelper;
 
 @SuppressWarnings("serial")
 /**
  * Servlet to handle Add Course and Display Courses action
- * @author Aldrian Obaja
- *
  */
 public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
 
@@ -65,11 +64,11 @@ public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
 		HashMap<String, CourseData> courses = helper.server
 				.getCourseListForCoord(helper.userId);
 		helper.courses = new ArrayList<CourseData>(courses.values());
+		//TODO: extract below logic and unit test it
 		sortCourses(helper.courses);
 		if (helper.courses.size() == 0
 				&& !helper.error
-				&& (helper.statusMessage == null || !helper.statusMessage
-						.equals(Common.MESSAGE_COURSE_ADDED))) {
+				&& !noCoursesVisibleDueToEventualConsistency(helper)) {
 			if (helper.statusMessage == null){
 				helper.statusMessage = "";
 			}else{
@@ -77,6 +76,12 @@ public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
 			}
 			helper.statusMessage += Common.MESSAGE_COURSE_EMPTY;
 		}
+	}
+	
+	private boolean noCoursesVisibleDueToEventualConsistency(CoordCourseHelper helper) {
+		return helper.statusMessage != null
+				&& helper.statusMessage.equals(Common.MESSAGE_COURSE_ADDED)
+				&& helper.courses.size()==0;
 	}
 
 	@Override

@@ -10,7 +10,6 @@ import teammates.datatransfer.CourseData;
 import teammates.datatransfer.EvaluationData;
 
 public class CoordEvalHelper extends Helper{
-	// Specific parameters
 	public List<CourseData> courses;
 	public EvaluationData submittedEval;
 	public List<EvaluationData> evaluations;
