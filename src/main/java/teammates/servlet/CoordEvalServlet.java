@@ -44,13 +44,8 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 
 		EvaluationData newEval = extractEvaluationData(req);
 
-		//@formatter:off
 		boolean isAddEvaluation = 
-				   newEval.course != null
-				|| newEval.name != null 
-				|| newEval.startTime != null 
-				|| newEval.endTime != null;
-		//@formatter:on
+				   hasAtLeastSomeLegitimateValues(newEval);
 
 		if (isAddEvaluation) {
 			helper.submittedEval = newEval;
@@ -85,7 +80,7 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 		//TODO: extract below logic and unit test it
 		String additionalMessage = null;
 		if (helper.courses.size() == 0 && !helper.error) {
-			additionalMessage = Common.MESSAGE_COURSE_EMPTY_IN_EVALUATION;
+			additionalMessage = Common.MESSAGE_COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+helper.userId);
 		} else	if (helper.evaluations.size() == 0 && !helper.error
 				&& !noEvaluationsVisibleDueToEventualConsistency(helper)) {
 			additionalMessage = Common.MESSAGE_EVALUATION_EMPTY;
@@ -101,13 +96,20 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 		}
 	}
 
+	public static boolean hasAtLeastSomeLegitimateValues(EvaluationData eval) {
+		return eval.course != null
+		|| eval.name != null 
+		|| eval.startTime != null 
+		|| eval.endTime != null;
+	}
+
 	private boolean noEvaluationsVisibleDueToEventualConsistency(CoordEvalHelper helper) {
 		return helper.statusMessage != null
 				&& helper.statusMessage.equals(Common.MESSAGE_EVALUATION_ADDED)
 				&& helper.evaluations.size()==0;
 	}
 
-	private EvaluationData extractEvaluationData(HttpServletRequest req) {
+	public static EvaluationData extractEvaluationData(HttpServletRequest req) {
 		EvaluationData newEval = new EvaluationData();
 		newEval.course = req.getParameter(Common.PARAM_COURSE_ID);
 		newEval.name = req.getParameter(Common.PARAM_EVALUATION_NAME);
@@ -140,7 +142,7 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 		return newEval;
 	}
 
-	private Date combineDateTime(String inputDate, String inputTime) {
+	public static Date combineDateTime(String inputDate, String inputTime) {
 		if (inputDate == null || inputTime == null) {
 			return null;
 		}

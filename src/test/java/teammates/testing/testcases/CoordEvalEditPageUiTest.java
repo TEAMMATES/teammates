@@ -32,16 +32,17 @@ public class CoordEvalEditPageUiTest extends BaseTestCase {
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		printTestClassHeader("CoordEvalEditUITest");
+		printTestClassHeader();
+		
 		ts = loadTestScenario();
 		
-		System.out.println("Recreating "+ts.coordinator.id);
+		print("Recreating "+ts.coordinator.id);
 		long start = System.currentTimeMillis();
 		BackDoor.deleteCoord(ts.coordinator.id);
 		BackDoor.createCoord(ts.coordinator);
 		BackDoor.createCourse(ts.course);
 		BackDoor.createEvaluation(ts.evaluation);
-		System.out.println("Finished recreating in "+(System.currentTimeMillis()-start)+" ms");
+		print("Finished recreating in "+(System.currentTimeMillis()-start)+" ms");
 
 		bi = BrowserInstancePool.getBrowserInstance();
 		
@@ -56,19 +57,18 @@ public class CoordEvalEditPageUiTest extends BaseTestCase {
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
-		printTestClassFooter("CoordEvalEditUITest");
+		printTestClassFooter();
 	}
 
 	@Test
 	public void testCoordEvalEditHTML() throws Exception{
-		printTestCaseHeader("CoordEvalEditHTML");
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalEdit.html");
+		printTestCaseHeader();
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalEdit.html");
 	}
 	
 	@Test
 	public void testCoordEvalEditUiPaths() throws Exception{
-		printTestCaseHeader("CoordEvalEditChange");
+		printTestCaseHeader();
 		bi.editEvaluation(ts.newEvaluation.startTime, ts.newEvaluation.endTime, ts.newEvaluation.p2pEnabled, ts.newEvaluation.instructions, ts.newEvaluation.gracePeriod);
 		
 		// Verify status message

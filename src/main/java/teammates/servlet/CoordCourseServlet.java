@@ -40,11 +40,9 @@ public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
 	@Override
 	protected void doAction(HttpServletRequest req, CoordCourseHelper helper)
 			throws EntityDoesNotExistException {
-		// Get parameters
 		helper.courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		helper.courseName = req.getParameter(Common.PARAM_COURSE_NAME);
 
-		// Process action
 		if (helper.courseID != null && helper.courseName != null) {
 			try {
 				helper.server.createCourse(helper.userId, helper.courseID,
