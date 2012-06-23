@@ -12,8 +12,6 @@ import teammates.jsp.CoordCourseStudentDetailsHelper;
 @SuppressWarnings("serial")
 /**
  * Servlet to handle Coordinator course student details page.
- * @author Aldrian Obaja
- *
  */
 public class CoordCourseStudentDetailsServlet extends ActionServlet<CoordCourseStudentDetailsHelper> {
 
@@ -35,7 +33,6 @@ public class CoordCourseStudentDetailsServlet extends ActionServlet<CoordCourseS
 
 	@Override
 	protected void doAction(HttpServletRequest req, CoordCourseStudentDetailsHelper helper) throws EntityDoesNotExistException{
-		// Get parameters
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String studentEmail = req.getParameter(Common.PARAM_STUDENT_EMAIL);
 		

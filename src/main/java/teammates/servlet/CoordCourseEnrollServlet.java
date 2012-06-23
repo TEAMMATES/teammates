@@ -19,7 +19,8 @@ import teammates.jsp.CoordCourseEnrollHelper;
 /**
  * Servlet to handle Enroll Students action
  */
-public class CoordCourseEnrollServlet extends ActionServlet<CoordCourseEnrollHelper> {
+public class CoordCourseEnrollServlet extends
+		ActionServlet<CoordCourseEnrollHelper> {
 
 	@Override
 	protected CoordCourseEnrollHelper instantiateHelper() {
@@ -28,9 +29,10 @@ public class CoordCourseEnrollServlet extends ActionServlet<CoordCourseEnrollHel
 
 	@Override
 	protected boolean doAuthenticateUser(HttpServletRequest req,
-			HttpServletResponse resp, CoordCourseEnrollHelper helper) throws IOException {
+			HttpServletResponse resp, CoordCourseEnrollHelper helper)
+			throws IOException {
 		// Authenticate user
-		if(!helper.user.isCoord && !helper.user.isAdmin){
+		if (!helper.user.isCoord && !helper.user.isAdmin) {
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return false;
 		}
@@ -38,19 +40,20 @@ public class CoordCourseEnrollServlet extends ActionServlet<CoordCourseEnrollHel
 	}
 
 	@Override
-	protected void doAction(HttpServletRequest req, CoordCourseEnrollHelper helper)
-			throws EntityDoesNotExistException{
+	protected void doAction(HttpServletRequest req,
+			CoordCourseEnrollHelper helper) throws EntityDoesNotExistException {
 
 		helper.courseID = req.getParameter(Common.PARAM_COURSE_ID);
-		String studentsInfo = req.getParameter(Common.PARAM_STUDENTS_ENROLLMENT_INFO);
-		
+		String studentsInfo = req
+				.getParameter(Common.PARAM_STUDENTS_ENROLLMENT_INFO);
+
 		try {
 			CourseData course = helper.server.getCourse(helper.courseID);
-			//TODO: why do we proceed if course==null?
-			if(course==null || course.coord.equals(helper.userId)){
+			if (isAuthorizedForThisOperation(helper, course)) {
 				enrollAndProcessResultForDisplay(helper, studentsInfo);
 			} else {
-				helper.statusMessage = "You are not authorized to enroll students in the course "+helper.courseID;
+				helper.statusMessage = "You are not authorized to enroll students in the course "
+						+ helper.courseID;
 				helper.redirectUrl = Common.PAGE_COORD_COURSE;
 			}
 		} catch (EnrollException e) {
@@ -59,56 +62,62 @@ public class CoordCourseEnrollServlet extends ActionServlet<CoordCourseEnrollHel
 		}
 	}
 
-	private void enrollAndProcessResultForDisplay(CoordCourseEnrollHelper helper,
-			String studentsInfo) throws EnrollException, EntityDoesNotExistException {
-		if(studentsInfo==null) return;
-		List<StudentData> students = helper.server.enrollStudents(studentsInfo, helper.courseID);
-		Collections.sort(students,new Comparator<StudentData>(){
+	private boolean isAuthorizedForThisOperation(
+			CoordCourseEnrollHelper helper, CourseData course) {
+		// TODO: This check can be omitted after Logic implements the
+		// authorization check.
+		// We proceed if course==null because a proper entity existence check is
+		// done again later.
+
+		return course == null || course.coord.equals(helper.userId);
+	}
+
+	private void enrollAndProcessResultForDisplay(
+			CoordCourseEnrollHelper helper, String studentsInfo)
+			throws EnrollException, EntityDoesNotExistException {
+		if (studentsInfo == null)
+			return;
+		List<StudentData> students = helper.server.enrollStudents(studentsInfo,
+				helper.courseID);
+		Collections.sort(students, new Comparator<StudentData>() {
 			@Override
 			public int compare(StudentData o1, StudentData o2) {
 				return (o1.updateStatus.numericRepresentation - o2.updateStatus.numericRepresentation);
 			}
 		});
 		helper.students = separateStudents(students);
-		
-		if(helper.students[0]!=null) helper.isResult = true;
+
+		if (helper.students[0] != null)
+			helper.isResult = true;
 	}
 
 	@SuppressWarnings("unchecked")
 	private List<StudentData>[] separateStudents(List<StudentData> students) {
-		if(students==null) return (List<StudentData>[])new List[6];
-		List<StudentData>[] lists = (List<StudentData>[])new List[6];
+		if (students == null)
+			return (List<StudentData>[]) new List[6];
+		List<StudentData>[] lists = (List<StudentData>[]) new List[6];
 		int prevIdx = 0;
 		int nextIdx = 0;
 		int id = 0;
-		for(StudentData student: students){
-			if(student.comments==null) student.comments = "";
-			if(student.team==null) student.team = "";
-			while(student.updateStatus.numericRepresentation>id){
+		for (StudentData student : students) {
+			if (student.comments == null)
+				student.comments = "";
+			if (student.team == null)
+				student.team = "";
+			while (student.updateStatus.numericRepresentation > id) {
 				lists[id] = students.subList(prevIdx, nextIdx);
 				id++;
 				prevIdx = nextIdx;
 			}
 			nextIdx++;
 		}
-		while(id<6){
+		while (id < 6) {
 			lists[id++] = students.subList(prevIdx, nextIdx);
-			sortStudents(lists[id-1]);
+			sortStudents(lists[id - 1]);
 			prevIdx = nextIdx;
 		}
 		return lists;
 	}
-	
-//	private Integer getNum(StudentData.UpdateStatus en){
-//		switch(en){
-//		case ERROR: return 0;
-//		case NEW: return 1;
-//		case MODIFIED: return 2;
-//		case UNMODIFIED: return 3;
-//		case NOT_IN_ENROLL_LIST: return 4;
-//		default: return 5;
-//		}
-//	}
 
 	@Override
 	protected String getDefaultForwardUrl() {

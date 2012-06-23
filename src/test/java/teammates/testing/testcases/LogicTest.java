@@ -279,14 +279,15 @@ public class LogicTest extends BaseTestCase {
 		// course with 2 evaluations
 		ArrayList<EvaluationData> course1Evals = courseListForCoord
 				.get(course1Id).evaluations;
-		// TODO: this line fails at times. actual <3> expected <2>
-		// there is some hidden data dependency with other tests
 		String course1EvalDetails = "";
 		for (EvaluationData ed : course1Evals) {
 			course1EvalDetails = course1EvalDetails
 					+ Common.getTeammatesGson().toJson(ed) + Common.EOL;
 		}
-		assertEquals(course1EvalDetails, 2, course1Evals.size());
+		// TODO: this line fails at times. actual <3> expected <2>
+		// there is some hidden data dependency with other tests
+		int numberOfEvalsInCourse1 = course1Evals.size();
+		assertEquals(course1EvalDetails, 2, numberOfEvalsInCourse1);
 		assertEquals(course1Id, course1Evals.get(0).course);
 		verifyEvaluationInfoExistsInList(
 				dataBundle.evaluations.get("evaluation1InCourse1OfCoord1"),

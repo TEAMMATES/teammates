@@ -17,7 +17,6 @@ import teammates.testing.lib.BrowserInstancePool;
 
 /**
  * Tests Coordinator Course Student Details and Edit UI
- * @author Aldrian Obaja
  */
 public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
@@ -27,15 +26,16 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		printTestClassHeader("CoordCourseStudentDetailsTest");
+		printTestClassHeader();
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/CoordCourseStudentDetailsUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 
-		System.out.println("Importing test data...");
+		print("Importing test data...");
 		long start = System.currentTimeMillis();
 		BackDoor.deleteCoordinators(jsonString);
-		System.out.println(BackDoor.persistNewDataBundle(jsonString));
-		System.out.println("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
+		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
+		print(backDoorOperationStatus);
+		print("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
@@ -45,56 +45,61 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
-		printTestClassFooter("CoordCourseStudentDetailsUITest");
+		printTestClassFooter();
 	}
 	
 	@Test
 	public void testCoordCourseStudentDetailsPage() throws Exception{
-		printTestCaseHeader("CoordCourseStudentDetailsRegisteredStudent");
+		printTestCaseHeader();
+		
+		______TS("view registered student");
+		
 		String link = appUrl+Common.PAGE_COORD_COURSE_STUDENT_DETAILS;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CCSDetailsUiT.CS2104").id);
 		link = Helper.addParam(link,Common.PARAM_STUDENT_EMAIL,scn.students.get("registeredStudent").email);
 		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
 		bi.goToUrl(link);
 		
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseStudentDetailsPage.html");
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseStudentDetailsPage.html");
 
-		printTestCaseHeader("CoordCourseStudentDetailsUnregisteredStudent");
+		______TS("view unregistered student");
+		
 		link = appUrl+Common.PAGE_COORD_COURSE_STUDENT_DETAILS;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CCSDetailsUiT.CS2104").id);
 		link = Helper.addParam(link,Common.PARAM_STUDENT_EMAIL,scn.students.get("unregisteredStudent").email);
 		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
 		bi.goToUrl(link);
 		
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseStudentDetailsUnregisteredPage.html");
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseStudentDetailsUnregisteredPage.html");
 	}
 	
 	@Test
 	public void testCoordCourseStudentEditPage() throws Exception{
-		printTestCaseHeader("CoordCourseStudentEditUnregisteredStudent");
+		printTestCaseHeader();
+		
+		______TS("edit unregistered student");
+		
 		String link = appUrl+Common.PAGE_COORD_COURSE_STUDENT_EDIT;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CCSDetailsUiT.CS2104").id);
 		link = Helper.addParam(link,Common.PARAM_STUDENT_EMAIL,scn.students.get("unregisteredStudent").email);
 		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
 		bi.goToUrl(link);
 		
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseStudentEditUnregisteredPage.html");
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseStudentEditUnregisteredPage.html");
 
-		printTestCaseHeader("CoordCourseStudentEditRegisteredStudent");
+		______TS("edit registered student");
+
 		link = appUrl+Common.PAGE_COORD_COURSE_STUDENT_EDIT;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CCSDetailsUiT.CS2104").id);
 		link = Helper.addParam(link,Common.PARAM_STUDENT_EMAIL,scn.students.get("registeredStudent").email);
 		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
 		bi.goToUrl(link);
 		
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseStudentEditPage.html");
+		//check the default view
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseStudentEditPage.html");
 
 		printTestCaseHeader("CoordCourseStudentEditRegisteredStudentChange");
-		// Edit the student
+		// Edit details
 		bi.fillString(bi.studentDetailName, "New name");
 		bi.fillString(bi.studentDetailTeam, "New team");
 		bi.fillString(bi.studentDetailNewEmail, "newemail@gmail.com");
