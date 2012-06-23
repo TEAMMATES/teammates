@@ -66,6 +66,7 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testCoordCourseEnrollPage() throws Exception{
+		printTestCaseHeader();
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollPage.html");
 		
 		print("Enrolling...");

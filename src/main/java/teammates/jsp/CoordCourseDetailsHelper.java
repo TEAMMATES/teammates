@@ -7,7 +7,6 @@ import teammates.datatransfer.CourseData;
 import teammates.datatransfer.StudentData;
 
 public class CoordCourseDetailsHelper extends Helper{
-	// Specific parameters
 	public CourseData course;
 	public List<StudentData> students;
 	

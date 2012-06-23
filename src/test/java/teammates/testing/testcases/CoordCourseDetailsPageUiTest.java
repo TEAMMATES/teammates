@@ -1,7 +1,6 @@
 package teammates.testing.testcases;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -21,27 +20,25 @@ import teammates.testing.lib.SharedLib;
 
 /**
  * Tests Coordinator Course Details UI
- * @author Aldrian Obaja
  */
 public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static DataBundle scn;
 	
-	private static boolean deleteStudentTestWasRun = false;
-	
 	private static String appUrl = Config.inst().TEAMMATES_URL;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		printTestClassHeader("CoordCourseDetailsTest");
+		printTestClassHeader();
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/CoordCourseDetailsUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 
-		System.out.println("Importing test data...");
+		print("Importing test data...");
 		long start = System.currentTimeMillis();
 		BackDoor.deleteCoordinators(jsonString);
-		System.out.println(BackDoor.persistNewDataBundle(jsonString));
-		System.out.println("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
+		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
+		print(backDoorOperationStatus);
+		print("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 
@@ -55,38 +52,46 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
-		printTestClassFooter("CoordCourseDetailsUITest");
+		printTestClassFooter();
 	}
 	
-	@Test
+	@Test 
+	public void runTestsInOrder() throws Exception{
+		testCoordCourseDetailsPageHTML();
+		testCoordCourseDetailsRemindStudent();
+		//we put all tests here because we want this test to run last
+		testCoordCourseDetailsDeleteStudent();
+	}
+	
 	public void testCoordCourseDetailsPageHTML() throws Exception{
-		assertFalse("Delete student test was run before this test. This test will fail due to difference in HTML.",deleteStudentTestWasRun);
-		
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsPage.html");
+		printTestCaseHeader();
+	
+		______TS("default view");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsPage.html");
 		
+		______TS("sort by team name");
 		bi.click(bi.coordCourseDetailSortByTeamName);
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsByTeam.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsByTeam.html");
 		
+		______TS("sort by status");
 		bi.click(bi.coordCourseDetailSortByStatus);
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsByStatus.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsByStatus.html");
 		
+		______TS("sort by student name");
 		bi.click(bi.coordCourseDetailSortByStudentName);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsPage.html");
 	}
 	
-	@Test
 	public void testCoordCourseDetailsRemindStudent(){
-		assertFalse("Delete student test was run before this test. This test will fail due to difference in HTML.",deleteStudentTestWasRun);
+		printTestCaseHeader();
 		
 		String studentName = scn.students.get("benny.tmms@CCDetailsUiT.CS2104").name;
 		String studentEmail = scn.students.get("benny.tmms@CCDetailsUiT.CS2104").email;
 		String otherStudentEmail = scn.students.get("charlie.tmms@CCDetailsUiT.CS2104").email;
 		String registeredStudentEmail = scn.students.get("alice.tmms@CCDetailsUiT.CS2104").email;
 		
-		// Test remind student
+		______TS("sending reminder to a single student to join course");
+		
 		bi.clickCoordCourseDetailRemind(studentName);
 		
 		if(!Config.inst().isLocalHost()){
@@ -95,39 +100,46 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 			assertEquals(key,SharedLib.getRegistrationKeyFromGmail(studentEmail, Config.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id));
 		}
 		
-		// Test remind students
+		______TS("sending reminder to all unregistered students to join course");
+		
 		bi.clickAndConfirm(bi.coordCourseDetailRemindButton);
 		if(!Config.inst().isLocalHost()){
 			bi.waitForEmail();
+			
+			//verify an unregistered student received reminder
 			String key = BackDoor.getKeyForStudent(scn.courses.get("CCDetailsUiT.CS2104").id, otherStudentEmail);
 			assertEquals(key,SharedLib.getRegistrationKeyFromGmail(otherStudentEmail, Config.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id));
+			
+			//verify a registered student did not receive a reminder
 			assertEquals(null,SharedLib.getRegistrationKeyFromGmail(registeredStudentEmail, Config.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id));
 		}
 	}
 
-	@Test
-	// Should be the last test
 	public void testCoordCourseDetailsDeleteStudent() throws Exception{
-		deleteStudentTestWasRun = true;
-		// Test delete student
+		printTestCaseHeader();
+		
 		String studentName = scn.students.get("benny.tmms@CCDetailsUiT.CS2104").name;
 		String studentEmail = scn.students.get("benny.tmms@CCDetailsUiT.CS2104").email;
 		
 		int studentRowId = bi.getStudentRowId(studentName);
 		assertTrue(studentRowId!=-1);
 		
-		// Check delete link
+		______TS("click and cancel");
+		
 		try{
 			bi.clickCoordCourseDetailStudentDeleteAndCancel(studentRowId);
 			String student = BackDoor.getStudentAsJason(scn.courses.get("CCDetailsUiT.CS2104").id, studentEmail);
-			if(isNullJSON(student)) fail("Student was deleted when it's not supposed to be");
+			if(isNullJSON(student)) {
+				fail("Student was deleted when it's not supposed to be");
+			}
 		} catch (NoAlertAppearException e){
 			fail("No alert box when clicking delete button at course details page.");
 		}
 
+		______TS("click and confirm");
+		
 		try{
 			bi.clickCoordCourseDetailStudentDeleteAndConfirm(studentRowId);
-//			bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsStudentDeleteSuccessful.html");
 			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsStudentDeleteSuccessful.html");
 		} catch (NoAlertAppearException e){
 			fail("No alert box when clicking delete button at course details page.");

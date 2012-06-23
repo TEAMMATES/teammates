@@ -14,8 +14,6 @@ import teammates.jsp.Helper;
 @SuppressWarnings("serial")
 /**
  * Servlet to handle Remind to join Course action
- * @author Aldrian Obaja
- *
  */
 public class CoordCourseRemindServlet extends ActionServlet<Helper> {
 
@@ -36,7 +34,6 @@ public class CoordCourseRemindServlet extends ActionServlet<Helper> {
 
 	@Override
 	protected void doAction(HttpServletRequest req, Helper helper) throws EntityDoesNotExistException {
-		// Get parameters
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		CourseData course = helper.server.getCourse(courseID);
 		if(course!=null && !course.coord.equals(helper.userId)){
@@ -46,7 +43,6 @@ public class CoordCourseRemindServlet extends ActionServlet<Helper> {
 		}
 		String studentEmail = req.getParameter(Common.PARAM_STUDENT_EMAIL);
 		
-		// Process action
 		try{
 			if(studentEmail!=null){
 				helper.server.sendRegistrationInviteToStudent(courseID, studentEmail);

@@ -64,6 +64,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordCourseAddHTML() throws Exception{
+		printTestCaseHeader();
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEmpty.html");
 
 		BackDoor.createCourse(ts.CS1101);
@@ -80,6 +81,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordCourseAddUiPaths() throws Exception{
+		printTestCaseHeader();
 		String link = appUrl+Common.PAGE_COORD_COURSE;
 		link = Helper.addParam(link,Common.PARAM_USER_ID,ts.coordinator.id);
 		
@@ -133,6 +135,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordCourseAddLinks() throws Exception{
+		printTestCaseHeader();
 		String courseId = ts.validCourse.id;
 		
 		int courseRowId = bi.getCourseRowID(courseId);

@@ -142,6 +142,7 @@ public class EvaluationActivationServletTest extends BaseTestCase {
 		for(StudentData s: studentsInCourse2){
 			verifyActivationEmailToStudent(s, nameOfEvalInCourse2);
 		}
+		
 	}
 
 	@AfterClass()
