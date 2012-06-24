@@ -48,19 +48,14 @@ import com.thoughtworks.selenium.SeleniumException;
 
 /**
  * A browser instance represents a real browser instance + context to the app
- * 
  * Used to be BaseTest
- * 
- * @author Huy
- * @author Xialin
- * @author Shakthi
- * @author Aldrian (since 14 May 2012)
  */
 public class BrowserInstance {
 	protected DefaultSelenium selenium = null;
 	private WebDriver driver = null;
 	protected ChromeDriverService chromeService = null;
 	private boolean inUse = false;
+	private String loggedInUser = "";
 	
 	private static final int TIMEOUT = 10; // In seconds
 	private static final int RETRY = 20;
@@ -440,6 +435,7 @@ public class BrowserInstance {
 	public By courseErrorMessage = By.xpath("//div[@id='statusMessage']/font[2]");
 	@Deprecated
 	public By editEvaluationResultsStatusMessage = By.id("coordinatorEditEvaluationResultsStatusMessage");
+	
 
 	// --------------------------------- Messages --------------------------------- //
 	// The messages are in the class Common, do not use the one here
@@ -538,6 +534,10 @@ public class BrowserInstance {
 	 * @page Homepage
 	 */
 	public void loginCoord(String username, String password) {
+		if(loggedInUser.equals(username)){
+			System.out.println(username + " is already logged in.");
+			return;
+		} 
 		System.out.println("Logging in coordinator " + username + ".");
 		
 		// Logout first to make sure we will be in login page later
@@ -547,6 +547,7 @@ public class BrowserInstance {
 		goToUrl(Config.inst().TEAMMATES_URL+Common.PAGE_LOGIN+"?coordinator");
 
 		login(username, password, false);
+		loggedInUser = username;
 	}
 
 	/**
@@ -554,6 +555,11 @@ public class BrowserInstance {
 	 * @page Homepage
 	 */
 	public void loginStudent(String username, String password) {
+		if(loggedInUser.equals(username)){
+			System.out.println(username + " is already logged in.");
+			return;
+		} 
+		
 		System.out.println("Logging in student " + username + ".");
 
 		// Logout first to make sure we will be in login page later
@@ -563,6 +569,8 @@ public class BrowserInstance {
 		goToUrl(Config.inst().TEAMMATES_URL+Common.PAGE_LOGIN+"?student");
 		
 		login(username, password, false);
+		
+		loggedInUser = username;
 	}
 	
 	/**
@@ -570,6 +578,10 @@ public class BrowserInstance {
 	 * @page Homepage
 	 */
 	public void loginAdmin(String username, String password) {
+		if(loggedInUser.equals(username)){
+			System.out.println(username + " is already logged in.");
+			return;
+		} 
 		System.out.println("Logging in administrator " + username + ".");
 
 		// Logout first to make sure we will be in login page later
@@ -579,6 +591,7 @@ public class BrowserInstance {
 		goToUrl(Config.inst().TEAMMATES_URL+Common.PAGE_LOGIN+"?administrator");
 
 		login(username, password, true);
+		loggedInUser = username;
 	}
 	
 	private void login(String email, String password, boolean isAdmin) {
