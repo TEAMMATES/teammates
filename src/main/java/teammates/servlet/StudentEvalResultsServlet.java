@@ -35,7 +35,6 @@ public class StudentEvalResultsServlet extends ActionServlet<StudentEvalResultsH
 	@Override
 	protected void doAction(HttpServletRequest req, StudentEvalResultsHelper helper)
 			throws EntityDoesNotExistException {
-		// Get parameters
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
 		if(courseID==null || evalName==null){

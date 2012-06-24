@@ -269,6 +269,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetCourseDetailsListForCoord() throws Exception {
 		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		HashMap<String, CourseData> courseListForCoord = logic

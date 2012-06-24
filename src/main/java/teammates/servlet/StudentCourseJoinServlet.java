@@ -13,8 +13,6 @@ import teammates.jsp.Helper;
 @SuppressWarnings("serial")
 /**
  * Servlet to handle Student Join Course action
- * @author Aldrian Obaja
- *
  */
 public class StudentCourseJoinServlet extends ActionServlet<Helper> {
 
@@ -34,11 +32,9 @@ public class StudentCourseJoinServlet extends ActionServlet<Helper> {
 	protected void doAction(HttpServletRequest req, Helper helper){
 		helper.redirectUrl = Common.PAGE_STUDENT_HOME;
 		
-		// Get parameters
 		String regKey = req.getParameter(Common.PARAM_REGKEY);
 		if(regKey==null) return;
 		
-		// Process action
 		try {
 			helper.server.joinCourse(helper.userId, regKey);
 		} catch (JoinCourseException e) {
