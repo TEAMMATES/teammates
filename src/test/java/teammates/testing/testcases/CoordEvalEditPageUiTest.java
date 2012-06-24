@@ -37,9 +37,12 @@ public class CoordEvalEditPageUiTest extends BaseTestCase {
 		startRecordingTimeForDataImport();
 		ts = loadTestScenario();
 		BackDoor.deleteCoord(ts.coordinator.id);
-		BackDoor.createCoord(ts.coordinator);
-		BackDoor.createCourse(ts.course);
-		BackDoor.createEvaluation(ts.evaluation);
+		String backDoorOperationStatus = BackDoor.createCoord(ts.coordinator);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		backDoorOperationStatus = BackDoor.createCourse(ts.course);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		backDoorOperationStatus = BackDoor.createEvaluation(ts.evaluation);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
 
 		bi = BrowserInstancePool.getBrowserInstance();

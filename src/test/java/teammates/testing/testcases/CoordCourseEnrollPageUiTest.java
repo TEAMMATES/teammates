@@ -1,5 +1,7 @@
 package teammates.testing.testcases;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -32,8 +34,8 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/CoordCourseEnrollUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 		BackDoor.deleteCoordinators(jsonString);
-		String status = BackDoor.persistNewDataBundle(jsonString);
-		print(status);
+		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
 		
 		// NEW

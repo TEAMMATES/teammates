@@ -1,5 +1,6 @@
 package teammates.testing.testcases;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import org.junit.AfterClass;
@@ -40,7 +41,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		thirdEval = scn.evaluations.get("Third Eval");
 		BackDoor.deleteCoordinators(jsonString);
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
-		print(backDoorOperationStatus);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
 		
 		bi = BrowserInstancePool.getBrowserInstance();

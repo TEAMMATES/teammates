@@ -38,7 +38,8 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		startRecordingTimeForDataImport();
 		ts = loadTestScenario(Common.TEST_DATA_FOLDER + "/coordCourseAddUiTest.json");
 		BackDoor.deleteCoord(ts.coordinator.id);
-		BackDoor.createCoord(ts.coordinator);
+		String backDoorOperationStatus = BackDoor.createCoord(ts.coordinator);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
 		
 		bi = BrowserInstancePool.getBrowserInstance();

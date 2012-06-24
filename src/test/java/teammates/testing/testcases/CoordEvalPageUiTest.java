@@ -38,7 +38,8 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/CoordEvalUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 		BackDoor.deleteCoordinators(jsonString);
-		BackDoor.createCoord(scn.coords.get("teammates.test"));
+		String backDoorOperationStatus = BackDoor.createCoord(scn.coords.get("teammates.test"));
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
 
 		bi = BrowserInstancePool.getBrowserInstance();

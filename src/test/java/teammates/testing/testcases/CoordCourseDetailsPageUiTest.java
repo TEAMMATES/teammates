@@ -36,7 +36,7 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 		BackDoor.deleteCoordinators(jsonString);
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
-		print(backDoorOperationStatus);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
 		
 		bi = BrowserInstancePool.getBrowserInstance();
