@@ -16,8 +16,6 @@ import teammates.jsp.Helper;
 /**
  * Servlet to handle Edit evaluation submission page.
  * This is for coordinator to edit student's submission
- * @author Aldrian Obaja
- *
  */
 public class CoordEvalSubmissionEditServlet extends EvalSubmissionEditServlet {
 

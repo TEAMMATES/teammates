@@ -22,9 +22,7 @@ import teammates.testing.lib.BrowserInstancePool;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Tests coordEvalSubmissionEdit.jsp from functionality and UI
- * @author Aldrian Obaja
- *
+ * Tests coordEvalSubmissionView.jsp and coordEvalSubmissionEdit.jsp
  */
 public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
@@ -34,16 +32,17 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		printTestClassHeader("CoordEvalSubmissionViewAndEditUITest");
+		printTestClassHeader();
 		
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/CoordEvalSubmissionUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 
-		System.out.println("Importing test data...");
+		print("Importing test data...");
 		long start = System.currentTimeMillis();
 		BackDoor.deleteCoordinators(jsonString);
-		System.out.println(BackDoor.persistNewDataBundle(jsonString));
-		System.out.println("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
+		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
+		print(backDoorOperationStatus);
+		print("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
 
 		bi = BrowserInstancePool.getBrowserInstance();
 
@@ -53,14 +52,16 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
-		printTestClassFooter("CoordEvalSubmissionViewAndEditUITest");
+		printTestClassFooter();
 	}
 	
 	@Test
 	public void testCoordEvalSubmissionViewAndEdit() throws Exception{
-		printTestCaseHeader("TestCoordEvalSubmissionViewOpen");
+		printTestCaseHeader();
+		//Checking indirect link to View Submission through Evaluation Results
 		EvaluationData eval = scn.evaluations.get("First Eval");
-		// Indirect link to View Submission through Evaluation Results
+		
+		______TS("view submission for open evaluation");
 		String link = appUrl+Common.PAGE_COORD_EVAL_RESULTS;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, eval.course);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, eval.name);
@@ -78,13 +79,12 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 			}
 		}
 		
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalSubmissionViewOpen.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalSubmissionViewOpen.html");
 		
 		eval.endTime = new Date(new Date().getTime()-24*60*60*1000);
 		BackDoor.editEvaluation(eval);
 
-		printTestCaseHeader("TestCoordEvalSubmissionViewClosed");
+		______TS("view submission for closed evaluation");
 		
 		link = appUrl+Common.PAGE_COORD_EVAL_SUBMISSION_VIEW;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, eval.course);
@@ -93,13 +93,12 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.coords.get("teammates.demo.coord").id);
 		bi.goToUrl(link);
 		
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalSubmissionViewClosed.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalSubmissionViewClosed.html");
 		
 		bi.click(By.id("button_edit"));
 
-		printTestCaseHeader("TestCoordEvalSubmissionEdit");
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordEvalSubmissionEdit.html");
+		______TS("editing submissions");
+
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalSubmissionEdit.html");
 		
 		SubmissionData[] subs = new SubmissionData[3];
@@ -132,11 +131,11 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 		String dannyEmail = scn.students.get("Danny").email;
 		String emilyEmail = scn.students.get("Emily").email;
 		
-		System.out.println("Checking status message");
+		print("Checking status message");
 		bi.getSelenium().selectWindow("null");
 		bi.waitForStatusMessage(String.format(Common.MESSAGE_COORD_EVALUATION_SUBMISSION_RECEIVED,scn.students.get("Charlie").name,eval.name,eval.course).replace("<br />", "\n"));
 
-		System.out.println("Checking modified data");
+		print("Checking modified data");
 		String json = "";
 		json = BackDoor.getSubmissionAsJason(eval.course, eval.name, charlieEmail, charlieEmail);
 		SubmissionData charlieModified = Common.getTeammatesGson().fromJson(json, SubmissionData.class);

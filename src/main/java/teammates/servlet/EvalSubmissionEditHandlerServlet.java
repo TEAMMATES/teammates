@@ -37,7 +37,6 @@ public abstract class EvalSubmissionEditHandlerServlet extends ActionServlet<Hel
 	@Override
 	protected void doAction(HttpServletRequest req, Helper helper)
 			throws EntityDoesNotExistException {
-		// Get parameters
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
 		String teamName = req.getParameter(Common.PARAM_TEAM_NAME);

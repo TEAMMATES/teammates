@@ -14,8 +14,6 @@ import teammates.jsp.CoordEvalSubmissionViewHelper;
 @SuppressWarnings("serial")
 /**
  * Servlet to handle Evaluation Results action
- * @author Aldrian Obaja
- *
  */
 public class CoordEvalSubmissionViewServlet extends ActionServlet<CoordEvalSubmissionViewHelper> {
 
@@ -37,7 +35,6 @@ public class CoordEvalSubmissionViewServlet extends ActionServlet<CoordEvalSubmi
 
 	@Override
 	protected void doAction(HttpServletRequest req, CoordEvalSubmissionViewHelper helper) throws EntityDoesNotExistException{
-		// Get parameters
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
 		String studentEmail = req.getParameter(Common.PARAM_STUDENT_EMAIL);

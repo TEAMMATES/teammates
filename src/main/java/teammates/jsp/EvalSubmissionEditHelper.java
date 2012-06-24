@@ -84,10 +84,14 @@ public class EvalSubmissionEditHelper extends Helper {
 		return result;
 	}
 	
-	private String format(int i){
-		if(i>100) return "Equal share + "+(i-100)+"%";		// Do more
-		else if(i==100) return "Equal share";				// Do same
-		else if(i>0) return "Equal share - "+(100-i)+"%"; 	// Do less
-		else return "0%";									// Do none
+	private String format(int i) {
+		if (i > 100)
+			return "Equal share + " + (i - 100) + "%"; // Do more
+		else if (i == 100)
+			return "Equal share"; // Do same
+		else if (i > 0)
+			return "Equal share - " + (100 - i) + "%"; // Do less
+		else
+			return "0%"; // Do none
 	}
 }
