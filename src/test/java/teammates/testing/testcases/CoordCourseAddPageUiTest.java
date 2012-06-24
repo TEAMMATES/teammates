@@ -34,14 +34,13 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
-		ts = loadTestScenario(Common.TEST_DATA_FOLDER + "/coordCourseAddUiTest.json");
 		
-		print("Recreating "+ts.coordinator.id);
-		long start = System.currentTimeMillis();
+		startRecordingTimeForDataImport();
+		ts = loadTestScenario(Common.TEST_DATA_FOLDER + "/coordCourseAddUiTest.json");
 		BackDoor.deleteCoord(ts.coordinator.id);
 		BackDoor.createCoord(ts.coordinator);
-		print("Finished recreating in "+(System.currentTimeMillis()-start)+" ms");
-
+		reportTimeForDataImport();
+		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
 		bi.loginAdmin(Config.inst().TEAMMATES_ADMIN_ACCOUNT, Config.inst().TEAMMATES_ADMIN_PASSWORD);
@@ -49,11 +48,13 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		link = Helper.addParam(link,Common.PARAM_USER_ID,ts.coordinator.id);
 		bi.goToUrl(link);
 	}
-	
+
+
+
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
-		printTestClassFooter("CoordCourseAddUITest");
+		printTestClassFooter();
 	}
 
 	@Test
@@ -129,7 +130,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		
 		bi.addCourse(courseId, "different course name");
 		
-		long start = System.currentTimeMillis();
+		start = System.currentTimeMillis();
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseAddDupIdFailed.html");
 		print("Time to assert page: "+(System.currentTimeMillis()-start)+" ms");
 	}

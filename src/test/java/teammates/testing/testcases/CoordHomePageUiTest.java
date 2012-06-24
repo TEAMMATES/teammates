@@ -31,18 +31,17 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
+		
+		startRecordingTimeForDataImport();
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/CoordHomeUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 		firstEval = scn.evaluations.get("First Eval");
 		secondEval = scn.evaluations.get("Second Eval");
 		thirdEval = scn.evaluations.get("Third Eval");
-		
-		print("Importing test data...");
-		long start = System.currentTimeMillis();
 		BackDoor.deleteCoordinators(jsonString);
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		print(backDoorOperationStatus);
-		print("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
+		reportTimeForDataImport();
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		

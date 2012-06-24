@@ -31,15 +31,14 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
+		
+		startRecordingTimeForDataImport();
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/StudentEvalEditUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
-		
 		BackDoor.deleteCoordinators(jsonString);
-		print("Importing test data...");
-		long start = System.currentTimeMillis();
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		print(backDoorOperationStatus);
-		print("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
+		reportTimeForDataImport();
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 

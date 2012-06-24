@@ -34,15 +34,13 @@ public class CoordEvalEditPageUiTest extends BaseTestCase {
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
 		
+		startRecordingTimeForDataImport();
 		ts = loadTestScenario();
-		
-		print("Recreating "+ts.coordinator.id);
-		long start = System.currentTimeMillis();
 		BackDoor.deleteCoord(ts.coordinator.id);
 		BackDoor.createCoord(ts.coordinator);
 		BackDoor.createCourse(ts.course);
 		BackDoor.createEvaluation(ts.evaluation);
-		print("Finished recreating in "+(System.currentTimeMillis()-start)+" ms");
+		reportTimeForDataImport();
 
 		bi = BrowserInstancePool.getBrowserInstance();
 		

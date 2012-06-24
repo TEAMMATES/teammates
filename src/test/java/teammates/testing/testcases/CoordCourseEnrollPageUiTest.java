@@ -27,14 +27,14 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
+		
+		startRecordingTimeForDataImport();
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/CoordCourseEnrollUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
-
-		print("Importing test data...");
-		long start = System.currentTimeMillis();
 		BackDoor.deleteCoordinators(jsonString);
 		String status = BackDoor.persistNewDataBundle(jsonString);
 		print(status);
+		reportTimeForDataImport();
 		
 		// NEW
 		enrollString += "Team 3 | Emily France | emily.f.tmms@gmail.com | This student has just been added\n";
@@ -47,7 +47,6 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 		// UNMODIFIED
 		enrollString += "Team 1 | Benny Charles | benny.c.tmms@gmail.com | This student's name is Benny Charles";
 		
-		print("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		

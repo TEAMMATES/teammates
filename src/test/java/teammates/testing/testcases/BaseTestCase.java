@@ -57,6 +57,7 @@ public class BaseTestCase {
 				+ File.separator + "src" + File.separator + "main" + File.separator
 				+ "webapp" + File.separator + "WEB-INF" + File.separator
 				+ "queue.xml";
+	protected static long start;
 
 	@Deprecated
 	public static void printTestCaseHeader(String testCaseName) {
@@ -316,6 +317,14 @@ public class BaseTestCase {
 	
 	protected static void print(String message){
 		System.out.println(message);
+	}
+
+	protected static void startRecordingTimeForDataImport() {
+		start = System.currentTimeMillis();
+	}
+	
+	protected static void reportTimeForDataImport() {
+		print("Data import finished in "+(System.currentTimeMillis()-start)+" ms");
 	}
 
 }

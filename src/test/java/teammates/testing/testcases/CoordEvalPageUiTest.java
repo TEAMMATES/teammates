@@ -33,14 +33,13 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
+		
+		startRecordingTimeForDataImport();
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/CoordEvalUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
-		
-		print("Importing test data...");
-		long start = System.currentTimeMillis();
 		BackDoor.deleteCoordinators(jsonString);
 		BackDoor.createCoord(scn.coords.get("teammates.test"));
-		print("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
+		reportTimeForDataImport();
 
 		bi = BrowserInstancePool.getBrowserInstance();
 
