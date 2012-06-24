@@ -14,7 +14,6 @@ import teammates.testing.lib.BrowserInstancePool;
 
 /**
  * Tests Student Evaluation Results page
- * @author Aldrian Obaja
  */
 public class StudentEvalResultsPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
@@ -24,15 +23,16 @@ public class StudentEvalResultsPageUiTest extends BaseTestCase {
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		printTestClassHeader("StudentEvalResultsUITest");
+		printTestClassHeader();
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/StudentEvalResultsUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 		
-		System.out.println("Importing test data...");
+		print("Importing test data...");
 		long start = System.currentTimeMillis();
 		BackDoor.deleteCoordinators(jsonString);
-		System.out.println(BackDoor.persistNewDataBundle(jsonString));
-		System.out.println("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
+		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
+		print(backDoorOperationStatus);
+		print("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
@@ -42,72 +42,74 @@ public class StudentEvalResultsPageUiTest extends BaseTestCase {
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
-		printTestClassFooter("StudentEvalResultsUITest");
+		printTestClassFooter();
 	}
 
 	@Test	
 	public void testStudentEvalResultsPageHTML() throws Exception{
-		printTestCaseHeader("StudentEvalResultsTypical");
+		printTestCaseHeader();
+		
+		______TS("typical case: more than two members");
+		
 		String link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Third Eval").course);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Third Eval").name);
 		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.students.get("charlie.tmms").id);
 		bi.goToUrl(link);
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/studentEvalResultsTypicalHTML.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsTypicalHTML.html");
 
-		printTestCaseHeader("StudentEvalResultsTwoMembersTypical");
+		______TS("typical case: two members");
+		
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Third Eval").course);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Third Eval").name);
 		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.students.get("alice.tmms").id);
 		bi.goToUrl(link);
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/studentEvalResultsTwoMembersTypicalHTML.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsTwoMembersTypicalHTML.html");
 
-		printTestCaseHeader("StudentEvalResultsExtreme1");
+		______TS("extreme case: 1");
+		
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
 		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.students.get("charlie.tmms").id);
 		bi.goToUrl(link);
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/studentEvalResultsExtreme1HTML.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsExtreme1HTML.html");
 
-		printTestCaseHeader("StudentEvalResultsExtreme2");
+		______TS("extreme case: 2");
+		
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
 		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.students.get("danny.tmms").id);
 		bi.goToUrl(link);
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/studentEvalResultsExtreme2HTML.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsExtreme2HTML.html");
 
-		printTestCaseHeader("StudentEvalResultsExtreme3");
+		______TS("extreme case: 3");
+		
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
 		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.students.get("emily.tmms").id);
 		bi.goToUrl(link);
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/studentEvalResultsExtreme3HTML.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsExtreme3HTML.html");
 
-		printTestCaseHeader("StudentEvalResultsNotSubmitted");
+		______TS("student did not submitt");
+		
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
 		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.students.get("alice.tmms").id);
 		bi.goToUrl(link);
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/studentEvalResultsNotSubmittedHTML.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsNotSubmittedHTML.html");
 
-		printTestCaseHeader("StudentEvalResultsTheOtherDidn'tSubmit");
+		______TS("teammates did not submit");
+		
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
 		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.students.get("benny.tmms").id);
 		bi.goToUrl(link);
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/studentEvalResultsTheOtherDidn'tSubmitHTML.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsTheOtherDidn'tSubmitHTML.html");
 	}
 }

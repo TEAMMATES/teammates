@@ -21,7 +21,6 @@ import com.google.appengine.api.datastore.Text;
 
 /**
  * Tests Student Evaluation Edit (submit) Page
- * @author Aldrian Obaja
  */
 public class StudentEvalEditPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
@@ -31,15 +30,16 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		printTestClassHeader("StudentEvalEditUITest");
+		printTestClassHeader();
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/StudentEvalEditUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 		
 		BackDoor.deleteCoordinators(jsonString);
-		System.out.println("Importing test data...");
+		print("Importing test data...");
 		long start = System.currentTimeMillis();
-		System.out.println(BackDoor.persistNewDataBundle(jsonString));
-		System.out.println("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
+		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
+		print(backDoorOperationStatus);
+		print("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 
@@ -49,33 +49,36 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
-		printTestClassFooter("StudentEvalEditUITest");
+		printTestClassFooter();
 	}
 	
 	@Test
 	public void testStudentEvalSubmitHTML() throws Exception{
+		printTestCaseHeader();
 		// Pending evaluation
 		String link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("First Eval").course);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("First Eval").name);
 		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.students.get("Charlie").id);
 		bi.goToUrl(appUrl+link);
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/StudentEvalEditPendingHTML.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/StudentEvalEditPendingHTML.html");
 	}
 
 	@Test	
 	public void testStudentEvalEditHTMLAndAction() throws Exception{
-		// Submitted evaluation
+		printTestCaseHeader();
+		
+		______TS("load evauation for editing");
+		
 		String link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("First Eval").course);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("First Eval").name);
 		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.students.get("Danny").id);
 		bi.goToUrl(appUrl+link);
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/StudentEvalEditSubmittedHTML.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/StudentEvalEditSubmittedHTML.html");
 		
-		printTestCaseHeader("StudentEvalSubmissionEdit");
+		______TS("submitting edited evaluation");
+		
 		EvaluationData eval = scn.evaluations.get("First Eval");
 		
 		SubmissionData[] subs = new SubmissionData[3];
@@ -108,11 +111,11 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		String dannyEmail = scn.students.get("Danny").email;
 		String emilyEmail = scn.students.get("Emily").email;
 		
-		System.out.println("Checking status message");
+		print("Checking status message");
 		bi.getSelenium().selectWindow("null");
 		bi.waitForStatusMessage(String.format(Common.MESSAGE_STUDENT_EVALUATION_SUBMISSION_RECEIVED,eval.name,eval.course).replace("<br />", "\n"));
 
-		System.out.println("Checking modified data");
+		print("Checking modified data");
 		String json = "";
 		json = BackDoor.getSubmissionAsJason(eval.course, eval.name, dannyEmail, charlieEmail);
 		SubmissionData charlieModified = Common.getTeammatesGson().fromJson(json, SubmissionData.class);

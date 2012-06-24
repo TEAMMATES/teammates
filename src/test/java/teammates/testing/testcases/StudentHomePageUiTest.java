@@ -14,7 +14,6 @@ import teammates.testing.lib.BrowserInstancePool;
 
 /**
  * Tests Student Homepage UI
- * @author Aldrian Obaja
  */
 public class StudentHomePageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
@@ -24,15 +23,17 @@ public class StudentHomePageUiTest extends BaseTestCase {
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		printTestClassHeader("StudentHomeUITest");
+		printTestClassHeader();
+		
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/StudentHomeUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 		
-		System.out.println("Importing test data...");
+		print("Importing test data...");
 		BackDoor.deleteCoordinators(jsonString);
 		long start = System.currentTimeMillis();
-		System.out.println(BackDoor.persistNewDataBundle(jsonString));
-		System.out.println("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
+		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
+		print(backDoorOperationStatus);
+		print("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
@@ -42,25 +43,27 @@ public class StudentHomePageUiTest extends BaseTestCase {
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
-		printTestClassFooter("StudentHomeUITest");
+		printTestClassFooter();
 	}
 
 	@Test	
 	public void testStudentHomeCoursePageHTML() throws Exception{
-		printTestCaseHeader("StudentHomeHTMLTypical");
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/studentHomeHTML.html");
+		printTestCaseHeader();
+		
+		______TS("typical case");
+		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentHomeHTML.html");
 		
 		BackDoor.deleteCourse(scn.courses.get("SHomeUiT.CS2104").id);
 		BackDoor.deleteCourse(scn.courses.get("SHomeUiT.CS1101").id);
+		
+		______TS("empty");
 
-		printTestCaseHeader("StudentHomeHTMLEmpty");
-		// Should be empty, showing first time message
 		bi.goToUrl(appURL+Common.PAGE_STUDENT_HOME);
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/studentHomeHTMLEmpty.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentHomeHTMLEmpty.html");
+		
+		______TS("just joined first course");
 
-		printTestCaseHeader("StudentHomeJoinCourse");
 		BackDoor.createCourse(scn.courses.get("SHomeUiT.CS2104"));
 		StudentData alice = scn.students.get("alice.tmms@SHomeUiT.CS2104");
 		alice.id = null;
@@ -70,7 +73,6 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		bi.fillString(bi.studentInputRegKey, BackDoor.getKeyForStudent(courseID, studentEmail));
 		bi.click(bi.studentJoinCourseButton);
 
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/studentHomeJoined.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentHomeJoined.html");
 	}
 }

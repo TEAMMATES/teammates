@@ -14,7 +14,6 @@ import teammates.testing.lib.BrowserInstancePool;
 
 /**
  * Tests Student Course Details page
- * @author Aldrian Obaja
  */
 public class StudentCourseDetailsPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
@@ -24,15 +23,16 @@ public class StudentCourseDetailsPageUiTest extends BaseTestCase {
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		printTestClassHeader("StudentEvalEditUITest");
+		printTestClassHeader();
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/StudentCourseDetailsUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 		
-		System.out.println("Importing test data...");
+		print("Importing test data...");
 		long start = System.currentTimeMillis();
 		BackDoor.deleteCoordinators(jsonString);
-		System.out.println(BackDoor.persistNewDataBundle(jsonString));
-		System.out.println("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
+		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
+		print(backDoorOperationStatus);
+		print("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 
@@ -42,33 +42,35 @@ public class StudentCourseDetailsPageUiTest extends BaseTestCase {
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
-		printTestClassFooter("StudentCourseDetailsUITest");
+		printTestClassFooter();
 	}
 
 	@Test	
 	public void testStudentCourseDetailsPageHTML() throws Exception{
-		printTestCaseHeader("StudentCourseDetailsWithTeammates");
+		printTestCaseHeader();
+		
+		______TS("with teammates");
+		
 		String link = appUrl + Common.PAGE_STUDENT_COURSE_DETAILS;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.courses.get("SCDetailsUiT.CS2104").id);
 		link = Helper.addParam(link, Common.PARAM_USER_ID , scn.students.get("alice.tmms").id);
 		bi.goToUrl(link);
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/studentCourseDetailsWithTeammatesHTML.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentCourseDetailsWithTeammatesHTML.html");
 
-		printTestCaseHeader("StudentCourseDetailsWithoutTeammates");
+		______TS("without teammates"); //TODO: to be removed if team is compulsory
+		
 		link = appUrl + Common.PAGE_STUDENT_COURSE_DETAILS;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.courses.get("SCDetailsUiT.CS2104").id);
 		link = Helper.addParam(link, Common.PARAM_USER_ID , scn.students.get("charlie.tmms").id);
 		bi.goToUrl(link);
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/studentCourseDetailsWithoutTeammatesHTML.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentCourseDetailsWithoutTeammatesHTML.html");
 		
-		printTestCaseHeader("StudentCourseDetailsNoTeam");
+		______TS("no team"); //TODO: to be removed if team is compulsory
+		
 		link = appUrl + Common.PAGE_STUDENT_COURSE_DETAILS;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.courses.get("SCDetailsUiT.CS2104").id);
 		link = Helper.addParam(link, Common.PARAM_USER_ID , scn.students.get("danny.tmms").id);
 		bi.goToUrl(link);
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/studentCourseDetailsNoTeamHTML.html");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentCourseDetailsNoTeamHTML.html");
 	}
 }
