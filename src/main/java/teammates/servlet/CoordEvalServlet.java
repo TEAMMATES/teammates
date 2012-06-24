@@ -48,21 +48,17 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 			helper.submittedEval = null;
 		} else {
 			helper.submittedEval = extractEvaluationData(req);
-
-			try {
-				helper.server.createEvaluation(helper.submittedEval);
-				helper.statusMessage = Common.MESSAGE_EVALUATION_ADDED;
-				helper.submittedEval = null;
-			} catch (EntityAlreadyExistsException e) {
-				helper.statusMessage = Common.MESSAGE_EVALUATION_EXISTS;
-				helper.error = true;
-			} catch (InvalidParametersException e) {
-				// This will cover conditions such as start/end date is invalid
-				helper.statusMessage = e.getMessage();
-				helper.error = true;
-			}
+			createEvaluation(helper);
 		}
 
+		populateEvaluationList(helper);
+		
+		setStatusMessage(helper);
+	}
+
+	//TODO: unit test this
+	private void populateEvaluationList(CoordEvalHelper helper)
+			throws EntityDoesNotExistException {
 		HashMap<String, CourseData> summary = helper.server
 				.getCourseListForCoord(helper.userId);
 		helper.courses = new ArrayList<CourseData>(summary.values());
@@ -71,8 +67,25 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 		helper.evaluations = helper.server
 				.getEvaluationsListForCoord(helper.userId);
 		sortEvaluationsByDeadline(helper.evaluations);
+	}
 
-		//TODO: extract below logic and unit test it
+	private void createEvaluation(CoordEvalHelper helper) {
+		try {
+			helper.server.createEvaluation(helper.submittedEval);
+			helper.statusMessage = Common.MESSAGE_EVALUATION_ADDED;
+			helper.submittedEval = null;
+		} catch (EntityAlreadyExistsException e) {
+			helper.statusMessage = Common.MESSAGE_EVALUATION_EXISTS;
+			helper.error = true;
+		} catch (InvalidParametersException e) {
+			// This will cover conditions such as start/end date is invalid
+			helper.statusMessage = e.getMessage();
+			helper.error = true;
+		}
+	}
+
+	//TODO: unit test this
+	private void setStatusMessage(CoordEvalHelper helper) {
 		String additionalMessage = null;
 		if (helper.courses.size() == 0 && !helper.error) {
 			additionalMessage = Common.MESSAGE_COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+helper.userId);

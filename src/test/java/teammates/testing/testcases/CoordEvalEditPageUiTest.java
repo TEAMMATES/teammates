@@ -21,8 +21,6 @@ import teammates.testing.lib.BrowserInstancePool;
 
 /**
  * Tests coordEvalEdit.jsp from functionality and UI
- * @author Aldrian Obaja
- *
  */
 public class CoordEvalEditPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;

@@ -45,6 +45,7 @@ public class CoordEvalEditServlet extends ActionServlet<CoordEvalEditHelper> {
 			helper.redirectUrl = Common.PAGE_COORD_EVAL;
 			return;
 		}
+		
 		CourseData course = helper.server.getCourse(newEval.course);
 		if (course != null && !course.coord.equals(helper.userId)) {
 			helper.statusMessage = "You are not authorized to edit the evaluation "
