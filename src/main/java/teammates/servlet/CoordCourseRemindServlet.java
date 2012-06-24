@@ -59,9 +59,4 @@ public class CoordCourseRemindServlet extends ActionServlet<Helper> {
 		}
 	}
 
-	@Override
-	protected String getDefaultForwardUrl() {
-		// Not used
-		return "";
-	}
 }

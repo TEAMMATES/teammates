@@ -52,9 +52,4 @@ public class CoordCourseStudentDeleteServlet extends ActionServlet<Helper> {
 		helper.redirectUrl = Helper.addParam(helper.redirectUrl,Common.PARAM_COURSE_ID,courseID);
 	}
 
-	@Override
-	protected String getDefaultForwardUrl() {
-		// Not used
-		return "";
-	}
 }

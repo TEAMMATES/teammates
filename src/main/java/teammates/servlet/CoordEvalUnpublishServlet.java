@@ -46,9 +46,4 @@ public class CoordEvalUnpublishServlet extends ActionServlet<Helper> {
 		helper.statusMessage = Common.MESSAGE_EVALUATION_UNPUBLISHED;
 	}
 
-	@Override
-	protected String getDefaultForwardUrl() {
-		// Not used
-		return "";
-	}
 }

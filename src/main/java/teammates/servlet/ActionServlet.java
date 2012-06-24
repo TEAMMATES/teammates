@@ -189,7 +189,10 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * display the result of the actions performed in this servlet.
 	 * @return
 	 */
-	protected abstract String getDefaultForwardUrl();
+	protected String getDefaultForwardUrl() {
+		// Not used
+		return "";
+	}
 	
 	/**
 	 * Returns the URL used to call this servlet.

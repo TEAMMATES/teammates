@@ -51,9 +51,4 @@ public class CoordEvalDeleteServlet extends ActionServlet<Helper> {
 		if(helper.redirectUrl==null) helper.redirectUrl = Common.PAGE_COORD_EVAL;
 	}
 
-	@Override
-	protected String getDefaultForwardUrl() {
-		// Not used
-		return "";
-	}
 }

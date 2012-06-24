@@ -47,9 +47,4 @@ public class CoordEvalRemindServlet extends ActionServlet<Helper> {
 		helper.redirectUrl = Common.PAGE_COORD_EVAL;
 	}
 
-	@Override
-	protected String getDefaultForwardUrl() {
-		// Not used
-		return "";
-	}
 }
