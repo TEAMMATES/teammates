@@ -13,8 +13,6 @@ import teammates.jsp.Helper;
 @SuppressWarnings("serial")
 /**
  * Servlet to handle Unpublish evaluation action
- * @author Aldrian Obaja
- *
  */
 public class CoordEvalUnpublishServlet extends ActionServlet<Helper> {
 
@@ -35,7 +33,6 @@ public class CoordEvalUnpublishServlet extends ActionServlet<Helper> {
 
 	@Override
 	protected void doAction(HttpServletRequest req, Helper helper) throws EntityDoesNotExistException {
-		// Get parameters
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
 		CourseData course = helper.server.getCourse(courseID);
@@ -45,7 +42,6 @@ public class CoordEvalUnpublishServlet extends ActionServlet<Helper> {
 			return;
 		}
 		
-		// Process action
 		helper.server.unpublishEvaluation(courseID,evalName);
 		helper.statusMessage = Common.MESSAGE_EVALUATION_UNPUBLISHED;
 	}

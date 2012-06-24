@@ -13,7 +13,6 @@ import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
 import teammates.datatransfer.CourseData;
 import teammates.jsp.CoordCourseHelper;
-import teammates.jsp.CoordEvalHelper;
 
 @SuppressWarnings("serial")
 /**

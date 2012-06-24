@@ -33,7 +33,7 @@ public class CoordEvalHelper extends Helper{
 					temp+=String.format(" %+03d:%02d", (int)options[i],
 							(int)(Math.abs(options[i]-(int)options[i])*300/5));
 			}
-			result.add("<option value=\""+format(options[i])+"\"" +
+			result.add("<option value=\""+formatAsString(options[i])+"\"" +
 						(submittedEval!=null && submittedEval.timeZone==options[i]
 							? "selected=\"selected\""
 							: "") +
@@ -96,9 +96,12 @@ public class CoordEvalHelper extends Helper{
 	 * @param num
 	 * @return
 	 */
-	private static String format(double num){
-		if((int)num==num) return ""+(int)num;
-		return ""+num;
+	private static String formatAsString(double num){
+		if((int)num==num) {
+			return ""+(int)num;
+		} else {
+			return ""+num;
+		}
 	}
 	
 	private boolean checkTimeSelected(int hour, boolean isStart){

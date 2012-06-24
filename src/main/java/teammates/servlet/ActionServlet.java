@@ -169,12 +169,15 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			HttpServletResponse resp, T helper) throws ServletException, IOException{
 		if(helper.redirectUrl!=null){
 			helper.redirectUrl = Helper.addParam(helper.redirectUrl, Common.PARAM_STATUS_MESSAGE, helper.statusMessage);
-			if(helper.error)
+			if(helper.error){
 				helper.redirectUrl = Helper.addParam(helper.redirectUrl, Common.PARAM_ERROR, ""+helper.error);
+			}
 			helper.redirectUrl = helper.processMasquerade(helper.redirectUrl);
 			resp.sendRedirect(helper.redirectUrl);
 		} else {
-			if(helper.forwardUrl==null) helper.forwardUrl = getDefaultForwardUrl();
+			if(helper.forwardUrl==null) {
+				helper.forwardUrl = getDefaultForwardUrl();
+			}
 			req.setAttribute("helper",helper);
 			req.getRequestDispatcher(helper.forwardUrl).forward(req,resp);
 		}

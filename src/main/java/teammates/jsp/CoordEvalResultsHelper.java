@@ -10,7 +10,6 @@ import teammates.datatransfer.EvaluationData;
 import teammates.datatransfer.SubmissionData;
 
 public class CoordEvalResultsHelper extends Helper{
-	// Specific parameters
 	public EvaluationData evaluation;
 	
 	/**
