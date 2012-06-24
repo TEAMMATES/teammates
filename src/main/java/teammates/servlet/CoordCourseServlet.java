@@ -39,30 +39,41 @@ public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
 	@Override
 	protected void doAction(HttpServletRequest req, CoordCourseHelper helper)
 			throws EntityDoesNotExistException {
+		
 		helper.courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		helper.courseName = req.getParameter(Common.PARAM_COURSE_NAME);
 
 		if (helper.courseID != null && helper.courseName != null) {
-			try {
-				helper.server.createCourse(helper.userId, helper.courseID,
-						helper.courseName);
-				helper.courseID = null;
-				helper.courseName = null;
-				helper.statusMessage = Common.MESSAGE_COURSE_ADDED;
-			} catch (EntityAlreadyExistsException e) {
-				helper.statusMessage = Common.MESSAGE_COURSE_EXISTS;
-				helper.error = true;
-			} catch (InvalidParametersException e) {
-				helper.statusMessage = e.getMessage();
-				helper.error = true;
-			}
+			createCourse(helper);
 		}
 
 		HashMap<String, CourseData> courses = helper.server
 				.getCourseListForCoord(helper.userId);
 		helper.courses = new ArrayList<CourseData>(courses.values());
-		//TODO: extract below logic and unit test it
+		
 		sortCourses(helper.courses);
+		
+		setStatus(helper);
+	}
+
+	private void createCourse(CoordCourseHelper helper) {
+		try {
+			helper.server.createCourse(helper.userId, helper.courseID,
+					helper.courseName);
+			helper.courseID = null;
+			helper.courseName = null;
+			helper.statusMessage = Common.MESSAGE_COURSE_ADDED;
+		} catch (EntityAlreadyExistsException e) {
+			helper.statusMessage = Common.MESSAGE_COURSE_EXISTS;
+			helper.error = true;
+		} catch (InvalidParametersException e) {
+			helper.statusMessage = e.getMessage();
+			helper.error = true;
+		}
+	}
+
+	//TODO: unit test this
+	private void setStatus(CoordCourseHelper helper) {
 		if (helper.courses.size() == 0
 				&& !helper.error
 				&& !noCoursesVisibleDueToEventualConsistency(helper)) {

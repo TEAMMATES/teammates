@@ -58,10 +58,12 @@ public class CoordEvalEditServlet extends ActionServlet<CoordEvalEditHelper> {
 
 		// decide whether this is a request to edit or a submission of edited
 		// values
-		boolean isSubmit = newEval.startTime != null 
-				|| newEval.endTime != null
-				|| newEval.instructions != null;
+//		boolean isSubmit = newEval.startTime != null 
+//				|| newEval.endTime != null
+//				|| newEval.instructions != null;
 		//TODO: implement a better check for isSubmit
+		
+		boolean isSubmit = isPost;
 
 		if (isSubmit) {
 			helper.submittedEval = newEval;
