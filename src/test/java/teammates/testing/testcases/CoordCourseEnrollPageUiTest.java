@@ -68,15 +68,22 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 	@Test
 	public void testCoordCourseEnrollPage() throws Exception{
 		printTestCaseHeader();
+		
+		______TS("failure case");
+		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollPage.html");
 		
-		print("Enrolling...");
-		bi.fillString(By.id("enrollstudents"), enrollString);
+		bi.fillString(By.id("enrollstudents"), "a|b|c|d"); //invalid email address
 		bi.click(By.id("button_enroll"));
 
-		print("Verifying result...");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollError.html");
+		
+		______TS("success case");
+		
+		bi.fillString(By.id("enrollstudents"), enrollString);
+		bi.click(By.id("button_enroll"));
+		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollPageResult.html");
 		
-		//TODO: check for case: enrollment failure
 	}
 }
