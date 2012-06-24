@@ -33,10 +33,12 @@ import teammates.jsp.Helper;
 public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	
 	protected static final Logger log = Common.getLogger();
+	protected boolean isPost = false;
 	
 	@Override
 	public final void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
+		
 		this.doPost(req,resp);
 	}
 
@@ -44,7 +46,12 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	public final void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException{
 		
-		// Check log in has been done in LoginFilter
+		isPost = req.getMethod().equals("POST");
+		if(isPost){
+			log.info("POST");
+		}else{
+			log.info("GET");
+		}
 		
 		T helper = instantiateHelper();
 		

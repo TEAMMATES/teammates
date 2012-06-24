@@ -42,30 +42,25 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 	protected void doAction(HttpServletRequest req, CoordEvalHelper helper)
 			throws EntityDoesNotExistException {
 
-		EvaluationData newEval = extractEvaluationData(req);
+		boolean isAddEvaluation = isPost;
 
-		boolean isAddEvaluation = 
-				   hasAtLeastSomeLegitimateValues(newEval);
-
-		if (isAddEvaluation) {
-			helper.submittedEval = newEval;
-		} else {
+		if (!isAddEvaluation) {
 			helper.submittedEval = null;
-		}
+		} else {
+			helper.submittedEval = extractEvaluationData(req);
 
-		try {
-			if (isAddEvaluation) {
-				helper.server.createEvaluation(newEval);
+			try {
+				helper.server.createEvaluation(helper.submittedEval);
 				helper.statusMessage = Common.MESSAGE_EVALUATION_ADDED;
 				helper.submittedEval = null;
+			} catch (EntityAlreadyExistsException e) {
+				helper.statusMessage = Common.MESSAGE_EVALUATION_EXISTS;
+				helper.error = true;
+			} catch (InvalidParametersException e) {
+				// This will cover conditions such as start/end date is invalid
+				helper.statusMessage = e.getMessage();
+				helper.error = true;
 			}
-		} catch (EntityAlreadyExistsException e) {
-			helper.statusMessage = Common.MESSAGE_EVALUATION_EXISTS;
-			helper.error = true;
-		} catch (InvalidParametersException e) {
-			// This will cover conditions such as start/end date is invalid
-			helper.statusMessage = e.getMessage();
-			helper.error = true;
 		}
 
 		HashMap<String, CourseData> summary = helper.server
@@ -94,13 +89,6 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 			}
 			helper.statusMessage += additionalMessage;
 		}
-	}
-
-	public static boolean hasAtLeastSomeLegitimateValues(EvaluationData eval) {
-		return eval.course != null
-		|| eval.name != null 
-		|| eval.startTime != null 
-		|| eval.endTime != null;
 	}
 
 	private boolean noEvaluationsVisibleDueToEventualConsistency(CoordEvalHelper helper) {
