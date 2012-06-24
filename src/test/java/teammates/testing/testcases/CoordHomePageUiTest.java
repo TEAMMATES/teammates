@@ -18,7 +18,6 @@ import teammates.testing.lib.BrowserInstancePool;
 
 /**
  * Tests Coordinator Homepage UI
- * @author Aldrian Obaja
  */
 public class CoordHomePageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
@@ -28,33 +27,32 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	private static EvaluationData secondEval;
 	private static EvaluationData thirdEval;
 	
-//	private static String appURL = Config.inst().TEAMMATES_URL;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		printTestClassHeader("CoordHomeUITest");
+		printTestClassHeader();
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/CoordHomeUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 		firstEval = scn.evaluations.get("First Eval");
 		secondEval = scn.evaluations.get("Second Eval");
 		thirdEval = scn.evaluations.get("Third Eval");
 		
-		System.out.println("Importing test data...");
+		print("Importing test data...");
 		long start = System.currentTimeMillis();
 		BackDoor.deleteCoordinators(jsonString);
-		System.out.println(BackDoor.persistNewDataBundle(jsonString));
-		System.out.println("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
+		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
+		print(backDoorOperationStatus);
+		print("The test data was imported in "+(System.currentTimeMillis()-start)+" ms");
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
 		bi.loginCoord(scn.coords.get("teammates.test").id, Config.inst().TEAMMATES_APP_PASSWORD);
-//		bi.goToUrl(appURL+Common.PAGE_COORD_HOME); // Not needed as it will by default go to homepage
 	}
 	
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
-		printTestClassFooter("CoordHomeUITest");
+		printTestClassFooter();
 	}
 
 	@Test
@@ -68,12 +66,12 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	}
 	
 	public void testCoordHomeHTML() throws Exception{
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordHomeHTML.html");
+		printTestCaseHeader();
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordHomeHTML.html");
 	}
 
 	public void testCoordHomeEvalRemindLink(){
-		printTestCaseHeader("testCoordHomeEvalRemindLink");
+		printTestCaseHeader();
 		
 		// Check the remind link on Open Evaluation: Evaluation 1 at Course 1
 		By remindLinkLocator = bi.getCoordHomeEvaluationRemindLinkLocator(firstEval.course, firstEval.name);
@@ -86,7 +84,9 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordHomeEvalPublishLink(){
-		printTestCaseHeader("testCoordHomeEvalPublishLink");
+		printTestCaseHeader();
+		
+		______TS("publish link of CLOSED evaluation");
 		
 		// Check the publish link on Closed Evaluation: Evaluation 3 at Course 2
 		By publishLinkLocator = bi.getCoordHomeEvaluationPublishLinkLocator(thirdEval.course, thirdEval.name);
@@ -97,12 +97,16 @@ public class CoordHomePageUiTest extends BaseTestCase {
 			fail("Publish link unavailable on CLOSED evaluation, or it is available but no confirmation box");
 		}
 		
+		______TS("publish link of OPEN evaluation");
+		
 		// Check the publish link on Open Evaluation: Evaluation 1 at Course 1
 		publishLinkLocator = bi.getCoordHomeEvaluationPublishLinkLocator(firstEval.course, firstEval.name);
 		try{
 			bi.clickAndCancel(publishLinkLocator);
 			fail("Publish link available on OPEN evaluation");
 		} catch (NoAlertAppearException e){}
+		
+		______TS("unpublish link of PUBLISHED evaluation");
 
 		// Check the unpublish link on Published Evaluation: Evaluation 2 at Course 1
 		By unpublishLinkLocator = bi.getCoordHomeEvaluationUnpublishLinkLocator(secondEval.course, secondEval.name);
@@ -114,7 +118,9 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordHomeEvalDeleteLink() throws Exception{
-		printTestCaseHeader("testCoordHomeEvalDeleteLink");
+		printTestCaseHeader();
+		
+		______TS("click and cancel");
 		
 		By deleteLinkLocator = bi.getCoordHomeEvaluationDeleteLinkLocator(firstEval.course, firstEval.name);
 		
@@ -126,9 +132,10 @@ public class CoordHomePageUiTest extends BaseTestCase {
 			fail("Delete link is unavailable or it is available but no confirmation box");
 		}
 		
+		______TS("click and confirm");
+		
 		try{
 			bi.clickAndConfirm(deleteLinkLocator);
-//			bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordHomeEvalDeleteSuccessful.html");
 			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordHomeEvalDeleteSuccessful.html");
 		} catch (NoAlertAppearException e){
 			fail("Delete link is unavailable or it is available but no confirmation box");
@@ -136,7 +143,9 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordHomeCourseDeleteLink() throws Exception{
-		printTestCaseHeader("testCoordHomeCourseDeleteLink");
+		printTestCaseHeader();
+		
+		______TS("click and cancel");
 		
 		By deleteLinkLocator = bi.getCoordHomeCourseDeleteLinkLocator(scn.courses.get("CHomeUiT.CS2104").id);
 		
@@ -148,9 +157,10 @@ public class CoordHomePageUiTest extends BaseTestCase {
 			fail("Delete course button unavailable, or it is available but no confirmation box");
 		}
 		
+		______TS("click and confirm");
+		
 		try{
 			bi.clickAndConfirm(deleteLinkLocator);
-//			bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordHomeCourseDeleteSuccessful.html");
 			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordHomeCourseDeleteSuccessful.html");
 		} catch (NoAlertAppearException e){
 			fail("Delete course button unavailable, or it is available but no confirmation box");
@@ -158,11 +168,12 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	}
 	
 	public void testCoordHomeEmptyHTML() throws Exception{
+		printTestCaseHeader();
+		
 		BackDoor.deleteCourse(scn.courses.get("CHomeUiT.CS2104").id);
 		BackDoor.deleteCourse(scn.courses.get("CHomeUiT.CS1101").id);
 		
-		bi.goToCoordHome();
-//		bi.printCurrentPage(Common.TEST_PAGES_FOLDER+"/coordHomeHTMLEmpty.html");
+		bi.clickHomeTab();
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordHomeHTMLEmpty.html");
 	}
 }

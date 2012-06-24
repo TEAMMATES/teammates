@@ -12,8 +12,6 @@ import teammates.jsp.Helper;
 @SuppressWarnings("serial")
 /**
  * Servlet to handle Remind students for evaluation action
- * @author Aldrian Obaja
- *
  */
 public class CoordEvalRemindServlet extends ActionServlet<Helper> {
 
@@ -34,7 +32,6 @@ public class CoordEvalRemindServlet extends ActionServlet<Helper> {
 
 	@Override
 	protected void doAction(HttpServletRequest req, Helper helper) {
-		// Get parameters
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
 		CourseData course = helper.server.getCourse(courseID);
@@ -45,7 +42,6 @@ public class CoordEvalRemindServlet extends ActionServlet<Helper> {
 			return;
 		}
 		
-		// Process action
 		helper.server.sendReminderForEvaluation(courseID,evalName);
 		helper.statusMessage = Common.MESSAGE_EVALUATION_REMINDERSSENT;
 		helper.redirectUrl = Common.PAGE_COORD_EVAL;

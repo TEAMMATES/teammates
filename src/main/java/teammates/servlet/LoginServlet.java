@@ -15,8 +15,6 @@ import teammates.datatransfer.UserData;
 @SuppressWarnings("serial")
 /**
  * Servlet to handle Login
- * @author Aldrian Obaja
- *
  */
 public class LoginServlet extends HttpServlet {
 	
@@ -34,19 +32,19 @@ public class LoginServlet extends HttpServlet {
 		Logic server = new Logic();
 		UserData user = server.getLoggedInUser();
 		if(req.getParameter(Common.PARAM_LOGIN_COORDINATOR)!=null){
-			if(user!=null){
+			if(isMasqueradeMode(user)){
 				resp.sendRedirect(Common.PAGE_COORD_HOME);
 			} else {
 				resp.sendRedirect(Logic.getLoginUrl(Common.PAGE_COORD_HOME));
 			}
 		} else if(req.getParameter(Common.PARAM_LOGIN_STUDENT)!=null){
-			if(user!=null){
+			if(isMasqueradeMode(user)){
 				resp.sendRedirect(Common.PAGE_STUDENT_HOME);
 			} else {
 				resp.sendRedirect(Logic.getLoginUrl(Common.PAGE_STUDENT_HOME));
 			}
 		} else if(req.getParameter(Common.PARAM_LOGIN_ADMINISTRATOR)!=null){
-			if(user!=null){
+			if(isMasqueradeMode(user)){
 				resp.sendRedirect(Common.PAGE_ADMINISTRATOR_HOME);
 			} else {
 				resp.sendRedirect(Logic.getLoginUrl(Common.PAGE_ADMINISTRATOR_HOME));
@@ -54,5 +52,9 @@ public class LoginServlet extends HttpServlet {
 		} else {
 			resp.sendRedirect(Common.JSP_ERROR_PAGE);
 		}
+	}
+
+	private boolean isMasqueradeMode(UserData user) {
+		return user!=null;
 	}
 }

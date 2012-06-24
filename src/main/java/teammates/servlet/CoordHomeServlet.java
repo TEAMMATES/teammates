@@ -15,8 +15,6 @@ import teammates.jsp.CoordHomeHelper;
 @SuppressWarnings("serial")
 /**
  * Servlet to handle Home actions
- * @author Aldrian Obaja
- *
  */
 public class CoordHomeServlet extends ActionServlet<CoordHomeHelper> {
 
