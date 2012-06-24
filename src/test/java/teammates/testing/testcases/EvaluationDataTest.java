@@ -173,9 +173,9 @@ public class EvaluationDataTest extends BaseTestCase {
 		// end before start: invalid
 		e.endTime = Common.getDateOffsetToCurrentTime(1);
 		e.startTime = Common.getDateOffsetToCurrentTime(2);
-		System.out.println(Common.calendarToString(Common
+		print(Common.calendarToString(Common
 				.dateToCalendar(e.startTime)));
-		System.out.println(Common.calendarToString(Common
+		print(Common.calendarToString(Common
 				.dateToCalendar(e.endTime)));
 		verifyInvalidState(e, Common.ERRORCODE_END_BEFORE_START);
 

@@ -20,7 +20,7 @@ public class AllJsUnitTests extends BaseTestCase{
 	
 	@BeforeClass
 	public static void setUp() {
-		printTestClassHeader("AllJsUnitTests");
+		printTestClassHeader();
 		bi = BrowserInstancePool.getBrowserInstance();
 	}
 
@@ -32,7 +32,7 @@ public class AllJsUnitTests extends BaseTestCase{
 		// One case is expected to fail due to javaScript syntax issues
 		int totalCasesExpectedToPass = totalCases-1;
 		
-		System.out.println("Going to execute "+totalCasesExpectedToPass+" JavaScript Unit tests...");
+		print("Going to execute "+totalCasesExpectedToPass+" JavaScript Unit tests...");
 		
 		String workingDirectory = new File(".").getCanonicalPath();
 		bi.goToUrl("file:///"+workingDirectory+"/src/test/java/teammates/testing/testcases/AllJsUnitTests.html");
@@ -41,7 +41,7 @@ public class AllJsUnitTests extends BaseTestCase{
 		String expectedResultString = totalCasesExpectedToPass+" tests of "+totalCases+" passed";
 		assertTrue(bi.getElementText(By.id("qunit-testresult")).contains(expectedResultString));
 		
-		System.out.println("As expected, "+expectedResultString);
+		print("As expected, "+expectedResultString);
 
 	}
 

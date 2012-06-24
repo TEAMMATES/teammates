@@ -536,7 +536,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 				+pointsToString(t.perceivedToStudents);
 		actual = replaceMagicNumbers(actual);
 		
-		System.out.println(actual);
+		print(actual);
 	}
 	
 

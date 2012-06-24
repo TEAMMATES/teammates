@@ -1767,7 +1767,7 @@ public class LogicTest extends BaseTestCase {
 
 		EvaluationData result = logic.getEvaluationResult(course.id,
 				evaluation.name);
-		System.out.println(result);
+		print(result.toString());
 
 		// no need to sort, the result should be sorted by default
 
@@ -1913,7 +1913,7 @@ public class LogicTest extends BaseTestCase {
 				//@formatter:on
 
 		result = logic.getEvaluationResult("courseForTestingER", "Eval 1");
-		System.out.println(result.toString());
+		print(result.toString());
 
 	}
 

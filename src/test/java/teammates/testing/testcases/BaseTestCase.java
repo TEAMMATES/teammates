@@ -60,7 +60,7 @@ public class BaseTestCase {
 
 	@Deprecated
 	public static void printTestCaseHeader(String testCaseName) {
-		System.out.println("[TestCase]---:" + testCaseName);
+		print("[TestCase]---:" + testCaseName);
 	}
 
 	public static void printTestCaseHeader() {
@@ -70,7 +70,7 @@ public class BaseTestCase {
 
 	@Deprecated
 	public static void printTestClassHeader(String className) {
-		System.out.println("[=============================" + className
+		print("[=============================" + className
 				+ "=============================]");
 	}
 
@@ -82,7 +82,7 @@ public class BaseTestCase {
 	 *            of the logical section. This will be printed.
 	 */
 	public static void ______TS(String description) {
-		System.out.println(" * " + description);
+		print(" * " + description);
 	}
 
 	public static void printTestClassHeader() {
@@ -97,7 +97,7 @@ public class BaseTestCase {
 
 	@Deprecated
 	public static void printTestClassFooter(String testClassName) {
-		System.out.println(testClassName + " completed");
+		print(testClassName + " completed");
 	}
 
 	protected static void setLogLevelOfClass(Class<?> testedClass, Level level)

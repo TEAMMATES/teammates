@@ -161,7 +161,7 @@ public class EvaluationActivationServletTest extends BaseTestCase {
 		List<TaskStateInfo> taskInfoList = getTasksInQueue("email-queue");
 		for (TaskStateInfo tsi : taskInfoList) {
 			String emailTaskBody = tsi.getBody();
-			System.out.println("email task: "+emailTaskBody);
+			print("email task: "+emailTaskBody);
 			if (emailTaskBody.contains("operation=informstudentsofevaluationopening&email="
 					+ student.email.replace("@", "%40"))
 					&& emailTaskBody.contains("courseid=" + student.course)
