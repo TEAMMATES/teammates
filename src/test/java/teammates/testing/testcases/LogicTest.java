@@ -177,7 +177,13 @@ public class LogicTest extends BaseTestCase {
 		logInAsUnregisteredUser("unregistered.user");
 		
 		try {
-			logic.createCoord("a", "b", "c@gmail.com");
+			logic.createCoord("id", "name", "email@gmail.com");
+			fail();
+		} catch (UnauthorizedAccessException e) {
+		}
+		
+		try {
+			logic.deleteCoord("id");
 			fail();
 		} catch (UnauthorizedAccessException e) {
 		}
@@ -234,23 +240,6 @@ public class LogicTest extends BaseTestCase {
 			assertEquals(Common.ERRORCODE_INVALID_CHARS, e.errorCode);
 			BaseTestCase.assertContains("Google ID", e.getMessage());
 		}
-		
-	
-		
-
-	}
-
-	private void logInAsUnregisteredUser(String userId) {
-		helper.setEnvIsLoggedIn(true);
-		helper.setEnvEmail(userId);
-		helper.setEnvAuthDomain("gmail.com");
-	}
-
-	private void logInAsAdmin(String userId) {
-		helper.setEnvIsLoggedIn(true);
-		helper.setEnvIsAdmin(true);
-		helper.setEnvEmail(userId);
-		helper.setEnvAuthDomain("gmail.com");
 	}
 
 	@Test
@@ -440,6 +429,7 @@ public class LogicTest extends BaseTestCase {
 
 		CoordData coord = dataBundle.coords.get("typicalCoord1");
 		// delete, to avoid clashes with existing data
+		logInAsAdmin("admin.user");
 		logic.deleteCoord(coord.id);
 
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
@@ -2544,6 +2534,19 @@ public class LogicTest extends BaseTestCase {
 
 	@SuppressWarnings("unused")
 	private void ____helper_methods_________________________________________() {
+	}
+	
+	private void logInAsUnregisteredUser(String userId) {
+		helper.setEnvIsLoggedIn(true);
+		helper.setEnvEmail(userId);
+		helper.setEnvAuthDomain("gmail.com");
+	}
+
+	private void logInAsAdmin(String userId) {
+		helper.setEnvIsLoggedIn(true);
+		helper.setEnvIsAdmin(true);
+		helper.setEnvEmail(userId);
+		helper.setEnvAuthDomain("gmail.com");
 	}
 
 	private void verifyNullParameterDetectedCorrectly(

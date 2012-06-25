@@ -138,6 +138,9 @@ public class Logic {
 	}
 
 	public void deleteCoord(String coordId) {
+		if(!isAdminLoggedIn()){
+			throw new UnauthorizedAccessException();
+		}
 		List<Course> coordCourseList = Courses.inst().getCoordinatorCourseList(
 				coordId);
 		for (Course course : coordCourseList) {
