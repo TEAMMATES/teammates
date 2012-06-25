@@ -244,6 +244,13 @@ public class Logic {
 		if (coordId == null) {
 			return null;
 		}
+		
+		boolean isAuthorized = isAdminLoggedIn() 
+				|| (isCoordLoggedIn() && isOwnId(coordId));
+		
+		if (!isAuthorized) {
+			throw new UnauthorizedAccessException();
+		}
 
 		List<Course> courseList = Courses.inst().getCoordinatorCourseList(
 				coordId);

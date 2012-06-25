@@ -377,6 +377,7 @@ public class LogicTest extends BaseTestCase {
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
 		String methodName = "getCourseDetailsListForCoord";
 		Object[] params = new Object[] { "idOfTypicalCoord1" };
+		
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
 
@@ -469,8 +470,32 @@ public class LogicTest extends BaseTestCase {
 	public void testGetEvalListForCoord() throws Exception {
 		printTestCaseHeader();
 		restoreTypicalDataInDatastore();
+		
+		______TS("authentication");
 
-		// coord with 3 Evals
+		Class<?>[] paramTypes = new Class<?>[] { String.class };
+		String methodName = "getEvaluationsListForCoord";
+		Object[] params = new Object[] { "idOfTypicalCoord1" };
+		
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		// coord does not own the given coordId
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, new Object[] { "diff-id" });
+
+		// coord owns the given id
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+		
+		______TS("typical case, coord has 3 evaluations");
+
 		CoordData coord1 = dataBundle.coords.get("typicalCoord1");
 		ArrayList<EvaluationData> evalList = logic
 				.getEvaluationsListForCoord(coord1.id);
@@ -479,7 +504,10 @@ public class LogicTest extends BaseTestCase {
 			assertTrue(ed.course.contains("Coord1"));
 		}
 
-		// coord with 1 eval
+		______TS("coord has 1 evaluation");
+		
+		loginAsAdmin("admin.user");
+		
 		CoordData coord2 = dataBundle.coords.get("typicalCoord2");
 		evalList = logic.getEvaluationsListForCoord(coord2.id);
 		assertEquals(1, evalList.size());
@@ -487,16 +515,18 @@ public class LogicTest extends BaseTestCase {
 			assertTrue(ed.course.contains("Coord2"));
 		}
 
-		// coord with 0 eval
+		______TS("coord has 0 evaluations");
+		
 		CoordData coord3 = dataBundle.coords.get("typicalCoord3");
-		loginUser(coord3.id);
 		evalList = logic.getEvaluationsListForCoord(coord3.id);
 		assertEquals(0, evalList.size());
 
-		// null parameter
+		______TS("null parameters");
+		
 		assertEquals(null, logic.getEvaluationsListForCoord(null));
 
-		// non-existent coord
+		______TS("non-existent coord");
+		
 		try {
 			logic.getEvaluationsListForCoord("non-existent");
 			fail();
