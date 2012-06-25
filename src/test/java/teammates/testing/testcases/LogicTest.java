@@ -1053,11 +1053,37 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetTeamsForCourse() throws Exception {
 		printTestCaseHeader();
+		
+		______TS("authentication");
+		
+		restoreTypicalDataInDatastore();
+		
+		String methodName = "getTeamsForCourse";
+		Class<?>[] paramTypes = new Class<?>[] { String.class };
+		Object[] params = new Object[] { "idOfCourse1OfCoord1"};
+		
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		//course belongs to a different coord
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, new Object[] { "idOfCourse1OfCoord2"});
+		
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+
+		______TS("typical case");
+		
 		restoreTypicalDataInDatastore();
 		
 		loginAsAdmin("admin.user");
 
-		// testing for typical course
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
 		logic.createStudent(new StudentData("|s1|s1@e|", course.id));
 		logic.createStudent(new StudentData("|s2|s2@e|", course.id));
@@ -1079,19 +1105,24 @@ public class LogicTest extends BaseTestCase {
 		assertEquals("s1@e", courseAsTeams.loners.get(0).email);
 		assertEquals("s2@e", courseAsTeams.loners.get(1).email);
 
-		// try again without the loners
+		______TS("without loners");
+		
+		//TODO: remove this if we don't allow loners
+		
 		restoreTypicalDataInDatastore();
 		courseAsTeams = logic.getTeamsForCourse(course.id);
 		assertEquals(4, courseAsTeams.teams.get(0).students.size());
 		assertEquals(0, courseAsTeams.loners.size());
 
 		assertEquals(null, logic.getTeamsForCourse(null));
+		
+		______TS("course without teams");
 
-		// course without teams
 		logic.createCourse("coord1", "course1", "Course 1");
 		assertEquals(0, logic.getTeamsForCourse("course1").teams.size());
+		
+		______TS("non-existent course");
 
-		// non-existent course
 		try {
 			logic.getTeamsForCourse("non-existent");
 			fail();

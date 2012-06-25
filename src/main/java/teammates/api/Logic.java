@@ -507,13 +507,17 @@ public class Logic {
 	 * @return The CourseData object that is returned will contain attributes
 	 *         teams(type:TeamData) and loners(type:StudentData)
 	 * @throws EntityDoesNotExistException
-	 *             if the course does not exist
+	 *             if the course does not exist <br>
+	 * Access : course owner and above
 	 */
 	public CourseData getTeamsForCourse(String courseId)
 			throws EntityDoesNotExistException {
 		if (courseId == null) {
 			return null;
 		}
+		
+		verifyCourseOwnerOrAbove(courseId);
+		
 		List<StudentData> students = getStudentListForCourse(courseId);
 		Courses.sortByTeamName(students);
 
