@@ -985,6 +985,33 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testSendRegistrationInviteForCourse() throws Exception {
 		printTestCaseHeader();
+		
+		______TS("authentication");
+		
+		restoreTypicalDataInDatastore();
+		
+		String methodName = "sendRegistrationInviteForCourse";
+		Class<?>[] paramTypes = new Class<?>[] { String.class };
+		Object[] params = new Object[] { "idOfCourse1OfCoord1"};
+		
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		//course belongs to a different coord
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, new Object[] { "idOfCourse1OfCoord2"});
+		
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+
+		______TS("all students already registered");
+		
 		restoreTypicalDataInDatastore();
 		CourseData course1 = dataBundle.courses.get("course1OfCoord1");
 
@@ -992,6 +1019,8 @@ public class LogicTest extends BaseTestCase {
 		logic.sendRegistrationInviteForCourse(course1.id);
 		assertEquals(0, getNumberOfEmailTasksInQueue());
 
+		______TS("some students not registered");
+		
 		// modify two students to make them 'unregistered' and send again
 		StudentData student1InCourse1 = dataBundle.students
 				.get("student1InCourse1");
@@ -1006,11 +1035,13 @@ public class LogicTest extends BaseTestCase {
 		verifyRegistrationEmailToStudent(student1InCourse1);
 		verifyRegistrationEmailToStudent(student2InCourse1);
 
-		// send again
+		______TS("send again to the same class");
+		
 		logic.sendRegistrationInviteForCourse(course1.id);
 		assertEquals(4, getNumberOfEmailTasksInQueue());
 
-		// try null parameters
+		______TS("null parameters");
+		
 		try {
 			logic.sendRegistrationInviteForCourse(null);
 			fail();

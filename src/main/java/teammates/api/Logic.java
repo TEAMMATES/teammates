@@ -423,12 +423,18 @@ public class Logic {
 		return returnList;
 	}
 
+	/**
+	 * Access: course owner and above
+	 */
 	public void sendRegistrationInviteForCourse(String courseId)
 			throws InvalidParametersException {
 		if (courseId == null) {
 			throw new InvalidParametersException(
 					Common.ERRORCODE_NULL_PARAMETER, "Course ID cannot be null");
 		}
+		
+		verifyCourseOwnerOrAbove(courseId);
+		
 		List<Student> studentList = Courses.inst().getUnregisteredStudentList(
 				courseId);
 
@@ -492,7 +498,6 @@ public class Logic {
 			}
 		}
 
-		// TODO: adjust team profiles
 		return returnList;
 	}
 
