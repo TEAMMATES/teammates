@@ -442,8 +442,14 @@ public class Logic {
 		}
 	}
 
+	/**
+	 * Access: course owner and above
+	 */
 	public List<StudentData> enrollStudents(String enrollLines, String courseId)
 			throws EnrollException, EntityDoesNotExistException {
+		
+		verifyCourseOwnerOrAbove(courseId);
+		
 		if (enrollLines == null || courseId == null) {
 			throw new EnrollException(Common.ERRORCODE_NULL_PARAMETER,
 					(enrollLines == null ? "Enroll text" : "Course ID")

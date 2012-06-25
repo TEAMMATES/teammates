@@ -857,6 +857,33 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testEnrollStudents() throws Exception {
 		printTestCaseHeader();
+
+		______TS("authentication");
+		
+		restoreTypicalDataInDatastore();
+		
+		String methodName = "enrollStudents";
+		Class<?>[] paramTypes = new Class<?>[] { String.class , String.class};
+		Object[] params = new Object[] {"t|n|e@c|c", "idOfCourse1OfCoord1"};
+		
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		//course belongs to a different coord
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, new Object[] { "t|n|e@c|c", "idOfCourse1OfCoord2"});
+		
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+		
+		______TS("all valid students, but contains blank lines");
+		
 		restoreTypicalDataInDatastore();
 
 		String coordId = "coordForEnrollTesting";
@@ -867,7 +894,6 @@ public class LogicTest extends BaseTestCase {
 		logic.createCourse(coordId, courseId, "Course for Enroll Testing");
 		String EOL = Common.EOL;
 
-		// all valid students, but contains blank lines
 		String line0 = "t1|n1|e1@g|c1";
 		String line1 = " t2|  n2|  e2@g|  c2";
 		String line2 = "t3|n3|e3@g|c3  ";
@@ -887,7 +913,8 @@ public class LogicTest extends BaseTestCase {
 		verifyEnrollmentResultForStudent(new StudentData(line4, courseId),
 				enrollResults.get(4), StudentData.UpdateStatus.NEW);
 
-		// includes a mix of unmodified, modified, and new
+		______TS("includes a mix of unmodified, modified, and new");
+		
 		String line0_1 = "t3|modified name|e3@g|c3";
 		String line5 = "t6|n6|e6@g|c6";
 		lines = line0 + EOL + line0_1 + EOL + line1 + EOL + line5;
@@ -907,7 +934,9 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(StudentData.UpdateStatus.NOT_IN_ENROLL_LIST,
 				enrollResults.get(5).updateStatus);
 
-		// includes an incorrect line, no changes should be done to the database
+		______TS("includes an incorrect line");
+		
+		//no changes should be done to the database
 		String incorrectLine = "incorrectly formatted line";
 		lines = "t7|n7|e7@g|c7" + EOL + incorrectLine + EOL + line2 + EOL
 				+ line3;
@@ -919,7 +948,8 @@ public class LogicTest extends BaseTestCase {
 		}
 		assertEquals(6, logic.getStudentListForCourse(courseId).size());
 
-		// try null parameters
+		______TS("null parameters");
+		
 		try {
 			logic.enrollStudents(null, courseId);
 			fail();
@@ -936,7 +966,8 @@ public class LogicTest extends BaseTestCase {
 			BaseTestCase.assertContains("Course ID", e.getMessage());
 		}
 
-		// same student added, modified and unmodified in one shot
+		______TS("same student added, modified and unmodified in one shot");
+		
 		logic.createCourse("tes.coord", "tes.course", "TES Course");
 		lines = "t8|n8|e8@g|c1" + EOL + "t8|n8a|e8@g|c1" + EOL
 				+ "t8|n8a|e8@g|c1";
