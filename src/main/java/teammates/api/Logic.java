@@ -98,13 +98,42 @@ public class Logic {
 		UserData loggedInUser = getLoggedInUser();
 		return loggedInUser == null ? false : loggedInUser.isCoord;
 	}
+	
+	public boolean isStudentLoggedIn() {
+		UserData loggedInUser = getLoggedInUser();
+		return loggedInUser == null ? false : loggedInUser.isStudent;
+	}
 
 	private boolean isOwnId(String userId) {
 		UserData loggedInUser = getLoggedInUser();
 		return loggedInUser == null ? false : loggedInUser.id
 				.equalsIgnoreCase(userId);
 	}
-
+	
+	private void verifyCourseOwnerOrAbove(String coordId) {
+		boolean isAuthorized = isAdminLoggedIn() 
+				|| (isCoordLoggedIn() && isOwnId(coordId));
+		
+		if (!isAuthorized) {
+			throw new UnauthorizedAccessException();
+		}
+	}
+	
+	private void verifyRegisteredUser() {
+		boolean isAuthorized = isAdminLoggedIn() 
+				|| isCoordLoggedIn() || isStudentLoggedIn();
+		
+		if (!isAuthorized)  {
+			throw new UnauthorizedAccessException();
+		}
+	}
+	
+	private void verifyAdminLoggedIn() {
+		if (!isAdminLoggedIn())  {
+			throw new UnauthorizedAccessException();
+		}
+	}
+	
 	@SuppressWarnings("unused")
 	private void ____COORD_level_methods____________________________________() {
 	}
@@ -115,9 +144,7 @@ public class Logic {
 	public void createCoord(String coordID, String coordName, String coordEmail)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 
-		if (!isAdminLoggedIn()) {
-			throw new UnauthorizedAccessException();
-		}
+		verifyAdminLoggedIn();
 
 		Common.validateEmail(coordEmail);
 		Common.validateCoordName(coordName);
@@ -152,9 +179,7 @@ public class Logic {
 	 */
 	public void deleteCoord(String coordId) {
 
-		if (!isAdminLoggedIn()) {
-			throw new UnauthorizedAccessException();
-		}
+		verifyAdminLoggedIn();
 
 		List<Course> coordCourseList = Courses.inst().getCoordinatorCourseList(
 				coordId);
@@ -268,14 +293,7 @@ public class Logic {
 		return evaluationDetailsList;
 	}
 
-	private void verifyCourseOwnerOrAbove(String coordId) {
-		boolean isAuthorized = isAdminLoggedIn() 
-				|| (isCoordLoggedIn() && isOwnId(coordId));
-		
-		if (!isAuthorized) {
-			throw new UnauthorizedAccessException();
-		}
-	}
+	
 
 	@SuppressWarnings("unused")
 	private void ____COURSE_level_methods__________________________________() {
@@ -296,7 +314,18 @@ public class Logic {
 		Courses.inst().addCourse(courseId, courseName, coordId);
 	}
 
+	/**
+	 * AccessLevel : any registered user (because it is too expensive to check
+	 *    if a student is in the course)
+	 * @return returns null if course does not exist.
+	 */
 	public CourseData getCourse(String courseId) {
+		if(courseId==null){
+			return null;
+		}
+		
+		verifyRegisteredUser();
+		
 		Course c = Courses.inst().getCourse(courseId);
 		return (c == null ? null : new CourseData(c.getID(), c.getName(),
 				c.getCoordinatorID()));
@@ -307,6 +336,7 @@ public class Logic {
 		// TODO: very inefficient. Should be optimized.
 
 		CourseData course = getCourse(courseId);
+		
 		if (course == null) {
 			throw new EntityDoesNotExistException("The course does not exist: "
 					+ courseId);

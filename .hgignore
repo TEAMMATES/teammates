@@ -20,3 +20,4 @@ chromedriver*
 *.db
 test.txt
 doc/*
+src/main/webapp/WEB-INF/classes/META-INF/persistence.xml
