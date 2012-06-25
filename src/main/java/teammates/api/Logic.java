@@ -350,12 +350,17 @@ public class Logic {
 				c.getCoordinatorID()));
 	}
 
+	/**
+	 * Access: course owner and above
+	 * @throws EntityDoesNotExistException
+	 */
 	public CourseData getCourseDetails(String courseId)
 			throws EntityDoesNotExistException {
-		// TODO: very inefficient. Should be optimized.
+		
 		
 		verifyCourseOwnerOrAbove(courseId);
 
+		// TODO: very inefficient. Should be optimized.
 		CourseData course = getCourse(courseId);
 		
 		if (course == null) {
@@ -373,10 +378,16 @@ public class Logic {
 				+ "not allow editing courses");
 	}
 
+	/**
+	 * Access: course owner and above
+	 */
 	public void deleteCourse(String courseId) {
 		if (courseId == null) {
 			return;
 		}
+		
+		verifyCourseOwnerOrAbove(courseId);
+		
 		Evaluations.inst().deleteEvaluations(courseId);
 		Courses.inst().deleteCourse(courseId);
 	}

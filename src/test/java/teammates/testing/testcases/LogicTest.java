@@ -658,6 +658,9 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetCourseDetails() throws Exception {
 		printTestCaseHeader();
+		
+		______TS("authentication");
+		
 		restoreTypicalDataInDatastore();
 		
 		String methodName = "getCourseDetails";
@@ -725,9 +728,37 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testDeleteCourse() throws Exception {
 		printTestCaseHeader();
+
+		______TS("authentication");
+		
+		restoreTypicalDataInDatastore();
+		
+		String methodName = "deleteCourse";
+		Class<?>[] paramTypes = new Class<?>[] { String.class };
+		Object[] params = new Object[] { "idOfCourse1OfCoord1"};
+		
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		//course belongs to a different coord
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, new Object[] { "idOfCourse1OfCoord2"});
+		
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+
+		______TS("typical case");
+
 		restoreTypicalDataInDatastore();
 
 		loginAsAdmin("admin.user");
+		
 		CourseData course1OfCoord = dataBundle.courses.get("course1OfCoord1");
 
 		// ensure there are entities in the datastore under this course
@@ -750,9 +781,13 @@ public class LogicTest extends BaseTestCase {
 		verifyAbsentInDatastore(dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1"));
 
+		______TS("non-existent");
+		
 		// try to delete again. Should fail silently.
 		logic.deleteCourse(course1OfCoord.id);
 
+		______TS("null parameter");
+		
 		// try null parameter. Should fail silently.
 		logic.deleteCourse(null);
 	}
