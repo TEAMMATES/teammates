@@ -127,6 +127,9 @@ public class Logic {
 	}
 
 	public CoordData getCoord(String coordID) {
+		if(!isUserLoggedIn()){
+			throw new UnauthorizedAccessException();
+		}
 		Coordinator coord = Accounts.inst().getCoordinator(coordID);
 		return (coord == null ? null : new CoordData(coord.getGoogleID(),
 				coord.getName(), coord.getEmail()));

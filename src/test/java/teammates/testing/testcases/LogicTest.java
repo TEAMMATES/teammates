@@ -174,7 +174,7 @@ public class LogicTest extends BaseTestCase {
 		
 		______TS("unauthorized access");
 		
-		logInAsUnregisteredUser("unregistered.user");
+		loginUser("unregistered.user");
 		
 		try {
 			logic.createCoord("id", "name", "email@gmail.com");
@@ -188,7 +188,7 @@ public class LogicTest extends BaseTestCase {
 		} catch (UnauthorizedAccessException e) {
 		}
 		
-		logInAsAdmin("admin.user");
+		loginAsAdmin("admin.user");
 
 		______TS("success case");
 		
@@ -243,9 +243,25 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testGetCoord() {
-		// already tested in testCreateCoord
+	public void testGetCoord() throws Exception {
+		// mostly tested in testCreateCoord
+		
+		______TS("unauthorized: not logged in");
+		
+		try {
+			logic.getCoord("id");
+			fail();
+		} catch (UnauthorizedAccessException e) {
+		}
+		
+		______TS("authorized: logged in");
+		
+		loginUser("any.user");
+		logic.getCoord("id");
+		
 	}
+
+
 
 	@Test
 	public void testEditCoord() {
@@ -274,6 +290,7 @@ public class LogicTest extends BaseTestCase {
 
 		// coord with 0 courses
 		coord = dataBundle.coords.get("typicalCoord3");
+		loginUser(coord.id);
 		courseList = logic.getCourseListForCoord(coord.id);
 		assertEquals(0, courseList.size());
 
@@ -338,7 +355,7 @@ public class LogicTest extends BaseTestCase {
 						.size());
 
 		// coord with 0 courses
-		logInAsAdmin("admin.user");
+		loginAsAdmin("admin.user");
 		logic.createCoord("coordWith0course", "Coord with 0 courses",
 				"coordWith0course@gmail.com");
 		courseListForCoord = logic
@@ -382,6 +399,7 @@ public class LogicTest extends BaseTestCase {
 
 		// coord with 0 eval
 		CoordData coord3 = dataBundle.coords.get("typicalCoord3");
+		loginUser(coord3.id);
 		evalList = logic.getEvaluationsListForCoord(coord3.id);
 		assertEquals(0, evalList.size());
 
@@ -429,7 +447,7 @@ public class LogicTest extends BaseTestCase {
 
 		CoordData coord = dataBundle.coords.get("typicalCoord1");
 		// delete, to avoid clashes with existing data
-		logInAsAdmin("admin.user");
+		loginAsAdmin("admin.user");
 		logic.deleteCoord(coord.id);
 
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
@@ -609,7 +627,7 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		String coordId = "coordForEnrollTesting";
-		logInAsAdmin("admin.user");
+		loginAsAdmin("admin.user");
 		logic.createCoord(coordId, "Coord for Enroll Testing",
 				"coordForEnrollTestin@gmail.com");
 		String courseId = "courseForEnrollTest";
@@ -1003,7 +1021,7 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		String coordId = "coordForEnrollTesting";
-		logInAsAdmin("admin.user");
+		loginAsAdmin("admin.user");
 		logic.deleteCoord(coordId);
 		logic.createCoord(coordId, "Coord for Enroll Testing",
 				"coordForEnrollTestin@gmail.com");
@@ -2536,17 +2554,16 @@ public class LogicTest extends BaseTestCase {
 	private void ____helper_methods_________________________________________() {
 	}
 	
-	private void logInAsUnregisteredUser(String userId) {
+	private void loginUser(String userId) {
 		helper.setEnvIsLoggedIn(true);
 		helper.setEnvEmail(userId);
 		helper.setEnvAuthDomain("gmail.com");
+		helper.setEnvIsAdmin(false);
 	}
 
-	private void logInAsAdmin(String userId) {
-		helper.setEnvIsLoggedIn(true);
+	private void loginAsAdmin(String userId) {
+		loginUser(userId);
 		helper.setEnvIsAdmin(true);
-		helper.setEnvEmail(userId);
-		helper.setEnvAuthDomain("gmail.com");
 	}
 
 	private void verifyNullParameterDetectedCorrectly(
@@ -2706,6 +2723,7 @@ public class LogicTest extends BaseTestCase {
 
 	private void verifyTfsListForCoord(String coordId, int noOfTfs)
 			throws EntityDoesNotExistException {
+		loginUser(coordId);
 		List<TfsData> tfsList = logic.getTfsListForCoord(coordId);
 		assertEquals(noOfTfs, tfsList.size());
 		for (TfsData tfs : tfsList) {
