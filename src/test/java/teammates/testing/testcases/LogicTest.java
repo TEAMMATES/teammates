@@ -29,6 +29,7 @@ import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
 import teammates.api.JoinCourseException;
 import teammates.api.Logic;
+import teammates.api.UnauthorizedAccessException;
 import teammates.datatransfer.CoordData;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.DataBundle;
@@ -170,7 +171,21 @@ public class LogicTest extends BaseTestCase {
 	public void testCreateCoord() throws InvalidParametersException,
 			EntityAlreadyExistsException {
 		printTestCaseHeader();
+		
+		______TS("unauthorized access");
+		
+		logInAsUnregisteredUser("unregistered.user");
+		
+		try {
+			logic.createCoord("a", "b", "c@gmail.com");
+			fail();
+		} catch (UnauthorizedAccessException e) {
+		}
+		
+		logInAsAdmin("admin.user");
 
+		______TS("success case");
+		
 		CoordData coord = dataBundle.coords.get("typicalCoord1");
 		// delete, to avoid clashes with existing data
 		logic.deleteCoord(coord.id);
@@ -192,7 +207,10 @@ public class LogicTest extends BaseTestCase {
 		// delete non-existent (fails silently)
 		logic.deleteCoord(coord.id);
 
-		// try one invalid input for each parameter
+		______TS("invalid parameters");
+		
+		//we check one invalid value for each parameter.
+		
 		try {
 			logic.createCoord("valid-id", "", "valid@email.com");
 			fail();
@@ -216,7 +234,23 @@ public class LogicTest extends BaseTestCase {
 			assertEquals(Common.ERRORCODE_INVALID_CHARS, e.errorCode);
 			BaseTestCase.assertContains("Google ID", e.getMessage());
 		}
+		
+	
+		
 
+	}
+
+	private void logInAsUnregisteredUser(String userId) {
+		helper.setEnvIsLoggedIn(true);
+		helper.setEnvEmail(userId);
+		helper.setEnvAuthDomain("gmail.com");
+	}
+
+	private void logInAsAdmin(String userId) {
+		helper.setEnvIsLoggedIn(true);
+		helper.setEnvIsAdmin(true);
+		helper.setEnvEmail(userId);
+		helper.setEnvAuthDomain("gmail.com");
 	}
 
 	@Test
@@ -315,6 +349,7 @@ public class LogicTest extends BaseTestCase {
 						.size());
 
 		// coord with 0 courses
+		logInAsAdmin("admin.user");
 		logic.createCoord("coordWith0course", "Coord with 0 courses",
 				"coordWith0course@gmail.com");
 		courseListForCoord = logic
@@ -584,6 +619,7 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		String coordId = "coordForEnrollTesting";
+		logInAsAdmin("admin.user");
 		logic.createCoord(coordId, "Coord for Enroll Testing",
 				"coordForEnrollTestin@gmail.com");
 		String courseId = "courseForEnrollTest";
@@ -977,6 +1013,7 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		String coordId = "coordForEnrollTesting";
+		logInAsAdmin("admin.user");
 		logic.deleteCoord(coordId);
 		logic.createCoord(coordId, "Coord for Enroll Testing",
 				"coordForEnrollTestin@gmail.com");

@@ -15,6 +15,7 @@ import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.Logic;
 import teammates.api.TeammatesException;
+import teammates.api.UnauthorizedAccessException;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.EvaluationData;
 import teammates.datatransfer.StudentData;
@@ -67,6 +68,10 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		} catch (EntityDoesNotExistException e){
 			log.warning(e.getMessage());
 			resp.sendRedirect(Common.JSP_ENTITY_NOT_FOUND_PAGE);
+			return;
+		}  catch (UnauthorizedAccessException e){
+			log.warning("Unauthorize access attempted:"+ e.getMessage());
+			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return;
 		} catch (Exception e){
 			log.severe("Unexpected exception: "+TeammatesException.stackTraceToString(e));

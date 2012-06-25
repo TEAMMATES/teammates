@@ -113,10 +113,17 @@ public class Logic {
 
 	public void createCoord(String coordID, String coordName, String coordEmail)
 			throws EntityAlreadyExistsException, InvalidParametersException {
+		if(!isAdminLoggedIn()){
+			throw new UnauthorizedAccessException();
+		}
 		Common.validateEmail(coordEmail);
 		Common.validateCoordName(coordName);
 		Common.validateGoogleId(coordID);
 		Accounts.inst().addCoordinator(coordID, coordName, coordEmail);
+	}
+
+	public boolean isAdminLoggedIn() {
+		return getLoggedInUser().isAdmin;
 	}
 
 	public CoordData getCoord(String coordID) {

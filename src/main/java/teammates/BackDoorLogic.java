@@ -206,7 +206,9 @@ public class BackDoorLogic extends Logic{
 		return null;
 	}
 
-
-
+	@Override
+	public boolean isAdminLoggedIn() {
+		return true;
+	}
 
 }
