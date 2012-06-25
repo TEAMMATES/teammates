@@ -59,6 +59,11 @@ import com.google.gson.Gson;
 public class LogicTest extends BaseTestCase {
 
 	final static Logic logic = new Logic();
+	private static final int USER_TYPE_NOT_LOGGED_IN = -1;
+	private static final int USER_TYPE_UNREGISTERED = 0;
+	private static final int USER_TYPE_STUDENT = 1;
+	private static final int USER_TYPE_COORD = 2;
+
 	private static Gson gson = Common.getTeammatesGson();
 	static String jsonString;
 
@@ -173,36 +178,22 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("unauthorized access");
 
-		// not logged in
-		try {
-			logic.createCoord("id", "name", "email@gmail.com");
-			fail();
-		} catch (UnauthorizedAccessException e) {
-		}
+		Class<?>[] paramTypes = new Class[] { String.class, String.class,
+				String.class };
+		Object[] params = new Object[] { "id", "name", "email@gmail.com" };
+		String methodName = "createCoord";
 
-		// logged in but not registered
-		loginUser("unregistered.user");
-		try {
-			logic.createCoord("id", "name", "email@gmail.com");
-			fail();
-		} catch (UnauthorizedAccessException e) {
-		}
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, null,
+				paramTypes, params);
 
-		// logged in but student
-		loginUser("unregistered.user");
-		try {
-			logic.createCoord("id", "name", "email@gmail.com");
-			fail();
-		} catch (UnauthorizedAccessException e) {
-		}
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName,
+				"student1InCourse1", paramTypes, params);
 
-		// logged in but coord
-		loginAsCoord("idOfTypicalCoord1");
-		try {
-			logic.createCoord("id", "name", "email@gmail.com");
-			fail();
-		} catch (UnauthorizedAccessException e) {
-		}
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
 
 		______TS("success case");
 
@@ -260,19 +251,28 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetCoord() throws Exception {
 		// mostly tested in testCreateCoord
+		printTestCaseHeader();
+		restoreTypicalDataInDatastore();
 
 		______TS("unauthorized: not logged in");
 
-		try {
-			logic.getCoord("id");
-			fail();
-		} catch (UnauthorizedAccessException e) {
-		}
+		Class<?>[] paramTypes = new Class[] { String.class };
+		Object[] params = new Object[] { "id"};
+		String methodName = "getCoord";
 
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, null,
+				paramTypes, params);
+		
 		______TS("authorized: logged in");
 
-		loginUser("any.user");
-		logic.getCoord("id");
+		verifyCanAccess(USER_TYPE_UNREGISTERED, methodName,
+				"student1InCourse1", paramTypes, params);
+
+		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
 
 	}
 
@@ -283,34 +283,28 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testDeleteCoord() throws Exception {
+		printTestCaseHeader();
 		// mostly tested in testCreateCoord
 		
+		______TS("unauthorized");
+
 		restoreTypicalDataInDatastore();
 
-		// logged in but not admin
-		loginUser("unregistered.user");
-		try {
-			logic.deleteCoord("id");
-			fail();
-		} catch (UnauthorizedAccessException e) {
-		}
+		Class<?>[] paramTypes = new Class[] {String.class};
+		Object[] params = new Object[] { "id"};
+		String methodName = "deleteCoord";
 
-		// logged in but student
-		loginUser("unregistered.user");
-		try {
-			logic.deleteCoord("id");
-			fail();
-		} catch (UnauthorizedAccessException e) {
-		}
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, null,
+				paramTypes, params);
 
-		// logged in but coord
-		loginAsCoord("idOfTypicalCoord1");
-		try {
-			logic.deleteCoord("id");
-			fail();
-		} catch (UnauthorizedAccessException e) {
-		}
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName,
+				"student1InCourse1", paramTypes, params);
 
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
 	}
 
 	@Test
@@ -2498,42 +2492,6 @@ public class LogicTest extends BaseTestCase {
 		logic.editSubmissions(submissions);
 	}
 
-	private TeamData createTeamData(int[][] submissionValues) {
-		int teamSize = submissionValues.length;
-		TeamData team = new TeamData();
-		String courseId = "test-course";
-		String evaluationName = "test evaluation";
-		for (int i = 0; i < teamSize; i++) {
-			int studentIndex = i + 1;
-			StudentData s = new StudentData();
-			s.email = "s" + studentIndex + "@com";
-			s.name = "Student " + studentIndex;
-			s.course = courseId;
-			s.result = new EvalResultData();
-			team.students.add(s);
-			for (int j = 0; j < teamSize; j++) {
-				int peerIndex = j + 1;
-				String peerEmail = "s" + peerIndex + "@com";
-
-				SubmissionData outgoing = new SubmissionData();
-				outgoing.course = courseId;
-				outgoing.evaluation = evaluationName;
-				outgoing.points = submissionValues[i][j];
-				outgoing.reviewer = s.email;
-				outgoing.reviewer = peerEmail;
-				s.result.outgoing.add(outgoing);
-
-				SubmissionData incoming = new SubmissionData();
-				incoming.course = courseId;
-				incoming.evaluation = evaluationName;
-				incoming.points = submissionValues[j][i];
-				incoming.reviewer = peerEmail;
-				incoming.reviewer = s.email;
-				s.result.incoming.add(incoming);
-			}
-		}
-		return team;
-	}
 
 	private void verifyEvaluationInfoExistsInList(EvaluationData evaluation,
 			ArrayList<EvaluationData> evalInfoList) {
@@ -2715,6 +2673,50 @@ public class LogicTest extends BaseTestCase {
 		privateMethod.setAccessible(true);
 		Object[] params = new Object[] { course, evaluation, reviewer, reviewee };
 		return (SubmissionData) privateMethod.invoke(logic, params);
+	}
+
+	private void verifyCannotAccess(int userType, String methodName,
+			String userId, Class<?>[] paramTypes, Object[] params)
+			throws Exception {
+		verifyAccessLevel(false, userType, methodName,
+				userId, paramTypes, params);
+	}
+	
+	private void verifyCanAccess(int userType, String methodName,
+			String userId, Class<?>[] paramTypes, Object[] params)
+			throws Exception {
+		verifyAccessLevel(true, userType, methodName,
+				userId, paramTypes, params);
+	}
+	
+	private void verifyAccessLevel(boolean allowed, int userType, String methodName,
+			String userId, Class<?>[] paramTypes, Object[] params)
+			throws Exception {
+		Method method = Logic.class.getDeclaredMethod(methodName, paramTypes);
+		switch (userType) {
+		case USER_TYPE_NOT_LOGGED_IN:
+			break;
+		case USER_TYPE_UNREGISTERED:
+			loginUser(userId);
+			break;
+		case USER_TYPE_STUDENT:
+			loginAsStudent(userId);
+			break;
+		case USER_TYPE_COORD:
+			loginAsCoord(userId);
+			break;
+		}
+
+		try {
+			method.invoke(logic, params);
+			if(!allowed) {
+				fail();
+			}
+		} catch (Exception e) {
+			if(!allowed){
+				assertEquals(UnauthorizedAccessException.class, e.getCause().getClass());
+			}
+		}
 	}
 
 	private static SubmissionData createSubmission(int from, int to) {

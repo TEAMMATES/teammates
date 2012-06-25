@@ -98,12 +98,18 @@ public class Logic {
 		return userData;
 	}
 
-
+public boolean isAdminLoggedIn() {
+		UserData loggedInUser = getLoggedInUser();
+		return loggedInUser==null? false: loggedInUser.isAdmin;
+	}
 
 	@SuppressWarnings("unused")
 	private void ____COORD_level_methods____________________________________() {
 	}
 
+	/**
+	 * Access: admin only
+	 */
 	public void createCoord(String coordID, String coordName, String coordEmail)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 		
@@ -117,11 +123,9 @@ public class Logic {
 		Accounts.inst().addCoordinator(coordID, coordName, coordEmail);
 	}
 
-	public boolean isAdminLoggedIn() {
-		UserData loggedInUser = getLoggedInUser();
-		return loggedInUser==null? false: loggedInUser.isAdmin;
-	}
-
+	/**
+	 * Access: any logged in user
+	 */
 	public CoordData getCoord(String coordID) {
 		
 		if(!isUserLoggedIn()){
@@ -133,11 +137,17 @@ public class Logic {
 				coord.getName(), coord.getEmail()));
 	}
 
+	/**
+	 * Not implemented
+	 */
 	public void editCoord(CoordData coord) throws NotImplementedException {
 		throw new NotImplementedException("Not implemented because we do "
 				+ "not allow editing coordinators");
 	}
 
+	/**
+	 * Access: Admin only
+	 */
 	public void deleteCoord(String coordId) {
 		
 		if(!isAdminLoggedIn()){
@@ -156,14 +166,14 @@ public class Logic {
 	 * 
 	 * @param coordId
 	 * @return null if coordId is null
+	 * <br> Access level: Admin, Coord (for self)
 	 */
-
 	// TODO: return ArrayList instead?
-	// That's better probably ~Aldrian~
 	public HashMap<String, CourseData> getCourseListForCoord(String coordId)
 			throws EntityDoesNotExistException {
 		if (coordId == null)
 			return null;
+		
 		HashMap<String, CourseSummaryForCoordinator> courseSummaryListForCoord = Courses
 				.inst().getCourseSummaryListForCoord(coordId);
 		if (courseSummaryListForCoord.size() == 0) {

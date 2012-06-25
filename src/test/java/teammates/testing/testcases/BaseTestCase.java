@@ -342,6 +342,14 @@ public class BaseTestCase {
 		assertEquals(true, logic.getLoggedInUser().isCoord);
 		assertEquals(false, logic.getLoggedInUser().isAdmin);
 	}
+	
+	protected void loginAsStudent(String userId) {
+		loginUser(userId);
+		Logic logic = new Logic();
+		assertEquals(true, logic.getLoggedInUser().isStudent);
+		assertEquals(false, logic.getLoggedInUser().isCoord);
+		assertEquals(false, logic.getLoggedInUser().isAdmin);
+	}
 
 	protected static void print(String message){
 		System.out.println(message);
