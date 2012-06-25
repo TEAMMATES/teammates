@@ -75,12 +75,6 @@ public class Logic {
 		return (accounts.getUser() != null);
 	}
 
-	@Deprecated
-	public String getUserId() {
-		Accounts accounts = Accounts.inst();
-		return accounts.getUser().getNickname();
-	}
-
 	public UserData getLoggedInUser() {
 		Accounts accounts = Accounts.inst();
 		User user = accounts.getUser();
@@ -112,9 +106,11 @@ public class Logic {
 
 	public void createCoord(String coordID, String coordName, String coordEmail)
 			throws EntityAlreadyExistsException, InvalidParametersException {
+		
 		if(!isAdminLoggedIn()){
 			throw new UnauthorizedAccessException();
 		}
+		
 		Common.validateEmail(coordEmail);
 		Common.validateCoordName(coordName);
 		Common.validateGoogleId(coordID);
@@ -122,13 +118,16 @@ public class Logic {
 	}
 
 	public boolean isAdminLoggedIn() {
-		return getLoggedInUser().isAdmin;
+		UserData loggedInUser = getLoggedInUser();
+		return loggedInUser==null? false: loggedInUser.isAdmin;
 	}
 
 	public CoordData getCoord(String coordID) {
+		
 		if(!isUserLoggedIn()){
 			throw new UnauthorizedAccessException();
 		}
+		
 		Coordinator coord = Accounts.inst().getCoordinator(coordID);
 		return (coord == null ? null : new CoordData(coord.getGoogleID(),
 				coord.getName(), coord.getEmail()));
@@ -140,9 +139,11 @@ public class Logic {
 	}
 
 	public void deleteCoord(String coordId) {
+		
 		if(!isAdminLoggedIn()){
 			throw new UnauthorizedAccessException();
 		}
+		
 		List<Course> coordCourseList = Courses.inst().getCoordinatorCourseList(
 				coordId);
 		for (Course course : coordCourseList) {

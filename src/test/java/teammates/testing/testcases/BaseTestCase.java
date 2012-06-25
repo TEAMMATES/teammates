@@ -52,6 +52,8 @@ public class BaseTestCase {
 		}
 		Config.inst(buildProperties);
 	}
+	
+	LocalServiceTestHelper helper;
 
 	protected static String queueXmlFilePath = System.getProperty("user.dir")
 				+ File.separator + "src" + File.separator + "main" + File.separator
@@ -240,7 +242,8 @@ public class BaseTestCase {
 		return Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 	}
 
-	public static void restoreTypicalDataInDatastore() throws Exception {
+	public void restoreTypicalDataInDatastore() throws Exception {
+		loginAsAdmin("admin.user");
 		setGeneralLoggingLevel(Level.SEVERE);
 		// also reduce logging verbosity of these classes as we are going to
 		// use them intensively here.
@@ -258,6 +261,7 @@ public class BaseTestCase {
 		setLogLevelOfClass(BackDoorServlet.class, Level.FINE);
 		setLogLevelOfClass(BackDoor.class, Level.FINE);
 		setLogLevelOfClass(Logic.class, Level.FINE);
+		logoutUser();
 	}
 
 	//TODO: check if this bug is fixed in new SDK
@@ -315,6 +319,30 @@ public class BaseTestCase {
 		return json==null || json.equals("null");
 	}
 	
+	protected void loginUser(String userId) {
+		helper.setEnvIsLoggedIn(true);
+		helper.setEnvEmail(userId);
+		helper.setEnvAuthDomain("gmail.com");
+		helper.setEnvIsAdmin(false);
+	}
+	
+	protected void logoutUser() {
+		helper.setEnvIsLoggedIn(false);
+		helper.setEnvIsAdmin(false);
+	}
+
+	protected void loginAsAdmin(String userId) {
+		loginUser(userId);
+		helper.setEnvIsAdmin(true);
+	}
+
+	protected void loginAsCoord(String userId) {
+		loginUser(userId);
+		Logic logic = new Logic();
+		assertEquals(true, logic.getLoggedInUser().isCoord);
+		assertEquals(false, logic.getLoggedInUser().isAdmin);
+	}
+
 	protected static void print(String message){
 		System.out.println(message);
 	}

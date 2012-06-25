@@ -58,8 +58,7 @@ import com.google.gson.Gson;
 
 public class LogicTest extends BaseTestCase {
 
-	private LocalServiceTestHelper helper;
-	private final static Logic logic = new Logic();
+	final static Logic logic = new Logic();
 	private static Gson gson = Common.getTeammatesGson();
 	static String jsonString;
 
@@ -168,30 +167,46 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testCreateCoord() throws InvalidParametersException,
-			EntityAlreadyExistsException {
+	public void testCreateCoord() throws Exception {
 		printTestCaseHeader();
-		
+		restoreTypicalDataInDatastore();
+
 		______TS("unauthorized access");
-		
-		loginUser("unregistered.user");
-		
+
+		// not logged in
 		try {
 			logic.createCoord("id", "name", "email@gmail.com");
 			fail();
 		} catch (UnauthorizedAccessException e) {
 		}
-		
+
+		// logged in but not registered
+		loginUser("unregistered.user");
 		try {
-			logic.deleteCoord("id");
+			logic.createCoord("id", "name", "email@gmail.com");
 			fail();
 		} catch (UnauthorizedAccessException e) {
 		}
-		
-		loginAsAdmin("admin.user");
+
+		// logged in but student
+		loginUser("unregistered.user");
+		try {
+			logic.createCoord("id", "name", "email@gmail.com");
+			fail();
+		} catch (UnauthorizedAccessException e) {
+		}
+
+		// logged in but coord
+		loginAsCoord("idOfTypicalCoord1");
+		try {
+			logic.createCoord("id", "name", "email@gmail.com");
+			fail();
+		} catch (UnauthorizedAccessException e) {
+		}
 
 		______TS("success case");
-		
+
+		loginAsAdmin("admin.user");
 		CoordData coord = dataBundle.coords.get("typicalCoord1");
 		// delete, to avoid clashes with existing data
 		logic.deleteCoord(coord.id);
@@ -214,9 +229,9 @@ public class LogicTest extends BaseTestCase {
 		logic.deleteCoord(coord.id);
 
 		______TS("invalid parameters");
-		
-		//we check one invalid value for each parameter.
-		
+
+		// we check one invalid value for each parameter.
+
 		try {
 			logic.createCoord("valid-id", "", "valid@email.com");
 			fail();
@@ -245,23 +260,21 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetCoord() throws Exception {
 		// mostly tested in testCreateCoord
-		
+
 		______TS("unauthorized: not logged in");
-		
+
 		try {
 			logic.getCoord("id");
 			fail();
 		} catch (UnauthorizedAccessException e) {
 		}
-		
+
 		______TS("authorized: logged in");
-		
+
 		loginUser("any.user");
 		logic.getCoord("id");
-		
+
 	}
-
-
 
 	@Test
 	public void testEditCoord() {
@@ -269,8 +282,35 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testDeleteCoord() {
-		// already tested in testCreateCoord
+	public void testDeleteCoord() throws Exception {
+		// mostly tested in testCreateCoord
+		
+		restoreTypicalDataInDatastore();
+
+		// logged in but not admin
+		loginUser("unregistered.user");
+		try {
+			logic.deleteCoord("id");
+			fail();
+		} catch (UnauthorizedAccessException e) {
+		}
+
+		// logged in but student
+		loginUser("unregistered.user");
+		try {
+			logic.deleteCoord("id");
+			fail();
+		} catch (UnauthorizedAccessException e) {
+		}
+
+		// logged in but coord
+		loginAsCoord("idOfTypicalCoord1");
+		try {
+			logic.deleteCoord("id");
+			fail();
+		} catch (UnauthorizedAccessException e) {
+		}
+
 	}
 
 	@Test
@@ -309,7 +349,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetCourseDetailsListForCoord() throws Exception {
 		printTestCaseHeader();
-		
+
 		restoreTypicalDataInDatastore();
 
 		HashMap<String, CourseData> courseListForCoord = logic
@@ -414,7 +454,6 @@ public class LogicTest extends BaseTestCase {
 			BaseTestCase.assertContains("non-existent", e.getMessage());
 		}
 	}
-
 
 	@SuppressWarnings("unused")
 	private void ____COURSE_level_methods___________________________________() {
@@ -2397,21 +2436,8 @@ public class LogicTest extends BaseTestCase {
 		// method not implemented
 	}
 
-	
 	@SuppressWarnings("unused")
 	private void ____helper_methods_________________________________________() {
-	}
-	
-	private void loginUser(String userId) {
-		helper.setEnvIsLoggedIn(true);
-		helper.setEnvEmail(userId);
-		helper.setEnvAuthDomain("gmail.com");
-		helper.setEnvIsAdmin(false);
-	}
-
-	private void loginAsAdmin(String userId) {
-		loginUser(userId);
-		helper.setEnvIsAdmin(true);
 	}
 
 	private void verifyNullParameterDetectedCorrectly(
@@ -2543,7 +2569,6 @@ public class LogicTest extends BaseTestCase {
 		fail();
 	}
 
-
 	private void alterSubmission(SubmissionData submission) {
 		submission.points = submission.points + 10;
 		submission.p2pFeedback = new Text(submission.p2pFeedback.getValue()
@@ -2577,8 +2602,6 @@ public class LogicTest extends BaseTestCase {
 				logic.getEvaluation(evaluation.course, evaluation.name));
 	}
 
-	
-
 	public static void verifyPresentInDatastore(StudentData expectedStudent) {
 		StudentData actualStudent = logic.getStudent(expectedStudent.course,
 				expectedStudent.email);
@@ -2604,7 +2627,6 @@ public class LogicTest extends BaseTestCase {
 				expected.evaluation, expected.reviewer, expected.reviewee);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
-
 
 	public static void verifyPresentInDatastore(EvaluationData expected) {
 		EvaluationData actual = logic.getEvaluation(expected.course,
