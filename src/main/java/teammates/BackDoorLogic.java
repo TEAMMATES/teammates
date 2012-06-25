@@ -16,13 +16,8 @@ import teammates.datatransfer.CoordData;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.DataBundle;
 import teammates.datatransfer.EvaluationData;
-import teammates.datatransfer.StudentActionData;
 import teammates.datatransfer.StudentData;
 import teammates.datatransfer.SubmissionData;
-import teammates.datatransfer.TeamProfileData;
-import teammates.datatransfer.TfsData;
-import teammates.manager.Accounts;
-import teammates.manager.TeamForming;
 
 public class BackDoorLogic extends Logic{
 	
@@ -89,28 +84,6 @@ public class BackDoorLogic extends Logic{
 		createSubmissions(submissionsList);
 		log.fine("API Servlet added " + submissionsList.size() + " submissions");
 
-		HashMap<String, TfsData> tfsMap = dataBundle.teamFormingSessions;
-		for (TfsData tfs : tfsMap.values()) {
-			log.fine("API Servlet adding TeamFormingSession to course "
-					+ tfs.course);
-			createTfs(tfs);
-		}
-
-		HashMap<String, TeamProfileData> teamProfiles = dataBundle.teamProfiles;
-		for (TeamProfileData teamProfile : teamProfiles.values()) {
-			log.fine("API Servlet adding TeamProfile of " + teamProfile.team
-					+ " in course " + teamProfile.course);
-			createTeamProfile(teamProfile);
-		}
-
-		HashMap<String, StudentActionData> studentActions = dataBundle.studentActions;
-		for (StudentActionData studentAction : studentActions.values()) {
-			log.fine("API Servlet adding StudentActionData in course "
-					+ studentAction.course + " : "
-					+ studentAction.action.getValue());
-			createStudentAction(studentAction);
-		}
-
 		return Common.BACKEND_STATUS_SUCCESS;
 	}
 	
@@ -141,22 +114,6 @@ public class BackDoorLogic extends Logic{
 		return Common.getTeammatesGson().toJson(target);
 	}
 
-	public String getTfsAsJson(String courseId) {
-		TfsData tfs = getTfs(courseId);
-		return Common.getTeammatesGson().toJson(tfs);
-	}
-
-	public String getTeamProfileAsJson(String courseId, String teamName) {
-		TeamProfileData teamProfile = getTeamProfile(courseId, teamName);
-		return Common.getTeammatesGson().toJson(teamProfile);
-	}
-
-	public String getTeamFormingLogAsJson(String courseId)
-			throws EntityDoesNotExistException {
-		List<StudentActionData> teamFormingLogList = getStudentActions(courseId);
-		return Common.getTeammatesGson().toJson(teamFormingLogList);
-	}
-	
 	public void editStudentAsJson(String originalEmail, String newValues)
 			throws InvalidParametersException, EntityDoesNotExistException {
 		StudentData student = Common.getTeammatesGson().fromJson(newValues,
@@ -179,22 +136,6 @@ public class BackDoorLogic extends Logic{
 		editSubmissions(submissionList);
 	}
 
-	public void editTfsAsJson(String tfsJson)
-			throws EntityDoesNotExistException {
-		TfsData tfs = Common.getTeammatesGson()
-				.fromJson(tfsJson, TfsData.class);
-		TeamForming.inst().editTeamFormingSession(tfs.course, tfs.startTime,
-				tfs.endTime, tfs.gracePeriod, tfs.instructions,
-				tfs.profileTemplate, tfs.activated, tfs.timeZone);
-	}
-
-	public void editTeamProfileAsJson(String originalTeamName,
-			String teamProfileJson) throws EntityDoesNotExistException {
-		TeamProfileData teamProfile = Common.getTeammatesGson().fromJson(
-				teamProfileJson, TeamProfileData.class);
-		TeamForming.inst().editTeamProfile(teamProfile.course, "",
-				originalTeamName, teamProfile.team, teamProfile.profile);
-	}
 	
 	public List<MimeMessage> activateReadyEvaluations(){
 		//TODO:

@@ -415,26 +415,6 @@ public class LogicTest extends BaseTestCase {
 		}
 	}
 
-	@Test
-	public void testTfsListForCoord() throws Exception {
-		printTestCaseHeader();
-		restoreTypicalDataInDatastore();
-
-		// coord with 2 Tfs
-		verifyTfsListForCoord(dataBundle.coords.get("typicalCoord2").id, 2);
-		// coord with 0 Tfs
-		verifyTfsListForCoord(dataBundle.coords.get("typicalCoord3").id, 0);
-
-		// null parameters
-		assertEquals(null, logic.getTfsListForCoord(null));
-
-		try {
-			logic.getTfsListForCoord("non-existent");
-			fail();
-		} catch (EntityDoesNotExistException e) {
-			BaseTestCase.assertContains("non-existent", e.getMessage());
-		}
-	}
 
 	@SuppressWarnings("unused")
 	private void ____COURSE_level_methods___________________________________() {
@@ -565,8 +545,6 @@ public class LogicTest extends BaseTestCase {
 		verifyPresentInDatastore(dataBundle.students.get("student1InCourse1"));
 		verifyPresentInDatastore(dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1"));
-		verifyPresentInDatastore(dataBundle.teamFormingSessions
-				.get("tfsInCourse1"));
 
 		StudentData studentInCourse = dataBundle.students
 				.get("student1InCourse1");
@@ -581,8 +559,6 @@ public class LogicTest extends BaseTestCase {
 		verifyAbsentInDatastore(dataBundle.students.get("student1InCourse1"));
 		verifyAbsentInDatastore(dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1"));
-		verifyAbsentInDatastore(dataBundle.teamFormingSessions
-				.get("tfsInCourse1"));
 
 		// try to delete again. Should fail silently.
 		logic.deleteCourse(course1OfCoord.id);
@@ -769,14 +745,12 @@ public class LogicTest extends BaseTestCase {
 
 		String team1Id = "Team 1.1";
 		assertEquals(team1Id, courseAsTeams.teams.get(0).name);
-		assertEquals(team1Id, courseAsTeams.teams.get(0).profile.team);
 		assertEquals(4, courseAsTeams.teams.get(0).students.size());
 		assertEquals(team1Id, courseAsTeams.teams.get(0).students.get(0).team);
 		assertEquals(team1Id, courseAsTeams.teams.get(0).students.get(1).team);
 
 		String team2Id = "Team 1.2";
 		assertEquals(team2Id, courseAsTeams.teams.get(1).name);
-		assertEquals(team2Id, courseAsTeams.teams.get(1).profile.team);
 		assertEquals(1, courseAsTeams.teams.get(1).students.size());
 		assertEquals(team2Id, courseAsTeams.teams.get(1).students.get(0).team);
 
@@ -975,10 +949,6 @@ public class LogicTest extends BaseTestCase {
 				.get("submissionFromS1C1ToS1C1");
 		verifyPresentInDatastore(submissionFromS1C1ToS1C1);
 
-		// ensure student-to-be-deleted has some log entries
-		verifyPresenceOfTfsLogsForStudent(student2InCourse1.course,
-				student2InCourse1.email);
-
 		logic.deleteStudent(student2InCourse1.course, student2InCourse1.email);
 		verifyAbsentInDatastore(student2InCourse1);
 
@@ -993,14 +963,6 @@ public class LogicTest extends BaseTestCase {
 
 		// verify other student's submissions are intact
 		verifyPresentInDatastore(submissionFromS1C1ToS1C1);
-
-		// verify that log entries belonging to the student was deleted
-		verifyAbsenceOfTfsLogsForStudent(student2InCourse1.course,
-				student2InCourse1.email);
-
-		// verify that log entries belonging to another student remain intact
-		verifyPresenceOfTfsLogsForStudent(student1InCourse1.course,
-				student1InCourse1.email);
 
 		______TS("delete non-existent student");
 		// should fail silently.
@@ -2435,121 +2397,7 @@ public class LogicTest extends BaseTestCase {
 		// method not implemented
 	}
 
-	@SuppressWarnings("unused")
-	private void ____TFS_level_methods______________________________________() {
-	}
-
-	@Test
-	public void testCreateTfs() {
-		// TODO: implement this
-	}
-
-	@Test
-	public void testGetTfs() {
-		// TODO: implement this
-		// ensure LazyCreation
-	}
-
-	@Test
-	public void testEditTfs() throws Exception {
-		printTestCaseHeader();
-		restoreTypicalDataInDatastore();
-
-		TfsData tfs1 = dataBundle.teamFormingSessions.get("tfsInCourse1");
-		tfs1.gracePeriod = tfs1.gracePeriod + 1;
-		tfs1.instructions = tfs1.instructions + "x";
-		tfs1.profileTemplate = tfs1.profileTemplate + "y";
-		tfs1.startTime = Common.getDateOffsetToCurrentTime(1);
-		tfs1.endTime = Common.getDateOffsetToCurrentTime(2);
-		logic.editTfs(tfs1);
-		verifyPresentInDatastore(tfs1);
-
-		// TODO: more testing
-	}
-
-	@Test
-	public void testDeleteTfs() {
-		// TODO: implement this
-	}
-
-	@Test
-	public void testRenameTeam() throws Exception {
-		printTestCaseHeader();
-		restoreTypicalDataInDatastore();
-		StudentData student1InCourse1 = dataBundle.students
-				.get("student1InCourse1");
-		String originalTeamName = student1InCourse1.team;
-		String newTeamName = originalTeamName + "x";
-		String courseID = student1InCourse1.course;
-		verifyTeamNameChange(courseID, originalTeamName, newTeamName);
-
-		restoreTypicalDataInDatastore();
-		originalTeamName = student1InCourse1.team;
-		courseID = student1InCourse1.course;
-		verifyTeamNameChange(courseID, "nonExisentTeam", "newTeamName");
-
-		// TODO: more testing
-
-	}
-
-	@SuppressWarnings("unused")
-	private void ____TEAM_PROFILE_level_methods_____________________________() {
-	}
-
-	@Test
-	public void testCreateTeamProfile() {
-		// TODO: implement this
-	}
-
-	@Test
-	public void testGetTeamProfile() {
-		// TODO: implement this
-	}
-
-	@Test
-	public void testEditTeamProfile() throws Exception {
-		printTestCaseHeader();
-		restoreTypicalDataInDatastore();
-
-		TeamProfileData teamProfile1 = dataBundle.teamProfiles
-				.get("profileOfTeam1.1");
-		String originalTeamName = teamProfile1.team;
-		teamProfile1.team = teamProfile1.team + "new";
-		teamProfile1.profile = new Text(teamProfile1.profile.getValue() + "x");
-		logic.editTeamProfile(originalTeamName, teamProfile1);
-		verifyPresentInDatastore(teamProfile1);
-
-	}
-
-	@Test
-	public void testDeleteTeamProfile() {
-		// TODO: implement this
-	}
-
-	@SuppressWarnings("unused")
-	private void ____TEAM_FORMING_LOG_level_methods_________________________() {
-	}
-
-	@Test
-	public void testCreateTeamFormingLogEntry() {
-		// TODO: implement this
-	}
-
-	@Test
-	public void testGetTeamFormingLogEntry() {
-		// TODO: implement this
-	}
-
-	@Test
-	public void testEditTeamFormingLogEntry() {
-		// method not implemented
-	}
-
-	@Test
-	public void testDeleteTeamFormingLogEntry() {
-		// TODO: implement this
-	}
-
+	
 	@SuppressWarnings("unused")
 	private void ____helper_methods_________________________________________() {
 	}
@@ -2695,41 +2543,6 @@ public class LogicTest extends BaseTestCase {
 		fail();
 	}
 
-	private void verifyTeamNameChange(String courseID, String originalTeamName,
-			String newTeamName) throws InvalidParametersException,
-			EntityDoesNotExistException {
-		List<StudentData> studentsInClass = logic
-				.getStudentListForCourse(courseID);
-		List<StudentData> studentsInTeam = new ArrayList<StudentData>();
-		List<StudentData> studentsNotInTeam = new ArrayList<StudentData>();
-		for (StudentData s : studentsInClass) {
-			if (s.team.equals(originalTeamName)) {
-				studentsInTeam.add(s);
-			} else {
-				studentsNotInTeam.add(s);
-			}
-		}
-		logic.renameTeam(courseID, originalTeamName, newTeamName);
-		for (StudentData s : studentsInTeam) {
-			assertEquals(newTeamName, logic.getStudent(s.course, s.email).team);
-		}
-		for (StudentData s : studentsNotInTeam) {
-			String teamName = logic.getStudent(s.course, s.email).team;
-			assertTrue("unexpected team name: " + teamName,
-					!teamName.equals(newTeamName));
-		}
-		// TODO: check for changes in team profile
-	}
-
-	private void verifyTfsListForCoord(String coordId, int noOfTfs)
-			throws EntityDoesNotExistException {
-		loginUser(coordId);
-		List<TfsData> tfsList = logic.getTfsListForCoord(coordId);
-		assertEquals(noOfTfs, tfsList.size());
-		for (TfsData tfs : tfsList) {
-			assertEquals(coordId, logic.getCourse(tfs.course).coord);
-		}
-	}
 
 	private void alterSubmission(SubmissionData submission) {
 		submission.points = submission.points + 10;
@@ -2764,37 +2577,7 @@ public class LogicTest extends BaseTestCase {
 				logic.getEvaluation(evaluation.course, evaluation.name));
 	}
 
-	private void verifyAbsentInDatastore(TfsData tfs) {
-		assertEquals(null, logic.getTfs(tfs.course));
-	}
-
-	@SuppressWarnings("unused")
-	private void verifyAbsentInDatastore(TeamProfileData profile) {
-		assertEquals(null, logic.getTeamProfile(profile.course, profile.team));
-	}
-
-	public static void verifyAbsenceOfTfsLogsForStudent(String courseId,
-			String studentEmail) throws EntityDoesNotExistException {
-		List<StudentActionData> teamFormingLogs = logic
-				.getStudentActions(courseId);
-		for (StudentActionData tfl : teamFormingLogs) {
-			String actualEmail = tfl.email;
-			assertTrue("unexpected email:" + actualEmail,
-					!actualEmail.equals(studentEmail));
-		}
-
-	}
-
-	public static void verifyPresenceOfTfsLogsForStudent(String courseId,
-			String studentEmail) throws EntityDoesNotExistException {
-		List<StudentActionData> teamFormingLogs = logic
-				.getStudentActions(courseId);
-		for (StudentActionData tfl : teamFormingLogs) {
-			if (tfl.email.equals(studentEmail))
-				return;
-		}
-		fail("No log messages found for " + studentEmail + " in " + courseId);
-	}
+	
 
 	public static void verifyPresentInDatastore(StudentData expectedStudent) {
 		StudentData actualStudent = logic.getStudent(expectedStudent.course,
@@ -2822,23 +2605,6 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
-	public static void verifyPresentInDatastore(StudentActionData expected)
-			throws EntityDoesNotExistException {
-		List<StudentActionData> actualList = logic
-				.getStudentActions(expected.course);
-		assertTrue(isLogEntryInList(expected, actualList));
-	}
-
-	public static void verifyPresentInDatastore(TeamProfileData expected) {
-		TeamProfileData actual = logic.getTeamProfile(expected.course,
-				expected.team);
-		assertEquals(gson.toJson(expected), gson.toJson(actual));
-	}
-
-	public static void verifyPresentInDatastore(TfsData expected) {
-		TfsData actual = logic.getTfs(expected.course);
-		assertEquals(gson.toJson(expected), gson.toJson(actual));
-	}
 
 	public static void verifyPresentInDatastore(EvaluationData expected) {
 		EvaluationData actual = logic.getEvaluation(expected.course,

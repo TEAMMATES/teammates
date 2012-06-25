@@ -30,15 +30,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</filter-mapping>
 
 	<servlet>
-		<servlet-name>APIServlet</servlet-name>
-		<servlet-class>teammates.api.APIServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>APIServlet</servlet-name>
-		<url-pattern>/api</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
 		<servlet-name>LoginServlet</servlet-name>
 		<servlet-class>teammates.servlet.LoginServlet</servlet-class>
 	</servlet>
@@ -55,36 +46,11 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>BackDoorServlet</servlet-name>
 		<url-pattern>/backdoor</url-pattern>
 	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>TeamFormingServlet</servlet-name>
-		<servlet-class>teammates.TeamFormingServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>TeamFormingServlet</servlet-name>
-		<url-pattern>/teamforming</url-pattern>
-	</servlet-mapping>
 	
-	<servlet>
-    	<servlet-name>coordinator.jsp</servlet-name>
-    	<jsp-file>/coordinator.jsp</jsp-file>
-	</servlet>
-	<servlet-mapping>
-    	<servlet-name>coordinator.jsp</servlet-name>
-    	<url-pattern>/coordinator.jsp?teamforming</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>Teammates</servlet-name>
-		<servlet-class>teammates.TeammatesServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Teammates</servlet-name>
-		<url-pattern>/teammates</url-pattern>
-	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
+	
 	<servlet>
 		<servlet-name>Email</servlet-name>
 		<servlet-class>teammates.EmailServlet</servlet-class>
@@ -93,6 +59,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>Email</servlet-name>
 		<url-pattern>/email</url-pattern>
 	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>EvaluationActivation</servlet-name>
 		<servlet-class>teammates.EvaluationActivationServlet</servlet-class>
@@ -101,14 +68,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>EvaluationActivation</servlet-name>
 		<url-pattern>/evaluationactivation</url-pattern>
 	</servlet-mapping>
-	<servlet>
-		<servlet-name>TeamFormingSessionActivation</servlet-name>
-		<servlet-class>teammates.TeamFormingSessionActivationServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>TeamFormingSessionActivation</servlet-name>
-		<url-pattern>/teamformingsessionactivation</url-pattern>
-	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>AutomatedReminders</servlet-name>
 		<servlet-class>teammates.AutomatedRemindersServlet</servlet-class>

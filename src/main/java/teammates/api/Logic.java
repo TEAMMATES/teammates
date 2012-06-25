@@ -28,7 +28,6 @@ import teammates.jdo.EvaluationDetailsForCoordinator;
 import teammates.manager.Accounts;
 import teammates.manager.Courses;
 import teammates.manager.Evaluations;
-import teammates.manager.TeamForming;
 import teammates.persistent.Coordinator;
 import teammates.persistent.Course;
 import teammates.persistent.Evaluation;
@@ -241,25 +240,6 @@ public class Logic {
 		return evaluationDetailsList;
 	}
 
-	public List<TfsData> getTfsListForCoord(String coordId)
-			throws EntityDoesNotExistException {
-		if (coordId == null) {
-			return null;
-		}
-		List<Course> courseList = Courses.inst().getCoordinatorCourseList(
-				coordId);
-		if ((courseList.size() == 0) && (getCoord(coordId) == null)) {
-			throw new EntityDoesNotExistException(
-					"Coordinator does not exist :" + coordId);
-		}
-		List<TeamFormingSession> teamFormingSessionList = TeamForming.inst()
-				.getTeamFormingSessionList(courseList);
-		ArrayList<TfsData> returnList = new ArrayList<TfsData>();
-		for (TeamFormingSession tfs : teamFormingSessionList) {
-			returnList.add(new TfsData(tfs));
-		}
-		return returnList;
-	}
 
 	@SuppressWarnings("unused")
 	private void ____COURSE_level_methods__________________________________() {
@@ -302,7 +282,6 @@ public class Logic {
 			return;
 		}
 		Evaluations.inst().deleteEvaluations(courseId);
-		TeamForming.inst().deleteTeamFormingSession(courseId);
 		Courses.inst().deleteCourse(courseId);
 	}
 
@@ -427,7 +406,6 @@ public class Logic {
 			} else if (team == null) {
 				team = new TeamData();
 				team.name = s.team;
-				team.profile = getTeamProfile(courseId, team.name);
 				team.students.add(s);
 				// student in the same team as the previous student
 			} else if (s.team.equals(team.name)) {
@@ -437,7 +415,6 @@ public class Logic {
 				course.teams.add(team);
 				team = new TeamData();
 				team.name = s.team;
-				team.profile = getTeamProfile(courseId, team.name);
 				team.students.add(s);
 			}
 
@@ -511,7 +488,6 @@ public class Logic {
 	public void deleteStudent(String courseId, String studentEmail) {
 		Courses.inst().deleteStudent(courseId, studentEmail);
 		Evaluations.inst().deleteSubmissionsForStudent(courseId, studentEmail);
-		TeamForming.inst().deleteLogsForStudent(courseId, studentEmail);
 		// TODO:delete team profile, if the last member
 	}
 
@@ -886,107 +862,7 @@ public class Logic {
 						+ "are deleted automatically");
 	}
 
-	@SuppressWarnings("unused")
-	private void ____TFS_level_methods______________________________________() {
-	}
-
-	// only for TMAPI
-	public void createTfs(TfsData tfs) throws EntityAlreadyExistsException,
-			InvalidParametersException {
-		TeamForming.inst().createTeamFormingSession(tfs.toTfs());
-	}
-
-	public TfsData getTfs(String courseId) {
-		TeamFormingSession tfs = TeamForming.inst().getTeamFormingSession(
-				courseId);
-		return (tfs == null ? null : new TfsData(tfs));
-	}
-
-	public void editTfs(TfsData tfs) throws EntityDoesNotExistException,
-			InvalidParametersException {
-		TeamForming.inst().editTeamFormingSession(tfs.course, tfs.startTime,
-				tfs.endTime, tfs.gracePeriod, tfs.instructions,
-				tfs.profileTemplate);
-	}
-
-	public void deleteTfs(String courseId) {
-		TeamForming.inst().deleteTeamFormingSession(courseId);
-	}
-
-	public void renameTeam(String courseId, String originalTeamName,
-			String newTeamName) throws EntityDoesNotExistException,
-			InvalidParametersException {
-		TeamForming.inst().editStudentsTeam(courseId, originalTeamName,
-				newTeamName);
-	}
-
-	@SuppressWarnings("unused")
-	private void ____TEAM_PROFILE_level_methods_____________________________() {
-	}
-
-	// only for TMAPI
-	public void createTeamProfile(TeamProfileData teamProfile)
-			throws EntityAlreadyExistsException, InvalidParametersException {
-		TeamForming.inst().createTeamProfile(teamProfile.toTeamProfile());
-	}
-
-	public TeamProfileData getTeamProfile(String courseId, String teamName) {
-		TeamProfile teamProfile = TeamForming.inst().getTeamProfile(courseId,
-				teamName);
-		return (teamProfile == null ? null : new TeamProfileData(teamProfile));
-	}
-
-	public void editTeamProfile(String originalTeamName,
-			TeamProfileData modifieldTeamProfile)
-			throws EntityDoesNotExistException, InvalidParametersException {
-		TeamForming.inst().editTeamProfile(modifieldTeamProfile.course, "",
-				originalTeamName, modifieldTeamProfile.team,
-				modifieldTeamProfile.profile);
-	}
-
-	public void deleteTeamProfile(String courseId, String teamName) {
-		TeamForming.inst().deleteTeamProfile(courseId, teamName);
-	}
-
-	@SuppressWarnings("unused")
-	private void ____STUDENT_ACTION_level_methods_________________________() {
-	}
-
-	// only for TMAPI
-	public void createStudentAction(StudentActionData studentAction)
-			throws InvalidParametersException {
-		TeamForming.inst().createTeamFormingLogEntry(
-				studentAction.toTeamFormingLog());
-	}
-
-	/**
-	 * 
-	 * @param courseId
-	 * @return
-	 * @throws EntityDoesNotExistException
-	 *             if the course does not exist
-	 */
-	public List<StudentActionData> getStudentActions(String courseId)
-			throws EntityDoesNotExistException {
-		List<TeamFormingLog> actionList = TeamForming.inst()
-				.getTeamFormingLogList(courseId);
-		ArrayList<StudentActionData> returnList = new ArrayList<StudentActionData>();
-		for (TeamFormingLog tfl : actionList) {
-			returnList.add(new StudentActionData(tfl));
-		}
-		return returnList;
-	}
-
-	public void editStudentAction(StudentActionData tfl)
-			throws NotImplementedException {
-		throw new NotImplementedException(
-				"Not implemented because there is no need to " + "edit logs");
-	}
-
-	public void deleteStudentActions(String courseId) {
-		TeamForming.inst().deleteTeamFormingLog(courseId);
-	}
-
+	
 	@SuppressWarnings("unused")
 	private void ____helper_methods________________________________________() {
 	}

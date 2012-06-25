@@ -24,7 +24,6 @@ import teammates.jdo.EnrollmentReport;
 import teammates.manager.Courses;
 import teammates.manager.Emails;
 import teammates.manager.Evaluations;
-import teammates.manager.TeamForming;
 import teammates.persistent.Course;
 import teammates.persistent.Evaluation;
 import teammates.persistent.Student;
@@ -148,16 +147,6 @@ public class BackDoorServlet extends HttpServlet {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
 			backDoorLogic.deleteStudent(courseId, email);
-		} else if (action.equals(OPERATION_DELETE_TEAM_FORMING_LOG)) {
-			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			backDoorLogic.deleteStudentActions(courseId);
-		} else if (action.equals(OPERATION_DELETE_TEAM_PROFILE)) {
-			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			String teamName = req.getParameter(PARAMETER_TEAM_NAME);
-			backDoorLogic.deleteTeamProfile(courseId, teamName);
-		} else if (action.equals(OPERATION_DELETE_TFS)) {
-			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			backDoorLogic.deleteTfs(courseId);
 		} else if (action.equals(OPERATION_GET_COORD_AS_JSON)) {
 			String coordID = req.getParameter(PARAMETER_COORD_ID);
 			return backDoorLogic.getCoordAsJson(coordID);
@@ -179,16 +168,6 @@ public class BackDoorServlet extends HttpServlet {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String evaluationName = req.getParameter(PARAMETER_EVALUATION_NAME);
 			return backDoorLogic.getEvaluationAsJson(courseId, evaluationName);
-		} else if (action.equals(OPERATION_GET_TFS_AS_JSON)) {
-			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			return backDoorLogic.getTfsAsJson(courseId);
-		} else if (action.equals(OPERATION_GET_TEAM_FORMING_LOG_AS_JSON)) {
-			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			return backDoorLogic.getTeamFormingLogAsJson(courseId);
-		} else if (action.equals(OPERATION_GET_TEAM_PROFILE_AS_JSON)) {
-			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			String teamName = req.getParameter(PARAMETER_TEAM_NAME);
-			return backDoorLogic.getTeamProfileAsJson(courseId, teamName);
 		} else if (action.equals(OPERATION_GET_SUBMISSION_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String evaluationName = req.getParameter(PARAMETER_EVALUATION_NAME);
@@ -212,13 +191,6 @@ public class BackDoorServlet extends HttpServlet {
 			String originalEmail = req.getParameter(PARAMETER_STUDENT_EMAIL);
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
 			backDoorLogic.editStudentAsJson(originalEmail, newValues);
-		} else if (action.equals(OPERATION_EDIT_TFS)) {
-			String newValues = req.getParameter(PARAMETER_JASON_STRING);
-			backDoorLogic.editTfsAsJson(newValues);
-		} else if (action.equals(OPERATION_EDIT_TEAM_PROFILE)) {
-			String originalTeamName = req.getParameter(PARAMETER_TEAM_NAME);
-			String newValues = req.getParameter(PARAMETER_JASON_STRING);
-			backDoorLogic.editTeamProfileAsJson(originalTeamName, newValues);
 		} else {
 			throw new Exception("Unknown command: " + action);
 		}
@@ -449,12 +421,6 @@ public class BackDoorServlet extends HttpServlet {
 			return;
 		}
 		Evaluations.inst().deleteEvaluations(courseID);
-		TeamForming teamForming = TeamForming.inst();
-		if (teamForming.getTeamFormingSession(courseID, null) != null)
-			teamForming.deleteTeamFormingSession(courseID);
-		if (teamForming.getTeamFormingLogList(courseID) != null)
-			teamForming.deleteTeamFormingLog(courseID);
-
 	}
 
 	protected void courseAdd() throws IOException {
@@ -568,58 +534,6 @@ public class BackDoorServlet extends HttpServlet {
 		getPM().makePersistentAll(submissions);
 		resp.getWriter().write("ok");
 
-	}
-
-	protected void teamFormingSessionAdd() throws IOException,
-			EntityAlreadyExistsException {
-		String json = req.getParameter("teamformingsession");
-
-		Gson gson = new Gson();
-		TeamFormingSession e = gson.fromJson(json, TeamFormingSession.class);
-
-		try {
-			TeamForming teamForming = TeamForming.inst();
-			teamForming.createTeamFormingSession(e.getCourseID(), e.getStart(),
-					e.getDeadline(), e.getTimeZone(), e.getGracePeriod(),
-					e.getInstructions(), e.getProfileTemplate());
-			resp.getWriter().write("ok");
-		} catch (EntityAlreadyExistsException ex) {
-			resp.getWriter().write("fail");
-		}
-	}
-
-	protected void teamFormingSessionOpen() throws IOException {
-		log.fine("Opening team forming session.");
-		String courseID = req.getParameter("course_id");
-
-		boolean edited = TeamForming.inst().openTeamFormingSession(courseID);
-
-		if (edited) {
-			resp.getWriter().write("ok");
-		} else {
-			resp.getWriter().write("fail");
-		}
-	}
-
-	protected void createProfileOfExistingTeams() throws IOException {
-		log.fine("Creating profiles of existing teams.");
-		String courseId = req.getParameter("course_id");
-		String courseName = req.getParameter("course_name");
-		String teamName = req.getParameter("team_name");
-		Text teamProfile = new Text(req.getParameter("team_profile"));
-
-		// Add the team forming session
-		TeamForming teamForming = TeamForming.inst();
-
-		try {
-			teamForming.createTeamProfile(courseId, courseName, teamName,
-					teamProfile);
-			resp.getWriter().write("ok");
-		}
-
-		catch (EntityAlreadyExistsException e) {
-			resp.getWriter().write("fail");
-		}
 	}
 
 	protected void studentsJoinCourse() throws IOException {

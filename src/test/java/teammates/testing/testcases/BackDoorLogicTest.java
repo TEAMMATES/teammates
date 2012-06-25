@@ -112,22 +112,6 @@ public class BackDoorLogicTest extends BaseTestCase{
 			LogicTest.verifyPresentInDatastore(expectedSubmission);
 		}
 
-		HashMap<String, TfsData> teamFormingSessions = data.teamFormingSessions;
-		for (TfsData expectedTeamFormingSession : teamFormingSessions.values()) {
-			LogicTest.verifyPresentInDatastore(expectedTeamFormingSession);
-		}
-
-		HashMap<String, TeamProfileData> teamProfiles = data.teamProfiles;
-		for (TeamProfileData expectedTeamProfile : teamProfiles.values()) {
-			LogicTest.verifyPresentInDatastore(expectedTeamProfile);
-		}
-
-		HashMap<String, StudentActionData> teamFormingLogs = data.studentActions;
-		for (StudentActionData expectedTeamFormingLogEntry : teamFormingLogs
-				.values()) {
-			LogicTest.verifyPresentInDatastore(expectedTeamFormingLogEntry);
-		}
-
 	}
 
 
