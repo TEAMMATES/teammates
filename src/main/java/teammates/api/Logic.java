@@ -110,7 +110,7 @@ public class Logic {
 				.equalsIgnoreCase(userId);
 	}
 	
-	private void verifyCoordUsingOwnIdOrAbove(String coordId) {
+	protected void verifyCoordUsingOwnIdOrAbove(String coordId) {
 		boolean isAuthorized = isAdminLoggedIn() 
 				|| (isCoordLoggedIn() && isOwnId(coordId));
 		
@@ -119,7 +119,7 @@ public class Logic {
 		}
 	}
 	
-	private void verifyRegisteredUserOrAbove() {
+	protected void verifyRegisteredUserOrAbove() {
 		boolean isAuthorized = isAdminLoggedIn() 
 				|| isCoordLoggedIn() 
 				|| isStudentLoggedIn();
@@ -129,7 +129,7 @@ public class Logic {
 		}
 	}
 	
-	private void verifyCourseOwnerOrAbove(String courseId) {
+	protected void verifyCourseOwnerOrAbove(String courseId) {
 		
 		boolean isAuthorized;
 		if(!isUserLoggedIn()){
@@ -147,8 +147,14 @@ public class Logic {
 		}
 	}
 	
-	private void verifyAdminLoggedIn() {
+	protected void verifyAdminLoggedIn() {
 		if (!isAdminLoggedIn())  {
+			throw new UnauthorizedAccessException();
+		}
+	}
+	
+	protected void verifyLoggedInUserAndAbove() {
+		if (!isUserLoggedIn()) {
 			throw new UnauthorizedAccessException();
 		}
 	}
@@ -176,14 +182,14 @@ public class Logic {
 	 */
 	public CoordData getCoord(String coordID) {
 
-		if (!isUserLoggedIn()) {
-			throw new UnauthorizedAccessException();
-		}
+		verifyLoggedInUserAndAbove();
 
 		Coordinator coord = Accounts.inst().getCoordinator(coordID);
 		return (coord == null ? null : new CoordData(coord.getGoogleID(),
 				coord.getName(), coord.getEmail()));
 	}
+
+
 
 	/**
 	 * Not implemented
@@ -392,11 +398,17 @@ public class Logic {
 		Courses.inst().deleteCourse(courseId);
 	}
 
+	/**
+	 * Access: course owner and above
+	 */
 	public List<StudentData> getStudentListForCourse(String courseId)
 			throws EntityDoesNotExistException {
 		if (courseId == null) {
 			return null;
 		}
+		
+		verifyCourseOwnerOrAbove(courseId);
+		
 		List<Student> studentList = Courses.inst().getStudentList(courseId);
 
 		if ((studentList.size() == 0) && (getCourse(courseId) == null)) {

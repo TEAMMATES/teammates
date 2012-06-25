@@ -795,11 +795,37 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetStudentListForCourse() throws Exception {
 		printTestCaseHeader();
+		
+		______TS("authentication");
+		
+		restoreTypicalDataInDatastore();
+		
+		String methodName = "getStudentListForCourse";
+		Class<?>[] paramTypes = new Class<?>[] { String.class };
+		Object[] params = new Object[] { "idOfCourse1OfCoord1"};
+		
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		//course belongs to a different coord
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, new Object[] { "idOfCourse1OfCoord2"});
+		
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+
+		______TS("course with multiple students");
+		
 		restoreTypicalDataInDatastore();
 		
 		loginAsAdmin("admin.user");
 
-		// course with multiple students
 		CourseData course1OfCoord1 = dataBundle.courses.get("course1OfCoord1");
 		List<StudentData> studentList = logic
 				.getStudentListForCourse(course1OfCoord1.id);
@@ -808,14 +834,18 @@ public class LogicTest extends BaseTestCase {
 			assertEquals(course1OfCoord1.id, s.course);
 		}
 
-		// course with 0 students
+		______TS("course with 0 students");
+		
 		CourseData course2OfCoord1 = dataBundle.courses.get("course2OfCoord1");
 		studentList = logic.getStudentListForCourse(course2OfCoord1.id);
 		assertEquals(0, studentList.size());
 
+		______TS("null parameter");
+		
 		assertEquals(null, logic.getStudentListForCourse(null));
 
-		// non-existent course
+		______TS("non-existent course");
+		
 		try {
 			logic.getStudentListForCourse("non-existent");
 			fail();
@@ -2499,6 +2529,8 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		______TS("some have submitted fully");
+		
+		loginAsAdmin("admin.user");
 
 		EvaluationData eval = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
