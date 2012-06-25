@@ -72,6 +72,8 @@ public class EvaluationsTest extends BaseTestCase{
 	@Test
 	public void testGetReadyEvaluations() throws Exception {
 		
+		loginAsAdmin("admin.user");
+		
 		______TS("no evaluations activated");
 		//ensure there are no existing evaluations ready for activation
 		restoreTypicalDataInDatastore();

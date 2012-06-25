@@ -110,7 +110,7 @@ public class Logic {
 				.equalsIgnoreCase(userId);
 	}
 	
-	private void verifyCourseOwnerOrAbove(String coordId) {
+	private void verifyCoordUsingOwnIdOrAbove(String coordId) {
 		boolean isAuthorized = isAdminLoggedIn() 
 				|| (isCoordLoggedIn() && isOwnId(coordId));
 		
@@ -119,9 +119,28 @@ public class Logic {
 		}
 	}
 	
-	private void verifyRegisteredUser() {
+	private void verifyRegisteredUserOrAbove() {
 		boolean isAuthorized = isAdminLoggedIn() 
-				|| isCoordLoggedIn() || isStudentLoggedIn();
+				|| isCoordLoggedIn() 
+				|| isStudentLoggedIn();
+		
+		if (!isAuthorized)  {
+			throw new UnauthorizedAccessException();
+		}
+	}
+	
+	private void verifyCourseOwnerOrAbove(String courseId) {
+		
+		boolean isAuthorized;
+		if(!isUserLoggedIn()){
+			isAuthorized = false;  
+		}else if(isAdminLoggedIn()){
+			isAuthorized = true;
+		}else {
+			CourseData course = getCourse(courseId);
+			isAuthorized =	(course==null) 
+					|| course.coord.equalsIgnoreCase(getLoggedInUser().id);
+		}
 		
 		if (!isAuthorized)  {
 			throw new UnauthorizedAccessException();
@@ -200,7 +219,7 @@ public class Logic {
 		if (coordId == null)
 			return null;
 		
-		verifyCourseOwnerOrAbove(coordId);
+		verifyCoordUsingOwnIdOrAbove(coordId);
 		
 		HashMap<String, CourseSummaryForCoordinator> courseSummaryListForCoord = Courses
 				.inst().getCourseSummaryListForCoord(coordId);
@@ -235,7 +254,7 @@ public class Logic {
 			return null;
 		}
 		
-		verifyCourseOwnerOrAbove(coordId);
+		verifyCoordUsingOwnIdOrAbove(coordId);
 		
 		// TODO: using this method here may not be efficient as it retrieves
 		// info not required
@@ -260,7 +279,7 @@ public class Logic {
 			return null;
 		}
 		
-		verifyCourseOwnerOrAbove(coordId);
+		verifyCoordUsingOwnIdOrAbove(coordId);
 
 		List<Course> courseList = Courses.inst().getCoordinatorCourseList(
 				coordId);
@@ -306,7 +325,7 @@ public class Logic {
 			String courseName) throws EntityAlreadyExistsException,
 			InvalidParametersException {
 		
-		verifyCourseOwnerOrAbove(coordId);
+		verifyCoordUsingOwnIdOrAbove(coordId);
 		
 		Common.validateGoogleId(coordId);
 		Common.validateCourseId(courseId);
@@ -324,7 +343,7 @@ public class Logic {
 			return null;
 		}
 		
-		verifyRegisteredUser();
+		verifyRegisteredUserOrAbove();
 		
 		Course c = Courses.inst().getCourse(courseId);
 		return (c == null ? null : new CourseData(c.getID(), c.getName(),
@@ -334,6 +353,8 @@ public class Logic {
 	public CourseData getCourseDetails(String courseId)
 			throws EntityDoesNotExistException {
 		// TODO: very inefficient. Should be optimized.
+		
+		verifyCourseOwnerOrAbove(courseId);
 
 		CourseData course = getCourse(courseId);
 		
@@ -344,6 +365,8 @@ public class Logic {
 		HashMap<String, CourseData> courseList = getCourseDetailsListForCoord(course.coord);
 		return courseList.get(courseId);
 	}
+
+
 
 	public void editCourse(CourseData course) throws NotImplementedException {
 		throw new NotImplementedException("Not implemented because we do "
