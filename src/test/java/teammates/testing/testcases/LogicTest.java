@@ -178,10 +178,10 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("unauthorized access");
 
+		String methodName = "createCoord";
 		Class<?>[] paramTypes = new Class[] { String.class, String.class,
 				String.class };
 		Object[] params = new Object[] { "id", "name", "email@gmail.com" };
-		String methodName = "createCoord";
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, null,
 				paramTypes, params);
@@ -314,8 +314,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("authentication");
 
-		Class<?>[] paramTypes = new Class<?>[] { String.class };
 		String methodName = "getCourseListForCoord";
+		Class<?>[] paramTypes = new Class<?>[] { String.class };
 		Object[] params = new Object[] { "idOfTypicalCoord1" };
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -374,8 +374,8 @@ public class LogicTest extends BaseTestCase {
 		
 		______TS("authentication");
 
-		Class<?>[] paramTypes = new Class<?>[] { String.class };
 		String methodName = "getCourseDetailsListForCoord";
+		Class<?>[] paramTypes = new Class<?>[] { String.class };
 		Object[] params = new Object[] { "idOfTypicalCoord1" };
 		
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
@@ -473,8 +473,8 @@ public class LogicTest extends BaseTestCase {
 		
 		______TS("authentication");
 
-		Class<?>[] paramTypes = new Class<?>[] { String.class };
 		String methodName = "getEvaluationsListForCoord";
+		Class<?>[] paramTypes = new Class<?>[] { String.class };
 		Object[] params = new Object[] { "idOfTypicalCoord1" };
 		
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
@@ -540,9 +540,34 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testCreateCourse() throws InvalidParametersException,
-			EntityAlreadyExistsException {
+	public void testCreateCourse() throws Exception {
 		printTestCaseHeader();
+		restoreTypicalDataInDatastore();
+		
+		______TS("authentication");
+
+		String methodName = "createCourse";
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class, String.class };
+		Object[] params = new Object[] { "idOfTypicalCoord1", "new-course", "New Course" };
+		
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		// coord does not own the given coordId
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, new Object[] { "diff-id", "new-course", "New Course" });
+
+		// coord owns the given id
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+		
+		______TS("typical case");
 
 		CoordData coord = dataBundle.coords.get("typicalCoord1");
 		// delete, to avoid clashes with existing data
@@ -551,21 +576,21 @@ public class LogicTest extends BaseTestCase {
 
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
 
-		// read non-existent course
 		verifyAbsentInDatastore(course);
 
-		// create and read
 		logic.createCourse(course.coord, course.id, course.name);
 		verifyPresentInDatastore(course);
 
-		// try to create again
+		______TS("duplicate course id");
+		
 		try {
 			logic.createCourse(course.coord, course.id, course.name);
 			fail();
 		} catch (EntityAlreadyExistsException e) {
 		}
 
-		// create with invalid coord-id
+		______TS("invalid parameters");
+		
 		course.coord = "invalid id";
 		try {
 			logic.createCourse(course.coord, course.id, course.name);
@@ -856,6 +881,8 @@ public class LogicTest extends BaseTestCase {
 	public void testGetTeamsForCourse() throws Exception {
 		printTestCaseHeader();
 		restoreTypicalDataInDatastore();
+		
+		loginAsAdmin("admin.user");
 
 		// testing for typical course
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
@@ -2201,6 +2228,8 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		______TS("typical case");
+		
+		loginAsAdmin("admin.user");
 
 		EvaluationData evaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
@@ -2348,6 +2377,7 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("empty class");
 
+		loginAsAdmin("admin.user");
 		logic.createCourse("coord1", "course1", "course 1");
 		EvaluationData newEval = new EvaluationData();
 		newEval.course = "course1";
@@ -2534,6 +2564,7 @@ public class LogicTest extends BaseTestCase {
 			throws EntityAlreadyExistsException, InvalidParametersException,
 			EntityDoesNotExistException {
 		// create course
+		loginAsAdmin("admin.user");
 		logic.createCourse("coordForTestingER", courseId,
 				"Course For Testing Evaluation Results");
 		// create students

@@ -175,12 +175,7 @@ public class Logic {
 		if (coordId == null)
 			return null;
 		
-		boolean isAuthorized = isAdminLoggedIn() 
-				|| (isCoordLoggedIn() && isOwnId(coordId));
-		
-		if (!isAuthorized) {
-			throw new UnauthorizedAccessException();
-		}
+		verifyCourseOwnerOrAbove(coordId);
 		
 		HashMap<String, CourseSummaryForCoordinator> courseSummaryListForCoord = Courses
 				.inst().getCourseSummaryListForCoord(coordId);
@@ -215,12 +210,7 @@ public class Logic {
 			return null;
 		}
 		
-		boolean isAuthorized = isAdminLoggedIn() 
-				|| (isCoordLoggedIn() && isOwnId(coordId));
-		
-		if (!isAuthorized) {
-			throw new UnauthorizedAccessException();
-		}
+		verifyCourseOwnerOrAbove(coordId);
 		
 		// TODO: using this method here may not be efficient as it retrieves
 		// info not required
@@ -245,12 +235,7 @@ public class Logic {
 			return null;
 		}
 		
-		boolean isAuthorized = isAdminLoggedIn() 
-				|| (isCoordLoggedIn() && isOwnId(coordId));
-		
-		if (!isAuthorized) {
-			throw new UnauthorizedAccessException();
-		}
+		verifyCourseOwnerOrAbove(coordId);
 
 		List<Course> courseList = Courses.inst().getCoordinatorCourseList(
 				coordId);
@@ -283,17 +268,32 @@ public class Logic {
 		return evaluationDetailsList;
 	}
 
+	private void verifyCourseOwnerOrAbove(String coordId) {
+		boolean isAuthorized = isAdminLoggedIn() 
+				|| (isCoordLoggedIn() && isOwnId(coordId));
+		
+		if (!isAuthorized) {
+			throw new UnauthorizedAccessException();
+		}
+	}
+
 	@SuppressWarnings("unused")
 	private void ____COURSE_level_methods__________________________________() {
 	}
 
-	public void createCourse(String coordinatorId, String courseId,
+	/**
+	 * Access level: Coord and above
+	 */
+	public void createCourse(String coordId, String courseId,
 			String courseName) throws EntityAlreadyExistsException,
 			InvalidParametersException {
-		Common.validateGoogleId(coordinatorId);
+		
+		verifyCourseOwnerOrAbove(coordId);
+		
+		Common.validateGoogleId(coordId);
 		Common.validateCourseId(courseId);
 		Common.validateCourseName(courseName);
-		Courses.inst().addCourse(courseId, courseName, coordinatorId);
+		Courses.inst().addCourse(courseId, courseName, coordId);
 	}
 
 	public CourseData getCourse(String courseId) {

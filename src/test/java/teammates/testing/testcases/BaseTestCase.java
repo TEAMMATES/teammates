@@ -25,6 +25,7 @@ import teammates.api.Logic;
 import teammates.api.TeammatesException;
 import teammates.datatransfer.CoordData;
 import teammates.datatransfer.DataBundle;
+import teammates.datatransfer.UserData;
 import teammates.testing.lib.BackDoor;
 
 import com.google.appengine.api.taskqueue.dev.LocalTaskQueue;
@@ -243,25 +244,44 @@ public class BaseTestCase {
 	}
 
 	public void restoreTypicalDataInDatastore() throws Exception {
-		loginAsAdmin("admin.user");
 		setGeneralLoggingLevel(Level.SEVERE);
+		
+		BackDoorLogic backDoorLogic = new BackDoorLogic();
+		//memorize the logged in user
+		UserData loggedInUser = backDoorLogic.getLoggedInUser();
+		
+		//switch to admin (writing operations require admin access)
+		loginAsAdmin("admin.user");
+		
 		// also reduce logging verbosity of these classes as we are going to
 		// use them intensively here.
 		setLogLevelOfClass(BackDoorServlet.class, Level.SEVERE);
 		setLogLevelOfClass(BackDoor.class, Level.SEVERE);
 		setLogLevelOfClass(Logic.class, Level.SEVERE);
+		
 		DataBundle dataBundle = getTypicalDataBundle();
 		HashMap<String, CoordData> coords = dataBundle.coords;
-		BackDoorLogic backDoorLogic = new BackDoorLogic();
 		for (CoordData coord : coords.values()) {
 			backDoorLogic.deleteCoord(coord.id);
 		}
 		backDoorLogic.persistNewDataBundle(dataBundle);
+		
+		//restore logging levels to normal
+		//TODO: restore to previous levels
 		setGeneralLoggingLevel(Level.WARNING);
 		setLogLevelOfClass(BackDoorServlet.class, Level.FINE);
 		setLogLevelOfClass(BackDoor.class, Level.FINE);
 		setLogLevelOfClass(Logic.class, Level.FINE);
+
+		//restore the logged in user
 		logoutUser();
+		if(loggedInUser!=null){
+			helper.setEnvIsLoggedIn(true);
+			helper.setEnvEmail(loggedInUser.id);
+			helper.setEnvAuthDomain("gmail.com");
+			helper.setEnvIsAdmin(loggedInUser.isAdmin);
+		} 
+		
 	}
 
 	//TODO: check if this bug is fixed in new SDK
