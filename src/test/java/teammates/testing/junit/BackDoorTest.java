@@ -3,8 +3,6 @@ package teammates.testing.junit;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -18,21 +16,13 @@ import teammates.datatransfer.CoordData;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.DataBundle;
 import teammates.datatransfer.EvaluationData;
-import teammates.datatransfer.StudentActionData;
 import teammates.datatransfer.StudentData;
 import teammates.datatransfer.SubmissionData;
-import teammates.datatransfer.TeamProfileData;
-import teammates.datatransfer.TfsData;
-import teammates.jsp.Helper;
-import teammates.testing.config.Config;
 import teammates.testing.lib.BackDoor;
-import teammates.testing.lib.BrowserInstance;
-import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.testcases.BaseTestCase;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 public class BackDoorTest extends BaseTestCase{
 
@@ -55,7 +45,6 @@ public class BackDoorTest extends BaseTestCase{
 	@SuppressWarnings("unused")
 	private void ____SYSTEM_level_methods_________________________________() {
 	}
-	
 
 	@Test
 	public void testPersistenceAndDeletion() {
@@ -97,42 +86,6 @@ public class BackDoorTest extends BaseTestCase{
 		status = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		
-		// ----------deleting TeamProfile entities-------------------------
-	
-		// delete one TeamProfile and confirm it is already deleted
-		TeamProfileData teamProfileOfTeam1_1 = dataBundle.teamProfiles
-				.get("profileOfTeam1.1");
-		verifyPresentInDatastore(teamProfileOfTeam1_1);
-		status = BackDoor.deleteTeamProfile(teamProfileOfTeam1_1.course,
-				teamProfileOfTeam1_1.team);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-		verifyAbsentInDatastore(teamProfileOfTeam1_1);
-	
-		// verify if the other TeamProfileData in the same course is intact
-		verifyPresentInDatastore(dataBundle.teamProfiles
-				.get("profileOfTeam1.2"));
-	
-		// try to delete it again, should succeed
-		status = BackDoor.deleteTeamProfile(teamProfileOfTeam1_1.course,
-				teamProfileOfTeam1_1.team);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-	
-		// ----------deleting TeamFormingLog entities-------------------------
-	
-		// delete TeamFormingLog of one course and verify it is deleted
-		StudentActionData tfsLogMessage1ForTfsInCourse1 = dataBundle.studentActions
-				.get("tfsLogMessage1ForTfsInCourse1");
-		verifyPresentInDatastore(tfsLogMessage1ForTfsInCourse1);
-		status = BackDoor.deleteTeamFormingLog(tfsLogMessage1ForTfsInCourse1
-				.course);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-		verifyTeamFormingLogEmptyInDatastore(tfsLogMessage1ForTfsInCourse1);
-	
-		// try to delete it again, the operation should succeed
-		status = BackDoor.deleteTeamFormingLog(tfsLogMessage1ForTfsInCourse1
-				.course);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-	
 		// ----------deleting Evaluation entities-------------------------
 	
 		// check the existence of a submission that will be deleted along with the evaluation
@@ -177,21 +130,6 @@ public class BackDoorTest extends BaseTestCase{
 		//check if related evaluation entities are also deleted
 		EvaluationData evaluation1InCourse2 = dataBundle.evaluations.get("evaluation1InCourse1OfCoord2");
 		verifyAbsentInDatastore(evaluation1InCourse2);
-		
-		//check if related team profile entities are also deleted
-		TeamProfileData teamProfileOfTeam2_1 = dataBundle.teamProfiles
-				.get("profileOfTeam2.1");
-		verifyAbsentInDatastore(teamProfileOfTeam2_1);
-		
-		//check if related Tfs entities are also deleted
-		TfsData tfsInCourse2 = dataBundle.teamFormingSessions
-				.get("tfsInCourse2");
-		verifyAbsentInDatastore(tfsInCourse2);
-		
-		//check if related TeamFormingLog entities are also deleted
-		StudentActionData tfsLogMessage1ForTfsInCourse2 = dataBundle.studentActions
-				.get("tfsLogMessage1ForTfsInCourse2");
-		verifyTeamFormingLogEmptyInDatastore(tfsLogMessage1ForTfsInCourse2);
 	}
 	
 	@SuppressWarnings("unused")
@@ -580,40 +518,6 @@ public class BackDoorTest extends BaseTestCase{
 				submissionFromS2C1ToS1C1.reviewer);
 		assertEquals("student1InCourse1@gmail.com",
 				submissionFromS2C1ToS1C1.reviewee);
-	
-		TfsData tfsInCourse1 = data.teamFormingSessions
-				.get("tfsInCourse1");
-		assertEquals("idOfCourse1OfCoord1", tfsInCourse1.course);
-		assertEquals(8.0, tfsInCourse1.timeZone, 0.01);
-		assertEquals("Sun Apr 01 23:59:00 SGT 2012", tfsInCourse1.startTime
-				.toString());
-		assertEquals("Sun Apr 15 23:59:00 SGT 2012", tfsInCourse1.endTime
-				.toString());
-		assertEquals("instructions for tfsInCourse1",
-				tfsInCourse1.instructions);
-		assertEquals("profile template for tfsInCourse1",
-				tfsInCourse1.profileTemplate);
-		assertEquals(10, tfsInCourse1.gracePeriod);
-		assertEquals(false, tfsInCourse1.activated);
-	
-		TeamProfileData profileOfTeam1_1 = data.teamProfiles
-				.get("profileOfTeam1.1");
-		assertEquals("idOfCourse1OfCoord1", profileOfTeam1_1.course);
-		assertEquals("Team 1.1", profileOfTeam1_1.team);
-		assertEquals("team profile of Team 1.1", profileOfTeam1_1
-				.profile.getValue());
-	
-		StudentActionData tfsLogMessageForTfsInCourse1 = data.studentActions
-				.get("tfsLogMessage1ForTfsInCourse1");
-		assertEquals("idOfCourse1OfCoord1", tfsLogMessageForTfsInCourse1.course);
-		assertEquals("student1 In Course1",
-				tfsLogMessageForTfsInCourse1.name);
-		assertEquals("student1InCourse1@gmail.com",
-				tfsLogMessageForTfsInCourse1.email);
-		assertEquals("Sun Jan 01 01:01:00 SGT 2012",
-				tfsLogMessageForTfsInCourse1.time.toString());
-		assertEquals("log message 1 of course1, student1InCourse1@gmail.com",
-				tfsLogMessageForTfsInCourse1.action.getValue());
 	}
 
 	//============================helper methods==============================
@@ -647,24 +551,6 @@ public class BackDoorTest extends BaseTestCase{
 		assertEquals("null", submissionAsJason);
 	}
 
-	private void verifyAbsentInDatastore(TfsData tfsInCourse3) {
-		assertEquals("null", BackDoor.getTfsAsJason(tfsInCourse3.course));
-	}
-
-	private void verifyTeamFormingLogEmptyInDatastore(
-			StudentActionData tfsLogMessage1ForTfsInCourse1) {
-		assertEquals("[]",
-				BackDoor.getTeamFormingLogAsJason(tfsLogMessage1ForTfsInCourse1
-						.course));
-	}
-
-	private void verifyAbsentInDatastore(
-			TeamProfileData teamProfileOfTeam1_1) {
-		assertEquals("null", BackDoor.getTeamProfileAsJason(
-				teamProfileOfTeam1_1.course,
-				teamProfileOfTeam1_1.team));
-	}
-
 	private void verifyPresentInDatastore(String dataBundleJsonString) {
 		Gson gson = Common.getTeammatesGson();
 
@@ -693,33 +579,6 @@ public class BackDoorTest extends BaseTestCase{
 		for (SubmissionData expectedSubmission : submissions.values()) {
 			verifyPresentInDatastore(expectedSubmission);
 		}
-
-		HashMap<String, TfsData> teamFormingSessions = data.teamFormingSessions;
-		for (TfsData expectedTeamFormingSession : teamFormingSessions
-				.values()) {
-			verifyPresentInDatastore(expectedTeamFormingSession);
-		}
-
-		HashMap<String, TeamProfileData> teamProfiles = data.teamProfiles;
-		for (TeamProfileData expectedTeamProfile : teamProfiles.values()) {
-			verifyPresentInDatastore(expectedTeamProfile);
-		}
-
-		HashMap<String, StudentActionData> teamFormingLogs = data.studentActions;
-		for (StudentActionData expectedTeamFormingLogEntry : teamFormingLogs
-				.values()) {
-			verifyPresentInDatastore(expectedTeamFormingLogEntry);
-		}
-
-	}
-
-	private void verifyPresentInDatastore(TfsData expectedTeamFormingSession) {
-		String teamFormingSessionsJsonString = BackDoor
-				.getTfsAsJason(expectedTeamFormingSession.course);
-		TfsData actualTeamFormingSession = gson.fromJson(
-				teamFormingSessionsJsonString, TfsData.class);
-		assertEquals(gson.toJson(expectedTeamFormingSession),
-				gson.toJson(actualTeamFormingSession));
 	}
 
 	private void verifyPresentInDatastore(SubmissionData expectedSubmission) {
@@ -772,34 +631,6 @@ public class BackDoorTest extends BaseTestCase{
 		assertEquals(gson.toJson(expectedCourse), gson.toJson(actualCourse));
 	}
 
-	private void verifyPresentInDatastore(StudentActionData expectedTeamFormingLogEntry) {
-		String teamFormingLogJsonString = BackDoor
-				.getTeamFormingLogAsJason(expectedTeamFormingLogEntry
-						.course);
-		Type collectionType = new TypeToken<ArrayList<StudentActionData>>() {
-		}.getType();
-		ArrayList<StudentActionData> actualTeamFormingLogsForCourse = gson
-				.fromJson(teamFormingLogJsonString, collectionType);
-		String errorMessage = gson.toJson(expectedTeamFormingLogEntry)
-				+ "\n--> was not found in -->\n"
-				+ BackDoor.reformatJasonString(teamFormingLogJsonString,
-						collectionType);
-		assertTrue(
-				errorMessage,
-				isLogEntryInList(expectedTeamFormingLogEntry,
-						actualTeamFormingLogsForCourse));
-	}
-
-	private void verifyPresentInDatastore(TeamProfileData expectedTeamProfile) {
-		String teamProfileJsonString = BackDoor.getTeamProfileAsJason(
-				expectedTeamProfile.course,
-				expectedTeamProfile.team);
-		TeamProfileData actualTeamProfile = gson.fromJson(
-				teamProfileJsonString, TeamProfileData.class);
-		assertEquals(gson.toJson(expectedTeamProfile),
-				gson.toJson(actualTeamProfile));
-	}
-
 	private void verifyPresentInDatastore(CoordData expectedCoord) {
 		String coordJsonString = BackDoor.getCoordAsJason(expectedCoord
 				.id);
@@ -810,25 +641,6 @@ public class BackDoorTest extends BaseTestCase{
 	
 	private void verifyAbsentInDatastore(CoordData expectedCoord) {
 		assertEquals("null", BackDoor.getCoordAsJason(expectedCoord.id));
-	}
-
-	private boolean isLogEntryInList(StudentActionData teamFormingLogEntry,
-			ArrayList<StudentActionData> teamFormingLogEntryList) {
-		for (StudentActionData logEntryInList : teamFormingLogEntryList) {
-			if (teamFormingLogEntry.course.equals(
-					logEntryInList.course)
-					&& teamFormingLogEntry.action.getValue()
-							.equals(logEntryInList.action.getValue())
-					&& teamFormingLogEntry.email.equals(
-							logEntryInList.email)
-					&& teamFormingLogEntry.name.equals(
-							logEntryInList.name)
-					&& teamFormingLogEntry.time.toString()
-							.equals(logEntryInList.time.toString())) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 }
