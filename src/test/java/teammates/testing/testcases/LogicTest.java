@@ -257,12 +257,12 @@ public class LogicTest extends BaseTestCase {
 		______TS("unauthorized: not logged in");
 
 		Class<?>[] paramTypes = new Class[] { String.class };
-		Object[] params = new Object[] { "id"};
+		Object[] params = new Object[] { "id" };
 		String methodName = "getCoord";
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, null,
 				paramTypes, params);
-		
+
 		______TS("authorized: logged in");
 
 		verifyCanAccess(USER_TYPE_UNREGISTERED, methodName,
@@ -285,13 +285,13 @@ public class LogicTest extends BaseTestCase {
 	public void testDeleteCoord() throws Exception {
 		printTestCaseHeader();
 		// mostly tested in testCreateCoord
-		
+
 		______TS("unauthorized");
 
 		restoreTypicalDataInDatastore();
 
-		Class<?>[] paramTypes = new Class[] {String.class};
-		Object[] params = new Object[] { "id"};
+		Class<?>[] paramTypes = new Class[] { String.class };
+		Object[] params = new Object[] { "id" };
 		String methodName = "deleteCoord";
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, null,
@@ -312,7 +312,32 @@ public class LogicTest extends BaseTestCase {
 		printTestCaseHeader();
 		restoreTypicalDataInDatastore();
 
-		// coord with 2 courses
+		______TS("authentication");
+
+		Class<?>[] paramTypes = new Class<?>[] { String.class };
+		String methodName = "getCourseListForCoord";
+		Object[] params = new Object[] { "idOfTypicalCoord1" };
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		// coord does not own the given coordId
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, new Object[] { "diff-id" });
+
+		// coord owns the given id
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+
+		______TS("coord with 2 courses");
+
+		loginAsAdmin("admin.user");
+
 		CoordData coord = dataBundle.coords.get("typicalCoord1");
 		HashMap<String, CourseData> courseList = logic
 				.getCourseListForCoord(coord.id);
@@ -322,16 +347,18 @@ public class LogicTest extends BaseTestCase {
 			assertEquals(coord.id, logic.getCourse(item.id).coord);
 		}
 
-		// coord with 0 courses
+		______TS("coord with 0 courses");
+
 		coord = dataBundle.coords.get("typicalCoord3");
-		loginUser(coord.id);
 		courseList = logic.getCourseListForCoord(coord.id);
 		assertEquals(0, courseList.size());
 
-		// check for null parameter
+		______TS("null parameters");
+
 		assertEquals(null, logic.getCourseListForCoord(null));
 
-		// non-existent coord
+		______TS("non-existent coord");
+
 		try {
 			logic.getCourseListForCoord("non-existent");
 			fail();
@@ -346,6 +373,8 @@ public class LogicTest extends BaseTestCase {
 
 		restoreTypicalDataInDatastore();
 
+		loginAsAdmin("admin.user");
+		
 		HashMap<String, CourseData> courseListForCoord = logic
 				.getCourseDetailsListForCoord("idOfTypicalCoord1");
 		assertEquals(2, courseListForCoord.size());
@@ -527,6 +556,8 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		______TS("typical case");
+		
+		loginAsAdmin("admin.user");
 
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
 		CourseData courseDetials = logic.getCourseDetails(course.id);
@@ -2492,7 +2523,6 @@ public class LogicTest extends BaseTestCase {
 		logic.editSubmissions(submissions);
 	}
 
-
 	private void verifyEvaluationInfoExistsInList(EvaluationData evaluation,
 			ArrayList<EvaluationData> evalInfoList) {
 
@@ -2678,20 +2708,20 @@ public class LogicTest extends BaseTestCase {
 	private void verifyCannotAccess(int userType, String methodName,
 			String userId, Class<?>[] paramTypes, Object[] params)
 			throws Exception {
-		verifyAccessLevel(false, userType, methodName,
-				userId, paramTypes, params);
+		verifyAccessLevel(false, userType, methodName, userId, paramTypes,
+				params);
 	}
-	
+
 	private void verifyCanAccess(int userType, String methodName,
 			String userId, Class<?>[] paramTypes, Object[] params)
 			throws Exception {
-		verifyAccessLevel(true, userType, methodName,
-				userId, paramTypes, params);
+		verifyAccessLevel(true, userType, methodName, userId, paramTypes,
+				params);
 	}
-	
-	private void verifyAccessLevel(boolean allowed, int userType, String methodName,
-			String userId, Class<?>[] paramTypes, Object[] params)
-			throws Exception {
+
+	private void verifyAccessLevel(boolean allowed, int userType,
+			String methodName, String userId, Class<?>[] paramTypes,
+			Object[] params) throws Exception {
 		Method method = Logic.class.getDeclaredMethod(methodName, paramTypes);
 		switch (userType) {
 		case USER_TYPE_NOT_LOGGED_IN:
@@ -2709,12 +2739,13 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			method.invoke(logic, params);
-			if(!allowed) {
+			if (!allowed) {
 				fail();
 			}
 		} catch (Exception e) {
-			if(!allowed){
-				assertEquals(UnauthorizedAccessException.class, e.getCause().getClass());
+			if (!allowed) {
+				assertEquals(UnauthorizedAccessException.class, e.getCause()
+						.getClass());
 			}
 		}
 	}

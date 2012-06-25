@@ -12,13 +12,10 @@ import teammates.datatransfer.CourseData;
 import teammates.datatransfer.EvalResultData;
 import teammates.datatransfer.EvaluationData;
 import teammates.datatransfer.EvaluationData.EvalStatus;
-import teammates.datatransfer.StudentActionData;
 import teammates.datatransfer.StudentData;
 import teammates.datatransfer.StudentData.UpdateStatus;
 import teammates.datatransfer.SubmissionData;
 import teammates.datatransfer.TeamData;
-import teammates.datatransfer.TeamProfileData;
-import teammates.datatransfer.TfsData;
 import teammates.datatransfer.UserData;
 import teammates.exception.GoogleIDExistsInCourseException;
 import teammates.exception.RegistrationKeyInvalidException;
@@ -33,19 +30,15 @@ import teammates.persistent.Course;
 import teammates.persistent.Evaluation;
 import teammates.persistent.Student;
 import teammates.persistent.Submission;
-import teammates.persistent.TeamFormingLog;
-import teammates.persistent.TeamFormingSession;
-import teammates.persistent.TeamProfile;
 
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.users.User;
 
 public class Logic {
-	
+
 	private static Logger log = Common.getLogger();
-	
-	
+
 	protected void createSubmissions(List<SubmissionData> submissionDataList) {
 		ArrayList<Submission> submissions = new ArrayList<Submission>();
 		for (SubmissionData sd : submissionDataList) {
@@ -53,8 +46,6 @@ public class Logic {
 		}
 		Evaluations.inst().editSubmissions(submissions);
 	}
-
-	
 
 	@SuppressWarnings("unused")
 	private void ____SYSTEM_level_methods__________________________________() {
@@ -98,9 +89,9 @@ public class Logic {
 		return userData;
 	}
 
-public boolean isAdminLoggedIn() {
+	public boolean isAdminLoggedIn() {
 		UserData loggedInUser = getLoggedInUser();
-		return loggedInUser==null? false: loggedInUser.isAdmin;
+		return loggedInUser == null ? false : loggedInUser.isAdmin;
 	}
 
 	@SuppressWarnings("unused")
@@ -112,11 +103,11 @@ public boolean isAdminLoggedIn() {
 	 */
 	public void createCoord(String coordID, String coordName, String coordEmail)
 			throws EntityAlreadyExistsException, InvalidParametersException {
-		
-		if(!isAdminLoggedIn()){
+
+		if (!isAdminLoggedIn()) {
 			throw new UnauthorizedAccessException();
 		}
-		
+
 		Common.validateEmail(coordEmail);
 		Common.validateCoordName(coordName);
 		Common.validateGoogleId(coordID);
@@ -127,11 +118,11 @@ public boolean isAdminLoggedIn() {
 	 * Access: any logged in user
 	 */
 	public CoordData getCoord(String coordID) {
-		
-		if(!isUserLoggedIn()){
+
+		if (!isUserLoggedIn()) {
 			throw new UnauthorizedAccessException();
 		}
-		
+
 		Coordinator coord = Accounts.inst().getCoordinator(coordID);
 		return (coord == null ? null : new CoordData(coord.getGoogleID(),
 				coord.getName(), coord.getEmail()));
@@ -149,11 +140,11 @@ public boolean isAdminLoggedIn() {
 	 * Access: Admin only
 	 */
 	public void deleteCoord(String coordId) {
-		
-		if(!isAdminLoggedIn()){
+
+		if (!isAdminLoggedIn()) {
 			throw new UnauthorizedAccessException();
 		}
-		
+
 		List<Course> coordCourseList = Courses.inst().getCoordinatorCourseList(
 				coordId);
 		for (Course course : coordCourseList) {
@@ -165,14 +156,22 @@ public boolean isAdminLoggedIn() {
 	/**
 	 * 
 	 * @param coordId
-	 * @return null if coordId is null
-	 * <br> Access level: Admin, Coord (for self)
+	 * @return null if coordId is null <br>
+	 *         Access level: Admin, Coord (for self)
 	 */
 	// TODO: return ArrayList instead?
 	public HashMap<String, CourseData> getCourseListForCoord(String coordId)
 			throws EntityDoesNotExistException {
+		
 		if (coordId == null)
 			return null;
+		
+		boolean isAuthorized = isAdminLoggedIn() 
+				|| (isCoordLoggedIn() && isOwnId(coordId));
+		
+		if (!isAuthorized) {
+			throw new UnauthorizedAccessException();
+		}
 		
 		HashMap<String, CourseSummaryForCoordinator> courseSummaryListForCoord = Courses
 				.inst().getCourseSummaryListForCoord(coordId);
@@ -251,6 +250,16 @@ public boolean isAdminLoggedIn() {
 		return evaluationDetailsList;
 	}
 
+	public boolean isCoordLoggedIn() {
+		UserData loggedInUser = getLoggedInUser();
+		return loggedInUser == null ? false : loggedInUser.isCoord;
+	}
+
+	private boolean isOwnId(String userId) {
+		UserData loggedInUser = getLoggedInUser();
+		return loggedInUser == null ? false : loggedInUser.id
+				.equalsIgnoreCase(userId);
+	}
 
 	@SuppressWarnings("unused")
 	private void ____COURSE_level_methods__________________________________() {
@@ -274,10 +283,11 @@ public boolean isAdminLoggedIn() {
 	public CourseData getCourseDetails(String courseId)
 			throws EntityDoesNotExistException {
 		// TODO: very inefficient. Should be optimized.
-		
+
 		CourseData course = getCourse(courseId);
-		if(course==null){
-			throw new EntityDoesNotExistException("The course does not exist: "+courseId);
+		if (course == null) {
+			throw new EntityDoesNotExistException("The course does not exist: "
+					+ courseId);
 		}
 		HashMap<String, CourseData> courseList = getCourseDetailsListForCoord(course.coord);
 		return courseList.get(courseId);
@@ -561,12 +571,13 @@ public boolean isAdminLoggedIn() {
 		}
 		return returnList;
 	}
-	
-	public StudentData getStudentInCourseForGoogleId(String courseId, String googleId) {
-		//TODO: make more efficient?
+
+	public StudentData getStudentInCourseForGoogleId(String courseId,
+			String googleId) {
+		// TODO: make more efficient?
 		ArrayList<StudentData> studentList = getStudentsWithId(googleId);
-		for(StudentData sd: studentList){
-			if(sd.course.equals(courseId)){
+		for (StudentData sd : studentList) {
+			if (sd.course.equals(courseId)) {
 				return sd;
 			}
 		}
@@ -601,10 +612,10 @@ public boolean isAdminLoggedIn() {
 		}
 		Student student = Accounts.inst().getStudent(courseId, email);
 
-		if(student == null ){
+		if (student == null) {
 			return null;
 		}
-		
+
 		long keyLong = Long.parseLong(student.getRegistrationKey().toString());
 		return KeyFactory.createKeyString(Student.class.getSimpleName(),
 				keyLong);
@@ -622,26 +633,28 @@ public boolean isAdminLoggedIn() {
 
 		return Courses.inst().getCourseListForStudent(googleId);
 	}
-	
-	public boolean hasStudentSubmittedEvaluation(String courseId, String evaluationName,
-			String studentEmail) throws InvalidParametersException {
+
+	public boolean hasStudentSubmittedEvaluation(String courseId,
+			String evaluationName, String studentEmail)
+			throws InvalidParametersException {
 		Common.verifyNotNull(courseId, "course ID");
 		Common.verifyNotNull(evaluationName, "evaluation name");
 		Common.verifyNotNull(studentEmail, "student email");
-		
+
 		List<SubmissionData> submissions = null;
 		try {
-			submissions = getSubmissionsFromStudent(courseId, evaluationName, studentEmail);
+			submissions = getSubmissionsFromStudent(courseId, evaluationName,
+					studentEmail);
 		} catch (EntityDoesNotExistException e) {
 			return false;
 		}
-		
-		if(submissions==null){
+
+		if (submissions == null) {
 			return false;
 		}
-		
-		for(SubmissionData sd: submissions){
-			if(sd.points!=Common.POINTS_NOT_SUBMITTED){
+
+		for (SubmissionData sd : submissions) {
+			if (sd.points != Common.POINTS_NOT_SUBMITTED) {
 				return true;
 			}
 		}
@@ -705,11 +718,13 @@ public boolean isAdminLoggedIn() {
 	}
 
 	/**
-	 * Note: 
+	 * Note:
+	 * 
 	 * @throws EntityAlreadyExistsException
-	 * @throws InvalidParametersException is thrown if any of the parameters  
-	 * puts the evaluation in an invalid state (e.g., endTime is set before
-	 * startTime). However, setting start time to a past time is allowed.
+	 * @throws InvalidParametersException
+	 *             is thrown if any of the parameters puts the evaluation in an
+	 *             invalid state (e.g., endTime is set before startTime).
+	 *             However, setting start time to a past time is allowed.
 	 */
 	public void createEvaluation(EvaluationData evaluation)
 			throws EntityAlreadyExistsException, InvalidParametersException {
@@ -786,8 +801,6 @@ public boolean isAdminLoggedIn() {
 		return returnValue;
 	}
 
-	
-
 	public List<SubmissionData> getSubmissionsFromStudent(String courseId,
 			String evaluationName, String reviewerEmail)
 			throws EntityDoesNotExistException, InvalidParametersException {
@@ -815,17 +828,18 @@ public boolean isAdminLoggedIn() {
 		}
 		return returnList;
 	}
-	
+
 	public void sendReminderForEvaluation(String courseId, String evaluationName) {
-		//TODO: apply isAuthorized*()
+		// TODO: apply isAuthorized*()
 		List<Student> studentList = Courses.inst().getStudentList(courseId);
 
 		// Filter out students who have submitted the evaluation
 		Evaluations evaluations = Evaluations.inst();
-		Evaluation evaluation = evaluations.getEvaluation(courseId, evaluationName);
+		Evaluation evaluation = evaluations.getEvaluation(courseId,
+				evaluationName);
 
 		if (evaluation == null) {
-			//TODO: throw exception
+			// TODO: throw exception
 			return;
 		}
 
@@ -839,8 +853,9 @@ public boolean isAdminLoggedIn() {
 
 		Date deadline = evaluation.getDeadline();
 
-		evaluations.remindStudents(studentsToRemindList, courseId, evaluationName, deadline);
-		
+		evaluations.remindStudents(studentsToRemindList, courseId,
+				evaluationName, deadline);
+
 	}
 
 	@SuppressWarnings("unused")
@@ -854,13 +869,11 @@ public boolean isAdminLoggedIn() {
 						+ "are created automatically");
 	}
 
-
-
-	public void editSubmissions(List<SubmissionData> submissionDataList) 
-			throws EntityDoesNotExistException, InvalidParametersException{
+	public void editSubmissions(List<SubmissionData> submissionDataList)
+			throws EntityDoesNotExistException, InvalidParametersException {
 		ArrayList<Submission> submissions = new ArrayList<Submission>();
 		for (SubmissionData sd : submissionDataList) {
-			//TODO: apply isAuthorizedToEditSubmission()
+			// TODO: apply isAuthorizedToEditSubmission()
 			submissions.add(sd.toSubmission());
 		}
 		Evaluations.inst().editSubmissions(submissions);
@@ -873,11 +886,10 @@ public boolean isAdminLoggedIn() {
 						+ "are deleted automatically");
 	}
 
-	
 	@SuppressWarnings("unused")
 	private void ____helper_methods________________________________________() {
 	}
-	
+
 	private boolean isOrphanSubmission(StudentData reviewer,
 			StudentData reviewee, Submission submission) {
 		if (!submission.getTeamName().equals(reviewer.team)) {
@@ -889,7 +901,7 @@ public boolean isAdminLoggedIn() {
 		return false;
 	}
 
-	private HashMap<String, SubmissionData> getSubmissionsForEvaluation (
+	private HashMap<String, SubmissionData> getSubmissionsForEvaluation(
 			String courseId, String evaluationName)
 			throws EntityDoesNotExistException {
 		if (getEvaluation(courseId, evaluationName) == null) {
@@ -939,8 +951,8 @@ public boolean isAdminLoggedIn() {
 			s.result.claimedToCoord = teamResult.claimedToCoord[i][i];
 			s.result.perceivedToStudent = teamResult.perceivedToStudents[i][i];
 			s.result.perceivedToCoord = teamResult.perceivedToCoord[i];
-			
-			//populate incoming and outgoing
+
+			// populate incoming and outgoing
 			for (int j = 0; j < teamSize; j++) {
 				SubmissionData incomingSub = s.result.incoming.get(j);
 				int normalizedIncoming = teamResult.perceivedToStudents[i][j];
@@ -969,16 +981,16 @@ public boolean isAdminLoggedIn() {
 			// get incoming submission from peer
 			String key = peer.email + "->" + student.email;
 			SubmissionData submissionFromPeer = list.get(key);
-			//this workaround is to cater for missing submissions in 
-			//  legacy data.
-			if(submissionFromPeer==null){
-				log.warning("Cannot find submission for"+key);
-				submissionFromPeer = createEmptySubmission(peer.email, student.email);
-			} else{
-				//use a copy to prevent accidental overwriting of data
+			// this workaround is to cater for missing submissions in
+			// legacy data.
+			if (submissionFromPeer == null) {
+				log.warning("Cannot find submission for" + key);
+				submissionFromPeer = createEmptySubmission(peer.email,
+						student.email);
+			} else {
+				// use a copy to prevent accidental overwriting of data
 				submissionFromPeer = submissionFromPeer.getCopy();
 			}
-			 
 
 			// set names in incoming submission
 			submissionFromPeer.revieweeName = student.name;
@@ -991,16 +1003,17 @@ public boolean isAdminLoggedIn() {
 			key = student.email + "->" + peer.email;
 			SubmissionData submissionToPeer = list.get(key);
 
-			//this workaround is to cater for missing submissions in 
-			//  legacy data.
-			if(submissionToPeer==null){
-				log.warning("Cannot find submission for"+key);
-				submissionToPeer = createEmptySubmission(student.email, peer.email);
-			} else{
-				//use a copy to prevent accidental overwriting of data
+			// this workaround is to cater for missing submissions in
+			// legacy data.
+			if (submissionToPeer == null) {
+				log.warning("Cannot find submission for" + key);
+				submissionToPeer = createEmptySubmission(student.email,
+						peer.email);
+			} else {
+				// use a copy to prevent accidental overwriting of data
 				submissionToPeer = submissionToPeer.getCopy();
 			}
-			
+
 			// set names in outgoing submission
 			submissionToPeer.reviewerName = student.name;
 			submissionToPeer.revieweeName = peer.name;
@@ -1011,9 +1024,8 @@ public boolean isAdminLoggedIn() {
 		}
 	}
 
-
-
-	private SubmissionData createEmptySubmission(String reviewer, String reviewee) {
+	private SubmissionData createEmptySubmission(String reviewer,
+			String reviewee) {
 		SubmissionData s;
 		s = new SubmissionData();
 		s.reviewer = reviewer;
@@ -1026,8 +1038,8 @@ public boolean isAdminLoggedIn() {
 		return s;
 	}
 
-	protected SubmissionData getSubmission(String courseId, String evaluationName,
-			String reviewerEmail, String revieweeEmail) {
+	protected SubmissionData getSubmission(String courseId,
+			String evaluationName, String reviewerEmail, String revieweeEmail) {
 		Submission submission = Evaluations.inst().getSubmission(courseId,
 				evaluationName, reviewerEmail, revieweeEmail);
 		return (submission == null ? null : new SubmissionData(submission));
@@ -1052,7 +1064,5 @@ public boolean isAdminLoggedIn() {
 	private boolean isModificationToExistingStudent(StudentData student) {
 		return getStudent(student.course, student.email) != null;
 	}
-
-	
 
 }
