@@ -370,8 +370,31 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetCourseDetailsListForCoord() throws Exception {
 		printTestCaseHeader();
-
 		restoreTypicalDataInDatastore();
+		
+		______TS("authentication");
+
+		Class<?>[] paramTypes = new Class<?>[] { String.class };
+		String methodName = "getCourseDetailsListForCoord";
+		Object[] params = new Object[] { "idOfTypicalCoord1" };
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		// coord does not own the given coordId
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, new Object[] { "diff-id" });
+
+		// coord owns the given id
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+		
+		______TS("typical case");
 
 		loginAsAdmin("admin.user");
 		
@@ -409,7 +432,8 @@ public class LogicTest extends BaseTestCase {
 				dataBundle.evaluations.get("evaluation1InCourse2OfCoord1"),
 				course2Evals);
 
-		// course with 0 evaluations
+		______TS("coord has a course with 0 evaluations");
+		
 		courseListForCoord = logic
 				.getCourseDetailsListForCoord("idOfTypicalCoord2");
 		assertEquals(2, courseListForCoord.size());
@@ -417,7 +441,8 @@ public class LogicTest extends BaseTestCase {
 				courseListForCoord.get("idOfCourse2OfCoord2").evaluations
 						.size());
 
-		// coord with 0 courses
+		______TS("coord with 0 courses");
+		
 		loginAsAdmin("admin.user");
 		logic.createCoord("coordWith0course", "Coord with 0 courses",
 				"coordWith0course@gmail.com");
@@ -425,10 +450,12 @@ public class LogicTest extends BaseTestCase {
 				.getCourseDetailsListForCoord("coordWith0course");
 		assertEquals(0, courseListForCoord.size());
 
-		// null parameters
+		______TS("null parameters");
+		
 		assertEquals(null, logic.getCourseDetailsListForCoord(null));
 
-		// non-existent coord
+		______TS("non-existent coord");
+		
 		try {
 			logic.getCourseDetailsListForCoord("non-existent");
 			fail();

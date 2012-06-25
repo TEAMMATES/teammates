@@ -93,6 +93,17 @@ public class Logic {
 		UserData loggedInUser = getLoggedInUser();
 		return loggedInUser == null ? false : loggedInUser.isAdmin;
 	}
+	
+	public boolean isCoordLoggedIn() {
+		UserData loggedInUser = getLoggedInUser();
+		return loggedInUser == null ? false : loggedInUser.isCoord;
+	}
+
+	private boolean isOwnId(String userId) {
+		UserData loggedInUser = getLoggedInUser();
+		return loggedInUser == null ? false : loggedInUser.id
+				.equalsIgnoreCase(userId);
+	}
 
 	@SuppressWarnings("unused")
 	private void ____COORD_level_methods____________________________________() {
@@ -154,8 +165,6 @@ public class Logic {
 	}
 
 	/**
-	 * 
-	 * @param coordId
 	 * @return null if coordId is null <br>
 	 *         Access level: Admin, Coord (for self)
 	 */
@@ -196,11 +205,23 @@ public class Logic {
 		return returnList;
 	}
 
+	/**
+	 * @return null if coordId is null <br>
+	 *         Access level: Admin, Coord (for self)
+	 */	
 	public HashMap<String, CourseData> getCourseDetailsListForCoord(
 			String coordId) throws EntityDoesNotExistException {
 		if (coordId == null) {
 			return null;
 		}
+		
+		boolean isAuthorized = isAdminLoggedIn() 
+				|| (isCoordLoggedIn() && isOwnId(coordId));
+		
+		if (!isAuthorized) {
+			throw new UnauthorizedAccessException();
+		}
+		
 		// TODO: using this method here may not be efficient as it retrieves
 		// info not required
 		HashMap<String, CourseData> courseList = getCourseListForCoord(coordId);
@@ -212,6 +233,11 @@ public class Logic {
 		return courseList;
 	}
 
+	/**
+	 * 
+	 * @return null if coordId is null <br>
+	 *         Access level: Admin, Coord (for self)
+	 */
 	public ArrayList<EvaluationData> getEvaluationsListForCoord(String coordId)
 			throws EntityDoesNotExistException {
 
@@ -248,17 +274,6 @@ public class Logic {
 			}
 		}
 		return evaluationDetailsList;
-	}
-
-	public boolean isCoordLoggedIn() {
-		UserData loggedInUser = getLoggedInUser();
-		return loggedInUser == null ? false : loggedInUser.isCoord;
-	}
-
-	private boolean isOwnId(String userId) {
-		UserData loggedInUser = getLoggedInUser();
-		return loggedInUser == null ? false : loggedInUser.id
-				.equalsIgnoreCase(userId);
 	}
 
 	@SuppressWarnings("unused")
