@@ -1005,9 +1005,18 @@ public class Logic {
 		return (e == null ? null : new EvaluationData(e));
 	}
 
+	/**
+	 * Access: owner and above
+	 * @param evaluation
+	 * @throws EntityDoesNotExistException
+	 * @throws InvalidParametersException
+	 */
 	public void editEvaluation(EvaluationData evaluation)
 			throws EntityDoesNotExistException, InvalidParametersException {
 		Common.verifyNotNull(evaluation, "evaluation");
+		
+		verifyCourseOwnerOrAbove(evaluation.course);
+		
 		evaluation.validate();
 		Evaluations.inst().editEvaluation(evaluation.course, evaluation.name,
 				evaluation.instructions, evaluation.p2pEnabled,

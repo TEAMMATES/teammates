@@ -2448,10 +2448,37 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testEditEvaluation() throws Exception {
+		
+		______TS("authentication");
 
 		restoreTypicalDataInDatastore();
 
+		String methodName = "editEvaluation";
+		Class<?>[] paramTypes = new Class<?>[] { EvaluationData.class };
+		EvaluationData evaluation = new EvaluationData();
+		evaluation.course = "idOfCourse1OfCoord1";
+		evaluation.name = "new evaluation";
+		Object[] params = new Object[] { evaluation };
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		// course belongs to a different coord
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord2",
+				paramTypes, params);
+
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+
 		______TS("typical case");
+
+		restoreTypicalDataInDatastore();
 		
 		loginAsAdmin("admin.user");
 
