@@ -833,12 +833,22 @@ public class Logic {
 		return Courses.inst().getCourseListForStudent(googleId);
 	}
 
+	/**
+	 * Access: any logged in user (to minimize cost of checking) 
+	 * @param courseId
+	 * @param evaluationName
+	 * @param studentEmail
+	 * @return
+	 * @throws InvalidParametersException
+	 */
 	public boolean hasStudentSubmittedEvaluation(String courseId,
 			String evaluationName, String studentEmail)
 			throws InvalidParametersException {
 		Common.verifyNotNull(courseId, "course ID");
 		Common.verifyNotNull(evaluationName, "evaluation name");
 		Common.verifyNotNull(studentEmail, "student email");
+		
+		verifyLoggedInUserAndAbove();
 
 		List<SubmissionData> submissions = null;
 		try {
