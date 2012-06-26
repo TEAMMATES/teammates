@@ -870,8 +870,18 @@ public class Logic {
 		return false;
 	}
 
+	/**
+	 * Access: student who owns the googleId, admin
+	 * @param googleId
+	 * @return
+	 * @throws EntityDoesNotExistException
+	 * @throws InvalidParametersException
+	 */
 	public List<CourseData> getCourseDetailsListForStudent(String googleId)
 			throws EntityDoesNotExistException, InvalidParametersException {
+		
+		verifySameStudentOrAdmin(googleId);
+		
 		List<CourseData> courseList = getCourseListForStudent(googleId);
 		for (CourseData c : courseList) {
 			List<Evaluation> evaluationList = Evaluations.inst()
