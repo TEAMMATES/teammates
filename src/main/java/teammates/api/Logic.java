@@ -651,7 +651,7 @@ public class Logic {
 	}
 
 	// TODO: make this private
-	public StudentData enrollStudent(StudentData student) {
+	private StudentData enrollStudent(StudentData student) {
 		StudentData.UpdateStatus updateStatus = UpdateStatus.UNMODIFIED;
 		try {
 			if (isSameAsExistingStudent(student)) {

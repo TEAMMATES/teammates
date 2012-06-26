@@ -1483,7 +1483,7 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(0, logic.getStudentListForCourse(courseId).size());
 
 		// add a new student and verify it is added and treated as a new student
-		StudentData enrollmentResult = logic.enrollStudent(student1);
+		StudentData enrollmentResult = invokeEnrollStudent(student1);
 		assertEquals(1, logic.getStudentListForCourse(courseId).size());
 		verifyEnrollmentResultForStudent(student1, enrollmentResult,
 				StudentData.UpdateStatus.NEW);
@@ -1491,7 +1491,7 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("add existing student");
 		// Verify it was not added
-		enrollmentResult = logic.enrollStudent(student1);
+		enrollmentResult = invokeEnrollStudent(student1);
 		verifyEnrollmentResultForStudent(student1, enrollmentResult,
 				StudentData.UpdateStatus.UNMODIFIED);
 
@@ -1502,7 +1502,7 @@ public class LogicTest extends BaseTestCase {
 		StudentData studentToEnroll = new StudentData(student2.email,
 				student2.name, student2.comments, student2.course,
 				student2.team);
-		enrollmentResult = logic.enrollStudent(studentToEnroll);
+		enrollmentResult = invokeEnrollStudent(studentToEnroll);
 		verifyEnrollmentResultForStudent(studentToEnroll, enrollmentResult,
 				StudentData.UpdateStatus.MODIFIED);
 		// check if the student is actually modified in datastore and existing
@@ -1511,14 +1511,14 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("add student into non-empty course");
 		StudentData student3 = new StudentData("t3|n3|e3@g|c3", courseId);
-		enrollmentResult = logic.enrollStudent(student3);
+		enrollmentResult = invokeEnrollStudent(student3);
 		assertEquals(2, logic.getStudentListForCourse(courseId).size());
 		verifyEnrollmentResultForStudent(student3, enrollmentResult,
 				StudentData.UpdateStatus.NEW);
 
 		______TS("add student without team");
 		StudentData student4 = new StudentData("|n4|e4@g", courseId);
-		enrollmentResult = logic.enrollStudent(student4);
+		enrollmentResult = invokeEnrollStudent(student4);
 		assertEquals(3, logic.getStudentListForCourse(courseId).size());
 		verifyEnrollmentResultForStudent(student4, enrollmentResult,
 				StudentData.UpdateStatus.NEW);
@@ -3134,6 +3134,15 @@ public class LogicTest extends BaseTestCase {
 		privateMethod.setAccessible(true);
 		Object[] params = new Object[] { course, evaluation, reviewer, reviewee };
 		return (SubmissionData) privateMethod.invoke(logic, params);
+	}
+	
+	private static StudentData invokeEnrollStudent(StudentData student)
+			throws Exception {
+		Method privateMethod = Logic.class.getDeclaredMethod("enrollStudent",
+				new Class[] { StudentData.class});
+		privateMethod.setAccessible(true);
+		Object[] params = new Object[] { student };
+		return (StudentData) privateMethod.invoke(logic, params);
 	}
 
 	private void verifyCannotAccess(int userType, String methodName,
