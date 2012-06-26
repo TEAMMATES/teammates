@@ -2126,17 +2126,52 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetEvauationResultForStudent() throws Exception {
-
-		restoreTypicalDataInDatastore();
-
-		______TS("typical case");
-
-		loginAsAdmin("admin.user");
-
-		// reconfigure points of an existing evaluation in the datastore
+		
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
 		EvaluationData evaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
+		String student1email = "student1InCourse1@gmail.com";
+
+		______TS("authentication");
+
+		restoreTypicalDataInDatastore();
+
+		String methodName = "getEvaluationResultForStudent";
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class, String.class };
+		Object[] params = new Object[] {
+				course.id, evaluation.name, student1email  };
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
+				paramTypes, params);
+		
+		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		// course belongs to a different coord
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, new Object[] {"course1OfCoord2", evaluation.name, student1email });
+
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+		
+		______TS("typical case");
+
+		// reconfigure points of an existing evaluation in the datastore
+		restoreTypicalDataInDatastore();
+		course = dataBundle.courses.get("course1OfCoord1");
+		evaluation = dataBundle.evaluations
+				.get("evaluation1InCourse1OfCoord1");
+		student1email = "student1InCourse1@gmail.com";
+
+		loginAsAdmin("admin.user");
+
+		
 		//@formatter:off
 		setPointsForSubmissions(new int[][] { 
 				{ 100, 100, 100, 100 },
@@ -2145,7 +2180,7 @@ public class LogicTest extends BaseTestCase {
 				{ 70, 80, 110, 120 } });
 		//@formatter:on
 
-		String student1email = "student1InCourse1@gmail.com";
+		
 		// "idOfCourse1OfCoord1", "evaluation1 In Course1",
 
 		EvalResultData result = logic.getEvaluationResultForStudent(course.id,
