@@ -1178,6 +1178,8 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		______TS("typical case");
+		
+		loginAsAdmin("admin.user");
 
 		StudentData newStudent = new StudentData("t1|n1|e@com|c1",
 				"tcs.course1");

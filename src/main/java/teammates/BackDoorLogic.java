@@ -148,38 +148,13 @@ public class BackDoorLogic extends Logic{
 		return null;
 	}
 
-	@SuppressWarnings("unused")
-	private void ____authentication_level_methods____________________________________() {
-	}
-
+	
 	@Override
-	public boolean isAdminLoggedIn() {
+	protected boolean isInternalCall() {
+		//back door calls are considered internal calls
 		return true;
 	}
 	
-	@Override
-	protected void verifyCoordUsingOwnIdOrAbove(String coordId) {
-		// this is through back door. no verification necessary
-	}
-	
-	@Override
-	protected void verifyRegisteredUserOrAbove() {
-		// this is through back door. no verification necessary
-	}
-	
-	@Override
-	protected void verifyCourseOwnerOrAbove(String courseId) {
-		// this is through back door. no verification necessary
-	}
-	
-	@Override
-	protected void verifyAdminLoggedIn() {
-		// this is through back door. no verification necessary
-	}
-	
-	@Override
-	protected void verifyLoggedInUserAndAbove() {
-		// this is through back door. no verification necessary
-	}
+
 
 }

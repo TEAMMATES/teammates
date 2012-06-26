@@ -88,20 +88,69 @@ public class Logic {
 		}
 		return userData;
 	}
-
-	public boolean isAdminLoggedIn() {
+	
+	//@formatter:off
+	
+	protected void verifyCoordUsingOwnIdOrAbove(String coordId) {
+		if (isInternalCall()) return;
+		if (isAdminLoggedIn()) return;
+		if (isOwnId(coordId)) return;
+		throw new UnauthorizedAccessException();
+	}
+	
+	protected void verifyRegisteredUserOrAbove() {
+		if (isInternalCall()) return;
+		if (isAdminLoggedIn()) return;
+		if (isCoordLoggedIn()) return;
+		if (isStudentLoggedIn()) return;
+		throw new UnauthorizedAccessException();
+	}
+	
+	protected void verifyCourseOwnerOrAbove(String courseId) {
+		if (isInternalCall()) return;
+		if (isAdminLoggedIn()) return;
+		if (isCourseOwner(courseId)) return;
+		throw new UnauthorizedAccessException();
+	}
+	
+	protected void verifyAdminLoggedIn() {
+		if (isInternalCall()) return;
+		if (isAdminLoggedIn())  return;
+		throw new UnauthorizedAccessException();
+	}
+	
+	protected void verifyLoggedInUserAndAbove() {
+		if (isInternalCall()) return;
+		if (isUserLoggedIn()) return;
+		throw new UnauthorizedAccessException();
+	}
+	
+	protected void verifySameStudentOrAdmin(String googleId) {
+		if (isInternalCall()) return;
+		if (isAdminLoggedIn()) return;
+		if (isOwnId(googleId)) return;
+		throw new UnauthorizedAccessException();
+	}
+	
+	protected void verifySameStudentOrCourseOwnerOrAdmin(String courseId, String googleId) {
+		if (isInternalCall()) return;
+		if (isAdminLoggedIn()) return;
+		if (isOwnId(googleId)) return;
+		if (isCourseOwner(courseId)) return;
+		throw new UnauthorizedAccessException();
+	}
+	
+	//@formatter:on
+	
+	protected boolean isInternalCall() {
+		String callerClassName = Thread.currentThread().getStackTrace()[4].getClassName();
+		String thisClassName = this.getClass().getCanonicalName();
+		return callerClassName.equals(thisClassName);
+	}
+	
+	protected boolean isAdminLoggedIn() {
 		UserData loggedInUser = getLoggedInUser();
 		return loggedInUser == null ? false : loggedInUser.isAdmin;
-	}
-	
-	public boolean isCoordLoggedIn() {
-		UserData loggedInUser = getLoggedInUser();
-		return loggedInUser == null ? false : loggedInUser.isCoord;
-	}
-	
-	public boolean isStudentLoggedIn() {
-		UserData loggedInUser = getLoggedInUser();
-		return loggedInUser == null ? false : loggedInUser.isStudent;
 	}
 
 	private boolean isOwnId(String userId) {
@@ -109,116 +158,7 @@ public class Logic {
 		return loggedInUser == null ? false : loggedInUser.id
 				.equalsIgnoreCase(userId);
 	}
-	
-	protected void verifyCoordUsingOwnIdOrAbove(String coordId) {
-		boolean isAuthorized;
-		
-		if(isInternalCall()){
-			isAuthorized = true;
-		}else {
-			isAuthorized = isAdminLoggedIn() || (isCoordLoggedIn() && isOwnId(coordId));
-		}
-		
-		if (!isAuthorized) {
-			throw new UnauthorizedAccessException();
-		}
-	}
-	
-	protected void verifyRegisteredUserOrAbove() {
-		boolean isAuthorized;
-		
-		if(isInternalCall()){
-			isAuthorized = true;
-		}else {
-			isAuthorized = isAdminLoggedIn() 
-				|| isCoordLoggedIn() 
-				|| isStudentLoggedIn();
-		}
-		
-		if (!isAuthorized)  {
-			throw new UnauthorizedAccessException();
-		}
-	}
-	
-	protected void verifyCourseOwnerOrAbove(String courseId) {
-		
-		boolean isAuthorized;
-		
-		if(isInternalCall()){
-			isAuthorized = true;
-		}else if(!isUserLoggedIn()){
-			isAuthorized = false;  
-		}else if(isAdminLoggedIn()){
-			isAuthorized = true;
-		}else {
-			CourseData course = getCourse(courseId);
-			isAuthorized =	(course==null) 
-					|| course.coord.equalsIgnoreCase(getLoggedInUser().id);
-		}
-		
-		if (!isAuthorized)  {
-			throw new UnauthorizedAccessException();
-		}
-	}
-	
-	protected void verifyAdminLoggedIn() {
-		if (!isAdminLoggedIn())  {
-			throw new UnauthorizedAccessException();
-		}
-	}
-	
-	protected void verifyLoggedInUserAndAbove() {
-		if (!isUserLoggedIn()) {
-			throw new UnauthorizedAccessException();
-		}
-	}
-	
-	protected void verifySameStudentOrAdmin(String googleId) {
-		boolean isAuthorized;
-		UserData user = getLoggedInUser();
-		
-		if(isInternalCall()){
-			isAuthorized = true;
-		}else if(!isUserLoggedIn()){
-			isAuthorized = false;  
-		}else if(isAdminLoggedIn()){
-			isAuthorized = true;
-		}else {
-			isAuthorized = user.id.equalsIgnoreCase(googleId);	
-		}
-		
-		if (!isAuthorized)  {
-			throw new UnauthorizedAccessException();
-		}
-	}
-	
-	protected void verifySameStudentOrCourseOwnerOrAdmin(String courseId, String googleId) {
-		boolean isAuthorized;
-		UserData user = getLoggedInUser();
-		
-		if(isInternalCall()){
-			isAuthorized = true;
-		}else if(!isUserLoggedIn()){
-			isAuthorized = false;  
-		}else if(isAdminLoggedIn()){
-			isAuthorized = true;
-		}else if(user.id.equalsIgnoreCase(googleId)){
-			isAuthorized = true;
-		}else {
-			isAuthorized = isCourseOwner(courseId);
-		}
-		
-		if (!isAuthorized)  {
-			throw new UnauthorizedAccessException();
-		}
-		
-	}
-	
-	private boolean isInternalCall() {
-		String callerClassName = Thread.currentThread().getStackTrace()[4].getClassName();
-		String thisClassName = this.getClass().getCanonicalName();
-		return callerClassName.equals(thisClassName);
-	}
+
 
 	private boolean isCourseOwner(String courseId) {
 		CourseData course = getCourse(courseId);
@@ -226,6 +166,16 @@ public class Logic {
 		return user!=null 
 				&& course!=null 
 				&& course.coord.equals(user.id);
+	}
+
+	private boolean isCoordLoggedIn() {
+		UserData loggedInUser = getLoggedInUser();
+		return loggedInUser == null ? false : loggedInUser.isCoord;
+	}
+
+	private boolean isStudentLoggedIn() {
+		UserData loggedInUser = getLoggedInUser();
+		return loggedInUser == null ? false : loggedInUser.isStudent;
 	}
 
 	@SuppressWarnings("unused")
