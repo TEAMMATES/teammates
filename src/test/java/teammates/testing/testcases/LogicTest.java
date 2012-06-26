@@ -1542,10 +1542,37 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetStudentWithId() throws Exception {
-	
+		
+		______TS("authentication");
+
 		restoreTypicalDataInDatastore();
+
+		String methodName = "getStudentsWithId";
+		Class<?>[] paramTypes = new Class<?>[] { String.class };
+		Object[] params = new Object[] { "student1InCourse1" };
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		//different student
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
+				paramTypes, params);
+		
+		//same student
+		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
 	
 		______TS("student in one course");
+		
+		loginAsAdmin("admin.user");
+	
+		restoreTypicalDataInDatastore();
 		StudentData studentInOneCourse = dataBundle.students
 				.get("student1InCourse1");
 		assertEquals(1, logic.getStudentsWithId(studentInOneCourse.id).size());
@@ -1711,6 +1738,9 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		______TS("student having two courses");
+		
+		loginAsAdmin("admin.user");
+		
 		StudentData studentInTwoCourses = dataBundle.students
 				.get("student2InCourse1");
 		List<CourseData> courseList = logic
@@ -1760,6 +1790,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("student having multiple evaluations in multiple courses");
 
+		loginAsAdmin("admin.user");
+		
 		// Let's call this course 1. It has 2 evaluations.
 		CourseData expectedCourse1 = dataBundle.courses.get("course1OfCoord1");
 
@@ -1928,6 +1960,7 @@ public class LogicTest extends BaseTestCase {
 	public void testGetStudentInCourseForGoogleId() throws Exception {
 
 		restoreTypicalDataInDatastore();
+		loginAsAdmin("admin.user");
 		StudentData studentInTwoCoursesInCourse1 = dataBundle.students
 				.get("student2InCourse1");
 

@@ -159,6 +159,23 @@ public class Logic {
 		}
 	}
 	
+	private void verifySameStudentOrAdmin(String googleId) {
+		boolean isAuthorized;
+		UserData user = getLoggedInUser();
+		
+		if(!isUserLoggedIn()){
+			isAuthorized = false;  
+		}else if(isAdminLoggedIn()){
+			isAuthorized = true;
+		}else {
+			isAuthorized = user.id.equalsIgnoreCase(googleId);	
+		}
+		
+		if (!isAuthorized)  {
+			throw new UnauthorizedAccessException();
+		}
+	}
+	
 	@SuppressWarnings("unused")
 	private void ____COORD_level_methods____________________________________() {
 	}
@@ -686,7 +703,15 @@ public class Logic {
 
 	}
 
+	/**
+	 * Access: same student and admin only
+	 * @param googleId
+	 * @return
+	 */
 	public ArrayList<StudentData> getStudentsWithId(String googleId) {
+		
+		verifySameStudentOrAdmin(googleId);
+		
 		List<Student> students = Accounts.inst().getStudentWithID(googleId);
 		if (students == null) {
 			return null;
@@ -697,6 +722,8 @@ public class Logic {
 		}
 		return returnList;
 	}
+
+
 
 	public StudentData getStudentInCourseForGoogleId(String courseId,
 			String googleId) {

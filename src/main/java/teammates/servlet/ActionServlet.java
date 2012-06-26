@@ -70,7 +70,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			resp.sendRedirect(Common.JSP_ENTITY_NOT_FOUND_PAGE);
 			return;
 		}  catch (UnauthorizedAccessException e){
-			log.warning("Unauthorize access attempted:"+ e.getMessage());
+			log.warning("Unauthorized access attempted:"+ TeammatesException.stackTraceToString(e));
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return;
 		} catch (Exception e){
