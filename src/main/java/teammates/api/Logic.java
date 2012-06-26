@@ -567,9 +567,6 @@ public class Logic {
 
 	/**
 	 * Access: course owner and above
-	 * @param studentData
-	 * @throws EntityAlreadyExistsException
-	 * @throws InvalidParametersException
 	 */
 	public void createStudent(StudentData studentData)
 			throws EntityAlreadyExistsException, InvalidParametersException {
@@ -595,10 +592,17 @@ public class Logic {
 		Courses.inst().createStudent(student);
 	}
 
+	/**
+	 * Access: any registered user (to minimize cost of checking)
+	 * @return returns null if there is no such student.
+	 */
 	public StudentData getStudent(String courseId, String email) {
 		if (courseId == null || email == null) {
 			return null;
 		}
+		
+		verifyRegisteredUserOrAbove();
+		
 		Student student = Accounts.inst().getStudent(courseId, email);
 		return (student == null ? null : new StudentData(student));
 	}

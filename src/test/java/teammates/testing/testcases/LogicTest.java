@@ -1217,8 +1217,36 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testGetStudent() {
+	public void testGetStudent() throws Exception {
 		// mostly tested in testCreateStudent
+		
+		______TS("authentication");
+		
+		restoreTypicalDataInDatastore();
+		
+		String methodName = "getStudent";
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
+		Object[] params = new Object[] { "idOfCourse1OfCoord2", "student1InCourse1@gmail.com" };
+		
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCanAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		//course belongs to a different coord
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, new Object[] { 
+				new StudentData("t|n|e@com|c","idOfCourse1OfCoord2")});
+		
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+		
+		______TS("null parameter");
+		
 		assertEquals(null, logic.getStudent(null, "email@email.com"));
 		assertEquals(null, logic.getStudent("course-id", null));
 	}
@@ -1289,6 +1317,9 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		______TS("typical edit");
+		
+		loginAsAdmin("admin.user");
+		
 		StudentData student1InCourse1 = dataBundle.students
 				.get("student1InCourse1");
 		verifyPresentInDatastore(student1InCourse1);
@@ -1336,6 +1367,9 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		______TS("typical delete");
+		
+		loginAsAdmin("admin.user");
+		
 		// this is the student to be deleted
 		StudentData student2InCourse1 = dataBundle.students
 				.get("student2InCourse1");
@@ -1502,6 +1536,8 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		______TS("register an unregistered student");
+		
+		loginAsAdmin("admin.user");
 
 		// make a student 'unregistered'
 		StudentData student = dataBundle.students.get("student1InCourse1");
@@ -1749,12 +1785,13 @@ public class LogicTest extends BaseTestCase {
 	public void testHasStudentSubmittedEvaluation() throws Exception {
 		
 		restoreTypicalDataInDatastore();
+		______TS("student has submitted");
+		loginAsAdmin("admin.user");
 
 		EvaluationData evaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
 		StudentData student = dataBundle.students.get("student1InCourse1");
 
-		______TS("student has submitted");
 
 		assertEquals(true, logic.hasStudentSubmittedEvaluation(
 				evaluation.course, evaluation.name, student.email));
@@ -2545,6 +2582,8 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		______TS("typical case");
+		
+		loginAsAdmin("admin.user");
 
 		EvaluationData evaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
