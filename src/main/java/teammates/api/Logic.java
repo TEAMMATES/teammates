@@ -1038,7 +1038,7 @@ public class Logic {
 	}
 
 	/**
-	 * Access: owner and above
+	 * Access: course owner and above
 	 * @param courseId
 	 * @param evaluationName
 	 * @throws EntityDoesNotExistException
@@ -1055,12 +1055,54 @@ public class Logic {
 				studentList);
 	}
 
+	/**
+	 * Access: course owner and above
+	 * @param courseId
+	 * @param evaluationName
+	 * @throws EntityDoesNotExistException
+	 */
 	public void unpublishEvaluation(String courseId, String evaluationName)
 			throws EntityDoesNotExistException {
 		
 		verifyCourseOwnerOrAbove(courseId);
 		
 		Evaluations.inst().unpublishEvaluation(courseId, evaluationName);
+	}
+
+	/**
+	 * Access: course owner and above
+	 * @param courseId
+	 * @param evaluationName
+	 */
+	public void sendReminderForEvaluation(String courseId, String evaluationName) {
+
+		verifyCourseOwnerOrAbove(courseId);
+		
+		List<Student> studentList = Courses.inst().getStudentList(courseId);
+	
+		// Filter out students who have submitted the evaluation
+		Evaluations evaluations = Evaluations.inst();
+		Evaluation evaluation = evaluations.getEvaluation(courseId,
+				evaluationName);
+	
+		if (evaluation == null) {
+			// TODO: throw exception
+			return;
+		}
+	
+		List<Student> studentsToRemindList = new ArrayList<Student>();
+	
+		for (Student s : studentList) {
+			if (!evaluations.isEvaluationSubmitted(evaluation, s.getEmail())) {
+				studentsToRemindList.add(s);
+			}
+		}
+	
+		Date deadline = evaluation.getDeadline();
+	
+		evaluations.remindStudents(studentsToRemindList, courseId,
+				evaluationName, deadline);
+	
 	}
 
 	/**
@@ -1122,35 +1164,6 @@ public class Logic {
 			}
 		}
 		return returnList;
-	}
-
-	public void sendReminderForEvaluation(String courseId, String evaluationName) {
-		// TODO: apply isAuthorized*()
-		List<Student> studentList = Courses.inst().getStudentList(courseId);
-
-		// Filter out students who have submitted the evaluation
-		Evaluations evaluations = Evaluations.inst();
-		Evaluation evaluation = evaluations.getEvaluation(courseId,
-				evaluationName);
-
-		if (evaluation == null) {
-			// TODO: throw exception
-			return;
-		}
-
-		List<Student> studentsToRemindList = new ArrayList<Student>();
-
-		for (Student s : studentList) {
-			if (!evaluations.isEvaluationSubmitted(evaluation, s.getEmail())) {
-				studentsToRemindList.add(s);
-			}
-		}
-
-		Date deadline = evaluation.getDeadline();
-
-		evaluations.remindStudents(studentsToRemindList, courseId,
-				evaluationName, deadline);
-
 	}
 
 	@SuppressWarnings("unused")

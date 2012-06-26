@@ -3094,10 +3094,34 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testSendReminderForEvaluation_1() throws Exception {
+		
+		______TS("authentication");
 
 		restoreTypicalDataInDatastore();
 
+		String methodName = "sendReminderForEvaluation";
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
+		Object[] params = new Object[] {"idOfCourse1OfCoord1", "new evaluation" };
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		// course belongs to a different coord
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord2",
+				paramTypes, params);
+
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+
 		______TS("empty class");
+
+		restoreTypicalDataInDatastore();
 
 		loginAsAdmin("admin.user");
 		logic.createCourse("coord1", "course1", "course 1");
