@@ -811,10 +811,19 @@ public class Logic {
 				keyLong);
 	}
 
+	/**
+	 * Access: student who owns the googleId, admin
+	 * @param googleId
+	 * @return
+	 * @throws EntityDoesNotExistException
+	 * @throws InvalidParametersException
+	 */
 	public List<CourseData> getCourseListForStudent(String googleId)
 			throws EntityDoesNotExistException, InvalidParametersException {
-
+		
 		Common.verifyNotNull(googleId, "Google Id");
+		
+		verifySameStudentOrAdmin(googleId);
 
 		if (getStudentsWithId(googleId) == null) {
 			throw new EntityDoesNotExistException("Student with Google ID "

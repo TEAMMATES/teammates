@@ -1842,9 +1842,30 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetCourseListForStudent() throws Exception {
 
+		______TS("authentication");
+
 		restoreTypicalDataInDatastore();
 
+		String methodName = "getCourseListForStudent";
+		Class<?>[] paramTypes = new Class<?>[] { String.class };
+		Object[] params = new Object[] { "student1InCourse1" };
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		//not the owner of the id
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse2",
+				paramTypes, params);
+		
+		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
 		______TS("student having two courses");
+
+		restoreTypicalDataInDatastore();
 		
 		loginAsAdmin("admin.user");
 		
