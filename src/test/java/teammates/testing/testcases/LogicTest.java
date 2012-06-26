@@ -1236,8 +1236,7 @@ public class LogicTest extends BaseTestCase {
 
 		// course belongs to a different coord
 		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
-				paramTypes, new Object[] { new StudentData("t|n|e@com|c",
-						"idOfCourse1OfCoord2") });
+				paramTypes, new Object[] {"idOfCourse1OfCoord2", "e@c.com" });
 
 		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, params);
@@ -1324,71 +1323,37 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testGetStudentWithId() throws Exception {
-
-		restoreTypicalDataInDatastore();
-
-		______TS("student in one course");
-		StudentData studentInOneCourse = dataBundle.students
-				.get("student1InCourse1");
-		assertEquals(1, logic.getStudentsWithId(studentInOneCourse.id).size());
-		assertEquals(studentInOneCourse.email,
-				logic.getStudentsWithId(studentInOneCourse.id).get(0).email);
-		assertEquals(studentInOneCourse.name,
-				logic.getStudentsWithId(studentInOneCourse.id).get(0).name);
-		assertEquals(studentInOneCourse.course,
-				logic.getStudentsWithId(studentInOneCourse.id).get(0).course);
-
-		______TS("student in two courses");
-		// this student is in two courses, course1 and course 2.
-
-		// get list using student data from course 1
-		StudentData studentInTwoCoursesInCourse1 = dataBundle.students
-				.get("student2InCourse1");
-		ArrayList<StudentData> listReceivedUsingStudentInCourse1 = logic
-				.getStudentsWithId(studentInTwoCoursesInCourse1.id);
-		assertEquals(2, listReceivedUsingStudentInCourse1.size());
-
-		// get list using student data from course 2
-		StudentData studentInTwoCoursesInCourse2 = dataBundle.students
-				.get("student2InCourse2");
-		ArrayList<StudentData> listReceivedUsingStudentInCourse2 = logic
-				.getStudentsWithId(studentInTwoCoursesInCourse2.id);
-		assertEquals(2, listReceivedUsingStudentInCourse2.size());
-
-		// check the content from first list (we assume the content of the
-		// second list is similar.
-
-		StudentData firstStudentReceived = listReceivedUsingStudentInCourse1
-				.get(0);
-		// First student received turned out to be the one from course 2
-		assertEquals(studentInTwoCoursesInCourse2.email,
-				firstStudentReceived.email);
-		assertEquals(studentInTwoCoursesInCourse2.name,
-				firstStudentReceived.name);
-		assertEquals(studentInTwoCoursesInCourse2.course,
-				firstStudentReceived.course);
-
-		// then the second student received must be from course 1
-		StudentData secondStudentReceived = listReceivedUsingStudentInCourse1
-				.get(1);
-		assertEquals(studentInTwoCoursesInCourse1.email,
-				secondStudentReceived.email);
-		assertEquals(studentInTwoCoursesInCourse1.name,
-				secondStudentReceived.name);
-		assertEquals(studentInTwoCoursesInCourse1.course,
-				secondStudentReceived.course);
-
-		______TS("non existent student");
-		assertEquals(null, logic.getStudentsWithId("non-existent"));
-	}
-
-	@Test
 	public void testDeleteStudent() throws Exception {
 
+		______TS("authentication");
+
 		restoreTypicalDataInDatastore();
 
+		String methodName = "deleteStudent";
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
+		Object[] params = new Object[] { "idOfCourse1OfCoord2",
+				"student1InCourse1@gmail.com" };
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		// course belongs to a different coord
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, new Object[] { "idOfCourse1OfCoord2",
+						"s@e.com" });
+
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+
 		______TS("typical delete");
+		
+		restoreTypicalDataInDatastore();
 
 		loginAsAdmin("admin.user");
 
@@ -1436,6 +1401,66 @@ public class LogicTest extends BaseTestCase {
 
 		// No need to test for cascade delete of TeamProfiles because we follow
 		// tolerateOrphansPolicy for TeamProfiles
+	}
+
+	@Test
+	public void testGetStudentWithId() throws Exception {
+	
+		restoreTypicalDataInDatastore();
+	
+		______TS("student in one course");
+		StudentData studentInOneCourse = dataBundle.students
+				.get("student1InCourse1");
+		assertEquals(1, logic.getStudentsWithId(studentInOneCourse.id).size());
+		assertEquals(studentInOneCourse.email,
+				logic.getStudentsWithId(studentInOneCourse.id).get(0).email);
+		assertEquals(studentInOneCourse.name,
+				logic.getStudentsWithId(studentInOneCourse.id).get(0).name);
+		assertEquals(studentInOneCourse.course,
+				logic.getStudentsWithId(studentInOneCourse.id).get(0).course);
+	
+		______TS("student in two courses");
+		// this student is in two courses, course1 and course 2.
+	
+		// get list using student data from course 1
+		StudentData studentInTwoCoursesInCourse1 = dataBundle.students
+				.get("student2InCourse1");
+		ArrayList<StudentData> listReceivedUsingStudentInCourse1 = logic
+				.getStudentsWithId(studentInTwoCoursesInCourse1.id);
+		assertEquals(2, listReceivedUsingStudentInCourse1.size());
+	
+		// get list using student data from course 2
+		StudentData studentInTwoCoursesInCourse2 = dataBundle.students
+				.get("student2InCourse2");
+		ArrayList<StudentData> listReceivedUsingStudentInCourse2 = logic
+				.getStudentsWithId(studentInTwoCoursesInCourse2.id);
+		assertEquals(2, listReceivedUsingStudentInCourse2.size());
+	
+		// check the content from first list (we assume the content of the
+		// second list is similar.
+	
+		StudentData firstStudentReceived = listReceivedUsingStudentInCourse1
+				.get(0);
+		// First student received turned out to be the one from course 2
+		assertEquals(studentInTwoCoursesInCourse2.email,
+				firstStudentReceived.email);
+		assertEquals(studentInTwoCoursesInCourse2.name,
+				firstStudentReceived.name);
+		assertEquals(studentInTwoCoursesInCourse2.course,
+				firstStudentReceived.course);
+	
+		// then the second student received must be from course 1
+		StudentData secondStudentReceived = listReceivedUsingStudentInCourse1
+				.get(1);
+		assertEquals(studentInTwoCoursesInCourse1.email,
+				secondStudentReceived.email);
+		assertEquals(studentInTwoCoursesInCourse1.name,
+				secondStudentReceived.name);
+		assertEquals(studentInTwoCoursesInCourse1.course,
+				secondStudentReceived.course);
+	
+		______TS("non existent student");
+		assertEquals(null, logic.getStudentsWithId("non-existent"));
 	}
 
 	@Test

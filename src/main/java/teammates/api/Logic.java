@@ -637,10 +637,17 @@ public class Logic {
 				student.profile);
 	}
 
+	/**
+	 * Access: course owner and above
+	 * @param courseId
+	 * @param studentEmail
+	 */
 	public void deleteStudent(String courseId, String studentEmail) {
+		
+		verifyCourseOwnerOrAbove(courseId);
+		
 		Courses.inst().deleteStudent(courseId, studentEmail);
 		Evaluations.inst().deleteSubmissionsForStudent(courseId, studentEmail);
-		// TODO:delete team profile, if the last member
 	}
 
 	// TODO: make this private
