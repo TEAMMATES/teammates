@@ -18,16 +18,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.MethodRule;
-import org.junit.rules.TestName;
-import org.junit.rules.TestRule;
-import org.junit.rules.TestWatcher;
-import org.junit.rules.TestWatchman;
-import org.junit.runner.Description;
-import org.junit.runners.model.FrameworkMethod;
-import org.junit.runners.model.Statement;
 
 import teammates.Datastore;
 import teammates.TeamEvalResult;
@@ -1228,7 +1219,7 @@ public class LogicTest extends BaseTestCase {
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
 
-		verifyCanAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
 				paramTypes, params);
 
 		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
@@ -1258,7 +1249,7 @@ public class LogicTest extends BaseTestCase {
 		Class<?>[] paramTypes = new Class<?>[] { String.class,
 				StudentData.class };
 		StudentData s = new StudentData("t|n|e@com|c", "idOfCourse1OfCoord1");
-		Object[] params = new Object[] { "e@com", s };
+		Object[] params = new Object[] { "student1InCourse1@gmail.com", s };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -1271,13 +1262,15 @@ public class LogicTest extends BaseTestCase {
 
 		// course belongs to a different coord
 		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
-				paramTypes, new Object[] { "e@com", new StudentData("t|n|e@com|c",
+				paramTypes, new Object[] { "student1InCourse1@gmail.com", new StudentData("t|n|e@com|c",
 						"idOfCourse1OfCoord2") });
 
 		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, params);
 
 		______TS("typical edit");
+		
+		restoreTypicalDataInDatastore();
 
 		loginAsAdmin("admin.user");
 
@@ -1331,7 +1324,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "deleteStudent";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfCourse1OfCoord2",
+		Object[] params = new Object[] { "idOfCourse1OfCoord1",
 				"student1InCourse1@gmail.com" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
@@ -1346,7 +1339,7 @@ public class LogicTest extends BaseTestCase {
 		// course belongs to a different coord
 		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, new Object[] { "idOfCourse1OfCoord2",
-						"s@e.com" });
+						"student1InCourse2@gmail.com" });
 
 		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, params);
@@ -1474,32 +1467,12 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testSendRegistrationInviteToStudent() throws Exception {
 
-		______TS("authentication");
-
-		restoreTypicalDataInDatastore();
-
-		String methodName = "sendRegistrationInviteToStudent";
-		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfCourse1OfCoord2",
-				"student1InCourse1@gmail.com" };
-
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-
-		// course belongs to a different coord
-		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
-				paramTypes, new Object[] {"idOfCourse1OfCoord2", "e@c.com" });
-
-		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
-				paramTypes, params);
+		//Authentication testing is moved to the bottom of this method
+		//  to avoid interfering the email queue.
 
 		______TS("send to existing student");
+		
+		loginAsAdmin("admin.user");
 		
 		restoreTypicalDataInDatastore();
 		
@@ -1517,6 +1490,7 @@ public class LogicTest extends BaseTestCase {
 		verifyRegistrationEmailToStudent(student2);
 
 		______TS("send to non-existing student");
+		
 		try {
 			logic.sendRegistrationInviteToStudent(student1.course,
 					"non@existent");
@@ -1528,6 +1502,7 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(2, getNumberOfEmailTasksInQueue());
 
 		______TS("try with null parameters");
+		
 		try {
 			logic.sendRegistrationInviteToStudent(student1.course, null);
 			fail();
@@ -1538,6 +1513,31 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (InvalidParametersException e) {
 		}
+		
+		______TS("authentication");
+
+		restoreTypicalDataInDatastore();
+
+		String methodName = "sendRegistrationInviteToStudent";
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
+		Object[] params = new Object[] { "idOfCourse1OfCoord1",
+				"student1InCourse1@gmail.com" };
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		// course belongs to a different coord
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, new Object[] {"idOfCourse1OfCoord2", "student1InCourse2@gmail.com" });
+
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
 	}
 
 	@Test
@@ -1625,6 +1625,57 @@ public class LogicTest extends BaseTestCase {
 	
 		______TS("non existent student");
 		assertEquals(null, logic.getStudentsWithId("non-existent"));
+	}
+
+	@Test
+	public void testGetStudentInCourseForGoogleId() throws Exception {
+		
+		______TS("authentication");
+
+		restoreTypicalDataInDatastore();
+
+		String methodName = "getStudentInCourseForGoogleId";
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
+		Object[] params = new Object[] { "idOfCourse1OfCoord1", "student1InCourse1" };
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		//different student
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
+				paramTypes, params);
+		
+		//same student
+		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+	
+		______TS("student in one course");
+	
+		restoreTypicalDataInDatastore();
+		loginAsAdmin("admin.user");
+		StudentData studentInTwoCoursesInCourse1 = dataBundle.students
+				.get("student2InCourse1");
+	
+		String googleIdOfstudentInTwoCourses = studentInTwoCoursesInCourse1.id;
+		assertEquals(studentInTwoCoursesInCourse1.email,
+				logic.getStudentInCourseForGoogleId(
+						studentInTwoCoursesInCourse1.course,
+						googleIdOfstudentInTwoCourses).email);
+	
+		StudentData studentInTwoCoursesInCourse2 = dataBundle.students
+				.get("student2InCourse2");
+		assertEquals(studentInTwoCoursesInCourse2.email,
+				logic.getStudentInCourseForGoogleId(
+						studentInTwoCoursesInCourse2.course,
+						googleIdOfstudentInTwoCourses).email);
+	
+		// TODO: more testing
 	}
 
 	@Test
@@ -1896,6 +1947,7 @@ public class LogicTest extends BaseTestCase {
 	public void testHasStudentSubmittedEvaluation() throws Exception {
 
 		restoreTypicalDataInDatastore();
+		
 		______TS("student has submitted");
 		loginAsAdmin("admin.user");
 
@@ -1954,30 +2006,6 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(false, logic.hasStudentSubmittedEvaluation(
 				evaluation.course, evaluation.name, "non-existent@student"));
 
-	}
-
-	@Test
-	public void testGetStudentInCourseForGoogleId() throws Exception {
-
-		restoreTypicalDataInDatastore();
-		loginAsAdmin("admin.user");
-		StudentData studentInTwoCoursesInCourse1 = dataBundle.students
-				.get("student2InCourse1");
-
-		String googleIdOfstudentInTwoCourses = studentInTwoCoursesInCourse1.id;
-		assertEquals(studentInTwoCoursesInCourse1.email,
-				logic.getStudentInCourseForGoogleId(
-						studentInTwoCoursesInCourse1.course,
-						googleIdOfstudentInTwoCourses).email);
-
-		StudentData studentInTwoCoursesInCourse2 = dataBundle.students
-				.get("student2InCourse2");
-		assertEquals(studentInTwoCoursesInCourse2.email,
-				logic.getStudentInCourseForGoogleId(
-						studentInTwoCoursesInCourse2.course,
-						googleIdOfstudentInTwoCourses).email);
-
-		// TODO: more testing
 	}
 
 	@Test
@@ -3231,7 +3259,7 @@ public class LogicTest extends BaseTestCase {
 		Method method = Logic.class.getDeclaredMethod(methodName, paramTypes);
 		switch (userType) {
 		case USER_TYPE_NOT_LOGGED_IN:
-			break;
+			logoutUser(); break;
 		case USER_TYPE_UNREGISTERED:
 			loginUser(userId);
 			break;
@@ -3254,6 +3282,9 @@ public class LogicTest extends BaseTestCase {
 						e.getCause() != null);
 				assertEquals(UnauthorizedAccessException.class, e.getCause()
 						.getClass());
+			} else {
+				print(TeammatesException.stackTraceToString(e));
+				fail();
 			}
 		}
 	}
