@@ -622,9 +622,14 @@ public class Logic {
 	 * @param student
 	 * @throws InvalidParametersException
 	 * @throws EntityDoesNotExistException
+	 * 
+	 * <br> Access: coord of course and above.
 	 */
 	public void editStudent(String originalEmail, StudentData student)
 			throws InvalidParametersException, EntityDoesNotExistException {
+		
+		verifyCourseOwnerOrAbove(student.course);
+		
 		// TODO: make the implementation more defensive
 		String newTeamName = student.team;
 		Courses.inst().editStudent(student.course, originalEmail, student.name,
