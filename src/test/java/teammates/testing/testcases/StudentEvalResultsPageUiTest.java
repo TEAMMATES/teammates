@@ -48,7 +48,7 @@ public class StudentEvalResultsPageUiTest extends BaseTestCase {
 
 	@Test	
 	public void testStudentEvalResultsPageHTML() throws Exception{
-		printTestCaseHeader();
+		
 		
 		______TS("typical case: more than two members");
 		

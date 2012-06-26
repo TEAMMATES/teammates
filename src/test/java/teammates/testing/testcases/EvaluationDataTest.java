@@ -21,7 +21,7 @@ public class EvaluationDataTest extends BaseTestCase {
 
 	@Test
 	public void testCalculateEvalStatus() throws InterruptedException {
-		printTestCaseHeader();
+		
 		double timeZone;
 		int gracePeriod;
 		EvaluationData evaluation = new EvaluationData();

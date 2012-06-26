@@ -67,7 +67,7 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testCoordCourseEnrollPage() throws Exception{
-		printTestCaseHeader();
+		
 		
 		______TS("failure case");
 		

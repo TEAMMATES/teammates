@@ -29,7 +29,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 	 @Test
 	// @formatter:off
 	public void testCalculatePoints() {
-		printTestCaseHeader();
+		
 		int[][] input = 
 			{{ 100, 100, 100, 100 }, 
 			 { 100, 100, 100, 100 },
@@ -286,7 +286,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 
 	@Test
 	public void testNormalizeValues(){
-		printTestCaseHeader();
+		
 		verifyNormalized(new double[] {}, new double[] {});
 		verifyNormalized(new double[] {100}, new double[] {100});
 		verifyNormalized(new double[] {100}, new double[] {50});
@@ -302,7 +302,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 
 	@Test 
 	public void testExcludeSelfRatings(){
-		printTestCaseHeader();
+		
 		assertEquals(pointsToString(new double[][]{{NA}}),
 				pointsToString(TeamEvalResult.excludeSelfRatings(new double[][]{{1}})));
 		
@@ -323,7 +323,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 	
 	@Test
 	public void testAverageColumns(){
-		printTestCaseHeader();
+		
 		double[][] input = 
 			{{ 10, 20,  0, NA }, 
 			 { 10, NA,  0, NA },
@@ -352,7 +352,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 	
 	@Test
 	public void testSum(){
-		printTestCaseHeader();
+		
 		assertEquals(6,TeamEvalResult.sum(new double[]{1,2,3}),0.001);
 		assertEquals(0,TeamEvalResult.sum(new double[]{}),0.001);
 		assertEquals(6,TeamEvalResult.sum(new double[]{NA, 2, 4}),0.001);
@@ -369,7 +369,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 	
 	@Test
 	public void testCalculatePerceivedForStudent(){
-		printTestCaseHeader();
+		
 		
 		assertEquals(Arrays.toString(new int[]{}),
 				Arrays.toString(TeamEvalResult.calculatePerceivedForStudent
@@ -410,7 +410,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 	
 	@Test
 	public void testIsSanitized(){
-		printTestCaseHeader();
+		
 		
 		assertEquals(true, TeamEvalResult.isSanitized(new int[]{}));
 		assertEquals(true, TeamEvalResult.isSanitized(new int[]{1, 2, NA}));
@@ -420,7 +420,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 	
 	@Test
 	public void testPurgeValuesCorrespondingToSpecialValuesInFilter(){
-		printTestCaseHeader();
+		
 		
 		verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
 				new double[]{}, 

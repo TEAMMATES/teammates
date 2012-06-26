@@ -48,7 +48,7 @@ public class StudentHomePageUiTest extends BaseTestCase {
 
 	@Test	
 	public void testStudentHomeCoursePageHTML() throws Exception{
-		printTestCaseHeader();
+		
 		
 		______TS("typical case");
 		

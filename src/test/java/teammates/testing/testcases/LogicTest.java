@@ -18,7 +18,16 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.MethodRule;
+import org.junit.rules.TestName;
+import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.rules.TestWatchman;
+import org.junit.runner.Description;
+import org.junit.runners.model.FrameworkMethod;
+import org.junit.runners.model.Statement;
 
 import teammates.Datastore;
 import teammates.TeamEvalResult;
@@ -41,8 +50,6 @@ import teammates.datatransfer.StudentData;
 import teammates.datatransfer.StudentData.UpdateStatus;
 import teammates.datatransfer.SubmissionData;
 import teammates.datatransfer.TeamData;
-import teammates.datatransfer.TeamProfileData;
-import teammates.datatransfer.TfsData;
 import teammates.datatransfer.UserData;
 import teammates.persistent.Student;
 
@@ -88,7 +95,9 @@ public class LogicTest extends BaseTestCase {
 				ltqtc);
 		setHelperTimeZone(helper);
 		helper.setUp();
+		
 	}
+	
 
 	@SuppressWarnings("unused")
 	private void ____SYSTEM_level_methods___________________________________() {
@@ -96,21 +105,21 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testCoordGetLoginUrl() {
-		printTestCaseHeader();
+		
 		assertEquals("/_ah/login?continue=www.abc.com",
 				Logic.getLoginUrl("www.abc.com"));
 	}
 
 	@Test
 	public void testCoordGetLogoutUrl() {
-		printTestCaseHeader();
+		
 		assertEquals("/_ah/logout?continue=www.def.com",
 				Logic.getLogoutUrl("www.def.com"));
 	}
 
 	@Test
 	public void testGetLoggedInUser() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 		CoordData coord = dataBundle.coords.get("typicalCoord1");
 		// also make this user a student
@@ -173,7 +182,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testCreateCoord() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("unauthorized access");
@@ -251,7 +260,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetCoord() throws Exception {
 		// mostly tested in testCreateCoord
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("unauthorized: not logged in");
@@ -283,7 +292,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testDeleteCoord() throws Exception {
-		printTestCaseHeader();
+		
 		// mostly tested in testCreateCoord
 
 		______TS("unauthorized");
@@ -309,7 +318,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetCourseListForCoord() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("authentication");
@@ -369,7 +378,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetCourseDetailsListForCoord() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 		
 		______TS("authentication");
@@ -468,7 +477,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetEvalListForCoord() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 		
 		______TS("authentication");
@@ -541,7 +550,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testCreateCourse() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 		
 		______TS("authentication");
@@ -657,7 +666,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetCourseDetails() throws Exception {
-		printTestCaseHeader();
+		
 		
 		______TS("authentication");
 		
@@ -727,7 +736,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testDeleteCourse() throws Exception {
-		printTestCaseHeader();
+		
 
 		______TS("authentication");
 		
@@ -794,7 +803,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetStudentListForCourse() throws Exception {
-		printTestCaseHeader();
+		
 		
 		______TS("authentication");
 		
@@ -856,7 +865,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testEnrollStudents() throws Exception {
-		printTestCaseHeader();
+		
 
 		______TS("authentication");
 		
@@ -984,7 +993,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testSendRegistrationInviteForCourse() throws Exception {
-		printTestCaseHeader();
+		
 		
 		______TS("authentication");
 		
@@ -1052,7 +1061,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetTeamsForCourse() throws Exception {
-		printTestCaseHeader();
+		
 		
 		______TS("authentication");
 		
@@ -1137,7 +1146,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testCreateStudent() throws Exception {
-		printTestCaseHeader();
+		
 
 		StudentData newStudent = new StudentData("t1|n1|e@com|c1",
 				"tcs.course1");
@@ -1172,7 +1181,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetStudentWithId() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("student in one course");
@@ -1232,7 +1241,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testEditStudent() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("typical edit");
@@ -1279,7 +1288,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testDeleteStudent() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("typical delete");
@@ -1331,7 +1340,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testEnrollStudent() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		String coordId = "coordForEnrollTesting";
@@ -1392,7 +1401,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testSendRegistrationInviteToStudent() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("send to existing student");
@@ -1445,7 +1454,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testJoinCourse() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("register an unregistered student");
@@ -1524,7 +1533,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetKeyForStudent() {
 		// mostly tested in testJoinCourse()
-		printTestCaseHeader();
+		
 
 		______TS("null parameters");
 		StudentData student = dataBundle.students.get("student1InCourse1");
@@ -1539,7 +1548,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetCourseListForStudent() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("student having two courses");
@@ -1587,7 +1596,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetCourseDetailsListForStudent() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("student having multiple evaluations in multiple courses");
@@ -1694,7 +1703,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testHasStudentSubmittedEvaluation() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		EvaluationData evaluation = dataBundle.evaluations
@@ -1759,7 +1768,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetStudentInCourseForGoogleId() throws Exception {
 
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 		StudentData studentInTwoCoursesInCourse1 = dataBundle.students
 				.get("student2InCourse1");
@@ -1783,7 +1792,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetEvauationResultForStudent() throws Exception {
 
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("typical case");
@@ -1948,7 +1957,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testCreateEvaluation() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("typical case");
@@ -1995,7 +2004,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetEvaluation() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("typical case");
@@ -2020,7 +2029,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testEditEvaluation() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("typical case");
@@ -2062,7 +2071,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testDeleteEvaluation() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("typical delete");
@@ -2094,7 +2103,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testPublishAndUnpublishEvaluation() throws Exception {
 
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 		EvaluationData eval1 = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
@@ -2111,7 +2120,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetEvaluationResult() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 		
 		loginAsAdmin("admin.user");
@@ -2283,7 +2292,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testCalculateTeamResult() throws Exception {
-		printTestCaseHeader();
+		
 
 		assertEquals(null, invokeCalclulateTeamResult(null));
 
@@ -2432,7 +2441,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetSubmissoinsForEvaluation() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("typical case");
@@ -2488,7 +2497,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetSubmissionsFromStudent() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("typical case");
@@ -2580,7 +2589,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testSendReminderForEvaluation_1() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("empty class");
@@ -2618,7 +2627,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testSendReminderForEvaluation_2() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("some have submitted fully");
@@ -2676,7 +2685,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetSubmission() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("typical case");
@@ -2713,7 +2722,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testEditSubmissions() throws Exception {
-		printTestCaseHeader();
+		
 		restoreTypicalDataInDatastore();
 
 		ArrayList<SubmissionData> submissionContainer = new ArrayList<SubmissionData>();

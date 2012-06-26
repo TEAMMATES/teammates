@@ -63,7 +63,7 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 	}
 	
 	public void testCoordCourseDetailsPageHTML() throws Exception{
-		printTestCaseHeader();
+		
 	
 		______TS("default view");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsPage.html");
@@ -82,7 +82,7 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 	}
 	
 	public void testCoordCourseDetailsRemindStudent(){
-		printTestCaseHeader();
+		
 		
 		String studentName = scn.students.get("benny.tmms@CCDetailsUiT.CS2104").name;
 		String studentEmail = scn.students.get("benny.tmms@CCDetailsUiT.CS2104").email;
@@ -115,7 +115,7 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordCourseDetailsDeleteStudent() throws Exception{
-		printTestCaseHeader();
+		
 		
 		String studentName = scn.students.get("benny.tmms@CCDetailsUiT.CS2104").name;
 		String studentEmail = scn.students.get("benny.tmms@CCDetailsUiT.CS2104").email;

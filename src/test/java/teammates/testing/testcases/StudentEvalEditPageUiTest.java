@@ -53,7 +53,7 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testStudentEvalSubmitHTML() throws Exception{
-		printTestCaseHeader();
+		
 		// Pending evaluation
 		String link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("First Eval").course);
@@ -65,7 +65,7 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 
 	@Test	
 	public void testStudentEvalEditHTMLAndAction() throws Exception{
-		printTestCaseHeader();
+		
 		
 		______TS("load evauation for editing");
 		

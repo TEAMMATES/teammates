@@ -21,7 +21,7 @@ public class StudentTest extends BaseTestCase {
 
 	@Test
 	public void testStudentConstructor() throws TeammatesException {
-		printTestCaseHeader();
+		
 		// null parameters
 		verifyExceptionForStudentCreation("null line", null, "anyCoursId",
 				Common.ERRORCODE_NULL_PARAMETER);

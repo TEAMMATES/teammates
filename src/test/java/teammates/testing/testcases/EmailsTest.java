@@ -60,7 +60,7 @@ public class EmailsTest extends BaseTestCase{
 	
 	@Test
 	public void testGetEmailInfo() throws MessagingException{
-		printTestCaseHeader();
+		
 		Session session = Session.getDefaultInstance(new Properties(), null);
 		MimeMessage message = new MimeMessage(session);
 		
@@ -80,7 +80,7 @@ public class EmailsTest extends BaseTestCase{
 	
 	@Test
 	public void testGenerateEvaluationOpeningEmail(){
-		printTestCaseHeader();
+		
 		
 		Student s = null;
 		Evaluation e = null;

@@ -51,7 +51,7 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 
 	@Test
 	public void testCoordEvalResultsOpenEval() throws Exception{
-		printTestCaseHeader();
+		
 
 		______TS("summary view");
 		
@@ -77,7 +77,7 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testCoordEvalResultsPublishedEval() throws Exception{
-		printTestCaseHeader();
+		
 		
 		______TS("summary view");
 		
@@ -111,7 +111,7 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testCoordEvalResultsClosedEval() throws Exception{
-		printTestCaseHeader();
+		
 		
 		______TS("summary view");
 		

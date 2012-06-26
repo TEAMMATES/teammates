@@ -64,7 +64,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordEvalHTML() throws Exception{
-		printTestCaseHeader();
+		
 		
 		______TS("no courses");
 		
@@ -102,7 +102,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordEvalUiPaths() throws Exception{
-		printTestCaseHeader();
+		
 		
 		______TS("typical success case");
 		EvaluationData eval = scn.evaluations.get("awaitingEval");
@@ -114,7 +114,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		bi.verifyCurrentPageHTMLRegexWithRetry(Common.TEST_PAGES_FOLDER+"/coordEvalAddSuccess.html",link);
 
 		______TS("client-side input validation");
-		printTestCaseHeader();
+		
 		// Empty name, closing date
 		bi.click(bi.addEvaluationButton);
 		bi.waitForStatusMessage(Common.MESSAGE_FIELDS_EMPTY);
@@ -153,7 +153,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 	}
 	
 	public void testCoordEvalPublishLink(){
-		printTestCaseHeader();
+		
 
 		______TS("CLOSED: publish link clickable");
 
@@ -193,7 +193,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 	}
 	
 	public void testCoordEvalRemindLink() throws Exception{
-		printTestCaseHeader();
+		
 
 		______TS("PUBLISHED: remind link unclickable");
 		
@@ -255,7 +255,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 	}
 	
 	public void testCoordEvalDeleteLink() throws Exception{
-		printTestCaseHeader();
+		
 		
 		______TS("click and cancel");
 		

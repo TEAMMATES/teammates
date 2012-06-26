@@ -49,7 +49,7 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testCoordCourseStudentDetailsPage() throws Exception{
-		printTestCaseHeader();
+		
 		
 		______TS("view registered student");
 		
@@ -74,7 +74,7 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testCoordCourseStudentEditPage() throws Exception{
-		printTestCaseHeader();
+		
 		
 		______TS("edit unregistered student");
 		
@@ -97,7 +97,6 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 		//check the default view
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseStudentEditPage.html");
 
-		printTestCaseHeader("CoordCourseStudentEditRegisteredStudentChange");
 		// Edit details
 		bi.fillString(bi.studentDetailName, "New name");
 		bi.fillString(bi.studentDetailTeam, "New team");

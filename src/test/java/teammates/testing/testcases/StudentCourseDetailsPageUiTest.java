@@ -48,7 +48,7 @@ public class StudentCourseDetailsPageUiTest extends BaseTestCase {
 
 	@Test	
 	public void testStudentCourseDetailsPageHTML() throws Exception{
-		printTestCaseHeader();
+		
 		
 		______TS("with teammates");
 		

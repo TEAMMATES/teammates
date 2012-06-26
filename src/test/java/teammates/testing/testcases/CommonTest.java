@@ -17,14 +17,14 @@ public class CommonTest extends BaseTestCase {
 
 	@Test
 	public void testGenerateStringOfLength() {
-		printTestCaseHeader();
+		
 		assertEquals(5, Common.generateStringOfLength(5).length());
 		assertEquals(0, Common.generateStringOfLength(0).length());
 	}
 
 	@Test
 	public void testIsWhiteSpace() {
-		printTestCaseHeader();
+		
 		assertEquals(true, Common.isWhiteSpace(""));
 		assertEquals(true, Common.isWhiteSpace("       "));
 		assertEquals(true, Common.isWhiteSpace("\t\n\t"));
@@ -34,7 +34,7 @@ public class CommonTest extends BaseTestCase {
 
 	@Test
 	public void testAssertContains() {
-		printTestCaseHeader();
+		
 		BaseTestCase.assertContains("404 Page Not Found",
 				"Error: 404 Page Not Found. Check the URL.");
 		BaseTestCase.assertContains("Fails on checking assert contains",
@@ -44,7 +44,7 @@ public class CommonTest extends BaseTestCase {
 
 	@Test
 	public void testAssertContainsRegex() throws Exception {
-		printTestCaseHeader();
+		
 		BaseTestCase.assertContainsRegex("404 Page Not Found",
 				"Error: 404 Page Not Found. Check the URL.");
 		BaseTestCase.assertContainsRegex("Fails on checking assert contains regex",

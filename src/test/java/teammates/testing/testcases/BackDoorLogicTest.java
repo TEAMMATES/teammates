@@ -28,7 +28,7 @@ public class BackDoorLogicTest extends BaseTestCase{
 	
 	@Test
 	public void testPersistDataBundle() throws Exception {
-		printTestCaseHeader();
+		
 		BackDoorLogic logic = new BackDoorLogic();
 		String jsonString = "";
 			try {

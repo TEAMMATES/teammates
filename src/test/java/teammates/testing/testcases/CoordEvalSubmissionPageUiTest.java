@@ -55,7 +55,7 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testCoordEvalSubmissionViewAndEdit() throws Exception{
-		printTestCaseHeader();
+		
 		//Checking indirect link to View Submission through Evaluation Results
 		EvaluationData eval = scn.evaluations.get("First Eval");
 		

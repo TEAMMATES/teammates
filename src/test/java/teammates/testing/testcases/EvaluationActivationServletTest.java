@@ -61,7 +61,7 @@ public class EvaluationActivationServletTest extends BaseTestCase {
 
 	@Test
 	public void testActivateReadyEvaluations() throws Exception {
-		printTestCaseHeader();
+		
 		loginAsAdmin("admin.user");
 		// ensure no emails in the queue
 		assertEquals(0, getNumberOfEmailTasksInQueue());

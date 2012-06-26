@@ -48,7 +48,7 @@ public class BackDoorTest extends BaseTestCase{
 
 	@Test
 	public void testPersistenceAndDeletion() {
-		printTestCaseHeader();
+		
 		
 		//to avoid clashes with existing data
 		BackDoor.deleteCoordinators(jsonString);
@@ -146,7 +146,7 @@ public class BackDoorTest extends BaseTestCase{
 	public void testCreateCoord(){
 		//only minimal testing because this is a wrapper method for
 		//another well-tested method.
-		printTestCaseHeader();
+		
 		String coordId = "tmapitt.tcc.coord";
 		CoordData coord = new CoordData(coordId, coordId, "tmapitt.tcc.coord@gmail.com");
 		BackDoor.deleteCoord(coordId);
@@ -176,7 +176,7 @@ public class BackDoorTest extends BaseTestCase{
 	public void testCleanByCoordinator() throws Exception{
 		//only minimal testing because this is a wrapper method for
 		//other well-tested methods.
-		printTestCaseHeader();
+		
 		refreshDataInDatastore();
 		CoordData coord = dataBundle.coords.get("typicalCoord1");
 		String[] coursesByCoord = BackDoor.getCoursesByCoordId(coord.id);
@@ -190,7 +190,7 @@ public class BackDoorTest extends BaseTestCase{
 	public void testGetCoursesByCoordId() throws InvalidParametersException{
 
 		String[] courses = BackDoor.getCoursesByCoordId("nonExistentCoord");
-		printTestCaseHeader();
+		
 		// testing for non-existent coordinator
 		assertEquals("[]", Arrays.toString(courses));
 
@@ -232,7 +232,7 @@ public class BackDoorTest extends BaseTestCase{
 	public void testCreateCourse() throws InvalidParametersException{
 		//only minimal testing because this is a wrapper method for
 		//another well-tested method.
-		printTestCaseHeader();
+		
 		String courseId = "tmapitt.tcc.course";
 		CourseData course = new CourseData(courseId, "Name of tmapitt.tcc.coord", "tmapitt.tcc.coord");
 		BackDoor.deleteCourse(courseId);
@@ -268,7 +268,7 @@ public class BackDoorTest extends BaseTestCase{
 	public void testCreateStudent() throws InvalidParametersException{
 		//only minimal testing because this is a wrapper method for
 		//another well-tested method.
-		printTestCaseHeader();
+		
 		StudentData student = new StudentData("|name of tcs student|tcsStudent@gmail.com|", "tmapit.tcs.course");
 		BackDoor.deleteStudent(student.course, student.email);
 		verifyAbsentInDatastore(student);
@@ -280,7 +280,7 @@ public class BackDoorTest extends BaseTestCase{
 	
 	@Test
 	public void testGetKeyForStudent() throws InvalidParametersException{
-		printTestCaseHeader();
+		
 		StudentData student = new StudentData("t1|name of tgsr student|tgsr@gmail.com|", "course1");
 		BackDoor.createStudent(student);
 		String key = BackDoor.getKeyForStudent(student.course, student.email);
@@ -297,7 +297,7 @@ public class BackDoorTest extends BaseTestCase{
 
 	@Test
 	public void testEditStudent(){
-		printTestCaseHeader();
+		
 		
 		//check for successful edit
 		refreshDataInDatastore();
@@ -332,7 +332,7 @@ public class BackDoorTest extends BaseTestCase{
 	public void testCreateEvaluation() throws InvalidParametersException{
 		//only minimal testing because this is a wrapper method for
 		//another well-tested method.
-		printTestCaseHeader();
+		
 		EvaluationData e = new EvaluationData();
 		e.course = "tmapit.tce.course";
 		e.name = "Eval for tmapit.tce.course";
@@ -357,7 +357,7 @@ public class BackDoorTest extends BaseTestCase{
 
 	@Test
 	public void testEditEvaluation(){
-		printTestCaseHeader();
+		
 		refreshDataInDatastore();
 		
 		//check for successful edit
@@ -409,7 +409,7 @@ public class BackDoorTest extends BaseTestCase{
 	
 	@Test
 	public void testEditSubmission(){
-		printTestCaseHeader();
+		
 		refreshDataInDatastore();
 		
 		//check for successful edit
@@ -438,7 +438,7 @@ public class BackDoorTest extends BaseTestCase{
 	
 	@Test
 	public void testDataBundle() throws Exception{
-		printTestCaseHeader();
+		
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER + "/typicalDataBundle.json");
 		Gson gson = Common.getTeammatesGson();
 	
