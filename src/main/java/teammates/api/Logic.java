@@ -1106,7 +1106,7 @@ public class Logic {
 	}
 
 	/**
-	 * 
+	 * Access: course owner and above
 	 * @param courseId
 	 * @param evaluationName
 	 * @return Returns null if any of the parameters is null.
@@ -1118,6 +1118,9 @@ public class Logic {
 		if ((courseId == null) || (evaluationName == null)) {
 			return null;
 		}
+		
+		verifyCourseOwnerOrAbove(courseId);
+		
 		CourseData course = getTeamsForCourse(courseId);
 		EvaluationData returnValue = getEvaluation(courseId, evaluationName);
 		HashMap<String, SubmissionData> submissionDataList = getSubmissionsForEvaluation(

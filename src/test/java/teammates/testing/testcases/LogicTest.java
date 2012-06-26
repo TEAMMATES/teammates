@@ -2624,6 +2624,32 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetEvaluationResult() throws Exception {
+		
+		______TS("authentication");
+
+		restoreTypicalDataInDatastore();
+
+		String methodName = "getEvaluationResult";
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
+		Object[] params = new Object[] {"idOfCourse1OfCoord1", "new evaluation" };
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		// course belongs to a different coord
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord2",
+				paramTypes, params);
+
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+		
+		______TS("typical case");
 
 		restoreTypicalDataInDatastore();
 
@@ -2758,11 +2784,13 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(NSB, team1_2student.result.outgoing.get(0).points);
 		assertEquals(NA, team1_2student.result.incoming.get(0).normalized);
 
-		// try with null parameters
+		______TS("null parameters");
+		
 		assertEquals(null, logic.getEvaluationResult(null, evaluation.name));
 		assertEquals(null, logic.getEvaluationResult(course.id, null));
 
-		// try for non-existent courses/evaluations
+		______TS("non-existent course");
+		
 		try {
 			logic.getEvaluationResult(course.id, "non existent evaluation");
 			fail();
@@ -2778,16 +2806,15 @@ public class LogicTest extends BaseTestCase {
 			BaseTestCase.assertContains("non-existent-course", e.getMessage());
 		}
 
-		// TODO: reduce rounding off error during
-		// "self rating removed and normalized"
-
+		______TS("data used in UI tests");
+		
 		//@formatter:off
-				
-				createNewEvaluationWithSubmissions("courseForTestingER", "Eval 1", new int[][] { 
-						{ 110, 100, 110 },
-						{ 90, 110, NSU }, 
-						{ 90, 100, 110 } });
-				//@formatter:on
+		
+		createNewEvaluationWithSubmissions("courseForTestingER", "Eval 1", new int[][] { 
+				{ 110, 100, 110 },
+				{ 90, 110, NSU }, 
+				{ 90, 100, 110 } });
+		//@formatter:on
 
 		result = logic.getEvaluationResult("courseForTestingER", "Eval 1");
 		print(result.toString());
