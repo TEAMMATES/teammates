@@ -91,7 +91,7 @@ public class Logic {
 
 	//@formatter:off
 	
-	protected void verifyCoordUsingOwnIdOrAbove(String coordId) {
+	private void verifyCoordUsingOwnIdOrAbove(String coordId) {
 		if (isInternalCall()) return;
 		if (isAdminLoggedIn()) return;
 		if (isOwnId(coordId)) return;
@@ -105,7 +105,7 @@ public class Logic {
 		throw new UnauthorizedAccessException();
 	}
 	
-	protected void verifyRegisteredUserOrAbove() {
+	private void verifyRegisteredUserOrAbove() {
 		if (isInternalCall()) return;
 		if (isAdminLoggedIn()) return;
 		if (isCoordLoggedIn()) return;
@@ -113,33 +113,33 @@ public class Logic {
 		throw new UnauthorizedAccessException();
 	}
 	
-	protected void verifyCourseOwnerOrAbove(String courseId) {
+	private void verifyCourseOwnerOrAbove(String courseId) {
 		if (isInternalCall()) return;
 		if (isAdminLoggedIn()) return;
 		if (isCourseOwner(courseId)) return;
 		throw new UnauthorizedAccessException();
 	}
 	
-	protected void verifyAdminLoggedIn() {
+	private void verifyAdminLoggedIn() {
 		if (isInternalCall()) return;
 		if (isAdminLoggedIn())  return;
 		throw new UnauthorizedAccessException();
 	}
 	
-	protected void verifyLoggedInUserAndAbove() {
+	private void verifyLoggedInUserAndAbove() {
 		if (isInternalCall()) return;
 		if (isUserLoggedIn()) return;
 		throw new UnauthorizedAccessException();
 	}
 	
-	protected void verifySameStudentOrAdmin(String googleId) {
+	private void verifySameStudentOrAdmin(String googleId) {
 		if (isInternalCall()) return;
 		if (isAdminLoggedIn()) return;
 		if (isOwnId(googleId)) return;
 		throw new UnauthorizedAccessException();
 	}
 	
-	protected void verifySameStudentOrCourseOwnerOrAdmin(String courseId, String googleId) {
+	private void verifySameStudentOrCourseOwnerOrAdmin(String courseId, String googleId) {
 		if (isInternalCall()) return;
 		if (isAdminLoggedIn()) return;
 		if (isOwnId(googleId)) return;
@@ -147,6 +147,13 @@ public class Logic {
 		throw new UnauthorizedAccessException();
 	}
 	
+	protected boolean isInternalCall() {
+		String callerClassName = Thread.currentThread().getStackTrace()[4]
+				.getClassName();
+		String thisClassName = this.getClass().getCanonicalName();
+		return callerClassName.equals(thisClassName);
+	}
+
 	private void verfyCourseOwnerOrEmailOwner(String courseId,
 			String studentEmail) {
 		if (isInternalCall()) return;
@@ -171,14 +178,7 @@ public class Logic {
 		return student==null? false : user.id.equals(student.id);
 	}
 
-	protected boolean isInternalCall() {
-		String callerClassName = Thread.currentThread().getStackTrace()[4]
-				.getClassName();
-		String thisClassName = this.getClass().getCanonicalName();
-		return callerClassName.equals(thisClassName);
-	}
-
-	protected boolean isAdminLoggedIn() {
+	private boolean isAdminLoggedIn() {
 		UserData loggedInUser = getLoggedInUser();
 		return loggedInUser == null ? false : loggedInUser.isAdmin;
 	}
@@ -192,7 +192,7 @@ public class Logic {
 	private boolean isCourseOwner(String courseId) {
 		CourseData course = getCourse(courseId);
 		UserData user = getLoggedInUser();
-		return user != null && course != null && course.coord.equals(user.id);
+		return user != null && course != null && course.coord.equalsIgnoreCase(user.id);
 	}
 
 	private boolean isCoordLoggedIn() {
@@ -972,7 +972,7 @@ public class Logic {
 	}
 
 	/**
-	 * Note:
+	 * Access: course owner and above
 	 * 
 	 * @throws EntityAlreadyExistsException
 	 * @throws InvalidParametersException
@@ -983,11 +983,23 @@ public class Logic {
 	public void createEvaluation(EvaluationData evaluation)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 		Common.verifyNotNull(evaluation, "evaluation");
+		
+		verifyCourseOwnerOrAbove(evaluation.course);
+		
 		evaluation.validate();
 		Evaluations.inst().addEvaluation(evaluation.toEvaluation());
 	}
 
+	/**
+	 * Access: all registered users
+	 * @param courseId
+	 * @param evaluationName
+	 * @return
+	 */
 	public EvaluationData getEvaluation(String courseId, String evaluationName) {
+		
+		verifyRegisteredUserOrAbove();
+		
 		Evaluation e = Evaluations.inst().getEvaluation(courseId,
 				evaluationName);
 		return (e == null ? null : new EvaluationData(e));

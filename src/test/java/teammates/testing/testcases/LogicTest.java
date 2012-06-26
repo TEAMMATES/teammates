@@ -2326,12 +2326,41 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testCreateEvaluation() throws Exception {
+		
+		______TS("authentication");
 
 		restoreTypicalDataInDatastore();
 
-		______TS("typical case");
+		String methodName = "createEvaluation";
+		Class<?>[] paramTypes = new Class<?>[] { EvaluationData.class };
+		EvaluationData evaluation = new EvaluationData();
+		evaluation.course = "idOfCourse1OfCoord1";
+		evaluation.name = "new evaluation";
+		Object[] params = new Object[] { evaluation };
 
-		EvaluationData evaluation = dataBundle.evaluations
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		// course belongs to a different coord
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord2",
+				paramTypes, params);
+
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+
+		______TS("typical case");
+		
+		loginAsAdmin("admin.user");
+
+		restoreTypicalDataInDatastore();
+
+		evaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
 		verifyPresentInDatastore(evaluation);
 		logic.deleteEvaluation(evaluation.course, evaluation.name);
@@ -2373,10 +2402,31 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetEvaluation() throws Exception {
+		
+		______TS("authentication");
 
 		restoreTypicalDataInDatastore();
 
+		String methodName = "getEvaluation";
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
+		Object[] params = new Object[] { "idOfCourse1OfCoord2",
+				"eval name" };
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+
 		______TS("typical case");
+
+		restoreTypicalDataInDatastore();
 
 		EvaluationData expected = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
@@ -2402,6 +2452,8 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		______TS("typical case");
+		
+		loginAsAdmin("admin.user");
 
 		EvaluationData eval = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
@@ -2441,9 +2493,11 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testDeleteEvaluation() throws Exception {
 
-		restoreTypicalDataInDatastore();
-
 		______TS("typical delete");
+
+		restoreTypicalDataInDatastore();
+		loginAsAdmin("admin.user");
+		
 		EvaluationData eval = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
 		verifyPresentInDatastore(eval);
@@ -2473,6 +2527,9 @@ public class LogicTest extends BaseTestCase {
 	public void testPublishAndUnpublishEvaluation() throws Exception {
 
 		restoreTypicalDataInDatastore();
+		
+		loginAsAdmin("admin.user");
+		
 		EvaluationData eval1 = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
 		assertEquals(false,
@@ -3393,18 +3450,18 @@ public class LogicTest extends BaseTestCase {
 	private void verifyCannotAccess(int userType, String methodName,
 			String userId, Class<?>[] paramTypes, Object[] params)
 			throws Exception {
-		verifyAccessLevel(false, userType, methodName, userId, paramTypes,
+		verifyAccessLevel(true, userType, methodName, userId, paramTypes,
 				params);
 	}
 
 	private void verifyCanAccess(int userType, String methodName,
 			String userId, Class<?>[] paramTypes, Object[] params)
 			throws Exception {
-		verifyAccessLevel(true, userType, methodName, userId, paramTypes,
+		verifyAccessLevel(false, userType, methodName, userId, paramTypes,
 				params);
 	}
 
-	private void verifyAccessLevel(boolean allowed, int userType,
+	private void verifyAccessLevel(boolean isUnauthExceptionExpected, int userType,
 			String methodName, String userId, Class<?>[] paramTypes,
 			Object[] params) throws Exception {
 		Method method = Logic.class.getDeclaredMethod(methodName, paramTypes);
@@ -3422,21 +3479,23 @@ public class LogicTest extends BaseTestCase {
 			loginAsCoord(userId);
 			break;
 		}
-
+		
 		try {
 			method.invoke(logic, params);
-			if (!allowed) {
+			if (isUnauthExceptionExpected) {
 				fail();
 			}
 		} catch (Exception e) {
-			if (!allowed) {
-				assertTrue(TeammatesException.stackTraceToString(e),
-						e.getCause() != null);
+			if (isUnauthExceptionExpected) {
+				//ensure it was not the UnauthorizedAccessException
 				assertEquals(UnauthorizedAccessException.class, e.getCause()
 						.getClass());
 			} else {
-				print(TeammatesException.stackTraceToString(e));
-				fail();
+				//ensure it was not the UnauthorizedAccessException
+				assertTrue(
+						e.getCause()==null 
+						|| UnauthorizedAccessException.class != e.getCause()
+						.getClass());
 			}
 		}
 	}
