@@ -1025,7 +1025,15 @@ public class Logic {
 				evaluation.published, evaluation.timeZone);
 	}
 
+	/**
+	 * Access: owner and above
+	 * @param courseId
+	 * @param evaluationName
+	 */
 	public void deleteEvaluation(String courseId, String evaluationName) {
+		
+		verifyCourseOwnerOrAbove(courseId);
+		
 		Evaluations.inst().deleteEvaluation(courseId, evaluationName);
 	}
 
