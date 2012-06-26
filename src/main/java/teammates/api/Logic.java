@@ -147,6 +147,26 @@ public class Logic {
 		throw new UnauthorizedAccessException();
 	}
 	
+	private void verifyReviewerOrCourseOwnerOrAdmin(String courseId,
+			String reviewerEmail) {
+		if (isInternalCall()) return;
+		if (isAdminLoggedIn()) return;
+		if (isCourseOwner(courseId)) return;
+		if (isOwnEmail(courseId, reviewerEmail)) return;
+		throw new UnauthorizedAccessException();
+	}
+	
+	private void verifySubmissionEditableForUser(SubmissionData submission) {
+		if (isInternalCall()) return;
+		if (isAdminLoggedIn()) return;
+		if (isCourseOwner(submission.course)) return;
+		if (isOwnEmail(submission.course, submission.reviewer)
+				&& getEvaluationStatus(submission.course, submission.evaluation)==EvalStatus.OPEN) return;
+		throw new UnauthorizedAccessException();
+	}
+	
+
+
 	protected boolean isInternalCall() {
 		String callerClassName = Thread.currentThread().getStackTrace()[4]
 				.getClassName();
@@ -159,15 +179,15 @@ public class Logic {
 		if (isInternalCall()) return;
 		if (isAdminLoggedIn()) return;
 		if (isCourseOwner(courseId)) return;
-		if (isEmailOwner(courseId,studentEmail)) return;
+		if (isOwnEmail(courseId,studentEmail)) return;
 		throw new UnauthorizedAccessException();
 	}
 	
 	//@formatter:on
 
-	private boolean isEmailOwner(String courseId, String studentEmail) {
+	private boolean isOwnEmail(String courseId, String studentEmail) {
 		UserData user = getLoggedInUser();
-		if(user==null){
+		if (user == null) {
 			return false;
 		}
 		CourseData course = getCourse(courseId);
@@ -175,7 +195,7 @@ public class Logic {
 			return false;
 		}
 		StudentData student = getStudent(courseId, studentEmail);
-		return student==null? false : user.id.equals(student.id);
+		return student == null ? false : user.id.equals(student.id);
 	}
 
 	private boolean isAdminLoggedIn() {
@@ -192,7 +212,8 @@ public class Logic {
 	private boolean isCourseOwner(String courseId) {
 		CourseData course = getCourse(courseId);
 		UserData user = getLoggedInUser();
-		return user != null && course != null && course.coord.equalsIgnoreCase(user.id);
+		return user != null && course != null
+				&& course.coord.equalsIgnoreCase(user.id);
 	}
 
 	private boolean isCoordLoggedIn() {
@@ -983,23 +1004,24 @@ public class Logic {
 	public void createEvaluation(EvaluationData evaluation)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 		Common.verifyNotNull(evaluation, "evaluation");
-		
+
 		verifyCourseOwnerOrAbove(evaluation.course);
-		
+
 		evaluation.validate();
 		Evaluations.inst().addEvaluation(evaluation.toEvaluation());
 	}
 
 	/**
 	 * Access: all registered users
+	 * 
 	 * @param courseId
 	 * @param evaluationName
 	 * @return
 	 */
 	public EvaluationData getEvaluation(String courseId, String evaluationName) {
-		
+
 		verifyRegisteredUserOrAbove();
-		
+
 		Evaluation e = Evaluations.inst().getEvaluation(courseId,
 				evaluationName);
 		return (e == null ? null : new EvaluationData(e));
@@ -1007,6 +1029,7 @@ public class Logic {
 
 	/**
 	 * Access: owner and above
+	 * 
 	 * @param evaluation
 	 * @throws EntityDoesNotExistException
 	 * @throws InvalidParametersException
@@ -1014,9 +1037,9 @@ public class Logic {
 	public void editEvaluation(EvaluationData evaluation)
 			throws EntityDoesNotExistException, InvalidParametersException {
 		Common.verifyNotNull(evaluation, "evaluation");
-		
+
 		verifyCourseOwnerOrAbove(evaluation.course);
-		
+
 		evaluation.validate();
 		Evaluations.inst().editEvaluation(evaluation.course, evaluation.name,
 				evaluation.instructions, evaluation.p2pEnabled,
@@ -1027,27 +1050,29 @@ public class Logic {
 
 	/**
 	 * Access: owner and above
+	 * 
 	 * @param courseId
 	 * @param evaluationName
 	 */
 	public void deleteEvaluation(String courseId, String evaluationName) {
-		
+
 		verifyCourseOwnerOrAbove(courseId);
-		
+
 		Evaluations.inst().deleteEvaluation(courseId, evaluationName);
 	}
 
 	/**
 	 * Access: course owner and above
+	 * 
 	 * @param courseId
 	 * @param evaluationName
 	 * @throws EntityDoesNotExistException
 	 */
 	public void publishEvaluation(String courseId, String evaluationName)
 			throws EntityDoesNotExistException {
-		
+
 		verifyCourseOwnerOrAbove(courseId);
-		
+
 		Courses courses = Courses.inst();
 		List<Student> studentList = courses.getStudentList(courseId);
 
@@ -1057,56 +1082,59 @@ public class Logic {
 
 	/**
 	 * Access: course owner and above
+	 * 
 	 * @param courseId
 	 * @param evaluationName
 	 * @throws EntityDoesNotExistException
 	 */
 	public void unpublishEvaluation(String courseId, String evaluationName)
 			throws EntityDoesNotExistException {
-		
+
 		verifyCourseOwnerOrAbove(courseId);
-		
+
 		Evaluations.inst().unpublishEvaluation(courseId, evaluationName);
 	}
 
 	/**
 	 * Access: course owner and above
+	 * 
 	 * @param courseId
 	 * @param evaluationName
 	 */
 	public void sendReminderForEvaluation(String courseId, String evaluationName) {
 
 		verifyCourseOwnerOrAbove(courseId);
-		
+
 		List<Student> studentList = Courses.inst().getStudentList(courseId);
-	
+
 		// Filter out students who have submitted the evaluation
 		Evaluations evaluations = Evaluations.inst();
 		Evaluation evaluation = evaluations.getEvaluation(courseId,
 				evaluationName);
-	
+
 		if (evaluation == null) {
 			// TODO: throw exception
 			return;
 		}
-	
+
 		List<Student> studentsToRemindList = new ArrayList<Student>();
-	
+
 		for (Student s : studentList) {
 			if (!evaluations.isEvaluationSubmitted(evaluation, s.getEmail())) {
 				studentsToRemindList.add(s);
 			}
 		}
-	
+
 		Date deadline = evaluation.getDeadline();
-	
+
 		evaluations.remindStudents(studentsToRemindList, courseId,
 				evaluationName, deadline);
-	
+
 	}
 
 	/**
 	 * Access: course owner and above
+	 * 
 	 * @param courseId
 	 * @param evaluationName
 	 * @return Returns null if any of the parameters is null.
@@ -1118,9 +1146,9 @@ public class Logic {
 		if ((courseId == null) || (evaluationName == null)) {
 			return null;
 		}
-		
+
 		verifyCourseOwnerOrAbove(courseId);
-		
+
 		CourseData course = getTeamsForCourse(courseId);
 		EvaluationData returnValue = getEvaluation(courseId, evaluationName);
 		HashMap<String, SubmissionData> submissionDataList = getSubmissionsForEvaluation(
@@ -1141,12 +1169,25 @@ public class Logic {
 		return returnValue;
 	}
 
+	/**
+	 * Access: course owner, reviewer, admin
+	 * 
+	 * @param courseId
+	 * @param evaluationName
+	 * @param reviewerEmail
+	 * @return
+	 * @throws EntityDoesNotExistException
+	 * @throws InvalidParametersException
+	 */
 	public List<SubmissionData> getSubmissionsFromStudent(String courseId,
 			String evaluationName, String reviewerEmail)
 			throws EntityDoesNotExistException, InvalidParametersException {
 		Common.verifyNotNull(courseId, "course ID");
 		Common.verifyNotNull(evaluationName, "evaluation name");
 		Common.verifyNotNull(reviewerEmail, "student email");
+
+		verifyReviewerOrCourseOwnerOrAdmin(courseId, reviewerEmail);
+
 		List<Submission> submissions = Evaluations.inst()
 				.getSubmissionFromStudentList(courseId, evaluationName,
 						reviewerEmail);
@@ -1180,14 +1221,18 @@ public class Logic {
 						+ "are created automatically");
 	}
 
+	/**
+	 * Access: course owner, reviewer (if OPEN), admin
+	 * 
+	 * @param submissionDataList
+	 * @throws EntityDoesNotExistException
+	 * @throws InvalidParametersException
+	 */
 	public void editSubmissions(List<SubmissionData> submissionDataList)
 			throws EntityDoesNotExistException, InvalidParametersException {
-		ArrayList<Submission> submissions = new ArrayList<Submission>();
 		for (SubmissionData sd : submissionDataList) {
-			// TODO: apply isAuthorizedToEditSubmission()
-			submissions.add(sd.toSubmission());
+			editSubmission(sd);
 		}
-		Evaluations.inst().editSubmissions(submissions);
 	}
 
 	public void deleteSubmission(SubmissionData submission)
@@ -1199,6 +1244,33 @@ public class Logic {
 
 	@SuppressWarnings("unused")
 	private void ____helper_methods________________________________________() {
+	}
+
+	private void editSubmission(SubmissionData submission)
+			throws EntityDoesNotExistException, InvalidParametersException {
+
+		Common.verifyNotNull(submission, "submission");
+
+		verifySubmissionEditableForUser(submission);
+
+		if (getEvaluationStatus(submission.course, submission.evaluation) == EvalStatus.DOES_NOT_EXIST) {
+			throw new EntityDoesNotExistException("The evaluation "
+					+ submission.evaluation + " does not exist under course "
+					+ submission.course);
+		}
+
+		// TODO: refactor to remove list
+		ArrayList<Submission> submissions = new ArrayList<Submission>();
+
+		submissions.add(submission.toSubmission());
+		Evaluations.inst().editSubmissions(submissions);
+	}
+
+	private EvalStatus getEvaluationStatus(String courseId,
+			String evaluationName) {
+		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
+		return evaluation == null ? EvalStatus.DOES_NOT_EXIST : evaluation
+				.getStatus();
 	}
 
 	// TODO: make this private

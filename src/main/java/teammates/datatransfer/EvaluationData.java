@@ -30,7 +30,7 @@ public class EvaluationData {
 	private static Logger log = Common.getLogger();
 
 	public enum EvalStatus {
-		AWAITING, OPEN, CLOSED, PUBLISHED
+		AWAITING, OPEN, CLOSED, PUBLISHED, DOES_NOT_EXIST
 	}
 
 	public EvaluationData() {

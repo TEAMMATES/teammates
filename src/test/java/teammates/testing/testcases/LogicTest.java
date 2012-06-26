@@ -7,7 +7,10 @@ import static teammates.TeamEvalResult.NA;
 import static teammates.TeamEvalResult.NSB;
 import static teammates.TeamEvalResult.NSU;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +21,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import teammates.Datastore;
@@ -3027,10 +3031,38 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetSubmissionsFromStudent() throws Exception {
+		
+		______TS("authentication");
 
 		restoreTypicalDataInDatastore();
 
+		String methodName = "getSubmissionsFromStudent";
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class, String.class };
+		Object[] params = new Object[] {"idOfCourse1OfCoord1", "new evaluation", "student1InCourse1@gmail.com" };
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		// not the reviewer
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
+				paramTypes, params);
+		
+		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		// course belongs to a different coord
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord2",
+				paramTypes, params);
+
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+
 		______TS("typical case");
+
+		restoreTypicalDataInDatastore();
 
 		loginAsAdmin("admin.user");
 
@@ -3275,11 +3307,16 @@ public class LogicTest extends BaseTestCase {
 		// This need not be tested here because this method does not have
 		// enough information to activate lazy creation.
 	}
+	
 
 	@Test
+	@Ignore
 	public void testEditSubmissions() throws Exception {
+		
+		______TS("typical cases");
 
 		restoreTypicalDataInDatastore();
+		loginAsAdmin("admin.user");
 
 		ArrayList<SubmissionData> submissionContainer = new ArrayList<SubmissionData>();
 
@@ -3315,8 +3352,145 @@ public class LogicTest extends BaseTestCase {
 
 		// TODO: more testing
 		// check for lazyCreationPolicy
+		
+		______TS("authentication");
 
+		//mostly done in testEditSubmission(), we test only one case here
+		
+		restoreTypicalDataInDatastore();
+
+		String methodName = "editSubmissions";
+		List<SubmissionData> submissions = new ArrayList<SubmissionData>();
+		SubmissionData s = new SubmissionData();
+		s.course = "idOfCourse1OfCoord1";
+		s.evaluation = "evaluation1 In Course1";
+		s.reviewer = "student1InCourse1@gmail.com";
+		submissions.add(s);
+		Object[] params = new Object[] { submissions };
+		
+		
+		Class<?>[] paramTypes = new Class<?>[] { /*TODO*/ };
+		
+		//ensure the evaluation is closed
+		loginAsAdmin("admin.user");
+		EvaluationData evaluation = logic.getEvaluation(s.course, s.evaluation);
+		evaluation.startTime = Common.getDateOffsetToCurrentTime(1);
+		evaluation.endTime = Common.getDateOffsetToCurrentTime(2);
+		evaluation.activated = false;
+		assertEquals(EvalStatus.AWAITING, evaluation.getStatus());
+		logic.editEvaluation(evaluation);
+		logoutUser();
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		// not the reviewer
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
+				paramTypes, params);
+		
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		// course belongs to a different coord
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord2",
+				paramTypes, params);
+
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+		
 	}
+	
+	@Test
+	public void testEditSubmission() throws Exception{
+		
+
+		restoreTypicalDataInDatastore();
+
+		String methodName = "editSubmission";
+		Class<?>[] paramTypes = new Class<?>[] { SubmissionData.class };
+		SubmissionData s = new SubmissionData();
+		s.course = "idOfCourse1OfCoord1";
+		s.evaluation = "evaluation1 In Course1";
+		s.reviewer = "student1InCourse1@gmail.com";
+		Object[] params = new Object[] { s };
+		
+		//ensure the evaluation is open
+		loginAsAdmin("admin.user");
+		EvaluationData evaluation = logic.getEvaluation(s.course, s.evaluation);
+		assertEquals(EvalStatus.OPEN, evaluation.getStatus());
+		logoutUser();
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		// not the reviewer
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
+				paramTypes, params);
+		
+		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		// course belongs to a different coord
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord2",
+				paramTypes, params);
+
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+		
+		//close the evaluation
+		loginAsAdmin("admin.user");
+		evaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
+		assertEquals(EvalStatus.CLOSED, evaluation.getStatus());
+		logic.editEvaluation(evaluation);
+		logoutUser();
+		
+		//verify reviewer cannot edit anymore but coord can
+		
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+
+		
+		______TS("typical case");
+		
+		restoreTypicalDataInDatastore();
+		
+		SubmissionData sub1 = dataBundle.submissions
+				.get("submissionFromS1C1ToS2C1");
+
+		alterSubmission(sub1);
+
+		invokeEditSubmission(sub1);
+
+		verifyPresentInDatastore(sub1);
+		
+		______TS("null parameter");
+		
+		try {
+			invokeEditSubmission(null);
+		} catch (Exception e) {
+			assertEquals(InvalidParametersException.class, e.getCause().getClass());
+		}
+		
+		______TS("non-existent evaluation");
+		
+		sub1.evaluation = "non-existent";
+		
+		try {
+			invokeEditSubmission(sub1);
+		} catch (Exception e) {
+			assertEquals(EntityDoesNotExistException.class, e.getCause().getClass());
+		}
+	}
+
 
 	@Test
 	public void testDeleteSubmission() {
@@ -3576,6 +3750,14 @@ public class LogicTest extends BaseTestCase {
 		Object[] params = new Object[] { student };
 		return (StudentData) privateMethod.invoke(logic, params);
 	}
+	
+	private void invokeEditSubmission(SubmissionData s) throws Exception{
+		Method privateMethod = Logic.class.getDeclaredMethod("editSubmission",
+				new Class[] { SubmissionData.class });
+		privateMethod.setAccessible(true);
+		Object[] params = new Object[] { s };
+		privateMethod.invoke(logic, params);
+	}
 
 	private void verifyCannotAccess(int userType, String methodName,
 			String userId, Class<?>[] paramTypes, Object[] params)
@@ -3595,6 +3777,7 @@ public class LogicTest extends BaseTestCase {
 			String methodName, String userId, Class<?>[] paramTypes,
 			Object[] params) throws Exception {
 		Method method = Logic.class.getDeclaredMethod(methodName, paramTypes);
+		
 		switch (userType) {
 		case USER_TYPE_NOT_LOGGED_IN:
 			logoutUser();
@@ -3611,13 +3794,14 @@ public class LogicTest extends BaseTestCase {
 		}
 		
 		try {
+			method.setAccessible(true); //in case it is a private method
 			method.invoke(logic, params);
 			if (isUnauthExceptionExpected) {
 				fail();
 			}
 		} catch (Exception e) {
 			if (isUnauthExceptionExpected) {
-				//ensure it was not the UnauthorizedAccessException
+				//ensure it was the UnauthorizedAccessException
 				assertEquals(UnauthorizedAccessException.class, e.getCause()
 						.getClass());
 			} else {
