@@ -1692,17 +1692,45 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testJoinCourse() throws Exception {
+		
+		______TS("authentication");
 
 		restoreTypicalDataInDatastore();
+		
+		// make a student 'unregistered'
+		loginAsAdmin("admin.user");
+		StudentData student = dataBundle.students.get("student1InCourse1");
+		String googleId = "student1InCourse1";
+		String key = logic.getKeyForStudent(student.course, student.email);
+		student.id = "";
+		logic.editStudent(student.email, student);
+		assertEquals("", logic.getStudent(student.course, student.email).id);
 
+		String methodName = "joinCourse";
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
+		Object[] params = new Object[] { "some.user",  key };
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		//not the owner of googleId
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "other.user",
+				paramTypes, params);
+		
+		//owner of googleId
+		verifyCanAccess(USER_TYPE_UNREGISTERED, methodName, "some.user",
+				paramTypes, params);
+		
 		______TS("register an unregistered student");
+		
+		restoreTypicalDataInDatastore();
 
 		loginAsAdmin("admin.user");
 
 		// make a student 'unregistered'
-		StudentData student = dataBundle.students.get("student1InCourse1");
-		String googleId = "student1InCourse1";
-		String key = logic.getKeyForStudent(student.course, student.email);
+		student = dataBundle.students.get("student1InCourse1");
+		googleId = "student1InCourse1";
+		key = logic.getKeyForStudent(student.course, student.email);
 		student.id = "";
 		logic.editStudent(student.email, student);
 		assertEquals("", logic.getStudent(student.course, student.email).id);
@@ -1771,16 +1799,42 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testGetKeyForStudent() {
+	public void testGetKeyForStudent() throws Exception {
 		// mostly tested in testJoinCourse()
+		
+		______TS("authentication");
+
+		restoreTypicalDataInDatastore();
+
+		String methodName = "getKeyForStudent";
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
+		Object[] params = new Object[] { "idOfCourse1OfCoord1",  "student1InCourse1@gmail.com"};
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		// course belongs to a different coord
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord2",
+				paramTypes, params);
+
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
 
 		______TS("null parameters");
+		
 		StudentData student = dataBundle.students.get("student1InCourse1");
 		assertEquals(null, logic.getKeyForStudent(student.course, null));
 		assertEquals(null, logic.getKeyForStudent(null, student.email));
 		assertEquals(null, logic.getKeyForStudent(null, null));
 
 		______TS("non-existent student");
+		
 		assertEquals(null,
 				logic.getKeyForStudent(student.course, "non@existent"));
 	}

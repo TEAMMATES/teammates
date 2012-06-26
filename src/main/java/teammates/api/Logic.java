@@ -98,6 +98,13 @@ public class Logic {
 		throw new UnauthorizedAccessException();
 	}
 	
+	private void verifyOwnerOfId(String googleId) {
+		if (isInternalCall()) return;
+		if (isAdminLoggedIn()) return;
+		if (isOwnId(googleId)) return;
+		throw new UnauthorizedAccessException();
+	}
+	
 	protected void verifyRegisteredUserOrAbove() {
 		if (isInternalCall()) return;
 		if (isAdminLoggedIn()) return;
@@ -747,13 +754,22 @@ public class Logic {
 	}
 
 	
-
+	/**
+	 * Access: owner of googleId
+	 * @param googleId
+	 * @param key
+	 * @throws JoinCourseException
+	 * @throws InvalidParametersException
+	 */
 	public void joinCourse(String googleId, String key)
 			throws JoinCourseException, InvalidParametersException {
 		if ((googleId == null) || (key == null)) {
 			throw new InvalidParametersException(
 					"GoogleId or key cannot be null");
 		}
+		
+		verifyOwnerOfId(googleId);
+		
 		try {
 			Courses.inst().joinCourse(key, googleId);
 		} catch (RegistrationKeyInvalidException e) {
@@ -770,10 +786,20 @@ public class Logic {
 
 	}
 
+	
+	/**
+	 * Access: course owner and above
+	 * @param courseId
+	 * @param email
+	 * @return
+	 */
 	public String getKeyForStudent(String courseId, String email) {
 		if ((courseId == null) || (email == null)) {
 			return null;
 		}
+		
+		verifyCourseOwnerOrAbove(courseId);
+		
 		Student student = Accounts.inst().getStudent(courseId, email);
 
 		if (student == null) {
