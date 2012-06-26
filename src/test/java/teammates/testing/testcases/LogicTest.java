@@ -1404,6 +1404,143 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	@Test
+	public void testEnrollStudent() throws Exception {
+		
+		//private method. no need to test authentication
+
+		restoreTypicalDataInDatastore();
+
+		String coordId = "coordForEnrollTesting";
+		loginAsAdmin("admin.user");
+		logic.deleteCoord(coordId);
+		logic.createCoord(coordId, "Coord for Enroll Testing",
+				"coordForEnrollTestin@gmail.com");
+		String courseId = "courseForEnrollTest";
+		logic.createCourse(coordId, courseId, "Course for Enroll Testing");
+
+		______TS("add student into empty course");
+		
+		StudentData student1 = new StudentData("t|n|e@g|c", courseId);
+
+		// check if the course is empty
+		assertEquals(0, logic.getStudentListForCourse(courseId).size());
+
+		// add a new student and verify it is added and treated as a new student
+		StudentData enrollmentResult = invokeEnrollStudent(student1);
+		assertEquals(1, logic.getStudentListForCourse(courseId).size());
+		verifyEnrollmentResultForStudent(student1, enrollmentResult,
+				StudentData.UpdateStatus.NEW);
+		verifyPresentInDatastore(student1);
+
+		______TS("add existing student");
+		
+		// Verify it was not added
+		enrollmentResult = invokeEnrollStudent(student1);
+		verifyEnrollmentResultForStudent(student1, enrollmentResult,
+				StudentData.UpdateStatus.UNMODIFIED);
+
+		______TS("modify info of existing student");
+		
+		// verify it was treated as modified
+		StudentData student2 = dataBundle.students.get("student1InCourse1");
+		student2.name = student2.name + "y";
+		StudentData studentToEnroll = new StudentData(student2.email,
+				student2.name, student2.comments, student2.course,
+				student2.team);
+		enrollmentResult = invokeEnrollStudent(studentToEnroll);
+		verifyEnrollmentResultForStudent(studentToEnroll, enrollmentResult,
+				StudentData.UpdateStatus.MODIFIED);
+		// check if the student is actually modified in datastore and existing
+		// values not specified in enroll action (e.g, id) prevail
+		verifyPresentInDatastore(student2);
+
+		______TS("add student into non-empty course");
+		
+		StudentData student3 = new StudentData("t3|n3|e3@g|c3", courseId);
+		enrollmentResult = invokeEnrollStudent(student3);
+		assertEquals(2, logic.getStudentListForCourse(courseId).size());
+		verifyEnrollmentResultForStudent(student3, enrollmentResult,
+				StudentData.UpdateStatus.NEW);
+
+		______TS("add student without team");
+		
+		StudentData student4 = new StudentData("|n4|e4@g", courseId);
+		enrollmentResult = invokeEnrollStudent(student4);
+		assertEquals(3, logic.getStudentListForCourse(courseId).size());
+		verifyEnrollmentResultForStudent(student4, enrollmentResult,
+				StudentData.UpdateStatus.NEW);
+	}
+
+	@Test
+	public void testSendRegistrationInviteToStudent() throws Exception {
+
+		______TS("authentication");
+
+		restoreTypicalDataInDatastore();
+
+		String methodName = "sendRegistrationInviteToStudent";
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
+		Object[] params = new Object[] { "idOfCourse1OfCoord2",
+				"student1InCourse1@gmail.com" };
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		// course belongs to a different coord
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, new Object[] {"idOfCourse1OfCoord2", "e@c.com" });
+
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+
+		______TS("send to existing student");
+		
+		restoreTypicalDataInDatastore();
+		
+		StudentData student1 = dataBundle.students.get("student1InCourse1");
+		logic.sendRegistrationInviteToStudent(student1.course, student1.email);
+
+		assertEquals(1, getNumberOfEmailTasksInQueue());
+		verifyRegistrationEmailToStudent(student1);
+
+		// send to another student
+		StudentData student2 = dataBundle.students.get("student2InCourse1");
+		logic.sendRegistrationInviteToStudent(student2.course, student2.email);
+
+		assertEquals(2, getNumberOfEmailTasksInQueue());
+		verifyRegistrationEmailToStudent(student2);
+
+		______TS("send to non-existing student");
+		try {
+			logic.sendRegistrationInviteToStudent(student1.course,
+					"non@existent");
+			fail();
+		} catch (EntityDoesNotExistException e) {
+			BaseTestCase.assertContains("non@existent", e.getMessage());
+			BaseTestCase.assertContains(student1.course, e.getMessage());
+		}
+		assertEquals(2, getNumberOfEmailTasksInQueue());
+
+		______TS("try with null parameters");
+		try {
+			logic.sendRegistrationInviteToStudent(student1.course, null);
+			fail();
+		} catch (InvalidParametersException e) {
+		}
+		try {
+			logic.sendRegistrationInviteToStudent(null, student1.email);
+			fail();
+		} catch (InvalidParametersException e) {
+		}
+	}
+
+	@Test
 	public void testGetStudentWithId() throws Exception {
 	
 		restoreTypicalDataInDatastore();
@@ -1461,110 +1598,6 @@ public class LogicTest extends BaseTestCase {
 	
 		______TS("non existent student");
 		assertEquals(null, logic.getStudentsWithId("non-existent"));
-	}
-
-	@Test
-	public void testEnrollStudent() throws Exception {
-
-		restoreTypicalDataInDatastore();
-
-		String coordId = "coordForEnrollTesting";
-		loginAsAdmin("admin.user");
-		logic.deleteCoord(coordId);
-		logic.createCoord(coordId, "Coord for Enroll Testing",
-				"coordForEnrollTestin@gmail.com");
-		String courseId = "courseForEnrollTest";
-		logic.createCourse(coordId, courseId, "Course for Enroll Testing");
-
-		______TS("add student into empty course");
-		StudentData student1 = new StudentData("t|n|e@g|c", courseId);
-
-		// check if the course is empty
-		assertEquals(0, logic.getStudentListForCourse(courseId).size());
-
-		// add a new student and verify it is added and treated as a new student
-		StudentData enrollmentResult = invokeEnrollStudent(student1);
-		assertEquals(1, logic.getStudentListForCourse(courseId).size());
-		verifyEnrollmentResultForStudent(student1, enrollmentResult,
-				StudentData.UpdateStatus.NEW);
-		verifyPresentInDatastore(student1);
-
-		______TS("add existing student");
-		// Verify it was not added
-		enrollmentResult = invokeEnrollStudent(student1);
-		verifyEnrollmentResultForStudent(student1, enrollmentResult,
-				StudentData.UpdateStatus.UNMODIFIED);
-
-		______TS("modify info of existing student");
-		// verify it was treated as modified
-		StudentData student2 = dataBundle.students.get("student1InCourse1");
-		student2.name = student2.name + "y";
-		StudentData studentToEnroll = new StudentData(student2.email,
-				student2.name, student2.comments, student2.course,
-				student2.team);
-		enrollmentResult = invokeEnrollStudent(studentToEnroll);
-		verifyEnrollmentResultForStudent(studentToEnroll, enrollmentResult,
-				StudentData.UpdateStatus.MODIFIED);
-		// check if the student is actually modified in datastore and existing
-		// values not specified in enroll action (e.g, id) prevail
-		verifyPresentInDatastore(student2);
-
-		______TS("add student into non-empty course");
-		StudentData student3 = new StudentData("t3|n3|e3@g|c3", courseId);
-		enrollmentResult = invokeEnrollStudent(student3);
-		assertEquals(2, logic.getStudentListForCourse(courseId).size());
-		verifyEnrollmentResultForStudent(student3, enrollmentResult,
-				StudentData.UpdateStatus.NEW);
-
-		______TS("add student without team");
-		StudentData student4 = new StudentData("|n4|e4@g", courseId);
-		enrollmentResult = invokeEnrollStudent(student4);
-		assertEquals(3, logic.getStudentListForCourse(courseId).size());
-		verifyEnrollmentResultForStudent(student4, enrollmentResult,
-				StudentData.UpdateStatus.NEW);
-	}
-
-	@Test
-	public void testSendRegistrationInviteToStudent() throws Exception {
-
-		restoreTypicalDataInDatastore();
-
-		______TS("send to existing student");
-		StudentData student1 = dataBundle.students.get("student1InCourse1");
-		logic.sendRegistrationInviteToStudent(student1.course, student1.email);
-
-		assertEquals(1, getNumberOfEmailTasksInQueue());
-		verifyRegistrationEmailToStudent(student1);
-
-		// send to another student
-		StudentData student2 = dataBundle.students.get("student2InCourse1");
-		logic.sendRegistrationInviteToStudent(student2.course, student2.email);
-
-		assertEquals(2, getNumberOfEmailTasksInQueue());
-		verifyRegistrationEmailToStudent(student2);
-
-		______TS("send to non-existing student");
-		try {
-			logic.sendRegistrationInviteToStudent(student1.course,
-					"non@existent");
-			fail();
-		} catch (EntityDoesNotExistException e) {
-			BaseTestCase.assertContains("non@existent", e.getMessage());
-			BaseTestCase.assertContains(student1.course, e.getMessage());
-		}
-		assertEquals(2, getNumberOfEmailTasksInQueue());
-
-		______TS("try with null parameters");
-		try {
-			logic.sendRegistrationInviteToStudent(student1.course, null);
-			fail();
-		} catch (InvalidParametersException e) {
-		}
-		try {
-			logic.sendRegistrationInviteToStudent(null, student1.email);
-			fail();
-		} catch (InvalidParametersException e) {
-		}
 	}
 
 	@Test

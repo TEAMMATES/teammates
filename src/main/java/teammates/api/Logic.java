@@ -650,28 +650,13 @@ public class Logic {
 		Evaluations.inst().deleteSubmissionsForStudent(courseId, studentEmail);
 	}
 
-	// TODO: make this private
-	private StudentData enrollStudent(StudentData student) {
-		StudentData.UpdateStatus updateStatus = UpdateStatus.UNMODIFIED;
-		try {
-			if (isSameAsExistingStudent(student)) {
-				updateStatus = UpdateStatus.UNMODIFIED;
-			} else if (isModificationToExistingStudent(student)) {
-				editStudent(student.email, student);
-				updateStatus = UpdateStatus.MODIFIED;
-			} else {
-				createStudent(student);
-				updateStatus = UpdateStatus.NEW;
-			}
-		} catch (Exception e) {
-			updateStatus = UpdateStatus.ERROR;
-			log.severe("EntityExistsExcpetion thrown unexpectedly");
-			e.printStackTrace();
-		}
-		student.updateStatus = updateStatus;
-		return student;
-	}
-
+	/**
+	 * Access: course owner and above
+	 * @param courseId
+	 * @param studentEmail
+	 * @throws EntityDoesNotExistException
+	 * @throws InvalidParametersException
+	 */
 	public void sendRegistrationInviteToStudent(String courseId,
 			String studentEmail) throws EntityDoesNotExistException,
 			InvalidParametersException {
@@ -680,6 +665,9 @@ public class Logic {
 			throw new InvalidParametersException(
 					"Course ID and Student email cannot be null");
 		}
+		
+		verifyCourseOwnerOrAbove(courseId);
+		
 		Course course = Courses.inst().getCourse(courseId);
 		Student student = Courses.inst().getStudentWithEmail(courseId,
 				studentEmail);
@@ -1026,6 +1014,28 @@ public class Logic {
 
 	@SuppressWarnings("unused")
 	private void ____helper_methods________________________________________() {
+	}
+
+	// TODO: make this private
+	private StudentData enrollStudent(StudentData student) {
+		StudentData.UpdateStatus updateStatus = UpdateStatus.UNMODIFIED;
+		try {
+			if (isSameAsExistingStudent(student)) {
+				updateStatus = UpdateStatus.UNMODIFIED;
+			} else if (isModificationToExistingStudent(student)) {
+				editStudent(student.email, student);
+				updateStatus = UpdateStatus.MODIFIED;
+			} else {
+				createStudent(student);
+				updateStatus = UpdateStatus.NEW;
+			}
+		} catch (Exception e) {
+			updateStatus = UpdateStatus.ERROR;
+			log.severe("EntityExistsExcpetion thrown unexpectedly");
+			e.printStackTrace();
+		}
+		student.updateStatus = updateStatus;
+		return student;
 	}
 
 	private boolean isOrphanSubmission(StudentData reviewer,
