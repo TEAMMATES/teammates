@@ -121,26 +121,29 @@ public class LogicTest extends BaseTestCase {
 	public void testGetLoggedInUser() throws Exception {
 		
 		restoreTypicalDataInDatastore();
+		
+		______TS("admin+coord+student");
+		
 		CoordData coord = dataBundle.coords.get("typicalCoord1");
+		loginAsAdmin(coord.id);
 		// also make this user a student
 		StudentData coordAsStudent = new StudentData(
 				"|Coord As Student|coordasstudent@yahoo.com|", "some-course");
 		coordAsStudent.id = coord.id;
 		logic.createStudent(coordAsStudent);
 
-		helper.setEnvIsLoggedIn(true);
-		helper.setEnvIsAdmin(true);
-
-		helper.setEnvEmail(coord.id);
-		helper.setEnvAuthDomain("gmail.com");
 		UserData user = logic.getLoggedInUser();
 		assertEquals(coord.id, user.id);
 		assertEquals(true, user.isAdmin);
 		assertEquals(true, user.isCoord);
 		assertEquals(true, user.isStudent);
 
+		______TS("admin+coord only");
+		
 		// this user is no longer a student
 		logic.deleteStudent(coordAsStudent.course, coordAsStudent.email);
+		
+		______TS("coord only");
 		// this user is no longer an admin
 		helper.setEnvIsAdmin(false);
 
@@ -149,6 +152,8 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(false, user.isAdmin);
 		assertEquals(true, user.isCoord);
 		assertEquals(false, user.isStudent);
+		
+		______TS("unregistered");
 
 		// check for unregistered student
 		helper.setEnvEmail("unknown");
@@ -158,6 +163,8 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(false, user.isAdmin);
 		assertEquals(false, user.isCoord);
 		assertEquals(false, user.isStudent);
+		
+		______TS("student only");
 
 		// check for user who is only a student
 		StudentData student = dataBundle.students.get("student1InCourse1");
@@ -168,11 +175,21 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(false, user.isAdmin);
 		assertEquals(false, user.isCoord);
 		assertEquals(true, user.isStudent);
+		
+		______TS("admin only");
+		
+		loginAsAdmin("any.user");
+		
+		user = logic.getLoggedInUser();
+		assertEquals("any.user", user.id);
+		assertEquals(true, user.isAdmin);
+		assertEquals(false, user.isCoord);
+		assertEquals(false, user.isStudent);
+		
+		______TS("not logged in");
 
 		// check for user not logged in
 		helper.setEnvIsLoggedIn(false);
-		assertEquals(null, logic.getLoggedInUser());
-		assertEquals(null, logic.getLoggedInUser());
 		assertEquals(null, logic.getLoggedInUser());
 	}
 
@@ -1147,6 +1164,33 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testCreateStudent() throws Exception {
 		
+		______TS("authentication");
+		
+		restoreTypicalDataInDatastore();
+		
+		String methodName = "createStudent";
+		Class<?>[] paramTypes = new Class<?>[] { StudentData.class };
+		 StudentData s = new StudentData("t|n|e@com|c","idOfCourse1OfCoord1");
+		Object[] params = new Object[] { s };
+		
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		//course belongs to a different coord
+		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, new Object[] { 
+				new StudentData("t|n|e@com|c","idOfCourse1OfCoord2")});
+		
+		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+
+		______TS("typical case");
 
 		StudentData newStudent = new StudentData("t1|n1|e@com|c1",
 				"tcs.course1");

@@ -565,11 +565,20 @@ public class Logic {
 	private void ____STUDENT_level_methods__________________________________() {
 	}
 
+	/**
+	 * Access: course owner and above
+	 * @param studentData
+	 * @throws EntityAlreadyExistsException
+	 * @throws InvalidParametersException
+	 */
 	public void createStudent(StudentData studentData)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 		if (studentData == null) {
 			throw new InvalidParametersException("Student cannot be null");
 		}
+		
+		verifyCourseOwnerOrAbove(studentData.course);
+		
 		Student student = new Student(studentData);
 		// TODO: this if for backward compatibility with old system. Old system
 		// considers "" as unregistered. It should be changed to consider

@@ -93,8 +93,7 @@ public class BackDoor {
 
 	// TODO: modify to use Json format?
 	public static String[] getCoursesByCoordId(String coordId) {
-		System.out.println("TMAPI Getting courses of coordinator:" + coordId);
-
+		
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_COURSES_BY_COORD);
 		params.put(BackDoorServlet.PARAMETER_COORD_ID, coordId);
 		String courseString = makePOSTRequest(params);
