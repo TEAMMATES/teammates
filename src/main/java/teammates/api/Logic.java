@@ -1037,8 +1037,17 @@ public class Logic {
 		Evaluations.inst().deleteEvaluation(courseId, evaluationName);
 	}
 
+	/**
+	 * Access: owner and above
+	 * @param courseId
+	 * @param evaluationName
+	 * @throws EntityDoesNotExistException
+	 */
 	public void publishEvaluation(String courseId, String evaluationName)
 			throws EntityDoesNotExistException {
+		
+		verifyCourseOwnerOrAbove(courseId);
+		
 		Courses courses = Courses.inst();
 		List<Student> studentList = courses.getStudentList(courseId);
 
@@ -1048,6 +1057,9 @@ public class Logic {
 
 	public void unpublishEvaluation(String courseId, String evaluationName)
 			throws EntityDoesNotExistException {
+		
+		verifyCourseOwnerOrAbove(courseId);
+		
 		Evaluations.inst().unpublishEvaluation(courseId, evaluationName);
 	}
 

@@ -2576,6 +2576,34 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testPublishAndUnpublishEvaluation() throws Exception {
+		
+		______TS("authentication");
+
+		restoreTypicalDataInDatastore();
+
+		String[] methodNames = new String[]{"publishEvaluation", "unpublishEvaluation"};
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
+		Object[] params = new Object[] {"idOfCourse1OfCoord1", "new evaluation" };
+		
+		for (int i = 0; i < methodNames.length; i++) {
+			verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodNames[i], "any.user",
+					paramTypes, params);
+
+			verifyCannotAccess(USER_TYPE_UNREGISTERED, methodNames[i], "any.user",
+					paramTypes, params);
+
+			verifyCannotAccess(USER_TYPE_STUDENT, methodNames[i], "student1InCourse1",
+					paramTypes, params);
+
+			// course belongs to a different coord
+			verifyCannotAccess(USER_TYPE_COORD, methodNames[i], "idOfTypicalCoord2",
+					paramTypes, params);
+
+			verifyCanAccess(USER_TYPE_COORD, methodNames[i], "idOfTypicalCoord1",
+					paramTypes, params);
+		}
+		
+		______TS("typical cases");
 
 		restoreTypicalDataInDatastore();
 		
