@@ -1230,7 +1230,9 @@ public class Logic {
 	 */
 	public void editSubmissions(List<SubmissionData> submissionDataList)
 			throws EntityDoesNotExistException, InvalidParametersException {
+		Common.verifyNotNull(submissionDataList, "submissions list");
 		for (SubmissionData sd : submissionDataList) {
+			verifySubmissionEditableForUser(sd);
 			editSubmission(sd);
 		}
 	}

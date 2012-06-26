@@ -7,10 +7,7 @@ import static teammates.TeamEvalResult.NA;
 import static teammates.TeamEvalResult.NSB;
 import static teammates.TeamEvalResult.NSU;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +18,6 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import teammates.Datastore;
@@ -3310,7 +3306,6 @@ public class LogicTest extends BaseTestCase {
 	
 
 	@Test
-	@Ignore
 	public void testEditSubmissions() throws Exception {
 		
 		______TS("typical cases");
@@ -3360,6 +3355,7 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		String methodName = "editSubmissions";
+		Class<?>[] paramTypes = new Class<?>[] { List.class };
 		List<SubmissionData> submissions = new ArrayList<SubmissionData>();
 		SubmissionData s = new SubmissionData();
 		s.course = "idOfCourse1OfCoord1";
@@ -3367,9 +3363,6 @@ public class LogicTest extends BaseTestCase {
 		s.reviewer = "student1InCourse1@gmail.com";
 		submissions.add(s);
 		Object[] params = new Object[] { submissions };
-		
-		
-		Class<?>[] paramTypes = new Class<?>[] { /*TODO*/ };
 		
 		//ensure the evaluation is closed
 		loginAsAdmin("admin.user");
@@ -3800,13 +3793,15 @@ public class LogicTest extends BaseTestCase {
 				fail();
 			}
 		} catch (Exception e) {
+			String stack = TeammatesException.stackTraceToString(e);
+				
 			if (isUnauthExceptionExpected) {
 				//ensure it was the UnauthorizedAccessException
-				assertEquals(UnauthorizedAccessException.class, e.getCause()
+				assertEquals(stack, UnauthorizedAccessException.class, e.getCause()
 						.getClass());
 			} else {
 				//ensure it was not the UnauthorizedAccessException
-				assertTrue(
+				assertTrue(stack,
 						e.getCause()==null 
 						|| UnauthorizedAccessException.class != e.getCause()
 						.getClass());
