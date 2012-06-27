@@ -2157,10 +2157,8 @@ public class LogicTest extends BaseTestCase {
 		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
 				paramTypes, params);
 
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
-				paramTypes, params);
-		
-		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+		//student cannot access because evaluation is not published
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 
 		// course belongs to a different coord
@@ -2168,6 +2166,21 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, new Object[] {"course1OfCoord2", evaluation.name, student1email });
 
 		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
+				paramTypes, params);
+		
+		//publish the evaluation
+		loginAsAdmin("admin.user");
+		evaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
+		evaluation.published = true;
+		logic.editEvaluation(evaluation);
+		logoutUser();
+		
+		//other students still cannot access this student's result
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
+				paramTypes, params);
+		
+		//but this student can now access his own result
+		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 		
 		______TS("typical case");

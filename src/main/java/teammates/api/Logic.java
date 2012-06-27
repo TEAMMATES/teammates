@@ -182,12 +182,13 @@ public class Logic {
 		return callerClassName.equals(thisClassName);
 	}
 
-	private void verfyCourseOwnerOrEmailOwner(String courseId,
-			String studentEmail) {
+	private void verfyCourseOwner_OR_EmailOwnerAndPublished(String courseId, 
+			String evaluationName, String studentEmail) {
 		if (isInternalCall()) return;
 		if (isAdminLoggedIn()) return;
 		if (isCourseOwner(courseId)) return;
-		if (isOwnEmail(courseId,studentEmail)) return;
+		if (isOwnEmail(courseId,studentEmail)
+				&&isEvaluationPublished(courseId,evaluationName)) return;
 		throw new UnauthorizedAccessException();
 	}
 	
@@ -223,15 +224,17 @@ public class Logic {
 		return user != null && course != null
 				&& course.coord.equalsIgnoreCase(user.id);
 	}
-	
+
 	private boolean isInCourse(String courseId) {
 		UserData user = getLoggedInUser();
-		if (user == null) return false;
-		
+		if (user == null)
+			return false;
+
 		CourseData course = getCourse(courseId);
-		if(course == null) return false;
-		
-		return (null != getStudentInCourseForGoogleId(courseId, user.id));		
+		if (course == null)
+			return false;
+
+		return (null != getStudentInCourseForGoogleId(courseId, user.id));
 	}
 
 	private boolean isCoordLoggedIn() {
@@ -242,6 +245,15 @@ public class Logic {
 	private boolean isStudentLoggedIn() {
 		UserData loggedInUser = getLoggedInUser();
 		return loggedInUser == null ? false : loggedInUser.isStudent;
+	}
+
+	private boolean isEvaluationPublished(String courseId, String evaluationName) {
+		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
+		if (evaluation == null) {
+			return false;
+		} else {
+			return evaluation.getStatus() == EvalStatus.PUBLISHED;
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -457,7 +469,6 @@ public class Logic {
 		HashMap<String, CourseData> courseList = getCourseDetailsListForCoord(course.coord);
 		return courseList.get(courseId);
 	}
-
 
 	public void editCourse(CourseData course) throws NotImplementedException {
 		throw new NotImplementedException("Not implemented because we do "
@@ -775,7 +786,7 @@ public class Logic {
 	 * Access: same student and admin only
 	 * 
 	 * @param googleId
-	 * @return returns null if 
+	 * @return returns null if
 	 */
 	public ArrayList<StudentData> getStudentsWithId(String googleId) {
 
@@ -884,7 +895,7 @@ public class Logic {
 
 		verifySameStudentOrAdmin(googleId);
 
-		if (getStudentsWithId(googleId).size()==0) {
+		if (getStudentsWithId(googleId).size() == 0) {
 			throw new EntityDoesNotExistException("Student with Google ID "
 					+ googleId + " does not exist");
 		}
@@ -959,7 +970,7 @@ public class Logic {
 	}
 
 	/**
-	 * Access: owner of the course, owner of result (TODO: when PUBLISHED), admin
+	 * Access: owner of the course, owner of result (when PUBLISHED), admin
 	 * 
 	 * @param courseId
 	 * @param evaluationName
@@ -976,7 +987,8 @@ public class Logic {
 		Common.verifyNotNull(evaluationName, "evaluation name");
 		Common.verifyNotNull(studentEmail, "student email");
 
-		verfyCourseOwnerOrEmailOwner(courseId, studentEmail);
+		verfyCourseOwner_OR_EmailOwnerAndPublished(courseId, evaluationName,
+				studentEmail);
 
 		StudentData student = getStudent(courseId, studentEmail);
 		if (student == null) {

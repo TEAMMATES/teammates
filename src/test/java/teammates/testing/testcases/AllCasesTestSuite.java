@@ -12,8 +12,9 @@ import teammates.testing.junit.BackDoorTest;
 		// Unit tests
 		AllUnitTests.class,
 		// Js tests
-//		AllJsUnitTests.class,
+//		AllJsUnitTests.class, //TODO: add this back
 		// Api tests
+		AccessControlUiTest.class,
 		BackDoorTest.class,
 		// Ui test
 		AllUiTests.class

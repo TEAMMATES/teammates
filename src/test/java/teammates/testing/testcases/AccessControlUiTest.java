@@ -176,12 +176,20 @@ public class AccessControlUiTest extends BaseTestCase {
 		bi.click(By.id("button_submit"));
 		assertContains("You are not authorized to view this page.", bi.getCurrentPageSource());
 		
-		______TS("student views own evaluation result before publishing");
+		______TS("student tries to view own evaluation result before publishing");
 		
 		link = Common.PAGE_STUDENT_EVAL_RESULTS;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, idOfOwnCourse);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, ownEvaluation.name);
 		verifyRedirectToNotAuthorized(link);
+		
+		______TS("student views own evaluation result after publishing");
+		
+		ownEvaluation.published = true;
+		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		verifyPageContains(link, studentUsername+"{*}Evaluation Results{*}"+ownEvaluation.name+"{*}"+idOfOwnCourse);
+		
 	}
 
 	private void verifyRedirectToWelcomeStrangerPage(String path, String unregUsername) {
