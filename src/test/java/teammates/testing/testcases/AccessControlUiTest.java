@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 
 import teammates.api.Common;
+import teammates.datatransfer.CoordData;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.DataBundle;
 import teammates.datatransfer.EvaluationData;
@@ -23,11 +24,41 @@ public class AccessControlUiTest extends BaseTestCase {
 	
 	private static BrowserInstance bi;
 	private static String appUrl = Config.inst().TEAMMATES_URL;
+	private static DataBundle dataBundle;
 	
 	@BeforeClass
 	public static void classSetup(){
 		printTestClassHeader();
 		bi = BrowserInstancePool.getBrowserInstance();
+		
+		startRecordingTimeForDataImport();
+		dataBundle = getTypicalDataBundle();
+		
+		//assign test user IDs to existing student and coord
+		StudentData student = dataBundle.students.get("student1InCourse1");
+		student.id = Config.inst().TEST_STUDENT_ACCOUNT;
+		
+		CoordData coord = dataBundle.coords.get("typicalCoord1");
+		
+		//remove existing data under the coord before changing his id
+		BackDoor.deleteCoord(coord.id);
+		
+		//reassign courses to new coord id
+		String idOfTestCoord = Config.inst().TEST_COORD_ACCOUNT;
+		
+		for(CourseData cd: dataBundle.courses.values()){
+			if(cd.coord.equals(coord.id)){
+				cd.coord = idOfTestCoord;
+			}
+		}
+		
+		coord.id = idOfTestCoord;
+		
+		String backDoorOperationStatus = BackDoor.restoreNewDataBundle(Common.getTeammatesGson().toJson(dataBundle));
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		reportTimeForDataImport();
+		
+		bi.logout();
 	}
 	
 	@AfterClass
@@ -122,16 +153,7 @@ public class AccessControlUiTest extends BaseTestCase {
 		String studentUsername = Config.inst().TEST_STUDENT_ACCOUNT;
 		String studentPassword = Config.inst().TEST_STUDENT_PASSWORD;
 		
-		startRecordingTimeForDataImport();
-		DataBundle dataBundle = getTypicalDataBundle();
-		StudentData student = dataBundle.students.get("student1InCourse1");
-		//assign the test user id to an existing student
-		student.id = studentUsername;
-		String backDoorOperationStatus = BackDoor.restoreNewDataBundle(Common.getTeammatesGson().toJson(dataBundle));
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-		reportTimeForDataImport();
 		
-		bi.logout();
 		bi.loginStudent(studentUsername, studentPassword);
 		
 		verifyPageContains(Common.PAGE_STUDENT_HOME, studentUsername+"{*}Student Home{*}View Team");
@@ -170,7 +192,7 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("student tries to submit evaluation after closing");
 		
 		ownEvaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
-		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
+		String backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		bi.goToUrl(link);
 		bi.click(By.id("button_submit"));
