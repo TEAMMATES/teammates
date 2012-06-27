@@ -39,6 +39,11 @@ public class BackDoor {
 		String status = makePOSTRequest(params);
 		return status;
 	}
+	
+	public static String restoreNewDataBundle(String dataBundleJason) {
+		deleteCoordinators(dataBundleJason);
+		return persistNewDataBundle(dataBundleJason);
+	}
 
 	public static void deleteCoordinators(String jsonString) {
 		Gson gson = Common.getTeammatesGson();

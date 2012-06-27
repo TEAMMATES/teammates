@@ -28,7 +28,6 @@ public class UserData {
 	@Deprecated
 	public boolean isStudent(){
 		return  isStudent; 
-	} 
-	
+	}
 	
 }

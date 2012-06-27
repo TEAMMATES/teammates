@@ -30,8 +30,8 @@ public class Config {
 	public String TEST_ADMIN_ACCOUNT;
 	public String TEST_ADMIN_PASSWORD;
 	
-	public String TEAMMATES_UNREG_ACCOUNT;
-	public String TEAMMATES_UNREG_PASSWORD;
+	public String TEST_UNREG_ACCOUNT;
+	public String TEST_UNREG_PASSWORD;
 
 	/**
 	 * Password for TestSuite to communicate with the Teammates APIServlet.
@@ -77,8 +77,8 @@ public class Config {
 			TEST_STUDENT_ACCOUNT = prop.getProperty("test.student.account");
 			TEST_STUDENT_PASSWORD = prop.getProperty("test.student.password");
 			
-			TEAMMATES_UNREG_ACCOUNT = prop.getProperty("test.unreg.account");
-			TEAMMATES_UNREG_PASSWORD = prop.getProperty("test.unreg.password");
+			TEST_UNREG_ACCOUNT = prop.getProperty("test.unreg.account");
+			TEST_UNREG_PASSWORD = prop.getProperty("test.unreg.password");
 			
 			API_AUTH_CODE = prop.getProperty("test.app.authCode");
 			
