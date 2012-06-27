@@ -44,7 +44,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		bi.loginAdmin(Config.inst().TEAMMATES_ADMIN_ACCOUNT, Config.inst().TEAMMATES_ADMIN_PASSWORD);
+		bi.loginAdmin(Config.inst().TEST_ADMIN_ACCOUNT, Config.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_COORD_COURSE;
 		link = Helper.addParam(link,Common.PARAM_USER_ID,ts.coordinator.id);
 		bi.goToUrl(link);

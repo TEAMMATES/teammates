@@ -20,14 +20,15 @@ public class Config {
 	public String TEAMMATES_APP_ACCOUNT;
 	public String TEAMMATES_APP_PASSWORD;
 
-	public String TEAMMATES_COORD_ID;
+	public String TEST_COORD_ACCOUNT;
+	public String TEST_COORD_PASSWORD;
 
 	// Individual Evaluation Reminder Testing Account
-	public String INDIVIDUAL_NAME;
-	public String INDIVIDUAL_ACCOUNT;
+	public String TEST_STUDENT_PASSWORD;
+	public String TEST_STUDENT_ACCOUNT;
 	
-	public String TEAMMATES_ADMIN_ACCOUNT;
-	public String TEAMMATES_ADMIN_PASSWORD;
+	public String TEST_ADMIN_ACCOUNT;
+	public String TEST_ADMIN_PASSWORD;
 	
 	public String TEAMMATES_UNREG_ACCOUNT;
 	public String TEAMMATES_UNREG_PASSWORD;
@@ -66,14 +67,21 @@ public class Config {
 			TEAMMATES_APP = prop.getProperty("test.app.id");
 			TEAMMATES_APP_ACCOUNT = prop.getProperty("test.app.account");
 			TEAMMATES_APP_PASSWORD = prop.getProperty("test.app.password");
-			TEAMMATES_COORD_ID = prop.getProperty("test.coord.id");
-			INDIVIDUAL_ACCOUNT = prop.getProperty("test.individual.account");
-			INDIVIDUAL_NAME = prop.getProperty("test.individual.name");
-			TEAMMATES_ADMIN_ACCOUNT = prop.getProperty("test.admin.account");
-			TEAMMATES_ADMIN_PASSWORD = prop.getProperty("test.admin.password");
+			
+			TEST_ADMIN_ACCOUNT = prop.getProperty("test.admin.account");
+			TEST_ADMIN_PASSWORD = prop.getProperty("test.admin.password");
+			
+			TEST_COORD_ACCOUNT = prop.getProperty("test.coord.account");
+			TEST_COORD_PASSWORD = prop.getProperty("test.coord.password");
+			
+			TEST_STUDENT_ACCOUNT = prop.getProperty("test.student.account");
+			TEST_STUDENT_PASSWORD = prop.getProperty("test.student.password");
+			
 			TEAMMATES_UNREG_ACCOUNT = prop.getProperty("test.unreg.account");
 			TEAMMATES_UNREG_PASSWORD = prop.getProperty("test.unreg.password");
+			
 			API_AUTH_CODE = prop.getProperty("test.app.authCode");
+			
 			BROWSER = prop.getProperty("test.selenium.browser");
 			SELENIUMRC_HOST = prop.getProperty("test.selenium.host");
 			SELENIUMRC_PORT = Integer.parseInt(prop.getProperty("test.selenium.port"));

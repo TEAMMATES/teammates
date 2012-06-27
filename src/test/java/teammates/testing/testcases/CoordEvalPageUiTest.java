@@ -44,7 +44,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 
 		bi = BrowserInstancePool.getBrowserInstance();
 
-		bi.loginAdmin(Config.inst().TEAMMATES_ADMIN_ACCOUNT, Config.inst().TEAMMATES_ADMIN_PASSWORD);
+		bi.loginAdmin(Config.inst().TEST_ADMIN_ACCOUNT, Config.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_COORD_EVAL;
 		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
 		bi.goToUrl(link);
