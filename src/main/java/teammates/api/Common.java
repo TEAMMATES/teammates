@@ -276,8 +276,11 @@ public class Common {
 	
 	// status messages
 	public static final String MESSAGE_LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
-	public static final String MESSAGE_STUDENT_FIRST_TIME = "It seems that you are not in the system. If you are trying to register to a course,<br />" +
-															"please do so by filling in the above box with the registration key given to you through your e-mail.";
+	public static final String MESSAGE_STUDENT_FIRST_TIME = "Welcome stranger :-) " +
+			"<br/><br/>It seems you are not a registered user of TEAMMATES. To use TEAMMATES, a course coordinator has to add you to a course first. " +
+			"After that, TEAMMATES will send you an email containing the link to 'join' that course. " +
+			"<br/><br/>If you already clicked on such a link and ended up here, it is likely that your email software messed up the link. Please retry to join by filling in the above box the registration key given in that same e-mail." +
+			"If you still cannot join, feel free to <a href='http://www.comp.nus.edu.sg/~teams/contact.html'>contact us</a> for help. ";
 	
 	public static final String MESSAGE_COURSE_ADDED = "The course has been added. Click the 'Enroll' link in the table below to add students to the course.";
 	public static final String MESSAGE_COURSE_EXISTS = "A course by the same ID already exists in the system, possibly created by another user. Please choose a different course ID";
