@@ -959,7 +959,7 @@ public class Logic {
 	}
 
 	/**
-	 * Access: owner of the course, owner of result, admin
+	 * Access: owner of the course, owner of result (TODO: when PUBLISHED), admin
 	 * 
 	 * @param courseId
 	 * @param evaluationName

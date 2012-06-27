@@ -5,10 +5,12 @@ import static org.junit.Assert.*;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openqa.selenium.By;
 
 import teammates.api.Common;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.DataBundle;
+import teammates.datatransfer.EvaluationData;
 import teammates.datatransfer.StudentData;
 import teammates.jsp.Helper;
 import teammates.testing.config.Config;
@@ -117,8 +119,6 @@ public class AccessControlUiTest extends BaseTestCase {
 	@Test
 	public void testStudentAccessControl() throws Exception{
 		
-		
-		
 		String studentUsername = Config.inst().TEST_STUDENT_ACCOUNT;
 		String studentPassword = Config.inst().TEST_STUDENT_PASSWORD;
 		
@@ -137,7 +137,7 @@ public class AccessControlUiTest extends BaseTestCase {
 		verifyPageContains(Common.PAGE_STUDENT_HOME, studentUsername+"{*}Student Home{*}View Team");
 		verifyPageContains(Common.PAGE_STUDENT_JOIN_COURSE, studentUsername+"{*}Student Home{*}View Team");
 		
-		______TS("student view details of a student's own course");
+		______TS("student views details of a student's own course");
 		
 		String link = Common.PAGE_STUDENT_COURSE_DETAILS;
 		String idOfOwnCourse = "idOfCourse1OfCoord1";
@@ -159,6 +159,29 @@ public class AccessControlUiTest extends BaseTestCase {
 		link = Helper.addParam(link, Common.PARAM_USER_ID , otherStudent.id);
 		verifyRedirectToNotAuthorized(link);
 		
+		______TS("student views own evaluation submission page");
+		
+		link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, idOfOwnCourse);
+		EvaluationData ownEvaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, ownEvaluation.name);
+		verifyPageContains(link, studentUsername+"{*}Evaluation Submission{*}"+idOfOwnCourse+"{*}"+ownEvaluation.name);
+		
+		______TS("student tries to submit evaluation after closing");
+		
+		ownEvaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
+		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		bi.goToUrl(link);
+		bi.click(By.id("button_submit"));
+		assertContains("You are not authorized to view this page.", bi.getCurrentPageSource());
+		
+		______TS("student views own evaluation result before publishing");
+		
+		link = Common.PAGE_STUDENT_EVAL_RESULTS;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, idOfOwnCourse);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, ownEvaluation.name);
+		verifyRedirectToNotAuthorized(link);
 	}
 
 	private void verifyRedirectToWelcomeStrangerPage(String path, String unregUsername) {
