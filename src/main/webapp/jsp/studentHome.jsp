@@ -70,12 +70,6 @@
 						</h2>
 					</div>
 					<div class="result_homeLinks">
-						<!-- <a class="t_course_profile<%=idx%>"
-							href="<%=helper.getStudentCourseProfileLink(course.id)%>"
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_STUDENT_COURSE_PROFILE%>')"
-							onmouseout="hideddrivetip()">
-							Profile
-						</a> -->
 						<a class="t_course_view<%=idx%>"
 							href="<%=helper.getStudentCourseDetailsLink(course.id)%>"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_STUDENT_COURSE_DETAILS%>')"

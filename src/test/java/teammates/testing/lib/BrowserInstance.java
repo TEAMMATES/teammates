@@ -636,6 +636,7 @@ public class BrowserInstance {
 	public void logout() {
 		System.out.println("Signing out.");
 		goToUrl(Config.inst().TEAMMATES_URL+Common.JSP_LOGOUT);
+		loggedInUser = "";
 	}
 
 	/*------------------------------------------------------------------------
@@ -2919,7 +2920,7 @@ public class BrowserInstance {
 	 * @throws Exception
 	 */
 	public void verifyCurrentPageHTML(String filepath)throws Exception{
-		String pageSrc = driver.getPageSource();
+		String pageSrc = getCurrentPageSource();
 		String inputStr = Common.readFile(filepath).replace("{version}",Common.VERSION);
 		HtmlHelper.assertSameHtml(inputStr, pageSrc);
 	}
@@ -2944,7 +2945,7 @@ public class BrowserInstance {
 	 * @throws Exception
 	 */
 	public void verifyCurrentPageHTMLRegex(String filepath) throws Exception{
-		String pageSrc = driver.getPageSource();
+		String pageSrc = getCurrentPageSource();
 		String inputStr = Common.readFile(filepath).replace("{version}",Common.VERSION);
 		BaseTestCase.assertContainsRegex(inputStr.replace("\r\n", "\n"),pageSrc.replace("\r\n", "\n"));
 	}
@@ -2975,7 +2976,7 @@ public class BrowserInstance {
 		String pageSrc = null;
 		String inputStr = null;
 		for(int i=0; i<PAGE_VERIFY_RETRY; i++){
-			pageSrc = driver.getPageSource();
+			pageSrc = getCurrentPageSource();
 			inputStr = Common.readFile(filepath).replace("{version}",Common.VERSION);
 			if(BaseTestCase.isContainsRegex(inputStr.replace("\r\n", "\n"),pageSrc.replace("\r\n", "\n"))){
 				return;
@@ -2998,10 +2999,14 @@ public class BrowserInstance {
 	 */
 	public void printCurrentPage(String destination) throws Exception{
 		waitForPageLoad();
-		String pageSrc = driver.getPageSource();
+		String pageSrc = getCurrentPageSource();
 		TestFileWriter output = new TestFileWriter(new File(destination));
 		output.write(pageSrc);
 		output.close();
+	}
+
+	public String getCurrentPageSource() {
+		return driver.getPageSource();
 	}
 	
 	/**
@@ -3012,7 +3017,7 @@ public class BrowserInstance {
 	 */
 	public void verifyObjectHTML(String filepath, String div) throws Exception {
 		try {
-			String pageSrc = driver.getPageSource();
+			String pageSrc = getCurrentPageSource();
 			FileInputStream refSrc = new FileInputStream(filepath);
 			BufferedReader actual = new BufferedReader(new StringReader(pageSrc));
 			BufferedReader expected = new BufferedReader(new InputStreamReader(new DataInputStream(refSrc)));

@@ -189,41 +189,36 @@ public class Common {
 		<% } %>
 		
 	 */
-	public static final String PAGE_COORD_HOME = "/page/coordHome"; // Done
-	public static final String PAGE_COORD_COURSE = "/page/coordCourse"; // Done
-	public static final String PAGE_COORD_COURSE_DELETE = "/page/coordCourseDelete"; // Done
-	public static final String PAGE_COORD_COURSE_DETAILS = "/page/coordCourseDetails"; // Done
-	public static final String PAGE_COORD_COURSE_STUDENT_DETAILS = "/page/coordCourseStudentDetails"; // Done
-	public static final String PAGE_COORD_COURSE_STUDENT_EDIT = "/page/coordCourseStudentEdit"; // Done
-	public static final String PAGE_COORD_COURSE_STUDENT_DELETE = "/page/coordCourseStudentDelete"; // Done
-	public static final String PAGE_COORD_COURSE_ENROLL = "/page/coordCourseEnroll"; // Done
-	public static final String PAGE_COORD_COURSE_REMIND = "/page/coordCourseRemind"; // Done
-	public static final String PAGE_COORD_TFS = "/page/coordTFS"; // Pending
-	public static final String PAGE_COORD_TFS_MANAGE = "/page/coordTFSManage"; // Pending
-	public static final String PAGE_COORD_TFS_CHANGE_TEAM = "/page/coordTFSChangeTeam"; // Pending
-	public static final String PAGE_COORD_TFS_LOGS = "/page/coordTFSLogs"; // Pending
-	public static final String PAGE_COORD_EVAL = "/page/coordEval"; // Done
-	public static final String PAGE_COORD_EVAL_DELETE = "/page/coordEvalDelete"; // Done
-	public static final String PAGE_COORD_EVAL_EDIT = "/page/coordEvalEdit"; // Done
-	public static final String PAGE_COORD_EVAL_RESULTS = "/page/coordEvalResults"; // Done
-	public static final String PAGE_COORD_EVAL_SUBMISSION_VIEW = "/page/coordEvalSubmissionView"; // Done
-	public static final String PAGE_COORD_EVAL_SUBMISSION_EDIT = "/page/coordEvalSubmissionEdit"; // Done
-	public static final String PAGE_COORD_EVAL_SUBMISSION_EDIT_HANDLER = "/page/coordEvalSubmissionEditHandler"; // Done
-	public static final String PAGE_COORD_EVAL_REMIND = "/page/coordEvalRemind"; // Done
-	public static final String PAGE_COORD_EVAL_PUBLISH = "/page/coordEvalPublish"; // Done
-	public static final String PAGE_COORD_EVAL_UNPUBLISH = "/page/coordEvalUnpublish"; // Done
+	public static final String PAGE_COORD_HOME = "/page/coordHome"; 
+	public static final String PAGE_COORD_COURSE = "/page/coordCourse"; 
+	public static final String PAGE_COORD_COURSE_DELETE = "/page/coordCourseDelete"; 
+	public static final String PAGE_COORD_COURSE_DETAILS = "/page/coordCourseDetails"; 
+	public static final String PAGE_COORD_COURSE_STUDENT_DETAILS = "/page/coordCourseStudentDetails"; 
+	public static final String PAGE_COORD_COURSE_STUDENT_EDIT = "/page/coordCourseStudentEdit"; 
+	public static final String PAGE_COORD_COURSE_STUDENT_DELETE = "/page/coordCourseStudentDelete"; 
+	public static final String PAGE_COORD_COURSE_ENROLL = "/page/coordCourseEnroll"; 
+	public static final String PAGE_COORD_COURSE_REMIND = "/page/coordCourseRemind"; 
+	public static final String PAGE_COORD_EVAL = "/page/coordEval"; 
+	public static final String PAGE_COORD_EVAL_DELETE = "/page/coordEvalDelete"; 
+	public static final String PAGE_COORD_EVAL_EDIT = "/page/coordEvalEdit"; 
+	public static final String PAGE_COORD_EVAL_RESULTS = "/page/coordEvalResults"; 
+	public static final String PAGE_COORD_EVAL_SUBMISSION_VIEW = "/page/coordEvalSubmissionView"; 
+	public static final String PAGE_COORD_EVAL_SUBMISSION_EDIT = "/page/coordEvalSubmissionEdit"; 
+	public static final String PAGE_COORD_EVAL_SUBMISSION_EDIT_HANDLER = "/page/coordEvalSubmissionEditHandler"; 
+	public static final String PAGE_COORD_EVAL_REMIND = "/page/coordEvalRemind"; 
+	public static final String PAGE_COORD_EVAL_PUBLISH = "/page/coordEvalPublish"; 
+	public static final String PAGE_COORD_EVAL_UNPUBLISH = "/page/coordEvalUnpublish"; 
 
-	public static final String PAGE_STUDENT_HOME = "/page/studentHome"; // Done
-	public static final String PAGE_STUDENT_JOIN_COURSE = "/page/studentCourseJoin"; // Done
-	public static final String PAGE_STUDENT_COURSE_PROFILE = "/page/studentCourseProfile"; // Pending
-	public static final String PAGE_STUDENT_COURSE_DETAILS = "/page/studentCourseDetails"; // Done
+	public static final String PAGE_STUDENT_HOME = "/page/studentHome"; 
+	public static final String PAGE_STUDENT_JOIN_COURSE = "/page/studentCourseJoin"; 
+	public static final String PAGE_STUDENT_COURSE_DETAILS = "/page/studentCourseDetails"; 
 	/** To submit evaluation and also to edit */
-	public static final String PAGE_STUDENT_EVAL_SUBMISSION_EDIT = "/page/studentEvalEdit"; // Done
-	public static final String PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER = "/page/studentEvalEditHandler"; // Done
-	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults"; // Done
+	public static final String PAGE_STUDENT_EVAL_SUBMISSION_EDIT = "/page/studentEvalEdit"; 
+	public static final String PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER = "/page/studentEvalEditHandler"; 
+	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults"; 
 	
-	public static final String PAGE_ADMINISTRATOR_HOME = "/page/administrator"; // Done
-	public static final String PAGE_LOGIN = "/login"; // Done
+	public static final String PAGE_ADMINISTRATOR_HOME = "/page/administrator"; 
+	public static final String PAGE_LOGIN = "/login"; 
 
 	/*
 	 * JSP pages links. These links are here to provide easeness in case of

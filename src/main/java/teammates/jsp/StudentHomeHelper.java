@@ -81,18 +81,6 @@ public class StudentHomeHelper extends Helper {
 		}
 	}
 	
-	/**
-	 * Returns the link to see student's profile in a course<br />
-	 * This includes masquerade mode as well.
-	 * @param courseID
-	 * @return
-	 */
-	public String getStudentCourseProfileLink(String courseID){
-		String link = Common.PAGE_STUDENT_COURSE_PROFILE;
-		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
-		link = processMasquerade(link);
-		return link;
-	}
 	
 	/**
 	 * Returns the link to see course details, which includes the information

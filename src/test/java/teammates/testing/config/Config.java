@@ -6,6 +6,8 @@ import java.util.Properties;
 
 public class Config {
 	
+	
+
 	// Live Site URL
 	public String TEAMMATES_LIVE_SITE;
 
@@ -26,6 +28,9 @@ public class Config {
 	
 	public String TEAMMATES_ADMIN_ACCOUNT;
 	public String TEAMMATES_ADMIN_PASSWORD;
+	
+	public String TEAMMATES_UNREG_ACCOUNT;
+	public String TEAMMATES_UNREG_PASSWORD;
 
 	/**
 	 * Password for TestSuite to communicate with the Teammates APIServlet.
@@ -66,6 +71,8 @@ public class Config {
 			INDIVIDUAL_NAME = prop.getProperty("test.individual.name");
 			TEAMMATES_ADMIN_ACCOUNT = prop.getProperty("test.admin.account");
 			TEAMMATES_ADMIN_PASSWORD = prop.getProperty("test.admin.password");
+			TEAMMATES_UNREG_ACCOUNT = prop.getProperty("test.unreg.account");
+			TEAMMATES_UNREG_PASSWORD = prop.getProperty("test.unreg.password");
 			API_AUTH_CODE = prop.getProperty("test.app.authCode");
 			BROWSER = prop.getProperty("test.selenium.browser");
 			SELENIUMRC_HOST = prop.getProperty("test.selenium.host");

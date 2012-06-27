@@ -49,7 +49,6 @@ public class StudentCourseDetailsPageUiTest extends BaseTestCase {
 	@Test	
 	public void testStudentCourseDetailsPageHTML() throws Exception{
 		
-		
 		______TS("with teammates");
 		
 		String link = appUrl + Common.PAGE_STUDENT_COURSE_DETAILS;
