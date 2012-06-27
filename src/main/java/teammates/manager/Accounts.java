@@ -128,21 +128,17 @@ public class Accounts {
 		return student;
 	}
 	
-	public List<Student> getStudentWithID(String googleId) {
+	public List<Student> getStudentsWithID(String googleId) {
 		String query = "select from " + Student.class.getName() + " where ID == \"" + googleId + "\"";
 
 		@SuppressWarnings("unchecked")
 		List<Student> studentList = (List<Student>) getPM().newQuery(query).execute();
 
-		if (studentList.isEmpty()) {
-			return null;
-		}
-
 		return studentList;
 	}
 	
 	public boolean isStudent(String googleId){
-		return getStudentWithID(googleId)!= null;
+		return getStudentsWithID(googleId).size()!=0;
 	}
 
 	/**

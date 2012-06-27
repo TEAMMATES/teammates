@@ -691,7 +691,12 @@ public class LogicTest extends BaseTestCase {
 		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
 				paramTypes, params);
 
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+		//student in different course
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse2",
+				paramTypes, params);
+		
+		//student in same course
+		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 
 		// course belongs to a different coord
@@ -1081,7 +1086,12 @@ public class LogicTest extends BaseTestCase {
 		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
 				paramTypes, params);
 
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+		//student not in same course
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse2",
+				paramTypes, params);
+		
+		//student in same course
+		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 
 		// course belongs to a different coord
@@ -1627,7 +1637,7 @@ public class LogicTest extends BaseTestCase {
 				secondStudentReceived.course);
 
 		______TS("non existent student");
-		assertEquals(null, logic.getStudentsWithId("non-existent"));
+		assertEquals(0, logic.getStudentsWithId("non-existent").size());
 	}
 
 	@Test
@@ -3797,11 +3807,12 @@ public class LogicTest extends BaseTestCase {
 				
 			if (isUnauthExceptionExpected) {
 				//ensure it was the UnauthorizedAccessException
-				assertEquals(stack, UnauthorizedAccessException.class, e.getCause()
+				assertEquals("UnauthorizedAccessException expected, but received this: "+stack, 
+						UnauthorizedAccessException.class, e.getCause()
 						.getClass());
 			} else {
 				//ensure it was not the UnauthorizedAccessException
-				assertTrue(stack,
+				assertTrue("UnauthorizedAccessException is not expected here: "+stack,
 						e.getCause()==null 
 						|| UnauthorizedAccessException.class != e.getCause()
 						.getClass());

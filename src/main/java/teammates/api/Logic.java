@@ -120,6 +120,14 @@ public class Logic {
 		throw new UnauthorizedAccessException();
 	}
 	
+	private void verifyCourseOwnerOrStudentInCourse(String courseId) {
+		if (isInternalCall()) return;
+		if (isAdminLoggedIn()) return;
+		if (isCourseOwner(courseId)) return;
+		if (isInCourse(courseId)) return;
+		throw new UnauthorizedAccessException();
+	}
+	
 	private void verifyAdminLoggedIn() {
 		if (isInternalCall()) return;
 		if (isAdminLoggedIn())  return;
@@ -214,6 +222,16 @@ public class Logic {
 		UserData user = getLoggedInUser();
 		return user != null && course != null
 				&& course.coord.equalsIgnoreCase(user.id);
+	}
+	
+	private boolean isInCourse(String courseId) {
+		UserData user = getLoggedInUser();
+		if (user == null) return false;
+		
+		CourseData course = getCourse(courseId);
+		if(course == null) return false;
+		
+		return (null != getStudentInCourseForGoogleId(courseId, user.id));		
 	}
 
 	private boolean isCoordLoggedIn() {
@@ -420,14 +438,14 @@ public class Logic {
 	}
 
 	/**
-	 * Access: course owner and above
+	 * Access: course owner, student in course, admin
 	 * 
 	 * @throws EntityDoesNotExistException
 	 */
 	public CourseData getCourseDetails(String courseId)
 			throws EntityDoesNotExistException {
 
-		verifyCourseOwnerOrAbove(courseId);
+		verifyCourseOwnerOrStudentInCourse(courseId);
 
 		// TODO: very inefficient. Should be optimized.
 		CourseData course = getCourse(courseId);
@@ -439,6 +457,7 @@ public class Logic {
 		HashMap<String, CourseData> courseList = getCourseDetailsListForCoord(course.coord);
 		return courseList.get(courseId);
 	}
+
 
 	public void editCourse(CourseData course) throws NotImplementedException {
 		throw new NotImplementedException("Not implemented because we do "
@@ -563,6 +582,7 @@ public class Logic {
 	}
 
 	/**
+	 * Access: course owner, student in course, admin
 	 * 
 	 * @param courseId
 	 * @return The CourseData object that is returned will contain attributes
@@ -577,7 +597,7 @@ public class Logic {
 			return null;
 		}
 
-		verifyCourseOwnerOrAbove(courseId);
+		verifyCourseOwnerOrStudentInCourse(courseId);
 
 		List<StudentData> students = getStudentListForCourse(courseId);
 		Courses.sortByTeamName(students);
@@ -755,16 +775,13 @@ public class Logic {
 	 * Access: same student and admin only
 	 * 
 	 * @param googleId
-	 * @return
+	 * @return returns null if 
 	 */
 	public ArrayList<StudentData> getStudentsWithId(String googleId) {
 
 		verifySameStudentOrAdmin(googleId);
 
-		List<Student> students = Accounts.inst().getStudentWithID(googleId);
-		if (students == null) {
-			return null;
-		}
+		List<Student> students = Accounts.inst().getStudentsWithID(googleId);
 		ArrayList<StudentData> returnList = new ArrayList<StudentData>();
 		for (Student s : students) {
 			returnList.add(new StudentData(s));
@@ -867,7 +884,7 @@ public class Logic {
 
 		verifySameStudentOrAdmin(googleId);
 
-		if (getStudentsWithId(googleId) == null) {
+		if (getStudentsWithId(googleId).size()==0) {
 			throw new EntityDoesNotExistException("Student with Google ID "
 					+ googleId + " does not exist");
 		}
