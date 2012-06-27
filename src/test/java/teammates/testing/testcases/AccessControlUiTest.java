@@ -213,6 +213,77 @@ public class AccessControlUiTest extends BaseTestCase {
 		verifyPageContains(link, studentUsername+"{*}Evaluation Results{*}"+ownEvaluation.name+"{*}"+idOfOwnCourse);
 		
 	}
+	
+	@Test
+	public void testCoordAccessControl() throws Exception{
+		
+		String coordUsername = Config.inst().TEST_COORD_ACCOUNT;
+		String coordPassword = Config.inst().TEST_COORD_PASSWORD;
+		
+		CoordData otherCoord = dataBundle.coords.get("typicalCoord2");
+		
+		CourseData ownCourse = dataBundle.courses.get("course1OfCoord1");
+		CourseData otherCourse = dataBundle.courses.get("course1OfCoord2");
+		
+		bi.loginCoord(coordUsername, coordPassword);
+		
+		______TS("views own homepage");
+		
+		String link = Common.PAGE_COORD_HOME;
+		verifyPageContains(link, coordUsername+"{*}Coordinator Home{*}"+ownCourse.id);
+		
+		______TS("tries to view other homepage");
+		
+		Helper.addParam(link, Common.PARAM_USER_ID , otherCoord.id);
+		//redirected to own home page
+		verifyPageContains(link, coordUsername+"{*}Coordinator Home{*}"+ownCourse.id);
+		
+		______TS("views own course page");
+		
+		link = Common.PAGE_COORD_COURSE;
+		verifyPageContains(link, coordUsername+"{*}Add New Course{*}"+ownCourse.id);
+		
+		______TS("tries to view others course page");
+		
+		Helper.addParam(link, Common.PARAM_USER_ID , otherCoord.id);
+		verifyPageContains(link, coordUsername+"{*}Add New Course{*}"+ownCourse.id);
+		
+		______TS("views own course details");
+		
+		link = Common.PAGE_COORD_COURSE_DETAILS;
+		link = Helper.addParam(link,Common.PARAM_COURSE_ID, ownCourse.id);
+		
+		verifyPageContains(link, coordUsername+"{*}Course Details{*}"+ownCourse.id);
+	
+		______TS("tries to view others course details");
+		
+		link = Common.PAGE_COORD_COURSE_DETAILS;
+		link = Helper.addParam(link,Common.PARAM_COURSE_ID, otherCourse.id);
+		verifyRedirectToNotAuthorized(link);
+		
+		______TS("tries to view others course details by masquerading");
+		
+		Helper.addParam(link, Common.PARAM_USER_ID , otherCoord.id);
+		verifyRedirectToNotAuthorized(link);
+		
+		//http://localhost:8080/page/coordCourseDelete?courseid=idOfCourse1OfCoord1&next=%2Fpage%2FcoordCourse
+//		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_DELETE);
+//		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_ENROLL);
+//		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_REMIND);
+//		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_STUDENT_DELETE);
+//		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_STUDENT_DETAILS);
+//		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_STUDENT_EDIT);
+//		verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL);
+//		verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_EDIT);
+//		verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_DELETE);
+//		verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_REMIND);
+//		verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_RESULTS);
+//		verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_PUBLISH);
+//		verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_UNPUBLISH);
+//		verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_SUBMISSION_VIEW);
+//		verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_SUBMISSION_EDIT);
+		
+	}
 
 	private void verifyRedirectToWelcomeStrangerPage(String path, String unregUsername) {
 		printUrl(appUrl+path);
