@@ -481,8 +481,30 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("cannot send reminders to not-own course by masquerading");
 
 		verifyCannotMasquerade(link, otherCoord.id);
+		
+		// =================== view evaluation result =======================
+		
+		______TS("can view result of own evaluation");
 
-		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_REMIND);
+		link = Common.PAGE_COORD_EVAL_RESULTS;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+				ownEvaluation.name);
+		verifyPageContains(link, coordUsername + "{*}Evaluation Result{*}"
+				+ ownEvaluation.name);
+
+		______TS("cannot view result of not-own evaluation");
+
+		link = Common.PAGE_COORD_EVAL_RESULTS;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+				otherEvaluation.name);
+		verifyRedirectToNotAuthorized(link);
+
+		______TS("cannot view result of not-own course by masquerading");
+		
+		verifyCannotMasquerade(link, otherCoord.id);
+
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_RESULTS);
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_PUBLISH);
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_UNPUBLISH);
