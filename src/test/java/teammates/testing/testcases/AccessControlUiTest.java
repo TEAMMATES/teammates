@@ -25,6 +25,22 @@ public class AccessControlUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static String appUrl = Config.inst().TEAMMATES_URL;
 	private static DataBundle dataBundle;
+	private static String backDoorOperationStatus;
+	private static String link;
+	
+	private static String coordUsername;
+	private static String coordPassword;
+
+	private static CoordData otherCoord;
+
+	private static CourseData ownCourse;
+	private static CourseData otherCourse;
+
+	private static StudentData ownStudent;
+	private static StudentData otherStudent;
+
+	private static EvaluationData ownEvaluation;
+	private static EvaluationData otherEvaluation;
 
 	@BeforeClass
 	public static void classSetup() {
@@ -54,10 +70,26 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		coord.id = idOfTestCoord;
 
-		String backDoorOperationStatus = BackDoor.restoreNewDataBundle(Common
+		backDoorOperationStatus = BackDoor.restoreNewDataBundle(Common
 				.getTeammatesGson().toJson(dataBundle));
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
+		
+		 coordUsername = Config.inst().TEST_COORD_ACCOUNT;
+		 coordPassword = Config.inst().TEST_COORD_PASSWORD;
+
+		 otherCoord = dataBundle.coords.get("typicalCoord2");
+
+		 ownCourse = dataBundle.courses.get("course1OfCoord1");
+		 otherCourse = dataBundle.courses.get("course1OfCoord2");
+
+		 ownStudent = dataBundle.students.get("student1InCourse1");
+		 otherStudent = dataBundle.students.get("student1InCourse2");
+
+		 ownEvaluation = dataBundle.evaluations
+				.get("evaluation1InCourse1OfCoord1");
+		 otherEvaluation = dataBundle.evaluations
+				.get("evaluation1InCourse1OfCoord2");
 
 		bi.logout();
 	}
@@ -129,25 +161,130 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		bi.logout();
 		bi.loginCoord(unregUsername, unregPassword);
+		
+		CoordData otherCoord = dataBundle.coords.get("typicalCoord2");
+		CourseData otherCourse = dataBundle.courses.get("course1OfCoord2");
+		StudentData otherStudent = dataBundle.students.get("student1InCourse2");
+		EvaluationData otherEvaluation = dataBundle.evaluations
+				.get("evaluation1InCourse1OfCoord2");
 
-		verifyRedirectToNotAuthorized(Common.PAGE_COORD_HOME);
-		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE);
-		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_DELETE);
-		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_DETAILS);
-		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_ENROLL);
-		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_REMIND);
-		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_STUDENT_DELETE);
-		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_STUDENT_DETAILS);
-		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_STUDENT_EDIT);
-		verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL);
-		verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_EDIT);
-		verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_DELETE);
-		verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_REMIND);
-		verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_RESULTS);
-		verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_PUBLISH);
-		verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_UNPUBLISH);
-		verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_SUBMISSION_VIEW);
-		verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_SUBMISSION_EDIT);
+		String link = Common.PAGE_COORD_HOME;
+		verifyRedirectToNotFound(link);
+		verifyCannotMasquerade(link, otherCoord.id);
+		
+		link = Common.PAGE_COORD_COURSE;
+		verifyRedirectToNotFound(link);
+		verifyCannotMasquerade(link, otherCoord.id);
+		
+		link = Common.PAGE_COORD_COURSE_DELETE;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
+		
+		link = Common.PAGE_COORD_COURSE_DETAILS;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
+		
+		link = Common.PAGE_COORD_COURSE_ENROLL;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		bi.goToUrl(link);
+		bi.fillString(By.id("enrollstudents"), "t|n|e@g.com|c");
+		bi.click(By.id("button_enroll"));
+		verifyRedirectToNotAuthorized();
+		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
+		bi.goToUrl(link);
+		bi.fillString(By.id("enrollstudents"), "t|n|e@g.com|c");
+		bi.click(By.id("button_enroll"));
+		verifyRedirectToNotAuthorized();
+		
+		//remind whole course
+		link = Common.PAGE_COORD_COURSE_REMIND;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
+		
+		//remind one student
+		link = Common.PAGE_COORD_COURSE_REMIND;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL, otherStudent.email);
+		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
+		
+		link = Common.PAGE_COORD_COURSE_STUDENT_DELETE;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL, otherStudent.email);
+		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
+		
+		link = Common.PAGE_COORD_COURSE_STUDENT_DETAILS;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL, otherStudent.email);
+		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
+		
+		link = Common.PAGE_COORD_COURSE_STUDENT_EDIT;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL, otherStudent.email);
+		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
+		
+		link = Common.PAGE_COORD_EVAL;
+		verifyRedirectToNotFound(link);
+		verifyCannotMasquerade(link, otherCoord.id);
+		
+		link = Common.PAGE_COORD_EVAL_EDIT;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+				otherEvaluation.name);
+		verifyRedirectToNotAuthorized();
+		verifyCannotMasquerade(link, otherCoord.id);
+		
+		link = Common.PAGE_COORD_EVAL_DELETE;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, otherEvaluation.name);
+		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
+		
+		link = Common.PAGE_COORD_EVAL_REMIND;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, otherEvaluation.name);
+		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
+		
+		link = Common.PAGE_COORD_EVAL_RESULTS;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, otherEvaluation.name);
+		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
+		
+		link = Common.PAGE_COORD_EVAL_PUBLISH;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, otherEvaluation.name);
+		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
+		
+		link = Common.PAGE_COORD_EVAL_UNPUBLISH;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, otherEvaluation.name);
+		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
+		
+		link = Common.PAGE_COORD_EVAL_SUBMISSION_VIEW;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, otherEvaluation.name);
+		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL, otherStudent.email);
+		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
+		
+		link = Common.PAGE_COORD_EVAL_SUBMISSION_EDIT;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, otherEvaluation.name);
+		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL, otherStudent.email);
+		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
+		
+		//TODO: verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_SUBMISSION_EDIT);
 
 	}
 
@@ -236,21 +373,6 @@ public class AccessControlUiTest extends BaseTestCase {
 	@Test
 	public void testCoordAccessControl() throws Exception {
 
-		String coordUsername = Config.inst().TEST_COORD_ACCOUNT;
-		String coordPassword = Config.inst().TEST_COORD_PASSWORD;
-
-		CoordData otherCoord = dataBundle.coords.get("typicalCoord2");
-
-		CourseData ownCourse = dataBundle.courses.get("course1OfCoord1");
-		CourseData otherCourse = dataBundle.courses.get("course1OfCoord2");
-
-		StudentData ownStudent = dataBundle.students.get("student1InCourse1");
-		StudentData otherStudent = dataBundle.students.get("student1InCourse2");
-
-		EvaluationData ownEvaluation = dataBundle.evaluations
-				.get("evaluation1InCourse1OfCoord1");
-		EvaluationData otherEvaluation = dataBundle.evaluations
-				.get("evaluation1InCourse1OfCoord2");
 
 		bi.loginCoord(coordUsername, coordPassword);
 		
@@ -304,34 +426,7 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		verifyCannotMasquerade(link, otherCoord.id);
 		
-		// =================== enroll students ==============================
-
-		______TS("can view own ourse enroll page");
-
-		link = Common.PAGE_COORD_COURSE_ENROLL;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
-
-		verifyPageContains(link, coordUsername + "{*}Enroll Students for{*}"
-				+ ownCourse.id);
-
-		______TS("cannot view others course enroll page");
-
-		link = Common.PAGE_COORD_COURSE_ENROLL;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		bi.goToUrl(link);
-		bi.fillString(By.id("enrollstudents"), "t|n|e@g.com|c");
-		bi.click(By.id("button_enroll"));
-		verifyRedirectToNotAuthorized();
-
-		______TS("cannot view others course enroll page by masquerading");
-		// note: we allow loading of other's course for enrolling because
-		// it is too expensive to prevent. However, user cannot submit edits.
-
-		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
-		bi.goToUrl(link);
-		bi.fillString(By.id("enrollstudents"), "t|n|e@g.com|c");
-		bi.click(By.id("button_enroll"));
-		verifyRedirectToNotAuthorized();
+		testCoordEnroll();
 		
 		// =================== remind to join ==============================
 
@@ -396,31 +491,7 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		verifyCannotMasquerade(link, otherCoord.id);
 
-		// =============== edit student details ==============================
-
-		______TS("can edit details of own student");
-
-		link = Common.PAGE_COORD_COURSE_STUDENT_EDIT;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
-				ownStudent.email);
-		verifyPageContains(link, coordUsername + "{*}Edit Student Details{*}"
-				+ ownStudent.email);
-		bi.click(bi.coordCourseDetailsStudentEditSaveButton);
-		assertContainsRegex(coordUsername + "{*}Course Details{*}"
-				+ Common.MESSAGE_STUDENT_EDITED, bi.getCurrentPageSource());
-
-		______TS("cannot edit details of not-own student");
-
-		link = Common.PAGE_COORD_COURSE_STUDENT_EDIT;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
-				otherStudent.email);
-		verifyRedirectToNotAuthorized(link);
-
-		______TS("cannot edit details of not-own student by masquerading");
-
-		verifyCannotMasquerade(link, otherCoord.id);
+		testCoordStudentEdit();
 
 		// =================== view evals ==============================
 
@@ -442,38 +513,7 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		verifyCannotMasquerade(link, otherCoord.id);
 
-		// =================== edit evaluation ==============================
-
-		______TS("can edit own evaluation");
-
-		link = Common.PAGE_COORD_EVAL_EDIT;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
-				ownEvaluation.name);
-		verifyPageContains(link, coordUsername + "{*}Edit Evaluation{*}"
-				+ ownEvaluation.name);
-
-		______TS("cannot edit other evaluation");
-
-		// note: we allow loading of other's evaluation for editing because
-		// it is too expensive to prevent. However, user cannot submit edits.
-
-		link = Common.PAGE_COORD_EVAL_EDIT;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
-				otherEvaluation.name);
-		bi.goToUrl(link);
-		bi.click(By.id("button_submit"));
-		verifyRedirectToNotAuthorized();
-
-		______TS("cannot edit other evaluation by masquerading");
-
-		// note: see note in previous section.
-
-		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
-		bi.goToUrl(link);
-		bi.click(By.id("button_submit"));
-		verifyRedirectToNotAuthorized();
+		testCoordEvalEdit();
 
 		// =================== evaluation reminders ===========================
 
@@ -602,35 +642,7 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		verifyCannotMasquerade(link, otherCoord.id);
 
-		// =================== edit submission ==============================
-
-		______TS("can edit submission of own student");
-
-		link = Common.PAGE_COORD_EVAL_SUBMISSION_EDIT;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
-				ownEvaluation.name);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
-				ownStudent.email);
-		verifyPageContains(link, coordUsername + "{*}Edit Student's Submission{*}" + ownStudent.name);
-		bi.click(By.id("button_submit"));
-		//We check for this message because there is no parent window for
-		//  the browser to switch back as done in normal user operation.
-		assertContains("This browser window is expected to close automatically", bi.getCurrentPageSource());
-
-		______TS("cannot edit submission of  not-own evaluation");
-
-		link = Common.PAGE_COORD_EVAL_SUBMISSION_EDIT;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
-				otherEvaluation.name);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
-				otherStudent.email);
-		verifyRedirectToNotAuthorized(link);
-
-		______TS("cannot edit submission of not-own course by masquerading");
-
-		verifyCannotMasquerade(link, otherCoord.id);
+		testCoordEvalSubmissionEdit();
 
 		// =================== delete evaluation ==============================
 
@@ -702,6 +714,132 @@ public class AccessControlUiTest extends BaseTestCase {
 		
 	}
 
+	private void testCoordEvalSubmissionEdit() {
+
+		______TS("can edit submission of own student");
+
+		link = Common.PAGE_COORD_EVAL_SUBMISSION_EDIT;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+				ownEvaluation.name);
+		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+				ownStudent.email);
+		verifyPageContains(link, coordUsername + "{*}Edit Student's Submission{*}" + ownStudent.name);
+		bi.click(By.id("button_submit"));
+		//We check for this message because there is no parent window for
+		//  the browser to switch back as done in normal user operation.
+		assertContains("This browser window is expected to close automatically", bi.getCurrentPageSource());
+
+		______TS("cannot edit submission of  not-own evaluation");
+
+		link = Common.PAGE_COORD_EVAL_SUBMISSION_EDIT;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+				otherEvaluation.name);
+		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+				otherStudent.email);
+		verifyRedirectToNotAuthorized(link);
+
+		______TS("cannot edit submission of not-own course by masquerading");
+
+		verifyCannotMasquerade(link, otherCoord.id);
+	}
+
+	private void testCoordEvalEdit() {
+		String link;
+		// =================== edit evaluation ==============================
+
+		______TS("can edit own evaluation");
+
+		link = Common.PAGE_COORD_EVAL_EDIT;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+				ownEvaluation.name);
+		verifyPageContains(link, coordUsername + "{*}Edit Evaluation{*}"
+				+ ownEvaluation.name);
+
+		______TS("cannot edit other evaluation");
+
+		// note: we allow loading of other's evaluation for editing because
+		// it is too expensive to prevent. However, user cannot submit edits.
+
+		link = Common.PAGE_COORD_EVAL_EDIT;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+				otherEvaluation.name);
+		bi.goToUrl(link);
+		bi.click(By.id("button_submit"));
+		verifyRedirectToNotAuthorized();
+
+		______TS("cannot edit other evaluation by masquerading");
+
+		// note: see note in previous section.
+
+		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
+		bi.goToUrl(link);
+		bi.click(By.id("button_submit"));
+		verifyRedirectToNotAuthorized();
+	}
+
+	private void testCoordStudentEdit() {
+		String link;
+		// =============== edit student details ==============================
+
+		______TS("can edit details of own student");
+
+		link = Common.PAGE_COORD_COURSE_STUDENT_EDIT;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+				ownStudent.email);
+		verifyPageContains(link, coordUsername + "{*}Edit Student Details{*}"
+				+ ownStudent.email);
+		bi.click(bi.coordCourseDetailsStudentEditSaveButton);
+		assertContainsRegex(coordUsername + "{*}Course Details{*}"
+				+ Common.MESSAGE_STUDENT_EDITED, bi.getCurrentPageSource());
+
+		______TS("cannot edit details of not-own student");
+
+		link = Common.PAGE_COORD_COURSE_STUDENT_EDIT;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+				otherStudent.email);
+		verifyRedirectToNotAuthorized(link);
+
+		______TS("cannot edit details of not-own student by masquerading");
+
+		verifyCannotMasquerade(link, otherCoord.id);
+	}
+
+	private void testCoordEnroll() {
+		
+		______TS("can view own ourse enroll page");
+
+		link = Common.PAGE_COORD_COURSE_ENROLL;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
+
+		verifyPageContains(link, coordUsername + "{*}Enroll Students for{*}"
+				+ ownCourse.id);
+
+		______TS("cannot view others course enroll page");
+
+		link = Common.PAGE_COORD_COURSE_ENROLL;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		bi.goToUrl(link);
+		bi.fillString(By.id("enrollstudents"), "t|n|e@g.com|c");
+		bi.click(By.id("button_enroll"));
+		verifyRedirectToNotAuthorized();
+
+		______TS("cannot view others course enroll page by masquerading");
+		// note: we allow loading of other's course for enrolling because
+		// it is too expensive to prevent. However, user cannot submit edits.
+
+		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
+		bi.goToUrl(link);
+		bi.fillString(By.id("enrollstudents"), "t|n|e@g.com|c");
+		bi.click(By.id("button_enroll"));
+		verifyRedirectToNotAuthorized();
+	}
+
 	private void verifyCannotMasquerade(String link, String otherCoordId) {
 		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoordId);
 		verifyRedirectToNotAuthorized(link);
@@ -726,6 +864,12 @@ public class AccessControlUiTest extends BaseTestCase {
 		printUrl(appUrl + path);
 		bi.goToUrl(appUrl + path);
 		verifyRedirectToNotAuthorized();
+	}
+	
+	private void verifyRedirectToNotFound(String path) {
+		printUrl(appUrl + path);
+		bi.goToUrl(appUrl + path);
+		assertContainsRegex("We could not locate what you were trying to access.", bi.getCurrentPageSource());
 	}
 
 	private void verifyPageContains(String path, String targetText) {

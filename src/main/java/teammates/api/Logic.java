@@ -356,6 +356,7 @@ public class Logic {
 	 */
 	public HashMap<String, CourseData> getCourseDetailsListForCoord(
 			String coordId) throws EntityDoesNotExistException {
+		
 		Common.verifyNotNull(coordId, "coordinator ID");
 		
 		verifyCoordUsingOwnIdOrAbove(coordId);
