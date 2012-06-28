@@ -78,11 +78,9 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 			}
 		}
 		
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalSubmissionViewOpen.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalSubmissionView.html");
 		
 		//TODO: remove this. the evaluation need not be closed for editing to be enabled
-		eval.endTime = new Date(new Date().getTime()-24*60*60*1000);
-		BackDoor.editEvaluation(eval);
 
 		______TS("view submission for closed evaluation, using direct URL");
 		
@@ -93,7 +91,7 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.coords.get("teammates.demo.coord").id);
 		bi.goToUrl(link);
 		
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalSubmissionViewClosed.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalSubmissionView.html");
 		
 		bi.click(By.id("button_edit"));
 
