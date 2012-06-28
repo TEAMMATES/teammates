@@ -225,6 +225,9 @@ public class AccessControlUiTest extends BaseTestCase {
 		CourseData ownCourse = dataBundle.courses.get("course1OfCoord1");
 		CourseData otherCourse = dataBundle.courses.get("course1OfCoord2");
 		
+		StudentData ownStudent = dataBundle.students.get("student1InCourse1");
+		StudentData otherStudent = dataBundle.students.get("student1InCourse2");
+		
 		bi.loginCoord(coordUsername, coordPassword);
 		
 		______TS("can view own homepage");
@@ -289,9 +292,27 @@ public class AccessControlUiTest extends BaseTestCase {
 		bi.click(By.id("button_enroll"));
 		verifyRedirectToNotAuthorized();
 		
+		______TS("can send reminders to own student");
+
+		link = Common.PAGE_COORD_COURSE_REMIND;
+		link = Helper.addParam(link,Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Helper.addParam(link,Common.PARAM_STUDENT_EMAIL, ownStudent.email);
+		verifyPageContains(link, coordUsername+"{*}Course Details{*}"+ownCourse.id);
+		
+		______TS("cannot send reminders to not-own student");
+
+		link = Common.PAGE_COORD_COURSE_REMIND;
+		link = Helper.addParam(link,Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link,Common.PARAM_STUDENT_EMAIL, otherStudent.email);
+		verifyRedirectToNotAuthorized(link);
+		
+		______TS("cannot send reminders to not-own student by masquerading");
+
+		link = Helper.addParam(link, Common.PARAM_USER_ID , otherCoord.id);
+		verifyRedirectToNotAuthorized(link);
+		
 		//http://localhost:8080/page/coordCourseDelete?courseid=idOfCourse1OfCoord1&next=%2Fpage%2FcoordCourse
 //		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_DELETE);
-//		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_REMIND);
 //		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_STUDENT_DELETE);
 //		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_STUDENT_DETAILS);
 //		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_STUDENT_EDIT);

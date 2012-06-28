@@ -48,29 +48,13 @@ public class CoordCourseEnrollServlet extends
 				.getParameter(Common.PARAM_STUDENTS_ENROLLMENT_INFO);
 
 		try {
-			CourseData course = helper.server.getCourse(helper.courseID);
-//			if (isAuthorizedForThisOperation(helper, course)) {
-				enrollAndProcessResultForDisplay(helper, studentsInfo);
-//			} else {
-//				helper.statusMessage = "You are not authorized to enroll students in the course "
-//						+ helper.courseID;
-//				helper.redirectUrl = Common.PAGE_COORD_COURSE;
-//			}
+			enrollAndProcessResultForDisplay(helper, studentsInfo);
 		} catch (EnrollException e) {
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
 		}
 	}
 
-	private boolean isAuthorizedForThisOperation(
-			CoordCourseEnrollHelper helper, CourseData course) {
-		// TODO: This check can be omitted after Logic implements the
-		// authorization check.
-		// We proceed if course==null because a proper entity existence check is
-		// done again later.
-
-		return course == null || course.coord.equals(helper.userId);
-	}
 
 	private void enrollAndProcessResultForDisplay(
 			CoordCourseEnrollHelper helper, String studentsInfo)
