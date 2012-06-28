@@ -2994,8 +2994,6 @@ public class BrowserInstance {
 	 * This is to be used in HTML testing, where we can generate the reference HTML file using this method.
 	 * This method is deprecated so that you won't forget to remove it
 	 * @param destination
-	 * @deprecated Still used, don't remove this one.
-	 * @
 	 */
 	public void printCurrentPage(String destination) throws Exception{
 		waitForPageLoad();

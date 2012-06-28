@@ -96,10 +96,8 @@
 				<% } %>
 				<input type="button" class="button" id="button_back" value="Close"
 						onclick="window.close()"/>
-				<% if(helper.evaluation.getStatus()==EvaluationData.EvalStatus.CLOSED){ %>
 				<input type="button" class="button" id="button_edit" value="Edit Submission"
 						onclick="window.location.href='<%= helper.getCoordEvaluationSubmissionEditLink(helper.evaluation.course, helper.evaluation.name, helper.student.email) %>'"/>
-				<% } %>
 				<br /><br />
 			</div>
 		</div>

@@ -162,6 +162,8 @@ public class AccessControlUiTest extends BaseTestCase {
 				+ "{*}Student Home{*}View Team");
 		verifyPageContains(Common.PAGE_STUDENT_JOIN_COURSE, studentUsername
 				+ "{*}Student Home{*}View Team");
+		
+		// =================== view course ==============================
 
 		______TS("student can view details of a student's own course");
 
@@ -185,6 +187,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		assertEquals(otherStudent.course, otherCourse.id);
 		link = Helper.addParam(link, Common.PARAM_USER_ID, otherStudent.id);
 		verifyRedirectToNotAuthorized(link);
+		
+		// =================== evaluation submission =========================
 
 		______TS("student can view own evaluation submission page");
 
@@ -206,6 +210,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		bi.goToUrl(link);
 		bi.click(By.id("button_submit"));
 		verifyRedirectToNotAuthorized();
+		
+		// =================== view evaluation result==========================
 
 		______TS("student cannot view own evaluation result before publishing");
 
@@ -224,11 +230,10 @@ public class AccessControlUiTest extends BaseTestCase {
 				+ ownEvaluation.name + "{*}" + idOfOwnCourse);
 
 	}
+	
 
 	@Test
 	public void testCoordAccessControl() throws Exception {
-
-		// TODO: add missing '=' dividers
 
 		String coordUsername = Config.inst().TEST_COORD_ACCOUNT;
 		String coordPassword = Config.inst().TEST_COORD_PASSWORD;
@@ -247,6 +252,8 @@ public class AccessControlUiTest extends BaseTestCase {
 				.get("evaluation1InCourse1OfCoord2");
 
 		bi.loginCoord(coordUsername, coordPassword);
+		
+		// =================== view home page ==============================
 
 		______TS("can view own homepage");
 
@@ -263,6 +270,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		link = Common.PAGE_COORD_COURSE;
 		verifyPageContains(link, coordUsername + "{*}Add New Course{*}"
 				+ ownCourse.id);
+		
+		// =================== add course ==============================
 
 		______TS("can add course");
 
@@ -270,9 +279,11 @@ public class AccessControlUiTest extends BaseTestCase {
 		assertContainsRegex(coordUsername + "{*}Add New Course{*}"
 				+ Common.MESSAGE_COURSE_ADDED, bi.getCurrentPageSource());
 
-		______TS("cannot view others course page by masquerading");
+		______TS("cannot add course while masquerading");
 
 		verifyCannotMasquerade(link, otherCoord.id);
+		
+		// =================== view course ==============================
 
 		______TS("can view own course details");
 
@@ -291,6 +302,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("cannot view others course details by masquerading");
 
 		verifyCannotMasquerade(link, otherCoord.id);
+		
+		// =================== enroll students ==============================
 
 		______TS("can view own ourse enroll page");
 
@@ -318,6 +331,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		bi.fillString(By.id("enrollstudents"), "t|n|e@g.com|c");
 		bi.click(By.id("button_enroll"));
 		verifyRedirectToNotAuthorized();
+		
+		// =================== remind to join ==============================
 
 		______TS("can send reminders to own student");
 
@@ -596,20 +611,11 @@ public class AccessControlUiTest extends BaseTestCase {
 				ownEvaluation.name);
 		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
 				ownStudent.email);
-		verifyPageContains(link, coordUsername
-				+ "{*}Edit Student's Submission{*}" + ownStudent.name);
-		assertContains("button_submit", bi.getCurrentPageSource());
-		//bi.click(By.id("button_submit"));
-		// bi.getSelenium().selectWindow("null");
-		// bi.waitForStatusMessage(String.format(Common.MESSAGE_COORD_EVALUATION_SUBMISSION_RECEIVED,ownStudent.name,ownEvaluation.name,ownEvaluation.course).replace("<br />",
-		// "\n"));
-
-//		verifyPageContains(
-//				link,
-//				String.format(
-//						Common.MESSAGE_COORD_EVALUATION_SUBMISSION_RECEIVED,
-//						ownStudent.name, ownEvaluation.name,
-//						ownEvaluation.course).replace("<br />", "\n"));
+		verifyPageContains(link, coordUsername + "{*}Edit Student's Submission{*}" + ownStudent.name);
+		bi.click(By.id("button_submit"));
+		//We check for this message because there is no parent window for
+		//  the browser to switch back as done in normal user operation.
+		assertContains("This browser window is expected to close automatically", bi.getCurrentPageSource());
 
 		______TS("cannot edit submission of  not-own evaluation");
 

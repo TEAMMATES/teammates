@@ -80,6 +80,7 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalSubmissionViewOpen.html");
 		
+		//TODO: remove this. the evaluation need not be closed for editing to be enabled
 		eval.endTime = new Date(new Date().getTime()-24*60*60*1000);
 		BackDoor.editEvaluation(eval);
 

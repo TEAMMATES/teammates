@@ -28,7 +28,6 @@
 	</script>
 </head>
 <body>
-<%= request.getParameter(Common.PARAM_STATUS_MESSAGE) %>
-<br/> It is safe to close this window now.
+This browser window is expected to close automatically (if JavaSrcipt is enabled). If it doesn't, you may close it manually.
 </body>
 </html>
