@@ -41,7 +41,12 @@ public class AccessControlUiTest extends BaseTestCase {
 
 	private static EvaluationData ownEvaluation;
 	private static EvaluationData otherEvaluation;
+	
+	static String  unregUsername = Config.inst().TEST_UNREG_ACCOUNT;
+	static String  unregPassword = Config.inst().TEST_UNREG_PASSWORD;
 
+	static String  adminUsername = Config.inst().TEST_ADMIN_ACCOUNT;
+	
 	@BeforeClass
 	public static void classSetup() {
 		printTestClassHeader();
@@ -99,14 +104,14 @@ public class AccessControlUiTest extends BaseTestCase {
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
 	}
-
+	
 	@Test
 	public void testUserNotLoggedIn() throws Exception {
 
 		bi.logout();
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER + "/login.html");
 
-		______TS("student");
+		______TS("student pages");
 
 		verifyRedirectToLogin(Common.PAGE_STUDENT_HOME);
 		verifyRedirectToLogin(Common.PAGE_STUDENT_JOIN_COURSE);
@@ -114,7 +119,7 @@ public class AccessControlUiTest extends BaseTestCase {
 		verifyRedirectToLogin(Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT);
 		verifyRedirectToLogin(Common.PAGE_STUDENT_EVAL_RESULTS);
 
-		______TS("coord");
+		______TS("coord pages");
 
 		verifyRedirectToLogin(Common.PAGE_COORD_HOME);
 		verifyRedirectToLogin(Common.PAGE_COORD_COURSE);
@@ -134,7 +139,13 @@ public class AccessControlUiTest extends BaseTestCase {
 		verifyRedirectToLogin(Common.PAGE_COORD_EVAL_UNPUBLISH);
 		verifyRedirectToLogin(Common.PAGE_COORD_EVAL_SUBMISSION_VIEW);
 		verifyRedirectToLogin(Common.PAGE_COORD_EVAL_SUBMISSION_EDIT);
-
+		
+		______TS("admin pages");
+		
+		link = Common.PAGE_ADMINISTRATOR_HOME;
+		verifyRedirectToLogin(link);
+		link = Helper.addParam(link, Common.PARAM_USER_ID, adminUsername);
+		verifyRedirectToLogin(link);
 	}
 
 	@Test
@@ -142,8 +153,7 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		______TS("student");
 
-		String unregUsername = Config.inst().TEST_UNREG_ACCOUNT;
-		String unregPassword = Config.inst().TEST_UNREG_PASSWORD;
+		
 		bi.logout();
 		bi.loginStudent(unregUsername, unregPassword);
 
@@ -284,8 +294,14 @@ public class AccessControlUiTest extends BaseTestCase {
 		verifyRedirectToNotAuthorized(link);
 		verifyCannotMasquerade(link, otherCoord.id);
 		
-		//TODO: verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_SUBMISSION_EDIT);
+		verify_admin_pages_redirect_to_unauthorized_access_page();
+	}
 
+	private void verify_admin_pages_redirect_to_unauthorized_access_page() {
+		link = Common.PAGE_ADMINISTRATOR_HOME;
+		verifyRedirectToNotAuthorized(link);
+		link = Helper.addParam(link, Common.PARAM_USER_ID, adminUsername);
+		verifyRedirectToNotAuthorized(link);
 	}
 
 	@Test
@@ -495,23 +511,7 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		// =================== view evals ==============================
 
-		______TS("can view own evals page");
-
-		link = Common.PAGE_COORD_EVAL;
-		verifyPageContains(link, coordUsername + "{*}Add New Evaluation{*}"
-				+ ownCourse.id);
-
-		______TS("can add eval");
-
-		bi.addEvaluation(ownCourse.id, "new eval",
-				Common.getDateOffsetToCurrentTime(1),
-				Common.getDateOffsetToCurrentTime(2), true, "ins", 0);
-		assertContainsRegex(coordUsername + "{*}Add New Evaluation{*}"
-				+ Common.MESSAGE_EVALUATION_ADDED, bi.getCurrentPageSource());
-
-		______TS("cannot view others eval page by masquerading");
-
-		verifyCannotMasquerade(link, otherCoord.id);
+		testCoordEval();
 
 		testCoordEvalEdit();
 
@@ -712,6 +712,34 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		verifyCannotMasquerade(link, otherCoord.id);
 		
+		______TS("admin pages");
+		
+		verify_admin_pages_redirect_to_unauthorized_access_page();
+		
+	}
+
+	@Test
+	public void testCoordEval() {
+
+		bi.loginCoord(coordUsername, coordPassword);
+		
+		______TS("can view own evals page");
+
+		link = Common.PAGE_COORD_EVAL;
+		verifyPageContains(link, coordUsername + "{*}Add New Evaluation{*}"
+				+ ownCourse.id);
+
+		______TS("can add eval");
+
+		bi.addEvaluation(ownCourse.id, "new eval",
+				Common.getDateOffsetToCurrentTime(1),
+				Common.getDateOffsetToCurrentTime(2), true, "ins", 0);
+		assertContainsRegex(coordUsername + "{*}Add New Evaluation{*}"
+				+ Common.MESSAGE_EVALUATION_ADDED, bi.getCurrentPageSource());
+
+		______TS("cannot view others eval page by masquerading");
+
+		verifyCannotMasquerade(link, otherCoord.id);
 	}
 
 	private void testCoordEvalSubmissionEdit() {

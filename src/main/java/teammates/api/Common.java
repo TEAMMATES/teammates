@@ -221,7 +221,7 @@ public class Common {
 	public static final String PAGE_LOGIN = "/login"; 
 
 	/*
-	 * JSP pages links. These links are here to provide easeness in case of
+	 * JSP pages links. These links are here to provide ease of 
 	 * moving the JSP folder or renaming.
 	 */
 	public static final String JSP_COORD_HOME = "/jsp/coordHome.jsp"; // Done
