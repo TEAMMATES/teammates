@@ -49,13 +49,13 @@ public class CoordCourseEnrollServlet extends
 
 		try {
 			CourseData course = helper.server.getCourse(helper.courseID);
-			if (isAuthorizedForThisOperation(helper, course)) {
+//			if (isAuthorizedForThisOperation(helper, course)) {
 				enrollAndProcessResultForDisplay(helper, studentsInfo);
-			} else {
-				helper.statusMessage = "You are not authorized to enroll students in the course "
-						+ helper.courseID;
-				helper.redirectUrl = Common.PAGE_COORD_COURSE;
-			}
+//			} else {
+//				helper.statusMessage = "You are not authorized to enroll students in the course "
+//						+ helper.courseID;
+//				helper.redirectUrl = Common.PAGE_COORD_COURSE;
+//			}
 		} catch (EnrollException e) {
 			helper.statusMessage = e.getMessage();
 			helper.error = true;

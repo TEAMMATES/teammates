@@ -159,21 +159,21 @@ public class AccessControlUiTest extends BaseTestCase {
 		verifyPageContains(Common.PAGE_STUDENT_HOME, studentUsername+"{*}Student Home{*}View Team");
 		verifyPageContains(Common.PAGE_STUDENT_JOIN_COURSE, studentUsername+"{*}Student Home{*}View Team");
 		
-		______TS("student views details of a student's own course");
+		______TS("student can view details of a student's own course");
 		
 		String link = Common.PAGE_STUDENT_COURSE_DETAILS;
 		String idOfOwnCourse = "idOfCourse1OfCoord1";
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, idOfOwnCourse);
 		verifyPageContains(link, studentUsername+"{*}Team Details for "+idOfOwnCourse);
 		
-		______TS("student tries to view details of a course she is not registered for");
+		______TS("student cannot view details of a course she is not registered for");
 
 		link = Common.PAGE_STUDENT_COURSE_DETAILS;
 		CourseData otherCourse = dataBundle.courses.get("course1OfCoord2");
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		verifyRedirectToNotAuthorized(link);
 		
-		______TS("student tries to view course details while masquerading as a student in that course");
+		______TS("student cannot view course details while masquerading as a student in that course");
 		
 		StudentData otherStudent = dataBundle.students.get("student1InCourse2");
 		//ensure other student belong to other course
@@ -181,7 +181,7 @@ public class AccessControlUiTest extends BaseTestCase {
 		link = Helper.addParam(link, Common.PARAM_USER_ID , otherStudent.id);
 		verifyRedirectToNotAuthorized(link);
 		
-		______TS("student views own evaluation submission page");
+		______TS("student can view own evaluation submission page");
 		
 		link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, idOfOwnCourse);
@@ -189,23 +189,23 @@ public class AccessControlUiTest extends BaseTestCase {
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, ownEvaluation.name);
 		verifyPageContains(link, studentUsername+"{*}Evaluation Submission{*}"+idOfOwnCourse+"{*}"+ownEvaluation.name);
 		
-		______TS("student tries to submit evaluation after closing");
+		______TS("student cannot submit evaluation after closing");
 		
 		ownEvaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
 		String backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		bi.goToUrl(link);
 		bi.click(By.id("button_submit"));
-		assertContains("You are not authorized to view this page.", bi.getCurrentPageSource());
+		verifyRedirectToNotAuthorized();
 		
-		______TS("student tries to view own evaluation result before publishing");
+		______TS("student cannot view own evaluation result before publishing");
 		
 		link = Common.PAGE_STUDENT_EVAL_RESULTS;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, idOfOwnCourse);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, ownEvaluation.name);
 		verifyRedirectToNotAuthorized(link);
 		
-		______TS("student views own evaluation result after publishing");
+		______TS("student can view own evaluation result after publishing");
 		
 		ownEvaluation.published = true;
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
@@ -213,7 +213,7 @@ public class AccessControlUiTest extends BaseTestCase {
 		verifyPageContains(link, studentUsername+"{*}Evaluation Results{*}"+ownEvaluation.name+"{*}"+idOfOwnCourse);
 		
 	}
-	
+
 	@Test
 	public void testCoordAccessControl() throws Exception{
 		
@@ -227,48 +227,70 @@ public class AccessControlUiTest extends BaseTestCase {
 		
 		bi.loginCoord(coordUsername, coordPassword);
 		
-		______TS("views own homepage");
+		______TS("can view own homepage");
 		
 		String link = Common.PAGE_COORD_HOME;
 		verifyPageContains(link, coordUsername+"{*}Coordinator Home{*}"+ownCourse.id);
 		
-		______TS("tries to view other homepage");
+		______TS("cannot view other homepage");
 		
-		Helper.addParam(link, Common.PARAM_USER_ID , otherCoord.id);
-		//redirected to own home page
-		verifyPageContains(link, coordUsername+"{*}Coordinator Home{*}"+ownCourse.id);
+		link = Helper.addParam(link, Common.PARAM_USER_ID , otherCoord.id);
+		verifyRedirectToNotAuthorized(link);
 		
-		______TS("views own course page");
+		______TS("can view own course page");
 		
 		link = Common.PAGE_COORD_COURSE;
 		verifyPageContains(link, coordUsername+"{*}Add New Course{*}"+ownCourse.id);
 		
-		______TS("tries to view others course page");
+		______TS("cannot view others course page");
 		
-		Helper.addParam(link, Common.PARAM_USER_ID , otherCoord.id);
-		verifyPageContains(link, coordUsername+"{*}Add New Course{*}"+ownCourse.id);
+		link = Helper.addParam(link, Common.PARAM_USER_ID , otherCoord.id);
+		verifyRedirectToNotAuthorized(link);
 		
-		______TS("views own course details");
+		______TS("can view own course details");
 		
 		link = Common.PAGE_COORD_COURSE_DETAILS;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID, ownCourse.id);
 		
 		verifyPageContains(link, coordUsername+"{*}Course Details{*}"+ownCourse.id);
 	
-		______TS("tries to view others course details");
+		______TS("cannot view others course details");
 		
 		link = Common.PAGE_COORD_COURSE_DETAILS;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID, otherCourse.id);
 		verifyRedirectToNotAuthorized(link);
 		
-		______TS("tries to view others course details by masquerading");
+		______TS("cannot view others course details by masquerading");
 		
-		Helper.addParam(link, Common.PARAM_USER_ID , otherCoord.id);
+		link = Helper.addParam(link, Common.PARAM_USER_ID , otherCoord.id);
 		verifyRedirectToNotAuthorized(link);
+		
+		______TS("can view own ourse enroll page");
+		
+		link = Common.PAGE_COORD_COURSE_ENROLL;
+		link = Helper.addParam(link,Common.PARAM_COURSE_ID, ownCourse.id);
+		
+		verifyPageContains(link, coordUsername+"{*}Enroll Students for{*}"+ownCourse.id);
+	
+		______TS("cannot view others course enroll page");
+		
+		link = Common.PAGE_COORD_COURSE_ENROLL;
+		link = Helper.addParam(link,Common.PARAM_COURSE_ID, otherCourse.id);
+		bi.goToUrl(link);
+		bi.fillString(By.id("enrollstudents"), "t|n|e@g.com|c"); 
+		bi.click(By.id("button_enroll"));
+		verifyRedirectToNotAuthorized();
+		
+		______TS("cannot view others course enroll page by masquerading");
+		
+		link = Helper.addParam(link, Common.PARAM_USER_ID , otherCoord.id);
+		bi.goToUrl(link);
+		bi.fillString(By.id("enrollstudents"), "t|n|e@g.com|c"); 
+		bi.click(By.id("button_enroll"));
+		verifyRedirectToNotAuthorized();
 		
 		//http://localhost:8080/page/coordCourseDelete?courseid=idOfCourse1OfCoord1&next=%2Fpage%2FcoordCourse
 //		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_DELETE);
-//		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_ENROLL);
 //		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_REMIND);
 //		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_STUDENT_DELETE);
 //		verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_STUDENT_DETAILS);
@@ -292,10 +314,14 @@ public class AccessControlUiTest extends BaseTestCase {
 		assertContainsRegex("{*}"+unregUsername+"{*}Welcome stranger{*}", bi.getCurrentPageSource());
 	}
 
+	private void verifyRedirectToNotAuthorized() {
+		assertContains("You are not authorized to view this page.", bi.getCurrentPageSource());
+	}
+
 	private void verifyRedirectToNotAuthorized(String path) {
 		printUrl(appUrl+path);
 		bi.goToUrl(appUrl+path);
-		assertContains("You are not authorized to view this page.", bi.getCurrentPageSource());
+		verifyRedirectToNotAuthorized();
 	}
 	
 	private void verifyPageContains(String path, String targetText) {
