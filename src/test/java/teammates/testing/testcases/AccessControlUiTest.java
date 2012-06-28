@@ -347,10 +347,58 @@ public class AccessControlUiTest extends BaseTestCase {
 		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
 		verifyRedirectToNotAuthorized(link);
 
-		// http://localhost:8080/page/coordCourseDelete?courseid=idOfCourse1OfCoord1&next=%2Fpage%2FcoordCourse
+		// ============== view student details ==============================
+
+		______TS("can view details of own student");
+
+		link = Common.PAGE_COORD_COURSE_STUDENT_DETAILS;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+				ownStudent.email);
+		verifyPageContains(link, coordUsername + "{*}Student Details{*}"
+				+ ownStudent.email);
+
+		______TS("cannot view details of not-own student");
+
+		link = Common.PAGE_COORD_COURSE_STUDENT_DETAILS;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+				otherStudent.email);
+		verifyRedirectToNotAuthorized(link);
+
+		______TS("cannot view details of not-own student by masquerading");
+
+		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
+		verifyRedirectToNotAuthorized(link);
+
+		// =============== edit student details ==============================
+
+		______TS("can edit details of own student");
+
+		link = Common.PAGE_COORD_COURSE_STUDENT_EDIT;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+				ownStudent.email);
+		verifyPageContains(link, coordUsername + "{*}Edit Student Details{*}"
+				+ ownStudent.email);
+		bi.click(bi.coordCourseDetailsStudentEditSaveButton);
+		assertContainsRegex(coordUsername + "{*}Course Details{*}"
+				+ Common.MESSAGE_STUDENT_EDITED, bi.getCurrentPageSource());
+		
+		______TS("cannot edit details of not-own student");
+		
+		link = Common.PAGE_COORD_COURSE_STUDENT_EDIT;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+				otherStudent.email);
+		verifyRedirectToNotAuthorized(link);
+		
+		______TS("cannot edit details of not-own student by masquerading");
+
+		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
+		verifyRedirectToNotAuthorized(link);
+
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_STUDENT_DELETE);
-		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_STUDENT_DETAILS);
-		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_STUDENT_EDIT);
 
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL);
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_EDIT);
@@ -361,8 +409,6 @@ public class AccessControlUiTest extends BaseTestCase {
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_UNPUBLISH);
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_SUBMISSION_VIEW);
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_SUBMISSION_EDIT);
-
-		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_DELETE);
 
 		______TS("can delete own course");
 

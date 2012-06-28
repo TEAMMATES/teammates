@@ -40,15 +40,6 @@ public class CoordCourseStudentEditServlet extends
 			throws EntityDoesNotExistException {
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String studentEmail = req.getParameter(Common.PARAM_STUDENT_EMAIL);
-		CourseData course = helper.server.getCourse(courseID);
-
-		if (!isAuthorizedForThisOperation(helper, course)) {
-			helper.statusMessage = "You are not authorized to edit student "
-					+ CoordCourseStudentEditHelper.escapeForHTML(studentEmail)
-					+ " in course " + courseID;
-			helper.redirectUrl = Common.PAGE_COORD_COURSE;
-			return;
-		}
 
 		boolean submit = (req.getParameter("submit") != null);
 		String studentName = req.getParameter(Common.PARAM_STUDENT_NAME);
@@ -74,15 +65,6 @@ public class CoordCourseStudentEditServlet extends
 				return;
 			}
 		}
-	}
-
-	private boolean isAuthorizedForThisOperation(
-			CoordCourseStudentEditHelper helper, CourseData course) {
-		// TODO: This check can be omitted after Logic implements the
-		// authorization check.
-		// We proceed if course==null because a proper entity existence check is
-		//   done again later.
-		return course == null || course.coord.equals(helper.userId);
 	}
 
 	@Override
