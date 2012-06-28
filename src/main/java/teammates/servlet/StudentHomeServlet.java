@@ -1,10 +1,8 @@
 package teammates.servlet;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
@@ -18,14 +16,6 @@ public class StudentHomeServlet extends ActionServlet<StudentHomeHelper> {
 	@Override
 	protected StudentHomeHelper instantiateHelper() {
 		return new StudentHomeHelper();
-	}
-
-	@Override
-	protected boolean doAuthenticateUser(HttpServletRequest req,
-			HttpServletResponse resp, StudentHomeHelper helper)
-			throws IOException {
-		// Everyone is permitted, so that they can join course
-		return true;
 	}
 
 	@Override

@@ -1,9 +1,6 @@
 package teammates.servlet;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
@@ -21,17 +18,6 @@ public class CoordEvalResultsServlet extends
 	@Override
 	protected CoordEvalResultsHelper instantiateHelper() {
 		return new CoordEvalResultsHelper();
-	}
-
-	@Override
-	protected boolean doAuthenticateUser(HttpServletRequest req,
-			HttpServletResponse resp, CoordEvalResultsHelper helper)
-			throws IOException {
-		if (!helper.user.isCoord && !helper.user.isAdmin) {
-			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
-			return false;
-		}
-		return true;
 	}
 
 	@Override

@@ -1,9 +1,6 @@
 package teammates.servlet;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
 import teammates.api.InvalidParametersException;
@@ -19,13 +16,6 @@ public class StudentCourseJoinServlet extends ActionServlet<Helper> {
 	@Override
 	protected Helper instantiateHelper() {
 		return new Helper();
-	}
-
-	@Override
-	protected boolean doAuthenticateUser(HttpServletRequest req,
-			HttpServletResponse resp, Helper helper) throws IOException {
-		// Everyone is permitted, so that they can join course
-		return true;
 	}
 
 	@Override

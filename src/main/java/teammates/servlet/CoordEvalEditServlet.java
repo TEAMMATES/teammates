@@ -1,17 +1,12 @@
 package teammates.servlet;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
-import teammates.datatransfer.CourseData;
 import teammates.datatransfer.EvaluationData;
 import teammates.jsp.CoordEvalEditHelper;
-import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
 /**
@@ -24,16 +19,6 @@ public class CoordEvalEditServlet extends ActionServlet<CoordEvalEditHelper> {
 		return new CoordEvalEditHelper();
 	}
 
-	@Override
-	protected boolean doAuthenticateUser(HttpServletRequest req,
-			HttpServletResponse resp, CoordEvalEditHelper helper)
-			throws IOException {
-		if (!helper.user.isCoord && !helper.user.isAdmin) {
-			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
-			return false;
-		}
-		return true;
-	}
 
 	@Override
 	protected void doAction(HttpServletRequest req, CoordEvalEditHelper helper)

@@ -120,9 +120,10 @@ public class AccessControlUiTest extends BaseTestCase {
 		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_JOIN_COURSE,
 				unregUsername);
 
-		verifyRedirectToNotAuthorized(Common.PAGE_STUDENT_COURSE_DETAILS);
-		verifyRedirectToNotAuthorized(Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT);
-		verifyRedirectToNotAuthorized(Common.PAGE_STUDENT_EVAL_RESULTS);
+		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_COURSE_DETAILS, unregUsername);
+		
+		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT, unregUsername);
+		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_EVAL_RESULTS, unregUsername);
 
 		______TS("coord");
 

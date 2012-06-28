@@ -59,11 +59,6 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 
 		prepareHelper(req, helper);
 
-		if (!doAuthenticateUser(req, resp, helper)) {
-			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
-			return;
-		}
-
 		try {
 			doAction(req, helper);
 		} catch (EntityDoesNotExistException e) {
@@ -128,20 +123,6 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 */
 	protected abstract T instantiateHelper();
 
-	/**
-	 * Method to authenticate the user. Should return true if the user is
-	 * authenticated, false otherwise. When this method returns false, the
-	 * servlet does not call the doAction. This method is called after
-	 * {@link #prepareHelper} method.
-	 * 
-	 * @param req
-	 * @param resp
-	 * @param helper
-	 * @return
-	 * @throws IOException
-	 */
-	protected abstract boolean doAuthenticateUser(HttpServletRequest req,
-			HttpServletResponse resp, T helper) throws IOException;
 
 	/**
 	 * Method to do all the actions for this servlet. This method is supposed to

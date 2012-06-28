@@ -447,13 +447,10 @@ public class Common {
 		}
 	}
 
-	public static void verifyNotNull(Object objectToCheck, String nameOfObject)
-			throws InvalidParametersException {
+	public static void verifyNotNull(Object objectToCheck, String nameOfObject){
 		if (objectToCheck == null) {
-			throw new InvalidParametersException(ERRORCODE_NULL_PARAMETER,
-					nameOfObject + " cannot be null");
+			throw new NullPointerException(nameOfObject + " cannot be null");
 		}
-
 	}
 
 	public static void verifyNotAnEmptyString(String stringToCheck,

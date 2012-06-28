@@ -1,9 +1,6 @@
 package teammates.servlet;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
@@ -18,12 +15,6 @@ public class AdministratorHomeServlet extends ActionServlet<AdminHomeHelper> {
 		return new AdminHomeHelper();
 	}
 
-	@Override
-	protected boolean doAuthenticateUser(HttpServletRequest req,
-			HttpServletResponse resp, AdminHomeHelper helper)
-			throws IOException {
-		return helper.user.isAdmin;
-	}
 
 	@Override
 	protected void doAction(HttpServletRequest req, AdminHomeHelper helper){

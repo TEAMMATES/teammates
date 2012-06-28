@@ -1,11 +1,9 @@
 package teammates.servlet;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
@@ -25,16 +23,6 @@ public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
 		return new CoordCourseHelper();
 	}
 
-	@Override
-	protected boolean doAuthenticateUser(HttpServletRequest req,
-			HttpServletResponse resp, CoordCourseHelper helper)
-			throws IOException {
-		if (!helper.user.isCoord && !helper.user.isAdmin) {
-			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
-			return false;
-		}
-		return true;
-	}
 
 	@Override
 	protected void doAction(HttpServletRequest req, CoordCourseHelper helper)

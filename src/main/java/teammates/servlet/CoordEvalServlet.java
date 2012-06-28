@@ -1,12 +1,10 @@
 package teammates.servlet;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
@@ -25,17 +23,6 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 	@Override
 	protected CoordEvalHelper instantiateHelper() {
 		return new CoordEvalHelper();
-	}
-
-	@Override
-	protected boolean doAuthenticateUser(HttpServletRequest req,
-			HttpServletResponse resp, CoordEvalHelper helper)
-			throws IOException {
-		if (!helper.user.isCoord && !helper.user.isAdmin) {
-			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
-			return false;
-		}
-		return true;
 	}
 
 	@Override

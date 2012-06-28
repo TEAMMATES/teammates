@@ -212,6 +212,8 @@ public class EvaluationDataTest extends BaseTestCase {
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(expectedErrorCode, e.errorCode);
+		} catch (NullPointerException e){
+			assertEquals(Common.ERRORCODE_NULL_PARAMETER, expectedErrorCode);
 		}
 
 	}

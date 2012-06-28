@@ -1,12 +1,8 @@
 package teammates.servlet;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
-import teammates.datatransfer.CourseData;
 import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
@@ -20,16 +16,6 @@ public class CoordCourseStudentDeleteServlet extends ActionServlet<Helper> {
 	@Override
 	protected Helper instantiateHelper() {
 		return new Helper();
-	}
-
-	@Override
-	protected boolean doAuthenticateUser(HttpServletRequest req,
-			HttpServletResponse resp, Helper helper) throws IOException {
-		if(!helper.user.isCoord && !helper.user.isAdmin){
-			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
-			return false;
-		}
-		return true;
 	}
 
 	@Override

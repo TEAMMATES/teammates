@@ -1,17 +1,14 @@
 package teammates.servlet;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
 import teammates.api.EnrollException;
 import teammates.api.EntityDoesNotExistException;
-import teammates.datatransfer.CourseData;
 import teammates.datatransfer.StudentData;
 import teammates.jsp.CoordCourseEnrollHelper;
 
@@ -27,17 +24,6 @@ public class CoordCourseEnrollServlet extends
 		return new CoordCourseEnrollHelper();
 	}
 
-	@Override
-	protected boolean doAuthenticateUser(HttpServletRequest req,
-			HttpServletResponse resp, CoordCourseEnrollHelper helper)
-			throws IOException {
-		// Authenticate user
-		if (!helper.user.isCoord && !helper.user.isAdmin) {
-			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
-			return false;
-		}
-		return true;
-	}
 
 	@Override
 	protected void doAction(HttpServletRequest req,
