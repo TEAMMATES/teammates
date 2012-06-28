@@ -228,6 +228,8 @@ public class AccessControlUiTest extends BaseTestCase {
 	@Test
 	public void testCoordAccessControl() throws Exception {
 
+		// TODO: add missing '=' dividers
+
 		String coordUsername = Config.inst().TEST_COORD_ACCOUNT;
 		String coordPassword = Config.inst().TEST_COORD_PASSWORD;
 
@@ -249,8 +251,7 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		______TS("cannot view other homepage");
 
-		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
-		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
 
 		______TS("can view own course page");
 
@@ -258,10 +259,15 @@ public class AccessControlUiTest extends BaseTestCase {
 		verifyPageContains(link, coordUsername + "{*}Add New Course{*}"
 				+ ownCourse.id);
 
-		______TS("cannot view others course page");
+		______TS("can add course");
 
-		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
-		verifyRedirectToNotAuthorized(link);
+		bi.addCourse("new-course", "New Course");
+		assertContainsRegex(coordUsername + "{*}Add New Course{*}"
+				+ Common.MESSAGE_COURSE_ADDED, bi.getCurrentPageSource());
+
+		______TS("cannot view others course page by masquerading");
+
+		verifyCannotMasquerade(link, otherCoord.id);
 
 		______TS("can view own course details");
 
@@ -279,8 +285,7 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		______TS("cannot view others course details by masquerading");
 
-		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
-		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
 
 		______TS("can view own ourse enroll page");
 
@@ -326,8 +331,7 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		______TS("cannot send reminders to not-own student by masquerading");
 
-		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
-		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
 
 		______TS("can send reminders to own course");
 
@@ -344,8 +348,7 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		______TS("cannot send reminders to not-own course by masquerading");
 
-		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
-		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
 
 		// ============== view student details ==============================
 
@@ -368,8 +371,7 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		______TS("cannot view details of not-own student by masquerading");
 
-		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
-		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
 
 		// =============== edit student details ==============================
 
@@ -384,22 +386,39 @@ public class AccessControlUiTest extends BaseTestCase {
 		bi.click(bi.coordCourseDetailsStudentEditSaveButton);
 		assertContainsRegex(coordUsername + "{*}Course Details{*}"
 				+ Common.MESSAGE_STUDENT_EDITED, bi.getCurrentPageSource());
-		
+
 		______TS("cannot edit details of not-own student");
-		
+
 		link = Common.PAGE_COORD_COURSE_STUDENT_EDIT;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
 				otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
-		
+
 		______TS("cannot edit details of not-own student by masquerading");
 
-		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
-		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
 
+		// =================== view evals ==============================
 
-		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL);
+		______TS("can view own evals page");
+
+		link = Common.PAGE_COORD_EVAL;
+		verifyPageContains(link, coordUsername + "{*}Add New Evaluation{*}"
+				+ ownCourse.id);
+
+		______TS("can add eval");
+
+		bi.addEvaluation(ownCourse.id, "new eval",
+				Common.getDateOffsetToCurrentTime(1),
+				Common.getDateOffsetToCurrentTime(2), true, "ins", 0);
+		assertContainsRegex(coordUsername + "{*}Add New Evaluation{*}"
+				+ Common.MESSAGE_EVALUATION_ADDED, bi.getCurrentPageSource());
+
+		______TS("cannot view others eval page by masquerading");
+
+		verifyCannotMasquerade(link, otherCoord.id);
+
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_EDIT);
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_DELETE);
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_REMIND);
@@ -410,7 +429,7 @@ public class AccessControlUiTest extends BaseTestCase {
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_SUBMISSION_EDIT);
 
 		// =================== delete student ==============================
-		
+
 		______TS("can delete own student");
 
 		link = Common.PAGE_COORD_COURSE_STUDENT_DELETE;
@@ -430,11 +449,10 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		______TS("cannot delete not-own student by masquerading");
 
-		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
-		verifyRedirectToNotAuthorized(link);
-		
+		verifyCannotMasquerade(link, otherCoord.id);
+
 		// =================== delete course ==============================
-		
+
 		______TS("can delete own course");
 
 		link = Common.PAGE_COORD_COURSE_DELETE;
@@ -450,9 +468,13 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		______TS("cannot delete not-own course by masquerading");
 
-		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
-		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherCoord.id);
 
+	}
+
+	private void verifyCannotMasquerade(String link, String otherCoordId) {
+		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoordId);
+		verifyRedirectToNotAuthorized(link);
 	}
 
 	private void verifyRedirectToWelcomeStrangerPage(String path,
