@@ -158,12 +158,7 @@
 										onclick="return openChildWindow(this.href)"
 										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_EDIT%>')"
 										onmouseout="hideddrivetip()"
-										<%=CoordEvalResultsHelper
-											.getCoordStatusForEval(helper.evaluation)
-											.equals(Common.EVALUATION_STATUS_CLOSED)
-											? ""
-											: CoordEvalResultsHelper.DISABLED%> >
-										Edit</a></td>
+										>Edit</a></td>
 						</tr>
 					<%
 						idx++;

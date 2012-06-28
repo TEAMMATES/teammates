@@ -2,8 +2,6 @@ package teammates.testing.testcases;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Date;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -80,8 +78,6 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalSubmissionView.html");
 		
-		//TODO: remove this. the evaluation need not be closed for editing to be enabled
-
 		______TS("view submission for closed evaluation, using direct URL");
 		
 		link = appUrl+Common.PAGE_COORD_EVAL_SUBMISSION_VIEW;
