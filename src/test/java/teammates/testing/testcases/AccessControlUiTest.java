@@ -398,7 +398,6 @@ public class AccessControlUiTest extends BaseTestCase {
 		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
 		verifyRedirectToNotAuthorized(link);
 
-		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_COURSE_STUDENT_DELETE);
 
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL);
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_EDIT);
@@ -410,6 +409,32 @@ public class AccessControlUiTest extends BaseTestCase {
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_SUBMISSION_VIEW);
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_SUBMISSION_EDIT);
 
+		// =================== delete student ==============================
+		
+		______TS("can delete own student");
+
+		link = Common.PAGE_COORD_COURSE_STUDENT_DELETE;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+				ownStudent.email);
+		verifyPageContains(link, coordUsername + "{*}Course Details{*}"
+				+ Common.MESSAGE_STUDENT_DELETED);
+
+		______TS("cannot delete of not-own student");
+
+		link = Common.PAGE_COORD_COURSE_STUDENT_DELETE;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+				otherStudent.email);
+		verifyRedirectToNotAuthorized(link);
+
+		______TS("cannot delete not-own student by masquerading");
+
+		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
+		verifyRedirectToNotAuthorized(link);
+		
+		// =================== delete course ==============================
+		
 		______TS("can delete own course");
 
 		link = Common.PAGE_COORD_COURSE_DELETE;

@@ -34,18 +34,9 @@ public class CoordCourseStudentDeleteServlet extends ActionServlet<Helper> {
 
 	@Override
 	protected void doAction(HttpServletRequest req, Helper helper) {
-		// Get parameters
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String studentEmail = req.getParameter(Common.PARAM_STUDENT_EMAIL);
-		CourseData course = helper.server.getCourse(courseID);
-		if(course!=null && !course.coord.equals(helper.userId)){
-			helper.statusMessage = "You are not authorized to delete the student " +
-					Helper.escapeForHTML(studentEmail)+" in course "+courseID;
-			helper.redirectUrl = Common.PAGE_COORD_COURSE;
-			return;
-		}
 		
-		// Process action
 		helper.server.deleteStudent(courseID, studentEmail);
 		helper.statusMessage = Common.MESSAGE_STUDENT_DELETED;
 		helper.redirectUrl = Common.PAGE_COORD_COURSE_DETAILS;
