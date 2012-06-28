@@ -59,7 +59,8 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 		//Checking indirect link to View Submission through Evaluation Results
 		EvaluationData eval = scn.evaluations.get("First Eval");
 		
-		______TS("view submission for open evaluation");
+		______TS("view submissions for open evaluation, from results page");
+		
 		String link = appUrl+Common.PAGE_COORD_EVAL_RESULTS;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, eval.course);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, eval.name);
@@ -82,7 +83,7 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 		eval.endTime = new Date(new Date().getTime()-24*60*60*1000);
 		BackDoor.editEvaluation(eval);
 
-		______TS("view submission for closed evaluation");
+		______TS("view submission for closed evaluation, using direct URL");
 		
 		link = appUrl+Common.PAGE_COORD_EVAL_SUBMISSION_VIEW;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, eval.course);
