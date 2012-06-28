@@ -27,4 +27,8 @@
 		}
 	</script>
 </head>
+<body>
+<%= request.getParameter(Common.PARAM_STATUS_MESSAGE) %>
+<br/> It is safe to close this window now.
+</body>
 </html>

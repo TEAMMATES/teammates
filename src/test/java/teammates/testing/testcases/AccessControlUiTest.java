@@ -310,8 +310,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		verifyRedirectToNotAuthorized();
 
 		______TS("cannot view others course enroll page by masquerading");
-		//note: we allow loading of other's course for enrolling because 
-		//  it is too expensive to prevent. However, user cannot submit edits.
+		// note: we allow loading of other's course for enrolling because
+		// it is too expensive to prevent. However, user cannot submit edits.
 
 		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
 		bi.goToUrl(link);
@@ -427,7 +427,7 @@ public class AccessControlUiTest extends BaseTestCase {
 		verifyCannotMasquerade(link, otherCoord.id);
 
 		// =================== edit evaluation ==============================
-		
+
 		______TS("can edit own evaluation");
 
 		link = Common.PAGE_COORD_EVAL_EDIT;
@@ -436,12 +436,12 @@ public class AccessControlUiTest extends BaseTestCase {
 				ownEvaluation.name);
 		verifyPageContains(link, coordUsername + "{*}Edit Evaluation{*}"
 				+ ownEvaluation.name);
-		
+
 		______TS("cannot edit other evaluation");
 
-		//note: we allow loading of other's evaluation for editing because 
-		//  it is too expensive to prevent. However, user cannot submit edits.
-		
+		// note: we allow loading of other's evaluation for editing because
+		// it is too expensive to prevent. However, user cannot submit edits.
+
 		link = Common.PAGE_COORD_EVAL_EDIT;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
@@ -449,18 +449,18 @@ public class AccessControlUiTest extends BaseTestCase {
 		bi.goToUrl(link);
 		bi.click(By.id("button_submit"));
 		verifyRedirectToNotAuthorized();
-		
+
 		______TS("cannot edit other evaluation by masquerading");
 
-		//note: see note in previous section.
-		
+		// note: see note in previous section.
+
 		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
 		bi.goToUrl(link);
 		bi.click(By.id("button_submit"));
 		verifyRedirectToNotAuthorized();
-		
+
 		// =================== evaluation reminders ===========================
-		
+
 		______TS("can send reminders to own evaluation");
 
 		link = Common.PAGE_COORD_EVAL_REMIND;
@@ -481,9 +481,9 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("cannot send reminders to not-own course by masquerading");
 
 		verifyCannotMasquerade(link, otherCoord.id);
-		
+
 		// =================== view evaluation result =======================
-		
+
 		______TS("can view result of own evaluation");
 
 		link = Common.PAGE_COORD_EVAL_RESULTS;
@@ -502,18 +502,19 @@ public class AccessControlUiTest extends BaseTestCase {
 		verifyRedirectToNotAuthorized(link);
 
 		______TS("cannot view result of not-own course by masquerading");
-		
+
 		verifyCannotMasquerade(link, otherCoord.id);
-		
+
 		// =================== publish evaluation result =====================
-		
+
 		______TS("can publish result of own evaluation");
-		
+
 		link = Common.PAGE_COORD_EVAL_PUBLISH;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
-		link = Helper.addParam(link, Common.PARAM_NEXT_URL, Common.PAGE_COORD_HOME);
+		link = Helper.addParam(link, Common.PARAM_NEXT_URL,
+				Common.PAGE_COORD_HOME);
 		verifyPageContains(link, coordUsername + "{*}Coordinator Home{*}"
 				+ Common.MESSAGE_EVALUATION_PUBLISHED);
 
@@ -523,22 +524,24 @@ public class AccessControlUiTest extends BaseTestCase {
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
-		link = Helper.addParam(link, Common.PARAM_NEXT_URL, Common.PAGE_COORD_HOME);
+		link = Helper.addParam(link, Common.PARAM_NEXT_URL,
+				Common.PAGE_COORD_HOME);
 		verifyRedirectToNotAuthorized(link);
 
 		______TS("cannot publish result of not-own course by masquerading");
-		
+
 		verifyCannotMasquerade(link, otherCoord.id);
-		
+
 		// =================== publish evaluation result =====================
-		
+
 		______TS("can unpublish result of own evaluation");
-		
+
 		link = Common.PAGE_COORD_EVAL_UNPUBLISH;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
-		link = Helper.addParam(link, Common.PARAM_NEXT_URL, Common.PAGE_COORD_HOME);
+		link = Helper.addParam(link, Common.PARAM_NEXT_URL,
+				Common.PAGE_COORD_HOME);
 		verifyPageContains(link, coordUsername + "{*}Coordinator Home{*}"
 				+ Common.MESSAGE_EVALUATION_UNPUBLISHED);
 
@@ -548,24 +551,26 @@ public class AccessControlUiTest extends BaseTestCase {
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
-		link = Helper.addParam(link, Common.PARAM_NEXT_URL, Common.PAGE_COORD_HOME);
+		link = Helper.addParam(link, Common.PARAM_NEXT_URL,
+				Common.PAGE_COORD_HOME);
 		verifyRedirectToNotAuthorized(link);
 
 		______TS("cannot unpublish result of not-own course by masquerading");
-		
+
 		verifyCannotMasquerade(link, otherCoord.id);
-		
-		// =================== publish evaluation result =====================
-		
+
+		// =================== view submission =============================
+
 		______TS("can view submission of own student");
-		
+
 		link = Common.PAGE_COORD_EVAL_SUBMISSION_VIEW;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL, ownStudent.email);
-		verifyPageContains(link, coordUsername + "{*}View Student's Evaluation{*}"
-				+ ownStudent.name);
+		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+				ownStudent.email);
+		verifyPageContains(link, coordUsername
+				+ "{*}View Student's Evaluation{*}" + ownStudent.name);
 
 		______TS("cannot view submission of  not-own evaluation");
 
@@ -573,15 +578,53 @@ public class AccessControlUiTest extends BaseTestCase {
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL, otherStudent.email);
+		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+				otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
 
 		______TS("cannot view submission of not-own course by masquerading");
-		
+
 		verifyCannotMasquerade(link, otherCoord.id);
 
-		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_SUBMISSION_VIEW);
-		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_SUBMISSION_EDIT);
+		// =================== edit submission ==============================
+
+		______TS("can edit submission of own student");
+
+		link = Common.PAGE_COORD_EVAL_SUBMISSION_EDIT;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+				ownEvaluation.name);
+		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+				ownStudent.email);
+		verifyPageContains(link, coordUsername
+				+ "{*}Edit Student's Submission{*}" + ownStudent.name);
+		assertContains("button_submit", bi.getCurrentPageSource());
+		//bi.click(By.id("button_submit"));
+		// bi.getSelenium().selectWindow("null");
+		// bi.waitForStatusMessage(String.format(Common.MESSAGE_COORD_EVALUATION_SUBMISSION_RECEIVED,ownStudent.name,ownEvaluation.name,ownEvaluation.course).replace("<br />",
+		// "\n"));
+
+//		verifyPageContains(
+//				link,
+//				String.format(
+//						Common.MESSAGE_COORD_EVALUATION_SUBMISSION_RECEIVED,
+//						ownStudent.name, ownEvaluation.name,
+//						ownEvaluation.course).replace("<br />", "\n"));
+
+		______TS("cannot edit submission of  not-own evaluation");
+
+		link = Common.PAGE_COORD_EVAL_SUBMISSION_EDIT;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+				otherEvaluation.name);
+		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+				otherStudent.email);
+		verifyRedirectToNotAuthorized(link);
+
+		______TS("cannot edit submission of not-own course by masquerading");
+
+		verifyCannotMasquerade(link, otherCoord.id);
+
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_DELETE);
 
 		// =================== delete student ==============================
