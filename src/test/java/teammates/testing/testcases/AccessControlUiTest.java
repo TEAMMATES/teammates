@@ -241,6 +241,11 @@ public class AccessControlUiTest extends BaseTestCase {
 		StudentData ownStudent = dataBundle.students.get("student1InCourse1");
 		StudentData otherStudent = dataBundle.students.get("student1InCourse2");
 
+		EvaluationData ownEvaluation = dataBundle.evaluations
+				.get("evaluation1InCourse1OfCoord1");
+		EvaluationData otherEvaluation = dataBundle.evaluations
+				.get("evaluation1InCourse1OfCoord2");
+
 		bi.loginCoord(coordUsername, coordPassword);
 
 		______TS("can view own homepage");
@@ -419,7 +424,41 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		verifyCannotMasquerade(link, otherCoord.id);
 
+		// =================== edit evaluation ==============================
+		
+		______TS("can edit own evaluation");
+
+		link = Common.PAGE_COORD_EVAL_EDIT;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+				ownEvaluation.name);
+		verifyPageContains(link, coordUsername + "{*}Edit Evaluation{*}"
+				+ ownEvaluation.name);
+		
+		______TS("cannot edit other evaluation");
+
+		//note: we allow loading of other's evaluation for editing because 
+		//  it is too expensive to prevent. However, user cannot submit edits.
+		
+		link = Common.PAGE_COORD_EVAL_EDIT;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+				otherEvaluation.name);
+		bi.goToUrl(link);
+		bi.click(By.id("button_submit"));
+		verifyRedirectToNotAuthorized();
+		
+		______TS("cannot edit other evaluation by masquerading");
+
+		//note: see note in previous section.
+		
+		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
+		bi.goToUrl(link);
+		bi.click(By.id("button_submit"));
+		verifyRedirectToNotAuthorized();
+
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_EDIT);
+		
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_DELETE);
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_REMIND);
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_RESULTS);
