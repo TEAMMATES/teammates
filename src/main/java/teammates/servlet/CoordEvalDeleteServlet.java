@@ -34,18 +34,9 @@ public class CoordEvalDeleteServlet extends ActionServlet<Helper> {
 
 	@Override
 	protected void doAction(HttpServletRequest req, Helper helper) {
-		// Get parameters
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
-		CourseData course = helper.server.getCourse(courseID);
-		if(course!=null && !course.coord.equals(helper.userId)){
-			helper.statusMessage = "You are not authorized to delete the evaluation " +
-					Helper.escapeForHTML(evalName)+" in course "+courseID;
-			helper.redirectUrl = Common.PAGE_COORD_EVAL;
-			return;
-		}
 		
-		// Process action
 		helper.server.deleteEvaluation(courseID,evalName);
 		helper.statusMessage = Common.MESSAGE_EVALUATION_DELETED;
 		if(helper.redirectUrl==null) helper.redirectUrl = Common.PAGE_COORD_EVAL;

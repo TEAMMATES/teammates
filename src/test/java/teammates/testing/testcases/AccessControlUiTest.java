@@ -625,7 +625,31 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		verifyCannotMasquerade(link, otherCoord.id);
 
-		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_DELETE);
+		// =================== delete evaluation ==============================
+
+		______TS("can delete own evaluation");
+
+		link = Common.PAGE_COORD_EVAL_DELETE;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+				ownEvaluation.name);
+		verifyPageContains(link, coordUsername + "{*}Add New Evaluation{*}"
+				+ Common.MESSAGE_EVALUATION_DELETED);
+
+		______TS("cannot delete not-own evaluation");
+
+		
+		link = Common.PAGE_COORD_EVAL_DELETE;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+				otherEvaluation.name);
+		verifyRedirectToNotAuthorized(link);
+
+		______TS("cannot delete not-own evaluation by masquerading");
+
+
+		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
+		verifyRedirectToNotAuthorized(link);
 
 		// =================== delete student ==============================
 
@@ -668,7 +692,7 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("cannot delete not-own course by masquerading");
 
 		verifyCannotMasquerade(link, otherCoord.id);
-
+		
 	}
 
 	private void verifyCannotMasquerade(String link, String otherCoordId) {
