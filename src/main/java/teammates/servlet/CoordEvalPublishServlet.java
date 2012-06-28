@@ -35,15 +35,11 @@ public class CoordEvalPublishServlet extends ActionServlet<Helper> {
 	protected void doAction(HttpServletRequest req, Helper helper) throws EntityDoesNotExistException {
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
-		CourseData course = helper.server.getCourse(courseID);
-		if(course!=null && !course.coord.equals(helper.userId)){
-			helper.statusMessage = "You are not authorized to publish the result for evaluation " +
-					Helper.escapeForHTML(evalName)+" in course "+courseID;
-			return;
-		}
 		
 		helper.server.publishEvaluation(courseID,evalName);
 		helper.statusMessage = Common.MESSAGE_EVALUATION_PUBLISHED;
 	}
+	
+
 
 }

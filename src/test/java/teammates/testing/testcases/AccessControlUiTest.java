@@ -504,8 +504,32 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("cannot view result of not-own course by masquerading");
 		
 		verifyCannotMasquerade(link, otherCoord.id);
+		
+		// =================== publish evaluation result =====================
+		
+		______TS("can publish result of own evaluation");
+		
+		link = Common.PAGE_COORD_EVAL_PUBLISH;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+				ownEvaluation.name);
+		link = Helper.addParam(link, Common.PARAM_NEXT_URL, Common.PAGE_COORD_HOME);
+		verifyPageContains(link, coordUsername + "{*}Coordinator Home{*}"
+				+ Common.MESSAGE_EVALUATION_PUBLISHED);
 
-		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_RESULTS);
+		______TS("cannot publish result of not-own evaluation");
+
+		link = Common.PAGE_COORD_EVAL_PUBLISH;
+		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+				otherEvaluation.name);
+		link = Helper.addParam(link, Common.PARAM_NEXT_URL, Common.PAGE_COORD_HOME);
+		verifyRedirectToNotAuthorized(link);
+
+		______TS("cannot publish result of not-own course by masquerading");
+		
+		verifyCannotMasquerade(link, otherCoord.id);
+
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_PUBLISH);
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_UNPUBLISH);
 		// verifyRedirectToNotAuthorized(Common.PAGE_COORD_EVAL_SUBMISSION_VIEW);
