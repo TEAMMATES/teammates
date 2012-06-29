@@ -1751,11 +1751,11 @@ public class BrowserInstance {
 		// Select start date
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("$('#"+Common.PARAM_EVALUATION_START+"')[0].value='"+Common.formatDate(startTime)+"';");
-		selectDropdownByValue(inputOpeningTime, Common.formatTimeForEvaluation(startTime));
+		selectDropdownByValue(inputOpeningTime, Common.convertToOptionValueInTimeDropDown(startTime));
 		
 		// Select deadline date
 		js.executeScript("$('#"+Common.PARAM_EVALUATION_DEADLINE+"')[0].value='"+Common.formatDate(endTime)+"';");
-		selectDropdownByValue(inputClosingTime, Common.formatTimeForEvaluation(endTime));
+		selectDropdownByValue(inputClosingTime, Common.convertToOptionValueInTimeDropDown(endTime));
 
 		// Allow P2P comment
 		if(p2pEnabled){
@@ -1789,11 +1789,11 @@ public class BrowserInstance {
 		// Select start date
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("$('#"+Common.PARAM_EVALUATION_START+"')[0].value='"+Common.formatDate(startTime)+"';");
-		selectDropdownByValue(inputOpeningTime, Common.formatTimeForEvaluation(startTime));
+		selectDropdownByValue(inputOpeningTime, Common.convertToOptionValueInTimeDropDown(startTime));
 		
 		// Select deadline date
 		js.executeScript("$('#"+Common.PARAM_EVALUATION_DEADLINE+"')[0].value='"+Common.formatDate(endTime)+"';");
-		selectDropdownByValue(inputClosingTime, Common.formatTimeForEvaluation(endTime));
+		selectDropdownByValue(inputClosingTime, Common.convertToOptionValueInTimeDropDown(endTime));
 	
 		// Allow P2P comment
 		if(p2pEnabled){

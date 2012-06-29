@@ -571,14 +571,21 @@ public class Common {
 	}
 	
 	/**
-	 * Formats a date in the format HH for evaluation.
-	 * This will return "24" for time 2359
+	 * Formats a date in the corresponding option value in 'Time' dropdowns
+	 * The hour just after midnight is converted 
+	 *    to option 24 (i.e., 2359 as shown to the user)
+	 *    23.59 is also converted to 24. (i.e., 23.59-00.59 ---> 24)
 	 * @param date
 	 * @return
 	 */
-	public static String formatTimeForEvaluation(Date date) {
-		if(new SimpleDateFormat("mm").format(date).equals("59")) return "24";
-		return new SimpleDateFormat("HH").format(date);
+	public static String convertToOptionValueInTimeDropDown(Date date) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		int hour = c.get(Calendar.HOUR_OF_DAY);
+		int minutes = c.get(Calendar.MINUTE);
+		hour = (hour==0 ? 24 : hour);
+		hour = ((hour==23)&&(minutes==59))? 24: hour;
+		return hour+"";
 	}
 
 	/**

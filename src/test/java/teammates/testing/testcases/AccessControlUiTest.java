@@ -718,7 +718,6 @@ public class AccessControlUiTest extends BaseTestCase {
 		
 	}
 
-	@Test
 	public void testCoordEval() {
 
 		bi.loginCoord(coordUsername, coordPassword);

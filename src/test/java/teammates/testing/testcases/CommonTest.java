@@ -2,6 +2,8 @@ package teammates.testing.testcases;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Calendar;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -74,6 +76,31 @@ public class CommonTest extends BaseTestCase {
 		BaseTestCase.assertContainsRegex("Fails on checking assert contains regex",
 				"<html>\n\t<body>\n\t\t<div{*}>Hello world!</div>\n\t</body>\n\t</html>",
 				"<html><body><div style=\"display:none\">Hello world!</div></body></html>");
+	}
+	
+	@Test
+	public void testFormatTimeForEvaluation(){
+		Calendar c = Calendar.getInstance();
+		
+		c.set(Calendar.HOUR_OF_DAY, 9);
+		assertEquals("9", Common.convertToOptionValueInTimeDropDown(c.getTime()));
+		
+		c.set(Calendar.HOUR_OF_DAY, 14);
+		assertEquals("14", Common.convertToOptionValueInTimeDropDown(c.getTime()));
+		
+		c.set(Calendar.HOUR_OF_DAY, 22);
+		c.set(Calendar.MINUTE, 59);
+		assertEquals("22", Common.convertToOptionValueInTimeDropDown(c.getTime()));
+		
+		//special cases that returns 24
+		
+		c.set(Calendar.HOUR_OF_DAY, 0);
+		assertEquals("24", Common.convertToOptionValueInTimeDropDown(c.getTime()));
+		
+		c.set(Calendar.HOUR_OF_DAY, 23);
+		c.set(Calendar.MINUTE, 59);
+		assertEquals("24", Common.convertToOptionValueInTimeDropDown(c.getTime()));
+		
 	}
 
 	@AfterClass
