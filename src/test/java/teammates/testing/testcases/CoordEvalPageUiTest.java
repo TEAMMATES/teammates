@@ -265,7 +265,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		By deleteLinkLocator = bi.getCoordEvaluationDeleteLinkLocator(evalRowID);
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
-			String evaluation = BackDoor.getEvaluationAsJason(courseID, evalName);
+			String evaluation = BackDoor.getEvaluationAsJson(courseID, evalName);
 			if(isNullJSON(evaluation)) fail("Evaluation was deleted when it's not supposed to be");
 		} catch (NoAlertAppearException e){
 			fail("Delete link not clickable or it is clickable but no confirmation box");

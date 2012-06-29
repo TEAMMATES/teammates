@@ -126,7 +126,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
-			String evaluation = BackDoor.getEvaluationAsJason(firstEval.course, firstEval.name);
+			String evaluation = BackDoor.getEvaluationAsJson(firstEval.course, firstEval.name);
 			if(isNullJSON(evaluation)) fail("Evaluation was deleted when it's not supposed to be");
 		} catch (NoAlertAppearException e){
 			fail("Delete link is unavailable or it is available but no confirmation box");
@@ -151,7 +151,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
-			String course = BackDoor.getCourseAsJason(scn.courses.get("CHomeUiT.CS2104").id);
+			String course = BackDoor.getCourseAsJson(scn.courses.get("CHomeUiT.CS2104").id);
 			if(isNullJSON(course)) fail("Course was deleted when it's not supposed to be");
 		} catch (NoAlertAppearException e){
 			fail("Delete course button unavailable, or it is available but no confirmation box");

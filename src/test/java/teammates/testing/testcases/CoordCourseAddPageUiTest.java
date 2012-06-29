@@ -147,7 +147,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		By deleteLinkLocator = bi.getCoordCourseDeleteLinkLocator(courseRowId);
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
-			String course = BackDoor.getCourseAsJason(ts.validCourse.id);
+			String course = BackDoor.getCourseAsJson(ts.validCourse.id);
 			if(isNullJSON(course)) fail("Course was deleted when it's not supposed to be");
 		} catch (NoAlertAppearException e){
 			fail("No alert box when clicking delete button at course page.");

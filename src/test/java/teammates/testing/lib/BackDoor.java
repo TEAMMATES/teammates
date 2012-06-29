@@ -1,38 +1,57 @@
 package teammates.testing.lib;
 
+
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import teammates.BackDoorServlet;
 import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.NotImplementedException;
+import teammates.api.TeammatesException;
 import teammates.datatransfer.CoordData;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.DataBundle;
 import teammates.datatransfer.EvaluationData;
 import teammates.datatransfer.StudentData;
 import teammates.datatransfer.SubmissionData;
-import teammates.datatransfer.TeamProfileData;
-import teammates.datatransfer.TfsData;
 import teammates.testing.config.Config;
 import teammates.testing.object.Course;
 
 import com.google.gson.Gson;
 
+/**
+ * Used to access the datastore without going through the UI. The main
+ * use of this class is for the test suite to prepare test data.
+ * <br> It works only if the test.backdoor.key in test.properties matches 
+ * the app.backdoor.key in build.properties of the deployed app. 
+ * Using this mechanism we can limit back door access to only the person 
+ * who deployed the application. 
+ * 
+ */
 public class BackDoor {
-	private static Logger log = Common.getLogger();
-	// --------------------[System-level methods]-----------------------------
 
+	@SuppressWarnings("unused")
+	private void ____SYSTEM_level_methods______________________________() {
+	}
+
+	/**
+	 * This persists the given data if no such data already exists in the 
+	 *   datastore.
+	 * @param dataBundleJason
+	 * @return
+	 */
 	public static String persistNewDataBundle(String dataBundleJason) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_PERSIST_DATABUNDLE);
 		params.put(BackDoorServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJason);
@@ -40,11 +59,21 @@ public class BackDoor {
 		return status;
 	}
 	
-	public static String restoreNewDataBundle(String dataBundleJason) {
+	/**
+	 * Persists given data. If given entities already exist in the data store,
+	 *    they will be overwritten.
+	 * @param dataBundleJason
+	 * @return
+	 */
+	public static String restoreDataBundle(String dataBundleJason) {
 		deleteCoordinators(dataBundleJason);
 		return persistNewDataBundle(dataBundleJason);
 	}
 
+	/**
+	 * Deletes coordinators contained in the jsonString
+	 * @param jsonString
+	 */
 	public static void deleteCoordinators(String jsonString) {
 		Gson gson = Common.getTeammatesGson();
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
@@ -55,8 +84,9 @@ public class BackDoor {
 	}
 	
 	
-
-	// --------------------------[Coord-level methods]-------------------------
+	@SuppressWarnings("unused")
+	private void ____COORD_level_methods______________________________() {
+	}
 
 	public static String createCoord(CoordData coord) {
 		DataBundle dataBundle = new DataBundle();
@@ -65,7 +95,7 @@ public class BackDoor {
 				.toJson(dataBundle));
 	}
 
-	public static String getCoordAsJason(String coordId) {
+	public static String getCoordAsJson(String coordId) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_COORD_AS_JSON);
 		params.put(BackDoorServlet.PARAMETER_COORD_ID, coordId);
 		String coordJsonString = makePOSTRequest(params);
@@ -85,10 +115,10 @@ public class BackDoor {
 		return status;
 	}
 
-	public static void cleanupByCoordinator(String coordId)
+	public static void cleanupCoord(String coordId)
 			throws EntityDoesNotExistException {
 		CoordData coord = Common.getTeammatesGson().fromJson(
-				getCoordAsJason(coordId), CoordData.class);
+				getCoordAsJson(coordId), CoordData.class);
 		if (coord == null)
 			throw new EntityDoesNotExistException(
 					"Coordinator does not exist : " + coordId);
@@ -96,7 +126,6 @@ public class BackDoor {
 		createCoord(coord);
 	}
 
-	// TODO: modify to use Json format?
 	public static String[] getCoursesByCoordId(String coordId) {
 		
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_COURSES_BY_COORD);
@@ -111,7 +140,9 @@ public class BackDoor {
 		return coursesArray;
 	}
 
-	// -------------------------[Course-level methods]-------------------------
+	@SuppressWarnings("unused")
+	private void ____COURSE_level_methods______________________________() {
+	}
 
 	public static String createCourse(CourseData course) {
 		DataBundle dataBundle = new DataBundle();
@@ -120,7 +151,7 @@ public class BackDoor {
 				.toJson(dataBundle));
 	}
 
-	public static String getCourseAsJason(String courseId) {
+	public static String getCourseAsJson(String courseId) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_COURSE_AS_JSON);
 		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
 		String courseJsonString = makePOSTRequest(params);
@@ -140,7 +171,9 @@ public class BackDoor {
 		return status;
 	}
 
-	// ------------------------[Student-level methods]-------------------------
+	@SuppressWarnings("unused")
+	private void ____STUDENT_level_methods______________________________() {
+	}
 
 	public static String createStudent(StudentData student) {
 		DataBundle dataBundle = new DataBundle();
@@ -149,7 +182,7 @@ public class BackDoor {
 				.toJson(dataBundle));
 	}
 
-	public static String getStudentAsJason(String courseId, String studentEmail) {
+	public static String getStudentAsJson(String courseId, String studentEmail) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_STUDENT_AS_JSON);
 		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
 		params.put(BackDoorServlet.PARAMETER_STUDENT_EMAIL, studentEmail);
@@ -165,7 +198,6 @@ public class BackDoor {
 		return regKey;
 		
 	}
-
 
 	public static String editStudent(String originalEmail, StudentData student) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_STUDENT);
@@ -184,7 +216,9 @@ public class BackDoor {
 		return status;
 	}
 
-	// ------------------------[Evaluation-level methods]-----------------
+	@SuppressWarnings("unused")
+	private void ____EVALUATION_level_methods______________________________() {
+	}
 
 	public static String createEvaluation(EvaluationData evaluation) {
 		DataBundle dataBundle = new DataBundle();
@@ -193,7 +227,7 @@ public class BackDoor {
 				.toJson(dataBundle));
 	}
 
-	public static String getEvaluationAsJason(String courseID,
+	public static String getEvaluationAsJson(String courseID,
 			String evaluationName) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_EVALUATION_AS_JSON);
 		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseID);
@@ -218,15 +252,9 @@ public class BackDoor {
 		return status;
 	}
 
-	public static void openEvaluation(String courseID, String evalName) {
-		System.out.println("Opening evaluation.");
-		HashMap<String, Object> params = createParamMap("evaluation_open");
-		params.put("course_id", courseID);
-		params.put("evaluation_name", evalName);
-		makePOSTRequest(params);
+	@SuppressWarnings("unused")
+	private void ____SUBMISSION_level_methods______________________________() {
 	}
-
-	// ------------------------[Submission-level methods]-----------------
 
 	public static String createSubmission(SubmissionData submission)
 			throws NotImplementedException {
@@ -234,7 +262,7 @@ public class BackDoor {
 				"Not implemented because creating submissions is automatically done");
 	}
 
-	public static String getSubmissionAsJason(String courseID,
+	public static String getSubmissionAsJson(String courseID,
 			String evaluationName, String reviewerEmail, String revieweeEmail) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_SUBMISSION_AS_JSON);
 		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseID);
@@ -260,106 +288,10 @@ public class BackDoor {
 				"not implemented yet because submissions do not need to be deleted via the API");
 	}
 
-	// --------------------------------[Tfs-level methods]----------
-
-	public static String createTfs(teammates.persistent.TeamFormingSession tfs)
-			throws NotImplementedException {
-		throw new NotImplementedException(
-				"This method is not implemented because there is no"
-						+ " need to create Tfs manually");
+	@SuppressWarnings("unused")
+	private void ____helper_methods______________________________() {
 	}
 
-	public static String getTfsAsJason(String courseID) {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_TFS_AS_JSON);
-		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseID);
-		String evaluationJson = makePOSTRequest(params);
-		return evaluationJson;
-	}
-
-	public static String editTfs(TfsData tfs) {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_TFS);
-		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
-				.toJson(tfs));
-		String status = makePOSTRequest(params);
-		return status;
-	}
-
-	public static String deleteTfs(String courseId)
-			throws NotImplementedException {
-		throw new NotImplementedException(
-				"This method is not implemented because there is no"
-						+ " need to delete Tfs manually");
-	}
-
-	// --------------------------------[TeamProfile-level methods]----------
-
-	public static String createTeamProfile(
-			teammates.persistent.TeamProfile teamProfile)
-			throws NotImplementedException {
-		throw new NotImplementedException(
-				"This method is not implemented because there is no"
-						+ " need to create Team profiles manually");
-	}
-
-	public static String getTeamProfileAsJason(String courseID, String teamName) {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_TEAM_PROFILE_AS_JSON);
-		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseID);
-		params.put(BackDoorServlet.PARAMETER_TEAM_NAME, teamName);
-		String evaluationJson = makePOSTRequest(params);
-		return evaluationJson;
-	}
-
-	public static String editTeamProfile(String originalTeamName,
-			TeamProfileData teamProfile) {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_TEAM_PROFILE);
-		params.put(BackDoorServlet.PARAMETER_TEAM_NAME, originalTeamName);
-		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
-				.toJson(teamProfile));
-		String status = makePOSTRequest(params);
-		return status;
-	}
-
-	public static String deleteTeamProfile(String courseId, String teamName) {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_TEAM_PROFILE);
-		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
-		params.put(BackDoorServlet.PARAMETER_TEAM_NAME, teamName);
-		String status = makePOSTRequest(params);
-		return status;
-	}
-
-	// -----------------------------[TeamFormingLog-level methods]-------------
-
-	public static String createTeamFormingLog(
-			teammates.persistent.TeamFormingLog tfl)
-			throws NotImplementedException {
-		throw new NotImplementedException(
-				"This method is not implemented because there is no"
-						+ " need to create TeamFormingLog manually");
-	}
-
-	public static String getTeamFormingLogAsJason(String courseID) {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_TEAM_FORMING_LOG_AS_JSON);
-		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseID);
-		String evaluationJson = makePOSTRequest(params);
-		return evaluationJson;
-	}
-
-	public static String editTeamFormingLog(
-			teammates.persistent.TeamFormingLog tfl)
-			throws NotImplementedException {
-		throw new NotImplementedException(
-				"This method is not implemented because there is no"
-						+ " need to edit TeamFormingLog manually");
-	}
-
-	public static String deleteTeamFormingLog(String courseId) {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_TEAM_FORMING_LOG);
-		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
-		String status = makePOSTRequest(params);
-		return status;
-	}
-
-	// ==============================[helper methods]=========================
 	/**
 	 * This method reformats a Json string in the pretty printing format (i.e.
 	 * not the default compact format) e.g. to reformat a Json string whose
@@ -381,7 +313,7 @@ public class BackDoor {
 		map.put(BackDoorServlet.PARAMETER_BACKDOOR_OPERATION, operation);
 
 		// For Authentication
-		map.put(BackDoorServlet.PARAMETER_BACKDOOR_KEY, Config.inst().API_AUTH_CODE);
+		map.put(BackDoorServlet.PARAMETER_BACKDOOR_KEY, Config.inst().BACKDOOR_KEY);
 
 		return map;
 	}
@@ -394,41 +326,58 @@ public class BackDoor {
 	 * @throws Exception
 	 */
 	private static String makePOSTRequest(HashMap<String, Object> map) {
-		String returnValue = null;
 		try {
-			StringBuilder dataStringBuilder = new StringBuilder();
-			for (Map.Entry<String, Object> e : map.entrySet()) {
-				dataStringBuilder.append(URLEncoder.encode(e.getKey(), "UTF-8")
-						+ "="
-						+ URLEncoder.encode(e.getValue().toString(), "UTF-8")
-						+ "&");
-			}
-			String data = dataStringBuilder.toString();
-
-			// http://teammates/api
-			URL url = new URL(Config.inst().TEAMMATES_URL + "/backdoor");
-			URLConnection conn = url.openConnection();
-			conn.setDoOutput(true);
-			OutputStreamWriter wr = new OutputStreamWriter(
-					conn.getOutputStream());
-			wr.write(data);
-			wr.flush();
-
-			// Get the response
-			BufferedReader rd = new BufferedReader(new InputStreamReader(
-					conn.getInputStream()));
-			StringBuffer sb = new StringBuffer();
-			String line;
-			while ((line = rd.readLine()) != null) {
-				sb.append(line);
-			}
-			wr.close();
-			rd.close();
-			returnValue = sb.toString();
+			String paramString = encodeParameters(map);
+			String urlString = Config.inst().TEAMMATES_URL + Common.PAGE_BACKDOOR;
+			URLConnection conn = getConnectionToUrl(urlString);
+			sendRequest(paramString, conn);
+			return readResponse(conn);
 		} catch (Exception e) {
-			e.printStackTrace();
+			return TeammatesException.stackTraceToString(e);
 		}
-		return returnValue;
+	}
+
+	private static String readResponse(URLConnection conn)
+			throws IOException {
+		BufferedReader rd = new BufferedReader(new InputStreamReader(
+				conn.getInputStream()));
+		StringBuffer sb = new StringBuffer();
+		String line;
+		while ((line = rd.readLine()) != null) {
+			sb.append(line);
+		}
+		rd.close();
+		return sb.toString();
+	}
+
+	private static void sendRequest(String paramString, URLConnection conn)
+			throws IOException {
+		OutputStreamWriter wr = new OutputStreamWriter(
+				conn.getOutputStream());
+		wr.write(paramString);
+		wr.flush();
+		wr.close();
+	}
+
+	private static URLConnection getConnectionToUrl(String urlString)
+			throws MalformedURLException, IOException {
+		URL url = new URL(urlString);
+		URLConnection conn = url.openConnection();
+		conn.setDoOutput(true);
+		return conn;
+	}
+
+	private static String encodeParameters(HashMap<String, Object> map)
+			throws UnsupportedEncodingException {
+		StringBuilder dataStringBuilder = new StringBuilder();
+		for (Map.Entry<String, Object> e : map.entrySet()) {
+			dataStringBuilder.append(URLEncoder.encode(e.getKey(), "UTF-8")
+					+ "="
+					+ URLEncoder.encode(e.getValue().toString(), "UTF-8")
+					+ "&");
+		}
+		String data = dataStringBuilder.toString();
+		return data;
 	}
 
 

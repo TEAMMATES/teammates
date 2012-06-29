@@ -37,7 +37,7 @@ public class Config {
 	 * Password for TestSuite to communicate with the Teammates APIServlet.
 	 * Remember to change this to match the server's auth code before running
 	 */
-	public String API_AUTH_CODE;
+	public String BACKDOOR_KEY;
 
 	/**
 	 * Which browser are we using? Please use the following: firefox, chrome,
@@ -80,7 +80,7 @@ public class Config {
 			TEST_UNREG_ACCOUNT = prop.getProperty("test.unreg.account");
 			TEST_UNREG_PASSWORD = prop.getProperty("test.unreg.password");
 			
-			API_AUTH_CODE = prop.getProperty("test.app.authCode");
+			BACKDOOR_KEY = prop.getProperty("test.backdoor.key");
 			
 			BROWSER = prop.getProperty("test.selenium.browser");
 			SELENIUMRC_HOST = prop.getProperty("test.selenium.host");

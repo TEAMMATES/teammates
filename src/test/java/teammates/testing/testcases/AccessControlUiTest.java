@@ -946,7 +946,7 @@ public class AccessControlUiTest extends BaseTestCase {
 	
 		coord.id = idOfTestCoord;
 	
-		backDoorOperationStatus = BackDoor.restoreNewDataBundle(Common
+		backDoorOperationStatus = BackDoor.restoreDataBundle(Common
 				.getTeammatesGson().toJson(dataBundle));
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();

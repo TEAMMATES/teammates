@@ -74,7 +74,7 @@ public class CoordEvalEditPageUiTest extends BaseTestCase {
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_EDITED);
 		
 		// Verify data
-		String json = BackDoor.getEvaluationAsJason(ts.newEvaluation.course, ts.newEvaluation.name);
+		String json = BackDoor.getEvaluationAsJson(ts.newEvaluation.course, ts.newEvaluation.name);
 		EvaluationData newEval = Common.getTeammatesGson().fromJson(json, EvaluationData.class);
 		assertEquals(ts.newEvaluation.startTime,newEval.startTime);
 		assertEquals(ts.newEvaluation.endTime,newEval.endTime);

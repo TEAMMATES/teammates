@@ -189,6 +189,9 @@ public class Common {
 		<% } %>
 		
 	 */
+	
+	public static final String PAGE_BACKDOOR = "/backdoor";
+	
 	public static final String PAGE_COORD_HOME = "/page/coordHome"; 
 	public static final String PAGE_COORD_COURSE = "/page/coordCourse"; 
 	public static final String PAGE_COORD_COURSE_DELETE = "/page/coordCourseDelete"; 
@@ -346,6 +349,7 @@ public class Common {
 	public static final String ERRORCODE_LEADING_OR_TRAILING_SPACES = "ERRORCODE_LEADING_OR_TRAILING_SPACES";
 	public static final String ERRORCODE_PUBLISHED_BEFORE_CLOSING = "ERRORCODE_PUBLISHED_BEFORE_CLOSING";
 	public static final String ERRORCODE_STRING_TOO_LONG = "ERRORCODE_STRING_TOO_LONG";
+
 
 
 	@SuppressWarnings("unused")

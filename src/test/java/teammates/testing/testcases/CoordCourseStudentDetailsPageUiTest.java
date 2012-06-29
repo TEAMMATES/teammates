@@ -108,7 +108,7 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 		bi.waitForStatusMessage(Common.MESSAGE_STUDENT_EDITED);
 		
 		// Verify data
-		String json = BackDoor.getStudentAsJason(scn.courses.get("CCSDetailsUiT.CS2104").id, "newemail@gmail.com");
+		String json = BackDoor.getStudentAsJson(scn.courses.get("CCSDetailsUiT.CS2104").id, "newemail@gmail.com");
 		StudentData student = Common.getTeammatesGson().fromJson(json, StudentData.class);
 		assertEquals("New name",student.name);
 		assertEquals("New team",student.team);

@@ -276,7 +276,6 @@ public class BaseTestCase {
 		// also reduce logging verbosity of these classes as we are going to
 		// use them intensively here.
 		setLogLevelOfClass(BackDoorServlet.class, Level.SEVERE);
-		setLogLevelOfClass(BackDoor.class, Level.SEVERE);
 		setLogLevelOfClass(Logic.class, Level.SEVERE);
 		
 		DataBundle dataBundle = getTypicalDataBundle();
@@ -290,7 +289,6 @@ public class BaseTestCase {
 		//TODO: restore to previous levels
 		setGeneralLoggingLevel(Level.WARNING);
 		setLogLevelOfClass(BackDoorServlet.class, Level.FINE);
-		setLogLevelOfClass(BackDoor.class, Level.FINE);
 		setLogLevelOfClass(Logic.class, Level.FINE);
 
 		//restore the logged in user

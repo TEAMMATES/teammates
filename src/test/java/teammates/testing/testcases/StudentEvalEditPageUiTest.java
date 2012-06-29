@@ -116,19 +116,19 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 
 		print("Checking modified data");
 		String json = "";
-		json = BackDoor.getSubmissionAsJason(eval.course, eval.name, dannyEmail, charlieEmail);
+		json = BackDoor.getSubmissionAsJson(eval.course, eval.name, dannyEmail, charlieEmail);
 		SubmissionData charlieModified = Common.getTeammatesGson().fromJson(json, SubmissionData.class);
 		assertEquals(subs[0].points+"",charlieModified.points+"");
 		assertEquals(subs[0].justification.getValue(),charlieModified.justification.getValue());
 		assertEquals(subs[0].p2pFeedback.getValue(),charlieModified.p2pFeedback.getValue());
 
-		json = BackDoor.getSubmissionAsJason(eval.course, eval.name, dannyEmail, dannyEmail);
+		json = BackDoor.getSubmissionAsJson(eval.course, eval.name, dannyEmail, dannyEmail);
 		SubmissionData dannyModified = Common.getTeammatesGson().fromJson(json, SubmissionData.class);
 		assertEquals(subs[1].points+"",dannyModified.points+"");
 		assertEquals(subs[1].justification.getValue(),dannyModified.justification.getValue());
 		assertEquals(subs[1].p2pFeedback.getValue(),dannyModified.p2pFeedback.getValue());
 
-		json = BackDoor.getSubmissionAsJason(eval.course, eval.name, dannyEmail, emilyEmail);
+		json = BackDoor.getSubmissionAsJson(eval.course, eval.name, dannyEmail, emilyEmail);
 		SubmissionData emilyModified = Common.getTeammatesGson().fromJson(json, SubmissionData.class);
 		assertEquals(subs[2].points+"",emilyModified.points+"");
 		assertEquals(subs[2].justification.getValue(),emilyModified.justification.getValue());

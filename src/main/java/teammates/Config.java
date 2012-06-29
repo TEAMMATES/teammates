@@ -65,7 +65,7 @@ public class Config {
 				.getProperty("app.mode.production"));
 		emailEnabled = Boolean
 				.parseBoolean(prop.getProperty("app.emailEnable"));
-		API_AUTH_CODE = prop.getProperty("api.authCode");
+		API_AUTH_CODE = prop.getProperty("app.backdoor.key");
 
 	}
 

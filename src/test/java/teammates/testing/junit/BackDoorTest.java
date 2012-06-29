@@ -35,13 +35,12 @@ public class BackDoorTest extends BaseTestCase{
 		printTestClassHeader();
 		jsonString = Common.readFile(Common.TEST_DATA_FOLDER
 				+ "/typicalDataBundle.json");
-		
-		
 	}
 
 	@AfterClass
 	public static void tearDown() {
-		//TODO: clean up data
+		BackDoor.deleteCoordinators(jsonString);
+		printTestClassFooter();
 	}
 	
 	@SuppressWarnings("unused")
@@ -171,7 +170,7 @@ public class BackDoorTest extends BaseTestCase{
 	}
 	
 	@Test
-	public void testGetCoordAsJason(){
+	public void testGetCoordAsJson(){
 		//already tested by testPersistenceAndDeletion
 	}
 	
@@ -194,7 +193,7 @@ public class BackDoorTest extends BaseTestCase{
 		CoordData coord = dataBundle.coords.get("typicalCoord1");
 		String[] coursesByCoord = BackDoor.getCoursesByCoordId(coord.id);
 		assertEquals(2,coursesByCoord.length);
-		BackDoor.cleanupByCoordinator(coord.id);
+		BackDoor.cleanupCoord(coord.id);
 		coursesByCoord = BackDoor.getCoursesByCoordId(coord.id);
 		assertEquals(0,coursesByCoord.length);
 	}
@@ -257,7 +256,7 @@ public class BackDoorTest extends BaseTestCase{
 	}
 
 	@Test
-	public void testGetCourseAsJason() {
+	public void testGetCourseAsJson() {
 		// already tested by testPersistenceAndDeletion
 	}
 
@@ -304,7 +303,7 @@ public class BackDoorTest extends BaseTestCase{
 	}
 	
 	@Test
-	public void testGetStudentAsJason() {
+	public void testGetStudentAsJson() {
 		// already tested by testPersistenceAndDeletion
 	}
 
@@ -364,7 +363,7 @@ public class BackDoorTest extends BaseTestCase{
 	}
 	
 	@Test
-	public void testGetEvaluationAsJason() {
+	public void testGetEvaluationAsJson() {
 		// already tested by testPersistenceAndDeletion
 	}
 
@@ -399,11 +398,6 @@ public class BackDoorTest extends BaseTestCase{
 	@Test
 	public void testDeleteEvaluation() {
 		// already tested by testPersistenceAndDeletion
-	}
-	
-	@Test
-	public void testOpenEvaluation() {
-		//TODO:
 	}
 	
 	@SuppressWarnings("unused")
@@ -533,8 +527,6 @@ public class BackDoorTest extends BaseTestCase{
 				submissionFromS2C1ToS1C1.reviewee);
 	}
 
-	//============================helper methods==============================
-
 	private void refreshDataInDatastore() {
 		dataBundle = gson.fromJson(jsonString, DataBundle.class);
 		BackDoor.deleteCoordinators(jsonString); 
@@ -542,26 +534,26 @@ public class BackDoorTest extends BaseTestCase{
 	}
 
 	private void verifyAbsentInDatastore(CourseData course) {
-		assertEquals("null",BackDoor.getCourseAsJason(course.id));
+		assertEquals("null",BackDoor.getCourseAsJson(course.id));
 	}
 
 	private void verifyAbsentInDatastore(StudentData student) {
-		assertEquals("null",BackDoor.getStudentAsJason(student.course, student.email));
+		assertEquals("null",BackDoor.getStudentAsJson(student.course, student.email));
 	}
 
 	private void verifyAbsentInDatastore(EvaluationData evaluation1InCourse1) {
-		assertEquals("null", BackDoor.getEvaluationAsJason(
+		assertEquals("null", BackDoor.getEvaluationAsJson(
 				evaluation1InCourse1.course,
 				evaluation1InCourse1.name));
 	}
 
 	private void verifyAbsentInDatastore(SubmissionData subInDeletedEvaluation) {
-		String submissionAsJason = BackDoor.getSubmissionAsJason(
+		String submissionAsJson = BackDoor.getSubmissionAsJson(
 				subInDeletedEvaluation.course,
 				subInDeletedEvaluation.evaluation,
 				subInDeletedEvaluation.reviewer,
 				subInDeletedEvaluation.reviewee);
-		assertEquals("null", submissionAsJason);
+		assertEquals("null", submissionAsJson);
 	}
 
 	private void verifyPresentInDatastore(String dataBundleJsonString) {
@@ -595,7 +587,7 @@ public class BackDoorTest extends BaseTestCase{
 	}
 
 	private void verifyPresentInDatastore(SubmissionData expectedSubmission) {
-		String submissionsJsonString = BackDoor.getSubmissionAsJason(
+		String submissionsJsonString = BackDoor.getSubmissionAsJson(
 				expectedSubmission.course,
 				expectedSubmission.evaluation,
 				expectedSubmission.reviewer,
@@ -607,7 +599,7 @@ public class BackDoorTest extends BaseTestCase{
 	}
 
 	private void verifyPresentInDatastore(EvaluationData expectedEvaluation) {
-		String evaluationJsonString = BackDoor.getEvaluationAsJason(
+		String evaluationJsonString = BackDoor.getEvaluationAsJson(
 				expectedEvaluation.course,
 				expectedEvaluation.name);
 		EvaluationData actualEvaluation = gson.fromJson(evaluationJsonString,
@@ -619,11 +611,11 @@ public class BackDoorTest extends BaseTestCase{
 	}
 
 	private void verifyPresentInDatastore(StudentData expectedStudent) {
-		String studentJsonString = BackDoor.getStudentAsJason(
+		String studentJsonString = BackDoor.getStudentAsJson(
 				expectedStudent.course, expectedStudent.email);
 		StudentData actualStudent = gson.fromJson(studentJsonString,
 				StudentData.class);
-		//TODO: this is for backward compatibility with old system. to be removed.
+		//For these fields, we consider both null and "" as equivalent 
 		if((expectedStudent.id==null)&&(actualStudent.id.equals(""))){
 			actualStudent.id=null;
 		}
@@ -638,14 +630,14 @@ public class BackDoorTest extends BaseTestCase{
 	}
 
 	private void verifyPresentInDatastore(CourseData expectedCourse) {
-		String courseJsonString = BackDoor.getCourseAsJason(expectedCourse
+		String courseJsonString = BackDoor.getCourseAsJson(expectedCourse
 				.id);
 		CourseData actualCourse = gson.fromJson(courseJsonString, CourseData.class);
 		assertEquals(gson.toJson(expectedCourse), gson.toJson(actualCourse));
 	}
 
 	private void verifyPresentInDatastore(CoordData expectedCoord) {
-		String coordJsonString = BackDoor.getCoordAsJason(expectedCoord
+		String coordJsonString = BackDoor.getCoordAsJson(expectedCoord
 				.id);
 		CoordData actualCoord = gson.fromJson(coordJsonString,
 				CoordData.class);
@@ -653,7 +645,7 @@ public class BackDoorTest extends BaseTestCase{
 	}
 	
 	private void verifyAbsentInDatastore(CoordData expectedCoord) {
-		assertEquals("null", BackDoor.getCoordAsJason(expectedCoord.id));
+		assertEquals("null", BackDoor.getCoordAsJson(expectedCoord.id));
 	}
 
 }

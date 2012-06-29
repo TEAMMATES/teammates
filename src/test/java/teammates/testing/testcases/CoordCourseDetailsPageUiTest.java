@@ -127,7 +127,7 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 		
 		try{
 			bi.clickCoordCourseDetailStudentDeleteAndCancel(studentRowId);
-			String student = BackDoor.getStudentAsJason(scn.courses.get("CCDetailsUiT.CS2104").id, studentEmail);
+			String student = BackDoor.getStudentAsJson(scn.courses.get("CCDetailsUiT.CS2104").id, studentEmail);
 			if(isNullJSON(student)) {
 				fail("Student was deleted when it's not supposed to be");
 			}
