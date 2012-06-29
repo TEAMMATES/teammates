@@ -9,15 +9,17 @@ import teammates.testing.junit.BackDoorTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+		BackDoorTest.class,
+		
 		// Unit tests
 		AllUnitTests.class,
+		
 		// Js tests
 //		AllJsUnitTests.class, //TODO: add this back
-		// Api tests
-		AccessControlUiTest.class,
-		BackDoorTest.class,
+		
 		// Ui test
-		AllUiTests.class
+		AllUiTests.class,
+		AccessControlUiTest.class
 })
 
 //@formatter:on
