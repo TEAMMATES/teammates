@@ -13,6 +13,7 @@ import teammates.datatransfer.CourseData;
 import teammates.datatransfer.DataBundle;
 import teammates.datatransfer.EvaluationData;
 import teammates.datatransfer.StudentData;
+import teammates.datatransfer.EvaluationData.EvalStatus;
 import teammates.jsp.Helper;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BackDoor;
@@ -528,7 +529,13 @@ public class AccessControlUiTest extends BaseTestCase {
 		bi.loginCoord(coordUsername, coordPassword);
 
 		______TS("can unpublish result of own evaluation");
-
+		
+		ownEvaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
+		ownEvaluation.published = true;
+		assertEquals(EvalStatus.PUBLISHED, ownEvaluation.getStatus());
+		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		
 		link = Common.PAGE_COORD_EVAL_UNPUBLISH;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
 		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
@@ -556,8 +563,14 @@ public class AccessControlUiTest extends BaseTestCase {
 	public void testCoordEvalPublish() {
 
 		bi.loginCoord(coordUsername, coordPassword);
-
+		
 		______TS("can publish result of own evaluation");
+		
+		ownEvaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
+		ownEvaluation.published = false;
+		assertEquals(EvalStatus.CLOSED, ownEvaluation.getStatus());
+		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 
 		link = Common.PAGE_COORD_EVAL_PUBLISH;
 		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);

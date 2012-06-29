@@ -1133,7 +1133,8 @@ public class Evaluations {
 	public boolean publishEvaluation(String courseID, String name,
 			List<Student> studentList) {
 		Evaluation evaluation = getEvaluation(courseID, name);
-
+		
+		
 		evaluation.setPublished(true);
 
 		informStudentsOfPublishingOfEvaluationResults(studentList, courseID,

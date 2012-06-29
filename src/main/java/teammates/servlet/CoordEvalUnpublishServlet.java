@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
+import teammates.api.InvalidParametersException;
 import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
@@ -19,7 +20,7 @@ public class CoordEvalUnpublishServlet extends ActionServlet<Helper> {
 
 
 	@Override
-	protected void doAction(HttpServletRequest req, Helper helper) throws EntityDoesNotExistException {
+	protected void doAction(HttpServletRequest req, Helper helper) throws EntityDoesNotExistException, InvalidParametersException {
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
 		

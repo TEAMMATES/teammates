@@ -2649,6 +2649,7 @@ public class LogicTest extends BaseTestCase {
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
 		Object[] params = new Object[] {"idOfCourse1OfCoord1", "new evaluation" };
 		
+		//check access control for both methods
 		for (int i = 0; i < methodNames.length; i++) {
 			verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodNames[i], "any.user",
 					paramTypes, params);
@@ -2675,15 +2676,83 @@ public class LogicTest extends BaseTestCase {
 		
 		EvaluationData eval1 = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
+		//ensure not published yet
 		assertEquals(false,
 				logic.getEvaluation(eval1.course, eval1.name).published);
+		//ensure CLOSED
+		eval1.endTime = Common.getDateOffsetToCurrentTime(-1);
+		assertEquals(EvalStatus.CLOSED, eval1.getStatus());
+		logic.editEvaluation(eval1);
+		
 		logic.publishEvaluation(eval1.course, eval1.name);
 		assertEquals(true,
 				logic.getEvaluation(eval1.course, eval1.name).published);
+		
 		logic.unpublishEvaluation(eval1.course, eval1.name);
 		assertEquals(false,
 				logic.getEvaluation(eval1.course, eval1.name).published);
-		// TODO: more testing
+				
+		______TS("not ready for publishing");
+		
+		//make the evaluation OPEN
+		eval1.endTime = Common.getDateOffsetToCurrentTime(1);
+		assertEquals(EvalStatus.OPEN, eval1.getStatus());
+		logic.editEvaluation(eval1);
+		
+		try {
+			logic.publishEvaluation(eval1.course, eval1.name);
+			fail();
+		} catch (InvalidParametersException e) {
+			assertContains(Common.ERRORCODE_PUBLISHED_BEFORE_CLOSING, e.errorCode);
+		}
+		
+		//ensure evaluation stays in the same state
+		assertEquals(EvalStatus.OPEN,
+				logic.getEvaluation(eval1.course, eval1.name).getStatus());
+		
+		______TS("not ready for unpublishing");
+		
+		try {
+			logic.unpublishEvaluation(eval1.course, eval1.name);
+			fail();
+		} catch (InvalidParametersException e) {
+			assertContains(Common.ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING, e.errorCode);
+		}
+		
+		//ensure evaluation stays in the same state
+		assertEquals(EvalStatus.OPEN,
+				logic.getEvaluation(eval1.course, eval1.name).getStatus());
+		
+		______TS("non-existent");
+		
+		try {
+			logic.publishEvaluation("non-existent", "non-existent");
+			fail();
+		} catch (EntityDoesNotExistException e) {
+		}
+		
+		try {
+			logic.unpublishEvaluation("non-existent", "non-existent");
+			fail();
+		} catch (EntityDoesNotExistException e) {
+		}
+
+		______TS("null parameters");
+		
+		try {
+			logic.publishEvaluation(null, "non-existent");
+			fail();
+		} catch (NullPointerException e) {
+			assertContains("course ID", e.getMessage());
+		}
+		
+		try {
+			logic.unpublishEvaluation("non-existent", null);
+			fail();
+		} catch (NullPointerException e) {
+			assertContains("evaluation name", e.getMessage().toLowerCase());
+		}
+		
 	}
 
 	@Test

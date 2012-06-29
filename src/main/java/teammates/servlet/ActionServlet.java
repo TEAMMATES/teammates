@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
+import teammates.api.InvalidParametersException;
 import teammates.api.Logic;
 import teammates.api.TeammatesException;
 import teammates.api.UnauthorizedAccessException;
@@ -141,10 +142,11 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * @param req
 	 * @param resp
 	 * @param helper
+	 * @throws InvalidParametersException 
 	 * @throws Exception
 	 */
 	protected abstract void doAction(HttpServletRequest req, T helper)
-			throws EntityDoesNotExistException;
+			throws EntityDoesNotExistException, InvalidParametersException;
 
 	/**
 	 * Method to redirect or forward the request to appropriate display handler.<br />

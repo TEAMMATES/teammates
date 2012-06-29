@@ -269,7 +269,7 @@ public class Logic {
 		Common.verifyNotNull(coordID, "coordinator ID");
 		Common.verifyNotNull(coordName, "coordinator Name");
 		Common.verifyNotNull(coordEmail, "coordinator Email");
-		
+
 		verifyAdminLoggedIn();
 
 		Common.validateEmail(coordEmail);
@@ -286,7 +286,7 @@ public class Logic {
 		verifyLoggedInUserAndAbove();
 
 		Coordinator coord = Accounts.inst().getCoordinator(coordID);
-		
+
 		return (coord == null ? null : new CoordData(coord.getGoogleID(),
 				coord.getName(), coord.getEmail()));
 	}
@@ -317,16 +317,16 @@ public class Logic {
 	/**
 	 * @return null if coordId is null <br>
 	 *         Access level: Admin, Coord (for self)
-	 * @throws InvalidParametersException 
+	 * @throws InvalidParametersException
 	 */
 	// TODO: return ArrayList instead?
 	public HashMap<String, CourseData> getCourseListForCoord(String coordId)
 			throws EntityDoesNotExistException {
 
 		Common.verifyNotNull(coordId, "coordinator Id");
-		
+
 		verifyCoordUsingOwnIdOrAbove(coordId);
-		
+
 		HashMap<String, CourseSummaryForCoordinator> courseSummaryListForCoord = Courses
 				.inst().getCourseSummaryListForCoord(coordId);
 		if (courseSummaryListForCoord.size() == 0) {
@@ -356,11 +356,11 @@ public class Logic {
 	 */
 	public HashMap<String, CourseData> getCourseDetailsListForCoord(
 			String coordId) throws EntityDoesNotExistException {
-		
+
 		Common.verifyNotNull(coordId, "coordinator ID");
-		
+
 		verifyCoordUsingOwnIdOrAbove(coordId);
-		
+
 		// TODO: using this method here may not be efficient as it retrieves
 		// info not required
 		HashMap<String, CourseData> courseList = getCourseListForCoord(coordId);
@@ -381,12 +381,12 @@ public class Logic {
 			throws EntityDoesNotExistException {
 
 		Common.verifyNotNull(coordId, "coordinator ID");
-		
+
 		verifyCoordUsingOwnIdOrAbove(coordId);
-		
+
 		List<Course> courseList = Courses.inst().getCoordinatorCourseList(
 				coordId);
-		
+
 		if ((courseList.size() == 0) && (getCoord(coordId) == null)) {
 			throw new EntityDoesNotExistException(
 					"Coordinator does not exist :" + coordId);
@@ -441,11 +441,11 @@ public class Logic {
 	 * @return returns null if course does not exist.
 	 */
 	public CourseData getCourse(String courseId) {
-		
+
 		Common.verifyNotNull(courseId, "course ID");
-		
+
 		verifyRegisteredUserOrAbove();
-		
+
 		Course c = Courses.inst().getCourse(courseId);
 		return (c == null ? null : new CourseData(c.getID(), c.getName(),
 				c.getCoordinatorID()));
@@ -481,11 +481,11 @@ public class Logic {
 	 * Access: course owner and above
 	 */
 	public void deleteCourse(String courseId) {
-		
+
 		Common.verifyNotNull(courseId, "course ID");
-		
+
 		verifyCourseOwnerOrAbove(courseId);
-		
+
 		Evaluations.inst().deleteEvaluations(courseId);
 		Courses.inst().deleteCourse(courseId);
 	}
@@ -495,11 +495,11 @@ public class Logic {
 	 */
 	public List<StudentData> getStudentListForCourse(String courseId)
 			throws EntityDoesNotExistException {
-		
+
 		Common.verifyNotNull(courseId, "course ID");
-		
+
 		verifyCourseOwnerOrAbove(courseId);
-		
+
 		List<Student> studentList = Courses.inst().getStudentList(courseId);
 
 		if ((studentList.size() == 0) && (getCourse(courseId) == null)) {
@@ -519,11 +519,11 @@ public class Logic {
 	 */
 	public void sendRegistrationInviteForCourse(String courseId)
 			throws InvalidParametersException {
-		
+
 		Common.verifyNotNull(courseId, "course ID");
-		
+
 		verifyCourseOwnerOrAbove(courseId);
-		
+
 		List<Student> studentList = Courses.inst().getUnregisteredStudentList(
 				courseId);
 
@@ -545,7 +545,7 @@ public class Logic {
 
 		Common.verifyNotNull(courseId, "course ID");
 		Common.verifyNotNull(enrollLines, "enrollment text");
-		
+
 		verifyCourseOwnerOrAbove(courseId);
 
 		if (getCourse(courseId) == null) {
@@ -600,11 +600,11 @@ public class Logic {
 	 */
 	public CourseData getTeamsForCourse(String courseId)
 			throws EntityDoesNotExistException {
-		
+
 		Common.verifyNotNull(courseId, "coure ID");
-		
+
 		verifyCourseOwnerOrStudentInCourse(courseId);
-		
+
 		List<StudentData> students = getStudentListForCourse(courseId);
 		Courses.sortByTeamName(students);
 
@@ -657,7 +657,7 @@ public class Logic {
 	 */
 	public void createStudent(StudentData studentData)
 			throws EntityAlreadyExistsException, InvalidParametersException {
-		
+
 		Common.verifyNotNull(studentData, "student data");
 
 		verifyCourseOwnerOrAbove(studentData.course);
@@ -684,12 +684,12 @@ public class Logic {
 	 * @return returns null if there is no such student.
 	 */
 	public StudentData getStudent(String courseId, String email) {
-		
+
 		Common.verifyNotNull(courseId, "course ID");
 		Common.verifyNotNull(email, "student email");
-		
+
 		verifyRegisteredUserOrAbove();
-		
+
 		Student student = Accounts.inst().getStudent(courseId, email);
 		return (student == null ? null : new StudentData(student));
 	}
@@ -753,7 +753,7 @@ public class Logic {
 
 		Common.verifyNotNull(courseId, "course ID");
 		Common.verifyNotNull(studentEmail, "student email");
-		
+
 		verifyCourseOwnerOrAbove(courseId);
 
 		Course course = Courses.inst().getCourse(courseId);
@@ -805,7 +805,7 @@ public class Logic {
 
 		Common.verifyNotNull(courseId, "course ID");
 		Common.verifyNotNull(googleId, "Google ID");
-		
+
 		verifySameStudentOrCourseOwnerOrAdmin(courseId, googleId);
 
 		ArrayList<StudentData> studentList = getStudentsWithId(googleId);
@@ -827,7 +827,7 @@ public class Logic {
 	 */
 	public void joinCourse(String googleId, String key)
 			throws JoinCourseException, InvalidParametersException {
-		
+
 		Common.verifyNotNull(googleId, "google ID");
 		Common.verifyNotNull(key, "registration key");
 
@@ -857,10 +857,10 @@ public class Logic {
 	 * @return
 	 */
 	public String getKeyForStudent(String courseId, String email) {
-		
+
 		Common.verifyNotNull(courseId, "course ID");
 		Common.verifyNotNull(email, "student email");
-		
+
 		verifyCourseOwnerOrAbove(courseId);
 
 		Student student = Accounts.inst().getStudent(courseId, email);
@@ -909,7 +909,7 @@ public class Logic {
 	public boolean hasStudentSubmittedEvaluation(String courseId,
 			String evaluationName, String studentEmail)
 			throws InvalidParametersException {
-		
+
 		Common.verifyNotNull(courseId, "course ID");
 		Common.verifyNotNull(evaluationName, "evaluation name");
 		Common.verifyNotNull(studentEmail, "student email");
@@ -1027,7 +1027,7 @@ public class Logic {
 	 */
 	public void createEvaluation(EvaluationData evaluation)
 			throws EntityAlreadyExistsException, InvalidParametersException {
-		
+
 		Common.verifyNotNull(evaluation, "evaluation");
 
 		verifyCourseOwnerOrAbove(evaluation.course);
@@ -1061,7 +1061,7 @@ public class Logic {
 	 */
 	public void editEvaluation(EvaluationData evaluation)
 			throws EntityDoesNotExistException, InvalidParametersException {
-		
+
 		Common.verifyNotNull(evaluation, "evaluation");
 
 		verifyCourseOwnerOrAbove(evaluation.course);
@@ -1093,11 +1093,30 @@ public class Logic {
 	 * @param courseId
 	 * @param evaluationName
 	 * @throws EntityDoesNotExistException
+	 * @throws InvalidParametersException
+	 *             if the evaluation is not ready to be published.
 	 */
 	public void publishEvaluation(String courseId, String evaluationName)
-			throws EntityDoesNotExistException {
+			throws EntityDoesNotExistException, InvalidParametersException {
+		
+		Common.verifyNotNull(courseId, "course ID");
+		Common.verifyNotNull(evaluationName, "evaluation name");
 
 		verifyCourseOwnerOrAbove(courseId);
+
+		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
+
+		if (evaluation == null) {
+			throw new EntityDoesNotExistException(
+					"There is no evaluation named '" + evaluationName
+							+ "' under the course " + courseId);
+		}
+
+		if (evaluation.getStatus() != EvalStatus.CLOSED) {
+			throw new InvalidParametersException(
+					Common.ERRORCODE_PUBLISHED_BEFORE_CLOSING,
+					"Cannot publish an evaluation unless it is CLOSED");
+		}
 
 		Courses courses = Courses.inst();
 		List<Student> studentList = courses.getStudentList(courseId);
@@ -1112,11 +1131,30 @@ public class Logic {
 	 * @param courseId
 	 * @param evaluationName
 	 * @throws EntityDoesNotExistException
+	 * @throws InvalidParametersException
+	 *             if the evaluation is not ready to be unpublished.
 	 */
 	public void unpublishEvaluation(String courseId, String evaluationName)
-			throws EntityDoesNotExistException {
+			throws EntityDoesNotExistException, InvalidParametersException {
 
+		Common.verifyNotNull(courseId, "course ID");
+		Common.verifyNotNull(evaluationName, "evaluation name");
+		
 		verifyCourseOwnerOrAbove(courseId);
+
+		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
+
+		if (evaluation == null) {
+			throw new EntityDoesNotExistException(
+					"There is no evaluation named '" + evaluationName
+							+ "' under the course " + courseId);
+		}
+
+		if (evaluation.getStatus() != EvalStatus.PUBLISHED) {
+			throw new InvalidParametersException(
+					Common.ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING,
+					"Cannot unpublish an evaluation unless it is PUBLISHED");
+		}
 
 		Evaluations.inst().unpublishEvaluation(courseId, evaluationName);
 	}
@@ -1169,7 +1207,7 @@ public class Logic {
 	 */
 	public EvaluationData getEvaluationResult(String courseId,
 			String evaluationName) throws EntityDoesNotExistException {
-		
+
 		Common.verifyNotNull(courseId, "course ID");
 		Common.verifyNotNull(evaluationName, "evaluation name");
 
@@ -1208,7 +1246,7 @@ public class Logic {
 	public List<SubmissionData> getSubmissionsFromStudent(String courseId,
 			String evaluationName, String reviewerEmail)
 			throws EntityDoesNotExistException, InvalidParametersException {
-		
+
 		Common.verifyNotNull(courseId, "course ID");
 		Common.verifyNotNull(evaluationName, "evaluation name");
 		Common.verifyNotNull(reviewerEmail, "student email");
@@ -1257,9 +1295,9 @@ public class Logic {
 	 */
 	public void editSubmissions(List<SubmissionData> submissionDataList)
 			throws EntityDoesNotExistException, InvalidParametersException {
-		
+
 		Common.verifyNotNull(submissionDataList, "submissions list");
-		
+
 		for (SubmissionData sd : submissionDataList) {
 			verifySubmissionEditableForUser(sd);
 			editSubmission(sd);
@@ -1356,7 +1394,7 @@ public class Logic {
 	}
 
 	private TeamEvalResult calculateTeamResult(TeamData team) {
-		
+
 		Common.verifyNotNull(team, "team object");
 
 		int teamSize = team.students.size();
