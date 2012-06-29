@@ -302,6 +302,9 @@ public class BackDoorTest extends BaseTestCase {
 		// check for some characteristics of the key
 		assertTrue(key.length() > 30 && key.length() < 50);
 		assertTrue(key.indexOf(" ") < 0);
+		
+		//clean up student as this is an orphan entity
+		BackDoor.deleteStudent(student.course, student.email);
 	}
 
 	@Test

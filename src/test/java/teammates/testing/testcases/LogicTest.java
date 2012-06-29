@@ -58,13 +58,14 @@ import com.google.gson.Gson;
 public class LogicTest extends BaseTestCase {
 
 	final static Logic logic = new Logic();
+	
+	//these are used for access control checking for different types of users
 	private static final int USER_TYPE_NOT_LOGGED_IN = -1;
 	private static final int USER_TYPE_UNREGISTERED = 0;
 	private static final int USER_TYPE_STUDENT = 1;
 	private static final int USER_TYPE_COORD = 2;
 
 	private static Gson gson = Common.getTeammatesGson();
-	static String jsonString;
 
 	private static DataBundle dataBundle = getTypicalDataBundle();
 
@@ -77,17 +78,17 @@ public class LogicTest extends BaseTestCase {
 
 	@Before
 	public void caseSetUp() throws ServletException {
-		LocalTaskQueueTestConfig ltqtc = new LocalTaskQueueTestConfig();
-		setEmailQueuePath(ltqtc);
 		dataBundle = getTypicalDataBundle();
-		LocalUserServiceTestConfig localUserServiceTestConfig = new LocalUserServiceTestConfig();
+		
+		LocalTaskQueueTestConfig ltqtc = new LocalTaskQueueTestConfig();
+		LocalUserServiceTestConfig lustc = new LocalUserServiceTestConfig();
+		setEmailQueuePath(ltqtc);
 		helper = new LocalServiceTestHelper(
 				new LocalDatastoreServiceTestConfig(),
-				new LocalMailServiceTestConfig(), localUserServiceTestConfig,
+				new LocalMailServiceTestConfig(), lustc,
 				ltqtc);
 		setHelperTimeZone(helper);
 		helper.setUp();
-
 	}
 
 	@SuppressWarnings("unused")
@@ -211,6 +212,9 @@ public class LogicTest extends BaseTestCase {
 
 		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, params);
+		
+		//We don't check admin access because if it doesn't affect normal users
+		// i.e., admin is part of the development team.
 
 		______TS("success case");
 
@@ -654,7 +658,7 @@ public class LogicTest extends BaseTestCase {
 		}
 
 		// other combinations of invalid input should be checked against
-		// CourseDataTest.validate()
+		// CourseData.validate()
 	}
 
 	@Test
@@ -750,11 +754,15 @@ public class LogicTest extends BaseTestCase {
 		} catch (EntityDoesNotExistException e) {
 			BaseTestCase.assertContains("non-existent", e.getMessage());
 		}
-
-		// TODO: handle null parameters
-
-		// TODO: more testing e.g, course without students etc.
-
+		
+		______TS("null parameter");
+		
+		try {
+			logic.getCourseDetails(null);
+			fail();
+		} catch (NullPointerException e) {
+			BaseTestCase.assertContains("course ID", e.getMessage());
+		}
 	}
 
 	@Test
