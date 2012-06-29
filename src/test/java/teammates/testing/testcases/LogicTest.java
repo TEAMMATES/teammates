@@ -2967,7 +2967,7 @@ public class LogicTest extends BaseTestCase {
 	public void testCalculateTeamResult() throws Exception {
 
 		try {
-			invokeCalclulateTeamResult(null);
+			invokeCalculateTeamResult(null);
 		} catch (Exception e) {
 			assertEquals(NullPointerException.class, e.getCause().getClass());
 		}
@@ -3018,7 +3018,7 @@ public class LogicTest extends BaseTestCase {
 		team.students.add(s1);
 		team.students.add(s3);
 
-		TeamEvalResult teamResult = invokeCalclulateTeamResult(team);
+		TeamEvalResult teamResult = invokeCalculateTeamResult(team);
 		// note the pattern in numbers. due to the way we generate submissions,
 		// 110 means it is from s1 to s1 and
 		// should appear in the 1,1 location in the matrix.
@@ -3508,9 +3508,21 @@ public class LogicTest extends BaseTestCase {
 
 		verifyPresentInDatastore(sub1);
 		verifyPresentInDatastore(sub2);
+		
+		______TS("null parameter");
+		
+		try {
+			logic.editSubmissions(null);
+			fail();
+		} catch (NullPointerException e) {
+			assertContains("submissions list", e.getMessage().toLowerCase());
+		}
 
-		// TODO: more testing
-		// check for lazyCreationPolicy
+		______TS("non-existent evaluation");
+		
+		// already tested under testEditSubmission()
+		
+		//  TODO: check for lazyCreationPolicy
 
 		______TS("authentication");
 
@@ -3785,8 +3797,7 @@ public class LogicTest extends BaseTestCase {
 		StudentData actualStudent = logic.getStudent(expectedStudent.course,
 				expectedStudent.email);
 		expectedStudent.updateStatus = UpdateStatus.UNKNOWN;
-		// TODO: this is for backward compatibility with old system. to be
-		// removed.
+		// For these fields, we consider null and "" equivalent.
 		if ((expectedStudent.id == null) && (actualStudent.id.equals(""))) {
 			actualStudent.id = null;
 		}
@@ -3853,7 +3864,7 @@ public class LogicTest extends BaseTestCase {
 		return false;
 	}
 
-	private TeamEvalResult invokeCalclulateTeamResult(TeamData team)
+	private TeamEvalResult invokeCalculateTeamResult(TeamData team)
 			throws Exception {
 		Method privateMethod = Logic.class.getDeclaredMethod(
 				"calculateTeamResult", new Class[] { TeamData.class });
@@ -3862,7 +3873,6 @@ public class LogicTest extends BaseTestCase {
 		return (TeamEvalResult) privateMethod.invoke(logic, params);
 	}
 
-	// TODO: try to generalize invoke*() methods and push to parent class
 	private void invokePopulateTeamResult(TeamData team,
 			TeamEvalResult teamResult) throws Exception {
 		Method privateMethod = Logic.class.getDeclaredMethod(
