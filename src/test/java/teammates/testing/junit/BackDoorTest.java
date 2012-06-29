@@ -35,6 +35,8 @@ public class BackDoorTest extends BaseTestCase{
 		printTestClassHeader();
 		jsonString = Common.readFile(Common.TEST_DATA_FOLDER
 				+ "/typicalDataBundle.json");
+		
+		
 	}
 
 	@AfterClass
@@ -49,14 +51,25 @@ public class BackDoorTest extends BaseTestCase{
 	@Test
 	public void testPersistenceAndDeletion() {
 		
+		dataBundle = gson.fromJson(jsonString, DataBundle.class);
 		
-		//to avoid clashes with existing data
+		//Clean up to avoid clashes with existing data.
+		//We delete courses first in case the same course ID exists under a 
+		//   different coord not listed in our databundle.
+		//check if deleteCoordinators worked
+		
+		for(CourseData course: dataBundle.courses.values()){
+			BackDoor.deleteCourse(course.id);
+		}
+		
 		BackDoor.deleteCoordinators(jsonString);
 		
-		//check if deleteCoordinators worked
-		dataBundle = gson.fromJson(jsonString, DataBundle.class);
+		//ensure clean up worked
 		for(CoordData coord: dataBundle.coords.values()){
 			verifyAbsentInDatastore(coord);
+		}
+		for(CourseData course: dataBundle.courses.values()){
+			verifyAbsentInDatastore(course);
 		}
 		
 		//check persisting

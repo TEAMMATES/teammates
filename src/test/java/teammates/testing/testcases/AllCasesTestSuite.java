@@ -9,10 +9,12 @@ import teammates.testing.junit.BackDoorTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-		BackDoorTest.class,
+		
 		
 		// Unit tests
 		AllUnitTests.class,
+		
+		BackDoorTest.class,
 		
 		// Js tests
 //		AllJsUnitTests.class, //TODO: add this back
