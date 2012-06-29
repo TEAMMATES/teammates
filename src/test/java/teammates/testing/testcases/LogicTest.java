@@ -1241,7 +1241,7 @@ public class LogicTest extends BaseTestCase {
 		} catch (NullPointerException e) {
 		}
 
-		// TODO: test for invalid parameters in StudentData
+		//other combination of invalid data should be tested against StudentData
 
 	}
 
@@ -1360,8 +1360,6 @@ public class LogicTest extends BaseTestCase {
 
 		// no need to check for cascade delete/creates due to LazyCreationPolicy
 		// and TolerateOrphansPolicy.
-
-		// TODO: test for invalid parameters in StudentData
 	}
 
 	@Test
@@ -1706,7 +1704,7 @@ public class LogicTest extends BaseTestCase {
 		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, params);
 
-		______TS("student in one course");
+		______TS("student in two courses");
 
 		restoreTypicalDataInDatastore();
 		loginAsAdmin("admin.user");
@@ -1725,8 +1723,28 @@ public class LogicTest extends BaseTestCase {
 				logic.getStudentInCourseForGoogleId(
 						studentInTwoCoursesInCourse2.course,
 						googleIdOfstudentInTwoCourses).email);
-
-		// TODO: more testing
+		
+		______TS("student in zero courses");
+		
+		assertEquals(null,
+				logic.getStudentInCourseForGoogleId(
+						"non-existent",	"random-google-id"));
+		
+		______TS("null parameters");
+		
+		try {
+			logic.getStudentInCourseForGoogleId(null, "not-null");
+			fail();
+		} catch (NullPointerException e) {
+			assertContains("course ID",	e.getMessage());
+		}
+		
+		try {
+			logic.getStudentInCourseForGoogleId("not-null", null);
+			fail();
+		} catch (NullPointerException e) {
+			assertContains("Google ID",	e.getMessage());
+		}
 	}
 
 	@Test

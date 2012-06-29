@@ -803,6 +803,9 @@ public class Logic {
 			String googleId) {
 		// TODO: make more efficient?
 
+		Common.verifyNotNull(courseId, "course ID");
+		Common.verifyNotNull(googleId, "Google ID");
+		
 		verifySameStudentOrCourseOwnerOrAdmin(courseId, googleId);
 
 		ArrayList<StudentData> studentList = getStudentsWithId(googleId);
