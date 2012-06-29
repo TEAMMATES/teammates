@@ -1,12 +1,10 @@
 package teammates.testing.lib;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -32,12 +30,12 @@ import teammates.testing.object.Course;
 import com.google.gson.Gson;
 
 /**
- * Used to access the datastore without going through the UI. The main
- * use of this class is for the test suite to prepare test data.
- * <br> It works only if the test.backdoor.key in test.properties matches 
- * the app.backdoor.key in build.properties of the deployed app. 
- * Using this mechanism we can limit back door access to only the person 
- * who deployed the application. 
+ * Used to access the datastore without going through the UI. The main use of
+ * this class is for the test suite to prepare test data. <br>
+ * It works only if the test.backdoor.key in test.properties matches the
+ * app.backdoor.key in build.properties of the deployed app. Using this
+ * mechanism we can limit back door access to only the person who deployed the
+ * application.
  * 
  */
 public class BackDoor {
@@ -47,8 +45,9 @@ public class BackDoor {
 	}
 
 	/**
-	 * This persists the given data if no such data already exists in the 
-	 *   datastore.
+	 * This persists the given data if no such data already exists in the
+	 * datastore.
+	 * 
 	 * @param dataBundleJason
 	 * @return
 	 */
@@ -58,10 +57,11 @@ public class BackDoor {
 		String status = makePOSTRequest(params);
 		return status;
 	}
-	
+
 	/**
 	 * Persists given data. If given entities already exist in the data store,
-	 *    they will be overwritten.
+	 * they will be overwritten.
+	 * 
 	 * @param dataBundleJason
 	 * @return
 	 */
@@ -72,6 +72,7 @@ public class BackDoor {
 
 	/**
 	 * Deletes coordinators contained in the jsonString
+	 * 
 	 * @param jsonString
 	 */
 	public static void deleteCoordinators(String jsonString) {
@@ -82,8 +83,7 @@ public class BackDoor {
 			deleteCoord(coord.id);
 		}
 	}
-	
-	
+
 	@SuppressWarnings("unused")
 	private void ____COORD_level_methods______________________________() {
 	}
@@ -127,7 +127,7 @@ public class BackDoor {
 	}
 
 	public static String[] getCoursesByCoordId(String coordId) {
-		
+
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_COURSES_BY_COORD);
 		params.put(BackDoorServlet.PARAMETER_COORD_ID, coordId);
 		String courseString = makePOSTRequest(params);
@@ -189,21 +189,21 @@ public class BackDoor {
 		String studentJson = makePOSTRequest(params);
 		return studentJson;
 	}
-	
+
 	public static String getKeyForStudent(String courseId, String studentEmail) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_KEY_FOR_STUDENT);
 		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
 		params.put(BackDoorServlet.PARAMETER_STUDENT_EMAIL, studentEmail);
 		String regKey = makePOSTRequest(params);
 		return regKey;
-		
+
 	}
 
 	public static String editStudent(String originalEmail, StudentData student) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_STUDENT);
 		params.put(BackDoorServlet.PARAMETER_STUDENT_EMAIL, originalEmail);
-		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
-				.toJson(student));
+		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common
+				.getTeammatesGson().toJson(student));
 		String status = makePOSTRequest(params);
 		return status;
 	}
@@ -238,8 +238,8 @@ public class BackDoor {
 
 	public static String editEvaluation(EvaluationData evaluation) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_EVALUATION);
-		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
-				.toJson(evaluation));
+		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common
+				.getTeammatesGson().toJson(evaluation));
 		String status = makePOSTRequest(params);
 		return status;
 	}
@@ -275,8 +275,8 @@ public class BackDoor {
 
 	public static String editSubmission(SubmissionData submission) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_SUBMISSION);
-		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common.getTeammatesGson()
-				.toJson(submission));
+		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common
+				.getTeammatesGson().toJson(submission));
 		String status = makePOSTRequest(params);
 		return status;
 	}
@@ -292,28 +292,13 @@ public class BackDoor {
 	private void ____helper_methods______________________________() {
 	}
 
-	/**
-	 * This method reformats a Json string in the pretty printing format (i.e.
-	 * not the default compact format) e.g. to reformat a Json string whose
-	 * formatting was lost during HTTP encoding
-	 * 
-	 * @param unformattedJason
-	 * @param typeOfObject
-	 * @return unformattedJason reformatted in pretty printing format
-	 */
-	public static String reformatJasonString(String unformattedJason,
-			Type typeOfObject) {
-		Object obj = Common.getTeammatesGson().fromJson(unformattedJason,
-				typeOfObject);
-		return Common.getTeammatesGson().toJson(obj);
-	}
-
 	private static HashMap<String, Object> createParamMap(String operation) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put(BackDoorServlet.PARAMETER_BACKDOOR_OPERATION, operation);
 
 		// For Authentication
-		map.put(BackDoorServlet.PARAMETER_BACKDOOR_KEY, Config.inst().BACKDOOR_KEY);
+		map.put(BackDoorServlet.PARAMETER_BACKDOOR_KEY,
+				Config.inst().BACKDOOR_KEY);
 
 		return map;
 	}
@@ -328,7 +313,8 @@ public class BackDoor {
 	private static String makePOSTRequest(HashMap<String, Object> map) {
 		try {
 			String paramString = encodeParameters(map);
-			String urlString = Config.inst().TEAMMATES_URL + Common.PAGE_BACKDOOR;
+			String urlString = Config.inst().TEAMMATES_URL
+					+ Common.PAGE_BACKDOOR;
 			URLConnection conn = getConnectionToUrl(urlString);
 			sendRequest(paramString, conn);
 			return readResponse(conn);
@@ -337,8 +323,7 @@ public class BackDoor {
 		}
 	}
 
-	private static String readResponse(URLConnection conn)
-			throws IOException {
+	private static String readResponse(URLConnection conn) throws IOException {
 		BufferedReader rd = new BufferedReader(new InputStreamReader(
 				conn.getInputStream()));
 		StringBuffer sb = new StringBuffer();
@@ -352,8 +337,7 @@ public class BackDoor {
 
 	private static void sendRequest(String paramString, URLConnection conn)
 			throws IOException {
-		OutputStreamWriter wr = new OutputStreamWriter(
-				conn.getOutputStream());
+		OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 		wr.write(paramString);
 		wr.flush();
 		wr.close();
@@ -372,13 +356,11 @@ public class BackDoor {
 		StringBuilder dataStringBuilder = new StringBuilder();
 		for (Map.Entry<String, Object> e : map.entrySet()) {
 			dataStringBuilder.append(URLEncoder.encode(e.getKey(), "UTF-8")
-					+ "="
-					+ URLEncoder.encode(e.getValue().toString(), "UTF-8")
+					+ "=" + URLEncoder.encode(e.getValue().toString(), "UTF-8")
 					+ "&");
 		}
 		String data = dataStringBuilder.toString();
 		return data;
 	}
-
 
 }
