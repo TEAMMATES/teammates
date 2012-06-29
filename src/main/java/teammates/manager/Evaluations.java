@@ -17,6 +17,7 @@ import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
+import teammates.datatransfer.EvaluationData;
 import teammates.exception.EvaluationExistsException;
 import teammates.jdo.EvaluationDetailsForCoordinator;
 import teammates.persistent.Course;
@@ -1108,9 +1109,9 @@ public class Evaluations {
 	 * @return <code>true</code> if the student has submitted the evaluation,
 	 *         <code>false</code> otherwise.
 	 */
-	public boolean isEvaluationSubmitted(Evaluation evaluation, String email) {
+	public boolean isEvaluationSubmitted(EvaluationData evaluation, String email) {
 		List<Submission> submissionList = getSubmissionFromStudentList(
-				evaluation.getCourseID(), evaluation.getName(), email);
+				evaluation.course, evaluation.name, email);
 		for(Submission s: submissionList) {
 			if(s.getPoints()== -999){
 				return false;

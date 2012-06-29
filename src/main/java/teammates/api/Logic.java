@@ -1106,11 +1106,7 @@ public class Logic {
 
 		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
 
-		if (evaluation == null) {
-			throw new EntityDoesNotExistException(
-					"There is no evaluation named '" + evaluationName
-							+ "' under the course " + courseId);
-		}
+		verifyEvaluationExists(evaluation, courseId, evaluationName);
 
 		if (evaluation.getStatus() != EvalStatus.CLOSED) {
 			throw new InvalidParametersException(
@@ -1144,11 +1140,7 @@ public class Logic {
 
 		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
 
-		if (evaluation == null) {
-			throw new EntityDoesNotExistException(
-					"There is no evaluation named '" + evaluationName
-							+ "' under the course " + courseId);
-		}
+		verifyEvaluationExists(evaluation, courseId, evaluationName);
 
 		if (evaluation.getStatus() != EvalStatus.PUBLISHED) {
 			throw new InvalidParametersException(
@@ -1165,34 +1157,29 @@ public class Logic {
 	 * @param courseId
 	 * @param evaluationName
 	 */
-	public void sendReminderForEvaluation(String courseId, String evaluationName) {
+	public void sendReminderForEvaluation(String courseId, String evaluationName) throws EntityDoesNotExistException {
 
+		Common.verifyNotNull(courseId, "course ID");
+		Common.verifyNotNull(evaluationName, "evaluation name");
+		
 		verifyCourseOwnerOrAbove(courseId);
 
-		List<Student> studentList = Courses.inst().getStudentList(courseId);
-
-		// Filter out students who have submitted the evaluation
-		Evaluations evaluations = Evaluations.inst();
-		Evaluation evaluation = evaluations.getEvaluation(courseId,
+		EvaluationData evaluation = getEvaluation(courseId,
 				evaluationName);
-
-		if (evaluation == null) {
-			// TODO: throw exception
-			return;
-		}
-
+		
+		verifyEvaluationExists(evaluation, courseId, evaluationName);
+		
+		// Filter out students who have submitted the evaluation
+		List<Student> studentList = Courses.inst().getStudentList(courseId);
 		List<Student> studentsToRemindList = new ArrayList<Student>();
-
 		for (Student s : studentList) {
-			if (!evaluations.isEvaluationSubmitted(evaluation, s.getEmail())) {
+			if (!Evaluations.inst().isEvaluationSubmitted(evaluation, s.getEmail())) {
 				studentsToRemindList.add(s);
 			}
 		}
 
-		Date deadline = evaluation.getDeadline();
-
-		evaluations.remindStudents(studentsToRemindList, courseId,
-				evaluationName, deadline);
+		Evaluations.inst().remindStudents(studentsToRemindList, courseId,
+				evaluationName, evaluation.endTime);
 
 	}
 
@@ -1313,6 +1300,15 @@ public class Logic {
 
 	@SuppressWarnings("unused")
 	private void ____helper_methods________________________________________() {
+	}
+
+	private void verifyEvaluationExists(EvaluationData evaluation, String courseId,
+			String evaluationName) throws EntityDoesNotExistException {
+		if (evaluation == null) {
+			throw new EntityDoesNotExistException(
+					"There is no evaluation named '" + evaluationName
+							+ "' under the course " + courseId);
+		}
 	}
 
 	private void editSubmission(SubmissionData submission)

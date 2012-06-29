@@ -58,8 +58,8 @@ import com.google.gson.Gson;
 public class LogicTest extends BaseTestCase {
 
 	final static Logic logic = new Logic();
-	
-	//these are used for access control checking for different types of users
+
+	// these are used for access control checking for different types of users
 	private static final int USER_TYPE_NOT_LOGGED_IN = -1;
 	private static final int USER_TYPE_UNREGISTERED = 0;
 	private static final int USER_TYPE_STUDENT = 1;
@@ -79,14 +79,13 @@ public class LogicTest extends BaseTestCase {
 	@Before
 	public void caseSetUp() throws ServletException {
 		dataBundle = getTypicalDataBundle();
-		
+
 		LocalTaskQueueTestConfig ltqtc = new LocalTaskQueueTestConfig();
 		LocalUserServiceTestConfig lustc = new LocalUserServiceTestConfig();
 		setEmailQueuePath(ltqtc);
 		helper = new LocalServiceTestHelper(
 				new LocalDatastoreServiceTestConfig(),
-				new LocalMailServiceTestConfig(), lustc,
-				ltqtc);
+				new LocalMailServiceTestConfig(), lustc, ltqtc);
 		setHelperTimeZone(helper);
 		helper.setUp();
 	}
@@ -212,8 +211,8 @@ public class LogicTest extends BaseTestCase {
 
 		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, params);
-		
-		//We don't check admin access because if it doesn't affect normal users
+
+		// We don't check admin access because if it doesn't affect normal users
 		// i.e., admin is part of the development team.
 
 		______TS("success case");
@@ -380,7 +379,7 @@ public class LogicTest extends BaseTestCase {
 			assertEquals(null, logic.getCourseListForCoord(null));
 			fail();
 		} catch (NullPointerException e) {
-			
+
 		}
 
 		______TS("non-existent coord");
@@ -709,11 +708,11 @@ public class LogicTest extends BaseTestCase {
 		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
 				paramTypes, params);
 
-		//student in different course
+		// student in different course
 		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse2",
 				paramTypes, params);
-		
-		//student in same course
+
+		// student in same course
 		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 
@@ -754,9 +753,9 @@ public class LogicTest extends BaseTestCase {
 		} catch (EntityDoesNotExistException e) {
 			BaseTestCase.assertContains("non-existent", e.getMessage());
 		}
-		
+
 		______TS("null parameter");
-		
+
 		try {
 			logic.getCourseDetails(null);
 			fail();
@@ -1055,7 +1054,7 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		______TS("all students already registered");
-		
+
 		loginAsAdmin("admin.user");
 
 		restoreTypicalDataInDatastore();
@@ -1113,11 +1112,11 @@ public class LogicTest extends BaseTestCase {
 		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
 				paramTypes, params);
 
-		//student not in same course
+		// student not in same course
 		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse2",
 				paramTypes, params);
-		
-		//student in same course
+
+		// student in same course
 		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 
@@ -1241,7 +1240,8 @@ public class LogicTest extends BaseTestCase {
 		} catch (NullPointerException e) {
 		}
 
-		//other combination of invalid data should be tested against StudentData
+		// other combination of invalid data should be tested against
+		// StudentData
 
 	}
 
@@ -1280,7 +1280,7 @@ public class LogicTest extends BaseTestCase {
 			logic.getStudent(null, "email@email.com");
 		} catch (NullPointerException e) {
 		}
-		
+
 		try {
 			logic.getStudent("course-id", null);
 		} catch (NullPointerException e) {
@@ -1723,27 +1723,26 @@ public class LogicTest extends BaseTestCase {
 				logic.getStudentInCourseForGoogleId(
 						studentInTwoCoursesInCourse2.course,
 						googleIdOfstudentInTwoCourses).email);
-		
+
 		______TS("student in zero courses");
-		
-		assertEquals(null,
-				logic.getStudentInCourseForGoogleId(
-						"non-existent",	"random-google-id"));
-		
+
+		assertEquals(null, logic.getStudentInCourseForGoogleId("non-existent",
+				"random-google-id"));
+
 		______TS("null parameters");
-		
+
 		try {
 			logic.getStudentInCourseForGoogleId(null, "not-null");
 			fail();
 		} catch (NullPointerException e) {
-			assertContains("course ID",	e.getMessage());
+			assertContains("course ID", e.getMessage());
 		}
-		
+
 		try {
 			logic.getStudentInCourseForGoogleId("not-null", null);
 			fail();
 		} catch (NullPointerException e) {
-			assertContains("Google ID",	e.getMessage());
+			assertContains("Google ID", e.getMessage());
 		}
 	}
 
@@ -1897,17 +1896,17 @@ public class LogicTest extends BaseTestCase {
 		______TS("null parameters");
 
 		StudentData student = dataBundle.students.get("student1InCourse1");
-		
+
 		try {
 			logic.getKeyForStudent(student.course, null);
 		} catch (NullPointerException e) {
 		}
-		
+
 		try {
 			logic.getKeyForStudent(null, student.email);
 		} catch (NullPointerException e) {
 		}
-		
+
 		try {
 			logic.getKeyForStudent(null, null);
 		} catch (NullPointerException e) {
@@ -2003,8 +2002,8 @@ public class LogicTest extends BaseTestCase {
 		String methodName = "hasStudentSubmittedEvaluation";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class,
 				String.class };
-		Object[] params = new Object[] { 
-				evaluation.course, evaluation.name, student.email };
+		Object[] params = new Object[] { evaluation.course, evaluation.name,
+				student.email };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -2063,7 +2062,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetCourseDetailsListForStudent() throws Exception {
-		
+
 		______TS("authentication");
 
 		restoreTypicalDataInDatastore();
@@ -2190,7 +2189,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetEvauationResultForStudent() throws Exception {
-		
+
 		CourseData course = dataBundle.courses.get("course1OfCoord1");
 		EvaluationData evaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
@@ -2201,9 +2200,10 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		String methodName = "getEvaluationResultForStudent";
-		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class, String.class };
-		Object[] params = new Object[] {
-				course.id, evaluation.name, student1email  };
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class,
+				String.class };
+		Object[] params = new Object[] { course.id, evaluation.name,
+				student1email };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -2211,44 +2211,43 @@ public class LogicTest extends BaseTestCase {
 		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
 				paramTypes, params);
 
-		//student cannot access because evaluation is not published
+		// student cannot access because evaluation is not published
 		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 
 		// course belongs to a different coord
 		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
-				paramTypes, new Object[] {"course1OfCoord2", evaluation.name, student1email });
+				paramTypes, new Object[] { "course1OfCoord2", evaluation.name,
+						student1email });
 
 		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, params);
-		
-		//publish the evaluation
+
+		// publish the evaluation
 		loginAsAdmin("admin.user");
 		evaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
 		evaluation.published = true;
 		logic.editEvaluation(evaluation);
 		logoutUser();
-		
-		//other students still cannot access this student's result
+
+		// other students still cannot access this student's result
 		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
 				paramTypes, params);
-		
-		//but this student can now access his own result
+
+		// but this student can now access his own result
 		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
-		
+
 		______TS("typical case");
 
 		// reconfigure points of an existing evaluation in the datastore
 		restoreTypicalDataInDatastore();
 		course = dataBundle.courses.get("course1OfCoord1");
-		evaluation = dataBundle.evaluations
-				.get("evaluation1InCourse1OfCoord1");
+		evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
 		student1email = "student1InCourse1@gmail.com";
 
 		loginAsAdmin("admin.user");
 
-		
 		//@formatter:off
 		setPointsForSubmissions(new int[][] { 
 				{ 100, 100, 100, 100 },
@@ -2257,7 +2256,6 @@ public class LogicTest extends BaseTestCase {
 				{ 70, 80, 110, 120 } });
 		//@formatter:on
 
-		
 		// "idOfCourse1OfCoord1", "evaluation1 In Course1",
 
 		EvalResultData result = logic.getEvaluationResultForStudent(course.id,
@@ -2394,7 +2392,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testCreateEvaluation() throws Exception {
-		
+
 		______TS("authentication");
 
 		restoreTypicalDataInDatastore();
@@ -2423,13 +2421,12 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		______TS("typical case");
-		
+
 		loginAsAdmin("admin.user");
 
 		restoreTypicalDataInDatastore();
 
-		evaluation = dataBundle.evaluations
-				.get("evaluation1InCourse1OfCoord1");
+		evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
 		verifyPresentInDatastore(evaluation);
 		logic.deleteEvaluation(evaluation.course, evaluation.name);
 		verifyAbsentInDatastore(evaluation);
@@ -2466,15 +2463,14 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetEvaluation() throws Exception {
-		
+
 		______TS("authentication");
 
 		restoreTypicalDataInDatastore();
 
 		String methodName = "getEvaluation";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfCourse1OfCoord2",
-				"eval name" };
+		Object[] params = new Object[] { "idOfCourse1OfCoord2", "eval name" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -2512,7 +2508,7 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testEditEvaluation() throws Exception {
-		
+
 		______TS("authentication");
 
 		restoreTypicalDataInDatastore();
@@ -2543,7 +2539,7 @@ public class LogicTest extends BaseTestCase {
 		______TS("typical case");
 
 		restoreTypicalDataInDatastore();
-		
+
 		loginAsAdmin("admin.user");
 
 		EvaluationData eval = dataBundle.evaluations
@@ -2583,14 +2579,15 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testDeleteEvaluation() throws Exception {
-		
+
 		______TS("authentication");
 
 		restoreTypicalDataInDatastore();
 
 		String methodName = "deleteEvaluation";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] {"idOfCourse1OfCoord1", "new evaluation" };
+		Object[] params = new Object[] { "idOfCourse1OfCoord1",
+				"new evaluation" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -2612,7 +2609,7 @@ public class LogicTest extends BaseTestCase {
 
 		restoreTypicalDataInDatastore();
 		loginAsAdmin("admin.user");
-		
+
 		EvaluationData eval = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
 		verifyPresentInDatastore(eval);
@@ -2640,97 +2637,101 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testPublishAndUnpublishEvaluation() throws Exception {
-		
+
 		______TS("authentication");
 
 		restoreTypicalDataInDatastore();
 
-		String[] methodNames = new String[]{"publishEvaluation", "unpublishEvaluation"};
+		String[] methodNames = new String[] { "publishEvaluation",
+				"unpublishEvaluation" };
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] {"idOfCourse1OfCoord1", "new evaluation" };
-		
-		//check access control for both methods
+		Object[] params = new Object[] { "idOfCourse1OfCoord1",
+				"new evaluation" };
+
+		// check access control for both methods
 		for (int i = 0; i < methodNames.length; i++) {
-			verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodNames[i], "any.user",
-					paramTypes, params);
+			verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodNames[i],
+					"any.user", paramTypes, params);
 
-			verifyCannotAccess(USER_TYPE_UNREGISTERED, methodNames[i], "any.user",
-					paramTypes, params);
+			verifyCannotAccess(USER_TYPE_UNREGISTERED, methodNames[i],
+					"any.user", paramTypes, params);
 
-			verifyCannotAccess(USER_TYPE_STUDENT, methodNames[i], "student1InCourse1",
-					paramTypes, params);
+			verifyCannotAccess(USER_TYPE_STUDENT, methodNames[i],
+					"student1InCourse1", paramTypes, params);
 
 			// course belongs to a different coord
-			verifyCannotAccess(USER_TYPE_COORD, methodNames[i], "idOfTypicalCoord2",
-					paramTypes, params);
+			verifyCannotAccess(USER_TYPE_COORD, methodNames[i],
+					"idOfTypicalCoord2", paramTypes, params);
 
-			verifyCanAccess(USER_TYPE_COORD, methodNames[i], "idOfTypicalCoord1",
-					paramTypes, params);
+			verifyCanAccess(USER_TYPE_COORD, methodNames[i],
+					"idOfTypicalCoord1", paramTypes, params);
 		}
-		
+
 		______TS("typical cases");
 
 		restoreTypicalDataInDatastore();
-		
+
 		loginAsAdmin("admin.user");
-		
+
 		EvaluationData eval1 = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
-		//ensure not published yet
+		// ensure not published yet
 		assertEquals(false,
 				logic.getEvaluation(eval1.course, eval1.name).published);
-		//ensure CLOSED
+		// ensure CLOSED
 		eval1.endTime = Common.getDateOffsetToCurrentTime(-1);
 		assertEquals(EvalStatus.CLOSED, eval1.getStatus());
 		logic.editEvaluation(eval1);
-		
+
 		logic.publishEvaluation(eval1.course, eval1.name);
 		assertEquals(true,
 				logic.getEvaluation(eval1.course, eval1.name).published);
-		
+
 		logic.unpublishEvaluation(eval1.course, eval1.name);
 		assertEquals(false,
 				logic.getEvaluation(eval1.course, eval1.name).published);
-				
+
 		______TS("not ready for publishing");
-		
-		//make the evaluation OPEN
+
+		// make the evaluation OPEN
 		eval1.endTime = Common.getDateOffsetToCurrentTime(1);
 		assertEquals(EvalStatus.OPEN, eval1.getStatus());
 		logic.editEvaluation(eval1);
-		
+
 		try {
 			logic.publishEvaluation(eval1.course, eval1.name);
 			fail();
 		} catch (InvalidParametersException e) {
-			assertContains(Common.ERRORCODE_PUBLISHED_BEFORE_CLOSING, e.errorCode);
+			assertContains(Common.ERRORCODE_PUBLISHED_BEFORE_CLOSING,
+					e.errorCode);
 		}
-		
-		//ensure evaluation stays in the same state
+
+		// ensure evaluation stays in the same state
 		assertEquals(EvalStatus.OPEN,
 				logic.getEvaluation(eval1.course, eval1.name).getStatus());
-		
+
 		______TS("not ready for unpublishing");
-		
+
 		try {
 			logic.unpublishEvaluation(eval1.course, eval1.name);
 			fail();
 		} catch (InvalidParametersException e) {
-			assertContains(Common.ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING, e.errorCode);
+			assertContains(Common.ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING,
+					e.errorCode);
 		}
-		
-		//ensure evaluation stays in the same state
+
+		// ensure evaluation stays in the same state
 		assertEquals(EvalStatus.OPEN,
 				logic.getEvaluation(eval1.course, eval1.name).getStatus());
-		
+
 		______TS("non-existent");
-		
+
 		try {
 			logic.publishEvaluation("non-existent", "non-existent");
 			fail();
 		} catch (EntityDoesNotExistException e) {
 		}
-		
+
 		try {
 			logic.unpublishEvaluation("non-existent", "non-existent");
 			fail();
@@ -2738,33 +2739,34 @@ public class LogicTest extends BaseTestCase {
 		}
 
 		______TS("null parameters");
-		
+
 		try {
 			logic.publishEvaluation(null, "non-existent");
 			fail();
 		} catch (NullPointerException e) {
 			assertContains("course ID", e.getMessage());
 		}
-		
+
 		try {
 			logic.unpublishEvaluation("non-existent", null);
 			fail();
 		} catch (NullPointerException e) {
 			assertContains("evaluation name", e.getMessage().toLowerCase());
 		}
-		
+
 	}
 
 	@Test
 	public void testGetEvaluationResult() throws Exception {
-		
+
 		______TS("authentication");
 
 		restoreTypicalDataInDatastore();
 
 		String methodName = "getEvaluationResult";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] {"idOfCourse1OfCoord1", "new evaluation" };
+		Object[] params = new Object[] { "idOfCourse1OfCoord1",
+				"new evaluation" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -2781,7 +2783,7 @@ public class LogicTest extends BaseTestCase {
 
 		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, params);
-		
+
 		______TS("typical case");
 
 		restoreTypicalDataInDatastore();
@@ -2918,19 +2920,19 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(NA, team1_2student.result.incoming.get(0).normalized);
 
 		______TS("null parameters");
-		
+
 		try {
 			logic.getEvaluationResult(null, evaluation.name);
 		} catch (NullPointerException e) {
 		}
-		
+
 		try {
 			logic.getEvaluationResult(course.id, null);
 		} catch (NullPointerException e) {
 		}
 
 		______TS("non-existent course");
-		
+
 		try {
 			logic.getEvaluationResult(course.id, "non existent evaluation");
 			fail();
@@ -2947,7 +2949,7 @@ public class LogicTest extends BaseTestCase {
 		}
 
 		______TS("data used in UI tests");
-		
+
 		//@formatter:off
 		
 		createNewEvaluationWithSubmissions("courseForTestingER", "Eval 1", new int[][] { 
@@ -3171,14 +3173,16 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetSubmissionsFromStudent() throws Exception {
-		
+
 		______TS("authentication");
 
 		restoreTypicalDataInDatastore();
 
 		String methodName = "getSubmissionsFromStudent";
-		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class, String.class };
-		Object[] params = new Object[] {"idOfCourse1OfCoord1", "new evaluation", "student1InCourse1@gmail.com" };
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class,
+				String.class };
+		Object[] params = new Object[] { "idOfCourse1OfCoord1",
+				"new evaluation", "student1InCourse1@gmail.com" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -3189,7 +3193,7 @@ public class LogicTest extends BaseTestCase {
 		// not the reviewer
 		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
 				paramTypes, params);
-		
+
 		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 
@@ -3239,8 +3243,7 @@ public class LogicTest extends BaseTestCase {
 					student.email);
 			fail();
 		} catch (NullPointerException e) {
-			assertContains("course id", e.getMessage()
-					.toLowerCase());
+			assertContains("course id", e.getMessage().toLowerCase());
 		}
 
 		try {
@@ -3257,8 +3260,7 @@ public class LogicTest extends BaseTestCase {
 					null);
 			fail();
 		} catch (NullPointerException e) {
-			assertContains("student email", e.getMessage()
-					.toLowerCase());
+			assertContains("student email", e.getMessage().toLowerCase());
 		}
 
 		______TS("course/evaluation/student does not exist");
@@ -3290,14 +3292,15 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testSendReminderForEvaluation_1() throws Exception {
-		
+
 		______TS("authentication");
 
 		restoreTypicalDataInDatastore();
 
 		String methodName = "sendReminderForEvaluation";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] {"idOfCourse1OfCoord1", "new evaluation" };
+		Object[] params = new Object[] { "idOfCourse1OfCoord1",
+				"new evaluation" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -3391,12 +3394,33 @@ public class LogicTest extends BaseTestCase {
 				verifyRegistrationEmailToStudent(sd);
 			}
 		}
-		// TODO: complete this
+
+		______TS("non-existent course/evaluation");
+
+		try {
+			logic.sendReminderForEvaluation("non-existent-course",
+					"non-existent-eval");
+			fail();
+		} catch (EntityDoesNotExistException e) {
+			assertContainsRegex("non-existent-eval{*}non-existent-course",
+					e.getMessage());
+		}
 
 		______TS("null parameter");
-
-		______TS("non-existent course");
-
+		
+		try {
+			logic.sendReminderForEvaluation(null,eval.name);
+			fail();
+		} catch (NullPointerException e) {
+			assertContains("course ID",	e.getMessage());
+		}
+		
+		try {
+			logic.sendReminderForEvaluation(eval.course, null);
+			fail();
+		} catch (NullPointerException e) {
+			assertContains("evaluation name",	e.getMessage().toLowerCase());
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -3444,11 +3468,10 @@ public class LogicTest extends BaseTestCase {
 		// This need not be tested here because this method does not have
 		// enough information to activate lazy creation.
 	}
-	
 
 	@Test
 	public void testEditSubmissions() throws Exception {
-		
+
 		______TS("typical cases");
 
 		restoreTypicalDataInDatastore();
@@ -3488,11 +3511,11 @@ public class LogicTest extends BaseTestCase {
 
 		// TODO: more testing
 		// check for lazyCreationPolicy
-		
+
 		______TS("authentication");
 
-		//mostly done in testEditSubmission(), we test only one case here
-		
+		// mostly done in testEditSubmission(), we test only one case here
+
 		restoreTypicalDataInDatastore();
 
 		String methodName = "editSubmissions";
@@ -3504,8 +3527,8 @@ public class LogicTest extends BaseTestCase {
 		s.reviewer = "student1InCourse1@gmail.com";
 		submissions.add(s);
 		Object[] params = new Object[] { submissions };
-		
-		//ensure the evaluation is closed
+
+		// ensure the evaluation is closed
 		loginAsAdmin("admin.user");
 		EvaluationData evaluation = logic.getEvaluation(s.course, s.evaluation);
 		evaluation.startTime = Common.getDateOffsetToCurrentTime(1);
@@ -3524,7 +3547,7 @@ public class LogicTest extends BaseTestCase {
 		// not the reviewer
 		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
 				paramTypes, params);
-		
+
 		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 
@@ -3534,12 +3557,11 @@ public class LogicTest extends BaseTestCase {
 
 		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, params);
-		
+
 	}
-	
+
 	@Test
-	public void testEditSubmission() throws Exception{
-		
+	public void testEditSubmission() throws Exception {
 
 		restoreTypicalDataInDatastore();
 
@@ -3550,8 +3572,8 @@ public class LogicTest extends BaseTestCase {
 		s.evaluation = "evaluation1 In Course1";
 		s.reviewer = "student1InCourse1@gmail.com";
 		Object[] params = new Object[] { s };
-		
-		//ensure the evaluation is open
+
+		// ensure the evaluation is open
 		loginAsAdmin("admin.user");
 		EvaluationData evaluation = logic.getEvaluation(s.course, s.evaluation);
 		assertEquals(EvalStatus.OPEN, evaluation.getStatus());
@@ -3566,7 +3588,7 @@ public class LogicTest extends BaseTestCase {
 		// not the reviewer
 		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
 				paramTypes, params);
-		
+
 		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 
@@ -3576,27 +3598,26 @@ public class LogicTest extends BaseTestCase {
 
 		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, params);
-		
-		//close the evaluation
+
+		// close the evaluation
 		loginAsAdmin("admin.user");
 		evaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
 		assertEquals(EvalStatus.CLOSED, evaluation.getStatus());
 		logic.editEvaluation(evaluation);
 		logoutUser();
-		
-		//verify reviewer cannot edit anymore but coord can
-		
+
+		// verify reviewer cannot edit anymore but coord can
+
 		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 
 		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, params);
 
-		
 		______TS("typical case");
-		
+
 		restoreTypicalDataInDatastore();
-		
+
 		SubmissionData sub1 = dataBundle.submissions
 				.get("submissionFromS1C1ToS2C1");
 
@@ -3605,26 +3626,26 @@ public class LogicTest extends BaseTestCase {
 		invokeEditSubmission(sub1);
 
 		verifyPresentInDatastore(sub1);
-		
+
 		______TS("null parameter");
-		
+
 		try {
 			invokeEditSubmission(null);
 		} catch (Exception e) {
 			assertEquals(NullPointerException.class, e.getCause().getClass());
 		}
-		
+
 		______TS("non-existent evaluation");
-		
+
 		sub1.evaluation = "non-existent";
-		
+
 		try {
 			invokeEditSubmission(sub1);
 		} catch (Exception e) {
-			assertEquals(EntityDoesNotExistException.class, e.getCause().getClass());
+			assertEquals(EntityDoesNotExistException.class, e.getCause()
+					.getClass());
 		}
 	}
-
 
 	@Test
 	public void testDeleteSubmission() {
@@ -3635,8 +3656,8 @@ public class LogicTest extends BaseTestCase {
 	private void ____helper_methods_________________________________________() {
 	}
 
-	private void verifyNullParameterDetectedCorrectly(
-			NullPointerException e, String nameOfNullParameter) {
+	private void verifyNullParameterDetectedCorrectly(NullPointerException e,
+			String nameOfNullParameter) {
 		BaseTestCase.assertContains(nameOfNullParameter, e.getMessage()
 				.toLowerCase());
 	}
@@ -3883,8 +3904,8 @@ public class LogicTest extends BaseTestCase {
 		Object[] params = new Object[] { student };
 		return (StudentData) privateMethod.invoke(logic, params);
 	}
-	
-	private void invokeEditSubmission(SubmissionData s) throws Exception{
+
+	private void invokeEditSubmission(SubmissionData s) throws Exception {
 		Method privateMethod = Logic.class.getDeclaredMethod("editSubmission",
 				new Class[] { SubmissionData.class });
 		privateMethod.setAccessible(true);
@@ -3906,11 +3927,11 @@ public class LogicTest extends BaseTestCase {
 				params);
 	}
 
-	private void verifyAccessLevel(boolean isUnauthExceptionExpected, int userType,
-			String methodName, String userId, Class<?>[] paramTypes,
-			Object[] params) throws Exception {
+	private void verifyAccessLevel(boolean isUnauthExceptionExpected,
+			int userType, String methodName, String userId,
+			Class<?>[] paramTypes, Object[] params) throws Exception {
 		Method method = Logic.class.getDeclaredMethod(methodName, paramTypes);
-		
+
 		switch (userType) {
 		case USER_TYPE_NOT_LOGGED_IN:
 			logoutUser();
@@ -3925,27 +3946,28 @@ public class LogicTest extends BaseTestCase {
 			loginAsCoord(userId);
 			break;
 		}
-		
+
 		try {
-			method.setAccessible(true); //in case it is a private method
+			method.setAccessible(true); // in case it is a private method
 			method.invoke(logic, params);
 			if (isUnauthExceptionExpected) {
 				fail();
 			}
 		} catch (Exception e) {
 			String stack = TeammatesException.stackTraceToString(e);
-				
+
 			if (isUnauthExceptionExpected) {
-				//ensure it was the UnauthorizedAccessException
-				assertEquals("UnauthorizedAccessException expected, but received this: "+stack, 
-						UnauthorizedAccessException.class, e.getCause()
-						.getClass());
+				// ensure it was the UnauthorizedAccessException
+				assertEquals(
+						"UnauthorizedAccessException expected, but received this: "
+								+ stack, UnauthorizedAccessException.class, e
+								.getCause().getClass());
 			} else {
-				//ensure it was not the UnauthorizedAccessException
-				assertTrue("UnauthorizedAccessException is not expected here: "+stack,
-						e.getCause()==null 
+				// ensure it was not the UnauthorizedAccessException
+				assertTrue("UnauthorizedAccessException is not expected here: "
+						+ stack, e.getCause() == null
 						|| UnauthorizedAccessException.class != e.getCause()
-						.getClass());
+								.getClass());
 			}
 		}
 	}

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.datatransfer.EvaluationData;
 import teammates.manager.Courses;
 import teammates.manager.Evaluations;
 import teammates.persistent.Evaluation;
@@ -32,7 +33,7 @@ public class AutomatedRemindersServlet extends HttpServlet {
 			studentToRemindList = new ArrayList<Student>();
 
 			for (Student s : studentList) {
-				if (!evaluations.isEvaluationSubmitted(e, s.getEmail())) {
+				if (!evaluations.isEvaluationSubmitted(new EvaluationData(e), s.getEmail())) {
 					studentToRemindList.add(s);
 				}
 			}
