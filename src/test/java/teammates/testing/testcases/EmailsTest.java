@@ -3,6 +3,8 @@ package teammates.testing.testcases;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -106,17 +108,20 @@ public class EmailsTest extends BaseTestCase {
 
 		MimeMessage email = new Emails()
 				.generateEvaluationOpeningEmail(c, e, s);
-		
-		//check receiver
-		assertEquals(s.email, email.getAllRecipients()[0].toString());
-		
-		//check sender
-		assertEquals(Config.inst().TEAMMATES_APP_ACCOUNT, email.getFrom()[0].toString());
-		
-		//check subject
-		assertEquals("Peer evaluation now open [course: Course Name][Evaluation: Evaluation Name]", email.getSubject());
 
-		//check email body
+		// check receiver
+		assertEquals(s.email, email.getAllRecipients()[0].toString());
+
+		// check sender
+		assertEquals(Config.inst().TEAMMATES_APP_ACCOUNT,
+				email.getFrom()[0].toString());
+
+		// check subject
+		assertEquals(
+				"Peer evaluation now open [course: Course Name][Evaluation: Evaluation Name]",
+				email.getSubject());
+
+		// check email body
 		String joinUrl = Config.inst().TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_JOIN_COURSE;
 		joinUrl = Helper.addParam(joinUrl, Common.PARAM_REGKEY, s.key);
@@ -133,6 +138,37 @@ public class EmailsTest extends BaseTestCase {
 				+ "{*}" + joinUrl + "{*}" + joinUrl + "{*}" + c.name + "{*}"
 				+ s.key + "{*}" + e.name + "{*}" + deadline + "{*}" + submitUrl
 				+ "{*}" + submitUrl, email.getContent().toString());
+	}
+
+	@Test
+	public void testGenerateEvaluationOpeningEmails() throws MessagingException {
+		List<StudentData> students = new ArrayList<StudentData>();
+		
+		EvaluationData e = new EvaluationData();
+		e.name = "Evaluation Name";
+		e.endTime = Common.getDateOffsetToCurrentTime(0);
+
+		CourseData c = new CourseData();
+		c.id = "course-id";
+		c.name = "Course Name";
+
+		StudentData s1 = new StudentData();
+		s1.name = "Student1 Name";
+		s1.key = "skxxxxxxxxxks1";
+		s1.email = "student1@email.com";
+		students.add(s1);
+		
+		StudentData s2 = new StudentData();
+		s2.name = "Student2 Name";
+		s2.key = "skxxxxxxxxxks2";
+		s2.email = "student2@email.com";
+		students.add(s2);
+
+		List<MimeMessage> emails = new Emails()
+				.generateEvaluationOpeningEmails(students, c, e);
+		assertEquals(2, emails.size());
+		assertEquals(s1.email, emails.get(0).getAllRecipients()[0].toString());
+		assertEquals(s2.email, emails.get(1).getAllRecipients()[0].toString());
 	}
 
 	@After
