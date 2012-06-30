@@ -622,17 +622,7 @@ public class BackDoorTest extends BaseTestCase {
 				expectedStudent.course, expectedStudent.email);
 		StudentData actualStudent = gson.fromJson(studentJsonString,
 				StudentData.class);
-		// For these fields, we consider both null and "" as equivalent
-		if ((expectedStudent.id == null) && (actualStudent.id.equals(""))) {
-			actualStudent.id = null;
-		}
-		if ((expectedStudent.team == null) && (actualStudent.team.equals(""))) {
-			actualStudent.team = null;
-		}
-		if ((expectedStudent.comments == null)
-				&& (actualStudent.comments.equals(""))) {
-			actualStudent.comments = null;
-		}
+		StudentData.equalizeIrrelevantData(expectedStudent, actualStudent);
 		assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
 	}
 

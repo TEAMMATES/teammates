@@ -3797,17 +3797,7 @@ public class LogicTest extends BaseTestCase {
 		StudentData actualStudent = logic.getStudent(expectedStudent.course,
 				expectedStudent.email);
 		expectedStudent.updateStatus = UpdateStatus.UNKNOWN;
-		// For these fields, we consider null and "" equivalent.
-		if ((expectedStudent.id == null) && (actualStudent.id.equals(""))) {
-			actualStudent.id = null;
-		}
-		if ((expectedStudent.team == null) && (actualStudent.team.equals(""))) {
-			actualStudent.team = null;
-		}
-		if ((expectedStudent.comments == null)
-				&& (actualStudent.comments.equals(""))) {
-			actualStudent.comments = null;
-		}
+		StudentData.equalizeIrrelevantData(expectedStudent, actualStudent);
 		assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
 	}
 

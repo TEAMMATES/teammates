@@ -870,8 +870,7 @@ public class Logic {
 		}
 
 		long keyLong = Long.parseLong(student.getRegistrationKey().toString());
-		return KeyFactory.createKeyString(Student.class.getSimpleName(),
-				keyLong);
+		return Student.getStringKeyForLongKey(keyLong);
 	}
 
 	/**
