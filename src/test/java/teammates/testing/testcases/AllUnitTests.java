@@ -19,7 +19,6 @@ import teammates.testing.lib.HtmlHelperTest;
 		StudentTest.class, 
 		TeamDataTest.class,
 		EvaluationTest.class,
-		EvaluationActivationServletTest.class,
 		EvaluationDataTest.class, 
 		EvalResultDataTest.class,
 		TeamEvalResultTest.class, 
