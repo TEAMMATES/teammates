@@ -111,7 +111,7 @@ public class SharedLib {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String getEvaluationReminderFromGmail(String gmail, String password, String courseId, String evalId) throws Exception {
+	public static String getEvaluationReminderFromGmail(String gmail, String password, String courseId, String evalulationName) throws Exception {
 		Session sessioned = Session.getDefaultInstance(System.getProperties(), null);
 		Store store = sessioned.getStore("imaps");
 		store.connect("imap.gmail.com", gmail, password);
@@ -127,7 +127,12 @@ public class SharedLib {
 		for (int i = messages.length - 1; i >= messages.length-5; i--) {
 			Message message = messages[i];
 
-			if (!message.getSubject().equals(String.format("TEAMMATES: Evaluation Reminder: %s %s", courseId, evalId)))
+			String subject = message.getSubject();
+			//TODO: make this test deeper
+			//TODO: courseID is not used
+			boolean isTheRightEmail = subject.contains("Peer evaluation now open")&&
+					subject.contains(evalulationName);
+			if (!isTheRightEmail)
 				continue;
 
 			// Mark the message as read

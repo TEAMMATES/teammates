@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import teammates.TeamEvalResult;
 import teammates.datatransfer.CoordData;
 import teammates.datatransfer.CourseData;
@@ -24,6 +27,7 @@ import teammates.jdo.CourseSummaryForCoordinator;
 import teammates.jdo.EvaluationDetailsForCoordinator;
 import teammates.manager.Accounts;
 import teammates.manager.Courses;
+import teammates.manager.Emails;
 import teammates.manager.Evaluations;
 import teammates.persistent.Coordinator;
 import teammates.persistent.Course;
@@ -834,7 +838,7 @@ public class Logic {
 		verifyOwnerOfId(googleId);
 
 		try {
-			Courses.inst().joinCourse(key, googleId);
+			Courses.inst().joinCourse(key.trim(), googleId.trim());
 		} catch (RegistrationKeyInvalidException e) {
 			throw new JoinCourseException(Common.ERRORCODE_INVALID_KEY,
 					"Invalid key :" + key);
@@ -1156,7 +1160,7 @@ public class Logic {
 	 * @param courseId
 	 * @param evaluationName
 	 */
-	public void sendReminderForEvaluation(String courseId, String evaluationName) throws EntityDoesNotExistException {
+	public List<MimeMessage> sendReminderForEvaluation(String courseId, String evaluationName) throws EntityDoesNotExistException {
 
 		Common.verifyNotNull(courseId, "course ID");
 		Common.verifyNotNull(evaluationName, "evaluation name");
@@ -1170,15 +1174,20 @@ public class Logic {
 		
 		// Filter out students who have submitted the evaluation
 		List<Student> studentList = Courses.inst().getStudentList(courseId);
-		List<Student> studentsToRemindList = new ArrayList<Student>();
+		List<StudentData> studentsToRemindList = new ArrayList<StudentData>();
 		for (Student s : studentList) {
 			if (!Evaluations.inst().isEvaluationSubmitted(evaluation, s.getEmail())) {
-				studentsToRemindList.add(s);
+				studentsToRemindList.add(new StudentData(s));
 			}
 		}
+		
+		CourseData course = getCourse(courseId);
 
-		Evaluations.inst().remindStudents(studentsToRemindList, courseId,
-				evaluationName, evaluation.endTime);
+		try {
+			return new Emails().sendEvaluationReminders(course, evaluation, studentsToRemindList);
+		} catch (MessagingException e) {
+			throw new RuntimeException("Error while sending emails :",e);
+		}
 
 	}
 

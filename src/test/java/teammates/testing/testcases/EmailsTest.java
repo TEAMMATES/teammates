@@ -118,7 +118,7 @@ public class EmailsTest extends BaseTestCase {
 
 		// check subject
 		assertEquals(
-				"Peer evaluation now open [course: Course Name][Evaluation: Evaluation Name]",
+				"TEAMMATES: Peer evaluation now open [course: Course Name][Evaluation: Evaluation Name]",
 				email.getSubject());
 
 		// check email body
@@ -165,7 +165,7 @@ public class EmailsTest extends BaseTestCase {
 		students.add(s2);
 
 		List<MimeMessage> emails = new Emails()
-				.generateEvaluationOpeningEmails(students, c, e);
+				.generateEvaluationOpeningEmails(c, e, students);
 		assertEquals(2, emails.size());
 		assertEquals(s1.email, emails.get(0).getAllRecipients()[0].toString());
 		assertEquals(s2.email, emails.get(1).getAllRecipients()[0].toString());

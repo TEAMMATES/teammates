@@ -613,12 +613,12 @@ public class Common {
 	 */
 	public static String formatTime(Date date){
 		if(date==null) return "";
-		return new SimpleDateFormat("dd MMM yyyy, hh:mm").format(date);
+		return new SimpleDateFormat("dd MMM yyyy, HH:mm").format(date);
 	}
 
 	public static String calendarToString(Calendar c) {
 		if(c==null) return "";
-		return new SimpleDateFormat("MM/dd/yyyy hh:mm:ss SSS")
+		return new SimpleDateFormat("MM/dd/yyyy HH:mm:ss SSS")
 				.format(c.getTime());
 	}
 	

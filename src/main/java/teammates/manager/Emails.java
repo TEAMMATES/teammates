@@ -162,18 +162,6 @@ public class Emails {
 
 	}
 
-	public void sendEmails(List<MimeMessage> messages)
-			throws MessagingException {
-		for (MimeMessage m : messages) {
-			sendEmail(m);
-		}
-	}
-
-	public void sendEmail(MimeMessage message) throws MessagingException {
-		log.info(getEmailInfo(message));
-		Transport.send(message);
-	}
-
 	public static String getEmailInfo(MimeMessage message)
 			throws MessagingException {
 		StringBuffer messageInfo = new StringBuffer();
@@ -523,6 +511,7 @@ public class Emails {
 		}
 	}
 
+	@Deprecated 
 	public void sendEmail() throws MessagingException {
 		Session session = Session.getDefaultInstance(props, null);
 		MimeMessage message = new MimeMessage(session);
@@ -539,6 +528,23 @@ public class Emails {
 
 		sendEmail(message);
 	}
+	
+	public List<MimeMessage> generateEvaluationOpeningEmails(
+			CourseData course, EvaluationData evaluation,
+			List<StudentData> students) {
+		ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
+		for (StudentData s : students) {
+			try {
+				emails.add(generateEvaluationOpeningEmail(course, evaluation, s));
+			} catch (MessagingException e) {
+				// we try to send at least some of the emails even if some
+				// failed
+				log.severe("Unexpected exception, could not create email"
+						+ TeammatesException.stackTraceToString(e));
+			}
+		}
+		return emails;
+	}
 
 	public MimeMessage generateEvaluationOpeningEmail(CourseData c,
 			EvaluationData e, StudentData s) throws MessagingException {
@@ -552,7 +558,7 @@ public class Emails {
 		message.setFrom(new InternetAddress(from));
 
 		// TODO: specify subject line in the email template itself
-		message.setSubject("Peer evaluation now open [course: " + c.name
+		message.setSubject("TEAMMATES: Peer evaluation now open [course: " + c.name
 				+ "][Evaluation: " + e.name + "]");
 
 		String emailBody = Config.inst().EMAIL_TEMPLATE_EVALUATION_OPENING;
@@ -583,20 +589,22 @@ public class Emails {
 		return message;
 	}
 
-	public List<MimeMessage> generateEvaluationOpeningEmails(
-			List<StudentData> students, CourseData course,
-			EvaluationData evaluation) {
-		ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
-		for (StudentData s : students) {
-			try {
-				emails.add(generateEvaluationOpeningEmail(course, evaluation, s));
-			} catch (MessagingException e) {
-				// we try to send at least some of the emails even if some
-				// failed
-				log.severe("Unexpected exception, could not create email"
-						+ TeammatesException.stackTraceToString(e));
-			}
+	public void sendEmails(List<MimeMessage> messages)
+			throws MessagingException {
+		for (MimeMessage m : messages) {
+			sendEmail(m);
 		}
+	}
+
+	public void sendEmail(MimeMessage message) throws MessagingException {
+		log.info(getEmailInfo(message));
+		Transport.send(message);
+	}
+
+	public List<MimeMessage> sendEvaluationReminders(CourseData course,
+			EvaluationData evaluation, List<StudentData> students) throws MessagingException {
+		List<MimeMessage> emails = generateEvaluationOpeningEmails(course, evaluation, students);
+		sendEmails(emails);
 		return emails;
 	}
 }

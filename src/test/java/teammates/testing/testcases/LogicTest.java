@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 
 import org.junit.After;
@@ -3291,7 +3293,7 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testSendReminderForEvaluation_1() throws Exception {
+	public void testSendReminderForEvaluation() throws Exception {
 
 		______TS("authentication");
 
@@ -3330,43 +3332,32 @@ public class LogicTest extends BaseTestCase {
 		newEval.startTime = Common.getDateOffsetToCurrentTime(1);
 		newEval.endTime = Common.getDateOffsetToCurrentTime(2);
 		logic.createEvaluation(newEval);
-		// reuse exisitng evaluation to create a new one
-		logic.sendReminderForEvaluation("course1", "new eval");
-		assertEquals(0, getNumberOfEmailTasksInQueue());
+
+		List<MimeMessage> emailsSent = logic.sendReminderForEvaluation(
+				"course1", "new eval");
+		assertEquals(0, emailsSent.size());
 
 		______TS("no one has submitted fully");
 
 		EvaluationData eval = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
-		logic.sendReminderForEvaluation(eval.course, eval.name);
+		emailsSent = logic.sendReminderForEvaluation(eval.course, eval.name);
 
-		assertEquals(5, getNumberOfEmailTasksInQueue());
+		assertEquals(5, emailsSent.size());
 		List<StudentData> studentList = logic
 				.getStudentListForCourse(eval.course);
 
-		for (StudentData sd : studentList) {
-			verifyRegistrationEmailToStudent(sd);
+		for (StudentData s: studentList){
+			verifyEmailToStudent(s, emailsSent);
 		}
-
-		// This test continues in the next test case. We had to break it into
-		// mulitiple cases to reset email queue before sending reminder
-		// emails again.
-	}
-
-	@Test
-	public void testSendReminderForEvaluation_2() throws Exception {
-
-		restoreTypicalDataInDatastore();
 
 		______TS("some have submitted fully");
 
 		loginAsAdmin("admin.user");
 
-		EvaluationData eval = dataBundle.evaluations
-				.get("evaluation1InCourse1OfCoord1");
 		// This student is the only member in Team 1.2. If he submits his
 		// self-evaluation, he sill be considered 'fully submitted'. Only
-		// student in Team 1.2 should receive emails.
+		// student in Team 1.1 should receive emails.
 		StudentData singleStudnetInTeam1_2 = dataBundle.students
 				.get("student5InCourse1");
 		SubmissionData sub = new SubmissionData();
@@ -3381,17 +3372,16 @@ public class LogicTest extends BaseTestCase {
 		ArrayList<SubmissionData> submissions = new ArrayList<SubmissionData>();
 		submissions.add(sub);
 		logic.editSubmissions(submissions);
-		logic.sendReminderForEvaluation(eval.course, eval.name);
-		// 4 more tasks should be added to the queue (for 4 students in Team1.1)
-		assertEquals(4, getNumberOfEmailTasksInQueue());
+		emailsSent = logic.sendReminderForEvaluation(eval.course, eval.name);
 
-		List<StudentData> studentList = logic
-				.getStudentListForCourse(eval.course);
+		assertEquals(4, emailsSent.size());
+
+		studentList = logic.getStudentListForCourse(eval.course);
 
 		// verify all students in Team 1.1 received emails.
-		for (StudentData sd : studentList) {
-			if (sd.team.equals("Team 1.1")) {
-				verifyRegistrationEmailToStudent(sd);
+		for (StudentData s : studentList) {
+			if (s.team.equals("Team 1.1")) {
+				verifyEmailToStudent(s, emailsSent);
 			}
 		}
 
@@ -3407,19 +3397,19 @@ public class LogicTest extends BaseTestCase {
 		}
 
 		______TS("null parameter");
-		
+
 		try {
-			logic.sendReminderForEvaluation(null,eval.name);
+			logic.sendReminderForEvaluation(null, eval.name);
 			fail();
 		} catch (NullPointerException e) {
-			assertContains("course ID",	e.getMessage());
+			assertContains("course ID", e.getMessage());
 		}
-		
+
 		try {
 			logic.sendReminderForEvaluation(eval.course, null);
 			fail();
 		} catch (NullPointerException e) {
-			assertContains("evaluation name",	e.getMessage().toLowerCase());
+			assertContains("evaluation name", e.getMessage().toLowerCase());
 		}
 	}
 
@@ -3508,9 +3498,9 @@ public class LogicTest extends BaseTestCase {
 
 		verifyPresentInDatastore(sub1);
 		verifyPresentInDatastore(sub2);
-		
+
 		______TS("null parameter");
-		
+
 		try {
 			logic.editSubmissions(null);
 			fail();
@@ -3519,10 +3509,10 @@ public class LogicTest extends BaseTestCase {
 		}
 
 		______TS("non-existent evaluation");
-		
+
 		// already tested under testEditSubmission()
-		
-		//  TODO: check for lazyCreationPolicy
+
+		// TODO: check for lazyCreationPolicy
 
 		______TS("authentication");
 
@@ -3666,6 +3656,19 @@ public class LogicTest extends BaseTestCase {
 
 	@SuppressWarnings("unused")
 	private void ____helper_methods_________________________________________() {
+	}
+
+	private void verifyEmailToStudent(StudentData s,
+			List<MimeMessage> emailsSent) throws MessagingException {
+		for (MimeMessage m : emailsSent) {
+			boolean emailSentToThisStudent = m.getAllRecipients()[0].toString()
+					.equalsIgnoreCase(s.email);
+			if (emailSentToThisStudent) {
+				print("email sent to:"+s.email);
+				return;
+			}
+		}
+		fail("No email sent to " + s.email);
 	}
 
 	private void verifyNullParameterDetectedCorrectly(NullPointerException e,
