@@ -35,7 +35,7 @@ public class Emails {
 
 	private final String HEADER_REGISTRATION_INVITATION = "TEAMMATES: Registration Invitation: Register in the course %s";
 	private final String HEADER_REGISTRATION_REMINDER = "TEAMMATES: Registration Reminder: Register in the course %s";
-	private final String HEADER_EVALUATION_OPEN = "TEAMMATES: Evaluation Opening: %s %s";
+	private final String SUBJECT_EVALUATION_OPEN = "TEAMMATES: Peer evaluation now open [Course: %s][Evaluation: %s]";
 	private final String HEADER_TEAMFORMING_OPEN = "TEAMMATES: Team Forming Session Opening: %s %s";
 	private final String HEADER_EVALUATION_CHANGE = "TEAMMATES: Evaluation Changed: %s %s";
 	private final String HEADER_TEAMFORMING_CHANGE = "TEAMMATES: Team Forming Changed: %s %s";
@@ -143,7 +143,7 @@ public class Emails {
 					email));
 
 			message.setFrom(new InternetAddress(from));
-			message.setSubject(String.format(HEADER_EVALUATION_OPEN, courseID,
+			message.setSubject(String.format(SUBJECT_EVALUATION_OPEN, courseID,
 					evaluationName));
 			message.setText("Dear " + studentName + ",\n\n"
 					+ "The following evaluation: \n\n" + courseID + " "
@@ -558,10 +558,12 @@ public class Emails {
 		message.setFrom(new InternetAddress(from));
 
 		// TODO: specify subject line in the email template itself
-		message.setSubject("TEAMMATES: Peer evaluation now open [course: " + c.name
-				+ "][Evaluation: " + e.name + "]");
+		message.setSubject(String.format(SUBJECT_EVALUATION_OPEN, c.name, e.name));
 
-		String emailBody = Config.inst().EMAIL_TEMPLATE_EVALUATION_OPENING;
+		String emailBody = Config.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_OPENING;
+		
+		emailBody = emailBody.replace("${joinFragment}", Config.inst().STUDENT_EMAIL_FRAGMENT_JOIN_COURSE);
+		
 		emailBody = emailBody.replace("${studentName}", s.name);
 		emailBody = emailBody.replace("${courseName}", c.name);
 		emailBody = emailBody.replace("${key}", s.key);

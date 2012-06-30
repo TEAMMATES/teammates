@@ -118,7 +118,7 @@ public class EmailsTest extends BaseTestCase {
 
 		// check subject
 		assertEquals(
-				"TEAMMATES: Peer evaluation now open [course: Course Name][Evaluation: Evaluation Name]",
+				"TEAMMATES: Peer evaluation now open [Course: Course Name][Evaluation: Evaluation Name]",
 				email.getSubject());
 
 		// check email body

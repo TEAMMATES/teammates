@@ -13,7 +13,8 @@ public class Config {
 	public String TEAMMATES_APP_ACCOUNT = null;
 	public String TEAMMATES_APP_URL = null;
 	
-	public String EMAIL_TEMPLATE_EVALUATION_OPENING = null;
+	public String STUDENT_EMAIL_TEMPLATE_EVALUATION_OPENING = null;
+	public String STUDENT_EMAIL_FRAGMENT_JOIN_COURSE = null;
 
 	// temporary
 	public boolean development_mode;
@@ -24,7 +25,7 @@ public class Config {
 	 * Password for TestSuite to communicate with the APIServlet. Remember to
 	 * change this to something private before deploying to real server
 	 */
-	public String API_AUTH_CODE = null;
+	public String BACKDOOR_KEY = null;
 
 	public static Config instance = null;
 	
@@ -67,11 +68,15 @@ public class Config {
 				.getProperty("app.mode.production"));
 		emailEnabled = Boolean
 				.parseBoolean(prop.getProperty("app.emailEnable"));
-		API_AUTH_CODE = prop.getProperty("app.backdoor.key");
+		BACKDOOR_KEY = prop.getProperty("app.backdoor.key");
 		
-		EMAIL_TEMPLATE_EVALUATION_OPENING = Common.readStream(Config.class.getClassLoader().getResourceAsStream(
-						"studentEmailEvaluationOpening.html"));
+		STUDENT_EMAIL_TEMPLATE_EVALUATION_OPENING = Common.readStream(Config.class.getClassLoader().getResourceAsStream(
+						"studentEmailTemplate-evaluationOpening.html"));
+		
+		STUDENT_EMAIL_FRAGMENT_JOIN_COURSE  = Common.readStream(Config.class.getClassLoader().getResourceAsStream(
+				"studentEmailFragment-joinCourse.html"));
 
 	}
+	
 
 }
