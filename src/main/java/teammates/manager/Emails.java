@@ -511,7 +511,7 @@ public class Emails {
 		}
 	}
 
-	@Deprecated 
+	@Deprecated
 	public void sendEmail() throws MessagingException {
 		Session session = Session.getDefaultInstance(props, null);
 		MimeMessage message = new MimeMessage(session);
@@ -528,10 +528,9 @@ public class Emails {
 
 		sendEmail(message);
 	}
-	
-	public List<MimeMessage> generateEvaluationOpeningEmails(
-			CourseData course, EvaluationData evaluation,
-			List<StudentData> students) {
+
+	public List<MimeMessage> generateEvaluationOpeningEmails(CourseData course,
+			EvaluationData evaluation, List<StudentData> students) {
 		ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
 		for (StudentData s : students) {
 			try {
@@ -558,22 +557,29 @@ public class Emails {
 		message.setFrom(new InternetAddress(from));
 
 		// TODO: specify subject line in the email template itself
-		message.setSubject(String.format(SUBJECT_EVALUATION_OPEN, c.name, e.name));
+		message.setSubject(String.format(SUBJECT_EVALUATION_OPEN, c.name,
+				e.name));
 
 		String emailBody = Config.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_OPENING;
-		
-		emailBody = emailBody.replace("${joinFragment}", Config.inst().STUDENT_EMAIL_FRAGMENT_JOIN_COURSE);
+
+		if (isYetToJoinCourse(s)) {
+			emailBody = emailBody.replace("${joinFragment}",
+					Config.inst().STUDENT_EMAIL_FRAGMENT_JOIN_COURSE);
+			
+			emailBody = emailBody.replace("${key}", s.key);
+			
+			String joinUrl = Config.inst().TEAMMATES_APP_URL
+					+ Common.PAGE_STUDENT_JOIN_COURSE;
+			joinUrl = Helper.addParam(joinUrl, Common.PARAM_REGKEY, s.key);
+			
+			emailBody = emailBody.replace("${joinUrl}", joinUrl);
+		} else {
+			emailBody = emailBody.replace("${joinFragment}", "");
+		}
 		
 		emailBody = emailBody.replace("${studentName}", s.name);
 		emailBody = emailBody.replace("${courseName}", c.name);
-		emailBody = emailBody.replace("${key}", s.key);
-
-		String joinUrl = Config.inst().TEAMMATES_APP_URL
-				+ Common.PAGE_STUDENT_JOIN_COURSE;
-		joinUrl = Helper.addParam(joinUrl, Common.PARAM_REGKEY, s.key);
-
-		emailBody = emailBody.replace("${joinUrl}", joinUrl);
-
+		emailBody = emailBody.replace("${courseId}", c.id);
 		emailBody = emailBody.replace("${evaluationName}", e.name);
 		emailBody = emailBody.replace("${deadline}",
 				Common.formatTime(e.endTime));
@@ -591,6 +597,10 @@ public class Emails {
 		return message;
 	}
 
+	private boolean isYetToJoinCourse(StudentData s) {
+		return s.id == null || s.id.isEmpty();
+	}
+
 	public void sendEmails(List<MimeMessage> messages)
 			throws MessagingException {
 		for (MimeMessage m : messages) {
@@ -604,8 +614,10 @@ public class Emails {
 	}
 
 	public List<MimeMessage> sendEvaluationReminders(CourseData course,
-			EvaluationData evaluation, List<StudentData> students) throws MessagingException {
-		List<MimeMessage> emails = generateEvaluationOpeningEmails(course, evaluation, students);
+			EvaluationData evaluation, List<StudentData> students)
+			throws MessagingException {
+		List<MimeMessage> emails = generateEvaluationOpeningEmails(course,
+				evaluation, students);
 		sendEmails(emails);
 		return emails;
 	}

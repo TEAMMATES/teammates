@@ -1,5 +1,6 @@
 package teammates.testing.testcases;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
@@ -106,6 +107,8 @@ public class EmailsTest extends BaseTestCase {
 		s.key = "skxxxxxxxxxks";
 		s.email = "student@email.com";
 
+		______TS("student yet to join");
+
 		MimeMessage email = new Emails()
 				.generateEvaluationOpeningEmail(c, e, s);
 
@@ -134,16 +137,35 @@ public class EmailsTest extends BaseTestCase {
 
 		String deadline = Common.formatTime(e.endTime);
 
+		String emailBody = email.getContent().toString();
+
 		assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
 				+ "{*}" + joinUrl + "{*}" + joinUrl + "{*}" + c.name + "{*}"
-				+ s.key + "{*}" + e.name + "{*}" + deadline + "{*}" + submitUrl
-				+ "{*}" + submitUrl, email.getContent().toString());
+				+ s.key + "{*}" + c.id + "{*}" + e.name + "{*}" + deadline
+				+ "{*}" + submitUrl + "{*}" + submitUrl, emailBody);
+
+		assertTrue(!emailBody.contains("$"));
+
+		______TS("student joined");
+
+		s.id = "student1id";
+
+		email = new Emails().generateEvaluationOpeningEmail(c, e, s);
+
+		emailBody = email.getContent().toString();
+
+		assertTrue(!emailBody.contains(s.key));
+		assertContainsRegex("Hello " + s.name + "{*}" + c.id + "{*}" + c.name
+				+ "{*}" + e.name + "{*}" + deadline + "{*}" + submitUrl + "{*}"
+				+ submitUrl, emailBody);
+
+		assertTrue(!emailBody.contains("$"));
 	}
 
 	@Test
 	public void testGenerateEvaluationOpeningEmails() throws MessagingException {
 		List<StudentData> students = new ArrayList<StudentData>();
-		
+
 		EvaluationData e = new EvaluationData();
 		e.name = "Evaluation Name";
 		e.endTime = Common.getDateOffsetToCurrentTime(0);
@@ -157,7 +179,7 @@ public class EmailsTest extends BaseTestCase {
 		s1.key = "skxxxxxxxxxks1";
 		s1.email = "student1@email.com";
 		students.add(s1);
-		
+
 		StudentData s2 = new StudentData();
 		s2.name = "Student2 Name";
 		s2.key = "skxxxxxxxxxks2";
