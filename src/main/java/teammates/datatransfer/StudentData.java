@@ -43,6 +43,7 @@ public class StudentData extends UserData{
 	public String comments = null;
 	public String team = null;
 	public Text profile = null;
+	public String key = null;
 	
 	
 	public UpdateStatus updateStatus = UpdateStatus.UNKNOWN ;

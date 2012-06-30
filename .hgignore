@@ -21,3 +21,4 @@ chromedriver*
 test.txt
 doc/*
 src/main/webapp/WEB-INF/classes/META-INF/persistence.xml
+src/main/webapp/WEB-INF/classes/studentEmailEvaluationOpening.html

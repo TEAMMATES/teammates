@@ -12,6 +12,8 @@ public class Config {
 	private static Logger log = Common.getLogger();
 	public String TEAMMATES_APP_ACCOUNT = null;
 	public String TEAMMATES_APP_URL = null;
+	
+	public String EMAIL_TEMPLATE_EVALUATION_OPENING = null;
 
 	// temporary
 	public boolean development_mode;
@@ -66,6 +68,9 @@ public class Config {
 		emailEnabled = Boolean
 				.parseBoolean(prop.getProperty("app.emailEnable"));
 		API_AUTH_CODE = prop.getProperty("app.backdoor.key");
+		
+		EMAIL_TEMPLATE_EVALUATION_OPENING = Common.readStream(Config.class.getClassLoader().getResourceAsStream(
+						"studentEmailEvaluationOpening.html"));
 
 	}
 

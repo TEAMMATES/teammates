@@ -13,6 +13,10 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.Config;
 import teammates.api.Common;
+import teammates.datatransfer.CourseData;
+import teammates.datatransfer.EvaluationData;
+import teammates.datatransfer.StudentData;
+import teammates.jsp.Helper;
 import teammates.persistent.Evaluation;
 import teammates.persistent.Student;
 
@@ -526,9 +530,43 @@ public class Emails {
 		sendEmail(message);
 	}
 
-	public static MimeMessage generateEvaluationOpeningEmail(Student s,
-			Evaluation e) {
-		// TODO Auto-generated method stub
-		return null;
+	public MimeMessage generateEvaluationOpeningEmail(CourseData c,
+			EvaluationData e, StudentData s) throws MessagingException {
+		
+		Session session = Session.getDefaultInstance(new Properties(), null);
+		MimeMessage message = new MimeMessage(session);
+
+		message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+				s.email));
+
+		message.setFrom(new InternetAddress(from));
+		
+		//TODO: specify subject line in the email template itself
+		message.setSubject("Peer evaluation now open [course: "+c.name+"][Evaluation: "+e.name+"]");
+
+		String emailBody = Config.inst().EMAIL_TEMPLATE_EVALUATION_OPENING;
+		emailBody = emailBody.replace("${studentName}", s.name);
+		emailBody = emailBody.replace("${courseName}", c.name);
+		emailBody = emailBody.replace("${key}", s.key);
+		
+		String joinUrl = Config.inst().TEAMMATES_APP_URL+Common.PAGE_STUDENT_JOIN_COURSE;
+		joinUrl = Helper.addParam(joinUrl, Common.PARAM_REGKEY, s.key);
+		
+		emailBody = emailBody.replace("${joinUrl}", joinUrl);
+		
+		
+		emailBody = emailBody.replace("${evaluationName}", e.name);
+		emailBody = emailBody.replace("${deadline}", Common.formatTime(e.endTime));
+		
+		String submitUrl = Config.inst().TEAMMATES_APP_URL
+				+ Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
+		submitUrl = Helper.addParam(submitUrl, Common.PARAM_COURSE_ID, c.id);
+		submitUrl = Helper.addParam(submitUrl, Common.PARAM_EVALUATION_NAME, e.name);
+		
+		emailBody = emailBody.replace("${submitUrl}", submitUrl);
+		
+		message.setContent(emailBody, "text/html");
+		
+		return message;
 	}
 }
