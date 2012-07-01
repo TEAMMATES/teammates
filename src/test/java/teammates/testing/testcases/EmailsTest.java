@@ -186,11 +186,20 @@ public class EmailsTest extends BaseTestCase {
 		s2.email = "student2@email.com";
 		students.add(s2);
 
+		//verify generation of evaluation opening emails
 		List<MimeMessage> emails = new Emails()
 				.generateEvaluationOpeningEmails(c, e, students);
 		assertEquals(2, emails.size());
 		assertEquals(s1.email, emails.get(0).getAllRecipients()[0].toString());
 		assertEquals(s2.email, emails.get(1).getAllRecipients()[0].toString());
+
+		//verify generation of evaluation reminders
+		emails = new Emails().generateEvaluationReminderEmails(c, e, students);
+		assertEquals(2, emails.size());
+		assertEquals(s1.email, emails.get(0).getAllRecipients()[0].toString());
+		assertTrue(emails.get(0).getSubject().contains("Reminder -> "));
+		assertEquals(s2.email, emails.get(1).getAllRecipients()[0].toString());
+		assertTrue(emails.get(1).getSubject().contains("Reminder -> "));
 	}
 
 	@After

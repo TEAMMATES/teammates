@@ -1101,7 +1101,7 @@ public class Logic {
 	 */
 	public void publishEvaluation(String courseId, String evaluationName)
 			throws EntityDoesNotExistException, InvalidParametersException {
-		
+
 		Common.verifyNotNull(courseId, "course ID");
 		Common.verifyNotNull(evaluationName, "evaluation name");
 
@@ -1138,7 +1138,7 @@ public class Logic {
 
 		Common.verifyNotNull(courseId, "course ID");
 		Common.verifyNotNull(evaluationName, "evaluation name");
-		
+
 		verifyCourseOwnerOrAbove(courseId);
 
 		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
@@ -1160,35 +1160,43 @@ public class Logic {
 	 * @param courseId
 	 * @param evaluationName
 	 */
-	public List<MimeMessage> sendReminderForEvaluation(String courseId, String evaluationName) throws EntityDoesNotExistException {
+	public List<MimeMessage> sendReminderForEvaluation(String courseId,
+			String evaluationName) throws EntityDoesNotExistException {
 
 		Common.verifyNotNull(courseId, "course ID");
 		Common.verifyNotNull(evaluationName, "evaluation name");
-		
+
 		verifyCourseOwnerOrAbove(courseId);
 
-		EvaluationData evaluation = getEvaluation(courseId,
-				evaluationName);
-		
+		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
+
 		verifyEvaluationExists(evaluation, courseId, evaluationName);
-		
+
 		// Filter out students who have submitted the evaluation
 		List<Student> studentList = Courses.inst().getStudentList(courseId);
 		List<StudentData> studentsToRemindList = new ArrayList<StudentData>();
 		for (Student s : studentList) {
-			if (!Evaluations.inst().isEvaluationSubmitted(evaluation, s.getEmail())) {
+			if (!Evaluations.inst().isEvaluationSubmitted(evaluation,
+					s.getEmail())) {
 				studentsToRemindList.add(new StudentData(s));
 			}
 		}
-		
+
 		CourseData course = getCourse(courseId);
+		
+		List<MimeMessage> emails;
 
+		Emails emailMgr = new Emails();
 		try {
-			return new Emails().sendEvaluationReminders(course, evaluation, studentsToRemindList);
+			emails = emailMgr
+					.generateEvaluationReminderEmails(course, evaluation,
+							studentsToRemindList);
+			emailMgr.sendEmails(emails);
 		} catch (MessagingException e) {
-			throw new RuntimeException("Error while sending emails :",e);
+			throw new RuntimeException("Error while sending emails :", e);
 		}
-
+		
+		return emails;
 	}
 
 	/**
@@ -1310,8 +1318,9 @@ public class Logic {
 	private void ____helper_methods________________________________________() {
 	}
 
-	private void verifyEvaluationExists(EvaluationData evaluation, String courseId,
-			String evaluationName) throws EntityDoesNotExistException {
+	private void verifyEvaluationExists(EvaluationData evaluation,
+			String courseId, String evaluationName)
+			throws EntityDoesNotExistException {
 		if (evaluation == null) {
 			throw new EntityDoesNotExistException(
 					"There is no evaluation named '" + evaluationName

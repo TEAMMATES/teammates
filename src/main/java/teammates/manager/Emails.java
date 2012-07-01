@@ -616,9 +616,19 @@ public class Emails {
 	public List<MimeMessage> sendEvaluationReminders(CourseData course,
 			EvaluationData evaluation, List<StudentData> students)
 			throws MessagingException {
-		List<MimeMessage> emails = generateEvaluationOpeningEmails(course,
+		List<MimeMessage> emails = generateEvaluationReminderEmails(course,
 				evaluation, students);
 		sendEmails(emails);
+		return emails;
+	}
+
+	public List<MimeMessage> generateEvaluationReminderEmails(CourseData course,
+			EvaluationData evaluation, List<StudentData> students) throws MessagingException {
+		List<MimeMessage> emails = generateEvaluationOpeningEmails(course,
+				evaluation, students);
+		for(MimeMessage email: emails){
+			email.setSubject("Reminder -> "+email.getSubject());
+		}
 		return emails;
 	}
 }
