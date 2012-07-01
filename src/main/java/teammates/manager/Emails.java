@@ -36,7 +36,9 @@ public class Emails {
 
 	private final String HEADER_REGISTRATION_INVITATION = "TEAMMATES: Registration Invitation: Register in the course %s";
 	private final String HEADER_REGISTRATION_REMINDER = "TEAMMATES: Registration Reminder: Register in the course %s";
-	private final String SUBJECT_EVALUATION_OPEN = "TEAMMATES: Peer evaluation now open [Course: %s][Evaluation: %s]";
+	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_OPENING = "TEAMMATES: Peer evaluation now open";
+	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER = "TEAMMATES: Peer evaluation reminder";
+	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING = "TEAMMATES: Peer evaluation closing soon";
 	private final String HEADER_TEAMFORMING_OPEN = "TEAMMATES: Team Forming Session Opening: %s %s";
 	private final String HEADER_EVALUATION_CHANGE = "TEAMMATES: Evaluation Changed: %s %s";
 	private final String HEADER_TEAMFORMING_CHANGE = "TEAMMATES: Team Forming Changed: %s %s";
@@ -144,7 +146,7 @@ public class Emails {
 					email));
 
 			message.setFrom(new InternetAddress(from));
-			message.setSubject(String.format(SUBJECT_EVALUATION_OPEN, courseID,
+			message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_EVALUATION_OPENING, courseID,
 					evaluationName));
 			message.setText("Dear " + studentName + ",\n\n"
 					+ "The following evaluation: \n\n" + courseID + " "
@@ -530,17 +532,71 @@ public class Emails {
 		sendEmail(message);
 	}
 
-	public List<MimeMessage> generateEvaluationOpeningEmails(CourseData course,
-			EvaluationData evaluation, List<StudentData> students)
-			throws MessagingException {
-		ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
-		for (StudentData s : students) {
-			emails.add(generateEvaluationOpeningEmail(course, evaluation, s));
+	public List<MimeMessage> generateEvaluationOpeningEmails(
+			CourseData course, EvaluationData evaluation,
+			List<StudentData> students) throws MessagingException, IOException {
+		List<MimeMessage> emails = generateEvaluationEmails(course,
+				evaluation, students);
+		for (MimeMessage email : emails) {
+			email.setSubject(email.getSubject().replace(
+					"${subjectPrefix}",
+					SUBJECT_PREFIX_STUDENT_EVALUATION_OPENING));
+			email.setContent(
+					email.getContent()
+							.toString()
+							.replace("${status}",
+									"is now open"), "text/html");
 		}
 		return emails;
 	}
 
-	public MimeMessage generateEvaluationOpeningEmail(CourseData c,
+	public List<MimeMessage> generateEvaluationReminderEmails(
+			CourseData course, EvaluationData evaluation,
+			List<StudentData> students) throws MessagingException, IOException {
+		List<MimeMessage> emails = generateEvaluationEmails(course,
+				evaluation, students);
+		for (MimeMessage email : emails) {
+			email.setSubject(email.getSubject().replace(
+					"${subjectPrefix}",
+					SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER));
+			email.setContent(
+					email.getContent()
+							.toString()
+							.replace("${status}",
+									"is still open for submissions"), "text/html");
+		}
+		return emails;
+	}
+
+	public List<MimeMessage> generateEvaluationClosingEmails(CourseData c,
+			EvaluationData e, List<StudentData> students)
+			throws MessagingException, IOException {
+		List<MimeMessage> emails = generateEvaluationEmails(c, e,
+				students);
+		for (MimeMessage email : emails) {
+			email.setSubject(email.getSubject().replace(
+					"${subjectPrefix}",
+					SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING));
+			email.setContent(
+					email.getContent()
+							.toString()
+							.replace("${status}",
+									"is closing soon"), "text/html");
+		}
+		return emails;
+	}
+
+	public List<MimeMessage> generateEvaluationEmails(CourseData course,
+			EvaluationData evaluation, List<StudentData> students)
+			throws MessagingException {
+		ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
+		for (StudentData s : students) {
+			emails.add(generateEvaluationEmail(course, evaluation, s));
+		}
+		return emails;
+	}
+
+	public MimeMessage generateEvaluationEmail(CourseData c,
 			EvaluationData e, StudentData s) throws MessagingException {
 
 		Session session = Session.getDefaultInstance(new Properties(), null);
@@ -552,8 +608,7 @@ public class Emails {
 		message.setFrom(new InternetAddress(from));
 
 		// TODO: specify subject line in the email template itself
-		message.setSubject(String.format(SUBJECT_EVALUATION_OPEN, c.name,
-				e.name));
+		message.setSubject(String.format("${subjectPrefix} [Course: %s][Evaluation: %s]", c.name, e.name));
 
 		String emailBody = Config.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_OPENING;
 
@@ -592,10 +647,6 @@ public class Emails {
 		return message;
 	}
 
-	private boolean isYetToJoinCourse(StudentData s) {
-		return s.id == null || s.id.isEmpty();
-	}
-
 	public void sendEmails(List<MimeMessage> messages)
 			throws MessagingException {
 		for (MimeMessage m : messages) {
@@ -608,43 +659,7 @@ public class Emails {
 		Transport.send(message);
 	}
 
-	public List<MimeMessage> sendEvaluationReminders(CourseData course,
-			EvaluationData evaluation, List<StudentData> students)
-			throws MessagingException {
-		List<MimeMessage> emails = generateEvaluationReminderEmails(course,
-				evaluation, students);
-		sendEmails(emails);
-		return emails;
-	}
-
-	public List<MimeMessage> generateEvaluationReminderEmails(
-			CourseData course, EvaluationData evaluation,
-			List<StudentData> students) throws MessagingException {
-		List<MimeMessage> emails = generateEvaluationOpeningEmails(course,
-				evaluation, students);
-		for (MimeMessage email : emails) {
-			email.setSubject(email.getSubject().replace(
-					"TEAMMATES: Peer evaluation now open",
-					"TEAMMATES: Peer evaluation reminder"));
-		}
-		return emails;
-	}
-
-	public List<MimeMessage> generateEvaluationClosingEmails(CourseData c,
-			EvaluationData e, List<StudentData> students)
-			throws MessagingException, IOException {
-		List<MimeMessage> emails = generateEvaluationOpeningEmails(c, e,
-				students);
-		for (MimeMessage email : emails) {
-			email.setSubject(email.getSubject().replace(
-					"TEAMMATES: Peer evaluation now open",
-					"TEAMMATES: Peer evaluation closing soon"));
-			email.setContent(
-					email.getContent()
-							.toString()
-							.replace("is now open for submission",
-									"is closing soon"), "text/html");
-		}
-		return emails;
+	private boolean isYetToJoinCourse(StudentData s) {
+		return s.id == null || s.id.isEmpty();
 	}
 }

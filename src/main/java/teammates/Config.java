@@ -71,7 +71,7 @@ public class Config {
 		BACKDOOR_KEY = prop.getProperty("app.backdoor.key");
 		
 		STUDENT_EMAIL_TEMPLATE_EVALUATION_OPENING = Common.readStream(Config.class.getClassLoader().getResourceAsStream(
-						"studentEmailTemplate-evaluationOpening.html"));
+						"studentEmailTemplate-evaluation_.html"));
 		
 		STUDENT_EMAIL_FRAGMENT_JOIN_COURSE  = Common.readStream(Config.class.getClassLoader().getResourceAsStream(
 				"studentEmailFragment-joinCourse.html"));

@@ -1,5 +1,6 @@
 package teammates;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -142,7 +143,7 @@ public class BackDoorLogic extends Logic{
 		editSubmissions(submissionList);
 	}
 	
-	public List<MimeMessage> activateReadyEvaluations() throws EntityDoesNotExistException, MessagingException, InvalidParametersException{
+	public List<MimeMessage> activateReadyEvaluations() throws EntityDoesNotExistException, MessagingException, InvalidParametersException, IOException{
 		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
 		List<Evaluation> evaluations = Evaluations.inst().getReadyEvaluations(); 
 		for(Evaluation e: evaluations){

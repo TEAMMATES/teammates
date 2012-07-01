@@ -24,3 +24,4 @@ src/main/webapp/WEB-INF/classes/META-INF/persistence.xml
 src/main/webapp/WEB-INF/classes/studentEmailEvaluationOpening.html
 src/main/webapp/WEB-INF/classes/studentEmailTemplate-evaluationOpening.html
 src/main/webapp/WEB-INF/classes/studentEmailFragment-joinCourse.html
+src/main/webapp/WEB-INF/classes/studentEmailTemplate-evaluation_.html

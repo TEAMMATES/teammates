@@ -54,19 +54,6 @@ public class EmailsTest extends BaseTestCase {
 		helper.setUp();
 	}
 
-	@Test
-	public void testSendEmail() throws MessagingException, IOException {
-
-		String buildFile = System.getProperty("user.dir")
-				+ "\\src\\main\\webapp\\WEB-INF\\classes\\"
-				+ "build.properties";
-		Emails emails = new Emails();
-		localMailService.setLogMailBody(true);
-		localMailService.setLogMailLevel(Level.FINEST);
-		emails.sendEmail();
-
-		// TODO: complete this
-	}
 
 	@Test
 	public void testGetEmailInfo() throws MessagingException {
@@ -91,7 +78,7 @@ public class EmailsTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testGenerateEvaluationOpeningEmail() throws IOException,
+	public void testGenerateEvaluationEmail() throws IOException,
 			MessagingException {
 
 		EvaluationData e = new EvaluationData();
@@ -110,7 +97,7 @@ public class EmailsTest extends BaseTestCase {
 		______TS("student yet to join");
 
 		MimeMessage email = new Emails()
-				.generateEvaluationOpeningEmail(c, e, s);
+				.generateEvaluationEmail(c, e, s);
 
 		// check receiver
 		assertEquals(s.email, email.getAllRecipients()[0].toString());
@@ -121,7 +108,7 @@ public class EmailsTest extends BaseTestCase {
 
 		// check subject
 		assertEquals(
-				"TEAMMATES: Peer evaluation now open [Course: Course Name][Evaluation: Evaluation Name]",
+				"${subjectPrefix} [Course: Course Name][Evaluation: Evaluation Name]",
 				email.getSubject());
 
 		// check email body
@@ -141,16 +128,14 @@ public class EmailsTest extends BaseTestCase {
 
 		assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
 				+ "{*}" + joinUrl + "{*}" + joinUrl + "{*}" + c.name + "{*}"
-				+ s.key + "{*}" + c.id + "{*}" + e.name + "{*}" + deadline
+				+ s.key + "{*}${status}{*}" + c.id + "{*}" + c.name + "{*}" + e.name + "{*}" + deadline
 				+ "{*}" + submitUrl + "{*}" + submitUrl, emailBody);
-
-		assertTrue(!emailBody.contains("$"));
 
 		______TS("student joined");
 
 		s.id = "student1id";
 
-		email = new Emails().generateEvaluationOpeningEmail(c, e, s);
+		email = new Emails().generateEvaluationEmail(c, e, s);
 
 		emailBody = email.getContent().toString();
 
@@ -159,7 +144,6 @@ public class EmailsTest extends BaseTestCase {
 				+ "{*}" + e.name + "{*}" + deadline + "{*}" + submitUrl + "{*}"
 				+ submitUrl, emailBody);
 
-		assertTrue(!emailBody.contains("$"));
 	}
 
 	@Test
@@ -186,32 +170,46 @@ public class EmailsTest extends BaseTestCase {
 		s2.email = "student2@email.com";
 		students.add(s2);
 
-		//verify generation of evaluation opening emails
+		______TS("evaluation opening emails");
+		
 		List<MimeMessage> emails = new Emails()
 				.generateEvaluationOpeningEmails(c, e, students);
 		assertEquals(2, emails.size());
-		assertEquals(s1.email, emails.get(0).getAllRecipients()[0].toString());
-		assertEquals(s2.email, emails.get(1).getAllRecipients()[0].toString());
-
-		//verify generation of evaluation reminders
+		
+		String prefix = Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_OPENING;
+		String status = "is now open";
+		verifyEvaluationEmail(s1, emails.get(0), prefix, status);
+		verifyEvaluationEmail(s2, emails.get(1), prefix, status);
+		
+		______TS("evaluation reminders");
+		
 		emails = new Emails().generateEvaluationReminderEmails(c, e, students);
 		assertEquals(2, emails.size());
-		assertEquals(s1.email, emails.get(0).getAllRecipients()[0].toString());
-		assertTrue(emails.get(0).getSubject().contains("TEAMMATES: Peer evaluation reminder"));
-		assertEquals(s2.email, emails.get(1).getAllRecipients()[0].toString());
-		assertTrue(emails.get(1).getSubject().contains("TEAMMATES: Peer evaluation reminder"));
 		
-		//verify generation of evaluation closing alerts
+		prefix = Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER;
+		status = "is still open for submissions";
+		verifyEvaluationEmail(s1, emails.get(0), prefix, status);
+		verifyEvaluationEmail(s2, emails.get(1), prefix, status);
+		
+		______TS("evaluation closing alerts");
+		
 		emails = new Emails().generateEvaluationClosingEmails(c, e, students);
 		assertEquals(2, emails.size());
-		assertEquals(s1.email, emails.get(0).getAllRecipients()[0].toString());
-		assertTrue(emails.get(0).getSubject().contains("TEAMMATES: Peer evaluation closing soon"));
-		assertTrue(emails.get(0).getContent().toString().contains("is closing soon"));
 		
-		assertEquals(s2.email, emails.get(1).getAllRecipients()[0].toString());
-		assertTrue(emails.get(1).getSubject().contains("TEAMMATES: Peer evaluation closing soon"));
-		assertTrue(emails.get(1).getContent().toString().contains("is closing soon"));
+		prefix = Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING;
+		status = "is closing soon";
+		verifyEvaluationEmail(s1, emails.get(0), prefix, status);
+		verifyEvaluationEmail(s2, emails.get(1), prefix, status);
 		
+	}
+
+	private void verifyEvaluationEmail(StudentData s, MimeMessage email, String prefix, String status)
+			throws MessagingException, IOException {
+		assertEquals(s.email, email.getAllRecipients()[0].toString());
+		assertTrue(email.getSubject().contains(prefix));
+		String emailBody = email.getContent().toString();
+		assertTrue(emailBody.contains(status));
+		assertTrue(!emailBody.contains("$"));
 	}
 
 	@After

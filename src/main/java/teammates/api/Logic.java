@@ -1192,7 +1192,7 @@ public class Logic {
 					.generateEvaluationReminderEmails(course, evaluation,
 							studentsToRemindList);
 			emailMgr.sendEmails(emails);
-		} catch (MessagingException e) {
+		} catch (Exception e) {
 			throw new RuntimeException("Error while sending emails :", e);
 		}
 		
