@@ -1,5 +1,6 @@
 package teammates.manager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -530,17 +531,11 @@ public class Emails {
 	}
 
 	public List<MimeMessage> generateEvaluationOpeningEmails(CourseData course,
-			EvaluationData evaluation, List<StudentData> students) {
+			EvaluationData evaluation, List<StudentData> students)
+			throws MessagingException {
 		ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
 		for (StudentData s : students) {
-			try {
-				emails.add(generateEvaluationOpeningEmail(course, evaluation, s));
-			} catch (MessagingException e) {
-				// we try to send at least some of the emails even if some
-				// failed
-				log.severe("Unexpected exception, could not create email"
-						+ TeammatesException.stackTraceToString(e));
-			}
+			emails.add(generateEvaluationOpeningEmail(course, evaluation, s));
 		}
 		return emails;
 	}
@@ -565,18 +560,18 @@ public class Emails {
 		if (isYetToJoinCourse(s)) {
 			emailBody = emailBody.replace("${joinFragment}",
 					Config.inst().STUDENT_EMAIL_FRAGMENT_JOIN_COURSE);
-			
+
 			emailBody = emailBody.replace("${key}", s.key);
-			
+
 			String joinUrl = Config.inst().TEAMMATES_APP_URL
 					+ Common.PAGE_STUDENT_JOIN_COURSE;
 			joinUrl = Helper.addParam(joinUrl, Common.PARAM_REGKEY, s.key);
-			
+
 			emailBody = emailBody.replace("${joinUrl}", joinUrl);
 		} else {
 			emailBody = emailBody.replace("${joinFragment}", "");
 		}
-		
+
 		emailBody = emailBody.replace("${studentName}", s.name);
 		emailBody = emailBody.replace("${courseName}", c.name);
 		emailBody = emailBody.replace("${courseId}", c.id);
@@ -622,12 +617,33 @@ public class Emails {
 		return emails;
 	}
 
-	public List<MimeMessage> generateEvaluationReminderEmails(CourseData course,
-			EvaluationData evaluation, List<StudentData> students) throws MessagingException {
+	public List<MimeMessage> generateEvaluationReminderEmails(
+			CourseData course, EvaluationData evaluation,
+			List<StudentData> students) throws MessagingException {
 		List<MimeMessage> emails = generateEvaluationOpeningEmails(course,
 				evaluation, students);
-		for(MimeMessage email: emails){
-			email.setSubject("Reminder -> "+email.getSubject());
+		for (MimeMessage email : emails) {
+			email.setSubject(email.getSubject().replace(
+					"TEAMMATES: Peer evaluation now open",
+					"TEAMMATES: Peer evaluation reminder"));
+		}
+		return emails;
+	}
+
+	public List<MimeMessage> generateEvaluationClosingEmails(CourseData c,
+			EvaluationData e, List<StudentData> students)
+			throws MessagingException, IOException {
+		List<MimeMessage> emails = generateEvaluationOpeningEmails(c, e,
+				students);
+		for (MimeMessage email : emails) {
+			email.setSubject(email.getSubject().replace(
+					"TEAMMATES: Peer evaluation now open",
+					"TEAMMATES: Peer evaluation closing soon"));
+			email.setContent(
+					email.getContent()
+							.toString()
+							.replace("is now open for submission",
+									"is closing soon"), "text/html");
 		}
 		return emails;
 	}

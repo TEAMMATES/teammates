@@ -163,7 +163,7 @@ public class EmailsTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testGenerateEvaluationOpeningEmails() throws MessagingException {
+	public void testGenerateEvaluationEmails() throws MessagingException, IOException {
 		List<StudentData> students = new ArrayList<StudentData>();
 
 		EvaluationData e = new EvaluationData();
@@ -197,9 +197,21 @@ public class EmailsTest extends BaseTestCase {
 		emails = new Emails().generateEvaluationReminderEmails(c, e, students);
 		assertEquals(2, emails.size());
 		assertEquals(s1.email, emails.get(0).getAllRecipients()[0].toString());
-		assertTrue(emails.get(0).getSubject().contains("Reminder -> "));
+		assertTrue(emails.get(0).getSubject().contains("TEAMMATES: Peer evaluation reminder"));
 		assertEquals(s2.email, emails.get(1).getAllRecipients()[0].toString());
-		assertTrue(emails.get(1).getSubject().contains("Reminder -> "));
+		assertTrue(emails.get(1).getSubject().contains("TEAMMATES: Peer evaluation reminder"));
+		
+		//verify generation of evaluation closing alerts
+		emails = new Emails().generateEvaluationClosingEmails(c, e, students);
+		assertEquals(2, emails.size());
+		assertEquals(s1.email, emails.get(0).getAllRecipients()[0].toString());
+		assertTrue(emails.get(0).getSubject().contains("TEAMMATES: Peer evaluation closing soon"));
+		assertTrue(emails.get(0).getContent().toString().contains("is closing soon"));
+		
+		assertEquals(s2.email, emails.get(1).getAllRecipients()[0].toString());
+		assertTrue(emails.get(1).getSubject().contains("TEAMMATES: Peer evaluation closing soon"));
+		assertTrue(emails.get(1).getContent().toString().contains("is closing soon"));
+		
 	}
 
 	@After
