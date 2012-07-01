@@ -615,7 +615,7 @@ public class Evaluations {
 	 * 
 	 * @return the list of all existing evaluations
 	 */
-	public List<Evaluation> getEvaluationList(int hours) {
+	public List<Evaluation> getEvaluationsClosingWithinTimeLimit(int hours) {
 		String query = "select from " + Evaluation.class.getName();
 
 		@SuppressWarnings("unchecked")

@@ -22,9 +22,11 @@ import teammates.datatransfer.DataBundle;
 import teammates.datatransfer.EvaluationData;
 import teammates.datatransfer.StudentData;
 import teammates.datatransfer.SubmissionData;
+import teammates.manager.Courses;
 import teammates.manager.Emails;
 import teammates.manager.Evaluations;
 import teammates.persistent.Evaluation;
+import teammates.persistent.Student;
 
 public class BackDoorLogic extends Logic{
 	
@@ -163,12 +165,40 @@ public class BackDoorLogic extends Logic{
 		}
 		return messagesSent;
 	}
-
+	
 	
 	@Override
 	protected boolean isInternalCall() {
 		//back door calls are considered internal calls
 		return true;
+	}
+
+	public List<MimeMessage> sendRemindersForClosingEvaluations() throws MessagingException, IOException {
+		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
+		
+		Evaluations evaluations = Evaluations.inst();
+		List<Evaluation> evaluationList = evaluations.getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
+
+		for (Evaluation e : evaluationList) {
+			List<Student> studentList = Courses.inst().getStudentList(e.getCourseID());
+			List<StudentData> studentToRemindList = new ArrayList<StudentData>();
+
+			EvaluationData ed = new EvaluationData(e);
+			
+			for (Student s : studentList) {
+				if (!evaluations.isEvaluationSubmitted(ed, s.getEmail())) {
+					studentToRemindList.add(new StudentData(s));
+				}
+			}
+			
+			CourseData c = getCourse(ed.course);
+			
+			Emails emailMgr = new Emails();
+			List<MimeMessage> emails = emailMgr.generateEvaluationClosingEmails(c, ed, studentToRemindList);
+			emailMgr.sendEmails(emails);
+			emailsSent.addAll(emails);
+		}
+		return emailsSent;
 	}
 	
 

@@ -8,9 +8,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import teammates.persistent.Course;
 import teammates.persistent.Evaluation;
 
 import com.google.gson.Gson;
@@ -38,6 +40,9 @@ public class Common {
 
 	public static final int POINTS_NOT_SURE = -101;
 	public static final int POINTS_NOT_SUBMITTED = -999;
+	
+
+	public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
 
 	// Hover messages
 	public static final String HOVER_MESSAGE_COURSE_ENROLL = "Enroll student into the course";
@@ -350,7 +355,6 @@ public class Common {
 	public static final String ERRORCODE_PUBLISHED_BEFORE_CLOSING = "ERRORCODE_PUBLISHED_BEFORE_CLOSING";
 	public static final String ERRORCODE_STRING_TOO_LONG = "ERRORCODE_STRING_TOO_LONG";
 	public static final String ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING = "ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING";
-
 
 
 
