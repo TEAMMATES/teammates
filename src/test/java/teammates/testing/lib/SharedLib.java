@@ -17,6 +17,7 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.search.FlagTerm;
 
+import teammates.manager.Emails;
 import teammates.testing.config.Config;
 
 public class SharedLib {
@@ -130,7 +131,7 @@ public class SharedLib {
 			String subject = message.getSubject();
 			//TODO: make this test deeper
 			//TODO: courseID is not used
-			boolean isTheRightEmail = subject.contains("Peer evaluation now open")&&
+			boolean isTheRightEmail = subject.contains(Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER)&&
 					subject.contains(evalulationName);
 			if (!isTheRightEmail)
 				continue;

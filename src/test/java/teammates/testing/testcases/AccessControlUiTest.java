@@ -988,8 +988,9 @@ public class AccessControlUiTest extends BaseTestCase {
 	}
 
 	private void verifyRedirectToNotAuthorized() {
-		assertContains("You are not authorized to view this page.",
-				bi.getCurrentPageSource());
+		String pageSource = bi.getCurrentPageSource();
+		assertTrue(pageSource.contains("You are not authorized to view this page.")||
+				pageSource.contains("Your client does not have permission"));
 	}
 
 	private void verifyRedirectToNotAuthorized(String path) {

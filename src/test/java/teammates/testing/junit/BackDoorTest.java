@@ -300,8 +300,9 @@ public class BackDoorTest extends BaseTestCase {
 		String key = BackDoor.getKeyForStudent(student.course, student.email);
 		System.out.println("Key for " + student.email + " is:" + key);
 		// check for some characteristics of the key
-		assertTrue(key.length() > 30 && key.length() < 50);
-		assertTrue(key.indexOf(" ") < 0);
+		String errorMessage = key + "[length="+key.length()+"] is not as expected";
+		assertTrue(errorMessage,key.length() > 30 && key.length() < 60);
+		assertTrue(errorMessage, key.indexOf(" ") < 0);
 		
 		//clean up student as this is an orphan entity
 		BackDoor.deleteStudent(student.course, student.email);
