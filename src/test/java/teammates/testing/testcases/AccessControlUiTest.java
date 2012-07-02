@@ -754,7 +754,7 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		______TS("can add course");
 
-		bi.addCourse("new-course", "New Course");
+		bi.addCourse("new-course-tCCA", "New Course");
 		assertContainsRegex(coordUsername + "{*}Add New Course{*}"
 				+ Common.MESSAGE_COURSE_ADDED, bi.getCurrentPageSource());
 

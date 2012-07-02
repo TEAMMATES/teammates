@@ -339,50 +339,6 @@ public class Emails {
 	}
 
 
-	private String fillUpJoinFragment(StudentData s, String emailBody) {
-		emailBody = emailBody.replace("${joinFragment}",
-				Config.inst().STUDENT_EMAIL_FRAGMENT_COURSE_JOIN);
-
-		emailBody = emailBody.replace("${key}", s.key);
-
-		String joinUrl = Config.inst().TEAMMATES_APP_URL
-				+ Common.PAGE_STUDENT_JOIN_COURSE;
-		joinUrl = Helper.addParam(joinUrl, Common.PARAM_REGKEY, s.key);
-
-		emailBody = emailBody.replace("${joinUrl}", joinUrl);
-		return emailBody;
-	}
-
-
-	private MimeMessage getEmptyEmailAddressedToStudent(StudentData s)
-			throws MessagingException, AddressException {
-		Session session = Session.getDefaultInstance(new Properties(), null);
-		MimeMessage message = new MimeMessage(session);
-
-		message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-				s.email));
-
-		message.setFrom(new InternetAddress(from));
-		return message;
-	}
-
-	public void sendEmails(List<MimeMessage> messages)
-			throws MessagingException {
-		for (MimeMessage m : messages) {
-			sendEmail(m);
-		}
-	}
-
-	public void sendEmail(MimeMessage message) throws MessagingException {
-		log.info(getEmailInfo(message));
-		Transport.send(message);
-	}
-
-	private boolean isYetToJoinCourse(StudentData s) {
-		return s.id == null || s.id.isEmpty();
-	}
-
-
 	public MimeMessage generateStudentCourseJoinEmail(CourseData c,
 			StudentData s) throws AddressException, MessagingException {
 		
@@ -396,5 +352,50 @@ public class Emails {
 		
 		message.setContent(emailBody, "text/html");
 		return message;
+	}
+
+
+	public void sendEmails(List<MimeMessage> messages)
+			throws MessagingException {
+		for (MimeMessage m : messages) {
+			sendEmail(m);
+		}
+	}
+
+	public void sendEmail(MimeMessage message) throws MessagingException {
+		log.info(getEmailInfo(message));
+		Transport.send(message);
+	}
+
+	private String fillUpJoinFragment(StudentData s, String emailBody) {
+		emailBody = emailBody.replace("${joinFragment}",
+				Config.inst().STUDENT_EMAIL_FRAGMENT_COURSE_JOIN);
+	
+		emailBody = emailBody.replace("${key}", s.key);
+	
+		String joinUrl = Config.inst().TEAMMATES_APP_URL
+				+ Common.PAGE_STUDENT_JOIN_COURSE;
+		joinUrl = Helper.addParam(joinUrl, Common.PARAM_REGKEY, s.key);
+	
+		emailBody = emailBody.replace("${joinUrl}", joinUrl);
+		return emailBody;
+	}
+
+
+	private MimeMessage getEmptyEmailAddressedToStudent(StudentData s)
+			throws MessagingException, AddressException {
+		Session session = Session.getDefaultInstance(new Properties(), null);
+		MimeMessage message = new MimeMessage(session);
+	
+		message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+				s.email));
+	
+		message.setFrom(new InternetAddress(from));
+		return message;
+	}
+
+
+	private boolean isYetToJoinCourse(StudentData s) {
+		return s.id == null || s.id.isEmpty();
 	}
 }

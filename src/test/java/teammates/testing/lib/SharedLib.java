@@ -33,8 +33,10 @@ public class SharedLib {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String getRegistrationKeyFromGmail(String gmail, String password, String courseId) {
-		Session sessioned = Session.getDefaultInstance(System.getProperties(), null);
+	public static String getRegistrationKeyFromGmail(String gmail,
+			String password, String courseId) {
+		Session sessioned = Session.getDefaultInstance(System.getProperties(),
+				null);
 		Store store = null;
 		try {
 			store = sessioned.getStore("imaps");
@@ -58,17 +60,21 @@ public class SharedLib {
 			Message messages[] = inbox.search(ft);
 
 			// Loop over the last 5 messages
-			for (int i = messages.length-1; i >= messages.length-5; i--) {
+			for (int i = messages.length - 1; i >= messages.length - 5; i--) {
 				Message message = messages[i];
 				// If this is the right message (by matching header)
 
 				// Pattern pattern = Pattern
 				// .compile("^TEAMMATES: Registration Invitation: Register in the course (\\w+)$");
 				// Matcher m = pattern.matcher(message.getSubject());
-				if (!message.getSubject().equals(String.format("TEAMMATES: Registration Invitation: Register in the course %s", courseId)))
+				String subject = message.getSubject();
+				boolean isCorrectEmail = subject
+						.contains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN)
+						&& (subject.contains(courseId));
+				if (!isCorrectEmail)
 					continue;
 
-				System.out.println(message.getSubject());
+				System.out.println(subject);
 
 				String body = "";
 
@@ -84,8 +90,8 @@ public class SharedLib {
 					body = bodypart.getContent().toString();
 				}
 
-				String key = body.split(courseId + ":")[1];
-				key = key.split("\\*")[0].trim();
+				String key;
+				key = getKey(body);
 
 				// Mark the message as read
 				message.setFlag(Flags.Flag.SEEN, true);
@@ -101,6 +107,13 @@ public class SharedLib {
 		return null;
 	}
 
+	private static String getKey(String body) {
+		String key;
+		key = body.split("Registration key:")[1];
+		key = key.trim().split("If you encounter")[0].trim();
+		return key;
+	}
+
 	/**
 	 * Retrieve evaluation reminder sent to Gmail inbox. After retrieve, mark
 	 * the email as read.
@@ -112,8 +125,11 @@ public class SharedLib {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String getEvaluationReminderFromGmail(String gmail, String password, String courseId, String evalulationName) throws Exception {
-		Session sessioned = Session.getDefaultInstance(System.getProperties(), null);
+	public static String getEvaluationReminderFromGmail(String gmail,
+			String password, String courseId, String evalulationName)
+			throws Exception {
+		Session sessioned = Session.getDefaultInstance(System.getProperties(),
+				null);
 		Store store = sessioned.getStore("imaps");
 		store.connect("imap.gmail.com", gmail, password);
 
@@ -125,14 +141,15 @@ public class SharedLib {
 		Message messages[] = inbox.search(ft);
 
 		// Loop over the last 5 messages
-		for (int i = messages.length - 1; i >= messages.length-5; i--) {
+		for (int i = messages.length - 1; i >= messages.length - 5; i--) {
 			Message message = messages[i];
 
 			String subject = message.getSubject();
-			//TODO: make this test deeper
-			//TODO: courseID is not used
-			boolean isTheRightEmail = subject.contains(Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER)&&
-					subject.contains(evalulationName);
+			// TODO: make this test deeper
+			// TODO: courseID is not used
+			boolean isTheRightEmail = subject
+					.contains(Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER)
+					&& subject.contains(evalulationName);
 			if (!isTheRightEmail)
 				continue;
 
@@ -148,6 +165,7 @@ public class SharedLib {
 
 	/**
 	 * Checks whether the Publish had actually sent the e-mails to students
+	 * 
 	 * @param gmail
 	 * @param password
 	 * @param courseCode
@@ -156,14 +174,18 @@ public class SharedLib {
 	 * @throws MessagingException
 	 * @throws IOException
 	 */
-	public static boolean checkResultEmailsSent(String gmail, String password, String courseCode, String evaluationName) throws MessagingException, IOException {
+	public static boolean checkResultEmailsSent(String gmail, String password,
+			String courseCode, String evaluationName)
+			throws MessagingException, IOException {
 
 		// Publish RESULTS Format
 		final String HEADER_EVALUATION_PUBLISH = "TEAMMATES: Evaluation Published: %s %s";
-		final String TEAMMATES_APP_URL = "You can view the result here: " + Config.inst().TEAMMATES_LIVE_SITE;
+		final String TEAMMATES_APP_URL = "You can view the result here: "
+				+ Config.inst().TEAMMATES_LIVE_SITE;
 		final String TEAMMATES_APP_SIGNATURE = "If you encounter any problems using the system, email TEAMMATES support";
 
-		Session sessioned = Session.getDefaultInstance(System.getProperties(), null);
+		Session sessioned = Session.getDefaultInstance(System.getProperties(),
+				null);
 		Store store = sessioned.getStore("imaps");
 		store.connect("imap.gmail.com", gmail, password);
 
@@ -176,13 +198,16 @@ public class SharedLib {
 		System.out.println(messages.length + " unread message");
 
 		// Loop over the last 5 messages
-		for (int i = messages.length - 1; i >= messages.length-5; i--) {
+		for (int i = messages.length - 1; i >= messages.length - 5; i--) {
 			Message message = messages[i];
 			System.out.println(message.getSubject());
 
-			System.out.println(String.format(HEADER_EVALUATION_PUBLISH, courseCode, evaluationName));
+			System.out.println(String.format(HEADER_EVALUATION_PUBLISH,
+					courseCode, evaluationName));
 			// matching email subject:
-			if (!message.getSubject().equals(String.format(HEADER_EVALUATION_PUBLISH, courseCode, evaluationName))) {
+			if (!message.getSubject().equals(
+					String.format(HEADER_EVALUATION_PUBLISH, courseCode,
+							evaluationName))) {
 				continue;
 			} else {
 				System.out.println("match");
@@ -237,14 +262,16 @@ public class SharedLib {
 	 * Helper function - Mark all emails of an account as read.
 	 * 
 	 */
-	public static void markAllEmailsSeen(String username, String password) throws Exception {
-		Session sessioned = Session.getDefaultInstance(System.getProperties(), null);
+	public static void markAllEmailsSeen(String username, String password)
+			throws Exception {
+		Session sessioned = Session.getDefaultInstance(System.getProperties(),
+				null);
 		Store store = sessioned.getStore("imaps");
 		store.connect("imap.gmail.com", username, password);
 
 		// Retrieve the "Inbox"
 		Folder inbox = store.getFolder("inbox");
-		
+
 		// Reading the Email Index in Read / Write Mode
 		inbox.open(Folder.READ_WRITE);
 
@@ -264,8 +291,10 @@ public class SharedLib {
 	 * 
 	 * @author wangsha
 	 */
-	public static int mailStressTestCount(String username, String password) throws Exception {
-		Session sessioned = Session.getDefaultInstance(System.getProperties(), null);
+	public static int mailStressTestCount(String username, String password)
+			throws Exception {
+		Session sessioned = Session.getDefaultInstance(System.getProperties(),
+				null);
 		Store store = sessioned.getStore("imaps");
 		store.connect("imap.gmail.com", username, password);
 
@@ -296,6 +325,7 @@ public class SharedLib {
 
 	/**
 	 * Return the date of next hour in format (YYYY,M,D)
+	 * 
 	 * @deprecated Only used in old testing method
 	 * @return
 	 */
@@ -313,6 +343,7 @@ public class SharedLib {
 	/**
 	 * Returns the next hour from the next full hour. Example: if current time
 	 * is 1050, this will return 12 (i.e., one hour after 11)
+	 * 
 	 * @deprecated Only used in old testing method
 	 * @return
 	 */
@@ -326,6 +357,7 @@ public class SharedLib {
 	/**
 	 * Helper method to format date from format (YYYY,M,D) to DD/MM/YYYY.
 	 * Usually used in conjunction with {@link #getDateValue()}
+	 * 
 	 * @deprecated Only used in old testing method
 	 * @param date
 	 * @return
@@ -345,8 +377,14 @@ public class SharedLib {
 
 	public static void main(String[] args) {
 		try {
-			System.out.println(SharedLib.getRegistrationKeyFromGmail("benny.tmms@gmail.com", Config.inst().TEAMMATES_APP_PASSWORD, "CCDetailsUiT.CS2104"));
-//			SharedLib.getEvaluationReminderFromGmail("alice.tmms@gmail.com", Config.inst().TEAMMATES_APP_PASSWORD, "CS2103-TESTING", "First Eval");
+			System.out
+					.println(SharedLib.getRegistrationKeyFromGmail(
+							"benny.tmms@gmail.com",
+							Config.inst().TEAMMATES_APP_PASSWORD,
+							"CCDetailsUiT.CS2104"));
+			// SharedLib.getEvaluationReminderFromGmail("alice.tmms@gmail.com",
+			// Config.inst().TEAMMATES_APP_PASSWORD, "CS2103-TESTING",
+			// "First Eval");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -356,7 +394,8 @@ public class SharedLib {
 	 * Thread println
 	 */
 	public static void tprintln(String message) {
-		System.out.println("[" + Thread.currentThread().getName() + "]" + message);
+		System.out.println("[" + Thread.currentThread().getName() + "]"
+				+ message);
 	}
 
 }
