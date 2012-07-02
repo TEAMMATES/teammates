@@ -214,7 +214,7 @@ public class EmailsTest extends BaseTestCase {
 
 		// check subject
 		assertEquals(
-				"TEAMMATES: invitation to join course [Course Name][Course ID: course-id]",
+				"TEAMMATES: Invitation to join course [Course Name][Course ID: course-id]",
 				email.getSubject());
 
 		// check email body

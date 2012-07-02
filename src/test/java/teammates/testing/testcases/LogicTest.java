@@ -9,6 +9,8 @@ import static teammates.TeamEvalResult.NSU;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,6 +24,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import teammates.BackDoorLogic;
 import teammates.Datastore;
 import teammates.TeamEvalResult;
 import teammates.api.Common;
@@ -1062,7 +1065,8 @@ public class LogicTest extends BaseTestCase {
 		CourseData course1 = dataBundle.courses.get("course1OfCoord1");
 
 		// send registration key to a class in which all are registered
-		List<MimeMessage> emailsSent = logic.sendRegistrationInviteForCourse(course1.id);
+		List<MimeMessage> emailsSent = logic
+				.sendRegistrationInviteForCourse(course1.id);
 		assertEquals(0, emailsSent.size());
 
 		______TS("some students not registered");
@@ -1520,8 +1524,9 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		StudentData student1 = dataBundle.students.get("student1InCourse1");
-		
-		MimeMessage email = logic.sendRegistrationInviteToStudent(student1.course, student1.email);
+
+		MimeMessage email = logic.sendRegistrationInviteToStudent(
+				student1.course, student1.email);
 
 		verifyJoinInviteToStudent(student1, email);
 
@@ -2102,20 +2107,21 @@ public class LogicTest extends BaseTestCase {
 		expectedEval1InCourse1.endTime = Common.getDateOffsetToCurrentTime(-1);
 		expectedEval1InCourse1.published = false;
 		assertEquals(EvalStatus.CLOSED, expectedEval1InCourse1.getStatus());
-		logic.editEvaluation(expectedEval1InCourse1);
+		BackDoorLogic backDoorLogic = new BackDoorLogic();
+		backDoorLogic.editEvaluation(expectedEval1InCourse1);
 
 		expectedEval2InCourse1.startTime = Common
 				.getDateOffsetToCurrentTime(-1);
 		expectedEval2InCourse1.endTime = Common.getDateOffsetToCurrentTime(1);
 		assertEquals(EvalStatus.OPEN, expectedEval2InCourse1.getStatus());
-		logic.editEvaluation(expectedEval2InCourse1);
+		backDoorLogic.editEvaluation(expectedEval2InCourse1);
 
 		// Make sure all evaluations in course2 are still AWAITING
 		expectedEval1InCourse2.startTime = Common.getDateOffsetToCurrentTime(1);
 		expectedEval1InCourse2.endTime = Common.getDateOffsetToCurrentTime(2);
 		expectedEval1InCourse2.activated = false;
 		assertEquals(EvalStatus.AWAITING, expectedEval1InCourse2.getStatus());
-		logic.editEvaluation(expectedEval1InCourse2);
+		backDoorLogic.editEvaluation(expectedEval1InCourse2);
 
 		// Get course details for student
 		List<CourseData> courseList = logic
@@ -2215,7 +2221,8 @@ public class LogicTest extends BaseTestCase {
 		loginAsAdmin("admin.user");
 		evaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
 		evaluation.published = true;
-		logic.editEvaluation(evaluation);
+		BackDoorLogic backDoorLogic = new BackDoorLogic();
+		backDoorLogic.editEvaluation(evaluation);
 		logoutUser();
 
 		// other students still cannot access this student's result
@@ -2502,11 +2509,20 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		String methodName = "editEvaluation";
-		Class<?>[] paramTypes = new Class<?>[] { EvaluationData.class };
-		EvaluationData evaluation = new EvaluationData();
-		evaluation.course = "idOfCourse1OfCoord1";
-		evaluation.name = "new evaluation";
-		Object[] params = new Object[] { evaluation };
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class,
+				String.class, Date.class, Date.class, Double.TYPE,
+				Integer.TYPE, Boolean.TYPE };
+		EvaluationData eval = new EvaluationData();
+		eval.course = "idOfCourse1OfCoord1";
+		eval.name = "new evaluation";
+		eval.instructions = "inst";
+		Date dummyTime = Calendar.getInstance().getTime();
+		eval.startTime = dummyTime;
+		eval.endTime = dummyTime;
+
+		Object[] params = new Object[] { eval.course, eval.name,
+				eval.instructions, eval.startTime, eval.endTime, eval.timeZone,
+				eval.gracePeriod, eval.p2pEnabled };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -2530,39 +2546,48 @@ public class LogicTest extends BaseTestCase {
 
 		loginAsAdmin("admin.user");
 
-		EvaluationData eval = dataBundle.evaluations
-				.get("evaluation1InCourse1OfCoord1");
+		eval = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
 		eval.gracePeriod = eval.gracePeriod + 1;
 		eval.instructions = eval.instructions + "x";
 		eval.p2pEnabled = (!eval.p2pEnabled);
 		eval.startTime = Common.getDateOffsetToCurrentTime(-1);
 		eval.endTime = Common.getDateOffsetToCurrentTime(2);
-		logic.editEvaluation(eval);
+		invokeEditEvaluation(eval);
+
+		// flip back these fields because it is not supposed to change
 		verifyPresentInDatastore(eval);
 
 		______TS("null parameters");
 
 		try {
-			logic.editEvaluation(null);
-			fail();
-		} catch (NullPointerException e) {
-			verifyNullParameterDetectedCorrectly(e, "evaluation");
-		}
-
-		______TS("invalid parameters");
-
-		// make the evaluation invalid;
-		eval.course = null;
-		try {
-			logic.editEvaluation(eval);
+			logic.editEvaluation(null, "not null", "not null", dummyTime,
+					dummyTime, 0, 0, false);
 			fail();
 		} catch (NullPointerException e) {
 			verifyNullParameterDetectedCorrectly(e, "course id");
 		}
 
+		______TS("invalid parameters");
+
+		// make the evaluation invalid (end time is before start time)
+		eval.startTime = Common.getDateOffsetToCurrentTime(1);
+		eval.endTime = Common.getDateOffsetToCurrentTime(0);
+		try {
+			invokeEditEvaluation(eval);
+			fail();
+		} catch (InvalidParametersException e) {
+			assertEquals(Common.ERRORCODE_END_BEFORE_START, e.errorCode);
+		}
+
 		// Checking for other type of invalid parameter situations
 		// is done in EvaluationDataTest
 
+	}
+
+	private void invokeEditEvaluation(EvaluationData e)
+			throws InvalidParametersException, EntityDoesNotExistException {
+		logic.editEvaluation(e.course, e.name, e.instructions, e.startTime,
+				e.endTime, e.timeZone, e.gracePeriod, e.p2pEnabled);
 	}
 
 	@Test
@@ -2669,7 +2694,8 @@ public class LogicTest extends BaseTestCase {
 		// ensure CLOSED
 		eval1.endTime = Common.getDateOffsetToCurrentTime(-1);
 		assertEquals(EvalStatus.CLOSED, eval1.getStatus());
-		logic.editEvaluation(eval1);
+		BackDoorLogic backDoorLogic = new BackDoorLogic();
+		backDoorLogic.editEvaluation(eval1);
 
 		logic.publishEvaluation(eval1.course, eval1.name);
 		assertEquals(true,
@@ -2684,7 +2710,7 @@ public class LogicTest extends BaseTestCase {
 		// make the evaluation OPEN
 		eval1.endTime = Common.getDateOffsetToCurrentTime(1);
 		assertEquals(EvalStatus.OPEN, eval1.getStatus());
-		logic.editEvaluation(eval1);
+		backDoorLogic.editEvaluation(eval1);
 
 		try {
 			logic.publishEvaluation(eval1.course, eval1.name);
@@ -2765,8 +2791,7 @@ public class LogicTest extends BaseTestCase {
 			assertTrue(errorMessage, emailToStudent != null);
 			assertContains(Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED,
 					emailToStudent.getSubject());
-			assertContains(e.name,
-					emailToStudent.getSubject());
+			assertContains(e.name, emailToStudent.getSubject());
 		}
 	}
 
@@ -3552,7 +3577,8 @@ public class LogicTest extends BaseTestCase {
 		evaluation.endTime = Common.getDateOffsetToCurrentTime(2);
 		evaluation.activated = false;
 		assertEquals(EvalStatus.AWAITING, evaluation.getStatus());
-		logic.editEvaluation(evaluation);
+		BackDoorLogic backDoorLogic = new BackDoorLogic();
+		backDoorLogic.editEvaluation(evaluation);
 		logoutUser();
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
@@ -3620,7 +3646,8 @@ public class LogicTest extends BaseTestCase {
 		loginAsAdmin("admin.user");
 		evaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
 		assertEquals(EvalStatus.CLOSED, evaluation.getStatus());
-		logic.editEvaluation(evaluation);
+		BackDoorLogic backDoorLogic = new BackDoorLogic();
+		backDoorLogic.editEvaluation(evaluation);
 		logoutUser();
 
 		// verify reviewer cannot edit anymore but coord can
@@ -3676,10 +3703,10 @@ public class LogicTest extends BaseTestCase {
 	private void verifyJoinInviteToStudent(StudentData student1,
 			MimeMessage email) throws MessagingException {
 		assertEquals(student1.email, email.getAllRecipients()[0].toString());
-		assertContains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN, email.getSubject());
+		assertContains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN,
+				email.getSubject());
 		assertContains(student1.course, email.getSubject());
 	}
-
 
 	private MimeMessage getEmailToStudent(StudentData s,
 			List<MimeMessage> emailsSent) throws MessagingException {

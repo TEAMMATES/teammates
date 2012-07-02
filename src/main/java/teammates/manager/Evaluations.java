@@ -376,9 +376,7 @@ public class Evaluations {
 			String newInstructions, boolean newCommentsEnabled, Date newStart,
 			Date newDeadline, int newGracePeriod, boolean newIsActive, boolean newIsPublished, double newTimeZone) throws EntityDoesNotExistException {
 		Evaluation evaluation = getEvaluation(courseID, name);
-		if(evaluation==null){
-			throw new EntityDoesNotExistException("Evaluation "+name+" does not exist in course "+courseID);
-		}
+		
 		Transaction tx = getPM().currentTransaction();
 		try {
 			tx.begin();

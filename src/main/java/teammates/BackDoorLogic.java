@@ -199,6 +199,8 @@ public class BackDoorLogic extends Logic{
 		return emailsSent;
 	}
 	
-
+	public void editEvaluation(EvaluationData evaluation) throws InvalidParametersException, EntityDoesNotExistException{
+		editEvaluationAllFields(evaluation);
+	}
 
 }

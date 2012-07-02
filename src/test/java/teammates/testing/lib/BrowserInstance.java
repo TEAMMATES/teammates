@@ -2494,7 +2494,7 @@ public class BrowserInstance {
 			System.err.println("Looking for:"+locator + ": " + value);
 			System.err.println("But found  :"+locator + ": " + getElementText(locator));
 			if (counter++ > RETRY)
-				fail("Timeout while waiting for "+getElementText(locator)+" to be same as "+value);
+				fail("Timeout while waiting for "+getElementText(locator)+" [i.e. actual] to become same as [i.e. expected] "+value);
 			waitAWhile(RETRY_TIME);
 		}
 	}

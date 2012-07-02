@@ -1,6 +1,7 @@
 package teammates.api;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -1059,26 +1060,58 @@ public class Logic {
 	}
 
 	/**
+	 * Can be used to change all fields exception "activated" field
 	 * Access: owner and above
 	 * 
 	 * @param evaluation
 	 * @throws EntityDoesNotExistException
 	 * @throws InvalidParametersException
 	 */
-	public void editEvaluation(EvaluationData evaluation)
+	public void editEvaluation(String courseId, String evaluationName, String instructions, Date start, Date end, double timeZone, int gracePeriod, boolean p2pEndabled)
 			throws EntityDoesNotExistException, InvalidParametersException {
 
-		Common.verifyNotNull(evaluation, "evaluation");
+		Common.verifyNotNull(courseId, "course ID");
+		Common.verifyNotNull(evaluationName, "evaluation name");
+		Common.verifyNotNull(start, "starting time");
+		Common.verifyNotNull(end, "deadline");
 
-		verifyCourseOwnerOrAbove(evaluation.course);
+		verifyCourseOwnerOrAbove(courseId);
+		EvaluationData original = getEvaluation(courseId, evaluationName);
+		
+		if(original==null){
+			throw new EntityDoesNotExistException("Evaluation "+evaluationName+" does not exist in course "+courseId);
+		}
 
+		EvaluationData evaluation = new EvaluationData();
+		evaluation.course = courseId; 
+		evaluation.name = evaluationName;
+		evaluation.instructions = instructions;
+		evaluation.p2pEnabled = p2pEndabled;
+		evaluation.startTime = start;
+		evaluation.endTime = end;
+		evaluation.gracePeriod = gracePeriod;
+		evaluation.timeZone = timeZone;
+		
+		//this field cannot be changed via this method
+		evaluation.activated = original.activated;
+		evaluation.published = original.published;
+		
 		evaluation.validate();
+		
+		editEvaluationAllFields(evaluation);
+	}
+	
+	protected void editEvaluationAllFields(EvaluationData evaluation)
+			throws EntityDoesNotExistException, InvalidParametersException {
+
 		Evaluations.inst().editEvaluation(evaluation.course, evaluation.name,
 				evaluation.instructions, evaluation.p2pEnabled,
 				evaluation.startTime, evaluation.endTime,
 				evaluation.gracePeriod, evaluation.activated,
 				evaluation.published, evaluation.timeZone);
 	}
+	
+	
 
 	/**
 	 * Access: owner and above

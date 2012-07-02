@@ -36,11 +36,12 @@ public class CoordEvalEditServlet extends ActionServlet<CoordEvalEditHelper> {
 		if (isSubmit) {
 			helper.submittedEval = newEval;
 			try {
-				helper.server.editEvaluation(newEval);
+				helper.server.editEvaluation(newEval.course, newEval.name, newEval.instructions, newEval.startTime,
+						newEval.endTime, newEval.timeZone, newEval.gracePeriod, newEval.p2pEnabled);
 				helper.statusMessage = Common.MESSAGE_EVALUATION_EDITED;
 				helper.redirectUrl = Common.PAGE_COORD_EVAL;
-			} catch (InvalidParametersException e) {
-				helper.statusMessage = e.getMessage();
+			} catch (InvalidParametersException ex) {
+				helper.statusMessage = ex.getMessage();
 				helper.error = true;
 			}
 		} else {

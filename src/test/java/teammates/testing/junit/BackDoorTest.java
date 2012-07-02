@@ -394,11 +394,9 @@ public class BackDoorTest extends BaseTestCase {
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyPresentInDatastore(e);
 
-		// test for unsuccessful edit
-		e.name = "non existent";
-		status = BackDoor.editEvaluation(e);
-		assertTrue(status.startsWith(Common.BACKEND_STATUS_FAILURE));
-		verifyAbsentInDatastore(e);
+		// not testing for unsuccesful edit because this does 
+		//  not go through the Logic API (i.e., no error checking done)
+
 	}
 
 	@Test

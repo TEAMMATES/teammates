@@ -34,7 +34,7 @@ public class Emails {
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER = "TEAMMATES: Peer evaluation reminder";
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING = "TEAMMATES: Peer evaluation closing soon";
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED = "TEAMMATES: Peer evaluation published";
-	public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: invitation to join course";
+	public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: Invitation to join course";
 	private final String HEADER_EVALUATION_REMINDER = "TEAMMATES: Evaluation Reminder: %s %s";
 	private final String TEAMMATES_APP_SIGNATURE = "\n\nIf you encounter any problems using the system, email TEAMMATES support team at teammates@comp.nus.edu.sg"
 			+ "\n\nRegards, \nTEAMMATES System";
