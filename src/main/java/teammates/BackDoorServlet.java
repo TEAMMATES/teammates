@@ -484,15 +484,7 @@ public class BackDoorServlet extends HttpServlet {
 		resp.getWriter().write("Fail: something wrong");
 	}
 
-	protected void emailStressTesting() throws IOException {
-		Emails emails = new Emails();
-		String account = req.getParameter("account");
-		int size = Integer.parseInt(req.getParameter("size"));
 
-		emails.mailStressTesting(account, size);
-		resp.getWriter().write("ok");
-
-	}
 
 	/**
 	 * request to automatedReminders servlet

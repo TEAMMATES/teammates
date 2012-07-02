@@ -17,14 +17,7 @@ public class EmailServlet extends HttpServlet {
 	private HttpServletResponse resp;
 
 	// OPERATIONS
-	private static final String INFORM_STUDENTSOFEVALUATIONCHANGES = "informstudentsofevaluationchanges";
-	private static final String INFORM_STUDENTSOFTEAMFORMINGCHANGES = "informstudentsofteamformingchanges";
-	private static final String INFORM_STUDENTSOFPUBLISHEDEVALUATION = "informstudentspublishedevaluation";
-	private static final String INFORM_STUDENTSOFEVALUATIONOPENING = "informstudentsofevaluationopening";
-	private static final String INFORM_STUDENTSOFTEAMFORMINGOPENING = "informstudentsofteamformingopening";
-	private static final String INFORM_STUDENTSOFPUBLISHEDTEAMFORMING = "informstudentspublishedteamforming";
 	private static final String REMIND_STUDENTS = "remindstudents";
-	private static final String REMINF_STUDENTSOFTEAMFORMING = "remindstudentsofteamforming";
 	private static final String SEND_REGISTRATION_KEY = "sendregistrationkey";
 
 	// PARAMETERS
@@ -35,9 +28,7 @@ public class EmailServlet extends HttpServlet {
 	private static final String COURSE_NAME = "coursename";
 
 	private static final String EVALUATION_DEADLINE = "deadline";
-	private static final String EVALUATION_INSTRUCTIONS = "instr";
 	private static final String EVALUATION_NAME = "evaluationname";
-	private static final String EVALUATION_START = "start";
 
 	private static final String STUDENT_EMAIL = "email";
 	private static final String STUDENT_NAME = "name";
@@ -68,33 +59,7 @@ public class EmailServlet extends HttpServlet {
 			remindStudents();
 		}
 		
-		else if (operation.equals(REMINF_STUDENTSOFTEAMFORMING)){
-			remindStudentsOfTeamForming();
-		}
-
-		else if (operation.equals(INFORM_STUDENTSOFEVALUATIONCHANGES)) {
-			informStudentsOfEvaluationChanges();
-		}
 		
-		else if (operation.equals(INFORM_STUDENTSOFTEAMFORMINGCHANGES)) {
-			informStudentsOfTeamFormingChanges();
-		}
-
-		else if (operation.equals(INFORM_STUDENTSOFEVALUATIONOPENING)) {
-			informStudentsOfEvaluationOpening();
-		}
-		
-		else if (operation.equals(INFORM_STUDENTSOFTEAMFORMINGOPENING)) {
-			informStudentsOfTeamFormingOpening();
-		}
-
-		else if (operation.equals(INFORM_STUDENTSOFPUBLISHEDEVALUATION)) {
-			informStudentsOfPublishedEvaluation();
-		}
-		
-		else if (operation.equals(INFORM_STUDENTSOFPUBLISHEDTEAMFORMING)) {
-			informStudentsOfPublishedTeamForming();
-		}
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -102,83 +67,7 @@ public class EmailServlet extends HttpServlet {
 		doGet(req, resp);
 	}
 
-	private void informStudentsOfEvaluationChanges() {
-		Emails emails = new Emails();
-
-		String email = req.getParameter(STUDENT_EMAIL);
-		String courseID = req.getParameter(COURSE_ID);
-		String evaluationName = req.getParameter(EVALUATION_NAME);
-		String studentName = req.getParameter(STUDENT_NAME);
-		String instructions = req.getParameter(EVALUATION_INSTRUCTIONS);
-		String start = req.getParameter(EVALUATION_START);
-		String deadline = req.getParameter(EVALUATION_DEADLINE);
-
-		emails.informStudentsOfEvaluationChanges(email, studentName, courseID,
-				evaluationName, instructions, start, deadline);
-	}
 	
-	private void informStudentsOfTeamFormingChanges() {
-		Emails emails = new Emails();
-
-		String email = req.getParameter(STUDENT_EMAIL);
-		String courseID = req.getParameter(COURSE_ID);
-		String studentName = req.getParameter(STUDENT_NAME);
-		String instructions = req.getParameter("instr");
-		String start = req.getParameter("start");
-		String deadline = req.getParameter("deadline");
-		String profileTemplate = req.getParameter("profileTemplate");
-
-		emails.informStudentsOfTeamFormingChanges(email, studentName, courseID,
-				instructions, start, deadline, profileTemplate);
-	}	
-
-	private void informStudentsOfEvaluationOpening() {
-		Emails emails = new Emails();
-
-		String email = req.getParameter(STUDENT_EMAIL);
-		String courseID = req.getParameter(COURSE_ID);
-		String evaluationName = req.getParameter(EVALUATION_NAME);
-		String studentName = req.getParameter(STUDENT_NAME);
-		String deadline = req.getParameter(EVALUATION_DEADLINE);
-		emails.informStudentsOfEvaluationOpening(email, studentName, courseID,
-				evaluationName,deadline);
-	}
-	
-	private void informStudentsOfTeamFormingOpening() {
-		Emails emails = new Emails();
-
-		String email = req.getParameter(STUDENT_EMAIL);
-		String courseID = req.getParameter(COURSE_ID);
-		String deadline = req.getParameter("deadline");
-		String studentName = req.getParameter(STUDENT_NAME);
-
-		emails.informStudentsOfTeamFormingOpening(email, studentName, courseID,
-				deadline);
-	}
-
-	private void informStudentsOfPublishedEvaluation() {
-		Emails emails = new Emails();
-
-		String email = req.getParameter(STUDENT_EMAIL);
-		String courseID = req.getParameter(COURSE_ID);
-		String evaluationName = req.getParameter(EVALUATION_NAME);
-		String studentName = req.getParameter(STUDENT_NAME);
-
-		emails.informStudentsOfPublishedEvaluation(email, studentName,
-				courseID, evaluationName);
-
-	}
-	
-	private void informStudentsOfPublishedTeamForming() {
-		Emails emails = new Emails();
-
-		String email = req.getParameter(STUDENT_EMAIL);
-		String courseID = req.getParameter(COURSE_ID);
-		String studentName = req.getParameter(STUDENT_NAME);
-
-		emails.informStudentsOfPublishedTeamForming(email, studentName, courseID);
-	}
-
 	private void remindStudents() {
 		Emails emails = new Emails();
 
@@ -193,16 +82,6 @@ public class EmailServlet extends HttpServlet {
 
 	}
 	
-	private void remindStudentsOfTeamForming() {
-		Emails emails = new Emails();
-
-		String email = req.getParameter(STUDENT_EMAIL);
-		String courseID = req.getParameter(COURSE_ID);
-		String studentName = req.getParameter(STUDENT_NAME);
-		String deadline = req.getParameter("deadline");
-
-		emails.remindStudentOfTeamForming(email, studentName, courseID, deadline);
-	}
 
 	private void sendRegistrationKey() {
 		Emails emails = new Emails();

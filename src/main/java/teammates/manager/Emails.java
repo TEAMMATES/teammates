@@ -35,136 +35,20 @@ public class Emails {
 	private static Logger log = Common.getLogger();
 
 	private final String HEADER_REGISTRATION_INVITATION = "TEAMMATES: Registration Invitation: Register in the course %s";
-	private final String HEADER_REGISTRATION_REMINDER = "TEAMMATES: Registration Reminder: Register in the course %s";
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_OPENING = "TEAMMATES: Peer evaluation now open";
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER = "TEAMMATES: Peer evaluation reminder";
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING = "TEAMMATES: Peer evaluation closing soon";
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED = "TEAMMATES: Peer evaluation published";
-	private final String HEADER_TEAMFORMING_OPEN = "TEAMMATES: Team Forming Session Opening: %s %s";
-	private final String HEADER_EVALUATION_CHANGE = "TEAMMATES: Evaluation Changed: %s %s";
-	private final String HEADER_TEAMFORMING_CHANGE = "TEAMMATES: Team Forming Changed: %s %s";
 	private final String HEADER_EVALUATION_REMINDER = "TEAMMATES: Evaluation Reminder: %s %s";
-	private final String HEADER_TEAMFORMING_REMINDER = "TEAMMATES: Team Forming Reminder: %s %s";
-	private final String HEADER_EVALUATION_PUBLISH = "TEAMMATES: Evaluation Published: %s %s";
-	private final String HEADER_TEAMFORMING_PUBLISH = "TEAMMATES: Team Forming Published: %s %s";
 	private final String TEAMMATES_APP_SIGNATURE = "\n\nIf you encounter any problems using the system, email TEAMMATES support team at teammates@comp.nus.edu.sg"
 			+ "\n\nRegards, \nTEAMMATES System";
 
-	private String EMAIL_EVALUATION_OPENING = "";
 
-	/**
-	 * Constructs an Email object. Sets the sender's e-mail address and
-	 * instantiate a new Properties object.
-	 * 
-	 */
 	public Emails() {
 		from = Config.inst().TEAMMATES_APP_ACCOUNT;
 		props = new Properties();
 	}
 
-	/**
-	 * Sends an email to a Student informing him of new Evaluation details.
-	 * 
-	 * @param email
-	 *            the email of the student (Precondition: Must not be null)
-	 * 
-	 * @param studentName
-	 *            the name of the student (Precondition: Must not be null)
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: Must not be null)
-	 * 
-	 * @param evaluationName
-	 *            the evaluation name (Precondition: Must not be null)
-	 * 
-	 * @param instructions
-	 *            the evaluation instructions (Precondition: Must not be null)
-	 * 
-	 * @param deadline
-	 *            the evaluation deadline (Precondition: Must not be null)
-	 */
-	public void informStudentsOfEvaluationChanges(String email,
-			String studentName, String courseID, String evaluationName,
-			String instructions, String start, String deadline) {
-		try {
-			Session session = Session.getDefaultInstance(props, null);
-			MimeMessage message = new MimeMessage(session);
-
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-					email));
-
-			message.setFrom(new InternetAddress(from));
-			message.setSubject(String.format(HEADER_EVALUATION_CHANGE,
-					courseID, evaluationName));
-			message.setText("Dear "
-					+ studentName
-					+ ",\n\n"
-					+ "There are changes to the evaluation: \n\n"
-					+ courseID
-					+ " "
-					+ evaluationName
-					+ "\n\n"
-					+ "made by your coordinator. The start, deadline and instructions of the evaluation are as follow, \n\n"
-					+ "Start: " + start + "H. \n\n" + "Deadline: " + deadline
-					+ "H. \n\n" + "Instructions : " + instructions
-					+ "\n You can access the evaluation here: "
-					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
-
-			sendEmail(message);
-
-		}
-
-		catch (MessagingException e) {
-
-		}
-
-	}
-
-	/**
-	 * Sends an email to a Student informing him of the opening of an
-	 * evaluation.
-	 * 
-	 * @param email
-	 *            the email of the student (Precondition: Must not be null)
-	 * 
-	 * @param studentName
-	 *            the name of the student (Precondition: Must not be null)
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: Must not be null)
-	 * 
-	 * @param evaluationName
-	 *            the evaluation name (Precondition: Must not be null)
-	 */
-	public void informStudentsOfEvaluationOpening(String email,
-			String studentName, String courseID, String evaluationName,
-			String deadline) {
-		try {
-			Session session = Session.getDefaultInstance(props, null);
-			MimeMessage message = new MimeMessage(session);
-
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-					email));
-
-			message.setFrom(new InternetAddress(from));
-			message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_EVALUATION_OPENING, courseID,
-					evaluationName));
-			message.setText("Dear " + studentName + ",\n\n"
-					+ "The following evaluation: \n\n" + courseID + " "
-					+ evaluationName + "\n\n"
-					+ "is open from now until the deadline " + deadline
-					+ "H.\n" + "You can access the evaluation here: "
-					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
-
-			sendEmail(message);
-
-		}
-
-		catch (MessagingException e) {
-
-		}
-
-	}
 
 	public static String getEmailInfo(MimeMessage message)
 			throws MessagingException {
@@ -179,137 +63,6 @@ public class Emails {
 		return messageInfo.toString();
 	}
 
-	public void informStudentsOfTeamFormingChanges(String email,
-			String studentName, String courseID, String instructions,
-			String start, String deadline, String profileTemplate) {
-		try {
-			Session session = Session.getDefaultInstance(props, null);
-			MimeMessage message = new MimeMessage(session);
-
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-					email));
-
-			message.setFrom(new InternetAddress(from));
-			message.setSubject(String.format(HEADER_TEAMFORMING_CHANGE,
-					courseID, " "));
-			message.setText("Dear "
-					+ studentName
-					+ ",\n\n"
-					+ "There are changes to the team forming session of: \n\n"
-					+ courseID
-					+ " \n\n"
-					+ "made by your coordinator. The start, deadline, instructions and "
-					+ "profile template of the team forming are as follow, \n\n"
-					+ "Start: " + start + "H. \n\n" + "Deadline: " + deadline
-					+ "H. \n\n" + "Instructions : " + instructions
-					+ "Profile Template: " + profileTemplate
-					+ "\n You can access the team forming session here: "
-					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
-
-			sendEmail(message);
-		}
-
-		catch (MessagingException e) {
-			log.fine("teamFormingSessionChanges: fail to send email.");
-		}
-	}
-
-	public void informStudentsOfTeamFormingOpening(String email,
-			String studentName, String courseID, String deadline) {
-		try {
-			Session session = Session.getDefaultInstance(props, null);
-			MimeMessage message = new MimeMessage(session);
-
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-					email));
-
-			message.setFrom(new InternetAddress(from));
-			message.setSubject(String.format(HEADER_TEAMFORMING_OPEN, courseID,
-					" "));
-			message.setText("Dear " + studentName + ",\n\n"
-					+ "The following team forming session for: " + courseID
-					+ " " + "is now open.\n\nThe deadline is: " + deadline
-					+ "\n" + "You can access the list of students here: "
-					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
-
-			sendEmail(message);
-
-		}
-
-		catch (MessagingException e) {
-			log.severe("teamFormingSessionOpening: fail to send email.");
-		}
-	}
-
-	/**
-	 * Sends an email to a Student informing him of the publishing of results
-	 * for a particular evaluation.
-	 * 
-	 * @param email
-	 *            the email of the student (Precondition: Must not be null)
-	 * 
-	 * @param studentName
-	 *            the name of the student (Precondition: Must not be null)
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: Must not be null)
-	 * 
-	 * @param evaluationName
-	 *            the evaluation name (Precondition: Must not be null)
-	 */
-	public void informStudentsOfPublishedEvaluation(String email,
-			String studentName, String courseID, String evaluationName) {
-		try {
-			Session session = Session.getDefaultInstance(props, null);
-			MimeMessage message = new MimeMessage(session);
-
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-					email));
-
-			message.setFrom(new InternetAddress(from));
-			message.setSubject(String.format(HEADER_EVALUATION_PUBLISH,
-					courseID, evaluationName));
-			message.setText("Dear " + studentName + ",\n\n"
-					+ "The results of the evaluation: \n\n" + courseID + " "
-					+ evaluationName + "\n\n" + "have been published.\n"
-					+ "You can view the result here: "
-					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
-
-			sendEmail(message);
-
-		}
-
-		catch (MessagingException e) {
-
-		}
-
-	}
-
-	public void informStudentsOfPublishedTeamForming(String email,
-			String studentName, String courseID) {
-		try {
-			Session session = Session.getDefaultInstance(props, null);
-			MimeMessage message = new MimeMessage(session);
-
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-					email));
-
-			message.setFrom(new InternetAddress(from));
-			message.setSubject(String.format(HEADER_TEAMFORMING_PUBLISH,
-					courseID, " "));
-			message.setText("Dear " + studentName + ",\n\n"
-					+ "The results of the team forming session: \n\n"
-					+ courseID + " \n\n" + "have been published.\n"
-					+ "You can view the result here: "
-					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
-
-			sendEmail(message);
-		}
-
-		catch (MessagingException e) {
-			log.severe("teamFormingPublished: fail to send email.");
-		}
-	}
 
 	/**
 	 * Sends an email reminding the Student of the Evaluation deadline.
@@ -357,47 +110,6 @@ public class Emails {
 		}
 	}
 
-	/**
-	 * Sends an email reminding the Student of the Team Forming deadline.
-	 * 
-	 * @param email
-	 *            the email of the student (Precondition: Must not be null)
-	 * 
-	 * @param studentName
-	 *            the name of the student (Precondition: Must not be null)
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: Must not be null)
-	 * 
-	 * @param deadline
-	 *            the evaluation deadline (Precondition: Must not be null)
-	 */
-	public void remindStudentOfTeamForming(String email, String studentName,
-			String courseID, String deadline) {
-		try {
-			Session session = Session.getDefaultInstance(props, null);
-			MimeMessage message = new MimeMessage(session);
-
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-					email));
-
-			message.setFrom(new InternetAddress(from));
-			message.setSubject(String.format(HEADER_TEAMFORMING_REMINDER,
-					courseID, " "));
-			message.setText("Dear " + studentName + ",\n\n"
-					+ "You are reminded to make a team for: \n\n" + courseID
-					+ " \n\n" + "by " + deadline + "H.\n"
-					+ "You can access the team forming session here: "
-					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
-
-			sendEmail(message);
-
-		}
-
-		catch (MessagingException e) {
-			log.severe("remindStudentOfTeamForming: fail to send message");
-		}
-	}
 
 	/**
 	 * Sends a registration key to an e-mail address.
@@ -482,38 +194,7 @@ public class Emails {
 		}
 	}
 
-	/**
-	 * Stress testing of mail account
-	 * 
-	 * @param email
-	 * @param size
-	 * @author wangsha
-	 */
-	public void mailStressTesting(String email, int size) {
-		try {
-			Session session = Session.getDefaultInstance(props, null);
 
-			for (int i = 0; i < size; i++) {
-				MimeMessage message = new MimeMessage(session);
-
-				message.addRecipient(Message.RecipientType.TO,
-						new InternetAddress(email));
-
-				message.setFrom(new InternetAddress(from));
-				message.setSubject("Teammates Mail Stree Testing [" + i + "|"
-						+ size + "]");
-				message.setText("This is a testing email");
-
-				sendEmail(message);
-				log.fine("send email " + i + "|" + size);
-			}
-
-		}
-
-		catch (MessagingException e) {
-
-		}
-	}
 
 	@Deprecated
 	public void sendEmail() throws MessagingException {
