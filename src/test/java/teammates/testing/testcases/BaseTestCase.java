@@ -8,7 +8,6 @@ import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Properties;
 import java.util.TimeZone;
 import java.util.logging.ConsoleHandler;
@@ -32,13 +31,8 @@ import teammates.datatransfer.CoordData;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.DataBundle;
 import teammates.datatransfer.UserData;
-import teammates.testing.lib.BackDoor;
 
-import com.google.appengine.api.taskqueue.dev.LocalTaskQueue;
-import com.google.appengine.api.taskqueue.dev.QueueStateInfo;
-import com.google.appengine.api.taskqueue.dev.QueueStateInfo.TaskStateInfo;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
 
 public class BaseTestCase {
 	
@@ -46,7 +40,6 @@ public class BaseTestCase {
 	
 	@Rule
 	public MethodRule methodRule = new MethodRule (){
-	    private String testName;
 
 	    @Override
 	    public Statement apply(Statement statement, FrameworkMethod method, Object target) {
@@ -310,18 +303,6 @@ public class BaseTestCase {
 		
 	}
 
-	//TODO: check if this bug is fixed in new SDK
-	protected void setEmailQueuePath(LocalTaskQueueTestConfig ltqtc) {
-		/*
-		 * We have to explicitly set the path of queue.xml because the test
-		 * environment cannot find it. Apparently, this is a bug in the test
-		 * environment (as mentioned in
-		 * http://turbomanage.wordpress.com/2010/03/
-		 * 03/a-recipe-for-unit-testing-appengine-task-queues/ The bug might get
-		 * fixed in future SDKs.
-		 */
-		ltqtc.setQueueXmlPath(queueXmlFilePath);
-	}
 
 	//TODO: check if this bug is fixed in new SDK
 	protected void setHelperTimeZone(LocalServiceTestHelper localTestHelper) {
@@ -342,19 +323,6 @@ public class BaseTestCase {
 		localTestHelper.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
 	}
 
-	protected int getNumberOfEmailTasksInQueue() {
-		LocalTaskQueue ltq = LocalTaskQueueTestConfig.getLocalTaskQueue();
-		QueueStateInfo qsi = ltq.getQueueStateInfo().get("email-queue");
-		return qsi.getTaskInfo().size();
-	}
-
-	protected List<TaskStateInfo> getTasksInQueue(String queueName) {
-		LocalTaskQueue ltq = LocalTaskQueueTestConfig.getLocalTaskQueue();
-		QueueStateInfo qsi = ltq.getQueueStateInfo().get(queueName);
-	
-		List<TaskStateInfo> taskInfoList = qsi.getTaskInfo();
-		return taskInfoList;
-	}
 	
 	/**
 	 * Checks whether a JSON string represents a null object

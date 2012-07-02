@@ -1,14 +1,10 @@
 package teammates.api;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.MimeMessage;
 
 import teammates.TeamEvalResult;
@@ -37,7 +33,6 @@ import teammates.persistent.Evaluation;
 import teammates.persistent.Student;
 import teammates.persistent.Submission;
 
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.users.User;
 

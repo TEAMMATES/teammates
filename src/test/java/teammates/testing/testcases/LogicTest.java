@@ -50,7 +50,6 @@ import teammates.persistent.Student;
 
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
-import com.google.appengine.api.taskqueue.dev.QueueStateInfo.TaskStateInfo;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -85,7 +84,6 @@ public class LogicTest extends BaseTestCase {
 
 		LocalTaskQueueTestConfig ltqtc = new LocalTaskQueueTestConfig();
 		LocalUserServiceTestConfig lustc = new LocalUserServiceTestConfig();
-		setEmailQueuePath(ltqtc);
 		helper = new LocalServiceTestHelper(
 				new LocalDatastoreServiceTestConfig(),
 				new LocalMailServiceTestConfig(), lustc, ltqtc);

@@ -7,7 +7,6 @@ import static org.junit.Assert.fail;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 
@@ -17,31 +16,26 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import teammates.BackDoorLogic;
+import teammates.Datastore;
+import teammates.api.Common;
+import teammates.api.EntityAlreadyExistsException;
+import teammates.api.InvalidParametersException;
+import teammates.datatransfer.CoordData;
+import teammates.datatransfer.CourseData;
+import teammates.datatransfer.DataBundle;
+import teammates.datatransfer.EvaluationData;
+import teammates.datatransfer.EvaluationData.EvalStatus;
+import teammates.datatransfer.StudentData;
+import teammates.datatransfer.SubmissionData;
+import teammates.manager.Emails;
+
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
 import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
 import com.google.gson.Gson;
-
-import teammates.BackDoorLogic;
-import teammates.Datastore;
-import teammates.api.Common;
-import teammates.api.EntityAlreadyExistsException;
-import teammates.api.EntityDoesNotExistException;
-import teammates.api.InvalidParametersException;
-import teammates.api.Logic;
-import teammates.datatransfer.CoordData;
-import teammates.datatransfer.CourseData;
-import teammates.datatransfer.DataBundle;
-import teammates.datatransfer.EvaluationData;
-import teammates.datatransfer.StudentActionData;
-import teammates.datatransfer.StudentData;
-import teammates.datatransfer.SubmissionData;
-import teammates.datatransfer.TeamProfileData;
-import teammates.datatransfer.TfsData;
-import teammates.datatransfer.EvaluationData.EvalStatus;
-import teammates.manager.Emails;
 
 public class BackDoorLogicTest extends BaseTestCase {
 	Gson gson = Common.getTeammatesGson();
@@ -60,7 +54,6 @@ public class BackDoorLogicTest extends BaseTestCase {
 
 		LocalTaskQueueTestConfig ltqtc = new LocalTaskQueueTestConfig();
 		LocalUserServiceTestConfig lustc = new LocalUserServiceTestConfig();
-		setEmailQueuePath(ltqtc);
 		helper = new LocalServiceTestHelper(
 				new LocalDatastoreServiceTestConfig(),
 				new LocalMailServiceTestConfig(), lustc, ltqtc);

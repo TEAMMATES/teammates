@@ -16,19 +16,13 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.Config;
 import teammates.api.Common;
-import teammates.api.TeammatesException;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.EvaluationData;
 import teammates.datatransfer.StudentData;
 import teammates.jsp.Helper;
-import teammates.persistent.Evaluation;
-import teammates.persistent.Student;
 
 /**
  * Email handles all operations with regards to sending e-mails.
- * 
- * @author Gerald GOH
- * 
  */
 public class Emails {
 	private String from;

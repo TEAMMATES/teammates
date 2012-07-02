@@ -1,7 +1,7 @@
 package teammates.testing.testcases;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,8 +29,6 @@ import teammates.datatransfer.EvaluationData;
 import teammates.datatransfer.StudentData;
 import teammates.jsp.Helper;
 import teammates.manager.Emails;
-import teammates.persistent.Evaluation;
-import teammates.persistent.Student;
 
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;

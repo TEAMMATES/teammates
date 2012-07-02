@@ -2,7 +2,6 @@ package teammates;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -15,7 +14,6 @@ import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
 import teammates.api.Logic;
-import teammates.api.UnauthorizedAccessException;
 import teammates.datatransfer.CoordData;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.DataBundle;

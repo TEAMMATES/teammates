@@ -52,15 +52,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</welcome-file-list>
 	
 	<servlet>
-		<servlet-name>Email</servlet-name>
-		<servlet-class>teammates.EmailServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Email</servlet-name>
-		<url-pattern>/email</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
 		<servlet-name>EvaluationActivation</servlet-name>
 		<servlet-class>teammates.EvaluationActivationServlet</servlet-class>
 	</servlet>
@@ -319,7 +310,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <web-resource-name>AutomatedEmails</web-resource-name>
             <url-pattern>/automatedreminders</url-pattern>
             <url-pattern>/evaluationactivation</url-pattern>
-            <url-pattern>/teamformingsessionactivation</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
