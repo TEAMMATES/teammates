@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.MimeMessage;
 
 import teammates.TeamEvalResult;
@@ -521,8 +522,9 @@ public class Logic {
 
 	/**
 	 * Access: course owner and above
+	 * @return 
 	 */
-	public void sendRegistrationInviteForCourse(String courseId)
+	public List<MimeMessage> sendRegistrationInviteForCourse(String courseId)
 			throws InvalidParametersException {
 
 		Common.verifyNotNull(courseId, "course ID");
@@ -531,15 +533,18 @@ public class Logic {
 
 		List<Student> studentList = Courses.inst().getUnregisteredStudentList(
 				courseId);
+		
+		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 
 		for (Student s : studentList) {
 			try {
-				sendRegistrationInviteToStudent(courseId, s.getEmail());
+				MimeMessage email = sendRegistrationInviteToStudent(courseId, s.getEmail());
+				emailsSent.add(email);
 			} catch (EntityDoesNotExistException e) {
-				log.severe("Unexpected exception");
-				e.printStackTrace();
+				log.severe("Unexpected exception" + TeammatesException.stackTraceToString(e));
 			}
 		}
+		return emailsSent;
 	}
 
 	/**
@@ -749,10 +754,11 @@ public class Logic {
 	 * 
 	 * @param courseId
 	 * @param studentEmail
+	 * @return 
 	 * @throws EntityDoesNotExistException
 	 * @throws InvalidParametersException
 	 */
-	public void sendRegistrationInviteToStudent(String courseId,
+	public MimeMessage sendRegistrationInviteToStudent(String courseId,
 			String studentEmail) throws EntityDoesNotExistException,
 			InvalidParametersException {
 
@@ -768,14 +774,15 @@ public class Logic {
 			throw new EntityDoesNotExistException("Student [" + studentEmail
 					+ "] does not exist in course [" + courseId + "]");
 		}
-		Coordinator coord = Accounts.inst().getCoordinator(
-				course.getCoordinatorID());
-		List<Student> studentList = new ArrayList<Student>();
-		studentList.add(student);
-
-		// TODO: this need not be a batch processing method
-		Courses.inst().sendRegistrationKeys(studentList, courseId,
-				course.getName(), coord.getName(), coord.getEmail());
+		
+		Emails emailMgr = new Emails();
+		try {
+			MimeMessage email = emailMgr.generateStudentCourseJoinEmail(new CourseData(course), new StudentData(student));
+			emailMgr.sendEmail(email);
+			return email;
+		} catch (Exception e) {
+			throw new RuntimeException("Unexpected error while sending email",e);
+		} 
 
 	}
 

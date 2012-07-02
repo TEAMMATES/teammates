@@ -663,7 +663,6 @@ public class BrowserInstance {
 	 * @param by
 	 */
 	public void clickWithWait(By by) {
-		waitForPageLoad();
 		waitForElementPresent(by);
 		WebElement element = driver.findElement(by);
 		element.click();
@@ -3006,15 +3005,6 @@ public class BrowserInstance {
 	}
 
 	public String getCurrentPageSource() {
-//		String pageSource = driver.getPageSource();
-//		int retryCount = 0;
-//		while(pageSource.isEmpty()&&retryCount<3) {
-//			System.out.println("Empty page source. Retrying...");
-//			waitAWhile(1000);
-//			retryCount++;
-//			pageSource = driver.getPageSource();
-//		}
-//		return pageSource;
 		waitForPageLoad();
 		return driver.getPageSource();
 	}

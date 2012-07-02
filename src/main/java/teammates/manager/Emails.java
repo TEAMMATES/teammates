@@ -10,6 +10,7 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -39,6 +40,7 @@ public class Emails {
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER = "TEAMMATES: Peer evaluation reminder";
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING = "TEAMMATES: Peer evaluation closing soon";
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED = "TEAMMATES: Peer evaluation published";
+	public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: invitation to join course";
 	private final String HEADER_EVALUATION_REMINDER = "TEAMMATES: Evaluation Reminder: %s %s";
 	private final String TEAMMATES_APP_SIGNATURE = "\n\nIf you encounter any problems using the system, email TEAMMATES support team at teammates@comp.nus.edu.sg"
 			+ "\n\nRegards, \nTEAMMATES System";
@@ -304,30 +306,14 @@ public class Emails {
 	public MimeMessage generateEvaluationEmailBase(CourseData c,
 			EvaluationData e, StudentData s, String template) throws MessagingException {
 
-		Session session = Session.getDefaultInstance(new Properties(), null);
-		MimeMessage message = new MimeMessage(session);
+		MimeMessage message = getEmptyEmailAddressedToStudent(s);
 
-		message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-				s.email));
-
-		message.setFrom(new InternetAddress(from));
-
-		// TODO: specify subject line in the email template itself
 		message.setSubject(String.format("${subjectPrefix} [Course: %s][Evaluation: %s]", c.name, e.name));
 
 		String emailBody = template;
 
 		if (isYetToJoinCourse(s)) {
-			emailBody = emailBody.replace("${joinFragment}",
-					Config.inst().STUDENT_EMAIL_FRAGMENT_JOIN_COURSE);
-
-			emailBody = emailBody.replace("${key}", s.key);
-
-			String joinUrl = Config.inst().TEAMMATES_APP_URL
-					+ Common.PAGE_STUDENT_JOIN_COURSE;
-			joinUrl = Helper.addParam(joinUrl, Common.PARAM_REGKEY, s.key);
-
-			emailBody = emailBody.replace("${joinUrl}", joinUrl);
+			emailBody = fillUpJoinFragment(s, emailBody);
 		} else {
 			emailBody = emailBody.replace("${joinFragment}", "");
 		}
@@ -358,6 +344,34 @@ public class Emails {
 		return message;
 	}
 
+
+	private String fillUpJoinFragment(StudentData s, String emailBody) {
+		emailBody = emailBody.replace("${joinFragment}",
+				Config.inst().STUDENT_EMAIL_FRAGMENT_COURSE_JOIN);
+
+		emailBody = emailBody.replace("${key}", s.key);
+
+		String joinUrl = Config.inst().TEAMMATES_APP_URL
+				+ Common.PAGE_STUDENT_JOIN_COURSE;
+		joinUrl = Helper.addParam(joinUrl, Common.PARAM_REGKEY, s.key);
+
+		emailBody = emailBody.replace("${joinUrl}", joinUrl);
+		return emailBody;
+	}
+
+
+	private MimeMessage getEmptyEmailAddressedToStudent(StudentData s)
+			throws MessagingException, AddressException {
+		Session session = Session.getDefaultInstance(new Properties(), null);
+		MimeMessage message = new MimeMessage(session);
+
+		message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+				s.email));
+
+		message.setFrom(new InternetAddress(from));
+		return message;
+	}
+
 	public void sendEmails(List<MimeMessage> messages)
 			throws MessagingException {
 		for (MimeMessage m : messages) {
@@ -372,5 +386,21 @@ public class Emails {
 
 	private boolean isYetToJoinCourse(StudentData s) {
 		return s.id == null || s.id.isEmpty();
+	}
+
+
+	public MimeMessage generateStudentCourseJoinEmail(CourseData c,
+			StudentData s) throws AddressException, MessagingException {
+		
+		MimeMessage message = getEmptyEmailAddressedToStudent(s);
+		message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_JOIN+" [%s][Course ID: %s]", c.name, c.id));
+		
+		String emailBody = Config.inst().STUDENT_EMAIL_TEMPLATE_COURSE_JOIN;
+		emailBody = fillUpJoinFragment(s, emailBody);
+		emailBody = emailBody.replace("${studentName}", s.name);
+		emailBody = emailBody.replace("${courseName}", c.name);
+		
+		message.setContent(emailBody, "text/html");
+		return message;
 	}
 }

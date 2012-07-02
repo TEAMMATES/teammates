@@ -1064,8 +1064,8 @@ public class LogicTest extends BaseTestCase {
 		CourseData course1 = dataBundle.courses.get("course1OfCoord1");
 
 		// send registration key to a class in which all are registered
-		logic.sendRegistrationInviteForCourse(course1.id);
-		assertEquals(0, getNumberOfEmailTasksInQueue());
+		List<MimeMessage> emailsSent = logic.sendRegistrationInviteForCourse(course1.id);
+		assertEquals(0, emailsSent.size());
 
 		______TS("some students not registered");
 
@@ -1078,15 +1078,10 @@ public class LogicTest extends BaseTestCase {
 				.get("student2InCourse1");
 		student2InCourse1.id = "";
 		logic.editStudent(student2InCourse1.email, student2InCourse1);
-		logic.sendRegistrationInviteForCourse(course1.id);
-		assertEquals(2, getNumberOfEmailTasksInQueue());
-		verifyRegistrationEmailToStudent(student1InCourse1);
-		verifyRegistrationEmailToStudent(student2InCourse1);
-
-		______TS("send again to the same class");
-
-		logic.sendRegistrationInviteForCourse(course1.id);
-		assertEquals(4, getNumberOfEmailTasksInQueue());
+		emailsSent = logic.sendRegistrationInviteForCourse(course1.id);
+		assertEquals(2, emailsSent.size());
+		verifyJoinInviteToStudent(student2InCourse1, emailsSent.get(0));
+		verifyJoinInviteToStudent(student1InCourse1, emailsSent.get(1));
 
 		______TS("null parameters");
 
@@ -1527,17 +1522,10 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		StudentData student1 = dataBundle.students.get("student1InCourse1");
-		logic.sendRegistrationInviteToStudent(student1.course, student1.email);
+		
+		MimeMessage email = logic.sendRegistrationInviteToStudent(student1.course, student1.email);
 
-		assertEquals(1, getNumberOfEmailTasksInQueue());
-		verifyRegistrationEmailToStudent(student1);
-
-		// send to another student
-		StudentData student2 = dataBundle.students.get("student2InCourse1");
-		logic.sendRegistrationInviteToStudent(student2.course, student2.email);
-
-		assertEquals(2, getNumberOfEmailTasksInQueue());
-		verifyRegistrationEmailToStudent(student2);
+		verifyJoinInviteToStudent(student1, email);
 
 		______TS("send to non-existing student");
 
@@ -1549,7 +1537,6 @@ public class LogicTest extends BaseTestCase {
 			BaseTestCase.assertContains("non@existent", e.getMessage());
 			BaseTestCase.assertContains(student1.course, e.getMessage());
 		}
-		assertEquals(2, getNumberOfEmailTasksInQueue());
 
 		______TS("try with null parameters");
 
@@ -3688,6 +3675,14 @@ public class LogicTest extends BaseTestCase {
 	private void ____helper_methods_________________________________________() {
 	}
 
+	private void verifyJoinInviteToStudent(StudentData student1,
+			MimeMessage email) throws MessagingException {
+		assertEquals(student1.email, email.getAllRecipients()[0].toString());
+		assertContains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN, email.getSubject());
+		assertContains(student1.course, email.getSubject());
+	}
+
+
 	private MimeMessage getEmailToStudent(StudentData s,
 			List<MimeMessage> emailsSent) throws MessagingException {
 		for (MimeMessage m : emailsSent) {
@@ -3778,19 +3773,6 @@ public class LogicTest extends BaseTestCase {
 		expectedStudent.updateStatus = status;
 		assertEquals(errorMessage, true,
 				enrollmentResult.isEnrollmentInfoMatchingTo(expectedStudent));
-	}
-
-	private void verifyRegistrationEmailToStudent(StudentData student) {
-		List<TaskStateInfo> taskInfoList = getTasksInQueue("email-queue");
-		for (TaskStateInfo tsi : taskInfoList) {
-			String emailTaskBody = tsi.getBody();
-			if (emailTaskBody.contains("email="
-					+ student.email.replace("@", "%40"))
-					&& emailTaskBody.contains("courseid=" + student.course)) {
-				return;
-			}
-		}
-		fail();
 	}
 
 	private void alterSubmission(SubmissionData submission) {

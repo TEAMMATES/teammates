@@ -15,7 +15,8 @@ public class Config {
 	
 	public String STUDENT_EMAIL_TEMPLATE_EVALUATION_ = null;
 	public String STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED = null;
-	public String STUDENT_EMAIL_FRAGMENT_JOIN_COURSE = null;
+	public String STUDENT_EMAIL_TEMPLATE_COURSE_JOIN = null;
+	public String STUDENT_EMAIL_FRAGMENT_COURSE_JOIN = null;
 
 	// temporary
 	public boolean development_mode;
@@ -77,8 +78,11 @@ public class Config {
 		STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED = Common.readStream(Config.class.getClassLoader().getResourceAsStream(
 				"studentEmailTemplate-evaluationPublished.html"));
 		
-		STUDENT_EMAIL_FRAGMENT_JOIN_COURSE  = Common.readStream(Config.class.getClassLoader().getResourceAsStream(
-				"studentEmailFragment-joinCourse.html"));
+		STUDENT_EMAIL_FRAGMENT_COURSE_JOIN  = Common.readStream(Config.class.getClassLoader().getResourceAsStream(
+				"studentEmailFragment-courseJoin.html"));
+		
+		STUDENT_EMAIL_TEMPLATE_COURSE_JOIN  = Common.readStream(Config.class.getClassLoader().getResourceAsStream(
+				"studentEmailTemplate-courseJoin.html"));
 
 	}
 	

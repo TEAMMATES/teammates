@@ -54,7 +54,6 @@ public class EmailsTest extends BaseTestCase {
 		helper.setUp();
 	}
 
-
 	@Test
 	public void testGetEmailInfo() throws MessagingException {
 
@@ -97,8 +96,8 @@ public class EmailsTest extends BaseTestCase {
 		______TS("generic template, student yet to join");
 
 		String template = Config.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_;
-		MimeMessage email = new Emails()
-				.generateEvaluationEmailBase(c, e, s, template);
+		MimeMessage email = new Emails().generateEvaluationEmailBase(c, e, s,
+				template);
 
 		// check receiver
 		assertEquals(s.email, email.getAllRecipients()[0].toString());
@@ -129,13 +128,14 @@ public class EmailsTest extends BaseTestCase {
 
 		assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
 				+ "{*}" + joinUrl + "{*}" + joinUrl + "{*}" + c.name + "{*}"
-				+ s.key + "{*}${status}{*}" + c.id + "{*}" + c.name + "{*}" + e.name + "{*}" + deadline
-				+ "{*}" + submitUrl + "{*}" + submitUrl, emailBody);
-		
+				+ s.key + "{*}${status}{*}" + c.id + "{*}" + c.name + "{*}"
+				+ e.name + "{*}" + deadline + "{*}" + submitUrl + "{*}"
+				+ submitUrl, emailBody);
+
 		printEmail(email);
-		
+
 		______TS("published template, student yet to join");
-		
+
 		template = Config.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
 		email = new Emails().generateEvaluationEmailBase(c, e, s, template);
 
@@ -143,24 +143,24 @@ public class EmailsTest extends BaseTestCase {
 
 		assertTrue(emailBody.contains(s.key));
 		assertTrue(!emailBody.contains(submitUrl));
-		
+
 		String reportUrl = Config.inst().TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_EVAL_RESULTS;
 		reportUrl = Helper.addParam(reportUrl, Common.PARAM_COURSE_ID, c.id);
 		reportUrl = Helper.addParam(reportUrl, Common.PARAM_EVALUATION_NAME,
 				e.name);
-		
+
 		assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
 				+ "{*}" + joinUrl + "{*}" + joinUrl + "{*}" + c.name + "{*}"
-				+ s.key + "{*}is now ready for viewing{*}" + c.id + "{*}" + c.name
-				+ "{*}" + e.name + "{*}" + reportUrl + "{*}"
+				+ s.key + "{*}is now ready for viewing{*}" + c.id + "{*}"
+				+ c.name + "{*}" + e.name + "{*}" + reportUrl + "{*}"
 				+ reportUrl, emailBody);
-		
+
 		printEmail(email);
 
 		______TS("generic template, student joined");
-		
-		s.id = "student1id"; //set student id to make him "joined"
+
+		s.id = "student1id"; // set student id to make him "joined"
 		template = Config.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_;
 
 		email = new Emails().generateEvaluationEmailBase(c, e, s, template);
@@ -171,37 +171,84 @@ public class EmailsTest extends BaseTestCase {
 		assertContainsRegex("Hello " + s.name + "{*}" + c.id + "{*}" + c.name
 				+ "{*}" + e.name + "{*}" + deadline + "{*}" + submitUrl + "{*}"
 				+ submitUrl, emailBody);
-		
+
 		printEmail(email);
-		
+
 		______TS("published template, student joined");
-		
+
 		template = Config.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
 		email = new Emails().generateEvaluationEmailBase(c, e, s, template);
 
 		emailBody = email.getContent().toString();
 
 		assertTrue(!emailBody.contains(s.key));
-		
-		assertContainsRegex("Hello " + s.name + "{*}is now ready for viewing{*}" + c.id + "{*}" + c.name
-				+ "{*}" + e.name + "{*}" + reportUrl + "{*}"
-				+ reportUrl, emailBody);
-		
+
+		assertContainsRegex("Hello " + s.name
+				+ "{*}is now ready for viewing{*}" + c.id + "{*}" + c.name
+				+ "{*}" + e.name + "{*}" + reportUrl + "{*}" + reportUrl,
+				emailBody);
+
 		printEmail(email);
 
 	}
 
-	private void printEmail(MimeMessage email) throws MessagingException, IOException {
+	@Test
+	public void testGenerateStudentCourseJoinEmail() throws IOException,
+			MessagingException {
+
+		CourseData c = new CourseData();
+		c.id = "course-id";
+		c.name = "Course Name";
+
+		StudentData s = new StudentData();
+		s.name = "Student Name";
+		s.key = "skxxxxxxxxxks";
+		s.email = "student@email.com";
+
+		MimeMessage email = new Emails().generateStudentCourseJoinEmail(c, s);
+
+		// check receiver
+		assertEquals(s.email, email.getAllRecipients()[0].toString());
+
+		// check sender
+		assertEquals(Config.inst().TEAMMATES_APP_ACCOUNT,
+				email.getFrom()[0].toString());
+
+		// check subject
+		assertEquals(
+				"TEAMMATES: invitation to join course [Course Name][Course ID: course-id]",
+				email.getSubject());
+
+		// check email body
+		String joinUrl = Config.inst().TEAMMATES_APP_URL
+				+ Common.PAGE_STUDENT_JOIN_COURSE;
+		joinUrl = Helper.addParam(joinUrl, Common.PARAM_REGKEY, s.key);
+
+
+		String emailBody = email.getContent().toString();
+
+		assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
+				+ "{*}" + joinUrl + "{*}" + joinUrl + "{*}" + c.name + "{*}"
+				+ s.key, emailBody);
+		
+		assertTrue(!emailBody.contains("$"));
+
+		printEmail(email);
+	}
+
+	private void printEmail(MimeMessage email) throws MessagingException,
+			IOException {
 		print("Here's the generated email (for your eyeballing pleasure):");
 		print(".............[Start of email]..............");
-		print("Subject: "+ email.getSubject());
+		print("Subject: " + email.getSubject());
 		print("Body:");
 		print(email.getContent().toString());
 		print(".............[End of email]................");
 	}
 
 	@Test
-	public void testGenerateEvaluationEmails() throws MessagingException, IOException {
+	public void testGenerateEvaluationEmails() throws MessagingException,
+			IOException {
 		List<StudentData> students = new ArrayList<StudentData>();
 
 		EvaluationData e = new EvaluationData();
@@ -225,40 +272,41 @@ public class EmailsTest extends BaseTestCase {
 		students.add(s2);
 
 		______TS("evaluation opening emails");
-		
+
 		List<MimeMessage> emails = new Emails()
 				.generateEvaluationOpeningEmails(c, e, students);
 		assertEquals(2, emails.size());
-		
+
 		String prefix = Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_OPENING;
 		String status = "is now open";
 		verifyEvaluationEmail(s1, emails.get(0), prefix, status);
 		verifyEvaluationEmail(s2, emails.get(1), prefix, status);
-		
+
 		______TS("evaluation reminders");
-		
+
 		emails = new Emails().generateEvaluationReminderEmails(c, e, students);
 		assertEquals(2, emails.size());
-		
+
 		prefix = Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER;
 		status = "is still open for submissions";
 		verifyEvaluationEmail(s1, emails.get(0), prefix, status);
 		verifyEvaluationEmail(s2, emails.get(1), prefix, status);
-		
+
 		______TS("evaluation closing alerts");
-		
+
 		emails = new Emails().generateEvaluationClosingEmails(c, e, students);
 		assertEquals(2, emails.size());
-		
+
 		prefix = Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING;
 		status = "is closing soon";
 		verifyEvaluationEmail(s1, emails.get(0), prefix, status);
 		verifyEvaluationEmail(s2, emails.get(1), prefix, status);
-		
+
 	}
 
-	private void verifyEvaluationEmail(StudentData s, MimeMessage email, String prefix, String status)
-			throws MessagingException, IOException {
+	private void verifyEvaluationEmail(StudentData s, MimeMessage email,
+			String prefix, String status) throws MessagingException,
+			IOException {
 		assertEquals(s.email, email.getAllRecipients()[0].toString());
 		assertTrue(email.getSubject().contains(prefix));
 		String emailBody = email.getContent().toString();
