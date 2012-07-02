@@ -16,10 +16,13 @@ public class ConfigTest extends BaseTestCase {
 	@Test
 	public void checkReadingEmailTemplates() {
 		assertContainsRegex("${joinFragment}{*}${submitUrl}",
-				Config.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_OPENING);
+				Config.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_);
 		
 		assertContainsRegex("${joinUrl}{*}${key}",
 				Config.inst().STUDENT_EMAIL_FRAGMENT_JOIN_COURSE);
+		
+		assertContainsRegex("${reportUrl}",
+				Config.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED);
 	}
 
 }

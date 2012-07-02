@@ -45,6 +45,7 @@ import teammates.datatransfer.StudentData.UpdateStatus;
 import teammates.datatransfer.SubmissionData;
 import teammates.datatransfer.TeamData;
 import teammates.datatransfer.UserData;
+import teammates.manager.Emails;
 import teammates.persistent.Student;
 
 import com.google.appengine.api.datastore.KeyFactory;
@@ -2759,6 +2760,32 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	@Test
+	public void testSendEvaluationPublishedEmails() throws Exception {
+		loginAsAdmin("admin.user");
+		restoreTypicalDataInDatastore();
+		dataBundle = getTypicalDataBundle();
+
+		EvaluationData e = dataBundle.evaluations
+				.get("evaluation1InCourse1OfCoord1");
+
+		List<MimeMessage> emailsSent = invokeSendEvaluationPublishedEmails(
+				e.course, e.name);
+		assertEquals(5, emailsSent.size());
+
+		List<StudentData> studentList = logic.getStudentListForCourse(e.course);
+
+		for (StudentData s : studentList) {
+			String errorMessage = "No email sent to " + s.email;
+			MimeMessage emailToStudent = getEmailToStudent(s, emailsSent);
+			assertTrue(errorMessage, emailToStudent != null);
+			assertContains(Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED,
+					emailToStudent.getSubject());
+			assertContains(e.name,
+					emailToStudent.getSubject());
+		}
+	}
+
+	@Test
 	public void testGetEvaluationResult() throws Exception {
 
 		______TS("authentication");
@@ -3347,8 +3374,9 @@ public class LogicTest extends BaseTestCase {
 		List<StudentData> studentList = logic
 				.getStudentListForCourse(eval.course);
 
-		for (StudentData s: studentList){
-			verifyEmailToStudent(s, emailsSent);
+		for (StudentData s : studentList) {
+			String errorMessage = "No email sent to " + s.email;
+			assertTrue(errorMessage, getEmailToStudent(s, emailsSent) != null);
 		}
 
 		______TS("some have submitted fully");
@@ -3381,7 +3409,9 @@ public class LogicTest extends BaseTestCase {
 		// verify all students in Team 1.1 received emails.
 		for (StudentData s : studentList) {
 			if (s.team.equals("Team 1.1")) {
-				verifyEmailToStudent(s, emailsSent);
+				String errorMessage = "No email sent to " + s.email;
+				assertTrue(errorMessage,
+						getEmailToStudent(s, emailsSent) != null);
 			}
 		}
 
@@ -3658,17 +3688,17 @@ public class LogicTest extends BaseTestCase {
 	private void ____helper_methods_________________________________________() {
 	}
 
-	private void verifyEmailToStudent(StudentData s,
+	private MimeMessage getEmailToStudent(StudentData s,
 			List<MimeMessage> emailsSent) throws MessagingException {
 		for (MimeMessage m : emailsSent) {
 			boolean emailSentToThisStudent = m.getAllRecipients()[0].toString()
 					.equalsIgnoreCase(s.email);
 			if (emailSentToThisStudent) {
-				print("email sent to:"+s.email);
-				return;
+				print("email sent to:" + s.email);
+				return m;
 			}
 		}
-		fail("No email sent to " + s.email);
+		return null;
 	}
 
 	private void verifyNullParameterDetectedCorrectly(NullPointerException e,
@@ -3914,6 +3944,17 @@ public class LogicTest extends BaseTestCase {
 		privateMethod.setAccessible(true);
 		Object[] params = new Object[] { s };
 		privateMethod.invoke(logic, params);
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<MimeMessage> invokeSendEvaluationPublishedEmails(
+			String courseId, String evaluationName) throws Exception {
+		Method privateMethod = Logic.class.getDeclaredMethod(
+				"sendEvaluationPublishedEmails", new Class[] { String.class,
+						String.class });
+		privateMethod.setAccessible(true);
+		Object[] params = new Object[] { courseId, evaluationName };
+		return (List<MimeMessage>) privateMethod.invoke(logic, params);
 	}
 
 	private void verifyCannotAccess(int userType, String methodName,

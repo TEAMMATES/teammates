@@ -137,6 +137,7 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndConfirm(publishButton);
 			bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_PUBLISHED);
+			//TODO: verify emails were sent to students
 		} catch (NoAlertAppearException e){
 			fail("No confirmation box when clicking publish button");
 		}

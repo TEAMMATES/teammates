@@ -13,7 +13,8 @@ public class Config {
 	public String TEAMMATES_APP_ACCOUNT = null;
 	public String TEAMMATES_APP_URL = null;
 	
-	public String STUDENT_EMAIL_TEMPLATE_EVALUATION_OPENING = null;
+	public String STUDENT_EMAIL_TEMPLATE_EVALUATION_ = null;
+	public String STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED = null;
 	public String STUDENT_EMAIL_FRAGMENT_JOIN_COURSE = null;
 
 	// temporary
@@ -70,8 +71,11 @@ public class Config {
 				.parseBoolean(prop.getProperty("app.emailEnable"));
 		BACKDOOR_KEY = prop.getProperty("app.backdoor.key");
 		
-		STUDENT_EMAIL_TEMPLATE_EVALUATION_OPENING = Common.readStream(Config.class.getClassLoader().getResourceAsStream(
+		STUDENT_EMAIL_TEMPLATE_EVALUATION_ = Common.readStream(Config.class.getClassLoader().getResourceAsStream(
 						"studentEmailTemplate-evaluation_.html"));
+		
+		STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED = Common.readStream(Config.class.getClassLoader().getResourceAsStream(
+				"studentEmailTemplate-evaluationPublished.html"));
 		
 		STUDENT_EMAIL_FRAGMENT_JOIN_COURSE  = Common.readStream(Config.class.getClassLoader().getResourceAsStream(
 				"studentEmailFragment-joinCourse.html"));

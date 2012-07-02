@@ -1,5 +1,6 @@
 package teammates.api;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -1117,11 +1118,8 @@ public class Logic {
 					"Cannot publish an evaluation unless it is CLOSED");
 		}
 
-		Courses courses = Courses.inst();
-		List<Student> studentList = courses.getStudentList(courseId);
-
-		Evaluations.inst().publishEvaluation(courseId, evaluationName,
-				studentList);
+		Evaluations.inst().publishEvaluation(courseId, evaluationName);
+		sendEvaluationPublishedEmails(courseId, evaluationName);
 	}
 
 	/**
@@ -1316,6 +1314,24 @@ public class Logic {
 
 	@SuppressWarnings("unused")
 	private void ____helper_methods________________________________________() {
+	}
+
+	private List<MimeMessage> sendEvaluationPublishedEmails(String courseId,
+			String evaluationName) throws EntityDoesNotExistException {
+		List<MimeMessage> emailsSent;
+		
+		CourseData c = getCourse(courseId);
+		EvaluationData e = getEvaluation(courseId, evaluationName);
+		List<StudentData> students = getStudentListForCourse(courseId);
+		
+		Emails emailMgr = new Emails();
+		try {
+			emailsSent = emailMgr.generateEvaluationPublishedEmails(c, e, students);
+			emailMgr.sendEmails(emailsSent);
+		} catch (Exception ex) {
+			throw new RuntimeException("Unexpected error while sending emails ", ex );
+		} 
+		return emailsSent;
 	}
 
 	private void verifyEvaluationExists(EvaluationData evaluation,

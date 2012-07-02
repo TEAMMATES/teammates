@@ -1131,15 +1131,10 @@ public class Evaluations {
 	 *            the evaluation name (Pre-condition: The courseID and name pair
 	 *            must be valid)
 	 */
-	public boolean publishEvaluation(String courseID, String name,
-			List<Student> studentList) {
+	public boolean publishEvaluation(String courseID, String name) {
 		Evaluation evaluation = getEvaluation(courseID, name);
 		
-		
 		evaluation.setPublished(true);
-
-		informStudentsOfPublishingOfEvaluationResults(studentList, courseID,
-				name);
 		getPM().close();
 		return true;
 	}

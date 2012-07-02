@@ -39,6 +39,7 @@ public class Emails {
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_OPENING = "TEAMMATES: Peer evaluation now open";
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER = "TEAMMATES: Peer evaluation reminder";
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING = "TEAMMATES: Peer evaluation closing soon";
+	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED = "TEAMMATES: Peer evaluation published";
 	private final String HEADER_TEAMFORMING_OPEN = "TEAMMATES: Team Forming Session Opening: %s %s";
 	private final String HEADER_EVALUATION_CHANGE = "TEAMMATES: Evaluation Changed: %s %s";
 	private final String HEADER_TEAMFORMING_CHANGE = "TEAMMATES: Team Forming Changed: %s %s";
@@ -535,8 +536,10 @@ public class Emails {
 	public List<MimeMessage> generateEvaluationOpeningEmails(
 			CourseData course, EvaluationData evaluation,
 			List<StudentData> students) throws MessagingException, IOException {
-		List<MimeMessage> emails = generateEvaluationEmails(course,
-				evaluation, students);
+		
+		String template = Config.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_;
+		List<MimeMessage> emails = generateEvaluationEmailBases(course,
+				evaluation, students, template);
 		for (MimeMessage email : emails) {
 			email.setSubject(email.getSubject().replace(
 					"${subjectPrefix}",
@@ -553,8 +556,10 @@ public class Emails {
 	public List<MimeMessage> generateEvaluationReminderEmails(
 			CourseData course, EvaluationData evaluation,
 			List<StudentData> students) throws MessagingException, IOException {
-		List<MimeMessage> emails = generateEvaluationEmails(course,
-				evaluation, students);
+		
+		String template = Config.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_;
+		List<MimeMessage> emails = generateEvaluationEmailBases(course,
+				evaluation, students, template);
 		for (MimeMessage email : emails) {
 			email.setSubject(email.getSubject().replace(
 					"${subjectPrefix}",
@@ -571,8 +576,10 @@ public class Emails {
 	public List<MimeMessage> generateEvaluationClosingEmails(CourseData c,
 			EvaluationData e, List<StudentData> students)
 			throws MessagingException, IOException {
-		List<MimeMessage> emails = generateEvaluationEmails(c, e,
-				students);
+		
+		String template = Config.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_;
+		List<MimeMessage> emails = generateEvaluationEmailBases(c, e,
+				students, template);
 		for (MimeMessage email : emails) {
 			email.setSubject(email.getSubject().replace(
 					"${subjectPrefix}",
@@ -585,19 +592,36 @@ public class Emails {
 		}
 		return emails;
 	}
-
-	public List<MimeMessage> generateEvaluationEmails(CourseData course,
-			EvaluationData evaluation, List<StudentData> students)
-			throws MessagingException {
-		ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
-		for (StudentData s : students) {
-			emails.add(generateEvaluationEmail(course, evaluation, s));
+	
+	public List<MimeMessage> generateEvaluationPublishedEmails(CourseData c,
+			EvaluationData e, List<StudentData> students)
+			throws MessagingException, IOException {
+		
+		String template = Config.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
+		List<MimeMessage> emails = generateEvaluationEmailBases(c, e,
+				students, template);
+		for (MimeMessage email : emails) {
+			email.setSubject(email.getSubject().replace(
+					"${subjectPrefix}",
+					SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED));
 		}
 		return emails;
 	}
 
-	public MimeMessage generateEvaluationEmail(CourseData c,
-			EvaluationData e, StudentData s) throws MessagingException {
+
+	public List<MimeMessage> generateEvaluationEmailBases(CourseData course,
+			EvaluationData evaluation, List<StudentData> students, String template)
+			throws MessagingException {
+		ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
+		for (StudentData s : students) {
+			
+			emails.add(generateEvaluationEmailBase(course, evaluation, s, template));
+		}
+		return emails;
+	}
+
+	public MimeMessage generateEvaluationEmailBase(CourseData c,
+			EvaluationData e, StudentData s, String template) throws MessagingException {
 
 		Session session = Session.getDefaultInstance(new Properties(), null);
 		MimeMessage message = new MimeMessage(session);
@@ -610,7 +634,7 @@ public class Emails {
 		// TODO: specify subject line in the email template itself
 		message.setSubject(String.format("${subjectPrefix} [Course: %s][Evaluation: %s]", c.name, e.name));
 
-		String emailBody = Config.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_OPENING;
+		String emailBody = template;
 
 		if (isYetToJoinCourse(s)) {
 			emailBody = emailBody.replace("${joinFragment}",
@@ -639,9 +663,15 @@ public class Emails {
 		submitUrl = Helper.addParam(submitUrl, Common.PARAM_COURSE_ID, c.id);
 		submitUrl = Helper.addParam(submitUrl, Common.PARAM_EVALUATION_NAME,
 				e.name);
-
 		emailBody = emailBody.replace("${submitUrl}", submitUrl);
-
+		
+		String reportUrl = Config.inst().TEAMMATES_APP_URL
+				+ Common.PAGE_STUDENT_EVAL_RESULTS;
+		reportUrl = Helper.addParam(reportUrl, Common.PARAM_COURSE_ID, c.id);
+		reportUrl = Helper.addParam(reportUrl, Common.PARAM_EVALUATION_NAME,
+				e.name);
+		emailBody = emailBody.replace("${reportUrl}", reportUrl);
+		
 		message.setContent(emailBody, "text/html");
 
 		return message;
