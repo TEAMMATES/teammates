@@ -29,6 +29,7 @@ import teammates.api.Common;
 import teammates.api.Logic;
 import teammates.api.TeammatesException;
 import teammates.datatransfer.CoordData;
+import teammates.datatransfer.CourseData;
 import teammates.datatransfer.DataBundle;
 import teammates.datatransfer.UserData;
 import teammates.testing.lib.BackDoor;
@@ -279,6 +280,13 @@ public class BaseTestCase {
 		setLogLevelOfClass(Logic.class, Level.SEVERE);
 		
 		DataBundle dataBundle = getTypicalDataBundle();
+		
+		//delete courses first in case there are existing courses with same id
+		//  but under different coords.
+		for (CourseData course : dataBundle.courses.values()) {
+			backDoorLogic.deleteCourse(course.id);
+		}
+		
 		HashMap<String, CoordData> coords = dataBundle.coords;
 		for (CoordData coord : coords.values()) {
 			backDoorLogic.deleteCoord(coord.id);

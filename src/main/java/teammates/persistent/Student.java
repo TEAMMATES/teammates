@@ -12,6 +12,7 @@ import teammates.api.InvalidParametersException;
 import teammates.datatransfer.StudentData;
 
 import com.google.gson.annotations.SerializedName;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 
 /**
@@ -256,6 +257,11 @@ public class Student {
 	}
 
 	public boolean isRegistered() {
-		return (ID==null || ID.isEmpty());
+		return (ID == null || ID.isEmpty());
+	}
+
+	public static String getStringKeyForLongKey(long longKey) {
+		return KeyFactory.createKeyString(Student.class.getSimpleName(),
+				longKey);
 	}
 }

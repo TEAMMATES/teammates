@@ -1,10 +1,13 @@
 package teammates;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import teammates.api.Common;
@@ -19,10 +22,15 @@ import teammates.datatransfer.DataBundle;
 import teammates.datatransfer.EvaluationData;
 import teammates.datatransfer.StudentData;
 import teammates.datatransfer.SubmissionData;
+import teammates.manager.Courses;
+import teammates.manager.Emails;
+import teammates.manager.Evaluations;
+import teammates.persistent.Evaluation;
+import teammates.persistent.Student;
 
 public class BackDoorLogic extends Logic{
 	
-	Logger log = Common.getLogger();
+	private static Logger log = Common.getLogger();
 	
 	/**
 	 * Persists given data in the datastore Works ONLY if the data is correct
@@ -136,23 +144,61 @@ public class BackDoorLogic extends Logic{
 		submissionList.add(submission);
 		editSubmissions(submissionList);
 	}
-
 	
-	public List<MimeMessage> activateReadyEvaluations(){
-		//TODO:
-		//Evaluations.getReadyEvaluations(); {already tested}
-		//for each eval
-		//  studentList = getStudentList {already tested}
-		//  emailList = Emails.generateAlertEmails(eval,studentList) 
-		//  Emails.sendEmails(emailList)
-		return null;
+	public List<MimeMessage> activateReadyEvaluations() throws EntityDoesNotExistException, MessagingException, InvalidParametersException, IOException{
+		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
+		List<Evaluation> evaluations = Evaluations.inst().getReadyEvaluations(); 
+		for(Evaluation e: evaluations){
+			
+			EvaluationData ed = new EvaluationData(e);
+			CourseData course = getCourse(ed.course);
+			List<StudentData> students = getStudentListForCourse(ed.course);
+			
+			Emails emails = new Emails();
+			List<MimeMessage> messages = emails.generateEvaluationOpeningEmails(course, ed, students);
+			emails.sendEmails(messages);
+			messagesSent.addAll(messages);
+			
+			//mark evaluation as activated
+			ed.activated=true;
+			editEvaluation(ed);
+		}
+		return messagesSent;
 	}
-
+	
 	
 	@Override
 	protected boolean isInternalCall() {
 		//back door calls are considered internal calls
 		return true;
+	}
+
+	public List<MimeMessage> sendRemindersForClosingEvaluations() throws MessagingException, IOException {
+		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
+		
+		Evaluations evaluations = Evaluations.inst();
+		List<Evaluation> evaluationList = evaluations.getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
+
+		for (Evaluation e : evaluationList) {
+			List<Student> studentList = Courses.inst().getStudentList(e.getCourseID());
+			List<StudentData> studentToRemindList = new ArrayList<StudentData>();
+
+			EvaluationData ed = new EvaluationData(e);
+			
+			for (Student s : studentList) {
+				if (!evaluations.isEvaluationSubmitted(ed, s.getEmail())) {
+					studentToRemindList.add(new StudentData(s));
+				}
+			}
+			
+			CourseData c = getCourse(ed.course);
+			
+			Emails emailMgr = new Emails();
+			List<MimeMessage> emails = emailMgr.generateEvaluationClosingEmails(c, ed, studentToRemindList);
+			emailMgr.sendEmails(emails);
+			emailsSent.addAll(emails);
+		}
+		return emailsSent;
 	}
 	
 

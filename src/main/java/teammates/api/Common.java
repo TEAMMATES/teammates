@@ -8,9 +8,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import teammates.persistent.Course;
 import teammates.persistent.Evaluation;
 
 import com.google.gson.Gson;
@@ -38,6 +40,9 @@ public class Common {
 
 	public static final int POINTS_NOT_SURE = -101;
 	public static final int POINTS_NOT_SUBMITTED = -999;
+	
+
+	public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
 
 	// Hover messages
 	public static final String HOVER_MESSAGE_COURSE_ENROLL = "Enroll student into the course";
@@ -353,7 +358,6 @@ public class Common {
 
 
 
-
 	@SuppressWarnings("unused")
 	private void ____VALIDATE_parameters___________________________________() {
 	}
@@ -613,12 +617,12 @@ public class Common {
 	 */
 	public static String formatTime(Date date){
 		if(date==null) return "";
-		return new SimpleDateFormat("dd MMM yyyy, hh:mm").format(date);
+		return new SimpleDateFormat("dd MMM yyyy, HH:mm").format(date);
 	}
 
 	public static String calendarToString(Calendar c) {
 		if(c==null) return "";
-		return new SimpleDateFormat("MM/dd/yyyy hh:mm:ss SSS")
+		return new SimpleDateFormat("MM/dd/yyyy HH:mm:ss SSS")
 				.format(c.getTime());
 	}
 	

@@ -1,5 +1,7 @@
 package teammates.manager;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
@@ -13,6 +15,11 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.Config;
 import teammates.api.Common;
+import teammates.api.TeammatesException;
+import teammates.datatransfer.CourseData;
+import teammates.datatransfer.EvaluationData;
+import teammates.datatransfer.StudentData;
+import teammates.jsp.Helper;
 import teammates.persistent.Evaluation;
 import teammates.persistent.Student;
 
@@ -29,7 +36,9 @@ public class Emails {
 
 	private final String HEADER_REGISTRATION_INVITATION = "TEAMMATES: Registration Invitation: Register in the course %s";
 	private final String HEADER_REGISTRATION_REMINDER = "TEAMMATES: Registration Reminder: Register in the course %s";
-	private final String HEADER_EVALUATION_OPEN = "TEAMMATES: Evaluation Opening: %s %s";
+	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_OPENING = "TEAMMATES: Peer evaluation now open";
+	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER = "TEAMMATES: Peer evaluation reminder";
+	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING = "TEAMMATES: Peer evaluation closing soon";
 	private final String HEADER_TEAMFORMING_OPEN = "TEAMMATES: Team Forming Session Opening: %s %s";
 	private final String HEADER_EVALUATION_CHANGE = "TEAMMATES: Evaluation Changed: %s %s";
 	private final String HEADER_TEAMFORMING_CHANGE = "TEAMMATES: Team Forming Changed: %s %s";
@@ -39,7 +48,7 @@ public class Emails {
 	private final String HEADER_TEAMFORMING_PUBLISH = "TEAMMATES: Team Forming Published: %s %s";
 	private final String TEAMMATES_APP_SIGNATURE = "\n\nIf you encounter any problems using the system, email TEAMMATES support team at teammates@comp.nus.edu.sg"
 			+ "\n\nRegards, \nTEAMMATES System";
-	
+
 	private String EMAIL_EVALUATION_OPENING = "";
 
 	/**
@@ -127,7 +136,8 @@ public class Emails {
 	 *            the evaluation name (Precondition: Must not be null)
 	 */
 	public void informStudentsOfEvaluationOpening(String email,
-			String studentName, String courseID, String evaluationName, String deadline) {
+			String studentName, String courseID, String evaluationName,
+			String deadline) {
 		try {
 			Session session = Session.getDefaultInstance(props, null);
 			MimeMessage message = new MimeMessage(session);
@@ -136,12 +146,13 @@ public class Emails {
 					email));
 
 			message.setFrom(new InternetAddress(from));
-			message.setSubject(String.format(HEADER_EVALUATION_OPEN, courseID,
+			message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_EVALUATION_OPENING, courseID,
 					evaluationName));
 			message.setText("Dear " + studentName + ",\n\n"
 					+ "The following evaluation: \n\n" + courseID + " "
-					+ evaluationName + "\n\n" + "is open from now until the deadline "+ deadline +"H.\n"
-					+ "You can access the evaluation here: "
+					+ evaluationName + "\n\n"
+					+ "is open from now until the deadline " + deadline
+					+ "H.\n" + "You can access the evaluation here: "
 					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
 
 			sendEmail(message);
@@ -153,30 +164,23 @@ public class Emails {
 		}
 
 	}
-	
-	public void sendEmails(List<MimeMessage> messages) throws MessagingException{
-		for(MimeMessage m: messages){
-			sendEmail(m);
-		}
-	}
-
-	public void sendEmail(MimeMessage message) throws MessagingException {
-		log.info(getEmailInfo(message));
-		Transport.send(message);
-	}
 
 	public static String getEmailInfo(MimeMessage message)
 			throws MessagingException {
 		StringBuffer messageInfo = new StringBuffer();
 		messageInfo.append("[Email sent]");
-		messageInfo.append("to="+message.getRecipients(Message.RecipientType.TO)[0].toString());
-		messageInfo.append("|from="+message.getFrom()[0].toString());
-		messageInfo.append("|subject="+message.getSubject());
+		messageInfo
+				.append("to="
+						+ message.getRecipients(Message.RecipientType.TO)[0]
+								.toString());
+		messageInfo.append("|from=" + message.getFrom()[0].toString());
+		messageInfo.append("|subject=" + message.getSubject());
 		return messageInfo.toString();
 	}
-	
-	public void informStudentsOfTeamFormingChanges(String email, String studentName, String courseID,
-			String instructions, String start, String deadline, String profileTemplate) {
+
+	public void informStudentsOfTeamFormingChanges(String email,
+			String studentName, String courseID, String instructions,
+			String start, String deadline, String profileTemplate) {
 		try {
 			Session session = Session.getDefaultInstance(props, null);
 			MimeMessage message = new MimeMessage(session);
@@ -193,10 +197,11 @@ public class Emails {
 					+ "There are changes to the team forming session of: \n\n"
 					+ courseID
 					+ " \n\n"
-					+ "made by your coordinator. The start, deadline, instructions and " 
+					+ "made by your coordinator. The start, deadline, instructions and "
 					+ "profile template of the team forming are as follow, \n\n"
 					+ "Start: " + start + "H. \n\n" + "Deadline: " + deadline
-					+ "H. \n\n" + "Instructions : " + instructions + "Profile Template: " + profileTemplate
+					+ "H. \n\n" + "Instructions : " + instructions
+					+ "Profile Template: " + profileTemplate
 					+ "\n You can access the team forming session here: "
 					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
 
@@ -207,9 +212,9 @@ public class Emails {
 			log.fine("teamFormingSessionChanges: fail to send email.");
 		}
 	}
-	
-	public void informStudentsOfTeamFormingOpening(String email, String studentName, 
-			String courseID, String deadline) {
+
+	public void informStudentsOfTeamFormingOpening(String email,
+			String studentName, String courseID, String deadline) {
 		try {
 			Session session = Session.getDefaultInstance(props, null);
 			MimeMessage message = new MimeMessage(session);
@@ -218,11 +223,12 @@ public class Emails {
 					email));
 
 			message.setFrom(new InternetAddress(from));
-			message.setSubject(String.format(HEADER_TEAMFORMING_OPEN, courseID, " "));
+			message.setSubject(String.format(HEADER_TEAMFORMING_OPEN, courseID,
+					" "));
 			message.setText("Dear " + studentName + ",\n\n"
-					+ "The following team forming session for: " + courseID + " "
-					+ "is now open.\n\nThe deadline is: " + deadline + "\n"
-					+ "You can access the list of students here: "
+					+ "The following team forming session for: " + courseID
+					+ " " + "is now open.\n\nThe deadline is: " + deadline
+					+ "\n" + "You can access the list of students here: "
 					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
 
 			sendEmail(message);
@@ -277,8 +283,9 @@ public class Emails {
 		}
 
 	}
-	
-	public void informStudentsOfPublishedTeamForming(String email, String studentName, String courseID) {
+
+	public void informStudentsOfPublishedTeamForming(String email,
+			String studentName, String courseID) {
 		try {
 			Session session = Session.getDefaultInstance(props, null);
 			MimeMessage message = new MimeMessage(session);
@@ -290,8 +297,8 @@ public class Emails {
 			message.setSubject(String.format(HEADER_TEAMFORMING_PUBLISH,
 					courseID, " "));
 			message.setText("Dear " + studentName + ",\n\n"
-					+ "The results of the team forming session: \n\n" + courseID + " \n\n" 
-					+ "have been published.\n"
+					+ "The results of the team forming session: \n\n"
+					+ courseID + " \n\n" + "have been published.\n"
 					+ "You can view the result here: "
 					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
 
@@ -348,7 +355,7 @@ public class Emails {
 			log.severe("remindStudent: fail to send message");
 		}
 	}
-	
+
 	/**
 	 * Sends an email reminding the Student of the Team Forming deadline.
 	 * 
@@ -377,9 +384,8 @@ public class Emails {
 			message.setSubject(String.format(HEADER_TEAMFORMING_REMINDER,
 					courseID, " "));
 			message.setText("Dear " + studentName + ",\n\n"
-					+ "You are reminded to make a team for: \n\n"
-					+ courseID + " \n\n" + "by "
-					+ deadline + "H.\n"
+					+ "You are reminded to make a team for: \n\n" + courseID
+					+ " \n\n" + "by " + deadline + "H.\n"
 					+ "You can access the team forming session here: "
 					+ Config.inst().TEAMMATES_APP_URL + TEAMMATES_APP_SIGNATURE);
 
@@ -508,27 +514,152 @@ public class Emails {
 		}
 	}
 
+	@Deprecated
 	public void sendEmail() throws MessagingException {
 		Session session = Session.getDefaultInstance(props, null);
 		MimeMessage message = new MimeMessage(session);
 
 		String to = "damith@gmail.com";
-		message.addRecipient(Message.RecipientType.TO,
-				new InternetAddress(to));
+		message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
 		message.setFrom(new InternetAddress(from));
 		String subject = "Teammates Testing";
 		message.setSubject(subject);
 		message.setText("This is a testing email");
-		
-		log.fine("Sending email to "+to+ "["+subject+"]");
+
+		log.fine("Sending email to " + to + "[" + subject + "]");
 
 		sendEmail(message);
 	}
 
-	public static MimeMessage generateEvaluationOpeningEmail(Student s,
-			Evaluation e) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<MimeMessage> generateEvaluationOpeningEmails(
+			CourseData course, EvaluationData evaluation,
+			List<StudentData> students) throws MessagingException, IOException {
+		List<MimeMessage> emails = generateEvaluationEmails(course,
+				evaluation, students);
+		for (MimeMessage email : emails) {
+			email.setSubject(email.getSubject().replace(
+					"${subjectPrefix}",
+					SUBJECT_PREFIX_STUDENT_EVALUATION_OPENING));
+			email.setContent(
+					email.getContent()
+							.toString()
+							.replace("${status}",
+									"is now open"), "text/html");
+		}
+		return emails;
+	}
+
+	public List<MimeMessage> generateEvaluationReminderEmails(
+			CourseData course, EvaluationData evaluation,
+			List<StudentData> students) throws MessagingException, IOException {
+		List<MimeMessage> emails = generateEvaluationEmails(course,
+				evaluation, students);
+		for (MimeMessage email : emails) {
+			email.setSubject(email.getSubject().replace(
+					"${subjectPrefix}",
+					SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER));
+			email.setContent(
+					email.getContent()
+							.toString()
+							.replace("${status}",
+									"is still open for submissions"), "text/html");
+		}
+		return emails;
+	}
+
+	public List<MimeMessage> generateEvaluationClosingEmails(CourseData c,
+			EvaluationData e, List<StudentData> students)
+			throws MessagingException, IOException {
+		List<MimeMessage> emails = generateEvaluationEmails(c, e,
+				students);
+		for (MimeMessage email : emails) {
+			email.setSubject(email.getSubject().replace(
+					"${subjectPrefix}",
+					SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING));
+			email.setContent(
+					email.getContent()
+							.toString()
+							.replace("${status}",
+									"is closing soon"), "text/html");
+		}
+		return emails;
+	}
+
+	public List<MimeMessage> generateEvaluationEmails(CourseData course,
+			EvaluationData evaluation, List<StudentData> students)
+			throws MessagingException {
+		ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
+		for (StudentData s : students) {
+			emails.add(generateEvaluationEmail(course, evaluation, s));
+		}
+		return emails;
+	}
+
+	public MimeMessage generateEvaluationEmail(CourseData c,
+			EvaluationData e, StudentData s) throws MessagingException {
+
+		Session session = Session.getDefaultInstance(new Properties(), null);
+		MimeMessage message = new MimeMessage(session);
+
+		message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+				s.email));
+
+		message.setFrom(new InternetAddress(from));
+
+		// TODO: specify subject line in the email template itself
+		message.setSubject(String.format("${subjectPrefix} [Course: %s][Evaluation: %s]", c.name, e.name));
+
+		String emailBody = Config.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_OPENING;
+
+		if (isYetToJoinCourse(s)) {
+			emailBody = emailBody.replace("${joinFragment}",
+					Config.inst().STUDENT_EMAIL_FRAGMENT_JOIN_COURSE);
+
+			emailBody = emailBody.replace("${key}", s.key);
+
+			String joinUrl = Config.inst().TEAMMATES_APP_URL
+					+ Common.PAGE_STUDENT_JOIN_COURSE;
+			joinUrl = Helper.addParam(joinUrl, Common.PARAM_REGKEY, s.key);
+
+			emailBody = emailBody.replace("${joinUrl}", joinUrl);
+		} else {
+			emailBody = emailBody.replace("${joinFragment}", "");
+		}
+
+		emailBody = emailBody.replace("${studentName}", s.name);
+		emailBody = emailBody.replace("${courseName}", c.name);
+		emailBody = emailBody.replace("${courseId}", c.id);
+		emailBody = emailBody.replace("${evaluationName}", e.name);
+		emailBody = emailBody.replace("${deadline}",
+				Common.formatTime(e.endTime));
+
+		String submitUrl = Config.inst().TEAMMATES_APP_URL
+				+ Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
+		submitUrl = Helper.addParam(submitUrl, Common.PARAM_COURSE_ID, c.id);
+		submitUrl = Helper.addParam(submitUrl, Common.PARAM_EVALUATION_NAME,
+				e.name);
+
+		emailBody = emailBody.replace("${submitUrl}", submitUrl);
+
+		message.setContent(emailBody, "text/html");
+
+		return message;
+	}
+
+	public void sendEmails(List<MimeMessage> messages)
+			throws MessagingException {
+		for (MimeMessage m : messages) {
+			sendEmail(m);
+		}
+	}
+
+	public void sendEmail(MimeMessage message) throws MessagingException {
+		log.info(getEmailInfo(message));
+		Transport.send(message);
+	}
+
+	private boolean isYetToJoinCourse(StudentData s) {
+		return s.id == null || s.id.isEmpty();
 	}
 }
