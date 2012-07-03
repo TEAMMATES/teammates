@@ -1,6 +1,6 @@
 package teammates.testing.script;
 
-import teammates.testing.config.Config;
+import teammates.testing.lib.Config;
 import teammates.testing.lib.SharedLib;
 
 public class MarkAllEmailsSeen {

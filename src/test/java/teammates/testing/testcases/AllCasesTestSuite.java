@@ -3,7 +3,6 @@ package teammates.testing.testcases;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import teammates.testing.junit.BackDoorTest;
 
 //@formatter:off
 

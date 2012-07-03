@@ -24,8 +24,6 @@ import teammates.datatransfer.DataBundle;
 import teammates.datatransfer.EvaluationData;
 import teammates.datatransfer.StudentData;
 import teammates.datatransfer.SubmissionData;
-import teammates.testing.config.Config;
-import teammates.testing.object.Course;
 
 import com.google.gson.Gson;
 
@@ -158,7 +156,7 @@ public class BackDoor {
 		return courseJsonString;
 	}
 
-	public static String editCourse(Course course)
+	public static String editCourse(CourseData course)
 			throws NotImplementedException {
 		throw new NotImplementedException(
 				"Not implemented because editing courses is not currently allowed");

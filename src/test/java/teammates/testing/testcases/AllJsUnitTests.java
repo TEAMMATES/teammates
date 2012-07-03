@@ -48,6 +48,6 @@ public class AllJsUnitTests extends BaseTestCase{
 	@AfterClass
 	public static void tearDown() {
 		BrowserInstancePool.release(bi);
-		printTestClassFooter("AllJsUnitTests");
+		printTestClassFooter();
 	}
 }

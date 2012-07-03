@@ -1,4 +1,4 @@
-package teammates.testing.junit;
+package teammates.testing.testcases;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -19,7 +19,6 @@ import teammates.datatransfer.EvaluationData;
 import teammates.datatransfer.StudentData;
 import teammates.datatransfer.SubmissionData;
 import teammates.testing.lib.BackDoor;
-import teammates.testing.testcases.BaseTestCase;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;

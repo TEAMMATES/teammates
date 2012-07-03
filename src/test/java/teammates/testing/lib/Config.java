@@ -1,4 +1,4 @@
-package teammates.testing.config;
+package teammates.testing.lib;
 
 import java.io.FileInputStream;
 import java.io.IOException;

@@ -15,10 +15,10 @@ import org.openqa.selenium.By;
 import teammates.api.Common;
 import teammates.datatransfer.CoordData;
 import teammates.datatransfer.CourseData;
-import teammates.testing.config.Config;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
+import teammates.testing.lib.Config;
 import teammates.testing.lib.NoAlertAppearException;
 import teammates.ui.Helper;
 

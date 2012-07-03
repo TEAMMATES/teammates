@@ -11,10 +11,10 @@ import teammates.api.Common;
 import teammates.datatransfer.DataBundle;
 import teammates.datatransfer.EvaluationData;
 import teammates.datatransfer.SubmissionData;
-import teammates.testing.config.Config;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
+import teammates.testing.lib.Config;
 import teammates.ui.Helper;
 
 import com.google.appengine.api.datastore.Text;
