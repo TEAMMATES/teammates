@@ -2,7 +2,6 @@ package teammates;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -16,18 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
-import teammates.api.EntityAlreadyExistsException;
-import teammates.api.EntityDoesNotExistException;
 import teammates.datatransfer.DataBundle;
-import teammates.exception.CourseDoesNotExistException;
 import teammates.manager.Courses;
-import teammates.manager.Emails;
-import teammates.manager.Evaluations;
 import teammates.persistent.Course;
-import teammates.persistent.Evaluation;
 import teammates.persistent.Student;
 import teammates.persistent.Submission;
-import teammates.persistent.TeamFormingSession;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
@@ -214,37 +206,8 @@ public class BackDoorServlet extends HttpServlet {
 
 	}
 
-	/**
-	 * Clean up everything about a particular course
-	 * 
-	 * @throws EntityDoesNotExistException
-	 */
-	protected void cleanupCourse() throws EntityDoesNotExistException {
 
-		String courseID = req.getParameter("course_id");
-		log.fine("APIServlet.cleanupCourse() courseID = " + courseID);
-		cascadeCleanupCourse(courseID);
-	}
 
-	/**
-	 * Deletes a course and all data associated with it: students, evaluations,
-	 * team profiles, team-forming sessions
-	 * 
-	 * @param courseID
-	 * @throws EntityDoesNotExistException
-	 */
-	private void cascadeCleanupCourse(String courseID)
-			throws EntityDoesNotExistException {
-
-		try {
-			Courses.inst().cleanUpCourse(courseID);
-		} catch (CourseDoesNotExistException e) {
-			log.fine("Course " + courseID + " could not be deleted because "
-					+ "it does not exist");
-			return;
-		}
-		Evaluations.inst().deleteEvaluations(courseID);
-	}
 
 	protected void courseAdd() throws IOException {
 		log.info("APIServlet adding new course: ");

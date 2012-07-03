@@ -34,7 +34,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.api.Common;
-import teammates.exception.NoAlertAppearException;
 import teammates.testing.config.Config;
 import teammates.testing.object.Evaluation;
 import teammates.testing.testcases.BaseTestCase;

@@ -11,11 +11,11 @@ import org.openqa.selenium.By;
 import teammates.api.Common;
 import teammates.datatransfer.DataBundle;
 import teammates.datatransfer.EvaluationData;
-import teammates.exception.NoAlertAppearException;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
+import teammates.testing.lib.NoAlertAppearException;
 
 /**
  * Tests Coordinator Homepage UI

@@ -9,7 +9,6 @@ import teammates.Datastore;
 import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
-import teammates.exception.AccountExistsException;
 import teammates.persistent.Account;
 import teammates.persistent.Coordinator;
 import teammates.persistent.Student;
@@ -72,8 +71,6 @@ public class Accounts {
 	 * @param email
 	 *            the coordinator's email (Precondition: Must not be null)
 	 * 
-	 * @throws AccountExistsException
-	 *             if a coordinator with the specified Google ID already exists
 	 * 
 	 */
 	public void addCoordinator(String googleID, String name, String email)

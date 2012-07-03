@@ -18,7 +18,6 @@ import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
 import teammates.datatransfer.EvaluationData;
-import teammates.exception.EvaluationExistsException;
 import teammates.persistent.Course;
 import teammates.persistent.Evaluation;
 import teammates.persistent.Student;
@@ -134,18 +133,15 @@ public class Evaluations {
 	 *            the amount of time after the deadline within which submissions
 	 *            will still be accepted (Pre-condition: Must not be null)
 	 * 
-	 * @throws EvaluationExistsException
-	 *             if an evaluation with the specified name exists for the
-	 *             course
 	 * @throws InvalidParametersException 
 	 */
 
 	public void addEvaluation(String courseID, String name,
 			String instructions, boolean commentsEnabled, Date start,
 			Date deadline, double timeZone, int gracePeriod)
-			throws EvaluationExistsException, InvalidParametersException {
+			throws EntityAlreadyExistsException, InvalidParametersException {
 		if (getEvaluation(courseID, name) != null) {
-			throw new EvaluationExistsException();
+			throw new EntityAlreadyExistsException("An evaluation by the name "+name+" already exists under course "+courseID);
 		}
 	
 		Evaluation evaluation = new Evaluation(courseID, name, instructions,

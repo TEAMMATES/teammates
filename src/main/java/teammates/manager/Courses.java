@@ -15,13 +15,9 @@ import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
-import teammates.api.TeammatesException;
+import teammates.api.JoinCourseException;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.StudentData;
-import teammates.exception.CourseDoesNotExistException;
-import teammates.exception.GoogleIDExistsInCourseException;
-import teammates.exception.RegistrationKeyInvalidException;
-import teammates.exception.RegistrationKeyTakenException;
 import teammates.persistent.Course;
 import teammates.persistent.Student;
 
@@ -126,34 +122,7 @@ public class Courses {
 		student.setCourseArchived(true);
 	}
 
-	/**
-	 * Deletes a Course object, along with all the Student objects that belong
-	 * to the course.
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: Must not be null)
-	 * 
-	 * @throws CourseDoesNotExistException
-	 *             if the course with the specified ID cannot be found
-	 */
-	public void cleanUpCourse(String courseID) throws CourseDoesNotExistException {
-		Course course = getCourse(courseID);
 
-		// Check that the course exists
-		if (course == null)
-			throw new CourseDoesNotExistException();
-
-		try {
-			getPM().deletePersistent(course);
-			deleteAllStudents(courseID);
-
-		}
-
-		finally {
-
-		}
-
-	}
 	
 	//TODO: check for existing student and throw exception
 	public void createStudent(Student student) throws EntityAlreadyExistsException {
@@ -634,53 +603,40 @@ public class Courses {
 	 * @param googleID
 	 *            the Google ID of the student (Precondition: Must not be null)
 	 * 
-	 * @throws RegistrationKeyInvalidException
+	 * @throws JoinCourseException
 	 *             if the registration key does not exist
-	 * 
-	 * @throws GoogleIDExistsInCourseException
 	 *             if the student has already registered in the course
-	 * 
-	 * @throws RegistrationKeyTakenException
 	 *             if the registration key has been used by another student
 	 */
-	public void joinCourse(String registrationKey, String googleID) throws RegistrationKeyInvalidException, GoogleIDExistsInCourseException, RegistrationKeyTakenException {
+	public void joinCourse(String registrationKey, String googleID) throws JoinCourseException {
 		Student student = null;
 
 		try {
 			student = getPM().getObjectById(Student.class, KeyFactory.stringToKey(registrationKey));
 		}catch (Exception e) {
-			throw new RegistrationKeyInvalidException(TeammatesException.stackTraceToString(e));
+			throw new JoinCourseException(Common.ERRORCODE_INVALID_KEY,
+					"Invalid key :" + registrationKey);
 		}
 		
-		if(!student.getID().equals("")){
-			if(!student.getID().equals(googleID)){
-				throw new RegistrationKeyTakenException();
+		if(alreadyHasGoogleId(student)){
+			if(student.getID().equals(googleID)){
+				throw new JoinCourseException(Common.ERRORCODE_ALREADY_JOINED,
+						googleID + " is already joined this course");
 			}else {
-				throw new GoogleIDExistsInCourseException();
+				throw new JoinCourseException(
+						Common.ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER, googleID
+								+ " belongs to a different user");
 			}
 		}
 		
-//		if ((!student.getID().equals(googleID)) &&(!student.getID().equals(""))){
-//			throw new RegistrationKeyTakenException();
-//		}
-//		
-//		if ((student.getID().equals(googleID)) &&(!student.getID().equals(""))){
-//			throw new GoogleIDExistsInCourseException();
-//		}
-//
-//		List<Student> studentList = getStudentCourseList(googleID);
-//
-//		for (Student s : studentList) {
-//			if (s.getCourseID().equals(student.getCourseID())) {
-//				throw new GoogleIDExistsInCourseException();
-//			}
-//		}
-
-
-
 		student.setID(googleID);
+		
 		//TODO: using this to help unit testing, might not work in live server
 		getPM().close();
+	}
+
+	private boolean alreadyHasGoogleId(Student student) {
+		return !student.getID().equals("");
 	}
 
 	/**

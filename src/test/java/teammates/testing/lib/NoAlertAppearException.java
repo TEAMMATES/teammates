@@ -1,4 +1,4 @@
-package teammates.exception;
+package teammates.testing.lib;
 
 @SuppressWarnings("serial")
 public class NoAlertAppearException extends RuntimeException {

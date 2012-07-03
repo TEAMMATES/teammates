@@ -19,9 +19,6 @@ import teammates.datatransfer.StudentData.UpdateStatus;
 import teammates.datatransfer.SubmissionData;
 import teammates.datatransfer.TeamData;
 import teammates.datatransfer.UserData;
-import teammates.exception.GoogleIDExistsInCourseException;
-import teammates.exception.RegistrationKeyInvalidException;
-import teammates.exception.RegistrationKeyTakenException;
 import teammates.manager.Accounts;
 import teammates.manager.Courses;
 import teammates.manager.Emails;
@@ -813,19 +810,7 @@ public class Logic {
 
 		verifyOwnerOfId(googleId);
 
-		try {
-			Courses.inst().joinCourse(key.trim(), googleId.trim());
-		} catch (RegistrationKeyInvalidException e) {
-			throw new JoinCourseException(Common.ERRORCODE_INVALID_KEY,
-					"Invalid key :" + key);
-		} catch (GoogleIDExistsInCourseException e) {
-			throw new JoinCourseException(Common.ERRORCODE_ALREADY_JOINED,
-					googleId + " is already joined this course");
-		} catch (RegistrationKeyTakenException e) {
-			throw new JoinCourseException(
-					Common.ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER, googleId
-							+ " belongs to a different user");
-		}
+		Courses.inst().joinCourse(key.trim(), googleId.trim());
 
 	}
 
