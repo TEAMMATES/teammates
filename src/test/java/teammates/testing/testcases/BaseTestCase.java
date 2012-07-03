@@ -35,61 +35,58 @@ import teammates.datatransfer.UserData;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class BaseTestCase {
-	
-	//Find the un-deprecated way of doing the below
-	
-	@Rule
-	public MethodRule methodRule = new MethodRule (){
 
-	    @Override
-	    public Statement apply(Statement statement, FrameworkMethod method, Object target) {
-	        String methodName = method.getName();
-	        printTestCaseHeader(methodName);
-	        return statement;
-	    }
+	// Find the un-deprecated way of doing the below
+
+	@Rule
+	public MethodRule methodRule = new MethodRule() {
+
+		@Override
+		public Statement apply(Statement statement, FrameworkMethod method,
+				Object target) {
+			String methodName = method.getName();
+			printTestCaseHeader(methodName);
+			return statement;
+		}
 	};
-	
-	/* 
-	 * Here, we initialize the Config object using Config.inst(Properties) 
-	 *   because Config.inst() that is usually used cannot find the 
-	 *   build.properties files when called from test suite. 
-	 *   An alternative approach may be to add the build.properties location
-	 *   to the test suit's classpath.
+
+	/*
+	 * Here, we initialize the Config object using Config.inst(Properties)
+	 * because Config.inst() that is usually used cannot find the
+	 * build.properties files when called from test suite. An alternative
+	 * approach may be to add the build.properties location to the test suit's
+	 * classpath.
 	 */
 	static {
-		String buildFile = System.getProperty("user.dir")+"\\src\\main\\webapp\\WEB-INF\\classes\\"+"build.properties";
+		String buildFile = System.getProperty("user.dir")
+				+ "\\src\\main\\webapp\\WEB-INF\\classes\\"
+				+ "build.properties";
 		Properties buildProperties = new Properties();
 		try {
 			buildProperties.load(new FileInputStream(buildFile));
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-			throw new RuntimeException("Could not initialize Config object"+TeammatesException.stackTraceToString(e));
+			throw new RuntimeException("Could not initialize Config object"
+					+ TeammatesException.stackTraceToString(e));
 		}
 		Config.inst(buildProperties);
 	}
-	
+
 	LocalServiceTestHelper helper;
 
 	protected static String queueXmlFilePath = System.getProperty("user.dir")
-				+ File.separator + "src" + File.separator + "main" + File.separator
-				+ "webapp" + File.separator + "WEB-INF" + File.separator
-				+ "queue.xml";
+			+ File.separator + "src" + File.separator + "main" + File.separator
+			+ "webapp" + File.separator + "WEB-INF" + File.separator
+			+ "queue.xml";
 	protected static long start;
 
-	@Deprecated
-	public static void printTestCaseHeader(String testCaseName) {
+	private static void printTestCaseHeader(String testCaseName) {
 		print("[TestCase]---:" + testCaseName);
 	}
 
 	public static void printTestCaseHeader() {
 		printTestCaseHeader(Thread.currentThread().getStackTrace()[2]
 				.getMethodName());
-	}
-
-	@Deprecated
-	public static void printTestClassHeader(String className) {
-		print("[=============================" + className
-				+ "=============================]");
 	}
 
 	/**
@@ -104,18 +101,14 @@ public class BaseTestCase {
 	}
 
 	public static void printTestClassHeader() {
-		printTestClassHeader(Thread.currentThread().getStackTrace()[2]
-				.getClassName());
-	}
-	
-	public static void printTestClassFooter() {
-		printTestClassFooter(Thread.currentThread().getStackTrace()[2]
-				.getClassName());
+		print("[============================="
+				+ Thread.currentThread().getStackTrace()[2].getClassName()
+				+ "=============================]");
 	}
 
-	@Deprecated
-	public static void printTestClassFooter(String testClassName) {
-		print(testClassName + " completed");
+	public static void printTestClassFooter() {
+		print(Thread.currentThread().getStackTrace()[2].getClassName()
+				+ " completed");
 	}
 
 	protected static void setLogLevelOfClass(Class<?> testedClass, Level level)
@@ -196,18 +189,20 @@ public class BaseTestCase {
 	 * Asserts that the stringActual contains the occurence regexExpected.
 	 * Replaces occurences of {*} at regexExpected to match anything in
 	 * stringActual. Tries to display the difference between the two on failure
-	 * (in Eclipse).
-	 * Ignores the tab character (i.e., ignore indentation using tabs) and
-	 * ignores the newline when comparing.
+	 * (in Eclipse). Ignores the tab character (i.e., ignore indentation using
+	 * tabs) and ignores the newline when comparing.
 	 * 
 	 * @param message
 	 * @param regexExpected
 	 * @param stringActual
 	 */
-	public static void assertContainsRegex(String regexExpected, String stringActual){
-		String processedActual = stringActual.replaceAll("[\t\r\n]","");
-		String processedRegex = Pattern.quote(regexExpected).replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q").replaceAll("[\t\r\n]","");
-		if(!processedActual.matches("(?s)(?m).*"+processedRegex+".*")){
+	public static void assertContainsRegex(String regexExpected,
+			String stringActual) {
+		String processedActual = stringActual.replaceAll("[\t\r\n]", "");
+		String processedRegex = Pattern.quote(regexExpected)
+				.replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q")
+				.replaceAll("[\t\r\n]", "");
+		if (!processedActual.matches("(?s)(?m).*" + processedRegex + ".*")) {
 			assertEquals(regexExpected, stringActual);
 		}
 	}
@@ -224,9 +219,11 @@ public class BaseTestCase {
 	 */
 	public static void assertContainsRegex(String message,
 			String regexExpected, String stringActual) {
-		String processedActual = stringActual.replaceAll("[\t\r\n]","");
-		String processedRegex = Pattern.quote(regexExpected).replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q").replaceAll("[\t\r\n]","");
-		if(!processedActual.matches("(?s)(?m).*"+processedRegex+".*")){
+		String processedActual = stringActual.replaceAll("[\t\r\n]", "");
+		String processedRegex = Pattern.quote(regexExpected)
+				.replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q")
+				.replaceAll("[\t\r\n]", "");
+		if (!processedActual.matches("(?s)(?m).*" + processedRegex + ".*")) {
 			assertEquals(message, regexExpected, stringActual);
 		}
 	}
@@ -235,15 +232,18 @@ public class BaseTestCase {
 	 * Checks that the stringActual contains the occurence regexExpected.
 	 * Replaces occurences of {*} at regexExpected to match anything in
 	 * stringActual.
+	 * 
 	 * @param regexExpected
 	 * @param stringActual
-	 * @return
-	 * 		boolean whether the actual matches the expected
+	 * @return boolean whether the actual matches the expected
 	 */
-	public static boolean isContainsRegex(String regexExpected, String stringActual){
-		String processedActual = stringActual.replaceAll("[\t\r\n]","");
-		String processedRegex = Pattern.quote(regexExpected).replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q").replaceAll("[\t\r\n]","");
-		return processedActual.matches("(?s)(?m).*"+processedRegex+".*");
+	public static boolean isContainsRegex(String regexExpected,
+			String stringActual) {
+		String processedActual = stringActual.replaceAll("[\t\r\n]", "");
+		String processedRegex = Pattern.quote(regexExpected)
+				.replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q")
+				.replaceAll("[\t\r\n]", "");
+		return processedActual.matches("(?s)(?m).*" + processedRegex + ".*");
 	}
 
 	protected static DataBundle getTypicalDataBundle() {
@@ -259,52 +259,51 @@ public class BaseTestCase {
 
 	public void restoreTypicalDataInDatastore() throws Exception {
 		setGeneralLoggingLevel(Level.SEVERE);
-		
+
 		BackDoorLogic backDoorLogic = new BackDoorLogic();
-		//memorize the logged in user
+		// memorize the logged in user
 		UserData loggedInUser = backDoorLogic.getLoggedInUser();
-		
-		//switch to admin (writing operations require admin access)
+
+		// switch to admin (writing operations require admin access)
 		loginAsAdmin("admin.user");
-		
+
 		// also reduce logging verbosity of these classes as we are going to
 		// use them intensively here.
 		setLogLevelOfClass(BackDoorServlet.class, Level.SEVERE);
 		setLogLevelOfClass(Logic.class, Level.SEVERE);
-		
+
 		DataBundle dataBundle = getTypicalDataBundle();
-		
-		//delete courses first in case there are existing courses with same id
-		//  but under different coords.
+
+		// delete courses first in case there are existing courses with same id
+		// but under different coords.
 		for (CourseData course : dataBundle.courses.values()) {
 			backDoorLogic.deleteCourse(course.id);
 		}
-		
+
 		HashMap<String, CoordData> coords = dataBundle.coords;
 		for (CoordData coord : coords.values()) {
 			backDoorLogic.deleteCoord(coord.id);
 		}
 		backDoorLogic.persistNewDataBundle(dataBundle);
-		
-		//restore logging levels to normal
-		//TODO: restore to previous levels
+
+		// restore logging levels to normal
+		// TODO: restore to previous levels
 		setGeneralLoggingLevel(Level.WARNING);
 		setLogLevelOfClass(BackDoorServlet.class, Level.FINE);
 		setLogLevelOfClass(Logic.class, Level.FINE);
 
-		//restore the logged in user
+		// restore the logged in user
 		logoutUser();
-		if(loggedInUser!=null){
+		if (loggedInUser != null) {
 			helper.setEnvIsLoggedIn(true);
 			helper.setEnvEmail(loggedInUser.id);
 			helper.setEnvAuthDomain("gmail.com");
 			helper.setEnvIsAdmin(loggedInUser.isAdmin);
-		} 
-		
+		}
+
 	}
 
-
-	//TODO: check if this bug is fixed in new SDK
+	// TODO: check if this bug is fixed in new SDK
 	protected void setHelperTimeZone(LocalServiceTestHelper localTestHelper) {
 		/**
 		 * LocalServiceTestHelper is supposed to run in the same timezone as Dev
@@ -323,23 +322,23 @@ public class BaseTestCase {
 		localTestHelper.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
 	}
 
-	
 	/**
 	 * Checks whether a JSON string represents a null object
+	 * 
 	 * @param json
 	 * @return
 	 */
-	protected boolean isNullJSON(String json){
-		return json==null || json.equals("null");
+	protected boolean isNullJSON(String json) {
+		return json == null || json.equals("null");
 	}
-	
+
 	protected void loginUser(String userId) {
 		helper.setEnvIsLoggedIn(true);
 		helper.setEnvEmail(userId);
 		helper.setEnvAuthDomain("gmail.com");
 		helper.setEnvIsAdmin(false);
 	}
-	
+
 	protected void logoutUser() {
 		helper.setEnvIsLoggedIn(false);
 		helper.setEnvIsAdmin(false);
@@ -356,7 +355,7 @@ public class BaseTestCase {
 		assertEquals(true, logic.getLoggedInUser().isCoord);
 		assertEquals(false, logic.getLoggedInUser().isAdmin);
 	}
-	
+
 	protected void loginAsStudent(String userId) {
 		loginUser(userId);
 		Logic logic = new Logic();
@@ -365,16 +364,17 @@ public class BaseTestCase {
 		assertEquals(false, logic.getLoggedInUser().isAdmin);
 	}
 
-	protected static void print(String message){
+	protected static void print(String message) {
 		System.out.println(message);
 	}
 
 	protected static void startRecordingTimeForDataImport() {
 		start = System.currentTimeMillis();
 	}
-	
+
 	protected static void reportTimeForDataImport() {
-		print("Data import finished in "+(System.currentTimeMillis()-start)+" ms");
+		print("Data import finished in " + (System.currentTimeMillis() - start)
+				+ " ms");
 	}
 
 }
