@@ -100,7 +100,7 @@ public class BackDoorServlet extends HttpServlet {
 		String returnValue;
 
 		String auth = req.getParameter(PARAMETER_BACKDOOR_KEY);
-		if (!auth.equals(Config.inst().BACKDOOR_KEY)) {
+		if (!auth.equals(BuildProperties.inst().BACKDOOR_KEY)) {
 			returnValue = "Not authorized to access Backdoor Services";
 
 		} else {

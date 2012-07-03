@@ -23,7 +23,7 @@ import org.junit.runners.model.Statement;
 
 import teammates.BackDoorLogic;
 import teammates.BackDoorServlet;
-import teammates.Config;
+import teammates.BuildProperties;
 import teammates.api.Common;
 import teammates.api.Logic;
 import teammates.api.TeammatesException;
@@ -69,7 +69,7 @@ public class BaseTestCase {
 			throw new RuntimeException("Could not initialize Config object"
 					+ TeammatesException.stackTraceToString(e));
 		}
-		Config.inst(buildProperties);
+		BuildProperties.inst(buildProperties);
 	}
 
 	LocalServiceTestHelper helper;
