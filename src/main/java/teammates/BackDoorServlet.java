@@ -20,7 +20,6 @@ import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
 import teammates.datatransfer.DataBundle;
 import teammates.exception.CourseDoesNotExistException;
-import teammates.jdo.EnrollmentReport;
 import teammates.manager.Courses;
 import teammates.manager.Emails;
 import teammates.manager.Evaluations;
@@ -198,94 +197,9 @@ public class BackDoorServlet extends HttpServlet {
 	}
 
 
-	/**
-	 * Enroll students to course. Copied directly from TeammatesServlet.
-	 * 
-	 * TODO: take a look into the logic again.
-	 * 
-	 * @param studentList
-	 * @param course
-	 * @throws
-	 */
-	protected void enrollStudents() throws IOException {
-		log.fine("Enrolling students.");
-		String courseId = req.getParameter("course_id");
-		String str_json = req.getParameter("students");
 
-		Gson gson = new Gson();
-		Type listType = new TypeToken<List<Student>>() {
-		}.getType();
-		List<Student> studentList = gson.fromJson(str_json, listType);
 
-		// Remove ID (Google ID) from studentList because if it's present, the
-		// student will already be joined the course.
-		for (Student s : studentList) {
-			s.setID("");
-		}
 
-		List<EnrollmentReport> enrollmentReportList = new ArrayList<EnrollmentReport>();
-
-		// Check to see if there is an ongoing evaluation. If there is, do not
-		// edit
-		// students' teams.
-		Courses courses = Courses.inst();
-		List<Student> currentStudentList = courses.getStudentList(courseId);
-		Evaluations evaluations = Evaluations.inst();
-
-		if (evaluations.isEvaluationOngoing(courseId)) {
-			for (Student s : studentList) {
-				for (Student cs : currentStudentList) {
-					if (s.getEmail().equals(cs.getEmail())
-							&& !s.getTeamName().equals(cs.getTeamName())) {
-						s.setTeamName(cs.getTeamName());
-					}
-				}
-			}
-		}
-		// Add and edit Student objects in the datastore
-		boolean edited = enrollmentReportList.addAll(courses.enrollStudents(
-				studentList, courseId));
-
-		if (edited) {
-			resp.getWriter().write("ok");
-		} else {
-			resp.getWriter().write("fail");
-		}
-	}
-
-	/**
-	 * Delete all courses, evaluations, students, submissions. Except
-	 * Coordinator
-	 */
-	@SuppressWarnings("unchecked")
-	protected void totalCleanup() throws IOException {
-		if (!Config.inst().APP_PRODUCTION_MOLD) {
-			log.fine("Cleaning up.");
-
-			// Delete all courses
-			getPM().deletePersistentAll(Courses.inst().getAllCourses());
-
-			// Delete all evaluations
-			List<Evaluation> evals = Evaluations.inst().getAllEvaluations();
-			getPM().deletePersistentAll(evals);
-
-			// Delete all submissions
-			List<Submission> submissions = (List<Submission>) getPM().newQuery(
-					Submission.class).execute();
-			getPM().deletePersistentAll(submissions);
-
-			// Delete all students
-			List<Student> students = (List<Student>) getPM().newQuery(
-					Student.class).execute();
-			getPM().deletePersistentAll(students);
-
-			resp.getWriter().write("ok");
-		} else {
-			resp.getWriter().write(
-					"production mode, total cleaning up disabled");
-		}
-
-	}
 
 	/**
 	 * Clean up course, evaluation, submission related to the coordinator

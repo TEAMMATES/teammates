@@ -19,7 +19,6 @@ import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
 import teammates.datatransfer.EvaluationData;
 import teammates.exception.EvaluationExistsException;
-import teammates.jdo.EvaluationDetailsForCoordinator;
 import teammates.persistent.Course;
 import teammates.persistent.Evaluation;
 import teammates.persistent.Student;

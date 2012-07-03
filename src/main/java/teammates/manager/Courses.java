@@ -22,9 +22,6 @@ import teammates.exception.CourseDoesNotExistException;
 import teammates.exception.GoogleIDExistsInCourseException;
 import teammates.exception.RegistrationKeyInvalidException;
 import teammates.exception.RegistrationKeyTakenException;
-import teammates.jdo.CourseSummaryForCoordinator;
-import teammates.jdo.EnrollmentReport;
-import teammates.jdo.EnrollmentStatus;
 import teammates.persistent.Course;
 import teammates.persistent.Student;
 
@@ -102,40 +99,7 @@ public class Courses {
 		}
 	}
 
-	/**
-	 * Adds new Student objects. New Student objects are based on their e-mails,
-	 * which serves as the Primary Key for Student objects.
-	 * 
-	 * @param studentList
-	 *            the list of students to be added (Precondition: Must not be
-	 *            null)
-	 * 
-	 * @return List<EnrollmentReport> a list of reports that confirm which
-	 *         students have been added
-	 */
-	private List<EnrollmentReport> addStudents(List<Student> studentList, String courseID) {
-		List<EnrollmentReport> enrollmentReportList = new ArrayList<EnrollmentReport>();
-		List<Student> studentListToAdd = new ArrayList<Student>();
 
-		for (Student s : studentList) {
-
-			if (getStudentWithEmail(courseID, s.getEmail()) == null) {
-				studentListToAdd.add(s);
-
-				enrollmentReportList.add(new EnrollmentReport(s.getName(), s.getEmail(), EnrollmentStatus.ADDED, false, false, false));
-			}
-		}
-
-		try {
-			getPM().makePersistentAll(studentListToAdd);
-		}
-
-		finally {
-
-		}
-
-		return enrollmentReportList;
-	}
 
 	/**
 	 * Archives a Course for a Coordinator.
@@ -418,78 +382,8 @@ public class Courses {
 		getPM().close();
 	}
 
-	/**
-	 * Edits existing Student objects based on the list of Student objects
-	 * given.
-	 * 
-	 * @param studentList
-	 *            a list of students (Precondition: Must not be null)
-	 * 
-	 * @return List<EnrollmentReport> reports on which students have been edited
-	 */
-	private List<EnrollmentReport> editStudents(List<Student> studentList, String courseID) {
-		// Acquire Student objects from the datastore
-		List<Student> studentListToEdit = new ArrayList<Student>();
-		List<Student> studentListToCompareWith = new ArrayList<Student>();
-		List<EnrollmentReport> enrollmentReportList = new ArrayList<EnrollmentReport>();
+	
 
-		for (Student s1 : studentList) {
-			Student s2 = getStudentWithEmail(courseID, s1.getEmail());
-
-			if (s2 != null) {
-				studentListToCompareWith.add(s1);
-				studentListToEdit.add(s2);
-				enrollmentReportList.add(new EnrollmentReport(s2.getName(), s2.getEmail(), EnrollmentStatus.REMAINED, false, false, false));
-			}
-		}
-
-		// Edit the acquired Student objects and update the corresponding
-		// EnrollmentReport objects
-		for (int x = 0; x < studentListToEdit.size(); x++) {
-			EnrollmentReport er = enrollmentReportList.get(x);
-			Student s = studentListToCompareWith.get(x);
-			Student se = studentListToEdit.get(x);
-
-			if (!s.getName().equals(se.getName())) {
-				se.setName(s.getName());
-				er.setNameEdited(true);
-				er.setStatus(EnrollmentStatus.EDITED);
-			}
-
-			if (!s.getTeamName().equals(se.getTeamName())) {
-				se.setTeamName(s.getTeamName());
-				er.setTeamNameEdited(true);
-				er.setStatus(EnrollmentStatus.EDITED);
-			}
-
-			if (!s.getComments().equals(se.getComments())) {
-				se.setComments(studentList.get(x).getComments());
-				er.setCommentsEdited(true);
-				er.setStatus(EnrollmentStatus.EDITED);
-			}
-		}
-
-		return enrollmentReportList;
-	}
-
-	/**
-	 * Performs addition and editing of Student objects. Addition must be done
-	 * before editing and then the PersistenceManager should be closed.
-	 * 
-	 * @param studentList
-	 *            a list of students (Precondition: Must not be null)
-	 * 
-	 * @return List<EnrollmentReport> reports on which students have been added
-	 *         or edited
-	 */
-	public List<EnrollmentReport> enrollStudents(List<Student> studentList, String courseID) {
-		List<EnrollmentReport> enrollmentReportList = new ArrayList<EnrollmentReport>();
-
-		enrollmentReportList.addAll(addStudents(studentList, courseID));
-		enrollmentReportList.addAll(editStudents(studentList, courseID));
-
-		return enrollmentReportList;
-	}
 
 	/**
 	 * Returns the list of Course objects of a Coordinator
