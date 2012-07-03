@@ -9,11 +9,11 @@ import org.junit.Test;
 import teammates.api.Common;
 import teammates.datatransfer.DataBundle;
 import teammates.datatransfer.StudentData;
-import teammates.jsp.Helper;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
+import teammates.ui.Helper;
 
 /**
  * Tests Coordinator Course Student Details and Edit UI

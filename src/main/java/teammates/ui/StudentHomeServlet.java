@@ -8,7 +8,6 @@ import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
 import teammates.datatransfer.CourseData;
-import teammates.jsp.StudentHomeHelper;
 
 @SuppressWarnings("serial")
 public class StudentHomeServlet extends ActionServlet<StudentHomeHelper> {

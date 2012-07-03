@@ -19,7 +19,7 @@ import teammates.api.Common;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.EvaluationData;
 import teammates.datatransfer.StudentData;
-import teammates.jsp.Helper;
+import teammates.ui.Helper;
 
 /**
  * Email handles all operations with regards to sending e-mails.

@@ -2,7 +2,7 @@
 <%@ page import="teammates.datatransfer.EvaluationData" %>
 <%@ page import="teammates.datatransfer.StudentData" %>
 <%@ page import="teammates.datatransfer.SubmissionData" %>
-<%@ page import="teammates.jsp.StudentEvalEditHelper"%>
+<%@ page import="teammates.ui.StudentEvalEditHelper"%>
 <% StudentEvalEditHelper helper = (StudentEvalEditHelper)request.getAttribute("helper"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

@@ -10,7 +10,6 @@ import teammates.api.Common;
 import teammates.api.EnrollException;
 import teammates.api.EntityDoesNotExistException;
 import teammates.datatransfer.StudentData;
-import teammates.jsp.CoordCourseEnrollHelper;
 
 @SuppressWarnings("serial")
 /**

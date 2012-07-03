@@ -1,4 +1,4 @@
-<%@ page import="teammates.jsp.Helper" %>
+<%@ page import="teammates.ui.Helper" %>
 <% Helper helper = (Helper)request.getAttribute("helper"); %>
 <%	if(helper.statusMessage!=null) { %>
 	<div id="statusMessage"

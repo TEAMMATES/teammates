@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
-import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
 /**

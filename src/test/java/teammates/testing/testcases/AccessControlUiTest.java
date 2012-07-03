@@ -14,12 +14,12 @@ import teammates.datatransfer.DataBundle;
 import teammates.datatransfer.EvaluationData;
 import teammates.datatransfer.StudentData;
 import teammates.datatransfer.EvaluationData.EvalStatus;
-import teammates.jsp.Helper;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.testcases.BaseTestCase;
+import teammates.ui.Helper;
 
 public class AccessControlUiTest extends BaseTestCase {
 	

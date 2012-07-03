@@ -3,8 +3,6 @@ package teammates.ui;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.api.Common;
-import teammates.jsp.EvalSubmissionEditHelper;
-import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
 public class StudentEvalEditHandlerServlet extends EvalSubmissionEditHandlerServlet {

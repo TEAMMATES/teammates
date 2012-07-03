@@ -1,6 +1,6 @@
 <%@ page import="teammates.api.Common" %>
 <%@ page import="teammates.datatransfer.SubmissionData" %>
-<%@ page import="teammates.jsp.EvalSubmissionEditHelper" %>
+<%@ page import="teammates.ui.EvalSubmissionEditHelper" %>
 <% EvalSubmissionEditHelper helper = (EvalSubmissionEditHelper)request.getAttribute("helper"); %>
 					<input type="hidden" value="<%= helper.eval.course %>"
 							name="<%= Common.PARAM_COURSE_ID %>"

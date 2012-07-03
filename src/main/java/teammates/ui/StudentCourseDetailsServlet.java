@@ -7,7 +7,6 @@ import teammates.api.EntityDoesNotExistException;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.StudentData;
 import teammates.datatransfer.TeamData;
-import teammates.jsp.StudentCourseDetailsHelper;
 
 @SuppressWarnings("serial")
 /**

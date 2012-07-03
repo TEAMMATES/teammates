@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import teammates.jsp.Helper;
+import teammates.ui.Helper;
 
 public class HelperTest extends BaseTestCase {
 

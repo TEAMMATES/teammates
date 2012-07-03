@@ -31,10 +31,6 @@ import com.google.appengine.api.taskqueue.TaskOptions;
  * Courses handles all operations related to a Teammates course. This is a
  * static class (singleton).
  * 
- * @author Gerald GOH
- * @see Course
- * @see TeamAllocation
- * 
  */
 public class Courses {
 	private static Courses instance = null;

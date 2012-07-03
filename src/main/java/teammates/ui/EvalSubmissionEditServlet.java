@@ -7,7 +7,6 @@ import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
 import teammates.datatransfer.StudentData;
 import teammates.datatransfer.SubmissionData;
-import teammates.jsp.EvalSubmissionEditHelper;
 
 @SuppressWarnings("serial")
 /**

@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import teammates.api.Common;
 import teammates.api.InvalidParametersException;
 import teammates.api.JoinCourseException;
-import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
 /**

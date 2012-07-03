@@ -1,7 +1,7 @@
 <%@ page import="teammates.api.Common" %>
 <%@ page import="teammates.datatransfer.SubmissionData" %>
-<%@ page import="teammates.jsp.StudentEvalResultsHelper"%>
-<%@ page import="teammates.jsp.CoordEvalResultsHelper"%>
+<%@ page import="teammates.ui.StudentEvalResultsHelper"%>
+<%@ page import="teammates.ui.CoordEvalResultsHelper"%>
 <% StudentEvalResultsHelper helper = (StudentEvalResultsHelper)request.getAttribute("helper"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

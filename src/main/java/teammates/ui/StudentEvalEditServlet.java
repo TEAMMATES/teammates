@@ -4,8 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.api.Common;
 import teammates.datatransfer.StudentData;
-import teammates.jsp.EvalSubmissionEditHelper;
-import teammates.jsp.StudentEvalEditHelper;
 
 @SuppressWarnings("serial")
 public class StudentEvalEditServlet extends EvalSubmissionEditServlet {

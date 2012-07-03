@@ -23,7 +23,6 @@ import teammates.datatransfer.StudentData;
 import teammates.datatransfer.SubmissionData;
 import teammates.datatransfer.TeamData;
 import teammates.datatransfer.UserData;
-import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
 /**

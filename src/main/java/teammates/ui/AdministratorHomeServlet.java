@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
 import teammates.api.InvalidParametersException;
-import teammates.jsp.AdminHomeHelper;
 
 @SuppressWarnings("serial")
 public class AdministratorHomeServlet extends ActionServlet<AdminHomeHelper> {

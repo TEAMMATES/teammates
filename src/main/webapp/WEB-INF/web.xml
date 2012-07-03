@@ -17,7 +17,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<filter>
 	    <description>Filter that do the login part for each JSP page</description>
 	    <filter-name>LoginFilter</filter-name>
-	    <filter-class>teammates.jsp.LoginFilter</filter-class>
+	    <filter-class>teammates.ui.LoginFilter</filter-class>
 	    <init-param>
 	        <description>Files excluded from login check. "|"-separated</description>
 	        <param-name>ExcludedFiles</param-name>

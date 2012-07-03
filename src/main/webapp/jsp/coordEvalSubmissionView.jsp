@@ -2,7 +2,7 @@
 <%@ page import="teammates.datatransfer.CourseData"%>
 <%@ page import="teammates.datatransfer.EvaluationData"%>
 <%@ page import="teammates.datatransfer.SubmissionData"%>
-<%@ page import="teammates.jsp.CoordEvalSubmissionViewHelper"%>
+<%@ page import="teammates.ui.CoordEvalSubmissionViewHelper"%>
 <%	CoordEvalSubmissionViewHelper helper = (CoordEvalSubmissionViewHelper)request.getAttribute("helper"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

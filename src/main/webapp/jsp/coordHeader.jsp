@@ -1,5 +1,5 @@
 <%@ page import="teammates.api.Common"%>
-<%@ page import="teammates.jsp.Helper"%>
+<%@ page import="teammates.ui.Helper"%>
 <% Helper helper = (Helper)request.getAttribute("helper"); %>
 		<div id="frameTopWrapper">
 			<div id="logo">

@@ -15,12 +15,12 @@ import org.openqa.selenium.By;
 import teammates.api.Common;
 import teammates.datatransfer.CoordData;
 import teammates.datatransfer.CourseData;
-import teammates.jsp.Helper;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
 import teammates.testing.lib.NoAlertAppearException;
+import teammates.ui.Helper;
 
 /**
  * Tests coordCourse.jsp from UI functionality and HTML test

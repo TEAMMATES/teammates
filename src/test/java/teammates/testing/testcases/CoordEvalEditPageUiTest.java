@@ -13,11 +13,11 @@ import teammates.api.Common;
 import teammates.datatransfer.CoordData;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.EvaluationData;
-import teammates.jsp.Helper;
 import teammates.testing.config.Config;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
+import teammates.ui.Helper;
 
 /**
  * Tests coordEvalEdit.jsp from functionality and UI

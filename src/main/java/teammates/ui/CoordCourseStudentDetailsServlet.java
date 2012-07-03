@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
-import teammates.jsp.CoordCourseStudentDetailsHelper;
 
 @SuppressWarnings("serial")
 /**

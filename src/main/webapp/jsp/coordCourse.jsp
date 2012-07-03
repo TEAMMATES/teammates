@@ -1,6 +1,6 @@
 <%@ page import="teammates.api.Common"%>
 <%@ page import="teammates.datatransfer.CourseData"%>
-<%@ page import="teammates.jsp.CoordCourseHelper"%>
+<%@ page import="teammates.ui.CoordCourseHelper"%>
 <%
 	CoordCourseHelper helper = (CoordCourseHelper)request.getAttribute("helper");
 %>

@@ -3,7 +3,6 @@ package teammates.ui;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.api.Common;
-import teammates.jsp.Helper;
 
 @SuppressWarnings("serial")
 /**

@@ -10,7 +10,6 @@ import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
 import teammates.datatransfer.CourseData;
-import teammates.jsp.CoordCourseHelper;
 
 @SuppressWarnings("serial")
 /**

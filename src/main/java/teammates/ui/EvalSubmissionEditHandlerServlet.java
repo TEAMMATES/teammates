@@ -8,7 +8,6 @@ import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
 import teammates.datatransfer.SubmissionData;
-import teammates.jsp.Helper;
 
 import com.google.appengine.api.datastore.Text;
 

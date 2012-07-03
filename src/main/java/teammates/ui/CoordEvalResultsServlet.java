@@ -6,7 +6,6 @@ import teammates.api.Common;
 import teammates.api.EntityDoesNotExistException;
 import teammates.datatransfer.StudentData;
 import teammates.datatransfer.TeamData;
-import teammates.jsp.CoordEvalResultsHelper;
 
 @SuppressWarnings("serial")
 /**
