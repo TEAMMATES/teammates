@@ -16,10 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
 import teammates.datatransfer.DataBundle;
-import teammates.manager.Courses;
-import teammates.persistent.Course;
-import teammates.persistent.Student;
-import teammates.persistent.Submission;
+import teammates.storage.Courses;
+import teammates.storage.Datastore;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.Submission;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;

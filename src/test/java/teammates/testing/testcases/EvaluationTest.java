@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import teammates.api.Common;
 import teammates.api.InvalidParametersException;
-import teammates.persistent.Evaluation;
+import teammates.storage.entity.Evaluation;
 
 public class EvaluationTest extends BaseTestCase {
 	

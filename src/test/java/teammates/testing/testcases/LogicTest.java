@@ -25,7 +25,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.BackDoorLogic;
-import teammates.Datastore;
 import teammates.TeamEvalResult;
 import teammates.api.Common;
 import teammates.api.EnrollException;
@@ -48,8 +47,9 @@ import teammates.datatransfer.StudentData.UpdateStatus;
 import teammates.datatransfer.SubmissionData;
 import teammates.datatransfer.TeamData;
 import teammates.datatransfer.UserData;
-import teammates.manager.Emails;
-import teammates.persistent.Student;
+import teammates.storage.Datastore;
+import teammates.storage.Emails;
+import teammates.storage.entity.Student;
 
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;

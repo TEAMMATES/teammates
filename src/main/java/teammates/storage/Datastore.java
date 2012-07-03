@@ -1,4 +1,4 @@
-package teammates;
+package teammates.storage;
 
 import java.util.logging.Logger;
 
@@ -10,13 +10,8 @@ import javax.jdo.Transaction;
 import teammates.api.Common;
 
 /**
- * New Datastore class
- * 
  * Code taken from:
  * http://stackoverflow.com/questions/4185382/how-to-use-jdo-persistence-manager
- * 
- * @author nvquanghuy
- * 
  */
 public class Datastore {
 	private static PersistenceManagerFactory PMF = null;

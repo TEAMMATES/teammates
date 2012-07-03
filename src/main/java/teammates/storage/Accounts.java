@@ -1,17 +1,16 @@
-package teammates.manager;
+package teammates.storage;
 
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
-import teammates.Datastore;
 import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
-import teammates.persistent.Account;
-import teammates.persistent.Coordinator;
-import teammates.persistent.Student;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.Coordinator;
+import teammates.storage.entity.Student;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;

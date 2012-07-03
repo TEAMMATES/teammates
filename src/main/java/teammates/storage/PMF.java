@@ -1,4 +1,4 @@
-package teammates.manager;
+package teammates.storage;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;

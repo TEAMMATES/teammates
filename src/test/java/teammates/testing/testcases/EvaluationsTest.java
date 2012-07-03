@@ -14,14 +14,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.BackDoorLogic;
-import teammates.Datastore;
 import teammates.EvaluationActivationServlet;
 import teammates.api.Common;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.DataBundle;
 import teammates.datatransfer.EvaluationData;
 import teammates.datatransfer.EvaluationData.EvalStatus;
-import teammates.manager.Evaluations;
+import teammates.storage.Datastore;
+import teammates.storage.Evaluations;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;

@@ -1,4 +1,4 @@
-package teammates.persistent;
+package teammates.storage.entity;
 
 import java.util.Date;
 

@@ -1,4 +1,4 @@
-package teammates.manager;
+package teammates.storage;
 
 import java.io.IOException;
 import java.util.ArrayList;

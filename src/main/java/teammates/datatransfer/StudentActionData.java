@@ -2,7 +2,7 @@ package teammates.datatransfer;
 
 import java.util.Date;
 
-import teammates.persistent.TeamFormingLog;
+import teammates.storage.entity.TeamFormingLog;
 
 import com.google.appengine.api.datastore.Text;
 

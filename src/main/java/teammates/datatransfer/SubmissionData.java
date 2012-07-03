@@ -2,7 +2,7 @@ package teammates.datatransfer;
 
 import static teammates.api.Common.EOL;
 import teammates.api.Common;
-import teammates.persistent.Submission;
+import teammates.storage.entity.Submission;
 
 import com.google.appengine.api.datastore.Text;
 

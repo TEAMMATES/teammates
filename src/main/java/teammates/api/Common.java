@@ -11,7 +11,7 @@ import java.util.GregorianCalendar;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-import teammates.persistent.Evaluation;
+import teammates.storage.entity.Evaluation;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

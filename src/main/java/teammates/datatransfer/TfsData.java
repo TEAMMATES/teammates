@@ -3,7 +3,7 @@ package teammates.datatransfer;
 import java.util.Date;
 
 
-import teammates.persistent.TeamFormingSession;
+import teammates.storage.entity.TeamFormingSession;
 
 
 public class TfsData {

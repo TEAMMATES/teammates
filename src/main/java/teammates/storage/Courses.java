@@ -1,4 +1,4 @@
-package teammates.manager;
+package teammates.storage;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
-import teammates.Datastore;
 import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
@@ -18,8 +17,8 @@ import teammates.api.InvalidParametersException;
 import teammates.api.JoinCourseException;
 import teammates.datatransfer.CourseData;
 import teammates.datatransfer.StudentData;
-import teammates.persistent.Course;
-import teammates.persistent.Student;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Student;
 
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;

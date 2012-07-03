@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 import teammates.api.Common;
 import teammates.api.InvalidParametersException;
-import teammates.persistent.Evaluation;
+import teammates.storage.entity.Evaluation;
 
 public class EvaluationData {
 	public String course;

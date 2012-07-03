@@ -17,7 +17,7 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.search.FlagTerm;
 
-import teammates.manager.Emails;
+import teammates.storage.Emails;
 import teammates.testing.config.Config;
 
 public class SharedLib {

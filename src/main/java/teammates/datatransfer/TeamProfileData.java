@@ -1,6 +1,6 @@
 package teammates.datatransfer;
 
-import teammates.persistent.TeamProfile;
+import teammates.storage.entity.TeamProfile;
 
 import com.google.appengine.api.datastore.Text;
 

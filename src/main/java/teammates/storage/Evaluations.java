@@ -1,4 +1,4 @@
-package teammates.manager;
+package teammates.storage;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,16 +12,15 @@ import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
 
-import teammates.Datastore;
 import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
 import teammates.datatransfer.EvaluationData;
-import teammates.persistent.Course;
-import teammates.persistent.Evaluation;
-import teammates.persistent.Student;
-import teammates.persistent.Submission;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Evaluation;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.Submission;
 
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;

@@ -1,4 +1,4 @@
-package teammates.persistent;
+package teammates.storage.entity;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;

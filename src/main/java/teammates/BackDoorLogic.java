@@ -20,11 +20,11 @@ import teammates.datatransfer.DataBundle;
 import teammates.datatransfer.EvaluationData;
 import teammates.datatransfer.StudentData;
 import teammates.datatransfer.SubmissionData;
-import teammates.manager.Courses;
-import teammates.manager.Emails;
-import teammates.manager.Evaluations;
-import teammates.persistent.Evaluation;
-import teammates.persistent.Student;
+import teammates.storage.Courses;
+import teammates.storage.Emails;
+import teammates.storage.Evaluations;
+import teammates.storage.entity.Evaluation;
+import teammates.storage.entity.Student;
 
 public class BackDoorLogic extends Logic{
 	

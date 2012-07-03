@@ -3,7 +3,7 @@ package teammates.datatransfer;
 import java.util.ArrayList;
 
 import teammates.api.Common;
-import teammates.persistent.Course;
+import teammates.storage.entity.Course;
 
 public class CourseData {
 	public String id;

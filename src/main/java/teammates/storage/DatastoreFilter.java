@@ -1,4 +1,4 @@
-package teammates;
+package teammates.storage;
 
 import java.io.IOException;
 

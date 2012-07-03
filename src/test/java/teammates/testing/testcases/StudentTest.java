@@ -10,7 +10,7 @@ import org.junit.Test;
 import teammates.api.Common;
 import teammates.api.InvalidParametersException;
 import teammates.api.TeammatesException;
-import teammates.persistent.Student;
+import teammates.storage.entity.Student;
 
 public class StudentTest extends BaseTestCase {
 	@BeforeClass

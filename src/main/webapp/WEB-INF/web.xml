@@ -7,7 +7,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
 	<filter>
 		<filter-name>DatastoreFilter</filter-name>
-		<filter-class>teammates.DatastoreFilter</filter-class>
+		<filter-class>teammates.storage.DatastoreFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>DatastoreFilter</filter-name>

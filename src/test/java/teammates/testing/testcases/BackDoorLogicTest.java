@@ -17,7 +17,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.BackDoorLogic;
-import teammates.Datastore;
 import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
 import teammates.api.InvalidParametersException;
@@ -28,7 +27,8 @@ import teammates.datatransfer.EvaluationData;
 import teammates.datatransfer.EvaluationData.EvalStatus;
 import teammates.datatransfer.StudentData;
 import teammates.datatransfer.SubmissionData;
-import teammates.manager.Emails;
+import teammates.storage.Datastore;
+import teammates.storage.Emails;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
