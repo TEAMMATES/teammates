@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -2812,7 +2813,7 @@ public class BrowserInstance {
 	public void printCurrentPage(String destination) throws Exception {
 		waitForPageLoad();
 		String pageSrc = getCurrentPageSource();
-		TestFileWriter output = new TestFileWriter(new File(destination));
+		FileWriter output = new FileWriter(new File(destination));
 		output.write(pageSrc);
 		output.close();
 	}
