@@ -62,12 +62,12 @@ public class HtmlHelperTest {
 				"	<script src=\"/js/date.js\" language=\"JavaScript\"></script>\r\n" + 
 				"	<script src=\"/js/CalendarPopup.js\" language=\"JavaScript\"></script>\r\n" + 
 				"	<script src=\"/js/AnchorPosition.js\" language=\"JavaScript\"></script>\r\n" + 
-				"	<script src=\"/js/helperNew.js\" language=\"JavaScript\"></script>\r\n" + 
+				"	<script src=\"/js/helper.js\" language=\"JavaScript\"></script>\r\n" + 
 				"	<script src=\"/js/constants.js\" language=\"JavaScript\"></script>\r\n" + 
-				"	<script src=\"/js/commonNew.js\" language=\"JavaScript\"></script>\r\n" + 
+				"	<script src=\"/js/common.js\" language=\"JavaScript\"></script>\r\n" + 
 				"	\r\n" + 
 				"	<script src=\"/js/coordCoursePageNew.js\" language=\"JavaScript\"></script>\r\n" + 
-				"	<script src=\"/js/coordinatorNew.js\" language=\"JavaScript\"></script>\r\n" + 
+				"	<script src=\"/js/coordinator.js\" language=\"JavaScript\"></script>\r\n" + 
 				"\r\n" + 
 				"  </head>\r\n" +
 				"</html>";
@@ -83,11 +83,11 @@ public class HtmlHelperTest {
 				"    <SCRIPT language=\"JavaScript\" src=\"/js/date.js\"/>\r\n" + 
 				"    <SCRIPT language=\"JavaScript\" src=\"/js/CalendarPopup.js\"/>\r\n" + 
 				"    <SCRIPT language=\"JavaScript\" src=\"/js/AnchorPosition.js\"/>\r\n" + 
-				"    <SCRIPT language=\"JavaScript\" src=\"/js/helperNew.js\"/>\r\n" + 
+				"    <SCRIPT language=\"JavaScript\" src=\"/js/helper.js\"/>\r\n" + 
 				"    <SCRIPT language=\"JavaScript\" src=\"/js/constants.js\"/>\r\n" + 
-				"    <SCRIPT language=\"JavaScript\" src=\"/js/commonNew.js\"/>\r\n" + 
+				"    <SCRIPT language=\"JavaScript\" src=\"/js/common.js\"/>\r\n" + 
 				"    <SCRIPT language=\"JavaScript\" src=\"/js/coordCoursePageNew.js\"/>\r\n" + 
-				"    <SCRIPT language=\"JavaScript\" src=\"/js/coordinatorNew.js\"/>\r\n" + 
+				"    <SCRIPT language=\"JavaScript\" src=\"/js/coordinator.js\"/>\r\n" + 
 				"  </HEAD>\r\n" +
 				"</HTML>";
 		assertEquals(expected,HtmlHelper.cleanupHtml(original));
