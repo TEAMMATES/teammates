@@ -268,60 +268,7 @@ public class BackDoorServlet extends HttpServlet {
 		resp.getWriter().write("ok");
 	}
 
-	/**
-	 * Special Submission Function for Testing Evaluation Points
-	 * 
-	 * @param points
-	 *            defined in scenario.json
-	 * @author xialin
-	 **/
-	protected void studentSubmitDynamicFeedbacks() throws IOException {
-
-		String course_id = req.getParameter("course_id");
-		String evaluation_name = req.getParameter("evaluation_name");
-		String student_email = req.getParameter("student_email");
-		String team_name = req.getParameter("team_name");
-		String submission_points = req.getParameter("submission_points");
-		String[] pointsArray = submission_points.split(", ");
-
-		Query studentQuery = getPM().newQuery(Student.class);
-		studentQuery.setFilter("courseID == course_id");
-		studentQuery.setFilter("teamName == team_name");
-		studentQuery.declareParameters("String course_id, String team_name");
-		@SuppressWarnings("unchecked")
-		List<Student> students = (List<Student>) studentQuery.execute(
-				course_id, team_name);
-
-		Query query = getPM().newQuery(Submission.class);
-		query.setFilter("courseID == course_id");
-		query.setFilter("evaluationName == evaluation_name");
-		query.setFilter("fromStudent == student_email");
-		query.declareParameters("String course_id, String evaluation_name, String student_email");
-		@SuppressWarnings("unchecked")
-		List<Submission> submissions = (List<Submission>) query.execute(
-				course_id, evaluation_name, student_email);
-
-		int position = 0;
-		for (Submission submission : submissions) {
-			for (int i = 0; i < students.size(); i++) {
-				if (submission.getToStudent().equalsIgnoreCase(
-						students.get(i).getEmail()))
-					position = i;
-				int point = Integer.valueOf(pointsArray[position]);
-				submission.setPoints(point);
-				submission.setCommentsToStudent(new Text(String.format(
-						"This is a public comment from %s to %s.",
-						student_email, submission.getToStudent())));
-				submission.setJustification(new Text(String.format(
-						"This is a justification from %s to %s", student_email,
-						submission.getToStudent())));
-			}
-		}
-
-		getPM().makePersistentAll(submissions);
-		resp.getWriter().write("ok");
-
-	}
+	
 
 	protected void studentsJoinCourse() throws IOException {
 		log.fine("Joining course for students.");

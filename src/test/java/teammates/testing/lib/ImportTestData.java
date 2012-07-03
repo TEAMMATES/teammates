@@ -15,7 +15,7 @@ public class ImportTestData {
 
 	private static void setupPageVerificationData() throws Exception{
 		System.out.println("Importing data for page verification ...");
-		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/page_verificationNew.json");
+		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/DataForHtmlVerification.json");
 		BackDoor.deleteCoordinators(jsonString);
 		System.out.println(BackDoor.persistNewDataBundle(jsonString));
 
