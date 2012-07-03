@@ -17,24 +17,24 @@ import teammates.datatransfer.EvaluationData.EvalStatus;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
-import teammates.testing.lib.Config;
+import teammates.testing.lib.TestProperties;
 import teammates.testing.testcases.BaseTestCase;
 import teammates.ui.Helper;
 
 public class AccessControlUiTest extends BaseTestCase {
 	
-	private static String appUrl = Config.inst().TEAMMATES_URL;
+	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
 
-	private static String unregUsername = Config.inst().TEST_UNREG_ACCOUNT;
-	private static String unregPassword = Config.inst().TEST_UNREG_PASSWORD;
+	private static String unregUsername = TestProperties.inst().TEST_UNREG_ACCOUNT;
+	private static String unregPassword = TestProperties.inst().TEST_UNREG_PASSWORD;
 
-	private static String studentUsername = Config.inst().TEST_STUDENT_ACCOUNT;
-	private static String studentPassword = Config.inst().TEST_STUDENT_PASSWORD;
+	private static String studentUsername = TestProperties.inst().TEST_STUDENT_ACCOUNT;
+	private static String studentPassword = TestProperties.inst().TEST_STUDENT_PASSWORD;
 	
-	private static String coordUsername = Config.inst().TEST_COORD_ACCOUNT;
-	private static String coordPassword = Config.inst().TEST_COORD_PASSWORD;
+	private static String coordUsername = TestProperties.inst().TEST_COORD_ACCOUNT;
+	private static String coordPassword = TestProperties.inst().TEST_COORD_PASSWORD;
 
-	static String adminUsername = Config.inst().TEST_ADMIN_ACCOUNT;
+	static String adminUsername = TestProperties.inst().TEST_ADMIN_ACCOUNT;
 
 	private static BrowserInstance bi;
 	private static DataBundle dataBundle;
@@ -941,7 +941,7 @@ public class AccessControlUiTest extends BaseTestCase {
 	
 		// assign test user IDs to existing student and coord
 		StudentData student = dataBundle.students.get("student1InCourse1");
-		student.id = Config.inst().TEST_STUDENT_ACCOUNT;
+		student.id = TestProperties.inst().TEST_STUDENT_ACCOUNT;
 	
 		CoordData coord = dataBundle.coords.get("typicalCoord1");
 	
@@ -949,7 +949,7 @@ public class AccessControlUiTest extends BaseTestCase {
 		BackDoor.deleteCoord(coord.id);
 	
 		// reassign courses to new coord id
-		String idOfTestCoord = Config.inst().TEST_COORD_ACCOUNT;
+		String idOfTestCoord = TestProperties.inst().TEST_COORD_ACCOUNT;
 	
 		for (CourseData cd : dataBundle.courses.values()) {
 			if (cd.coord.equals(coord.id)) {

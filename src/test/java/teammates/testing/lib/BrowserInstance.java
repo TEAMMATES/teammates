@@ -539,7 +539,7 @@ public class BrowserInstance {
 	 * Loads the TEAMMATES homepage into the browser
 	 */
 	public void init() {
-		goToUrl(Config.inst().TEAMMATES_URL);
+		goToUrl(TestProperties.inst().TEAMMATES_URL);
 	}
 
 	@SuppressWarnings("unused")
@@ -563,10 +563,10 @@ public class BrowserInstance {
 		System.out.println("Logging in coordinator " + username + ".");
 
 		// Logout first to make sure we will be in login page later
-		goToUrl(Config.inst().TEAMMATES_URL + Common.JSP_LOGOUT);
+		goToUrl(TestProperties.inst().TEAMMATES_URL + Common.JSP_LOGOUT);
 
 		// Login as coordinator
-		goToUrl(Config.inst().TEAMMATES_URL + Common.PAGE_LOGIN
+		goToUrl(TestProperties.inst().TEAMMATES_URL + Common.PAGE_LOGIN
 				+ "?coordinator");
 
 		login(username, password, false);
@@ -587,10 +587,10 @@ public class BrowserInstance {
 		System.out.println("Logging in student " + username + ".");
 
 		// Logout first to make sure we will be in login page later
-		goToUrl(Config.inst().TEAMMATES_URL + Common.JSP_LOGOUT);
+		goToUrl(TestProperties.inst().TEAMMATES_URL + Common.JSP_LOGOUT);
 
 		// Login as student
-		goToUrl(Config.inst().TEAMMATES_URL + Common.PAGE_LOGIN + "?student");
+		goToUrl(TestProperties.inst().TEAMMATES_URL + Common.PAGE_LOGIN + "?student");
 
 		login(username, password, false);
 
@@ -610,10 +610,10 @@ public class BrowserInstance {
 		System.out.println("Logging in administrator " + username + ".");
 
 		// Logout first to make sure we will be in login page later
-		goToUrl(Config.inst().TEAMMATES_URL + Common.JSP_LOGOUT);
+		goToUrl(TestProperties.inst().TEAMMATES_URL + Common.JSP_LOGOUT);
 
 		// Login as administrator
-		goToUrl(Config.inst().TEAMMATES_URL + Common.PAGE_LOGIN
+		goToUrl(TestProperties.inst().TEAMMATES_URL + Common.PAGE_LOGIN
 				+ "?administrator");
 
 		login(username, password, true);
@@ -662,7 +662,7 @@ public class BrowserInstance {
 	 */
 	public void logout() {
 		System.out.println("Signing out.");
-		goToUrl(Config.inst().TEAMMATES_URL + Common.JSP_LOGOUT);
+		goToUrl(TestProperties.inst().TEAMMATES_URL + Common.JSP_LOGOUT);
 		loggedInUser = "";
 	}
 
@@ -2141,7 +2141,7 @@ public class BrowserInstance {
 	private ChromeDriverService startChromeDriverService() {
 		chromeService = new ChromeDriverService.Builder()
 				.usingChromeDriverExecutable(
-						new File(Config.getChromeDriverPath()))
+						new File(TestProperties.getChromeDriverPath()))
 				.usingAnyFreePort().build();
 		try {
 			chromeService.start();
@@ -2158,20 +2158,20 @@ public class BrowserInstance {
 	public void setupSelenium() {
 		System.out.println("Initializing Selenium.");
 
-		if (Config.inst().BROWSER.equals("htmlunit")) {
+		if (TestProperties.inst().BROWSER.equals("htmlunit")) {
 			System.out.println("Using HTMLUnit.");
 
 			setDriver(new HtmlUnitDriver());
 			selenium = new WebDriverBackedSelenium(driver,
-					Config.inst().TEAMMATES_URL);
+					TestProperties.inst().TEAMMATES_URL);
 
-		} else if (Config.inst().BROWSER.equals("firefox")) {
+		} else if (TestProperties.inst().BROWSER.equals("firefox")) {
 			System.out.println("Using Firefox.");
 			setDriver(new FirefoxDriver());
 			selenium = new WebDriverBackedSelenium(driver,
-					Config.inst().TEAMMATES_URL);
+					TestProperties.inst().TEAMMATES_URL);
 
-		} else if (Config.inst().BROWSER.equals("chrome")) {
+		} else if (TestProperties.inst().BROWSER.equals("chrome")) {
 
 			System.out.println("Using Chrome");
 
@@ -2183,19 +2183,19 @@ public class BrowserInstance {
 
 			System.out.println(driver.toString());
 			selenium = new WebDriverBackedSelenium(driver,
-					Config.inst().TEAMMATES_URL);
+					TestProperties.inst().TEAMMATES_URL);
 
 		} else {
 
-			System.out.println("Using " + Config.inst().BROWSER);
+			System.out.println("Using " + TestProperties.inst().BROWSER);
 
 			// iexplore, opera, safari. For some not-supported-yet browsers, we
 			// use legacy methods: Going through the RC server.
-			String selBrowserIdentifierString = "*" + Config.inst().BROWSER;
+			String selBrowserIdentifierString = "*" + TestProperties.inst().BROWSER;
 
-			selenium = new DefaultSelenium(Config.inst().SELENIUMRC_HOST,
-					Config.inst().SELENIUMRC_PORT, selBrowserIdentifierString,
-					Config.inst().TEAMMATES_URL);
+			selenium = new DefaultSelenium(TestProperties.inst().SELENIUMRC_HOST,
+					TestProperties.inst().SELENIUMRC_PORT, selBrowserIdentifierString,
+					TestProperties.inst().TEAMMATES_URL);
 			CommandExecutor executor = new SeleneseCommandExecutor(selenium);
 			DesiredCapabilities dc = new DesiredCapabilities();
 			setDriver(new RemoteWebDriver(executor, dc));
@@ -2675,9 +2675,9 @@ public class BrowserInstance {
 			if (!url.startsWith("/")) {
 				url = "/" + url;
 			}
-			driver.get(Config.inst().TEAMMATES_URL + url);
+			driver.get(TestProperties.inst().TEAMMATES_URL + url);
 		}
-		if (!Config.inst().isLocalHost()) {
+		if (!TestProperties.inst().isLocalHost()) {
 			waitForPageLoad();
 		}
 	}

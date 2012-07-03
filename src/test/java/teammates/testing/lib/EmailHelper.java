@@ -1,8 +1,6 @@
 package teammates.testing.lib;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,7 +17,7 @@ import javax.mail.search.FlagTerm;
 
 import teammates.storage.Emails;
 
-public class SharedLib {
+public class EmailHelper {
 
 	/**
 	 * Retrieve registration key sent to Gmail inbox. After retrieve, mark the
@@ -180,7 +178,7 @@ public class SharedLib {
 		// Publish RESULTS Format
 		final String HEADER_EVALUATION_PUBLISH = "TEAMMATES: Evaluation Published: %s %s";
 		final String TEAMMATES_APP_URL = "You can view the result here: "
-				+ Config.inst().TEAMMATES_LIVE_SITE;
+				+ TestProperties.inst().TEAMMATES_LIVE_SITE;
 		final String TEAMMATES_APP_SIGNATURE = "If you encounter any problems using the system, email TEAMMATES support";
 
 		Session sessioned = Session.getDefaultInstance(System.getProperties(),
@@ -322,79 +320,17 @@ public class SharedLib {
 		return count;
 	}
 
-	/**
-	 * Return the date of next hour in format (YYYY,M,D)
-	 * 
-	 * @deprecated Only used in old testing method
-	 * @return
-	 */
-	public static String getDateValue() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.HOUR_OF_DAY, 1);
-
-		int year = calendar.get(Calendar.YEAR);
-		int month = calendar.get(Calendar.MONTH) + 1;
-		int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-		return "(" + year + "," + month + "," + day + ")";
-	}
-
-	/**
-	 * Returns the next hour from the next full hour. Example: if current time
-	 * is 1050, this will return 12 (i.e., one hour after 11)
-	 * 
-	 * @deprecated Only used in old testing method
-	 * @return
-	 */
-	public static String getNextTimeValue() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.HOUR_OF_DAY, 1);
-
-		return Integer.toString(calendar.get(Calendar.HOUR_OF_DAY) + 1);
-	}
-
-	/**
-	 * Helper method to format date from format (YYYY,M,D) to DD/MM/YYYY.
-	 * Usually used in conjunction with {@link #getDateValue()}
-	 * 
-	 * @deprecated Only used in old testing method
-	 * @param date
-	 * @return
-	 */
-	public static String formatDate(String date) {
-		StringTokenizer st = new StringTokenizer(date, "(,)");
-		String year = st.nextToken().trim();
-		String month = st.nextToken();
-		Integer monthInt = Integer.parseInt(month);
-		month = String.format("%02d", monthInt);
-		String day = st.nextToken();
-		Integer dayInt = Integer.parseInt(day);
-		day = String.format("%02d", dayInt);
-
-		return day + "/" + month + "/" + year;
-	}
 
 	public static void main(String[] args) {
 		try {
 			System.out
-					.println(SharedLib.getRegistrationKeyFromGmail(
+					.println(EmailHelper.getRegistrationKeyFromGmail(
 							"benny.tmms@gmail.com",
-							Config.inst().TEAMMATES_APP_PASSWORD,
+							TestProperties.inst().TEAMMATES_APP_PASSWORD,
 							"CCDetailsUiT.CS2104"));
-			// SharedLib.getEvaluationReminderFromGmail("alice.tmms@gmail.com",
-			// Config.inst().TEAMMATES_APP_PASSWORD, "CS2103-TESTING",
-			// "First Eval");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * Thread println
-	 */
-	public static void tprintln(String message) {
-		System.out.println("[" + Thread.currentThread().getName() + "]"
-				+ message);
 	}
 
 }

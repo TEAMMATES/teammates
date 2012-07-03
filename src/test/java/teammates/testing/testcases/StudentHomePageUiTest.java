@@ -12,7 +12,7 @@ import teammates.datatransfer.StudentData;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
-import teammates.testing.lib.Config;
+import teammates.testing.lib.TestProperties;
 
 /**
  * Tests Student Homepage UI
@@ -21,7 +21,7 @@ public class StudentHomePageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static DataBundle scn;
 	
-	private static String appURL = Config.inst().TEAMMATES_URL;
+	private static String appURL = TestProperties.inst().TEAMMATES_URL;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -37,7 +37,7 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		bi.loginStudent(scn.students.get("alice.tmms@SHomeUiT.CS2104").id, Config.inst().TEAMMATES_APP_PASSWORD);
+		bi.loginStudent(scn.students.get("alice.tmms@SHomeUiT.CS2104").id, TestProperties.inst().TEAMMATES_APP_PASSWORD);
 	}
 	
 	@AfterClass

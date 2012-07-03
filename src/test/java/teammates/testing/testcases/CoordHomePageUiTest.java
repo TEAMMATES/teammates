@@ -14,7 +14,7 @@ import teammates.datatransfer.EvaluationData;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
-import teammates.testing.lib.Config;
+import teammates.testing.lib.TestProperties;
 import teammates.testing.lib.NoAlertAppearException;
 
 /**
@@ -46,7 +46,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		bi.loginCoord(scn.coords.get("teammates.test").id, Config.inst().TEAMMATES_APP_PASSWORD);
+		bi.loginCoord(scn.coords.get("teammates.test").id, TestProperties.inst().TEAMMATES_APP_PASSWORD);
 	}
 	
 	@AfterClass

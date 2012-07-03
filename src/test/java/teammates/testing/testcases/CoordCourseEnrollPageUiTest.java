@@ -12,7 +12,7 @@ import teammates.datatransfer.DataBundle;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
-import teammates.testing.lib.Config;
+import teammates.testing.lib.TestProperties;
 import teammates.ui.Helper;
 
 /**
@@ -24,7 +24,7 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 	
 	private static String enrollString = "";
 	
-	private static String appUrl = Config.inst().TEAMMATES_URL;
+	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -52,7 +52,7 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		bi.loginAdmin(Config.inst().TEST_ADMIN_ACCOUNT, Config.inst().TEST_ADMIN_PASSWORD);
+		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_COORD_COURSE_ENROLL;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CCEnrollUiT.CS2104").id);
 		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);

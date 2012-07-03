@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class Config {
+public class TestProperties {
 	
 	
 
@@ -51,10 +51,10 @@ public class Config {
 	public String MAIL_STRESS_TEST_ACCOUNT;
 	public int MAIL_STRESS_TEST_SIZE;
 	
-	private static Config instance;
+	private static TestProperties instance;
 	private Properties prop;
 	
-	private Config() {
+	private TestProperties() {
 		prop = new Properties();
 		try {
 			// This is teammates.testing.config.Config file
@@ -96,9 +96,9 @@ public class Config {
 		}
 	}
 
-	public static Config inst() {
+	public static TestProperties inst() {
 		if (instance == null)
-			instance = new Config();
+			instance = new TestProperties();
 		return instance;
 	}
 

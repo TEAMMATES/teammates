@@ -13,9 +13,9 @@ import teammates.datatransfer.DataBundle;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
-import teammates.testing.lib.Config;
+import teammates.testing.lib.TestProperties;
 import teammates.testing.lib.NoAlertAppearException;
-import teammates.testing.lib.SharedLib;
+import teammates.testing.lib.EmailHelper;
 import teammates.ui.Helper;
 
 /**
@@ -25,7 +25,7 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static DataBundle scn;
 	
-	private static String appUrl = Config.inst().TEAMMATES_URL;
+	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -41,7 +41,7 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 
-		bi.loginAdmin(Config.inst().TEST_ADMIN_ACCOUNT, Config.inst().TEST_ADMIN_PASSWORD);
+		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_COORD_COURSE_DETAILS;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CCDetailsUiT.CS2104").id);
 		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
@@ -93,24 +93,24 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 		
 		bi.clickCoordCourseDetailRemind(studentName);
 		
-		if(!Config.inst().isLocalHost()){
+		if(!TestProperties.inst().isLocalHost()){
 			String key = BackDoor.getKeyForStudent(scn.courses.get("CCDetailsUiT.CS2104").id, studentEmail);
 			bi.waitForEmail();
-			assertEquals(key,SharedLib.getRegistrationKeyFromGmail(studentEmail, Config.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id));
+			assertEquals(key,EmailHelper.getRegistrationKeyFromGmail(studentEmail, TestProperties.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id));
 		}
 		
 		______TS("sending reminder to all unregistered students to join course");
 		
 		bi.clickAndConfirm(bi.coordCourseDetailRemindButton);
-		if(!Config.inst().isLocalHost()){
+		if(!TestProperties.inst().isLocalHost()){
 			bi.waitForEmail();
 			
 			//verify an unregistered student received reminder
 			String key = BackDoor.getKeyForStudent(scn.courses.get("CCDetailsUiT.CS2104").id, otherStudentEmail);
-			assertEquals(key,SharedLib.getRegistrationKeyFromGmail(otherStudentEmail, Config.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id));
+			assertEquals(key,EmailHelper.getRegistrationKeyFromGmail(otherStudentEmail, TestProperties.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id));
 			
 			//verify a registered student did not receive a reminder
-			assertEquals(null,SharedLib.getRegistrationKeyFromGmail(registeredStudentEmail, Config.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id));
+			assertEquals(null,EmailHelper.getRegistrationKeyFromGmail(registeredStudentEmail, TestProperties.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id));
 		}
 	}
 

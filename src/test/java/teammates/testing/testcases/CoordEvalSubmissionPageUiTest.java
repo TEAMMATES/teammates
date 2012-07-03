@@ -14,7 +14,7 @@ import teammates.datatransfer.SubmissionData;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
-import teammates.testing.lib.Config;
+import teammates.testing.lib.TestProperties;
 import teammates.ui.Helper;
 
 import com.google.appengine.api.datastore.Text;
@@ -26,7 +26,7 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static DataBundle scn;
 	
-	private static String appUrl = Config.inst().TEAMMATES_URL;
+	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -42,7 +42,7 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 
 		bi = BrowserInstancePool.getBrowserInstance();
 
-		bi.loginAdmin(Config.inst().TEST_ADMIN_ACCOUNT, Config.inst().TEST_ADMIN_PASSWORD);
+		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 	}
 	
 	@AfterClass

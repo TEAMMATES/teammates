@@ -18,7 +18,7 @@ import teammates.datatransfer.CourseData;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
-import teammates.testing.lib.Config;
+import teammates.testing.lib.TestProperties;
 import teammates.testing.lib.NoAlertAppearException;
 import teammates.ui.Helper;
 
@@ -29,7 +29,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static TestScenario ts;
 	
-	private static String appUrl = Config.inst().TEAMMATES_URL;
+	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -44,7 +44,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		bi.loginAdmin(Config.inst().TEST_ADMIN_ACCOUNT, Config.inst().TEST_ADMIN_PASSWORD);
+		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_COORD_COURSE;
 		link = Helper.addParam(link,Common.PARAM_USER_ID,ts.coordinator.id);
 		bi.goToUrl(link);

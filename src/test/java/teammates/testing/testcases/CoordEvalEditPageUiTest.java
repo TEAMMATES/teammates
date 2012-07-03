@@ -16,7 +16,7 @@ import teammates.datatransfer.EvaluationData;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
-import teammates.testing.lib.Config;
+import teammates.testing.lib.TestProperties;
 import teammates.ui.Helper;
 
 /**
@@ -26,7 +26,7 @@ public class CoordEvalEditPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static TestScenario ts;
 	
-	private static String appUrl = Config.inst().TEAMMATES_URL;
+	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -45,7 +45,7 @@ public class CoordEvalEditPageUiTest extends BaseTestCase {
 
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		bi.loginAdmin(Config.inst().TEST_ADMIN_ACCOUNT, Config.inst().TEST_ADMIN_PASSWORD);
+		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_COORD_EVAL_EDIT;
 		link = Helper.addParam(link,Common.PARAM_COURSE_ID,ts.evaluation.course);
 		link = Helper.addParam(link,Common.PARAM_EVALUATION_NAME,ts.evaluation.name);

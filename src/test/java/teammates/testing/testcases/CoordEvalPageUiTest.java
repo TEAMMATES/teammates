@@ -16,9 +16,9 @@ import teammates.datatransfer.EvaluationData;
 import teammates.testing.lib.BackDoor;
 import teammates.testing.lib.BrowserInstance;
 import teammates.testing.lib.BrowserInstancePool;
-import teammates.testing.lib.Config;
+import teammates.testing.lib.TestProperties;
 import teammates.testing.lib.NoAlertAppearException;
-import teammates.testing.lib.SharedLib;
+import teammates.testing.lib.EmailHelper;
 import teammates.ui.Helper;
 
 /**
@@ -28,7 +28,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static DataBundle scn;
 	
-	private static String appUrl = Config.inst().TEAMMATES_URL;
+	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -44,7 +44,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 
 		bi = BrowserInstancePool.getBrowserInstance();
 
-		bi.loginAdmin(Config.inst().TEST_ADMIN_ACCOUNT, Config.inst().TEST_ADMIN_PASSWORD);
+		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_COORD_EVAL;
 		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
 		bi.goToUrl(link);
@@ -249,9 +249,9 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		}
 
 		// Check email
-		if(Config.inst().isLocalHost()) return;
+		if(TestProperties.inst().isLocalHost()) return;
 		bi.waitForEmail();
-		assertEquals(courseID,SharedLib.getEvaluationReminderFromGmail(scn.students.get("alice.tmms@CEvalUiT.CS2104").email, Config.inst().TEAMMATES_APP_PASSWORD, courseID, evalName));
+		assertEquals(courseID,EmailHelper.getEvaluationReminderFromGmail(scn.students.get("alice.tmms@CEvalUiT.CS2104").email, TestProperties.inst().TEAMMATES_APP_PASSWORD, courseID, evalName));
 	}
 	
 	public void testCoordEvalDeleteLink() throws Exception{
