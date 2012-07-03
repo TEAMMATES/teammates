@@ -2,7 +2,6 @@ package teammates.persistent;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import javax.jdo.annotations.IdGeneratorStrategy;

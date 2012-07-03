@@ -11,6 +11,7 @@ import teammates.api.Common;
 @SuppressWarnings("serial")
 public class EvaluationActivationServlet extends HttpServlet {
 	
+	@SuppressWarnings("unused")
 	private static Logger log = Common.getLogger();
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) {

@@ -8,11 +8,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-import teammates.persistent.Course;
 import teammates.persistent.Evaluation;
 
 import com.google.gson.Gson;

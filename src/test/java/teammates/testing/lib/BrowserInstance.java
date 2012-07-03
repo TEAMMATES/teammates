@@ -35,7 +35,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.api.Common;
 import teammates.testing.config.Config;
-import teammates.testing.object.Evaluation;
 import teammates.testing.testcases.BaseTestCase;
 
 import com.thoughtworks.selenium.DefaultSelenium;
