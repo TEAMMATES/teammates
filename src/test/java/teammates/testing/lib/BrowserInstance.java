@@ -42,7 +42,6 @@ import com.thoughtworks.selenium.SeleniumException;
 
 /**
  * A browser instance represents a real browser instance + context to the app
- * Used to be BaseTest
  */
 public class BrowserInstance {
 	protected DefaultSelenium selenium = null;
@@ -56,12 +55,15 @@ public class BrowserInstance {
 	private static final int RETRY_TIME = TIMEOUT * 1000 / RETRY; // In milliseconds
 	private static final int PAGE_VERIFY_RETRY = 3;
 
+	//TODO: reorganize this class based on page rather than type of function
+	
 	/*
 	 * --------------------------------------------------------------- 
 	 * UI Element Below are the declaration for variables referring 
 	 * to UI Element. Each is represented by its By instance
 	 * --------------------------------------------------------------
 	 */
+	
 
 	@SuppressWarnings("unused")
 	private void ____General_UI_Elements__________________________________() {

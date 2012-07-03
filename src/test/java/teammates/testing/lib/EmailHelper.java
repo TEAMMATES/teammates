@@ -20,14 +20,13 @@ import teammates.storage.Emails;
 public class EmailHelper {
 
 	/**
-	 * Retrieve registration key sent to Gmail inbox. After retrieve, mark the
-	 * email as read.
-	 * 
-	 * Can be easily modified to support other mail providers
+	 * Retrieve registration key sent to Gmail inbox. After retrieving, marks 
+	 * the email as read.
+	 * 	 * Can be easily modified to support other mail providers
 	 * 
 	 * @param gmail
 	 * @param password
-	 * @return
+	 * @return registration key (null if cannot be found).
 	 * @throws Exception
 	 */
 	public static String getRegistrationKeyFromGmail(String gmail,
@@ -48,6 +47,7 @@ public class EmailHelper {
 			return null;
 		}
 
+		//TODO: method too long. refactor.
 		try {
 			// Retrieve the "Inbox"
 			Folder inbox = store.getFolder("inbox");
@@ -112,7 +112,7 @@ public class EmailHelper {
 	}
 
 	/**
-	 * Retrieve evaluation reminder sent to Gmail inbox. After retrieve, mark
+	 * Retrieve evaluation reminder sent to Gmail inbox. After retrieving, marks
 	 * the email as read.
 	 * 
 	 * Can be easily modified to support other mail providers

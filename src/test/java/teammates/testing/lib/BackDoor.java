@@ -301,13 +301,6 @@ public class BackDoor {
 		return map;
 	}
 
-	/**
-	 * Sends data to server and returns the response
-	 * 
-	 * @param data
-	 * @return
-	 * @throws Exception
-	 */
 	private static String makePOSTRequest(HashMap<String, Object> map) {
 		try {
 			String paramString = encodeParameters(map);

@@ -19,6 +19,12 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+/**
+ * This class is used to compare two html files to see if they are logically 
+ * equivalent e.g., ignore differences in whitespace and attribute order.
+ * @author dcsdcr
+ *
+ */
 public class HtmlHelper {
 
 	/**

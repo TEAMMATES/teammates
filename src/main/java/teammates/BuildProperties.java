@@ -22,7 +22,7 @@ public class BuildProperties {
 
 
 	/**
-	 * Password by Test driver to identify itself. 
+	 * Password used by Test driver to identify itself. 
 	 */
 	public String BACKDOOR_KEY = null;
 
@@ -45,7 +45,7 @@ public class BuildProperties {
 	}
 	
 	/**
-	 * This method can be used to create a Config object during a different 
+	 * This method can be used to create a BuildProperties object during a different 
 	 *   Properties object. 
 	 * @param prop
 	 * @return

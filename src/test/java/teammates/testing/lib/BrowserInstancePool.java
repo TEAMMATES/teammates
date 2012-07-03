@@ -4,9 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Manage the pool of browser instances.
- * 
  * This class is thread-safe.
- * 
  */
 public class BrowserInstancePool {
 	private static final int CAPACITY = 4;
