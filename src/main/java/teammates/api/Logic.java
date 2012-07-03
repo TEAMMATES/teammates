@@ -22,8 +22,6 @@ import teammates.datatransfer.UserData;
 import teammates.exception.GoogleIDExistsInCourseException;
 import teammates.exception.RegistrationKeyInvalidException;
 import teammates.exception.RegistrationKeyTakenException;
-import teammates.jdo.CourseSummaryForCoordinator;
-import teammates.jdo.EvaluationDetailsForCoordinator;
 import teammates.manager.Accounts;
 import teammates.manager.Courses;
 import teammates.manager.Emails;
@@ -380,28 +378,16 @@ public class Logic {
 			throw new EntityDoesNotExistException(
 					"Coordinator does not exist :" + coordId);
 		}
+
 		ArrayList<EvaluationData> evaluationDetailsList = new ArrayList<EvaluationData>();
 
 		for (Course c : courseList) {
-			ArrayList<EvaluationDetailsForCoordinator> evaluationsSummaryForCourse = Evaluations
+			ArrayList<EvaluationData> evaluationsSummaryForCourse = Evaluations
 					.inst().getEvaluationsSummaryForCourse(c.getID());
-			for (EvaluationDetailsForCoordinator edfc : evaluationsSummaryForCourse) {
-				EvaluationData e = new EvaluationData();
-				e.course = edfc.getCourseID();
-				e.name = edfc.getName();
-				e.instructions = edfc.getInstructions();
-				e.startTime = edfc.getStart();
-				e.endTime = edfc.getDeadline();
-				e.timeZone = edfc.getTimeZone();
-				e.gracePeriod = edfc.getGracePeriod();
-				e.p2pEnabled = edfc.isCommentsEnabled();
-				e.published = edfc.isPublished();
-				e.activated = edfc.isActivated();
-				e.expectedTotal = edfc.numberOfEvaluations;
-				e.submittedTotal = edfc.numberOfCompletedEvaluations;
-				evaluationDetailsList.add(e);
-			}
+
+			evaluationDetailsList.addAll(evaluationsSummaryForCourse);
 		}
+
 		return evaluationDetailsList;
 	}
 
@@ -712,7 +698,6 @@ public class Logic {
 		verifyCourseOwnerOrAbove(student.course);
 
 		// TODO: make the implementation more defensive
-		String newTeamName = student.team;
 		Courses.inst().editStudent(student.course, originalEmail, student.name,
 				student.team, student.email, student.id, student.comments,
 				student.profile);

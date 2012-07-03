@@ -1218,25 +1218,31 @@ public class Evaluations {
 		
 	}
 
-	public ArrayList<EvaluationDetailsForCoordinator> getEvaluationsSummaryForCourse(
+	public ArrayList<EvaluationData> getEvaluationsSummaryForCourse(
 			String courseId) {
 
-		ArrayList<EvaluationDetailsForCoordinator> evaluationsSummaryList = new ArrayList<EvaluationDetailsForCoordinator>();
+		ArrayList<EvaluationData> evaluationsSummaryList = new ArrayList<EvaluationData>();
 		List<Evaluation> evaluationList = getEvaluationList(courseId);
 
 		for (Evaluation e : evaluationList) {
 
-			int numberOfCompletedEvaluations = getNumberOfCompletedEvaluations(
-					e.getCourseID(), e.getName());
-			int numberOfEvaluations = getNumberOfEvaluations(
-					e.getCourseID(), e.getName());
+			EvaluationData ed = new EvaluationData();
 
-			EvaluationDetailsForCoordinator ed = new EvaluationDetailsForCoordinator(
-					e.getCourseID(), e.getName(), e.getInstructions(),
-					e.isCommentsEnabled(), e.getStart(), e.getDeadline(),
-					e.getTimeZone(), e.getGracePeriod(), e.isPublished(),
-					e.isActivated(), numberOfCompletedEvaluations,
-					numberOfEvaluations);
+			ed.course = e.getCourseID();
+			ed.name = e.getName();
+			ed.instructions = e.getInstructions();
+			ed.p2pEnabled = e.isCommentsEnabled();
+			ed.startTime = e.getStart();
+			ed.endTime = e.getDeadline();
+			ed.timeZone = e.getTimeZone();
+			ed.gracePeriod = e.getGracePeriod();
+			ed.published = e.isPublished();
+			ed.activated = 	e.isActivated();
+			ed.submittedTotal = getNumberOfCompletedEvaluations(
+					e.getCourseID(), e.getName());
+			ed.expectedTotal = getNumberOfEvaluations(
+					e.getCourseID(), e.getName());
+			
 			evaluationsSummaryList.add(ed);
 		}
 
