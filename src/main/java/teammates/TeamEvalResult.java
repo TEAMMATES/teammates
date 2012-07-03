@@ -28,6 +28,8 @@ public class TeamEvalResult {
 
 	public TeamEvalResult(int[][] submissionValues) {
 		claimedToStudents = submissionValues;
+		
+		//TODO: refactor to match terminology used in spec
 
 		log.fine("==================\n" + "starting result calculation for\n"
 				+ pointsToString(submissionValues));

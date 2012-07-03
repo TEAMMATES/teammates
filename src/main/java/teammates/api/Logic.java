@@ -321,7 +321,6 @@ public class Logic {
 	 *         Access level: Admin, Coord (for self)
 	 * @throws InvalidParametersException
 	 */
-	// TODO: return ArrayList instead?
 	public HashMap<String, CourseData> getCourseListForCoord(String coordId)
 			throws EntityDoesNotExistException {
 
@@ -329,7 +328,7 @@ public class Logic {
 
 		verifyCoordUsingOwnIdOrAbove(coordId);
 
-		HashMap<String, CourseSummaryForCoordinator> courseSummaryListForCoord = Courses
+		HashMap<String, CourseData> courseSummaryListForCoord = Courses
 				.inst().getCourseSummaryListForCoord(coordId);
 		if (courseSummaryListForCoord.size() == 0) {
 			if (getCoord(coordId) == null) {
@@ -337,19 +336,7 @@ public class Logic {
 						"Coordinator does not exist :" + coordId);
 			}
 		}
-		HashMap<String, CourseData> returnList = new HashMap<String, CourseData>();
-		for (CourseSummaryForCoordinator csfc : courseSummaryListForCoord
-				.values()) {
-			CourseData c = new CourseData();
-			c.coord = coordId;
-			c.id = csfc.getID();
-			c.name = csfc.getName();
-			c.studentsTotal = csfc.getTotalStudents();
-			c.teamsTotal = csfc.getNumberOfTeams();
-			c.unregisteredTotal = csfc.getUnregistered();
-			returnList.put(c.id, c);
-		}
-		return returnList;
+		return courseSummaryListForCoord;
 	}
 
 	/**

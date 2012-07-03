@@ -508,19 +508,19 @@ public class Courses {
 		return courseList;
 	}
 	
-	public HashMap<String, CourseSummaryForCoordinator> getCourseSummaryListForCoord(String coordId){
+	public HashMap<String, CourseData> getCourseSummaryListForCoord(String coordId){
 		List<Course> courseList = getCoordinatorCourseList(coordId);
-		HashMap<String, CourseSummaryForCoordinator> courseSummaryList = new HashMap<String, CourseSummaryForCoordinator>();
+		HashMap<String, CourseData> courseSummaryList = new HashMap<String, CourseData>();
 
 		for (Course c : courseList) {
-			CourseSummaryForCoordinator courseSummary = 
-					new CourseSummaryForCoordinator(
-							c.getID(), c.getName(), c.isArchived(), 
-							getNumberOfTeams(c.getID()), 
-							getTotalStudents(c.getID()),
-							getUnregistered(c.getID())
-						);
-			courseSummaryList.put(c.getID(),courseSummary);
+			CourseData cd = new CourseData();
+					cd.id = c.getID();
+					cd.name = c.getName();
+					cd.coord = coordId;
+					cd.teamsTotal = getNumberOfTeams(c.getID());
+					cd.studentsTotal = getTotalStudents(c.getID());
+					cd.unregisteredTotal = 	getUnregistered(c.getID());
+			courseSummaryList.put(c.getID(),cd);
 		}
 		return courseSummaryList;
 	}
