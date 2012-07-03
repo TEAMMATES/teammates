@@ -6,13 +6,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
 
-import teammates.api.Common;
 import teammates.api.EntityAlreadyExistsException;
 import teammates.api.EntityDoesNotExistException;
 import teammates.api.InvalidParametersException;
@@ -48,45 +46,6 @@ public class Evaluations {
 		return instance;
 	}
 
-	/**
-	 * Checks every evaluation and activate the evaluation if the current time
-	 * is later than start time.
-	 * 
-	 * @return list of evaluations that were activated in the function call
-	 * @deprecated
-	 */
-	public List<Evaluation> setEvaluationsAsActivated() {
-		List<Evaluation> evaluationList = getAllEvaluations();
-		List<Evaluation> activatedEvaluationList = new ArrayList<Evaluation>();
-
-		Calendar current = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-		Calendar start = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-
-		for (Evaluation e : evaluationList) {
-			// Fix the time zone accordingly
-			current.add(Calendar.MILLISECOND,
-					(int) (60 * 60 * 1000 * e.getTimeZone()));
-
-			start.setTime(e.getStart());
-			
-			log.fine("checking "+e.getName()+"|current:"+Common.calendarToString(current)+"|start:"+Common.calendarToString(start));
-
-
-			if (current.after(start) || current.equals(start)) {
-				if (e.isActivated() == false) {
-					e.setActivated(true);
-					activatedEvaluationList.add(e);
-				}
-			}
-
-			// Revert time zone change
-			current.add(Calendar.MILLISECOND,
-					(int) (-60 * 60 * 1000 * e.getTimeZone()));
-		}
-
-		return activatedEvaluationList;
-
-	}
 	
 	public List<Evaluation> getReadyEvaluations(){
 		//TODO: very inefficient to go through all evaluations
@@ -1016,44 +975,6 @@ public class Evaluations {
 		}
 	}
 
-	/**
-	 * Adds to TaskQueue emails to inform students of publishing of results for
-	 * an Evaluation.
-	 * 
-	 * @param studentList
-	 *            the list of students to be informed
-	 * 
-	 * @param courseID
-	 *            the course ID
-	 * 
-	 * @param evaluationName
-	 *            the evaluation name
-	 */
-	private void informStudentsOfPublishingOfEvaluationResults(
-			List<Student> studentList, String courseID, String name) {
-
-		Queue queue = QueueFactory.getQueue("email-queue");
-		//Queue queue = QueueFactory.getDefaultQueue();
-		List<TaskOptions> taskOptionsList = new ArrayList<TaskOptions>();
-
-		for (Student s : studentList) {
-			// There is a limit of 100 tasks per batch addition to Queue in
-			// Google App Engine
-			if (taskOptionsList.size() == 100) {
-				queue.add(taskOptionsList);
-				taskOptionsList = new ArrayList<TaskOptions>();
-			}
-
-			taskOptionsList.add(TaskOptions.Builder.withUrl("/email")
-					.param("operation", "informstudentspublishedevaluation")
-					.param("email", s.getEmail()).param("name", s.getName())
-					.param("courseid", courseID).param("evaluationname", name));
-		}
-
-		if (!taskOptionsList.isEmpty()) {
-			queue.add(taskOptionsList);
-		}
-	}
 
 	/**
 	 * Returns if there is an ongoing Evaluation for a particular Course.

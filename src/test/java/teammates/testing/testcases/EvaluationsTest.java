@@ -43,31 +43,6 @@ public class EvaluationsTest extends BaseTestCase{
 		helper.setUp();
 	}
 	
-	@Test
-	public void testSetEvaluationsAsActivated() throws Exception{
-		assertEquals(0, Evaluations.inst().setEvaluationsAsActivated().size());
-		
-		//ensure there are no existing evaluations ready for activation
-		restoreTypicalDataInDatastore();
-		DataBundle dataBundle = getTypicalDataBundle();
-		BackDoorLogic backdoor = new BackDoorLogic();
-		for(EvaluationData e: dataBundle.evaluations.values()){
-			e.activated = true;
-			backdoor.editEvaluation(e);
-			assertTrue(backdoor.getEvaluation(e.course, e.name).getStatus() != EvalStatus.AWAITING);
-		}
-		assertEquals(0, Evaluations.inst().setEvaluationsAsActivated().size());
-		
-		//reuse an existing evaluation to create a new one
-		EvaluationData evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
-		evaluation.activated = false;
-		evaluation.timeZone = 0.0;
-		evaluation.name = "new evaluation";
-		evaluation.startTime = Common.getMsOffsetToCurrentTime(0);
-		backdoor.createEvaluation(evaluation);
-		assertEquals(1, Evaluations.inst().setEvaluationsAsActivated().size());
-		//TODO: more testing
-	}
 	
 	@Test
 	public void testGetReadyEvaluations() throws Exception {
