@@ -7,6 +7,7 @@
 	<classpathentry excluding="**/*.java" kind="src" output="target/test-classes" path="src/test/resources"/>
 	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
 	<classpathentry excluding="**/*.java" kind="src" path="src/main/resources"/>
+	<classpathentry kind="src" path="src/test/javascript"/>
 	<classpathentry kind="var" path="M2_REPO/net/sourceforge/nekohtml/nekohtml/1.9.15/nekohtml-1.9.15.jar" sourcepath="/M2_REPO/selenium-2.21.0/selenium-2.21.0/libs/nekohtml-1.9.15-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/appengine/appengine-testing/1.6.4/appengine-testing-1.6.4.jar">
 		<attributes>

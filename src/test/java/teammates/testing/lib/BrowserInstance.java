@@ -2671,7 +2671,7 @@ public class BrowserInstance {
 	 * @param url
 	 */
 	public void goToUrl(String url) {
-		if (url.startsWith("http")) {
+		if (url.startsWith("http")||url.startsWith("file")) {
 			driver.get(url);
 		} else {
 			if (!url.startsWith("/")) {

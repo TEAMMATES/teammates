@@ -35,7 +35,7 @@ public class AllJsUnitTests extends BaseTestCase{
 		print("Going to execute "+totalCasesExpectedToPass+" JavaScript Unit tests...");
 		
 		String workingDirectory = new File(".").getCanonicalPath();
-		bi.goToUrl("file:///"+workingDirectory+"/src/test/java/teammates/testing/testcases/AllJsUnitTests.html");
+		bi.goToUrl("file:///"+workingDirectory+"/src/test/javascript/AllJsUnitTests.html");
 
 		bi.waitForElementPresent(By.id("qunit-testresult"));
 		String expectedResultString = totalCasesExpectedToPass+" tests of "+totalCases+" passed";
