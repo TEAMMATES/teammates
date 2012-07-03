@@ -1,4 +1,4 @@
-package teammates.testing.lib;
+package teammates.testing.testcases;
 
 import static org.junit.Assert.assertEquals;
 import static teammates.api.Common.EOL;
@@ -10,6 +10,8 @@ import javax.xml.transform.TransformerException;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;
+
+import teammates.testing.lib.HtmlHelper;
 
 public class HtmlHelperTest {
 	

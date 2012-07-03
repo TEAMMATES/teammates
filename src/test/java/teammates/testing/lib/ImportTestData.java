@@ -1,7 +1,6 @@
-package teammates.testing.script;
+package teammates.testing.lib;
 
 import teammates.api.Common;
-import teammates.testing.lib.BackDoor;
 
 
 public class ImportTestData {
