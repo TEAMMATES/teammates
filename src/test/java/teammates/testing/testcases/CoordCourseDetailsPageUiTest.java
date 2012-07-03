@@ -96,7 +96,7 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 		if(!TestProperties.inst().isLocalHost()){
 			String key = BackDoor.getKeyForStudent(scn.courses.get("CCDetailsUiT.CS2104").id, studentEmail);
 			bi.waitForEmail();
-			assertEquals(key,EmailHelper.getRegistrationKeyFromGmail(studentEmail, TestProperties.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id));
+			assertEquals(key,EmailHelper.getRegistrationKeyFromGmail(studentEmail, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS, scn.courses.get("CCDetailsUiT.CS2104").id));
 		}
 		
 		______TS("sending reminder to all unregistered students to join course");
@@ -107,10 +107,10 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 			
 			//verify an unregistered student received reminder
 			String key = BackDoor.getKeyForStudent(scn.courses.get("CCDetailsUiT.CS2104").id, otherStudentEmail);
-			assertEquals(key,EmailHelper.getRegistrationKeyFromGmail(otherStudentEmail, TestProperties.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id));
+			assertEquals(key,EmailHelper.getRegistrationKeyFromGmail(otherStudentEmail, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS, scn.courses.get("CCDetailsUiT.CS2104").id));
 			
 			//verify a registered student did not receive a reminder
-			assertEquals(null,EmailHelper.getRegistrationKeyFromGmail(registeredStudentEmail, TestProperties.inst().TEAMMATES_APP_PASSWORD, scn.courses.get("CCDetailsUiT.CS2104").id));
+			assertEquals(null,EmailHelper.getRegistrationKeyFromGmail(registeredStudentEmail, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS, scn.courses.get("CCDetailsUiT.CS2104").id));
 		}
 	}
 

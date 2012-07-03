@@ -169,6 +169,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndConfirm(publishLinkLocator);
 			bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_PUBLISHED);
+			//TODO: check for email?
 		} catch (NoAlertAppearException e){
 			fail("Publish link not clickable on closed evaluation");
 		}
@@ -251,7 +252,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		// Check email
 		if(TestProperties.inst().isLocalHost()) return;
 		bi.waitForEmail();
-		assertEquals(courseID,EmailHelper.getEvaluationReminderFromGmail(scn.students.get("alice.tmms@CEvalUiT.CS2104").email, TestProperties.inst().TEAMMATES_APP_PASSWORD, courseID, evalName));
+		assertEquals(courseID,EmailHelper.getEvaluationReminderFromGmail(scn.students.get("alice.tmms@CEvalUiT.CS2104").email, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS, courseID, evalName));
 	}
 	
 	public void testCoordEvalDeleteLink() throws Exception{

@@ -46,7 +46,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		bi.loginCoord(scn.coords.get("teammates.test").id, TestProperties.inst().TEAMMATES_APP_PASSWORD);
+		bi.loginCoord(scn.coords.get("teammates.test").id, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS);
 	}
 	
 	@AfterClass

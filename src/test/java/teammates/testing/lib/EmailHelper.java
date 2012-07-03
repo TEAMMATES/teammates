@@ -178,7 +178,7 @@ public class EmailHelper {
 		// Publish RESULTS Format
 		final String HEADER_EVALUATION_PUBLISH = "TEAMMATES: Evaluation Published: %s %s";
 		final String TEAMMATES_APP_URL = "You can view the result here: "
-				+ TestProperties.inst().TEAMMATES_LIVE_SITE;
+				+ TestProperties.inst().TEAMMATES_URL_IN_EMAILS;
 		final String TEAMMATES_APP_SIGNATURE = "If you encounter any problems using the system, email TEAMMATES support";
 
 		Session sessioned = Session.getDefaultInstance(System.getProperties(),
@@ -326,7 +326,7 @@ public class EmailHelper {
 			System.out
 					.println(EmailHelper.getRegistrationKeyFromGmail(
 							"benny.tmms@gmail.com",
-							TestProperties.inst().TEAMMATES_APP_PASSWORD,
+							TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS,
 							"CCDetailsUiT.CS2104"));
 		} catch (Exception e) {
 			e.printStackTrace();
