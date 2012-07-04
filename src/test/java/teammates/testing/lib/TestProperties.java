@@ -13,6 +13,7 @@ public class TestProperties {
 	
 	
 	public String TEAMMATES_URL;
+	public String TEAMMATES_VERSION;
 
 	public String TEAMMATES_URL_IN_EMAILS;
 
@@ -47,6 +48,7 @@ public class TestProperties {
 			prop.load(new FileInputStream("src/test/resources/test.properties"));
 			
 			TEAMMATES_URL = Common.trimTrailingSlash(prop.getProperty("test.app.url"));
+			TEAMMATES_VERSION = extractVersionNumber(Common.readFile("src/main/webapp/WEB-INF/appengine-web.xml"));
 			
 			TEAMMATES_URL_IN_EMAILS = Common.trimTrailingSlash(prop.getProperty("test.app.urlInEmails"));
 			
@@ -98,5 +100,16 @@ public class TestProperties {
 	public boolean isLocalHost(){
 		return TEAMMATES_URL.contains("localhost");
 	}
+
+	public static String extractVersionNumber(String inputString) {
+		String startTag = "<version>";
+		String endTag = "</version>";
+		int startPos = inputString.indexOf(startTag)+startTag.length();
+		int endPos = inputString.indexOf(endTag);
+		
+		return inputString.substring(startPos, endPos).replace("-", ".");
+	}
+	
+	
 
 }

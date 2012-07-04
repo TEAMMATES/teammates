@@ -22,6 +22,7 @@ import org.junit.runners.Suite;
 		EvalResultDataTest.class,
 		TeamEvalResultTest.class, 
 		HtmlHelperTest.class,
+		TestPropertiesTest.class,
 		LogicTest.class})
 		//@formatter:on
 public class AllUnitTests {

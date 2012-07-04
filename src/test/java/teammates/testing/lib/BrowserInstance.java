@@ -2727,7 +2727,7 @@ public class BrowserInstance {
 	public void verifyCurrentPageHTML(String filepath) throws Exception {
 		String pageSrc = getCurrentPageSource();
 		String inputStr = Common.readFile(filepath).replace("{version}",
-				Common.VERSION);
+				TestProperties.inst().TEAMMATES_VERSION);
 		HtmlHelper.assertSameHtml(inputStr, pageSrc);
 	}
 
@@ -2755,7 +2755,7 @@ public class BrowserInstance {
 	public void verifyCurrentPageHTMLRegex(String filepath) throws Exception {
 		String pageSrc = getCurrentPageSource();
 		String inputStr = Common.readFile(filepath).replace("{version}",
-				Common.VERSION);
+				TestProperties.inst().TEAMMATES_VERSION);
 		BaseTestCase.assertContainsRegex(inputStr.replace("\r\n", "\n"),
 				pageSrc.replace("\r\n", "\n"));
 	}
@@ -2791,7 +2791,7 @@ public class BrowserInstance {
 		for (int i = 0; i < PAGE_VERIFY_RETRY; i++) {
 			pageSrc = getCurrentPageSource();
 			inputStr = Common.readFile(filepath).replace("{version}",
-					Common.VERSION);
+					TestProperties.inst().TEAMMATES_VERSION);
 			if (BaseTestCase.isContainsRegex(inputStr.replace("\r\n", "\n"),
 					pageSrc.replace("\r\n", "\n"))) {
 				return;
