@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import teammates.api.Common;
+
 /** 
  * Represents properties in test.properties file
  */
@@ -44,10 +46,9 @@ public class TestProperties {
 			
 			prop.load(new FileInputStream("src/test/resources/test.properties"));
 			
-			// Remove trailing space and remove slash at the end
-			TEAMMATES_URL = prop.getProperty("test.app.url").trim().replaceAll("/(?=$)","");
+			TEAMMATES_URL = Common.trimTrailingSlash(prop.getProperty("test.app.url"));
 			
-			TEAMMATES_URL_IN_EMAILS = prop.getProperty("test.app.urlInEmails");
+			TEAMMATES_URL_IN_EMAILS = Common.trimTrailingSlash(prop.getProperty("test.app.urlInEmails"));
 			
 			//TODO: abolish the use of common password and find a better alternative
 			TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS = prop.getProperty("test.common.password");

@@ -657,6 +657,10 @@ public class Common {
 		return string.trim().isEmpty();
 	}
 
+	public static String trimTrailingSlash(String url) {
+		return url.trim().replaceAll("/(?=$)","");
+	}
+
 	public static String generateStringOfLength(int length) {
 		return generateStringOfLength(length, 'a');
 	}

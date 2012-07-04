@@ -60,7 +60,7 @@ public class BuildProperties {
 
 	private BuildProperties(Properties prop) {
 		TEAMMATES_APP_ADMIN_EMAIL = prop.getProperty("app.admin.email");
-		TEAMMATES_APP_URL = prop.getProperty("app.url");
+		TEAMMATES_APP_URL = Common.trimTrailingSlash(prop.getProperty("app.url"));
 		
 		BACKDOOR_KEY = prop.getProperty("app.backdoor.key");
 		

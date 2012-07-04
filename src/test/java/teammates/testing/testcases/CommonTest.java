@@ -102,6 +102,13 @@ public class CommonTest extends BaseTestCase {
 		assertEquals("24", Common.convertToOptionValueInTimeDropDown(c.getTime()));
 		
 	}
+	
+	@Test
+	public void testTrimTrailingSlash(){
+		assertEquals("abc.com", Common.trimTrailingSlash("abc.com/"));
+		assertEquals("abc.com", Common.trimTrailingSlash("abc.com/ "));
+		assertEquals("abc.com", Common.trimTrailingSlash("abc.com"));
+	}
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {
