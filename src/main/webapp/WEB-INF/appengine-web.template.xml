@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
+
+  <threadsafe>true</threadsafe>
 	
 	<!-- Application ID of the app -->
 	<application>teammatesv4</application>
