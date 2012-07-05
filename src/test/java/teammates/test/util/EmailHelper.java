@@ -15,7 +15,7 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.search.FlagTerm;
 
-import teammates.storage.Emails;
+import teammates.logic.Emails;
 import teammates.test.driver.TestProperties;
 
 public class EmailHelper {

@@ -27,7 +27,7 @@ import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.StudentData;
 import teammates.logic.BuildProperties;
-import teammates.storage.Emails;
+import teammates.logic.Emails;
 import teammates.ui.Helper;
 
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;

@@ -1,4 +1,4 @@
-package teammates.storage;
+package teammates.logic;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,7 +18,6 @@ import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.StudentData;
-import teammates.logic.BuildProperties;
 import teammates.ui.Helper;
 
 /**

@@ -1,14 +1,10 @@
 package teammates.logic.backdoor;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,15 +14,8 @@ import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.logic.BuildProperties;
 import teammates.logic.api.TeammatesException;
-import teammates.storage.Courses;
 import teammates.storage.Datastore;
 import teammates.storage.entity.Course;
-import teammates.storage.entity.Student;
-import teammates.storage.entity.Submission;
-
-import com.google.appengine.api.datastore.Text;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 @SuppressWarnings("serial")
 public class BackDoorServlet extends HttpServlet {
@@ -74,8 +63,6 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String PARAMETER_STUDENT_ID = "PARAMETER_STUDENT_ID";
 	public static final String PARAMETER_TEAM_NAME = "PARAMETER_TEAM_NAME";
 
-	private HttpServletRequest req;
-	private HttpServletResponse resp;
 	private static final Logger log = Common.getLogger();
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -90,12 +77,6 @@ public class BackDoorServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
 
-		this.req = req;
-		this.resp = resp;
-
-		// TODO: Change to JSON/XML
-		resp.setContentType("text/plain");
-
 		String action = req.getParameter(PARAMETER_BACKDOOR_OPERATION);
 		log.info(action);
 
@@ -106,7 +87,6 @@ public class BackDoorServlet extends HttpServlet {
 			returnValue = "Not authorized to access Backdoor Services";
 
 		} else {
-
 			try {
 				returnValue = executeBackendAction(req, action);
 			} catch (Exception e) {
@@ -114,6 +94,8 @@ public class BackDoorServlet extends HttpServlet {
 			}
 		}
 		
+		// TODO: Change to JSON/XML
+		resp.setContentType("text/plain");
 		resp.getWriter().write(returnValue);
 		resp.flushBuffer();
 	}
@@ -192,140 +174,7 @@ public class BackDoorServlet extends HttpServlet {
 	}
 
 
-
-
-
-
-	/**
-	 * Clean up course, evaluation, submission related to the coordinator
-	 * 
-	 * @author wangsha
-	 * @date Sep 8, 2011
-	 */
-	// TODO: this method does not do a 'total cleanup'
-	protected void totalCleanupByCoordinator() {
-		String coordID = req.getParameter("coordinator_id");
-		Courses.inst().deleteCoordinatorCourses(coordID);
-
-	}
-
-
-
-
-	protected void courseAdd() throws IOException {
-		log.info("APIServlet adding new course: ");
-		String googleID = req.getParameter("google_id");
-		String courseJson = req.getParameter("course");
-
-		Gson gson = new Gson();
-		Course c = gson.fromJson(courseJson, Course.class);
-		c.setCoordinatorID(googleID);
-		getPM().makePersistent(c);
-
-		log.info("Course added: coord: " + c.getCoordinatorID()
-				+ " course id: " + c.getID() + " course name: " + c.getName());
-
-		resp.getWriter().write("ok");
-	}
-
-	protected void studentSubmitFeedbacks() throws IOException {
-
-		String course_id = req.getParameter("course_id");
-		String evaluation_name = req.getParameter("evaluation_name");
-		String student_email = req.getParameter("student_email");
-		log.fine("Submitting feedback for student." + student_email);
-
-		/*
-		 * huy- Unable to use Transaction here. It says transaction batch
-		 * operation must be on the same entity group (and must not be root
-		 * entity). However it works for studentsJoinCourse below. ??? Aug 17 -
-		 * It doesn't work for Join Course below either.
-		 * http://code.google.com/appengine
-		 * /docs/java/datastore/transactions.html
-		 * #What_Can_Be_Done_In_a_Transaction
-		 */
-
-		Query query = getPM().newQuery(Submission.class);
-		query.setFilter("courseID == course_id");
-		query.setFilter("evaluationName == evaluation_name");
-		query.setFilter("fromStudent == student_email");
-		query.declareParameters("String course_id, String evaluation_name, String student_email");
-		@SuppressWarnings("unchecked")
-		List<Submission> submissions = (List<Submission>) query.execute(
-				course_id, evaluation_name, student_email);
-
-		for (Submission submission : submissions) {
-			submission.setPoints(100);
-			submission.setCommentsToStudent(new Text(String.format(
-					"This is a public comment from %s to %s.", student_email,
-					submission.getToStudent())));
-			submission.setJustification(new Text(String.format(
-					"This is a justification from %s to %s", student_email,
-					submission.getToStudent())));
-		}
-
-		// Store back to datastore
-		log.fine(getPM().makePersistentAll(submissions).toString());
-
-		resp.getWriter().write("ok");
-	}
-
-	
-
-	protected void studentsJoinCourse() throws IOException {
-		log.fine("Joining course for students.");
-
-		// Set the Student.ID to emails.
-		String course_id = req.getParameter("course_id");
-		String str_json_students = req.getParameter("students");
-		Type listType = new TypeToken<List<Student>>() {
-		}.getType();
-		Gson gson = new Gson();
-		List<Student> students = gson.fromJson(str_json_students, listType);
-
-		// Construct a Map< Email --> Student>
-		HashMap<String, Student> mapStudents = new HashMap<String, Student>();
-		for (Student s : students) {
-			mapStudents.put(s.getEmail(), s);
-		}
-
-		// Query all Datastore's Student objects with CourseID received
-
-		Query query = getPM().newQuery(Student.class);
-		query.setFilter("courseID == course_id");
-		query.declareParameters("String course_id");
-		@SuppressWarnings("unchecked")
-		List<Student> datastoreStudents = (List<Student>) query
-				.execute(course_id);
-
-		for (Student dsStudent : datastoreStudents) {
-			Student jsStudent = mapStudents.get(dsStudent.getEmail());
-			if (jsStudent != null) {
-				dsStudent.setID(jsStudent.getID());
-			}
-		}
-		// Store back to datastore
-		getPM().makePersistentAll(datastoreStudents);
-
-		// TODO: Is this correct?
-		resp.getWriter().write("Fail: something wrong");
-	}
-
-
-
-	/**
-	 * request to automatedReminders servlet
-	 * 
-	 * @throws IOException
-	 * @throws ServletException
-	 */
-	protected void activateAutomatedReminder() throws IOException,
-			ServletException {
-		RequestDispatcher dispatcher = getServletContext()
-				.getRequestDispatcher("/automatedreminders");
-		dispatcher.forward(this.req, this.resp);
-	}
-
+	//TODO: move to BackDoorLogic
 	private String getCoursesByCoordID(String coordID) {
 		String query = "select from " + Course.class.getName()
 				+ " where coordinatorID == '" + coordID + "'";

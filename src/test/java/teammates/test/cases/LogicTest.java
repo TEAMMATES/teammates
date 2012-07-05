@@ -37,6 +37,7 @@ import teammates.common.datatransfer.TeamData;
 import teammates.common.datatransfer.UserData;
 import teammates.common.datatransfer.EvaluationData.EvalStatus;
 import teammates.common.datatransfer.StudentData.UpdateStatus;
+import teammates.logic.Emails;
 import teammates.logic.TeamEvalResult;
 import teammates.logic.api.EnrollException;
 import teammates.logic.api.EntityAlreadyExistsException;
@@ -48,7 +49,6 @@ import teammates.logic.api.TeammatesException;
 import teammates.logic.api.UnauthorizedAccessException;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.Datastore;
-import teammates.storage.Emails;
 import teammates.storage.entity.Student;
 
 import com.google.appengine.api.datastore.KeyFactory;
