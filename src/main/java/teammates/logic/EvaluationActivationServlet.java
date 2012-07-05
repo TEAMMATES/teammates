@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
+import teammates.logic.backdoor.BackDoorLogic;
 
 @SuppressWarnings("serial")
 public class EvaluationActivationServlet extends HttpServlet {

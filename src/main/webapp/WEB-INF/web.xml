@@ -40,7 +40,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	
 	<servlet>
 		<servlet-name>BackDoorServlet</servlet-name>
-		<servlet-class>teammates.logic.BackDoorServlet</servlet-class>
+		<servlet-class>teammates.logic.backdoor.BackDoorServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>BackDoorServlet</servlet-name>
