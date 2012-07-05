@@ -40,7 +40,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	
 	<servlet>
 		<servlet-name>BackDoorServlet</servlet-name>
-		<servlet-class>teammates.BackDoorServlet</servlet-class>
+		<servlet-class>teammates.logic.BackDoorServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>BackDoorServlet</servlet-name>
@@ -53,7 +53,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	
 	<servlet>
 		<servlet-name>EvaluationActivation</servlet-name>
-		<servlet-class>teammates.EvaluationActivationServlet</servlet-class>
+		<servlet-class>teammates.logic.EvaluationActivationServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>EvaluationActivation</servlet-name>
@@ -62,7 +62,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	
 	<servlet>
 		<servlet-name>AutomatedReminders</servlet-name>
-		<servlet-class>teammates.AutomatedRemindersServlet</servlet-class>
+		<servlet-class>teammates.logic.AutomatedRemindersServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>AutomatedReminders</servlet-name>

@@ -1,4 +1,4 @@
-<%@ page import="teammates.api.Common"%>
+<%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.ui.Helper"%>
 <% Helper helper = (Helper)request.getAttribute("helper"); %>
 		<div id="frameTopWrapper">

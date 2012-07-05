@@ -2,8 +2,8 @@ package teammates.ui;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.api.Common;
-import teammates.api.EntityDoesNotExistException;
+import teammates.common.Common;
+import teammates.logic.api.EntityDoesNotExistException;
 
 @SuppressWarnings("serial")
 /**

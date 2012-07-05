@@ -5,9 +5,9 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.api.Common;
-import teammates.api.EntityDoesNotExistException;
-import teammates.datatransfer.CourseData;
+import teammates.common.Common;
+import teammates.common.datatransfer.CourseData;
+import teammates.logic.api.EntityDoesNotExistException;
 
 @SuppressWarnings("serial")
 /**

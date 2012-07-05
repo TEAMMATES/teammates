@@ -1,8 +1,8 @@
-<%@ page import="teammates.api.Common"%>
-<%@ page import="teammates.datatransfer.EvaluationData"%>
-<%@ page import="teammates.datatransfer.StudentData"%>
-<%@ page import="teammates.datatransfer.TeamData"%>
-<%@ page import="teammates.datatransfer.SubmissionData"%>
+<%@ page import="teammates.common.Common"%>
+<%@ page import="teammates.common.datatransfer.EvaluationData"%>
+<%@ page import="teammates.common.datatransfer.StudentData"%>
+<%@ page import="teammates.common.datatransfer.TeamData"%>
+<%@ page import="teammates.common.datatransfer.SubmissionData"%>
 <%@ page import="teammates.ui.CoordEvalResultsHelper"%>
 <%	CoordEvalResultsHelper helper = (CoordEvalResultsHelper)request.getAttribute("helper"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"

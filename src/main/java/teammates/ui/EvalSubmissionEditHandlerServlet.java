@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.api.Common;
-import teammates.api.EntityDoesNotExistException;
-import teammates.api.InvalidParametersException;
-import teammates.datatransfer.SubmissionData;
+import teammates.common.Common;
+import teammates.common.datatransfer.SubmissionData;
+import teammates.logic.api.EntityDoesNotExistException;
+import teammates.logic.api.InvalidParametersException;
 
 import com.google.appengine.api.datastore.Text;
 

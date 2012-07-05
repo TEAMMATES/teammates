@@ -2,11 +2,11 @@ package teammates.ui;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.api.Common;
-import teammates.api.EntityDoesNotExistException;
-import teammates.datatransfer.CourseData;
-import teammates.datatransfer.StudentData;
-import teammates.datatransfer.TeamData;
+import teammates.common.Common;
+import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.TeamData;
+import teammates.logic.api.EntityDoesNotExistException;
 
 @SuppressWarnings("serial")
 /**

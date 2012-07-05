@@ -11,18 +11,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.api.Common;
-import teammates.api.EntityDoesNotExistException;
-import teammates.api.InvalidParametersException;
-import teammates.api.Logic;
-import teammates.api.TeammatesException;
-import teammates.api.UnauthorizedAccessException;
-import teammates.datatransfer.CourseData;
-import teammates.datatransfer.EvaluationData;
-import teammates.datatransfer.StudentData;
-import teammates.datatransfer.SubmissionData;
-import teammates.datatransfer.TeamData;
-import teammates.datatransfer.UserData;
+import teammates.common.Common;
+import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.TeamData;
+import teammates.common.datatransfer.UserData;
+import teammates.logic.api.EntityDoesNotExistException;
+import teammates.logic.api.InvalidParametersException;
+import teammates.logic.api.Logic;
+import teammates.logic.api.TeammatesException;
+import teammates.logic.api.UnauthorizedAccessException;
 
 @SuppressWarnings("serial")
 /**

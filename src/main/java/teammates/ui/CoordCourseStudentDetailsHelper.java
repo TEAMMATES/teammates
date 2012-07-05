@@ -1,6 +1,6 @@
 package teammates.ui;
 
-import teammates.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentData;
 
 public class CoordCourseStudentDetailsHelper extends Helper {
 	public StudentData student;

@@ -5,10 +5,10 @@ import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.api.Common;
-import teammates.api.Logic;
-import teammates.datatransfer.EvaluationData;
-import teammates.datatransfer.UserData;
+import teammates.common.Common;
+import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.UserData;
+import teammates.logic.api.Logic;
 
 public class Helper {	
 	/**

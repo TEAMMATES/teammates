@@ -11,10 +11,10 @@ import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
 
-import teammates.api.EntityAlreadyExistsException;
-import teammates.api.EntityDoesNotExistException;
-import teammates.api.InvalidParametersException;
-import teammates.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationData;
+import teammates.logic.api.EntityAlreadyExistsException;
+import teammates.logic.api.EntityDoesNotExistException;
+import teammates.logic.api.InvalidParametersException;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Evaluation;
 import teammates.storage.entity.Student;

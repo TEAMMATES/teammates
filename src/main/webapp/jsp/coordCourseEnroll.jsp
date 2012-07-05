@@ -1,6 +1,6 @@
 <%@ page import="java.util.List" %>
-<%@ page import="teammates.api.Common"%>
-<%@ page import="teammates.datatransfer.StudentData"%>
+<%@ page import="teammates.common.Common"%>
+<%@ page import="teammates.common.datatransfer.StudentData"%>
 <%@ page import="teammates.ui.CoordCourseEnrollHelper"%>
 <%	CoordCourseEnrollHelper helper = (CoordCourseEnrollHelper)request.getAttribute("helper"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"

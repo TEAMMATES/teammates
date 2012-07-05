@@ -2,10 +2,10 @@ package teammates.ui;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.api.Common;
-import teammates.api.EntityDoesNotExistException;
-import teammates.api.InvalidParametersException;
-import teammates.datatransfer.EvalResultData;
+import teammates.common.Common;
+import teammates.common.datatransfer.EvalResultData;
+import teammates.logic.api.EntityDoesNotExistException;
+import teammates.logic.api.InvalidParametersException;
 
 @SuppressWarnings("serial")
 /**

@@ -14,11 +14,11 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import teammates.BuildProperties;
-import teammates.api.Common;
-import teammates.datatransfer.CourseData;
-import teammates.datatransfer.EvaluationData;
-import teammates.datatransfer.StudentData;
+import teammates.common.Common;
+import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.StudentData;
+import teammates.logic.BuildProperties;
 import teammates.ui.Helper;
 
 /**

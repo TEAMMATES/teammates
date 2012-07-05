@@ -7,7 +7,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
 
-import teammates.api.Common;
+import teammates.common.Common;
 
 /**
  * Code taken from:

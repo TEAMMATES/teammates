@@ -1,4 +1,4 @@
-<%@ page import="teammates.api.Common" %>
+<%@ page import="teammates.common.Common" %>
 <html>
 <head>
 	<script>

@@ -2,10 +2,10 @@ package teammates.ui;
 
 import java.util.List;
 
-import teammates.datatransfer.EvalResultData;
-import teammates.datatransfer.EvaluationData;
-import teammates.datatransfer.StudentData;
-import teammates.datatransfer.SubmissionData;
+import teammates.common.datatransfer.EvalResultData;
+import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.SubmissionData;
 
 public class StudentEvalResultsHelper extends Helper {
 	public EvaluationData eval;

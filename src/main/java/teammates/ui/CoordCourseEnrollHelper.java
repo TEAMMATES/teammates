@@ -3,9 +3,9 @@ package teammates.ui;
 import java.util.List;
 import java.util.logging.Logger;
 
-import teammates.api.Common;
-import teammates.datatransfer.StudentData;
-import teammates.datatransfer.StudentData.UpdateStatus;
+import teammates.common.Common;
+import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentData.UpdateStatus;
 
 public class CoordCourseEnrollHelper extends Helper {
 	public String courseID;

@@ -1,7 +1,7 @@
 package teammates.ui;
 
-import teammates.datatransfer.EvalResultData;
-import teammates.datatransfer.StudentData;
+import teammates.common.datatransfer.EvalResultData;
+import teammates.common.datatransfer.StudentData;
 
 public class CoordEvalSubmissionViewHelper extends CoordEvalResultsHelper{
 	public StudentData student;

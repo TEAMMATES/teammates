@@ -5,9 +5,9 @@ import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
-import teammates.api.Common;
-import teammates.api.EntityAlreadyExistsException;
-import teammates.api.EntityDoesNotExistException;
+import teammates.common.Common;
+import teammates.logic.api.EntityAlreadyExistsException;
+import teammates.logic.api.EntityDoesNotExistException;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Coordinator;
 import teammates.storage.entity.Student;

@@ -10,13 +10,13 @@ import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
-import teammates.api.Common;
-import teammates.api.EntityAlreadyExistsException;
-import teammates.api.EntityDoesNotExistException;
-import teammates.api.InvalidParametersException;
-import teammates.api.JoinCourseException;
-import teammates.datatransfer.CourseData;
-import teammates.datatransfer.StudentData;
+import teammates.common.Common;
+import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.StudentData;
+import teammates.logic.api.EntityAlreadyExistsException;
+import teammates.logic.api.EntityDoesNotExistException;
+import teammates.logic.api.InvalidParametersException;
+import teammates.logic.api.JoinCourseException;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Student;
 

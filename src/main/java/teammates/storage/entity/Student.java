@@ -7,9 +7,9 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import teammates.api.Common;
-import teammates.api.InvalidParametersException;
-import teammates.datatransfer.StudentData;
+import teammates.common.Common;
+import teammates.common.datatransfer.StudentData;
+import teammates.logic.api.InvalidParametersException;
 
 import com.google.gson.annotations.SerializedName;
 import com.google.appengine.api.datastore.KeyFactory;

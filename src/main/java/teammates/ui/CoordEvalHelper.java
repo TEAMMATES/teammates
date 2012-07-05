@@ -6,8 +6,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import teammates.datatransfer.CourseData;
-import teammates.datatransfer.EvaluationData;
+import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.EvaluationData;
 
 public class CoordEvalHelper extends Helper{
 	public List<CourseData> courses;

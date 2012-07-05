@@ -6,10 +6,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.api.Common;
-import teammates.api.EnrollException;
-import teammates.api.EntityDoesNotExistException;
-import teammates.datatransfer.StudentData;
+import teammates.common.Common;
+import teammates.common.datatransfer.StudentData;
+import teammates.logic.api.EnrollException;
+import teammates.logic.api.EntityDoesNotExistException;
 
 @SuppressWarnings("serial")
 /**

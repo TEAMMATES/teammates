@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.api.Common;
-import teammates.api.Logic;
-import teammates.datatransfer.UserData;
+import teammates.common.Common;
+import teammates.common.datatransfer.UserData;
+import teammates.logic.api.Logic;
 
 @SuppressWarnings("serial")
 /**

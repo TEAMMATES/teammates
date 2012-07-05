@@ -2,9 +2,9 @@ package teammates.ui;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.api.Common;
-import teammates.api.InvalidParametersException;
-import teammates.api.JoinCourseException;
+import teammates.common.Common;
+import teammates.logic.api.InvalidParametersException;
+import teammates.logic.api.JoinCourseException;
 
 @SuppressWarnings("serial")
 /**

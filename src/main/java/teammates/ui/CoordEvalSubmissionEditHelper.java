@@ -1,6 +1,6 @@
 package teammates.ui;
 
-import teammates.datatransfer.SubmissionData;
+import teammates.common.datatransfer.SubmissionData;
 
 public class CoordEvalSubmissionEditHelper extends EvalSubmissionEditHelper{
 

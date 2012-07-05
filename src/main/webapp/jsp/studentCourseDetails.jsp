@@ -1,5 +1,5 @@
-<%@ page import="teammates.api.Common" %>
-<%@ page import="teammates.datatransfer.StudentData" %>
+<%@ page import="teammates.common.Common" %>
+<%@ page import="teammates.common.datatransfer.StudentData" %>
 <%@ page import="teammates.ui.StudentCourseDetailsHelper"%>
 <% StudentCourseDetailsHelper helper = (StudentCourseDetailsHelper)request.getAttribute("helper"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"

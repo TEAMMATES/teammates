@@ -4,10 +4,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import teammates.api.Common;
-import teammates.datatransfer.EvalResultData;
-import teammates.datatransfer.EvaluationData;
-import teammates.datatransfer.SubmissionData;
+import teammates.common.Common;
+import teammates.common.datatransfer.EvalResultData;
+import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.SubmissionData;
 
 public class CoordEvalResultsHelper extends Helper{
 	public EvaluationData evaluation;

@@ -2,9 +2,9 @@ package teammates.ui;
 
 import java.util.List;
 
-import teammates.api.Common;
-import teammates.datatransfer.CourseData;
-import teammates.datatransfer.StudentData;
+import teammates.common.Common;
+import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.StudentData;
 
 public class CoordCourseDetailsHelper extends Helper{
 	public CourseData course;

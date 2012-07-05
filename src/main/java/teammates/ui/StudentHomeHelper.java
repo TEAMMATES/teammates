@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import teammates.api.Common;
-import teammates.api.InvalidParametersException;
-import teammates.datatransfer.CourseData;
-import teammates.datatransfer.EvaluationData;
-import teammates.datatransfer.StudentData;
+import teammates.common.Common;
+import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.StudentData;
+import teammates.logic.api.InvalidParametersException;
 
 public class StudentHomeHelper extends Helper {
 	public List<CourseData> courses;

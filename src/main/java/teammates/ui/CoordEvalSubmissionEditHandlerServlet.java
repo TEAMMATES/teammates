@@ -2,8 +2,8 @@ package teammates.ui;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.api.Common;
-import teammates.datatransfer.StudentData;
+import teammates.common.Common;
+import teammates.common.datatransfer.StudentData;
 
 @SuppressWarnings("serial")
 public class CoordEvalSubmissionEditHandlerServlet extends EvalSubmissionEditHandlerServlet {

@@ -2,7 +2,7 @@ package teammates.ui;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.api.Common;
+import teammates.common.Common;
 
 @SuppressWarnings("serial")
 public class StudentEvalEditHandlerServlet extends EvalSubmissionEditHandlerServlet {
