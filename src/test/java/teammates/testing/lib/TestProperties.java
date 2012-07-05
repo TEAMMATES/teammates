@@ -107,7 +107,7 @@ public class TestProperties {
 		int startPos = inputString.indexOf(startTag)+startTag.length();
 		int endPos = inputString.indexOf(endTag);
 		
-		return inputString.substring(startPos, endPos).replace("-", ".");
+		return inputString.substring(startPos, endPos).replace("-", ".").trim();
 	}
 	
 	

@@ -153,21 +153,21 @@
     <dependency>
       <groupId>com.google.appengine</groupId>
       <artifactId>appengine-api-labs</artifactId>
-      <version>1.6.4</version>
+      <version>1.7.0</version>
       <scope>test</scope>
     </dependency>
     
     <dependency>
       <groupId>com.google.appengine</groupId>
       <artifactId>appengine-api-stubs</artifactId>
-      <version>1.6.4</version>
+      <version>1.7.0</version>
       <scope>test</scope>
     </dependency>
     
     <dependency>
       <groupId>com.google.appengine</groupId>
       <artifactId>appengine-testing</artifactId>
-      <version>1.6.4</version>
+      <version>1.7.0</version>
       <scope>test</scope>
     </dependency>
     
@@ -206,7 +206,7 @@
            Make sure this path contains your persistent classes!
            -->
           <mappingIncludes>
-              **/persistent/*.class
+              **/entity/*.class
           </mappingIncludes>
           <verbose>true</verbose>
           <enhancerName>ASM</enhancerName>
@@ -394,8 +394,6 @@
                 <property name="appID" value="${appengine-web-app.application}"/>
         <propertyfile file="${prop.test.dir}">
           <!--entry key="test.app.url" value="http://${appVersion}.${appID}.appspot.com/"/-->
-          <!-- temp hack by damith, to facilitate local testing -->
-          <entry key="test.app.url" value="http://localhost:8080/"/>
         </propertyfile>
               </target>
 
@@ -583,7 +581,7 @@
      version pointed to by ${gae.home} property (Typically, one used by
      your Eclipse plug-in)
      -->
-    <gae.version>1.6.4</gae.version>
+    <gae.version>1.7.0</gae.version>
 
 	<prop.build.dir>src/main/webapp/WEB-INF/classes/build.properties</prop.build.dir>
 	<prop.build.target.dir>target/teammates-${project.version}/WEB-INF/classes/build.properties/</prop.build.target.dir>
@@ -598,7 +596,7 @@
      <!--
      Default local port
      -->	
-	<port>8080</port>
+	<port>8888</port>
      <!--
      Skip changing the authenciation code by default
      -->   
