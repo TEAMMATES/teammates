@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,6 +17,8 @@ import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Date;
+
+import javax.xml.transform.TransformerException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -33,6 +36,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.xml.sax.SAXException;
 
 import teammates.api.Common;
 import teammates.testing.testcases.BaseTestCase;
@@ -2753,11 +2757,33 @@ public class BrowserInstance {
 	 * @throws Exception
 	 */
 	public void verifyCurrentPageHTMLRegex(String filepath) throws Exception {
-		String pageSrc = getCurrentPageSource();
+		String pageSrc = getCleanPageSource();
+		String inputStr = getCleanExpectedHtml(filepath);
+		BaseTestCase.assertContainsRegex(inputStr,pageSrc);
+	}
+
+	/**
+	 * @param filepath
+	 * @return Returns content of the file after replacing 
+	 *    parameters e.g. {version} and transforming to "clean" HTML. 
+	 * @throws Exception
+	 */
+	private String getCleanExpectedHtml(String filepath)
+			throws Exception {
 		String inputStr = Common.readFile(filepath).replace("{version}",
 				TestProperties.inst().TEAMMATES_VERSION);
-		BaseTestCase.assertContainsRegex(inputStr.replace("\r\n", "\n"),
-				pageSrc.replace("\r\n", "\n"));
+		inputStr = HtmlHelper.cleanupHtml(inputStr);
+		return inputStr;
+	}
+
+	/**
+	 * @return Returns content of the file after transforming to "clean" HTML.
+	 * @throws Exception
+	 */
+	private String getCleanPageSource() throws Exception {
+		String pageSrc = getCurrentPageSource();
+		pageSrc = HtmlHelper.cleanupHtml(pageSrc);
+		return pageSrc;
 	}
 
 	/**
@@ -2789,11 +2815,11 @@ public class BrowserInstance {
 		String pageSrc = null;
 		String inputStr = null;
 		for (int i = 0; i < PAGE_VERIFY_RETRY; i++) {
-			pageSrc = getCurrentPageSource();
-			inputStr = Common.readFile(filepath).replace("{version}",
-					TestProperties.inst().TEAMMATES_VERSION);
-			if (BaseTestCase.isContainsRegex(inputStr.replace("\r\n", "\n"),
-					pageSrc.replace("\r\n", "\n"))) {
+			
+			pageSrc = getCleanPageSource();
+			inputStr = getCleanExpectedHtml(filepath);
+			
+			if (BaseTestCase.isContainsRegex(inputStr,pageSrc)) {
 				return;
 			}
 			if (i == PAGE_VERIFY_RETRY - 1)

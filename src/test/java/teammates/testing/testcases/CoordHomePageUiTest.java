@@ -67,7 +67,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	
 	public void testCoordHomeHTML() throws Exception{
 		
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordHomeHTML.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordHomeHTML.html");
 	}
 
 	public void testCoordHomeEvalRemindLink(){

@@ -303,7 +303,8 @@ public class BaseTestCase {
 
 	}
 
-	// TODO: check if this bug is fixed in new SDK
+	// TODO: check if this bug is fixed in new SDK 
+	//    update: not fixed in 1.7.0
 	protected void setHelperTimeZone(LocalServiceTestHelper localTestHelper) {
 		/**
 		 * LocalServiceTestHelper is supposed to run in the same timezone as Dev

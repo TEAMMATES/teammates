@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.api.Common;
+import teammates.api.TeammatesException;
 import teammates.datatransfer.DataBundle;
 import teammates.storage.Courses;
 import teammates.storage.Datastore;
@@ -108,7 +109,7 @@ public class BackDoorServlet extends HttpServlet {
 			try {
 				returnValue = executeBackendAction(req, action);
 			} catch (Exception e) {
-				returnValue = Common.BACKEND_STATUS_FAILURE + e.getMessage();
+				returnValue = Common.BACKEND_STATUS_FAILURE + TeammatesException.stackTraceToString(e);
 			}
 		}
 		
