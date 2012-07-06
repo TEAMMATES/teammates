@@ -13,7 +13,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
-import teammates.test.driver.NoAlertAppearException;
+import teammates.test.driver.NoAlertException;
 import teammates.test.driver.TestProperties;
 
 /**
@@ -93,7 +93,7 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(unpublishButton);
 			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsPublishedEval.html");
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("No confirmation box when clicking unpublish button");
 		}
 		
@@ -102,7 +102,7 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndConfirm(unpublishButton);
 			bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_UNPUBLISHED);
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("No confirmation box when clicking unpublish button");
 		}
 		//TODO: check for the full html?
@@ -127,7 +127,7 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(publishButton);
 			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsClosedEval.html");
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("No confirmation box when clicking publish button");
 		}
 		
@@ -137,7 +137,7 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 			bi.clickAndConfirm(publishButton);
 			bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_PUBLISHED);
 			//TODO: verify emails were sent to students
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("No confirmation box when clicking publish button");
 		}
 	}

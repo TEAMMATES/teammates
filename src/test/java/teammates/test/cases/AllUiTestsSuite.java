@@ -27,6 +27,6 @@ import org.junit.runners.Suite;
 })
 
 //@formatter:on
-public class AllUiTests {
+public class AllUiTestsSuite {
 
 }

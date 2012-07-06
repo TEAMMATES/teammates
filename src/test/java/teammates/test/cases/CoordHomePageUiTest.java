@@ -14,7 +14,7 @@ import teammates.common.datatransfer.EvaluationData;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
-import teammates.test.driver.NoAlertAppearException;
+import teammates.test.driver.NoAlertException;
 import teammates.test.driver.TestProperties;
 
 /**
@@ -78,7 +78,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		
 		try{
 			bi.clickAndCancel(remindLinkLocator);
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("Remind link unavailable on OPEN evaluation, or it is available but no confirmation box");
 		}
 	}
@@ -93,7 +93,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		
 		try{
 			bi.clickAndCancel(publishLinkLocator);
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("Publish link unavailable on CLOSED evaluation, or it is available but no confirmation box");
 		}
 		
@@ -104,7 +104,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(publishLinkLocator);
 			fail("Publish link available on OPEN evaluation");
-		} catch (NoAlertAppearException e){}
+		} catch (NoAlertException e){}
 		
 		______TS("unpublish link of PUBLISHED evaluation");
 
@@ -112,7 +112,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		By unpublishLinkLocator = bi.getCoordHomeEvaluationUnpublishLinkLocator(secondEval.course, secondEval.name);
 		try{
 			bi.clickAndCancel(unpublishLinkLocator);
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("Unpublish link unavailable on PUBLISHED evaluation");
 		}
 	}
@@ -128,7 +128,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 			bi.clickAndCancel(deleteLinkLocator);
 			String evaluation = BackDoor.getEvaluationAsJson(firstEval.course, firstEval.name);
 			if(isNullJSON(evaluation)) fail("Evaluation was deleted when it's not supposed to be");
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("Delete link is unavailable or it is available but no confirmation box");
 		}
 		
@@ -137,7 +137,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndConfirm(deleteLinkLocator);
 			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordHomeEvalDeleteSuccessful.html");
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("Delete link is unavailable or it is available but no confirmation box");
 		}
 	}
@@ -153,7 +153,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 			bi.clickAndCancel(deleteLinkLocator);
 			String course = BackDoor.getCourseAsJson(scn.courses.get("CHomeUiT.CS2104").id);
 			if(isNullJSON(course)) fail("Course was deleted when it's not supposed to be");
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("Delete course button unavailable, or it is available but no confirmation box");
 		}
 		
@@ -162,7 +162,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndConfirm(deleteLinkLocator);
 			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordHomeCourseDeleteSuccessful.html");
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("Delete course button unavailable, or it is available but no confirmation box");
 		}
 	}

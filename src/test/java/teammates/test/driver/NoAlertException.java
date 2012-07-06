@@ -1,8 +1,8 @@
 package teammates.test.driver;
 
 @SuppressWarnings("serial")
-public class NoAlertAppearException extends RuntimeException {
-	public NoAlertAppearException(String clickedObj){
+public class NoAlertException extends RuntimeException {
+	public NoAlertException(String clickedObj){
 		super("No alert message appear when clicking "+clickedObj);
 	}
 }

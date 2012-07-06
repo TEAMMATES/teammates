@@ -1,4 +1,4 @@
-package teammates.test.util;
+package teammates.test.driver;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -16,9 +16,8 @@ import javax.mail.Store;
 import javax.mail.search.FlagTerm;
 
 import teammates.logic.Emails;
-import teammates.test.driver.TestProperties;
 
-public class EmailHelper {
+public class EmailAccount {
 
 	/**
 	 * Retrieve registration key sent to Gmail inbox. After retrieving, marks 
@@ -325,7 +324,7 @@ public class EmailHelper {
 	public static void main(String[] args) {
 		try {
 			System.out
-					.println(EmailHelper.getRegistrationKeyFromGmail(
+					.println(EmailAccount.getRegistrationKeyFromGmail(
 							"benny.tmms@gmail.com",
 							TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS,
 							"CCDetailsUiT.CS2104"));

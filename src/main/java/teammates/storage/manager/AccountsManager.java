@@ -9,7 +9,6 @@ import teammates.common.Common;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.storage.datastore.Datastore;
-import teammates.storage.entity.Account;
 import teammates.storage.entity.Coordinator;
 import teammates.storage.entity.Student;
 
@@ -19,7 +18,6 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 /**
  * Accounts handles all operations related to a Teammates account.
- * @see Account
  * @see Coordinator
  * @see Student
  * 
@@ -250,11 +248,6 @@ public class AccountsManager {
 		return false;
 	}
 	
-	@Deprecated
-	public void deleteCoordinatorNonCascade(String coordId) throws Exception {
-		deleteCoord(coordId);
-	}
-
 
 	public void deleteCoord(String coordId){
 		Coordinator coord = getCoordinator(coordId);

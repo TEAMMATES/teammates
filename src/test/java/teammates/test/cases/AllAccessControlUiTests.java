@@ -20,7 +20,7 @@ import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
 import teammates.test.driver.TestProperties;
 
-public class AccessControlUiTest extends BaseTestCase {
+public class AllAccessControlUiTests extends BaseTestCase {
 	
 	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
 

@@ -16,9 +16,9 @@ import teammates.common.datatransfer.EvaluationData;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
-import teammates.test.driver.NoAlertAppearException;
+import teammates.test.driver.EmailAccount;
+import teammates.test.driver.NoAlertException;
 import teammates.test.driver.TestProperties;
-import teammates.test.util.EmailHelper;
 
 /**
  * Tests coordEval.jsp from UI functionality and HTML test
@@ -162,14 +162,14 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		By publishLinkLocator = bi.getCoordEvaluationPublishLinkLocator(evalRowID);
 		try{
 			bi.clickAndCancel(publishLinkLocator);
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("Publish link not clickable on closed evaluation");
 		}
 		try{
 			bi.clickAndConfirm(publishLinkLocator);
 			bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_PUBLISHED);
 			//TODO: check for email?
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("Publish link not clickable on closed evaluation");
 		}
 		
@@ -181,13 +181,13 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		publishLinkLocator = bi.getCoordEvaluationUnpublishLinkLocator(evalRowID);
 		try{
 			bi.clickAndCancel(publishLinkLocator);
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("Unpublish link not clickable on published evaluation");
 		}
 		try{
 			bi.clickAndConfirm(publishLinkLocator);
 			bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_UNPUBLISHED);
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("Unpublish link not clickable on published evaluation");
 		}
 	}
@@ -204,7 +204,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(remindLinkLocator);
 			fail("Remind link clickable on published evaluation");
-		} catch (NoAlertAppearException e){}
+		} catch (NoAlertException e){}
 
 		______TS("CLOSED: remind link unclickable");
 		
@@ -215,7 +215,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(remindLinkLocator);
 			fail("Remind link clickable on closed evaluation");
-		} catch (NoAlertAppearException e){}
+		} catch (NoAlertException e){}
 
 		______TS("AWAITING: remind link unclickable");
 		
@@ -226,7 +226,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(remindLinkLocator);
 			fail("Remind link clickable on awaiting evaluation");
-		} catch (NoAlertAppearException e){}
+		} catch (NoAlertException e){}
 
 		______TS("OPEN: remind link clickable, click and cancel");
 
@@ -236,7 +236,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		remindLinkLocator = bi.getCoordEvaluationRemindLinkLocator(evalRowID);
 		try{
 			bi.clickAndCancel(remindLinkLocator);
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("Remind link not clickable on OPEN evaluation, or it is clickable but no confirmation box");
 		}
 		
@@ -244,14 +244,14 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		
 		try{
 			bi.clickAndConfirm(remindLinkLocator);
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("Remind link not clickable on OPEN evaluation, or it is clickable but no confirmation box");
 		}
 
 		// Check email
 		if(TestProperties.inst().isLocalHost()) return;
 		bi.waitForEmail();
-		assertEquals(courseID,EmailHelper.getEvaluationReminderFromGmail(scn.students.get("alice.tmms@CEvalUiT.CS2104").email, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS, courseID, evalName));
+		assertEquals(courseID,EmailAccount.getEvaluationReminderFromGmail(scn.students.get("alice.tmms@CEvalUiT.CS2104").email, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS, courseID, evalName));
 	}
 	
 	public void testCoordEvalDeleteLink() throws Exception{
@@ -267,7 +267,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 			bi.clickAndCancel(deleteLinkLocator);
 			String evaluation = BackDoor.getEvaluationAsJson(courseID, evalName);
 			if(isNullJSON(evaluation)) fail("Evaluation was deleted when it's not supposed to be");
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("Delete link not clickable or it is clickable but no confirmation box");
 		}
 
@@ -276,7 +276,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 			bi.clickAndConfirm(deleteLinkLocator);
 			// Regex test due to the date in the evaluation form
 			bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalDeleteSuccessful.html");
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("Delete link not clickable or it is clickable but no confirmation box");
 		}
 	}

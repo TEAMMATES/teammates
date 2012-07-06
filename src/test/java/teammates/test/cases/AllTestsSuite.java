@@ -11,7 +11,7 @@ import org.junit.runners.Suite;
 		
 		
 		// Unit tests
-		AllUnitTests.class,
+		AllUnitTestsSuite.class,
 		
 		BackDoorTest.class,
 		
@@ -19,11 +19,11 @@ import org.junit.runners.Suite;
 //		AllJsUnitTests.class, //TODO: add this back
 		
 		// Ui test
-		AllUiTests.class,
-		AccessControlUiTest.class
+		AllUiTestsSuite.class,
+		AllAccessControlUiTests.class
 })
 
 //@formatter:on
-public class AllCasesTestSuite {
+public class AllTestsSuite {
 
 }

@@ -13,9 +13,9 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
-import teammates.test.driver.NoAlertAppearException;
+import teammates.test.driver.EmailAccount;
+import teammates.test.driver.NoAlertException;
 import teammates.test.driver.TestProperties;
-import teammates.test.util.EmailHelper;
 
 /**
  * Tests Coordinator Course Details UI
@@ -95,7 +95,7 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 		if(!TestProperties.inst().isLocalHost()){
 			String key = BackDoor.getKeyForStudent(scn.courses.get("CCDetailsUiT.CS2104").id, studentEmail);
 			bi.waitForEmail();
-			assertEquals(key,EmailHelper.getRegistrationKeyFromGmail(studentEmail, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS, scn.courses.get("CCDetailsUiT.CS2104").id));
+			assertEquals(key,EmailAccount.getRegistrationKeyFromGmail(studentEmail, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS, scn.courses.get("CCDetailsUiT.CS2104").id));
 		}
 		
 		______TS("sending reminder to all unregistered students to join course");
@@ -106,10 +106,10 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 			
 			//verify an unregistered student received reminder
 			String key = BackDoor.getKeyForStudent(scn.courses.get("CCDetailsUiT.CS2104").id, otherStudentEmail);
-			assertEquals(key,EmailHelper.getRegistrationKeyFromGmail(otherStudentEmail, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS, scn.courses.get("CCDetailsUiT.CS2104").id));
+			assertEquals(key,EmailAccount.getRegistrationKeyFromGmail(otherStudentEmail, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS, scn.courses.get("CCDetailsUiT.CS2104").id));
 			
 			//verify a registered student did not receive a reminder
-			assertEquals(null,EmailHelper.getRegistrationKeyFromGmail(registeredStudentEmail, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS, scn.courses.get("CCDetailsUiT.CS2104").id));
+			assertEquals(null,EmailAccount.getRegistrationKeyFromGmail(registeredStudentEmail, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS, scn.courses.get("CCDetailsUiT.CS2104").id));
 		}
 	}
 
@@ -130,7 +130,7 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 			if(isNullJSON(student)) {
 				fail("Student was deleted when it's not supposed to be");
 			}
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("No alert box when clicking delete button at course details page.");
 		}
 
@@ -139,7 +139,7 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 		try{
 			bi.clickCoordCourseDetailStudentDeleteAndConfirm(studentRowId);
 			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseDetailsStudentDeleteSuccessful.html");
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("No alert box when clicking delete button at course details page.");
 		}
 	}

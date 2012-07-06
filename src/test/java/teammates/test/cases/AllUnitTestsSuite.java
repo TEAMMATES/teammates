@@ -13,7 +13,7 @@ import org.junit.runners.Suite;
 		CommonTest.class,
 		HelperTest.class,
 		CoordEvalHelperTest.class,
-		ConfigTest.class,
+		BuildPropertiesTest.class,
 		EmailsTest.class,
 		StudentTest.class, 
 		TeamDataTest.class,
@@ -25,6 +25,6 @@ import org.junit.runners.Suite;
 		TestPropertiesTest.class,
 		LogicTest.class})
 		//@formatter:on
-public class AllUnitTests {
+public class AllUnitTestsSuite {
 
 }

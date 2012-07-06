@@ -18,7 +18,7 @@ import teammates.common.datatransfer.CourseData;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
-import teammates.test.driver.NoAlertAppearException;
+import teammates.test.driver.NoAlertException;
 import teammates.test.driver.TestProperties;
 
 /**
@@ -148,14 +148,14 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 			bi.clickAndCancel(deleteLinkLocator);
 			String course = BackDoor.getCourseAsJson(ts.validCourse.id);
 			if(isNullJSON(course)) fail("Course was deleted when it's not supposed to be");
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("No alert box when clicking delete button at course page.");
 		}
 
 		try{
 			bi.clickAndConfirm(deleteLinkLocator);
 			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseDeleteSuccessful.html");
-		} catch (NoAlertAppearException e){
+		} catch (NoAlertException e){
 			fail("No alert box when clicking delete button at course page.");
 		}
 	}

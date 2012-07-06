@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import teammates.logic.BuildProperties;
 
-public class ConfigTest extends BaseTestCase {
+public class BuildPropertiesTest extends BaseTestCase {
 
 	@Test
 	public void checkPresence() {

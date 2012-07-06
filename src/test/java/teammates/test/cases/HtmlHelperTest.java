@@ -11,7 +11,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-import teammates.test.util.HtmlHelper;
+import teammates.test.driver.HtmlHelper;
 
 public class HtmlHelperTest {
 	

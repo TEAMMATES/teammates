@@ -1,5 +1,6 @@
 package teammates.test.driver;
 
+//TODO: remove junit dependencies
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -9,7 +10,6 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,8 +17,6 @@ import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Date;
-
-import javax.xml.transform.TransformerException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -36,11 +34,9 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.xml.sax.SAXException;
 
 import teammates.common.Common;
-import teammates.test.cases.BaseTestCase;
-import teammates.test.util.HtmlHelper;
+import teammates.test.cases.BaseTestCase; //TODO: remove this dependency
 
 import com.thoughtworks.selenium.DefaultSelenium;
 import com.thoughtworks.selenium.SeleniumException;
@@ -768,7 +764,7 @@ public class BrowserInstance {
 	 * immediately after confirming)
 	 * 
 	 */
-	public void clickAndConfirm(By by) throws NoAlertAppearException {
+	public void clickAndConfirm(By by) throws NoAlertException {
 		/*
 		 * Huy: I have no idea why the driver.switchTo().alert() approach
 		 * doesn't work even in Firefox (it supposed to!). This is a workaround
@@ -786,7 +782,7 @@ public class BrowserInstance {
 				.executeScript("return eval(window.confirm).toString()==eval(function(msg){ delete(window.confirm); return true;}).toString()")) {
 			// This means the click does not generate alert box
 			js.executeScript("delete(window.confirm)");
-			throw new NoAlertAppearException(by.toString());
+			throw new NoAlertException(by.toString());
 		}
 		// Make sure it's deleted. Deleting twice does not hurt
 		js.executeScript("delete(window.confirm)");
@@ -802,7 +798,7 @@ public class BrowserInstance {
 	 * immediately after cancelling)
 	 * 
 	 */
-	public void clickAndCancel(By by) throws NoAlertAppearException {
+	public void clickAndCancel(By by) throws NoAlertException {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("window.confirm = function(msg){ delete(window.confirm); return false;};");
 		clickWithWait(by);
@@ -811,7 +807,7 @@ public class BrowserInstance {
 				.executeScript("return eval(window.confirm).toString()==eval(function(msg){ delete(window.confirm); return false;}).toString()")) {
 			// This means the click does not generate alert box
 			js.executeScript("delete(window.confirm)");
-			throw new NoAlertAppearException(by.toString());
+			throw new NoAlertException(by.toString());
 		}
 		// Make sure it's deleted. Deleting twice does not hurt
 		js.executeScript("delete(window.confirm)");
