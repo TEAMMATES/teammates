@@ -52,21 +52,21 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</welcome-file-list>
 	
 	<servlet>
-		<servlet-name>EvaluationActivation</servlet-name>
-		<servlet-class>teammates.logic.EvaluationActivationServlet</servlet-class>
+		<servlet-name>EvaluationOpeningReminders</servlet-name>
+		<servlet-class>teammates.logic.automated.EvaluationOpeningRemindersServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>EvaluationActivation</servlet-name>
-		<url-pattern>/evaluationactivation</url-pattern>
+		<servlet-name>EvaluationOpeningReminders</servlet-name>
+		<url-pattern>/evaluationopeningreminders</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
-		<servlet-name>AutomatedReminders</servlet-name>
-		<servlet-class>teammates.logic.AutomatedRemindersServlet</servlet-class>
+		<servlet-name>EvaluationClosingReminders</servlet-name>
+		<servlet-class>teammates.logic.automated.EvaluationClosingRemindersServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>AutomatedReminders</servlet-name>
-		<url-pattern>/automatedreminders</url-pattern>
+		<servlet-name>EvaluationClosingReminders</servlet-name>
+		<url-pattern>/evaluationclosingreminders</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
@@ -308,8 +308,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>AutomatedEmails</web-resource-name>
-            <url-pattern>/automatedreminders</url-pattern>
-            <url-pattern>/evaluationactivation</url-pattern>
+            <url-pattern>/evaluationopeningreminders</url-pattern>
+            <url-pattern>/evaluationclosingreminders</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>

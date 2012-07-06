@@ -18,7 +18,7 @@ import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.EvaluationData.EvalStatus;
-import teammates.logic.EvaluationActivationServlet;
+import teammates.logic.automated.EvaluationOpeningRemindersServlet;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.Datastore;
 import teammates.storage.Evaluations;
@@ -132,7 +132,7 @@ public class EvaluationsTest extends BaseTestCase{
 	@AfterClass()
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();
-		turnLoggingDown(EvaluationActivationServlet.class);
+		turnLoggingDown(EvaluationOpeningRemindersServlet.class);
 	}
 
 	@After

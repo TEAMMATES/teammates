@@ -1,4 +1,4 @@
-package teammates.logic;
+package teammates.logic.automated;
 
 import java.util.logging.Logger;
 
@@ -10,7 +10,7 @@ import teammates.common.Common;
 import teammates.logic.backdoor.BackDoorLogic;
 
 @SuppressWarnings("serial")
-public class EvaluationActivationServlet extends HttpServlet {
+public class EvaluationOpeningRemindersServlet extends HttpServlet {
 	
 	@SuppressWarnings("unused")
 	private static Logger log = Common.getLogger();

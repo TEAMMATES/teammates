@@ -1,4 +1,4 @@
-package teammates.logic;
+package teammates.logic.automated;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.logic.backdoor.BackDoorLogic;
 
 @SuppressWarnings("serial")
-public class AutomatedRemindersServlet extends HttpServlet {
+public class EvaluationClosingRemindersServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
 		try {
 			new BackDoorLogic().sendRemindersForClosingEvaluations();
