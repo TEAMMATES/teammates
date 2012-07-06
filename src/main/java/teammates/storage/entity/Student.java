@@ -9,7 +9,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.StudentData;
-import teammates.logic.api.InvalidParametersException;
+import teammates.common.exception.InvalidParametersException;
 
 import com.google.gson.annotations.SerializedName;
 import com.google.appengine.api.datastore.KeyFactory;

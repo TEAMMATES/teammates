@@ -9,7 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.common.Common;
-import teammates.logic.api.InvalidParametersException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Evaluation;
 
 public class EvaluationTest extends BaseTestCase {

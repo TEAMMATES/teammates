@@ -1,4 +1,4 @@
-package teammates.logic.api;
+package teammates.common.exception;
 
 @SuppressWarnings("serial")
 public class NotImplementedException extends TeammatesException {

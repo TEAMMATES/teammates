@@ -8,7 +8,7 @@ import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.StudentData;
-import teammates.logic.api.InvalidParametersException;
+import teammates.common.exception.InvalidParametersException;
 
 public class StudentHomeHelper extends Helper {
 	public List<CourseData> courses;

@@ -1,16 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page import="java.util.*"%>
-<%@ page import="teammates.storage.Accounts"%>
+<%@ page import="teammates.storage.manager.AccountsManager"%>
 
 <%
 	// See if user is logged in, if not we redirect them to the login page
-	Accounts accounts = Accounts.inst();
+	AccountsManager accounts = AccountsManager.inst();
 	if (accounts.getUser() == null) {
 		response.sendRedirect( accounts.getLoginPage("/administrator.jsp") );
 		return ;
 	}
-
 %>
 
 

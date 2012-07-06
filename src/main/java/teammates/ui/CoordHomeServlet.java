@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
-import teammates.logic.api.EntityDoesNotExistException;
+import teammates.common.exception.EntityDoesNotExistException;
 
 @SuppressWarnings("serial")
 /**

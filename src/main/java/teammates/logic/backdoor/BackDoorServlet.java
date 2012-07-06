@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.logic.BuildProperties;
-import teammates.storage.Datastore; //TODO: remove this dependency
+import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Course;  //TODO: remove this dependency
 
 @SuppressWarnings("serial")

@@ -1,4 +1,4 @@
-package teammates.storage;
+package teammates.storage.manager;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,9 +12,10 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
 
 import teammates.common.datatransfer.EvaluationData;
-import teammates.logic.api.EntityAlreadyExistsException;
-import teammates.logic.api.EntityDoesNotExistException;
-import teammates.logic.api.InvalidParametersException;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
+import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Evaluation;
 import teammates.storage.entity.Student;
@@ -24,25 +25,25 @@ import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
 
-public class Evaluations {
-	private static Evaluations instance = null;
-	private static final Logger log = Logger.getLogger(Evaluations.class
+public class EvaluationsManager {
+	private static EvaluationsManager instance = null;
+	private static final Logger log = Logger.getLogger(EvaluationsManager.class
 			.getName());
 
 	/**
 	 * Constructs an Accounts object. Obtains an instance of PersistenceManager
 	 * class to handle datastore transactions.
 	 */
-	private Evaluations() {
+	private EvaluationsManager() {
 	}
 
 	private PersistenceManager getPM() {
 		return Datastore.getPersistenceManager();
 	}
 
-	public static Evaluations inst() {
+	public static EvaluationsManager inst() {
 		if (instance == null)
-			instance = new Evaluations();
+			instance = new EvaluationsManager();
 		return instance;
 	}
 
@@ -201,7 +202,7 @@ public class Evaluations {
 	 *            evaluationName pair must be valid)
 	 */
 	public boolean createSubmissions(String courseID, String evaluationName) {
-		Courses courses = Courses.inst();
+		CoursesManager courses = CoursesManager.inst();
 		List<Student> studentList = courses.getStudentList(courseID);
 
 		List<Submission> submissionList = new ArrayList<Submission>();

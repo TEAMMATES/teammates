@@ -13,7 +13,7 @@ import java.util.GregorianCalendar;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-import teammates.logic.api.InvalidParametersException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Evaluation;
 import teammates.ui.Helper;
 

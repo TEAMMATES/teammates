@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.TeamData;
-import teammates.logic.api.InvalidParametersException;
+import teammates.common.exception.InvalidParametersException;
 
 public class TeamDataTest {
 	

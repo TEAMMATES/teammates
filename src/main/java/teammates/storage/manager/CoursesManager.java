@@ -1,4 +1,4 @@
-package teammates.storage;
+package teammates.storage.manager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,10 +13,11 @@ import javax.jdo.PersistenceManager;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.StudentData;
-import teammates.logic.api.EntityAlreadyExistsException;
-import teammates.logic.api.EntityDoesNotExistException;
-import teammates.logic.api.InvalidParametersException;
-import teammates.logic.api.JoinCourseException;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.JoinCourseException;
+import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Student;
 
@@ -31,15 +32,15 @@ import com.google.appengine.api.taskqueue.TaskOptions;
  * static class (singleton).
  * 
  */
-public class Courses {
-	private static Courses instance = null;
+public class CoursesManager {
+	private static CoursesManager instance = null;
 	private static final Logger log = Common.getLogger();
 
 	/**
 	 * Constructs a Courses object. Obtains an instance of PersistenceManager
 	 * class to handle datastore transactions.
 	 */
-	private Courses() {
+	private CoursesManager() {
 	}
 
 	public PersistenceManager getPM() {
@@ -51,9 +52,9 @@ public class Courses {
 	 * 
 	 * @return
 	 */
-	public static Courses inst() {
+	public static CoursesManager inst() {
 		if (instance == null)
-			instance = new Courses();
+			instance = new CoursesManager();
 		return instance;
 	}
 
@@ -737,7 +738,7 @@ public class Courses {
 		for (Student s : studentList) {
 			CourseData c = new CourseData();
 			c.id = s.getCourseID();
-			c.name = Courses.inst().getCourse(c.id).getName();
+			c.name = CoursesManager.inst().getCourse(c.id).getName();
 			courseList.add(c);
 		}
 		return courseList;

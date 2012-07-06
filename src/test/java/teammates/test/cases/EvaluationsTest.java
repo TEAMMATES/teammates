@@ -20,8 +20,8 @@ import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.EvaluationData.EvalStatus;
 import teammates.logic.automated.EvaluationOpeningRemindersServlet;
 import teammates.logic.backdoor.BackDoorLogic;
-import teammates.storage.Datastore;
-import teammates.storage.Evaluations;
+import teammates.storage.datastore.Datastore;
+import teammates.storage.manager.EvaluationsManager;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -32,7 +32,7 @@ public class EvaluationsTest extends BaseTestCase{
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		turnLoggingUp(Evaluations.class);
+		turnLoggingUp(EvaluationsManager.class);
 		Datastore.initialize();
 	}
 	
@@ -59,7 +59,7 @@ public class EvaluationsTest extends BaseTestCase{
 			backdoor.editEvaluation(e);
 			assertTrue(backdoor.getEvaluation(e.course, e.name).getStatus() != EvalStatus.AWAITING);
 		}
-		assertEquals(0, Evaluations.inst().getReadyEvaluations().size());
+		assertEquals(0, EvaluationsManager.inst().getReadyEvaluations().size());
 		
 		______TS("typical case, two evaluations activated");
 		// Reuse an existing evaluation to create a new one that is ready to 
@@ -122,7 +122,7 @@ public class EvaluationsTest extends BaseTestCase{
 		backdoor.createEvaluation(evaluation);
 
 		//verify number of ready evaluations.
-		assertEquals(2, Evaluations.inst().getReadyEvaluations().size());
+		assertEquals(2, EvaluationsManager.inst().getReadyEvaluations().size());
 		
 		// Other variations of ready/not-ready states should be checked at 
 		//   Evaluation level

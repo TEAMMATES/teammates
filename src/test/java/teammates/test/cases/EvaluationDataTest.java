@@ -9,7 +9,7 @@ import org.junit.Test;
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.EvaluationData.EvalStatus;
-import teammates.logic.api.InvalidParametersException;
+import teammates.common.exception.InvalidParametersException;
 
 public class EvaluationDataTest extends BaseTestCase {
 

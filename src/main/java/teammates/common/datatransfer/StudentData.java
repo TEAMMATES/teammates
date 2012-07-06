@@ -2,7 +2,7 @@ package teammates.common.datatransfer;
 
 import static teammates.common.Common.EOL;
 import teammates.common.Common;
-import teammates.logic.api.InvalidParametersException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Student;
 
 import com.google.appengine.api.datastore.Text;

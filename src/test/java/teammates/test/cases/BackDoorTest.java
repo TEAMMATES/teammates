@@ -17,7 +17,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
-import teammates.logic.api.InvalidParametersException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.test.driver.BackDoor;
 
 import com.google.appengine.api.datastore.Text;

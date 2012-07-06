@@ -8,8 +8,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.common.Common;
-import teammates.logic.api.InvalidParametersException;
-import teammates.logic.api.TeammatesException;
+import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
 import teammates.storage.entity.Student;
 
 public class StudentTest extends BaseTestCase {

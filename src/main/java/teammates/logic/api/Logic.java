@@ -19,16 +19,23 @@ import teammates.common.datatransfer.TeamData;
 import teammates.common.datatransfer.UserData;
 import teammates.common.datatransfer.EvaluationData.EvalStatus;
 import teammates.common.datatransfer.StudentData.UpdateStatus;
+import teammates.common.exception.EnrollException;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.JoinCourseException;
+import teammates.common.exception.NotImplementedException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.logic.Emails;
 import teammates.logic.TeamEvalResult;
-import teammates.storage.Accounts;
-import teammates.storage.Courses;
-import teammates.storage.Evaluations;
 import teammates.storage.entity.Coordinator; //TODO: remove dependency to entity package
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Evaluation;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Submission; 
+import teammates.storage.manager.AccountsManager;
+import teammates.storage.manager.CoursesManager;
+import teammates.storage.manager.EvaluationsManager;
 
 import com.google.appengine.api.datastore.Text; //TODO: remove this dependency
 import com.google.appengine.api.users.User;
@@ -42,7 +49,7 @@ public class Logic {
 		for (SubmissionData sd : submissionDataList) {
 			submissions.add(sd.toSubmission());
 		}
-		Evaluations.inst().editSubmissions(submissions);
+		EvaluationsManager.inst().editSubmissions(submissions);
 	}
 
 	@SuppressWarnings("unused")
@@ -50,22 +57,22 @@ public class Logic {
 	}
 
 	public static String getLoginUrl(String redirectUrl) {
-		Accounts accounts = Accounts.inst();
+		AccountsManager accounts = AccountsManager.inst();
 		return accounts.getLoginPage(redirectUrl);
 	}
 
 	public static String getLogoutUrl(String redirectUrl) {
-		Accounts accounts = Accounts.inst();
+		AccountsManager accounts = AccountsManager.inst();
 		return accounts.getLogoutPage(redirectUrl);
 	}
 
 	public static boolean isUserLoggedIn() {
-		Accounts accounts = Accounts.inst();
+		AccountsManager accounts = AccountsManager.inst();
 		return (accounts.getUser() != null);
 	}
 
 	public UserData getLoggedInUser() {
-		Accounts accounts = Accounts.inst();
+		AccountsManager accounts = AccountsManager.inst();
 		User user = accounts.getUser();
 		if (user == null) {
 			return null;
@@ -273,7 +280,7 @@ public class Logic {
 		Common.validateEmail(coordEmail);
 		Common.validateCoordName(coordName);
 		Common.validateGoogleId(coordID);
-		Accounts.inst().addCoordinator(coordID, coordName, coordEmail);
+		AccountsManager.inst().addCoordinator(coordID, coordName, coordEmail);
 	}
 
 	/**
@@ -283,7 +290,7 @@ public class Logic {
 
 		verifyLoggedInUserAndAbove();
 
-		Coordinator coord = Accounts.inst().getCoordinator(coordID);
+		Coordinator coord = AccountsManager.inst().getCoordinator(coordID);
 
 		return (coord == null ? null : new CoordData(coord.getGoogleID(),
 				coord.getName(), coord.getEmail()));
@@ -304,12 +311,12 @@ public class Logic {
 
 		verifyAdminLoggedIn();
 
-		List<Course> coordCourseList = Courses.inst().getCoordinatorCourseList(
+		List<Course> coordCourseList = CoursesManager.inst().getCoordinatorCourseList(
 				coordId);
 		for (Course course : coordCourseList) {
 			deleteCourse(course.getID());
 		}
-		Accounts.inst().deleteCoord(coordId);
+		AccountsManager.inst().deleteCoord(coordId);
 	}
 
 	/**
@@ -324,7 +331,7 @@ public class Logic {
 
 		verifyCoordUsingOwnIdOrAbove(coordId);
 
-		HashMap<String, CourseData> courseSummaryListForCoord = Courses
+		HashMap<String, CourseData> courseSummaryListForCoord = CoursesManager
 				.inst().getCourseSummaryListForCoord(coordId);
 		if (courseSummaryListForCoord.size() == 0) {
 			if (getCoord(coordId) == null) {
@@ -369,7 +376,7 @@ public class Logic {
 
 		verifyCoordUsingOwnIdOrAbove(coordId);
 
-		List<Course> courseList = Courses.inst().getCoordinatorCourseList(
+		List<Course> courseList = CoursesManager.inst().getCoordinatorCourseList(
 				coordId);
 
 		if ((courseList.size() == 0) && (getCoord(coordId) == null)) {
@@ -380,7 +387,7 @@ public class Logic {
 		ArrayList<EvaluationData> evaluationDetailsList = new ArrayList<EvaluationData>();
 
 		for (Course c : courseList) {
-			ArrayList<EvaluationData> evaluationsSummaryForCourse = Evaluations
+			ArrayList<EvaluationData> evaluationsSummaryForCourse = EvaluationsManager
 					.inst().getEvaluationsSummaryForCourse(c.getID());
 
 			evaluationDetailsList.addAll(evaluationsSummaryForCourse);
@@ -404,7 +411,7 @@ public class Logic {
 		Common.validateGoogleId(coordId);
 		Common.validateCourseId(courseId);
 		Common.validateCourseName(courseName);
-		Courses.inst().addCourse(courseId, courseName, coordId);
+		CoursesManager.inst().addCourse(courseId, courseName, coordId);
 	}
 
 	/**
@@ -419,7 +426,7 @@ public class Logic {
 
 		verifyRegisteredUserOrAbove();
 
-		Course c = Courses.inst().getCourse(courseId);
+		Course c = CoursesManager.inst().getCourse(courseId);
 		return (c == null ? null : new CourseData(c.getID(), c.getName(),
 				c.getCoordinatorID()));
 	}
@@ -459,8 +466,8 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(courseId);
 
-		Evaluations.inst().deleteEvaluations(courseId);
-		Courses.inst().deleteCourse(courseId);
+		EvaluationsManager.inst().deleteEvaluations(courseId);
+		CoursesManager.inst().deleteCourse(courseId);
 	}
 
 	/**
@@ -473,7 +480,7 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(courseId);
 
-		List<Student> studentList = Courses.inst().getStudentList(courseId);
+		List<Student> studentList = CoursesManager.inst().getStudentList(courseId);
 
 		if ((studentList.size() == 0) && (getCourse(courseId) == null)) {
 			throw new EntityDoesNotExistException("Course does not exist :"
@@ -498,7 +505,7 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(courseId);
 
-		List<Student> studentList = Courses.inst().getUnregisteredStudentList(
+		List<Student> studentList = CoursesManager.inst().getUnregisteredStudentList(
 				courseId);
 		
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
@@ -583,7 +590,7 @@ public class Logic {
 		verifyCourseOwnerOrStudentInCourse(courseId);
 
 		List<StudentData> students = getStudentListForCourse(courseId);
-		Courses.sortByTeamName(students);
+		CoursesManager.sortByTeamName(students);
 
 		CourseData course = getCourse(courseId);
 
@@ -652,7 +659,7 @@ public class Logic {
 		if (student.getTeamName() == null) {
 			student.setTeamName("");
 		}
-		Courses.inst().createStudent(student);
+		CoursesManager.inst().createStudent(student);
 	}
 
 	/**
@@ -667,7 +674,7 @@ public class Logic {
 
 		verifyRegisteredUserOrAbove();
 
-		Student student = Accounts.inst().getStudent(courseId, email);
+		Student student = AccountsManager.inst().getStudent(courseId, email);
 		return (student == null ? null : new StudentData(student));
 	}
 
@@ -696,7 +703,7 @@ public class Logic {
 		verifyCourseOwnerOrAbove(student.course);
 
 		// TODO: make the implementation more defensive
-		Courses.inst().editStudent(student.course, originalEmail, student.name,
+		CoursesManager.inst().editStudent(student.course, originalEmail, student.name,
 				student.team, student.email, student.id, student.comments,
 				student.profile);
 	}
@@ -711,8 +718,8 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(courseId);
 
-		Courses.inst().deleteStudent(courseId, studentEmail);
-		Evaluations.inst().deleteSubmissionsForStudent(courseId, studentEmail);
+		CoursesManager.inst().deleteStudent(courseId, studentEmail);
+		EvaluationsManager.inst().deleteSubmissionsForStudent(courseId, studentEmail);
 	}
 
 	/**
@@ -733,8 +740,8 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(courseId);
 
-		Course course = Courses.inst().getCourse(courseId);
-		Student student = Courses.inst().getStudentWithEmail(courseId,
+		Course course = CoursesManager.inst().getCourse(courseId);
+		Student student = CoursesManager.inst().getStudentWithEmail(courseId,
 				studentEmail);
 		if (student == null) {
 			throw new EntityDoesNotExistException("Student [" + studentEmail
@@ -762,7 +769,7 @@ public class Logic {
 
 		verifySameStudentOrAdmin(googleId);
 
-		List<Student> students = Accounts.inst().getStudentsWithID(googleId);
+		List<Student> students = AccountsManager.inst().getStudentsWithID(googleId);
 		ArrayList<StudentData> returnList = new ArrayList<StudentData>();
 		for (Student s : students) {
 			returnList.add(new StudentData(s));
@@ -811,7 +818,7 @@ public class Logic {
 
 		verifyOwnerOfId(googleId);
 
-		Courses.inst().joinCourse(key.trim(), googleId.trim());
+		CoursesManager.inst().joinCourse(key.trim(), googleId.trim());
 
 	}
 
@@ -829,7 +836,7 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(courseId);
 
-		Student student = Accounts.inst().getStudent(courseId, email);
+		Student student = AccountsManager.inst().getStudent(courseId, email);
 
 		if (student == null) {
 			return null;
@@ -859,7 +866,7 @@ public class Logic {
 					+ googleId + " does not exist");
 		}
 
-		return Courses.inst().getCourseListForStudent(googleId);
+		return CoursesManager.inst().getCourseListForStudent(googleId);
 	}
 
 	/**
@@ -916,7 +923,7 @@ public class Logic {
 
 		List<CourseData> courseList = getCourseListForStudent(googleId);
 		for (CourseData c : courseList) {
-			List<Evaluation> evaluationList = Evaluations.inst()
+			List<Evaluation> evaluationList = EvaluationsManager.inst()
 					.getEvaluationList(c.id);
 			for (Evaluation e : evaluationList) {
 				EvaluationData ed = new EvaluationData(e);
@@ -998,7 +1005,7 @@ public class Logic {
 		verifyCourseOwnerOrAbove(evaluation.course);
 
 		evaluation.validate();
-		Evaluations.inst().addEvaluation(evaluation.toEvaluation());
+		EvaluationsManager.inst().addEvaluation(evaluation.toEvaluation());
 	}
 
 	/**
@@ -1012,7 +1019,7 @@ public class Logic {
 
 		verifyRegisteredUserOrAbove();
 
-		Evaluation e = Evaluations.inst().getEvaluation(courseId,
+		Evaluation e = EvaluationsManager.inst().getEvaluation(courseId,
 				evaluationName);
 		return (e == null ? null : new EvaluationData(e));
 	}
@@ -1062,7 +1069,7 @@ public class Logic {
 	protected void editEvaluationAllFields(EvaluationData evaluation)
 			throws EntityDoesNotExistException, InvalidParametersException {
 
-		Evaluations.inst().editEvaluation(evaluation.course, evaluation.name,
+		EvaluationsManager.inst().editEvaluation(evaluation.course, evaluation.name,
 				evaluation.instructions, evaluation.p2pEnabled,
 				evaluation.startTime, evaluation.endTime,
 				evaluation.gracePeriod, evaluation.activated,
@@ -1081,7 +1088,7 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(courseId);
 
-		Evaluations.inst().deleteEvaluation(courseId, evaluationName);
+		EvaluationsManager.inst().deleteEvaluation(courseId, evaluationName);
 	}
 
 	/**
@@ -1111,7 +1118,7 @@ public class Logic {
 					"Cannot publish an evaluation unless it is CLOSED");
 		}
 
-		Evaluations.inst().publishEvaluation(courseId, evaluationName);
+		EvaluationsManager.inst().publishEvaluation(courseId, evaluationName);
 		sendEvaluationPublishedEmails(courseId, evaluationName);
 	}
 
@@ -1142,7 +1149,7 @@ public class Logic {
 					"Cannot unpublish an evaluation unless it is PUBLISHED");
 		}
 
-		Evaluations.inst().unpublishEvaluation(courseId, evaluationName);
+		EvaluationsManager.inst().unpublishEvaluation(courseId, evaluationName);
 	}
 
 	/**
@@ -1164,10 +1171,10 @@ public class Logic {
 		verifyEvaluationExists(evaluation, courseId, evaluationName);
 
 		// Filter out students who have submitted the evaluation
-		List<Student> studentList = Courses.inst().getStudentList(courseId);
+		List<Student> studentList = CoursesManager.inst().getStudentList(courseId);
 		List<StudentData> studentsToRemindList = new ArrayList<StudentData>();
 		for (Student s : studentList) {
-			if (!Evaluations.inst().isEvaluationSubmitted(evaluation,
+			if (!EvaluationsManager.inst().isEvaluationSubmitted(evaluation,
 					s.getEmail())) {
 				studentsToRemindList.add(new StudentData(s));
 			}
@@ -1247,13 +1254,13 @@ public class Logic {
 
 		verifyReviewerOrCourseOwnerOrAdmin(courseId, reviewerEmail);
 
-		List<Submission> submissions = Evaluations.inst()
+		List<Submission> submissions = EvaluationsManager.inst()
 				.getSubmissionFromStudentList(courseId, evaluationName,
 						reviewerEmail);
 		if (submissions.size() == 0) {
-			Courses.inst().verifyCourseExists(courseId);
-			Evaluations.inst().verifyEvaluationExists(courseId, evaluationName);
-			Accounts.inst().verifyStudentExists(courseId, reviewerEmail);
+			CoursesManager.inst().verifyCourseExists(courseId);
+			EvaluationsManager.inst().verifyEvaluationExists(courseId, evaluationName);
+			AccountsManager.inst().verifyStudentExists(courseId, reviewerEmail);
 		}
 		StudentData student = getStudent(courseId, reviewerEmail);
 		ArrayList<SubmissionData> returnList = new ArrayList<SubmissionData>();
@@ -1354,7 +1361,7 @@ public class Logic {
 		ArrayList<Submission> submissions = new ArrayList<Submission>();
 
 		submissions.add(submission.toSubmission());
-		Evaluations.inst().editSubmissions(submissions);
+		EvaluationsManager.inst().editSubmissions(submissions);
 	}
 
 	private EvalStatus getEvaluationStatus(String courseId,
@@ -1405,7 +1412,7 @@ public class Logic {
 							+ "] under the course [" + courseId + "]");
 		}
 		// create SubmissionData Hashmap
-		List<Submission> submissionsList = Evaluations.inst()
+		List<Submission> submissionsList = EvaluationsManager.inst()
 				.getSubmissionList(courseId, evaluationName);
 		HashMap<String, SubmissionData> submissionDataList = new HashMap<String, SubmissionData>();
 		for (Submission s : submissionsList) {
@@ -1535,7 +1542,7 @@ public class Logic {
 
 	protected SubmissionData getSubmission(String courseId,
 			String evaluationName, String reviewerEmail, String revieweeEmail) {
-		Submission submission = Evaluations.inst().getSubmission(courseId,
+		Submission submission = EvaluationsManager.inst().getSubmission(courseId,
 				evaluationName, reviewerEmail, revieweeEmail);
 		return (submission == null ? null : new SubmissionData(submission));
 	}

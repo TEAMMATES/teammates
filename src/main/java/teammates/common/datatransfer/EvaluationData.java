@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 import teammates.common.Common;
-import teammates.logic.api.InvalidParametersException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Evaluation;
 
 public class EvaluationData {

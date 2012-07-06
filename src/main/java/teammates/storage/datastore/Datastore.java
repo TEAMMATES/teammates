@@ -1,4 +1,4 @@
-package teammates.storage;
+package teammates.storage.datastore;
 
 import java.util.logging.Logger;
 
@@ -20,8 +20,9 @@ public class Datastore {
 
 	public static void initialize() {
 		if (PMF == null) {
-			PMF = JDOHelper.getPersistenceManagerFactory("transactions-optional");
-		}else{
+			PMF = JDOHelper
+					.getPersistenceManagerFactory("transactions-optional");
+		} else {
 			log.warning("Trying to initialize Datastore again");
 		}
 	}
@@ -46,19 +47,20 @@ public class Datastore {
 	public static void finishRequest() {
 
 		PersistenceManager pm = PER_THREAD_PM.get();
-		if (pm != null) {
-			PER_THREAD_PM.remove();
-
-			//TODO: this line moved here due to unit testing problem
-			//  to be reconsidered.
-			if (!pm.isClosed()){
-				Transaction tx = pm.currentTransaction();
-				if (tx.isActive()) {
-					tx.rollback();
-				}
-			//if (!pm.isClosed()){
-				pm.close();
-			}
+		
+		if (pm == null) {
+			return;
 		}
+		
+		PER_THREAD_PM.remove();
+
+		if (!pm.isClosed()) {
+			Transaction tx = pm.currentTransaction();
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+
 	}
 }

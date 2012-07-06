@@ -18,10 +18,10 @@ import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.datatransfer.TeamData;
 import teammates.common.datatransfer.UserData;
-import teammates.logic.api.EntityDoesNotExistException;
-import teammates.logic.api.InvalidParametersException;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.logic.api.Logic;
-import teammates.logic.api.UnauthorizedAccessException;
 
 @SuppressWarnings("serial")
 /**

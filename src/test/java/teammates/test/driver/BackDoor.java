@@ -20,8 +20,8 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
-import teammates.logic.api.EntityDoesNotExistException;
-import teammates.logic.api.NotImplementedException;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.NotImplementedException;
 import teammates.logic.backdoor.BackDoorServlet;
 
 import com.google.gson.Gson;

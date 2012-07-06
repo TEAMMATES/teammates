@@ -24,11 +24,11 @@ import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.datatransfer.EvaluationData.EvalStatus;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.logic.Emails;
-import teammates.logic.api.EntityAlreadyExistsException;
-import teammates.logic.api.InvalidParametersException;
 import teammates.logic.backdoor.BackDoorLogic;
-import teammates.storage.Datastore;
+import teammates.storage.datastore.Datastore;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;

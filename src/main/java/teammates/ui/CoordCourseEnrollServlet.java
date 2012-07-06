@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.StudentData;
-import teammates.logic.api.EnrollException;
-import teammates.logic.api.EntityDoesNotExistException;
+import teammates.common.exception.EnrollException;
+import teammates.common.exception.EntityDoesNotExistException;
 
 @SuppressWarnings("serial")
 /**

@@ -1,4 +1,4 @@
-package teammates.storage;
+package teammates.storage.manager;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -6,8 +6,9 @@ import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 
 import teammates.common.Common;
-import teammates.logic.api.EntityAlreadyExistsException;
-import teammates.logic.api.EntityDoesNotExistException;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Coordinator;
 import teammates.storage.entity.Student;
@@ -18,17 +19,15 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 /**
  * Accounts handles all operations related to a Teammates account.
- * 
- * @author Gerald GOH
  * @see Account
  * @see Coordinator
  * @see Student
  * 
  */
-public class Accounts {
+public class AccountsManager {
 
 	private static UserService userService;
-	private static Accounts instance = null;
+	private static AccountsManager instance = null;
 	private static final Logger log = Common.getLogger();
 
 	/**
@@ -36,16 +35,16 @@ public class Accounts {
 	 * Service and obtains an instance of PersistenceManager class to handle
 	 * datastore transactions.
 	 */
-	private Accounts() {
+	private AccountsManager() {
 		userService = UserServiceFactory.getUserService();
 	}
 	private PersistenceManager getPM() {
 		return Datastore.getPersistenceManager();
 	}
 
-	public static Accounts inst() {
+	public static AccountsManager inst() {
 		if (instance == null)
-			instance = new Accounts();
+			instance = new AccountsManager();
 		return instance;
 	}
 
