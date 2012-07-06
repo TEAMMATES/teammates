@@ -12,7 +12,6 @@ import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
 import teammates.test.driver.TestProperties;
-import teammates.ui.Helper;
 
 /**
  * Tests Student Course Details page
@@ -52,24 +51,24 @@ public class StudentCourseDetailsPageUiTest extends BaseTestCase {
 		______TS("with teammates");
 		
 		String link = appUrl + Common.PAGE_STUDENT_COURSE_DETAILS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.courses.get("SCDetailsUiT.CS2104").id);
-		link = Helper.addParam(link, Common.PARAM_USER_ID , scn.students.get("alice.tmms").id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.courses.get("SCDetailsUiT.CS2104").id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID , scn.students.get("alice.tmms").id);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentCourseDetailsWithTeammatesHTML.html");
 
 		______TS("without teammates"); //TODO: to be removed if team is compulsory
 		
 		link = appUrl + Common.PAGE_STUDENT_COURSE_DETAILS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.courses.get("SCDetailsUiT.CS2104").id);
-		link = Helper.addParam(link, Common.PARAM_USER_ID , scn.students.get("charlie.tmms").id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.courses.get("SCDetailsUiT.CS2104").id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID , scn.students.get("charlie.tmms").id);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentCourseDetailsWithoutTeammatesHTML.html");
 		
 		______TS("no team"); //TODO: to be removed if team is compulsory
 		
 		link = appUrl + Common.PAGE_STUDENT_COURSE_DETAILS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.courses.get("SCDetailsUiT.CS2104").id);
-		link = Helper.addParam(link, Common.PARAM_USER_ID , scn.students.get("danny.tmms").id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.courses.get("SCDetailsUiT.CS2104").id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID , scn.students.get("danny.tmms").id);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentCourseDetailsNoTeamHTML.html");
 	}

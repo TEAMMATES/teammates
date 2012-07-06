@@ -82,28 +82,6 @@ public class Helper {
 	}
 	
 	/**
-	 * Returns the URL with the specified key-value pair parameter added.
-	 * Unchanged if either the key or value is null, or the key already exists<br />
-	 * Example:
-	 * <ul>
-	 * <li><code>addParam("index.jsp","action","add")</code> returns <code>index.jsp?action=add</code></li>
-	 * <li><code>addParam("index.jsp?action=add","courseid","cs1101")</code> returns <code>index.jsp?action=add&courseid=cs1101</code></li>
-	 * <li><code>addParam("index.jsp","message",null)</code> returns <code>index.jsp</code></li>
-	 * </ul>
-	 * @param url
-	 * @param key
-	 * @param value
-	 * @return
-	 */
-	public static String addParam(String url, String key, String value){
-		if(key==null || value==null) return url;
-		if(url.contains("?"+key+"=") || url.contains("&"+key+"=")) return url;
-		url += url.indexOf('?')>=0 ? '&' : '?';
-		url += key+"="+convertForURL(value);
-		return url;
-	}
-	
-	/**
 	 * Checks whether a name is longer than a specified length
 	 * if so returns the truncated name appended by ellipsis,
 	 * otherwise returns the original nickname.
@@ -217,7 +195,7 @@ public class Helper {
 	 */
 	public String getCoordCourseEnrollLink(String courseID){
 		String link = Common.PAGE_COORD_COURSE_ENROLL;
-		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
 		link = processMasquerade(link);
 		return link;
 	}
@@ -230,7 +208,7 @@ public class Helper {
 	 */
 	public String getCoordCourseDetailsLink(String courseID){
 		String link = Common.PAGE_COORD_COURSE_DETAILS;
-		link = addParam(link,Common.PARAM_COURSE_ID,courseID); 
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID); 
 		link = processMasquerade(link);
 		return link;
 	}
@@ -245,8 +223,8 @@ public class Helper {
 	 */
 	public String getCoordCourseDeleteLink(String courseID, boolean isHome){
 		String link = Common.PAGE_COORD_COURSE_DELETE;
-		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
-		link = addParam(link,Common.PARAM_NEXT_URL,(isHome? processMasquerade(Common.PAGE_COORD_HOME) : processMasquerade(Common.PAGE_COORD_COURSE)));
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
+		link = Common.addParamToUrl(link,Common.PARAM_NEXT_URL,(isHome? processMasquerade(Common.PAGE_COORD_HOME) : processMasquerade(Common.PAGE_COORD_COURSE)));
 		link = processMasquerade(link);
 		return link;
 	}
@@ -273,9 +251,9 @@ public class Helper {
 	 */
 	public String getCoordEvaluationDeleteLink(String courseID, String evalName, String nextURL){
 		String link = Common.PAGE_COORD_EVAL_DELETE;
-		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
-		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
-		link = addParam(link,Common.PARAM_NEXT_URL,processMasquerade(nextURL));
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
+		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = Common.addParamToUrl(link,Common.PARAM_NEXT_URL,processMasquerade(nextURL));
 		link = processMasquerade(link);
 		return link;
 	}
@@ -289,8 +267,8 @@ public class Helper {
 	 */
 	public String getCoordEvaluationEditLink(String courseID, String evalName){
 		String link = Common.PAGE_COORD_EVAL_EDIT;
-		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
-		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
+		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = processMasquerade(link);
 		return link;
 	}
@@ -304,8 +282,8 @@ public class Helper {
 	 */
 	public String getCoordEvaluationResultsLink(String courseID, String evalName){
 		String link = Common.PAGE_COORD_EVAL_RESULTS;
-		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
-		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
+		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = processMasquerade(link);
 		return link;
 	}
@@ -320,8 +298,8 @@ public class Helper {
 	 */
 	public String getCoordEvaluationRemindLink(String courseID, String evalName){
 		String link = Common.PAGE_COORD_EVAL_REMIND;
-		link = addParam(link,Common.PARAM_COURSE_ID, courseID);
-		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID, courseID);
+		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = processMasquerade(link);
 		return link;
 	}
@@ -337,9 +315,9 @@ public class Helper {
 	 */
 	public String getCoordEvaluationPublishLink(String courseID, String evalName, boolean isHome){
 		String link = Common.PAGE_COORD_EVAL_PUBLISH;
-		link = addParam(link,Common.PARAM_COURSE_ID, courseID);
-		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
-		link = addParam(link,Common.PARAM_NEXT_URL,(isHome ? processMasquerade(Common.PAGE_COORD_HOME): processMasquerade(Common.PAGE_COORD_EVAL)));
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID, courseID);
+		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = Common.addParamToUrl(link,Common.PARAM_NEXT_URL,(isHome ? processMasquerade(Common.PAGE_COORD_HOME): processMasquerade(Common.PAGE_COORD_EVAL)));
 		link = processMasquerade(link);
 		return link;
 	}
@@ -355,9 +333,9 @@ public class Helper {
 	 */
 	public String getCoordEvaluationUnpublishLink(String courseID, String evalName, boolean isHome){
 		String link = Common.PAGE_COORD_EVAL_UNPUBLISH;
-		link = addParam(link,Common.PARAM_COURSE_ID, courseID);
-		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
-		link = addParam(link,Common.PARAM_NEXT_URL,(isHome ? processMasquerade(Common.PAGE_COORD_HOME): processMasquerade(Common.PAGE_COORD_EVAL)));
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID, courseID);
+		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = Common.addParamToUrl(link,Common.PARAM_NEXT_URL,(isHome ? processMasquerade(Common.PAGE_COORD_HOME): processMasquerade(Common.PAGE_COORD_EVAL)));
 		link = processMasquerade(link);
 		return link;
 	}
@@ -373,9 +351,9 @@ public class Helper {
 	 */
 	public String getCoordEvaluationSubmissionViewLink(String courseID, String evalName, String studentEmail){
 		String link = Common.PAGE_COORD_EVAL_SUBMISSION_VIEW;
-		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
-		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
-		link = addParam(link,Common.PARAM_STUDENT_EMAIL,studentEmail);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
+		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,studentEmail);
 		link = processMasquerade(link);
 		return link;
 	}
@@ -391,9 +369,9 @@ public class Helper {
 	 */
 	public String getCoordEvaluationSubmissionEditLink(String courseID, String evalName, String studentEmail){
 		String link = Common.PAGE_COORD_EVAL_SUBMISSION_EDIT;
-		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
-		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
-		link = addParam(link,Common.PARAM_STUDENT_EMAIL,studentEmail);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
+		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,studentEmail);
 		link = processMasquerade(link);
 		return link;
 	}
@@ -522,7 +500,7 @@ public class Helper {
 	 */
 	public String processMasquerade(String link){
 		if(isMasqueradeMode()){
-			return addParam(link,Common.PARAM_USER_ID,requestedUser);
+			return Common.addParamToUrl(link,Common.PARAM_USER_ID,requestedUser);
 		}
 		return link;
 	}

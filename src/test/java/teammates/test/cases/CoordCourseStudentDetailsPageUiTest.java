@@ -13,7 +13,6 @@ import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
 import teammates.test.driver.TestProperties;
-import teammates.ui.Helper;
 
 /**
  * Tests Coordinator Course Student Details and Edit UI
@@ -54,9 +53,9 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 		______TS("view registered student");
 		
 		String link = appUrl+Common.PAGE_COORD_COURSE_STUDENT_DETAILS;
-		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CCSDetailsUiT.CS2104").id);
-		link = Helper.addParam(link,Common.PARAM_STUDENT_EMAIL,scn.students.get("registeredStudent").email);
-		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CCSDetailsUiT.CS2104").id);
+		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,scn.students.get("registeredStudent").email);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
 		bi.goToUrl(link);
 		
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseStudentDetailsPage.html");
@@ -64,9 +63,9 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 		______TS("view unregistered student");
 		
 		link = appUrl+Common.PAGE_COORD_COURSE_STUDENT_DETAILS;
-		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CCSDetailsUiT.CS2104").id);
-		link = Helper.addParam(link,Common.PARAM_STUDENT_EMAIL,scn.students.get("unregisteredStudent").email);
-		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CCSDetailsUiT.CS2104").id);
+		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,scn.students.get("unregisteredStudent").email);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
 		bi.goToUrl(link);
 		
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseStudentDetailsUnregisteredPage.html");
@@ -79,9 +78,9 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 		______TS("edit unregistered student");
 		
 		String link = appUrl+Common.PAGE_COORD_COURSE_STUDENT_EDIT;
-		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CCSDetailsUiT.CS2104").id);
-		link = Helper.addParam(link,Common.PARAM_STUDENT_EMAIL,scn.students.get("unregisteredStudent").email);
-		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CCSDetailsUiT.CS2104").id);
+		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,scn.students.get("unregisteredStudent").email);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
 		bi.goToUrl(link);
 		
 		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseStudentEditUnregisteredPage.html");
@@ -89,9 +88,9 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 		______TS("edit registered student");
 
 		link = appUrl+Common.PAGE_COORD_COURSE_STUDENT_EDIT;
-		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CCSDetailsUiT.CS2104").id);
-		link = Helper.addParam(link,Common.PARAM_STUDENT_EMAIL,scn.students.get("registeredStudent").email);
-		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CCSDetailsUiT.CS2104").id);
+		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,scn.students.get("registeredStudent").email);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
 		bi.goToUrl(link);
 		
 		//check the default view

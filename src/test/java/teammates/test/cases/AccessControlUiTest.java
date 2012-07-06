@@ -19,7 +19,6 @@ import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
 import teammates.test.driver.TestProperties;
-import teammates.ui.Helper;
 
 public class AccessControlUiTest extends BaseTestCase {
 	
@@ -123,7 +122,7 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		link = Common.PAGE_ADMINISTRATOR_HOME;
 		verifyRedirectToLogin(link);
-		link = Helper.addParam(link, Common.PARAM_USER_ID, adminUsername);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, adminUsername);
 		verifyRedirectToLogin(link);
 	}
 
@@ -162,22 +161,22 @@ public class AccessControlUiTest extends BaseTestCase {
 		verifyCannotMasquerade(link, otherCoord.id);
 
 		link = Common.PAGE_COORD_COURSE_DELETE;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		verifyRedirectToNotAuthorized(link);
 		verifyCannotMasquerade(link, otherCoord.id);
 
 		link = Common.PAGE_COORD_COURSE_DETAILS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		verifyRedirectToNotAuthorized(link);
 		verifyCannotMasquerade(link, otherCoord.id);
 
 		link = Common.PAGE_COORD_COURSE_ENROLL;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		bi.goToUrl(link);
 		bi.fillString(By.id("enrollstudents"), "t|n|e@g.com|c");
 		bi.click(By.id("button_enroll"));
 		verifyRedirectToNotAuthorized();
-		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherCoord.id);
 		bi.goToUrl(link);
 		bi.fillString(By.id("enrollstudents"), "t|n|e@g.com|c");
 		bi.click(By.id("button_enroll"));
@@ -185,35 +184,35 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		// remind whole course
 		link = Common.PAGE_COORD_COURSE_REMIND;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		verifyRedirectToNotAuthorized(link);
 		verifyCannotMasquerade(link, otherCoord.id);
 
 		// remind one student
 		link = Common.PAGE_COORD_COURSE_REMIND;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
 		verifyCannotMasquerade(link, otherCoord.id);
 
 		link = Common.PAGE_COORD_COURSE_STUDENT_DELETE;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
 		verifyCannotMasquerade(link, otherCoord.id);
 
 		link = Common.PAGE_COORD_COURSE_STUDENT_DETAILS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
 		verifyCannotMasquerade(link, otherCoord.id);
 
 		link = Common.PAGE_COORD_COURSE_STUDENT_EDIT;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
 		verifyCannotMasquerade(link, otherCoord.id);
@@ -223,61 +222,61 @@ public class AccessControlUiTest extends BaseTestCase {
 		verifyCannotMasquerade(link, otherCoord.id);
 
 		link = Common.PAGE_COORD_EVAL_EDIT;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
 		verifyRedirectToNotAuthorized();
 		verifyCannotMasquerade(link, otherCoord.id);
 
 		link = Common.PAGE_COORD_EVAL_DELETE;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
 		verifyRedirectToNotAuthorized(link);
 		verifyCannotMasquerade(link, otherCoord.id);
 
 		link = Common.PAGE_COORD_EVAL_REMIND;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
 		verifyRedirectToNotAuthorized(link);
 		verifyCannotMasquerade(link, otherCoord.id);
 
 		link = Common.PAGE_COORD_EVAL_RESULTS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
 		verifyRedirectToNotAuthorized(link);
 		verifyCannotMasquerade(link, otherCoord.id);
 
 		link = Common.PAGE_COORD_EVAL_PUBLISH;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
 		verifyRedirectToNotAuthorized(link);
 		verifyCannotMasquerade(link, otherCoord.id);
 
 		link = Common.PAGE_COORD_EVAL_UNPUBLISH;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
 		verifyRedirectToNotAuthorized(link);
 		verifyCannotMasquerade(link, otherCoord.id);
 
 		link = Common.PAGE_COORD_EVAL_SUBMISSION_VIEW;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
 		verifyCannotMasquerade(link, otherCoord.id);
 
 		link = Common.PAGE_COORD_EVAL_SUBMISSION_EDIT;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
 		verifyCannotMasquerade(link, otherCoord.id);
@@ -354,8 +353,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("student cannot view own evaluation result before publishing");
 
 		link = Common.PAGE_STUDENT_EVAL_RESULTS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
 		verifyRedirectToNotAuthorized(link);
 
@@ -373,10 +372,10 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("student can view own evaluation submission page");
 
 		link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
 		EvaluationData ownEvaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
 		verifyPageContains(link, studentUsername
 				+ "{*}Evaluation Submission{*}" + ownCourse.id + "{*}"
@@ -399,7 +398,7 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("student can view details of a student's own course");
 
 		link = Common.PAGE_STUDENT_COURSE_DETAILS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
 		verifyPageContains(link, studentUsername + "{*}Team Details for "
 				+ ownCourse.id);
 
@@ -407,7 +406,7 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		link = Common.PAGE_STUDENT_COURSE_DETAILS;
 		CourseData otherCourse = dataBundle.courses.get("course1OfCoord2");
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		verifyRedirectToNotAuthorized(link);
 
 		______TS("student cannot view course details while masquerading as a student in that course");
@@ -415,7 +414,7 @@ public class AccessControlUiTest extends BaseTestCase {
 		StudentData otherStudent = dataBundle.students.get("student1InCourse2");
 		// ensure other student belong to other course
 		assertEquals(otherStudent.course, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_USER_ID, otherStudent.id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherStudent.id);
 		verifyRedirectToNotAuthorized(link);
 	}
 
@@ -426,14 +425,14 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("can delete own course");
 
 		link = Common.PAGE_COORD_COURSE_DELETE;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
 		verifyPageContains(link, coordUsername + "{*}Add New Course{*}"
 				+ Common.MESSAGE_COURSE_DELETED);
 
 		______TS("cannot delete not-own course");
 
 		link = Common.PAGE_COORD_COURSE_DELETE;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		verifyRedirectToNotAuthorized(link);
 
 		______TS("cannot delete not-own course by masquerading");
@@ -449,8 +448,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("can delete own student");
 
 		link = Common.PAGE_COORD_COURSE_STUDENT_DELETE;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				ownStudent.email);
 		verifyPageContains(link, coordUsername + "{*}Course Details{*}"
 				+ Common.MESSAGE_STUDENT_DELETED);
@@ -458,8 +457,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("cannot delete of not-own student");
 
 		link = Common.PAGE_COORD_COURSE_STUDENT_DELETE;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
 
@@ -475,8 +474,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("can delete own evaluation");
 
 		link = Common.PAGE_COORD_EVAL_DELETE;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
 		verifyPageContains(link, coordUsername + "{*}Add New Evaluation{*}"
 				+ Common.MESSAGE_EVALUATION_DELETED);
@@ -484,8 +483,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("cannot delete not-own evaluation");
 
 		link = Common.PAGE_COORD_EVAL_DELETE;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
 		verifyRedirectToNotAuthorized(link);
 
@@ -501,10 +500,10 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("can view submission of own student");
 
 		link = Common.PAGE_COORD_EVAL_SUBMISSION_VIEW;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				ownStudent.email);
 		verifyPageContains(link, coordUsername
 				+ "{*}View Student's Evaluation{*}" + ownStudent.name);
@@ -512,10 +511,10 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("cannot view submission of  not-own evaluation");
 
 		link = Common.PAGE_COORD_EVAL_SUBMISSION_VIEW;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
 
@@ -537,10 +536,10 @@ public class AccessControlUiTest extends BaseTestCase {
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		
 		link = Common.PAGE_COORD_EVAL_UNPUBLISH;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
-		link = Helper.addParam(link, Common.PARAM_NEXT_URL,
+		link = Common.addParamToUrl(link, Common.PARAM_NEXT_URL,
 				Common.PAGE_COORD_HOME);
 		verifyPageContains(link, coordUsername + "{*}Coordinator Home{*}"
 				+ Common.MESSAGE_EVALUATION_UNPUBLISHED);
@@ -548,10 +547,10 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("cannot unpublish result of not-own evaluation");
 
 		link = Common.PAGE_COORD_EVAL_UNPUBLISH;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
-		link = Helper.addParam(link, Common.PARAM_NEXT_URL,
+		link = Common.addParamToUrl(link, Common.PARAM_NEXT_URL,
 				Common.PAGE_COORD_HOME);
 		verifyRedirectToNotAuthorized(link);
 
@@ -573,10 +572,10 @@ public class AccessControlUiTest extends BaseTestCase {
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 
 		link = Common.PAGE_COORD_EVAL_PUBLISH;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
-		link = Helper.addParam(link, Common.PARAM_NEXT_URL,
+		link = Common.addParamToUrl(link, Common.PARAM_NEXT_URL,
 				Common.PAGE_COORD_HOME);
 		verifyPageContains(link, coordUsername + "{*}Coordinator Home{*}"
 				+ Common.MESSAGE_EVALUATION_PUBLISHED);
@@ -584,10 +583,10 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("cannot publish result of not-own evaluation");
 
 		link = Common.PAGE_COORD_EVAL_PUBLISH;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
-		link = Helper.addParam(link, Common.PARAM_NEXT_URL,
+		link = Common.addParamToUrl(link, Common.PARAM_NEXT_URL,
 				Common.PAGE_COORD_HOME);
 		verifyRedirectToNotAuthorized(link);
 
@@ -603,8 +602,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("can view result of own evaluation");
 
 		link = Common.PAGE_COORD_EVAL_RESULTS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
 		verifyPageContains(link, coordUsername + "{*}Evaluation Result{*}"
 				+ ownEvaluation.name);
@@ -612,8 +611,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("cannot view result of not-own evaluation");
 
 		link = Common.PAGE_COORD_EVAL_RESULTS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
 		verifyRedirectToNotAuthorized(link);
 
@@ -629,8 +628,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("can send reminders to own evaluation");
 
 		link = Common.PAGE_COORD_EVAL_REMIND;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
 		verifyPageContains(link, coordUsername + "{*}Add New Evaluation{*}"
 				+ Common.MESSAGE_EVALUATION_REMINDERSSENT);
@@ -638,8 +637,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("cannot send reminders to not-own evaluation");
 
 		link = Common.PAGE_COORD_EVAL_REMIND;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
 		verifyRedirectToNotAuthorized(link);
 
@@ -655,8 +654,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("can view details of own student");
 
 		link = Common.PAGE_COORD_COURSE_STUDENT_DETAILS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				ownStudent.email);
 		verifyPageContains(link, coordUsername + "{*}Student Details{*}"
 				+ ownStudent.email);
@@ -664,8 +663,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("cannot view details of not-own student");
 
 		link = Common.PAGE_COORD_COURSE_STUDENT_DETAILS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
 
@@ -682,8 +681,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("can send reminders to own student");
 
 		link = Common.PAGE_COORD_COURSE_REMIND;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				ownStudent.email);
 		verifyPageContains(link, coordUsername + "{*}Course Details{*}"
 				+ ownCourse.id);
@@ -691,8 +690,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("cannot send reminders to not-own student");
 
 		link = Common.PAGE_COORD_COURSE_REMIND;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
 
@@ -703,14 +702,14 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("can send reminders to own course");
 
 		link = Common.PAGE_COORD_COURSE_REMIND;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
 		verifyPageContains(link, coordUsername + "{*}Course Details{*}"
 				+ ownCourse.id);
 
 		______TS("cannot send reminders to not-own course");
 
 		link = Common.PAGE_COORD_COURSE_REMIND;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		verifyRedirectToNotAuthorized(link);
 
 		______TS("cannot send reminders to not-own course by masquerading");
@@ -725,7 +724,7 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("can view own course details");
 
 		link = Common.PAGE_COORD_COURSE_DETAILS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
 
 		verifyPageContains(link, coordUsername + "{*}Course Details{*}"
 				+ ownCourse.id);
@@ -733,7 +732,7 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("cannot view others course details");
 
 		link = Common.PAGE_COORD_COURSE_DETAILS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		verifyRedirectToNotAuthorized(link);
 
 		______TS("cannot view others course details by masquerading");
@@ -809,10 +808,10 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("can edit submission of own student");
 
 		link = Common.PAGE_COORD_EVAL_SUBMISSION_EDIT;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				ownStudent.email);
 		verifyPageContains(link, coordUsername
 				+ "{*}Edit Student's Submission{*}" + ownStudent.name);
@@ -826,10 +825,10 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("cannot edit submission of  not-own evaluation");
 
 		link = Common.PAGE_COORD_EVAL_SUBMISSION_EDIT;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
 
@@ -845,8 +844,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("can edit own evaluation");
 
 		link = Common.PAGE_COORD_EVAL_EDIT;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
 		verifyPageContains(link, coordUsername + "{*}Edit Evaluation{*}"
 				+ ownEvaluation.name);
@@ -857,8 +856,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		// it is too expensive to prevent. However, user cannot submit edits.
 
 		link = Common.PAGE_COORD_EVAL_EDIT;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
 		bi.goToUrl(link);
 		bi.click(By.id("button_submit"));
@@ -868,7 +867,7 @@ public class AccessControlUiTest extends BaseTestCase {
 
 		// note: see note in previous section.
 
-		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherCoord.id);
 		bi.goToUrl(link);
 		bi.click(By.id("button_submit"));
 		verifyRedirectToNotAuthorized();
@@ -881,8 +880,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("can edit details of own student");
 
 		link = Common.PAGE_COORD_COURSE_STUDENT_EDIT;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				ownStudent.email);
 		verifyPageContains(link, coordUsername + "{*}Edit Student Details{*}"
 				+ ownStudent.email);
@@ -893,8 +892,8 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("cannot edit details of not-own student");
 
 		link = Common.PAGE_COORD_COURSE_STUDENT_EDIT;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL,
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
 
@@ -910,7 +909,7 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("can view own ourse enroll page");
 
 		link = Common.PAGE_COORD_COURSE_ENROLL;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
 
 		verifyPageContains(link, coordUsername + "{*}Enroll Students for{*}"
 				+ ownCourse.id);
@@ -918,7 +917,7 @@ public class AccessControlUiTest extends BaseTestCase {
 		______TS("cannot view others course enroll page");
 
 		link = Common.PAGE_COORD_COURSE_ENROLL;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		bi.goToUrl(link);
 		bi.fillString(By.id("enrollstudents"), "t|n|e@g.com|c");
 		bi.click(By.id("button_enroll"));
@@ -928,7 +927,7 @@ public class AccessControlUiTest extends BaseTestCase {
 		// note: we allow loading of other's course for enrolling because
 		// it is too expensive to prevent. However, user cannot submit edits.
 
-		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoord.id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherCoord.id);
 		bi.goToUrl(link);
 		bi.fillString(By.id("enrollstudents"), "t|n|e@g.com|c");
 		bi.click(By.id("button_enroll"));
@@ -968,12 +967,12 @@ public class AccessControlUiTest extends BaseTestCase {
 	private void verifyCannotAccessAdminPages() {
 		link = Common.PAGE_ADMINISTRATOR_HOME;
 		verifyRedirectToNotAuthorized(link);
-		link = Helper.addParam(link, Common.PARAM_USER_ID, adminUsername);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, adminUsername);
 		verifyRedirectToNotAuthorized(link);
 	}
 
 	private void verifyCannotMasquerade(String link, String otherCoordId) {
-		link = Helper.addParam(link, Common.PARAM_USER_ID, otherCoordId);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherCoordId);
 		verifyRedirectToNotAuthorized(link);
 	}
 

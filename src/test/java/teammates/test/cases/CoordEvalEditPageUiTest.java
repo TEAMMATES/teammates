@@ -17,7 +17,6 @@ import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
 import teammates.test.driver.TestProperties;
-import teammates.ui.Helper;
 
 /**
  * Tests coordEvalEdit.jsp from functionality and UI
@@ -47,9 +46,9 @@ public class CoordEvalEditPageUiTest extends BaseTestCase {
 		
 		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_COORD_EVAL_EDIT;
-		link = Helper.addParam(link,Common.PARAM_COURSE_ID,ts.evaluation.course);
-		link = Helper.addParam(link,Common.PARAM_EVALUATION_NAME,ts.evaluation.name);
-		link = Helper.addParam(link,Common.PARAM_USER_ID,ts.coordinator.id);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,ts.evaluation.course);
+		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,ts.evaluation.name);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.coordinator.id);
 		bi.goToUrl(link);
 	}
 	

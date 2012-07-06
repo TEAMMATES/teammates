@@ -15,7 +15,6 @@ import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
 import teammates.test.driver.TestProperties;
-import teammates.ui.Helper;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -60,9 +59,9 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 		______TS("view submissions for open evaluation, from results page");
 		
 		String link = appUrl+Common.PAGE_COORD_EVAL_RESULTS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, eval.course);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, eval.name);
-		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.coords.get("teammates.demo.coord").id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, eval.course);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, eval.name);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.coords.get("teammates.demo.coord").id);
 		bi.goToUrl(link);
 		
 		int studentResultsRowID = bi.getStudentRowId(scn.students.get("Charlie").name);
@@ -81,10 +80,10 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 		______TS("view submission for closed evaluation, using direct URL");
 		
 		link = appUrl+Common.PAGE_COORD_EVAL_SUBMISSION_VIEW;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, eval.course);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, eval.name);
-		link = Helper.addParam(link, Common.PARAM_STUDENT_EMAIL, scn.students.get("Charlie").email);
-		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.coords.get("teammates.demo.coord").id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, eval.course);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, eval.name);
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL, scn.students.get("Charlie").email);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.coords.get("teammates.demo.coord").id);
 		bi.goToUrl(link);
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalSubmissionView.html");

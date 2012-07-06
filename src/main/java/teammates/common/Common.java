@@ -3,6 +3,8 @@ package teammates.common;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,6 +15,7 @@ import java.util.logging.Logger;
 
 import teammates.logic.api.InvalidParametersException;
 import teammates.storage.entity.Evaluation;
+import teammates.ui.Helper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -684,8 +687,36 @@ public class Common {
 				.getClassName());
 	}
 
+	/**
+	 * Returns the URL with the specified key-value pair parameter added.
+	 * Unchanged if either the key or value is null, or the key already exists<br />
+	 * Example:
+	 * <ul>
+	 * <li><code>addParam("index.jsp","action","add")</code> returns <code>index.jsp?action=add</code></li>
+	 * <li><code>addParam("index.jsp?action=add","courseid","cs1101")</code> returns <code>index.jsp?action=add&courseid=cs1101</code></li>
+	 * <li><code>addParam("index.jsp","message",null)</code> returns <code>index.jsp</code></li>
+	 * </ul>
+	 * @param url
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public static String addParamToUrl(String url, String key, String value){
+		if(key==null || value==null) return url;
+		if(url.contains("?"+key+"=") || url.contains("&"+key+"=")) return url;
+		url += url.indexOf('?')>=0 ? '&' : '?';
+		url += key+"="+Helper.convertForURL(value);
+		return url;
+	}
+
 	@SuppressWarnings("unused")
 	private void ____PRIVATE_helper_methods_________________________________() {
+	}
+
+	public static String stackTraceToString(Exception e){
+		StringWriter sw = new StringWriter();
+		e.printStackTrace(new PrintWriter(sw));
+		return "\n"+sw.toString();
 	}
 
 }

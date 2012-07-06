@@ -17,9 +17,6 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Evaluation is a persistent data class that holds information pertaining to an
  * evaluation on Teammates.
- * 
- * @author Gerald GOH
- * 
  */
 @PersistenceCapable
 public class Evaluation {

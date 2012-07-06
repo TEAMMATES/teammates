@@ -15,7 +15,6 @@ import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
 import teammates.test.driver.TestProperties;
-import teammates.ui.Helper;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -56,9 +55,9 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		
 		// Pending evaluation
 		String link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("First Eval").course);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("First Eval").name);
-		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.students.get("Charlie").id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("First Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("First Eval").name);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("Charlie").id);
 		bi.goToUrl(appUrl+link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/StudentEvalEditPendingHTML.html");
 	}
@@ -70,9 +69,9 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		______TS("load evauation for editing");
 		
 		String link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("First Eval").course);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("First Eval").name);
-		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.students.get("Danny").id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("First Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("First Eval").name);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("Danny").id);
 		bi.goToUrl(appUrl+link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/StudentEvalEditSubmittedHTML.html");
 		

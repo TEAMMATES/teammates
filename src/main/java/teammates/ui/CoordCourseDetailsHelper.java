@@ -33,7 +33,7 @@ public class CoordCourseDetailsHelper extends Helper{
 	 */
 	public String getCoordCourseRemindLink(){
 		String link = Common.PAGE_COORD_COURSE_REMIND;
-		link = addParam(link,Common.PARAM_COURSE_ID,course.id);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,course.id);
 		link = processMasquerade(link);
 		return link;
 	}
@@ -46,8 +46,8 @@ public class CoordCourseDetailsHelper extends Helper{
 	 */
 	public String getCourseStudentDetailsLink(StudentData student){
 		String link = Common.PAGE_COORD_COURSE_STUDENT_DETAILS;
-		link = addParam(link,Common.PARAM_COURSE_ID,course.id);
-		link = addParam(link,Common.PARAM_STUDENT_EMAIL,student.email);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,course.id);
+		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,student.email);
 		link = processMasquerade(link);
 		return link;
 	}
@@ -60,8 +60,8 @@ public class CoordCourseDetailsHelper extends Helper{
 	 */
 	public String getCourseStudentEditLink(StudentData student){
 		String link = Common.PAGE_COORD_COURSE_STUDENT_EDIT;
-		link = addParam(link,Common.PARAM_COURSE_ID,course.id);
-		link = addParam(link,Common.PARAM_STUDENT_EMAIL,student.email);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,course.id);
+		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,student.email);
 		link = processMasquerade(link);
 		return link;
 	}
@@ -74,8 +74,8 @@ public class CoordCourseDetailsHelper extends Helper{
 	 */
 	public String getCourseStudentRemindLink(StudentData student){
 		String link = Common.PAGE_COORD_COURSE_REMIND;
-		link = addParam(link,Common.PARAM_COURSE_ID,course.id);
-		link = addParam(link,Common.PARAM_STUDENT_EMAIL,student.email);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,course.id);
+		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,student.email);
 		link = processMasquerade(link);
 		return link;
 	}
@@ -88,8 +88,8 @@ public class CoordCourseDetailsHelper extends Helper{
 	 */
 	public String getCourseStudentDeleteLink(StudentData student){
 		String link = Common.PAGE_COORD_COURSE_STUDENT_DELETE;
-		link = addParam(link,Common.PARAM_COURSE_ID,course.id);
-		link = addParam(link,Common.PARAM_STUDENT_EMAIL,student.email);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,course.id);
+		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,student.email);
 		link = processMasquerade(link);
 		return link;
 	}

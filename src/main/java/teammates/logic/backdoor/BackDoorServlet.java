@@ -13,9 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.logic.BuildProperties;
-import teammates.logic.api.TeammatesException;
-import teammates.storage.Datastore;
-import teammates.storage.entity.Course;
+import teammates.storage.Datastore; //TODO: remove this dependency
+import teammates.storage.entity.Course;  //TODO: remove this dependency
 
 @SuppressWarnings("serial")
 public class BackDoorServlet extends HttpServlet {
@@ -90,7 +89,7 @@ public class BackDoorServlet extends HttpServlet {
 			try {
 				returnValue = executeBackendAction(req, action);
 			} catch (Exception e) {
-				returnValue = Common.BACKEND_STATUS_FAILURE + TeammatesException.stackTraceToString(e);
+				returnValue = Common.BACKEND_STATUS_FAILURE + Common.stackTraceToString(e);
 			}
 		}
 		

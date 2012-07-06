@@ -34,7 +34,7 @@ public class CoordCourseRemindServlet extends ActionServlet<Helper> {
 			helper.statusMessage = e.getMessage();
 		} finally {
 			helper.redirectUrl = Common.PAGE_COORD_COURSE_DETAILS;
-			helper.redirectUrl = Helper.addParam(helper.redirectUrl,Common.PARAM_COURSE_ID,courseID);
+			helper.redirectUrl = Common.addParamToUrl(helper.redirectUrl,Common.PARAM_COURSE_ID,courseID);
 		}
 	}
 

@@ -19,7 +19,6 @@ import teammates.test.driver.BrowserInstancePool;
 import teammates.test.driver.NoAlertAppearException;
 import teammates.test.driver.TestProperties;
 import teammates.test.util.EmailHelper;
-import teammates.ui.Helper;
 
 /**
  * Tests coordEval.jsp from UI functionality and HTML test
@@ -46,7 +45,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 
 		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_COORD_EVAL;
-		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
 		bi.goToUrl(link);
 	}
 	
@@ -110,7 +109,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_ADDED);
 		String link = appUrl+Common.PAGE_COORD_EVAL;
-		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
 		bi.verifyCurrentPageHTMLRegexWithRetry(Common.TEST_PAGES_FOLDER+"/coordEvalAddSuccess.html",link);
 
 		______TS("client-side input validation");

@@ -23,8 +23,8 @@ import teammates.logic.api.InvalidParametersException;
 import teammates.logic.api.Logic;
 import teammates.storage.Courses;
 import teammates.storage.Evaluations;
-import teammates.storage.entity.Evaluation;
-import teammates.storage.entity.Student;
+import teammates.storage.entity.Evaluation; //TODO: remove this dependency
+import teammates.storage.entity.Student;    //TODO: remove this dependency
 
 public class BackDoorLogic extends Logic{
 	

@@ -10,9 +10,6 @@ import com.google.appengine.api.datastore.Text;
 /**
  * Submission is a persistent data class that contains an evaluation submission
  * from a student to another student.
- * 
- * @author Gerald GOH
- * 
  */
 @PersistenceCapable
 public class Submission {

@@ -15,7 +15,6 @@ import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
 import teammates.test.driver.NoAlertAppearException;
 import teammates.test.driver.TestProperties;
-import teammates.ui.Helper;
 
 /**
  * Tests coordEvalResults.jsp from UI functionality and HTML test
@@ -56,9 +55,9 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 		______TS("summary view");
 		
 		String link = appUrl+Common.PAGE_COORD_EVAL_RESULTS;
-		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
-		link = Helper.addParam(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("First Eval").name);
-		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.demo.coord").id);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
+		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("First Eval").name);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.coords.get("teammates.demo.coord").id);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsOpenEval.html");
 		
@@ -82,9 +81,9 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 		______TS("summary view");
 		
 		String link = appUrl + Common.PAGE_COORD_EVAL_RESULTS;
-		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
-		link = Helper.addParam(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("Second Eval").name);
-		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.demo.coord").id);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
+		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("Second Eval").name);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.coords.get("teammates.demo.coord").id);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsPublishedEval.html");
 
@@ -116,9 +115,9 @@ public class CoordEvalResultsPageUiTest extends BaseTestCase {
 		______TS("summary view");
 		
 		String link = appUrl + Common.PAGE_COORD_EVAL_RESULTS;
-		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
-		link = Helper.addParam(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("Third Eval").name);
-		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.demo.coord").id);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
+		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("Third Eval").name);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.coords.get("teammates.demo.coord").id);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalResultsClosedEval.html");
 

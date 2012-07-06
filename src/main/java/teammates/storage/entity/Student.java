@@ -18,10 +18,7 @@ import com.google.appengine.api.datastore.Text;
 /**
  * Student is a persistent data class that holds information pertaining to a
  * student on Teammates.
- * 
  * This represents a student per course.
- * 
- * @author Gerald GOH
  * 
  */
 @PersistenceCapable

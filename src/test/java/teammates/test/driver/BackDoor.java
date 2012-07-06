@@ -22,7 +22,6 @@ import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.logic.api.EntityDoesNotExistException;
 import teammates.logic.api.NotImplementedException;
-import teammates.logic.api.TeammatesException;
 import teammates.logic.backdoor.BackDoorServlet;
 
 import com.google.gson.Gson;
@@ -310,7 +309,7 @@ public class BackDoor {
 			sendRequest(paramString, conn);
 			return readResponse(conn);
 		} catch (Exception e) {
-			return TeammatesException.stackTraceToString(e);
+			return Common.stackTraceToString(e);
 		}
 	}
 

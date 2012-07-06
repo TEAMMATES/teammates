@@ -25,7 +25,7 @@ public class CoordCourseStudentDeleteServlet extends ActionServlet<Helper> {
 		helper.server.deleteStudent(courseID, studentEmail);
 		helper.statusMessage = Common.MESSAGE_STUDENT_DELETED;
 		helper.redirectUrl = Common.PAGE_COORD_COURSE_DETAILS;
-		helper.redirectUrl = Helper.addParam(helper.redirectUrl,Common.PARAM_COURSE_ID,courseID);
+		helper.redirectUrl = Common.addParamToUrl(helper.redirectUrl,Common.PARAM_COURSE_ID,courseID);
 	}
 
 }

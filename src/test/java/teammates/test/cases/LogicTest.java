@@ -30,7 +30,6 @@ import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvalResultData;
 import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.StudentActionData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.datatransfer.TeamData;
@@ -45,7 +44,6 @@ import teammates.logic.api.EntityDoesNotExistException;
 import teammates.logic.api.InvalidParametersException;
 import teammates.logic.api.JoinCourseException;
 import teammates.logic.api.Logic;
-import teammates.logic.api.TeammatesException;
 import teammates.logic.api.UnauthorizedAccessException;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.Datastore;
@@ -3877,23 +3875,6 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(expected.activated, actual.activated);
 	}
 
-	public static boolean isLogEntryInList(
-			StudentActionData teamFormingLogEntry,
-			List<StudentActionData> teamFormingLogEntryList) {
-		for (StudentActionData logEntryInList : teamFormingLogEntryList) {
-			if (teamFormingLogEntry.course.equals(logEntryInList.course)
-					&& teamFormingLogEntry.action.getValue().equals(
-							logEntryInList.action.getValue())
-					&& teamFormingLogEntry.email.equals(logEntryInList.email)
-					&& teamFormingLogEntry.name.equals(logEntryInList.name)
-					&& teamFormingLogEntry.time.toString().equals(
-							logEntryInList.time.toString())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	private TeamEvalResult invokeCalculateTeamResult(TeamData team)
 			throws Exception {
 		Method privateMethod = Logic.class.getDeclaredMethod(
@@ -4005,7 +3986,7 @@ public class LogicTest extends BaseTestCase {
 				fail();
 			}
 		} catch (Exception e) {
-			String stack = TeammatesException.stackTraceToString(e);
+			String stack = Common.stackTraceToString(e);
 
 			if (isUnauthExceptionExpected) {
 				// ensure it was the UnauthorizedAccessException

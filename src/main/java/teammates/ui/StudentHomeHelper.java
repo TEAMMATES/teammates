@@ -91,7 +91,7 @@ public class StudentHomeHelper extends Helper {
 	 */
 	public String getStudentCourseDetailsLink(String courseID){
 		String link = Common.PAGE_STUDENT_COURSE_DETAILS;
-		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
 		link = processMasquerade(link);
 		return link;
 	}
@@ -105,8 +105,8 @@ public class StudentHomeHelper extends Helper {
 	 */
 	public String getStudentEvaluationResultsLink(String courseID, String evalName){
 		String link = Common.PAGE_STUDENT_EVAL_RESULTS;
-		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
-		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
+		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = processMasquerade(link);
 		return link;
 	}
@@ -121,8 +121,8 @@ public class StudentHomeHelper extends Helper {
 	 */
 	public String getStudentEvaluationSubmissionEditLink(String courseID, String evalName){
 		String link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-		link = addParam(link,Common.PARAM_COURSE_ID,courseID);
-		link = addParam(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
+		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = processMasquerade(link);
 		return link;
 	}

@@ -21,7 +21,6 @@ import teammates.common.datatransfer.UserData;
 import teammates.logic.api.EntityDoesNotExistException;
 import teammates.logic.api.InvalidParametersException;
 import teammates.logic.api.Logic;
-import teammates.logic.api.TeammatesException;
 import teammates.logic.api.UnauthorizedAccessException;
 
 @SuppressWarnings("serial")
@@ -69,12 +68,12 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			UserData user = new Logic().getLoggedInUser();
 			log.warning("Unauthorized access attempted by:"
 					+ (user == null ? "not-logged-user" : user.id)
-					+ TeammatesException.stackTraceToString(e));
+					+ Common.stackTraceToString(e));
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return;
 		} catch (Exception e) {
 			log.severe("Unexpected exception: "
-					+ TeammatesException.stackTraceToString(e));
+					+ Common.stackTraceToString(e));
 			resp.sendRedirect(Common.JSP_ERROR_PAGE);
 			return;
 		}
@@ -173,10 +172,10 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			HttpServletResponse resp, T helper) throws ServletException,
 			IOException {
 		if (helper.redirectUrl != null) {
-			helper.redirectUrl = Helper.addParam(helper.redirectUrl,
+			helper.redirectUrl = Common.addParamToUrl(helper.redirectUrl,
 					Common.PARAM_STATUS_MESSAGE, helper.statusMessage);
 			if (helper.error) {
-				helper.redirectUrl = Helper.addParam(helper.redirectUrl,
+				helper.redirectUrl = Common.addParamToUrl(helper.redirectUrl,
 						Common.PARAM_ERROR, "" + helper.error);
 			}
 			helper.redirectUrl = helper.processMasquerade(helper.redirectUrl);

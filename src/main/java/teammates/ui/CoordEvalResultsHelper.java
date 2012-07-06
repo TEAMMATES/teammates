@@ -18,10 +18,10 @@ public class CoordEvalResultsHelper extends Helper{
 	 */
 	public String getForwardURL(){
 		String link = Common.PAGE_COORD_EVAL_RESULTS;
-		link = addParam(link,Common.PARAM_COURSE_ID,evaluation.course);
-		link = addParam(link,Common.PARAM_EVALUATION_NAME, evaluation.name);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,evaluation.course);
+		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME, evaluation.name);
 		if(isMasqueradeMode()){
-			link = addParam(link,Common.PARAM_USER_ID,requestedUser);
+			link = Common.addParamToUrl(link,Common.PARAM_USER_ID,requestedUser);
 		}
 		return link;
 	}

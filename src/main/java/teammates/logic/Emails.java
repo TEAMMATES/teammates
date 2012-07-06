@@ -18,7 +18,6 @@ import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.StudentData;
-import teammates.ui.Helper;
 
 /**
  * Email handles all operations with regards to sending e-mails.
@@ -183,15 +182,15 @@ public class Emails {
 
 		String submitUrl = BuildProperties.inst().TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-		submitUrl = Helper.addParam(submitUrl, Common.PARAM_COURSE_ID, c.id);
-		submitUrl = Helper.addParam(submitUrl, Common.PARAM_EVALUATION_NAME,
+		submitUrl = Common.addParamToUrl(submitUrl, Common.PARAM_COURSE_ID, c.id);
+		submitUrl = Common.addParamToUrl(submitUrl, Common.PARAM_EVALUATION_NAME,
 				e.name);
 		emailBody = emailBody.replace("${submitUrl}", submitUrl);
 		
 		String reportUrl = BuildProperties.inst().TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_EVAL_RESULTS;
-		reportUrl = Helper.addParam(reportUrl, Common.PARAM_COURSE_ID, c.id);
-		reportUrl = Helper.addParam(reportUrl, Common.PARAM_EVALUATION_NAME,
+		reportUrl = Common.addParamToUrl(reportUrl, Common.PARAM_COURSE_ID, c.id);
+		reportUrl = Common.addParamToUrl(reportUrl, Common.PARAM_EVALUATION_NAME,
 				e.name);
 		emailBody = emailBody.replace("${reportUrl}", reportUrl);
 		
@@ -237,7 +236,7 @@ public class Emails {
 	
 		String joinUrl = BuildProperties.inst().TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_JOIN_COURSE;
-		joinUrl = Helper.addParam(joinUrl, Common.PARAM_REGKEY, s.key);
+		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, s.key);
 	
 		emailBody = emailBody.replace("${joinUrl}", joinUrl);
 		return emailBody;

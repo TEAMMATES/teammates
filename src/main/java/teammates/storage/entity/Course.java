@@ -12,9 +12,6 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Course is a persistent data class that holds information pertaining to a
  * course on Teammates.
- * 
- * @author Gerald GOH
- * 
  */
 @PersistenceCapable
 public class Course {

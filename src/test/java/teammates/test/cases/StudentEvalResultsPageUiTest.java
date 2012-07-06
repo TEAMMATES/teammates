@@ -12,7 +12,6 @@ import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
 import teammates.test.driver.TestProperties;
-import teammates.ui.Helper;
 
 /**
  * Tests Student Evaluation Results page
@@ -53,63 +52,63 @@ public class StudentEvalResultsPageUiTest extends BaseTestCase {
 		______TS("typical case: more than two members");
 		
 		String link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Third Eval").course);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Third Eval").name);
-		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.students.get("charlie.tmms").id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Third Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Third Eval").name);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("charlie.tmms").id);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsTypicalHTML.html");
 
 		______TS("typical case: two members");
 		
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Third Eval").course);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Third Eval").name);
-		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.students.get("alice.tmms").id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Third Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Third Eval").name);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("alice.tmms").id);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsTwoMembersTypicalHTML.html");
 
 		______TS("extreme case: 1");
 		
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
-		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.students.get("charlie.tmms").id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("charlie.tmms").id);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsExtreme1HTML.html");
 
 		______TS("extreme case: 2");
 		
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
-		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.students.get("danny.tmms").id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("danny.tmms").id);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsExtreme2HTML.html");
 
 		______TS("extreme case: 3");
 		
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
-		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.students.get("emily.tmms").id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("emily.tmms").id);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsExtreme3HTML.html");
 
 		______TS("student did not submitt");
 		
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
-		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.students.get("alice.tmms").id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("alice.tmms").id);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsNotSubmittedHTML.html");
 
 		______TS("teammates did not submit");
 		
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
-		link = Helper.addParam(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
-		link = Helper.addParam(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
-		link = Helper.addParam(link, Common.PARAM_USER_ID, scn.students.get("benny.tmms").id);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("benny.tmms").id);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsTheOtherDidn'tSubmitHTML.html");
 	}

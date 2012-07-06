@@ -24,13 +24,13 @@ import teammates.logic.TeamEvalResult;
 import teammates.storage.Accounts;
 import teammates.storage.Courses;
 import teammates.storage.Evaluations;
-import teammates.storage.entity.Coordinator;
+import teammates.storage.entity.Coordinator; //TODO: remove dependency to entity package
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Evaluation;
 import teammates.storage.entity.Student;
-import teammates.storage.entity.Submission;
+import teammates.storage.entity.Submission; 
 
-import com.google.appengine.api.datastore.Text;
+import com.google.appengine.api.datastore.Text; //TODO: remove this dependency
 import com.google.appengine.api.users.User;
 
 public class Logic {
@@ -508,7 +508,7 @@ public class Logic {
 				MimeMessage email = sendRegistrationInviteToStudent(courseId, s.getEmail());
 				emailsSent.add(email);
 			} catch (EntityDoesNotExistException e) {
-				log.severe("Unexpected exception" + TeammatesException.stackTraceToString(e));
+				log.severe("Unexpected exception" + Common.stackTraceToString(e));
 			}
 		}
 		return emailsSent;

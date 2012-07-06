@@ -16,7 +16,6 @@ import teammates.test.driver.BrowserInstancePool;
 import teammates.test.driver.NoAlertAppearException;
 import teammates.test.driver.TestProperties;
 import teammates.test.util.EmailHelper;
-import teammates.ui.Helper;
 
 /**
  * Tests Coordinator Course Details UI
@@ -43,8 +42,8 @@ public class CoordCourseDetailsPageUiTest extends BaseTestCase {
 
 		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_COORD_COURSE_DETAILS;
-		link = Helper.addParam(link,Common.PARAM_COURSE_ID,scn.courses.get("CCDetailsUiT.CS2104").id);
-		link = Helper.addParam(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CCDetailsUiT.CS2104").id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
 		bi.goToUrl(link);
 	}
 	

@@ -28,7 +28,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.UserData;
 import teammates.logic.BuildProperties;
 import teammates.logic.api.Logic;
-import teammates.logic.api.TeammatesException;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.backdoor.BackDoorServlet;
 
@@ -67,7 +66,7 @@ public class BaseTestCase {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("Could not initialize Config object"
-					+ TeammatesException.stackTraceToString(e));
+					+ Common.stackTraceToString(e));
 		}
 		BuildProperties.inst(buildProperties);
 	}

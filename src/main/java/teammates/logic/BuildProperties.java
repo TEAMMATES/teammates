@@ -5,7 +5,6 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 import teammates.common.Common;
-import teammates.logic.api.TeammatesException;
 
 public class BuildProperties {
 	
@@ -38,7 +37,7 @@ public class BuildProperties {
 						"build.properties"));
 				instance = new BuildProperties(prop);
 			} catch (IOException e) {
-				log.severe("Cannot create Config:"+TeammatesException.stackTraceToString(e));
+				log.severe("Cannot create Config:"+Common.stackTraceToString(e));
 			}
 		}
 		return instance;

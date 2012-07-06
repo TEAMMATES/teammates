@@ -28,7 +28,6 @@ import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.StudentData;
 import teammates.logic.BuildProperties;
 import teammates.logic.Emails;
-import teammates.ui.Helper;
 
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -112,12 +111,12 @@ public class EmailsTest extends BaseTestCase {
 		// check email body
 		String joinUrl = BuildProperties.inst().TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_JOIN_COURSE;
-		joinUrl = Helper.addParam(joinUrl, Common.PARAM_REGKEY, s.key);
+		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, s.key);
 
 		String submitUrl = BuildProperties.inst().TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-		submitUrl = Helper.addParam(submitUrl, Common.PARAM_COURSE_ID, c.id);
-		submitUrl = Helper.addParam(submitUrl, Common.PARAM_EVALUATION_NAME,
+		submitUrl = Common.addParamToUrl(submitUrl, Common.PARAM_COURSE_ID, c.id);
+		submitUrl = Common.addParamToUrl(submitUrl, Common.PARAM_EVALUATION_NAME,
 				e.name);
 
 		String deadline = Common.formatTime(e.endTime);
@@ -144,8 +143,8 @@ public class EmailsTest extends BaseTestCase {
 
 		String reportUrl = BuildProperties.inst().TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_EVAL_RESULTS;
-		reportUrl = Helper.addParam(reportUrl, Common.PARAM_COURSE_ID, c.id);
-		reportUrl = Helper.addParam(reportUrl, Common.PARAM_EVALUATION_NAME,
+		reportUrl = Common.addParamToUrl(reportUrl, Common.PARAM_COURSE_ID, c.id);
+		reportUrl = Common.addParamToUrl(reportUrl, Common.PARAM_EVALUATION_NAME,
 				e.name);
 
 		assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
@@ -220,7 +219,7 @@ public class EmailsTest extends BaseTestCase {
 		// check email body
 		String joinUrl = BuildProperties.inst().TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_JOIN_COURSE;
-		joinUrl = Helper.addParam(joinUrl, Common.PARAM_REGKEY, s.key);
+		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, s.key);
 
 
 		String emailBody = email.getContent().toString();
