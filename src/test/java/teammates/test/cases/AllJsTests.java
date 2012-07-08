@@ -13,7 +13,7 @@ import org.openqa.selenium.By;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
 
-public class AllJsUnitTests extends BaseTestCase{
+public class AllJsTests extends BaseTestCase{
 	
 	//private static WebDriver driver;
 	private static BrowserInstance bi;

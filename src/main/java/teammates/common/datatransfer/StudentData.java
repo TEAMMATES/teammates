@@ -9,8 +9,14 @@ import com.google.appengine.api.datastore.Text;
 
 public class StudentData extends UserData {
 	public enum UpdateStatus {
-		ERROR(0), NEW(1), MODIFIED(2), UNMODIFIED(3), NOT_IN_ENROLL_LIST(4), UNKNOWN(
-				5);
+		//@formatter:off
+		ERROR(0), 
+		NEW(1), 
+		MODIFIED(2), 
+		UNMODIFIED(3), 
+		NOT_IN_ENROLL_LIST(4), 
+		UNKNOWN(5);
+		//@formatter:on
 
 		public final int numericRepresentation;
 

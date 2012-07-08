@@ -25,6 +25,6 @@ import org.junit.runners.Suite;
 		TestPropertiesTest.class,
 		LogicTest.class})
 		//@formatter:on
-public class AllUnitTestsSuite {
+public class AllComponentTestsSuite {
 
 }

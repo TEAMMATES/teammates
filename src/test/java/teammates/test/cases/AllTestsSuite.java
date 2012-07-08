@@ -11,7 +11,7 @@ import org.junit.runners.Suite;
 		
 		
 		// Unit tests
-		AllUnitTestsSuite.class,
+		AllComponentTestsSuite.class,
 		
 		BackDoorTest.class,
 		
