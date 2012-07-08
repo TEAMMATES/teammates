@@ -1,4 +1,4 @@
-package teammates.storage.manager;
+package teammates.storage.api;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -25,25 +25,25 @@ import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
 
-public class EvaluationsManager {
-	private static EvaluationsManager instance = null;
-	private static final Logger log = Logger.getLogger(EvaluationsManager.class
+public class EvaluationsStorage {
+	private static EvaluationsStorage instance = null;
+	private static final Logger log = Logger.getLogger(EvaluationsStorage.class
 			.getName());
 
 	/**
 	 * Constructs an Accounts object. Obtains an instance of PersistenceManager
 	 * class to handle datastore transactions.
 	 */
-	private EvaluationsManager() {
+	private EvaluationsStorage() {
 	}
 
 	private PersistenceManager getPM() {
 		return Datastore.getPersistenceManager();
 	}
 
-	public static EvaluationsManager inst() {
+	public static EvaluationsStorage inst() {
 		if (instance == null)
-			instance = new EvaluationsManager();
+			instance = new EvaluationsStorage();
 		return instance;
 	}
 
@@ -202,7 +202,7 @@ public class EvaluationsManager {
 	 *            evaluationName pair must be valid)
 	 */
 	public boolean createSubmissions(String courseID, String evaluationName) {
-		CoursesManager courses = CoursesManager.inst();
+		CoursesStorage courses = CoursesStorage.inst();
 		List<Student> studentList = courses.getStudentList(courseID);
 
 		List<Submission> submissionList = new ArrayList<Submission>();

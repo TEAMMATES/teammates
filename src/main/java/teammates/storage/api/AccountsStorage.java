@@ -1,4 +1,4 @@
-package teammates.storage.manager;
+package teammates.storage.api;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -22,10 +22,10 @@ import com.google.appengine.api.users.UserServiceFactory;
  * @see Student
  * 
  */
-public class AccountsManager {
+public class AccountsStorage {
 
 	private static UserService userService;
-	private static AccountsManager instance = null;
+	private static AccountsStorage instance = null;
 	private static final Logger log = Common.getLogger();
 
 	/**
@@ -33,16 +33,16 @@ public class AccountsManager {
 	 * Service and obtains an instance of PersistenceManager class to handle
 	 * datastore transactions.
 	 */
-	private AccountsManager() {
+	private AccountsStorage() {
 		userService = UserServiceFactory.getUserService();
 	}
 	private PersistenceManager getPM() {
 		return Datastore.getPersistenceManager();
 	}
 
-	public static AccountsManager inst() {
+	public static AccountsStorage inst() {
 		if (instance == null)
-			instance = new AccountsManager();
+			instance = new AccountsStorage();
 		return instance;
 	}
 

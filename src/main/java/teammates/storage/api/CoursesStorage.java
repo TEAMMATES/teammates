@@ -1,4 +1,4 @@
-package teammates.storage.manager;
+package teammates.storage.api;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,15 +32,15 @@ import com.google.appengine.api.taskqueue.TaskOptions;
  * static class (singleton).
  * 
  */
-public class CoursesManager {
-	private static CoursesManager instance = null;
+public class CoursesStorage {
+	private static CoursesStorage instance = null;
 	private static final Logger log = Common.getLogger();
 
 	/**
 	 * Constructs a Courses object. Obtains an instance of PersistenceManager
 	 * class to handle datastore transactions.
 	 */
-	private CoursesManager() {
+	private CoursesStorage() {
 	}
 
 	public PersistenceManager getPM() {
@@ -52,9 +52,9 @@ public class CoursesManager {
 	 * 
 	 * @return
 	 */
-	public static CoursesManager inst() {
+	public static CoursesStorage inst() {
 		if (instance == null)
-			instance = new CoursesManager();
+			instance = new CoursesStorage();
 		return instance;
 	}
 
@@ -738,7 +738,7 @@ public class CoursesManager {
 		for (Student s : studentList) {
 			CourseData c = new CourseData();
 			c.id = s.getCourseID();
-			c.name = CoursesManager.inst().getCourse(c.id).getName();
+			c.name = CoursesStorage.inst().getCourse(c.id).getName();
 			courseList.add(c);
 		}
 		return courseList;

@@ -21,10 +21,10 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.Emails;
 import teammates.logic.api.Logic;
+import teammates.storage.api.CoursesStorage;
+import teammates.storage.api.EvaluationsStorage;
 import teammates.storage.entity.Evaluation; //TODO: remove this dependency
 import teammates.storage.entity.Student;    //TODO: remove this dependency
-import teammates.storage.manager.CoursesManager;
-import teammates.storage.manager.EvaluationsManager;
 
 public class BackDoorLogic extends Logic{
 	
@@ -145,7 +145,7 @@ public class BackDoorLogic extends Logic{
 	
 	public List<MimeMessage> activateReadyEvaluations() throws EntityDoesNotExistException, MessagingException, InvalidParametersException, IOException{
 		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
-		List<Evaluation> evaluations = EvaluationsManager.inst().getReadyEvaluations(); 
+		List<Evaluation> evaluations = EvaluationsStorage.inst().getReadyEvaluations(); 
 		for(Evaluation e: evaluations){
 			
 			EvaluationData ed = new EvaluationData(e);
@@ -174,11 +174,11 @@ public class BackDoorLogic extends Logic{
 	public List<MimeMessage> sendRemindersForClosingEvaluations() throws MessagingException, IOException {
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 		
-		EvaluationsManager evaluations = EvaluationsManager.inst();
+		EvaluationsStorage evaluations = EvaluationsStorage.inst();
 		List<Evaluation> evaluationList = evaluations.getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
 
 		for (Evaluation e : evaluationList) {
-			List<Student> studentList = CoursesManager.inst().getStudentList(e.getCourseID());
+			List<Student> studentList = CoursesStorage.inst().getStudentList(e.getCourseID());
 			List<StudentData> studentToRemindList = new ArrayList<StudentData>();
 
 			EvaluationData ed = new EvaluationData(e);
