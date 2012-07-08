@@ -17,6 +17,7 @@ public class CourseData {
 	public transient int unregisteredTotal = Common.UNINITIALIZED_INT;
 	public transient ArrayList<EvaluationData> evaluations = new ArrayList<EvaluationData>();
 	public transient ArrayList<TeamData> teams = new ArrayList<TeamData>();
+	//TODO: to be removed as we don't allow loners
 	public transient ArrayList<StudentData> loners = new ArrayList<StudentData>();
 
 	public CourseData() {
