@@ -1,4 +1,4 @@
-<%@ page import="teammates.ui.Helper" %>
+<%@ page import="teammates.ui.controller.Helper" %>
 <% Helper helper = (Helper)request.getAttribute("helper"); %>
 <%	if(helper.statusMessage!=null) { %>
 	<div id="statusMessage"

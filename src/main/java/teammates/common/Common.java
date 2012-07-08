@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Evaluation;
-import teammates.ui.Helper;
+import teammates.ui.controller.Helper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

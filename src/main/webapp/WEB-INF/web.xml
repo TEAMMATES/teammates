@@ -17,7 +17,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<filter>
 	    <description>Filter that do the login part for each JSP page</description>
 	    <filter-name>LoginFilter</filter-name>
-	    <filter-class>teammates.ui.LoginFilter</filter-class>
+	    <filter-class>teammates.ui.controller.LoginFilter</filter-class>
 	    <init-param>
 	        <description>Files excluded from login check. "|"-separated</description>
 	        <param-name>ExcludedFiles</param-name>
@@ -31,7 +31,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
 	<servlet>
 		<servlet-name>LoginServlet</servlet-name>
-		<servlet-class>teammates.ui.LoginServlet</servlet-class>
+		<servlet-class>teammates.ui.controller.LoginServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>LoginServlet</servlet-name>
@@ -71,7 +71,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	
 	<servlet>
 	    	<servlet-name>AdminHome</servlet-name>
-	    	<servlet-class>teammates.ui.AdministratorHomeServlet</servlet-class>
+	    	<servlet-class>teammates.ui.controller.AdministratorHomeServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>AdminHome</servlet-name>
@@ -81,7 +81,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles Coordinator homepage</description>
 	    <servlet-name>CoordHome</servlet-name>
-	    <servlet-class>teammates.ui.CoordHomeServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.CoordHomeServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordHome</servlet-name>
@@ -90,7 +90,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles Coordinator Course page (including add course)</description>
 	    <servlet-name>CoordCourse</servlet-name>
-	    <servlet-class>teammates.ui.CoordCourseServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.CoordCourseServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordCourse</servlet-name>
@@ -99,7 +99,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles course deletion action</description>
 	    <servlet-name>CoordCourseDelete</servlet-name>
-	    <servlet-class>teammates.ui.CoordCourseDeleteServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.CoordCourseDeleteServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordCourseDelete</servlet-name>
@@ -108,7 +108,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles coordinator remind students to join course action</description>
 	    <servlet-name>CoordCourseRemind</servlet-name>
-	    <servlet-class>teammates.ui.CoordCourseRemindServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.CoordCourseRemindServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordCourseRemind</servlet-name>
@@ -117,7 +117,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles course enroll page (includes enroll result page)</description>
 	    <servlet-name>CoordCourseEnroll</servlet-name>
-	    <servlet-class>teammates.ui.CoordCourseEnrollServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.CoordCourseEnrollServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordCourseEnroll</servlet-name>
@@ -126,7 +126,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles course details page</description>
 	    <servlet-name>CoordCourseDetails</servlet-name>
-	    <servlet-class>teammates.ui.CoordCourseDetailsServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.CoordCourseDetailsServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordCourseDetails</servlet-name>
@@ -135,7 +135,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles the details page of a student in a course</description>
 	    <servlet-name>CoordCourseStudentDetails</servlet-name>
-	    <servlet-class>teammates.ui.CoordCourseStudentDetailsServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.CoordCourseStudentDetailsServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordCourseStudentDetails</servlet-name>
@@ -144,7 +144,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles the edit page of a student in a course</description>
 	    <servlet-name>CoordCourseStudentEdit</servlet-name>
-	    <servlet-class>teammates.ui.CoordCourseStudentEditServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.CoordCourseStudentEditServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordCourseStudentEdit</servlet-name>
@@ -153,7 +153,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles course student delete page</description>
 	    <servlet-name>CoordCourseStudentDelete</servlet-name>
-	    <servlet-class>teammates.ui.CoordCourseStudentDeleteServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.CoordCourseStudentDeleteServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordCourseStudentDelete</servlet-name>
@@ -162,7 +162,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles evaluation page (includes evaluation add)</description>
 	    <servlet-name>CoordEval</servlet-name>
-	    <servlet-class>teammates.ui.CoordEvalServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.CoordEvalServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordEval</servlet-name>
@@ -171,7 +171,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles evaluation edit page</description>
 	    <servlet-name>CoordEvalEdit</servlet-name>
-	    <servlet-class>teammates.ui.CoordEvalEditServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.CoordEvalEditServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordEvalEdit</servlet-name>
@@ -180,7 +180,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles evaluation deletion</description>
 	    <servlet-name>CoordEvalDelete</servlet-name>
-	    <servlet-class>teammates.ui.CoordEvalDeleteServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.CoordEvalDeleteServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordEvalDelete</servlet-name>
@@ -189,7 +189,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles evaluation publish action</description>
 	    <servlet-name>CoordEvalPublish</servlet-name>
-	    <servlet-class>teammates.ui.CoordEvalPublishServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.CoordEvalPublishServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordEvalPublish</servlet-name>
@@ -198,7 +198,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles evaluation unpublish action</description>
 	    <servlet-name>CoordEvalUnpublish</servlet-name>
-	    <servlet-class>teammates.ui.CoordEvalUnpublishServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.CoordEvalUnpublishServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordEvalUnpublish</servlet-name>
@@ -207,7 +207,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles evaluation remind action</description>
 	    <servlet-name>CoordEvalRemind</servlet-name>
-	    <servlet-class>teammates.ui.CoordEvalRemindServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.CoordEvalRemindServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordEvalRemind</servlet-name>
@@ -216,7 +216,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles evaluation submission edit page to edit student's submission</description>
 	    <servlet-name>CoordEvalSubmissionEdit</servlet-name>
-	    <servlet-class>teammates.ui.CoordEvalSubmissionEditServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.CoordEvalSubmissionEditServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordEvalSubmissionEdit</servlet-name>
@@ -225,7 +225,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles coordinator edit student's submission page</description>
 	    <servlet-name>CoordEvalSubmissionEditHandler</servlet-name>
-	    <servlet-class>teammates.ui.CoordEvalSubmissionEditHandlerServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.CoordEvalSubmissionEditHandlerServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordEvalSubmissionEditHandler</servlet-name>
@@ -234,7 +234,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles evaluation results page</description>
 	    <servlet-name>CoordEvalResults</servlet-name>
-	    <servlet-class>teammates.ui.CoordEvalResultsServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.CoordEvalResultsServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordEvalResults</servlet-name>
@@ -243,7 +243,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles evaluation individual result page</description>
 	    <servlet-name>CoordEvalSubmissionView</servlet-name>
-	    <servlet-class>teammates.ui.CoordEvalSubmissionViewServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.CoordEvalSubmissionViewServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>CoordEvalSubmissionView</servlet-name>
@@ -253,7 +253,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles student home page</description>
 	    <servlet-name>StudentHome</servlet-name>
-	    <servlet-class>teammates.ui.StudentHomeServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.StudentHomeServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>StudentHome</servlet-name>
@@ -262,7 +262,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles student course details action</description>
 	    <servlet-name>StudentCourseDetails</servlet-name>
-	    <servlet-class>teammates.ui.StudentCourseDetailsServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.StudentCourseDetailsServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>StudentCourseDetails</servlet-name>
@@ -271,7 +271,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles student join course action</description>
 	    <servlet-name>StudentCourseJoin</servlet-name>
-	    <servlet-class>teammates.ui.StudentCourseJoinServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.StudentCourseJoinServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>StudentCourseJoin</servlet-name>
@@ -280,7 +280,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles student edit/submit evaluation page</description>
 	    <servlet-name>StudentEvalEdit</servlet-name>
-	    <servlet-class>teammates.ui.StudentEvalEditServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.StudentEvalEditServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>StudentEvalEdit</servlet-name>
@@ -289,7 +289,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles student edit/submit evaluation page</description>
 	    <servlet-name>StudentEvalEditHandler</servlet-name>
-	    <servlet-class>teammates.ui.StudentEvalEditHandlerServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.StudentEvalEditHandlerServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>StudentEvalEditHandler</servlet-name>
@@ -298,7 +298,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet>
 	    <description>Servlet that handles student evaluation results page</description>
 	    <servlet-name>StudentEvalResults</servlet-name>
-	    <servlet-class>teammates.ui.StudentEvalResultsServlet</servlet-class>
+	    <servlet-class>teammates.ui.controller.StudentEvalResultsServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>StudentEvalResults</servlet-name>

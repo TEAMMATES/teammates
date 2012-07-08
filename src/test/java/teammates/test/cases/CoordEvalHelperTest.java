@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import teammates.ui.CoordEvalHelper;
+import teammates.ui.controller.CoordEvalHelper;
 
 public class CoordEvalHelperTest extends BaseTestCase {
 	
