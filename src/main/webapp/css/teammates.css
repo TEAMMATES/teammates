@@ -1,0 +1,163 @@
+/* CSS for all elements in the page */
+* {
+   margin: 0;
+   padding: 0;
+}
+
+html, body {
+   height: 100%;
+}
+
+/* Main container - Header + Main Content */
+body > #mainContainer {
+   height: auto;
+   min-height: 100%;
+}
+
+/* Header */
+#header {
+   background-color: #000000;
+   text-align: center;
+}
+
+#headerWrapper {
+   height: 60px;
+   margin: 0 auto;
+   position: relative;
+   text-align: center;
+   top: 0;
+   width: 1024px;
+}
+
+#imageHolder {
+   float: left;
+   padding-top: 5px;
+   width: 175px;
+}
+
+#textHolder {
+   float: left;
+}
+
+ul#navbar {
+   color: #FFFFFF;
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: 14px;
+   line-height: 60px;
+   white-space: nowrap;
+   width: 100%;
+}
+
+ul#navbar li {
+   float: left;
+   list-style-type: none;
+   padding-left: 79px;
+}
+
+ul#navbar li a {
+   color: #FFFFFF;
+   font-weight: bold;
+   text-decoration: none;
+}
+
+#current {
+   color: #00FF00;
+}
+
+ul#navbar li a:link {
+   color: #FFFFFF;
+   text-decoration:none;
+}
+
+ul#navbar li a:visited {
+   color: #FFFFFF;
+}
+
+ul#navbar li a:link:hover {
+   color: #FFFFFF;
+   text-decoration:underline;
+}
+
+/* Main Content */
+#mainContent {
+   clear: both;
+   margin: 0 auto;
+   overflow: auto;
+   padding-bottom: 17px; /* must be same height as the footer */
+   position: relative;
+   top: 0;
+   width: 1024px;
+}
+
+/* Caption */
+#caption {
+   padding: 40px 0 60px;
+}
+
+#captionImage {
+   float: left;
+}
+
+#captionText {
+   color: #CC0000;
+   float: left;
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: x-large;
+   padding-top: 17px;
+}
+
+/* Footer */
+#footer {
+   background-color: #000000;
+   clear: both;
+   color: #FFFFFF;
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: 12px;
+   height: 17px;
+   margin: 0 auto;
+   margin-top: -17px; /* negative value of footer height */
+   position: relative;
+   z-index: 10;
+}
+
+#footerWrapper {
+   text-align: center;
+   margin: 0 auto;
+   position: relative;
+   top: 0;
+   width: 1024px;
+}
+
+#footerLeftCol {
+   width: 500px;
+   text-align: right;
+   float: left;
+}
+
+#footerRightCol {
+   float: left;
+   margin-left: 70px;
+   width: 450px;
+}
+
+#footer a:link {
+   color: #FFFFFF;
+}
+
+#footer a:visited {
+   color: #FFFFFF;
+}
+
+#footer a:link:hover {
+   color: #FFFFFF;
+   text-decoration: underline;
+}
+
+/* Opera Fix */
+body:before {
+   content: "";
+   float: left;
+   margin-top: -32767px; /* negate effect of float */
+   height: 100%;
+   width: 0;
+}
