@@ -394,10 +394,12 @@ public class CoursesStorage {
 	 *         ID
 	 */
 	public List<Student> getStudentListForGoogleId(String googleID) {
-		String query = "select from " + Student.class.getName() + " where ID == \"" + googleID + "\"";
+		String query = "select from " + Student.class.getName()
+				+ " where ID == \"" + googleID + "\"";
 
 		@SuppressWarnings("unchecked")
-		List<Student> studentList = (List<Student>) getPM().newQuery(query).execute();
+		List<Student> studentList = (List<Student>) getPM().newQuery(query)
+				.execute();
 
 		return studentList;
 	}
