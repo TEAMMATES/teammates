@@ -385,7 +385,7 @@ public class CoursesStorage {
 	}
 	
 	/**
-	 * Returns the Student objects of the specified googleID.
+	 * Returns Student objects of the specified googleID.
 	 * 
 	 * @param googleID
 	 *            the Google ID of the student (Precondition: Must not be null)
@@ -393,13 +393,7 @@ public class CoursesStorage {
 	 * @return List<Student> the list of students that have the specified Google
 	 *         ID
 	 */
-	//TODO: The method name does not match intent -damith
-	/*
-	 * FIXME: This method is to return list of courses for a specific student.
-	 * But it returns it as list of Students object (which contains the Course).
-	 * It's not very intuitive, probably convert to list of Course? ~Aldrian~
-	 */
-	public List<Student> getStudentCourseList(String googleID) {
+	public List<Student> getStudentListForGoogleId(String googleID) {
 		String query = "select from " + Student.class.getName() + " where ID == \"" + googleID + "\"";
 
 		@SuppressWarnings("unchecked")
@@ -732,7 +726,7 @@ public class CoursesStorage {
 	}
 
 	public List<CourseData> getCourseListForStudent(String googleId) {
-		List<Student> studentList = getStudentCourseList(googleId);
+		List<Student> studentList = getStudentListForGoogleId(googleId);
 		ArrayList<CourseData> courseList = new ArrayList<CourseData>();
 		
 		for (Student s : studentList) {
