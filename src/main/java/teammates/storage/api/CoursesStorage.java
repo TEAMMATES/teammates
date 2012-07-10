@@ -730,15 +730,19 @@ public class CoursesStorage {
 	public List<CourseData> getCourseListForStudent(String googleId) {
 		List<Student> studentList = getStudentListForGoogleId(googleId);
 		ArrayList<CourseData> courseList = new ArrayList<CourseData>();
-		
+
 		for (Student s : studentList) {
 			CourseData c = new CourseData();
 			c.id = s.getCourseID();
-			c.name = CoursesStorage.inst().getCourse(c.id).getName();
-			courseList.add(c);
+			Course course = CoursesStorage.inst().getCourse(c.id);
+			if (course == null) {
+				log.severe("student exists, but the course does not:"+s.getID()+"/"+s.getCourseID());
+			} else {
+				c.name = course.getName();
+				courseList.add(c);
+			}
 		}
 		return courseList;
-		
 	}
 
 	public void verifyCourseExists(String courseId) throws EntityDoesNotExistException {

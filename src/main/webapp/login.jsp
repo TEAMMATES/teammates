@@ -30,15 +30,15 @@
 						<td class="loginCell">
 							<form action="<%= Common.PAGE_LOGIN %>">
 								<input type="submit" name="student" 
-										class="button" value="Student" />
+										class="button" id="btnStudentLogin" value="Student" />
 							</form>
 						</td>
 					</tr>
 					<tr>
 						<td class="loginCell">
 							<form action="<%= Common.PAGE_LOGIN %>">
-								<input type="submit" name="coordinator" 
-										class="button" value="Coordinator" />
+								<input type="submit" name="coord" 
+										class="button" id="btnCoordLogin" value="Coordinator" />
 							</form>
 						</td>
 					</tr>

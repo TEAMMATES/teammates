@@ -77,7 +77,6 @@ public class BrowserInstance {
 
 	// Tabs
 	public By homeTab = By.className("t_home");
-	public By teamFormingTab = By.className("t_teamForming");
 	public By courseTab = By.className("t_courses");
 	public By evaluationTab = By.className("t_evaluations");
 	public By helpTab = By.className("t_help");
@@ -91,6 +90,13 @@ public class BrowserInstance {
 	public static final String DATAFORM_TABLE_ROW = "//table[@id='dataform']//tr";
 	public static final String DATAFORM_TABLE_CELL = DATAFORM_TABLE_ROW
 			+ "[%d]//td[%d]";
+	
+	@SuppressWarnings("unused")
+	private void ____Login_Page_UI_Elements__________________________________() {
+	}
+	
+	public By coordLoginButton = By.id("btnCoordLogin");
+	public By studentLoginButton = By.id("btnStudentLogin");
 
 	@SuppressWarnings("unused")
 	private void ____Coord_UI_Elements__________________________________() {
@@ -623,7 +629,7 @@ public class BrowserInstance {
 		loggedInUser = username;
 	}
 
-	private void login(String email, String password, boolean isAdmin) {
+	public void login(String email, String password, boolean isAdmin) {
 		waitForPageLoad();
 		if (isLocalLoginPage()) {
 			fillString(By.id("email"), email);
