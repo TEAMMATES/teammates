@@ -262,7 +262,7 @@ public class Common {
 	public static final String JSP_STATUS_MESSAGE = "/jsp/statusMessage.jsp"; // Done
 	public static final String JSP_EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp"; // Done
 
-	public static final String JSP_ADMINISTRATOR_HOME = "/jsp/administratorHome.jsp";
+	public static final String JSP_ADMIN_HOME = "/jsp/adminHome.jsp";
 	public static final String JSP_LOGOUT = "/logout.jsp"; // Done
 	public static final String JSP_SHOW_MESSAGE = "/showMessage.jsp"; // Done
 	public static final String JSP_UNAUTHORIZED = "/unauthorized.jsp"; // Done

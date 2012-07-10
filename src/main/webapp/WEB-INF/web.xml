@@ -71,11 +71,11 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	
 	<servlet>
 	    	<servlet-name>AdminHome</servlet-name>
-	    	<servlet-class>teammates.ui.controller.AdministratorHomeServlet</servlet-class>
+	    	<servlet-class>teammates.ui.controller.AdminHomeServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>AdminHome</servlet-name>
-	    <url-pattern>/page/administrator</url-pattern>
+	    <url-pattern>/page/adminHome</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
@@ -329,7 +329,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <web-resource-collection>
             <web-resource-name>AdminPages</web-resource-name>
             <description>Page for admin use only</description>
-            <url-pattern>/page/administrator</url-pattern>
+            <url-pattern>/page/admin</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
