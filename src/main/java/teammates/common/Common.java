@@ -171,8 +171,8 @@ public class Common {
 	public static final String PARAM_NEXT_URL = "next";
 	public static final String PARAM_USER_ID = "user";
 
-	public static final String PARAM_LOGIN_ADMINISTRATOR = "administrator";
-	public static final String PARAM_LOGIN_COORDINATOR = "coordinator";
+	public static final String PARAM_LOGIN_ADMIN = "admin";
+	public static final String PARAM_LOGIN_COORD = "coord";
 	public static final String PARAM_LOGIN_STUDENT = "student";
 
 	/*
@@ -226,7 +226,7 @@ public class Common {
 	public static final String PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER = "/page/studentEvalEditHandler"; 
 	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults"; 
 	
-	public static final String PAGE_ADMINISTRATOR_HOME = "/page/administrator"; 
+	public static final String PAGE_ADMIN_HOME = "/page/adminHome"; 
 	public static final String PAGE_LOGIN = "/login"; 
 
 	/*

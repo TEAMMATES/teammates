@@ -120,7 +120,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("admin pages");
 
-		link = Common.PAGE_ADMINISTRATOR_HOME;
+		link = Common.PAGE_ADMIN_HOME;
 		verifyRedirectToLogin(link);
 		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, adminUsername);
 		verifyRedirectToLogin(link);
@@ -965,8 +965,10 @@ public class AllAccessControlUiTests extends BaseTestCase {
 	}
 
 	private void verifyCannotAccessAdminPages() {
-		link = Common.PAGE_ADMINISTRATOR_HOME;
+		//cannot access directly
+		link = Common.PAGE_ADMIN_HOME;
 		verifyRedirectToNotAuthorized(link);
+		//cannot access by masquerading either
 		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, adminUsername);
 		verifyRedirectToNotAuthorized(link);
 	}

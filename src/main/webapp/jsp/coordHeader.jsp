@@ -12,7 +12,7 @@
 					<li><a class='t_home' href="<%= helper.getCoordHomeLink() %>">Home</a></li>
 					<li><a class='t_courses' href="<%= helper.getCoordCourseLink() %>">Courses</a></li>
 					<li><a class='t_evaluations' href="<%= helper.getCoordEvaluationLink() %>">Evaluations</a></li>
-					<li><a class='t_help' href="http://www.comp.nus.edu.sg/~teams/coordinatorhelp.html" target="_blank">Help</a></li>
+					<li><a class='t_help' href="/coordHelp.html" target="_blank">Help</a></li>
 					<li><a class='t_logout' href="<%= Common.JSP_LOGOUT %>">Logout</a>
 					 (<%= Helper.truncate(helper.userId.toLowerCase(),23) %>)</li>
 				</ul>

@@ -72,7 +72,7 @@ public class BrowserInstance {
 
 	// Homepage buttons
 	public final By COORD_LOGIN_BUTTON = By
-			.name(Common.PARAM_LOGIN_COORDINATOR);
+			.name(Common.PARAM_LOGIN_COORD);
 	public final By STUDENT_LOGIN_BUTTON = By.name(Common.PARAM_LOGIN_STUDENT);
 
 	// Tabs
@@ -570,7 +570,7 @@ public class BrowserInstance {
 
 		// Login as coordinator
 		goToUrl(TestProperties.inst().TEAMMATES_URL + Common.PAGE_LOGIN
-				+ "?coordinator");
+				+ "?" + Common.PARAM_LOGIN_COORD);
 
 		login(username, password, false);
 		loggedInUser = username;
@@ -593,7 +593,7 @@ public class BrowserInstance {
 		goToUrl(TestProperties.inst().TEAMMATES_URL + Common.JSP_LOGOUT);
 
 		// Login as student
-		goToUrl(TestProperties.inst().TEAMMATES_URL + Common.PAGE_LOGIN + "?student");
+		goToUrl(TestProperties.inst().TEAMMATES_URL + Common.PAGE_LOGIN + "?"+Common.PARAM_LOGIN_STUDENT);
 
 		login(username, password, false);
 
@@ -617,7 +617,7 @@ public class BrowserInstance {
 
 		// Login as administrator
 		goToUrl(TestProperties.inst().TEAMMATES_URL + Common.PAGE_LOGIN
-				+ "?administrator");
+				+ "?"+Common.PARAM_LOGIN_ADMIN);
 
 		login(username, password, true);
 		loggedInUser = username;

@@ -31,7 +31,7 @@ public class LoginServlet extends HttpServlet {
 			throws IOException, ServletException{
 		Logic server = new Logic();
 		UserData user = server.getLoggedInUser();
-		if(req.getParameter(Common.PARAM_LOGIN_COORDINATOR)!=null){
+		if(req.getParameter(Common.PARAM_LOGIN_COORD)!=null){
 			if(isMasqueradeMode(user)){
 				resp.sendRedirect(Common.PAGE_COORD_HOME);
 			} else {
@@ -43,11 +43,11 @@ public class LoginServlet extends HttpServlet {
 			} else {
 				resp.sendRedirect(Logic.getLoginUrl(Common.PAGE_STUDENT_HOME));
 			}
-		} else if(req.getParameter(Common.PARAM_LOGIN_ADMINISTRATOR)!=null){
+		} else if(req.getParameter(Common.PARAM_LOGIN_ADMIN)!=null){
 			if(isMasqueradeMode(user)){
-				resp.sendRedirect(Common.PAGE_ADMINISTRATOR_HOME);
+				resp.sendRedirect(Common.PAGE_ADMIN_HOME);
 			} else {
-				resp.sendRedirect(Logic.getLoginUrl(Common.PAGE_ADMINISTRATOR_HOME));
+				resp.sendRedirect(Logic.getLoginUrl(Common.PAGE_ADMIN_HOME));
 			}
 		} else {
 			resp.sendRedirect(Common.JSP_ERROR_PAGE);
