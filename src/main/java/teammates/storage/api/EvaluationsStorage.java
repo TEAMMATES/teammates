@@ -761,6 +761,7 @@ public class EvaluationsStorage {
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
 				query).execute();
 
+		//TODO: need to handle entity-not-found
 		return submissionList.get(0);
 	}
 
