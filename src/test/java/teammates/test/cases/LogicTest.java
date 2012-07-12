@@ -674,6 +674,24 @@ public class LogicTest extends BaseTestCase {
 			assertEquals(Common.ERRORCODE_EMPTY_STRING, e.errorCode);
 			BaseTestCase.assertContains("Course name", e.getMessage());
 		}
+		
+		verifyNullPointerException(
+				methodName,
+				"coordinator ID",
+				paramTypes,
+				new Object[] { null, "new-course", "New Course" });
+		
+		verifyNullPointerException(
+				methodName,
+				"course ID",
+				paramTypes,
+				new Object[] { "idOfTypicalCoord1", null, "New Course" });
+		
+		verifyNullPointerException(
+				methodName,
+				"course name",
+				paramTypes,
+				new Object[] { "idOfTypicalCoord1", "new-course", null });
 
 		// other combinations of invalid input should be checked against
 		// CourseData.validate()

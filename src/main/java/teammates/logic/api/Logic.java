@@ -433,11 +433,17 @@ public class Logic {
 	public void createCourse(String coordId, String courseId, String courseName)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 
+		Common.verifyNotNull(coordId, "coordinator ID");
+		Common.verifyNotNull(courseId, "course ID");
+		Common.verifyNotNull(courseName, "course name");
+		
 		verifyCoordUsingOwnIdOrAbove(coordId);
 
+		//TODO: this validation should be done at a lower level
 		Common.validateGoogleId(coordId);
 		Common.validateCourseId(courseId);
 		Common.validateCourseName(courseName);
+		
 		CoursesStorage.inst().addCourse(courseId, courseName, coordId);
 	}
 
