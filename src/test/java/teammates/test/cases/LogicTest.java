@@ -298,6 +298,7 @@ public class LogicTest extends BaseTestCase {
 		
 		______TS("null parameter");
 		
+		//TODO: replace these will verifyNullPointerException method
 		try {
 			logic.getCoord(null);
 			fail();
@@ -336,6 +337,11 @@ public class LogicTest extends BaseTestCase {
 
 		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, params);
+		
+		______TS("null parameter");
+		
+		verifyNullPointerException(methodName, "coordinator ID", paramTypes, new Object[] { null });
+		
 	}
 
 	@Test
@@ -3747,8 +3753,8 @@ public class LogicTest extends BaseTestCase {
 
 	private void verifyNullParameterDetectedCorrectly(NullPointerException e,
 			String nameOfNullParameter) {
-		BaseTestCase.assertContains(nameOfNullParameter, e.getMessage()
-				.toLowerCase());
+		BaseTestCase.assertContains(nameOfNullParameter.toLowerCase(), 
+				e.getMessage().toLowerCase());
 	}
 
 	private void createNewEvaluationWithSubmissions(String courseId,
@@ -4026,6 +4032,25 @@ public class LogicTest extends BaseTestCase {
 						+ stack, e.getCause() == null
 						|| UnauthorizedAccessException.class != e.getCause()
 								.getClass());
+			}
+		}
+	}
+	
+	private void verifyNullPointerException(String methodName, String parameterName,
+			Class<?>[] paramTypes, Object[] params) throws Exception {
+		
+		Method method = Logic.class.getDeclaredMethod(methodName, paramTypes);
+
+		try {
+			method.setAccessible(true); // in case it is a private method
+			method.invoke(logic, params);
+			fail();
+		} catch (Exception e) {
+			Throwable cause = e.getCause();
+			if(cause.getClass()==NullPointerException.class){
+				verifyNullParameterDetectedCorrectly((NullPointerException)cause, parameterName);
+			}else{
+				throw e;
 			}
 		}
 	}

@@ -333,11 +333,13 @@ public class Logic {
 	 * Access: Admin only
 	 */
 	public void deleteCoord(String coordId) {
+		
+		Common.verifyNotNull(coordId, "coordinator ID");
 
 		verifyAdminLoggedIn();
 
-		List<Course> coordCourseList = CoursesStorage.inst().getCoordinatorCourseList(
-				coordId);
+		List<Course> coordCourseList = CoursesStorage.inst()
+				.getCoordinatorCourseList(coordId);
 		for (Course course : coordCourseList) {
 			deleteCourse(course.getID());
 		}
@@ -345,9 +347,8 @@ public class Logic {
 	}
 
 	/**
-	 * @return null if coordId is null <br>
-	 *         Access level: Admin, Coord (for self)
-	 * @throws InvalidParametersException
+	 * Access level: Admin, Coord (for self)
+	 * @return Returns a less-detailed version of Coord's course data
 	 */
 	public HashMap<String, CourseData> getCourseListForCoord(String coordId)
 			throws EntityDoesNotExistException {
@@ -368,8 +369,9 @@ public class Logic {
 	}
 
 	/**
-	 * @return null if coordId is null <br>
-	 *         Access level: Admin, Coord (for self)
+	 * Access level: Admin, Coord (for self)
+	 * 
+	 * @return Returns a more-detailed version of Coord's course data <br>
 	 */
 	public HashMap<String, CourseData> getCourseDetailsListForCoord(
 			String coordId) throws EntityDoesNotExistException {
@@ -390,9 +392,9 @@ public class Logic {
 	}
 
 	/**
+	 * Access level: Admin, Coord (for self)
 	 * 
-	 * @return null if coordId is null <br>
-	 *         Access level: Admin, Coord (for self)
+	 * @return Returns a less-detailed version of Coord's evaluations <br>
 	 */
 	public ArrayList<EvaluationData> getEvaluationsListForCoord(String coordId)
 			throws EntityDoesNotExistException {
@@ -401,8 +403,8 @@ public class Logic {
 
 		verifyCoordUsingOwnIdOrAbove(coordId);
 
-		List<Course> courseList = CoursesStorage.inst().getCoordinatorCourseList(
-				coordId);
+		List<Course> courseList = CoursesStorage.inst()
+				.getCoordinatorCourseList(coordId);
 
 		if ((courseList.size() == 0) && (getCoord(coordId) == null)) {
 			throw new EntityDoesNotExistException(
@@ -442,8 +444,6 @@ public class Logic {
 	/**
 	 * AccessLevel : any registered user (because it is too expensive to check
 	 * if a student is in the course)
-	 * 
-	 * @return returns null if course does not exist.
 	 */
 	public CourseData getCourse(String courseId) {
 
@@ -458,8 +458,6 @@ public class Logic {
 
 	/**
 	 * Access: course owner, student in course, admin
-	 * 
-	 * @throws EntityDoesNotExistException
 	 */
 	public CourseData getCourseDetails(String courseId)
 			throws EntityDoesNotExistException {
