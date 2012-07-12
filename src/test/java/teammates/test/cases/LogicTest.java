@@ -794,12 +794,9 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameter");
 
-		try {
-			logic.getCourseDetails(null);
-			fail();
-		} catch (NullPointerException e) {
-			BaseTestCase.assertContains("course ID", e.getMessage());
-		}
+		verifyNullPointerException(methodName, "course ID", paramTypes,
+				new Object[] { null });
+
 	}
 
 	@Test

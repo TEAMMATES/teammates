@@ -467,7 +467,9 @@ public class Logic {
 	 */
 	public CourseData getCourseDetails(String courseId)
 			throws EntityDoesNotExistException {
-
+		
+		Common.verifyNotNull(courseId, "course ID");
+		
 		verifyCourseOwnerOrStudentInCourse(courseId);
 
 		// TODO: very inefficient. Should be optimized.
