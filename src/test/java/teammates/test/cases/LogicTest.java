@@ -295,10 +295,10 @@ public class LogicTest extends BaseTestCase {
 
 		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, params);
-		
+
 		______TS("null parameter");
-		
-		//TODO: replace these will verifyNullPointerException method
+
+		// TODO: replace these will verifyNullPointerException method
 		try {
 			logic.getCoord(null);
 			fail();
@@ -337,11 +337,12 @@ public class LogicTest extends BaseTestCase {
 
 		verifyCannotAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, params);
-		
+
 		______TS("null parameter");
-		
-		verifyNullPointerException(methodName, "coordinator ID", paramTypes, new Object[] { null });
-		
+
+		verifyNullPointerException(methodName, "coordinator ID", paramTypes,
+				new Object[] { null });
+
 	}
 
 	@Test
@@ -674,23 +675,14 @@ public class LogicTest extends BaseTestCase {
 			assertEquals(Common.ERRORCODE_EMPTY_STRING, e.errorCode);
 			BaseTestCase.assertContains("Course name", e.getMessage());
 		}
-		
-		verifyNullPointerException(
-				methodName,
-				"coordinator ID",
-				paramTypes,
+
+		verifyNullPointerException(methodName, "coordinator ID", paramTypes,
 				new Object[] { null, "new-course", "New Course" });
-		
-		verifyNullPointerException(
-				methodName,
-				"course ID",
-				paramTypes,
+
+		verifyNullPointerException(methodName, "course ID", paramTypes,
 				new Object[] { "idOfTypicalCoord1", null, "New Course" });
-		
-		verifyNullPointerException(
-				methodName,
-				"course name",
-				paramTypes,
+
+		verifyNullPointerException(methodName, "course name", paramTypes,
 				new Object[] { "idOfTypicalCoord1", "new-course", null });
 
 		// other combinations of invalid input should be checked against
@@ -1394,6 +1386,15 @@ public class LogicTest extends BaseTestCase {
 			BaseTestCase.assertContains("new-course", e.getMessage());
 		}
 
+		______TS("null parameters");
+
+		verifyNullPointerException(methodName, "student email", paramTypes,
+				new Object[] { null,
+						new StudentData("t|n|e@com|c", "idOfCourse1OfCoord2") });
+
+		verifyNullPointerException(methodName, "student object", paramTypes,
+				new Object[] { "student1InCourse1@gmail.com", null });
+
 		// no need to check for cascade delete/creates due to LazyCreationPolicy
 		// and TolerateOrphansPolicy.
 	}
@@ -1471,80 +1472,12 @@ public class LogicTest extends BaseTestCase {
 		logic.deleteStudent(student2InCourse1.course, student2InCourse1.email);
 
 		______TS("null parameters");
-		// should fail silently.
-		logic.deleteStudent(null, student1InCourse1.email);
-		logic.deleteStudent(student1InCourse1.course, null);
 
-		// No need to test for cascade delete of TeamProfiles because we follow
-		// tolerateOrphansPolicy for TeamProfiles
-	}
+		verifyNullPointerException(methodName, "course ID", paramTypes,
+				new Object[] { null, student1InCourse1.email });
 
-	@Test
-	public void testEnrollStudent() throws Exception {
-
-		// private method. no need to test authentication
-
-		restoreTypicalDataInDatastore();
-
-		String coordId = "coordForEnrollTesting";
-		loginAsAdmin("admin.user");
-		logic.deleteCoord(coordId);
-		logic.createCoord(coordId, "Coord for Enroll Testing",
-				"coordForEnrollTestin@gmail.com");
-		String courseId = "courseForEnrollTest";
-		logic.createCourse(coordId, courseId, "Course for Enroll Testing");
-
-		______TS("add student into empty course");
-
-		StudentData student1 = new StudentData("t|n|e@g|c", courseId);
-
-		// check if the course is empty
-		assertEquals(0, logic.getStudentListForCourse(courseId).size());
-
-		// add a new student and verify it is added and treated as a new student
-		StudentData enrollmentResult = invokeEnrollStudent(student1);
-		assertEquals(1, logic.getStudentListForCourse(courseId).size());
-		verifyEnrollmentResultForStudent(student1, enrollmentResult,
-				StudentData.UpdateStatus.NEW);
-		verifyPresentInDatastore(student1);
-
-		______TS("add existing student");
-
-		// Verify it was not added
-		enrollmentResult = invokeEnrollStudent(student1);
-		verifyEnrollmentResultForStudent(student1, enrollmentResult,
-				StudentData.UpdateStatus.UNMODIFIED);
-
-		______TS("modify info of existing student");
-
-		// verify it was treated as modified
-		StudentData student2 = dataBundle.students.get("student1InCourse1");
-		student2.name = student2.name + "y";
-		StudentData studentToEnroll = new StudentData(student2.email,
-				student2.name, student2.comments, student2.course,
-				student2.team);
-		enrollmentResult = invokeEnrollStudent(studentToEnroll);
-		verifyEnrollmentResultForStudent(studentToEnroll, enrollmentResult,
-				StudentData.UpdateStatus.MODIFIED);
-		// check if the student is actually modified in datastore and existing
-		// values not specified in enroll action (e.g, id) prevail
-		verifyPresentInDatastore(student2);
-
-		______TS("add student into non-empty course");
-
-		StudentData student3 = new StudentData("t3|n3|e3@g|c3", courseId);
-		enrollmentResult = invokeEnrollStudent(student3);
-		assertEquals(2, logic.getStudentListForCourse(courseId).size());
-		verifyEnrollmentResultForStudent(student3, enrollmentResult,
-				StudentData.UpdateStatus.NEW);
-
-		______TS("add student without team");
-
-		StudentData student4 = new StudentData("|n4|e4@g", courseId);
-		enrollmentResult = invokeEnrollStudent(student4);
-		assertEquals(3, logic.getStudentListForCourse(courseId).size());
-		verifyEnrollmentResultForStudent(student4, enrollmentResult,
-				StudentData.UpdateStatus.NEW);
+		verifyNullPointerException(methodName, "student email", paramTypes,
+				new Object[] { student1InCourse1.course, null });
 	}
 
 	@Test
@@ -1702,6 +1635,79 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("non existent student");
 		assertEquals(0, logic.getStudentsWithId("non-existent").size());
+
+		______TS("null parameters");
+
+		verifyNullPointerException(methodName, "Google ID", paramTypes,
+				new Object[] { null });
+	}
+
+	@Test
+	public void testEnrollStudent() throws Exception {
+
+		// private method. no need to test authentication
+
+		restoreTypicalDataInDatastore();
+
+		String coordId = "coordForEnrollTesting";
+		loginAsAdmin("admin.user");
+		logic.deleteCoord(coordId);
+		logic.createCoord(coordId, "Coord for Enroll Testing",
+				"coordForEnrollTestin@gmail.com");
+		String courseId = "courseForEnrollTest";
+		logic.createCourse(coordId, courseId, "Course for Enroll Testing");
+
+		______TS("add student into empty course");
+
+		StudentData student1 = new StudentData("t|n|e@g|c", courseId);
+
+		// check if the course is empty
+		assertEquals(0, logic.getStudentListForCourse(courseId).size());
+
+		// add a new student and verify it is added and treated as a new student
+		StudentData enrollmentResult = invokeEnrollStudent(student1);
+		assertEquals(1, logic.getStudentListForCourse(courseId).size());
+		verifyEnrollmentResultForStudent(student1, enrollmentResult,
+				StudentData.UpdateStatus.NEW);
+		verifyPresentInDatastore(student1);
+
+		______TS("add existing student");
+
+		// Verify it was not added
+		enrollmentResult = invokeEnrollStudent(student1);
+		verifyEnrollmentResultForStudent(student1, enrollmentResult,
+				StudentData.UpdateStatus.UNMODIFIED);
+
+		______TS("modify info of existing student");
+
+		// verify it was treated as modified
+		StudentData student2 = dataBundle.students.get("student1InCourse1");
+		student2.name = student2.name + "y";
+		StudentData studentToEnroll = new StudentData(student2.email,
+				student2.name, student2.comments, student2.course,
+				student2.team);
+		enrollmentResult = invokeEnrollStudent(studentToEnroll);
+		verifyEnrollmentResultForStudent(studentToEnroll, enrollmentResult,
+				StudentData.UpdateStatus.MODIFIED);
+		// check if the student is actually modified in datastore and existing
+		// values not specified in enroll action (e.g, id) prevail
+		verifyPresentInDatastore(student2);
+
+		______TS("add student into non-empty course");
+
+		StudentData student3 = new StudentData("t3|n3|e3@g|c3", courseId);
+		enrollmentResult = invokeEnrollStudent(student3);
+		assertEquals(2, logic.getStudentListForCourse(courseId).size());
+		verifyEnrollmentResultForStudent(student3, enrollmentResult,
+				StudentData.UpdateStatus.NEW);
+
+		______TS("add student without team");
+
+		StudentData student4 = new StudentData("|n4|e4@g", courseId);
+		enrollmentResult = invokeEnrollStudent(student4);
+		assertEquals(3, logic.getStudentListForCourse(courseId).size());
+		verifyEnrollmentResultForStudent(student4, enrollmentResult,
+				StudentData.UpdateStatus.NEW);
 	}
 
 	@Test
@@ -2066,7 +2072,7 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (NullPointerException e) {
 		}
-		
+
 		try {
 			logic.hasStudentSubmittedEvaluation(evaluation.course, null,
 					student.email);
@@ -2282,13 +2288,11 @@ public class LogicTest extends BaseTestCase {
 
 		loginAsAdmin("admin.user");
 
-		//@formatter:off
-		setPointsForSubmissions(new int[][] { 
-				{ 100, 100, 100, 100 },
-				{ 110, 110, NSU, 110 }, 
-				{ NSB, NSB, NSB, NSB },
+		// @formatter:off
+		setPointsForSubmissions(new int[][] { { 100, 100, 100, 100 },
+				{ 110, 110, NSU, 110 }, { NSB, NSB, NSB, NSB },
 				{ 70, 80, 110, 120 } });
-		//@formatter:on
+		// @formatter:on
 
 		// "idOfCourse1OfCoord1", "evaluation1 In Course1",
 
@@ -2530,8 +2534,10 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		assertEquals(null, logic.getEvaluation(null, expected.name));
-		assertEquals(null, logic.getEvaluation(expected.course, null));
+		verifyNullPointerException(methodName, "course ID", paramTypes,
+				new Object[] { null, expected.name });
+		verifyNullPointerException(methodName, "evaluation name", paramTypes,
+				new Object[] { expected.course, null });
 
 		______TS("non-existent");
 
@@ -2623,12 +2629,6 @@ public class LogicTest extends BaseTestCase {
 
 	}
 
-	private void invokeEditEvaluation(EvaluationData e)
-			throws InvalidParametersException, EntityDoesNotExistException {
-		logic.editEvaluation(e.course, e.name, e.instructions, e.startTime,
-				e.endTime, e.timeZone, e.gracePeriod, e.p2pEnabled);
-	}
-
 	@Test
 	public void testDeleteEvaluation() throws Exception {
 
@@ -2676,9 +2676,11 @@ public class LogicTest extends BaseTestCase {
 		verifyAbsentInDatastore(submission);
 
 		______TS("null parameters");
-		// should fail silently
-		logic.deleteEvaluation(null, eval.name);
-		logic.deleteEvaluation(eval.course, null);
+
+		verifyNullPointerException(methodName, "course ID", paramTypes,
+				new Object[] { null, eval.name });
+		verifyNullPointerException(methodName, "evaluation name", paramTypes,
+				new Object[] { eval.course, null });
 
 		______TS("non-existent");
 		// should fail silently
@@ -2873,13 +2875,11 @@ public class LogicTest extends BaseTestCase {
 		EvaluationData evaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
 
-		//@formatter:off
-		setPointsForSubmissions(new int[][] { 
-				{ 100, 100, 100, 100 },
-				{ 110, 110, NSU, 110 }, 
-				{ NSB, NSB, NSB, NSB },
+		// @formatter:off
+		setPointsForSubmissions(new int[][] { { 100, 100, 100, 100 },
+				{ 110, 110, NSU, 110 }, { NSB, NSB, NSB, NSB },
 				{ 70, 80, 110, 120 } });
-		//@formatter:on
+		// @formatter:on
 
 		EvaluationData result = logic.getEvaluationResult(course.id,
 				evaluation.name);
@@ -3030,13 +3030,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("data used in UI tests");
 
-		//@formatter:off
-		
-		createNewEvaluationWithSubmissions("courseForTestingER", "Eval 1", new int[][] { 
-				{ 110, 100, 110 },
-				{ 90, 110, NSU }, 
-				{ 90, 100, 110 } });
-		//@formatter:on
+		// @formatter:off
+
+		createNewEvaluationWithSubmissions("courseForTestingER", "Eval 1",
+				new int[][] { { 110, 100, 110 }, { 90, 110, NSU },
+						{ 90, 100, 110 } });
+		// @formatter:on
 
 		result = logic.getEvaluationResult("courseForTestingER", "Eval 1");
 		print(result.toString());
@@ -3102,30 +3101,27 @@ public class LogicTest extends BaseTestCase {
 		// note the pattern in numbers. due to the way we generate submissions,
 		// 110 means it is from s1 to s1 and
 		// should appear in the 1,1 location in the matrix.
-		//@formatter:off
-		int[][] expected = { 
-				{ 110, 120, 130 }, 
-				{ 210, 220, 230 },
+		// @formatter:off
+		int[][] expected = { { 110, 120, 130 }, { 210, 220, 230 },
 				{ 310, 320, 330 } };
 		assertEquals(TeamEvalResult.pointsToString(expected),
 				TeamEvalResult.pointsToString(teamResult.claimedToStudents));
 
-		
 		// expected result
-		// claimedToCoord 		[ 92, 100, 108]
-		//                		[ 95, 100, 105]
-		// 				  		[ 97, 100, 103]
+		// claimedToCoord [ 92, 100, 108]
+		// [ 95, 100, 105]
+		// [ 97, 100, 103]
 		// ===============
-		// unbiased   			[ NA,  96, 104]
-		//                		[ 95,  NA, 105]
-		// 				  		[ 98, 102,  NA]
+		// unbiased [ NA, 96, 104]
+		// [ 95, NA, 105]
+		// [ 98, 102, NA]
 		// ===============
-		// perceivedToCoord 	[ 97, 99, 105]
+		// perceivedToCoord [ 97, 99, 105]
 		// ===============
-		// perceivedToStudents 	[116, 118, 126]
-		// 						[213, 217, 230]
-		// 						[309, 316, 335]
-		//@formatter:on
+		// perceivedToStudents [116, 118, 126]
+		// [213, 217, 230]
+		// [309, 316, 335]
+		// @formatter:on
 
 		int S1_POS = 0;
 		int S2_POS = 1;
@@ -3768,8 +3764,8 @@ public class LogicTest extends BaseTestCase {
 
 	private void verifyNullParameterDetectedCorrectly(NullPointerException e,
 			String nameOfNullParameter) {
-		BaseTestCase.assertContains(nameOfNullParameter.toLowerCase(), 
-				e.getMessage().toLowerCase());
+		BaseTestCase.assertContains(nameOfNullParameter.toLowerCase(), e
+				.getMessage().toLowerCase());
 	}
 
 	private void createNewEvaluationWithSubmissions(String courseId,
@@ -3922,6 +3918,12 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(expected.activated, actual.activated);
 	}
 
+	private void invokeEditEvaluation(EvaluationData e)
+			throws InvalidParametersException, EntityDoesNotExistException {
+		logic.editEvaluation(e.course, e.name, e.instructions, e.startTime,
+				e.endTime, e.timeZone, e.gracePeriod, e.p2pEnabled);
+	}
+
 	private TeamEvalResult invokeCalculateTeamResult(TeamData team)
 			throws Exception {
 		Method privateMethod = Logic.class.getDeclaredMethod(
@@ -4050,10 +4052,11 @@ public class LogicTest extends BaseTestCase {
 			}
 		}
 	}
-	
-	private void verifyNullPointerException(String methodName, String parameterName,
-			Class<?>[] paramTypes, Object[] params) throws Exception {
-		
+
+	private void verifyNullPointerException(String methodName,
+			String parameterName, Class<?>[] paramTypes, Object[] params)
+			throws Exception {
+
 		Method method = Logic.class.getDeclaredMethod(methodName, paramTypes);
 
 		try {
@@ -4062,9 +4065,10 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (Exception e) {
 			Throwable cause = e.getCause();
-			if(cause.getClass()==NullPointerException.class){
-				verifyNullParameterDetectedCorrectly((NullPointerException)cause, parameterName);
-			}else{
+			if (cause.getClass() == NullPointerException.class) {
+				verifyNullParameterDetectedCorrectly(
+						(NullPointerException) cause, parameterName);
+			} else {
 				throw e;
 			}
 		}

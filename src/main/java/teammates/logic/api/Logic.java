@@ -35,13 +35,13 @@ import teammates.storage.entity.Coordinator; //TODO: remove dependency to entity
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Evaluation;
 import teammates.storage.entity.Student;
-import teammates.storage.entity.Submission; 
+import teammates.storage.entity.Submission;
 
 import com.google.appengine.api.datastore.Text; //TODO: remove this dependency
 import com.google.appengine.api.users.User;
 
 /**
- * This class represents the API to the business logic of the system. 
+ * This class represents the API to the business logic of the system.
  */
 public class Logic {
 
@@ -103,13 +103,13 @@ public class Logic {
 		}
 		return userData;
 	}
-	
+
 	@SuppressWarnings("unused")
 	private void ____ACCESS_control_methods________________________________() {
 	}
 
-	//@formatter:off
-	
+	// @formatter:off
+
 	protected boolean isInternalCall() {
 		String callerClassName = Thread.currentThread().getStackTrace()[4]
 				.getClassName();
@@ -118,98 +118,139 @@ public class Logic {
 	}
 
 	private void verifyCoordUsingOwnIdOrAbove(String coordId) {
-		if (isInternalCall()) return;
-		if (isAdminLoggedIn()) return;
-		if (isOwnId(coordId)) return;
+		if (isInternalCall())
+			return;
+		if (isAdminLoggedIn())
+			return;
+		if (isOwnId(coordId))
+			return;
 		throw new UnauthorizedAccessException();
 	}
-	
+
 	private void verifyOwnerOfId(String googleId) {
-		if (isInternalCall()) return;
-		if (isAdminLoggedIn()) return;
-		if (isOwnId(googleId)) return;
+		if (isInternalCall())
+			return;
+		if (isAdminLoggedIn())
+			return;
+		if (isOwnId(googleId))
+			return;
 		throw new UnauthorizedAccessException();
 	}
-	
+
 	private void verifyRegisteredUserOrAbove() {
-		if (isInternalCall()) return;
-		if (isAdminLoggedIn()) return;
-		if (isCoordLoggedIn()) return;
-		if (isStudentLoggedIn()) return;
+		if (isInternalCall())
+			return;
+		if (isAdminLoggedIn())
+			return;
+		if (isCoordLoggedIn())
+			return;
+		if (isStudentLoggedIn())
+			return;
 		throw new UnauthorizedAccessException();
 	}
-	
+
 	private void verifyCourseOwnerOrAbove(String courseId) {
-		if (isInternalCall()) return;
-		if (isAdminLoggedIn()) return;
-		if (isCourseOwner(courseId)) return;
+		if (isInternalCall())
+			return;
+		if (isAdminLoggedIn())
+			return;
+		if (isCourseOwner(courseId))
+			return;
 		throw new UnauthorizedAccessException();
 	}
-	
+
 	private void verifyCourseOwnerOrStudentInCourse(String courseId) {
-		if (isInternalCall()) return;
-		if (isAdminLoggedIn()) return;
-		if (isCourseOwner(courseId)) return;
-		if (isInCourse(courseId)) return;
+		if (isInternalCall())
+			return;
+		if (isAdminLoggedIn())
+			return;
+		if (isCourseOwner(courseId))
+			return;
+		if (isInCourse(courseId))
+			return;
 		throw new UnauthorizedAccessException();
 	}
-	
+
 	private void verifyAdminLoggedIn() {
-		if (isInternalCall()) return;
-		if (isAdminLoggedIn())  return;
+		if (isInternalCall())
+			return;
+		if (isAdminLoggedIn())
+			return;
 		throw new UnauthorizedAccessException();
 	}
-	
+
 	private void verifyLoggedInUserAndAbove() {
-		if (isInternalCall()) return;
-		if (isUserLoggedIn()) return;
+		if (isInternalCall())
+			return;
+		if (isUserLoggedIn())
+			return;
 		throw new UnauthorizedAccessException();
 	}
-	
+
 	private void verifySameStudentOrAdmin(String googleId) {
-		if (isInternalCall()) return;
-		if (isAdminLoggedIn()) return;
-		if (isOwnId(googleId)) return;
+		if (isInternalCall())
+			return;
+		if (isAdminLoggedIn())
+			return;
+		if (isOwnId(googleId))
+			return;
 		throw new UnauthorizedAccessException();
 	}
-	
-	private void verifySameStudentOrCourseOwnerOrAdmin(String courseId, String googleId) {
-		if (isInternalCall()) return;
-		if (isAdminLoggedIn()) return;
-		if (isOwnId(googleId)) return;
-		if (isCourseOwner(courseId)) return;
+
+	private void verifySameStudentOrCourseOwnerOrAdmin(String courseId,
+			String googleId) {
+		if (isInternalCall())
+			return;
+		if (isAdminLoggedIn())
+			return;
+		if (isOwnId(googleId))
+			return;
+		if (isCourseOwner(courseId))
+			return;
 		throw new UnauthorizedAccessException();
 	}
-	
+
 	private void verifyReviewerOrCourseOwnerOrAdmin(String courseId,
 			String reviewerEmail) {
-		if (isInternalCall()) return;
-		if (isAdminLoggedIn()) return;
-		if (isCourseOwner(courseId)) return;
-		if (isOwnEmail(courseId, reviewerEmail)) return;
+		if (isInternalCall())
+			return;
+		if (isAdminLoggedIn())
+			return;
+		if (isCourseOwner(courseId))
+			return;
+		if (isOwnEmail(courseId, reviewerEmail))
+			return;
 		throw new UnauthorizedAccessException();
 	}
-	
+
 	private void verifySubmissionEditableForUser(SubmissionData submission) {
-		if (isInternalCall()) return;
-		if (isAdminLoggedIn()) return;
-		if (isCourseOwner(submission.course)) return;
+		if (isInternalCall())
+			return;
+		if (isAdminLoggedIn())
+			return;
+		if (isCourseOwner(submission.course))
+			return;
 		if (isOwnEmail(submission.course, submission.reviewer)
-				&& getEvaluationStatus(submission.course, submission.evaluation)==EvalStatus.OPEN) return;
+				&& getEvaluationStatus(submission.course, submission.evaluation) == EvalStatus.OPEN)
+			return;
 		throw new UnauthorizedAccessException();
 	}
-	
-	private void verfyCourseOwner_OR_EmailOwnerAndPublished(String courseId, 
+
+	private void verfyCourseOwner_OR_EmailOwnerAndPublished(String courseId,
 			String evaluationName, String studentEmail) {
-		if (isInternalCall()) return;
-		if (isAdminLoggedIn()) return;
-		if (isCourseOwner(courseId)) return;
-		if (isOwnEmail(courseId,studentEmail)
-				&&isEvaluationPublished(courseId,evaluationName)) return;
+		if (isInternalCall())
+			return;
+		if (isAdminLoggedIn())
+			return;
+		if (isCourseOwner(courseId))
+			return;
+		if (isOwnEmail(courseId, studentEmail)
+				&& isEvaluationPublished(courseId, evaluationName))
+			return;
 		throw new UnauthorizedAccessException();
 	}
-	
-	//@formatter:on
+
+	// @formatter:on
 
 	private boolean isOwnEmail(String courseId, String studentEmail) {
 		UserData user = getLoggedInUser();
@@ -282,7 +323,6 @@ public class Logic {
 		return loggedInUser == null ? false : loggedInUser.isStudent;
 	}
 
-	
 	@SuppressWarnings("unused")
 	private void ____COORD_level_methods____________________________________() {
 	}
@@ -302,7 +342,7 @@ public class Logic {
 		Common.validateEmail(coordEmail);
 		Common.validateCoordName(coordName);
 		Common.validateGoogleId(coordID);
-		
+
 		AccountsStorage.inst().addCoordinator(coordID, coordName, coordEmail);
 	}
 
@@ -310,7 +350,7 @@ public class Logic {
 	 * Access: any logged in user
 	 */
 	public CoordData getCoord(String coordID) {
-		
+
 		Common.verifyNotNull(coordID, "coordinator ID");
 
 		verifyLoggedInUserAndAbove();
@@ -333,7 +373,7 @@ public class Logic {
 	 * Access: Admin only
 	 */
 	public void deleteCoord(String coordId) {
-		
+
 		Common.verifyNotNull(coordId, "coordinator ID");
 
 		verifyAdminLoggedIn();
@@ -348,6 +388,7 @@ public class Logic {
 
 	/**
 	 * Access level: Admin, Coord (for self)
+	 * 
 	 * @return Returns a less-detailed version of Coord's course data
 	 */
 	public HashMap<String, CourseData> getCourseListForCoord(String coordId)
@@ -436,14 +477,14 @@ public class Logic {
 		Common.verifyNotNull(coordId, "coordinator ID");
 		Common.verifyNotNull(courseId, "course ID");
 		Common.verifyNotNull(courseName, "course name");
-		
+
 		verifyCoordUsingOwnIdOrAbove(coordId);
 
-		//TODO: this validation should be done at a lower level
+		// TODO: this validation should be done at a lower level
 		Common.validateGoogleId(coordId);
 		Common.validateCourseId(courseId);
 		Common.validateCourseName(courseName);
-		
+
 		CoursesStorage.inst().addCourse(courseId, courseName, coordId);
 	}
 
@@ -467,9 +508,9 @@ public class Logic {
 	 */
 	public CourseData getCourseDetails(String courseId)
 			throws EntityDoesNotExistException {
-		
+
 		Common.verifyNotNull(courseId, "course ID");
-		
+
 		verifyCourseOwnerOrStudentInCourse(courseId);
 
 		// TODO: very inefficient. Should be optimized.
@@ -511,7 +552,8 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(courseId);
 
-		List<Student> studentList = CoursesStorage.inst().getStudentList(courseId);
+		List<Student> studentList = CoursesStorage.inst().getStudentList(
+				courseId);
 
 		if ((studentList.size() == 0) && (getCourse(courseId) == null)) {
 			throw new EntityDoesNotExistException("Course does not exist :"
@@ -527,7 +569,8 @@ public class Logic {
 
 	/**
 	 * Access: course owner and above
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public List<MimeMessage> sendRegistrationInviteForCourse(String courseId)
 			throws InvalidParametersException {
@@ -536,24 +579,33 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(courseId);
 
-		List<Student> studentList = CoursesStorage.inst().getUnregisteredStudentList(
-				courseId);
-		
+		List<Student> studentList = CoursesStorage.inst()
+				.getUnregisteredStudentList(courseId);
+
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 
 		for (Student s : studentList) {
 			try {
-				MimeMessage email = sendRegistrationInviteToStudent(courseId, s.getEmail());
+				MimeMessage email = sendRegistrationInviteToStudent(courseId,
+						s.getEmail());
 				emailsSent.add(email);
 			} catch (EntityDoesNotExistException e) {
-				log.severe("Unexpected exception" + Common.stackTraceToString(e));
+				log.severe("Unexpected exception"
+						+ Common.stackTraceToString(e));
 			}
 		}
 		return emailsSent;
 	}
 
 	/**
-	 * Access: course owner and above
+	 * Enrolls new students in the course or modifies existing students. But it
+	 * will not delete any students. It will not edit email address either. If
+	 * an existing student was enrolled with a different email address, that
+	 * student will be treated as a new student. Access: course owner and above
+	 * 
+	 * @return StudentData objects in the return value contains the status of
+	 *         enrollment. It also includes data for other students in the
+	 *         course that were not touched by the operation.
 	 */
 	public List<StudentData> enrollStudents(String enrollLines, String courseId)
 			throws EnrollException, EntityDoesNotExistException {
@@ -606,12 +658,11 @@ public class Logic {
 	/**
 	 * Access: course owner, student in course, admin
 	 * 
-	 * @param courseId
 	 * @return The CourseData object that is returned will contain attributes
-	 *         teams(type:TeamData) and loners(type:StudentData)
-	 * @throws EntityDoesNotExistException
-	 *             if the course does not exist <br>
-	 *             Access : course owner and above
+	 *         teams(type:TeamData) and loners(type:StudentData). We do not
+	 *         expect any loners as the current system does not support students
+	 *         without teams. This field is to be removed later. <br>
+	 *         Access : course owner and above
 	 */
 	public CourseData getTeamsForCourse(String courseId)
 			throws EntityDoesNotExistException {
@@ -712,55 +763,40 @@ public class Logic {
 	/**
 	 * All attributes except courseId be changed. Trying to change courseId will
 	 * be treated as trying to edit a student in a different course.<br>
-	 * Changing team name will not delete existing team profile even if there
-	 * are no more members in the team. This can cause orphan team profiles but
-	 * the effect is considered insignificant and not worth the effort required
-	 * to avoid it. A side benefit of this strategy is the team can reclaim the
-	 * profile by changing the team name back to the original one. But note that
-	 * orphaned team profiles can be inherited by others if another team adopts
-	 * the team name previously discarded by a team.
-	 * 
-	 * @param originalEmail
-	 * @param student
-	 * @throws InvalidParametersException
-	 * @throws EntityDoesNotExistException
-	 * 
-	 * <br>
-	 *             Access: coord of course and above.
+	 * Changing team name will not delete existing submissions under that team <br>
+	 * Access: coord of course and above.
 	 */
 	public void editStudent(String originalEmail, StudentData student)
 			throws InvalidParametersException, EntityDoesNotExistException {
 
+		Common.verifyNotNull(originalEmail, "student email");
+		Common.verifyNotNull(student, "student object");
+		
 		verifyCourseOwnerOrAbove(student.course);
 
 		// TODO: make the implementation more defensive
-		CoursesStorage.inst().editStudent(student.course, originalEmail, student.name,
-				student.team, student.email, student.id, student.comments,
-				student.profile);
+		CoursesStorage.inst().editStudent(student.course, originalEmail,
+				student.name, student.team, student.email, student.id,
+				student.comments, student.profile);
 	}
 
 	/**
 	 * Access: course owner and above
-	 * 
-	 * @param courseId
-	 * @param studentEmail
 	 */
 	public void deleteStudent(String courseId, String studentEmail) {
+		
+		Common.verifyNotNull(courseId, "course ID");
+		Common.verifyNotNull(studentEmail, "student email");
 
 		verifyCourseOwnerOrAbove(courseId);
 
 		CoursesStorage.inst().deleteStudent(courseId, studentEmail);
-		EvaluationsStorage.inst().deleteSubmissionsForStudent(courseId, studentEmail);
+		EvaluationsStorage.inst().deleteSubmissionsForStudent(courseId,
+				studentEmail);
 	}
 
 	/**
 	 * Access: course owner and above
-	 * 
-	 * @param courseId
-	 * @param studentEmail
-	 * @return 
-	 * @throws EntityDoesNotExistException
-	 * @throws InvalidParametersException
 	 */
 	public MimeMessage sendRegistrationInviteToStudent(String courseId,
 			String studentEmail) throws EntityDoesNotExistException,
@@ -778,29 +814,33 @@ public class Logic {
 			throw new EntityDoesNotExistException("Student [" + studentEmail
 					+ "] does not exist in course [" + courseId + "]");
 		}
-		
+
 		Emails emailMgr = new Emails();
 		try {
-			MimeMessage email = emailMgr.generateStudentCourseJoinEmail(new CourseData(course), new StudentData(student));
+			MimeMessage email = emailMgr.generateStudentCourseJoinEmail(
+					new CourseData(course), new StudentData(student));
 			emailMgr.sendEmail(email);
 			return email;
 		} catch (Exception e) {
-			throw new RuntimeException("Unexpected error while sending email",e);
-		} 
+			throw new RuntimeException("Unexpected error while sending email",
+					e);
+		}
 
 	}
 
 	/**
 	 * Access: same student and admin only
-	 * 
-	 * @param googleId
-	 * @return returns null if
+	 * @return Returns all StudentData objects associated with this Google ID.
+	 *     Returns an empty list if no student has this Google ID.
 	 */
 	public ArrayList<StudentData> getStudentsWithId(String googleId) {
+		
+		Common.verifyNotNull(googleId, "Google ID");
 
 		verifySameStudentOrAdmin(googleId);
 
-		List<Student> students = AccountsStorage.inst().getStudentsWithID(googleId);
+		List<Student> students = AccountsStorage.inst().getStudentsWithID(
+				googleId);
 		ArrayList<StudentData> returnList = new ArrayList<StudentData>();
 		for (Student s : students) {
 			returnList.add(new StudentData(s));
@@ -811,9 +851,8 @@ public class Logic {
 	/**
 	 * Access: same student and admin only
 	 * 
-	 * @param courseId
-	 * @param googleId
-	 * @return
+	 * @return Returns the StudentData object that has the given courseId and 
+	 *    is in given course. Returns null if no such student in the course.
 	 */
 	public StudentData getStudentInCourseForGoogleId(String courseId,
 			String googleId) {
@@ -835,11 +874,6 @@ public class Logic {
 
 	/**
 	 * Access: owner of googleId
-	 * 
-	 * @param googleId
-	 * @param key
-	 * @throws JoinCourseException
-	 * @throws InvalidParametersException
 	 */
 	public void joinCourse(String googleId, String key)
 			throws JoinCourseException, InvalidParametersException {
@@ -856,9 +890,7 @@ public class Logic {
 	/**
 	 * Access: course owner and above
 	 * 
-	 * @param courseId
-	 * @param email
-	 * @return
+	 * @return Returns registration key for a student in the given course.
 	 */
 	public String getKeyForStudent(String courseId, String email) {
 
@@ -873,17 +905,15 @@ public class Logic {
 			return null;
 		}
 
+		//TODO: this should be pushed to lower levels
 		long keyLong = Long.parseLong(student.getRegistrationKey().toString());
 		return Student.getStringKeyForLongKey(keyLong);
 	}
 
 	/**
 	 * Access: student who owns the googleId, admin
-	 * 
-	 * @param googleId
-	 * @return
-	 * @throws EntityDoesNotExistException
-	 * @throws InvalidParametersException
+	 * @return Returns Courses associated with the student with the given Google ID
+	 * @throws EntityDoesNotExistException Thrown if no such student.
 	 */
 	public List<CourseData> getCourseListForStudent(String googleId)
 			throws EntityDoesNotExistException, InvalidParametersException {
@@ -902,12 +932,6 @@ public class Logic {
 
 	/**
 	 * Access: any logged in user (to minimize cost of checking)
-	 * 
-	 * @param courseId
-	 * @param evaluationName
-	 * @param studentEmail
-	 * @return
-	 * @throws InvalidParametersException
 	 */
 	public boolean hasStudentSubmittedEvaluation(String courseId,
 			String evaluationName, String studentEmail)
@@ -942,14 +966,15 @@ public class Logic {
 	/**
 	 * Access: student who owns the googleId, admin
 	 * 
-	 * @param googleId
-	 * @return
-	 * @throws EntityDoesNotExistException
-	 * @throws InvalidParametersException
+	 * @return Returns details of courses the student is in. CourseData objects
+	 *    returned contain details of evaluations too 
+	 *    (except the ones still AWAITING).
 	 */
 	public List<CourseData> getCourseDetailsListForStudent(String googleId)
 			throws EntityDoesNotExistException, InvalidParametersException {
 
+		Common.verifyNotNull(googleId, "Google ID");
+		
 		verifySameStudentOrAdmin(googleId);
 
 		List<CourseData> courseList = getCourseListForStudent(googleId);
@@ -969,13 +994,6 @@ public class Logic {
 
 	/**
 	 * Access: owner of the course, owner of result (when PUBLISHED), admin
-	 * 
-	 * @param courseId
-	 * @param evaluationName
-	 * @param studentEmail
-	 * @return
-	 * @throws EntityDoesNotExistException
-	 * @throws InvalidParametersException
 	 */
 	public EvalResultData getEvaluationResultForStudent(String courseId,
 			String evaluationName, String studentEmail)
@@ -1022,7 +1040,6 @@ public class Logic {
 	/**
 	 * Access: course owner and above
 	 * 
-	 * @throws EntityAlreadyExistsException
 	 * @throws InvalidParametersException
 	 *             is thrown if any of the parameters puts the evaluation in an
 	 *             invalid state (e.g., endTime is set before startTime).
@@ -1038,7 +1055,12 @@ public class Logic {
 		evaluation.validate();
 		EvaluationsStorage.inst().addEvaluation(evaluation.toEvaluation());
 	}
-	
+
+	/**
+	 * Creating submission is an internal activity. However, it is supported
+	 *   here for the benefit of BackDoor.
+	 */
+	//TODO: to be pushed out to another class. this does not belong here.
 	protected void createSubmissions(List<SubmissionData> submissionDataList) {
 		ArrayList<Submission> submissions = new ArrayList<Submission>();
 		for (SubmissionData sd : submissionDataList) {
@@ -1050,11 +1072,11 @@ public class Logic {
 	/**
 	 * Access: all registered users
 	 * 
-	 * @param courseId
-	 * @param evaluationName
-	 * @return
 	 */
 	public EvaluationData getEvaluation(String courseId, String evaluationName) {
+		
+		Common.verifyNotNull(courseId, "course ID");
+		Common.verifyNotNull(evaluationName, "evaluation name");
 
 		verifyRegisteredUserOrAbove();
 
@@ -1064,14 +1086,15 @@ public class Logic {
 	}
 
 	/**
-	 * Can be used to change all fields exception "activated" field
+	 * Can be used to change all fields exception "activated" field <br>
 	 * Access: owner and above
 	 * 
-	 * @param evaluation
-	 * @throws EntityDoesNotExistException
-	 * @throws InvalidParametersException
+	 * @throws InvalidParametersException if new values bring the evaluation
+	 *    to an invalid state.
 	 */
-	public void editEvaluation(String courseId, String evaluationName, String instructions, Date start, Date end, double timeZone, int gracePeriod, boolean p2pEndabled)
+	public void editEvaluation(String courseId, String evaluationName,
+			String instructions, Date start, Date end, double timeZone,
+			int gracePeriod, boolean p2pEndabled)
 			throws EntityDoesNotExistException, InvalidParametersException {
 
 		Common.verifyNotNull(courseId, "course ID");
@@ -1081,13 +1104,14 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(courseId);
 		EvaluationData original = getEvaluation(courseId, evaluationName);
-		
-		if(original==null){
-			throw new EntityDoesNotExistException("Evaluation "+evaluationName+" does not exist in course "+courseId);
+
+		if (original == null) {
+			throw new EntityDoesNotExistException("Evaluation "
+					+ evaluationName + " does not exist in course " + courseId);
 		}
 
 		EvaluationData evaluation = new EvaluationData();
-		evaluation.course = courseId; 
+		evaluation.course = courseId;
 		evaluation.name = evaluationName;
 		evaluation.instructions = instructions;
 		evaluation.p2pEnabled = p2pEndabled;
@@ -1095,35 +1119,38 @@ public class Logic {
 		evaluation.endTime = end;
 		evaluation.gracePeriod = gracePeriod;
 		evaluation.timeZone = timeZone;
-		
-		//this field cannot be changed via this method
+
+		// this field cannot be changed via this method
 		evaluation.activated = original.activated;
 		evaluation.published = original.published;
-		
+
 		evaluation.validate();
-		
+
 		editEvaluationAllFields(evaluation);
 	}
-	
+
+	/**
+	 * This method allowed editing of all fields. It is here for the benefit
+	 *   of BackDoor 
+	 */
 	protected void editEvaluationAllFields(EvaluationData evaluation)
 			throws EntityDoesNotExistException, InvalidParametersException {
 
-		EvaluationsStorage.inst().editEvaluation(evaluation.course, evaluation.name,
-				evaluation.instructions, evaluation.p2pEnabled,
-				evaluation.startTime, evaluation.endTime,
-				evaluation.gracePeriod, evaluation.activated,
-				evaluation.published, evaluation.timeZone);
+		EvaluationsStorage.inst()
+				.editEvaluation(evaluation.course, evaluation.name,
+						evaluation.instructions, evaluation.p2pEnabled,
+						evaluation.startTime, evaluation.endTime,
+						evaluation.gracePeriod, evaluation.activated,
+						evaluation.published, evaluation.timeZone);
 	}
-	
-	
 
 	/**
 	 * Access: owner and above
-	 * 
-	 * @param courseId
-	 * @param evaluationName
 	 */
 	public void deleteEvaluation(String courseId, String evaluationName) {
+
+		Common.verifyNotNull(courseId, "course ID");
+		Common.verifyNotNull(evaluationName, "evaluation name");
 
 		verifyCourseOwnerOrAbove(courseId);
 
@@ -1133,9 +1160,6 @@ public class Logic {
 	/**
 	 * Access: course owner and above
 	 * 
-	 * @param courseId
-	 * @param evaluationName
-	 * @throws EntityDoesNotExistException
 	 * @throws InvalidParametersException
 	 *             if the evaluation is not ready to be published.
 	 */
@@ -1164,9 +1188,6 @@ public class Logic {
 	/**
 	 * Access: course owner and above
 	 * 
-	 * @param courseId
-	 * @param evaluationName
-	 * @throws EntityDoesNotExistException
 	 * @throws InvalidParametersException
 	 *             if the evaluation is not ready to be unpublished.
 	 */
@@ -1192,10 +1213,8 @@ public class Logic {
 	}
 
 	/**
+	 * Sends reminders to students who haven't submitted yet.
 	 * Access: course owner and above
-	 * 
-	 * @param courseId
-	 * @param evaluationName
 	 */
 	public List<MimeMessage> sendReminderForEvaluation(String courseId,
 			String evaluationName) throws EntityDoesNotExistException {
@@ -1210,7 +1229,8 @@ public class Logic {
 		verifyEvaluationExists(evaluation, courseId, evaluationName);
 
 		// Filter out students who have submitted the evaluation
-		List<Student> studentList = CoursesStorage.inst().getStudentList(courseId);
+		List<Student> studentList = CoursesStorage.inst().getStudentList(
+				courseId);
 		List<StudentData> studentsToRemindList = new ArrayList<StudentData>();
 		for (Student s : studentList) {
 			if (!EvaluationsStorage.inst().isEvaluationSubmitted(evaluation,
@@ -1220,30 +1240,23 @@ public class Logic {
 		}
 
 		CourseData course = getCourse(courseId);
-		
+
 		List<MimeMessage> emails;
 
 		Emails emailMgr = new Emails();
 		try {
-			emails = emailMgr
-					.generateEvaluationReminderEmails(course, evaluation,
-							studentsToRemindList);
+			emails = emailMgr.generateEvaluationReminderEmails(course,
+					evaluation, studentsToRemindList);
 			emailMgr.sendEmails(emails);
 		} catch (Exception e) {
 			throw new RuntimeException("Error while sending emails :", e);
 		}
-		
+
 		return emails;
 	}
 
 	/**
 	 * Access: course owner and above
-	 * 
-	 * @param courseId
-	 * @param evaluationName
-	 * @return Returns null if any of the parameters is null.
-	 * @throws EntityDoesNotExistException
-	 *             if the course or the evaluation does not exists.
 	 */
 	public EvaluationData getEvaluationResult(String courseId,
 			String evaluationName) throws EntityDoesNotExistException {
@@ -1274,14 +1287,9 @@ public class Logic {
 	}
 
 	/**
+	 * @return Returns all submissions by a student for the given evaluation
 	 * Access: course owner, reviewer, admin
 	 * 
-	 * @param courseId
-	 * @param evaluationName
-	 * @param reviewerEmail
-	 * @return
-	 * @throws EntityDoesNotExistException
-	 * @throws InvalidParametersException
 	 */
 	public List<SubmissionData> getSubmissionsFromStudent(String courseId,
 			String evaluationName, String reviewerEmail)
@@ -1298,7 +1306,8 @@ public class Logic {
 						reviewerEmail);
 		if (submissions.size() == 0) {
 			CoursesStorage.inst().verifyCourseExists(courseId);
-			EvaluationsStorage.inst().verifyEvaluationExists(courseId, evaluationName);
+			EvaluationsStorage.inst().verifyEvaluationExists(courseId,
+					evaluationName);
 			AccountsStorage.inst().verifyStudentExists(courseId, reviewerEmail);
 		}
 		StudentData student = getStudent(courseId, reviewerEmail);
@@ -1351,7 +1360,6 @@ public class Logic {
 						+ "are deleted automatically");
 	}
 
-
 	@SuppressWarnings("unused")
 	private void ____helper_methods________________________________________() {
 	}
@@ -1359,18 +1367,20 @@ public class Logic {
 	private List<MimeMessage> sendEvaluationPublishedEmails(String courseId,
 			String evaluationName) throws EntityDoesNotExistException {
 		List<MimeMessage> emailsSent;
-		
+
 		CourseData c = getCourse(courseId);
 		EvaluationData e = getEvaluation(courseId, evaluationName);
 		List<StudentData> students = getStudentListForCourse(courseId);
-		
+
 		Emails emailMgr = new Emails();
 		try {
-			emailsSent = emailMgr.generateEvaluationPublishedEmails(c, e, students);
+			emailsSent = emailMgr.generateEvaluationPublishedEmails(c, e,
+					students);
 			emailMgr.sendEmails(emailsSent);
 		} catch (Exception ex) {
-			throw new RuntimeException("Unexpected error while sending emails ", ex );
-		} 
+			throw new RuntimeException(
+					"Unexpected error while sending emails ", ex);
+		}
 		return emailsSent;
 	}
 
@@ -1582,8 +1592,8 @@ public class Logic {
 
 	protected SubmissionData getSubmission(String courseId,
 			String evaluationName, String reviewerEmail, String revieweeEmail) {
-		Submission submission = EvaluationsStorage.inst().getSubmission(courseId,
-				evaluationName, reviewerEmail, revieweeEmail);
+		Submission submission = EvaluationsStorage.inst().getSubmission(
+				courseId, evaluationName, reviewerEmail, revieweeEmail);
 		return (submission == null ? null : new SubmissionData(submission));
 	}
 
