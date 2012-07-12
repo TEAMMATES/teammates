@@ -295,6 +295,15 @@ public class LogicTest extends BaseTestCase {
 
 		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, params);
+		
+		______TS("null parameter");
+		
+		try {
+			logic.getCoord(null);
+			fail();
+		} catch (NullPointerException e) {
+
+		}
 
 	}
 
@@ -378,7 +387,7 @@ public class LogicTest extends BaseTestCase {
 		______TS("null parameters");
 
 		try {
-			assertEquals(null, logic.getCourseListForCoord(null));
+			logic.getCourseListForCoord(null);
 			fail();
 		} catch (NullPointerException e) {
 
@@ -481,7 +490,8 @@ public class LogicTest extends BaseTestCase {
 		______TS("null parameters");
 
 		try {
-			assertEquals(null, logic.getCourseDetailsListForCoord(null));
+			logic.getCourseDetailsListForCoord(null);
+			fail();
 		} catch (NullPointerException e) {
 		}
 
@@ -554,7 +564,8 @@ public class LogicTest extends BaseTestCase {
 		______TS("null parameters");
 
 		try {
-			assertEquals(null, logic.getEvaluationsListForCoord(null));
+			logic.getEvaluationsListForCoord(null);
+			fail();
 		} catch (NullPointerException e) {
 		}
 
@@ -689,6 +700,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getCourse(null);
+			fail();
 		} catch (NullPointerException e) {
 		}
 	}
@@ -835,6 +847,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.deleteCourse(null);
+			fail();
 		} catch (NullPointerException e) {
 		}
 	}
@@ -890,6 +903,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getStudentListForCourse(null);
+			fail();
 		} catch (NullPointerException e) {
 		}
 
@@ -1163,6 +1177,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getTeamsForCourse(null);
+			fail();
 		} catch (NullPointerException e) {
 		}
 
@@ -1276,11 +1291,13 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getStudent(null, "email@email.com");
+			fail();
 		} catch (NullPointerException e) {
 		}
 
 		try {
 			logic.getStudent("course-id", null);
+			fail();
 		} catch (NullPointerException e) {
 		}
 	}
@@ -1890,16 +1907,19 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getKeyForStudent(student.course, null);
+			fail();
 		} catch (NullPointerException e) {
 		}
 
 		try {
 			logic.getKeyForStudent(null, student.email);
+			fail();
 		} catch (NullPointerException e) {
 		}
 
 		try {
 			logic.getKeyForStudent(null, null);
+			fail();
 		} catch (NullPointerException e) {
 		}
 
@@ -2024,8 +2044,8 @@ public class LogicTest extends BaseTestCase {
 					student.email);
 			fail();
 		} catch (NullPointerException e) {
-
 		}
+		
 		try {
 			logic.hasStudentSubmittedEvaluation(evaluation.course, null,
 					student.email);
@@ -2960,11 +2980,13 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getEvaluationResult(null, evaluation.name);
+			fail();
 		} catch (NullPointerException e) {
 		}
 
 		try {
 			logic.getEvaluationResult(course.id, null);
+			fail();
 		} catch (NullPointerException e) {
 		}
 
@@ -3192,6 +3214,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			invokeGetSubmissionsForEvaluation(evaluation.course, "non-existent");
+			fail();
 		} catch (Exception e) {
 			BaseTestCase.assertContains("non-existent", e.getCause()
 					.getMessage());
@@ -3199,6 +3222,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			invokeGetSubmissionsForEvaluation("non-existent", evaluation.name);
+			fail();
 		} catch (Exception e) {
 			BaseTestCase.assertContains("non-existent", e.getCause()
 					.getMessage());
@@ -3673,6 +3697,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			invokeEditSubmission(null);
+			fail();
 		} catch (Exception e) {
 			assertEquals(NullPointerException.class, e.getCause().getClass());
 		}
@@ -3683,6 +3708,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			invokeEditSubmission(sub1);
+			fail();
 		} catch (Exception e) {
 			assertEquals(EntityDoesNotExistException.class, e.getCause()
 					.getClass());

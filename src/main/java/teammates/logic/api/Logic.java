@@ -40,32 +40,42 @@ import teammates.storage.entity.Submission;
 import com.google.appengine.api.datastore.Text; //TODO: remove this dependency
 import com.google.appengine.api.users.User;
 
+/**
+ * This class represents the API to the business logic of the system. 
+ */
 public class Logic {
 
 	private static Logger log = Common.getLogger();
 
-	protected void createSubmissions(List<SubmissionData> submissionDataList) {
-		ArrayList<Submission> submissions = new ArrayList<Submission>();
-		for (SubmissionData sd : submissionDataList) {
-			submissions.add(sd.toSubmission());
-		}
-		EvaluationsStorage.inst().editSubmissions(submissions);
-	}
-
 	@SuppressWarnings("unused")
-	private void ____SYSTEM_level_methods__________________________________() {
+	private void ____USER_level_methods__________________________________() {
 	}
 
+	/**
+	 * Produces the URL the user should use to login to the system
+	 * 
+	 * @param redirectUrl
+	 *            This is the URL the user will be directed to after login.
+	 */
 	public static String getLoginUrl(String redirectUrl) {
 		AccountsStorage accounts = AccountsStorage.inst();
 		return accounts.getLoginPage(redirectUrl);
 	}
 
+	/**
+	 * Produces the URL used to logout the user
+	 * 
+	 * @param redirectUrl
+	 *            This is the URL the user will be directed to after logout.
+	 */
 	public static String getLogoutUrl(String redirectUrl) {
 		AccountsStorage accounts = AccountsStorage.inst();
 		return accounts.getLogoutPage(redirectUrl);
 	}
 
+	/**
+	 * Verifies if the user is logged into his/her Google account
+	 */
 	public static boolean isUserLoggedIn() {
 		AccountsStorage accounts = AccountsStorage.inst();
 		return (accounts.getUser() != null);
@@ -93,9 +103,20 @@ public class Logic {
 		}
 		return userData;
 	}
+	
+	@SuppressWarnings("unused")
+	private void ____ACCESS_control_methods________________________________() {
+	}
 
 	//@formatter:off
 	
+	protected boolean isInternalCall() {
+		String callerClassName = Thread.currentThread().getStackTrace()[4]
+				.getClassName();
+		String thisClassName = this.getClass().getCanonicalName();
+		return callerClassName.equals(thisClassName);
+	}
+
 	private void verifyCoordUsingOwnIdOrAbove(String coordId) {
 		if (isInternalCall()) return;
 		if (isAdminLoggedIn()) return;
@@ -178,15 +199,6 @@ public class Logic {
 		throw new UnauthorizedAccessException();
 	}
 	
-
-
-	protected boolean isInternalCall() {
-		String callerClassName = Thread.currentThread().getStackTrace()[4]
-				.getClassName();
-		String thisClassName = this.getClass().getCanonicalName();
-		return callerClassName.equals(thisClassName);
-	}
-
 	private void verfyCourseOwner_OR_EmailOwnerAndPublished(String courseId, 
 			String evaluationName, String studentEmail) {
 		if (isInternalCall()) return;
@@ -210,11 +222,6 @@ public class Logic {
 		}
 		StudentData student = getStudent(courseId, studentEmail);
 		return student == null ? false : user.id.equals(student.id);
-	}
-
-	private boolean isAdminLoggedIn() {
-		UserData loggedInUser = getLoggedInUser();
-		return loggedInUser == null ? false : loggedInUser.isAdmin;
 	}
 
 	private boolean isOwnId(String userId) {
@@ -242,16 +249,6 @@ public class Logic {
 		return (null != getStudentInCourseForGoogleId(courseId, user.id));
 	}
 
-	private boolean isCoordLoggedIn() {
-		UserData loggedInUser = getLoggedInUser();
-		return loggedInUser == null ? false : loggedInUser.isCoord;
-	}
-
-	private boolean isStudentLoggedIn() {
-		UserData loggedInUser = getLoggedInUser();
-		return loggedInUser == null ? false : loggedInUser.isStudent;
-	}
-
 	private boolean isEvaluationPublished(String courseId, String evaluationName) {
 		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
 		if (evaluation == null) {
@@ -261,6 +258,31 @@ public class Logic {
 		}
 	}
 
+	/**
+	 * Verifies if the logged in user has Admin privileges
+	 */
+	private boolean isAdminLoggedIn() {
+		UserData loggedInUser = getLoggedInUser();
+		return loggedInUser == null ? false : loggedInUser.isAdmin;
+	}
+
+	/**
+	 * Verifies if the logged in user has Coord privileges
+	 */
+	private boolean isCoordLoggedIn() {
+		UserData loggedInUser = getLoggedInUser();
+		return loggedInUser == null ? false : loggedInUser.isCoord;
+	}
+
+	/**
+	 * Verifies if the logged in user has Student privileges
+	 */
+	private boolean isStudentLoggedIn() {
+		UserData loggedInUser = getLoggedInUser();
+		return loggedInUser == null ? false : loggedInUser.isStudent;
+	}
+
+	
 	@SuppressWarnings("unused")
 	private void ____COORD_level_methods____________________________________() {
 	}
@@ -280,6 +302,7 @@ public class Logic {
 		Common.validateEmail(coordEmail);
 		Common.validateCoordName(coordName);
 		Common.validateGoogleId(coordID);
+		
 		AccountsStorage.inst().addCoordinator(coordID, coordName, coordEmail);
 	}
 
@@ -287,6 +310,8 @@ public class Logic {
 	 * Access: any logged in user
 	 */
 	public CoordData getCoord(String coordID) {
+		
+		Common.verifyNotNull(coordID, "coordinator ID");
 
 		verifyLoggedInUserAndAbove();
 
@@ -1007,6 +1032,14 @@ public class Logic {
 		evaluation.validate();
 		EvaluationsStorage.inst().addEvaluation(evaluation.toEvaluation());
 	}
+	
+	protected void createSubmissions(List<SubmissionData> submissionDataList) {
+		ArrayList<Submission> submissions = new ArrayList<Submission>();
+		for (SubmissionData sd : submissionDataList) {
+			submissions.add(sd.toSubmission());
+		}
+		EvaluationsStorage.inst().editSubmissions(submissions);
+	}
 
 	/**
 	 * Access: all registered users
@@ -1311,6 +1344,7 @@ public class Logic {
 				"Not implemented because submissions "
 						+ "are deleted automatically");
 	}
+
 
 	@SuppressWarnings("unused")
 	private void ____helper_methods________________________________________() {
