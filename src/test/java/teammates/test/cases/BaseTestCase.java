@@ -2,7 +2,6 @@ package teammates.test.cases;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
@@ -29,7 +28,6 @@ import teammates.common.datatransfer.UserData;
 import teammates.logic.BuildProperties;
 import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
-import teammates.logic.backdoor.BackDoorServlet;
 
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
@@ -73,10 +71,6 @@ public class BaseTestCase {
 
 	LocalServiceTestHelper helper;
 
-	protected static String queueXmlFilePath = System.getProperty("user.dir")
-			+ File.separator + "src" + File.separator + "main" + File.separator
-			+ "webapp" + File.separator + "WEB-INF" + File.separator
-			+ "queue.xml";
 	protected static long start;
 
 	private static void printTestCaseHeader(String testCaseName) {
@@ -135,7 +129,6 @@ public class BaseTestCase {
 	}
 
 	/**
-	 * 
 	 * Sets the general logging level to WARNING <br>
 	 * Sets the logging level of the given class to FINE <br>
 	 * Sets the logging level of the console to FINE <br>
@@ -147,6 +140,10 @@ public class BaseTestCase {
 		setConsoleLoggingLevel(Level.FINE);
 	}
 
+	/**
+	 * Sets the logging level of the given class to WARNING <br>
+	 * Sets the logging level of the console to WARNING <br>
+	 */
 	protected static void turnLoggingDown(Class<?> classBeingTested)
 			throws NoSuchFieldException, IllegalAccessException {
 		setLogLevelOfClass(classBeingTested, Level.WARNING);
@@ -162,10 +159,6 @@ public class BaseTestCase {
 	 * Asserts that the superstringActual contains the exact occurence of
 	 * substringExpected. Display the difference between the two on failure (in
 	 * Eclipse).
-	 * 
-	 * @param message
-	 * @param substringExpected
-	 * @param superstringActual
 	 */
 	public static void assertContains(String substringExpected,
 			String superstringActual) {
@@ -178,10 +171,6 @@ public class BaseTestCase {
 	 * Asserts that the superstringActual contains the exact occurence of
 	 * substringExpected. Display the difference between the two on failure (in
 	 * Eclipse) with the specified message.
-	 * 
-	 * @param message
-	 * @param substringExpected
-	 * @param superstringActual
 	 */
 	public static void assertContains(String message, String substringExpected,
 			String superstringActual) {
@@ -196,10 +185,6 @@ public class BaseTestCase {
 	 * stringActual. Tries to display the difference between the two on failure
 	 * (in Eclipse). Ignores the tab character (i.e., ignore indentation using
 	 * tabs) and ignores the newline when comparing.
-	 * 
-	 * @param message
-	 * @param regexExpected
-	 * @param stringActual
 	 */
 	public static void assertContainsRegex(String regexExpected,
 			String stringActual) {
@@ -217,10 +202,6 @@ public class BaseTestCase {
 	 * Replaces occurences of {*} at regexExpected to match anything in
 	 * stringActual. Tries to display the difference between the two on failure
 	 * (in Eclipse) with the specified message.
-	 * 
-	 * @param message
-	 * @param regexExpected
-	 * @param stringActual
 	 */
 	public static void assertContainsRegex(String message,
 			String regexExpected, String stringActual) {
@@ -237,10 +218,6 @@ public class BaseTestCase {
 	 * Checks that the stringActual contains the occurence regexExpected.
 	 * Replaces occurences of {*} at regexExpected to match anything in
 	 * stringActual.
-	 * 
-	 * @param regexExpected
-	 * @param stringActual
-	 * @return boolean whether the actual matches the expected
 	 */
 	public static boolean isContainsRegex(String regexExpected,
 			String stringActual) {
@@ -280,7 +257,6 @@ public class BaseTestCase {
 
 		// also reduce logging verbosity of these classes as we are going to
 		// use them intensively here.
-		setLogLevelOfClass(BackDoorServlet.class, Level.SEVERE);
 		setLogLevelOfClass(Logic.class, Level.SEVERE);
 
 		DataBundle dataBundle = getTypicalDataBundle();
@@ -300,7 +276,6 @@ public class BaseTestCase {
 		// restore logging levels to normal
 		// TODO: restore to previous levels
 		setGeneralLoggingLevel(Level.WARNING);
-		setLogLevelOfClass(BackDoorServlet.class, Level.FINE);
 		setLogLevelOfClass(Logic.class, Level.FINE);
 
 		// restore the logged in user
@@ -334,14 +309,13 @@ public class BaseTestCase {
 
 	/**
 	 * Checks whether a JSON string represents a null object
-	 * 
-	 * @param json
-	 * @return
 	 */
 	protected boolean isNullJSON(String json) {
 		return json == null || json.equals("null");
 	}
 
+	/**Logs in the user to the local test environment 
+	 */
 	protected void loginUser(String userId) {
 		helper.setEnvIsLoggedIn(true);
 		helper.setEnvEmail(userId);
@@ -349,6 +323,8 @@ public class BaseTestCase {
 		helper.setEnvIsAdmin(false);
 	}
 
+	/**Logs user out of the local test environment 
+	 */
 	protected void logoutUser() {
 		helper.setEnvIsLoggedIn(false);
 		helper.setEnvIsAdmin(false);
@@ -359,6 +335,8 @@ public class BaseTestCase {
 		helper.setEnvIsAdmin(true);
 	}
 
+	/**Logs in the user to the local test environment as an admin 
+	 */
 	protected void loginAsCoord(String userId) {
 		loginUser(userId);
 		Logic logic = new Logic();
@@ -366,6 +344,8 @@ public class BaseTestCase {
 		assertEquals(false, logic.getLoggedInUser().isAdmin);
 	}
 
+	/**Logs in the user to the local test environment as a student 
+	 */
 	protected void loginAsStudent(String userId) {
 		loginUser(userId);
 		Logic logic = new Logic();

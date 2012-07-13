@@ -6,6 +6,7 @@ import java.util.ArrayList;
  * Manage the pool of browser instances.
  * This class is thread-safe.
  */
+//TODO: this class may be redundant. Try to get rid of it.
 public class BrowserInstancePool {
 	private static final int CAPACITY = 4;
 
