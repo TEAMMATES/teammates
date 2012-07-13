@@ -4,6 +4,7 @@
   	"typicalCoord2": {"id": "idOfTypicalCoord2", "name":"Typical Coordinator2", "email":"typicalCoord2@gmail.com"},
   	"typicalCoord3": {"id": "idOfTypicalCoord3", "name":"Typical Coordinator3", "email":"typicalCoord3@gmail.com"}
   },
+  
   "courses": {
 	  "course1OfCoord1": {
       "coord" : "idOfTypicalCoord1",
@@ -26,7 +27,6 @@
 	    "name": "course2OfCoord2 name"
 	  }
   },
-  
   
   "students": {
     "student1InCourse1":{
