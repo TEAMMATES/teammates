@@ -298,13 +298,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameter");
 
-		// TODO: replace these will verifyNullPointerException method
-		try {
-			logic.getCoord(null);
-			fail();
-		} catch (NullPointerException e) {
-
-		}
+		verifyNullPointerException(methodName, "coordinator ID", paramTypes,
+				new Object[] { null });
 
 	}
 
@@ -393,12 +388,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		try {
-			logic.getCourseListForCoord(null);
-			fail();
-		} catch (NullPointerException e) {
-
-		}
+		verifyNullPointerException(methodName, "coordinator ID", paramTypes,
+				new Object[] { null });
 
 		______TS("non-existent coord");
 
@@ -496,11 +487,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		try {
-			logic.getCourseDetailsListForCoord(null);
-			fail();
-		} catch (NullPointerException e) {
-		}
+		verifyNullPointerException(methodName, "coordinator ID", paramTypes,
+				new Object[] { null });
 
 		______TS("non-existent coord");
 
@@ -570,11 +558,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		try {
-			logic.getEvaluationsListForCoord(null);
-			fail();
-		} catch (NullPointerException e) {
-		}
+		verifyNullPointerException(methodName, "coordinator ID", paramTypes,
+				new Object[] { null });
 
 		______TS("non-existent coord");
 
@@ -676,6 +661,11 @@ public class LogicTest extends BaseTestCase {
 			BaseTestCase.assertContains("Course name", e.getMessage());
 		}
 
+		// other combinations of invalid input should be checked against
+		// CourseData.validate()
+
+		______TS("null parameters");
+
 		verifyNullPointerException(methodName, "coordinator ID", paramTypes,
 				new Object[] { null, "new-course", "New Course" });
 
@@ -685,8 +675,6 @@ public class LogicTest extends BaseTestCase {
 		verifyNullPointerException(methodName, "course name", paramTypes,
 				new Object[] { "idOfTypicalCoord1", "new-course", null });
 
-		// other combinations of invalid input should be checked against
-		// CourseData.validate()
 	}
 
 	@Test
@@ -714,11 +702,9 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		try {
-			logic.getCourse(null);
-			fail();
-		} catch (NullPointerException e) {
-		}
+		verifyNullPointerException(methodName, "course ID", paramTypes,
+				new Object[] { null });
+
 	}
 
 	@Test
@@ -858,11 +844,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameter");
 
-		try {
-			logic.deleteCourse(null);
-			fail();
-		} catch (NullPointerException e) {
-		}
+		verifyNullPointerException(methodName, "course ID", paramTypes,
+				new Object[] { null });
 	}
 
 	@Test
@@ -914,11 +897,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameter");
 
-		try {
-			logic.getStudentListForCourse(null);
-			fail();
-		} catch (NullPointerException e) {
-		}
+		verifyNullPointerException(methodName, "course ID", paramTypes,
+				new Object[] { null });
 
 		______TS("non-existent course");
 
@@ -1025,19 +1005,11 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		try {
-			logic.enrollStudents(null, courseId);
-			fail();
-		} catch (NullPointerException e) {
-			assertContains("enrollment text", e.getMessage());
-		}
+		verifyNullPointerException(methodName, "enrollment text", paramTypes,
+				new Object[] { null, courseId });
 
-		try {
-			logic.enrollStudents("any text", null);
-			fail();
-		} catch (NullPointerException e) {
-			assertContains("course ID", e.getMessage());
-		}
+		verifyNullPointerException(methodName, "course ID", paramTypes,
+				new Object[] { "any text", null });
 
 		______TS("same student added, modified and unmodified in one shot");
 
@@ -1112,12 +1084,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		try {
-			logic.sendRegistrationInviteForCourse(null);
-			fail();
-		} catch (NullPointerException e) {
-			assertContains("course ID", e.getMessage());
-		}
+		verifyNullPointerException(methodName, "course ID", paramTypes,
+				new Object[] { null });
 	}
 
 	@Test
@@ -1188,11 +1156,10 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(4, courseAsTeams.teams.get(0).students.size());
 		assertEquals(0, courseAsTeams.loners.size());
 
-		try {
-			logic.getTeamsForCourse(null);
-			fail();
-		} catch (NullPointerException e) {
-		}
+		______TS("null parameters");
+
+		verifyNullPointerException(methodName, "course ID", paramTypes,
+				new Object[] { null });
 
 		______TS("course without teams");
 
@@ -1253,6 +1220,7 @@ public class LogicTest extends BaseTestCase {
 		logic.createStudent(newStudent);
 		verifyPresentInDatastore(newStudent);
 
+		______TS("duplicate student");
 		// try to create the same student
 		try {
 			logic.createStudent(newStudent);
@@ -1260,11 +1228,10 @@ public class LogicTest extends BaseTestCase {
 		} catch (EntityAlreadyExistsException e) {
 		}
 
-		try {
-			logic.createStudent(null);
-			fail();
-		} catch (NullPointerException e) {
-		}
+		______TS("null parameter");
+
+		verifyNullPointerException(methodName, "student data", paramTypes,
+				new Object[] { null });
 
 		// other combination of invalid data should be tested against
 		// StudentData
@@ -1300,19 +1267,13 @@ public class LogicTest extends BaseTestCase {
 		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, params);
 
-		______TS("null parameter");
+		______TS("null parameters");
 
-		try {
-			logic.getStudent(null, "email@email.com");
-			fail();
-		} catch (NullPointerException e) {
-		}
+		verifyNullPointerException(methodName, "course ID", paramTypes,
+				new Object[] { null, "email@email.com" });
 
-		try {
-			logic.getStudent("course-id", null);
-			fail();
-		} catch (NullPointerException e) {
-		}
+		verifyNullPointerException(methodName, "student email", paramTypes,
+				new Object[] { "course-id", null });
 	}
 
 	@Test
@@ -1510,17 +1471,19 @@ public class LogicTest extends BaseTestCase {
 			BaseTestCase.assertContains(student1.course, e.getMessage());
 		}
 
-		______TS("try with null parameters");
+		______TS("null parameters");
 
 		try {
 			logic.sendRegistrationInviteToStudent(student1.course, null);
 			fail();
 		} catch (NullPointerException e) {
+			assertContains("student email", e.getMessage().toLowerCase());
 		}
 		try {
 			logic.sendRegistrationInviteToStudent(null, student1.email);
 			fail();
 		} catch (NullPointerException e) {
+			assertContains("course id", e.getMessage().toLowerCase());
 		}
 
 		______TS("authentication");
@@ -1634,6 +1597,7 @@ public class LogicTest extends BaseTestCase {
 				secondStudentReceived.course);
 
 		______TS("non existent student");
+
 		assertEquals(0, logic.getStudentsWithId("non-existent").size());
 
 		______TS("null parameters");
@@ -1766,19 +1730,10 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		try {
-			logic.getStudentInCourseForGoogleId(null, "not-null");
-			fail();
-		} catch (NullPointerException e) {
-			assertContains("course ID", e.getMessage());
-		}
-
-		try {
-			logic.getStudentInCourseForGoogleId("not-null", null);
-			fail();
-		} catch (NullPointerException e) {
-			assertContains("Google ID", e.getMessage());
-		}
+		verifyNullPointerException(methodName, "course ID", paramTypes,
+				new Object[] { null, "not-null" });
+		verifyNullPointerException(methodName, "Google ID", paramTypes,
+				new Object[] { "not-null", null });
 	}
 
 	@Test
@@ -1886,17 +1841,10 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		try {
-			logic.joinCourse(googleId, null);
-			fail();
-		} catch (NullPointerException e) {
-		}
-		try {
-			logic.joinCourse(null, null);
-			fail();
-		} catch (NullPointerException e) {
-		}
-
+		verifyNullPointerException(methodName, "key", paramTypes, new Object[] {
+				googleId, null });
+		verifyNullPointerException(methodName, "Google ID", paramTypes,
+				new Object[] { null, "fdsfsfsfsdfsf" });
 	}
 
 	@Test
@@ -1932,23 +1880,10 @@ public class LogicTest extends BaseTestCase {
 
 		StudentData student = dataBundle.students.get("student1InCourse1");
 
-		try {
-			logic.getKeyForStudent(student.course, null);
-			fail();
-		} catch (NullPointerException e) {
-		}
-
-		try {
-			logic.getKeyForStudent(null, student.email);
-			fail();
-		} catch (NullPointerException e) {
-		}
-
-		try {
-			logic.getKeyForStudent(null, null);
-			fail();
-		} catch (NullPointerException e) {
-		}
+		verifyNullPointerException(methodName, "student email", paramTypes,
+				new Object[] { student.course, null });
+		verifyNullPointerException(methodName, "course ID", paramTypes,
+				new Object[] { null, student.email });
 
 		______TS("non-existent student");
 
@@ -2019,11 +1954,9 @@ public class LogicTest extends BaseTestCase {
 		}
 
 		______TS("null parameter");
-		try {
-			logic.getCourseListForStudent(null);
-			fail();
-		} catch (NullPointerException e) {
-		}
+
+		verifyNullPointerException(methodName, "Google ID", paramTypes,
+				new Object[] { null });
 	}
 
 	@Test
@@ -2066,26 +1999,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		try {
-			logic.hasStudentSubmittedEvaluation(null, evaluation.name,
-					student.email);
-			fail();
-		} catch (NullPointerException e) {
-		}
-
-		try {
-			logic.hasStudentSubmittedEvaluation(evaluation.course, null,
-					student.email);
-			fail();
-		} catch (NullPointerException e) {
-		}
-
-		try {
-			logic.hasStudentSubmittedEvaluation(evaluation.course,
-					evaluation.name, null);
-			fail();
-		} catch (NullPointerException e) {
-		}
+		verifyNullPointerException(methodName, "course ID", paramTypes,
+				new Object[] { null, evaluation.name, student.email });
+		verifyNullPointerException(methodName, "evaluation name", paramTypes,
+				new Object[] { evaluation.course, null, student.email });
+		verifyNullPointerException(methodName, "student email", paramTypes,
+				new Object[] { evaluation.course, evaluation.name, null });
 
 		______TS("non-existent course/evaluation/student");
 
@@ -2218,12 +2137,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameter");
 
-		try {
-			logic.getCourseDetailsListForStudent(null);
-			fail();
-		} catch (NullPointerException e) {
-		}
-
+		verifyNullPointerException(methodName, "Google ID", paramTypes,
+				new Object[] { null });
 	}
 
 	@Test
@@ -2364,25 +2279,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameter");
 
-		try {
-			logic.getEvaluationResultForStudent(null, "eval name",
-					"e@gmail.com");
-			fail();
-		} catch (NullPointerException e) {
-		}
-
-		try {
-			logic.getEvaluationResultForStudent("course-id", null,
-					"e@gmail.com");
-			fail();
-		} catch (NullPointerException e) {
-		}
-
-		try {
-			logic.getEvaluationResultForStudent("course-id", "eval name", null);
-			fail();
-		} catch (NullPointerException e) {
-		}
+		verifyNullPointerException(methodName, "course ID", paramTypes,
+				new Object[] { null, "eval name", "e@gmail.com" });
+		verifyNullPointerException(methodName, "evaluation name", paramTypes,
+				new Object[] { "course-id", null, "e@gmail.com" });
+		verifyNullPointerException(methodName, "student email", paramTypes,
+				new Object[] { "course-id", "eval name", null });
 
 		______TS("non-existent course");
 
@@ -2480,12 +2382,12 @@ public class LogicTest extends BaseTestCase {
 			assertContains(evaluation.name, e.getMessage());
 		}
 
+		______TS("null parameters");
+
+		verifyNullPointerException(methodName, "evaluation", paramTypes,
+				new Object[] { null });
+
 		______TS("invalid parameters");
-		try {
-			logic.createEvaluation(null);
-			fail();
-		} catch (NullPointerException e) {
-		}
 
 		evaluation.name = evaluation.name + "new";
 		evaluation.course = null;
@@ -2604,13 +2506,18 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		try {
-			logic.editEvaluation(null, "not null", "not null", dummyTime,
-					dummyTime, 0, 0, false);
-			fail();
-		} catch (NullPointerException e) {
-			verifyNullParameterDetectedCorrectly(e, "course id");
-		}
+		verifyNullPointerException(methodName, "course ID", paramTypes,
+				new Object[] { null, "not null", "not null", dummyTime,
+						dummyTime, 0, 0, false });
+		verifyNullPointerException(methodName, "evaluation name", paramTypes,
+				new Object[] { "course-id", null, "not null", dummyTime,
+						dummyTime, 0, 0, false });
+		verifyNullPointerException(methodName, "starting time", paramTypes,
+				new Object[] { "course-id", "not null", "not null", null,
+						dummyTime, 0, 0, false });
+		verifyNullPointerException(methodName, "deadline", paramTypes,
+				new Object[] { "course-id", "not null", "not null", dummyTime,
+						null, 0, 0, false });
 
 		______TS("invalid parameters");
 
@@ -2795,18 +2702,11 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		try {
-			logic.publishEvaluation(null, "non-existent");
-			fail();
-		} catch (NullPointerException e) {
-			assertContains("course ID", e.getMessage());
-		}
-
-		try {
-			logic.unpublishEvaluation("non-existent", null);
-			fail();
-		} catch (NullPointerException e) {
-			assertContains("evaluation name", e.getMessage().toLowerCase());
+		for (int j = 0; j < methodNames.length; j++) {
+			verifyNullPointerException(methodNames[j], "course ID", paramTypes,
+					new Object[] { null, "random" });
+			verifyNullPointerException(methodNames[j], "evaluation name",
+					paramTypes, new Object[] { "random", null });
 		}
 
 	}
@@ -2999,17 +2899,10 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		try {
-			logic.getEvaluationResult(null, evaluation.name);
-			fail();
-		} catch (NullPointerException e) {
-		}
-
-		try {
-			logic.getEvaluationResult(course.id, null);
-			fail();
-		} catch (NullPointerException e) {
-		}
+		verifyNullPointerException(methodName, "course ID", paramTypes,
+				new Object[] { null, evaluation.name });
+		verifyNullPointerException(methodName, "evaluation name", paramTypes,
+				new Object[] { course.id, null });
 
 		______TS("non-existent course");
 
@@ -3316,30 +3209,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		try {
-			logic.getSubmissionsFromStudent(null, evaluation.name,
-					student.email);
-			fail();
-		} catch (NullPointerException e) {
-			assertContains("course id", e.getMessage().toLowerCase());
-		}
-
-		try {
-			logic.getSubmissionsFromStudent(evaluation.course, null,
-					student.email);
-			fail();
-		} catch (NullPointerException e) {
-			BaseTestCase.assertContains("evaluation name", e.getMessage()
-					.toLowerCase());
-		}
-
-		try {
-			logic.getSubmissionsFromStudent(evaluation.course, evaluation.name,
-					null);
-			fail();
-		} catch (NullPointerException e) {
-			assertContains("student email", e.getMessage().toLowerCase());
-		}
+		verifyNullPointerException(methodName, "course ID", paramTypes,
+				new Object[] { null, evaluation.name, student.email });
+		verifyNullPointerException(methodName, "evaluation name", paramTypes,
+				new Object[] { evaluation.course, null, student.email });
+		verifyNullPointerException(methodName, "student email", paramTypes,
+				new Object[] { evaluation.course, evaluation.name, null });
 
 		______TS("course/evaluation/student does not exist");
 
@@ -3477,19 +3352,10 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameter");
 
-		try {
-			logic.sendReminderForEvaluation(null, eval.name);
-			fail();
-		} catch (NullPointerException e) {
-			assertContains("course ID", e.getMessage());
-		}
-
-		try {
-			logic.sendReminderForEvaluation(eval.course, null);
-			fail();
-		} catch (NullPointerException e) {
-			assertContains("evaluation name", e.getMessage().toLowerCase());
-		}
+		verifyNullPointerException(methodName, "course ID", paramTypes,
+				new Object[] {null, eval.name});
+		verifyNullPointerException(methodName, "evaluation name", paramTypes,
+				new Object[] {eval.course, null});
 	}
 
 	@SuppressWarnings("unused")
@@ -3578,14 +3444,6 @@ public class LogicTest extends BaseTestCase {
 		verifyPresentInDatastore(sub1);
 		verifyPresentInDatastore(sub2);
 
-		______TS("null parameter");
-
-		try {
-			logic.editSubmissions(null);
-			fail();
-		} catch (NullPointerException e) {
-			assertContains("submissions list", e.getMessage().toLowerCase());
-		}
 
 		______TS("non-existent evaluation");
 
@@ -3639,7 +3497,11 @@ public class LogicTest extends BaseTestCase {
 
 		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, params);
-
+		
+		______TS("null parameter");
+		
+		verifyNullPointerException(methodName, "submissions", paramTypes,
+				new Object[] {null});
 	}
 
 	@Test
@@ -3712,13 +3574,9 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameter");
 
-		try {
-			invokeEditSubmission(null);
-			fail();
-		} catch (Exception e) {
-			assertEquals(NullPointerException.class, e.getCause().getClass());
-		}
-
+		verifyNullPointerException(methodName, "submission", paramTypes,
+				new Object[] {null});
+		
 		______TS("non-existent evaluation");
 
 		sub1.evaluation = "non-existent";

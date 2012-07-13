@@ -42,6 +42,9 @@ import com.google.appengine.api.users.User;
 
 /**
  * This class represents the API to the business logic of the system.
+ * Please refer to DevMan for general policies followed by Logic.
+ * As those policies cover most of the behavior of the API, we use
+ * very short comments to describe operations here. 
  */
 public class Logic {
 
@@ -81,6 +84,9 @@ public class Logic {
 		return (accounts.getUser() != null);
 	}
 
+	/**
+	 * @return Returns null if the user is not logged in.
+	 */
 	public UserData getLoggedInUser() {
 		AccountsStorage accounts = AccountsStorage.inst();
 		User user = accounts.getUser();
@@ -667,7 +673,7 @@ public class Logic {
 	public CourseData getTeamsForCourse(String courseId)
 			throws EntityDoesNotExistException {
 
-		Common.verifyNotNull(courseId, "coure ID");
+		Common.verifyNotNull(courseId, "course ID");
 
 		verifyCourseOwnerOrStudentInCourse(courseId);
 
@@ -1337,10 +1343,6 @@ public class Logic {
 
 	/**
 	 * Access: course owner, reviewer (if OPEN), admin
-	 * 
-	 * @param submissionDataList
-	 * @throws EntityDoesNotExistException
-	 * @throws InvalidParametersException
 	 */
 	public void editSubmissions(List<SubmissionData> submissionDataList)
 			throws EntityDoesNotExistException, InvalidParametersException {
