@@ -136,6 +136,12 @@ public class LogicTest extends BaseTestCase {
 
 		// this user is no longer a student
 		logic.deleteStudent(coordAsStudent.course, coordAsStudent.email);
+		
+		user = logic.getLoggedInUser();
+		assertEquals(coord.id, user.id);
+		assertEquals(true, user.isAdmin);
+		assertEquals(true, user.isCoord);
+		assertEquals(false, user.isStudent);
 
 		______TS("coord only");
 		// this user is no longer an admin
@@ -149,9 +155,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("unregistered");
 
-		// check for unregistered student
-		helper.setEnvEmail("unknown");
-		helper.setEnvAuthDomain("gmail.com");
+		loginUser("unknown");
+		
 		user = logic.getLoggedInUser();
 		assertEquals("unknown", user.id);
 		assertEquals(false, user.isAdmin);
@@ -160,10 +165,9 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("student only");
 
-		// check for user who is only a student
 		StudentData student = dataBundle.students.get("student1InCourse1");
-		helper.setEnvEmail(student.id);
-		helper.setEnvAuthDomain("gmail.com");
+		loginAsStudent(student.id);
+
 		user = logic.getLoggedInUser();
 		assertEquals(student.id, user.id);
 		assertEquals(false, user.isAdmin);
@@ -183,7 +187,7 @@ public class LogicTest extends BaseTestCase {
 		______TS("not logged in");
 
 		// check for user not logged in
-		helper.setEnvIsLoggedIn(false);
+		logoutUser();
 		assertEquals(null, logic.getLoggedInUser());
 	}
 
