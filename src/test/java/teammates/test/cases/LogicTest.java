@@ -397,12 +397,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("non-existent coord");
 
-		try {
-			logic.getCourseListForCoord("non-existent");
-			fail();
-		} catch (EntityDoesNotExistException e) {
-			BaseTestCase.assertContains("non-existent", e.getMessage());
-		}
+		verifyEntityDoesNotExistException(methodName, paramTypes,
+				new Object[] { "non-existent" });
 	}
 
 	@Test
@@ -496,13 +492,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("non-existent coord");
 
-		try {
-			logic.getCourseDetailsListForCoord("non-existent");
-			fail();
-		} catch (EntityDoesNotExistException e) {
-			BaseTestCase.assertContains("non-existent", e.getMessage());
-		}
-
+		verifyEntityDoesNotExistException(methodName, paramTypes,
+				new Object[] { "non-existent" });
 	}
 
 	@Test
@@ -567,12 +558,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("non-existent coord");
 
-		try {
-			logic.getEvaluationsListForCoord("non-existent");
-			fail();
-		} catch (EntityDoesNotExistException e) {
-			BaseTestCase.assertContains("non-existent", e.getMessage());
-		}
+		verifyEntityDoesNotExistException(methodName, paramTypes,
+				new Object[] { "non-existent" });
 	}
 
 	@SuppressWarnings("unused")
@@ -767,12 +754,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("non-existent");
 
-		try {
-			logic.getCourseDetails("non-existent");
-			fail();
-		} catch (EntityDoesNotExistException e) {
-			BaseTestCase.assertContains("non-existent", e.getMessage());
-		}
+		verifyEntityDoesNotExistException(methodName, paramTypes,
+				new Object[] { "non-existent" });
 
 		______TS("null parameter");
 
@@ -906,12 +889,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("non-existent course");
 
-		try {
-			logic.getStudentListForCourse("non-existent");
-			fail();
-		} catch (EntityDoesNotExistException e) {
-			BaseTestCase.assertContains("non-existent", e.getMessage());
-		}
+		verifyEntityDoesNotExistException(methodName, paramTypes,
+				new Object[] { "non-existent" });
 	}
 
 	@Test
@@ -1172,12 +1151,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("non-existent course");
 
-		try {
-			logic.getTeamsForCourse("non-existent");
-			fail();
-		} catch (EntityDoesNotExistException e) {
-			BaseTestCase.assertContains("non-existent", e.getMessage());
-		}
+		verifyEntityDoesNotExistException(methodName, paramTypes,
+				new Object[] { "non-existent" });
 	}
 
 	@SuppressWarnings("unused")
@@ -1347,12 +1322,9 @@ public class LogicTest extends BaseTestCase {
 
 		student1InCourse1.course = "new-course";
 		verifyAbsentInDatastore(student1InCourse1);
-		try {
-			logic.editStudent(originalEmail, student1InCourse1);
-			fail();
-		} catch (EntityDoesNotExistException e) {
-			BaseTestCase.assertContains("new-course", e.getMessage());
-		}
+
+		verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
+				originalEmail, student1InCourse1 });
 
 		______TS("null parameters");
 
@@ -1468,17 +1440,6 @@ public class LogicTest extends BaseTestCase {
 
 		verifyJoinInviteToStudent(student1, email);
 
-		______TS("send to non-existing student");
-
-		try {
-			logic.sendRegistrationInviteToStudent(student1.course,
-					"non@existent");
-			fail();
-		} catch (EntityDoesNotExistException e) {
-			BaseTestCase.assertContains("non@existent", e.getMessage());
-			BaseTestCase.assertContains(student1.course, e.getMessage());
-		}
-
 		______TS("authentication");
 
 		restoreTypicalDataInDatastore();
@@ -1505,13 +1466,18 @@ public class LogicTest extends BaseTestCase {
 		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, params);
 
+		______TS("send to non-existing student");
+
+		verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
+				student1.course, "non@existent" });
+
 		______TS("null parameters");
 
 		verifyNullPointerException(methodName, "student email", paramTypes,
-				new Object[] {student1.course, null});
-		
+				new Object[] { student1.course, null });
+
 		verifyNullPointerException(methodName, "course ID", paramTypes,
-				new Object[] {null, student1.email});
+				new Object[] { null, student1.email });
 	}
 
 	@Test
@@ -1558,6 +1524,7 @@ public class LogicTest extends BaseTestCase {
 				logic.getStudentsWithId(studentInOneCourse.id).get(0).course);
 
 		______TS("student in two courses");
+
 		// this student is in two courses, course1 and course 2.
 
 		// get list using student data from course 1
@@ -1936,6 +1903,7 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(course2.name, courseList.get(1).name);
 
 		______TS("student having one course");
+
 		StudentData studentInOneCourse = dataBundle.students
 				.get("student1InCourse1");
 		courseList = logic.getCourseListForStudent(studentInOneCourse.id);
@@ -1947,12 +1915,9 @@ public class LogicTest extends BaseTestCase {
 		// student having zero courses is not applicable
 
 		______TS("non-existent student");
-		try {
-			logic.getCourseListForStudent("non-existent");
-			fail();
-		} catch (EntityDoesNotExistException e) {
-			BaseTestCase.assertContains("non-existent", e.getMessage());
-		}
+
+		verifyEntityDoesNotExistException(methodName, paramTypes,
+				new Object[] { "non-existent" });
 
 		______TS("null parameter");
 
@@ -2129,12 +2094,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("non-existent student");
 
-		try {
-			logic.getCourseDetailsListForStudent("non-existent");
-			fail();
-		} catch (EntityDoesNotExistException e) {
-			BaseTestCase.assertContains("non-existent", e.getMessage());
-		}
+		verifyEntityDoesNotExistException(methodName, paramTypes,
+				new Object[] { "non-existent" });
 
 		______TS("null parameter");
 
@@ -2289,25 +2250,13 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("non-existent course");
 
-		try {
-			logic.getEvaluationResultForStudent("non-existent-course",
-					evaluation.name, student1email);
-			fail();
-		} catch (EntityDoesNotExistException e) {
-			BaseTestCase.assertContains("non-existent-course", e.getMessage()
-					.toLowerCase());
-		}
+		verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
+				"non-existent-course", evaluation.name, student1email });
 
 		______TS("non-existent evaluation");
 
-		try {
-			logic.getEvaluationResultForStudent(course.id, "non existent eval",
-					student1email);
-			fail();
-		} catch (EntityDoesNotExistException e) {
-			BaseTestCase.assertContains("non existent eval", e.getMessage()
-					.toLowerCase());
-		}
+		verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
+				course.id, "non existent eval", student1email });
 
 		______TS("non-existent student");
 
@@ -2591,6 +2540,7 @@ public class LogicTest extends BaseTestCase {
 				new Object[] { eval.course, null });
 
 		______TS("non-existent");
+
 		// should fail silently
 		logic.deleteEvaluation("non-existent", eval.name);
 		logic.deleteEvaluation(eval.course, "non-existent");
@@ -2689,18 +2639,10 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("non-existent");
 
-		try {
-			logic.publishEvaluation("non-existent", "non-existent");
-			fail();
-		} catch (EntityDoesNotExistException e) {
+		for (int i = 0; i < params.length; i++) {
+			verifyEntityDoesNotExistException(methodNames[i], paramTypes,
+					new Object[] { "non-existent", "non-existent" });
 		}
-
-		try {
-			logic.unpublishEvaluation("non-existent", "non-existent");
-			fail();
-		} catch (EntityDoesNotExistException e) {
-		}
-
 		______TS("null parameters");
 
 		for (int j = 0; j < methodNames.length; j++) {
@@ -2714,6 +2656,8 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testSendEvaluationPublishedEmails() throws Exception {
+		// private method. no need to check for authentication.
+
 		loginAsAdmin("admin.user");
 		restoreTypicalDataInDatastore();
 		dataBundle = getTypicalDataBundle();
@@ -2777,8 +2721,10 @@ public class LogicTest extends BaseTestCase {
 				.get("evaluation1InCourse1OfCoord1");
 
 		// @formatter:off
-		setPointsForSubmissions(new int[][] { { 100, 100, 100, 100 },
-				{ 110, 110, NSU, 110 }, { NSB, NSB, NSB, NSB },
+		setPointsForSubmissions(new int[][] { 
+				{ 100, 100, 100, 100 },
+				{ 110, 110, NSU, 110 }, 
+				{ NSB, NSB, NSB, NSB },
 				{ 70, 80, 110, 120 } });
 		// @formatter:on
 
@@ -2907,28 +2853,21 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("non-existent course");
 
-		try {
-			logic.getEvaluationResult(course.id, "non existent evaluation");
-			fail();
-		} catch (EntityDoesNotExistException e) {
-			BaseTestCase.assertContains("non existent evaluation",
-					e.getMessage());
-		}
+		verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
+				course.id, "non existent evaluation" });
 
-		try {
-			logic.getEvaluationResult("non-existent-course", "any name");
-			fail();
-		} catch (EntityDoesNotExistException e) {
-			BaseTestCase.assertContains("non-existent-course", e.getMessage());
-		}
+		verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
+				"non-existent-course", "any name" });
 
 		______TS("data used in UI tests");
 
 		// @formatter:off
 
 		createNewEvaluationWithSubmissions("courseForTestingER", "Eval 1",
-				new int[][] { { 110, 100, 110 }, { 90, 110, NSU },
-						{ 90, 100, 110 } });
+				new int[][] { 
+				{ 110, 100, 110 }, 
+				{  90, 110, NSU },
+				{  90, 100, 110 } });
 		// @formatter:on
 
 		result = logic.getEvaluationResult("courseForTestingER", "Eval 1");
@@ -3123,21 +3062,13 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("non-existent course/evaluation");
 
-		try {
-			invokeGetSubmissionsForEvaluation(evaluation.course, "non-existent");
-			fail();
-		} catch (Exception e) {
-			BaseTestCase.assertContains("non-existent", e.getCause()
-					.getMessage());
-		}
+		String methodName = "getSubmissionsForEvaluation";
+		Class<?>[] paramTypes = new Class[] { String.class, String.class };
 
-		try {
-			invokeGetSubmissionsForEvaluation("non-existent", evaluation.name);
-			fail();
-		} catch (Exception e) {
-			BaseTestCase.assertContains("non-existent", e.getCause()
-					.getMessage());
-		}
+		verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
+				evaluation.course, "non-existent" });
+		verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
+				"non-existent", evaluation.name });
 
 		// no need to check for invalid parameters as it is a private method
 		// TODO: verify orphan submissions are not returned
@@ -3219,29 +3150,14 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("course/evaluation/student does not exist");
 
-		try {
-			logic.getSubmissionsFromStudent("non-existent", evaluation.name,
-					student.email);
-			fail();
-		} catch (EntityDoesNotExistException e) {
-			BaseTestCase.assertContains("non-existent", e.getMessage());
-		}
+		verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
+				"non-existent", evaluation.name, student.email });
 
-		try {
-			logic.getSubmissionsFromStudent(evaluation.course, "non-existent",
-					student.email);
-			fail();
-		} catch (EntityDoesNotExistException e) {
-			BaseTestCase.assertContains("non-existent", e.getMessage());
-		}
+		verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
+				evaluation.course, "non-existent", student.email });
 
-		try {
-			logic.getSubmissionsFromStudent(evaluation.course, evaluation.name,
-					"non-existent");
-			fail();
-		} catch (EntityDoesNotExistException e) {
-			BaseTestCase.assertContains("non-existent", e.getMessage());
-		}
+		verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
+				evaluation.course, evaluation.name, "non-existent" });
 	}
 
 	@Test
@@ -3342,14 +3258,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("non-existent course/evaluation");
 
-		try {
-			logic.sendReminderForEvaluation("non-existent-course",
-					"non-existent-eval");
-			fail();
-		} catch (EntityDoesNotExistException e) {
-			assertContainsRegex("non-existent-eval{*}non-existent-course",
-					e.getMessage());
-		}
+		verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
+				"non-existent-course", "non-existent-eval" });
 
 		______TS("null parameter");
 
@@ -3581,13 +3491,8 @@ public class LogicTest extends BaseTestCase {
 
 		sub1.evaluation = "non-existent";
 
-		try {
-			invokeEditSubmission(sub1);
-			fail();
-		} catch (Exception e) {
-			assertEquals(EntityDoesNotExistException.class, e.getCause()
-					.getClass());
-		}
+		verifyEntityDoesNotExistException(methodName, paramTypes,
+				new Object[] { sub1 });
 	}
 
 	@Test
@@ -3596,15 +3501,7 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	@SuppressWarnings("unused")
-	private void ____helper_methods_________________________________________() {
-	}
-
-	private void verifyJoinInviteToStudent(StudentData student1,
-			MimeMessage email) throws MessagingException {
-		assertEquals(student1.email, email.getAllRecipients()[0].toString());
-		assertContains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN,
-				email.getSubject());
-		assertContains(student1.course, email.getSubject());
+	private void ____HELPER_methods_________________________________________() {
 	}
 
 	private MimeMessage getEmailToStudent(StudentData s,
@@ -3620,62 +3517,12 @@ public class LogicTest extends BaseTestCase {
 		return null;
 	}
 
-	private void verifyNullParameterDetectedCorrectly(NullPointerException e,
-			String nameOfNullParameter) {
-		BaseTestCase.assertContains(nameOfNullParameter.toLowerCase(), e
-				.getMessage().toLowerCase());
-	}
-
-	private void createNewEvaluationWithSubmissions(String courseId,
-			String evaluationName, int[][] input)
-			throws EntityAlreadyExistsException, InvalidParametersException,
-			EntityDoesNotExistException {
-		// create course
-		loginAsAdmin("admin.user");
-		logic.createCourse("coordForTestingER", courseId,
-				"Course For Testing Evaluation Results");
-		// create students
-		int teamSize = input.length;
-		String teamName = "team1";
-		for (int i = 0; i < teamSize; i++) {
-			StudentData student = new StudentData();
-			int studentNumber = i + 1;
-			student.email = "s" + studentNumber + "@gmail.com";
-			student.name = "Student " + studentNumber;
-			student.team = teamName;
-			student.course = courseId;
-			logic.createStudent(student);
-		}
-		// create evaluation
-		EvaluationData e = new EvaluationData();
-		e.course = courseId;
-		e.name = evaluationName;
-		e.startTime = Common.getDateOffsetToCurrentTime(-1);
-		e.endTime = Common.getDateOffsetToCurrentTime(1);
-		e.gracePeriod = 0;
-		e.instructions = "instructions for " + e.name;
-		logic.createEvaluation(e);
-		// create submissions
-		ArrayList<SubmissionData> submissions = new ArrayList<SubmissionData>();
-		for (int i = 0; i < teamSize; i++) {
-			for (int j = 0; j < teamSize; j++) {
-				SubmissionData sub = new SubmissionData();
-				sub.course = courseId;
-				sub.evaluation = e.name;
-				sub.team = teamName;
-				int reviewerNumber = i + 1;
-				sub.reviewer = "s" + reviewerNumber + "@gmail.com";
-				int revieweeNumber = j + 1;
-				sub.reviewee = "s" + revieweeNumber + "@gmail.com";
-				sub.points = input[i][j];
-				sub.justification = new Text("jus[s" + reviewerNumber + "->s"
-						+ revieweeNumber + "]");
-				sub.p2pFeedback = new Text("p2p[s" + reviewerNumber + "->s"
-						+ revieweeNumber + "]");
-				submissions.add(sub);
-			}
-		}
-		logic.editSubmissions(submissions);
+	private void verifyJoinInviteToStudent(StudentData student,
+			MimeMessage email) throws MessagingException {
+		assertEquals(student.email, email.getAllRecipients()[0].toString());
+		assertContains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN,
+				email.getSubject());
+		assertContains(student.course, email.getSubject());
 	}
 
 	private void verifyEvaluationInfoExistsInList(EvaluationData evaluation,
@@ -3697,14 +3544,6 @@ public class LogicTest extends BaseTestCase {
 		expectedStudent.updateStatus = status;
 		assertEquals(errorMessage, true,
 				enrollmentResult.isEnrollmentInfoMatchingTo(expectedStudent));
-	}
-
-	private void alterSubmission(SubmissionData submission) {
-		submission.points = submission.points + 10;
-		submission.p2pFeedback = new Text(submission.p2pFeedback.getValue()
-				+ "x");
-		submission.justification = new Text(submission.justification.getValue()
-				+ "y");
 	}
 
 	private void verifyAbsentInDatastore(SubmissionData submission)
@@ -3774,82 +3613,6 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(expected.p2pEnabled, actual.p2pEnabled);
 		assertEquals(expected.published, actual.published);
 		assertEquals(expected.activated, actual.activated);
-	}
-
-	private void invokeEditEvaluation(EvaluationData e)
-			throws InvalidParametersException, EntityDoesNotExistException {
-		logic.editEvaluation(e.course, e.name, e.instructions, e.startTime,
-				e.endTime, e.timeZone, e.gracePeriod, e.p2pEnabled);
-	}
-
-	private TeamEvalResult invokeCalculateTeamResult(TeamData team)
-			throws Exception {
-		Method privateMethod = Logic.class.getDeclaredMethod(
-				"calculateTeamResult", new Class[] { TeamData.class });
-		privateMethod.setAccessible(true);
-		Object[] params = new Object[] { team };
-		return (TeamEvalResult) privateMethod.invoke(logic, params);
-	}
-
-	private void invokePopulateTeamResult(TeamData team,
-			TeamEvalResult teamResult) throws Exception {
-		Method privateMethod = Logic.class.getDeclaredMethod(
-				"populateTeamResult", new Class[] { TeamData.class,
-						TeamEvalResult.class });
-		privateMethod.setAccessible(true);
-		Object[] params = new Object[] { team, teamResult };
-		privateMethod.invoke(logic, params);
-	}
-
-	@SuppressWarnings("unchecked")
-	private static HashMap<String, SubmissionData> invokeGetSubmissionsForEvaluation(
-			String courseId, String evaluationName) throws Exception {
-		Method privateMethod = Logic.class.getDeclaredMethod(
-				"getSubmissionsForEvaluation", new Class[] { String.class,
-						String.class });
-		privateMethod.setAccessible(true);
-		Object[] params = new Object[] { courseId, evaluationName };
-		return (HashMap<String, SubmissionData>) privateMethod.invoke(logic,
-				params);
-	}
-
-	private static SubmissionData invokeGetSubmission(String course,
-			String evaluation, String reviewer, String reviewee)
-			throws Exception {
-		Method privateMethod = Logic.class.getDeclaredMethod("getSubmission",
-				new Class[] { String.class, String.class, String.class,
-						String.class });
-		privateMethod.setAccessible(true);
-		Object[] params = new Object[] { course, evaluation, reviewer, reviewee };
-		return (SubmissionData) privateMethod.invoke(logic, params);
-	}
-
-	private static StudentData invokeEnrollStudent(StudentData student)
-			throws Exception {
-		Method privateMethod = Logic.class.getDeclaredMethod("enrollStudent",
-				new Class[] { StudentData.class });
-		privateMethod.setAccessible(true);
-		Object[] params = new Object[] { student };
-		return (StudentData) privateMethod.invoke(logic, params);
-	}
-
-	private void invokeEditSubmission(SubmissionData s) throws Exception {
-		Method privateMethod = Logic.class.getDeclaredMethod("editSubmission",
-				new Class[] { SubmissionData.class });
-		privateMethod.setAccessible(true);
-		Object[] params = new Object[] { s };
-		privateMethod.invoke(logic, params);
-	}
-
-	@SuppressWarnings("unchecked")
-	private List<MimeMessage> invokeSendEvaluationPublishedEmails(
-			String courseId, String evaluationName) throws Exception {
-		Method privateMethod = Logic.class.getDeclaredMethod(
-				"sendEvaluationPublishedEmails", new Class[] { String.class,
-						String.class });
-		privateMethod.setAccessible(true);
-		Object[] params = new Object[] { courseId, evaluationName };
-		return (List<MimeMessage>) privateMethod.invoke(logic, params);
 	}
 
 	private void verifyCannotAccess(int userType, String methodName,
@@ -3930,6 +3693,171 @@ public class LogicTest extends BaseTestCase {
 				throw e;
 			}
 		}
+	}
+
+	private void verifyEntityDoesNotExistException(String methodName,
+			Class<?>[] paramTypes, Object[] params) throws Exception {
+
+		Method method = Logic.class.getDeclaredMethod(methodName, paramTypes);
+
+		try {
+			method.setAccessible(true); // in case it is a private method
+			method.invoke(logic, params);
+			fail();
+		} catch (Exception e) {
+			assertEquals(e.getCause().getClass(),
+					EntityDoesNotExistException.class);
+		}
+	}
+
+	@SuppressWarnings("unused")
+	private void ____invoking_private_methods__() {
+	}
+
+	private void verifyNullParameterDetectedCorrectly(NullPointerException e,
+			String nameOfNullParameter) {
+		BaseTestCase.assertContains(nameOfNullParameter.toLowerCase(), e
+				.getMessage().toLowerCase());
+	}
+
+	private void invokeEditEvaluation(EvaluationData e)
+			throws InvalidParametersException, EntityDoesNotExistException {
+		logic.editEvaluation(e.course, e.name, e.instructions, e.startTime,
+				e.endTime, e.timeZone, e.gracePeriod, e.p2pEnabled);
+	}
+
+	private TeamEvalResult invokeCalculateTeamResult(TeamData team)
+			throws Exception {
+		Method privateMethod = Logic.class.getDeclaredMethod(
+				"calculateTeamResult", new Class[] { TeamData.class });
+		privateMethod.setAccessible(true);
+		Object[] params = new Object[] { team };
+		return (TeamEvalResult) privateMethod.invoke(logic, params);
+	}
+
+	private void invokePopulateTeamResult(TeamData team,
+			TeamEvalResult teamResult) throws Exception {
+		Method privateMethod = Logic.class.getDeclaredMethod(
+				"populateTeamResult", new Class[] { TeamData.class,
+						TeamEvalResult.class });
+		privateMethod.setAccessible(true);
+		Object[] params = new Object[] { team, teamResult };
+		privateMethod.invoke(logic, params);
+	}
+
+	@SuppressWarnings("unchecked")
+	private static HashMap<String, SubmissionData> invokeGetSubmissionsForEvaluation(
+			String courseId, String evaluationName) throws Exception {
+		Method privateMethod = Logic.class.getDeclaredMethod(
+				"getSubmissionsForEvaluation", new Class[] { String.class,
+						String.class });
+		privateMethod.setAccessible(true);
+		Object[] params = new Object[] { courseId, evaluationName };
+		return (HashMap<String, SubmissionData>) privateMethod.invoke(logic,
+				params);
+	}
+
+	private static SubmissionData invokeGetSubmission(String course,
+			String evaluation, String reviewer, String reviewee)
+			throws Exception {
+		Method privateMethod = Logic.class.getDeclaredMethod("getSubmission",
+				new Class[] { String.class, String.class, String.class,
+						String.class });
+		privateMethod.setAccessible(true);
+		Object[] params = new Object[] { course, evaluation, reviewer, reviewee };
+		return (SubmissionData) privateMethod.invoke(logic, params);
+	}
+
+	private static StudentData invokeEnrollStudent(StudentData student)
+			throws Exception {
+		Method privateMethod = Logic.class.getDeclaredMethod("enrollStudent",
+				new Class[] { StudentData.class });
+		privateMethod.setAccessible(true);
+		Object[] params = new Object[] { student };
+		return (StudentData) privateMethod.invoke(logic, params);
+	}
+
+	private void invokeEditSubmission(SubmissionData s) throws Exception {
+		Method privateMethod = Logic.class.getDeclaredMethod("editSubmission",
+				new Class[] { SubmissionData.class });
+		privateMethod.setAccessible(true);
+		Object[] params = new Object[] { s };
+		privateMethod.invoke(logic, params);
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<MimeMessage> invokeSendEvaluationPublishedEmails(
+			String courseId, String evaluationName) throws Exception {
+		Method privateMethod = Logic.class.getDeclaredMethod(
+				"sendEvaluationPublishedEmails", new Class[] { String.class,
+						String.class });
+		privateMethod.setAccessible(true);
+		Object[] params = new Object[] { courseId, evaluationName };
+		return (List<MimeMessage>) privateMethod.invoke(logic, params);
+	}
+
+	@SuppressWarnings("unused")
+	private void ____test_object_manipulation_methods__() {
+	}
+
+	private void createNewEvaluationWithSubmissions(String courseId,
+			String evaluationName, int[][] input)
+			throws EntityAlreadyExistsException, InvalidParametersException,
+			EntityDoesNotExistException {
+		// create course
+		loginAsAdmin("admin.user");
+		logic.createCourse("coordForTestingER", courseId,
+				"Course For Testing Evaluation Results");
+		// create students
+		int teamSize = input.length;
+		String teamName = "team1";
+		for (int i = 0; i < teamSize; i++) {
+			StudentData student = new StudentData();
+			int studentNumber = i + 1;
+			student.email = "s" + studentNumber + "@gmail.com";
+			student.name = "Student " + studentNumber;
+			student.team = teamName;
+			student.course = courseId;
+			logic.createStudent(student);
+		}
+		// create evaluation
+		EvaluationData e = new EvaluationData();
+		e.course = courseId;
+		e.name = evaluationName;
+		e.startTime = Common.getDateOffsetToCurrentTime(-1);
+		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.gracePeriod = 0;
+		e.instructions = "instructions for " + e.name;
+		logic.createEvaluation(e);
+		// create submissions
+		ArrayList<SubmissionData> submissions = new ArrayList<SubmissionData>();
+		for (int i = 0; i < teamSize; i++) {
+			for (int j = 0; j < teamSize; j++) {
+				SubmissionData sub = new SubmissionData();
+				sub.course = courseId;
+				sub.evaluation = e.name;
+				sub.team = teamName;
+				int reviewerNumber = i + 1;
+				sub.reviewer = "s" + reviewerNumber + "@gmail.com";
+				int revieweeNumber = j + 1;
+				sub.reviewee = "s" + revieweeNumber + "@gmail.com";
+				sub.points = input[i][j];
+				sub.justification = new Text("jus[s" + reviewerNumber + "->s"
+						+ revieweeNumber + "]");
+				sub.p2pFeedback = new Text("p2p[s" + reviewerNumber + "->s"
+						+ revieweeNumber + "]");
+				submissions.add(sub);
+			}
+		}
+		logic.editSubmissions(submissions);
+	}
+
+	private void alterSubmission(SubmissionData submission) {
+		submission.points = submission.points + 10;
+		submission.p2pFeedback = new Text(submission.p2pFeedback.getValue()
+				+ "x");
+		submission.justification = new Text(submission.justification.getValue()
+				+ "y");
 	}
 
 	private static SubmissionData createSubmission(int from, int to) {
