@@ -136,7 +136,7 @@ public class LogicTest extends BaseTestCase {
 
 		// this user is no longer a student
 		logic.deleteStudent(coordAsStudent.course, coordAsStudent.email);
-		
+
 		user = logic.getLoggedInUser();
 		assertEquals(coord.id, user.id);
 		assertEquals(true, user.isAdmin);
@@ -156,7 +156,7 @@ public class LogicTest extends BaseTestCase {
 		______TS("unregistered");
 
 		loginUser("unknown");
-		
+
 		user = logic.getLoggedInUser();
 		assertEquals("unknown", user.id);
 		assertEquals(false, user.isAdmin);
@@ -248,7 +248,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("invalid parameters");
 
-		// we check one invalid value for each parameter.
+		// We check one invalid value for each parameter. Other combinations
+		// of invalid values should be checked at lower levels.
 
 		try {
 			logic.createCoord("valid-id", "", "valid@email.com");
@@ -281,7 +282,7 @@ public class LogicTest extends BaseTestCase {
 
 		restoreTypicalDataInDatastore();
 
-		______TS("unauthorized: not logged in");
+		______TS("authentication");
 
 		Class<?>[] paramTypes = new Class[] { String.class };
 		Object[] params = new Object[] { "id" };
@@ -289,8 +290,6 @@ public class LogicTest extends BaseTestCase {
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, null,
 				paramTypes, params);
-
-		______TS("authorized: logged in");
 
 		verifyCanAccess(USER_TYPE_UNREGISTERED, methodName,
 				"student1InCourse1", paramTypes, params);
@@ -1226,6 +1225,7 @@ public class LogicTest extends BaseTestCase {
 		verifyPresentInDatastore(newStudent);
 
 		______TS("duplicate student");
+
 		// try to create the same student
 		try {
 			logic.createStudent(newStudent);
@@ -1331,6 +1331,7 @@ public class LogicTest extends BaseTestCase {
 		verifyPresentInDatastore(student1InCourse1);
 
 		______TS("check for KeepExistingPolicy");
+
 		// try changing email only
 		StudentData copyOfStudent1 = new StudentData();
 		copyOfStudent1.course = student1InCourse1.course;
@@ -1343,6 +1344,7 @@ public class LogicTest extends BaseTestCase {
 		verifyPresentInDatastore(student1InCourse1);
 
 		______TS("non-existent student");
+
 		student1InCourse1.course = "new-course";
 		verifyAbsentInDatastore(student1InCourse1);
 		try {
@@ -1434,6 +1436,7 @@ public class LogicTest extends BaseTestCase {
 		verifyPresentInDatastore(submissionFromS1C1ToS1C1);
 
 		______TS("delete non-existent student");
+
 		// should fail silently.
 		logic.deleteStudent(student2InCourse1.course, student2InCourse1.email);
 
@@ -1476,21 +1479,6 @@ public class LogicTest extends BaseTestCase {
 			BaseTestCase.assertContains(student1.course, e.getMessage());
 		}
 
-		______TS("null parameters");
-
-		try {
-			logic.sendRegistrationInviteToStudent(student1.course, null);
-			fail();
-		} catch (NullPointerException e) {
-			assertContains("student email", e.getMessage().toLowerCase());
-		}
-		try {
-			logic.sendRegistrationInviteToStudent(null, student1.email);
-			fail();
-		} catch (NullPointerException e) {
-			assertContains("course id", e.getMessage().toLowerCase());
-		}
-
 		______TS("authentication");
 
 		restoreTypicalDataInDatastore();
@@ -1516,6 +1504,14 @@ public class LogicTest extends BaseTestCase {
 
 		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, params);
+
+		______TS("null parameters");
+
+		verifyNullPointerException(methodName, "student email", paramTypes,
+				new Object[] {student1.course, null});
+		
+		verifyNullPointerException(methodName, "course ID", paramTypes,
+				new Object[] {null, student1.email});
 	}
 
 	@Test

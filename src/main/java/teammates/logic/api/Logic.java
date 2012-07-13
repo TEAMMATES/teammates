@@ -41,10 +41,10 @@ import com.google.appengine.api.datastore.Text; //TODO: remove this dependency
 import com.google.appengine.api.users.User;
 
 /**
- * This class represents the API to the business logic of the system.
- * Please refer to DevMan for general policies followed by Logic.
- * As those policies cover most of the behavior of the API, we use
- * very short comments to describe operations here. 
+ * This class represents the API to the business logic of the system. Please
+ * refer to DevMan for general policies followed by Logic. As those policies
+ * cover most of the behavior of the API, we use very short comments to describe
+ * operations here.
  */
 public class Logic {
 
@@ -576,7 +576,8 @@ public class Logic {
 	/**
 	 * Access: course owner and above
 	 * 
-	 * @return
+	 * @return Returns the list of emails sent. These can be used for
+	 *         verification.
 	 */
 	public List<MimeMessage> sendRegistrationInviteForCourse(String courseId)
 			throws InvalidParametersException {
@@ -607,7 +608,10 @@ public class Logic {
 	 * Enrolls new students in the course or modifies existing students. But it
 	 * will not delete any students. It will not edit email address either. If
 	 * an existing student was enrolled with a different email address, that
-	 * student will be treated as a new student. Access: course owner and above
+	 * student will be treated as a new student.<br>
+	 * If there is an error in the enrollLines, there will be no changes to the
+	 * datastore <br>
+	 * Access: course owner and above
 	 * 
 	 * @return StudentData objects in the return value contains the status of
 	 *         enrollment. It also includes data for other students in the
@@ -777,7 +781,7 @@ public class Logic {
 
 		Common.verifyNotNull(originalEmail, "student email");
 		Common.verifyNotNull(student, "student object");
-		
+
 		verifyCourseOwnerOrAbove(student.course);
 
 		// TODO: make the implementation more defensive
@@ -790,7 +794,7 @@ public class Logic {
 	 * Access: course owner and above
 	 */
 	public void deleteStudent(String courseId, String studentEmail) {
-		
+
 		Common.verifyNotNull(courseId, "course ID");
 		Common.verifyNotNull(studentEmail, "student email");
 
@@ -836,11 +840,12 @@ public class Logic {
 
 	/**
 	 * Access: same student and admin only
+	 * 
 	 * @return Returns all StudentData objects associated with this Google ID.
-	 *     Returns an empty list if no student has this Google ID.
+	 *         Returns an empty list if no student has this Google ID.
 	 */
 	public ArrayList<StudentData> getStudentsWithId(String googleId) {
-		
+
 		Common.verifyNotNull(googleId, "Google ID");
 
 		verifySameStudentOrAdmin(googleId);
@@ -857,8 +862,8 @@ public class Logic {
 	/**
 	 * Access: same student and admin only
 	 * 
-	 * @return Returns the StudentData object that has the given courseId and 
-	 *    is in given course. Returns null if no such student in the course.
+	 * @return Returns the StudentData object that has the given courseId and is
+	 *         in given course. Returns null if no such student in the course.
 	 */
 	public StudentData getStudentInCourseForGoogleId(String courseId,
 			String googleId) {
@@ -911,15 +916,18 @@ public class Logic {
 			return null;
 		}
 
-		//TODO: this should be pushed to lower levels
+		// TODO: this should be pushed to lower levels
 		long keyLong = Long.parseLong(student.getRegistrationKey().toString());
 		return Student.getStringKeyForLongKey(keyLong);
 	}
 
 	/**
 	 * Access: student who owns the googleId, admin
-	 * @return Returns Courses associated with the student with the given Google ID
-	 * @throws EntityDoesNotExistException Thrown if no such student.
+	 * 
+	 * @return Returns Courses associated with the student with the given Google
+	 *         ID
+	 * @throws EntityDoesNotExistException
+	 *             Thrown if no such student.
 	 */
 	public List<CourseData> getCourseListForStudent(String googleId)
 			throws EntityDoesNotExistException, InvalidParametersException {
@@ -973,14 +981,14 @@ public class Logic {
 	 * Access: student who owns the googleId, admin
 	 * 
 	 * @return Returns details of courses the student is in. CourseData objects
-	 *    returned contain details of evaluations too 
-	 *    (except the ones still AWAITING).
+	 *         returned contain details of evaluations too (except the ones
+	 *         still AWAITING).
 	 */
 	public List<CourseData> getCourseDetailsListForStudent(String googleId)
 			throws EntityDoesNotExistException, InvalidParametersException {
 
 		Common.verifyNotNull(googleId, "Google ID");
-		
+
 		verifySameStudentOrAdmin(googleId);
 
 		List<CourseData> courseList = getCourseListForStudent(googleId);
@@ -1064,9 +1072,9 @@ public class Logic {
 
 	/**
 	 * Creating submission is an internal activity. However, it is supported
-	 *   here for the benefit of BackDoor.
+	 * here for the benefit of BackDoor.
 	 */
-	//TODO: to be pushed out to another class. this does not belong here.
+	// TODO: to be pushed out to another class. this does not belong here.
 	protected void createSubmissions(List<SubmissionData> submissionDataList) {
 		ArrayList<Submission> submissions = new ArrayList<Submission>();
 		for (SubmissionData sd : submissionDataList) {
@@ -1080,7 +1088,7 @@ public class Logic {
 	 * 
 	 */
 	public EvaluationData getEvaluation(String courseId, String evaluationName) {
-		
+
 		Common.verifyNotNull(courseId, "course ID");
 		Common.verifyNotNull(evaluationName, "evaluation name");
 
@@ -1095,8 +1103,8 @@ public class Logic {
 	 * Can be used to change all fields exception "activated" field <br>
 	 * Access: owner and above
 	 * 
-	 * @throws InvalidParametersException if new values bring the evaluation
-	 *    to an invalid state.
+	 * @throws InvalidParametersException
+	 *             if new values bring the evaluation to an invalid state.
 	 */
 	public void editEvaluation(String courseId, String evaluationName,
 			String instructions, Date start, Date end, double timeZone,
@@ -1136,8 +1144,8 @@ public class Logic {
 	}
 
 	/**
-	 * This method allowed editing of all fields. It is here for the benefit
-	 *   of BackDoor 
+	 * This method allowed editing of all fields. It is here for the benefit of
+	 * BackDoor
 	 */
 	protected void editEvaluationAllFields(EvaluationData evaluation)
 			throws EntityDoesNotExistException, InvalidParametersException {
@@ -1219,8 +1227,8 @@ public class Logic {
 	}
 
 	/**
-	 * Sends reminders to students who haven't submitted yet.
-	 * Access: course owner and above
+	 * Sends reminders to students who haven't submitted yet. Access: course
+	 * owner and above
 	 */
 	public List<MimeMessage> sendReminderForEvaluation(String courseId,
 			String evaluationName) throws EntityDoesNotExistException {
@@ -1294,7 +1302,7 @@ public class Logic {
 
 	/**
 	 * @return Returns all submissions by a student for the given evaluation
-	 * Access: course owner, reviewer, admin
+	 *         Access: course owner, reviewer, admin
 	 * 
 	 */
 	public List<SubmissionData> getSubmissionsFromStudent(String courseId,
