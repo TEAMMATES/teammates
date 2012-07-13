@@ -134,6 +134,12 @@ public class BaseTestCase {
 		java.util.logging.Logger.getLogger("").setLevel(level);
 	}
 
+	/**
+	 * 
+	 * Sets the general logging level to WARNING <br>
+	 * Sets the logging level of the given class to FINE <br>
+	 * Sets the logging level of the console to FINE <br>
+	 */
 	protected static void turnLoggingUp(Class<?> classBeingTested)
 			throws NoSuchFieldException, IllegalAccessException {
 		setGeneralLoggingLevel(Level.WARNING);
@@ -245,6 +251,9 @@ public class BaseTestCase {
 		return processedActual.matches("(?s)(?m).*" + processedRegex + ".*");
 	}
 
+	/**
+	 * Creates a DataBundle as specified in typicalDataBundle.json
+	 */
 	protected static DataBundle getTypicalDataBundle() {
 		String jsonString;
 		try {
@@ -256,6 +265,9 @@ public class BaseTestCase {
 		return Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 	}
 
+	/**
+	 * Creates in the datastore a fresh copy of data in typicalDataBundle.json
+	 */
 	public void restoreTypicalDataInDatastore() throws Exception {
 		setGeneralLoggingLevel(Level.SEVERE);
 
@@ -302,23 +314,21 @@ public class BaseTestCase {
 
 	}
 
-	// TODO: check if this bug is fixed in new SDK 
-	//    update: not fixed in 1.7.0
+	/**
+	 * LocalServiceTestHelper is supposed to run in the same timezone as Dev
+	 * server and production server i.e. (i.e. UTC timezone), as stated in
+	 * <a href="https
+	 * ://developers.google.com/appengine/docs/java/tools/localunittesting
+	 * /javadoc/com/google/appengine/tools/development/testing/
+	 * LocalServiceTestHelper#setTimeZone%28java.util.TimeZone%29">here</a>.
+	 * 
+	 * But it seems Dev server does not run on UTC timezone, but it runs on
+	 * "GMT+8:00" (Possibly, a bug). Therefore, we are changing timeZone of
+	 * LocalServiceTestHelper to match the Dev server. 
+	 */
 	protected void setHelperTimeZone(LocalServiceTestHelper localTestHelper) {
-		/**
-		 * LocalServiceTestHelper is supposed to run in the same timezone as Dev
-		 * server and production server i.e. (i.e. UTC timezone), as stated in
-		 * https
-		 * ://developers.google.com/appengine/docs/java/tools/localunittesting
-		 * /javadoc/com/google/appengine/tools/development/testing/
-		 * LocalServiceTestHelper#setTimeZone%28java.util.TimeZone%29
-		 * 
-		 * But it seems Dev server does not run on UTC timezone, but it runs on
-		 * "GMT+8:00" (Possibly, a bug). Therefore, I'm changing timeZone of
-		 * LocalServiceTestHelper to match the Dev server. But note that tests
-		 * that run on Dev server might fail on Production server due to this
-		 * problem. We need to find a fix.
-		 */
+		// TODO: check if this bug is fixed in new SDK 
+		//    update: not fixed in 1.7.0
 		localTestHelper.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
 	}
 

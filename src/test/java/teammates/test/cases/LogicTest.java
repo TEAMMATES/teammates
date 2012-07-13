@@ -83,11 +83,12 @@ public class LogicTest extends BaseTestCase {
 	public void caseSetUp() throws ServletException {
 		dataBundle = getTypicalDataBundle();
 
-		LocalTaskQueueTestConfig ltqtc = new LocalTaskQueueTestConfig();
-		LocalUserServiceTestConfig lustc = new LocalUserServiceTestConfig();
-		helper = new LocalServiceTestHelper(
-				new LocalDatastoreServiceTestConfig(),
-				new LocalMailServiceTestConfig(), lustc, ltqtc);
+		LocalTaskQueueTestConfig localTasks = new LocalTaskQueueTestConfig();
+		LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
+		LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
+		LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
+		helper = new LocalServiceTestHelper(localDatastore, localMail,
+				localUserServices, localTasks);
 		setHelperTimeZone(helper);
 		helper.setUp();
 	}
@@ -3353,9 +3354,9 @@ public class LogicTest extends BaseTestCase {
 		______TS("null parameter");
 
 		verifyNullPointerException(methodName, "course ID", paramTypes,
-				new Object[] {null, eval.name});
+				new Object[] { null, eval.name });
 		verifyNullPointerException(methodName, "evaluation name", paramTypes,
-				new Object[] {eval.course, null});
+				new Object[] { eval.course, null });
 	}
 
 	@SuppressWarnings("unused")
@@ -3444,7 +3445,6 @@ public class LogicTest extends BaseTestCase {
 		verifyPresentInDatastore(sub1);
 		verifyPresentInDatastore(sub2);
 
-
 		______TS("non-existent evaluation");
 
 		// already tested under testEditSubmission()
@@ -3497,11 +3497,11 @@ public class LogicTest extends BaseTestCase {
 
 		verifyCanAccess(USER_TYPE_COORD, methodName, "idOfTypicalCoord1",
 				paramTypes, params);
-		
+
 		______TS("null parameter");
-		
+
 		verifyNullPointerException(methodName, "submissions", paramTypes,
-				new Object[] {null});
+				new Object[] { null });
 	}
 
 	@Test
@@ -3575,8 +3575,8 @@ public class LogicTest extends BaseTestCase {
 		______TS("null parameter");
 
 		verifyNullPointerException(methodName, "submission", paramTypes,
-				new Object[] {null});
-		
+				new Object[] { null });
+
 		______TS("non-existent evaluation");
 
 		sub1.evaluation = "non-existent";
