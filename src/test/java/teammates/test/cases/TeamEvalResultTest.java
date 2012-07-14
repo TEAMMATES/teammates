@@ -304,7 +304,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 	public void testExcludeSelfRatings(){
 		
 		assertEquals(pointsToString(new double[][]{{NA}}),
-				pointsToString(TeamEvalResult.excludeSelfRatings(new double[][]{{1}})));
+				pointsToString(TeamEvalResult.removeSelfRatings(new double[][]{{1}})));
 		
 		double[][] input = 
 			{{ 11, 12, 13, 14 }, 
@@ -318,7 +318,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 			 { 31, 32, NA, 34 },
 			 { 41, 42, 43, NA }};
 		assertEquals(pointsToString(expected),
-				pointsToString(TeamEvalResult.excludeSelfRatings(input)));
+				pointsToString(TeamEvalResult.removeSelfRatings(input)));
 	}
 	
 	@Test
@@ -465,13 +465,13 @@ public class TeamEvalResultTest extends BaseTestCase{
 	
 	private void verifyCalculatePoints(int[][] input, int[][] expected) {
 		TeamEvalResult t = new TeamEvalResult(input);
-		String actual = pointsToString(t.claimedToCoord)
+		String actual = pointsToString(t.normalizedClaimed)
 				+ "======================="+EOL
-				+ pointsToString(t.unbiased)
+				+ pointsToString(t.normalizedPeerContributionRatio)
 				+ "======================="+EOL
-				+ Arrays.toString(t.perceivedToCoord) + EOL
+				+ Arrays.toString(t.normalizedAveragePerceived) + EOL
 				+ "=======================" + EOL
-				+pointsToString(t.perceivedToStudents);
+				+pointsToString(t.denormalizedAveragePerceived);
 		actual = replaceMagicNumbers(actual);
 		assertEquals(pointsToString(expected), actual);
 	}
@@ -529,14 +529,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 
 	private static void showCalculationSteps(int[][] input) {
 		TeamEvalResult t = new TeamEvalResult(input);
-		String actual = pointsToString(t.claimedToCoord)
-				+ "======================="+EOL
-				+ Arrays.toString(t.perceivedToCoord) + EOL
-				+ "=======================" + EOL
-				+pointsToString(t.perceivedToStudents);
-		actual = replaceMagicNumbers(actual);
-		
-		print(actual);
+		print(t.toString());
 	}
 	
 
