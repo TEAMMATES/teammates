@@ -467,7 +467,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 		TeamEvalResult t = new TeamEvalResult(input);
 		String actual = pointsToString(t.normalizedClaimed)
 				+ "======================="+EOL
-				+ pointsToString(t.unbiased)
+				+ pointsToString(t.normalizedUnbiasedClaimed)
 				+ "======================="+EOL
 				+ Arrays.toString(t.normalizedAveragePerceived) + EOL
 				+ "=======================" + EOL
@@ -529,14 +529,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 
 	private static void showCalculationSteps(int[][] input) {
 		TeamEvalResult t = new TeamEvalResult(input);
-		String actual = pointsToString(t.normalizedClaimed)
-				+ "======================="+EOL
-				+ Arrays.toString(t.normalizedAveragePerceived) + EOL
-				+ "=======================" + EOL
-				+pointsToString(t.denormalizedAveragePerceived);
-		actual = replaceMagicNumbers(actual);
-		
-		print(actual);
+		print(t.toString());
 	}
 	
 
