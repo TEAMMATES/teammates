@@ -14,9 +14,6 @@ public class TeamEvalResult {
 	public static int NSB = Common.POINTS_NOT_SUBMITTED;
 	private static Logger log = Common.getLogger();
 
-	// Value transformation steps: claimed > normalizedClaimed > unbiasedClaimed
-	// > averagePerceived > normalizedAveragePerceived >
-	// denormalizedAveragePerceived
 	/** submission values originally from students of the team */
 	public int[][] claimed;
 	/** submission values to be shown to coordinator (after normalization) */
@@ -53,14 +50,15 @@ public class TeamEvalResult {
 		log.fine("peerContributionRatio as double :\n"
 				+ pointsToString(peerContributionRatioAsDouble));
 
-		double[] averagePerceivedAsDouble = calculateAveragePerceivedAndAdjustPeerContributionRatio(peerContributionRatioAsDouble);
-		
-		log.fine("normalizedPeerContributionRatio as double :\n"
-				+ pointsToString(peerContributionRatioAsDouble));
+		double[] averagePerceivedAsDouble = calculateAveragePerceived(peerContributionRatioAsDouble);
 		log.fine("averagePerceived as double:\n"
 				+ replaceMagicNumbers(Arrays.toString(averagePerceivedAsDouble)));
 
-		normalizedPeerContributionRatio = doubleToInt(peerContributionRatioAsDouble);
+		double[][] normalizedPeerContributionRatioAsDouble = adjustPeerContributionRatio(peerContributionRatioAsDouble);
+		log.fine("normalizedPeerContributionRatio as double :\n"
+				+ pointsToString(peerContributionRatioAsDouble));
+		
+		normalizedPeerContributionRatio = doubleToInt(normalizedPeerContributionRatioAsDouble);
 		log.fine("normalizedUnbiasedClaimed as int :\n"
 				+ pointsToString(normalizedPeerContributionRatio));
 
@@ -107,27 +105,36 @@ public class TeamEvalResult {
 		return selfRatingRemovedAndNormalized;
 	}
 
-	private static double[] calculateAveragePerceivedAndAdjustPeerContributionRatio(
-			double[][] unbiased) {
+	private static double[] calculateAveragePerceived(
+			double[][] peerContributionRatio) {
 		double[] averagePerceivedAdjusted;
-		double[] columnsAveraged = averageColumns(unbiased);
-		double factor = calculateFactor(columnsAveraged);
-		multiplyByFactor(factor, unbiased);
+		double[] columnsAveraged = averageColumns(peerContributionRatio);
 		averagePerceivedAdjusted = normalizeValues(columnsAveraged);
 		return averagePerceivedAdjusted;
 	}
+	
+	private static double[][] adjustPeerContributionRatio(
+			double[][] peerContributionRatio) {
+		double[] averagePerceivedAdjusted;
+		double[] columnsAveraged = averageColumns(peerContributionRatio);
+		double factor = calculateFactor(columnsAveraged);
+		return multiplyByFactor(factor, peerContributionRatio);
+	}
 
-	private static void multiplyByFactor(double factor, double[][] input) {
+	private static double[][] multiplyByFactor(double factor, double[][] input) {
 		int teamSize = input.length;
-
+		double[][] output = new double[teamSize][teamSize];
 		for (int i = 0; i < teamSize; i++) {
 			for (int j = 0; j < teamSize; j++) {
 				double value = input[i][j];
 				if (!isSpecialValue((int) value)) {
-					input[i][j] = (factor == 0 ? value : value * factor);
+					output[i][j] = (factor == 0 ? value : value * factor);
+				}else{
+					output[i][j] = value;
 				}
 			}
 		}
+		return output;
 	}
 
 	private int[][] calculatePerceivedForStudents(int[][] actualInputSanitized,
