@@ -1509,23 +1509,23 @@ public class Logic {
 			StudentData s = team.students.get(i);
 			s.result.sortIncomingByStudentNameAscending();
 			s.result.sortOutgoingByStudentNameAscending();
-			s.result.claimedFromStudent = teamResult.claimedToStudents[i][i];
-			s.result.claimedToCoord = teamResult.claimedToCoord[i][i];
-			s.result.perceivedToStudent = teamResult.perceivedToStudents[i][i];
-			s.result.perceivedToCoord = teamResult.perceivedToCoord[i];
+			s.result.claimedFromStudent = teamResult.claimed[i][i];
+			s.result.claimedToCoord = teamResult.normalizedClaimed[i][i];
+			s.result.perceivedToStudent = teamResult.denormalizedAveragePerceived[i][i];
+			s.result.perceivedToCoord = teamResult.normalizedAveragePerceived[i];
 
 			// populate incoming and outgoing
 			for (int j = 0; j < teamSize; j++) {
 				SubmissionData incomingSub = s.result.incoming.get(j);
-				int normalizedIncoming = teamResult.perceivedToStudents[i][j];
+				int normalizedIncoming = teamResult.denormalizedAveragePerceived[i][j];
 				incomingSub.normalized = normalizedIncoming;
-				incomingSub.normalizedToCoord = teamResult.unbiased[j][i];
+				incomingSub.normalizedToCoord = teamResult.normalizedPeerContributionRatio[j][i];
 				log.finer("Setting normalized incoming of " + s.name + " from "
 						+ incomingSub.reviewerName + " to "
 						+ normalizedIncoming);
 
 				SubmissionData outgoingSub = s.result.outgoing.get(j);
-				int normalizedOutgoing = teamResult.claimedToCoord[i][j];
+				int normalizedOutgoing = teamResult.normalizedClaimed[i][j];
 				outgoingSub.normalized = Common.UNINITIALIZED_INT;
 				outgoingSub.normalizedToCoord = normalizedOutgoing;
 				log.fine("Setting normalized outgoing of " + s.name + " to "

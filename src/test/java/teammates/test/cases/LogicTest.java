@@ -2938,7 +2938,7 @@ public class LogicTest extends BaseTestCase {
 		int[][] expected = { { 110, 120, 130 }, { 210, 220, 230 },
 				{ 310, 320, 330 } };
 		assertEquals(TeamEvalResult.pointsToString(expected),
-				TeamEvalResult.pointsToString(teamResult.claimedToStudents));
+				TeamEvalResult.pointsToString(teamResult.claimed));
 
 		// expected result
 		// claimedToCoord [ 92, 100, 108]
