@@ -14,27 +14,29 @@ public class TeamEvalResult {
 	public static int NSB = Common.POINTS_NOT_SUBMITTED;
 	private static Logger log = Common.getLogger();
 
+	//Value transformation steps: claimed > normalizedClaimed > unbiasedClaimed 
+	//> averagePerceived > normalizedAveragePerceived > denormalizedAveragePerceived
 	/** submission values originally from students of the team */
-	public int[][] claimedToStudents;
+	public int[][] claimed; 
 	/** submission values to be shown to coordinator (after normalization) */
-	public int[][] claimedToCoord;
+	public int[][] normalizedClaimed;  
 	/** average perception of team shown to coord. Excludes self evaluations) */
-	public int[] perceivedToCoord;
+	public int[] normalizedAveragePerceived;  
 	/** team perception shown to students. normalized based on their own claims */
-	public int[][] perceivedToStudents;
+	public int[][] denormalizedAveragePerceived; 
 
 	/** ratings after removing bias for self ratings */
-	public int[][] unbiased;
+	public int[][] unbiased; //unbiasedClaimed
 
 	public TeamEvalResult(int[][] submissionValues) {
-		claimedToStudents = submissionValues;
+		claimed = submissionValues;
 		
 		//TODO: refactor to match terminology used in spec
 
 		log.fine("==================\n" + "starting result calculation for\n"
 				+ pointsToString(submissionValues));
 
-		claimedToCoord = doubleToInt(normalizeValues(intToDouble(claimedToStudents)));
+		normalizedClaimed = doubleToInt(normalizeValues(intToDouble(claimed)));
 
 		int[][] claimedSanitized = sanitizeInput(submissionValues);
 		log.fine("submission values sanitized :\n"
@@ -60,12 +62,12 @@ public class TeamEvalResult {
 				+ replaceMagicNumbers(Arrays
 						.toString(perceivedForCoordAsDouble)));
 
-		perceivedToStudents = calculatePerceivedForStudents(claimedSanitized,
+		denormalizedAveragePerceived = calculatePerceivedForStudents(claimedSanitized,
 				perceivedForCoordAsDouble);
 		log.fine("perceived to students :\n"
-				+ pointsToString(perceivedToStudents));
+				+ pointsToString(denormalizedAveragePerceived));
 
-		perceivedToCoord = doubleToInt(perceivedForCoordAsDouble);
+		normalizedAveragePerceived = doubleToInt(perceivedForCoordAsDouble);
 
 		log.fine("==================");
 	}
@@ -404,12 +406,12 @@ public class TeamEvalResult {
 		sb.append("claimed from student:");
 		String filler = "                     ";
 		sb.append(indentString
-				+ pointsToString((claimedToStudents)).replace(Common.EOL,
+				+ pointsToString((claimed)).replace(Common.EOL,
 						Common.EOL + indentString + filler));
 		sb.append(divider);
 		sb.append("    claimed to coord:");
 		sb.append(indentString
-				+ pointsToString((claimedToCoord)).replace(Common.EOL,
+				+ pointsToString((normalizedClaimed)).replace(Common.EOL,
 						Common.EOL + indentString + filler));
 		sb.append(divider);
 		sb.append("            unbiased:");
@@ -419,13 +421,13 @@ public class TeamEvalResult {
 		sb.append(divider);		
 		sb.append("  perceived to coord:");
 		sb.append(indentString
-				+ pointsToString(perceivedToCoord).replace(Common.EOL,
+				+ pointsToString(normalizedAveragePerceived).replace(Common.EOL,
 						Common.EOL + indentString + filler));
 		sb.append(divider);
 
 		sb.append("perceived to student:");
 		sb.append(indentString
-				+ pointsToString((perceivedToStudents)).replace(Common.EOL,
+				+ pointsToString((denormalizedAveragePerceived)).replace(Common.EOL,
 						Common.EOL + indentString + filler));
 		sb.append(divider);
 		return sb.toString();

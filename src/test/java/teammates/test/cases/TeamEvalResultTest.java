@@ -465,13 +465,13 @@ public class TeamEvalResultTest extends BaseTestCase{
 	
 	private void verifyCalculatePoints(int[][] input, int[][] expected) {
 		TeamEvalResult t = new TeamEvalResult(input);
-		String actual = pointsToString(t.claimedToCoord)
+		String actual = pointsToString(t.normalizedClaimed)
 				+ "======================="+EOL
 				+ pointsToString(t.unbiased)
 				+ "======================="+EOL
-				+ Arrays.toString(t.perceivedToCoord) + EOL
+				+ Arrays.toString(t.normalizedAveragePerceived) + EOL
 				+ "=======================" + EOL
-				+pointsToString(t.perceivedToStudents);
+				+pointsToString(t.denormalizedAveragePerceived);
 		actual = replaceMagicNumbers(actual);
 		assertEquals(pointsToString(expected), actual);
 	}
@@ -529,11 +529,11 @@ public class TeamEvalResultTest extends BaseTestCase{
 
 	private static void showCalculationSteps(int[][] input) {
 		TeamEvalResult t = new TeamEvalResult(input);
-		String actual = pointsToString(t.claimedToCoord)
+		String actual = pointsToString(t.normalizedClaimed)
 				+ "======================="+EOL
-				+ Arrays.toString(t.perceivedToCoord) + EOL
+				+ Arrays.toString(t.normalizedAveragePerceived) + EOL
 				+ "=======================" + EOL
-				+pointsToString(t.perceivedToStudents);
+				+pointsToString(t.denormalizedAveragePerceived);
 		actual = replaceMagicNumbers(actual);
 		
 		print(actual);
