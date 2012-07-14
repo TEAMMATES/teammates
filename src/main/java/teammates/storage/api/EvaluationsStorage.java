@@ -762,7 +762,7 @@ public class EvaluationsStorage {
 				query).execute();
 
 		//TODO: need to handle entity-not-found
-		return submissionList.get(0);
+		return submissionList.size()==0 ? null : submissionList.get(0);
 	}
 
 	/**
