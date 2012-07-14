@@ -1519,7 +1519,7 @@ public class Logic {
 				SubmissionData incomingSub = s.result.incoming.get(j);
 				int normalizedIncoming = teamResult.denormalizedAveragePerceived[i][j];
 				incomingSub.normalized = normalizedIncoming;
-				incomingSub.normalizedToCoord = teamResult.normalizedUnbiasedClaimed[j][i];
+				incomingSub.normalizedToCoord = teamResult.normalizedPeerContributionRatio[j][i];
 				log.finer("Setting normalized incoming of " + s.name + " from "
 						+ incomingSub.reviewerName + " to "
 						+ normalizedIncoming);

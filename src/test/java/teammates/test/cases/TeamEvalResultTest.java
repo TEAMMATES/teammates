@@ -467,7 +467,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 		TeamEvalResult t = new TeamEvalResult(input);
 		String actual = pointsToString(t.normalizedClaimed)
 				+ "======================="+EOL
-				+ pointsToString(t.normalizedUnbiasedClaimed)
+				+ pointsToString(t.normalizedPeerContributionRatio)
 				+ "======================="+EOL
 				+ Arrays.toString(t.normalizedAveragePerceived) + EOL
 				+ "=======================" + EOL
