@@ -5,8 +5,12 @@ import java.util.logging.Logger;
 
 import teammates.common.Common;
 
+/**
+ * This class represents an evaluation result for a given team.
+ * It exposes the result via some public variables.
+ */
 public class TeamEvalResult {
-	/** N/A */
+	/** submitted value is uninitialized */
 	public static int NA = Common.UNINITIALIZED_INT;
 	/** submitted 'Not SUre' */
 	public static int NSU = Common.POINTS_NOT_SURE;
@@ -18,23 +22,21 @@ public class TeamEvalResult {
 	public int[][] claimed;
 	/** submission values to be shown to coordinator (after normalization) */
 	public int[][] normalizedClaimed;
-	/** average perception of team shown to coord. Excludes self evaluations) */
+	/** average perception of team shown to coord. Excludes self evaluations */
 	public int[] normalizedAveragePerceived;
-	/** team perception shown to students. normalized based on their own claims */
+	/** team perception shown to students. denormalized to match their own claims */
 	public int[][] denormalizedAveragePerceived;
 
-	/** ratings after removing bias for self ratings */
+	/** the values that were used to calculate normalizedAveragePerceived values*/
 	public int[][] normalizedPeerContributionRatio;
 
 	public TeamEvalResult(int[][] submissionValues) {
-		claimed = submissionValues;
-
-		// TODO: refactor to match terminology used in spec
 
 		log.fine("==================\n" + "starting result calculation for\n"
 				+ pointsToString(submissionValues));
 
-		//TODO: try to push this further down
+		claimed = submissionValues;
+
 		normalizedClaimed = normalizeValues(claimed);
 
 		int[][] claimedSanitized = sanitizeInput(submissionValues);
@@ -42,7 +44,6 @@ public class TeamEvalResult {
 				+ pointsToString(claimedSanitized));
 
 		double[][] claimedSanitizedNormalized = normalizeValues(intToDouble(claimedSanitized));
-
 		log.fine("claimed values sanitized and normalized :\n"
 				+ pointsToString(claimedSanitizedNormalized));
 
@@ -50,24 +51,31 @@ public class TeamEvalResult {
 		log.fine("peerContributionRatio as double :\n"
 				+ pointsToString(peerContributionRatioAsDouble));
 
-		double[] averagePerceivedAsDouble = calculateAveragePerceived(peerContributionRatioAsDouble);
+		double[] averagePerceivedAsDouble = averageColumns(peerContributionRatioAsDouble);
 		log.fine("averagePerceived as double:\n"
 				+ replaceMagicNumbers(Arrays.toString(averagePerceivedAsDouble)));
 
-		double[][] normalizedPeerContributionRatioAsDouble = adjustPeerContributionRatio(peerContributionRatioAsDouble);
+		double[] normalizedAveragePerceivedAsDouble = normalizeValues(averagePerceivedAsDouble);
+		log.fine("normalizedAveragePerceivedAsDouble as double:\n"
+				+ replaceMagicNumbers(Arrays
+						.toString(normalizedAveragePerceivedAsDouble)));
+
+		double[][] normalizedPeerContributionRatioAsDouble = adjustPeerContributionRatioToTallyNormalizedAveragePerceived(peerContributionRatioAsDouble);
 		log.fine("normalizedPeerContributionRatio as double :\n"
 				+ pointsToString(peerContributionRatioAsDouble));
-		
+
 		normalizedPeerContributionRatio = doubleToInt(normalizedPeerContributionRatioAsDouble);
 		log.fine("normalizedUnbiasedClaimed as int :\n"
 				+ pointsToString(normalizedPeerContributionRatio));
 
 		denormalizedAveragePerceived = calculatePerceivedForStudents(
-				claimedSanitized, averagePerceivedAsDouble);
+				claimedSanitized, normalizedAveragePerceivedAsDouble);
 		log.fine("perceived to students :\n"
 				+ pointsToString(denormalizedAveragePerceived));
 
-		normalizedAveragePerceived = doubleToInt(averagePerceivedAsDouble);
+		normalizedAveragePerceived = doubleToInt(normalizedAveragePerceivedAsDouble);
+
+		log.fine("Final result:\n" + this.toString());
 
 		log.fine("==================");
 	}
@@ -90,106 +98,63 @@ public class TeamEvalResult {
 		return output;
 	}
 
-	private static double[][] calculatePeerContributionRatio(
-			double[][] sanitizedAndNormalizedInput) {
-		int teamSize = sanitizedAndNormalizedInput.length;
+	private static double[][] calculatePeerContributionRatio(double[][] input) {
 
-		double[][] selfRatingsRemoved = excludeSelfRatings(sanitizedAndNormalizedInput);
-		log.fine("self ratings removed :\n"
-				+ pointsToString(selfRatingsRemoved));
+		int teamSize = input.length;
+
+		double[][] selfRatingsRemoved = removeSelfRatings(input);
 
 		double[][] selfRatingRemovedAndNormalized = new double[teamSize][teamSize];
 		for (int i = 0; i < teamSize; i++) {
 			selfRatingRemovedAndNormalized[i] = normalizeValues(selfRatingsRemoved[i]);
 		}
+
 		return selfRatingRemovedAndNormalized;
 	}
 
-	private static double[] calculateAveragePerceived(
+	private static double[][] adjustPeerContributionRatioToTallyNormalizedAveragePerceived(
 			double[][] peerContributionRatio) {
-		double[] averagePerceivedAdjusted;
-		double[] columnsAveraged = averageColumns(peerContributionRatio);
-		averagePerceivedAdjusted = normalizeValues(columnsAveraged);
-		return averagePerceivedAdjusted;
-	}
-	
-	private static double[][] adjustPeerContributionRatio(
-			double[][] peerContributionRatio) {
-		double[] averagePerceivedAdjusted;
 		double[] columnsAveraged = averageColumns(peerContributionRatio);
 		double factor = calculateFactor(columnsAveraged);
 		return multiplyByFactor(factor, peerContributionRatio);
 	}
 
-	private static double[][] multiplyByFactor(double factor, double[][] input) {
-		int teamSize = input.length;
-		double[][] output = new double[teamSize][teamSize];
-		for (int i = 0; i < teamSize; i++) {
-			for (int j = 0; j < teamSize; j++) {
-				double value = input[i][j];
-				if (!isSpecialValue((int) value)) {
-					output[i][j] = (factor == 0 ? value : value * factor);
-				}else{
-					output[i][j] = value;
-				}
-			}
-		}
-		return output;
-	}
-
-	private int[][] calculatePerceivedForStudents(int[][] actualInputSanitized,
-			double[] perceivedForCoordAsDouble) {
-		int teamSize = actualInputSanitized.length;
+	private int[][] calculatePerceivedForStudents(int[][] claimedSanitized,
+			double[] normalizedAveragePerceivedAsDouble) {
+		int teamSize = claimedSanitized.length;
 		int[][] output = new int[teamSize][teamSize];
 		for (int k = 0; k < teamSize; k++) {
-			output[k] = calculatePerceivedForStudent(actualInputSanitized[k],
-					perceivedForCoordAsDouble);
+			output[k] = calculatePerceivedForStudent(claimedSanitized[k],
+					normalizedAveragePerceivedAsDouble);
 		}
 		return output;
 	}
 
-	public static int[] calculatePerceivedForStudent(
-			int[] sanitizedActualInput, double[] perceivedForCoord) {
-		verify("Unsanitized value received ", isSanitized(sanitizedActualInput));
+	public static int[] calculatePerceivedForStudent(int[] claimedSanitizedRow,
+			double[] normalizedAveragePerceivedAsDouble) {
 
-		int[] perceivedForStudent = new int[sanitizedActualInput.length];
+		verify("Unsanitized value received ", isSanitized(claimedSanitizedRow));
 
 		// remove from each array values matching special values in the other
-		double[] filteredPerceivedForCoord = purgeValuesCorrespondingToSpecialValuesInFilter(
-				intToDouble(sanitizedActualInput), perceivedForCoord);
+		double[] filteredPerceived = purgeValuesCorrespondingToSpecialValuesInFilter(
+				intToDouble(claimedSanitizedRow),
+				normalizedAveragePerceivedAsDouble);
 		int[] filteredSanitizedActual = doubleToInt(purgeValuesCorrespondingToSpecialValuesInFilter(
-				perceivedForCoord, intToDouble(sanitizedActualInput)));
+				normalizedAveragePerceivedAsDouble,
+				intToDouble(claimedSanitizedRow)));
 
-		double sumOfperceivedForCoord = sum(filteredPerceivedForCoord);
+		double sumOfperceived = sum(filteredPerceived);
 		double sumOfActual = sum(filteredSanitizedActual);
 
+		// if the student did not submit
 		if (sumOfActual == NA) {
-			sumOfActual = sumOfperceivedForCoord;
+			sumOfActual = sumOfperceived;
 		}
 
-		double factor = sumOfActual / sumOfperceivedForCoord;
+		double factor = sumOfActual / sumOfperceived;
 
-		for (int i = 0; i < perceivedForStudent.length; i++) {
-			double perceived = perceivedForCoord[i];
-			if (perceived == NA) {
-				perceivedForStudent[i] = NA;
-			} else {
-				perceivedForStudent[i] = (int) Math.round(perceived * factor);
-			}
-		}
-		return perceivedForStudent;
-	}
-
-	public static double[] purgeValuesCorrespondingToSpecialValuesInFilter(
-			double[] filterArray, double[] valueArray) {
-		double[] returnValue = new double[filterArray.length];
-		for (int i = 0; i < filterArray.length; i++) {
-			int filterValue = (int) filterArray[i];
-			boolean isSpecialValue = !isSanitized(filterValue)
-					|| filterValue == NA;
-			returnValue[i] = (isSpecialValue ? NA : valueArray[i]);
-		}
-		return returnValue;
+		return doubleToInt(multiplyByFactor(factor,
+				normalizedAveragePerceivedAsDouble));
 	}
 
 	public static boolean isSanitized(int[] array) {
@@ -215,6 +180,41 @@ public class TeamEvalResult {
 		return (value == NA) || (value == NSU) || (value == NSB);
 	}
 
+	private static double[][] multiplyByFactor(double factor, double[][] input) {
+		int teamSize = input.length;
+		double[][] output = new double[teamSize][teamSize];
+		for (int i = 0; i < teamSize; i++) {
+			output[i] = multiplyByFactor(factor, input[i]);
+		}
+		return output;
+	}
+
+	private static double[] multiplyByFactor(double factor, double[] input) {
+		int teamSize = input.length;
+		double[] output = new double[teamSize];
+		for (int j = 0; j < teamSize; j++) {
+			double value = input[j];
+			if (!isSpecialValue((int) value)) {
+				output[j] = (factor == 0 ? value : value * factor);
+			} else {
+				output[j] = value;
+			}
+		}
+		return output;
+	}
+
+	public static double[] purgeValuesCorrespondingToSpecialValuesInFilter(
+			double[] filterArray, double[] valueArray) {
+		double[] returnValue = new double[filterArray.length];
+		for (int i = 0; i < filterArray.length; i++) {
+			int filterValue = (int) filterArray[i];
+			boolean isSpecialValue = !isSanitized(filterValue)
+					|| filterValue == NA;
+			returnValue[i] = (isSpecialValue ? NA : valueArray[i]);
+		}
+		return returnValue;
+	}
+
 	public static double sum(double[] input) {
 		double sum = NA;
 		if (input.length == 0) {
@@ -238,8 +238,8 @@ public class TeamEvalResult {
 		return (int) sum(intToDouble(input));
 	}
 
-	// TODO: make this private and use reflection to test
-	public static double[][] excludeSelfRatings(double[][] input) {
+	// TODO: methods like these private and use reflection to test
+	public static double[][] removeSelfRatings(double[][] input) {
 		double[][] output = new double[input.length][input.length];
 		for (int i = 0; i < input.length; i++) {
 			for (int j = 0; j < input[i].length; j++) {
@@ -260,25 +260,15 @@ public class TeamEvalResult {
 	// TODO: make this private and use reflection to test
 	public static double[] normalizeValues(double[] input) {
 		double factor = calculateFactor(input);
-		return adjustByFactor(input, factor);
+		return multiplyByFactor(factor, input);
 	}
 
-	private static double[] adjustByFactor(double[] input, double factor) {
-		double[] output = new double[input.length];
-		for (int j = 0; j < input.length; j++) {
-			double value = input[j];
-			int valueAsInt = (int) value;
-			if (valueAsInt == NSU) {
-				output[j] = NSU;
-			} else if (valueAsInt == NSB) {
-				output[j] = NSB;
-			} else if (valueAsInt == NA) {
-				output[j] = NA;
-			} else {
-				output[j] = value * factor;
-			}
-		}
-		return output;
+	public static double[] normalizeValues(int[] input) {
+		return normalizeValues(intToDouble(input));
+	}
+
+	public static int[][] normalizeValues(int[][] input) {
+		return doubleToInt(normalizeValues(intToDouble(input)));
 	}
 
 	private static double calculateFactor(double[] input) {
@@ -293,19 +283,11 @@ public class TeamEvalResult {
 			actualSum += value;
 			count++;
 		}
-
+	
 		double idealSum = count * 100.0;
 		double factor = actualSum == 0 ? 0 : idealSum / actualSum;
 		log.fine("Factor = " + idealSum + "/" + actualSum + " = " + factor);
 		return factor;
-	}
-
-	public static double[] normalizeValues(int[] input) {
-		return normalizeValues(intToDouble(input));
-	}
-	
-	public static int[][] normalizeValues(int[][] input) {
-		return doubleToInt(normalizeValues(intToDouble(input)));
 	}
 
 	private static double[] intToDouble(int[] input) {
@@ -408,20 +390,14 @@ public class TeamEvalResult {
 		return returnValue;
 	}
 
+	/** replaces 999 etc. with NA, NSB, NSU etc.
+	 */
 	public static String replaceMagicNumbers(String returnValue) {
 		returnValue = returnValue.replace(NA + ".0", " NA");
 		returnValue = returnValue.replace(NA + "", " NA");
 		returnValue = returnValue.replace(NSB + ".0", "NSB");
 		returnValue = returnValue.replace(NSU + ".0", "NSU");
 		return returnValue;
-	}
-
-	private static void verify(String message, boolean condition) {
-		// TODO: replace with assert?
-		if (!condition) {
-			throw new RuntimeException("Internal assertion failuer : "
-					+ message);
-		}
 	}
 
 	public String toString() {
@@ -460,6 +436,14 @@ public class TeamEvalResult {
 						Common.EOL, Common.EOL + indentString + filler));
 		sb.append(divider);
 		return sb.toString();
+	}
+
+	private static void verify(String message, boolean condition) {
+		// TODO: replace with assert?
+		if (!condition) {
+			throw new RuntimeException("Internal assertion failuer : "
+					+ message);
+		}
 	}
 
 }

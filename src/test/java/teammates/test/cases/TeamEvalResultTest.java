@@ -304,7 +304,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 	public void testExcludeSelfRatings(){
 		
 		assertEquals(pointsToString(new double[][]{{NA}}),
-				pointsToString(TeamEvalResult.excludeSelfRatings(new double[][]{{1}})));
+				pointsToString(TeamEvalResult.removeSelfRatings(new double[][]{{1}})));
 		
 		double[][] input = 
 			{{ 11, 12, 13, 14 }, 
@@ -318,7 +318,7 @@ public class TeamEvalResultTest extends BaseTestCase{
 			 { 31, 32, NA, 34 },
 			 { 41, 42, 43, NA }};
 		assertEquals(pointsToString(expected),
-				pointsToString(TeamEvalResult.excludeSelfRatings(input)));
+				pointsToString(TeamEvalResult.removeSelfRatings(input)));
 	}
 	
 	@Test
