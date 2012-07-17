@@ -86,6 +86,7 @@ public class CoursesStorage {
 
 		try {
 			getPM().makePersistent(course);
+			getPM().flush();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -128,6 +129,7 @@ public class CoursesStorage {
 			throw new EntityAlreadyExistsException("This student already existis :"+ courseID + "/" + email);
 		}
 		getPM().makePersistent(student);
+		getPM().flush();
 	}
 
 
@@ -173,6 +175,7 @@ public class CoursesStorage {
 		}
 
 		getPM().deletePersistent(course);
+		getPM().flush();
 
 	}
 	
@@ -187,6 +190,7 @@ public class CoursesStorage {
 		
 		deleteAllStudents(courseId);
 		getPM().deletePersistent(course);
+		getPM().flush();
 		
 	}
 
@@ -200,6 +204,7 @@ public class CoursesStorage {
 		List<Student> studentList = getStudentList(courseID);
 		log.info("Deleting "+studentList.size()+" students from the course "+courseID);
 		getPM().deletePersistentAll(studentList);
+		getPM().flush();
 	}
 
 	/**
@@ -220,6 +225,7 @@ public class CoursesStorage {
 			log.warning(errorMessage);
 		} else {
 			getPM().deletePersistent(s);
+			getPM().flush();
 		}
 	}
 

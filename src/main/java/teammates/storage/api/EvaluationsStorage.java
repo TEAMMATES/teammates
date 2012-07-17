@@ -108,6 +108,7 @@ public class EvaluationsStorage {
 
 		try {
 			getPM().makePersistent(evaluation);
+			getPM().flush();
 		} finally {
 		}
 
@@ -132,6 +133,7 @@ public class EvaluationsStorage {
 		}
 		try {
 			getPM().makePersistent(e);
+			getPM().flush();
 
 			// Build submission objects for each student based on their team
 			// number
@@ -221,6 +223,7 @@ public class EvaluationsStorage {
 
 		try {
 			getPM().makePersistentAll(submissionList);
+			getPM().flush();
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -249,6 +252,7 @@ public class EvaluationsStorage {
 			// Delete submission entries
 			List<Submission> submissionList = getSubmissionList(courseID, name);
 			getPM().deletePersistentAll(submissionList);
+			getPM().flush();
 		}
 	}
 
@@ -264,6 +268,7 @@ public class EvaluationsStorage {
 		List<Submission> submissionList = getSubmissionList(courseID);
 		getPM().deletePersistentAll(evaluationList);
 		getPM().deletePersistentAll(submissionList);
+		getPM().flush();
 	}
 
 	/**
@@ -1132,6 +1137,7 @@ public class EvaluationsStorage {
 		List<Submission> submissionList2 = (List<Submission>) getPM().newQuery(
 				query2).execute();
 		getPM().deletePersistentAll(submissionList2);
+		getPM().flush();
 		
 	}
 

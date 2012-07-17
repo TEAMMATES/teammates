@@ -76,6 +76,7 @@ public class AccountsStorage {
 		}
 		Coordinator coordinator = new Coordinator(googleID, name, email);
 		getPM().makePersistent(coordinator);
+		getPM().flush();
 	}
 
 	/**
@@ -257,6 +258,7 @@ public class AccountsStorage {
 			log.warning(errorMessage);
 		}
 		getPM().deletePersistent(coord);
+		getPM().flush();
 	}
 	public void verifyStudentExists(String courseId, String studentEmail) throws EntityDoesNotExistException {
 		if(getStudent(courseId, studentEmail)==null){
