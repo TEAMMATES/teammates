@@ -357,6 +357,9 @@ public class Common {
 	public static final String ERRORCODE_STRING_TOO_LONG = "ERRORCODE_STRING_TOO_LONG";
 	public static final String ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING = "ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING";
 
+	public static final int EXISTENCE_CHECKING_MAX_RETRIES = 10;
+	public static final long EXISTENCE_CHECKING_DELAY = 200;
+
 	@SuppressWarnings("unused")
 	private void ____VALIDATE_parameters___________________________________() {
 	}
@@ -720,6 +723,15 @@ public class Common {
 		url += url.indexOf('?') >= 0 ? '&' : '?';
 		url += key + "=" + Helper.convertForURL(value);
 		return url;
+	}
+	
+	public static void waitBriefly() {
+		log.info("Waiting for possible persistence delay");
+		try {
+			Thread.sleep(Common.EXISTENCE_CHECKING_DELAY);
+		} catch (InterruptedException e) {
+			log.severe(Common.stackTraceToString(e));
+		}
 	}
 
 	@SuppressWarnings("unused")

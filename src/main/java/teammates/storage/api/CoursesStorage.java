@@ -90,6 +90,17 @@ public class CoursesStorage {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		int tries = 0;
+		course = getCourse(courseId);
+		while ((course == null) && (tries < Common.EXISTENCE_CHECKING_MAX_RETRIES)){
+			Common.waitBriefly();
+			course = getCourse(courseId);
+			tries++;
+		}
+		if(tries==Common.EXISTENCE_CHECKING_MAX_RETRIES){
+			log.severe("Operation did not persist in time: addCourse->"+courseId);
+		}
 	}
 
 
@@ -121,7 +132,6 @@ public class CoursesStorage {
 
 
 	
-	//TODO: check for existing student and throw exception
 	public void createStudent(Student student) throws EntityAlreadyExistsException {
 		String courseID = student.getCourseID();
 		String email = student.getEmail();
@@ -130,6 +140,17 @@ public class CoursesStorage {
 		}
 		getPM().makePersistent(student);
 		getPM().flush();
+		
+		int tries = 0;
+		Student created = getStudentWithEmail(courseID, email);
+		while ((created == null) && (tries < Common.EXISTENCE_CHECKING_MAX_RETRIES)){
+			Common.waitBriefly();
+			created = getStudentWithEmail(courseID, email);
+			tries++;
+		}
+		if(tries==Common.EXISTENCE_CHECKING_MAX_RETRIES){
+			log.severe("Operation did not persist in time: createStudent->"+ courseID + "/" + email);
+		}
 	}
 
 
@@ -192,6 +213,17 @@ public class CoursesStorage {
 		getPM().deletePersistent(course);
 		getPM().flush();
 		
+		int tries = 0;
+		course = getCourse(courseId);
+		while ((course != null) && (tries < Common.EXISTENCE_CHECKING_MAX_RETRIES)){
+			Common.waitBriefly();
+			course = getCourse(courseId);
+			tries++;
+		}
+		if(tries==Common.EXISTENCE_CHECKING_MAX_RETRIES){
+			log.severe("Operation did not persist in time: deleteCourse->"+courseId);
+		}
+		
 	}
 
 	/**
@@ -226,6 +258,17 @@ public class CoursesStorage {
 		} else {
 			getPM().deletePersistent(s);
 			getPM().flush();
+		}
+		
+		int tries = 0;
+		Student created = getStudentWithEmail(courseID, email);
+		while ((created != null) && (tries < Common.EXISTENCE_CHECKING_MAX_RETRIES)){
+			Common.waitBriefly();
+			created = getStudentWithEmail(courseID, email);
+			tries++;
+		}
+		if(tries==Common.EXISTENCE_CHECKING_MAX_RETRIES){
+			log.severe("Operation did not persist in time: createStudent->"+ courseID + "/" + email);
 		}
 	}
 

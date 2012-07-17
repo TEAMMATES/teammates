@@ -77,7 +77,19 @@ public class AccountsStorage {
 		Coordinator coordinator = new Coordinator(googleID, name, email);
 		getPM().makePersistent(coordinator);
 		getPM().flush();
+		
+		coordinator = getCoordinator(googleID);
+		int tries = 0;
+		while ((coordinator == null) && (tries < Common.EXISTENCE_CHECKING_MAX_RETRIES)){
+			Common.waitBriefly();
+			coordinator = getCoordinator(googleID);
+			tries++;
+		}
+		if(tries==Common.EXISTENCE_CHECKING_MAX_RETRIES){
+			log.severe("Operation did not persist in time: addCoord->"+googleID);
+		}
 	}
+
 
 	/**
 	 * Returns a Coordinator object.
@@ -259,6 +271,18 @@ public class AccountsStorage {
 		}
 		getPM().deletePersistent(coord);
 		getPM().flush();
+		
+		int tries = 0;
+		coord = getCoordinator(coordId);
+		while ((coord != null) && (tries < Common.EXISTENCE_CHECKING_MAX_RETRIES)){
+			Common.waitBriefly();
+			coord = getCoordinator(coordId);
+			tries++;
+		}
+		if(tries==Common.EXISTENCE_CHECKING_MAX_RETRIES){
+			log.severe("Operation did not persist in time: deleteCoord->"+coordId);
+		}
+		
 	}
 	public void verifyStudentExists(String courseId, String studentEmail) throws EntityDoesNotExistException {
 		if(getStudent(courseId, studentEmail)==null){
