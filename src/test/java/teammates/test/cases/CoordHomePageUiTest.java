@@ -63,6 +63,13 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		testCoordHomeEvalDeleteLink();
 		testCoordHomeCourseDeleteLink();
 		testCoordHomeEmptyHTML();
+		testHelpLink();
+	}
+	
+	public void testHelpLink() throws Exception{
+		bi.clickAndSwitchToNewWindow(bi.helpTab);
+		assertContains("<title>Teammates Online Peer Feedback System for Student Team Projects - Coordinator Help</title>", bi.getCurrentPageSource());
+		bi.closeSelectedWindow();
 	}
 	
 	public void testCoordHomeHTML() throws Exception{

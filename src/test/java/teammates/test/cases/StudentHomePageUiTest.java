@@ -75,4 +75,11 @@ public class StudentHomePageUiTest extends BaseTestCase {
 
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentHomeJoined.html");
 	}
+	
+	@Test
+	public void testHelpLink() throws Exception{
+		bi.clickAndSwitchToNewWindow(bi.helpTab);
+		assertContains("<title>Teammates Online Peer Feedback System for Student Team Projects - Student Help</title>", bi.getCurrentPageSource());
+		bi.closeSelectedWindow();
+	}
 }
