@@ -84,7 +84,7 @@
 					<input type="button" class="button" id="button_back" value="Cancel"
 							onclick="window.location.href='<%= helper.getCoordCourseDetailsLink(helper.student.course) %>'" />
 					<input type="submit" class="button" id="button_submit" name="submit" value="Save Changes"
-							onclick="return isStudentInputValid(this.form.<%= Common.PARAM_STUDENT_NAME %>.value,this.form.<%= Common.PARAM_TEAM_NAME %>.value)" />
+							onclick="return isStudentInputValid(this.form.<%= Common.PARAM_STUDENT_NAME %>.value,this.form.<%= Common.PARAM_TEAM_NAME %>.value,this.form.<%= Common.PARAM_NEW_STUDENT_EMAIL %>.value)" />
 					<br /><br />
 					<% if(helper.isMasqueradeMode()){ %>
 						<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>" />

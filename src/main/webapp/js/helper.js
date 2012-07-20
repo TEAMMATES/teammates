@@ -308,8 +308,8 @@ function isStudentTeamNameValid(teamName) {
  * @param editTeamName
  * @returns {Boolean}
  */
-function isStudentInputValid(editName, editTeamName) {
-	if (editName == "" || editTeamName == "") {
+function isStudentInputValid(editName, editTeamName, editEmail) {
+	if (editName == "" || editTeamName == "" || editEmail == "") {
 		setStatusMessage(DISPLAY_FIELDS_EMPTY,true);
 		return false;
 	} else if (!isStudentNameValid(editName)) {
@@ -317,6 +317,9 @@ function isStudentInputValid(editName, editTeamName) {
 		return false;
 	} else if (!isStudentTeamNameValid(editTeamName)) {
 		setStatusMessage(DISPLAY_STUDENT_TEAMNAME_INVALID,true);
+		return false;
+	} else if (!isStudentEmailValid(editEmail)){
+		setStatusMessage(DISPLAY_STUDENT_EMAIL_INVALID,true);
 		return false;
 	}
 	return true;
