@@ -1,3 +1,11 @@
+/* 
+ * This Javascript file is included in all administrator pages. Functions here 
+ * should be common to the administrator pages.
+ */
+
+
+
+
 // AJAX
 var xmlhttp = new getXMLObject();
 

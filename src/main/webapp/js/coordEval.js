@@ -182,68 +182,31 @@ function selectDefaultTimeOptions(){
 	document.getElementById(EVALUATION_TIMEZONE).value = ""+timeZone;
 }
 
+
 /**
- * Pops up confirmation dialog whether to delete specified evaluation
- * @param courseID
- * @param name
- * @returns
+ * Format a number to be two digits
  */
-function toggleDeleteEvaluationConfirmation(courseID, name) {
-	return confirm("Are you sure you want to delete the evaluation " + name + " in " + courseID + "?");
+function formatDigit(num){
+	return (num<10?"0":"")+num;
 }
 
 /**
- * Shows the desired evaluation report based on the id.
- * This is for the evaluation results page.
- * @param id
- * 		One of:
- * 		<ul>
- * 		<li>coordinatorEvaluationSummaryTable</li>
- * 		<li>coordinatorEvaluationDetailedReviewerTable</li>
- * 		<li>coordinatorEvaluationDetailedRevieweeTable</li>
- * 		</ul>
+ * Format a date object into DD/MM/YYYY format
+ * @param date
+ * @returns {String}
  */
-function showReport(id){
-	$(".evaluation_result").hide();
-	$("#"+id).show();
+function convertDateToDDMMYYYY(date) {
+	return formatDigit(date.getDate()) + "/" +
+			formatDigit(date.getMonth()+1) + "/" +
+			date.getFullYear();
 }
 
 /**
- * Pops up confirmation dialog whether to publish the specified
- * evaluation
- * @param name 
+ * Format a date object into HHMM format
+ * @param date
+ * @returns {String}
  */
-function togglePublishEvaluation(name) {
-	return confirm("Are you sure you want to publish the evaluation " + name + "?");
+function convertDateToHHMM(date) {
+	return formatDigit(date.getHours()) + formatDigit(date.getMinutes());
 }
 
-/**
- * Pops up confirmation dialog whether to unpublish the specified
- * evaluation
- * @param name 
- */
-function toggleUnpublishEvaluation(name){
-	return confirm("Are you sure you want to unpublish the evaluation " + name + "?");
-}
-
-/**
- * Pops up confirmation dialog whether to remind students to fill in a specified
- * evaluation.
- * @param courseID
- * @param evaluationName
- */
-function toggleRemindStudents(evaluationName) {
-	return confirm("Send e-mails to remind students who have not submitted their evaluations for " + evaluationName + "?");
-}
-
-/**
- * Opens new window from link.
- * Javascript is used here so that the newly opened window will be able to
- * access this parent window.
- * @param obj
- * @returns {Boolean}
- */
-function openChildWindow(link){
-	window.open(link, "childWindow");
-	return false;
-}

@@ -1,3 +1,25 @@
+/* 
+ * This Javascript file is included in all student pages. Functions here 
+ * should be common to the student pages.
+ */
+
+
+
+//Initial load-up
+//-----------------------------------------------------------------------------
+window.onload = function() {
+	initializetooltip();
+};
+
+// DynamicDrive JS mouse-hover
+document.onmousemove = positiontip;
+
+//-----------------------------------------------------------------------------
+
+
+
+
+
 /**
  * Function to check whether the evaluation submission edit/submit form has
  * been fully filled (no unfilled textarea and dropdown box)
@@ -20,10 +42,3 @@ function checkEvaluationForm(){
 	}
 	return true;
 }
-
-window.onload = function() {
-	initializetooltip();
-};
-
-// DynamicDrive JS mouse-hover
-document.onmousemove = positiontip;

@@ -18,8 +18,6 @@
 	<script language="JavaScript" src="/js/date.js"></script>
 	<script language="JavaScript" src="/js/CalendarPopup.js"></script>
 	<script language="JavaScript" src="/js/AnchorPosition.js"></script>
-	<script language="JavaScript" src="/js/helper.js"></script>
-	<script language="JavaScript" src="/js/constants.js"></script>
 	<script language="JavaScript" src="/js/common.js"></script>
 	
 	<script language="JavaScript" src="/js/coordinator.js"></script>
