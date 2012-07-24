@@ -27,10 +27,9 @@ public class AllJsTests extends BaseTestCase{
 	@Test
 	public void executeJsTests() throws IOException {
 		 
-		int totalCases = 43; 
+		int totalCases = 109; 
 		
-		// One case is expected to fail due to javaScript syntax issues
-		int totalCasesExpectedToPass = totalCases-1;
+		int totalCasesExpectedToPass = totalCases;
 		
 		print("Going to execute "+totalCasesExpectedToPass+" JavaScript Unit tests...");
 		

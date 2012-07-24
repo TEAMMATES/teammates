@@ -16,7 +16,7 @@ import org.junit.runners.Suite;
 		BackDoorTest.class,
 		
 		// Js tests
-//		AllJsUnitTests.class, //TODO: add this back
+		AllJsTests.class, 
 		
 		// Ui test
 		AllUiTestsSuite.class,
