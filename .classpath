@@ -11,12 +11,12 @@
 	<classpathentry kind="lib" path="src/test/resources/lib/nekohtml-1.9.15.jar" sourcepath="src/test/resources/lib/nekohtml-1.9.15-sources.jar"/>
 	<classpathentry kind="lib" path="src/test/resources/lib/appengine-testing-1.7.0.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/teammates/src/main/webapp/WEB-INF/lib/google-appengine-docs-20120228.zip!/google-appengine-docs-20120228/appengine/docs/java/tools/localunittesting/javadoc"/>
+			<attribute name="javadoc_location" value="jar:platform:/resource/teammates/src/test/resources/lib/google-appengine-docs-20120228.zip!/google-appengine-docs-20120228/appengine/docs/java/tools/localunittesting/javadoc"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/appengine-api-1.0-sdk-1.7.0.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/teammates/src/main/webapp/WEB-INF/lib/google-appengine-docs-20120228.zip!/google-appengine-docs-20120228/appengine/docs/java/javadoc"/>
+			<attribute name="javadoc_location" value="jar:platform:/resource/teammates/src/test/resources/lib/google-appengine-docs-20120228.zip!/google-appengine-docs-20120228/appengine/docs/java/javadoc"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="src/test/resources/lib/appengine-api-stubs-1.7.0.jar"/>
@@ -36,7 +36,7 @@
 	<classpathentry kind="lib" path="src/test/resources/lib/geronimo-servlet_2.5_spec-1.2.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/gson-2.1.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/teammates/src/main/webapp/WEB-INF/lib/gson-docs.zip!/javadocs"/>
+			<attribute name="javadoc_location" value="jar:platform:/resource/teammates/src/test/resources/lib/gson-docs.zip!/javadocs"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="src/test/resources/lib/hamcrest-core-1.1.jar"/>
