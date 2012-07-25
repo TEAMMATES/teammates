@@ -298,7 +298,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		testStudentHome();
 		testStudentJoinCourse();
 		testStudentCourseDetails();
-		testStudentEvalSubmission();
+		//testStudentEvalSubmission();
 		testStudentEvalResult();
 
 		verifyCannotAccessAdminPages();
@@ -369,6 +369,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 	public void testStudentEvalSubmission() {
 		bi.loginStudent(studentUsername, studentPassword);
+		
 		______TS("student can view own evaluation submission page");
 
 		link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
