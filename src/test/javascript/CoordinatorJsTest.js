@@ -1,17 +1,3 @@
-/*
- * coordinator.js
- * 
- * toggleDeleteCourseConfirmation(courseID) -> used in coordCourse.jsp, coordHome.jsp
- * togglePublishEvaluation(name) -> used in Helper.java
- * toggleUnpublishEvaluation(name) -> used in Helper.java
- * toggleRemindStudents(evaluationName) -> used in Helper.java
- * toggleDeleteEvaluationConfirmation(courseID, name) -> used in Helper.java
- * isStudentEmailValid(email) -> used in multiple files
- * isStudentNameValid(name) -> used in multiple files
- * isStudentTeamNameValid(teamName) -> used in multiple files
- * isStudentInputValid(editName, editTeamName, editEmail) -> used in multiple files
- * 
- */
 
 
 module('coordinator.js');

@@ -1,19 +1,3 @@
-/*
- * coordEval.js
- * 
- *  isEvaluationNameLengthValid(name) -> used in coordEval.jsp
- *  isEvaluationNameValid(name) -> used in coordEval.jsp
- *  convertDateFromDDMMYYYYToMMDDYYYY(dateString) -> used in coordEval.jsp
- *  isAddEvaluationScheduleValid(start, startTime, deadline, deadlineTime) -> used in coordEval.jsp
- *  isEditEvaluationScheduleValid(start, startTime, deadline, deadlineTime, timeZone, activated, status) -> used in coordEval.jsp
- *  checkAddEvaluation(form) -> used in coordEval.jsp
- *  checkEditEvaluation(form) -> used in coordEval.jsp
- *  selectDefaultTimeOptions() -> used in coordEval.jsp
- *  formatDigit(num) -> used in coordEval.jsp
- *  convertDateToDDMMYYYY(date) -> used in coordEval.jsp
- *  convertDateToHHMM(date) -> used in coordEval.jsp
- *  
- */
 
 module('coordEval.js');
 
