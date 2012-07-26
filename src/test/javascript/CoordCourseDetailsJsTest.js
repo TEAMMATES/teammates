@@ -1,13 +1,4 @@
 
-/*
- * coordCourseDetails.js
- *  
- * toggleSendRegistrationKey(courseID, email) -> used in coordCourseDetails.jsp
- * toggleSendRegistrationKeysConfirmation(courseID) -> used in coordCourseDetails.jsp
- * toggleDeleteStudentConfirmation(studentName) -> used in coordCourseDetails.jsp
- * 
- * 
- */
  
 module ('coordCourseDetails.js');
 

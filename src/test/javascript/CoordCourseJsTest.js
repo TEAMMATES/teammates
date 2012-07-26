@@ -1,12 +1,3 @@
-/*
- * coordCourse.js
- * 
- * verifyAddCourse() -> used in coordCourse.jsp
- * courseStatusToMessage(statusCode) -> used in coordCourse.jsp
- * checkAddCourseParam(courseID, courseName) -> used in coordCourse.jsp
- * isCourseIDValid(courseID) -> used in coordCourse.jsp
- * 
- */
 
 module('coordCourse.js');
 
