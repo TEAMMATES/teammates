@@ -11,7 +11,7 @@
 module('coordCourse.js');
 
 test('verifyAddCourse()', function(){
-	// N/A, depends on elements on the page
+	// 'The method has only two paths and both are tested by UI tests
 	expect(0);
 });
 
@@ -21,7 +21,7 @@ test('courseStatusToMessage(statusCode)', function(){
 	equal(courseStatusToMessage(COURSE_STATUS_LONG_ID), DISPLAY_COURSE_LONG_ID, "Course ID should not exceed XX characters.");
 	equal(courseStatusToMessage(COURSE_STATUS_LONG_NAME), DISPLAY_COURSE_LONG_NAME, "Course name should not exceed XX characters.");
 	equal(courseStatusToMessage(COURSE_STATUS_INVALID_ID), DISPLAY_COURSE_INVALID_ID, "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.");
-	equal(courseStatusToMessage("default"), "", "Empty status message");
+	equal(courseStatusToMessage("default"), DISPLAY_INVALID_INPUT, "Unexpected error. Invallid input.");
 });
 
 

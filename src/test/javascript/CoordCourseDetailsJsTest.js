@@ -13,7 +13,6 @@ module ('coordCourseDetails.js');
 
 
 test('toggleSendRegistrationKey(courseID, email)', function(){
-	//just returns true
 	expect(0);
 });
 

@@ -44,7 +44,7 @@ function courseStatusToMessage(statusCode) {
 	case COURSE_STATUS_INVALID_ID:
 		return DISPLAY_COURSE_INVALID_ID;
 	default:
-		return "";
+		return DISPLAY_INVALID_INPUT;
 	}
 }
 

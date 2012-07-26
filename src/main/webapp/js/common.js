@@ -31,34 +31,9 @@ var DISPLAY_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 3
 var DISPLAY_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.<br />" +
 										 "The start time should be in the future, and the deadline should be after start time.";
 var DISPLAY_FIELDS_EMPTY = "Please fill in all the relevant fields.";
+var DISPLAY_INVALID_INPUT = "Unexpected error. Invalid Input";
 
 
-
-
-/**
-* Returns Date object that shows the current time at specific timeZone
-* @param timeZone
-* @returns {Date}
-*/
-function getDateWithTimeZoneOffset(timeZone) {
-	var now = new Date();
-
-	// Convert local time zone to ms
-	var nowTime = now.getTime();
-
-	// Obtain local time zone offset
-	var localOffset = now.getTimezoneOffset() * 60000;
-
-	// Obtain UTC time
-	var UTC = nowTime + localOffset;
-
-	// Add the time zone of evaluation
-	var nowMilliS = UTC + (timeZone * 60 * 60 * 1000);
-
-	now.setTime(nowMilliS);
-
-	return now;
-}
 
 /**---------------------------- Sorting Functions --------------------------**/
 /**

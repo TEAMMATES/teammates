@@ -38,7 +38,7 @@ test('isEvaluationNameValid(name)', function(){
 
 
 test('convertDateFromDDMMYYYYToMMDDYYYY(dateString)', function(){
-	equal(convertDateFromDDMMYYYYToMMDDYYYY("21/07/2012"), "07/21/2012", "Conversion of date works");
+	equal(convertDateFromDDMMYYYYToMMDDYYYY("21/07/2012"), "07/21/2012", "Conversion of date");
 });
 
 
@@ -69,11 +69,15 @@ test('isEditEvaluationScheduleValid(start, startTime, deadline, deadlineTime, ti
 	var starttime = "24";
 	var endtime = "22";
 	
-	equal(isAddEvaluationScheduleValid(correctstart, starttime, correctend, endtime, "", "", ""), true, "Normal start and end");
-	equal(isAddEvaluationScheduleValid(wrongstart, starttime, correctend, endtime, "", "", ""), false, "Start time before current date");
-	equal(isAddEvaluationScheduleValid(correctstart, starttime, wrongend, endtime, "", "", ""), false, "End time before start time");
-	equal(isAddEvaluationScheduleValid(wrongstart, starttime, correctend, endtime, "", "AWAITING", ""), false, "Status awaiting");
-	equal(isAddEvaluationScheduleValid(wrongstart, starttime, correctend, endtime, "", "AWAITING", ""), false, "Status not awaiting");
+	equal(isEditEvaluationScheduleValid(correctstart, starttime, correctend, endtime, "", "", ""), true, "Normal start and end");
+	equal(isEditEvaluationScheduleValid(correctstart, starttime, correctend, endtime, "", "", "AWAITING"), true, "Normal start and end + awaiting");
+	equal(isEditEvaluationScheduleValid(wrongstart, starttime, correctend, endtime, "", "", ""), true, "Start time before current date");
+	equal(isEditEvaluationScheduleValid(wrongstart, starttime, correctend, endtime, "", "", "AWAITING"), false, "Start time before current date + awaiting");
+	equal(isEditEvaluationScheduleValid(correctstart, starttime, correctstart, starttime, "", "", ""), true, "start and end at same time");
+	equal(isEditEvaluationScheduleValid(correctstart, starttime, correctstart, starttime, "", "", "AWAITING"), true, "start and end at same time + awaiting");
+	equal(isEditEvaluationScheduleValid(correctstart, starttime, wrongend, endtime, "", "", ""), false, "End time before start time");
+	equal(isEditEvaluationScheduleValid(correctstart, starttime, wrongend, endtime, "", "", "AWAITING"), false, "End time before start time + awaiting");
+	
 });
 
 

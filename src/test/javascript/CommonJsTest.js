@@ -9,11 +9,6 @@
 
 module('common.js');
 
-test('getDateWithTimeZoneOffset(timeZone)', function(){
-	// Unable to test because it depends on the current date. Function is not used anyway
-	expect(0);
-});
-
 
 test('scrollToTop()', function(){
 	// N/A, trivial function
