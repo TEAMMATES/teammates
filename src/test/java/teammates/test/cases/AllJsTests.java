@@ -27,7 +27,7 @@ public class AllJsTests extends BaseTestCase{
 	@Test
 	public void executeJsTests() throws IOException {
 		 
-		int totalCases = 109; 
+		int totalCases = 112; 
 		
 		int totalCasesExpectedToPass = totalCases;
 		
