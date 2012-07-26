@@ -26,7 +26,11 @@ public class AllJsTests extends BaseTestCase{
 
 	@Test
 	public void executeJsTests() throws IOException {
-		 
+		/*
+		 * Total cases has to be updated based on the number of new javascript
+		 * tests added. This total case number should reflect the number of tests
+		 * in AllJsUnitTests.html
+		 */
 		int totalCases = 112; 
 		
 		int totalCasesExpectedToPass = totalCases;
