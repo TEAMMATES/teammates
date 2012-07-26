@@ -107,20 +107,16 @@
 								onclick="toggleSort(this,1)"/>Team</th>
 						<th class="centeralign"><input class="buttonSortNone" type="button" id="button_sortname" 
 								onclick="toggleSort(this,2)"/>Student</th>
-						<th class="centeralign" width="6.5%"><input class="buttonSortNone" type="button" id="button_sortclaimed"
+						<th class="centeralign" width="8%"><input class="buttonSortNone" type="button" id="button_sortclaimed"
 								onclick="toggleSort(this,3,sortByPoint)"/>CC</th>
-						<th class="centeralign" width="6.5%"><input class="buttonSortNone" type="button" id="button_sortperceived"
+						<th class="centeralign" width="8%"><input class="buttonSortNone" type="button" id="button_sortperceived"
 								onclick="toggleSort(this,4,sortByPoint)"/>PC</th>
-						<th class="centeralign" width="6.5%"><input class="buttonSortNone" type="button" id="button_sortdiff"
+						<th class="centeralign" width="8%"><input class="buttonSortNone" type="button" id="button_sortdiff"
 								onclick="toggleSort(this,5,sortByDiff)"/>
 							<span onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_DIFF%>')"
 									onmouseout="hideddrivetip()">Diff</span>
 						</th>
-						<th class="centeralign" width="18%">
-							<span onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_POINTS_GIVEN%>')" onmouseout="hideddrivetip()">
-							Points Given</span>
-						</th>
-						<th class="centeralign" width="18%">
+						<th class="centeralign" width="20%">
 							<span onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_POINTS_RECEIVED%>')" onmouseout="hideddrivetip()">
 							Points Received</span>
 						</th>
@@ -142,7 +138,6 @@
 							<td><%=CoordEvalResultsHelper.colorizePoints(student.result.claimedToCoord)%></td>
 							<td><%=CoordEvalResultsHelper.colorizePoints(student.result.perceivedToCoord)%></td>
 							<td><%=CoordEvalResultsHelper.printDiff(student.result)%></td>
-							<td><%=CoordEvalResultsHelper.getPointsList(student.result.outgoing, true)%></td>
 							<td><%=CoordEvalResultsHelper.getPointsList(student.result.incoming, true)%></td>
 							<td class="centeralign">
 								<a name="viewEvaluationResults<%=idx%>" id="viewEvaluationResults<%=idx%>"
