@@ -156,6 +156,26 @@
       "p2pFeedback" : {"value" :"comments from student1InCourse1 to student2InCourse1"},
       "team" : "Team 1.1"
     },
+	"submissionFromS1C1ToS3C1" :{
+      "reviewer" : "student1InCourse1@gmail.com",
+      "reviewee" : "student3InCourse1@gmail.com",
+      "course" : "idOfCourse1OfCoord1",
+      "evaluation" : "evaluation1 In Course1",
+      "points" : 10,
+      "justification" : {"value" : "justification of student1InCourse1 rating to student3InCourse1"},
+      "p2pFeedback" : {"value" :"comments from student1InCourse1 to student3InCourse1"},
+      "team" : "Team 1.1"
+    },
+	"submissionFromS1C1ToS4C1" :{
+      "reviewer" : "student1InCourse1@gmail.com",
+      "reviewee" : "student4InCourse1@gmail.com",
+      "course" : "idOfCourse1OfCoord1",
+      "evaluation" : "evaluation1 In Course1",
+      "points" : 10,
+      "justification" : {"value" : "justification of student1InCourse1 rating to student4InCourse1"},
+      "p2pFeedback" : {"value" :"comments from student1InCourse1 to student4InCourse1"},
+      "team" : "Team 1.1"
+    },
     "submissionFromS2C1ToS1C1" :{
       "reviewer" : "student2InCourse1@gmail.com",
       "reviewee" : "student1InCourse1@gmail.com",

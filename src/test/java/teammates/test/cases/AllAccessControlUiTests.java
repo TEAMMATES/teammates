@@ -298,7 +298,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		testStudentHome();
 		testStudentJoinCourse();
 		testStudentCourseDetails();
-		//testStudentEvalSubmission();
+		testStudentEvalSubmission();
 		testStudentEvalResult();
 
 		verifyCannotAccessAdminPages();

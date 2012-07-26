@@ -3205,19 +3205,22 @@ public class LogicTest extends BaseTestCase {
 				"course1", "new eval");
 		assertEquals(0, emailsSent.size());
 
-		______TS("no one has submitted fully");
+		______TS("1 person submitted fully, 4 others have not");
 
 		EvaluationData eval = dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1");
 		emailsSent = logic.sendReminderForEvaluation(eval.course, eval.name);
 
-		assertEquals(5, emailsSent.size());
+		assertEquals(4, emailsSent.size());
 		List<StudentData> studentList = logic
 				.getStudentListForCourse(eval.course);
 
+		//student 1 would not recieve email 
 		for (StudentData s : studentList) {
-			String errorMessage = "No email sent to " + s.email;
-			assertTrue(errorMessage, getEmailToStudent(s, emailsSent) != null);
+			if(!s.name.equals("student1 In Course1")){
+				String errorMessage = "No email sent to " + s.email;
+				assertTrue(errorMessage, getEmailToStudent(s, emailsSent) != null);
+			}
 		}
 
 		______TS("some have submitted fully");
@@ -3243,13 +3246,13 @@ public class LogicTest extends BaseTestCase {
 		logic.editSubmissions(submissions);
 		emailsSent = logic.sendReminderForEvaluation(eval.course, eval.name);
 
-		assertEquals(4, emailsSent.size());
+		assertEquals(3, emailsSent.size());
 
 		studentList = logic.getStudentListForCourse(eval.course);
 
-		// verify all students in Team 1.1 received emails.
+		// verify 3 students in Team 1.1 received emails.
 		for (StudentData s : studentList) {
-			if (s.team.equals("Team 1.1")) {
+			if (s.team.equals("Team 1.1") && !s.name.equals("student1 In Course1")) {
 				String errorMessage = "No email sent to " + s.email;
 				assertTrue(errorMessage,
 						getEmailToStudent(s, emailsSent) != null);
