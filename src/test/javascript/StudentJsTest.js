@@ -1,8 +1,3 @@
-/*
- * student.js
- * 
- * checkEvaluationForm()
- */
 
 module('student.js');
 

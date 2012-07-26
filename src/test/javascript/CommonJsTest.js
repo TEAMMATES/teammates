@@ -1,11 +1,3 @@
-/*
- * common.js
- * 
- * scrollToTop() -> used in multiple files
- * setStatusMessage(message, error) -> used in multiple files
- * clearStatusMessage() -> used in multiple files
- * 
- */
 
 module('common.js');
 

@@ -1,11 +1,3 @@
-/*
- * coordEvalResults.js
- * 
- * showReport(id) -> used in coordEvalResults.jsp
- * openChildWindow(link) -> used in coordEvalResults.jsp
- * 
- * 
- */
 
 module('coordEvalResults.js');
 

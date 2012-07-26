@@ -1,10 +1,3 @@
-/*
- * coordCourseEnroll.js
- * 
- * highlightError(start, end) -> used in coordCourseEnroll.jsp
- * checkEnrollmentInput(input) -> used in coordCourseEnroll.jsp
- * 
- */
 
 module('coordCourseEnroll.js');
 
