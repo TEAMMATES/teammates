@@ -29,7 +29,7 @@ public class AllJsTests extends BaseTestCase{
 		/*
 		 * Total cases has to be updated based on the number of new javascript
 		 * tests added. This total case number should reflect the number of tests
-		 * in AllJsUnitTests.html
+		 * in AllJsUnitTests.html.
 		 */
 		int totalCases = 112; 
 		
