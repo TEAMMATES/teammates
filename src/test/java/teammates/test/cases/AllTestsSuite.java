@@ -15,12 +15,12 @@ import org.junit.runners.Suite;
 		
 		BackDoorTest.class,
 		
-		// Js tests
-		AllJsTests.class, 
-		
 		// Ui test
 		AllUiTestsSuite.class,
-		AllAccessControlUiTests.class
+		AllAccessControlUiTests.class,
+		
+		// Js tests
+		AllJsTests.class 
 })
 
 //@formatter:on
