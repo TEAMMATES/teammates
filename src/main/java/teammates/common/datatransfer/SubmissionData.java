@@ -91,7 +91,7 @@ public class SubmissionData {
 	public String toString(int indent){
 		String indentString = Common.getIndent(indent);
 		StringBuilder sb = new StringBuilder();
-		sb.append(indentString+reviewer+"->"+reviewee+EOL);
+		sb.append(indentString+"[eval:"+evaluation+"] "+reviewer+"->"+reviewee+EOL);
 		sb.append(indentString+" points:"+points);
 		sb.append(" [normalized-to-student:"+normalized+"]");
 		sb.append(" [normalized-to-coord:"+normalized+"]");

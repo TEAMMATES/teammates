@@ -30,12 +30,12 @@ import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvalResultData;
 import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationData.EvalStatus;
 import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentData.UpdateStatus;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.datatransfer.TeamData;
 import teammates.common.datatransfer.UserData;
-import teammates.common.datatransfer.EvaluationData.EvalStatus;
-import teammates.common.datatransfer.StudentData.UpdateStatus;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -46,6 +46,7 @@ import teammates.logic.Emails;
 import teammates.logic.TeamEvalResult;
 import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
+import teammates.storage.api.EvaluationsStorage;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Student;
 
@@ -1299,11 +1300,35 @@ public class LogicTest extends BaseTestCase {
 		student1InCourse1.name = student1InCourse1.name + "x";
 		student1InCourse1.id = student1InCourse1.id + "x";
 		student1InCourse1.comments = student1InCourse1.comments + "x";
-		student1InCourse1.email = student1InCourse1.email + "x";
-		student1InCourse1.team = student1InCourse1.team + "x";
+		String newEmail = student1InCourse1.email + "x";
+		student1InCourse1.email = newEmail;
+		student1InCourse1.team = "Team 1.2"; // move to a different team
 		student1InCourse1.profile = new Text("new profile detail abc ");
+
+		// take a snapshot of submissions before
+		List<SubmissionData> submissionsBeforeEdit = EvaluationsStorage.inst()
+				.getSubmissionsForCourse(student1InCourse1.course);
+
+		//verify student details changed correctly
 		logic.editStudent(originalEmail, student1InCourse1);
 		verifyPresentInDatastore(student1InCourse1);
+
+		// take a snapshot of submissions after the edit
+		List<SubmissionData> submissionsAfterEdit = EvaluationsStorage.inst()
+				.getSubmissionsForCourse(student1InCourse1.course);
+
+		verifyEmailChangedInExistingSubmissions(submissionsBeforeEdit,
+				originalEmail, newEmail);
+		
+		// We moved a student to an existing 1-person team.
+		// We have 2 evaluations in the course.
+		// Therefore, expected increase in submissions is 2*3=6
+		assertEquals(submissionsBeforeEdit.size() + 6,
+				submissionsAfterEdit.size());
+		
+		// verify new submissions were created to match new team structure
+		verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(submissionsAfterEdit,
+				student1InCourse1.course);
 
 		______TS("check for KeepExistingPolicy");
 
@@ -3506,6 +3531,81 @@ public class LogicTest extends BaseTestCase {
 	@SuppressWarnings("unused")
 	private void ____HELPER_methods_________________________________________() {
 	}
+	
+	/** 
+	 * Verifies submissions required to support the current Team structure
+	 *    exists in the database, for all evaluations under the give course. 
+	 *    However, there could also be orphaned submissions in the database. 
+	 *    This method does not care about those.
+	 */
+	private void verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(
+			List<SubmissionData> submissionList, String courseId) throws EntityDoesNotExistException {
+		CourseData course = logic.getCourseDetails(courseId);
+		List<StudentData> students = logic.getStudentListForCourse(courseId);
+
+		for(EvaluationData e: course.evaluations){
+			verifySubmissionsExistForCurrentTeamStructureInEvaluation(e.name, students, submissionList);
+		}
+	}
+	
+	
+	private void verifySubmissionsExistForCurrentTeamStructureInEvaluation(String evaluationName,
+			List<StudentData> students, List<SubmissionData> submissions) {
+
+		for (StudentData reviewer : students) {
+			for (StudentData reviewee : students) {
+				if (!reviewer.team.equals(reviewee.team)) {
+					continue;
+				}
+				verifySubmissionExists(evaluationName, reviewer.email, reviewee.email,
+						reviewer.team, submissions);
+			}
+		}
+
+	}
+
+	/**
+	 * Verifies if there is a submission in the list for the 
+	 *    given evaluation for the same reviewer and reviewee 
+	 *    under the same team. Does not check other attributes.
+	 */
+	private void verifySubmissionExists(String evaluationName, String reviewer,
+			String reviewee, String team, List<SubmissionData> submissions) {
+		int count = 0;
+		for (SubmissionData s : submissions) {
+			if (s.evaluation.equals(evaluationName)
+					&& s.reviewer.equals(reviewer)
+					&& s.reviewee.equals(reviewee) 
+					&& s.team.equals(team)) {
+				count++;
+			}
+		}
+		String errorMsg = "Count is not 1 for "+evaluationName+":"+team+":"+reviewer+"->"+reviewee;
+		assertEquals(errorMsg, 1, count);
+	}
+
+	/**
+	 * verifies for the given submissions (these should be submissions BEFORE
+	 *    the email was changed), the email change is reflected 
+	 *    correctly in the datastore, 
+	 *    without altering any other data in those submissions.
+	 */
+	private void verifyEmailChangedInExistingSubmissions(
+			List<SubmissionData> submissionsBeforeEdit, String originalEmail,
+			String newEmail) throws Exception {
+		
+		for (SubmissionData sBefore : submissionsBeforeEdit) {
+			SubmissionData searchTarget = sBefore.getCopy();
+			if(searchTarget.reviewer.equals(originalEmail)){
+				searchTarget.reviewer = newEmail;
+			}
+			if(searchTarget.reviewee.equals(originalEmail)){
+				searchTarget.reviewee = newEmail;
+			}
+			
+			verifyPresentInDatastore(searchTarget);
+		}
+	}
 
 	private MimeMessage getEmailToStudent(StudentData s,
 			List<MimeMessage> emailsSent) throws MessagingException {
@@ -3708,8 +3808,8 @@ public class LogicTest extends BaseTestCase {
 			method.invoke(logic, params);
 			fail();
 		} catch (Exception e) {
-			assertEquals(e.getCause().getClass(),
-					EntityDoesNotExistException.class);
+			assertEquals(EntityDoesNotExistException.class, e.getCause()
+					.getClass());
 		}
 	}
 
