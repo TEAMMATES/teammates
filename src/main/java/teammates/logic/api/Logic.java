@@ -1404,6 +1404,27 @@ public class Logic {
 	private void ____helper_methods________________________________________() {
 	}
 
+	private List<Submission> purgeOrphanSubmissions(List<StudentData> students,
+			List<Submission> submissions) {
+		List<Submission> returnList = new ArrayList<Submission>();
+		
+		//convert list to map for faster access
+		HashMap<String, StudentData> studentMap = new HashMap<String, StudentData>();
+		for (StudentData student : students) {
+			studentMap.put(student.email, student);
+		}
+		
+		//add to list if not orphan submission
+		for (Submission submission : submissions) {
+			StudentData reviewer = studentMap.get(submission.getFromStudent());
+			StudentData reviewee = studentMap.get(submission.getToStudent());
+			if(!isOrphanSubmission(reviewer, reviewee, submission)){
+				returnList.add(submission);
+			}
+		}
+		return returnList;
+	}
+	
 	private List<MimeMessage> sendEvaluationPublishedEmails(String courseId,
 			String evaluationName) throws EntityDoesNotExistException {
 		List<MimeMessage> emailsSent;
@@ -1482,8 +1503,16 @@ public class Logic {
 		return student;
 	}
 
+	/**
+	 * Returns true if either of the three objects is null
+	 * or if the team in submission is different from
+	 * those in two students.
+	 */
 	private boolean isOrphanSubmission(StudentData reviewer,
 			StudentData reviewee, Submission submission) {
+		if ((reviewer==null)||(reviewee==null)||(submission==null)) {
+			return true;
+		}
 		if (!submission.getTeamName().equals(reviewer.team)) {
 			return true;
 		}
@@ -1502,8 +1531,13 @@ public class Logic {
 							+ "] under the course [" + courseId + "]");
 		}
 		// create SubmissionData Hashmap
+		
+		List<StudentData> students = getStudentListForCourse(courseId);
 		List<Submission> submissionsList = EvaluationsStorage.inst()
 				.getSubmissionList(courseId, evaluationName);
+		
+		submissionsList = purgeOrphanSubmissions(students,submissionsList);
+		
 		HashMap<String, SubmissionData> submissionDataList = new HashMap<String, SubmissionData>();
 		for (Submission s : submissionsList) {
 			SubmissionData sd = new SubmissionData(s);

@@ -46,6 +46,7 @@ import teammates.logic.Emails;
 import teammates.logic.TeamEvalResult;
 import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
+import teammates.storage.api.CoursesStorage;
 import teammates.storage.api.EvaluationsStorage;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Student;
@@ -3082,14 +3083,34 @@ public class LogicTest extends BaseTestCase {
 
 		HashMap<String, SubmissionData> submissions = invokeGetSubmissionsForEvaluation(
 				evaluation.course, evaluation.name);
-		// team 1.1 has 4 students, team 1.2 has only 1 student.
-		// there should be 4*4+1=17 submissions.
+		// Team 1.1 has 4 students, Team 1.2 has only 1 student.
+		// There should be 4*4+1=17 submissions.
 		assertEquals(17, submissions.keySet().size());
 		// verify they all belong to this evaluation
 		for (String key : submissions.keySet()) {
 			assertEquals(evaluation.course, submissions.get(key).course);
 			assertEquals(evaluation.name, submissions.get(key).evaluation);
 		}
+		
+		______TS("orphan submissions");
+		
+		// move student from Team 1.1 to Team 1.2
+		StudentData student = dataBundle.students.get("student1InCourse1");
+		student.team = "Team 1.2";
+		logic.editStudent(student.email, student);
+
+		// Now, team 1.1 has 3 students, team 1.2 has 2 student.
+		// There should be 3*3+2*2=13 submissions if no orphans are returned.
+		submissions = invokeGetSubmissionsForEvaluation(evaluation.course,
+				evaluation.name);
+		assertEquals(13, submissions.keySet().size());
+		
+		// Check if the returned submissions match the current team structure
+		List<StudentData> students = logic
+				.getStudentListForCourse(evaluation.course);
+		verifySubmissionsExistForCurrentTeamStructureInEvaluation(
+				evaluation.name, students, new ArrayList<SubmissionData>(
+						submissions.values()));
 
 		______TS("evaluation in empty class");
 
