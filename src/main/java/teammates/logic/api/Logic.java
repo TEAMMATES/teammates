@@ -1,6 +1,7 @@
 package teammates.logic.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -458,16 +459,24 @@ public class Logic {
 					"Coordinator does not exist :" + coordId);
 		}
 
-		ArrayList<EvaluationData> evaluationDetailsList = new ArrayList<EvaluationData>();
+		ArrayList<EvaluationData> evaluationSummaryList = new ArrayList<EvaluationData>();
 
 		for (Course c : courseList) {
 			ArrayList<EvaluationData> evaluationsSummaryForCourse = EvaluationsStorage
 					.inst().getEvaluationsSummaryForCourse(c.getID());
-
-			evaluationDetailsList.addAll(evaluationsSummaryForCourse);
+			List<StudentData> students = getStudentListForCourse(c.getID());
+			
+			//calculate submission statistics for each evaluation
+			for (EvaluationData evaluation : evaluationsSummaryForCourse) {
+				evaluation.expectedTotal = students.size();
+				
+				HashMap<String, SubmissionData> submissions = getSubmissionsForEvaluation(c.getID(), evaluation.name);
+				evaluation.submittedTotal = countSubmittedStudents(submissions.values());
+				
+				evaluationSummaryList.add(evaluation);
+			}
 		}
-
-		return evaluationDetailsList;
+		return evaluationSummaryList;
 	}
 
 	@SuppressWarnings("unused")
@@ -1404,6 +1413,23 @@ public class Logic {
 	private void ____helper_methods________________________________________() {
 	}
 
+	/**
+	 * Returns how many students have submitted at least one submission.
+	 */
+	private int countSubmittedStudents(
+			Collection<SubmissionData> submissions) {
+		int count = 0;
+		List<String> emailsOfSubmittedStudents = new ArrayList<String>();
+		for (SubmissionData s : submissions) {
+			if (s.points != Common.POINTS_NOT_SUBMITTED
+					&& !emailsOfSubmittedStudents.contains(s.reviewer)) {
+				count++;
+				emailsOfSubmittedStudents.add(s.reviewer);
+			}
+		}
+		return count;
+	}
+	
 	private List<Submission> purgeOrphanSubmissions(List<StudentData> students,
 			List<Submission> submissions) {
 		List<Submission> returnList = new ArrayList<Submission>();
@@ -1522,6 +1548,9 @@ public class Logic {
 		return false;
 	}
 
+	/**
+	 * Returns submission for the evaluation, excluding orphaned submissions.
+	 */
 	private HashMap<String, SubmissionData> getSubmissionsForEvaluation(
 			String courseId, String evaluationName)
 			throws EntityDoesNotExistException {
