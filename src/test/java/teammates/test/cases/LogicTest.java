@@ -49,6 +49,7 @@ import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.api.EvaluationsStorage;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.Submission;
 
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
@@ -1192,13 +1193,28 @@ public class LogicTest extends BaseTestCase {
 		______TS("typical case");
 
 		loginAsAdmin("admin.user");
-
-		StudentData newStudent = new StudentData("t1|n1|e@com|c1",
-				"tcs.course1");
+		
+		restoreTypicalDataInDatastore();
+		//reuse existing student to create a new student
+		StudentData newStudent = dataBundle.students.get("student1InCourse1");
+		newStudent.email = "new@student.com";
 		verifyAbsentInDatastore(newStudent);
-
+		
+		List<Submission> submissionsBeforeAdding = EvaluationsStorage.inst().getSubmissionList(newStudent.course);
+		
 		logic.createStudent(newStudent);
 		verifyPresentInDatastore(newStudent);
+		
+		List<Submission> submissionsAfterAdding = EvaluationsStorage.inst().getSubmissionList(newStudent.course);
+		
+		//expected increase in submissions = 2*(1+4+4)
+		//2 is the number of evaluations in the course
+		//4 is the number of existing members in the team
+		//1 is the self evaluation
+		//We simply check the increase in submissions. A deeper check is 
+		//  unnecessary because adjusting existing submissions should be 
+		//  checked elsewhere.
+		assertEquals(submissionsBeforeAdding.size()+18, submissionsAfterAdding.size());
 
 		______TS("duplicate student");
 
