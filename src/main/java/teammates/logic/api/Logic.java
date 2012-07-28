@@ -1418,11 +1418,7 @@ public class Logic {
 		for (Submission submission : submissions) {
 			StudentData reviewer = studentMap.get(submission.getFromStudent());
 			StudentData reviewee = studentMap.get(submission.getToStudent());
-			String teamInSubmission = submission.getTeamName();
-			if((reviewer != null)
-					&&(reviewee!=null)
-					&&(reviewer.team.equals(teamInSubmission))
-					&&(reviewee.team.equals(teamInSubmission))){
+			if(!isOrphanSubmission(reviewer, reviewee, submission)){
 				returnList.add(submission);
 			}
 		}
@@ -1507,8 +1503,16 @@ public class Logic {
 		return student;
 	}
 
+	/**
+	 * Returns true if either of the three objects is null
+	 * or if the team in submission is different from
+	 * those in two students.
+	 */
 	private boolean isOrphanSubmission(StudentData reviewer,
 			StudentData reviewee, Submission submission) {
+		if ((reviewer==null)||(reviewee==null)||(submission==null)) {
+			return true;
+		}
 		if (!submission.getTeamName().equals(reviewer.team)) {
 			return true;
 		}
