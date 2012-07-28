@@ -510,6 +510,7 @@ public class Logic {
 	}
 
 	/**
+	 * Returns a detailed version of course data, including evaluation data
 	 * Access: course owner, student in course, admin
 	 */
 	public CourseData getCourseDetails(String courseId)
@@ -771,10 +772,14 @@ public class Logic {
 	}
 
 	/**
+	 * Access: coord of course and above.<br>
 	 * All attributes except courseId be changed. Trying to change courseId will
 	 * be treated as trying to edit a student in a different course.<br>
 	 * Changing team name will not delete existing submissions under that team <br>
-	 * Access: coord of course and above.
+	 * Cascade logic:
+	 *   Email changed-> changes email in all existing submissions <br>
+	 *   Team changed-> creates new submissions for the new team, without 
+	 *       deleting submissions for previous team structure
 	 */
 	public void editStudent(String originalEmail, StudentData student)
 			throws InvalidParametersException, EntityDoesNotExistException {
@@ -784,10 +789,30 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(student.course);
 
-		// TODO: make the implementation more defensive
+		Student originalStudent = CoursesStorage.inst().getStudentWithEmail(
+				student.course, originalEmail);
+
+		if (originalStudent == null) {
+			throw new EntityDoesNotExistException("Non-existent student "
+					+ student.course + "/" + originalEmail);
+		}
+		String originalTeam = originalStudent.getTeamName();
+
+		// TODO: make the implementation more defensive, e.g. duplicate email
 		CoursesStorage.inst().editStudent(student.course, originalEmail,
 				student.name, student.team, student.email, student.id,
 				student.comments, student.profile);
+
+		// cascade email change, if any
+		if (!originalEmail.equals(student.email)) {
+			EvaluationsStorage.inst().editSubmissions(student.course,
+					originalEmail, student.email);
+		}
+
+		// adjust team structure, if required
+		if (!originalTeam.equals(student.team)) {
+			EvaluationsStorage.inst().adjustSubmissions(student.course);
+		}
 	}
 
 	/**
