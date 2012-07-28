@@ -13,6 +13,7 @@ import javax.jdo.Transaction;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.SubmissionData;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -220,23 +221,8 @@ public class EvaluationsStorage {
 	 *            evaluationName pair must be valid)
 	 */
 	public void createSubmissions(String courseID, String evaluationName) {
-		CoursesStorage courses = CoursesStorage.inst();
-		List<Student> studentList = courses.getStudentList(courseID);
-
-		List<Submission> submissionList = new ArrayList<Submission>();
-		Submission submission = null;
-
-		for (Student sx : studentList) {
-			for (Student sy : studentList) {
-				if (sx.getTeamName().equals(sy.getTeamName())) {
-					submission = new Submission(sx.getEmail(), sy.getEmail(),
-							courseID, evaluationName, sx.getTeamName());
-					submissionList.add(submission);
-				}
-
-			}
-
-		}
+		List<Submission> submissionList = createSubmissionsForEval(courseID,
+				evaluationName);
 
 		try {
 			getPM().makePersistentAll(submissionList);
@@ -266,6 +252,57 @@ public class EvaluationsStorage {
 					+ courseID + "/" + evaluationName);
 		}
 
+	}
+
+	private List<Submission> createSubmissionsForEval(String courseID,
+			String evaluationName) {
+		CoursesStorage courses = CoursesStorage.inst();
+		List<Student> studentList = courses.getStudentList(courseID);
+
+		List<Submission> submissionList = new ArrayList<Submission>();
+		Submission submission = null;
+
+		for (Student sx : studentList) {
+			for (Student sy : studentList) {
+				if (sx.getTeamName().equals(sy.getTeamName())) {
+					submission = new Submission(sx.getEmail(), sy.getEmail(),
+							courseID, evaluationName, sx.getTeamName());
+					submissionList.add(submission);
+				}
+
+			}
+
+		}
+		return submissionList;
+	}
+	
+	public void adjustSubmissions(String courseId){
+		List<Evaluation> evaluationList = getEvaluationList(courseId);
+		for (Evaluation e : evaluationList) {
+			adjustSubmissions(courseId, e.getName());
+		}
+	}
+
+	private void adjustSubmissions(String courseId, String evaluationName) {
+		List<Submission> submissionList = createSubmissionsForEval(courseId,
+				evaluationName);
+		for (Submission s : submissionList) {
+			if(!submissionExistsForSameTeam(s)){
+				try {
+					getPM().makePersistent(s);
+					getPM().flush();
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}
+	}
+
+	private boolean submissionExistsForSameTeam(Submission s) {
+		Submission existingSubmission = getSubmission(s.getCourseID(),
+				s.getEvaluationName(), s.getFromStudent(), s.getToStudent());
+		return (existingSubmission != null)
+				&& (s.getTeamName().equals(existingSubmission.getTeamName()));
 	}
 
 	/**
@@ -549,6 +586,7 @@ public class EvaluationsStorage {
 			}
 
 		}
+		getPM().close();
 	}
 
 	/**
@@ -894,6 +932,16 @@ public class EvaluationsStorage {
 				query).execute();
 
 		return submissionList;
+	}
+	
+	public List<SubmissionData> getSubmissionsForCourse(String courseID) {
+		
+		List<Submission> submissionList = getSubmissionList(courseID);
+		List<SubmissionData> submissionDataList = new ArrayList<SubmissionData>();
+		for (Submission s : submissionList) {
+			submissionDataList.add(new SubmissionData(s));
+		}
+		return submissionDataList;
 	}
 
 	/**

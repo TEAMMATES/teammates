@@ -510,6 +510,7 @@ public class Logic {
 	}
 
 	/**
+	 * Returns a detailed version of course data, including evaluation data
 	 * Access: course owner, student in course, admin
 	 */
 	public CourseData getCourseDetails(String courseId)
@@ -729,6 +730,8 @@ public class Logic {
 	}
 
 	/**
+	 * Creates a student and adjust existing evaluations to 
+	 *     accommodate the new student
 	 * Access: course owner and above
 	 */
 	public void createStudent(StudentData studentData)
@@ -752,6 +755,9 @@ public class Logic {
 			student.setTeamName("");
 		}
 		CoursesStorage.inst().createStudent(student);
+		
+		//adjust existing evaluations to accommodate new student
+		EvaluationsStorage.inst().adjustSubmissions(student.getCourseID());
 	}
 
 	/**
@@ -771,10 +777,14 @@ public class Logic {
 	}
 
 	/**
+	 * Access: coord of course and above.<br>
 	 * All attributes except courseId be changed. Trying to change courseId will
 	 * be treated as trying to edit a student in a different course.<br>
 	 * Changing team name will not delete existing submissions under that team <br>
-	 * Access: coord of course and above.
+	 * Cascade logic:
+	 *   Email changed-> changes email in all existing submissions <br>
+	 *   Team changed-> creates new submissions for the new team, without 
+	 *       deleting submissions for previous team structure
 	 */
 	public void editStudent(String originalEmail, StudentData student)
 			throws InvalidParametersException, EntityDoesNotExistException {
@@ -784,10 +794,30 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(student.course);
 
-		// TODO: make the implementation more defensive
+		Student originalStudent = CoursesStorage.inst().getStudentWithEmail(
+				student.course, originalEmail);
+
+		if (originalStudent == null) {
+			throw new EntityDoesNotExistException("Non-existent student "
+					+ student.course + "/" + originalEmail);
+		}
+		String originalTeam = originalStudent.getTeamName();
+
+		// TODO: make the implementation more defensive, e.g. duplicate email
 		CoursesStorage.inst().editStudent(student.course, originalEmail,
 				student.name, student.team, student.email, student.id,
 				student.comments, student.profile);
+
+		// cascade email change, if any
+		if (!originalEmail.equals(student.email)) {
+			EvaluationsStorage.inst().editSubmissions(student.course,
+					originalEmail, student.email);
+		}
+
+		// adjust team structure, if required
+		if (!originalTeam.equals(student.team)) {
+			EvaluationsStorage.inst().adjustSubmissions(student.course);
+		}
 	}
 
 	/**
@@ -1374,6 +1404,27 @@ public class Logic {
 	private void ____helper_methods________________________________________() {
 	}
 
+	private List<Submission> purgeOrphanSubmissions(List<StudentData> students,
+			List<Submission> submissions) {
+		List<Submission> returnList = new ArrayList<Submission>();
+		
+		//convert list to map for faster access
+		HashMap<String, StudentData> studentMap = new HashMap<String, StudentData>();
+		for (StudentData student : students) {
+			studentMap.put(student.email, student);
+		}
+		
+		//add to list if not orphan submission
+		for (Submission submission : submissions) {
+			StudentData reviewer = studentMap.get(submission.getFromStudent());
+			StudentData reviewee = studentMap.get(submission.getToStudent());
+			if(!isOrphanSubmission(reviewer, reviewee, submission)){
+				returnList.add(submission);
+			}
+		}
+		return returnList;
+	}
+	
 	private List<MimeMessage> sendEvaluationPublishedEmails(String courseId,
 			String evaluationName) throws EntityDoesNotExistException {
 		List<MimeMessage> emailsSent;
@@ -1452,8 +1503,16 @@ public class Logic {
 		return student;
 	}
 
+	/**
+	 * Returns true if either of the three objects is null
+	 * or if the team in submission is different from
+	 * those in two students.
+	 */
 	private boolean isOrphanSubmission(StudentData reviewer,
 			StudentData reviewee, Submission submission) {
+		if ((reviewer==null)||(reviewee==null)||(submission==null)) {
+			return true;
+		}
 		if (!submission.getTeamName().equals(reviewer.team)) {
 			return true;
 		}
@@ -1472,8 +1531,13 @@ public class Logic {
 							+ "] under the course [" + courseId + "]");
 		}
 		// create SubmissionData Hashmap
+		
+		List<StudentData> students = getStudentListForCourse(courseId);
 		List<Submission> submissionsList = EvaluationsStorage.inst()
 				.getSubmissionList(courseId, evaluationName);
+		
+		submissionsList = purgeOrphanSubmissions(students,submissionsList);
+		
 		HashMap<String, SubmissionData> submissionDataList = new HashMap<String, SubmissionData>();
 		for (Submission s : submissionsList) {
 			SubmissionData sd = new SubmissionData(s);
