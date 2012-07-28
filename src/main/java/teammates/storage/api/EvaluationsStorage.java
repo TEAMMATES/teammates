@@ -756,72 +756,6 @@ public class EvaluationsStorage {
 		return evaluationList;
 	}
 
-	/**
-	 * Returns the number of completed entries of a particular Evaluation.
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: Must not be null)
-	 * 
-	 * @param evaluationName
-	 *            the evaluation name (Pre-condition: Must not be null)
-	 * 
-	 * @return the number of completed evaluations for the particular course
-	 */
-	public int getNumberOfCompletedEvaluations(String courseID,
-			String evaluationName) {
-		String query = "select from " + Submission.class.getName()
-				+ " where courseID == '" + courseID
-				+ "' && evaluationName == '" + evaluationName + "'";
-
-		@SuppressWarnings("unchecked")
-		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
-				query).execute();
-
-		int count = 0;
-		List<String> studentEmailList = new ArrayList<String>();
-
-		for (Submission s : submissionList) {
-			if (s.getPoints() != -999
-					&& !studentEmailList.contains(s.getFromStudent())) {
-				count++;
-				studentEmailList.add(s.getFromStudent());
-			}
-		}
-
-		return count;
-	}
-
-	/**
-	 * Returns the number of entries of a particular Evaluation.
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: Must not be null)
-	 * 
-	 * @param evaluationName
-	 *            the evaluation name (Pre-condition: Must not be null)
-	 * 
-	 * @return the total number of entries for a particular evaluation
-	 */
-	public int getNumberOfEvaluations(String courseID, String evaluationName) {
-		String query = "select from " + Submission.class.getName()
-				+ " where courseID == '" + courseID
-				+ "' && evaluationName == '" + evaluationName + "'";
-
-		@SuppressWarnings("unchecked")
-		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
-				query).execute();
-		int count = 0;
-		List<String> studentEmailList = new ArrayList<String>();
-
-		for (Submission s : submissionList) {
-			if (!studentEmailList.contains(s.getFromStudent())) {
-				count++;
-				studentEmailList.add(s.getFromStudent());
-			}
-		}
-
-		return count;
-	}
 
 	/**
 	 * Returns a Submission object.
@@ -1269,11 +1203,6 @@ public class EvaluationsStorage {
 			ed.gracePeriod = e.getGracePeriod();
 			ed.published = e.isPublished();
 			ed.activated = e.isActivated();
-			ed.submittedTotal = getNumberOfCompletedEvaluations(
-					e.getCourseID(), e.getName());
-			ed.expectedTotal = getNumberOfEvaluations(e.getCourseID(),
-					e.getName());
-
 			evaluationsSummaryList.add(ed);
 		}
 
