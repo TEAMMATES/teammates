@@ -730,6 +730,8 @@ public class Logic {
 	}
 
 	/**
+	 * Creates a student and adjust existing evaluations to 
+	 *     accommodate the new student
 	 * Access: course owner and above
 	 */
 	public void createStudent(StudentData studentData)
@@ -753,6 +755,9 @@ public class Logic {
 			student.setTeamName("");
 		}
 		CoursesStorage.inst().createStudent(student);
+		
+		//adjust existing evaluations to accommodate new student
+		EvaluationsStorage.inst().adjustSubmissions(student.getCourseID());
 	}
 
 	/**
