@@ -1404,6 +1404,31 @@ public class Logic {
 	private void ____helper_methods________________________________________() {
 	}
 
+	private List<Submission> purgeOrphanSubmissions(List<StudentData> students,
+			List<Submission> submissions) {
+		List<Submission> returnList = new ArrayList<Submission>();
+		
+		//convert list to map for faster access
+		HashMap<String, StudentData> studentMap = new HashMap<String, StudentData>();
+		for (StudentData student : students) {
+			studentMap.put(student.email, student);
+		}
+		
+		//add to list if not orphan submission
+		for (Submission submission : submissions) {
+			StudentData reviewer = studentMap.get(submission.getFromStudent());
+			StudentData reviewee = studentMap.get(submission.getToStudent());
+			String teamInSubmission = submission.getTeamName();
+			if((reviewer != null)
+					&&(reviewee!=null)
+					&&(reviewer.team.equals(teamInSubmission))
+					&&(reviewee.team.equals(teamInSubmission))){
+				returnList.add(submission);
+			}
+		}
+		return returnList;
+	}
+	
 	private List<MimeMessage> sendEvaluationPublishedEmails(String courseId,
 			String evaluationName) throws EntityDoesNotExistException {
 		List<MimeMessage> emailsSent;
@@ -1502,8 +1527,13 @@ public class Logic {
 							+ "] under the course [" + courseId + "]");
 		}
 		// create SubmissionData Hashmap
+		
+		List<StudentData> students = getStudentListForCourse(courseId);
 		List<Submission> submissionsList = EvaluationsStorage.inst()
 				.getSubmissionList(courseId, evaluationName);
+		
+		submissionsList = purgeOrphanSubmissions(students,submissionsList);
+		
 		HashMap<String, SubmissionData> submissionDataList = new HashMap<String, SubmissionData>();
 		for (Submission s : submissionsList) {
 			SubmissionData sd = new SubmissionData(s);
