@@ -11,37 +11,46 @@ test('checkEnrollmentInput(input)', function(){
 	//Retrieved from coordCourseEnroll.jsp. Required for adding an extra element in the test page for the test to work
 	$("body").append('<textarea rows="6" cols="135" class ="textvalue" name="enrollstudents" id="enrollstudents"></textarea>');
 	
-	//Valid input - Single student, tab separator, no comments
-	var validInput1 = 'Team 1\tGoh Chun Teck\tchunteck.88@gmail.com';
-	equal(checkEnrollmentInput(validInput1), true, "Single student, tab separator, valid");
 	
-	//Valid input - Single student, tab separator, with comments
-	var validInput2 = 'Team 1\tGoh Chun Teck\tchunteck.88@gmail.com\t1 person only';
-	equal(checkEnrollmentInput(validInput2), true, "Single student, tab separator, comments included, valid");
+	equal(checkEnrollmentInput('Team 1\tTom Jacobs\ttom.jacobs@gmail.com'),
+			true,
+			"Valid input - Single student, tab separator, no comments");
 	
-	//Valid input - Multiple students, tab separator, some students with comments
-	var validInput3 = 'Team 1\tGoh Chun Teck\tchunteck.88@gmail.com\tteammate 1\nTeam 1\tBob\tbob@gmail.com\nTeam 2\tAlice\talice@gmail.com\tanother team\n';
-	equal(checkEnrollmentInput(validInput3), true, "Multiple students, tab separator, valid");
+	equal(checkEnrollmentInput('Team 1\tTom Jacobs\ttom.jacobs@gmail.com\texchange student'),
+			true,
+			"Valid input - Single student, tab separator, comments included");
 	
-	//Valid input - Single student, | separator, no comments
-	var validInput4 = 'Team 1|Goh Chun Teck|chunteck.88@gmail.com';
-	equal(checkEnrollmentInput(validInput4), true, "Single student, | separator, valid");
+	equal(checkEnrollmentInput(
+			'Team 1\tTom Jacobs\ttom.jacobs@gmail.com\tteammate 1\n' + 
+			'Team 1\tBob\tbob@gmail.com\n' + 
+			'Team 2\tAlice\talice@gmail.com\tanother team\n'),
+			true,
+			"Valid input - Multiple students, tab separator");
 	
-	//Valid input - Single student, | separator, with comments
-	var validInput5 = 'Team 1|Goh Chun Teck|chunteck.88@gmail.com|1 person only';
-	equal(checkEnrollmentInput(validInput5), true, "Single student, | separator, comments included, valid");
+	equal(checkEnrollmentInput('Team 1|Tom Jacobs|toom.jacobs@gmail.com'),
+			true,
+			"Valid input - Single student, | separator, no comments");
 	
-	//Valid input - Multiple students, | separator, some students with comments
-	var validInput6 = 'Team 1|Goh Chun Teck|chunteck.88@gmail.com|teammate 1\nTeam 1|Bob|bob@gmail.com\nTeam 2|Alice|alice@gmail.com|another team\n';
-	equal(checkEnrollmentInput(validInput6), true, "Multiple students, | separator, valid");
+	equal(checkEnrollmentInput('Team 1|Tom Jacobs|tom.jacobs@gmail.com|1 person only'),
+			true,
+			"Valid input - Single student, | separator, comments included");
+	 
+	equal(checkEnrollmentInput(
+			'Team 1|Tom Jacobs|tom.jacobs@gmail.com|teammate 1\n' + 
+			'Team 1|Bob|bob@gmail.com\n' + 
+			'Team 2|Alice|alice@gmail.com|another team\n'),
+			true,
+			"Valid input - Multiple students, | separator");
 	
-	//Valid input - Single student, tab separator, empty team name
-	var validInput7 = '\tGoh Chun Teck\tchunteck.88@gmail.com';
-	equal(checkEnrollmentInput(validInput7), true, "Single student, \t separator, no team name");
+	equal(checkEnrollmentInput('\tTom Jacobs\ttom.jacobs@gmail.com'),
+			true,
+			"Valid input - Single student, \t separator, no team name");
 	
 	//Valid input - Single student, tab separator, whitespace team name
 	var validInput8 = '  \tGoh Chun Teck\tchunteck.88@gmail.com';
-	equal(checkEnrollmentInput(validInput8), true, "Single student, \t separator, whitespace team name");
+	equal(checkEnrollmentInput(validInput8),
+			true,
+			"Single student, \t separator, whitespace team name");
 	
 	//Valid input - Testing max length of name (max 40 chars)
 	var validInput9 = 'Team 1\t' + generateRandomString(STUDENTNAME_MAX_LENGTH) + '\tchunteck.88@gmail.com';
