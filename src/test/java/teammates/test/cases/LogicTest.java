@@ -46,7 +46,6 @@ import teammates.logic.Emails;
 import teammates.logic.TeamEvalResult;
 import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
-import teammates.storage.api.CoursesStorage;
 import teammates.storage.api.EvaluationsStorage;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Student;
@@ -449,8 +448,6 @@ public class LogicTest extends BaseTestCase {
 			course1EvalDetails = course1EvalDetails
 					+ Common.getTeammatesGson().toJson(ed) + Common.EOL;
 		}
-		// TODO: this line fails at times. actual <3> expected <2>
-		// there is some hidden data dependency with other tests
 		int numberOfEvalsInCourse1 = course1Evals.size();
 		assertEquals(course1EvalDetails, 2, numberOfEvalsInCourse1);
 		assertEquals(course1Id, course1Evals.get(0).course);
@@ -533,8 +530,36 @@ public class LogicTest extends BaseTestCase {
 		ArrayList<EvaluationData> evalList = logic
 				.getEvaluationsListForCoord(coord1.id);
 		assertEquals(3, evalList.size());
+		EvaluationData evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfCoord1");
 		for (EvaluationData ed : evalList) {
 			assertTrue(ed.course.contains("Coord1"));
+			if(ed.name.equals(evaluation.name)){
+				//We have, 4 students in Team 1.1 and 1 student in Team 1.2
+				//Only 3 have submitted.
+				assertEquals(5,ed.expectedTotal);
+				assertEquals(3,ed.submittedTotal);
+			}
+		}
+		
+		______TS("check immunity from orphaned submissions");
+		
+		//move a student from Team 1.1 to Team 1.2
+		StudentData student = dataBundle.students.get("student4InCourse1");
+		student.team = "Team 1.2";
+		logic.editStudent(student.email, student);
+		
+		evalList = logic.getEvaluationsListForCoord(coord1.id);
+		assertEquals(3, evalList.size());
+		
+		for (EvaluationData ed : evalList) {
+			if(ed.name.equals(evaluation.name)){
+				//Now we have, 3 students in Team 1.1 and 2 student in Team 1.2
+				//Only 2 (1 less than before) have submitted 
+				//   because we just moved a student to a new team and that
+				//   student's previous submissions are now orphaned.
+				assertEquals(5,ed.expectedTotal);
+				assertEquals(2,ed.submittedTotal);
+			}
 		}
 
 		______TS("coord has 1 evaluation");
@@ -2313,7 +2338,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("student added after evaluation");
 
-		// TODO: test this after implementing lazy creation of submissions
+		// testCreateStudent verifies adding student mid-evaluation creates
+		//   additional submissions correctly. No need to check here.
 
 	}
 
@@ -3133,7 +3159,6 @@ public class LogicTest extends BaseTestCase {
 				"non-existent", evaluation.name });
 
 		// no need to check for invalid parameters as it is a private method
-		// TODO: verify orphan submissions are not returned
 	}
 
 	@Test
@@ -3199,7 +3224,15 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("orphan submissions");
 
-		// TODO: test this after implementing lazy creation
+		//Move student to a new team
+		student.team = "Team 1.3";
+		logic.editStudent(student.email, student);
+		
+		submissions = logic.getSubmissionsFromStudent(
+				evaluation.course, evaluation.name, student.email);
+		//There should be 1 submission as he is now in a 1-person team.
+		//   Orphaned submissions from previous team should not be returned.
+				assertEquals(1, submissions.size());
 
 		______TS("null parameters");
 
@@ -3423,8 +3456,6 @@ public class LogicTest extends BaseTestCase {
 		______TS("non-existent evaluation");
 
 		// already tested under testEditSubmission()
-
-		// TODO: check for lazyCreationPolicy
 
 		______TS("authentication");
 
