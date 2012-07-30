@@ -2,57 +2,79 @@ package teammates.test.scripts;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
+public class generateStudentData {
 
-public class generateStudentData {	
+	private static int LENGTH_OF_STUDENT_NAME = 8;
+	private static int LENGTH_OF_TEAM_NAME = 3;
+	private static final String RANDOM_ALLOWED_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
 	
-	//List of characters that can be used
-	static final String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-	
-	static ArrayList<String> teamnames = new ArrayList<String>(); 
-	
-	public static void main(String args[]) throws IOException{
-		int studentnum = 100;
-		int teamnum = 5;
-		int namelength = 8;
-		int teamlength = 3;
-		
-		
-		if(args.length == 4){
-			//Student num, team num, student name length, team name length
-			studentnum = Integer.parseInt(args[0]);
-			teamnum = Integer.parseInt(args[1]);
-			namelength = Integer.parseInt(args[2]);
-			teamlength = Integer.parseInt(args[3]);
+	private static int numberOfStudents;
+	private static int numberOfTeams;
+
+	public static void main(String args[]) throws IOException {
+
+		// set parameters
+		if (args.length == 2) {
+			numberOfStudents = Integer.parseInt(args[0]);
+			numberOfTeams = Integer.parseInt(args[1]);
+		} else {
+			System.out
+					.println("Command arguments are java generateStudentData <number of students> <number of teams>");
+			return;
 		}
-		else{
-			System.out.println("Command arguments are java generateStudentData <number of students> <number of teams> <length of student names> <length of team name>");
-			System.out.println("Invalid arguments. Default arguments of <100> <5> <8> <3> are used");
+
+		List<String> teamnames = generateTeamNames(numberOfTeams);
+		
+		List<String> lines = generateEnrollText(numberOfStudents, teamnames);
+
+		//print output
+		for (String line : lines) {
+			System.out.println(line);
 		}
-		Random rnd = new Random();
-	
-		for (int i = 0; i < teamnum; i++){
-			String team = new String();
-			
-			for (int j = 0; j < teamlength; j++){
-				team += characters.charAt(rnd.nextInt(characters.length()));
-			}
-			
+
+	}
+
+	/**
+	 * 
+	 * @return Returns enroll lines, sorted by team name
+	 */
+	private static List<String> generateEnrollText(int numberOfStudents,
+			List<String> teamnames) {
+		List<String> lines = new ArrayList<String>();
+		for (int i = 0; i < numberOfStudents; i++) {
+
+			String name = generateRandomString(LENGTH_OF_STUDENT_NAME);
+
+			String student = new String();
+			student += teamnames.get(new Random().nextInt(teamnames.size()))
+					+ '|' + name + '|' + name + "@gmail.com";
+
+			lines.add(student);
+		}
+		Collections.sort(lines);
+		return lines;
+	}
+
+	private static List<String> generateTeamNames(int numberOfTeams) {
+		ArrayList<String> teamnames = new ArrayList<String>();
+		for (int i = 0; i < numberOfTeams; i++) {
+			String team = generateRandomString(LENGTH_OF_TEAM_NAME);
 			teamnames.add("Team " + team);
 		}
-		
-		for (int i = 0; i < studentnum; i++){
-			String student = new String();
-			String name = new String();
-			
-			for (int j = 0; j < namelength; j++){
-				name += characters.charAt(rnd.nextInt(characters.length()));
-			}
-			
-			student += teamnames.get(rnd.nextInt(teamnames.size())) + '|' + name + '|' + name + "@gmail.com";
-			System.out.println(student);
-		}
+		return teamnames;
+	}
 
+	private static String generateRandomString(int length) {
+		String name = new String();
+
+		for (int j = 0; j < length; j++) {
+			name += RANDOM_ALLOWED_CHARS.charAt(new Random()
+					.nextInt(RANDOM_ALLOWED_CHARS.length()));
+		}
+		return name;
 	}
 }
