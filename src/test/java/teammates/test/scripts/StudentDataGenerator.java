@@ -6,10 +6,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class generateStudentData {
+public class StudentDataGenerator {
 
 	private static int LENGTH_OF_STUDENT_NAME = 8;
-	private static int LENGTH_OF_TEAM_NAME = 3;
+	private static int LENGTH_OF_TEAM_SUFFIX = 3;
 	private static final String RANDOM_ALLOWED_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
 	
 	private static int numberOfStudents;
@@ -62,7 +62,7 @@ public class generateStudentData {
 	private static List<String> generateTeamNames(int numberOfTeams) {
 		ArrayList<String> teamnames = new ArrayList<String>();
 		for (int i = 0; i < numberOfTeams; i++) {
-			String team = generateRandomString(LENGTH_OF_TEAM_NAME);
+			String team = generateRandomString(LENGTH_OF_TEAM_SUFFIX);
 			teamnames.add("Team " + team);
 		}
 		return teamnames;
