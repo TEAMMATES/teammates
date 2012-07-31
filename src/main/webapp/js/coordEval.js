@@ -1,6 +1,6 @@
 function isEvaluationNameLengthValid(name) {
 	//Constant is kept in Common.java file, but checking is done in Javascript
-	return name.length <= 38;
+	return name.length <= EVAL_NAME_MAX_LENGTH;
 }
 
 function isEvaluationNameValid(name) {
