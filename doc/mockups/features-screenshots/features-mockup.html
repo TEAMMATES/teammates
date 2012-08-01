@@ -5,7 +5,7 @@
 <h1>Add New Course</h1>					
 	<table class="addform round">
 		<tr>
-			<td><b>Course ID:</b></td>
+			<td><b class = "addcoursetitle">Course ID:</b></td>
 		</tr>
 		<tr>
 			<td><input class="addinput" type="text"
@@ -14,7 +14,7 @@
 				maxlength=21 tabindex=1 /></td>
 		</tr>
 		<tr>
-			<td><b>Course Name:</b></td>
+			<td><b class="addcoursetitle">Course Name:</b></td>
 		</tr>
 		<tr>
 			<td><input class="addinput" type="text"
@@ -32,7 +32,7 @@
 <h1>Enroll Students</h1>
 	<table class="headerform">
 		<tr>
-			<td class="fieldname" style="width: 120px;">Student details:</td>
+			<td style="width: 120px;"><b>Student details:</b></td>
 			<td>
 				<textarea rows="8" cols="85" class ="textvalue" name="enrollstudents" id="enrollstudents">Team 1	Tom Jacobs	tom@email.com
 Team 1	Jean Wong	jean@email.com
@@ -51,7 +51,7 @@ Team 2	Harsha Silva	harsha@school.com
 	<table class="headerform">
 		<tr>
 			<td class="attribute" >Course ID:</td>
-			<td><select style="width: 200px;"
+			<td width = "35%"><select style="width: 180px;"
 				name="courseid"
 				id="courseid"
 				tabindex=1>
@@ -73,7 +73,7 @@ Team 2	Harsha Silva	harsha@school.com
 		</tr>
 		<tr>
 			<td class="attribute" >Evaluation name:</td>
-			<td><input style="width: 200px;" type="text"
+			<td><input style="width: 180px;" type="text"
 				name="evaluationname" id="evaluationname"
 				maxlength =38
 				value="Mid-term Peer Evaluation"
@@ -122,7 +122,7 @@ Team 2	Harsha Silva	harsha@school.com
 		<tr>
 			<td class="attribute" >Instructions to students:</td>
 			<td colspan="3">
-				<textarea rows="4" cols="85" class="textvalue" name="instr" id="instr"
+				<textarea rows="4" cols="80" class="textvalue" name="instr" id="instr"
 					tabindex=8>Please submit your peer evaluation based on the overall contribution of your teammates so far.</textarea>
 			</td>
 		</tr>
@@ -147,7 +147,7 @@ Team 2	Harsha Silva	harsha@school.com
 		 </tr>
 		<tr>
 			<td class="reportheader" colspan="2" id="sectiontitle0">
-		 		Self evaluation in Team [Team 1]
+		 		Self Evaluation
 		 	</td>
 		 </tr>
 		<tr>
@@ -223,6 +223,7 @@ Team 2	Harsha Silva	harsha@school.com
 	</table>
 	
 <h1>View Summary</h1>
+	<div style="text-align: right; width: 660px; font-family: arial, san-serif; font-size: 13px"><b>E - Equal Share</b> </div>
 	<table id="dataform">
 					<tbody><tr>
 						<th class="centeralign" width="13%">Team</th>
@@ -316,7 +317,7 @@ Team 2	Harsha Silva	harsha@school.com
 							<td><span class="color_positive">E+10%</span></td>
 							<td><span class="color_positive">E+4%</span></td>
 							<td><span class="negDiff">-6%</span></td>
-							<td><span class="color_positive">E+4%</span>, <span class="color_negative" onmouseover="ddrivetip('Not Available: There is no data for this<br />or the data is not enough')" onmouseout="hideddrivetip()">N/A</span></td>
+							<td><span class="color_positive">E+4%</span>, <span class="color_gray" onmouseover="ddrivetip('Not Available: There is no data for this<br />or the data is not enough')" onmouseout="hideddrivetip()">N/A</span></td>
 							<td class="centeralign">
 								<a name="viewEvaluationResults4" id="viewEvaluationResults4" target="_blank" href="http://localhost:8888/page/coordEvalSubmissionView?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=emily.tmms%40gmail.com&amp;user=teammates.demo.coord" onmouseover="ddrivetip('View feedback from the student for his team<br />This opens in a new window')" onmouseout="hideddrivetip()">
 										View</a>
@@ -350,11 +351,11 @@ Team 2	Harsha Silva	harsha@school.com
 						<th><span class="fontcolor"
 								onmouseover="ddrivetip('This is student own estimation of his/her contributions to the project')"
 								onmouseout="hideddrivetip()">
-							Claimed Contributions: </span>Equal Share<span class="color_negative"> - 10%</span></th>
+							Claimed Contributions: <br /></span>Equal Share<span class="color_negative"> - 10%</span></th>
 						<th><span class="fontcolor"
 								onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')"
 								onmouseout="hideddrivetip()">
-							Perceived Contributions: </span>Equal Share<span class="color_positive"> + 2%</span></th>
+							Perceived Contributions: <br /></span>Equal Share<span class="color_positive"> + 2%</span></th>
 					</tr></thead>
 					<tr>
 						<td colspan="4"><b>Self evaluation:</b><br />
@@ -366,14 +367,14 @@ Team 2	Harsha Silva	harsha@school.com
 						</tr>
 					<tr class="result_subheader">
 						<td width="15%">From Student</td>
-						<td width="5%">Contribution</td>
-						<td width="40%">Comments</td>
-						<td width="40%">Messages</td>
+						<td width="20%">Contribution</td>
+						<td width="33%">Comments</td>
+						<td width="32%">Messages</td>
 					</tr>
 					
 						<tr>
 							<td><b>Jean Wong</b></td>
-							<td>Equal Share<br /><span class="color_positive"> + 5%</span></td>
+							<td>Equal Share<span class="color_positive"> + 5%</span></td>
 							<td>Hardworking and always willing to help</td>
 							<td>Great job with the design, Tom!</td>
 						</tr>
@@ -406,11 +407,11 @@ Team 2	Harsha Silva	harsha@school.com
 					</tr>
 					<tr>
 						<td>My View:</td>
-						<td width="12%">
+						<td width="20%">
 							Of me: <span class="color_positive">E+20%</span>
 						</td>
 						<td>
-							Of others: <span class="color_negative">E-20%</span>
+							Of others: <span class="color_negative">E-20%</span>, <span class="color_negative">E-10%</span>
 						</td>
 					</tr>
 					<tr>
@@ -419,7 +420,7 @@ Team 2	Harsha Silva	harsha@school.com
 							Of me: <span class="color_neutral">E</span>
 						</td>
 						<td>
-							Of others: <span class="color_neutral">E</span>
+							Of others: <span class="color_positive">E+10%</span>, <span class="color_neutral">E</span>
 						</td>
 					</tr>
 				</table>
@@ -449,3 +450,34 @@ Team 2	Harsha Silva	harsha@school.com
 						</td>
 					</tr>
 				</table>
+				
+				
+
+<h1>Email Mockup</h1>
+<div id = "email">
+	<div id = "left-side">
+		<span class = "highlighted">Inbox(2)</span> <br />
+		Sent <br />
+		Drafts <br />
+		Trash <br />
+	</div>
+	<div id="right-side">
+		<span class="email-title">TEAMMATES: Invitation to join course [Software Engineering Project][Course ID: a]</span.> <br />
+		<hr />
+		<span class = "email-info"><span class="faint">from:</span> <a href = "">teammates@gmail.com</a></span><br />
+		<span class = "email-info"><span class="faint">to:</span> <a href = "">tom.jacobs@gmail.com</a></span><br />
+		<span class = "email-info"><span class="faint">subject:</span> TEAMMATES: Invitation to join course [Software Engineering Project][Course ID: a]</span><br />
+		<p class="text">
+			Hello Tom Jacobs,
+		</p>
+		<p class = "text">
+			The course Software Engineering Project is using the TEAMMATES System to collect peer evaluations.
+		</p>
+		<p class = "text">
+			To "join" the course, please go to this Web address: <a href = "">http://teammatesv4.appspot.com/ page/studentCourseJoin?regkey=ag1zfnRlYW1tYXRlc3Y0cg8LEgdTdHVkZWww </a><br />
+			If prompted to log in, use your Google account to log in. If you do not have a Google account, please create one from the Google Accounts page. 
+		</p>
+		</div>
+		
+	<div style = "clear:both"></div>
+</div>

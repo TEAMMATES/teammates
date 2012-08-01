@@ -30,9 +30,13 @@ td, th {
     font-family: Arial,Helvetica,sans-serif;
     font-size: 13px;
     font-weight: normal;
-    margin-left: 50px;
+    margin-left: 105px;
     margin-right: 15px;
     width: 450px;
+}
+
+.addcoursetitle{
+	margin-left: 65px;
 }
 
 .button {
@@ -48,7 +52,7 @@ td, th {
 }
 
 #btnAddCourse {
-    margin-left: 200px;
+    margin-left: 270px;
 }
 
 
@@ -82,6 +86,11 @@ td, th {
     text-align: left;
 }
 
+.attribute {
+text-align: right;
+vertical-align: middle;
+font-weight: bold;
+}
 
 /*Provide feedback */
 .headerform td {
@@ -99,9 +108,9 @@ td, th {
 
 .lhs {
     color: black;
-    font-family: Arial,Helvetica,sans-serif;
-    font-size: 14px;
-    font-weight: bold;
+    font-family:  Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: 700;
     padding-left: 10px;
     padding-top: 2px;
     text-align: right;
@@ -156,7 +165,7 @@ caption {
 
 
 thead th, tfoot th { 
- background:#7FB3EE;
+ background:#4E80BB;
  color:#FFFFFF;
  text-align: left;
  vertical-align:bottom;
@@ -190,6 +199,14 @@ thead th, tfoot th {
        color: #FFFFFF;
        font-size:16px;
        text-align:left;
+}
+
+.negDiff {
+	color: #F00;
+}
+
+.posDiff {
+	color: #063;
 }
 
 .result_table td{
@@ -306,4 +323,49 @@ thead th, tfoot th {
 .color_gray {
 	color: gray;
 	font-size: 9;
+}
+
+
+/*Email */
+#email{
+	width: 660px;
+	padding: 5px;
+	font-weight: 700;
+	font-family: arial, sans-serif;
+	font-size: 16px;
+}
+
+.highlighted{
+	color: #DD4B39;
+}
+
+.email-title{
+	font-size: 16px;
+}
+
+#left-side{
+	padding-top: 30px;
+	float: left;
+	width: 100px;
+	
+}
+
+#right-side{
+	padding-top: 5px;
+	float: right;
+	width: 560px;
+}
+
+.email-info{
+	font-size: 13px;
+	font-weight: normal;
+}
+
+.faint{
+	color: #999
+}
+
+.text{
+	font-size: 15px;
+	font-weight: normal;
 }
