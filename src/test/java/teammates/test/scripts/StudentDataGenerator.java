@@ -15,27 +15,32 @@ public class StudentDataGenerator {
 	private static int numberOfStudents;
 	private static int numberOfTeams;
 
-	public static void main(String args[]) throws IOException {
+	public static void main(String args[]) throws Exception {
 
-		// set parameters
-		if (args.length == 2) {
-			numberOfStudents = Integer.parseInt(args[0]);
-			numberOfTeams = Integer.parseInt(args[1]);
-		} else {
-			System.out
-					.println("Command arguments are java generateStudentData <number of students> <number of teams>");
-			return;
-		}
-
+		exitIfParametersMissing(args);
+		
+		numberOfTeams = Integer.parseInt(args[1]);
 		List<String> teamnames = generateTeamNames(numberOfTeams);
 		
+		numberOfStudents = Integer.parseInt(args[0]);
 		List<String> lines = generateEnrollText(numberOfStudents, teamnames);
+		
+		print(lines);
 
-		//print output
+	}
+
+	private static void print(List<String> lines) {
 		for (String line : lines) {
 			System.out.println(line);
 		}
+	}
 
+	private static void exitIfParametersMissing(String[] args) {
+		if (args.length < 2) {
+			System.out
+					.println("Command arguments are java generateStudentData <number of students> <number of teams>");
+			System.exit(0);
+		}
 	}
 
 	/**
