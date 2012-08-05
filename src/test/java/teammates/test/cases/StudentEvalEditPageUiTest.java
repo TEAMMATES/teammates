@@ -38,6 +38,7 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		BackDoor.deleteCoordinators(jsonString);
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		String course = "SEvalEditUiT.CS2104";
 		
 		// Next, we edit some student data to cover editing of students
 		// after creating evaluations.
@@ -52,21 +53,21 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 				dropOutGuy.email);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 
-		// move Charlie out of Team 2 and back again
-		StudentData charlie = scn.students.get("Charlie");
-		moveToTeam(charlie, "New Team");
-		moveToTeam(charlie, "Team 2");
-
+		
 		// add a new student to Team 2, and change his email
 		String newGuyOriginalEmail = "old@guy.com";
 		StudentData newGuy = new StudentData("Team 2|New Guy|"
-				+ newGuyOriginalEmail, charlie.course);
+				+ newGuyOriginalEmail, course);
 		backDoorOperationStatus = BackDoor.createStudent(newGuy);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		newGuy.email = "new@guy.com";
 		backDoorOperationStatus = BackDoor.editStudent(newGuyOriginalEmail,
 				newGuy);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		
+		//move new guy out and bring him back again
+		moveToTeam(newGuy, "Team x");
+		moveToTeam(newGuy, "Team 2");
 
 		reportTimeForDataImport();
 		

@@ -739,9 +739,8 @@ public class Logic {
 	}
 
 	/**
-	 * Creates a student and adjust existing evaluations to 
-	 *     accommodate the new student
-	 * Access: course owner and above
+	 * Creates a student and adjust existing evaluations to accommodate the new
+	 * student Access: course owner and above
 	 */
 	public void createStudent(StudentData studentData)
 			throws EntityAlreadyExistsException, InvalidParametersException {
@@ -764,9 +763,11 @@ public class Logic {
 			student.setTeamName("");
 		}
 		CoursesStorage.inst().createStudent(student);
-		
-		//adjust existing evaluations to accommodate new student
-		EvaluationsStorage.inst().adjustSubmissions(student.getCourseID());
+
+		// adjust existing evaluations to accommodate new student
+		EvaluationsStorage.inst().adjustSubmissionsForNewStudent(
+				student.getCourseID(), student.getEmail(),
+				student.getTeamName());
 	}
 
 	/**
@@ -823,9 +824,9 @@ public class Logic {
 					originalEmail, student.email);
 		}
 
-		// adjust team structure, if required
-		if (!originalTeam.equals(student.team)) {
-			EvaluationsStorage.inst().adjustSubmissions(student.course);
+		// adjust submissions if moving to a different team
+		if (isTeamChanged(originalTeam, student.team)) {
+			EvaluationsStorage.inst().adjustSubmissionsForChangingTeam(student.course, student.email, originalTeam, student.team);
 		}
 	}
 
@@ -1412,6 +1413,12 @@ public class Logic {
 	@SuppressWarnings("unused")
 	private void ____helper_methods________________________________________() {
 	}
+	
+	private boolean isTeamChanged(String originalTeam, String newTeam) {
+		return (newTeam!=null)&&
+				(originalTeam!=null)&&
+				(!originalTeam.equals(newTeam));
+	}
 
 	/**
 	 * Returns how many students have submitted at least one submission.
@@ -1430,26 +1437,6 @@ public class Logic {
 		return count;
 	}
 	
-	private List<Submission> purgeOrphanSubmissions(List<StudentData> students,
-			List<Submission> submissions) {
-		List<Submission> returnList = new ArrayList<Submission>();
-		
-		//convert list to map for faster access
-		HashMap<String, StudentData> studentMap = new HashMap<String, StudentData>();
-		for (StudentData student : students) {
-			studentMap.put(student.email, student);
-		}
-		
-		//add to list if not orphan submission
-		for (Submission submission : submissions) {
-			StudentData reviewer = studentMap.get(submission.getFromStudent());
-			StudentData reviewee = studentMap.get(submission.getToStudent());
-			if(!isOrphanSubmission(reviewer, reviewee, submission)){
-				returnList.add(submission);
-			}
-		}
-		return returnList;
-	}
 	
 	private List<MimeMessage> sendEvaluationPublishedEmails(String courseId,
 			String evaluationName) throws EntityDoesNotExistException {
@@ -1549,7 +1536,7 @@ public class Logic {
 	}
 
 	/**
-	 * Returns submission for the evaluation, excluding orphaned submissions.
+	 * Returns submissions for the evaluation
 	 */
 	private HashMap<String, SubmissionData> getSubmissionsForEvaluation(
 			String courseId, String evaluationName)
@@ -1559,13 +1546,9 @@ public class Logic {
 					"There is no evaluation named [" + evaluationName
 							+ "] under the course [" + courseId + "]");
 		}
-		// create SubmissionData Hashmap
 		
-		List<StudentData> students = getStudentListForCourse(courseId);
 		List<Submission> submissionsList = EvaluationsStorage.inst()
 				.getSubmissionList(courseId, evaluationName);
-		
-		submissionsList = purgeOrphanSubmissions(students,submissionsList);
 		
 		HashMap<String, SubmissionData> submissionDataList = new HashMap<String, SubmissionData>();
 		for (Submission s : submissionsList) {
