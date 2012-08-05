@@ -15,7 +15,7 @@ test('checkEnrollmentInput(input)', function(){
 	equal(checkEnrollmentInput(
 	''),
 	true,
-	'Testing: Null line');
+	'Null line');
 	
 	equal(checkEnrollmentInput(
 		'Team 1|Tom Jacobs|tom.jacobs@gmail.com'),
@@ -29,7 +29,7 @@ test('checkEnrollmentInput(input)', function(){
 		'Team4   |Jack|jack@gmail.com  \n' + 
 		'   |Jill|  jill@gmail.com'),
 		true,
-		'Testing: | separator, whitespaces in the fields');
+		'| separator, whitespaces in the fields');
 	
 	equal(checkEnrollmentInput(
 		'Team 1\tTom Jacobs\ttom.jacobs@gmail.com\tteammate 1\n' + 
@@ -37,41 +37,41 @@ test('checkEnrollmentInput(input)', function(){
 		'Team 2\tAlice\talice@gmail.com\t\n' + 
 		'Team 2\tJack\tjack@gmail.com\n'),
 		true,
-		'Testing: \t separator, presence/absence of comments');
+		'\t separator, presence/absence of comments');
 	
 	equal(checkEnrollmentInput(
 		'|1|tom.jacobs@gmail.com\tteammate 1\n' + 
 		generateRandomString(TEAMNAME_MAX_LENGTH) + '\t' + generateRandomString(STUDENTNAME_MAX_LENGTH) + '\tbob@gmail.com|    \n'),
 		true,
-		'Testing: mixture of | and \t separators, max/min length of fields');
+		'mixture of | and \t separators, max/min length of fields');
 
 	equal(checkEnrollmentInput(
 		'Team1|Tom|Tom@gmail.com|extra field|extra field\n'),
 		false,
-		'Testing: extra fields');
+		'extra fields');
 
 	equal(checkEnrollmentInput(
 		'Tom\n'),
 		false,
-		'Testing: too little fields');
+		'too few fields');
 		
 	equal(checkEnrollmentInput(
-		'Team 1\t' + generateRandomString(STUDENTNAME_MAX_LENGTH + 1) + '\ttommy@gmail.com'),
+		'Team 1|' + generateRandomString(STUDENTNAME_MAX_LENGTH + 1) + '|tommy@gmail.com'),
 		false,
-		'Testing: invalid student name');
+		'invalid student name');
 
 	equal(checkEnrollmentInput(
 		'Team 1|Bobby|bob@yahoo.com\n' + 
-		generateRandomString(TEAMNAME_MAX_LENGTH + 1) + '\tTommy\ttommy@gmail.com'),
+		generateRandomString(TEAMNAME_MAX_LENGTH + 1) + '|Tommy|tommy@gmail.com'),
 		false,
-		'Testing: invalid team name');
+		'invalid team name');
 
 	equal(checkEnrollmentInput(
 		'Team 1|Bob|bobby@gmail.com' + 
 		'Team 1|Tommy|qwerty@invalidemail' + 
 		'Team 2|Alice|alice@gmail.com'),
 		false,
-		'Testing: invalid email');
+		'invalid email');
 
 });
 
