@@ -194,7 +194,8 @@ public class BackDoorTest extends BaseTestCase {
 		refreshDataInDatastore();
 		CoordData coord = dataBundle.coords.get("typicalCoord1");
 		String[] coursesByCoord = BackDoor.getCoursesByCoordId(coord.id);
-		assertEquals(2, coursesByCoord.length);
+		String errorMessage = "Actual result : "+Arrays.toString(coursesByCoord);
+		assertEquals(errorMessage, 2, coursesByCoord.length);
 		BackDoor.cleanupCoord(coord.id);
 		coursesByCoord = BackDoor.getCoursesByCoordId(coord.id);
 		assertEquals(0, coursesByCoord.length);
@@ -538,7 +539,8 @@ public class BackDoorTest extends BaseTestCase {
 	private void refreshDataInDatastore() {
 		dataBundle = gson.fromJson(jsonString, DataBundle.class);
 		BackDoor.deleteCoordinators(jsonString);
-		BackDoor.persistNewDataBundle(jsonString);
+		String status = BackDoor.persistNewDataBundle(jsonString);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 	}
 
 	private void verifyAbsentInDatastore(CourseData course) {

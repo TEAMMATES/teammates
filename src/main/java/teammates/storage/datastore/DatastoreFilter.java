@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+//TODO: Do we really need this filter? To be reconsidered.
 /**
  * Servlet Filter to support Datastore class
  */
@@ -20,11 +21,11 @@ public final class DatastoreFilter implements javax.servlet.Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		try {
-			chain.doFilter(request, response);
-		} finally {
-			Datastore.finishRequest();
-		}
+		//There was a Datastore.finishRequest() here inside a finally clause.
+		//  It was removed at 4.19 because some requests span multiple entity
+		//  groups. We are not allowed to apply transactions to such requests.
+		chain.doFilter(request, response);
+
 	}
 
 	@Override

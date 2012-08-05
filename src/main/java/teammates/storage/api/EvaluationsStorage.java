@@ -5,7 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
@@ -276,34 +278,105 @@ public class EvaluationsStorage {
 		return submissionList;
 	}
 	
-	public void adjustSubmissions(String courseId){
+	/**
+	 * Adjusts submissions for a student moving from one team to another. 
+	 * Deletes existing submissions for original team and creates empty 
+	 * submissions for the new team, in all existing submissions,
+	 * including CLOSED and PUBLISHED ones.
+	 */
+	public void adjustSubmissionsForChangingTeam(String courseId, String studentEmail, String originalTeam, String newTeam){
 		List<Evaluation> evaluationList = getEvaluationList(courseId);
 		for (Evaluation e : evaluationList) {
-			adjustSubmissions(courseId, e.getName());
+			
+			deleteSubmissionsForOutgoingMember(courseId, e.getName(),
+						studentEmail, originalTeam);
+			
+			addSubmissionsForIncomingMember(courseId, e.getName(), studentEmail,
+					newTeam);
+		}
+	}
+	
+	/**
+	 * Adjusts submissions for a student adding a new student to a course. 
+	 * Creates empty submissions for the new team, in all existing submissions,
+	 * including CLOSED and PUBLISHED ones.
+	 */
+	public void adjustSubmissionsForNewStudent(String courseId, String studentEmail, String team){
+		List<Evaluation> evaluationList = getEvaluationList(courseId);
+		for (Evaluation e : evaluationList) {
+			addSubmissionsForIncomingMember(courseId, e.getName(), studentEmail, team);
 		}
 	}
 
-	private void adjustSubmissions(String courseId, String evaluationName) {
-		List<Submission> submissionList = createSubmissionsForEval(courseId,
-				evaluationName);
-		for (Submission s : submissionList) {
-			if(!submissionExistsForSameTeam(s)){
-				try {
-					getPM().makePersistent(s);
-					getPM().flush();
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
+
+	private void addSubmissionsForIncomingMember(String courseId,
+			String evaluationName, String studentEmail, String newTeam) {
+		
+		List<String> students = getExistingStudentsInTeam(courseId, newTeam);
+		
+		//add self evaluation are remove self from list
+		Submission selfSubmission = new Submission(studentEmail, studentEmail,
+				courseId, evaluationName, newTeam);
+		addSubmission(selfSubmission);
+		students.remove(studentEmail);
+		
+		//add submission to/from peers
+		for (String peer : students) {
+			
+			Submission incomingSubmission = new Submission(peer, studentEmail,
+					courseId, evaluationName, newTeam);
+			addSubmission(incomingSubmission);
+			
+			Submission outgoingSubmission = new Submission(studentEmail, peer,
+					courseId, evaluationName, newTeam);
+			addSubmission(outgoingSubmission);
+		}
+	}
+
+	private void addSubmission(Submission submission) {
+		getPM().makePersistent(submission);
+		getPM().flush();
+		log.warning("Adding new submission: "+submission.toString());
+	}
+
+	private List<String> getExistingStudentsInTeam(String courseId, String team) {
+		Set<String> students = new HashSet<String>();
+		List<Submission> submissions = getSubmissionList(courseId);
+		for(Submission s: submissions){
+			if(s.getTeamName().equals(team)){
+			students.add(s.getFromStudent());
 			}
 		}
+		return new ArrayList<String>(students);
 	}
 
-	private boolean submissionExistsForSameTeam(Submission s) {
-		Submission existingSubmission = getSubmission(s.getCourseID(),
-				s.getEvaluationName(), s.getFromStudent(), s.getToStudent());
-		return (existingSubmission != null)
-				&& (s.getTeamName().equals(existingSubmission.getTeamName()));
+	private void deleteSubmissionsForOutgoingMember(String courseId,
+			String evaluationName, String studentEmail, String originalTeam) {
+
+		List<Submission> submissions = getSubmissionFromStudentList(courseId,
+				evaluationName, studentEmail);
+		deleteSubmissionsIfSameTeam(submissions, originalTeam);
+
+		submissions = getSubmissionToStudentList(courseId, evaluationName,
+				studentEmail);
+		deleteSubmissionsIfSameTeam(submissions, originalTeam);
+
 	}
+
+	private void deleteSubmissionsIfSameTeam(List<Submission> submissions,
+			String originalTeam) {
+		for (Submission s : submissions) {
+			if (s.getTeamName().equals(originalTeam)) {
+				log.warning("Deleting outdated submission: "+s.toString());
+				getPM().deletePersistent(s);
+			} else {
+				log.severe("Unexpected submission found when deleting outgoing submissions for "
+						+ s.toString());
+			}
+		}
+		getPM().flush();
+	}
+
 
 	/**
 	 * Deletes an Evaluation and its Submission objects.
