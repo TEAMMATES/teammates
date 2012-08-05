@@ -301,8 +301,9 @@ public class EvaluationsStorage {
 	private boolean submissionExistsForSameTeam(Submission s) {
 		Submission existingSubmission = getSubmission(s.getCourseID(),
 				s.getEvaluationName(), s.getFromStudent(), s.getToStudent());
-		return (existingSubmission != null)
+		boolean submissionExists = (existingSubmission != null)
 				&& (s.getTeamName().equals(existingSubmission.getTeamName()));
+		return submissionExists;
 	}
 
 	/**

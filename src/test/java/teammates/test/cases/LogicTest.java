@@ -3233,6 +3233,15 @@ public class LogicTest extends BaseTestCase {
 		//There should be 1 submission as he is now in a 1-person team.
 		//   Orphaned submissions from previous team should not be returned.
 				assertEquals(1, submissions.size());
+				
+		// Move the student out and move in again
+		student.team = "Team 1.4";
+		logic.editStudent(student.email, student);
+		student.team = "Team 1.3";
+		logic.editStudent(student.email, student);
+		submissions = logic.getSubmissionsFromStudent(evaluation.course,
+				evaluation.name, student.email);
+		assertEquals(1, submissions.size());
 
 		______TS("null parameters");
 
