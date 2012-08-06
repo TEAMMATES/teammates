@@ -22,7 +22,7 @@ test('checkEnrollmentInput(input)', function(){
 		true,
 		'Typical single valid line');
 	
-	equal(checkEnrollmentInput(
+	equal(checkEnrollmentInput( 
 		'Team   1|Tom Jacobs|tom.jacobs@gmail.com\n' + 
 		'Team2|Bob  |  bob@gmail.com\n' + 
 		'  Team 3|  Alice|alice@gmail.com  \n' + 
@@ -32,12 +32,15 @@ test('checkEnrollmentInput(input)', function(){
 		'| separator, whitespaces in the fields');
 	
 	equal(checkEnrollmentInput(
+		'\n' +
 		'Team 1\tTom Jacobs\ttom.jacobs@gmail.com\tteammate 1\n' + 
-		'Team 1\tBob\tbob@gmail.com\t    \n' + 
+		'Team 1\tBob\tbob@gmail.com\t    \n' +
+		'\n' +
+		'\n' +
 		'Team 2\tAlice\talice@gmail.com\t\n' + 
 		'Team 2\tJack\tjack@gmail.com\n'),
 		true,
-		'\t separator, presence/absence of comments');
+		'\t separator, presence/absence of comments, blank lines');
 	
 	equal(checkEnrollmentInput(
 		'|1|tom.jacobs@gmail.com\tteammate 1\n' + 
