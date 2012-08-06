@@ -793,8 +793,8 @@ public class Logic {
 	 * Changing team name will not delete existing submissions under that team <br>
 	 * Cascade logic:
 	 *   Email changed-> changes email in all existing submissions <br>
-	 *   Team changed-> creates new submissions for the new team, without 
-	 *       deleting submissions for previous team structure
+	 *   Team changed-> creates new submissions for the new team, deletes 
+	 *       submissions for previous team structure
 	 */
 	public void editStudent(String originalEmail, StudentData student)
 			throws InvalidParametersException, EntityDoesNotExistException {
