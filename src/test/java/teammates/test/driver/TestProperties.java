@@ -90,9 +90,9 @@ public class TestProperties {
 	public static String getChromeDriverPath() {
 		String os = System.getProperty("os.name");
 		if (os.startsWith("Windows")) {
-			return "./chromedriver/chromedriver.exe";
+			return "./src/test/resources/lib/chromedriver.exe";
 		} else if (os.startsWith("Mac OS")) {
-			return "./chromedriver/chromedriver_osx";
+			return "./src/test/resources/lib/chromedriver_osx";
 		}
 		return "";
 	}
