@@ -8,41 +8,73 @@ test('highlightError(start, end)', function(){
 
 
 test('checkEnrollmentInput(input)', function(){
-	var input1 = 'Team 1\tGoh Chun Teck\tchunteck.88@gmail.com';
-	var input2 = 'Team 1\tGoh Chun Teck\tchunteck.88@gmail.com\t1 person only';
-	var input3 = 'Team 1\tGoh Chun Teck\tchunteck.88@gmail.com\tteammate 1\nTeam 1\tBob\tbob@gmail.com\nTeam 2\tAlice\talice@gmail.com\tanother team\n';
-	
-	var input4 = 'Team 1|Goh Chun Teck|chunteck.88@gmail.com';
-	var input5 = 'Team 1|Goh Chun Teck|chunteck.88@gmail.com|1 person only';
-	var input6 = 'Team 1|Goh Chun Teck|chunteck.88@gmail.com|teammate 1\nTeam 1|Bob|bob@gmail.com\nTeam 2|Alice|alice@gmail.com|another team\n';
-	
-	var input7 = 'Team 1|chunteck.88@gmail.com';
-	var input8 = 'Team 1|Goh Chun Teck|chunteck.88@gmail.com|extra field|extra field|extra field\n';
-	var input9 = 'Team 1|G0h Chun Teck with a super duper long name|chunteck.88@gmail.com';
-	var input10 = 'Team 1|Goh Chun Teck|qwerty@invalidemail';
-	var input11 = 'This is a invalid teamname because its too long|Goh Chun Teck|chunteck.88@gmail.com';
-	
-	var input12 = 'Team 1|Goh Chun Teck|chunteck.88@gmail.com|teammate 1\nBob|bob@gmail.com\nTeam 2|Alice|alice@gmail.com|another team\n';
-	var input13 = 'Team 1|Goh Chun Teck|chunteck.88@gmail.com|teammate 1\nSuper long team name more than 25 chars|Bob|bob@gmail.com\nTeam 2|Alice|alice|another team\n';
-	var input14 = 'chunteck.88@gmail.com|teammate 1\nbob@gmail.com\nTeam 2|Alice\n';
-	
-	//Retrieved from coordCourseEnroll.jsp
+	//This textarea element is taken from coordCourseEnroll.jsp. Required for
+	//the test to work, since the function being tested relies on this element
 	$("body").append('<textarea rows="6" cols="135" class ="textvalue" name="enrollstudents" id="enrollstudents"></textarea>');
 	
-	equal(checkEnrollmentInput(input1), true, "Single student, tab separator, valid");
-	equal(checkEnrollmentInput(input2), true, "Single student, tab separator, comments included, valid");
-	equal(checkEnrollmentInput(input3), true, "Multiple students, tab separator, valid");
+	equal(checkEnrollmentInput(
+	''),
+	true,
+	'Null line');
 	
-	equal(checkEnrollmentInput(input4), true, "Single student, | separator, valid");
-	equal(checkEnrollmentInput(input5), true, "Single student, | separator, comments included, valid");
-	equal(checkEnrollmentInput(input6), true, "Multiple students, | separator, valid");
+	equal(checkEnrollmentInput(
+		'Team 1|Tom Jacobs|tom.jacobs@gmail.com'),
+		true,
+		'Typical single valid line');
 	
-	equal(checkEnrollmentInput(input7), false, "Too little fields");
-	equal(checkEnrollmentInput(input8), false, "Too many fields");
-	equal(checkEnrollmentInput(input9), false, "Invalid student name");
-	equal(checkEnrollmentInput(input10), false, "Invalid email");
-	equal(checkEnrollmentInput(input11), false, "Invalid team name");
-	equal(checkEnrollmentInput(input12), false, "Multiple students with various multiple errors");
-	equal(checkEnrollmentInput(input13), false, "Multiple students with various multiple errors");
-	equal(checkEnrollmentInput(input14), false, "Multiple students with various multiple errors");
+	equal(checkEnrollmentInput( 
+		'Team   1|Tom Jacobs|tom.jacobs@gmail.com\n' + 
+		'Team2|Bob  |  bob@gmail.com\n' + 
+		'  Team 3|  Alice|alice@gmail.com  \n' + 
+		'Team4   |Jack|jack@gmail.com  \n' + 
+		'   |Jill|  jill@gmail.com'),
+		true,
+		'| separator, whitespaces in the fields');
+	
+	equal(checkEnrollmentInput(
+		'\n' +
+		'Team 1\tTom Jacobs\ttom.jacobs@gmail.com\tteammate 1\n' + 
+		'Team 1\tBob\tbob@gmail.com\t    \n' +
+		'\n' +
+		'\n' +
+		'Team 2\tAlice\talice@gmail.com\t\n' + 
+		'Team 2\tJack\tjack@gmail.com\n'),
+		true,
+		'\t separator, presence/absence of comments, blank lines');
+	
+	equal(checkEnrollmentInput(
+		'|1|tom.jacobs@gmail.com\tteammate 1\n' + 
+		generateRandomString(TEAMNAME_MAX_LENGTH) + '\t' + generateRandomString(STUDENTNAME_MAX_LENGTH) + '\tbob@gmail.com|    \n'),
+		true,
+		'mixture of | and \t separators, max/min length of fields');
+
+	equal(checkEnrollmentInput(
+		'Team1|Tom|Tom@gmail.com|extra field|extra field\n'),
+		false,
+		'extra fields');
+
+	equal(checkEnrollmentInput(
+		'Tom\n'),
+		false,
+		'too few fields');
+		
+	equal(checkEnrollmentInput(
+		'Team 1|' + generateRandomString(STUDENTNAME_MAX_LENGTH + 1) + '|tommy@gmail.com'),
+		false,
+		'invalid student name');
+
+	equal(checkEnrollmentInput(
+		'Team 1|Bobby|bob@yahoo.com\n' + 
+		generateRandomString(TEAMNAME_MAX_LENGTH + 1) + '|Tommy|tommy@gmail.com'),
+		false,
+		'invalid team name');
+
+	equal(checkEnrollmentInput(
+		'Team 1|Bob|bobby@gmail.com' + 
+		'Team 1|Tommy|qwerty@invalidemail' + 
+		'Team 2|Alice|alice@gmail.com'),
+		false,
+		'invalid email');
+
 });
+
