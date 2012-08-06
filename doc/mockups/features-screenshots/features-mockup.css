@@ -1,4 +1,4 @@
-/*Add New Course */
+﻿/*Add New Course */
 
 table {
     background: none repeat scroll 0 0 #EAEFF5;
@@ -310,10 +310,21 @@ thead th, tfoot th {
 .color_positive { 
 	color: #060;
 	font-weight:bold;
-	
 }
+
+.color_positive_dark { 
+	color: #044904;
+	font-weight:bold;
+}
+
+
 .color_negative { 
 	color:#F00;
+	font-weight:bold;
+}
+
+.color_negative_dark { 
+	color:#8F0A0A;
 	font-weight:bold;
 }
 .color_neutral{
