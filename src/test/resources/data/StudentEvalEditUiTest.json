@@ -34,6 +34,22 @@
       "profile": {"value": "My name is Benny Charles, and I'm a student in SEvalEditUiT.CS2104"},
       "team": "Team 1"
     },
+    "ExtraGuy": {
+      "id": "extra.guy",
+      "email": "extra.guy@gmail.com",
+      "course": "SEvalEditUiT.CS2104",
+      "name": "Extra guy",
+      "comments": "This student will move to a new team after evaluation created",
+      "team": "Team 2"
+    },
+    "DropOut": {
+      "id": "drop.out",
+      "email": "drop.out@gmail.com",
+      "course": "SEvalEditUiT.CS2104",
+      "name": "Drop out",
+      "comments": "This student will drop out after evaluation created",
+      "team": "Team 2"
+    },
     "Charlie": {
       "id": "charlie.tmms",
       "email": "charlie.tmms@gmail.com",

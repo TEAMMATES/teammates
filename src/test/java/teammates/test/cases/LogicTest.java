@@ -1358,15 +1358,13 @@ public class LogicTest extends BaseTestCase {
 		// take a snapshot of submissions after the edit
 		List<SubmissionData> submissionsAfterEdit = EvaluationsStorage.inst()
 				.getSubmissionsForCourse(student1InCourse1.course);
-
-		verifyEmailChangedInExistingSubmissions(submissionsBeforeEdit,
-				originalEmail, newEmail);
 		
-		// We moved a student to an existing 1-person team.
+		// We moved a student from a 4-person team to an existing 1-person team.
 		// We have 2 evaluations in the course.
-		// Therefore, expected increase in submissions is 2*3=6
-		assertEquals(submissionsBeforeEdit.size() + 6,
-				submissionsAfterEdit.size());
+		// Therefore, submissions that will be deleted = 7*2 = 14
+		//              submissions that will be added = 3*2
+		assertEquals(submissionsBeforeEdit.size() - 14  + 6,
+				submissionsAfterEdit.size()); 
 		
 		// verify new submissions were created to match new team structure
 		verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(submissionsAfterEdit,
@@ -1379,8 +1377,9 @@ public class LogicTest extends BaseTestCase {
 		copyOfStudent1.course = student1InCourse1.course;
 		originalEmail = student1InCourse1.email;
 
-		student1InCourse1.email = student1InCourse1.email + "y";
-		copyOfStudent1.email = student1InCourse1.email;
+		newEmail = student1InCourse1.email + "y";
+		student1InCourse1.email = newEmail;
+		copyOfStudent1.email = newEmail;
 
 		logic.editStudent(originalEmail, copyOfStudent1);
 		verifyPresentInDatastore(student1InCourse1);
@@ -3233,6 +3232,15 @@ public class LogicTest extends BaseTestCase {
 		//There should be 1 submission as he is now in a 1-person team.
 		//   Orphaned submissions from previous team should not be returned.
 				assertEquals(1, submissions.size());
+				
+		// Move the student out and move in again
+		student.team = "Team 1.4";
+		logic.editStudent(student.email, student);
+		student.team = "Team 1.3";
+		logic.editStudent(student.email, student);
+		submissions = logic.getSubmissionsFromStudent(evaluation.course,
+				evaluation.name, student.email);
+		assertEquals(1, submissions.size());
 
 		______TS("null parameters");
 
@@ -3650,29 +3658,6 @@ public class LogicTest extends BaseTestCase {
 		}
 		String errorMsg = "Count is not 1 for "+evaluationName+":"+team+":"+reviewer+"->"+reviewee;
 		assertEquals(errorMsg, 1, count);
-	}
-
-	/**
-	 * verifies for the given submissions (these should be submissions BEFORE
-	 *    the email was changed), the email change is reflected 
-	 *    correctly in the datastore, 
-	 *    without altering any other data in those submissions.
-	 */
-	private void verifyEmailChangedInExistingSubmissions(
-			List<SubmissionData> submissionsBeforeEdit, String originalEmail,
-			String newEmail) throws Exception {
-		
-		for (SubmissionData sBefore : submissionsBeforeEdit) {
-			SubmissionData searchTarget = sBefore.getCopy();
-			if(searchTarget.reviewer.equals(originalEmail)){
-				searchTarget.reviewer = newEmail;
-			}
-			if(searchTarget.reviewee.equals(originalEmail)){
-				searchTarget.reviewee = newEmail;
-			}
-			
-			verifyPresentInDatastore(searchTarget);
-		}
 	}
 
 	private MimeMessage getEmailToStudent(StudentData s,
