@@ -1,0 +1,382 @@
+﻿/*Add New Course */
+
+table {
+    background: none repeat scroll 0 0 #EAEFF5;
+    border: 1px solid gray;
+    border-collapse: collapse;
+    color: #FFFFFF;
+    font: 12px verdana,arial,helvetica,sans-serif;
+    text-align: left;
+    width: 660px;
+}
+
+.round {
+    border-radius: 10px 10px 10px 10px;
+}
+
+.addform {
+    border: medium none;
+    height: 190px;
+    width: 660px;
+}
+
+td, th {
+    color: #363636;
+    text-align: left;
+}
+
+.addinput {
+    color: black;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    margin-left: 105px;
+    margin-right: 15px;
+    width: 450px;
+}
+
+.addcoursetitle{
+	margin-left: 65px;
+}
+
+.button {
+    background: -moz-linear-gradient(center top , #9AA1A6, #9AB3C4) repeat scroll 0 0 transparent;
+    border: 0 solid #EEEEEE;
+    border-radius: 20px 20px 20px 20px;
+    color: white;
+    font-family: Helvetica,Arial,Sans-Serif;
+    font-size: 12px;
+    padding: 5px 8px;
+    text-decoration: none;
+    vertical-align: middle;
+}
+
+#btnAddCourse {
+    margin-left: 270px;
+}
+
+
+
+/*Enroll Students*/
+.headerform {
+    border: medium none;
+    border-radius: 10px 10px 10px 10px;
+    width: 660px;
+}
+
+.headerform td {
+    font-size: 13px;
+    padding: 8px;
+}
+
+.fieldname {
+    color: #000000;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: right;
+    width: 50%;
+}
+
+.textvalue {
+    color: black;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    text-align: left;
+}
+
+.attribute {
+text-align: right;
+vertical-align: middle;
+font-weight: bold;
+}
+
+/*Provide feedback */
+.headerform td {
+    font-size: 13px;
+    padding: 8px;
+}
+
+.reportheader {
+    font-weight: bold;
+    padding-bottom: 5px;
+    text-align: center;
+    text-decoration: underline;
+    text-transform: capitalize;
+}
+
+.lhs {
+    color: black;
+    font-family:  Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding-left: 10px;
+    padding-top: 2px;
+    text-align: right;
+    vertical-align: top;
+    width: 300px;
+}
+
+/*View Summary*/
+table#dataform {
+	border-collapse: collapse;
+	font-family: Arial, Helvetica, sans-serif;
+	text-align: left;
+	width: 660px;
+}
+
+#dataform th {
+	background: #4e80bb;
+	color: #FFFFFF;
+	font-size: 13px;
+	font-weight: bold;
+	padding: 8px;
+}
+
+#dataform tr:nth-of-type(odd) {
+	background-color: #eaeff5;
+}
+
+#dataform tr:nth-of-type(even) {
+	background-color: #d0d8e8;
+}
+
+#dataform td {
+	color: #000;
+	font-size: 13px;
+	padding: 8px;
+}
+
+td, th { 
+ color:#363636;
+ text-align: left;
+ padding:0.5em;
+}
+
+caption { 
+ border:1px solid #5C443A;
+ color:#5C443A;
+ font-weight:bold;
+ letter-spacing:20px;
+ padding:6px 4px 8px 0px;
+ text-align:center;
+}
+
+
+thead th, tfoot th { 
+ background:#4E80BB;
+ color:#FFFFFF;
+ text-align: left;
+ vertical-align:bottom;
+ border-collapse: collapse;
+ font-family: Arial, Helvetica, sans-serif;
+ font-size: 14px;
+ margin: 0 auto;
+ width: 960px;
+}
+
+.result_team {
+       background: #036;
+       margin: 0 auto;
+        width: 960px;
+       padding: 20px;
+
+}
+.current_team {
+       background: #000;
+       margin: 0 auto;
+        width: 960px;
+       padding: 20px;
+
+}
+.result_team p{
+       color: #FFFFFF;
+       font-size:16px;
+       text-align:left;
+}
+.current_team p{
+       color: #FFFFFF;
+       font-size:16px;
+       text-align:left;
+}
+
+.negDiff {
+	color: #F00;
+}
+
+.posDiff {
+	color: #063;
+}
+
+.result_table td{
+	border:1px dotted gray;
+}
+
+.result_table tr { 
+ border:1px dotted gray;
+}
+
+.result_header, .result_header td{
+	background-color: #036;
+	color: white;
+	font-weight:bold;
+}
+
+.result_subheader {
+	background-color: #d0d8e8;
+}
+.result_subheader td{
+	color: #4E80BB;
+	font-weight: bold;
+}
+
+.result_addOrJoinCourse {
+	color: #FFFFFF;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0 auto;
+	text-align: right;
+}
+
+.result_addOrJoinCourse a:link {
+	color: #FFFFFF;
+	font-size: 13px;
+	padding-left: 15px;
+	text-decoration: underline;
+}
+
+.result_addOrJoinCourse a:visited {
+	color: #FFFFFF;
+}
+
+.result_addOrJoinCourse a:link:hover {
+	color: #FFFFFF;
+	text-decoration: underline;
+}
+
+.result_homeTitle {
+	float: left;
+	width: 60%;
+}
+
+.result_homeTitle h2 {
+	color: #FFFFFF;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0 auto;
+	padding: 15px 0;
+	text-align: left;
+}
+
+.result_homeLinks {
+	float: left;
+	margin: 0 auto;
+	padding: 20px 0;
+	text-align: center;
+	width: 40%;
+}
+
+.result_homeLinks a:link {
+	color: #FFFFFF;
+	font-size: 13px;
+	margin-left: 15px;
+	text-decoration: underline;
+}
+
+.result_homeLinks a:visited {
+	color: #FFFFFF;
+}
+
+.result_homeLinks a:link:hover {
+	color: #FFFFFF;
+	text-decoration: underline;
+}
+
+/*View Results */
+
+.result_studentform tr{
+	border: 1px dotted #CCC;
+}
+
+.result_studentform td {
+	background-color: #eaeff5;
+}
+
+.result_studentform td:first-child {
+	background-color: #4E80BB;
+	color:#FFF;
+	font-weight:bold;
+}
+
+.color_positive { 
+	color: #060;
+	font-weight:bold;
+}
+
+.color_positive_dark { 
+	color: #044904;
+	font-weight:bold;
+}
+
+
+.color_negative { 
+	color:#F00;
+	font-weight:bold;
+}
+
+.color_negative_dark { 
+	color:#8F0A0A;
+	font-weight:bold;
+}
+.color_neutral{
+	color:black;
+	font-weight:bold;
+}
+.color_gray {
+	color: gray;
+	font-size: 9;
+}
+
+
+/*Email */
+#email{
+	width: 660px;
+	padding: 5px;
+	font-weight: 700;
+	font-family: arial, sans-serif;
+	font-size: 16px;
+}
+
+.highlighted{
+	color: #DD4B39;
+}
+
+.email-title{
+	font-size: 16px;
+}
+
+#left-side{
+	padding-top: 30px;
+	float: left;
+	width: 100px;
+	
+}
+
+#right-side{
+	padding-top: 5px;
+	float: right;
+	width: 560px;
+}
+
+.email-info{
+	font-size: 13px;
+	font-weight: normal;
+}
+
+.faint{
+	color: #999
+}
+
+.text{
+	font-size: 15px;
+	font-weight: normal;
+}

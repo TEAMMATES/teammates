@@ -1,0 +1,484 @@
+<head>
+<link rel="stylesheet" href="features-mockup.css" type="text/css">
+</head>
+
+<h1>Add New Course</h1>					
+	<table class="addform round">
+		<tr>
+			<td><b class = "addcoursetitle">Course ID:</b></td>
+		</tr>
+		<tr>
+			<td><input class="addinput" type="text"
+				name="courseid" id="courseid"
+				value="CS2103-2012-sem1"
+				maxlength=21 tabindex=1 /></td>
+		</tr>
+		<tr>
+			<td><b class="addcoursetitle">Course Name:</b></td>
+		</tr>
+		<tr>
+			<td><input class="addinput" type="text"
+				name="coursename" id="coursename"
+				value="Software Engineering Project"
+				maxlength=38 tabindex=2 /></td>
+		</tr>
+		<tr>
+			<td><input id="btnAddCourse" type="submit" class="button"
+				 value="Add Course" tabindex="3" /></td>
+		</tr>
+	</table>
+	
+	
+<h1>Enroll Students</h1>
+	<table class="headerform">
+		<tr>
+			<td style="width: 120px;"><b>Student details:</b></td>
+			<td>
+				<textarea rows="8" cols="85" class ="textvalue" name="enrollstudents" id="enrollstudents">Team 1	Tom Jacobs	tom@email.com
+Team 1	Jean Wong	jean@email.com
+Team 1	Ravi Kumar	ravi@email.com
+Team 2	Shakthi Kathir	shakthipriya@nus.edu.sg
+Team 2	Desmond Wu	desmond@email.com
+Team 2	Harsha Silva	harsha@school.com
+				</textarea>
+			</td>
+		</tr>
+	</table>
+	
+	
+	
+<h1>Create Evaluations</h1>	
+	<table class="headerform">
+		<tr>
+			<td class="attribute" >Course ID:</td>
+			<td width = "35%"><select style="width: 180px;"
+				name="courseid"
+				id="courseid"
+				tabindex=1>
+					<option value="CS2103-2012-sem1">CS2103-2012-sem1</option>
+			</select></td>
+			<td class="attribute" >Opening time:</td>
+			<td><input style="width: 100px;" type="text"
+				name="start"
+				id="start" 
+				value="29/07/2012"
+				readonly="readonly" tabindex=3 />
+				@
+				<select style="width: 70px;"
+					name="starttime"
+					id="starttime"
+					tabindex=4>
+						<option value="10">1000H</option>
+				</select></td>
+		</tr>
+		<tr>
+			<td class="attribute" >Evaluation name:</td>
+			<td><input style="width: 180px;" type="text"
+				name="evaluationname" id="evaluationname"
+				maxlength =38
+				value="Mid-term Peer Evaluation"
+				tabindex=2 /></td>
+			<td class="attribute" >Closing time:</td>
+			<td><input style="width: 100px;" type="text"
+				name="deadline" id="deadline"
+				value="04/08/2012"
+				readonly="readonly" tabindex=5 />
+				@
+				<select style="width: 70px;"
+					name="deadlinetime"
+					id="deadlinetime"
+					tabindex=6>
+					<option value="24" selected="selected">2359H</option>
+				</select></td>
+		</tr>
+		<tr>
+			<td class="attribute" >Peer feedback:</td>
+			<td><input type="radio" name="commentsstatus"
+				id="commentsstatus_enabled" value="true"
+				checked="checked"/>
+				<label for="commentsstatus_enabled">Enabled</label>
+				<input type="radio" name="commentsstatus"
+					id="commentsstatus_disabled" value="false" />
+				<label for="commentsstatus_disabled">Disabled</label>
+			</td>
+			<td class="attribute" >Time zone:</td>
+			<td><select style="width: 100px;" name="timezone" id="timezone"
+					tabindex=7>
+					<option value="8">UTC +08:00</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td class="attribute" >Grace Period:</td>
+			<td class="inputField">
+				<select style="width: 70px;" name="graceperiod"
+					id="graceperiod"
+					tabindex=7>
+					<option value="10">10 mins</option>
+				</select></td>
+		</tr>
+		<tr>
+			<td class="attribute" >Instructions to students:</td>
+			<td colspan="3">
+				<textarea rows="4" cols="80" class="textvalue" name="instr" id="instr"
+					tabindex=8>Please submit your peer evaluation based on the overall contribution of your teammates so far.</textarea>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td colspan="3">
+				<input id="button_submit" type="submit" class="button"
+					value="Create Evaluation" tabindex=9 /></td>
+		</tr>
+	</table>
+	
+	
+	
+<h1>Provide feedback and Comments</h1>	
+	<table class="headerform">
+		<tr style="display:none">
+			<td>
+		 		<input type="text" value="aa"
+		 									name="toemail"
+		 									id="toemail0" />
+		 	</td>
+		 </tr>
+		<tr>
+			<td class="reportheader" colspan="2" id="sectiontitle0">
+		 		Self Evaluation
+		 	</td>
+		 </tr>
+		<tr>
+		 	<td class="lhs">Estimated contribution:</td>
+		 	<td>
+		 		<select style="width: 150px"
+		 			name="points"
+		 			id="points0">
+					<option value="80">Equal share - 20%</option>
+				</select>
+		 	</td>
+		</tr>
+		<tr>
+			<td class="lhs">Comments about your contribution:</td>
+			<td>
+				<textarea class="textvalue" rows="4" cols="85" 
+		 				name="justification"
+		 				id="justification0">I did a bit less than others because I started late.</textarea>
+		 	</td>
+		</tr>
+		 <tr>
+		 	<td class="lhs">Comments about team dynamics:</td>
+			<td><textarea class = "textvalue"
+						rows="4" cols="85"
+						name="comments"
+				 		id="comments0">Our team is still settling down. I'm worried a bit. :-P</textarea>
+			</td>
+		</tr>
+		<tr><td colspan="2"></td></tr>
+						
+		<tr style="display:none">
+			<td>
+		 		<input type="text" value="a"
+		 			name="toemail"
+		 			id="toemail1" />
+		 	</td>
+		 </tr>
+		<tr>
+		 	<td class="reportheader" colspan="2" id="sectiontitle1">
+					Evaluation for Tom Jacobs
+			</td>
+		</tr>
+		 <tr>
+			<td class="lhs">Estimated contribution:</td>
+		 	<td>
+		 		<select style="width: 150px"
+		 			name="points"
+					id="points1">
+					<option value="110">Equal share + 10%</option>
+		 		</select>
+			</td>
+		 </tr>
+		<tr>
+			<td class="lhs">Confidential comments about this teammate:</td>
+		 	<td>
+		 	<textarea class="textvalue" rows="4" cols="85" 
+		 		name="justification"
+		 		id="justification1">Did a little more than others. Hardworking and helpful.</textarea>
+		 	</td>
+		</tr>
+		<tr>
+			<td class="lhs">Your feedback to this teammate:</td>
+								
+			<td><textarea class = "textvalue"
+					rows="4" cols="85"
+					name="comments"
+			 		id="comments1">Thanks for the extra work Tom!</textarea>
+			</td>
+								
+		</tr>
+		<tr><td colspan="2"></td></tr>
+						
+	</table>
+	
+<h1>View Summary</h1>
+	<div style="text-align: right; width: 660px; font-family: arial, san-serif; font-size: 13px"><b>E 
+		= Equal Share</b> </div>
+	<table id="dataform">
+					<tbody><tr>
+						<th class="centeralign" width="13%">Team</th>
+						<th class="centeralign">Student</th>
+						<th class="centeralign" width="8%">Claimed Contribution</th>
+						<th class="centeralign" width="8%">Perceived Contribution</th>
+						<th class="centeralign" width="8%">Diff</span>
+						</th>
+						<th class="centeralign" width="20%">
+							<span>
+							Points Received</span>
+						</th>
+						<th class="centeralign" width="11%">Action(s)</th>
+					</tr>
+					
+						<tr class="student_row" id="student0">
+							<td>Team 1</td>
+							<td id="studentname">
+								<span onmouseover="ddrivetip('This student\'s name is Alice Betsy')" onmouseout="hideddrivetip()">
+									Tom Jacobs
+								</span>
+							</td>
+							<td><span class="color_negative">E-5%</span></td>
+							<td><span class="color_neutral">E</span></td>
+							<td><span class="posDiff">+5%</span></td>
+							<td><span class="color_neutral">E</span></td>
+							<td class="centeralign">
+								<a name="viewEvaluationResults0" id="viewEvaluationResults0" target="_blank" href="http://localhost:8888/page/coordEvalSubmissionView?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=alice.b.tmms%40gmail.com&amp;user=teammates.demo.coord" onmouseover="ddrivetip('View feedback from the student for his team<br />This opens in a new window')" onmouseout="hideddrivetip()">
+										View</a>
+								<a name="editEvaluationResults0" id="editEvaluationResults0" target="_blank" href="http://localhost:8888/page/coordEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=alice.b.tmms%40gmail.com&amp;user=teammates.demo.coord" onclick="return openChildWindow(this.href)" onmouseover="ddrivetip('Edit feedback from the student for his team<br />This opens in a new window')" onmouseout="hideddrivetip()">Edit</a></td>
+						</tr>
+					
+						<tr class="student_row" id="student1">
+							<td>Team 1</td>
+							<td id="studentname">
+								<span onmouseover="ddrivetip('This student\'s name is Benny Charles')" onmouseout="hideddrivetip()">
+									Jean Wong
+								</span>
+							</td>
+							<td><span class="color_positive">E+5%</span></td>
+							<td><span class="color_neutral">E</span></td>
+							<td><span class="negDiff">-5%</span></td>
+							<td><span class="color_neutral">E</span></td>
+							<td class="centeralign">
+								<a name="viewEvaluationResults1" id="viewEvaluationResults1" target="_blank" href="http://localhost:8888/page/coordEvalSubmissionView?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=benny.c.tmms%40gmail.com&amp;user=teammates.demo.coord" onmouseover="ddrivetip('View feedback from the student for his team<br />This opens in a new window')" onmouseout="hideddrivetip()">
+										View</a>
+								<a name="editEvaluationResults1" id="editEvaluationResults1" target="_blank" href="http://localhost:8888/page/coordEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=benny.c.tmms%40gmail.com&amp;user=teammates.demo.coord" onclick="return openChildWindow(this.href)" onmouseover="ddrivetip('Edit feedback from the student for his team<br />This opens in a new window')" onmouseout="hideddrivetip()">Edit</a></td>
+						</tr>
+					
+						<tr class="student_row" id="student2">
+							<td>Team 1</td>
+							<td id="studentname">
+								<span onmouseover="ddrivetip('This student\'s name is Charlie Davis')" onmouseout="hideddrivetip()">
+									Ravi Kumar
+								</span>
+							</td>
+							<td><span class="color_positive">E+3%</span></td>
+							<td><span class="color_negative">E-3%</span></td>
+							<td><span class="negDiff">-6%</span></td>
+							<td><span class="color_negative">E-1%</span>, <span class="color_negative">E-6%</span></td>
+							<td class="centeralign">
+								<a name="viewEvaluationResults2" id="viewEvaluationResults2" target="_blank" href="http://localhost:8888/page/coordEvalSubmissionView?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=charlie.d.tmms%40gmail.com&amp;user=teammates.demo.coord" onmouseover="ddrivetip('View feedback from the student for his team<br />This opens in a new window')" onmouseout="hideddrivetip()">
+										View</a>
+								<a name="editEvaluationResults2" id="editEvaluationResults2" target="_blank" href="http://localhost:8888/page/coordEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=charlie.d.tmms%40gmail.com&amp;user=teammates.demo.coord" onclick="return openChildWindow(this.href)" onmouseover="ddrivetip('Edit feedback from the student for his team<br />This opens in a new window')" onmouseout="hideddrivetip()">Edit</a></td>
+						</tr>
+					
+						<tr class="student_row" id="student3">
+							<td>Team 2</td>
+							<td id="studentname">
+								<span onmouseover="ddrivetip('This student\'s name is Danny Engrid')" onmouseout="hideddrivetip()">
+									Shakthi Kathir
+								</span>
+							</td>
+							<td><span class="color_positive">E+10%</span></td>
+							<td><span class="color_negative">E-1%</span></td>
+							<td><span class="negDiff">-11%</span></td>
+							<td><span class="color_positive">E+4%</span>, <span class="color_negative">E-6%</span></td>
+							<td class="centeralign">
+								<a name="viewEvaluationResults3" id="viewEvaluationResults3" target="_blank" href="http://localhost:8888/page/coordEvalSubmissionView?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=teammates.demo.coord" onmouseover="ddrivetip('View feedback from the student for his team<br />This opens in a new window')" onmouseout="hideddrivetip()">
+										View</a>
+								<a name="editEvaluationResults3" id="editEvaluationResults3" target="_blank" href="http://localhost:8888/page/coordEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=teammates.demo.coord" onclick="return openChildWindow(this.href)" onmouseover="ddrivetip('Edit feedback from the student for his team<br />This opens in a new window')" onmouseout="hideddrivetip()">Edit</a></td>
+						</tr>
+					
+						<tr class="student_row" id="student4">
+							<td>Team 2</td>
+							<td id="studentname">
+								<span onmouseover="ddrivetip('This student\'s name is Emily')" onmouseout="hideddrivetip()">
+									Desmond Wu
+								</span>
+							</td>
+							<td><span class="color_positive">E+10%</span></td>
+							<td><span class="color_positive">E+4%</span></td>
+							<td><span class="negDiff">-6%</span></td>
+							<td><span class="color_positive">E+4%</span>, <span class="color_gray" onmouseover="ddrivetip('Not Available: There is no data for this<br />or the data is not enough')" onmouseout="hideddrivetip()">N/A</span></td>
+							<td class="centeralign">
+								<a name="viewEvaluationResults4" id="viewEvaluationResults4" target="_blank" href="http://localhost:8888/page/coordEvalSubmissionView?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=emily.tmms%40gmail.com&amp;user=teammates.demo.coord" onmouseover="ddrivetip('View feedback from the student for his team<br />This opens in a new window')" onmouseout="hideddrivetip()">
+										View</a>
+								<a name="editEvaluationResults4" id="editEvaluationResults4" target="_blank" href="http://localhost:8888/page/coordEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=emily.tmms%40gmail.com&amp;user=teammates.demo.coord" onclick="return openChildWindow(this.href)" onmouseover="ddrivetip('Edit feedback from the student for his team<br />This opens in a new window')" onmouseout="hideddrivetip()">Edit</a></td>
+						</tr>
+						
+						<tr class="student_row" id="student5">
+							<td>Team 2</td>
+							<td id="studentname">
+								<span onmouseover="ddrivetip('This student\'s name is Emily')" onmouseout="hideddrivetip()">
+									Harsha Silva
+								</span>
+							</td>
+							<td><span class="color_positive">E+6%</span></td>
+							<td><span class="color_positive">E+4%</span></td>
+							<td><span class="negDiff">-2%</span></td>
+							<td><span class="color_positive">E+4%</span>, <span class="color_negative" onmouseover="ddrivetip('Not Available: There is no data for this<br />or the data is not enough')" onmouseout="hideddrivetip()">E-1%</span></td>
+							<td class="centeralign">
+								<a name="viewEvaluationResults4" id="viewEvaluationResults4" target="_blank" href="http://localhost:8888/page/coordEvalSubmissionView?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=emily.tmms%40gmail.com&amp;user=teammates.demo.coord" onmouseover="ddrivetip('View feedback from the student for his team<br />This opens in a new window')" onmouseout="hideddrivetip()">
+										View</a>
+								<a name="editEvaluationResults4" id="editEvaluationResults4" target="_blank" href="http://localhost:8888/page/coordEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=emily.tmms%40gmail.com&amp;user=teammates.demo.coord" onclick="return openChildWindow(this.href)" onmouseover="ddrivetip('Edit feedback from the student for his team<br />This opens in a new window')" onmouseout="hideddrivetip()">Edit</a></td>
+						</tr>
+					
+				</tbody></table>
+	<br />
+	<br />
+	<table class="result_table">
+					<thead><tr>
+						<th colspan="2" width="10%">
+							<span class="fontcolor">Reviewee: </span>Tom Jacobs</th>
+						<th><span class="fontcolor"
+								onmouseover="ddrivetip('This is student own estimation of his/her contributions to the project')"
+								onmouseout="hideddrivetip()">
+							Claimed Contributions: <br /></span>Equal Share<span class="color_negative_dark"> - 10%</span></th>
+						<th><span class="fontcolor"
+								onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')"
+								onmouseout="hideddrivetip()">
+							Perceived Contributions: <br /></span>Equal Share<span class="color_positive_dark"> + 2%</span></th>
+					</tr></thead>
+					<tr>
+						<td colspan="4"><b>Self evaluation:</b><br />
+								Did a little less work because I started late</td>
+						</tr>
+						<tr>
+							<td colspan="4"><b>Comments about team:</b><br />
+								Overall a good team, no conflicts.</td>
+						</tr>
+					<tr class="result_subheader">
+						<td width="15%">From Student</td>
+						<td width="20%">Contribution</td>
+						<td width="33%">Comments</td>
+						<td width="32%">Messages</td>
+					</tr>
+					
+						<tr>
+							<td><b>Jean Wong</b></td>
+							<td>Equal Share<span class="color_positive"> + 5%</span></td>
+							<td>Hardworking and always willing to help</td>
+							<td>Great job with the design, Tom!</td>
+						</tr>
+					
+						<tr>
+							<td><b>Ravi Kumar</b></td>
+							<td>Equal Share</td>
+							<td>Does all the allocated work on time without fail.</td>
+							<td>Its been a pleasure to have you in the team. :)</td>
+						</tr>
+					
+				</table>
+				
+<h1>View results</h1>
+<table class="result_table"><tr class="result_header"><td>Your Result:</td></tr></table>
+<table class="result_studentform">
+					<tr>
+						<td width="15%">Evaluation:</td>
+						<td colspan="2">Mid-term Peer Evaluation
+							in
+							CS2103-2012-sem1
+						</td>
+					</tr>
+					<tr>
+						<td>Student:</td>
+						<td colspan="2">Jean Wong
+							in
+							Team 1
+						</td>
+					</tr>
+					<tr>
+						<td>My View:</td>
+						<td width="20%">
+							Of me: <span class="color_positive">E+20%</span>
+						</td>
+						<td>
+							Of others: <span class="color_negative">E-20%</span>, <span class="color_negative">E-10%</span>
+						</td>
+					</tr>
+					<tr>
+						<td>Teammates View:</td>
+						<td>
+							Of me: <span class="color_neutral">E</span>
+						</td>
+						<td>
+							Of others: <span class="color_positive">E+10%</span>, <span class="color_neutral">E</span>
+						</td>
+					</tr>
+				</table>
+				<table class="result_table">
+					<tr class="result_subheader"><td>Feedback from teammates:</td></tr>
+					<tr>
+						<td>
+							<ul>
+								
+									<li>Hey Jean, it was really great having you in the team!</li>
+									<li>Very hardworking and resourceful.</li>
+								
+							</ul>
+						</td>
+					</tr>
+					<tr class="result_subheader"><td>What others think about themselves:</td></tr>
+					<tr>
+						<td>
+							<ul>
+								
+									<li>Ravi Kumar: 
+										As the team leader, I should try to allocate work according to my teammates' strengths rather than just randomly.</li>
+									<li>Tom Jacobs: 
+										Did a little less work because I started late.</li>
+								
+							</ul>
+						</td>
+					</tr>
+				</table>
+				
+				
+
+<h1>Email Mockup</h1>
+<div id = "email">
+	<div id = "left-side">
+		<span class = "highlighted">Inbox(2)</span> <br />
+		Sent <br />
+		Drafts <br />
+		Trash <br />
+	</div>
+	<div id="right-side">
+		<span class="email-title">TEAMMATES: Invitation to join course [Software Engineering Project][Course ID: a]</span.> <br />
+		<hr />
+		<span class = "email-info"><span class="faint">from:</span> <a href = "">teammates@gmail.com</a></span><br />
+		<span class = "email-info"><span class="faint">to:</span> <a href = "">tom.jacobs@gmail.com</a></span><br />
+		<span class = "email-info"><span class="faint">subject:</span> TEAMMATES: Invitation to join course [Software Engineering Project][Course ID: a]</span><br />
+		<p class="text">
+			Hello Tom Jacobs,
+		</p>
+		<p class = "text">
+			The course Software Engineering Project is using the TEAMMATES System to collect peer evaluations.
+		</p>
+		<p class = "text">
+			To "join" the course, please go to this Web address: <a href = "">http://teammatesv4.appspot.com/ page/studentCourseJoin?regkey=ag1zfnRlYW1tYXRlc3Y0cg8LEgdTdHVkZWww </a><br />
+			If prompted to log in, use your Google account to log in. If you do not have a Google account, please create one from the Google Accounts page. 
+		</p>
+		</div>
+		
+	<div style = "clear:both"></div>
+</div>
