@@ -3145,7 +3145,7 @@ function isStudentNameValid(name) {
 		return false;
 	}
 
-	else if (name.length > 40) {
+	else if (name.length > STUDENTNAME_MAX_LENGTH) {
 		return false;
 	}
 
@@ -3153,7 +3153,7 @@ function isStudentNameValid(name) {
 }
 
 function isStudentTeamNameValid(teamName) {
-	if (teamName.length > 24) {
+	if (teamName.length > TEAMNAME_MAX_LENGTH) {
 		return false;
 	}
 

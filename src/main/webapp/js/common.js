@@ -33,7 +33,9 @@ var DISPLAY_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadlin
 var DISPLAY_FIELDS_EMPTY = "Please fill in all the relevant fields.";
 var DISPLAY_INVALID_INPUT = "Unexpected error. Invalid Input";
 
-
+//Max length for input
+var TEAMNAME_MAX_LENGTH = 24;
+var STUDENTNAME_MAX_LENGTH = 40;
 
 /**---------------------------- Sorting Functions --------------------------**/
 /**
