@@ -9,6 +9,7 @@ import javax.jdo.Transaction;
 
 import teammates.common.Common;
 
+//TODO: we might not really need this class. To be reconsidered.
 /**
  * Code taken from:
  * http://stackoverflow.com/questions/4185382/how-to-use-jdo-persistence-manager
