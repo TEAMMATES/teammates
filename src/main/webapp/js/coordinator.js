@@ -94,7 +94,7 @@ function isStudentNameValid(name) {
 		return false;
 	} else if (name.match(/^.[^\t]*$/) == null) {
 		return false;
-	} else if (name.length > 40) {
+	} else if (name.length > STUDENTNAME_MAX_LENGTH) {
 		return false;
 	}
 	return true;
@@ -107,7 +107,7 @@ function isStudentNameValid(name) {
  * @returns {Boolean}
  */
 function isStudentTeamNameValid(teamName) {
-	return teamName.length<=24;
+	return teamName.length<=TEAMNAME_MAX_LENGTH;
 }
 
 /**
