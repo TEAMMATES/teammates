@@ -10,6 +10,7 @@ import org.openqa.selenium.By;
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
@@ -37,13 +38,44 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		BackDoor.deleteCoordinators(jsonString);
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		String course = "SEvalEditUiT.CS2104";
+		
+		// Next, we edit some student data to cover editing of students
+		// after creating evaluations.
+
+		// move one student out of Team 2
+		StudentData extraGuy = scn.students.get("ExtraGuy");
+		moveToTeam(extraGuy, "New Team");
+
+		// delete one student
+		StudentData dropOutGuy = scn.students.get("DropOut");
+		backDoorOperationStatus = BackDoor.deleteStudent(dropOutGuy.course,
+				dropOutGuy.email);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+
+		
+		// add a new student to Team 2, and change his email
+		String newGuyOriginalEmail = "old@guy.com";
+		StudentData newGuy = new StudentData("Team 2|New Guy|"
+				+ newGuyOriginalEmail, course);
+		backDoorOperationStatus = BackDoor.createStudent(newGuy);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		newGuy.email = "new@guy.com";
+		backDoorOperationStatus = BackDoor.editStudent(newGuyOriginalEmail,
+				newGuy);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		
+		//move new guy out and bring him back again
+		moveToTeam(newGuy, "Team x");
+		moveToTeam(newGuy, "Team 2");
+
 		reportTimeForDataImport();
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 
 		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 	}
-	
+
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
@@ -103,11 +135,20 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		bi.setSubmissionJustification(emilyEditRowID, subs[2].justification.getValue());
 		bi.setSubmissionComments(emilyEditRowID, subs[2].p2pFeedback.getValue());
 		
+		//Fill review for "New Guy" with same values as given for Emily above.
+		//  This is for convenience. Cannot submit with empty values.
+		int newGuyEditRowID = bi.getStudentRowIdInEditSubmission("New Guy");
+		bi.setSubmissionPoint(newGuyEditRowID, subs[2].points+"");
+		bi.setSubmissionJustification(newGuyEditRowID, subs[2].justification.getValue());
+		bi.setSubmissionComments(newGuyEditRowID, subs[2].p2pFeedback.getValue());
+		
 		bi.click(By.id("button_submit"));
 		
 		String charlieEmail = scn.students.get("Charlie").email;
 		String dannyEmail = scn.students.get("Danny").email;
 		String emilyEmail = scn.students.get("Emily").email;
+		//No need to check for New Guy. No reason for the behavior to be 
+		// different than the above three.
 		
 		print("Checking status message");
 		bi.getSelenium().selectWindow("null");
@@ -132,5 +173,12 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		assertEquals(subs[2].points+"",emilyModified.points+"");
 		assertEquals(subs[2].justification.getValue(),emilyModified.justification.getValue());
 		assertEquals(subs[2].p2pFeedback.getValue(),emilyModified.p2pFeedback.getValue());
+	}
+	
+	private static void moveToTeam(StudentData student, String newTeam) {
+		String backDoorOperationStatus;
+		student.team = newTeam;
+		backDoorOperationStatus = BackDoor.editStudent(student.email, student);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 	}
 }

@@ -42,17 +42,20 @@ test('isStudentEmailValid(email)', function(){
 	equal(isStudentEmailValid("!@#$%.com"), false, "!@#$%.com - invalid");
 	equal(isStudentEmailValid("123@321"), false, "123@321 - invalid");
 	equal(isStudentEmailValid("re8$**!f712"), false, "re8$**!f712 - invalid");
+	equal(isStudentEmailValid("@yahoo.com"), false, "@yahoo.com - invalid");
 });
 	
 
 test('isStudentNameValid(name)', function(){
-	equal(isStudentNameValid('Goh Chun Teck'), true, "Goh Chun Teck - valid");
-	equal(isStudentNameValid('DAMITH C. RAJAPAKSE'), true, "DAMITH C. RAJAPAKSE - valid");
+	equal(isStudentNameValid('Tom Jacobs'), true, "Tom Jacobs - valid");
+	equal(isStudentNameValid('EMILY D. TANG'), true, "EMILY D. TANG - valid");
 	equal(isStudentNameValid('Billy S/O Ben'), true, "Billy S/O Ben - valid");
 	equal(isStudentNameValid('$#!!@#'), true, "$#!!@# - valid");
 	equal(isStudentNameValid('Alice123'), true, "Alice123 - valid");
+	equal(isStudentNameValid(generateRandomString(STUDENTNAME_MAX_LENGTH)), true, "Maximum characters - valid");
 	
-	equal(isStudentNameValid('Bob whose full name exceeds more than 40 characters'), false, "Bob whose full name exceeds more than 40 characters - invalid");
+	equal(isStudentNameValid(""), false, "Empty name - invalid");
+	equal(isStudentNameValid(generateRandomString(STUDENTNAME_MAX_LENGTH + 1)), false, "Exceed number of maximum characters - invalid");
 });
 
 
@@ -60,8 +63,10 @@ test('isStudentTeamNameValid(teamname)', function(){
 	equal(isStudentTeamNameValid("My Awesome Team"), true, "My Awesome Team - valid");
 	equal(isStudentTeamNameValid("123$%^789"), true, "123$%^789 - valid");
 	equal(isStudentTeamNameValid("A"), true, "A - valid");
+	equal(isStudentTeamNameValid(" "), true, "whitespace - valid");
+	equal(isStudentTeamNameValid(generateRandomString(TEAMNAME_MAX_LENGTH)), true, "Maximum characters - valid");
 	
-	equal(isStudentTeamNameValid("I have a super long teamname exceeding 25 charactrs"), false, "I have a super long teamname exceeding 25 charactrs - invalid");
+	equal(isStudentTeamNameValid(generateRandomString(TEAMNAME_MAX_LENGTH + 1)), false, "Exceed maximum number of characters - invalid");
 });
 
 
@@ -69,10 +74,23 @@ test('isStudentInputValid(editName, editTeamName, editEmail)', function(){
 	equal(isStudentInputValid("Bob", "Bob's Team", "Bob.Team@hotmail.com"), true, "All valid");
 	
 	equal(isStudentInputValid("", "Bob's Team", "Bob.Team@hotmail.com"), false, "Empty name - invalid");
-	equal(isStudentInputValid("Bob", "", ""), false, "Empty teamname, email - invalid");
+	equal(isStudentInputValid("Bob", "", "Bob@gmail.com"), false, "Empty teamname - invalid");
 	equal(isStudentInputValid("Bob", "Bob's Team", "qwerty"), false, "Invalid email");
-	equal(isStudentInputValid("Billy", "Super Long Team Name exceeding 25 characters", ".Team@hotmail"), false, "Invalid email and teamname");
+	equal(isStudentInputValid("Billy", generateRandomString(TEAMNAME_MAX_LENGTH + 1), "d.Team@hotmail.com"), false, "Invalid teamname");
 	equal(isStudentInputValid("Bob", "Bob's Team", ""), false, "Empty email - invalid");
-	equal(isStudentInputValid("Bob has a name with more than 40 characters", "Bob's Team", ""), false, "Empty email, invalid name");
+	equal(isStudentInputValid(generateRandomString(STUDENTNAME_MAX_LENGTH + 1), "Bob's Team", ""), false, "invalid name");
 	
 });
+
+
+function generateRandomString(len){
+	var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+	var data = '';
+
+	for (var i=0; i<len; i++) {
+		var rnum = Math.floor(Math.random() * chars.length);
+		data += chars.substring(rnum,rnum+1);
+	}
+
+	return data;
+}
