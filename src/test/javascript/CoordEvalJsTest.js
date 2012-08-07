@@ -2,22 +2,23 @@
 module('coordEval.js');
 
 test('isEvaluationNameLengthValid(name)', function(){
-	equal(isEvaluationNameLengthValid("Evaluation 1"), true, "Less than 22 characters");
-	equal(isEvaluationNameLengthValid("This evaluation has a very long name"), false, "Invalid evaluation name");
+	equal(isEvaluationNameLengthValid('Evaluation 1'), true, "Less than 22 characters");
+	equal(isEvaluationNameLengthValid(generateRandomString(EVAL_NAME_MAX_LENGTH)), true, "Maximum number of characters");
+	equal(isEvaluationNameLengthValid(generateRandomString(EVAL_NAME_MAX_LENGTH + 1)), false, "Exceed maximum number of characters");
 });
 
 
 test('isEvaluationNameValid(name)', function(){
-	equal(isEvaluationNameValid("Eval\Test"), true, "Eval\Test");
+	equal(isEvaluationNameValid("Eval  Test  "), true, "Eval  Test  ");
 	equal(isEvaluationNameValid("EvalTest"), true, "EvalTest");
 	equal(isEvaluationNameValid("12345"), true, "12345");
 	
 	equal(isEvaluationNameValid("Eval'Test"), false, "Eval'Test");
 	equal(isEvaluationNameValid("Eval/Test"), false, "Eval/Test");
-	equal(isEvaluationNameValid("Eval-Test"), false, "EvalTest");
-	equal(isEvaluationNameValid("Eval_Test"), false, "EvalTest");
-	equal(isEvaluationNameValid("Eval$Test"), false, "EvalTest");
-	equal(isEvaluationNameValid("Eval%Test"), false, "EvalTest");
+	equal(isEvaluationNameValid("Eval-Test"), false, "Eval-Test");
+	equal(isEvaluationNameValid("Eval_Test"), false, "Eval_Test");
+	equal(isEvaluationNameValid("Eval$Test"), false, "Eval$Test");
+	equal(isEvaluationNameValid("Eval%Test"), false, "Eval%Test");
 });
 
 
@@ -102,8 +103,8 @@ test('checkAddEvaluation(form)', function(){
 	
 	form.courseid.value = "CS2103";
 	form.starttime.value = 0;
-	form.evaluationname.value = "Super Extreme long evaluation name";
-	equal(checkAddEvaluation(form), false, "Evaluation name not valid");
+	form.evaluationname.value = generateRandomString(EVAL_NAME_MAX_LENGTH + 1);
+	equal(checkAddEvaluation(form), false, "Evaluation name exceeds max characters");
 	
 	form.evaluationname.value = "!@#$%^& name";
 	equal(checkAddEvaluation(form), false, "Evaluation name not valid");
@@ -156,8 +157,8 @@ test('checkEditEvaluation(form)', function(){
 	
 	form.courseid.value = "CS2103";
 	form.starttime.value = 0;
-	form.evaluationname.value = "Super Extreme long evaluation name";
-	equal(checkEditEvaluation(form), false, "Evaluation name not valid");
+	form.evaluationname.value = generateRandomString(EVAL_NAME_MAX_LENGTH + 1);
+	equal(checkEditEvaluation(form), false, "Evaluation name exceeds max characters");
 	
 	form.evaluationname.value = "!@#$%^& name";
 	equal(checkEditEvaluation(form), false, "Evaluation name not valid");
@@ -195,3 +196,16 @@ test('convertDateToHHMM(date)', function(){
 	var testdate1 = new Date(2012, 6, 21, 14, 18, 0);	
 	equal(convertDateToHHMM(testdate1), "1418", "Date converted correctly");
 });
+
+
+function generateRandomString(len){
+	var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+	var data = '';
+
+	for (var i=0; i<len; i++) {
+		var rnum = Math.floor(Math.random() * chars.length);
+		data += chars.substring(rnum,rnum+1);
+	}
+
+	return data;
+}
