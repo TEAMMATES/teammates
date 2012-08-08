@@ -38,7 +38,9 @@ public class HtmlHelper {
 	 */
 	public static void assertSameHtml(String html1, String html2)
 			throws SAXException, IOException, TransformerException {
+		html1 = preProcessHTML(html1);
 		html1 = cleanupHtml(html1);
+		html2 = preProcessHTML(html2);
 		html2 = cleanupHtml(html2);
 		assertEquals(html1,html2);
 	}
@@ -56,6 +58,15 @@ public class HtmlHelper {
 		Node node = getNodeFromString(htmlString);
 		removeWhiteSpace(node);
 		return nodeToString(node);
+	}
+	
+	public static String preProcessHTML(String htmlString){
+
+		//TODO: Find another less hackish method(this is required for chrome selenium testing to work)
+		htmlString = htmlString.replaceFirst("<html>", "<html xmlns=\"http://www.w3.org/1999/xhtml\">");
+		htmlString = htmlString.replaceAll("display: none; ", "display: none;");
+		htmlString = htmlString.replaceAll("display: block; ", "display: block;");
+		return htmlString;
 	}
 
 	private static void removeWhiteSpace(Node node) {
