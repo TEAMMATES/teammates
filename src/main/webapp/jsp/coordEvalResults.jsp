@@ -95,7 +95,7 @@
 					</tr>
 				</table>
 			</div>
-			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
+			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 			<%
 				out.flush();
 			%>
@@ -169,7 +169,7 @@
 				for(boolean byReviewer = true, repeat=true; repeat; repeat = byReviewer, byReviewer=false){
 			%>
 				<div id="coordinatorEvaluationDetailed<%=byReviewer ? "Reviewer" : "Reviewee"%>Table" class="evaluation_result"
-						style="display:none">
+						style="display: none;">
 					<div><h1>Detailed Evaluation Results - By <%=byReviewer ? "Reviewer" : "Reviewee"%></h1></div>
 					<div id="detail">
 						<%
