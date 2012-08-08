@@ -25,6 +25,11 @@ public class BuildProperties {
 	 */
 	public String BACKDOOR_KEY = null;
 
+	/**
+	 * Generate delay to handle slow writing IO in datastore
+	 */
+	public int EXISTENCE_CHECKING_MAX_RETRIES = 10;
+	
 	public static BuildProperties instance = null;
 	
 	
@@ -62,6 +67,8 @@ public class BuildProperties {
 		TEAMMATES_APP_URL = Common.trimTrailingSlash(prop.getProperty("app.url"));
 		
 		BACKDOOR_KEY = prop.getProperty("app.backdoor.key");
+		
+		EXISTENCE_CHECKING_MAX_RETRIES = Integer.valueOf(prop.getProperty("app.persistence.numretries"));
 		
 		STUDENT_EMAIL_TEMPLATE_EVALUATION_ = Common.readStream(BuildProperties.class.getClassLoader().getResourceAsStream(
 						"studentEmailTemplate-evaluation_.html"));

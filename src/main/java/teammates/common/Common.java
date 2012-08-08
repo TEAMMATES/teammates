@@ -17,6 +17,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Evaluation;
 import teammates.ui.controller.Helper;
 
+import teammates.logic.BuildProperties;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -356,7 +358,7 @@ public class Common {
 	public static final String ERRORCODE_STRING_TOO_LONG = "ERRORCODE_STRING_TOO_LONG";
 	public static final String ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING = "ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING";
 
-	public static final int EXISTENCE_CHECKING_MAX_RETRIES = 10;
+	public static final int EXISTENCE_CHECKING_MAX_RETRIES = BuildProperties.inst().EXISTENCE_CHECKING_MAX_RETRIES;
 	public static final long EXISTENCE_CHECKING_DELAY = 200;
 
 	@SuppressWarnings("unused")

@@ -2,6 +2,7 @@ package teammates.test.cases;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
@@ -56,8 +57,11 @@ public class BaseTestCase {
 	 */
 	static {
 		String buildFile = System.getProperty("user.dir")
-				+ "\\src\\main\\webapp\\WEB-INF\\classes\\"
+				+ "/src/main/webapp/WEB-INF/classes/"
 				+ "build.properties";
+		
+		buildFile = buildFile.replace("/", File.separator);
+		
 		Properties buildProperties = new Properties();
 		try {
 			buildProperties.load(new FileInputStream(buildFile));
