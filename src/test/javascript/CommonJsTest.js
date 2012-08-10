@@ -14,22 +14,22 @@ test('setStatusMessage(message,error)', function(){
 	
 	setStatusMessage(message, false);
 	equal($("#statusMessage").html(), message, "Normal status message");
-	equal($("#statusMessage").css('background'), "", "No background");
+	ok(($("#statusMessage").css('background-color') == "rgba(0, 0, 0, 0)" || $("#statusMessage").css('background-color') == "transparent"), "No background");
 	setStatusMessage("", false);
 	equal($("#statusMessage").html(), "", "Empty status message");
-	equal($("#statusMessage").css('background'), "", "No background");
+	ok(($("#statusMessage").css('background-color') == "rgba(0, 0, 0, 0)" || $("#statusMessage").css('background-color') == "transparent"), "No background");
 	setStatusMessage(message, true);
 	equal($("#statusMessage").html(), message, "Normal status message");
 	equal($("#statusMessage").css('background-color'), "rgb(255, 153, 153)", "Red background");
 	setStatusMessage("", true);
 	equal($("#statusMessage").html(), "", "Normal status message");
-	equal($("#statusMessage").css('background'), "", "No background");
+	ok(($("#statusMessage").css('background-color') == "rgba(0, 0, 0, 0)" || $("#statusMessage").css('background-color') == "transparent"), "No background");
 	
 });
 
 
 test('clearStatusMessage()', function(){
 	clearStatusMessage();
-	equal($("#statusMessage").html(), "", "Cleared");
-	equal($("#statusMessage").css('background'), "", "No background");
+	equal($("#statusMessage").html(), "", "Status message cleared");
+	ok(($("#statusMessage").css('background-color') == "rgba(0, 0, 0, 0)" || $("#statusMessage").css('background-color') == "transparent"), "No background");
 });

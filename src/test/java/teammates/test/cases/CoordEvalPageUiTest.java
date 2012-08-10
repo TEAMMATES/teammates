@@ -194,27 +194,27 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 	
 	public void testCoordEvalRemindLink() throws Exception{
 		
-
-		______TS("PUBLISHED: remind link unclickable");
 		
-		String courseID = scn.evaluations.get("publishedEval").course;
-		String evalName = scn.evaluations.get("publishedEval").name;
+		______TS("CLOSED: remind link unclickable");
+		
+		String courseID = scn.evaluations.get("closedEval").course;
+		String evalName = scn.evaluations.get("closedEval").name;
 		int evalRowID = bi.getEvaluationRowID(courseID, evalName);
 		By remindLinkLocator = bi.getCoordEvaluationRemindLinkLocator(evalRowID);
 		try{
 			bi.clickAndCancel(remindLinkLocator);
-			fail("Remind link clickable on published evaluation");
+			fail("Remind link clickable on closed evaluation");
 		} catch (NoAlertException e){}
 
-		______TS("CLOSED: remind link unclickable");
+		______TS("PUBLISHED: remind link unclickable");
 		
-		courseID = scn.evaluations.get("closedEval").course;
-		evalName = scn.evaluations.get("closedEval").name;
+		courseID = scn.evaluations.get("publishedEval").course;
+		evalName = scn.evaluations.get("publishedEval").name;
 		evalRowID = bi.getEvaluationRowID(courseID, evalName);
 		remindLinkLocator = bi.getCoordEvaluationRemindLinkLocator(evalRowID);
 		try{
 			bi.clickAndCancel(remindLinkLocator);
-			fail("Remind link clickable on closed evaluation");
+			fail("Remind link clickable on published evaluation");
 		} catch (NoAlertException e){}
 
 		______TS("AWAITING: remind link unclickable");

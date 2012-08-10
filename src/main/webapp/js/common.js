@@ -233,9 +233,9 @@ function setStatusMessage(message, error) {
 	}
 	$(DIV_STATUS_MESSAGE).html(message);
 	if(error===true){
-		$(DIV_STATUS_MESSAGE).css("background","#FF9999");
+		$(DIV_STATUS_MESSAGE).css("background-color","#FF9999");
 	} else {
-		$(DIV_STATUS_MESSAGE).css("background","");
+		$(DIV_STATUS_MESSAGE).css("background-color","transparent");
 	}
 	$(DIV_STATUS_MESSAGE).show();
 }
@@ -244,6 +244,8 @@ function setStatusMessage(message, error) {
 * Clears the status message div tag and hides it
 */
 function clearStatusMessage() {
-	$(DIV_STATUS_MESSAGE).html("").css("background","").hide();
+	$(DIV_STATUS_MESSAGE).html("");
+	$(DIV_STATUS_MESSAGE).css("background","");
+	$(DIV_STATUS_MESSAGE).hide();
 }
 
