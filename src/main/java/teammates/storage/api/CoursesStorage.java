@@ -91,14 +91,14 @@ public class CoursesStorage {
 			e.printStackTrace();
 		}
 		
-		int tries = 0;
+		int elapsedTime = 0;
 		course = getCourse(courseId);
-		while ((course == null) && (tries < Common.EXISTENCE_CHECKING_MAX_RETRIES)){
+		while ((course == null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
 			course = getCourse(courseId);
-			tries++;
+			elapsedTime += 200;
 		}
-		if(tries==Common.EXISTENCE_CHECKING_MAX_RETRIES){
+		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
 			log.severe("Operation did not persist in time: addCourse->"+courseId);
 		}
 	}
@@ -141,14 +141,14 @@ public class CoursesStorage {
 		getPM().makePersistent(student);
 		getPM().flush();
 		
-		int tries = 0;
+		int elapsedTime = 0;
 		Student created = getStudentWithEmail(courseID, email);
-		while ((created == null) && (tries < Common.EXISTENCE_CHECKING_MAX_RETRIES)){
+		while ((created == null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
 			created = getStudentWithEmail(courseID, email);
-			tries++;
+			elapsedTime += 200;
 		}
-		if(tries==Common.EXISTENCE_CHECKING_MAX_RETRIES){
+		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
 			log.severe("Operation did not persist in time: createStudent->"+ courseID + "/" + email);
 		}
 	}
@@ -213,14 +213,14 @@ public class CoursesStorage {
 		getPM().deletePersistent(course);
 		getPM().flush();
 		
-		int tries = 0;
+		int elapsedTime = 0;
 		course = getCourse(courseId);
-		while ((course != null) && (tries < Common.EXISTENCE_CHECKING_MAX_RETRIES)){
+		while ((course != null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
 			course = getCourse(courseId);
-			tries++;
+			elapsedTime += 200;
 		}
-		if(tries==Common.EXISTENCE_CHECKING_MAX_RETRIES){
+		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
 			log.severe("Operation did not persist in time: deleteCourse->"+courseId);
 		}
 		
@@ -260,14 +260,14 @@ public class CoursesStorage {
 			getPM().flush();
 		}
 		
-		int tries = 0;
+		int elapsedTime = 0;
 		Student created = getStudentWithEmail(courseID, email);
-		while ((created != null) && (tries < Common.EXISTENCE_CHECKING_MAX_RETRIES)){
+		while ((created != null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
 			created = getStudentWithEmail(courseID, email);
-			tries++;
+			elapsedTime += 200;
 		}
-		if(tries==Common.EXISTENCE_CHECKING_MAX_RETRIES){
+		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
 			log.severe("Operation did not persist in time: createStudent->"+ courseID + "/" + email);
 		}
 	}
