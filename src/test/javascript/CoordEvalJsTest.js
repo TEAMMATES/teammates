@@ -62,8 +62,8 @@ test('isEditEvaluationScheduleValid(start, startTime, deadline, deadlineTime, ti
 	equal(isEditEvaluationScheduleValid(currentYear, starttime, oneYearLater, endtime, "", "", ""), true, "Normal start and end");
 	equal(isEditEvaluationScheduleValid(currentYear, starttime, currentYear, starttime, "", "", ""), true, "start and end at same day, same time");
 	equal(isEditEvaluationScheduleValid(oneYearBefore, starttime, oneYearLater, endtime, "", "", ""), true, "Start time before current date");
-	equal(isEditEvaluationScheduleValid(currentYear, starttime, currentYear, endtime, "", "", ""), false, "start and end at same day");
 	equal(isEditEvaluationScheduleValid(oneYearBefore, starttime, oneYearLater, endtime, "", "", "AWAITING"), false, "Start time before current date + awaiting");
+	equal(isEditEvaluationScheduleValid(currentYear, starttime, currentYear, endtime, "", "", ""), false, "start and end at same day");
 	equal(isEditEvaluationScheduleValid(currentYear, starttime, oneYearBefore, endtime, "", "", ""), false, "End time before start time");
 	
 });
@@ -159,12 +159,12 @@ test('formatDigit(num)', function(){
 
 test('convertDateToDDMMYYYY(date)', function(){
 	var testdate1 = new Date(2012, 6, 21, 14, 18, 0);	
-	equal(convertDateToDDMMYYYY(testdate1), "21/07/2012", "Date converted correctly");
+	equal(convertDateToDDMMYYYY(testdate1), "21/07/2012", "Date converted to DDMMYYYY correctly");
 });
 
 
 test('convertDateToHHMM(date)', function(){
 	var testdate1 = new Date(2012, 6, 21, 14, 18, 0);	
-	equal(convertDateToHHMM(testdate1), "1418", "Date converted correctly");
+	equal(convertDateToHHMM(testdate1), "1418", "Date converted to HHMM correctly");
 });
 
