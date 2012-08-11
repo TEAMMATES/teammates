@@ -2095,7 +2095,9 @@ public class BrowserInstance {
 	 * @param points
 	 */
 	public void setSubmissionPoint(int rowID, String points) {
-		selectDropdownByValue(By.id(Common.PARAM_POINTS + rowID), points);
+		//selectDropdownByValue(By.id(Common.PARAM_POINTS + rowID), points);
+		waitForElementPresent(By.id(Common.PARAM_POINTS + rowID));
+		selenium.select("id=" + Common.PARAM_POINTS + rowID, "value="+points);
 	}
 
 	/**
