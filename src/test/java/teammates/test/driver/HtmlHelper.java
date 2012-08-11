@@ -65,17 +65,16 @@ public class HtmlHelper {
 
 		//TODO: Find another less hackish method(this is required for chrome selenium testing to work)
 		htmlString = htmlString.replaceFirst("<html>", "<html xmlns=\"http://www.w3.org/1999/xhtml\">");
-		htmlString = htmlString.replaceAll("display: none; ", "display: none;");
-		htmlString = htmlString.replaceAll("display: block; ", "display: block;");
 		
 		//required for IE selenium testing to work
 		if (htmlString.indexOf("<!DOCTYPE") < 0){
-			htmlString = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\""
-					+"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">"
+			htmlString = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" "
+					+"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"
 					+ "<html xmlns=\"http://www.w3.org/1999/xhtml\">"
 					+ htmlString
 					+ "</html>";
 		}
+		htmlString = htmlString.replaceAll("<textarea(.*)>(.*)</textarea>", "<textarea$1></textarea>");
 	
 		return htmlString;
 	}

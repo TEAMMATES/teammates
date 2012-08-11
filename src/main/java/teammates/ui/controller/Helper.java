@@ -53,7 +53,7 @@ public class Helper {
 	 */
 	public boolean error = false;
 	
-	public static final String DISABLED = "style=\"text-decoration:none; color:gray;\" onclick=\"return false\"";
+	public static final String DISABLED = "style=\"color: gray; text-decoration: none;\" onclick=\"return false\"";
 	
 	public Helper(){}
 	

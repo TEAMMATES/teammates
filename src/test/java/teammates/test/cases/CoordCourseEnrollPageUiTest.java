@@ -76,7 +76,7 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 		bi.click(By.id("button_enroll"));
 
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollError.html");
-		
+
 		______TS("success case");
 		
 		bi.fillString(By.id("enrollstudents"), enrollString);

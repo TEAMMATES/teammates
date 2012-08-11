@@ -233,11 +233,10 @@ function setStatusMessage(message, error) {
 	}
 	$(DIV_STATUS_MESSAGE).html(message);
 	if(error===true){
-		$(DIV_STATUS_MESSAGE).css("background-color","#FF9999");
+		$(DIV_STATUS_MESSAGE).attr("style", "display: block; background-color: rgb(255, 153, 153);");
 	} else {
 		$(DIV_STATUS_MESSAGE).css("background-color","transparent");
 	}
-	$(DIV_STATUS_MESSAGE).show();
 }
 
 /**
