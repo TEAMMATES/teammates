@@ -1533,14 +1533,15 @@ public class BrowserInstance {
 	public void addEvaluation(String courseID, String evalName, Date startTime,
 			Date endTime, boolean p2pEnabled, String instructions,
 			Integer gracePeriod) {
-		// Select the course
-		clickWithWait(coordCourseInputCourseID);
-
-		selectDropdownByValue(coordCourseInputCourseID, courseID);
 
 		// Fill in the evaluation name
 		fillString(inputEvaluationName, evalName);
 
+		// Select the course
+		clickWithWait(coordCourseInputCourseID);
+		
+		selectDropdownByValue(coordCourseInputCourseID, courseID);
+		
 		// Select start date
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("$('#" + Common.PARAM_EVALUATION_START
@@ -2785,6 +2786,8 @@ public class BrowserInstance {
 	 */
 	private String getCleanPageSource() throws Exception {
 		String pageSrc = getCurrentPageSource();
+		
+		pageSrc = HtmlHelper.preProcessHTML(pageSrc);
 		pageSrc = HtmlHelper.cleanupHtml(pageSrc);
 		return pageSrc;
 	}
