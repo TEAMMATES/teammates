@@ -26,7 +26,6 @@ import teammates.common.datatransfer.CoordData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.UserData;
-import teammates.logic.BuildProperties;
 import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
 
@@ -70,7 +69,7 @@ public class BaseTestCase {
 			throw new RuntimeException("Could not initialize Config object"
 					+ Common.stackTraceToString(e));
 		}
-		BuildProperties.inst(buildProperties);
+		Common.readProperties(buildProperties);
 	}
 
 	LocalServiceTestHelper helper;

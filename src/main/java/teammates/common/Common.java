@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -359,24 +360,27 @@ public class Common {
 	/**
 	 * Build Properties Params
 	 */
-	public static String TEAMMATES_APP_ADMIN_EMAIL = null;
-	public static String TEAMMATES_APP_URL = null;
-	
+	private static final BuildProperties BUILD_PROPERTIES = BuildProperties.inst();
+	public static String TEAMMATES_APP_ADMIN_EMAIL = BUILD_PROPERTIES.getBuildProperty("TEAMMATES_APP_ADMIN_EMAIL");
+	public static String TEAMMATES_APP_URL = BUILD_PROPERTIES.getBuildProperty("TEAMMATES_APP_URL");
+
 	/**
 	 * Password used by Test driver to identify itself.
 	 */
-	public static String BACKDOOR_KEY = null;
+	public static String BACKDOOR_KEY = BUILD_PROPERTIES.getBuildProperty("BACKDOOR_KEY");
 
 	/**
 	 * Generate delay to handle slow writing IO in datastore
 	 */
-	public static long PERSISTENCE_CHECK_DURATION = 4000;
+	public static long PERSISTENCE_CHECK_DURATION = Integer.valueOf(BUILD_PROPERTIES.getBuildProperty("PERSISTENCE_CHECK_DURATION"));
 	
-	/* Email templates */
-	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_ = null;
-	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED = null;
-	public static String STUDENT_EMAIL_TEMPLATE_COURSE_JOIN = null;
-	public static String STUDENT_EMAIL_FRAGMENT_COURSE_JOIN = null;
+	/**
+	 * Email templates
+	 */
+	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_ = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailTemplate-evaluation_.html"));
+	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailTemplate-evaluationPublished.html"));
+	public static String STUDENT_EMAIL_TEMPLATE_COURSE_JOIN = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailTemplate-courseJoin.html"));
+	public static String STUDENT_EMAIL_FRAGMENT_COURSE_JOIN = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailFragment-courseJoin.html"));
 
 	@SuppressWarnings("unused")
 	private void ____VALIDATE_parameters___________________________________() {
@@ -676,13 +680,13 @@ public class Common {
 	}
 
 	/**
-	 * Reads from a stream and returns the string
+	 * Wrapper. Loading jobs are delegated to BuildProperties
 	 * 
 	 * @param reader
 	 * @return
 	 */
 	public static String readStream(InputStream stream) {
-		return new Scanner(stream).useDelimiter("\\Z").next();
+		return BUILD_PROPERTIES.readStream(stream);
 	}
 
 	public static boolean isWhiteSpace(String string) {
@@ -764,28 +768,17 @@ public class Common {
 	
 	/**
 	 * 
-	 *  A generic function to set params from build properties
+	 *  This function loads new buildproperties in run-time
 	 * 
-	 * @param key	String of the parameter to set
-	 * @param value Value of the parameter
+	 * @param Properties	The properties stream
 	 */
-	public static void setParamsFromBuildProperties(String key, String value) {
-		if (key.equals("TEAMMATES_APP_ADMIN_EMAIL"))
-			TEAMMATES_APP_ADMIN_EMAIL = value;
-		else if (key.equals("TEAMMATES_APP_URL"))
-			TEAMMATES_APP_URL = value;
-		else if (key.equals("BACKDOOR_KEY"))
-			BACKDOOR_KEY = value;
-		else if (key.equals("PERSISTENCE_CHECK_DURATION"))
-			PERSISTENCE_CHECK_DURATION = Integer.valueOf(value).intValue();
-		else if (key.equals("STUDENT_EMAIL_TEMPLATE_EVALUATION_"))
-			STUDENT_EMAIL_TEMPLATE_EVALUATION_ = value;
-		else if (key.equals("STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED"))
-			STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED = value;
-		else if (key.equals("STUDENT_EMAIL_TEMPLATE_COURSE_JOIN"))
-			STUDENT_EMAIL_TEMPLATE_COURSE_JOIN = value;
-		else if (key.equals("STUDENT_EMAIL_FRAGMENT_COURSE_JOIN"))
-			STUDENT_EMAIL_FRAGMENT_COURSE_JOIN = value;
+	public static void readProperties(Properties p) {
+		BUILD_PROPERTIES.readProperties(p);
+
+		TEAMMATES_APP_ADMIN_EMAIL = BUILD_PROPERTIES.getBuildProperty("TEAMMATES_APP_ADMIN_EMAIL");
+		TEAMMATES_APP_URL = BUILD_PROPERTIES.getBuildProperty("TEAMMATES_APP_URL");
+		BACKDOOR_KEY = BUILD_PROPERTIES.getBuildProperty("BACKDOOR_KEY");
+		PERSISTENCE_CHECK_DURATION = Integer.valueOf(BUILD_PROPERTIES.getBuildProperty("PERSISTENCE_CHECK_DURATION"));
 	}
 
 }

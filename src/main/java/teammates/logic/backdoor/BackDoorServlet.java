@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.logic.BuildProperties;
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.storage.datastore.Datastore;
@@ -82,7 +81,6 @@ public class BackDoorServlet extends HttpServlet {
 		String returnValue;
 
 		String auth = req.getParameter(PARAMETER_BACKDOOR_KEY);
-		BuildProperties.inst();
 		if (!auth.equals(Common.BACKDOOR_KEY)) {
 			returnValue = "Not authorized to access Backdoor Services";
 
