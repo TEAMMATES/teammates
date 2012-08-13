@@ -32,8 +32,7 @@ public class SubmissionData {
 	
 	public Text p2pFeedback;
 	
-	//TODO: to rename to 'normalizedToStudent'
-	public transient int normalized = Common.UNINITIALIZED_INT;
+	public transient int normalizedToStudent = Common.UNINITIALIZED_INT;
 	
 	public transient int normalizedToCoord = Common.UNINITIALIZED_INT;
 
@@ -75,7 +74,7 @@ public class SubmissionData {
 		copy.points = this.points;
 		copy.justification = new Text(justification==null?null:justification.getValue());
 		copy.p2pFeedback = new Text(p2pFeedback==null?null:p2pFeedback.getValue());
-		copy.normalized = this.normalized;
+		copy.normalizedToStudent = this.normalizedToStudent;
 		copy.normalizedToCoord = this.normalizedToCoord;
 		return copy;
 	}
@@ -93,8 +92,8 @@ public class SubmissionData {
 		StringBuilder sb = new StringBuilder();
 		sb.append(indentString+"[eval:"+evaluation+"] "+reviewer+"->"+reviewee+EOL);
 		sb.append(indentString+" points:"+points);
-		sb.append(" [normalized-to-student:"+normalized+"]");
-		sb.append(" [normalized-to-coord:"+normalized+"]");
+		sb.append(" [normalized-to-student:"+normalizedToStudent+"]");
+		sb.append(" [normalized-to-coord:"+normalizedToStudent+"]");
 		sb.append(EOL+indentString+" justificatoin:"+justification.getValue());
 		sb.append(EOL+indentString+" p2pFeedback:"+p2pFeedback.getValue());
 		return sb.toString();

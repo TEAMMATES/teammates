@@ -64,10 +64,10 @@
 					<tr>
 						<td>Teammates View:</td>
 						<td>
-							Of me: <%=StudentEvalResultsHelper.colorizePoint(helper.evalResult.incoming.get(0).normalized)%>
+							Of me: <%=StudentEvalResultsHelper.colorizePoint(helper.evalResult.incoming.get(0).normalizedToStudent)%>
 						</td>
 						<td>
-							Of others: <%=StudentEvalResultsHelper.getPointsListNormalized(helper.incoming)%>
+							Of others: <%=StudentEvalResultsHelper.getNormalizedToStudentsPointsList(helper.incoming)%>
 						</td>
 					</tr>
 				</table>
