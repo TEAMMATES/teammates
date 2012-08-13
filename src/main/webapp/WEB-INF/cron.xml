@@ -1,11 +1,11 @@
 <cronentries>
     <cron>
-      <url>/evaluationactivation</url>
+      <url>/evaluationopeningreminders</url>
       <description>Checks and activates evaluation every hour.</description>
       <schedule>every 60 minutes synchronized</schedule>
       <timezone>Australia/Perth</timezone></cron>
     <cron>
-      <url>/automatedreminders</url>
+      <url>/evaluationclosingreminders</url>
       <description>Checks for evaluations that are due in 24 hours and send reminders to students who have not submitted their evaluations.</description>
       <schedule>every 60 minutes synchronized</schedule>
       <timezone>Australia/Perth</timezone>
