@@ -2300,7 +2300,7 @@ public class LogicTest extends BaseTestCase {
 		// check some random values from submission lists
 		assertEquals(100, result.outgoing.get(1).points); // reviewee=student2
 		assertEquals(NSB, result.incoming.get(0).points); // reviewer=student3
-		assertEquals(113, result.incoming.get(0).normalized); // reviewer=student3
+		assertEquals(113, result.incoming.get(0).normalizedToStudent); // reviewer=student3
 		assertEquals(
 				"justification of student1InCourse1 rating to student1InCourse1",
 				result.selfEvaluations.get(0).justification.getValue()); // student2
@@ -2882,24 +2882,24 @@ public class LogicTest extends BaseTestCase {
 		// check incoming submissions (s2 more intensely than others)
 
 		assertEquals(4, s1.result.incoming.size());
-		assertEquals(90, s1.result.incoming.get(S1_POS).normalized);
-		assertEquals(100, s1.result.incoming.get(S4_POS).normalized);
+		assertEquals(90, s1.result.incoming.get(S1_POS).normalizedToStudent);
+		assertEquals(100, s1.result.incoming.get(S4_POS).normalizedToStudent);
 
 		SubmissionData s2_s1 = s1.result.incoming.get(S2_POS);
-		assertEquals(96, s2_s1.normalized);
+		assertEquals(96, s2_s1.normalizedToStudent);
 		expected = "justification of student2InCourse1 rating to student1InCourse1";
 		assertEquals(expected, s2_s1.justification.getValue());
 		expected = "comments from student2InCourse1 to student1InCourse1";
 		assertEquals(expected, s2_s1.p2pFeedback.getValue());
-		assertEquals(115, s2.result.incoming.get(S4_POS).normalized);
+		assertEquals(115, s2.result.incoming.get(S4_POS).normalizedToStudent);
 
 		SubmissionData s3_s1 = s1.result.incoming.get(S3_POS);
-		assertEquals(113, s3_s1.normalized);
+		assertEquals(113, s3_s1.normalizedToStudent);
 		assertEquals("", s3_s1.justification.getValue());
 		assertEquals("", s3_s1.p2pFeedback.getValue());
-		assertEquals(113, s3.result.incoming.get(S3_POS).normalized);
+		assertEquals(113, s3.result.incoming.get(S3_POS).normalizedToStudent);
 
-		assertEquals(108, s4.result.incoming.get(S3_POS).normalized);
+		assertEquals(108, s4.result.incoming.get(S3_POS).normalizedToStudent);
 
 		// check team 1.2
 		TeamData team1_2 = result.teams.get(1);
@@ -2909,7 +2909,7 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(1, team1_2student.result.outgoing.size());
 		assertEquals(NSB, team1_2student.result.claimedToCoord);
 		assertEquals(NSB, team1_2student.result.outgoing.get(0).points);
-		assertEquals(NA, team1_2student.result.incoming.get(0).normalized);
+		assertEquals(NA, team1_2student.result.incoming.get(0).normalizedToStudent);
 
 		______TS("null parameters");
 
@@ -3030,10 +3030,10 @@ public class LogicTest extends BaseTestCase {
 		// verify incoming and outgoing do not refer to same copy of submissions
 		s1.result.sortIncomingByStudentNameAscending();
 		s1.result.sortOutgoingByStudentNameAscending();
-		s1.result.incoming.get(S1_POS).normalized = 0;
-		s1.result.outgoing.get(S1_POS).normalized = 1;
-		assertEquals(0, s1.result.incoming.get(S1_POS).normalized);
-		assertEquals(1, s1.result.outgoing.get(S1_POS).normalized);
+		s1.result.incoming.get(S1_POS).normalizedToStudent = 0;
+		s1.result.outgoing.get(S1_POS).normalizedToStudent = 1;
+		assertEquals(0, s1.result.incoming.get(S1_POS).normalizedToStudent);
+		assertEquals(1, s1.result.outgoing.get(S1_POS).normalizedToStudent);
 
 		invokePopulateTeamResult(team, teamResult);
 
@@ -3047,9 +3047,9 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(108, s1.result.outgoing.get(S3_POS).normalizedToCoord);
 		assertEquals(s1.name, s1.result.incoming.get(S1_POS).revieweeName);
 		assertEquals(s1.name, s1.result.incoming.get(S1_POS).reviewerName);
-		assertEquals(116, s1.result.incoming.get(S1_POS).normalized);
-		assertEquals(119, s1.result.incoming.get(S2_POS).normalized);
-		assertEquals(125, s1.result.incoming.get(S3_POS).normalized);
+		assertEquals(116, s1.result.incoming.get(S1_POS).normalizedToStudent);
+		assertEquals(119, s1.result.incoming.get(S2_POS).normalizedToStudent);
+		assertEquals(125, s1.result.incoming.get(S3_POS).normalizedToStudent);
 		assertEquals(NA, s1.result.incoming.get(S1_POS).normalizedToCoord);
 		assertEquals(95, s1.result.incoming.get(S2_POS).normalizedToCoord);
 		assertEquals(98, s1.result.incoming.get(S3_POS).normalizedToCoord);
@@ -3062,9 +3062,9 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(95, s2.result.outgoing.get(S1_POS).normalizedToCoord);
 		assertEquals(100, s2.result.outgoing.get(S2_POS).normalizedToCoord);
 		assertEquals(105, s2.result.outgoing.get(S3_POS).normalizedToCoord);
-		assertEquals(213, s2.result.incoming.get(S1_POS).normalized);
-		assertEquals(217, s2.result.incoming.get(S2_POS).normalized);
-		assertEquals(229, s2.result.incoming.get(S3_POS).normalized);
+		assertEquals(213, s2.result.incoming.get(S1_POS).normalizedToStudent);
+		assertEquals(217, s2.result.incoming.get(S2_POS).normalizedToStudent);
+		assertEquals(229, s2.result.incoming.get(S3_POS).normalizedToStudent);
 		assertEquals(96, s2.result.incoming.get(S1_POS).normalizedToCoord);
 		assertEquals(NA, s2.result.incoming.get(S2_POS).normalizedToCoord);
 		assertEquals(102, s2.result.incoming.get(S3_POS).normalizedToCoord);
@@ -3077,9 +3077,9 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(97, s3.result.outgoing.get(S1_POS).normalizedToCoord);
 		assertEquals(100, s3.result.outgoing.get(S2_POS).normalizedToCoord);
 		assertEquals(103, s3.result.outgoing.get(S3_POS).normalizedToCoord);
-		assertEquals(310, s3.result.incoming.get(S1_POS).normalized);
-		assertEquals(316, s3.result.incoming.get(S2_POS).normalized);
-		assertEquals(334, s3.result.incoming.get(S3_POS).normalized);
+		assertEquals(310, s3.result.incoming.get(S1_POS).normalizedToStudent);
+		assertEquals(316, s3.result.incoming.get(S2_POS).normalizedToStudent);
+		assertEquals(334, s3.result.incoming.get(S3_POS).normalizedToStudent);
 		assertEquals(104, s3.result.incoming.get(S1_POS).normalizedToCoord);
 		assertEquals(105, s3.result.incoming.get(S2_POS).normalizedToCoord);
 		assertEquals(NA, s3.result.incoming.get(S3_POS).normalizedToCoord);
