@@ -146,15 +146,14 @@ public class EvaluationsStorage {
 			exp.printStackTrace();
 		}
 
-		int tries = 0;
+		int elapsedTime = 0;
 		Evaluation created = getEvaluation(courseID, evaluationName);
-		while ((created == null)
-				&& (tries < Common.EXISTENCE_CHECKING_MAX_RETRIES)) {
+		while ((created == null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
 			Common.waitBriefly();
 			created = getEvaluation(courseID, evaluationName);
-			tries++;
+			elapsedTime += Common.WAIT_DURATION;
 		}
-		if (tries == Common.EXISTENCE_CHECKING_MAX_RETRIES) {
+		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: addEvaluation->"
 					+ courseID + "/" + evaluationName);
 		}
@@ -234,7 +233,7 @@ public class EvaluationsStorage {
 		}
 
 		//check for persistence
-		int tries = 0;
+		int elapsedTime = 0;
 		if (submissionList.size() == 0) {
 			return;
 		}
@@ -242,14 +241,13 @@ public class EvaluationsStorage {
 				.get(submissionList.size() - 1);
 		Submission created = getSubmission(courseID, evaluationName,
 				lastSubmission.getFromStudent(), lastSubmission.getToStudent());
-		while ((created == null)
-				&& (tries < Common.EXISTENCE_CHECKING_MAX_RETRIES)) {
+		while ((created == null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
 			Common.waitBriefly();
 			created = getSubmission(courseID, evaluationName,
 					lastSubmission.getFromStudent(), lastSubmission.getToStudent());
-			tries++;
+			elapsedTime += Common.WAIT_DURATION;
 		}
-		if (tries == Common.EXISTENCE_CHECKING_MAX_RETRIES) {
+		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: createSubmissions->"
 					+ courseID + "/" + evaluationName);
 		}
@@ -404,15 +402,15 @@ public class EvaluationsStorage {
 			getPM().flush();
 		}
 
-		int tries = 0;
+		int elapsedTime = 0;
 		Evaluation created = getEvaluation(courseID, name);
 		while ((created != null)
-				&& (tries < Common.EXISTENCE_CHECKING_MAX_RETRIES)) {
+				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
 			Common.waitBriefly();
 			created = getEvaluation(courseID, name);
-			tries++;
+			elapsedTime += Common.WAIT_DURATION;
 		}
-		if (tries == Common.EXISTENCE_CHECKING_MAX_RETRIES) {
+		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: addEvaluation->"
 					+ courseID + "/" + name);
 		}

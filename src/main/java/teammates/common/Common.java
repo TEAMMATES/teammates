@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -356,8 +357,31 @@ public class Common {
 	public static final String ERRORCODE_STRING_TOO_LONG = "ERRORCODE_STRING_TOO_LONG";
 	public static final String ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING = "ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING";
 
-	public static final int EXISTENCE_CHECKING_MAX_RETRIES = 10;
-	public static final long EXISTENCE_CHECKING_DELAY = 200;
+	/**
+	 * Build Properties Params
+	 */
+	private static final BuildProperties BUILD_PROPERTIES = BuildProperties.inst();
+	public static String TEAMMATES_APP_ADMIN_EMAIL = BUILD_PROPERTIES.getAppAdminEmail();
+	public static String TEAMMATES_APP_URL = BUILD_PROPERTIES.getAppUrl();
+
+	/**
+	 * Password used by Test driver to identify itself.
+	 */
+	public static String BACKDOOR_KEY = BUILD_PROPERTIES.getAppBackdoorKey();
+
+	/**
+	 * Generate delay to handle slow writing IO in datastore
+	 */
+	public static long PERSISTENCE_CHECK_DURATION = BUILD_PROPERTIES.getAppPersistenceCheckduration();
+	public static final int WAIT_DURATION = 200;
+	
+	/**
+	 * Email templates
+	 */
+	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_ = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailTemplate-evaluation_.html"));
+	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailTemplate-evaluationPublished.html"));
+	public static String STUDENT_EMAIL_TEMPLATE_COURSE_JOIN = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailTemplate-courseJoin.html"));
+	public static String STUDENT_EMAIL_FRAGMENT_COURSE_JOIN = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailFragment-courseJoin.html"));
 
 	@SuppressWarnings("unused")
 	private void ____VALIDATE_parameters___________________________________() {
@@ -657,13 +681,13 @@ public class Common {
 	}
 
 	/**
-	 * Reads from a stream and returns the string
+	 * Wrapper. Loading jobs are delegated to BuildProperties
 	 * 
 	 * @param reader
 	 * @return
 	 */
 	public static String readStream(InputStream stream) {
-		return new Scanner(stream).useDelimiter("\\Z").next();
+		return BUILD_PROPERTIES.readStream(stream);
 	}
 
 	public static boolean isWhiteSpace(String string) {
@@ -725,9 +749,9 @@ public class Common {
 	}
 	
 	public static void waitBriefly() {
-		log.info("Waiting for possible persistence delay");
+		log.info("Waiting for possible persistence delay " + WAIT_DURATION + "ms");
 		try {
-			Thread.sleep(Common.EXISTENCE_CHECKING_DELAY);
+			Thread.sleep(WAIT_DURATION);
 		} catch (InterruptedException e) {
 			log.severe(Common.stackTraceToString(e));
 		}
@@ -741,6 +765,21 @@ public class Common {
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
 		return "\n" + sw.toString();
+	}
+	
+	/**
+	 * 
+	 *  This function loads new buildproperties in run-time
+	 * 
+	 * @param Properties	The properties stream
+	 */
+	public static void readProperties(Properties p) {
+		BUILD_PROPERTIES.readProperties(p);
+
+		TEAMMATES_APP_ADMIN_EMAIL = BUILD_PROPERTIES.getAppAdminEmail();
+		TEAMMATES_APP_URL = BUILD_PROPERTIES.getAppUrl();
+		BACKDOOR_KEY = BUILD_PROPERTIES.getAppBackdoorKey();
+		PERSISTENCE_CHECK_DURATION = BUILD_PROPERTIES.getAppPersistenceCheckduration();
 	}
 
 }
