@@ -161,6 +161,7 @@ public class CoordEvalResultsHelper extends Helper{
 	 * @return
 	 */
 	public static String getPointsList(List<SubmissionData> subs, final boolean normalized){
+		//TODO: remove boolean variable and have two different variations of the method?
 		String result = "";
 		Collections.sort(subs, new Comparator<SubmissionData>(){
 			@Override
@@ -174,10 +175,13 @@ public class CoordEvalResultsHelper extends Helper{
 		for(SubmissionData sub: subs){
 			if(sub.reviewee.equals(sub.reviewer)) continue;
 			if(result!="") result+=", ";
-			result+=colorizePoints(sub.normalizedToCoord);
+			if(normalized){
+				result+=colorizePoints(sub.normalizedToCoord);
+			} else{
+				result+=colorizePoints(sub.points);
+			}
 		}
 		return result;
 	}
 	
-
 }

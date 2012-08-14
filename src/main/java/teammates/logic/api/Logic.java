@@ -1594,7 +1594,7 @@ public class Logic {
 			for (int j = 0; j < teamSize; j++) {
 				SubmissionData incomingSub = s.result.incoming.get(j);
 				int normalizedIncoming = teamResult.denormalizedAveragePerceived[i][j];
-				incomingSub.normalized = normalizedIncoming;
+				incomingSub.normalizedToStudent = normalizedIncoming;
 				incomingSub.normalizedToCoord = teamResult.normalizedPeerContributionRatio[j][i];
 				log.finer("Setting normalized incoming of " + s.name + " from "
 						+ incomingSub.reviewerName + " to "
@@ -1602,7 +1602,7 @@ public class Logic {
 
 				SubmissionData outgoingSub = s.result.outgoing.get(j);
 				int normalizedOutgoing = teamResult.normalizedClaimed[i][j];
-				outgoingSub.normalized = Common.UNINITIALIZED_INT;
+				outgoingSub.normalizedToStudent = Common.UNINITIALIZED_INT;
 				outgoingSub.normalizedToCoord = normalizedOutgoing;
 				log.fine("Setting normalized outgoing of " + s.name + " to "
 						+ outgoingSub.revieweeName + " to "
