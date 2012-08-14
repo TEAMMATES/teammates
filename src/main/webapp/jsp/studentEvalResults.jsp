@@ -79,14 +79,14 @@
 								<%
 									for(SubmissionData sub: helper.incoming){
 								%>
-									<li><%=StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue())%></li>
+									<li><%=StudentEvalResultsHelper.escapeForHTML(sub.justification.getValue())%></li>
 								<%
 									}
 								%>
 							</ul>
 						</td>
 					</tr>
-					<tr class="result_subheader"><td>What others think about themselves:</td></tr>
+					<tr class="result_subheader"><td>What others said about their own contribution:</td></tr>
 					<tr>
 						<td>
 							<ul>
