@@ -100,7 +100,7 @@
 				out.flush();
 			%>
 			<div id="coordinatorEvaluationSummaryTable" class="evaluation_result">
-				<div style="text-align:right; font-style:italic; font-size: small; padding:0 35px;">CC = Claimed Contribution; PC = Perceived Contribution; E = Equal Share</div>
+				<div style="text-align: right; font-style: italic; font-size: small; padding:0 35px;">CC = Claimed Contribution; PC = Perceived Contribution; E = Equal Share</div>
 				<table id="dataform">
 					<tr>
 						<th class="centeralign" width="13%"><input class="buttonSortAscending" type="button" id="button_sortteamname"
@@ -203,7 +203,7 @@
 												<%
 													if(byReviewer){
 												%>
-													<a style="float:right; font-weight:normal" target="_blank"
+													<a style="float: right; font-weight: normal;" target="_blank"
 															href="<%=helper.getCoordEvaluationSubmissionEditLink(student.course, helper.evaluation.name, student.email)%>"
 															onclick="return openChildWindow(this.href)">
 															Edit</a>
