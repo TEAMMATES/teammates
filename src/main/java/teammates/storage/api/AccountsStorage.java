@@ -83,7 +83,7 @@ public class AccountsStorage {
 		while ((coordinator == null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
 			coordinator = getCoordinator(googleID);
-			elapsedTime += 200;
+			elapsedTime += Common.WAIT_DURATION;
 		}
 		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
 			log.severe("Operation did not persist in time: addCoord->"+googleID);
@@ -277,7 +277,7 @@ public class AccountsStorage {
 		while ((coord != null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
 			coord = getCoordinator(coordId);
-			elapsedTime += 200;
+			elapsedTime += Common.WAIT_DURATION;
 		}
 		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
 			log.severe("Operation did not persist in time: deleteCoord->"+coordId);

@@ -96,7 +96,7 @@ public class CoursesStorage {
 		while ((course == null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
 			course = getCourse(courseId);
-			elapsedTime += 200;
+			elapsedTime += Common.WAIT_DURATION;
 		}
 		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
 			log.severe("Operation did not persist in time: addCourse->"+courseId);
@@ -146,7 +146,7 @@ public class CoursesStorage {
 		while ((created == null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
 			created = getStudentWithEmail(courseID, email);
-			elapsedTime += 200;
+			elapsedTime += Common.WAIT_DURATION;
 		}
 		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
 			log.severe("Operation did not persist in time: createStudent->"+ courseID + "/" + email);
@@ -218,7 +218,7 @@ public class CoursesStorage {
 		while ((course != null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
 			course = getCourse(courseId);
-			elapsedTime += 200;
+			elapsedTime += Common.WAIT_DURATION;
 		}
 		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
 			log.severe("Operation did not persist in time: deleteCourse->"+courseId);
@@ -265,7 +265,7 @@ public class CoursesStorage {
 		while ((created != null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
 			created = getStudentWithEmail(courseID, email);
-			elapsedTime += 200;
+			elapsedTime += Common.WAIT_DURATION;
 		}
 		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
 			log.severe("Operation did not persist in time: createStudent->"+ courseID + "/" + email);

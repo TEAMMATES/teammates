@@ -361,18 +361,19 @@ public class Common {
 	 * Build Properties Params
 	 */
 	private static final BuildProperties BUILD_PROPERTIES = BuildProperties.inst();
-	public static String TEAMMATES_APP_ADMIN_EMAIL = BUILD_PROPERTIES.getBuildProperty("TEAMMATES_APP_ADMIN_EMAIL");
-	public static String TEAMMATES_APP_URL = BUILD_PROPERTIES.getBuildProperty("TEAMMATES_APP_URL");
+	public static String TEAMMATES_APP_ADMIN_EMAIL = BUILD_PROPERTIES.getAppAdminEmail();
+	public static String TEAMMATES_APP_URL = BUILD_PROPERTIES.getAppUrl();
 
 	/**
 	 * Password used by Test driver to identify itself.
 	 */
-	public static String BACKDOOR_KEY = BUILD_PROPERTIES.getBuildProperty("BACKDOOR_KEY");
+	public static String BACKDOOR_KEY = BUILD_PROPERTIES.getAppBackdoorKey();
 
 	/**
 	 * Generate delay to handle slow writing IO in datastore
 	 */
-	public static long PERSISTENCE_CHECK_DURATION = Integer.valueOf(BUILD_PROPERTIES.getBuildProperty("PERSISTENCE_CHECK_DURATION"));
+	public static long PERSISTENCE_CHECK_DURATION = BUILD_PROPERTIES.getAppPersistenceCheckduration();
+	public static final int WAIT_DURATION = 200;
 	
 	/**
 	 * Email templates
@@ -748,9 +749,9 @@ public class Common {
 	}
 	
 	public static void waitBriefly() {
-		log.info("Waiting for possible persistence delay");
+		log.info("Waiting for possible persistence delay " + WAIT_DURATION + "ms");
 		try {
-			Thread.sleep(200);
+			Thread.sleep(WAIT_DURATION);
 		} catch (InterruptedException e) {
 			log.severe(Common.stackTraceToString(e));
 		}
@@ -775,10 +776,10 @@ public class Common {
 	public static void readProperties(Properties p) {
 		BUILD_PROPERTIES.readProperties(p);
 
-		TEAMMATES_APP_ADMIN_EMAIL = BUILD_PROPERTIES.getBuildProperty("TEAMMATES_APP_ADMIN_EMAIL");
-		TEAMMATES_APP_URL = BUILD_PROPERTIES.getBuildProperty("TEAMMATES_APP_URL");
-		BACKDOOR_KEY = BUILD_PROPERTIES.getBuildProperty("BACKDOOR_KEY");
-		PERSISTENCE_CHECK_DURATION = Integer.valueOf(BUILD_PROPERTIES.getBuildProperty("PERSISTENCE_CHECK_DURATION"));
+		TEAMMATES_APP_ADMIN_EMAIL = BUILD_PROPERTIES.getAppAdminEmail();
+		TEAMMATES_APP_URL = BUILD_PROPERTIES.getAppUrl();
+		BACKDOOR_KEY = BUILD_PROPERTIES.getAppBackdoorKey();
+		PERSISTENCE_CHECK_DURATION = BUILD_PROPERTIES.getAppPersistenceCheckduration();
 	}
 
 }

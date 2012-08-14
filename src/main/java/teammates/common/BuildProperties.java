@@ -55,7 +55,6 @@ public class BuildProperties {
 		props = prop;
 	}
 	
-	
 	/**
 	 * Reads from a stream and returns the string
 	 * 
@@ -68,18 +67,22 @@ public class BuildProperties {
 	
 	/**
 	 * Get property value from props
+	 * A different getter for each property to handle various return types.
 	 */
-	public String getBuildProperty(String key) {
-		if (key.equals("TEAMMATES_APP_ADMIN_EMAIL"))
-			return props.getProperty("app.admin.email");
-		else if (key.equals("TEAMMATES_APP_URL"))
-			return props.getProperty("app.url");
-		else if (key.equals("BACKDOOR_KEY"))
-			return props.getProperty("app.backdoor.key");
-		else if (key.equals("PERSISTENCE_CHECK_DURATION"))
-			return props.getProperty("app.persistence.checkduration");
-		else 
-			return "";
+	public String getAppAdminEmail() {
+		return props.getProperty("app.admin.email");
+	}
+	
+	public String getAppUrl() {
+		return props.getProperty("app.url");
+	}
+	
+	public String getAppBackdoorKey() {
+		return props.getProperty("app.backdoor.key");
+	}
+	
+	public int getAppPersistenceCheckduration() {
+		return Integer.valueOf(props.getProperty("app.persistence.checkduration")).intValue();
 	}
 
 }

@@ -151,7 +151,7 @@ public class EvaluationsStorage {
 		while ((created == null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
 			Common.waitBriefly();
 			created = getEvaluation(courseID, evaluationName);
-			elapsedTime += 200;
+			elapsedTime += Common.WAIT_DURATION;
 		}
 		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: addEvaluation->"
@@ -245,7 +245,7 @@ public class EvaluationsStorage {
 			Common.waitBriefly();
 			created = getSubmission(courseID, evaluationName,
 					lastSubmission.getFromStudent(), lastSubmission.getToStudent());
-			elapsedTime += 200;
+			elapsedTime += Common.WAIT_DURATION;
 		}
 		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: createSubmissions->"
@@ -408,7 +408,7 @@ public class EvaluationsStorage {
 				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
 			Common.waitBriefly();
 			created = getEvaluation(courseID, name);
-			elapsedTime += 200;
+			elapsedTime += Common.WAIT_DURATION;
 		}
 		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: addEvaluation->"
