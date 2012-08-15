@@ -35,7 +35,7 @@ public class Emails {
 
 
 	public Emails() {
-		from = BuildProperties.inst().TEAMMATES_APP_ADMIN_EMAIL;
+		from = Common.TEAMMATES_APP_ADMIN_EMAIL;
 		props = new Properties();
 	}
 
@@ -75,7 +75,7 @@ public class Emails {
 			CourseData course, EvaluationData evaluation,
 			List<StudentData> students) throws MessagingException, IOException {
 		
-		String template = BuildProperties.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_;
+		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
 		List<MimeMessage> emails = generateEvaluationEmailBases(course,
 				evaluation, students, template);
 		for (MimeMessage email : emails) {
@@ -95,7 +95,7 @@ public class Emails {
 			CourseData course, EvaluationData evaluation,
 			List<StudentData> students) throws MessagingException, IOException {
 		
-		String template = BuildProperties.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_;
+		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
 		List<MimeMessage> emails = generateEvaluationEmailBases(course,
 				evaluation, students, template);
 		for (MimeMessage email : emails) {
@@ -115,7 +115,7 @@ public class Emails {
 			EvaluationData e, List<StudentData> students)
 			throws MessagingException, IOException {
 		
-		String template = BuildProperties.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_;
+		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
 		List<MimeMessage> emails = generateEvaluationEmailBases(c, e,
 				students, template);
 		for (MimeMessage email : emails) {
@@ -135,7 +135,7 @@ public class Emails {
 			EvaluationData e, List<StudentData> students)
 			throws MessagingException, IOException {
 		
-		String template = BuildProperties.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
+		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
 		List<MimeMessage> emails = generateEvaluationEmailBases(c, e,
 				students, template);
 		for (MimeMessage email : emails) {
@@ -180,14 +180,14 @@ public class Emails {
 		emailBody = emailBody.replace("${deadline}",
 				Common.formatTime(e.endTime));
 
-		String submitUrl = BuildProperties.inst().TEAMMATES_APP_URL
+		String submitUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
 		submitUrl = Common.addParamToUrl(submitUrl, Common.PARAM_COURSE_ID, c.id);
 		submitUrl = Common.addParamToUrl(submitUrl, Common.PARAM_EVALUATION_NAME,
 				e.name);
 		emailBody = emailBody.replace("${submitUrl}", submitUrl);
 		
-		String reportUrl = BuildProperties.inst().TEAMMATES_APP_URL
+		String reportUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_EVAL_RESULTS;
 		reportUrl = Common.addParamToUrl(reportUrl, Common.PARAM_COURSE_ID, c.id);
 		reportUrl = Common.addParamToUrl(reportUrl, Common.PARAM_EVALUATION_NAME,
@@ -206,7 +206,7 @@ public class Emails {
 		MimeMessage message = getEmptyEmailAddressedToStudent(s);
 		message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_JOIN+" [%s][Course ID: %s]", c.name, c.id));
 		
-		String emailBody = BuildProperties.inst().STUDENT_EMAIL_TEMPLATE_COURSE_JOIN;
+		String emailBody = Common.STUDENT_EMAIL_TEMPLATE_COURSE_JOIN;
 		emailBody = fillUpJoinFragment(s, emailBody);
 		emailBody = emailBody.replace("${studentName}", s.name);
 		emailBody = emailBody.replace("${courseName}", c.name);
@@ -230,11 +230,11 @@ public class Emails {
 
 	private String fillUpJoinFragment(StudentData s, String emailBody) {
 		emailBody = emailBody.replace("${joinFragment}",
-				BuildProperties.inst().STUDENT_EMAIL_FRAGMENT_COURSE_JOIN);
+				Common.STUDENT_EMAIL_FRAGMENT_COURSE_JOIN);
 	
 		emailBody = emailBody.replace("${key}", s.key);
 	
-		String joinUrl = BuildProperties.inst().TEAMMATES_APP_URL
+		String joinUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_JOIN_COURSE;
 		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, s.key);
 	

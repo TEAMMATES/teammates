@@ -2,6 +2,7 @@ package teammates.test.cases;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
@@ -25,7 +26,6 @@ import teammates.common.datatransfer.CoordData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.UserData;
-import teammates.logic.BuildProperties;
 import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
 
@@ -56,8 +56,11 @@ public class BaseTestCase {
 	 */
 	static {
 		String buildFile = System.getProperty("user.dir")
-				+ "\\src\\main\\webapp\\WEB-INF\\classes\\"
+				+ "/src/main/webapp/WEB-INF/classes/"
 				+ "build.properties";
+		
+		buildFile = buildFile.replace("/", File.separator);
+		
 		Properties buildProperties = new Properties();
 		try {
 			buildProperties.load(new FileInputStream(buildFile));
@@ -66,7 +69,7 @@ public class BaseTestCase {
 			throw new RuntimeException("Could not initialize Config object"
 					+ Common.stackTraceToString(e));
 		}
-		BuildProperties.inst(buildProperties);
+		Common.readProperties(buildProperties);
 	}
 
 	LocalServiceTestHelper helper;

@@ -79,13 +79,13 @@ public class AccountsStorage {
 		getPM().flush();
 		
 		coordinator = getCoordinator(googleID);
-		int tries = 0;
-		while ((coordinator == null) && (tries < Common.EXISTENCE_CHECKING_MAX_RETRIES)){
+		int elapsedTime = 0;
+		while ((coordinator == null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
 			coordinator = getCoordinator(googleID);
-			tries++;
+			elapsedTime += Common.WAIT_DURATION;
 		}
-		if(tries==Common.EXISTENCE_CHECKING_MAX_RETRIES){
+		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
 			log.severe("Operation did not persist in time: addCoord->"+googleID);
 		}
 	}
@@ -272,14 +272,14 @@ public class AccountsStorage {
 		getPM().deletePersistent(coord);
 		getPM().flush();
 		
-		int tries = 0;
+		int elapsedTime = 0;
 		coord = getCoordinator(coordId);
-		while ((coord != null) && (tries < Common.EXISTENCE_CHECKING_MAX_RETRIES)){
+		while ((coord != null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
 			coord = getCoordinator(coordId);
-			tries++;
+			elapsedTime += Common.WAIT_DURATION;
 		}
-		if(tries==Common.EXISTENCE_CHECKING_MAX_RETRIES){
+		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
 			log.severe("Operation did not persist in time: deleteCoord->"+coordId);
 		}
 		
