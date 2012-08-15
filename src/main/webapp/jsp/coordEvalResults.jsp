@@ -203,7 +203,7 @@
 												<%
 													if(byReviewer){
 												%>
-													<a style="float: right; font-weight: normal;" target="_blank"
+													<a style="font-weight: normal; float: right;" target="_blank"
 															href="<%=helper.getCoordEvaluationSubmissionEditLink(student.course, helper.evaluation.name, student.email)%>"
 															onclick="return openChildWindow(this.href)">
 															Edit</a>

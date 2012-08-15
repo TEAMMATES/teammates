@@ -74,7 +74,6 @@ public class HtmlHelper {
 					+ htmlString
 					+ "</html>";
 		}
-		htmlString = htmlString.replaceAll("<textarea(.*)>(.*)</textarea>", "<textarea$1></textarea>");
 	
 		return htmlString;
 	}
