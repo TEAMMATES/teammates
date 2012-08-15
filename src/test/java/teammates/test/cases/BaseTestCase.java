@@ -56,7 +56,7 @@ public class BaseTestCase {
 	 */
 	static {
 		String buildFile = System.getProperty("user.dir")
-				+ "/src/main/webapp/WEB-INF/classes/"
+				+ "/src/main/resources/"
 				+ "build.properties";
 		
 		buildFile = buildFile.replace("/", File.separator);
