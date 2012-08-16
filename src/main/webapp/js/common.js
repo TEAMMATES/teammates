@@ -232,10 +232,11 @@ function setStatusMessage(message, error) {
 		return;
 	}
 	$(DIV_STATUS_MESSAGE).html(message);
+	$(DIV_STATUS_MESSAGE).show();
 	if(error===true){
 		$(DIV_STATUS_MESSAGE).attr("style", "display: block; background-color: rgb(255, 153, 153);");
 	} else {
-		$(DIV_STATUS_MESSAGE).css("background-color","transparent");
+		$(DIV_STATUS_MESSAGE).attr("style", "display: block; background-color: transparent;");
 	}
 }
 
@@ -245,7 +246,7 @@ function setStatusMessage(message, error) {
 function clearStatusMessage() {
 	$(DIV_STATUS_MESSAGE).html("");
 	$(DIV_STATUS_MESSAGE).css("background","");
-	$(DIV_STATUS_MESSAGE).hide();
+	$(DIV_STATUS_MESSAGE).attr("style", "display: none;");
 }
 
 

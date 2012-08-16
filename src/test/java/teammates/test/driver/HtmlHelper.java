@@ -41,7 +41,6 @@ public class HtmlHelper {
 		html1 = preProcessHTML(html1);
 		html1 = cleanupHtml(html1);
 		html2 = preProcessHTML(html2);
-		//System.out.println(html2);
 		html2 = cleanupHtml(html2);
 		assertEquals(html1,html2);
 	}
@@ -77,6 +76,7 @@ public class HtmlHelper {
 	
 		return htmlString;
 	}
+
 
 	private static void removeWhiteSpace(Node node) {
 		NodeList nodes = node.getChildNodes();
