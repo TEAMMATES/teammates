@@ -2903,4 +2903,10 @@ public class BrowserInstance {
 			assertTrue(false);
 		}
 	}
+
+	public void checkCloseWindowAlertIfAny() {
+		if(driver instanceof InternetExplorerDriver){
+			driver.switchTo().alert().accept();
+		}
+	}
 }

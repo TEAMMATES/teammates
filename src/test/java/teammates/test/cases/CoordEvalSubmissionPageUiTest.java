@@ -125,6 +125,7 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 		String emilyEmail = scn.students.get("Emily").email;
 		
 		print("Checking status message");
+		bi.checkCloseWindowAlertIfAny();
 		bi.getSelenium().selectWindow("null");
 		bi.waitForStatusMessage(String.format(Common.MESSAGE_COORD_EVALUATION_SUBMISSION_RECEIVED,scn.students.get("Charlie").name,eval.name,eval.course).replace("<br />", "\n"));
 
