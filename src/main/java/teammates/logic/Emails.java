@@ -1,11 +1,13 @@
 package teammates.logic;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -35,11 +37,10 @@ public class Emails {
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED = "TEAMMATES: Peer evaluation published";
 	public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: Invitation to join course";
 
-	private static final String SEND_EMAIL_ADDRESS_FORMAT = "noreply@%s.appspotmail.com";
+	private static final String SEND_EMAIL_ADDRESS_FORMAT 	= "noreply@%s.appspotmail.com";
+	private static final String SUPPORT_EMAIL_ADDRESS		= "teammates@comp.nus.edu.sg";
 	public Emails() {
-		//Get current appId
-		String appId = SystemProperty.applicationId.get();
-		from = String.format(SEND_EMAIL_ADDRESS_FORMAT, appId);
+		from = String.format(SEND_EMAIL_ADDRESS_FORMAT, Common.APP_ID);
 		props = new Properties();
 	}
 
@@ -64,9 +65,7 @@ public class Emails {
 
 		String to = "damith@gmail.com";
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
 		message.setFrom(new InternetAddress(from));
-		message.setReplyTo(null);
 		String subject = "Teammates Testing";
 		message.setSubject(subject);
 		message.setText("This is a testing email");
@@ -257,6 +256,7 @@ public class Emails {
 				s.email));
 	
 		message.setFrom(new InternetAddress(from));
+		message.setReplyTo(new Address[] {new InternetAddress(SUPPORT_EMAIL_ADDRESS)});
 		return message;
 	}
 

@@ -35,6 +35,7 @@ public class EmailsTest extends BaseTestCase {
 	private LocalServiceTestHelper helper;
 	private LocalMailServiceTestConfig localMailService;
 
+	private static final String SEND_EMAIL_ADDRESS_FORMAT = "noreply@%s.appspotmail.com";
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
@@ -98,9 +99,9 @@ public class EmailsTest extends BaseTestCase {
 		// check receiver
 		assertEquals(s.email, email.getAllRecipients()[0].toString());
 
-		// skip checking sender as for local testing, the applicationId will be null
-//		assertEquals(Common.TEAMMATES_APP_ADMIN_EMAIL,
-//				email.getFrom()[0].toString());
+		// check sender
+		assertEquals(String.format(SEND_EMAIL_ADDRESS_FORMAT, Common.APP_ID),
+				email.getFrom()[0].toString());
 
 		// check subject
 		assertEquals(
@@ -206,9 +207,9 @@ public class EmailsTest extends BaseTestCase {
 		// check receiver
 		assertEquals(s.email, email.getAllRecipients()[0].toString());
 
-		// skip checking sender as for local testing, the applicationId will be null
-//		assertEquals(Common.TEAMMATES_APP_ADMIN_EMAIL,
-//				email.getFrom()[0].toString());
+		// check sender
+		assertEquals(String.format(SEND_EMAIL_ADDRESS_FORMAT, Common.APP_ID),
+				email.getFrom()[0].toString());
 
 		// check subject
 		assertEquals(

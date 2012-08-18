@@ -20,6 +20,7 @@ import teammates.ui.controller.Helper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.appengine.api.utils.SystemProperty;
 
 /**
  * Class that stores variables and methods that are widely used across classes
@@ -361,7 +362,7 @@ public class Common {
 	 * Build Properties Params
 	 */
 	private static final BuildProperties BUILD_PROPERTIES = BuildProperties.inst();
-	public static String TEAMMATES_APP_ADMIN_EMAIL = BUILD_PROPERTIES.getAppAdminEmail();
+	public static String APP_ID = SystemProperty.applicationId.get();;
 	public static String TEAMMATES_APP_URL = BUILD_PROPERTIES.getAppUrl();
 
 	/**
@@ -776,7 +777,7 @@ public class Common {
 	public static void readProperties(Properties p) {
 		BUILD_PROPERTIES.readProperties(p);
 
-		TEAMMATES_APP_ADMIN_EMAIL = BUILD_PROPERTIES.getAppAdminEmail();
+		APP_ID = SystemProperty.applicationId.get();
 		TEAMMATES_APP_URL = BUILD_PROPERTIES.getAppUrl();
 		BACKDOOR_KEY = BUILD_PROPERTIES.getAppBackdoorKey();
 		PERSISTENCE_CHECK_DURATION = BUILD_PROPERTIES.getAppPersistenceCheckduration();
