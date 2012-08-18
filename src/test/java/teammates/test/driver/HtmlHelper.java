@@ -38,10 +38,12 @@ public class HtmlHelper {
 	 */
 	public static void assertSameHtml(String html1, String html2)
 			throws SAXException, IOException, TransformerException {
-		html1 = preProcessHTML(html1);
+		html1 = preProcessHtml(html1);
 		html1 = cleanupHtml(html1);
-		html2 = preProcessHTML(html2);
+		html1 = postProcessHtml(html1);
+		html2 = preProcessHtml(html2);
 		html2 = cleanupHtml(html2);
+		html2 = postProcessHtml(html2);
 		assertEquals(html1,html2);
 	}
 
@@ -60,12 +62,12 @@ public class HtmlHelper {
 		return nodeToString(node);
 	}
 	
-	public static String preProcessHTML(String htmlString){
+	public static String preProcessHtml(String htmlString){
 
-		//TODO: Find another less hackish method(this is required for chrome selenium testing to work)
+		//Required for chrome selenium testing
 		htmlString = htmlString.replaceFirst("<html>", "<html xmlns=\"http://www.w3.org/1999/xhtml\">");
 		
-		//required for IE selenium testing to work
+		//Required for IE selenium testing
 		if (htmlString.indexOf("<!DOCTYPE") < 0){
 			htmlString = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" "
 					+"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"
@@ -74,6 +76,13 @@ public class HtmlHelper {
 					+ "</html>";
 		}
 	
+		return htmlString;
+	}
+	
+	public static String postProcessHtml(String htmlString){
+		//Required for IE selenium testing
+		htmlString = htmlString.replaceAll("<DIV id=\"statusMessage\" style=\"display: none;\">&nbsp;</DIV>", "<DIV id=\"statusMessage\" style=\"display: none;\"/>");
+		
 		return htmlString;
 	}
 

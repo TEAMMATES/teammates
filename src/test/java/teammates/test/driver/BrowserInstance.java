@@ -2795,8 +2795,9 @@ public class BrowserInstance {
 	private String getCleanPageSource() throws Exception {
 		String pageSrc = getCurrentPageSource();
 		
-		pageSrc = HtmlHelper.preProcessHTML(pageSrc);
+		pageSrc = HtmlHelper.preProcessHtml(pageSrc);
 		pageSrc = HtmlHelper.cleanupHtml(pageSrc);
+		pageSrc = HtmlHelper.postProcessHtml(pageSrc);
 		return pageSrc;
 	}
 
