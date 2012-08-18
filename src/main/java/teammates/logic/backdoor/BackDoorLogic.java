@@ -55,7 +55,7 @@ public class BackDoorLogic extends Logic{
 		HashMap<String, CoordData> coords = dataBundle.coords;
 		for (CoordData coord : coords.values()) {
 			log.fine("API Servlet adding coord :" + coord.id);
-			super.createCoord(coord.id, coord.name, coord.email);
+			super.createCoord(coord.getId(), coord.getName(), coord.getEmail());
 		}
 
 		HashMap<String, CourseData> courses = dataBundle.courses;
