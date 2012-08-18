@@ -350,7 +350,7 @@ public class Logic {
 		Common.validateCoordName(coordName);
 		Common.validateGoogleId(coordID);
 
-		AccountsStorage.inst().getManager().addCoordinator(coordID, coordName, coordEmail);
+		AccountsStorage.inst().getDB().addCoordinator(coordID, coordName, coordEmail);
 	}
 
 	/**
@@ -362,7 +362,7 @@ public class Logic {
 
 		verifyLoggedInUserAndAbove();
 
-		CoordData coord = AccountsStorage.inst().getManager().getCoordinator(coordID);
+		CoordData coord = AccountsStorage.inst().getDB().getCoordinator(coordID);
 
 		return coord;
 	}
@@ -389,7 +389,7 @@ public class Logic {
 		for (Course course : coordCourseList) {
 			deleteCourse(course.getID());
 		}
-		AccountsStorage.inst().getManager().deleteCoord(coordId);
+		AccountsStorage.inst().getDB().deleteCoord(coordId);
 	}
 
 	/**
@@ -781,7 +781,7 @@ public class Logic {
 
 		verifyRegisteredUserOrAbove();
 
-		StudentData studentData = AccountsStorage.inst().getManager().getStudent(courseId, email);
+		StudentData studentData = AccountsStorage.inst().getDB().getStudent(courseId, email);
 		return studentData;
 	}
 
@@ -889,7 +889,7 @@ public class Logic {
 
 		verifySameStudentOrAdmin(googleId);
 
-		List<StudentData> students = AccountsStorage.inst().getManager().getStudentsWithID(googleId);
+		List<StudentData> students = AccountsStorage.inst().getDB().getStudentsWithID(googleId);
 		ArrayList<StudentData> returnList = new ArrayList<StudentData>();
 		for (StudentData s : students) {
 			returnList.add(s);
@@ -948,7 +948,7 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(courseId);
 
-		StudentData studentData = AccountsStorage.inst().getManager().getStudent(courseId, email);
+		StudentData studentData = AccountsStorage.inst().getDB().getStudent(courseId, email);
 
 		if (studentData == null) {
 			return null;

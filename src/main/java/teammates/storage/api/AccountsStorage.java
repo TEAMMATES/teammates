@@ -23,7 +23,7 @@ public class AccountsStorage {
 	private static AccountsStorage instance = null;
 	private static final Logger log = Common.getLogger();
 	
-	private static final AccountsDB accountsManager = new AccountsDB();
+	private static final AccountsDB accountsDB = new AccountsDB();
 
 	/**
 	 * Constructs an Accounts object. Initialises userService for Google User
@@ -60,7 +60,7 @@ public class AccountsStorage {
 	 * @return the name of the coordinator
 	 */
 	public String getCoordinatorName(String googleID) {
-		CoordData coordinator = accountsManager.getCoordinator(googleID);
+		CoordData coordinator = accountsDB.getCoordinator(googleID);
 
 		return coordinator.getName();
 	}
@@ -155,18 +155,18 @@ public class AccountsStorage {
 		if (user == null)
 			return false;
 		
-		return accountsManager.getCoordinator(user.getNickname()) != null;
+		return accountsDB.getCoordinator(user.getNickname()) != null;
 		
 	}
 	
 	public boolean isStudent(String googleId) {
-		return accountsManager.getStudentsWithID(googleId).size()!=0;
+		return accountsDB.getStudentsWithID(googleId).size()!=0;
 	}
 	
 
 	
 	public void verifyStudentExists(String courseId, String studentEmail) throws EntityDoesNotExistException {
-		if(accountsManager.getStudent(courseId, studentEmail)==null){
+		if(accountsDB.getStudent(courseId, studentEmail)==null){
 			throw new EntityDoesNotExistException("The student "+studentEmail+ " does not exist in course "+courseId);
 		}
 		
@@ -174,8 +174,8 @@ public class AccountsStorage {
 	
 	
 	
-	public AccountsDB getManager() {
-		return accountsManager;
+	public AccountsDB getDB() {
+		return accountsDB;
 	}
 	
 	
