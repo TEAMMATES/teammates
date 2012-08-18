@@ -12,6 +12,9 @@ test('setStatusMessage(message,error)', function(){
 	$("body").append('<div id="statusMessage"></div>');
 	var message = "Status Message";
 	
+	//('background-color') == "rgba(0, 0, 0, 0)" is for chrome browser
+	//('background-color') == "transparent" is for firefox browser
+	
 	setStatusMessage(message, false);
 	equal($("#statusMessage").html(), message, "Normal status message");
 	ok(($("#statusMessage").css('background-color') == "rgba(0, 0, 0, 0)" || $("#statusMessage").css('background-color') == "transparent"), "No background");

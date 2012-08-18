@@ -26,7 +26,6 @@ import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.StudentData;
-import teammates.logic.BuildProperties;
 import teammates.logic.Emails;
 
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
@@ -92,7 +91,7 @@ public class EmailsTest extends BaseTestCase {
 
 		______TS("generic template, student yet to join");
 
-		String template = BuildProperties.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_;
+		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
 		MimeMessage email = new Emails().generateEvaluationEmailBase(c, e, s,
 				template);
 
@@ -100,7 +99,7 @@ public class EmailsTest extends BaseTestCase {
 		assertEquals(s.email, email.getAllRecipients()[0].toString());
 
 		// check sender
-		assertEquals(BuildProperties.inst().TEAMMATES_APP_ADMIN_EMAIL,
+		assertEquals(Common.TEAMMATES_APP_ADMIN_EMAIL,
 				email.getFrom()[0].toString());
 
 		// check subject
@@ -109,11 +108,11 @@ public class EmailsTest extends BaseTestCase {
 				email.getSubject());
 
 		// check email body
-		String joinUrl = BuildProperties.inst().TEAMMATES_APP_URL
+		String joinUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_JOIN_COURSE;
 		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, s.key);
 
-		String submitUrl = BuildProperties.inst().TEAMMATES_APP_URL
+		String submitUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
 		submitUrl = Common.addParamToUrl(submitUrl, Common.PARAM_COURSE_ID, c.id);
 		submitUrl = Common.addParamToUrl(submitUrl, Common.PARAM_EVALUATION_NAME,
@@ -133,7 +132,7 @@ public class EmailsTest extends BaseTestCase {
 
 		______TS("published template, student yet to join");
 
-		template = BuildProperties.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
+		template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
 		email = new Emails().generateEvaluationEmailBase(c, e, s, template);
 
 		emailBody = email.getContent().toString();
@@ -141,7 +140,7 @@ public class EmailsTest extends BaseTestCase {
 		assertTrue(emailBody.contains(s.key));
 		assertTrue(!emailBody.contains(submitUrl));
 
-		String reportUrl = BuildProperties.inst().TEAMMATES_APP_URL
+		String reportUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_EVAL_RESULTS;
 		reportUrl = Common.addParamToUrl(reportUrl, Common.PARAM_COURSE_ID, c.id);
 		reportUrl = Common.addParamToUrl(reportUrl, Common.PARAM_EVALUATION_NAME,
@@ -158,7 +157,7 @@ public class EmailsTest extends BaseTestCase {
 		______TS("generic template, student joined");
 
 		s.id = "student1id"; // set student id to make him "joined"
-		template = BuildProperties.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_;
+		template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
 
 		email = new Emails().generateEvaluationEmailBase(c, e, s, template);
 
@@ -173,7 +172,7 @@ public class EmailsTest extends BaseTestCase {
 
 		______TS("published template, student joined");
 
-		template = BuildProperties.inst().STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
+		template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
 		email = new Emails().generateEvaluationEmailBase(c, e, s, template);
 
 		emailBody = email.getContent().toString();
@@ -208,7 +207,7 @@ public class EmailsTest extends BaseTestCase {
 		assertEquals(s.email, email.getAllRecipients()[0].toString());
 
 		// check sender
-		assertEquals(BuildProperties.inst().TEAMMATES_APP_ADMIN_EMAIL,
+		assertEquals(Common.TEAMMATES_APP_ADMIN_EMAIL,
 				email.getFrom()[0].toString());
 
 		// check subject
@@ -217,7 +216,7 @@ public class EmailsTest extends BaseTestCase {
 				email.getSubject());
 
 		// check email body
-		String joinUrl = BuildProperties.inst().TEAMMATES_APP_URL
+		String joinUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_JOIN_COURSE;
 		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, s.key);
 
