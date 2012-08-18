@@ -69,10 +69,6 @@ public class BuildProperties {
 	 * Get property value from props
 	 * A different getter for each property to handle various return types.
 	 */
-	@Deprecated
-	public String getAppAdminEmail() {
-		return props.getProperty("app.admin.email");
-	}
 	
 	public String getAppUrl() {
 		return props.getProperty("app.url");
