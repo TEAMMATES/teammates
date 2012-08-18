@@ -14,6 +14,8 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.google.appengine.api.utils.SystemProperty;
+
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
@@ -33,9 +35,11 @@ public class Emails {
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED = "TEAMMATES: Peer evaluation published";
 	public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: Invitation to join course";
 
-
+	private static final String SEND_EMAIL_ADDRESS_FORMAT = "noreply@%s.appspotmail.com";
 	public Emails() {
-		from = Common.TEAMMATES_APP_ADMIN_EMAIL;
+		//Get current appId
+		String appId = SystemProperty.applicationId.get();
+		from = String.format(SEND_EMAIL_ADDRESS_FORMAT, appId);
 		props = new Properties();
 	}
 
@@ -62,6 +66,7 @@ public class Emails {
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
 		message.setFrom(new InternetAddress(from));
+		message.setReplyTo(null);
 		String subject = "Teammates Testing";
 		message.setSubject(subject);
 		message.setText("This is a testing email");
