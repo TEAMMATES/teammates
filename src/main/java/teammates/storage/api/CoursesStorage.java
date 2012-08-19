@@ -662,7 +662,7 @@ public class CoursesStorage {
 		if(alreadyHasGoogleId(student)){
 			if(student.getID().equals(googleID)){
 				throw new JoinCourseException(Common.ERRORCODE_ALREADY_JOINED,
-						googleID + " is already joined this course");
+						googleID + " has already joined this course");
 			}else {
 				throw new JoinCourseException(
 						Common.ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER, googleID

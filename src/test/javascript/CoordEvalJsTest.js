@@ -159,12 +159,12 @@ test('formatDigit(num)', function(){
 
 test('convertDateToDDMMYYYY(date)', function(){
 	var testdate1 = new Date(2012, 6, 21, 14, 18, 0);	
-	equal(convertDateToDDMMYYYY(testdate1), "21/07/2012", "Date converted to DDMMYYYY correctly");
+	equal(convertDateToDDMMYYYY(testdate1), "21/07/2012", "Date conversion to DDMMYYYY");
 });
 
 
 test('convertDateToHHMM(date)', function(){
 	var testdate1 = new Date(2012, 6, 21, 14, 18, 0);	
-	equal(convertDateToHHMM(testdate1), "1418", "Date converted to HHMM correctly");
+	equal(convertDateToHHMM(testdate1), "1418", "Date conversion to HHMM");
 });
 
