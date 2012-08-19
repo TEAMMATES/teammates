@@ -2096,7 +2096,6 @@ public class BrowserInstance {
 	 * @param points
 	 */
 	public void setSubmissionPoint(int rowID, String points) {
-		//selectDropdownByValue(By.id(Common.PARAM_POINTS + rowID), points);
 		waitForElementPresent(By.id(Common.PARAM_POINTS + rowID));
 		selenium.select("id=" + Common.PARAM_POINTS + rowID, "value="+points);
 	}
@@ -2784,7 +2783,7 @@ public class BrowserInstance {
 			throws Exception {
 		String inputStr = Common.readFile(filepath).replace("{version}",
 				TestProperties.inst().TEAMMATES_VERSION);
-		inputStr = HtmlHelper.cleanupHtml(inputStr);
+		inputStr = HtmlHelper.parseHtml(inputStr);
 		return inputStr;
 	}
 
@@ -2795,9 +2794,7 @@ public class BrowserInstance {
 	private String getCleanPageSource() throws Exception {
 		String pageSrc = getCurrentPageSource();
 		
-		pageSrc = HtmlHelper.preProcessHtml(pageSrc);
-		pageSrc = HtmlHelper.cleanupHtml(pageSrc);
-		pageSrc = HtmlHelper.postProcessHtml(pageSrc);
+		pageSrc = HtmlHelper.parseHtml(pageSrc);
 		return pageSrc;
 	}
 
@@ -2905,7 +2902,7 @@ public class BrowserInstance {
 		}
 	}
 
-	public void checkCloseWindowAlertIfAny() {
+	public void dismissCloseWindowAlertIfAny() {
 		if(driver instanceof InternetExplorerDriver){
 			driver.switchTo().alert().accept();
 		}

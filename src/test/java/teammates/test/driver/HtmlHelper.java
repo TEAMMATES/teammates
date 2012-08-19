@@ -38,13 +38,17 @@ public class HtmlHelper {
 	 */
 	public static void assertSameHtml(String html1, String html2)
 			throws SAXException, IOException, TransformerException {
-		html1 = preProcessHtml(html1);
-		html1 = cleanupHtml(html1);
-		html1 = postProcessHtml(html1);
-		html2 = preProcessHtml(html2);
-		html2 = cleanupHtml(html2);
-		html2 = postProcessHtml(html2);
+		html1 = parseHtml(html1);
+		html2 = parseHtml(html2);
 		assertEquals(html1,html2);
+	}
+	
+	public static String parseHtml(String htmlString) throws TransformerException, SAXException, IOException{
+		htmlString = preProcessHtml(htmlString);
+		htmlString = cleanupHtml(htmlString);
+		htmlString = postProcessHtml(htmlString);
+		
+		return htmlString;
 	}
 
 	/**
@@ -62,7 +66,7 @@ public class HtmlHelper {
 		return nodeToString(node);
 	}
 	
-	public static String preProcessHtml(String htmlString){
+	private static String preProcessHtml(String htmlString){
 
 		//Required for chrome selenium testing
 		htmlString = htmlString.replaceFirst("<html>", "<html xmlns=\"http://www.w3.org/1999/xhtml\">");
@@ -79,7 +83,7 @@ public class HtmlHelper {
 		return htmlString;
 	}
 	
-	public static String postProcessHtml(String htmlString){
+	private static String postProcessHtml(String htmlString){
 		//Required for IE selenium testing
 		htmlString = htmlString.replaceAll("<DIV id=\"statusMessage\" style=\"display: none;\">&nbsp;</DIV>", "<DIV id=\"statusMessage\" style=\"display: none;\"/>");
 		
