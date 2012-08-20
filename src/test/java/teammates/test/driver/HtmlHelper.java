@@ -38,11 +38,17 @@ public class HtmlHelper {
 	 */
 	public static void assertSameHtml(String html1, String html2)
 			throws SAXException, IOException, TransformerException {
-		html1 = preProcessHTML(html1);
-		html1 = cleanupHtml(html1);
-		html2 = preProcessHTML(html2);
-		html2 = cleanupHtml(html2);
+		html1 = parseHtml(html1);
+		html2 = parseHtml(html2);
 		assertEquals(html1,html2);
+	}
+	
+	public static String parseHtml(String htmlString) throws TransformerException, SAXException, IOException{
+		htmlString = preProcessHtml(htmlString);
+		htmlString = cleanupHtml(htmlString);
+		htmlString = postProcessHtml(htmlString);
+		
+		return htmlString;
 	}
 
 	/**
@@ -60,14 +66,30 @@ public class HtmlHelper {
 		return nodeToString(node);
 	}
 	
-	public static String preProcessHTML(String htmlString){
+	private static String preProcessHtml(String htmlString){
 
-		//TODO: Find another less hackish method(this is required for chrome selenium testing to work)
+		//Required for chrome selenium testing
 		htmlString = htmlString.replaceFirst("<html>", "<html xmlns=\"http://www.w3.org/1999/xhtml\">");
-		htmlString = htmlString.replaceAll("display: none; ", "display: none;");
-		htmlString = htmlString.replaceAll("display: block; ", "display: block;");
+		
+		//Required for IE selenium testing
+		if (htmlString.indexOf("<!DOCTYPE") < 0){
+			htmlString = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" "
+					+"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"
+					+ "<html xmlns=\"http://www.w3.org/1999/xhtml\">"
+					+ htmlString
+					+ "</html>";
+		}
+	
 		return htmlString;
 	}
+	
+	private static String postProcessHtml(String htmlString){
+		//Required for IE selenium testing
+		htmlString = htmlString.replaceAll("<DIV id=\"statusMessage\" style=\"display: none;\">&nbsp;</DIV>", "<DIV id=\"statusMessage\" style=\"display: none;\"/>");
+		
+		return htmlString;
+	}
+
 
 	private static void removeWhiteSpace(Node node) {
 		NodeList nodes = node.getChildNodes();
