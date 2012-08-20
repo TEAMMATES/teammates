@@ -51,7 +51,7 @@
 			<%
 				for(boolean byReviewee = true, repeat=true; repeat; repeat = byReviewee, byReviewee=false){
 			%>
-				<h2 style="text-align:center"><%=CoordEvalSubmissionViewHelper.escapeForHTML(helper.student.name) + (byReviewee ? "'s Result" : "'s Submission")%></h2>
+				<h2 style="text-align: center;"><%=CoordEvalSubmissionViewHelper.escapeForHTML(helper.student.name) + (byReviewee ? "'s Result" : "'s Submission")%></h2>
 				<table class="result_table">
 					<thead><tr>
 						<th colspan="2" width="10%">

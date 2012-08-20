@@ -232,12 +232,12 @@ function setStatusMessage(message, error) {
 		return;
 	}
 	$(DIV_STATUS_MESSAGE).html(message);
-	if(error===true){
-		$(DIV_STATUS_MESSAGE).css("background-color","#FF9999");
-	} else {
-		$(DIV_STATUS_MESSAGE).css("background-color","transparent");
-	}
 	$(DIV_STATUS_MESSAGE).show();
+	if(error===true){
+		$(DIV_STATUS_MESSAGE).attr("style", "display: block; background-color: rgb(255, 153, 153);");
+	} else {
+		$(DIV_STATUS_MESSAGE).attr("style", "display: block; background-color: transparent;");
+	}
 }
 
 /**
@@ -246,6 +246,30 @@ function setStatusMessage(message, error) {
 function clearStatusMessage() {
 	$(DIV_STATUS_MESSAGE).html("");
 	$(DIV_STATUS_MESSAGE).css("background","");
-	$(DIV_STATUS_MESSAGE).hide();
+	$(DIV_STATUS_MESSAGE).attr("style", "display: none;");
 }
 
+
+
+/**
+ * Function to check whether the evaluation submission edit/submit form has
+ * been fully filled (no unfilled textarea and dropdown box)
+ * @returns {Boolean}
+ */
+function checkEvaluationForm(){
+	points = $("select");
+	comments = $("textarea");
+	for(var i=0; i<points.length; i++){
+		if(points[i].value==''){
+			setStatusMessage("Please give contribution scale to everyone",true);
+			return false;
+		}
+	}
+	for(var i=0; i<comments.length; i++){
+		if(comments[i].value==''){
+			setStatusMessage("Please fill in all fields",true);
+			return false;
+		}
+	}
+	return true;
+}

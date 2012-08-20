@@ -41,7 +41,7 @@
 					<table class="headerform">
 						<tr>
 							<td class="attribute" >Course ID:</td>
-							<td style="vertical-align:middle">
+							<td style="vertical-align: middle;">
 								<input type="hidden" name="<%= Common.PARAM_COURSE_ID %>" value="<%= helper.submittedEval.course %>" />
 								<%= helper.submittedEval.course %>
 							</td>
@@ -64,7 +64,7 @@
 						</tr>
 						<tr>
 							<td class="attribute" >Evaluation name:</td>
-							<td style="vertical-align:middle">
+							<td style="vertical-align: middle;">
 								<input type="hidden" name="<%= Common.PARAM_EVALUATION_NAME %>" value="<%=CoordEvalEditHelper.escapeForHTML(helper.submittedEval.name)%>" />
 								<%=CoordEvalEditHelper.escapeForHTML(helper.submittedEval.name)%>
 							</td>

@@ -10,8 +10,8 @@
  * 		</ul>
  */
 function showReport(id){
-	$(".evaluation_result").hide();
-	$("#"+id).show();
+	$(".evaluation_result").attr("style", "display: none;");
+	$("#"+id).attr("style", "display: block;");
 }
 
 

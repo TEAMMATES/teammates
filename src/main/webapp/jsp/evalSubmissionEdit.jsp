@@ -19,7 +19,7 @@
 							int idx = 0;
 											for(SubmissionData sub: helper.submissions){
 						%>
-							<tr style="display:none">
+							<tr style="display: none;">
 								<td>
 		 							<input type="text" value="<%=sub.reviewee%>"
 		 									name="<%=Common.PARAM_TO_EMAIL%>"
@@ -34,7 +34,7 @@
 		 					<tr>
 		 						<td class="lhs">Estimated contribution:</td>
 		 						<td>
-		 							<select style="width: 150px"
+		 							<select style="width: 150px;"
 		 									name="<%=Common.PARAM_POINTS%>"
 		 									id="<%=Common.PARAM_POINTS+idx%>">
 		 								<%=helper.getEvaluationOptions(sub)%>

@@ -28,6 +28,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CommandExecutor;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -2095,7 +2096,8 @@ public class BrowserInstance {
 	 * @param points
 	 */
 	public void setSubmissionPoint(int rowID, String points) {
-		selectDropdownByValue(By.id(Common.PARAM_POINTS + rowID), points);
+		waitForElementPresent(By.id(Common.PARAM_POINTS + rowID));
+		selenium.select("id=" + Common.PARAM_POINTS + rowID, "value="+points);
 	}
 
 	/**
@@ -2195,7 +2197,12 @@ public class BrowserInstance {
 			selenium = new WebDriverBackedSelenium(driver,
 					TestProperties.inst().TEAMMATES_URL);
 
-		} else {
+		} else if (TestProperties.inst().BROWSER.equals("iexplore")) {
+			System.out.println("Using Iexplore.");
+			setDriver(new InternetExplorerDriver());
+			selenium = new WebDriverBackedSelenium(driver,
+					TestProperties.inst().TEAMMATES_URL);
+		}else {
 
 			System.out.println("Using " + TestProperties.inst().BROWSER);
 
@@ -2776,7 +2783,7 @@ public class BrowserInstance {
 			throws Exception {
 		String inputStr = Common.readFile(filepath).replace("{version}",
 				TestProperties.inst().TEAMMATES_VERSION);
-		inputStr = HtmlHelper.cleanupHtml(inputStr);
+		inputStr = HtmlHelper.parseHtml(inputStr);
 		return inputStr;
 	}
 
@@ -2787,8 +2794,7 @@ public class BrowserInstance {
 	private String getCleanPageSource() throws Exception {
 		String pageSrc = getCurrentPageSource();
 		
-		pageSrc = HtmlHelper.preProcessHTML(pageSrc);
-		pageSrc = HtmlHelper.cleanupHtml(pageSrc);
+		pageSrc = HtmlHelper.parseHtml(pageSrc);
 		return pageSrc;
 	}
 
@@ -2893,6 +2899,12 @@ public class BrowserInstance {
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
 			assertTrue(false);
+		}
+	}
+
+	public void dismissCloseWindowAlertIfAny() {
+		if(driver instanceof InternetExplorerDriver){
+			driver.switchTo().alert().accept();
 		}
 	}
 }

@@ -13,8 +13,8 @@
 	<div id="frameTop">
 		<div id="frameTopWrapper">
 			<div id="logo">
-				<img alt="Teammates" height="47px" src="/images/teammateslogo.jpg"
-					width="150px" />
+				<img alt="Teammates" height="47" src="/images/teammateslogo.jpg"
+					width="150" />
 			</div>
 		</div>
 	</div>

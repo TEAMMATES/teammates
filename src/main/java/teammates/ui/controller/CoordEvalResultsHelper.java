@@ -146,7 +146,7 @@ public class CoordEvalResultsHelper extends Helper{
 	 * @return
 	 */
 	public static String printComments(SubmissionData sub, boolean enabled){
-		if(!enabled) return "<span style=\"font-style:italic\">Disabled</span>";
+		if(!enabled) return "<span style=\"font-style: italic;\">Disabled</span>";
 		if(sub.p2pFeedback==null || sub.p2pFeedback.getValue()==null
 				|| sub.p2pFeedback.getValue().equals("")){
 			return "N/A";

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<script>
-		if(typeof opener !== 'undefined'){
+		if(typeof opener != 'undefined' || typeof opener != null){
 			opener.setStatusMessage("<%= request.getParameter(Common.PARAM_STATUS_MESSAGE) %>",<%= request.getParameter(Common.PARAM_ERROR) %>);
 			top.close();
 			opener.scrollToTop();
