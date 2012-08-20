@@ -362,7 +362,7 @@ public class Common {
 	 * Build Properties Params
 	 */
 	private static final BuildProperties BUILD_PROPERTIES = BuildProperties.inst();
-	public static String APP_ID = SystemProperty.applicationId.get();;
+	public static String APP_ID = SystemProperty.applicationId.get();
 	public static String TEAMMATES_APP_URL = BUILD_PROPERTIES.getAppUrl();
 
 	/**

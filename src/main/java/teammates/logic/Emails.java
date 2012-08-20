@@ -1,7 +1,6 @@
 package teammates.logic;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -16,8 +15,6 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import com.google.appengine.api.utils.SystemProperty;
-
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
@@ -27,8 +24,6 @@ import teammates.common.datatransfer.StudentData;
  * Email handles all operations with regards to sending e-mails.
  */
 public class Emails {
-	private String from;
-	private Properties props;
 	private static Logger log = Common.getLogger();
 
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_OPENING = "TEAMMATES: Peer evaluation now open";
@@ -37,11 +32,12 @@ public class Emails {
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED = "TEAMMATES: Peer evaluation published";
 	public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: Invitation to join course";
 
-	private static final String SEND_EMAIL_ADDRESS_FORMAT 	= "noreply@%s.appspotmail.com";
-	private static final String SUPPORT_EMAIL_ADDRESS		= "teammates@comp.nus.edu.sg";
+	private static String from;
+	private static String replyTo;
 	public Emails() {
-		from = String.format(SEND_EMAIL_ADDRESS_FORMAT, Common.APP_ID);
-		props = new Properties();
+		Emails.from 	= "noreply@"+Common.APP_ID+".appspotmail.com";
+		Emails.replyTo 	= "teammates@comp.nus.edu.sg";
+		new Properties();
 	}
 
 
@@ -56,23 +52,6 @@ public class Emails {
 		messageInfo.append("|from=" + message.getFrom()[0].toString());
 		messageInfo.append("|subject=" + message.getSubject());
 		return messageInfo.toString();
-	}
-
-	@Deprecated
-	public void sendEmail() throws MessagingException {
-		Session session = Session.getDefaultInstance(props, null);
-		MimeMessage message = new MimeMessage(session);
-
-		String to = "damith@gmail.com";
-		message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-		message.setFrom(new InternetAddress(from));
-		String subject = "Teammates Testing";
-		message.setSubject(subject);
-		message.setText("This is a testing email");
-
-		log.fine("Sending email to " + to + "[" + subject + "]");
-
-		sendEmail(message);
 	}
 
 	public List<MimeMessage> generateEvaluationOpeningEmails(
@@ -256,7 +235,7 @@ public class Emails {
 				s.email));
 	
 		message.setFrom(new InternetAddress(from));
-		message.setReplyTo(new Address[] {new InternetAddress(SUPPORT_EMAIL_ADDRESS)});
+		message.setReplyTo(new Address[] {new InternetAddress(replyTo)});
 		return message;
 	}
 
