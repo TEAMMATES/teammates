@@ -32,12 +32,11 @@ public class Emails {
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED = "TEAMMATES: Peer evaluation published";
 	public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: Invitation to join course";
 
-	private static String from;
-	private static String replyTo;
+	private String from;
+	private String replyTo;
 	public Emails() {
-		Emails.from 	= "noreply@"+Common.APP_ID+".appspotmail.com";
-		Emails.replyTo 	= "teammates@comp.nus.edu.sg";
-		new Properties();
+		from 		= "noreply@"+Common.APP_ID+".appspotmail.com";
+		replyTo 	= "teammates@comp.nus.edu.sg";
 	}
 
 
