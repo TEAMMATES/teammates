@@ -36,3 +36,9 @@ test('clearStatusMessage()', function(){
 	equal($("#statusMessage").html(), "", "Status message cleared");
 	ok(($("#statusMessage").css('background-color') == "rgba(0, 0, 0, 0)" || $("#statusMessage").css('background-color') == "transparent"), "No background");
 });
+
+
+test('checkEvaluationForm()', function(){
+	// N/A, requires elements in the page
+	expect(0);
+});

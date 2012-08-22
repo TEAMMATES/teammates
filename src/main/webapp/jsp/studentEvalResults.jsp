@@ -35,7 +35,7 @@
 			</div>
 			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 			<div id="studentEvaluationResults">
-				<div style="text-align:right; font-style:italic; font-size: small; margin-bottom:15px">E = Equal Share</div>
+				<div style="text-align: right; font-size: small; font-style: italic; margin-bottom: 15px;">E = Equal Share</div>
 				<table class="result_table"><tr class="result_header"><td>Your Result:</td></tr></table>
 				<table class="result_studentform">
 					<tr>
@@ -118,7 +118,7 @@
 						<td><%=StudentEvalResultsHelper.escapeForHTML(helper.evalResult.getSelfEvaluation().p2pFeedback.getValue())%></td>
 					</tr>
 				</table>
-				<table id="dataform" style="margin:0; width:100%">
+				<table id="dataform" style="margin: 0px; width: 100%;">
 					<tr>
 						<th width="18%">Teammate Name</th>
 						<th>Points</th>

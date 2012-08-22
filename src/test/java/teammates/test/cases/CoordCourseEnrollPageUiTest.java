@@ -72,11 +72,14 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollPage.html");
 		
-		bi.fillString(By.id("enrollstudents"), "a|b|c|d"); //invalid email address
+		String errorString = "a|b|c|d";
+		bi.fillString(By.id("enrollstudents"), errorString); //invalid email address
 		bi.click(By.id("button_enroll"));
-
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollError.html");
+		assertContains(bi.getElementText(By.id("enrollstudents")), errorString);
 		
+		bi.fillString(By.id("enrollstudents"), "");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollError.html");
+
 		______TS("success case");
 		
 		bi.fillString(By.id("enrollstudents"), enrollString);

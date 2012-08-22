@@ -73,7 +73,7 @@
 				<form action="<%= helper.getCoordCourseEnrollLink(helper.courseID) %>" method="post">
 					<input type="hidden" name="courseid" value="<%= helper.courseID %>"></input>
 					<div id="coordinatorCourseEnrollment">
-						<img src="/images/enrollInstructions.png" style="width:1012,height:324" border="0" />
+						<img src="/images/enrollInstructions.png" width="1012" height="324" border="0" />
 						<p class="info" style="text-align: center;">Recommended maximum class size : 100 students</p>
 						<br />
 						<table class="headerform"><tr>

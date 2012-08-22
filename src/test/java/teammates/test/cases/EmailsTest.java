@@ -35,6 +35,8 @@ public class EmailsTest extends BaseTestCase {
 	private LocalServiceTestHelper helper;
 	private LocalMailServiceTestConfig localMailService;
 
+	private String from;
+	private String replyTo;
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
@@ -48,6 +50,9 @@ public class EmailsTest extends BaseTestCase {
 		localMailService = new LocalMailServiceTestConfig();
 		helper = new LocalServiceTestHelper(localMailService);
 		helper.setUp();
+		
+		from 		= "noreply@"+Common.APP_ID+".appspotmail.com";
+		replyTo 	= "teammates@comp.nus.edu.sg";
 	}
 
 	@Test
@@ -99,8 +104,10 @@ public class EmailsTest extends BaseTestCase {
 		assertEquals(s.email, email.getAllRecipients()[0].toString());
 
 		// check sender
-		assertEquals(Common.TEAMMATES_APP_ADMIN_EMAIL,
-				email.getFrom()[0].toString());
+		assertEquals(from, email.getFrom()[0].toString());
+		
+		//check replyTo
+		assertEquals(replyTo, email.getReplyTo()[0].toString());
 
 		// check subject
 		assertEquals(
@@ -207,9 +214,11 @@ public class EmailsTest extends BaseTestCase {
 		assertEquals(s.email, email.getAllRecipients()[0].toString());
 
 		// check sender
-		assertEquals(Common.TEAMMATES_APP_ADMIN_EMAIL,
-				email.getFrom()[0].toString());
-
+		assertEquals(from, email.getFrom()[0].toString());
+		
+		//check replyTo
+		assertEquals(replyTo, email.getReplyTo()[0].toString());
+		
 		// check subject
 		assertEquals(
 				"TEAMMATES: Invitation to join course [Course Name][Course ID: course-id]",
