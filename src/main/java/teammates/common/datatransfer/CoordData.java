@@ -12,10 +12,8 @@ import teammates.storage.entity.Coordinator;
  */
 public class CoordData extends UserData{
 	public HashMap<String, CourseData> courses;
-	//private String name;
-	//private String email;
-	public String name; 	// Used for test cases- Will change test cases in another issue
-	public String email;	// As above
+	public String name; 	
+	public String email;
 	
 	public CoordData(String id, String name, String email){
 		this();
@@ -33,17 +31,5 @@ public class CoordData extends UserData{
 	
 	public CoordData(){
 		isCoord = true;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public String getId() {
-		return id;
-	}
-	
-	public String getEmail() {
-		return email;
 	}
 }

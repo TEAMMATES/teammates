@@ -32,7 +32,6 @@ import teammates.logic.TeamEvalResult;
 import teammates.storage.api.AccountsStorage;
 import teammates.storage.api.CoursesStorage;
 import teammates.storage.api.EvaluationsStorage;
-import teammates.storage.entity.Coordinator; //TODO: remove dependency to entity package <-- No longer dependent
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Evaluation;
 import teammates.storage.entity.Student;
@@ -101,7 +100,7 @@ public class Logic {
 		if (accounts.isAdministrator()) {
 			userData.isAdmin = true;
 		}
-		if (accounts.isCoordinator()) {
+		if (accounts.isCoord()) {
 			userData.isCoord = true;
 		}
 
@@ -350,7 +349,7 @@ public class Logic {
 		Common.validateCoordName(coordName);
 		Common.validateGoogleId(coordID);
 
-		AccountsStorage.inst().getDB().addCoordinator(coordID, coordName, coordEmail);
+		AccountsStorage.inst().getDB().addCoord(coordID, coordName, coordEmail);
 	}
 
 	/**
@@ -362,7 +361,7 @@ public class Logic {
 
 		verifyLoggedInUserAndAbove();
 
-		CoordData coord = AccountsStorage.inst().getDB().getCoordinator(coordID);
+		CoordData coord = AccountsStorage.inst().getDB().getCoord(coordID);
 
 		return coord;
 	}

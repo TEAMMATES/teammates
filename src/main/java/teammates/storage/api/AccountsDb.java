@@ -18,7 +18,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
  * Manager for handling basic CRUD Operations only
  *
  */
-public class AccountsDB {
+public class AccountsDb {
 	
 	private static final Logger log = Common.getLogger();
 	
@@ -43,9 +43,9 @@ public class AccountsDB {
 	 * 
 	 * 
 	 */
-	public void addCoordinator(String googleID, String name, String email)
+	public void addCoord(String googleID, String name, String email)
 			throws EntityAlreadyExistsException {
-		if (getCoordinator(googleID) != null) {
+		if (getCoord(googleID) != null) {
 			throw new EntityAlreadyExistsException("Coordinator already exists :" + googleID);
 		}
 		Coordinator coordinator = new Coordinator(googleID, name, email);
@@ -53,11 +53,11 @@ public class AccountsDB {
 		getPM().flush();
 		
 		// Check insert operation persisted
-		CoordData coordinatorCheck = getCoordinator(googleID);
+		CoordData coordinatorCheck = getCoord(googleID);
 		int elapsedTime = 0;
 		while ((coordinatorCheck == null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
-			coordinatorCheck = getCoordinator(googleID);
+			coordinatorCheck = getCoord(googleID);
 			elapsedTime += Common.WAIT_DURATION;
 		}
 		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
@@ -80,7 +80,7 @@ public class AccountsDB {
 	 * @return the CoordData of Coordinator with the specified Google ID, or null if not
 	 *         found
 	 */
-	public CoordData getCoordinator(String googleID) {
+	public CoordData getCoord(String googleID) {
 		String query = "select from " + Coordinator.class.getName()
 				+ " where googleID == '" + googleID + "'";
 
@@ -162,7 +162,7 @@ public class AccountsDB {
 	 * 
 	 * @return List<CoordData> All CoordData objects of all coordinators
 	 */
-	public List<CoordData> getCoordinatorList() {
+	public List<CoordData> getCoordList() {
 		String query = "select from " + Coordinator.class.getName();
 
 		@SuppressWarnings("unchecked")
@@ -205,10 +205,10 @@ public class AccountsDB {
 		
 		// Check delete operation persisted
 		int elapsedTime = 0;
-		CoordData coordinatorCheck = getCoordinator(coordId);
+		CoordData coordinatorCheck = getCoord(coordId);
 		while ((coordinatorCheck != null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
-			coordinatorCheck = getCoordinator(coordId);
+			coordinatorCheck = getCoord(coordId);
 			elapsedTime += Common.WAIT_DURATION;
 		}
 		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){

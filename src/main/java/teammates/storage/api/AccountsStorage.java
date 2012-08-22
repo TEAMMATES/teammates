@@ -23,7 +23,7 @@ public class AccountsStorage {
 	private static AccountsStorage instance = null;
 	private static final Logger log = Common.getLogger();
 	
-	private static final AccountsDB accountsDB = new AccountsDB();
+	private static final AccountsDb accountsDb = new AccountsDb();
 
 	/**
 	 * Constructs an Accounts object. Initialises userService for Google User
@@ -60,9 +60,9 @@ public class AccountsStorage {
 	 * @return the name of the coordinator
 	 */
 	public String getCoordinatorName(String googleID) {
-		CoordData coordinator = accountsDB.getCoordinator(googleID);
+		CoordData coordinator = accountsDb.getCoord(googleID);
 
-		return coordinator.getName();
+		return coordinator.name;
 	}
 
 	/**
@@ -130,43 +130,29 @@ public class AccountsStorage {
 	 * @return <code>true</code> if the user is an coordinator,
 	 *         <code>false</code> otherwise.
 	 */
-	//TODO: This seems very inefficient. Is there a better way? -damith
-	public boolean isCoordinator() {
-		/*
-		// Get list of coordinators
-		List<Coordinator> coordinatorList = getCoordinatorList();
+	//TODO: This seems very inefficient. Is there a better way? -damith [resolved, ok to remove?]
+	public boolean isCoord() {
 
-		User user = userService.getCurrentUser();
-
-		if (user == null)
-			return false;
-
-		// Check if user is in the list of coordinators
-		for (Coordinator c : coordinatorList) {
-			if (user.getNickname().equalsIgnoreCase(c.getGoogleID())) {
-				return true;
-			}
-		}
-		*/
-		
-		// Is this better?
 		User user = userService.getCurrentUser();
 		
 		if (user == null)
 			return false;
 		
-		return accountsDB.getCoordinator(user.getNickname()) != null;
+		return accountsDb.getCoord(user.getNickname()) != null;
 		
 	}
 	
+	
+	
+	
 	public boolean isStudent(String googleId) {
-		return accountsDB.getStudentsWithID(googleId).size()!=0;
+		return accountsDb.getStudentsWithID(googleId).size()!=0;
 	}
 	
 
 	
 	public void verifyStudentExists(String courseId, String studentEmail) throws EntityDoesNotExistException {
-		if(accountsDB.getStudent(courseId, studentEmail)==null){
+		if(accountsDb.getStudent(courseId, studentEmail)==null){
 			throw new EntityDoesNotExistException("The student "+studentEmail+ " does not exist in course "+courseId);
 		}
 		
@@ -174,8 +160,8 @@ public class AccountsStorage {
 	
 	
 	
-	public AccountsDB getDB() {
-		return accountsDB;
+	public AccountsDb getDB() {
+		return accountsDb;
 	}
 	
 	
