@@ -1,0 +1,56 @@
+/* For now, this file is only for dev.css. In future, it will be shifted
+ * and would encompass styles for the rest of the static webpages
+ */
+
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+img {
+	max-width: 100%;
+}
+
+#content {
+	margin: 0 auto;
+ 	width: 960px;
+}
+
+.header {
+	color: #FF8C00;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.subheader {
+	color: #000000;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.underline {
+	text-decoration: underline;
+}
+
+.code {
+	font-family: Consolas, Courier;
+}
+
+.red {
+	color:#FF0000;
+}
+
+.blue {
+	color:#0000FF;
+}
+
+.image-holder {
+	width: 920px;
+	margin: 0 auto;
+	text-align: center;
+	overflow: hidden;
+}
