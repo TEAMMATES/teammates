@@ -8,7 +8,6 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.InvalidParametersException;
 
 import com.google.gson.annotations.SerializedName;
@@ -77,6 +76,7 @@ public class Student {
 	 * @param courseID
 	 * @param teamName
 	 */
+	// For use in student test
 	public Student(String email, String name, String comments, String courseID,
 			String teamName) {
 		this.setEmail(email);
@@ -97,7 +97,7 @@ public class Student {
 	 * @param teamName
 	 */
 	public Student(String email, String name, String googleID, String comments,
-			String courseID, String teamName) {
+			String courseID, String teamName, Text profile) {
 		this.setEmail(email);
 		this.setName(name);
 		this.setID(googleID);
@@ -105,22 +105,10 @@ public class Student {
 		this.setCourseID(courseID);
 		this.setTeamName(teamName);
 		this.setCourseArchived(false);
+		this.setProfileDetail(profile);
 	}
 
-	public Student() {
-
-	}
-
-	public Student(StudentData data) {
-		setID(data.id);
-		setEmail(data.email);
-		setCourseID(data.course);
-		setName(data.name);
-		setComments(data.comments);
-		setTeamName(data.team);
-		// registration key not used
-		setProfileDetail(data.profile);
-	}
+	
 
 	public Student(String line, String courseId)
 			throws InvalidParametersException {

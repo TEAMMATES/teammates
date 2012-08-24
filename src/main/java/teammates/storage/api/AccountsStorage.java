@@ -146,13 +146,16 @@ public class AccountsStorage {
 	
 	
 	public boolean isStudent(String googleId) {
-		return accountsDb.getStudentsWithID(googleId).size()!=0;
+		return accountsDb.getStudentsWithGoogleId(googleId).size()!=0;
 	}
 	
 
 	
 	public void verifyStudentExists(String courseId, String studentEmail) throws EntityDoesNotExistException {
-		if(accountsDb.getStudent(courseId, studentEmail)==null){
+		
+		StudentData studentData = accountsDb.getStudent(courseId, studentEmail);
+		
+		if(studentData==null){
 			throw new EntityDoesNotExistException("The student "+studentEmail+ " does not exist in course "+courseId);
 		}
 		
@@ -160,7 +163,7 @@ public class AccountsStorage {
 	
 	
 	
-	public AccountsDb getDB() {
+	public AccountsDb getDb() {
 		return accountsDb;
 	}
 	
