@@ -130,7 +130,6 @@ public class AccountsStorage {
 	 * @return <code>true</code> if the user is an coordinator,
 	 *         <code>false</code> otherwise.
 	 */
-	//TODO: This seems very inefficient. Is there a better way? -damith [resolved, ok to remove?]
 	public boolean isCoord() {
 
 		User user = userService.getCurrentUser();
@@ -139,7 +138,6 @@ public class AccountsStorage {
 			return false;
 		
 		return accountsDb.getCoord(user.getNickname()) != null;
-		
 	}
 	
 	
