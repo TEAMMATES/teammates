@@ -32,7 +32,6 @@ import teammates.logic.TeamEvalResult;
 import teammates.storage.api.AccountsStorage;
 import teammates.storage.api.CoursesStorage;
 import teammates.storage.api.EvaluationsStorage;
-import teammates.storage.entity.Coordinator; //TODO: remove dependency to entity package
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Evaluation;
 import teammates.storage.entity.Student;
@@ -101,7 +100,7 @@ public class Logic {
 		if (accounts.isAdministrator()) {
 			userData.isAdmin = true;
 		}
-		if (accounts.isCoordinator()) {
+		if (accounts.isCoord()) {
 			userData.isCoord = true;
 		}
 
@@ -350,7 +349,7 @@ public class Logic {
 		Common.validateCoordName(coordName);
 		Common.validateGoogleId(coordID);
 
-		AccountsStorage.inst().addCoordinator(coordID, coordName, coordEmail);
+		AccountsStorage.inst().getDB().addCoord(coordID, coordName, coordEmail);
 	}
 
 	/**
@@ -362,10 +361,9 @@ public class Logic {
 
 		verifyLoggedInUserAndAbove();
 
-		Coordinator coord = AccountsStorage.inst().getCoordinator(coordID);
+		CoordData coord = AccountsStorage.inst().getDB().getCoord(coordID);
 
-		return (coord == null ? null : new CoordData(coord.getGoogleID(),
-				coord.getName(), coord.getEmail()));
+		return coord;
 	}
 
 	/**
@@ -390,7 +388,7 @@ public class Logic {
 		for (Course course : coordCourseList) {
 			deleteCourse(course.getID());
 		}
-		AccountsStorage.inst().deleteCoord(coordId);
+		AccountsStorage.inst().getDB().deleteCoord(coordId);
 	}
 
 	/**
@@ -782,8 +780,8 @@ public class Logic {
 
 		verifyRegisteredUserOrAbove();
 
-		Student student = AccountsStorage.inst().getStudent(courseId, email);
-		return (student == null ? null : new StudentData(student));
+		StudentData studentData = AccountsStorage.inst().getDB().getStudent(courseId, email);
+		return studentData;
 	}
 
 	/**
@@ -890,11 +888,10 @@ public class Logic {
 
 		verifySameStudentOrAdmin(googleId);
 
-		List<Student> students = AccountsStorage.inst().getStudentsWithID(
-				googleId);
+		List<StudentData> students = AccountsStorage.inst().getDB().getStudentsWithID(googleId);
 		ArrayList<StudentData> returnList = new ArrayList<StudentData>();
-		for (Student s : students) {
-			returnList.add(new StudentData(s));
+		for (StudentData s : students) {
+			returnList.add(s);
 		}
 		return returnList;
 	}
@@ -950,15 +947,14 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(courseId);
 
-		Student student = AccountsStorage.inst().getStudent(courseId, email);
+		StudentData studentData = AccountsStorage.inst().getDB().getStudent(courseId, email);
 
-		if (student == null) {
+		if (studentData == null) {
 			return null;
 		}
 
 		// TODO: this should be pushed to lower levels
-		long keyLong = Long.parseLong(student.getRegistrationKey().toString());
-		return Student.getStringKeyForLongKey(keyLong);
+		return studentData.key;
 	}
 
 	/**
