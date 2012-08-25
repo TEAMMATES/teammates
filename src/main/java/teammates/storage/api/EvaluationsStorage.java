@@ -15,6 +15,7 @@ import javax.jdo.Transaction;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -34,6 +35,8 @@ public class EvaluationsStorage {
 	private static final Logger log = Logger.getLogger(EvaluationsStorage.class
 			.getName());
 
+	private static final AccountsDb accountsDb = new AccountsDb();
+	
 	/**
 	 * Constructs an Accounts object. Obtains an instance of PersistenceManager
 	 * class to handle datastore transactions.
@@ -256,17 +259,17 @@ public class EvaluationsStorage {
 
 	private List<Submission> createSubmissionsForEval(String courseID,
 			String evaluationName) {
-		CoursesStorage courses = CoursesStorage.inst();
-		List<Student> studentList = courses.getStudentList(courseID);
+		
+		List<StudentData> studentDataList = accountsDb.getStudentListForCourse(courseID);
 
 		List<Submission> submissionList = new ArrayList<Submission>();
 		Submission submission = null;
 
-		for (Student sx : studentList) {
-			for (Student sy : studentList) {
-				if (sx.getTeamName().equals(sy.getTeamName())) {
-					submission = new Submission(sx.getEmail(), sy.getEmail(),
-							courseID, evaluationName, sx.getTeamName());
+		for (StudentData sx : studentDataList) {
+			for (StudentData sy : studentDataList) {
+				if (sx.team.equals(sy.team)) {
+					submission = new Submission(sx.email, sy.email,
+							courseID, evaluationName, sx.team);
 					submissionList.add(submission);
 				}
 
