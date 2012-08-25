@@ -298,6 +298,20 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			}
 		});
 	}
+	
+	/**
+	 * Sorts submissions based on feedback (the first 70 chars)
+	 * 
+	 * @param submissions
+	 */
+	protected void sortSubmissionsByJustification(List<SubmissionData> submissions) {
+		Collections.sort(submissions, new Comparator<SubmissionData>() {
+			public int compare(SubmissionData s1, SubmissionData s2) {
+				return s2.justification.getValue().compareTo(
+						s1.justification.getValue());
+			}
+		});
+	}
 
 	/**
 	 * Sorts submissions based on reviewer name then by email
