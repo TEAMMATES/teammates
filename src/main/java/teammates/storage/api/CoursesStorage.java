@@ -54,9 +54,14 @@ public class CoursesStorage {
 	 * @param ID
 	 *            the course ID (Precondition: Must not be null)
 	 */
-	public void archiveCourse(String courseId, boolean archiveStatus) {
-		coursesDb.archiveCourse(courseId, archiveStatus);
-		accountsDb.archiveCourse(courseId, archiveStatus);
+	public void archiveCourse(String courseId, boolean archiveStatus) throws EntityDoesNotExistException{
+		
+		if ( coursesDb.getCourse(courseId) != null ) {
+			coursesDb.archiveCourse(courseId, archiveStatus);
+			accountsDb.archiveCourse(courseId, archiveStatus);
+		} else {
+			throw new EntityDoesNotExistException("Trying to archive non-existent course: " + courseId);
+		}
 	}
 
 	

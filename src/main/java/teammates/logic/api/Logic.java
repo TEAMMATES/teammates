@@ -1091,7 +1091,7 @@ public class Logic {
 		verifyCourseOwnerOrAbove(evaluation.course);
 
 		evaluation.validate();
-		EvaluationsStorage.inst().addEvaluation(evaluation.toEvaluation());
+		EvaluationsStorage.inst().addEvaluation(evaluation);
 	}
 
 	/**
@@ -1118,9 +1118,10 @@ public class Logic {
 
 		verifyRegisteredUserOrAbove();
 
-		Evaluation e = EvaluationsStorage.inst().getEvaluation(courseId,
+		EvaluationData e = EvaluationsStorage.inst().getDb().getEvaluation(courseId,
 				evaluationName);
-		return (e == null ? null : new EvaluationData(e));
+		
+		return e;
 	}
 
 	/**
@@ -1174,7 +1175,7 @@ public class Logic {
 	protected void editEvaluationAllFields(EvaluationData evaluation)
 			throws EntityDoesNotExistException, InvalidParametersException {
 
-		EvaluationsStorage.inst()
+		EvaluationsStorage.inst().getDb()
 				.editEvaluation(evaluation.course, evaluation.name,
 						evaluation.instructions, evaluation.p2pEnabled,
 						evaluation.startTime, evaluation.endTime,

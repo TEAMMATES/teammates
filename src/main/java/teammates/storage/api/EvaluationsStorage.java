@@ -36,6 +36,7 @@ public class EvaluationsStorage {
 			.getName());
 
 	private static final AccountsDb accountsDb = new AccountsDb();
+	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
 	
 	/**
 	 * Constructs an Accounts object. Obtains an instance of PersistenceManager
@@ -67,99 +68,33 @@ public class EvaluationsStorage {
 		return readyEvaluations;
 	}
 
-	/**
-	 * Adds an evaluation to the specified course.
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: Must be valid)
-	 * 
-	 * @param name
-	 *            the evaluation name (Pre-condition: Must not be null)
-	 * 
-	 * @param instructions
-	 *            the instructions for the evaluation (Pre-condition: Must not
-	 *            be null)
-	 * 
-	 * @param commentsEnabled
-	 *            if students are allowed to make comments (Pre-condition: Must
-	 *            not be null)
-	 * 
-	 * @param start
-	 *            the start date/time of the evaluation (Pre-condition: Must not
-	 *            be null)
-	 * 
-	 * @param deadline
-	 *            the deadline of the evaluation (Pre-condition: Must not be
-	 *            null)
-	 * 
-	 * @param gracePeriod
-	 *            the amount of time after the deadline within which submissions
-	 *            will still be accepted (Pre-condition: Must not be null)
-	 * 
-	 * @throws InvalidParametersException
-	 */
-
-	public void addEvaluation(String courseID, String name,
-			String instructions, boolean commentsEnabled, Date start,
-			Date deadline, double timeZone, int gracePeriod)
-			throws EntityAlreadyExistsException, InvalidParametersException {
-		if (getEvaluation(courseID, name) != null) {
-			throw new EntityAlreadyExistsException("An evaluation by the name "
-					+ name + " already exists under course " + courseID);
-		}
-
-		Evaluation evaluation = new Evaluation(courseID, name, instructions,
-				commentsEnabled, start, deadline, timeZone, gracePeriod);
-
-		try {
-			getPM().makePersistent(evaluation);
-			getPM().flush();
-		} finally {
-		}
-
-		// Build submission objects for each student based on their team number
-		createSubmissions(courseID, name);
-	}
 
 	/**
-	 * Add evaluation object
+	 * Atomically creates an Evaluation Object and a list of Submissions for the evaluation
 	 * 
 	 * @param e
-	 *            An evaluation object
+	 *            An EvaluationData object
 	 * 
 	 * @author wangsha
-	 * @throws EntityAlreadyExistsException
+	 * @throws EntityAlreadyExistsException, InvalidParametersException
 	 */
-	public void addEvaluation(Evaluation e) throws EntityAlreadyExistsException {
-		String courseID = e.getCourseID();
-		String evaluationName = e.getName();
-		if (getEvaluation(courseID, evaluationName) != null) {
-			throw new EntityAlreadyExistsException("The course " + courseID
-					+ " already has an evaluation by this name: "
-					+ evaluationName);
-		}
+	public void addEvaluation(EvaluationData e) throws EntityAlreadyExistsException, InvalidParametersException {
+		
 		try {
-			getPM().makePersistent(e);
-			getPM().flush();
+			
+			evaluationsDb.addEvaluation(e);
 
 			// Build submission objects for each student based on their team
 			// number
-			createSubmissions(courseID, evaluationName);
-		} catch (Exception exp) {
-			exp.printStackTrace();
-		}
-
-		int elapsedTime = 0;
-		Evaluation created = getEvaluation(courseID, evaluationName);
-		while ((created == null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
-			Common.waitBriefly();
-			created = getEvaluation(courseID, evaluationName);
-			elapsedTime += Common.WAIT_DURATION;
-		}
-		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
-			log.severe("Operation did not persist in time: addEvaluation->"
-					+ courseID + "/" + evaluationName);
-		}
+			createSubmissions(e.course, e.name);
+		
+		} catch (EntityAlreadyExistsException eaee) {
+			log.warning(Common.stackTraceToString(eaee));
+			throw eaee;
+		} catch (InvalidParametersException ipe) {
+			log.warning(Common.stackTraceToString(ipe));
+			throw ipe;
+		}	
 	}
 
 	/**
@@ -286,13 +221,13 @@ public class EvaluationsStorage {
 	 * including CLOSED and PUBLISHED ones.
 	 */
 	public void adjustSubmissionsForChangingTeam(String courseId, String studentEmail, String originalTeam, String newTeam){
-		List<Evaluation> evaluationList = getEvaluationList(courseId);
-		for (Evaluation e : evaluationList) {
+		List<EvaluationData> evaluationDataList = evaluationsDb.getEvaluationList(courseId);
+		for (EvaluationData ed : evaluationDataList) {
 			
-			deleteSubmissionsForOutgoingMember(courseId, e.getName(),
+			deleteSubmissionsForOutgoingMember(courseId, ed.name,
 						studentEmail, originalTeam);
 			
-			addSubmissionsForIncomingMember(courseId, e.getName(), studentEmail,
+			addSubmissionsForIncomingMember(courseId, ed.name, studentEmail,
 					newTeam);
 		}
 	}
@@ -303,9 +238,9 @@ public class EvaluationsStorage {
 	 * including CLOSED and PUBLISHED ones.
 	 */
 	public void adjustSubmissionsForNewStudent(String courseId, String studentEmail, String team){
-		List<Evaluation> evaluationList = getEvaluationList(courseId);
-		for (Evaluation e : evaluationList) {
-			addSubmissionsForIncomingMember(courseId, e.getName(), studentEmail, team);
+		List<EvaluationData> evaluationDataList = evaluationsDb.getEvaluationList(courseId);
+		for (EvaluationData ed : evaluationDataList) {
+			addSubmissionsForIncomingMember(courseId, ed.name, studentEmail, team);
 		}
 	}
 
@@ -380,7 +315,7 @@ public class EvaluationsStorage {
 
 
 	/**
-	 * Deletes an Evaluation and its Submission objects.
+	 * Atomically deletes an Evaluation and its Submission objects.
 	 * 
 	 * @param courseID
 	 *            the course ID (Pre-condition: The courseID and evaluationName
@@ -389,48 +324,37 @@ public class EvaluationsStorage {
 	 * @param name
 	 *            the evaluation name (Pre-condition: The courseID and
 	 *            evaluationName pair must be valid)
-	 * @throws EntityDoesNotExistException
+	 *            
 	 */
-	public void deleteEvaluation(String courseID, String name) {
-		Evaluation evaluation = getEvaluation(courseID, name);
-		if (evaluation == null) {
+	public void deleteEvaluation(String courseId, String name) {
+		
+		if (evaluationsDb.getEvaluation(courseId, name) == null) {
 			String errorMessage = "Trying to delete non-existent evaluation : "
-					+ courseID + "/" + name;
+					+ courseId + "/" + name;
 			log.warning(errorMessage);
 		} else {
-			getPM().deletePersistent(evaluation);
-			// Delete submission entries
-			List<Submission> submissionList = getSubmissionList(courseID, name);
+			// Delete the Evaluation entity
+			evaluationsDb.deleteEvaluation(courseId, name);
+			
+			// Delete Submission entries belonging to this Evaluation
+			List<Submission> submissionList = getSubmissionList(courseId, name);
 			getPM().deletePersistentAll(submissionList);
 			getPM().flush();
 		}
-
-		int elapsedTime = 0;
-		Evaluation created = getEvaluation(courseID, name);
-		while ((created != null)
-				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
-			Common.waitBriefly();
-			created = getEvaluation(courseID, name);
-			elapsedTime += Common.WAIT_DURATION;
-		}
-		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
-			log.severe("Operation did not persist in time: addEvaluation->"
-					+ courseID + "/" + name);
-		}
-
 	}
 
 	/**
-	 * Deletes all Evaluation objects and its Submission objects from a Course.
+	 * Atomically deletes all Evaluation objects and its Submission objects from a Course.
 	 * 
 	 * @param courseID
 	 *            the course ID (Pre-condition: Must be valid)
 	 * 
 	 */
-	public void deleteEvaluations(String courseID) {
-		List<Evaluation> evaluationList = getEvaluationList(courseID);
-		List<Submission> submissionList = getSubmissionList(courseID);
-		getPM().deletePersistentAll(evaluationList);
+	public void deleteEvaluations(String courseId) {
+		
+		evaluationsDb.deleteAllEvaluationsForCourse(courseId);
+		
+		List<Submission> submissionList = getSubmissionList(courseId);
 		getPM().deletePersistentAll(submissionList);
 		getPM().flush();
 	}
@@ -469,6 +393,7 @@ public class EvaluationsStorage {
 	 * @return <code>true</code> if there are changes, <code>false</code>
 	 *         otherwise
 	 */
+	/* Unused
 	public boolean editEvaluation(String courseID, String name,
 			String newInstructions, boolean newCommentsEnabled, Date newStart,
 			Date newDeadline, int newGracePeriod) {
@@ -494,38 +419,9 @@ public class EvaluationsStorage {
 		}
 		return true;
 	}
+	*/
 
-	public boolean editEvaluation(String courseID, String name,
-			String newInstructions, boolean newCommentsEnabled, Date newStart,
-			Date newDeadline, int newGracePeriod, boolean newIsActive,
-			boolean newIsPublished, double newTimeZone)
-			throws EntityDoesNotExistException {
-		Evaluation evaluation = getEvaluation(courseID, name);
-
-		Transaction tx = getPM().currentTransaction();
-		try {
-			tx.begin();
-
-			evaluation.setInstructions(newInstructions);
-			evaluation.setStart(newStart);
-			evaluation.setDeadline(newDeadline);
-			evaluation.setGracePeriod(newGracePeriod);
-			evaluation.setCommentsEnabled(newCommentsEnabled);
-			evaluation.setActivated(newIsActive);
-			evaluation.setPublished(newIsPublished);
-			evaluation.setTimeZone(newTimeZone);
-
-			getPM().flush();
-
-			tx.commit();
-		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-				return false;
-			}
-		}
-		return true;
-	}
+	
 
 	/**
 	 * Closes an Evaluation. (For testing purpose only)
@@ -538,6 +434,7 @@ public class EvaluationsStorage {
 	 *            the evaluation name (Pre-condition: The courseID and
 	 *            evaluationName pair must be valid)
 	 */
+	/* Unused
 	public boolean closeEvaluation(String courseID, String name) {
 		Evaluation evaluation = getEvaluation(courseID, name);
 
@@ -551,6 +448,7 @@ public class EvaluationsStorage {
 
 		return true;
 	}
+	*/
 
 	/**
 	 * 
@@ -702,34 +600,7 @@ public class EvaluationsStorage {
 		return evaluationList;
 	}
 
-	/**
-	 * Returns an Evaluation object.
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: Must not be null)
-	 * 
-	 * @param name
-	 *            the evaluation name (Pre-condition: Must not be null)
-	 * 
-	 * @return the evaluation of the specified course and name
-	 */
-	public Evaluation getEvaluation(String courseID, String name) {
-		String query = "select from " + Evaluation.class.getName()
-				+ " where name == '" + name + "' && courseID == '" + courseID
-				+ "'";
-		log.fine(query);
-		@SuppressWarnings("unchecked")
-		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
-				query).execute();
-
-		if (evaluationList.isEmpty()) {
-			log.fine("Trying to get non-existent Evaluation : " + courseID
-					+ "/" + name);
-			return null;
-		}
-
-		return evaluationList.get(0);
-	}
+	
 
 	/**
 	 * Returns all Evaluation objects that are due in the specified number of
@@ -796,6 +667,7 @@ public class EvaluationsStorage {
 	 * 
 	 * @return the list of evaluations belonging to the list of courses
 	 */
+	/* Unused
 	public List<Evaluation> getEvaluationList(List<Course> courseList) {
 		List<Evaluation> evaluationList = new ArrayList<Evaluation>();
 
@@ -811,24 +683,9 @@ public class EvaluationsStorage {
 
 		return evaluationList;
 	}
+	*/
 
-	/**
-	 * Returns the Evaluation objects belonging to a Course.
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: Must not be null)
-	 * 
-	 * @return the list of evaluations belonging to the specified course
-	 */
-	public List<Evaluation> getEvaluationList(String courseID) {
-		String query = "select from " + Evaluation.class.getName()
-				+ " where courseID == '" + courseID + "'";
-
-		@SuppressWarnings("unchecked")
-		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
-				query).execute();
-		return evaluationList;
-	}
+	
 
 
 	/**
@@ -1107,7 +964,7 @@ public class EvaluationsStorage {
 	 *         <code>false</code> otherwise.
 	 */
 	public boolean isEvaluationOngoing(String courseID) {
-		List<Evaluation> evaluationList = getEvaluationList(courseID);
+		List<EvaluationData> evaluationDataList = evaluationsDb.getEvaluationList(courseID);
 
 		Calendar now = Calendar.getInstance();
 		Calendar start = Calendar.getInstance();
@@ -1116,9 +973,9 @@ public class EvaluationsStorage {
 		// SGP timezone
 		now.set(Calendar.HOUR_OF_DAY, now.get(Calendar.HOUR_OF_DAY) + 8);
 
-		for (Evaluation e : evaluationList) {
-			start.setTime(e.getStart());
-			deadline.setTime(e.getDeadline());
+		for (EvaluationData ed : evaluationDataList) {
+			start.setTime(ed.startTime);
+			deadline.setTime(ed.endTime);
 
 			if (now.after(start) && now.before(deadline)) {
 				return true;
@@ -1289,6 +1146,11 @@ public class EvaluationsStorage {
 			throw new EntityDoesNotExistException("The evaluation "
 					+ evaluationName + " does not exist in course " + courseId);
 		}
+	}
+	
+	
+	public EvaluationsDb getDb() {
+		return evaluationsDb;
 	}
 
 }
