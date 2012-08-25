@@ -115,10 +115,10 @@ public class StudentTest extends BaseTestCase {
 		student.setID("name1");
 		assertEquals(false, student.isRegistered());
 	}
-
+	
 	private Student generateTypicalStudentObject() {
 		Student expected = new Student("email@email.com", "name 1",
-				"comment 1", "courseId1", "team 1");
+				"googleId 1", "comment 1", "courseId1", "team 1");
 		return expected;
 	}
 

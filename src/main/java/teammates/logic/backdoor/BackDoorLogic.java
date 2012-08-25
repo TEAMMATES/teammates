@@ -178,7 +178,7 @@ public class BackDoorLogic extends Logic{
 		List<Evaluation> evaluationList = evaluations.getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
 
 		for (Evaluation e : evaluationList) {
-			List<StudentData> studentDataList = AccountsStorage.inst().getDb().getStudentList(e.getCourseID());
+			List<StudentData> studentDataList = AccountsStorage.inst().getDb().getStudentListForCourse(e.getCourseID());
 			List<StudentData> studentToRemindList = new ArrayList<StudentData>();
 
 			EvaluationData ed = new EvaluationData(e);

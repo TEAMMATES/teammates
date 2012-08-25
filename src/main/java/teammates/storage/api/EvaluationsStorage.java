@@ -260,7 +260,7 @@ public class EvaluationsStorage {
 	private List<Submission> createSubmissionsForEval(String courseID,
 			String evaluationName) {
 		
-		List<StudentData> studentDataList = accountsDb.getStudentList(courseID);
+		List<StudentData> studentDataList = accountsDb.getStudentListForCourse(courseID);
 
 		List<Submission> submissionList = new ArrayList<Submission>();
 		Submission submission = null;

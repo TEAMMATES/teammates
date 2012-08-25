@@ -347,7 +347,7 @@ public class Logic {
 		Common.validateCoordName(coordName);
 		Common.validateGoogleId(coordID);
 
-		AccountsStorage.inst().getDb().addCoord(coordID, coordName, coordEmail);
+		AccountsStorage.inst().getDb().createCoord(coordID, coordName, coordEmail);
 	}
 
 	/**
@@ -382,7 +382,7 @@ public class Logic {
 		verifyAdminLoggedIn();
 
 		List<CourseData> coordCourseList = CoursesStorage.inst().getDb()
-				.getCoordinatorCourseList(coordId);
+				.getCourseListForCoordinator(coordId);
 		for (CourseData courseData : coordCourseList) {
 			deleteCourse(courseData.id);
 		}
@@ -448,7 +448,7 @@ public class Logic {
 		verifyCoordUsingOwnIdOrAbove(coordId);
 
 		List<CourseData> courseList = CoursesStorage.inst().getDb()
-				.getCoordinatorCourseList(coordId);
+				.getCourseListForCoordinator(coordId);
 
 		if ((courseList.size() == 0) && (getCoord(coordId) == null)) {
 			throw new EntityDoesNotExistException(
@@ -496,7 +496,7 @@ public class Logic {
 		Common.validateCourseId(courseId);
 		Common.validateCourseName(courseName);
 
-		CoursesStorage.inst().getDb().addCourse(courseId, courseName, coordId);
+		CoursesStorage.inst().getDb().createCourse(courseId, courseName, coordId);
 	}
 
 	/**
@@ -563,7 +563,7 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(courseId);
 
-		List<StudentData> studentDataList = AccountsStorage.inst().getDb().getStudentList(
+		List<StudentData> studentDataList = AccountsStorage.inst().getDb().getStudentListForCourse(
 				courseId);
 
 		if ((studentDataList.size() == 0) && (getCourse(courseId) == null)) {
@@ -588,7 +588,7 @@ public class Logic {
 		verifyCourseOwnerOrAbove(courseId);
 
 		List<StudentData> studentDataList = AccountsStorage.inst().getDb()
-				.getUnregisteredStudentList(courseId);
+				.getUnregisteredStudentListForCourse(courseId);
 
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 
@@ -740,13 +740,12 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(studentData.course);
 
-		AccountsStorage.inst().getDb().addStudent(	studentData.email, 
-													studentData.name,
-													studentData.id,
-													studentData.comments,
-													studentData.course,
-													studentData.team,
-													studentData.profile
+		AccountsStorage.inst().getDb().createStudent(	studentData.email, 
+														studentData.name,
+														studentData.id,
+														studentData.comments,
+														studentData.course,
+														studentData.team
 													);
 
 		// adjust existing evaluations to accommodate new student
@@ -1267,7 +1266,7 @@ public class Logic {
 		verifyEvaluationExists(evaluation, courseId, evaluationName);
 
 		// Filter out students who have submitted the evaluation
-		List<StudentData> studentDataList = AccountsStorage.inst().getDb().getStudentList(
+		List<StudentData> studentDataList = AccountsStorage.inst().getDb().getStudentListForCourse(
 				courseId);
 		
 		List<StudentData> studentsToRemindList = new ArrayList<StudentData>();
