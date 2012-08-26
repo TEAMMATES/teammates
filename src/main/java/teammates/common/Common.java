@@ -195,6 +195,7 @@ public class Common {
 	 */
 
 	public static final String PAGE_BACKDOOR = "/backdoor";
+	public static final String WEBPAGE_COMPILATION = "/dev/webpageCompilation.jsp";
 
 	public static final String PAGE_COORD_HOME = "/page/coordHome";
 	public static final String PAGE_COORD_COURSE = "/page/coordCourse";
@@ -375,6 +376,8 @@ public class Common {
 	 */
 	public static long PERSISTENCE_CHECK_DURATION = BUILD_PROPERTIES.getAppPersistenceCheckduration();
 	public static final int WAIT_DURATION = 200;
+
+	
 	
 	/**
 	 * Email templates
