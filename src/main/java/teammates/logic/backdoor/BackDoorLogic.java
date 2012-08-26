@@ -21,10 +21,10 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.Emails;
 import teammates.logic.api.Logic;
+import teammates.storage.api.AccountsStorage;
 import teammates.storage.api.CoursesStorage;
 import teammates.storage.api.EvaluationsStorage;
 import teammates.storage.entity.Evaluation; //TODO: remove this dependency
-import teammates.storage.entity.Student;    //TODO: remove this dependency
 
 public class BackDoorLogic extends Logic{
 	
@@ -178,14 +178,14 @@ public class BackDoorLogic extends Logic{
 		List<Evaluation> evaluationList = evaluations.getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
 
 		for (Evaluation e : evaluationList) {
-			List<Student> studentList = CoursesStorage.inst().getStudentList(e.getCourseID());
+			List<StudentData> studentDataList = AccountsStorage.inst().getDb().getStudentListForCourse(e.getCourseID());
 			List<StudentData> studentToRemindList = new ArrayList<StudentData>();
 
 			EvaluationData ed = new EvaluationData(e);
 			
-			for (Student s : studentList) {
-				if (!evaluations.isEvaluationSubmitted(ed, s.getEmail())) {
-					studentToRemindList.add(new StudentData(s));
+			for (StudentData sd : studentDataList) {
+				if (!evaluations.isEvaluationSubmitted(ed, sd.email)) {
+					studentToRemindList.add(sd);
 				}
 			}
 			
