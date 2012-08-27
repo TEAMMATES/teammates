@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -36,15 +37,17 @@ public class StudentEvalResultsHelper extends Helper {
 	 *    submission list, sorted in descending order, formatted as a comma 
 	 *    separated and colorized string. Excludes self-rating.
 	 */
-	public static String getNormalizedToStudentsPointsList(List<SubmissionData> subs){
+	public static String getNormalizedToStudentsPointsList(final List<SubmissionData> subs){
 		String result = "";
-		Collections.sort(subs, new Comparator<SubmissionData>(){
+		List<SubmissionData> tempSubs =  new ArrayList<SubmissionData>(subs);
+
+		Collections.sort(tempSubs, new Comparator<SubmissionData>(){
 			@Override
 			public int compare(SubmissionData s1, SubmissionData s2){
 				return Integer.valueOf(s2.normalizedToStudent).compareTo(s1.normalizedToStudent);
 			}
 		});
-		for(SubmissionData sub: subs){
+		for(SubmissionData sub: tempSubs){
 			if(sub.reviewee.equals(sub.reviewer)) continue;
 			if(result!="") result+=", ";
 			result+=CoordEvalResultsHelper.colorizePoints(sub.normalizedToStudent);
