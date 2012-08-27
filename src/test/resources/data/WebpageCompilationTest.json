@@ -1,0 +1,271 @@
+{
+  "coords": {
+    "teammates.test": {
+      "id": "teammates.test",
+      "name" : "Coordinator",
+      "email" : "teammates.test@gmail.com"
+    }
+  },
+  
+  "courses": {
+    "CS2104": {
+      "coord": "teammates.test",
+      "id": "CS2104",
+      "name": "Programming Language Concepts"
+    },
+    "CS1101": {
+      "coord": "teammates.test",
+      "id": "CS1101",
+      "name": "Programming Methodology"
+    }
+  },
+  
+   "students": {
+	"teammates.test@CS2104": {
+      "id": "teammates.test",
+      "email": "teammates.test@gmail.com",
+      "course": "CS2104",
+      "name": "Teammates Test",
+      "comments": "This student's name is Teammates Test",
+      "profile": {"value": "My name is Teammates Test, and I'm a student in CS2104"},
+      "team": "Team 1"
+    },
+    "benny.c.tmms@CS2104": {
+      "id": "benny.c.tmms",
+      "email": "benny.c.tmms@gmail.com",
+      "course": "CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "profile": {"value": "My name is Benny Charles, and I'm a student in CS2104"},
+      "team": "Team 1"
+    },
+    "charlie.d.tmms@CS2104": {
+      "id": "charlie.d.tmms",
+      "email": "charlie.d.tmms@gmail.com",
+      "course": "CS2104",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "profile": {"value": "My name is Charlie Davis, and I'm a student in CS2104"},
+      "team": "Team 2"
+    },
+    "danny.e.tmms@CS2104": {
+      "id": "danny.e.tmms",
+      "email": "danny.e.tmms@gmail.com",
+      "course": "CS2104",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "profile": {"value": "My name is Danny Engrid, and I'm a student in CS2104"},
+      "team": "Team 2"
+    },
+    "teammates.test@CS1101": {
+      "id": "teammates.test",
+      "email": "teammates.test@gmail.com",
+      "course": "CS1101",
+      "name": "Teammates Test",
+      "comments": "This student's name is Teammates Test",
+      "profile": {"value": "My name is Teammates Test, and I'm a student in CS1101"},
+      "team": "Team 1"
+    },
+    "benny.c.tmms@CS1101": {
+      "id": "benny.c.tmms",
+      "email": "benny.c.tmms@gmail.com",
+      "course": "CS1101",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "profile": {"value": "My name is Benny Charles, and I'm a student in CS1101"},
+      "team": "Team 1"
+    },
+    "charlie.d.tmms@CS1101": {
+      "id": "charlie.d.tmms",
+      "email": "charlie.d.tmms@gmail.com",
+      "course": "CS1101",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "profile": {"value": "My name is Charlie Davis, and I'm a student in CS1101"},
+      "team": "Team 2"
+    },
+    "danny.e.tmms@CS1101": {
+      "id": "danny.e.tmms",
+      "email": "danny.e.tmms@gmail.com",
+      "course": "CS1101",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "profile": {"value": "My name is Danny Engrid, and I'm a student in CS1101"},
+      "team": "Team 2"
+    }
+  },
+  
+  "evaluations": {
+    "First Eval": {
+      "course": "CS2104",
+      "name": "First Eval",
+      "instructions": "Please please fill it in",
+      "startTime": "2012-04-01 11:59 PM",
+      "endTime": "2015-04-01 11:59 PM",
+      "timeZone": 8.0,
+      "gracePeriod": 10,
+      "p2pEnabled": true,
+      "published": false,
+      "activated": true
+    },
+    "Second Eval": {
+      "course": "CS2104",
+      "name": "Second Eval",
+      "instructions": "Please please fill in the second evaluation",
+      "startTime": "2012-04-01 11:59 PM",
+      "endTime": "2012-04-02 11:59 PM",
+      "timeZone": 8.0,
+      "gracePeriod": 10,
+      "p2pEnabled": true,
+      "published": true,
+      "activated": true
+    },
+    "Third Eval": {
+      "course": "CS1101",
+      "name": "Third Eval",
+      "instructions": "Please please fill in the third evaluation",
+      "startTime": "2012-04-01 11:59 PM",
+      "endTime": "2012-04-02 11:59 PM",
+      "timeZone": 8.0,
+      "gracePeriod": 10,
+      "p2pEnabled": true,
+      "published": false,
+      "activated": true
+    },
+    "Fourth Eval": {
+      "course": "CS1101",
+      "name": "Fourth Eval",
+      "instructions": "Please please fill in the fourth evaluation",
+      "startTime": "2015-04-01 11:59 PM",
+      "endTime": "2015-04-02 11:59 PM",
+      "timeZone": 8.0,
+      "gracePeriod": 10,
+      "p2pEnabled": true,
+      "published": false
+    },
+    "Fifth Eval": {
+      "course": "CS1101",
+      "name": "Fifth Eval",
+      "instructions": "Please please fill in the fifth evaluation",
+      "startTime": "2012-04-01 11:59 PM",
+      "endTime": "2015-04-01 11:59 PM",
+      "timeZone": 8.0,
+      "gracePeriod": 10,
+      "p2pEnabled": true,
+      "published": false,
+      "activated": true
+    }
+  },
+  "submissions" : {
+    "submissionFromTeammatesTestToBennyFirstEval": {
+      "reviewer" : "teammates.test@gmail.com",
+      "reviewee" : "benny.c.tmms@gmail.com",
+      "course" : "CS2104",
+      "evaluation" : "First Eval",
+      "points" : 110,
+      "justification" : {"value" : "This is a justification from teammates.test@gmail.com to benny.c.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from teammates.test@gmail.com to benny.c.tmms@gmail.com"},
+      "team" : "Team 1"
+    },
+    "submissionFromBennyToTeammatesTestFirstEval": {
+      "reviewer" : "benny.c.tmms@gmail.com",
+      "reviewee" : "teammates.test@gmail.com",
+      "course" : "CS2104",
+      "evaluation" : "First Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from benny.c.tmms@gmail.com to teammates.test@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from benny.c.tmms@gmail.com to teammates.test@gmail.com"},
+      "team" : "Team 1"
+    },
+    "submissionFromCharlieToDannyFirstEval": {
+      "reviewer" : "charlie.d.tmms@gmail.com",
+      "reviewee" : "danny.e.tmms@gmail.com",
+      "course" : "CS2104",
+      "evaluation" : "First Eval",
+      "points" : 120,
+      "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com"},
+      "team" : "Team 2"
+    },
+    "submissionFromDannyToCharlieFirstEval": {
+      "reviewer" : "danny.e.tmms@gmail.com",
+      "reviewee" : "charlie.d.tmms@gmail.com",
+      "course" : "CS2104",
+      "evaluation" : "First Eval",
+      "points" : 90,
+      "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com"},
+      "team" : "Team 2"
+    },
+    "submissionFromBennyToTeammatesTestSecondEval": {
+      "reviewer" : "benny.c.tmms@gmail.com",
+      "reviewee" : "teammates.test@gmail.com",
+      "course" : "CS2104",
+      "evaluation" : "Second Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from benny.c.tmms@gmail.com to teammates.test@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from benny.c.tmms@gmail.com to teammates.test@gmail.com"},
+      "team" : "Team 1"
+    },
+    "submissionFromCharlieToDannySecondEval": {
+      "reviewer" : "charlie.d.tmms@gmail.com",
+      "reviewee" : "danny.e.tmms@gmail.com",
+      "course" : "CS2104",
+      "evaluation" : "Second Eval",
+      "points" : 120,
+      "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com"},
+      "team" : "Team 2"
+    },
+    "submissionFromDannyToCharlieSecondEval": {
+      "reviewer" : "danny.e.tmms@gmail.com",
+      "reviewee" : "charlie.d.tmms@gmail.com",
+      "course" : "CS2104",
+      "evaluation" : "Second Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com"},
+      "team" : "Team 2"
+    },
+    "submissionFromTeammatesTestToBennyThirdEval": {
+      "reviewer" : "teammates.test@gmail.com",
+      "reviewee" : "benny.c.tmms@gmail.com",
+      "course" : "CS1101",
+      "evaluation" : "Third Eval",
+      "points" : 80,
+      "justification" : {"value" : "This is a justification from teammates.test@gmail.com to benny.c.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from teammates.test@gmail.com to benny.c.tmms@gmail.com"},
+      "team" : "Team 1"
+    },
+    "submissionFromBennyToTeammatesTestThirdEval": {
+      "reviewer" : "benny.c.tmms@gmail.com",
+      "reviewee" : "teammates.test@gmail.com",
+      "course" : "CS1101",
+      "evaluation" : "Third Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from benny.c.tmms@gmail.com to teammates.test@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from benny.c.tmms@gmail.com to teammates.test@gmail.com"},
+      "team" : "Team 1"
+    },
+    "submissionFromCharlieToDannyThirdEval": {
+      "reviewer" : "charlie.d.tmms@gmail.com",
+      "reviewee" : "danny.e.tmms@gmail.com",
+      "course" : "CS1101",
+      "evaluation" : "Third Eval",
+      "points" : 110,
+      "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com"},
+      "team" : "Team 2"
+    },
+    "submissionFromDannyToCharlieThirdEval": {
+      "reviewer" : "danny.e.tmms@gmail.com",
+      "reviewee" : "charlie.d.tmms@gmail.com",
+      "course" : "CS1101",
+      "evaluation" : "Third Eval",
+      "points" : 110,
+      "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com"},
+      "team" : "Team 2"
+    }
+  }
+}
