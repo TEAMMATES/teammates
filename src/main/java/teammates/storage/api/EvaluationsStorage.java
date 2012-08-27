@@ -11,7 +11,6 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
-import javax.jdo.Transaction;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationData;
@@ -21,14 +20,8 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.datastore.Datastore;
-import teammates.storage.entity.Course;
 import teammates.storage.entity.Evaluation;
-import teammates.storage.entity.Student;
 import teammates.storage.entity.Submission;
-
-import com.google.appengine.api.taskqueue.Queue;
-import com.google.appengine.api.taskqueue.QueueFactory;
-import com.google.appengine.api.taskqueue.TaskOptions;
 
 public class EvaluationsStorage {
 	private static EvaluationsStorage instance = null;
@@ -78,11 +71,11 @@ public class EvaluationsStorage {
 	 * @author wangsha
 	 * @throws EntityAlreadyExistsException, InvalidParametersException
 	 */
-	public void addEvaluation(EvaluationData e) throws EntityAlreadyExistsException, InvalidParametersException {
+	public void createEvaluation(EvaluationData e) throws EntityAlreadyExistsException, InvalidParametersException {
 		
 		try {
 			
-			evaluationsDb.addEvaluation(e);
+			evaluationsDb.createEvaluation(e);
 
 			// Build submission objects for each student based on their team
 			// number
@@ -195,7 +188,7 @@ public class EvaluationsStorage {
 	private List<Submission> createSubmissionsForEval(String courseID,
 			String evaluationName) {
 		
-		List<StudentData> studentDataList = accountsDb.getStudentList(courseID);
+		List<StudentData> studentDataList = accountsDb.getStudentListForCourse(courseID);
 
 		List<Submission> submissionList = new ArrayList<Submission>();
 		Submission submission = null;
@@ -221,7 +214,7 @@ public class EvaluationsStorage {
 	 * including CLOSED and PUBLISHED ones.
 	 */
 	public void adjustSubmissionsForChangingTeam(String courseId, String studentEmail, String originalTeam, String newTeam){
-		List<EvaluationData> evaluationDataList = evaluationsDb.getEvaluationList(courseId);
+		List<EvaluationData> evaluationDataList = evaluationsDb.getEvaluationsForCourse(courseId);
 		for (EvaluationData ed : evaluationDataList) {
 			
 			deleteSubmissionsForOutgoingMember(courseId, ed.name,
@@ -238,7 +231,7 @@ public class EvaluationsStorage {
 	 * including CLOSED and PUBLISHED ones.
 	 */
 	public void adjustSubmissionsForNewStudent(String courseId, String studentEmail, String team){
-		List<EvaluationData> evaluationDataList = evaluationsDb.getEvaluationList(courseId);
+		List<EvaluationData> evaluationDataList = evaluationsDb.getEvaluationsForCourse(courseId);
 		for (EvaluationData ed : evaluationDataList) {
 			addSubmissionsForIncomingMember(courseId, ed.name, studentEmail, team);
 		}
@@ -359,176 +352,14 @@ public class EvaluationsStorage {
 		getPM().flush();
 	}
 
-	/**
-	 * Edits an Evaluation object with the new values and returns true if there
-	 * are changes, false otherwise.
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: The courseID and evaluationName
-	 *            pair must be valid)
-	 * 
-	 * @param name
-	 *            the evaluation name (Pre-condition: The courseID and
-	 *            evaluationName pair must be valid)
-	 * 
-	 * @param newInstructions
-	 *            new instructions for the evaluation (Pre-condition: Must not
-	 *            be null)
-	 * 
-	 * @param newCommentsEnabled
-	 *            new status for comments (Pre-condition: Must not be null)
-	 * 
-	 * @param newStart
-	 *            new start date for the evaluation (Pre-condition: Must not be
-	 *            null)
-	 * 
-	 * @param newDeadline
-	 *            new deadline for the evaluation (Pre-condition: Must not be
-	 *            null)
-	 * 
-	 * @param newGracePeriod
-	 *            new grace period for the evaluation (Pre-condition: Must not
-	 *            be null)
-	 * 
-	 * @return <code>true</code> if there are changes, <code>false</code>
-	 *         otherwise
-	 */
-	/* Unused
-	public boolean editEvaluation(String courseID, String name,
-			String newInstructions, boolean newCommentsEnabled, Date newStart,
-			Date newDeadline, int newGracePeriod) {
-		Evaluation evaluation = getEvaluation(courseID, name);
-		Transaction tx = getPM().currentTransaction();
-		try {
-			tx.begin();
 
-			evaluation.setInstructions(newInstructions);
-			evaluation.setStart(newStart);
-			evaluation.setDeadline(newDeadline);
-			evaluation.setGracePeriod(newGracePeriod);
-			evaluation.setCommentsEnabled(newCommentsEnabled);
-
-			getPM().flush();
-
-			tx.commit();
-		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-				return false;
-			}
-		}
-		return true;
-	}
-	*/
 
 	
 
-	/**
-	 * Closes an Evaluation. (For testing purpose only)
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: The courseID and evaluationName
-	 *            pair must be valid)
-	 * 
-	 * @param name
-	 *            the evaluation name (Pre-condition: The courseID and
-	 *            evaluationName pair must be valid)
-	 */
-	/* Unused
-	public boolean closeEvaluation(String courseID, String name) {
-		Evaluation evaluation = getEvaluation(courseID, name);
+	
 
-		int oneday = 24 * 60 * 60 * 1000;
-		Date start = new Date(System.currentTimeMillis() - 2 * oneday);
-		Date end = new Date(System.currentTimeMillis() - oneday);
+	
 
-		evaluation.setStart(start);
-		evaluation.setDeadline(end);
-		// evaluation.setActivated(false);
-
-		return true;
-	}
-	*/
-
-	/**
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: The courseID and evaluationName
-	 *            pair must be valid)
-	 * 
-	 * @param name
-	 *            the evaluation name (Pre-condition: The courseID and
-	 *            evaluationName pair must be valid)
-	 */
-	public boolean openEvaluation(String courseID, String name) {
-
-		Transaction trans = getPM().currentTransaction();
-		try {
-			trans.begin();
-
-			Evaluation evaluation = getEvaluation(courseID, name);
-
-			if (evaluation == null)
-				return false;
-
-			long oneday = 24 * 60 * 60 * 1000;
-			Date start = new Date(System.currentTimeMillis() - oneday);
-			Date end = new Date(System.currentTimeMillis() + oneday);
-			evaluation.setStart(start);
-			evaluation.setDeadline(end);
-			evaluation.setActivated(true);
-
-			getPM().flush();
-			trans.commit();
-
-		} finally {
-			if (trans.isActive()) {
-				trans.rollback();
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Await an Evaluation. (for testing purpose only) Edits the Submission
-	 * objects that pertain to a specified Student and his email.
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: The courseID and evaluationName
-	 *            pair must be valid)
-	 * @param name
-	 *            the evaluation name (Pre-condition: The courseID and
-	 *            evaluationName pair must be valid)
-	 */
-	public boolean awaitEvaluation(String courseID, String name) {
-
-		Transaction trans = getPM().currentTransaction();
-		try {
-
-			trans.begin();
-
-			Evaluation evaluation = getEvaluation(courseID, name);
-
-			int oneday = 24 * 60 * 60 * 1000;
-			Date start = new Date(System.currentTimeMillis() + oneday);
-			Date end = new Date(System.currentTimeMillis() + oneday * 2);
-			evaluation.setActivated(false);
-			evaluation.setStart(start);
-			evaluation.setDeadline(end);
-
-			getPM().flush();
-			trans.commit();
-
-		} finally {
-			if (trans.isActive()) {
-				trans.rollback();
-				return false;
-			}
-		}
-		log.fine("awaiting submission pass");
-		return true;
-	}
 
 	/**
 	 * Edits the Submission objects that pertain to a specified Student and his
@@ -659,31 +490,7 @@ public class EvaluationsStorage {
 		return dueEvaluationList;
 	}
 
-	/**
-	 * Returns the Evaluation objects belonging to some Course objects.
-	 * 
-	 * @param courseList
-	 *            a list of courses (Pre-condition: Must not be null)
-	 * 
-	 * @return the list of evaluations belonging to the list of courses
-	 */
-	/* Unused
-	public List<Evaluation> getEvaluationList(List<Course> courseList) {
-		List<Evaluation> evaluationList = new ArrayList<Evaluation>();
 
-		for (Course c : courseList) {
-			String query = "select from " + Evaluation.class.getName()
-					+ " where courseID == '" + c.getID() + "'";
-
-			@SuppressWarnings("unchecked")
-			List<Evaluation> tempEvaluationList = (List<Evaluation>) getPM()
-					.newQuery(query).execute();
-			evaluationList.addAll(tempEvaluationList);
-		}
-
-		return evaluationList;
-	}
-	*/
 
 	
 
@@ -864,95 +671,9 @@ public class EvaluationsStorage {
 		return submissionList;
 	}
 
-	/**
-	 * Adds to TaskQueue emails to inform students of changes to an Evaluation
-	 * object.
-	 * 
-	 * @param studentList
-	 *            the list of students to inform (Pre-condition: The parameters
-	 *            must be valid)
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: The parameters must be valid)
-	 * 
-	 * @param evaluationName
-	 *            the evaluation name (Pre-condition: The parameters must be
-	 *            valid)
-	 */
-	public void informStudentsOfChanges(List<Student> studentList,
-			String courseID, String evaluationName) {
-		Queue queue = QueueFactory.getQueue("email-queue");
-		List<TaskOptions> taskOptionsList = new ArrayList<TaskOptions>();
+	
 
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HHmm");
-
-		Evaluation evaluation = getEvaluation(courseID, evaluationName);
-
-		Date start = evaluation.getStart();
-		Date deadline = evaluation.getDeadline();
-		String instructions = evaluation.getInstructions();
-
-		for (Student s : studentList) {
-			// There is a limit of 100 tasks per batch addition to Queue in
-			// Google App
-			// Engine
-			if (taskOptionsList.size() == 100) {
-				queue.add(taskOptionsList);
-				taskOptionsList = new ArrayList<TaskOptions>();
-			}
-
-			taskOptionsList.add(TaskOptions.Builder.withUrl("/email")
-					.param("operation", "informstudentsofevaluationchanges")
-					.param("email", s.getEmail()).param("name", s.getName())
-					.param("courseid", courseID)
-					.param("evaluationname", evaluationName)
-					.param("start", df.format(start))
-					.param("deadline", df.format(deadline))
-					.param("instr", instructions));
-		}
-
-		if (!taskOptionsList.isEmpty()) {
-			queue.add(taskOptionsList);
-		}
-	}
-
-	/**
-	 * Adds to TaskQueue emails to inform students of an Evaluation.
-	 * 
-	 * @param studentList
-	 *            the list of students to be informed
-	 * @param courseID
-	 *            the course ID
-	 * @param evaluationName
-	 *            the evaluation name
-	 */
-	public void informStudentsOfEvaluationOpening(List<Student> studentList,
-			String courseID, String evaluationName) {
-		Queue queue = QueueFactory.getQueue("email-queue");
-		List<TaskOptions> taskOptionsList = new ArrayList<TaskOptions>();
-		Evaluation evaluation = getEvaluation(courseID, evaluationName);
-		Date deadline = evaluation.getDeadline();
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HHmm");
-		for (Student s : studentList) {
-			// There is a limit of 100 tasks per batch addition to Queue in
-			// Google App Engine
-			if (taskOptionsList.size() == 100) {
-				queue.add(taskOptionsList);
-				taskOptionsList = new ArrayList<TaskOptions>();
-			}
-
-			taskOptionsList.add(TaskOptions.Builder.withUrl("/email")
-					.param("operation", "informstudentsofevaluationopening")
-					.param("email", s.getEmail()).param("name", s.getName())
-					.param("courseid", courseID)
-					.param("evaluationname", evaluationName)
-					.param("deadline", df.format(deadline)));
-		}
-
-		if (!taskOptionsList.isEmpty()) {
-			queue.add(taskOptionsList);
-		}
-	}
+	
 
 	/**
 	 * Returns if there is an ongoing Evaluation for a particular Course.
@@ -963,8 +684,8 @@ public class EvaluationsStorage {
 	 * @return <code>true</code> if there is an ongoing evaluation,
 	 *         <code>false</code> otherwise.
 	 */
-	public boolean isEvaluationOngoing(String courseID) {
-		List<EvaluationData> evaluationDataList = evaluationsDb.getEvaluationList(courseID);
+	public boolean isEvaluationOngoing(String courseId) {
+		List<EvaluationData> evaluationDataList = evaluationsDb.getEvaluationsForCourse(courseId);
 
 		Calendar now = Calendar.getInstance();
 		Calendar start = Calendar.getInstance();
@@ -1011,88 +732,11 @@ public class EvaluationsStorage {
 		return true;
 	}
 
-	/**
-	 * Publishes an Evaluation.
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: The courseID and name pair must
-	 *            be valid)
-	 * 
-	 * @param name
-	 *            the evaluation name (Pre-condition: The courseID and name pair
-	 *            must be valid)
-	 */
-	public boolean publishEvaluation(String courseID, String name) {
-		Evaluation evaluation = getEvaluation(courseID, name);
+	
 
-		evaluation.setPublished(true);
-		getPM().close();
-		return true;
-	}
+	
 
-	/**
-	 * Unpublish an Evaluation
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: The courseID and name pair must
-	 *            be valid)
-	 * 
-	 * @param name
-	 *            the evaluation name (Pre-condition: The courseID and name pair
-	 *            must be valid)
-	 */
-	public boolean unpublishEvaluation(String courseID, String name) {
-		Evaluation evaluation = getEvaluation(courseID, name);
-
-		evaluation.setPublished(false);
-		getPM().close();
-
-		return true;
-	}
-
-	/**
-	 * Adds to TaskQueue emails to remind students of an Evaluation.
-	 * 
-	 * @param studentList
-	 *            the list of students to remind (Pre-condition: Must be valid)
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: Must not be null)
-	 * 
-	 * @param evaluationName
-	 *            the evaluation name (Pre-condition: Must not be null)
-	 * 
-	 * @param deadline
-	 *            the evaluation deadline (Pre-condition: Must not be null)
-	 */
-	public void remindStudents(List<Student> studentList, String courseID,
-			String evaluationName, Date deadline) {
-		Queue queue = QueueFactory.getQueue("email-queue");
-		List<TaskOptions> taskOptionsList = new ArrayList<TaskOptions>();
-
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HHmm");
-
-		for (Student s : studentList) {
-			// There is a limit of 100 tasks per batch addition to Queue in
-			// Google App
-			// Engine
-			if (taskOptionsList.size() == 100) {
-				queue.add(taskOptionsList);
-				taskOptionsList = new ArrayList<TaskOptions>();
-			}
-
-			taskOptionsList.add(TaskOptions.Builder.withUrl("/email")
-					.param("operation", "remindstudents")
-					.param("email", s.getEmail()).param("name", s.getName())
-					.param("courseid", courseID)
-					.param("evaluationname", evaluationName)
-					.param("deadline", df.format(deadline)));
-		}
-
-		if (!taskOptionsList.isEmpty()) {
-			queue.add(taskOptionsList);
-		}
-	}
+	
 
 	public void deleteSubmissionsForStudent(String courseId, String studentEmail) {
 		String query1 = "select from " + Submission.class.getName()
@@ -1114,35 +758,16 @@ public class EvaluationsStorage {
 
 	}
 
-	public ArrayList<EvaluationData> getEvaluationsSummaryForCourse(
-			String courseId) {
+	public List<EvaluationData> getEvaluationsSummaryForCourse(String courseId) {
 
-		ArrayList<EvaluationData> evaluationsSummaryList = new ArrayList<EvaluationData>();
-		List<Evaluation> evaluationList = getEvaluationList(courseId);
+		List<EvaluationData> evaluationDataList = evaluationsDb.getEvaluationsForCourse(courseId);
 
-		for (Evaluation e : evaluationList) {
-
-			EvaluationData ed = new EvaluationData();
-
-			ed.course = e.getCourseID();
-			ed.name = e.getName();
-			ed.instructions = e.getInstructions();
-			ed.p2pEnabled = e.isCommentsEnabled();
-			ed.startTime = e.getStart();
-			ed.endTime = e.getDeadline();
-			ed.timeZone = e.getTimeZone();
-			ed.gracePeriod = e.getGracePeriod();
-			ed.published = e.isPublished();
-			ed.activated = e.isActivated();
-			evaluationsSummaryList.add(ed);
-		}
-
-		return evaluationsSummaryList;
+		return evaluationDataList;
 	}
 
 	public void verifyEvaluationExists(String courseId, String evaluationName)
 			throws EntityDoesNotExistException {
-		if (getEvaluation(courseId, evaluationName) == null) {
+		if (evaluationsDb.getEvaluation(courseId, evaluationName) == null) {
 			throw new EntityDoesNotExistException("The evaluation "
 					+ evaluationName + " does not exist in course " + courseId);
 		}

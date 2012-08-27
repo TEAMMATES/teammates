@@ -24,19 +24,13 @@ public class CoursesStorage {
 	
 	private static final CoursesDb coursesDb = new CoursesDb();
 	private static final AccountsDb accountsDb = new AccountsDb();
-
-	/**
-	 * Constructs a Courses object. Obtains an instance of PersistenceManager
-	 * class to handle datastore transactions.
-	 */
-	private CoursesStorage() {
-	}
+	
 
 	
 	/**
 	 * Retrieve singleton instance of CoursesStorage
 	 * 
-	 * @return
+	 * @return CoursesStorage
 	 */
 	public static CoursesStorage inst() {
 		if (instance == null)
@@ -44,194 +38,43 @@ public class CoursesStorage {
 		return instance;
 	}
 
+
 	
+
+
+	
+	
+
 
 
 
 	/**
-	 * Atomically archives/unarchives a Course and Students that belong to the course
-	 * 
-	 * @param ID
-	 *            the course ID (Precondition: Must not be null)
-	 */
-	public void archiveCourse(String courseId, boolean archiveStatus) throws EntityDoesNotExistException{
-		
-		if ( coursesDb.getCourse(courseId) != null ) {
-			coursesDb.archiveCourse(courseId, archiveStatus);
-			accountsDb.archiveCourse(courseId, archiveStatus);
-		} else {
-			throw new EntityDoesNotExistException("Trying to archive non-existent course: " + courseId);
-		}
-	}
-
-	
-
-
-	
-	
-
-
-	/**
-	 * Clean up courses, evaluations, submissions related to a course
-	 * 
-	 * @param coordinatorID
-	 * @author wangsha
-	 * @throws EntityDoesNotExistException 
-	 * @throws CourseDoesNotExistException 
-	 * @date Sep 8, 2011
-	 */
-	/*
-	 * This function is not used in workspace, remove?
-	public void deleteCoordinatorCourses(String coordinatorID){
-		List<Course> courses = getCoordinatorCourseList(coordinatorID);
-		Iterator<Course> it = courses.iterator();
-
-		while (it.hasNext()) {
-			deleteCoordinatorCourse(it.next().getID());
-
-		}
-
-	}
-	*/
-
-	/**
-	 * Deletes a Course object, along with all the Student objects that belong
+	 * Atomically deletes a Course object, along with all the Student objects that belong
 	 * to the course.
 	 * 
 	 * @param courseID
 	 *            the course ID (Precondition: Must not be null)
 	 * 
-	 * @throws CourseDoesNotExistException
-	 *             if the course with the specified ID cannot be found
 	 */
-	//TODO: does this actually delete students, as the comment say?
-	/*
-	@Deprecated 
-	public void deleteCoordinatorCourse(String courseID){
-		
-		Course course = getCourse(courseID);
-
-		if (course == null) {
-			String errorMessage = "Trying to delete non-existent course : "
-					+ courseID;
-			log.info(errorMessage);
-		}
-
-		getPM().deletePersistent(course);
-		getPM().flush();
-	}
-	*/
 	public void deleteCourse(String courseId) {
 		
-		coursesDb.deleteCourse(courseId);
 		accountsDb.deleteAllStudentsInCourse(courseId);
+		coursesDb.deleteCourse(courseId);
 		
 	}
 
+
+	
+
 	
 
 	
 
-	/**
-	 * Deletes a Course from a Student by setting the ID of the Student to an
-	 * empty String.
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: Must not be null)
-	 * 
-	 * @param googleID
-	 *            the Google ID of the student (Precondition: Must not be null)
-	 */
-	// Can we remove this unused function?
-	/*
-	public void deleteStudentCourse(String courseID, String googleID) {
-		Student student = getStudentWithID(courseID, googleID);
-		student.setID("");
-	}
-	*/
+	
 
-	/**
-	 * Edits a Student object of a specific Course.
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: The courseID and email pair must
-	 *            be valid)
-	 * 
-	 * @param email
-	 *            the email of the student (Precondition: The courseID and email
-	 *            pair must be valid)
-	 * 
-	 * @param newName
-	 *            the new name of the student (Precondition: Must not be null)
-	 * 
-	 * @param newEmail
-	 *            the new email of the student (Precondition: Must not be null)
-	 * 
-	 * @param newGoogleID
-	 *            the new Google ID of the student (Precondition: Must not be
-	 *            null)
-	 * 
-	 * @param newComments
-	 *            the new comments of the student (Precondition: Must not be
-	 *            null)
-	 */
-	/* Can we remove this unused function?
-	@Deprecated
-	public void editStudent(String courseID, String email, String newName, String newEmail, String newGoogleID, String newComments) {
-		Student student = getStudentWithEmail(courseID, email);
+	
 
-		student.setComments((newComments));
-		student.setEmail(newEmail);
-		student.setID(newGoogleID);
-		student.setName(newName);
-		
-		getPM().close();
-	}
-	*/
-
-	/**
-	 * Edits a Student object of a specific Course.
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: The courseID and email pair must
-	 *            be valid)
-	 * 
-	 * @param email
-	 *            the email of the student (Precondition: The courseID and email
-	 *            pair must be valid)
-	 * 
-	 * @param newName
-	 *            the new name of the student (Precondition: Must not be null)
-	 * 
-	 * @param newTeamName
-	 *            the new team name of the student (Precondition: Must not be
-	 *            null)
-	 * 
-	 * @param newEmail
-	 *            the new email of the student (Precondition: Must not be null)
-	 * 
-	 * @param newGoogleID
-	 *            the new Google ID of the student (Precondition: Must not be
-	 *            null)
-	 * 
-	 * @param newComments
-	 *            the new comments of the student (Precondition: Must not be
-	 *            null)
-	 */ 
-	/* Can we remove this unused function?
-	@Deprecated
-	public void editStudent(String courseID, String email, String newName, String newTeamName, String newEmail, String newGoogleID, String newComments) {
-		Student student = getStudentWithEmail(courseID, email);
-
-		student.setComments((newComments));
-		student.setEmail(newEmail);
-		student.setID(newGoogleID);
-		student.setName(newName);
-		student.setTeamName(newTeamName);
-		
-		getPM().close();
-	}
-	*/
+	
 	
 	
 
@@ -239,9 +82,11 @@ public class CoursesStorage {
 
 
 	
+
 	
 	public HashMap<String, CourseData> getCourseSummaryListForCoord(String coordId){
-		List<CourseData> courseList = coursesDb.getCoordinatorCourseList(coordId);
+
+		List<CourseData> courseList = coursesDb.getCourseListForCoordinator(coordId);
 		HashMap<String, CourseData> courseSummaryList = new HashMap<String, CourseData>();
 
 		for (CourseData cd : courseList) {
@@ -256,6 +101,7 @@ public class CoursesStorage {
 	
 	
 
+
 	/**
 	 * Returns the number of teams in a Course.
 	 * 
@@ -266,7 +112,8 @@ public class CoursesStorage {
 	 */
 	public int getNumberOfTeams(String courseID) {
 		// Get all students in the course
-		List<StudentData> studentDataList = accountsDb.getStudentList(courseID);
+
+		List<StudentData> studentDataList = accountsDb.getStudentListForCourse(courseID);
 		
 		// The list of teams
 		List<String> teamNameList = new ArrayList<String>();
@@ -281,35 +128,11 @@ public class CoursesStorage {
 		return teamNameList.size();
 	}
 
+
+
+
 	
 
-	/**
-	 * Returns a Student object of the specified courseID and googleID.
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: Must not be null)
-	 * 
-	 * @param googleID
-	 *            the Google ID of the student (Precondition: Must not be null)
-	 * 
-	 * @return Student the student who has the specified Google ID in the
-	 *         specified course
-	 */
-	/* The function that uses this is unused, can we remove?
-	public Student getStudentWithID(String courseID, String googleID) {
-		String query = "select from " + Student.class.getName() + " where courseID == \"" + courseID + "\" && ID == \"" + googleID + "\"";
-
-		@SuppressWarnings("unchecked")
-		List<Student> studentList = (List<Student>) getPM().newQuery(query).execute();
-
-		if (studentList.isEmpty()) {
-			return null;
-		}
-
-		return studentList.get(0);
-	}
-	*/
-	
 
 
 	
@@ -330,6 +153,9 @@ public class CoursesStorage {
 		return accountsDb.getStudent(courseId, email).team;
 	}
 
+	
+	
+	
 	/**
 	 * Returns the number of students in a Course.
 	 * 
@@ -339,9 +165,14 @@ public class CoursesStorage {
 	 * @return the number of students in the course
 	 */
 	public int getTotalStudents(String courseID) {
-		return accountsDb.getStudentList(courseID).size();
+
+		return accountsDb.getStudentListForCourse(courseID).size();
+
 	}
 
+	
+	
+	
 	/**
 	 * Returns the number of unregistered students in a Course.
 	 * 
@@ -351,59 +182,22 @@ public class CoursesStorage {
 	 * @return the number of unregistered students in the course
 	 */
 	public int getUnregistered(String courseID) {
-		return accountsDb.getUnregisteredStudentList(courseID).size();
+
+		return accountsDb.getUnregisteredStudentListForCourse(courseID).size();
 	}
 
 	
 
 	
 
-	/**
-	 * Sends registration keys to Students.
-	 * 
-	 * @param studentList
-	 *            the list of students to send registration keys to
-	 *            (Precondition: Must not be null)
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: Must not be null)
-	 * 
-	 * @param courseName
-	 *            the course name (Precondition: Must not be null)
-	 * 
-	 * @param coordinatorName
-	 *            the name of the coordinator (Precondition: Must not be null)
-	 */
-	/* Can we remove this unused function?
-	public void sendRegistrationKeys(List<Student> studentList, String courseID, String courseName, String coordinatorName, String coordinatorEmail) {
-		Queue queue = QueueFactory.getQueue("email-queue");
-		List<TaskOptions> taskOptionsList = new ArrayList<TaskOptions>();
-
-		for (Student s : studentList) {
-			// There is a limit of 100 tasks per batch addition to Queue in
-			// Google App
-			// Engine
-			if (taskOptionsList.size() == 100) {
-				queue.add(taskOptionsList);
-				taskOptionsList = new ArrayList<TaskOptions>();
-			}
-
-			TaskOptions emailTask = TaskOptions.Builder.withUrl("/email").param("operation", "sendregistrationkey").param("email", s.getEmail())
-					.param("regkey", KeyFactory.createKeyString(Student.class.getSimpleName(), s.getRegistrationKey())).param("courseid", courseID).param("coursename", courseName)
-					.param("name", s.getName()).param("coordinatorname", coordinatorName).param("coordinatoremail", coordinatorEmail);
-			taskOptionsList.add(emailTask);
-		}
-
-		if (!taskOptionsList.isEmpty()) {
-			queue.add(taskOptionsList);
-		}
-
-	}
-	*/
 
 	
 
 	
+
+
+	
+
 
 	
 	public static void sortByTeamName(List<StudentData> students) {
@@ -446,12 +240,21 @@ public class CoursesStorage {
 		return courseList;
 	}
 
+	
+	
+	
+	
 	public void verifyCourseExists(String courseId) throws EntityDoesNotExistException {
 		if (coursesDb.getCourse(courseId)==null){
 			throw new EntityDoesNotExistException("The course "+courseId+" does not exist");
 		}
 		
 	}
+
+	
+	
+	
+
 	
 	
 	public CoursesDb getDb() {

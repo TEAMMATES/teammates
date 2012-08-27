@@ -35,7 +35,7 @@ public class AccountsDb {
 	/**
 	 * CREATE Coordinator
 	 * 
-	 * Adds a Coordinator object.
+	 * Creates a Coordinator object.
 	 * 
 	 * @param googleID
 	 *            the coordinator's Google ID (Precondition: Must not be null)
@@ -48,7 +48,7 @@ public class AccountsDb {
 	 * 
 	 * 
 	 */
-	public void addCoord(String googleID, String name, String email)
+	public void createCoord(String googleID, String name, String email)
 			throws EntityAlreadyExistsException {
 		if (getCoord(googleID) != null) {
 			throw new EntityAlreadyExistsException("Coordinator already exists :" + googleID);
@@ -58,15 +58,15 @@ public class AccountsDb {
 		getPM().flush();
 		
 		// Check insert operation persisted
-		CoordData coordinatorCheck = getCoord(googleID);
+		Coordinator coordinatorCheck = getCoordEntity(googleID);
 		int elapsedTime = 0;
 		while ((coordinatorCheck == null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
-			coordinatorCheck = getCoord(googleID);
+			coordinatorCheck = getCoordEntity(googleID);
 			elapsedTime += Common.WAIT_DURATION;
 		}
 		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
-			log.severe("Operation did not persist in time: addCoord->"+googleID);
+			log.severe("Operation did not persist in time: createCoord->"+googleID);
 		}
 	}
 	
@@ -82,7 +82,7 @@ public class AccountsDb {
 	/**
 	 * CREATE Student
 	 * 
-	 * Adds a Student object.
+	 * Creates a Student object.
 	 * 
 	 * @param googleID
 	 *            the coordinator's Google ID (Precondition: Must not be null)
@@ -95,13 +95,12 @@ public class AccountsDb {
 	 * 
 	 * 
 	 */
-	public void addStudent(	String email,
-							String name,
-							String id,
-							String comments,
-							String course,
-							String team,
-							Text profile
+	public void createStudent(	String email,
+								String name,
+								String id,
+								String comments,
+								String course,
+								String team
 							) throws EntityAlreadyExistsException {
 		
 		if(getStudent(course, email)!=null){
@@ -126,8 +125,7 @@ public class AccountsDb {
 											id,
 											comments,
 											course,
-											team,
-											profile
+											team
 										);
 		
 		
@@ -138,10 +136,10 @@ public class AccountsDb {
 		
 		// Check insert operation persisted
 		int elapsedTime = 0;
-		StudentData studentCheck = getStudent(course, email);
+		Student studentCheck = getStudentEntity(course, email);
 		while ((studentCheck == null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
-			studentCheck = getStudent(course, email);
+			studentCheck = getStudentEntity(course, email);
 			elapsedTime += Common.WAIT_DURATION;
 		}
 		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
@@ -169,20 +167,11 @@ public class AccountsDb {
 	 * @return the CoordData of Coordinator with the specified Google ID, or null if not
 	 *         found
 	 */
-	public CoordData getCoord(String googleID) {
-		String query = "select from " + Coordinator.class.getName()
-				+ " where googleID == '" + googleID + "'";
-
-		@SuppressWarnings("unchecked")
-		List<Coordinator> coordinatorList = (List<Coordinator>) getPM()
-				.newQuery(query).execute();
-
-		if (coordinatorList.isEmpty()) {
-			log.warning("Trying to get non-existent Coord : " + googleID);
-			return null;
-		}
-
-		return new CoordData(coordinatorList.get(0));
+	public CoordData getCoord(String googleId) {
+		
+		Coordinator c = getCoordEntity(googleId);
+		
+		return c == null ? null : new CoordData(c);
 	}
 	
 	
@@ -200,25 +189,16 @@ public class AccountsDb {
 	 * Returns a StudentData object from a unique Student entry with the key(courseId, email)
 	 * 
 	 * @param courseId
+	 * 
 	 * @param email
+	 * 
 	 * @return the StudentData of Student with the courseId and email
 	 */
 	public StudentData getStudent(String courseId, String email) {
-		String query = "select from " + Student.class.getName()
-				+ " where (email == '" + email + "')"
-				+ " && (courseID == '" + courseId + "')";
-
-		@SuppressWarnings("unchecked")
-		List<Student> studentList = (List<Student>) getPM()
-				.newQuery(query).execute();
-
-		if (studentList.isEmpty()) {
-			log.fine("Trying to get non-existent Student : " + courseId
-					+ "/" + email);
-			return null;
-		}
-		Student student = studentList.get(0);
-		return new StudentData(student);
+		
+		Student s = getStudentEntity(courseId, email);
+		
+		return s == null ? null : new StudentData(s);
 	}
 	
 	
@@ -269,7 +249,7 @@ public class AccountsDb {
 	 * 
 	 * @return List<Student> the list of students that are in the course
 	 */
-	public List<StudentData> getStudentList(String courseID) {
+	public List<StudentData> getStudentListForCourse(String courseID) {
 		String query = "select from " + Student.class.getName() + " where courseID == \'" + courseID + "\'";
 
 		@SuppressWarnings("unchecked")
@@ -305,7 +285,7 @@ public class AccountsDb {
 	 * @return List<StudentData> the list of unregistered students that are in the
 	 *         course
 	 */
-	public List<StudentData> getUnregisteredStudentList(String courseID) {
+	public List<StudentData> getUnregisteredStudentListForCourse(String courseID) {
 		String query = "select from " + Student.class.getName() + " where courseID == \"" + courseID + "\"" + " && ID == \"\"";
 
 		@SuppressWarnings("unchecked")
@@ -330,66 +310,7 @@ public class AccountsDb {
 	
 	
 	/**
-	 * RETRIEVE List<Coordinator>
 	 * 
-	 * Returns a List of CoordData objects. (Unused)
-	 * 
-	 * @return List<CoordData> All CoordData objects of all coordinators
-	 */
-	public List<CoordData> getCoordList() {
-		String query = "select from " + Coordinator.class.getName();
-
-		@SuppressWarnings("unchecked")
-		List<Coordinator> coordinatorList = (List<Coordinator>) getPM()
-				.newQuery(query).execute();
-		
-		List<CoordData> coordinatorDataList = new ArrayList<CoordData>();
-		for (Coordinator coord : coordinatorList) {
-			coordinatorDataList.add(new CoordData(coord));
-		}
-
-		return coordinatorDataList;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/**
-	 * UPDATE Student.courseArchived
-	 * 
-	 * Updates parameter courseArchived for all Student entries with this courseId 
-	 * 
-	 * @param coordId
-	 */
-	public void archiveCourse(String courseId, boolean archiveStatus) {
-		
-		String query = "select from " + Student.class.getName() + " where courseID == \"" + courseId + "\"";
-
-		@SuppressWarnings("unchecked")
-		List<Student> studentList = (List<Student>) getPM().newQuery(query).execute();
-		
-		for (Student s : studentList) {
-			s.setCourseArchived(archiveStatus);
-		}
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/**
-	 * UPDATE Student.ID
 	 * Sets the ID of a particular Student object having the specified
 	 * registration key.
 	 * 
@@ -420,7 +341,8 @@ public class AccountsDb {
 					"Invalid key :" + registrationKey);
 		}
 		
-		// If ID field is not empty -> is it this user's googleId?
+
+		// If ID field is not empty -> check if this is user's googleId?
 		if(!student.getID().equals("")){
 			
 			if(student.getID().equals(googleID)){
@@ -456,7 +378,9 @@ public class AccountsDb {
 	 * 
 	 * Updates Student object
 	 * 
-	 * @param coordId
+	 * @param courseId, email and params to change
+	 * 
+	 * @throws EntityDoesNotExistException
 	 */
 	public void editStudent(String courseID, String email, String newName,
 			String newTeamName, String newEmail, String newGoogleID,
@@ -501,32 +425,27 @@ public class AccountsDb {
 	
 	/**
 	 * DELETE Coordinator
+	 * 
 	 * @param coordId
 	 */
 	public void deleteCoord(String coordId) {
-		String query = "select from " + Coordinator.class.getName()
-				+ " where googleID == '" + coordId + "'";
-
-		@SuppressWarnings("unchecked")
-		List<Coordinator> coordinatorList = (List<Coordinator>) getPM()
-				.newQuery(query).execute();
-
-		if (coordinatorList.isEmpty()) {
-			log.warning("Trying to delete non-existent Coord : " + coordId);
+		
+		Coordinator coordToDelete = getCoordEntity(coordId);
+		
+		if ( coordToDelete == null ) {
+			log.warning("Trying to delete non-existent Coordinator: " + coordId);
 			return;
 		}
-		
-		Coordinator coord = coordinatorList.get(0);
-		
-		getPM().deletePersistent(coord);
+
+		getPM().deletePersistent(coordToDelete);
 		getPM().flush();
 		
 		// Check delete operation persisted
 		int elapsedTime = 0;
-		CoordData coordinatorCheck = getCoord(coordId);
+		Coordinator coordinatorCheck = getCoordEntity(coordId);
 		while ((coordinatorCheck != null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
-			coordinatorCheck = getCoord(coordId);
+			coordinatorCheck = getCoordEntity(coordId);
 			elapsedTime += Common.WAIT_DURATION;
 		}
 		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
@@ -584,31 +503,32 @@ public class AccountsDb {
 	 * 
 	 * @param email
 	 *            the email of the student (Precondition: Must not be null)
-	 * @throws EntityDoesNotExistException
+	 *
 	 */
 	public void deleteStudent(String courseId, String email){
 		
-		Student s = getStudentEntity(courseId, email);
-		
-		if (s == null) {
-			String errorMessage = "Trying to delete non-existent student : "
-					+ courseId + "/" + email;
-			log.warning(errorMessage);
-		} else {
-			getPM().deletePersistent(s);
-			getPM().flush();
+		Student studentToDelete = getStudentEntity(courseId, email);
+
+		if (studentToDelete == null) {
+			log.warning("Trying to delete non-existent Student: " + courseId + "/" + email);
+			return;
 		}
+			
+		getPM().deletePersistent(studentToDelete);
+		getPM().flush();
 		
 		// Check delete operation persisted
 		int elapsedTime = 0;
-		StudentData studentCheck = getStudent(courseId, email);
+
+		Student studentCheck = getStudentEntity(courseId, email);
 		while ((studentCheck != null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
-			studentCheck = getStudent(courseId, email);
+
+			studentCheck = getStudentEntity(courseId, email);
 			elapsedTime += Common.WAIT_DURATION;
 		}
 		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
-			log.severe("Operation did not persist in time: createStudent->"+ courseId + "/" + email);
+			log.severe("Operation did not persist in time: deleteStudent->"+ courseId + "/" + email);
 		}
 	}
 	
@@ -626,16 +546,16 @@ public class AccountsDb {
 	
 
 	/**
-	 * Returns a Student object of the specified courseID and email.
-	 * Only for self use
-	 * 
+	 * Returns the actual Student Entity
+	 *
 	 * @param courseID
 	 *            the course ID (Precondition: Must not be null)
 	 * 
 	 * @param email
 	 *            the email of the student (Precondition: Must not be null)
 	 * 
-	 * @return the student who has the specified email in the specified course
+	 * @return Student
+	 * 			  the student who has the specified email in the specified course
 	 */
 	private Student getStudentEntity(String courseId, String email) {
 		String query = "select from " + Student.class.getName() + " where courseID == \"" + courseId + "\" && email == \"" + email + "\"";
@@ -651,8 +571,32 @@ public class AccountsDb {
 	}
 	
 	
+
+	/**
+	 * Returns the actual Coordinator Entity
+	 * 
+	 * @param googleID
+	 *            the coordinator's Google ID (Precondition: Must not be null)
+	 * 
+	 * @return Coordinator
+	 */
+	private Coordinator getCoordEntity(String googleID) {
+		String query = "select from " + Coordinator.class.getName()
+				+ " where googleID == '" + googleID + "'";
+
+		@SuppressWarnings("unchecked")
+		List<Coordinator> coordinatorList = (List<Coordinator>) getPM()
+				.newQuery(query).execute();
+
+		if (coordinatorList.isEmpty()) {
+			log.warning("Trying to get non-existent Coord : " + googleID);
+			return null;
+		}
+
+		return coordinatorList.get(0);
+	}
 	
 	
 	
-	
+
 }

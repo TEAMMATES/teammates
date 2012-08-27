@@ -25,7 +25,7 @@ public class CoursesDb {
 	/**
 	 * CREATE Course
 	 * 
-	 * Adds a Course under a specific Coordinator.
+	 * Creates a Course under a specific Coordinator.
 	 * 
 	 * @param courseId
 	 *            the course ID (Precondition: Must not be null)
@@ -36,70 +36,36 @@ public class CoursesDb {
 	 * @param coordId
 	 *            the Google ID of the coordinator (Precondition: Must not be
 	 *            null)
+	 *            
 	 * @throws InvalidParametersException 
 	 * 
 	 * @throws EntityAlreadyExistsException
 	 *             if a course with the specified ID already exists
 	 */
-	public void addCourse(String courseId, String courseName, String coordId) throws InvalidParametersException, EntityAlreadyExistsException {
+	public void createCourse(String courseId, String courseName, String coordId) throws InvalidParametersException, EntityAlreadyExistsException {
 		
 		// Check if entity already exists
-		if (getCourse(courseId) != null) {
+		if (getCourseEntity(courseId) != null) {
 			throw new EntityAlreadyExistsException("Course already exists : "+courseId);
 		}
 
 		// Entity is new, create and make persist
 		Course course = new Course(courseId, courseName, coordId);
 
-		try {
-			getPM().makePersistent(course);
-			getPM().flush();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		getPM().makePersistent(course);
+		getPM().flush();
 		
 		// Check insert operation persisted
 		int elapsedTime = 0;
-		CourseData courseCheck = getCourse(courseId);
+		Course courseCheck = getCourseEntity(courseId);
 		while ((courseCheck == null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
-			courseCheck = getCourse(courseId);
+			courseCheck = getCourseEntity(courseId);
 			elapsedTime += Common.WAIT_DURATION;
 		}
 		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
-			log.severe("Operation did not persist in time: addCourse->"+courseId);
+			log.severe("Operation did not persist in time: createCourse->"+courseId);
 		}
-	}
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	/**
-	 * RETRIEVE List<Course>
-	 * 
-	 * Retrieve all courses
-	 * 
-	 * @return
-	 * @author huy / kenny
-	 */
-	@SuppressWarnings("unchecked")
-	public List<CourseData> getAllCourses() {
-		 
-		List<Course> courseList = (List<Course>) getPM().newQuery(Course.class).execute();
-		
-		List<CourseData> courseDataList = new ArrayList<CourseData>();
-		
-		for (Course course : courseList) {
-			courseDataList.add(new CourseData(course));
-		}
-		
-		return courseDataList;
 	}
 	
 	
@@ -120,18 +86,10 @@ public class CoursesDb {
 	 * @return CourseData of the course that has the specified ID
 	 */
 	public CourseData getCourse(String courseId) {
-		String query = "select from " + Course.class.getName() + " where ID == \"" + courseId + "\"";
-
-		@SuppressWarnings("unchecked")
-		List<Course> courseList = (List<Course>) getPM().newQuery(query).execute();
-
-		if (courseList.isEmpty()){
-			String errorMessage = "Trying to get non-existent Course : " + courseId;
-			log.fine(errorMessage);
-			return null;
-		}
-
-		return new CourseData(courseList.get(0));
+		
+		Course c = getCourseEntity(courseId);
+		
+		return c == null ? null : new CourseData(c);
 	}
 	
 	
@@ -148,14 +106,14 @@ public class CoursesDb {
 	 * 
 	 * Returns the list of Course objects of a Coordinator
 	 * 
-	 * @param coordinatorID
+	 * @param coordId
 	 *            the Google ID of the coordinator (Precondition: Must not be
 	 *            null)
 	 * 
 	 * @return List<Course> the list of courses of the coordinator
 	 */
-	public List<CourseData> getCoordinatorCourseList(String coordinatorID) {
-		String query = "select from " + Course.class.getName() + " where coordinatorID == '" + coordinatorID + "'";
+	public List<CourseData> getCourseListForCoordinator(String coordId) {
+		String query = "select from " + Course.class.getName() + " where coordinatorID == '" + coordId + "'";
 
 		@SuppressWarnings("unchecked")
 		List<Course> courseList = (List<Course>) getPM().newQuery(query).execute();
@@ -166,33 +124,6 @@ public class CoursesDb {
 		}
 		
 		return courseDataList;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/**
-	 * UPDATE Course
-	 * 
-	 * Sets the archived attribute of this course to be TRUE
-	 * 
-	 * 
-	 * @param courseId
-	 *            the course ID (Precondition: Must not be null)
-	 */
-	public void archiveCourse(String courseId, boolean archiveStatus) {
-		String query = "select from " + Course.class.getName() + " where ID == \"" + courseId + "\"";
-		
-		@SuppressWarnings("unchecked")
-		List<Course> c = (List<Course>) getPM().newQuery(query).execute();
-		
-		c.get(0).setArchived(archiveStatus);
 	}
 
 	
@@ -212,27 +143,22 @@ public class CoursesDb {
 	 */
 	public void deleteCourse(String courseId) {
 		
-		String query = "select from " + Course.class.getName() + " where ID == \"" + courseId + "\"";
+		Course courseToDelete = getCourseEntity(courseId);
 		
-		@SuppressWarnings("unchecked")
-		List<Course> courseList = (List<Course>) getPM().newQuery(query).execute();
-		
-		if (courseList.isEmpty()) {
-			String errorMessage = "Trying to delete non-existent course : "
-					+ courseId;
-			log.warning(errorMessage);
+		if (courseToDelete == null) {
+			log.warning("Trying to delete non-existent Course: " + courseId);
 			return;
 		}
 		
-		getPM().deletePersistent(courseList.get(0));
+		getPM().deletePersistent(courseToDelete);
 		getPM().flush();
 		
 		// Check delete operation persisted
 		int elapsedTime = 0;
-		CourseData courseCheck = getCourse(courseId);
+		Course courseCheck = getCourseEntity(courseId);
 		while ((courseCheck != null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
-			courseCheck = getCourse(courseId);
+			courseCheck = getCourseEntity(courseId);
 			elapsedTime += Common.WAIT_DURATION;
 		}
 		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
@@ -250,6 +176,31 @@ public class CoursesDb {
 	
 	
 	
+	
+	
+	/**
+	 * Returns the actual Course Entity
+	 *  
+	 * @param courseID
+	 *            the course ID (Precondition: Must not be null)
+	 * 
+	 * @return Course
+	 * 			  
+	 */
+	private Course getCourseEntity(String courseId) {
+		String query = "select from " + Course.class.getName() + " where ID == \"" + courseId + "\"";
+
+		@SuppressWarnings("unchecked")
+		List<Course> courseList = (List<Course>) getPM().newQuery(query).execute();
+
+		if (courseList.isEmpty()){
+			String errorMessage = "Trying to get non-existent Course : " + courseId;
+			log.fine(errorMessage);
+			return null;
+		}
+
+		return courseList.get(0);
+	}
 	
 	
 	

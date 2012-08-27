@@ -323,7 +323,6 @@ public class BackDoorTest extends BaseTestCase {
 		student.name = "New name";
 		student.email = "new@gmail.com";
 		student.comments = "new comments";
-		student.profile = new Text("new profile");
 		student.team = "new team";
 		String status = BackDoor.editStudent(originalEmail, student);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
@@ -480,9 +479,7 @@ public class BackDoorTest extends BaseTestCase {
 		assertEquals("comment for student1InCourse1",
 				student1InCourse1.comments);
 		assertEquals("idOfCourse1OfCoord1", student1InCourse1.course);
-		assertEquals("profiledetail for student1InCourse1",
-				student1InCourse1.profile.getValue());
-
+		
 		StudentData student2InCourse2 = data.students.get("student2InCourse2");
 		assertEquals("student2InCourse1", student2InCourse2.id);
 		assertEquals("student2 In Course2", student2InCourse2.name);
