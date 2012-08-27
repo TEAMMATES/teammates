@@ -300,7 +300,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	}
 	
 	/**
-	 * Sorts submissions based on feedback (the first 70 chars)
+	 * Sorts submissions based on justification (the first 70 chars)
 	 * 
 	 * @param submissions
 	 */

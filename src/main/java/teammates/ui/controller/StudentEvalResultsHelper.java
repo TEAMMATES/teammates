@@ -39,15 +39,15 @@ public class StudentEvalResultsHelper extends Helper {
 	 */
 	public static String getNormalizedToStudentsPointsList(final List<SubmissionData> subs){
 		String result = "";
-		List<SubmissionData> temSubs =  new ArrayList<SubmissionData>(subs);
+		List<SubmissionData> tempSubs =  new ArrayList<SubmissionData>(subs);
 
-		Collections.sort(temSubs, new Comparator<SubmissionData>(){
+		Collections.sort(tempSubs, new Comparator<SubmissionData>(){
 			@Override
 			public int compare(SubmissionData s1, SubmissionData s2){
 				return Integer.valueOf(s2.normalizedToStudent).compareTo(s1.normalizedToStudent);
 			}
 		});
-		for(SubmissionData sub: temSubs){
+		for(SubmissionData sub: tempSubs){
 			if(sub.reviewee.equals(sub.reviewer)) continue;
 			if(result!="") result+=", ";
 			result+=CoordEvalResultsHelper.colorizePoints(sub.normalizedToStudent);
