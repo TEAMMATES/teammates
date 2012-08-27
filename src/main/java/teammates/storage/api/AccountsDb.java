@@ -310,6 +310,7 @@ public class AccountsDb {
 	
 	
 	/**
+	 * UPDATE Student.ID
 	 * 
 	 * Sets the ID of a particular Student object having the specified
 	 * registration key.

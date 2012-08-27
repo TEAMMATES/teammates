@@ -25,18 +25,12 @@ import teammates.storage.entity.Submission;
 
 public class EvaluationsStorage {
 	private static EvaluationsStorage instance = null;
-	private static final Logger log = Logger.getLogger(EvaluationsStorage.class
-			.getName());
+	private static final Logger log = Common.getLogger();
 
 	private static final AccountsDb accountsDb = new AccountsDb();
 	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
 	
-	/**
-	 * Constructs an Accounts object. Obtains an instance of PersistenceManager
-	 * class to handle datastore transactions.
-	 */
-	private EvaluationsStorage() {
-	}
+	
 
 	private PersistenceManager getPM() {
 		return Datastore.getPersistenceManager();

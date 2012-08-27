@@ -24,9 +24,9 @@ public class CoursesStorage {
 	
 	private static final CoursesDb coursesDb = new CoursesDb();
 	private static final AccountsDb accountsDb = new AccountsDb();
-	
 
-	
+
+
 	/**
 	 * Retrieve singleton instance of CoursesStorage
 	 * 
@@ -39,11 +39,11 @@ public class CoursesStorage {
 	}
 
 
-	
 
 
-	
-	
+
+
+
 
 
 
@@ -131,11 +131,11 @@ public class CoursesStorage {
 
 
 
-	
 
 
 
-	
+
+
 
 	/**
 	 * Returns the team name of a Student in a particular Course.
@@ -191,12 +191,12 @@ public class CoursesStorage {
 	
 
 
-	
-
-	
 
 
 	
+
+
+
 
 
 	
@@ -255,7 +255,7 @@ public class CoursesStorage {
 	
 	
 
-	
+
 	
 	public CoursesDb getDb() {
 		return coursesDb;
