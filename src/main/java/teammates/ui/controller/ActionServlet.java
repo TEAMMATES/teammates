@@ -307,8 +307,8 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	protected void sortSubmissionsByJustification(List<SubmissionData> submissions) {
 		Collections.sort(submissions, new Comparator<SubmissionData>() {
 			public int compare(SubmissionData s1, SubmissionData s2) {
-				return s2.justification.getValue().compareTo(
-						s1.justification.getValue());
+				return s1.justification.toString().compareTo(
+						s2.justification.toString());
 			}
 		});
 	}
