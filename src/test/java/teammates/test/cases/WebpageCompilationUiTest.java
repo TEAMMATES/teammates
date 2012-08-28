@@ -7,7 +7,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.DataBundle;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
@@ -44,7 +43,7 @@ public class WebpageCompilationUiTest extends BaseTestCase {
 	}
 
 	@Test	
-	public void testStudentHomeCoursePageHTML() throws Exception{	
+	public void testWebpageCompilation() throws Exception{	
 		
 		bi.goToUrl(appURL+Common.WEBPAGE_COMPILATION);
 	}
