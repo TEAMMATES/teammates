@@ -10,8 +10,10 @@ import javax.jdo.PersistenceManager;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Submission;
 import teammates.common.Common;
+import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
 
@@ -30,6 +32,361 @@ public class SubmissionsDb {
 
 	
 	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Creates new Submission Entities for a particular Evaluation.
+	 * 
+	 * @param courseId
+	 *            the course ID (Pre-condition: The courseID and evaluationName
+	 *            pair must be valid)
+	 * 
+	 * @param evaluationName
+	 *            the evaluation name (Pre-condition: The courseID and
+	 *            evaluationName pair must be valid)
+	 *            
+	 * @param teamName
+	 *            
+	 * @param toStudent
+	 * 
+	 * @param fromStudent
+	 */
+	public void createSubmission(	String courseId, 
+									String evaluationName,
+									String teamName,
+									String toStudent,
+									String fromStudent
+								) {
+		
+		Submission newSubmission = new Submission(	fromStudent,
+													toStudent,
+													courseId,
+													evaluationName,
+													teamName);
+		
+		try {
+			getPM().makePersistent(newSubmission);
+			getPM().flush();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
+		// check if insert operation persisted
+		int elapsedTime = 0;
+		Submission submissionCheck = getSubmissionEntity(courseId, evaluationName, teamName, toStudent, fromStudent);
+		while ((submissionCheck == null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
+			Common.waitBriefly();
+			submissionCheck = getSubmissionEntity(courseId, evaluationName, teamName, toStudent, fromStudent);
+			elapsedTime += Common.WAIT_DURATION;
+		}
+		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
+			log.severe("Operation did not persist in time: createSubmission->"
+					+ courseId + "/" + evaluationName + " | to: " + toStudent + " | from: " + fromStudent);
+		}
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * RETRIEVE Submission
+	 * 
+	 * Returns a specific SubmissionData object with the supplied params
+	 * 
+	 * @param courseID
+	 *            the course ID (Pre-condition: The parameters must be valid)
+	 * 
+	 * @param evaluationName
+	 *            the evaluation name (Pre-condition: The parameters must be
+	 *            valid)
+	 * 
+	 * @param teamName
+	 *            the team name (Pre-condition: The parameters must be valid)
+	 * 
+	 * @param toStudent
+	 *            the email of the target student (Pre-condition: The parameters
+	 *            must be valid)
+	 * 
+	 * @param fromStudent
+	 *            the email of the sending student (Pre-condition: The
+	 *            parameters must be valid)
+	 * 
+	 * @return the submission entry of the specified fromStudent to the
+	 *         specified toStudent
+	 */
+	public SubmissionData getSubmission(	String courseId, 
+											String evaluationName,
+											String teamName, 
+											String toStudent, 
+											String fromStudent
+										) {
+
+		Submission s = getSubmissionEntity(	courseId,
+											evaluationName,
+											teamName,
+											toStudent,
+											fromStudent
+											);
+		
+		return s == null ? null : new SubmissionData(s);
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * RETRIEVE List<Submission>
+	 * 
+	 * Returns all submissions in a course
+	 * 
+	 * @param courseID
+	 *            the course ID (Pre-condition: Must be valid)
+	 * 
+	 * @return the submissions pertaining to the specified course
+	 */
+	public List<SubmissionData> getSubmissionsForCourse(String courseId) {
+		String query = "select from " + Submission.class.getName()
+				+ " where courseID == '" + courseId + "'";
+
+		@SuppressWarnings("unchecked")
+		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
+				query).execute();
+		
+		List<SubmissionData> submissionDataList = new ArrayList<SubmissionData>();
+		
+		for (Submission s : submissionList){
+			submissionDataList.add(new SubmissionData(s));
+		}
+
+		return submissionDataList;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * UPDATE Submission
+	 * 
+	 * Update the email address of Submission objects from a particular course when a student changes his email
+	 * 
+	 * @param email
+	 *            the email of the student (Pre-condition: The courseID and
+	 *            email pair must be valid)
+	 * 
+	 * @param courseID
+	 *            the course ID (Pre-condition: The courseID and email pair must
+	 *            be valid)
+	 * 
+	 * @param newEmail
+	 *            the new email of the student (Pre-condition: Must not be null)
+	 */
+	public void editStudentEmailForSubmissionsInCourse(String courseId, String email, String newEmail) {
+
+		String query = "select from " + Submission.class.getName()
+				+ " where courseID == '" + courseId + "'";
+
+		@SuppressWarnings("unchecked")
+		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
+				query).execute();
+		
+		for (Submission s : submissionList) {
+			// From student is changing email
+			if (s.getFromStudent().equals(email)) {
+				s.setFromStudent(newEmail);
+			}
+			// To student is changing email
+			if (s.getToStudent().equals(email)) {
+				s.setToStudent(newEmail);
+			}
+
+		}
+		getPM().close();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * UPDATE Submission
+	 * 
+	 * Edits a single Submission Entity.
+	 * 
+	 * @param A SubmissionData copied from a Submission Entity, containing modified values.
+	 * 
+	 */
+	public void editSubmission(SubmissionData sd) {
+		
+		Submission submission = getSubmissionEntity(	sd.course, 
+														sd.evaluation,
+														sd.team, 
+														sd.reviewee,
+														sd.reviewer);
+
+		submission.setPoints(sd.points);
+		submission.setJustification(sd.justification);
+		submission.setCommentsToStudent(sd.p2pFeedback);
+			
+		// closing PM because otherwise the data is not updated during offline
+		// unit testing
+		getPM().close();
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * UPDATE List<Submission>
+	 * 
+	 * Edits a list of Submission objects.
+	 * 
+	 * @param submissionList
+	 *            the list of submissions to be edited (Pre-condition: The
+	 *            submission list must be valid)
+	 */
+	public void editSubmissions(List<SubmissionData> submissionDataList) {
+		
+		for (SubmissionData sd : submissionDataList) {
+			editSubmission(sd);
+		}
+		// closing PM because otherwise the data is not updated during offline
+		// unit testing
+		getPM().close();
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * DELETE List<Submission>
+	 * 
+	 * Deletes all submissions in a course
+	 * 
+	 * @param courseID
+	 *            the course ID (Pre-condition: Must be valid)
+	 * 
+	 */
+	public void deleteAllSubmissionsForCourse(String courseId) {
+		String query = "select from " + Submission.class.getName()
+				+ " where courseID == '" + courseId + "'";
+
+		@SuppressWarnings("unchecked")
+		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
+				query).execute();
+		
+		getPM().deletePersistentAll(submissionList);
+		getPM().flush();
+		
+		return;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Returns the actual Submission Entity
+	 * 
+	 * @param courseID
+	 *            the course ID (Pre-condition: The parameters must be valid)
+	 * 
+	 * @param evaluationName
+	 *            the evaluation name (Pre-condition: The parameters must be
+	 *            valid)
+	 * 
+	 * @param teamName
+	 *            the team name (Pre-condition: The parameters must be valid)
+	 * 
+	 * @param toStudent
+	 *            the email of the target student (Pre-condition: The parameters
+	 *            must be valid)
+	 * 
+	 * @param fromStudent
+	 *            the email of the sending student (Pre-condition: The
+	 *            parameters must be valid)
+	 * 
+	 * @return the submission entry of the specified fromStudent to the
+	 *         specified toStudent
+	 */
+	private Submission getSubmissionEntity(	String courseId, 
+											String evaluationName,
+											String teamName, 
+											String toStudent, 
+											String fromStudent
+										) {
+
+		String query = "select from " + Submission.class.getName()
+				+ " where courseID == '" + courseId + "'"
+				+ "&& evaluationName == '" + evaluationName
+				+ "' && teamName == '" + teamName + "'" + "&& fromStudent == '"
+				+ fromStudent + "' && toStudent == '" + toStudent + "'";
+
+		@SuppressWarnings("unchecked")
+		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
+				query).execute();
+		
+		if (submissionList.isEmpty()) {
+			log.fine("Trying to get non-existent Submission : " + courseId
+					+ "/" + evaluationName + ", in TEAM:" + teamName + " | from " + fromStudent + " to " + toStudent );
+			return null;
+		}
+	
+		return submissionList.get(0);
+	}
 	
 
 	

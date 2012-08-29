@@ -20,7 +20,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.datastore.Datastore;
-import teammates.storage.entity.Evaluation;
 import teammates.storage.entity.Submission;
 
 public class EvaluationsStorage {
@@ -29,6 +28,7 @@ public class EvaluationsStorage {
 
 	private static final AccountsDb accountsDb = new AccountsDb();
 	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
+	private static final SubmissionsDb submissionsDb = new SubmissionsDb();
 	
 	
 
@@ -42,18 +42,7 @@ public class EvaluationsStorage {
 		return instance;
 	}
 
-	public List<Evaluation> getReadyEvaluations() {
-		// TODO: very inefficient to go through all evaluations
-		List<Evaluation> evaluationList = getAllEvaluations();
-		List<Evaluation> readyEvaluations = new ArrayList<Evaluation>();
-
-		for (Evaluation e : evaluationList) {
-			if (e.isReady()) {
-				readyEvaluations.add(e);
-			}
-		}
-		return readyEvaluations;
-	}
+	
 
 
 	/**
@@ -71,9 +60,17 @@ public class EvaluationsStorage {
 			
 			evaluationsDb.createEvaluation(e);
 
-			// Build submission objects for each student based on their team
-			// number
-			createSubmissions(e.course, e.name);
+			// Build submission objects for each student based on their team number
+			List<StudentData> studentDataList = accountsDb.getStudentListForCourse(e.course);
+
+			// This double loop creates 3 submissions for a pair of students: x->x, x->y, y->x
+			for (StudentData sx : studentDataList) {
+				for (StudentData sy : studentDataList) {
+					if (sx.team.equals(sy.team)) {
+						submissionsDb.createSubmission(e.course, e.name, sx.team, sx.email, sy.email);
+					}
+				}
+			}
 		
 		} catch (EntityAlreadyExistsException eaee) {
 			log.warning(Common.stackTraceToString(eaee));
@@ -83,6 +80,11 @@ public class EvaluationsStorage {
 			throw ipe;
 		}	
 	}
+	
+	
+	
+	
+	
 
 	/**
 	 * Calculates the bump ratio of points for a specific student.
@@ -135,71 +137,7 @@ public class EvaluationsStorage {
 		return (float) ((numberOfStudents * 100.0) / (float) totalPoints);
 	}
 
-	/**
-	 * Creates Submission objects for a particular Evaluation.
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: The courseID and evaluationName
-	 *            pair must be valid)
-	 * 
-	 * @param evaluationName
-	 *            the evaluation name (Pre-condition: The courseID and
-	 *            evaluationName pair must be valid)
-	 */
-	public void createSubmissions(String courseID, String evaluationName) {
-		List<Submission> submissionList = createSubmissionsForEval(courseID,
-				evaluationName);
-
-		try {
-			getPM().makePersistentAll(submissionList);
-			getPM().flush();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-
-		//check for persistence
-		int elapsedTime = 0;
-		if (submissionList.size() == 0) {
-			return;
-		}
-		Submission lastSubmission = submissionList
-				.get(submissionList.size() - 1);
-		Submission created = getSubmission(courseID, evaluationName,
-				lastSubmission.getFromStudent(), lastSubmission.getToStudent());
-		while ((created == null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
-			Common.waitBriefly();
-			created = getSubmission(courseID, evaluationName,
-					lastSubmission.getFromStudent(), lastSubmission.getToStudent());
-			elapsedTime += Common.WAIT_DURATION;
-		}
-		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
-			log.severe("Operation did not persist in time: createSubmissions->"
-					+ courseID + "/" + evaluationName);
-		}
-
-	}
-
-	private List<Submission> createSubmissionsForEval(String courseID,
-			String evaluationName) {
-		
-		List<StudentData> studentDataList = accountsDb.getStudentListForCourse(courseID);
-
-		List<Submission> submissionList = new ArrayList<Submission>();
-		Submission submission = null;
-
-		for (StudentData sx : studentDataList) {
-			for (StudentData sy : studentDataList) {
-				if (sx.team.equals(sy.team)) {
-					submission = new Submission(sx.email, sy.email,
-							courseID, evaluationName, sx.team);
-					submissionList.add(submission);
-				}
-
-			}
-
-		}
-		return submissionList;
-	}
+	
 	
 	/**
 	 * Adjusts submissions for a student moving from one team to another. 
@@ -264,10 +202,10 @@ public class EvaluationsStorage {
 
 	private List<String> getExistingStudentsInTeam(String courseId, String team) {
 		Set<String> students = new HashSet<String>();
-		List<Submission> submissions = getSubmissionList(courseId);
-		for(Submission s: submissions){
-			if(s.getTeamName().equals(team)){
-			students.add(s.getFromStudent());
+		List<SubmissionData> submissionsDataList = submissionsDb.getSubmissionsForCourse(courseId);
+		for(SubmissionData s: submissionsDataList){
+			if(s.team.equals(team)){
+				students.add(s.reviewer);
 			}
 		}
 		return new ArrayList<String>(students);
@@ -340,10 +278,7 @@ public class EvaluationsStorage {
 	public void deleteEvaluations(String courseId) {
 		
 		evaluationsDb.deleteAllEvaluationsForCourse(courseId);
-		
-		List<Submission> submissionList = getSubmissionList(courseId);
-		getPM().deletePersistentAll(submissionList);
-		getPM().flush();
+		submissionsDb.deleteAllSubmissionsForCourse(courseId);
 	}
 
 
@@ -355,180 +290,21 @@ public class EvaluationsStorage {
 	
 
 
-	/**
-	 * Edits the Submission objects that pertain to a specified Student and his
-	 * email.
-	 * 
-	 * @param email
-	 *            the email of the student (Pre-condition: The courseID and
-	 *            email pair must be valid)
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: The courseID and email pair must
-	 *            be valid)
-	 * 
-	 * @param newEmail
-	 *            the new email of the student (Pre-condition: Must not be null)
-	 */
-	public void editSubmissions(String courseID, String email, String newEmail) {
-
-		List<Submission> submissionList = getSubmissionList(courseID);
-
-		for (Submission s : submissionList) {
-			if (s.getFromStudent().equals(email)) {
-				s.setFromStudent(newEmail);
-			}
-			if (s.getToStudent().equals(email)) {
-				s.setToStudent(newEmail);
-			}
-
-		}
-		getPM().close();
-	}
-
-	/**
-	 * Edits a list of Submission objects.
-	 * 
-	 * @param submissionList
-	 *            the list of submissions to be edited (Pre-condition: The
-	 *            submission list must be valid)
-	 */
-	public void editSubmissions(List<Submission> submissionList) {
-		Submission submission = null;
-
-		for (Submission s : submissionList) {
-			submission = getSubmission(s.getCourseID(), s.getEvaluationName(),
-					s.getTeamName(), s.getToStudent(), s.getFromStudent());
-
-			submission.setPoints(s.getPoints());
-			submission.setJustification(s.getJustification());
-			submission.setCommentsToStudent(s.getCommentsToStudent());
-		}
-		// closing PM because otherwise the data is not updated during offline
-		// unit testing
-		getPM().close();
-
-	}
-
-	/**
-	 * Returns all Evaluation objects.
-	 * 
-	 * @return the list of all evaluations
-	 */
-	public List<Evaluation> getAllEvaluations() {
-		String query = "select from " + Evaluation.class.getName();
-
-		@SuppressWarnings("unchecked")
-		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
-				query).execute();
-
-		return evaluationList;
-	}
+	
 
 	
 
-	/**
-	 * Returns all Evaluation objects that are due in the specified number of
-	 * hours.
-	 * 
-	 * @param hours
-	 *            the number of hours in which the evaluations are due
-	 * 
-	 * @return the list of all existing evaluations
-	 */
-	public List<Evaluation> getEvaluationsClosingWithinTimeLimit(int hours) {
-		String query = "select from " + Evaluation.class.getName();
+	
 
-		@SuppressWarnings("unchecked")
-		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
-				query).execute();
-		Calendar now = Calendar.getInstance();
-		Calendar start = Calendar.getInstance();
-		Calendar deadline = Calendar.getInstance();
+	
 
-		long nowMillis;
-		long deadlineMillis;
-
-		long differenceBetweenDeadlineAndNow;
-
-		List<Evaluation> dueEvaluationList = new ArrayList<Evaluation>();
-
-		for (Evaluation e : evaluationList) {
-			// Fix the time zone accordingly
-			now.add(Calendar.MILLISECOND,
-					(int) (60 * 60 * 1000 * e.getTimeZone()));
-			start.setTime(e.getStart());
-			deadline.setTime(e.getDeadline());
-
-			nowMillis = now.getTimeInMillis();
-			deadlineMillis = deadline.getTimeInMillis();
-
-			differenceBetweenDeadlineAndNow = (deadlineMillis - nowMillis)
-					/ (60 * 60 * 1000);
-
-			// If now and start are almost similar, it means the evaluation is
-			// open
-			// for only 24 hours
-			// hence we do not send a reminder e-mail for the evaluation
-			if (now.after(start)
-					&& (differenceBetweenDeadlineAndNow >= hours - 1 && differenceBetweenDeadlineAndNow < hours))
-
-			{
-				dueEvaluationList.add(e);
-			}
-
-			now.add(Calendar.MILLISECOND,
-					(int) (-60 * 60 * 1000 * e.getTimeZone()));
-		}
-
-		return dueEvaluationList;
-	}
-
+	
 
 
 	
 
 
-	/**
-	 * Returns a Submission object.
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: The parameters must be valid)
-	 * 
-	 * @param evaluationName
-	 *            the evaluation name (Pre-condition: The parameters must be
-	 *            valid)
-	 * 
-	 * @param teamName
-	 *            the team name (Pre-condition: The parameters must be valid)
-	 * 
-	 * @param toStudent
-	 *            the email of the target student (Pre-condition: The parameters
-	 *            must be valid)
-	 * 
-	 * @param fromStudent
-	 *            the email of the sending student (Pre-condition: The
-	 *            parameters must be valid)
-	 * 
-	 * @return the submission entry of the specified fromStudent to the
-	 *         specified toStudent
-	 */
-	private Submission getSubmission(String courseID, String evaluationName,
-			String teamName, String toStudent, String fromStudent) {
-
-		String query = "select from " + Submission.class.getName()
-				+ " where courseID == '" + courseID + "'"
-				+ "&& evaluationName == '" + evaluationName
-				+ "' && teamName == '" + teamName + "'" + "&& fromStudent == '"
-				+ fromStudent + "' && toStudent == '" + toStudent + "'";
-
-		@SuppressWarnings("unchecked")
-		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
-				query).execute();
-
-		// TODO: need to handle entity-not-found
-		return submissionList.size() == 0 ? null : submissionList.get(0);
-	}
+	
 
 	/**
 	 * Returns the Submission objects of an Evaluation from a specific Student.
@@ -581,35 +357,8 @@ public class EvaluationsStorage {
 		return target;
 	}
 
-	/**
-	 * Returns the Submission objects of a Course.
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: Must be valid)
-	 * 
-	 * @return the submissions pertaining to the specified course
-	 */
-	public List<Submission> getSubmissionList(String courseID) {
-		String query = "select from " + Submission.class.getName()
-				+ " where courseID == '" + courseID + "'";
-
-		@SuppressWarnings("unchecked")
-		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
-				query).execute();
-
-		return submissionList;
-	}
 	
-	public List<SubmissionData> getSubmissionsForCourse(String courseID) {
-		
-		List<Submission> submissionList = getSubmissionList(courseID);
-		List<SubmissionData> submissionDataList = new ArrayList<SubmissionData>();
-		for (Submission s : submissionList) {
-			submissionDataList.add(new SubmissionData(s));
-		}
-		return submissionDataList;
-	}
-
+	
 	/**
 	 * Returns the Submission objects of an Evaluation.
 	 * 
@@ -768,8 +517,12 @@ public class EvaluationsStorage {
 	}
 	
 	
-	public EvaluationsDb getDb() {
+	public EvaluationsDb getEvaluationsDb() {
 		return evaluationsDb;
+	}
+	
+	public SubmissionsDb getSubmissionsDb() {
+		return submissionsDb;
 	}
 
 }

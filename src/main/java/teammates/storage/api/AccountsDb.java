@@ -50,7 +50,7 @@ public class AccountsDb {
 	 */
 	public void createCoord(String googleID, String name, String email)
 			throws EntityAlreadyExistsException {
-		if (getCoord(googleID) != null) {
+		if (getCoordEntity(googleID) != null) {
 			throw new EntityAlreadyExistsException("Coordinator already exists :" + googleID);
 		}
 		Coordinator coordinator = new Coordinator(googleID, name, email);
@@ -58,8 +58,8 @@ public class AccountsDb {
 		getPM().flush();
 		
 		// Check insert operation persisted
-		Coordinator coordinatorCheck = getCoordEntity(googleID);
 		int elapsedTime = 0;
+		Coordinator coordinatorCheck = getCoordEntity(googleID);
 		while ((coordinatorCheck == null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
 			coordinatorCheck = getCoordEntity(googleID);
@@ -103,7 +103,7 @@ public class AccountsDb {
 								String team
 							) throws EntityAlreadyExistsException {
 		
-		if(getStudent(course, email)!=null){
+		if(getStudentEntity(course, email)!=null){
 			throw new EntityAlreadyExistsException("This student already existis :"+ course + "/" + email);
 		}
 		
@@ -142,7 +142,7 @@ public class AccountsDb {
 			studentCheck = getStudentEntity(course, email);
 			elapsedTime += Common.WAIT_DURATION;
 		}
-		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
+		if (elapsedTime==Common.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: createStudent->"+ course + "/" + email);
 		}
 	}
@@ -449,7 +449,7 @@ public class AccountsDb {
 			coordinatorCheck = getCoordEntity(coordId);
 			elapsedTime += Common.WAIT_DURATION;
 		}
-		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
+		if (elapsedTime==Common.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: deleteCoord->"+coordId);
 		}
 		
@@ -520,15 +520,13 @@ public class AccountsDb {
 		
 		// Check delete operation persisted
 		int elapsedTime = 0;
-
 		Student studentCheck = getStudentEntity(courseId, email);
 		while ((studentCheck != null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)){
 			Common.waitBriefly();
-
 			studentCheck = getStudentEntity(courseId, email);
 			elapsedTime += Common.WAIT_DURATION;
 		}
-		if(elapsedTime==Common.PERSISTENCE_CHECK_DURATION){
+		if (elapsedTime==Common.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: deleteStudent->"+ courseId + "/" + email);
 		}
 	}

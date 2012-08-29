@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -175,6 +176,106 @@ public class EvaluationsDb {
 	
 	
 	/**
+	 * RETRIEVE List<Evaluation>
+	 * 
+	 * Returns the EvaluationData that are ready.
+	 * 
+	 * @param courseID
+	 *            
+	 * 
+	 * @return List<EvaluationData> of ready evaluations
+	 */
+	public List<EvaluationData> getReadyEvaluations() {
+		// TODO: very inefficient to go through all evaluations
+		// There doesn't seem to be another alternative.
+		// The readiness must be evaluated from a Calendar instance, not able to select at query time
+		List<Evaluation> evaluationList = getAllEvaluations();
+		List<EvaluationData> readyEvaluations = new ArrayList<EvaluationData>();
+
+		for (Evaluation e : evaluationList) {
+			if (e.isReady()) {
+				readyEvaluations.add(new EvaluationData(e));
+			}
+		}
+		return readyEvaluations;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Returns all Evaluation objects that are due in the specified number of
+	 * hours.
+	 * 
+	 * @param hours
+	 *            the number of hours in which the evaluations are due
+	 * 
+	 * @return the list of all existing evaluations
+	 */
+	public List<Evaluation> getEvaluationsClosingWithinTimeLimit(int hours) {
+		String query = "select from " + Evaluation.class.getName();
+
+		@SuppressWarnings("unchecked")
+		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
+				query).execute();
+		Calendar now = Calendar.getInstance();
+		Calendar start = Calendar.getInstance();
+		Calendar deadline = Calendar.getInstance();
+
+		long nowMillis;
+		long deadlineMillis;
+
+		long differenceBetweenDeadlineAndNow;
+
+		List<Evaluation> dueEvaluationList = new ArrayList<Evaluation>();
+
+		for (Evaluation e : evaluationList) {
+			// Fix the time zone accordingly
+			now.add(Calendar.MILLISECOND,
+					(int) (60 * 60 * 1000 * e.getTimeZone()));
+			start.setTime(e.getStart());
+			deadline.setTime(e.getDeadline());
+
+			nowMillis = now.getTimeInMillis();
+			deadlineMillis = deadline.getTimeInMillis();
+
+			differenceBetweenDeadlineAndNow = (deadlineMillis - nowMillis)
+					/ (60 * 60 * 1000);
+
+			// If now and start are almost similar, it means the evaluation is
+			// open
+			// for only 24 hours
+			// hence we do not send a reminder e-mail for the evaluation
+			if (now.after(start)
+					&& (differenceBetweenDeadlineAndNow >= hours - 1 && differenceBetweenDeadlineAndNow < hours))
+
+			{
+				dueEvaluationList.add(e);
+			}
+
+			now.add(Calendar.MILLISECOND,
+					(int) (-60 * 60 * 1000 * e.getTimeZone()));
+		}
+
+		return dueEvaluationList;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
 	 * UPDATE Evaluation
 	 * 
 	 * Edits an Evaluation object with the new values and returns true if there
@@ -210,12 +311,22 @@ public class EvaluationsDb {
 	 * @return <code>true</code> if there are changes, <code>false</code>
 	 *         otherwise
 	 */
-	public boolean editEvaluation(String courseID, String name,
-			String newInstructions, boolean newCommentsEnabled, Date newStart,
-			Date newDeadline, int newGracePeriod, boolean newIsActive,
-			boolean newIsPublished, double newTimeZone)
+	public boolean editEvaluation(	String courseId, 
+									String name,
+									String newInstructions, 
+									boolean newCommentsEnabled, 
+									Date newStart,
+									Date newDeadline, 
+									int newGracePeriod, 
+									boolean newIsActive,
+									boolean newIsPublished, 
+									double newTimeZone)
 			throws EntityDoesNotExistException {
-		Evaluation evaluation = getEvaluationEntity(courseID, name);
+		
+		Evaluation evaluation = getEvaluationEntity(courseId, name);
+		
+		if (evaluation == null)
+			throw new EntityDoesNotExistException("Trying to edit non-existent evaluation:" + courseId + " " + name);
 
 		Transaction tx = getPM().currentTransaction();
 		try {
@@ -242,6 +353,46 @@ public class EvaluationsDb {
 		return true;
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * UPDATE Evaluation
+	 * 
+	 * Edits an Evaluation object with the new values and returns true if there
+	 * are changes, false otherwise.
+	 * 
+	 * @param EvaluationData
+	 * 
+	 * @return <code>true</code> if there are changes, <code>false</code>
+	 *         otherwise
+	 *         
+	 * @throws EntityDoesNotExistException
+	 */
+	public boolean editEvaluation(EvaluationData ed) throws EntityDoesNotExistException {
+		
+		try {
+			return editEvaluation(	ed.course,
+									ed.name,
+									ed.instructions,
+									ed.p2pEnabled,
+									ed.startTime,
+									ed.endTime,
+									ed.gracePeriod,
+									ed.activated,
+									ed.published,
+									ed.timeZone);
+			
+		} catch (EntityDoesNotExistException ednee) {
+			throw ednee;
+		}
+	}
 	
 	
 	
@@ -386,6 +537,22 @@ public class EvaluationsDb {
 		return evaluationList.get(0);
 	}
 	
+	
+	
+	/**
+	 * Returns all Evaluation Entities.
+	 * 
+	 * @return the list of all Evaluations
+	 */
+	private List<Evaluation> getAllEvaluations() {
+		String query = "select from " + Evaluation.class.getName();
+
+		@SuppressWarnings("unchecked")
+		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
+				query).execute();
+
+		return evaluationList;
+	}
 	
 	
 }

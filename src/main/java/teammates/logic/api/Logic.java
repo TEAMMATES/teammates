@@ -549,7 +549,7 @@ public class Logic {
 		Common.verifyNotNull(courseId, "course ID");
 
 		verifyCourseOwnerOrAbove(courseId);
-
+		
 		EvaluationsStorage.inst().deleteEvaluations(courseId);
 		CoursesStorage.inst().deleteCourse(courseId);
 	}
@@ -806,7 +806,7 @@ public class Logic {
 
 		// cascade email change, if any
 		if (!originalEmail.equals(student.email)) {
-			EvaluationsStorage.inst().editSubmissions(student.course,
+			EvaluationsStorage.inst().getSubmissionsDb().editStudentEmailForSubmissionsInCourse(student.course,
 					originalEmail, student.email);
 		}
 
@@ -1021,7 +1021,7 @@ public class Logic {
 		// For each course the student is in
 		for (CourseData c : courseList) {
 			// Get the list of evaluations for the course
-			List<EvaluationData> evaluationDataList = EvaluationsStorage.inst().getDb()
+			List<EvaluationData> evaluationDataList = EvaluationsStorage.inst().getEvaluationsDb()
 					.getEvaluationsForCourse(c.id);
 			
 			// For the list of evaluations for this course
@@ -1100,18 +1100,7 @@ public class Logic {
 		EvaluationsStorage.inst().createEvaluation(evaluation);
 	}
 
-	/**
-	 * Creating submission is an internal activity. However, it is supported
-	 * here for the benefit of BackDoor.
-	 */
-	// TODO: to be pushed out to another class. this does not belong here.
-	protected void createSubmissions(List<SubmissionData> submissionDataList) {
-		ArrayList<Submission> submissions = new ArrayList<Submission>();
-		for (SubmissionData sd : submissionDataList) {
-			submissions.add(sd.toSubmission());
-		}
-		EvaluationsStorage.inst().editSubmissions(submissions);
-	}
+	
 
 	/**
 	 * Access: all registered users
@@ -1124,7 +1113,7 @@ public class Logic {
 
 		verifyRegisteredUserOrAbove();
 
-		EvaluationData e = EvaluationsStorage.inst().getDb().getEvaluation(courseId,
+		EvaluationData e = EvaluationsStorage.inst().getEvaluationsDb().getEvaluation(courseId,
 				evaluationName);
 		
 		return e;
@@ -1171,23 +1160,10 @@ public class Logic {
 
 		evaluation.validate();
 
-		editEvaluationAllFields(evaluation);
+		EvaluationsStorage.inst().getEvaluationsDb().editEvaluation(evaluation);
 	}
 
-	/**
-	 * This method allowed editing of all fields. It is here for the benefit of
-	 * BackDoor
-	 */
-	protected void editEvaluationAllFields(EvaluationData evaluation)
-			throws EntityDoesNotExistException, InvalidParametersException {
-
-		EvaluationsStorage.inst().getDb()
-				.editEvaluation(evaluation.course, evaluation.name,
-						evaluation.instructions, evaluation.p2pEnabled,
-						evaluation.startTime, evaluation.endTime,
-						evaluation.gracePeriod, evaluation.activated,
-						evaluation.published, evaluation.timeZone);
-	}
+	
 
 	/**
 	 * Access: owner and above
@@ -1226,7 +1202,7 @@ public class Logic {
 					"Cannot publish an evaluation unless it is CLOSED");
 		}
 
-		EvaluationsStorage.inst().getDb().setEvaluationPublishedStatus(courseId, evaluationName, true);
+		EvaluationsStorage.inst().getEvaluationsDb().setEvaluationPublishedStatus(courseId, evaluationName, true);
 		sendEvaluationPublishedEmails(courseId, evaluationName);
 	}
 
@@ -1254,7 +1230,7 @@ public class Logic {
 					"Cannot unpublish an evaluation unless it is PUBLISHED");
 		}
 
-		EvaluationsStorage.inst().getDb().setEvaluationPublishedStatus(courseId, evaluationName, false);
+		EvaluationsStorage.inst().getEvaluationsDb().setEvaluationPublishedStatus(courseId, evaluationName, false);
 	}
 
 	/**
@@ -1472,11 +1448,7 @@ public class Logic {
 					+ submission.course);
 		}
 
-		// TODO: refactor to remove list
-		ArrayList<Submission> submissions = new ArrayList<Submission>();
-
-		submissions.add(submission.toSubmission());
-		EvaluationsStorage.inst().editSubmissions(submissions);
+		EvaluationsStorage.inst().getSubmissionsDb().editSubmission(submission);
 	}
 
 	private EvalStatus getEvaluationStatus(String courseId,

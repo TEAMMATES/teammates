@@ -63,7 +63,7 @@ public class EvaluationsStorageTest extends BaseTestCase{
 			backdoor.editEvaluation(e);
 			assertTrue(backdoor.getEvaluation(e.course, e.name).getStatus() != EvalStatus.AWAITING);
 		}
-		assertEquals(0, EvaluationsStorage.inst().getReadyEvaluations().size());
+		assertEquals(0, EvaluationsStorage.inst().getEvaluationsDb().getReadyEvaluations().size());
 
 		______TS("typical case, two evaluations activated");
 		// Reuse an existing evaluation to create a new one that is ready to
@@ -128,7 +128,7 @@ public class EvaluationsStorageTest extends BaseTestCase{
 		backdoor.createEvaluation(evaluation);
 
 		// verify number of ready evaluations.
-		assertEquals(2, EvaluationsStorage.inst().getReadyEvaluations().size());
+		assertEquals(2, EvaluationsStorage.inst().getEvaluationsDb().getReadyEvaluations().size());
 
 		// Other variations of ready/not-ready states should be checked at
 		// Evaluation level

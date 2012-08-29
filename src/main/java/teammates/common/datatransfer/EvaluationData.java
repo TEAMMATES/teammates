@@ -60,7 +60,7 @@ public class EvaluationData {
 
 	public EvalStatus getStatus() {
 		Calendar now = Calendar.getInstance();
-		Evaluation.convertToUserTimeZone(now, timeZone);
+		Common.convertToUserTimeZone(now, timeZone);
 
 		Calendar start = Calendar.getInstance();
 		start.setTime(startTime);
@@ -129,7 +129,7 @@ public class EvaluationData {
 	}
 
 	private boolean beforeTime(Date time) {
-		Date nowInUserTimeZone = Evaluation.convertToUserTimeZone(Calendar.getInstance(),timeZone).getTime();
+		Date nowInUserTimeZone = Common.convertToUserTimeZone(Calendar.getInstance(),timeZone).getTime();
 		return time.before(nowInUserTimeZone);
 	}
 
