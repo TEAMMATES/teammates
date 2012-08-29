@@ -77,7 +77,7 @@
 						<td>
 							<ul>
 								<%
-									for(SubmissionData sub: helper.incoming){
+									for(SubmissionData sub: helper.incoming) {
 								%>
 									<li><%=StudentEvalResultsHelper.escapeForHTML(sub.justification.getValue())%></li>
 								<%
