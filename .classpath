@@ -1,7 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="lib" path="src/test/resources/lib/javax.mail-1.4.4.jar" sourcepath="src/test/resources/lib/javax.mail-1.4.4-sources.zip"/>
-	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/shared/appengine-local-runtime-shared.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/shared/el-api.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/shared/jsp/repackaged-appengine-ant-1.7.1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/shared/jsp/repackaged-appengine-ant-launcher-1.7.1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/shared/jsp/repackaged-appengine-jasper-6.0.29.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/shared/jsp/repackaged-appengine-jasper-el-6.0.29.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/shared/jsp/repackaged-appengine-tomcat-juli-6.0.29.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/shared/jsp-api.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/shared/servlet-api.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/appengine-tools-api.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/opt/user/appengine-api-labs/v1/appengine-api-labs.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/opt/user/appengine-endpoints/v1/appengine-endpoints.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/opt/user/jsr107/v1/appengine-jsr107cache-1.7.0.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/opt/user/jsr107/v1/jsr107cache-1.1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/user/appengine-api-1.0-sdk-1.7.0.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/opt/user/datanucleus/v1/datanucleus-appengine-1.0.10.final.jar" sourcepath="/Users/James/School/appengine-java-sdk-1.7.0/src/orm/datanucleus-appengine-1.0.10.final-src.zip">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/opt/user/datanucleus/v1/datanucleus-core-1.1.5.jar" sourcepath="/Users/James/School/appengine-java-sdk-1.7.0/src/orm/datanucleus-core-1.1.5-src.zip">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/opt/user/datanucleus/v1/datanucleus-jpa-1.1.5.jar" sourcepath="/Users/James/School/appengine-java-sdk-1.7.0/src/orm/datanucleus-jpa-1.1.5-src.zip">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/opt/user/datanucleus/v1/geronimo-jpa_3.0_spec-1.1.1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/opt/user/datanucleus/v1/geronimo-jta_1.1_spec-1.1.1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/James/School/appengine-java-sdk-1.7.0/lib/opt/user/datanucleus/v1/jdo2-api-2.3-eb.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/James/School/appengine-java-sdk-1.7.0/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
 	<classpathentry excluding="**/*.java" kind="src" path="src/main/resources"/>
