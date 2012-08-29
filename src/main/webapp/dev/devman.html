@@ -218,10 +218,12 @@
         <div style="margin-top:20px"></div>
         <p class="subheader">Request Flow</p>
         Request from browser will go through following steps:
+        <br></br>
+        <img src="images/UiWorkflow.png" width="70%"></img>
         <ol>
             <li>Received by the GAE server</li>
-            <li>Forwarded to our custom filters in according to the order as specified in web.xml.</li>
-            <li>In our case this would be <span class="code">DatastoreFilter</span> and <span class="code">LoginFilter</span>. For the purpose of this explanation, we only concern about the <span class="code">LoginFilter</span>, which will forward any request from not-logged-in-user to the login page. If the request is from logged in user, then it will proceed according to the URL.</li>
+            <li>Forwarded to our custom filters in according to the order as specified in web.xml. 
+            In our case this would be <span class="code">DatastoreFilter</span> and <span class="code">LoginFilter</span>. For the purpose of this explanation, we only concern about the <span class="code">LoginFilter</span>, which will forward any request from not-logged-in-user to the login page. If the request is from logged in user, then it will proceed according to the URL.</li>
             <li>Depending on the URL, it will be handled by its respective Servlet (e.g., <span class="code">CoordHomeServlet</span>, <span class="code">CoordCourseDeleteServlet</span>, etc)</li>
             <li>The servlet will process everything related to the logic (e.g., accessing datastore, modifying datastore, etc), then it will create respective Helper object and store relevant data inside that object (e.g., student list, course list, evaluation data, etc)</li>
             <li>The respective Helper object then will be passed to the respective JSP page.</li>
