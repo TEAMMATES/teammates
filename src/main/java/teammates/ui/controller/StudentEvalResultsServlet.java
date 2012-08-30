@@ -39,7 +39,7 @@ public class StudentEvalResultsServlet extends ActionServlet<StudentEvalResultsH
 		
 		try{
 			helper.evalResult = helper.server.getEvaluationResultForStudent(courseID, evalName, helper.student.email);
-			sortSubmissionsByPoints(helper.evalResult.incoming);
+			sortSubmissionsByJustification(helper.evalResult.incoming);
 			helper.incoming = organizeSubmissions(helper.evalResult.incoming, helper);
 			sortSubmissionsByPoints(helper.evalResult.outgoing);
 			helper.outgoing = organizeSubmissions(helper.evalResult.outgoing, helper);
@@ -60,7 +60,6 @@ public class StudentEvalResultsServlet extends ActionServlet<StudentEvalResultsH
 	 * @return
 	 */
 	private List<SubmissionData> organizeSubmissions(List<SubmissionData> subs, StudentEvalResultsHelper helper) {
-		sortSubmissionsByPoints(subs);
 		for(int i=0; i<subs.size(); i++){
 			SubmissionData sub = subs.get(i);
 			if(sub.reviewee.equals(sub.reviewer) && sub.reviewee.equals(helper.student.email)){
