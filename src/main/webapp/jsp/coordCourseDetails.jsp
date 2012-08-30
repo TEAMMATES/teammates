@@ -122,7 +122,6 @@
 					<%	} %>
 				</table>
 				<br /><br />
-				<input type="button" class="button" onclick="window.location.href='<%= helper.getCoordCourseLink() %>'" value="Back" />
 				<br /><br />
 			</div>
 		</div>
