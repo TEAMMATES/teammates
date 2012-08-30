@@ -85,9 +85,7 @@
 	 				</tr>
 	 			</table>
 	 			<br /><br />
-	 			<input type="button" class="button" id="button_back" value="Back"
-	 					onclick="window.location.href='<%= helper.getStudentHomeLink() %>'" />
-			</div>
+	 	   </div>
 		</div>
 	</div>
 

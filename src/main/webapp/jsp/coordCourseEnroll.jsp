@@ -64,7 +64,6 @@
 					<%	} %>
 				</div>
 				<div id="coordinatorCourseEnrollmentButtons">
-					<input type="button" class="button" id="button_back" onclick="location.href='<%= helper.getCoordCourseLink() %>'" value="Back" />
 				</div>
 			<% } else { %>
 				<div id="headerOperation">
@@ -85,7 +84,6 @@
 					<div id="coordinatorCourseEnrollmentButtons">
 						<input type="submit" class="button" name="button_enroll" id="button_enroll" value="Enroll students"
 							onclick="return checkEnrollmentInput(document.getElementById('enrollstudents').value)"/>
-						<input type="button" class="button" id="button_back" onclick="location.href='<%= helper.getCoordCourseLink() %>'" value="Back" />
 						<br /><br /><br /><br />
 					</div>
 				</form>
