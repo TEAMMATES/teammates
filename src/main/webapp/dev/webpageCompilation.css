@@ -1,0 +1,19 @@
+#compilation{
+	overflow: scroll;
+	background-color: rgb(230, 230, 230);
+}
+
+.wrapper{
+	background-color: rgb(255, 255, 255);
+	border-style: solid;
+	border-width: 1px;
+	margin: 0 auto;
+	width: 1024px;
+}
+
+.info{
+	font-size: 12px;
+	margin: 0 auto;
+	margin-top: 50px;
+	width: 1024px;
+}

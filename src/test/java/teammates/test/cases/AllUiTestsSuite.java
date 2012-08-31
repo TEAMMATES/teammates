@@ -25,7 +25,9 @@ import org.junit.runners.Suite;
 		StudentEvalEditPageUiTest.class,
 		StudentEvalResultsPageUiTest.class,
 		
-		StudentHomePageUiTest.class
+		StudentHomePageUiTest.class,
+		
+		WebpageCompilationUiTest.class
 })
 
 //@formatter:on

@@ -241,8 +241,6 @@
 							</div>
 						<%	} %>
 					</div><br /><br />
-					<input type="button" class ="button" name="button_back" id="button_back" value="Back"
-							onclick="window.location.href='<%= helper.getCoordEvaluationLink() %>'"/>
 					<input type="button" class ="button" name="button_top" id="button_top" value="To Top"
 							onclick="scrollToTop()"/>
 					<br /><br /><br /><br />
