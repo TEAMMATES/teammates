@@ -632,7 +632,6 @@ public class BackDoorTest extends BaseTestCase {
 
 	private void verifyPresentInDatastore(CoordData expectedCoord) {
 		String coordJsonString = BackDoor.getCoordAsJson(expectedCoord.id);
-		System.out.println(coordJsonString);
 		CoordData actualCoord = gson.fromJson(coordJsonString, CoordData.class);
 		assertEquals(gson.toJson(expectedCoord), gson.toJson(actualCoord));
 	}

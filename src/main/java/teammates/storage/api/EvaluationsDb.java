@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
 
@@ -160,7 +161,9 @@ public class EvaluationsDb {
 		List<EvaluationData> evaluationDataList = new ArrayList<EvaluationData>();
 		
 		for (Evaluation e : evaluationList) {
-			evaluationDataList.add(new EvaluationData(e));
+			if (!JDOHelper.isDeleted(e)) {
+				evaluationDataList.add(new EvaluationData(e));
+			}
 		}
 		
 		return evaluationDataList;
@@ -193,7 +196,7 @@ public class EvaluationsDb {
 		List<EvaluationData> readyEvaluations = new ArrayList<EvaluationData>();
 
 		for (Evaluation e : evaluationList) {
-			if (e.isReady()) {
+			if (!JDOHelper.isDeleted(e) && e.isReady()) {
 				readyEvaluations.add(new EvaluationData(e));
 			}
 		}
@@ -218,7 +221,7 @@ public class EvaluationsDb {
 	 * 
 	 * @return the list of all existing evaluations
 	 */
-	public List<Evaluation> getEvaluationsClosingWithinTimeLimit(int hours) {
+	public List<EvaluationData> getEvaluationsClosingWithinTimeLimit(int hours) {
 		String query = "select from " + Evaluation.class.getName();
 
 		@SuppressWarnings("unchecked")
@@ -253,17 +256,23 @@ public class EvaluationsDb {
 			// for only 24 hours
 			// hence we do not send a reminder e-mail for the evaluation
 			if (now.after(start)
-					&& (differenceBetweenDeadlineAndNow >= hours - 1 && differenceBetweenDeadlineAndNow < hours))
-
-			{
+					&& (differenceBetweenDeadlineAndNow >= hours - 1 && differenceBetweenDeadlineAndNow < hours)) {
 				dueEvaluationList.add(e);
 			}
 
 			now.add(Calendar.MILLISECOND,
 					(int) (-60 * 60 * 1000 * e.getTimeZone()));
 		}
+		
+		List<EvaluationData> evalDataList = new ArrayList<EvaluationData>();
+		
+		for (Evaluation e : dueEvaluationList) {
+			if (!JDOHelper.isDeleted(e)) {
+				evalDataList.add(new EvaluationData(e));
+			}
+		}
 
-		return dueEvaluationList;
+		return evalDataList;
 	}
 
 	
@@ -443,17 +452,14 @@ public class EvaluationsDb {
 	 *            the evaluation name (Pre-condition: The courseID and
 	 *            evaluationName pair must be valid)
 	 */
-	public void deleteEvaluation(String courseId, String name) {
+	public void deleteEvaluation(String courseId, String name) throws EntityDoesNotExistException {
 		
 		Evaluation e = getEvaluationEntity(courseId, name);
 		
-		if (e == null) {
-			String errorMessage = "Trying to delete non-existent evaluation : "
-					+ courseId + "/" + name;
-			log.warning(errorMessage);
-		} else {
-			getPM().deletePersistent(e);
-		}
+		if (e == null) 
+			throw new EntityDoesNotExistException("Trying to delete non existent evaluation: " + courseId + " | " + name);
+
+		getPM().deletePersistent(e);
 
 		// Check delete operation persisteed
 		int elapsedTime = 0;
@@ -528,7 +534,7 @@ public class EvaluationsDb {
 		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
 				query).execute();
 
-		if (evaluationList.isEmpty()) {
+		if (evaluationList.isEmpty() || JDOHelper.isDeleted(evaluationList.get(0))) {
 			log.fine("Trying to get non-existent Evaluation : " + courseId
 					+ "/" + evalName);
 			return null;
@@ -550,8 +556,16 @@ public class EvaluationsDb {
 		@SuppressWarnings("unchecked")
 		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
 				query).execute();
+		
+		List<Evaluation> cleanList = new ArrayList<Evaluation>();
+		
+		for (Evaluation e : evaluationList) {
+			if (!JDOHelper.isDeleted(e)) {
+				cleanList.add(e);
+			}
+		}
 
-		return evaluationList;
+		return cleanList;
 	}
 	
 	

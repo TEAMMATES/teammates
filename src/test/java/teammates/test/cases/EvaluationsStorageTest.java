@@ -21,6 +21,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.EvaluationData.EvalStatus;
 import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.SubmissionData;
 import teammates.logic.automated.EvaluationOpeningRemindersServlet;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.api.EvaluationsStorage;
@@ -152,44 +153,42 @@ public class EvaluationsStorageTest extends BaseTestCase{
 
 		// We have a 4-member team and a 1-member team.
 		// Therefore, we expect (4*4)+(1*1)=17 submissions.
-		List<Submission> submissions = EvaluationsStorage.inst()
-				.getSubmissionList(course.id, evaluation1.name);
+		List<SubmissionData> submissions = EvaluationsStorage.inst()
+				.getSubmissionsDb().getSubmissionsForEvaluation(course.id, evaluation1.name);
 		assertEquals(17, submissions.size());
 
-		invokeDeleteSubmissionsForOutgoingMember(course.id, evaluation1.name,
-				student.email, student.team);
+		EvaluationsStorage.inst().getSubmissionsDb().deleteSubmissionsForOutgoingMember(course.id, evaluation1.name, student.email, student.team);
+		
 		// We have a 3-member team and a 1-member team.
 		// Therefore, we expect (3*3)+(1*1)=10 submissions.
-		submissions = EvaluationsStorage.inst().getSubmissionList(course.id,
+		submissions = EvaluationsStorage.inst().getSubmissionsDb().getSubmissionsForEvaluation(course.id,
 				evaluation1.name);
 		assertEquals(10, submissions.size());
 
 		// check the same for the other evaluation, to detect state leakage
-		invokeDeleteSubmissionsForOutgoingMember(course.id, evaluation2.name,
-				student.email, student.team);
-		submissions = EvaluationsStorage.inst().getSubmissionList(course.id,
+		EvaluationsStorage.inst().getSubmissionsDb().deleteSubmissionsForOutgoingMember(course.id, evaluation2.name, student.email, student.team);
+		
+		submissions = EvaluationsStorage.inst().getSubmissionsDb().getSubmissionsForEvaluation(course.id,
 				evaluation2.name);
 		assertEquals(10, submissions.size());
 
 		// verify the student is no longer included in submissions
-		for (Submission s : submissions) {
-			assertTrue(!s.getToStudent().equals(student.email));
-			assertTrue(!s.getFromStudent().equals(student.email));
+		for (SubmissionData s : submissions) {
+			assertTrue(!s.reviewee.equals(student.email));
+			assertTrue(!s.reviewer.equals(student.email));
 		}
 
 		______TS("only one student in team");
 
 		StudentData loneStudent = dataBundle.students.get("student5InCourse1");
-		invokeDeleteSubmissionsForOutgoingMember(course.id, evaluation1.name,
-				loneStudent.email, loneStudent.team);
+		EvaluationsStorage.inst().getSubmissionsDb().deleteSubmissionsForOutgoingMember(course.id, evaluation1.name, loneStudent.email, loneStudent.team);
 		// We expect one fewer submissions than before.
-		submissions = EvaluationsStorage.inst().getSubmissionList(course.id,
+		submissions = EvaluationsStorage.inst().getSubmissionsDb().getSubmissionsForEvaluation(course.id,
 				evaluation1.name);
 		assertEquals(9, submissions.size());
 
-		invokeDeleteSubmissionsForOutgoingMember(course.id, evaluation2.name,
-				loneStudent.email, loneStudent.team);
-		submissions = EvaluationsStorage.inst().getSubmissionList(course.id,
+		EvaluationsStorage.inst().getSubmissionsDb().deleteSubmissionsForOutgoingMember(course.id, evaluation2.name, loneStudent.email, loneStudent.team);
+		submissions = EvaluationsStorage.inst().getSubmissionsDb().getSubmissionsForEvaluation(course.id,
 				evaluation2.name);
 		assertEquals(9, submissions.size());
 
@@ -217,15 +216,15 @@ public class EvaluationsStorageTest extends BaseTestCase{
 
 		// We have a 5-member team and a 1-member team.
 		// Therefore, we expect (5*5)+(1*1)=26 submissions.
-		List<Submission> submissions = EvaluationsStorage.inst()
-				.getSubmissionList(course.id, evaluation1.name);
+		List<SubmissionData> submissions = EvaluationsStorage.inst()
+				.getSubmissionsDb().getSubmissionsForEvaluation(course.id, evaluation1.name);
 		assertEquals(26, submissions.size());
 		
 		// Check the same for the other evaluation, to detect any state leakage
 		invokeAddSubmissionsForIncomingMember(course.id,
 				evaluation2.name, "incoming@student.com", student.team);
 		submissions = EvaluationsStorage.inst()
-				.getSubmissionList(course.id, evaluation2.name);
+				.getSubmissionsDb().getSubmissionsForEvaluation(course.id, evaluation2.name);
 		assertEquals(26, submissions.size());
 		
 		______TS("moving to new team");
@@ -234,7 +233,7 @@ public class EvaluationsStorageTest extends BaseTestCase{
 				evaluation1.name, "incoming@student.com", "new team");
 		//There should be one more submission now.
 		submissions = EvaluationsStorage.inst()
-				.getSubmissionList(course.id, evaluation1.name);
+				.getSubmissionsDb().getSubmissionsForEvaluation(course.id, evaluation1.name);
 		assertEquals(27, submissions.size());
 		
 		// Check the same for the other evaluation
@@ -242,7 +241,7 @@ public class EvaluationsStorageTest extends BaseTestCase{
 				evaluation2.name, "incoming@student.com", "new team");
 		//There should be one more submission now.
 		submissions = EvaluationsStorage.inst()
-				.getSubmissionList(course.id, evaluation2.name);
+				.getSubmissionsDb().getSubmissionsForEvaluation(course.id, evaluation2.name);
 		assertEquals(27, submissions.size());
 
 		//TODO: test invalid inputs
@@ -260,16 +259,7 @@ public class EvaluationsStorageTest extends BaseTestCase{
 		privateMethod.invoke(EvaluationsStorage.inst(), params);
 	}
 	
-	private void invokeDeleteSubmissionsForOutgoingMember(String courseId,
-			String evaluationName, String studentEmail, String newTeam)throws Exception {
-		Method privateMethod = EvaluationsStorage.class.getDeclaredMethod(
-				"deleteSubmissionsForOutgoingMember", new Class[] { String.class,
-						String.class, String.class, String.class });
-		privateMethod.setAccessible(true);
-		Object[] params = new Object[] {courseId,
-				evaluationName,  studentEmail, newTeam };
-		privateMethod.invoke(EvaluationsStorage.inst(), params);
-	}
+	
 	
 	@AfterClass()
 	public static void classTearDown() throws Exception {

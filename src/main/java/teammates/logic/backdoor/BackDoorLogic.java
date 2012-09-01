@@ -175,16 +175,14 @@ public class BackDoorLogic extends Logic{
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 		
 		EvaluationsStorage evaluations = EvaluationsStorage.inst();
-		List<Evaluation> evaluationList = evaluations.getEvaluationsDb().getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
+		List<EvaluationData> evaluationDataList = evaluations.getEvaluationsDb().getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
 
-		for (Evaluation e : evaluationList) {
+		for (EvaluationData ed : evaluationDataList) {
 
-			List<StudentData> studentDataList = AccountsStorage.inst().getDb().getStudentListForCourse(e.getCourseID());
+			List<StudentData> studentDataList = AccountsStorage.inst().getDb().getStudentListForCourse(ed.course);
 
 			List<StudentData> studentToRemindList = new ArrayList<StudentData>();
 
-			EvaluationData ed = new EvaluationData(e);
-			
 			for (StudentData sd : studentDataList) {
 				if (!evaluations.isEvaluationSubmitted(ed, sd.email)) {
 					studentToRemindList.add(sd);

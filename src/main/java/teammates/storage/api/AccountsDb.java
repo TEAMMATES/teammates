@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 
 import com.google.appengine.api.datastore.KeyFactory;
@@ -226,7 +227,9 @@ public class AccountsDb {
 
 		List<StudentData> studentDataList = new ArrayList<StudentData>();
 		for (Student student : studentList) {
-			studentDataList.add(new StudentData(student));
+			if (!JDOHelper.isDeleted(student)) {
+				studentDataList.add(new StudentData(student));
+			}
 		}
 		
 		return studentDataList;
@@ -258,7 +261,9 @@ public class AccountsDb {
 		List<StudentData> studentDataList = new ArrayList<StudentData>();
 		
 		for (Student s : studentList) {
-			studentDataList.add(new StudentData(s));
+			if (!JDOHelper.isDeleted(s)) {
+				studentDataList.add(new StudentData(s));
+			}
 		}
 
 		return studentDataList;
@@ -562,7 +567,7 @@ public class AccountsDb {
 		@SuppressWarnings("unchecked")
 		List<Student> studentList = (List<Student>) getPM().newQuery(query).execute();
 
-		if (studentList.isEmpty()) {
+		if (studentList.isEmpty() || JDOHelper.isDeleted(studentList.get(0))) {
 			return null;
 		}
 
@@ -587,11 +592,11 @@ public class AccountsDb {
 		List<Coordinator> coordinatorList = (List<Coordinator>) getPM()
 				.newQuery(query).execute();
 
-		if (coordinatorList.isEmpty()) {
+		if (coordinatorList.isEmpty() || JDOHelper.isDeleted(coordinatorList.get(0))) {
 			log.warning("Trying to get non-existent Coord : " + googleID);
 			return null;
 		}
-
+		
 		return coordinatorList.get(0);
 	}
 	
