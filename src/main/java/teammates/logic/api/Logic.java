@@ -32,8 +32,6 @@ import teammates.logic.TeamEvalResult;
 import teammates.storage.api.AccountsStorage;
 import teammates.storage.api.CoursesStorage;
 import teammates.storage.api.EvaluationsStorage;
-import teammates.storage.entity.Evaluation;
-import teammates.storage.entity.Submission;
 
 import com.google.appengine.api.datastore.Text; //TODO: remove this dependency
 import com.google.appengine.api.users.User;
@@ -383,6 +381,7 @@ public class Logic {
 
 		List<CourseData> coordCourseList = CoursesStorage.inst().getDb()
 				.getCourseListForCoordinator(coordId);
+
 		for (CourseData courseData : coordCourseList) {
 			deleteCourse(courseData.id);
 		}
@@ -458,8 +457,8 @@ public class Logic {
 		ArrayList<EvaluationData> evaluationSummaryList = new ArrayList<EvaluationData>();
 
 		for (CourseData cd : courseList) {
-			ArrayList<EvaluationData> evaluationsSummaryForCourse = EvaluationsStorage
-					.inst().getEvaluationsSummaryForCourse(cd.id);
+			List<EvaluationData> evaluationsSummaryForCourse = EvaluationsStorage
+					.inst().getEvaluationsDb().getEvaluationsForCourse(cd.id);
 			List<StudentData> students = getStudentListForCourse(cd.id);
 			
 			//calculate submission statistics for each evaluation
@@ -548,8 +547,8 @@ public class Logic {
 		Common.verifyNotNull(courseId, "course ID");
 
 		verifyCourseOwnerOrAbove(courseId);
-
-		EvaluationsStorage.inst().deleteEvaluations(courseId);
+		
+		EvaluationsStorage.inst().deleteEvaluationsForCourse(courseId);
 		CoursesStorage.inst().deleteCourse(courseId);
 	}
 
@@ -805,7 +804,7 @@ public class Logic {
 
 		// cascade email change, if any
 		if (!originalEmail.equals(student.email)) {
-			EvaluationsStorage.inst().editSubmissions(student.course,
+			EvaluationsStorage.inst().getSubmissionsDb().editStudentEmailForSubmissionsInCourse(student.course,
 					originalEmail, student.email);
 		}
 
@@ -826,7 +825,7 @@ public class Logic {
 		verifyCourseOwnerOrAbove(courseId);
 
 		AccountsStorage.inst().getDb().deleteStudent(courseId,studentEmail);
-		EvaluationsStorage.inst().deleteSubmissionsForStudent(courseId,
+		EvaluationsStorage.inst().getSubmissionsDb().deleteAllSubmissionsForStudent(courseId,
 				studentEmail);
 	}
 
@@ -1014,12 +1013,18 @@ public class Logic {
 
 		verifySameStudentOrAdmin(googleId);
 
+		// Get the list of courses that this student is in
 		List<CourseData> courseList = getCourseListForStudent(googleId);
+		
+		// For each course the student is in
 		for (CourseData c : courseList) {
-			List<Evaluation> evaluationList = EvaluationsStorage.inst()
-					.getEvaluationList(c.id);
-			for (Evaluation e : evaluationList) {
-				EvaluationData ed = new EvaluationData(e);
+			// Get the list of evaluations for the course
+			List<EvaluationData> evaluationDataList = EvaluationsStorage.inst().getEvaluationsDb()
+					.getEvaluationsForCourse(c.id);
+			
+			// For the list of evaluations for this course
+			for (EvaluationData ed : evaluationDataList) {
+				// Add this evaluation to the course's list of evaluations.
 				log.fine("Adding evaluation " + ed.name + " to course " + c.id);
 				if (ed.getStatus() != EvalStatus.AWAITING) {
 					c.evaluations.add(ed);
@@ -1090,21 +1095,10 @@ public class Logic {
 		verifyCourseOwnerOrAbove(evaluation.course);
 
 		evaluation.validate();
-		EvaluationsStorage.inst().addEvaluation(evaluation.toEvaluation());
+		EvaluationsStorage.inst().createEvaluation(evaluation);
 	}
 
-	/**
-	 * Creating submission is an internal activity. However, it is supported
-	 * here for the benefit of BackDoor.
-	 */
-	// TODO: to be pushed out to another class. this does not belong here.
-	protected void createSubmissions(List<SubmissionData> submissionDataList) {
-		ArrayList<Submission> submissions = new ArrayList<Submission>();
-		for (SubmissionData sd : submissionDataList) {
-			submissions.add(sd.toSubmission());
-		}
-		EvaluationsStorage.inst().editSubmissions(submissions);
-	}
+	
 
 	/**
 	 * Access: all registered users
@@ -1117,9 +1111,10 @@ public class Logic {
 
 		verifyRegisteredUserOrAbove();
 
-		Evaluation e = EvaluationsStorage.inst().getEvaluation(courseId,
+		EvaluationData e = EvaluationsStorage.inst().getEvaluationsDb().getEvaluation(courseId,
 				evaluationName);
-		return (e == null ? null : new EvaluationData(e));
+		
+		return e;
 	}
 
 	/**
@@ -1163,23 +1158,10 @@ public class Logic {
 
 		evaluation.validate();
 
-		editEvaluationAllFields(evaluation);
+		EvaluationsStorage.inst().getEvaluationsDb().editEvaluation(evaluation);
 	}
 
-	/**
-	 * This method allowed editing of all fields. It is here for the benefit of
-	 * BackDoor
-	 */
-	protected void editEvaluationAllFields(EvaluationData evaluation)
-			throws EntityDoesNotExistException, InvalidParametersException {
-
-		EvaluationsStorage.inst()
-				.editEvaluation(evaluation.course, evaluation.name,
-						evaluation.instructions, evaluation.p2pEnabled,
-						evaluation.startTime, evaluation.endTime,
-						evaluation.gracePeriod, evaluation.activated,
-						evaluation.published, evaluation.timeZone);
-	}
+	
 
 	/**
 	 * Access: owner and above
@@ -1218,7 +1200,7 @@ public class Logic {
 					"Cannot publish an evaluation unless it is CLOSED");
 		}
 
-		EvaluationsStorage.inst().publishEvaluation(courseId, evaluationName);
+		EvaluationsStorage.inst().getEvaluationsDb().setEvaluationPublishedStatus(courseId, evaluationName, true);
 		sendEvaluationPublishedEmails(courseId, evaluationName);
 	}
 
@@ -1246,7 +1228,7 @@ public class Logic {
 					"Cannot unpublish an evaluation unless it is PUBLISHED");
 		}
 
-		EvaluationsStorage.inst().unpublishEvaluation(courseId, evaluationName);
+		EvaluationsStorage.inst().getEvaluationsDb().setEvaluationPublishedStatus(courseId, evaluationName, false);
 	}
 
 	/**
@@ -1266,8 +1248,7 @@ public class Logic {
 		verifyEvaluationExists(evaluation, courseId, evaluationName);
 
 		// Filter out students who have submitted the evaluation
-		List<StudentData> studentDataList = AccountsStorage.inst().getDb().getStudentListForCourse(
-				courseId);
+		List<StudentData> studentDataList = AccountsStorage.inst().getDb().getStudentListForCourse(courseId);
 		
 		List<StudentData> studentsToRemindList = new ArrayList<StudentData>();
 		for (StudentData sd : studentDataList) {
@@ -1339,8 +1320,8 @@ public class Logic {
 
 		verifyReviewerOrCourseOwnerOrAdmin(courseId, reviewerEmail);
 
-		List<Submission> submissions = EvaluationsStorage.inst()
-				.getSubmissionFromStudentList(courseId, evaluationName,
+		List<SubmissionData> submissions = EvaluationsStorage.inst().getSubmissionsDb()
+				.getSubmissionsFromEvaluationFromStudent(courseId, evaluationName,
 						reviewerEmail);
 		if (submissions.size() == 0) {
 			CoursesStorage.inst().verifyCourseExists(courseId);
@@ -1348,12 +1329,12 @@ public class Logic {
 					evaluationName);
 			AccountsStorage.inst().verifyStudentExists(courseId, reviewerEmail);
 		}
+		
 		StudentData student = getStudent(courseId, reviewerEmail);
 		ArrayList<SubmissionData> returnList = new ArrayList<SubmissionData>();
-		for (Submission s : submissions) {
-			StudentData reviewee = getStudent(courseId, s.getToStudent());
-			if (!isOrphanSubmission(student, reviewee, s)) {
-				SubmissionData sd = new SubmissionData(s);
+		for (SubmissionData sd : submissions) {
+			StudentData reviewee = getStudent(courseId, sd.reviewee);
+			if (!isOrphanSubmission(student, reviewee, sd)) {
 				sd.reviewerName = student.name;
 				sd.revieweeName = reviewee.name;
 				returnList.add(sd);
@@ -1465,11 +1446,7 @@ public class Logic {
 					+ submission.course);
 		}
 
-		// TODO: refactor to remove list
-		ArrayList<Submission> submissions = new ArrayList<Submission>();
-
-		submissions.add(submission.toSubmission());
-		EvaluationsStorage.inst().editSubmissions(submissions);
+		EvaluationsStorage.inst().getSubmissionsDb().editSubmission(submission);
 	}
 
 	private EvalStatus getEvaluationStatus(String courseId,
@@ -1506,14 +1483,14 @@ public class Logic {
 	 * those in two students.
 	 */
 	private boolean isOrphanSubmission(StudentData reviewer,
-			StudentData reviewee, Submission submission) {
+			StudentData reviewee, SubmissionData submission) {
 		if ((reviewer==null)||(reviewee==null)||(submission==null)) {
 			return true;
 		}
-		if (!submission.getTeamName().equals(reviewer.team)) {
+		if (!submission.team.equals(reviewer.team)) {
 			return true;
 		}
-		if (!submission.getTeamName().equals(reviewee.team)) {
+		if (!submission.team.equals(reviewee.team)) {
 			return true;
 		}
 		return false;
@@ -1531,12 +1508,11 @@ public class Logic {
 							+ "] under the course [" + courseId + "]");
 		}
 		
-		List<Submission> submissionsList = EvaluationsStorage.inst()
-				.getSubmissionList(courseId, evaluationName);
+		List<SubmissionData> submissionsList = EvaluationsStorage.inst()
+				.getSubmissionsDb().getSubmissionsForEvaluation(courseId, evaluationName);
 		
 		HashMap<String, SubmissionData> submissionDataList = new HashMap<String, SubmissionData>();
-		for (Submission s : submissionsList) {
-			SubmissionData sd = new SubmissionData(s);
+		for (SubmissionData sd : submissionsList) {
 			submissionDataList.put(sd.reviewer + "->" + sd.reviewee, sd);
 		}
 		return submissionDataList;
@@ -1662,9 +1638,9 @@ public class Logic {
 
 	protected SubmissionData getSubmission(String courseId,
 			String evaluationName, String reviewerEmail, String revieweeEmail) {
-		Submission submission = EvaluationsStorage.inst().getSubmission(
-				courseId, evaluationName, reviewerEmail, revieweeEmail);
-		return (submission == null ? null : new SubmissionData(submission));
+		SubmissionData sd = EvaluationsStorage.inst().getSubmissionsDb().getSubmission(
+				courseId, evaluationName, revieweeEmail, reviewerEmail);
+		return sd;
 	}
 
 	private boolean isInEnrollList(StudentData student,

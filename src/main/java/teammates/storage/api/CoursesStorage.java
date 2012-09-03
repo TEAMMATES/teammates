@@ -26,7 +26,7 @@ public class CoursesStorage {
 	private static final AccountsDb accountsDb = new AccountsDb();
 
 
-	
+
 	/**
 	 * Retrieve singleton instance of CoursesStorage
 	 * 
@@ -40,11 +40,13 @@ public class CoursesStorage {
 
 
 
-	
 
 
-	
-	
+
+
+
+
+
 
 	/**
 	 * Atomically deletes a Course object, along with all the Student objects that belong
@@ -56,11 +58,18 @@ public class CoursesStorage {
 	 */
 	public void deleteCourse(String courseId) {
 		
-		coursesDb.deleteCourse(courseId);
 		accountsDb.deleteAllStudentsInCourse(courseId);
+		coursesDb.deleteCourse(courseId);
 		
 	}
 
+
+	
+
+	
+
+	
+
 	
 
 	
@@ -68,14 +77,15 @@ public class CoursesStorage {
 	
 	
 	
-	
 
 	
 
 
 	
+
 	
 	public HashMap<String, CourseData> getCourseSummaryListForCoord(String coordId){
+
 		List<CourseData> courseList = coursesDb.getCourseListForCoordinator(coordId);
 		HashMap<String, CourseData> courseSummaryList = new HashMap<String, CourseData>();
 
@@ -91,8 +101,7 @@ public class CoursesStorage {
 	
 	
 
-	
-	
+
 	/**
 	 * Returns the number of teams in a Course.
 	 * 
@@ -103,6 +112,7 @@ public class CoursesStorage {
 	 */
 	public int getNumberOfTeams(String courseID) {
 		// Get all students in the course
+
 		List<StudentData> studentDataList = accountsDb.getStudentListForCourse(courseID);
 		
 		// The list of teams
@@ -118,12 +128,14 @@ public class CoursesStorage {
 		return teamNameList.size();
 	}
 
-	
-
-	
 
 
-	
+
+
+
+
+
+
 
 	/**
 	 * Returns the team name of a Student in a particular Course.
@@ -153,7 +165,9 @@ public class CoursesStorage {
 	 * @return the number of students in the course
 	 */
 	public int getTotalStudents(String courseID) {
+
 		return accountsDb.getStudentListForCourse(courseID).size();
+
 	}
 
 	
@@ -168,6 +182,7 @@ public class CoursesStorage {
 	 * @return the number of unregistered students in the course
 	 */
 	public int getUnregistered(String courseID) {
+
 		return accountsDb.getUnregisteredStudentListForCourse(courseID).size();
 	}
 
@@ -175,11 +190,14 @@ public class CoursesStorage {
 
 	
 
-	
+
+
 
 	
 
-	
+
+
+
 
 	
 	public static void sortByTeamName(List<StudentData> students) {
@@ -232,10 +250,12 @@ public class CoursesStorage {
 		}
 		
 	}
+
 	
 	
 	
-	
+
+
 	
 	public CoursesDb getDb() {
 		return coursesDb;

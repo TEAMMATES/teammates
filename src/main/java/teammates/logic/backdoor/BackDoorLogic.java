@@ -88,7 +88,7 @@ public class BackDoorLogic extends Logic{
 					+ " to " + submission.reviewee);
 			submissionsList.add(submission);
 		}
-		createSubmissions(submissionsList);
+		EvaluationsStorage.inst().getSubmissionsDb().editSubmissions(submissionsList);
 		log.fine("API Servlet added " + submissionsList.size() + " submissions");
 
 		return Common.BACKEND_STATUS_SUCCESS;
@@ -145,10 +145,10 @@ public class BackDoorLogic extends Logic{
 	
 	public List<MimeMessage> activateReadyEvaluations() throws EntityDoesNotExistException, MessagingException, InvalidParametersException, IOException{
 		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
-		List<Evaluation> evaluations = EvaluationsStorage.inst().getReadyEvaluations(); 
-		for(Evaluation e: evaluations){
+		List<EvaluationData> evaluations = EvaluationsStorage.inst().getEvaluationsDb().getReadyEvaluations(); 
+		
+		for (EvaluationData ed: evaluations) {
 			
-			EvaluationData ed = new EvaluationData(e);
 			CourseData course = getCourse(ed.course);
 			List<StudentData> students = getStudentListForCourse(ed.course);
 			
@@ -175,14 +175,14 @@ public class BackDoorLogic extends Logic{
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 		
 		EvaluationsStorage evaluations = EvaluationsStorage.inst();
-		List<Evaluation> evaluationList = evaluations.getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
+		List<EvaluationData> evaluationDataList = evaluations.getEvaluationsDb().getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
 
-		for (Evaluation e : evaluationList) {
-			List<StudentData> studentDataList = AccountsStorage.inst().getDb().getStudentListForCourse(e.getCourseID());
+		for (EvaluationData ed : evaluationDataList) {
+
+			List<StudentData> studentDataList = AccountsStorage.inst().getDb().getStudentListForCourse(ed.course);
+
 			List<StudentData> studentToRemindList = new ArrayList<StudentData>();
 
-			EvaluationData ed = new EvaluationData(e);
-			
 			for (StudentData sd : studentDataList) {
 				if (!evaluations.isEvaluationSubmitted(ed, sd.email)) {
 					studentToRemindList.add(sd);
@@ -200,7 +200,7 @@ public class BackDoorLogic extends Logic{
 	}
 	
 	public void editEvaluation(EvaluationData evaluation) throws InvalidParametersException, EntityDoesNotExistException{
-		editEvaluationAllFields(evaluation);
+		EvaluationsStorage.inst().getEvaluationsDb().editEvaluation(evaluation);
 	}
 
 }

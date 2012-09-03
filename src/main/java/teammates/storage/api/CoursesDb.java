@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 
 import teammates.storage.datastore.Datastore;
@@ -120,7 +121,9 @@ public class CoursesDb {
 		List<CourseData> courseDataList = new ArrayList<CourseData>();
 		
 		for (Course c : courseList) {
-			courseDataList.add(new CourseData(c));
+			if (!JDOHelper.isDeleted(c)) {
+				courseDataList.add(new CourseData(c));
+			}
 		}
 		
 		return courseDataList;
@@ -193,7 +196,7 @@ public class CoursesDb {
 		@SuppressWarnings("unchecked")
 		List<Course> courseList = (List<Course>) getPM().newQuery(query).execute();
 
-		if (courseList.isEmpty()){
+		if (courseList.isEmpty() || JDOHelper.isDeleted(courseList.get(0))) {
 			String errorMessage = "Trying to get non-existent Course : " + courseId;
 			log.fine(errorMessage);
 			return null;
