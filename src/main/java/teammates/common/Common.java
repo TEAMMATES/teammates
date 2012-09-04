@@ -597,7 +597,7 @@ public class Common {
 		Date d = Common.getMsOffsetToCurrentTime(offset);
 		Calendar c = Calendar.getInstance();
 		c.setTime(d);
-		return Evaluation.convertToUserTimeZone(c, timeZone).getTime();
+		return convertToUserTimeZone(c, timeZone).getTime();
 	}
 
 	/**
@@ -671,6 +671,12 @@ public class Common {
 		c.setTime(date);
 		return c;
 	}
+	
+	public static Calendar convertToUserTimeZone(Calendar time, double timeZone) {
+		time.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
+		return time; // for chaining
+	}
+
 
 	/**
 	 * Read a file content and return a String

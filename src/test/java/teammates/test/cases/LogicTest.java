@@ -1226,12 +1226,12 @@ public class LogicTest extends BaseTestCase {
 		newStudent.email = "new@student.com";
 		verifyAbsentInDatastore(newStudent);
 		
-		List<Submission> submissionsBeforeAdding = EvaluationsStorage.inst().getSubmissionList(newStudent.course);
+		List<SubmissionData> submissionsBeforeAdding = EvaluationsStorage.inst().getSubmissionsDb().getSubmissionsForCourse(newStudent.course);
 		
 		logic.createStudent(newStudent);
 		verifyPresentInDatastore(newStudent);
 		
-		List<Submission> submissionsAfterAdding = EvaluationsStorage.inst().getSubmissionList(newStudent.course);
+		List<SubmissionData> submissionsAfterAdding = EvaluationsStorage.inst().getSubmissionsDb().getSubmissionsForCourse(newStudent.course);
 		
 		//expected increase in submissions = 2*(1+4+4)
 		//2 is the number of evaluations in the course
@@ -1348,7 +1348,7 @@ public class LogicTest extends BaseTestCase {
 		student1InCourse1.profile = new Text("new profile detail abc ");
 
 		// take a snapshot of submissions before
-		List<SubmissionData> submissionsBeforeEdit = EvaluationsStorage.inst()
+		List<SubmissionData> submissionsBeforeEdit = EvaluationsStorage.inst().getSubmissionsDb()
 				.getSubmissionsForCourse(student1InCourse1.course);
 
 		//verify student details changed correctly
@@ -1356,7 +1356,7 @@ public class LogicTest extends BaseTestCase {
 		verifyPresentInDatastore(student1InCourse1);
 
 		// take a snapshot of submissions after the edit
-		List<SubmissionData> submissionsAfterEdit = EvaluationsStorage.inst()
+		List<SubmissionData> submissionsAfterEdit = EvaluationsStorage.inst().getSubmissionsDb()
 				.getSubmissionsForCourse(student1InCourse1.course);
 		
 		// We moved a student from a 4-person team to an existing 1-person team.
