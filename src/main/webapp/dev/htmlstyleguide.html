@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>TM HTML Style Guide</title>
+    
+    <link rel="stylesheet" href="dev.css" type="text/css">
+</head>
+<body>
+	<div id="content">
+		<div class="header">
+			Teammates HTML Style Guide
+		</div>
+		<br>
+		
+		
+		
+		<div class="subheader">
+			<span class="bold">Document Properties</span>
+		</div>
+		<ul>
+			<li>
+				Doctype to be used: HTML5<br>
+				<span class="code green">&lt;!DOCTYPE html&gt;</span><br><br>
+			</li>
+			<li>
+				Do not include xml namespace in the document.<br>
+				<span class="code red">xmlns="http://www.w3.org/1999/xhtml”</span><br><br>
+			</li>
+			<li>
+				General structure for HTML document
+				<div class="code green">
+					&lt;!DOCTYPE html&gt;<br>
+					&lt;html&gt;<br>
+					&lt;head&gt;<br>
+						&nbsp;&nbsp; &lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;<br>
+					
+						&nbsp;&nbsp; &lt;title&gt;Teammates&lt;/title&gt;<br><br>
+					
+						&nbsp;&nbsp; &lt;link rel="shortcut icon" href="/favicon.png"&gt;<br>
+						&nbsp;&nbsp; more stylesheets...<br><br>
+					
+						&nbsp;&nbsp; &lt;script type="text/javascript" src="/js/jquery-1.6.2.min.js"&gt;&lt;/script&gt;<br>
+						&nbsp;&nbsp; more scripts...<br><br>
+					&lt;/head&gt;<br>
+					
+					&lt;body&gt;<br>
+						&nbsp;&nbsp; &lt;div id="dhtmltooltip"&gt;&lt;/div&gt;<br>
+						&nbsp;&nbsp; &lt;div id="frameTop"&gt;<br>
+							&nbsp;&nbsp;&nbsp;&nbsp; stuff...<br>
+						&nbsp;&nbsp; &lt;/div&gt;<br>
+						&nbsp;&nbsp; &lt;div id=”frameBody”&gt;<br>
+							&nbsp;&nbsp;&nbsp;&nbsp; stuff...<br>
+						&nbsp;&nbsp;&lt;/div&gt;<br>
+						&nbsp;&nbsp; &lt;div id=”frameBottom”&gt;<br>
+							&nbsp;&nbsp;&nbsp;&nbsp; stuff...<br>
+						&nbsp;&nbsp; &lt;/div&gt;<br>
+					&lt;/body&gt;<br>
+					&lt;/html&gt;<br><br>
+				</div>
+			</li>	
+		</ul>
+
+		
+		
+		<div class="subheader">
+			<span class="bold">Tags</span>
+		</div>
+		<ul>
+			<li>
+				All HTML tags are to be closed properly<br>
+				<span class="code green">&lt;div&gt;Stuff&lt;/div&gt;</span><br>
+				<span class="code red">&lt;p&gt;Stuff</span><br>
+				<span class="code red">&lt;p&gt;More Stuff</span><br><br>
+			</li>
+			<li>
+				Void elements do not have a closing tag. Do not use <span class="code red">/&gt;</span> for void elements<br>
+				Void elements are: <span class="code">area, base, br, col, command, embed, hr, img, input, keygen, link, meta, param, source, track, wbr</span><br>
+				<span class="code green">&lt;br&gt;</span><br>
+				<span class="code red">&lt;br /&gt;</span><br><br>
+				<span class="code green">&lt;img src=”a” width=”5px” height=”10px”&gt;</span><br>
+				<span class="code red">&lt;img src=”a” width=”5px” height=”10px” /&gt;</span><br><br>
+			</li>
+			<li>
+				Use lowercase for all attributes and tag names<br>
+				<span class="code green">&lt;div id=”frame”&gt;Test&lt;/div&gt;</span><br>
+				<span class="code red">&lt;DIV ID=”frame”&gt;Test&lt;/div&gt;</span><br><br>
+			</li>
+		</ul>
+		
+		<div class="subheader">
+			<span class="bold">Attributes</span>
+		</div>
+		<ul>
+			<li>
+				Use [attr=”value”] for attribute values<br>
+				<span class="code green">&lt;input value=”computer” id=”someInput” disabled=”disabled” tabindex=”2”&gt;</span><br>
+				<span class="code red">&lt;input value=computer id='someInput' disabled='disabled' tabindex=2&gt; (single/no quotes)</span><br>
+				<span class="code red">&lt;input value="computer" id="someInput" disabled tabindex="2"&gt; (specify boolean variables in the attributes)</span><br><br>
+			</li>
+			<li>
+				Avoid using the style attribute within tags. Put them in css sheets instead.
+				 If really required, do it in the format <span class="code">style=”attr1: value; attr2: value; attr3: value;”</span><br>
+				 <span class="code green">&lt;span style=”color: red; display: block; font-size: 15px;”&gt;&lt;/span&gt;</span><br>
+				<span class="code red">&lt;span style=”color:red display:block font-size:15px”&gt; (no whitespace, no semicolon)</span><br><br>
+			</li>
+		</ul>
+		
+		
+		
+		<div class="subheader">
+			<span class="bold">Protocols</span>
+		</div>
+		<ul>
+			<li>
+				Use relative links rather than absolute links<br>
+				<span class="code green">&lt;a href=”//www.google.com/”&gt;Google&lt;/a&gt;</span><br>
+				<span class="code red">&lt;a href=”http://www.google.com/”&gt;Google&lt;/a&gt;</span><br><br>
+			</li>
+		</ul>
+		
+		
+		
+		<div class="subheader">
+			<span class="bold">Miscellaneous</span>
+		</div>
+		<ul>
+			<li>
+				Take note of script tags.<br>
+				<span class="code green">&lt;script type="text/javascript" src="/js/jquery-1.6.2.min.js"&gt;&lt;/script&gt;</span><br>
+				<span class="code red">&lt;script language="JavaScript" src="/js/jquery-1.6.2.min.js"&gt;&lt;/script&gt;</span><br><br>
+			</li>
+			<li>
+				Do not have trailing whitespaces between opening and closing tags<br>
+				<span class="code green">&lt;p&gt;Student Name&lt;/p&gt;</span><br>
+				<span class="code red">&lt;p&gt;  Student Name  &lt;/p&gt;</span><br><br>
+			</li>			
+		</ul>
+	</div>
+</body>
+</html>
