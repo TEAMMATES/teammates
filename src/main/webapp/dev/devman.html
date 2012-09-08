@@ -818,7 +818,7 @@
 	        <br/>
 	
 	        <p id="process-fixingissues" class="subheader">Fixing Issues</p>
-	        Role: developer
+	        Role: developer 
 	        <br/>
 	        <ol>
 	            <li>Select an issue to handle. Get approval to proceed from project team. </li>
@@ -837,28 +837,38 @@
 	            <br/>
 	            <li>
 	                Start a new branch named “Issue{IssueNumber}”. If you are already working in a branch, remember to switch to trunk (i.e. ‘default’ branch) before creating the new branch.
-	                e.g., 
+	                e.g., <br>
 	                <span class="code">
-	                    #switch to trunk (if required)
-	                    hg update default
-	                    #create new branch
+	                    #switch to trunk (if required)<br>
+	                    hg update default<br>
+	                    #create new branch<br>
 	                    hg branch Issue236
 	                </span>
 	            </li>
 	            <br/>
-	            <li>
-	                Fix the issue. <br/>
-	                <br/>
-	                Tip: It is a good practice to make the first line of the first commit of the branch have the format “starting Issue nnn [ Issue title]”. This helps to locate the start of the branch easily (useful when reviewing code) and identify what the issue is about without having to refer to issue tracker.<br/>
-	                For subsequent commits, make the first line a description of the commit.
-	                Tip: If you add ‘Update Issue {Issue Number}’ as a separate line in your commit message, GoogleCode will automatically add a comment to the Issue with a link the revision. Here’s a sample commit message:<br/>
-	                <span class="code">
-	                    Starting Issue 234 [Title of issue] (if this is first commit)<br/>
-	                    Description of fix<br/>
-	                    Update Issue 234<br/>
-	                </span>
-	            </li>
-	            <br/>
+				<li>Fix the issue. <br /> <br /> Tip: It is a good practice to
+					make the first line of the first commit of the branch have the
+					format “starting Issue nnn [ Issue title]”. This helps to locate
+					the start of the branch easily (useful when reviewing code) and
+					identify what the issue is about without having to refer to issue
+					tracker.<br /> For subsequent commits, make the first line a
+					description of the commit.<br><br> Tip: If you add
+							‘Update Issue {Issue Number}’ as a separate line in your commit
+							message, GoogleCode will automatically add a comment to the Issue
+							with a link the revision. Here’s a sample commit message:
+				<br /> 
+				<span class="code"> Starting Issue 234 [Title of
+						issue] (if this is first commit)<br /> 
+						Description of fix<br />
+						Update Issue 234<br />
+				</span> <br> 
+				Tip: Try to limit each issue to one commit. This will ease the review process.
+				Define issues to be of small size so that you don't need more than
+				one commit to fix it. For bigger issues, you can use <a href="http://mercurial.selenic.com/wiki/MqTutorial">Mercurial 
+				Queues</a> to accumulate your work as patches and combine them into 
+				one commit.
+				</li>
+				<br/>
 	            <li>
 	                When the work is ready for review
 	                <ol>
@@ -880,11 +890,30 @@
 	            </li> 
 	            <br/>
 	            <li>Repeat above two steps until the fix is approved.</li>
-	        </ol> 
-	        <br/>
-	
-	        <p id="process-reviewingafix" class="subheader">Reviewing a fix</p>
-	        role: reviewer<br/>
+	        </ol>
+			<br /> Role: Contributor<br><br> A
+					contributor will work closely with a developer from the project
+					team, who will act as the mentor for the contributor. The workflow
+					is similar to that of developer (given above) expect for the
+					following. 
+			<ul>
+				<li>If you don't have permission to perform certain actions on
+					the Issue tracker, get your mentor to do it for you.</li>
+				<li>You will not have permission to push to review repo. Go to
+					review repo, create a clone online, and push to that instead. Once
+					the code is ready, your mentor will pull the branch to the review
+					repo before starting the review <br> Recommended name for
+						the clone is 'teammates-{your name}'. e.g., teammates-john 
+				</li>
+				<li>
+				For help or clarifications, email your mentor or post in the 
+				<a href="https://groups.google.com/forum/?fromgroups#!forum/teammates-contributors">teammates-contributors Google group</a>. 
+				</li>
+			</ul>
+
+
+			<p id="process-reviewingafix" class="subheader">Reviewing a fix</p>
+	        Role: reviewer<br/>
 	        <br/>
 	        This is a static code review. No need  to apply fix or run tests.<br/>
 	        Add comments in the review repo.<br/>
@@ -902,7 +931,7 @@
 	        <br/>
 	
 	        <p id="process-applyingthefix" class="subheader">Applying the fix</p>
-	        role: team lead
+	        Role: team lead
 	        <ol>
 	            <li>Pull the latest code from the release repo</li>
 	            <br/>
@@ -953,7 +982,7 @@
 	        <br/>
 	
 	        <p id="process-deployingfixes" class="subheader">Deploying fixes</p>
-	        roles: team lead, PM (at the release meeting)
+	        Roles: team lead, PM (at the release meeting)
 	        <ol>
 	            <li>
 	                PM deploys to live site as a new version.<br/>
