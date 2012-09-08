@@ -39,6 +39,15 @@ public class SubmissionData {
 	public SubmissionData() {
 
 	}
+	
+	public SubmissionData(String courseId, String evalName, String team, String toStudent, String fromStudent) {
+		this.course = courseId;
+		this.evaluation = evalName;
+		this.team = team;
+		this.reviewee = toStudent;
+		this.reviewer = fromStudent;
+		validate();
+	}
 
 	public SubmissionData(Submission s) {
 		this.course = s.getCourseID();
@@ -49,11 +58,11 @@ public class SubmissionData {
 		this.points = s.getPoints();
 		this.justification = s.getJustification();
 		this.p2pFeedback = s.getCommentsToStudent();
+		validate();
 	}
 
-	public Submission toSubmission() {
-		return new Submission(reviewer, reviewee, course, evaluation, team,
-				points, justification, p2pFeedback);
+	public Submission toEntity() {
+		return new Submission(reviewer, reviewee, course, evaluation, team);
 	}
 	
 	
@@ -97,6 +106,12 @@ public class SubmissionData {
 		sb.append(EOL+indentString+" justificatoin:"+justification.getValue());
 		sb.append(EOL+indentString+" p2pFeedback:"+p2pFeedback.getValue());
 		return sb.toString();
+	}
+	
+	public void validate() {
+		/*
+		Assumption.assertThat(blah); 
+		*/
 	}
 
 }

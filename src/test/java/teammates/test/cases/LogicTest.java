@@ -1681,7 +1681,7 @@ public class LogicTest extends BaseTestCase {
 		// verify it was treated as modified
 		StudentData student2 = dataBundle.students.get("student1InCourse1");
 		student2.name = student2.name + "y";
-		StudentData studentToEnroll = new StudentData(student2.email,
+		StudentData studentToEnroll = new StudentData(student2.id, student2.email,
 				student2.name, student2.comments, student2.course,
 				student2.team);
 		enrollmentResult = invokeEnrollStudent(studentToEnroll);

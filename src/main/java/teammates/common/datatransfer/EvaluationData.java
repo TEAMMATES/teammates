@@ -50,7 +50,7 @@ public class EvaluationData {
 		this.activated = e.isActivated();
 	}
 
-	public Evaluation toEvaluation() throws InvalidParametersException {
+	public Evaluation toEntity() throws InvalidParametersException {
 		Evaluation evaluation = new Evaluation(course, name, instructions,
 				p2pEnabled, startTime, endTime, timeZone, gracePeriod);
 		evaluation.setActivated(activated);

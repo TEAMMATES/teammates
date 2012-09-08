@@ -56,14 +56,16 @@ public class StudentData extends UserData {
 
 	public transient EvalResultData result;
 
-	public StudentData(String email, String name, String comments,
+	public StudentData(String id, String email, String name, String comments,
 			String courseId, String team) {
 		this();
+		this.id = id;
 		this.email = email;
 		this.course = courseId;
 		this.name = name;
 		this.comments = comments;
 		this.team = team;
+		validate();
 	}
 
 	public StudentData() {
@@ -87,6 +89,7 @@ public class StudentData extends UserData {
 		Long keyAsLong = student.getRegistrationKey();
 		this.key = (keyAsLong == null ? null : Student
 				.getStringKeyForLongKey(keyAsLong));
+		validate();
 	}
 
 	public boolean isEnrollInfoSameAs(StudentData otherStudent) {
@@ -139,5 +142,32 @@ public class StudentData extends UserData {
 		}
 
 	}
-
+	
+	public Student toEntity() {
+		return new Student(email, name, id, comments, course, team);
+	}
+	
+	public void validate() {
+		/*
+		Assumption.assertThat(email != null);
+		Assumption.assertThat(name != null);
+		Assumption.assertThat(id != null);
+		Assumption.assertThat(comments != null);
+		Assumption.assertThat(course != null);
+		Assumption.assertThat(team != null);
+		*/
+		
+		// TODO: this if for backward compatibility with old system. Old system
+		// considers "" as unregistered. It should be changed to consider
+		// null as unregistered.
+		if (id == null) {
+			id = "";
+		}
+		if (comments == null) {
+			comments = "";
+		}
+		if (team == null) {
+			team = "";
+		}
+	}
 }

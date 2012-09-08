@@ -20,6 +20,7 @@ public class CoordData extends UserData{
 		this.id = id;
 		this.name = name;
 		this.email = email;
+		validate();
 	}
 	
 	public CoordData(Coordinator coord) {
@@ -27,9 +28,22 @@ public class CoordData extends UserData{
 		this.id = coord.getGoogleID();
 		this.name = coord.getName();
 		this.email = coord.getEmail();
+		validate();
 	}
 	
 	public CoordData(){
 		isCoord = true;
+	}
+	
+	public Coordinator toEntity() {
+		return new Coordinator(id, name, email);
+	}
+	
+	public void validate() {
+		/*
+		Assumption.assertThat(id!=null);
+		Assumption.assertThat(name!=null);
+		Assumption.assertThat(email!=null);
+		*/
 	}
 }

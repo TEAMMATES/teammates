@@ -18,23 +18,18 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
-
 /**
  * Manager for handling basic CRUD Operations only
- *
+ * 
  */
 public class EvaluationsDb {
-	
+
 	private static final Logger log = Common.getLogger();
-	
+
 	private PersistenceManager getPM() {
 		return Datastore.getPersistenceManager();
 	}
-	
 
-	
-	
-	
 	/**
 	 * CREATE Evaluation
 	 * 
@@ -66,23 +61,25 @@ public class EvaluationsDb {
 	 *            the amount of time after the deadline within which submissions
 	 *            will still be accepted (Pre-condition: Must not be null)
 	 * 
-	 * @throws EntityAlreadyExistsException, InvalidParametersException
+	 * @throws EntityAlreadyExistsException
+	 *             , InvalidParametersException
 	 */
 
-	public void createEvaluation(EvaluationData e) throws EntityAlreadyExistsException, InvalidParametersException {
-		
+	public void createEvaluation(EvaluationData e)
+			throws EntityAlreadyExistsException, InvalidParametersException {
+
 		if (getEvaluationEntity(e.course, e.name) != null) {
 			throw new EntityAlreadyExistsException("An evaluation by the name "
 					+ e.name + " already exists under course " + e.course);
 		}
-		
+
 		try {
 			e.validate();
 		} catch (InvalidParametersException ipe) {
 			throw ipe;
 		}
 
-		Evaluation evaluation = e.toEvaluation();
+		Evaluation evaluation = e.toEntity();
 
 		getPM().makePersistent(evaluation);
 		getPM().flush();
@@ -90,7 +87,8 @@ public class EvaluationsDb {
 		// Check insert operation persisted
 		int elapsedTime = 0;
 		Evaluation evaluationCheck = getEvaluationEntity(e.course, e.name);
-		while ((evaluationCheck == null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
+		while ((evaluationCheck == null)
+				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
 			Common.waitBriefly();
 			evaluationCheck = getEvaluationEntity(e.course, e.name);
 			elapsedTime += Common.WAIT_DURATION;
@@ -99,18 +97,9 @@ public class EvaluationsDb {
 			log.severe("Operation did not persist in time: createEvaluation->"
 					+ e.course + "/" + e.name);
 		}
-		
+
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * RETRIEVE Evaluation
 	 * 
@@ -125,21 +114,12 @@ public class EvaluationsDb {
 	 * @return the EvaluationData of the specified course and name
 	 */
 	public EvaluationData getEvaluation(String courseId, String name) {
-		
+
 		Evaluation e = getEvaluationEntity(courseId, name);
 
 		return e == null ? null : new EvaluationData(e);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * RETRIEVE List<Evaluation>
 	 * 
@@ -157,41 +137,33 @@ public class EvaluationsDb {
 		@SuppressWarnings("unchecked")
 		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
 				query).execute();
-		
+
 		List<EvaluationData> evaluationDataList = new ArrayList<EvaluationData>();
-		
+
 		for (Evaluation e : evaluationList) {
 			if (!JDOHelper.isDeleted(e)) {
 				evaluationDataList.add(new EvaluationData(e));
 			}
 		}
-		
+
 		return evaluationDataList;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * RETRIEVE List<Evaluation>
 	 * 
 	 * Returns the EvaluationData that are ready.
 	 * 
 	 * @param courseID
-	 *            
+	 * 
 	 * 
 	 * @return List<EvaluationData> of ready evaluations
 	 */
 	public List<EvaluationData> getReadyEvaluations() {
 		// TODO: very inefficient to go through all evaluations
 		// There doesn't seem to be another alternative.
-		// The readiness must be evaluated from a Calendar instance, not able to select at query time
+		// The readiness must be evaluated from a Calendar instance, not able to
+		// select at query time
 		List<Evaluation> evaluationList = getAllEvaluations();
 		List<EvaluationData> readyEvaluations = new ArrayList<EvaluationData>();
 
@@ -202,16 +174,7 @@ public class EvaluationsDb {
 		}
 		return readyEvaluations;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * Returns all Evaluation objects that are due in the specified number of
 	 * hours.
@@ -263,9 +226,9 @@ public class EvaluationsDb {
 			now.add(Calendar.MILLISECOND,
 					(int) (-60 * 60 * 1000 * e.getTimeZone()));
 		}
-		
+
 		List<EvaluationData> evalDataList = new ArrayList<EvaluationData>();
-		
+
 		for (Evaluation e : dueEvaluationList) {
 			if (!JDOHelper.isDeleted(e)) {
 				evalDataList.add(new EvaluationData(e));
@@ -275,15 +238,6 @@ public class EvaluationsDb {
 		return evalDataList;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * UPDATE Evaluation
 	 * 
@@ -320,22 +274,18 @@ public class EvaluationsDb {
 	 * @return <code>true</code> if there are changes, <code>false</code>
 	 *         otherwise
 	 */
-	public boolean editEvaluation(	String courseId, 
-									String name,
-									String newInstructions, 
-									boolean newCommentsEnabled, 
-									Date newStart,
-									Date newDeadline, 
-									int newGracePeriod, 
-									boolean newIsActive,
-									boolean newIsPublished, 
-									double newTimeZone)
+	public boolean editEvaluation(String courseId, String name,
+			String newInstructions, boolean newCommentsEnabled, Date newStart,
+			Date newDeadline, int newGracePeriod, boolean newIsActive,
+			boolean newIsPublished, double newTimeZone)
 			throws EntityDoesNotExistException {
-		
+
 		Evaluation evaluation = getEvaluationEntity(courseId, name);
-		
+
 		if (evaluation == null)
-			throw new EntityDoesNotExistException("Trying to edit non-existent evaluation:" + courseId + " " + name);
+			throw new EntityDoesNotExistException(
+					"Trying to edit non-existent evaluation:" + courseId + " "
+							+ name);
 
 		Transaction tx = getPM().currentTransaction();
 		try {
@@ -361,16 +311,7 @@ public class EvaluationsDb {
 		}
 		return true;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * UPDATE Evaluation
 	 * 
@@ -381,36 +322,22 @@ public class EvaluationsDb {
 	 * 
 	 * @return <code>true</code> if there are changes, <code>false</code>
 	 *         otherwise
-	 *         
+	 * 
 	 * @throws EntityDoesNotExistException
 	 */
-	public boolean editEvaluation(EvaluationData ed) throws EntityDoesNotExistException {
-		
+	public boolean editEvaluation(EvaluationData ed)
+			throws EntityDoesNotExistException {
+
 		try {
-			return editEvaluation(	ed.course,
-									ed.name,
-									ed.instructions,
-									ed.p2pEnabled,
-									ed.startTime,
-									ed.endTime,
-									ed.gracePeriod,
-									ed.activated,
-									ed.published,
-									ed.timeZone);
-			
+			return editEvaluation(ed.course, ed.name, ed.instructions,
+					ed.p2pEnabled, ed.startTime, ed.endTime, ed.gracePeriod,
+					ed.activated, ed.published, ed.timeZone);
+
 		} catch (EntityDoesNotExistException ednee) {
 			throw ednee;
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * UPDATE Evaluation
 	 * 
@@ -424,23 +351,15 @@ public class EvaluationsDb {
 	 *            the evaluation name (Pre-condition: The courseID and name pair
 	 *            must be valid)
 	 */
-	public void setEvaluationPublishedStatus(String courseId, String name, boolean status) {
+	public void setEvaluationPublishedStatus(String courseId, String name,
+			boolean status) {
 		Evaluation evaluation = getEvaluationEntity(courseId, name);
 
 		evaluation.setPublished(status);
 		getPM().close();
 		return;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * Deletes an Evaluation
 	 * 
@@ -452,19 +371,23 @@ public class EvaluationsDb {
 	 *            the evaluation name (Pre-condition: The courseID and
 	 *            evaluationName pair must be valid)
 	 */
-	public void deleteEvaluation(String courseId, String name) throws EntityDoesNotExistException {
-		
+	public void deleteEvaluation(String courseId, String name)
+			throws EntityDoesNotExistException {
+
 		Evaluation e = getEvaluationEntity(courseId, name);
-		
-		if (e == null) 
-			throw new EntityDoesNotExistException("Trying to delete non existent evaluation: " + courseId + " | " + name);
+
+		if (e == null)
+			throw new EntityDoesNotExistException(
+					"Trying to delete non existent evaluation: " + courseId
+							+ " | " + name);
 
 		getPM().deletePersistent(e);
 
 		// Check delete operation persisteed
 		int elapsedTime = 0;
 		Evaluation evaluationCheck = getEvaluationEntity(courseId, name);
-		while ((evaluationCheck != null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
+		while ((evaluationCheck != null)
+				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
 			Common.waitBriefly();
 			evaluationCheck = getEvaluationEntity(courseId, name);
 			elapsedTime += Common.WAIT_DURATION;
@@ -475,16 +398,7 @@ public class EvaluationsDb {
 		}
 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * Deletes all Evaluations belonging to the specified course ID
 	 * 
@@ -494,26 +408,17 @@ public class EvaluationsDb {
 	 * 
 	 */
 	public void deleteAllEvaluationsForCourse(String courseId) {
-		
+
 		String query = "select from " + Evaluation.class.getName()
 				+ " where courseID == '" + courseId + "'";
 
 		@SuppressWarnings("unchecked")
 		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
 				query).execute();
-		
+
 		getPM().deletePersistentAll(evaluationList);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * Returns the actual Evaluation Entity
 	 * 
@@ -527,14 +432,15 @@ public class EvaluationsDb {
 	 */
 	private Evaluation getEvaluationEntity(String courseId, String evalName) {
 		String query = "select from " + Evaluation.class.getName()
-				+ " where name == '" + evalName + "' && courseID == '" + courseId
-				+ "'";
-		
+				+ " where name == '" + evalName + "' && courseID == '"
+				+ courseId + "'";
+
 		@SuppressWarnings("unchecked")
 		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
 				query).execute();
 
-		if (evaluationList.isEmpty() || JDOHelper.isDeleted(evaluationList.get(0))) {
+		if (evaluationList.isEmpty()
+				|| JDOHelper.isDeleted(evaluationList.get(0))) {
 			log.fine("Trying to get non-existent Evaluation : " + courseId
 					+ "/" + evalName);
 			return null;
@@ -542,9 +448,7 @@ public class EvaluationsDb {
 
 		return evaluationList.get(0);
 	}
-	
-	
-	
+
 	/**
 	 * Returns all Evaluation Entities.
 	 * 
@@ -556,9 +460,9 @@ public class EvaluationsDb {
 		@SuppressWarnings("unchecked")
 		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
 				query).execute();
-		
+
 		List<Evaluation> cleanList = new ArrayList<Evaluation>();
-		
+
 		for (Evaluation e : evaluationList) {
 			if (!JDOHelper.isDeleted(e)) {
 				cleanList.add(e);
@@ -567,6 +471,5 @@ public class EvaluationsDb {
 
 		return cleanList;
 	}
-	
-	
+
 }

@@ -332,20 +332,23 @@ public class Logic {
 	/**
 	 * Access: admin only
 	 */
-	public void createCoord(String coordID, String coordName, String coordEmail)
+	public void createCoord(String coordId, String coordName, String coordEmail)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 
-		Common.verifyNotNull(coordID, "coordinator ID");
+		// verification process here pending removal once Assumption class is implemented
+		Common.verifyNotNull(coordId, "coordinator ID");
 		Common.verifyNotNull(coordName, "coordinator Name");
 		Common.verifyNotNull(coordEmail, "coordinator Email");
 
 		verifyAdminLoggedIn();
 
+		// same for validation
 		Common.validateEmail(coordEmail);
 		Common.validateCoordName(coordName);
-		Common.validateGoogleId(coordID);
+		Common.validateGoogleId(coordId);
 
-		AccountsStorage.inst().getDb().createCoord(coordID, coordName, coordEmail);
+		CoordData coordToAdd = new CoordData(coordId, coordName, coordEmail);
+		AccountsStorage.inst().getDb().createCoord(coordToAdd);
 	}
 
 	/**
@@ -495,7 +498,8 @@ public class Logic {
 		Common.validateCourseId(courseId);
 		Common.validateCourseName(courseName);
 
-		CoursesStorage.inst().getDb().createCourse(courseId, courseName, coordId);
+		CourseData courseToAdd = new CourseData(courseId, courseName, coordId);
+		CoursesStorage.inst().getDb().createCourse(courseToAdd);
 	}
 
 	/**
@@ -739,13 +743,7 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(studentData.course);
 
-		AccountsStorage.inst().getDb().createStudent(	studentData.email, 
-														studentData.name,
-														studentData.id,
-														studentData.comments,
-														studentData.course,
-														studentData.team
-													);
+		AccountsStorage.inst().getDb().createStudent(studentData);
 
 		// adjust existing evaluations to accommodate new student
 		EvaluationsStorage.inst().adjustSubmissionsForNewStudent(

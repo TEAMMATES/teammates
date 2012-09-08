@@ -1,10 +1,6 @@
 package teammates.storage.api;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -59,7 +55,8 @@ public class EvaluationsStorage {
 			for (StudentData sx : studentDataList) {
 				for (StudentData sy : studentDataList) {
 					if (sx.team.equals(sy.team)) {
-						submissionsDb.createSubmission(e.course, e.name, sx.team, sx.email, sy.email);
+						SubmissionData submissionToAdd = new SubmissionData(e.course, e.name, sx.team, sx.email, sy.email);
+						submissionsDb.createSubmission(submissionToAdd);
 					}
 				}
 			}
@@ -115,17 +112,20 @@ public class EvaluationsStorage {
 		List<String> students = getExistingStudentsInTeam(courseId, newTeam);
 		
 		//add self evaluation are remove self from list
-		submissionsDb.createSubmission(courseId, evaluationName, newTeam, studentEmail, studentEmail);
+		SubmissionData submissionToAdd = new SubmissionData(courseId, evaluationName, newTeam, studentEmail, studentEmail);
+		submissionsDb.createSubmission(submissionToAdd);
 		students.remove(studentEmail);
 		
 		//add submission to/from peers
 		for (String peer : students) {
 			
 			// To
-			submissionsDb.createSubmission(courseId, evaluationName, newTeam, peer, studentEmail);
+			submissionToAdd = new SubmissionData(courseId, evaluationName, newTeam, peer, studentEmail);
+			submissionsDb.createSubmission(submissionToAdd);
 			
 			// From
-			submissionsDb.createSubmission(courseId, evaluationName, newTeam, studentEmail, peer);
+			submissionToAdd = new SubmissionData(courseId, evaluationName, newTeam, studentEmail, peer);
+			submissionsDb.createSubmission(submissionToAdd);
 		}
 	}
 
