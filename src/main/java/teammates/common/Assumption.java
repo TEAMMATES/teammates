@@ -2,13 +2,13 @@
  * Cannot use dafult java assert due to GAE environment restriction
  * We implement our own Assertion layer
  * This file is copied from Junit Assert
- * @file Assumption.java
+ * It contains a set of assertion methods useful for writing tests. 
+ * Only failed assertions are recorded. 
+ * These methods can be used directly: Assumption.assertEquals(...)
  */
 package teammates.common;
 
-/**
- * 
- */
+
 public class Assumption {
 
 	protected Assumption() {
