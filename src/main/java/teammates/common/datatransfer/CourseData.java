@@ -3,6 +3,7 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 
 import teammates.common.Common;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Course;
 
 public class CourseData {
@@ -28,12 +29,32 @@ public class CourseData {
 		this.id = id;
 		this.name = name;
 		this.coord = coordId;
+		validate();
 	}
 
 	public CourseData(Course course) {
 		this.id = course.getID();
 		this.name = course.getName();
 		this.coord = course.getCoordinatorID();
+		validate();
 	}
+	
+	public Course toEntity() throws InvalidParametersException{
 
+		// This try and catch block is just here to make it work.
+		// The verification method will be shifted in a separate issue, and this block will be removed accordingly
+		try {
+			return new Course(id, name, coord);
+		} catch (InvalidParametersException e) {
+			throw e;
+		}
+	}
+	
+	public void validate() {
+		/*
+		Assumption.assertThat(id != null);
+		Assumption.assertThat(name != null);
+		Assumption.assertThat(coord != null);
+		*/
+	}
 }
