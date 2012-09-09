@@ -47,6 +47,9 @@ public class CoursesDb {
 
 		// Check if entity already exists
 		if (getCourseEntity(courseToAdd.id) != null) {
+			log.warning("Trying to create a Course that exists: "
+					+ courseToAdd.id + Common.printCurrentThreadStack());
+
 			throw new EntityAlreadyExistsException("Course already exists : "
 					+ courseToAdd.id);
 		}
@@ -84,7 +87,13 @@ public class CoursesDb {
 
 		Course c = getCourseEntity(courseId);
 
-		return c == null ? null : new CourseData(c);
+		if (c == null) {
+			log.warning("Trying to get non-existent Course: " + courseId
+					+ Common.printCurrentThreadStack());
+			return null;
+		}
+
+		return new CourseData(c);
 	}
 
 	/**
@@ -127,7 +136,6 @@ public class CoursesDb {
 		Course courseToDelete = getCourseEntity(courseId);
 
 		if (courseToDelete == null) {
-			log.warning("Trying to delete non-existent Course: " + courseId);
 			return;
 		}
 
@@ -168,9 +176,6 @@ public class CoursesDb {
 				.execute();
 
 		if (courseList.isEmpty() || JDOHelper.isDeleted(courseList.get(0))) {
-			String errorMessage = "Trying to get non-existent Course : "
-					+ courseId;
-			log.fine(errorMessage);
 			return null;
 		}
 

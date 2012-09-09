@@ -50,12 +50,15 @@ public class AccountsDb {
 	 */
 	public void createCoord(CoordData coordToAdd)
 			throws EntityAlreadyExistsException {
-		
+
 		if (getCoordEntity(coordToAdd.id) != null) {
+			log.warning("Trying to create a Coordinatior that exists: "
+					+ coordToAdd + Common.printCurrentThreadStack());
+
 			throw new EntityAlreadyExistsException(
 					"Coordinator already exists :" + coordToAdd);
 		}
-		
+
 		Coordinator newCoordinator = coordToAdd.toEntity();
 		getPM().makePersistent(newCoordinator);
 		getPM().flush();
@@ -95,8 +98,14 @@ public class AccountsDb {
 			throws EntityAlreadyExistsException {
 
 		if (getStudentEntity(studentToAdd.course, studentToAdd.email) != null) {
+
+			log.warning("Trying to create a Student that exists: "
+					+ studentToAdd.course + "/" + studentToAdd.email
+					+ Common.printCurrentThreadStack());
+
 			throw new EntityAlreadyExistsException(
-					"This student already existis :" + studentToAdd.course + "/" + studentToAdd.email);
+					"This student already existis :" + studentToAdd.course
+							+ "/" + studentToAdd.email);
 		}
 
 		Student newStudent = studentToAdd.toEntity();
@@ -106,11 +115,13 @@ public class AccountsDb {
 
 		// Check insert operation persisted
 		int elapsedTime = 0;
-		Student studentCheck = getStudentEntity(studentToAdd.course, studentToAdd.email);
+		Student studentCheck = getStudentEntity(studentToAdd.course,
+				studentToAdd.email);
 		while ((studentCheck == null)
 				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
 			Common.waitBriefly();
-			studentCheck = getStudentEntity(studentToAdd.course, studentToAdd.email);
+			studentCheck = getStudentEntity(studentToAdd.course,
+					studentToAdd.email);
 			elapsedTime += Common.WAIT_DURATION;
 		}
 		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
@@ -134,7 +145,13 @@ public class AccountsDb {
 
 		Coordinator c = getCoordEntity(googleId);
 
-		return c == null ? null : new CoordData(c);
+		if (c == null) {
+			log.warning("Trying to get non-existent Coordinator: " + googleId
+					+ Common.printCurrentThreadStack());
+			return null;
+		}
+
+		return new CoordData(c);
 	}
 
 	/**
@@ -153,7 +170,13 @@ public class AccountsDb {
 
 		Student s = getStudentEntity(courseId, email);
 
-		return s == null ? null : new StudentData(s);
+		if (s == null) {
+			log.warning("Trying to get non-existent Student: " + courseId + "/"
+					+ email + Common.printCurrentThreadStack());
+			return null;
+		}
+
+		return new StudentData(s);
 	}
 
 	/**
@@ -184,6 +207,8 @@ public class AccountsDb {
 	}
 
 	/**
+	 * RETRIEVE List<Student>
+	 * 
 	 * Returns a list of Student objects that matches the specified courseID.
 	 * 
 	 * @param courseID
@@ -309,16 +334,22 @@ public class AccountsDb {
 	 * 
 	 * @throws EntityDoesNotExistException
 	 */
-	public void editStudent(String courseID, String email, String newName,
+	public void editStudent(String courseId, String email, String newName,
 			String newTeamName, String newEmail, String newGoogleID,
 			String newComments, Text newProfile)
 			throws EntityDoesNotExistException {
 
-		Student student = getStudentEntity(courseID, email);
+		Student student = getStudentEntity(courseId, email);
 
-		if (student == null)
-			throw new EntityDoesNotExistException("Student " + email
-					+ " does not exist in course " + courseID);
+		if (student == null) {
+			log.severe("Trying to update non-existent Student: " + courseId
+					+ "/ + email " + Common.printCurrentThreadStack());
+
+			/*
+			 * Assumption.assertFail("Trying to update non-existent Student: " +
+			 * courseId + "/" + email);
+			 */
+		}
 
 		student.setEmail(newEmail);
 		if (newName != null) {
@@ -351,7 +382,6 @@ public class AccountsDb {
 		Coordinator coordToDelete = getCoordEntity(coordId);
 
 		if (coordToDelete == null) {
-			log.warning("Trying to delete non-existent Coordinator: " + coordId);
 			return;
 		}
 
@@ -415,8 +445,6 @@ public class AccountsDb {
 		Student studentToDelete = getStudentEntity(courseId, email);
 
 		if (studentToDelete == null) {
-			log.warning("Trying to delete non-existent Student: " + courseId
-					+ "/" + email);
 			return;
 		}
 
@@ -484,7 +512,6 @@ public class AccountsDb {
 
 		if (coordinatorList.isEmpty()
 				|| JDOHelper.isDeleted(coordinatorList.get(0))) {
-			log.warning("Trying to get non-existent Coord : " + googleID);
 			return null;
 		}
 

@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -60,19 +61,30 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 
 		try {
 			doAction(req, helper);
+			
+			log.info("Request to: " + req.getServletPath() + "\n" +
+					"Request Params: " + printRequestParameters(req) + "\n" +
+					"Responded with: " + resp.SC_OK);
+			
 		} catch (EntityDoesNotExistException e) {
-			log.warning(e.getMessage());
+			log.warning("Request to: " + req.getServletPath() + "\n" +
+					"Request Params: " + printRequestParameters(req) + "\n" +
+					"Responded with: " + e.getMessage());
 			resp.sendRedirect(Common.JSP_ENTITY_NOT_FOUND_PAGE);
 			return;
 		} catch (UnauthorizedAccessException e) {
 			UserData user = new Logic().getLoggedInUser();
-			log.warning("Unauthorized access attempted by:"
+			log.warning("Request to: " + req.getServletPath() + "\n" +
+					"Request Params: " + printRequestParameters(req) + "\n" +
+					"Responded with: Unauthorized access attempted by:"
 					+ (user == null ? "not-logged-user" : user.id)
 					+ Common.stackTraceToString(e));
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return;
 		} catch (Exception e) {
-			log.severe("Unexpected exception: "
+			log.severe("Request to: " + req.getServletPath() + "\n" +
+					"Request Params: " + printRequestParameters(req) + "\n" +
+					"Responded with: Unexpected exception: "
 					+ Common.stackTraceToString(e));
 			resp.sendRedirect(Common.JSP_ERROR_PAGE);
 			return;
@@ -358,5 +370,15 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 						Integer.valueOf(s2.points));
 			}
 		});
+	}
+	
+	protected String printRequestParameters(HttpServletRequest request) {
+		String requestParameters = "{";
+		for (Enumeration f = request.getParameterNames(); f.hasMoreElements();) {
+			String paramet = new String(f.nextElement().toString());
+			requestParameters += paramet + ":" + request.getParameter(paramet) + ", ";
+		}
+		requestParameters += "}";
+		return requestParameters;
 	}
 }

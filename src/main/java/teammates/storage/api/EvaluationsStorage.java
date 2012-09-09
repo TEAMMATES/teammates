@@ -21,8 +21,6 @@ public class EvaluationsStorage {
 	private static final AccountsDb accountsDb = new AccountsDb();
 	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
 	private static final SubmissionsDb submissionsDb = new SubmissionsDb();
-	
-
 
 	public static EvaluationsStorage inst() {
 		if (instance == null)
@@ -30,120 +28,122 @@ public class EvaluationsStorage {
 		return instance;
 	}
 
-	
-
-
 	/**
-	 * Atomically creates an Evaluation Object and a list of Submissions for the evaluation
+	 * Atomically creates an Evaluation Object and a list of Submissions for the
+	 * evaluation
 	 * 
 	 * @param e
 	 *            An EvaluationData object
 	 * 
 	 * @author wangsha
-	 * @throws EntityAlreadyExistsException, InvalidParametersException
+	 * @throws EntityAlreadyExistsException
+	 *             , InvalidParametersException
 	 */
-	public void createEvaluation(EvaluationData e) throws EntityAlreadyExistsException, InvalidParametersException {
-		
+	public void createEvaluation(EvaluationData e)
+			throws EntityAlreadyExistsException, InvalidParametersException {
+
 		try {
-			
+
 			evaluationsDb.createEvaluation(e);
 
-			// Build submission objects for each student based on their team number
-			List<StudentData> studentDataList = accountsDb.getStudentListForCourse(e.course);
+			// Build submission objects for each student based on their team
+			// number
+			List<StudentData> studentDataList = accountsDb
+					.getStudentListForCourse(e.course);
 
-			// This double loop creates 3 submissions for a pair of students: x->x, x->y, y->x
+			// This double loop creates 3 submissions for a pair of students:
+			// x->x, x->y, y->x
 			for (StudentData sx : studentDataList) {
 				for (StudentData sy : studentDataList) {
 					if (sx.team.equals(sy.team)) {
-						SubmissionData submissionToAdd = new SubmissionData(e.course, e.name, sx.team, sx.email, sy.email);
+						SubmissionData submissionToAdd = new SubmissionData(
+								e.course, e.name, sx.team, sx.email, sy.email);
 						submissionsDb.createSubmission(submissionToAdd);
 					}
 				}
 			}
-		
+
 		} catch (EntityAlreadyExistsException eaee) {
-			log.warning(Common.stackTraceToString(eaee));
+			// Logging done at CRUD
 			throw eaee;
 		} catch (InvalidParametersException ipe) {
-			log.warning(Common.stackTraceToString(ipe));
-			throw ipe;
-		}	
+			// to become assert
+		}
 	}
-	
+
 	/**
-	 * Adjusts submissions for a student moving from one team to another. 
-	 * Deletes existing submissions for original team and creates empty 
-	 * submissions for the new team, in all existing submissions,
-	 * including CLOSED and PUBLISHED ones.
+	 * Adjusts submissions for a student moving from one team to another.
+	 * Deletes existing submissions for original team and creates empty
+	 * submissions for the new team, in all existing submissions, including
+	 * CLOSED and PUBLISHED ones.
 	 */
-	public void adjustSubmissionsForChangingTeam(String courseId, String studentEmail, String originalTeam, String newTeam){
-		List<EvaluationData> evaluationDataList = evaluationsDb.getEvaluationsForCourse(courseId);
+	public void adjustSubmissionsForChangingTeam(String courseId,
+			String studentEmail, String originalTeam, String newTeam) {
+		List<EvaluationData> evaluationDataList = evaluationsDb
+				.getEvaluationsForCourse(courseId);
 		for (EvaluationData ed : evaluationDataList) {
-			
+
 			submissionsDb.deleteSubmissionsForOutgoingMember(courseId, ed.name,
-						studentEmail, originalTeam);
-			
+					studentEmail, originalTeam);
+
 			addSubmissionsForIncomingMember(courseId, ed.name, studentEmail,
 					newTeam);
 		}
 	}
-	
+
 	/**
-	 * Adjusts submissions for a student adding a new student to a course. 
+	 * Adjusts submissions for a student adding a new student to a course.
 	 * Creates empty submissions for the new team, in all existing submissions,
 	 * including CLOSED and PUBLISHED ones.
 	 * 
-	 * ** This function is not called at all in test suite
-	 * Submissions for students are generated as a package when Evaluation is created -> see createEvaluation() above
-	 * My guess:
-	 * This function is invoked ONLY when a student is added to the course AFTER evaluation is generated
 	 */
-	public void adjustSubmissionsForNewStudent(String courseId, String studentEmail, String team){
-		List<EvaluationData> evaluationDataList = evaluationsDb.getEvaluationsForCourse(courseId);
+	public void adjustSubmissionsForNewStudent(String courseId,
+			String studentEmail, String team) {
+		List<EvaluationData> evaluationDataList = evaluationsDb
+				.getEvaluationsForCourse(courseId);
 		for (EvaluationData ed : evaluationDataList) {
-			addSubmissionsForIncomingMember(courseId, ed.name, studentEmail, team);
+			addSubmissionsForIncomingMember(courseId, ed.name, studentEmail,
+					team);
 		}
 	}
-
 
 	private void addSubmissionsForIncomingMember(String courseId,
 			String evaluationName, String studentEmail, String newTeam) {
-		
+
 		List<String> students = getExistingStudentsInTeam(courseId, newTeam);
-		
-		//add self evaluation are remove self from list
-		SubmissionData submissionToAdd = new SubmissionData(courseId, evaluationName, newTeam, studentEmail, studentEmail);
+
+		// add self evaluation are remove self from list
+		SubmissionData submissionToAdd = new SubmissionData(courseId,
+				evaluationName, newTeam, studentEmail, studentEmail);
 		submissionsDb.createSubmission(submissionToAdd);
 		students.remove(studentEmail);
-		
-		//add submission to/from peers
+
+		// add submission to/from peers
 		for (String peer : students) {
-			
+
 			// To
-			submissionToAdd = new SubmissionData(courseId, evaluationName, newTeam, peer, studentEmail);
+			submissionToAdd = new SubmissionData(courseId, evaluationName,
+					newTeam, peer, studentEmail);
 			submissionsDb.createSubmission(submissionToAdd);
-			
+
 			// From
-			submissionToAdd = new SubmissionData(courseId, evaluationName, newTeam, studentEmail, peer);
+			submissionToAdd = new SubmissionData(courseId, evaluationName,
+					newTeam, studentEmail, peer);
 			submissionsDb.createSubmission(submissionToAdd);
 		}
 	}
 
-
-
 	private List<String> getExistingStudentsInTeam(String courseId, String team) {
 		Set<String> students = new HashSet<String>();
-		List<SubmissionData> submissionsDataList = submissionsDb.getSubmissionsForCourse(courseId);
-		for(SubmissionData s: submissionsDataList){
-			if(s.team.equals(team)){
+		List<SubmissionData> submissionsDataList = submissionsDb
+				.getSubmissionsForCourse(courseId);
+		for (SubmissionData s : submissionsDataList) {
+			if (s.team.equals(team)) {
 				students.add(s.reviewer);
 			}
 		}
 		return new ArrayList<String>(students);
 	}
-
-
-
 
 	/**
 	 * Atomically deletes an Evaluation and its Submission objects.
@@ -155,29 +155,26 @@ public class EvaluationsStorage {
 	 * @param name
 	 *            the evaluation name (Pre-condition: The courseID and
 	 *            evaluationName pair must be valid)
-	 *            
+	 * 
 	 */
-	public void deleteEvaluation(String courseId, String name) {	
-		try {
-			// Delete the Evaluation entity
-			evaluationsDb.deleteEvaluation(courseId, name);
-		} catch (EntityDoesNotExistException ednee) {
-			log.warning("Trying to delete non-existent Evaluation: " + courseId + " | " + name);
-		}
-		
+	public void deleteEvaluation(String courseId, String name) {
+		// Delete the Evaluation entity
+		evaluationsDb.deleteEvaluation(courseId, name);
+
 		// Delete Submission entries belonging to this Evaluation
-		submissionsDb.deleteAllSubmissionsForEvaluation(courseId,name);
+		submissionsDb.deleteAllSubmissionsForEvaluation(courseId, name);
 	}
 
 	/**
-	 * Atomically deletes all Evaluation objects and its Submission objects from a Course.
+	 * Atomically deletes all Evaluation objects and its Submission objects from
+	 * a Course.
 	 * 
 	 * @param courseID
 	 *            the course ID (Pre-condition: Must be valid)
 	 * 
 	 */
 	public void deleteEvaluationsForCourse(String courseId) {
-		
+
 		evaluationsDb.deleteAllEvaluationsForCourse(courseId);
 		submissionsDb.deleteAllSubmissionsForCourse(courseId);
 	}
@@ -198,25 +195,19 @@ public class EvaluationsStorage {
 	 *         <code>false</code> otherwise.
 	 */
 	public boolean isEvaluationSubmitted(EvaluationData evaluation, String email) {
-		List<SubmissionData> submissionList = submissionsDb.getSubmissionsFromEvaluationFromStudent(evaluation.course, evaluation.name, email);
-		
+		List<SubmissionData> submissionList = submissionsDb
+				.getSubmissionsFromEvaluationFromStudent(evaluation.course,
+						evaluation.name, email);
+
 		for (SubmissionData sd : submissionList) {
-			// Return false if user has outstanding submissions to any of his/her teammates
+			// Return false if user has outstanding submissions to any of
+			// his/her teammates
 			if (sd.points == Common.POINTS_NOT_SUBMITTED) {
 				return false;
 			}
 		}
 		return true;
 	}
-
-	
-
-	
-
-	
-
-	
-
 
 	public void verifyEvaluationExists(String courseId, String evaluationName)
 			throws EntityDoesNotExistException {
@@ -225,12 +216,11 @@ public class EvaluationsStorage {
 					+ evaluationName + " does not exist in course " + courseId);
 		}
 	}
-	
-	
+
 	public EvaluationsDb getEvaluationsDb() {
 		return evaluationsDb;
 	}
-	
+
 	public SubmissionsDb getSubmissionsDb() {
 		return submissionsDb;
 	}
