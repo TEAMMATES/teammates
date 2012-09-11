@@ -1,14 +1,17 @@
-/**
- * Cannot use dafult java assert due to GAE environment restriction
- * We implement our own Assertion layer
- * This file is copied from Junit Assert
- * It contains a set of assertion methods useful for writing tests. 
- * Only failed assertions are recorded. 
- * These methods can be used directly: Assumption.assertEquals(...)
- */
 package teammates.common;
 
-
+/**
+ * This class provides a set of static method to verify assumptions about
+ * the system. When the real runtime condition differs from the assumed situation,
+ * an unchecked AssertionFailedError will be thrown at runtime.
+ * 
+ * Normally, we uses Java assertion to do runtime checking, 
+ * but GAE does not support the assertions.is 
+ * This file is a copy of org.junit.Assert v4.10. 
+ * Cannot use dafult java assert due to GAE environment restriction
+ * 
+ * @see Assert
+ */
 public class Assumption {
 
 	protected Assumption() {
