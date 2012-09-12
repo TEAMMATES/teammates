@@ -63,32 +63,6 @@ public class Submission {
 		this.points = -999;
 	}
 
-	/**
-	 * Constructs a Student object.
-	 * 
-	 * @param fromStudent
-	 * @param toStudent
-	 * @param courseID
-	 * @param evaluationName
-	 * @param teamName
-	 * @param points
-	 * @param justification
-	 * @param commentsToStudent
-	 */
-	public Submission(String fromStudent, String toStudent, String courseID,
-			String evaluationName, String teamName, int points,
-			Text justification, Text commentsToStudent) {
-		this.setFromStudent(fromStudent);
-		this.setToStudent(toStudent);
-		this.setCourseID(courseID);
-		this.setEvaluationName(evaluationName);
-		this.setTeamName(teamName);
-
-		this.setPoints(points);
-		this.setJustification(justification);
-		this.setCommentsToStudent(commentsToStudent);
-	}
-
 	public void setFromStudent(String fromStudent) {
 		this.fromStudent = fromStudent.trim();
 	}
