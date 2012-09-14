@@ -47,11 +47,12 @@ public class CoursesDb {
 
 		// Check if entity already exists
 		if (getCourseEntity(courseToAdd.id) != null) {
-			log.warning("Trying to create a Course that exists: "
-					+ courseToAdd.id + Common.printCurrentThreadStack());
+			String error = "Trying to create a Course that exists: "
+					+ courseToAdd.id;
+			
+			log.warning(error + "\n" + Common.getCurrentThreadStack());
 
-			throw new EntityAlreadyExistsException("Course already exists : "
-					+ courseToAdd.id);
+			throw new EntityAlreadyExistsException(error);
 		}
 
 		// Entity is new, create and make persist
@@ -89,7 +90,7 @@ public class CoursesDb {
 
 		if (c == null) {
 			log.warning("Trying to get non-existent Course: " + courseId
-					+ Common.printCurrentThreadStack());
+					+ Common.getCurrentThreadStack());
 			return null;
 		}
 

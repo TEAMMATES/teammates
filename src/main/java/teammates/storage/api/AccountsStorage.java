@@ -137,7 +137,7 @@ public class AccountsStorage {
 		if (user == null)
 			return false;
 		
-		return accountsDb.getCoord(user.getNickname()) != null;
+		return accountsDb.isCoord(user.getNickname());
 	}
 	
 	
@@ -149,14 +149,8 @@ public class AccountsStorage {
 	
 
 	
-	public void verifyStudentExists(String courseId, String studentEmail) throws EntityDoesNotExistException {
-		
-		StudentData studentData = accountsDb.getStudent(courseId, studentEmail);
-		
-		if(studentData==null){
-			throw new EntityDoesNotExistException("The student "+studentEmail+ " does not exist in course "+courseId);
-		}
-		
+	public boolean isStudentExists(String courseId, String studentEmail) {
+		return accountsDb.isStudentExists(courseId, studentEmail);
 	}
 	
 	

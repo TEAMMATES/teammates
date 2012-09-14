@@ -781,7 +781,7 @@ public class Common {
 		return "\n" + sw.toString();
 	}
 	
-	public static String printCurrentThreadStack() {
+	public static String getCurrentThreadStack() {
 		StringWriter sw = new StringWriter();
 		new Throwable("").printStackTrace(new PrintWriter(sw));
 		return "\n" + sw.toString();

@@ -378,6 +378,9 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			String paramet = new String(f.nextElement().toString());
 			requestParameters += paramet + ":" + request.getParameter(paramet) + ", ";
 		}
+		if (requestParameters != "{") {
+			requestParameters = requestParameters.substring(0, requestParameters.length() - 2);
+		}
 		requestParameters += "}";
 		return requestParameters;
 	}

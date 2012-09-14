@@ -69,13 +69,12 @@ public class EvaluationsDb {
 			throws EntityAlreadyExistsException, InvalidParametersException {
 
 		if (getEvaluationEntity(evaluationToAdd.course, evaluationToAdd.name) != null) {
-			log.warning("Trying to create an Evaluation that exists: "
-					+ evaluationToAdd.course + " | " + evaluationToAdd.name
-					+ Common.printCurrentThreadStack());
+			String error = "Trying to create an Evaluation that exists: "
+					+ evaluationToAdd.course + " | " + evaluationToAdd.name;
+			
+			log.warning(error + "\n" + Common.getCurrentThreadStack());
 
-			throw new EntityAlreadyExistsException("An evaluation by the name "
-					+ evaluationToAdd.name + " already exists under course "
-					+ evaluationToAdd.course);
+			throw new EntityAlreadyExistsException(error);
 		}
 
 		try {
@@ -126,7 +125,7 @@ public class EvaluationsDb {
 
 		if (e == null) {
 			log.warning("Trying to get non-existent Evaluation : " + courseId
-					+ "/" + name + Common.printCurrentThreadStack());
+					+ "/" + name + Common.getCurrentThreadStack());
 			return null;
 		}
 
@@ -296,7 +295,7 @@ public class EvaluationsDb {
 
 		if (evaluation == null) {
 			log.severe("Trying to update non-existent Evaluation: " + courseId
-					+ " | " + name + Common.printCurrentThreadStack());
+					+ " | " + name + Common.getCurrentThreadStack());
 			/*
 			 * Assumption.assertFail(
 			 * "Trying to update non-existent Evaluation:" + courseId + " " +
@@ -369,7 +368,7 @@ public class EvaluationsDb {
 
 		if (evaluation == null) {
 			log.severe("Trying to update non-existent Evaluation: " + courseId
-					+ " | " + name + Common.printCurrentThreadStack());
+					+ " | " + name + Common.getCurrentThreadStack());
 			/*
 			 * Assumption.assertFail(
 			 * "Trying to update non-existent Evaluation:" + courseId + " " +

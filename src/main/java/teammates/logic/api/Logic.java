@@ -1023,7 +1023,7 @@ public class Logic {
 			// For the list of evaluations for this course
 			for (EvaluationData ed : evaluationDataList) {
 				// Add this evaluation to the course's list of evaluations.
-				//log.fine("Adding evaluation " + ed.name + " to course " + c.id);
+				log.fine("Adding evaluation " + ed.name + " to course " + c.id);
 				if (ed.getStatus() != EvalStatus.AWAITING) {
 					c.evaluations.add(ed);
 				}
@@ -1321,11 +1321,15 @@ public class Logic {
 		List<SubmissionData> submissions = EvaluationsStorage.inst().getSubmissionsDb()
 				.getSubmissionsFromEvaluationFromStudent(courseId, evaluationName,
 						reviewerEmail);
-		if (submissions.size() == 0) {
-			CoursesStorage.inst().verifyCourseExists(courseId);
-			EvaluationsStorage.inst().verifyEvaluationExists(courseId,
-					evaluationName);
-			AccountsStorage.inst().verifyStudentExists(courseId, reviewerEmail);
+		
+		if (submissions.size() > 0 && 
+			CoursesStorage.inst().isCourseExists(courseId) &&
+			EvaluationsStorage.inst().isEvaluationExists(courseId,evaluationName) &&
+			AccountsStorage.inst().isStudentExists(courseId, reviewerEmail)) {
+		} else {
+			throw new EntityDoesNotExistException("Error getting submissions from student: "
+												+ courseId + " / " + evaluationName
+												+ ", reviewer: " + reviewerEmail);
 		}
 		
 		StudentData student = getStudent(courseId, reviewerEmail);
@@ -1468,7 +1472,7 @@ public class Logic {
 			}
 		} catch (Exception e) {
 			updateStatus = UpdateStatus.ERROR;
-			log.severe("EntityExistsExcpetion thrown unexpectedly" + "\n" + Common.stackTraceToString(e));
+			log.severe("Exception thrown unexpectedly" + "\n" + Common.stackTraceToString(e));
 		}
 		student.updateStatus = updateStatus;
 		return student;
@@ -1553,17 +1557,17 @@ public class Logic {
 				int normalizedIncoming = teamResult.denormalizedAveragePerceived[i][j];
 				incomingSub.normalizedToStudent = normalizedIncoming;
 				incomingSub.normalizedToCoord = teamResult.normalizedPeerContributionRatio[j][i];
-				//log.finer("Setting normalized incoming of " + s.name + " from "
-				//		+ incomingSub.reviewerName + " to "
-				//		+ normalizedIncoming);
+				log.finer("Setting normalized incoming of " + s.name + " from "
+						+ incomingSub.reviewerName + " to "
+						+ normalizedIncoming);
 
 				SubmissionData outgoingSub = s.result.outgoing.get(j);
 				int normalizedOutgoing = teamResult.normalizedClaimed[i][j];
 				outgoingSub.normalizedToStudent = Common.UNINITIALIZED_INT;
 				outgoingSub.normalizedToCoord = normalizedOutgoing;
-				//log.fine("Setting normalized outgoing of " + s.name + " to "
-				//		+ outgoingSub.revieweeName + " to "
-				//		+ normalizedOutgoing);
+				log.finer("Setting normalized outgoing of " + s.name + " to "
+						+ outgoingSub.revieweeName + " to "
+						+ normalizedOutgoing);
 			}
 		}
 	}
@@ -1657,7 +1661,7 @@ public class Logic {
 	}
 
 	private boolean isModificationToExistingStudent(StudentData student) {
-		return getStudent(student.course, student.email) != null;
+		return AccountsStorage.inst().isStudentExists(student.course, student.email);
 	}
 
 }

@@ -50,19 +50,16 @@ public class SubmissionsDb {
 		if (getSubmissionEntity(submissionToAdd.course,
 				submissionToAdd.evaluation, submissionToAdd.reviewee,
 				submissionToAdd.reviewer) != null) {
-			log.warning("Trying to create a Submission that exists: "
+			String error = "Trying to create a Submission that exists: "
 					+ "course: " + submissionToAdd.course + ", evaluation: "
 					+ submissionToAdd.evaluation + ", toStudent: "
 					+ submissionToAdd.reviewee + ", fromStudent: "
-					+ submissionToAdd.reviewer
-					+ Common.printCurrentThreadStack());
+					+ submissionToAdd.reviewer;
+			
+			log.warning(error + "\n" + Common.getCurrentThreadStack());
 
 			// Exception not handled yet
-			// throw new EntityAlreadyExistsException("The submission for " +
-			// "course: " + submissionToAdd.course +
-			// ", evaluation: " + submissionToAdd.evaluation +
-			// ", toStudent: " + submissionToAdd.reviewee +
-			// ", fromStudent: " + submissionToAdd.reviewer);
+			// throw new EntityAlreadyExistsException(error);
 		}
 
 		Submission newSubmission = submissionToAdd.toEntity();
@@ -130,7 +127,7 @@ public class SubmissionsDb {
 		if (s == null) {
 			log.warning("Trying to get non-existent Submission : " + courseId
 					+ "/" + evaluationName + "| from " + fromStudent + " to "
-					+ toStudent + Common.printCurrentThreadStack());
+					+ toStudent + Common.getCurrentThreadStack());
 			return null;
 		}
 
@@ -336,7 +333,7 @@ public class SubmissionsDb {
 		if (submission == null) {
 			log.severe("Trying to update non-existent Submission: " + sd.course
 					+ "/" + sd.evaluation + "| from " + sd.reviewer + " to "
-					+ sd.reviewee + Common.printCurrentThreadStack());
+					+ sd.reviewee + Common.getCurrentThreadStack());
 			/*
 			 * Assumption.assertFail("Trying to update non-existent Submission: "
 			 * + "course: " + sd.course + ", evaluation: " + sd.evaluation +

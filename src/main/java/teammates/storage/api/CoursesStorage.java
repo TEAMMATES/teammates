@@ -177,13 +177,8 @@ public class CoursesStorage {
 		return courseList;
 	}
 
-	public void verifyCourseExists(String courseId)
-			throws EntityDoesNotExistException {
-		if (coursesDb.getCourse(courseId) == null) {
-			throw new EntityDoesNotExistException("The course " + courseId
-					+ " does not exist");
-		}
-
+	public boolean isCourseExists(String courseId) {
+		return coursesDb.getCourse(courseId) != null;
 	}
 
 	public CoursesDb getDb() {

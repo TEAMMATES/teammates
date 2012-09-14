@@ -42,32 +42,23 @@ public class EvaluationsStorage {
 	public void createEvaluation(EvaluationData e)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 
-		try {
+		evaluationsDb.createEvaluation(e);
 
-			evaluationsDb.createEvaluation(e);
+		// Build submission objects for each student based on their team
+		// number
+		List<StudentData> studentDataList = accountsDb
+				.getStudentListForCourse(e.course);
 
-			// Build submission objects for each student based on their team
-			// number
-			List<StudentData> studentDataList = accountsDb
-					.getStudentListForCourse(e.course);
-
-			// This double loop creates 3 submissions for a pair of students:
-			// x->x, x->y, y->x
-			for (StudentData sx : studentDataList) {
-				for (StudentData sy : studentDataList) {
-					if (sx.team.equals(sy.team)) {
-						SubmissionData submissionToAdd = new SubmissionData(
-								e.course, e.name, sx.team, sx.email, sy.email);
-						submissionsDb.createSubmission(submissionToAdd);
-					}
+		// This double loop creates 3 submissions for a pair of students:
+		// x->x, x->y, y->x
+		for (StudentData sx : studentDataList) {
+			for (StudentData sy : studentDataList) {
+				if (sx.team.equals(sy.team)) {
+					SubmissionData submissionToAdd = new SubmissionData(
+							e.course, e.name, sx.team, sx.email, sy.email);
+					submissionsDb.createSubmission(submissionToAdd);
 				}
 			}
-
-		} catch (EntityAlreadyExistsException eaee) {
-			// Logging done at CRUD
-			throw eaee;
-		} catch (InvalidParametersException ipe) {
-			// to become assert
 		}
 	}
 
@@ -112,7 +103,7 @@ public class EvaluationsStorage {
 
 		List<String> students = getExistingStudentsInTeam(courseId, newTeam);
 
-		// add self evaluation are remove self from list
+		// add self evaluation and remove self from list
 		SubmissionData submissionToAdd = new SubmissionData(courseId,
 				evaluationName, newTeam, studentEmail, studentEmail);
 		submissionsDb.createSubmission(submissionToAdd);
@@ -209,12 +200,8 @@ public class EvaluationsStorage {
 		return true;
 	}
 
-	public void verifyEvaluationExists(String courseId, String evaluationName)
-			throws EntityDoesNotExistException {
-		if (evaluationsDb.getEvaluation(courseId, evaluationName) == null) {
-			throw new EntityDoesNotExistException("The evaluation "
-					+ evaluationName + " does not exist in course " + courseId);
-		}
+	public boolean isEvaluationExists(String courseId, String evaluationName) {
+		return evaluationsDb.getEvaluation(courseId, evaluationName) != null;
 	}
 
 	public EvaluationsDb getEvaluationsDb() {

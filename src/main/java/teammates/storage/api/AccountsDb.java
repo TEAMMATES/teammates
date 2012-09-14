@@ -52,11 +52,12 @@ public class AccountsDb {
 			throws EntityAlreadyExistsException {
 
 		if (getCoordEntity(coordToAdd.id) != null) {
-			log.warning("Trying to create a Coordinatior that exists: "
-					+ coordToAdd + Common.printCurrentThreadStack());
+			String error = "Trying to create a Coordinatior that exists: "
+					+ coordToAdd;
+			
+			log.warning(error + "\n" + Common.getCurrentThreadStack());
 
-			throw new EntityAlreadyExistsException(
-					"Coordinator already exists :" + coordToAdd);
+			throw new EntityAlreadyExistsException(error);
 		}
 
 		Coordinator newCoordinator = coordToAdd.toEntity();
@@ -98,14 +99,12 @@ public class AccountsDb {
 			throws EntityAlreadyExistsException {
 
 		if (getStudentEntity(studentToAdd.course, studentToAdd.email) != null) {
+			String error = "Trying to create a Student that exists: "
+					+ studentToAdd.course + "/" + studentToAdd.email;
+			
+			log.warning(error + "\n" + Common.getCurrentThreadStack());
 
-			log.warning("Trying to create a Student that exists: "
-					+ studentToAdd.course + "/" + studentToAdd.email
-					+ Common.printCurrentThreadStack());
-
-			throw new EntityAlreadyExistsException(
-					"This student already existis :" + studentToAdd.course
-							+ "/" + studentToAdd.email);
+			throw new EntityAlreadyExistsException(error);
 		}
 
 		Student newStudent = studentToAdd.toEntity();
@@ -129,6 +128,39 @@ public class AccountsDb {
 					+ studentToAdd.course + "/" + studentToAdd.email);
 		}
 	}
+	
+	/**
+	 * RETREIVE boolean
+	 * 
+	 * Checks if there exists a coord with this googleId
+	 * 
+	 * @param googleID
+	 *            the coordinator's Google ID (Precondition: Must not be null)
+	 * 
+	 * @return boolean
+	 */
+	public boolean isCoord(String googleId) {
+		Coordinator c = getCoordEntity(googleId);
+		return c != null;
+	}
+	
+	/**
+	 * RETREIVE boolean
+	 * 
+	 * Checks if there exists a student in this course with this email
+	 * 
+	 * @param courseId
+	 *            the courseId for this Student entry
+	 *            
+	 * @param email
+	 * 			  for identifying the student in the course
+	 * 
+	 * @return boolean
+	 */
+	public boolean isStudentExists(String courseId, String email) {
+		Student s = getStudentEntity(courseId, email);
+		return s != null;
+	}
 
 	/**
 	 * RETREIVE Coordinator
@@ -147,7 +179,7 @@ public class AccountsDb {
 
 		if (c == null) {
 			log.warning("Trying to get non-existent Coordinator: " + googleId
-					+ Common.printCurrentThreadStack());
+					+ Common.getCurrentThreadStack());
 			return null;
 		}
 
@@ -172,7 +204,7 @@ public class AccountsDb {
 
 		if (s == null) {
 			log.warning("Trying to get non-existent Student: " + courseId + "/"
-					+ email + Common.printCurrentThreadStack());
+					+ email + Common.getCurrentThreadStack());
 			return null;
 		}
 
@@ -343,7 +375,7 @@ public class AccountsDb {
 
 		if (student == null) {
 			log.severe("Trying to update non-existent Student: " + courseId
-					+ "/ + email " + Common.printCurrentThreadStack());
+					+ "/ + email " + Common.getCurrentThreadStack());
 
 			/*
 			 * Assumption.assertFail("Trying to update non-existent Student: " +
