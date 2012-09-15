@@ -1322,11 +1322,12 @@ public class Logic {
 				.getSubmissionsFromEvaluationFromStudent(courseId, evaluationName,
 						reviewerEmail);
 		
-		if (submissions.size() > 0 && 
+		boolean isSubmissionsExist = (submissions.size() > 0 && 
 			CoursesStorage.inst().isCourseExists(courseId) &&
 			EvaluationsStorage.inst().isEvaluationExists(courseId,evaluationName) &&
-			AccountsStorage.inst().isStudentExists(courseId, reviewerEmail)) {
-		} else {
+			AccountsStorage.inst().isStudentExists(courseId, reviewerEmail));
+		
+		if (!isSubmissionsExist) {
 			throw new EntityDoesNotExistException("Error getting submissions from student: "
 												+ courseId + " / " + evaluationName
 												+ ", reviewer: " + reviewerEmail);
