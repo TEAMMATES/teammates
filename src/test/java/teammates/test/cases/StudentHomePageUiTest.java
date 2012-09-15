@@ -20,6 +20,7 @@ import teammates.test.driver.TestProperties;
 public class StudentHomePageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static DataBundle scn;
+	private static Boolean helpWindowClosed;
 	
 	private static String appURL = TestProperties.inst().TEAMMATES_URL;
 
@@ -34,6 +35,7 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
+		helpWindowClosed = true;
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
@@ -42,13 +44,18 @@ public class StudentHomePageUiTest extends BaseTestCase {
 	
 	@AfterClass
 	public static void classTearDown() throws Exception {
+		if (!helpWindowClosed){
+			bi.closeSelectedWindow();
+		}
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
 	}
 
 	@Test	
 	public void testStudentHomeCoursePageHTML() throws Exception{
-		
+		if (!helpWindowClosed){
+			bi.closeSelectedWindow();
+		}
 		
 		______TS("typical case");
 		
@@ -78,8 +85,10 @@ public class StudentHomePageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testHelpLink() throws Exception{
+		helpWindowClosed = false;
 		bi.clickAndSwitchToNewWindow(bi.helpTab);
 		assertContains("Teammates Online Peer Feedback System for Student Team Projects - Student Help", bi.getCurrentPageSource());
 		bi.closeSelectedWindow();
+		helpWindowClosed = true;
 	}
 }

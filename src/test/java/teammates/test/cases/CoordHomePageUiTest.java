@@ -28,6 +28,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	private static EvaluationData secondEval;
 	private static EvaluationData thirdEval;
 	
+	private static Boolean helpWindowClosed;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -43,6 +44,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
+		helpWindowClosed = true;
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
@@ -51,6 +53,9 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	
 	@AfterClass
 	public static void classTearDown() throws Exception {
+		if (!helpWindowClosed){
+			bi.closeSelectedWindow();
+		}
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
 	}
@@ -67,18 +72,24 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	}
 	
 	public void testHelpLink() throws Exception{
+		helpWindowClosed = false;
 		bi.clickAndSwitchToNewWindow(bi.helpTab);
-		assertContains("<title>Teammates Online Peer Feedback System for Student Team Projects - Coordinator Help</title>", bi.getCurrentPageSource());
+		assertContains("<title>Teammates Onlineds Peer Feedback System for Student Team Projects - Coordinator Help</title>", bi.getCurrentPageSource());
 		bi.closeSelectedWindow();
+		helpWindowClosed = true;
 	}
 	
 	public void testCoordHomeHTML() throws Exception{
-		
+		if (!helpWindowClosed){
+			bi.closeSelectedWindow();
+		}
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordHomeHTML.html");
 	}
 
 	public void testCoordHomeEvalRemindLink(){
-		
+		if (!helpWindowClosed){
+			bi.closeSelectedWindow();
+		}
 		
 		// Check the remind link on Open Evaluation: Evaluation 1 at Course 1
 		By remindLinkLocator = bi.getCoordHomeEvaluationRemindLinkLocator(firstEval.course, firstEval.name);
@@ -91,7 +102,9 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordHomeEvalPublishLink(){
-		
+		if (!helpWindowClosed){
+			bi.closeSelectedWindow();
+		}
 		
 		______TS("publish link of CLOSED evaluation");
 		
@@ -125,7 +138,9 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordHomeEvalDeleteLink() throws Exception{
-		
+		if (!helpWindowClosed){
+			bi.closeSelectedWindow();
+		}
 		
 		______TS("click and cancel");
 		
@@ -150,7 +165,9 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordHomeCourseDeleteLink() throws Exception{
-		
+		if (!helpWindowClosed){
+			bi.closeSelectedWindow();
+		}
 		
 		______TS("click and cancel");
 		
@@ -175,7 +192,9 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	}
 	
 	public void testCoordHomeEmptyHTML() throws Exception{
-		
+		if (!helpWindowClosed){
+			bi.closeSelectedWindow();
+		}
 		
 		BackDoor.deleteCourse(scn.courses.get("CHomeUiT.CS2104").id);
 		BackDoor.deleteCourse(scn.courses.get("CHomeUiT.CS1101").id);
