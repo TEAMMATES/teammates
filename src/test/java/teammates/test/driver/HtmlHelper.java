@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -14,6 +16,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.cyberneko.html.parsers.DOMParser;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -38,9 +42,16 @@ public class HtmlHelper {
 	 */
 	public static void assertSameHtml(String html1, String html2)
 			throws SAXException, IOException, TransformerException {
-		html1 = parseHtml(html1);
-		html2 = parseHtml(html2);
-		assertEquals(html1,html2);
+		html1 = preProcessHtml(html1);
+		html2 = preProcessHtml(html2);
+		System.out.println(html2);
+		Node page1 = getNodeFromString(html1);
+		Node page2 = getNodeFromString(html2);
+		eliminateEmptyTextNodes(page1);
+		eliminateEmptyTextNodes(page2);
+		
+		assertTrue("HTML pages are different", compare(page1, page2, "  "));
+		
 	}
 	
 	public static String parseHtml(String htmlString) throws TransformerException, SAXException, IOException{
@@ -67,7 +78,7 @@ public class HtmlHelper {
 	}
 	
 	private static String preProcessHtml(String htmlString){
-
+		htmlString = htmlString.replaceAll("&nbsp;", "");
 		//Required for chrome selenium testing
 		htmlString = htmlString.replaceFirst("<html>", "<html xmlns=\"http://www.w3.org/1999/xhtml\">");
 		
@@ -135,6 +146,120 @@ public class HtmlHelper {
 		DOMParser parser = new DOMParser();
 		parser.parse(new InputSource(new StringReader(string)));
 		return parser.getDocument();
+	}
+	
+	
+	private static void eliminateEmptyTextNodes(Node n){
+		NodeList childNodes = n.getChildNodes();
+		List<Node> toRemove = new ArrayList<Node>();
+		for (int i = childNodes.getLength() - 1; i >= 0; i --){
+			Node current = childNodes.item(i);
+			if (current.getNodeType() == Node.TEXT_NODE && current.getNodeValue().trim().isEmpty()){
+				toRemove.add(current);
+			}
+			else {
+				eliminateEmptyTextNodes(current);
+			}
+		}
+		
+		for (int i = 0; i < toRemove.size(); i++){
+			n.removeChild(toRemove.get(i));
+		}
+	}
+	
+	
+	public static boolean compare(Node webpage, Node testpage, String indentation){
+		
+		System.out.print(indentation + testpage.getNodeName() + "   ");
+		if (testpage.getNodeType() == Node.ELEMENT_NODE){
+			if(webpage.getNodeType() != Node.ELEMENT_NODE){
+				System.out.println(indentation + "Error: Supposed to have element node but given " + webpage.getNodeName());
+				return false;
+			}
+			if(!webpage.getNodeName().equals(testpage.getNodeName())){
+				System.out.println(indentation + "Error: Supposed to have " + testpage.getNodeName() + " tag but given " + webpage.getNodeName() + " tag instead");
+				return false;
+			}
+			
+			NamedNodeMap webpageAttributeList = webpage.getAttributes();
+			NamedNodeMap testpageAttributeList = testpage.getAttributes();
+			for (int i = 0; i < testpageAttributeList.getLength(); i++){
+				Node attribute = testpageAttributeList.item(i);
+				Node retrieved;
+				try{
+					retrieved = webpageAttributeList.removeNamedItem(attribute.getNodeName());
+				}
+				catch (DOMException e){
+					System.out.println("Error: Unable to find attribute: " + attribute.getNodeName());
+					return false;
+				}
+				if (!retrieved.getNodeValue().equals(attribute.getNodeValue())){
+					System.out.println("Error: attribute " + attribute.getNodeName() + " has value " + retrieved.getNodeValue() + " instead of " + attribute.getNodeValue());
+					return false;
+				}								
+			}
+			if(webpageAttributeList.getLength() > 0){
+				System.out.print("Error: there are extra attributes in the element tag ");
+				for (int i = 0; i < webpageAttributeList.getLength(); i++){
+					Node attribute = webpageAttributeList.item(i);
+					System.out.print("[" + attribute.getNodeName() + ": " + attribute.getNodeValue() + "] ");
+				}
+				return false;
+			}
+			else{
+				for (int i = 0; i < testpageAttributeList.getLength(); i++){
+					Node attribute = testpageAttributeList.item(i);
+					System.out.print("[" + attribute.getNodeName() + ": " + attribute.getNodeValue() + "] ");
+				}
+			}
+			System.out.println();	
+			
+		} else if (testpage.getNodeType() == Node.TEXT_NODE){
+			if(webpage.getNodeType() != Node.TEXT_NODE){
+				System.out.println(indentation + "Error: Supposed to have text node but given " + webpage.getNodeName());
+				return false;
+			}
+			if(!webpage.getNodeValue().trim().equals(testpage.getNodeValue().trim())){
+				System.out.println(indentation + "Error: Supposed to have \"" + testpage.getNodeValue() + "\" but given \"" + webpage.getNodeValue() + "\" instead");
+				return false;
+			}
+			System.out.println();	
+		}
+				
+		if(testpage.hasChildNodes() || testpage.hasChildNodes()){
+			NodeList webpageChildNodes = webpage.getChildNodes();
+			NodeList testpageChildNodes = testpage.getChildNodes();
+			if (webpageChildNodes.getLength() != testpageChildNodes.getLength()){
+				System.out.println(indentation + "Error: Parse tree structure is different");
+				System.out.print("Webpage: ");
+				for (int i = 0; i < webpageChildNodes.getLength(); i++){
+					System.out.print(webpageChildNodes.item(i).getNodeName() + " \"" + testpageChildNodes.item(i).getNodeValue() + "\"");
+				}
+				System.out.println();
+				System.out.print("Testpage: ");
+				for (int i = 0; i < testpageChildNodes.getLength(); i++){
+					System.out.print(testpageChildNodes.item(i).getNodeName() + " \"" + testpageChildNodes.item(i).getNodeValue().trim() + "\"");
+					
+					if (testpageChildNodes.item(i).getNodeValue().trim().isEmpty()){
+						System.out.println("TRIMMED");
+					}
+					if (testpageChildNodes.item(i).getNodeValue().equals(" ")){
+						System.out.println("WHITESPACE");
+					}
+				}
+				System.out.println();
+				return false;
+			} else {
+				for (int i = 0; i < webpageChildNodes.getLength(); i++){
+					if(!compare(webpageChildNodes.item(i), testpageChildNodes.item(i), indentation + "   ")){
+						return false;
+					}
+				}
+			}
+		}
+		
+		System.out.println(indentation + "/" + testpage.getNodeName());
+		return true;
 	}
 
 }
