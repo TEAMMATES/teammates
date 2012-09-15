@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -55,9 +56,18 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	public static void classTearDown() throws Exception {
 		if (!helpWindowClosed){
 			bi.closeSelectedWindow();
+			helpWindowClosed = true;
 		}
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
+	}
+	
+	@Before
+	public void testSetup() {
+		if (!helpWindowClosed){
+			bi.closeSelectedWindow();
+			helpWindowClosed = true;
+		}
 	}
 
 	@Test
@@ -75,8 +85,6 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		helpWindowClosed = false;
 		bi.clickAndSwitchToNewWindow(bi.helpTab);
 		assertContains("<title>Teammates Onlineds Peer Feedback System for Student Team Projects - Coordinator Help</title>", bi.getCurrentPageSource());
-		bi.closeSelectedWindow();
-		helpWindowClosed = true;
 	}
 	
 	public void testCoordHomeHTML() throws Exception{

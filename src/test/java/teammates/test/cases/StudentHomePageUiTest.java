@@ -3,6 +3,7 @@ package teammates.test.cases;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -46,17 +47,23 @@ public class StudentHomePageUiTest extends BaseTestCase {
 	public static void classTearDown() throws Exception {
 		if (!helpWindowClosed){
 			bi.closeSelectedWindow();
+			helpWindowClosed = true;
 		}
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
 	}
+	
+	@Before
+	public void testSetup() {
+		if (!helpWindowClosed){
+			bi.closeSelectedWindow();
+			helpWindowClosed = true;
+		}
+	}
 
 	@Test	
 	public void testStudentHomeCoursePageHTML() throws Exception{
-		if (!helpWindowClosed){
-			bi.closeSelectedWindow();
-		}
-		
+			
 		______TS("typical case");
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentHomeHTML.html");
@@ -87,8 +94,6 @@ public class StudentHomePageUiTest extends BaseTestCase {
 	public void testHelpLink() throws Exception{
 		helpWindowClosed = false;
 		bi.clickAndSwitchToNewWindow(bi.helpTab);
-		assertContains("Teammates Online Peer Feedback System for Student Team Projects - Student Help", bi.getCurrentPageSource());
-		bi.closeSelectedWindow();
-		helpWindowClosed = true;
+		assertContains("Teammates Onldine Peer Feedback System for Student Team Projects - Student Help", bi.getCurrentPageSource());
 	}
 }
