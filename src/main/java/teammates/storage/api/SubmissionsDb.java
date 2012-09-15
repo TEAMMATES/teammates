@@ -50,7 +50,16 @@ public class SubmissionsDb {
 		if (getSubmissionEntity(submissionToAdd.course,
 				submissionToAdd.evaluation, submissionToAdd.reviewee,
 				submissionToAdd.reviewer) != null) {
-			// throw?
+			String error = "Trying to create a Submission that exists: "
+					+ "course: " + submissionToAdd.course + ", evaluation: "
+					+ submissionToAdd.evaluation + ", toStudent: "
+					+ submissionToAdd.reviewee + ", fromStudent: "
+					+ submissionToAdd.reviewer;
+			
+			log.warning(error + "\n" + Common.getCurrentThreadStack());
+
+			// Exception not handled yet
+			// throw new EntityAlreadyExistsException(error);
 		}
 
 		Submission newSubmission = submissionToAdd.toEntity();
@@ -115,8 +124,14 @@ public class SubmissionsDb {
 		Submission s = getSubmissionEntity(courseId, evaluationName, toStudent,
 				fromStudent);
 
-		return s == null ? null : new SubmissionData(s);
+		if (s == null) {
+			log.warning("Trying to get non-existent Submission : " + courseId
+					+ "/" + evaluationName + "| from " + fromStudent + " to "
+					+ toStudent + Common.getCurrentThreadStack());
+			return null;
+		}
 
+		return new SubmissionData(s);
 	}
 
 	/**
@@ -261,7 +276,7 @@ public class SubmissionsDb {
 	}
 
 	/**
-	 * UPDATE Submission
+	 * UPDATE List<Submission>
 	 * 
 	 * Update the email address of Submission objects from a particular course
 	 * when a student changes his email
@@ -314,6 +329,17 @@ public class SubmissionsDb {
 
 		Submission submission = getSubmissionEntity(sd.course, sd.evaluation,
 				sd.reviewee, sd.reviewer);
+
+		if (submission == null) {
+			log.severe("Trying to update non-existent Submission: " + sd.course
+					+ "/" + sd.evaluation + "| from " + sd.reviewer + " to "
+					+ sd.reviewee + Common.getCurrentThreadStack());
+			/*
+			 * Assumption.assertFail("Trying to update non-existent Submission: "
+			 * + "course: " + sd.course + ", evaluation: " + sd.evaluation +
+			 * ", toStudent: " + sd.reviewee + ", fromStudent: " + sd.reviewer);
+			 */
+		}
 
 		submission.setPoints(sd.points);
 		submission.setJustification(sd.justification);
@@ -528,9 +554,6 @@ public class SubmissionsDb {
 
 		if (submissionList.isEmpty()
 				|| JDOHelper.isDeleted(submissionList.get(0))) {
-			log.fine("Trying to get non-existent Submission : " + courseId
-					+ "/" + evaluationName + "| from " + fromStudent + " to "
-					+ toStudent);
 			return null;
 		}
 

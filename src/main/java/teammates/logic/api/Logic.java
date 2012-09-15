@@ -1321,11 +1321,16 @@ public class Logic {
 		List<SubmissionData> submissions = EvaluationsStorage.inst().getSubmissionsDb()
 				.getSubmissionsFromEvaluationFromStudent(courseId, evaluationName,
 						reviewerEmail);
-		if (submissions.size() == 0) {
-			CoursesStorage.inst().verifyCourseExists(courseId);
-			EvaluationsStorage.inst().verifyEvaluationExists(courseId,
-					evaluationName);
-			AccountsStorage.inst().verifyStudentExists(courseId, reviewerEmail);
+		
+		boolean isSubmissionsExist = (submissions.size() > 0 && 
+			CoursesStorage.inst().isCourseExists(courseId) &&
+			EvaluationsStorage.inst().isEvaluationExists(courseId,evaluationName) &&
+			AccountsStorage.inst().isStudentExists(courseId, reviewerEmail));
+		
+		if (!isSubmissionsExist) {
+			throw new EntityDoesNotExistException("Error getting submissions from student: "
+												+ courseId + " / " + evaluationName
+												+ ", reviewer: " + reviewerEmail);
 		}
 		
 		StudentData student = getStudent(courseId, reviewerEmail);
@@ -1468,8 +1473,7 @@ public class Logic {
 			}
 		} catch (Exception e) {
 			updateStatus = UpdateStatus.ERROR;
-			log.severe("EntityExistsExcpetion thrown unexpectedly");
-			e.printStackTrace();
+			log.severe("Exception thrown unexpectedly" + "\n" + Common.stackTraceToString(e));
 		}
 		student.updateStatus = updateStatus;
 		return student;
@@ -1562,7 +1566,7 @@ public class Logic {
 				int normalizedOutgoing = teamResult.normalizedClaimed[i][j];
 				outgoingSub.normalizedToStudent = Common.UNINITIALIZED_INT;
 				outgoingSub.normalizedToCoord = normalizedOutgoing;
-				log.fine("Setting normalized outgoing of " + s.name + " to "
+				log.finer("Setting normalized outgoing of " + s.name + " to "
 						+ outgoingSub.revieweeName + " to "
 						+ normalizedOutgoing);
 			}
@@ -1658,7 +1662,7 @@ public class Logic {
 	}
 
 	private boolean isModificationToExistingStudent(StudentData student) {
-		return getStudent(student.course, student.email) != null;
+		return AccountsStorage.inst().isStudentExists(student.course, student.email);
 	}
 
 }
