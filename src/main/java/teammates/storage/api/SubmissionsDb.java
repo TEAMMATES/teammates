@@ -91,6 +91,27 @@ public class SubmissionsDb {
 					+ submissionToAdd.reviewer);
 		}
 	}
+	
+	/**
+	 * CREATE List<Submission>
+	 * 
+	 * Creates a List of submissions
+	 * 
+	 * Use this method to persist list of submissions much faster
+	 * 
+	 * @param List<SubmissionData>
+	 * 
+	 */
+	public void createListOfSubmissions(List<SubmissionData> newList) {
+		
+		List<Submission> newEntityList = new ArrayList<Submission>();
+		
+		for (SubmissionData sd : newList) {
+			newEntityList.add(sd.toEntity());
+		}
+		
+		getPM().makePersistentAll(newEntityList);
+	}
 
 	/**
 	 * RETRIEVE Submission
