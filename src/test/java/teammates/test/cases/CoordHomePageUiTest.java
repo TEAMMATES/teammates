@@ -80,16 +80,10 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	}
 	
 	public void testCoordHomeHTML() throws Exception{
-		if (!helpWindowClosed){
-			bi.closeSelectedWindow();
-		}
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordHomeHTML.html");
 	}
 
 	public void testCoordHomeEvalRemindLink(){
-		if (!helpWindowClosed){
-			bi.closeSelectedWindow();
-		}
 		
 		// Check the remind link on Open Evaluation: Evaluation 1 at Course 1
 		By remindLinkLocator = bi.getCoordHomeEvaluationRemindLinkLocator(firstEval.course, firstEval.name);
@@ -102,9 +96,6 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordHomeEvalPublishLink(){
-		if (!helpWindowClosed){
-			bi.closeSelectedWindow();
-		}
 		
 		______TS("publish link of CLOSED evaluation");
 		
@@ -138,9 +129,6 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordHomeEvalDeleteLink() throws Exception{
-		if (!helpWindowClosed){
-			bi.closeSelectedWindow();
-		}
 		
 		______TS("click and cancel");
 		
@@ -165,9 +153,6 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordHomeCourseDeleteLink() throws Exception{
-		if (!helpWindowClosed){
-			bi.closeSelectedWindow();
-		}
 		
 		______TS("click and cancel");
 		
@@ -192,9 +177,6 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	}
 	
 	public void testCoordHomeEmptyHTML() throws Exception{
-		if (!helpWindowClosed){
-			bi.closeSelectedWindow();
-		}
 		
 		BackDoor.deleteCourse(scn.courses.get("CHomeUiT.CS2104").id);
 		BackDoor.deleteCourse(scn.courses.get("CHomeUiT.CS1101").id);
