@@ -94,6 +94,6 @@ public class StudentHomePageUiTest extends BaseTestCase {
 	public void testHelpLink() throws Exception{
 		helpWindowClosed = false;
 		bi.clickAndSwitchToNewWindow(bi.helpTab);
-		assertContains("Teammates Onldine Peer Feedback System for Student Team Projects - Student Help", bi.getCurrentPageSource());
+		assertContains("Teammates Online Peer Feedback System for Student Team Projects - Student Help", bi.getCurrentPageSource());
 	}
 }
