@@ -50,12 +50,9 @@ public class HtmlHelper {
 		eliminateEmptyTextNodes(page1);
 		eliminateEmptyTextNodes(page2);
 		
-		StringBuilder output = new StringBuilder();
-		if(compare(page1, page2, "  ", output)){
-			assertEquals(output.toString(), output.toString());
-		} else {
-			assertEquals(output.toString(), output.toString() + "ERROR");
-		}
+		StringBuilder annotatedHtml= new StringBuilder();
+		boolean isLogicalMatch = compare(page1, page2, "  ", annotatedHtml);
+		assertTrue(annotatedHtml.toString(), isLogicalMatch);
 		
 	}
 	
