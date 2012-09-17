@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.StudentData;
-import teammates.common.exception.EntityDoesNotExistException;
 
 /**
  * Courses handles all operations related to a Teammates course. This is a
@@ -120,7 +120,6 @@ public class CoursesStorage {
 	public int getTotalStudents(String courseID) {
 
 		return accountsDb.getStudentListForCourse(courseID).size();
-
 	}
 
 	/**
@@ -165,11 +164,7 @@ public class CoursesStorage {
 
 			CourseData course = coursesDb.getCourse(s.course);
 			if (course == null) {
-				log.severe("student exists, but the course does not:" + s.id
-						+ "/" + s.course);
-				/*
-				 * Assumption.assertFail("Course was deleted but Student entry still exists");
-				 */
+				Assumption.fail("Course was deleted but Student entry still exists");
 			} else {
 				courseList.add(course);
 			}

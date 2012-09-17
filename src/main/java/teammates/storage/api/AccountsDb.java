@@ -13,6 +13,7 @@ import com.google.appengine.api.datastore.Text;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Coordinator;
 import teammates.storage.entity.Student;
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.CoordData;
 import teammates.common.datatransfer.StudentData;
@@ -37,15 +38,7 @@ public class AccountsDb {
 	 * 
 	 * Creates a Coordinator object.
 	 * 
-	 * @param googleID
-	 *            the coordinator's Google ID (Precondition: Must not be null)
-	 * 
-	 * @param name
-	 *            the coordinator's name (Precondition: Must not be null)
-	 * 
-	 * @param email
-	 *            the coordinator's email (Precondition: Must not be null)
-	 * 
+	 * @throws EntityAlreadyExistsException
 	 * 
 	 */
 	public void createCoord(CoordData coordToAdd)
@@ -54,11 +47,14 @@ public class AccountsDb {
 		if (getCoordEntity(coordToAdd.id) != null) {
 			String error = "Trying to create a Coordinatior that exists: "
 					+ coordToAdd;
-			
+
 			log.warning(error + "\n" + Common.getCurrentThreadStack());
 
 			throw new EntityAlreadyExistsException(error);
 		}
+
+		Assumption.assertTrue(coordToAdd.getInvalidParametersInfo(),
+				coordToAdd.isValid());
 
 		Coordinator newCoordinator = coordToAdd.toEntity();
 		getPM().makePersistent(newCoordinator);
@@ -84,15 +80,7 @@ public class AccountsDb {
 	 * 
 	 * Creates a Student object.
 	 * 
-	 * @param googleID
-	 *            the coordinator's Google ID (Precondition: Must not be null)
-	 * 
-	 * @param name
-	 *            the coordinator's name (Precondition: Must not be null)
-	 * 
-	 * @param email
-	 *            the coordinator's email (Precondition: Must not be null)
-	 * 
+	 * @throws EntityAlreadyExistsException
 	 * 
 	 */
 	public void createStudent(StudentData studentToAdd)
@@ -101,14 +89,16 @@ public class AccountsDb {
 		if (getStudentEntity(studentToAdd.course, studentToAdd.email) != null) {
 			String error = "Trying to create a Student that exists: "
 					+ studentToAdd.course + "/" + studentToAdd.email;
-			
+
 			log.warning(error + "\n" + Common.getCurrentThreadStack());
 
 			throw new EntityAlreadyExistsException(error);
 		}
 
-		Student newStudent = studentToAdd.toEntity();
+		Assumption.assertTrue(studentToAdd.getInvalidParametersInfo(),
+				studentToAdd.isValid());
 
+		Student newStudent = studentToAdd.toEntity();
 		getPM().makePersistent(newStudent);
 		getPM().flush();
 
@@ -128,7 +118,7 @@ public class AccountsDb {
 					+ studentToAdd.course + "/" + studentToAdd.email);
 		}
 	}
-	
+
 	/**
 	 * RETREIVE boolean
 	 * 
@@ -143,7 +133,7 @@ public class AccountsDb {
 		Coordinator c = getCoordEntity(googleId);
 		return c != null;
 	}
-	
+
 	/**
 	 * RETREIVE boolean
 	 * 
@@ -151,9 +141,9 @@ public class AccountsDb {
 	 * 
 	 * @param courseId
 	 *            the courseId for this Student entry
-	 *            
+	 * 
 	 * @param email
-	 * 			  for identifying the student in the course
+	 *            for identifying the student in the course
 	 * 
 	 * @return boolean
 	 */
@@ -344,7 +334,7 @@ public class AccountsDb {
 				// student that is already registered
 				throw new JoinCourseException(
 						Common.ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER,
-						googleID + " belongs to a different user");
+						registrationKey + " belongs to a different user");
 			}
 		}
 
@@ -364,24 +354,16 @@ public class AccountsDb {
 	 * @param courseId
 	 *            , email and params to change
 	 * 
-	 * @throws EntityDoesNotExistException
 	 */
 	public void editStudent(String courseId, String email, String newName,
 			String newTeamName, String newEmail, String newGoogleID,
-			String newComments, Text newProfile)
-			throws EntityDoesNotExistException {
+			String newComments, Text newProfile) {
 
 		Student student = getStudentEntity(courseId, email);
 
-		if (student == null) {
-			log.severe("Trying to update non-existent Student: " + courseId
-					+ "/ + email " + Common.getCurrentThreadStack());
-
-			/*
-			 * Assumption.assertFail("Trying to update non-existent Student: " +
-			 * courseId + "/" + email);
-			 */
-		}
+		Assumption.assertNotNull("Trying to update non-existent Student: "
+				+ courseId + "/ + email " + Common.getCurrentThreadStack(),
+				student);
 
 		student.setEmail(newEmail);
 		if (newName != null) {

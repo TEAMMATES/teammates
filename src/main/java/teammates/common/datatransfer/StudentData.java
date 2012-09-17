@@ -59,13 +59,12 @@ public class StudentData extends UserData {
 	public StudentData(String id, String email, String name, String comments,
 			String courseId, String team) {
 		this();
-		this.id = id;
+		this.id = id == null ? "" : id;
 		this.email = email;
 		this.course = courseId;
 		this.name = name;
-		this.comments = comments;
-		this.team = team;
-		validate();
+		this.comments = comments == null ? "" : comments;
+		this.team = team == null ? "" : team;
 	}
 
 	public StudentData() {
@@ -82,14 +81,17 @@ public class StudentData extends UserData {
 		this.email = student.getEmail();
 		this.course = student.getCourseID();
 		this.name = student.getName();
-		this.comments = student.getComments();
-		this.team = student.getTeamName();
+		this.comments = student.getComments() == null ? "" : student.getComments();
+		this.team = student.getTeamName() == null ? "" : student.getTeamName();
 		this.profile = student.getProfileDetail();
-		this.id = student.getID();
+		this.id = student.getID() == null ? "" : student.getID();
 		Long keyAsLong = student.getRegistrationKey();
 		this.key = (keyAsLong == null ? null : Student
 				.getStringKeyForLongKey(keyAsLong));
-		validate();
+		
+		// TODO: this if for backward compatibility with old system. Old system
+		// considers "" as unregistered. It should be changed to consider
+		// null as unregistered.
 	}
 
 	public boolean isEnrollInfoSameAs(StudentData otherStudent) {
@@ -146,28 +148,35 @@ public class StudentData extends UserData {
 	public Student toEntity() {
 		return new Student(email, name, id, comments, course, team);
 	}
-	
-	public void validate() {
-		/*
-		Assumption.assertThat(email != null);
-		Assumption.assertThat(name != null);
-		Assumption.assertThat(id != null);
-		Assumption.assertThat(comments != null);
-		Assumption.assertThat(course != null);
-		Assumption.assertThat(team != null);
-		*/
+
 		
-		// TODO: this if for backward compatibility with old system. Old system
-		// considers "" as unregistered. It should be changed to consider
-		// null as unregistered.
-		if (id == null) {
-			id = "";
+		
+	
+	public boolean isValid() {
+		
+		if (this.name == null || this.name == "" || this.email == null
+				|| this.email == "" || this.course == null || this.course == "") {
+			return false;
 		}
-		if (comments == null) {
-			comments = "";
+			
+		return true;
+	}
+
+	public String getInvalidParametersInfo() {
+		String fieldChecks = "";
+		
+		if (this.name == null || this.name == "") {
+			fieldChecks += "Student name cannot be null or empty\n";
 		}
-		if (team == null) {
-			team = "";
+		
+		if (this.email == null || this.email == "") {
+			fieldChecks += "Student email cannot be null or empty\n";
 		}
+		
+		if (this.course == null || this.course == "") {
+			fieldChecks += "Student must belong to a course\n";
+		}
+		
+		return fieldChecks;
 	}
 }

@@ -42,12 +42,20 @@ public class EvaluationsStorage {
 	public void createEvaluation(EvaluationData e)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 
+		// 1st level validation - throw IPE
+		if (!e.isValid()) {
+			throw new InvalidParametersException(e.getInvalidParametersInfo());
+		}
+		
+		// this operation throws EntityAlreadyExistsException
 		evaluationsDb.createEvaluation(e);
 
 		// Build submission objects for each student based on their team
 		// number
 		List<StudentData> studentDataList = accountsDb
 				.getStudentListForCourse(e.course);
+		
+		List<SubmissionData> listOfSubmissionsToAdd = new ArrayList<SubmissionData>();
 
 		// This double loop creates 3 submissions for a pair of students:
 		// x->x, x->y, y->x
@@ -56,10 +64,12 @@ public class EvaluationsStorage {
 				if (sx.team.equals(sy.team)) {
 					SubmissionData submissionToAdd = new SubmissionData(
 							e.course, e.name, sx.team, sx.email, sy.email);
-					submissionsDb.createSubmission(submissionToAdd);
+					listOfSubmissionsToAdd.add(submissionToAdd);
 				}
 			}
 		}
+
+		submissionsDb.createListOfSubmissions(listOfSubmissionsToAdd);
 	}
 
 	/**
@@ -104,9 +114,11 @@ public class EvaluationsStorage {
 		List<String> students = getExistingStudentsInTeam(courseId, newTeam);
 
 		// add self evaluation and remove self from list
+		List<SubmissionData> listOfSubmissionsToAdd = new ArrayList<SubmissionData>();
+		
 		SubmissionData submissionToAdd = new SubmissionData(courseId,
 				evaluationName, newTeam, studentEmail, studentEmail);
-		submissionsDb.createSubmission(submissionToAdd);
+		listOfSubmissionsToAdd.add(submissionToAdd);
 		students.remove(studentEmail);
 
 		// add submission to/from peers
@@ -115,13 +127,15 @@ public class EvaluationsStorage {
 			// To
 			submissionToAdd = new SubmissionData(courseId, evaluationName,
 					newTeam, peer, studentEmail);
-			submissionsDb.createSubmission(submissionToAdd);
+			listOfSubmissionsToAdd.add(submissionToAdd);
 
 			// From
 			submissionToAdd = new SubmissionData(courseId, evaluationName,
 					newTeam, studentEmail, peer);
-			submissionsDb.createSubmission(submissionToAdd);
+			listOfSubmissionsToAdd.add(submissionToAdd);
 		}
+		
+		submissionsDb.createListOfSubmissions(listOfSubmissionsToAdd);
 	}
 
 	private List<String> getExistingStudentsInTeam(String courseId, String team) {

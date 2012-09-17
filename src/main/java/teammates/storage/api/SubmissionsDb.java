@@ -9,6 +9,7 @@ import javax.jdo.PersistenceManager;
 
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Submission;
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -30,22 +31,10 @@ public class SubmissionsDb {
 	/**
 	 * Creates new Submission Entities for a particular Evaluation.
 	 * 
-	 * @param courseId
-	 *            the course ID (Pre-condition: The courseID and evaluationName
-	 *            pair must be valid)
-	 * 
-	 * @param evaluationName
-	 *            the evaluation name (Pre-condition: The courseID and
-	 *            evaluationName pair must be valid)
-	 * 
-	 * @param teamName
-	 * 
-	 * @param toStudent
-	 * 
-	 * @param fromStudent
+	 * @throws EntityAlreadyExistsException 
 	 * 
 	 */
-	public void createSubmission(SubmissionData submissionToAdd) {
+	public void createSubmission(SubmissionData submissionToAdd) throws EntityAlreadyExistsException {
 
 		if (getSubmissionEntity(submissionToAdd.course,
 				submissionToAdd.evaluation, submissionToAdd.reviewee,
@@ -58,10 +47,11 @@ public class SubmissionsDb {
 			
 			log.warning(error + "\n" + Common.getCurrentThreadStack());
 
-			// Exception not handled yet
-			// throw new EntityAlreadyExistsException(error);
+			throw new EntityAlreadyExistsException(error);
 		}
 
+		Assumption.assertTrue(submissionToAdd.getInvalidParametersInfo(), submissionToAdd.isValid());
+		
 		Submission newSubmission = submissionToAdd.toEntity();
 
 		try {
@@ -90,6 +80,28 @@ public class SubmissionsDb {
 					+ " | to: " + submissionToAdd.reviewee + " | from: "
 					+ submissionToAdd.reviewer);
 		}
+	}
+	
+	/**
+	 * CREATE List<Submission>
+	 * 
+	 * Creates a List of submissions
+	 * 
+	 * Use this method to persist list of submissions much faster
+	 * 
+	 * @param List<SubmissionData>
+	 * 
+	 */
+	public void createListOfSubmissions(List<SubmissionData> newList) {
+		
+		List<Submission> newEntityList = new ArrayList<Submission>();
+		
+		for (SubmissionData sd : newList) {
+			Assumption.assertTrue(sd.getInvalidParametersInfo(), sd.isValid());
+			newEntityList.add(sd.toEntity());
+		}
+		
+		getPM().makePersistentAll(newEntityList);
 	}
 
 	/**
@@ -330,16 +342,9 @@ public class SubmissionsDb {
 		Submission submission = getSubmissionEntity(sd.course, sd.evaluation,
 				sd.reviewee, sd.reviewer);
 
-		if (submission == null) {
-			log.severe("Trying to update non-existent Submission: " + sd.course
+		Assumption.assertNotNull("Trying to update non-existent Submission: " + sd.course
 					+ "/" + sd.evaluation + "| from " + sd.reviewer + " to "
-					+ sd.reviewee + Common.getCurrentThreadStack());
-			/*
-			 * Assumption.assertFail("Trying to update non-existent Submission: "
-			 * + "course: " + sd.course + ", evaluation: " + sd.evaluation +
-			 * ", toStudent: " + sd.reviewee + ", fromStudent: " + sd.reviewer);
-			 */
-		}
+					+ sd.reviewee + Common.getCurrentThreadStack(), submission);
 
 		submission.setPoints(sd.points);
 		submission.setJustification(sd.justification);

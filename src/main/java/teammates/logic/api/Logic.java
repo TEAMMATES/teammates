@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
 
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.CoordData;
 import teammates.common.datatransfer.CourseData;
@@ -601,7 +602,7 @@ public class Logic {
 						s.email);
 				emailsSent.add(email);
 			} catch (EntityDoesNotExistException e) {
-				log.severe("Unexpected exception"
+				Assumption.fail("Unexpected EntitiyDoesNotExistException thrown when sending registration email"
 						+ Common.stackTraceToString(e));
 			}
 		}
@@ -1092,7 +1093,6 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(evaluation.course);
 
-		evaluation.validate();
 		EvaluationsStorage.inst().createEvaluation(evaluation);
 	}
 
@@ -1154,9 +1154,11 @@ public class Logic {
 		evaluation.activated = original.activated;
 		evaluation.published = original.published;
 
-		evaluation.validate();
-
-		EvaluationsStorage.inst().getEvaluationsDb().editEvaluation(evaluation);
+		if (evaluation.isValid()) {
+			EvaluationsStorage.inst().getEvaluationsDb().editEvaluation(evaluation);
+		} else {
+			throw new InvalidParametersException(evaluation.getInvalidParametersInfo());
+		}
 	}
 
 	

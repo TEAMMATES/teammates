@@ -18,7 +18,7 @@ public class CourseData {
 	public transient int unregisteredTotal = Common.UNINITIALIZED_INT;
 	public transient ArrayList<EvaluationData> evaluations = new ArrayList<EvaluationData>();
 	public transient ArrayList<TeamData> teams = new ArrayList<TeamData>();
-	//TODO: to be removed as we don't allow loners
+	// TODO: to be removed as we don't allow loners
 	public transient ArrayList<StudentData> loners = new ArrayList<StudentData>();
 
 	public CourseData() {
@@ -29,32 +29,62 @@ public class CourseData {
 		this.id = id;
 		this.name = name;
 		this.coord = coordId;
-		validate();
 	}
 
 	public CourseData(Course course) {
 		this.id = course.getID();
 		this.name = course.getName();
 		this.coord = course.getCoordinatorID();
-		validate();
 	}
-	
-	public Course toEntity() throws InvalidParametersException{
 
-		// This try and catch block is just here to make it work.
-		// The verification method will be shifted in a separate issue, and this block will be removed accordingly
-		try {
-			return new Course(id, name, coord);
-		} catch (InvalidParametersException e) {
-			throw e;
-		}
+	public Course toEntity() {
+		return new Course(id, name, coord);
 	}
-	
-	public void validate() {
-		/*
-		Assumption.assertThat(id != null);
-		Assumption.assertThat(name != null);
-		Assumption.assertThat(coord != null);
-		*/
+
+	public boolean isValid() {
+
+		if (this.id == null || this.id == ""
+				|| this.id.length() > Common.COURSE_ID_MAX_LENGTH
+				|| this.name == null || this.name == ""
+				|| this.name.length() > Common.COURSE_NAME_MAX_LENGTH
+				|| !this.id.matches("^[a-zA-Z_$0-9.-]+$") || this.coord == null
+				|| this.coord == "") {
+			return false;
+		}
+		
+		return true;
+	}
+
+	public String getInvalidParametersInfo() {
+		String fieldChecks = "";
+
+		// Validate ID not null, empty, less than max length and acceptable format
+		if (this.id == null || this.id == "") {
+			fieldChecks += "Course ID cannot be null or empty\n";
+		} else {
+
+			if (this.id.length() > Common.COURSE_ID_MAX_LENGTH) {
+				fieldChecks += "Course ID cannot be more than "
+						+ Common.COURSE_ID_MAX_LENGTH + " characters\n";
+			}
+
+			if (!this.id.matches("^[a-zA-Z_$0-9.-]+$")) {
+				fieldChecks += "Course ID can have only alphabets, numbers, dashes, underscores, and dollar sign\n";
+			}
+		}
+
+		// Validate name not null, empty and less than max length
+		if (this.name == null || this.name == "") {
+			fieldChecks += "Course name cannot be null or empty\n";
+		} else if (name.length() > Common.COURSE_NAME_MAX_LENGTH) {
+			fieldChecks += "Course name cannot be more than "
+					+ Common.COURSE_NAME_MAX_LENGTH + " characters\n";
+		}
+
+		if (this.coord == null || this.coord == "") {
+			fieldChecks += "Course must belong to a Coordinator\n";
+		}
+
+		return fieldChecks;
 	}
 }
