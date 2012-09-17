@@ -39,11 +39,12 @@
 					
 						&nbsp;&nbsp; &lt;title&gt;Teammates&lt;/title&gt;<br><br>
 					
-						&nbsp;&nbsp; &lt;link rel="shortcut icon" href="/favicon.png"&gt;<br>
-						&nbsp;&nbsp; more stylesheets...<br><br>
+						&nbsp;&nbsp; &lt;link rel="shortcut icon" href="/favicon.png"&gt;<br><br>
+						&nbsp;&nbsp; &lt;!-- Sample stylesheet inclusion --&gt;<br>
+						&nbsp;&nbsp; &lt;link type="text/css" href="css/teammates.css" rel="stylesheet"&gt;<br><br>
 					
+						&nbsp;&nbsp; &lt;!-- Sample javascript inclusion --&gt;<br>
 						&nbsp;&nbsp; &lt;script type="text/javascript" src="/js/jquery-1.6.2.min.js"&gt;&lt;/script&gt;<br>
-						&nbsp;&nbsp; more scripts...<br><br>
 					&lt;/head&gt;<br>
 					
 					&lt;body&gt;<br>
@@ -63,6 +64,18 @@
 			</li>	
 		</ul>
 
+		
+		<div class="subheader">
+			<span class="bold">External Files</span>
+		</div>
+		<ul>
+			<li>
+				Each webpage should include it's own css file, as well as the general css file.
+			</li>
+			<li>
+				Each webpage should include it's own javascript file(if necessary), as well as the respective <span class="code">common.js, coordinator/student.js</span>, and all the 3rd party js files.
+			</li>
+		</ul>
 		
 		
 		<div class="subheader">
@@ -111,13 +124,40 @@
 		
 		
 		<div class="subheader">
-			<span class="bold">Protocols</span>
+			<span class="bold">CSS</span>
 		</div>
 		<ul>
 			<li>
-				Use relative links rather than absolute links<br>
-				<span class="code green">&lt;a href=”//www.google.com/”&gt;Google&lt;/a&gt;</span><br>
-				<span class="code red">&lt;a href=”http://www.google.com/”&gt;Google&lt;/a&gt;</span><br><br>
+				Keep whitespaces between property and values, and semicolons at the end of each statement. Also maintain the units for values.<br>
+				<span class="code green">
+					#style {<br>
+						&nbsp;&nbsp; font-family: Arial;<br>
+						&nbsp;&nbsp; margin: 0px 10px 0px 10px;<br>
+						&nbsp;&nbsp; float: left;<br>
+					}<br>
+				</span><br>
+				<span class="code red">
+					#style {<br>
+						&nbsp;&nbsp; font-family:Arial; (no whitespace)<br>
+						&nbsp;&nbsp; margin: 0 10 0 10px; (no units)<br>
+						&nbsp;&nbsp; float:left (no semicolon)<br>
+					}<br>
+				</span><br><br>
+			</li>
+			<li>
+				Make sure cross-browser properties are included in the style<br>
+				<span class="code green">
+					#style {<br>
+						&nbsp;&nbsp; -moz-border-radius: 10px;<br>
+						&nbsp;&nbsp; -webkit-border-radius: 10px;<br>
+						&nbsp;&nbsp; border-radius: 10px;<br>
+					}<br>
+				</span><br>
+				<span class="code red">
+					#style {<br>
+						&nbsp;&nbsp; border-radius: 10px;<br>
+					}<br>
+				</span><br><br>
 			</li>
 		</ul>
 		
