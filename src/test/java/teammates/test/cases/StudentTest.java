@@ -142,8 +142,8 @@ public class StudentTest extends BaseTestCase {
 	private void verifyExceptionForStudentCreation(String testCaseDesc,
 			String line, String courseId, String errorCode) {
 		try {
-			StudentData testFail = new StudentData(line, courseId);
-			testFail.toEntity();
+			StudentData invalidStudent = new StudentData(line, courseId);
+			invalidStudent.toEntity();
 			Assert.fail("Did not throw exception for " + testCaseDesc);
 		} catch (InvalidParametersException e) {
 			assertEquals("Wrong error code for " + testCaseDesc, errorCode,
