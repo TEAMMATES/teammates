@@ -13,7 +13,6 @@ import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 
 public class CoursesDb {
 
@@ -32,6 +31,9 @@ public class CoursesDb {
 	public void createCourse(CourseData courseToAdd)
 			throws EntityAlreadyExistsException {
 
+		Assumption.assertTrue(courseToAdd.getInvalidStateInfo(),
+				courseToAdd.isValid());
+		
 		// Check if entity already exists
 		if (getCourseEntity(courseToAdd.id) != null) {
 			String error = "Trying to create a Course that exists: "
@@ -43,9 +45,6 @@ public class CoursesDb {
 		}
 
 		// Entity is new, create and make persist
-		Assumption.assertTrue(courseToAdd.getInvalidParametersInfo(),
-				courseToAdd.isValid());
-
 		Course newCourse = courseToAdd.toEntity();
 		getPM().makePersistent(newCourse);
 		getPM().flush();

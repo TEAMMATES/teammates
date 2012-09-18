@@ -162,21 +162,21 @@ public class StudentData extends UserData {
 		return true;
 	}
 
-	public String getInvalidParametersInfo() {
-		String fieldChecks = "";
+	public String getInvalidStateInfo() {
+		String errorMessage = "";
 		
 		if (this.name == null || this.name == "") {
-			fieldChecks += "Student name cannot be null or empty\n";
+			errorMessage += "Student name cannot be null or empty\n";
 		}
 		
 		if (this.email == null || this.email == "") {
-			fieldChecks += "Student email cannot be null or empty\n";
+			errorMessage += "Student email cannot be null or empty\n";
 		}
 		
 		if (this.course == null || this.course == "") {
-			fieldChecks += "Student must belong to a course\n";
+			errorMessage += "Student must belong to a course\n";
 		}
 		
-		return fieldChecks;
+		return errorMessage;
 	}
 }

@@ -13,8 +13,6 @@ import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 
 /**
  * Manager for handling basic CRUD Operations only
@@ -36,6 +34,8 @@ public class SubmissionsDb {
 	 */
 	public void createSubmission(SubmissionData submissionToAdd) throws EntityAlreadyExistsException {
 
+		Assumption.assertTrue(submissionToAdd.getInvalidStateInfo(), submissionToAdd.isValid());
+		
 		if (getSubmissionEntity(submissionToAdd.course,
 				submissionToAdd.evaluation, submissionToAdd.reviewee,
 				submissionToAdd.reviewer) != null) {
@@ -50,8 +50,6 @@ public class SubmissionsDb {
 			throw new EntityAlreadyExistsException(error);
 		}
 
-		Assumption.assertTrue(submissionToAdd.getInvalidParametersInfo(), submissionToAdd.isValid());
-		
 		Submission newSubmission = submissionToAdd.toEntity();
 
 		try {
@@ -97,7 +95,7 @@ public class SubmissionsDb {
 		List<Submission> newEntityList = new ArrayList<Submission>();
 		
 		for (SubmissionData sd : newList) {
-			Assumption.assertTrue(sd.getInvalidParametersInfo(), sd.isValid());
+			Assumption.assertTrue(sd.getInvalidStateInfo(), sd.isValid());
 			newEntityList.add(sd.toEntity());
 		}
 		

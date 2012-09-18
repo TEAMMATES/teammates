@@ -11,7 +11,6 @@ import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
 public class EvaluationsStorage {
@@ -44,7 +43,7 @@ public class EvaluationsStorage {
 
 		// 1st level validation - throw IPE
 		if (!e.isValid()) {
-			throw new InvalidParametersException(e.getInvalidParametersInfo());
+			throw new InvalidParametersException(e.getInvalidStateInfo());
 		}
 		
 		// this operation throws EntityAlreadyExistsException

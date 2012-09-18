@@ -18,7 +18,6 @@ import teammates.common.Common;
 import teammates.common.datatransfer.CoordData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.JoinCourseException;
 
 /**
@@ -44,6 +43,9 @@ public class AccountsDb {
 	public void createCoord(CoordData coordToAdd)
 			throws EntityAlreadyExistsException {
 
+		Assumption.assertTrue(coordToAdd.getInvalidStateInfo(),
+				coordToAdd.isValid());
+
 		if (getCoordEntity(coordToAdd.id) != null) {
 			String error = "Trying to create a Coordinatior that exists: "
 					+ coordToAdd;
@@ -52,9 +54,6 @@ public class AccountsDb {
 
 			throw new EntityAlreadyExistsException(error);
 		}
-
-		Assumption.assertTrue(coordToAdd.getInvalidParametersInfo(),
-				coordToAdd.isValid());
 
 		Coordinator newCoordinator = coordToAdd.toEntity();
 		getPM().makePersistent(newCoordinator);
@@ -86,6 +85,9 @@ public class AccountsDb {
 	public void createStudent(StudentData studentToAdd)
 			throws EntityAlreadyExistsException {
 
+		Assumption.assertTrue(studentToAdd.getInvalidStateInfo(),
+				studentToAdd.isValid());
+		
 		if (getStudentEntity(studentToAdd.course, studentToAdd.email) != null) {
 			String error = "Trying to create a Student that exists: "
 					+ studentToAdd.course + "/" + studentToAdd.email;
@@ -94,9 +96,6 @@ public class AccountsDb {
 
 			throw new EntityAlreadyExistsException(error);
 		}
-
-		Assumption.assertTrue(studentToAdd.getInvalidParametersInfo(),
-				studentToAdd.isValid());
 
 		Student newStudent = studentToAdd.toEntity();
 		getPM().makePersistent(newStudent);

@@ -1157,7 +1157,7 @@ public class Logic {
 		if (evaluation.isValid()) {
 			EvaluationsStorage.inst().getEvaluationsDb().editEvaluation(evaluation);
 		} else {
-			throw new InvalidParametersException(evaluation.getInvalidParametersInfo());
+			throw new InvalidParametersException(evaluation.getInvalidStateInfo());
 		}
 	}
 

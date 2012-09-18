@@ -3,7 +3,6 @@ package teammates.common.datatransfer;
 import java.util.HashMap;
 
 import teammates.common.Common;
-import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Coordinator;
 
 /**
@@ -49,21 +48,21 @@ public class CoordData extends UserData {
 		return true;
 	}
 
-	public String getInvalidParametersInfo() {
-		String fieldChecks = "";
+	public String getInvalidStateInfo() {
+		String errorMessage = "";
 
 		if (this.id == null || this.id == "") {
-			fieldChecks += "Coord ID cannot be null or empty\n";
+			errorMessage += "Coord ID cannot be null or empty\n";
 		}
 
 		if (this.name == null || this.name == "") {
-			fieldChecks += "Coord name cannot be null or empty\n";
+			errorMessage += "Coord name cannot be null or empty\n";
 		}
 
 		if (this.email == null || this.email == "") {
-			fieldChecks += "Coord email cannot be null or empty\n";
+			errorMessage += "Coord email cannot be null or empty\n";
 		}
 
-		return fieldChecks;
+		return errorMessage;
 	}
 }

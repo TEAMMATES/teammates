@@ -16,8 +16,6 @@ import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 
 /**
  * Manager for handling basic CRUD Operations only
@@ -41,8 +39,11 @@ public class EvaluationsDb {
 	 */
 
 	public void createEvaluation(EvaluationData evaluationToAdd)
-			throws EntityAlreadyExistsException, InvalidParametersException {
+			throws EntityAlreadyExistsException {
 
+		Assumption.assertTrue(evaluationToAdd.getInvalidStateInfo(),
+				evaluationToAdd.isValid());
+		
 		if (getEvaluationEntity(evaluationToAdd.course, evaluationToAdd.name) != null) {
 			String error = "Trying to create an Evaluation that exists: "
 					+ evaluationToAdd.course + " | " + evaluationToAdd.name;
@@ -51,9 +52,6 @@ public class EvaluationsDb {
 
 			throw new EntityAlreadyExistsException(error);
 		}
-
-		Assumption.assertTrue(evaluationToAdd.getInvalidParametersInfo(),
-				evaluationToAdd.isValid());
 
 		Evaluation evaluation = evaluationToAdd.toEntity();
 

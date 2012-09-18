@@ -125,26 +125,26 @@ public class SubmissionData {
 		return true;
 	}
 
-	public String getInvalidParametersInfo() {
-		String fieldChecks = "";
+	public String getInvalidStateInfo() {
+		String errorMessage = "";
 
 		if (this.course == null || this.course == "") {
-			fieldChecks += "Submission must belong to a course\n";
+			errorMessage += "Submission must belong to a course\n";
 		}
 
 		if (this.evaluation == null || this.evaluation == "") {
-			fieldChecks += "Submission must belong to an evaluation";
+			errorMessage += "Submission must belong to an evaluation";
 		}
 
 		if (this.reviewee == null || this.reviewee == "") {
-			fieldChecks += "Submission reviewee cannot be null or empty\n";
+			errorMessage += "Submission reviewee cannot be null or empty\n";
 		}
 		
 		if (this.reviewer == null || this.reviewer == "") {
-			fieldChecks += "Submission reviewer cannot be null or empty\n";
+			errorMessage += "Submission reviewer cannot be null or empty\n";
 		}
 
-		return fieldChecks;
+		return errorMessage;
 	}
 
 }

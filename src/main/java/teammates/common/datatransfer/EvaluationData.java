@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 import teammates.common.Common;
-import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Evaluation;
 
 public class EvaluationData {
@@ -50,7 +49,7 @@ public class EvaluationData {
 		this.activated = e.isActivated();
 	}
 
-	public Evaluation toEntity() throws InvalidParametersException {
+	public Evaluation toEntity() {
 		Evaluation evaluation = new Evaluation(course, name, instructions,
 				p2pEnabled, startTime, endTime, timeZone, gracePeriod);
 		evaluation.setActivated(activated);
@@ -115,41 +114,41 @@ public class EvaluationData {
 		return true;
 	}
 	
-	public String getInvalidParametersInfo() {
-		String fieldChecks = "";
+	public String getInvalidStateInfo() {
+		String errorMessage = "";
 		
 		if (this.course == null || this.course == ""){
-			fieldChecks += "Evaluation must belong to a course\n";
+			errorMessage += "Evaluation must belong to a course\n";
 		}
 		
 		if (this.name == null || this.name == "") {
-			fieldChecks += "Evaluation name cannot be null or empty\n";
+			errorMessage += "Evaluation name cannot be null or empty\n";
 		}
 		
 		if (this.startTime == null) {
-			fieldChecks += "Evaluation start time cannot be null\n";
+			errorMessage += "Evaluation start time cannot be null\n";
 		}
 		
 		if (this.endTime == null) {
-			fieldChecks += "Evaluation end time cannot be null\n";
+			errorMessage += "Evaluation end time cannot be null\n";
 		}
 		
 		// Check time values are valid
 		if (this.startTime != null && this.endTime != null) {
 			if (endTime.before(startTime)) {
-				fieldChecks += "Evaluation end time cannot be earlier than start time\n";
+				errorMessage += "Evaluation end time cannot be earlier than start time\n";
 			}
 			
 			if (!beforeTime(endTime) && published) {
-				fieldChecks += "Evaluation cannot be published before end time\n";
+				errorMessage += "Evaluation cannot be published before end time\n";
 			}
 			
 			if (!beforeTime(startTime) && activated) {
-				fieldChecks += "Evaluation cannot be activated before start time\n";
+				errorMessage += "Evaluation cannot be activated before start time\n";
 			}
 		}
 		
-		return fieldChecks;
+		return errorMessage;
 	}
 
 	private boolean beforeTime(Date time) {

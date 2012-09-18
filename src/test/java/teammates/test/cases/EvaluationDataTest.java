@@ -140,7 +140,7 @@ public class EvaluationDataTest extends BaseTestCase {
 		e.endTime = Common.getDateOffsetToCurrentTime(2);
 
 		// minimal properties, still valid
-		assertTrue(e.getInvalidParametersInfo(), e.isValid());
+		assertTrue(e.getInvalidStateInfo(), e.isValid());
 
 		e.activated = false;
 		e.published = false;
@@ -150,29 +150,29 @@ public class EvaluationDataTest extends BaseTestCase {
 		e.p2pEnabled = true;
 
 		// other properties added, still valid
-		assertTrue(e.getInvalidParametersInfo(),e.isValid());
+		assertTrue(e.getInvalidStateInfo(),e.isValid());
 
 		// no course: invalid
 		e.course = null;
 		assertFalse(e.isValid());
-		assertEquals(e.getInvalidParametersInfo(), "Evaluation must belong to a course\n");
+		assertEquals(e.getInvalidStateInfo(), "Evaluation must belong to a course\n");
 		
 		// no name: invalid
 		e.course = "valid-course";
 		e.name = null;
 		assertFalse(e.isValid());
-		assertEquals(e.getInvalidParametersInfo(), "Evaluation name cannot be null or empty\n");
+		assertEquals(e.getInvalidStateInfo(), "Evaluation name cannot be null or empty\n");
 		
 		// no start time: invalid
 		e.name = "valid name";
 		e.startTime = null;
 		assertFalse(e.isValid());
-		assertEquals(e.getInvalidParametersInfo(), "Evaluation start time cannot be null\n");
+		assertEquals(e.getInvalidStateInfo(), "Evaluation start time cannot be null\n");
 		
 		e.startTime = Common.getDateOffsetToCurrentTime(1);
 		e.endTime = null;
 		assertFalse(e.isValid());
-		assertEquals(e.getInvalidParametersInfo(), "Evaluation end time cannot be null\n");
+		assertEquals(e.getInvalidStateInfo(), "Evaluation end time cannot be null\n");
 		
 		// end before start: invalid
 		e.endTime = Common.getDateOffsetToCurrentTime(1);
@@ -182,20 +182,20 @@ public class EvaluationDataTest extends BaseTestCase {
 		print(Common.calendarToString(Common
 				.dateToCalendar(e.endTime)));
 		assertFalse(e.isValid());
-		assertEquals(e.getInvalidParametersInfo(), "Evaluation end time cannot be earlier than start time\n");
+		assertEquals(e.getInvalidStateInfo(), "Evaluation end time cannot be earlier than start time\n");
 
 		// published before endtime: invalid
 		e.published = true;
 		e.startTime = Common.getDateOffsetToCurrentTime(0);
 		e.endTime = Common.getMsOffsetToCurrentTime(5);
 		assertFalse(e.isValid());
-		assertEquals(e.getInvalidParametersInfo(), "Evaluation cannot be published before end time\n");
+		assertEquals(e.getInvalidStateInfo(), "Evaluation cannot be published before end time\n");
 
 		// just after endtime and published: valid
 		e.startTime = Common.getDateOffsetToCurrentTime(-1);
 		e.endTime = Common.getMsOffsetToCurrentTime(-5);
 		e.published = true;
-		assertTrue(e.getInvalidParametersInfo(), e.isValid());
+		assertTrue(e.getInvalidStateInfo(), e.isValid());
 
 		// activated before start time: invalid
 		e.startTime = Common.getDateOffsetToCurrentTime(1);
@@ -203,7 +203,7 @@ public class EvaluationDataTest extends BaseTestCase {
 		e.published = false;
 		e.activated = true;
 		assertFalse(e.isValid());
-		assertEquals(e.getInvalidParametersInfo(), "Evaluation cannot be activated before start time\n");
+		assertEquals(e.getInvalidStateInfo(), "Evaluation cannot be activated before start time\n");
 	}
 
 	@AfterClass

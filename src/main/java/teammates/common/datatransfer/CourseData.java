@@ -3,7 +3,6 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 
 import teammates.common.Common;
-import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Course;
 
 public class CourseData {
@@ -55,36 +54,36 @@ public class CourseData {
 		return true;
 	}
 
-	public String getInvalidParametersInfo() {
-		String fieldChecks = "";
+	public String getInvalidStateInfo() {
+		String errorMessage = "";
 
 		// Validate ID not null, empty, less than max length and acceptable format
 		if (this.id == null || this.id == "") {
-			fieldChecks += "Course ID cannot be null or empty\n";
+			errorMessage += "Course ID cannot be null or empty\n";
 		} else {
 
 			if (this.id.length() > Common.COURSE_ID_MAX_LENGTH) {
-				fieldChecks += "Course ID cannot be more than "
+				errorMessage += "Course ID cannot be more than "
 						+ Common.COURSE_ID_MAX_LENGTH + " characters\n";
 			}
 
 			if (!this.id.matches("^[a-zA-Z_$0-9.-]+$")) {
-				fieldChecks += "Course ID can have only alphabets, numbers, dashes, underscores, and dollar sign\n";
+				errorMessage += "Course ID can have only alphabets, numbers, dashes, underscores, and dollar sign\n";
 			}
 		}
 
 		// Validate name not null, empty and less than max length
 		if (this.name == null || this.name == "") {
-			fieldChecks += "Course name cannot be null or empty\n";
+			errorMessage += "Course name cannot be null or empty\n";
 		} else if (name.length() > Common.COURSE_NAME_MAX_LENGTH) {
-			fieldChecks += "Course name cannot be more than "
+			errorMessage += "Course name cannot be more than "
 					+ Common.COURSE_NAME_MAX_LENGTH + " characters\n";
 		}
 
 		if (this.coord == null || this.coord == "") {
-			fieldChecks += "Course must belong to a Coordinator\n";
+			errorMessage += "Course must belong to a Coordinator\n";
 		}
 
-		return fieldChecks;
+		return errorMessage;
 	}
 }

@@ -161,13 +161,9 @@ public class CoursesStorage {
 
 		// Verify that the course in each entry is existent
 		for (StudentData s : studentDataList) {
-
 			CourseData course = coursesDb.getCourse(s.course);
-			if (course == null) {
-				Assumption.fail("Course was deleted but Student entry still exists");
-			} else {
-				courseList.add(course);
-			}
+			Assumption.assertNotNull("Course was deleted but Student entry still exists", course);
+			courseList.add(course);
 		}
 		return courseList;
 	}

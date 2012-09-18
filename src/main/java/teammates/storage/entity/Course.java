@@ -5,7 +5,6 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import teammates.common.Common;
-import teammates.common.exception.InvalidParametersException;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -35,7 +34,6 @@ public class Course {
 	 * @param ID
 	 * @param name
 	 * @param coordinatorID
-	 * @throws InvalidParametersException 
 	 */
 	public Course(String ID, String name, String coordinatorID) {
 		this.setID(ID);

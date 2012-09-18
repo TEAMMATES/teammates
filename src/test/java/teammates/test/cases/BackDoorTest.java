@@ -435,7 +435,6 @@ public class BackDoorTest extends BaseTestCase {
 		// test for unsuccessful edit
 		submission.reviewer = "non-existent@gmail.com";
 		status = BackDoor.editSubmission(submission);
-		System.out.println(status);
 		assertTrue(status.contains(Common.BACKEND_SERVER_RUNTIME_ERROR));
 		verifyAbsentInDatastore(submission);
 	}
