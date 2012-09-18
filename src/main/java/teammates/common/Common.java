@@ -20,7 +20,6 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.entity.Evaluation;
 import teammates.ui.controller.Helper;
 
 import com.google.gson.Gson;
@@ -347,7 +346,6 @@ public class Common {
 	// APIServlet responses
 	public static final String BACKEND_STATUS_SUCCESS = "[BACKEND_STATUS_SUCCESS]";
 	public static final String BACKEND_STATUS_FAILURE = "[BACKEND_STATUS_FAILURE]";
-	public static final String BACKEND_SERVER_RUNTIME_ERROR = "Server returned HTTP response code: 500";
 
 	// General Error codes
 	public static final String ERRORCODE_ACTIVATED_BEFORE_START = "ERRORCODE_ACTIVATED_BEFORE_START";

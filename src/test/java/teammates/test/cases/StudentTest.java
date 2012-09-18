@@ -1,6 +1,8 @@
 package teammates.test.cases;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -8,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.storage.entity.Student;
@@ -35,17 +38,23 @@ public class StudentTest extends BaseTestCase {
 				Common.ERRORCODE_EMPTY_STRING);
 
 		Student expected;
+		StudentData studentUnderTest;
 
 		// normal input, using tab as separator
 		expected = generateTypicalStudentObject();
 		String enrollmentLine = "team 1\tname 1\temail@email.com\tcomment 1";
-		verifyStudentContent(expected, new Student(enrollmentLine, "courseId1"));
+		studentUnderTest = new StudentData(enrollmentLine, "courseId1");
+		verifyStudentContent(expected, studentUnderTest.toEntity());
+		
 		// normal input, using '|' as separator
 		enrollmentLine = "team 1|name 1|email@email.com|comment 1";
-		verifyStudentContent(expected, new Student(enrollmentLine, "courseId1"));
+		studentUnderTest = new StudentData(enrollmentLine, "courseId1");
+		verifyStudentContent(expected, studentUnderTest.toEntity());
+		
 		// normal input, using both separators
 		enrollmentLine = "team 1|name 1\temail@email.com|comment 1";
-		verifyStudentContent(expected, new Student(enrollmentLine, "courseId1"));
+		studentUnderTest = new StudentData(enrollmentLine, "courseId1");
+		verifyStudentContent(expected, studentUnderTest.toEntity());
 
 		// invalid courseId
 		verifyExceptionForStudentCreation("invalid coursId [has a space]",
@@ -92,28 +101,36 @@ public class StudentTest extends BaseTestCase {
 		// extra white space
 		expected = generateTypicalStudentObject();
 		enrollmentLine = "  team 1   |   name 1   |   email@email.com  |  comment 1  ";
-		verifyStudentContent(expected, new Student(enrollmentLine, "courseId1"));
+		studentUnderTest = new StudentData(enrollmentLine, "courseId1");
+		verifyStudentContent(expected, studentUnderTest.toEntity());
 
 		// comment left out
 		expected = generateTypicalStudentObject();
 		expected.setComments("");
 		enrollmentLine = "  team 1   |   name 1   |   email@email.com ";
-		verifyStudentContent(expected, new Student(enrollmentLine, "courseId1"));
+		studentUnderTest = new StudentData(enrollmentLine, "courseId1");
+		verifyStudentContent(expected, studentUnderTest.toEntity());
 
 		// team name left out
 		expected = generateTypicalStudentObject();
 		expected.setTeamName("");
 		enrollmentLine = "|name 1|email@email.com|comment 1";
-		verifyStudentContent(expected, new Student(enrollmentLine, "courseId1"));
+		studentUnderTest = new StudentData(enrollmentLine, "courseId1");
+		verifyStudentContent(expected, studentUnderTest.toEntity());
 
 	}
 	
 	@Test 
 	public void testIsRegistered() throws Exception{
-		Student student = new Student("team 1|name 1|email@email.com|comment 1", "course1");
-		assertEquals(true, student.isRegistered());
-		student.setID("name1");
-		assertEquals(false, student.isRegistered());
+		StudentData sd = new StudentData("team 1|name 1|email@email.com|comment 1", "course1");
+		Student studentUnderTest = sd.toEntity();
+		
+		// Id is not given yet
+		assertFalse(studentUnderTest.isRegistered());
+		
+		// Id given
+		studentUnderTest.setID("name1");
+		assertTrue(studentUnderTest.isRegistered());
 	}
 	
 	private Student generateTypicalStudentObject() {
@@ -125,7 +142,8 @@ public class StudentTest extends BaseTestCase {
 	private void verifyExceptionForStudentCreation(String testCaseDesc,
 			String line, String courseId, String errorCode) {
 		try {
-			new Student(line, courseId);
+			StudentData testFail = new StudentData(line, courseId);
+			testFail.toEntity();
 			Assert.fail("Did not throw exception for " + testCaseDesc);
 		} catch (InvalidParametersException e) {
 			assertEquals("Wrong error code for " + testCaseDesc, errorCode,
