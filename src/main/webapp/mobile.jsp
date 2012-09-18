@@ -1,12 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html>
 <head>
-        <link rel="shortcut icon" href="/favicon.png" />
-        <meta http-equiv="X-UA-Compatible" content="IE=8" />
+        <link rel="shortcut icon" href="/favicon.png">
+        <meta http-equiv="X-UA-Compatible" content="IE=8">
         <title>Teammates</title>
-        <link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
+        <link rel="stylesheet" href="/stylesheets/main.css" type="text/css">
 </head>
 
 <body>
