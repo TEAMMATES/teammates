@@ -12,11 +12,10 @@ import javax.jdo.Transaction;
 
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Evaluation;
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 
 /**
  * Manager for handling basic CRUD Operations only
@@ -35,52 +34,23 @@ public class EvaluationsDb {
 	 * 
 	 * Adds an evaluation to the specified course.
 	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: Must be valid)
-	 * 
-	 * @param name
-	 *            the evaluation name (Pre-condition: Must not be null)
-	 * 
-	 * @param instructions
-	 *            the instructions for the evaluation (Pre-condition: Must not
-	 *            be null)
-	 * 
-	 * @param commentsEnabled
-	 *            if students are allowed to make comments (Pre-condition: Must
-	 *            not be null)
-	 * 
-	 * @param start
-	 *            the start date/time of the evaluation (Pre-condition: Must not
-	 *            be null)
-	 * 
-	 * @param deadline
-	 *            the deadline of the evaluation (Pre-condition: Must not be
-	 *            null)
-	 * 
-	 * @param gracePeriod
-	 *            the amount of time after the deadline within which submissions
-	 *            will still be accepted (Pre-condition: Must not be null)
-	 * 
 	 * @throws EntityAlreadyExistsException
-	 *             , InvalidParametersException
+	 * 
 	 */
 
 	public void createEvaluation(EvaluationData evaluationToAdd)
-			throws EntityAlreadyExistsException, InvalidParametersException {
+			throws EntityAlreadyExistsException {
 
+		Assumption.assertTrue(evaluationToAdd.getInvalidStateInfo(),
+				evaluationToAdd.isValid());
+		
 		if (getEvaluationEntity(evaluationToAdd.course, evaluationToAdd.name) != null) {
 			String error = "Trying to create an Evaluation that exists: "
 					+ evaluationToAdd.course + " | " + evaluationToAdd.name;
-			
+
 			log.warning(error + "\n" + Common.getCurrentThreadStack());
 
 			throw new EntityAlreadyExistsException(error);
-		}
-
-		try {
-			evaluationToAdd.validate();
-		} catch (InvalidParametersException ipe) {
-			throw ipe;
 		}
 
 		Evaluation evaluation = evaluationToAdd.toEntity();
@@ -103,7 +73,6 @@ public class EvaluationsDb {
 			log.severe("Operation did not persist in time: createEvaluation->"
 					+ evaluationToAdd.course + "/" + evaluationToAdd.name);
 		}
-
 	}
 
 	/**
@@ -293,15 +262,9 @@ public class EvaluationsDb {
 
 		Evaluation evaluation = getEvaluationEntity(courseId, name);
 
-		if (evaluation == null) {
-			log.severe("Trying to update non-existent Evaluation: " + courseId
-					+ " | " + name + Common.getCurrentThreadStack());
-			/*
-			 * Assumption.assertFail(
-			 * "Trying to update non-existent Evaluation:" + courseId + " " +
-			 * name);
-			 */
-		}
+		Assumption.assertNotNull("Trying to update non-existent Evaluation: "
+				+ courseId + " | " + name + Common.getCurrentThreadStack(),
+				evaluation);
 
 		Transaction tx = getPM().currentTransaction();
 		try {
@@ -366,15 +329,9 @@ public class EvaluationsDb {
 
 		Evaluation evaluation = getEvaluationEntity(courseId, name);
 
-		if (evaluation == null) {
-			log.severe("Trying to update non-existent Evaluation: " + courseId
-					+ " | " + name + Common.getCurrentThreadStack());
-			/*
-			 * Assumption.assertFail(
-			 * "Trying to update non-existent Evaluation:" + courseId + " " +
-			 * name);
-			 */
-		}
+		Assumption.assertNotNull("Trying to update non-existent Evaluation: "
+				+ courseId + " | " + name + Common.getCurrentThreadStack(),
+				evaluation);
 
 		evaluation.setPublished(status);
 		getPM().close();
