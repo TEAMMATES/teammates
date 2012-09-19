@@ -84,7 +84,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	public void testHelpLink() throws Exception{
 		helpWindowClosed = false;
 		bi.clickAndSwitchToNewWindow(bi.helpTab);
-		assertContains("<title>Teammates Onlineds Peer Feedback System for Student Team Projects - Coordinator Help</title>", bi.getCurrentPageSource());
+		assertContains("<title>Teammates Online Peer Feedback System for Student Team Projects - Coordinator Help</title>", bi.getCurrentPageSource());
 	}
 	
 	public void testCoordHomeHTML() throws Exception{
