@@ -5,7 +5,7 @@
 <html>
 <head>
 <link rel="shortcut icon" href="/favicon.png">
-<meta http-equiv="X-UA-Compatible" content="IE=8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Teammates</title>
 <link rel="stylesheet" href="/stylesheets/main.css" type="text/css">
 <script type="text/javascript" src="js/index.js"></script>
@@ -16,8 +16,8 @@
 	<div id="frameTop">
 		<div id="frameTopWrapper">
 			<div id="logo">
-				<img alt="Teammates" height="47" src="/images/teammateslogo.jpg"
-					width="150">
+				<img alt="Teammates" src="/images/teammateslogo.jpg"
+					height="47px" width="150px">
 			</div>
 		</div>
 	</div>
