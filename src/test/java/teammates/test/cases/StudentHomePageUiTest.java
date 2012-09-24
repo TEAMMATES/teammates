@@ -3,6 +3,7 @@ package teammates.test.cases;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -20,6 +21,7 @@ import teammates.test.driver.TestProperties;
 public class StudentHomePageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static DataBundle scn;
+	private static Boolean helpWindowClosed;
 	
 	private static String appURL = TestProperties.inst().TEAMMATES_URL;
 
@@ -34,6 +36,7 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
+		helpWindowClosed = true;
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
@@ -42,14 +45,25 @@ public class StudentHomePageUiTest extends BaseTestCase {
 	
 	@AfterClass
 	public static void classTearDown() throws Exception {
+		if (!helpWindowClosed){
+			bi.closeSelectedWindow();
+			helpWindowClosed = true;
+		}
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
+	}
+	
+	@Before
+	public void testSetup() {
+		if (!helpWindowClosed){
+			bi.closeSelectedWindow();
+			helpWindowClosed = true;
+		}
 	}
 
 	@Test	
 	public void testStudentHomeCoursePageHTML() throws Exception{
-		
-		
+			
 		______TS("typical case");
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentHomeHTML.html");
@@ -78,8 +92,8 @@ public class StudentHomePageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testHelpLink() throws Exception{
+		helpWindowClosed = false;
 		bi.clickAndSwitchToNewWindow(bi.helpTab);
 		assertContains("Teammates Online Peer Feedback System for Student Team Projects - Student Help", bi.getCurrentPageSource());
-		bi.closeSelectedWindow();
 	}
 }

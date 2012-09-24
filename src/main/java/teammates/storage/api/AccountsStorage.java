@@ -1,11 +1,8 @@
 package teammates.storage.api;
 
-import java.util.logging.Logger;
-
 import teammates.common.Common;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.CoordData;
-import teammates.common.exception.EntityDoesNotExistException;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
@@ -21,8 +18,7 @@ public class AccountsStorage {
 
 	private static UserService userService;
 	private static AccountsStorage instance = null;
-	private static final Logger log = Common.getLogger();
-	
+
 	private static final AccountsDb accountsDb = new AccountsDb();
 
 	/**
