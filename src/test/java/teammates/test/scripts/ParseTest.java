@@ -123,8 +123,8 @@ public class ParseTest {
 	public static void main(String args[]) throws SAXException, IOException{
 		String webpage, testpage;
 		
-		webpage = Common.readFile(Common.TEST_PAGES_FOLDER+"/webpage.html");
-		testpage = Common.readFile(Common.TEST_PAGES_FOLDER+"/testpage.html");
+		webpage = Common.readFile(Common.TEST_PAGES_FOLDER+"/test1.html");
+		testpage = Common.readFile(Common.TEST_PAGES_FOLDER+"/test2.html");
 				
 		DOMParser parser = new DOMParser();
 		
