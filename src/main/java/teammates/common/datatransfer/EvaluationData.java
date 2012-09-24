@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 import teammates.common.Common;
-import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Evaluation;
 
 public class EvaluationData {
@@ -50,7 +49,7 @@ public class EvaluationData {
 		this.activated = e.isActivated();
 	}
 
-	public Evaluation toEvaluation() throws InvalidParametersException {
+	public Evaluation toEntity() {
 		Evaluation evaluation = new Evaluation(course, name, instructions,
 				p2pEnabled, startTime, endTime, timeZone, gracePeriod);
 		evaluation.setActivated(activated);
@@ -75,16 +74,14 @@ public class EvaluationData {
 
 		if (published) {
 			return EvalStatus.PUBLISHED;
-		} else if (now.after(end)){
+		} else if (now.after(end)) {
 			return EvalStatus.CLOSED;
-		} else if (now.after(start)){
+		} else if (now.after(start)) {
 			return EvalStatus.OPEN;
 		} else {
 			return EvalStatus.AWAITING;
 		}
 	}
-
-
 
 	public TeamData getTeamData(String teamName) {
 		for (TeamData team : teams) {
@@ -104,34 +101,59 @@ public class EvaluationData {
 		return sb.toString();
 	}
 
-	public void validate() throws InvalidParametersException {
-		Common.verifyNotNull(this.course, "course ID");
-		Common.verifyNotNull(this.name, "evaluation name");
-		Common.verifyNotNull(this.startTime, "start time");
-		Common.verifyNotNull(this.endTime, "end time");
-		if (endTime.before(startTime)) {
-			throw new InvalidParametersException(
-					Common.ERRORCODE_END_BEFORE_START,
-					"End time cannot be before start time");
+	public boolean isValid() {
+		
+		if (this.course == null || this.course == "" || this.name == null
+				|| this.name == "" || this.startTime == null
+				|| this.endTime == null || endTime.before(startTime)
+				|| (!beforeTime(endTime) && published)
+				|| (!beforeTime(startTime) && activated)) {
+			return false;
+		}
+
+		return true;
+	}
+	
+	public String getInvalidStateInfo() {
+		String errorMessage = "";
+		
+		if (this.course == null || this.course == ""){
+			errorMessage += "Evaluation must belong to a course\n";
 		}
 		
-		if ((!beforeTime(endTime)) && published) {
-			throw new InvalidParametersException(
-					Common.ERRORCODE_PUBLISHED_BEFORE_CLOSING,
-					"Cannot be published before the evaluation is CLOSED");
+		if (this.name == null || this.name == "") {
+			errorMessage += "Evaluation name cannot be null or empty\n";
 		}
 		
-		if ((!beforeTime(startTime)) && activated) {
-			throw new InvalidParametersException(
-					Common.ERRORCODE_ACTIVATED_BEFORE_START,
-					"Cannot be activated before the evaluation is OPEN");
+		if (this.startTime == null) {
+			errorMessage += "Evaluation start time cannot be null\n";
 		}
+		
+		if (this.endTime == null) {
+			errorMessage += "Evaluation end time cannot be null\n";
+		}
+		
+		// Check time values are valid
+		if (this.startTime != null && this.endTime != null) {
+			if (endTime.before(startTime)) {
+				errorMessage += "Evaluation end time cannot be earlier than start time\n";
+			}
+			
+			if (!beforeTime(endTime) && published) {
+				errorMessage += "Evaluation cannot be published before end time\n";
+			}
+			
+			if (!beforeTime(startTime) && activated) {
+				errorMessage += "Evaluation cannot be activated before start time\n";
+			}
+		}
+		
+		return errorMessage;
 	}
 
 	private boolean beforeTime(Date time) {
-		Date nowInUserTimeZone = Common.convertToUserTimeZone(Calendar.getInstance(),timeZone).getTime();
+		Date nowInUserTimeZone = Common.convertToUserTimeZone(
+				Calendar.getInstance(), timeZone).getTime();
 		return time.before(nowInUserTimeZone);
 	}
-
-	
 }

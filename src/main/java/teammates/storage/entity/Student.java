@@ -8,7 +8,6 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import teammates.common.Common;
-import teammates.common.exception.InvalidParametersException;
 
 import com.google.gson.annotations.SerializedName;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -88,58 +87,6 @@ public class Student {
 		this.setCourseID(courseID);
 		this.setTeamName(teamName);
 		this.setCourseArchived(false);
-	}
-
-	
-
-	public Student(String line, String courseId)
-			throws InvalidParametersException {
-
-		int TEAM_POS = 0;
-		int NAME_POS = 1;
-		int EMAIL_POS = 2;
-		int COMMENT_POS = 3;
-
-		if ((line == null) || (courseId == null)) {
-			throw new InvalidParametersException(
-					Common.ERRORCODE_NULL_PARAMETER,
-					"Enrollment line cannot be null");
-		}
-		if ((line.equals("")) || (courseId.equals(""))) {
-			throw new InvalidParametersException(Common.ERRORCODE_EMPTY_STRING,
-					"Enrollment line cannot be empty");
-		}
-
-		String[] parts = line.replace("|", "\t").split("\t");
-
-		if ((parts.length < 3) || (parts.length > 4)) {
-			throw new InvalidParametersException(
-					Common.ERRORCODE_INCORRECTLY_FORMATTED_STRING,
-					"Enrollment line has too few or too many segments");
-		}
-
-		String paramCourseId = courseId.trim();
-		Common.validateCourseId(paramCourseId);
-
-		String paramTeam = parts[TEAM_POS].trim();
-		Common.validateTeamName(paramTeam);
-
-		String paramName = parts[NAME_POS].trim();
-		Common.validateStudentName(paramName);
-
-		String paramEmail = parts[EMAIL_POS].trim();
-		Common.validateEmail(paramEmail);
-
-		String paramComment = parts.length == 4 ? parts[COMMENT_POS].trim()
-				: "";
-		Common.validateComment(paramComment);
-
-		setTeamName(paramTeam);
-		setName(paramName);
-		setEmail(paramEmail);
-		setCourseID(paramCourseId);
-		setComments(paramComment);
-
 	}
 
 	public void setEmail(String email) {
@@ -224,7 +171,8 @@ public class Student {
 	}
 
 	public boolean isRegistered() {
-		return (ID == null || ID.isEmpty());
+		// Null or "" => unregistered
+		return ID != null && !ID.isEmpty();
 	}
 
 	public static String getStringKeyForLongKey(long longKey) {

@@ -1,7 +1,6 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -10,65 +9,49 @@ import javax.jdo.PersistenceManager;
 
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Submission;
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
-
 
 /**
  * Manager for handling basic CRUD Operations only
- *
+ * 
  */
 public class SubmissionsDb {
-	
+
 	private static final Logger log = Common.getLogger();
-	
+
 	private PersistenceManager getPM() {
 		return Datastore.getPersistenceManager();
 	}
-	
 
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * Creates new Submission Entities for a particular Evaluation.
 	 * 
-	 * @param courseId
-	 *            the course ID (Pre-condition: The courseID and evaluationName
-	 *            pair must be valid)
-	 * 
-	 * @param evaluationName
-	 *            the evaluation name (Pre-condition: The courseID and
-	 *            evaluationName pair must be valid)
-	 *            
-	 * @param teamName
-	 *            
-	 * @param toStudent
-	 * 
-	 * @param fromStudent
+	 * @throws EntityAlreadyExistsException 
 	 * 
 	 */
-	public void createSubmission(	String courseId, 
-									String evaluationName,
-									String teamName,
-									String toStudent,
-									String fromStudent
-								) {
+	public void createSubmission(SubmissionData submissionToAdd) throws EntityAlreadyExistsException {
+
+		Assumption.assertTrue(submissionToAdd.getInvalidStateInfo(), submissionToAdd.isValid());
 		
-		Submission newSubmission = new Submission(	fromStudent,
-													toStudent,
-													courseId,
-													evaluationName,
-													teamName);
-		
+		if (getSubmissionEntity(submissionToAdd.course,
+				submissionToAdd.evaluation, submissionToAdd.reviewee,
+				submissionToAdd.reviewer) != null) {
+			String error = "Trying to create a Submission that exists: "
+					+ "course: " + submissionToAdd.course + ", evaluation: "
+					+ submissionToAdd.evaluation + ", toStudent: "
+					+ submissionToAdd.reviewee + ", fromStudent: "
+					+ submissionToAdd.reviewer;
+			
+			log.warning(error + "\n" + Common.getCurrentThreadStack());
+
+			throw new EntityAlreadyExistsException(error);
+		}
+
+		Submission newSubmission = submissionToAdd.toEntity();
+
 		try {
 			getPM().makePersistent(newSubmission);
 			getPM().flush();
@@ -78,27 +61,47 @@ public class SubmissionsDb {
 
 		// check if insert operation persisted
 		int elapsedTime = 0;
-		Submission submissionCheck = getSubmissionEntity(courseId, evaluationName, toStudent, fromStudent);
-		while ((submissionCheck == null) && (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
+		Submission submissionCheck = getSubmissionEntity(
+				submissionToAdd.course, submissionToAdd.evaluation,
+				submissionToAdd.reviewee, submissionToAdd.reviewer);
+		while ((submissionCheck == null)
+				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
 			Common.waitBriefly();
-			submissionCheck = getSubmissionEntity(courseId, evaluationName, toStudent, fromStudent);
+			submissionCheck = getSubmissionEntity(submissionToAdd.course,
+					submissionToAdd.evaluation, submissionToAdd.reviewee,
+					submissionToAdd.reviewer);
 			elapsedTime += Common.WAIT_DURATION;
 		}
 		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: createSubmission->"
-					+ courseId + "/" + evaluationName + " | to: " + toStudent + " | from: " + fromStudent);
+					+ submissionToAdd.course + "/" + submissionToAdd.evaluation
+					+ " | to: " + submissionToAdd.reviewee + " | from: "
+					+ submissionToAdd.reviewer);
 		}
 	}
+	
+	/**
+	 * CREATE List<Submission>
+	 * 
+	 * Creates a List of submissions
+	 * 
+	 * Use this method to persist list of submissions much faster
+	 * 
+	 * @param List<SubmissionData>
+	 * 
+	 */
+	public void createListOfSubmissions(List<SubmissionData> newList) {
+		
+		List<Submission> newEntityList = new ArrayList<Submission>();
+		
+		for (SubmissionData sd : newList) {
+			Assumption.assertTrue(sd.getInvalidStateInfo(), sd.isValid());
+			newEntityList.add(sd.toEntity());
+		}
+		
+		getPM().makePersistentAll(newEntityList);
+	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * RETRIEVE Submission
 	 * 
@@ -125,31 +128,22 @@ public class SubmissionsDb {
 	 * @return the submission entry of the specified fromStudent to the
 	 *         specified toStudent
 	 */
-	public SubmissionData getSubmission(	String courseId, 
-											String evaluationName, 
-											String toStudent, 
-											String fromStudent
-										) {
+	public SubmissionData getSubmission(String courseId, String evaluationName,
+			String toStudent, String fromStudent) {
 
-		Submission s = getSubmissionEntity(	courseId,
-											evaluationName,
-											toStudent,
-											fromStudent
-											);
-		
-		return s == null ? null : new SubmissionData(s);
-		
+		Submission s = getSubmissionEntity(courseId, evaluationName, toStudent,
+				fromStudent);
+
+		if (s == null) {
+			log.warning("Trying to get non-existent Submission : " + courseId
+					+ "/" + evaluationName + "| from " + fromStudent + " to "
+					+ toStudent + Common.getCurrentThreadStack());
+			return null;
+		}
+
+		return new SubmissionData(s);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * RETRIEVE List<Submission>
 	 * 
@@ -167,10 +161,10 @@ public class SubmissionsDb {
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
 				query).execute();
-		
+
 		List<SubmissionData> submissionDataList = new ArrayList<SubmissionData>();
-		
-		for (Submission s : submissionList){
+
+		for (Submission s : submissionList) {
 			if (!JDOHelper.isDeleted(s)) {
 				submissionDataList.add(new SubmissionData(s));
 			}
@@ -178,16 +172,7 @@ public class SubmissionsDb {
 
 		return submissionDataList;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * RETRIEVE List<Submission>
 	 * 
@@ -204,8 +189,8 @@ public class SubmissionsDb {
 	 * @return List<SubmissionData>
 	 */
 	public List<SubmissionData> getSubmissionsForEvaluation(String courseID,
-															String evaluationName) {
-		
+			String evaluationName) {
+
 		String query = "select from " + Submission.class.getName()
 				+ " where courseID == '" + courseID
 				+ "' && evaluationName == '" + evaluationName + "'";
@@ -214,25 +199,16 @@ public class SubmissionsDb {
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
 				query).execute();
 		List<SubmissionData> submissionDataList = new ArrayList<SubmissionData>();
-		
+
 		for (Submission s : submissionList) {
 			if (!JDOHelper.isDeleted(s)) {
 				submissionDataList.add(new SubmissionData(s));
 			}
 		}
-		
+
 		return submissionDataList;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * RETRIEVE List<Submission>
 	 * 
@@ -251,8 +227,8 @@ public class SubmissionsDb {
 	 * 
 	 * @return the submissions to the target student
 	 */
-	public List<SubmissionData> getSubmissionsFromEvaluationToStudent(String courseID,
-			String evaluationName, String toStudent) {
+	public List<SubmissionData> getSubmissionsFromEvaluationToStudent(
+			String courseID, String evaluationName, String toStudent) {
 		String query = "select from " + Submission.class.getName()
 				+ " where courseID == '" + courseID
 				+ "' && evaluationName == '" + evaluationName
@@ -261,25 +237,16 @@ public class SubmissionsDb {
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
 				query).execute();
-		
+
 		List<SubmissionData> submissionDataList = new ArrayList<SubmissionData>();
-		
+
 		for (Submission s : submissionList) {
 			submissionDataList.add(new SubmissionData(s));
 		}
 
 		return submissionDataList;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * Returns the Submission of an Evaluation from a specific Student.
 	 * 
@@ -297,8 +264,8 @@ public class SubmissionsDb {
 	 * @return the submissions of the specified student pertaining to the
 	 *         specified evaluation
 	 */
-	public List<SubmissionData> getSubmissionsFromEvaluationFromStudent(String courseID,
-			String evaluationName, String reviewerEmail) {
+	public List<SubmissionData> getSubmissionsFromEvaluationFromStudent(
+			String courseID, String evaluationName, String reviewerEmail) {
 
 		String query = "select from " + Submission.class.getName()
 				+ " where courseID == '" + courseID
@@ -309,28 +276,20 @@ public class SubmissionsDb {
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
 				query).execute();
-		
+
 		List<SubmissionData> submissionDataList = new ArrayList<SubmissionData>();
-		
+
 		for (Submission s : submissionList) {
 			submissionDataList.add(new SubmissionData(s));
 		}
 		return submissionDataList;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
-	 * UPDATE Submission
+	 * UPDATE List<Submission>
 	 * 
-	 * Update the email address of Submission objects from a particular course when a student changes his email
+	 * Update the email address of Submission objects from a particular course
+	 * when a student changes his email
 	 * 
 	 * @param email
 	 *            the email of the student (Pre-condition: The courseID and
@@ -343,7 +302,8 @@ public class SubmissionsDb {
 	 * @param newEmail
 	 *            the new email of the student (Pre-condition: Must not be null)
 	 */
-	public void editStudentEmailForSubmissionsInCourse(String courseId, String email, String newEmail) {
+	public void editStudentEmailForSubmissionsInCourse(String courseId,
+			String email, String newEmail) {
 
 		String query = "select from " + Submission.class.getName()
 				+ " where courseID == '" + courseId + "'";
@@ -351,7 +311,7 @@ public class SubmissionsDb {
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
 				query).execute();
-		
+
 		for (Submission s : submissionList) {
 			// From student is changing email
 			if (s.getFromStudent().equals(email)) {
@@ -364,50 +324,36 @@ public class SubmissionsDb {
 		}
 		getPM().close();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * UPDATE Submission
 	 * 
 	 * Edits a single Submission Entity.
 	 * 
-	 * @param A SubmissionData copied from a Submission Entity, containing modified values.
+	 * @param A
+	 *            SubmissionData copied from a Submission Entity, containing
+	 *            modified values.
 	 * 
 	 */
 	public void editSubmission(SubmissionData sd) {
-		
-		Submission submission = getSubmissionEntity(	sd.course, 
-														sd.evaluation, 
-														sd.reviewee,
-														sd.reviewer);
-		
+
+		Submission submission = getSubmissionEntity(sd.course, sd.evaluation,
+				sd.reviewee, sd.reviewer);
+
+		Assumption.assertNotNull("Trying to update non-existent Submission: " + sd.course
+					+ "/" + sd.evaluation + "| from " + sd.reviewer + " to "
+					+ sd.reviewee + Common.getCurrentThreadStack(), submission);
+
 		submission.setPoints(sd.points);
 		submission.setJustification(sd.justification);
 		submission.setCommentsToStudent(sd.p2pFeedback);
-			
+
 		// closing PM because otherwise the data is not updated during offline
 		// unit testing
 		getPM().close();
 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * UPDATE List<Submission>
 	 * 
@@ -416,10 +362,10 @@ public class SubmissionsDb {
 	 * @param submissionList
 	 *            the list of submissions to be edited (Pre-condition: The
 	 *            submission list must be valid)
-	 *           
+	 * 
 	 */
 	public void editSubmissions(List<SubmissionData> submissionDataList) {
-		
+
 		for (SubmissionData sd : submissionDataList) {
 			editSubmission(sd);
 		}
@@ -428,16 +374,7 @@ public class SubmissionsDb {
 		getPM().close();
 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * DELETE List<Submission>
 	 * 
@@ -454,22 +391,13 @@ public class SubmissionsDb {
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
 				query).execute();
-		
+
 		getPM().deletePersistentAll(submissionList);
 		getPM().flush();
-		
+
 		return;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * DELETE List<Submission>
 	 * 
@@ -479,7 +407,8 @@ public class SubmissionsDb {
 	 *            the course ID (Pre-condition: Must be valid)
 	 * 
 	 */
-	public void deleteAllSubmissionsForEvaluation(String courseId, String evaluationName) {
+	public void deleteAllSubmissionsForEvaluation(String courseId,
+			String evaluationName) {
 		String query = "select from " + Submission.class.getName()
 				+ " where courseID == '" + courseId
 				+ "' && evaluationName == '" + evaluationName + "'";
@@ -487,35 +416,27 @@ public class SubmissionsDb {
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
 				query).execute();
-		
+
 		getPM().deletePersistentAll(submissionList);
 		getPM().flush();
-		
+
 		return;
 	}
-	
 
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * DELETE List<Submission>
 	 * 
 	 * Deletes all submissions related to a student (to and from)
 	 * 
 	 * @param courseID
-	 *			the course ID (Pre-condition: Must be valid)
-	 *            
+	 *            the course ID (Pre-condition: Must be valid)
+	 * 
 	 * @param studentEmail
-	 * 			used to identify the student pending deletion
+	 *            used to identify the student pending deletion
 	 * 
 	 */
-	public void deleteAllSubmissionsForStudent(String courseId, String studentEmail) {
+	public void deleteAllSubmissionsForStudent(String courseId,
+			String studentEmail) {
 		String query1 = "select from " + Submission.class.getName()
 				+ " where courseID == '" + courseId + "' && toStudent=='"
 				+ studentEmail + "'";
@@ -534,16 +455,7 @@ public class SubmissionsDb {
 		getPM().flush();
 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * DELETE List<Submission>
 	 * 
@@ -551,14 +463,15 @@ public class SubmissionsDb {
 	 * 
 	 * @param courseID
 	 *            the course ID (Pre-condition: Must be valid)
-	 *            
+	 * 
 	 * @param evaluationName
 	 * 
 	 * @param studentEmail
-	 * 			Used to identify the student
+	 *            Used to identify the student
 	 * 
 	 * @param originalTeam
-	 * 			Used to identify the student's team before move to delete old submissions
+	 *            Used to identify the student's team before move to delete old
+	 *            submissions
 	 * 
 	 */
 	public void deleteSubmissionsForOutgoingMember(String courseId,
@@ -570,13 +483,11 @@ public class SubmissionsDb {
 				+ " where courseID == '" + courseId
 				+ "' && evaluationName == '" + evaluationName
 				+ "' && toStudent == '" + studentEmail + "'";
-		
-		
 
 		@SuppressWarnings("unchecked")
-		List<Submission> submissionListTo = (List<Submission>) getPM().newQuery(
-				query).execute();
-		
+		List<Submission> submissionListTo = (List<Submission>) getPM()
+				.newQuery(query).execute();
+
 		for (Submission s : submissionListTo) {
 			if (s.getTeamName().equals(originalTeam)) {
 				getPM().deletePersistent(s);
@@ -585,18 +496,18 @@ public class SubmissionsDb {
 						+ s.toString());
 			}
 		}
-		
+
 		// Merging the list will probably be less efficient
-		
+
 		query = "select from " + Submission.class.getName()
 				+ " where courseID == '" + courseId
 				+ "' && evaluationName == '" + evaluationName
 				+ "' && fromStudent == '" + studentEmail + "'";
-		
+
 		@SuppressWarnings("unchecked")
-		List<Submission> submissionListFrom = (List<Submission>) getPM().newQuery(
-				query).execute();
-		
+		List<Submission> submissionListFrom = (List<Submission>) getPM()
+				.newQuery(query).execute();
+
 		for (Submission s : submissionListFrom) {
 			if (s.getTeamName().equals(originalTeam)) {
 				getPM().deletePersistent(s);
@@ -606,22 +517,7 @@ public class SubmissionsDb {
 			}
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * Returns the actual Submission Entity
 	 * 
@@ -646,35 +542,25 @@ public class SubmissionsDb {
 	 * @return the submission entry of the specified fromStudent to the
 	 *         specified toStudent
 	 */
-	private Submission getSubmissionEntity(	String courseId, 
-											String evaluationName, 
-											String toStudent, 
-											String fromStudent
-										) {
+	private Submission getSubmissionEntity(String courseId,
+			String evaluationName, String toStudent, String fromStudent) {
 
 		String query = "select from " + Submission.class.getName()
 				+ " where courseID == '" + courseId + "'"
-				+ "&& evaluationName == '" + evaluationName + "'" 
+				+ "&& evaluationName == '" + evaluationName + "'"
 				+ "&& fromStudent == '" + fromStudent + "'"
 				+ "&& toStudent == '" + toStudent + "'";
 
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
 				query).execute();
-		
-		if (submissionList.isEmpty() || JDOHelper.isDeleted(submissionList.get(0))) {
-			log.fine("Trying to get non-existent Submission : " + courseId
-					+ "/" + evaluationName + "| from " + fromStudent + " to " + toStudent );
+
+		if (submissionList.isEmpty()
+				|| JDOHelper.isDeleted(submissionList.get(0))) {
 			return null;
 		}
-	
+
 		return submissionList.get(0);
 	}
-	
 
-	
-	
-	
-	
-	
 }
