@@ -13,6 +13,8 @@ import teammates.common.datatransfer.SubmissionData;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 
+import com.google.apphosting.api.DeadlineExceededException;
+
 public class EvaluationsStorage {
 	private static EvaluationsStorage instance = null;
 	private static final Logger log = Common.getLogger();

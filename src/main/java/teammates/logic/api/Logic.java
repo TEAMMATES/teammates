@@ -15,12 +15,12 @@ import teammates.common.datatransfer.CoordData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvalResultData;
 import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationData.EvalStatus;
 import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentData.UpdateStatus;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.datatransfer.TeamData;
 import teammates.common.datatransfer.UserData;
-import teammates.common.datatransfer.EvaluationData.EvalStatus;
-import teammates.common.datatransfer.StudentData.UpdateStatus;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -33,9 +33,12 @@ import teammates.logic.TeamEvalResult;
 import teammates.storage.api.AccountsStorage;
 import teammates.storage.api.CoursesStorage;
 import teammates.storage.api.EvaluationsStorage;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Evaluation;
 
-import com.google.appengine.api.datastore.Text; //TODO: remove this dependency
+import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.users.User;
+//TODO: remove this dependency
 
 /**
  * This class represents the API to the business logic of the system. Please
@@ -351,6 +354,7 @@ public class Logic {
 		CoordData coordToAdd = new CoordData(coordId, coordName, coordEmail);
 		AccountsStorage.inst().getDb().createCoord(coordToAdd);
 	}
+	
 
 	/**
 	 * Access: any logged in user
@@ -1503,7 +1507,7 @@ public class Logic {
 	/**
 	 * Returns submissions for the evaluation
 	 */
-	private HashMap<String, SubmissionData> getSubmissionsForEvaluation(
+	public HashMap<String, SubmissionData> getSubmissionsForEvaluation(
 			String courseId, String evaluationName)
 			throws EntityDoesNotExistException {
 		if (getEvaluation(courseId, evaluationName) == null) {
