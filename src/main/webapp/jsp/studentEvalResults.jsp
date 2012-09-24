@@ -79,7 +79,7 @@
 								<%
 									for(SubmissionData sub: helper.incoming) {
 								%>
-									<li><%=StudentEvalResultsHelper.escapeForHTML(sub.justification.getValue())%></li>
+									<li><%=StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue())%></li>
 								<%
 									}
 								%>
@@ -94,7 +94,7 @@
 									for(SubmissionData sub: helper.selfEvaluations){
 								%>
 									<li><%=StudentEvalResultsHelper.escapeForHTML(sub.reviewerName)%>: 
-										<%=StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue())%></li>
+										<%=StudentEvalResultsHelper.escapeForHTML(sub.justification.getValue())%></li>
 								<%
 									}
 								%>
