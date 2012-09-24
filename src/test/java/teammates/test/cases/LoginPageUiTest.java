@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.StudentData;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
@@ -67,14 +68,23 @@ public class LoginPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testStudentLogin(){
+		//create a course for the new student
+		CourseData testCourse = new CourseData();
+		testCourse.id = "lput.tsl.course";
+		testCourse.name = "test.course.fornewstudent";
+		testCourse.coord = "test.course.nonexistentcoord";
+		BackDoor.deleteCourse(testCourse.id);
+		String backDoorOperationStatus = BackDoor.createCourse(testCourse);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		
 		//create a fresh student in datastore
 		StudentData testStudent = new StudentData();
 		testStudent.id = TestProperties.inst().TEST_STUDENT_ACCOUNT;
 		testStudent.name = "Test student";
 		testStudent.email = "test@student";
-		testStudent.course = "lput.tsl.course";
+		testStudent.course = testCourse.id;
 		BackDoor.deleteStudent(testStudent.course, testStudent.email);
-		String backDoorOperationStatus = BackDoor.createStudent(testStudent);
+		backDoorOperationStatus = BackDoor.createStudent(testStudent);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		
 		//try to login

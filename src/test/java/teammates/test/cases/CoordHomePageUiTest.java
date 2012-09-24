@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -28,6 +29,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	private static EvaluationData secondEval;
 	private static EvaluationData thirdEval;
 	
+	private static Boolean helpWindowClosed;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -43,6 +45,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
+		helpWindowClosed = true;
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
@@ -51,8 +54,20 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	
 	@AfterClass
 	public static void classTearDown() throws Exception {
+		if (!helpWindowClosed){
+			bi.closeSelectedWindow();
+			helpWindowClosed = true;
+		}
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
+	}
+	
+	@Before
+	public void testSetup() {
+		if (!helpWindowClosed){
+			bi.closeSelectedWindow();
+			helpWindowClosed = true;
+		}
 	}
 
 	@Test
@@ -67,18 +82,16 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	}
 	
 	public void testHelpLink() throws Exception{
+		helpWindowClosed = false;
 		bi.clickAndSwitchToNewWindow(bi.helpTab);
 		assertContains("<title>Teammates Online Peer Feedback System for Student Team Projects - Coordinator Help</title>", bi.getCurrentPageSource());
-		bi.closeSelectedWindow();
 	}
 	
 	public void testCoordHomeHTML() throws Exception{
-		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordHomeHTML.html");
 	}
 
 	public void testCoordHomeEvalRemindLink(){
-		
 		
 		// Check the remind link on Open Evaluation: Evaluation 1 at Course 1
 		By remindLinkLocator = bi.getCoordHomeEvaluationRemindLinkLocator(firstEval.course, firstEval.name);
@@ -91,7 +104,6 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	}
 
 	public void testCoordHomeEvalPublishLink(){
-		
 		
 		______TS("publish link of CLOSED evaluation");
 		
@@ -126,7 +138,6 @@ public class CoordHomePageUiTest extends BaseTestCase {
 
 	public void testCoordHomeEvalDeleteLink() throws Exception{
 		
-		
 		______TS("click and cancel");
 		
 		By deleteLinkLocator = bi.getCoordHomeEvaluationDeleteLinkLocator(firstEval.course, firstEval.name);
@@ -151,7 +162,6 @@ public class CoordHomePageUiTest extends BaseTestCase {
 
 	public void testCoordHomeCourseDeleteLink() throws Exception{
 		
-		
 		______TS("click and cancel");
 		
 		By deleteLinkLocator = bi.getCoordHomeCourseDeleteLinkLocator(scn.courses.get("CHomeUiT.CS2104").id);
@@ -175,7 +185,6 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	}
 	
 	public void testCoordHomeEmptyHTML() throws Exception{
-		
 		
 		BackDoor.deleteCourse(scn.courses.get("CHomeUiT.CS2104").id);
 		BackDoor.deleteCourse(scn.courses.get("CHomeUiT.CS1101").id);

@@ -12,11 +12,10 @@ import javax.jdo.Transaction;
 
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Evaluation;
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 
 /**
  * Manager for handling basic CRUD Operations only
@@ -35,69 +34,45 @@ public class EvaluationsDb {
 	 * 
 	 * Adds an evaluation to the specified course.
 	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: Must be valid)
-	 * 
-	 * @param name
-	 *            the evaluation name (Pre-condition: Must not be null)
-	 * 
-	 * @param instructions
-	 *            the instructions for the evaluation (Pre-condition: Must not
-	 *            be null)
-	 * 
-	 * @param commentsEnabled
-	 *            if students are allowed to make comments (Pre-condition: Must
-	 *            not be null)
-	 * 
-	 * @param start
-	 *            the start date/time of the evaluation (Pre-condition: Must not
-	 *            be null)
-	 * 
-	 * @param deadline
-	 *            the deadline of the evaluation (Pre-condition: Must not be
-	 *            null)
-	 * 
-	 * @param gracePeriod
-	 *            the amount of time after the deadline within which submissions
-	 *            will still be accepted (Pre-condition: Must not be null)
-	 * 
 	 * @throws EntityAlreadyExistsException
-	 *             , InvalidParametersException
+	 * 
 	 */
 
-	public void createEvaluation(EvaluationData e)
-			throws EntityAlreadyExistsException, InvalidParametersException {
+	public void createEvaluation(EvaluationData evaluationToAdd)
+			throws EntityAlreadyExistsException {
 
-		if (getEvaluationEntity(e.course, e.name) != null) {
-			throw new EntityAlreadyExistsException("An evaluation by the name "
-					+ e.name + " already exists under course " + e.course);
+		Assumption.assertTrue(evaluationToAdd.getInvalidStateInfo(),
+				evaluationToAdd.isValid());
+		
+		if (getEvaluationEntity(evaluationToAdd.course, evaluationToAdd.name) != null) {
+			String error = "Trying to create an Evaluation that exists: "
+					+ evaluationToAdd.course + " | " + evaluationToAdd.name;
+
+			log.warning(error + "\n" + Common.getCurrentThreadStack());
+
+			throw new EntityAlreadyExistsException(error);
 		}
 
-		try {
-			e.validate();
-		} catch (InvalidParametersException ipe) {
-			throw ipe;
-		}
-
-		Evaluation evaluation = e.toEntity();
+		Evaluation evaluation = evaluationToAdd.toEntity();
 
 		getPM().makePersistent(evaluation);
 		getPM().flush();
 
 		// Check insert operation persisted
 		int elapsedTime = 0;
-		Evaluation evaluationCheck = getEvaluationEntity(e.course, e.name);
+		Evaluation evaluationCheck = getEvaluationEntity(
+				evaluationToAdd.course, evaluationToAdd.name);
 		while ((evaluationCheck == null)
 				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
 			Common.waitBriefly();
-			evaluationCheck = getEvaluationEntity(e.course, e.name);
+			evaluationCheck = getEvaluationEntity(evaluationToAdd.course,
+					evaluationToAdd.name);
 			elapsedTime += Common.WAIT_DURATION;
 		}
 		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: createEvaluation->"
-					+ e.course + "/" + e.name);
+					+ evaluationToAdd.course + "/" + evaluationToAdd.name);
 		}
-
 	}
 
 	/**
@@ -117,7 +92,13 @@ public class EvaluationsDb {
 
 		Evaluation e = getEvaluationEntity(courseId, name);
 
-		return e == null ? null : new EvaluationData(e);
+		if (e == null) {
+			log.warning("Trying to get non-existent Evaluation : " + courseId
+					+ "/" + name + Common.getCurrentThreadStack());
+			return null;
+		}
+
+		return new EvaluationData(e);
 	}
 
 	/**
@@ -277,15 +258,13 @@ public class EvaluationsDb {
 	public boolean editEvaluation(String courseId, String name,
 			String newInstructions, boolean newCommentsEnabled, Date newStart,
 			Date newDeadline, int newGracePeriod, boolean newIsActive,
-			boolean newIsPublished, double newTimeZone)
-			throws EntityDoesNotExistException {
+			boolean newIsPublished, double newTimeZone) {
 
 		Evaluation evaluation = getEvaluationEntity(courseId, name);
 
-		if (evaluation == null)
-			throw new EntityDoesNotExistException(
-					"Trying to edit non-existent evaluation:" + courseId + " "
-							+ name);
+		Assumption.assertNotNull("Trying to update non-existent Evaluation: "
+				+ courseId + " | " + name + Common.getCurrentThreadStack(),
+				evaluation);
 
 		Transaction tx = getPM().currentTransaction();
 		try {
@@ -323,19 +302,13 @@ public class EvaluationsDb {
 	 * @return <code>true</code> if there are changes, <code>false</code>
 	 *         otherwise
 	 * 
-	 * @throws EntityDoesNotExistException
 	 */
-	public boolean editEvaluation(EvaluationData ed)
-			throws EntityDoesNotExistException {
+	public boolean editEvaluation(EvaluationData ed) {
 
-		try {
-			return editEvaluation(ed.course, ed.name, ed.instructions,
-					ed.p2pEnabled, ed.startTime, ed.endTime, ed.gracePeriod,
-					ed.activated, ed.published, ed.timeZone);
+		return editEvaluation(ed.course, ed.name, ed.instructions,
+				ed.p2pEnabled, ed.startTime, ed.endTime, ed.gracePeriod,
+				ed.activated, ed.published, ed.timeZone);
 
-		} catch (EntityDoesNotExistException ednee) {
-			throw ednee;
-		}
 	}
 
 	/**
@@ -353,7 +326,12 @@ public class EvaluationsDb {
 	 */
 	public void setEvaluationPublishedStatus(String courseId, String name,
 			boolean status) {
+
 		Evaluation evaluation = getEvaluationEntity(courseId, name);
+
+		Assumption.assertNotNull("Trying to update non-existent Evaluation: "
+				+ courseId + " | " + name + Common.getCurrentThreadStack(),
+				evaluation);
 
 		evaluation.setPublished(status);
 		getPM().close();
@@ -371,15 +349,13 @@ public class EvaluationsDb {
 	 *            the evaluation name (Pre-condition: The courseID and
 	 *            evaluationName pair must be valid)
 	 */
-	public void deleteEvaluation(String courseId, String name)
-			throws EntityDoesNotExistException {
+	public void deleteEvaluation(String courseId, String name) {
 
 		Evaluation e = getEvaluationEntity(courseId, name);
 
-		if (e == null)
-			throw new EntityDoesNotExistException(
-					"Trying to delete non existent evaluation: " + courseId
-							+ " | " + name);
+		if (e == null) {
+			return;
+		}
 
 		getPM().deletePersistent(e);
 
@@ -441,8 +417,6 @@ public class EvaluationsDb {
 
 		if (evaluationList.isEmpty()
 				|| JDOHelper.isDeleted(evaluationList.get(0))) {
-			log.fine("Trying to get non-existent Evaluation : " + courseId
-					+ "/" + evalName);
 			return null;
 		}
 

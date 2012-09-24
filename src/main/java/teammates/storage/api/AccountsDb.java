@@ -13,11 +13,11 @@ import com.google.appengine.api.datastore.Text;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Coordinator;
 import teammates.storage.entity.Student;
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.CoordData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.JoinCourseException;
 
 /**
@@ -37,25 +37,24 @@ public class AccountsDb {
 	 * 
 	 * Creates a Coordinator object.
 	 * 
-	 * @param googleID
-	 *            the coordinator's Google ID (Precondition: Must not be null)
-	 * 
-	 * @param name
-	 *            the coordinator's name (Precondition: Must not be null)
-	 * 
-	 * @param email
-	 *            the coordinator's email (Precondition: Must not be null)
-	 * 
+	 * @throws EntityAlreadyExistsException
 	 * 
 	 */
 	public void createCoord(CoordData coordToAdd)
 			throws EntityAlreadyExistsException {
-		
+
+		Assumption.assertTrue(coordToAdd.getInvalidStateInfo(),
+				coordToAdd.isValid());
+
 		if (getCoordEntity(coordToAdd.id) != null) {
-			throw new EntityAlreadyExistsException(
-					"Coordinator already exists :" + coordToAdd);
+			String error = "Trying to create a Coordinatior that exists: "
+					+ coordToAdd;
+
+			log.warning(error + "\n" + Common.getCurrentThreadStack());
+
+			throw new EntityAlreadyExistsException(error);
 		}
-		
+
 		Coordinator newCoordinator = coordToAdd.toEntity();
 		getPM().makePersistent(newCoordinator);
 		getPM().flush();
@@ -80,43 +79,76 @@ public class AccountsDb {
 	 * 
 	 * Creates a Student object.
 	 * 
-	 * @param googleID
-	 *            the coordinator's Google ID (Precondition: Must not be null)
-	 * 
-	 * @param name
-	 *            the coordinator's name (Precondition: Must not be null)
-	 * 
-	 * @param email
-	 *            the coordinator's email (Precondition: Must not be null)
-	 * 
+	 * @throws EntityAlreadyExistsException
 	 * 
 	 */
 	public void createStudent(StudentData studentToAdd)
 			throws EntityAlreadyExistsException {
 
+		Assumption.assertTrue(studentToAdd.getInvalidStateInfo(),
+				studentToAdd.isValid());
+		
 		if (getStudentEntity(studentToAdd.course, studentToAdd.email) != null) {
-			throw new EntityAlreadyExistsException(
-					"This student already existis :" + studentToAdd.course + "/" + studentToAdd.email);
+			String error = "Trying to create a Student that exists: "
+					+ studentToAdd.course + "/" + studentToAdd.email;
+
+			log.warning(error + "\n" + Common.getCurrentThreadStack());
+
+			throw new EntityAlreadyExistsException(error);
 		}
 
 		Student newStudent = studentToAdd.toEntity();
-
 		getPM().makePersistent(newStudent);
 		getPM().flush();
 
 		// Check insert operation persisted
 		int elapsedTime = 0;
-		Student studentCheck = getStudentEntity(studentToAdd.course, studentToAdd.email);
+		Student studentCheck = getStudentEntity(studentToAdd.course,
+				studentToAdd.email);
 		while ((studentCheck == null)
 				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
 			Common.waitBriefly();
-			studentCheck = getStudentEntity(studentToAdd.course, studentToAdd.email);
+			studentCheck = getStudentEntity(studentToAdd.course,
+					studentToAdd.email);
 			elapsedTime += Common.WAIT_DURATION;
 		}
 		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: createStudent->"
 					+ studentToAdd.course + "/" + studentToAdd.email);
 		}
+	}
+
+	/**
+	 * RETREIVE boolean
+	 * 
+	 * Checks if there exists a coord with this googleId
+	 * 
+	 * @param googleID
+	 *            the coordinator's Google ID (Precondition: Must not be null)
+	 * 
+	 * @return boolean
+	 */
+	public boolean isCoord(String googleId) {
+		Coordinator c = getCoordEntity(googleId);
+		return c != null;
+	}
+
+	/**
+	 * RETREIVE boolean
+	 * 
+	 * Checks if there exists a student in this course with this email
+	 * 
+	 * @param courseId
+	 *            the courseId for this Student entry
+	 * 
+	 * @param email
+	 *            for identifying the student in the course
+	 * 
+	 * @return boolean
+	 */
+	public boolean isStudentExists(String courseId, String email) {
+		Student s = getStudentEntity(courseId, email);
+		return s != null;
 	}
 
 	/**
@@ -134,7 +166,13 @@ public class AccountsDb {
 
 		Coordinator c = getCoordEntity(googleId);
 
-		return c == null ? null : new CoordData(c);
+		if (c == null) {
+			log.warning("Trying to get non-existent Coordinator: " + googleId
+					+ Common.getCurrentThreadStack());
+			return null;
+		}
+
+		return new CoordData(c);
 	}
 
 	/**
@@ -153,7 +191,13 @@ public class AccountsDb {
 
 		Student s = getStudentEntity(courseId, email);
 
-		return s == null ? null : new StudentData(s);
+		if (s == null) {
+			log.warning("Trying to get non-existent Student: " + courseId + "/"
+					+ email + Common.getCurrentThreadStack());
+			return null;
+		}
+
+		return new StudentData(s);
 	}
 
 	/**
@@ -184,6 +228,8 @@ public class AccountsDb {
 	}
 
 	/**
+	 * RETRIEVE List<Student>
+	 * 
 	 * Returns a list of Student objects that matches the specified courseID.
 	 * 
 	 * @param courseID
@@ -287,7 +333,7 @@ public class AccountsDb {
 				// student that is already registered
 				throw new JoinCourseException(
 						Common.ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER,
-						googleID + " belongs to a different user");
+						registrationKey + " belongs to a different user");
 			}
 		}
 
@@ -307,18 +353,16 @@ public class AccountsDb {
 	 * @param courseId
 	 *            , email and params to change
 	 * 
-	 * @throws EntityDoesNotExistException
 	 */
-	public void editStudent(String courseID, String email, String newName,
+	public void editStudent(String courseId, String email, String newName,
 			String newTeamName, String newEmail, String newGoogleID,
-			String newComments, Text newProfile)
-			throws EntityDoesNotExistException {
+			String newComments, Text newProfile) {
 
-		Student student = getStudentEntity(courseID, email);
+		Student student = getStudentEntity(courseId, email);
 
-		if (student == null)
-			throw new EntityDoesNotExistException("Student " + email
-					+ " does not exist in course " + courseID);
+		Assumption.assertNotNull("Trying to update non-existent Student: "
+				+ courseId + "/ + email " + Common.getCurrentThreadStack(),
+				student);
 
 		student.setEmail(newEmail);
 		if (newName != null) {
@@ -351,7 +395,6 @@ public class AccountsDb {
 		Coordinator coordToDelete = getCoordEntity(coordId);
 
 		if (coordToDelete == null) {
-			log.warning("Trying to delete non-existent Coordinator: " + coordId);
 			return;
 		}
 
@@ -415,8 +458,6 @@ public class AccountsDb {
 		Student studentToDelete = getStudentEntity(courseId, email);
 
 		if (studentToDelete == null) {
-			log.warning("Trying to delete non-existent Student: " + courseId
-					+ "/" + email);
 			return;
 		}
 
@@ -484,7 +525,6 @@ public class AccountsDb {
 
 		if (coordinatorList.isEmpty()
 				|| JDOHelper.isDeleted(coordinatorList.get(0))) {
-			log.warning("Trying to get non-existent Coord : " + googleID);
 			return null;
 		}
 
