@@ -15,6 +15,8 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.google.appengine.api.utils.SystemProperty;
+
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
@@ -31,7 +33,8 @@ public class Emails {
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING = "TEAMMATES: Peer evaluation closing soon";
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED = "TEAMMATES: Peer evaluation published";
 	public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: Invitation to join course";
-
+	public static final String SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR = "TEAMMATES (%s): New System Exception: %s";
+	
 	private String from;
 	private String replyTo;
 	public Emails() {
@@ -238,6 +241,27 @@ public class Emails {
 		return message;
 	}
 
+	public MimeMessage sendSystemErrorEmail(String errorMessage, String stackTrace, String requestPath, String requestParam) throws AddressException, MessagingException {
+		Session session = Session.getDefaultInstance(new Properties(), null);
+		MimeMessage message = new MimeMessage(session);
+		String version = SystemProperty.applicationVersion.get().split("\\.")[0].replace("-", ".");
+
+
+		message.addRecipient(Message.RecipientType.TO, new InternetAddress(replyTo));
+		message.setFrom(new InternetAddress(from));
+		
+		message.setSubject(String.format(SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR, version, errorMessage));
+		
+		String emailBody = Common.SYSTEM_ERROR_EMAIL_TEMPLATE;
+
+		emailBody = emailBody.replace("${requestPath}", requestPath);
+		emailBody = emailBody.replace("${requestParameters}", requestParam);
+		emailBody = emailBody.replace("${errorMessage}", errorMessage);
+		emailBody = emailBody.replace("${stackTrace}", stackTrace);
+		message.setContent(emailBody, "text/html");
+		sendEmail(message);
+		return message;
+	}
 
 	private boolean isYetToJoinCourse(StudentData s) {
 		return s.id == null || s.id.isEmpty();

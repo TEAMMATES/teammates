@@ -7,6 +7,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import teammates.common.datatransfer.UserData;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.logic.Emails;
 import teammates.logic.api.Logic;
 
 @SuppressWarnings("serial")
@@ -82,10 +84,28 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return;
 		} catch (Exception e) {
-			log.severe("Request to: " + req.getServletPath() + "\n" +
-					"Request Params: " + printRequestParameters(req) + "\n" +
+			String path = req.getServletPath();
+			String params = printRequestParameters(req);
+			String message = e.getMessage();
+			String stackTrace = Common.stackTraceToString(e);
+			log.severe("Request to: " + path + "\n" +
+					"Request Params: " + params + "\n" +
 					"Responded with: Unexpected exception: "
-					+ Common.stackTraceToString(e));
+					+ stackTrace);
+			if(message == null) {
+				int idx = stackTrace.indexOf("at");
+				if(idx > 0) {
+					message = stackTrace.substring(0, idx);
+				}else{
+					message = "";
+				}
+			}
+			try {
+				MimeMessage email = new Emails().sendSystemErrorEmail(message, stackTrace, path, params);
+				log.info("Send crash report: " + email.getContent());
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			} 
 			resp.sendRedirect(Common.JSP_ERROR_PAGE);
 			return;
 		}
