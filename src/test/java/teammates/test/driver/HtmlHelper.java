@@ -44,13 +44,15 @@ public class HtmlHelper {
 			throws SAXException, IOException, TransformerException {
 		html1 = preProcessHtml(html1);
 		html2 = preProcessHtml(html2);
-		System.out.println(html2);
+
 		Node page1 = getNodeFromString(html1);
 		Node page2 = getNodeFromString(html2);
 		eliminateEmptyTextNodes(page1);
 		eliminateEmptyTextNodes(page2);
 		
-		assertTrue("HTML pages are different", compare(page1, page2, "  "));
+		StringBuilder annotatedHtml= new StringBuilder();
+		boolean isLogicalMatch = compare(page1, page2, "  ", annotatedHtml);
+		assertTrue(annotatedHtml.toString(), isLogicalMatch);
 		
 	}
 	
@@ -168,16 +170,17 @@ public class HtmlHelper {
 	}
 	
 	
-	public static boolean compare(Node webpage, Node testpage, String indentation){
-		
-		System.out.print(indentation + testpage.getNodeName() + "   ");
+	public static boolean compare(Node webpage, Node testpage, String indentation, StringBuilder output){
+		if (testpage.getNodeType() != Node.TEXT_NODE){
+			output.append(indentation + "<" + testpage.getNodeName() + ">   ");
+		}
 		if (testpage.getNodeType() == Node.ELEMENT_NODE){
 			if(webpage.getNodeType() != Node.ELEMENT_NODE){
-				System.out.println(indentation + "Error: Supposed to have element node but given " + webpage.getNodeName());
+				output.append("Error: Supposed to have element node but given " + webpage.getNodeName() + "\n");
 				return false;
 			}
 			if(!webpage.getNodeName().equals(testpage.getNodeName())){
-				System.out.println(indentation + "Error: Supposed to have " + testpage.getNodeName() + " tag but given " + webpage.getNodeName() + " tag instead");
+				output.append("Error: Supposed to have " + testpage.getNodeName() + " tag but given " + webpage.getNodeName() + " tag instead\n");
 				return false;
 			}
 			
@@ -190,75 +193,69 @@ public class HtmlHelper {
 					retrieved = webpageAttributeList.removeNamedItem(attribute.getNodeName());
 				}
 				catch (DOMException e){
-					System.out.println("Error: Unable to find attribute: " + attribute.getNodeName());
+					output.append("Error: Unable to find attribute: " + attribute.getNodeName() + "\n");
 					return false;
 				}
 				if (!retrieved.getNodeValue().equals(attribute.getNodeValue())){
-					System.out.println("Error: attribute " + attribute.getNodeName() + " has value " + retrieved.getNodeValue() + " instead of " + attribute.getNodeValue());
+					output.append("Error: attribute " + attribute.getNodeName() + " has value \"" + retrieved.getNodeValue() + "\" instead of \"" + attribute.getNodeValue() + "\"\n");
 					return false;
 				}								
 			}
 			if(webpageAttributeList.getLength() > 0){
-				System.out.print("Error: there are extra attributes in the element tag ");
+				output.append("Error: there are extra attributes in the element tag ");
 				for (int i = 0; i < webpageAttributeList.getLength(); i++){
 					Node attribute = webpageAttributeList.item(i);
-					System.out.print("[" + attribute.getNodeName() + ": " + attribute.getNodeValue() + "] ");
+					output.append("[" + attribute.getNodeName() + ": " + attribute.getNodeValue() + "] ");
 				}
 				return false;
 			}
 			else{
 				for (int i = 0; i < testpageAttributeList.getLength(); i++){
 					Node attribute = testpageAttributeList.item(i);
-					System.out.print("[" + attribute.getNodeName() + ": " + attribute.getNodeValue() + "] ");
+					output.append("[" + attribute.getNodeName() + ": " + attribute.getNodeValue() + "] ");
 				}
 			}
-			System.out.println();	
+			output.append("\n");	
 			
 		} else if (testpage.getNodeType() == Node.TEXT_NODE){
 			if(webpage.getNodeType() != Node.TEXT_NODE){
-				System.out.println(indentation + "Error: Supposed to have text node but given " + webpage.getNodeName());
+				output.append(indentation + "Error: Supposed to have text node but given " + webpage.getNodeName() + "\n");
 				return false;
 			}
 			if(!webpage.getNodeValue().trim().equals(testpage.getNodeValue().trim())){
-				System.out.println(indentation + "Error: Supposed to have \"" + testpage.getNodeValue() + "\" but given \"" + webpage.getNodeValue() + "\" instead");
+				output.append(indentation + "Error: Supposed to have value \"" + testpage.getNodeValue() + "\" but given \"" + webpage.getNodeValue() + "\" instead\n");
 				return false;
-			}
-			System.out.println();	
+			}	
 		}
 				
 		if(testpage.hasChildNodes() || testpage.hasChildNodes()){
 			NodeList webpageChildNodes = webpage.getChildNodes();
 			NodeList testpageChildNodes = testpage.getChildNodes();
 			if (webpageChildNodes.getLength() != testpageChildNodes.getLength()){
-				System.out.println(indentation + "Error: Parse tree structure is different");
-				System.out.print("Webpage: ");
+				output.append(indentation + "Error: Parse tree structure is different\n");
+				output.append(indentation + "Webpage - current tree level: ");
 				for (int i = 0; i < webpageChildNodes.getLength(); i++){
-					System.out.print(webpageChildNodes.item(i).getNodeName() + " \"" + testpageChildNodes.item(i).getNodeValue() + "\"");
+					output.append(webpageChildNodes.item(i).getNodeName() + " ");
 				}
-				System.out.println();
-				System.out.print("Testpage: ");
+				output.append("\n");
+				output.append(indentation + "Testpage - current tree level: ");
 				for (int i = 0; i < testpageChildNodes.getLength(); i++){
-					System.out.print(testpageChildNodes.item(i).getNodeName() + " \"" + testpageChildNodes.item(i).getNodeValue().trim() + "\"");
-					
-					if (testpageChildNodes.item(i).getNodeValue().trim().isEmpty()){
-						System.out.println("TRIMMED");
-					}
-					if (testpageChildNodes.item(i).getNodeValue().equals(" ")){
-						System.out.println("WHITESPACE");
-					}
+					output.append(testpageChildNodes.item(i).getNodeName() + " ");
 				}
-				System.out.println();
+				output.append("\n");
 				return false;
 			} else {
 				for (int i = 0; i < webpageChildNodes.getLength(); i++){
-					if(!compare(webpageChildNodes.item(i), testpageChildNodes.item(i), indentation + "   ")){
+					if(!compare(webpageChildNodes.item(i), testpageChildNodes.item(i), indentation + "   ", output)){
 						return false;
 					}
 				}
 			}
 		}
 		
-		System.out.println(indentation + "/" + testpage.getNodeName());
+		if (testpage.getNodeType() != Node.TEXT_NODE){
+			output.append(indentation + "</" + testpage.getNodeName() + ">\n");
+		}		
 		return true;
 	}
 
