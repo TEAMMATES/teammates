@@ -7,15 +7,19 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.entity.Evaluation;
 import teammates.ui.controller.Helper;
 
 import com.google.gson.Gson;
@@ -341,7 +345,7 @@ public class Common {
 
 	// APIServlet responses
 	public static final String BACKEND_STATUS_SUCCESS = "[BACKEND_STATUS_SUCCESS]";
-	public static String BACKEND_STATUS_FAILURE = "[BACKEND_STATUS_FAILURE]";
+	public static final String BACKEND_STATUS_FAILURE = "[BACKEND_STATUS_FAILURE]";
 
 	// General Error codes
 	public static final String ERRORCODE_ACTIVATED_BEFORE_START = "ERRORCODE_ACTIVATED_BEFORE_START";
@@ -358,7 +362,7 @@ public class Common {
 	public static final String ERRORCODE_PUBLISHED_BEFORE_CLOSING = "ERRORCODE_PUBLISHED_BEFORE_CLOSING";
 	public static final String ERRORCODE_STRING_TOO_LONG = "ERRORCODE_STRING_TOO_LONG";
 	public static final String ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING = "ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING";
-
+	
 	/**
 	 * Build Properties Params
 	 */
@@ -759,7 +763,6 @@ public class Common {
 	}
 	
 	public static void waitBriefly() {
-		log.info("Waiting for possible persistence delay " + WAIT_DURATION + "ms");
 		try {
 			Thread.sleep(WAIT_DURATION);
 		} catch (InterruptedException e) {
@@ -774,6 +777,12 @@ public class Common {
 	public static String stackTraceToString(Exception e) {
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
+		return "\n" + sw.toString();
+	}
+	
+	public static String getCurrentThreadStack() {
+		StringWriter sw = new StringWriter();
+		new Throwable("").printStackTrace(new PrintWriter(sw));
 		return "\n" + sw.toString();
 	}
 	

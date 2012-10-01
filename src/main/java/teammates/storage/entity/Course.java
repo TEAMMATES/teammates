@@ -5,7 +5,6 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import teammates.common.Common;
-import teammates.common.exception.InvalidParametersException;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -35,26 +34,8 @@ public class Course {
 	 * @param ID
 	 * @param name
 	 * @param coordinatorID
-	 * @throws InvalidParametersException 
 	 */
-	public Course(String ID, String name, String coordinatorID) throws InvalidParametersException {
-
-		if (name.isEmpty()) {
-			throw new InvalidParametersException("Course name cannot be empty");
-
-		} else if (ID.isEmpty()) {
-			throw new InvalidParametersException("Course id cannot be empty");
-
-		} else if (ID.length() > Common.COURSE_ID_MAX_LENGTH) {
-			throw new InvalidParametersException("Course ID cannot be more than "+Common.COURSE_ID_MAX_LENGTH+"characters");
-
-		} else if (name.length() > Common.COURSE_NAME_MAX_LENGTH) {
-			throw new InvalidParametersException("Course name cannot be more than "+Common.COURSE_NAME_MAX_LENGTH+"characters");
-
-		} else if (!ID.matches("^[a-zA-Z_$0-9.-]+$")) {
-			throw new InvalidParametersException(
-					"Course id can have only alphabets, numbers, dashes, underscores, and dollar sign");
-		}
+	public Course(String ID, String name, String coordinatorID) {
 		this.setID(ID);
 		this.setName(name);
 		this.setCoordinatorID(coordinatorID);

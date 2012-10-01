@@ -9,10 +9,10 @@ import javax.jdo.PersistenceManager;
 
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Course;
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 
 public class CoursesDb {
 
@@ -25,35 +25,27 @@ public class CoursesDb {
 	/**
 	 * CREATE Course
 	 * 
-	 * Creates a Course under a specific Coordinator.
-	 * 
-	 * @param courseId
-	 *            the course ID (Precondition: Must not be null)
-	 * 
-	 * @param courseName
-	 *            the course name (Precondition: Must not be null)
-	 * 
-	 * @param coordId
-	 *            the Google ID of the coordinator (Precondition: Must not be
-	 *            null)
-	 * 
-	 * @throws InvalidParametersException
-	 * 
 	 * @throws EntityAlreadyExistsException
 	 *             if a course with the specified ID already exists
 	 */
 	public void createCourse(CourseData courseToAdd)
-			throws InvalidParametersException, EntityAlreadyExistsException {
+			throws EntityAlreadyExistsException {
 
+		Assumption.assertTrue(courseToAdd.getInvalidStateInfo(),
+				courseToAdd.isValid());
+		
 		// Check if entity already exists
 		if (getCourseEntity(courseToAdd.id) != null) {
-			throw new EntityAlreadyExistsException("Course already exists : "
-					+ courseToAdd.id);
+			String error = "Trying to create a Course that exists: "
+					+ courseToAdd.id;
+
+			log.warning(error + "\n" + Common.getCurrentThreadStack());
+
+			throw new EntityAlreadyExistsException(error);
 		}
 
 		// Entity is new, create and make persist
 		Course newCourse = courseToAdd.toEntity();
-
 		getPM().makePersistent(newCourse);
 		getPM().flush();
 
@@ -84,7 +76,13 @@ public class CoursesDb {
 
 		Course c = getCourseEntity(courseId);
 
-		return c == null ? null : new CourseData(c);
+		if (c == null) {
+			log.warning("Trying to get non-existent Course: " + courseId
+					+ Common.getCurrentThreadStack());
+			return null;
+		}
+
+		return new CourseData(c);
 	}
 
 	/**
@@ -127,7 +125,6 @@ public class CoursesDb {
 		Course courseToDelete = getCourseEntity(courseId);
 
 		if (courseToDelete == null) {
-			log.warning("Trying to delete non-existent Course: " + courseId);
 			return;
 		}
 
@@ -168,9 +165,6 @@ public class CoursesDb {
 				.execute();
 
 		if (courseList.isEmpty() || JDOHelper.isDeleted(courseList.get(0))) {
-			String errorMessage = "Trying to get non-existent Course : "
-					+ courseId;
-			log.fine(errorMessage);
 			return null;
 		}
 
