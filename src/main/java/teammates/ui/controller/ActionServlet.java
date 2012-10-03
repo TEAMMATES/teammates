@@ -84,28 +84,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return;
 		} catch (Exception e) {
-			String path = req.getServletPath();
-			String params = printRequestParameters(req);
-			String message = e.getMessage();
-			String stackTrace = Common.stackTraceToString(e);
-			log.severe("Request to: " + path + "\n" +
-					"Request Params: " + params + "\n" +
-					"Responded with: Unexpected exception: "
-					+ stackTrace);
-			if(message == null) {
-				int idx = stackTrace.indexOf("at");
-				if(idx > 0) {
-					message = stackTrace.substring(0, idx);
-				}else{
-					message = "";
-				}
-			}
-			try {
-				MimeMessage email = new Emails().sendSystemErrorEmail(message, stackTrace, path, params);
-				log.info("Send crash report: " + email.getContent());
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			} 
+			emailErrorReport(req, e);
 			resp.sendRedirect(Common.JSP_ERROR_PAGE);
 			return;
 		}
@@ -403,5 +382,33 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		}
 		requestParameters += "}";
 		return requestParameters;
+	}
+	
+	private void emailErrorReport(HttpServletRequest req, Exception e) {
+		String path = req.getServletPath();
+		String params = printRequestParameters(req);
+		String message = e.getMessage();
+		String stackTrace = Common.stackTraceToString(e);
+		log.severe("Request to: " + path + "\n" +
+				"Request Params: " + params + "\n" +
+				"Responded with: Unexpected exception: "
+				+ stackTrace);
+		//if the exception doesn't contain message,
+		//retrieve top line of stack trace
+		if(message == null) {
+			int idx = stackTrace.indexOf("at");
+			if(idx > 0) {
+				message = stackTrace.substring(0, idx);
+			}else{
+				message = "";
+			}
+		}
+		MimeMessage email = null ;
+		try {
+			email = new Emails().sendSystemErrorEmail(message, stackTrace, path, params);
+			log.info("Sent crash report: " + email.getContent());
+		} catch (Exception e1) {
+			log.severe("Error in sending crash report: " + email.toString());
+		} 
 	}
 }

@@ -15,8 +15,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import com.google.appengine.api.utils.SystemProperty;
-
+import teammates.common.BuildProperties;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
@@ -244,7 +243,7 @@ public class Emails {
 	public MimeMessage sendSystemErrorEmail(String errorMessage, String stackTrace, String requestPath, String requestParam) throws AddressException, MessagingException {
 		Session session = Session.getDefaultInstance(new Properties(), null);
 		MimeMessage message = new MimeMessage(session);
-		String version = SystemProperty.applicationVersion.get().split("\\.")[0].replace("-", ".");
+		String version = BuildProperties.getAppVersion();
 
 
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(replyTo));

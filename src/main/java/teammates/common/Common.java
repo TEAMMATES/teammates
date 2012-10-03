@@ -386,11 +386,13 @@ public class Common {
 	/**
 	 * Email templates
 	 */
-	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_ = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailTemplate-evaluation_.html"));
-	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailTemplate-evaluationPublished.html"));
-	public static String STUDENT_EMAIL_TEMPLATE_COURSE_JOIN = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailTemplate-courseJoin.html"));
-	public static String STUDENT_EMAIL_FRAGMENT_COURSE_JOIN = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailFragment-courseJoin.html"));
-	public static String SYSTEM_ERROR_EMAIL_TEMPLATE = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("systemErrorEmailTemplate.html"));
+	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_ = readResourseFile("studentEmailTemplate-evaluation_.html");
+	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED = readResourseFile("studentEmailTemplate-evaluationPublished.html");
+	public static String STUDENT_EMAIL_TEMPLATE_COURSE_JOIN = readResourseFile("studentEmailTemplate-courseJoin.html");
+	public static String STUDENT_EMAIL_FRAGMENT_COURSE_JOIN = readResourseFile("studentEmailFragment-courseJoin.html");
+	public static String SYSTEM_ERROR_EMAIL_TEMPLATE = readResourseFile("systemErrorEmailTemplate.html");
+	
+	
 	
 	@SuppressWarnings("unused")
 	private void ____VALIDATE_parameters___________________________________() {
@@ -703,6 +705,11 @@ public class Common {
 	 */
 	public static String readStream(InputStream stream) {
 		return BUILD_PROPERTIES.readStream(stream);
+	}
+	
+	public static String readResourseFile(String file) {
+		return readStream(BuildProperties.class.getClassLoader()
+				.getResourceAsStream(file));
 	}
 
 	public static boolean isWhiteSpace(String string) {
