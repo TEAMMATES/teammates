@@ -12,7 +12,6 @@ report
 target
 appengine-generated
 *.ext
-src/test/resources/data/CoordinatorSampleData.json
 appengine-web.xml
 chromedriver*
 *.bat

@@ -11,6 +11,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import teammates.common.BuildProperties;
 import teammates.common.Common;
 import teammates.common.datatransfer.CoordData;
 import teammates.common.datatransfer.CourseData;
@@ -67,7 +68,7 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 			courseId = courseId.substring(courseId.length() - 20);
 		}
 		try {
-			jsonString = Common.readFile("WEB-INF/CoordinatorSampleData.json");
+			jsonString = Common.readStream(BuildProperties.class.getClassLoader().getResourceAsStream("CoordinatorSampleData.json"));
 			//replace email
 		    jsonString = jsonString.replaceAll("teammates.demo.coord@demo.course", coordEmail);
 			//replace name
