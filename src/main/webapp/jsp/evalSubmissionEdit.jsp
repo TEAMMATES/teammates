@@ -4,16 +4,16 @@
 <% EvalSubmissionEditHelper helper = (EvalSubmissionEditHelper)request.getAttribute("helper"); %>
 					<input type="hidden" value="<%= helper.eval.course %>"
 							name="<%= Common.PARAM_COURSE_ID %>"
-							id="<%= Common.PARAM_COURSE_ID %>" />
+							id="<%= Common.PARAM_COURSE_ID %>">
 					<input type="hidden" value="<%=EvalSubmissionEditHelper.escapeForHTML(helper.eval.name)%>"
 							name="<%=Common.PARAM_EVALUATION_NAME%>"
-							id="<%=Common.PARAM_EVALUATION_NAME%>" />
+							id="<%=Common.PARAM_EVALUATION_NAME%>">
 					<input type="hidden" value="<%=EvalSubmissionEditHelper.escapeForHTML(helper.student.team)%>"
 							name="<%=Common.PARAM_TEAM_NAME%>"
-							id="<%=Common.PARAM_TEAM_NAME%>" />
+							id="<%=Common.PARAM_TEAM_NAME%>">
 					<input type="hidden" value="<%=helper.student.email%>"
 							name="<%=Common.PARAM_FROM_EMAIL%>"
-							id="<%=Common.PARAM_FROM_EMAIL%>" />
+							id="<%=Common.PARAM_FROM_EMAIL%>">
 					<table class="headerform">
 						<%
 							int idx = 0;
@@ -23,7 +23,7 @@
 								<td>
 		 							<input type="text" value="<%=sub.reviewee%>"
 		 									name="<%=Common.PARAM_TO_EMAIL%>"
-		 									id="<%=Common.PARAM_TO_EMAIL+idx%>" />
+		 									id="<%=Common.PARAM_TO_EMAIL+idx%>">
 		 						</td>
 		 					</tr>
 		 					<tr>

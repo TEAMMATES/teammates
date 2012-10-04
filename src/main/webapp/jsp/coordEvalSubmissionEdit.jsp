@@ -4,24 +4,23 @@
 <%@ page import="teammates.common.datatransfer.SubmissionData"%>
 <%@ page import="teammates.ui.controller.CoordEvalSubmissionEditHelper"%>
 <%	CoordEvalSubmissionEditHelper helper = (CoordEvalSubmissionEditHelper)request.getAttribute("helper"); %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-	<link rel="shortcut icon" href="/favicon.png" />
-	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<link rel="shortcut icon" href="/favicon.png">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Coordinator</title>
-	<link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
-	<link rel=stylesheet href="/stylesheets/evaluation.css" type="text/css" />
+	<link rel="stylesheet" href="/stylesheets/main.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/evaluation.css" type="text/css">
 	
-	<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
-	<script language="JavaScript" src="/js/tooltip.js"></script>
-	<script language="JavaScript" src="/js/date.js"></script>
-	<script language="JavaScript" src="/js/CalendarPopup.js"></script>
-	<script language="JavaScript" src="/js/AnchorPosition.js"></script>
-	<script language="JavaScript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="/js/tooltip.js"></script>
+	<script type="text/javascript" src="/js/date.js"></script>
+	<script type="text/javascript" src="/js/CalendarPopup.js"></script>
+	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
 	
-	<script language="JavaScript" src="/js/coordinator.js"></script>
+	<script type="text/javascript" src="/js/coordinator.js"></script>
 
 </head>
 
@@ -54,16 +53,16 @@
 					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 					<div id="studentEvaluationSubmissionButtons">
 						<input type="button" class="button" id="button_back"
-								onclick="window.close(); opener.setStatusMessage('')" value="Cancel" />
+								onclick="window.close(); opener.setStatusMessage('')" value="Cancel">
 						<input type="submit" class="button" name="submitEvaluation"
 								onclick="return checkEvaluationForm(this.form)"
-								id="button_submit" value="Save Changes" />
+								id="button_submit" value="Save Changes">
 					</div>
 					<% if(helper.isMasqueradeMode()){ %>
-						<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>" />
+						<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>">
 					<% } %>
 				</form>
-		 		<br /><br />
+		 		<br><br>
 			</div>
 		</div>
 	</div>

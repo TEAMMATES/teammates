@@ -3,21 +3,20 @@
 <%@ page import="teammates.ui.controller.StudentEvalResultsHelper"%>
 <%@ page import="teammates.ui.controller.CoordEvalResultsHelper"%>
 <% StudentEvalResultsHelper helper = (StudentEvalResultsHelper)request.getAttribute("helper"); %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-	<link rel="shortcut icon" href="/favicon.png" />
-	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<link rel="shortcut icon" href="/favicon.png">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Student</title>
-	<link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
-	<link rel=stylesheet href="/stylesheets/evaluation.css" type="text/css" />
+	<link rel="stylesheet" href="/stylesheets/main.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/evaluation.css" type="text/css">
 
-	<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
-	<script language="JavaScript" src="/js/tooltip.js"></script>
-	<script language="JavaScript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="/js/tooltip.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
 	
-	<script language="JavaScript" src="/js/student.js"></script>	
+	<script type="text/javascript" src="/js/student.js"></script>	
 </head>
 
 <body>
@@ -102,7 +101,7 @@
 						</td>
 					</tr>
 				</table>
-				<br /><br />
+				<br><br>
 				<table class="result_table"><tr class="result_header"><td>Your Submission:</td></tr></table>
 				<table class="result_studentform">
 					<tr>
@@ -136,8 +135,8 @@
 						</tr>
 					<%	} %>
 				</table>
-				<br /><br />
-				<br /><br />
+				<br><br>
+				<br><br>
 			</div>
 		</div>
 	</div>
