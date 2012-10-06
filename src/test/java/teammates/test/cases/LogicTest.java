@@ -647,6 +647,7 @@ public class LogicTest extends BaseTestCase {
 		} catch (EntityAlreadyExistsException e) {
 		}
 
+		//TODO: Shift these to CourseDataTest?
 		______TS("invalid parameters");
 
 		course.coord = "invalid id";
@@ -669,7 +670,7 @@ public class LogicTest extends BaseTestCase {
 			BaseTestCase.assertContains("Course ID", e.getMessage());
 		}
 
-		// create with invalid course ID
+		// create with invalid course Name
 		course.id = "valid-course-id";
 		course.name = "";
 		try {
@@ -851,6 +852,12 @@ public class LogicTest extends BaseTestCase {
 		verifyAbsentInDatastore(dataBundle.students.get("student1InCourse1"));
 		verifyAbsentInDatastore(dataBundle.evaluations
 				.get("evaluation1InCourse1OfCoord1"));
+		ArrayList<SubmissionData> submissionsOfCourse = new ArrayList<SubmissionData>(dataBundle.submissions.values());
+		for (SubmissionData s : submissionsOfCourse) {
+			if (s.course.equals(course1OfCoord.id)) {
+				verifyAbsentInDatastore(s);
+			}
+		}
 
 		______TS("non-existent");
 
@@ -2598,7 +2605,12 @@ public class LogicTest extends BaseTestCase {
 		logic.deleteEvaluation(eval.course, eval.name);
 		verifyAbsentInDatastore(eval);
 		// verify submissions are deleted too
-		verifyAbsentInDatastore(submission);
+		ArrayList<SubmissionData> submissionsOfEvaluation = new ArrayList<SubmissionData>(dataBundle.submissions.values());
+		for (SubmissionData s : submissionsOfEvaluation) {
+			if (s.evaluation.equals(eval.name)) {
+				verifyAbsentInDatastore(s);
+			}
+		}
 
 		______TS("null parameters");
 

@@ -27,6 +27,14 @@ public class EvaluationData {
 	public transient ArrayList<TeamData> teams = new ArrayList<TeamData>();
 
 	private static Logger log = Common.getLogger();
+	
+	public static final String ERROR_FIELD_COURSE = "Evaluation must belong to a course\n";
+	public static final String ERROR_FIELD_NAME = "Evaluation name cannot be null or empty\n";
+	public static final String ERROR_FIELD_STARTTIME = "Evaluation start time cannot be null\n";
+	public static final String ERROR_FIELD_ENDTIME = "Evaluation end time cannot be null\n";
+	public static final String ERROR_END_BEFORE_START = "Evaluation end time cannot be earlier than start time\n";
+	public static final String ERROR_PUBLISHED_BEFORE_END = "Evaluation cannot be published before end time\n";
+	public static final String ERROR_ACTIVATED_BEFORE_START = "Evaluation cannot be activated before start time\n";
 
 	public enum EvalStatus {
 		AWAITING, OPEN, CLOSED, PUBLISHED, DOES_NOT_EXIST
@@ -118,33 +126,33 @@ public class EvaluationData {
 		String errorMessage = "";
 		
 		if (this.course == null || this.course == ""){
-			errorMessage += "Evaluation must belong to a course\n";
+			errorMessage += ERROR_FIELD_COURSE;
 		}
 		
 		if (this.name == null || this.name == "") {
-			errorMessage += "Evaluation name cannot be null or empty\n";
+			errorMessage += ERROR_FIELD_NAME;
 		}
 		
 		if (this.startTime == null) {
-			errorMessage += "Evaluation start time cannot be null\n";
+			errorMessage += ERROR_FIELD_STARTTIME;
 		}
 		
 		if (this.endTime == null) {
-			errorMessage += "Evaluation end time cannot be null\n";
+			errorMessage += ERROR_FIELD_ENDTIME;
 		}
 		
 		// Check time values are valid
 		if (this.startTime != null && this.endTime != null) {
 			if (endTime.before(startTime)) {
-				errorMessage += "Evaluation end time cannot be earlier than start time\n";
+				errorMessage += ERROR_END_BEFORE_START;
 			}
 			
 			if (!beforeTime(endTime) && published) {
-				errorMessage += "Evaluation cannot be published before end time\n";
+				errorMessage += ERROR_PUBLISHED_BEFORE_END;
 			}
 			
 			if (!beforeTime(startTime) && activated) {
-				errorMessage += "Evaluation cannot be activated before start time\n";
+				errorMessage += ERROR_ACTIVATED_BEFORE_START;
 			}
 		}
 		

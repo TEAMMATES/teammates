@@ -155,24 +155,24 @@ public class EvaluationDataTest extends BaseTestCase {
 		// no course: invalid
 		e.course = null;
 		assertFalse(e.isValid());
-		assertEquals(e.getInvalidStateInfo(), "Evaluation must belong to a course\n");
+		assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_FIELD_COURSE);
 		
 		// no name: invalid
 		e.course = "valid-course";
 		e.name = null;
 		assertFalse(e.isValid());
-		assertEquals(e.getInvalidStateInfo(), "Evaluation name cannot be null or empty\n");
+		assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_FIELD_NAME);
 		
 		// no start time: invalid
 		e.name = "valid name";
 		e.startTime = null;
 		assertFalse(e.isValid());
-		assertEquals(e.getInvalidStateInfo(), "Evaluation start time cannot be null\n");
+		assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_FIELD_STARTTIME);
 		
 		e.startTime = Common.getDateOffsetToCurrentTime(1);
 		e.endTime = null;
 		assertFalse(e.isValid());
-		assertEquals(e.getInvalidStateInfo(), "Evaluation end time cannot be null\n");
+		assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_FIELD_ENDTIME);
 		
 		// end before start: invalid
 		e.endTime = Common.getDateOffsetToCurrentTime(1);
@@ -182,14 +182,14 @@ public class EvaluationDataTest extends BaseTestCase {
 		print(Common.calendarToString(Common
 				.dateToCalendar(e.endTime)));
 		assertFalse(e.isValid());
-		assertEquals(e.getInvalidStateInfo(), "Evaluation end time cannot be earlier than start time\n");
+		assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_END_BEFORE_START);
 
 		// published before endtime: invalid
 		e.published = true;
 		e.startTime = Common.getDateOffsetToCurrentTime(0);
 		e.endTime = Common.getMsOffsetToCurrentTime(5);
 		assertFalse(e.isValid());
-		assertEquals(e.getInvalidStateInfo(), "Evaluation cannot be published before end time\n");
+		assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_PUBLISHED_BEFORE_END);
 
 		// just after endtime and published: valid
 		e.startTime = Common.getDateOffsetToCurrentTime(-1);
@@ -203,7 +203,7 @@ public class EvaluationDataTest extends BaseTestCase {
 		e.published = false;
 		e.activated = true;
 		assertFalse(e.isValid());
-		assertEquals(e.getInvalidStateInfo(), "Evaluation cannot be activated before start time\n");
+		assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_ACTIVATED_BEFORE_START);
 	}
 
 	@AfterClass

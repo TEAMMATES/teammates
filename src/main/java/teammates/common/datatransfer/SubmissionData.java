@@ -1,6 +1,9 @@
 package teammates.common.datatransfer;
 
 import static teammates.common.Common.EOL;
+
+import java.util.logging.Logger;
+
 import teammates.common.Common;
 import teammates.storage.entity.Submission;
 
@@ -35,7 +38,15 @@ public class SubmissionData {
 	public transient int normalizedToStudent = Common.UNINITIALIZED_INT;
 
 	public transient int normalizedToCoord = Common.UNINITIALIZED_INT;
+	
+	public static final String ERROR_FIELD_COURSE = "Submission must belong to a course\n";
+	public static final String ERROR_FIELD_EVALUATION = "Submission must belong to an evaluation";
+	public static final String ERROR_FIELD_REVIEWEE = "Submission reviewee cannot be null or empty\n";
+	public static final String ERROR_FIELD_REVIEWER = "Submission reviewer cannot be null or empty\n";
 
+
+	private static Logger log = Common.getLogger();
+	
 	public SubmissionData() {
 
 	}
@@ -129,19 +140,19 @@ public class SubmissionData {
 		String errorMessage = "";
 
 		if (this.course == null || this.course == "") {
-			errorMessage += "Submission must belong to a course\n";
+			errorMessage += ERROR_FIELD_COURSE;
 		}
 
 		if (this.evaluation == null || this.evaluation == "") {
-			errorMessage += "Submission must belong to an evaluation";
+			errorMessage += ERROR_FIELD_EVALUATION;
 		}
 
 		if (this.reviewee == null || this.reviewee == "") {
-			errorMessage += "Submission reviewee cannot be null or empty\n";
+			errorMessage += ERROR_FIELD_REVIEWEE;
 		}
 		
 		if (this.reviewer == null || this.reviewer == "") {
-			errorMessage += "Submission reviewer cannot be null or empty\n";
+			errorMessage += ERROR_FIELD_REVIEWER;
 		}
 
 		return errorMessage;
