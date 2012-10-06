@@ -1,8 +1,6 @@
 # use glob syntax.
 syntax: glob
 
-.classpath
-.project
 *.classpath
 .DS_Store
 .settings
