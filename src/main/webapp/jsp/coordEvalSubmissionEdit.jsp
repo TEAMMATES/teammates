@@ -35,14 +35,14 @@
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
 				<h1>Edit Student's Submission</h1>
-				<table class="evaluation_info">
+				<table class="inputTable" id="studentEvaluationInfo">
 					<tr>
-						<td>Course ID:</td>
-						<td><%= helper.eval.course %></td>
+						<td class="label rightalign" width="30%">Course ID:</td>
+						<td class="leftalign"><%= helper.eval.course %></td>
 					</tr>
 					<tr>
-						<td>Evaluation Name:</td>
-						<td><%=CoordEvalSubmissionEditHelper.escapeForHTML(helper.eval.name)%></td>
+						<td class="label rightalign" width="30%">Evaluation Name:</td>
+						<td class="leftalign"><%=CoordEvalSubmissionEditHelper.escapeForHTML(helper.eval.name)%></td>
 					</tr>
 				</table>
 			</div>
@@ -51,7 +51,7 @@
 						action="<%= Common.PAGE_COORD_EVAL_SUBMISSION_EDIT_HANDLER %>">
 					<jsp:include page="<%= Common.JSP_EVAL_SUBMISSION_EDIT %>" />
 					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
-					<div id="studentEvaluationSubmissionButtons">
+					<div id="studentEvaluationSubmissionButtons" class="centeralign">
 						<input type="button" class="button" id="button_back"
 								onclick="window.close(); opener.setStatusMessage('')" value="Cancel">
 						<input type="submit" class="button" name="submitEvaluation"

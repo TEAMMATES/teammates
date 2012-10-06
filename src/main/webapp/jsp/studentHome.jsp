@@ -9,8 +9,8 @@
 	<link rel="shortcut icon" href="/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Student</title>
-	<link rel="stylesheet" href="/stylesheets/main.css" type="text/css">
-	<link rel="stylesheet" href="/stylesheets/evaluation.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/studentHome.css" type="text/css">
 
 	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="/js/tooltip.js"></script>
@@ -32,19 +32,19 @@
 			<div id="headerOperation">
 				<h1>Student Home</h1>
 				<br />
-				<div class="result_addOrJoinCourse">
+				<div id="result_addOrJoinCourse">
 					<form method="post" action="<%= Common.PAGE_STUDENT_JOIN_COURSE %>" name="form_joincourse">
-						<table class="headerform">
+						<table class="inputTable">
 							<tr>
-								<td width="30%" class="attribute">Registration Key:</td>
-								<td width="30%">
+								<td class="label">Registration Key:</td>
+								<td>
 									<input class="keyvalue" type="text"
 											name="<%= Common.PARAM_REGKEY %>"
 											id="<%= Common.PARAM_REGKEY %>"
 											onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_JOIN_COURSE %>')"
 											onmouseout="hideddrivetip()" tabindex="1">
 								</td>
-								<td width="30%">
+								<td>
 									<input id="button_join_course" type="submit" class="button"
 											onclick="return this.form.<%= Common.PARAM_REGKEY %>.value!=''"
 											value="Join Course" tabindex="2">
@@ -58,18 +58,19 @@
 				</div>
 			</div>
 			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
-			<div id="studentHomeTable">
+			
 				<%	int idx = -1;
 					int evalIdx = -1;
 					for (CourseData course: helper.courses) { idx++;
 				%>
+				<div class="backgroundBlock">
 				<div class="result_team home_courses_div" id="course<%= idx %>">
 					<div class="result_homeTitle">
 						<h2>[<%= course.id %>] :
 							<%=StudentHomeHelper.escapeForHTML(course.name)%>
 						</h2>
 					</div>
-					<div class="result_homeLinks">
+					<div class="result_homeLinks blockLink">
 						<a class="t_course_view<%=idx%>"
 							href="<%=helper.getStudentCourseDetailsLink(course.id)%>"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_STUDENT_COURSE_DETAILS%>')"
@@ -82,7 +83,7 @@
 					<%
 						if (course.evaluations.size() > 0) {
 					%>
-						<table id="dataform">
+						<table class="dataTable">
 							<tr>
 								<th class="leftalign">Evaluation Name</th>
 								<th class="centeralign">Deadline</th>
@@ -103,17 +104,21 @@
 								</tr>
 							<%	} %>
 						</table>
-						<br>
+						
 					<%	} %>
 				</div>
-				<br> <br> <br>
+				<br> <br>
+				</div>
+				<br> <br>
 				<%		out.flush();
 					}
 				%>
-			</div>
+			
+			<br> <br> <br>
 		</div>
+		
 	</div>
-
+	
 	<div id="frameBottom">
 		<jsp:include page="<%= Common.JSP_FOOTER %>" />
 	</div>

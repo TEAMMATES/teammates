@@ -40,19 +40,19 @@
 			<div id="coordinatorCourseInformation">
 				<table class="inputTable" id="courseInformationHeader">
 					<tr>
-		 				<td class="label">Course ID:</td>
+		 				<td class="label rightalign" width="30%">Course ID:</td>
 		 				<td id="courseid"><%= helper.course.id %></td>
 		 			</tr>
 		 			<tr>
-		 				<td class="label">Course name:</td>
+		 				<td class="label rightalign" width="30%">Course name:</td>
 		 				<td id="coursename"><%=CoordCourseDetailsHelper.escapeForHTML(helper.course.name)%></td>
 					</tr>
 					<tr>
-		 				<td class="label">Teams:</td>
+		 				<td class="label rightalign" width="30%">Teams:</td>
 		 				<td id="total_teams"><%=helper.course.teamsTotal%></td>
 		 			</tr>
 		 			<tr>
-		 				<td class="label">Total students:</td>
+		 				<td class="label rightalign" width="30%">Total students:</td>
 		 				<td id="total_students"><%=helper.course.studentsTotal%></td>
 		 			</tr>
 		 			<%

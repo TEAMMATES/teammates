@@ -86,6 +86,11 @@
 			$('head').append('<link rel=stylesheet href="/stylesheets/coordEval.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/coordEvalEdit.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/coordEvalResults.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/coordEvalSubmissionView.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/coordEvalSubmissionEdit.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/studentHome.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/studentEvalEdit.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/studentEvalResults.css" type="text/css">');
 			
 			$('#coordHomePage').load("<%= Common.PAGE_COORD_HOME %> #frameBodyWrapper");
 			$('#coordAddCoursePage').load("<%= Common.PAGE_COORD_COURSE %> #frameBodyWrapper");

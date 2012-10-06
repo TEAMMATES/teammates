@@ -9,8 +9,8 @@
 	<link rel="shortcut icon" href="/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Student</title>
-	<link rel="stylesheet" href="/stylesheets/main.css" type="text/css">
-	<link rel="stylesheet" href="/stylesheets/evaluation.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/studentEvalResults.css" type="text/css">
 
 	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="/js/tooltip.js"></script>
@@ -34,8 +34,8 @@
 			</div>
 			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 			<div id="studentEvaluationResults">
-				<div style="text-align: right; font-size: small; font-style: italic; margin-bottom: 15px;">E = Equal Share</div>
-				<table class="result_table"><tr class="result_header"><td>Your Result:</td></tr></table>
+				<div style="text-align: right; font-size: small; font-style: italic; margin: 5px auto; width: 940px;">E = Equal Share</div>
+				<div class="backgroundBlock evalResultHeader"><span class="blockText">Your Result:</span></div>
 				<table class="result_studentform">
 					<tr>
 						<td width="15%">Evaluation:</td>
@@ -70,8 +70,8 @@
 						</td>
 					</tr>
 				</table>
-				<table class="result_table">
-					<tr class="result_subheader"><td>Feedback from teammates:</td></tr>
+				<table class="resultTable">
+					<tr class="resultSubheader"><td>Feedback from teammates:</td></tr>
 					<tr>
 						<td>
 							<ul>
@@ -85,7 +85,7 @@
 							</ul>
 						</td>
 					</tr>
-					<tr class="result_subheader"><td>What others said about their own contribution:</td></tr>
+					<tr class="resultSubheader"><td>What others said about their own contribution:</td></tr>
 					<tr>
 						<td>
 							<ul>
@@ -102,7 +102,7 @@
 					</tr>
 				</table>
 				<br><br>
-				<table class="result_table"><tr class="result_header"><td>Your Submission:</td></tr></table>
+				<div class="backgroundBlock evalResultHeader"><span class="blockText">Your Submission:</span></div>
 				<table class="result_studentform">
 					<tr>
 						<td width="15%">Points to yourself:</td>
@@ -117,7 +117,7 @@
 						<td><%=StudentEvalResultsHelper.escapeForHTML(helper.evalResult.getSelfEvaluation().p2pFeedback.getValue())%></td>
 					</tr>
 				</table>
-				<table id="dataform" style="margin: 0px; width: 100%;">
+				<table class="dataTable">
 					<tr>
 						<th width="18%">Teammate Name</th>
 						<th>Points</th>

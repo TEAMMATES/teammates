@@ -27,12 +27,12 @@
 		 						</td>
 		 					</tr>
 		 					<tr>
-		 						<td class="reportheader" colspan="2" id="sectiontitle<%=idx%>">
+		 						<td class="reportHeader" colspan="2" id="sectiontitle<%=idx%>">
 		 							<%=helper.getEvaluationSectionTitle(sub)%>
 		 						</td>
 		 					</tr>
 		 					<tr>
-		 						<td class="lhs">Estimated contribution:</td>
+		 						<td class="label rightalign">Estimated contribution:</td>
 		 						<td>
 		 							<select style="width: 150px;"
 		 									name="<%=Common.PARAM_POINTS%>"
@@ -42,7 +42,7 @@
 		 						</td>
 		 					</tr>
 		 					<tr>
-		 						<td class="lhs"><%=helper.getJustificationInstr(sub)%></td>
+		 						<td class="label rightalign"><%=helper.getJustificationInstr(sub)%></td>
 		 						<td>
 		 							<textarea class="textvalue" rows="8" cols="100" 
 		 									name="<%=Common.PARAM_JUSTIFICATION%>"
@@ -50,7 +50,7 @@
 		 						</td>
 		 					</tr>
 		 					<tr>
-		 						<td class="lhs"><%=helper.getCommentsInstr(sub)%></td>
+		 						<td class="label rightalign"><%=helper.getCommentsInstr(sub)%></td>
 								<%
 									if(helper.eval.p2pEnabled){
 								%>

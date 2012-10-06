@@ -71,8 +71,7 @@
 						</td>
 					</tr> 
 					<tr>
-						<td></td>
-						<td>
+						<td colspan="2" class="centeralign">
 						<%
 							if(CoordEvalResultsHelper.getCoordStatusForEval(helper.evaluation).equals(Common.EVALUATION_STATUS_CLOSED)) {
 						%>
@@ -178,8 +177,8 @@
 							<%
 								if(firstTeam) firstTeam = false; else out.print("<br>");
 							%>
-							<div class="result_team">
-								<p><%=CoordEvalResultsHelper.escapeForHTML(team.name)%></p><br>
+							<div class="backgroundBlock">
+								<h2 class="resultTitle"><%=CoordEvalResultsHelper.escapeForHTML(team.name)%></h2><br>
 								<%
 									boolean firstStudent = true;
 															for(StudentData student: team.students){
@@ -187,15 +186,15 @@
 									<%
 										if(firstStudent) firstStudent = false; else out.print("<br>");
 									%>
-									<table class="result_table">
+									<table class="resultTable">
 										<thead><tr>
 											<th colspan="2" width="10%">
-												<span class="fontcolor"><%=byReviewer ? "Reviewer" : "Reviewee"%>: </span><%=student.name%></th>
-											<th><span class="fontcolor"
+												<span class="resultHeader"><%=byReviewer ? "Reviewer" : "Reviewee"%>: </span><%=student.name%></th>
+											<th><span class="resultHeader"
 													onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_CLAIMED%>')"
 													onmouseout="hideddrivetip()">
 												Claimed Contributions: </span><%=CoordEvalResultsHelper.printSharePoints(student.result.claimedToCoord,true)%></th>
-											<th><span class="fontcolor"
+											<th><span class="resultHeader"
 													onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_PERCEIVED%>')"
 													onmouseout="hideddrivetip()">
 												Perceived Contributions: </span><%=CoordEvalResultsHelper.printSharePoints(student.result.perceivedToCoord,true)%>
@@ -212,14 +211,14 @@
 											</th>
 										</tr></thead>
 										<tr>
-											<td colspan="4"><b>Self evaluation:</b><br>
+											<td colspan="4"><span class="color_neutral">Self evaluation:</span><br>
 		 										<%=CoordEvalResultsHelper.printJustification(student.result.getSelfEvaluation())%></td>
 		 								</tr>
 		 								<tr>
-		 									<td colspan="4"><b>Comments about team:</b><br>
+		 									<td colspan="4"><span class="color_neutral">Comments about team:</span><br>
 		 										<%=CoordEvalResultsHelper.printComments(student.result.getSelfEvaluation(), helper.evaluation.p2pEnabled)%></td>
 		 								</tr>
-										<tr class="result_subheader">
+										<tr class="resultSubheader">
 											<td width="15%"><%=byReviewer ? "To" : "From"%> Student</td>
 											<td width="5%">Contribution</td>
 											<td width="40%">Comments</td>

@@ -60,27 +60,23 @@
 							href="<%=helper.getCoordCourseEnrollLink(course.id)%>"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_ENROLL%>')"
 							onmouseout="hideddrivetip()">
-							Enroll
-						</a>
+							Enroll</a>
 						<a class="t_course_view<%=idx%>"
 							href="<%=helper.getCoordCourseDetailsLink(course.id)%>"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_DETAILS%>')"
 							onmouseout="hideddrivetip()">
-							View
-						</a>
+							View</a>
 						<a class="t_course_add_eval<%=idx%>"
 							href="<%=helper.getCoordEvaluationLink()%>"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_ADD_EVALUATION%>')"
 							onmouseout="hideddrivetip()">
-							Add Evaluation
-						</a>
+							Add Evaluation</a>
 						<a class="t_course_delete<%=idx%>"
 							href="<%=helper.getCoordCourseDeleteLink(course.id,true)%>"
 							onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%=course.id%>')"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_DELETE%>')"
 							onmouseout="hideddrivetip()">
-							Delete
-						</a>
+							Delete</a>
 					</div>
 					<div style="clear: both;"></div>
 					<br>

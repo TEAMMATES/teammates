@@ -10,8 +10,8 @@
 	<link rel="shortcut icon" href="/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Student</title>
-	<link rel="stylesheet" href="/stylesheets/main.css" type="text/css">
-	<link rel="stylesheet" href="/stylesheets/evaluation.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/studentEvalEdit.css" type="text/css">
 
 	<script text="text/javasript" src="/js/jquery-1.6.2.min.js"></script>
 	<script text="text/javascript" src="/js/tooltip.js"></script>
@@ -34,25 +34,25 @@
 				<h1>Evaluation Submission</h1>
 			</div>
 			<div id="studentEvaluationInformation">
-				<table class="headerform">
+				<table class="inputTable">
 					<tr>
-						<td class="fieldname">Course ID:</td>
+						<td class="label rightalign" width="30%">Course ID:</td>
 						<td id="<%= Common.PARAM_COURSE_ID %>"><%= helper.eval.course %></td>
 					</tr>
 					<tr>
-						<td class="fieldname">Evaluation name:</td>
+						<td class="label rightalign" width="30%">Evaluation name:</td>
 						<td id="<%= Common.PARAM_EVALUATION_NAME %>"><%=StudentEvalEditHelper.escapeForHTML(helper.eval.name)%></td>
 					</tr>
 					<tr>
-						<td class="fieldname">Opening time:</td>
+						<td class="label rightalign" width="30%">Opening time:</td>
 						<td id="<%=Common.PARAM_EVALUATION_STARTTIME%>"><%=Common.formatTime(helper.eval.startTime)%></td>
 					</tr>
 					<tr>
-						<td class="fieldname">Closing time:</td>
+						<td class="label rightalign" width="30%">Closing time:</td>
 						<td id="<%=Common.PARAM_EVALUATION_DEADLINETIME%>"><%=Common.formatTime(helper.eval.endTime)%></td>
 					</tr>
 					<tr>
-						<td class="fieldname">Instructions:</td>
+						<td class="label rightalign" width="30%">Instructions:</td>
 						<td id="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>"><%=StudentEvalEditHelper.escapeForHTML(helper.eval.instructions)%></td>
 					</tr>
 				</table>
