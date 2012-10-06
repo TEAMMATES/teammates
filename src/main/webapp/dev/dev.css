@@ -7,30 +7,37 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
-.content {
+img {
+	max-width: 100%;
+}
+
+#content {
 	margin: 0 auto;
  	width: 960px;
 }
 
-.header {
-	color: green;
-	font-size: 28px;
+.title {
+	color: #FF8C00;
+	font-size: 32px;
 	font-weight: bold;
 	text-align: center;
 }
 
+.header {
+	color: #FF8C00;
+	font-size: 28px;
+	font-weight: bold;
+	text-align: left;
+}
+
 .subheader {
 	color: #000000;
-	font-size: 28px;
+	font-size: 18px;
 	font-weight: bold;
 }
 
 .bold {
 	font-weight: bold;
-}
-
-.italic{
-	font-style: italic;
 }
 
 .underline {
@@ -53,10 +60,6 @@ body {
 	color:#00AA00;
 }
 
-.strikeout{
-	text-decoration:line-through;
-}
-
 .image-holder {
 	width: 920px;
 	margin: 0 auto;
@@ -64,4 +67,10 @@ body {
 	overflow: hidden;
 }
 
+.italic {
+	font-style: italic;
+}
 
+.strikeout {
+	text-decoration:line-through;
+}
