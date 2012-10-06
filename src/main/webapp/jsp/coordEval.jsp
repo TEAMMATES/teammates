@@ -3,27 +3,26 @@
 <%@ page import="teammates.common.datatransfer.EvaluationData"%>
 <%@ page import="teammates.ui.controller.CoordEvalHelper"%>
 <%	CoordEvalHelper helper = (CoordEvalHelper)request.getAttribute("helper"); %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-	<link rel="shortcut icon" href="/favicon.png" />
-	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<link rel="shortcut icon" href="/favicon.png">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Coordinator</title>
-	<link rel=stylesheet href="/stylesheets/common.css" type="text/css" />
-	<link rel=stylesheet href="/stylesheets/coordEval.css" type="text/css" />
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/coordEval.css" type="text/css">
 	
-	<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
-	<script language="JavaScript" src="/js/tooltip.js"></script>
-	<script language="JavaScript" src="/js/date.js"></script>
-	<script language="JavaScript" src="/js/CalendarPopup.js"></script>
-	<script language="JavaScript" src="/js/AnchorPosition.js"></script>
-	<script language="JavaScript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="/js/tooltip.js"></script>
+	<script type="text/javascript" src="/js/date.js"></script>
+	<script type="text/javascript" src="/js/CalendarPopup.js"></script>
+	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
 	
-	<script language="JavaScript" src="/js/coordinator.js"></script>
-	<script language="JavaScript" src="/js/coordEval.js"></script>
+	<script type="text/javascript" src="/js/coordinator.js"></script>
+	<script type="text/javascript" src="/js/coordEval.js"></script>
 	<% if(helper.submittedEval==null){ %>
-	<script language="JavaScript">
+	<script type="text/javascript">
 		var doPageSpecificOnload = selectDefaultTimeOptions;
 	</script>
 	<%	} %>
@@ -51,7 +50,7 @@
 										name="<%= Common.PARAM_COURSE_ID %>"
 										id="<%= Common.PARAM_COURSE_ID %>"
 										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_COURSE %>')"
-										onmouseout="hideddrivetip()" tabindex=1>
+										onmouseout="hideddrivetip()" tabindex="1">
 								<% for(String opt: helper.getCourseIDOptions()) out.println(opt); %>
 								</select></td>
 							<td class="label" >Opening time:</td>
@@ -62,12 +61,12 @@
 										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_START %>')"
 										onmouseout="hideddrivetip()"
 										value="<%= (helper.submittedEval==null? Common.formatDate(Common.getNextHour()) : Common.formatDate(helper.submittedEval.startTime)) %>"
-										readonly="readonly" tabindex=3 />
+										readonly="readonly" tabindex="3">
 										@
 								<select style="width: 70px;"
 										name="<%= Common.PARAM_EVALUATION_STARTTIME %>"
 										id="<%= Common.PARAM_EVALUATION_STARTTIME %>"
-										tabindex=4>
+										tabindex="4">
 									<% for(String opt: helper.getTimeOptions(true)) out.println(opt); %>
 								</select></td>
 						</tr>
@@ -78,7 +77,7 @@
 										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_NAME %>')"
 										onmouseout="hideddrivetip()" maxlength =<%= Common.EVALUATION_NAME_MAX_LENGTH %>
 										value="<%if(helper.submittedEval!=null) out.print(CoordEvalHelper.escapeForHTML(helper.submittedEval.name));%>"
-										tabindex=2 /></td>
+										tabindex="2"></td>
 							<td class="label" >Closing time:</td>
 							<td><input style="width: 100px;" type="text"
 										name="<%=Common.PARAM_EVALUATION_DEADLINE%>" id="<%=Common.PARAM_EVALUATION_DEADLINE%>"
@@ -86,12 +85,12 @@
 										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_DEADLINE%>')"
 										onmouseout="hideddrivetip()"
 										value="<%=(helper.submittedEval==null? "" : Common.formatDate(helper.submittedEval.endTime))%>"
-										readonly="readonly" tabindex=5 />
+										readonly="readonly" tabindex="5">
 										@
 								<select style="width: 70px;"
 										name="<%=Common.PARAM_EVALUATION_DEADLINETIME%>"
 										id="<%=Common.PARAM_EVALUATION_DEADLINETIME%>"
-										tabindex=6>
+										tabindex="6">
 									<%
 										for(String opt: helper.getTimeOptions(false)) out.println(opt);
 									%>
@@ -103,19 +102,19 @@
 										id="commentsstatus_enabled" value="true"
 										<%if(helper.submittedEval==null || helper.submittedEval.p2pEnabled) out.print("checked=\"checked\"");%>
 										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS%>')"
-										onmouseout="hideddrivetip()" />
+										onmouseout="hideddrivetip()">
 								<label for="commentsstatus_enabled">Enabled</label>
 								<input type="radio" name="<%=Common.PARAM_EVALUATION_COMMENTSENABLED%>"
 										id="commentsstatus_disabled" value="false"
 										<%if(helper.submittedEval!=null && !helper.submittedEval.p2pEnabled) out.print("checked=\"checked\"");%>
 										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS%>')"
-										onmouseout="hideddrivetip()" />
+										onmouseout="hideddrivetip()">
 								<label for="commentsstatus_disabled">Disabled</label>
 							</td>
 							<td class="label" >Time zone:</td>
 							<td><select style="width: 100px;" name="<%=Common.PARAM_EVALUATION_TIMEZONE%>" id="<%=Common.PARAM_EVALUATION_TIMEZONE%>"
 										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_TIMEZONE%>')"
-										onmouseout="hideddrivetip()" tabindex=7>
+										onmouseout="hideddrivetip()" tabindex="7">
 								<%
 									for(String opt: helper.getTimeZoneOptions()) out.println(opt);
 								%>
@@ -130,7 +129,7 @@
 							<select style="width: 70px;" name="<%=Common.PARAM_EVALUATION_GRACEPERIOD%>"
 									id="<%=Common.PARAM_EVALUATION_GRACEPERIOD%>"
 									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD%>')"
-									onmouseout="hideddrivetip()" tabindex=7>
+									onmouseout="hideddrivetip()" tabindex="7">
 								<%
 									for(String opt: helper.getGracePeriodOptions()) out.println(opt);
 								%>
@@ -144,13 +143,13 @@
 								%>
 									<textarea rows="3" cols="110" class="textvalue" name="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>" id="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>"
 											onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_INSTRUCTIONS%>')"
-											onmouseout="hideddrivetip()" tabindex=8>Please submit your peer evaluation based on the overall contribution of your teammates so far.</textarea>
+											onmouseout="hideddrivetip()" tabindex="8">Please submit your peer evaluation based on the overall contribution of your teammates so far.</textarea>
 								<%
 									} else {
 								%>
 									<textarea rows="3" cols="110" class="textvalue" name="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>" id="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>"
 											onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_INSTRUCTIONS%>')"
-											onmouseout="hideddrivetip()" tabindex=8><%=CoordEvalHelper.escapeForHTML(helper.submittedEval.instructions)%></textarea>
+											onmouseout="hideddrivetip()" tabindex="8"><%=CoordEvalHelper.escapeForHTML(helper.submittedEval.instructions)%></textarea>
 								<%
 									}
 								%>
@@ -160,7 +159,7 @@
 							<td colspan="4" class="centeralign">
 								<input id="button_submit" type="submit" class="button"
 										onclick="return checkAddEvaluation(this.form);"
-										value="Create Evaluation" tabindex=9 /></td>
+										value="Create Evaluation" tabindex="9"></td>
 						</tr>
 					</table>
 				</form>
@@ -171,10 +170,10 @@
 					<tr>
 						<th class="leftalign">
 							<input class="buttonSortAscending" type="button" id="button_sortcourseid" 
-									onclick="toggleSort(this,1)" />Course ID</th>
+									onclick="toggleSort(this,1)">Course ID</th>
 						<th class="leftalign">
 							<input class="buttonSortNone" type="button" id="button_sortname"
-									onclick="toggleSort(this,2)" />Evaluation</th>
+									onclick="toggleSort(this,2)">Evaluation</th>
 						<th class="centeralign">Status</th>
 						<th class="centeralign"><span
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_RESPONSE_RATE%>')"
@@ -208,13 +207,13 @@
 						</tr>
 					<%	} %>
 				</table>
-				<br /><br /><br />
+				<br><br><br>
 				<%	if(evalIdx==-1){ %>
-					No records found.<br />
-					<br />
-					<br />
+					No records found.<br>
+					<br>
+					<br>
 				<%	} %>
-				<br />
+				<br>
 			</div>
 		</div>
 	</div>
