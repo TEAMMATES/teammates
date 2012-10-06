@@ -11,8 +11,8 @@
 	<link rel="shortcut icon" href="/favicon.png" />
 	<meta http-equiv="X-UA-Compatible" content="IE=8" />
 	<title>Teammates - Coordinator</title>
-	<link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
-	<link rel=stylesheet href="/stylesheets/evaluation.css" type="text/css" />
+	<link rel=stylesheet href="/stylesheets/common.css" type="text/css" />
+	<link rel=stylesheet href="/stylesheets/coordCourseDetails.css" type="text/css" />
 	
 	<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
 	<script language="JavaScript" src="/js/tooltip.js"></script>
@@ -39,21 +39,21 @@
 				<h1>Course Details</h1>
 			</div>
 			<div id="coordinatorCourseInformation">
-				<table class="headerform">
+				<table class="inputTable" id="courseInformationHeader">
 					<tr>
-		 				<td class="fieldname">Course ID:</td>
+		 				<td class="label">Course ID:</td>
 		 				<td id="courseid"><%= helper.course.id %></td>
 		 			</tr>
 		 			<tr>
-		 				<td class="fieldname">Course name:</td>
+		 				<td class="label">Course name:</td>
 		 				<td id="coursename"><%=CoordCourseDetailsHelper.escapeForHTML(helper.course.name)%></td>
 					</tr>
 					<tr>
-		 				<td class="fieldname">Teams:</td>
+		 				<td class="label">Teams:</td>
 		 				<td id="total_teams"><%=helper.course.teamsTotal%></td>
 		 			</tr>
 		 			<tr>
-		 				<td class="fieldname">Total students:</td>
+		 				<td class="label">Total students:</td>
 		 				<td id="total_students"><%=helper.course.studentsTotal%></td>
 		 			</tr>
 		 			<%
@@ -76,7 +76,7 @@
 			</div>
 			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
 			<div id="coordinatorStudentTable">
-				<table id="dataform">
+				<table class="dataTable">
 					<tr>
 						<th><input class="buttonSortAscending" type="button" id="button_sortstudentname" 
 								onclick="toggleSort(this,1)"/>Student Name</th>

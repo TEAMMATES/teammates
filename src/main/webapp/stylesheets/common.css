@@ -1,0 +1,430 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+   --------------------------------  CSS Reset  -----------------------------------------
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+textarea {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
+/*---------------------  HTML tooltip  --------------------------------------------------- */
+#dhtmltooltip {
+	background-color: #FFA;
+	border: 1px solid #CC9;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	-moz-box-shadow: 2px 2px 11px #666;
+	-webkit-box-shadow: 2px 2px 11px #666;
+	padding: 1px;
+	position: absolute;
+	visibility: hidden;
+	width: auto;
+	z-index: 100;
+	/*Remove below line to remove shadow. Below line should always appear last within this CSS*/
+	filter: progid : DXImageTransform.Microsoft.Shadow ( color = gray, direction = 135 );
+}
+
+
+
+/*---------------------  Frame Top  --------------------------------------------------- */
+#frameTop {
+	background-color: black;
+	height: 60px;
+	overflow: hidden;
+	width: 100%;
+}
+
+#frameTopWrapper {
+	margin: 0 auto;
+	width: 1024px;
+}
+
+#logo {
+	float: left;
+	padding-top: 5px;
+	width: 250px;
+}
+
+#contentLinks {
+	float: left;
+	width: 774px; 		/*  #frameTopWrapper.width - #logo.width */
+	overflow: hidden;
+}
+
+#navbar {
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 30px;
+	white-space: nowrap;
+	width: 100%;
+	padding-top: 15px;
+}
+
+#navbar li {
+	float: left;
+	list-style-type: none;
+	padding-left: 30px;
+}
+
+#navbar li a {
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#navbar li a:hover {
+	color: white;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+
+
+/*---------------------  Frame Bottom  --------------------------------------------------- */
+#frameBottom {
+	background-color: black;
+	bottom: 0;
+	color: white;
+	height: 18px;
+	overflow: hidden;
+	position: absolute;
+	width: 100%;
+}
+
+#contentFooter {
+	font-size: 12px;
+	font-weight: bold;
+	margin: 3px auto;
+	text-align: right;
+	width: 1024px;
+}
+
+#contentFooter a {
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#contentFooter a:hover {
+	color: white;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+
+
+/*---------------------  Frame Body  --------------------------------------------------- */
+#frameBody {
+	bottom: 18px; /*Set to #frameBottom.height*/
+	overflow: auto;
+	position: fixed;
+	top: 60px; /*Set to #frameTop.height*/
+	width: 100%;
+}
+
+#frameBodyWrapper {
+	margin: 0 auto;
+	width: 1000px;
+}
+
+#headerOperation {
+	margin-top: 30px;
+	text-align: center;
+}
+
+
+
+/*---------------------  Status Message  --------------------------------------------------- */
+div#statusMessage {
+	background-color: #FFFF99;
+	margin: 20px auto;
+	padding: 8px;
+	text-align: center;
+	width: 920px;
+	display: none;
+}
+
+
+
+/*---------------------  Background Block  --------------------------------------------------- */
+.backgroundBlock {
+	background: #036;
+	margin: 0 auto;
+	width: 940px;
+	padding: 20px;
+}
+
+
+
+/*---------------------  Block Link  --------------------------------------------------- */
+.blockLink a {
+	color: white;
+	font-weight: bold;
+	margin-left: 15px;
+	text-decoration: underline;
+}
+
+.blockLink a:hover {
+	color: white;
+	font-weight: bold;
+	margin-left: 15px;
+	text-decoration: underline;
+}
+
+
+
+/*---------------------  Data Table  --------------------------------------------------- */
+.dataTable {
+	text-align: left;
+	width: 940px;
+	margin: 0 auto;
+}
+
+.dataTable th {
+	background: #4E80BB;
+	color: white;
+	font-weight: bold;
+	padding: 8px;
+}
+
+.dataTable tr:nth-of-type(odd) {
+	background-color: #EAEFF5;
+}
+
+.dataTable tr:nth-of-type(even) {
+	background-color: #D0D8E8;
+}
+
+.dataTable tr:hover { 
+	background: #CCC;
+	border: 1px solid #03476F;
+}
+
+.dataTable td {
+	color: black;
+	padding: 8px;
+	border:1px dotted gray;
+}
+
+.dataTable a {
+   color: black;
+   text-decoration: underline;
+}
+
+.dataTable a:hover {
+   color: black;
+   text-decoration: underline;
+}
+
+.dataTable td+td+td+td a { 
+	margin: 0px 8px;
+}
+
+.dataTable input.buttonSortAscending {
+	background: url("../images/sortUpButton.png") no-repeat top left;
+	border: 0;
+	height: 14px;
+	outline: none;
+	vertical-align: middle;
+	width: 14px;
+	padding-right: 14px;
+}
+
+.dataTable input.buttonSortNone {
+	background: url("../images/sortSideButton.png") no-repeat top left;
+	border: 0;
+	height: 14px;
+	outline: none;
+	vertical-align: middle;
+	width: 14px;
+	padding-right: 14px;
+}
+
+
+/*---------------------  Input Table  --------------------------------------------------- */
+.inputTable {
+	background: #EAEFF5;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	margin: 0 auto;
+}
+
+.inputTable th {
+	padding:0.7em;
+}
+
+.inputTable td {
+	padding:0.7em;
+}
+
+.inputTable .label {
+	font: bold 12px Verdana, Arial, Helvetica, sans-serif;
+	color: #363636;
+}
+
+.inputTable input textarea {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+
+
+
+/*---------------------  Button  --------------------------------------------------- */
+.button {
+	background: #9AB3C4;
+	background: -webkit-gradient(linear, left top, left bottom, from(#9AA1A6), to(#9AB3C4) );
+	background: -webkit-linear-gradient(top, #9AA1A6, #9AB3C4);
+	background: -moz-linear-gradient(top, #9AA1A6, #9AB3C4);
+	background: -ms-linear-gradient(top, #9AA1A6, #9AB3C4);
+	background: -o-linear-gradient(top, #9AA1A6, #9AB3C4);
+	color: white;
+	font-family: Helvetica, Arial, Sans-Serif;
+	font-size: 12px;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	border: 1px solid #EEE;
+	padding: 5px 8px;
+	text-decoration: none;
+	vertical-align: middle;
+}
+
+.button:hover {
+	background: #66727A;
+	border-color: #EEE;
+	color: white;
+}
+
+.button:active {
+	background: #1B435E;
+	border-color: #EEE;
+	color: white;
+}
+
+
+
+/*---------------------  Misc  --------------------------------------------------- */
+h1 {
+	font-size: 200%;
+	font-weight: bold;
+	letter-spacing: 2px;
+	margin: 0 auto;
+	padding: 15px 0px;
+	text-align: center;
+}
+
+h2 {
+	font-size: 150%;
+	margin: 0 auto;
+	padding: 15px 0 15px;
+	text-align: left;
+}
+
+.centeralign {
+	text-align: center;
+}
+
+.leftalign {
+	text-align: left;
+}
+
+.rightalign {
+	text-align: right;
+}
+
+.negDiff {
+	color: #F00;
+}
+
+.posDiff {
+	color: #063;
+}
+
+.color_positive { 
+	color: #060;
+	font-weight:bold;
+	
+}
+
+.color_negative { 
+	color:#F00;
+	font-weight:bold;
+}
+
+.color_neutral{
+	color:black;
+	font-weight:bold;
+}
+
+.color_gray {
+	color: gray;
+	font-size: 9;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

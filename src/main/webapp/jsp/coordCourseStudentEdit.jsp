@@ -10,8 +10,8 @@
 	<link rel="shortcut icon" href="/favicon.png" />
 	<meta http-equiv="X-UA-Compatible" content="IE=8" />
 	<title>Teammates - Coordinator</title>
-	<link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
-	<link rel=stylesheet href="/stylesheets/evaluation.css" type="text/css" />
+	<link rel=stylesheet href="/stylesheets/common.css" type="text/css" />
+	<link rel=stylesheet href="/stylesheets/coordCourseStudentEdit.css" type="text/css" />
 	
 	<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
 	<script language="JavaScript" src="/js/tooltip.js"></script>
@@ -35,25 +35,25 @@
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
 				<h1>Edit Student Details</h1>
-				<form action="<%= Common.PAGE_COORD_COURSE_STUDENT_EDIT %>" method="post">
+				<form action="<%= Common.PAGE_COORD_COURSE_STUDENT_EDIT %>" method="post" id="studentEditForm">
 					<input type="hidden" name="<%= Common.PARAM_COURSE_ID %>" value="<%= helper.student.course %>" />
-					<table class="detailform">
+					<table class="inputTable">
 						<tr>
-				 			<td class="fieldname">Student Name:</td>
+				 			<td class="label">Student Name:</td>
 				 			<td>
 				 				<input class="fieldvalue" name="<%= Common.PARAM_STUDENT_NAME %>" id="<%= Common.PARAM_STUDENT_NAME %>"
 				 						value="<%= helper.student.name %>" />
 				 			</td>
 				 		</tr>
 					 	<tr>
-					 		<td class="fieldname">Team Name:</td>
+					 		<td class="label">Team Name:</td>
 					 		<td>
 					 			<input class="fieldvalue" name="<%= Common.PARAM_TEAM_NAME %>" id="<%= Common.PARAM_TEAM_NAME %>"
 					 					value="<%=CoordCourseStudentDetailsHelper.escapeForHTML(helper.student.team)%>" />
 					 		</td>
 					 	</tr>
 					 	<tr>
-					 		<td class="fieldname">E-mail Address:
+					 		<td class="label">E-mail Address:
 					 			<input type="hidden" name="<%=Common.PARAM_STUDENT_EMAIL%>" id="<%=Common.PARAM_STUDENT_EMAIL%>"
 					 					value="<%=CoordCourseStudentDetailsHelper.escapeForHTML(helper.student.email)%>" />
 					 		</td>
@@ -63,17 +63,17 @@
 					 		</td>
 					 	</tr>
 					 	<tr>
-							<td class="fieldname">Google ID:</td>
+							<td class="label">Google ID:</td>
 							<td id="<%=Common.PARAM_USER_ID%>"><%=(helper.student.id!= null ? CoordCourseStudentDetailsHelper.escapeForHTML(helper.student.id) : "")%></td>
 						</tr>
 						<tr>
-							<td class="fieldname">Registration Key:</td>
+							<td class="label">Registration Key:</td>
 							<td id="<%=Common.PARAM_REGKEY%>"><%=CoordCourseStudentDetailsHelper.escapeForHTML(helper.regKey)%></td>
 						</tr>
 					 	<tr>
-					 		<td class="fieldname">Comments:</td>
+					 		<td class="label">Comments:</td>
 					 		<td>
-					 			<textarea class="textvalue" rows="6" cols="80" name="<%=Common.PARAM_COMMENTS%>" id="<%=Common.PARAM_COMMENTS%>"><%=CoordCourseStudentDetailsHelper.escapeForHTML(helper.student.comments)%></textarea>
+					 			<textarea class="textvalue" rows="6" cols="70" name="<%=Common.PARAM_COMMENTS%>" id="<%=Common.PARAM_COMMENTS%>"><%=CoordCourseStudentDetailsHelper.escapeForHTML(helper.student.comments)%></textarea>
 					 		</td>
 					 	</tr>
 					</table>

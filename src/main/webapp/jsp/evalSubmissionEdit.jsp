@@ -14,7 +14,7 @@
 					<input type="hidden" value="<%=helper.student.email%>"
 							name="<%=Common.PARAM_FROM_EMAIL%>"
 							id="<%=Common.PARAM_FROM_EMAIL%>" />
-					<table class="headerform">
+					<table class="inputTable">
 						<%
 							int idx = 0;
 											for(SubmissionData sub: helper.submissions){

@@ -12,8 +12,8 @@
 	<link rel="shortcut icon" href="/favicon.png" />
 	<meta http-equiv="X-UA-Compatible" content="IE=8" />
 	<title>Teammates - Coordinator</title>
-	<link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
-	<link rel=stylesheet href="/stylesheets/evaluation.css" type="text/css" />
+	<link rel=stylesheet href="/stylesheets/common.css" type="text/css" />
+	<link rel=stylesheet href="/stylesheets/coordEvalResults.css" type="text/css" />
 	
 	<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
 	<script language="JavaScript" src="/js/tooltip.js"></script>
@@ -40,26 +40,26 @@
 				<h1>Evaluation Results</h1>
 			</div>
 			<div id="coordinatorEvaluationInformation">
-				<table class="headerform">
+				<table class="inputTable">
 					<tr>
-						<td class="fieldname">Course ID:</td>
+						<td class="label rightalign">Course ID:</td>
 						<td><%= helper.evaluation.course %></td>
 					</tr>
 					<tr>
-						<td class="fieldname">Evaluation name:</td>
+						<td class="label rightalign">Evaluation name:</td>
 						<td><%=CoordEvalResultsHelper.escapeForHTML(helper.evaluation.name)%></td>
 					</tr>
 					<tr>
-						<td class="fieldname">Opening time:</td>
+						<td class="label rightalign">Opening time:</td>
 						<td><%=Common.formatTime(helper.evaluation.startTime)%></td>
 					</tr>
 					<tr>
-						<td class="fieldname">Closing time:</td>
+						<td class="label rightalign">Closing time:</td>
 						<td><%=Common.formatTime(helper.evaluation.endTime)%></td>
 					</tr>
 					<tr>
 						<td class="centeralign" colspan=2>
-							<b>Report Type:</b> 
+							<span class="label">Report Type:</span> 
 							<input type="radio" name="radio_reporttype" id="radio_summary" value="coordinatorEvaluationSummaryTable" checked="checked"
 									onclick="showReport(this.value)" />
 							<label for="radio_summary">Summary</label>
@@ -100,8 +100,8 @@
 				out.flush();
 			%>
 			<div id="coordinatorEvaluationSummaryTable" class="evaluation_result">
-				<div style="padding: 0px 35px; text-align: right; font-size: small; font-style: italic;">CC = Claimed Contribution; PC = Perceived Contribution; E = Equal Share</div>
-				<table id="dataform">
+				<div id="tablecaption">CC = Claimed Contribution; PC = Perceived Contribution; E = Equal Share</div>
+				<table class="dataTable">
 					<tr>
 						<th class="centeralign" width="13%"><input class="buttonSortAscending" type="button" id="button_sortteamname"
 								onclick="toggleSort(this,1)"/>Team</th>

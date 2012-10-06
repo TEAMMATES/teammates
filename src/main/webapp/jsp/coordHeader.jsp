@@ -17,4 +17,5 @@
 					 (<%= Helper.truncate(helper.userId.toLowerCase(),23) %>)</li>
 				</ul>
 			</div>
+			<div style="clear: both;"></div>
 		</div>

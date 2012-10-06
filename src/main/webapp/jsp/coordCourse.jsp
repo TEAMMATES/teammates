@@ -11,8 +11,8 @@
 	<link rel="shortcut icon" href="/favicon.png" />
 	<meta http-equiv="X-UA-Compatible" content="IE=8" />
 	<title>Teammates - Coordinator</title>
-	<link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
-	<link rel=stylesheet href="/stylesheets/evaluation.css" type="text/css" />
+	<link rel=stylesheet href="/stylesheets/common.css" type="text/css" />
+	<link rel=stylesheet href="/stylesheets/coordCourse.css" type="text/css" />
 	
 	<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
 	<script language="JavaScript" src="/js/tooltip.js"></script>
@@ -40,9 +40,9 @@
 			</div>
 			<div id="coordinatorCourseManagement">
 				<form method="get" action="<%= Common.PAGE_COORD_COURSE %>" name="form_addcourse">
-					<table class="addform round">
+					<table id="addform" class="inputTable">
 						<tr>
-							<td><b>Course ID:</b></td>
+							<td class="label">Course ID:</td>
 						</tr>
 						<tr>
 							<td><input class="addinput" type="text"
@@ -53,7 +53,7 @@
 								maxlength=<%= Common.COURSE_ID_MAX_LENGTH %> tabindex=1 /></td>
 						</tr>
 						<tr>
-							<td><b>Course Name:</b></td>
+							<td class="label">Course Name:</td>
 						</tr>
 						<tr>
 							<td><input class="addinput" type="text"
@@ -79,7 +79,7 @@
 			</div>
 			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
 			<div id="coordinatorCourseTable">
-				<table id="dataform">
+				<table class="dataTable">
 					<tr>
 						<th><input class="buttonSortAscending" type="button"
 							id="button_sortcourseid"

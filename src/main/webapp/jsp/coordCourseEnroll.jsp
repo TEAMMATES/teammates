@@ -10,8 +10,8 @@
 	<link rel="shortcut icon" href="/favicon.png" />
 	<meta http-equiv="X-UA-Compatible" content="IE=8" />
 	<title>Teammates - Coordinator</title>
-	<link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
-	<link rel=stylesheet href="/stylesheets/evaluation.css" type="text/css" />
+	<link rel=stylesheet href="/stylesheets/common.css" type="text/css" />
+	<link rel=stylesheet href="/stylesheets/coordCourseEnroll.css" type="text/css" />
 	
 	<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
 	<script language="JavaScript" src="/js/tooltip.js"></script>
@@ -43,7 +43,7 @@
 							List<StudentData> students = helper.students[i]; %>
 						<%	if(students.size()>0){ %>
 							<p><%= helper.getMessageForStudentsListID(i) %></p>
-							<table id="dataform" class="enroll_result<%= i %>">
+							<table class="dataTable" class="enroll_result<%= i %>">
 							<tr>
 								<th>Student Name</th>
 								<th>E-mail address</th>
@@ -73,11 +73,11 @@
 					<input type="hidden" name="courseid" value="<%= helper.courseID %>"></input>
 					<div id="coordinatorCourseEnrollment">
 						<img src="/images/enrollInstructions.png" width="1012" height="324" border="0" />
-						<p class="info" style="text-align: center;">Recommended maximum class size : 100 students</p>
+						<p class="info center-align">Recommended maximum class size : 100 students</p>
 						<br />
-						<table class="headerform"><tr>
-							<td class="fieldname" style="width: 250px;">Student details:</td>
-							<td><textarea rows="6" cols="135" class ="textvalue" name="enrollstudents" id="enrollstudents"></textarea></td>
+						<table class="inputTable"><tr>
+							<td class="label" id="studentDetails">Student details:</td>
+							<td><textarea rows="6" cols="110" class ="textvalue" name="enrollstudents" id="enrollstudents"></textarea></td>
 						</tr></table>
 					</div>
 					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />

@@ -10,8 +10,8 @@
 	<link rel="shortcut icon" href="/favicon.png" />
 	<meta http-equiv="X-UA-Compatible" content="IE=8" />
 	<title>Teammates - Coordinator</title>
-	<link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
-	<link rel=stylesheet href="/stylesheets/evaluation.css" type="text/css" />
+	<link rel=stylesheet href="/stylesheets/common.css" type="text/css" />
+	<link rel=stylesheet href="/stylesheets/coordHome.css" type="text/css" />
 	
 	<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
 	<script language="JavaScript" src="/js/tooltip.js"></script>
@@ -37,8 +37,8 @@
 			<div id="headerOperation">
 				<h1>Coordinator Home</h1>
 				<br />
-				<div class="result_team">
-					<div class="result_addOrJoinCourse">
+				<div class="backgroundBlock">
+					<div id="result_addCourse" class="blockLink">
 						<a href="<%= helper.getCoordCourseLink() %>" name="addNewCourse" id="addNewCourse">
 							Add New Course </a>
 					</div>
@@ -50,13 +50,13 @@
 					int evalIdx = -1;
 					for (CourseData course: helper.courses) { idx++;
 				%>
-				<div class="result_team home_courses_div" id="course<%= idx %>">
+				<div class="backgroundBlock home_courses_div" id="course<%= idx %>">
 					<div class="result_homeTitle">
 						<h2>[<%= course.id %>] :
 							<%=CoordHomeHelper.escapeForHTML(course.name)%>
 						</h2>
 					</div>
-					<div class="result_homeLinks">
+					<div class="result_homeLinks blockLink">
 						<a class="t_course_enroll<%=idx%>"
 							href="<%=helper.getCoordCourseEnrollLink(course.id)%>"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_ENROLL%>')"
@@ -88,7 +88,7 @@
 					<%
 						if (course.evaluations.size() > 0) {
 					%>
-						<table id="dataform">
+						<table class="dataTable">
 							<tr>
 								<th class="leftalign">Evaluation Name</th>
 								<th class="centeralign">Status</th>

@@ -10,8 +10,8 @@
 	<link rel="shortcut icon" href="/favicon.png" />
 	<meta http-equiv="X-UA-Compatible" content="IE=8" />
 	<title>Teammates - Coordinator</title>
-	<link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
-	<link rel=stylesheet href="/stylesheets/evaluation.css" type="text/css" />
+	<link rel=stylesheet href="/stylesheets/common.css" type="text/css" />
+	<link rel=stylesheet href="/stylesheets/coordEvalEdit.css" type="text/css" />
 	
 	<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
 	<script language="JavaScript" src="/js/tooltip.js"></script>
@@ -38,14 +38,14 @@
 			</div>
 			<div id="coordinatorEvaluationManagement">
 				<form method="post" action="<%= Common.PAGE_COORD_EVAL_EDIT %>" name="form_addevaluation">
-					<table class="headerform">
+					<table class="inputTable">
 						<tr>
-							<td class="attribute" >Course ID:</td>
+							<td class="label" >Course ID:</td>
 							<td style="vertical-align: middle;">
 								<input type="hidden" name="<%= Common.PARAM_COURSE_ID %>" value="<%= helper.submittedEval.course %>" />
 								<%= helper.submittedEval.course %>
 							</td>
-							<td class="attribute" >Opening time:</td>
+							<td class="label" >Opening time:</td>
 							<td><input style="width: 100px;" type="text"
 										name="<%= Common.PARAM_EVALUATION_START %>"
 										id="<%= Common.PARAM_EVALUATION_START %>" 
@@ -63,12 +63,12 @@
 								</select></td>
 						</tr>
 						<tr>
-							<td class="attribute" >Evaluation name:</td>
+							<td class="label" >Evaluation name:</td>
 							<td style="vertical-align: middle;">
 								<input type="hidden" name="<%= Common.PARAM_EVALUATION_NAME %>" value="<%=CoordEvalEditHelper.escapeForHTML(helper.submittedEval.name)%>" />
 								<%=CoordEvalEditHelper.escapeForHTML(helper.submittedEval.name)%>
 							</td>
-							<td class="attribute" >Closing time:</td>
+							<td class="label" >Closing time:</td>
 							<td><input style="width: 100px;" type="text"
 										name="<%=Common.PARAM_EVALUATION_DEADLINE%>" id="<%=Common.PARAM_EVALUATION_DEADLINE%>"
 										onclick ="cal.select(this,'<%=Common.PARAM_EVALUATION_DEADLINE%>','dd/MM/yyyy')"
@@ -87,7 +87,7 @@
 								</select></td>
 						</tr>
 						<tr>
-							<td class="attribute" >Peer feedback:</td>
+							<td class="label" >Peer feedback:</td>
 							<td><input type="radio" name="<%=Common.PARAM_EVALUATION_COMMENTSENABLED%>"
 										id="commentsstatus_enabled" value="true"
 										<%=helper.submittedEval.p2pEnabled ? "checked=\"checked\"" : ""%>
@@ -127,16 +127,15 @@
 							</select></td>
 						</tr>
 						<tr>
-							<td class="attribute" >Instructions to students:</td>
+							<td class="label" >Instructions to students:</td>
 							<td colspan="3">
-								<textarea rows="2" cols="100" class="textvalue" name="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>" id="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>"
+								<textarea rows="3" cols="100" class="textvalue" name="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>" id="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>"
 										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_INSTRUCTIONS%>')"
 										onmouseout="hideddrivetip()" tabindex=8><%=CoordEvalEditHelper.escapeForHTML(helper.submittedEval.instructions)%></textarea>
 							</td>
 						</tr>
 						<tr>
-							<td></td>
-							<td colspan="3">
+							<td colspan="4" class="centeralign">
 								<input id="button_submit" type="submit" class="button"
 										onclick="return checkEditEvaluation(this.form);"
 										value="Save Changes" tabindex=9 />
