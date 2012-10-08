@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +47,7 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String OPERATION_GET_TFS_AS_JSON = "OPERATION_GET_TFS_AS_JSON";
 	public static final String OPERATION_PERSIST_DATABUNDLE = "OPERATION_PERSIST_DATABUNDLE";
 	public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER = "activate_auto_reminder";
+	public static final String OPERATION_GENERATE_EXCEPTION = "generate_exception";
 
 	public static final String PARAMETER_BACKDOOR_KEY = "PARAM_BACKDOOR_KEY";
 	public static final String PARAMETER_BACKDOOR_OPERATION = "PARAMETER_BACKDOOR_OPERATION";
@@ -78,7 +81,7 @@ public class BackDoorServlet extends HttpServlet {
 		String action = req.getParameter(PARAMETER_BACKDOOR_OPERATION);
 		log.info(action);
 
-		String returnValue;
+		String returnValue = "";
 
 		String auth = req.getParameter(PARAMETER_BACKDOOR_KEY);
 		if (!auth.equals(Common.BACKDOOR_KEY)) {
@@ -88,9 +91,17 @@ public class BackDoorServlet extends HttpServlet {
 			try {
 				returnValue = executeBackendAction(req, action);
 			} catch (Exception e) {
-				returnValue = Common.BACKEND_STATUS_FAILURE + Common.stackTraceToString(e);
+				MimeMessage email = Common.emailErrorReport(req, e);
+				try {
+					log.severe(email.getContent().toString());
+					returnValue = Common.BACKEND_STATUS_FAILURE + email.getContent().toString();
+				} catch (MessagingException e1) {}
 			} catch (AssertionError ae) {
-				returnValue = Common.BACKEND_STATUS_FAILURE + " Assertion error " + ae.getMessage();
+				MimeMessage email = Common.emailErrorReport(req, ae);
+				try {
+					log.severe(email.getContent().toString());
+					returnValue = Common.BACKEND_STATUS_FAILURE + email.getContent().toString();
+				} catch (MessagingException e1) {}
 			}
 		}
 		
@@ -167,6 +178,9 @@ public class BackDoorServlet extends HttpServlet {
 			String originalEmail = req.getParameter(PARAMETER_STUDENT_EMAIL);
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
 			backDoorLogic.editStudentAsJson(originalEmail, newValues);
+		} else if (action.equals(OPERATION_GENERATE_EXCEPTION)){
+			log.info("generate null exception");
+			backDoorLogic.persistNewDataBundle(null);
 		} else {
 			throw new Exception("Unknown command: " + action);
 		}

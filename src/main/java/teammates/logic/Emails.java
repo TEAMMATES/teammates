@@ -240,13 +240,13 @@ public class Emails {
 		return message;
 	}
 
-	public MimeMessage sendSystemErrorEmail(String errorMessage, String stackTrace, String requestPath, String requestParam) throws AddressException, MessagingException {
+	public MimeMessage sendSystemErrorEmail(String errorMessage, String stackTrace, 
+			String requestPath, String requestParam, String version) throws AddressException, MessagingException {
 		Session session = Session.getDefaultInstance(new Properties(), null);
 		MimeMessage message = new MimeMessage(session);
-		String version = BuildProperties.getAppVersion();
-
-
-		message.addRecipient(Message.RecipientType.TO, new InternetAddress(replyTo));
+		
+		String recipient = BuildProperties.inst().getAppCrashReportEmail();
+		message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 		message.setFrom(new InternetAddress(from));
 		
 		message.setSubject(String.format(SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR, version, errorMessage));

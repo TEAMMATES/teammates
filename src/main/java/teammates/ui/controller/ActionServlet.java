@@ -3,11 +3,9 @@ package teammates.ui.controller;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +21,6 @@ import teammates.common.datatransfer.UserData;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.logic.Emails;
 import teammates.logic.api.Logic;
 
 @SuppressWarnings("serial")
@@ -60,31 +57,31 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		T helper = instantiateHelper();
 
 		prepareHelper(req, helper);
-
+		String reqParam = Common.printRequestParameters(req);
 		try {
 			doAction(req, helper);
 			
 			log.info("Request to: " + req.getServletPath() + "\n" +
-					"Request Params: " + printRequestParameters(req) + "\n" +
+					"Request Params: " + reqParam + "\n" +
 					"Responded with: " + resp.SC_OK);
 			
 		} catch (EntityDoesNotExistException e) {
 			log.warning("Request to: " + req.getServletPath() + "\n" +
-					"Request Params: " + printRequestParameters(req) + "\n" +
+					"Request Params: " + reqParam + "\n" +
 					"Responded with: " + e.getMessage());
 			resp.sendRedirect(Common.JSP_ENTITY_NOT_FOUND_PAGE);
 			return;
 		} catch (UnauthorizedAccessException e) {
 			UserData user = new Logic().getLoggedInUser();
 			log.warning("Request to: " + req.getServletPath() + "\n" +
-					"Request Params: " + printRequestParameters(req) + "\n" +
+					"Request Params: " + reqParam + "\n" +
 					"Responded with: Unauthorized access attempted by:"
 					+ (user == null ? "not-logged-user" : user.id)
 					+ Common.stackTraceToString(e));
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return;
 		} catch (Exception e) {
-			emailErrorReport(req, e);
+			Common.emailErrorReport(req, e);			
 			resp.sendRedirect(Common.JSP_ERROR_PAGE);
 			return;
 		}
@@ -371,44 +368,5 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		});
 	}
 	
-	protected String printRequestParameters(HttpServletRequest request) {
-		String requestParameters = "{";
-		for (Enumeration f = request.getParameterNames(); f.hasMoreElements();) {
-			String paramet = new String(f.nextElement().toString());
-			requestParameters += paramet + ":" + request.getParameter(paramet) + ", ";
-		}
-		if (requestParameters != "{") {
-			requestParameters = requestParameters.substring(0, requestParameters.length() - 2);
-		}
-		requestParameters += "}";
-		return requestParameters;
-	}
 	
-	private void emailErrorReport(HttpServletRequest req, Exception e) {
-		String path = req.getServletPath();
-		String params = printRequestParameters(req);
-		String message = e.getMessage();
-		String stackTrace = Common.stackTraceToString(e);
-		log.severe("Request to: " + path + "\n" +
-				"Request Params: " + params + "\n" +
-				"Responded with: Unexpected exception: "
-				+ stackTrace);
-		//if the exception doesn't contain message,
-		//retrieve top line of stack trace
-		if(message == null) {
-			int idx = stackTrace.indexOf("at");
-			if(idx > 0) {
-				message = stackTrace.substring(0, idx);
-			}else{
-				message = "";
-			}
-		}
-		MimeMessage email = null ;
-		try {
-			email = new Emails().sendSystemErrorEmail(message, stackTrace, path, params);
-			log.info("Sent crash report: " + email.getContent());
-		} catch (Exception e1) {
-			log.severe("Error in sending crash report: " + email.toString());
-		} 
-	}
 }

@@ -87,5 +87,8 @@ public class BuildProperties {
 	public static String getAppVersion() {
 		return SystemProperty.applicationVersion.get().split("\\.")[0].replace("-", ".");
 	}
+	public String getAppCrashReportEmail() {
+		return props.getProperty("app.crashreport.email");
+	}
 
 }
