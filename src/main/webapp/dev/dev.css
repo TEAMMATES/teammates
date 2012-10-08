@@ -16,11 +16,18 @@ img {
  	width: 960px;
 }
 
+.title {
+	color: #FF8C00;
+	font-size: 32px;
+	font-weight: bold;
+	text-align: center;
+}
+
 .header {
 	color: #FF8C00;
 	font-size: 28px;
 	font-weight: bold;
-	text-align: center;
+	text-align: left;
 }
 
 .subheader {
