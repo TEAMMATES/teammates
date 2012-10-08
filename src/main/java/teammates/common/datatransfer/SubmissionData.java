@@ -126,10 +126,10 @@ public class SubmissionData {
 
 	public boolean isValid() {
 
-		if (this.course == null || this.course == "" || this.evaluation == null
-				|| this.evaluation == "" || this.reviewee == null
-				|| this.reviewee == "" || this.reviewer == null
-				|| this.reviewer == "") {
+		if (this.course == null		|| this.course == "" || 
+			this.evaluation == null	|| this.evaluation == "" || 
+			this.reviewee == null	|| this.reviewee == "" || 
+			this.reviewer == null	|| this.reviewer == "") {
 			return false;
 		}
 

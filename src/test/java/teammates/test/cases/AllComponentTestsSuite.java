@@ -7,9 +7,10 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 		//@formatter:off
-	//TODO: there seems to be a state leak from this test to LogicTest if 
-	//  this test is put right above LogicTest.
-	EvaluationsStorageTest.class,
+		// TODO: there seems to be a state leak from this test to LogicTest if 
+		// this test is put right above LogicTest.
+		CrudTest.class,
+		EvaluationsStorageTest.class,
 		CommonTest.class,
 		HelperTest.class,
 		CoordEvalHelperTest.class,

@@ -9,7 +9,6 @@ import org.junit.Test;
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.EvaluationData.EvalStatus;
-import teammates.common.exception.InvalidParametersException;
 
 public class EvaluationDataTest extends BaseTestCase {
 
@@ -131,7 +130,7 @@ public class EvaluationDataTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testValidate() throws InvalidParametersException {
+	public void testValidate() {
 		EvaluationData e = new EvaluationData();
 
 		e.course = "valid-course";
@@ -204,6 +203,11 @@ public class EvaluationDataTest extends BaseTestCase {
 		e.activated = true;
 		assertFalse(e.isValid());
 		assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_ACTIVATED_BEFORE_START);
+	}
+	
+	@Test
+	public void testGetInvalidStateInfo(){
+	    //already tested in testValidate() above
 	}
 
 	@AfterClass

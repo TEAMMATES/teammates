@@ -111,11 +111,13 @@ public class EvaluationData {
 
 	public boolean isValid() {
 		
-		if (this.course == null || this.course == "" || this.name == null
-				|| this.name == "" || this.startTime == null
-				|| this.endTime == null || endTime.before(startTime)
-				|| (!beforeTime(endTime) && published)
-				|| (!beforeTime(startTime) && activated)) {
+		if (this.course == null 		|| this.course == "" || 
+			this.name == null			|| this.name == "" || 
+			this.startTime == null		|| 
+			this.endTime == null 		|| 
+			endTime.before(startTime)	|| 
+			(!beforeTime(endTime) && published)	|| 
+			(!beforeTime(startTime) && activated)) {
 			return false;
 		}
 

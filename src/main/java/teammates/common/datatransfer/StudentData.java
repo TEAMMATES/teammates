@@ -51,6 +51,10 @@ public class StudentData extends UserData {
 	public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
 
 	public transient EvalResultData result;
+	
+	public static final String ERROR_FIELD_NAME = "Student name cannot be null or empty\n";
+	private static final String ERROR_FIELD_EMAIL = "Student email cannot be null or empty\n";
+	private static final String ERROR_FIELD_COURSE = "Student must belong to a course\n";
 
 	public StudentData(String id, String email, String name, String comments,
 			String courseId, String team) {
@@ -195,8 +199,9 @@ public class StudentData extends UserData {
 
 	public boolean isValid() {
 
-		if (this.name == null || this.name == "" || this.email == null
-				|| this.email == "" || this.course == null || this.course == "") {
+		if (this.name == null	|| this.name == "" || 
+			this.email == null	|| this.email == "" || 
+			this.course == null || this.course == "") {
 			return false;
 		}
 
@@ -207,15 +212,15 @@ public class StudentData extends UserData {
 		String errorMessage = "";
 
 		if (this.name == null || this.name == "") {
-			errorMessage += "Student name cannot be null or empty\n";
+			errorMessage += ERROR_FIELD_NAME;
 		}
 
 		if (this.email == null || this.email == "") {
-			errorMessage += "Student email cannot be null or empty\n";
+			errorMessage += ERROR_FIELD_EMAIL;
 		}
 
 		if (this.course == null || this.course == "") {
-			errorMessage += "Student must belong to a course\n";
+			errorMessage += ERROR_FIELD_COURSE;
 		}
 
 		return errorMessage;

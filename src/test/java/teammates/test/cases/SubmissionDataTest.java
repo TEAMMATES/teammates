@@ -9,7 +9,6 @@ import org.junit.Test;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.SubmissionData;
-import teammates.common.exception.InvalidParametersException;
 
 public class SubmissionDataTest extends BaseTestCase {
 
@@ -20,7 +19,7 @@ public class SubmissionDataTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testValidate() throws InvalidParametersException {
+	public void testValidate() {
 		SubmissionData s = new SubmissionData();
 		
 		s.course = "valid-course";
@@ -50,16 +49,22 @@ public class SubmissionDataTest extends BaseTestCase {
 		assertFalse(s.isValid());
 		assertEquals(s.getInvalidStateInfo(), SubmissionData.ERROR_FIELD_EVALUATION);
 		
-		// no reviewee
+		// no reviewee : invalid
 		s.evaluation = "valid-evaluation";
 		s.reviewee = null;
 		assertFalse(s.isValid());
 		assertEquals(s.getInvalidStateInfo(), SubmissionData.ERROR_FIELD_REVIEWEE);
 		
+		// no reviewer : invalid
 		s.reviewee = "valid-reviewee";
 		s.reviewer = null;
 		assertFalse(s.isValid());
 		assertEquals(s.getInvalidStateInfo(), SubmissionData.ERROR_FIELD_REVIEWER);
+	}
+	
+	@Test
+	public void testGetInvalidStateInfo(){
+	    //already tested in testValidate() above
 	}
 
 	@AfterClass

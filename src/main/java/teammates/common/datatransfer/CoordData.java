@@ -15,7 +15,11 @@ public class CoordData extends UserData {
 	public HashMap<String, CourseData> courses;
 	public String name;
 	public String email;
-
+	
+	public static final String ERROR_FIELD_ID = "Coord ID cannot be null or empty\n";
+	public static final String ERROR_FIELD_NAME = "Coord name cannot be null or empty\n";
+	public static final String ERROR_FIELD_EMAIL = "Coord email cannot be null or empty\n";
+	
 	public CoordData(String id, String name, String email) {
 		this();
 		this.id = id;
@@ -40,8 +44,9 @@ public class CoordData extends UserData {
 
 	public boolean isValid() {
 
-		if (this.id == null || this.id == "" || this.name == null
-				|| this.name == "" || this.email == null || this.email == "") {
+		if (this.id == null		|| this.id == "" || 
+			this.name == null	|| this.name == "" || 
+			this.email == null || this.email == "") {
 			return false;
 		}
 
@@ -52,15 +57,15 @@ public class CoordData extends UserData {
 		String errorMessage = "";
 
 		if (this.id == null || this.id == "") {
-			errorMessage += "Coord ID cannot be null or empty\n";
+			errorMessage += ERROR_FIELD_ID;
 		}
 
 		if (this.name == null || this.name == "") {
-			errorMessage += "Coord name cannot be null or empty\n";
+			errorMessage += ERROR_FIELD_NAME;
 		}
 
 		if (this.email == null || this.email == "") {
-			errorMessage += "Coord email cannot be null or empty\n";
+			errorMessage += ERROR_FIELD_EMAIL;
 		}
 
 		return errorMessage;

@@ -60,12 +60,14 @@ public class CourseData {
 
 	public boolean isValid() {
 
-		if (this.id == null || this.id == ""
-				|| this.id.length() > Common.COURSE_ID_MAX_LENGTH
-				|| this.name == null || this.name == ""
-				|| this.name.length() > Common.COURSE_NAME_MAX_LENGTH
-				|| !this.id.matches("^[a-zA-Z_$0-9.-]+$") || this.coord == null
-				|| this.coord == "") {
+		if (this.id == null || this.id == "" || 
+			this.id.length() > Common.COURSE_ID_MAX_LENGTH ||
+			!this.id.matches("^[a-zA-Z_$0-9.-]+$") ||
+			
+			this.name == null || this.name == "" || 
+			this.name.length() > Common.COURSE_NAME_MAX_LENGTH  || 
+			
+			this.coord == null || this.coord == "") {
 			return false;
 		}
 

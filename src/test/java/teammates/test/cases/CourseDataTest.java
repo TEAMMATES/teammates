@@ -6,10 +6,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
-import teammates.common.exception.InvalidParametersException;
 
 public class CourseDataTest extends BaseTestCase {
 
@@ -20,7 +18,7 @@ public class CourseDataTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testValidate() throws InvalidParametersException {
+	public void testValidate() {
 		CourseData c = new CourseData();
 		
 		// SUCCESS: Basic Success Case
@@ -35,12 +33,13 @@ public class CourseDataTest extends BaseTestCase {
 		assertFalse(c.isValid());
 		assertEquals(c.getInvalidStateInfo(), CourseData.ERROR_FIELD_ID);
 		
-		// FAIL: ID too long
-		String veryLongId = "";
-		for (int i=0; i< Common.COURSE_ID_MAX_LENGTH + 5; i++) {
-			veryLongId += "a";
-		}
+		// SUCCESS: ID at max length
+		String veryLongId = Common.generateStringOfLength(Common.COURSE_ID_MAX_LENGTH);
 		c.id = veryLongId;
+		assertTrue(c.isValid());
+		
+		// FAIL: ID too long
+		c.id += "a";
 		assertFalse(c.isValid());
 		assertEquals(c.getInvalidStateInfo(), CourseData.ERROR_ID_TOOLONG);
 		
@@ -61,14 +60,20 @@ public class CourseDataTest extends BaseTestCase {
 		assertFalse(c.isValid());
 		assertEquals(c.getInvalidStateInfo(), CourseData.ERROR_FIELD_NAME);
 		
-		// FAIL : Name too long
-		String veryLongName = "";
-		for (int i=0; i< Common.COURSE_NAME_MAX_LENGTH + 5; i++) {
-			veryLongName += "e";
-		}
+		// SUCCESS: Name at max length
+		String veryLongName = Common.generateStringOfLength(Common.COURSE_NAME_MAX_LENGTH);
 		c.name = veryLongName;
+		assertTrue(c.isValid());
+		
+		// FAIL : Name too long
+		c.name += "e";
 		assertFalse(c.isValid());
 		assertEquals(c.getInvalidStateInfo(), CourseData.ERROR_NAME_TOOLONG);
+	}
+	
+	@Test
+	public void testGetInvalidStateInfo(){
+	    //already tested in testValidate() above
 	}
 
 	@AfterClass
