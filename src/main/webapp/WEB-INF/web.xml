@@ -75,7 +75,22 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <servlet-name>AdminHome</servlet-name>
 	    <url-pattern>/page/adminHome</url-pattern>
 	</servlet-mapping>
-	
+	<servlet>
+		<servlet-name>AdminSearchTask</servlet-name>
+		<servlet-class>teammates.ui.controller.AdminSearchTaskServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+        <servlet-name>AdminSearchTask</servlet-name>
+        <url-pattern>/page/searchTask</url-pattern>
+    </servlet-mapping>
+	<servlet>
+        <servlet-name>AdminSearch</servlet-name>
+        <servlet-class>teammates.ui.controller.AdminSearchServlet</servlet-class>
+    </servlet>
+	<servlet-mapping>
+        <servlet-name>AdminSearch</servlet-name>
+        <url-pattern>/page/adminSearch</url-pattern>
+    </servlet-mapping>
 	<servlet>
 	    <description>Servlet that handles Coordinator homepage</description>
 	    <servlet-name>CoordHome</servlet-name>
