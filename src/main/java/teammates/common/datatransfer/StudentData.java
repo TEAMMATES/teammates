@@ -161,7 +161,9 @@ public class StudentData extends UserData {
 		String indentString = Common.getIndent(indent);
 		StringBuilder sb = new StringBuilder();
 		sb.append(indentString + "Student:" + name + "[" + email + "]" + EOL);
-		sb.append(result.toString(indent + 2));
+		if (result != null) {
+			sb.append(result.toString(indent + 2));
+		}
 		return sb.toString();
 	}
 
