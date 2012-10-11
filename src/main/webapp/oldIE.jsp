@@ -1,20 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html>
 <head>
-<link rel="shortcut icon" href="/favicon.png" />
-<meta http-equiv="X-UA-Compatible" content="IE=8" />
+<link rel="shortcut icon" href="/favicon.png">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Teammates</title>
-<link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
+<link rel="stylesheet" href="/stylesheets/main.css" type="text/css">
 </head>
 
 <body>
 	<div id="frameTop">
 		<div id="frameTopWrapper">
 			<div id="logo">
-				<img alt="Teammates" height="47" src="/images/teammateslogo.jpg"
-					width="150" />
+				<img alt="Teammates" src="/images/teammateslogo.jpg"
+					height="47px" width="150px">
 			</div>
 		</div>
 	</div>
@@ -23,7 +22,7 @@
 		<div id="frameBodyWrapper">
 			<div style="margin: 30px auto; border: 1px solid #333; padding: 10px; text-align: left; width: 550px; background: #FFFFCC;">
 				<img src="/images/warning.jpg"
-					style="float: left; height: 90px; margin: 0 10px 10px 0; border: 1px solid #999;" />
+					style="float: left; height: 90px; margin: 0 10px 10px 0; border: 1px solid #999;">
 				<h2 style="font-variant: small-caps;">This version of IE is not
 					supported!</h2>
 				<p>We're really sorry but our app is not supported on this
