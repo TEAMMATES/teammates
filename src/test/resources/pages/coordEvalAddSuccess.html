@@ -1,22 +1,22 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 	<link href="/favicon.png" rel="shortcut icon" />
-	<meta content="IE=8" http-equiv="X-UA-Compatible" />
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 	<title>Teammates - Coordinator</title>
-	<link type="text/css" href="/stylesheets/main.css" rel="stylesheet" />
-	<link type="text/css" href="/stylesheets/evaluation.css" rel="stylesheet" />
+	<link type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
+	<link type="text/css" href="/stylesheets/coordEval.css" rel="stylesheet" />
 	
-	<script src="/js/jquery-1.6.2.min.js" language="JavaScript"></script>
-	<script src="/js/tooltip.js" language="JavaScript"></script>
-	<script src="/js/date.js" language="JavaScript"></script>
-	<script src="/js/CalendarPopup.js" language="JavaScript"></script>
-	<script src="/js/AnchorPosition.js" language="JavaScript"></script>
-	<script src="/js/common.js" language="JavaScript"></script>
+	<script src="/js/jquery-1.6.2.min.js" type="text/javascript"></script>
+	<script src="/js/tooltip.js" type="text/javascript"></script>
+	<script src="/js/date.js" type="text/javascript"></script>
+	<script src="/js/CalendarPopup.js" type="text/javascript"></script>
+	<script src="/js/AnchorPosition.js" type="text/javascript"></script>
+	<script src="/js/common.js" type="text/javascript"></script>
 	
-	<script src="/js/coordinator.js" language="JavaScript"></script>
-	<script src="/js/coordEval.js" language="JavaScript"></script>
+	<script src="/js/coordinator.js" type="text/javascript"></script>
+	<script src="/js/coordEval.js" type="text/javascript"></script>
 	
-	<script language="JavaScript">
+	<script type="text/javascript">
 		var doPageSpecificOnload = selectDefaultTimeOptions;
 	</script>
 	
@@ -31,19 +31,19 @@
 
 		<div id="frameTopWrapper">
 			<div id="logo">
-				<img width="150" height="47" src="/images/teammateslogo.jpg" alt="Teammates" />
+				<img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="Teammates" />
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
 					<li><a href="/page/coordHome?user=teammates.test" class="t_home">Home</a></li>
 					<li><a href="/page/coordCourse?user=teammates.test" class="t_courses">Courses</a></li>
-					
 					<li><a href="/page/coordEval?user=teammates.test" class="t_evaluations">Evaluations</a></li>
 					<li><a target="_blank" href="/coordHelp.html" class="t_help">Help</a></li>
 					<li><a href="/logout.jsp" class="t_logout">Logout</a>
 					 (teammates.test)</li>
 				</ul>
 			</div>
+			<div style="clear: both;"></div>
 		</div>
 	</div>
 
@@ -55,15 +55,15 @@
 			</div>
 			<div id="coordinatorEvaluationManagement">
 				<form name="form_addevaluation" action="" method="post">
-					<table class="headerform">
+					<table class="inputTable">
 						<tbody><tr>
-							<td class="attribute">Course ID:</td>
+							<td class="label">Course ID:</td>
 							<td><select tabindex="1" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the course for which the evaluation is to be created.')" id="courseid" name="courseid" style="width: 260px;">
 								<option value="CEvalUiT.CS1101">CEvalUiT.CS1101</option>
 <option value="CEvalUiT.CS2104">CEvalUiT.CS2104</option>
 
 								</select></td>
-							<td class="attribute">Opening time:</td>
+							<td class="label">Opening time:</td>
 							<td><input type="text" tabindex="3" readonly="readonly" value="{*}" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the start date for the evaluation.')" onclick="cal.select(this,'start','dd/MM/yyyy')" id="start" name="start" style="width: 100px;" />
 										@
 								<select tabindex="4" id="starttime" name="starttime" style="width: 70px;">
@@ -95,9 +95,9 @@
 								</select></td>
 						</tr>
 						<tr>
-							<td class="attribute">Evaluation name:</td>
+							<td class="label">Evaluation name:</td>
 							<td><input type="text" tabindex="2" value="" maxlength="38" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the name of the evaluation e.g. Mid-term.')" id="evaluationname" name="evaluationname" style="width: 260px;" /></td>
-							<td class="attribute">Closing time:</td>
+							<td class="label">Closing time:</td>
 							<td><input type="text" tabindex="5" readonly="readonly" value="" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter deadline for the evaluation.')" onclick="cal.select(this,'deadline','dd/MM/yyyy')" id="deadline" name="deadline" style="width: 100px;" />
 										@
 								<select tabindex="6" id="deadlinetime" name="deadlinetime" style="width: 70px;">
@@ -129,13 +129,13 @@
 								</select></td>
 						</tr>
 						<tr>
-							<td class="attribute">Peer feedback:</td>
+							<td class="label">Peer feedback:</td>
 							<td><input type="radio" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enable this if you want students to give anonymous feedback to team members.<br />You can moderate those peer feedback before publishing it to the team.')" checked="checked" value="true" id="commentsstatus_enabled" name="commentsstatus" />
 								<label for="commentsstatus_enabled">Enabled</label>
 								<input type="radio" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enable this if you want students to give anonymous feedback to team members.<br />You can moderate those peer feedback before publishing it to the team.')" value="false" id="commentsstatus_disabled" name="commentsstatus" />
 								<label for="commentsstatus_disabled">Disabled</label>
 							</td>
-							<td class="attribute">Time zone:</td>
+							<td class="label">Time zone:</td>
 							<td><select tabindex="7" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />daylight saving, you should choose UTC -7:00 and its corresponding timings.')" id="timezone" name="timezone" style="width: 100px;">
 								<option value="-12">UTC -12:00</option>
 <option value="-11">UTC -11:00</option>
@@ -176,7 +176,7 @@
 						<tr>
 						<td></td>
 						<td></td>
-						<td class="attribute">Grace Period:</td>
+						<td class="label">Grace Period:</td>
 						<td class="inputField">
 							<select tabindex="7" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline.')" id="graceperiod" name="graceperiod" style="width: 70px;">
 								<option value="0">0 mins</option>
@@ -190,16 +190,15 @@
 							</select></td>
 						</tr>
 						<tr>
-							<td class="attribute">Instructions to students:</td>
+							<td class="label">Instructions to students:</td>
 							<td colspan="3">
 								
-									<textarea tabindex="8" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter instructions for your students, e.g. Avoid comments which are too critical.')" id="instr" name="instr" class="textvalue" cols="100" rows="2">Please submit your peer evaluation based on the overall contribution of your teammates so far.</textarea>
+									<textarea tabindex="8" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter instructions for your students, e.g. Avoid comments which are too critical.')" id="instr" name="instr" class="textvalue" cols="110" rows="3">Please submit your peer evaluation based on the overall contribution of your teammates so far.</textarea>
 								
 							</td>
 						</tr>
 						<tr>
-							<td></td>
-							<td colspan="3">
+							<td class="centeralign" colspan="4">
 								<input type="submit" tabindex="9" value="Create Evaluation" onclick="return checkAddEvaluation(this.form);" class="button" id="button_submit" /></td>
 						</tr>
 					</tbody></table>
@@ -212,7 +211,7 @@
 		The evaluation has been added.</div>
 
 			<div id="coordinatorEvaluationTable">
-				<table id="dataform">
+				<table class="dataTable">
 					<tbody><tr>
 						<th class="leftalign">
 							<input type="button" onclick="toggleSort(this,1)" id="button_sortcourseid" class="buttonSortAscending" />Course ID</th>
@@ -275,9 +274,9 @@
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
+[TEAMMATES Version 4.18] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
 
-<a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html" class="footer">Contact Us</a>
+<a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html">Contact Us</a>
 </div>
 	</div>
 

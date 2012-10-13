@@ -1,19 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 	<link href="/favicon.png" rel="shortcut icon" />
-	<meta content="IE=8" http-equiv="X-UA-Compatible" />
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 	<title>Teammates - Coordinator</title>
-	<link type="text/css" href="/stylesheets/main.css" rel="stylesheet" />
-	<link type="text/css" href="/stylesheets/evaluation.css" rel="stylesheet" />
+	<link type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
+	<link type="text/css" href="/stylesheets/coordEvalSubmissionView.css" rel="stylesheet" />
 	
-	<script src="/js/jquery-1.6.2.min.js" language="JavaScript"></script>
-	<script src="/js/tooltip.js" language="JavaScript"></script>
-	<script src="/js/date.js" language="JavaScript"></script>
-	<script src="/js/CalendarPopup.js" language="JavaScript"></script>
-	<script src="/js/AnchorPosition.js" language="JavaScript"></script>
-	<script src="/js/common.js" language="JavaScript"></script>
+	<script src="/js/jquery-1.6.2.min.js" type="text/javascript"></script>
+	<script src="/js/tooltip.js" type="text/javascript"></script>
+	<script src="/js/date.js" type="text/javascript"></script>
+	<script src="/js/CalendarPopup.js" type="text/javascript"></script>
+	<script src="/js/AnchorPosition.js" type="text/javascript"></script>
+	<script src="/js/common.js" type="text/javascript"></script>
 	
-	<script src="/js/coordinator.js" language="JavaScript"></script>
+	<script src="/js/coordinator.js" type="text/javascript"></script>
 
 </head>
 
@@ -25,19 +25,19 @@
 
 		<div id="frameTopWrapper">
 			<div id="logo">
-				<img width="150" height="47" src="/images/teammateslogo.jpg" alt="Teammates" />
+				<img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="Teammates" />
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
 					<li><a href="/page/coordHome?user=teammates.demo.coord" class="t_home">Home</a></li>
 					<li><a href="/page/coordCourse?user=teammates.demo.coord" class="t_courses">Courses</a></li>
-					
 					<li><a href="/page/coordEval?user=teammates.demo.coord" class="t_evaluations">Evaluations</a></li>
 					<li><a target="_blank" href="/coordHelp.html" class="t_help">Help</a></li>
 					<li><a href="/logout.jsp" class="t_logout">Logout</a>
 					 (teammates.demo.coord)</li>
 				</ul>
 			</div>
+			<div style="clear: both;"></div>
 		</div>
 	</div>
 
@@ -46,38 +46,38 @@
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
 				<h1>View Student's Evaluation</h1>
-				<table class="evaluation_info">
+				<table id="studentEvaluationInfo" class="inputTable">
 					<tbody><tr>
-						<td>Course ID:</td>
-						<td>CESubEditUiT.CS1101</td>
+						<td width="30%" class="label rightalign">Course ID:</td>
+						<td class="leftalign">CESubEditUiT.CS1101</td>
 					</tr>
 					<tr>
-						<td>Evaluation Name:</td>
-						<td>First Eval</td>
+						<td width="30%" class="label rightalign">Evaluation Name:</td>
+						<td class="leftalign">First Eval</td>
 					</tr>
 				</tbody></table>
 			</div>
 			<div id="studentEvaluationSubmissions">
 			
 				<h2 style="text-align: center;">Charlie Davis's Result</h2>
-				<table class="result_table">
+				<table class="resultTable">
 					<thead><tr>
 						<th width="10%" colspan="2">
-							<span class="fontcolor">Reviewee: </span>Charlie Davis</th>
-						<th><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is student own estimation of his/her contributions to the project')" class="fontcolor">
+							<span class="resultHeader">Reviewee: </span>Charlie Davis</th>
+						<th><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is student own estimation of his/her contributions to the project')" class="resultHeader">
 							Claimed Contributions: </span>Equal Share<span class="color_positive"> + 3%</span></th>
-						<th><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')" class="fontcolor">
+						<th><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')" class="resultHeader">
 							Perceived Contributions: </span>Equal Share<span class="color_negative"> - 3%</span></th>
 					</tr></thead>
 					<tbody><tr>
-						<td colspan="4"><b>Self evaluation:</b><br />
+						<td colspan="4"><span class="color_neutral">Self evaluation:</span><br />
 								This is a justification from charlie.d.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
 						</tr>
 						<tr>
-							<td colspan="4"><b>Comments about team:</b><br />
+							<td colspan="4"><span class="color_neutral">Comments about team:</span><br />
 								This is a public comment from charlie.d.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
 						</tr>
-					<tr class="result_subheader">
+					<tr class="resultSubheader">
 						<td width="15%">From Student</td>
 						<td width="5%">Contribution</td>
 						<td width="40%">Comments</td>
@@ -102,24 +102,24 @@
 				<br /><br />
 				
 				<h2 style="text-align: center;">Charlie Davis's Submission</h2>
-				<table class="result_table">
+				<table class="resultTable">
 					<thead><tr>
 						<th width="10%" colspan="2">
-							<span class="fontcolor">Reviewer: </span>Charlie Davis</th>
-						<th><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is student own estimation of his/her contributions to the project')" class="fontcolor">
+							<span class="resultHeader">Reviewer: </span>Charlie Davis</th>
+						<th><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is student own estimation of his/her contributions to the project')" class="resultHeader">
 							Claimed Contributions: </span>Equal Share<span class="color_positive"> + 3%</span></th>
-						<th><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')" class="fontcolor">
+						<th><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')" class="resultHeader">
 							Perceived Contributions: </span>Equal Share<span class="color_negative"> - 3%</span></th>
 					</tr></thead>
 					<tbody><tr>
-						<td colspan="4"><b>Self evaluation:</b><br />
+						<td colspan="4"><span class="color_neutral">Self evaluation:</span><br />
 								This is a justification from charlie.d.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
 						</tr>
 						<tr>
-							<td colspan="4"><b>Comments about team:</b><br />
+							<td colspan="4"><span class="color_neutral">Comments about team:</span><br />
 								This is a public comment from charlie.d.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
 						</tr>
-					<tr class="result_subheader">
+					<tr class="resultSubheader">
 						<td width="15%">To Student</td>
 						<td width="5%">Contribution</td>
 						<td width="40%">Comments</td>
@@ -143,10 +143,10 @@
 				</tbody></table>
 				<br /><br />
 				
-				<input type="button" onclick="window.close()" value="Close" id="button_back" class="button" />
-				
-				<input type="button" onclick="window.location.href='/page/coordEvalSubmissionEdit?courseid=CESubEditUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=charlie.d.tmms%40gmail.com&amp;user=teammates.demo.coord'" value="Edit Submission" id="button_edit" class="button" />
-				
+				<div class="centeralign">
+					<input type="button" onclick="window.close()" value="Close" id="button_back" class="button" />
+					<input type="button" onclick="window.location.href='/page/coordEvalSubmissionEdit?courseid=CESubEditUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=charlie.d.tmms%40gmail.com&amp;user=teammates.demo.coord'" value="Edit Submission" id="button_edit" class="button" />
+				</div>
 				<br /><br />
 			</div>
 		</div>
@@ -155,9 +155,9 @@
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
+[TEAMMATES Version 4.18] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
 
-<a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html" class="footer">Contact Us</a>
+<a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html">Contact Us</a>
 </div>
 	</div>
 

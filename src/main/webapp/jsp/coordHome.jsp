@@ -12,14 +12,14 @@
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" />
 	<link rel="stylesheet" href="/stylesheets/coordHome.css" type="text/css" />
 	
-	<script type="text/kavascript" src="/js/jquery-1.6.2.min.js"></script>
-	<script type="text/kavascript" src="/js/tooltip.js"></script>
-	<script type="text/kavascript" src="/js/date.js"></script>
-	<script type="text/kavascript" src="/js/CalendarPopup.js"></script>
-	<script type="text/kavascript" src="/js/AnchorPosition.js"></script>
-	<script type="text/kavascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="/js/tooltip.js"></script>
+	<script type="text/javascript" src="/js/date.js"></script>
+	<script type="text/javascript" src="/js/CalendarPopup.js"></script>
+	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
 	
-	<script type="text/kavascript" src="/js/coordinator.js"></script>
+	<script type="text/javascript" src="/js/coordinator.js"></script>
 
 
 </head>
