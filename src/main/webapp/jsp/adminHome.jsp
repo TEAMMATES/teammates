@@ -41,6 +41,8 @@
 					Google ID: <input type="text" name="<%= Common.PARAM_COORD_ID %>"><br><br> 
 					Name: <input type="text" name="<%= Common.PARAM_COORD_NAME %>"><br><br>
 					Email: <input type="text" name="<%= Common.PARAM_COORD_EMAIL %>"><br><br> 
+					<input type="checkbox" name="<%= Common.PARAM_COORD_IMPORT_SAMPLE %>" value="importsample">Import sample data</input><br></br>
+
 					<input type="submit" value="Add"></input>
 				</form>
 			</div>
