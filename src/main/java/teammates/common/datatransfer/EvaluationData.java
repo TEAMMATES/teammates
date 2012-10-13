@@ -28,8 +28,11 @@ public class EvaluationData {
 
 	private static Logger log = Common.getLogger();
 	
-	public static final String ERROR_FIELD_COURSE = "Evaluation must belong to a course\n";
+	public static final int EVALUATION_NAME_MAX_LENGTH = 38;
+	
+	public static final String ERROR_FIELD_COURSE = "Evaluation must belong to a valid course\n";
 	public static final String ERROR_FIELD_NAME = "Evaluation name cannot be null or empty\n";
+	public static final String ERROR_NAME_TOOLONG = "Evaluation name cannot be more than " + EVALUATION_NAME_MAX_LENGTH + " characters\n";
 	public static final String ERROR_FIELD_STARTTIME = "Evaluation start time cannot be null\n";
 	public static final String ERROR_FIELD_ENDTIME = "Evaluation end time cannot be null\n";
 	public static final String ERROR_END_BEFORE_START = "Evaluation end time cannot be earlier than start time\n";
@@ -41,7 +44,10 @@ public class EvaluationData {
 	}
 
 	public EvaluationData() {
-
+		// This constructor should take in String params so we can trim them at construction time
+		// However, this constructor is already being used in more than 10 places
+		// Refactoring it will take a very long time. Maybe much later
+		// For now, the trimming will be done everytime isValid is called.
 	}
 
 	public EvaluationData(Evaluation e) {
@@ -110,29 +116,33 @@ public class EvaluationData {
 	}
 
 	public boolean isValid() {
+		course = course == null ? null : course.trim();
+		name = name == null ? null : name.trim();
 		
-		if (this.course == null 		|| this.course == "" || 
-			this.name == null			|| this.name == "" || 
-			this.startTime == null		|| 
-			this.endTime == null 		|| 
-			endTime.before(startTime)	|| 
-			(!beforeTime(endTime) && published)	|| 
-			(!beforeTime(startTime) && activated)) {
-			return false;
+		if (Common.isValidCourseId(course) && 
+			Common.isValidName(name) &&
+			name.length() <= EVALUATION_NAME_MAX_LENGTH &&
+			this.startTime != null &&
+			this.endTime != null && 
+			!endTime.before(startTime) && 
+			!(beforeTime(endTime) && published) &&
+			!(beforeTime(startTime) && activated)) {
+			return true;
 		}
-
-		return true;
+		return false;
 	}
 	
 	public String getInvalidStateInfo() {
 		String errorMessage = "";
 		
-		if (this.course == null || this.course == ""){
+		if (!Common.isValidCourseId(course)){
 			errorMessage += ERROR_FIELD_COURSE;
 		}
 		
-		if (this.name == null || this.name == "") {
+		if (!Common.isValidName(name)) {
 			errorMessage += ERROR_FIELD_NAME;
+		} else if (name.length() > EVALUATION_NAME_MAX_LENGTH) {
+			errorMessage += ERROR_NAME_TOOLONG;
 		}
 		
 		if (this.startTime == null) {
@@ -149,11 +159,11 @@ public class EvaluationData {
 				errorMessage += ERROR_END_BEFORE_START;
 			}
 			
-			if (!beforeTime(endTime) && published) {
+			if (beforeTime(endTime) && published) {
 				errorMessage += ERROR_PUBLISHED_BEFORE_END;
 			}
 			
-			if (!beforeTime(startTime) && activated) {
+			if (beforeTime(startTime) && activated) {
 				errorMessage += ERROR_ACTIVATED_BEFORE_START;
 			}
 		}
@@ -164,6 +174,6 @@ public class EvaluationData {
 	private boolean beforeTime(Date time) {
 		Date nowInUserTimeZone = Common.convertToUserTimeZone(
 				Calendar.getInstance(), timeZone).getTime();
-		return time.before(nowInUserTimeZone);
+		return nowInUserTimeZone.before(time);
 	}
 }

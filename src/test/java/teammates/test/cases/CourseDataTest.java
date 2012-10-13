@@ -59,9 +59,10 @@ public class CourseDataTest extends BaseTestCase {
 		c.name = null;
 		assertFalse(c.isValid());
 		assertEquals(c.getInvalidStateInfo(), CourseData.ERROR_FIELD_NAME);
+	
 		
 		// SUCCESS: Name at max length
-		String veryLongName = Common.generateStringOfLength(Common.COURSE_NAME_MAX_LENGTH);
+		String veryLongName = Common.generateStringOfLength(CourseData.COURSE_NAME_MAX_LENGTH);
 		c.name = veryLongName;
 		assertTrue(c.isValid());
 		

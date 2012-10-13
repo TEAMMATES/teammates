@@ -7,19 +7,13 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.logging.Logger;
 
-import teammates.common.exception.InvalidParametersException;
 import teammates.ui.controller.Helper;
 
 import com.google.gson.Gson;
@@ -275,12 +269,7 @@ public class Common {
 	public static final String JSP_PAGE_NOT_FOUND_PAGE = "/pageNotFound.jsp"; // Done
 
 	// data field sizes
-	public static final int COURSE_NAME_MAX_LENGTH = 38;
 	public static final int COURSE_ID_MAX_LENGTH = 21;
-	public static final int EVALUATION_NAME_MAX_LENGTH = 38;
-	public static final int STUDENT_NAME_MAX_LENGTH = 40;
-	public static final int TEAM_NAME_MAX_LENGTH = 25;
-	public static final int COMMENT_MAX_LENGTH = 500;
 
 	// status messages
 	public static final String MESSAGE_LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
@@ -315,10 +304,6 @@ public class Common {
 	public static final String MESSAGE_EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
 	// Status messages from Javascript
 	public static final String MESSAGE_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
-	public static final String MESSAGE_COURSE_LONG_ID = "Course ID should not exceed "
-			+ COURSE_ID_MAX_LENGTH + " characters.";
-	public static final String MESSAGE_COURSE_LONG_NAME = "Course name should not exceed "
-			+ COURSE_NAME_MAX_LENGTH + " characters.";
 	public static final String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
 	public static final String MESSAGE_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
 	public static final String MESSAGE_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
@@ -396,122 +381,55 @@ public class Common {
 	private void ____VALIDATE_parameters___________________________________() {
 	}
 
-	// TODO: add more checks and write unit tests
-	public static void validateTeamName(String teamName)
-			throws InvalidParametersException {
-		if (teamName == null) {
-			return;
+	// Check for '@'
+	public static boolean isValidEmail(String email) {
+		if (isValidString(email) && hasNoSpace(email) &&
+				email.contains("@")) {
+			// contain period?
+			return true;
 		}
-		if (teamName.length() > TEAM_NAME_MAX_LENGTH) {
-			throw new InvalidParametersException(ERRORCODE_STRING_TOO_LONG,
-					"Team name cannot be longer than " + TEAM_NAME_MAX_LENGTH);
-		}
+		return false;
 	}
 
-	// TODO: add more checks and write unit tests
-	public static void validateStudentName(String studentName)
-			throws InvalidParametersException {
-		if (!studentName.trim().equals(studentName)) {
-			throw new InvalidParametersException(
-					ERRORCODE_INCORRECTLY_FORMATTED_STRING,
-					"Student name should not have leading or trailing spaces");
+	// GoogleID cannot have spaces
+	public static boolean isValidGoogleId(String googleId) {
+		if (isValidString(googleId) && hasNoSpace(googleId)) {
+			// test for contains valid chars?
+			return true;
 		}
-		if (studentName.equals("")) {
-			throw new InvalidParametersException(ERRORCODE_EMPTY_STRING,
-					"Student name should not be empty");
-		}
-		if (studentName.length() > STUDENT_NAME_MAX_LENGTH) {
-			throw new InvalidParametersException(ERRORCODE_STRING_TOO_LONG,
-					"Student name cannot be longer than "
-							+ STUDENT_NAME_MAX_LENGTH);
-		}
+		return false;
 	}
 
-	// TODO: add more checks and write unit tests
-	public static void validateEmail(String email)
-			throws InvalidParametersException {
-		verifyNotNull(email, "email");
-		verifyNoLeadingAndTrailingSpaces(email, "email");
-		verifyNotAnEmptyString(email, "email");
-		if (!email.contains("@")) {
-			throw new InvalidParametersException(ERRORCODE_INVALID_EMAIL,
-					"Email address should contain '@'");
+	// Name can haz spaces
+	public static boolean isValidName(String name) {
+		if (isValidString(name)) {
+			return true;
 		}
-
+		return false;
 	}
 
-	// TODO: add more checks and write unit tests
-	public static void validateGoogleId(String googleId)
-			throws InvalidParametersException {
-		verifyNotNull(googleId, "Google ID");
-		verifyNoLeadingAndTrailingSpaces(googleId, "Google ID");
-		verifyNotAnEmptyString(googleId, "Google ID");
-		verifyContainsNoSpaces(googleId, "Google ID");
-
-	}
-
-	// TODO: add more checks and write unit tests
-	public static void validateCoordName(String coordName)
-			throws InvalidParametersException {
-		verifyNoLeadingAndTrailingSpaces(coordName, "Coordinator name");
-		verifyNotAnEmptyString(coordName, "Coordinator name");
-	}
-
-	// TODO: add more checks and write unit tests
-	public static void validateCourseId(String courseId)
-			throws InvalidParametersException {
-		verifyContainsNoSpaces(courseId, "Course ID");
-
-	}
-
-	// TODO: add more checks and write unit tests
-	public static void validateCourseName(String stringToCheck)
-			throws InvalidParametersException {
-		verifyNoLeadingAndTrailingSpaces(stringToCheck, "Course name");
-		verifyNotAnEmptyString(stringToCheck, "Course name");
-	}
-
-	// TODO: add more checks and write unit tests
-	public static void validateComment(String comment)
-			throws InvalidParametersException {
-		if (comment == null) {
-			return;
+	// Special constraints for courseId
+	public static boolean isValidCourseId(String courseId) {
+		if (isValidString(courseId) && hasNoSpace(courseId) &&
+			courseId.matches("^[a-zA-Z_$0-9.-]+$") &&
+			courseId.length() <= COURSE_ID_MAX_LENGTH) {
+			return true;
 		}
-		if (comment.length() > COMMENT_MAX_LENGTH) {
-			throw new InvalidParametersException(ERRORCODE_STRING_TOO_LONG,
-					"Comment cannot be longer than " + STUDENT_NAME_MAX_LENGTH);
-		}
+		return false;
 	}
-
-	public static void verifyContainsNoSpaces(String stringToCheck,
-			String nameOfString) throws InvalidParametersException {
-		if (stringToCheck.split(" ").length > 1) {
-			throw new InvalidParametersException(ERRORCODE_INVALID_CHARS,
-					nameOfString + " cannot contain spaces");
+	
+	public static boolean isValidString(String string) {
+		if (string == null	|| string == "" || string.length() == 0) {
+			return false;
 		}
+		return true;
 	}
-
-	public static void verifyNotNull(Object objectToCheck, String nameOfObject) {
-		if (objectToCheck == null) {
-			throw new NullPointerException(nameOfObject + " cannot be null");
+	
+	public static boolean hasNoSpace(String string) {
+		if (string.split(" ").length > 1) {
+			return false;
 		}
-	}
-
-	public static void verifyNotAnEmptyString(String stringToCheck,
-			String nameOfString) throws InvalidParametersException {
-		if (stringToCheck.equals("")) {
-			throw new InvalidParametersException(ERRORCODE_EMPTY_STRING,
-					nameOfString + " should not be empty");
-		}
-	}
-
-	public static void verifyNoLeadingAndTrailingSpaces(String stringToCheck,
-			String nameOfString) throws InvalidParametersException {
-		if (!stringToCheck.trim().equals(stringToCheck)) {
-			throw new InvalidParametersException(
-					ERRORCODE_LEADING_OR_TRAILING_SPACES, nameOfString
-							+ " should not have leading or trailing spaces");
-		}
+		return true;
 	}
 
 	@SuppressWarnings("unused")

@@ -148,32 +148,42 @@ public class EvaluationDataTest extends BaseTestCase {
 		e.gracePeriod = 5;
 		e.p2pEnabled = true;
 
-		// other properties added, still valid
+		// SUCCESS : other properties added, still valid
 		assertTrue(e.getInvalidStateInfo(),e.isValid());
 
-		// no course: invalid
+		// FAIL : no course: invalid
 		e.course = null;
 		assertFalse(e.isValid());
 		assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_FIELD_COURSE);
 		
-		// no name: invalid
+		// FAIL : no name: invalid
 		e.course = "valid-course";
 		e.name = null;
 		assertFalse(e.isValid());
 		assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_FIELD_NAME);
 		
-		// no start time: invalid
+		// SUCCESS : name at max length
+		e.name = Common.generateStringOfLength(EvaluationData.EVALUATION_NAME_MAX_LENGTH);
+		assertTrue(e.isValid());
+		
+		// FAIL : name too long
+		e.name += "e";
+		assertFalse(e.isValid());
+		assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_NAME_TOOLONG);
+		
+		// FAIL : no start time: invalid
 		e.name = "valid name";
 		e.startTime = null;
 		assertFalse(e.isValid());
 		assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_FIELD_STARTTIME);
 		
+		// FAIL : no end time
 		e.startTime = Common.getDateOffsetToCurrentTime(1);
 		e.endTime = null;
 		assertFalse(e.isValid());
 		assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_FIELD_ENDTIME);
 		
-		// end before start: invalid
+		// FAIL : end before start: invalid
 		e.endTime = Common.getDateOffsetToCurrentTime(1);
 		e.startTime = Common.getDateOffsetToCurrentTime(2);
 		print(Common.calendarToString(Common
@@ -183,20 +193,20 @@ public class EvaluationDataTest extends BaseTestCase {
 		assertFalse(e.isValid());
 		assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_END_BEFORE_START);
 
-		// published before endtime: invalid
+		// FAIL : published before endtime: invalid
 		e.published = true;
 		e.startTime = Common.getDateOffsetToCurrentTime(0);
 		e.endTime = Common.getMsOffsetToCurrentTime(5);
 		assertFalse(e.isValid());
 		assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_PUBLISHED_BEFORE_END);
 
-		// just after endtime and published: valid
+		// SUCCESS : just after endtime and published: valid
 		e.startTime = Common.getDateOffsetToCurrentTime(-1);
 		e.endTime = Common.getMsOffsetToCurrentTime(-5);
 		e.published = true;
 		assertTrue(e.getInvalidStateInfo(), e.isValid());
 
-		// activated before start time: invalid
+		// FAIL : activated before start time: invalid
 		e.startTime = Common.getDateOffsetToCurrentTime(1);
 		e.endTime = Common.getDateOffsetToCurrentTime(2);
 		e.published = false;

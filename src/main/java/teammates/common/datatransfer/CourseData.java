@@ -21,14 +21,14 @@ public class CourseData {
 	// TODO: to be removed as we don't allow loners
 	public transient ArrayList<StudentData> loners = new ArrayList<StudentData>();
 
+	public static final int COURSE_NAME_MAX_LENGTH = 38;
+	
 	public static final String ERROR_FIELD_ID = "Course ID cannot be null or empty\n";
-	public static final String ERROR_ID_TOOLONG = "Course ID cannot be more than "
-			+ Common.COURSE_ID_MAX_LENGTH + " characters\n";
+	public static final String ERROR_ID_TOOLONG = "Course ID cannot be more than " + Common.COURSE_ID_MAX_LENGTH + " characters\n";
 	public static final String ERROR_ID_INVALIDCHARS = "Course ID can have only alphabets, numbers, dashes, underscores, and dollar sign\n";
 	public static final String ERROR_FIELD_NAME = "Course name cannot be null or empty\n";
-	public static final String ERROR_NAME_TOOLONG = "Course name cannot be more than "
-			+ Common.COURSE_NAME_MAX_LENGTH + " characters\n";
-	public static final String ERROR_FIELD_COORD = "Course must belong to a Coordinator\n";
+	public static final String ERROR_NAME_TOOLONG = "Course name cannot be more than " + COURSE_NAME_MAX_LENGTH + " characters\n";
+	public static final String ERROR_FIELD_COORD = "Course must belong to a valid Coordinator\n";
 
 	private static Logger log = Common.getLogger();
 
@@ -37,9 +37,9 @@ public class CourseData {
 	}
 
 	public CourseData(String id, String name, String coordId) {
-		this.id = id;
-		this.name = name;
-		this.coord = coordId;
+		this.id = id == null ? null : id.trim();
+		this.name = name == null ? null : name.trim();
+		this.coord = coordId == null ? null : coordId.trim();
 	}
 
 	public CourseData(Course course) {
@@ -59,47 +59,41 @@ public class CourseData {
 	}
 
 	public boolean isValid() {
-
-		if (this.id == null || this.id == "" || 
-			this.id.length() > Common.COURSE_ID_MAX_LENGTH ||
-			!this.id.matches("^[a-zA-Z_$0-9.-]+$") ||
-			
-			this.name == null || this.name == "" || 
-			this.name.length() > Common.COURSE_NAME_MAX_LENGTH  || 
-			
-			this.coord == null || this.coord == "") {
-			return false;
+		if (Common.isValidCourseId(id) &&
+			Common.isValidName(name) &&
+			name.length() <= COURSE_NAME_MAX_LENGTH  && 
+			Common.isValidGoogleId(coord)) {
+			return true;
 		}
-
-		return true;
+		return false;
 	}
 
 	public String getInvalidStateInfo() {
 		String errorMessage = "";
 
-		// Validate ID not null, empty, less than max length and acceptable
-		// format
-		if (this.id == null || this.id == "") {
+		// Validate ID not null, empty
+		if (!Common.isValidString(id)) {
 			errorMessage += ERROR_FIELD_ID;
 		} else {
-
-			if (this.id.length() > Common.COURSE_ID_MAX_LENGTH) {
+			// ID greater than max length
+			if (id.length() > Common.COURSE_ID_MAX_LENGTH) {
 				errorMessage += ERROR_ID_TOOLONG;
 			}
 
-			if (!this.id.matches("^[a-zA-Z_$0-9.-]+$")) {
+			// ID contains invalid chars
+			if (!id.matches("^[a-zA-Z_$0-9.-]+$")) {
 				errorMessage += ERROR_ID_INVALIDCHARS;
 			}
 		}
 
 		// Validate name not null, empty and less than max length
-		if (this.name == null || this.name == "") {
+		if (!Common.isValidName(name)) {
 			errorMessage += ERROR_FIELD_NAME;
-		} else if (name.length() > Common.COURSE_NAME_MAX_LENGTH) {
+		} else if (name.length() > COURSE_NAME_MAX_LENGTH) {
 			errorMessage += ERROR_NAME_TOOLONG;
 		}
 
-		if (this.coord == null || this.coord == "") {
+		if (!Common.isValidGoogleId(coord)) {
 			errorMessage += ERROR_FIELD_COORD;
 		}
 

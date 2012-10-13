@@ -9,7 +9,11 @@ import org.junit.runners.Suite;
 		//@formatter:off
 		// TODO: there seems to be a state leak from this test to LogicTest if 
 		// this test is put right above LogicTest.
-		CrudTest.class,
+		AccountsDbTest.class,
+		CoursesDbTest.class,
+		EvaluationsDbTest.class,
+		SubmissionsDbTest.class,
+		
 		EvaluationsStorageTest.class,
 		CommonTest.class,
 		HelperTest.class,

@@ -61,7 +61,7 @@
 								value="<%=(helper.courseName==null ? "" : CoordCourseHelper.escapeForHTML(helper.courseName))%>"
 								onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
 								onmouseout="hideddrivetip()"
-								maxlength=<%=Common.COURSE_NAME_MAX_LENGTH%> tabindex=2 /></td>
+								maxlength=<%=CourseData.COURSE_NAME_MAX_LENGTH%> tabindex=2 /></td>
 						</tr>
 						<tr>
 							<td><input id="btnAddCourse" type="submit" class="button"

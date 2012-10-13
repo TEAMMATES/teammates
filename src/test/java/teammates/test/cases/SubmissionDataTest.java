@@ -24,39 +24,39 @@ public class SubmissionDataTest extends BaseTestCase {
 		
 		s.course = "valid-course";
 		s.evaluation = "valid-evaluation";
-		s.reviewer = "valid-reviewer";
-		s.reviewee = "valid-reviewee";
+		s.reviewer = "valid.reviewer@gmail.com";
+		s.reviewee = "valid.reviewee@gmail.com";
 		s.team = "valid-team";
 
-		// minimal properties, still valid
+		// SUCCESS : minimal properties, still valid
 		assertTrue(s.getInvalidStateInfo(), s.isValid());
 
 		s.points = 10;
 		s.justification = new Text("valid-justification");
 		s.p2pFeedback = new Text("valid-feedback");
 
-		// other properties added, still valid
+		// SUCCESS : other properties added, still valid
 		assertTrue(s.getInvalidStateInfo(), s.isValid());
 
-		// no course: invalid
+		// FAIL : no course
 		s.course = null;
 		assertFalse(s.isValid());
 		assertEquals(s.getInvalidStateInfo(), SubmissionData.ERROR_FIELD_COURSE);
 		
-		// no evaluation: invalid
+		// FAIL : no evaluation
 		s.course = "valid-course";
 		s.evaluation = null;
 		assertFalse(s.isValid());
 		assertEquals(s.getInvalidStateInfo(), SubmissionData.ERROR_FIELD_EVALUATION);
 		
-		// no reviewee : invalid
+		// FAIL : no reviewee
 		s.evaluation = "valid-evaluation";
 		s.reviewee = null;
 		assertFalse(s.isValid());
 		assertEquals(s.getInvalidStateInfo(), SubmissionData.ERROR_FIELD_REVIEWEE);
 		
-		// no reviewer : invalid
-		s.reviewee = "valid-reviewee";
+		// FAIL : no reviewer
+		s.reviewee = "validreviewee@gmail.com";
 		s.reviewer = null;
 		assertFalse(s.isValid());
 		assertEquals(s.getInvalidStateInfo(), SubmissionData.ERROR_FIELD_REVIEWER);
