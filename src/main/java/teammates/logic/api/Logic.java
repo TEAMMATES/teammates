@@ -9,17 +9,18 @@ import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
 
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.CoordData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvalResultData;
 import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationData.EvalStatus;
 import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentData.UpdateStatus;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.datatransfer.TeamData;
 import teammates.common.datatransfer.UserData;
-import teammates.common.datatransfer.EvaluationData.EvalStatus;
-import teammates.common.datatransfer.StudentData.UpdateStatus;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -350,6 +351,7 @@ public class Logic {
 		CoordData coordToAdd = new CoordData(coordId, coordName, coordEmail);
 		AccountsStorage.inst().getDb().createCoord(coordToAdd);
 	}
+	
 
 	/**
 	 * Access: any logged in user
@@ -601,7 +603,7 @@ public class Logic {
 						s.email);
 				emailsSent.add(email);
 			} catch (EntityDoesNotExistException e) {
-				log.severe("Unexpected exception"
+				Assumption.fail("Unexpected EntitiyDoesNotExistException thrown when sending registration email"
 						+ Common.stackTraceToString(e));
 			}
 		}
@@ -1092,7 +1094,6 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(evaluation.course);
 
-		evaluation.validate();
 		EvaluationsStorage.inst().createEvaluation(evaluation);
 	}
 
@@ -1154,9 +1155,11 @@ public class Logic {
 		evaluation.activated = original.activated;
 		evaluation.published = original.published;
 
-		evaluation.validate();
-
-		EvaluationsStorage.inst().getEvaluationsDb().editEvaluation(evaluation);
+		if (evaluation.isValid()) {
+			EvaluationsStorage.inst().getEvaluationsDb().editEvaluation(evaluation);
+		} else {
+			throw new InvalidParametersException(evaluation.getInvalidStateInfo());
+		}
 	}
 
 	
@@ -1321,11 +1324,16 @@ public class Logic {
 		List<SubmissionData> submissions = EvaluationsStorage.inst().getSubmissionsDb()
 				.getSubmissionsFromEvaluationFromStudent(courseId, evaluationName,
 						reviewerEmail);
-		if (submissions.size() == 0) {
-			CoursesStorage.inst().verifyCourseExists(courseId);
-			EvaluationsStorage.inst().verifyEvaluationExists(courseId,
-					evaluationName);
-			AccountsStorage.inst().verifyStudentExists(courseId, reviewerEmail);
+		
+		boolean isSubmissionsExist = (submissions.size() > 0 && 
+			CoursesStorage.inst().isCourseExists(courseId) &&
+			EvaluationsStorage.inst().isEvaluationExists(courseId,evaluationName) &&
+			AccountsStorage.inst().isStudentExists(courseId, reviewerEmail));
+		
+		if (!isSubmissionsExist) {
+			throw new EntityDoesNotExistException("Error getting submissions from student: "
+												+ courseId + " / " + evaluationName
+												+ ", reviewer: " + reviewerEmail);
 		}
 		
 		StudentData student = getStudent(courseId, reviewerEmail);
@@ -1468,8 +1476,7 @@ public class Logic {
 			}
 		} catch (Exception e) {
 			updateStatus = UpdateStatus.ERROR;
-			log.severe("EntityExistsExcpetion thrown unexpectedly");
-			e.printStackTrace();
+			log.severe("Exception thrown unexpectedly" + "\n" + Common.stackTraceToString(e));
 		}
 		student.updateStatus = updateStatus;
 		return student;
@@ -1562,7 +1569,7 @@ public class Logic {
 				int normalizedOutgoing = teamResult.normalizedClaimed[i][j];
 				outgoingSub.normalizedToStudent = Common.UNINITIALIZED_INT;
 				outgoingSub.normalizedToCoord = normalizedOutgoing;
-				log.fine("Setting normalized outgoing of " + s.name + " to "
+				log.finer("Setting normalized outgoing of " + s.name + " to "
 						+ outgoingSub.revieweeName + " to "
 						+ normalizedOutgoing);
 			}
@@ -1658,7 +1665,7 @@ public class Logic {
 	}
 
 	private boolean isModificationToExistingStudent(StudentData student) {
-		return getStudent(student.course, student.email) != null;
+		return AccountsStorage.inst().isStudentExists(student.course, student.email);
 	}
 
 }

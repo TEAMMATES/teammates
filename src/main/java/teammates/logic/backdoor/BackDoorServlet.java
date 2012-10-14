@@ -89,6 +89,8 @@ public class BackDoorServlet extends HttpServlet {
 				returnValue = executeBackendAction(req, action);
 			} catch (Exception e) {
 				returnValue = Common.BACKEND_STATUS_FAILURE + Common.stackTraceToString(e);
+			} catch (AssertionError ae) {
+				returnValue = Common.BACKEND_STATUS_FAILURE + " Assertion error " + ae.getMessage();
 			}
 		}
 		

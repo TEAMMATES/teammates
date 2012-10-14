@@ -9,14 +9,10 @@ import com.google.appengine.api.datastore.Text;
 
 public class StudentData extends UserData {
 	public enum UpdateStatus {
-		//@formatter:off
-		ERROR(0), 
-		NEW(1), 
-		MODIFIED(2), 
-		UNMODIFIED(3), 
-		NOT_IN_ENROLL_LIST(4), 
-		UNKNOWN(5);
-		//@formatter:on
+		// @formatter:off
+		ERROR(0), NEW(1), MODIFIED(2), UNMODIFIED(3), NOT_IN_ENROLL_LIST(4), UNKNOWN(
+				5);
+		// @formatter:on
 
 		public final int numericRepresentation;
 
@@ -59,13 +55,12 @@ public class StudentData extends UserData {
 	public StudentData(String id, String email, String name, String comments,
 			String courseId, String team) {
 		this();
-		this.id = id;
+		this.id = id == null ? "" : id;
 		this.email = email;
 		this.course = courseId;
 		this.name = name;
-		this.comments = comments;
-		this.team = team;
-		validate();
+		this.comments = comments == null ? "" : comments;
+		this.team = team == null ? "" : team;
 	}
 
 	public StudentData() {
@@ -74,7 +69,52 @@ public class StudentData extends UserData {
 
 	public StudentData(String enrollLine, String courseId)
 			throws InvalidParametersException {
-		this(new Student(enrollLine, courseId));
+
+		this();
+		int TEAM_POS = 0;
+		int NAME_POS = 1;
+		int EMAIL_POS = 2;
+		int COMMENT_POS = 3;
+
+		if ((enrollLine == null) || (courseId == null)) {
+			throw new InvalidParametersException(
+					Common.ERRORCODE_NULL_PARAMETER,
+					"Enrollment line cannot be null");
+		}
+		if ((enrollLine.equals("")) || (courseId.equals(""))) {
+			throw new InvalidParametersException(Common.ERRORCODE_EMPTY_STRING,
+					"Enrollment line cannot be empty");
+		}
+
+		String[] parts = enrollLine.replace("|", "\t").split("\t");
+
+		if ((parts.length < 3) || (parts.length > 4)) {
+			throw new InvalidParametersException(
+					Common.ERRORCODE_INCORRECTLY_FORMATTED_STRING,
+					"Enrollment line has too few or too many segments");
+		}
+
+		String paramCourseId = courseId.trim();
+		Common.validateCourseId(paramCourseId);
+
+		String paramTeam = parts[TEAM_POS].trim();
+		Common.validateTeamName(paramTeam);
+
+		String paramName = parts[NAME_POS].trim();
+		Common.validateStudentName(paramName);
+
+		String paramEmail = parts[EMAIL_POS].trim();
+		Common.validateEmail(paramEmail);
+
+		String paramComment = parts.length == 4 ? parts[COMMENT_POS].trim()
+				: "";
+		Common.validateComment(paramComment);
+
+		this.team = paramTeam;
+		this.name = paramName;
+		this.email = paramEmail;
+		this.course = paramCourseId;
+		this.comments = paramComment;
 	}
 
 	public StudentData(Student student) {
@@ -82,14 +122,18 @@ public class StudentData extends UserData {
 		this.email = student.getEmail();
 		this.course = student.getCourseID();
 		this.name = student.getName();
-		this.comments = student.getComments();
-		this.team = student.getTeamName();
+		this.comments = student.getComments() == null ? "" : student
+				.getComments();
+		this.team = student.getTeamName() == null ? "" : student.getTeamName();
 		this.profile = student.getProfileDetail();
-		this.id = student.getID();
+		this.id = student.getID() == null ? "" : student.getID();
 		Long keyAsLong = student.getRegistrationKey();
 		this.key = (keyAsLong == null ? null : Student
 				.getStringKeyForLongKey(keyAsLong));
-		validate();
+
+		// TODO: this if for backward compatibility with old system. Old system
+		// considers "" as unregistered. It should be changed to consider
+		// null as unregistered.
 	}
 
 	public boolean isEnrollInfoSameAs(StudentData otherStudent) {
@@ -117,7 +161,9 @@ public class StudentData extends UserData {
 		String indentString = Common.getIndent(indent);
 		StringBuilder sb = new StringBuilder();
 		sb.append(indentString + "Student:" + name + "[" + email + "]" + EOL);
-		sb.append(result.toString(indent + 2));
+		if (result != null) {
+			sb.append(result.toString(indent + 2));
+		}
 		return sb.toString();
 	}
 
@@ -142,32 +188,36 @@ public class StudentData extends UserData {
 		}
 
 	}
-	
+
 	public Student toEntity() {
 		return new Student(email, name, id, comments, course, team);
 	}
-	
-	public void validate() {
-		/*
-		Assumption.assertThat(email != null);
-		Assumption.assertThat(name != null);
-		Assumption.assertThat(id != null);
-		Assumption.assertThat(comments != null);
-		Assumption.assertThat(course != null);
-		Assumption.assertThat(team != null);
-		*/
-		
-		// TODO: this if for backward compatibility with old system. Old system
-		// considers "" as unregistered. It should be changed to consider
-		// null as unregistered.
-		if (id == null) {
-			id = "";
+
+	public boolean isValid() {
+
+		if (this.name == null || this.name == "" || this.email == null
+				|| this.email == "" || this.course == null || this.course == "") {
+			return false;
 		}
-		if (comments == null) {
-			comments = "";
+
+		return true;
+	}
+
+	public String getInvalidStateInfo() {
+		String errorMessage = "";
+
+		if (this.name == null || this.name == "") {
+			errorMessage += "Student name cannot be null or empty\n";
 		}
-		if (team == null) {
-			team = "";
+
+		if (this.email == null || this.email == "") {
+			errorMessage += "Student email cannot be null or empty\n";
 		}
+
+		if (this.course == null || this.course == "") {
+			errorMessage += "Student must belong to a course\n";
+		}
+
+		return errorMessage;
 	}
 }

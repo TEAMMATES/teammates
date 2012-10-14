@@ -9,11 +9,10 @@ import javax.jdo.PersistenceManager;
 
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Submission;
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 
 /**
  * Manager for handling basic CRUD Operations only
@@ -30,27 +29,25 @@ public class SubmissionsDb {
 	/**
 	 * Creates new Submission Entities for a particular Evaluation.
 	 * 
-	 * @param courseId
-	 *            the course ID (Pre-condition: The courseID and evaluationName
-	 *            pair must be valid)
-	 * 
-	 * @param evaluationName
-	 *            the evaluation name (Pre-condition: The courseID and
-	 *            evaluationName pair must be valid)
-	 * 
-	 * @param teamName
-	 * 
-	 * @param toStudent
-	 * 
-	 * @param fromStudent
+	 * @throws EntityAlreadyExistsException 
 	 * 
 	 */
-	public void createSubmission(SubmissionData submissionToAdd) {
+	public void createSubmission(SubmissionData submissionToAdd) throws EntityAlreadyExistsException {
 
+		Assumption.assertTrue(submissionToAdd.getInvalidStateInfo(), submissionToAdd.isValid());
+		
 		if (getSubmissionEntity(submissionToAdd.course,
 				submissionToAdd.evaluation, submissionToAdd.reviewee,
 				submissionToAdd.reviewer) != null) {
-			// throw?
+			String error = "Trying to create a Submission that exists: "
+					+ "course: " + submissionToAdd.course + ", evaluation: "
+					+ submissionToAdd.evaluation + ", toStudent: "
+					+ submissionToAdd.reviewee + ", fromStudent: "
+					+ submissionToAdd.reviewer;
+			
+			log.warning(error + "\n" + Common.getCurrentThreadStack());
+
+			throw new EntityAlreadyExistsException(error);
 		}
 
 		Submission newSubmission = submissionToAdd.toEntity();
@@ -81,6 +78,29 @@ public class SubmissionsDb {
 					+ " | to: " + submissionToAdd.reviewee + " | from: "
 					+ submissionToAdd.reviewer);
 		}
+	}
+	
+	/**
+	 * CREATE List<Submission>
+	 * 
+	 * Creates a List of submissions
+	 * 
+	 * Use this method to persist list of submissions much faster
+	 * 
+	 * @param List<SubmissionData>
+	 * 
+	 */
+	public void createListOfSubmissions(List<SubmissionData> newList) {
+		
+		List<Submission> newEntityList = new ArrayList<Submission>();
+		
+		for (SubmissionData sd : newList) {
+			Assumption.assertTrue(sd.getInvalidStateInfo(), sd.isValid());
+			newEntityList.add(sd.toEntity());
+		}
+		
+		getPM().makePersistentAll(newEntityList);
+		getPM().flush();
 	}
 
 	/**
@@ -115,8 +135,14 @@ public class SubmissionsDb {
 		Submission s = getSubmissionEntity(courseId, evaluationName, toStudent,
 				fromStudent);
 
-		return s == null ? null : new SubmissionData(s);
+		if (s == null) {
+			log.warning("Trying to get non-existent Submission : " + courseId
+					+ "/" + evaluationName + "| from " + fromStudent + " to "
+					+ toStudent + Common.getCurrentThreadStack());
+			return null;
+		}
 
+		return new SubmissionData(s);
 	}
 
 	/**
@@ -261,7 +287,7 @@ public class SubmissionsDb {
 	}
 
 	/**
-	 * UPDATE Submission
+	 * UPDATE List<Submission>
 	 * 
 	 * Update the email address of Submission objects from a particular course
 	 * when a student changes his email
@@ -314,6 +340,10 @@ public class SubmissionsDb {
 
 		Submission submission = getSubmissionEntity(sd.course, sd.evaluation,
 				sd.reviewee, sd.reviewer);
+
+		Assumption.assertNotNull("Trying to update non-existent Submission: " + sd.course
+					+ "/" + sd.evaluation + "| from " + sd.reviewer + " to "
+					+ sd.reviewee + Common.getCurrentThreadStack(), submission);
 
 		submission.setPoints(sd.points);
 		submission.setJustification(sd.justification);
@@ -390,8 +420,6 @@ public class SubmissionsDb {
 
 		getPM().deletePersistentAll(submissionList);
 		getPM().flush();
-
-		return;
 	}
 
 	/**
@@ -424,7 +452,6 @@ public class SubmissionsDb {
 				query2).execute();
 		getPM().deletePersistentAll(submissionList2);
 		getPM().flush();
-
 	}
 
 	/**
@@ -487,6 +514,8 @@ public class SubmissionsDb {
 						+ s.toString());
 			}
 		}
+		
+		getPM().flush();
 	}
 
 	/**
@@ -528,9 +557,6 @@ public class SubmissionsDb {
 
 		if (submissionList.isEmpty()
 				|| JDOHelper.isDeleted(submissionList.get(0))) {
-			log.fine("Trying to get non-existent Submission : " + courseId
-					+ "/" + evaluationName + "| from " + fromStudent + " to "
-					+ toStudent);
 			return null;
 		}
 

@@ -2411,7 +2411,7 @@ public class LogicTest extends BaseTestCase {
 		try {
 			logic.createEvaluation(evaluation);
 			fail();
-		} catch (NullPointerException e) {
+		} catch (InvalidParametersException e) {
 		}
 		// invalid values to other parameters should be checked against
 		// EvaluationData.validate();
@@ -2545,7 +2545,8 @@ public class LogicTest extends BaseTestCase {
 			invokeEditEvaluation(eval);
 			fail();
 		} catch (InvalidParametersException e) {
-			assertEquals(Common.ERRORCODE_END_BEFORE_START, e.errorCode);
+			assertEquals("Evaluation end time cannot be earlier than start time\n"
+						+ "Evaluation cannot be activated before start time\n", e.getMessage());
 		}
 
 		// Checking for other type of invalid parameter situations

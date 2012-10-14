@@ -1,11 +1,8 @@
 package teammates.storage.api;
 
-import java.util.logging.Logger;
-
 import teammates.common.Common;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.CoordData;
-import teammates.common.exception.EntityDoesNotExistException;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
@@ -21,8 +18,7 @@ public class AccountsStorage {
 
 	private static UserService userService;
 	private static AccountsStorage instance = null;
-	private static final Logger log = Common.getLogger();
-	
+
 	private static final AccountsDb accountsDb = new AccountsDb();
 
 	/**
@@ -137,7 +133,7 @@ public class AccountsStorage {
 		if (user == null)
 			return false;
 		
-		return accountsDb.getCoord(user.getNickname()) != null;
+		return accountsDb.isCoord(user.getNickname());
 	}
 	
 	
@@ -149,14 +145,8 @@ public class AccountsStorage {
 	
 
 	
-	public void verifyStudentExists(String courseId, String studentEmail) throws EntityDoesNotExistException {
-		
-		StudentData studentData = accountsDb.getStudent(courseId, studentEmail);
-		
-		if(studentData==null){
-			throw new EntityDoesNotExistException("The student "+studentEmail+ " does not exist in course "+courseId);
-		}
-		
+	public boolean isStudentExists(String courseId, String studentEmail) {
+		return accountsDb.isStudentExists(courseId, studentEmail);
 	}
 	
 	
