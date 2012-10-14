@@ -5,6 +5,7 @@ import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.annotations.Extension;
 
 /**
  * AccountHolder is a persistent data class that holds information pertaining to
@@ -21,9 +22,11 @@ public class Account {
 	private String googleID;
 
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	private String name;
 
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	private String email;
 
 	/**
