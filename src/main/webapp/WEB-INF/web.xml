@@ -77,12 +77,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet-mapping>
 	
 	<servlet>
-	    	<servlet-name>AdminLogging</servlet-name>
-	    	<servlet-class>teammates.ui.controller.AdminLoggingServlet</servlet-class>
+	    	<servlet-name>AdminActivityLog</servlet-name>
+	    	<servlet-class>teammates.ui.controller.AdminActivityLogServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-	    <servlet-name>AdminLogging</servlet-name>
-	    <url-pattern>/page/adminLogging</url-pattern>
+	    <servlet-name>AdminActivityLog</servlet-name>
+	    <url-pattern>/page/adminActivityLog</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
