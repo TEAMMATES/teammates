@@ -77,6 +77,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet-mapping>
 	
 	<servlet>
+	    	<servlet-name>AdminLogging</servlet-name>
+	    	<servlet-class>teammates.ui.controller.AdminLoggingServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>AdminLogging</servlet-name>
+	    <url-pattern>/page/adminLogging</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 	    <description>Servlet that handles Coordinator homepage</description>
 	    <servlet-name>CoordHome</servlet-name>
 	    <servlet-class>teammates.ui.controller.CoordHomeServlet</servlet-class>
