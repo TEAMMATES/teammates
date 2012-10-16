@@ -3,21 +3,20 @@
 <%@ page import="teammates.ui.controller.StudentEvalResultsHelper"%>
 <%@ page import="teammates.ui.controller.CoordEvalResultsHelper"%>
 <% StudentEvalResultsHelper helper = (StudentEvalResultsHelper)request.getAttribute("helper"); %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-	<link rel="shortcut icon" href="/favicon.png" />
-	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<link rel="shortcut icon" href="/favicon.png">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Student</title>
-	<link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
-	<link rel=stylesheet href="/stylesheets/evaluation.css" type="text/css" />
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/studentEvalResults.css" type="text/css">
 
-	<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
-	<script language="JavaScript" src="/js/tooltip.js"></script>
-	<script language="JavaScript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="/js/tooltip.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
 	
-	<script language="JavaScript" src="/js/student.js"></script>	
+	<script type="text/javascript" src="/js/student.js"></script>	
 </head>
 
 <body>
@@ -35,8 +34,8 @@
 			</div>
 			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 			<div id="studentEvaluationResults">
-				<div style="text-align: right; font-size: small; font-style: italic; margin-bottom: 15px;">E = Equal Share</div>
-				<table class="result_table"><tr class="result_header"><td>Your Result:</td></tr></table>
+				<div style="margin: 5px auto; width: 940px; text-align: right; font-size: small; font-style: italic;">E = Equal Share</div>
+				<div class="backgroundBlock evalResultHeader"><span class="blockText">Your Result:</span></div>
 				<table class="result_studentform">
 					<tr>
 						<td width="15%">Evaluation:</td>
@@ -71,8 +70,8 @@
 						</td>
 					</tr>
 				</table>
-				<table class="result_table">
-					<tr class="result_subheader"><td>Feedback from teammates:</td></tr>
+				<table class="resultTable">
+					<tr class="resultSubheader"><td>Feedback from teammates:</td></tr>
 					<tr>
 						<td>
 							<ul>
@@ -86,7 +85,7 @@
 							</ul>
 						</td>
 					</tr>
-					<tr class="result_subheader"><td>What others said about their own contribution:</td></tr>
+					<tr class="resultSubheader"><td>What others said about their own contribution:</td></tr>
 					<tr>
 						<td>
 							<ul>
@@ -102,8 +101,8 @@
 						</td>
 					</tr>
 				</table>
-				<br /><br />
-				<table class="result_table"><tr class="result_header"><td>Your Submission:</td></tr></table>
+				<br><br>
+				<div class="backgroundBlock evalResultHeader"><span class="blockText">Your Submission:</span></div>
 				<table class="result_studentform">
 					<tr>
 						<td width="15%">Points to yourself:</td>
@@ -118,7 +117,7 @@
 						<td><%=StudentEvalResultsHelper.escapeForHTML(helper.evalResult.getSelfEvaluation().p2pFeedback.getValue())%></td>
 					</tr>
 				</table>
-				<table id="dataform" style="margin: 0px; width: 100%;">
+				<table class="dataTable">
 					<tr>
 						<th width="18%">Teammate Name</th>
 						<th>Points</th>
@@ -136,8 +135,8 @@
 						</tr>
 					<%	} %>
 				</table>
-				<br /><br />
-				<br /><br />
+				<br><br>
+				<br><br>
 			</div>
 		</div>
 	</div>

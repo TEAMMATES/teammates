@@ -13,71 +13,84 @@
 	</head>
 	<body id="compilation">
 		<div id="dhtmltooltip"></div>
-		<div class="info">Coordinator Home Page</div>
+		<div class="pageinfo">Coordinator Home Page</div>
 		<div id="coordHomePage" class="wrapper"></div>
 		
-		<div class="info">Coordinator Add Course Page</div>
+		<div class="pageinfo">Coordinator Add Course Page</div>
 		<div id="coordAddCoursePage" class="wrapper"></div>
 		
-		<div class="info">Coordinator Enroll Students Page</div>
+		<div class="pageinfo">Coordinator Enroll Students Page</div>
 		<div id="coordEnrollPage" class="wrapper"></div>
 		
-		<div class="info">Coordinator Course Details Page</div>
+		<div class="pageinfo">Coordinator Course Details Page</div>
 		<div id="coordCourseDetailsPage" class="wrapper"></div>
 		
-		<div class="info">Coordinator Student Details Page</div>
+		<div class="pageinfo">Coordinator Student Details Page</div>
 		<div id="coordCourseStudentDetailsPage" class="wrapper"></div>
 		
-		<div class="info">Coordinator Student Edit Page</div>
+		<div class="pageinfo">Coordinator Student Edit Page</div>
 		<div id="coordCourseStudentEditPage" class="wrapper"></div>
 		
-		<div class="info">Coordinator Eval Page</div>
+		<div class="pageinfo">Coordinator Eval Page</div>
 		<div id="coordCourseEvalPage" class="wrapper"></div>
 		
-		<div class="info">Coordinator Eval Edit Page</div>
+		<div class="pageinfo">Coordinator Eval Edit Page</div>
 		<div id="coordCourseEvalEditPage" class="wrapper"></div>
 		
-		<div class="info">Coordinator Eval Results Page (coordinatorEvaluationSummaryTable)</div>
+		<div class="pageinfo">Coordinator Eval Results Page (coordinatorEvaluationSummaryTable)</div>
 		<div id="coordCourseEvalResultsPage1" class="wrapper"></div>
 		
-		<div class="info">Coordinator Eval Results Page (coordinatorEvaluationDetailedReviewerTable)</div>
+		<div class="pageinfo">Coordinator Eval Results Page (coordinatorEvaluationDetailedReviewerTable)</div>
 		<div id="coordCourseEvalResultsPage2" class="wrapper"></div>
 		
-		<div class="info">Coordinator Eval Results Page (coordinatorEvaluationDetailedRevieweeTable)</div>
+		<div class="pageinfo">Coordinator Eval Results Page (coordinatorEvaluationDetailedRevieweeTable)</div>
 		<div id="coordCourseEvalResultsPage3" class="wrapper"></div>
 		
-		<div class="info">Coordinator Eval Submission View Page</div>
+		<div class="pageinfo">Coordinator Eval Submission View Page</div>
 		<div id="coordCourseEvalSubmissionViewPage" class="wrapper"></div>
 		
-		<div class="info">Coordinator Eval Submission Edit Page</div>
+		<div class="pageinfo">Coordinator Eval Submission Edit Page</div>
 		<div id="coordCourseEvalSubmissionEditPage" class="wrapper"></div>
 		<br></br>
 		<br></br>
 		<br></br>
 		<br></br>
-		<div class="info">Student Home Page</div>
+		<div class="pageinfo">Student Home Page</div>
 		<div id="studentHomePage" class="wrapper"></div>
 		
-		<div class="info">Student Course Details Page</div>
+		<div class="pageinfo">Student Course Details Page</div>
 		<div id="studentCourseDetailsPage" class="wrapper"></div>
 		
-		<div class="info">Student Eval Edit Page</div>
+		<div class="pageinfo">Student Eval Edit Page</div>
 		<div id="studentEvalEditPage" class="wrapper"></div>
 		
-		<div class="info">Student Eval Results Page</div>
+		<div class="pageinfo">Student Eval Results Page</div>
 		<div id="studentEvalResultsPage" class="wrapper"></div>
 		<br></br>
 		<br></br>
 		<br></br>
 		<br></br>
-		<div class="info">Admin Page</div>
+		<div class="pageinfo">Admin Page</div>
 		<div id="adminPage" class="wrapper"></div>
 	</body>
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$('head').append('<link rel=stylesheet href="/stylesheets/main.css" type="text/css"></link>');
-			$('head').append('<link rel=stylesheet href="/stylesheets/evaluation.css" type="text/css"></link>');
+			$('head').append('<link rel=stylesheet href="/stylesheets/common.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/coordHome.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/coordCourse.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/coordCourseEnroll.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/coordCourseDetails.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/coordCourseStudentDetails.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/coordCourseStudentEdit.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/coordEval.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/coordEvalEdit.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/coordEvalResults.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/coordEvalSubmissionView.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/coordEvalSubmissionEdit.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/studentHome.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/studentEvalEdit.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/studentEvalResults.css" type="text/css">');
 			
 			$('#coordHomePage').load("<%= Common.PAGE_COORD_HOME %> #frameBodyWrapper");
 			$('#coordAddCoursePage').load("<%= Common.PAGE_COORD_COURSE %> #frameBodyWrapper");
