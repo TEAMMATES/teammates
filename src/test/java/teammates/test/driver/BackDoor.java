@@ -112,11 +112,6 @@ public class BackDoor {
 		return status;
 	}
 	
-	public static String generateException() {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GENERATE_EXCEPTION);
-		String status = makePOSTRequest(params);
-		return status;
-	}
 
 	public static void cleanupCoord(String coordId)
 			throws EntityDoesNotExistException {

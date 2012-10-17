@@ -6,11 +6,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.common.BuildProperties;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
@@ -21,6 +23,7 @@ import teammates.common.datatransfer.UserData;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.logic.Emails;
 import teammates.logic.api.Logic;
 
 @SuppressWarnings("serial")
@@ -80,8 +83,11 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 					+ Common.stackTraceToString(e));
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return;
-		} catch (Exception e) {
-			Common.emailErrorReport(req, e);			
+		} catch (Throwable e) {
+			MimeMessage email = emailErrorReport(req, e);
+			try {
+				log.severe(email.getContent().toString());
+			} catch (Exception e1) {}
 			resp.sendRedirect(Common.JSP_ERROR_PAGE);
 			return;
 		}
@@ -367,6 +373,37 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			}
 		});
 	}
-	
+	/**
+	 * This method sends run-time error message to system support email
+	 * @param req httpRequest that triggers the error
+	 * @param error the error object
+	 */
+	public MimeMessage emailErrorReport(HttpServletRequest req, Throwable error) {
+		String path = req.getServletPath();
+		String params = Common.printRequestParameters(req);
+		String message = error.getMessage();
+		String stackTrace = Common.stackTraceToString(error);
+		
+		//if the exception doesn't contain message,
+		//retrieve top line of stack trace
+		if(message == null) {
+			int idx = stackTrace.indexOf("at");
+			if(idx > 0) {
+				message = stackTrace.substring(0, idx);
+			}else{
+				message = "";
+			}
+		}
+		MimeMessage email = null ;
+		try {
+			String version = BuildProperties.getAppVersion();
+			email = new Emails().sendSystemErrorEmail(message, stackTrace, path, params, version);
+			log.severe("Sent crash report: " + Emails.getEmailInfo(email));
+		} catch (Exception e1) {
+			log.severe("Error in sending crash report: " + email.toString());
+		}
+		
+		return email;
+	}
 	
 }

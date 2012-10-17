@@ -7,29 +7,23 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.exception.InvalidParametersException;
-import teammates.logic.Emails;
 import teammates.ui.controller.Helper;
 
+import com.google.appengine.api.utils.SystemProperty;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.appengine.api.utils.SystemProperty;
 
 /**
  * Class that stores variables and methods that are widely used across classes
@@ -235,6 +229,7 @@ public class Common {
 	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
 
 	public static final String PAGE_ADMIN_HOME = "/page/adminHome";
+	public static final String PAGE_ADMIN_EXCEPTION_TEST = "/page/adminExceptionTest";
 	public static final String PAGE_LOGIN = "/login";
 
 	/*
@@ -828,37 +823,6 @@ public class Common {
 		PERSISTENCE_CHECK_DURATION = BUILD_PROPERTIES.getAppPersistenceCheckduration();
 	}
 	
-	/**
-	 * This method sends run-time error message to system support email
-	 * @param req httpRequest that triggers the error
-	 * @param error the error object
-	 */
-	public static MimeMessage emailErrorReport(HttpServletRequest req, Throwable error) {
-		String path = req.getServletPath();
-		String params = printRequestParameters(req);
-		String message = error.getMessage();
-		String stackTrace = Common.stackTraceToString(error);
-		
-		//if the exception doesn't contain message,
-		//retrieve top line of stack trace
-		if(message == null) {
-			int idx = stackTrace.indexOf("at");
-			if(idx > 0) {
-				message = stackTrace.substring(0, idx);
-			}else{
-				message = "";
-			}
-		}
-		MimeMessage email = null ;
-		try {
-			String version = BuildProperties.getAppVersion();
-			email = new Emails().sendSystemErrorEmail(message, stackTrace, path, params, version);
-			log.severe("Sent crash report: " + Emails.getEmailInfo(email));
-		} catch (Exception e1) {
-			log.severe("Error in sending crash report: " + email.toString());
-		}
-		
-		return email;
-	}
+	
 
 }

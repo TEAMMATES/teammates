@@ -17,20 +17,24 @@ import org.junit.Test;
 
 import teammates.common.BuildProperties;
 import teammates.common.Common;
-import teammates.common.datatransfer.DataBundle;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.logic.Emails;
-import teammates.test.driver.BackDoor;
+import teammates.test.driver.BrowserInstance;
+import teammates.test.driver.BrowserInstancePool;
+import teammates.test.driver.TestProperties;
 
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class SystemErrorEmailReportTest extends BaseTestCase {
+	private static BrowserInstance bi;
+
 	private LocalServiceTestHelper helper;
 	private LocalMailServiceTestConfig localMailService;
-	private static DataBundle scn;
 
 	private String from;
-	private String replyTo;
+	
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
@@ -38,8 +42,9 @@ public class SystemErrorEmailReportTest extends BaseTestCase {
 		setLogLevelOfClass(Emails.class, Level.FINE);
 		setConsoleLoggingLevel(Level.FINE);
 
+		bi = BrowserInstancePool.getBrowserInstance();
 		
-		
+		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 	}
 
 	@Before
@@ -49,17 +54,44 @@ public class SystemErrorEmailReportTest extends BaseTestCase {
 		helper.setUp();
 		
 		from 		= "noreply@"+Common.APP_ID+".appspotmail.com";
-		replyTo 	= "teammates@comp.nus.edu.sg";
 	}
 
 	@Test
-	public void testSystemCrashReportEmainSending() throws MessagingException {
-			______TS("generic crash report email");
-
-			BackDoor.generateException();
-			print("Exception triggered, please check your crash report at " + BuildProperties.inst().getAppCrashReportEmail());
+	public void testAssertionError() {
+			______TS("AssertionError testing");
+			String link = Common.PAGE_ADMIN_EXCEPTION_TEST;
+			link = Common.addParamToUrl(link, Common.PARAM_ERROR, AssertionError.class.getSimpleName());
+			bi.goToUrl(link);
+			print("AssertionError triggered, please check your crash report at " + BuildProperties.inst().getAppCrashReportEmail());	
 	}
-
+	
+	@Test
+	public void testEntityDoesNotExistException() {
+			______TS("EntityDoesNotExistException testing");
+			String link = Common.PAGE_ADMIN_EXCEPTION_TEST;
+			link = Common.addParamToUrl(link, Common.PARAM_ERROR, EntityDoesNotExistException.class.getSimpleName());
+			bi.goToUrl(link);
+			print("This exception is handled by system, make sure you don't receive any emails. ");
+	}
+	
+	@Test
+	public void testUnauthorizedAccessException() {
+			______TS("UnauthorizedAccessException testing");
+			String link = Common.PAGE_ADMIN_EXCEPTION_TEST;
+			link = Common.addParamToUrl(link, Common.PARAM_ERROR, UnauthorizedAccessException.class.getSimpleName());
+			bi.goToUrl(link);
+			print("This exception is handled by system, make sure you don't receive any emails. ");
+	}
+	
+	@Test
+	public void testNullPointerException() {
+			______TS("NullPointerException testing");
+			String link = Common.PAGE_ADMIN_EXCEPTION_TEST;
+			link = Common.addParamToUrl(link, Common.PARAM_ERROR, NullPointerException.class.getSimpleName());
+			bi.goToUrl(link);
+			print("NullPointerException triggered, please check your crash report at " + BuildProperties.inst().getAppCrashReportEmail());	
+	}
+	
 	@Test
 	public void testSystemCrashReportEmailContent() throws IOException,
 			MessagingException {
@@ -99,26 +131,15 @@ public class SystemErrorEmailReportTest extends BaseTestCase {
 				+ "<br/><b>Request Parameters</b>" + requestParam
 				+ "<br/><b>Stack Trace</b><pre><code>" + stackTrace + "</code></pre>",
 				emailBody);
-
-		printEmail(email);
+		
 
 	}
 
-
-
-	private void printEmail(MimeMessage email) throws MessagingException,
-			IOException {
-		print("Here's the generated email (for your eyeballing pleasure):");
-		print(".............[Start of email]..............");
-		print("Subject: " + email.getSubject());
-		print("Body:");
-		print(email.getContent().toString());
-		print(".............[End of email]................");
-	}
 
 	@After
 	public void caseTearDown() {
 		helper.tearDown();
+		
 	}
 
 	@AfterClass()
