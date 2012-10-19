@@ -69,7 +69,7 @@ public class EvalSubmissionEditHelper extends Helper {
 	public String getEvaluationOptions(SubmissionData sub){
 		String result = "";
 		if(sub.points==Common.POINTS_NOT_SUBMITTED ||
-				sub.points==Common.UNINITIALIZED_INT) sub.points=100;
+				sub.points==Common.UNINITIALIZED_INT) sub.points=Common.POINTS_NOT_SURE;
 		for(int i=200; i>=0; i-=10){
 			result += "<option value=\"" + i + "\"" +
 						(i==sub.points
