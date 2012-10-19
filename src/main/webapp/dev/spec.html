@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>TM System Specification</title>
+
+<link rel="stylesheet" href="dev.css" type="text/css">
+<!--
+   <script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+   more scripts...
+-->
+</head>
+<body>
+	<div id="dhtmltooltip"></div>
+	<div id="frameTop">
+		<div class="header">
+			TEAMMATES<br>Online Peer Evaluation &amp; Peer Feedback System<br>[Developer
+			Manual (DevMan)]
+		</div>
+		<p>
+			<span class="subheader">Preliminaries</span><br> Features are
+			organized by user. We document requirements as a hierarchical feature
+			list.<br> <span class="bold">Feature ID</span><br> We use
+			short titles instead of numbers to identify features. For example, we
+			can refer to a feature as ‘Coordinator:ManageCourses:Create’. This
+			also allows easy insertion of new features into the document.<br>
+			{text within curly brackets are explanatory notes}<br> <span
+				class="bold">Feature priorities</span>
+		<ul>
+			<li>Priority high: Must have. The system will be unusable
+				without it.</li>
+			<li>Priority medium: Can do without, but will be very
+				inconvenient.</li>
+			<li>Priority low: There is an alternative, slightly less
+				convenient way of doing it.</li>
+		</ul>
+		<span class="bold">Feature status</span>
+		<ul>
+			<li>[pending] not implemented yet but likely to be implemented
+				in the future.</li>
+			<li>[partial] annotation is used to mark features only partially
+				implemented.</li>
+			<li><a href="#ideasandwishlist">Ideas and Wish List</a> section
+				contains features we may or may not implement.</li>
+		</ul>
+		<span class="bold">Data definitions:</span> A data field is described
+		under the feature in which it is populated. e.g., What kind of data is
+		allowed as the Course Name should be defined under createCourse
+		feature.
+		</p>
+	</div>
+	<div id=”frameBody”>
+		<p>
+			<span class="subheader">Table of Contents</span>
+		<ul>
+			<li><a href="#productvision">Product vision</a></li>
+			<li><a href="#identity">Identity</a></li>
+			<li><a href="#corefeatures">Core features</a></li>
+			<ul>
+				<li><a href="#anyuser">AnyUser</a></li>
+				<ul>
+					<ul>
+						<li><a href="#login">Login</a></li>
+						<li><a href="#logout">Logout</a></li>
+					</ul>
+					<li><a href="#website">Website</a></li>
+					<ul>
+						<li><a href="#homepage">HomePage</a></li>
+						<li><a href="#featurespage">FeaturesPage</a></li>
+						<li><a href="#aboutpage">AboutPage</a></li>
+						<li><a href="#termsofusepage">TermsOfUsePage</a></li>
+						<li><a href="#contactuspage">ContactUsPage</a></li>
+					</ul>
+				</ul>
+				<!--#c_ is used for all coordinator anchor tags because #homepage already exists above-->
+				<li><a href="#c_">Coordinator</a></li>
+				<ul>
+					<li><a href="#c_homepage">HomePage</a></li>
+					<ul>
+						<li><a href="#c_showonlyrecent">ShowOnlyRecent[pending]</a></li>
+					</ul>
+					<li><a href="#c_helppage">HelpPage</a></li>
+					<ul>
+						<li><a href="#c_gettingstarted">GettingStarted</a></li>
+						<li><a href="#c_faq">FAQ</a></li>
+						<li><a href="#c_helpfultips">HelpfulTips</a></li>
+					</ul>
+					<li><a href="#c_manageaccount">ManageAccount[pending]</a></li>
+					<ul>
+						<li><a href="#c_requestaccount">RequestAccount</a></li>
+						<li><a href="#c_editaccountdetails">EditAccountDetails</a></li>
+					</ul>
+					<li><a href="#c_managecourses">ManageCourses</a></li>
+					<ul>
+						<li><a href="#c_create">Create</a></li>
+						<li><a href="#c_edit">Edit[pending]</a></li>
+						<li><a href="#c_delete">Delete</a></li>
+						<li><a href="#c_list">List</a></li>
+					</ul>
+					<li><a href="#c_managestudents">ManageStudents</a></li>
+					<ul>
+						<li><a href="#c_massenroll">MassEnroll</a></li>
+						<li><a href="#c_viewlist">ViewList</a></li>
+						<li><a href="#c_sendinvite">SendInvite</a></li>
+						<li><a href="#c_addendumtoinvite">AddentumToInvite[pending]</a></li>
+						<li><a href="#c_resendinviteindividually">ResendInviteIndividually</a></li>
+						<li><a href="#c_addstudent">AddStudent[pending]</a></li>
+						<li><a href="#c_editstudent">EditStudent</a></li>
+						<li><a href="#c_massedit">MassEdit</a></li>
+						<li><a href="#c_deletestudent">DeleteStudent</a></li>
+						<li><a href="#c_massdelete">MassDelete</a></li>
+						<li><a href="#c_changeteamstructureforfutureevaluations">ChangeTeamStructureForFutureEvaluations</a></li>
+						<li><a href="#c_changeteamstructureforexistingevaluations">ChangeTeamStructureForExistingEvaluations</a></li>
+						<li><a href="#c_preserveorphanedsubmissions">PreserveOrphanedSubmissions</a></li>
+					</ul>
+					<!--#c_me is used as anchor tag because there's already c_create,c_edit above-->
+					<li><a href="#c_me">ManageEvaluations</a></li>
+					<ul>
+						<li><a href="#c_me_create">Create</a></li>
+						<li><a href="#c_me_opennow">OpenNow[pending]</a></li>
+						<li><a href="#c_me_viewlist">ViewList</a></li>
+						<li><a href="#c_me_notsure">NotSure</a></li>
+						<li><a href="#c_me_peerfeedbackoption">PeerFeedbackOption</a></li>
+						<li><a href="#c_me_edit">Edit</a></li>
+						<li><a href="#c_me_delete">Delete</a></li>
+					</ul>
+					<li><a href="#c_manageevaluationreports">ManageEvaluationReports</a></li>
+					<ul>
+						<li><a href="#c_summaryreport">SummaryReport</a></li>
+						<li><a href="#c_detailedreportbyreviewer">DetailedReportByReviewer</a></li>
+						<li><a href="#c_detailedreportbyreviewee">DetailedReportByReviewee</a></li>
+						<li><a href="#c_detailedreportbystudent">DetailedReportByStudent</a></li>
+						<li><a href="#c_editsubmissions">EditSubmissions</a></li>
+						<li><a href="#c_publish">Publish</a></li>
+						<li><a href="#c_unpublish">Unpublish</a></li>
+						<li><a href="#c_download">Download[pending]</a></li>
+						<li><a href="#c_peek">Peek</a></li>
+						<li><a href="#c_printselectively">PrintSelectively[pending]</a></li>
+					</ul>
+					<li><a href="#c_manageteamforming">ManageTeamForming[pending]</a></li>
+					<ul>
+						<li><a href="#c_createteamforming">CreateTeamForming</a></li>
+						<li><a href="#c_editteamforming">EditTeamForming</a></li>
+						<li><a href="#c_viewstatus">ViewStatis</a></li>
+						<li><a href="#c_movestudentbetweenteams">MoveStudentBetweenTeams</a></li>
+						<li><a href="#c_editteamprofile">EditTeamProfile</a></li>
+						<li><a href="#c_mergeteams">MergeTeams</a></li>
+						<li><a href="#c_sendreminder">SendReminder</a></li>
+					</ul>
+				</ul>
+				<li><a href="#s_">Student</a></li>
+				<ul>
+					<li><a href="#s_homepage">HomePage</a></li>
+					<ul>
+						<li><a href="#s_showrecentonly">ShowRecentOnly[pending]</a></li>
+					</ul>
+					<li><a href="#s_helppage">HelpPage</a></li>
+					<ul>
+						<li><a href="#s_helppage">Getting started</a></li>
+						<li><a href="#s_faq">FAQs</a></li>
+					</ul>
+					<li><a href="#s_managecourses">ManageCourses</a></li>
+					<ul>
+						<li><a href="#s_join">Join</a></li>
+						<li><a href="#s_viewteams">ViewTeams</a></li>
+						<li><a href="#s_clickablejoinlink">ClickableJoinLink</a></li>
+					</ul>
+					<li><a href="#s_manageevaluations">Manage Evaluations</a></li>
+					<ul>
+						<li><a href="#s_submit">Submit</a></li>
+						<li><a href="#s_view">View</a></li>
+						<li><a href="#s_edit">Edit</a></li>
+						<li><a href="#s_viewreport">ViewReport</a></li>
+					</ul>
+					<li><a href="#s_manageteamforming">ManageTeamForming[pending]</a></li>
+					<ul>
+						<li><a href="#s_editownprofile">EditOwnProfile</a></li>
+						<li><a href="#s_jointeam">JoinTeam</a></li>
+						<li><a href="#s_addmember">AddMember</a></li>
+						<li><a href="#s_mergewithteam">MergeWithTeam[pending]</a></li>
+						<li><a href="#s_sendjoinrequest">SendJoinRequest[pending]</a></li>
+						<li><a href="#s_editteamprofile">EditTeamProfile</a></li>
+					</ul>
+				</ul>
+				<li><a href="#instructor">Instructor</a></li>
+				<li><a href="#evaluator">Evaluator</a></li>
+				<li><a href="#admin">Admin</a></li>
+				<ul>
+					<li><a href="#managesystem">ManageSystem[pending]</a></li>
+					<ul>
+						<li><a href="#onlineoffline">OnlineOffline</a></li>
+						<li><a href="#statistics">Statistics</a></li>
+						<li><a href="#editsystemproperties">EditSystemProperties</a></li>
+					</ul>
+					<li><a href="#managedata">ManageData[pending]</a></li>
+					<ul>
+						<li><a href="#purgeolddata">PurgeOldData</a></li>
+						<li><a href="#approvecoordinatorrequest">ApproveCoordinatorRequest</a></li>
+						<li><a href="#createcoordinator">createcoordinator[partial]</a></li>
+						<li><a href="#editcoordinator">EditCoordinator</a></li>
+						<li><a href="#deletecoordinator">DeleteCoordinator</a></li>
+						<li><a href="#findentity">FindEntity</a></li>
+						<li><a href="#manageentity">ManageEntity</a></li>
+					</ul>
+					<li><a href="#testing">Testing</a></li>
+					<ul>
+						<li><a href="#masquerade">Masquerade</a></li>
+					</ul>
+				</ul>
+				<li><a href="#system">System</a><u> </u>
+					<ul>
+						<li><a href="#autocloseevaluations">AutoCloseEvaluations</a></li>
+						<li><a href="#autosendopeningalert">AutosendOpeningAlert</a></li>
+						<li><a href="#autosenddeadlinealert">AutoSendDeadlineAlert</a></li>
+						<li><a href="#autosendopeningsoonnotice">AutosendOpeningSoonNotice[pending]</a></li>
+						<li><a href="#autosendclosingnotice">AutosendClosingNotice[pending]</a></li>
+						<li><a href="#autosendresultspublishednotice">AutosendResultsPublishedNotice</a></li>
+						<li><a href="#autopurgeolddata">AutoPurgeOldData[pending]</a></li>
+						<li><a href="#contextualhelp">ContextualHelp</a></li>
+						<li><a href="#parallelevaluations">ParallelEvaluations</a></li>
+					</ul></li>
+			</ul>
+			<li><a href="#workarounds">Workarounds: what to do if...</a></li>
+			<li><a href="#supplementaryrequirements">Supplementary:
+					requirements</a></li>
+			<ul>
+				<li><a href="#pointcalculationscheme">Point Calculation
+						Scheme</a></li>
+				<li><a href="#reportformat">Report format</a></li>
+				<li><a href="#scalability">Scalability</a></li>
+				<li><a href="#security">Security</a></li>
+			</ul>
+			<li><a href="#glossary">Glossary</a></li>
+			<li><a href="#ideasandwishlist">Ideas and Wish list</a></li>
+		</ul>
+		</p>
+		<!--End of achor links-->
+		<hr>
+		<div class="content">
+			<p id="productvision">
+				<span class="header">Product vision</span><br> TEAMMATES is a
+				tool to <span class="bold">help teachers manage peer
+					evaluations in student teams.</span><br> Our target users are
+				teachers running team-based courses. Their students are secondary
+				users.<br>i.e., Teachers decide to use the system, not
+				students.<br>
+			</p>
+			<p id="identity">
+				<span class="header">Identity</span><br> <span class="bold">Tag
+					line</span> :Helping teachers manage student peer evaluations<br>
+				{Should convey the vision. Should try to include key concepts such
+				as ‘teachers’, ‘students’, ‘teams’, ‘help’, ‘peer feedback’, ‘peer
+				evaluation’} <span class="bold">Logo</span>:<br> <img
+					src="../images/teammateslogo-black.png" alt="TEAMMATES logo"><br>
+				{This one is OK, but we are looking for a better one}
+			</p>
+			<p id="corefeatures">
+				<img src="images/users-flow.png" alt="users-flow"
+					style="float: right" height="300"> <span class="header">Core
+					features</span><br> <span class="bold">users</span>:
+			<ul>
+				<li>Coordinator{owner of a course}</li>
+				<li>Student</li>
+				<li>Instructor[<span class="red">pending</span>]{Other members
+					of the teaching team. Not supported yet}
+				</li>
+				<li>Adminstrator[<span class="red">partial</span>]{Adminstrator
+					of the system}
+				</li>
+				<li>Evaluator[<span class="red">pending</span>]{Those who can
+					give feedback about students, but cannot view any reports e.g.,
+					tutors}
+				</li>
+			</ul>
+			<p>
+				<span class="bold">Current focus</span>: Peer feedback &amp; peer
+				evaluations<br>
+			</p>
+
+			<p>
+				<span class="bold">Possible future directions</span>:
+			<ul>
+				<li>Forming teams</li>
+				<li>Bidding for resources(slots/topics etc.)</li>
+				<li>Monitoring communication among team members</li>
+				<li>Recording 'work done' and get confirmation from teammates</li>
+				<li>Providing a testimony of past teamwork</li>
+				<li>Keeping in touch with past students(this does not fit with
+					our vision. But it can serve as an incentive for the target users)</li>
+			</ul>
+			</p>
+			<p id="anyuser">
+				<span class="subheader">AnyUser</span>
+			<ul>
+				<li><span id="login" class="bold">Login</span></li> Users use Google
+				ID to log in
+				<li><span id="logout" class="bold">Logout</li>
+			</ul>
+			<p id="website">
+				<span class="bold">Website</span><br> {'Website' refers to
+				static pages describing our product, which is a WebApp }
+			<ul>
+				<li><span id="homepage" class="bold">HomePage</span></li> Contains:
+				<br>
+				<ul>
+					<li>An overview of the system {Has to be perfectly done as
+						visitors get their first impression of the system from this
+						section}</li>
+					<li>Login buttons i.e., Login as Coordinator, Student [<span
+						class="red">partial</span>: currently takes to another login page]
+					</li>
+					<li>A link to 'Request for a coordinator account' [<span
+						class="red">partial</span>: currently points to a simple
+						GoogleDocs form]
+					</li>
+					<li>Displays 'Developed at School of Computing, National
+						University of Singapore’</li>
+					<li>Displays 'Running on Google App Engine'</li>
+					<li>Displays 'NNN submissions and and counting!' [<span
+						class="red">pending</span>]
+					</li> {note: try to keep important things ‘above the fold’}
+				</ul>
+				<li><span id="featurespage" class="bold">FeaturesPage</span></li> An
+				overview of main features
+				<li><span id="aboutpage" class="bold">AboutPage</span></li> A list
+				of past and present project members and contributors.
+				<li><span id="termsofusepage" class="bold">TermsOfUsePage</span></li>
+				Privacy, Quality of Service, etc.
+				<li><span id="contactuspage" class="bold">ContactUsPage</span></li>
+				Links to bug tracker, contact email, etc.
+			</ul>
+			</p>
+			</p>
+			<!--end of any user-->
+			<p id="c_">
+				<span class="subheader">Coordinator</span><br>
+			<p id="c_homepage">
+				<span class="bold">Homepage</span><br> [priority=low]<br>
+				The first page user sees upon login.<br> Contains shortcuts to
+				actions the user is likely to do next.<br>
+			<ul>
+				<li><span id="c_showonlyrecent" class="bold">ShowOnlyRecent[<span
+						class="red">pending</span>]
+				</span></li> [priority=medium]
+				<br> Show only courses within last year. This should cut-down
+				loading time. We should provide a way to see older courses.
+				<br>
+			</ul>
+			</p>
+			<p id="c_helppage">
+				<span class="bold">HelpPage</span><br> [priority=medium]<br>
+			<ul>
+				<li><span id="c_gettingstarted" class="bold">GettingStarted</span></li>
+				<li><span id="c_faq" class="bold">FAQ</span></li>
+				<li><span id="c_helpfultips" class="bold">HelpfulTips</span></li>
+			</ul>
+			</p>
+			<p id="c_manageaccount">
+				<span class="bold">ManageAccount [<span class="red">pending</span>]
+				</span>
+			<ul>
+				<li><span id="c_requestaccount" class="bold">RequestAccount</span></li>
+				<li><span id="c_editaccountdetails" class="bold">EditAccountDetails</span></li>
+			</ul>
+			<p id="c_managecourses">
+				<span class="bold">ManageCourses</span><br> {See glossary for
+				the specific definition of ‘course’}<br>
+			<ul>
+				<li><span id="c_create" class="bold">Create</span></li>
+				[priority=high]
+				<br> Course ID:{Course ID is necessary because the course name
+				is not unique enough to distinguish between courses because the same
+				course can be offered multiple times and courses can be shared
+				between instructors (in future) and many students}
+				<ul>
+					<li>Consists only of alphabets, numbers, dots, hyphens,
+						underscores and dollars</li>
+					<li>Spaces not allowed</li>
+					<li>Size limit: 21 [<span class="red">pending</span>: increase
+						to 30]
+					</li>
+					<li>Must be unique (not used by any other courses in the
+						system)</li>
+					<ul>
+						<li>Case insensitive[<span class="red">pending</span>]
+						</li>
+					</ul>
+					{Allowing same Course ID among different coordinators could be
+					problematic if we allow multiple instructors for a single course}
+					{Technically, we can get rid of CourseID field and enforce users to
+					use CourseName as a unique ID. In that case, we have to enforce
+					‘CourseName must be unique across the full system’. However, users
+					expect names to be non-unique and more tolerant of enforcing
+					uniqueness on an ID}
+					<li>Whenever possible, must be displayed in the same case as
+						user entered. {This is because the case of the letters can mean
+						something. Furthermore, converting to same case can reduce
+						readability.}</li>
+				</ul>
+				Course Name:
+				<ul>
+					<li>Any text</li>
+					<li>Size limit: 38 [<span class="red">pending</span>: increase
+						to 60]
+					</li>
+				</ul>
+				<li><span id="c_edit" class="bold">Edit [<span
+						class="red">pending</span>]
+				</span></li> [priority=low; only title can be edited anyway] {Rationale: If
+				coordinator made a typo in the title and realized it too late}
+				<li><span id="c_delete" class="bold">Delete</span></li>
+				[priority=high] System shows what will be deleted (students,
+				evaluations etc.), warn about irrecoverable loss of data, and
+				requests for confirmation [
+				<span class="red">pending</span>: Currently it’s a general warning,
+				we may want to give more details on what data will be deleted.].
+				<li><span id="c_list" class="bold">List</span></li> [priority=high]
+				<ul>
+					<li>Sort</li>
+					<li>ShowOnlyRecent</li> [priority=medium] Also give an option to
+					see older ones. CourseID/Name should be shown in the same case as
+					entered by user. It is not good to convert to all upper/lower case.
+					</p>
+				</ul>
+			</ul>
+			</p>
+			<p id="c_managestudents">
+				<span class="bold">ManageStudents</span>
+			<ul>
+				<li><span id="c_massenroll" class="bold">MassEnroll</span></li>
+				[priority=high]
+				<br>
+				<ul>
+					<li><span class="bold">single box:</span></li> All details to be
+					given in a single text box. Values can be copy-pasted from an excel
+					sheet. Columns given below.
+					<br> team | name | email | comment {we support both TAB and
+					‘|’ as delimiters}
+					<br>
+					<br> Leading/trailing whitespace and blank lines are ignored.
+					Only email needs to be unique.
+					<br>
+					<br> Comment is optional. It gives us flexibility to add more
+					details e.g., a phone number. Note there is no column for Google
+					id. The system will allow students to log in using their google id
+					and attach their google id to their email address.
+					<br>
+					<span class="strikeout">‘team’ column can be left blank if
+						the student hasn’t been put in a team yet.</span>
+					<br> [
+					<span class="red">pending</span>]: revert to team column being
+					compulsory]}
+
+					<li><span class="bold">white space:</span></li>
+					<ul>
+						<li>any white space including blank lines are to be forgiven</li>
+						<li>leading and trailing spaces are to be discarded.</li>
+					</ul>
+					<li><span class="bold">update feedback:</span></li> after any mass
+					enroll action, changes to the database will be shown to the user as
+					feedback. Details to show: new, updated, same as before
+					<li><span class="bold">ignore repeat:</span></li> if the same
+					student was added twice, it will be ignored with a warning (warning
+					is [
+					<span class="red">pending</span>])
+				</ul>
+				<p>
+					team name: any text; size limit: 25; case insensitive <br>
+					student email: unique across the same course; case insensitive [<span
+						class="red">pending</span>] <br> student name: any text; size
+					limit: 40; error handling [<span class="red">pending</span>] <br>
+					student comment: any text excluding ‘|’, size limit 500 char
+				<li><span id="c_viewlist" class="bold">ViewList</span></li>
+				[priority=high]
+				<br> Fields to show: team | name | email | google id | comment
+				[
+				<span class="red">pending</span>: some fields are currently not
+				shown]
+				<li><span id="c_sendinvite" class="bold">SendInvite</span></li>
+				[priority=medium]
+				<br> Send invitation email to
+				<span class="underline">all unregistered students</span> in a class.
+				Normally, there is no need to do this because the invite is sent
+				automatically at the opening of the first evaluation of that course.
+				<li><span id="c_addendumtoinvite" class="bold">AddendumToInvite
+						[<span class="red">pending</span>]
+				</span></li> [priority=low; we can send this using a separate email]
+				<br> Coordinator can add additional information to the
+				invitation email sent to students.
+				<li><span id="c_resendinviteindividually" class="bold">ResendInviteIndividually</span>
+				</li> [priority=low; The invite can be sent by email]
+				<br> Possible usages:
+				<ul>
+					<li>In case a student claims he/she did not receive the invite
+						or gave the wrong email address.</li>
+					<li>A student was added to the course after the invite were
+						sent out.</li>
+				</ul>
+
+				<ol>
+					<li>Coordinator chooses to resend invite for a student from
+						the student list</li>
+					<li>System displays action status</li>
+				</ol>
+				<li><span id="c_addstudent" class="bold">AddStudent [<span
+						class="red">pending</span>]
+				</span></li> [priority=high]
+				<br> This will be done using [MassEnroll] above
+
+				<li><span id="c_editstudent" class="bold">EditStudent</span></li>
+				[priority=high]
+				<br> A normal way to edit student details, one student at a
+				time.
+				<ul>
+					<li>change team anytime</li>
+					<li>change email any time {this is the only way to change the
+						student’s email}</li>
+					<li>change google id anytime. [<span class="red">pending</span>]
+					</li>
+				</ul>
+
+				<li><span id="c_massedit" class="bold">MassEdit</span></li>
+				[priority=low, smaller changes can be done using ‘Edit student’
+				feature above. For mass changes, can delete and add the whole course
+				again]
+				<br> Can be done similar to ‘MassEnroll’ above.
+				<span class="underline">However</span>, any changes to email address
+				will be treated as adding a new student.
+				<li><span id="c_deletestudent" class="bold">DeleteStudent</span></li>
+				[priority=high]
+				<br> A convenient way to delete one student at a time.
+				<span class="strikeout"><li><span id="c_massdelete"
+						class="bold">MassDelete</span></li> {removed: unnecessary feature}<br>
+					[priority=low; can still delete one by one, or the course can be
+					recreated]<br> Delete all students in a course.</span>
+				<li><span id="c_changeteamstructureforfutureevaluations"
+					class="bold">ChangeTeamStructureForFutureEvaluations</span></li> Team
+				structure can be changed at any time.
+				<span class="strikeout">However, each evaluation will be
+					bound to the team structure that existed at the time the evaluation
+					was created.</span>
+				<li><span id="c_changeteamstructureforexistingevaluations"
+					class="bold">ChangeTeamStructureForExistingEvaluations</span></li>
+				[Priority=medium]
+				<br> Changes can be done via ‘enroll’ or ‘edit student’
+				features. Changes are applied to all existing evaluations too, even
+				the CLOSED ones. This can create ‘orphan’ submissions. e.g., if a
+				student was moved to another team, his previous submissions to
+				members of the original team will be orphaned and no longer visible.
+				<br> Intended usage is
+				<ul>
+					<li>The coordinator discovers a mistake in team structure soon
+						after opening the first evaluation</li>
+					<li>A student joins/leaves the course midway into the course.</li>
+				</ul>
+				However, it is not meant to support wholesale switching of teams in
+				the middle of a term. For such situations, the coordinator should
+				create a different course for each new team structure.
+				<li><span id="c_preserveorphanedsubmissions" class="bold">PreserveOrphanedSubmissions</span></li>
+				[Hidden feature]
+				<br> ChangeTeamStructureForExistingEvaluations feature given
+				above can create ‘orphan’ submission. The system preserves such
+				submissions. If the coordinator switch to the previous team
+				structure, these submissions will become visible again. This
+				prevents loss of data due to inadvertent changes to team structure.
+			</ul>
+			</p>
+			<p id="c_me">
+				<span class="bold">ManageEvaluations</span>
+			<ul>
+				<li><span id="c_me_create" class="bold">Create</span></li>
+				[priority=high]
+				<br> Fields:id, title, opening date/time, closing date/time,
+				time zone, grace period, instructions, peer feedback
+				(enabled|disabled)
+				<br> Include ‘default instruction’ {to make things easier for
+				the coordinator}
+				<br>
+				<br> evaluation name:
+				<ul>
+					<li>data type similar to Course Name; size limit: 38;</li>
+					<li>case insensitive [<span class="red">pending</span>]
+				</ul>
+				</li>start time: smallest unit is 1 minute [
+				<span class="red">pending</span>: currently in 1 hour steps], should
+				be after current time.
+				<br> end time: smallest unit is 1 minute[
+				<span class="red">pending</span>: currently in 1 hour steps], should
+				be after start time
+				<br> grace period: 0, 5, 10, 15, 20 mintues
+				<br> timeZone: autodetected, but editable
+				<br> Evaluations with same Course ID and evaluation name are
+				not allowed.
+				<li><span id="c_me_opennow" class="bold">OpenNow [<span
+						class="red">pending</span>]
+				</span></li> Opens an evaluation that is due to open in the future.
+				<br> Warn about emails being sent to students.
+				<br> An alternative to this one is to let the coordinator
+				create an evaluation which start time is in the past. [
+				<span class="red">pending</span>]
+				<br> {decided not to have close actions because there is not
+				much benefit}
+				<li><span id="c_me_viewlist" class="bold">ViewList</span></li>
+				[priority=high]
+				<br> ‘Must show’ fields: id, title, status, response statistics
+				(i.e., # submitted, # students in the class)
+				<br> {status: AWAITING | OPEN | CLOSED | PUBLISHED}
+				<br> Fields optional to show [
+				<span class="red">pending</span>] : opening date/time, closing
+				date/time + grace period
+				<li><span id="c_me_notsure" class="bold">NotSure</span></li>
+				[priority=medium]
+				<br> If the student does not have enough information about how
+				much a team mate contributed, he can choose ‘Not sure’.
+				<br> Leave default as blank.
+				<li><span id="c_me_peerfeedbackoption" class="bold">PeerFeedbackOption</span></li>
+				[priority=medium]
+				<br> This allows an evaluation to include peer feedback.
+				<li><span id="c_me_edit" class="bold">Edit</span></li>
+				[priority=high]
+				<br> Only available on {AWAITING | OPEN | CLOSED}
+				<br> Editing an evaluation that is already OPEN recommends
+				coordinator to send e-mail to all students [
+				<span class="red">pending</span>]
+				<br> All fields except peer feedback option should be editable.
+				<li><span id="c_me_editperrfeedbackoptionafteropen"
+					class="bold">EditPeerFeedbackOptionAfterOpen: [<span
+						class="red">pending</span>]
+				</span></li> [priority=low, only useful on a rare occasion when coordinator set
+				the option to the wrong value initially]
+				<br> Same constraints as ‘Create’ above
+				<li><span id="c_me_delete" class="bold">Delete</span></li>
+				[priority=high]
+				<br> All submissions, if any, to be deleted.
+				<br> Warn about the existing submissions that will be deleted.
+				[
+				<span class="red">pending</span>]
+			</ul>
+			</p>
+			<p id="c_manageevaluationreports">
+				ManageEvaluationReports Refer <a href="#pointscalculationscheme">Points
+					Calculation Scheme</a>
+			<ul>
+				<li><span id="c_summaryreport" class="bold">SummaryReport</span></li>
+				[priority=high]
+				<br> Shows CC = Claimed Contribution; PC = Perceived
+				Contribution; Points Given, Points Received [
+				<span class="red">pending</span>: remove Points Given, rename Points
+				Received to teammates’ opinions]
+				<br>
+				<span class="bold">PrinterFriendlyView</span> [
+				<span class="red">pending</span>]
+				<li><span id="c_detailedreportbyreviewer" class="bold">DetailedReport
+						ByReviewer</span></li> [priority=high]
+				<li><span id="c_detailedreportbyreviewee" class="bold">DetailedReport
+						ByReviewee</span></li> [priority=high]
+				<li><span id="c_detailedreportbystudent" class="bold">DetailedReport
+						ByStudent</span></li> [priority=high]
+				<br> Shows details of what student submitted and the report
+				seen by student.
+				<br> This can be used for printing report for individual
+				students.
+				<br> PrinterFriendlyView [
+				<span class="red">pending</span>]
+				<li><span id="c_editsubmissions" class="bold">EditSubmissions</span></li>
+				[priority=medium]
+				<ul>
+					<li>EditComments</li>
+					<li>EditPoints</li>
+				</ul>
+				Possible usage:
+				<ul>
+					<li>When a student cannot access the system and sends his
+						evaluation by email, coordinator can enter it manually.</li>
+					<li>For the evaluator to moderate peer feedback entered by
+						students before they are published.</li>
+				</ul>
+				Can be edited anytime. Comments are not compulsory
+				<br> Editing allowed only ‘by reviewer’.
+				<li><span id="c_publish" class="bold">Publish</span></li>
+				[priority=high]
+				<br> Only available on {CLOSED}
+				<br> Asks for confirmation before publishing.
+				<br> Sends email automatically to inform students.
+				<li><span id="c_unpublish" class="bold">Unpublish</span></li>
+				[priority=high]
+				<br> Only available on {PUBLISHED}
+				<li><span id="c_download" class="bold">Download [<span
+						class="red">pending</span>]
+				</span></li> [priority=medium]
+				<br> {May be as a tab separated file that can be opened in
+				excel?}
+				<li><span id="c_peek" class="bold">Peek</span></li>
+				[priority=medium]
+				<br> Can view any report for ongoing evaluations.
+				<li><span id="c_printselectively" class="bold">PrintSelectively
+						[<span class="red">pending</span>]
+				</span></li> [priority=medium]
+			</ul>
+			</p>
+			<p id="c_manageteamforming">
+				ManageTeamForming [<span class="red">pending</span>] <br>
+				{Alternative name: TeamRegistration}
+			<ul>
+				<li><span id="c_createteamforming" class="bold"><span
+						class="strikeout">CreateTeamForming</span></span></li> Fields:courseID,
+				opening date/time, closing date/time, time zone, grace period,
+				instructions to students, profile template
+				<br>
+				<br> CourseID is the primary key. So 1 team forming session per
+				course at any time.
+				<br> start time: smallest unit is 1 minute
+				<br> end time: smallest unit is 1 minute grace period: 5, 10,
+				15, 20 minutes
+				<br> Creating team forming session for a course that does not
+				have any students is not allowed.
+				<br> Only one TFS per course.
+				<li><span id="c_editteamforming" class="bold">EditTeamForming</span></li>
+				Editable fields while the session is in AWAITING stage: Start time,
+				end time, grace period, instructions and profile template
+				<br> Editable fields when the session is OPEN: End time, grace
+				period, instructions and profile template.
+				<li><span id="c_viewstatus" class="bold">ViewStatus</span></li>
+				{status: AWAITING | OPEN | CLOSED}
+				<br> AWAITING: When the start time is not yet reached; session
+				is yet to open
+				<br> OPEN: &gt; start time but &lt; end time
+				<br> CLOSED: after end time
+				<br>
+				<br> Status can be viewed in the Status column under team
+				forming sessions list table.
+				<li><span id="c_viewteams" class="bold">View teams</span></li>
+				Coordinator can view the student teams formed at any time during or
+				after the team forming session.
+				<br> Sort according to team size, team name
+				<li><span id="c_movestudentbetweenteams" class="bold">MoveStudentBetweenTeams</span></li>
+				To delete a student, uses the ‘View’ option under courses tab.
+				<br> To change a team of the student, use the ‘Change Team’
+				link in the Actions column of the row that contains student name.
+				<br> Note: Move to team link is used if the student is
+				currently without any team
+				<br>
+				<br> Change team of {Student} page provides two options.
+				<ol>
+					<li>Add to existing team: Pick a team from the list of current
+						teams. (By default selected; use drop down to pick a team)</li>
+					<li>Add to a new team: To move this student to a new team.
+						(Mark the radio button and enter the team name in text box)</li>
+					<ol type="a">
+						<li>If team name box is left blank student’s team is updated
+							as “” meaning he/she will be without a team</li>
+					</ol>
+				</ol>
+				<br> Back button brings back to the team forming page
+				<br> Save button saves the student’s new team and displays a
+				status message in the manage team forming page.
+				<li><span id="c_editteamprofile" class="bold">EditTeamProfile</span></li>
+				Coordinator can edit any team profile anytime. Team profile can be
+				accessed by clicking on the team name from manage team forming
+				session page.
+				<br> A separate link for ‘edit team profile’
+				<br>
+				<br> Fields on the team profile page: CourseID, course name,
+				team name, team profile
+				<br> Fields editable: team name and team profile
+				<br> TeamName should be unique. [courseID, team name] is the
+				key.
+				<br>
+				<br> Back button to go back to manage team forming session page
+				Save button to save the changes and show status message on the
+				manage team forming session page.
+				<li><span id="c_mergeteams" class="bold">MergeTeams</span></li>
+				[priority=low]
+				<br>Currently it is only possible to move one student from a
+				team to another.
+				<br>Merging team feature will be good to have
+				<li><span id="c_sendreminder" class="bold">SendReminder</span></li>
+				‘Remind’ link in the table on the main page of team forming sends a
+				reminder to all those students who are without the team to make a
+				team. This link is only available while the team forming session is
+				OPEN.
+				<li><span id="c_viewlog" class="bold">View Log</span></li> View log
+				feature is always available to view the log of any team forming
+				session created. It shows a log of student actions sorted according
+				to the timestamp.
+				<br>
+				<br> When is no log in the beginning, a message saying that
+				“There is no log currently available” is shown to the coordinator
+			</ul>
+			</p>
+			</p>
+			<!--end of coordinator-->
+			<p id="s_">
+				<span class="subheader">Student</span>
+			<p id="s_homepage">
+				<span class="bold">HomePage [priority=low]</span> <br> The home
+				page contains things requiring student's attention e.g., evaluations
+				to submit, reports to view etc.
+			<ul>
+				<li><span id="s_showrecentonly" class="bold">ShowRecentOnly
+						[<span class="red">pending</span>]
+				</span></li>
+			</ul>
+			</p>
+			<p id="s_helppage">
+				<span class="bold">HelpPage</span> <br> [priority=low] {The
+				system is very intuitive and contextual help is already available}
+			<ul>
+				<li><span id="s_gettingstarted" class="bold">Getting
+						started</span></li>
+				<li><span id="s_faq" class="bold">FAQs</span></li>
+			</ul>
+			</p>
+			<p id="s_managecourses">
+				<span class="bold">ManageCourses</span>
+			<ul>
+				<li><span id="s_join" class="bold">Join</span> <br>[priority=high]
+					<br>Use the key to register for a course</li>
+				<li><span id="s_viewteams" class="bold">ViewTeams</span> <br>
+					[priority=medium] <br> This is to let students view team
+					details before any evaluation starts. It will help to detect any
+					human errors in the student enrollment process.</li>
+				<li><span id="s_clickablejoinlink" class="bold">ClickableJoinLink</span>
+					<br> Invite contains a link that automatically joins the
+					student in the right class without having to copy paste key.</li>
+			</ul>
+			</p>
+			<p id="s_manageevaluations">
+				<span class="bold">Manage Evaluations</span>
+			<ul>
+				<li><span id="s_submit" class="bold">Submit</span> <br>
+					[priority=high] <br> Input fields (text fields are optional)
+					<ul>
+						<li><span class="underline">For himself</span> <br>
+							Estimated contribution: Choose from the <span class="italic">contribution
+								scale</span> (see Glossary) Justification for the above estimation:</li>
+						<li><span class="underline">For each team member</span>:<br>
+							The level of contribution <br> Comments to the coordinator <br>
+							Peer feedback to the teammate: {only if 'peer-feedback' is
+							enabled for the evaluation}</li>
+						<li><span class="underline">For the whole team</span>:<br>
+							Comments about the team</li>
+					</ul></li>
+				<li><span id="s_view" class="bold">View</span> <br>
+					[priority=high] <br> To view a submitted evaluation [pending:
+					currently, only available for OPEN (via edit), but should be
+					available for CLOSED as well]</li>
+				<li><span id="s_edit" class="bold">Edit</span> <br>
+					[priority=high] <br> To edit a submitted evaluation before the
+					deadline</li>
+				<li><span id="s_viewreport" class="bold">ViewReport</span> <br>[priority=high]
+					<br>The report shows following fields.
+					<ul>
+						<li>Course id, evaluation name</li>
+						<li>Claimed contribution</li>
+						<li>Perceived contribution</li>
+						<li>Peer feedback: These appear in alphabetical order of
+							comments (otherwise, student can guess who gave which feedback).</li>
+						<li>What team members said they contributed to the project.</li>
+						<li>Values from own submission: Peer-evaluation values
+							student entered when he submitted his peer-evaluation. i.e.,
+							ratings and comments he gave for team members. {This is for
+							student's own reference. It is unlikely students remember what he
+							entered but he might want to recall them after seeing
+							ratings/comments his teammates gave him}.</li>
+					</ul></li>
+			</ul>
+			</p>
+			<p id="s_manageteamforming">
+				<span class="bold">ManageTeamForming [<span class="red">pending</span>]
+				</span>
+			<ul>
+				<li><span id="s_editownprofile" class="bold">EditOwnProfile</span>
+					<br>Students can edit their own profile using as guidance the
+					profile template (if any) provided by the coordinator. Profile can
+					be any number of characters. <br> New line character is
+					currently not recognized. [pending]</li>
+				<li><span id="s_jointeam" class="bold">JoinTeam</span> <br>{Perhaps
+					the button/link can be named "Joined this team" instead of "Join
+					this team" to emphasize that the system is for recording formed
+					teams, not forming teams using the system}<br> Students can
+					join any of the existing teams (if any).<br> If students are
+					already in a team, they will automatically leave that team and
+					become a part of the new team.</li>
+				<li><span id="s_addmember" class="bold">AddMember</span> <br>
+					Students can add anyone who does not have a team till now, to their
+					teams (using "Add to my team" action). They cannot add someone who
+					is already in some other team.</li>
+				<li><span id="s_mergewithteam" class="bold">MergeWithTeam
+						[<span class="red">pending</span>]
+				</span><br> Students can't merge teams together <br>All the
+					students in a particular team currently need to change their team
+					themselves</li>
+				<li><span id="s_sendjoinrequest" class="bold">SendJoinRequest[<span
+						class="red">pending</span>]
+				</span> <br> It is not catered to avoid spamming e-mails of students.
+				</li>
+				<li><span id="s_editteamprofile" class="bold">EditTeamProfile</span>
+					<br> Students can edit the team profile of their team and view
+					the team profiles of other teams. <br> Key: {courseID,
+					teamName}. TeamName is also unique.</li>
+			</ul>
+			</p>
+			</p>
+			<!--end of student-->
+			<p id="instructor">
+				<span class="subheader">Instructor[<span class="red">pending</span>]
+				</span><br> [priority=high]<br> {Should we support instructors
+				(i.e., teaching team members who are not coordinators)? allow
+				multiple coordinators?}
+			</p>
+			<p id="evaluator">
+				<span class="subheader">Evaluator[<span class="red">pending</span>]
+				</span><br> [priority=medium]<br>
+			</p>
+			<p id="admin" class="subheader">Admin</p>
+			<p class="bold" id="managesystem">
+				ManageSystem [<span class="red">pending</span>]
+			</p>
+			<ul>
+				<li><span class="bold" id="onlineoffline">OnlineOffline</span><br>
+					Ability to take the system offline/online for maintenance etc.<br>
+					Ability to set the message shown to users during downtime.<br>
+					Ability to do the above without deploying a new version.</li>
+				<li><span class="bold" id="statistics">Statistics</span><br>
+					View how many students, evaluations, etc.</li>
+				<li class="strikeout"><span class="bold"
+					id="editsystemproperties">EditSystemProperties</span><br>
+					System URL, email address</li>
+			</ul>
+			<p class="bold" id="managedata">
+				ManageData[<span class="red">pending</span>]
+			</p>
+			<ul>
+				<li><span class="bold" id="purgeolddata">PurgeOldData</span><br>
+					To get rid of old data when we reach the storage limit. {Can this
+					be done automatically?}<br> May be find a way to preserve old
+					data without deleting it?</li>
+				<li><span class="bold" id="approvecoordinatorrequest">ApproveCoordinatorRequest</span><br>
+					Send automatic email about approval</li>
+				<li><span id="createcoordinator" class="bold">CreateCoordinator
+						[partial]</span></li>
+				<li><span id="editcoordinator" class="bold">EditCoordinator</span></li>
+				<li><span id="deletecoordinator" class="bold">DeleteCoordinator</span></li>
+				<li><span id="findentity" class="bold">FindEntity</span><br>
+					To find an entity easily (like a global search)</li>
+				<li><span id="manageentity" class="bold">ManageEntity</span><br>
+					This will edit/delete any entity (student, evaluation, course,
+					etc.) while taking care of cascading deletes as well</li>
+			</ul>
+			<p id="testing" class="bold">Testing</p>
+			<ul>
+				<li><span id="masquerade" class="bold">Masquerade</span><br>
+					Ability to impersonate any user (this will be useful for testing
+					and troubleshooting) by adding &amp;user=userId to the URL.<br>
+					This should include the changes to every action on the page to work
+					properly as the masqueraded user (i.e., the userId written in the
+					URL)</li>
+			</ul>
+			<p id="system">
+				<span class="subheader">System</span>
+			</p>
+			<ul>
+				<li><span id="autocloseevaluations" class="bold">AutoCloseEvaluations</span><br>
+					Automatically closes evaluations at closeTime
+					(=endTime+gracePeriod).</li>
+				<li><span id="autosendopeningalert" class="bold">AutosendOpeningAlert</span>
+					<ul>
+						<li>forStudent: [priority=high] Automatically send an email
+							alert to students when an evaluation opens. If the student is yet
+							to join the course, send the invite with the alert. [pending: Use
+							<a href="mailto:emailnotknown">noreply@APP-ID.appspot</a> as the
+							'from' address].
+						</li>
+						<li>forCoordinator [<span class="red">pending</span>]:
+							[priority=low]Send a similar email to coordinator 24 hours before
+							the evaluation opens. {This helps to prevent 'accidental' opening
+							of evaluations because the coordinator set the wrong opening
+							time}
+						</li>
+					</ul></li>
+				<li><span id="autosenddeadlinealert" class="bold">AutoSendDeadlineAlert</span><br>
+					[priority=medium]
+					<ul>
+						<li>Auto24hrs: Automatically send an email alert to students
+							who haven't submitted an evaluation at 24 hours prior to closing
+							time. <br> This email should not be sent if the opening
+							alert was sent within last 24 hours (i.e., within 48 hours of the
+							closing time).[pending]
+						</li>
+					</ul></li>
+				<li><span id="autosendopeningsoonnotice" class="bold">AutosendOpeningSoonNotice[<span
+						class="red">pending</span>]
+				</span><br> [priority=low]<br> Send automatic email alert to
+					coordinator that an evaluation is opening soon.</li>
+				<li><span id="autosendclosingnotice" class="bold">AutosendClosingNotice[<span
+						class="red">pending</span>]
+				</span><br> [priority=low]<br> Send automatic email alert to
+					coordinator that an evaluation closed.</li>
+				<li><span id="autosendresultspublishednotice" class="bold">AutosendResultsPublishedNotice</span><br>
+					Automatically email students to inform that results have been
+					published.</li>
+				<li><span id="autopurgeolddata" class="bold">AutoPurgeOldData
+						[<span class="red">pending</span>]
+				</span><br> Periodically purge old data.</li>
+				<li><span id="contextualhelp" class="bold">ContextualHelp</span><br>
+					Use hover-over tips to explan things.</li>
+				<li><span id="parallelevaluations" class="bold">ParallelEvaluations</span><br>
+					Any number of non-closed evaluations can exist in parallel for the
+					same course</li>
+			</ul>
+			<p id="workarounds">
+				<span class="header">Workarounds: what to do if...</span>
+			<p>If these happen often, they should be moved to Help pages.</p>
+			<br>
+			<ul>
+				<li><span class="bold">Account claimed by wrong person:</span><br>
+					Situation: The key was sent to the wrong person and the account was
+					claimed by that person.<br> Resolution: Delete the student and
+					add again. This will generate a new key.</li>
+				<li><span class="bold">Coordinator wants to keep a
+						record of original values before moderation:</span><br> Resolution:
+					Just download the report before moderating values.</li>
+				<li><span class="bold">More than one person needs to
+						coordinate the module</span><br> Resolution: create a separate
+					google id and share it among teaching team.</li>
+			</ul>
+			</p>
+
+			<p id="supplementaryrequirements">
+				<span class="header">Supplementary requirements</span> <br>
+			<p id="pointcalculationscheme">
+				<span class="subheader">Point Calculation Scheme</span>
+			<ul>
+				<li>Students enter values using the <span class="italic">contribution
+						scale</span> (see glossary).<br> Based on the values above, we try
+					to deduce the student's answer to the following two questions:<br>
+					<ol type="a">
+						<li>In your opinion, what portion of the project did you do?
+						</li>
+						<li>In your opinion, if your teammates are doing the project
+							by themselves without you, how do they compare against each other
+							in terms of contribution?</li>
+					</ol> In the calculation, we try to avoid (a) affecting (b).
+				</li>
+				<li>Calculation steps:
+					<ol type="1">
+						<li>calculate <span class="italic">normalizedClaimed</span>
+							values. <br> <br> (normalized value) = (original value)
+							* (normalization factor)<br> e.g., <br> entered values 
+							90 [self], 110,130, N/A (total = 330)<br> normalization
+							factor: (100*3)/(90+110+130) = 300/330<br> normalized: 82,
+							100, 118, N/A<br> normalized total = 300 (i.e. 100*number of
+							inputs)
+							</p> This answers the question (a) above. The student thinks he did
+							'Equal share - 18%' (as indicated by 82).
+						</li>
+						<li>Calculate peerContributionRatio values by removing
+							self-rating bias<br> Here, we ignore the self rating and
+							normalize remaining values.<br> e.g.,<br> normalized
+							input (from above): 82,100,  118, N/A<br> Calculating
+							unbiased values: <br> 82 → ignored.<br> 100 → 
+							100*200/(100+118) = 92<br> 118 →  118*200/(100+118) = 108<br>
+							Unbiased values: [self (ignored)], 92, 108, N/A<br> Unbiased
+							values total = 200 (100*number of ratings) This answers the
+							question (b) above. In the example above, the student thinks his
+							teammates contribution ratio is 92:108 and is unsure of the third
+							teammate.
+						</li>
+						<li>Next, we calculate <span class="italic">averagePerceivedContributionRatio</span>
+							among team members, independent of (a). This consists of these
+							steps:
+							<ol type="i">
+								<li><span class="bold">calculate averagePerceived</span>:<br>
+									For each student, take the average of peerContributionRatio
+									that others have given him.</li>
+								<li><span class="bold">calculate
+										normalizedAveragePerceived</span>:<br> Normalize the averages,
+									similar to how input was normalized. <br>
+									normalizedAveragePerceived =
+									averagePerceived*normalizationFactor<br>
+									normalizationFactor = 100 * (number of students with
+									averagePerceived values)/(sum of averagePerceived)<br>
+									This is the relative work distribution among team members based
+									on unbiased opinions of team members.</li>
+								<li><span class="bold">calculate
+										normalizedPeerContributionRatio</span>. Since we normalized the
+									averages (in previous step), we also normalize the value that
+									were averaged in the first place. This is such that average and
+									averaged tallies with each other.<br>
+									normalizedPeerContributionRatio =
+									peerContributionRatio*normalizationFactor</li>
+							</ol>
+						<li><p>
+								For each student, denormalize normalizedAveragePerceived We
+								scale back to match the total of original input by student. That
+								way, student can compare his input (i.e., his opinion of the
+								team’s work distribution) with the team’s opinion. In the
+								example used above, we should use 330/300 as the denormalizing
+								factor for that student. The result could be something like
+								this: <br> <br> student’s opinion: 90 [self], 110,130,
+								N/A (total = 330) <br> team’s opinion : 95, 105,125, 115
+								(total = 440) <br> <br> Value transformation steps:
+								input (i.e. claimed) → normalizedClaimed → peerContributionRatio
+								→ averagePerceived → normalizedAveragePerceived →
+								denormalizedAveragePerceived |→ normalizedPeerContributionRatio
+							</p></li>
+					</ol>
+				</li>
+				<li>Student view:
+					<ul>
+						<li>for claimed contribution, show: same as what the student
+							entered initially (otherwise, the student will be confused as to
+							how the value got changed)</li>
+						<li>for perceived contribution, show:
+							denormalizedAveragePerceived</li>
+					</ul>
+				</li>
+				<li>Coordinator view:
+					<ul>
+						<li>for claimed contribution, show: normalizedClaimed</li>
+						<li>for perceived contribution, show:
+							normalizedAveragePerceived</li>
+					</ul>
+				</li>
+			</ul>
+			<p>
+				<span class="underline"><span class="bold">Note:</span></span> <br>
+				Scenario 1: If students give 0 points to each other, then everyone
+				should receive Equal Share and difference should be 0. <br>
+				Scenario 2: If students are not sure or do not submit the
+				evaluation, then Perceived/Claimed for Coordinator should be shown
+				as N/A instead of Equal Share. In this case, difference should be
+				shown as N/A also.
+			</p>
+			</p>
+			<!--end of calculation-->
+			<p id="reportformat">
+				<span class="subheader">Report format</span> <br> Some
+				important questions a coordinator may want answered (i.e., the
+				system should provide ways of answering these quickly and easily)
+			<ul>
+				<li>This guy's average is rather high. Did everyone give him
+					positive points or was the average skewed by his friend? {This is
+					addressed by SummaryReport}</li>
+				<li>This guy got very bad comments. What did he say about
+					others (may be there were mutual bad feelings between him and the
+					team)? {This is addressed by DetailedReport ByStudent}</li>
+				<li>Who overestimated their contribution? {Can be done by
+					sorting based on [claimed-perceived]}</li>
+				<li>Who are high/low contributors? {Can be done by sorting
+					based on perceived}</li>
+			</ul>
+			Reports have to be highly optimized for <span class="bold">space,
+				navigation</span>, and<span class="bold"> attention</span>.
+			<ul>
+				<li>space: should not have very long reports with lot of white
+					space. This is particularly a problem if we use table format and
+					one cell happens to contain a large blob of text like a super long
+					rant by a student.</li>
+				<li>navigation: coordinators should be able to find information
+					easily without having to scroll up and down. think of locality of
+					information. data that are related should appear together.</li>
+				<li>attention: the report should highlight important things and
+					provide ways to zoom in important things. for example, coordinator
+					should be able to find the cases that require his attention most.
+					using colors, sorting facilities, etc can help here.</li>
+			</ul>
+			</p>
+			<p id="scalability">
+				<span class="subheader">Scalability</span> <br> In phase 1, the
+				system should be able to handle
+			<ul>
+				<li>Classes of up to 300 students</li>
+				<li>Up to 10K students</li>
+				<li>Up to 100 coordinators</li>
+			</ul>
+			<p>In phase 2,</p>
+			<ul>
+				<li>Up to 100K students</li>
+				<li>Up to 1000 coordinators</li>
+			</ul>
+			</p>
+			<p id="security">
+				<span class="subheader">Security</span>
+			<ul>
+				<li>Keys are not too similar to each other {to avoid ‘guessing’
+					of keys}</li>
+				<li>Prevents masquerading via URL manipulation</li>
+				<li>Immune to DoS attacks</li>
+				<li>Immune to cross-site and SQL injection attacks</li>
+				<li>Only the person who deployed the system has the key to
+					access the API directly.</li>
+			</ul>
+			</p>
+			</p>
+			<!--end of supplementary-->
+
+			<p id="glossary">
+				<span class="header">Glossary</span> <br> Refer to the Glossary
+				in the <a href="devman.html#glossary" target="new">Developer Manual</a>
+			</p>
+			<p id="ideasandwishlist">
+				<span class="header">Ideas and Wish List</span> <br> <br>
+			</p>
+			<ul>
+				<li><span class="bold">DetectBouncing</span>: detect emails
+					that bounced and let coordinator know</li>
+				<li><span class="bold">ShowInviteSent</span>:  Show if the
+					student was sent an invite.</li>
+				<li><span class="bold">DirectUrlToPage</span>: Most pages in
+					the system can be reached using a direct URL</li>
+				<li><span class="bold">TrackReportViews</span>: Keep track of
+					whether students actually view published reports. It may be useful
+					to identify those who don';t even care enough to read feedback from
+					peers.</li>
+				<li><span class="bold">SelectiveRelease</span>: Coordinator can
+					block release of reports for particular student (e.g., because that
+					did not write good comments).</li>
+				<li><span class="bold">PeerFeedbackOnly</span>: Evaluations can
+					be set up in a way that students can feedback each other without
+					revealing their feedback to coordinators</li>
+				<li><span class="bold">ConfigurableMessages</span>: Messages
+					shown to users (including email messages) are editable by the
+					administrator, coordinators</li>
+				<li><span class="bold">Installer</span>: An installer to
+					install Teammates on a given GAE account {This is for those who do
+					not want their data on our GAE account}</li>
+				<li><span class="bold">CoordinatorSelfRegister</span>:
+					Coordinators can register in the system without having to contact
+					Teammates coordinator for a new account</li>
+				<li><span class="bold">RunningSubmissionCount</span>: Home page
+					shows the total evaluations done to date (e.g., 3457 evaluations so
+					far and counting...) e.g.  <a href="//skitch.com/" target="new">http://skitch.com/</a></li>
+				<li><span class="bold">MultiEvaluationReports</span>: Reports
+					that combines information from multiple evaluations in the same
+					course</li>
+				<li><span class="bold">RespondToFeedback</span>: Students can
+					respond to anonymous feedback by teammates</li>
+				<li><span class="bold">AdviceByCoordinator</span>: Coordinator
+					can add his own advice before publishing the report</li>
+				<li><span class="bold">DiscussionForum</span>: A place for
+					users to discuss issues (e.g., a GoogleGroup)</li>
+				<li><span class="bold">SelfGuidedWorkflow:</span> Users can use
+					the system with minimal documentation. The system guides the user
+					to the next action.</li>
+				<li><span class="bold">FindReportsForStudent</span>: To be able
+					to find evaluation reports of a particular student</li>
+				<li><span class="bold">Internationalization</span></li>
+			</ul>
+			<p>
+				<span class="bold">Random ideas</span>
+			</p>
+			<br>
+			<ul>
+				<li>Make the system appear less like evaluating and more like
+					encouraging and rewarding teamwork? see <a
+					href="//lifehacker.com/#!5795728/small-but-visible-rewards-can-motivate-team-members"
+					target="new">http://lifehacker.com/#!5795728/small-but-visible-rewards-can-motivate-team-members</a>
+				</li>
+				<li>Relation to Gamification?</li>
+				<li>How easy is it to take the app out of GAE?</li>
+				<li>Make a personal connection to potential user. Address pain
+					points.</li>
+				<li>Once a course contains significant amount of data, coord
+					should be disallowed in deleting it?</li>
+				<li>Custom error page when the app hits resource limits?</li>
+				<li>Use more general names: team member, manager, coordinator,
+					project (can be used outside schools)</li>
+				<li>Check if we can plugin to Blackboard</li>
+				<li>Checkout the relevance of 'calibrated peer review'; idea</li>
+				<li>Can we do without Google accounts? OpenID?</li>
+				<li>signup form for non-profit interest in GAE: <a
+					href="//goo.gl/zOhic" target="new">http://goo.gl/zOhic</a></li>
+				<li>GAE research awards program:<a
+					href="//googleresearch.blogspot.com/2012/03/google-app-engine-research-awards-for.html"
+					target="new">http://googleresearch.blogspot.com/2012/03/google-app-engine-research-awards-for.html</a></li>
+			</ul>
+		</div>
+		<!--end of content-->
+	</div>
+	<div id=”frameBottom”></div>
+</body>
+</html>
