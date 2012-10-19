@@ -1,6 +1,6 @@
 <%@ page import="com.google.appengine.api.utils.SystemProperty"%>
 <div id="contentFooter">
-<%@ include file="enableJS.jsp"%>
+<%@ include file="../enableJS.jsp"%>
 <% 
 String version = SystemProperty.applicationVersion.get().split("\\.")[0].replace("-", ".");
 String footer = "[TEAMMATES Version "  + version + "] ";
