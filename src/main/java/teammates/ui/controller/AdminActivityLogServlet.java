@@ -15,7 +15,16 @@ import com.google.appengine.api.log.RequestLogs;
 @SuppressWarnings("serial")
 public class AdminActivityLogServlet extends ActionServlet<AdminHomeHelper> {
 
+	/*
+	 * number of logs to query each time,
+	 * this is larger than number of logs shown on each page because we drop request log
+	 */
 	private int queryLimit = 500;
+	/*
+	 * parameter to indicate whether to include application log in the result.
+	 * default case only return request log
+	 * https://developers.google.com/appengine/docs/java/logservice/
+	 */
 	private boolean includeAppLogs = true;
 
 	@Override
@@ -25,7 +34,6 @@ public class AdminActivityLogServlet extends ActionServlet<AdminHomeHelper> {
 
 	@Override
 	protected void doAction(HttpServletRequest req, AdminHomeHelper helper) {
-		System.out.println("hello here");
 		String queryOffset = req.getParameter("offset");
 		LogQuery query = buildQuery(queryOffset, includeAppLogs);
 		List<AppLogLine> logs = getAppLogs(query, queryLimit, helper);
