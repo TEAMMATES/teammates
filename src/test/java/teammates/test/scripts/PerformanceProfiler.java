@@ -1,0 +1,707 @@
+package teammates.test.scripts;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.annotation.*;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.openqa.selenium.By;
+
+import com.google.gson.Gson;
+
+import teammates.common.Common;
+import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.SubmissionData;
+import teammates.test.driver.BackDoor;
+import teammates.test.driver.BrowserInstance;
+import teammates.test.driver.BrowserInstancePool;
+import teammates.test.driver.TestProperties;
+
+
+/**
+ * Annotation for Performance tests with
+ * 		Name : name of the test
+ * 		CustomTimer: if true, the function will return the duration need to recorded itself
+ * 					if false, the function return the status of the test and expected the function which called it to 
+ * 					record the duration,
+ */
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+@interface PerformanceTest {
+    String name() default "";
+    boolean customTimer() default false;
+}
+
+
+/**
+ * @author James
+ * This script it to profile performance of the app with id in test.properties.
+ * The result will be written to a file in src/test/resources/data folder. Before run this script,
+ * make sure that the data in PerformanceProfilerImportData.json is imported (by using ImportData.java)
+ * 
+ * 
+ */
+public class PerformanceProfiler extends Thread{
+	
+	private static final String defaultReportPath = Common.TEST_DATA_FOLDER + "/performanceReport.txt";
+	private final Integer NUM_OF_RUNS = 2;
+	private final Integer WAIT_TIME_TEST = 1000;//waiting time between tests, in ms
+	private final Integer WAIT_TIME_RUN = 5000;//waiting time between runs, in ms
+	private final String runningDataSourceFile = "PerformanceProfilerRunningData.json";
+	
+	
+	private String reportFilePath;
+	private DataBundle data;
+	private Gson gson = Common.getTeammatesGson();
+	private Map<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>> ();
+	private BrowserInstance bi;
+	
+	public PerformanceProfiler (String path) {
+		reportFilePath = path;
+	}
+	public void run() {
+		//Data used for profiling
+		String jsonString= "";
+		try {
+			jsonString = Common.readFile(Common.TEST_DATA_FOLDER + "/" + runningDataSourceFile);
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		data = gson.fromJson(jsonString, DataBundle.class);	
+		
+		
+		//Import previous results
+		try {
+			results =importReportFile(reportFilePath);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		for (int i =0; i< NUM_OF_RUNS ; i++)
+		{
+			bi = BrowserInstancePool.getBrowserInstance();
+		//overcome initial loading time with the below line
+		//getCoordAsJson();
+		
+		//get all methods with annotation and record time
+    	 Method[] methods = PerformanceProfiler.class.getMethods();
+    	 for (Method method : methods) {
+    	        if (method.isAnnotationPresent(PerformanceTest.class)) {
+    	        	PerformanceTest test = method.getAnnotation(PerformanceTest.class);
+    	            String name = test.name();
+    	            boolean customTimer = test.customTimer();
+    	            Type type = method.getReturnType();
+    	            if(!results.containsKey(name))
+    	            {
+    	            	results.put(name, new ArrayList<Float>());
+    	            }
+    	            try {
+    	            	float duration = 0;
+    	            	if (type.equals(String.class) && customTimer == false)
+    	            	{
+    	            		long startTime = System.nanoTime();
+    	            		Object retVal = (String)method.invoke(this);
+    	            		long endTime = System.nanoTime();
+    	            		duration= (float) ((endTime - startTime)/1000000.0); //in miliSecond
+    	            		System.out.print("Name: " +name + "\tTime: " + duration +  "\tVal: " + retVal.toString() +"\n");
+    	            	} else if (type.equals(Long.class) && customTimer == true)
+    	            	{
+    	            		duration = (float) (((Long)(method.invoke(this)))/1000000.0);
+    	            		System.out.print("Name: " +name + "\tTime: " + duration + "\n");
+    	            	}
+    	            	// Add new duration to the arraylist of the test.
+	            		ArrayList<Float> countList = results.get(name);
+	            		countList.add(duration);
+    	            } catch (Exception e) {
+    	            	System.out.print(e.toString());
+    	            }
+        	        
+    	            // reduce chance of data not being persisted
+        	        try {
+    					Thread.sleep(WAIT_TIME_TEST);
+    				} catch (InterruptedException e) {
+    					e.printStackTrace();
+    				}
+    	        }
+
+    	    }
+    	 	
+    	 	// Wait between runs
+    	 	BrowserInstancePool.release(bi);
+    	 	try {
+				Thread.sleep(WAIT_TIME_RUN);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		// Write the results back to file
+		try {
+			printResult(reportFilePath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.print("\n Finished!");
+
+	}
+	
+    /**
+     * Run this script as an single-thread Java application (for simple, non-parallel profiling)
+     * @param args
+     * @throws Exception
+     */
+    public static void main(String[] args) throws Exception {
+        (new PerformanceProfiler(defaultReportPath)).start();
+		
+    }
+    
+    
+    /**
+     * The results from file stored in filePath
+     * @param filePath
+     * @return HashMap<nameOfTest,durations> of the report stored in filePath 
+     * @throws IOException
+     */
+    private static HashMap<String, ArrayList<Float>> importReportFile(String filePath) throws IOException 
+    {
+    	HashMap<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>>();
+		File reportFile = new File(filePath);
+		
+		// Create the report file if not existed
+		if(!reportFile.exists()){
+			try {
+				reportFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return results;
+		}
+		
+		//Import old data to the HashMap
+		BufferedReader br = new BufferedReader(new FileReader(filePath));
+		String strLine;
+		while ((strLine = br.readLine()) != null)
+		{
+			System.out.println (strLine);
+			String[] strs= strLine.split("\\|");
+			
+			String testName = strs[0];
+			String[] durations = strs[2].split("\\,");
+			
+			ArrayList<Float> arr = new ArrayList<Float>();
+			for(String str : durations) {
+				Float f = Float.parseFloat(str);
+				arr.add(f);
+			}
+			results.put(testName, arr);
+		}
+		br.close();
+		return results;
+    }
+    
+
+    /**
+     * Write the results to the file with path filePath
+     * @param filePath 
+     * @throws IOException
+     */
+    private void printResult(String filePath) throws IOException
+    {
+    	List<String> list = new ArrayList<String>();
+    	for (String str : results.keySet()) {
+    	 list.add(str);
+    	}
+    	Collections.sort(list);
+    	FileWriter fstream = new FileWriter(filePath);
+    	BufferedWriter out = new BufferedWriter(fstream);
+
+    	for (String str : list) {
+        	String lineStr = "";
+    		ArrayList<Float> arr = results.get(str);
+    		Float total = 0.0f;
+    		for (Float f : arr) {
+    			total += f;
+    			lineStr  += f + " , ";
+    		}
+    		lineStr = lineStr.substring(0,lineStr.length()-3); //remove last comma
+    		Float average = total/arr.size();
+    		lineStr = str + "| " +average + " | " + lineStr +"\n";
+    		out.write(lineStr);
+    	}
+    	out.close();
+    }
+    
+    
+    /* Performance Tests , the order of these tests is also the order they will run */
+    
+    @PerformanceTest(name = "Coord login",customTimer = true)
+    public Long coordLogin() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL);
+    	bi.click(bi.coordLoginButton);
+    	long startTime = System.nanoTime();
+    	bi.login("testingforteammates@gmail.com", "testingforteammates", false);
+    	return System.nanoTime()-startTime;
+    }
+
+    @PerformanceTest(name = "Coord home page")
+    String coordHomePage() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/coordHome");    	
+    	return "";
+    }
+    @PerformanceTest(name = "Coord eval page")
+    public String coordEval() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/coordEval");    	
+    	return "";
+    }
+    
+    @PerformanceTest(name = "Coord add eval",customTimer = true)
+    public Long coordAddEval() {
+    	Calendar cal = Calendar.getInstance();
+    	cal.add(Calendar.DATE, +1);
+    	Date date1 = cal.getTime();
+    	cal.add(Calendar.DATE, +2);
+    	Date date2 = cal.getTime();
+		bi.addEvaluation("idOf_Z2_Cou0_of_Coo0", "test", date1,date2,true, "This is the instructions, please follow", 5);
+		long startTime = System.nanoTime();
+		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_ADDED);
+    	return System.nanoTime() - startTime;
+    }
+    
+    @PerformanceTest(name = "Coord eval page")
+    public String coordEval2() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/coordEval");    	
+    	return "";
+    }
+    
+    @PerformanceTest(name = "Coord delete eval*")
+    public Long coordDeleteEval() throws Exception {
+		int evalRowID = bi.getEvaluationRowID("idOf_Z2_Cou0_of_Coo0", "test");
+		By deleteLinkLocator = bi.getCoordEvaluationDeleteLinkLocator(evalRowID);
+		long startTime =System.nanoTime();
+		bi.clickAndConfirm(deleteLinkLocator);
+    	return System.nanoTime() - startTime;
+    }
+    
+    @PerformanceTest(name = "Coord course page")
+    public String coordCourse() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/coordCourse");    	
+    	return "";
+    }
+    
+    @PerformanceTest(name = "Coord add course",customTimer = true)
+    public Long coordAddCourse() {
+    	bi.addCourse("testcourse", "testcourse");
+    	long startTime = System.nanoTime();
+    	bi.waitForStatusMessage(Common.MESSAGE_COURSE_ADDED);
+    	return System.nanoTime() - startTime;
+    }
+    
+    @PerformanceTest(name = "Coord course page")
+    public String coordCourse2() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/coordCourse");    	
+    	return "";
+    }
+    
+    @PerformanceTest(name = "Coord delete course*",customTimer = true)
+    public Long coordDeleteCourse() throws Exception {
+		String courseId = "testcourse";
+		int courseRowId = bi.getCourseRowID(courseId);
+    	By deleteLinkLocator = bi.getCoordCourseDeleteLinkLocator(courseRowId);
+    	long startTime = System.nanoTime();
+    	bi.clickAndConfirm(deleteLinkLocator);
+    	return System.nanoTime() - startTime;
+    }
+    
+
+    
+    @PerformanceTest(name = "Coord course student detail page")
+    public String coordCourseStudentDetails() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/coordCourseStudentDetails?courseid=idOf_Z2_Cou0_of_Coo0&studentemail=testingforteammates%40gmail.com");    	
+    	return "";
+    }
+    
+    @PerformanceTest(name = "Coord course enroll page")
+    public String coordCourseEnroll() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/coordCourseEnroll?courseid=idOf_Z2_Cou0_of_Coo0");    	
+    	return "";
+    }
+    
+    @PerformanceTest(name = "Coord course enroll student*")
+    public Long coordCourseEnrollStudent() {
+    	String enrollString = "Team 1 | teststudent | alice.b.tmms@gmail.com | This comment has been changed\n";
+		bi.fillString(By.id("enrollstudents"), enrollString);
+		long startTime = System.nanoTime();
+		bi.click(By.id("button_enroll"));
+    	return System.nanoTime() - startTime;
+    }
+    
+    @PerformanceTest(name = "Coord course enroll page")
+    public String coordCourseDetails() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/coordCourseDetails?courseid=idOf_Z2_Cou0_of_Coo0");    	
+    	return "";
+    }
+    
+    @PerformanceTest(name = "Coord course delete student *")
+    public Long coordCourseDeleteStudent() {
+    	int studentRowId = bi.getStudentRowId("teststudent");
+    	long startTime = System.nanoTime();
+		bi.clickCoordCourseDetailStudentDeleteAndConfirm(studentRowId);
+    	return System.nanoTime() - startTime;
+    }
+    
+    @PerformanceTest(name = "Coord eval results")
+    public String coordEvalResults() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/coordEvalResults?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");    	
+    	return "";
+    }
+    
+    @PerformanceTest(name = "Coord view student eval ")
+    public String coordViewStuEval() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/coordEvalSubmissionView?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0&studentemail=Z2_Stu59Email%40gmail.com");    	
+    	return "";
+    }
+    
+    @PerformanceTest(name = "Coord help page ")
+    public String coordHelp() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/coordHelp.html");
+    	return "";
+    }
+    
+    @PerformanceTest(name = "Coord log out")
+    public String coordLogout() {
+    	
+    	bi.logout();
+    	return "";
+    }
+    
+    @PerformanceTest(name = "Student login")
+    public String stuLogin() {
+    	bi.loginStudent("testingforteammates@gmail.com","testingforteammates");
+    	return "";
+    }
+    @PerformanceTest(name = "Student homepage")
+    public String stuHomepage() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/studentHome");
+    	return "";
+    }
+    
+    @PerformanceTest(name = "Student course detail page")
+    public String stuCoursepage() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/studentCourseDetails?courseid=idOf_Z2_Cou0_of_Coo0");
+    	return "";
+    }
+    
+    @PerformanceTest(name = "Student edit submission page")
+    public String stuEditSubmissionPage() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/studentEvalEdit?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
+    	return "";
+    }
+    @PerformanceTest(name = "Student edit submission ")
+    public String stuEditSubmission() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/studentCourseDetails?courseid=idOf_Z2_Cou0_of_Coo0");
+    	return "";
+    }
+    @PerformanceTest(name = "Student eval result ")
+    public String stuEvalResultPage() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/studentEvalResults?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
+    	return "";
+    }
+    
+    @PerformanceTest(name = "Student log out")
+    public String stuLogout() {
+    	
+    	bi.logout();
+    	return "";
+    }
+    
+    @PerformanceTest(name = "BD create coord")
+    public String createCoord()
+    {
+    	String status = "";
+		Set<String> set = data.coords.keySet();
+    	for (String coordKey : set)
+    	{
+    		CoordData coord = data.coords.get(coordKey);
+    		status += BackDoor.createCoord(coord);
+    	}
+    	return status;
+    }
+    @PerformanceTest(name = "BD get coord")
+    public String getCoordAsJson()
+    {
+    	String status = "";
+		Set<String> set = data.coords.keySet();
+    	for (String coordKey : set)
+    	{
+    		CoordData coord = data.coords.get(coordKey);
+    		status += BackDoor.getCoordAsJson(coord.id);
+    	}
+    	return status;
+    }
+    
+
+    
+    @PerformanceTest(name = "BD get courses by coord")
+    public String getCoursesByCoord()
+    {
+    	String status = "";
+		Set<String> set = data.coords.keySet();
+    	for (String coordKey : set)
+    	{
+    		CoordData coord = data.coords.get(coordKey);
+    		String[] courses = BackDoor.getCoursesByCoordId(coord.id);
+    		for (String courseName : courses) {
+				status += " " + courseName;
+			}
+    	}
+    	return status;
+    }
+    @PerformanceTest(name = "BD create course")
+    public String createCourse()
+    {
+    	String status = "";
+		Set<String> set = data.courses.keySet();
+    	for (String courseKey : set)
+    	{
+    		CourseData course = data.courses.get(courseKey);
+    		status += " " + BackDoor.createCourse(course);
+    	}
+    	return status;
+    }
+    
+    @PerformanceTest(name = "BD get course")
+    public String getCourseAsJson()
+    {
+    	String status = "";
+		Set<String> set = data.courses.keySet();
+    	for (String courseKey : set)
+    	{
+    		CourseData course = data.courses.get(courseKey);
+    		status += " " +BackDoor.getCourseAsJson(course.id);
+    	}
+    	return status;
+    }
+    
+    
+    @PerformanceTest(name = "BD create student")
+    public String createStudent()
+    {
+    	String status = "";
+		Set<String> set = data.students.keySet();
+    	for (String studentKey : set)
+    	{
+    		StudentData student = data.students.get(studentKey);
+    		status += " " + BackDoor.createStudent(student);
+    	}
+    	return status;
+    }
+    
+    /**
+     * The method createSubmission is not implemented in BackDoor yet.
+     * @return
+     */
+//    @PerformanceTest(name = "BD create submission")
+//    static public String createSubmissions()
+//    {
+//    	String status = "";
+//		Set<String> set = data.submissions.keySet();
+//    	for (String submissionKey : set)
+//    	{
+//    		SubmissionData submission = data.submissions.get(submissionKey);
+//    		status += " " + BackDoor.createSubmission(submission);
+//    	}
+//    	return status;
+//    }
+    
+    @PerformanceTest(name = "BD get student")
+    public String getStudent()
+    {
+    	String status = "";
+		Set<String> set = data.students.keySet();
+    	for (String studentKey : set)
+    	{
+    		StudentData student = data.students.get(studentKey);
+    		status += " " + BackDoor.getStudentAsJson(student.course, student.email);
+    	}
+    	return status;
+    }
+    
+    @PerformanceTest(name = "BD get key for student")
+    public String getKeyForStudent()
+    {
+    	String status = "";
+		Set<String> set = data.students.keySet();
+    	for (String studentKey : set)
+    	{
+    		StudentData student = data.students.get(studentKey);
+    		status += " " + BackDoor.getKeyForStudent(student.course, student.email);
+    	}
+    	return status;
+    }
+    
+    @PerformanceTest(name = "BD edit student")
+    public String editStudent()
+    {
+    	String status = "";
+		Set<String> set = data.students.keySet();
+    	for (String studentKey : set)
+    	{
+    		StudentData student = data.students.get(studentKey);
+    		status += " " + BackDoor.editStudent(student.email, student);
+    	}
+    	return status;
+    }
+    
+    @PerformanceTest(name = "BD create evaluation")
+    public String createEvaluation()
+    {
+    	String status = "";
+		Set<String> set = data.evaluations.keySet();
+    	for (String evaluationKey : set)
+    	{
+    		EvaluationData eval = data.evaluations.get(evaluationKey);
+    		status += " " + BackDoor.createEvaluation(eval);
+    	}
+    	return status;
+    }
+    
+    @PerformanceTest(name = "BD edit evaluation")
+    public String editEvaluation()
+    {
+    	String status = "";
+		Set<String> set = data.evaluations.keySet();
+    	for (String evaluationKey : set)
+    	{
+    		EvaluationData eval = data.evaluations.get(evaluationKey);
+    		status += " " + BackDoor.editEvaluation(eval);
+    	}
+    	return status;
+    }
+    
+    @PerformanceTest(name = "BD get evaluation")
+    public String getEvaluation()
+    {
+    	String status = "";
+		Set<String> set = data.evaluations.keySet();
+    	for (String evaluationKey : set)
+    	{
+    		EvaluationData eval = data.evaluations.get(evaluationKey);
+    		status += " " + BackDoor.getEvaluationAsJson(eval.course, eval.name);
+    	}
+    	return status;
+    }
+    
+
+    @PerformanceTest(name = "BD get submission")
+    public String getSubmissions()
+    {
+    	String status = "";
+		Set<String> set = data.submissions.keySet();
+    	for (String submissionKey : set)
+    	{
+    		SubmissionData submission = data.submissions.get(submissionKey);
+    		status += " " + BackDoor.getSubmissionAsJson(submission.course, submission.evaluation, submission.reviewer, submission.reviewee);
+    	}
+    	return status;
+    }
+    
+    @PerformanceTest(name = "BD edit submission")
+    public String editSubmissions()
+    {
+    	String status = "";
+		Set<String> set = data.submissions.keySet();
+    	for (String submissionKey : set)
+    	{
+    		SubmissionData submission = data.submissions.get(submissionKey);
+    		status += " " + BackDoor.editSubmission(submission);
+    	}
+    	return status;
+    }
+    /**
+     * The method deleteSubmission is not implemented in BackDoor yet.
+     * @return
+     */
+//    @PerformanceTest(name = "BD delete submissions")
+//    public String deleteSubmissions() throws NotImplementedException
+//    {
+//    	String status = "";
+//		Set<String> set = data.submissions.keySet();
+//    	for (String submissionKey : set)
+//    	{
+//    		SubmissionData submission = data.submissions.get(submissionKey);
+//    		status += " " + BackDoor.deleteSubmission(submission.course, submission.evaluation, submission.reviewer, submission.reviewee);
+//    	}
+//    	return status;
+//    }
+    
+
+    @PerformanceTest(name = "BD delete student")
+    public String deleteStudent()
+    {
+    	String status = "";
+		Set<String> set = data.students.keySet();
+    	for (String studentKey : set)
+    	{
+    		StudentData student = data.students.get(studentKey);
+    		status += " " + BackDoor.deleteStudent(student.course, student.email);
+    	}
+    	return status;
+    }
+    
+    @PerformanceTest(name = "BD Delete Evaluation")
+    public String deleteEvaluation()
+    {
+    	String status = "";
+		Set<String> set = data.evaluations.keySet();
+    	for (String evaluationKey : set)
+    	{
+    		EvaluationData eval = data.evaluations.get(evaluationKey);
+    		status += " " + BackDoor.deleteEvaluation(eval.course, eval.name);
+    	}
+    	return status;
+    }
+    
+    
+    @PerformanceTest(name = "BD Delete Course")
+    public String deleteCourse()
+    {
+    	String status = "";
+		Set<String> set = data.courses.keySet();
+    	for (String courseKey : set)
+    	{
+    		CourseData course = data.courses.get(courseKey);
+    		status += " " +BackDoor.deleteCourse(course.id);
+    	}
+    	return status;
+    }
+    
+    @PerformanceTest(name = "BD Delete Coord")
+    public String deleteCoord()
+    {
+    	String status = "";
+		Set<String> set = data.coords.keySet();
+    	for (String coordKey : set)
+    	{
+    		CoordData coord = data.coords.get(coordKey);
+    		status += BackDoor.deleteCoord(coord.id);
+    	}
+    	return status;
+    }
+}
