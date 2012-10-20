@@ -339,6 +339,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <web-resource-name>AdminPages</web-resource-name>
             <description>Page for admin use only</description>
             <url-pattern>/page/adminHome</url-pattern>
+            <url-pattern>/page/adminExceptionTest</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>

@@ -203,19 +203,4 @@ public class BackDoorLogic extends Logic {
 		EvaluationsStorage.inst().getEvaluationsDb().editEvaluation(evaluation);
 	}
 	
-	public static void generateAssertionError() throws AssertionError {
-		throw new AssertionError("AssertionError Testing");
-	}
-	
-	public static void generateEntityDoesNotExistException() throws EntityDoesNotExistException {
-		throw new EntityDoesNotExistException("EntityDoesNotExistException Testing");
-	}
-	
-	public static void generateUnauthorizedAccessException() throws UnauthorizedAccessException {
-		throw new UnauthorizedAccessException();
-	}
-	public static void generateNullPointerException() throws NullPointerException {
-		Object o = null;
-		o.toString();
-	}
 }

@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Assumption;
+import teammates.common.BuildProperties;
 import teammates.common.Common;
 import teammates.common.datatransfer.CoordData;
 import teammates.common.datatransfer.CourseData;
@@ -1665,6 +1667,40 @@ public class Logic {
 
 	private boolean isModificationToExistingStudent(StudentData student) {
 		return AccountsStorage.inst().isStudentExists(student.course, student.email);
+	}
+	
+	
+	
+	/**
+	 * This method sends run-time error message to system support email
+	 * @param req httpRequest that triggers the error
+	 * @param error the error object
+	 */
+	public MimeMessage emailErrorReport(String path, String params, Throwable error) {
+		String message = error.getMessage();
+		String stackTrace = Common.stackTraceToString(error);
+		
+		//if the error doesn't contain a short description,
+		//retrieve the first line of stack trace.
+		//truncate stack trace at first "at" string		
+		if(message == null) {
+			int msgTruncateIndex = stackTrace.indexOf("at");
+			if(msgTruncateIndex > 0) {
+				message = stackTrace.substring(0, msgTruncateIndex);
+			}else{
+				message = "";
+			}
+		}
+		MimeMessage email = null ;
+		try {
+			String version = BuildProperties.getAppVersion();
+			email = new Emails().sendSystemErrorEmail(message, stackTrace, path, params, version);
+			log.severe("Sent crash report: " + Emails.getEmailInfo(email));
+		} catch (Exception e) {
+			log.severe("Error in sending crash report: " + email.toString());
+		}
+		
+		return email;
 	}
 
 }

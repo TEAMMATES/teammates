@@ -18,18 +18,17 @@ public class AdminExceptionTestServlet extends ActionServlet<AdminHomeHelper> {
 
 	@Override
 	protected void doAction(HttpServletRequest req, AdminHomeHelper helper) throws EntityDoesNotExistException {
-		
 		 String error = req.getParameter(Common.PARAM_ERROR);
 		
 		 Common.getLogger().info("Generate Exception : " + error);
 		 if(error.equals(AssertionError.class.getSimpleName())) {
-			 BackDoorLogic.generateAssertionError();
+			 generateAssertionError();
 		 }else if(error.equals(EntityDoesNotExistException.class.getSimpleName())) {
-			 BackDoorLogic.generateEntityDoesNotExistException();
+			 generateEntityDoesNotExistException();
 		 }else if(error.equals(UnauthorizedAccessException.class.getSimpleName())) {
-			 BackDoorLogic.generateUnauthorizedAccessException();
+			 generateUnauthorizedAccessException();
 		 }else if(error.equals(NullPointerException.class.getSimpleName())) {
-			 BackDoorLogic.generateNullPointerException();
+			 generateNullPointerException();
 		 }
 		 
 	}
@@ -38,7 +37,21 @@ public class AdminExceptionTestServlet extends ActionServlet<AdminHomeHelper> {
 	protected String getDefaultForwardUrl() {
 		return Common.JSP_ADMIN_HOME;
 	}
+	private void generateAssertionError() throws AssertionError {
+		throw new AssertionError("AssertionError Testing");
+	}
 	
+	private void generateEntityDoesNotExistException() throws EntityDoesNotExistException {
+		throw new EntityDoesNotExistException("EntityDoesNotExistException Testing");
+	}
+	
+	private void generateUnauthorizedAccessException() throws UnauthorizedAccessException {
+		throw new UnauthorizedAccessException();
+	}
+	private void generateNullPointerException() throws NullPointerException {
+		Object o = null;
+		o.toString();
+	}
 	
 
 }

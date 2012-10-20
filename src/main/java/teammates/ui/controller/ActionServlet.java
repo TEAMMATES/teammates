@@ -84,7 +84,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return;
 		} catch (Throwable e) {
-			MimeMessage email = emailErrorReport(req, e);
+			MimeMessage email = helper.server.emailErrorReport(req.getServletPath(), reqParam, e);
 			try {
 				log.severe(email.getContent().toString());
 			} catch (Exception e1) {}
@@ -372,38 +372,6 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 						Integer.valueOf(s2.points));
 			}
 		});
-	}
-	/**
-	 * This method sends run-time error message to system support email
-	 * @param req httpRequest that triggers the error
-	 * @param error the error object
-	 */
-	public MimeMessage emailErrorReport(HttpServletRequest req, Throwable error) {
-		String path = req.getServletPath();
-		String params = Common.printRequestParameters(req);
-		String message = error.getMessage();
-		String stackTrace = Common.stackTraceToString(error);
-		
-		//if the exception doesn't contain message,
-		//retrieve top line of stack trace
-		if(message == null) {
-			int idx = stackTrace.indexOf("at");
-			if(idx > 0) {
-				message = stackTrace.substring(0, idx);
-			}else{
-				message = "";
-			}
-		}
-		MimeMessage email = null ;
-		try {
-			String version = BuildProperties.getAppVersion();
-			email = new Emails().sendSystemErrorEmail(message, stackTrace, path, params, version);
-			log.severe("Sent crash report: " + Emails.getEmailInfo(email));
-		} catch (Exception e1) {
-			log.severe("Error in sending crash report: " + email.toString());
-		}
-		
-		return email;
 	}
 	
 }
