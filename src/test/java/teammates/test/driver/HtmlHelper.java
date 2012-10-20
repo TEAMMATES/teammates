@@ -81,18 +81,17 @@ public class HtmlHelper {
 	
 	private static String preProcessHtml(String htmlString){
 		htmlString = htmlString.replaceAll("&nbsp;", "");
-		//Required for chrome selenium testing
-		htmlString = htmlString.replaceFirst("<html>", "<html xmlns=\"http://www.w3.org/1999/xhtml\">");
+		htmlString = htmlString.replaceFirst("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>");
 		
 		//Required for IE selenium testing
 		if (htmlString.indexOf("<!DOCTYPE") < 0){
-			htmlString = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" "
-					+"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"
-					+ "<html xmlns=\"http://www.w3.org/1999/xhtml\">"
+			htmlString = "<!DOCTYPE html>"
 					+ htmlString
 					+ "</html>";
 		}
-	
+		htmlString = htmlString.replaceAll("height=\"([0-9]+)\"", "height=\"$1px\"");
+		htmlString = htmlString.replaceAll("width=\"([0-9]+)\"", "width=\"$1px\"");
+		System.out.println(htmlString);
 		return htmlString;
 	}
 	
