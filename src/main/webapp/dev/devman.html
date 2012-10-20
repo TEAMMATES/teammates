@@ -203,13 +203,16 @@
 	        Since the request will undergo mostly similar processing steps, the request will first be processed in the general-purpose abstract class ActionServlet (this is an application of the <a href="http://en.wikipedia.org/wiki/Template_method_pattern">Template Method pattern</a>). Inside that class, these things will happen in order:
 	        <ol>
 	            <li>Check whether the request method is <span class="code">POST</span> or <span class="code">GET</span>, store it in a variable <span class="code">isPost</span>.</li>
-	            <li>Call abstract <span class="code">instantiateHelper</span> method, which should contain the code to create respective Helper object.</li>
-	            <li>Call implemented <span class="code">prepareHelper</span> method, which will setup common data inside the <span class="code">Helper</span> object: <span class="code">Logic</span> object, <span class="code">UserData</span> object, requested user (for masquerade mode), redirect URL, status message and error status. This method will also set the masquerade mode accordingly.</li>
-	            <li>It will call the abstract <span class="code">doAction</span> method, which will contain the main action for each servlet. The <span class="code">doAction</span> method is wrapped in try-catch block, which will handle <span class="code">EntityDoesNotExistException</span>, <span class="code">UnauthorizedAccessException</span>, and general <span class="code">Exception</span>.</li>
-	            <li>It will finally call implemented <span class="code">doCreateResponse</span> method, which redirects the request with appropriate method: either forward the request using requestDispatcher to the page specified in <span class="code">getDefaultForwardUrl</span> or redirect the request to the page as specified in variable redirectUrl.</li>
-	        </ol>
-	        So, in creating new pages (including its respective Servlet and Helper), the developer just need to subclass the <span class="code">ActionServlet</span> class and implement the abstract methods (and override <span class="code">getDefaultForwardUrl</span>) accordingly. The <span class="code">Helper</span> class can also be subclassed if the default one is not enough (most likely).<br>
-	        <br>
+	             <li>Call abstract <span class="code">instantiateHelper</span> method, which should have been overridden to create respective Helper object.</li>
+               <li>Call concrete <span class="code">prepareHelper</span> method, which will setup common data inside the <span class="code">Helper</span> object: <span class="code">Logic</span> object, <span class="code">UserData</span> object, requested user (for masquerade mode), redirect URL, status message and error status. This method will also set the masquerade mode accordingly.</li>
+               <li>It will call the abstract <span class="code">doAction</span> method, which should have been overridden to contain the main action for each servlet. 
+                    This is the place for highest-level error handling before the response is returned to the Broswer.</li>
+               <li>It will finally call <span class="code">doCreateResponse</span> method, which redirects the request with appropriate method: 
+                    either forward the request using <span class="code">requestDispatcher</span> to the page specified in <span class="code">getDefaultForwardUrl</span> or 
+                    redirect the request to the page as specified in variable <span class="code">redirectUrl</span>.</li>
+                </ol>
+                When creating new pages (including its respective Servlet and Helper), the developer just need to subclass the <span class="code">ActionServlet</span> class and implement the abstract methods (and override <span class="code">getDefaultForwardUrl</span>) accordingly. The <span class="code">Helper</span> class can also be subclassed if the default one is not enough (most likely).<br>
+                <br>
 	        The UI consist of following pages:
 	        
 	        <p class="subheader">Functional pages.</p> 
@@ -260,7 +263,25 @@
 	            <li>contact.html, about.html etc.</li>
 	        </ul>
 	        <br>
-	
+	        <p class="subheader">HTML5</p>
+                All webpages have a HTML5 doctype. This is because HTML5 is the future and more browsers
+                are becoming more and more HTML5 compliant. All major browsers (IE, Firefox, Chrome, Safari)
+                support HTML5 already. However, to ensure browser compatibility for older browsers, new HTML5
+                tags are not used in the website. Such tags include &lt;canvas&gt;, &lt;video&gt; etc. XHTML5 is not used 
+                because of the lack of support in IE, and the webpages are first and foremost HTML documents
+                rather than XML documents. However, we will enforce certain XML standards ourselves to ensure
+                that the webpage is also a well-formed XML document. 
+                <br>
+                <br>
+                XHTML1.0/1.1 doctype is not used because there is no foreseeable support for this and it will
+                not be developed any further. HTML 4.01 is not used as well, since the HTML5 doctype is already
+                backward compatible. Using the HTML5 doctype will ensure that the major browsers will render
+                the website in their Standards Mode rather than the Quirks Mode.
+                <br>
+                <br>
+                Further information can be found in our <a href = "/dev/htmlstyleguide.html">HTML Style Guide</a>
+                <br>
+                <br>  
 	        <p id="design-logic" class="subheader">Logic</p>
 	        The Logic component handles the business logic of TEAMMATES.<br>
 	        <br>
@@ -332,18 +353,24 @@
 	        <br>
 	
 	        <p id="design-common" class="subheader">Common</p>
-	        <div class="image-holder"><img src="images/CommonComponent.png"/></div>
-	        <br>
-	        The Common component contains common utilities used across TEAMMATES.<br>
-	        common::Common.java currently holds a vast collection of common constants and functions. This is a good candidate for breaking into smaller classes.<br>
-	        <br>
-	        common::datatransfer package contains lightweight classes for transferring data among components. They can be combined in various ways to transfer structured data between components. Given below are three examples.<br>
-	        <div class="image-holder"><img src="images/dataTransferClasses.png"/></div>
-	        <br>
-	        (a) Test Driver uses can use the DataBundle in this manner to send an arbitrary number of objects to be persisted in the database.<br>
-	        (b) This structure can be used to send results of an evaluation (e.g., when showing an evaluation report to a coordinator)<br>
-	        (c) This structure can be used to transfer data belonging to a coordinator (e.g., when constructing the landing page for a coordinator).<br>
-	        <br>
+	        <div class="image-holder"><img src="images/CommonComponent.png" width=80% /></div>
+                <br>
+                The Common component contains common utilities used across TEAMMATES.<br>
+                <span class="code">common::Common.java</span> currently holds a vast 
+                collection of common constants and functions. This is a good 
+                candidate for breaking into smaller classes.<br>
+                <br>
+                <span class="code">common::datatransfer</span> package contains 
+                lightweight classes for transferring data among components. They 
+                can be combined in various ways to transfer structured data between 
+                components. Given below are three examples.<br>
+                <div class="image-holder"><img src="images/dataTransferClasses.png" width=80% /></div>
+                <br>
+                (a) Test Driver can use the DataBundle in this manner to send an arbitrary number of objects to be persisted in the database.<br>
+                (b) This structure can be used to send results of an evaluation (e.g., when showing an evaluation report to a coordinator)<br>
+                (c) This structure can be used to transfer data belonging to a 
+                coordinator (e.g., when constructing the home page for a coordinator).<br>
+                <br>
 	        For convenience, these classes use public variables for data. This is not a good practice as it contravenes OO principles and increases the risk of invalid data. This strategy is to be reconsidered at a later date.
 	        <br>
 	
@@ -367,7 +394,11 @@
 	        <ul>
 	            <li><span class="bold">*Suite.java</span> classes are containers for test cases, used to run test cases in batch mode.</li>
 	            <li>
-	                <span class="bold">BrowswerInstance.java</span> represents the UI of the application. It is a wrapper around Selenium Web Driver. It allows the test driver to simulate user actions on the TEAMMATES UI. The class is a good candidate for further decomposition as it is too big at the moment.<br>
+	                <span class="bold">BrowswerInstance.java</span> represents 
+                        the UI of the application. It is a wrapper around Selenium 
+                        Web Driver. It allows the test driver to simulate user 
+                        actions on the TEAMMATES UI. This class is a good candidate 
+                        for further decomposition as it is too big at the moment.<br>
 	                Notable methods and data members (<span class="bold">IMPORTANT</span>):
 	                <ul>
 	                    <li><span class="code">get[entity]RowID</span>: to find the rowID of some specific entity on a specific page</li>
@@ -948,7 +979,12 @@
 	            <br>
 	            <li>Verify ‘staging green’ (i.e. use your own app on appengine as the ‘staging site’)</li>
 	            <br>
-	            <li>If not green: Inform Developer of any broken code. </li>
+	            <li>If not green: 
+                    <br>Inform Developer of any broken code. 
+                    <br>Undo the merge.The command is (<a href="http://mercurial.selenic.com/wiki/TutorialMerge">source</a>) 
+                                <br><span class="code">hg update -C -r.</span>
+                    </li>
+                    <br>
 	            <br>
 	            <li>
 	                If green: 
