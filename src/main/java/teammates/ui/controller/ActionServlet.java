@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
@@ -12,7 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.common.Assumption;
 import teammates.common.Common;
+import teammates.common.datatransfer.CoordData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.StudentData;
@@ -61,7 +64,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 
 		try {
 			doAction(req, helper);
-			
+	
 			log.info("Request to: " + req.getServletPath() + "\n" +
 					"Request Params: " + printRequestParameters(req) + "\n" +
 					"Responded with: " + resp.SC_OK);
@@ -91,6 +94,47 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		}
 
 		doCreateResponse(req, resp, helper);
+	}
+	
+	protected void getUserActionLog(HttpServletRequest req, String resp, T helper) {
+		
+		//Assumption.assertFalse("admin activity shouldn't be logged",helper.user.isAdmin);
+		StringBuilder sb = new StringBuilder();
+		//log action
+		String[] actionTkn = req.getServletPath().split("/");
+		String action = req.getServletPath();
+		if(actionTkn.length > 0) {
+			action = actionTkn[actionTkn.length-1]; //retrieve last segment in path
+		}
+		sb.append(action+"|");
+		sb.append(printRequestParameters(req)+"|");
+
+		//log user information
+		if(helper.user.isCoord) {
+			sb.append("Coordinator|");
+			CoordData u = helper.server.getCoord(helper.userId);
+			sb.append(u.name+"|");
+			sb.append(u.id+"|");
+			sb.append(u.email+"|");
+		}
+		
+		if(helper.user.isStudent) {
+			sb.append("Student|");
+			ArrayList<StudentData> students = helper.server.getStudentsWithId(helper.userId);
+			if(students.size() == 1) {
+				StudentData s = students.get(0);
+				sb.append(s.name+"|");
+				sb.append(s.id+"|");
+				sb.append(s.email+"|");
+			}else {
+				sb.append("Unknown User|");
+				sb.append( helper.userId+"|");
+				sb.append("|");
+			}
+		}
+		
+		//log response
+		sb.append(resp+"|");
 	}
 
 	/**
