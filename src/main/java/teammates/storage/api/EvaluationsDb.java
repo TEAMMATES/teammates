@@ -22,6 +22,9 @@ import teammates.common.exception.EntityAlreadyExistsException;
  */
 public class EvaluationsDb {
 
+	public static final String ERROR_CREATE_EVALUATION_ALREADY_EXISTS = "Trying to create an Evaluation that exists: ";
+	public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Evaluation: ";
+	
 	private static final Logger log = Common.getLogger();
 
 	private PersistenceManager getPM() {
@@ -38,12 +41,13 @@ public class EvaluationsDb {
 	 */
 	public void createEvaluation(EvaluationData evaluationToAdd)
 			throws EntityAlreadyExistsException {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationToAdd);
 
 		Assumption.assertTrue(evaluationToAdd.getInvalidStateInfo(),
 				evaluationToAdd.isValid());
 		
 		if (getEvaluationEntity(evaluationToAdd.course, evaluationToAdd.name) != null) {
-			String error = "Trying to create an Evaluation that exists: "
+			String error = ERROR_CREATE_EVALUATION_ALREADY_EXISTS
 					+ evaluationToAdd.course + " | " + evaluationToAdd.name;
 
 			log.warning(error + "\n" + Common.getCurrentThreadStack());
@@ -87,6 +91,8 @@ public class EvaluationsDb {
 	 * @return the EvaluationData of the specified course and name
 	 */
 	public EvaluationData getEvaluation(String courseId, String name) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, name);
 
 		Evaluation e = getEvaluationEntity(courseId, name);
 
@@ -110,6 +116,8 @@ public class EvaluationsDb {
 	 * @return the list of evaluations belonging to the specified course
 	 */
 	public List<EvaluationData> getEvaluationsForCourse(String courseId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		
 		String query = "select from " + Evaluation.class.getName()
 				+ " where courseID == '" + courseId + "'";
 
@@ -257,10 +265,15 @@ public class EvaluationsDb {
 			String newInstructions, boolean newCommentsEnabled, Date newStart,
 			Date newDeadline, int newGracePeriod, boolean newIsActive,
 			boolean newIsPublished, double newTimeZone) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, name);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newInstructions);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newStart);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newDeadline);
 
 		Evaluation evaluation = getEvaluationEntity(courseId, name);
 
-		Assumption.assertNotNull("Trying to update non-existent Evaluation: "
+		Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT
 				+ courseId + " | " + name + Common.getCurrentThreadStack(),
 				evaluation);
 
@@ -289,6 +302,7 @@ public class EvaluationsDb {
 	 * 
 	 */
 	public void editEvaluation(EvaluationData ed) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, ed);
 
 		editEvaluation(ed.course, ed.name, ed.instructions,
 				ed.p2pEnabled, ed.startTime, ed.endTime, ed.gracePeriod,
@@ -311,6 +325,8 @@ public class EvaluationsDb {
 	 */
 	public void setEvaluationPublishedStatus(String courseId, String name,
 			boolean status) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, name);
 
 		Evaluation evaluation = getEvaluationEntity(courseId, name);
 
@@ -334,6 +350,8 @@ public class EvaluationsDb {
 	 *            evaluationName pair must be valid)
 	 */
 	public void deleteEvaluation(String courseId, String name) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, name);
 
 		Evaluation e = getEvaluationEntity(courseId, name);
 
@@ -369,6 +387,7 @@ public class EvaluationsDb {
 	 * 
 	 */
 	public void deleteAllEvaluationsForCourse(String courseId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 
 		String query = "select from " + Evaluation.class.getName()
 				+ " where courseID == '" + courseId + "'";

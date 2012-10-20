@@ -1,6 +1,7 @@
 package teammates.common.datatransfer;
 
 import static teammates.common.Common.EOL;
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Student;
@@ -70,12 +71,12 @@ public class StudentData extends UserData {
 	public StudentData(String id, String email, String name, String comments,
 			String courseId, String team) {
 		this();
-		this.id = id == null ? "" : id.trim();
-		this.email = email.trim();
-		this.course = courseId.trim();
-		this.name = name.trim();
-		this.comments = comments == null ? "" : comments;
-		this.team = team == null ? "" : team.trim();
+		this.id = ((id == null) ? "" : id.trim());
+		this.email = ((email == null) ? null : email.trim());
+		this.course = ((courseId == null) ? null : courseId.trim());
+		this.name = ((name == null) ? null : name.trim());
+		this.comments = ((comments == null) ? "" : comments);
+		this.team = ((team == null) ? "" : team.trim());
 	}
 
 	public StudentData() {
@@ -92,9 +93,8 @@ public class StudentData extends UserData {
 		int EMAIL_POS = 2;
 		int COMMENT_POS = 3;
 
-		if (enrollLine == null) {
-			throw new InvalidParametersException(ERROR_ENROLL_LINE_NULL);
-		}
+		Assumption.assertNotNull(ERROR_ENROLL_LINE_NULL, enrollLine);
+			
 		if (enrollLine.equals("")) {
 			throw new InvalidParametersException(ERROR_ENROLL_LINE_EMPTY);
 		}
@@ -115,7 +115,7 @@ public class StudentData extends UserData {
 
 		String paramEmail = parts[EMAIL_POS].trim();
 
-		String paramComment = parts.length == 4 ? parts[COMMENT_POS].trim() : "";
+		String paramComment = ((parts.length == 4) ? parts[COMMENT_POS].trim() : "");
 
 		this.team = paramTeam;
 		this.name = paramName;
@@ -129,11 +129,10 @@ public class StudentData extends UserData {
 		this.email = student.getEmail();
 		this.course = student.getCourseID();
 		this.name = student.getName();
-		this.comments = student.getComments() == null ? "" : student
-				.getComments();
-		this.team = student.getTeamName() == null ? "" : student.getTeamName();
+		this.comments = ((student.getComments() == null) ? "" : student.getComments());
+		this.team = ((student.getTeamName() == null) ? "" : student.getTeamName());
 		this.profile = student.getProfileDetail();
-		this.id = student.getID() == null ? "" : student.getID();
+		this.id = ((student.getID() == null) ? "" : student.getID());
 		Long keyAsLong = student.getRegistrationKey();
 		this.key = (keyAsLong == null ? null : Student
 				.getStringKeyForLongKey(keyAsLong));
@@ -201,15 +200,7 @@ public class StudentData extends UserData {
 	}
 
 	public boolean isValid() {
-		if (Common.isValidName(name) && 
-			name.length() <= STUDENT_NAME_MAX_LENGTH &&
-			(team == null || (team.length() <= TEAM_NAME_MAX_LENGTH)) &&
-			Common.isValidEmail(email) && 
-			Common.isValidCourseId(course) &&
-			(comments == null || (comments.length() <= COMMENTS_MAX_LENGTH))) {
-			return true;
-		}
-		return false;
+		return getInvalidStateInfo() == "";
 	}
 
 	public String getInvalidStateInfo() {

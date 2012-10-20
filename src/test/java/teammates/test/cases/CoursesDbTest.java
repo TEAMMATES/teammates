@@ -9,6 +9,7 @@ import org.junit.Test;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
+import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.storage.api.CoursesDb;
@@ -29,64 +30,65 @@ public class CoursesDbTest extends BaseTestCase {
 		helper.setUp();
 	}
 
-	/*
-	 * COURSE TEST
-	 */
+	@SuppressWarnings("unused")
+	private void ____COURSE_________________________________________() {
+	}
 	@Test
-	public void testCreateCourse() {
+	public void testCreateCourse() throws EntityAlreadyExistsException {
 		// SUCCESS
 		CourseData c = new CourseData();
-		c.id = "Winzor101";
-		c.name = "Basic Herping Derping";
-		c.coord = "herp.derp";
-		
-		try {
-			coursesDb.createCourse(c);
-		} catch (EntityAlreadyExistsException e) {
-			fail();
-		}
+		c.id = "Computing101";
+		c.name = "Basic Computing";
+		c.coord = "valid.id";
+		coursesDb.createCourse(c);
 		
 		// FAIL : duplicate
 		try {
 			coursesDb.createCourse(c);
 			fail();
 		} catch (EntityAlreadyExistsException e) {
-			
+			assertContains(CoursesDb.ERROR_CREATE_COURSE_ALREADY_EXISTS, e.getMessage());
 		}
 		
 		// FAIL : invalid params
-		c.id = "herp mc derp";
+		c.id = "invalid id spaces";
 		try {
 			coursesDb.createCourse(c);
 			fail();
 		} catch (AssertionError a) {
-			
+			assertEquals(CourseData.ERROR_ID_INVALIDCHARS, a.getMessage());
 		} catch (EntityAlreadyExistsException e) {
 			fail();
+		}
+		
+		// Null params check:
+		try {
+			coursesDb.createCourse(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
 	@Test
 	public void testGetCourse() {
-		// Prepare
-		CourseData c = new CourseData();
-		c.id = "Winzor101";
-		c.name = "Basic Herping Derping";
-		c.coord = "herp.derp";
-		
-		try {
-			coursesDb.createCourse(c);
-		} catch (EntityAlreadyExistsException e) {
-
-		}
+		CourseData c = prepareNewCourse();
 		
 		// Get existent
 		CourseData retrieved = coursesDb.getCourse(c.id);
 		assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
-		retrieved = coursesDb.getCourse("the.dovahkiin");
+		retrieved = coursesDb.getCourse("non-existent-course");
 		assertNull(retrieved);
+		
+		// Null params check:
+		try {
+			coursesDb.getCourse(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+		}
 	}
 	
 	@Test
@@ -96,17 +98,7 @@ public class CoursesDbTest extends BaseTestCase {
 	
 	@Test
 	public void testDeleteCourse() {
-		// Prepare
-		CourseData c = new CourseData();
-		c.id = "Winzor101";
-		c.name = "Basic Herping Derping";
-		c.coord = "herp.derp";
-		
-		try {
-			coursesDb.createCourse(c);
-		} catch (EntityAlreadyExistsException e) {
-
-		}
+		CourseData c = prepareNewCourse();
 		
 		// Delete
 		coursesDb.deleteCourse(c.id);
@@ -116,11 +108,34 @@ public class CoursesDbTest extends BaseTestCase {
 		
 		// delete again - should fail silently
 		coursesDb.deleteCourse(c.id);
+		
+		// Null params check:
+		try {
+			coursesDb.deleteCourse(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+		}
 	}
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {
 		turnLoggingDown(CoursesDb.class);
 		helper.tearDown();
+	}
+	
+	private CourseData prepareNewCourse() {
+		CourseData c = new CourseData();
+		c.id = "Computing101";
+		c.name = "Basic Computing";
+		c.coord = "valid.id";
+		
+		try {
+			coursesDb.createCourse(c);
+		} catch (EntityAlreadyExistsException e) {
+			// Okay if it's already inside
+		}
+		
+		return c;
 	}
 }

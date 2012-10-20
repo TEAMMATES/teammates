@@ -53,11 +53,11 @@ public class SubmissionData {
 
 	public SubmissionData(String courseId, String evalName, String teamName,
 			String toStudent, String fromStudent) {
-		this.course = courseId == null ? null : courseId.trim();
-		this.evaluation = evalName == null ? null : evalName.trim();
-		this.team = teamName == null ? null : teamName.trim();
-		this.reviewee = toStudent == null ? null : toStudent.trim();
-		this.reviewer = fromStudent == null ? null : fromStudent.trim();
+		this.course = ((courseId == null) ? null : courseId.trim());
+		this.evaluation = ((evalName == null) ? null : evalName.trim());
+		this.team = ((teamName == null) ? null : teamName.trim());
+		this.reviewee = ((toStudent == null) ? null : toStudent.trim());
+		this.reviewer = ((fromStudent == null) ? null : fromStudent.trim());
 	}
 
 	public SubmissionData(Submission s) {
@@ -125,13 +125,7 @@ public class SubmissionData {
 	}
 
 	public boolean isValid() {
-		if (Common.isValidCourseId(course) &&
-			Common.isValidName(evaluation) && 
-			Common.isValidEmail(reviewee) && 
-			Common.isValidEmail(reviewer)) {
-			return true;
-		}
-		return false;
+		return getInvalidStateInfo() == "";
 	}
 
 	public String getInvalidStateInfo() {

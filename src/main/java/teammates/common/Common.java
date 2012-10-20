@@ -349,6 +349,9 @@ public class Common {
 	public static final String ERRORCODE_STRING_TOO_LONG = "ERRORCODE_STRING_TOO_LONG";
 	public static final String ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING = "ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING";
 	
+	// Error message used across DB level
+	public static final String ERROR_DBLEVEL_NULL_INPUT = "Supplied parameter was null\n";
+	
 	/**
 	 * Build Properties Params
 	 */
@@ -383,53 +386,40 @@ public class Common {
 
 	// Check for '@'
 	public static boolean isValidEmail(String email) {
-		if (isValidString(email) && hasNoSpace(email) &&
-				email.contains("@")) {
-			// contain period?
-			return true;
-		}
-		return false;
+		return (isValidString(email) && 
+				hasNoSpace(email) &&
+				email.contains("@"));
+				// check contains period?
 	}
 
 	// GoogleID cannot have spaces
 	public static boolean isValidGoogleId(String googleId) {
-		if (isValidString(googleId) && hasNoSpace(googleId)) {
+		return (isValidString(googleId) && 
+				hasNoSpace(googleId));
 			// test for contains valid chars?
-			return true;
-		}
-		return false;
 	}
 
-	// Name can haz spaces
+	// Name can have spaces
 	public static boolean isValidName(String name) {
-		if (isValidString(name)) {
-			return true;
-		}
-		return false;
+		return isValidString(name);
 	}
 
 	// Special constraints for courseId
 	public static boolean isValidCourseId(String courseId) {
-		if (isValidString(courseId) && hasNoSpace(courseId) &&
-			courseId.matches("^[a-zA-Z_$0-9.-]+$") &&
-			courseId.length() <= COURSE_ID_MAX_LENGTH) {
-			return true;
-		}
-		return false;
+		return (isValidString(courseId) && 
+				hasNoSpace(courseId) &&
+				courseId.matches("^[a-zA-Z_$0-9.-]+$") &&
+				courseId.length() <= COURSE_ID_MAX_LENGTH);
 	}
 	
 	public static boolean isValidString(String string) {
-		if (string == null	|| string == "" || string.length() == 0) {
-			return false;
-		}
-		return true;
+		return (string != null	&& 
+				string != "" && 
+				string.length() != 0);
 	}
 	
 	public static boolean hasNoSpace(String string) {
-		if (string.split(" ").length > 1) {
-			return false;
-		}
-		return true;
+		return string.split(" ").length == 1;
 	}
 
 	@SuppressWarnings("unused")

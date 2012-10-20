@@ -10,6 +10,7 @@ import com.google.appengine.api.datastore.Text;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
+import teammates.common.Common;
 import teammates.common.datatransfer.CoordData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -31,105 +32,94 @@ public class AccountsDbTest extends BaseTestCase {
 		helper.setUp();
 	}
 
-	/*
-	 * STUDENT TEST
-	 */
+	@SuppressWarnings("unused")
+	private void ____STUDENT_________________________________________() {
+	}
 	@Test
-	public void testCreateStudent() {
+	public void testCreateStudent() throws EntityAlreadyExistsException {
 		// SUCCESS
 		StudentData s = new StudentData();
-		s.name = "herp derp";
-		s.course = "Winzor101";
-		s.email = "ching@chang.com";
-		
-		try {
-			accountsDb.createStudent(s);
-		} catch (EntityAlreadyExistsException e) {
-			fail();
-		}
-		
+		s.name = "valid student";
+		s.course = "valid-course";
+		s.email = "valid@email.com";
+		accountsDb.createStudent(s);
+			
 		// FAIL : duplicate
 		try {
 			accountsDb.createStudent(s);
 			fail();
 		} catch (EntityAlreadyExistsException e) {
-			
+			assertContains(AccountsDb.ERROR_CREATE_STUDENT_ALREADY_EXISTS, e.getMessage());
 		}
 		
 		// FAIL : invalid params
-		s.course = "pwned 101";
+		s.course = "invalid id space";
 		try {
 			accountsDb.createStudent(s);
 			fail();
 		} catch (AssertionError a) {
-			
+			assertEquals(a.getMessage(), StudentData.ERROR_FIELD_COURSE);
 		} catch (EntityAlreadyExistsException e) {
 			fail();
+		}
+		
+		// Null params check:
+		try {
+			accountsDb.createStudent(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
 	@Test
 	public void testGetStudent() {
-		// Prepare
-		StudentData s = new StudentData();
-		s.name = "herp derp";
-		s.course = "Winzor101";
-		s.email = "ching@chang.com";
-		
-		try {
-			accountsDb.createStudent(s);
-		} catch (EntityAlreadyExistsException e) {
-			// Okay if it's already inside
-		}
+		StudentData s = prepareNewStudent();
 		
 		// Get existent
 		StudentData retrieved = accountsDb.getStudent(s.course, s.email);
 		assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
-		retrieved = accountsDb.getStudent("Thuum", "dovahkiin@skyrim.com");
+		retrieved = accountsDb.getStudent("any-course-id", "non-existent@email.com");
 		assertNull(retrieved);
+		
+		// Null params check:
+		try {
+			accountsDb.getStudent(null, "valid@email.com");
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+		}
 	}
 	
 	@Test
 	public void testEditStudent() {
-		// Prepare
-		StudentData s = new StudentData();
-		s.name = "herp derp";
-		s.course = "Winzor101";
-		s.email = "ching@chang.com";
-		
-		try {
-			accountsDb.createStudent(s);
-		} catch (EntityAlreadyExistsException e) {
-			// Okay if it's already inside
-		}
+		StudentData s = prepareNewStudent();
 		
 		// Edit existent
-		accountsDb.editStudent(s.course, s.email, s.name, "dark brotherhood", s.email, "lmfao", "lorem ipsum dolor si amet", new Text("geekzor"));
+		accountsDb.editStudent(s.course, s.email, "new-name", "new-team", "new@email.com", "new.google.id", "lorem ipsum dolor si amet", new Text("new profile"));
 		
 		// Edit non-existent
 		try {
-			accountsDb.editStudent("I", "dont", "exist", "blah", "blah", "blah", "blah", new Text("blah"));
+			accountsDb.editStudent("non-existent-course", "non@existent.email", "no-name", "non-existent-team", "non.existent.ID", "blah", "blah", new Text("blah"));
 			fail();
 		} catch (AssertionError a) {
-			
+			assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT, a.getMessage());
+		}
+		
+		// Null params check:
+		try {
+			accountsDb.editStudent(null, "valid@email.com", "new-name", "new-team", "new@email.com", "new.google.id", "lorem ipsum dolor si amet", new Text("new profile"));
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
 	@Test
 	public void testDeleteStudent() {
-		// Prepare
-		StudentData s = new StudentData();
-		s.name = "herp derp";
-		s.course = "Winzor101";
-		s.email = "ching@chang.com";
-		
-		try {
-			accountsDb.createStudent(s);
-		} catch (EntityAlreadyExistsException e) {
-			// Okay if it's already inside
-		}
+		StudentData s = prepareNewStudent();
 		
 		// Delete
 		accountsDb.deleteStudent(s.course, s.email);
@@ -139,66 +129,75 @@ public class AccountsDbTest extends BaseTestCase {
 		
 		// delete again - should fail silently
 		accountsDb.deleteStudent(s.course, s.email);
+		
+		// Null params check:
+		try {
+			accountsDb.deleteStudent(null, "valid@email.com");
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+		}
 	}
 	
-	/*
-	 * COORDINATOR TEST
-	 */
+	@SuppressWarnings("unused")
+	private void ____COORD_________________________________________() {
+	}
 	@Test
-	public void testCreateCoord() {
+	public void testCreateCoord() throws EntityAlreadyExistsException {
 		// SUCCESS
 		CoordData c = new CoordData();
-		c.id = "herp.derp";
-		c.name = "Herp McDerpson";
-		c.email = "ching@chang.com";
-		
-		try {
-			accountsDb.createCoord(c);
-		} catch (EntityAlreadyExistsException e) {
-			fail();
-		}
+		c.id = "valid.id";
+		c.name = "John Doe";
+		c.email = "john.doe@coordinator.com";
+		accountsDb.createCoord(c);
 		
 		// FAIL : duplicate
 		try {
 			accountsDb.createCoord(c);
 			fail();
 		} catch (EntityAlreadyExistsException e) {
-			
+			assertContains(AccountsDb.ERROR_CREATE_COORD_ALREADY_EXISTS, e.getMessage());
 		}
 		
 		// FAIL : invalid params
-		c.id = "herp mc derp";
+		c.id = "invalid id with spaces";
 		try {
 			accountsDb.createCoord(c);
 			fail();
 		} catch (AssertionError a) {
-			
+			assertEquals(a.getMessage(), CoordData.ERROR_FIELD_ID);
 		} catch (EntityAlreadyExistsException e) {
 			fail();
+		}
+		
+		// Null params check:
+		try {
+			accountsDb.createCoord(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
 	@Test
 	public void testGetCoord() {
-		// SUCCESS
-		CoordData c = new CoordData();
-		c.id = "herp.derp";
-		c.name = "Herp McDerpson";
-		c.email = "ching@chang.com";
-		
-		try {
-			accountsDb.createCoord(c);
-		} catch (EntityAlreadyExistsException e) {
-
-		}
+		CoordData c = prepareNewCoord();
 		
 		// Get existent
 		CoordData retrieved = accountsDb.getCoord(c.id);
 		assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
-		retrieved = accountsDb.getCoord("the.dovahkiin");
+		retrieved = accountsDb.getCoord("non.existent");
 		assertNull(retrieved);
+		
+		// Null params check:
+		try {
+			accountsDb.getCoord(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+		}
 	}
 	
 	@Test
@@ -208,17 +207,7 @@ public class AccountsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testDeleteCoord() {
-		// SUCCESS
-		CoordData c = new CoordData();
-		c.id = "herp.derp";
-		c.name = "Herp McDerpson";
-		c.email = "ching@chang.com";
-		
-		try {
-			accountsDb.createCoord(c);
-		} catch (EntityAlreadyExistsException e) {
-
-		}
+		CoordData c = prepareNewCoord();
 		
 		// Delete
 		accountsDb.deleteCoord(c.id);
@@ -228,11 +217,49 @@ public class AccountsDbTest extends BaseTestCase {
 		
 		// delete again - should fail silently
 		accountsDb.deleteCoord(c.id);
+		
+		// Null params check:
+		try {
+			accountsDb.deleteCoord(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+		}
 	}
 	
 	@AfterClass
 	public static void tearDownClass() throws Exception {
 		turnLoggingDown(AccountsDb.class);
 		helper.tearDown();
+	}
+	
+	private StudentData prepareNewStudent() {
+		StudentData s = new StudentData();
+		s.name = "valid student";
+		s.course = "valid-course";
+		s.email = "valid@email.com";
+		
+		try {
+			accountsDb.createStudent(s);
+		} catch (EntityAlreadyExistsException e) {
+			// Okay if it's already inside
+		}
+		
+		return s;
+	}
+	
+	private CoordData prepareNewCoord() {
+		CoordData c = new CoordData();
+		c.id = "valid.id";
+		c.name = "John Doe";
+		c.email = "john.doe@coordinator.com";
+		
+		try {
+			accountsDb.createCoord(c);
+		} catch (EntityAlreadyExistsException e) {
+			// Okay if it's already inside
+		}
+		
+		return c;
 	}
 }

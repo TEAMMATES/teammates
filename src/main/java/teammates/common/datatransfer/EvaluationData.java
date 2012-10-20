@@ -119,17 +119,7 @@ public class EvaluationData {
 		course = course == null ? null : course.trim();
 		name = name == null ? null : name.trim();
 		
-		if (Common.isValidCourseId(course) && 
-			Common.isValidName(name) &&
-			name.length() <= EVALUATION_NAME_MAX_LENGTH &&
-			this.startTime != null &&
-			this.endTime != null && 
-			!endTime.before(startTime) && 
-			!(beforeTime(endTime) && published) &&
-			!(beforeTime(startTime) && activated)) {
-			return true;
-		}
-		return false;
+		return getInvalidStateInfo() == "";
 	}
 	
 	public String getInvalidStateInfo() {
@@ -159,11 +149,11 @@ public class EvaluationData {
 				errorMessage += ERROR_END_BEFORE_START;
 			}
 			
-			if (beforeTime(endTime) && published) {
+			if (isCurrentTimeZoneEarlierThan(endTime) && published) {
 				errorMessage += ERROR_PUBLISHED_BEFORE_END;
 			}
 			
-			if (beforeTime(startTime) && activated) {
+			if (isCurrentTimeZoneEarlierThan(startTime) && activated) {
 				errorMessage += ERROR_ACTIVATED_BEFORE_START;
 			}
 		}
@@ -171,7 +161,7 @@ public class EvaluationData {
 		return errorMessage;
 	}
 
-	private boolean beforeTime(Date time) {
+	private boolean isCurrentTimeZoneEarlierThan(Date time) {
 		Date nowInUserTimeZone = Common.convertToUserTimeZone(
 				Calendar.getInstance(), timeZone).getTime();
 		return nowInUserTimeZone.before(time);

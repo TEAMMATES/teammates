@@ -171,7 +171,7 @@ public class EvaluationDataTest extends BaseTestCase {
 		assertFalse(e.isValid());
 		assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_NAME_TOOLONG);
 		
-		// FAIL : no start time: invalid
+		// FAIL : no start time
 		e.name = "valid name";
 		e.startTime = null;
 		assertFalse(e.isValid());
@@ -183,7 +183,16 @@ public class EvaluationDataTest extends BaseTestCase {
 		assertFalse(e.isValid());
 		assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_FIELD_ENDTIME);
 		
-		// FAIL : end before start: invalid
+		// SUCCESS : end == start
+		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.startTime = e.endTime;
+		print(Common.calendarToString(Common
+				.dateToCalendar(e.startTime)));
+		print(Common.calendarToString(Common
+				.dateToCalendar(e.endTime)));
+		assertTrue(e.isValid());
+		
+		// FAIL : end before start
 		e.endTime = Common.getDateOffsetToCurrentTime(1);
 		e.startTime = Common.getDateOffsetToCurrentTime(2);
 		print(Common.calendarToString(Common

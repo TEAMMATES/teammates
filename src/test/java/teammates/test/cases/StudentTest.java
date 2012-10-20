@@ -68,8 +68,8 @@ public class StudentTest extends BaseTestCase {
 		try {
 			invalidStudent = new StudentData(line, courseId);
 			fail();
-		} catch (InvalidParametersException ipe) {
-			assertEquals(ipe.getMessage(), StudentData.ERROR_ENROLL_LINE_NULL);
+		} catch (AssertionError ae) {
+			assertEquals(ae.getMessage(), StudentData.ERROR_ENROLL_LINE_NULL);
 		}
 		
 		// FAIL : enroll line is empty

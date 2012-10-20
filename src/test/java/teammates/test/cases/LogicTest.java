@@ -1,6 +1,7 @@
 package teammates.test.cases;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static teammates.logic.TeamEvalResult.NA;
@@ -259,12 +260,11 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 		
-		// Only checking that exception is thrown at logic level
 		try {
-			logic.createCoord("valid-id", "valid name", null);
+			logic.createCoord(null, "valid name", "valid@email.com");
 			fail();
-		} catch (InvalidParametersException e) {
-			assertEquals(e.getMessage(), CoordData.ERROR_FIELD_EMAIL);
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
 	}
 
@@ -294,7 +294,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameter");
 
-		// No exception thrown, simply return null
+		try {
+			logic.getCoord(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 	}
 
 	@Test
@@ -347,7 +352,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameter");
 
-		// No exception thrown for delete
+		try {
+			logic.deleteCoord(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 	}
 
 	@Test
@@ -398,7 +408,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		// No exception thrown, simply return null
+		try {
+			logic.getCourseListForCoord(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 
 		______TS("non-existent coord");
 
@@ -490,7 +505,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		// No exception thrown, simply return null
+		try {
+			logic.getCourseDetailsListForCoord(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 
 		______TS("non-existent coord");
 
@@ -583,7 +603,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		// No exception thrown, simply return null
+		try {
+			logic.getEvaluationsListForCoord(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 
 		______TS("non-existent coord");
 
@@ -661,14 +686,11 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 		
-		// Only checking that exception is thrown at logic level
-		course.coord = "typicalCoord1";
-		course.id = null;
 		try {
-			logic.createCourse(course.coord, course.id, course.name);
+			logic.createCourse(null, "valid.course.id", "valid course name");
 			fail();
-		} catch (InvalidParametersException e) {
-			assertEquals(e.getMessage(), CourseData.ERROR_FIELD_ID);
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
 	}
 
@@ -697,8 +719,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		// No exception thrown, simply return null
-
+		try {
+			logic.getCourse(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 	}
 
 	@Test
@@ -762,7 +788,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameter");
 
-		// No exception thrown, simply return null
+		try {
+			logic.getCourseDetails(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 	}
 
 	@Test
@@ -838,7 +869,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameter");
 
-		// No exception thrown
+		try {
+			logic.deleteCourse(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 	}
 
 	@Test
@@ -890,7 +926,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameter");
 
-		// No exception thrown, simply return null
+		try {
+			logic.getStudentListForCourse(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 
 		______TS("non-existent course");
 
@@ -993,12 +1034,11 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		// Only checking that exception is thrown at logic level
 		try {
-			logic.enrollStudents(null, courseId);
-			fail("Did not throw exception for null enrollment line");
-		} catch (EnrollException e) {
-			
+			logic.enrollStudents("a|b|c|d", null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
 
 		______TS("same student added, modified and unmodified in one shot");
@@ -1074,7 +1114,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		// No exception thrown
+		try {
+			logic.sendRegistrationInviteForCourse(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 	}
 
 	@Test
@@ -1147,7 +1192,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		// No exception thrown
+		try {
+			logic.getTeamsForCourse(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 
 		______TS("course without teams");
 
@@ -1242,15 +1292,11 @@ public class LogicTest extends BaseTestCase {
 		
 		______TS("null parameters");
 		
-		// Only checking that exception is thrown at logic level
-		newStudent.email = "valid@email.com";
-		newStudent.course = null;
-		
 		try {
-			logic.createStudent(newStudent);
+			logic.createStudent(null);
 			fail();
-		} catch (InvalidParametersException e) {
-			assertEquals(e.getMessage(), StudentData.ERROR_FIELD_COURSE);
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
 
 		// other combination of invalid data should be tested against
@@ -1289,7 +1335,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		// No exception thrown, simply return null
+		try {
+			logic.getStudent(null, "valid@email.com");
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 	}
 
 	@Test
@@ -1387,8 +1438,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		// Because of KeepOriginal Policy, this method does not use isValid()
-		// Hence, null parameters act the same as non-existent case
+		try {
+			logic.editStudent(null, new StudentData());
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 		
 		// no need to check for cascade delete/creates due to LazyCreationPolicy
 		// and TolerateOrphansPolicy.
@@ -1469,7 +1524,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		// No exception thrown
+		try {
+			logic.deleteStudent(null, "valid@email.com");
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 	}
 
 	@Test
@@ -1524,7 +1584,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		// Entity does not exist exception is thrown
+		try {
+			logic.sendRegistrationInviteToStudent(null, "valid@email.com");
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 	}
 
 	@Test
@@ -1617,7 +1682,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		// No exception thrown, simply return null
+		try {
+			logic.getStudentsWithId(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 	}
 
 	@Test
@@ -1744,7 +1814,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		// No exception, simply return null
+		try {
+			logic.getStudentInCourseForGoogleId("valid.course", null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 	}
 	
 	@Test
@@ -1852,7 +1927,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		// same as invalid key
+		try {
+			logic.joinCourse("valid.user", null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 	}
 
 	@Test
@@ -1886,12 +1966,16 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		StudentData student = dataBundle.students.get("student1InCourse1");
-
-		// No exception thrown, simply return null
+		try {
+			logic.getKeyForStudent("valid.course.id", null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 
 		______TS("non-existent student");
-
+		
+		StudentData student = dataBundle.students.get("student1InCourse1");
 		assertEquals(null,
 				logic.getKeyForStudent(student.course, "non@existent"));
 	}
@@ -1958,7 +2042,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameter");
 
-		// No exception thrown, simply return null
+		try {
+			logic.getCourseListForStudent(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 	}
 
 	@Test
@@ -2001,7 +2090,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		// No exception thrown, simply return null
+		try {
+			logic.hasStudentSubmittedEvaluation("valid.course.id", "valid evaluation name", null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 
 		______TS("non-existent course/evaluation/student");
 
@@ -2130,7 +2224,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameter");
 
-		// No exception thrown, simply return null
+		try {
+			logic.getCourseDetailsListForStudent(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 	}
 
 	@Test
@@ -2271,7 +2370,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameter");
 
-		// No exception thrown, simply return null
+		try {
+			logic.getEvaluationResultForStudent("valid.course.id", "valid evaluation name", null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 
 		______TS("non-existent course");
 
@@ -2360,15 +2464,13 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		// Only checking that exception is thrown at logic level
-		evaluation.name = evaluation.name + "new";
-		evaluation.course = null;
 		try {
-			logic.createEvaluation(evaluation);
+			logic.createEvaluation(null);
 			fail();
-		} catch (InvalidParametersException e) {
-			assertEquals(e.getMessage(), EvaluationData.ERROR_FIELD_COURSE);
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
+	
 		______TS("invalid parameters");
 
 		// Only checking that exception is thrown at logic level
@@ -2419,12 +2521,17 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		// No exception thrown, simply return null
+		try {
+			logic.getEvaluation("valid.course.id", null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 
 		______TS("non-existent");
 
-		assertEquals(null, logic.getEvaluation("non-existent", expected.name));
-		assertEquals(null, logic.getEvaluation(expected.course, "non-existent"));
+		assertNull(logic.getEvaluation("non-existent", expected.name));
+		assertNull(logic.getEvaluation(expected.course, "non-existent"));
 
 	}
 
@@ -2486,20 +2593,18 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		// Only checking that exception is thrown at logic level
 		try {
-			logic.editEvaluation(	eval.course, 
-									eval.name, 
-									eval.instructions, 
-									null, 
-									eval.endTime, 
-									eval.timeZone, 
-									eval.gracePeriod, 
-									eval.p2pEnabled
-								);
+			logic.editEvaluation(null,
+									"valid evaluation name",
+									"valid instructions",
+									new Date(),
+									new Date(),
+									1.00,
+									1,
+									true);
 			fail();
-		} catch (InvalidParametersException e) {
-			assertEquals(e.getMessage(), EvaluationData.ERROR_FIELD_STARTTIME);
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
 
 		______TS("invalid parameters");
@@ -2573,7 +2678,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		// No exception thrown
+		try {
+			logic.deleteEvaluation("valid.course.id", null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 
 		______TS("non-existent");
 
@@ -2685,13 +2795,13 @@ public class LogicTest extends BaseTestCase {
 		try {
 			logic.publishEvaluation(null, eval1.name);
 			fail();
-		} catch (EntityDoesNotExistException e) {
+		} catch (AssertionError a) {
 		}
 		
 		try {
 			logic.unpublishEvaluation(eval1.course, null);
 			fail();
-		} catch (EntityDoesNotExistException e) {
+		} catch (AssertionError a) {
 		}
 
 	}
@@ -2888,7 +2998,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameters");
 
-		// No exception thrown, simply return null
+		try {
+			logic.getEvaluationResult("valid.course.id", null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 
 		______TS("non-existent course");
 
@@ -2916,13 +3031,6 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testCalculateTeamResult() throws Exception {
-
-		try {
-			invokeCalculateTeamResult(null);
-		} catch (Exception e) {
-			assertEquals(NullPointerException.class, e.getCause().getClass());
-		}
-
 		TeamData team = new TeamData();
 		StudentData s1 = new StudentData("t1|s1|e1@c", "course1");
 		s1.result = new EvalResultData();
@@ -3064,8 +3172,10 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testGetSubmissoinsForEvaluation() throws Exception {
+	public void testGetSubmissionsForEvaluation() throws Exception {
 
+		// private method. need to check for authentication
+		
 		restoreTypicalDataInDatastore();
 
 		______TS("typical case");
@@ -3215,8 +3325,13 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(1, submissions.size());
 
 		______TS("null parameters");
-
-		// No exception thrown, simply return null
+		
+		try {
+			logic.getSubmissionsFromStudent("valid.course.id", "valid evaluation name", null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 
 		______TS("course/evaluation/student does not exist");
 
@@ -3336,7 +3451,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameter");
 
-		// same as non-existent
+		try {
+			logic.sendReminderForEvaluation("valid.course.id", null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -3478,7 +3598,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("null parameter");
 
-		// same as non existent
+		try {
+			logic.editSubmissions(null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 	}
 
 	@Test
@@ -3551,10 +3676,8 @@ public class LogicTest extends BaseTestCase {
 		verifyPresentInDatastore(sub1);
 
 		______TS("null parameter");
-
-		// same as non existent
-		verifyEntityDoesNotExistException(methodName, paramTypes,
-				new Object[] { null });
+		
+		// private method, not tested.
 
 		______TS("non-existent evaluation");
 
@@ -3794,7 +3917,6 @@ public class LogicTest extends BaseTestCase {
 			}
 		}
 	}
-
 
 	private void verifyEntityDoesNotExistException(String methodName,
 			Class<?>[] paramTypes, Object[] params) throws Exception {

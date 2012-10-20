@@ -10,15 +10,15 @@ public class CoordData extends UserData {
 	public String name;
 	public String email;
 	
-	public static final String ERROR_FIELD_ID = "Coord ID is invalid\n";
-	public static final String ERROR_FIELD_NAME = "Coord name cannot be null or empty\n";
-	public static final String ERROR_FIELD_EMAIL = "Coord email is invalid\n";
+	public static final String ERROR_FIELD_ID = "Coordinator ID is invalid\n";
+	public static final String ERROR_FIELD_NAME = "Coordinator name cannot be null or empty\n";
+	public static final String ERROR_FIELD_EMAIL = "Coordinator email is invalid\n";
 	
 	public CoordData(String id, String name, String email) {
 		this();
-		this.id = id == null ? null : id.trim();
-		this.name = name == null ? null : name.trim();
-		this.email = email == null ? null : email.trim();
+		this.id = ((id == null) ? null : id.trim());
+		this.name = ((name == null) ? null : name.trim());
+		this.email = ((email == null) ? null : email.trim());
 	}
 
 	public CoordData(Coordinator coord) {
@@ -37,12 +37,7 @@ public class CoordData extends UserData {
 	}
 
 	public boolean isValid() {
-		if (Common.isValidGoogleId(id) &&
-			Common.isValidName(name) &&
-			Common.isValidEmail(email)) {
-			return true;
-		}
-		return false;
+		return getInvalidStateInfo() == "";
 	}
 
 	public String getInvalidStateInfo() {

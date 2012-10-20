@@ -37,9 +37,9 @@ public class CourseData {
 	}
 
 	public CourseData(String id, String name, String coordId) {
-		this.id = id == null ? null : id.trim();
-		this.name = name == null ? null : name.trim();
-		this.coord = coordId == null ? null : coordId.trim();
+		this.id = ((id == null) ? null : id.trim());
+		this.name = ((name == null) ? null : name.trim());
+		this.coord = ((coordId == null) ? null : coordId.trim());
 	}
 
 	public CourseData(Course course) {
@@ -59,28 +59,19 @@ public class CourseData {
 	}
 
 	public boolean isValid() {
-		if (Common.isValidCourseId(id) &&
-			Common.isValidName(name) &&
-			name.length() <= COURSE_NAME_MAX_LENGTH  && 
-			Common.isValidGoogleId(coord)) {
-			return true;
-		}
-		return false;
+		return getInvalidStateInfo() == "";
 	}
 
 	public String getInvalidStateInfo() {
 		String errorMessage = "";
 
-		// Validate ID not null, empty
 		if (!Common.isValidString(id)) {
 			errorMessage += ERROR_FIELD_ID;
 		} else {
-			// ID greater than max length
 			if (id.length() > Common.COURSE_ID_MAX_LENGTH) {
 				errorMessage += ERROR_ID_TOOLONG;
 			}
 
-			// ID contains invalid chars
 			if (!id.matches("^[a-zA-Z_$0-9.-]+$")) {
 				errorMessage += ERROR_ID_INVALIDCHARS;
 			}

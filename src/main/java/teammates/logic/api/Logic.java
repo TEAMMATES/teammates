@@ -46,6 +46,8 @@ import com.google.appengine.api.users.User;
 public class Logic {
 
 	private static Logger log = Common.getLogger();
+	
+	public static final String ERROR_NULL_PARAMETER = "The supplied parameter was null\n";
 
 	@SuppressWarnings("unused")
 	private void ____USER_level_methods__________________________________() {
@@ -336,6 +338,10 @@ public class Logic {
 	public void createCoord(String coordId, String coordName, String coordEmail)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, coordId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, coordName);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, coordEmail);
+
 		verifyAdminLoggedIn();
 
 		CoordData coordToAdd = new CoordData(coordId, coordName, coordEmail);
@@ -351,11 +357,12 @@ public class Logic {
 	/**
 	 * Access: any logged in user
 	 */
-	public CoordData getCoord(String coordID) {
+	public CoordData getCoord(String coordId) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, coordId);
 
 		verifyLoggedInUserAndAbove();
 
-		CoordData coord = AccountsStorage.inst().getDb().getCoord(coordID);
+		CoordData coord = AccountsStorage.inst().getDb().getCoord(coordId);
 
 		return coord;
 	}
@@ -372,11 +379,10 @@ public class Logic {
 	 * Access: Admin only
 	 */
 	public void deleteCoord(String coordId) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, coordId);
 
 		verifyAdminLoggedIn();
 	
-		// TODO: [refactor] 
-		// create method : deleteAllCourseForCoord(coordId) { each course : delete all submission, evaluation, students in course} 
 		List<CourseData> coordCourseList = CoursesStorage.inst().getDb()
 				.getCourseListForCoordinator(coordId);
 
@@ -393,6 +399,7 @@ public class Logic {
 	 */
 	public HashMap<String, CourseData> getCourseListForCoord(String coordId)
 			throws EntityDoesNotExistException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, coordId);
 
 		verifyCoordUsingOwnIdOrAbove(coordId);
 
@@ -414,6 +421,7 @@ public class Logic {
 	 */
 	public HashMap<String, CourseData> getCourseDetailsListForCoord(
 			String coordId) throws EntityDoesNotExistException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, coordId);
 		
 		verifyCoordUsingOwnIdOrAbove(coordId);
 
@@ -435,7 +443,8 @@ public class Logic {
 	 */
 	public ArrayList<EvaluationData> getEvaluationsListForCoord(String coordId)
 			throws EntityDoesNotExistException {
-
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, coordId);
+		
 		verifyCoordUsingOwnIdOrAbove(coordId);
 
 		List<CourseData> courseList = CoursesStorage.inst().getDb()
@@ -475,6 +484,9 @@ public class Logic {
 	 */
 	public void createCourse(String coordId, String courseId, String courseName)
 			throws EntityAlreadyExistsException, InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, coordId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseName);
 
 		verifyCoordUsingOwnIdOrAbove(coordId);
 
@@ -492,6 +504,7 @@ public class Logic {
 	 * if a student is in the course)
 	 */
 	public CourseData getCourse(String courseId) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
 		verifyRegisteredUserOrAbove();
 
@@ -505,7 +518,8 @@ public class Logic {
 	 */
 	public CourseData getCourseDetails(String courseId)
 			throws EntityDoesNotExistException {
-
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		
 		verifyCourseOwnerOrStudentInCourse(courseId);
 
 		// TODO: very inefficient. Should be optimized.
@@ -528,6 +542,7 @@ public class Logic {
 	 * Access: course owner and above
 	 */
 	public void deleteCourse(String courseId) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
 		verifyCourseOwnerOrAbove(courseId);
 		
@@ -540,6 +555,7 @@ public class Logic {
 	 */
 	public List<StudentData> getStudentListForCourse(String courseId)
 			throws EntityDoesNotExistException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
 		verifyCourseOwnerOrAbove(courseId);
 
@@ -562,7 +578,8 @@ public class Logic {
 	 */
 	public List<MimeMessage> sendRegistrationInviteForCourse(String courseId)
 			throws InvalidParametersException {
-
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		
 		verifyCourseOwnerOrAbove(courseId);
 
 		List<StudentData> studentDataList = AccountsStorage.inst().getDb()
@@ -598,6 +615,7 @@ public class Logic {
 	 */
 	public List<StudentData> enrollStudents(String enrollLines, String courseId)
 			throws EnrollException, EntityDoesNotExistException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
 		verifyCourseOwnerOrAbove(courseId);
 
@@ -606,9 +624,7 @@ public class Logic {
 					+ courseId);
 		}
 		
-		if (enrollLines == null) {
-			throw new EnrollException("Enroll lines was null");
-		}
+		Assumption.assertNotNull(StudentData.ERROR_ENROLL_LINE_NULL, enrollLines);
 		
 		ArrayList<StudentData> returnList = new ArrayList<StudentData>();
 		String[] linesArray = enrollLines.split(Common.EOL);
@@ -657,6 +673,7 @@ public class Logic {
 	 */
 	public CourseData getTeamsForCourse(String courseId)
 			throws EntityDoesNotExistException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		
 		verifyCourseOwnerOrStudentInCourse(courseId);
 
@@ -713,6 +730,7 @@ public class Logic {
 	 */
 	public void createStudent(StudentData studentData)
 			throws EntityAlreadyExistsException, InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentData);
 
 		verifyCourseOwnerOrAbove(studentData.course);
 		
@@ -734,6 +752,8 @@ public class Logic {
 	 * @return returns null if there is no such student.
 	 */
 	public StudentData getStudent(String courseId, String email) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
 
 		verifyRegisteredUserOrAbove();
 
@@ -754,6 +774,8 @@ public class Logic {
 	// TODO: rework this
 	public void editStudent(String originalEmail, StudentData student)
 			throws InvalidParametersException, EntityDoesNotExistException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, originalEmail);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
 
 		verifyCourseOwnerOrAbove(student.course);
 
@@ -790,6 +812,8 @@ public class Logic {
 	 * Access: course owner and above
 	 */
 	public void deleteStudent(String courseId, String studentEmail) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
 		
 		verifyCourseOwnerOrAbove(courseId);
 
@@ -804,6 +828,8 @@ public class Logic {
 	public MimeMessage sendRegistrationInviteToStudent(String courseId,
 			String studentEmail) throws EntityDoesNotExistException,
 			InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
 
 		verifyCourseOwnerOrAbove(courseId);
 
@@ -835,6 +861,7 @@ public class Logic {
 	 *         Returns an empty list if no student has this Google ID.
 	 */
 	public ArrayList<StudentData> getStudentsWithId(String googleId) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 
 		verifySameStudentOrAdmin(googleId);
 
@@ -855,6 +882,8 @@ public class Logic {
 	public StudentData getStudentInCourseForGoogleId(String courseId,
 			String googleId) {
 		// TODO: make more efficient?
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 
 		verifySameStudentOrCourseOwnerOrAdmin(courseId, googleId);
 
@@ -872,6 +901,8 @@ public class Logic {
 	 */
 	public void joinCourse(String googleId, String key)
 			throws JoinCourseException, InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
 
 		verifyOwnerOfId(googleId);
 
@@ -885,6 +916,8 @@ public class Logic {
 	 * @return Returns registration key for a student in the given course.
 	 */
 	public String getKeyForStudent(String courseId, String email) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
 
 		verifyCourseOwnerOrAbove(courseId);
 
@@ -908,6 +941,7 @@ public class Logic {
 	 */
 	public List<CourseData> getCourseListForStudent(String googleId)
 			throws EntityDoesNotExistException, InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 
 		verifySameStudentOrAdmin(googleId);
 
@@ -925,6 +959,9 @@ public class Logic {
 	public boolean hasStudentSubmittedEvaluation(String courseId,
 			String evaluationName, String studentEmail)
 			throws InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
 
 		verifyLoggedInUserAndAbove();
 
@@ -957,6 +994,7 @@ public class Logic {
 	 */
 	public List<CourseData> getCourseDetailsListForStudent(String googleId)
 			throws EntityDoesNotExistException, InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 
 		verifySameStudentOrAdmin(googleId);
 
@@ -987,6 +1025,9 @@ public class Logic {
 	public EvalResultData getEvaluationResultForStudent(String courseId,
 			String evaluationName, String studentEmail)
 			throws EntityDoesNotExistException, InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
 
 		
 		verfyCourseOwner_OR_EmailOwnerAndPublished(courseId, evaluationName,
@@ -1033,6 +1074,7 @@ public class Logic {
 	 */
 	public void createEvaluation(EvaluationData evaluation)
 			throws EntityAlreadyExistsException, InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluation);
 
 		verifyCourseOwnerOrAbove(evaluation.course);
 		
@@ -1050,6 +1092,8 @@ public class Logic {
 	 * 
 	 */
 	public EvaluationData getEvaluation(String courseId, String evaluationName) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
 		verifyRegisteredUserOrAbove();
 
@@ -1068,8 +1112,16 @@ public class Logic {
 	 */
 	public void editEvaluation(String courseId, String evaluationName,
 			String instructions, Date start, Date end, double timeZone,
-			int gracePeriod, boolean p2pEndabled)
+			int gracePeriod, boolean p2pEnabled)
 			throws EntityDoesNotExistException, InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructions);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, start);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, end);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, timeZone);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, gracePeriod);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, p2pEnabled);
 
 		verifyCourseOwnerOrAbove(courseId);
 		EvaluationData original = getEvaluation(courseId, evaluationName);
@@ -1080,7 +1132,7 @@ public class Logic {
 		evaluation.course = courseId;
 		evaluation.name = evaluationName;
 		evaluation.instructions = instructions;
-		evaluation.p2pEnabled = p2pEndabled;
+		evaluation.p2pEnabled = p2pEnabled;
 		evaluation.startTime = start;
 		evaluation.endTime = end;
 		evaluation.gracePeriod = gracePeriod;
@@ -1103,6 +1155,8 @@ public class Logic {
 	 * Access: owner and above
 	 */
 	public void deleteEvaluation(String courseId, String evaluationName) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
 		verifyCourseOwnerOrAbove(courseId);
 
@@ -1117,6 +1171,8 @@ public class Logic {
 	 */
 	public void publishEvaluation(String courseId, String evaluationName)
 			throws EntityDoesNotExistException, InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
 		verifyCourseOwnerOrAbove(courseId);
 
@@ -1142,6 +1198,8 @@ public class Logic {
 	 */
 	public void unpublishEvaluation(String courseId, String evaluationName)
 			throws EntityDoesNotExistException, InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
 		verifyCourseOwnerOrAbove(courseId);
 
@@ -1164,6 +1222,8 @@ public class Logic {
 	 */
 	public List<MimeMessage> sendReminderForEvaluation(String courseId,
 			String evaluationName) throws EntityDoesNotExistException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
 		verifyCourseOwnerOrAbove(courseId);
 
@@ -1203,6 +1263,8 @@ public class Logic {
 	 */
 	public EvaluationData getEvaluationResult(String courseId,
 			String evaluationName) throws EntityDoesNotExistException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
 		verifyCourseOwnerOrAbove(courseId);
 
@@ -1234,6 +1296,9 @@ public class Logic {
 	public List<SubmissionData> getSubmissionsFromStudent(String courseId,
 			String evaluationName, String reviewerEmail)
 			throws EntityDoesNotExistException, InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, reviewerEmail);
 
 		verifyReviewerOrCourseOwnerOrAdmin(courseId, reviewerEmail);
 
@@ -1281,6 +1346,7 @@ public class Logic {
 	 */
 	public void editSubmissions(List<SubmissionData> submissionDataList)
 			throws EntityDoesNotExistException, InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, submissionDataList);
 
 		for (SubmissionData sd : submissionDataList) {
 			verifySubmissionEditableForUser(sd);
@@ -1355,10 +1421,7 @@ public class Logic {
 
 	private void editSubmission(SubmissionData submission)
 			throws EntityDoesNotExistException, InvalidParametersException {
-
-		if (submission == null) {
-			throw new EntityDoesNotExistException("The submission to edit was null");
-		}
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, submission);		
 		
 		SubmissionData original = EvaluationsStorage.inst().getSubmissionsDb()
 				.getSubmission(submission.course, submission.evaluation,
@@ -1456,10 +1519,6 @@ public class Logic {
 	}
 
 	private TeamEvalResult calculateTeamResult(TeamData team) {
-
-		if (team == null) {
-			throw new NullPointerException();
-		}
 		
 		int teamSize = team.students.size();
 		int[][] claimedFromStudents = new int[teamSize][teamSize];
