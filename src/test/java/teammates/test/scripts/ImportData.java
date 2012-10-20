@@ -19,7 +19,9 @@ import teammates.test.driver.BackDoor;
  * This script import a large data bundle to the appengine. The target of the script is the app with
  * appID in the test.properties file.
  * 
- * Should not have any limit on the size of the databundle.
+ * Should not have any limit on the size of the databundle. However, the number of entities per request
+ * should not be set to too large as it may cause Deadline Exception (especially for evaluations)
+ * 
  */
 public class ImportData {
 	// Source file name (under src/test/resources/data folder) to import
