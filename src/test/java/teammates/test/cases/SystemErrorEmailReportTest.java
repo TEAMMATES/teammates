@@ -111,7 +111,7 @@ public class SystemErrorEmailReportTest extends BaseTestCase {
 
 		______TS("generic crash report email");
 
-		MimeMessage email = new Emails().sendSystemErrorEmail(
+		MimeMessage email = new Emails().generateSystemErrorEmail(
 				error.getMessage(), 
 				stackTrace, requestPath, requestParam, version);
 

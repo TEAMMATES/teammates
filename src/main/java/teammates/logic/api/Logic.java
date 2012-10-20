@@ -1677,27 +1677,14 @@ public class Logic {
 	 * @param error the error object
 	 */
 	public MimeMessage emailErrorReport(String path, String params, Throwable error) {
-		String message = error.getMessage();
-		String stackTrace = Common.stackTraceToString(error);
-		
-		//if the error doesn't contain a short description,
-		//retrieve the first line of stack trace.
-		//truncate stack trace at first "at" string		
-		if(message == null) {
-			int msgTruncateIndex = stackTrace.indexOf("at");
-			if(msgTruncateIndex > 0) {
-				message = stackTrace.substring(0, msgTruncateIndex);
-			}else{
-				message = "";
-			}
-		}
+		Emails emailMgr = new Emails();
 		MimeMessage email = null ;
 		try {
-			String version = BuildProperties.getAppVersion();
-			email = new Emails().sendSystemErrorEmail(message, stackTrace, path, params, version);
+			email = emailMgr.generateSystemErrorEmail(error, path, params);
+			emailMgr.sendEmail(email);
 			log.severe("Sent crash report: " + Emails.getEmailInfo(email));
 		} catch (Exception e) {
-			log.severe("Error in sending crash report: " + email.toString());
+			log.severe("Error in sending crash report: " + (email==null? "":email.toString()));
 		}
 		
 		return email;

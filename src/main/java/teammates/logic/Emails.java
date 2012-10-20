@@ -240,16 +240,30 @@ public class Emails {
 		return message;
 	}
 
-	public MimeMessage sendSystemErrorEmail(String errorMessage, String stackTrace, 
-			String requestPath, String requestParam, String version) throws AddressException, MessagingException {
+	public MimeMessage generateSystemErrorEmail(Throwable error, 
+			String requestPath, String requestParam) throws AddressException, MessagingException {
 		Session session = Session.getDefaultInstance(new Properties(), null);
 		MimeMessage message = new MimeMessage(session);
+		String errorMessage = error.getMessage();
+		String stackTrace = Common.stackTraceToString(error);
+
 		
+		//if the error doesn't contain a short description,
+		//retrieve the first line of stack trace.
+		//truncate stack trace at first "at" string		
+		if(errorMessage == null) {
+			int msgTruncateIndex = stackTrace.indexOf("at");
+			if(msgTruncateIndex > 0) {
+				errorMessage = stackTrace.substring(0, msgTruncateIndex);
+			}else{
+				errorMessage = "";
+			}
+		}
 		String recipient = BuildProperties.inst().getAppCrashReportEmail();
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 		message.setFrom(new InternetAddress(from));
 		
-		message.setSubject(String.format(SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR, version, errorMessage));
+		message.setSubject(String.format(SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR, BuildProperties.getAppVersion(), errorMessage));
 		
 		String emailBody = Common.SYSTEM_ERROR_EMAIL_TEMPLATE;
 
