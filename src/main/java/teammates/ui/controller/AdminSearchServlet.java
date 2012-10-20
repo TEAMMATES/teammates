@@ -1,10 +1,8 @@
-// Copyright 2011 Google Inc. All Rights Reserved.
 
 package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,29 +21,12 @@ import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
 
-/**
- * A demo servlet showing basic text search capabilities. This servlet has a
- * single index shared between all users. It illustrates how to add, search for
- * and remove documents from the shared index.
- * 
- */
 public class AdminSearchServlet extends ActionServlet<AdminHomeHelper> {
 
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * The index used by this application. Since we only have one index we
-	 * create one instance only. We build an index with the default consistency,
-	 * which is Consistency.PER_DOCUMENT. These types of indexes are most
-	 * suitable for streams and feeds, and can cope with a high rate of updates.
-	 */
 	private static final Index INDEX = SearchServiceFactory.getSearchService()
 			.getIndex(IndexSpec.newBuilder().setName("coord_search_index"));
-
-	
-
-	private static final Logger LOG = Logger.getLogger(AdminSearchServlet.class
-			.getName());
 
 	@Override
 	protected AdminHomeHelper instantiateHelper() {
@@ -54,13 +35,12 @@ public class AdminSearchServlet extends ActionServlet<AdminHomeHelper> {
 
 	@Override
 	public void doAction(HttpServletRequest req, AdminHomeHelper helper) {
-		System.out.println("admin search");
 		
 		String rebuildDoc = req.getParameter("build_doc");
-		System.out.println("erbuild:"+rebuildDoc);
 		
-		//rebuild document
 		if(rebuildDoc != null) {
+			//rebuild document to update search index to latest datastore records.
+			//the search indexed will not be updated when a new user is added to the system
 			Queue queue = QueueFactory.getQueue("search-document");
 			queue.add(TaskOptions.Builder.withUrl("/page/searchTask"));
 			helper.statusMessage = "Rebuild task submitted, please check again in a few minutes.";
@@ -77,11 +57,6 @@ public class AdminSearchServlet extends ActionServlet<AdminHomeHelper> {
 	}
 
 
-	
-	/**
-	 * Searches the index for matching documents. If the query is not specified
-	 * in the request, we search for any documents.
-	 */
 	private long search(HttpServletRequest req) {
 		String queryStr = req.getParameter("query");
 		if (queryStr == null) {
@@ -93,32 +68,26 @@ public class AdminSearchServlet extends ActionServlet<AdminHomeHelper> {
 			try {
 				limit = Integer.parseInt(limitStr);
 			} catch (NumberFormatException e) {
-				LOG.severe("Failed to parse " + limitStr);
 			}
 		}
 		List<Document> found = new ArrayList<Document>();
-		String outcome = null;
-		// Rather than just using a query we build a search request.
-		// This allows us to specify other attributes, such as the
-		// number of documents to be returned by search.
+		
 		Query query = Query.newBuilder()
 				.setOptions(QueryOptions.newBuilder().setLimit(limit).
-				// for deployed apps, uncomment the line below to demo
-				// snippeting.
-				// This will not work on the dev_appserver.
-				// setFieldsToSnippet("content").
 						build()).build(queryStr);
-		LOG.info("Sending query " + query);
 		Results<ScoredDocument> results = INDEX.search(query);
 		for (ScoredDocument scoredDoc : results) {
 			String email = scoredDoc.getOnlyField("email").getText();
 			  Document derived = Document.newBuilder()
 			            .setId(scoredDoc.getId())
-			            .addField(Field.newBuilder().setName("id").setText(scoredDoc.getOnlyField("id").getText()))
+			            .addField(Field.newBuilder().setName("id").setText(
+			            		scoredDoc.getOnlyField("id").getText()))
 			            .addField(Field.newBuilder().setName("name").setText(
 			            		scoredDoc.getOnlyField("name").getText()))
-			            .addField(Field.newBuilder().setName("email").setHTML(String.format("<a href=\"mailto:%s\">%s</a>", email,email)))
-			            .addField(Field.newBuilder().setName("link").setHTML(scoredDoc.getOnlyField("link").getHTML()))
+			            .addField(Field.newBuilder().setName("email").setHTML(
+			            		String.format("<a href=\"mailto:%s\">%s</a>", email,email)))
+			            .addField(Field.newBuilder().setName("link").setHTML(
+			            		scoredDoc.getOnlyField("link").getHTML()))
 			            .build();
 	        found.add(derived);
 	    }

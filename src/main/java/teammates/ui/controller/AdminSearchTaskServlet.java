@@ -14,8 +14,8 @@ import org.mortbay.log.Log;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.CoordData;
-import teammates.common.datatransfer.StudentData;
 import teammates.storage.api.AccountsDb;
+import teammates.storage.entity.Student;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
@@ -23,30 +23,12 @@ import com.google.appengine.api.search.Index;
 import com.google.appengine.api.search.IndexSpec;
 import com.google.appengine.api.search.ListRequest;
 import com.google.appengine.api.search.ListResponse;
-import com.google.appengine.api.search.OperationResult;
-import com.google.appengine.api.search.Query;
-import com.google.appengine.api.search.QueryOptions;
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
 import com.google.appengine.api.search.SearchServiceFactory;
-import com.google.appengine.api.search.StatusCode;
 
-/**
- * A demo servlet showing basic text search capabilities. This servlet has a
- * single index shared between all users. It illustrates how to add, search for
- * and remove documents from the shared index.
- * 
- */
 public class AdminSearchTaskServlet extends ActionServlet<AdminHomeHelper> {
 
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * The index used by this application. Since we only have one index we
-	 * create one instance only. We build an index with the default consistency,
-	 * which is Consistency.PER_DOCUMENT. These types of indexes are most
-	 * suitable for streams and feeds, and can cope with a high rate of updates.
-	 */
 	private static final Index INDEX = SearchServiceFactory.getSearchService()
 			.getIndex(IndexSpec.newBuilder().setName("coord_search_index"));
 
@@ -86,11 +68,11 @@ public class AdminSearchTaskServlet extends ActionServlet<AdminHomeHelper> {
 			addDocument(coord.name, coord.email, coord.id, Common.PAGE_COORD_HOME);
 		}
 		
-		List<StudentData> students = accounts.getStudents();
-		Iterator<StudentData> it2 = students.iterator();
+		List<Student> students = accounts.getStudentEntities();
+		Iterator<Student> it2 = students.iterator();
 		while (it2.hasNext()) {
-			StudentData stu = it2.next();
-			addDocument(stu.name, stu.email, stu.id, Common.PAGE_STUDENT_HOME);
+			Student stu = it2.next();
+			addDocument(stu.getName(), stu.getEmail(), stu.getID(), Common.PAGE_STUDENT_HOME);
 		}
 
 	}

@@ -17,7 +17,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.JoinCourseException;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Coordinator;
-import teammates.storage.entity.Course;
 import teammates.storage.entity.Student;
 
 import com.google.appengine.api.datastore.KeyFactory;
@@ -553,35 +552,13 @@ public class AccountsDb {
 	 * Returns the list of student entities
 	 */
 	@SuppressWarnings("unchecked")
-	private List<Student> getStudentEntities() { 
-		String courseQuery = "select from " + Course.class.getName();
-		List<Course> courseList =  (List<Course>) getPM()
-				.newQuery(courseQuery).execute();
-		Iterator<Course> it = courseList.iterator();
-		List<Student> studentList = new LinkedList<Student>();
-		while(it.hasNext()) {
-			Course c = it.next();
-			String query = "select from " + Student.class.getName() + " where courseID="+ c.getID();
-			studentList.addAll( (List<Student>) getPM().newQuery(query).execute());
-		}
- 	
-		return studentList;
+	public List<Student> getStudentEntities() { 
+		String query = "select from " + Student.class.getName();
+		return (List<Student>) getPM().newQuery(query).execute();
 	}
 
 	
-	/**
-	 * Returns the list of all students
-	 */
-	public List<StudentData> getStudents() {
-		List<StudentData> list = new LinkedList<StudentData>();
-		List<Student> entities = getStudentEntities();
-		Iterator<Student> it = entities.iterator();
-		while(it.hasNext()) {
-			list.add(new StudentData(it.next()));
-		}
-		
-		return list;
-	}
+	
 	/**
 	 * Returns the list of coordinator entities
 	 */
