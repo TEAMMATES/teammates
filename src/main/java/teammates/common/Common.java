@@ -15,7 +15,6 @@ import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.exception.InvalidParametersException;

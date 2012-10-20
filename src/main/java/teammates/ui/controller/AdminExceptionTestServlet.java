@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import teammates.common.Common;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.logic.backdoor.BackDoorLogic;
 
 @SuppressWarnings("serial")
 public class AdminExceptionTestServlet extends ActionServlet<AdminHomeHelper> {
@@ -22,13 +21,20 @@ public class AdminExceptionTestServlet extends ActionServlet<AdminHomeHelper> {
 		
 		 Common.getLogger().info("Generate Exception : " + error);
 		 if(error.equals(AssertionError.class.getSimpleName())) {
-			 generateAssertionError();
+			 
+				throw new AssertionError("AssertionError Testing");
+				
 		 }else if(error.equals(EntityDoesNotExistException.class.getSimpleName())) {
-			 generateEntityDoesNotExistException();
+			 
+				throw new EntityDoesNotExistException("EntityDoesNotExistException Testing");
+				
 		 }else if(error.equals(UnauthorizedAccessException.class.getSimpleName())) {
-			 generateUnauthorizedAccessException();
+
+				throw new UnauthorizedAccessException();
+
 		 }else if(error.equals(NullPointerException.class.getSimpleName())) {
-			 generateNullPointerException();
+			 
+				throw new NullPointerException();
 		 }
 		 
 	}
@@ -36,21 +42,6 @@ public class AdminExceptionTestServlet extends ActionServlet<AdminHomeHelper> {
 	@Override
 	protected String getDefaultForwardUrl() {
 		return Common.JSP_ADMIN_HOME;
-	}
-	private void generateAssertionError() throws AssertionError {
-		throw new AssertionError("AssertionError Testing");
-	}
-	
-	private void generateEntityDoesNotExistException() throws EntityDoesNotExistException {
-		throw new EntityDoesNotExistException("EntityDoesNotExistException Testing");
-	}
-	
-	private void generateUnauthorizedAccessException() throws UnauthorizedAccessException {
-		throw new UnauthorizedAccessException();
-	}
-	private void generateNullPointerException() throws NullPointerException {
-		Object o = null;
-		o.toString();
 	}
 	
 
