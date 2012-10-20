@@ -2724,7 +2724,7 @@ public class BrowserInstance {
 			String actual = Common.readStream(yc.getInputStream());
 			String expected = Common.readFile(filepath);
 
-			HtmlHelper.assertSameHtml(actual, expected);
+			HtmlHelper.assertSameHtml(actual, expected, false);
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
 			fail("Error: " + e.getMessage());
@@ -2743,7 +2743,7 @@ public class BrowserInstance {
 		String pageSrc = getCurrentPageSource();
 		String inputStr = Common.readFile(filepath).replace("{version}",
 				TestProperties.inst().TEAMMATES_VERSION);
-		HtmlHelper.assertSameHtml(inputStr, pageSrc);
+		HtmlHelper.assertSameHtml(inputStr, pageSrc, false);
 	}
 
 	/**
@@ -2768,35 +2768,13 @@ public class BrowserInstance {
 	 * @throws Exception
 	 */
 	public void verifyCurrentPageHTMLRegex(String filepath) throws Exception {
-		String pageSrc = getCleanPageSource();
-		String inputStr = getCleanExpectedHtml(filepath);
-		BaseTestCase.assertContainsRegex(inputStr,pageSrc);
-	}
-
-	/**
-	 * @param filepath
-	 * @return Returns content of the file after replacing 
-	 *    parameters e.g. {version} and transforming to "clean" HTML. 
-	 * @throws Exception
-	 */
-	private String getCleanExpectedHtml(String filepath)
-			throws Exception {
+		String pageSrc = getCurrentPageSource();
 		String inputStr = Common.readFile(filepath).replace("{version}",
 				TestProperties.inst().TEAMMATES_VERSION);
-		inputStr = HtmlHelper.parseHtml(inputStr);
-		return inputStr;
+		HtmlHelper.assertSameHtml(inputStr, pageSrc, true);
 	}
 
-	/**
-	 * @return Returns content of the file after transforming to "clean" HTML.
-	 * @throws Exception
-	 */
-	private String getCleanPageSource() throws Exception {
-		String pageSrc = getCurrentPageSource();
-		
-		pageSrc = HtmlHelper.parseHtml(pageSrc);
-		return pageSrc;
-	}
+	
 
 	/**
 	 * Verifies current page with a reference page, i.e., finding the reference
@@ -2828,10 +2806,12 @@ public class BrowserInstance {
 		String inputStr = null;
 		for (int i = 0; i < PAGE_VERIFY_RETRY; i++) {
 			
-			pageSrc = getCleanPageSource();
-			inputStr = getCleanExpectedHtml(filepath);
+			pageSrc = getCurrentPageSource();
+			inputStr = Common.readFile(filepath).replace("{version}",
+					TestProperties.inst().TEAMMATES_VERSION);
+			HtmlHelper.assertSameHtml(inputStr, pageSrc, true);
 			
-			if (BaseTestCase.isContainsRegex(inputStr,pageSrc)) {
+			if (HtmlHelper.assertSameHtml(inputStr, pageSrc, true)) {
 				return;
 			}
 			if (i == PAGE_VERIFY_RETRY - 1)
@@ -2840,7 +2820,6 @@ public class BrowserInstance {
 			waitAWhile(1000);
 			goToUrl(url);
 		}
-		assertEquals(inputStr, pageSrc);
 	}
 
 	/**
