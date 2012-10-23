@@ -4,24 +4,23 @@
 <%@ page import="teammates.common.datatransfer.SubmissionData"%>
 <%@ page import="teammates.ui.controller.CoordEvalSubmissionViewHelper"%>
 <%	CoordEvalSubmissionViewHelper helper = (CoordEvalSubmissionViewHelper)request.getAttribute("helper"); %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-	<link rel="shortcut icon" href="/favicon.png" />
-	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<link rel="shortcut icon" href="/favicon.png">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Coordinator</title>
-	<link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
-	<link rel=stylesheet href="/stylesheets/evaluation.css" type="text/css" />
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/coordEvalSubmissionView.css" type="text/css">
 	
-	<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
-	<script language="JavaScript" src="/js/tooltip.js"></script>
-	<script language="JavaScript" src="/js/date.js"></script>
-	<script language="JavaScript" src="/js/CalendarPopup.js"></script>
-	<script language="JavaScript" src="/js/AnchorPosition.js"></script>
-	<script language="JavaScript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="/js/tooltip.js"></script>
+	<script type="text/javascript" src="/js/date.js"></script>
+	<script type="text/javascript" src="/js/CalendarPopup.js"></script>
+	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
 	
-	<script language="JavaScript" src="/js/coordinator.js"></script>
+	<script type="text/javascript" src="/js/coordinator.js"></script>
 
 </head>
 
@@ -36,14 +35,14 @@
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
 				<h1>View Student's Evaluation</h1>
-				<table class="evaluation_info">
+				<table class="inputTable" id="studentEvaluationInfo">
 					<tr>
-						<td>Course ID:</td>
-						<td><%= helper.evaluation.course %></td>
+						<td class="label rightalign" width="30%">Course ID:</td>
+						<td class="leftalign"><%= helper.evaluation.course %></td>
 					</tr>
 					<tr>
-						<td>Evaluation Name:</td>
-						<td><%=CoordEvalSubmissionViewHelper.escapeForHTML(helper.evaluation.name)%></td>
+						<td class="label rightalign" width="30%">Evaluation Name:</td>
+						<td class="leftalign"><%=CoordEvalSubmissionViewHelper.escapeForHTML(helper.evaluation.name)%></td>
 					</tr>
 				</table>
 			</div>
@@ -52,28 +51,28 @@
 				for(boolean byReviewee = true, repeat=true; repeat; repeat = byReviewee, byReviewee=false){
 			%>
 				<h2 style="text-align: center;"><%=CoordEvalSubmissionViewHelper.escapeForHTML(helper.student.name) + (byReviewee ? "'s Result" : "'s Submission")%></h2>
-				<table class="result_table">
+				<table class="resultTable">
 					<thead><tr>
 						<th colspan="2" width="10%">
-							<span class="fontcolor"><%=byReviewee ? "Reviewee" : "Reviewer"%>: </span><%=helper.student.name%></th>
-						<th><span class="fontcolor"
+							<span class="resultHeader"><%=byReviewee ? "Reviewee" : "Reviewer"%>: </span><%=helper.student.name%></th>
+						<th><span class="resultHeader"
 								onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_CLAIMED%>')"
 								onmouseout="hideddrivetip()">
 							Claimed Contributions: </span><%=CoordEvalSubmissionViewHelper.printSharePoints(helper.result.claimedToCoord,true)%></th>
-						<th><span class="fontcolor"
+						<th><span class="resultHeader"
 								onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_PERCEIVED%>')"
 								onmouseout="hideddrivetip()">
 							Perceived Contributions: </span><%=CoordEvalSubmissionViewHelper.printSharePoints(helper.result.perceivedToCoord,true)%></th>
 					</tr></thead>
 					<tr>
-						<td colspan="4"><b>Self evaluation:</b><br />
+						<td colspan="4"><span class="color_neutral">Self evaluation:</span><br>
 								<%=CoordEvalSubmissionViewHelper.printJustification(helper.result.getSelfEvaluation())%></td>
 						</tr>
 						<tr>
-							<td colspan="4"><b>Comments about team:</b><br />
+							<td colspan="4"><span class="color_neutral">Comments about team:</span><br>
 								<%=CoordEvalSubmissionViewHelper.printComments(helper.result.getSelfEvaluation(), helper.evaluation.p2pEnabled)%></td>
 						</tr>
-					<tr class="result_subheader">
+					<tr class="resultSubheader">
 						<td width="15%"><%=byReviewee ? "From" : "To"%> Student</td>
 						<td width="5%">Contribution</td>
 						<td width="40%">Comments</td>
@@ -90,13 +89,15 @@
 						</tr>
 					<%	} %>
 				</table>
-				<br /><br />
+				<br><br>
 				<% } %>
-				<input type="button" class="button" id="button_back" value="Close"
-						onclick="window.close()"/>
-				<input type="button" class="button" id="button_edit" value="Edit Submission"
-						onclick="window.location.href='<%= helper.getCoordEvaluationSubmissionEditLink(helper.evaluation.course, helper.evaluation.name, helper.student.email) %>'"/>
-				<br /><br />
+				<div class="centeralign">
+					<input type="button" class="button" id="button_back" value="Close"
+							onclick="window.close()">
+					<input type="button" class="button" id="button_edit" value="Edit Submission"
+							onclick="window.location.href='<%= helper.getCoordEvaluationSubmissionEditLink(helper.evaluation.course, helper.evaluation.name, helper.student.email) %>'">
+				</div>
+				<br><br>
 			</div>
 		</div>
 	</div>

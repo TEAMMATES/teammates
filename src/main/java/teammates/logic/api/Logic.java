@@ -15,12 +15,12 @@ import teammates.common.datatransfer.CoordData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvalResultData;
 import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationData.EvalStatus;
 import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentData.UpdateStatus;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.datatransfer.TeamData;
 import teammates.common.datatransfer.UserData;
-import teammates.common.datatransfer.EvaluationData.EvalStatus;
-import teammates.common.datatransfer.StudentData.UpdateStatus;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -351,6 +351,7 @@ public class Logic {
 		CoordData coordToAdd = new CoordData(coordId, coordName, coordEmail);
 		AccountsStorage.inst().getDb().createCoord(coordToAdd);
 	}
+	
 
 	/**
 	 * Access: any logged in user

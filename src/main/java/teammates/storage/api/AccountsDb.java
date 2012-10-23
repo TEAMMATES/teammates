@@ -1,24 +1,26 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Text;
-
-import teammates.storage.datastore.Datastore;
-import teammates.storage.entity.Coordinator;
-import teammates.storage.entity.Student;
 import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.CoordData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.JoinCourseException;
+import teammates.storage.datastore.Datastore;
+import teammates.storage.entity.Coordinator;
+import teammates.storage.entity.Student;
+
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Text;
 
 /**
  * Manager for handling basic CRUD Operations only
@@ -530,5 +532,63 @@ public class AccountsDb {
 
 		return coordinatorList.get(0);
 	}
+	
+
+	/**
+	 * Returns the list of all coordinators
+	 * @return
+	 */
+	public List<CoordData> getCoordinators() {
+		List<CoordData> list = new LinkedList<CoordData>();
+		List<Coordinator> entities = getCoordinatorEntities();
+		Iterator<Coordinator> it = entities.iterator();
+		while(it.hasNext()) {
+			list.add(new CoordData(it.next()));
+		}
+		
+		return list;
+	}
+	/**
+	 * Returns the list of student entities
+	 */
+	private List<Student> getStudentEntities() {
+		String query = "select from " + Student.class.getName();
+			
+
+		@SuppressWarnings("unchecked")
+		List<Student> studentList = (List<Student>) getPM()
+				.newQuery(query).execute();
+ 	
+		return studentList;
+	}
+
+	
+	/**
+	 * Returns the list of all students
+	 */
+	public List<StudentData> getStudents() {
+		List<StudentData> list = new LinkedList<StudentData>();
+		List<Student> entities = getStudentEntities();
+		Iterator<Student> it = entities.iterator();
+		while(it.hasNext()) {
+			list.add(new StudentData(it.next()));
+		}
+		
+		return list;
+	}
+	/**
+	 * Returns the list of coordinator entities
+	 */
+	private List<Coordinator> getCoordinatorEntities() {
+		String query = "select from " + Coordinator.class.getName();
+			
+
+		@SuppressWarnings("unchecked")
+		List<Coordinator> coordinatorList = (List<Coordinator>) getPM()
+				.newQuery(query).execute();
+	
+		return coordinatorList;
+	}
+ 
 
 }

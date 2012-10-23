@@ -3,21 +3,20 @@
 <%@ page import="teammates.common.datatransfer.EvaluationData" %>
 <%@ page import="teammates.ui.controller.StudentHomeHelper"%>
 <% StudentHomeHelper helper = (StudentHomeHelper)request.getAttribute("helper"); %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-	<link rel="shortcut icon" href="/favicon.png" />
-	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<link rel="shortcut icon" href="/favicon.png">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Student</title>
-	<link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
-	<link rel=stylesheet href="/stylesheets/evaluation.css" type="text/css" />
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/studentHome.css" type="text/css">
 
-	<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
-	<script language="JavaScript" src="/js/tooltip.js"></script>
-	<script language="JavaScript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="/js/tooltip.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
 	
-	<script language="JavaScript" src="/js/student.js"></script>	
+	<script type="text/javascript" src="/js/student.js"></script>	
 </head>
 
 <body>
@@ -33,44 +32,45 @@
 			<div id="headerOperation">
 				<h1>Student Home</h1>
 				<br />
-				<div class="result_addOrJoinCourse">
+				<div id="result_addOrJoinCourse">
 					<form method="post" action="<%= Common.PAGE_STUDENT_JOIN_COURSE %>" name="form_joincourse">
-						<table class="headerform">
+						<table class="inputTable">
 							<tr>
-								<td width="30%" class="attribute">Registration Key:</td>
-								<td width="30%">
+								<td class="label">Registration Key:</td>
+								<td>
 									<input class="keyvalue" type="text"
 											name="<%= Common.PARAM_REGKEY %>"
 											id="<%= Common.PARAM_REGKEY %>"
 											onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_JOIN_COURSE %>')"
-											onmouseout="hideddrivetip()" tabindex=1 />
+											onmouseout="hideddrivetip()" tabindex="1">
 								</td>
-								<td width="30%">
+								<td>
 									<input id="button_join_course" type="submit" class="button"
 											onclick="return this.form.<%= Common.PARAM_REGKEY %>.value!=''"
-											value="Join Course" tabindex=2 />
+											value="Join Course" tabindex="2">
 								</td>
 							</tr>
 						 </table>
 						<% if(helper.isMasqueradeMode()){ %>
-							<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>" />
+							<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>">
 						<% } %>
 					</form>
 				</div>
 			</div>
 			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
-			<div id="studentHomeTable">
+			
 				<%	int idx = -1;
 					int evalIdx = -1;
 					for (CourseData course: helper.courses) { idx++;
 				%>
+				<div class="backgroundBlock">
 				<div class="result_team home_courses_div" id="course<%= idx %>">
 					<div class="result_homeTitle">
 						<h2>[<%= course.id %>] :
 							<%=StudentHomeHelper.escapeForHTML(course.name)%>
 						</h2>
 					</div>
-					<div class="result_homeLinks">
+					<div class="result_homeLinks blockLink">
 						<a class="t_course_view<%=idx%>"
 							href="<%=helper.getStudentCourseDetailsLink(course.id)%>"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_STUDENT_COURSE_DETAILS%>')"
@@ -79,11 +79,11 @@
 						</a>
 					</div>
 					<div style="clear: both;"></div>
-					<br />
+					<br>
 					<%
 						if (course.evaluations.size() > 0) {
 					%>
-						<table id="dataform">
+						<table class="dataTable">
 							<tr>
 								<th class="leftalign">Evaluation Name</th>
 								<th class="centeralign">Deadline</th>
@@ -104,17 +104,21 @@
 								</tr>
 							<%	} %>
 						</table>
-						<br />
+						
 					<%	} %>
 				</div>
-				<br /> <br /> <br />
+				<br> <br>
+				</div>
+				<br> <br>
 				<%		out.flush();
 					}
 				%>
-			</div>
+			
+			<br> <br> <br>
 		</div>
+		
 	</div>
-
+	
 	<div id="frameBottom">
 		<jsp:include page="<%= Common.JSP_FOOTER %>" />
 	</div>
