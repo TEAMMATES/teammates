@@ -2724,7 +2724,7 @@ public class BrowserInstance {
 			String actual = Common.readStream(yc.getInputStream());
 			String expected = Common.readFile(filepath);
 
-			HtmlHelper.assertSameHtml(actual, expected, false);
+			HtmlHelper.assertSameHtml(actual, expected);
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
 			fail("Error: " + e.getMessage());
@@ -2743,7 +2743,7 @@ public class BrowserInstance {
 		String pageSrc = getCurrentPageSource();
 		String inputStr = Common.readFile(filepath).replace("{version}",
 				TestProperties.inst().TEAMMATES_VERSION);
-		HtmlHelper.assertSameHtml(inputStr, pageSrc, false);
+		HtmlHelper.assertSameHtml(inputStr, pageSrc);
 	}
 
 	/**
@@ -2771,7 +2771,7 @@ public class BrowserInstance {
 		String pageSrc = getCurrentPageSource();
 		String inputStr = Common.readFile(filepath).replace("{version}",
 				TestProperties.inst().TEAMMATES_VERSION);
-		HtmlHelper.assertSameHtml(inputStr, pageSrc, true);
+		HtmlHelper.assertSameHtmlWithRegex(inputStr, pageSrc);
 	}
 
 	
@@ -2809,9 +2809,9 @@ public class BrowserInstance {
 			pageSrc = getCurrentPageSource();
 			inputStr = Common.readFile(filepath).replace("{version}",
 					TestProperties.inst().TEAMMATES_VERSION);
-			HtmlHelper.assertSameHtml(inputStr, pageSrc, true);
+			HtmlHelper.assertSameHtmlWithRegex(inputStr, pageSrc);
 			
-			if (HtmlHelper.assertSameHtml(inputStr, pageSrc, true)) {
+			if (HtmlHelper.assertSameHtmlWithRegex(inputStr, pageSrc)) {
 				return;
 			}
 			if (i == PAGE_VERIFY_RETRY - 1)
