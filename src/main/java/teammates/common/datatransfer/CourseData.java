@@ -35,7 +35,13 @@ public class CourseData {
 		this.name = course.getName();
 		this.coord = course.getCoordinatorID();
 	}
-
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("\ncourse id: " + id);
+		sb.append("\ncourse name: "+ name);
+		sb.append("\ncoord: " + coord + "\n");
+		return sb.toString();
+	}
 	public Course toEntity() {
 		return new Course(id, name, coord);
 	}

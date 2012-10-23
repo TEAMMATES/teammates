@@ -1,20 +1,20 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 	<link href="/favicon.png" rel="shortcut icon" />
-	<meta content="IE=8" http-equiv="X-UA-Compatible" />
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 	<title>Teammates - Coordinator</title>
-	<link type="text/css" href="/stylesheets/main.css" rel="stylesheet" />
-	<link type="text/css" href="/stylesheets/evaluation.css" rel="stylesheet" />
+	<link type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
+	<link type="text/css" href="/stylesheets/coordCourseDetails.css" rel="stylesheet" />
 	
-	<script src="/js/jquery-1.6.2.min.js" language="JavaScript"></script>
-	<script src="/js/tooltip.js" language="JavaScript"></script>
-	<script src="/js/date.js" language="JavaScript"></script>
-	<script src="/js/CalendarPopup.js" language="JavaScript"></script>
-	<script src="/js/AnchorPosition.js" language="JavaScript"></script>
-	<script src="/js/common.js" language="JavaScript"></script>
+	<script src="/js/jquery-1.6.2.min.js" type="text/javascript"></script>
+	<script src="/js/tooltip.js" type="text/javascript"></script>
+	<script src="/js/date.js" type="text/javascript"></script>
+	<script src="/js/CalendarPopup.js" type="text/javascript"></script>
+	<script src="/js/AnchorPosition.js" type="text/javascript"></script>
+	<script src="/js/common.js" type="text/javascript"></script>
 	
-	<script src="/js/coordinator.js" language="JavaScript"></script>
-	<script src="/js/coordCourseDetails.js" language="JavaScript"></script>
+	<script src="/js/coordinator.js" type="text/javascript"></script>
+	<script src="/js/coordCourseDetails.js" type="text/javascript"></script>
 
 </head>
 
@@ -26,19 +26,19 @@
 
 		<div id="frameTopWrapper">
 			<div id="logo">
-				<img width="150" height="47" src="/images/teammateslogo.jpg" alt="Teammates" />
+				<img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="Teammates" />
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
 					<li><a href="/page/coordHome?user=teammates.test" class="t_home">Home</a></li>
 					<li><a href="/page/coordCourse?user=teammates.test" class="t_courses">Courses</a></li>
-					
 					<li><a href="/page/coordEval?user=teammates.test" class="t_evaluations">Evaluations</a></li>
 					<li><a target="_blank" href="/coordHelp.html" class="t_help">Help</a></li>
 					<li><a href="/logout.jsp" class="t_logout">Logout</a>
 					 (teammates.test)</li>
 				</ul>
 			</div>
+			<div style="clear: both;"></div>
 		</div>
 	</div>
 
@@ -49,21 +49,21 @@
 				<h1>Course Details</h1>
 			</div>
 			<div id="coordinatorCourseInformation">
-				<table class="headerform">
+				<table id="courseInformationHeader" class="inputTable">
 					<tbody><tr>
-		 				<td class="fieldname">Course ID:</td>
+		 				<td width="30%" class="label rightalign">Course ID:</td>
 		 				<td id="courseid">CCDetailsUiT.CS2104</td>
 		 			</tr>
 		 			<tr>
-		 				<td class="fieldname">Course name:</td>
+		 				<td width="30%" class="label rightalign">Course name:</td>
 		 				<td id="coursename">Programming Language Concepts</td>
 					</tr>
 					<tr>
-		 				<td class="fieldname">Teams:</td>
+		 				<td width="30%" class="label rightalign">Teams:</td>
 		 				<td id="total_teams">2</td>
 		 			</tr>
 		 			<tr>
-		 				<td class="fieldname">Total students:</td>
+		 				<td width="30%" class="label rightalign">Total students:</td>
 		 				<td id="total_students">3</td>
 		 			</tr>
 		 			
@@ -82,7 +82,7 @@
 		The student has been removed from the course</div>
 
 			<div id="coordinatorStudentTable">
-				<table id="dataform">
+				<table class="dataTable">
 					<tbody><tr>
 						<th><input type="button" onclick="toggleSort(this,1)" id="button_sortstudentname" class="buttonSortAscending" />Student Name</th>
 						<th><input type="button" onclick="toggleSort(this,2)" id="button_sortstudentteam" class="buttonSortNone" />Team</th>
@@ -346,7 +346,7 @@
 
 [TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
 
-<a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html" class="footer">Contact Us</a>
+<a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html">Contact Us</a>
 </div>
 	</div>
 

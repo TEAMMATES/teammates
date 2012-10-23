@@ -97,7 +97,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		
 		bi.waitForStatusMessage(Common.MESSAGE_COURSE_ADDED);
 
-		bi.verifyCurrentPageHTMLRegexWithRetry(Common.TEST_PAGES_FOLDER+"/coordCourseAddSuccessful.html", link);
+		bi.verifyCurrentPageHTMLWithRetry(Common.TEST_PAGES_FOLDER+"/coordCourseAddSuccessful.html", link);
 		
 		______TS("testCoordaddCourseWithInvalidInputsFailed");
 

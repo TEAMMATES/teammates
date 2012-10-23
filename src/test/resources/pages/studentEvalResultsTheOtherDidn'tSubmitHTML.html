@@ -1,16 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 	<link href="/favicon.png" rel="shortcut icon" />
-	<meta content="IE=8" http-equiv="X-UA-Compatible" />
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 	<title>Teammates - Student</title>
-	<link type="text/css" href="/stylesheets/main.css" rel="stylesheet" />
-	<link type="text/css" href="/stylesheets/evaluation.css" rel="stylesheet" />
+	<link type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
+	<link type="text/css" href="/stylesheets/studentEvalResults.css" rel="stylesheet" />
 
-	<script src="/js/jquery-1.6.2.min.js" language="JavaScript"></script>
-	<script src="/js/tooltip.js" language="JavaScript"></script>
-	<script src="/js/common.js" language="JavaScript"></script>	
+	<script src="/js/jquery-1.6.2.min.js" type="text/javascript"></script>
+	<script src="/js/tooltip.js" type="text/javascript"></script>
+	<script src="/js/common.js" type="text/javascript"></script>
 	
-	<script src="/js/student.js" language="JavaScript"></script>	
+	<script src="/js/student.js" type="text/javascript"></script>	
 </head>
 
 <body>
@@ -22,7 +22,7 @@
 
 		<div id="frameTopWrapper">
 			<div id="logo">
-				<img width="150" height="47" src="/images/teammateslogo.jpg" alt="Teammates" />
+				<img height="47px" width="150px" src="/images/teammateslogo.jpg" alt="Teammates" />
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
@@ -47,8 +47,8 @@
 	<div style="display: none;" id="statusMessage"></div>
 
 			<div id="studentEvaluationResults">
-				<div style="text-align: right; font-size: small; font-style: italic; margin-bottom: 15px;">E = Equal Share</div>
-				<table class="result_table"><tbody><tr class="result_header"><td>Your Result:</td></tr></tbody></table>
+				<div style="margin: 5px auto; width: 940px; text-align: right; font-size: small; font-style: italic;">E = Equal Share</div>
+				<div class="backgroundBlock evalResultHeader"><span class="blockText">Your Result:</span></div>
 				<table class="result_studentform">
 					<tbody><tr>
 						<td width="15%">Evaluation:</td>
@@ -83,8 +83,8 @@
 						</td>
 					</tr>
 				</tbody></table>
-				<table class="result_table">
-					<tbody><tr class="result_subheader"><td>Feedback from teammates:</td></tr>
+				<table class="resultTable">
+					<tbody><tr class="resultSubheader"><td>Feedback from teammates:</td></tr>
 					<tr>
 						<td>
 							<ul>
@@ -94,7 +94,7 @@
 							</ul>
 						</td>
 					</tr>
-					<tr class="result_subheader"><td>What others said about their own contribution:</td></tr>
+					<tr class="resultSubheader"><td>What others said about their own contribution:</td></tr>
 					<tr>
 						<td>
 							<ul>
@@ -107,7 +107,7 @@
 					</tr>
 				</tbody></table>
 				<br /><br />
-				<table class="result_table"><tbody><tr class="result_header"><td>Your Submission:</td></tr></tbody></table>
+				<div class="backgroundBlock evalResultHeader"><span class="blockText">Your Submission:</span></div>
 				<table class="result_studentform">
 					<tbody><tr>
 						<td width="15%">Points to yourself:</td>
@@ -122,7 +122,7 @@
 						<td>This is a public comment from benny.tmms@gmail.com to benny.tmms@gmail.com</td>
 					</tr>
 				</tbody></table>
-				<table style="margin: 0px; width: 100%;" id="dataform">
+				<table class="dataTable">
 					<tbody><tr>
 						<th width="18%">Teammate Name</th>
 						<th>Points</th>
@@ -342,7 +342,7 @@
 
 [TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
 
-<a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html" class="footer">Contact Us</a>
+<a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html">Contact Us</a>
 </div>
 	</div>
 
