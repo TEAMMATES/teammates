@@ -38,10 +38,10 @@ import teammates.test.driver.TestProperties;
 
 /**
  * Annotation for Performance tests with
- * 		Name : name of the test
- * 		CustomTimer: if true, the function will return the duration need to recorded itself
- * 					if false, the function return the status of the test and expected the function which called it to 
- * 					record the duration,
+ * 		-Name : name of the test.
+ * 		-CustomTimer:(default if false) if true, the function will return the duration need to recorded itself
+ * 					if false, the function return the status of the test and expected the function
+ * 					which called it to record the duration.
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -52,21 +52,21 @@ import teammates.test.driver.TestProperties;
 
 
 /**
- * @author James
  * This script it to profile performance of the app with id in test.properties.
- * The result will be written to a file in src/test/resources/data folder. Before run this script,
- * make sure that the data in PerformanceProfilerImportData.json is imported (by using ImportData.java)
+ * 
+ * The result will be written to a file in src/test/resources/data folder. Before run this script:
+ * -Make sure that the data in PerformanceProfilerImportData.json is imported (by using ImportData.java)
+ * -Edit name of the report file
  * 
  * 
  */
 public class PerformanceProfiler extends Thread{
 	
-	private static final String defaultReportPath = Common.TEST_DATA_FOLDER + "/performanceReport.txt";
+	private static final String defaultReportPath = Common.TEST_DATA_FOLDER + "/"+"nameOfTheReportFile.txt";
 	private final Integer NUM_OF_RUNS = 2;
 	private final Integer WAIT_TIME_TEST = 1000;//waiting time between tests, in ms
 	private final Integer WAIT_TIME_RUN = 5000;//waiting time between runs, in ms
 	private final String runningDataSourceFile = "PerformanceProfilerRunningData.json";
-	
 	
 	private String reportFilePath;
 	private DataBundle data;
@@ -77,6 +77,8 @@ public class PerformanceProfiler extends Thread{
 	public PerformanceProfiler (String path) {
 		reportFilePath = path;
 	}
+	
+
 	public void run() {
 		//Data used for profiling
 		String jsonString= "";
@@ -86,8 +88,7 @@ public class PerformanceProfiler extends Thread{
 			e1.printStackTrace();
 		}
 		data = gson.fromJson(jsonString, DataBundle.class);	
-		
-		
+
 		//Import previous results
 		try {
 			results =importReportFile(reportFilePath);
@@ -97,61 +98,24 @@ public class PerformanceProfiler extends Thread{
 		for (int i =0; i< NUM_OF_RUNS ; i++)
 		{
 			bi = BrowserInstancePool.getBrowserInstance();
-		//overcome initial loading time with the below line
-		//getCoordAsJson();
-		
-		//get all methods with annotation and record time
-    	 Method[] methods = PerformanceProfiler.class.getMethods();
-    	 for (Method method : methods) {
-    	        if (method.isAnnotationPresent(PerformanceTest.class)) {
-    	        	PerformanceTest test = method.getAnnotation(PerformanceTest.class);
-    	            String name = test.name();
-    	            boolean customTimer = test.customTimer();
-    	            Type type = method.getReturnType();
-    	            if(!results.containsKey(name))
-    	            {
-    	            	results.put(name, new ArrayList<Float>());
-    	            }
-    	            try {
-    	            	float duration = 0;
-    	            	if (type.equals(String.class) && customTimer == false)
-    	            	{
-    	            		long startTime = System.nanoTime();
-    	            		Object retVal = (String)method.invoke(this);
-    	            		long endTime = System.nanoTime();
-    	            		duration= (float) ((endTime - startTime)/1000000.0); //in miliSecond
-    	            		System.out.print("Name: " +name + "\tTime: " + duration +  "\tVal: " + retVal.toString() +"\n");
-    	            	} else if (type.equals(Long.class) && customTimer == true)
-    	            	{
-    	            		duration = (float) (((Long)(method.invoke(this)))/1000000.0);
-    	            		System.out.print("Name: " +name + "\tTime: " + duration + "\n");
-    	            	}
-    	            	// Add new duration to the arraylist of the test.
-	            		ArrayList<Float> countList = results.get(name);
-	            		countList.add(duration);
-    	            } catch (Exception e) {
-    	            	System.out.print(e.toString());
-    	            }
-        	        
-    	            // reduce chance of data not being persisted
-        	        try {
-    					Thread.sleep(WAIT_TIME_TEST);
-    				} catch (InterruptedException e) {
-    					e.printStackTrace();
-    				}
-    	        }
+			//overcome initial loading time with the below line
+			//getCoordAsJson();
 
-    	    }
-    	 	
-    	 	// Wait between runs
-    	 	BrowserInstancePool.release(bi);
-    	 	try {
+			//get all methods with annotation and record time
+			Method[] methods = PerformanceProfiler.class.getMethods();
+			for (Method method : methods) {
+				performMethod(method);
+			}
+
+			// Wait between runs
+			BrowserInstancePool.release(bi);
+			try {
 				Thread.sleep(WAIT_TIME_RUN);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		// Write the results back to file
 		try {
 			printResult(reportFilePath);
@@ -159,17 +123,60 @@ public class PerformanceProfiler extends Thread{
 			e.printStackTrace();
 		}
 		System.out.print("\n Finished!");
+	}
+	
+	/**
+	 * This function perform the method and print the return value for debugging
+	 * @param method
+	 */
+	public void performMethod(Method method) {
+		if (method.isAnnotationPresent(PerformanceTest.class)) {
+			PerformanceTest test = method.getAnnotation(PerformanceTest.class);
+			String name = test.name();
+			boolean customTimer = test.customTimer();
+			Type type = method.getReturnType();
+			if(!results.containsKey(name))
+			{
+				results.put(name, new ArrayList<Float>());
+			}
+			try {
+				float duration = 0;
+				if (type.equals(String.class) && customTimer == false)
+				{
+					long startTime = System.nanoTime();
+					Object retVal = (String)method.invoke(this);
+					long endTime = System.nanoTime();
+					duration= (float) ((endTime - startTime)/1000000.0); //in miliSecond
+					System.out.print("Name: " +name + "\tTime: " + duration +  "\tVal: " + retVal.toString() +"\n");
+				} else if (type.equals(Long.class) && customTimer == true)
+				{
+					duration = (float) (((Long)(method.invoke(this)))/1000000.0);
+					System.out.print("Name: " +name + "\tTime: " + duration + "\n");
+				}
+				// Add new duration to the arrayList of the test.
+				ArrayList<Float> countList = results.get(name);
+				countList.add(duration);
+			} catch (Exception e) {
+				System.out.print(e.toString());
+			}
 
+			// reduce chance of data not being persisted
+			try {
+				Thread.sleep(WAIT_TIME_TEST);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
     /**
      * Run this script as an single-thread Java application (for simple, non-parallel profiling)
+     * For parallel profiling, please use ParallelProfiler.java
      * @param args
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
         (new PerformanceProfiler(defaultReportPath)).start();
-		
     }
     
     
@@ -278,8 +285,8 @@ public class PerformanceProfiler extends Thread{
     	Date date1 = cal.getTime();
     	cal.add(Calendar.DATE, +2);
     	Date date2 = cal.getTime();
-		bi.addEvaluation("idOf_Z2_Cou0_of_Coo0", "test", date1,date2,true, "This is the instructions, please follow", 5);
 		long startTime = System.nanoTime();
+		bi.addEvaluation("idOf_Z2_Cou0_of_Coo0", "test", date1,date2,true, "This is the instructions, please follow", 5);
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_ADDED);
     	return System.nanoTime() - startTime;
     }
@@ -290,8 +297,8 @@ public class PerformanceProfiler extends Thread{
     	return "";
     }
     
-    @PerformanceTest(name = "Coord delete eval*")
-    public Long coordDeleteEval() throws Exception {
+    @PerformanceTest(name = "Coord delete eval*",customTimer = true)
+    public Long coordDeleteEval() {
 		int evalRowID = bi.getEvaluationRowID("idOf_Z2_Cou0_of_Coo0", "test");
 		By deleteLinkLocator = bi.getCoordEvaluationDeleteLinkLocator(evalRowID);
 		long startTime =System.nanoTime();
@@ -307,8 +314,8 @@ public class PerformanceProfiler extends Thread{
     
     @PerformanceTest(name = "Coord add course",customTimer = true)
     public Long coordAddCourse() {
-    	bi.addCourse("testcourse", "testcourse");
     	long startTime = System.nanoTime();
+    	bi.addCourse("testcourse", "testcourse");
     	bi.waitForStatusMessage(Common.MESSAGE_COURSE_ADDED);
     	return System.nanoTime() - startTime;
     }
@@ -343,7 +350,7 @@ public class PerformanceProfiler extends Thread{
     	return "";
     }
     
-    @PerformanceTest(name = "Coord course enroll student*")
+    @PerformanceTest(name = "Coord course enroll student*",customTimer = true)
     public Long coordCourseEnrollStudent() {
     	String enrollString = "Team 1 | teststudent | alice.b.tmms@gmail.com | This comment has been changed\n";
 		bi.fillString(By.id("enrollstudents"), enrollString);
@@ -358,7 +365,7 @@ public class PerformanceProfiler extends Thread{
     	return "";
     }
     
-    @PerformanceTest(name = "Coord course delete student *")
+    @PerformanceTest(name = "Coord course delete student *",customTimer = true)
     public Long coordCourseDeleteStudent() {
     	int studentRowId = bi.getStudentRowId("teststudent");
     	long startTime = System.nanoTime();
