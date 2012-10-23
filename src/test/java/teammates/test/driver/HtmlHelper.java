@@ -4,16 +4,11 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
+
 
 import org.cyberneko.html.parsers.DOMParser;
 import org.w3c.dom.DOMException;
@@ -51,23 +46,7 @@ public class HtmlHelper {
 		eliminateEmptyTextNodes(page2);
 		
 		StringBuilder annotatedHtml= new StringBuilder();
-		boolean isLogicalMatch = compare(page1, page2, "  ", annotatedHtml, false);
-		assertTrue(annotatedHtml.toString(), isLogicalMatch);
-		return isLogicalMatch;
-	}
-	
-	public static boolean assertSameHtmlWithRegex(String html1, String html2)
-			throws SAXException, IOException, TransformerException {
-		html1 = preProcessHtml(html1);
-		html2 = preProcessHtml(html2);
-
-		Node page1 = getNodeFromString(html1);
-		Node page2 = getNodeFromString(html2);
-		eliminateEmptyTextNodes(page1);
-		eliminateEmptyTextNodes(page2);
-		
-		StringBuilder annotatedHtml= new StringBuilder();
-		boolean isLogicalMatch = compare(page1, page2, "  ", annotatedHtml, true);
+		boolean isLogicalMatch = compare(page1, page2, "  ", annotatedHtml);
 		assertTrue(annotatedHtml.toString(), isLogicalMatch);
 		return isLogicalMatch;
 	}
@@ -108,7 +87,7 @@ public class HtmlHelper {
 	}
 	
 	
-	public static boolean compare(Node actual, Node expected, String indentation, StringBuilder output, boolean requireRegex){
+	public static boolean compare(Node actual, Node expected, String indentation, StringBuilder output){
 		if (expected.getNodeType() != Node.TEXT_NODE){
 			output.append(indentation + "<" + expected.getNodeName() + ">   ");
 		}
@@ -134,7 +113,7 @@ public class HtmlHelper {
 					output.append("Error: Unable to find attribute: " + expectedAttribute.getNodeName() + "\n");
 					return false;
 				}
-				if (requireRegex && actualAttribute.getNodeValue().trim().equals("{*}")){
+				if (actualAttribute.getNodeValue().trim().equals("{*}")){
 					//Regex should pass
 				} else if (!actualAttribute.getNodeValue().equals(expectedAttribute.getNodeValue())){
 					output.append("Error: attribute " + expectedAttribute.getNodeName() + " has value \"" + actualAttribute.getNodeValue() + "\" instead of \"" + actualAttribute.getNodeValue() + "\"\n");
@@ -161,7 +140,7 @@ public class HtmlHelper {
 			if(actual.getNodeType() != Node.TEXT_NODE){
 				output.append(indentation + "Error: Supposed to have text node but given " + actual.getNodeName() + "\n");
 				return false;
-			} else if (requireRegex && actual.getNodeValue().trim().equals("{*}")){
+			} else if (actual.getNodeValue().trim().equals("{*}")){
 				//Regex should pass
 			} else if(!actual.getNodeValue().trim().equals(expected.getNodeValue().trim())){
 				output.append(indentation + "Error: Supposed to have value \"" + expected.getNodeValue() + "\" but given \"" + actual.getNodeValue() + "\" instead\n");
@@ -187,7 +166,7 @@ public class HtmlHelper {
 				return false;
 			} else {
 				for (int i = 0; i < webpageChildNodes.getLength(); i++){
-					if(!compare(webpageChildNodes.item(i), testpageChildNodes.item(i), indentation + "   ", output, requireRegex)){
+					if(!compare(webpageChildNodes.item(i), testpageChildNodes.item(i), indentation + "   ", output)){
 						return false;
 					}
 				}

@@ -2746,33 +2746,7 @@ public class BrowserInstance {
 		HtmlHelper.assertSameHtml(inputStr, pageSrc);
 	}
 
-	/**
-	 * Verifies current page with a reference page, i.e., finding the reference
-	 * string in current page (so the reference does not have to be full page)<br />
-	 * <br />
-	 * This method has minimal placeholder capability, matching {*} in the
-	 * reference with anything in current page, trying to maximize the match.
-	 * This method also replaces {version} into the value stored at
-	 * Common.VERSION<br />
-	 * <br />
-	 * Example usage is to test sorting elements, say we want to test the order
-	 * of two known elements, which should be independent in the presence of
-	 * other elements. We can also ignore the rowID which maybe different under
-	 * different number of elements.<br />
-	 * <br />
-	 * This method will try to display the difference between the expected and
-	 * actual if the match fails.
-	 * 
-	 * @param filepath
-	 * @param div
-	 * @throws Exception
-	 */
-	public void verifyCurrentPageHTMLRegex(String filepath) throws Exception {
-		String pageSrc = getCurrentPageSource();
-		String inputStr = Common.readFile(filepath).replace("{version}",
-				TestProperties.inst().TEAMMATES_VERSION);
-		HtmlHelper.assertSameHtmlWithRegex(inputStr, pageSrc);
-	}
+
 
 	
 
@@ -2800,7 +2774,7 @@ public class BrowserInstance {
 	 * @param url
 	 * @throws Exception
 	 */
-	public void verifyCurrentPageHTMLRegexWithRetry(String filepath, String url)
+	public void verifyCurrentPageHTMLWithRetry(String filepath, String url)
 			throws Exception {
 		String pageSrc = null;
 		String inputStr = null;
@@ -2809,9 +2783,9 @@ public class BrowserInstance {
 			pageSrc = getCurrentPageSource();
 			inputStr = Common.readFile(filepath).replace("{version}",
 					TestProperties.inst().TEAMMATES_VERSION);
-			HtmlHelper.assertSameHtmlWithRegex(inputStr, pageSrc);
+			HtmlHelper.assertSameHtml(inputStr, pageSrc);
 			
-			if (HtmlHelper.assertSameHtmlWithRegex(inputStr, pageSrc)) {
+			if (HtmlHelper.assertSameHtml(inputStr, pageSrc)) {
 				return;
 			}
 			if (i == PAGE_VERIFY_RETRY - 1)
