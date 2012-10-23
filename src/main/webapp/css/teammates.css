@@ -41,7 +41,7 @@ body > #mainContainer {
 
 #loginHolder {
 	float: right;
-	width: 220px;
+	width: 250px;
 }
 
 #loginHolder input{
@@ -56,8 +56,8 @@ body > #mainContainer {
 	width: 100px;
 	display: inline;
 	border-left: 1px dotted white;
-	padding: 10px 0px;
-	margin: 10px 0px;
+	padding: 5px 0px;
+	margin: 15px 0px;
 	padding-left: 4px;
 }
 
@@ -114,11 +114,13 @@ ul#navbar li a:link:hover {
 
 /* Caption */
 #caption {
-   padding: 50px 80px 30px;
+   margin: 30px auto;
+   width: 800px;
    color: orange;
    font-weight: bold;
-   font-size: 16pt;
+   font-size: 17px;
    font-family: Arial, Verdana, Sans-Serif;
+   text-align: center;
 }
 
 #captionImage {
@@ -134,11 +136,16 @@ ul#navbar li a:link:hover {
 }
 
 #submissions {
+	margin: 0 auto;
+	width: 800px;
 	color: blue;
-	font-size: 16pt;
+	font-size: 15px;
 	font-family: Arial, Helvetica, sans-serif;
-	float: right;
 	padding-bottom: 30px;
+}
+
+#submissionText{
+	float: right;
 }
 
 /* Footer */
