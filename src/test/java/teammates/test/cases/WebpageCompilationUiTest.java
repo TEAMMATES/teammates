@@ -7,15 +7,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.DataBundle;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
 import teammates.test.driver.TestProperties;
 
-/**
- * Tests Student Homepage UI
- */
 public class WebpageCompilationUiTest extends BaseTestCase {
         private static BrowserInstance bi;
         
@@ -34,7 +30,7 @@ public class WebpageCompilationUiTest extends BaseTestCase {
                 
                 bi = BrowserInstancePool.getBrowserInstance();
                 
-                bi.loginAdmin("teammates.test", "makeitright");
+                bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
         }
         
         @AfterClass
