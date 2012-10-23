@@ -20,7 +20,7 @@
                <div id="imageHolder">
                    <img alt="Teammates" src="images/teammateslogo.jpg" width="150px" height="47px">
                </div>
-               <!-- end headerWrapper -->
+              
                <div id="textHolder">
                    <ul id="navbar">
                        <li id="current"><strong>Home</strong></li>
@@ -28,54 +28,48 @@
                        <li><a href="about.html">About Us</a></li>
                        <li><a href="contact.html">Contact</a></li>
                        <li><a href="terms.html">Terms of Use</a></li>
-                       <li><a href="/login.jsp" target="_blank">Sign In</a></li>
                    </ul>
                </div>
-               <!-- end textHolder -->
+               <div id="loginHolder">
+                   	<form action="/login" style="float:left" name="studentLogin">
+						<input type="submit" name="student" class="button" id="btnStudentLogin" value="Student Login">
+					</form>
+					<form action="/login" name="coordinatorLogin" style="float:left">
+						<input type="submit" name="coord" class="button" id="btnCoordLogin" value=" Coordinator Login">
+					</form>
+               </div>
            </div>
-           <!-- end headerWrapper -->
        </div>
-       <!-- end header -->
        
        <div id="mainContent"> <!-- main -->
            <div id="caption">
-               <div id="captionImage">
-                   <img alt="Teammates logo" src="images/teammateslogo-black.png">
-               </div>
-               <!-- end captionImage -->
-               <div id="captionText">
-                   <span>An online peer feedback tool for improving teamwork in student projects</span>
-               </div>
-               <!-- end captionText -->
+               TEAMMATES is an online peer feedback and peer evaluation tool for student projects
            </div>
-           <!-- end caption -->
-           <div style="margin: 0 auto; padding-bottom: 15px;">
-               <img alt="Overview of Teammates" src="images/overview.png">
+        
+           <div style="margin: 0 auto; padding-bottom: 30px; width:800px" >
+           	   <a href="request.html">
+                 	<img alt="Overview of Teammates" src="images/overview.png" width="800px">
+               </a>
            </div>
-           <!-- end div -->
-           <div style="margin: 0 auto; padding-bottom: 60px;">
-               <a href="request.html"><img alt="Request account" src="images/free-easy-request.png" style="border: 0;"></a>
-           </div>
-           <!-- end div -->
+        
+    		<div id="submissions">
+    			<div id="submissionText"><span style="font-weight:bold;">13,000+ submissions</span> and counting...</div>
+    		</div>
+        
        </div>
-       <!-- end mainContent -->
    </div>
-   <!-- end mainContainer -->
    
    <div id="footer">
        <div id="footerWrapper">
            <div id="footerLeftCol">
                Developed at <a class="footer" href="http://www.comp.nus.edu.sg" target="_blank">School of Computing</a>, <a class="footer" href="http://www.nus.edu.sg" target="_blank">National University of Singapore</a>
            </div>
-           <!-- end footerLeftCol -->
+           
            <div id="footerRightCol">
                Hosted on <a class="footer" href="http://code.google.com/appengine/" target="_blank">Google App Engine</a>
            </div>
-           <!-- end footerRightCol -->
        </div>
-       <!-- end footerWrapper -->
    </div>
-   <!-- end footer -->
    
 </body>
 </html>
