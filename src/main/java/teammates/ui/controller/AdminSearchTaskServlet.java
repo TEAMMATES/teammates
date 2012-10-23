@@ -1,21 +1,16 @@
-// Copyright 2011 Google Inc. All Rights Reserved.
-
 package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.mortbay.log.Log;
-
 import teammates.common.Common;
 import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.StudentData;
 import teammates.storage.api.AccountsDb;
-import teammates.storage.entity.Student;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
@@ -26,16 +21,14 @@ import com.google.appengine.api.search.ListResponse;
 import com.google.appengine.api.search.SearchServiceFactory;
 
 public class AdminSearchTaskServlet extends ActionServlet<AdminHomeHelper> {
+	
+	protected static final Logger log = Common.getLogger();
 
 	private static final long serialVersionUID = 1L;
 
 	private static final Index INDEX = SearchServiceFactory.getSearchService()
 			.getIndex(IndexSpec.newBuilder().setName("coord_search_index"));
 
-	
-
-	private static final Logger LOG = Logger.getLogger(AdminSearchTaskServlet.class
-			.getName());
 
 	@Override
 	protected AdminHomeHelper instantiateHelper() {
@@ -44,21 +37,20 @@ public class AdminSearchTaskServlet extends ActionServlet<AdminHomeHelper> {
 
 	@Override
 	public void doAction(HttpServletRequest req, AdminHomeHelper helper) {
-		Log.debug("start rebuild search document");
-		cleanupDocuments();
-	    buildExistingDocument();
-	    Log.debug("done rebuild search document");
+		cleanupExistingSearchIndexes();
+	    buildNewSearchIndexes();
+	    log.info("done rebuild search document");
 		
 	}
 
 	/**
-	 * Indexes a document built from the current request on behalf of the
-	 * specified user. Each document has three fields in it. The content field
-	 * stores used entered text. The email, and domain are extracted from the
-	 * current user.
+	 * Indexes student and coordinator entries to build the table for search
 	 */
-	private void buildExistingDocument() {
+	private void buildNewSearchIndexes() {
 
+		/**
+		 * Insert coordinators
+		 */
 		AccountsDb accounts = new AccountsDb();
 		List<CoordData> coords = accounts.getCoordinators();
 		
@@ -68,15 +60,21 @@ public class AdminSearchTaskServlet extends ActionServlet<AdminHomeHelper> {
 			addDocument(coord.name, coord.email, coord.id, Common.PAGE_COORD_HOME);
 		}
 		
-		List<Student> students = accounts.getStudentEntities();
-		Iterator<Student> it2 = students.iterator();
+		/**
+		 * Insert students
+		 */
+		List<StudentData> students = accounts.getStudents();
+		Iterator<StudentData> it2 = students.iterator();
 		while (it2.hasNext()) {
-			Student stu = it2.next();
-			addDocument(stu.getName(), stu.getEmail(), stu.getID(), Common.PAGE_STUDENT_HOME);
+			StudentData stu = it2.next();
+			addDocument(stu.name, stu.email, stu.id, Common.PAGE_STUDENT_HOME);
 		}
 
 	}
 	
+	/**
+	 * Add student/coordinator data to search index
+	 */
 	private void addDocument(String name, String email, String id, String url) {
 		Document.Builder docBuilder = Document
 				.newBuilder()
@@ -93,21 +91,18 @@ public class AdminSearchTaskServlet extends ActionServlet<AdminHomeHelper> {
 				;
 
 		Document doc = docBuilder.build();
-		LOG.info("Adding document:\n" + doc.toString());
 		try {
 			INDEX.add(doc);
 		} catch (RuntimeException e) {
-			LOG.log(Level.SEVERE, "Failed to add " + doc, e);
+			log.warning("Failed to add " + doc + e.getLocalizedMessage());
 		}
 	}
 
 
 	/**
-	 * Removes documents with IDs specified in the given request. In the demo
-	 * application we do not perform any authorization checks, thus no user
-	 * information is necessary.
+	 * Clean up existing search indexes 
 	 */
-	private void cleanupDocuments() {
+	private void cleanupExistingSearchIndexes() {
 		
 		try {
 		    while (true) {
@@ -124,7 +119,7 @@ public class AdminSearchTaskServlet extends ActionServlet<AdminHomeHelper> {
 		        INDEX.remove(docIds);
 		    }
 		} catch (RuntimeException e) {
-		    LOG.log(Level.SEVERE, "Failed to remove documents", e);
+		    log.warning("Failed to remove documents" + e.getLocalizedMessage());
 		}
 	}
 

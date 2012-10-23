@@ -552,11 +552,23 @@ public class AccountsDb {
 	 * Returns the list of student entities
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Student> getStudentEntities() { 
+	private List<Student> getStudentEntities() { 
 		String query = "select from " + Student.class.getName();
 		return (List<Student>) getPM().newQuery(query).execute();
 	}
 
+	/**
+	 * @return the list of all students
+	 */
+	public List<StudentData> getStudents() { 
+		List<StudentData> list = new LinkedList<StudentData>();
+		List<Student> entities = getStudentEntities();
+		Iterator<Student> it = entities.iterator();
+		while(it.hasNext()) {
+			list.add(new StudentData(it.next()));
+		}
+		return list;
+	}
 	
 	
 	/**
