@@ -15,7 +15,6 @@ import teammates.common.datatransfer.SubmissionData;
 import teammates.test.driver.BackDoor;
 
 /**
- * @author James
  * This script import a large data bundle to the appengine. The target of the script is the app with
  * appID in the test.properties file.
  * 
@@ -24,8 +23,9 @@ import teammates.test.driver.BackDoor;
  * 
  */
 public class ImportData {
-	// Source file name (under src/test/resources/data folder) to import
-	private static final String SOURCE_FILE_NAME = "performance1.json";
+	// NOTE: Edit SOURCE_FILE_NAME before use 
+	// Data source file name (under src/test/resources/data folder) to import
+	private static final String SOURCE_FILE_NAME = "DataSourceFileName.json";
 	
 	private static final int MAX_NUMBER_OF_ENTITY_PER_REQUEST = 100;
 	private static final int MAX_NUMBER_OF_EVALUATION_PER_REQUEST = 1;
@@ -40,7 +40,6 @@ public class ImportData {
 		data = gson.fromJson(jsonString, DataBundle.class);
 		
 		String status = "";
-		
 		do
 		{
 			long start = System.currentTimeMillis();
@@ -130,7 +129,7 @@ public class ImportData {
 	    
 	    String status = BackDoor.persistNewDataBundle(gson.toJson(bundle));
 	    
-	    // wait a few second to allow data to persist completedly
+	    // wait a few seconds to allow data to persist completedly
 	    try {
 			Thread.sleep(WAIT_TIME_BETWEEN_REQUEST);
 		} catch (InterruptedException e) {
