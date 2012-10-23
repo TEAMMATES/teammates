@@ -28,30 +28,33 @@
                        <li><a href="about.html">About Us</a></li>
                        <li><a href="contact.html">Contact</a></li>
                        <li><a href="terms.html">Terms of Use</a></li>
-                       <li><a href="/login.jsp" target="_blank">Sign In</a></li>
                    </ul>
+               </div>
+               <div id="loginHolder">
+                   	<form action="/login" style="float:left" name="studentLogin">
+						<input type="submit" name="student" class="button" id="btnStudentLogin" value="Student Login">
+					</form>
+					<form action="/login" name="coordinatorLogin" style="float:left">
+						<input type="submit" name="coord" class="button" id="btnCoordLogin" value=" Coordinator Login">
+					</form>
                </div>
            </div>
        </div>
        
        <div id="mainContent"> <!-- main -->
            <div id="caption">
-               <div id="captionImage">
-                   <img alt="Teammates logo" src="images/teammateslogo-black.png">
-               </div>
-           
-               <div id="captionText">
-                   <span>An online peer feedback tool for improving teamwork in student projects</span>
-               </div>
+               TEAMMATES is an online peer feedback and peer evaluation tool for student projects
            </div>
         
-           <div style="margin: 0 auto; padding-bottom: 15px;">
-               <img alt="Overview of Teammates" src="images/overview.png">
+           <div style="margin: 0 auto; padding-bottom: 30px; width:800px" >
+           	   <a href="request.html">
+                 	<img alt="Overview of Teammates" src="images/overview.png" width="800px">
+               </a>
            </div>
         
-           <div style="margin: 0 auto; padding-bottom: 60px;">
-               <a href="request.html"><img alt="Request account" src="images/free-easy-request.png" style="border: 0;"></a>
-           </div>
+    		<div id="submissions">
+    			<div id="submissionText"><span style="font-weight:bold;">13,000+ submissions</span> and counting...</div>
+    		</div>
         
        </div>
    </div>
