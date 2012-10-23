@@ -14,7 +14,7 @@ import teammates.common.Common;
  * Class that create a json data file to be used with ImportData script
  * The result file will be saved in src/test/resources/data/ folder.
  * 
- * @James: This scripts does not use any teamamtes's data structures or json framework for some reason:
+ * @James: This scripts does not use any teamamtes's data structures or json framework for some reasons:
  * 
  * First - For 5000 or more students, it will consume a lot of memory. Need to store only id
  * of the objects to save memory.
@@ -24,13 +24,11 @@ import teammates.common.Common;
  * 
  * Third - The format of data bundle is json but quite "strange", no relationships, no arrays.
  * 
- * Forth - I intend to use this script for Objectify as well so if must should be independent on the current 
- * data structures.
  */
 
 public class DataGenerator {
 	// Name of the result file, please do not override existing file
-	public static final String FILE_NAME = "test1.json";
+	public static final String FILE_NAME = "ResultFileName.json";
 	// Prefix used in all entities
 	public static final String PREFIX = "D1_";
 	
@@ -53,7 +51,7 @@ public class DataGenerator {
 
 	public static final String START_TIME = "2012-04-01 11:59 PM";
 	public static final String END_TIME_PASSED = "2012-07-30 11:59 PM";
-	public static final String END_TIME_NOT_PASSED = "2012-012-30 11:59 PM";
+	public static final String END_TIME_NOT_PASSED = "2013-012-30 11:59 PM";
 	
 	public static ArrayList<String> coords = new ArrayList<String>();
 	public static ArrayList<String> courses = new ArrayList<String>();
@@ -106,72 +104,98 @@ public class DataGenerator {
 		for (int i = 0; i< NUM_OF_STUDENTS; i ++) {
 			studentEmails.add(PREFIX+"Stu"+i+"Email@gmail.com");
 		}
+		
 		//Create coordinators
 		for (int i = 0; i < NUM_OF_COORDINATORS; i++) {
 			String coordName = "Coo"+i;
 			coords.add(coordName);
-			
-			//number of courses for this particular coordinator
-			long numOfCourse = Math.round(random.nextInt(MAX_NUM_OF_COURSES_PER_COORD - MIN_NUM_OF_COURSES_PER_COORD+1)+MIN_NUM_OF_COURSES_PER_COORD);
-			for (int j =0 ; j < numOfCourse; j ++)
-			{
-				String courseName = "Cou"+j + "_of_"+coordName;
-				courses.add(courseName);
-				
-				//teams for this course
-				long numOfStudent = numberOfStudentInCourse();
-				
-				//randomly pick student from list
-				Set<Integer> studentIndexs = new HashSet<Integer>();
-				while (studentIndexs.size() < numOfStudent) {
-					studentIndexs.add(random.nextInt(NUM_OF_STUDENTS));
-				}
-				
-				//System.out.print(studentIndexs);	
-				ArrayList<String> studentEmailInCourse = new ArrayList<String>();
-				for (Integer integer : studentIndexs) {
-					studentEmailInCourse.add(studentEmails.get(integer));
-				}
-				
-				//Add teams
-				int teamCount = 1;
-				while(studentEmailInCourse.size() >0)
-				{
-					long teamSize = Math.round(random.nextInt(MAX_TEAM_SIZE - MIN_TEAM_SIZE +1)+MIN_TEAM_SIZE);
-					ArrayList<String> team = new ArrayList<String>();
-					for(int k = 0; studentEmailInCourse.size() >0 && k < teamSize ; k ++)
-					{
-						String email =studentEmailInCourse.remove(0);
-						
-						//add to team, add to students;
-						String studentIndex = email.split("Email@gmail.com")[0].split("Stu")[1];
-						String studentID =PREFIX+"Stu"+studentIndex+"Team"+teamCount +"_in_"+courseName;
-						
-						students.add(studentID);
-						team.add(studentID);
-					}
-
-					teamCount ++;
-					teams.add(team);
-					
-				}
-				
-				Integer numerOfActiveEval = (int) Math.round(random.nextInt
-						(MAX_ACTIVE_EVALUATION_PER_COURSE - MIN_ACTIVE_EVALUATION_PER_COURSE+1)+MIN_ACTIVE_EVALUATION_PER_COURSE);
-				
-				for (int n = 0; n < numerOfActiveEval ; n ++)
-				{
-					String eval = "Eval"+n+"_in_"+courseName;
-					evaluations.add(eval);	
-				}
-				
-			}
+			generateDataForCoord(coordName);
 		}
 		
 		System.out.println("Done gererating data!");
 	}
 	
-	/*printing json function */
+	/**
+	 * Randomly create courses, students and evaluations for a particular coordinator
+	 * @param coordName
+	 */
+	public static void generateDataForCoord(String coordName)
+	{
+		//number of courses for this particular coordinator
+		long numOfCourse = Math.round(random.nextInt(MAX_NUM_OF_COURSES_PER_COORD - MIN_NUM_OF_COURSES_PER_COORD+1)
+				+MIN_NUM_OF_COURSES_PER_COORD);
+		for (int j =0 ; j < numOfCourse; j ++)
+		{
+			// Add a course
+			String courseName = "Cou"+j + "_of_"+coordName;
+			courses.add(courseName);
+			
+			// Add students to this course
+			generateStudentsDataForCourse(courseName);
+			
+			// Add evaluation for this course
+			Integer numerOfActiveEval = (int) Math.round(random.nextInt
+					(MAX_ACTIVE_EVALUATION_PER_COURSE - MIN_ACTIVE_EVALUATION_PER_COURSE+1)+MIN_ACTIVE_EVALUATION_PER_COURSE);
+			
+			for (int n = 0; n < numerOfActiveEval ; n ++)
+			{
+				String eval = "Eval"+n+"_in_"+courseName;
+				evaluations.add(eval);	
+			}
+			
+		}
+		
+	}
+	
+	/**
+	 * Randomly create students for a particular course
+	 * @param courseName
+	 */
+	public static void generateStudentsDataForCourse(String courseName)
+	{
+		//randomly get a size of this course
+		long numOfStudent = numberOfStudentInCourse();
+		
+		//randomly pick student from list
+		Set<Integer> studentIndexs = new HashSet<Integer>();
+		while (studentIndexs.size() < numOfStudent) {
+			studentIndexs.add(random.nextInt(NUM_OF_STUDENTS));
+		}
+		
+		ArrayList<String> studentEmailInCourse = new ArrayList<String>();
+		for (Integer integer : studentIndexs) {
+			studentEmailInCourse.add(studentEmails.get(integer));
+		}
+		
+		//Add teams
+		int teamCount = 1;
+		while(studentEmailInCourse.size() >0)
+		{
+			long teamSize = Math.round(random.nextInt(MAX_TEAM_SIZE - MIN_TEAM_SIZE +1)+MIN_TEAM_SIZE);
+			ArrayList<String> team = new ArrayList<String>();
+			for(int k = 0; studentEmailInCourse.size() >0 && k < teamSize ; k ++)
+			{
+				String email =studentEmailInCourse.remove(0);
+				
+				//add to team, add to students;
+				String studentIndex = email.split("Email@gmail.com")[0].split("Stu")[1];
+				String studentID =PREFIX+"Stu"+studentIndex+"Team"+teamCount +"_in_"+courseName;
+				
+				students.add(studentID);
+				team.add(studentID);
+			}
+
+			teamCount ++;
+			teams.add(team);
+		}
+	}
+	
+	
+	
+
+	/**
+	 * @return json string presenting the databundle 
+	 */
 	public static String output ()
 	{
 		System.out.println("Start writing to file !");
@@ -234,7 +258,7 @@ public class DataGenerator {
 			String course = PREFIX+student.split("_in_")[1];
 			String email = studentEmails.get(Integer.parseInt(index));
 			output+="\t"+student(student, email, "Student "+index+ " in " +course,
-					"Team "+team, email.split("@")[0], "aaaa", "idOf_"+course, "bbb");
+					"Team "+team, email.split("@")[0], "comment", "idOf_"+course, "profile");
 			if(i!=students.size()-1)
 				output+=",\n";
 		}
@@ -267,7 +291,6 @@ public class DataGenerator {
 	{
 		String output = "\"submissions\":{\n";
 		for (String eval : evaluations) {
-			Integer subCount = 0;
 			String courseOfEval = eval.split("_in_")[1];
 			for (ArrayList<String> team : teams) {
 				if (team.size() == 0) // Ignore if team's size is 0
@@ -275,34 +298,50 @@ public class DataGenerator {
 				String courseOfTeam = team.get(0).split("_in_")[1];
 				if (courseOfEval.equals(courseOfTeam))
 				{
-					while(team.size() >0)
-					{
-						String stu = team.get(0);
-						String teamIndex = stu.split("Team")[1].split("_in_")[0];
-						String stuEmail = emailFromStudentId(stu);
-						for (int i = 0 ; i < team.size() ; i++)
-						{
-							String other = team.get(i);
-							String otherEmail = emailFromStudentId(other);
-							output += "\t"+submissions(PREFIX+"Sub"+subCount+"Eval"+eval, stuEmail, otherEmail,
-									"idOf_"+PREFIX+courseOfEval,PREFIX+eval, 10, "justification", "p2p", "Team "+teamIndex);
-							output += ",\n";
-							subCount++;
-							if (!stuEmail.equals(otherEmail))
-							{
-								output += "\t"+submissions(PREFIX+"Sub"+subCount+"Eval"+eval, otherEmail, stuEmail,
-										"idOf_"+PREFIX+courseOfEval,PREFIX+eval, 10, "justification", "p2p", "Team "+teamIndex);
-								output += ",\n";
-								subCount++;
-							}
-						}
-						team.remove(0);
-					}
+					output += submissionForTeam(courseOfEval,eval,team);
 				}
 			}
 		}
 		output = output.substring(0,output.length() -2); //remove the last comma
 		output+= "\n}";
+		return output;
+	}
+
+	
+	/**
+	 *  Json string presentation for submissions for a particular team
+	 * @param course - name of the course
+	 * @param eval - name of the eval
+	 * @param team - arrayList of student in the team 
+	 * @return
+	 */
+	public static String submissionForTeam(String course,String eval,ArrayList<String> team)
+	{
+		String output = "";
+		Integer subCount =0;
+		while(team.size() >0)
+		{
+			String stu = team.get(0);
+			String teamIndex = stu.split("Team")[1].split("_in_")[0];
+			String stuEmail = emailFromStudentId(stu);
+			for (int i = 0 ; i < team.size() ; i++)
+			{
+				String other = team.get(i);
+				String otherEmail = emailFromStudentId(other);
+				output += "\t"+submissions(PREFIX+"Sub"+subCount+"Team"+teamIndex+eval, stuEmail, otherEmail,
+						"idOf_"+PREFIX+course,PREFIX+eval, 10, "justification", "p2p", "Team "+teamIndex);
+				output += ",\n";
+				subCount++;
+				if (!stuEmail.equals(otherEmail))
+				{
+					output += "\t"+submissions(PREFIX+"Sub"+subCount+"Team"+teamIndex+eval, otherEmail, stuEmail,
+							"idOf_"+PREFIX+course,PREFIX+eval, 10, "justification", "p2p", "Team "+teamIndex);
+					output += ",\n";
+					subCount++;
+				}
+			}
+			team.remove(0);
+		}
 		return output;
 	}
 	
