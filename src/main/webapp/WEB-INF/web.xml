@@ -4,7 +4,6 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
-
 	<filter>
 		<filter-name>DatastoreFilter</filter-name>
 		<filter-class>teammates.storage.datastore.DatastoreFilter</filter-class>
@@ -13,7 +12,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<filter-name>DatastoreFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
 	<filter>
 	    <description>Filter that do the login part for each JSP page</description>
 	    <filter-name>LoginFilter</filter-name>
@@ -48,7 +46,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet-mapping>
 	
 	<welcome-file-list>
-		<welcome-file>login.jsp</welcome-file>
+		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 	
 	<servlet>

@@ -136,6 +136,7 @@ public class Common {
 	public static final String PARAM_COORD_EMAIL = "coordemail";
 	public static final String PARAM_COORD_NAME = "coordname";
 	public static final String PARAM_STUDENTS_ENROLLMENT_INFO = "enrollstudents";
+	public static final String PARAM_COORD_IMPORT_SAMPLE = "importsample";
 
 	public static final String PARAM_EVALUATION_NAME = "evaluationname";
 

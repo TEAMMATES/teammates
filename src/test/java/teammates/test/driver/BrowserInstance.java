@@ -88,7 +88,7 @@ public class BrowserInstance {
 
 	public static final String HEADER_FORM_TABLE_CELL = "//table[@class='headerform']//tbody//tr//td";
 	public static final String DETAIL_FORM_TABLE_CELL = "//table[@class='detailform']//tbody//tr//td";
-	public static final String DATAFORM_TABLE_ROW = "//table[@id='dataform']//tr";
+	public static final String DATAFORM_TABLE_ROW = "//table[@class='dataTable']//tr";
 	public static final String DATAFORM_TABLE_CELL = DATAFORM_TABLE_ROW
 			+ "[%d]//td[%d]";
 	
@@ -265,9 +265,9 @@ public class BrowserInstance {
 		int courseRowID = getCoordHomeCourseRowID(courseID);
 		if (courseRowID == -1)
 			return -2;
-		String template = "//div[@id='course%d']//table[@id='dataform']//tr[@id='evaluation%d']";
+		String template = "//div[@id='course%d']//table[@class='dataTable']//tr[@id='evaluation%d']";
 		int max = (Integer) selenium
-				.getXpathCount("//div//table[@id='dataform']//tr");
+				.getXpathCount("//div//table[@class='dataTable']//tr");
 		for (int id = 0; id < max; id++) {
 			if (getElementText(
 					By.xpath(String.format(template + "//td[1]", courseRowID,
@@ -1194,7 +1194,7 @@ public class BrowserInstance {
 	}
 
 	public void clickCoordCourseView(int rowID) {
-		waitForElementPresent(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
 		clickWithWait(getCoordCourseViewLinkLocator(rowID));
 	}
 
@@ -1316,9 +1316,9 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public String studentGetCourseID(int rowID) {
-		waitForElementPresent(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
 		rowID++;
-		return selenium.getTable("id=dataform." + rowID + ".0");
+		return selenium.getTable("class=dataTable." + rowID + ".0");
 	}
 
 	/**
@@ -1330,9 +1330,9 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public String studentGetCourseName(int rowID) {
-		waitForElementPresent(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
 		rowID++;
-		return selenium.getTable("id=dataform." + rowID + ".1");
+		return selenium.getTable("class=dataTable." + rowID + ".1");
 	}
 
 	/**
@@ -1343,9 +1343,9 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public String studentGetCourseTeamName(int rowID) {
-		waitForElementPresent(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
 		rowID++;
-		return selenium.getTable("id=dataform." + rowID + ".2");
+		return selenium.getTable("class=dataTable." + rowID + ".2");
 	}
 
 	/**
@@ -1357,7 +1357,7 @@ public class BrowserInstance {
 	public void studentClickCourseView(int rowID) {
 		By link = By
 				.xpath(String
-						.format("//div[@id='studentCourseTable']//table[@id='dataform']//tr[%d]//td[%d]//a[1]",
+						.format("//div[@id='studentCourseTable']//table[@class='dataTable']//tr[%d]//td[%d]//a[1]",
 								rowID + 2, 4));
 		clickWithWait(link);
 	}
@@ -1391,9 +1391,9 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public String studentGetEvaluationCourseID(int rowID) {
-		waitForElementPresent(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
 		rowID++;
-		return selenium.getTable("id=dataform." + rowID + ".1");
+		return selenium.getTable("class=dataTable." + rowID + ".1");
 	}
 
 	/**
@@ -1404,9 +1404,9 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public String studentGetEvaluationName(int rowID) {
-		waitForElementPresent(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
 		rowID++;
-		return selenium.getTable("id=dataform." + rowID + ".2");
+		return selenium.getTable("class=dataTable." + rowID + ".2");
 	}
 
 	/**
@@ -1417,9 +1417,9 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public String studentGetEvaluationStatus(int rowID) {
-		waitForElementPresent(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
 		rowID++;
-		return selenium.getTable("id=dataform." + rowID + ".3");
+		return selenium.getTable("class=dataTable." + rowID + ".3");
 	}
 
 	/**
@@ -1430,8 +1430,8 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public int studentCountTotalCourses() {
-		waitForElementPresent(By.id("dataform"));
-		WebElement dataform = driver.findElement(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
+		WebElement dataform = driver.findElement(By.className("dataTable"));
 		return dataform.findElements(By.tagName("tr")).size();
 	}
 
@@ -1443,16 +1443,16 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public int studentCountTotalEvaluations() {
-		waitForElementPresent(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
 		if (getElementText(
 				By.xpath(String
-						.format("//div[@id='studentPastEvaluations']//table[@id='dataform']//tbody//tr[2]//td[1]")))
+						.format("//div[@id='studentPastEvaluations']//table[@class='dataTable']//tbody//tr[2]//td[1]")))
 				.isEmpty()) {
 			return 0;
 		} else {
 			return selenium
 					.getXpathCount(
-							"//div[@id='studentPastEvaluations']//table[@id='dataform']/tbody/tr")
+							"//div[@id='studentPastEvaluations']//table[@class='dataTable']/tbody/tr")
 					.intValue() - 1;
 		}
 	}
@@ -1623,15 +1623,15 @@ public class BrowserInstance {
 		System.out.println("delete all students");
 		driver.findElement(By.className("t_courses")).click();
 		clickWithWait(By.className("t_course_view"));
-		waitForElementPresent(By.id("dataform tr"));
-		WebElement dataform = driver.findElement(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable tr"));
+		WebElement dataform = driver.findElement(By.className("dataTable"));
 		while (dataform.findElements(By.tagName("tr")).size() > 1) {
 			System.out.println("Delete a student...");
 			By by = By.xpath(String.format(
-					"//table[@id='dataform']//tr[%d]//a[4]", 2));
+					"//table[@class='dataTable']//tr[%d]//a[4]", 2));
 			waitForElementPresent(by);
 			clickAndConfirm(by);
-			waitForElementPresent(By.id("dataform tr"));
+			waitForElementPresent(By.className("dataTable tr"));
 		}
 	}
 
@@ -1694,9 +1694,9 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public String getCourseNumberOfTeams(int rowID) {
-		waitForElementPresent(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
 		rowID++;// rowID starts from 0
-		return selenium.getTable("id=dataform." + rowID + ".2");
+		return selenium.getTable("class=dataTable." + rowID + ".2");
 	}
 
 	/**
@@ -1724,9 +1724,9 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public String getCourseTotalStudents(int rowID) {
-		waitForElementPresent(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
 		rowID++;
-		return selenium.getTable("id=dataform." + rowID + ".3");
+		return selenium.getTable("class=dataTable." + rowID + ".3");
 	}
 
 	/**
@@ -1755,9 +1755,9 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public String getCourseUnregisteredStudents(int rowID) {
-		waitForElementPresent(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
 		rowID++;
-		return selenium.getTable("id=dataform." + rowID + ".4");
+		return selenium.getTable("class=dataTable." + rowID + ".4");
 	}
 
 	/**
@@ -1779,33 +1779,33 @@ public class BrowserInstance {
 	}
 
 	public String getCourseDetailStudentName(int rowID) {
-		waitForElementPresent(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
 		rowID++;
-		return selenium.getTable("id=dataform." + rowID + ".0");
+		return selenium.getTable("class=dataTable." + rowID + ".0");
 	}
 
 	public String getCourseDetailTeamName(int rowID) {
-		waitForElementPresent(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
 		rowID++;
-		return selenium.getTable("id=dataform." + rowID + ".1");
+		return selenium.getTable("class=dataTable." + rowID + ".1");
 	}
 
 	public String getTeamFormingSessionCourseID(int rowID) {
-		waitForElementPresent(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
 		rowID++;
-		return selenium.getTable("id=dataform." + rowID + ".0");
+		return selenium.getTable("class=dataTable." + rowID + ".0");
 	}
 
 	public String getTeamFormingSessionStatus(int rowID) {
-		waitForElementPresent(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
 		rowID++;
-		return selenium.getTable("id=dataform." + rowID + ".2");
+		return selenium.getTable("class=dataTable." + rowID + ".2");
 	}
 
 	public By getStudentNameFromManageTeamFormingSession(int rowID, int col) {
 		return By
 				.xpath(String
-						.format("//div[@class='result_team']//table[@id='dataform']//tbody//tr[%d]//td[%d]",
+						.format("//div[@class='result_team']//table[@class='dataTable']//tbody//tr[%d]//td[%d]",
 								rowID, col));
 	}
 
@@ -1847,18 +1847,18 @@ public class BrowserInstance {
 	}
 
 	public String getEvaluationCourseID(int rowID) {
-		waitForElementPresent(By.id("dataform"));
-		return selenium.getTable("id=dataform." + (rowID + 1) + ".0");
+		waitForElementPresent(By.className("dataTable"));
+		return selenium.getTable("class=dataTable." + (rowID + 1) + ".0");
 	}
 
 	public String getEvaluationName(int rowID) {
-		waitForElementPresent(By.id("dataform"));
-		return selenium.getTable("id=dataform." + (rowID + 1) + ".1");
+		waitForElementPresent(By.className("dataTable"));
+		return selenium.getTable("class=dataTable." + (rowID + 1) + ".1");
 	}
 
 	public String getEvaluationStatus(int rowID) {
-		waitForElementPresent(By.id("dataform"));
-		return selenium.getTable("id=dataform." + (rowID + 1) + ".2");
+		waitForElementPresent(By.className("dataTable"));
+		return selenium.getTable("class=dataTable." + (rowID + 1) + ".2");
 	}
 
 	public String getEvaluationStatus(String courseId, String evalName) {
@@ -1872,9 +1872,9 @@ public class BrowserInstance {
 	}
 
 	public String getEvaluationResponseRate(int rowID) {
-		waitForElementPresent(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
 		rowID++;
-		return selenium.getTable("id=dataform." + rowID + ".3");
+		return selenium.getTable("class=dataTable." + rowID + ".3");
 	}
 
 	public String getEvaluationResponse(String courseId, String evalName) {
@@ -1888,22 +1888,22 @@ public class BrowserInstance {
 	}
 
 	public String getHomeEvaluationName(String courseID, String courseName) {
-		waitForElementPresent(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
 		int courseRowID = getCoordHomeCourseRowID(courseID);
 		int evaluationRowID = getCoordHomeEvaluationRowID(courseID, courseName);
 		return getElementText(By
 				.xpath(String
-						.format("//div[@id='course%d']//table[@id='dataform']//tr[@id='evaluation%d']/td[1]",
+						.format("//div[@id='course%d']//table[@class='dataTable']//tr[@id='evaluation%d']/td[1]",
 								courseRowID, evaluationRowID)));
 	}
 
 	public String getHomeEvaluationStatus(String courseID, String courseName) {
-		waitForElementPresent(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
 		int courseRowID = getCoordHomeCourseRowID(courseID);
 		int evaluationRowID = getCoordHomeEvaluationRowID(courseID, courseName);
 		return getElementText(By
 				.xpath(String
-						.format("//div[@id='course%d']//table[@id='dataform']//tr[@id='evaluation%d']/td[2]",
+						.format("//div[@id='course%d']//table[@class='dataTable']//tr[@id='evaluation%d']/td[2]",
 								courseRowID, evaluationRowID)));
 	}
 
@@ -2019,15 +2019,15 @@ public class BrowserInstance {
 
 	// Reviewee summary
 	public String getRevieweeSummaryClaimed(int studentIndex) {
-		waitForElementPresent(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
 		studentIndex++;
-		return selenium.getTable("id=dataform." + studentIndex + ".2");
+		return selenium.getTable("class=dataTable." + studentIndex + ".2");
 	}
 
 	public String getRevieweeSummaryDifference(int studentIndex) {
-		waitForElementPresent(By.id("dataform"));
+		waitForElementPresent(By.className("dataTable"));
 		studentIndex++;
-		return selenium.getTable("id=dataform." + studentIndex + ".3");
+		return selenium.getTable("class=dataTable." + studentIndex + ".3");
 	}
 
 	// reviewer individual:
@@ -2071,7 +2071,7 @@ public class BrowserInstance {
 	 * @return
 	 */
 	public int getStudentRowIdInEditSubmission(String studentNameOrSelf) {
-		int max = driver.findElements(By.className("reportheader")).size();
+		int max = driver.findElements(By.className("reportHeader")).size();
 		for (int i = 0; i < max; i++) {
 			if (driver.findElement(By.id("sectiontitle" + i)).getText()
 					.toUpperCase().contains(studentNameOrSelf.toUpperCase())) {

@@ -1,16 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 	<link href="/favicon.png" rel="shortcut icon" />
-	<meta content="IE=8" http-equiv="X-UA-Compatible" />
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 	<title>Teammates - Student</title>
-	<link type="text/css" href="/stylesheets/main.css" rel="stylesheet" />
-	<link type="text/css" href="/stylesheets/evaluation.css" rel="stylesheet" />
+	<link type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
+	<link type="text/css" href="/stylesheets/studentHome.css" rel="stylesheet" />
 
-	<script src="/js/jquery-1.6.2.min.js" language="JavaScript"></script>
-	<script src="/js/tooltip.js" language="JavaScript"></script>
-	<script src="/js/common.js" language="JavaScript"></script>	
+	<script src="/js/jquery-1.6.2.min.js" type="text/javascript"></script>
+	<script src="/js/tooltip.js" type="text/javascript"></script>
+	<script src="/js/common.js" type="text/javascript"></script>
 	
-	<script src="/js/student.js" language="JavaScript"></script>	
+	<script src="/js/student.js" type="text/javascript"></script>	
 </head>
 
 <body>
@@ -22,7 +22,7 @@
 
 		<div id="frameTopWrapper">
 			<div id="logo">
-				<img width="150" height="47" src="/images/teammateslogo.jpg" alt="Teammates" />
+				<img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="Teammates" />
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
@@ -41,15 +41,15 @@
 			<div id="headerOperation">
 				<h1>Student Home</h1>
 				<br />
-				<div class="result_addOrJoinCourse">
+				<div id="result_addOrJoinCourse">
 					<form name="form_joincourse" action="/page/studentCourseJoin" method="post">
-						<table class="headerform">
+						<table class="inputTable">
 							<tbody><tr>
-								<td width="30%" class="attribute">Registration Key:</td>
-								<td width="30%">
+								<td class="label">Registration Key:</td>
+								<td>
 									<input type="text" tabindex="1" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter your registration key for the course.')" id="regkey" name="regkey" class="keyvalue" />
 								</td>
-								<td width="30%">
+								<td>
 									<input type="submit" tabindex="2" value="Join Course" onclick="return this.form.regkey.value!=''" class="button" id="button_join_course" />
 								</td>
 							</tr>
@@ -64,18 +64,20 @@
 	<div style="display: block;" id="statusMessage">
 		Welcome stranger :-) <br /><br />It seems you are not a registered user of TEAMMATES. To use TEAMMATES, a course coordinator has to add you to a course first. After that, TEAMMATES will send you an email containing the link to 'join' that course. <br /><br />If you already clicked on such a link and ended up here, it is likely that your email software messed up the link. Please retry to join by filling in the above box the registration key given in that same e-mail.If you still cannot join, feel free to <a href="http://www.comp.nus.edu.sg/%7Eteams/contact.html">contact us</a> for help. </div>
 
-			<div id="studentHomeTable">
+			
 				
-			</div>
+			
+			<br /> <br /> <br />
 		</div>
+		
 	</div>
-
+	
 	<div id="frameBottom">
 		
 <div id="contentFooter">
 [TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
 
-<a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html" class="footer">Contact Us</a>
+<a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html">Contact Us</a>
 </div>
 	</div>
 
