@@ -107,13 +107,13 @@ public class SystemErrorEmailReportTest extends BaseTestCase {
 		String stackTrace = Common.stackTraceToString(error);
 		String requestPath = "/page/studentHome";
 		String requestParam = "{}";
-		String version = "4.27";
 
 		______TS("generic crash report email");
 
 		MimeMessage email = new Emails().generateSystemErrorEmail(
-				error.getMessage(), 
-				stackTrace, requestPath, requestParam, version);
+				error, 
+				requestPath, requestParam,
+				TestProperties.inst().TEAMMATES_VERSION);
 
 		// check receiver
 		String recipient = BuildProperties.inst().getAppCrashReportEmail();

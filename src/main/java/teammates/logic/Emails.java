@@ -240,8 +240,13 @@ public class Emails {
 		return message;
 	}
 
+	/**
+	 * Generate Email of system error
+	 * the parameter "version" can be encapsulated in side this function
+	 * it's kept as a parameter for testing purpose
+	 */
 	public MimeMessage generateSystemErrorEmail(Throwable error, 
-			String requestPath, String requestParam) throws AddressException, MessagingException {
+			String requestPath, String requestParam, String version) throws AddressException, MessagingException {
 		Session session = Session.getDefaultInstance(new Properties(), null);
 		MimeMessage message = new MimeMessage(session);
 		String errorMessage = error.getMessage();
@@ -263,7 +268,7 @@ public class Emails {
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 		message.setFrom(new InternetAddress(from));
 		
-		message.setSubject(String.format(SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR, BuildProperties.getAppVersion(), errorMessage));
+		message.setSubject(String.format(SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR, version, errorMessage));
 		
 		String emailBody = Common.SYSTEM_ERROR_EMAIL_TEMPLATE;
 
@@ -272,7 +277,6 @@ public class Emails {
 		emailBody = emailBody.replace("${errorMessage}", errorMessage);
 		emailBody = emailBody.replace("${stackTrace}", stackTrace);
 		message.setContent(emailBody, "text/html");
-		sendEmail(message);
 		return message;
 	}
 

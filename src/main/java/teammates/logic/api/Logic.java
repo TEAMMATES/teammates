@@ -1680,7 +1680,7 @@ public class Logic {
 		Emails emailMgr = new Emails();
 		MimeMessage email = null ;
 		try {
-			email = emailMgr.generateSystemErrorEmail(error, path, params);
+			email = emailMgr.generateSystemErrorEmail(error, path, params, BuildProperties.getAppVersion());
 			emailMgr.sendEmail(email);
 			log.severe("Sent crash report: " + Emails.getEmailInfo(email));
 		} catch (Exception e) {
