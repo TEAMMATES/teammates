@@ -1,0 +1,25 @@
+#result_addOrJoinCourse {
+	width: 700px;
+	margin: 30px auto;
+}
+
+#result_addOrJoinCourse .inputTable {
+	width: 700px;
+}
+
+#result_addOrJoinCourse .inputTable input[type="text"]{
+	width: 400px;
+}
+
+.result_homeTitle {
+	float: left;
+	width: 60%;
+	color: white;
+}
+
+.result_homeLinks {
+	float: right;
+	padding: 20px 0px;
+	text-align: center;
+	width: 40%;
+}

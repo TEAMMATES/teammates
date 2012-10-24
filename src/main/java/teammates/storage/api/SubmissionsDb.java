@@ -100,6 +100,7 @@ public class SubmissionsDb {
 		}
 		
 		getPM().makePersistentAll(newEntityList);
+		getPM().flush();
 	}
 
 	/**
@@ -419,8 +420,6 @@ public class SubmissionsDb {
 
 		getPM().deletePersistentAll(submissionList);
 		getPM().flush();
-
-		return;
 	}
 
 	/**
@@ -453,7 +452,6 @@ public class SubmissionsDb {
 				query2).execute();
 		getPM().deletePersistentAll(submissionList2);
 		getPM().flush();
-
 	}
 
 	/**
@@ -516,6 +514,8 @@ public class SubmissionsDb {
 						+ s.toString());
 			}
 		}
+		
+		getPM().flush();
 	}
 
 	/**

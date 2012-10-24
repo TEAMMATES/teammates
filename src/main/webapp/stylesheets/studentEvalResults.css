@@ -1,0 +1,28 @@
+.evalResultHeader {
+	width: 920px;
+	padding: 10px;
+}
+
+.blockText {
+	color: white;
+	font-weight: bold;
+}
+
+.result_studentform{
+	width:940px;
+	margin: 0 auto;
+}
+.result_studentform tr{
+	border: 1px dotted #CCC;
+}
+
+.result_studentform td {
+	background-color: #EAEFF5;
+	padding: 0.5em;
+}
+
+.result_studentform td:first-child {
+	background-color: #4E80BB;
+	color:#FFF;
+	font-weight:bold;
+}
