@@ -77,6 +77,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet-mapping>
 	
 	<servlet>
+	    	<servlet-name>AdminActivityLog</servlet-name>
+	    	<servlet-class>teammates.ui.controller.AdminActivityLogServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>AdminActivityLog</servlet-name>
+	    <url-pattern>/page/adminActivityLog</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 	    <description>Servlet that handles Coordinator homepage</description>
 	    <servlet-name>CoordHome</servlet-name>
 	    <servlet-class>teammates.ui.controller.CoordHomeServlet</servlet-class>
@@ -328,6 +337,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <web-resource-name>AdminPages</web-resource-name>
             <description>Page for admin use only</description>
             <url-pattern>/page/adminHome</url-pattern>
+            <url-pattern>/page/adminActivityLog</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
