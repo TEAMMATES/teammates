@@ -28,6 +28,7 @@ src/main/webapp/WEB-INF/classes/studentEmailTemplate-evaluation_.html
 src/main/webapp/WEB-INF/classes/studentEmailTemplate-evaluationPublished.html
 src/main/webapp/WEB-INF/classes/studentEmailFragment-courseJoin.html
 src/main/webapp/WEB-INF/classes/studentEmailTemplate-courseJoin.html
+src/main/webapp/WEB-INF/classes/systemErrorEmailTemplate.html
 src/main/webapp/WEB-INF/classes/build.properties.template
 src/main/webapp/WEB-INF/classes/qunit.js
 src/main/webapp/WEB-INF/classes/AllJsUnitTests.html

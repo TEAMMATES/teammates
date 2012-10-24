@@ -269,6 +269,7 @@ public class Emails {
 		message.setFrom(new InternetAddress(from));
 		
 		message.setSubject(String.format(SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR, version, errorMessage));
+
 		
 		String emailBody = Common.SYSTEM_ERROR_EMAIL_TEMPLATE;
 
@@ -277,6 +278,7 @@ public class Emails {
 		emailBody = emailBody.replace("${errorMessage}", errorMessage);
 		emailBody = emailBody.replace("${stackTrace}", stackTrace);
 		message.setContent(emailBody, "text/html");
+
 		return message;
 	}
 

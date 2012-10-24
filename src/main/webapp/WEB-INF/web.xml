@@ -93,7 +93,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <servlet-name>AdminActivityLog</servlet-name>
 	    <url-pattern>/page/adminActivityLog</url-pattern>
 	</servlet-mapping>
-	
 	<servlet>
 	    <description>Servlet that handles Coordinator homepage</description>
 	    <servlet-name>CoordHome</servlet-name>
