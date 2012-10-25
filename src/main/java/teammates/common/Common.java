@@ -281,6 +281,9 @@ public class Common {
 	public static final int STUDENT_NAME_MAX_LENGTH = 40;
 	public static final int TEAM_NAME_MAX_LENGTH = 25;
 	public static final int COMMENT_MAX_LENGTH = 500;
+	
+	// invalid key used for testing
+	public static final String INVALID_KEY_STRING = "ThisIsAnInvalidKey";
 
 	// status messages
 	public static final String MESSAGE_LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";

@@ -1,0 +1,119 @@
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<link rel="shortcut icon" href="/favicon.png" />
+	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<title>Teammates - Student</title>
+	<link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
+	<link rel=stylesheet href="/stylesheets/evaluation.css" type="text/css" />
+
+	<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
+	<script language="JavaScript" src="/js/tooltip.js"></script>
+	<script language="JavaScript" src="/js/common.js"></script>
+	
+	<script language="JavaScript" src="/js/student.js"></script>	
+</head>
+
+<body>
+	<div id="dhtmltooltip"></div>
+
+	<div id="frameTop">
+		
+
+
+		<div id="frameTopWrapper">
+			<div id="logo">
+				<img alt="Teammates" height="47"
+					src="/images/teammateslogo.jpg"
+					width="150" />
+			</div>			
+			<div id="contentLinks">
+				<ul id="navbar">
+					<li><a class='t_home' href="/page/studentHome">Home</a></li>
+					<li><a class='t_help' href="/studentHelp.html" target="_blank">Help</a></li>
+					<li><a class='t_logout' href="/logout.jsp">Logout</a>
+					 (alice.tmms)</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div id="frameBody">
+		<div id="frameBodyWrapper">
+			<div id="topOfPage"></div>
+			<div id="headerOperation">
+				<h1>Student Home</h1>
+				<br />
+				<div class="result_addOrJoinCourse">
+					<form method="post" action="/page/studentCourseJoin" name="form_joincourse">
+						<table class="headerform">
+							<tr>
+								<td width="30%" class="attribute">Registration Key:</td>
+								<td width="30%">
+									<input class="keyvalue" type="text"
+											name="regkey"
+											id="regkey"
+											onmouseover="ddrivetip('Enter your registration key for the course.')"
+											onmouseout="hideddrivetip()" tabindex=1 />
+								</td>
+								<td width="30%">
+									<input id="button_join_course" type="submit" class="button"
+											onclick="return this.form.regkey.value!=''"
+											value="Join Course" tabindex=2 />
+								</td>
+							</tr>
+						 </table>
+						
+					</form>
+				</div>
+			</div>
+			
+
+
+	<div id="statusMessage"
+		style="display: block; background-color: rgb(255, 153, 153);">
+		Invalid key :ThisIsAnInvalidKey</div>
+
+			<div id="studentHomeTable">
+				
+				<div class="result_team home_courses_div" id="course0">
+					<div class="result_homeTitle">
+						<h2>[SHomeUiT.CS2104] :
+							Programming Language Concepts
+						</h2>
+					</div>
+					<div class="result_homeLinks">
+						<a class="t_course_view0"
+							href="/page/studentCourseDetails?courseid=SHomeUiT.CS2104"
+							onmouseover="ddrivetip('View and edit information regarding your team')"
+							onmouseout="hideddrivetip()">
+							View Team
+						</a>
+					</div>
+					<div style="clear: both;"></div>
+					<br />
+					
+				</div>
+				<br /> <br /> <br />
+				
+			</div>
+		</div>
+	</div>
+
+	<div id="frameBottom">
+		
+<div id="contentFooter">
+[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
+
+<a class="footer" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html" target="_blank">Contact Us</a>
+</div>
+	</div>
+</body>
+</html>
