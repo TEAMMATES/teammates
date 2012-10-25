@@ -62,14 +62,16 @@ public class EvalSubmissionEditHelper extends Helper {
 	 * Returns the options for contribution share in a team.
 	 * This will also select the one which is already selected as shown in the
 	 * given SubmissionData. If the submission data is a new data, then by
-	 * default "Equal share" is chosen.
+	 * default "Not Sure" is chosen.
 	 * @param sub
 	 * @return
 	 */
 	public String getEvaluationOptions(SubmissionData sub){
 		String result = "";
 		if(sub.points==Common.POINTS_NOT_SUBMITTED ||
-				sub.points==Common.UNINITIALIZED_INT) sub.points=Common.POINTS_NOT_SURE;
+				sub.points==Common.UNINITIALIZED_INT){
+			sub.points=Common.POINTS_NOT_SURE;
+		}
 		for(int i=200; i>=0; i-=10){
 			result += "<option value=\"" + i + "\"" +
 						(i==sub.points
