@@ -2746,57 +2746,9 @@ public class BrowserInstance {
 		HtmlHelper.assertSameHtml(inputStr, pageSrc);
 	}
 
-	/**
-	 * Verifies current page with a reference page, i.e., finding the reference
-	 * string in current page (so the reference does not have to be full page)<br />
-	 * <br />
-	 * This method has minimal placeholder capability, matching {*} in the
-	 * reference with anything in current page, trying to maximize the match.
-	 * This method also replaces {version} into the value stored at
-	 * Common.VERSION<br />
-	 * <br />
-	 * Example usage is to test sorting elements, say we want to test the order
-	 * of two known elements, which should be independent in the presence of
-	 * other elements. We can also ignore the rowID which maybe different under
-	 * different number of elements.<br />
-	 * <br />
-	 * This method will try to display the difference between the expected and
-	 * actual if the match fails.
-	 * 
-	 * @param filepath
-	 * @param div
-	 * @throws Exception
-	 */
-	public void verifyCurrentPageHTMLRegex(String filepath) throws Exception {
-		String pageSrc = getCleanPageSource();
-		String inputStr = getCleanExpectedHtml(filepath);
-		BaseTestCase.assertContainsRegex(inputStr,pageSrc);
-	}
 
-	/**
-	 * @param filepath
-	 * @return Returns content of the file after replacing 
-	 *    parameters e.g. {version} and transforming to "clean" HTML. 
-	 * @throws Exception
-	 */
-	private String getCleanExpectedHtml(String filepath)
-			throws Exception {
-		String inputStr = Common.readFile(filepath).replace("{version}",
-				TestProperties.inst().TEAMMATES_VERSION);
-		inputStr = HtmlHelper.parseHtml(inputStr);
-		return inputStr;
-	}
 
-	/**
-	 * @return Returns content of the file after transforming to "clean" HTML.
-	 * @throws Exception
-	 */
-	private String getCleanPageSource() throws Exception {
-		String pageSrc = getCurrentPageSource();
-		
-		pageSrc = HtmlHelper.parseHtml(pageSrc);
-		return pageSrc;
-	}
+	
 
 	/**
 	 * Verifies current page with a reference page, i.e., finding the reference
@@ -2822,16 +2774,18 @@ public class BrowserInstance {
 	 * @param url
 	 * @throws Exception
 	 */
-	public void verifyCurrentPageHTMLRegexWithRetry(String filepath, String url)
+	public void verifyCurrentPageHTMLWithRetry(String filepath, String url)
 			throws Exception {
 		String pageSrc = null;
 		String inputStr = null;
 		for (int i = 0; i < PAGE_VERIFY_RETRY; i++) {
 			
-			pageSrc = getCleanPageSource();
-			inputStr = getCleanExpectedHtml(filepath);
+			pageSrc = getCurrentPageSource();
+			inputStr = Common.readFile(filepath).replace("{version}",
+					TestProperties.inst().TEAMMATES_VERSION);
+			HtmlHelper.assertSameHtml(inputStr, pageSrc);
 			
-			if (BaseTestCase.isContainsRegex(inputStr,pageSrc)) {
+			if (HtmlHelper.assertSameHtml(inputStr, pageSrc)) {
 				return;
 			}
 			if (i == PAGE_VERIFY_RETRY - 1)
@@ -2840,7 +2794,6 @@ public class BrowserInstance {
 			waitAWhile(1000);
 			goToUrl(url);
 		}
-		assertEquals(inputStr, pageSrc);
 	}
 
 	/**
