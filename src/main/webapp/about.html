@@ -2,66 +2,62 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="css/teammates.css" type="text/css">
+    <link rel="stylesheet" href="stylesheets/teammates.css" type="text/css">
 
-    <title>Teammates Online Peer Feedback System for Student Team Projects[Home]</title>
-    <!--[if !IE 7]>
-       <style type="text/css">
-           #mainContainer {display:table;height:100%}
-       </style>
-   <![endif]-->
+    <title>Teammates Online Peer Feedback System for Student Team Projects[About]</title>
 </head>
 
 <body>
     <div id="mainContainer">
-        <!-- wrap -->
 
         <div id="header">
-            <div id="headerWrapper">
-                <div id="imageHolder"><img alt="Teammates" src="images/teammateslogo.jpg"
-                width="150px" height="47px"></div>
-
-                <div id="textHolder">
-                    <ul id="navbar">
-                        <li><a href="index.html">Home</a></li>
-
-                        <li><a href="features.html">Features</a></li>
-
-                        <li id="current"><strong>About Us</strong></li>
-
-                        <li><a href="contact.html">Contact</a></li>
-
-                        <li><a href="terms.html">Terms of Use</a></li>
-
-                        <li><a href="http://teammatesv4.appspot.com" target="_blank">Sign In</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+           <div id="headerWrapper">
+               <div id="imageHolder">
+                   <a href="/index.html">
+                   <img alt="Teammates" src="images/teammateslogo.jpg" width="150px" height="47px">
+                   </a>
+               </div>
+               <div id="menuHolder">
+	               <div id="textHolder">
+	                   <ul id="navbar">
+	                       <li><a href="index.html">Home</a></li>
+	                       <li><a href="features.html">Features</a></li>
+	                       <li id="current"><strong>About Us</strong></li>
+	                       <li><a href="contact.html">Contact</a></li>
+	                       <li><a href="terms.html">Terms of Use</a></li>
+	                   </ul>
+	               </div>
+	               <div id="loginHolder">
+	                   	<form action="/login" style="float:left" name="studentLogin">
+							<input type="submit" name="student" class="button" id="btnStudentLogin" value="Student Login">
+						</form>
+						<form action="/login" name="coordinatorLogin" style="float:left">
+							<input type="submit" name="coord" class="button" id="btnCoordLogin" value=" Coordinator Login">
+						</form>
+	               </div>
+	               <div style="clear: both;"></div>
+	           </div>
+	           <div style="clear: both;"></div>
+           </div>
+       </div>
 
         <div id="mainContent">
-            <!-- main -->
-
             <div id="caption">
-                <div id="captionText">
-                    <span>About Us</span>
-                </div>
+				About Us
             </div>
 
-            <div style="margin: 0 auto; padding: 0 50px 15px;">
+            <div id="contentHolder">
                 <br>
 
-                <p>TEAMMATES is a joint effort by the team listed below and brought to
+                <p><span class="bold">TEAMMATES</span> is a joint effort by the team listed below and brought to
                 you with the kind support of the School of Computing, National University
-                of Singapore. TEAMMATES is hosted on Google App Engine.</p><br>
+                of Singapore. <span class="bold">TEAMMATES</span> is hosted on Google App Engine.</p><br>
                 <br>
 
-                <p><b>TEAMMATES team:</b></p><br>
-               
-                <p><b>Core Team:</b></p>
-                <div style="margin: 0 auto; padding: 0 52px 15px;">
+                <p class="bold">Core Team:</p>
+                <div style="margin: 0 auto; padding: 0 32px 15px;">
                     <style>
-                        .currentMemberContainer {width:220px; margin:10px 25px 0px 20px; float:left;}
+                        .currentMemberContainer {width:220px; margin:10px 15px 0px 10px; float:left;}
                         .currentMemberContainer img {width:180px; height:130px; margin:10px 20px 0px 20px; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px;}
                         .currentMemberContainer p {margin:10px 20px 10px 20px; width:180px; text-align:center; font-family:"Lucida Grande"; color:#08c; font-size:12px; font-weight:bold;}
                     </style>
@@ -90,7 +86,7 @@
                 <div style="clear:both;"></div>
                 <div style="margin-top:30px;"></div>
 
-                <p><b>Developers:</b></p>
+                <p class="bold">Past Developers:</p>
                 <div style="margin: 0 auto; padding: 0 52px 15px;">
                     <p>Aldrian Obaja [Team lead: 4.16-4.19]</p>
                     <p>Kalpit Jain [Team lead: 4.07.01 - 4.08.01]</p>
@@ -101,7 +97,7 @@
                     <p>Xiaoni Lai [Built an alternate V1.0]</p>
                 </div>
 
-                <p><b>Contributors:</b></p>
+                <p class="bold">Contributors:</p>
                 <div style="margin: 0 auto; padding: 0 52px 15px;">
                     <ul>
                       <li><p>Ang Jin Juan Gabriel [initial adoption of Selenium]</p></li> 
