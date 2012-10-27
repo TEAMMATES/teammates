@@ -4,6 +4,7 @@
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.ui.controller.AdminHomeHelper"%>
 <%@ page import="com.google.appengine.api.log.AppLogLine" %>
+<%@ page import="com.google.appengine.api.log.LogService.LogLevel" %>
 <% AdminHomeHelper helper = (AdminHomeHelper)request.getAttribute("helper"); %>
 <!DOCTYPE html>
 <html>
@@ -47,37 +48,60 @@
 			 <table>
 		        <tr>
 		          <th>Date</th>
-		          <th></th>
 		          <th>Level</th>
-		          <th>Message</th>
+		          <th>Activity</th>
+		          <th>Role</th>
+		          <th>Name</th>
+		          <th>ID</th>
+		          <th>Email</th>
+		          <th>Response</th>
+		          <th>Request Parameter</th>
 		        </tr>
 		    <%
 		        if (appLogs.isEmpty()) {
 		    %>
 		        <tr>
-		          <td colspan='4'><i>No application logs found</i></td>
+		          <td colspan='9'><i>No application logs found</i></td>
 		        </tr>
 		    <%
 		        } else {
 			        Calendar appCal = Calendar.getInstance();
 	
 		          for (AppLogLine log : appLogs) {
-		  	        appCal.setTimeInMillis(log.getTimeUsec() / 1000);
+		  	        appCal.setTimeInMillis((log.getTimeUsec() / 1000) + 8*3600*1000);
+					String[] tokens = log.getLogMessage().split("\\|");
 
 		    %>
 		        <tr>
 		          <td>
 		            <%=appCal.getTime().toString()%>
 		          </td>
-		          <td>
-		          </td>
-		          <td>
+		          <% 
+		          	if (log.getLogLevel().compareTo(LogLevel.WARN) == 0) {
+		           %>
+		            <td style="color:orange">
+		          <% 
+		          	} else if (log.getLogLevel().compareTo(LogLevel.INFO) == 0){ 
+		          %>
+		            <td style="color:green">
+		          <% 
+		          	} else {
+		          %>
+		            <td style="color:red">
+		          <%
+		          }
+		          %>  
 		          <%=log.getLogLevel()%>
 		          </td>
-		          <td>
-		          <%=log.getLogMessage()%>
-		          </td>
-		        
+		          <%
+		          	for(int i=1; i<tokens.length; i++) {
+		          %>
+		            <td>
+		              <%=tokens[i]%>
+		            </td>
+		          <%
+		            }
+		          %>
 		        </tr>
 		    <%
 		          }

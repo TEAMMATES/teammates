@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -13,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.CoordData;
 import teammates.common.datatransfer.CourseData;
@@ -61,45 +61,54 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		T helper = instantiateHelper();
 
 		prepareHelper(req, helper);
-
+		Level logLevel = null;
+		String response = null;
 		try {
 			doAction(req, helper);
-	
-			log.info("Request to: " + req.getServletPath() + "\n" +
-					"Request Params: " + printRequestParameters(req) + "\n" +
-					"Responded with: " + resp.SC_OK);
-			
+			logLevel = Level.INFO;
+			response = "OK";
+			doCreateResponse(req, resp, helper);
+
 		} catch (EntityDoesNotExistException e) {
-			log.warning("Request to: " + req.getServletPath() + "\n" +
-					"Request Params: " + printRequestParameters(req) + "\n" +
-					"Responded with: " + e.getMessage());
+			logLevel = Level.WARNING;
+			response = "EntityDoesNotExistException";
 			resp.sendRedirect(Common.JSP_ENTITY_NOT_FOUND_PAGE);
-			return;
 		} catch (UnauthorizedAccessException e) {
 			UserData user = new Logic().getLoggedInUser();
-			log.warning("Request to: " + req.getServletPath() + "\n" +
-					"Request Params: " + printRequestParameters(req) + "\n" +
-					"Responded with: Unauthorized access attempted by:"
-					+ (user == null ? "not-logged-user" : user.id)
-					+ Common.stackTraceToString(e));
+			logLevel = Level.WARNING;
+			response = "Unauthorized access attempted by:"
+					+ (user == null ? "not-logged-user" : user.id);
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
-			return;
-		} catch (Exception e) {
-			log.severe("Request to: " + req.getServletPath() + "\n" +
-					"Request Params: " + printRequestParameters(req) + "\n" +
-					"Responded with: Unexpected exception: "
-					+ Common.stackTraceToString(e));
+		} catch (Throwable e) {
+			logLevel = Level.SEVERE;
+			response = "Unexpected exception:"
+					+ (e.getMessage() == null ? "" : e.getMessage());
+		
 			resp.sendRedirect(Common.JSP_ERROR_PAGE);
-			return;
+		} finally {
+			//log activity
+			String logMsg = getUserActionLog(req, response, helper);
+			logUserAction(logLevel, logMsg);
+			
 		}
-
-		doCreateResponse(req, resp, helper);
 	}
 	
-	protected void getUserActionLog(HttpServletRequest req, String resp, T helper) {
+	protected void logUserAction(Level logLevel, String logMsg) {
+		if(logLevel.equals(Level.INFO)) {
+			log.info(logMsg);
+		}else if(logLevel.equals(Level.WARNING)) {
+			log.warning(logMsg);
+		}else if(logLevel.equals(Level.SEVERE)) {
+			log.severe(logMsg);
+		}else {
+			log.severe("Unknown Log Level" + logLevel.toString() + "|"+logMsg);
+		}
+	}
+	
+	protected String getUserActionLog(HttpServletRequest req, String resp, T helper) {
 		
 		//Assumption.assertFalse("admin activity shouldn't be logged",helper.user.isAdmin);
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder("[TEAMMATES_LOG]|");
 		//log action
 		String[] actionTkn = req.getServletPath().split("/");
 		String action = req.getServletPath();
@@ -107,7 +116,6 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			action = actionTkn[actionTkn.length-1]; //retrieve last segment in path
 		}
 		sb.append(action+"|");
-		sb.append(printRequestParameters(req)+"|");
 
 		//log user information
 		if(helper.user.isCoord) {
@@ -116,9 +124,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			sb.append(u.name+"|");
 			sb.append(u.id+"|");
 			sb.append(u.email+"|");
-		}
-		
-		if(helper.user.isStudent) {
+		}else if(helper.user.isStudent) {
 			sb.append("Student|");
 			ArrayList<StudentData> students = helper.server.getStudentsWithId(helper.userId);
 			if(students.size() == 1) {
@@ -129,12 +135,21 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			}else {
 				sb.append("Unknown User|");
 				sb.append( helper.userId+"|");
-				sb.append("|");
+				sb.append( helper.userId+"|");
 			}
+	       
+		}else {
+			sb.append("Unknown Role|");
+			sb.append("Unknown User|");
+			sb.append( helper.userId+"|");
+			sb.append( helper.userId+"|");
 		}
 		
 		//log response
 		sb.append(resp+"|");
+		sb.append(printRequestParameters(req));
+
+		return sb.toString();
 	}
 
 	/**
