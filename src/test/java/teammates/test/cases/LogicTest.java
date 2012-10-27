@@ -44,10 +44,10 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.logic.Emails;
+import teammates.logic.EvaluationsStorage;
 import teammates.logic.TeamEvalResult;
 import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
-import teammates.storage.api.EvaluationsStorage;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Student;
 
