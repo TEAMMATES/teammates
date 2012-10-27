@@ -576,31 +576,26 @@ public class AccountsDb {
 	/**
 	 * Returns the list of student entities
 	 */
-	private List<Student> getStudentEntities() {
+	@SuppressWarnings("unchecked")
+	private List<Student> getStudentEntities() { 
 		String query = "select from " + Student.class.getName();
-			
-
-		@SuppressWarnings("unchecked")
-		List<Student> studentList = (List<Student>) getPM()
-				.newQuery(query).execute();
- 	
-		return studentList;
+		return (List<Student>) getPM().newQuery(query).execute();
 	}
 
-	
 	/**
-	 * Returns the list of all students
+	 * @return the list of all students
 	 */
-	public List<StudentData> getStudents() {
+	public List<StudentData> getStudents() { 
 		List<StudentData> list = new LinkedList<StudentData>();
 		List<Student> entities = getStudentEntities();
 		Iterator<Student> it = entities.iterator();
 		while(it.hasNext()) {
 			list.add(new StudentData(it.next()));
 		}
-		
 		return list;
 	}
+	
+	
 	/**
 	 * Returns the list of coordinator entities
 	 */
