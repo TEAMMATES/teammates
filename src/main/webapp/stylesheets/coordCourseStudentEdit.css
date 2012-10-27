@@ -1,0 +1,16 @@
+#studentEditForm {
+	text-align: center;
+}
+  
+#studentEditForm table{
+	width: 600px;
+	text-align: left;
+}
+
+#studentEditForm td{
+	vertical-align: middle;
+}
+
+.fieldvalue{
+	width: 250px;
+}

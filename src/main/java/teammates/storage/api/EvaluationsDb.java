@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
-import javax.jdo.Transaction;
 
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Evaluation;
@@ -255,7 +254,7 @@ public class EvaluationsDb {
 	 * @return <code>true</code> if there are changes, <code>false</code>
 	 *         otherwise
 	 */
-	public boolean editEvaluation(String courseId, String name,
+	public void editEvaluation(String courseId, String name,
 			String newInstructions, boolean newCommentsEnabled, Date newStart,
 			Date newDeadline, int newGracePeriod, boolean newIsActive,
 			boolean newIsPublished, double newTimeZone) {
@@ -266,29 +265,16 @@ public class EvaluationsDb {
 				+ courseId + " | " + name + Common.getCurrentThreadStack(),
 				evaluation);
 
-		Transaction tx = getPM().currentTransaction();
-		try {
-			tx.begin();
+		evaluation.setInstructions(newInstructions);
+		evaluation.setStart(newStart);
+		evaluation.setDeadline(newDeadline);
+		evaluation.setGracePeriod(newGracePeriod);
+		evaluation.setCommentsEnabled(newCommentsEnabled);
+		evaluation.setActivated(newIsActive);
+		evaluation.setPublished(newIsPublished);
+		evaluation.setTimeZone(newTimeZone);
 
-			evaluation.setInstructions(newInstructions);
-			evaluation.setStart(newStart);
-			evaluation.setDeadline(newDeadline);
-			evaluation.setGracePeriod(newGracePeriod);
-			evaluation.setCommentsEnabled(newCommentsEnabled);
-			evaluation.setActivated(newIsActive);
-			evaluation.setPublished(newIsPublished);
-			evaluation.setTimeZone(newTimeZone);
-
-			getPM().flush();
-
-			tx.commit();
-		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-				return false;
-			}
-		}
-		return true;
+		getPM().close();
 	}
 
 	/**
@@ -303,9 +289,9 @@ public class EvaluationsDb {
 	 *         otherwise
 	 * 
 	 */
-	public boolean editEvaluation(EvaluationData ed) {
+	public void editEvaluation(EvaluationData ed) {
 
-		return editEvaluation(ed.course, ed.name, ed.instructions,
+		editEvaluation(ed.course, ed.name, ed.instructions,
 				ed.p2pEnabled, ed.startTime, ed.endTime, ed.gracePeriod,
 				ed.activated, ed.published, ed.timeZone);
 
@@ -335,7 +321,6 @@ public class EvaluationsDb {
 
 		evaluation.setPublished(status);
 		getPM().close();
-		return;
 	}
 
 	/**
@@ -358,6 +343,7 @@ public class EvaluationsDb {
 		}
 
 		getPM().deletePersistent(e);
+		getPM().flush();
 
 		// Check delete operation persisteed
 		int elapsedTime = 0;
@@ -393,6 +379,7 @@ public class EvaluationsDb {
 				query).execute();
 
 		getPM().deletePersistentAll(evaluationList);
+		getPM().flush();
 	}
 
 	/**

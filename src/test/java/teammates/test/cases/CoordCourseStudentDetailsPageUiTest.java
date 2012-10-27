@@ -58,7 +58,7 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
 		bi.goToUrl(link);
 		
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseStudentDetailsPage.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseStudentDetailsPage.html");
 
 		______TS("view unregistered student");
 		
@@ -68,7 +68,7 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
 		bi.goToUrl(link);
 		
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseStudentDetailsUnregisteredPage.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseStudentDetailsUnregisteredPage.html");
 	}
 	
 	@Test
@@ -83,7 +83,7 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
 		bi.goToUrl(link);
 		
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseStudentEditUnregisteredPage.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseStudentEditUnregisteredPage.html");
 
 		______TS("edit registered student");
 
@@ -94,7 +94,7 @@ public class CoordCourseStudentDetailsPageUiTest extends BaseTestCase {
 		bi.goToUrl(link);
 		
 		//check the default view
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordCourseStudentEditPage.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseStudentEditPage.html");
 		
 		// Edit details wrongly (empty field)
 		bi.fillString(bi.studentDetailTeam, "");

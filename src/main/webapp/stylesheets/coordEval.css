@@ -1,0 +1,19 @@
+#coordinatorEvaluationManagement {
+	margin: 20px auto;
+	text-align: center;
+	width: 940px;
+}
+
+#coordinatorEvaluationManagement table{
+	text-align: left;
+	width: 940px;	
+}
+
+#coordinatorEvaluationManagement td{
+	vertical-align: middle;
+}
+
+#coordinatorEvaluationTable {
+	margin-top: 10px;
+	text-align: center;
+}
