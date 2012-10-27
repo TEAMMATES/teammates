@@ -66,3 +66,11 @@ img {
 	text-align: center;
 	overflow: hidden;
 }
+
+.italic {
+	font-style: italic;
+}
+
+.strikeout {
+	text-decoration:line-through;
+}
