@@ -7,8 +7,8 @@
 	<link rel="shortcut icon" href="/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Administrator</title>
-	<link rel="stylesheet" href="/stylesheets/main.css" type="text/css">
-	<link rel="stylesheet" href="/stylesheets/evaluation.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/adminHome.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
 
 	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="/js/tooltip.js"></script>
@@ -16,34 +16,43 @@
 
 <body>
 	<div id="dhtmltooltip"></div>
-
 	<div id="frameTop">
-		<div id="frameTopWrapper">
-			<div id="logo">
-				<img alt="Teammates" height="47px"
-					src="/images/teammateslogo.jpg"
-					width="150px">
-			</div>
-			<div id="contentLinks">
-				<ul id="navbar">
-					<li><a class='t_logout' href="<%= Common.JSP_LOGOUT %>">Logout</a></li>
-				</ul>
-			</div>
-		</div>
+	<jsp:include page="<%= Common.JSP_ADMIN_HEADER %>" />
 	</div>
-
 	<div id="frameBody">
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
+			<h1>Add New Coordinator</h1>
+			</div>
+			<div id="adminManagement">
 				<form action="">
-					<b>Add Coordinator</b><br><br><br><br>
-					Google ID: <input type="text" name="<%= Common.PARAM_COORD_ID %>"><br><br> 
-					Name: <input type="text" name="<%= Common.PARAM_COORD_NAME %>"><br><br>
-					Email: <input type="text" name="<%= Common.PARAM_COORD_EMAIL %>"><br><br> 
-					<input type="checkbox" name="<%= Common.PARAM_COORD_IMPORT_SAMPLE %>" value="importsample">Import sample data</input><br></br>
-
-					<input type="submit" value="Add"></input>
+					<table id="addform" class="inputTable">
+					<tr>
+						<td class="label">Google ID:</td>
+					</tr>
+					<tr>
+					   <td><input class="addinput" type="text" name="<%= Common.PARAM_COORD_ID %>"></td>
+					</tr>
+					<tr>
+						<td class="label">Name:</td>
+					</tr>
+					<tr>
+						<td><input class="addinput" type="text" name="<%= Common.PARAM_COORD_NAME %>"></td>
+				    </tr>
+				    <tr>
+					    <td class="label">Email: </td>
+					</tr>
+					<tr>
+						<td><input class="addinput" type="text" name="<%= Common.PARAM_COORD_EMAIL %>"></td>
+				    </tr>
+				    <tr>
+						<td><input type="checkbox" name="<%= Common.PARAM_COORD_IMPORT_SAMPLE %>" value="importsample">Import sample data</input></td>
+				    </tr>
+				    <tr>
+						<td><input id="btnAddCoord" class="button" type="submit" value="Add Coordinator"></td>
+				    </tr>
+				    </table>
 				</form>
 			</div>
 			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
