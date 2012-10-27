@@ -5,25 +5,24 @@
 <%@ page import="teammates.common.datatransfer.SubmissionData"%>
 <%@ page import="teammates.ui.controller.CoordEvalResultsHelper"%>
 <%	CoordEvalResultsHelper helper = (CoordEvalResultsHelper)request.getAttribute("helper"); %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-	<link rel="shortcut icon" href="/favicon.png" />
-	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<link rel="shortcut icon" href="/favicon.png">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Coordinator</title>
-	<link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
-	<link rel=stylesheet href="/stylesheets/evaluation.css" type="text/css" />
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/coordEvalResults.css" type="text/css">
 	
-	<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
-	<script language="JavaScript" src="/js/tooltip.js"></script>
-	<script language="JavaScript" src="/js/date.js"></script>
-	<script language="JavaScript" src="/js/CalendarPopup.js"></script>
-	<script language="JavaScript" src="/js/AnchorPosition.js"></script>
-	<script language="JavaScript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="/js/tooltip.js"></script>
+	<script type="text/javascript" src="/js/date.js"></script>
+	<script type="text/javascript" src="/js/CalendarPopup.js"></script>
+	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
 	
-	<script language="JavaScript" src="/js/coordinator.js"></script>
-	<script language="JavaScript" src="/js/coordEvalResults.js"></script>
+	<script type="text/javascript" src="/js/coordinator.js"></script>
+	<script type="text/javascript" src="/js/coordEvalResults.js"></script>
 
 </head>
 
@@ -40,54 +39,53 @@
 				<h1>Evaluation Results</h1>
 			</div>
 			<div id="coordinatorEvaluationInformation">
-				<table class="headerform">
+				<table class="inputTable">
 					<tr>
-						<td class="fieldname">Course ID:</td>
+						<td class="label rightalign">Course ID:</td>
 						<td><%= helper.evaluation.course %></td>
 					</tr>
 					<tr>
-						<td class="fieldname">Evaluation name:</td>
+						<td class="label rightalign">Evaluation name:</td>
 						<td><%=CoordEvalResultsHelper.escapeForHTML(helper.evaluation.name)%></td>
 					</tr>
 					<tr>
-						<td class="fieldname">Opening time:</td>
+						<td class="label rightalign">Opening time:</td>
 						<td><%=Common.formatTime(helper.evaluation.startTime)%></td>
 					</tr>
 					<tr>
-						<td class="fieldname">Closing time:</td>
+						<td class="label rightalign">Closing time:</td>
 						<td><%=Common.formatTime(helper.evaluation.endTime)%></td>
 					</tr>
 					<tr>
 						<td class="centeralign" colspan=2>
-							<b>Report Type:</b> 
+							<span class="label">Report Type:</span> 
 							<input type="radio" name="radio_reporttype" id="radio_summary" value="coordinatorEvaluationSummaryTable" checked="checked"
-									onclick="showReport(this.value)" />
+									onclick="showReport(this.value)">
 							<label for="radio_summary">Summary</label>
 							<input type="radio" name="radio_reporttype" id="radio_reviewer" value="coordinatorEvaluationDetailedReviewerTable"
-									onclick="showReport(this.value)" />
+									onclick="showReport(this.value)">
 							<label for="radio_reviewer">Detailed: By Reviewer</label>
 							<input type="radio" name="radio_reporttype" id="radio_reviewee" value="coordinatorEvaluationDetailedRevieweeTable"
-									onclick="showReport(this.value)" />
+									onclick="showReport(this.value)">
 							<label for="radio_reviewee">Detailed: By Reviewee</label>
 						</td>
 					</tr> 
 					<tr>
-						<td></td>
-						<td>
+						<td colspan="2" class="centeralign">
 						<%
 							if(CoordEvalResultsHelper.getCoordStatusForEval(helper.evaluation).equals(Common.EVALUATION_STATUS_CLOSED)) {
 						%>
 							<input type="button" class="button"
 								id = "button_publish"
 								value = "Publish"
-								onclick = "if(togglePublishEvaluation('<%=helper.evaluation.name%>')) window.location.href='<%=helper.getCoordEvaluationPublishLink(helper.evaluation.course,helper.evaluation.name,false)%>';" />
+								onclick = "if(togglePublishEvaluation('<%=helper.evaluation.name%>')) window.location.href='<%=helper.getCoordEvaluationPublishLink(helper.evaluation.course,helper.evaluation.name,false)%>';">
 						<%
 							} else if (CoordEvalResultsHelper.getCoordStatusForEval(helper.evaluation).equals(Common.EVALUATION_STATUS_PUBLISHED)) {
 						%>
 							<input type="button" class="button"
 								id = "button_unpublish"
 								value = "Unpublish"
-								onclick = "if(toggleUnpublishEvaluation('<%=helper.evaluation.name%>')) window.location.href='<%=helper.getCoordEvaluationUnpublishLink(helper.evaluation.course,helper.evaluation.name,false)%>';" />
+								onclick = "if(toggleUnpublishEvaluation('<%=helper.evaluation.name%>')) window.location.href='<%=helper.getCoordEvaluationUnpublishLink(helper.evaluation.course,helper.evaluation.name,false)%>';">
 						<%
 							}
 						%>
@@ -100,19 +98,19 @@
 				out.flush();
 			%>
 			<div id="coordinatorEvaluationSummaryTable" class="evaluation_result">
-				<div style="padding: 0px 35px; text-align: right; font-size: small; font-style: italic;">CC = Claimed Contribution; PC = Perceived Contribution; E = Equal Share</div>
-				<table id="dataform">
+				<div id="tablecaption">CC = Claimed Contribution; PC = Perceived Contribution; E = Equal Share</div>
+				<table class="dataTable">
 					<tr>
 						<th class="centeralign" width="13%"><input class="buttonSortAscending" type="button" id="button_sortteamname"
-								onclick="toggleSort(this,1)"/>Team</th>
+								onclick="toggleSort(this,1)">Team</th>
 						<th class="centeralign"><input class="buttonSortNone" type="button" id="button_sortname" 
-								onclick="toggleSort(this,2)"/>Student</th>
+								onclick="toggleSort(this,2)">Student</th>
 						<th class="centeralign" width="8%"><input class="buttonSortNone" type="button" id="button_sortclaimed"
-								onclick="toggleSort(this,3,sortByPoint)"/>CC</th>
+								onclick="toggleSort(this,3,sortByPoint)">CC</th>
 						<th class="centeralign" width="8%"><input class="buttonSortNone" type="button" id="button_sortperceived"
-								onclick="toggleSort(this,4,sortByPoint)"/>PC</th>
+								onclick="toggleSort(this,4,sortByPoint)">PC</th>
 						<th class="centeralign" width="8%"><input class="buttonSortNone" type="button" id="button_sortdiff"
-								onclick="toggleSort(this,5,sortByDiff)"/>
+								onclick="toggleSort(this,5,sortByDiff)">
 							<span onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_DIFF%>')"
 									onmouseout="hideddrivetip()">Diff</span>
 						</th>
@@ -160,7 +158,7 @@
 									}
 					%>
 				</table>
-				<br /><br /><br /><br />
+				<br><br><br><br>
 			</div>
 			<%
 				out.flush();
@@ -177,26 +175,26 @@
 											for(TeamData team: helper.evaluation.teams){
 						%>
 							<%
-								if(firstTeam) firstTeam = false; else out.print("<br />");
+								if(firstTeam) firstTeam = false; else out.print("<br>");
 							%>
-							<div class="result_team">
-								<p><%=CoordEvalResultsHelper.escapeForHTML(team.name)%></p><br />
+							<div class="backgroundBlock">
+								<h2 class="resultTitle"><%=CoordEvalResultsHelper.escapeForHTML(team.name)%></h2><br>
 								<%
 									boolean firstStudent = true;
 															for(StudentData student: team.students){
 								%>
 									<%
-										if(firstStudent) firstStudent = false; else out.print("<br />");
+										if(firstStudent) firstStudent = false; else out.print("<br>");
 									%>
-									<table class="result_table">
+									<table class="resultTable">
 										<thead><tr>
 											<th colspan="2" width="10%">
-												<span class="fontcolor"><%=byReviewer ? "Reviewer" : "Reviewee"%>: </span><%=student.name%></th>
-											<th><span class="fontcolor"
+												<span class="resultHeader"><%=byReviewer ? "Reviewer" : "Reviewee"%>: </span><%=student.name%></th>
+											<th><span class="resultHeader"
 													onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_CLAIMED%>')"
 													onmouseout="hideddrivetip()">
 												Claimed Contributions: </span><%=CoordEvalResultsHelper.printSharePoints(student.result.claimedToCoord,true)%></th>
-											<th><span class="fontcolor"
+											<th><span class="resultHeader"
 													onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_PERCEIVED%>')"
 													onmouseout="hideddrivetip()">
 												Perceived Contributions: </span><%=CoordEvalResultsHelper.printSharePoints(student.result.perceivedToCoord,true)%>
@@ -213,14 +211,14 @@
 											</th>
 										</tr></thead>
 										<tr>
-											<td colspan="4"><b>Self evaluation:</b><br />
+											<td colspan="4"><span class="color_neutral">Self evaluation:</span><br>
 		 										<%=CoordEvalResultsHelper.printJustification(student.result.getSelfEvaluation())%></td>
 		 								</tr>
 		 								<tr>
-		 									<td colspan="4"><b>Comments about team:</b><br />
+		 									<td colspan="4"><span class="color_neutral">Comments about team:</span><br>
 		 										<%=CoordEvalResultsHelper.printComments(student.result.getSelfEvaluation(), helper.evaluation.p2pEnabled)%></td>
 		 								</tr>
-										<tr class="result_subheader">
+										<tr class="resultSubheader">
 											<td width="15%"><%=byReviewer ? "To" : "From"%> Student</td>
 											<td width="5%">Contribution</td>
 											<td width="40%">Comments</td>
@@ -240,10 +238,10 @@
 								<%	} %>
 							</div>
 						<%	} %>
-					</div><br /><br />
+					</div><br><br>
 					<input type="button" class ="button" name="button_top" id="button_top" value="To Top"
-							onclick="scrollToTop()"/>
-					<br /><br /><br /><br />
+							onclick="scrollToTop()">
+					<br><br><br><br>
 				</div>
 			<%	} %>
 			<% out.flush(); %>

@@ -138,6 +138,7 @@ public class Common {
 	public static final String PARAM_COORD_EMAIL = "coordemail";
 	public static final String PARAM_COORD_NAME = "coordname";
 	public static final String PARAM_STUDENTS_ENROLLMENT_INFO = "enrollstudents";
+	public static final String PARAM_COORD_IMPORT_SAMPLE = "importsample";
 
 	public static final String PARAM_EVALUATION_NAME = "evaluationname";
 
@@ -230,6 +231,7 @@ public class Common {
 	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
 
 	public static final String PAGE_ADMIN_HOME = "/page/adminHome";
+	public static final String PAGE_ADMIN_ACTIVITY_LOG = "/page/adminActivityLog";
 	public static final String PAGE_LOGIN = "/login";
 
 	/*
@@ -266,6 +268,7 @@ public class Common {
 	public static final String JSP_EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp"; // Done
 
 	public static final String JSP_ADMIN_HOME = "/jsp/adminHome.jsp";
+	public static final String JSP_ADMIN_ACTIVITY_LOG = "/jsp/adminActivityLog.jsp";
 	public static final String JSP_LOGOUT = "/logout.jsp"; // Done
 	public static final String JSP_SHOW_MESSAGE = "/showMessage.jsp"; // Done
 	public static final String JSP_UNAUTHORIZED = "/unauthorized.jsp"; // Done
