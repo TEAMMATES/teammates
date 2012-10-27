@@ -54,13 +54,9 @@ public class CourseData extends BaseData {
 		sb.append("\ncoord: " + coord + "\n");
 		return sb.toString();
 	}
+	
 	public Course toEntity() {
 		return new Course(id, name, coord);
-	}
-
-	public boolean isValid() {
-		String stateCheck = getInvalidStateInfo();
-		return stateCheck.length() == 0;
 	}
 
 	public String getInvalidStateInfo() {

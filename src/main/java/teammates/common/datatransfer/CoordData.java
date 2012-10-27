@@ -37,11 +37,6 @@ public class CoordData extends BaseData {
 		return new Coordinator(id, name, email);
 	}
 
-	public boolean isValid() {
-		String stateCheck = getInvalidStateInfo();
-		return stateCheck.length() == 0;
-	}
-
 	public String getInvalidStateInfo() {
 		String errorMessage = "";
 

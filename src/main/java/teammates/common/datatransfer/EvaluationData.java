@@ -115,11 +115,11 @@ public class EvaluationData extends BaseData {
 		return sb.toString();
 	}
 
+	@Override
 	public boolean isValid() {
 		course = trimIfNotNull(course);
 		name = trimIfNotNull(name);
-		String stateCheck = getInvalidStateInfo();
-		return stateCheck.length() == 0;
+		return getInvalidStateInfo().isEmpty();
 	}
 	
 	public String getInvalidStateInfo() {

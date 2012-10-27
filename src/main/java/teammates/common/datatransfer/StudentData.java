@@ -200,11 +200,6 @@ public class StudentData extends BaseData {
 		return new Student(email, name, id, comments, course, team);
 	}
 
-	public boolean isValid() {
-		String stateCheck = getInvalidStateInfo();
-		return stateCheck.length() == 0;
-	}
-
 	public String getInvalidStateInfo() {
 		String errorMessage = "";
 

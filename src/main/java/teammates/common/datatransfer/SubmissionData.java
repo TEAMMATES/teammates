@@ -123,11 +123,6 @@ public class SubmissionData extends BaseData {
 		return sb.toString();
 	}
 
-	public boolean isValid() {
-		String stateCheck = getInvalidStateInfo();
-		return stateCheck.length() == 0;
-	}
-
 	public String getInvalidStateInfo() {
 		String errorMessage = "";
 

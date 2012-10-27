@@ -6,7 +6,9 @@ public abstract class BaseData {
 		return ((string == null) ? "" : string.trim());
 	}
 	
-	protected abstract boolean isValid();
+	public boolean isValid() {
+		return getInvalidStateInfo().isEmpty();
+	}
 	
-	protected abstract String getInvalidStateInfo();
+	public abstract String getInvalidStateInfo();
 }
