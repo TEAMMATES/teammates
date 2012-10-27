@@ -8,7 +8,7 @@
 <body>
 
 <div id="dhtmltooltip"></div>
-   <div id="frameTop"></div>
+   <div id="frameTop">
         <div class="title">
 	        TEAMMATES <br>
 	        Online Peer Evaluation &amp; Peer Feedback System <br>
@@ -54,7 +54,7 @@
 	        <ul>
 	            <li><a href="#infrastructure-knowledgebase">Knowledge base</a></li>
 	            <li>
-	                <a href="#infrastructure-toolsandtechnologies">Tools and technologies</a></li>
+	                <a href="#infrastructure-toolsandtechnologies">Tools and technologies</a>
 	                <ul>
 	                    <li><a href="#infrastructure-toolsandtechnologies-GAE">Google App Engine</a></li>
 	                    <li><a href="#infrastructure-toolsandtechnologies-Java">Java</a></li>
@@ -284,6 +284,8 @@
                 <br>  
 	        <p id="design-logic" class="subheader">Logic</p>
 	        The Logic component handles the business logic of TEAMMATES.<br>
+	        It acts as the Model component of the MVC pattern which is interfaced to UI component through a thin facade class. Internally, logic is separated into 3 different storage classes and communicates with the DB component by performing operations individually or collectively.<br>
+	        
 	        <br>
 	        <div class="image-holder"><img src="images/LogicComponent.png"/></div>
 	        <br>
@@ -291,27 +293,30 @@
 	        <p id="design-logic-logicAPI" class="subheader">Logic API</p>
 	        Represented by <span class="code">Logic.java</span> and <span class="code">BackDoorServlet.java</span>
 	        <ul>
-	            <li>Logic: For the use of UI.</li>
-	            <li>BackDoorServlet: For the use of TestDriver</li>
+	            <li><span class="code">Logic</span>: For the use of UI. <span class="code">Logic</span> class acts as a single interface facade between UI (servlets) and internal storage classes (*Storage and *Db)</li>
+	            <li><span class="code">BackDoorLogic</span>: For the use of TestDriver (via <span class="code">BackDoorServlet</span>)</li>
 	        </ul>
 	        
 	        <p id="design-logic-policies" class="subheader">Policies</p>
-	        These are the general policies followed by Logic.
+	        These are the general policies followed by Logic. <br>
+	        Null values should <span class="bold">not</span> be used in any places, except in certain edit operations where values which are <span class="code">null</span> are not editted.
 	        
 	        <p class="subheader">Authentication</p>
 	        Calls received by Logic are authenticated against logged in user’s privileges.<br>
 	        Calls received by BackDoorServlet are authenticated using the ‘backdoor key’. Backdoor key is a string known only to the owner of the application.<br>
 	        
 	        <p class="subheader">Creating entities</p>
-	        Null parameters: Throws NullPointerException if that parameter cannot be null.<br>
-	        Entity already exists: Throws EntityAlreadyExists exception<br>
+	        Null parameters: Throws an assertion error.<br>
+	        Entity already exists: Throws <span class="code">EntityAlreadyExists</span> exception (escalated from DB level)<br>
+	        <br>
+	        In the case of creating <span class="code">Evaluations</span>, <span class="code">Submission</span> entities are automatically created with respect the students enrolled in the course, or when a student changes teams. Developers should not allow Submissions to be manually created.
 	        
-	        <p class="subheader">Reading entities</p>
-	        Null parameters: Throws NullPointerException<br>
+	        <p class="subheader">Retrieving entities</p>
+	        Null parameters: Throws an assertion error<br>
 	        <br>
 	        Entity not found: <br>
-	        -Returns null if the target entity not found. This way, read operations can be used easily for checking the existence of an entity.<br>
-	        -Throws EntityNotFound exception if a parent entity of a target entity is not found e.g., trying to list students of a non-existent course<br>
+	        -Returns <span class="code">null</span> if the target entity not found. This way, read operations can be used easily for checking the existence of an entity.<br>
+	        -Throws <span class="code">EntityDoesNotExists</span> exception if a parent entity of a target entity is not found e.g., trying to list students of a non-existent course<br>
 	        <br>
 	        
 	        <p class="subheader">Editing entities</p>
@@ -319,29 +324,42 @@
 	        <br>
 	        KeepExistingPolicy: the new value of an optional attribute is specified as null or set to “Uninitialized”, the existing value will prevail. {This is not a good policy. To be reconsidered}<br>
 	        <br>
-	        Null parameters: Throws NullPointerException if that parameter cannot be null. Optional attributes follow KeepExistingPolicy<br>
+	        Null parameters: Throws an assertion error if that parameter cannot be null. Optional attributes follow KeepExistingPolicy<br>
 	        <br>
-	        Entity not found: Throws EntityNotFound exception<br>
+	        Entity not found: Throws <span class="code">EntityDoesNotExistException</span> exception<br>
+	        <br>
+	        Invalid parameters: Throws <span class="code">InvalidParametersException</span><br>
+	        <br>
 	        
-	        <p class="subheader">Deleting entities<p>
+	        <p class="subheader">Deleting entities</p>
+	        Null parameters: Throws an assertion error<br>
+	        <br>
 	        FailDeleteSilentlyPolicy: In general, delete operation do not throw exceptions if the target entity does not exist. Instead, it logs a warning. This is because an entity could get deleted by one user while another user is trying to delete it at the same time. In any case, if it does not exist, it is as good as deleted.<br>
 	        <br>
-	        Currently, cascade deletes are handled by logic component, not storage component.<br>
+	        Cascade policy: When a parent entity is deleted, entities that have referential integrity with the deleted entity should also be deleted. E.g deleting a coordinator deletes all courses under the coordinator, which also deletes all evaluations and submissions related to the course.<br>
+	        <br>
 	        Cascade logic:
 	        <ul>
 	            <li>Coordinator : delete all courses and cascade onwards</li>
 	            <li>Course : delete all students, evaluations and cascade onwards</li>
 	            <li>Student : delete all submissions</li>
 	            <li>Evaluation: delete all submissions </li>
-	            <li>Team : no cascade</li>
+	            <li>Submission : no cascade (this entity can only be deleted by cascades)</li>
 	        </ul>
 	        <br>
 	
 	        <p id="design-storage" class="subheader">Storage</p>
-	        Storage component performs CRUD operations on data entities individually or collectively. It hides the datastore from logic component. It is expected to contain minimal logic beyond what is directly relevant to CRUD operations.<br>
+	        <br>
+	        The DB component performs CRUD operations on data entities individually. It hides the datastore from logic component. It is expected to contain minimal logic beyond what is directly relevant to CRUD operations.<br>
+	        <br>
+	        
 	        <div class="image-holder"><img src="images/StorageComponent.png" width=80%/></div>
+	        
+	        <br>
 	        Cascade logic is currently handled by Logic component. <br>
-	        storage::entity classes should not be visible outside this component [<span class="red">pending</span>]
+	        <span class="code">Storage::Entity</span> classes should not be visible outside this component to prevent accidental modification to the entity's attributes.<br>
+	        Instead, a corresponding non-persistent <span class="code">EntityData</span> object is returned, where values can be get and set easily without any impact on the persistent data copy.
+	        <br>
 	        
 	        <p id="design-storage-storageAPI" class="subheader">Storage API</p>
 	        Represented by classes in storage::api
@@ -349,9 +367,38 @@
 	        <p id="design-storage-policies" class="subheader">Policies</p>
 	        Add and Delete operations try to wait until data is persisted in the datastore before returning. This is not enough to compensate for eventual consistency involving multiple servers (i.e., in the production server). However, it is expected to avoid test failures caused by eventual consistency in dev server.<br>
 	        <br>
-	        To be decided: Policy regarding transaction control
+	        Implementation of Transaction Control has been decided against due to limitations of GAE environment and the nature of our persistent data implementation. Please see <a href="https://docs.google.com/document/d/1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU/edit#heading=h.1yzvgqzgobon">TEAMMATES Problems and Solutions</a> documentation for more information.
 	        <br>
-	
+	        Null values should <span class="bold">not</span> be used in any places, except in certain edit operations where values which are <span class="code">null</span> are not editted.
+	        <br>
+	        
+	        Create:
+	        <ul>
+	        	<li>Attempt to create an entity that exists: Throw <span class="code">EntityAlreadyExists</span> exception</li>
+	        	<li>Attempt to create an entity with invalid data: assertion thrown (should not occur at this level)</li>	
+	    	</ul>
+	    	<br>
+	    	
+	    	Retrieve:
+	    	<ul>
+	    		<li>Attempt to retrieve an entity that does not exist: Return null</li>
+	    	</ul>
+	    	<br>
+	    	
+	    	Update:
+	    	<ul>
+	    		<li>Attempt to update an entity that does not exist: assertion thrown (should not occur at this level)</li>
+	    		<li>Attempt to update an entity with invalid data: assertion thrown (should not occur at this level)</li>
+	    	</ul>
+	    	<br>
+	    	
+	    	Delete:
+	    	<ul>
+	    		<li>Attempt to delete an entity that does not exist: no action</li>
+	    	</ul>
+	    	<br>
+	        
+			<br>
 	        <p id="design-common" class="subheader">Common</p>
 	        <div class="image-holder"><img src="images/CommonComponent.png" width=80% /></div>
                 <br>
@@ -394,7 +441,7 @@
 	        <ul>
 	            <li><span class="bold">*Suite.java</span> classes are containers for test cases, used to run test cases in batch mode.</li>
 	            <li>
-	                <span class="bold">BrowswerInstance.java</span> represents 
+	                <span class="bold">BrowserInstance.java</span> represents 
                         the UI of the application. It is a wrapper around Selenium 
                         Web Driver. It allows the test driver to simulate user 
                         actions on the TEAMMATES UI. This class is a good candidate 
