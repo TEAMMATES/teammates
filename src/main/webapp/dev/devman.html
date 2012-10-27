@@ -187,7 +187,7 @@
 	        <p class="subheader">Request Flow</p>
 	        Request from the browser will go through following steps:
         <br></br>
-        <img src="images/UiWorkflow.png" width="70%"></img>
+        <div class="image-holder"><img src="images/UiWorkflow.png" width="70%"></img></div>
 	        <ol>
 	            <li>Received by the GAE server</li>
             <li>Forwarded to our custom filters in according to the order as specified in web.xml. 
@@ -945,7 +945,9 @@
 	        c) Tests have enough coverage<br>
 	        <br>
 	        Try to finish the review within a day of submission.<br>
-	        Once the review is done, publish your comments. If the code is ready for release, ask the team lead to push the branch to the release repo.<br>
+	        Once the review is done, publish your comments. If the code is ready 
+	        for release, change the status to ReadyToMerge and ask the team lead 
+	        to merge the branch.<br>
 	        <br>
 	        Give either ‘positive’ or ‘negative’ rating to each review (avoid ‘neutral’). This helps us to detect which revisions were reviewed (when browsing repo in Google Code)<br>
 	        <br>
@@ -971,13 +973,15 @@
 	            </li>
 	            <br>
 	            <li>
-	                Merge default to branch (if branch has more new stuff not in branch)<br>
+	                Merge default to branch (if default has more new stuff not in branch)<br>
 	                <span class="code">hg merge default</span>
 	            </li>
 	            <br>
-	            <li>Verify ‘local green’</li>
+	            <li>Verify ‘dev green’. If the change does not involve auotmted 
+	            tests, do a manual test. e.g., changes to documentation</li>
 	            <br>
-	            <li>Verify ‘staging green’ (i.e. use your own app on appengine as the ‘staging site’)</li>
+	            <li>Verify ‘staging green’ (i.e. use your own app on appengine 
+	            as the ‘staging site’)</li>
 	            <br>
 	            <li>If not green: 
                     <br>Inform Developer of any broken code. 
@@ -995,6 +999,13 @@
 	                            hg update default <br>
 	                            hg merge {branch name}<br>
 	                            hg commit -m “merged {branch name}”
+	                        </span>
+	                    </li>
+	                    <li>
+	                        Switch back to branch and close it<br>
+	                        <span class="code">
+	                            hg update {branch name} <br>
+	                            hg commit --close-branch -m "{branch name} delivered" <br>
 	                        </span>
 	                    </li>
 	                    <li>
