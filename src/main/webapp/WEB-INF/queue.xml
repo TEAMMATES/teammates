@@ -5,5 +5,8 @@
   <name>default</name>  
   <rate>4/s</rate>  
 </queue> 
- 
+<queue>  
+  <name>search-document</name>  
+  <rate>4/s</rate>  
+</queue>  
 </queue-entries> 
