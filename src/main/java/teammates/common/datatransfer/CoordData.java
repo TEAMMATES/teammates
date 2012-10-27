@@ -5,22 +5,21 @@ import java.util.HashMap;
 import teammates.common.Common;
 import teammates.storage.entity.Coordinator;
 
-/**
- * A shallow copy of the actual Coordinator entity
- * 
- * @author Kenny
- * 
- */
-public class CoordData extends UserData {
+public class CoordData extends BaseData {
 	public HashMap<String, CourseData> courses;
+	public String id;
 	public String name;
 	public String email;
-
+	
+	public static final String ERROR_FIELD_ID = "Coordinator ID is invalid\n";
+	public static final String ERROR_FIELD_NAME = "Coordinator name cannot be null or empty\n";
+	public static final String ERROR_FIELD_EMAIL = "Coordinator email is invalid\n";
+	
 	public CoordData(String id, String name, String email) {
 		this();
-		this.id = id;
-		this.name = name;
-		this.email = email;
+		this.id = trimIfNotNull(id);
+		this.name = trimIfNotNull(name);
+		this.email = trimIfNotNull(email);
 	}
 
 	public CoordData(Coordinator coord) {
@@ -31,36 +30,26 @@ public class CoordData extends UserData {
 	}
 
 	public CoordData() {
-		isCoord = true;
+		
 	}
 
 	public Coordinator toEntity() {
 		return new Coordinator(id, name, email);
 	}
 
-	public boolean isValid() {
-
-		if (this.id == null || this.id == "" || this.name == null
-				|| this.name == "" || this.email == null || this.email == "") {
-			return false;
-		}
-
-		return true;
-	}
-
 	public String getInvalidStateInfo() {
 		String errorMessage = "";
 
-		if (this.id == null || this.id == "") {
-			errorMessage += "Coord ID cannot be null or empty\n";
+		if (!Common.isValidGoogleId(id)) {
+			errorMessage += ERROR_FIELD_ID;
 		}
 
-		if (this.name == null || this.name == "") {
-			errorMessage += "Coord name cannot be null or empty\n";
+		if (!Common.isValidName(name)) {
+			errorMessage += ERROR_FIELD_NAME;
 		}
 
-		if (this.email == null || this.email == "") {
-			errorMessage += "Coord email cannot be null or empty\n";
+		if (!Common.isValidEmail(email)) {
+			errorMessage += ERROR_FIELD_EMAIL;
 		}
 
 		return errorMessage;
