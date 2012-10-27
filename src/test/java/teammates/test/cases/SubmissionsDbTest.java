@@ -75,7 +75,7 @@ public class SubmissionsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testGetSubmission() {
-		SubmissionData s = prepareNewSubmission();
+		SubmissionData s = createNewSubmission();
 		
 		// Get existent
 		SubmissionData retrieved = submissionsDb.getSubmission(s.course,
@@ -98,11 +98,32 @@ public class SubmissionsDbTest extends BaseTestCase {
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
+		
+		try {
+			submissionsDb.getSubmission(s.course, null, s.reviewee, s.reviewer);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+		}
+		
+		try {
+			submissionsDb.getSubmission(s.course, s.evaluation, null, s.reviewer);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+		}
+		
+		try {
+			submissionsDb.getSubmission(s.course, s.evaluation, s.reviewee, null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+		}
 	}
 	
 	@Test
 	public void testEditSubmission() {
-		SubmissionData s = prepareNewSubmission();
+		SubmissionData s = createNewSubmission();
 		
 		// Edit existent
 		s.justification = new Text("Hello World");
@@ -128,7 +149,7 @@ public class SubmissionsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testDeleteSubmission() {
-		SubmissionData s = prepareNewSubmission();
+		SubmissionData s = createNewSubmission();
 		
 		// Delete
 		submissionsDb.deleteAllSubmissionsForCourse(s.course);
@@ -149,6 +170,13 @@ public class SubmissionsDbTest extends BaseTestCase {
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
+		
+		try {
+			submissionsDb.deleteAllSubmissionsForEvaluation(s.course, null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+		}
 	}
 
 	@AfterClass
@@ -157,7 +185,7 @@ public class SubmissionsDbTest extends BaseTestCase {
 		helper.tearDown();
 	}
 	
-	private SubmissionData prepareNewSubmission() {
+	private SubmissionData createNewSubmission() {
 		SubmissionData s = new SubmissionData();
 		s.course = "Computing101";
 		s.evaluation = "Basic Computing Evaluation1";

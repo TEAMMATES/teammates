@@ -36,7 +36,7 @@ import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.StudentData.UpdateStatus;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.datatransfer.TeamData;
-import teammates.common.datatransfer.UserData;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -128,7 +128,7 @@ public class LogicTest extends BaseTestCase {
 		coordAsStudent.id = coord.id;
 		logic.createStudent(coordAsStudent);
 
-		UserData user = logic.getLoggedInUser();
+		UserType user = logic.getLoggedInUser();
 		assertEquals(coord.id, user.id);
 		assertEquals(true, user.isAdmin);
 		assertEquals(true, user.isCoord);

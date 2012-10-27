@@ -72,7 +72,7 @@ public class CoursesDbTest extends BaseTestCase {
 	
 	@Test
 	public void testGetCourse() {
-		CourseData c = prepareNewCourse();
+		CourseData c = createNewCourse();
 		
 		// Get existent
 		CourseData retrieved = coursesDb.getCourse(c.id);
@@ -98,7 +98,7 @@ public class CoursesDbTest extends BaseTestCase {
 	
 	@Test
 	public void testDeleteCourse() {
-		CourseData c = prepareNewCourse();
+		CourseData c = createNewCourse();
 		
 		// Delete
 		coursesDb.deleteCourse(c.id);
@@ -124,7 +124,7 @@ public class CoursesDbTest extends BaseTestCase {
 		helper.tearDown();
 	}
 	
-	private CourseData prepareNewCourse() {
+	private CourseData createNewCourse() {
 		CourseData c = new CourseData();
 		c.id = "Computing101";
 		c.name = "Basic Computing";

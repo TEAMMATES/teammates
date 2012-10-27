@@ -9,7 +9,7 @@ import teammates.storage.entity.Submission;
 
 import com.google.appengine.api.datastore.Text;
 
-public class SubmissionData {
+public class SubmissionData extends BaseData {
 	/** course ID */
 	public String course;
 
@@ -35,6 +35,8 @@ public class SubmissionData {
 
 	public Text p2pFeedback;
 
+	private static Logger log = Common.getLogger();
+
 	public transient int normalizedToStudent = Common.UNINITIALIZED_INT;
 
 	public transient int normalizedToCoord = Common.UNINITIALIZED_INT;
@@ -43,9 +45,6 @@ public class SubmissionData {
 	public static final String ERROR_FIELD_EVALUATION = "Submission must belong to a valid evaluation\n";
 	public static final String ERROR_FIELD_REVIEWEE = "Submission reviewee should be a valid email\n";
 	public static final String ERROR_FIELD_REVIEWER = "Submission reviewer should be a valid email\n";
-
-	// This is needed in SubmissionDataTest.setLogLevel()
-	private static Logger log = Common.getLogger();
 	
 	public SubmissionData() {
 
@@ -53,11 +52,11 @@ public class SubmissionData {
 
 	public SubmissionData(String courseId, String evalName, String teamName,
 			String toStudent, String fromStudent) {
-		this.course = ((courseId == null) ? null : courseId.trim());
-		this.evaluation = ((evalName == null) ? null : evalName.trim());
-		this.team = ((teamName == null) ? null : teamName.trim());
-		this.reviewee = ((toStudent == null) ? null : toStudent.trim());
-		this.reviewer = ((fromStudent == null) ? null : fromStudent.trim());
+		this.course = trimIfNotNull(courseId);
+		this.evaluation = trimIfNotNull(evalName);
+		this.team = trimIfNotNull(teamName);
+		this.reviewee = trimIfNotNull(toStudent);
+		this.reviewer = trimIfNotNull(fromStudent);
 	}
 
 	public SubmissionData(Submission s) {
@@ -125,7 +124,8 @@ public class SubmissionData {
 	}
 
 	public boolean isValid() {
-		return getInvalidStateInfo() == "";
+		String stateCheck = getInvalidStateInfo();
+		return stateCheck.length() == 0;
 	}
 
 	public String getInvalidStateInfo() {

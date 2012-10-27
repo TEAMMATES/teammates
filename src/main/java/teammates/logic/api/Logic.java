@@ -20,7 +20,7 @@ import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.StudentData.UpdateStatus;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.datatransfer.TeamData;
-import teammates.common.datatransfer.UserData;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -86,27 +86,27 @@ public class Logic {
 	/**
 	 * @return Returns null if the user is not logged in.
 	 */
-	public UserData getLoggedInUser() {
+	public UserType getLoggedInUser() {
 		AccountsStorage accounts = AccountsStorage.inst();
 		User user = accounts.getUser();
 		if (user == null) {
 			return null;
 		}
 
-		UserData userData = new UserData(user.getNickname());
+		UserType userType = new UserType(user.getNickname());
 
 		// TODO: make more efficient?
 		if (accounts.isAdministrator()) {
-			userData.isAdmin = true;
+			userType.isAdmin = true;
 		}
 		if (accounts.isCoord()) {
-			userData.isCoord = true;
+			userType.isCoord = true;
 		}
 
 		if (accounts.isStudent(user.getNickname())) {
-			userData.isStudent = true;
+			userType.isStudent = true;
 		}
-		return userData;
+		return userType;
 	}
 
 	@SuppressWarnings("unused")
@@ -258,7 +258,7 @@ public class Logic {
 	// @formatter:on
 
 	private boolean isOwnEmail(String courseId, String studentEmail) {
-		UserData user = getLoggedInUser();
+		UserType user = getLoggedInUser();
 		if (user == null) {
 			return false;
 		}
@@ -271,20 +271,20 @@ public class Logic {
 	}
 
 	private boolean isOwnId(String userId) {
-		UserData loggedInUser = getLoggedInUser();
+		UserType loggedInUser = getLoggedInUser();
 		return loggedInUser == null ? false : loggedInUser.id
 				.equalsIgnoreCase(userId);
 	}
 
 	private boolean isCourseOwner(String courseId) {
 		CourseData course = getCourse(courseId);
-		UserData user = getLoggedInUser();
+		UserType user = getLoggedInUser();
 		return user != null && course != null
 				&& course.coord.equalsIgnoreCase(user.id);
 	}
 
 	private boolean isInCourse(String courseId) {
-		UserData user = getLoggedInUser();
+		UserType user = getLoggedInUser();
 		if (user == null)
 			return false;
 
@@ -308,7 +308,7 @@ public class Logic {
 	 * Verifies if the logged in user has Admin privileges
 	 */
 	private boolean isAdminLoggedIn() {
-		UserData loggedInUser = getLoggedInUser();
+		UserType loggedInUser = getLoggedInUser();
 		return loggedInUser == null ? false : loggedInUser.isAdmin;
 	}
 
@@ -316,7 +316,7 @@ public class Logic {
 	 * Verifies if the logged in user has Coord privileges
 	 */
 	private boolean isCoordLoggedIn() {
-		UserData loggedInUser = getLoggedInUser();
+		UserType loggedInUser = getLoggedInUser();
 		return loggedInUser == null ? false : loggedInUser.isCoord;
 	}
 
@@ -324,7 +324,7 @@ public class Logic {
 	 * Verifies if the logged in user has Student privileges
 	 */
 	private boolean isStudentLoggedIn() {
-		UserData loggedInUser = getLoggedInUser();
+		UserType loggedInUser = getLoggedInUser();
 		return loggedInUser == null ? false : loggedInUser.isStudent;
 	}
 

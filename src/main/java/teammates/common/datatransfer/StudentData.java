@@ -8,7 +8,7 @@ import teammates.storage.entity.Student;
 
 import com.google.appengine.api.datastore.Text;
 
-public class StudentData extends UserData {
+public class StudentData extends BaseData {
 	public enum UpdateStatus {
 		// @formatter:off
 		ERROR(0), NEW(1), MODIFIED(2), UNMODIFIED(3), NOT_IN_ENROLL_LIST(4), UNKNOWN(
@@ -41,6 +41,7 @@ public class StudentData extends UserData {
 		}
 	}
 
+	public String id;
 	public String name;
 	public String email;
 	public String course = null;
@@ -71,16 +72,16 @@ public class StudentData extends UserData {
 	public StudentData(String id, String email, String name, String comments,
 			String courseId, String team) {
 		this();
-		this.id = ((id == null) ? "" : id.trim());
-		this.email = ((email == null) ? null : email.trim());
-		this.course = ((courseId == null) ? null : courseId.trim());
-		this.name = ((name == null) ? null : name.trim());
-		this.comments = ((comments == null) ? "" : comments);
-		this.team = ((team == null) ? "" : team.trim());
+		this.id = trimIfNotNull(id);
+		this.email = trimIfNotNull(email);
+		this.course = trimIfNotNull(courseId);
+		this.name = trimIfNotNull(name);
+		this.comments = trimIfNotNull(comments);
+		this.team = trimIfNotNull(team);
 	}
 
 	public StudentData() {
-		isStudent = true;
+		
 	}
 
 	// This is the only entity constructor that throws IPE, because of the way it takes input
@@ -200,7 +201,8 @@ public class StudentData extends UserData {
 	}
 
 	public boolean isValid() {
-		return getInvalidStateInfo() == "";
+		String stateCheck = getInvalidStateInfo();
+		return stateCheck.length() == 0;
 	}
 
 	public String getInvalidStateInfo() {

@@ -74,7 +74,7 @@ public class AccountsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testGetStudent() {
-		StudentData s = prepareNewStudent();
+		StudentData s = createNewStudent();
 		
 		// Get existent
 		StudentData retrieved = accountsDb.getStudent(s.course, s.email);
@@ -91,11 +91,18 @@ public class AccountsDbTest extends BaseTestCase {
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
+		
+		try {
+			accountsDb.getStudent("any-course-id", null);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+		}
 	}
 	
 	@Test
 	public void testEditStudent() {
-		StudentData s = prepareNewStudent();
+		StudentData s = createNewStudent();
 		
 		// Edit existent
 		accountsDb.editStudent(s.course, s.email, "new-name", "new-team", "new@email.com", "new.google.id", "lorem ipsum dolor si amet", new Text("new profile"));
@@ -109,8 +116,15 @@ public class AccountsDbTest extends BaseTestCase {
 		}
 		
 		// Null params check:
+		// Only check first 2 params (course & email) which are used to identify the student entry. The rest are actually allowed to be null.
 		try {
-			accountsDb.editStudent(null, "valid@email.com", "new-name", "new-team", "new@email.com", "new.google.id", "lorem ipsum dolor si amet", new Text("new profile"));
+			accountsDb.editStudent(null, s.email, "new-name", "new-team", "new@email.com", "new.google.id", "lorem ipsum dolor si amet", new Text("new profile"));
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+		}
+		try {
+			accountsDb.editStudent(s.course, null, "new-name", "new-team", "new@email.com", "new.google.id", "lorem ipsum dolor si amet", new Text("new profile"));
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
@@ -119,7 +133,7 @@ public class AccountsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testDeleteStudent() {
-		StudentData s = prepareNewStudent();
+		StudentData s = createNewStudent();
 		
 		// Delete
 		accountsDb.deleteStudent(s.course, s.email);
@@ -132,7 +146,14 @@ public class AccountsDbTest extends BaseTestCase {
 		
 		// Null params check:
 		try {
-			accountsDb.deleteStudent(null, "valid@email.com");
+			accountsDb.deleteStudent(null, s.email);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+		}
+		
+		try {
+			accountsDb.deleteStudent(s.course, null);
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
@@ -142,6 +163,7 @@ public class AccountsDbTest extends BaseTestCase {
 	@SuppressWarnings("unused")
 	private void ____COORD_________________________________________() {
 	}
+	
 	@Test
 	public void testCreateCoord() throws EntityAlreadyExistsException {
 		// SUCCESS
@@ -181,7 +203,7 @@ public class AccountsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testGetCoord() {
-		CoordData c = prepareNewCoord();
+		CoordData c = createNewCoord();
 		
 		// Get existent
 		CoordData retrieved = accountsDb.getCoord(c.id);
@@ -207,7 +229,7 @@ public class AccountsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testDeleteCoord() {
-		CoordData c = prepareNewCoord();
+		CoordData c = createNewCoord();
 		
 		// Delete
 		accountsDb.deleteCoord(c.id);
@@ -233,7 +255,7 @@ public class AccountsDbTest extends BaseTestCase {
 		helper.tearDown();
 	}
 	
-	private StudentData prepareNewStudent() {
+	private StudentData createNewStudent() {
 		StudentData s = new StudentData();
 		s.name = "valid student";
 		s.course = "valid-course";
@@ -248,7 +270,7 @@ public class AccountsDbTest extends BaseTestCase {
 		return s;
 	}
 	
-	private CoordData prepareNewCoord() {
+	private CoordData createNewCoord() {
 		CoordData c = new CoordData();
 		c.id = "valid.id";
 		c.name = "John Doe";

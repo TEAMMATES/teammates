@@ -5,8 +5,9 @@ import java.util.HashMap;
 import teammates.common.Common;
 import teammates.storage.entity.Coordinator;
 
-public class CoordData extends UserData {
+public class CoordData extends BaseData {
 	public HashMap<String, CourseData> courses;
+	public String id;
 	public String name;
 	public String email;
 	
@@ -16,9 +17,9 @@ public class CoordData extends UserData {
 	
 	public CoordData(String id, String name, String email) {
 		this();
-		this.id = ((id == null) ? null : id.trim());
-		this.name = ((name == null) ? null : name.trim());
-		this.email = ((email == null) ? null : email.trim());
+		this.id = trimIfNotNull(id);
+		this.name = trimIfNotNull(name);
+		this.email = trimIfNotNull(email);
 	}
 
 	public CoordData(Coordinator coord) {
@@ -29,7 +30,7 @@ public class CoordData extends UserData {
 	}
 
 	public CoordData() {
-		isCoord = true;
+		
 	}
 
 	public Coordinator toEntity() {
@@ -37,7 +38,8 @@ public class CoordData extends UserData {
 	}
 
 	public boolean isValid() {
-		return getInvalidStateInfo() == "";
+		String stateCheck = getInvalidStateInfo();
+		return stateCheck.length() == 0;
 	}
 
 	public String getInvalidStateInfo() {

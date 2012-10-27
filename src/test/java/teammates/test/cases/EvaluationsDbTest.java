@@ -75,7 +75,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testGetEvaluation() {
-		EvaluationData e = prepareNewEvaluation();
+		EvaluationData e = createNewEvaluation();
 		
 		// Get existent
 		EvaluationData retrieved = evaluationsDb.getEvaluation(e.course, e.name);
@@ -96,7 +96,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testEditEvaluation() {
-		EvaluationData e = prepareNewEvaluation();
+		EvaluationData e = createNewEvaluation();
 				
 		// Edit existent
 		e.instructions = "Foo Bar";
@@ -122,7 +122,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testDeleteEvaluation() {
-		EvaluationData e = prepareNewEvaluation();
+		EvaluationData e = createNewEvaluation();
 		
 		// Delete
 		evaluationsDb.deleteEvaluation(e.course, e.name);
@@ -134,6 +134,13 @@ public class EvaluationsDbTest extends BaseTestCase {
 		evaluationsDb.deleteEvaluation(e.course, e.name);
 		
 		// Null params check:
+		try {
+			evaluationsDb.deleteEvaluation(null, e.name);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+		}
+		
 		try {
 			evaluationsDb.deleteEvaluation(e.course, null);
 			fail();
@@ -148,7 +155,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 		helper.tearDown();
 	}
 	
-	private EvaluationData prepareNewEvaluation() {
+	private EvaluationData createNewEvaluation() {
 		EvaluationData e = new EvaluationData();
 		e.course = "Computing101";
 		e.name = "Basic Computing Evaluation1";

@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import teammates.common.Common;
 import teammates.storage.entity.Course;
 
-public class CourseData {
+public class CourseData extends BaseData {
 	public String id;
 	public String name;
 	public String coord;
@@ -21,6 +21,8 @@ public class CourseData {
 	// TODO: to be removed as we don't allow loners
 	public transient ArrayList<StudentData> loners = new ArrayList<StudentData>();
 
+	private static Logger log = Common.getLogger();
+	
 	public static final int COURSE_NAME_MAX_LENGTH = 38;
 	
 	public static final String ERROR_FIELD_ID = "Course ID cannot be null or empty\n";
@@ -30,16 +32,14 @@ public class CourseData {
 	public static final String ERROR_NAME_TOOLONG = "Course name cannot be more than " + COURSE_NAME_MAX_LENGTH + " characters\n";
 	public static final String ERROR_FIELD_COORD = "Course must belong to a valid Coordinator\n";
 
-	private static Logger log = Common.getLogger();
-
 	public CourseData() {
 
 	}
 
 	public CourseData(String id, String name, String coordId) {
-		this.id = ((id == null) ? null : id.trim());
-		this.name = ((name == null) ? null : name.trim());
-		this.coord = ((coordId == null) ? null : coordId.trim());
+		this.id = trimIfNotNull(id);
+		this.name = trimIfNotNull(name);
+		this.coord = trimIfNotNull(coordId);
 	}
 
 	public CourseData(Course course) {
@@ -59,7 +59,8 @@ public class CourseData {
 	}
 
 	public boolean isValid() {
-		return getInvalidStateInfo() == "";
+		String stateCheck = getInvalidStateInfo();
+		return stateCheck.length() == 0;
 	}
 
 	public String getInvalidStateInfo() {

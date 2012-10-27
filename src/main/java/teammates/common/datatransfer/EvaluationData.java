@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import teammates.common.Common;
 import teammates.storage.entity.Evaluation;
 
-public class EvaluationData {
+public class EvaluationData extends BaseData {
 	public String course;
 	public String name;
 	public String instructions = "";
@@ -27,7 +27,7 @@ public class EvaluationData {
 	public transient ArrayList<TeamData> teams = new ArrayList<TeamData>();
 
 	private static Logger log = Common.getLogger();
-	
+
 	public static final int EVALUATION_NAME_MAX_LENGTH = 38;
 	
 	public static final String ERROR_FIELD_COURSE = "Evaluation must belong to a valid course\n";
@@ -116,10 +116,10 @@ public class EvaluationData {
 	}
 
 	public boolean isValid() {
-		course = course == null ? null : course.trim();
-		name = name == null ? null : name.trim();
-		
-		return getInvalidStateInfo() == "";
+		course = trimIfNotNull(course);
+		name = trimIfNotNull(name);
+		String stateCheck = getInvalidStateInfo();
+		return stateCheck.length() == 0;
 	}
 	
 	public String getInvalidStateInfo() {
@@ -149,11 +149,11 @@ public class EvaluationData {
 				errorMessage += ERROR_END_BEFORE_START;
 			}
 			
-			if (isCurrentTimeZoneEarlierThan(endTime) && published) {
+			if (isCurrentTimeInUsersTimezoneEarlierThan(endTime) && published) {
 				errorMessage += ERROR_PUBLISHED_BEFORE_END;
 			}
 			
-			if (isCurrentTimeZoneEarlierThan(startTime) && activated) {
+			if (isCurrentTimeInUsersTimezoneEarlierThan(startTime) && activated) {
 				errorMessage += ERROR_ACTIVATED_BEFORE_START;
 			}
 		}
@@ -161,7 +161,7 @@ public class EvaluationData {
 		return errorMessage;
 	}
 
-	private boolean isCurrentTimeZoneEarlierThan(Date time) {
+	private boolean isCurrentTimeInUsersTimezoneEarlierThan(Date time) {
 		Date nowInUserTimeZone = Common.convertToUserTimeZone(
 				Calendar.getInstance(), timeZone).getTime();
 		return nowInUserTimeZone.before(time);
