@@ -82,7 +82,7 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		StudentData alice = scn.students.get("alice.tmms@SHomeUiT.CS2104");
 		alice.id = null;
 		BackDoor.createStudent(alice);
-		bi.fillString(bi.studentInputRegKey, Common.INVALID_KEY_STRING);
+		bi.fillString(bi.studentInputRegKey, "ThisIsAnInvalidKey");
 		bi.click(bi.studentJoinCourseButton);
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentHomeInvalidKey.html");
