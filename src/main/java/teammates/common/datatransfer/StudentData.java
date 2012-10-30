@@ -1,13 +1,14 @@
 package teammates.common.datatransfer;
 
 import static teammates.common.Common.EOL;
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Student;
 
 import com.google.appengine.api.datastore.Text;
 
-public class StudentData extends UserData {
+public class StudentData extends BaseData {
 	public enum UpdateStatus {
 		// @formatter:off
 		ERROR(0), NEW(1), MODIFIED(2), UNMODIFIED(3), NOT_IN_ENROLL_LIST(4), UNKNOWN(
@@ -40,6 +41,7 @@ public class StudentData extends UserData {
 		}
 	}
 
+	public String id;
 	public String name;
 	public String email;
 	public String course = null;
@@ -52,21 +54,37 @@ public class StudentData extends UserData {
 
 	public transient EvalResultData result;
 
+	public static final int STUDENT_NAME_MAX_LENGTH = 40;
+	public static final int TEAM_NAME_MAX_LENGTH = 25;
+	public static final int COMMENTS_MAX_LENGTH = 500;
+	
+	public static final String ERROR_ENROLL_LINE_NULL = "Enroll line was null\n";
+	public static final String ERROR_ENROLL_LINE_EMPTY = "Enroll line was empty\n";
+	public static final String ERROR_ENROLL_LINE_TOOFEWPARTS = "Enroll line had too few parts\n";
+	public static final String ERROR_ENROLL_LINE_TOOMANYPARTS = "Enroll line had too many parts\n";
+	public static final String ERROR_FIELD_NAME = "Student name cannot be null or empty\n";
+	public static final String ERROR_NAME_TOOLONG = "Student name cannot be longer than " + STUDENT_NAME_MAX_LENGTH + " characters\n";
+	public static final String ERROR_TEAMNAME_TOOLONG = "Team name cannot be longer than " + TEAM_NAME_MAX_LENGTH + " characters\n";
+	public static final String ERROR_FIELD_EMAIL = "Student email is invalid\n";
+	public static final String ERROR_FIELD_COURSE = "Student must belong to a valid course\n";
+	public static final String ERROR_COMMENTS_TOOLONG = "Comments cannot be longer than " + COMMENTS_MAX_LENGTH + " characters\n";
+	
 	public StudentData(String id, String email, String name, String comments,
 			String courseId, String team) {
 		this();
-		this.id = id == null ? "" : id;
-		this.email = email;
-		this.course = courseId;
-		this.name = name;
-		this.comments = comments == null ? "" : comments;
-		this.team = team == null ? "" : team;
+		this.id = trimIfNotNull(id);
+		this.email = trimIfNotNull(email);
+		this.course = trimIfNotNull(courseId);
+		this.name = trimIfNotNull(name);
+		this.comments = trimIfNotNull(comments);
+		this.team = trimIfNotNull(team);
 	}
 
 	public StudentData() {
-		isStudent = true;
+		
 	}
 
+	// This is the only entity constructor that throws IPE, because of the way it takes input
 	public StudentData(String enrollLine, String courseId)
 			throws InvalidParametersException {
 
@@ -76,39 +94,29 @@ public class StudentData extends UserData {
 		int EMAIL_POS = 2;
 		int COMMENT_POS = 3;
 
-		if ((enrollLine == null) || (courseId == null)) {
-			throw new InvalidParametersException(
-					Common.ERRORCODE_NULL_PARAMETER,
-					"Enrollment line cannot be null");
-		}
-		if ((enrollLine.equals("")) || (courseId.equals(""))) {
-			throw new InvalidParametersException(Common.ERRORCODE_EMPTY_STRING,
-					"Enrollment line cannot be empty");
+		Assumption.assertNotNull(ERROR_ENROLL_LINE_NULL, enrollLine);
+			
+		if (enrollLine.equals("")) {
+			throw new InvalidParametersException(ERROR_ENROLL_LINE_EMPTY);
 		}
 
 		String[] parts = enrollLine.replace("|", "\t").split("\t");
 
-		if ((parts.length < 3) || (parts.length > 4)) {
-			throw new InvalidParametersException(
-					Common.ERRORCODE_INCORRECTLY_FORMATTED_STRING,
-					"Enrollment line has too few or too many segments");
+		if (parts.length < 3) {
+			throw new InvalidParametersException(ERROR_ENROLL_LINE_TOOFEWPARTS);
+		} else if (parts.length > 4) {
+			throw new InvalidParametersException(ERROR_ENROLL_LINE_TOOMANYPARTS);
 		}
 
-		String paramCourseId = courseId.trim();
-		Common.validateCourseId(paramCourseId);
+		String paramCourseId = courseId == null ? null : courseId.trim();
 
 		String paramTeam = parts[TEAM_POS].trim();
-		Common.validateTeamName(paramTeam);
 
 		String paramName = parts[NAME_POS].trim();
-		Common.validateStudentName(paramName);
 
 		String paramEmail = parts[EMAIL_POS].trim();
-		Common.validateEmail(paramEmail);
 
-		String paramComment = parts.length == 4 ? parts[COMMENT_POS].trim()
-				: "";
-		Common.validateComment(paramComment);
+		String paramComment = ((parts.length == 4) ? parts[COMMENT_POS].trim() : "");
 
 		this.team = paramTeam;
 		this.name = paramName;
@@ -122,11 +130,10 @@ public class StudentData extends UserData {
 		this.email = student.getEmail();
 		this.course = student.getCourseID();
 		this.name = student.getName();
-		this.comments = student.getComments() == null ? "" : student
-				.getComments();
-		this.team = student.getTeamName() == null ? "" : student.getTeamName();
+		this.comments = ((student.getComments() == null) ? "" : student.getComments());
+		this.team = ((student.getTeamName() == null) ? "" : student.getTeamName());
 		this.profile = student.getProfileDetail();
-		this.id = student.getID() == null ? "" : student.getID();
+		this.id = ((student.getID() == null) ? "" : student.getID());
 		Long keyAsLong = student.getRegistrationKey();
 		this.key = (keyAsLong == null ? null : Student
 				.getStringKeyForLongKey(keyAsLong));
@@ -193,29 +200,29 @@ public class StudentData extends UserData {
 		return new Student(email, name, id, comments, course, team);
 	}
 
-	public boolean isValid() {
-
-		if (this.name == null || this.name == "" || this.email == null
-				|| this.email == "" || this.course == null || this.course == "") {
-			return false;
-		}
-
-		return true;
-	}
-
 	public String getInvalidStateInfo() {
 		String errorMessage = "";
 
-		if (this.name == null || this.name == "") {
-			errorMessage += "Student name cannot be null or empty\n";
+		if (!Common.isValidName(name)) {
+			errorMessage += ERROR_FIELD_NAME;
+		} else if (name.length() > STUDENT_NAME_MAX_LENGTH) {
+			errorMessage += ERROR_NAME_TOOLONG;
 		}
 
-		if (this.email == null || this.email == "") {
-			errorMessage += "Student email cannot be null or empty\n";
+		if (team != null && team.length() > TEAM_NAME_MAX_LENGTH) {
+			errorMessage += ERROR_TEAMNAME_TOOLONG;
+		}
+		
+		if (!Common.isValidEmail(email)) {
+			errorMessage += ERROR_FIELD_EMAIL;
 		}
 
-		if (this.course == null || this.course == "") {
-			errorMessage += "Student must belong to a course\n";
+		if (!Common.isValidCourseId(course)) {
+			errorMessage += ERROR_FIELD_COURSE;
+		}
+		
+		if (comments != null && comments.length() > COMMENTS_MAX_LENGTH) {
+			errorMessage += ERROR_COMMENTS_TOOLONG;
 		}
 
 		return errorMessage;

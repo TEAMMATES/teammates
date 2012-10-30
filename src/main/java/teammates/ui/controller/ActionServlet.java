@@ -18,7 +18,7 @@ import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.datatransfer.TeamData;
-import teammates.common.datatransfer.UserData;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -73,7 +73,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			resp.sendRedirect(Common.JSP_ENTITY_NOT_FOUND_PAGE);
 			return;
 		} catch (UnauthorizedAccessException e) {
-			UserData user = new Logic().getLoggedInUser();
+			UserType user = new Logic().getLoggedInUser();
 			log.warning("Request to: " + req.getServletPath() + "\n" +
 					"Request Params: " + printRequestParameters(req) + "\n" +
 					"Responded with: Unauthorized access attempted by:"

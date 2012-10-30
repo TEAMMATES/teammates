@@ -17,3 +17,27 @@
 	margin-top: 50px;
 	width: 1024px;
 }
+
+/*Navigation Link*/
+#nav {
+	margin: 0;
+	padding: 0;
+}
+
+#nav li {
+	display: block;
+	padding: 0;
+	margin: 0;
+}
+
+/*remove this & #nav a:hover and link will restored to underline mode*/
+#nav a:link,#nav a:visited {
+	margin: 0;
+	text-decoration: none;
+	color: black;
+}
+
+#nav a:hover{
+    color: #fff;
+	background: #888;
+}

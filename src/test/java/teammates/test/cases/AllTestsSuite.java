@@ -20,7 +20,10 @@ import org.junit.runners.Suite;
 		AllAccessControlUiTests.class,
 		
 		// Js tests
-		AllJsTests.class 
+		AllJsTests.class, 
+		
+		//Webpage Compilation
+		WebpageCompilationUiTest.class
 })
 
 //@formatter:on

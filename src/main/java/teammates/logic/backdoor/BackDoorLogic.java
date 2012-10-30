@@ -19,12 +19,11 @@ import teammates.common.datatransfer.SubmissionData;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.logic.AccountsStorage;
+import teammates.logic.CoursesStorage;
 import teammates.logic.Emails;
+import teammates.logic.EvaluationsStorage;
 import teammates.logic.api.Logic;
-import teammates.storage.api.AccountsStorage;
-import teammates.storage.api.CoursesStorage;
-import teammates.storage.api.EvaluationsStorage;
-import teammates.storage.entity.Evaluation; //TODO: remove this dependency
 
 public class BackDoorLogic extends Logic{
 	

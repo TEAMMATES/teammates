@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.UserData;
+import teammates.common.datatransfer.UserType;
 import teammates.logic.api.Logic;
 
 public class Helper {	
@@ -19,7 +19,7 @@ public class Helper {
 	/**
 	 * The user that is currently logged in, authenticated by Google
 	 */
-	public UserData user;
+	public UserType user;
 	
 	/**
 	 * The userID that the admin wants to masquerade
@@ -68,17 +68,6 @@ public class Helper {
 
 	public boolean isMasqueradeMode() {
 		return (user!=null) && (requestedUser!=null);
-	}
-	
-	/**
-	 * For testing purpose
-	 * @param userID
-	 */
-	@Deprecated
-	public void setMasqueradeUser(String userID){
-		user = new UserData();
-		user.isAdmin = true;
-		requestedUser = userID;
 	}
 	
 	/**
