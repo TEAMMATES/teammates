@@ -2,45 +2,50 @@
 
 <head>
    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-   <link rel="stylesheet" href="css/teammates.css" type="text/css">
-   <title>Teammates Online Peer Feedback System for Student Team Projects[Home]</title>
-   <!--[if !IE 7]>
-       <style type="text/css">
-           #mainContainer {display:table;height:100%}
-       </style>
-   <![endif]-->
+   <link rel="stylesheet" href="stylesheets/teammates.css" type="text/css">
+   <title>Teammates Online Peer Feedback System for Student Team Projects[Request]</title>
 </head>
 
 <body>
 
-   <div id="mainContainer"> <!-- wrap -->
+   <div id="mainContainer">
        <div id="header">
            <div id="headerWrapper">
                <div id="imageHolder">
+               		<a href="/index.html">
                    <img alt="Teammates" src="images/teammateslogo.jpg" width="150px" height="47px">
+                   </a>
                </div>
-               <!-- end headerWrapper -->
-               <div id="textHolder">
-                   <ul id="navbar">
-                       <li><a href="index.html">Home</a></li>
-                       <li id="current"><strong>Features</strong></li>
-                       <li><a href="about.html">About Us</a></li>
-                       <li><a href="contact.html">Contact</a></li>
-                       <li><a href="terms.html">Terms of Use</a></li>
-                       <li><a href="http://teammatesv4.appspot.com" target="_blank">Sign In</a></li>
-                   </ul>
-               </div>
+               <div id="menuHolder">
+	               <div id="textHolder">
+	                   <ul id="navbar">
+	                       <li><a href="index.html">Home</a></li>
+	                       <li id="current"><strong>Features</strong></li>
+	                       <li><a href="about.html">About Us</a></li>
+	                       <li><a href="contact.html">Contact</a></li>
+	                       <li><a href="terms.html">Terms of Use</a></li>
+	                   </ul>
+	               </div>
+	               <div id="loginHolder">
+	                   	<form action="/login" style="float:left" name="studentLogin">
+							<input type="submit" name="student" class="button" id="btnStudentLogin" value="Student Login">
+						</form>
+						<form action="/login" name="coordinatorLogin" style="float:left">
+							<input type="submit" name="coord" class="button" id="btnCoordLogin" value=" Coordinator Login">
+						</form>
+	               </div>
+	               <div style="clear: both;"></div>
+	           </div>
+	           <div style="clear: both;"></div>
            </div>
        </div>
        
-       <div id="mainContent"> <!-- main -->
+       <div id="mainContent">
            <div id="caption">
-               <div id="captionText">
-                   <span>Request for an account</span>
-               </div>
+               Request for an Account
            </div>
            
-           <div id="requestForm">
+           <div id="contentHolder">
               <iframe src="https://spreadsheets.google.com/embeddedform?formkey=dDNsQmU4QXVYTVRhMjA2dEJWYW82Umc6MQ" width="760px" height="880px" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
            </div>  
        </div>
