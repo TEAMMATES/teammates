@@ -3,9 +3,9 @@ package teammates.test.cases;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -24,76 +24,128 @@ public class StudentTest extends BaseTestCase {
 
 	@Test
 	public void testStudentConstructor() throws TeammatesException {
+		String line;
+		String courseId = "anyCoursId";
+		StudentData invalidStudent;
 		
-		// null parameters
-		verifyExceptionForStudentCreation("null line", null, "anyCoursId",
-				Common.ERRORCODE_NULL_PARAMETER);
-		verifyExceptionForStudentCreation("for null courseId", "any line",
-				null, Common.ERRORCODE_NULL_PARAMETER);
-
-		// empty line or courseId
-		verifyExceptionForStudentCreation("for empty line", "", "anyCoursId",
-				Common.ERRORCODE_EMPTY_STRING);
-		verifyExceptionForStudentCreation("for empty courseId", "any line", "",
-				Common.ERRORCODE_EMPTY_STRING);
-
 		Student expected;
 		StudentData studentUnderTest;
-
-		// normal input, using tab as separator
+		
+		// SUCCESS : normal input, using tab as separator
 		expected = generateTypicalStudentObject();
 		String enrollmentLine = "team 1\tname 1\temail@email.com\tcomment 1";
-		studentUnderTest = new StudentData(enrollmentLine, "courseId1");
+		studentUnderTest = new StudentData(enrollmentLine, courseId);
 		verifyStudentContent(expected, studentUnderTest.toEntity());
 		
-		// normal input, using '|' as separator
+		// SUCCESS : normal input, using '|' as separator
 		enrollmentLine = "team 1|name 1|email@email.com|comment 1";
-		studentUnderTest = new StudentData(enrollmentLine, "courseId1");
+		studentUnderTest = new StudentData(enrollmentLine, courseId);
 		verifyStudentContent(expected, studentUnderTest.toEntity());
 		
-		// normal input, using both separators
+		// SUCCESS : normal input, using both separators
 		enrollmentLine = "team 1|name 1\temail@email.com|comment 1";
-		studentUnderTest = new StudentData(enrollmentLine, "courseId1");
+		studentUnderTest = new StudentData(enrollmentLine, courseId);
 		verifyStudentContent(expected, studentUnderTest.toEntity());
+		
+		// FAIL : courseId is null
+		line = "team|name|e@e.com|c";
+		invalidStudent = new StudentData(line, null);
+		assertFalse(invalidStudent.isValid());
+		assertEquals(invalidStudent.getInvalidStateInfo(), StudentData.ERROR_FIELD_COURSE);
+		
+		// FAIL : empty courseId
+		invalidStudent = new StudentData(line, "");
+		assertFalse(invalidStudent.isValid());
+		assertEquals(invalidStudent.getInvalidStateInfo(), StudentData.ERROR_FIELD_COURSE);
 
-		// invalid courseId
-		verifyExceptionForStudentCreation("invalid coursId [has a space]",
-				"team|name|e@e.com|c", "Cours Id with space",
-				Common.ERRORCODE_INVALID_CHARS);
+		// FAIL : invalid courseId
+		invalidStudent = new StudentData(line, "Course Id with space");
+		assertFalse(invalidStudent.isValid());
+		assertEquals(invalidStudent.getInvalidStateInfo(), StudentData.ERROR_FIELD_COURSE);
+		
+		// FAIL : enroll line is null
+		line = null;
+		try {
+			invalidStudent = new StudentData(line, courseId);
+			fail();
+		} catch (AssertionError ae) {
+			assertEquals(ae.getMessage(), StudentData.ERROR_ENROLL_LINE_NULL);
+		}
+		
+		// FAIL : enroll line is empty
+		line = "";
+		try {
+			invalidStudent = new StudentData(line, courseId);
+			fail();
+		} catch (InvalidParametersException ipe) {
+			assertEquals(ipe.getMessage(), StudentData.ERROR_ENROLL_LINE_EMPTY);
+		}
+		
+		// FAIL : too few inputs in enroll line
+		line = "a";
+		try {
+			invalidStudent = new StudentData(line, courseId);
+			fail();
+		} catch (InvalidParametersException ipe) {
+			assertEquals(ipe.getMessage(), StudentData.ERROR_ENROLL_LINE_TOOFEWPARTS);
+		}
+		
+		// FAIL : too few inputs in enroll line
+		line = "a|b";
+		try {
+			invalidStudent = new StudentData(line, courseId);
+			fail();
+		} catch (InvalidParametersException ipe) {
+			assertEquals(ipe.getMessage(), StudentData.ERROR_ENROLL_LINE_TOOFEWPARTS);
+		}
+		
+		// FAIL : too many inputs in enroll line
+		line = "p1|p2|p3|p4|p5";
+		try {
+			invalidStudent = new StudentData(line, courseId);
+			fail();
+		} catch (InvalidParametersException ipe) {
+			assertEquals(ipe.getMessage(), StudentData.ERROR_ENROLL_LINE_TOOMANYPARTS);
+		}
 
-		// wrong number of parameters in the line
-		verifyExceptionForStudentCreation("only one parameters", "a",
-				"anyCoursId", Common.ERRORCODE_INCORRECTLY_FORMATTED_STRING);
-		verifyExceptionForStudentCreation("only two parameters", "a|b",
-				"anyCoursId", Common.ERRORCODE_INCORRECTLY_FORMATTED_STRING);
-		verifyExceptionForStudentCreation("more than 4 parameters",
-				"p1|p2|p3|p4|p5", "anyCoursId",
-				Common.ERRORCODE_INCORRECTLY_FORMATTED_STRING);
+		// FAIL : empty name
+		line = "t1| |e@e.com|c";
+		invalidStudent = new StudentData(line, courseId);
+		assertFalse(invalidStudent.isValid());
+		assertEquals(invalidStudent.getInvalidStateInfo(), StudentData.ERROR_FIELD_NAME);
+		
+		// FAIL : empty email
+		line = "t1|n||c";
+		invalidStudent = new StudentData(line, courseId);
+		assertFalse(invalidStudent.isValid());
+		assertEquals(invalidStudent.getInvalidStateInfo(), StudentData.ERROR_FIELD_EMAIL);
 
-		// empty values for compulsory attributes in the line
-		verifyExceptionForStudentCreation("empty name", "t1|  |e@e.com|c",
-				"anyCoursId", Common.ERRORCODE_EMPTY_STRING);
-		verifyExceptionForStudentCreation("empty email", "t1|n||c",
-				"anyCoursId", Common.ERRORCODE_EMPTY_STRING);
-
-		// invalid values for attributes in the line
-		String longTeamName = Common
-				.generateStringOfLength(Common.TEAM_NAME_MAX_LENGTH + 1);
-		verifyExceptionForStudentCreation("invalid team name [too long]",
-				longTeamName + "|name|e@e.com|c", "anyCoursId",
-				Common.ERRORCODE_STRING_TOO_LONG);
-		String longStudentName = Common
-				.generateStringOfLength(Common.STUDENT_NAME_MAX_LENGTH + 1);
-		verifyExceptionForStudentCreation("invalid student name [too long]",
-				"t1|" + longStudentName + "|e@e.com|c", "anyCoursId",
-				Common.ERRORCODE_STRING_TOO_LONG);
-		verifyExceptionForStudentCreation("invalid email [no '@']",
-				"t1|n|ee.com|c", "anyCoursId", Common.ERRORCODE_INVALID_EMAIL);
-		String longComment = Common
-				.generateStringOfLength(Common.COMMENT_MAX_LENGTH + 1);
-		verifyExceptionForStudentCreation("invalid comment [too long]",
-				"t|name|e@e.com|" + longComment, "anyCoursId",
-				Common.ERRORCODE_STRING_TOO_LONG);
+		// FAIL : team name too long
+		String longTeamName = Common.generateStringOfLength(StudentData.TEAM_NAME_MAX_LENGTH + 1);
+		line = longTeamName + "|name|e@e.com|c";
+		invalidStudent = new StudentData(line, courseId);
+		assertFalse(invalidStudent.isValid());
+		assertEquals(invalidStudent.getInvalidStateInfo(), StudentData.ERROR_TEAMNAME_TOOLONG);
+		
+		// FAIL : student name too long
+		String longStudentName = Common.generateStringOfLength(StudentData.STUDENT_NAME_MAX_LENGTH + 1);
+		line = "t1|" + longStudentName + "|e@e.com|c";
+		invalidStudent = new StudentData(line, courseId);
+		assertFalse(invalidStudent.isValid());
+		assertEquals(invalidStudent.getInvalidStateInfo(), StudentData.ERROR_NAME_TOOLONG);
+		
+		// FAIL : invalid email
+		line = "t1|name|ee.com|c";
+		invalidStudent = new StudentData(line, courseId);
+		assertFalse(invalidStudent.isValid());
+		assertEquals(invalidStudent.getInvalidStateInfo(), StudentData.ERROR_FIELD_EMAIL);
+		
+		// FAIL : comment too long
+		String longComment = Common.generateStringOfLength(StudentData.COMMENTS_MAX_LENGTH + 1);
+		line = "t1|name|e@e.com|" + longComment;
+		invalidStudent = new StudentData(line, courseId);
+		assertFalse(invalidStudent.isValid());
+		assertEquals(invalidStudent.getInvalidStateInfo(), StudentData.ERROR_COMMENTS_TOOLONG);
 
 		// Other invalid parameters cases are omitted because they are already
 		// unit-tested in validate*() methods in Common.java
@@ -135,20 +187,8 @@ public class StudentTest extends BaseTestCase {
 	
 	private Student generateTypicalStudentObject() {
 		Student expected = new Student("email@email.com", "name 1",
-				"googleId 1", "comment 1", "courseId1", "team 1");
+				"googleId.1", "comment 1", "courseId1", "team 1");
 		return expected;
-	}
-
-	private void verifyExceptionForStudentCreation(String testCaseDesc,
-			String line, String courseId, String errorCode) {
-		try {
-			StudentData invalidStudent = new StudentData(line, courseId);
-			invalidStudent.toEntity();
-			Assert.fail("Did not throw exception for " + testCaseDesc);
-		} catch (InvalidParametersException e) {
-			assertEquals("Wrong error code for " + testCaseDesc, errorCode,
-					e.errorCode);
-		}
 	}
 
 	private void verifyStudentContent(Student expected, Student actual) {

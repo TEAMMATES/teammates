@@ -20,6 +20,9 @@ import teammates.common.exception.EntityAlreadyExistsException;
  */
 public class SubmissionsDb {
 
+	public static final String ERROR_CREATE_SUBMISSION_ALREADY_EXISTS = "Trying to create a Submission that exists: ";
+	public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Submission: ";
+	
 	private static final Logger log = Common.getLogger();
 
 	private PersistenceManager getPM() {
@@ -33,13 +36,14 @@ public class SubmissionsDb {
 	 * 
 	 */
 	public void createSubmission(SubmissionData submissionToAdd) throws EntityAlreadyExistsException {
-
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, submissionToAdd);
+		
 		Assumption.assertTrue(submissionToAdd.getInvalidStateInfo(), submissionToAdd.isValid());
 		
 		if (getSubmissionEntity(submissionToAdd.course,
 				submissionToAdd.evaluation, submissionToAdd.reviewee,
 				submissionToAdd.reviewer) != null) {
-			String error = "Trying to create a Submission that exists: "
+			String error = ERROR_CREATE_SUBMISSION_ALREADY_EXISTS
 					+ "course: " + submissionToAdd.course + ", evaluation: "
 					+ submissionToAdd.evaluation + ", toStudent: "
 					+ submissionToAdd.reviewee + ", fromStudent: "
@@ -91,6 +95,7 @@ public class SubmissionsDb {
 	 * 
 	 */
 	public void createListOfSubmissions(List<SubmissionData> newList) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newList);
 		
 		List<Submission> newEntityList = new ArrayList<Submission>();
 		
@@ -131,6 +136,10 @@ public class SubmissionsDb {
 	 */
 	public SubmissionData getSubmission(String courseId, String evaluationName,
 			String toStudent, String fromStudent) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, toStudent);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, fromStudent);
 
 		Submission s = getSubmissionEntity(courseId, evaluationName, toStudent,
 				fromStudent);
@@ -156,6 +165,8 @@ public class SubmissionsDb {
 	 * @return the submissions pertaining to the specified course
 	 */
 	public List<SubmissionData> getSubmissionsForCourse(String courseId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		
 		String query = "select from " + Submission.class.getName()
 				+ " where courseID == '" + courseId + "'";
 
@@ -179,7 +190,7 @@ public class SubmissionsDb {
 	 * 
 	 * Returns the Submissions from an Evaluation object.
 	 * 
-	 * @param courseID
+	 * @param courseId
 	 *            the course ID (Pre-condition: The courseID and evaluationName
 	 *            pair must be valid)
 	 * 
@@ -189,11 +200,13 @@ public class SubmissionsDb {
 	 * 
 	 * @return List<SubmissionData>
 	 */
-	public List<SubmissionData> getSubmissionsForEvaluation(String courseID,
+	public List<SubmissionData> getSubmissionsForEvaluation(String courseId,
 			String evaluationName) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
 
 		String query = "select from " + Submission.class.getName()
-				+ " where courseID == '" + courseID
+				+ " where courseID == '" + courseId
 				+ "' && evaluationName == '" + evaluationName + "'";
 
 		@SuppressWarnings("unchecked")
@@ -215,7 +228,7 @@ public class SubmissionsDb {
 	 * 
 	 * Returns the Submissions of an Evaluation directed at a Student.
 	 * 
-	 * @param courseID
+	 * @param courseId
 	 *            the course ID (Pre-condition: The parameters must be valid)
 	 * 
 	 * @param evaluationName
@@ -229,11 +242,15 @@ public class SubmissionsDb {
 	 * @return the submissions to the target student
 	 */
 	public List<SubmissionData> getSubmissionsFromEvaluationToStudent(
-			String courseID, String evaluationName, String toStudent) {
+			String courseId, String evaluationName, String revieweeEmail) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, revieweeEmail);
+		
 		String query = "select from " + Submission.class.getName()
-				+ " where courseID == '" + courseID
+				+ " where courseID == '" + courseId
 				+ "' && evaluationName == '" + evaluationName
-				+ "' && toStudent == '" + toStudent + "'";
+				+ "' && toStudent == '" + revieweeEmail + "'";
 
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
@@ -251,7 +268,7 @@ public class SubmissionsDb {
 	/**
 	 * Returns the Submission of an Evaluation from a specific Student.
 	 * 
-	 * @param courseID
+	 * @param courseId
 	 *            the course ID (Pre-condition: The parameters must be valid)
 	 * 
 	 * @param evaluationName
@@ -266,10 +283,13 @@ public class SubmissionsDb {
 	 *         specified evaluation
 	 */
 	public List<SubmissionData> getSubmissionsFromEvaluationFromStudent(
-			String courseID, String evaluationName, String reviewerEmail) {
+			String courseId, String evaluationName, String reviewerEmail) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, reviewerEmail);
 
 		String query = "select from " + Submission.class.getName()
-				+ " where courseID == '" + courseID
+				+ " where courseID == '" + courseId
 				+ "' && evaluationName == '" + evaluationName
 				+ "' && fromStudent == '" + reviewerEmail + "'";
 
@@ -305,6 +325,9 @@ public class SubmissionsDb {
 	 */
 	public void editStudentEmailForSubmissionsInCourse(String courseId,
 			String email, String newEmail) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, email);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newEmail);
 
 		String query = "select from " + Submission.class.getName()
 				+ " where courseID == '" + courseId + "'";
@@ -337,11 +360,12 @@ public class SubmissionsDb {
 	 * 
 	 */
 	public void editSubmission(SubmissionData sd) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, sd);
 
 		Submission submission = getSubmissionEntity(sd.course, sd.evaluation,
 				sd.reviewee, sd.reviewer);
 
-		Assumption.assertNotNull("Trying to update non-existent Submission: " + sd.course
+		Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT + sd.course
 					+ "/" + sd.evaluation + "| from " + sd.reviewer + " to "
 					+ sd.reviewee + Common.getCurrentThreadStack(), submission);
 
@@ -366,6 +390,7 @@ public class SubmissionsDb {
 	 * 
 	 */
 	public void editSubmissions(List<SubmissionData> submissionDataList) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, submissionDataList);
 
 		for (SubmissionData sd : submissionDataList) {
 			editSubmission(sd);
@@ -386,6 +411,8 @@ public class SubmissionsDb {
 	 * 
 	 */
 	public void deleteAllSubmissionsForCourse(String courseId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		
 		String query = "select from " + Submission.class.getName()
 				+ " where courseID == '" + courseId + "'";
 
@@ -410,6 +437,9 @@ public class SubmissionsDb {
 	 */
 	public void deleteAllSubmissionsForEvaluation(String courseId,
 			String evaluationName) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
+		
 		String query = "select from " + Submission.class.getName()
 				+ " where courseID == '" + courseId
 				+ "' && evaluationName == '" + evaluationName + "'";
@@ -436,6 +466,9 @@ public class SubmissionsDb {
 	 */
 	public void deleteAllSubmissionsForStudent(String courseId,
 			String studentEmail) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, studentEmail);
+		
 		String query1 = "select from " + Submission.class.getName()
 				+ " where courseID == '" + courseId + "' && toStudent=='"
 				+ studentEmail + "'";
@@ -474,6 +507,10 @@ public class SubmissionsDb {
 	 */
 	public void deleteSubmissionsForOutgoingMember(String courseId,
 			String evaluationName, String studentEmail, String originalTeam) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, studentEmail);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, originalTeam);
 
 		// Google App Engine prevents OR filter on multiple properties
 		// Only alternative -> split the query. (zzzz)

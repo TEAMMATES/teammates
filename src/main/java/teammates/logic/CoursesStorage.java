@@ -1,4 +1,4 @@
-package teammates.storage.api;
+package teammates.logic;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,6 +11,8 @@ import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.StudentData;
+import teammates.storage.api.AccountsDb;
+import teammates.storage.api.CoursesDb;
 
 /**
  * Courses handles all operations related to a Teammates course. This is a
