@@ -22,9 +22,9 @@ import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.EvaluationData.EvalStatus;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
+import teammates.logic.EvaluationsStorage;
 import teammates.logic.automated.EvaluationOpeningRemindersServlet;
 import teammates.logic.backdoor.BackDoorLogic;
-import teammates.storage.api.EvaluationsStorage;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Submission;
 

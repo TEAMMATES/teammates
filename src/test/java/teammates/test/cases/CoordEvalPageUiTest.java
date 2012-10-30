@@ -67,7 +67,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		
 		______TS("no courses");
 		
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalEmptyAll.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalEmptyAll.html");
 		
 		______TS("no evaluations");
 		BackDoor.createCourse(scn.courses.get("course"));
@@ -78,7 +78,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		BackDoor.createStudent(scn.students.get("danny.tmms@CEvalUiT.CS1101"));
 		bi.clickEvaluationTab();
 		
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalEmptyEval.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalEmptyEval.html");
 		
 		BackDoor.createEvaluation(scn.evaluations.get("openEval"));
 		BackDoor.createEvaluation(scn.evaluations.get("publishedEval"));
@@ -87,17 +87,17 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 
 		______TS("typical view, sort by deadline");
 		
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalByDeadline.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalByDeadline.html");
 
 		______TS("sort by name");
 		
 		bi.click(By.id("button_sortname"));
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalByName.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalByName.html");
 		
 		______TS("sort by course id");
 		
 		bi.click(By.id("button_sortcourseid"));
-		bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalById.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalById.html");
 	}
 
 	public void testCoordEvalUiPaths() throws Exception{
@@ -110,7 +110,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_ADDED);
 		String link = appUrl+Common.PAGE_COORD_EVAL;
 		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
-		bi.verifyCurrentPageHTMLRegexWithRetry(Common.TEST_PAGES_FOLDER+"/coordEvalAddSuccess.html",link);
+		bi.verifyCurrentPageHTMLWithRetry(Common.TEST_PAGES_FOLDER+"/coordEvalAddSuccess.html",link);
 
 		______TS("client-side input validation");
 		
@@ -275,7 +275,7 @@ public class CoordEvalPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndConfirm(deleteLinkLocator);
 			// Regex test due to the date in the evaluation form
-			bi.verifyCurrentPageHTMLRegex(Common.TEST_PAGES_FOLDER+"/coordEvalDeleteSuccessful.html");
+			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalDeleteSuccessful.html");
 		} catch (NoAlertException e){
 			fail("Delete link not clickable or it is clickable but no confirmation box");
 		}

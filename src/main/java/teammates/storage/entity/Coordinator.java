@@ -1,15 +1,52 @@
 package teammates.storage.entity;
 
 import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 
 /**
  * Coordinator is a persistent data class that holds information pertaining to a
  * coordinator on Teammates. 
  */
 @PersistenceCapable
-public class Coordinator extends Account {
+public class Coordinator {
+	@PrimaryKey
+	@Persistent
+	private String googleID;
+
+	@Persistent
+	private String name;
+
+	@Persistent
+	private String email;
 	
-	public Coordinator(String googleID, String name, String email) {
-		super(googleID, name, email);
+	public Coordinator(String googleId, String name, String email) {
+		this.googleID = googleId;
+		this.name = name;
+		this.email = email;
+	}
+	
+	public void setGoogleID(String googleID) {
+		this.googleID = googleID.trim();
+	}
+
+	public String getGoogleID() {
+		return googleID;
+	}
+
+	public void setName(String name) {
+		this.name = name.trim();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setEmail(String email) {
+		this.email = email.trim();
+	}
+
+	public String getEmail() {
+		return email;
 	}
 }

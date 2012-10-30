@@ -41,3 +41,4 @@ src/main/webapp/WEB-INF/classes/CoordinatorJsTest.js
 src/main/webapp/WEB-INF/classes/MockHttpRequest.js
 src/main/webapp/WEB-INF/classes/StudentJsTest.js
 src/main/webapp/WEB-INF/classes/qunit.css
+src/main/webapp/WEB-INF/classes/CoordinatorSampleData.json
