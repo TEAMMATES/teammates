@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.UserData;
+import teammates.common.datatransfer.UserType;
 import teammates.logic.api.Logic;
 
 @SuppressWarnings("serial")
@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
 	public final void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException{
 		Logic server = new Logic();
-		UserData user = server.getLoggedInUser();
+		UserType user = server.getLoggedInUser();
 		if(req.getParameter(Common.PARAM_LOGIN_COORD)!=null){
 			if(isMasqueradeMode(user)){
 				resp.sendRedirect(Common.PAGE_COORD_HOME);
@@ -54,7 +54,7 @@ public class LoginServlet extends HttpServlet {
 		}
 	}
 
-	private boolean isMasqueradeMode(UserData user) {
+	private boolean isMasqueradeMode(UserType user) {
 		return user!=null;
 	}
 }

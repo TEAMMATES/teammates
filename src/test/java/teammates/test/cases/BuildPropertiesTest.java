@@ -11,6 +11,7 @@ public class BuildPropertiesTest extends BaseTestCase {
 	@Test
 	public void checkPresence() {
 		assertTrue(null != Common.TEAMMATES_APP_URL);
+		assertTrue(Common.PERSISTENCE_CHECK_DURATION > 0);
 	}
 
 	@Test

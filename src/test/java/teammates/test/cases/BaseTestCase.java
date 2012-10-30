@@ -25,7 +25,7 @@ import teammates.common.Common;
 import teammates.common.datatransfer.CoordData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.UserData;
+import teammates.common.datatransfer.UserType;
 import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
 
@@ -253,7 +253,7 @@ public class BaseTestCase {
 
 		BackDoorLogic backDoorLogic = new BackDoorLogic();
 		// memorize the logged in user
-		UserData loggedInUser = backDoorLogic.getLoggedInUser();
+		UserType loggedInUser = backDoorLogic.getLoggedInUser();
 
 		// switch to admin (writing operations require admin access)
 		loginAsAdmin("admin.user");

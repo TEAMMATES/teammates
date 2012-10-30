@@ -1,0 +1,17 @@
+#adminManagement {
+	margin-top: 20px;
+}
+
+#addform {
+	width: 500px; 
+	height: 190px;
+	margin: 0 auto;
+}
+
+.addinput {
+	width: 450px;
+}
+
+#btnAddCoord {
+	margin-left: 200px;
+}

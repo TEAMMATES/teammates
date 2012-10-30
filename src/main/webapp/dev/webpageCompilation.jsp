@@ -13,6 +13,31 @@
 	</head>
 	<body id="compilation">
 		<div id="dhtmltooltip"></div>
+		<div>
+			<ul id="nav">
+				<li><a href="#coordHomePage">Coordinator Home Page</a></li>
+				<li><a href="#coordAddCoursePage">Coordinator Add Course Page</a></li>
+				<li><a href="#coordEnrollPage">Coordinator Enroll Students Page</a></li>
+				<li><a href="#coordCourseDetailsPage">Coordinator Course Details Page</a></li>
+				<li><a href="#coordCourseStudentDetailsPage">Coordinator Student Details Page</a></li>
+				<li><a href="#coordCourseStudentEditPage">Coordinator Student Edit Page</a></li>
+				<li><a href="#coordCourseEvalPage">Coordinator Eval Page</a></li>
+				<li><a href="#coordCourseEvalEditPage">Coordinator Eval Edit Page</a></li>
+			    <li><a href="#coordCourseEvalResultsPage1">Coordinator Eval Results Page (coordinatorEvaluationSummaryTable)</a></li>
+				<li><a href="#coordCourseEvalResultsPage2">Coordinator Eval Results Page (coordinatorEvaluationDetailedReviewerTable)</a></li>
+				<li><a href="#coordCourseEvalResultsPage3">Coordinator Eval Results Page (coordinatorEvaluationDetailedRevieweeTable)</a></li>
+				<li><a href="#coordCourseEvalSubmissionViewPage">Coordinator Eval Submission View Page</a></li>
+				<li><a href="#coordCourseEvalSubmissionEditPage">Coordinator Eval Submission Edit Page</a></li>
+				<hr>
+				<li><a href="#studentHomePage">Student Home Page</a></li>
+				<li><a href="#studentCourseDetailsPage">Student Course Details Page</a></li>
+				<li><a href="#studentEvalEditPage">Student Eval Edit Page</a></li>
+				<li><a href="#studentEvalResultsPage">Student Eval Results Page</a></li>
+				<hr>
+				<li><a href="#adminPage">Admin Page</a></li>
+				
+			</ul>
+		</div>
 		<div class="pageinfo">Coordinator Home Page</div>
 		<div id="coordHomePage" class="wrapper"></div>
 		

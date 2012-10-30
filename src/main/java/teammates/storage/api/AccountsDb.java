@@ -28,6 +28,10 @@ import com.google.appengine.api.datastore.Text;
  */
 public class AccountsDb {
 
+	public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Student: ";
+	public static final String ERROR_CREATE_COORD_ALREADY_EXISTS = "Trying to create a Coordinatior that exists: ";
+	public static final String ERROR_CREATE_STUDENT_ALREADY_EXISTS = "Trying to create a Student that exists: ";
+	
 	private static final Logger log = Common.getLogger();
 
 	private PersistenceManager getPM() {
@@ -44,12 +48,13 @@ public class AccountsDb {
 	 */
 	public void createCoord(CoordData coordToAdd)
 			throws EntityAlreadyExistsException {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, coordToAdd);
 
 		Assumption.assertTrue(coordToAdd.getInvalidStateInfo(),
 				coordToAdd.isValid());
 
 		if (getCoordEntity(coordToAdd.id) != null) {
-			String error = "Trying to create a Coordinatior that exists: "
+			String error = ERROR_CREATE_COORD_ALREADY_EXISTS
 					+ coordToAdd;
 
 			log.warning(error + "\n" + Common.getCurrentThreadStack());
@@ -86,12 +91,13 @@ public class AccountsDb {
 	 */
 	public void createStudent(StudentData studentToAdd)
 			throws EntityAlreadyExistsException {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, studentToAdd);
 
 		Assumption.assertTrue(studentToAdd.getInvalidStateInfo(),
 				studentToAdd.isValid());
 		
 		if (getStudentEntity(studentToAdd.course, studentToAdd.email) != null) {
-			String error = "Trying to create a Student that exists: "
+			String error = ERROR_CREATE_STUDENT_ALREADY_EXISTS
 					+ studentToAdd.course + "/" + studentToAdd.email;
 
 			log.warning(error + "\n" + Common.getCurrentThreadStack());
@@ -131,6 +137,8 @@ public class AccountsDb {
 	 * @return boolean
 	 */
 	public boolean isCoord(String googleId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
+		
 		Coordinator c = getCoordEntity(googleId);
 		return c != null;
 	}
@@ -149,6 +157,9 @@ public class AccountsDb {
 	 * @return boolean
 	 */
 	public boolean isStudentExists(String courseId, String email) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, email);
+		
 		Student s = getStudentEntity(courseId, email);
 		return s != null;
 	}
@@ -165,6 +176,7 @@ public class AccountsDb {
 	 *         null if not found
 	 */
 	public CoordData getCoord(String googleId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
 
 		Coordinator c = getCoordEntity(googleId);
 
@@ -190,6 +202,8 @@ public class AccountsDb {
 	 * @return the StudentData of Student with the courseId and email
 	 */
 	public StudentData getStudent(String courseId, String email) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, email);
 
 		Student s = getStudentEntity(courseId, email);
 
@@ -212,6 +226,8 @@ public class AccountsDb {
 	 *         returned Students
 	 */
 	public List<StudentData> getStudentsWithGoogleId(String googleId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
+		
 		String query = "select from " + Student.class.getName()
 				+ " where ID == \"" + googleId + "\"";
 
@@ -234,14 +250,16 @@ public class AccountsDb {
 	 * 
 	 * Returns a list of Student objects that matches the specified courseID.
 	 * 
-	 * @param courseID
+	 * @param courseId
 	 *            the course ID (Precondition: Must not be null)
 	 * 
 	 * @return List<Student> the list of students that are in the course
 	 */
-	public List<StudentData> getStudentListForCourse(String courseID) {
+	public List<StudentData> getStudentListForCourse(String courseId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		
 		String query = "select from " + Student.class.getName()
-				+ " where courseID == \'" + courseID + "\'";
+				+ " where courseID == \'" + courseId + "\'";
 
 		@SuppressWarnings("unchecked")
 		List<Student> studentList = (List<Student>) getPM().newQuery(query)
@@ -264,15 +282,17 @@ public class AccountsDb {
 	 * Returns a list of Student objects that matches the specified courseID and
 	 * which do not have a Google ID associated with it
 	 * 
-	 * @param courseID
+	 * @param courseId
 	 *            the course ID (Precondition: Must not be null)
 	 * 
 	 * @return List<StudentData> the list of unregistered students that are in
 	 *         the course
 	 */
-	public List<StudentData> getUnregisteredStudentListForCourse(String courseID) {
+	public List<StudentData> getUnregisteredStudentListForCourse(String courseId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		
 		String query = "select from " + Student.class.getName()
-				+ " where courseID == \"" + courseID + "\"" + " && ID == \"\"";
+				+ " where courseID == \"" + courseId + "\"" + " && ID == \"\"";
 
 		@SuppressWarnings("unchecked")
 		List<Student> studentList = (List<Student>) getPM().newQuery(query)
@@ -359,12 +379,13 @@ public class AccountsDb {
 	public void editStudent(String courseId, String email, String newName,
 			String newTeamName, String newEmail, String newGoogleID,
 			String newComments, Text newProfile) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, email);
 
 		Student student = getStudentEntity(courseId, email);
 
-		Assumption.assertNotNull("Trying to update non-existent Student: "
-				+ courseId + "/ + email " + Common.getCurrentThreadStack(),
-				student);
+		Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT + courseId
+				+ "/ + email " + Common.getCurrentThreadStack(), student);
 
 		student.setEmail(newEmail);
 		if (newName != null) {
@@ -393,6 +414,7 @@ public class AccountsDb {
 	 * @param coordId
 	 */
 	public void deleteCoord(String coordId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, coordId);
 
 		Coordinator coordToDelete = getCoordEntity(coordId);
 
@@ -428,6 +450,7 @@ public class AccountsDb {
 	 *            the course Id (Precondition: Must not be null)
 	 */
 	public void deleteAllStudentsInCourse(String courseId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 
 		String query = "select from " + Student.class.getName()
 				+ " where courseID == \'" + courseId + "\'";
@@ -456,6 +479,8 @@ public class AccountsDb {
 	 * 
 	 */
 	public void deleteStudent(String courseId, String email) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, email);
 
 		Student studentToDelete = getStudentEntity(courseId, email);
 
@@ -551,31 +576,26 @@ public class AccountsDb {
 	/**
 	 * Returns the list of student entities
 	 */
-	private List<Student> getStudentEntities() {
+	@SuppressWarnings("unchecked")
+	private List<Student> getStudentEntities() { 
 		String query = "select from " + Student.class.getName();
-			
-
-		@SuppressWarnings("unchecked")
-		List<Student> studentList = (List<Student>) getPM()
-				.newQuery(query).execute();
- 	
-		return studentList;
+		return (List<Student>) getPM().newQuery(query).execute();
 	}
 
-	
 	/**
-	 * Returns the list of all students
+	 * @return the list of all students
 	 */
-	public List<StudentData> getStudents() {
+	public List<StudentData> getStudents() { 
 		List<StudentData> list = new LinkedList<StudentData>();
 		List<Student> entities = getStudentEntities();
 		Iterator<Student> it = entities.iterator();
 		while(it.hasNext()) {
 			list.add(new StudentData(it.next()));
 		}
-		
 		return list;
 	}
+	
+	
 	/**
 	 * Returns the list of coordinator entities
 	 */
