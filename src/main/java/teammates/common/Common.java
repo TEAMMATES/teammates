@@ -226,6 +226,7 @@ public class Common {
 
 	public static final String PAGE_ADMIN_HOME = "/page/adminHome";
 	public static final String PAGE_ADMIN_ACTIVITY_LOG = "/page/adminActivityLog";
+	public static final String PAGE_ADMIN_SEARCH = "/page/adminSearch";
 	public static final String PAGE_LOGIN = "/login";
 
 	/*
@@ -257,6 +258,7 @@ public class Common {
 
 	public static final String JSP_COORD_HEADER = "/jsp/coordHeader.jsp"; // Done
 	public static final String JSP_STUDENT_HEADER = "/jsp/studentHeader.jsp"; // Done
+	public static final String JSP_ADMIN_HEADER = "/jsp/adminHeader.jsp"; // Done
 	public static final String JSP_FOOTER = "/jsp/footer.jsp"; // Done
 	public static final String JSP_STATUS_MESSAGE = "/jsp/statusMessage.jsp"; // Done
 	public static final String JSP_EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp"; // Done
