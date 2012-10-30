@@ -1,4 +1,4 @@
-package teammates.storage.api;
+package teammates.logic;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -12,6 +12,9 @@ import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.storage.api.AccountsDb;
+import teammates.storage.api.EvaluationsDb;
+import teammates.storage.api.SubmissionsDb;
 
 public class EvaluationsStorage {
 	private static EvaluationsStorage instance = null;

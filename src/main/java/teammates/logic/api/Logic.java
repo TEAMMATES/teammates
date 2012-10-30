@@ -28,11 +28,11 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.logic.AccountsStorage;
+import teammates.logic.CoursesStorage;
 import teammates.logic.Emails;
+import teammates.logic.EvaluationsStorage;
 import teammates.logic.TeamEvalResult;
-import teammates.storage.api.AccountsStorage;
-import teammates.storage.api.CoursesStorage;
-import teammates.storage.api.EvaluationsStorage;
 
 import com.google.appengine.api.datastore.Text; //TODO: remove this dependency
 import com.google.appengine.api.users.User;
