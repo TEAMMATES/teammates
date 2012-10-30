@@ -7,6 +7,11 @@
 	width: 500px;
 }
 
+.inputTable .label {
+	vertical-align: top;
+
+}
+
 .inputTable .reportHeader {
 	font-weight: bold;
 	padding-bottom: 5px;

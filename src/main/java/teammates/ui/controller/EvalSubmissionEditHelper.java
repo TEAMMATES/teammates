@@ -13,6 +13,25 @@ public class EvalSubmissionEditHelper extends Helper {
 	public List<SubmissionData> submissions;
 	
 	/**
+	 * Returns the p2p comments depending whether it is for self or others, and
+	 * if the comments is empty
+	 * @param sub
+	 * @return
+	 */
+	public String getP2PComments(SubmissionData sub) {
+		String commentsString = EvalSubmissionEditHelper.escapeForHTML(sub.p2pFeedback.getValue());
+		if (commentsString.trim().equals("")){
+			if(sub.reviewee.equals(sub.reviewer)) {
+				return "";
+			} else {
+				return "What I appreciate about you as a team member:\n\nAreas you can improve further:\n\nOther comments";
+			}
+		} else {
+			return commentsString;
+		}
+	 		
+	}
+	/**
 	 * Returns the section title of evaluation depending on whether it is
 	 * an evaluation submission for self or for others.
 	 * @param sub
