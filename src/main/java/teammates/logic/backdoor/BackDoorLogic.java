@@ -25,7 +25,7 @@ import teammates.logic.Emails;
 import teammates.logic.EvaluationsStorage;
 import teammates.logic.api.Logic;
 
-public class BackDoorLogic extends Logic{
+public class BackDoorLogic extends Logic {
 	
 	private static Logger log = Common.getLogger();
 	
@@ -201,5 +201,5 @@ public class BackDoorLogic extends Logic{
 	public void editEvaluation(EvaluationData evaluation) throws InvalidParametersException, EntityDoesNotExistException{
 		EvaluationsStorage.inst().getEvaluationsDb().editEvaluation(evaluation);
 	}
-
+	
 }
