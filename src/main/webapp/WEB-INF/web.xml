@@ -76,15 +76,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <url-pattern>/page/adminHome</url-pattern>
 	</servlet-mapping>
 	<servlet>
-	
-	<servlet>
-	    	<servlet-name>AdminExceptionTest</servlet-name>
-	    	<servlet-class>teammates.ui.controller.AdminExceptionTestServlet</servlet-class>
+	    <servlet-name>AdminExceptionTest</servlet-name>
+	    <servlet-class>teammates.ui.controller.AdminExceptionTestServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>AdminExceptionTest</servlet-name>
 	    <url-pattern>/page/adminExceptionTest</url-pattern>
 	</servlet-mapping>
+	<servlet>
 		<servlet-name>AdminSearchTask</servlet-name>
 		<servlet-class>teammates.ui.controller.AdminSearchTaskServlet</servlet-class>
 	</servlet>
