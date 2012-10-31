@@ -16,6 +16,8 @@ import teammates.common.exception.EntityAlreadyExistsException;
 
 public class CoursesDb {
 
+	public static final String ERROR_CREATE_COURSE_ALREADY_EXISTS = "Trying to create a Course that exists: ";
+	
 	private static final Logger log = Common.getLogger();
 
 	private PersistenceManager getPM() {
@@ -30,13 +32,14 @@ public class CoursesDb {
 	 */
 	public void createCourse(CourseData courseToAdd)
 			throws EntityAlreadyExistsException {
-
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseToAdd);
+		
 		Assumption.assertTrue(courseToAdd.getInvalidStateInfo(),
 				courseToAdd.isValid());
 		
 		// Check if entity already exists
 		if (getCourseEntity(courseToAdd.id) != null) {
-			String error = "Trying to create a Course that exists: "
+			String error = ERROR_CREATE_COURSE_ALREADY_EXISTS
 					+ courseToAdd.id;
 
 			log.warning(error + "\n" + Common.getCurrentThreadStack());
@@ -73,7 +76,8 @@ public class CoursesDb {
 	 * @return CourseData of the course that has the specified ID
 	 */
 	public CourseData getCourse(String courseId) {
-
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		
 		Course c = getCourseEntity(courseId);
 
 		if (c == null) {
@@ -97,6 +101,8 @@ public class CoursesDb {
 	 * @return List<Course> the list of courses of the coordinator
 	 */
 	public List<CourseData> getCourseListForCoordinator(String coordId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, coordId);
+		
 		String query = "select from " + Course.class.getName()
 				+ " where coordinatorID == '" + coordId + "'";
 
@@ -121,6 +127,7 @@ public class CoursesDb {
 	 *            the course ID (Precondition: Must not be null)
 	 */
 	public void deleteCourse(String courseId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 
 		Course courseToDelete = getCourseEntity(courseId);
 

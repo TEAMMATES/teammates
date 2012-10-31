@@ -57,7 +57,7 @@
 									<td><textarea class = "textvalue"
 											rows="8" cols="100"
 											name="<%=Common.PARAM_COMMENTS%>"
-									 		id="<%=Common.PARAM_COMMENTS+idx%>"><%=EvalSubmissionEditHelper.escapeForHTML(sub.p2pFeedback.getValue())%></textarea>
+									 		id="<%=Common.PARAM_COMMENTS+idx%>"><%=helper.getP2PComments(sub)%></textarea>
 									</td>
 								<%	} else { %>
 									<td>

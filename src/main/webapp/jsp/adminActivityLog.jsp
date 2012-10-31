@@ -20,22 +20,9 @@
 
 <body>
 	<div id="dhtmltooltip"></div>
-
 	<div id="frameTop">
-		<div id="frameTopWrapper">
-			<div id="logo">
-				<img alt="Teammates" height="47"
-					src="/images/teammateslogo.jpg"
-					width="150" />
-			</div>
-			<div id="contentLinks">
-				<ul id="navbar">
-					<li><a class='t_logout' href="<%= Common.JSP_LOGOUT %>">Logout</a></li>
-				</ul>
-			</div>
-		</div>
+	<jsp:include page="<%= Common.JSP_ADMIN_HEADER %>" />
 	</div>
-
 	<div id="frameBody">
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>

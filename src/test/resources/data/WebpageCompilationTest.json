@@ -193,7 +193,7 @@
       "evaluation" : "First Eval",
       "points" : 90,
       "justification" : {"value" : "This is a justification from teammates.test@gmail.com to charlie.d.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from teammates.test@gmail.com to charlie.d.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :""},
       "team" : "Team 1"
     },
     "submissionFromCharlieToTeammatesTestFirstEval": {
@@ -223,7 +223,7 @@
       "evaluation" : "First Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to benny.c.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from charlie.d.tmms@gmail.com to benny.c.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :""},
       "team" : "Team 1"
     },
     "submissionFromAliceToDannyFirstEval": {

@@ -117,14 +117,14 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		String shortCourseId = Common.generateStringOfLength(Common.COURSE_ID_MAX_LENGTH);
 		String longCourseId = Common.generateStringOfLength(Common.COURSE_ID_MAX_LENGTH+1);
 		
-		String shortCourseName = Common.generateStringOfLength(Common.COURSE_NAME_MAX_LENGTH);
-		String longCourseName = Common.generateStringOfLength(Common.COURSE_NAME_MAX_LENGTH+1);
+		String shortCourseName = Common.generateStringOfLength(CourseData.COURSE_NAME_MAX_LENGTH);
+		String longCourseName = Common.generateStringOfLength(CourseData.COURSE_NAME_MAX_LENGTH+1);
 		
 		assertEquals(shortCourseId, bi.fillInCourseID(shortCourseId));
 		assertEquals(longCourseId.substring(0, Common.COURSE_ID_MAX_LENGTH), bi.fillInCourseID(longCourseId));
 		
 		assertEquals(shortCourseName, bi.fillInCourseName(shortCourseName));
-		assertEquals(longCourseName.substring(0, Common.COURSE_NAME_MAX_LENGTH), bi.fillInCourseName(longCourseName));
+		assertEquals(longCourseName.substring(0, CourseData.COURSE_NAME_MAX_LENGTH), bi.fillInCourseName(longCourseName));
 
 		______TS("testCoordaddCourseWithDuplicateIdFailed");
 		
