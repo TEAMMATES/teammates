@@ -9,16 +9,19 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServletRequest;
+
 import teammates.ui.controller.Helper;
 
+import com.google.appengine.api.utils.SystemProperty;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.appengine.api.utils.SystemProperty;
 
 /**
  * Class that stores variables and methods that are widely used across classes
@@ -225,6 +228,7 @@ public class Common {
 	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
 
 	public static final String PAGE_ADMIN_HOME = "/page/adminHome";
+	public static final String PAGE_ADMIN_EXCEPTION_TEST = "/page/adminExceptionTest";
 	public static final String PAGE_ADMIN_ACTIVITY_LOG = "/page/adminActivityLog";
 	public static final String PAGE_ADMIN_SEARCH = "/page/adminSearch";
 	public static final String PAGE_LOGIN = "/login";
@@ -380,11 +384,14 @@ public class Common {
 	/**
 	 * Email templates
 	 */
-	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_ = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailTemplate-evaluation_.html"));
-	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailTemplate-evaluationPublished.html"));
-	public static String STUDENT_EMAIL_TEMPLATE_COURSE_JOIN = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailTemplate-courseJoin.html"));
-	public static String STUDENT_EMAIL_FRAGMENT_COURSE_JOIN = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailFragment-courseJoin.html"));
-
+	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_ = readResourseFile("studentEmailTemplate-evaluation_.html");
+	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED = readResourseFile("studentEmailTemplate-evaluationPublished.html");
+	public static String STUDENT_EMAIL_TEMPLATE_COURSE_JOIN = readResourseFile("studentEmailTemplate-courseJoin.html");
+	public static String STUDENT_EMAIL_FRAGMENT_COURSE_JOIN = readResourseFile("studentEmailFragment-courseJoin.html");
+	public static String SYSTEM_ERROR_EMAIL_TEMPLATE = readResourseFile("systemErrorEmailTemplate.html");
+	
+	
+	
 	@SuppressWarnings("unused")
 	private void ____VALIDATE_parameters___________________________________() {
 	}
@@ -617,6 +624,11 @@ public class Common {
 	public static String readStream(InputStream stream) {
 		return BUILD_PROPERTIES.readStream(stream);
 	}
+	
+	public static String readResourseFile(String file) {
+		return readStream(BuildProperties.class.getClassLoader()
+				.getResourceAsStream(file));
+	}
 
 	public static boolean isWhiteSpace(String string) {
 		return string.trim().isEmpty();
@@ -676,6 +688,19 @@ public class Common {
 		return url;
 	}
 	
+	public static String printRequestParameters(HttpServletRequest request) {
+		String requestParameters = "{";
+		for (Enumeration f = request.getParameterNames(); f.hasMoreElements();) {
+			String paramet = new String(f.nextElement().toString());
+			requestParameters += paramet + ":" + request.getParameter(paramet) + ", ";
+		}
+		if (requestParameters != "{") {
+			requestParameters = requestParameters.substring(0, requestParameters.length() - 2);
+		}
+		requestParameters += "}";
+		return requestParameters;
+	}
+	
 	public static void waitBriefly() {
 		try {
 			Thread.sleep(WAIT_DURATION);
@@ -688,10 +713,11 @@ public class Common {
 	private void ____PRIVATE_helper_methods_________________________________() {
 	}
 
-	public static String stackTraceToString(Exception e) {
+	public static String stackTraceToString(Throwable e) {
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
 		return "\n" + sw.toString();
+		
 	}
 	
 	public static String getCurrentThreadStack() {
@@ -714,5 +740,7 @@ public class Common {
 		BACKDOOR_KEY = BUILD_PROPERTIES.getAppBackdoorKey();
 		PERSISTENCE_CHECK_DURATION = BUILD_PROPERTIES.getAppPersistenceCheckduration();
 	}
+	
+	
 
 }

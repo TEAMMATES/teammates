@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Assumption;
+import teammates.common.BuildProperties;
 import teammates.common.Common;
 import teammates.common.datatransfer.CoordData;
 import teammates.common.datatransfer.CourseData;
@@ -1659,6 +1661,27 @@ public class Logic {
 
 	private boolean isModificationToExistingStudent(StudentData student) {
 		return AccountsStorage.inst().isStudentExists(student.course, student.email);
+	}
+	
+	
+	
+	/**
+	 * This method sends run-time error message to system support email
+	 * @param req httpRequest that triggers the error
+	 * @param error the error object
+	 */
+	public MimeMessage emailErrorReport(String path, String params, Throwable error) {
+		Emails emailMgr = new Emails();
+		MimeMessage email = null ;
+		try {
+			email = emailMgr.generateSystemErrorEmail(error, path, params, BuildProperties.getAppVersion());
+			emailMgr.sendEmail(email);
+			log.severe("Sent crash report: " + Emails.getEmailInfo(email));
+		} catch (Exception e) {
+			log.severe("Error in sending crash report: " + (email==null? "":email.toString()));
+		}
+		
+		return email;
 	}
 
 }
