@@ -26,7 +26,7 @@
 		var doPageSpecificOnload = selectDefaultTimeOptions;
 	</script>
 	<%	} %>
-
+    <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
 <body>
