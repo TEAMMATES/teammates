@@ -1,7 +1,14 @@
 <noscript>
+<!--  
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.7.3/build/cssbase/cssbase-min.css">
+Reset CSS from Yahoo
+-->
 <style>
-/*Some styles for link*/
-#nav {
+/* remove display of original page*/
+#frameBody, #frameTop, #frameBottom{display:none;}
+
+/*Some styles for link, might need it as the css from common.css isn't that nice.
+ul #nav {
 	margin: 0;
 	padding: 0;
 }
@@ -13,15 +20,17 @@
 }
 
 #nav a:link,#nav a:visited {
-	color: #fff;
-	background: #666;
-	padding: 20px 40px 4px 10px;
+	color: #000;
+	padding: 10px;
+	background: #aaa;
 	text-decoration: none;
 }
 
 #nav a:hover {
 	background: #222;
+	color: #fff;
 }
+*/
 </style>
 
 	<div id="noscript-warning">
@@ -94,22 +103,24 @@
 				JavaScript in Safari.
 
 				<h3>PC</h3>
-				<ul>
+				<ol>
 					<li>In the Edit drop-down menu at the top of the window,
 						select Preferences...</li>
 					<li>Select the Security icon/tab at the top on the window.</li>
 					<li>Then, check the Enable JavaScript checkbox.</li>
 					<li>Close the window to save your changes.</li>
 					<li>Finally, Refresh your browser.</li>
-				</ul>
+				</ol>
 				<h3>MAC</h3>
-				<li>Select the Safari menu item from the Apple/System bar at
-					the top of the screen.</li>
-				<li>From the drop-down menu, select Preferences.</li>
-				<li>Select the Content icon/tab at the top of the window.</li>
-				<li>Then, check the Enable JavaScript checkbox.</li>
-				<li>Close the window to save your changes.</li>
-				<li>Finally, refresh your browser.</li>
+			    <ol>
+					<li>Select the Safari menu item from the Apple/System bar at
+						the top of the screen.</li>
+					<li>From the drop-down menu, select Preferences.</li>
+					<li>Select the Content icon/tab at the top of the window.</li>
+					<li>Then, check the Enable JavaScript checkbox.</li>
+					<li>Close the window to save your changes.</li>
+					<li>Finally, refresh your browser.</li>
+			   </ol>
 			</div>
 
 			<div id=opera>
@@ -118,7 +129,7 @@
 				JavaScript in Opera.
 
 				<h3>PC</h3>
-				<ul>
+				<ol>
 					<li>In the Tools drop-down menu at the top of the window,
 						select Preferences...</li>
 					<li>Select the Advanced tab at the top on the Preferences
@@ -128,9 +139,9 @@
 					<li>Then, check the Enable JavaScript checkbox.</li>
 					<li>Click OK to save your changes and close the Preferences
 						window. Finally, Refresh your browser.</li>
-				</ul>
+				</ol>
 				<h3>MAC</h3>
-				<ul>
+				<ol>
 					<li>Select the Safari menu item from the Apple/System bar at
 						the top of the screen.</li>
 					<li>From the drop-down menu, select Preferences.</li>
@@ -140,7 +151,7 @@
 					<li>Click OK to save your changes and close the Preferences
 						window.</li>
 					<li>Finally, refresh your browser.</li>
-				</ul>
+				</ol>
 			</div>
 
 			<div id=chrome>
@@ -149,7 +160,7 @@
 				JavaScript in Chrome.
 
 				<h3>PC</h3>
-				<ul>
+				<ol>
 					<li>Select Customize and control Google Chrome (wrench Icon)
 						to the right of the address bar.</li>
 					<li>From the drop-down menu, select Options Select the Under
@@ -161,9 +172,9 @@
 					<li>Select the Allow all sites to run JavaScript radio button.</li>
 					<li>Finally, close both preference windows, and refresh the
 						browser.</li>
-				</ul>
+				</ol>
 				<h3>MAC</h3>
-				<ul>
+				<ol>
 					<li>Select the Chrome menu item from the Apple/System bar at
 						the top of the screen.</li>
 					<li>From the drop-down menu, select Preferences...</li>
@@ -175,7 +186,7 @@
 					<li>Select the Allow all sites to run JavaScript radio button.</li>
 					<li>Finally, close both preference windows, and refresh the
 						browser.</li>
-				</ul>
+				</ol>
 			</div>
 		</div>
 		<p>
