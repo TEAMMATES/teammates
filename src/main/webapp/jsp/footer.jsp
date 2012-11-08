@@ -1,7 +1,7 @@
-<%@ page import="com.google.appengine.api.utils.SystemProperty"%>
+<%@ page import="teammates.common.BuildProperties"%>
 <div id="contentFooter">
 <% 
-String version = SystemProperty.applicationVersion.get().split("\\.")[0].replace("-", ".");
+String version = BuildProperties.getAppVersion();
 String footer = "[TEAMMATES Version "  + version + "] ";
 footer += "Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:";
 out.println(footer); 
