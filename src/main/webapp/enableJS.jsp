@@ -1,8 +1,4 @@
 <noscript>
-<!--  
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.7.3/build/cssbase/cssbase-min.css">
-Reset CSS from Yahoo
--->
 <style>
 /* remove display of original page*/
 #frameBody, #frameTop, #frameBottom{display:none;}
