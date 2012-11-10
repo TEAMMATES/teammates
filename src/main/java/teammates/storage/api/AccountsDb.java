@@ -339,7 +339,7 @@ public class AccountsDb {
 		} catch (Exception e) {
 			// No Student entry was found with this key
 			throw new JoinCourseException(Common.ERRORCODE_INVALID_KEY,
-					"Invalid key :" + registrationKey);
+					"You have entered an invalid key: " + registrationKey);
 		}
 
 		// If ID field is not empty -> check if this is user's googleId?
