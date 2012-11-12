@@ -24,7 +24,7 @@ public class EvalSubmissionEditHelper extends Helper {
 			if(sub.reviewee.equals(sub.reviewer)) {
 				return "";
 			} else {
-				return "What I appreciate about you as a team member:\n\nAreas you can improve further:\n\nOther comments";
+				return "<<What I appreciate about you as a team member>>:\n\n<<Areas you can improve further>>:\n\n<<Other comments>>:";
 			}
 		} else {
 			return commentsString;
