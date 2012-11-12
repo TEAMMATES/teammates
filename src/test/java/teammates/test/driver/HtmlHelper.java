@@ -47,7 +47,11 @@ public class HtmlHelper {
 		
 		StringBuilder annotatedHtml= new StringBuilder();
 		boolean isLogicalMatch = compare(page1, page2, "  ", annotatedHtml);
-		assertTrue(annotatedHtml.toString(), isLogicalMatch);
+		if(!isLogicalMatch){
+			//If they are not a logical match, we force a literal comparison
+			//   just so that JUnit gives us a side-by-side comparison.
+			assertEquals(annotatedHtml.toString(), html1, html2);
+		}
 		return isLogicalMatch;
 	}
 		

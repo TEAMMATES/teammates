@@ -12,6 +12,7 @@
 
 	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="/js/tooltip.js"></script>
+	<jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
 <body>
