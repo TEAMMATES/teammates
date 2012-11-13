@@ -15,15 +15,17 @@ import teammates.common.datatransfer.SubmissionData;
 import teammates.test.driver.BackDoor;
 
 /**
- * This script import a large data bundle to the appengine. The target of the script is the app with
- * appID in the test.properties file.
+ * Usage: This script imports a large data bundle to the appengine. The target of the script is the app with
+ * appID in the test.properties file.Can use DataGenerator.java to generate random data.
  * 
- * Should not have any limit on the size of the databundle. However, the number of entities per request
+ * Notes:
+ * -Edit SOURCE_FILE_NAME before use
+ * -Should not have any limit on the size of the databundle. However, the number of entities per request
  * should not be set to too large as it may cause Deadline Exception (especially for evaluations)
  * 
  */
 public class ImportData {
-	// NOTE: Edit SOURCE_FILE_NAME before use 
+	//  
 	// Data source file name (under src/test/resources/data folder) to import
 	private static final String SOURCE_FILE_NAME = "DataSourceFileName.json";
 	
