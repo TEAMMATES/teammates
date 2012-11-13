@@ -11,7 +11,7 @@ public class CoordData extends BaseData {
 	public String name;
 	public String email;
 	
-	public static final String ERROR_FIELD_ID = "Coordinator ID is invalid\n";
+	public static final String ERROR_FIELD_ID = "Coordinator ID is invalid. Make sure it does not contain @gmail.com\n";
 	public static final String ERROR_FIELD_NAME = "Coordinator name cannot be null or empty\n";
 	public static final String ERROR_FIELD_EMAIL = "Coordinator email is invalid\n";
 	
