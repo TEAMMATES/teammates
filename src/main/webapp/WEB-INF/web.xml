@@ -66,7 +66,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>EvaluationClosingReminders</servlet-name>
 		<url-pattern>/evaluationclosingreminders</url-pattern>
 	</servlet-mapping>
-	
+	<servlet>
+		<servlet-name>AdminSearchTask</servlet-name>
+		<servlet-class>teammates.ui.controller.AdminSearchTaskServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+        <servlet-name>AdminSearchTask</servlet-name>
+        <url-pattern>/searchTask</url-pattern>
+    </servlet-mapping>
 	<servlet>
 	    	<servlet-name>AdminHome</servlet-name>
 	    	<servlet-class>teammates.ui.controller.AdminHomeServlet</servlet-class>
@@ -83,14 +90,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <servlet-name>AdminExceptionTest</servlet-name>
 	    <url-pattern>/page/adminExceptionTest</url-pattern>
 	</servlet-mapping>
-	<servlet>
-		<servlet-name>AdminSearchTask</servlet-name>
-		<servlet-class>teammates.ui.controller.AdminSearchTaskServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-        <servlet-name>AdminSearchTask</servlet-name>
-        <url-pattern>/page/searchTask</url-pattern>
-    </servlet-mapping>
 	<servlet>
         <servlet-name>AdminSearch</servlet-name>
         <servlet-class>teammates.ui.controller.AdminSearchServlet</servlet-class>
@@ -339,6 +338,10 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <web-resource-name>AutomatedEmails</web-resource-name>
             <url-pattern>/evaluationopeningreminders</url-pattern>
             <url-pattern>/evaluationclosingreminders</url-pattern>
+        </web-resource-collection>
+         <web-resource-collection>
+            <web-resource-name>TaskQueue</web-resource-name>
+            <url-pattern>/searchTask</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
