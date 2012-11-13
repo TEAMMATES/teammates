@@ -34,10 +34,19 @@ import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
 import teammates.test.driver.TestProperties;
+/**
+ * Usage: This script is to profile performance of the app with id in test.properties. To run multiple instance
+ * of this script in parallel, use ParallelProfiler.Java.
+ *  
+ * 
+ * Notes:
+ * -Edit name of the report file, the result will be written to a file in src/test/resources/data folder
+ * -Make sure that the data in PerformanceProfilerImportData.json is imported (by using ImportData.java)
+ */
 
 
 /**
- * Annotation for Performance tests with
+ * Annotations for Performance tests with
  * 		-Name : name of the test.
  * 		-CustomTimer:(default if false) if true, the function will return the duration need to recorded itself
  * 					if false, the function return the status of the test and expected the function
@@ -51,15 +60,7 @@ import teammates.test.driver.TestProperties;
 }
 
 
-/**
- * This script it to profile performance of the app with id in test.properties.
- * 
- * The result will be written to a file in src/test/resources/data folder. Before run this script:
- * -Make sure that the data in PerformanceProfilerImportData.json is imported (by using ImportData.java)
- * -Edit name of the report file
- * 
- * 
- */
+
 public class PerformanceProfiler extends Thread{
 	
 	private static final String defaultReportPath = Common.TEST_DATA_FOLDER + "/"+"nameOfTheReportFile.txt";
