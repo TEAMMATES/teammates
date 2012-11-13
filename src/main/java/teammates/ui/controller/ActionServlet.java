@@ -88,7 +88,12 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			try {
 				log.severe(email.getContent().toString());
 			} catch (Exception e1) {}
-			resp.sendRedirect(Common.JSP_ERROR_PAGE);
+			
+			if(e.getMessage().contains("DeadlineExceededException")) {
+				resp.sendRedirect(Common.JSP_DEADLINE_EXCEEDED_ERROR_PAGE);
+			}else {
+				resp.sendRedirect(Common.JSP_ERROR_PAGE);
+			}
 			return;
 		}
 
