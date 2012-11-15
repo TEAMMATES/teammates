@@ -42,7 +42,7 @@ public class AdminSearchServlet extends ActionServlet<AdminHomeHelper> {
 			//rebuild document to update search index to latest datastore records.
 			//the search indexed will not be updated when a new user is added to the system
 			Queue queue = QueueFactory.getQueue("search-document");
-			queue.add(TaskOptions.Builder.withUrl("/page/searchTask"));
+			queue.add(TaskOptions.Builder.withUrl("/searchTask").method(TaskOptions.Method.GET));
 			helper.statusMessage = "Rebuild task submitted, please check again in a few minutes.";
 			Common.waitBriefly();
 			search(req);
