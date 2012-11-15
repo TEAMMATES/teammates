@@ -17,7 +17,8 @@
 	<script text="text/javascript" src="/js/tooltip.js"></script>
 	<script text="text/javascript" src="/js/common.js"></script>
 	
-	<script text="text/javascript" src="/js/student.js"></script>	
+	<script text="text/javascript" src="/js/student.js"></script>
+	<jsp:include page="../enableJS.jsp"></jsp:include>	
 </head>
 
 <body>
