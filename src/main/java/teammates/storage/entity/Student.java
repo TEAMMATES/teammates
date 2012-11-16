@@ -6,7 +6,7 @@ import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
-
+import javax.jdo.annotations.Extension;
 import teammates.common.Common;
 
 import com.google.gson.annotations.SerializedName;
@@ -27,6 +27,10 @@ public class Student {
 	/**
 	 * The student's Google ID
 	 */
+	@PrimaryKey
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+	private transient Long registrationKey = null;
+	
 	@Persistent
 	@SerializedName("google_id")
 	private String ID = null;
@@ -40,29 +44,31 @@ public class Student {
 	private String courseID;
 
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	@SerializedName("name")
 	private String name = null;
 
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	private String comments = null;
 
-	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private transient Long registrationKey = null;
-
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	@SerializedName("teamname")
 	private String teamName = null;
 
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	private transient boolean courseArchived;
 
 	// TODO: remove? not seem to be used
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	@SerializedName("profilesummary")
 	private String profileSummary;
 
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	@SerializedName("profiledetail")
 	private Text profileDetail = null;
 
