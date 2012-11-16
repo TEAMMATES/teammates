@@ -20,7 +20,7 @@
 	<script type="text/javascript" src="/js/common.js"></script>
 	
 	<script language="JavaScript" src="/js/coordinator.js"></script>
-
+    <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
 <body>

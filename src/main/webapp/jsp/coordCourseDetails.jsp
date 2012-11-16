@@ -22,7 +22,7 @@
 	
 	<script type="text/javascript" src="/js/coordinator.js"></script>
 	<script type="text/javascript" src="/js/coordCourseDetails.js"></script>
-
+    <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
 <body>

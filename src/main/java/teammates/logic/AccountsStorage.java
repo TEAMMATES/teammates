@@ -1,8 +1,9 @@
-package teammates.storage.api;
+package teammates.logic;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.CoordData;
+import teammates.storage.api.AccountsDb;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;

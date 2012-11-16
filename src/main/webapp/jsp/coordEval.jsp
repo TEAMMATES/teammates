@@ -26,7 +26,7 @@
 		var doPageSpecificOnload = selectDefaultTimeOptions;
 	</script>
 	<%	} %>
-
+    <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
 <body>
@@ -75,7 +75,7 @@
 							<td><input style="width: 260px;" type="text"
 										name="<%= Common.PARAM_EVALUATION_NAME %>" id="<%= Common.PARAM_EVALUATION_NAME %>"
 										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_NAME %>')"
-										onmouseout="hideddrivetip()" maxlength =<%= Common.EVALUATION_NAME_MAX_LENGTH %>
+										onmouseout="hideddrivetip()" maxlength =<%= EvaluationData.EVALUATION_NAME_MAX_LENGTH %>
 										value="<%if(helper.submittedEval!=null) out.print(CoordEvalHelper.escapeForHTML(helper.submittedEval.name));%>"
 										tabindex="2"></td>
 							<td class="label" >Closing time:</td>
