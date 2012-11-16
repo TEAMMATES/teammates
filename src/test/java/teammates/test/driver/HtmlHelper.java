@@ -4,16 +4,11 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
+
 
 import org.cyberneko.html.parsers.DOMParser;
 import org.w3c.dom.DOMException;
@@ -40,7 +35,7 @@ public class HtmlHelper {
 	 * @throws IOException
 	 * @throws TransformerException
 	 */
-	public static void assertSameHtml(String html1, String html2)
+	public static boolean assertSameHtml(String html1, String html2)
 			throws SAXException, IOException, TransformerException {
 		html1 = preProcessHtml(html1);
 		html2 = preProcessHtml(html2);
@@ -52,96 +47,22 @@ public class HtmlHelper {
 		
 		StringBuilder annotatedHtml= new StringBuilder();
 		boolean isLogicalMatch = compare(page1, page2, "  ", annotatedHtml);
-		assertTrue(annotatedHtml.toString(), isLogicalMatch);
+		if(!isLogicalMatch){
+			//If they are not a logical match, we force a literal comparison
+			//   just so that JUnit gives us a side-by-side comparison.
+			assertEquals(annotatedHtml.toString(), html1, html2);
+		}
+		return isLogicalMatch;
+	}
 		
-	}
-	
-	public static String parseHtml(String htmlString) throws TransformerException, SAXException, IOException{
-		htmlString = preProcessHtml(htmlString);
-		htmlString = cleanupHtml(htmlString);
-		htmlString = postProcessHtml(htmlString);
-		
-		return htmlString;
-	}
-
-	/**
-	 * Cleanup an HTML string to remove unnecessary whitespaces.
-	 * This converts all tag names into uppercase.
-	 * @param htmlString
-	 * @return
-	 * @throws TransformerException
-	 * @throws SAXException
-	 * @throws IOException
-	 */
-	public static String cleanupHtml(String htmlString) throws TransformerException, SAXException, IOException{
-		Node node = getNodeFromString(htmlString);
-		removeWhiteSpace(node);
-		return nodeToString(node);
-	}
-	
 	private static String preProcessHtml(String htmlString){
 		htmlString = htmlString.replaceAll("&nbsp;", "");
-		//Required for chrome selenium testing
-		htmlString = htmlString.replaceFirst("<html>", "<html xmlns=\"http://www.w3.org/1999/xhtml\">");
-		
-		//Required for IE selenium testing
-		if (htmlString.indexOf("<!DOCTYPE") < 0){
-			htmlString = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" "
-					+"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"
-					+ "<html xmlns=\"http://www.w3.org/1999/xhtml\">"
-					+ htmlString
-					+ "</html>";
-		}
-	
-		return htmlString;
-	}
-	
-	private static String postProcessHtml(String htmlString){
-		//Required for IE selenium testing
-		htmlString = htmlString.replaceAll("<DIV id=\"statusMessage\" style=\"display: none;\">&nbsp;</DIV>", "<DIV id=\"statusMessage\" style=\"display: none;\"/>");
-		
+		htmlString = htmlString.replaceFirst("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>");	
+		htmlString = htmlString.replaceAll("height=\"([0-9]+)\"", "height=\"$1px\"");
+		htmlString = htmlString.replaceAll("width=\"([0-9]+)\"", "width=\"$1px\"");
 		return htmlString;
 	}
 
-
-	private static void removeWhiteSpace(Node node) {
-		NodeList nodes = node.getChildNodes();
-		for (int i = 0; i < nodes.getLength(); i++) {
-			Node child = nodes.item(i);
-			
-			if (child.getNodeType()==Node.TEXT_NODE) {
-				if(child.getNodeValue().trim().isEmpty()){
-					node.removeChild(child);
-					i--;
-				} else {
-					child.setNodeValue(child.getNodeValue().trim());
-				}
-			}else{
-				removeWhiteSpace(child);
-			}
-		}
-	}
-	
-	
-	private static String nodeToString(Node node) throws TransformerException{
-		TransformerFactory transformerFactory = TransformerFactory.newInstance();
-		Transformer transformer = transformerFactory.newTransformer();
-		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-		transformer.setOutputProperty(OutputKeys.METHOD, "html");
-		transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
-		//from http://stackoverflow.com/questions/2571866/java-xml-output-proper-indenting-for-child-items
-		transformer.setOutputProperty(
-				   "{http://xml.apache.org/xslt}indent-amount", "2");
-		DOMSource source = new DOMSource(node);
-		StringWriter writer = new StringWriter();
-		StreamResult result = new StreamResult(writer);
-		transformer.transform(source, result);
-		String formatted =  writer.toString();
-		//TODO: find a better way to omit this attribute
-		formatted = formatted.replaceAll("\\s*xmlns=\"http://www.w3.org/1999/xhtml\"", "");
-		formatted = formatted.replaceAll("\\s*<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">","");
-		return formatted;
-	}
 	
 	private static Node getNodeFromString(String string) throws SAXException,
 			IOException {
@@ -170,67 +91,70 @@ public class HtmlHelper {
 	}
 	
 	
-	public static boolean compare(Node webpage, Node testpage, String indentation, StringBuilder output){
-		if (testpage.getNodeType() != Node.TEXT_NODE){
-			output.append(indentation + "<" + testpage.getNodeName() + ">   ");
+	public static boolean compare(Node actual, Node expected, String indentation, StringBuilder output){
+		if (expected.getNodeType() != Node.TEXT_NODE){
+			output.append(indentation + "<" + expected.getNodeName() + ">   ");
 		}
-		if (testpage.getNodeType() == Node.ELEMENT_NODE){
-			if(webpage.getNodeType() != Node.ELEMENT_NODE){
-				output.append("Error: Supposed to have element node but given " + webpage.getNodeName() + "\n");
+		if (expected.getNodeType() == Node.ELEMENT_NODE){
+			if(actual.getNodeType() != Node.ELEMENT_NODE){
+				output.append("Error: Supposed to have element node but given " + actual.getNodeName() + "\n");
 				return false;
 			}
-			if(!webpage.getNodeName().equals(testpage.getNodeName())){
-				output.append("Error: Supposed to have " + testpage.getNodeName() + " tag but given " + webpage.getNodeName() + " tag instead\n");
+			if(!actual.getNodeName().equals(expected.getNodeName())){
+				output.append("Error: Supposed to have " + expected.getNodeName() + " tag but given " + actual.getNodeName() + " tag instead\n");
 				return false;
 			}
 			
-			NamedNodeMap webpageAttributeList = webpage.getAttributes();
-			NamedNodeMap testpageAttributeList = testpage.getAttributes();
-			for (int i = 0; i < testpageAttributeList.getLength(); i++){
-				Node attribute = testpageAttributeList.item(i);
-				Node retrieved;
+			NamedNodeMap actualAttributeList = actual.getAttributes();
+			NamedNodeMap expectedAttributeList = expected.getAttributes();
+			for (int i = 0; i < expectedAttributeList.getLength(); i++){
+				Node expectedAttribute = expectedAttributeList.item(i);
+				Node actualAttribute;
 				try{
-					retrieved = webpageAttributeList.removeNamedItem(attribute.getNodeName());
+					actualAttribute = actualAttributeList.removeNamedItem(expectedAttribute.getNodeName());
 				}
 				catch (DOMException e){
-					output.append("Error: Unable to find attribute: " + attribute.getNodeName() + "\n");
+					output.append("Error: Unable to find attribute: " + expectedAttribute.getNodeName() + "\n");
 					return false;
 				}
-				if (!retrieved.getNodeValue().equals(attribute.getNodeValue())){
-					output.append("Error: attribute " + attribute.getNodeName() + " has value \"" + retrieved.getNodeValue() + "\" instead of \"" + attribute.getNodeValue() + "\"\n");
+				if (actualAttribute.getNodeValue().trim().equals("{*}")){
+					//Regex should pass
+				} else if (!actualAttribute.getNodeValue().equals(expectedAttribute.getNodeValue())){
+					output.append("Error: attribute " + expectedAttribute.getNodeName() + " has value \"" + actualAttribute.getNodeValue() + "\" instead of \"" + actualAttribute.getNodeValue() + "\"\n");
 					return false;
 				}								
 			}
-			if(webpageAttributeList.getLength() > 0){
+			if(actualAttributeList.getLength() > 0){
 				output.append("Error: there are extra attributes in the element tag ");
-				for (int i = 0; i < webpageAttributeList.getLength(); i++){
-					Node attribute = webpageAttributeList.item(i);
-					output.append("[" + attribute.getNodeName() + ": " + attribute.getNodeValue() + "] ");
+				for (int i = 0; i < actualAttributeList.getLength(); i++){
+					Node actualAttribute = actualAttributeList.item(i);
+					output.append("[" + actualAttribute.getNodeName() + ": " + actualAttribute.getNodeValue() + "] ");
 				}
 				return false;
 			}
 			else{
-				for (int i = 0; i < testpageAttributeList.getLength(); i++){
-					Node attribute = testpageAttributeList.item(i);
-					output.append("[" + attribute.getNodeName() + ": " + attribute.getNodeValue() + "] ");
+				for (int i = 0; i < expectedAttributeList.getLength(); i++){
+					Node actualAttribute = expectedAttributeList.item(i);
+					output.append("[" + actualAttribute.getNodeName() + ": " + actualAttribute.getNodeValue() + "] ");
 				}
 			}
 			output.append("\n");	
 			
-		} else if (testpage.getNodeType() == Node.TEXT_NODE){
-			if(webpage.getNodeType() != Node.TEXT_NODE){
-				output.append(indentation + "Error: Supposed to have text node but given " + webpage.getNodeName() + "\n");
+		} else if (expected.getNodeType() == Node.TEXT_NODE){
+			if(actual.getNodeType() != Node.TEXT_NODE){
+				output.append(indentation + "Error: Supposed to have text node but given " + actual.getNodeName() + "\n");
 				return false;
-			}
-			if(!webpage.getNodeValue().trim().equals(testpage.getNodeValue().trim())){
-				output.append(indentation + "Error: Supposed to have value \"" + testpage.getNodeValue() + "\" but given \"" + webpage.getNodeValue() + "\" instead\n");
+			} else if (actual.getNodeValue().trim().equals("{*}")){
+				//Regex should pass
+			} else if(!actual.getNodeValue().trim().equals(expected.getNodeValue().trim())){
+				output.append(indentation + "Error: Supposed to have value \"" + expected.getNodeValue() + "\" but given \"" + actual.getNodeValue() + "\" instead\n");
 				return false;
 			}	
 		}
 				
-		if(testpage.hasChildNodes() || testpage.hasChildNodes()){
-			NodeList webpageChildNodes = webpage.getChildNodes();
-			NodeList testpageChildNodes = testpage.getChildNodes();
+		if(expected.hasChildNodes() || expected.hasChildNodes()){
+			NodeList webpageChildNodes = actual.getChildNodes();
+			NodeList testpageChildNodes = expected.getChildNodes();
 			if (webpageChildNodes.getLength() != testpageChildNodes.getLength()){
 				output.append(indentation + "Error: Parse tree structure is different\n");
 				output.append(indentation + "Webpage - current tree level: ");
@@ -253,8 +177,8 @@ public class HtmlHelper {
 			}
 		}
 		
-		if (testpage.getNodeType() != Node.TEXT_NODE){
-			output.append(indentation + "</" + testpage.getNodeName() + ">\n");
+		if (expected.getNodeType() != Node.TEXT_NODE){
+			output.append(indentation + "</" + expected.getNodeName() + ">\n");
 		}		
 		return true;
 	}

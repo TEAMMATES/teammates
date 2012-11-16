@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.storage.datastore.Datastore;
-import teammates.storage.entity.Course;  //TODO: remove this dependency
+import teammates.storage.entity.Course; //TODO: remove this dependency
 
 @SuppressWarnings("serial")
 public class BackDoorServlet extends HttpServlet {
-	
+
 	public static final String OPERATION_CREATE_COORD = "OPERATION_CREATE_COORD";
 	public static final String OPERATION_DELETE_COORD = "OPERATION_DELETE_COORD";
 	public static final String OPERATION_DELETE_COORD_NON_CASCADE = "OPERATION_DELETE_COORD_NON_CASCADE";
@@ -88,12 +88,14 @@ public class BackDoorServlet extends HttpServlet {
 			try {
 				returnValue = executeBackendAction(req, action);
 			} catch (Exception e) {
-				returnValue = Common.BACKEND_STATUS_FAILURE + Common.stackTraceToString(e);
+				returnValue = Common.BACKEND_STATUS_FAILURE
+						+ Common.stackTraceToString(e);
 			} catch (AssertionError ae) {
-				returnValue = Common.BACKEND_STATUS_FAILURE + " Assertion error " + ae.getMessage();
+				returnValue = Common.BACKEND_STATUS_FAILURE
+						+ " Assertion error " + ae.getMessage();
 			}
 		}
-		
+
 		// TODO: Change to JSON/XML
 		resp.setContentType("text/plain");
 		resp.getWriter().write(returnValue);
@@ -173,8 +175,7 @@ public class BackDoorServlet extends HttpServlet {
 		return Common.BACKEND_STATUS_SUCCESS;
 	}
 
-
-	//TODO: move to BackDoorLogic
+	// TODO: move to BackDoorLogic
 	private String getCoursesByCoordID(String coordID) {
 		String query = "select from " + Course.class.getName()
 				+ " where coordinatorID == '" + coordID + "'";

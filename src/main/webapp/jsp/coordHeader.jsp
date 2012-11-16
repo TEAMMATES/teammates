@@ -3,9 +3,9 @@
 <% Helper helper = (Helper)request.getAttribute("helper"); %>
 		<div id="frameTopWrapper">
 			<div id="logo">
-				<img alt="Teammates" height="47"
+				<img alt="Teammates" height="47px"
 					src="/images/teammateslogo.jpg"
-					width="150" />
+					width="150px">
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
@@ -17,4 +17,5 @@
 					 (<%= Helper.truncate(helper.userId.toLowerCase(),23) %>)</li>
 				</ul>
 			</div>
+			<div style="clear: both;"></div>
 		</div>

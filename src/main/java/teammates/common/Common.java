@@ -7,24 +7,21 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.logging.Logger;
 
-import teammates.common.exception.InvalidParametersException;
+import javax.servlet.http.HttpServletRequest;
+
 import teammates.ui.controller.Helper;
 
+import com.google.appengine.api.utils.SystemProperty;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.appengine.api.utils.SystemProperty;
 
 /**
  * Class that stores variables and methods that are widely used across classes
@@ -231,6 +228,9 @@ public class Common {
 	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
 
 	public static final String PAGE_ADMIN_HOME = "/page/adminHome";
+	public static final String PAGE_ADMIN_EXCEPTION_TEST = "/page/adminExceptionTest";
+	public static final String PAGE_ADMIN_ACTIVITY_LOG = "/page/adminActivityLog";
+	public static final String PAGE_ADMIN_SEARCH = "/page/adminSearch";
 	public static final String PAGE_LOGIN = "/login";
 
 	/*
@@ -262,11 +262,14 @@ public class Common {
 
 	public static final String JSP_COORD_HEADER = "/jsp/coordHeader.jsp"; // Done
 	public static final String JSP_STUDENT_HEADER = "/jsp/studentHeader.jsp"; // Done
+	public static final String JSP_ADMIN_HEADER = "/jsp/adminHeader.jsp"; // Done
 	public static final String JSP_FOOTER = "/jsp/footer.jsp"; // Done
 	public static final String JSP_STATUS_MESSAGE = "/jsp/statusMessage.jsp"; // Done
 	public static final String JSP_EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp"; // Done
 
 	public static final String JSP_ADMIN_HOME = "/jsp/adminHome.jsp";
+	public static final String JSP_ADMIN_SEARCH = "/jsp/adminSearch.jsp";
+	public static final String JSP_ADMIN_ACTIVITY_LOG = "/jsp/adminActivityLog.jsp";
 	public static final String JSP_LOGOUT = "/logout.jsp"; // Done
 	public static final String JSP_SHOW_MESSAGE = "/showMessage.jsp"; // Done
 	public static final String JSP_UNAUTHORIZED = "/unauthorized.jsp"; // Done
@@ -275,12 +278,7 @@ public class Common {
 	public static final String JSP_PAGE_NOT_FOUND_PAGE = "/pageNotFound.jsp"; // Done
 
 	// data field sizes
-	public static final int COURSE_NAME_MAX_LENGTH = 38;
 	public static final int COURSE_ID_MAX_LENGTH = 21;
-	public static final int EVALUATION_NAME_MAX_LENGTH = 38;
-	public static final int STUDENT_NAME_MAX_LENGTH = 40;
-	public static final int TEAM_NAME_MAX_LENGTH = 25;
-	public static final int COMMENT_MAX_LENGTH = 500;
 
 	// status messages
 	public static final String MESSAGE_LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
@@ -315,10 +313,6 @@ public class Common {
 	public static final String MESSAGE_EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
 	// Status messages from Javascript
 	public static final String MESSAGE_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
-	public static final String MESSAGE_COURSE_LONG_ID = "Course ID should not exceed "
-			+ COURSE_ID_MAX_LENGTH + " characters.";
-	public static final String MESSAGE_COURSE_LONG_NAME = "Course name should not exceed "
-			+ COURSE_NAME_MAX_LENGTH + " characters.";
 	public static final String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
 	public static final String MESSAGE_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
 	public static final String MESSAGE_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
@@ -364,6 +358,9 @@ public class Common {
 	public static final String ERRORCODE_STRING_TOO_LONG = "ERRORCODE_STRING_TOO_LONG";
 	public static final String ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING = "ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING";
 	
+	// Error message used across DB level
+	public static final String ERROR_DBLEVEL_NULL_INPUT = "Supplied parameter was null\n";
+	
 	/**
 	 * Build Properties Params
 	 */
@@ -387,131 +384,54 @@ public class Common {
 	/**
 	 * Email templates
 	 */
-	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_ = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailTemplate-evaluation_.html"));
-	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailTemplate-evaluationPublished.html"));
-	public static String STUDENT_EMAIL_TEMPLATE_COURSE_JOIN = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailTemplate-courseJoin.html"));
-	public static String STUDENT_EMAIL_FRAGMENT_COURSE_JOIN = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailFragment-courseJoin.html"));
-
+	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_ = readResourseFile("studentEmailTemplate-evaluation_.html");
+	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED = readResourseFile("studentEmailTemplate-evaluationPublished.html");
+	public static String STUDENT_EMAIL_TEMPLATE_COURSE_JOIN = readResourseFile("studentEmailTemplate-courseJoin.html");
+	public static String STUDENT_EMAIL_FRAGMENT_COURSE_JOIN = readResourseFile("studentEmailFragment-courseJoin.html");
+	public static String SYSTEM_ERROR_EMAIL_TEMPLATE = readResourseFile("systemErrorEmailTemplate.html");
+	
+	
+	
 	@SuppressWarnings("unused")
 	private void ____VALIDATE_parameters___________________________________() {
 	}
 
-	// TODO: add more checks and write unit tests
-	public static void validateTeamName(String teamName)
-			throws InvalidParametersException {
-		if (teamName == null) {
-			return;
-		}
-		if (teamName.length() > TEAM_NAME_MAX_LENGTH) {
-			throw new InvalidParametersException(ERRORCODE_STRING_TOO_LONG,
-					"Team name cannot be longer than " + TEAM_NAME_MAX_LENGTH);
-		}
+	// Check for '@'
+	public static boolean isValidEmail(String email) {
+		return (isValidString(email) && 
+				hasNoSpace(email) &&
+				email.contains("@"));
+				// check contains period?
 	}
 
-	// TODO: add more checks and write unit tests
-	public static void validateStudentName(String studentName)
-			throws InvalidParametersException {
-		if (!studentName.trim().equals(studentName)) {
-			throw new InvalidParametersException(
-					ERRORCODE_INCORRECTLY_FORMATTED_STRING,
-					"Student name should not have leading or trailing spaces");
-		}
-		if (studentName.equals("")) {
-			throw new InvalidParametersException(ERRORCODE_EMPTY_STRING,
-					"Student name should not be empty");
-		}
-		if (studentName.length() > STUDENT_NAME_MAX_LENGTH) {
-			throw new InvalidParametersException(ERRORCODE_STRING_TOO_LONG,
-					"Student name cannot be longer than "
-							+ STUDENT_NAME_MAX_LENGTH);
-		}
+	// GoogleID cannot have spaces
+	public static boolean isValidGoogleId(String googleId) {
+		return (isValidString(googleId) && 
+				hasNoSpace(googleId));
+			// test for contains valid chars?
 	}
 
-	// TODO: add more checks and write unit tests
-	public static void validateEmail(String email)
-			throws InvalidParametersException {
-		verifyNotNull(email, "email");
-		verifyNoLeadingAndTrailingSpaces(email, "email");
-		verifyNotAnEmptyString(email, "email");
-		if (!email.contains("@")) {
-			throw new InvalidParametersException(ERRORCODE_INVALID_EMAIL,
-					"Email address should contain '@'");
-		}
-
+	// Name can have spaces
+	public static boolean isValidName(String name) {
+		return isValidString(name);
 	}
 
-	// TODO: add more checks and write unit tests
-	public static void validateGoogleId(String googleId)
-			throws InvalidParametersException {
-		verifyNotNull(googleId, "Google ID");
-		verifyNoLeadingAndTrailingSpaces(googleId, "Google ID");
-		verifyNotAnEmptyString(googleId, "Google ID");
-		verifyContainsNoSpaces(googleId, "Google ID");
-
+	// Special constraints for courseId
+	public static boolean isValidCourseId(String courseId) {
+		return (isValidString(courseId) && 
+				hasNoSpace(courseId) &&
+				courseId.matches("^[a-zA-Z_$0-9.-]+$") &&
+				courseId.length() <= COURSE_ID_MAX_LENGTH);
 	}
-
-	// TODO: add more checks and write unit tests
-	public static void validateCoordName(String coordName)
-			throws InvalidParametersException {
-		verifyNoLeadingAndTrailingSpaces(coordName, "Coordinator name");
-		verifyNotAnEmptyString(coordName, "Coordinator name");
+	
+	public static boolean isValidString(String string) {
+		return (string != null	&& 
+				string != "" && 
+				string.length() != 0);
 	}
-
-	// TODO: add more checks and write unit tests
-	public static void validateCourseId(String courseId)
-			throws InvalidParametersException {
-		verifyContainsNoSpaces(courseId, "Course ID");
-
-	}
-
-	// TODO: add more checks and write unit tests
-	public static void validateCourseName(String stringToCheck)
-			throws InvalidParametersException {
-		verifyNoLeadingAndTrailingSpaces(stringToCheck, "Course name");
-		verifyNotAnEmptyString(stringToCheck, "Course name");
-	}
-
-	// TODO: add more checks and write unit tests
-	public static void validateComment(String comment)
-			throws InvalidParametersException {
-		if (comment == null) {
-			return;
-		}
-		if (comment.length() > COMMENT_MAX_LENGTH) {
-			throw new InvalidParametersException(ERRORCODE_STRING_TOO_LONG,
-					"Comment cannot be longer than " + STUDENT_NAME_MAX_LENGTH);
-		}
-	}
-
-	public static void verifyContainsNoSpaces(String stringToCheck,
-			String nameOfString) throws InvalidParametersException {
-		if (stringToCheck.split(" ").length > 1) {
-			throw new InvalidParametersException(ERRORCODE_INVALID_CHARS,
-					nameOfString + " cannot contain spaces");
-		}
-	}
-
-	public static void verifyNotNull(Object objectToCheck, String nameOfObject) {
-		if (objectToCheck == null) {
-			throw new NullPointerException(nameOfObject + " cannot be null");
-		}
-	}
-
-	public static void verifyNotAnEmptyString(String stringToCheck,
-			String nameOfString) throws InvalidParametersException {
-		if (stringToCheck.equals("")) {
-			throw new InvalidParametersException(ERRORCODE_EMPTY_STRING,
-					nameOfString + " should not be empty");
-		}
-	}
-
-	public static void verifyNoLeadingAndTrailingSpaces(String stringToCheck,
-			String nameOfString) throws InvalidParametersException {
-		if (!stringToCheck.trim().equals(stringToCheck)) {
-			throw new InvalidParametersException(
-					ERRORCODE_LEADING_OR_TRAILING_SPACES, nameOfString
-							+ " should not have leading or trailing spaces");
-		}
+	
+	public static boolean hasNoSpace(String string) {
+		return string.split(" ").length == 1;
 	}
 
 	@SuppressWarnings("unused")
@@ -704,6 +624,11 @@ public class Common {
 	public static String readStream(InputStream stream) {
 		return BUILD_PROPERTIES.readStream(stream);
 	}
+	
+	public static String readResourseFile(String file) {
+		return readStream(BuildProperties.class.getClassLoader()
+				.getResourceAsStream(file));
+	}
 
 	public static boolean isWhiteSpace(String string) {
 		return string.trim().isEmpty();
@@ -763,6 +688,19 @@ public class Common {
 		return url;
 	}
 	
+	public static String printRequestParameters(HttpServletRequest request) {
+		String requestParameters = "{";
+		for (Enumeration f = request.getParameterNames(); f.hasMoreElements();) {
+			String paramet = new String(f.nextElement().toString());
+			requestParameters += paramet + ":" + request.getParameter(paramet) + ", ";
+		}
+		if (requestParameters != "{") {
+			requestParameters = requestParameters.substring(0, requestParameters.length() - 2);
+		}
+		requestParameters += "}";
+		return requestParameters;
+	}
+	
 	public static void waitBriefly() {
 		try {
 			Thread.sleep(WAIT_DURATION);
@@ -775,10 +713,11 @@ public class Common {
 	private void ____PRIVATE_helper_methods_________________________________() {
 	}
 
-	public static String stackTraceToString(Exception e) {
+	public static String stackTraceToString(Throwable e) {
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
 		return "\n" + sw.toString();
+		
 	}
 	
 	public static String getCurrentThreadStack() {
@@ -801,5 +740,7 @@ public class Common {
 		BACKDOOR_KEY = BUILD_PROPERTIES.getAppBackdoorKey();
 		PERSISTENCE_CHECK_DURATION = BUILD_PROPERTIES.getAppPersistenceCheckduration();
 	}
+	
+	
 
 }
