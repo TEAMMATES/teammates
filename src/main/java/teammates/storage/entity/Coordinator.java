@@ -1,5 +1,6 @@
 package teammates.storage.entity;
 
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -15,9 +16,11 @@ public class Coordinator {
 	private String googleID;
 
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	private String name;
 
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	private String email;
 	
 	public Coordinator(String googleId, String name, String email) {

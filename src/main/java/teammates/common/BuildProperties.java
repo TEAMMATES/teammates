@@ -6,6 +6,8 @@ import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import com.google.appengine.api.utils.SystemProperty;
+
 public class BuildProperties {
 
 	private static Logger log = Common.getLogger();
@@ -80,6 +82,13 @@ public class BuildProperties {
 	
 	public int getAppPersistenceCheckduration() {
 		return Integer.valueOf(props.getProperty("app.persistence.checkduration")).intValue();
+	}
+	
+	public static String getAppVersion() {
+		return SystemProperty.applicationVersion.get().split("\\.")[0].replace("-", ".");
+	}
+	public String getAppCrashReportEmail() {
+		return props.getProperty("app.crashreport.email");
 	}
 
 }
