@@ -13,6 +13,31 @@
 	</head>
 	<body id="compilation">
 		<div id="dhtmltooltip"></div>
+		<div>
+			<ul id="nav">
+				<li><a href="#coordHomePage">Coordinator Home Page</a></li>
+				<li><a href="#coordAddCoursePage">Coordinator Add Course Page</a></li>
+				<li><a href="#coordEnrollPage">Coordinator Enroll Students Page</a></li>
+				<li><a href="#coordCourseDetailsPage">Coordinator Course Details Page</a></li>
+				<li><a href="#coordCourseStudentDetailsPage">Coordinator Student Details Page</a></li>
+				<li><a href="#coordCourseStudentEditPage">Coordinator Student Edit Page</a></li>
+				<li><a href="#coordCourseEvalPage">Coordinator Eval Page</a></li>
+				<li><a href="#coordCourseEvalEditPage">Coordinator Eval Edit Page</a></li>
+			    <li><a href="#coordCourseEvalResultsPage1">Coordinator Eval Results Page (coordinatorEvaluationSummaryTable)</a></li>
+				<li><a href="#coordCourseEvalResultsPage2">Coordinator Eval Results Page (coordinatorEvaluationDetailedReviewerTable)</a></li>
+				<li><a href="#coordCourseEvalResultsPage3">Coordinator Eval Results Page (coordinatorEvaluationDetailedRevieweeTable)</a></li>
+				<li><a href="#coordCourseEvalSubmissionViewPage">Coordinator Eval Submission View Page</a></li>
+				<li><a href="#coordCourseEvalSubmissionEditPage">Coordinator Eval Submission Edit Page</a></li>
+				<hr>
+				<li><a href="#studentHomePage">Student Home Page</a></li>
+				<li><a href="#studentCourseDetailsPage">Student Course Details Page</a></li>
+				<li><a href="#studentEvalEditPage">Student Eval Edit Page</a></li>
+				<li><a href="#studentEvalResultsPage">Student Eval Results Page</a></li>
+				<hr>
+				<li><a href="#adminPage">Admin Page</a></li>
+				
+			</ul>
+		</div>
 		<div class="pageinfo">Coordinator Home Page</div>
 		<div id="coordHomePage" class="wrapper"></div>
 		
@@ -92,30 +117,30 @@
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentEvalEdit.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentEvalResults.css" type="text/css">');
 			
-			$('#coordHomePage').load("<%= Common.PAGE_COORD_HOME %> #frameBodyWrapper");
-			$('#coordAddCoursePage').load("<%= Common.PAGE_COORD_COURSE %> #frameBodyWrapper");
-			$('#coordEnrollPage').load("<%= Common.PAGE_COORD_COURSE_ENROLL %>?courseid=CS1101 #frameBodyWrapper");
-			$('#coordCourseDetailsPage').load("<%= Common.PAGE_COORD_COURSE_DETAILS %>?courseid=CS2104 #frameBodyWrapper");
-			$('#coordCourseStudentDetailsPage').load("<%= Common.PAGE_COORD_COURSE_STUDENT_DETAILS %>?courseid=CS2104&studentemail=teammates.test%40gmail.com #frameBodyWrapper");
-			$('#coordCourseStudentEditPage').load("<%= Common.PAGE_COORD_COURSE_STUDENT_EDIT %>?courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper");
-			$('#coordCourseEvalPage').load("<%= Common.PAGE_COORD_EVAL %> #frameBodyWrapper");
-			$('#coordCourseEvalEditPage').load("<%= Common.PAGE_COORD_EVAL_EDIT %>?courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
-			$('#coordCourseEvalResultsPage1').load("<%= Common.PAGE_COORD_EVAL_RESULTS %>?courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
-			$('#coordCourseEvalResultsPage2').load("<%= Common.PAGE_COORD_EVAL_RESULTS %>?courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper", function(response, status, xml){
+			$('#coordHomePage').load("<%= Common.PAGE_COORD_HOME %>?user=teammates.test #frameBodyWrapper");
+			$('#coordAddCoursePage').load("<%= Common.PAGE_COORD_COURSE %>?user=teammates.test #frameBodyWrapper");
+			$('#coordEnrollPage').load("<%= Common.PAGE_COORD_COURSE_ENROLL %>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
+			$('#coordCourseDetailsPage').load("<%= Common.PAGE_COORD_COURSE_DETAILS %>?user=teammates.test&courseid=CS2104 #frameBodyWrapper");
+			$('#coordCourseStudentDetailsPage').load("<%= Common.PAGE_COORD_COURSE_STUDENT_DETAILS %>?user=teammates.test&courseid=CS2104&studentemail=teammates.test%40gmail.com #frameBodyWrapper");
+			$('#coordCourseStudentEditPage').load("<%= Common.PAGE_COORD_COURSE_STUDENT_EDIT %>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper");
+			$('#coordCourseEvalPage').load("<%= Common.PAGE_COORD_EVAL %>?user=teammates.test #frameBodyWrapper");
+			$('#coordCourseEvalEditPage').load("<%= Common.PAGE_COORD_EVAL_EDIT %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
+			$('#coordCourseEvalResultsPage1').load("<%= Common.PAGE_COORD_EVAL_RESULTS %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
+			$('#coordCourseEvalResultsPage2').load("<%= Common.PAGE_COORD_EVAL_RESULTS %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper", function(response, status, xml){
 				$('#coordCourseEvalResultsPage2').find('#coordinatorEvaluationSummaryTable').hide();
 				$('#coordCourseEvalResultsPage2').find('#coordinatorEvaluationDetailedReviewerTable').show();
 			});
-			$('#coordCourseEvalResultsPage3').load("<%= Common.PAGE_COORD_EVAL_RESULTS %>?courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper", function(response, status, xml){
+			$('#coordCourseEvalResultsPage3').load("<%= Common.PAGE_COORD_EVAL_RESULTS %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper", function(response, status, xml){
 				$('#coordCourseEvalResultsPage3').find('#coordinatorEvaluationSummaryTable').hide();
 				$('#coordCourseEvalResultsPage3').find('#coordinatorEvaluationDetailedRevieweeTable').show();
 			});
-			$('#coordCourseEvalSubmissionViewPage').load("<%= Common.PAGE_COORD_EVAL_SUBMISSION_VIEW %>?courseid=CS2104&evaluationname=First+Eval&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper");		
-			$('#coordCourseEvalSubmissionEditPage').load("<%= Common.PAGE_COORD_EVAL_SUBMISSION_EDIT %>?courseid=CS2104&evaluationname=First+Eval&studentemail=charlie.d.tmms%40gmail.com #frameBodyWrapper");
+			$('#coordCourseEvalSubmissionViewPage').load("<%= Common.PAGE_COORD_EVAL_SUBMISSION_VIEW %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper");		
+			$('#coordCourseEvalSubmissionEditPage').load("<%= Common.PAGE_COORD_EVAL_SUBMISSION_EDIT %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=charlie.d.tmms%40gmail.com #frameBodyWrapper");
 			
-			$('#studentHomePage').load("<%= Common.PAGE_STUDENT_HOME %> #frameBodyWrapper");
-			$('#studentCourseDetailsPage').load("<%= Common.PAGE_STUDENT_COURSE_DETAILS %>?courseid=CS2104 #frameBodyWrapper");
-			$('#studentEvalEditPage').load("<%= Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT %>?courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
-			$('#studentEvalResultsPage').load("<%= Common.PAGE_STUDENT_EVAL_RESULTS %>?courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
+			$('#studentHomePage').load("<%= Common.PAGE_STUDENT_HOME %>?user=teammates.test #frameBodyWrapper");
+			$('#studentCourseDetailsPage').load("<%= Common.PAGE_STUDENT_COURSE_DETAILS %>?user=teammates.test&courseid=CS2104 #frameBodyWrapper");
+			$('#studentEvalEditPage').load("<%= Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
+			$('#studentEvalResultsPage').load("<%= Common.PAGE_STUDENT_EVAL_RESULTS %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
 			
 			$('#adminPage').load("<%=Common.PAGE_ADMIN_HOME %> #frameBodyWrapper");
 			

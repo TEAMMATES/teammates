@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import teammates.common.Common;
 import teammates.storage.entity.Evaluation;
 
-public class EvaluationData {
+public class EvaluationData extends BaseData {
 	public String course;
 	public String name;
 	public String instructions = "";
@@ -28,12 +28,26 @@ public class EvaluationData {
 
 	private static Logger log = Common.getLogger();
 
+	public static final int EVALUATION_NAME_MAX_LENGTH = 38;
+	
+	public static final String ERROR_FIELD_COURSE = "Evaluation must belong to a valid course\n";
+	public static final String ERROR_FIELD_NAME = "Evaluation name cannot be null or empty\n";
+	public static final String ERROR_NAME_TOOLONG = "Evaluation name cannot be more than " + EVALUATION_NAME_MAX_LENGTH + " characters\n";
+	public static final String ERROR_FIELD_STARTTIME = "Evaluation start time cannot be null\n";
+	public static final String ERROR_FIELD_ENDTIME = "Evaluation end time cannot be null\n";
+	public static final String ERROR_END_BEFORE_START = "Evaluation end time cannot be earlier than start time\n";
+	public static final String ERROR_PUBLISHED_BEFORE_END = "Evaluation cannot be published before end time\n";
+	public static final String ERROR_ACTIVATED_BEFORE_START = "Evaluation cannot be activated before start time\n";
+
 	public enum EvalStatus {
 		AWAITING, OPEN, CLOSED, PUBLISHED, DOES_NOT_EXIST
 	}
 
 	public EvaluationData() {
-
+		// This constructor should take in String params so we can trim them at construction time
+		// However, this constructor is already being used in more than 10 places
+		// Refactoring it will take a very long time. Maybe much later
+		// For now, the trimming will be done everytime isValid is called.
 	}
 
 	public EvaluationData(Evaluation e) {
@@ -101,59 +115,55 @@ public class EvaluationData {
 		return sb.toString();
 	}
 
+	@Override
 	public boolean isValid() {
-		
-		if (this.course == null || this.course == "" || this.name == null
-				|| this.name == "" || this.startTime == null
-				|| this.endTime == null || endTime.before(startTime)
-				|| (!beforeTime(endTime) && published)
-				|| (!beforeTime(startTime) && activated)) {
-			return false;
-		}
-
-		return true;
+		course = trimIfNotNull(course);
+		name = trimIfNotNull(name);
+		return getInvalidStateInfo().isEmpty();
 	}
 	
 	public String getInvalidStateInfo() {
 		String errorMessage = "";
 		
-		if (this.course == null || this.course == ""){
-			errorMessage += "Evaluation must belong to a course\n";
+		if (!Common.isValidCourseId(course)){
+			errorMessage += ERROR_FIELD_COURSE;
 		}
 		
-		if (this.name == null || this.name == "") {
-			errorMessage += "Evaluation name cannot be null or empty\n";
+		if (!Common.isValidName(name)) {
+			errorMessage += ERROR_FIELD_NAME;
+		} else if (name.length() > EVALUATION_NAME_MAX_LENGTH) {
+			errorMessage += ERROR_NAME_TOOLONG;
 		}
 		
 		if (this.startTime == null) {
-			errorMessage += "Evaluation start time cannot be null\n";
+			errorMessage += ERROR_FIELD_STARTTIME;
 		}
 		
 		if (this.endTime == null) {
-			errorMessage += "Evaluation end time cannot be null\n";
+			errorMessage += ERROR_FIELD_ENDTIME;
 		}
 		
 		// Check time values are valid
 		if (this.startTime != null && this.endTime != null) {
 			if (endTime.before(startTime)) {
-				errorMessage += "Evaluation end time cannot be earlier than start time\n";
+				errorMessage += ERROR_END_BEFORE_START;
 			}
 			
-			if (!beforeTime(endTime) && published) {
-				errorMessage += "Evaluation cannot be published before end time\n";
+			if (isCurrentTimeInUsersTimezoneEarlierThan(endTime) && published) {
+				errorMessage += ERROR_PUBLISHED_BEFORE_END;
 			}
 			
-			if (!beforeTime(startTime) && activated) {
-				errorMessage += "Evaluation cannot be activated before start time\n";
+			if (isCurrentTimeInUsersTimezoneEarlierThan(startTime) && activated) {
+				errorMessage += ERROR_ACTIVATED_BEFORE_START;
 			}
 		}
 		
 		return errorMessage;
 	}
 
-	private boolean beforeTime(Date time) {
+	private boolean isCurrentTimeInUsersTimezoneEarlierThan(Date time) {
 		Date nowInUserTimeZone = Common.convertToUserTimeZone(
 				Calendar.getInstance(), timeZone).getTime();
-		return time.before(nowInUserTimeZone);
+		return nowInUserTimeZone.before(time);
 	}
 }

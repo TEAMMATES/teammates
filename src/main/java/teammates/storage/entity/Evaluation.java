@@ -8,6 +8,7 @@ import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.annotations.Extension;
 
 import teammates.common.Common;
 
@@ -35,32 +36,41 @@ public class Evaluation {
 	private String name;
 
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	@SerializedName("instr")
 	private String instructions;
 
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	@SerializedName("start_time")
 	private Date startTime;
+	
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	@SerializedName("end_time")
 	private Date endTime;
 
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	@SerializedName("timezone")
 	private double timeZone;
 
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	@SerializedName("grace")
 	private int gracePeriod;
 
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	@SerializedName("comments_on")
 	private boolean commentsEnabled;
 
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	private boolean published = false;
 
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	private boolean activated = false;
 
 	/**

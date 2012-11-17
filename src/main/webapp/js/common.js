@@ -265,11 +265,5 @@ function checkEvaluationForm(){
 			return false;
 		}
 	}
-	for(var i=0; i<comments.length; i++){
-		if(comments[i].value==''){
-			setStatusMessage("Please fill in all fields",true);
-			return false;
-		}
-	}
 	return true;
 }
