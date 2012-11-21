@@ -26,6 +26,7 @@ import org.junit.runners.Suite;
 		StudentEvalResultsPageUiTest.class,
 		
 		StudentHomePageUiTest.class,
+		SystemErrorEmailReportTest.class,
 
 })
 

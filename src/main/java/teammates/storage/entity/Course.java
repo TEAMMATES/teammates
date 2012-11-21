@@ -1,10 +1,9 @@
 package teammates.storage.entity;
 
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
-
-import teammates.common.Common;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -26,6 +25,7 @@ public class Course {
 	private String coordinatorID;
 
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	private transient boolean archived;
 
 	/**

@@ -30,7 +30,9 @@ public class StudentHomeServlet extends ActionServlet<StudentHomeHelper> {
 			helper.error = true;
 		} catch (EntityDoesNotExistException e){
 			helper.courses = new ArrayList<CourseData>();
-			helper.statusMessage = Common.MESSAGE_STUDENT_FIRST_TIME;
+			if (helper.statusMessage == null){
+				helper.statusMessage = Common.MESSAGE_STUDENT_FIRST_TIME;
+			}
 		}
 	}
 
