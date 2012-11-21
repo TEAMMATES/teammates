@@ -408,7 +408,7 @@ public class Common {
 	// GoogleID cannot have spaces
 	public static boolean isValidGoogleId(String googleId) {
 		return (isValidString(googleId) && 
-				hasNoSpace(googleId));
+				hasNoSpace(googleId));		
 			// test for contains valid chars?
 	}
 
