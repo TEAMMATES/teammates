@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.apphosting.api.DeadlineExceededException;
+
 import teammates.common.BuildProperties;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
@@ -83,17 +85,21 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 					+ Common.stackTraceToString(e));
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 			return;
+		} catch (DeadlineExceededException e) {
+			MimeMessage email = helper.server.emailErrorReport(req.getServletPath(), reqParam, (Throwable) e);
+			try {
+				log.severe(email.getContent().toString());
+			} catch (Exception e1) {}
+			
+			resp.sendRedirect(Common.JSP_DEADLINE_EXCEEDED_ERROR_PAGE);
+			return;
 		} catch (Throwable e) {
 			MimeMessage email = helper.server.emailErrorReport(req.getServletPath(), reqParam, e);
 			try {
 				log.severe(email.getContent().toString());
 			} catch (Exception e1) {}
-			
-			if(e.getMessage().contains("DeadlineExceededException")) {
-				resp.sendRedirect(Common.JSP_DEADLINE_EXCEEDED_ERROR_PAGE);
-			}else {
-				resp.sendRedirect(Common.JSP_ERROR_PAGE);
-			}
+						
+		    resp.sendRedirect(Common.JSP_ERROR_PAGE);
 			return;
 		}
 

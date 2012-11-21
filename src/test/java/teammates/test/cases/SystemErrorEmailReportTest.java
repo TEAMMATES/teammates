@@ -26,6 +26,7 @@ import teammates.test.driver.TestProperties;
 
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import com.google.apphosting.api.DeadlineExceededException;
 
 public class SystemErrorEmailReportTest extends BaseTestCase {
 	private static BrowserInstance bi;
@@ -90,6 +91,18 @@ public class SystemErrorEmailReportTest extends BaseTestCase {
 			link = Common.addParamToUrl(link, Common.PARAM_ERROR, NullPointerException.class.getSimpleName());
 			bi.goToUrl(link);
 			print("NullPointerException triggered, please check your crash report at " + BuildProperties.inst().getAppCrashReportEmail());	
+	}
+	
+	@Test
+	public void testDeadlineExceededException() throws Exception {
+			______TS("Deadline Exceeded testing");
+			String link = Common.PAGE_ADMIN_EXCEPTION_TEST;
+			link = Common.addParamToUrl(link, Common.PARAM_ERROR, DeadlineExceededException.class.getSimpleName());
+			bi.goToUrl(link);
+			print("DeadlineExceededException triggered, please check your crash report at " + BuildProperties.inst().getAppCrashReportEmail());	
+			______TS("DeadlineExceededException error view");
+			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/deadlineExceededErrorPage.html");
+		
 	}
 	
 	@Test
