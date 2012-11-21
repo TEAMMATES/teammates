@@ -23,8 +23,8 @@
 	
 	<script type="text/javascript" src="/js/coordinator.js"></script>
 	<script type="text/javascript" src="/js/coordEvalResults.js"></script>
-
-</head>
+    <jsp:include page="../enableJS.jsp"></jsp:include>
+</head> 
 
 <body>
 	<div id="dhtmltooltip"></div>

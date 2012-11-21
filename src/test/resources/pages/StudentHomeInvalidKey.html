@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="shortcut icon" href="/favicon.png">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Teammates - Student</title>
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/studentHome.css" type="text/css">
+
+	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="/js/tooltip.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	
+	<script type="text/javascript" src="/js/student.js"></script>	
+<noscript>{*}</noscript>
+</head>
+
+<body>
+	<div id="dhtmltooltip"></div>
+
+	<div id="frameTop">
+		
+
+
+		<div id="frameTopWrapper">
+			<div id="logo">
+				<img alt="Teammates" height="47px"
+					src="/images/teammateslogo.jpg"
+					width="150px">
+			</div>			
+			<div id="contentLinks">
+				<ul id="navbar">
+					<li><a class='t_home' href="/page/studentHome">Home</a></li>
+					<li><a class='t_help' href="/studentHelp.html" target="_blank">Help</a></li>
+					<li><a class='t_logout' href="/logout.jsp">Logout</a>
+					 (alice.tmms)</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div id="frameBody">
+		<div id="frameBodyWrapper">
+			<div id="topOfPage"></div>
+			<div id="headerOperation">
+				<h1>Student Home</h1>
+				<br />
+				<div id="result_addOrJoinCourse">
+					<form method="post" action="/page/studentCourseJoin" name="form_joincourse">
+						<table class="inputTable">
+							<tr>
+								<td class="label">Registration Key:</td>
+								<td>
+									<input class="keyvalue" type="text"
+											name="regkey"
+											id="regkey"
+											onmouseover="ddrivetip('Enter your registration key for the course.')"
+											onmouseout="hideddrivetip()" tabindex="1">
+								</td>
+								<td>
+									<input id="button_join_course" type="submit" class="button"
+											onclick="return this.form.regkey.value!=''"
+											value="Join Course" tabindex="2">
+								</td>
+							</tr>
+						 </table>
+						
+					</form>
+				</div>
+			</div>
+			
+
+
+	<div id="statusMessage"
+		style="display: block; background-color: rgb(255, 153, 153);">
+		You have entered an invalid key: ThisIsAnInvalidKey</div>
+
+			
+				
+			
+			<br> <br> <br>
+		</div>
+		
+	</div>
+	
+	<div id="frameBottom">
+		
+<div id="contentFooter">
+[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
+
+<a href="http://www.comp.nus.edu.sg/%7Eteams/contact.html" target="_blank">Contact Us</a>
+</div>
+	</div>
+</body>
+</html>

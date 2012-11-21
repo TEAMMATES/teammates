@@ -4,6 +4,8 @@ import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.annotations.Extension;
+
 
 import com.google.appengine.api.datastore.Text;
 
@@ -30,15 +32,19 @@ public class Submission {
 	String evaluationName;
 
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	int points;
 
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	Text justification;
 
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	Text commentsToStudent;
 
 	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	String teamName;
 
 	/**
