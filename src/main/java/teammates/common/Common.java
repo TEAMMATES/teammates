@@ -405,12 +405,9 @@ public class Common {
 	}
 
 	// GoogleID cannot have spaces
-	// GoogleID should follow the value returned by GAE which does not have @gmail.com
 	public static boolean isValidGoogleId(String googleId) {
 		return (isValidString(googleId) && 
-				hasNoSpace(googleId) &&
-				!googleId.contains("@"));
-		
+				hasNoSpace(googleId));		
 			// test for contains valid chars?
 	}
 

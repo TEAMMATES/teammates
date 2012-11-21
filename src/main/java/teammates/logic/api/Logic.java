@@ -345,7 +345,10 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, coordEmail);
 
 		verifyAdminLoggedIn();
-
+		//trim @gmail.com in ID field
+		if(coordId.contains("@gmail.com")) {
+			coordId = coordId.split("@")[0];
+		}
 		CoordData coordToAdd = new CoordData(coordId, coordName, coordEmail);
 		
 		if (!coordToAdd.isValid()) {
