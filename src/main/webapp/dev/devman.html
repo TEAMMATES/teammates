@@ -693,22 +693,29 @@
 	            <li>JDepend</li>
 	            <li>Testing tools: Fitness, cucumber, RobotFX, robot framework, cuke4duke, Jbehave, Watir</li>
 	        </ul>
-	        <br>
-	
 	    </div>
 	    <br>
-	    <br>
-	
-	
 	    
 	    <div id="settingup">
 	        <p class="header">Setting Up</p>
+	        These instructions are for the Windows environment. 
+	        Instructions for Mac OS is similar, with slight variations that you can figure out yourself.
 	
 	        <p id="settingup-prerequisites" class="subheader">Prerequisites</p>
 	        <ul>
-	            <li>Install Mercurial from <a href="http://mercurial.selenic.com/">http://mercurial.selenic.com/</a></li>
-	            <li>Download Eclipse IDE for Java EE Developers from <a href="http://www.eclipse.org/downloads/">http://www.eclipse.org/downloads/ </a></li>
-	            <li>Install Google App Engine plug-in for Eclipse and SDK from <a href="http://code.google.com/eclipse/docs/download.html.">http://code.google.com/eclipse/docs/download.html</a>. Do not install GWT plugin as it might interfere with the GAE plugin.</li>
+	            <li>Install <a href="http://tortoisehg.bitbucket.org/">TortoiseHg</a>. 
+	            <br>If you are on Mac OS, you can install <a href="http://mercurial.selenic.com/">Mercurial (Commandline version)</a> 
+	            or a Hg Gui such as <a href="http://jasonfharris.com/machg/">MacHg</a>.</li>
+	            <li>Download "Eclipse IDE for Java EE Developers" (version: Juno) 
+	                  from <a href="http://www.eclipse.org/downloads/">http://www.eclipse.org/downloads/ </a></li>
+	            <li>Install "Google App Engine plug-in for Eclipse" version 4.2 (but omit the App Engine SDK that comes with the plugin).
+	                     <br>Instructions are at <a href="https://developers.google.com/eclipse/docs/install-eclipse-4.2">https://developers.google.com/eclipse/docs/install-eclipse-4.2</a>. 
+	                     <br>Do not install GWT plugin as it might interfere with the GAE plugin.
+	            </li>
+	            <li>Install "Google App Engine SDK" version 1.7.3. 
+	                     <br>Instructions are at <a href="https://developers.google.com/eclipse/docs/using_sdks">https://developers.google.com/eclipse/docs/using_sdks</a>. 
+	                     <br>Download link to the SDK is <a href="http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.3.zip">http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.3.zip</a>. 
+	            </li>
 	            <li>If your Firefox is higher than version 12, downgrade to Firefox 12.0 from <a href="https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/">here</a> {The web driver for later Firefox is significantly slower than the one used for FF12}</li>
 	            <li>If your java version is later than 1.6, set Eclipse Java compliance level to 1.6 (GAE plugin does not support versions higher than 1.6).<br> 
 	            Windows → Preferences → Java → Compiler → Set compliance level → 1.6</li>
@@ -721,7 +728,7 @@
 	            <li>Clone source code from:<a href="https://code.google.com/p/teammates-release/">https://code.google.com/p/teammates-release/</a>
 	            <li>
 	                Create config files (these are not under revision control because their content vary from developer to developer). 
-	                <ol>
+	                <ol type="a">
 	                    <li><span class="blue">src/main/resources/</span><span class="bold">build.properties</span> <br>
 	                    Use build.template.properties as a template (i.e. copy → paste → rename)<br>
 	                    For dev server testing, property values can remain as they are. You need to change values when you deploy to appspot remote server. </li> 
@@ -733,11 +740,12 @@
 	                </ol>
 	            </li>
 	            <li>
-	                Open Eclipse and import → general → ‘existing projects into workspace’ (see the <span class="bold">Troubleshooting</span> section if have any problem). After the importing is complete, do the following steps.
-	                <ol>
+	                Open Eclipse and import → general → ‘existing projects into workspace’ (see the <span class="bold">Troubleshooting</span> 
+	                section if have any problem). After the importing is complete, do the following steps.
+	                <ol type="a">
 	                    <li>
 	                        Go to Properties→Google→Web application
-	                        <ol>
+	                        <ol type="i">
 	                            <li>Select 'this project has a WAR directory'.</li>
 	                            <li>Browse to src/main/webapp.</li>
 	                            <li><span class="bold">Select</span> 'Launch and deploy from this directory' </li>
@@ -745,23 +753,27 @@
 	                    </li>
 	                    <li>
 	                        Go to Properties→Google→App engine
-	                        <ol>
+	                        <ol type="i">
 	                            <li>Select ‘use Google App Engine’</li>
 	                        </ol>
 	                    </li>
 	                    <li> 
 	                        Go to Properties → Google → App Engine → ORM
-	                        <ol>
-	                            <li>Here, you should specify where are your Entity classes so that they can be enhanced by the DataNucleus Enhancer tool. Add this folder to the list <span class="bold">src/main/java/teammates/storage/entity/*.java</span></li>
+	                        <ol type="i">
+	                            <li>Here, you should specify where are your Entity classes so that they can be enhanced by the DataNucleus Enhancer tool. 
+	                            Add this folder to the list <span class="bold">src/main/java/teammates/storage/entity/*.java</span></li>
 	                            <li>Remove all other folders. That way, DataNucleus Enhancer runs only when you modify your entity classes.</li>
 	                        </ol> 
 	                    </li>
-	                    <li>If eclipse alters .classpath file during above steps, revert it back to original and refresh the project.</li>
-	                    <li>Click ‘Run’ → ‘Run as web application’, and browse to <span class="bold">src/main/webapp</span> for the location of the WAR file(can remove run configuration to redo this step). You may have to create a new ‘run configuration’ if one does not exist.
+	                    <li>If Eclipse alters <span class="bold">.classpath</span> file during above steps, revert it back to original and refresh the project.</li>
+	                    <li>Click ‘Run’ → ‘Run as web application’, and browse to <span class="bold">src/main/webapp</span> 
+	                    for the location of the WAR file(can remove the 'run configuration' to redo this step). 
+	                    You may have to create a new ‘run configuration’ if one does not exist.
 	                    The configuration is in the Run Configurations → Arguments tab → Program arguments.</li>
 	                </ol>
 	            </li>
-	            <li>After the dev server is running (i.e., this message appears on console “The server is running at http://localhost:8888/”), you can run <span class="code">AllTestsSuite.java</span> to confirm the app works as expected.</li>
+	            <li>After the dev server is running (i.e., this message appears on console “The server is running at http://localhost:8888/”), 
+	            you can run <span class="bold">AllTestsSuite.java</span> to confirm the app works as expected.</li>
 	        </ol>
 	        <br>
 	
@@ -775,7 +787,7 @@
 	            <br>
 	            <li>
 	                Modify configuration files. 
-	                <ol>
+	                <ol type="a">
 	                    <li><span class="blue">src/main/resources/</span><span class="bold">build.properties </span><br>
 	                    Follow instructions in the file itself.  </li>
 	                    <li><span class="blue">src/test/resources/</span><span class="bold">test.properties </span><br>
@@ -786,23 +798,26 @@
 	            </li>
 	            <li>
 	                Deploy app to a appspot
-	                <ol>
+	                <ol type="a">
 	                    <li>Choose ‘Deploy to app engine’ from eclipse and follow the steps.</li>
 	                    <li>Wait until you see this message in Eclipse console “Deployment completed successfully”</li>
 	                    <li>Go to appengine dashboard <br> <span class="blue">https://appengine.google.com/dashboard?&app_id=teammates-</span><span class="red">name</span></li>
 	                    <li>Click “Versions” under “Main” menu on the left bar.</li>
 	                    <li>Set the version you deployed as the ‘default’.</li>
 	                </ol>
-	                Note: You can skip the steps to set the deployed version as the default. In that case, you can access the deployed app using http://{version}.{app-id}.appspot.com  e.g. http://4-18.teammates-john.appspot.com
+	                Note: You can skip the steps to set the deployed version as the default. In that case, 
+	                you can access the deployed app using <span class="code">http://{version}.{app-id}.appspot.com</span>  
+	                e.g. <span class="code">http://4-18.teammates-john.appspot.com </span>
 	            </li>
-	            <li>You can run the tests again against the deployed app (modify test.properties so that tests execute against the deployed app and not the dev server). <br>
+	            <li>You can run the tests again against the deployed app (modify <span class="code">test.properties</span> so that tests execute against the deployed app and not the dev server). <br>
 	            Note that GAE daily quota will be exhausted after 2-3 runs of the full test suite.</li>
 	        </ol>
 	        
 	        <p class="subheader">To add more coordinators</p>
-	            <ol>
-	                <li>Go to http://appURL/page/adminHome</li>
-	                <li>Log in using your Google ID. If this is the local server, enter any email address, but remember to check the ‘log in as administrator’ check box.</li>
+	            <ol type="a">
+	                <li>Go to <span class="code">http://appURL/page/adminHome</span></li>
+	                <li>Log in using your Google ID. If this is the dev server, enter any email address, 
+	                but remember to check the ‘log in as administrator’ check box.</li>
 	                <li>
 	                    Enter credentials for a coordinator. e.g., <br>
 	                    Google id: teammates.coord<br>
@@ -814,49 +829,39 @@
 	
 	        <p id="settingup-troubleshooting" class="subheader">Troubleshooting</p>
 	        <ol>
-	            <li>ERROR: Eclipse complains about FileWriter and ConsoleHandler e.g. java.io.FileWriter is not supported by Google App Engine's Java runtime environment   <br>
-	            SOLUTION: These are OK because the offending files belong to test driver and will not be deployed to GAE. Choose to ‘Quick Fix’ and then choose to exclude those files from validation.</li>
+	            <li>ERROR: Eclipse complains about FileWriter and ConsoleHandler 
+	            e.g. java.io.FileWriter is not supported by Google App Engine's Java runtime environment   <br>
+	            SOLUTION: These are OK because the offending files belong to test driver and will not be deployed to GAE. 
+	            Choose to ‘Quick Fix’ and then choose to exclude those files from validation.</li>
 	            <br>
-	            <li>ERROR: your project must be configured to use a jdk in order to use jsp. <br>
-	            SOLUTION: This happens because Eclipse is only aware of JRE, not JDK (Compiling JSP requires the JDK)Go to Window→Preferences→Java→Installed JREs and verify that only the JRE path is listed and not the JDK path. To fix this, Click add→Standard VM, then for the JRE Path enter the path ‘jre’ folder inside your jdk installation folder. e.g., C:\jdk1.6\jre Now you should see all of the JARs added to the library section. </li>
+	            <li>ERROR: Eclipse complains "...your project must be configured to use a jdk in order to use jsp". <br>
+	            SOLUTION: This happens because Eclipse is only aware of JRE, not JDK (Compiling JSP requires the JDK). 
+	            Go to Window→Preferences→Java→Installed JREs. You will note that a JRE path is the one selected, not a JDK path. 
+	            To fix this, Click add→Standard VM, then for the JRE Path enter the path ‘jre’ folder inside your jdk installation folder. 
+	            e.g., <span class="code">C:\jdk1.6\jre</span> Now you should see all of the JARs added to the library section. </li>
 	            <br>
-	            <li>ERROR: javax.xml.parsers.FactoryConfigurationError: Provider org.apache.xerces.jaxp.SAXParserFactoryImpl not found.<br>
-	            SOLUTION: Remove xercesImpl-(version).jar from classpath.</li>
 	            <br>
-	            <li>ERROR: related to bundle registration of datanucleus extension.<br>
-	            SOLUTION:
-	                <ul>
-	                    <li>Check ORM path is set  correctly (described in setup instructions above)</li>
-	                    <li>
-	                        If you find both of these files in WEB-INF/lib, delete one of them.<br>
-	                        datanucleus-appengine-1.0.10.final.jar,<br>
-	                        datanucleus-appengine-1.0.10.jar<br>
-	                    </li>
-	                </ul>
-	            </li>
-	            <br>
-	            <li>ERROR (on Windows, Eclipse): Development server launched by Eclipse keeps running even after closing Eclipse. After restarting eclipse, you’ll be able to relaunch dev server on the same port but requests will be received by the previous server instance.<br>
-	            SOLUTION: If eclipse crashes while development server is running inside eclipse, the server might keep running even after eclipse is closed.  Go to Windows task manager and kill processes named javaw.exe.</li>
+	            <li>ERROR (on Windows): Dev server launched by Eclipse keeps running even after closing Eclipse. 
+	            After restarting eclipse, you’ll be able to relaunch dev server on the same port but requests will be received by the previous server instance.<br>
+	            SOLUTION: If eclipse crashes while development server is running inside eclipse, the server might keep running even after eclipse is closed.  
+	            Go to Windows task manager and kill processes named javaw.exe.</li>
 	            <br>
 	            <li>ERROR (on Windows), null pointer exception when trying to access email box. The error message looks something like this:<br>
-	            java.lang.NullPointerException at <br>
+	            <span class="code">java.lang.NullPointerException at <br>
 	            javax.mail.internet.ParameterList.set(ParameterList.java:165) at <br>
 	            com.sun.mail.imap.protocol.BODYSTRUCTURE.parseParameters(BODYSTRUCTURE.java:390)<br>
+	            </span>
 	            SOLUTION: In eclipse, move the javax.mail.....jar (from sun) to the top of the build class path. (Properties → Java build path → ‘order and export’ tab)</li> 
 	            <br>
 	            <li>ERROR: Eclipse complains‘ file out of sync’.<br>
 	            SOLUTION: ‘refresh’ the project in eclipse.</li>
 	            <br>
 	            <li>ERROR: Tests fail randomly during dev server testing<br>
-	            THINGS : Make sure there is only one dev server running. Eclipse will happily allow you to start multiple dev servers.</li>
+	            SOLUTION: Make sure there is only one dev server running. Eclipse will happily allow you to start multiple dev servers.</li>
 	        </ol>
-	        <br>
-	
 	    </div>
 	    <br>
-	    <br>
-	
-	
+		
 	
 	    <div id="process">
 	        <p class="header">Process</p>
