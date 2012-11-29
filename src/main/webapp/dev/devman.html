@@ -31,52 +31,22 @@
 	        <ul>
 	            <li><a href="#design-architecture">Architecture</a></li>
 	            <li><a href="#design-ui">UI</a></li>
-	            <li>
-	                <a href="#design-logic">Logic</a>
-	                <ul>
-	                    <li><a href="#design-logic-logicAPI">Logic API</a></li>
-	                    <li><a href="#design-logic-policies">Policies</a></li>
-	                </ul>
-	            </li>
-	            <li>
-	                <a href="#design-storage">Storage</a>
-	                <ul>
-	                    <li><a href="#design-storage-storageAPI">Storage API</a></li>
-	                    <li><a href="#design-storage-policies">Policies</a></li>
-	                </ul>
-	            </li>
+	            <li><a href="#design-logic">Logic</a></li>
+	            <li><a href="#design-storage">Storage</a></li>
 	            <li><a href="#design-common">Common</a></li>
 	            <li><a href="#design-testdriver">TestDriver</a></li>
 	            <li><a href="#design-configpoints">Config points</a></li>
 	        </ul>
 	    
-	        <li><a href="#infrastructure">Infrastructure</a></li>
+	        <li><a href="#infrastructure">Infrastructure</a>
 	        <ul>
 	            <li><a href="#infrastructure-knowledgebase">Knowledge base</a></li>
-	            <li>
-	                <a href="#infrastructure-toolsandtechnologies">Tools and technologies</a>
-	                <ul>
-	                    <li><a href="#infrastructure-toolsandtechnologies-GAE">Google App Engine</a></li>
-	                    <li><a href="#infrastructure-toolsandtechnologies-Java">Java</a></li>
-	                    <li><a href="#infrastructure-toolsandtechnologies-JavaScript">JavaScript</a></li>
-	                    <li><a href="#infrastructure-toolsandtechnologies-htmlcss">HTML, CSS</a></li>
-	                    <li><a href="#infrastructure-toolsandtechnologies-AJAX">AJAX</a></li>
-	                    <li><a href="#infrastructure-toolsandtechnologies-JSPServlets">JSP/Servlets</a></li>
-	                    <li><a href="#infrastructure-toolsandtechnologies-JUnit">JUnit</a></li>
-	                    <li><a href="#infrastructure-toolsandtechnologies-QUnit">QUnit</a></li>
-	                    <li><a href="#infrastructure-toolsandtechnologies-Selenium">Selenium</a></li>
-	                    <li><a href="#infrastructure-toolsandtechnologies-JSON">JSON</a></li>
-	                    <li><a href="#infrastructure-toolsandtechnologies-JQuery">JQuery</a></li>
-	                    <li><a href="#infrastructure-toolsandtechnologies-GSON">Gson</a></li>
-	                    <li><a href="#infrastructure-toolsandtechnologies-Eclipse">Eclipse</a></li>
-	                    <li><a href="#infrastructure-toolsandtechnologies-Hg">Hg</a></li>
-	                    <li><a href="#infrastructure-toolsandtechnologies-GoogleCode">GoogleCode</a></li>
-	                    <li><a href="#infrastructure-toolsandtechnologies-NekoHTML">NekoHTML</a></li>
-	                    <li><a href="#infrastructure-toolsandtechnologies-potentiallyuseful">Potentially useful</a></li>
-	                </ul>
-	            </li>
+	            <li><a href="#infrastructure-toolsandtechnologies-deployment">Deployment environment</a></li>
+	            <li><a href="#infrastructure-toolsandtechnologies-development">Development environment</a></li>
+                <li><a href="#infrastructure-toolsandtechnologies-implementation">Tools used in implementation</a></li>
+	            <li><a href="#infrastructure-toolsandtechnologies-testing">Tools used in testing</a></li>
 	        </ul>
-	   
+	   		</li>
 	        <li><a href="#settingup">Setting Up</a></li>
 	        <ul>
 	            <li><a href="#settingup-prerequisites">Prerequisites</a></li>
@@ -478,223 +448,131 @@
 	            <li><span class="bold">jdoconfig.xml </span>: Specifies the JDO configuration.
 	            <li><span class="bold">persistence.xml </span>: auto-generated.
 	        </ul>
-	        <br>
-	
 	    </div>
-	    <br>
-	    <br>
-	
 	
 	
 	    <div id="infrastructure">
 	        <p class="header">Infrastructure</p>
-	
+	        
+
 	        <p id="infrastructure-knowledgebase" class="subheader">Knowledge base</p>
 	        <ul>
-	            <li><a href="https://docs.google.com/document/d/1LXngHM-VgjXR-uiqNUUpNqptVJwuSsEpkQwda6YGCro/edit#">Developer manual</a> (i.e. <span class="bold">DevMan</span>)</li>
-	            <li><a href="https://docs.google.com/document/d/1hjQQHYM3YId0EUSrGnJWG5AeFpDD_G7xg_d--7jg3vU/edit">System specification</a> (i.e. <span class="bold">Spec</span>)</li>
-	            <li><a href="https://docs.google.com/document/d/1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU/edit#heading=h.1yzvgqzgobon">Problems and Solutions</a> (i.e. <span class="bold">PandS</span>) : Problems encountered, solutions considered, rationale for selection etc.</li>
-	            <li><a href="https://docs.google.com/document/d/1Niq-VOjj0dBwYevySz1FnBPGSoFwLNkn7lcmIYKV_Cc/edit?hl=en_US">Project Meeting Minutes</a> (i.e. <span class="bold">Minutes</span>)</li>
-	            <li><a href="https://docs.google.com/document/d/1Niq-VOjj0dBwYevySz1FnBPGSoFwLNkn7lcmIYKV_Cc/edit?hl=en_US">Version History</a> (i.e. <span class="bold">History</span>)</li>
+	            <li><a href="https://teammatesv4.appspot.com/dev/devman.html">
+	            	Developer manual</a> (i.e. <span class="bold">DevMan</span>) {This document}</li>
+	            <li><a href="https://teammatesv4.appspot.com/dev/spec.html">
+	            	System specification</a> (i.e. <span class="bold">Spec</span>)</li>
+	            <li><a href="https://docs.google.com/document/pub?id=1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU&embedded=true">
+	            	Problems and Solutions</a> (i.e. <span class="bold">P&S</span>) : Problems encountered, solutions considered, rationale for selection etc.</li>
+	            <li><a href="https://docs.google.com/document/d/1Niq-VOjj0dBwYevySz1FnBPGSoFwLNkn7lcmIYKV_Cc/edit?hl=en_US">
+	            	Project Meeting Minutes</a> (i.e. <span class="bold">Minutes</span>){restricted to project members only}</li>
+	            <li><a href="https://docs.google.com/document/pub?id=1b9UmcYz8NU2TJ6Kt8i6pCcj064B98sbrM0MMEYVWs0Q&embedded=true">
+	            	Version History</a> (i.e. <span class="bold">History</span>)</li>
+	            <li><a href="https://docs.google.com/document/pub?id=1LymZ6oeEA6TZRzgW7X2FUxA2MPbZTjUrzIx6si_5ThI&embedded=true">
+	            	Resources</a> (i.e. <span class="bold">Resources</span>) : Learning materials, tips, tutorials, etc.</li>
 	            <br>
-	            <li><span class="bold">Google Group</span> for project team <a href="https://docs.google.com/document/d/1Niq-VOjj0dBwYevySz1FnBPGSoFwLNkn7lcmIYKV_Cc/edit?hl=en_US">http://groups.google.com/group/<span class="bold">teammates-dev</span></a></li>
+	            <li><span class="bold">Google Group</span> for dev team <a href="http://groups.google.com/group/teammates-dev">http://groups.google.com/group/<span class="bold">teammates-dev</span></a></li>
+	            <li><span class="bold">Google Group</span> for contributors <a href="http://groups.google.com/group/teammates-contributors">http://groups.google.com/group/<span class="bold">teammates-contributors</span></a></li>
 	            <br>
-	            <li><span class="bold">Repo</span> and <span class="bold">Issue Tracker</span> : <a href="http://code.google.com/p/teammatespes/issues/list">teammatesPES.googlecode.com</a> {PES = Peer Evaluation System} {<a href="https://code.google.com/r/damith-clone-of-old-repo/source/browse">copy of old repo</a>}</li>
+	            <li><span class="bold">Review Repo</span> (contains under-review code or reviewed-but-not-release-ready code) and <span class="bold">Issue Tracker</span> : <a href="http://code.google.com/p/teammatespes">teammatesPES.googlecode.com</a> {PES = Peer Evaluation System} </li>
+	            <li><span class="bold">Release Repo</span> (contains the released or release-ready code): <a href="http://code.google.com/p/teammates-release">teammates-release.googlecode.com</a></li>
 	            <li><span class="bold">Live site</span>: <a href="http://teammatesv4.appspot.com/">http://teammatesv4.appspot.com</a></li>
 	        </ul>
 	
-	        <p id="infrastructure-toolsandtechnologies" class="subheader">Tools and Technologies</p>
-	        <p id="infrastructure-toolsandtechnologies-GAE" class="subheader">Google App Engine</p>
-	        Alternatives: AWS, Azure <br>
-	        Rationale:
-	        <ul>
-	            <li>GAE is a PaaS (Platform as a Service). This means much of the scaling up is handled by GAE rather than us.</li>
-	            <li>GAE free tier is more convenient to use than AWS.</li>
-	        </ul>
-	        Learning resources:
-	        <br>
-	
-	        <p id="infrastructure-toolsandtechnologies-Java" class="subheader">Java</p>
-	        Alternatives: GAE supports only Java and Python. <br>
-	        Rationale: Java was chosen because it is more widely used than Python. <br>
-	        Learning resources: <br>
-	        <br>
-	
-	        <p id="infrastructure-toolsandtechnologies-JavaScript" class="subheader">JavaScript</p>
-	        Learning resources:
-	        <ul>
-	            <li>Mozilla Developer Network’s JavaScript Guide: <br> <a href="https://developer.mozilla.org/en/JavaScript/Guide">https://developer.mozilla.org/en/JavaScript/Guide</a></li>
-	            <li>A shorter recap, also from Mozilla <br> <a href="https://developer.mozilla.org/en/A_re-introduction_to_JavaScript">https://developer.mozilla.org/en/A_re-introduction_to_JavaScript</a></li> 
-	            <li><a href="http://www.impressivewebs.com/javascript-resources-web-app-developers/">Some JavaScript Resources for Web App Developers</a></li>
-	        </ul>
-	        <br>
-	
-	        <p id="infrastructure-toolsandtechnologies-htmlcss" class="subheader">HTML, CSS</p>
-	        Alternatives: <br>
-	        Rationale: <br>
-	        Learning resources: <br>
-	        <br>
-	
-	        <p id="infrastructure-toolsandtechnologies-AJAX" class="subheader">AJAX</p>
-	        Alternatives: - <br>
-	        Rationale: Provides smooth experience to users<br>
-	        Learning resources: <a href="http://api.jquery.com/jQuery.ajax/">http://api.jquery.com/jQuery.ajax/</a>
-	        <br>
-	
-	        <p id="infrastructure-toolsandtechnologies-JSPServlets" class="subheader">JSP/Servlets</p>
-	        Alternatives: <br>
-	        Rationale: <br>
-	        Learning resources:<br>
-	        Best practice and tutorial <a href="http://www.oracle.com/technetwork/articles/javase/servlets-jsp-140445.html">here</a>
-	        <br>
-	
-	        <p id="infrastructure-toolsandtechnologies-JUnit" class="subheader">JUnit</p>
-	        Alternatives: <br>
-	        Rationale: <br>
-	        Learning resources:
-	        <ul>
-	            <li>Beginner tutorial: <a href="http://www.vogella.com/articles/JUnit/article.html">http://www.vogella.com/articles/JUnit/article.html </a></li>
-	        </ul>
-	        <br>
-	
-	        <p id="infrastructure-toolsandtechnologies-QUnit" class="subheader">QUnit</p>
-	        Alternatives: <br>
-	        Rationale: <br>
-	        Learning resources: <br>
-	        <br>
-	
-	        <p id="infrastructure-toolsandtechnologies-Selenium" class="subheader">Selenium</p>
-	        Alternatives: <br>
-	        Rationale: One of the most commonly used library to do UI test<br>
-	        Learning resources: <a href="http://seleniumhq.org/docs/06_test_design_considerations.html">http://seleniumhq.org/docs/06_test_design_considerations.html</a><br>
-	        <br>
-	
-	        <p id="infrastructure-toolsandtechnologies-JSON" class="subheader">JSON</p>
-	        Alternatives: <br>
-	        Rationale: <br>
-	        Learning resources:
-	        <ul>
-	            <li>JSON explained: <a href="http://everything.explained.at/JSON/">http://everything.explained.at/JSON/ </a></li>
-	        </ul>
-	        <br>
-	
-	        <p id="infrastructure-toolsandtechnologies-JQuery" class="subheader">JQuery</p>
-	        Alternatives: <br>
-	        Rationale: <br>
-	        Learning resources: <br>
-	        <br>
-	
-	        <p id="infrastructure-toolsandtechnologies-GSON" class="subheader"><a href="http://code.google.com/p/google-gson">GSON</a></p>
-	        Alternatives: <br>
-	        Rationale: <br>
-	        Learning resources: <br>
-	        <br>
-	
-	        <p id="infrastructure-toolsandtechnologies-Eclipse" class="subheader">Eclipse</p>
-	        Alternatives: <br>
-	        Rationale: <br>
-	        Learning resources:
-	        <ul>
-	            <li>Keyboard shortcuts <a href="http://www.allapplabs.com/eclipse/eclipse_shortcuts.htm">http://www.allapplabs.com/eclipse/eclipse_shortcuts.htm </a></li>
-	            <li><a href="http://www.summa-tech.com/blog/2009/05/19/top-10-not-so-popular-eclipse-shortcuts/">http://www.summa-tech.com/blog/2009/05/19/top-10-not-so-popular-eclipse-shortcuts/ </a></li>
-	        </ul>
-	        Tips:
-	        <ul> 
-	            <li>Use Ctrl+F to auto-format code. But before using that, enable the @formatter:off annotation (see <a href="http://archive.eclipse.org/eclipse/downloads/drops/R-3.6-201006080911/eclipse-news-part2.html#JavaFormatter">here</a>) so that segments marked with those annotations will not be formatted.</li>
-	            <li>Open a file without navigating the project explorer: Press Ctrl+Shift+R and start typing the name of the file</li>
-	            <li>To show line numbers: Window → Preferences → General → TextEditors → Select ‘Show line numbers’</li>
-	            <li>To show a guide line at 80 char limit:</li>
-	            <li>General→Editors-TextEditors, Activate "Show print margin" and enter 80 in "Print margin column".</li>
-	            <li>Configure Ctrl+F11 to launch the last launched class instead of the class currently in focus (default) <a href="http://eclipseone.wordpress.com/2010/01/15/always-rundebug-the-last-launched-class-instead-of-the-selected-one-in-eclipse/#more-622">http://eclipseone.wordpress.com/2010/01/15/always-rundebug-the-last-launched-class-instead-of-the-selected-one-in-eclipse/#more-622</a></li>
-	            <li>This will make creating Java string literals easier: Preferences/Java/Editor/Typing/ "Escape text when pasting into a string literal"</li>
-	            <li>How to enable JavaScript editing functionality (e.g., refactoring) within a Java project: <a href="http://steve.blogs.loeppky.com/2010/10/javascript-validation-in-java-project.html">http://steve.blogs.loeppky.com/2010/10/javascript-validation-in-java-project.html </a></li>
-	            <li>
-	                Keyboard shortcuts
-	                <ul>
-	                    <li>to bring up the List of available shortcuts Ctrl+Shift+L</li>
-	                    <li>to switch tabs: Ctrl + Page Up, Ctrl + Page Dn</li>
-	                </ul>
-	            </li>
-	        </ul>
-	        <br>
-	
-	        <p id="infrastructure-toolsandtechnologies-Hg" class="subheader">Hg</p>
-	        Alternatives: SVN, Git <br>
-	        Rationale: Have a good UI (Hg Workspace), compared to SVN and Git that enables easy history viewing <br>
-	        Learning resources:
-	        <ul>
-	            <li>A good place to start learning HG: <a href="http://hginit.com">Hg Init by Joel Spolsky</a></li>
-	            <li>More comprehensive guide: <a href="http://hgbook.red-bean.com/">Mercurial: The Definitive Guide by Bryan O'Sullivan</a></li> 
-	            <li><a href="https://developer.mozilla.org/en/Mercurial_Queues">MDN documentation on Hg Queue</a></li>
-	            <li><a href="http://mercurial.selenic.com/wiki/Workflows">http://mercurial.selenic.com/wiki/Workflows</a></li>
-	            <li><a href="http://stevelosh.com/blog/2009/08/a-guide-to-branching-in-mercurial/">http://stevelosh.com/blog/2009/08/a-guide-to-branching-in-mercurial/</a></li>
-	        </ul>
-	        Tips:
-	        <ul>
-	            <li>Saving username/password <br> <a href="http://stackoverflow.com/questions/2584407/how-to-save-username-and-password-with-mercurial">http://stackoverflow.com/questions/2584407/how-to-save-username-and-password-with-mercurial</a> </li>
-	            <li>Detecting files renamed externally: When you manually rename a file or a file is renamed by an Eclipse refactoring, hg usually consider it as removing of one file and adding of another. However, you can use the addremove command to let hg auto-detect renaming of files. Here’s more <br> <a href="http://hgtip.com/tips/advanced/2009-09-30-detecting-renames-automatically/">http://hgtip.com/tips/advanced/2009-09-30-detecting-renames-automatically/ </a></li>
-	            <li>
-	                [On Windows+TortoiseHg] To do a visual (i.e manual) merge/diff of current file to previous version, open TortoiseHg workbench, go to the revision that you want to merge with, right-click on the file name and chose ‘Visual diff to local’)<br>
-	                <br>
-	                <div class="image-holder"><img src="images/visual_diff_to_local.png"/></div>
-	            </li>
-	        </ul>
-	        <br>
-	        
-	        <p id="infrastructure-toolsandtechnologies-GoogleCode" class="subheader">GoogleCode</p>
-	        Alternatives: <br>
-	        Rationale: <br>
-	        Learning resources:
-	        <ul>
-	            <li>Issue tracker help <a href="http://code.google.com/p/support/wiki/IssueTracker">http://code.google.com/p/support/wiki/IssueTracker </a></li>
-	        </ul>
-	        <br>
-	
-	        <p id="infrastructure-toolsandtechnologies-NekoHTML" class="subheader"><a href="http://nekohtml.sourceforge.net">NekoHTML</a></p>
-	        Alternatives:
-	        <ul>
-	            <li><a href="http://tika.apache.org">Apache Tika</a> : Seems an overkill, but from a reputed source.</li>
-	        </ul>
-	        Rationale: Already used by Selenium.<br>
-	        Learning resources: <br>
-	        <br>
-	
-	        <p id="infrastructure-toolsandtechnologies-potentiallyuseful" class="subheader">Potentially useful</p>
-	        <ul>
-	            <li><span class="bold">JSFiddle</span>: Online tool to experiment with JavaScript, CSS, HTML: <a href="http://jsfiddle.net">http://jsfiddle.net </a></li>
-	            <li><span class="bold">Firebug</span> : Integrates with Firefox to put some web development tools to edit, debug, and monitor CSS, HTML, and JavaScript live in any web page. <a href="http://getfirebug.com">http://getfirebug.com</a></li>
-	            <li><span class="bold">JSHint</span>: To check quality of JavaScript code <a href="http://www.jshint.com">http://www.jshint.com </a></li>
-	            <li>Closure templates: https://developers.google.com/closure/templates/</li>
-	            <li>Objectify-appengine: code.google.com/p/objectify-appengine/ </li>
-	            <li>YAML?</li>
-	            <li>Mylyn</li>
-	            <li>Bootstrap?</li>
-	            <li>JMockit</li>
-	            <li>GAE endpoints</li>
-	            <li>ScriptCover - Javascript coverage tool</li>
-	            <li>Joda: calendar replacement</li>
-	            <li>Rietveld <a href="http://code.google.com/p/rietveld/">http://code.google.com/p/rietveld/</a></li>
-	            <li>
-	                Code analyzers
-	                <ul>
-	                    <li>Findbugs <a href="http://findbugs.sourceforge.net/">http://findbugs.sourceforge.net/ </a></li>
-	                    <li>PMD <a href="http://pmd.sourceforge.net/pmd-5.0.0/">http://pmd.sourceforge.net/pmd-5.0.0/ </a></li>
-	                    <li>CPD <a href="http://pmd.sourceforge.net/cpd.html">http://pmd.sourceforge.net/cpd.html </a></li>
-	                    <li>Panopticode <a href="http://sourceforge.net/projects/panopticode">http://sourceforge.net/projects/panopticode/</a></li>
-	                </ul>
-	            </li>
-	            <li>CloudCover (to run unit tests on the cloud) <a href="http://code.google.com/p/cloudcover/">http://code.google.com/p/cloudcover/</a></li> 
-	            <li>Expression builder pattern <a href="http://martinfowler.com/bliki/ExpressionBuilder.html">http://martinfowler.com/bliki/ExpressionBuilder.html </a></li>
-	            <li>Groovy</li>
-	            <li>Curl: Command line web access tool, may be useful for testing?</li>
-	            <li>Eclipse Json editor plugin <a href="http://sourceforge.net/projects/eclipsejsonedit/">http://sourceforge.net/projects/eclipsejsonedit/ </a></li>
-	            <li>Google’s code pro analytix <a href="https://developers.google.com/java-dev-tools/codepro/doc/">https://developers.google.com/java-dev-tools/codepro/doc/ </a></li>
-	            <li>Excel button <a href="http://blogs.office.com/b/microsoft-excel/archive/2012/08/02/the-excel-button-bringing-excel-everywhere.aspx">http://blogs.office.com/b/microsoft-excel/archive/2012/08/02/the-excel-button-bringing-excel-everywhere.aspx</a></li>
-	            <li>JDepend</li>
-	            <li>Testing tools: Fitness, cucumber, RobotFX, robot framework, cuke4duke, Jbehave, Watir</li>
-	        </ul>
-	    </div>
-	    <br>
+				
+			<p id="infrastructure-toolsandtechnologies-deployment" class="subheader">Deployment environment</p>
+			<ul>
+				<li><span class="bold">Google App Engine (GAE)</span></li>
+				<li><span class="bold">Java</span> [version 1.6, this is the highest version supported by GAE]</li>
+			</ul>
+			
+			<p id="infrastructure-toolsandtechnologies-development" class="subheader">Development environment</p>
+			<ul>
+				<li><span class="bold">Eclipse</span> IDE for EE developers [version juno]</li>
+				<li><span class="bold">Google App Engine Plugin for Eclipse</span> [version 4.2]</li>
+				<li><span class="bold">Google App Engine SDK</span> [version 1.7.3]</li>
+				<li><span class="bold">TortoiseHg</span> or Mac OS equivalent [version: latest stable]</li>
+				<li><span class="bold">Google Code</span> project hosting</li>
+			</ul>
+			
+			<p id="infrastructure-toolsandtechnologies-implementation" class="subheader">Tools used in implementation</p>
+			<ul>
+				<li><span class="bold">HTML</span> [version 5, using latest features is discouraged 
+					due to lack of enough Browser support], <span class="bold">JavaScript</span>, <span class="bold">CSS</span></li>
+				<li><a class="bold" href="http://jquery.com/">jQuery</a></span> [version 1.6.2]
+					<br>jQuery is a JavaScript Library that simplifies HTML
+					document traversing, event handling, animating, and Ajax
+					interactions for rapid web development.
+				</li>
+			 	<li><span class="bold">JSON </span><span>(JavaScript Object Notation) 
+			 		<br>JSON is a lightweight data-interchange format. It is easy for humans to read and write. 
+			 		It is easy for machines to parse and generate. It is based on a subset of the JavaScript.
+				</li>
+				<li><a class="bold" href="http://code.google.com/p/google-gson/">Gson</a></span> [version 2.2.2]
+					<br>Gson is a Java library that can be used to convert Java Objects into their
+						JSON representation. It can also be used to convert a JSON string to
+						an equivalent Java object.
+				</li>
+				<li><span class="bold">Java Server Pages (JSP)</span>
+					<br>JSP technology provides a simplified way to create dynamic web content.
+						A JSP page can be thought as an HTML page with embedded Java code
+						snippets.</li>
+				<li><span class="bold">Java Servlets</span>
+					<br>Java Servlet technology provides a simple, consistent mechanism for
+						extending the functionality of a Web server and for accessing
+						existing business systems. A servlet can almost be thought of as an
+						applet that runs on the server side--without a face.
+				</li>
+				<li><span class="bold"><a href="https://developers.google.com/appengine/docs/java/datastore/jdo/overview">
+					Java Data Objects (JDO)</a></span> [version 2.3; while GAE
+						supports JDO 3.0 as well, we continue to use JDO 2.3 because it is
+						easier to set up.] 
+						<br>JDO is a standard interface for storing
+						objects containing data into a database. The standard defines
+						interfaces for annotating Java objects, retrieving objects with
+						queries, and interacting with a database using transactions. An
+						application that uses the JDO interface can work with different
+						kinds of databases without using any database-specific code,
+						including relational databases, hierarchical databases, and object
+						databases.
+				</li>
+				<li><span class="bold">Datanucleus Access Platform</span> [version 1; while GAE supports
+						Datanucleus v2 as well, the version that goes with JDO 2.3 is v1]
+						<br>The DataNucleus Access Platform provides persistence and retrieval of
+						data to a range of datastores using a range of APIs, with a range of
+						query languages.
+						<br>Comes with App Engine SDK.
+				</li>
+			</ul>
+			
+			<p id="infrastructure-toolsandtechnologies-testing" class="subheader">Tools used in testing</p>
+			<ul>
+				<li><span class="bold"><a href="http://code.google.com/p/selenium/wiki/UsingWebDriver">
+					Selenium</a></span> [version 2.26.0]
+					<br>Selenium automates browsers. We use it for automating our UI tests.
+					<br>We require Selenium standalone server, Chrome driver, IE driver, and Java language bindings.
+				</li>
+				<li><span class="bold"><a href="http://www.oracle.com/technetwork/java/javamail/index.html">JavaMail</a></span> [version 1.4.5]
+					<br>The JavaMail API provides a platform-independent and
+						protocol-independent framework to build mail and messaging applications.
+						<br> Usage: For accessing test users' email accounts to examine
+						emails sent from TEAMMATES.
+				</li>
+				<li><span class="bold"><a href="https://github.com/kentbeck/junit/wiki">JUnit</a></span> [version 4.11]
+					<br>JUnit is a Java test automation framework.
+				</li>
+				<li><span class="bold"><a href="http://qunitjs.com/">QUnit</a></span> [version 1.9.0]
+					<br>QUnit is a JavaScript unit test suite.
+				</li>
+				<li><span class="bold">NekoHtml</span> [version 1.9.16]
+					<br>NekoHTML is a simple HTML scanner and tag balancer that
+						enables application programmers to parse HTML documents and access
+						the information using standard XML interfaces. 
+						<br>NekoHTML is included in the Selenium libraries.
+						<br>Usage: During UI testing,
+						for doing a logical comparison of the pages generated against expected pages.
+				</li>
+			</ul>
+		</div>
 	    
 	    <div id="settingup">
 	        <p class="header">Setting Up</p>
