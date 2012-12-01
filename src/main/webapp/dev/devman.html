@@ -253,8 +253,10 @@
                 <br>
                 <br>  
 	        <p id="design-logic" class="subheader">Logic</p>
-	        The Logic component handles the business logic of TEAMMATES.<br>
-	        It acts as the Model component of the MVC pattern which is interfaced to UI component through a thin facade class. Internally, logic is separated into 3 different storage classes and communicates with the DB component by performing operations individually or collectively.<br>
+	        The <span class="code">Logic</span> component handles the business logic of TEAMMATES.<br>
+	        It is accessible via a thin facade class called <span class="code">Logic</span> which makes 
+	        use of 3 <span class="code">*Logic</span> classes to handle the logic related to various
+	        types of data and to access data from the <span class="code">Storage</span> component.<br>
 	        
 	        <br>
 	        <div class="image-holder"><img src="images/LogicComponent.png"/></div>

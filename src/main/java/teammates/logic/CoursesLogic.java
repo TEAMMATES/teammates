@@ -19,8 +19,8 @@ import teammates.storage.api.CoursesDb;
  * static class (singleton).
  * 
  */
-public class CoursesStorage {
-	private static CoursesStorage instance = null;
+public class CoursesLogic {
+	private static CoursesLogic instance = null;
 	private static final Logger log = Common.getLogger();
 
 	private static final CoursesDb coursesDb = new CoursesDb();
@@ -31,9 +31,9 @@ public class CoursesStorage {
 	 * 
 	 * @return CoursesStorage
 	 */
-	public static CoursesStorage inst() {
+	public static CoursesLogic inst() {
 		if (instance == null)
-			instance = new CoursesStorage();
+			instance = new CoursesLogic();
 		return instance;
 	}
 

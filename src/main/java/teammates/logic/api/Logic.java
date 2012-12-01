@@ -30,10 +30,10 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.logic.AccountsStorage;
-import teammates.logic.CoursesStorage;
+import teammates.logic.AccountsLogic;
+import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
-import teammates.logic.EvaluationsStorage;
+import teammates.logic.EvaluationsLogic;
 import teammates.logic.TeamEvalResult;
 
 import com.google.appengine.api.datastore.Text; //TODO: remove this dependency
@@ -62,7 +62,7 @@ public class Logic {
 	 *            This is the URL the user will be directed to after login.
 	 */
 	public static String getLoginUrl(String redirectUrl) {
-		AccountsStorage accounts = AccountsStorage.inst();
+		AccountsLogic accounts = AccountsLogic.inst();
 		return accounts.getLoginPage(redirectUrl);
 	}
 
@@ -73,7 +73,7 @@ public class Logic {
 	 *            This is the URL the user will be directed to after logout.
 	 */
 	public static String getLogoutUrl(String redirectUrl) {
-		AccountsStorage accounts = AccountsStorage.inst();
+		AccountsLogic accounts = AccountsLogic.inst();
 		return accounts.getLogoutPage(redirectUrl);
 	}
 
@@ -81,7 +81,7 @@ public class Logic {
 	 * Verifies if the user is logged into his/her Google account
 	 */
 	public static boolean isUserLoggedIn() {
-		AccountsStorage accounts = AccountsStorage.inst();
+		AccountsLogic accounts = AccountsLogic.inst();
 		return (accounts.getUser() != null);
 	}
 
@@ -89,7 +89,7 @@ public class Logic {
 	 * @return Returns null if the user is not logged in.
 	 */
 	public UserType getLoggedInUser() {
-		AccountsStorage accounts = AccountsStorage.inst();
+		AccountsLogic accounts = AccountsLogic.inst();
 		User user = accounts.getUser();
 		if (user == null) {
 			return null;
@@ -355,7 +355,7 @@ public class Logic {
 			throw new InvalidParametersException(instructorToAdd.getInvalidStateInfo());
 		}
 		
-		AccountsStorage.inst().getDb().createInstructor(instructorToAdd);
+		AccountsLogic.inst().getDb().createInstructor(instructorToAdd);
 	}
 	
 
@@ -367,7 +367,7 @@ public class Logic {
 
 		verifyLoggedInUserAndAbove();
 
-		InstructorData instructor = AccountsStorage.inst().getDb().getInstructor(instructorId);
+		InstructorData instructor = AccountsLogic.inst().getDb().getInstructor(instructorId);
 
 		return instructor;
 	}
@@ -388,13 +388,13 @@ public class Logic {
 
 		verifyAdminLoggedIn();
 	
-		List<CourseData> instructorCourseList = CoursesStorage.inst().getDb()
+		List<CourseData> instructorCourseList = CoursesLogic.inst().getDb()
 				.getCourseListForInstructor(instructorId);
 
 		for (CourseData courseData : instructorCourseList) {
 			deleteCourse(courseData.id);
 		}
-		AccountsStorage.inst().getDb().deleteInstructor(instructorId);
+		AccountsLogic.inst().getDb().deleteInstructor(instructorId);
 	}
 
 	/**
@@ -408,7 +408,7 @@ public class Logic {
 
 		verifyInstructorUsingOwnIdOrAbove(instructorId);
 
-		HashMap<String, CourseData> courseSummaryListForInstructor = CoursesStorage
+		HashMap<String, CourseData> courseSummaryListForInstructor = CoursesLogic
 				.inst().getCourseSummaryListForInstructor(instructorId);
 		if (courseSummaryListForInstructor.size() == 0) {
 			if (getInstructor(instructorId) == null) {
@@ -452,7 +452,7 @@ public class Logic {
 		
 		verifyInstructorUsingOwnIdOrAbove(instructorId);
 
-		List<CourseData> courseList = CoursesStorage.inst().getDb()
+		List<CourseData> courseList = CoursesLogic.inst().getDb()
 				.getCourseListForInstructor(instructorId);
 
 		if ((courseList.size() == 0) && (getInstructor(instructorId) == null)) {
@@ -463,7 +463,7 @@ public class Logic {
 		ArrayList<EvaluationData> evaluationSummaryList = new ArrayList<EvaluationData>();
 
 		for (CourseData cd : courseList) {
-			List<EvaluationData> evaluationsSummaryForCourse = EvaluationsStorage
+			List<EvaluationData> evaluationsSummaryForCourse = EvaluationsLogic
 					.inst().getEvaluationsDb().getEvaluationsForCourse(cd.id);
 			List<StudentData> students = getStudentListForCourse(cd.id);
 			
@@ -501,7 +501,7 @@ public class Logic {
 			throw new InvalidParametersException(courseToAdd.getInvalidStateInfo());
 		}
 		
-		CoursesStorage.inst().getDb().createCourse(courseToAdd);
+		CoursesLogic.inst().getDb().createCourse(courseToAdd);
 	}
 
 	/**
@@ -513,7 +513,7 @@ public class Logic {
 
 		verifyRegisteredUserOrAbove();
 
-		CourseData c = CoursesStorage.inst().getDb().getCourse(courseId);
+		CourseData c = CoursesLogic.inst().getDb().getCourse(courseId);
 		return c;
 	}
 
@@ -551,8 +551,8 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(courseId);
 		
-		EvaluationsStorage.inst().deleteEvaluationsForCourse(courseId);
-		CoursesStorage.inst().deleteCourse(courseId);
+		EvaluationsLogic.inst().deleteEvaluationsForCourse(courseId);
+		CoursesLogic.inst().deleteCourse(courseId);
 	}
 
 	/**
@@ -564,7 +564,7 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(courseId);
 
-		List<StudentData> studentDataList = AccountsStorage.inst().getDb().getStudentListForCourse(
+		List<StudentData> studentDataList = AccountsLogic.inst().getDb().getStudentListForCourse(
 				courseId);
 
 		if ((studentDataList.size() == 0) && (getCourse(courseId) == null)) {
@@ -587,7 +587,7 @@ public class Logic {
 		
 		verifyCourseOwnerOrAbove(courseId);
 
-		List<StudentData> studentDataList = AccountsStorage.inst().getDb()
+		List<StudentData> studentDataList = AccountsLogic.inst().getDb()
 				.getUnregisteredStudentListForCourse(courseId);
 
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
@@ -683,7 +683,7 @@ public class Logic {
 		verifyCourseOwnerOrStudentInCourse(courseId);
 
 		List<StudentData> students = getStudentListForCourse(courseId);
-		CoursesStorage.sortByTeamName(students);
+		CoursesLogic.sortByTeamName(students);
 
 		CourseData course = getCourse(courseId);
 
@@ -743,10 +743,10 @@ public class Logic {
 			throw new InvalidParametersException(studentData.getInvalidStateInfo());
 		}
 
-		AccountsStorage.inst().getDb().createStudent(studentData);
+		AccountsLogic.inst().getDb().createStudent(studentData);
 
 		// adjust existing evaluations to accommodate new student
-		EvaluationsStorage.inst().adjustSubmissionsForNewStudent(
+		EvaluationsLogic.inst().adjustSubmissionsForNewStudent(
 				studentData.course, studentData.email,
 				studentData.team);
 	}
@@ -762,7 +762,7 @@ public class Logic {
 
 		verifyRegisteredUserOrAbove();
 
-		StudentData studentData = AccountsStorage.inst().getDb().getStudent(courseId, email);
+		StudentData studentData = AccountsLogic.inst().getDb().getStudent(courseId, email);
 		return studentData;
 	}
 
@@ -784,7 +784,7 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(student.course);
 
-		StudentData originalStudent = AccountsStorage.inst().getDb().getStudent(
+		StudentData originalStudent = AccountsLogic.inst().getDb().getStudent(
 				student.course, originalEmail);
 
 		if (originalStudent == null) {
@@ -797,19 +797,19 @@ public class Logic {
 		// Hence, we can't do isValid() here.
 		
 		// TODO: make the implementation more defensive, e.g. duplicate email
-		AccountsStorage.inst().getDb().editStudent(student.course, originalEmail,
+		AccountsLogic.inst().getDb().editStudent(student.course, originalEmail,
 				student.name, student.team, student.email, student.id,
 				student.comments, student.profile);
 
 		// cascade email change, if any
 		if (!originalEmail.equals(student.email)) {
-			EvaluationsStorage.inst().getSubmissionsDb().editStudentEmailForSubmissionsInCourse(student.course,
+			EvaluationsLogic.inst().getSubmissionsDb().editStudentEmailForSubmissionsInCourse(student.course,
 					originalEmail, student.email);
 		}
 
 		// adjust submissions if moving to a different team
 		if (isTeamChanged(originalTeam, student.team)) {
-			EvaluationsStorage.inst().adjustSubmissionsForChangingTeam(student.course, student.email, originalTeam, student.team);
+			EvaluationsLogic.inst().adjustSubmissionsForChangingTeam(student.course, student.email, originalTeam, student.team);
 		}
 	}
 
@@ -822,8 +822,8 @@ public class Logic {
 		
 		verifyCourseOwnerOrAbove(courseId);
 
-		AccountsStorage.inst().getDb().deleteStudent(courseId,studentEmail);
-		EvaluationsStorage.inst().getSubmissionsDb().deleteAllSubmissionsForStudent(courseId,
+		AccountsLogic.inst().getDb().deleteStudent(courseId,studentEmail);
+		EvaluationsLogic.inst().getSubmissionsDb().deleteAllSubmissionsForStudent(courseId,
 				studentEmail);
 	}
 
@@ -838,8 +838,8 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(courseId);
 
-		CourseData course = CoursesStorage.inst().getDb().getCourse(courseId);
-		StudentData studentData = AccountsStorage.inst().getDb().getStudent(courseId,
+		CourseData course = CoursesLogic.inst().getDb().getCourse(courseId);
+		StudentData studentData = AccountsLogic.inst().getDb().getStudent(courseId,
 				studentEmail);
 		if (studentData == null) {
 			throw new EntityDoesNotExistException("Student [" + studentEmail
@@ -870,7 +870,7 @@ public class Logic {
 
 		verifySameStudentOrAdmin(googleId);
 
-		List<StudentData> students = AccountsStorage.inst().getDb().getStudentsWithGoogleId(googleId);
+		List<StudentData> students = AccountsLogic.inst().getDb().getStudentsWithGoogleId(googleId);
 		ArrayList<StudentData> returnList = new ArrayList<StudentData>();
 		for (StudentData s : students) {
 			returnList.add(s);
@@ -911,7 +911,7 @@ public class Logic {
 
 		verifyOwnerOfId(googleId);
 
-		AccountsStorage.inst().getDb().joinCourse(key, googleId);
+		AccountsLogic.inst().getDb().joinCourse(key, googleId);
 
 	}
 
@@ -926,7 +926,7 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(courseId);
 
-		StudentData studentData = AccountsStorage.inst().getDb().getStudent(courseId, email);
+		StudentData studentData = AccountsLogic.inst().getDb().getStudent(courseId, email);
 
 		if (studentData == null) {
 			return null;
@@ -955,7 +955,7 @@ public class Logic {
 					+ googleId + " does not exist");
 		}
 
-		return CoursesStorage.inst().getCourseListForStudent(googleId);
+		return CoursesLogic.inst().getCourseListForStudent(googleId);
 	}
 
 	/**
@@ -1009,7 +1009,7 @@ public class Logic {
 		// For each course the student is in
 		for (CourseData c : courseList) {
 			// Get the list of evaluations for the course
-			List<EvaluationData> evaluationDataList = EvaluationsStorage.inst().getEvaluationsDb()
+			List<EvaluationData> evaluationDataList = EvaluationsLogic.inst().getEvaluationsDb()
 					.getEvaluationsForCourse(c.id);
 			
 			// For the list of evaluations for this course
@@ -1087,7 +1087,7 @@ public class Logic {
 			throw new InvalidParametersException(evaluation.getInvalidStateInfo());
 		}
 
-		EvaluationsStorage.inst().createEvaluation(evaluation);
+		EvaluationsLogic.inst().createEvaluation(evaluation);
 	}
 
 	
@@ -1102,7 +1102,7 @@ public class Logic {
 
 		verifyRegisteredUserOrAbove();
 
-		EvaluationData e = EvaluationsStorage.inst().getEvaluationsDb().getEvaluation(courseId,
+		EvaluationData e = EvaluationsLogic.inst().getEvaluationsDb().getEvaluation(courseId,
 				evaluationName);
 		
 		return e;
@@ -1151,7 +1151,7 @@ public class Logic {
 			throw new InvalidParametersException(evaluation.getInvalidStateInfo());
 		}
 		
-		EvaluationsStorage.inst().getEvaluationsDb().editEvaluation(evaluation);
+		EvaluationsLogic.inst().getEvaluationsDb().editEvaluation(evaluation);
 	}
 
 	
@@ -1165,7 +1165,7 @@ public class Logic {
 
 		verifyCourseOwnerOrAbove(courseId);
 
-		EvaluationsStorage.inst().deleteEvaluation(courseId, evaluationName);
+		EvaluationsLogic.inst().deleteEvaluation(courseId, evaluationName);
 	}
 
 	/**
@@ -1191,7 +1191,7 @@ public class Logic {
 					"Cannot publish an evaluation unless it is CLOSED");
 		}
 
-		EvaluationsStorage.inst().getEvaluationsDb().setEvaluationPublishedStatus(courseId, evaluationName, true);
+		EvaluationsLogic.inst().getEvaluationsDb().setEvaluationPublishedStatus(courseId, evaluationName, true);
 		sendEvaluationPublishedEmails(courseId, evaluationName);
 	}
 
@@ -1218,7 +1218,7 @@ public class Logic {
 					"Cannot unpublish an evaluation unless it is PUBLISHED");
 		}
 
-		EvaluationsStorage.inst().getEvaluationsDb().setEvaluationPublishedStatus(courseId, evaluationName, false);
+		EvaluationsLogic.inst().getEvaluationsDb().setEvaluationPublishedStatus(courseId, evaluationName, false);
 	}
 
 	/**
@@ -1237,11 +1237,11 @@ public class Logic {
 		verifyEvaluationExists(evaluation, courseId, evaluationName);
 
 		// Filter out students who have submitted the evaluation
-		List<StudentData> studentDataList = AccountsStorage.inst().getDb().getStudentListForCourse(courseId);
+		List<StudentData> studentDataList = AccountsLogic.inst().getDb().getStudentListForCourse(courseId);
 		
 		List<StudentData> studentsToRemindList = new ArrayList<StudentData>();
 		for (StudentData sd : studentDataList) {
-			if (!EvaluationsStorage.inst().isEvaluationSubmitted(evaluation,
+			if (!EvaluationsLogic.inst().isEvaluationSubmitted(evaluation,
 					sd.email)) {
 				studentsToRemindList.add(sd);
 			}
@@ -1307,14 +1307,14 @@ public class Logic {
 
 		verifyReviewerOrCourseOwnerOrAdmin(courseId, reviewerEmail);
 
-		List<SubmissionData> submissions = EvaluationsStorage.inst().getSubmissionsDb()
+		List<SubmissionData> submissions = EvaluationsLogic.inst().getSubmissionsDb()
 				.getSubmissionsFromEvaluationFromStudent(courseId, evaluationName,
 						reviewerEmail);
 		
 		boolean isSubmissionsExist = (submissions.size() > 0 && 
-			CoursesStorage.inst().isCourseExists(courseId) &&
-			EvaluationsStorage.inst().isEvaluationExists(courseId,evaluationName) &&
-			AccountsStorage.inst().isStudentExists(courseId, reviewerEmail));
+			CoursesLogic.inst().isCourseExists(courseId) &&
+			EvaluationsLogic.inst().isEvaluationExists(courseId,evaluationName) &&
+			AccountsLogic.inst().isStudentExists(courseId, reviewerEmail));
 		
 		if (!isSubmissionsExist) {
 			throw new EntityDoesNotExistException("Error getting submissions from student: "
@@ -1428,7 +1428,7 @@ public class Logic {
 			throws EntityDoesNotExistException, InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, submission);		
 		
-		SubmissionData original = EvaluationsStorage.inst().getSubmissionsDb()
+		SubmissionData original = EvaluationsLogic.inst().getSubmissionsDb()
 				.getSubmission(submission.course, submission.evaluation,
 						submission.reviewee, submission.reviewer);
 		
@@ -1452,7 +1452,7 @@ public class Logic {
 			throw new InvalidParametersException(submission.getInvalidStateInfo());
 		}
 
-		EvaluationsStorage.inst().getSubmissionsDb().editSubmission(submission);
+		EvaluationsLogic.inst().getSubmissionsDb().editSubmission(submission);
 	}
 
 	private EvalStatus getEvaluationStatus(String courseId,
@@ -1513,7 +1513,7 @@ public class Logic {
 							+ "] under the course [" + courseId + "]");
 		}
 		
-		List<SubmissionData> submissionsList = EvaluationsStorage.inst()
+		List<SubmissionData> submissionsList = EvaluationsLogic.inst()
 				.getSubmissionsDb().getSubmissionsForEvaluation(courseId, evaluationName);
 		
 		HashMap<String, SubmissionData> submissionDataList = new HashMap<String, SubmissionData>();
@@ -1641,7 +1641,7 @@ public class Logic {
 
 	protected SubmissionData getSubmission(String courseId,
 			String evaluationName, String reviewerEmail, String revieweeEmail) {
-		SubmissionData sd = EvaluationsStorage.inst().getSubmissionsDb().getSubmission(
+		SubmissionData sd = EvaluationsLogic.inst().getSubmissionsDb().getSubmission(
 				courseId, evaluationName, revieweeEmail, reviewerEmail);
 		return sd;
 	}
@@ -1663,7 +1663,7 @@ public class Logic {
 	}
 
 	private boolean isModificationToExistingStudent(StudentData student) {
-		return AccountsStorage.inst().isStudentExists(student.course, student.email);
+		return AccountsLogic.inst().isStudentExists(student.course, student.email);
 	}
 	
 	

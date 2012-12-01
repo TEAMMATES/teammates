@@ -16,17 +16,17 @@ import teammates.storage.api.AccountsDb;
 import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.SubmissionsDb;
 
-public class EvaluationsStorage {
-	private static EvaluationsStorage instance = null;
+public class EvaluationsLogic {
+	private static EvaluationsLogic instance = null;
 	private static final Logger log = Common.getLogger();
 
 	private static final AccountsDb accountsDb = new AccountsDb();
 	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
 	private static final SubmissionsDb submissionsDb = new SubmissionsDb();
 
-	public static EvaluationsStorage inst() {
+	public static EvaluationsLogic inst() {
 		if (instance == null)
-			instance = new EvaluationsStorage();
+			instance = new EvaluationsLogic();
 		return instance;
 	}
 

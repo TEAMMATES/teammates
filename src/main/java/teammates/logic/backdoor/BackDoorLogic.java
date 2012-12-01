@@ -19,10 +19,10 @@ import teammates.common.datatransfer.SubmissionData;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.logic.AccountsStorage;
-import teammates.logic.CoursesStorage;
+import teammates.logic.AccountsLogic;
+import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
-import teammates.logic.EvaluationsStorage;
+import teammates.logic.EvaluationsLogic;
 import teammates.logic.api.Logic;
 
 public class BackDoorLogic extends Logic {
@@ -87,7 +87,7 @@ public class BackDoorLogic extends Logic {
 					+ " to " + submission.reviewee);
 			submissionsList.add(submission);
 		}
-		EvaluationsStorage.inst().getSubmissionsDb().editSubmissions(submissionsList);
+		EvaluationsLogic.inst().getSubmissionsDb().editSubmissions(submissionsList);
 		log.fine("API Servlet added " + submissionsList.size() + " submissions");
 
 		return Common.BACKEND_STATUS_SUCCESS;
@@ -144,7 +144,7 @@ public class BackDoorLogic extends Logic {
 	
 	public List<MimeMessage> activateReadyEvaluations() throws EntityDoesNotExistException, MessagingException, InvalidParametersException, IOException{
 		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
-		List<EvaluationData> evaluations = EvaluationsStorage.inst().getEvaluationsDb().getReadyEvaluations(); 
+		List<EvaluationData> evaluations = EvaluationsLogic.inst().getEvaluationsDb().getReadyEvaluations(); 
 		
 		for (EvaluationData ed: evaluations) {
 			
@@ -173,12 +173,12 @@ public class BackDoorLogic extends Logic {
 	public List<MimeMessage> sendRemindersForClosingEvaluations() throws MessagingException, IOException {
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 		
-		EvaluationsStorage evaluations = EvaluationsStorage.inst();
+		EvaluationsLogic evaluations = EvaluationsLogic.inst();
 		List<EvaluationData> evaluationDataList = evaluations.getEvaluationsDb().getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
 
 		for (EvaluationData ed : evaluationDataList) {
 
-			List<StudentData> studentDataList = AccountsStorage.inst().getDb().getStudentListForCourse(ed.course);
+			List<StudentData> studentDataList = AccountsLogic.inst().getDb().getStudentListForCourse(ed.course);
 
 			List<StudentData> studentToRemindList = new ArrayList<StudentData>();
 
@@ -199,7 +199,7 @@ public class BackDoorLogic extends Logic {
 	}
 	
 	public void editEvaluation(EvaluationData evaluation) throws InvalidParametersException, EntityDoesNotExistException{
-		EvaluationsStorage.inst().getEvaluationsDb().editEvaluation(evaluation);
+		EvaluationsLogic.inst().getEvaluationsDb().editEvaluation(evaluation);
 	}
 	
 }

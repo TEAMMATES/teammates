@@ -15,10 +15,10 @@ import com.google.appengine.api.users.UserServiceFactory;
  * @see Student
  * 
  */
-public class AccountsStorage {
+public class AccountsLogic {
 
 	private static UserService userService;
-	private static AccountsStorage instance = null;
+	private static AccountsLogic instance = null;
 
 	private static final AccountsDb accountsDb = new AccountsDb();
 
@@ -27,14 +27,14 @@ public class AccountsStorage {
 	 * Service and obtains an instance of PersistenceManager class to handle
 	 * datastore transactions.
 	 */
-	private AccountsStorage() {
+	private AccountsLogic() {
 		userService = UserServiceFactory.getUserService();
 	}
 	
 
-	public static AccountsStorage inst() {
+	public static AccountsLogic inst() {
 		if (instance == null)
-			instance = new AccountsStorage();
+			instance = new AccountsLogic();
 		return instance;
 	}
 
