@@ -1,19 +1,18 @@
 package teammates.logic.backdoor;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
-import javax.jdo.PersistenceManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
-import teammates.storage.datastore.Datastore;
-import teammates.storage.entity.Course; //TODO: remove this dependency
+import teammates.common.exception.EntityDoesNotExistException;
 
 @SuppressWarnings("serial")
 public class BackDoorServlet extends HttpServlet {
@@ -68,9 +67,6 @@ public class BackDoorServlet extends HttpServlet {
 		doPost(req, resp);
 	}
 
-	private PersistenceManager getPM() {
-		return Datastore.getPersistenceManager();
-	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
@@ -133,7 +129,7 @@ public class BackDoorServlet extends HttpServlet {
 			return backDoorLogic.getCourseAsJson(courseId);
 		} else if (action.equals(OPERATION_GET_COURSES_BY_INSTRUCTOR)) {
 			String instructorID = req.getParameter(PARAMETER_INSTRUCTOR_ID);
-			return getCoursesByInstructorID(instructorID);
+			return getCourseIDsForInstructor(instructorID);
 		} else if (action.equals(OPERATION_GET_STUDENT_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
@@ -175,19 +171,20 @@ public class BackDoorServlet extends HttpServlet {
 		return Common.BACKEND_STATUS_SUCCESS;
 	}
 
-	// TODO: move to BackDoorLogic
-	private String getCoursesByInstructorID(String instructorID) {
-		String query = "select from " + Course.class.getName()
-				+ " where coordinatorID == '" + instructorID + "'";
-
-		@SuppressWarnings("unchecked")
-		List<Course> courseList = (List<Course>) getPM().newQuery(query)
-				.execute();
+	private String getCourseIDsForInstructor(String instructorID) {
+		BackDoorLogic backDoorLogic = new BackDoorLogic();
 		String courseIDs = "";
 
-		for (Course c : courseList) {
-			courseIDs = courseIDs + c.getID() + " ";
+		try {
+			HashMap<String, CourseData> courseList = backDoorLogic
+					.getCourseListForInstructor(instructorID);
+			for (String courseId : courseList.keySet()) {
+				courseIDs = courseIDs + courseId + " ";
+			}
+		} catch (EntityDoesNotExistException e) {
+			// Instructor does not exist, no action required.
 		}
+
 		return courseIDs.trim();
 	}
 
