@@ -3,16 +3,16 @@
 <%@ page import="teammates.common.datatransfer.StudentData"%>
 <%@ page import="teammates.common.datatransfer.TeamData"%>
 <%@ page import="teammates.common.datatransfer.SubmissionData"%>
-<%@ page import="teammates.ui.controller.CoordEvalResultsHelper"%>
-<%	CoordEvalResultsHelper helper = (CoordEvalResultsHelper)request.getAttribute("helper"); %>
+<%@ page import="teammates.ui.controller.InstructorEvalResultsHelper"%>
+<%	InstructorEvalResultsHelper helper = (InstructorEvalResultsHelper)request.getAttribute("helper"); %>
 <!DOCTYPE html>
 <html>
 <head>
 	<link rel="shortcut icon" href="/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Teammates - Coordinator</title>
+	<title>Teammates - Instructor</title>
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
-	<link rel="stylesheet" href="/stylesheets/coordEvalResults.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/instructorEvalResults.css" type="text/css">
 	
 	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="/js/tooltip.js"></script>
@@ -21,15 +21,15 @@
 	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
 	<script type="text/javascript" src="/js/common.js"></script>
 	
-	<script type="text/javascript" src="/js/coordinator.js"></script>
-	<script type="text/javascript" src="/js/coordEvalResults.js"></script>
+	<script type="text/javascript" src="/js/instructor.js"></script>
+	<script type="text/javascript" src="/js/instructorEvalResults.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head> 
 
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%= Common.JSP_COORD_HEADER %>" />
+		<jsp:include page="<%= Common.JSP_INSTRUCTOR_HEADER %>" />
 	</div>
 
 	<div id="frameBody">
@@ -38,7 +38,7 @@
 			<div id="headerOperation">
 				<h1>Evaluation Results</h1>
 			</div>
-			<div id="coordinatorEvaluationInformation">
+			<div id="instructorEvaluationInformation">
 				<table class="inputTable">
 					<tr>
 						<td class="label rightalign">Course ID:</td>
@@ -46,7 +46,7 @@
 					</tr>
 					<tr>
 						<td class="label rightalign">Evaluation name:</td>
-						<td><%=CoordEvalResultsHelper.escapeForHTML(helper.evaluation.name)%></td>
+						<td><%=InstructorEvalResultsHelper.escapeForHTML(helper.evaluation.name)%></td>
 					</tr>
 					<tr>
 						<td class="label rightalign">Opening time:</td>
@@ -59,13 +59,13 @@
 					<tr>
 						<td class="centeralign" colspan=2>
 							<span class="label">Report Type:</span> 
-							<input type="radio" name="radio_reporttype" id="radio_summary" value="coordinatorEvaluationSummaryTable" checked="checked"
+							<input type="radio" name="radio_reporttype" id="radio_summary" value="instructorEvaluationSummaryTable" checked="checked"
 									onclick="showReport(this.value)">
 							<label for="radio_summary">Summary</label>
-							<input type="radio" name="radio_reporttype" id="radio_reviewer" value="coordinatorEvaluationDetailedReviewerTable"
+							<input type="radio" name="radio_reporttype" id="radio_reviewer" value="instructorEvaluationDetailedReviewerTable"
 									onclick="showReport(this.value)">
 							<label for="radio_reviewer">Detailed: By Reviewer</label>
-							<input type="radio" name="radio_reporttype" id="radio_reviewee" value="coordinatorEvaluationDetailedRevieweeTable"
+							<input type="radio" name="radio_reporttype" id="radio_reviewee" value="instructorEvaluationDetailedRevieweeTable"
 									onclick="showReport(this.value)">
 							<label for="radio_reviewee">Detailed: By Reviewee</label>
 						</td>
@@ -73,19 +73,19 @@
 					<tr>
 						<td colspan="2" class="centeralign">
 						<%
-							if(CoordEvalResultsHelper.getCoordStatusForEval(helper.evaluation).equals(Common.EVALUATION_STATUS_CLOSED)) {
+							if(InstructorEvalResultsHelper.getInstructorStatusForEval(helper.evaluation).equals(Common.EVALUATION_STATUS_CLOSED)) {
 						%>
 							<input type="button" class="button"
 								id = "button_publish"
 								value = "Publish"
-								onclick = "if(togglePublishEvaluation('<%=helper.evaluation.name%>')) window.location.href='<%=helper.getCoordEvaluationPublishLink(helper.evaluation.course,helper.evaluation.name,false)%>';">
+								onclick = "if(togglePublishEvaluation('<%=helper.evaluation.name%>')) window.location.href='<%=helper.getInstructorEvaluationPublishLink(helper.evaluation.course,helper.evaluation.name,false)%>';">
 						<%
-							} else if (CoordEvalResultsHelper.getCoordStatusForEval(helper.evaluation).equals(Common.EVALUATION_STATUS_PUBLISHED)) {
+							} else if (InstructorEvalResultsHelper.getInstructorStatusForEval(helper.evaluation).equals(Common.EVALUATION_STATUS_PUBLISHED)) {
 						%>
 							<input type="button" class="button"
 								id = "button_unpublish"
 								value = "Unpublish"
-								onclick = "if(toggleUnpublishEvaluation('<%=helper.evaluation.name%>')) window.location.href='<%=helper.getCoordEvaluationUnpublishLink(helper.evaluation.course,helper.evaluation.name,false)%>';">
+								onclick = "if(toggleUnpublishEvaluation('<%=helper.evaluation.name%>')) window.location.href='<%=helper.getInstructorEvaluationUnpublishLink(helper.evaluation.course,helper.evaluation.name,false)%>';">
 						<%
 							}
 						%>
@@ -97,7 +97,7 @@
 			<%
 				out.flush();
 			%>
-			<div id="coordinatorEvaluationSummaryTable" class="evaluation_result">
+			<div id="instructorEvaluationSummaryTable" class="evaluation_result">
 				<div id="tablecaption">CC = Claimed Contribution; PC = Perceived Contribution; E = Equal Share</div>
 				<table class="dataTable">
 					<tr>
@@ -126,27 +126,27 @@
 													for(StudentData student: team.students){
 					%>
 						<tr class="student_row" id="student<%=idx%>">
-							<td><%=CoordEvalResultsHelper.escapeForHTML(team.name)%></td>
+							<td><%=InstructorEvalResultsHelper.escapeForHTML(team.name)%></td>
 							<td id="<%=Common.PARAM_STUDENT_NAME%>">
-								<span onmouseover="ddrivetip('<%=CoordEvalResultsHelper.escapeForJavaScript(student.comments)%>')"
+								<span onmouseover="ddrivetip('<%=InstructorEvalResultsHelper.escapeForJavaScript(student.comments)%>')"
 										onmouseout="hideddrivetip()">
 									<%=student.name%>
 								</span>
 							</td>
-							<td><%=CoordEvalResultsHelper.colorizePoints(student.result.claimedToCoord)%></td>
-							<td><%=CoordEvalResultsHelper.colorizePoints(student.result.perceivedToCoord)%></td>
-							<td><%=CoordEvalResultsHelper.printDiff(student.result)%></td>
-							<td><%=CoordEvalResultsHelper.getPointsList(student.result.incoming, true)%></td>
+							<td><%=InstructorEvalResultsHelper.colorizePoints(student.result.claimedToInstructor)%></td>
+							<td><%=InstructorEvalResultsHelper.colorizePoints(student.result.perceivedToInstructor)%></td>
+							<td><%=InstructorEvalResultsHelper.printDiff(student.result)%></td>
+							<td><%=InstructorEvalResultsHelper.getPointsList(student.result.incoming, true)%></td>
 							<td class="centeralign">
 								<a name="viewEvaluationResults<%=idx%>" id="viewEvaluationResults<%=idx%>"
 										target="_blank"
-										href="<%=helper.getCoordEvaluationSubmissionViewLink(helper.evaluation.course, helper.evaluation.name, student.email)%>"
+										href="<%=helper.getInstructorEvaluationSubmissionViewLink(helper.evaluation.course, helper.evaluation.name, student.email)%>"
 										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_VIEW_REVIEWER%>')"
 										onmouseout="hideddrivetip()">
 										View</a>
 								<a name="editEvaluationResults<%=idx%>" id="editEvaluationResults<%=idx%>"
 										target="_blank"
-										href="<%=helper.getCoordEvaluationSubmissionEditLink(helper.evaluation.course, helper.evaluation.name, student.email)%>"
+										href="<%=helper.getInstructorEvaluationSubmissionEditLink(helper.evaluation.course, helper.evaluation.name, student.email)%>"
 										onclick="return openChildWindow(this.href)"
 										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_EDIT%>')"
 										onmouseout="hideddrivetip()"
@@ -166,7 +166,7 @@
 			<%
 				for(boolean byReviewer = true, repeat=true; repeat; repeat = byReviewer, byReviewer=false){
 			%>
-				<div id="coordinatorEvaluationDetailed<%=byReviewer ? "Reviewer" : "Reviewee"%>Table" class="evaluation_result"
+				<div id="instructorEvaluationDetailed<%=byReviewer ? "Reviewer" : "Reviewee"%>Table" class="evaluation_result"
 						style="display: none;">
 					<div><h1>Detailed Evaluation Results - By <%=byReviewer ? "Reviewer" : "Reviewee"%></h1></div>
 					<div id="detail">
@@ -178,7 +178,7 @@
 								if(firstTeam) firstTeam = false; else out.print("<br>");
 							%>
 							<div class="backgroundBlock">
-								<h2 class="resultTitle"><%=CoordEvalResultsHelper.escapeForHTML(team.name)%></h2><br>
+								<h2 class="resultTitle"><%=InstructorEvalResultsHelper.escapeForHTML(team.name)%></h2><br>
 								<%
 									boolean firstStudent = true;
 															for(StudentData student: team.students){
@@ -193,16 +193,16 @@
 											<th><span class="resultHeader"
 													onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_CLAIMED%>')"
 													onmouseout="hideddrivetip()">
-												Claimed Contributions: </span><%=CoordEvalResultsHelper.printSharePoints(student.result.claimedToCoord,true)%></th>
+												Claimed Contributions: </span><%=InstructorEvalResultsHelper.printSharePoints(student.result.claimedToInstructor,true)%></th>
 											<th><span class="resultHeader"
 													onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_PERCEIVED%>')"
 													onmouseout="hideddrivetip()">
-												Perceived Contributions: </span><%=CoordEvalResultsHelper.printSharePoints(student.result.perceivedToCoord,true)%>
+												Perceived Contributions: </span><%=InstructorEvalResultsHelper.printSharePoints(student.result.perceivedToInstructor,true)%>
 												<%
 													if(byReviewer){
 												%>
 													<a style="font-weight: normal; float: right;" target="_blank"
-															href="<%=helper.getCoordEvaluationSubmissionEditLink(student.course, helper.evaluation.name, student.email)%>"
+															href="<%=helper.getInstructorEvaluationSubmissionEditLink(student.course, helper.evaluation.name, student.email)%>"
 															onclick="return openChildWindow(this.href)">
 															Edit</a>
 												<%
@@ -212,11 +212,11 @@
 										</tr></thead>
 										<tr>
 											<td colspan="4"><span class="color_neutral">Self evaluation:</span><br>
-		 										<%=CoordEvalResultsHelper.printJustification(student.result.getSelfEvaluation())%></td>
+		 										<%=InstructorEvalResultsHelper.printJustification(student.result.getSelfEvaluation())%></td>
 		 								</tr>
 		 								<tr>
 		 									<td colspan="4"><span class="color_neutral">Comments about team:</span><br>
-		 										<%=CoordEvalResultsHelper.printComments(student.result.getSelfEvaluation(), helper.evaluation.p2pEnabled)%></td>
+		 										<%=InstructorEvalResultsHelper.printComments(student.result.getSelfEvaluation(), helper.evaluation.p2pEnabled)%></td>
 		 								</tr>
 										<tr class="resultSubheader">
 											<td width="15%"><%=byReviewer ? "To" : "From"%> Student</td>
@@ -228,10 +228,10 @@
 											for(SubmissionData sub: (byReviewer ? student.result.outgoing : student.result.incoming)){ if(sub.reviewer.equals(sub.reviewee)) continue;
 										%>
 											<tr>
-												<td><b><%=CoordEvalResultsHelper.escapeForHTML(byReviewer ? sub.revieweeName : sub.reviewerName)%></b></td>
-												<td><%= CoordEvalResultsHelper.printSharePoints(sub.normalizedToCoord,false) %></td>
-												<td><%= CoordEvalResultsHelper.printJustification(sub) %></td>
-												<td><%= CoordEvalResultsHelper.printComments(sub, helper.evaluation.p2pEnabled) %></td>
+												<td><b><%=InstructorEvalResultsHelper.escapeForHTML(byReviewer ? sub.revieweeName : sub.reviewerName)%></b></td>
+												<td><%= InstructorEvalResultsHelper.printSharePoints(sub.normalizedToInstructor,false) %></td>
+												<td><%= InstructorEvalResultsHelper.printJustification(sub) %></td>
+												<td><%= InstructorEvalResultsHelper.printComments(sub, helper.evaluation.p2pEnabled) %></td>
 											</tr>
 										<%	} %>
 									</table>

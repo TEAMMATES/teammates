@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
@@ -22,9 +22,9 @@ import teammates.test.driver.NoAlertException;
 import teammates.test.driver.TestProperties;
 
 /**
- * Tests coordCourse.jsp from UI functionality and HTML test
+ * Tests instructorCourse.jsp from UI functionality and HTML test
  */
-public class CoordCourseAddPageUiTest extends BaseTestCase {
+public class InstructorCourseAddPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static TestScenario ts;
 	
@@ -35,17 +35,17 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		printTestClassHeader();
 		
 		startRecordingTimeForDataImport();
-		ts = loadTestScenario(Common.TEST_DATA_FOLDER + "/coordCourseAddUiTest.json");
-		BackDoor.deleteCoord(ts.coordinator.id);
-		String backDoorOperationStatus = BackDoor.createCoord(ts.coordinator);
+		ts = loadTestScenario(Common.TEST_DATA_FOLDER + "/instructorCourseAddUiTest.json");
+		BackDoor.deleteInstructor(ts.instructor.id);
+		String backDoorOperationStatus = BackDoor.createInstructor(ts.instructor);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
 		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
-		String link = appUrl+Common.PAGE_COORD_COURSE;
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.coordinator.id);
+		String link = appUrl+Common.PAGE_INSTRUCTOR_COURSE;
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.id);
 		bi.goToUrl(link);
 	}
 
@@ -58,48 +58,48 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testCoordCourseAddPage() throws Exception{
-		testCoordCourseAddHTML();
-		testCoordCourseAddUiPaths();
-		testCoordCourseAddLinks();
+	public void testInstructorCourseAddPage() throws Exception{
+		testInstructorCourseAddHTML();
+		testInstructorCourseAddUiPaths();
+		testInstructorCourseAddLinks();
 	}
 
-	public void testCoordCourseAddHTML() throws Exception{
+	public void testInstructorCourseAddHTML() throws Exception{
 		
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEmpty.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseEmpty.html");
 
 		BackDoor.createCourse(ts.CS1101);
 		BackDoor.createCourse(ts.CS2104);
 		bi.clickCourseTab();
 
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseById.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseById.html");
 
-		bi.click(bi.coordCourseSortByNameButton);
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseByName.html");
+		bi.click(bi.instructorCourseSortByNameButton);
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseByName.html");
 		
-		bi.click(bi.coordCourseSortByIdButton);
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseById.html");
+		bi.click(bi.instructorCourseSortByIdButton);
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseById.html");
 	}
 
-	public void testCoordCourseAddUiPaths() throws Exception{
+	public void testInstructorCourseAddUiPaths() throws Exception{
 		
-		String link = appUrl+Common.PAGE_COORD_COURSE;
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.coordinator.id);
+		String link = appUrl+Common.PAGE_INSTRUCTOR_COURSE;
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.id);
 		
 		// Course id only contains alphabets, numbers, dots, hyphens, underscores and dollars
 		String courseId = ts.validCourse.id;
 		// Course name can be any character including special characters
 		String courseName = ts.validCourse.name;
 		
-		______TS("testCoordaddCourseSuccessful");
+		______TS("testInstructoraddCourseSuccessful");
 		
 		bi.addCourse(courseId, courseName);
 		
 		bi.waitForStatusMessage(Common.MESSAGE_COURSE_ADDED);
 
-		bi.verifyCurrentPageHTMLWithRetry(Common.TEST_PAGES_FOLDER+"/coordCourseAddSuccessful.html", link);
+		bi.verifyCurrentPageHTMLWithRetry(Common.TEST_PAGES_FOLDER+"/instructorCourseAddSuccessful.html", link);
 		
-		______TS("testCoordaddCourseWithInvalidInputsFailed");
+		______TS("testInstructoraddCourseWithInvalidInputsFailed");
 
 		bi.addCourse("", courseName);
 		bi.waitForStatusMessage(Common.MESSAGE_COURSE_MISSING_FIELD);
@@ -126,16 +126,16 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		assertEquals(shortCourseName, bi.fillInCourseName(shortCourseName));
 		assertEquals(longCourseName.substring(0, CourseData.COURSE_NAME_MAX_LENGTH), bi.fillInCourseName(longCourseName));
 
-		______TS("testCoordaddCourseWithDuplicateIdFailed");
+		______TS("testInstructoraddCourseWithDuplicateIdFailed");
 		
 		bi.addCourse(courseId, "different course name");
 		
 		start = System.currentTimeMillis();
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseAddDupIdFailed.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseAddDupIdFailed.html");
 		print("Time to assert page: "+(System.currentTimeMillis()-start)+" ms");
 	}
 
-	public void testCoordCourseAddLinks() throws Exception{
+	public void testInstructorCourseAddLinks() throws Exception{
 		
 		String courseId = ts.validCourse.id;
 		
@@ -143,7 +143,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 		assertTrue(courseRowId!=-1);
 		
 		// Check delete link
-		By deleteLinkLocator = bi.getCoordCourseDeleteLinkLocator(courseRowId);
+		By deleteLinkLocator = bi.getInstructorCourseDeleteLinkLocator(courseRowId);
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
 			String course = BackDoor.getCourseAsJson(ts.validCourse.id);
@@ -154,7 +154,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 
 		try{
 			bi.clickAndConfirm(deleteLinkLocator);
-			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseDeleteSuccessful.html");
+			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDeleteSuccessful.html");
 		} catch (NoAlertException e){
 			fail("No alert box when clicking delete button at course page.");
 		}
@@ -168,7 +168,7 @@ public class CoordCourseAddPageUiTest extends BaseTestCase {
 	}
 
 	private class TestScenario{
-		public CoordData coordinator;
+		public InstructorData instructor;
 		public CourseData validCourse;
 		public CourseData CS1101;
 		public CourseData CS2104;

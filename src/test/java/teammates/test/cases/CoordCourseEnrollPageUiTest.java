@@ -15,9 +15,9 @@ import teammates.test.driver.BrowserInstancePool;
 import teammates.test.driver.TestProperties;
 
 /**
- * Tests Coordinator Course Enroll UI
+ * Tests Instructor Course Enroll UI
  */
-public class CoordCourseEnrollPageUiTest extends BaseTestCase {
+public class InstructorCourseEnrollPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static DataBundle scn;
 	
@@ -30,9 +30,9 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 		printTestClassHeader();
 		
 		startRecordingTimeForDataImport();
-		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/CoordCourseEnrollUiTest.json");
+		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorCourseEnrollUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
-		BackDoor.deleteCoordinators(jsonString);
+		BackDoor.deleteInstructors(jsonString);
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
@@ -52,9 +52,9 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 		bi = BrowserInstancePool.getBrowserInstance();
 		
 		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
-		String link = appUrl+Common.PAGE_COORD_COURSE_ENROLL;
+		String link = appUrl+Common.PAGE_INSTRUCTOR_COURSE_ENROLL;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CCEnrollUiT.CS2104").id);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.coords.get("teammates.test").id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").id);
 		bi.goToUrl(link);
 	}
 	
@@ -65,12 +65,12 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testCoordCourseEnrollPage() throws Exception{
+	public void testInstructorCourseEnrollPage() throws Exception{
 		
 		
 		______TS("failure case");
 		
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollPage.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseEnrollPage.html");
 		
 		String errorString = "a|b|c|d";
 		bi.fillString(By.id("enrollstudents"), errorString); //invalid email address
@@ -78,14 +78,14 @@ public class CoordCourseEnrollPageUiTest extends BaseTestCase {
 		assertContains(bi.getElementText(By.id("enrollstudents")), errorString);
 		
 		bi.fillString(By.id("enrollstudents"), "");
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollError.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseEnrollError.html");
 
 		______TS("success case");
 		
 		bi.fillString(By.id("enrollstudents"), enrollString);
 		bi.click(By.id("button_enroll"));
 		
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordCourseEnrollPageResult.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseEnrollPageResult.html");
 		
 	}
 }

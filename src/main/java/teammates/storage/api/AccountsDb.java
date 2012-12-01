@@ -11,12 +11,12 @@ import javax.jdo.PersistenceManager;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
-import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.JoinCourseException;
 import teammates.storage.datastore.Datastore;
-import teammates.storage.entity.Coordinator;
+import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 
 import com.google.appengine.api.datastore.KeyFactory;
@@ -29,7 +29,7 @@ import com.google.appengine.api.datastore.Text;
 public class AccountsDb {
 
 	public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Student: ";
-	public static final String ERROR_CREATE_COORD_ALREADY_EXISTS = "Trying to create a Coordinatior that exists: ";
+	public static final String ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS = "Trying to create a Instructorinatior that exists: ";
 	public static final String ERROR_CREATE_STUDENT_ALREADY_EXISTS = "Trying to create a Student that exists: ";
 	
 	private static final Logger log = Common.getLogger();
@@ -39,45 +39,45 @@ public class AccountsDb {
 	}
 
 	/**
-	 * CREATE Coordinator
+	 * CREATE Instructor
 	 * 
-	 * Creates a Coordinator object.
+	 * Creates a Instructor object.
 	 * 
 	 * @throws EntityAlreadyExistsException
 	 * 
 	 */
-	public void createCoord(CoordData coordToAdd)
+	public void createInstructor(InstructorData instructorToAdd)
 			throws EntityAlreadyExistsException {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, coordToAdd);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, instructorToAdd);
 
-		Assumption.assertTrue(coordToAdd.getInvalidStateInfo(),
-				coordToAdd.isValid());
+		Assumption.assertTrue(instructorToAdd.getInvalidStateInfo(),
+				instructorToAdd.isValid());
 
-		if (getCoordEntity(coordToAdd.id) != null) {
-			String error = ERROR_CREATE_COORD_ALREADY_EXISTS
-					+ coordToAdd;
+		if (getInstructorEntity(instructorToAdd.id) != null) {
+			String error = ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS
+					+ instructorToAdd;
 
 			log.warning(error + "\n" + Common.getCurrentThreadStack());
 
 			throw new EntityAlreadyExistsException(error);
 		}
 
-		Coordinator newCoordinator = coordToAdd.toEntity();
-		getPM().makePersistent(newCoordinator);
+		Instructor newInstructor = instructorToAdd.toEntity();
+		getPM().makePersistent(newInstructor);
 		getPM().flush();
 
 		// Check insert operation persisted
 		int elapsedTime = 0;
-		Coordinator coordinatorCheck = getCoordEntity(coordToAdd.id);
-		while ((coordinatorCheck == null)
+		Instructor instructorCheck = getInstructorEntity(instructorToAdd.id);
+		while ((instructorCheck == null)
 				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
 			Common.waitBriefly();
-			coordinatorCheck = getCoordEntity(coordToAdd.id);
+			instructorCheck = getInstructorEntity(instructorToAdd.id);
 			elapsedTime += Common.WAIT_DURATION;
 		}
 		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
-			log.severe("Operation did not persist in time: createCoord->"
-					+ coordToAdd.id);
+			log.severe("Operation did not persist in time: createInstructor->"
+					+ instructorToAdd.id);
 		}
 	}
 
@@ -129,17 +129,17 @@ public class AccountsDb {
 	/**
 	 * RETREIVE boolean
 	 * 
-	 * Checks if there exists a coord with this googleId
+	 * Checks if there exists a instructor with this googleId
 	 * 
 	 * @param googleID
-	 *            the coordinator's Google ID (Precondition: Must not be null)
+	 *            the instructor's Google ID (Precondition: Must not be null)
 	 * 
 	 * @return boolean
 	 */
-	public boolean isCoord(String googleId) {
+	public boolean isInstructor(String googleId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
 		
-		Coordinator c = getCoordEntity(googleId);
+		Instructor c = getInstructorEntity(googleId);
 		return c != null;
 	}
 
@@ -165,28 +165,28 @@ public class AccountsDb {
 	}
 
 	/**
-	 * RETREIVE Coordinator
+	 * RETREIVE Instructor
 	 * 
-	 * Returns a CoordData object.
+	 * Returns a InstructorData object.
 	 * 
 	 * @param googleID
-	 *            the coordinator's Google ID (Precondition: Must not be null)
+	 *            the instructor's Google ID (Precondition: Must not be null)
 	 * 
-	 * @return the CoordData of Coordinator with the specified Google ID, or
+	 * @return the InstructorData of Instructor with the specified Google ID, or
 	 *         null if not found
 	 */
-	public CoordData getCoord(String googleId) {
+	public InstructorData getInstructor(String googleId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
 
-		Coordinator c = getCoordEntity(googleId);
+		Instructor c = getInstructorEntity(googleId);
 
 		if (c == null) {
-			log.warning("Trying to get non-existent Coordinator: " + googleId
+			log.warning("Trying to get non-existent Instructor: " + googleId
 					+ Common.getCurrentThreadStack());
 			return null;
 		}
 
-		return new CoordData(c);
+		return new InstructorData(c);
 	}
 
 	/**
@@ -409,34 +409,34 @@ public class AccountsDb {
 	}
 
 	/**
-	 * DELETE Coordinator
+	 * DELETE Instructor
 	 * 
-	 * @param coordId
+	 * @param instructorId
 	 */
-	public void deleteCoord(String coordId) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, coordId);
+	public void deleteInstructor(String instructorId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, instructorId);
 
-		Coordinator coordToDelete = getCoordEntity(coordId);
+		Instructor instructorToDelete = getInstructorEntity(instructorId);
 
-		if (coordToDelete == null) {
+		if (instructorToDelete == null) {
 			return;
 		}
 
-		getPM().deletePersistent(coordToDelete);
+		getPM().deletePersistent(instructorToDelete);
 		getPM().flush();
 
 		// Check delete operation persisted
 		int elapsedTime = 0;
-		Coordinator coordinatorCheck = getCoordEntity(coordId);
-		while ((coordinatorCheck != null)
+		Instructor instructorCheck = getInstructorEntity(instructorId);
+		while ((instructorCheck != null)
 				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
 			Common.waitBriefly();
-			coordinatorCheck = getCoordEntity(coordId);
+			instructorCheck = getInstructorEntity(instructorId);
 			elapsedTime += Common.WAIT_DURATION;
 		}
 		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
-			log.severe("Operation did not persist in time: deleteCoord->"
-					+ coordId);
+			log.severe("Operation did not persist in time: deleteInstructor->"
+					+ instructorId);
 		}
 
 	}
@@ -535,40 +535,40 @@ public class AccountsDb {
 	}
 
 	/**
-	 * Returns the actual Coordinator Entity
+	 * Returns the actual Instructor Entity
 	 * 
 	 * @param googleID
-	 *            the coordinator's Google ID (Precondition: Must not be null)
+	 *            the instructor's Google ID (Precondition: Must not be null)
 	 * 
-	 * @return Coordinator
+	 * @return Instructor
 	 */
-	private Coordinator getCoordEntity(String googleID) {
-		String query = "select from " + Coordinator.class.getName()
+	private Instructor getInstructorEntity(String googleID) {
+		String query = "select from " + Instructor.class.getName()
 				+ " where googleID == '" + googleID + "'";
 
 		@SuppressWarnings("unchecked")
-		List<Coordinator> coordinatorList = (List<Coordinator>) getPM()
+		List<Instructor> instructorList = (List<Instructor>) getPM()
 				.newQuery(query).execute();
 
-		if (coordinatorList.isEmpty()
-				|| JDOHelper.isDeleted(coordinatorList.get(0))) {
+		if (instructorList.isEmpty()
+				|| JDOHelper.isDeleted(instructorList.get(0))) {
 			return null;
 		}
 
-		return coordinatorList.get(0);
+		return instructorList.get(0);
 	}
 	
 
 	/**
-	 * Returns the list of all coordinators
+	 * Returns the list of all instructors
 	 * @return
 	 */
-	public List<CoordData> getCoordinators() {
-		List<CoordData> list = new LinkedList<CoordData>();
-		List<Coordinator> entities = getCoordinatorEntities();
-		Iterator<Coordinator> it = entities.iterator();
+	public List<InstructorData> getInstructors() {
+		List<InstructorData> list = new LinkedList<InstructorData>();
+		List<Instructor> entities = getInstructorEntities();
+		Iterator<Instructor> it = entities.iterator();
 		while(it.hasNext()) {
-			list.add(new CoordData(it.next()));
+			list.add(new InstructorData(it.next()));
 		}
 		
 		return list;
@@ -597,17 +597,17 @@ public class AccountsDb {
 	
 	
 	/**
-	 * Returns the list of coordinator entities
+	 * Returns the list of instructor entities
 	 */
-	private List<Coordinator> getCoordinatorEntities() {
-		String query = "select from " + Coordinator.class.getName();
+	private List<Instructor> getInstructorEntities() {
+		String query = "select from " + Instructor.class.getName();
 			
 
 		@SuppressWarnings("unchecked")
-		List<Coordinator> coordinatorList = (List<Coordinator>) getPM()
+		List<Instructor> instructorList = (List<Instructor>) getPM()
 				.newQuery(query).execute();
 	
-		return coordinatorList;
+		return instructorList;
 	}
  
 

@@ -1,14 +1,14 @@
   {  
-	"coords":{
-	 "teammates.demo.coord@demo.course":{
-	 	"id":"teammates.demo.coord",
-	 	"name":"Demo_Coord",
-	 	"email":"teammates.demo.coord@demo.course"}
+	"instructors":{
+	 "teammates.demo.instructor@demo.course":{
+	 	"id":"teammates.demo.instructor",
+	 	"name":"Demo_Instructor",
+	 	"email":"teammates.demo.instructor@demo.course"}
   },
 
   "courses": {
     "Demo Course": {
-      "coord": "teammates.demo.coord",
+      "instructor": "teammates.demo.instructor",
       "id": "demo.course",
       "name": "Sample Course 101"
     }
@@ -52,13 +52,13 @@
       "team": "Team 2"
     },
    
-    "teammates.demo.coord@demo.course": {
-      "id": "teammates.demo.coord",
-      "email": "teammates.demo.coord@demo.course",
+    "teammates.demo.instructor@demo.course": {
+      "id": "teammates.demo.instructor",
+      "email": "teammates.demo.instructor@demo.course",
       "course": "demo.course",
-      "name": "Demo_Coord",
-      "comments": "This student's name is Demo_Coord",
-      "profile": {"value": "My name is Demo_Coord, and I'm a student in demo.course"},
+      "name": "Demo_Instructor",
+      "comments": "This student's name is Demo_Instructor",
+      "profile": {"value": "My name is Demo_Instructor, and I'm a student in demo.course"},
       "team": "Team 2"
     },
     "emily.f.tmms@demo.course": {
@@ -207,14 +207,14 @@
       "p2pFeedback" : {"value" :"I like the team. I learned my good software engineering practices from the members."},
       "team" : "Team 2"
     },
-    "submissionFromCharlieToCoordFirstEvaluation": {
+    "submissionFromCharlieToInstructorFirstEvaluation": {
       "reviewer" : "charlie.d.tmms@gmail.com",
-      "reviewee" : "teammates.demo.coord@demo.course",
+      "reviewee" : "teammates.demo.instructor@demo.course",
       "course" : "demo.course",
       "evaluation" : "First Evaluation",
       "points" : 103,
-      "justification" : {"value" : "Demo_Coord is a patient and good project lead."},
-      "p2pFeedback" : {"value" :"Thank you Demo_Coord for all the help in the project."},
+      "justification" : {"value" : "Demo_Instructor is a patient and good project lead."},
+      "p2pFeedback" : {"value" :"Thank you Demo_Instructor for all the help in the project."},
       "team" : "Team 2"
     },
      "submissionFromCharlieToEmilyFirstEvaluation": {
@@ -229,9 +229,9 @@
     },
     
     
-    "submissionFromCoordToCoordFirstEvaluation": {
-      "reviewer" : "teammates.demo.coord@demo.course",
-      "reviewee" : "teammates.demo.coord@demo.course",
+    "submissionFromInstructorToInstructorFirstEvaluation": {
+      "reviewer" : "teammates.demo.instructor@demo.course",
+      "reviewee" : "teammates.demo.instructor@demo.course",
       "course" : "demo.course",
       "evaluation" : "First Evaluation",
       "points" : 103,
@@ -239,8 +239,8 @@
       "p2pFeedback" : {"value" :"I had a great time with this team. Thanks for all the support from the members."},
       "team" : "Team 2"
     },
-    "submissionFromCoordToCharlieFirstEvaluation": {
-      "reviewer" : "teammates.demo.coord@demo.course",
+    "submissionFromInstructorToCharlieFirstEvaluation": {
+      "reviewer" : "teammates.demo.instructor@demo.course",
       "reviewee" : "charlie.d.tmms@gmail.com",
       "course" : "demo.course",
       "evaluation" : "First Evaluation",
@@ -249,8 +249,8 @@
       "p2pFeedback" : {"value" :"Good try Charlie! Thanks for showing great effort in picking up the skills."},
       "team" : "Team 2"
     },
-     "submissionFromCoordToEmilyFirstEvaluation": {
-      "reviewer" : "teammates.demo.coord@demo.course",
+     "submissionFromInstructorToEmilyFirstEvaluation": {
+      "reviewer" : "teammates.demo.instructor@demo.course",
       "reviewee" : "emily.f.tmms@gmail.com",
       "course" : "demo.course",
       "evaluation" : "First Evaluation",
@@ -277,18 +277,18 @@
       "course" : "demo.course",
       "evaluation" : "First Evaluation",
       "points" : 95,
-      "justification" : {"value" : "Charlie was a bit weak. Demo_Coord spent lots of time helping him."},
+      "justification" : {"value" : "Charlie was a bit weak. Demo_Instructor spent lots of time helping him."},
       "p2pFeedback" : {"value" :"Nice job Charlie! You learnt pretty fast"},
       "team" : "Team 2"
     },
-     "submissionFromEmilyToCoordFirstEvaluation": {
+     "submissionFromEmilyToInstructorFirstEvaluation": {
       "reviewer" : "emily.f.tmms@gmail.com",
-      "reviewee" : "teammates.demo.coord@demo.course",
+      "reviewee" : "teammates.demo.instructor@demo.course",
       "course" : "demo.course",
       "evaluation" : "First Evaluation",
       "points" : 105,
-      "justification" : {"value" : "Demo_Coord was the project lead. He put a lot of effort in this project."},
-      "p2pFeedback" : {"value" :"Thank you Demo_Coord for all the hardwork!"},
+      "justification" : {"value" : "Demo_Instructor was the project lead. He put a lot of effort in this project."},
+      "p2pFeedback" : {"value" :"Thank you Demo_Instructor for all the hardwork!"},
       "team" : "Team 2"
     }
   }

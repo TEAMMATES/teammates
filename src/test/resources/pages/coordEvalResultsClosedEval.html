@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 	<link href="/favicon.png" rel="shortcut icon" />
 	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-	<title>Teammates - Coordinator</title>
+	<title>Teammates - Instructor</title>
 	<link type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
-	<link type="text/css" href="/stylesheets/coordEvalResults.css" rel="stylesheet" />
+	<link type="text/css" href="/stylesheets/instructorEvalResults.css" rel="stylesheet" />
 	
 	<script src="/js/jquery-1.6.2.min.js" type="text/javascript"></script>
 	<script src="/js/tooltip.js" type="text/javascript"></script>
@@ -13,8 +13,8 @@
 	<script src="/js/AnchorPosition.js" type="text/javascript"></script>
 	<script src="/js/common.js" type="text/javascript"></script>
 	
-	<script src="/js/coordinator.js" type="text/javascript"></script>
-	<script src="/js/coordEvalResults.js" type="text/javascript"></script>
+	<script src="/js/instructor.js" type="text/javascript"></script>
+	<script src="/js/instructorEvalResults.js" type="text/javascript"></script>
     <noscript>{*}</noscript>
 </head>
 
@@ -30,12 +30,12 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="/page/coordHome?user=teammates.demo.coord" class="t_home">Home</a></li>
-					<li><a href="/page/coordCourse?user=teammates.demo.coord" class="t_courses">Courses</a></li>
-					<li><a href="/page/coordEval?user=teammates.demo.coord" class="t_evaluations">Evaluations</a></li>
-					<li><a target="_blank" href="/coordHelp.html" class="t_help">Help</a></li>
+					<li><a href="/page/instructorHome?user=teammates.demo.instructor" class="t_home">Home</a></li>
+					<li><a href="/page/instructorCourse?user=teammates.demo.instructor" class="t_courses">Courses</a></li>
+					<li><a href="/page/instructorEval?user=teammates.demo.instructor" class="t_evaluations">Evaluations</a></li>
+					<li><a target="_blank" href="/instructorHelp.html" class="t_help">Help</a></li>
 					<li><a href="/logout.jsp" class="t_logout">Logout</a>
-					 (teammates.demo.coord)</li>
+					 (teammates.demo.instructor)</li>
 				</ul>
 			</div>
 			<div style="clear: both;"></div>
@@ -48,7 +48,7 @@
 			<div id="headerOperation">
 				<h1>Evaluation Results</h1>
 			</div>
-			<div id="coordinatorEvaluationInformation">
+			<div id="instructorEvaluationInformation">
 				<table class="inputTable">
 					<tbody><tr>
 						<td class="label rightalign">Course ID:</td>
@@ -69,18 +69,18 @@
 					<tr>
 						<td colspan="2" class="centeralign">
 							<span class="label">Report Type:</span> 
-							<input type="radio" onclick="showReport(this.value)" checked="checked" value="coordinatorEvaluationSummaryTable" id="radio_summary" name="radio_reporttype" />
+							<input type="radio" onclick="showReport(this.value)" checked="checked" value="instructorEvaluationSummaryTable" id="radio_summary" name="radio_reporttype" />
 							<label for="radio_summary">Summary</label>
-							<input type="radio" onclick="showReport(this.value)" value="coordinatorEvaluationDetailedReviewerTable" id="radio_reviewer" name="radio_reporttype" />
+							<input type="radio" onclick="showReport(this.value)" value="instructorEvaluationDetailedReviewerTable" id="radio_reviewer" name="radio_reporttype" />
 							<label for="radio_reviewer">Detailed: By Reviewer</label>
-							<input type="radio" onclick="showReport(this.value)" value="coordinatorEvaluationDetailedRevieweeTable" id="radio_reviewee" name="radio_reporttype" />
+							<input type="radio" onclick="showReport(this.value)" value="instructorEvaluationDetailedRevieweeTable" id="radio_reviewee" name="radio_reporttype" />
 							<label for="radio_reviewee">Detailed: By Reviewee</label>
 						</td>
 					</tr> 
 					<tr>
 						<td class="centeralign" colspan="2">
 						
-							<input type="button" onclick="if(togglePublishEvaluation('Third Eval')) window.location.href='/page/coordEvalPublish?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;next=%2Fpage%2FcoordEval%3Fuser%3Dteammates.demo.coord&amp;user=teammates.demo.coord';" value="Publish" id="button_publish" class="button" />
+							<input type="button" onclick="if(togglePublishEvaluation('Third Eval')) window.location.href='/page/instructorEvalPublish?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.demo.instructor&amp;user=teammates.demo.instructor';" value="Publish" id="button_publish" class="button" />
 						
 						</td>
 					</tr>
@@ -92,7 +92,7 @@
 	<div style="display: none;" id="statusMessage"></div>
 
 			
-			<div class="evaluation_result" id="coordinatorEvaluationSummaryTable">
+			<div class="evaluation_result" id="instructorEvaluationSummaryTable">
 				<div id="tablecaption">CC = Claimed Contribution; PC = Perceived Contribution; E = Equal Share</div>
 				<table class="dataTable">
 					<tbody><tr>
@@ -122,9 +122,9 @@
 							<td><span class="negDiff">-20%</span></td>
 							<td><span class="color_neutral">E</span></td>
 							<td class="centeralign">
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View feedback from the student for his team<br />This opens in a new window')" href="/page/coordEvalSubmissionView?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=alice.b.tmms%40gmail.com&amp;user=teammates.demo.coord" target="_blank" id="viewEvaluationResults0" name="viewEvaluationResults0">
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View feedback from the student for his team<br />This opens in a new window')" href="/page/instructorEvalSubmissionView?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=alice.b.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" id="viewEvaluationResults0" name="viewEvaluationResults0">
 										View</a>
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback from the student for his team<br />This opens in a new window')" onclick="return openChildWindow(this.href)" href="/page/coordEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=alice.b.tmms%40gmail.com&amp;user=teammates.demo.coord" target="_blank" id="editEvaluationResults0" name="editEvaluationResults0">Edit</a></td>
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback from the student for his team<br />This opens in a new window')" onclick="return openChildWindow(this.href)" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=alice.b.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" id="editEvaluationResults0" name="editEvaluationResults0">Edit</a></td>
 						</tr>
 					
 						<tr id="student1" class="student_row">
@@ -139,9 +139,9 @@
 							<td><span class="posDiff">+10%</span></td>
 							<td><span class="color_neutral">E</span></td>
 							<td class="centeralign">
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View feedback from the student for his team<br />This opens in a new window')" href="/page/coordEvalSubmissionView?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=benny.c.tmms%40gmail.com&amp;user=teammates.demo.coord" target="_blank" id="viewEvaluationResults1" name="viewEvaluationResults1">
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View feedback from the student for his team<br />This opens in a new window')" href="/page/instructorEvalSubmissionView?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=benny.c.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" id="viewEvaluationResults1" name="viewEvaluationResults1">
 										View</a>
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback from the student for his team<br />This opens in a new window')" onclick="return openChildWindow(this.href)" href="/page/coordEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=benny.c.tmms%40gmail.com&amp;user=teammates.demo.coord" target="_blank" id="editEvaluationResults1" name="editEvaluationResults1">Edit</a></td>
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback from the student for his team<br />This opens in a new window')" onclick="return openChildWindow(this.href)" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=benny.c.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" id="editEvaluationResults1" name="editEvaluationResults1">Edit</a></td>
 						</tr>
 					
 						<tr id="student2" class="student_row">
@@ -156,9 +156,9 @@
 							<td><span class="posDiff">+1%</span></td>
 							<td><span class="color_neutral">E</span>, <span class="color_negative">E-5%</span></td>
 							<td class="centeralign">
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View feedback from the student for his team<br />This opens in a new window')" href="/page/coordEvalSubmissionView?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=charlie.d.tmms%40gmail.com&amp;user=teammates.demo.coord" target="_blank" id="viewEvaluationResults2" name="viewEvaluationResults2">
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View feedback from the student for his team<br />This opens in a new window')" href="/page/instructorEvalSubmissionView?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=charlie.d.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" id="viewEvaluationResults2" name="viewEvaluationResults2">
 										View</a>
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback from the student for his team<br />This opens in a new window')" onclick="return openChildWindow(this.href)" href="/page/coordEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=charlie.d.tmms%40gmail.com&amp;user=teammates.demo.coord" target="_blank" id="editEvaluationResults2" name="editEvaluationResults2">Edit</a></td>
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback from the student for his team<br />This opens in a new window')" onclick="return openChildWindow(this.href)" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=charlie.d.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" id="editEvaluationResults2" name="editEvaluationResults2">Edit</a></td>
 						</tr>
 					
 						<tr id="student3" class="student_row">
@@ -173,9 +173,9 @@
 							<td><span class="posDiff">+1%</span></td>
 							<td><span class="color_neutral">E</span>, <span class="color_negative">E-5%</span></td>
 							<td class="centeralign">
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View feedback from the student for his team<br />This opens in a new window')" href="/page/coordEvalSubmissionView?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=teammates.demo.coord" target="_blank" id="viewEvaluationResults3" name="viewEvaluationResults3">
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View feedback from the student for his team<br />This opens in a new window')" href="/page/instructorEvalSubmissionView?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" id="viewEvaluationResults3" name="viewEvaluationResults3">
 										View</a>
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback from the student for his team<br />This opens in a new window')" onclick="return openChildWindow(this.href)" href="/page/coordEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=teammates.demo.coord" target="_blank" id="editEvaluationResults3" name="editEvaluationResults3">Edit</a></td>
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback from the student for his team<br />This opens in a new window')" onclick="return openChildWindow(this.href)" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" id="editEvaluationResults3" name="editEvaluationResults3">Edit</a></td>
 						</tr>
 					
 						<tr id="student4" class="student_row">
@@ -190,9 +190,9 @@
 							<td><span class="negDiff">-1%</span></td>
 							<td><span class="color_positive">E+5%</span>, <span class="color_positive">E+5%</span></td>
 							<td class="centeralign">
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View feedback from the student for his team<br />This opens in a new window')" href="/page/coordEvalSubmissionView?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=emily.tmms%40gmail.com&amp;user=teammates.demo.coord" target="_blank" id="viewEvaluationResults4" name="viewEvaluationResults4">
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View feedback from the student for his team<br />This opens in a new window')" href="/page/instructorEvalSubmissionView?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=emily.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" id="viewEvaluationResults4" name="viewEvaluationResults4">
 										View</a>
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback from the student for his team<br />This opens in a new window')" onclick="return openChildWindow(this.href)" href="/page/coordEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=emily.tmms%40gmail.com&amp;user=teammates.demo.coord" target="_blank" id="editEvaluationResults4" name="editEvaluationResults4">Edit</a></td>
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback from the student for his team<br />This opens in a new window')" onclick="return openChildWindow(this.href)" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=emily.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" id="editEvaluationResults4" name="editEvaluationResults4">Edit</a></td>
 						</tr>
 					
 				</tbody></table>
@@ -200,7 +200,7 @@
 			</div>
 			
 			
-				<div style="display: none;" class="evaluation_result" id="coordinatorEvaluationDetailedReviewerTable">
+				<div style="display: none;" class="evaluation_result" id="instructorEvaluationDetailedReviewerTable">
 					<div><h1>Detailed Evaluation Results - By Reviewer</h1></div>
 					<div id="detail">
 						
@@ -218,7 +218,7 @@
 											<th><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')" class="resultHeader">
 												Perceived Contributions: </span>Equal Share
 												
-													<a onclick="return openChildWindow(this.href)" href="/page/coordEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=alice.b.tmms%40gmail.com&amp;user=teammates.demo.coord" target="_blank" style="font-weight: normal; float: right;">
+													<a onclick="return openChildWindow(this.href)" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=alice.b.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" style="font-weight: normal; float: right;">
 															Edit</a>
 												
 											</th>
@@ -257,7 +257,7 @@
 											<th><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')" class="resultHeader">
 												Perceived Contributions: </span>Equal Share
 												
-													<a onclick="return openChildWindow(this.href)" href="/page/coordEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=benny.c.tmms%40gmail.com&amp;user=teammates.demo.coord" target="_blank" style="font-weight: normal; float: right;">
+													<a onclick="return openChildWindow(this.href)" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=benny.c.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" style="font-weight: normal; float: right;">
 															Edit</a>
 												
 											</th>
@@ -302,7 +302,7 @@
 											<th><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')" class="resultHeader">
 												Perceived Contributions: </span>Equal Share<span class="color_negative"> - 2%</span>
 												
-													<a onclick="return openChildWindow(this.href)" href="/page/coordEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=charlie.d.tmms%40gmail.com&amp;user=teammates.demo.coord" target="_blank" style="font-weight: normal; float: right;">
+													<a onclick="return openChildWindow(this.href)" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=charlie.d.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" style="font-weight: normal; float: right;">
 															Edit</a>
 												
 											</th>
@@ -348,7 +348,7 @@
 											<th><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')" class="resultHeader">
 												Perceived Contributions: </span>Equal Share<span class="color_negative"> - 2%</span>
 												
-													<a onclick="return openChildWindow(this.href)" href="/page/coordEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=teammates.demo.coord" target="_blank" style="font-weight: normal; float: right;">
+													<a onclick="return openChildWindow(this.href)" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" style="font-weight: normal; float: right;">
 															Edit</a>
 												
 											</th>
@@ -394,7 +394,7 @@
 											<th><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')" class="resultHeader">
 												Perceived Contributions: </span>Equal Share<span class="color_positive"> + 5%</span>
 												
-													<a onclick="return openChildWindow(this.href)" href="/page/coordEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=emily.tmms%40gmail.com&amp;user=teammates.demo.coord" target="_blank" style="font-weight: normal; float: right;">
+													<a onclick="return openChildWindow(this.href)" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=Third+Eval&amp;studentemail=emily.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" style="font-weight: normal; float: right;">
 															Edit</a>
 												
 											</th>
@@ -437,7 +437,7 @@
 					<br /><br /><br /><br />
 				</div>
 			
-				<div style="display: none;" class="evaluation_result" id="coordinatorEvaluationDetailedRevieweeTable">
+				<div style="display: none;" class="evaluation_result" id="instructorEvaluationDetailedRevieweeTable">
 					<div><h1>Detailed Evaluation Results - By Reviewee</h1></div>
 					<div id="detail">
 						

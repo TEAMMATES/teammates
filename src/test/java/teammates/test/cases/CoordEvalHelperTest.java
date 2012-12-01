@@ -6,13 +6,13 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import teammates.ui.controller.CoordEvalHelper;
+import teammates.ui.controller.InstructorEvalHelper;
 
-public class CoordEvalHelperTest extends BaseTestCase {
+public class InstructorEvalHelperTest extends BaseTestCase {
 	
 	@Test
 	public void testGetTimeOptions(){
-		CoordEvalHelper helper = new CoordEvalHelper();
+		InstructorEvalHelper helper = new InstructorEvalHelper();
 		ArrayList<String> timeOptions = helper.getTimeOptions(false);
 		String retValue = "";
 		for(String option: timeOptions){

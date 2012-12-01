@@ -11,7 +11,7 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.storage.api.AccountsDb;
@@ -161,40 +161,40 @@ public class AccountsDbTest extends BaseTestCase {
 	}
 	
 	@SuppressWarnings("unused")
-	private void ____COORD_________________________________________() {
+	private void ____INSTRUCTOR_________________________________________() {
 	}
 	
 	@Test
-	public void testCreateCoord() throws EntityAlreadyExistsException {
+	public void testCreateInstructor() throws EntityAlreadyExistsException {
 		// SUCCESS
-		CoordData c = new CoordData();
+		InstructorData c = new InstructorData();
 		c.id = "valid.id";
 		c.name = "John Doe";
-		c.email = "john.doe@coordinator.com";
-		accountsDb.createCoord(c);
+		c.email = "john.doe@instructor.com";
+		accountsDb.createInstructor(c);
 		
 		// FAIL : duplicate
 		try {
-			accountsDb.createCoord(c);
+			accountsDb.createInstructor(c);
 			fail();
 		} catch (EntityAlreadyExistsException e) {
-			assertContains(AccountsDb.ERROR_CREATE_COORD_ALREADY_EXISTS, e.getMessage());
+			assertContains(AccountsDb.ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS, e.getMessage());
 		}
 		
 		// FAIL : invalid params
 		c.id = "invalid id with spaces";
 		try {
-			accountsDb.createCoord(c);
+			accountsDb.createInstructor(c);
 			fail();
 		} catch (AssertionError a) {
-			assertEquals(a.getMessage(), CoordData.ERROR_FIELD_ID);
+			assertEquals(a.getMessage(), InstructorData.ERROR_FIELD_ID);
 		} catch (EntityAlreadyExistsException e) {
 			fail();
 		}
 		
 		// Null params check:
 		try {
-			accountsDb.createCoord(null);
+			accountsDb.createInstructor(null);
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
@@ -202,20 +202,20 @@ public class AccountsDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testGetCoord() {
-		CoordData c = createNewCoord();
+	public void testGetInstructor() {
+		InstructorData c = createNewInstructor();
 		
 		// Get existent
-		CoordData retrieved = accountsDb.getCoord(c.id);
+		InstructorData retrieved = accountsDb.getInstructor(c.id);
 		assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
-		retrieved = accountsDb.getCoord("non.existent");
+		retrieved = accountsDb.getInstructor("non.existent");
 		assertNull(retrieved);
 		
 		// Null params check:
 		try {
-			accountsDb.getCoord(null);
+			accountsDb.getInstructor(null);
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
@@ -223,26 +223,26 @@ public class AccountsDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testEditCoord() {
+	public void testEditInstructor() {
 		// Not implemented
 	}
 	
 	@Test
-	public void testDeleteCoord() {
-		CoordData c = createNewCoord();
+	public void testDeleteInstructor() {
+		InstructorData c = createNewInstructor();
 		
 		// Delete
-		accountsDb.deleteCoord(c.id);
+		accountsDb.deleteInstructor(c.id);
 		
-		CoordData deleted = accountsDb.getCoord(c.id);
+		InstructorData deleted = accountsDb.getInstructor(c.id);
 		assertNull(deleted);
 		
 		// delete again - should fail silently
-		accountsDb.deleteCoord(c.id);
+		accountsDb.deleteInstructor(c.id);
 		
 		// Null params check:
 		try {
-			accountsDb.deleteCoord(null);
+			accountsDb.deleteInstructor(null);
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
@@ -270,14 +270,14 @@ public class AccountsDbTest extends BaseTestCase {
 		return s;
 	}
 	
-	private CoordData createNewCoord() {
-		CoordData c = new CoordData();
+	private InstructorData createNewInstructor() {
+		InstructorData c = new InstructorData();
 		c.id = "valid.id";
 		c.name = "John Doe";
-		c.email = "john.doe@coordinator.com";
+		c.email = "john.doe@instructor.com";
 		
 		try {
-			accountsDb.createCoord(c);
+			accountsDb.createInstructor(c);
 		} catch (EntityAlreadyExistsException e) {
 			// Okay if it's already inside
 		}

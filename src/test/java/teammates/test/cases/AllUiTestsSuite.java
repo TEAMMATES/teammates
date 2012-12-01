@@ -9,17 +9,17 @@ import org.junit.runners.Suite;
 		// Ui tests
 		LoginPageUiTest.class,
 		
-		CoordCourseAddPageUiTest.class,
-		CoordCourseEnrollPageUiTest.class,
-		CoordCourseDetailsPageUiTest.class,
-		CoordCourseStudentDetailsPageUiTest.class,
+		InstructorCourseAddPageUiTest.class,
+		InstructorCourseEnrollPageUiTest.class,
+		InstructorCourseDetailsPageUiTest.class,
+		InstructorCourseStudentDetailsPageUiTest.class,
 		
-		CoordEvalPageUiTest.class,
-		CoordEvalEditPageUiTest.class,
-		CoordEvalResultsPageUiTest.class,
-		CoordEvalSubmissionPageUiTest.class,
+		InstructorEvalPageUiTest.class,
+		InstructorEvalEditPageUiTest.class,
+		InstructorEvalResultsPageUiTest.class,
+		InstructorEvalSubmissionPageUiTest.class,
 		
-		CoordHomePageUiTest.class,
+		InstructorHomePageUiTest.class,
 		
 		StudentCourseDetailsPageUiTest.class,
 		StudentEvalEditPageUiTest.class,

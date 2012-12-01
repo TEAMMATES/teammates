@@ -9,7 +9,7 @@ import java.util.List;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
 
-public class CoordEvalHelper extends Helper{
+public class InstructorEvalHelper extends Helper{
 	public List<CourseData> courses;
 	public EvaluationData submittedEval;
 	public List<EvaluationData> evaluations;

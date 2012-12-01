@@ -9,7 +9,7 @@ import teammates.storage.entity.Course;
 public class CourseData extends BaseData {
 	public String id;
 	public String name;
-	public String coord;
+	public String instructor;
 
 	// these are marked transient because we don't want to involve them in
 	// Json conversions.
@@ -30,33 +30,33 @@ public class CourseData extends BaseData {
 	public static final String ERROR_ID_INVALIDCHARS = "Course ID can have only alphabets, numbers, dashes, underscores, and dollar sign\n";
 	public static final String ERROR_FIELD_NAME = "Course name cannot be null or empty\n";
 	public static final String ERROR_NAME_TOOLONG = "Course name cannot be more than " + COURSE_NAME_MAX_LENGTH + " characters\n";
-	public static final String ERROR_FIELD_COORD = "Course must belong to a valid Coordinator\n";
+	public static final String ERROR_FIELD_INSTRUCTOR = "Course must belong to a valid Instructor\n";
 
 	public CourseData() {
 
 	}
 
-	public CourseData(String id, String name, String coordId) {
+	public CourseData(String id, String name, String instructorId) {
 		this.id = trimIfNotNull(id);
 		this.name = trimIfNotNull(name);
-		this.coord = trimIfNotNull(coordId);
+		this.instructor = trimIfNotNull(instructorId);
 	}
 
 	public CourseData(Course course) {
 		this.id = course.getID();
 		this.name = course.getName();
-		this.coord = course.getCoordinatorID();
+		this.instructor = course.getInstructorID();
 	}
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\ncourse id: " + id);
 		sb.append("\ncourse name: "+ name);
-		sb.append("\ncoord: " + coord + "\n");
+		sb.append("\ninstructor: " + instructor + "\n");
 		return sb.toString();
 	}
 	
 	public Course toEntity() {
-		return new Course(id, name, coord);
+		return new Course(id, name, instructor);
 	}
 
 	public String getInvalidStateInfo() {
@@ -81,8 +81,8 @@ public class CourseData extends BaseData {
 			errorMessage += ERROR_NAME_TOOLONG;
 		}
 
-		if (!Common.isValidGoogleId(coord)) {
-			errorMessage += ERROR_FIELD_COORD;
+		if (!Common.isValidGoogleId(instructor)) {
+			errorMessage += ERROR_FIELD_INSTRUCTOR;
 		}
 
 		return errorMessage;

@@ -1,6 +1,6 @@
 
  
-module ('coordCourseDetails.js');
+module ('instructorCourseDetails.js');
 
 
 test('toggleSendRegistrationKey(courseID, email)', function(){

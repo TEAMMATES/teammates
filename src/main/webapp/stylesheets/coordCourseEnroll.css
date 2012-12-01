@@ -1,4 +1,4 @@
-#coordinatorCourseEnrollment {
+#instructorCourseEnrollment {
 	margin-top: 30px;
 	text-align: center;
 }
@@ -15,17 +15,17 @@
 	width: 250px;
 }
 
-#coordinatorCourseEnrollmentButtons {
+#instructorCourseEnrollmentButtons {
 	margin-top: 30px;
 	text-align: center;
 }
 
-#coordinatorCourseEnrollmentResults {
+#instructorCourseEnrollmentResults {
 	margin-top: 30px;
 	text-align: center;
 }
 
-#coordinatorCourseEnrollmentResults p{
+#instructorCourseEnrollmentResults p{
 	font-size: 16px;
 	font-weight: bold;
 	text-align: center;

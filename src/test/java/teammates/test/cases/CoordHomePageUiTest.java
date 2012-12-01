@@ -19,9 +19,9 @@ import teammates.test.driver.NoAlertException;
 import teammates.test.driver.TestProperties;
 
 /**
- * Tests Coordinator Homepage UI
+ * Tests Instructor Homepage UI
  */
-public class CoordHomePageUiTest extends BaseTestCase {
+public class InstructorHomePageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static DataBundle scn;
 	
@@ -36,12 +36,12 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		printTestClassHeader();
 		
 		startRecordingTimeForDataImport();
-		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/CoordHomeUiTest.json");
+		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorHomeUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 		firstEval = scn.evaluations.get("First Eval");
 		secondEval = scn.evaluations.get("Second Eval");
 		thirdEval = scn.evaluations.get("Third Eval");
-		BackDoor.deleteCoordinators(jsonString);
+		BackDoor.deleteInstructors(jsonString);
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
@@ -49,7 +49,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		bi.loginCoord(scn.coords.get("teammates.test").id, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS);
+		bi.loginInstructor(scn.instructors.get("teammates.test").id, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS);
 	}
 	
 	@AfterClass
@@ -71,30 +71,30 @@ public class CoordHomePageUiTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testCoordHomePage() throws Exception{
-		testCoordHomeHTML();
-		testCoordHomeEvalRemindLink();
-		testCoordHomeEvalPublishLink();
-		testCoordHomeEvalDeleteLink();
-		testCoordHomeCourseDeleteLink();
-		testCoordHomeEmptyHTML();
+	public void testInstructorHomePage() throws Exception{
+		testInstructorHomeHTML();
+		testInstructorHomeEvalRemindLink();
+		testInstructorHomeEvalPublishLink();
+		testInstructorHomeEvalDeleteLink();
+		testInstructorHomeCourseDeleteLink();
+		testInstructorHomeEmptyHTML();
 		testHelpLink();
 	}
 	
 	public void testHelpLink() throws Exception{
 		helpWindowClosed = false;
 		bi.clickAndSwitchToNewWindow(bi.helpTab);
-		assertContains("<title>Teammates Online Peer Feedback System for Student Team Projects - Coordinator Help</title>", bi.getCurrentPageSource());
+		assertContains("<title>Teammates Online Peer Feedback System for Student Team Projects - Instructor Help</title>", bi.getCurrentPageSource());
 	}
 	
-	public void testCoordHomeHTML() throws Exception{
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordHomeHTML.html");
+	public void testInstructorHomeHTML() throws Exception{
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorHomeHTML.html");
 	}
 
-	public void testCoordHomeEvalRemindLink(){
+	public void testInstructorHomeEvalRemindLink(){
 		
 		// Check the remind link on Open Evaluation: Evaluation 1 at Course 1
-		By remindLinkLocator = bi.getCoordHomeEvaluationRemindLinkLocator(firstEval.course, firstEval.name);
+		By remindLinkLocator = bi.getInstructorHomeEvaluationRemindLinkLocator(firstEval.course, firstEval.name);
 		
 		try{
 			bi.clickAndCancel(remindLinkLocator);
@@ -103,12 +103,12 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		}
 	}
 
-	public void testCoordHomeEvalPublishLink(){
+	public void testInstructorHomeEvalPublishLink(){
 		
 		______TS("publish link of CLOSED evaluation");
 		
 		// Check the publish link on Closed Evaluation: Evaluation 3 at Course 2
-		By publishLinkLocator = bi.getCoordHomeEvaluationPublishLinkLocator(thirdEval.course, thirdEval.name);
+		By publishLinkLocator = bi.getInstructorHomeEvaluationPublishLinkLocator(thirdEval.course, thirdEval.name);
 		
 		try{
 			bi.clickAndCancel(publishLinkLocator);
@@ -119,7 +119,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		______TS("publish link of OPEN evaluation");
 		
 		// Check the publish link on Open Evaluation: Evaluation 1 at Course 1
-		publishLinkLocator = bi.getCoordHomeEvaluationPublishLinkLocator(firstEval.course, firstEval.name);
+		publishLinkLocator = bi.getInstructorHomeEvaluationPublishLinkLocator(firstEval.course, firstEval.name);
 		try{
 			bi.clickAndCancel(publishLinkLocator);
 			fail("Publish link available on OPEN evaluation");
@@ -128,7 +128,7 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		______TS("unpublish link of PUBLISHED evaluation");
 
 		// Check the unpublish link on Published Evaluation: Evaluation 2 at Course 1
-		By unpublishLinkLocator = bi.getCoordHomeEvaluationUnpublishLinkLocator(secondEval.course, secondEval.name);
+		By unpublishLinkLocator = bi.getInstructorHomeEvaluationUnpublishLinkLocator(secondEval.course, secondEval.name);
 		try{
 			bi.clickAndCancel(unpublishLinkLocator);
 		} catch (NoAlertException e){
@@ -136,11 +136,11 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		}
 	}
 
-	public void testCoordHomeEvalDeleteLink() throws Exception{
+	public void testInstructorHomeEvalDeleteLink() throws Exception{
 		
 		______TS("click and cancel");
 		
-		By deleteLinkLocator = bi.getCoordHomeEvaluationDeleteLinkLocator(firstEval.course, firstEval.name);
+		By deleteLinkLocator = bi.getInstructorHomeEvaluationDeleteLinkLocator(firstEval.course, firstEval.name);
 		
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
@@ -154,17 +154,17 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		
 		try{
 			bi.clickAndConfirm(deleteLinkLocator);
-			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordHomeEvalDeleteSuccessful.html");
+			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorHomeEvalDeleteSuccessful.html");
 		} catch (NoAlertException e){
 			fail("Delete link is unavailable or it is available but no confirmation box");
 		}
 	}
 
-	public void testCoordHomeCourseDeleteLink() throws Exception{
+	public void testInstructorHomeCourseDeleteLink() throws Exception{
 		
 		______TS("click and cancel");
 		
-		By deleteLinkLocator = bi.getCoordHomeCourseDeleteLinkLocator(scn.courses.get("CHomeUiT.CS2104").id);
+		By deleteLinkLocator = bi.getInstructorHomeCourseDeleteLinkLocator(scn.courses.get("CHomeUiT.CS2104").id);
 		
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
@@ -178,18 +178,18 @@ public class CoordHomePageUiTest extends BaseTestCase {
 		
 		try{
 			bi.clickAndConfirm(deleteLinkLocator);
-			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordHomeCourseDeleteSuccessful.html");
+			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorHomeCourseDeleteSuccessful.html");
 		} catch (NoAlertException e){
 			fail("Delete course button unavailable, or it is available but no confirmation box");
 		}
 	}
 	
-	public void testCoordHomeEmptyHTML() throws Exception{
+	public void testInstructorHomeEmptyHTML() throws Exception{
 		
 		BackDoor.deleteCourse(scn.courses.get("CHomeUiT.CS2104").id);
 		BackDoor.deleteCourse(scn.courses.get("CHomeUiT.CS1101").id);
 		
 		bi.clickHomeTab();
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordHomeHTMLEmpty.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorHomeHTMLEmpty.html");
 	}
 }

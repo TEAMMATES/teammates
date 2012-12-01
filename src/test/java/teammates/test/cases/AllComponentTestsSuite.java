@@ -17,7 +17,7 @@ import org.junit.runners.Suite;
 		EvaluationsStorageTest.class,
 		CommonTest.class,
 		HelperTest.class,
-		CoordEvalHelperTest.class,
+		InstructorEvalHelperTest.class,
 		BuildPropertiesTest.class,
 		EmailsTest.class,
 		StudentTest.class, 

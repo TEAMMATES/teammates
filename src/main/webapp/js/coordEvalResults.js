@@ -4,9 +4,9 @@
  * @param id
  * 		One of:
  * 		<ul>
- * 		<li>coordinatorEvaluationSummaryTable</li>
- * 		<li>coordinatorEvaluationDetailedReviewerTable</li>
- * 		<li>coordinatorEvaluationDetailedRevieweeTable</li>
+ * 		<li>instructorEvaluationSummaryTable</li>
+ * 		<li>instructorEvaluationDetailedReviewerTable</li>
+ * 		<li>instructorEvaluationDetailedRevieweeTable</li>
  * 		</ul>
  */
 function showReport(id){

@@ -89,57 +89,57 @@ div#buffer {
 	width: 450px;;
 }
 
-div#coordinatorCourseEnrollment {
+div#instructorCourseEnrollment {
 	color: white;
 	margin-top: 30px;
 	text-align: center;
 }
 
-div#coordinatorCourseEnrollmentButtons {
+div#instructorCourseEnrollmentButtons {
 	margin-top: 30px;
 	text-align: center;
 }
 
-div#coordinatorCourseEnrollmentResults {
+div#instructorCourseEnrollmentResults {
 	margin-top: 40px;
 	text-align: center;
 }
 
-div#coordinatorCourseInformation {
+div#instructorCourseInformation {
 	margin-top: 16px;
 	text-align: center;
 }
 
-div#coordinatorCourseManagement {
+div#instructorCourseManagement {
 	margin-top: 20px;
 	text-align: center;
 }
 
-div#coordinatorCourseTable {
+div#instructorCourseTable {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 14px;
 	margin-top: 20px;
 	text-align: center;
 }
 
-div#coordinatorEditEvaluationButtons {
+div#instructorEditEvaluationButtons {
 	margin-top: 50px;
 	text-align: center;
 }
 
-div#coordinatorEditEvaluationResults {
+div#instructorEditEvaluationResults {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 18px;
 	margin-top: 16px;
 	text-align: center;
 }
 
-div#coordinatorEditEvaluationResultsButtons {
+div#instructorEditEvaluationResultsButtons {
 	margin-top: 50px;
 	text-align: center;
 }
 
-div#coordinatorEditEvaluationResultsStatusMessage {
+div#instructorEditEvaluationResultsStatusMessage {
 	background-color: #FFFF99;
 	font-family: Arial, Helvetica, sans-serif;
 	margin: 20px auto;
@@ -149,62 +149,62 @@ div#coordinatorEditEvaluationResultsStatusMessage {
 	display: none;
 }
 
-div#coordinatorEditStudentButtons {
+div#instructorEditStudentButtons {
 	margin-top: 50px;
 	text-align: center;
 }
 
-div#coordinatorEvaluationInformation {
+div#instructorEvaluationInformation {
 	margin-top: 16px;
 	text-align: center;
 }
 
-div#coordinatorEvaluationManagement {
+div#instructorEvaluationManagement {
 	margin-top: 10px;
 	text-align: center;
 }
 
-div#coordinatorEvaluationSummaryTable, 
-	div#coordinatorEvaluationDetailedReviewerTable,
-	div#coordinatorEvaluationDetailedRevieweeTable {
+div#instructorEvaluationSummaryTable, 
+	div#instructorEvaluationDetailedReviewerTable,
+	div#instructorEvaluationDetailedRevieweeTable {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 18px;
 	margin-top: 20px;
 	text-align: center;
 }
 
-div#coordinatorEvaluationTable {
+div#instructorEvaluationTable {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 14px;
 	margin-top: 20px;
 	text-align: center;
 }
 
-div#coordinatorTeamFormingSessionTable{
+div#instructorTeamFormingSessionTable{
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 14px;
 	margin-top: 20px;
 	text-align: center;
 }
 
-div#coordinatorTeamFormingSessionManagement {
+div#instructorTeamFormingSessionManagement {
 	margin-top: 10px;
 	text-align: center;
 }
 
-div#coordinatorStudentInformation {
+div#instructorStudentInformation {
 	margin-top: 16px;
 	text-align: center;
 }
 
-div#coordinatorHomeTable {
+div#instructorHomeTable {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 14px;
 	margin-top: 20px;
 	text-align: center;
 }
 
-div#coordinatorStudentTable {
+div#instructorStudentTable {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 14px;
 	margin-top: 20px;

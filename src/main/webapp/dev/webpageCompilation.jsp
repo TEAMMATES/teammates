@@ -15,19 +15,19 @@
 		<div id="dhtmltooltip"></div>
 		<div>
 			<ul id="nav">
-				<li><a href="#coordHomePage">Coordinator Home Page</a></li>
-				<li><a href="#coordAddCoursePage">Coordinator Add Course Page</a></li>
-				<li><a href="#coordEnrollPage">Coordinator Enroll Students Page</a></li>
-				<li><a href="#coordCourseDetailsPage">Coordinator Course Details Page</a></li>
-				<li><a href="#coordCourseStudentDetailsPage">Coordinator Student Details Page</a></li>
-				<li><a href="#coordCourseStudentEditPage">Coordinator Student Edit Page</a></li>
-				<li><a href="#coordCourseEvalPage">Coordinator Eval Page</a></li>
-				<li><a href="#coordCourseEvalEditPage">Coordinator Eval Edit Page</a></li>
-			    <li><a href="#coordCourseEvalResultsPage1">Coordinator Eval Results Page (coordinatorEvaluationSummaryTable)</a></li>
-				<li><a href="#coordCourseEvalResultsPage2">Coordinator Eval Results Page (coordinatorEvaluationDetailedReviewerTable)</a></li>
-				<li><a href="#coordCourseEvalResultsPage3">Coordinator Eval Results Page (coordinatorEvaluationDetailedRevieweeTable)</a></li>
-				<li><a href="#coordCourseEvalSubmissionViewPage">Coordinator Eval Submission View Page</a></li>
-				<li><a href="#coordCourseEvalSubmissionEditPage">Coordinator Eval Submission Edit Page</a></li>
+				<li><a href="#instructorHomePage">Instructor Home Page</a></li>
+				<li><a href="#instructorAddCoursePage">Instructor Add Course Page</a></li>
+				<li><a href="#instructorEnrollPage">Instructor Enroll Students Page</a></li>
+				<li><a href="#instructorCourseDetailsPage">Instructor Course Details Page</a></li>
+				<li><a href="#instructorCourseStudentDetailsPage">Instructor Student Details Page</a></li>
+				<li><a href="#instructorCourseStudentEditPage">Instructor Student Edit Page</a></li>
+				<li><a href="#instructorCourseEvalPage">Instructor Eval Page</a></li>
+				<li><a href="#instructorCourseEvalEditPage">Instructor Eval Edit Page</a></li>
+			    <li><a href="#instructorCourseEvalResultsPage1">Instructor Eval Results Page (instructorEvaluationSummaryTable)</a></li>
+				<li><a href="#instructorCourseEvalResultsPage2">Instructor Eval Results Page (instructorEvaluationDetailedReviewerTable)</a></li>
+				<li><a href="#instructorCourseEvalResultsPage3">Instructor Eval Results Page (instructorEvaluationDetailedRevieweeTable)</a></li>
+				<li><a href="#instructorCourseEvalSubmissionViewPage">Instructor Eval Submission View Page</a></li>
+				<li><a href="#instructorCourseEvalSubmissionEditPage">Instructor Eval Submission Edit Page</a></li>
 				<hr>
 				<li><a href="#studentHomePage">Student Home Page</a></li>
 				<li><a href="#studentCourseDetailsPage">Student Course Details Page</a></li>
@@ -38,44 +38,44 @@
 				
 			</ul>
 		</div>
-		<div class="pageinfo">Coordinator Home Page</div>
-		<div id="coordHomePage" class="wrapper"></div>
+		<div class="pageinfo">Instructor Home Page</div>
+		<div id="instructorHomePage" class="wrapper"></div>
 		
-		<div class="pageinfo">Coordinator Add Course Page</div>
-		<div id="coordAddCoursePage" class="wrapper"></div>
+		<div class="pageinfo">Instructor Add Course Page</div>
+		<div id="instructorAddCoursePage" class="wrapper"></div>
 		
-		<div class="pageinfo">Coordinator Enroll Students Page</div>
-		<div id="coordEnrollPage" class="wrapper"></div>
+		<div class="pageinfo">Instructor Enroll Students Page</div>
+		<div id="instructorEnrollPage" class="wrapper"></div>
 		
-		<div class="pageinfo">Coordinator Course Details Page</div>
-		<div id="coordCourseDetailsPage" class="wrapper"></div>
+		<div class="pageinfo">Instructor Course Details Page</div>
+		<div id="instructorCourseDetailsPage" class="wrapper"></div>
 		
-		<div class="pageinfo">Coordinator Student Details Page</div>
-		<div id="coordCourseStudentDetailsPage" class="wrapper"></div>
+		<div class="pageinfo">Instructor Student Details Page</div>
+		<div id="instructorCourseStudentDetailsPage" class="wrapper"></div>
 		
-		<div class="pageinfo">Coordinator Student Edit Page</div>
-		<div id="coordCourseStudentEditPage" class="wrapper"></div>
+		<div class="pageinfo">Instructor Student Edit Page</div>
+		<div id="instructorCourseStudentEditPage" class="wrapper"></div>
 		
-		<div class="pageinfo">Coordinator Eval Page</div>
-		<div id="coordCourseEvalPage" class="wrapper"></div>
+		<div class="pageinfo">Instructor Eval Page</div>
+		<div id="instructorCourseEvalPage" class="wrapper"></div>
 		
-		<div class="pageinfo">Coordinator Eval Edit Page</div>
-		<div id="coordCourseEvalEditPage" class="wrapper"></div>
+		<div class="pageinfo">Instructor Eval Edit Page</div>
+		<div id="instructorCourseEvalEditPage" class="wrapper"></div>
 		
-		<div class="pageinfo">Coordinator Eval Results Page (coordinatorEvaluationSummaryTable)</div>
-		<div id="coordCourseEvalResultsPage1" class="wrapper"></div>
+		<div class="pageinfo">Instructor Eval Results Page (instructorEvaluationSummaryTable)</div>
+		<div id="instructorCourseEvalResultsPage1" class="wrapper"></div>
 		
-		<div class="pageinfo">Coordinator Eval Results Page (coordinatorEvaluationDetailedReviewerTable)</div>
-		<div id="coordCourseEvalResultsPage2" class="wrapper"></div>
+		<div class="pageinfo">Instructor Eval Results Page (instructorEvaluationDetailedReviewerTable)</div>
+		<div id="instructorCourseEvalResultsPage2" class="wrapper"></div>
 		
-		<div class="pageinfo">Coordinator Eval Results Page (coordinatorEvaluationDetailedRevieweeTable)</div>
-		<div id="coordCourseEvalResultsPage3" class="wrapper"></div>
+		<div class="pageinfo">Instructor Eval Results Page (instructorEvaluationDetailedRevieweeTable)</div>
+		<div id="instructorCourseEvalResultsPage3" class="wrapper"></div>
 		
-		<div class="pageinfo">Coordinator Eval Submission View Page</div>
-		<div id="coordCourseEvalSubmissionViewPage" class="wrapper"></div>
+		<div class="pageinfo">Instructor Eval Submission View Page</div>
+		<div id="instructorCourseEvalSubmissionViewPage" class="wrapper"></div>
 		
-		<div class="pageinfo">Coordinator Eval Submission Edit Page</div>
-		<div id="coordCourseEvalSubmissionEditPage" class="wrapper"></div>
+		<div class="pageinfo">Instructor Eval Submission Edit Page</div>
+		<div id="instructorCourseEvalSubmissionEditPage" class="wrapper"></div>
 		<br></br>
 		<br></br>
 		<br></br>
@@ -102,40 +102,40 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$('head').append('<link rel=stylesheet href="/stylesheets/common.css" type="text/css">');
-			$('head').append('<link rel=stylesheet href="/stylesheets/coordHome.css" type="text/css">');
-			$('head').append('<link rel=stylesheet href="/stylesheets/coordCourse.css" type="text/css">');
-			$('head').append('<link rel=stylesheet href="/stylesheets/coordCourseEnroll.css" type="text/css">');
-			$('head').append('<link rel=stylesheet href="/stylesheets/coordCourseDetails.css" type="text/css">');
-			$('head').append('<link rel=stylesheet href="/stylesheets/coordCourseStudentDetails.css" type="text/css">');
-			$('head').append('<link rel=stylesheet href="/stylesheets/coordCourseStudentEdit.css" type="text/css">');
-			$('head').append('<link rel=stylesheet href="/stylesheets/coordEval.css" type="text/css">');
-			$('head').append('<link rel=stylesheet href="/stylesheets/coordEvalEdit.css" type="text/css">');
-			$('head').append('<link rel=stylesheet href="/stylesheets/coordEvalResults.css" type="text/css">');
-			$('head').append('<link rel=stylesheet href="/stylesheets/coordEvalSubmissionView.css" type="text/css">');
-			$('head').append('<link rel=stylesheet href="/stylesheets/coordEvalSubmissionEdit.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/instructorHome.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourse.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseEnroll.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseDetails.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseStudentDetails.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseStudentEdit.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/instructorEval.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalEdit.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalResults.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalSubmissionView.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalSubmissionEdit.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentHome.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentEvalEdit.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentEvalResults.css" type="text/css">');
 			
-			$('#coordHomePage').load("<%= Common.PAGE_COORD_HOME %>?user=teammates.test #frameBodyWrapper");
-			$('#coordAddCoursePage').load("<%= Common.PAGE_COORD_COURSE %>?user=teammates.test #frameBodyWrapper");
-			$('#coordEnrollPage').load("<%= Common.PAGE_COORD_COURSE_ENROLL %>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
-			$('#coordCourseDetailsPage').load("<%= Common.PAGE_COORD_COURSE_DETAILS %>?user=teammates.test&courseid=CS2104 #frameBodyWrapper");
-			$('#coordCourseStudentDetailsPage').load("<%= Common.PAGE_COORD_COURSE_STUDENT_DETAILS %>?user=teammates.test&courseid=CS2104&studentemail=teammates.test%40gmail.com #frameBodyWrapper");
-			$('#coordCourseStudentEditPage').load("<%= Common.PAGE_COORD_COURSE_STUDENT_EDIT %>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper");
-			$('#coordCourseEvalPage').load("<%= Common.PAGE_COORD_EVAL %>?user=teammates.test #frameBodyWrapper");
-			$('#coordCourseEvalEditPage').load("<%= Common.PAGE_COORD_EVAL_EDIT %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
-			$('#coordCourseEvalResultsPage1').load("<%= Common.PAGE_COORD_EVAL_RESULTS %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
-			$('#coordCourseEvalResultsPage2').load("<%= Common.PAGE_COORD_EVAL_RESULTS %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper", function(response, status, xml){
-				$('#coordCourseEvalResultsPage2').find('#coordinatorEvaluationSummaryTable').hide();
-				$('#coordCourseEvalResultsPage2').find('#coordinatorEvaluationDetailedReviewerTable').show();
+			$('#instructorHomePage').load("<%= Common.PAGE_INSTRUCTOR_HOME %>?user=teammates.test #frameBodyWrapper");
+			$('#instructorAddCoursePage').load("<%= Common.PAGE_INSTRUCTOR_COURSE %>?user=teammates.test #frameBodyWrapper");
+			$('#instructorEnrollPage').load("<%= Common.PAGE_INSTRUCTOR_COURSE_ENROLL %>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
+			$('#instructorCourseDetailsPage').load("<%= Common.PAGE_INSTRUCTOR_COURSE_DETAILS %>?user=teammates.test&courseid=CS2104 #frameBodyWrapper");
+			$('#instructorCourseStudentDetailsPage').load("<%= Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS %>?user=teammates.test&courseid=CS2104&studentemail=teammates.test%40gmail.com #frameBodyWrapper");
+			$('#instructorCourseStudentEditPage').load("<%= Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT %>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper");
+			$('#instructorCourseEvalPage').load("<%= Common.PAGE_INSTRUCTOR_EVAL %>?user=teammates.test #frameBodyWrapper");
+			$('#instructorCourseEvalEditPage').load("<%= Common.PAGE_INSTRUCTOR_EVAL_EDIT %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
+			$('#instructorCourseEvalResultsPage1').load("<%= Common.PAGE_INSTRUCTOR_EVAL_RESULTS %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
+			$('#instructorCourseEvalResultsPage2').load("<%= Common.PAGE_INSTRUCTOR_EVAL_RESULTS %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper", function(response, status, xml){
+				$('#instructorCourseEvalResultsPage2').find('#instructorEvaluationSummaryTable').hide();
+				$('#instructorCourseEvalResultsPage2').find('#instructorEvaluationDetailedReviewerTable').show();
 			});
-			$('#coordCourseEvalResultsPage3').load("<%= Common.PAGE_COORD_EVAL_RESULTS %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper", function(response, status, xml){
-				$('#coordCourseEvalResultsPage3').find('#coordinatorEvaluationSummaryTable').hide();
-				$('#coordCourseEvalResultsPage3').find('#coordinatorEvaluationDetailedRevieweeTable').show();
+			$('#instructorCourseEvalResultsPage3').load("<%= Common.PAGE_INSTRUCTOR_EVAL_RESULTS %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper", function(response, status, xml){
+				$('#instructorCourseEvalResultsPage3').find('#instructorEvaluationSummaryTable').hide();
+				$('#instructorCourseEvalResultsPage3').find('#instructorEvaluationDetailedRevieweeTable').show();
 			});
-			$('#coordCourseEvalSubmissionViewPage').load("<%= Common.PAGE_COORD_EVAL_SUBMISSION_VIEW %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper");		
-			$('#coordCourseEvalSubmissionEditPage').load("<%= Common.PAGE_COORD_EVAL_SUBMISSION_EDIT %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=charlie.d.tmms%40gmail.com #frameBodyWrapper");
+			$('#instructorCourseEvalSubmissionViewPage').load("<%= Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_VIEW %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper");		
+			$('#instructorCourseEvalSubmissionEditPage').load("<%= Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=charlie.d.tmms%40gmail.com #frameBodyWrapper");
 			
 			$('#studentHomePage').load("<%= Common.PAGE_STUDENT_HOME %>?user=teammates.test #frameBodyWrapper");
 			$('#studentCourseDetailsPage').load("<%= Common.PAGE_STUDENT_COURSE_DETAILS %>?user=teammates.test&courseid=CS2104 #frameBodyWrapper");

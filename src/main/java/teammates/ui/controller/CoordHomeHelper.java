@@ -4,6 +4,6 @@ import java.util.List;
 
 import teammates.common.datatransfer.CourseData;
 
-public class CoordHomeHelper extends Helper {
+public class InstructorHomeHelper extends Helper {
 	public List<CourseData> courses;
 }

@@ -10,7 +10,7 @@ import teammates.common.exception.InvalidParametersException;
 /**
  * Servlet to handle Remind to join Course action
  */
-public class CoordCourseRemindServlet extends ActionServlet<Helper> {
+public class InstructorCourseRemindServlet extends ActionServlet<Helper> {
 
 	@Override
 	protected Helper instantiateHelper() {
@@ -33,7 +33,7 @@ public class CoordCourseRemindServlet extends ActionServlet<Helper> {
 		} catch (InvalidParametersException e){
 			helper.statusMessage = e.getMessage();
 		} finally {
-			helper.redirectUrl = Common.PAGE_COORD_COURSE_DETAILS;
+			helper.redirectUrl = Common.PAGE_INSTRUCTOR_COURSE_DETAILS;
 			helper.redirectUrl = Common.addParamToUrl(helper.redirectUrl,Common.PARAM_COURSE_ID,courseID);
 		}
 	}

@@ -6,7 +6,7 @@ import java.util.Set;
 import com.google.gson.Gson;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationData;
@@ -46,8 +46,8 @@ public class ImportData {
 		{
 			long start = System.currentTimeMillis();
 			
-			if(!data.coords.isEmpty()) {			//Coordinators
-				status = persist(data.coords);
+			if(!data.instructors.isEmpty()) {			//Instructors
+				status = persist(data.instructors);
 			} else if (!data.courses.isEmpty()){	//Courses
 				status = persist(data.courses);
 			} else if (!data.students.isEmpty()){	//Students
@@ -93,11 +93,11 @@ public class ImportData {
 	    	String key = (String) itr.next();
 	    	Object obj = map.get(key);
 	    	
-	    	if(obj instanceof CoordData)
+	    	if(obj instanceof InstructorData)
 			{
-	    		type = "CoordData";
-				CoordData coordData = (CoordData)obj;
-				bundle.coords.put(key, coordData);
+	    		type = "InstructorData";
+				InstructorData instructorData = (InstructorData)obj;
+				bundle.instructors.put(key, instructorData);
 			} else if(obj instanceof CourseData)
 			{
 				type = "CourseData";

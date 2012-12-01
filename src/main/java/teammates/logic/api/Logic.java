@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import teammates.common.Assumption;
 import teammates.common.BuildProperties;
 import teammates.common.Common;
-import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvalResultData;
 import teammates.common.datatransfer.EvaluationData;
@@ -101,8 +101,8 @@ public class Logic {
 		if (accounts.isAdministrator()) {
 			userType.isAdmin = true;
 		}
-		if (accounts.isCoord()) {
-			userType.isCoord = true;
+		if (accounts.isInstructor()) {
+			userType.isInstructor = true;
 		}
 
 		if (accounts.isStudent(user.getNickname())) {
@@ -124,12 +124,12 @@ public class Logic {
 		return callerClassName.equals(thisClassName);
 	}
 
-	private void verifyCoordUsingOwnIdOrAbove(String coordId) {
+	private void verifyInstructorUsingOwnIdOrAbove(String instructorId) {
 		if (isInternalCall())
 			return;
 		if (isAdminLoggedIn())
 			return;
-		if (isOwnId(coordId))
+		if (isOwnId(instructorId))
 			return;
 		throw new UnauthorizedAccessException();
 	}
@@ -149,7 +149,7 @@ public class Logic {
 			return;
 		if (isAdminLoggedIn())
 			return;
-		if (isCoordLoggedIn())
+		if (isInstructorLoggedIn())
 			return;
 		if (isStudentLoggedIn())
 			return;
@@ -282,7 +282,7 @@ public class Logic {
 		CourseData course = getCourse(courseId);
 		UserType user = getLoggedInUser();
 		return user != null && course != null
-				&& course.coord.equalsIgnoreCase(user.id);
+				&& course.instructor.equalsIgnoreCase(user.id);
 	}
 
 	private boolean isInCourse(String courseId) {
@@ -315,11 +315,11 @@ public class Logic {
 	}
 
 	/**
-	 * Verifies if the logged in user has Coord privileges
+	 * Verifies if the logged in user has Instructor privileges
 	 */
-	private boolean isCoordLoggedIn() {
+	private boolean isInstructorLoggedIn() {
 		UserType loggedInUser = getLoggedInUser();
-		return loggedInUser == null ? false : loggedInUser.isCoord;
+		return loggedInUser == null ? false : loggedInUser.isInstructor;
 	}
 
 	/**
@@ -331,109 +331,109 @@ public class Logic {
 	}
 
 	@SuppressWarnings("unused")
-	private void ____COORD_level_methods____________________________________() {
+	private void ____INSTRUCTOR_level_methods____________________________________() {
 	}
 
 	/**
 	 * Access: admin only
 	 */
-	public void createCoord(String coordId, String coordName, String coordEmail)
+	public void createInstructor(String instructorId, String instructorName, String instructorEmail)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, coordId);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, coordName);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, coordEmail);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorName);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorEmail);
 
 		verifyAdminLoggedIn();
 		//trim @gmail.com in ID field
-		if(coordId.contains("@gmail.com")) {
-			coordId = coordId.split("@")[0];
+		if(instructorId.contains("@gmail.com")) {
+			instructorId = instructorId.split("@")[0];
 		}
-		CoordData coordToAdd = new CoordData(coordId, coordName, coordEmail);
+		InstructorData instructorToAdd = new InstructorData(instructorId, instructorName, instructorEmail);
 		
-		if (!coordToAdd.isValid()) {
-			throw new InvalidParametersException(coordToAdd.getInvalidStateInfo());
+		if (!instructorToAdd.isValid()) {
+			throw new InvalidParametersException(instructorToAdd.getInvalidStateInfo());
 		}
 		
-		AccountsStorage.inst().getDb().createCoord(coordToAdd);
+		AccountsStorage.inst().getDb().createInstructor(instructorToAdd);
 	}
 	
 
 	/**
 	 * Access: any logged in user
 	 */
-	public CoordData getCoord(String coordId) {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, coordId);
+	public InstructorData getInstructor(String instructorId) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 
 		verifyLoggedInUserAndAbove();
 
-		CoordData coord = AccountsStorage.inst().getDb().getCoord(coordId);
+		InstructorData instructor = AccountsStorage.inst().getDb().getInstructor(instructorId);
 
-		return coord;
+		return instructor;
 	}
 
 	/**
 	 * Not implemented
 	 */
-	public void editCoord(CoordData coord) throws NotImplementedException {
+	public void editInstructor(InstructorData instructor) throws NotImplementedException {
 		throw new NotImplementedException("Not implemented because we do "
-				+ "not allow editing coordinators");
+				+ "not allow editing instructors");
 	}
 
 	/**
 	 * Access: Admin only
 	 */
-	public void deleteCoord(String coordId) {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, coordId);
+	public void deleteInstructor(String instructorId) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 
 		verifyAdminLoggedIn();
 	
-		List<CourseData> coordCourseList = CoursesStorage.inst().getDb()
-				.getCourseListForCoordinator(coordId);
+		List<CourseData> instructorCourseList = CoursesStorage.inst().getDb()
+				.getCourseListForInstructor(instructorId);
 
-		for (CourseData courseData : coordCourseList) {
+		for (CourseData courseData : instructorCourseList) {
 			deleteCourse(courseData.id);
 		}
-		AccountsStorage.inst().getDb().deleteCoord(coordId);
+		AccountsStorage.inst().getDb().deleteInstructor(instructorId);
 	}
 
 	/**
-	 * Access level: Admin, Coord (for self)
+	 * Access level: Admin, Instructor (for self)
 	 * 
-	 * @return Returns a less-detailed version of Coord's course data
+	 * @return Returns a less-detailed version of Instructor's course data
 	 */
-	public HashMap<String, CourseData> getCourseListForCoord(String coordId)
+	public HashMap<String, CourseData> getCourseListForInstructor(String instructorId)
 			throws EntityDoesNotExistException {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, coordId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 
-		verifyCoordUsingOwnIdOrAbove(coordId);
+		verifyInstructorUsingOwnIdOrAbove(instructorId);
 
-		HashMap<String, CourseData> courseSummaryListForCoord = CoursesStorage
-				.inst().getCourseSummaryListForCoord(coordId);
-		if (courseSummaryListForCoord.size() == 0) {
-			if (getCoord(coordId) == null) {
+		HashMap<String, CourseData> courseSummaryListForInstructor = CoursesStorage
+				.inst().getCourseSummaryListForInstructor(instructorId);
+		if (courseSummaryListForInstructor.size() == 0) {
+			if (getInstructor(instructorId) == null) {
 				throw new EntityDoesNotExistException(
-						"Coordinator does not exist :" + coordId);
+						"Instructor does not exist :" + instructorId);
 			}
 		}
-		return courseSummaryListForCoord;
+		return courseSummaryListForInstructor;
 	}
 
 	/**
-	 * Access level: Admin, Coord (for self)
+	 * Access level: Admin, Instructor (for self)
 	 * 
-	 * @return Returns a more-detailed version of Coord's course data <br>
+	 * @return Returns a more-detailed version of Instructor's course data <br>
 	 */
-	public HashMap<String, CourseData> getCourseDetailsListForCoord(
-			String coordId) throws EntityDoesNotExistException {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, coordId);
+	public HashMap<String, CourseData> getCourseDetailsListForInstructor(
+			String instructorId) throws EntityDoesNotExistException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 		
-		verifyCoordUsingOwnIdOrAbove(coordId);
+		verifyInstructorUsingOwnIdOrAbove(instructorId);
 
 		// TODO: using this method here may not be efficient as it retrieves
 		// info not required
-		HashMap<String, CourseData> courseList = getCourseListForCoord(coordId);
-		ArrayList<EvaluationData> evaluationList = getEvaluationsListForCoord(coordId);
+		HashMap<String, CourseData> courseList = getCourseListForInstructor(instructorId);
+		ArrayList<EvaluationData> evaluationList = getEvaluationsListForInstructor(instructorId);
 		for (EvaluationData ed : evaluationList) {
 			CourseData courseSummary = courseList.get(ed.course);
 			courseSummary.evaluations.add(ed);
@@ -442,22 +442,22 @@ public class Logic {
 	}
 
 	/**
-	 * Access level: Admin, Coord (for self)
+	 * Access level: Admin, Instructor (for self)
 	 * 
-	 * @return Returns a less-detailed version of Coord's evaluations <br>
+	 * @return Returns a less-detailed version of Instructor's evaluations <br>
 	 */
-	public ArrayList<EvaluationData> getEvaluationsListForCoord(String coordId)
+	public ArrayList<EvaluationData> getEvaluationsListForInstructor(String instructorId)
 			throws EntityDoesNotExistException {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, coordId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 		
-		verifyCoordUsingOwnIdOrAbove(coordId);
+		verifyInstructorUsingOwnIdOrAbove(instructorId);
 
 		List<CourseData> courseList = CoursesStorage.inst().getDb()
-				.getCourseListForCoordinator(coordId);
+				.getCourseListForInstructor(instructorId);
 
-		if ((courseList.size() == 0) && (getCoord(coordId) == null)) {
+		if ((courseList.size() == 0) && (getInstructor(instructorId) == null)) {
 			throw new EntityDoesNotExistException(
-					"Coordinator does not exist :" + coordId);
+					"Instructor does not exist :" + instructorId);
 		}
 
 		ArrayList<EvaluationData> evaluationSummaryList = new ArrayList<EvaluationData>();
@@ -485,17 +485,17 @@ public class Logic {
 	}
 
 	/**
-	 * Access level: Coord and above
+	 * Access level: Instructor and above
 	 */
-	public void createCourse(String coordId, String courseId, String courseName)
+	public void createCourse(String instructorId, String courseId, String courseName)
 			throws EntityAlreadyExistsException, InvalidParametersException {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, coordId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseName);
 
-		verifyCoordUsingOwnIdOrAbove(coordId);
+		verifyInstructorUsingOwnIdOrAbove(instructorId);
 
-		CourseData courseToAdd = new CourseData(courseId, courseName, coordId);
+		CourseData courseToAdd = new CourseData(courseId, courseName, instructorId);
 		
 		if (!courseToAdd.isValid()) {
 			throw new InvalidParametersException(courseToAdd.getInvalidStateInfo());
@@ -534,7 +534,7 @@ public class Logic {
 			throw new EntityDoesNotExistException("The course does not exist: "
 					+ courseId);
 		}
-		HashMap<String, CourseData> courseList = getCourseDetailsListForCoord(course.coord);
+		HashMap<String, CourseData> courseList = getCourseDetailsListForInstructor(course.instructor);
 		return courseList.get(courseId);
 	}
 
@@ -767,7 +767,7 @@ public class Logic {
 	}
 
 	/**
-	 * Access: coord of course and above.<br>
+	 * Access: instructor of course and above.<br>
 	 * All attributes except courseId be changed. Trying to change courseId will
 	 * be treated as trying to edit a student in a different course.<br>
 	 * Changing team name will not delete existing submissions under that team <br>
@@ -1549,16 +1549,16 @@ public class Logic {
 			s.result.sortIncomingByStudentNameAscending();
 			s.result.sortOutgoingByStudentNameAscending();
 			s.result.claimedFromStudent = teamResult.claimed[i][i];
-			s.result.claimedToCoord = teamResult.normalizedClaimed[i][i];
+			s.result.claimedToInstructor = teamResult.normalizedClaimed[i][i];
 			s.result.perceivedToStudent = teamResult.denormalizedAveragePerceived[i][i];
-			s.result.perceivedToCoord = teamResult.normalizedAveragePerceived[i];
+			s.result.perceivedToInstructor = teamResult.normalizedAveragePerceived[i];
 
 			// populate incoming and outgoing
 			for (int j = 0; j < teamSize; j++) {
 				SubmissionData incomingSub = s.result.incoming.get(j);
 				int normalizedIncoming = teamResult.denormalizedAveragePerceived[i][j];
 				incomingSub.normalizedToStudent = normalizedIncoming;
-				incomingSub.normalizedToCoord = teamResult.normalizedPeerContributionRatio[j][i];
+				incomingSub.normalizedToInstructor = teamResult.normalizedPeerContributionRatio[j][i];
 				log.finer("Setting normalized incoming of " + s.name + " from "
 						+ incomingSub.reviewerName + " to "
 						+ normalizedIncoming);
@@ -1566,7 +1566,7 @@ public class Logic {
 				SubmissionData outgoingSub = s.result.outgoing.get(j);
 				int normalizedOutgoing = teamResult.normalizedClaimed[i][j];
 				outgoingSub.normalizedToStudent = Common.UNINITIALIZED_INT;
-				outgoingSub.normalizedToCoord = normalizedOutgoing;
+				outgoingSub.normalizedToInstructor = normalizedOutgoing;
 				log.finer("Setting normalized outgoing of " + s.name + " to "
 						+ outgoingSub.revieweeName + " to "
 						+ normalizedOutgoing);

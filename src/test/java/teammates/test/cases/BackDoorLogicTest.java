@@ -17,7 +17,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationData;
@@ -74,9 +74,9 @@ public class BackDoorLogicTest extends BaseTestCase {
 		}
 		DataBundle dataBundle = gson.fromJson(jsonString, DataBundle.class);
 		// clean up the datastore first, to avoid clashes with existing data
-		HashMap<String, CoordData> coords = dataBundle.coords;
-		for (CoordData coord : coords.values()) {
-			logic.deleteCoord(coord.id);
+		HashMap<String, InstructorData> instructors = dataBundle.instructors;
+		for (InstructorData instructor : instructors.values()) {
+			logic.deleteInstructor(instructor.id);
 		}
 
 		// try with empty dataBundle
@@ -137,7 +137,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 		// Reuse an existing evaluation to create a new one that is ready to
 		// activate. Put this evaluation in a negative time zone.
 		EvaluationData evaluation1 = dataBundle.evaluations
-				.get("evaluation1InCourse1OfCoord1");
+				.get("evaluation1InCourse1OfInstructor1");
 		String nameOfEvalInCourse1 = "new-eval-in-course-1-tARE";
 		evaluation1.name = nameOfEvalInCourse1;
 
@@ -156,7 +156,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 		// Put this evaluation in a positive time zone.
 		// This one too is ready to activate.
 		EvaluationData evaluation2 = dataBundle.evaluations
-				.get("evaluation1InCourse1OfCoord2");
+				.get("evaluation1InCourse1OfInstructor2");
 		evaluation2.activated = false;
 		String nameOfEvalInCourse2 = "new-evaluation-in-course-2-tARE";
 		evaluation2.name = nameOfEvalInCourse2;
@@ -198,7 +198,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 		// Reuse an existing evaluation to create a new one that is
 		// closing in 24 hours.
 		EvaluationData evaluation1 = dataBundle.evaluations
-				.get("evaluation1InCourse1OfCoord1");
+				.get("evaluation1InCourse1OfInstructor1");
 		String nameOfEvalInCourse1 = "new-eval-in-course-1-tSRFCE";
 		evaluation1.name = nameOfEvalInCourse1;
 
@@ -213,7 +213,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 		// Create another evaluation in another course in similar fashion.
 		// This one too is closing in 24 hours.
 		EvaluationData evaluation2 = dataBundle.evaluations
-				.get("evaluation1InCourse1OfCoord2");
+				.get("evaluation1InCourse1OfInstructor2");
 		evaluation2.activated = true;
 		String nameOfEvalInCourse2 = "new-evaluation-in-course-2-tARE";
 		evaluation2.name = nameOfEvalInCourse2;
@@ -248,9 +248,9 @@ public class BackDoorLogicTest extends BaseTestCase {
 			throws Exception {
 
 		DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
-		HashMap<String, CoordData> coords = data.coords;
-		for (CoordData expectedCoord : coords.values()) {
-			LogicTest.verifyPresentInDatastore(expectedCoord);
+		HashMap<String, InstructorData> instructors = data.instructors;
+		for (InstructorData expectedInstructor : instructors.values()) {
+			LogicTest.verifyPresentInDatastore(expectedInstructor);
 		}
 
 		HashMap<String, CourseData> courses = data.courses;

@@ -35,7 +35,7 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		startRecordingTimeForDataImport();
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/StudentEvalEditUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
-		BackDoor.deleteCoordinators(jsonString);
+		BackDoor.deleteInstructors(jsonString);
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		String course = "SEvalEditUiT.CS2104";

@@ -32,7 +32,7 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		startRecordingTimeForDataImport();
 		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/StudentHomeUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
-		BackDoor.deleteCoordinators(jsonString);
+		BackDoor.deleteInstructors(jsonString);
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();

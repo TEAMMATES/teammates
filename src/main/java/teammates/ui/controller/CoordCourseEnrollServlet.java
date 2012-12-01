@@ -15,18 +15,18 @@ import teammates.common.exception.EntityDoesNotExistException;
 /**
  * Servlet to handle Enroll Students action
  */
-public class CoordCourseEnrollServlet extends
-		ActionServlet<CoordCourseEnrollHelper> {
+public class InstructorCourseEnrollServlet extends
+		ActionServlet<InstructorCourseEnrollHelper> {
 
 	@Override
-	protected CoordCourseEnrollHelper instantiateHelper() {
-		return new CoordCourseEnrollHelper();
+	protected InstructorCourseEnrollHelper instantiateHelper() {
+		return new InstructorCourseEnrollHelper();
 	}
 
 
 	@Override
 	protected void doAction(HttpServletRequest req,
-			CoordCourseEnrollHelper helper) throws EntityDoesNotExistException {
+			InstructorCourseEnrollHelper helper) throws EntityDoesNotExistException {
 
 		helper.courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String studentsInfo = req
@@ -42,7 +42,7 @@ public class CoordCourseEnrollServlet extends
 
 
 	private void enrollAndProcessResultForDisplay(
-			CoordCourseEnrollHelper helper, String studentsInfo)
+			InstructorCourseEnrollHelper helper, String studentsInfo)
 			throws EnrollException, EntityDoesNotExistException {
 		if (studentsInfo == null)
 			return;
@@ -90,6 +90,6 @@ public class CoordCourseEnrollServlet extends
 
 	@Override
 	protected String getDefaultForwardUrl() {
-		return Common.JSP_COORD_COURSE_ENROLL;
+		return Common.JSP_INSTRUCTOR_COURSE_ENROLL;
 	}
 }

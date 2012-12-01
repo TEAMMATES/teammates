@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationData;
@@ -63,71 +63,71 @@ public class BackDoor {
 	 * @return
 	 */
 	public static String restoreDataBundle(String dataBundleJason) {
-		deleteCoordinators(dataBundleJason);
+		deleteInstructors(dataBundleJason);
 		return persistNewDataBundle(dataBundleJason);
 	}
 
 	/**
-	 * Deletes coordinators contained in the jsonString
+	 * Deletes instructors contained in the jsonString
 	 * 
 	 * @param jsonString
 	 */
-	public static void deleteCoordinators(String jsonString) {
+	public static void deleteInstructors(String jsonString) {
 		Gson gson = Common.getTeammatesGson();
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
-		HashMap<String, CoordData> coords = data.coords;
-		for (CoordData coord : coords.values()) {
-			deleteCoord(coord.id);
+		HashMap<String, InstructorData> instructors = data.instructors;
+		for (InstructorData instructor : instructors.values()) {
+			deleteInstructor(instructor.id);
 		}
 	}
 
 	@SuppressWarnings("unused")
-	private void ____COORD_level_methods______________________________() {
+	private void ____INSTRUCTOR_level_methods______________________________() {
 	}
 
-	public static String createCoord(CoordData coord) {
+	public static String createInstructor(InstructorData instructor) {
 		DataBundle dataBundle = new DataBundle();
-		dataBundle.coords.put(coord.id, coord);
+		dataBundle.instructors.put(instructor.id, instructor);
 		return persistNewDataBundle(Common.getTeammatesGson()
 				.toJson(dataBundle));
 	}
 
-	public static String getCoordAsJson(String coordId) {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_COORD_AS_JSON);
-		params.put(BackDoorServlet.PARAMETER_COORD_ID, coordId);
-		String coordJsonString = makePOSTRequest(params);
-		return coordJsonString;
+	public static String getInstructorAsJson(String instructorId) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_INSTRUCTOR_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_INSTRUCTOR_ID, instructorId);
+		String instructorJsonString = makePOSTRequest(params);
+		return instructorJsonString;
 	}
 
-	public static String editCoord(CoordData coord)
+	public static String editInstructor(InstructorData instructor)
 			throws NotImplementedException {
 		throw new NotImplementedException(
-				"Not implemented because editing coordinators is not currently allowed");
+				"Not implemented because editing instructors is not currently allowed");
 	}
 
-	public static String deleteCoord(String coordId) {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_COORD);
-		params.put(BackDoorServlet.PARAMETER_COORD_ID, coordId);
+	public static String deleteInstructor(String instructorId) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_INSTRUCTOR);
+		params.put(BackDoorServlet.PARAMETER_INSTRUCTOR_ID, instructorId);
 		String status = makePOSTRequest(params);
 		return status;
 	}
 	
 
-	public static void cleanupCoord(String coordId)
+	public static void cleanupInstructor(String instructorId)
 			throws EntityDoesNotExistException {
-		CoordData coord = Common.getTeammatesGson().fromJson(
-				getCoordAsJson(coordId), CoordData.class);
-		if (coord == null)
+		InstructorData instructor = Common.getTeammatesGson().fromJson(
+				getInstructorAsJson(instructorId), InstructorData.class);
+		if (instructor == null)
 			throw new EntityDoesNotExistException(
-					"Coordinator does not exist : " + coordId);
-		deleteCoord(coordId);
-		createCoord(coord);
+					"Instructor does not exist : " + instructorId);
+		deleteInstructor(instructorId);
+		createInstructor(instructor);
 	}
 
-	public static String[] getCoursesByCoordId(String coordId) {
+	public static String[] getCoursesByInstructorId(String instructorId) {
 
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_COURSES_BY_COORD);
-		params.put(BackDoorServlet.PARAMETER_COORD_ID, coordId);
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_COURSES_BY_INSTRUCTOR);
+		params.put(BackDoorServlet.PARAMETER_INSTRUCTOR_ID, instructorId);
 		String courseString = makePOSTRequest(params);
 		String[] coursesArray = {};
 		if (Common.isWhiteSpace(courseString)) {

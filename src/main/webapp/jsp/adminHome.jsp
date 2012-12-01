@@ -24,7 +24,7 @@
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
-			<h1>Add New Coordinator</h1>
+			<h1>Add New Instructor</h1>
 			</div>
 			<div id="adminManagement">
 				<form action="">
@@ -33,25 +33,25 @@
 						<td class="label">Google ID:</td>
 					</tr>
 					<tr>
-					   <td><input class="addinput" type="text" name="<%= Common.PARAM_COORD_ID %>"></td>
+					   <td><input class="addinput" type="text" name="<%= Common.PARAM_INSTRUCTOR_ID %>"></td>
 					</tr>
 					<tr>
 						<td class="label">Name:</td>
 					</tr>
 					<tr>
-						<td><input class="addinput" type="text" name="<%= Common.PARAM_COORD_NAME %>"></td>
+						<td><input class="addinput" type="text" name="<%= Common.PARAM_INSTRUCTOR_NAME %>"></td>
 				    </tr>
 				    <tr>
 					    <td class="label">Email: </td>
 					</tr>
 					<tr>
-						<td><input class="addinput" type="text" name="<%= Common.PARAM_COORD_EMAIL %>"></td>
+						<td><input class="addinput" type="text" name="<%= Common.PARAM_INSTRUCTOR_EMAIL %>"></td>
 				    </tr>
 				    <tr>
-						<td><input type="checkbox" name="<%= Common.PARAM_COORD_IMPORT_SAMPLE %>" value="importsample">Import sample data</input></td>
+						<td><input type="checkbox" name="<%= Common.PARAM_INSTRUCTOR_IMPORT_SAMPLE %>" value="importsample">Import sample data</input></td>
 				    </tr>
 				    <tr>
-						<td><input id="btnAddCoord" class="button" type="submit" value="Add Coordinator"></td>
+						<td><input id="btnAddInstructor" class="button" type="submit" value="Add Instructor"></td>
 				    </tr>
 				    </table>
 				</form>

@@ -2,7 +2,7 @@ package teammates.logic;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.InstructorData;
 import teammates.storage.api.AccountsDb;
 
 import com.google.appengine.api.users.User;
@@ -11,7 +11,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 /**
  * Accounts handles all operations related to a Teammates account.
- * @see Coordinator
+ * @see Instructor
  * @see Student
  * 
  */
@@ -49,17 +49,17 @@ public class AccountsStorage {
 
 
 	/**
-	 * Returns the name of the Coordinator object given his googleID.
+	 * Returns the name of the Instructor object given his googleID.
 	 * 
 	 * @param googleID
-	 *            the coordinator's Google ID (Precondition: Must not be null)
+	 *            the instructor's Google ID (Precondition: Must not be null)
 	 * 
-	 * @return the name of the coordinator
+	 * @return the name of the instructor
 	 */
-	public String getCoordinatorName(String googleID) {
-		CoordData coordinator = accountsDb.getCoord(googleID);
+	public String getInstructorName(String googleID) {
+		InstructorData instructor = accountsDb.getInstructor(googleID);
 
-		return coordinator.name;
+		return instructor.name;
 	}
 
 	/**
@@ -122,19 +122,19 @@ public class AccountsStorage {
 	}
 
 	/**
-	 * Returns the Coordinator status of the user.
+	 * Returns the Instructor status of the user.
 	 * 
-	 * @return <code>true</code> if the user is an coordinator,
+	 * @return <code>true</code> if the user is an instructor,
 	 *         <code>false</code> otherwise.
 	 */
-	public boolean isCoord() {
+	public boolean isInstructor() {
 
 		User user = userService.getCurrentUser();
 		
 		if (user == null)
 			return false;
 		
-		return accountsDb.isCoord(user.getNickname());
+		return accountsDb.isInstructor(user.getNickname());
 	}
 	
 	

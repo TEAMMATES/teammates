@@ -44,8 +44,8 @@
 	 					<td id="<%= Common.PARAM_COURSE_NAME %>"><%=StudentCourseDetailsHelper.escapeForHTML(helper.course.name)%></td>
 	 				</tr>
 	 				<tr>
-	 					<td class="label rightalign" width="30%">Coordinator name:</td>
-	 					<td id="<%=Common.PARAM_COORD_NAME%>"><%=StudentCourseDetailsHelper.escapeForHTML(helper.coordName)%></td>
+	 					<td class="label rightalign" width="30%">Instructor name:</td>
+	 					<td id="<%=Common.PARAM_INSTRUCTOR_NAME%>"><%=StudentCourseDetailsHelper.escapeForHTML(helper.instructorName)%></td>
 	 				</tr>
 	 				<tr>
 	 					<td class="label rightalign" width="30%">Your team:</td>

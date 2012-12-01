@@ -20,15 +20,15 @@ public class StudentEvalResultsHelper extends Helper {
 	public EvalResultData evalResult;
 	
 	public static String colorizePoint(int points){
-		return CoordEvalResultsHelper.colorizePoints(points);
+		return InstructorEvalResultsHelper.colorizePoints(points);
 	}
 	
 	public static String getPointsListOriginal(List<SubmissionData> subs){
-		return CoordEvalResultsHelper.getPointsList(subs, false);
+		return InstructorEvalResultsHelper.getPointsList(subs, false);
 	}
 	
 	public static String getPointsListNormalized(List<SubmissionData> subs){
-		return CoordEvalResultsHelper.getPointsList(subs, true);
+		return InstructorEvalResultsHelper.getPointsList(subs, true);
 	}
 	
 	/**
@@ -50,7 +50,7 @@ public class StudentEvalResultsHelper extends Helper {
 		for(SubmissionData sub: tempSubs){
 			if(sub.reviewee.equals(sub.reviewer)) continue;
 			if(result!="") result+=", ";
-			result+=CoordEvalResultsHelper.colorizePoints(sub.normalizedToStudent);
+			result+=InstructorEvalResultsHelper.colorizePoints(sub.normalizedToStudent);
 		}
 		return result;
 	}

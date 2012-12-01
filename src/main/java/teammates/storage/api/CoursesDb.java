@@ -92,19 +92,19 @@ public class CoursesDb {
 	/**
 	 * RETRIEVE List<Course>
 	 * 
-	 * Returns the list of Course objects of a Coordinator
+	 * Returns the list of Course objects of a Instructor
 	 * 
-	 * @param coordId
-	 *            the Google ID of the coordinator (Precondition: Must not be
+	 * @param instructorId
+	 *            the Google ID of the instructor (Precondition: Must not be
 	 *            null)
 	 * 
-	 * @return List<Course> the list of courses of the coordinator
+	 * @return List<Course> the list of courses of the instructor
 	 */
-	public List<CourseData> getCourseListForCoordinator(String coordId) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, coordId);
+	public List<CourseData> getCourseListForInstructor(String instructorId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, instructorId);
 		
 		String query = "select from " + Course.class.getName()
-				+ " where coordinatorID == '" + coordId + "'";
+				+ " where instructorID == '" + instructorId + "'";
 
 		@SuppressWarnings("unchecked")
 		List<Course> courseList = (List<Course>) getPM().newQuery(query)

@@ -1,30 +1,30 @@
 {
-  "coords": {
-    "teammates.demo.coord": {
-      "id": "teammates.demo.coord",
-      "name" : "Teammates Demo Coordinator",
-      "email" : "teammates.demo.coord@gmail.com"
+  "instructors": {
+    "teammates.demo.instructor": {
+      "id": "teammates.demo.instructor",
+      "name" : "Teammates Demo Instructor",
+      "email" : "teammates.demo.instructor@gmail.com"
     },
-    "teammates.coord": {
-      "id": "teammates.coord",
-      "name" : "Coordinator",
-      "email" : "teammates.coord@gmail.com"
+    "teammates.instructor": {
+      "id": "teammates.instructor",
+      "name" : "Instructor",
+      "email" : "teammates.instructor@gmail.com"
     },
     "teammates.test": {
       "id": "teammates.test",
-      "name" : "Coordinator",
+      "name" : "Instructor",
       "email" : "teammates.test@gmail.com"
     }
   },
   
   "courses": {
     "SHomeUiT.CS2104": {
-      "coord": "teammates.test",
+      "instructor": "teammates.test",
       "id": "SHomeUiT.CS2104",
       "name": "Programming Language Concepts"
     },
     "SHomeUiT.CS1101": {
-      "coord": "teammates.test",
+      "instructor": "teammates.test",
       "id": "SHomeUiT.CS1101",
       "name": "Programming Methodology"
     }

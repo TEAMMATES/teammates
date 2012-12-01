@@ -8,7 +8,7 @@ import teammates.common.Common;
 /**
  * Servlet to handle Delete Course action
  */
-public class CoordCourseDeleteServlet extends ActionServlet<Helper> {
+public class InstructorCourseDeleteServlet extends ActionServlet<Helper> {
 
 	@Override
 	protected Helper instantiateHelper() {
@@ -22,7 +22,7 @@ public class CoordCourseDeleteServlet extends ActionServlet<Helper> {
 		helper.server.deleteCourse(courseID);
 		helper.statusMessage = Common.MESSAGE_COURSE_DELETED;
 		if(helper.redirectUrl==null) {
-			helper.redirectUrl = Common.PAGE_COORD_COURSE;
+			helper.redirectUrl = Common.PAGE_INSTRUCTOR_COURSE;
 		}
 	}
 

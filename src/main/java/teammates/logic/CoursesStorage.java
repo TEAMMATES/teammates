@@ -52,11 +52,11 @@ public class CoursesStorage {
 
 	}
 
-	public HashMap<String, CourseData> getCourseSummaryListForCoord(
-			String coordId) {
+	public HashMap<String, CourseData> getCourseSummaryListForInstructor(
+			String instructorId) {
 
 		List<CourseData> courseList = coursesDb
-				.getCourseListForCoordinator(coordId);
+				.getCourseListForInstructor(instructorId);
 		HashMap<String, CourseData> courseSummaryList = new HashMap<String, CourseData>();
 
 		for (CourseData cd : courseList) {

@@ -8,7 +8,7 @@ import teammates.common.Common;
 /**
  * Servlet to handle Delete Evaluation action
  */
-public class CoordEvalDeleteServlet extends ActionServlet<Helper> {
+public class InstructorEvalDeleteServlet extends ActionServlet<Helper> {
 
 	@Override
 	protected Helper instantiateHelper() {
@@ -22,7 +22,7 @@ public class CoordEvalDeleteServlet extends ActionServlet<Helper> {
 		
 		helper.server.deleteEvaluation(courseID,evalName);
 		helper.statusMessage = Common.MESSAGE_EVALUATION_DELETED;
-		if(helper.redirectUrl==null) helper.redirectUrl = Common.PAGE_COORD_EVAL;
+		if(helper.redirectUrl==null) helper.redirectUrl = Common.PAGE_INSTRUCTOR_EVAL;
 	}
 
 }

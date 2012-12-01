@@ -10,7 +10,7 @@ import teammates.common.exception.InvalidParametersException;
 /**
  * Servlet to handle Unpublish evaluation action
  */
-public class CoordEvalUnpublishServlet extends ActionServlet<Helper> {
+public class InstructorEvalUnpublishServlet extends ActionServlet<Helper> {
 
 	@Override
 	protected Helper instantiateHelper() {

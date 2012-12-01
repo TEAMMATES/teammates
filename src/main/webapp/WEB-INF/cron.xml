@@ -11,7 +11,7 @@
       <timezone>Australia/Perth</timezone>
     </cron>
       <cron>
-      <url>/_ah/datastore_admin/backup.create?name=BackupToCloud&amp;kind=Coordinator&amp;kind=Course&amp;kind=Evaluation&amp;kind=Student&amp;kind=Submission&amp;filesystem=blobstore</url>
+      <url>/_ah/datastore_admin/backup.create?name=BackupToCloud&amp;kind=Instructor&amp;kind=Course&amp;kind=Evaluation&amp;kind=Student&amp;kind=Submission&amp;filesystem=blobstore</url>
       <description>Weekly Backup</description>
       <schedule>every monday 06:00</schedule>
       <target>ah-builtin-python-bundle</target>

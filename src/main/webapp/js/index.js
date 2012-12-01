@@ -2,28 +2,28 @@
 var xmlhttp = new getXMLObject();
 
 // OPERATIONS
-var OPERATION_COORDINATOR_LOGIN = "coordinator_login";
+var OPERATION_INSTRUCTORINATOR_LOGIN = "instructor_login";
 var OPERATION_STUDENT_LOGIN = "student_login";
 
 
-function coordinatorLogin()
+function instructorLogin()
 {
 	//send request
-	requestCoordinatorLogin();
+	requestInstructorLogin();
 	//handle response
-	handleCoordinatorLogin();
+	handleInstructorLogin();
 }
 
-function requestCoordinatorLogin() {
+function requestInstructorLogin() {
 	if(xmlhttp)
 	{
 		xmlhttp.open("POST","/teammates",false); 
 		xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_COORDINATOR_LOGIN);
+		xmlhttp.send("operation=" + OPERATION_INSTRUCTORINATOR_LOGIN);
 	}
 }
 
-function handleCoordinatorLogin()
+function handleInstructorLogin()
 {
 	if (xmlhttp.status == 200) 
 	{

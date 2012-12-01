@@ -287,7 +287,7 @@ h6 {
 	<p class="c1">
 		<span>We use short titles instead of numbers to identify
 			features. For example, </span><span class="c17">we can refer to a
-			feature as &lsquo;Coordinator:ManageCourses:Create&rsquo;. This also
+			feature as &lsquo;Instructor:ManageCourses:Create&rsquo;. This also
 			allows easy insertion of new features into the document.</span>
 	</p>
 	<p class="c1">
@@ -370,7 +370,7 @@ h6 {
 		<span class="c3"><a class="c13" href="#h.a77fwqgditst">ContactUsPage</a></span>
 	</p>
 	<p class="c0">
-		<span class="c3"><a class="c13" href="#h.tporjw-y3svfw">Coordinator</a></span>
+		<span class="c3"><a class="c13" href="#h.tporjw-y3svfw">Instructor</a></span>
 	</p>
 	<p class="c1 c23">
 		<span class="c3"><a class="c13" href="#h.8a6xg91grnmu">LandingPage</a></span>
@@ -648,17 +648,17 @@ h6 {
 		<span class="c3"><a class="c13" href="#h.b2aek3-3jwjhk">PurgeOldData</a></span>
 	</p>
 	<p class="c1 c9">
-		<span class="c3"><a class="c13" href="#h.33o991aobi2r">ApproveCoordinatorRequest</a></span>
+		<span class="c3"><a class="c13" href="#h.33o991aobi2r">ApproveInstructorRequest</a></span>
 	</p>
 	<p class="c1 c9">
-		<span class="c3"><a class="c13" href="#h.jiug60uz3dty">CreateCoordinator
+		<span class="c3"><a class="c13" href="#h.jiug60uz3dty">CreateInstructor
 				[partial]</a></span>
 	</p>
 	<p class="c1 c9">
-		<span class="c3"><a class="c13" href="#h.8swal5br21b3">EditCoordinator</a></span>
+		<span class="c3"><a class="c13" href="#h.8swal5br21b3">EditInstructor</a></span>
 	</p>
 	<p class="c1 c9">
-		<span class="c3"><a class="c13" href="#h.re3xd5-zfl36u">DeleteCoordinator</a></span>
+		<span class="c3"><a class="c13" href="#h.re3xd5-zfl36u">DeleteInstructor</a></span>
 	</p>
 	<p class="c1 c9">
 		<span class="c3"><a class="c13" href="#h.gg4j31xqbj8g">ManageEntity</a></span>
@@ -796,7 +796,7 @@ h6 {
 		<span>users:</span>
 	</p>
 	<ol class="c4" start="1">
-		<li class="c0 c5"><span>Coordinator {owner of a course}</span></li>
+		<li class="c0 c5"><span>Instructor {owner of a course}</span></li>
 		<li class="c0 c5"><span>Student</span></li>
 		<li class="c0 c5"><span>Instructor [</span><span class="c15">pending</span><span>]
 				{Other members of the teaching team. Not supported yet}</span></li>
@@ -880,12 +880,12 @@ h6 {
 			visitors get their first impression of the system from this section}</span>
 	</p>
 	<p class="c0">
-		<span>* Login buttons i.e., Login as Coordinator, Student [</span><span
+		<span>* Login buttons i.e., Login as Instructor, Student [</span><span
 			class="c15">parti</span><span class="c15">al:</span><span>&nbsp;currently
 			takes to another login page]</span>
 	</p>
 	<p class="c0">
-		<span>* A link to &lsquo;Request for a coordinator
+		<span>* A link to &lsquo;Request for a instructor
 			account&rsquo; </span><span>[</span><span class="c15">partial:</span><span>&nbsp;</span><span>currently</span><span>&nbsp;points
 			to a simple GoogleDocs form</span><span>]</span>
 	</p>
@@ -938,7 +938,7 @@ h6 {
 		<span>Links to bug tracker, contact email, etc.</span>
 	</p>
 	<h2 class="c1">
-		<a name="h.tporjw-y3svfw"></a><span class="c16 c12">Coordinator</span>
+		<a name="h.tporjw-y3svfw"></a><span class="c16 c12">Instructor</span>
 	</h2>
 	<h3 class="c1">
 		<a name="h.8a6xg91grnmu"></a><span>LandingPage </span>
@@ -1029,7 +1029,7 @@ h6 {
 	</ol>
 	<p class="c1 c9">
 		<span>{</span><span>Allowing same Course ID among different
-			coordinators could be problematic if we allow multiple instructors
+			instructors could be problematic if we allow multiple instructors
 			for a single course}</span>
 	</p>
 	<p class="c1 c9">
@@ -1060,7 +1060,7 @@ h6 {
 			anyway</span><span>]</span>
 	</p>
 	<p class="c0">
-		<span>{Rationale: If coordinator made a typo in the title and
+		<span>{Rationale: If instructor made a typo in the title and
 			realized it too late}</span>
 	</p>
 	<p class="c0 c10">
@@ -1199,7 +1199,7 @@ h6 {
 		<span>[priority=low; we can send this using a separate email]</span>
 	</p>
 	<p class="c0">
-		<span>Coordinator can add additional information to the
+		<span>Instructor can add additional information to the
 			invitation email sent to students.</span>
 	</p>
 	<ol class="c4" start="3">
@@ -1227,7 +1227,7 @@ h6 {
 		<span></span>
 	</p>
 	<p class="c0">
-		<span>1. Coordinator chooses to resend invite for a student
+		<span>1. Instructor chooses to resend invite for a student
 			from the student list</span>
 	</p>
 	<p class="c0">
@@ -1356,7 +1356,7 @@ h6 {
 			time zone, grace period, instructions, peer feedback
 			(enabled|disabled)<br>
 		</span><span>Include &lsquo;d</span><span>efault instruction</span><span>&rsquo;</span><span>&nbsp;{to
-			make things easier for the coordinator}</span>
+			make things easier for the instructor}</span>
 	</p>
 	<p class="c0 c10">
 		<span></span>
@@ -1404,7 +1404,7 @@ h6 {
 		<span>Warn about emails being sent to students.</span>
 	</p>
 	<p class="c0">
-		<span>An alternative to this one is to let the coordinator
+		<span>An alternative to this one is to let the instructor
 			create an evaluation which start time is in the past. [</span><span
 			class="c15">pending</span><span>]</span>
 	</p>
@@ -1465,7 +1465,7 @@ h6 {
 	<p class="c0">
 		<span>This allows an evaluation to include peer feedback. If
 			not enabled, </span><span>message </span><span>to teammate&rsquo;
-			will not be shown. In that case, coordinator has the freedom not to
+			will not be shown. In that case, instructor has the freedom not to
 			publish peer evaluation results to students.</span>
 	</p>
 	<ol class="c4" start="3">
@@ -1480,7 +1480,7 @@ h6 {
 		<span>Available on {AWAITING | OPEN | CLOSED}</span>
 	</p>
 	<p class="c0">
-		<span>Editing an evaluation on OPEN prompts coordinator to send
+		<span>Editing an evaluation on OPEN prompts instructor to send
 			e-mail to all students [</span><span class="c15">pending</span><span>]</span>
 	</p>
 	<p class="c0">
@@ -1493,7 +1493,7 @@ h6 {
 	</ol>
 	<p class="c1 c9">
 		<span>[priority=low, only useful on a rare occasion when
-			coordinator set the option to the wrong value initially] &nbsp;</span>
+			instructor set the option to the wrong value initially] &nbsp;</span>
 	</p>
 	<p class="c0">
 		<span>Same constraints as &lsquo;Create&rsquo; above</span>
@@ -1603,7 +1603,7 @@ h6 {
 	</p>
 	<ol class="c20" start="1">
 		<li class="c5 c1 c9"><span>When a student cannot access
-				the system and sends his evaluation by email, coordinator can enter
+				the system and sends his evaluation by email, instructor can enter
 				it manually.</span></li>
 		<li class="c5 c1 c9"><span>For the evaluator to moderate
 				peer feedback entered by students before they are published.</span></li>
@@ -1763,7 +1763,7 @@ h6 {
 		<li class="c0 c5"><span class="c2">View teams</span></li>
 	</ol>
 	<p class="c0">
-		<span>Coordinator can view the student teams formed at any time
+		<span>Instructor can view the student teams formed at any time
 			during or after the team forming session.</span>
 	</p>
 	<p class="c0">
@@ -1827,7 +1827,7 @@ h6 {
 			</h4></li>
 	</ol>
 	<p class="c0">
-		<span>Coordinator can edit any team profile anytime. Team
+		<span>Instructor can edit any team profile anytime. Team
 			profile can be accessed by clicking on the team name from manage team
 			forming session page.</span>
 	</p>
@@ -1903,7 +1903,7 @@ h6 {
 	<p class="c0">
 		<span class="c30">When is no log in the beginning, a message
 			saying that &ldquo;There is no log currently available&rdquo; is
-			shown to the coordinator.</span>
+			shown to the instructor.</span>
 	</p>
 	<h2 class="c1">
 		<a name="h.8kromnpahdyj"></a><span class="c16 c12">Student</span>
@@ -2076,7 +2076,7 @@ h6 {
 	</ol>
 	<p class="c0">
 		<span>Students can edit their own profile using as guidance the
-			profile template (if any) provided by the coordinator. Profile can be
+			profile template (if any) provided by the instructor. Profile can be
 			any number of characters. </span>
 	</p>
 	<p class="c0">
@@ -2152,8 +2152,8 @@ h6 {
 	</p>
 	<p class="c1">
 		<span>{</span><span>Should we support instructors (i.e.,
-			teaching team members who are not coordinators)?</span><span>&nbsp;</span><span>allow
-			multiple coordinators?</span><span>}</span>
+			teaching team members who are not instructors)?</span><span>&nbsp;</span><span>allow
+			multiple instructors?</span><span>}</span>
 	</p>
 	<p class="c1 c10">
 		<span></span>
@@ -2224,7 +2224,7 @@ h6 {
 	</p>
 	<ol class="c4" start="3">
 		<li class="c0 c5"><h4>
-				<a name="h.33o991aobi2r"></a><span>ApproveCoordinatorRequest</span>
+				<a name="h.33o991aobi2r"></a><span>ApproveInstructorRequest</span>
 			</h4></li>
 	</ol>
 	<p class="c0">
@@ -2232,14 +2232,14 @@ h6 {
 	</p>
 	<ol class="c4" start="4">
 		<li class="c0 c5"><h4>
-				<a name="h.jiug60uz3dty"></a><span class="c2">CreateCoordinator
+				<a name="h.jiug60uz3dty"></a><span class="c2">CreateInstructor
 					[</span><span>partial</span><span class="c2">]</span>
 			</h4></li>
 		<li class="c0 c5"><h4>
-				<a name="h.8swal5br21b3"></a><span class="c2">EditCoordinator</span>
+				<a name="h.8swal5br21b3"></a><span class="c2">EditInstructor</span>
 			</h4></li>
 		<li class="c0 c5"><h4>
-				<a name="h.re3xd5-zfl36u"></a><span class="c2">DeleteCoordinator</span>
+				<a name="h.re3xd5-zfl36u"></a><span class="c2">DeleteInstructor</span>
 			</h4></li>
 		<li class="c0 c5"><h4>
 				<a name="h.gg4j31xqbj8g"></a><span>Manage</span><span class="c2">Entity</span>
@@ -2288,12 +2288,12 @@ h6 {
 			class="c8">two separate emails</span><sup><a href="#cmnt11"
 				name="cmnt_ref11">[k]</a></sup><span class="c8">&nbsp;are sent for
 				invite and alert</span><span class="c8">]</span><span>.</span></li>
-		<li class="c5 c1 c9"><span class="c12">forCoordinator </span><span
+		<li class="c5 c1 c9"><span class="c12">forInstructor </span><span
 			class="c12">[</span><span class="c15 c12">pending</span><span
 			class="c12">]</span><span>:</span><span>&nbsp;[priority=low]Send
-				a similar email to coordinator 24 hours before the evaluation opens.
+				a similar email to instructor 24 hours before the evaluation opens.
 				{This helps to prevent &lsquo;accidental&rsquo; opening of
-				evaluations because the coordinator set the wrong opening time}</span></li>
+				evaluations because the instructor set the wrong opening time}</span></li>
 	</ol>
 	<ol class="c4" start="1">
 		<li class="c0 c5"><h4>
@@ -2323,7 +2323,7 @@ h6 {
 		<span>[priority=low]</span>
 	</p>
 	<p class="c0">
-		<span>Send automatic email alert to coordinator that an
+		<span>Send automatic email alert to instructor that an
 			evaluation </span><span>is opening soon</span><span>.</span>
 	</p>
 	<ol class="c4" start="2">
@@ -2336,7 +2336,7 @@ h6 {
 		<span>[priority=low]</span>
 	</p>
 	<p class="c0">
-		<span>Send automatic email alert to coordinator that an
+		<span>Send automatic email alert to instructor that an
 			evaluation closed.</span>
 	</p>
 	<ol class="c4" start="1">
@@ -2396,7 +2396,7 @@ h6 {
 			generate a new key.</span>
 	</p>
 	<ol class="c4" start="1">
-		<li class="c0 c5"><span class="c12">Coordinator wants t</span><span
+		<li class="c0 c5"><span class="c12">Instructor wants t</span><span
 			class="c12">o keep a record of original values before
 				moderation:</span></li>
 	</ol>
@@ -2406,7 +2406,7 @@ h6 {
 	</p>
 	<ol class="c4" start="1">
 		<li class="c0 c5"><span class="c12">More than one person
-				needs to coordinate the module</span></li>
+				needs to instructorinate the module</span></li>
 	</ol>
 	<p class="c0">
 		<span>Resolution: create a separate google id and share it
@@ -2581,7 +2581,7 @@ h6 {
 		</span></li>
 	</ol>
 	<ol class="c4" start="2">
-		<li class="c0 c5"><span>Coordinator view:</span></li>
+		<li class="c0 c5"><span>Instructor view:</span></li>
 	</ol>
 	<ol class="c20" start="1">
 		<li class="c5 c1 c9"><span>for claimed contribution, show:
@@ -2603,14 +2603,14 @@ h6 {
 	<p class="c1">
 		<span class="c26 c21 c17">Scenario 2: If students are not sure
 			or do not submit the evaluation, then Perceived/Claimed for
-			Coordinator should be shown as N/A instead of Equal Share. In this
+			Instructor should be shown as N/A instead of Equal Share. In this
 			case, difference should be shown as N/A also.</span>
 	</p>
 	<h2 class="c1">
 		<a name="h.lmmxjgals3el"></a><span class="c12">Report format</span>
 	</h2>
 	<p class="c1">
-		<span>Some important questions a coordinator may want answered
+		<span>Some important questions a instructor may want answered
 			(i.e., the system should provide ways of answering these quickly and
 			easily)</span>
 	</p>
@@ -2644,13 +2644,13 @@ h6 {
 				reports with lot of white space. This is particularly a problem if </span><span>we
 		</span><span>use table format and one cell happens to contain a large
 				blob of data like a super long rant by a student.</span></li>
-		<li class="c0 c5"><span>navigation: coordinators should be
+		<li class="c0 c5"><span>navigation: instructors should be
 				able to find information easily without having to scroll up and
 				down. think of locality of information. data that are related should
 				appear together.</span></li>
 		<li class="c0 c5"><span>attention: the report should
 				highlight important things and provide ways to zoom in important
-				things. for example, coordinator should be able to find the cases
+				things. for example, instructor should be able to find the cases
 				that require his attention most. using colors, sorting facilities,
 				etc can help here.</span></li>
 	</ol>
@@ -2663,7 +2663,7 @@ h6 {
 	<ol class="c4" start="1">
 		<li class="c0 c5"><span>Classes of up to 300 students</span></li>
 		<li class="c0 c5"><span>Up to 10,000 students </span></li>
-		<li class="c0 c5"><span>Up to 100 coordinators</span></li>
+		<li class="c0 c5"><span>Up to 100 instructors</span></li>
 	</ol>
 	<h2 class="c1">
 		<a name="h.5nsqfc-hqnt00"></a><span>Security</span>
@@ -2694,7 +2694,7 @@ h6 {
 	</h1>
 	<ol class="c4" start="2">
 		<li class="c0 c5"><span class="c12">DetectBouncing</span><span>:
-				detect emails that bounced and let coordinator know</span></li>
+				detect emails that bounced and let instructor know</span></li>
 		<li class="c0 c5"><span class="c12">ShowInviteSent</span><span>:
 				&nbsp;Show if the student was sent an invite. </span></li>
 		<li class="c0 c5"><span class="c12">DirectUrlToPage</span><span>:
@@ -2704,20 +2704,20 @@ h6 {
 				may be useful to identify those who don&rsquo;t even care enough to
 				read feedback from peers.</span></li>
 		<li class="c0 c5"><span class="c12">SelectiveRelease</span><span>:
-				Coordinator can block release of reports for particular student
+				Instructor can block release of reports for particular student
 				(e.g., because that did not write good comments).</span></li>
 		<li class="c0 c5"><span class="c12">PeerFeedbackOnly</span><span>:
 				Evaluations can be set up in a way that students can feedback each
-				other without revealing their feedback to coordinators</span></li>
+				other without revealing their feedback to instructors</span></li>
 		<li class="c0 c5"><span class="c12">ConfigurableMessages</span><span>:
 				Messages shown to users (including email messages) are editable by
-				the administrator, coordinators</span></li>
+				the administrator, instructors</span></li>
 		<li class="c0 c5"><span class="c12">Installer</span><span>:
 				An installer to install Teammates on a given GAE account {This is
 				for those who do not want their data on our GAE account}</span></li>
-		<li class="c0 c5"><span class="c12">CoordinatorSelfRegister</span><span>:
-				Coordinators can register in the system without having to contact
-				Teammates coordinator for a new account</span></li>
+		<li class="c0 c5"><span class="c12">InstructorSelfRegister</span><span>:
+				Instructors can register in the system without having to contact
+				Teammates instructor for a new account</span></li>
 	</ol>
 	<ol class="c4" start="1">
 		<li class="c0 c5"><span class="c12">RunningEvaluationCount</span><span>:
@@ -2731,8 +2731,8 @@ h6 {
 				same course</span></li>
 		<li class="c0 c5"><span class="c12">RespondToFeedback</span><span>:
 				Students can respond to anonymous feedback by teammates </span></li>
-		<li class="c0 c5"><span class="c12">AdviceByCoordinator</span><span>:
-				Coordinator can add his own advise before publishing the report</span></li>
+		<li class="c0 c5"><span class="c12">AdviceByInstructor</span><span>:
+				Instructor can add his own advise before publishing the report</span></li>
 		<li class="c0 c5"><span class="c12">DiscussionForum</span><span>:
 				A place for users to discuss issues (e.g., a GoogleGroup)</span></li>
 		<li class="c0 c5"><span class="c12">SelfGuidedWorkflow:</span><span>&nbsp;Users
@@ -2759,11 +2759,11 @@ h6 {
 		<li class="c0 c5"><span>Make a personal connection to
 				potential user. Address pain points.</span></li>
 		<li class="c0 c5"><span>Once a course contains significant
-				amount of data, coord should be disallowed in deleting it?</span></li>
+				amount of data, instructor should be disallowed in deleting it?</span></li>
 		<li class="c0 c5"><span>Custom error page when the app
 				hits resource limits?</span></li>
 		<li class="c0 c5"><span>Use more general names: team
-				member, manager, coordinator, project (can be used outside schools)</span></li>
+				member, manager, instructor, project (can be used outside schools)</span></li>
 		<li class="c0 c5"><span>Check if we can plugin to
 				Blackboard</span></li>
 		<li class="c0 c5"><span>Checkout the relevance of

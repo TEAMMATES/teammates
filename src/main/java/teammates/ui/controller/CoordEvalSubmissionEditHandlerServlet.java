@@ -6,7 +6,7 @@ import teammates.common.Common;
 import teammates.common.datatransfer.StudentData;
 
 @SuppressWarnings("serial")
-public class CoordEvalSubmissionEditHandlerServlet extends EvalSubmissionEditHandlerServlet {
+public class InstructorEvalSubmissionEditHandlerServlet extends EvalSubmissionEditHandlerServlet {
 
 	@Override
 	protected String getSuccessMessage(HttpServletRequest req, Helper helper) {
@@ -17,7 +17,7 @@ public class CoordEvalSubmissionEditHandlerServlet extends EvalSubmissionEditHan
 		String fromName;
 		if(student==null) fromName = fromEmail;
 		else fromName = student.name;
-		return String.format(Common.MESSAGE_COORD_EVALUATION_SUBMISSION_RECEIVED,
+		return String.format(Common.MESSAGE_INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED,
 				EvalSubmissionEditHelper.escapeForHTML(fromName),
 				EvalSubmissionEditHelper.escapeForHTML(evalName), courseID);
 	}
@@ -30,7 +30,7 @@ public class CoordEvalSubmissionEditHandlerServlet extends EvalSubmissionEditHan
 
 	@Override
 	protected String getDefaultForwardUrl() {
-		return Common.JSP_COORD_EVAL_SUBMISSION_EDIT;
+		return Common.JSP_INSTRUCTOR_EVAL_SUBMISSION_EDIT;
 	}
 
 }

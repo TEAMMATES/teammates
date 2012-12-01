@@ -23,7 +23,7 @@ public class CourseDataTest extends BaseTestCase {
 		
 		// SUCCESS: Basic Success Case
 		c.id = "valid-id-$_abc";
-		c.coord = "valid-coord";
+		c.instructor = "valid-instructor";
 		c.name = "valid-name";
 		
 		assertTrue(c.isValid());
@@ -48,14 +48,14 @@ public class CourseDataTest extends BaseTestCase {
 		assertFalse(c.isValid());
 		assertEquals(c.getInvalidStateInfo(), CourseData.ERROR_ID_INVALIDCHARS);
 		
-		// FAIL : Coord null
+		// FAIL : Instructor null
 		c.id = "valid-id";
-		c.coord = null;
+		c.instructor = null;
 		assertFalse(c.isValid());
-		assertEquals(c.getInvalidStateInfo(), CourseData.ERROR_FIELD_COORD);
+		assertEquals(c.getInvalidStateInfo(), CourseData.ERROR_FIELD_INSTRUCTOR);
 		
 		// FAIL : Name null
-		c.coord = "valid-coord";
+		c.instructor = "valid-instructor";
 		c.name = null;
 		assertFalse(c.isValid());
 		assertEquals(c.getInvalidStateInfo(), CourseData.ERROR_FIELD_NAME);

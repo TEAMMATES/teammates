@@ -9,10 +9,10 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a class='t_home' href="<%= helper.getCoordHomeLink() %>">Home</a></li>
-					<li><a class='t_courses' href="<%= helper.getCoordCourseLink() %>">Courses</a></li>
-					<li><a class='t_evaluations' href="<%= helper.getCoordEvaluationLink() %>">Evaluations</a></li>
-					<li><a class='t_help' href="/coordHelp.html" target="_blank">Help</a></li>
+					<li><a class='t_home' href="<%= helper.getInstructorHomeLink() %>">Home</a></li>
+					<li><a class='t_courses' href="<%= helper.getInstructorCourseLink() %>">Courses</a></li>
+					<li><a class='t_evaluations' href="<%= helper.getInstructorEvaluationLink() %>">Evaluations</a></li>
+					<li><a class='t_help' href="/instructorHelp.html" target="_blank">Help</a></li>
 					<li><a class='t_logout' href="<%= Common.JSP_LOGOUT %>">Logout</a>
 					 (<%= Helper.truncate(helper.userId.toLowerCase(),23) %>)</li>
 				</ul>

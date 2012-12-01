@@ -19,8 +19,8 @@ public class TestProperties {
 
 	public String TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS;
 
-	public String TEST_COORD_ACCOUNT;
-	public String TEST_COORD_PASSWORD;
+	public String TEST_INSTRUCTOR_ACCOUNT;
+	public String TEST_INSTRUCTOR_PASSWORD;
 
 	public String TEST_STUDENT_ACCOUNT;
 	public String TEST_STUDENT_PASSWORD;
@@ -58,8 +58,8 @@ public class TestProperties {
 			TEST_ADMIN_ACCOUNT = prop.getProperty("test.admin.account");
 			TEST_ADMIN_PASSWORD = prop.getProperty("test.admin.password");
 			
-			TEST_COORD_ACCOUNT = prop.getProperty("test.coord.account");
-			TEST_COORD_PASSWORD = prop.getProperty("test.coord.password");
+			TEST_INSTRUCTOR_ACCOUNT = prop.getProperty("test.instructor.account");
+			TEST_INSTRUCTOR_PASSWORD = prop.getProperty("test.instructor.password");
 			
 			TEST_STUDENT_ACCOUNT = prop.getProperty("test.student.account");
 			TEST_STUDENT_PASSWORD = prop.getProperty("test.student.password");

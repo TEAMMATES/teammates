@@ -16,8 +16,8 @@ public class EvalResultData {
 	public ArrayList<SubmissionData> selfEvaluations = new ArrayList<SubmissionData>();
 
 	public int claimedFromStudent = Common.UNINITIALIZED_INT;
-	public int claimedToCoord = Common.UNINITIALIZED_INT;
-	public int perceivedToCoord = Common.UNINITIALIZED_INT;
+	public int claimedToInstructor = Common.UNINITIALIZED_INT;
+	public int perceivedToInstructor = Common.UNINITIALIZED_INT;
 	public int perceivedToStudent = Common.UNINITIALIZED_INT;
 
 	@SuppressWarnings("unused")
@@ -82,10 +82,10 @@ public class EvalResultData {
 		StringBuilder sb = new StringBuilder();
 		sb.append(indentString + "claimedFromStudent:" + claimedFromStudent
 				+ EOL);
-		sb.append(indentString + "claimedToCoord:" + claimedToCoord + EOL);
+		sb.append(indentString + "claimedToInstructor:" + claimedToInstructor + EOL);
 		sb.append(indentString + "perceivedToStudent:" + perceivedToStudent
 				+ EOL);
-		sb.append(indentString + "perceivedToCoord:" + perceivedToCoord + EOL);
+		sb.append(indentString + "perceivedToInstructor:" + perceivedToInstructor + EOL);
 
 		sb.append(indentString + "outgoing:" + EOL);
 		for (SubmissionData submission : outgoing) {

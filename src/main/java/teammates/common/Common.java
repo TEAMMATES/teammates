@@ -108,7 +108,7 @@ public class Common {
 
 	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_PENDING = "The evaluation is yet to be completed by you";
 	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_SUBMITTED = "You have submitted your feedback for this evaluation";
-	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_CLOSED = "The evaluation has finished but the coordinator has not published the results yet";
+	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_CLOSED = "The evaluation has finished but the instructor has not published the results yet";
 	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_PUBLISHED = "The evaluation has finished and you can check the results";
 	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_ERROR = "There were some errors in retrieving this evaluation.";
 
@@ -131,11 +131,11 @@ public class Common {
 	// JSP Parameter names
 	public static final String PARAM_COURSE_ID = "courseid";
 	public static final String PARAM_COURSE_NAME = "coursename";
-	public static final String PARAM_COORD_ID = "coordid";
-	public static final String PARAM_COORD_EMAIL = "coordemail";
-	public static final String PARAM_COORD_NAME = "coordname";
+	public static final String PARAM_INSTRUCTOR_ID = "instructorid";
+	public static final String PARAM_INSTRUCTOR_EMAIL = "instructoremail";
+	public static final String PARAM_INSTRUCTOR_NAME = "instructorname";
 	public static final String PARAM_STUDENTS_ENROLLMENT_INFO = "enrollstudents";
-	public static final String PARAM_COORD_IMPORT_SAMPLE = "importsample";
+	public static final String PARAM_INSTRUCTOR_IMPORT_SAMPLE = "importsample";
 
 	public static final String PARAM_EVALUATION_NAME = "evaluationname";
 
@@ -174,7 +174,7 @@ public class Common {
 	public static final String PARAM_USER_ID = "user";
 
 	public static final String PARAM_LOGIN_ADMIN = "admin";
-	public static final String PARAM_LOGIN_COORD = "coord";
+	public static final String PARAM_LOGIN_INSTRUCTOR = "instructor";
 	public static final String PARAM_LOGIN_STUDENT = "student";
 
 	/*
@@ -199,25 +199,25 @@ public class Common {
 	public static final String PAGE_BACKDOOR = "/backdoor";
 	public static final String WEBPAGE_COMPILATION = "/dev/webpageCompilation.jsp";
 
-	public static final String PAGE_COORD_HOME = "/page/coordHome";
-	public static final String PAGE_COORD_COURSE = "/page/coordCourse";
-	public static final String PAGE_COORD_COURSE_DELETE = "/page/coordCourseDelete";
-	public static final String PAGE_COORD_COURSE_DETAILS = "/page/coordCourseDetails";
-	public static final String PAGE_COORD_COURSE_STUDENT_DETAILS = "/page/coordCourseStudentDetails";
-	public static final String PAGE_COORD_COURSE_STUDENT_EDIT = "/page/coordCourseStudentEdit";
-	public static final String PAGE_COORD_COURSE_STUDENT_DELETE = "/page/coordCourseStudentDelete";
-	public static final String PAGE_COORD_COURSE_ENROLL = "/page/coordCourseEnroll";
-	public static final String PAGE_COORD_COURSE_REMIND = "/page/coordCourseRemind";
-	public static final String PAGE_COORD_EVAL = "/page/coordEval";
-	public static final String PAGE_COORD_EVAL_DELETE = "/page/coordEvalDelete";
-	public static final String PAGE_COORD_EVAL_EDIT = "/page/coordEvalEdit";
-	public static final String PAGE_COORD_EVAL_RESULTS = "/page/coordEvalResults";
-	public static final String PAGE_COORD_EVAL_SUBMISSION_VIEW = "/page/coordEvalSubmissionView";
-	public static final String PAGE_COORD_EVAL_SUBMISSION_EDIT = "/page/coordEvalSubmissionEdit";
-	public static final String PAGE_COORD_EVAL_SUBMISSION_EDIT_HANDLER = "/page/coordEvalSubmissionEditHandler";
-	public static final String PAGE_COORD_EVAL_REMIND = "/page/coordEvalRemind";
-	public static final String PAGE_COORD_EVAL_PUBLISH = "/page/coordEvalPublish";
-	public static final String PAGE_COORD_EVAL_UNPUBLISH = "/page/coordEvalUnpublish";
+	public static final String PAGE_INSTRUCTOR_HOME = "/page/instructorHome";
+	public static final String PAGE_INSTRUCTOR_COURSE = "/page/instructorCourse";
+	public static final String PAGE_INSTRUCTOR_COURSE_DELETE = "/page/instructorCourseDelete";
+	public static final String PAGE_INSTRUCTOR_COURSE_DETAILS = "/page/instructorCourseDetails";
+	public static final String PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS = "/page/instructorCourseStudentDetails";
+	public static final String PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT = "/page/instructorCourseStudentEdit";
+	public static final String PAGE_INSTRUCTOR_COURSE_STUDENT_DELETE = "/page/instructorCourseStudentDelete";
+	public static final String PAGE_INSTRUCTOR_COURSE_ENROLL = "/page/instructorCourseEnroll";
+	public static final String PAGE_INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
+	public static final String PAGE_INSTRUCTOR_EVAL = "/page/instructorEval";
+	public static final String PAGE_INSTRUCTOR_EVAL_DELETE = "/page/instructorEvalDelete";
+	public static final String PAGE_INSTRUCTOR_EVAL_EDIT = "/page/instructorEvalEdit";
+	public static final String PAGE_INSTRUCTOR_EVAL_RESULTS = "/page/instructorEvalResults";
+	public static final String PAGE_INSTRUCTOR_EVAL_SUBMISSION_VIEW = "/page/instructorEvalSubmissionView";
+	public static final String PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT = "/page/instructorEvalSubmissionEdit";
+	public static final String PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER = "/page/instructorEvalSubmissionEditHandler";
+	public static final String PAGE_INSTRUCTOR_EVAL_REMIND = "/page/instructorEvalRemind";
+	public static final String PAGE_INSTRUCTOR_EVAL_PUBLISH = "/page/instructorEvalPublish";
+	public static final String PAGE_INSTRUCTOR_EVAL_UNPUBLISH = "/page/instructorEvalUnpublish";
 
 	public static final String PAGE_STUDENT_HOME = "/page/studentHome";
 	public static final String PAGE_STUDENT_JOIN_COURSE = "/page/studentCourseJoin";
@@ -237,21 +237,21 @@ public class Common {
 	 * JSP pages links. These links are here to provide ease of moving the JSP
 	 * folder or renaming.
 	 */
-	public static final String JSP_COORD_HOME = "/jsp/coordHome.jsp"; // Done
-	public static final String JSP_COORD_COURSE = "/jsp/coordCourse.jsp"; // Done
-	public static final String JSP_COORD_COURSE_DETAILS = "/jsp/coordCourseDetails.jsp"; // Done
-	public static final String JSP_COORD_COURSE_STUDENT_DETAILS = "/jsp/coordCourseStudentDetails.jsp"; // Done
-	public static final String JSP_COORD_COURSE_STUDENT_EDIT = "/jsp/coordCourseStudentEdit.jsp"; // Done
-	public static final String JSP_COORD_COURSE_ENROLL = "/jsp/coordCourseEnroll.jsp"; // Done
-	public static final String JSP_COORD_TFS = "/jsp/coordTFS.jsp"; // Pending
-	public static final String JSP_COORD_TFS_MANAGE = "/jsp/coordTFSManage.jsp"; // Pending
-	public static final String JSP_COORD_TFS_CHANGE_TEAM = "/jsp/coordTFSChangeTeam.jsp"; // Pending
-	public static final String JSP_COORD_TFS_LOGS = "/jsp/coordTFSLogs.jsp"; // Pending
-	public static final String JSP_COORD_EVAL = "/jsp/coordEval.jsp"; // Done
-	public static final String JSP_COORD_EVAL_EDIT = "/jsp/coordEvalEdit.jsp"; // Done
-	public static final String JSP_COORD_EVAL_RESULTS = "/jsp/coordEvalResults.jsp"; // Done
-	public static final String JSP_COORD_EVAL_SUBMISSION_VIEW = "/jsp/coordEvalSubmissionView.jsp"; // Done
-	public static final String JSP_COORD_EVAL_SUBMISSION_EDIT = "/jsp/coordEvalSubmissionEdit.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_HOME = "/jsp/instructorHome.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_COURSE = "/jsp/instructorCourse.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_COURSE_DETAILS = "/jsp/instructorCourseDetails.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_COURSE_STUDENT_DETAILS = "/jsp/instructorCourseStudentDetails.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_COURSE_STUDENT_EDIT = "/jsp/instructorCourseStudentEdit.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_COURSE_ENROLL = "/jsp/instructorCourseEnroll.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_TFS = "/jsp/instructorTFS.jsp"; // Pending
+	public static final String JSP_INSTRUCTOR_TFS_MANAGE = "/jsp/instructorTFSManage.jsp"; // Pending
+	public static final String JSP_INSTRUCTOR_TFS_CHANGE_TEAM = "/jsp/instructorTFSChangeTeam.jsp"; // Pending
+	public static final String JSP_INSTRUCTOR_TFS_LOGS = "/jsp/instructorTFSLogs.jsp"; // Pending
+	public static final String JSP_INSTRUCTOR_EVAL = "/jsp/instructorEval.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_EVAL_EDIT = "/jsp/instructorEvalEdit.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_EVAL_RESULTS = "/jsp/instructorEvalResults.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_EVAL_SUBMISSION_VIEW = "/jsp/instructorEvalSubmissionView.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_EVAL_SUBMISSION_EDIT = "/jsp/instructorEvalSubmissionEdit.jsp"; // Done
 
 	public static final String JSP_STUDENT_HOME = "/jsp/studentHome.jsp"; // Done
 	public static final String JSP_STUDENT_COURSE_PROFILE = "/jsp/studentCourseProfile.jsp"; // Pending
@@ -260,7 +260,7 @@ public class Common {
 	public static final String JSP_STUDENT_EVAL_SUBMISSION_EDIT = "/jsp/studentEvalEdit.jsp"; // Done
 	public static final String JSP_STUDENT_EVAL_RESULTS = "/jsp/studentEvalResults.jsp"; // Done
 
-	public static final String JSP_COORD_HEADER = "/jsp/coordHeader.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_HEADER = "/jsp/instructorHeader.jsp"; // Done
 	public static final String JSP_STUDENT_HEADER = "/jsp/studentHeader.jsp"; // Done
 	public static final String JSP_ADMIN_HEADER = "/jsp/adminHeader.jsp"; // Done
 	public static final String JSP_FOOTER = "/jsp/footer.jsp"; // Done
@@ -284,7 +284,7 @@ public class Common {
 	// status messages
 	public static final String MESSAGE_LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
 	public static final String MESSAGE_STUDENT_FIRST_TIME = "Welcome stranger :-) "
-			+ "<br/><br/>It seems you are not a registered user of TEAMMATES. To use TEAMMATES, a course coordinator has to add you to a course first. "
+			+ "<br/><br/>It seems you are not a registered user of TEAMMATES. To use TEAMMATES, a course instructor has to add you to a course first. "
 			+ "After that, TEAMMATES will send you an email containing the link to 'join' that course. "
 			+ "<br/><br/>If you already clicked on such a link and ended up here, it is likely that your email software messed up the link. Please retry to join by filling in the above box the registration key given in that same e-mail."
 			+ "If you still cannot join, feel free to <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>contact us</a> for help. ";
@@ -294,7 +294,7 @@ public class Common {
 	public static final String MESSAGE_COURSE_DELETED = "The course has been deleted.";
 	public static final String MESSAGE_COURSE_EMPTY = "You have not created any courses yet. Use the form above to create a course.";
 	public static final String MESSAGE_COURSE_EMPTY_IN_EVALUATION = "You have not created any courses yet. Go <a href=\""
-			+ PAGE_COORD_COURSE + "${user}\">here</a> to create one.";
+			+ PAGE_INSTRUCTOR_COURSE + "${user}\">here</a> to create one.";
 	public static final String MESSAGE_COURSE_REMINDER_SENT_TO = "Registration key has been sent to ";
 	public static final String MESSAGE_COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
 
@@ -323,7 +323,7 @@ public class Common {
 
 	// Messages that are templates only
 	/** Template String. Parameters: Student's name, Evaluation name, Course ID */
-	public static final String MESSAGE_COORD_EVALUATION_SUBMISSION_RECEIVED = "You have edited %s's submission for evaluation %s in course %s successfully<br />"
+	public static final String MESSAGE_INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED = "You have edited %s's submission for evaluation %s in course %s successfully<br />"
 			+ "The change will not be reflected here until you refresh the page.";
 	/** Template String. Parameters: Evaluation name, Course ID */
 	public static final String MESSAGE_STUDENT_EVALUATION_SUBMISSION_RECEIVED = "Your submission for %s in course %s has been saved successfully";
@@ -333,11 +333,11 @@ public class Common {
 	public static final String FOOTER_TAG = "<div id=\"frameBottom\">";
 
 	// TeammatesServlet responses
-	public static final String COORD_ADD_COURSE_RESPONSE_ADDED = "<status>course added</status>";
-	public static final String COORD_ADD_COURSE_RESPONSE_EXISTS = "<status>course exists</status>";
-	public static final String COORD_ADD_COURSE_RESPONSE_INVALID = "<status>course input invalid</status>";
-	public static final String COORD_DELETE_COURSE_RESPONSE_DELETED = "<status>course deleted</status>";
-	public static final String COORD_DELETE_COURSE_RESPONSE_NOT_DELETED = "<status>course not deleted</status>";
+	public static final String INSTRUCTOR_ADD_COURSE_RESPONSE_ADDED = "<status>course added</status>";
+	public static final String INSTRUCTOR_ADD_COURSE_RESPONSE_EXISTS = "<status>course exists</status>";
+	public static final String INSTRUCTOR_ADD_COURSE_RESPONSE_INVALID = "<status>course input invalid</status>";
+	public static final String INSTRUCTOR_DELETE_COURSE_RESPONSE_DELETED = "<status>course deleted</status>";
+	public static final String INSTRUCTOR_DELETE_COURSE_RESPONSE_NOT_DELETED = "<status>course not deleted</status>";
 
 	// APIServlet responses
 	public static final String BACKEND_STATUS_SUCCESS = "[BACKEND_STATUS_SUCCESS]";

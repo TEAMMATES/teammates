@@ -1,6 +1,6 @@
 
 
-module('coordinator.js');
+module('instructor.js');
 
 
 test('toggleDeleteCourseConfirmation(courseID)', function(){

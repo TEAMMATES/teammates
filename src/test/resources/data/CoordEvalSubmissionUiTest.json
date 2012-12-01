@@ -1,15 +1,15 @@
 {
-  "coords": {
-    "teammates.demo.coord": {
-      "id": "teammates.demo.coord",
-      "name" : "Teammates Demo Coordinator",
-      "email" : "teammates.demo.coord@gmail.com"
+  "instructors": {
+    "teammates.demo.instructor": {
+      "id": "teammates.demo.instructor",
+      "name" : "Teammates Demo Instructor",
+      "email" : "teammates.demo.instructor@gmail.com"
     }
   },
   
   "courses": {
     "CESubEditUiT.CS1101": {
-      "coord": "teammates.demo.coord",
+      "instructor": "teammates.demo.instructor",
       "id": "CESubEditUiT.CS1101",
       "name": "Programming Methodology"
     }

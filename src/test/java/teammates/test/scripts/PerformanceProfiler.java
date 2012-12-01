@@ -24,7 +24,7 @@ import org.openqa.selenium.By;
 import com.google.gson.Gson;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
@@ -100,7 +100,7 @@ public class PerformanceProfiler extends Thread{
 		{
 			bi = BrowserInstancePool.getBrowserInstance();
 			//overcome initial loading time with the below line
-			//getCoordAsJson();
+			//getInstructorAsJson();
 
 			//get all methods with annotation and record time
 			Method[] methods = PerformanceProfiler.class.getMethods();
@@ -259,28 +259,28 @@ public class PerformanceProfiler extends Thread{
     
     /* Performance Tests , the order of these tests is also the order they will run */
     
-    @PerformanceTest(name = "Coord login",customTimer = true)
-    public Long coordLogin() {
+    @PerformanceTest(name = "Instructor login",customTimer = true)
+    public Long instructorLogin() {
     	bi.goToUrl(TestProperties.inst().TEAMMATES_URL);
-    	bi.click(bi.coordLoginButton);
+    	bi.click(bi.instructorLoginButton);
     	long startTime = System.nanoTime();
     	bi.login("testingforteammates@gmail.com", "testingforteammates", false);
     	return System.nanoTime()-startTime;
     }
 
-    @PerformanceTest(name = "Coord home page")
-    String coordHomePage() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/coordHome");    	
+    @PerformanceTest(name = "Instructor home page")
+    String instructorHomePage() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorHome");    	
     	return "";
     }
-    @PerformanceTest(name = "Coord eval page")
-    public String coordEval() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/coordEval");    	
+    @PerformanceTest(name = "Instructor eval page")
+    public String instructorEval() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorEval");    	
     	return "";
     }
     
-    @PerformanceTest(name = "Coord add eval",customTimer = true)
-    public Long coordAddEval() {
+    @PerformanceTest(name = "Instructor add eval",customTimer = true)
+    public Long instructorAddEval() {
     	Calendar cal = Calendar.getInstance();
     	cal.add(Calendar.DATE, +1);
     	Date date1 = cal.getTime();
@@ -292,46 +292,46 @@ public class PerformanceProfiler extends Thread{
     	return System.nanoTime() - startTime;
     }
     
-    @PerformanceTest(name = "Coord eval page")
-    public String coordEval2() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/coordEval");    	
+    @PerformanceTest(name = "Instructor eval page")
+    public String instructorEval2() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorEval");    	
     	return "";
     }
     
-    @PerformanceTest(name = "Coord delete eval*",customTimer = true)
-    public Long coordDeleteEval() {
+    @PerformanceTest(name = "Instructor delete eval*",customTimer = true)
+    public Long instructorDeleteEval() {
 		int evalRowID = bi.getEvaluationRowID("idOf_Z2_Cou0_of_Coo0", "test");
-		By deleteLinkLocator = bi.getCoordEvaluationDeleteLinkLocator(evalRowID);
+		By deleteLinkLocator = bi.getInstructorEvaluationDeleteLinkLocator(evalRowID);
 		long startTime =System.nanoTime();
 		bi.clickAndConfirm(deleteLinkLocator);
     	return System.nanoTime() - startTime;
     }
     
-    @PerformanceTest(name = "Coord course page")
-    public String coordCourse() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/coordCourse");    	
+    @PerformanceTest(name = "Instructor course page")
+    public String instructorCourse() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourse");    	
     	return "";
     }
     
-    @PerformanceTest(name = "Coord add course",customTimer = true)
-    public Long coordAddCourse() {
+    @PerformanceTest(name = "Instructor add course",customTimer = true)
+    public Long instructorAddCourse() {
     	long startTime = System.nanoTime();
     	bi.addCourse("testcourse", "testcourse");
     	bi.waitForStatusMessage(Common.MESSAGE_COURSE_ADDED);
     	return System.nanoTime() - startTime;
     }
     
-    @PerformanceTest(name = "Coord course page")
-    public String coordCourse2() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/coordCourse");    	
+    @PerformanceTest(name = "Instructor course page")
+    public String instructorCourse2() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourse");    	
     	return "";
     }
     
-    @PerformanceTest(name = "Coord delete course*",customTimer = true)
-    public Long coordDeleteCourse() throws Exception {
+    @PerformanceTest(name = "Instructor delete course*",customTimer = true)
+    public Long instructorDeleteCourse() throws Exception {
 		String courseId = "testcourse";
 		int courseRowId = bi.getCourseRowID(courseId);
-    	By deleteLinkLocator = bi.getCoordCourseDeleteLinkLocator(courseRowId);
+    	By deleteLinkLocator = bi.getInstructorCourseDeleteLinkLocator(courseRowId);
     	long startTime = System.nanoTime();
     	bi.clickAndConfirm(deleteLinkLocator);
     	return System.nanoTime() - startTime;
@@ -339,20 +339,20 @@ public class PerformanceProfiler extends Thread{
     
 
     
-    @PerformanceTest(name = "Coord course student detail page")
-    public String coordCourseStudentDetails() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/coordCourseStudentDetails?courseid=idOf_Z2_Cou0_of_Coo0&studentemail=testingforteammates%40gmail.com");    	
+    @PerformanceTest(name = "Instructor course student detail page")
+    public String instructorCourseStudentDetails() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourseStudentDetails?courseid=idOf_Z2_Cou0_of_Coo0&studentemail=testingforteammates%40gmail.com");    	
     	return "";
     }
     
-    @PerformanceTest(name = "Coord course enroll page")
-    public String coordCourseEnroll() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/coordCourseEnroll?courseid=idOf_Z2_Cou0_of_Coo0");    	
+    @PerformanceTest(name = "Instructor course enroll page")
+    public String instructorCourseEnroll() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourseEnroll?courseid=idOf_Z2_Cou0_of_Coo0");    	
     	return "";
     }
     
-    @PerformanceTest(name = "Coord course enroll student*",customTimer = true)
-    public Long coordCourseEnrollStudent() {
+    @PerformanceTest(name = "Instructor course enroll student*",customTimer = true)
+    public Long instructorCourseEnrollStudent() {
     	String enrollString = "Team 1 | teststudent | alice.b.tmms@gmail.com | This comment has been changed\n";
 		bi.fillString(By.id("enrollstudents"), enrollString);
 		long startTime = System.nanoTime();
@@ -360,40 +360,40 @@ public class PerformanceProfiler extends Thread{
     	return System.nanoTime() - startTime;
     }
     
-    @PerformanceTest(name = "Coord course enroll page")
-    public String coordCourseDetails() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/coordCourseDetails?courseid=idOf_Z2_Cou0_of_Coo0");    	
+    @PerformanceTest(name = "Instructor course enroll page")
+    public String instructorCourseDetails() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourseDetails?courseid=idOf_Z2_Cou0_of_Coo0");    	
     	return "";
     }
     
-    @PerformanceTest(name = "Coord course delete student *",customTimer = true)
-    public Long coordCourseDeleteStudent() {
+    @PerformanceTest(name = "Instructor course delete student *",customTimer = true)
+    public Long instructorCourseDeleteStudent() {
     	int studentRowId = bi.getStudentRowId("teststudent");
     	long startTime = System.nanoTime();
-		bi.clickCoordCourseDetailStudentDeleteAndConfirm(studentRowId);
+		bi.clickInstructorCourseDetailStudentDeleteAndConfirm(studentRowId);
     	return System.nanoTime() - startTime;
     }
     
-    @PerformanceTest(name = "Coord eval results")
-    public String coordEvalResults() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/coordEvalResults?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");    	
+    @PerformanceTest(name = "Instructor eval results")
+    public String instructorEvalResults() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorEvalResults?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");    	
     	return "";
     }
     
-    @PerformanceTest(name = "Coord view student eval ")
-    public String coordViewStuEval() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/coordEvalSubmissionView?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0&studentemail=Z2_Stu59Email%40gmail.com");    	
+    @PerformanceTest(name = "Instructor view student eval ")
+    public String instructorViewStuEval() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorEvalSubmissionView?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0&studentemail=Z2_Stu59Email%40gmail.com");    	
     	return "";
     }
     
-    @PerformanceTest(name = "Coord help page ")
-    public String coordHelp() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/coordHelp.html");
+    @PerformanceTest(name = "Instructor help page ")
+    public String instructorHelp() {
+    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/instructorHelp.html");
     	return "";
     }
     
-    @PerformanceTest(name = "Coord log out")
-    public String coordLogout() {
+    @PerformanceTest(name = "Instructor log out")
+    public String instructorLogout() {
     	
     	bi.logout();
     	return "";
@@ -439,42 +439,42 @@ public class PerformanceProfiler extends Thread{
     	return "";
     }
     
-    @PerformanceTest(name = "BD create coord")
-    public String createCoord()
+    @PerformanceTest(name = "BD create instructor")
+    public String createInstructor()
     {
     	String status = "";
-		Set<String> set = data.coords.keySet();
-    	for (String coordKey : set)
+		Set<String> set = data.instructors.keySet();
+    	for (String instructorKey : set)
     	{
-    		CoordData coord = data.coords.get(coordKey);
-    		status += BackDoor.createCoord(coord);
+    		InstructorData instructor = data.instructors.get(instructorKey);
+    		status += BackDoor.createInstructor(instructor);
     	}
     	return status;
     }
-    @PerformanceTest(name = "BD get coord")
-    public String getCoordAsJson()
+    @PerformanceTest(name = "BD get instructor")
+    public String getInstructorAsJson()
     {
     	String status = "";
-		Set<String> set = data.coords.keySet();
-    	for (String coordKey : set)
+		Set<String> set = data.instructors.keySet();
+    	for (String instructorKey : set)
     	{
-    		CoordData coord = data.coords.get(coordKey);
-    		status += BackDoor.getCoordAsJson(coord.id);
+    		InstructorData instructor = data.instructors.get(instructorKey);
+    		status += BackDoor.getInstructorAsJson(instructor.id);
     	}
     	return status;
     }
     
 
     
-    @PerformanceTest(name = "BD get courses by coord")
-    public String getCoursesByCoord()
+    @PerformanceTest(name = "BD get courses by instructor")
+    public String getCoursesByInstructor()
     {
     	String status = "";
-		Set<String> set = data.coords.keySet();
-    	for (String coordKey : set)
+		Set<String> set = data.instructors.keySet();
+    	for (String instructorKey : set)
     	{
-    		CoordData coord = data.coords.get(coordKey);
-    		String[] courses = BackDoor.getCoursesByCoordId(coord.id);
+    		InstructorData instructor = data.instructors.get(instructorKey);
+    		String[] courses = BackDoor.getCoursesByInstructorId(instructor.id);
     		for (String courseName : courses) {
 				status += " " + courseName;
 			}
@@ -700,15 +700,15 @@ public class PerformanceProfiler extends Thread{
     	return status;
     }
     
-    @PerformanceTest(name = "BD Delete Coord")
-    public String deleteCoord()
+    @PerformanceTest(name = "BD Delete Instructor")
+    public String deleteInstructor()
     {
     	String status = "";
-		Set<String> set = data.coords.keySet();
-    	for (String coordKey : set)
+		Set<String> set = data.instructors.keySet();
+    	for (String instructorKey : set)
     	{
-    		CoordData coord = data.coords.get(coordKey);
-    		status += BackDoor.deleteCoord(coord.id);
+    		InstructorData instructor = data.instructors.get(instructorKey);
+    		status += BackDoor.deleteInstructor(instructor.id);
     	}
     	return status;
     }

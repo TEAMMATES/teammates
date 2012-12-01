@@ -1,5 +1,5 @@
 
-module('coordEval.js');
+module('instructorEval.js');
 
 test('isEvaluationNameLengthValid(name)', function(){
 	equal(isEvaluationNameLengthValid('Evaluation 1'), true, "Normal input");

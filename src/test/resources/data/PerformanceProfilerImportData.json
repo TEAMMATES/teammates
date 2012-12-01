@@ -1,11 +1,11 @@
 {
-"coords":{
+"instructors":{
 	"Z2_Coo0":{"id":"testingforteammates","name":"testingforteammates","email":"testingforteammates@gmail.com"}
 },
 
 "courses":{
-	"Z2_Cou0_of_Coo0":{"coord":"testingforteammates","id":"idOf_Z2_Cou0_of_Coo0","name":"nameOf_Z2_Cou0_of_Coo0"},
-	"Z2_Cou1_of_Coo0":{"coord":"testingforteammates","id":"idOf_Z2_Cou1_of_Coo0","name":"nameOf_Z2_Cou1_of_Coo0"}
+	"Z2_Cou0_of_Coo0":{"instructor":"testingforteammates","id":"idOf_Z2_Cou0_of_Coo0","name":"nameOf_Z2_Cou0_of_Coo0"},
+	"Z2_Cou1_of_Coo0":{"instructor":"testingforteammates","id":"idOf_Z2_Cou1_of_Coo0","name":"nameOf_Z2_Cou1_of_Coo0"}
 },
 
 "students":{

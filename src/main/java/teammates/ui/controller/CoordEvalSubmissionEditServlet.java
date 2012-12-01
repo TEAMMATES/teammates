@@ -8,9 +8,9 @@ import teammates.common.datatransfer.StudentData;
 @SuppressWarnings("serial")
 /**
  * Servlet to handle Edit evaluation submission page.
- * This is for coordinator to edit student's submission
+ * This is for instructor to edit student's submission
  */
-public class CoordEvalSubmissionEditServlet extends EvalSubmissionEditServlet {
+public class InstructorEvalSubmissionEditServlet extends EvalSubmissionEditServlet {
 
 	@Override
 	protected StudentData getStudentObject(HttpServletRequest req, EvalSubmissionEditHelper helper){
@@ -28,18 +28,18 @@ public class CoordEvalSubmissionEditServlet extends EvalSubmissionEditServlet {
 	}
 
 	@Override
-	protected CoordEvalSubmissionEditHelper instantiateHelper() {
-		return new CoordEvalSubmissionEditHelper();
+	protected InstructorEvalSubmissionEditHelper instantiateHelper() {
+		return new InstructorEvalSubmissionEditHelper();
 	}
 
 
 	@Override
 	protected String getDefaultRedirectUrl() {
-		return Common.PAGE_COORD_EVAL;
+		return Common.PAGE_INSTRUCTOR_EVAL;
 	}
 
 	@Override
 	protected String getDefaultForwardUrl() {
-		return Common.JSP_COORD_EVAL_SUBMISSION_EDIT;
+		return Common.JSP_INSTRUCTOR_EVAL_SUBMISSION_EDIT;
 	}
 }

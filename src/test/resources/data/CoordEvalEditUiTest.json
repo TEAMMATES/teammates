@@ -1,10 +1,10 @@
 {
-  "coordinator": {"id": "teammates.demo.coord", "name":"Teammates Demo Coordinator", "email":"teammates.demo.coord@gmail.com"},
+  "instructor": {"id": "teammates.demo.instructor", "name":"Teammates Demo Instructor", "email":"teammates.demo.instructor@gmail.com"},
   
   "course": {
     "id": "CEvEditUiTest.CS1101",
     "name": "Programming Methodology",
-    "coord": "teammates.demo.coord"
+    "instructor": "teammates.demo.instructor"
   },
   
   "evaluation": {

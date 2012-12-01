@@ -38,8 +38,8 @@
 					<tr>
 						<td class="loginCell">
 							<form action="<%= Common.PAGE_LOGIN %>">
-								<input type="submit" name="coord" 
-										class="button" id="btnCoordLogin" value="Coordinator">
+								<input type="submit" name="instructor" 
+										class="button" id="btnInstructorLogin" value="Instructor">
 							</form>
 						</td>
 					</tr>

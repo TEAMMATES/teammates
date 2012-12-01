@@ -1,16 +1,16 @@
 <%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.common.datatransfer.CourseData"%>
 <%@ page import="teammates.common.datatransfer.EvaluationData"%>
-<%@ page import="teammates.ui.controller.CoordEvalEditHelper"%>
-<%	CoordEvalEditHelper helper = (CoordEvalEditHelper)request.getAttribute("helper"); %>
+<%@ page import="teammates.ui.controller.InstructorEvalEditHelper"%>
+<%	InstructorEvalEditHelper helper = (InstructorEvalEditHelper)request.getAttribute("helper"); %>
 <!DOCTYPE html>
 <html>
 <head>
 	<link rel="shortcut icon" href="/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Teammates - Coordinator</title>
+	<title>Teammates - Instructor</title>
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
-	<link rel="stylesheet" href="/stylesheets/coordEvalEdit.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/instructorEvalEdit.css" type="text/css">
 	
 	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="/js/tooltip.js"></script>
@@ -19,14 +19,14 @@
 	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
 	<script type="text/javascript" src="/js/common.js"></script>
 	
-	<script type="text/javascript" src="/js/coordinator.js"></script>
+	<script type="text/javascript" src="/js/instructor.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%= Common.JSP_COORD_HEADER %>" />
+		<jsp:include page="<%= Common.JSP_INSTRUCTOR_HEADER %>" />
 	</div>
 
 	<div id="frameBody">
@@ -35,8 +35,8 @@
 			<div id="headerOperation">
 				<h1>Edit Evaluation</h1>
 			</div>
-			<div id="coordinatorEvaluationManagement">
-				<form method="post" action="<%= Common.PAGE_COORD_EVAL_EDIT %>" name="form_addevaluation">
+			<div id="instructorEvaluationManagement">
+				<form method="post" action="<%= Common.PAGE_INSTRUCTOR_EVAL_EDIT %>" name="form_addevaluation">
 					<table class="inputTable">
 						<tr>
 							<td class="label" >Course ID:</td>
@@ -64,8 +64,8 @@
 						<tr>
 							<td class="label" >Evaluation name:</td>
 							<td style="vertical-align: middle;">
-								<input type="hidden" name="<%= Common.PARAM_EVALUATION_NAME %>" value="<%=CoordEvalEditHelper.escapeForHTML(helper.submittedEval.name)%>">
-								<%=CoordEvalEditHelper.escapeForHTML(helper.submittedEval.name)%>
+								<input type="hidden" name="<%= Common.PARAM_EVALUATION_NAME %>" value="<%=InstructorEvalEditHelper.escapeForHTML(helper.submittedEval.name)%>">
+								<%=InstructorEvalEditHelper.escapeForHTML(helper.submittedEval.name)%>
 							</td>
 							<td class="label" >Closing time:</td>
 							<td><input style="width: 100px;" type="text"
@@ -130,7 +130,7 @@
 							<td colspan="3">
 								<textarea rows="3" cols="100" class="textvalue" name="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>" id="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>"
 										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_INSTRUCTIONS%>')"
-										onmouseout="hideddrivetip()" tabindex="8"><%=CoordEvalEditHelper.escapeForHTML(helper.submittedEval.instructions)%></textarea>
+										onmouseout="hideddrivetip()" tabindex="8"><%=InstructorEvalEditHelper.escapeForHTML(helper.submittedEval.instructions)%></textarea>
 							</td>
 						</tr>
 						<tr>
@@ -139,7 +139,7 @@
 										onclick="return checkEditEvaluation(this.form);"
 										value="Save Changes" tabindex="9">
 								<input id="button_back" type="button" class="button"
-										onclick="window.location.href='<%= helper.getCoordEvaluationLink() %>'"
+										onclick="window.location.href='<%= helper.getInstructorEvaluationLink() %>'"
 										value="Cancel" tabindex="10"></td>
 						</tr>
 					</table>

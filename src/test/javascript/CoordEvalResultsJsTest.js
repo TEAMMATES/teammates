@@ -1,5 +1,5 @@
 
-module('coordEvalResults.js');
+module('instructorEvalResults.js');
 
 
 test('showReport(id)', function(){

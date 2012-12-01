@@ -10,7 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.test.driver.BackDoor;
@@ -19,9 +19,9 @@ import teammates.test.driver.BrowserInstancePool;
 import teammates.test.driver.TestProperties;
 
 /**
- * Tests coordEvalEdit.jsp from functionality and UI
+ * Tests instructorEvalEdit.jsp from functionality and UI
  */
-public class CoordEvalEditPageUiTest extends BaseTestCase {
+public class InstructorEvalEditPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static TestScenario ts;
 	
@@ -33,8 +33,8 @@ public class CoordEvalEditPageUiTest extends BaseTestCase {
 		
 		startRecordingTimeForDataImport();
 		ts = loadTestScenario();
-		BackDoor.deleteCoord(ts.coordinator.id);
-		String backDoorOperationStatus = BackDoor.createCoord(ts.coordinator);
+		BackDoor.deleteInstructor(ts.instructor.id);
+		String backDoorOperationStatus = BackDoor.createInstructor(ts.instructor);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		backDoorOperationStatus = BackDoor.createCourse(ts.course);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
@@ -45,10 +45,10 @@ public class CoordEvalEditPageUiTest extends BaseTestCase {
 		bi = BrowserInstancePool.getBrowserInstance();
 		
 		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
-		String link = appUrl+Common.PAGE_COORD_EVAL_EDIT;
+		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL_EDIT;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,ts.evaluation.course);
 		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,ts.evaluation.name);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.coordinator.id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.id);
 		bi.goToUrl(link);
 	}
 	
@@ -59,13 +59,13 @@ public class CoordEvalEditPageUiTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testCoordEvalEditHTML() throws Exception{
+	public void testInstructorEvalEditHTML() throws Exception{
 		
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalEdit.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalEdit.html");
 	}
 	
 	@Test
-	public void testCoordEvalEditUiPaths() throws Exception{
+	public void testInstructorEvalEditUiPaths() throws Exception{
 		
 		bi.editEvaluation(ts.newEvaluation.startTime, ts.newEvaluation.endTime, ts.newEvaluation.p2pEnabled, ts.newEvaluation.instructions, ts.newEvaluation.gracePeriod);
 		
@@ -84,14 +84,14 @@ public class CoordEvalEditPageUiTest extends BaseTestCase {
 	}
 	
 	private static TestScenario loadTestScenario() throws JSONException, FileNotFoundException {
-		String testScenarioJsonFile = Common.TEST_DATA_FOLDER + "/CoordEvalEditUiTest.json";
+		String testScenarioJsonFile = Common.TEST_DATA_FOLDER + "/InstructorEvalEditUiTest.json";
 		String jsonString = Common.readFile(testScenarioJsonFile);
 		TestScenario scn = Common.getTeammatesGson().fromJson(jsonString, TestScenario.class);
 		return scn;
 	}
 
 	private class TestScenario{
-		public CoordData coordinator;
+		public InstructorData instructor;
 		public CourseData course;
 		public EvaluationData evaluation;
 		public EvaluationData newEvaluation;

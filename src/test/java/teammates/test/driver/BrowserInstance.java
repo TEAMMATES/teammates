@@ -72,8 +72,8 @@ public class BrowserInstance {
 	}
 
 	// Homepage buttons
-	public final By COORD_LOGIN_BUTTON = By
-			.name(Common.PARAM_LOGIN_COORD);
+	public final By INSTRUCTOR_LOGIN_BUTTON = By
+			.name(Common.PARAM_LOGIN_INSTRUCTOR);
 	public final By STUDENT_LOGIN_BUTTON = By.name(Common.PARAM_LOGIN_STUDENT);
 
 	// Tabs
@@ -96,15 +96,15 @@ public class BrowserInstance {
 	private void ____Login_Page_UI_Elements__________________________________() {
 	}
 	
-	public By coordLoginButton = By.id("btnCoordLogin");
+	public By instructorLoginButton = By.id("btnInstructorLogin");
 	public By studentLoginButton = By.id("btnStudentLogin");
 
 	@SuppressWarnings("unused")
-	private void ____Coord_UI_Elements__________________________________() {
+	private void ____Instructor_UI_Elements__________________________________() {
 	}
 
 	// Homepage
-	public By coordHomeAddNewCourseLink = By.id("addNewCourse");
+	public By instructorHomeAddNewCourseLink = By.id("addNewCourse");
 
 	// Course list at home
 	/**
@@ -113,7 +113,7 @@ public class BrowserInstance {
 	 * @param courseID
 	 * @return
 	 */
-	public int getCoordHomeCourseRowID(String courseID) {
+	public int getInstructorHomeCourseRowID(String courseID) {
 		int id = 0;
 		while (isElementPresent(By.id("course" + id))) {
 			if (getElementText(
@@ -127,36 +127,36 @@ public class BrowserInstance {
 		return -1;
 	}
 
-	public By getCoordHomeCourseEnrollLinkLocator(int rowID) {
+	public By getInstructorHomeCourseEnrollLinkLocator(int rowID) {
 		return By.className("t_course_enroll" + rowID);
 	}
 
-	public By getCoordHomeCourseViewLinkLocator(int rowID) {
+	public By getInstructorHomeCourseViewLinkLocator(int rowID) {
 		return By.className("t_course_view" + rowID);
 	}
 
-	public By getCoordHomeCourseAddEvaluationLinkLocator(int rowID) {
+	public By getInstructorHomeCourseAddEvaluationLinkLocator(int rowID) {
 		return By.className("t_course_add_eval" + rowID);
 	}
 
-	public By getCoordHomeCourseDeleteLinkLocator(int rowID) {
+	public By getInstructorHomeCourseDeleteLinkLocator(int rowID) {
 		return By.className("t_course_delete" + rowID);
 	}
 
-	public By getCoordHomeCourseEnrollLinkLocator(String courseID) {
-		return getCoordHomeCourseEnrollLinkLocator(getCoordHomeCourseRowID(courseID));
+	public By getInstructorHomeCourseEnrollLinkLocator(String courseID) {
+		return getInstructorHomeCourseEnrollLinkLocator(getInstructorHomeCourseRowID(courseID));
 	}
 
-	public By getCoordHomeCourseViewLinkLocator(String courseID) {
-		return getCoordHomeCourseViewLinkLocator(getCoordHomeCourseRowID(courseID));
+	public By getInstructorHomeCourseViewLinkLocator(String courseID) {
+		return getInstructorHomeCourseViewLinkLocator(getInstructorHomeCourseRowID(courseID));
 	}
 
-	public By getCoordHomeCourseAddEvaluationLinkLocator(String courseID) {
-		return getCoordHomeCourseAddEvaluationLinkLocator(getCoordHomeCourseRowID(courseID));
+	public By getInstructorHomeCourseAddEvaluationLinkLocator(String courseID) {
+		return getInstructorHomeCourseAddEvaluationLinkLocator(getInstructorHomeCourseRowID(courseID));
 	}
 
-	public By getCoordHomeCourseDeleteLinkLocator(String courseID) {
-		return getCoordHomeCourseDeleteLinkLocator(getCoordHomeCourseRowID(courseID));
+	public By getInstructorHomeCourseDeleteLinkLocator(String courseID) {
+		return getInstructorHomeCourseDeleteLinkLocator(getInstructorHomeCourseRowID(courseID));
 	}
 
 	// Course list at course page
@@ -175,36 +175,36 @@ public class BrowserInstance {
 		return -1;
 	}
 
-	public By getCoordCourseEnrollLinkLocator(int rowID) {
+	public By getInstructorCourseEnrollLinkLocator(int rowID) {
 		return By.className("t_course_enroll" + rowID);
 	}
 
-	public By getCoordCourseViewLinkLocator(int rowID) {
+	public By getInstructorCourseViewLinkLocator(int rowID) {
 		return By.className("t_course_view" + rowID);
 	}
 
-	public By getCoordCourseAddEvaluationLinkLocator(int rowID) {
+	public By getInstructorCourseAddEvaluationLinkLocator(int rowID) {
 		return By.className("t_course_add_eval" + rowID);
 	}
 
-	public By getCoordCourseDeleteLinkLocator(int rowID) {
+	public By getInstructorCourseDeleteLinkLocator(int rowID) {
 		return By.className("t_course_delete" + rowID);
 	}
 
-	public By getCoordCourseEnrollLinkLocator(String courseID) {
-		return getCoordCourseEnrollLinkLocator(getCourseRowID(courseID));
+	public By getInstructorCourseEnrollLinkLocator(String courseID) {
+		return getInstructorCourseEnrollLinkLocator(getCourseRowID(courseID));
 	}
 
-	public By getCoordCourseViewLinkLocator(String courseID) {
-		return getCoordCourseViewLinkLocator(getCourseRowID(courseID));
+	public By getInstructorCourseViewLinkLocator(String courseID) {
+		return getInstructorCourseViewLinkLocator(getCourseRowID(courseID));
 	}
 
-	public By getCoordCourseAddEvaluationLinkLocator(String courseID) {
-		return getCoordCourseAddEvaluationLinkLocator(getCourseRowID(courseID));
+	public By getInstructorCourseAddEvaluationLinkLocator(String courseID) {
+		return getInstructorCourseAddEvaluationLinkLocator(getCourseRowID(courseID));
 	}
 
-	public By getCoordCourseDeleteLinkLocator(String courseID) {
-		return getCoordCourseDeleteLinkLocator(getCourseRowID(courseID));
+	public By getInstructorCourseDeleteLinkLocator(String courseID) {
+		return getInstructorCourseDeleteLinkLocator(getCourseRowID(courseID));
 	}
 
 	// Evaluation table at evaluation page
@@ -228,27 +228,27 @@ public class BrowserInstance {
 		return -1;
 	}
 
-	public By getCoordEvaluationViewResultsLinkLocator(int rowID) {
+	public By getInstructorEvaluationViewResultsLinkLocator(int rowID) {
 		return By.className("t_eval_view" + rowID);
 	}
 
-	public By getCoordEvaluationEditLinkLocator(int rowID) {
+	public By getInstructorEvaluationEditLinkLocator(int rowID) {
 		return By.className("t_eval_edit" + rowID);
 	}
 
-	public By getCoordEvaluationDeleteLinkLocator(int rowID) {
+	public By getInstructorEvaluationDeleteLinkLocator(int rowID) {
 		return By.className("t_eval_delete" + rowID);
 	}
 
-	public By getCoordEvaluationRemindLinkLocator(int rowID) {
+	public By getInstructorEvaluationRemindLinkLocator(int rowID) {
 		return By.className("t_eval_remind" + rowID);
 	}
 
-	public By getCoordEvaluationPublishLinkLocator(int rowID) {
+	public By getInstructorEvaluationPublishLinkLocator(int rowID) {
 		return By.className("t_eval_publish" + rowID);
 	}
 
-	public By getCoordEvaluationUnpublishLinkLocator(int rowID) {
+	public By getInstructorEvaluationUnpublishLinkLocator(int rowID) {
 		return By.className("t_eval_unpublish" + rowID);
 	}
 
@@ -261,8 +261,8 @@ public class BrowserInstance {
 	 * @param evalName
 	 * @return
 	 */
-	public int getCoordHomeEvaluationRowID(String courseID, String evalName) {
-		int courseRowID = getCoordHomeCourseRowID(courseID);
+	public int getInstructorHomeEvaluationRowID(String courseID, String evalName) {
+		int courseRowID = getInstructorHomeCourseRowID(courseID);
 		if (courseRowID == -1)
 			return -2;
 		String template = "//div[@id='course%d']//table[@class='dataTable']//tr[@id='evaluation%d']";
@@ -278,48 +278,48 @@ public class BrowserInstance {
 		return -1;
 	}
 
-	public By getCoordHomeEvaluationViewResultsLinkLocator(String courseID,
+	public By getInstructorHomeEvaluationViewResultsLinkLocator(String courseID,
 			String evalName) {
 		return By.className("t_eval_view"
-				+ getCoordHomeEvaluationRowID(courseID, evalName));
+				+ getInstructorHomeEvaluationRowID(courseID, evalName));
 	}
 
-	public By getCoordHomeEvaluationEditLinkLocator(String courseID,
+	public By getInstructorHomeEvaluationEditLinkLocator(String courseID,
 			String evalName) {
 		return By.className("t_eval_edit"
-				+ getCoordHomeEvaluationRowID(courseID, evalName));
+				+ getInstructorHomeEvaluationRowID(courseID, evalName));
 	}
 
-	public By getCoordHomeEvaluationDeleteLinkLocator(String courseID,
+	public By getInstructorHomeEvaluationDeleteLinkLocator(String courseID,
 			String evalName) {
 		return By.className("t_eval_delete"
-				+ getCoordHomeEvaluationRowID(courseID, evalName));
+				+ getInstructorHomeEvaluationRowID(courseID, evalName));
 	}
 
-	public By getCoordHomeEvaluationRemindLinkLocator(String courseID,
+	public By getInstructorHomeEvaluationRemindLinkLocator(String courseID,
 			String evalName) {
 		return By.className("t_eval_remind"
-				+ getCoordHomeEvaluationRowID(courseID, evalName));
+				+ getInstructorHomeEvaluationRowID(courseID, evalName));
 	}
 
-	public By getCoordHomeEvaluationPublishLinkLocator(String courseID,
+	public By getInstructorHomeEvaluationPublishLinkLocator(String courseID,
 			String evalName) {
 		return By.className("t_eval_publish"
-				+ getCoordHomeEvaluationRowID(courseID, evalName));
+				+ getInstructorHomeEvaluationRowID(courseID, evalName));
 	}
 
-	public By getCoordHomeEvaluationUnpublishLinkLocator(String courseID,
+	public By getInstructorHomeEvaluationUnpublishLinkLocator(String courseID,
 			String evalName) {
 		return By.className("t_eval_unpublish"
-				+ getCoordHomeEvaluationRowID(courseID, evalName));
+				+ getInstructorHomeEvaluationRowID(courseID, evalName));
 	}
 
 	// Add course
-	public By coordCourseInputCourseID = By.id("courseid");
-	public By coordCourseInputCourseName = By.id("coursename");
-	public By coordCourseAddButton = By.id("btnAddCourse");
-	public By coordCourseSortByIdButton = By.id("button_sortcourseid");
-	public By coordCourseSortByNameButton = By.id("button_sortcoursename");
+	public By instructorCourseInputCourseID = By.id("courseid");
+	public By instructorCourseInputCourseName = By.id("coursename");
+	public By instructorCourseAddButton = By.id("btnAddCourse");
+	public By instructorCourseSortByIdButton = By.id("button_sortcourseid");
+	public By instructorCourseSortByNameButton = By.id("button_sortcoursename");
 
 	// ------------------------------- Courses Table
 	// ----------------------------- //
@@ -339,27 +339,27 @@ public class BrowserInstance {
 	}
 
 	// Enrollment
-	public By coordEnrollInfo = By.id("information");
-	public By coordEnrollButton = By.id("button_enroll");
-	public By coordEnrollBackButton = By.id("button_back");
+	public By instructorEnrollInfo = By.id("information");
+	public By instructorEnrollButton = By.id("button_enroll");
+	public By instructorEnrollBackButton = By.id("button_back");
 
 	// Enrollment results
-	public By coordEnrollResultError = By.className("enroll_result0");
-	public By coordEnrollResultAdded = By.className("enroll_result1");
-	public By coordEnrollResultModified = By.className("enroll_result2");
-	public By coordEnrollResultUnmodified = By.className("enroll_result3");
-	public By coordEnrollResultUnknown = By.className("enroll_result4");
+	public By instructorEnrollResultError = By.className("enroll_result0");
+	public By instructorEnrollResultAdded = By.className("enroll_result1");
+	public By instructorEnrollResultModified = By.className("enroll_result2");
+	public By instructorEnrollResultUnmodified = By.className("enroll_result3");
+	public By instructorEnrollResultUnknown = By.className("enroll_result4");
 
 	// Course details
-	public By coordCourseDetailsCourseID = By.id("courseid");
-	public By coordCourseDetailsCourseName = By.id("coursename");
-	public By coordCourseDetailsTotalTeams = By.id("total_teams");
-	public By coordCourseDetailsTotalStudents = By.id("total_students");
+	public By instructorCourseDetailsCourseID = By.id("courseid");
+	public By instructorCourseDetailsCourseName = By.id("coursename");
+	public By instructorCourseDetailsTotalTeams = By.id("total_teams");
+	public By instructorCourseDetailsTotalStudents = By.id("total_students");
 
-	public By coordCourseDetailSortByStudentName = By
+	public By instructorCourseDetailSortByStudentName = By
 			.id("button_sortstudentname");
-	public By coordCourseDetailSortByTeamName = By.id("button_sortstudentteam");
-	public By coordCourseDetailSortByStatus = By.id("button_sortstudentstatus");
+	public By instructorCourseDetailSortByTeamName = By.id("button_sortstudentteam");
+	public By instructorCourseDetailSortByStatus = By.id("button_sortstudentstatus");
 
 	public int getStudentRowId(String studentName) {
 		int studentCount = driver.findElements(By.className("student_row"))
@@ -378,24 +378,24 @@ public class BrowserInstance {
 		return -1;
 	}
 
-	public By getCoordCourseDetailStudentViewLinkLocator(int rowId) {
+	public By getInstructorCourseDetailStudentViewLinkLocator(int rowId) {
 		return By.className("t_student_view" + rowId);
 	}
 
-	public By getCoordCourseDetailStudentEditLinkLocator(int rowId) {
+	public By getInstructorCourseDetailStudentEditLinkLocator(int rowId) {
 		return By.className("t_student_edit" + rowId);
 	}
 
-	public By getCoordCourseDetailStudentResendLinkLocator(int rowId) {
+	public By getInstructorCourseDetailStudentResendLinkLocator(int rowId) {
 		return By.className("t_student_resend" + rowId);
 	}
 
-	public By getCoordCourseDetailStudentDeleteLinkLocator(int rowId) {
+	public By getInstructorCourseDetailStudentDeleteLinkLocator(int rowId) {
 		return By.className("t_student_delete" + rowId);
 	}
 
-	public By coordCourseDetailRemindButton = By.id("button_remind");
-	public By coordCourseDetailBackButton = By.id("button_back");
+	public By instructorCourseDetailRemindButton = By.id("button_remind");
+	public By instructorCourseDetailBackButton = By.id("button_back");
 
 	// Student details
 	public By studentDetailName = By.id(Common.PARAM_STUDENT_NAME);
@@ -408,7 +408,7 @@ public class BrowserInstance {
 	public By studentDetailBackButton = By.className("button_back");
 
 	// Edit student
-	public By coordCourseDetailsStudentEditSaveButton = By.id("button_submit");
+	public By instructorCourseDetailsStudentEditSaveButton = By.id("button_submit");
 
 	// Input on evaluation
 	public By inputEvaluationName = By.id("evaluationname");
@@ -454,7 +454,7 @@ public class BrowserInstance {
 	public By resultTopButton = By.id("button_top");
 
 	// Edit result
-	public By coordEvaluationSaveButton = By.id("button_save");
+	public By instructorEvaluationSaveButton = By.id("button_save");
 
 	// Team forming
 	public final String TEAMFORMINGSESSION_STATUS_AWAITING = "AWAITING";
@@ -469,15 +469,15 @@ public class BrowserInstance {
 	public By inputProfileTemplate = By.id("profile_template");
 
 	// Edit team profile
-	public By coordEditTeamProfile0 = By.id("viewTeamProfile0");
+	public By instructorEditTeamProfile0 = By.id("viewTeamProfile0");
 	public By saveTeamProfile = By.id("button_saveTeamProfile");
 	public By saveChangeStudentTeam = By.id("button_saveTeamChange");
 	public By saveChangeNewStudentTeam = By.id("teamchange_newteam");
 	public By saveStudentProfile = By.id("button_savestudentprofile");
 
 	// Edit student team
-	public By coordChangeStudentTeam11 = By.id("changeStudentTeam-1/1");
-	public By coordAllocateStudentTeam1 = By.id("allocateStudentTeam1");
+	public By instructorChangeStudentTeam11 = By.id("changeStudentTeam-1/1");
+	public By instructorAllocateStudentTeam1 = By.id("allocateStudentTeam1");
 
 	public By evaluationCourseIDSorting = By.id("button_sortcourseid");
 	public By evaluationNameSorting = By.id("button_sortname");
@@ -493,8 +493,8 @@ public class BrowserInstance {
 	public By studentCourseDetailCourseName = By.id(Common.PARAM_COURSE_NAME);
 	public By studentCourseDetailTeamName = By.id(Common.PARAM_TEAM_NAME);
 	public By studentCourseDetailStudentName = By.id(Common.PARAM_STUDENT_NAME);
-	public By studentCourseDetailCoordinatorName = By
-			.id(Common.PARAM_COORD_NAME);
+	public By studentCourseDetailInstructorName = By
+			.id(Common.PARAM_INSTRUCTOR_NAME);
 	public By studentCourseDetailStudentEmail = By
 			.id(Common.PARAM_STUDENT_EMAIL);
 	public By studentCourseDetailStudentTeammates = By
@@ -561,23 +561,23 @@ public class BrowserInstance {
 	 * ---------------------------------------------------------------------- */
 
 	/**
-	 * Logs in as coordinator.
+	 * Logs in as instructor.
 	 * 
 	 * @page Homepage
 	 */
-	public void loginCoord(String username, String password) {
+	public void loginInstructor(String username, String password) {
 		if (loggedInUser.equals(username)) {
 			System.out.println(username + " is already logged in.");
 			return;
 		}
-		System.out.println("Logging in coordinator " + username + ".");
+		System.out.println("Logging in instructor " + username + ".");
 
 		// Logout first to make sure we will be in login page later
 		goToUrl(TestProperties.inst().TEAMMATES_URL + Common.JSP_LOGOUT);
 
-		// Login as coordinator
+		// Login as instructor
 		goToUrl(TestProperties.inst().TEAMMATES_URL + Common.PAGE_LOGIN
-				+ "?" + Common.PARAM_LOGIN_COORD);
+				+ "?" + Common.PARAM_LOGIN_INSTRUCTOR);
 
 		login(username, password, false);
 		loggedInUser = username;
@@ -644,7 +644,7 @@ public class BrowserInstance {
 			fillString(By.id("Passwd"), password);
 			// Click sign in button
 			click(By.id("signIn"));
-			// Wait and check for the main Coordinator page to see
+			// Wait and check for the main Instructor page to see
 			// if login was successful
 			checkGoogleApplicationApproval();
 
@@ -667,7 +667,7 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * Logs out (both for coordinator and student) Will return immediately if
+	 * Logs out (both for instructor and student) Will return immediately if
 	 * logout button cannot be found at current page
 	 */
 	public void logout() {
@@ -822,69 +822,69 @@ public class BrowserInstance {
 
 	/**
 	 * Clicks and confirms Delete of a course at a particular rowID.
-	 * Pre-condition: Should be at Coordinator Homepage
+	 * Pre-condition: Should be at Instructor Homepage
 	 * 
 	 * @param rowID
 	 */
-	public void clickCoordHomeCourseDeleteAndConfirm(int rowID) {
-		clickAndConfirm(getCoordHomeCourseDeleteLinkLocator(rowID));
+	public void clickInstructorHomeCourseDeleteAndConfirm(int rowID) {
+		clickAndConfirm(getInstructorHomeCourseDeleteLinkLocator(rowID));
 	}
 
 	/**
-	 * Click and cancels Delete of a particular course of the coordinator.
-	 * Pre-condition: Should be at Coordinator Homepage
+	 * Click and cancels Delete of a particular course of the instructor.
+	 * Pre-condition: Should be at Instructor Homepage
 	 * 
 	 * @param rowID
 	 */
-	public void clickCoordHomeCourseDeleteAndCancel(String courseID) {
-		clickAndCancel(getCoordHomeCourseDeleteLinkLocator(courseID));
+	public void clickInstructorHomeCourseDeleteAndCancel(String courseID) {
+		clickAndCancel(getInstructorHomeCourseDeleteLinkLocator(courseID));
 	}
 
 	/**
 	 * Clicks and confirms Delete of a course at a particular rowID.
-	 * Pre-condition: Should be at Coordinator Course Page
+	 * Pre-condition: Should be at Instructor Course Page
 	 * 
 	 * @param rowID
 	 */
-	public void clickCoordCourseDeleteAndConfirm(int rowID) {
-		clickAndConfirm(getCoordCourseDeleteLinkLocator(rowID));
+	public void clickInstructorCourseDeleteAndConfirm(int rowID) {
+		clickAndConfirm(getInstructorCourseDeleteLinkLocator(rowID));
 	}
 
 	/**
 	 * Clicks and confirms Delete of a particular course. Pre-condition: Should
-	 * be at Coordinator Course Page
+	 * be at Instructor Course Page
 	 * 
 	 * @param courseID
 	 */
-	public void clickCoordCourseDeleteAndConfirm(String courseID) {
+	public void clickInstructorCourseDeleteAndConfirm(String courseID) {
 		int rowID = getCourseRowID(courseID);
 		if (rowID > -1) {
-			clickCoordCourseDeleteAndConfirm(rowID);
+			clickInstructorCourseDeleteAndConfirm(rowID);
 		} else {
 			fail("Course ID cannot be found.");
 		}
 	}
 
 	/**
-	 * Click and cancels Delete of a particular course of the coordinator.
-	 * Pre-condition: Should be at Coordinator Course Page
+	 * Click and cancels Delete of a particular course of the instructor.
+	 * Pre-condition: Should be at Instructor Course Page
 	 * 
 	 * @param rowID
 	 */
-	public void clickCoordCourseDeleteAndCancel(int rowID) {
-		clickAndCancel(getCoordCourseDeleteLinkLocator(rowID));
+	public void clickInstructorCourseDeleteAndCancel(int rowID) {
+		clickAndCancel(getInstructorCourseDeleteLinkLocator(rowID));
 	}
 
 	/**
 	 * Clicks and cancels Delete of a particular course. Pre-condition: Should
-	 * be at Coordinator Course Page
+	 * be at Instructor Course Page
 	 * 
 	 * @param courseID
 	 */
-	public void clickCoordCourseDeleteAndCancel(String courseID) {
+	public void clickInstructorCourseDeleteAndCancel(String courseID) {
 		int rowID = getCourseRowID(courseID);
 		if (rowID > -1) {
-			clickCoordCourseDeleteAndCancel(rowID);
+			clickInstructorCourseDeleteAndCancel(rowID);
 		} else {
 			fail("Course ID cannot be found.");
 		}
@@ -896,8 +896,8 @@ public class BrowserInstance {
 	 * 
 	 * @param rowID
 	 */
-	public void clickCoordCourseDetailStudentDeleteAndConfirm(int rowID) {
-		clickAndConfirm(getCoordCourseDetailStudentDeleteLinkLocator(rowID));
+	public void clickInstructorCourseDetailStudentDeleteAndConfirm(int rowID) {
+		clickAndConfirm(getInstructorCourseDetailStudentDeleteLinkLocator(rowID));
 	}
 
 	/**
@@ -906,10 +906,10 @@ public class BrowserInstance {
 	 * 
 	 * @param student
 	 */
-	public void clickCoordCourseDetailStudentDeleteAndConfirm(String student) {
+	public void clickInstructorCourseDetailStudentDeleteAndConfirm(String student) {
 		int rowID = getStudentRowId(student);
 		if (rowID > -1) {
-			clickCoordCourseDetailStudentDeleteAndConfirm(rowID);
+			clickInstructorCourseDetailStudentDeleteAndConfirm(rowID);
 		} else {
 			fail("Student not found in this course.");
 		}
@@ -921,8 +921,8 @@ public class BrowserInstance {
 	 * 
 	 * @param rowID
 	 */
-	public void clickCoordCourseDetailStudentDeleteAndCancel(int rowID) {
-		clickAndCancel(getCoordCourseDetailStudentDeleteLinkLocator(rowID));
+	public void clickInstructorCourseDetailStudentDeleteAndCancel(int rowID) {
+		clickAndCancel(getInstructorCourseDetailStudentDeleteLinkLocator(rowID));
 	}
 
 	/**
@@ -931,10 +931,10 @@ public class BrowserInstance {
 	 * 
 	 * @param student
 	 */
-	public void clickCoordCourseDetailStudentDeleteAndCancel(String student) {
+	public void clickInstructorCourseDetailStudentDeleteAndCancel(String student) {
 		int rowID = getStudentRowId(student);
 		if (rowID > -1) {
-			clickCoordCourseDetailStudentDeleteAndCancel(rowID);
+			clickInstructorCourseDetailStudentDeleteAndCancel(rowID);
 		} else {
 			fail("Student not found in this course.");
 		}
@@ -946,8 +946,8 @@ public class BrowserInstance {
 	 * 
 	 * @param rowID
 	 */
-	public void clickCoordEvaluationDeleteAndConfirm(int rowID) {
-		clickAndConfirm(getCoordEvaluationDeleteLinkLocator(rowID));
+	public void clickInstructorEvaluationDeleteAndConfirm(int rowID) {
+		clickAndConfirm(getInstructorEvaluationDeleteLinkLocator(rowID));
 	}
 
 	/**
@@ -957,11 +957,11 @@ public class BrowserInstance {
 	 * @param courseId
 	 * @param evalName
 	 */
-	public void clickCoordEvaluationDeleteAndConfirm(String courseId,
+	public void clickInstructorEvaluationDeleteAndConfirm(String courseId,
 			String evalName) {
 		int rowID = getEvaluationRowID(courseId, evalName);
 		if (rowID > -1) {
-			clickCoordEvaluationDeleteAndConfirm(rowID);
+			clickInstructorEvaluationDeleteAndConfirm(rowID);
 		} else {
 			fail("Evaluation not found.");
 		}
@@ -973,8 +973,8 @@ public class BrowserInstance {
 	 * 
 	 * @param rowID
 	 */
-	public void clickCoordEvaluationDeleteAndCancel(int rowID) {
-		clickAndCancel(getCoordEvaluationDeleteLinkLocator(rowID));
+	public void clickInstructorEvaluationDeleteAndCancel(int rowID) {
+		clickAndCancel(getInstructorEvaluationDeleteLinkLocator(rowID));
 	}
 
 	/**
@@ -984,11 +984,11 @@ public class BrowserInstance {
 	 * @param courseId
 	 * @param evalName
 	 */
-	public void clickCoordEvaluationDeleteAndCancel(String courseId,
+	public void clickInstructorEvaluationDeleteAndCancel(String courseId,
 			String evalName) {
 		int rowID = getEvaluationRowID(courseId, evalName);
 		if (rowID > -1) {
-			clickCoordEvaluationDeleteAndCancel(rowID);
+			clickInstructorEvaluationDeleteAndCancel(rowID);
 		} else {
 			fail("Evaluation not found.");
 		}
@@ -996,28 +996,28 @@ public class BrowserInstance {
 
 	/**
 	 * Clicks and confirms on Publish button of an evaluation at particular
-	 * rowID at evaluation page as coordinator. Pre-condition: Should be at
+	 * rowID at evaluation page as instructor. Pre-condition: Should be at
 	 * Evaluation list page
 	 * 
 	 * @param rowID
 	 */
-	public void clickCoordEvaluationPublishAndConfirm(int rowID) {
-		clickAndConfirm(getCoordEvaluationPublishLinkLocator(rowID));
+	public void clickInstructorEvaluationPublishAndConfirm(int rowID) {
+		clickAndConfirm(getInstructorEvaluationPublishLinkLocator(rowID));
 	}
 
 	/**
 	 * Clicks and confirms on Publish button of a particular evaluation at
-	 * evaluation page as coordinator. Pre-condition: Should be at Evaluation
+	 * evaluation page as instructor. Pre-condition: Should be at Evaluation
 	 * list page
 	 * 
 	 * @param courseId
 	 * @param evalName
 	 */
-	public void clickCoordEvaluationPublishAndConfirm(String courseId,
+	public void clickInstructorEvaluationPublishAndConfirm(String courseId,
 			String evalName) {
 		int rowID = getEvaluationRowID(courseId, evalName);
 		if (rowID > -1) {
-			clickCoordEvaluationPublishAndConfirm(rowID);
+			clickInstructorEvaluationPublishAndConfirm(rowID);
 		} else {
 			fail("Evaluation not found.");
 		}
@@ -1025,29 +1025,29 @@ public class BrowserInstance {
 
 	/**
 	 * Clicks and cancels Publish of results of an evaluation at particular
-	 * rowID in the page as the coordinator. Pre-condition: Should be at
+	 * rowID in the page as the instructor. Pre-condition: Should be at
 	 * Evaluation list page
 	 * 
 	 * @param rowID
 	 */
-	public void clickCoordEvaluationPublishAndCancel(int rowID) {
-		clickAndCancel(getCoordEvaluationPublishLinkLocator(rowID));
+	public void clickInstructorEvaluationPublishAndCancel(int rowID) {
+		clickAndCancel(getInstructorEvaluationPublishLinkLocator(rowID));
 	}
 
 	/**
 	 * Clicks and cancels Publish of results of a particular evaluation in a
-	 * specific course of the coordinator. Pre-condition: Should be at
+	 * specific course of the instructor. Pre-condition: Should be at
 	 * Evaluation list page
 	 * 
 	 * @param courseID
 	 * @param evalName
 	 */
-	public void clickCoordEvaluationPublishAndCancel(String courseID,
+	public void clickInstructorEvaluationPublishAndCancel(String courseID,
 			String evalName) {
 		int rowID = getEvaluationRowID(courseID, evalName);
 
 		if (rowID > -1) {
-			clickCoordEvaluationPublishAndCancel(rowID);
+			clickInstructorEvaluationPublishAndCancel(rowID);
 		} else {
 			fail("Evaluation not found.");
 		}
@@ -1059,8 +1059,8 @@ public class BrowserInstance {
 	 * 
 	 * @param rowID
 	 */
-	public void clickCoordEvaluationUnpublishAndConfirm(int rowID) {
-		clickAndConfirm(getCoordEvaluationUnpublishLinkLocator(rowID));
+	public void clickInstructorEvaluationUnpublishAndConfirm(int rowID) {
+		clickAndConfirm(getInstructorEvaluationUnpublishLinkLocator(rowID));
 	}
 
 	/**
@@ -1070,11 +1070,11 @@ public class BrowserInstance {
 	 * @param courseId
 	 * @param evalName
 	 */
-	public void clickCoordEvaluationUnpublishAndConfirm(String courseId,
+	public void clickInstructorEvaluationUnpublishAndConfirm(String courseId,
 			String evalName) {
 		int rowID = getEvaluationRowID(courseId, evalName);
 		if (rowID > -1) {
-			clickCoordEvaluationUnpublishAndConfirm(rowID);
+			clickInstructorEvaluationUnpublishAndConfirm(rowID);
 		} else {
 			fail("Evaluation not found.");
 		}
@@ -1082,29 +1082,29 @@ public class BrowserInstance {
 
 	/**
 	 * Clicks and cancels Unpublish of results of an evaluation at a particular
-	 * rowID in a specific course of the coordinator. Pre-condition: Should be
+	 * rowID in a specific course of the instructor. Pre-condition: Should be
 	 * at Evaluation list page
 	 * 
 	 * @param rowID
 	 */
-	public void clickCoordEvaluationUnpublishAndCancel(int rowID) {
-		clickAndConfirm(getCoordEvaluationPublishLinkLocator(rowID));
+	public void clickInstructorEvaluationUnpublishAndCancel(int rowID) {
+		clickAndConfirm(getInstructorEvaluationPublishLinkLocator(rowID));
 	}
 
 	/**
 	 * Clicks and cancels Unpublish of results of a particular evaluation in a
-	 * specific course of the coordinator. Pre-condition: Should be at
+	 * specific course of the instructor. Pre-condition: Should be at
 	 * Evaluation list page
 	 * 
 	 * @param courseID
 	 * @param evalName
 	 */
-	public void clickCoordEvaluationUnpublishAndCancel(String courseID,
+	public void clickInstructorEvaluationUnpublishAndCancel(String courseID,
 			String evalName) {
 		int rowID = getEvaluationRowID(courseID, evalName);
 
 		if (rowID > -1) {
-			clickCoordEvaluationUnpublishAndCancel(rowID);
+			clickInstructorEvaluationUnpublishAndCancel(rowID);
 		} else {
 			fail("Evaluation not found.");
 		}
@@ -1112,28 +1112,28 @@ public class BrowserInstance {
 
 	/**
 	 * Clicks and confirms Remind to do an evaluation at a particular rowID in a
-	 * specific course of the coordinator. Pre-condition: Should be at
+	 * specific course of the instructor. Pre-condition: Should be at
 	 * Evaluation list page
 	 * 
 	 * @param rowID
 	 */
-	public void clickCoordEvaluationRemindAndConfirm(int rowID) {
-		clickAndConfirm(getCoordEvaluationRemindLinkLocator(rowID));
+	public void clickInstructorEvaluationRemindAndConfirm(int rowID) {
+		clickAndConfirm(getInstructorEvaluationRemindLinkLocator(rowID));
 	}
 
 	/**
 	 * Clicks and confirms Remind to do a particular evaluation in a specific
-	 * course of the coordinator. Pre-condition: Should be at Evaluation list
+	 * course of the instructor. Pre-condition: Should be at Evaluation list
 	 * page
 	 * 
 	 * @param courseID
 	 * @param evalName
 	 */
-	public void clickCoordEvaluationRemindAndConfirm(String courseId,
+	public void clickInstructorEvaluationRemindAndConfirm(String courseId,
 			String evalName) {
 		int rowID = getEvaluationRowID(courseId, evalName);
 		if (rowID > -1) {
-			clickCoordEvaluationRemindAndConfirm(rowID);
+			clickInstructorEvaluationRemindAndConfirm(rowID);
 		} else {
 			fail("Evaluation not found.");
 		}
@@ -1141,28 +1141,28 @@ public class BrowserInstance {
 
 	/**
 	 * Clicks and cancels Remind to do an evaluation at a particular rowID in a
-	 * specific course of the coordinator. Pre-condition: Should be at
+	 * specific course of the instructor. Pre-condition: Should be at
 	 * Evaluation list page
 	 * 
 	 * @param rowID
 	 */
-	public void clickCoordEvaluationRemindAndCancel(int rowID) {
-		clickAndCancel(getCoordEvaluationRemindLinkLocator(rowID));
+	public void clickInstructorEvaluationRemindAndCancel(int rowID) {
+		clickAndCancel(getInstructorEvaluationRemindLinkLocator(rowID));
 	}
 
 	/**
 	 * Clicks and cancels Remind to do a particular evaluation in a specific
-	 * course of the coordinator. Pre-condition: Should be at Evaluation list
+	 * course of the instructor. Pre-condition: Should be at Evaluation list
 	 * page
 	 * 
 	 * @param courseID
 	 * @param evalName
 	 */
-	public void clickCoordEvaluationRemindAndCancel(String courseId,
+	public void clickInstructorEvaluationRemindAndCancel(String courseId,
 			String evalName) {
 		int rowID = getEvaluationRowID(courseId, evalName);
 		if (rowID > -1) {
-			clickCoordEvaluationRemindAndCancel(rowID);
+			clickInstructorEvaluationRemindAndCancel(rowID);
 		} else {
 			fail("Evaluation not found.");
 		}
@@ -1174,8 +1174,8 @@ public class BrowserInstance {
 	 * 
 	 * @param rowID
 	 */
-	public void clickCoordCourseEnroll(int rowID) {
-		clickWithWait(getCoordCourseEnrollLinkLocator(rowID));
+	public void clickInstructorCourseEnroll(int rowID) {
+		clickWithWait(getInstructorCourseEnrollLinkLocator(rowID));
 	}
 
 	/**
@@ -1184,80 +1184,80 @@ public class BrowserInstance {
 	 * 
 	 * @param courseID
 	 */
-	public void clickCoordCourseEnroll(String courseID) {
+	public void clickInstructorCourseEnroll(String courseID) {
 		int rowID = getCourseRowID(courseID);
 		if (rowID > -1) {
-			clickCoordCourseEnroll(rowID);
+			clickInstructorCourseEnroll(rowID);
 		} else {
 			fail("Course ID cannot be found");
 		}
 	}
 
-	public void clickCoordCourseView(int rowID) {
+	public void clickInstructorCourseView(int rowID) {
 		waitForElementPresent(By.className("dataTable"));
-		clickWithWait(getCoordCourseViewLinkLocator(rowID));
+		clickWithWait(getInstructorCourseViewLinkLocator(rowID));
 	}
 
-	public void clickCoordCourseView(String courseID) {
+	public void clickInstructorCourseView(String courseID) {
 		int rowID = getCourseRowID(courseID);
 		if (rowID > -1) {
-			clickCoordCourseView(rowID);
+			clickInstructorCourseView(rowID);
 		} else {
 			fail("Course ID cannot be found.");
 		}
 	}
 
-	public void clickCoordCourseDetailStudentView(int rowID) {
+	public void clickInstructorCourseDetailStudentView(int rowID) {
 		By link = By.className("t_student_view" + rowID);
 		clickWithWait(link);
 	}
 
-	public void clickCoordCourseDetailStudentView(String student) {
+	public void clickInstructorCourseDetailStudentView(String student) {
 		int rowID = getStudentRowId(student);
 		if (rowID > -1) {
-			clickCoordCourseDetailStudentView(rowID);
+			clickInstructorCourseDetailStudentView(rowID);
 		} else {
 			fail("Student not found in this course.");
 		}
 	}
 
-	public void clickCoordCourseDetailStudentEdit(int rowID) {
+	public void clickInstructorCourseDetailStudentEdit(int rowID) {
 		By link = By.className("t_student_edit" + rowID);
 		clickWithWait(link);
 	}
 
-	public void clickCoordCourseDetailStudentEdit(String student) {
+	public void clickInstructorCourseDetailStudentEdit(String student) {
 		int rowID = getStudentRowId(student);
 		if (rowID > -1) {
-			clickCoordCourseDetailStudentEdit(rowID);
+			clickInstructorCourseDetailStudentEdit(rowID);
 		} else {
 			fail("Student not found in this course.");
 		}
 	}
 
-	public void clickCoordCourseDetailRemind(int rowID) {
+	public void clickInstructorCourseDetailRemind(int rowID) {
 		By link = By.className("t_student_resend" + rowID);
 		clickWithWait(link);
 	}
 
-	public void clickCoordCourseDetailRemind(String student) {
+	public void clickInstructorCourseDetailRemind(String student) {
 		int rowID = getStudentRowId(student);
 		if (rowID > -1) {
-			clickCoordCourseDetailRemind(rowID);
+			clickInstructorCourseDetailRemind(rowID);
 		} else {
 			fail("Student not found in this course.");
 		}
 	}
 
-	public void clickCoordEvaluationViewResults(int rowID) {
-		clickWithWait(getCoordEvaluationViewResultsLinkLocator(rowID));
+	public void clickInstructorEvaluationViewResults(int rowID) {
+		clickWithWait(getInstructorEvaluationViewResultsLinkLocator(rowID));
 	}
 
-	public void clickCoordEvaluationViewResults(String courseId, String evalName) {
+	public void clickInstructorEvaluationViewResults(String courseId, String evalName) {
 		int rowID = getEvaluationRowID(courseId, evalName);
 
 		if (rowID > -1) {
-			clickCoordEvaluationViewResults(rowID);
+			clickInstructorEvaluationViewResults(rowID);
 		} else {
 			fail("Evaluation not found.");
 		}
@@ -1268,24 +1268,24 @@ public class BrowserInstance {
 	}
 
 	/* -------------------- Clicks without confirmation --------------------- */
-	public void clickCoordEvaluationEdit(int rowID) {
-		clickWithWait(getCoordEvaluationEditLinkLocator(rowID));
+	public void clickInstructorEvaluationEdit(int rowID) {
+		clickWithWait(getInstructorEvaluationEditLinkLocator(rowID));
 	}
 
-	public void clickCoordEvaluationEdit(String courseId, String evalName) {
+	public void clickInstructorEvaluationEdit(String courseId, String evalName) {
 		int rowID = getEvaluationRowID(courseId, evalName);
 		if (rowID > -1) {
-			clickCoordEvaluationEdit(rowID);
+			clickInstructorEvaluationEdit(rowID);
 		} else {
 			fail("Evaluation not found.");
 		}
 	}
 
-	public void clickCoordReviewerSummaryView(int rowID) {
+	public void clickInstructorReviewerSummaryView(int rowID) {
 		clickWithWait(getReviewerSummaryView(rowID));
 	}
 
-	public void clickCoordReviewerSummaryEdit(int rowID) {
+	public void clickInstructorReviewerSummaryEdit(int rowID) {
 		clickWithWait(getReviewerSummaryEdit(rowID));
 	}
 
@@ -1293,16 +1293,16 @@ public class BrowserInstance {
 	 * Clicks the sort course by name button. Waits for the element to appear.
 	 * Pre-condition: Should be at Course Page
 	 */
-	public void clickCoordCourseSortByNameButton() {
-		clickWithWait(coordCourseSortByNameButton);
+	public void clickInstructorCourseSortByNameButton() {
+		clickWithWait(instructorCourseSortByNameButton);
 	}
 
 	/**
 	 * Clicks the sort course by ID button. Waits for the element to appear.
 	 * Pre-condition: Should be at Course Page
 	 */
-	public void clickCoordCourseSortByIdButton() {
-		clickWithWait(coordCourseSortByIdButton);
+	public void clickInstructorCourseSortByIdButton() {
+		clickWithWait(instructorCourseSortByIdButton);
 	}
 
 	// --------------------------------- Students
@@ -1506,15 +1506,15 @@ public class BrowserInstance {
 	/**
 	 * Adds a new course with specified courseID and coursename. Does not wait
 	 * until the course is added (i.e., immediately returns after clicking
-	 * "Add Course") Pre-condition: Should be at coordinator course page.
+	 * "Add Course") Pre-condition: Should be at instructor course page.
 	 * 
 	 * @param courseid
 	 * @param coursename
 	 */
 	public void addCourse(String courseid, String coursename) {
-		fillString(coordCourseInputCourseID, courseid);
-		fillString(coordCourseInputCourseName, coursename);
-		clickWithWait(coordCourseAddButton);
+		fillString(instructorCourseInputCourseID, courseid);
+		fillString(instructorCourseInputCourseName, coursename);
+		clickWithWait(instructorCourseAddButton);
 	}
 
 	/**
@@ -1539,9 +1539,9 @@ public class BrowserInstance {
 		fillString(inputEvaluationName, evalName);
 
 		// Select the course
-		clickWithWait(coordCourseInputCourseID);
+		clickWithWait(instructorCourseInputCourseID);
 		
-		selectDropdownByValue(coordCourseInputCourseID, courseID);
+		selectDropdownByValue(instructorCourseInputCourseID, courseID);
 		
 		// Select start date
 		JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -1889,8 +1889,8 @@ public class BrowserInstance {
 
 	public String getHomeEvaluationName(String courseID, String courseName) {
 		waitForElementPresent(By.className("dataTable"));
-		int courseRowID = getCoordHomeCourseRowID(courseID);
-		int evaluationRowID = getCoordHomeEvaluationRowID(courseID, courseName);
+		int courseRowID = getInstructorHomeCourseRowID(courseID);
+		int evaluationRowID = getInstructorHomeEvaluationRowID(courseID, courseName);
 		return getElementText(By
 				.xpath(String
 						.format("//div[@id='course%d']//table[@class='dataTable']//tr[@id='evaluation%d']/td[1]",
@@ -1899,8 +1899,8 @@ public class BrowserInstance {
 
 	public String getHomeEvaluationStatus(String courseID, String courseName) {
 		waitForElementPresent(By.className("dataTable"));
-		int courseRowID = getCoordHomeCourseRowID(courseID);
-		int evaluationRowID = getCoordHomeEvaluationRowID(courseID, courseName);
+		int courseRowID = getInstructorHomeCourseRowID(courseID);
+		int evaluationRowID = getInstructorHomeEvaluationRowID(courseID, courseName);
 		return getElementText(By
 				.xpath(String
 						.format("//div[@id='course%d']//table[@class='dataTable']//tr[@id='evaluation%d']/td[2]",
@@ -1930,14 +1930,14 @@ public class BrowserInstance {
 	public By getReviewerIndividualToStudent(int rowID) {
 		return By
 				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]",
+						.format("//div[@id='instructorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]",
 								rowID + 4, 1));
 	}
 
 	public By getReviewerIndividualToStudentPoint(int rowID) {
 		return By
 				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]",
+						.format("//div[@id='instructorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]",
 								rowID + 4, 2));
 	}
 
@@ -1945,14 +1945,14 @@ public class BrowserInstance {
 	public By getRevieweeIndividualFromStudent(int rowID) {
 		return By
 				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]",
+						.format("//div[@id='instructorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]",
 								rowID + 4, 1));
 	}
 
 	public By getRevieweeIndividualFromStudentPoint(int rowID) {
 		return By
 				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]",
+						.format("//div[@id='instructorEvaluationSummaryTable']//table[@class='result_table']//tr[%d]//td[%d]",
 								rowID + 4, 2));
 	}
 
@@ -1960,21 +1960,21 @@ public class BrowserInstance {
 	public By getReviewerDetailClaimed(int teamIdx, int rowID) {
 		return By
 				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]",
+						.format("//div[@id='instructorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]",
 								teamIdx, rowID, 2));
 	}
 
 	public By getReviewerDetailPerceived(int teamIdx, int rowID) {
 		return By
 				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]",
+						.format("//div[@id='instructorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]",
 								teamIdx, rowID, 3));
 	}
 
 	public By getReviewerDetailToStudent(int teamIdx, int studentIdx, int rowID) {
 		return By
 				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]",
+						.format("//div[@id='instructorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]",
 								teamIdx, studentIdx, rowID + 4, 1));
 	}
 
@@ -1982,7 +1982,7 @@ public class BrowserInstance {
 			int rowID) {
 		return By
 				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]",
+						.format("//div[@id='instructorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]",
 								teamIdx, studentIdx, rowID + 4, 2));
 	}
 
@@ -1990,14 +1990,14 @@ public class BrowserInstance {
 	public By getRevieweeDetailClaimed(int teamIdx, int rowID) {
 		return By
 				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]",
+						.format("//div[@id='instructorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]",
 								teamIdx, rowID, 2));
 	}
 
 	public By getRevieweeDetailPerceived(int teamIdx, int rowID) {
 		return By
 				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]",
+						.format("//div[@id='instructorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//thead//th[%d]",
 								teamIdx, rowID, 3));
 	}
 
@@ -2005,7 +2005,7 @@ public class BrowserInstance {
 			int rowID) {
 		return By
 				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]",
+						.format("//div[@id='instructorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]",
 								teamIdx, studentIdx, rowID + 4, 1));
 	}
 
@@ -2013,7 +2013,7 @@ public class BrowserInstance {
 			int rowID) {
 		return By
 				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]",
+						.format("//div[@id='instructorEvaluationSummaryTable']//div[@id='detail']//div[%d]//table[%d]//tr[%d]//td[%d]",
 								teamIdx, studentIdx, rowID + 4, 2));
 	}
 
@@ -2034,14 +2034,14 @@ public class BrowserInstance {
 	public String getReviewerIndividualClaimedPoint() {
 		return getElementText(By
 				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]",
+						.format("//div[@id='instructorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]",
 								2)));
 	}
 
 	public String getReviewerIndividualPerceivedPoint() {
 		return getElementText(By
 				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]",
+						.format("//div[@id='instructorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]",
 								3)));
 	}
 
@@ -2049,20 +2049,20 @@ public class BrowserInstance {
 	public String getRevieweeIndividualClaimedPoint() {
 		return getElementText(By
 				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]",
+						.format("//div[@id='instructorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]",
 								2)));
 	}
 
 	public String getRevieweeIndividualPerceivedPoint() {
 		return getElementText(By
 				.xpath(String
-						.format("//div[@id='coordinatorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]",
+						.format("//div[@id='instructorEvaluationSummaryTable']//table[@class='result_table']//thead//th[%d]",
 								3)));
 	}
 
 	/**
 	 * Returns the rowID of the specified student for use in edit submission
-	 * both in coordinator page and student page.<br />
+	 * both in instructor page and student page.<br />
 	 * This works by looking up the name in the section title. To get the row ID
 	 * for the student itself (in case of student self submission which has no
 	 * name in its title), put "self" as the student name.
@@ -2402,7 +2402,7 @@ public class BrowserInstance {
 	 * @return The final value in the field
 	 */
 	public String fillInCourseName(String name) {
-		fillString(coordCourseInputCourseName, name);
+		fillString(instructorCourseInputCourseName, name);
 		return selenium.getValue("id=coursename");
 	}
 
@@ -2414,7 +2414,7 @@ public class BrowserInstance {
 	 * @return The final value in the field, whitespace-trimmed
 	 */
 	public String fillInCourseID(String id) {
-		fillString(coordCourseInputCourseID, id);
+		fillString(instructorCourseInputCourseID, id);
 		return selenium.getValue("id=courseid");
 	}
 

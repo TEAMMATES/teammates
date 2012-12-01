@@ -13,17 +13,17 @@ import teammates.common.exception.EntityDoesNotExistException;
 /**
  * Servlet to handle Home actions
  */
-public class CoordHomeServlet extends ActionServlet<CoordHomeHelper> {
+public class InstructorHomeServlet extends ActionServlet<InstructorHomeHelper> {
 
 	@Override
-	protected CoordHomeHelper instantiateHelper() {
-		return new CoordHomeHelper();
+	protected InstructorHomeHelper instantiateHelper() {
+		return new InstructorHomeHelper();
 	}
 
 
 	@Override
-	protected void doAction(HttpServletRequest req, CoordHomeHelper helper) throws EntityDoesNotExistException{
-		HashMap<String, CourseData> courses = helper.server.getCourseDetailsListForCoord(helper.userId);
+	protected void doAction(HttpServletRequest req, InstructorHomeHelper helper) throws EntityDoesNotExistException{
+		HashMap<String, CourseData> courses = helper.server.getCourseDetailsListForInstructor(helper.userId);
 		helper.courses = new ArrayList<CourseData>(courses.values());
 		sortCourses(helper.courses);
 		for(CourseData course: helper.courses){
@@ -33,6 +33,6 @@ public class CoordHomeServlet extends ActionServlet<CoordHomeHelper> {
 
 	@Override
 	protected String getDefaultForwardUrl() {
-		return Common.JSP_COORD_HOME;
+		return Common.JSP_INSTRUCTOR_HOME;
 	}
 }

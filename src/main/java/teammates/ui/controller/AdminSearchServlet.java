@@ -26,7 +26,7 @@ public class AdminSearchServlet extends ActionServlet<AdminHomeHelper> {
 	private static final long serialVersionUID = 1L;
 
 	private static final Index INDEX = SearchServiceFactory.getSearchService()
-			.getIndex(IndexSpec.newBuilder().setName("coord_search_index"));
+			.getIndex(IndexSpec.newBuilder().setName("instructor_search_index"));
 
 	@Override
 	protected AdminHomeHelper instantiateHelper() {

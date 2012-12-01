@@ -1,16 +1,16 @@
 <%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.common.datatransfer.CourseData"%>
 <%@ page import="teammates.common.datatransfer.EvaluationData"%>
-<%@ page import="teammates.ui.controller.CoordEvalHelper"%>
-<%	CoordEvalHelper helper = (CoordEvalHelper)request.getAttribute("helper"); %>
+<%@ page import="teammates.ui.controller.InstructorEvalHelper"%>
+<%	InstructorEvalHelper helper = (InstructorEvalHelper)request.getAttribute("helper"); %>
 <!DOCTYPE html>
 <html>
 <head>
 	<link rel="shortcut icon" href="/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Teammates - Coordinator</title>
+	<title>Teammates - Instructor</title>
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
-	<link rel="stylesheet" href="/stylesheets/coordEval.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/instructorEval.css" type="text/css">
 	
 	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="/js/tooltip.js"></script>
@@ -19,8 +19,8 @@
 	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
 	<script type="text/javascript" src="/js/common.js"></script>
 	
-	<script type="text/javascript" src="/js/coordinator.js"></script>
-	<script type="text/javascript" src="/js/coordEval.js"></script>
+	<script type="text/javascript" src="/js/instructor.js"></script>
+	<script type="text/javascript" src="/js/instructorEval.js"></script>
 	<% if(helper.submittedEval==null){ %>
 	<script type="text/javascript">
 		var doPageSpecificOnload = selectDefaultTimeOptions;
@@ -32,7 +32,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%= Common.JSP_COORD_HEADER %>" />
+		<jsp:include page="<%= Common.JSP_INSTRUCTOR_HEADER %>" />
 	</div>
 
 	<div id="frameBody">
@@ -41,7 +41,7 @@
 			<div id="headerOperation">
 				<h1>Add New Evaluation</h1>
 			</div>
-			<div id="coordinatorEvaluationManagement">
+			<div id="instructorEvaluationManagement">
 				<form method="post" action="" name="form_addevaluation">
 					<table class="inputTable">
 						<tr>
@@ -76,7 +76,7 @@
 										name="<%= Common.PARAM_EVALUATION_NAME %>" id="<%= Common.PARAM_EVALUATION_NAME %>"
 										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_NAME %>')"
 										onmouseout="hideddrivetip()" maxlength =<%= EvaluationData.EVALUATION_NAME_MAX_LENGTH %>
-										value="<%if(helper.submittedEval!=null) out.print(CoordEvalHelper.escapeForHTML(helper.submittedEval.name));%>"
+										value="<%if(helper.submittedEval!=null) out.print(InstructorEvalHelper.escapeForHTML(helper.submittedEval.name));%>"
 										tabindex="2"></td>
 							<td class="label" >Closing time:</td>
 							<td><input style="width: 100px;" type="text"
@@ -149,7 +149,7 @@
 								%>
 									<textarea rows="3" cols="110" class="textvalue" name="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>" id="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>"
 											onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_INSTRUCTIONS%>')"
-											onmouseout="hideddrivetip()" tabindex="8"><%=CoordEvalHelper.escapeForHTML(helper.submittedEval.instructions)%></textarea>
+											onmouseout="hideddrivetip()" tabindex="8"><%=InstructorEvalHelper.escapeForHTML(helper.submittedEval.instructions)%></textarea>
 								<%
 									}
 								%>
@@ -165,7 +165,7 @@
 				</form>
 			</div>
 			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
-			<div id="coordinatorEvaluationTable">
+			<div id="instructorEvaluationTable">
 				<table class="dataTable">
 					<tr>
 						<th class="leftalign">
@@ -187,13 +187,13 @@
 					%>
 								<tr class="evaluations_row" id="evaluation<%=evalIdx%>">
 									<td class="t_eval_coursecode"><%=eval.course%></td>
-									<td class="t_eval_name"><%=CoordEvalHelper.escapeForHTML(eval.name)%></td>
+									<td class="t_eval_name"><%=InstructorEvalHelper.escapeForHTML(eval.name)%></td>
 									<td class="t_eval_status centeralign"><span
-										onmouseover="ddrivetip(' <%=CoordEvalHelper.getCoordHoverMessageForEval(eval)%>')"
-										onmouseout="hideddrivetip()"><%=CoordEvalHelper.getCoordStatusForEval(eval)%></span></td>
+										onmouseover="ddrivetip(' <%=InstructorEvalHelper.getInstructorHoverMessageForEval(eval)%>')"
+										onmouseout="hideddrivetip()"><%=InstructorEvalHelper.getInstructorStatusForEval(eval)%></span></td>
 									<td class="t_eval_response centeralign"><%= eval.submittedTotal %>
 										/ <%= eval.expectedTotal %></td>
-									<td class="centeralign"><%=helper.getCoordEvaluationActions(eval,evalIdx, false)%>
+									<td class="centeralign"><%=helper.getInstructorEvaluationActions(eval,evalIdx, false)%>
 									</td>
 								</tr>
 							<%	} %>

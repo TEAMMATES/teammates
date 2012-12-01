@@ -11,22 +11,22 @@ import teammates.common.exception.InvalidParametersException;
 /**
  * Servlet to handle Evaluation Results action
  */
-public class CoordEvalSubmissionViewServlet extends ActionServlet<CoordEvalSubmissionViewHelper> {
+public class InstructorEvalSubmissionViewServlet extends ActionServlet<InstructorEvalSubmissionViewHelper> {
 
 	@Override
-	protected CoordEvalSubmissionViewHelper instantiateHelper() {
-		return new CoordEvalSubmissionViewHelper();
+	protected InstructorEvalSubmissionViewHelper instantiateHelper() {
+		return new InstructorEvalSubmissionViewHelper();
 	}
 
 
 	@Override
-	protected void doAction(HttpServletRequest req, CoordEvalSubmissionViewHelper helper) throws EntityDoesNotExistException{
+	protected void doAction(HttpServletRequest req, InstructorEvalSubmissionViewHelper helper) throws EntityDoesNotExistException{
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
 		String studentEmail = req.getParameter(Common.PARAM_STUDENT_EMAIL);
 		
 		if(courseID==null || evalName==null || studentEmail==null){
-			helper.redirectUrl = Common.PAGE_COORD_EVAL;
+			helper.redirectUrl = Common.PAGE_INSTRUCTOR_EVAL;
 			return;
 		}
 		
@@ -44,6 +44,6 @@ public class CoordEvalSubmissionViewServlet extends ActionServlet<CoordEvalSubmi
 
 	@Override
 	protected String getDefaultForwardUrl() {
-		return Common.JSP_COORD_EVAL_SUBMISSION_VIEW;
+		return Common.JSP_INSTRUCTOR_EVAL_SUBMISSION_VIEW;
 	}
 }

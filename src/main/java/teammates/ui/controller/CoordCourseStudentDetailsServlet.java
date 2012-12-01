@@ -7,17 +7,17 @@ import teammates.common.exception.EntityDoesNotExistException;
 
 @SuppressWarnings("serial")
 /**
- * Servlet to handle Coordinator course student details page.
+ * Servlet to handle Instructor course student details page.
  */
-public class CoordCourseStudentDetailsServlet extends ActionServlet<CoordCourseStudentDetailsHelper> {
+public class InstructorCourseStudentDetailsServlet extends ActionServlet<InstructorCourseStudentDetailsHelper> {
 
 	@Override
-	protected CoordCourseStudentDetailsHelper instantiateHelper() {
-		return new CoordCourseStudentDetailsHelper();
+	protected InstructorCourseStudentDetailsHelper instantiateHelper() {
+		return new InstructorCourseStudentDetailsHelper();
 	}
 
 	@Override
-	protected void doAction(HttpServletRequest req, CoordCourseStudentDetailsHelper helper) throws EntityDoesNotExistException{
+	protected void doAction(HttpServletRequest req, InstructorCourseStudentDetailsHelper helper) throws EntityDoesNotExistException{
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String studentEmail = req.getParameter(Common.PARAM_STUDENT_EMAIL);
 		
@@ -27,6 +27,6 @@ public class CoordCourseStudentDetailsServlet extends ActionServlet<CoordCourseS
 
 	@Override
 	protected String getDefaultForwardUrl() {
-		return Common.JSP_COORD_COURSE_STUDENT_DETAILS;
+		return Common.JSP_INSTRUCTOR_COURSE_STUDENT_DETAILS;
 	}
 }

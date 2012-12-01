@@ -1,7 +1,7 @@
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.common.datatransfer.SubmissionData" %>
 <%@ page import="teammates.ui.controller.StudentEvalResultsHelper"%>
-<%@ page import="teammates.ui.controller.CoordEvalResultsHelper"%>
+<%@ page import="teammates.ui.controller.InstructorEvalResultsHelper"%>
 <% StudentEvalResultsHelper helper = (StudentEvalResultsHelper)request.getAttribute("helper"); %>
 <!DOCTYPE html>
 <html>

@@ -84,7 +84,7 @@ function isEditEvaluationScheduleValid(start, startTime, deadline,
 		return false;
 	} else if (status == "AWAITING") {
 		// Open evaluation should be done by system only.
-		// Thus, coordinator cannot change evaluation ststus from AWAITING to
+		// Thus, instructor cannot change evaluation ststus from AWAITING to
 		// OPEN
 		if (start < now) {
 			return false;

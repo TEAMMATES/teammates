@@ -11,7 +11,7 @@ import teammates.common.exception.InvalidParametersException;
 @SuppressWarnings("serial")
 /**
  * Abstract servlet to handle submission editing.
- * This can be used as a student or as a coordinator, by implementing the
+ * This can be used as a student or as a instructor, by implementing the
  * abstract methods here accordingly.
  * @author Aldrian Obaja
  *

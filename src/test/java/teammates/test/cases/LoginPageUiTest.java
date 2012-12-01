@@ -11,7 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.StudentData;
 import teammates.test.driver.BackDoor;
@@ -45,25 +45,25 @@ public class LoginPageUiTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testCoordLogin(){
-		//create a fresh coordinator in datastore
-		CoordData testCoord = new CoordData();
-		testCoord.id = TestProperties.inst().TEST_COORD_ACCOUNT;
-		testCoord.name = "Test Coord";
-		testCoord.email = "test@coord";
-		BackDoor.deleteCoord(testCoord.id);
-		String backDoorOperationStatus = BackDoor.createCoord(testCoord);
+	public void testInstructorLogin(){
+		//create a fresh instructor in datastore
+		InstructorData testInstructor = new InstructorData();
+		testInstructor.id = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
+		testInstructor.name = "Test Instructor";
+		testInstructor.email = "test@instructor";
+		BackDoor.deleteInstructor(testInstructor.id);
+		String backDoorOperationStatus = BackDoor.createInstructor(testInstructor);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		
 		//try to login
 		bi.logout();
 		bi.goToUrl(appUrl);
-		bi.click(bi.coordLoginButton);
+		bi.click(bi.instructorLoginButton);
 		assertTrue(bi.isLocalLoginPage()||bi.isGoogleLoginPage());
-		String coordPassword = TestProperties.inst().TEST_COORD_PASSWORD;
+		String instructorPassword = TestProperties.inst().TEST_INSTRUCTOR_PASSWORD;
 		boolean isAdmin = false;
-		bi.login(testCoord.id, coordPassword, isAdmin);
-		assertContainsRegex(testCoord.id+"{*}Coordinator Home{*}", bi.getCurrentPageSource());
+		bi.login(testInstructor.id, instructorPassword, isAdmin);
+		assertContainsRegex(testInstructor.id+"{*}Instructor Home{*}", bi.getCurrentPageSource());
 	}
 	
 	@Test
@@ -72,7 +72,7 @@ public class LoginPageUiTest extends BaseTestCase {
 		CourseData testCourse = new CourseData();
 		testCourse.id = "lput.tsl.course";
 		testCourse.name = "test.course.fornewstudent";
-		testCourse.coord = "test.course.nonexistentcoord";
+		testCourse.instructor = "test.course.nonexistentinstructor";
 		BackDoor.deleteCourse(testCourse.id);
 		String backDoorOperationStatus = BackDoor.createCourse(testCourse);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);

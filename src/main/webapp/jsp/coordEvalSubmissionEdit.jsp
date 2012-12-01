@@ -2,16 +2,16 @@
 <%@ page import="teammates.common.datatransfer.CourseData"%>
 <%@ page import="teammates.common.datatransfer.EvaluationData"%>
 <%@ page import="teammates.common.datatransfer.SubmissionData"%>
-<%@ page import="teammates.ui.controller.CoordEvalSubmissionEditHelper"%>
-<%	CoordEvalSubmissionEditHelper helper = (CoordEvalSubmissionEditHelper)request.getAttribute("helper"); %>
+<%@ page import="teammates.ui.controller.InstructorEvalSubmissionEditHelper"%>
+<%	InstructorEvalSubmissionEditHelper helper = (InstructorEvalSubmissionEditHelper)request.getAttribute("helper"); %>
 <!DOCTYPE html>
 <html>
 <head>
 	<link rel="shortcut icon" href="/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Teammates - Coordinator</title>
+	<title>Teammates - Instructor</title>
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
-	<link rel="stylesheet" href="/stylesheets/coordEvalSubmissionEdit.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/instructorEvalSubmissionEdit.css" type="text/css">
 	
 	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="/js/tooltip.js"></script>
@@ -20,14 +20,14 @@
 	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
 	<script type="text/javascript" src="/js/common.js"></script>
 	
-	<script type="text/javascript" src="/js/coordinator.js"></script>
+	<script type="text/javascript" src="/js/instructor.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%= Common.JSP_COORD_HEADER %>" />
+		<jsp:include page="<%= Common.JSP_INSTRUCTOR_HEADER %>" />
 	</div>
 
 	<div id="frameBody">
@@ -42,13 +42,13 @@
 					</tr>
 					<tr>
 						<td class="label rightalign" width="30%">Evaluation Name:</td>
-						<td class="leftalign"><%=CoordEvalSubmissionEditHelper.escapeForHTML(helper.eval.name)%></td>
+						<td class="leftalign"><%=InstructorEvalSubmissionEditHelper.escapeForHTML(helper.eval.name)%></td>
 					</tr>
 				</table>
 			</div>
 			<div id="studentEvaluationSubmissions">
 				<form name="form_submitevaluation" id="form_submitevaluation" method="post"
-						action="<%= Common.PAGE_COORD_EVAL_SUBMISSION_EDIT_HANDLER %>">
+						action="<%= Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER %>">
 					<jsp:include page="<%= Common.JSP_EVAL_SUBMISSION_EDIT %>" />
 					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 					<div id="studentEvaluationSubmissionButtons" class="centeralign">

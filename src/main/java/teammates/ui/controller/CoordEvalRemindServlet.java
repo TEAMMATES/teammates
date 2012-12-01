@@ -9,7 +9,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 /**
  * Servlet to handle Remind students for evaluation action
  */
-public class CoordEvalRemindServlet extends ActionServlet<Helper> {
+public class InstructorEvalRemindServlet extends ActionServlet<Helper> {
 
 	@Override
 	protected Helper instantiateHelper() {
@@ -24,7 +24,7 @@ public class CoordEvalRemindServlet extends ActionServlet<Helper> {
 		
 		helper.server.sendReminderForEvaluation(courseID,evalName);
 		helper.statusMessage = Common.MESSAGE_EVALUATION_REMINDERSSENT;
-		helper.redirectUrl = Common.PAGE_COORD_EVAL;
+		helper.redirectUrl = Common.PAGE_INSTRUCTOR_EVAL;
 	}
 
 }

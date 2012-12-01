@@ -59,15 +59,15 @@
 
 // Set the position of the popup window based on the anchor
 function PopupWindow_getXYPosition(anchorname) {
-	var coordinates;
+	var instructorinates;
 	if (this.type == "WINDOW") {
-		coordinates = getAnchorWindowPosition(anchorname);
+		instructorinates = getAnchorWindowPosition(anchorname);
 		}
 	else {
-		coordinates = getAnchorPosition(anchorname);
+		instructorinates = getAnchorPosition(anchorname);
 		}
-	this.x = coordinates.x;
-	this.y = coordinates.y;
+	this.x = instructorinates.x;
+	this.y = instructorinates.y;
 	}
 // Set width/height of DIV/popup window
 function PopupWindow_setSize(width,height) {

@@ -11,17 +11,17 @@ import teammates.common.exception.EntityDoesNotExistException;
 /**
  * Servlet to handle Evaluation Results action
  */
-public class CoordEvalResultsServlet extends
-		ActionServlet<CoordEvalResultsHelper> {
+public class InstructorEvalResultsServlet extends
+		ActionServlet<InstructorEvalResultsHelper> {
 
 	@Override
-	protected CoordEvalResultsHelper instantiateHelper() {
-		return new CoordEvalResultsHelper();
+	protected InstructorEvalResultsHelper instantiateHelper() {
+		return new InstructorEvalResultsHelper();
 	}
 
 	@Override
 	protected void doAction(HttpServletRequest req,
-			CoordEvalResultsHelper helper) throws EntityDoesNotExistException {
+			InstructorEvalResultsHelper helper) throws EntityDoesNotExistException {
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
 
@@ -41,12 +41,12 @@ public class CoordEvalResultsServlet extends
 					+ (System.currentTimeMillis() - start) + " ms");
 			helper.statusMessage = Common.MESSAGE_LOADING;
 		} else { // Incomplete request, just go back to Evaluations Page
-			helper.redirectUrl = Common.PAGE_COORD_EVAL;
+			helper.redirectUrl = Common.PAGE_INSTRUCTOR_EVAL;
 		}
 	}
 
 	@Override
 	protected String getDefaultForwardUrl() {
-		return Common.JSP_COORD_EVAL_RESULTS;
+		return Common.JSP_INSTRUCTOR_EVAL_RESULTS;
 	}
 }

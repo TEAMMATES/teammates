@@ -9,7 +9,7 @@ import teammates.common.datatransfer.EvalResultData;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.SubmissionData;
 
-public class CoordEvalResultsHelper extends Helper{
+public class InstructorEvalResultsHelper extends Helper{
 	public EvaluationData evaluation;
 	
 	/**
@@ -17,7 +17,7 @@ public class CoordEvalResultsHelper extends Helper{
 	 * @return
 	 */
 	public String getForwardURL(){
-		String link = Common.PAGE_COORD_EVAL_RESULTS;
+		String link = Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,evaluation.course);
 		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME, evaluation.name);
 		if(isMasqueradeMode()){
@@ -108,8 +108,8 @@ public class CoordEvalResultsHelper extends Helper{
 	 * @return
 	 */
 	public static String printDiff(EvalResultData sub){
-		int claimed = sub.claimedToCoord;
-		int perceived = sub.perceivedToCoord;
+		int claimed = sub.claimedToInstructor;
+		int perceived = sub.perceivedToInstructor;
 		int diff = perceived - claimed;
 		if(perceived==Common.POINTS_NOT_SUBMITTED || perceived==Common.UNINITIALIZED_INT
 				|| claimed==Common.POINTS_NOT_SUBMITTED || claimed==Common.UNINITIALIZED_INT){
@@ -167,7 +167,7 @@ public class CoordEvalResultsHelper extends Helper{
 			@Override
 			public int compare(SubmissionData s1, SubmissionData s2){
 				if(normalized)
-					return Integer.valueOf(s2.normalizedToCoord).compareTo(s1.normalizedToCoord);
+					return Integer.valueOf(s2.normalizedToInstructor).compareTo(s1.normalizedToInstructor);
 				else
 					return Integer.valueOf(s2.points).compareTo(s1.points);
 			}
@@ -176,7 +176,7 @@ public class CoordEvalResultsHelper extends Helper{
 			if(sub.reviewee.equals(sub.reviewer)) continue;
 			if(result!="") result+=", ";
 			if(normalized){
-				result+=colorizePoints(sub.normalizedToCoord);
+				result+=colorizePoints(sub.normalizedToInstructor);
 			} else{
 				result+=colorizePoints(sub.points);
 			}

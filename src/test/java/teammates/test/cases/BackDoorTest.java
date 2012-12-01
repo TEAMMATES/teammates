@@ -11,7 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationData;
@@ -38,7 +38,7 @@ public class BackDoorTest extends BaseTestCase {
 
 	@AfterClass
 	public static void tearDown() {
-		BackDoor.deleteCoordinators(jsonString);
+		BackDoor.deleteInstructors(jsonString);
 		printTestClassFooter();
 	}
 
@@ -53,18 +53,18 @@ public class BackDoorTest extends BaseTestCase {
 
 		// Clean up to avoid clashes with existing data.
 		// We delete courses first in case the same course ID exists under a
-		// different coord not listed in our databundle.
-		// check if deleteCoordinators worked
+		// different instructor not listed in our databundle.
+		// check if deleteInstructors worked
 
 		for (CourseData course : dataBundle.courses.values()) {
 			BackDoor.deleteCourse(course.id);
 		}
 
-		BackDoor.deleteCoordinators(jsonString);
+		BackDoor.deleteInstructors(jsonString);
 
 		// ensure clean up worked
-		for (CoordData coord : dataBundle.coords.values()) {
-			verifyAbsentInDatastore(coord);
+		for (InstructorData instructor : dataBundle.instructors.values()) {
+			verifyAbsentInDatastore(instructor);
 		}
 		for (CourseData course : dataBundle.courses.values()) {
 			verifyAbsentInDatastore(course);
@@ -75,23 +75,23 @@ public class BackDoorTest extends BaseTestCase {
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyPresentInDatastore(jsonString);
 
-		// ----------deleting Coordinator entities-------------------------
-		CoordData typicalCoord1 = dataBundle.coords.get("typicalCoord1");
-		verifyPresentInDatastore(typicalCoord1);
-		status = BackDoor.deleteCoord(typicalCoord1.id);
+		// ----------deleting Instructor entities-------------------------
+		InstructorData typicalInstructor1 = dataBundle.instructors.get("typicalInstructor1");
+		verifyPresentInDatastore(typicalInstructor1);
+		status = BackDoor.deleteInstructor(typicalInstructor1.id);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-		verifyAbsentInDatastore(typicalCoord1);
+		verifyAbsentInDatastore(typicalInstructor1);
 
-		CoordData typicalCoord2 = dataBundle.coords.get("typicalCoord2");
-		status = BackDoor.deleteCoord(typicalCoord2.id);
+		InstructorData typicalInstructor2 = dataBundle.instructors.get("typicalInstructor2");
+		status = BackDoor.deleteInstructor(typicalInstructor2.id);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-		verifyAbsentInDatastore(typicalCoord2);
+		verifyAbsentInDatastore(typicalInstructor2);
 
 		// try to delete again. should succeed.
-		status = BackDoor.deleteCoord(typicalCoord2.id);
+		status = BackDoor.deleteInstructor(typicalInstructor2.id);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 
-		status = BackDoor.deleteCoord("idOfTypicalCoord3");
+		status = BackDoor.deleteInstructor("idOfTypicalInstructor3");
 
 		// recreate data. this should succeed if all previous data were deleted
 		status = BackDoor.persistNewDataBundle(jsonString);
@@ -107,7 +107,7 @@ public class BackDoorTest extends BaseTestCase {
 
 		// delete the evaluation and verify it is deleted
 		EvaluationData evaluation1InCourse1 = dataBundle.evaluations
-				.get("evaluation1InCourse1OfCoord1");
+				.get("evaluation1InCourse1OfInstructor1");
 		verifyPresentInDatastore(evaluation1InCourse1);
 		status = BackDoor.deleteEvaluation(evaluation1InCourse1.course,
 				evaluation1InCourse1.name);
@@ -124,12 +124,12 @@ public class BackDoorTest extends BaseTestCase {
 
 		// verify that the other evaluation in the same course is intact
 		EvaluationData evaluation2InCourse1 = dataBundle.evaluations
-				.get("evaluation2InCourse1OfCoord1");
+				.get("evaluation2InCourse1OfInstructor1");
 		verifyPresentInDatastore(evaluation2InCourse1);
 
 		// ----------deleting Course entities-------------------------
 
-		CourseData course2 = dataBundle.courses.get("course1OfCoord2");
+		CourseData course2 = dataBundle.courses.get("course1OfInstructor2");
 		verifyPresentInDatastore(course2);
 		status = BackDoor.deleteCourse(course2.id);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
@@ -142,98 +142,98 @@ public class BackDoorTest extends BaseTestCase {
 
 		// check if related evaluation entities are also deleted
 		EvaluationData evaluation1InCourse2 = dataBundle.evaluations
-				.get("evaluation1InCourse1OfCoord2");
+				.get("evaluation1InCourse1OfInstructor2");
 		verifyAbsentInDatastore(evaluation1InCourse2);
 	}
 
 	@SuppressWarnings("unused")
-	private void ____COORD_level_methods_________________________________() {
+	private void ____INSTRUCTOR_level_methods_________________________________() {
 	}
 
 	@Test
-	public void testDeleteCoords() {
+	public void testDeleteInstructors() {
 		// already tested by testPersistenceAndDeletion
 	}
 
 	@Test
-	public void testCreateCoord() {
+	public void testCreateInstructor() {
 		// only minimal testing because this is a wrapper method for
 		// another well-tested method.
 
-		String coordId = "tmapitt.tcc.coord";
-		CoordData coord = new CoordData(coordId, coordId,
-				"tmapitt.tcc.coord@gmail.com");
-		BackDoor.deleteCoord(coordId);
-		verifyAbsentInDatastore(coord);
-		BackDoor.createCoord(coord);
-		verifyPresentInDatastore(coord);
-		BackDoor.deleteCoord(coordId);
-		verifyAbsentInDatastore(coord);
+		String instructorId = "tmapitt.tcc.instructor";
+		InstructorData instructor = new InstructorData(instructorId, instructorId,
+				"tmapitt.tcc.instructor@gmail.com");
+		BackDoor.deleteInstructor(instructorId);
+		verifyAbsentInDatastore(instructor);
+		BackDoor.createInstructor(instructor);
+		verifyPresentInDatastore(instructor);
+		BackDoor.deleteInstructor(instructorId);
+		verifyAbsentInDatastore(instructor);
 	}
 
 	@Test
-	public void testGetCoordAsJson() {
+	public void testGetInstructorAsJson() {
 		// already tested by testPersistenceAndDeletion
 	}
 
 	@Test
-	public void testDeleteCoord() {
+	public void testDeleteInstructor() {
 		// already tested by testPersistenceAndDeletion
 	}
 
 	@Test
-	public void testEditCoord() {
+	public void testEditInstructor() {
 		// method not implemented
 	}
 
 	@Test
-	public void testCleanByCoordinator() throws Exception {
+	public void testCleanByInstructor() throws Exception {
 		// only minimal testing because this is a wrapper method for
 		// other well-tested methods.
 
 		refreshDataInDatastore();
-		CoordData coord = dataBundle.coords.get("typicalCoord1");
-		String[] coursesByCoord = BackDoor.getCoursesByCoordId(coord.id);
-		String errorMessage = "Actual result : "+Arrays.toString(coursesByCoord);
-		assertEquals(errorMessage, 2, coursesByCoord.length);
-		BackDoor.cleanupCoord(coord.id);
-		coursesByCoord = BackDoor.getCoursesByCoordId(coord.id);
-		assertEquals(0, coursesByCoord.length);
+		InstructorData instructor = dataBundle.instructors.get("typicalInstructor1");
+		String[] coursesByInstructor = BackDoor.getCoursesByInstructorId(instructor.id);
+		String errorMessage = "Actual result : "+Arrays.toString(coursesByInstructor);
+		assertEquals(errorMessage, 2, coursesByInstructor.length);
+		BackDoor.cleanupInstructor(instructor.id);
+		coursesByInstructor = BackDoor.getCoursesByInstructorId(instructor.id);
+		assertEquals(0, coursesByInstructor.length);
 	}
 
 	@Test
-	public void testGetCoursesByCoordId() throws InvalidParametersException {
+	public void testGetCoursesByInstructorId() throws InvalidParametersException {
 
-		String[] courses = BackDoor.getCoursesByCoordId("nonExistentCoord");
+		String[] courses = BackDoor.getCoursesByInstructorId("nonExistentInstructor");
 
-		// testing for non-existent coordinator
+		// testing for non-existent instructor
 		assertEquals("[]", Arrays.toString(courses));
 
-		// create a fresh coordinator
-		String coord1Id = "AST.TGCBCI.coord1";
-		BackDoor.deleteCoord(coord1Id);
-		BackDoor.createCoord(new CoordData(coord1Id, "dummy name",
+		// create a fresh instructor
+		String instructor1Id = "AST.TGCBCI.instructor1";
+		BackDoor.deleteInstructor(instructor1Id);
+		BackDoor.createInstructor(new InstructorData(instructor1Id, "dummy name",
 				"dummy@email"));
 
-		String course1OfCoord1 = "AST.TGCBCI.c1OfCoord1";
-		String course2OfCoord1 = "AST.TGCBCI.c2OfCoord1";
-		BackDoor.createCourse(new CourseData(course1OfCoord1,
-				"tmapit tgcbci c1OfCoord1", coord1Id));
-		BackDoor.createCourse(new CourseData(course2OfCoord1,
-				"tmapit tgcbci c2OfCoord1", coord1Id));
+		String course1OfInstructor1 = "AST.TGCBCI.c1OfInstructor1";
+		String course2OfInstructor1 = "AST.TGCBCI.c2OfInstructor1";
+		BackDoor.createCourse(new CourseData(course1OfInstructor1,
+				"tmapit tgcbci c1OfInstructor1", instructor1Id));
+		BackDoor.createCourse(new CourseData(course2OfInstructor1,
+				"tmapit tgcbci c2OfInstructor1", instructor1Id));
 
-		// add a course that belongs to a different coordinator
-		String coord2Id = "AST.TGCBCI.coord2";
-		String course1OfCoord2 = "AST.TGCBCI.c1OfCoord2";
-		BackDoor.createCourse(new CourseData(course1OfCoord2,
-				"tmapit tgcbci c1OfCoord2", coord2Id));
+		// add a course that belongs to a different instructor
+		String instructor2Id = "AST.TGCBCI.instructor2";
+		String course1OfInstructor2 = "AST.TGCBCI.c1OfInstructor2";
+		BackDoor.createCourse(new CourseData(course1OfInstructor2,
+				"tmapit tgcbci c1OfInstructor2", instructor2Id));
 
-		courses = BackDoor.getCoursesByCoordId(coord1Id);
-		assertEquals("[" + course1OfCoord1 + ", " + course2OfCoord1 + "]",
+		courses = BackDoor.getCoursesByInstructorId(instructor1Id);
+		assertEquals("[" + course1OfInstructor1 + ", " + course2OfInstructor1 + "]",
 				Arrays.toString(courses));
 
-		BackDoor.deleteCoord(coord1Id);
-		BackDoor.deleteCoord(coord2Id);
+		BackDoor.deleteInstructor(instructor1Id);
+		BackDoor.deleteInstructor(instructor2Id);
 	}
 
 	@SuppressWarnings("unused")
@@ -247,7 +247,7 @@ public class BackDoorTest extends BaseTestCase {
 
 		String courseId = "tmapitt.tcc.course";
 		CourseData course = new CourseData(courseId,
-				"Name of tmapitt.tcc.coord", "tmapitt.tcc.coord");
+				"Name of tmapitt.tcc.instructor", "tmapitt.tcc.instructor");
 		BackDoor.deleteCourse(courseId);
 		verifyAbsentInDatastore(course);
 		BackDoor.createCourse(course);
@@ -378,7 +378,7 @@ public class BackDoorTest extends BaseTestCase {
 
 		// check for successful edit
 		EvaluationData e = dataBundle.evaluations
-				.get("evaluation1InCourse1OfCoord1");
+				.get("evaluation1InCourse1OfInstructor1");
 
 		e.gracePeriod = e.gracePeriod + 1;
 		e.instructions = e.instructions + "x";
@@ -457,20 +457,20 @@ public class BackDoorTest extends BaseTestCase {
 
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
 
-		CoordData typicalCoord1 = data.coords.get("typicalCoord1");
-		assertEquals("idOfTypicalCoord1", typicalCoord1.id);
-		assertEquals("Typical Coordinator1", typicalCoord1.name);
-		assertEquals("typicalCoord1@gmail.com", typicalCoord1.email);
+		InstructorData typicalInstructor1 = data.instructors.get("typicalInstructor1");
+		assertEquals("idOfTypicalInstructor1", typicalInstructor1.id);
+		assertEquals("Typical Instructor1", typicalInstructor1.name);
+		assertEquals("typicalInstructor1@gmail.com", typicalInstructor1.email);
 
-		CoordData typicalCoord2 = data.coords.get("typicalCoord2");
-		assertEquals("idOfTypicalCoord2", typicalCoord2.id);
-		assertEquals("Typical Coordinator2", typicalCoord2.name);
-		assertEquals("typicalCoord2@gmail.com", typicalCoord2.email);
+		InstructorData typicalInstructor2 = data.instructors.get("typicalInstructor2");
+		assertEquals("idOfTypicalInstructor2", typicalInstructor2.id);
+		assertEquals("Typical Instructor2", typicalInstructor2.name);
+		assertEquals("typicalInstructor2@gmail.com", typicalInstructor2.email);
 
-		CourseData course1 = data.courses.get("course1OfCoord1");
-		assertEquals("idOfCourse1OfCoord1", course1.id);
-		assertEquals("course1OfCoord1 name", course1.name);
-		assertEquals("idOfTypicalCoord1", course1.coord);
+		CourseData course1 = data.courses.get("course1OfInstructor1");
+		assertEquals("idOfCourse1OfInstructor1", course1.id);
+		assertEquals("course1OfInstructor1 name", course1.name);
+		assertEquals("idOfTypicalInstructor1", course1.instructor);
 
 		StudentData student1InCourse1 = data.students.get("student1InCourse1");
 		assertEquals("student1InCourse1", student1InCourse1.id);
@@ -478,7 +478,7 @@ public class BackDoorTest extends BaseTestCase {
 		assertEquals("Team 1.1", student1InCourse1.team);
 		assertEquals("comment for student1InCourse1",
 				student1InCourse1.comments);
-		assertEquals("idOfCourse1OfCoord1", student1InCourse1.course);
+		assertEquals("idOfCourse1OfInstructor1", student1InCourse1.course);
 		
 		StudentData student2InCourse2 = data.students.get("student2InCourse2");
 		assertEquals("student2InCourse1", student2InCourse2.id);
@@ -486,9 +486,9 @@ public class BackDoorTest extends BaseTestCase {
 		assertEquals("Team 2.1", student2InCourse2.team);
 
 		EvaluationData evaluation1 = data.evaluations
-				.get("evaluation1InCourse1OfCoord1");
+				.get("evaluation1InCourse1OfInstructor1");
 		assertEquals("evaluation1 In Course1", evaluation1.name);
-		assertEquals("idOfCourse1OfCoord1", evaluation1.course);
+		assertEquals("idOfCourse1OfInstructor1", evaluation1.course);
 		assertEquals("instructions for evaluation1InCourse1",
 				evaluation1.instructions);
 		assertEquals(10, evaluation1.gracePeriod);
@@ -502,9 +502,9 @@ public class BackDoorTest extends BaseTestCase {
 		assertEquals(2.0, evaluation1.timeZone, 0.01);
 
 		EvaluationData evaluation2 = data.evaluations
-				.get("evaluation2InCourse1OfCoord1");
+				.get("evaluation2InCourse1OfInstructor1");
 		assertEquals("evaluation2 In Course1", evaluation2.name);
-		assertEquals("idOfCourse1OfCoord1", evaluation2.course);
+		assertEquals("idOfCourse1OfInstructor1", evaluation2.course);
 
 		SubmissionData submissionFromS1C1ToS2C1 = data.submissions
 				.get("submissionFromS1C1ToS2C1");
@@ -512,7 +512,7 @@ public class BackDoorTest extends BaseTestCase {
 				submissionFromS1C1ToS2C1.reviewer);
 		assertEquals("student2InCourse1@gmail.com",
 				submissionFromS1C1ToS2C1.reviewee);
-		assertEquals("idOfCourse1OfCoord1", submissionFromS1C1ToS2C1.course);
+		assertEquals("idOfCourse1OfInstructor1", submissionFromS1C1ToS2C1.course);
 		assertEquals("evaluation1 In Course1",
 				submissionFromS1C1ToS2C1.evaluation);
 		assertEquals(10, submissionFromS1C1ToS2C1.points);
@@ -535,7 +535,7 @@ public class BackDoorTest extends BaseTestCase {
 
 	private void refreshDataInDatastore() {
 		dataBundle = gson.fromJson(jsonString, DataBundle.class);
-		BackDoor.deleteCoordinators(jsonString);
+		BackDoor.deleteInstructors(jsonString);
 		String status = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 	}
@@ -567,9 +567,9 @@ public class BackDoorTest extends BaseTestCase {
 		Gson gson = Common.getTeammatesGson();
 
 		DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
-		HashMap<String, CoordData> coords = data.coords;
-		for (CoordData expectedCoord : coords.values()) {
-			verifyPresentInDatastore(expectedCoord);
+		HashMap<String, InstructorData> instructors = data.instructors;
+		for (InstructorData expectedInstructor : instructors.values()) {
+			verifyPresentInDatastore(expectedInstructor);
 		}
 
 		HashMap<String, CourseData> courses = data.courses;
@@ -630,14 +630,14 @@ public class BackDoorTest extends BaseTestCase {
 		assertEquals(gson.toJson(expectedCourse), gson.toJson(actualCourse));
 	}
 
-	private void verifyPresentInDatastore(CoordData expectedCoord) {
-		String coordJsonString = BackDoor.getCoordAsJson(expectedCoord.id);
-		CoordData actualCoord = gson.fromJson(coordJsonString, CoordData.class);
-		assertEquals(gson.toJson(expectedCoord), gson.toJson(actualCoord));
+	private void verifyPresentInDatastore(InstructorData expectedInstructor) {
+		String instructorJsonString = BackDoor.getInstructorAsJson(expectedInstructor.id);
+		InstructorData actualInstructor = gson.fromJson(instructorJsonString, InstructorData.class);
+		assertEquals(gson.toJson(expectedInstructor), gson.toJson(actualInstructor));
 	}
 
-	private void verifyAbsentInDatastore(CoordData expectedCoord) {
-		assertEquals("null", BackDoor.getCoordAsJson(expectedCoord.id));
+	private void verifyAbsentInDatastore(InstructorData expectedInstructor) {
+		assertEquals("null", BackDoor.getInstructorAsJson(expectedInstructor.id));
 	}
 
 }

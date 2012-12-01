@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
 import teammates.storage.api.AccountsDb;
 
@@ -30,7 +30,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 
 
 	public Index getIndex() {
-	    IndexSpec indexSpec = IndexSpec.newBuilder().setName("coord_search_index").build();
+	    IndexSpec indexSpec = IndexSpec.newBuilder().setName("instructor_search_index").build();
 	    return SearchServiceFactory.getSearchService().getIndex(indexSpec);
 	}
 	
@@ -50,20 +50,20 @@ public class AdminSearchTaskServlet extends HttpServlet {
 
 
 	/**
-	 * Indexes student and coordinator entries to build the table for search
+	 * Indexes student and instructor entries to build the table for search
 	 */
 	private void buildNewSearchIndexes() {
 
 		/**
-		 * Insert coordinators
+		 * Insert instructors
 		 */
 		AccountsDb accounts = new AccountsDb();
-		List<CoordData> coords = accounts.getCoordinators();
+		List<InstructorData> instructors = accounts.getInstructors();
 		
-		Iterator<CoordData> it = coords.iterator();
+		Iterator<InstructorData> it = instructors.iterator();
 		while (it.hasNext()) {
-			CoordData coord = it.next();
-			addDocument(coord.name, coord.email, coord.id, Common.PAGE_COORD_HOME);
+			InstructorData instructor = it.next();
+			addDocument(instructor.name, instructor.email, instructor.id, Common.PAGE_INSTRUCTOR_HOME);
 		}
 		
 		/**
@@ -79,7 +79,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 	}
 	
 	/**
-	 * Add student/coordinator data to search index
+	 * Add student/instructor data to search index
 	 */
 	private void addDocument(String name, String email, String id, String url) {
 		Document.Builder docBuilder = Document

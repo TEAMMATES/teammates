@@ -32,11 +32,11 @@ public class DataGenerator {
 	// Prefix used in all entities
 	public static final String PREFIX = "D1_";
 	
-	public static final Integer NUM_OF_COORDINATORS = 1;
+	public static final Integer NUM_OF_INSTRUCTORINATORS = 1;
 	public static final Integer NUM_OF_STUDENTS = 1000;
 	
-	public static final Integer MIN_NUM_OF_COURSES_PER_COORD =0;
-	public static final Integer MAX_NUM_OF_COURSES_PER_COORD =5;
+	public static final Integer MIN_NUM_OF_COURSES_PER_INSTRUCTOR =0;
+	public static final Integer MAX_NUM_OF_COURSES_PER_INSTRUCTOR =5;
 	
 	public static final Integer MIN_NUM_OF_STUDENTS_PER_COURSE =30;
 	public static final Integer AVERAGE_NUM_OF_STUDENTS_PER_COURSE = 100;
@@ -53,7 +53,7 @@ public class DataGenerator {
 	public static final String END_TIME_PASSED = "2012-07-30 11:59 PM";
 	public static final String END_TIME_NOT_PASSED = "2013-012-30 11:59 PM";
 	
-	public static ArrayList<String> coords = new ArrayList<String>();
+	public static ArrayList<String> instructors = new ArrayList<String>();
 	public static ArrayList<String> courses = new ArrayList<String>();
 	public static ArrayList<String> studentEmails = new ArrayList<String>();
 	public static ArrayList<String> students = new ArrayList<String>();
@@ -106,11 +106,11 @@ public class DataGenerator {
 			studentEmails.add(PREFIX+"Stu"+i+"Email@gmail.com");
 		}
 		
-		//Create coordinators
-		for (int i = 0; i < NUM_OF_COORDINATORS; i++) {
-			String coordName = "Coo"+i;
-			coords.add(coordName);
-			generateDataForCoord(coordName);
+		//Create instructors
+		for (int i = 0; i < NUM_OF_INSTRUCTORINATORS; i++) {
+			String instructorName = "Coo"+i;
+			instructors.add(instructorName);
+			generateDataForInstructor(instructorName);
 		}
 		System.out.println("Done gererating data!");
 		
@@ -120,17 +120,17 @@ public class DataGenerator {
 	}
 	
 	/**
-	 * Randomly create courses, students and evaluations for a particular coordinator
-	 * @param coordName
+	 * Randomly create courses, students and evaluations for a particular instructor
+	 * @param instructorName
 	 */
-	public static void generateDataForCoord(String coordName) {
-		//number of courses for this particular coordinator
-		long numOfCourse = Math.round(random.nextInt(MAX_NUM_OF_COURSES_PER_COORD - MIN_NUM_OF_COURSES_PER_COORD+1)
-				+MIN_NUM_OF_COURSES_PER_COORD);
+	public static void generateDataForInstructor(String instructorName) {
+		//number of courses for this particular instructor
+		long numOfCourse = Math.round(random.nextInt(MAX_NUM_OF_COURSES_PER_INSTRUCTOR - MIN_NUM_OF_COURSES_PER_INSTRUCTOR+1)
+				+MIN_NUM_OF_COURSES_PER_INSTRUCTOR);
 		for (int j =0 ; j < numOfCourse; j ++)
 		{
 			// Add a course
-			String courseName = "Cou"+j + "_of_"+coordName;
+			String courseName = "Cou"+j + "_of_"+instructorName;
 			courses.add(courseName);
 			
 			// Add students to this course
@@ -198,7 +198,7 @@ public class DataGenerator {
 	public static String output () {
 		System.out.println("Start writing to file !");
 		String output = "{\n";
-		output += allCoords() + "\n\n";
+		output += allInstructors() + "\n\n";
 		output += allCourses() + "\n\n";
 		output += allStudents() + "\n\n";
 		output += allEvaluations() + "\n\n";
@@ -210,14 +210,14 @@ public class DataGenerator {
 	
 	
 	/**
-	 * @return Json string presentation for all coordinators
+	 * @return Json string presentation for all instructors
 	 */
-	public static String allCoords() {
-		String output = "\"coords\":{\n";
-		for (int i = 0; i < coords.size(); i++) {
-			String coord = PREFIX+coords.get(i);
-			output+="\t"+coord(coord,"idOf_"+coord,"nameOf_"+coord, "emailOf_"+coord+"@gmail.com");
-			if(i!=coords.size()-1)
+	public static String allInstructors() {
+		String output = "\"instructors\":{\n";
+		for (int i = 0; i < instructors.size(); i++) {
+			String instructor = PREFIX+instructors.get(i);
+			output+="\t"+instructor(instructor,"idOf_"+instructor,"nameOf_"+instructor, "emailOf_"+instructor+"@gmail.com");
+			if(i!=instructors.size()-1)
 				output+=",\n";
 		}
 		output+= "\n},";
@@ -232,8 +232,8 @@ public class DataGenerator {
 		for (int i = 0; i < courses.size(); i++) {
 			
 			String course = PREFIX+courses.get(i);
-			String coord = PREFIX+course.split("_of_")[1];
-			output+="\t"+course(course,"idOf_"+coord,"idOf_"+course, "nameOf_"+course);
+			String instructor = PREFIX+course.split("_of_")[1];
+			output+="\t"+course(course,"idOf_"+instructor,"idOf_"+course, "nameOf_"+course);
 			if(i!=courses.size()-1)
 				output+=",\n";
 		}
@@ -335,9 +335,9 @@ public class DataGenerator {
 	
 
 	/**
-	 * @return Json string presentation for a coordinator entity
+	 * @return Json string presentation for a instructor entity
 	 */
-	public static String coord (String objName, String id,String name, String email) {
+	public static String instructor (String objName, String id,String name, String email) {
 		String result = "\""+objName+"\":{";
 		result += "\"id\":\""+id+"\",";
 		result += "\"name\":\""+name+"\",";
@@ -349,9 +349,9 @@ public class DataGenerator {
 	/**
 	 * @return Json string presentation for a course entity
 	 */
-	public static String course (String objName, String coord,String id, String name){
+	public static String course (String objName, String instructor,String id, String name){
 		String result = "\""+objName+"\":{";
-		result += "\"coord\":\""+coord+"\",";
+		result += "\"instructor\":\""+instructor+"\",";
 		result += "\"id\":\""+id+"\",";
 		result += "\"name\":\""+name+"\"";
 	  	result += "}";

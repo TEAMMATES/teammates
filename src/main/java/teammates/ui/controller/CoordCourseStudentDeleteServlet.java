@@ -10,7 +10,7 @@ import teammates.common.Common;
  * @author Aldrian Obaja
  *
  */
-public class CoordCourseStudentDeleteServlet extends ActionServlet<Helper> {
+public class InstructorCourseStudentDeleteServlet extends ActionServlet<Helper> {
 
 	@Override
 	protected Helper instantiateHelper() {
@@ -24,7 +24,7 @@ public class CoordCourseStudentDeleteServlet extends ActionServlet<Helper> {
 		
 		helper.server.deleteStudent(courseID, studentEmail);
 		helper.statusMessage = Common.MESSAGE_STUDENT_DELETED;
-		helper.redirectUrl = Common.PAGE_COORD_COURSE_DETAILS;
+		helper.redirectUrl = Common.PAGE_INSTRUCTOR_COURSE_DETAILS;
 		helper.redirectUrl = Common.addParamToUrl(helper.redirectUrl,Common.PARAM_COURSE_ID,courseID);
 	}
 

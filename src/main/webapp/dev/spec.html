@@ -22,7 +22,7 @@
 			organized by user. We document requirements as a hierarchical feature
 			list.<br> <span class="bold">Feature ID</span><br> We use
 			short titles instead of numbers to identify features. For example, we
-			can refer to a feature as ‘Coordinator:ManageCourses:Create’. This
+			can refer to a feature as ‘Instructor:ManageCourses:Create’. This
 			also allows easy insertion of new features into the document.<br>
 			{text within curly brackets are explanatory notes}<br> <span
 				class="bold">Feature priorities</span>
@@ -72,8 +72,8 @@
 						<li><a href="#contactuspage">ContactUsPage</a></li>
 					</ul>
 				</ul>
-				<!--#c_ is used for all coordinator anchor tags because #homepage already exists above-->
-				<li><a href="#c_">Coordinator</a></li>
+				<!--#c_ is used for all instructor anchor tags because #homepage already exists above-->
+				<li><a href="#c_">Instructor</a></li>
 				<ul>
 					<li><a href="#c_homepage">HomePage</a></li>
 					<ul>
@@ -195,10 +195,10 @@
 					<li><a href="#managedata">ManageData[pending]</a></li>
 					<ul>
 						<li><a href="#purgeolddata">PurgeOldData</a></li>
-						<li><a href="#approvecoordinatorrequest">ApproveCoordinatorRequest</a></li>
-						<li><a href="#createcoordinator">createcoordinator[partial]</a></li>
-						<li><a href="#editcoordinator">EditCoordinator</a></li>
-						<li><a href="#deletecoordinator">DeleteCoordinator</a></li>
+						<li><a href="#approveinstructorrequest">ApproveInstructorRequest</a></li>
+						<li><a href="#createinstructor">createinstructor[partial]</a></li>
+						<li><a href="#editinstructor">EditInstructor</a></li>
+						<li><a href="#deleteinstructor">DeleteInstructor</a></li>
 						<li><a href="#findentity">FindEntity</a></li>
 						<li><a href="#manageentity">ManageEntity</a></li>
 					</ul>
@@ -260,7 +260,7 @@
 			<img src="images/userTypes.png" alt="usersTypes"
 					height="300">
 					<ul>
-				<li>Coordinator{owner of a course}</li>
+				<li>Instructor{owner of a course}</li>
 				<li>Student</li>
 				<li>Instructor[<span class="red">pending</span>]{Other members
 					of the teaching team. Not supported yet}
@@ -307,10 +307,10 @@
 					<li>An overview of the system {Has to be perfectly done as
 						visitors get their first impression of the system from this
 						section}</li>
-					<li>Login buttons i.e., Login as Coordinator, Student [<span
+					<li>Login buttons i.e., Login as Instructor, Student [<span
 						class="red">partial</span>: currently takes to another login page]
 					</li>
-					<li>A link to 'Request for a coordinator account' [<span
+					<li>A link to 'Request for a instructor account' [<span
 						class="red">partial</span>: currently points to a simple
 						GoogleDocs form]
 					</li>
@@ -334,7 +334,7 @@
 			</p>
 			<!--end of any user-->
 			<p id="c_">
-				<span class="subheader">Coordinator</span><br>
+				<span class="subheader">Instructor</span><br>
 			<p id="c_homepage">
 				<span class="bold">Homepage</span><br> [priority=low]<br>
 				The first page user sees upon login.<br> Contains shortcuts to
@@ -386,7 +386,7 @@
 						<li>Case insensitive[<span class="red">pending</span>]
 						</li>
 					</ul>
-					{Allowing same Course ID among different coordinators could be
+					{Allowing same Course ID among different instructors could be
 					problematic if we allow multiple instructors for a single course}
 					{Technically, we can get rid of CourseID field and enforce users to
 					use CourseName as a unique ID. In that case, we have to enforce
@@ -408,7 +408,7 @@
 				<li><span id="c_edit" class="bold">Edit [<span
 						class="red">pending</span>]
 				</span></li> [priority=low; only title can be edited anyway] {Rationale: If
-				coordinator made a typo in the title and realized it too late}
+				instructor made a typo in the title and realized it too late}
 				<li><span id="c_delete" class="bold">Delete</span></li>
 				[priority=high] System shows what will be deleted (students,
 				evaluations etc.), warn about irrecoverable loss of data, and
@@ -486,7 +486,7 @@
 				<li><span id="c_addendumtoinvite" class="bold">AddendumToInvite
 						[<span class="red">pending</span>]
 				</span></li> [priority=low; we can send this using a separate email]
-				<br> Coordinator can add additional information to the
+				<br> Instructor can add additional information to the
 				invitation email sent to students.
 				<li><span id="c_resendinviteindividually" class="bold">ResendInviteIndividually</span>
 				</li> [priority=low; The invite can be sent by email]
@@ -499,7 +499,7 @@
 				</ul>
 
 				<ol>
-					<li>Coordinator chooses to resend invite for a student from
+					<li>Instructor chooses to resend invite for a student from
 						the student list</li>
 					<li>System displays action status</li>
 				</ol>
@@ -550,18 +550,18 @@
 				members of the original team will be orphaned and no longer visible.
 				<br> Intended usage is
 				<ul>
-					<li>The coordinator discovers a mistake in team structure soon
+					<li>The instructor discovers a mistake in team structure soon
 						after opening the first evaluation</li>
 					<li>A student joins/leaves the course midway into the course.</li>
 				</ul>
 				However, it is not meant to support wholesale switching of teams in
-				the middle of a term. For such situations, the coordinator should
+				the middle of a term. For such situations, the instructor should
 				create a different course for each new team structure.
 				<li><span id="c_preserveorphanedsubmissions" class="bold">PreserveOrphanedSubmissions</span></li>
 				[Hidden feature]
 				<br> ChangeTeamStructureForExistingEvaluations feature given
 				above can create ‘orphan’ submission. The system preserves such
-				submissions. If the coordinator switch to the previous team
+				submissions. If the instructor switch to the previous team
 				structure, these submissions will become visible again. This
 				prevents loss of data due to inadvertent changes to team structure.
 			</ul>
@@ -575,7 +575,7 @@
 				time zone, grace period, instructions, peer feedback
 				(enabled|disabled)
 				<br> Include ‘default instruction’ {to make things easier for
-				the coordinator}
+				the instructor}
 				<br>
 				<br> evaluation name:
 				<ul>
@@ -596,7 +596,7 @@
 						class="red">pending</span>]
 				</span></li> Opens an evaluation that is due to open in the future.
 				<br> Warn about emails being sent to students.
-				<br> An alternative to this one is to let the coordinator
+				<br> An alternative to this one is to let the instructor
 				create an evaluation which start time is in the past. [
 				<span class="red">pending</span>]
 				<br> {decided not to have close actions because there is not
@@ -621,13 +621,13 @@
 				[priority=high]
 				<br> Only available on {AWAITING | OPEN | CLOSED}
 				<br> Editing an evaluation that is already OPEN recommends
-				coordinator to send e-mail to all students [
+				instructor to send e-mail to all students [
 				<span class="red">pending</span>]
 				<br> All fields except peer feedback option should be editable.
 				<li><span id="c_me_editperrfeedbackoptionafteropen"
 					class="bold">EditPeerFeedbackOptionAfterOpen: [<span
 						class="red">pending</span>]
-				</span></li> [priority=low, only useful on a rare occasion when coordinator set
+				</span></li> [priority=low, only useful on a rare occasion when instructor set
 				the option to the wrong value initially]
 				<br> Same constraints as ‘Create’ above
 				<li><span id="c_me_delete" class="bold">Delete</span></li>
@@ -672,7 +672,7 @@
 				Possible usage:
 				<ul>
 					<li>When a student cannot access the system and sends his
-						evaluation by email, coordinator can enter it manually.</li>
+						evaluation by email, instructor can enter it manually.</li>
 					<li>For the evaluator to moderate peer feedback entered by
 						students before they are published.</li>
 				</ul>
@@ -731,7 +731,7 @@
 				<br> Status can be viewed in the Status column under team
 				forming sessions list table.
 				<li><span id="c_viewteams" class="bold">View teams</span></li>
-				Coordinator can view the student teams formed at any time during or
+				Instructor can view the student teams formed at any time during or
 				after the team forming session.
 				<br> Sort according to team size, team name
 				<li><span id="c_movestudentbetweenteams" class="bold">MoveStudentBetweenTeams</span></li>
@@ -756,7 +756,7 @@
 				<br> Save button saves the student’s new team and displays a
 				status message in the manage team forming page.
 				<li><span id="c_editteamprofile" class="bold">EditTeamProfile</span></li>
-				Coordinator can edit any team profile anytime. Team profile can be
+				Instructor can edit any team profile anytime. Team profile can be
 				accessed by clicking on the team name from manage team forming
 				session page.
 				<br> A separate link for ‘edit team profile’
@@ -786,11 +786,11 @@
 				to the timestamp.
 				<br>
 				<br> When is no log in the beginning, a message saying that
-				“There is no log currently available” is shown to the coordinator
+				“There is no log currently available” is shown to the instructor
 			</ul>
 			</p>
 			</p>
-			<!--end of coordinator-->
+			<!--end of instructor-->
 			<p id="s_">
 				<span class="subheader">Student</span>
 			<p id="s_homepage">
@@ -836,7 +836,7 @@
 							Estimated contribution: Choose from the <span class="italic">contribution
 								scale</span> (see Glossary) Justification for the above estimation:</li>
 						<li><span class="underline">For each team member</span>:<br>
-							The level of contribution <br> Comments to the coordinator <br>
+							The level of contribution <br> Comments to the instructor <br>
 							Peer feedback to the teammate: {only if 'peer-feedback' is
 							enabled for the evaluation}</li>
 						<li><span class="underline">For the whole team</span>:<br>
@@ -873,7 +873,7 @@
 			<ul>
 				<li><span id="s_editownprofile" class="bold">EditOwnProfile</span>
 					<br>Students can edit their own profile using as guidance the
-					profile template (if any) provided by the coordinator. Profile can
+					profile template (if any) provided by the instructor. Profile can
 					be any number of characters. <br> New line character is
 					currently not recognized. [pending]</li>
 				<li><span id="s_jointeam" class="bold">JoinTeam</span> <br>{Perhaps
@@ -907,8 +907,8 @@
 			<p id="instructor">
 				<span class="subheader">Instructor[<span class="red">pending</span>]
 				</span><br> [priority=high]<br> {Should we support instructors
-				(i.e., teaching team members who are not coordinators)? allow
-				multiple coordinators?}
+				(i.e., teaching team members who are not instructors)? allow
+				multiple instructors?}
 			</p>
 			<p id="evaluator">
 				<span class="subheader">Evaluator[<span class="red">pending</span>]
@@ -937,12 +937,12 @@
 					To get rid of old data when we reach the storage limit. {Can this
 					be done automatically?}<br> May be find a way to preserve old
 					data without deleting it?</li>
-				<li><span class="bold" id="approvecoordinatorrequest">ApproveCoordinatorRequest</span><br>
+				<li><span class="bold" id="approveinstructorrequest">ApproveInstructorRequest</span><br>
 					Send automatic email about approval</li>
-				<li><span id="createcoordinator" class="bold">CreateCoordinator
+				<li><span id="createinstructor" class="bold">CreateInstructor
 						[partial]</span></li>
-				<li><span id="editcoordinator" class="bold">EditCoordinator</span></li>
-				<li><span id="deletecoordinator" class="bold">DeleteCoordinator</span></li>
+				<li><span id="editinstructor" class="bold">EditInstructor</span></li>
+				<li><span id="deleteinstructor" class="bold">DeleteInstructor</span></li>
 				<li><span id="findentity" class="bold">FindEntity</span><br>
 					To find an entity easily (like a global search)</li>
 				<li><span id="manageentity" class="bold">ManageEntity</span><br>
@@ -973,10 +973,10 @@
 							<a href="mailto:emailnotknown">noreply@APP-ID.appspot</a> as the
 							'from' address].
 						</li>
-						<li>forCoordinator [<span class="red">pending</span>]:
-							[priority=low]Send a similar email to coordinator 24 hours before
+						<li>forInstructor [<span class="red">pending</span>]:
+							[priority=low]Send a similar email to instructor 24 hours before
 							the evaluation opens. {This helps to prevent 'accidental' opening
-							of evaluations because the coordinator set the wrong opening
+							of evaluations because the instructor set the wrong opening
 							time}
 						</li>
 					</ul></li>
@@ -993,11 +993,11 @@
 				<li><span id="autosendopeningsoonnotice" class="bold">AutosendOpeningSoonNotice[<span
 						class="red">pending</span>]
 				</span><br> [priority=low]<br> Send automatic email alert to
-					coordinator that an evaluation is opening soon.</li>
+					instructor that an evaluation is opening soon.</li>
 				<li><span id="autosendclosingnotice" class="bold">AutosendClosingNotice[<span
 						class="red">pending</span>]
 				</span><br> [priority=low]<br> Send automatic email alert to
-					coordinator that an evaluation closed.</li>
+					instructor that an evaluation closed.</li>
 				<li><span id="autosendresultspublishednotice" class="bold">AutosendResultsPublishedNotice</span><br>
 					Automatically email students to inform that results have been
 					published.</li>
@@ -1019,11 +1019,11 @@
 					Situation: The key was sent to the wrong person and the account was
 					claimed by that person.<br> Resolution: Delete the student and
 					add again. This will generate a new key.</li>
-				<li><span class="bold">Coordinator wants to keep a
+				<li><span class="bold">Instructor wants to keep a
 						record of original values before moderation:</span><br> Resolution:
 					Just download the report before moderating values.</li>
 				<li><span class="bold">More than one person needs to
-						coordinate the module</span><br> Resolution: create a separate
+						instructorinate the module</span><br> Resolution: create a separate
 					google id and share it among teaching team.</li>
 			</ul>
 			</p>
@@ -1117,7 +1117,7 @@
 							denormalizedAveragePerceived</li>
 					</ul>
 				</li>
-				<li>Coordinator view:
+				<li>Instructor view:
 					<ul>
 						<li>for claimed contribution, show: normalizedClaimed</li>
 						<li>for perceived contribution, show:
@@ -1130,7 +1130,7 @@
 				Scenario 1: If students give 0 points to each other, then everyone
 				should receive Equal Share and difference should be 0. <br>
 				Scenario 2: If students are not sure or do not submit the
-				evaluation, then Perceived/Claimed for Coordinator should be shown
+				evaluation, then Perceived/Claimed for Instructor should be shown
 				as N/A instead of Equal Share. In this case, difference should be
 				shown as N/A also.
 			</p>
@@ -1138,7 +1138,7 @@
 			<!--end of calculation-->
 			<p id="reportformat">
 				<span class="subheader">Report format</span> <br> Some
-				important questions a coordinator may want answered (i.e., the
+				important questions a instructor may want answered (i.e., the
 				system should provide ways of answering these quickly and easily)
 			<ul>
 				<li>This guy's average is rather high. Did everyone give him
@@ -1159,11 +1159,11 @@
 					space. This is particularly a problem if we use table format and
 					one cell happens to contain a large blob of text like a super long
 					rant by a student.</li>
-				<li>navigation: coordinators should be able to find information
+				<li>navigation: instructors should be able to find information
 					easily without having to scroll up and down. think of locality of
 					information. data that are related should appear together.</li>
 				<li>attention: the report should highlight important things and
-					provide ways to zoom in important things. for example, coordinator
+					provide ways to zoom in important things. for example, instructor
 					should be able to find the cases that require his attention most.
 					using colors, sorting facilities, etc can help here.</li>
 			</ul>
@@ -1174,12 +1174,12 @@
 			<ul>
 				<li>Classes of up to 300 students</li>
 				<li>Up to 10K students</li>
-				<li>Up to 100 coordinators</li>
+				<li>Up to 100 instructors</li>
 			</ul>
 			<p>In phase 2,</p>
 			<ul>
 				<li>Up to 100K students</li>
-				<li>Up to 1000 coordinators</li>
+				<li>Up to 1000 instructors</li>
 			</ul>
 			</p>
 			<p id="security">
@@ -1206,7 +1206,7 @@
 			</p>
 			<ul>
 				<li><span class="bold">DetectBouncing</span>: detect emails
-					that bounced and let coordinator know</li>
+					that bounced and let instructor know</li>
 				<li><span class="bold">ShowInviteSent</span>:  Show if the
 					student was sent an invite.</li>
 				<li><span class="bold">DirectUrlToPage</span>: Most pages in
@@ -1215,21 +1215,21 @@
 					whether students actually view published reports. It may be useful
 					to identify those who don';t even care enough to read feedback from
 					peers.</li>
-				<li><span class="bold">SelectiveRelease</span>: Coordinator can
+				<li><span class="bold">SelectiveRelease</span>: Instructor can
 					block release of reports for particular student (e.g., because that
 					did not write good comments).</li>
 				<li><span class="bold">PeerFeedbackOnly</span>: Evaluations can
 					be set up in a way that students can feedback each other without
-					revealing their feedback to coordinators</li>
+					revealing their feedback to instructors</li>
 				<li><span class="bold">ConfigurableMessages</span>: Messages
 					shown to users (including email messages) are editable by the
-					administrator, coordinators</li>
+					administrator, instructors</li>
 				<li><span class="bold">Installer</span>: An installer to
 					install Teammates on a given GAE account {This is for those who do
 					not want their data on our GAE account}</li>
-				<li><span class="bold">CoordinatorSelfRegister</span>:
-					Coordinators can register in the system without having to contact
-					Teammates coordinator for a new account</li>
+				<li><span class="bold">InstructorSelfRegister</span>:
+					Instructors can register in the system without having to contact
+					Teammates instructor for a new account</li>
 				<li><span class="bold">RunningSubmissionCount</span>: Home page
 					shows the total evaluations done to date (e.g., 3457 evaluations so
 					far and counting...) e.g.  <a href="//skitch.com/" target="new">http://skitch.com/</a></li>
@@ -1238,7 +1238,7 @@
 					course</li>
 				<li><span class="bold">RespondToFeedback</span>: Students can
 					respond to anonymous feedback by teammates</li>
-				<li><span class="bold">AdviceByCoordinator</span>: Coordinator
+				<li><span class="bold">AdviceByInstructor</span>: Instructor
 					can add his own advice before publishing the report</li>
 				<li><span class="bold">DiscussionForum</span>: A place for
 					users to discuss issues (e.g., a GoogleGroup)</li>
@@ -1263,10 +1263,10 @@
 				<li>How easy is it to take the app out of GAE?</li>
 				<li>Make a personal connection to potential user. Address pain
 					points.</li>
-				<li>Once a course contains significant amount of data, coord
+				<li>Once a course contains significant amount of data, instructor
 					should be disallowed in deleting it?</li>
 				<li>Custom error page when the app hits resource limits?</li>
-				<li>Use more general names: team member, manager, coordinator,
+				<li>Use more general names: team member, manager, instructor,
 					project (can be used outside schools)</li>
 				<li>Check if we can plugin to Blackboard</li>
 				<li>Checkout the relevance of 'calibrated peer review'; idea</li>

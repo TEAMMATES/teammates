@@ -1,10 +1,10 @@
 {
-"coords":{
+"instructors":{
 	"Z3_Coo0":{"id":"idOf_Z3_Coo0","name":"testingforteammates","email":"testingforteammates@gmail.com"}
 },
 
 "courses":{
-	"Z3_Cou0_of_Coo0":{"coord":"idOf_Z3_Coo0","id":"idOf_Z3_Cou0_of_Coo0","name":"nameOf_Z3_Cou0_of_Coo0"}
+	"Z3_Cou0_of_Coo0":{"instructor":"idOf_Z3_Coo0","id":"idOf_Z3_Cou0_of_Coo0","name":"nameOf_Z3_Cou0_of_Coo0"}
 },
 
 "students":{

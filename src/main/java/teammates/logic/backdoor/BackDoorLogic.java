@@ -10,7 +10,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationData;
@@ -51,16 +51,16 @@ public class BackDoorLogic extends Logic {
 					Common.ERRORCODE_NULL_PARAMETER, "Null data bundle");
 		}
 
-		HashMap<String, CoordData> coords = dataBundle.coords;
-		for (CoordData coord : coords.values()) {
-			log.fine("API Servlet adding coord :" + coord.id);
-			super.createCoord(coord.id, coord.name, coord.email);
+		HashMap<String, InstructorData> instructors = dataBundle.instructors;
+		for (InstructorData instructor : instructors.values()) {
+			log.fine("API Servlet adding instructor :" + instructor.id);
+			super.createInstructor(instructor.id, instructor.name, instructor.email);
 		}
 
 		HashMap<String, CourseData> courses = dataBundle.courses;
 		for (CourseData course : courses.values()) {
 			log.fine("API Servlet adding course :" + course.id);
-			createCourse(course.coord, course.id, course.name);
+			createCourse(course.instructor, course.id, course.name);
 		}
 
 		HashMap<String, StudentData> students = dataBundle.students;
@@ -93,9 +93,9 @@ public class BackDoorLogic extends Logic {
 		return Common.BACKEND_STATUS_SUCCESS;
 	}
 	
-	public String getCoordAsJson(String coordID) {
-		CoordData coordData = getCoord(coordID);
-		return Common.getTeammatesGson().toJson(coordData);
+	public String getInstructorAsJson(String instructorID) {
+		InstructorData instructorData = getInstructor(instructorID);
+		return Common.getTeammatesGson().toJson(instructorData);
 	}
 
 	public String getCourseAsJson(String courseId) {

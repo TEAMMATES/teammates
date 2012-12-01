@@ -17,15 +17,15 @@ import teammates.common.exception.InvalidParametersException;
 /**
  * Servlet to handle Add Evaluation and Display Evaluations action
  */
-public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
+public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 
 	@Override
-	protected CoordEvalHelper instantiateHelper() {
-		return new CoordEvalHelper();
+	protected InstructorEvalHelper instantiateHelper() {
+		return new InstructorEvalHelper();
 	}
 
 	@Override
-	protected void doAction(HttpServletRequest req, CoordEvalHelper helper)
+	protected void doAction(HttpServletRequest req, InstructorEvalHelper helper)
 			throws EntityDoesNotExistException {
 
 		boolean isAddEvaluation = isPost;
@@ -43,19 +43,19 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 	}
 
 	//TODO: unit test this
-	private void populateEvaluationList(CoordEvalHelper helper)
+	private void populateEvaluationList(InstructorEvalHelper helper)
 			throws EntityDoesNotExistException {
 		HashMap<String, CourseData> summary = helper.server
-				.getCourseListForCoord(helper.userId);
+				.getCourseListForInstructor(helper.userId);
 		helper.courses = new ArrayList<CourseData>(summary.values());
 		sortCourses(helper.courses);
 
 		helper.evaluations = helper.server
-				.getEvaluationsListForCoord(helper.userId);
+				.getEvaluationsListForInstructor(helper.userId);
 		sortEvaluationsByDeadline(helper.evaluations);
 	}
 
-	private void createEvaluation(CoordEvalHelper helper) {
+	private void createEvaluation(InstructorEvalHelper helper) {
 		try {
 			helper.server.createEvaluation(helper.submittedEval);
 			helper.statusMessage = Common.MESSAGE_EVALUATION_ADDED;
@@ -71,7 +71,7 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 	}
 
 	//TODO: unit test this
-	private void setStatusMessage(CoordEvalHelper helper) {
+	private void setStatusMessage(InstructorEvalHelper helper) {
 		String additionalMessage = null;
 		if (helper.courses.size() == 0 && !helper.error) {
 			additionalMessage = Common.MESSAGE_COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+helper.userId);
@@ -90,7 +90,7 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 		}
 	}
 
-	private boolean noEvaluationsVisibleDueToEventualConsistency(CoordEvalHelper helper) {
+	private boolean noEvaluationsVisibleDueToEventualConsistency(InstructorEvalHelper helper) {
 		return helper.statusMessage != null
 				&& helper.statusMessage.equals(Common.MESSAGE_EVALUATION_ADDED)
 				&& helper.evaluations.size()==0;
@@ -143,6 +143,6 @@ public class CoordEvalServlet extends ActionServlet<CoordEvalHelper> {
 
 	@Override
 	protected String getDefaultForwardUrl() {
-		return Common.JSP_COORD_EVAL;
+		return Common.JSP_INSTRUCTOR_EVAL;
 	}
 }

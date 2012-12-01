@@ -11,22 +11,22 @@ import teammates.common.exception.InvalidParametersException;
 /**
  * Servlet to handle Edit Evaluation action
  */
-public class CoordEvalEditServlet extends ActionServlet<CoordEvalEditHelper> {
+public class InstructorEvalEditServlet extends ActionServlet<InstructorEvalEditHelper> {
 
 	@Override
-	protected CoordEvalEditHelper instantiateHelper() {
-		return new CoordEvalEditHelper();
+	protected InstructorEvalEditHelper instantiateHelper() {
+		return new InstructorEvalEditHelper();
 	}
 
 
 	@Override
-	protected void doAction(HttpServletRequest req, CoordEvalEditHelper helper)
+	protected void doAction(HttpServletRequest req, InstructorEvalEditHelper helper)
 			throws EntityDoesNotExistException {
 
-		EvaluationData newEval = CoordEvalServlet.extractEvaluationData(req);
+		EvaluationData newEval = InstructorEvalServlet.extractEvaluationData(req);
 
 		if (newEval.course == null && newEval.name == null) {
-			helper.redirectUrl = Common.PAGE_COORD_EVAL;
+			helper.redirectUrl = Common.PAGE_INSTRUCTOR_EVAL;
 			return;
 		}
 		
@@ -38,7 +38,7 @@ public class CoordEvalEditServlet extends ActionServlet<CoordEvalEditHelper> {
 				helper.server.editEvaluation(newEval.course, newEval.name, newEval.instructions, newEval.startTime,
 						newEval.endTime, newEval.timeZone, newEval.gracePeriod, newEval.p2pEnabled);
 				helper.statusMessage = Common.MESSAGE_EVALUATION_EDITED;
-				helper.redirectUrl = Common.PAGE_COORD_EVAL;
+				helper.redirectUrl = Common.PAGE_INSTRUCTOR_EVAL;
 			} catch (InvalidParametersException ex) {
 				helper.statusMessage = ex.getMessage();
 				helper.error = true;
@@ -47,7 +47,7 @@ public class CoordEvalEditServlet extends ActionServlet<CoordEvalEditHelper> {
 			helper.submittedEval = helper.server.getEvaluation(newEval.course,
 					newEval.name);
 			if (helper.submittedEval == null) {
-				helper.redirectUrl = Common.PAGE_COORD_EVAL;
+				helper.redirectUrl = Common.PAGE_INSTRUCTOR_EVAL;
 				return;
 			}
 		}
@@ -56,6 +56,6 @@ public class CoordEvalEditServlet extends ActionServlet<CoordEvalEditHelper> {
 
 	@Override
 	protected String getDefaultForwardUrl() {
-		return Common.JSP_COORD_EVAL_EDIT;
+		return Common.JSP_INSTRUCTOR_EVAL_EDIT;
 	}
 }

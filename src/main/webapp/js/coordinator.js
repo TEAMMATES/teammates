@@ -1,6 +1,6 @@
 /* 
- * This Javascript file is included in all coordinator pages. Functions here 
- * should be common to some/all coordinator pages.
+ * This Javascript file is included in all instructor pages. Functions here 
+ * should be common to some/all instructor pages.
  */
 
 
@@ -74,7 +74,7 @@ function toggleRemindStudents(evaluationName) {
 
 /**
  * Checks whether an e-mail is valid.
- * Used in coordCourseEnroll page (through coordCourseEnroll.js)
+ * Used in instructorCourseEnroll page (through instructorCourseEnroll.js)
  * @param email
  * @returns {Boolean}
  */
@@ -84,7 +84,7 @@ function isStudentEmailValid(email) {
 
 /**
  * Checks whether a student's name is valid
- * Used in coordCourseEnroll page (through coordCourseEnroll.js)
+ * Used in instructorCourseEnroll page (through instructorCourseEnroll.js)
  * @param name
  * @returns {Boolean}
  */
@@ -102,7 +102,7 @@ function isStudentNameValid(name) {
 
 /**
  * Checks whether a team's name is valid
- * Used in coordCourseEnroll page (through coordCourseEnroll.js)
+ * Used in instructorCourseEnroll page (through instructorCourseEnroll.js)
  * @param teamName
  * @returns {Boolean}
  */

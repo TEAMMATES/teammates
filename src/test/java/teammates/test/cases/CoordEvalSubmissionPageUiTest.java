@@ -19,9 +19,9 @@ import teammates.test.driver.TestProperties;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Tests coordEvalSubmissionView.jsp and coordEvalSubmissionEdit.jsp
+ * Tests instructorEvalSubmissionView.jsp and instructorEvalSubmissionEdit.jsp
  */
-public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
+public class InstructorEvalSubmissionPageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static DataBundle scn;
 	
@@ -32,9 +32,9 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 		printTestClassHeader();
 		
 		startRecordingTimeForDataImport();
-		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/CoordEvalSubmissionUiTest.json");
+		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorEvalSubmissionUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
-		BackDoor.deleteCoordinators(jsonString);
+		BackDoor.deleteInstructors(jsonString);
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
@@ -51,17 +51,17 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testCoordEvalSubmissionViewAndEdit() throws Exception{
+	public void testInstructorEvalSubmissionViewAndEdit() throws Exception{
 		
 		//Checking indirect link to View Submission through Evaluation Results
 		EvaluationData eval = scn.evaluations.get("First Eval");
 		
 		______TS("view submissions for open evaluation, from results page");
 		
-		String link = appUrl+Common.PAGE_COORD_EVAL_RESULTS;
+		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, eval.course);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, eval.name);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.coords.get("teammates.demo.coord").id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.instructors.get("teammates.demo.instructor").id);
 		bi.goToUrl(link);
 		
 		int studentResultsRowID = bi.getStudentRowId(scn.students.get("Charlie").name);
@@ -75,24 +75,24 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 			}
 		}
 		
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalSubmissionView.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalSubmissionView.html");
 		
 		______TS("view submission for closed evaluation, using direct URL");
 		
-		link = appUrl+Common.PAGE_COORD_EVAL_SUBMISSION_VIEW;
+		link = appUrl+Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_VIEW;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, eval.course);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, eval.name);
 		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL, scn.students.get("Charlie").email);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.coords.get("teammates.demo.coord").id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.instructors.get("teammates.demo.instructor").id);
 		bi.goToUrl(link);
 		
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalSubmissionView.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalSubmissionView.html");
 		
 		bi.click(By.id("button_edit"));
 
 		______TS("editing submissions");
 
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/coordEvalSubmissionEdit.html");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalSubmissionEdit.html");
 		
 		SubmissionData[] subs = new SubmissionData[3];
 		subs[0] = scn.submissions.get("CharlieCharlie");
@@ -127,7 +127,7 @@ public class CoordEvalSubmissionPageUiTest extends BaseTestCase {
 		print("Checking status message");
 		bi.dismissCloseWindowAlertIfAny();
 		bi.getSelenium().selectWindow("null");
-		bi.waitForStatusMessage(String.format(Common.MESSAGE_COORD_EVALUATION_SUBMISSION_RECEIVED,scn.students.get("Charlie").name,eval.name,eval.course).replace("<br />", "\n"));
+		bi.waitForStatusMessage(String.format(Common.MESSAGE_INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED,scn.students.get("Charlie").name,eval.name,eval.course).replace("<br />", "\n"));
 
 		print("Checking modified data");
 		String json = "";

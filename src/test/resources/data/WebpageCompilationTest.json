@@ -1,20 +1,20 @@
 {
-  "coords": {
+  "instructors": {
     "teammates.test": {
       "id": "teammates.test",
-      "name" : "Coordinator",
+      "name" : "Instructor",
       "email" : "teammates.test@gmail.com"
     }
   },
   
   "courses": {
     "CS2104": {
-      "coord": "teammates.test",
+      "instructor": "teammates.test",
       "id": "CS2104",
       "name": "Programming Language Concepts"
     },
     "CS1101": {
-      "coord": "teammates.test",
+      "instructor": "teammates.test",
       "id": "CS1101",
       "name": "Programming Methodology"
     }

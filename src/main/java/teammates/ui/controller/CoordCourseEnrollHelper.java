@@ -7,7 +7,7 @@ import teammates.common.Common;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.StudentData.UpdateStatus;
 
-public class CoordCourseEnrollHelper extends Helper {
+public class InstructorCourseEnrollHelper extends Helper {
 	public String courseID;
 
 	/**

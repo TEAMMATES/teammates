@@ -1,5 +1,5 @@
 
-module('coordCourseEnroll.js');
+module('instructorCourseEnroll.js');
 
 test('highlightError(start, end)', function(){
 	// N/A, trivial function. This function highlights a section of text in a specific textarea element
@@ -8,7 +8,7 @@ test('highlightError(start, end)', function(){
 
 
 test('checkEnrollmentInput(input)', function(){
-	//This textarea element is taken from coordCourseEnroll.jsp. Required for
+	//This textarea element is taken from instructorCourseEnroll.jsp. Required for
 	//the test to work, since the function being tested relies on this element
 	$("body").append('<textarea rows="6" cols="135" class ="textvalue" name="enrollstudents" id="enrollstudents"></textarea>');
 	

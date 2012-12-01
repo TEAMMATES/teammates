@@ -1,4 +1,4 @@
-#coordinatorCourseInformation {
+#instructorCourseInformation {
 	margin-top: 20px;
 	text-align: left;
 }
@@ -7,7 +7,7 @@
 	width: 500px;
 }
 
-#coordinatorStudentTable {
+#instructorStudentTable {
 	margin-top: 20px;
 	text-align: center;
 }

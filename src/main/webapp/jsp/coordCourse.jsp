@@ -1,17 +1,17 @@
 <%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.common.datatransfer.CourseData"%>
-<%@ page import="teammates.ui.controller.CoordCourseHelper"%>
+<%@ page import="teammates.ui.controller.InstructorCourseHelper"%>
 <%
-	CoordCourseHelper helper = (CoordCourseHelper)request.getAttribute("helper");
+	InstructorCourseHelper helper = (InstructorCourseHelper)request.getAttribute("helper");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 	<link rel="shortcut icon" href="/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Teammates - Coordinator</title>
+	<title>Teammates - Instructor</title>
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
-	<link rel="stylesheet" href="/stylesheets/coordCourse.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/instructorCourse.css" type="text/css">
 	
 	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="/js/tooltip.js"></script>
@@ -20,15 +20,15 @@
 	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
 	<script type="text/javascript" src="/js/common.js"></script>
 	
-	<script type="text/javascript" src="/js/coordinator.js"></script>
-	<script type="text/javascript" src="/js/coordCourse.js"></script>
+	<script type="text/javascript" src="/js/instructor.js"></script>
+	<script type="text/javascript" src="/js/instructorCourse.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%= Common.JSP_COORD_HEADER %>" />
+		<jsp:include page="<%= Common.JSP_INSTRUCTOR_HEADER %>" />
 	</div>
 
 	<div id="frameBody">
@@ -37,8 +37,8 @@
 			<div id="headerOperation">
 				<h1>Add New Course</h1>
 			</div>
-			<div id="coordinatorCourseManagement">
-				<form method="get" action="<%= Common.PAGE_COORD_COURSE %>" name="form_addcourse">
+			<div id="instructorCourseManagement">
+				<form method="get" action="<%= Common.PAGE_INSTRUCTOR_COURSE %>" name="form_addcourse">
 					<table id="addform" class="inputTable">
 						<tr>
 							<td class="label">Course ID:</td>
@@ -57,7 +57,7 @@
 						<tr>
 							<td><input class="addinput" type="text"
 								name="<%= Common.PARAM_COURSE_NAME %>" id="<%= Common.PARAM_COURSE_NAME %>"
-								value="<%=(helper.courseName==null ? "" : CoordCourseHelper.escapeForHTML(helper.courseName))%>"
+								value="<%=(helper.courseName==null ? "" : InstructorCourseHelper.escapeForHTML(helper.courseName))%>"
 								onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
 								onmouseout="hideddrivetip()"
 								maxlength=<%=CourseData.COURSE_NAME_MAX_LENGTH%> tabindex=2 /></td>
@@ -77,7 +77,7 @@
 				</form>
 			</div>
 			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
-			<div id="coordinatorCourseTable">
+			<div id="instructorCourseTable">
 				<table class="dataTable">
 					<tr>
 						<th><input class="buttonSortAscending" type="button"
@@ -99,21 +99,21 @@
 					%>
 						<tr class="courses_row">
 							<td id="courseid<%=idx%>"><%=course.id%></td>
-							<td id="coursename<%=idx%>"><%=CoordCourseHelper.escapeForHTML(course.name)%></td>
+							<td id="coursename<%=idx%>"><%=InstructorCourseHelper.escapeForHTML(course.name)%></td>
 							<td class="t_course_teams centeralign"><%= course.teamsTotal %></td>
 							<td class="centeralign"><%= course.studentsTotal %></td>
 							<td class="centeralign"><%= course.unregisteredTotal %></td>
 							<td class="centeralign">
 								<a class="t_course_enroll<%= idx %>"
-									href="<%= helper.getCoordCourseEnrollLink(course.id) %>"
+									href="<%= helper.getInstructorCourseEnrollLink(course.id) %>"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ENROLL %>')"
 									onmouseout="hideddrivetip()">Enroll</a>
 								<a class="t_course_view<%= idx %>"
-									href="<%=helper.getCoordCourseDetailsLink(course.id)%>"
+									href="<%=helper.getInstructorCourseDetailsLink(course.id)%>"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_DETAILS %>')"
 									onmouseout="hideddrivetip()">View</a>
 								<a class="t_course_delete<%= idx %>"
-									href="<%=helper.getCoordCourseDeleteLink(course.id,false)%>"
+									href="<%=helper.getInstructorCourseDeleteLink(course.id,false)%>"
 									onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%= course.id %>');"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_DELETE %>')"
 									onmouseout="hideddrivetip()">Delete</a>

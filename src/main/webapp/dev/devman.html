@@ -162,7 +162,7 @@
 	            <li>Received by the GAE server</li>
             <li>Forwarded to our custom filters in according to the order as specified in web.xml. 
             In our case this would be <span class="code">DatastoreFilter</span> and <span class="code">LoginFilter</span>. For the purpose of this explanation, we only concern about the <span class="code">LoginFilter</span>, which will forward any request from not-logged-in-user to the login page. If the request is from logged in user, then it will proceed according to the URL.</li>
-	            <li>Depending on the URL, it will be handled by its respective Servlet (e.g., <span class="code">CoordHomeServlet</span>, <span class="code">CoordCourseDeleteServlet</span>, etc)</li>
+	            <li>Depending on the URL, it will be handled by its respective Servlet (e.g., <span class="code">InstructorHomeServlet</span>, <span class="code">InstructorCourseDeleteServlet</span>, etc)</li>
 	            <li>The servlet will process everything related to the logic (e.g., accessing datastore, modifying datastore, etc), then it will create respective Helper object and store relevant data inside that object (e.g., student list, course list, evaluation data, etc)</li>
 	            <li>The respective Helper object then will be passed to the respective JSP page.</li>
 	            <li>The JSP page will then render the page according to the data inside the Helper object.</li>
@@ -191,19 +191,19 @@
 	            <li>login.jsp</li> 
 	            <li>logout.jsp</li>
 	            <br>
-	            <li>adminHome (create coordinator)</li>
+	            <li>adminHome (create instructor)</li>
 	            <br>
-	            <li>coordHome (delete course, remind evaluation, [un]publish evaluation, delete evaluation)</li>
-	            <li>coordCourse (add course, delete course)</li>
-	            <li>coordCourseEnroll (enroll students)</li>
-	            <li>coordCourseView (remind student to join course, delete student)</li>
-	            <li>coordCourseStudentDetails (edit student details)</li>
-	            <li>coordCourseStudentEdit</li>
-	            <li>coordEval (add evaluation, remind evaluation, [un]publish evaluation, delete evaluation)</li>
-	            <li>coordEvalEdit (edit evaluation details)</li>
-	            <li>coordEvalResults</li>
-	            <li>coordEvalSubmissionView - view the submission from and for that student</li>
-	            <li>coordEvalSubmissionEdit</li>
+	            <li>instructorHome (delete course, remind evaluation, [un]publish evaluation, delete evaluation)</li>
+	            <li>instructorCourse (add course, delete course)</li>
+	            <li>instructorCourseEnroll (enroll students)</li>
+	            <li>instructorCourseView (remind student to join course, delete student)</li>
+	            <li>instructorCourseStudentDetails (edit student details)</li>
+	            <li>instructorCourseStudentEdit</li>
+	            <li>instructorEval (add evaluation, remind evaluation, [un]publish evaluation, delete evaluation)</li>
+	            <li>instructorEvalEdit (edit evaluation details)</li>
+	            <li>instructorEvalResults</li>
+	            <li>instructorEvalSubmissionView - view the submission from and for that student</li>
+	            <li>instructorEvalSubmissionEdit</li>
 	            <br>
 	            <li>studentHome (join course)</li>
 	            <li>studentCourseDetails - the content is about team details</li>
@@ -220,7 +220,7 @@
 	        These pages provide peripheral functionality.
 	        <ul>
 	            <li>studentHelpPage (an html page)</li>
-	            <li>coordHelpPage (an html page)</li>
+	            <li>instructorHelpPage (an html page)</li>
 	            <li>error pages (errorPage.jsp, mobile.jsp, oldIE.jsp, etc.)</li>
 	        </ul>
 	        <br>
@@ -306,11 +306,11 @@
 	        <br>
 	        FailDeleteSilentlyPolicy: In general, delete operation do not throw exceptions if the target entity does not exist. Instead, it logs a warning. This is because an entity could get deleted by one user while another user is trying to delete it at the same time. In any case, if it does not exist, it is as good as deleted.<br>
 	        <br>
-	        Cascade policy: When a parent entity is deleted, entities that have referential integrity with the deleted entity should also be deleted. E.g deleting a coordinator deletes all courses under the coordinator, which also deletes all evaluations and submissions related to the course.<br>
+	        Cascade policy: When a parent entity is deleted, entities that have referential integrity with the deleted entity should also be deleted. E.g deleting a instructor deletes all courses under the instructor, which also deletes all evaluations and submissions related to the course.<br>
 	        <br>
 	        Cascade logic:
 	        <ul>
-	            <li>Coordinator : delete all courses and cascade onwards</li>
+	            <li>Instructor : delete all courses and cascade onwards</li>
 	            <li>Course : delete all students, evaluations and cascade onwards</li>
 	            <li>Student : delete all submissions</li>
 	            <li>Evaluation: delete all submissions </li>
@@ -384,9 +384,9 @@
                 <div class="image-holder"><img src="images/dataTransferClasses.png" width=80% /></div>
                 <br>
                 (a) Test Driver can use the DataBundle in this manner to send an arbitrary number of objects to be persisted in the database.<br>
-                (b) This structure can be used to send results of an evaluation (e.g., when showing an evaluation report to a coordinator)<br>
+                (b) This structure can be used to send results of an evaluation (e.g., when showing an evaluation report to a instructor)<br>
                 (c) This structure can be used to transfer data belonging to a 
-                coordinator (e.g., when constructing the home page for a coordinator).<br>
+                instructor (e.g., when constructing the home page for a instructor).<br>
                 <br>
 	        For convenience, these classes use public variables for data. This is not a good practice as it contravenes OO principles and increases the risk of invalid data. This strategy is to be reconsidered at a later date.
 	        <br>
@@ -691,16 +691,16 @@
 	            Note that GAE daily quota will be exhausted after 2-3 runs of the full test suite.</li>
 	        </ol>
 	        
-	        <p class="subheader">To add more coordinators</p>
+	        <p class="subheader">To add more instructors</p>
 	            <ol type="a">
 	                <li>Go to <span class="code">http://appURL/page/adminHome</span></li>
 	                <li>Log in using your Google ID. If this is the dev server, enter any email address, 
 	                but remember to check the ‘log in as administrator’ check box.</li>
 	                <li>
-	                    Enter credentials for a coordinator. e.g., <br>
-	                    Google id: teammates.coord<br>
-	                    Name: Coordinator   <br>
-	                    Email: teammates.coord@gmail.com<br>
+	                    Enter credentials for a instructor. e.g., <br>
+	                    Google id: teammates.instructor<br>
+	                    Name: Instructor   <br>
+	                    Email: teammates.instructor@gmail.com<br>
 	                </li>
 	            </ol>
 	        <br>

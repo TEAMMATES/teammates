@@ -1,25 +1,25 @@
-#coordinatorEvaluationInformation {
+#instructorEvaluationInformation {
 	margin: 20px auto;
 	text-align: center;
 	width: 940px;
 }
 
-#coordinatorEvaluationInformation table{
+#instructorEvaluationInformation table{
 	width: 940px;
 	text-align: left;
 }
 
-#coordinatorEvaluationSummaryTable {
+#instructorEvaluationSummaryTable {
 	margin-top: 20px;
 	text-align: center;
 }
 
-#coordinatorEvaluationDetailedReviewerTable {
+#instructorEvaluationDetailedReviewerTable {
 	margin-top: 20px;
 	text-align: center;
 }
 
-#coordinatorEvaluationDetailedRevieweeTable {
+#instructorEvaluationDetailedRevieweeTable {
 	margin-top: 20px;
 	text-align: center;
 }

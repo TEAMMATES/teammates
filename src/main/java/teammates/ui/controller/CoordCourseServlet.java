@@ -15,16 +15,16 @@ import teammates.common.exception.InvalidParametersException;
 /**
  * Servlet to handle Add Course and Display Courses action
  */
-public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
+public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelper> {
 
 	@Override
-	protected CoordCourseHelper instantiateHelper() {
-		return new CoordCourseHelper();
+	protected InstructorCourseHelper instantiateHelper() {
+		return new InstructorCourseHelper();
 	}
 
 
 	@Override
-	protected void doAction(HttpServletRequest req, CoordCourseHelper helper)
+	protected void doAction(HttpServletRequest req, InstructorCourseHelper helper)
 			throws EntityDoesNotExistException {
 		
 		helper.courseID = req.getParameter(Common.PARAM_COURSE_ID);
@@ -35,7 +35,7 @@ public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
 		}
 
 		HashMap<String, CourseData> courses = helper.server
-				.getCourseListForCoord(helper.userId);
+				.getCourseListForInstructor(helper.userId);
 		helper.courses = new ArrayList<CourseData>(courses.values());
 		
 		sortCourses(helper.courses);
@@ -43,7 +43,7 @@ public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
 		setStatus(helper);
 	}
 
-	private void createCourse(CoordCourseHelper helper) {
+	private void createCourse(InstructorCourseHelper helper) {
 		try {
 			helper.server.createCourse(helper.userId, helper.courseID,
 					helper.courseName);
@@ -60,7 +60,7 @@ public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
 	}
 
 	//TODO: unit test this
-	private void setStatus(CoordCourseHelper helper) {
+	private void setStatus(InstructorCourseHelper helper) {
 		if (helper.courses.size() == 0
 				&& !helper.error
 				&& !noCoursesVisibleDueToEventualConsistency(helper)) {
@@ -73,7 +73,7 @@ public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
 		}
 	}
 	
-	private boolean noCoursesVisibleDueToEventualConsistency(CoordCourseHelper helper) {
+	private boolean noCoursesVisibleDueToEventualConsistency(InstructorCourseHelper helper) {
 		return helper.statusMessage != null
 				&& helper.statusMessage.equals(Common.MESSAGE_COURSE_ADDED)
 				&& helper.courses.size()==0;
@@ -81,6 +81,6 @@ public class CoordCourseServlet extends ActionServlet<CoordCourseHelper> {
 
 	@Override
 	protected String getDefaultForwardUrl() {
-		return Common.JSP_COORD_COURSE;
+		return Common.JSP_INSTRUCTOR_COURSE;
 	}
 }

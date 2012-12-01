@@ -1,5 +1,5 @@
 
-module('coordCourse.js');
+module('instructorCourse.js');
 
 test('verifyAddCourse()', function(){
 	// 'The method has only two paths and both are tested by UI tests

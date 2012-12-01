@@ -8,19 +8,19 @@ import teammates.common.exception.InvalidParametersException;
 
 @SuppressWarnings("serial")
 /**
- * Servlet to handle Coordinator course student edit page.
+ * Servlet to handle Instructor course student edit page.
  */
-public class CoordCourseStudentEditServlet extends
-		ActionServlet<CoordCourseStudentEditHelper> {
+public class InstructorCourseStudentEditServlet extends
+		ActionServlet<InstructorCourseStudentEditHelper> {
 
 	@Override
-	protected CoordCourseStudentEditHelper instantiateHelper() {
-		return new CoordCourseStudentEditHelper();
+	protected InstructorCourseStudentEditHelper instantiateHelper() {
+		return new InstructorCourseStudentEditHelper();
 	}
 
 	@Override
 	protected void doAction(HttpServletRequest req,
-			CoordCourseStudentEditHelper helper)
+			InstructorCourseStudentEditHelper helper)
 			throws EntityDoesNotExistException {
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String studentEmail = req.getParameter(Common.PARAM_STUDENT_EMAIL);
@@ -42,7 +42,7 @@ public class CoordCourseStudentEditServlet extends
 			try {
 				helper.server.editStudent(studentEmail, helper.student);
 				helper.statusMessage = Common.MESSAGE_STUDENT_EDITED;
-				helper.redirectUrl = helper.getCoordCourseDetailsLink(courseID);
+				helper.redirectUrl = helper.getInstructorCourseDetailsLink(courseID);
 			} catch (InvalidParametersException e) {
 				helper.statusMessage = e.getMessage();
 				helper.error = true;
@@ -53,6 +53,6 @@ public class CoordCourseStudentEditServlet extends
 
 	@Override
 	protected String getDefaultForwardUrl() {
-		return Common.JSP_COORD_COURSE_STUDENT_EDIT;
+		return Common.JSP_INSTRUCTOR_COURSE_STUDENT_EDIT;
 	}
 }

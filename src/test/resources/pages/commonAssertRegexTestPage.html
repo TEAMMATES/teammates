@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 	<link href="/favicon.png" rel="shortcut icon" />
 	<meta content="IE=8" http-equiv="X-UA-Compatible" />
-	<title>Teammates - Coordinator</title>
+	<title>Teammates - Instructor</title>
 	<link type="text/css" href="/stylesheets/main.css" rel="stylesheet" />
 	<link type="text/css" href="/stylesheets/evaluation.css" rel="stylesheet" />
 	
@@ -15,8 +15,8 @@
 	<script src="/js/constants.js" language="JavaScript"></script>
 	<script src="/js/common.js" language="JavaScript"></script>
 	
-	<script src="/js/coordCoursePageNew.js" language="JavaScript"></script>
-	<script src="/js/coordinator.js" language="JavaScript"></script>
+	<script src="/js/instructorCoursePageNew.js" language="JavaScript"></script>
+	<script src="/js/instructor.js" language="JavaScript"></script>
     <noscript>{*}</noscript>
 </head>
 
@@ -34,13 +34,13 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="coordHome.jsp" class="t_home">Home</a></li>
-					<li><a href="coordCourse.jsp" class="t_courses">Courses</a></li>
-					<li><a href="coordTFS.jsp" class="t_teamForming">Team-Forming</a></li>
-					<li><a href="coordEval.jsp" class="t_evaluations">Evaluations</a></li>
-					<li><a target="_blank" href="/coordHelp.html" class="t_help">Help</a></li>
+					<li><a href="instructorHome.jsp" class="t_home">Home</a></li>
+					<li><a href="instructorCourse.jsp" class="t_courses">Courses</a></li>
+					<li><a href="instructorTFS.jsp" class="t_teamForming">Team-Forming</a></li>
+					<li><a href="instructorEval.jsp" class="t_evaluations">Evaluations</a></li>
+					<li><a target="_blank" href="/instructorHelp.html" class="t_help">Help</a></li>
 					<li><a href="javascript:logout();" class="t_logout">Logout</a>
-					 ( teammates.demo.coord)</li>
+					 ( teammates.demo.instructor)</li>
 				</ul>
 			</div>
 		</div>
@@ -52,8 +52,8 @@
 			<div id="headerOperation">
 				<h1>ADD NEW COURSE</h1>
 			</div>
-			<div id="coordinatorCourseManagement">
-				<form name="form_addcourse" action="coordCourse.jsp" method="get">
+			<div id="instructorCourseManagement">
+				<form name="form_addcourse" action="instructorCourse.jsp" method="get">
 					<table class="addform round">
 						<tbody><tr>
 							<td><b>Course ID:</b></td>
@@ -77,7 +77,7 @@
 			
 			<div style="display: none" id="statusMessage"></div>
 			
-			<div id="coordinatorCourseTable">
+			<div id="instructorCourseTable">
 				<br />
 				<br />
 				<table id="dataform">
@@ -99,9 +99,9 @@
 							<td class="centeralign">4</td>
 							<td class="centeralign">0</td>
 							<td class="centeralign">
-								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enroll student into the course")' href="coordCourseEnroll.jsp?courseid=CS1101-TESTING" class="t_course_enroll">Enroll</a>
-								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("View, edit and send registration keys to the students in the course")' href="coordCourseView.jsp?courseid=CS1101-TESTING" class="t_course_view">View</a>
-								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Delete the course and its corresponding students and evaluations")' onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("CS1101-TESTING");' href="coordCourseDelete.jsp?courseid=CS1101-TESTING&amp;next=coordCourse.jsp" class="t_course_delete">Delete</a>
+								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enroll student into the course")' href="instructorCourseEnroll.jsp?courseid=CS1101-TESTING" class="t_course_enroll">Enroll</a>
+								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("View, edit and send registration keys to the students in the course")' href="instructorCourseView.jsp?courseid=CS1101-TESTING" class="t_course_view">View</a>
+								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Delete the course and its corresponding students and evaluations")' onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("CS1101-TESTING");' href="instructorCourseDelete.jsp?courseid=CS1101-TESTING&amp;next=instructorCourse.jsp" class="t_course_delete">Delete</a>
 							</td>
 						</tr>
 						
@@ -112,9 +112,9 @@
 							<td class="centeralign">4</td>
 							<td class="centeralign">0</td>
 							<td class="centeralign">
-								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enroll student into the course")' href="coordCourseEnroll.jsp?courseid=CS2104-TESTING" class="t_course_enroll">Enroll</a>
-								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("View, edit and send registration keys to the students in the course")' href="coordCourseView.jsp?courseid=CS2104-TESTING" class="t_course_view">View</a>
-								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Delete the course and its corresponding students and evaluations")' onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("CS2104-TESTING");' href="coordCourseDelete.jsp?courseid=CS2104-TESTING&amp;next=coordCourse.jsp" class="t_course_delete">Delete</a>
+								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Enroll student into the course")' href="instructorCourseEnroll.jsp?courseid=CS2104-TESTING" class="t_course_enroll">Enroll</a>
+								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("View, edit and send registration keys to the students in the course")' href="instructorCourseView.jsp?courseid=CS2104-TESTING" class="t_course_view">View</a>
+								<a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Delete the course and its corresponding students and evaluations")' onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("CS2104-TESTING");' href="instructorCourseDelete.jsp?courseid=CS2104-TESTING&amp;next=instructorCourse.jsp" class="t_course_delete">Delete</a>
 							</td>
 						</tr>
 					
