@@ -43,3 +43,4 @@ src/main/webapp/WEB-INF/classes/MockHttpRequest.js
 src/main/webapp/WEB-INF/classes/StudentJsTest.js
 src/main/webapp/WEB-INF/classes/qunit.css
 src/main/webapp/WEB-INF/classes/InstructorSampleData.json
+src/main/webapp/WEB-INF/classes/CommonTestFunctions.js
