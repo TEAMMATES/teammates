@@ -40,7 +40,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 		// SUCCESS
 		EvaluationData e = new EvaluationData();
 		e.course = "Computing101";
-		e.name = "Basic Computing Evaluation1";
+		e.name = "Very First Evaluation";
 		e.startTime = new Date();
 		e.endTime = new Date();
 		evaluationsDb.createEvaluation(e);

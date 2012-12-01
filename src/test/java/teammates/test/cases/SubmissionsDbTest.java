@@ -39,7 +39,7 @@ public class SubmissionsDbTest extends BaseTestCase {
 		// SUCCESS
 		SubmissionData s = new SubmissionData();
 		s.course = "Computing101";
-		s.evaluation = "Basic Computing Evaluation1";
+		s.evaluation = "Very First Evaluation";
 		s.team = "team1";
 		s.reviewee = "student1@gmail.com";
 		s.reviewer = "student2@gmail.com";

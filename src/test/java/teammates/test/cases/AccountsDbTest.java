@@ -41,7 +41,7 @@ public class AccountsDbTest extends BaseTestCase {
 		StudentData s = new StudentData();
 		s.name = "valid student";
 		s.course = "valid-course";
-		s.email = "valid@email.com";
+		s.email = "valid-fresh@email.com";
 		accountsDb.createStudent(s);
 			
 		// FAIL : duplicate
@@ -168,7 +168,7 @@ public class AccountsDbTest extends BaseTestCase {
 	public void testCreateInstructor() throws EntityAlreadyExistsException {
 		// SUCCESS
 		InstructorData c = new InstructorData();
-		c.id = "valid.id";
+		c.id = "valid.fresh.id";
 		c.name = "John Doe";
 		c.email = "john.doe@instructor.com";
 		accountsDb.createInstructor(c);

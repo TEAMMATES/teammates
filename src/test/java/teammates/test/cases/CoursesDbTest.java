@@ -39,7 +39,7 @@ public class CoursesDbTest extends BaseTestCase {
 		CourseData c = new CourseData();
 		c.id = "Computing101";
 		c.name = "Basic Computing";
-		c.instructor = "valid.id";
+		c.instructor = "valid.fresh.id";
 		coursesDb.createCourse(c);
 		
 		// FAIL : duplicate
