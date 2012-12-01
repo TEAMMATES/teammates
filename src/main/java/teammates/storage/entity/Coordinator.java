@@ -6,11 +6,12 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 /**
- * Instructor is a persistent data class that holds information pertaining to a
- * instructor on Teammates. 
+ * Coordinator is a persistent data class that holds information pertaining to a
+ * instructor on Teammates. It is called Coordinator for legacy reasons. To be
+ * changed to Instructor. 
  */
 @PersistenceCapable
-public class Instructor {
+public class Coordinator {
 	@PrimaryKey
 	@Persistent
 	private String googleID;
@@ -23,7 +24,7 @@ public class Instructor {
 	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 	private String email;
 	
-	public Instructor(String googleId, String name, String email) {
+	public Coordinator(String googleId, String name, String email) {
 		this.googleID = googleId;
 		this.name = name;
 		this.email = email;

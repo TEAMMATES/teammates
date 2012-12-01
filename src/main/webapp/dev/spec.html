@@ -14,8 +14,7 @@
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
 		<div class="header">
-			TEAMMATES<br>Online Peer Evaluation &amp; Peer Feedback System<br>[Developer
-			Manual (DevMan)]
+			TEAMMATES<br>Online Peer Evaluation &amp; Peer Feedback System<br>[System Specification (Spec)]
 		</div>
 		<p>
 			<span class="subheader">Preliminaries</span><br> Features are
@@ -36,8 +35,8 @@
 		</ul>
 		<span class="bold">Feature status</span>
 		<ul>
-			<li>[pending] not implemented yet but likely to be implemented
-				in the future.</li>
+			<li>[pending] annotation is used to mark features not implemented 
+			yet but likely to be implemented in the future.</li>
 			<li>[partial] annotation is used to mark features only partially
 				implemented.</li>
 			<li><a href="#ideasandwishlist">Ideas and Wish List</a> section
@@ -182,7 +181,6 @@
 						<li><a href="#s_editteamprofile">EditTeamProfile</a></li>
 					</ul>
 				</ul>
-				<li><a href="#instructor">Instructor</a></li>
 				<li><a href="#evaluator">Evaluator</a></li>
 				<li><a href="#admin">Admin</a></li>
 				<ul>
@@ -257,14 +255,12 @@
 			<p id="corefeatures">
 				 <span class="header">Core
 					features</span><br> <span class="bold">users</span>:<br>
-			<img src="images/userTypes.png" alt="usersTypes"
+			<img src="images/Actors.png" alt="usersTypes"
 					height="300">
 					<ul>
-				<li>Instructor{owner of a course}</li>
+				<li>Instructor</li>
+				<li>Instructor(module owner)</li>
 				<li>Student</li>
-				<li>Instructor[<span class="red">pending</span>]{Other members
-					of the teaching team. Not supported yet}
-				</li>
 				<li>Adminstrator[<span class="red">partial</span>]{Adminstrator
 					of the system}
 				</li>
@@ -377,8 +373,7 @@
 					<li>Consists only of alphabets, numbers, dots, hyphens,
 						underscores and dollars</li>
 					<li>Spaces not allowed</li>
-					<li>Size limit: 21 [<span class="red">pending</span>: increase
-						to 30]
+					<li>Size limit: 30 
 					</li>
 					<li>Must be unique (not used by any other courses in the
 						system)</li>
@@ -904,12 +899,7 @@
 			</p>
 			</p>
 			<!--end of student-->
-			<p id="instructor">
-				<span class="subheader">Instructor[<span class="red">pending</span>]
-				</span><br> [priority=high]<br> {Should we support instructors
-				(i.e., teaching team members who are not instructors)? allow
-				multiple instructors?}
-			</p>
+			
 			<p id="evaluator">
 				<span class="subheader">Evaluator[<span class="red">pending</span>]
 				</span><br> [priority=medium]<br>

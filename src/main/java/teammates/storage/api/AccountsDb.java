@@ -16,7 +16,7 @@ import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.JoinCourseException;
 import teammates.storage.datastore.Datastore;
-import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Coordinator;
 import teammates.storage.entity.Student;
 
 import com.google.appengine.api.datastore.KeyFactory;
@@ -62,13 +62,13 @@ public class AccountsDb {
 			throw new EntityAlreadyExistsException(error);
 		}
 
-		Instructor newInstructor = instructorToAdd.toEntity();
+		Coordinator newInstructor = instructorToAdd.toEntity();
 		getPM().makePersistent(newInstructor);
 		getPM().flush();
 
 		// Check insert operation persisted
 		int elapsedTime = 0;
-		Instructor instructorCheck = getInstructorEntity(instructorToAdd.id);
+		Coordinator instructorCheck = getInstructorEntity(instructorToAdd.id);
 		while ((instructorCheck == null)
 				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
 			Common.waitBriefly();
@@ -139,7 +139,7 @@ public class AccountsDb {
 	public boolean isInstructor(String googleId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
 		
-		Instructor c = getInstructorEntity(googleId);
+		Coordinator c = getInstructorEntity(googleId);
 		return c != null;
 	}
 
@@ -178,7 +178,7 @@ public class AccountsDb {
 	public InstructorData getInstructor(String googleId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
 
-		Instructor c = getInstructorEntity(googleId);
+		Coordinator c = getInstructorEntity(googleId);
 
 		if (c == null) {
 			log.warning("Trying to get non-existent Instructor: " + googleId
@@ -416,7 +416,7 @@ public class AccountsDb {
 	public void deleteInstructor(String instructorId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, instructorId);
 
-		Instructor instructorToDelete = getInstructorEntity(instructorId);
+		Coordinator instructorToDelete = getInstructorEntity(instructorId);
 
 		if (instructorToDelete == null) {
 			return;
@@ -427,7 +427,7 @@ public class AccountsDb {
 
 		// Check delete operation persisted
 		int elapsedTime = 0;
-		Instructor instructorCheck = getInstructorEntity(instructorId);
+		Coordinator instructorCheck = getInstructorEntity(instructorId);
 		while ((instructorCheck != null)
 				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
 			Common.waitBriefly();
@@ -542,12 +542,12 @@ public class AccountsDb {
 	 * 
 	 * @return Instructor
 	 */
-	private Instructor getInstructorEntity(String googleID) {
-		String query = "select from " + Instructor.class.getName()
+	private Coordinator getInstructorEntity(String googleID) {
+		String query = "select from " + Coordinator.class.getName()
 				+ " where googleID == '" + googleID + "'";
 
 		@SuppressWarnings("unchecked")
-		List<Instructor> instructorList = (List<Instructor>) getPM()
+		List<Coordinator> instructorList = (List<Coordinator>) getPM()
 				.newQuery(query).execute();
 
 		if (instructorList.isEmpty()
@@ -565,8 +565,8 @@ public class AccountsDb {
 	 */
 	public List<InstructorData> getInstructors() {
 		List<InstructorData> list = new LinkedList<InstructorData>();
-		List<Instructor> entities = getInstructorEntities();
-		Iterator<Instructor> it = entities.iterator();
+		List<Coordinator> entities = getInstructorEntities();
+		Iterator<Coordinator> it = entities.iterator();
 		while(it.hasNext()) {
 			list.add(new InstructorData(it.next()));
 		}
@@ -599,12 +599,12 @@ public class AccountsDb {
 	/**
 	 * Returns the list of instructor entities
 	 */
-	private List<Instructor> getInstructorEntities() {
-		String query = "select from " + Instructor.class.getName();
+	private List<Coordinator> getInstructorEntities() {
+		String query = "select from " + Coordinator.class.getName();
 			
 
 		@SuppressWarnings("unchecked")
-		List<Instructor> instructorList = (List<Instructor>) getPM()
+		List<Coordinator> instructorList = (List<Coordinator>) getPM()
 				.newQuery(query).execute();
 	
 		return instructorList;

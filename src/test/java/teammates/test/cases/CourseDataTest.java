@@ -41,7 +41,7 @@ public class CourseDataTest extends BaseTestCase {
 		// FAIL: ID too long
 		c.id += "a";
 		assertFalse(c.isValid());
-		assertEquals(c.getInvalidStateInfo(), CourseData.ERROR_ID_TOOLONG);
+		assertTrue(c.getInvalidStateInfo().contains(CourseData.ERROR_ID_TOOLONG));
 		
 		// FAIL : ID with invalid chars
 		c.id = "my-uber-id!";

@@ -3,7 +3,7 @@ package teammates.common.datatransfer;
 import java.util.HashMap;
 
 import teammates.common.Common;
-import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Coordinator;
 
 public class InstructorData extends BaseData {
 	public HashMap<String, CourseData> courses;
@@ -22,7 +22,7 @@ public class InstructorData extends BaseData {
 		this.email = trimIfNotNull(email);
 	}
 
-	public InstructorData(Instructor instructor) {
+	public InstructorData(Coordinator instructor) {
 		this();
 		this.id = instructor.getGoogleID();
 		this.name = instructor.getName();
@@ -33,8 +33,8 @@ public class InstructorData extends BaseData {
 		
 	}
 
-	public Instructor toEntity() {
-		return new Instructor(id, name, email);
+	public Coordinator toEntity() {
+		return new Coordinator(id, name, email);
 	}
 
 	public String getInvalidStateInfo() {

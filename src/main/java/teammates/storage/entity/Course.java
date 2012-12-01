@@ -22,7 +22,7 @@ public class Course {
 	private String name;
 
 	@Persistent
-	private String instructorID;
+	private String coordinatorID;
 
 	@Persistent
 	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
@@ -33,12 +33,12 @@ public class Course {
 	 * 
 	 * @param ID
 	 * @param name
-	 * @param instructorID
+	 * @param coordinatorID
 	 */
-	public Course(String ID, String name, String instructorID) {
+	public Course(String ID, String name, String coordinatorID) {
 		this.setID(ID);
 		this.setName(name);
-		this.setInstructorID(instructorID);
+		this.setCoordinatorID(coordinatorID);
 		this.setArchived(false);
 	}
 
@@ -58,12 +58,12 @@ public class Course {
 		return name;
 	}
 
-	public void setInstructorID(String instructorID) {
-		this.instructorID = instructorID.trim();
+	public void setCoordinatorID(String coordinatorID) {
+		this.coordinatorID = coordinatorID.trim();
 	}
 
-	public String getInstructorID() {
-		return instructorID;
+	public String getCoordinatorID() {
+		return coordinatorID;
 	}
 
 	public void setArchived(boolean archived) {

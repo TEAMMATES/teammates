@@ -178,7 +178,7 @@ public class BackDoorServlet extends HttpServlet {
 	// TODO: move to BackDoorLogic
 	private String getCoursesByInstructorID(String instructorID) {
 		String query = "select from " + Course.class.getName()
-				+ " where instructorID == '" + instructorID + "'";
+				+ " where coordinatorID == '" + instructorID + "'";
 
 		@SuppressWarnings("unchecked")
 		List<Course> courseList = (List<Course>) getPM().newQuery(query)

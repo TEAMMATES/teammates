@@ -45,7 +45,7 @@ public class CourseData extends BaseData {
 	public CourseData(Course course) {
 		this.id = course.getID();
 		this.name = course.getName();
-		this.instructor = course.getInstructorID();
+		this.instructor = course.getCoordinatorID();
 	}
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -66,7 +66,7 @@ public class CourseData extends BaseData {
 			errorMessage += ERROR_FIELD_ID;
 		} else {
 			if (id.length() > Common.COURSE_ID_MAX_LENGTH) {
-				errorMessage += ERROR_ID_TOOLONG;
+				errorMessage += (ERROR_ID_TOOLONG + ":" + id) ;
 			}
 
 			if (!id.matches("^[a-zA-Z_$0-9.-]+$")) {

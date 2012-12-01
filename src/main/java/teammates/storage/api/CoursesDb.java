@@ -104,7 +104,7 @@ public class CoursesDb {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, instructorId);
 		
 		String query = "select from " + Course.class.getName()
-				+ " where instructorID == '" + instructorId + "'";
+				+ " where coordinatorID == '" + instructorId + "'";
 
 		@SuppressWarnings("unchecked")
 		List<Course> courseList = (List<Course>) getPM().newQuery(query)
