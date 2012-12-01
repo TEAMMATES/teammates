@@ -321,16 +321,29 @@
 	        <br>
 	
 	        <p id="design-storage" class="subheader">Storage</p>
-	        <br>
-	        The DB component performs CRUD operations on data entities individually. It hides the datastore from logic component. It is expected to contain minimal logic beyond what is directly relevant to CRUD operations.<br>
-	        <br>
+	        The <span class="code">Storage</span> component performs CRUD operations 
+	        on data entities individually. It is accessible via the 3 <span class="code">*Db</span> classes.
+	        It hides complexities of datastore from the <span class="code">Logic</span> component. 
+	        All GQL queries are to be contained inside the <span class="code">Storage</span> component.
+	        <br>It contains minimal logic beyond what is directly relevant to CRUD operations.
+	        <br>The <span class="code">Storage</span> component will not perform any cascade delete/create
+	        oprearations.Cascade logic is currently handled by Logic component.
+	        <br><br>
 	        
 	        <div class="image-holder"><img src="images/StorageComponent.png" width=80%/></div>
-	        
 	        <br>
-	        Cascade logic is currently handled by Logic component. <br>
-	        <span class="code">Storage::Entity</span> classes should not be visible outside this component to prevent accidental modification to the entity's attributes.<br>
-	        Instead, a corresponding non-persistent <span class="code">EntityData</span> object is returned, where values can be get and set easily without any impact on the persistent data copy.
+	        <span class="code">Storage::Entity</span> classes are not visible 
+	        outside this component to prevent accidental modification to the entity's attributes.<br>
+	        Instead, a corresponding non-persistent data transfer object
+	        named <span class="code">*EntityData</span> (e.g., <span class="code">CourseData</span> is
+	        the data transfer object for <span class="code">Course</span> entities) 
+	        object is returned, where values can be get and set easily without any 
+	        impact on the persistent data copy. 
+	        Note: This decision was taken before GAE started supporting 
+	        <a href="https://developers.google.com/appengine/docs/java/datastore/jdo/creatinggettinganddeletingdata">
+	        the ability to 'detach' entities </a> to prevent accidental modifications 
+	        to persistable data. The decision to use data transer objects is
+	        to be reconsidered in the future.
 	        <br>
 	        
 	        <p id="design-storage-storageAPI" class="subheader">Storage API</p>
