@@ -318,7 +318,6 @@
 	            <li>Evaluation: delete all submissions </li>
 	            <li>Submission : no cascade (this entity can only be deleted by cascades)</li>
 	        </ul>
-	        <br>
 	
 	        <p id="design-storage" class="subheader">Storage</p>
 	        The <span class="code">Storage</span> component performs CRUD operations 
@@ -345,6 +344,10 @@
 	        to persistable data. The decision to use data transer objects is
 	        to be reconsidered in the future.
 	        <br>
+	        Note that the navigability of the association links between entity 
+	        objects appear to be in the reverse direction of what we see in a normal OOP design. 
+	        This is because we want to keep the data scheme flexible so that new
+	        entity types can be added later with minimal modifications to existing elements.
 	        
 	        <p id="design-storage-storageAPI" class="subheader">Storage API</p>
 	        Represented by classes in storage::api
