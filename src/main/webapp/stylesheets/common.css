@@ -51,7 +51,7 @@ table {
 	line-height: 120%;
 }
 
-textarea {
+textarea, input{
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 13px;
 }
@@ -75,6 +75,68 @@ textarea {
 	filter: progid : DXImageTransform.Microsoft.Shadow ( color = gray, direction = 135 );
 }
 
+
+/*--------------------- General CSS Styles (shouldn't be changed) ----------------------*/
+h1 {
+	font-size: 200%;
+	font-weight: bold;
+	margin: 0 auto;
+	padding: 15px 0px;
+}
+
+h2 {
+	font-size: 150%;
+	margin: 0 auto;
+	padding: 15px 0px;
+}
+
+.centeralign {
+	text-align: center;
+}
+
+.leftalign {
+	text-align: left;
+}
+
+.rightalign {
+	text-align: right;
+}
+
+.middlealign {
+	vertical-align: middle;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.negDiff {
+	color: #F00;
+}
+
+.posDiff {
+	color: #063;
+}
+
+.color_positive { 
+	color: #060;
+}
+
+.color_negative { 
+	color:#F00;
+}
+
+.color_neutral {
+	color: gray;
+}
+
+.color_black{
+	color: black;
+}
+
+.color_white {
+	color: white;
+}
 
 
 /*---------------------  Frame Top  --------------------------------------------------- */
@@ -177,10 +239,11 @@ textarea {
 #frameBodyWrapper {
 	margin: 0 auto;
 	width: 1000px;
+	min-height: 200px;
 }
 
 #headerOperation {
-	margin-top: 30px;
+	margin: 30px 0px;
 	text-align: center;
 }
 
@@ -202,42 +265,29 @@ div#statusMessage {
 .backgroundBlock {
 	background: #036;
 	margin: 0 auto;
-	width: 940px;
+	width: 960px;
 	padding: 20px;
 }
 
-
-
-/*---------------------  Block Link  --------------------------------------------------- */
 .blockLink a {
-	color: white;
-	font-weight: bold;
 	margin-left: 15px;
+	font-size: 13px;
 	text-decoration: underline;
 }
 
-.blockLink a:hover {
-	color: white;
-	font-weight: bold;
-	margin-left: 15px;
-	text-decoration: underline;
-}
 
 
 
 /*---------------------  Data Table  --------------------------------------------------- */
 .dataTable {
-	text-align: left;
-	width: 940px;
+	width: 960px;
 	margin: 0 auto;
 }
 
 .dataTable th {
 	background: #4E80BB;
-	color: white;
-	font-weight: bold;
 	padding: 8px;
-	border:1px dotted gray;
+	border: 1px dotted gray;
 }
 
 .dataTable tr:nth-of-type(odd) {
@@ -254,18 +304,11 @@ div#statusMessage {
 }
 
 .dataTable td {
-	color: black;
 	padding: 8px;
-	border:1px dotted gray;
+	border: 1px dotted gray;
 }
 
 .dataTable a {
-   color: black;
-   text-decoration: underline;
-}
-
-.dataTable a:hover {
-   color: black;
    text-decoration: underline;
 }
 
@@ -312,14 +355,15 @@ div#statusMessage {
 }
 
 .inputTable .label {
-	font: bold 12px Verdana, Arial, Helvetica, sans-serif;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
 	color: #363636;
 }
 
+/*
 .inputTable input textarea {
     margin-left: 15px;
     margin-right: 15px;
-}
+}*/
 
 
 
@@ -327,14 +371,11 @@ div#statusMessage {
 .resultTable {
 	background: #036;
 	margin: 0 auto;
-	width: 940px;
-	padding: 20px;
+	width: 960px;
 }
 
 .resultTable thead th, tfoot th { 
-	background: #7FB3EE;
-	color: white;
-	text-align: left;
+	background: #B8D3F2;
 	vertical-align: bottom;
 	margin: 0 auto;
 	padding: 0.8em;
@@ -347,7 +388,6 @@ div#statusMessage {
 }
 
 .resultTable td{
-	text-align: left;
 	background-color: #EBF1F5;
 	border: 1px dotted gray;
 	padding: 0.8em;
@@ -356,8 +396,6 @@ div#statusMessage {
 
 .resultTable .resultSubheader td{
 	background-color: #D0D8E8;
-	color: #4E80BB;
-	font-weight: bold;
 }
 
 
@@ -396,63 +434,6 @@ div#statusMessage {
 }
 
 
-
-/*---------------------  Misc  --------------------------------------------------- */
-h1 {
-	font-size: 200%;
-	font-weight: bold;
-	letter-spacing: 2px;
-	margin: 0 auto;
-	padding: 15px 0px;
-	text-align: center;
-}
-
-h2 {
-	font-size: 150%;
-	margin: 0 auto;
-	padding: 15px 0 15px;
-	text-align: left;
-}
-
-.centeralign {
-	text-align: center;
-}
-
-.leftalign {
-	text-align: left;
-}
-
-.rightalign {
-	text-align: right;
-}
-
-.negDiff {
-	color: #F00;
-}
-
-.posDiff {
-	color: #063;
-}
-
-.color_positive { 
-	color: #060;
-	font-weight:bold;
-}
-
-.color_negative { 
-	color:#F00;
-	font-weight:bold;
-}
-
-.color_neutral{
-	color:black;
-	font-weight:bold;
-}
-
-.color_gray {
-	color: gray;
-	font-size: 9;
-}
 
 
 

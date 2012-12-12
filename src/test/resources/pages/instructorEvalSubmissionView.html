@@ -15,6 +15,8 @@
 	
 	<script src="/js/instructor.js" type="text/javascript"></script>
     <noscript>{*}</noscript>
+
+
 </head>
 
 <body>
@@ -46,109 +48,113 @@
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
 				<h1>View Student's Evaluation</h1>
-				<table id="studentEvaluationInfo" class="inputTable">
-					<tbody><tr>
-						<td width="30%" class="label rightalign">Course ID:</td>
-						<td class="leftalign">CESubEditUiT.CS1101</td>
+			</div>
+			
+			<table id="studentEvaluationInfo" class="inputTable">
+				<tbody><tr>
+					<td width="30%" class="label rightalign bold">Course ID:</td>
+					<td class="leftalign">CESubEditUiT.CS1101</td>
+				</tr>
+				<tr>
+					<td width="30%" class="label rightalign bold">Evaluation Name:</td>
+					<td class="leftalign">First Eval</td>
+				</tr>
+			</tbody></table>
+			
+
+			
+			<h2 class="centeralign">Charlie Davis's Result</h2>
+			<table class="resultTable">
+				<thead><tr>
+					<th width="10%" class="bold leftalign" colspan="2">
+						<span class="resultHeader">Reviewee: </span>Charlie Davis</th>
+					<th class="bold leftalign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is student own estimation of his/her contributions to the project')" class="resultHeader">
+						Claimed Contributions: </span>Equal Share<span class="color_positive"> + 3%</span></th>
+					<th class="bold leftalign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')" class="resultHeader">
+						Perceived Contributions: </span>Equal Share<span class="color_negative"> - 3%</span></th>
+				</tr></thead>
+				<tbody><tr>
+					<td colspan="4"><span class="bold">Self evaluation:</span><br />
+							This is a justification from charlie.d.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
 					</tr>
 					<tr>
-						<td width="30%" class="label rightalign">Evaluation Name:</td>
-						<td class="leftalign">First Eval</td>
+						<td colspan="4"><span class="bold">Comments about team:</span><br />
+							This is a public comment from charlie.d.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
 					</tr>
-				</tbody></table>
-			</div>
-			<div id="studentEvaluationSubmissions">
+				<tr class="resultSubheader">
+					<td width="15%" class="bold">From Student</td>
+					<td width="5%" class="bold">Contribution</td>
+					<td width="40%" class="bold">Comments</td>
+					<td width="40%" class="bold">Messages</td>
+				</tr>
+				
+					<tr>
+						<td><b>Danny Engrid</b></td>
+						<td>Equal Share<br /><span class="color_negative"> - 1%</span></td>
+						<td>This is a justification from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
+						<td>This is a public comment from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
+					</tr>
+				
+					<tr>
+						<td><b>Emily</b></td>
+						<td>Equal Share<br /><span class="color_negative"> - 6%</span></td>
+						<td>This is a justification from emily.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
+						<td>This is a public comment from emily.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
+					</tr>
+				
+			</tbody></table>
+			<br /><br />
 			
-				<h2 style="text-align: center;">Charlie Davis's Result</h2>
-				<table class="resultTable">
-					<thead><tr>
-						<th width="10%" colspan="2">
-							<span class="resultHeader">Reviewee: </span>Charlie Davis</th>
-						<th><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is student own estimation of his/her contributions to the project')" class="resultHeader">
-							Claimed Contributions: </span>Equal Share<span class="color_positive"> + 3%</span></th>
-						<th><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')" class="resultHeader">
-							Perceived Contributions: </span>Equal Share<span class="color_negative"> - 3%</span></th>
-					</tr></thead>
-					<tbody><tr>
-						<td colspan="4"><span class="color_neutral">Self evaluation:</span><br />
-								This is a justification from charlie.d.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
-						</tr>
-						<tr>
-							<td colspan="4"><span class="color_neutral">Comments about team:</span><br />
-								This is a public comment from charlie.d.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
-						</tr>
-					<tr class="resultSubheader">
-						<td width="15%">From Student</td>
-						<td width="5%">Contribution</td>
-						<td width="40%">Comments</td>
-						<td width="40%">Messages</td>
+			<h2 class="centeralign">Charlie Davis's Submission</h2>
+			<table class="resultTable">
+				<thead><tr>
+					<th width="10%" class="bold leftalign" colspan="2">
+						<span class="resultHeader">Reviewer: </span>Charlie Davis</th>
+					<th class="bold leftalign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is student own estimation of his/her contributions to the project')" class="resultHeader">
+						Claimed Contributions: </span>Equal Share<span class="color_positive"> + 3%</span></th>
+					<th class="bold leftalign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')" class="resultHeader">
+						Perceived Contributions: </span>Equal Share<span class="color_negative"> - 3%</span></th>
+				</tr></thead>
+				<tbody><tr>
+					<td colspan="4"><span class="bold">Self evaluation:</span><br />
+							This is a justification from charlie.d.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
 					</tr>
-					
-						<tr>
-							<td><b>Danny Engrid</b></td>
-							<td>Equal Share<br /><span class="color_negative"> - 1%</span></td>
-							<td>This is a justification from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
-							<td>This is a public comment from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
-						</tr>
-					
-						<tr>
-							<td><b>Emily</b></td>
-							<td>Equal Share<br /><span class="color_negative"> - 6%</span></td>
-							<td>This is a justification from emily.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
-							<td>This is a public comment from emily.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
-						</tr>
-					
-				</tbody></table>
-				<br /><br />
-				
-				<h2 style="text-align: center;">Charlie Davis's Submission</h2>
-				<table class="resultTable">
-					<thead><tr>
-						<th width="10%" colspan="2">
-							<span class="resultHeader">Reviewer: </span>Charlie Davis</th>
-						<th><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is student own estimation of his/her contributions to the project')" class="resultHeader">
-							Claimed Contributions: </span>Equal Share<span class="color_positive"> + 3%</span></th>
-						<th><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')" class="resultHeader">
-							Perceived Contributions: </span>Equal Share<span class="color_negative"> - 3%</span></th>
-					</tr></thead>
-					<tbody><tr>
-						<td colspan="4"><span class="color_neutral">Self evaluation:</span><br />
-								This is a justification from charlie.d.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
-						</tr>
-						<tr>
-							<td colspan="4"><span class="color_neutral">Comments about team:</span><br />
-								This is a public comment from charlie.d.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
-						</tr>
-					<tr class="resultSubheader">
-						<td width="15%">To Student</td>
-						<td width="5%">Contribution</td>
-						<td width="40%">Comments</td>
-						<td width="40%">Messages</td>
+					<tr>
+						<td colspan="4"><span class="bold">Comments about team:</span><br />
+							This is a public comment from charlie.d.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
 					</tr>
-					
-						<tr>
-							<td><b>Danny Engrid</b></td>
-							<td>Equal Share<br /><span class="color_negative"> - 6%</span></td>
-							<td>This is a justification from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com</td>
-							<td>This is a public comment from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com</td>
-						</tr>
-					
-						<tr>
-							<td><b>Emily</b></td>
-							<td>Equal Share<br /><span class="color_positive"> + 3%</span></td>
-							<td>This is a justification from charlie.d.tmms@gmail.com to emily.tmms@gmail.com</td>
-							<td>This is a public comment from charlie.d.tmms@gmail.com to emily.tmms@gmail.com</td>
-						</tr>
-					
-				</tbody></table>
-				<br /><br />
+				<tr class="resultSubheader">
+					<td width="15%" class="bold">To Student</td>
+					<td width="5%" class="bold">Contribution</td>
+					<td width="40%" class="bold">Comments</td>
+					<td width="40%" class="bold">Messages</td>
+				</tr>
 				
-				<div class="centeralign">
-					<input type="button" onclick="window.close()" value="Close" id="button_back" class="button" />
-					<input type="button" onclick="window.location.href='/page/instructorEvalSubmissionEdit?courseid=CESubEditUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=charlie.d.tmms%40gmail.com&amp;user=teammates.demo.instructor'" value="Edit Submission" id="button_edit" class="button" />
-				</div>
-				<br /><br />
+					<tr>
+						<td><b>Danny Engrid</b></td>
+						<td>Equal Share<br /><span class="color_negative"> - 6%</span></td>
+						<td>This is a justification from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com</td>
+						<td>This is a public comment from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com</td>
+					</tr>
+				
+					<tr>
+						<td><b>Emily</b></td>
+						<td>Equal Share<br /><span class="color_positive"> + 3%</span></td>
+						<td>This is a justification from charlie.d.tmms@gmail.com to emily.tmms@gmail.com</td>
+						<td>This is a public comment from charlie.d.tmms@gmail.com to emily.tmms@gmail.com</td>
+					</tr>
+				
+			</tbody></table>
+			<br /><br />
+			
+			<div class="centeralign">
+				<input type="button" onclick="window.close()" value="Close" id="button_back" class="button" />
+				<input type="button" onclick="window.location.href='/page/instructorEvalSubmissionEdit?courseid=CESubEditUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=charlie.d.tmms%40gmail.com&amp;user=teammates.demo.instructor'" value="Edit Submission" id="button_edit" class="button" />
 			</div>
+			<br />
+			<br />
+			<br />
+	
 		</div>
 	</div>
 
@@ -161,5 +167,4 @@
 </div>
 	</div>
 
-</body>
-</html>
+</body></html>

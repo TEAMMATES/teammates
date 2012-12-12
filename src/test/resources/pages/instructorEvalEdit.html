@@ -15,10 +15,12 @@
 	
 	<script src="/js/instructor.js" type="text/javascript"></script>
     <noscript>{*}</noscript>
+
+
 </head>
 
 <body>
-	<div id="dhtmltooltip">Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline.</div>
+	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
 		
 
@@ -47,20 +49,20 @@
 			<div id="headerOperation">
 				<h1>Edit Evaluation</h1>
 			</div>
-			<div id="instructorEvaluationManagement">
-				<form name="form_addevaluation" action="/page/instructorEvalEdit" method="post">
-					<table class="inputTable">
-						<tbody><tr>
-							<td class="label">Course ID:</td>
-							<td style="vertical-align: middle;">
-								<input type="hidden" value="CEvEditUiTest.CS1101" name="courseid" />
-								CEvEditUiTest.CS1101
-							</td>
-							<td class="label">Opening time:</td>
-							<td><input type="text" tabindex="3" readonly="readonly" value="20/04/2012" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the start date for the evaluation.')" onclick="cal.select(this,'start','dd/MM/yyyy')" id="start" name="start" style="width: 100px;" />
-										@
-								<select tabindex="4" id="starttime" name="starttime" style="width: 70px;">
-									<option value="1">0100H</option>
+			
+			<form name="form_addevaluation" action="/page/instructorEvalEdit" method="post">
+				<table id="instructorEvaluationManagement" class="inputTable">
+					<tbody><tr>
+						<td class="label bold">Course ID:</td>
+						<td style="vertical-align: middle;">
+							<input type="hidden" value="CEvEditUiTest.CS1101" name="courseid" />
+							CEvEditUiTest.CS1101
+						</td>
+						<td class="label bold">Opening time:</td>
+						<td><input type="text" tabindex="3" readonly="readonly" value="20/04/2012" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the start date for the evaluation.')" onclick="cal.select(this,'start','dd/MM/yyyy')" id="start" name="start" style="width: 100px;" />
+									@
+							<select tabindex="4" id="starttime" name="starttime" style="width: 70px;">
+								<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
 <option value="4">0400H</option>
@@ -85,19 +87,19 @@
 <option value="23">2300H</option>
 <option selected="selected" value="24">2359H</option>
 
-								</select></td>
-						</tr>
-						<tr>
-							<td class="label">Evaluation name:</td>
-							<td style="vertical-align: middle;">
-								<input type="hidden" value="Testing Evaluation" name="evaluationname" />
-								Testing Evaluation
-							</td>
-							<td class="label">Closing time:</td>
-							<td><input type="text" tabindex="5" readonly="readonly" value="20/04/2015" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter deadline for the evaluation.')" onclick="cal.select(this,'deadline','dd/MM/yyyy')" id="deadline" name="deadline" style="width: 100px;" />
-										@
-								<select tabindex="6" id="deadlinetime" name="deadlinetime" style="width: 70px;">
-									<option value="1">0100H</option>
+							</select></td>
+					</tr>
+					<tr>
+						<td class="label bold">Evaluation name:</td>
+						<td style="vertical-align: middle;">
+							<input type="hidden" value="Testing Evaluation" name="evaluationname" />
+							Testing Evaluation
+						</td>
+						<td class="label bold">Closing time:</td>
+						<td><input type="text" tabindex="5" readonly="readonly" value="20/04/2015" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter deadline for the evaluation.')" onclick="cal.select(this,'deadline','dd/MM/yyyy')" id="deadline" name="deadline" style="width: 100px;" />
+									@
+							<select tabindex="6" id="deadlinetime" name="deadlinetime" style="width: 70px;">
+								<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
 <option value="4">0400H</option>
@@ -122,18 +124,18 @@
 <option value="23">2300H</option>
 <option selected="selected" value="24">2359H</option>
 
-								</select></td>
-						</tr>
-						<tr>
-							<td class="label">Peer feedback:</td>
-							<td><input type="radio" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enable this if you want students to give anonymous feedback to team members.<br />You can moderate those peer feedback before publishing it to the team.')" checked="checked" value="true" id="commentsstatus_enabled" name="commentsstatus" />
-								<label for="commentsstatus_enabled">Enabled</label>
-								<input type="radio" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enable this if you want students to give anonymous feedback to team members.<br />You can moderate those peer feedback before publishing it to the team.')" value="false" id="commentsstatus_disabled" name="commentsstatus" />
-								<label for="commentsstatus_disabled">Disabled</label>
-							</td>
-							<td class="attribute">Time zone:</td>
-							<td><select tabindex="7" disabled="disabled" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />daylight saving, you should choose UTC -7:00 and its corresponding timings.')" id="timezone" name="timezone" style="width: 100px;">
-								<option value="-12">UTC -12:00</option>
+							</select></td>
+					</tr>
+					<tr>
+						<td class="label bold">Peer feedback:</td>
+						<td><input type="radio" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enable this if you want students to give anonymous feedback to team members.<br />You can moderate those peer feedback before publishing it to the team.')" checked="checked" value="true" id="commentsstatus_enabled" name="commentsstatus" />
+							<label for="commentsstatus_enabled">Enabled</label>
+							<input type="radio" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enable this if you want students to give anonymous feedback to team members.<br />You can moderate those peer feedback before publishing it to the team.')" value="false" id="commentsstatus_disabled" name="commentsstatus" />
+							<label for="commentsstatus_disabled">Disabled</label>
+						</td>
+						<td class="bold label">Time zone:</td>
+						<td><select tabindex="7" disabled="disabled" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />daylight saving, you should choose UTC -7:00 and its corresponding timings.')" id="timezone" name="timezone" style="width: 100px;">
+							<option value="-12">UTC -12:00</option>
 <option value="-11">UTC -11:00</option>
 <option value="-10">UTC -10:00</option>
 <option value="-9">UTC -09:00</option>
@@ -166,17 +168,17 @@
 <option value="12">UTC +12:00</option>
 <option value="13">UTC +13:00</option>
 
-								</select>
-								<input type="hidden" value="8.0" name="timezone" />
-							</td>
-						</tr>
-						<tr>
-						<td></td>
-						<td></td>
-						<td class="attribute">Grace Period:</td>
-						<td class="inputField">
-							<select tabindex="7" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline.')" id="graceperiod" name="graceperiod" style="width: 70px;">
-								<option value="0">0 mins</option>
+							</select>
+							<input type="hidden" value="8.0" name="timezone" />
+						</td>
+					</tr>
+					<tr>
+					<td></td>
+					<td></td>
+					<td class="bold label">Grace Period:</td>
+					<td class="inputField">
+						<select tabindex="7" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline.')" id="graceperiod" name="graceperiod" style="width: 70px;">
+							<option value="0">0 mins</option>
 <option selected="selected" value="5">5 mins</option>
 <option value="10">10 mins</option>
 <option value="15">15 mins</option>
@@ -184,37 +186,40 @@
 <option value="25">25 mins</option>
 <option value="30">30 mins</option>
 
-							</select></td>
-						</tr>
-						<tr>
-							<td class="label">Instructions to students:</td>
-							<td colspan="3">
-								<textarea tabindex="8" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter instructions for your students, e.g. Avoid comments which are too critical.')" id="instr" name="instr" class="textvalue" cols="100" rows="3">This is the instructions, please follow</textarea>
-							</td>
-						</tr>
-						<tr>
-							<td class="centeralign" colspan="4">
-								<input type="submit" tabindex="9" value="Save Changes" onclick="return checkEditEvaluation(this.form);" class="button" id="button_submit" />
-								<input type="button" tabindex="10" value="Cancel" onclick="window.location.href='/page/instructorEval?user=teammates.demo.instructor'" class="button" id="button_back" /></td>
-						</tr>
-					</tbody></table>
-					
-						<input type="hidden" value="teammates.demo.instructor" name="user" />
-					
-				</form>
-			</div>
+						</select></td>
+					</tr>
+					<tr>
+						<td class="label bold middlealign">Instructions to students:</td>
+						<td colspan="3">
+							<textarea tabindex="8" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter instructions for your students, e.g. Avoid comments which are too critical.')" id="instr" name="instr" class="textvalue" cols="90" rows="3">This is the instructions, please follow</textarea>
+						</td>
+					</tr>
+					<tr>
+					<td class="centeralign" colspan="4">
+							<input type="submit" tabindex="9" value="Save Changes" onclick="return checkEditEvaluation(this.form);" class="button" id="button_submit" />
+							<input type="button" tabindex="10" value="Cancel" onclick="window.location.href='/page/instructorEval?user=teammates.demo.instructor'" class="button" id="button_back" /></td>
+					</tr>
+				</tbody></table>
+				
+					<input type="hidden" value="teammates.demo.instructor" name="user" />
+				
+			</form>
+			
+			<br />
 			
 
 
 	<div style="display: none;" id="statusMessage"></div>
 
+			<br />
+			<br />
+			<br />
 		</div>
 	</div>
 
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-
 [TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
 
 <a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html">Contact Us</a>

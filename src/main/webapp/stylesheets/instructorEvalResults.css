@@ -1,36 +1,10 @@
 #instructorEvaluationInformation {
-	margin: 20px auto;
-	text-align: center;
-	width: 940px;
-}
-
-#instructorEvaluationInformation table{
-	width: 940px;
-	text-align: left;
-}
-
-#instructorEvaluationSummaryTable {
-	margin-top: 20px;
-	text-align: center;
-}
-
-#instructorEvaluationDetailedReviewerTable {
-	margin-top: 20px;
-	text-align: center;
-}
-
-#instructorEvaluationDetailedRevieweeTable {
-	margin-top: 20px;
-	text-align: center;
+	width: 800px;
 }
 
 #tablecaption {
-	padding: 0px 35px;
+	padding: 3px 35px;
 	text-align: right;
 	font-size: small;
 	font-style: italic;
-}
-
-.resultTitle {
-	color: white;
 }

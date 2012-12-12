@@ -37,9 +37,10 @@ public class HtmlHelper {
 	 */
 	public static boolean assertSameHtml(String html1, String html2)
 			throws SAXException, IOException, TransformerException {
+		
 		html1 = preProcessHtml(html1);
 		html2 = preProcessHtml(html2);
-
+		
 		Node page1 = getNodeFromString(html1);
 		Node page2 = getNodeFromString(html2);
 		eliminateEmptyTextNodes(page1);
@@ -50,7 +51,8 @@ public class HtmlHelper {
 		if(!isLogicalMatch){
 			//If they are not a logical match, we force a literal comparison
 			//   just so that JUnit gives us a side-by-side comparison.
-			assertEquals(annotatedHtml.toString(), html1, html2);
+			System.out.println(annotatedHtml.toString());
+			assertEquals(annotatedHtml.toString(), html1, html2);		
 		}
 		return isLogicalMatch;
 	}
@@ -60,6 +62,9 @@ public class HtmlHelper {
 		htmlString = htmlString.replaceFirst("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>");	
 		htmlString = htmlString.replaceAll("height=\"([0-9]+)\"", "height=\"$1px\"");
 		htmlString = htmlString.replaceAll("width=\"([0-9]+)\"", "width=\"$1px\"");
+		if (!htmlString.contains("<!DOCTYPE")){
+			htmlString = "<!DOCTYPE html>\n" + htmlString;
+		}
 		return htmlString;
 	}
 
@@ -107,13 +112,21 @@ public class HtmlHelper {
 			
 			NamedNodeMap actualAttributeList = actual.getAttributes();
 			NamedNodeMap expectedAttributeList = expected.getAttributes();
+			boolean dhtmltooltipIgnore = false;
 			for (int i = 0; i < expectedAttributeList.getLength(); i++){
 				Node expectedAttribute = expectedAttributeList.item(i);
-				Node actualAttribute;
+				Node actualAttribute = null;				
 				try{
 					actualAttribute = actualAttributeList.removeNamedItem(expectedAttribute.getNodeName());
+					if(actualAttribute.getNodeName().equals("id") && actualAttribute.getNodeValue().equals("dhtmltooltip")){						
+						dhtmltooltipIgnore = true;
+					}
 				}
 				catch (DOMException e){
+					//skip if the style for the dhtmltooltip is set
+					if(dhtmltooltipIgnore && expectedAttribute.getNodeName().equals("style")){						
+						return true;
+					}
 					output.append("Error: Unable to find attribute: " + expectedAttribute.getNodeName() + "\n");
 					return false;
 				}

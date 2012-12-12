@@ -30,30 +30,30 @@
 				<form action="">
 					<table id="addform" class="inputTable">
 					<tr>
-						<td class="label">Google ID:</td>
+						<td class="label bold">Google ID:</td>
 					</tr>
 					<tr>
 					   <td><input class="addinput" type="text" name="<%= Common.PARAM_INSTRUCTOR_ID %>"></td>
 					</tr>
 					<tr>
-						<td class="label">Name:</td>
+						<td class="label bold">Name:</td>
 					</tr>
 					<tr>
 						<td><input class="addinput" type="text" name="<%= Common.PARAM_INSTRUCTOR_NAME %>"></td>
 				    </tr>
 				    <tr>
-					    <td class="label">Email: </td>
+					    <td class="label bold">Email: </td>
 					</tr>
 					<tr>
 						<td><input class="addinput" type="text" name="<%= Common.PARAM_INSTRUCTOR_EMAIL %>"></td>
 				    </tr>
 				    <tr>
-						<td><input type="checkbox" name="<%= Common.PARAM_INSTRUCTOR_IMPORT_SAMPLE %>" value="importsample">Import sample data</input></td>
+						<td class="centeralign"><input type="checkbox" name="<%= Common.PARAM_INSTRUCTOR_IMPORT_SAMPLE %>" value="importsample">Import sample data</input></td>
 				    </tr>
 				    <tr>
-						<td><input id="btnAddInstructor" class="button" type="submit" value="Add Instructor"></td>
+						<td class="centeralign"><input id="btnAddInstructor" class="button" type="submit" value="Add Instructor"></td>
 				    </tr>
-				    </table>
+				    </table>\
 				</form>
 			</div>
 			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />

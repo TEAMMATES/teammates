@@ -1,26 +1,4 @@
 #studentEvaluationInformation {
 	width: 500px;
-	margin: 20px auto;
 }
  
-#studentEvaluationInformation .inputTable{
-	width: 500px;
-}
-
-.inputTable .label {
-	vertical-align: top;
-
-}
-
-.inputTable .reportHeader {
-	font-weight: bold;
-	padding-bottom: 5px;
-	text-align: center;
-	text-decoration: underline;
-	text-transform: capitalize;
-}
-
-#studentEvaluationSubmissionButtons {
-	text-align: center;
-	margin: 20px 0px;
-}

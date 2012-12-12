@@ -1,16 +1,9 @@
-#studentEditForm {
-	text-align: center;
-}
-  
-#studentEditForm table{
-	width: 600px;
-	text-align: left;
-}
 
-#studentEditForm td{
-	vertical-align: middle;
+  
+#studentEditForm{
+	width: 800px;
 }
 
 .fieldvalue{
-	width: 250px;
+	width: 300px;
 }

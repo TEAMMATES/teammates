@@ -16,6 +16,8 @@
 	<script src="/js/instructor.js" type="text/javascript"></script>
 	<script src="/js/instructorCourse.js" type="text/javascript"></script>
     <noscript>{*}</noscript>
+
+
 </head>
 
 <body>
@@ -48,76 +50,74 @@
 			<div id="headerOperation">
 				<h1>Add New Course</h1>
 			</div>
-			<div id="instructorCourseManagement">
-				<form name="form_addcourse" action="/page/instructorCourse" method="get">
-					<table class="inputTable" id="addform">
-						<tbody><tr>
-							<td class="label">Course ID:</td>
-						</tr>
-						<tr>
-							<td><input type="text" tabindex="1" maxlength="30" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the identifier of the course, e.g.CS3215-Sem1.')" value="" id="courseid" name="courseid" class="addinput" /></td>
-						</tr>
-						<tr>
-							<td class="label">Course Name:</td>
-						</tr>
-						<tr>
-							<td><input type="text" tabindex="2" maxlength="38" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')" value="" id="coursename" name="coursename" class="addinput" /></td>
-						</tr>
-						<tr>
-							<td><input type="submit" tabindex="3" value="Add Course" onclick="return verifyAddCourse();" class="button" id="btnAddCourse" /></td>
-						</tr>
-					</tbody></table>
-					
-						<input type="hidden" value="teammates.demo.instructor" name="user" />
-					
-				</form>
-			</div>
+
+			<form name="form_addcourse" action="/page/instructorCourse" method="get">
+				<table class="inputTable" id="addform">
+					<tbody><tr>
+						<td class="label bold">Course ID:</td>
+					</tr>
+					<tr>
+						<td><input type="text" tabindex="1" maxlength="30" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the identifier of the course, e.g.CS3215-Sem1.')" value="" id="courseid" name="courseid" class="addinput" /></td>
+					</tr>
+					<tr>
+						<td class="label bold">Course Name:</td>
+					</tr>
+					<tr>
+						<td><input type="text" tabindex="2" maxlength="38" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')" value="" id="coursename" name="coursename" class="addinput" /></td>
+					</tr>
+					<tr>
+						<td class="center-align"><input type="submit" tabindex="3" value="Add Course" onclick="return verifyAddCourse();" class="button" id="btnAddCourse" /></td>
+					</tr>
+				</tbody></table>
+				
+					<input type="hidden" value="teammates.demo.instructor" name="user" />
+				
+			</form>
+			<br />
 			
 
 
 	<div style="display: block;" id="statusMessage">
 		You have not created any courses yet. Use the form above to create a course.</div>
 
-			<div id="instructorCourseTable">
-				<table class="dataTable">
-					<tbody><tr>
-						<th><input type="button" onclick="toggleSort(this,1);" id="button_sortcourseid" class="buttonSortAscending" />
-							Course ID</th>
-						<th><input type="button" onclick="toggleSort(this,2);" id="button_sortcoursename" class="buttonSortNone" />
-							Course Name</th>
-						<th class="centeralign">Teams</th>
-						<th class="centeralign">Total Students</th>
-						<th class="centeralign">Total Unregistered</th>
-						<th class="centeralign">Action(s)</th>
+			<br />
+			<table class="dataTable">
+				<tbody><tr>
+					<th class="color_white bold"><input type="button" onclick="toggleSort(this,1);" id="button_sortcourseid" class="buttonSortAscending" />
+						Course ID</th>
+					<th class="color_white bold"><input type="button" onclick="toggleSort(this,2);" id="button_sortcoursename" class="buttonSortNone" />
+						Course Name</th>
+					<th class="centeralign color_white bold">Teams</th>
+					<th class="centeralign color_white bold">Total Students</th>
+					<th class="centeralign color_white bold">Total Unregistered</th>
+					<th class="centeralign color_white bold">Action(s)</th>
+				</tr>
+				
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
 					</tr>
-					
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-					
-				</tbody></table>
-				<br />
-				<br />
-				<br />
 				
-					No records found. <br />
-					<br />
-					<br />
-					<br />
-				
-			</div>
+			</tbody></table>
+			<br />
+			<br />
+			<br />
+			
+				No records found. <br />
+				<br />
+				<br />
+				<br />
+			
 		</div>
 	</div>
 
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-
 [TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
 
 <a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html">Contact Us</a>

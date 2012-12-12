@@ -438,25 +438,25 @@ public class Helper {
 		}
 		
 		result.append(
-			"<a class=\"t_eval_view"+ position + "\" " +
+			"<a class=\"color_black t_eval_view"+ position + "\" " +
 			"href=\"" + getInstructorEvaluationResultsLink(eval.course,eval.name) + "\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_RESULTS+"')\" "+
 			"onmouseout=\"hideddrivetip()\"" + (hasView ? "" : DISABLED) + ">View Results</a>"
 		);
 		result.append(
-			"<a class=\"t_eval_edit" + position + "\" " +
+			"<a class=\"color_black t_eval_edit" + position + "\" " +
 			"href=\"" + getInstructorEvaluationEditLink(eval.course,eval.name) + "\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_EDIT+"')\" onmouseout=\"hideddrivetip()\" " +
 			(hasEdit ? "" : DISABLED) + ">Edit</a>"
 		);
 		result.append(
-			"<a class=\"t_eval_delete" + position + "\" " +
+			"<a class=\"color_black t_eval_delete" + position + "\" " +
 			"href=\"" + getInstructorEvaluationDeleteLink(eval.course,eval.name,(isHome ? Common.PAGE_INSTRUCTOR_HOME : Common.PAGE_INSTRUCTOR_EVAL)) + "\" " +
 			"onclick=\"hideddrivetip(); return toggleDeleteEvaluationConfirmation('" + eval.course + "','" + eval.name + "');\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_DELETE+"')\" onmouseout=\"hideddrivetip()\">Delete</a>"
 		);
 		result.append(
-			"<a class=\"t_eval_remind" + position + "\" " +
+			"<a class=\"color_black t_eval_remind" + position + "\" " +
 			"href=\"" + getInstructorEvaluationRemindLink(eval.course,eval.name) + "\" " +
 			(hasRemind ? "onclick=\"hideddrivetip(); return toggleRemindStudents('" + eval.name + "');\" " : "") +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_REMIND+"')\" " +
@@ -464,7 +464,7 @@ public class Helper {
 		);
 		if (hasUnpublish) {
 			result.append(
-				"<a class=\"t_eval_unpublish" + position + "\" " +
+				"<a class=\"color_black t_eval_unpublish" + position + "\" " +
 				"href=\"" + getInstructorEvaluationUnpublishLink(eval.course,eval.name,isHome) + "\" " +
 				"onclick=\"hideddrivetip(); return toggleUnpublishEvaluation('" + eval.name + "');\" " +
 				"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_UNPUBLISH+"')\" onmouseout=\"hideddrivetip()\">" +
@@ -472,7 +472,7 @@ public class Helper {
 			);
 		} else {
 			result.append(
-				"<a class=\"t_eval_publish" + position + "\" " +
+				"<a class=\"color_black t_eval_publish" + position + "\" " +
 				"href=\"" + getInstructorEvaluationPublishLink(eval.course,eval.name,isHome) + "\" " +
 				(hasPublish ? "onclick=\"hideddrivetip(); return togglePublishEvaluation('" + eval.name + "');\" " : "") +
 				"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_PUBLISH+"')\" " +

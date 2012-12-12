@@ -1,7 +1,3 @@
-#instructorCourseManagement {
-	margin-top: 20px;
-}
-
 #addform {
 	width: 500px; 
 	height: 190px;
@@ -14,9 +10,4 @@
 
 #btnAddCourse {
 	margin-left: 200px;
-}
-
-#instructorCourseTable {
-	margin: 20px auto;
-	width: 940px;
 }

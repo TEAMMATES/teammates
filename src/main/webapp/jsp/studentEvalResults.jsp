@@ -33,27 +33,32 @@
 			<div id="headerOperation">
 				<h1>Evaluation Results</h1>
 			</div>
+			
 			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			
 			<div id="studentEvaluationResults">
-				<div style="margin: 5px auto; width: 940px; text-align: right; font-size: small; font-style: italic;">E = Equal Share</div>
-				<div class="backgroundBlock evalResultHeader"><span class="blockText">Your Result:</span></div>
+				<div style="margin: 5px auto; width: 960px; text-align: right; font-size: small; font-style: italic;">E = Equal Share</div>
+				<div class="backgroundBlock evalResultHeader">
+					<span class="color_white bold">Your Result:</span>
+				</div>
+				
 				<table class="result_studentform">
 					<tr>
-						<td width="15%">Evaluation:</td>
+						<td width="15%" class="bold color_white">Evaluation:</td>
 						<td colspan="2"><%=StudentEvalResultsHelper.escapeForHTML(helper.eval.name)%>
 							in
 							<%=helper.eval.course%>
 						</td>
 					</tr>
 					<tr>
-						<td>Student:</td>
+						<td class="bold color_white">Student:</td>
 						<td colspan="2"><%=StudentEvalResultsHelper.escapeForHTML(helper.student.name)%>
 							in
 							<%=StudentEvalResultsHelper.escapeForHTML(helper.student.team)%>
 						</td>
 					</tr>
 					<tr>
-						<td>My View:</td>
+						<td class="bold color_white">My View:</td>
 						<td width="12%">
 							Of me: <%=StudentEvalResultsHelper.colorizePoint(helper.evalResult.outgoing.get(0).points)%>
 						</td>
@@ -62,7 +67,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td>Teammates View:</td>
+						<td class="bold color_white">Teammates View:</td>
 						<td>
 							Of me: <%=StudentEvalResultsHelper.colorizePoint(helper.evalResult.incoming.get(0).normalizedToStudent)%>
 						</td>
@@ -71,8 +76,9 @@
 						</td>
 					</tr>
 				</table>
+				
 				<table class="resultTable">
-					<tr class="resultSubheader"><td>Feedback from teammates:</td></tr>
+					<tr class="resultSubheader bold color_black"><td>Feedback from teammates:</td></tr>
 					<tr>
 						<td>
 							<ul>
@@ -86,7 +92,7 @@
 							</ul>
 						</td>
 					</tr>
-					<tr class="resultSubheader"><td>What others said about their own contribution:</td></tr>
+					<tr class="resultSubheader bold color_black"><td>What others said about their own contribution:</td></tr>
 					<tr>
 						<td>
 							<ul>
@@ -102,28 +108,30 @@
 						</td>
 					</tr>
 				</table>
-				<br><br>
-				<div class="backgroundBlock evalResultHeader"><span class="blockText">Your Submission:</span></div>
+				<br>
+				<br>
+				
+				<div class="backgroundBlock evalResultHeader"><span class="color_white bold">Your Submission:</span></div>
 				<table class="result_studentform">
 					<tr>
-						<td width="15%">Points to yourself:</td>
+						<td width="15%" class="bold color_white">Points to yourself:</td>
 						<td><%=StudentEvalResultsHelper.colorizePoint(helper.evalResult.getSelfEvaluation().points)%></td>
 					</tr>
 					<tr>
-						<td>Your contribution:</td>
+						<td class="bold color_white">Your contribution:</td>
 						<td><%=StudentEvalResultsHelper.escapeForHTML(helper.evalResult.getSelfEvaluation().justification.getValue())%></td>
 					</tr>
 					<tr>
-						<td>Team dynamics:</td>
+						<td class="bold color_white">Team dynamics:</td>
 						<td><%=StudentEvalResultsHelper.escapeForHTML(helper.evalResult.getSelfEvaluation().p2pFeedback.getValue())%></td>
 					</tr>
 				</table>
 				<table class="dataTable">
 					<tr>
-						<th width="18%">Teammate Name</th>
-						<th>Points</th>
-						<th>Comments about teammate</th>
-						<th>Feedback to teammate</th>
+						<th width="18%" class="bold leftalign color_white">Teammate Name</th>
+						<th class="bold centeralign color_white">Points</th>
+						<th class="bold centeralign color_white">Comments about teammate</th>
+						<th class="bold centeralign color_white">Feedback to teammate</th>
 					</tr>
 					<%
 						for(SubmissionData sub: helper.outgoing){

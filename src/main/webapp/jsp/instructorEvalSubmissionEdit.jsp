@@ -35,23 +35,28 @@
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
 				<h1>Edit Student's Submission</h1>
-				<table class="inputTable" id="studentEvaluationInfo">
-					<tr>
-						<td class="label rightalign" width="30%">Course ID:</td>
-						<td class="leftalign"><%= helper.eval.course %></td>
-					</tr>
-					<tr>
-						<td class="label rightalign" width="30%">Evaluation Name:</td>
-						<td class="leftalign"><%=InstructorEvalSubmissionEditHelper.escapeForHTML(helper.eval.name)%></td>
-					</tr>
-				</table>
 			</div>
+			
+			<table class="inputTable" id="studentEvaluationInfo">
+				<tr>
+					<td class="label rightalign bold" width="30%">Course ID:</td>
+					<td class="leftalign"><%= helper.eval.course %></td>
+				</tr>
+				<tr>
+					<td class="label rightalign bold" width="30%">Evaluation Name:</td>
+					<td class="leftalign"><%=InstructorEvalSubmissionEditHelper.escapeForHTML(helper.eval.name)%></td>
+				</tr>
+			</table>
+			
+			<br>
 			<div id="studentEvaluationSubmissions">
 				<form name="form_submitevaluation" id="form_submitevaluation" method="post"
 						action="<%= Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER %>">
 					<jsp:include page="<%= Common.JSP_EVAL_SUBMISSION_EDIT %>" />
+					<br>
 					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
-					<div id="studentEvaluationSubmissionButtons" class="centeralign">
+					<br>
+					<div class="centeralign">
 						<input type="button" class="button" id="button_back"
 								onclick="window.close(); opener.setStatusMessage('')" value="Cancel">
 						<input type="submit" class="button" name="submitEvaluation"

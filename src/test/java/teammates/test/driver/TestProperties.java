@@ -97,6 +97,10 @@ public class TestProperties {
 		return "";
 	}
 	
+	public static String getIEDriverPath() {
+			return "./src/test/resources/lib/selenium/IEDriverServer.exe";
+	}
+	
 	public boolean isLocalHost(){
 		return TEAMMATES_URL.contains("localhost");
 	}

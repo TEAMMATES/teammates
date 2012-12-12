@@ -2163,6 +2163,7 @@ public class BrowserInstance {
 
 		return chromeService;
 	}
+	
 
 	/**
 	 * Sets up the Selenium for UI testing
@@ -2199,6 +2200,9 @@ public class BrowserInstance {
 
 		} else if (TestProperties.inst().BROWSER.equals("iexplore")) {
 			System.out.println("Using Iexplore.");
+			File file = new File(TestProperties.getIEDriverPath());
+			System.setProperty("webdriver.ie.driver", file.getAbsolutePath());
+
 			setDriver(new InternetExplorerDriver());
 			selenium = new WebDriverBackedSelenium(driver,
 					TestProperties.inst().TEAMMATES_URL);

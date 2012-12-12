@@ -35,36 +35,38 @@
 			<div id="headerOperation">
 				<h1>Student Details</h1>
 			</div>
+			
 			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
-			<div id="instructorStudentInformation">
-				<table class="inputTable" id="studentInfomationTable">
-					<tr>
-			 			<td class="label rightalign" width="30%">Student Name:</td>
-			 			<td id="<%= Common.PARAM_STUDENT_NAME %>"><%= helper.student.name %></td>
-			 		</tr>
-				 	<tr>
-				 		<td class="label rightalign" width="30%">Team Name:</td>
-				 		<td id="<%= Common.PARAM_TEAM_NAME %>"><%=InstructorCourseStudentDetailsHelper.escapeForHTML(helper.student.team)%></td>
-				 	</tr>
-				 	<tr>
-				 		<td class="label rightalign" width="30%">E-mail Address:</td>
-				 		<td id="<%=Common.PARAM_STUDENT_EMAIL%>"><%=InstructorCourseStudentDetailsHelper.escapeForHTML(helper.student.email)%></td>
-				 	</tr>
-				 	<tr>
-						<td class="label rightalign" width="30%">Google ID:</td>
-						<td id="<%=Common.PARAM_USER_ID%>"><%=(helper.student.id!= null ? InstructorCourseStudentDetailsHelper.escapeForHTML(helper.student.id) : "")%></td>
+			
+			<table class="inputTable" id="studentInfomationTable">
+				<tr>
+		 			<td class="label rightalign bold" width="30%">Student Name:</td>
+		 			<td id="<%= Common.PARAM_STUDENT_NAME %>"><%= helper.student.name %></td>
 					</tr>
-					<tr>
-						<td class="label rightalign" width="30%">Registration Key:</td>
-						<td id="<%=Common.PARAM_REGKEY%>"><%=InstructorCourseStudentDetailsHelper.escapeForHTML(helper.regKey)%></td>
-					</tr>
-				 	<tr>
-				 		<td class="label rightalign" width="30%">Comments:</td>
-				 		<td id="<%=Common.PARAM_COMMENTS%>"><%=InstructorCourseStudentDetailsHelper.escapeForHTML(helper.student.comments)%></td>
-				 	</tr>
-				 </table>
-				 <br><br>
-			</div>
+			 	<tr>
+					<td class="label rightalign bold" width="30%">Team Name:</td>
+			 		<td id="<%= Common.PARAM_TEAM_NAME %>"><%=InstructorCourseStudentDetailsHelper.escapeForHTML(helper.student.team)%></td>
+			 	</tr>
+			 	<tr>
+			 		<td class="label rightalign bold" width="30%">E-mail Address:</td>
+			 		<td id="<%=Common.PARAM_STUDENT_EMAIL%>"><%=InstructorCourseStudentDetailsHelper.escapeForHTML(helper.student.email)%></td>
+			 	</tr>
+			 	<tr>
+					<td class="label rightalign bold" width="30%">Google ID:</td>
+					<td id="<%=Common.PARAM_USER_ID%>"><%=(helper.student.id!= null ? InstructorCourseStudentDetailsHelper.escapeForHTML(helper.student.id) : "")%></td>
+				</tr>
+				<tr>
+					<td class="label rightalign bold" width="30%">Registration Key:</td>
+					<td id="<%=Common.PARAM_REGKEY%>"><%=InstructorCourseStudentDetailsHelper.escapeForHTML(helper.regKey)%></td>
+				</tr>
+			 	<tr>
+			 		<td class="label rightalign bold" width="30%">Comments:</td>
+			 		<td id="<%=Common.PARAM_COMMENTS%>"><%=InstructorCourseStudentDetailsHelper.escapeForHTML(helper.student.comments)%></td>
+			 	</tr>
+			 </table>
+			 <br>
+			 <br>
+		
 		</div>
 	</div>
 

@@ -21,6 +21,8 @@
 	</script>
 	
     <noscript>{*}</noscript>
+
+
 </head>
 
 <body>
@@ -53,21 +55,21 @@
 			<div id="headerOperation">
 				<h1>Add New Evaluation</h1>
 			</div>
-			<div id="instructorEvaluationManagement">
-				<form name="form_addevaluation" action="" method="post">
-					<table class="inputTable">
-						<tbody><tr>
-							<td class="label">Course ID:</td>
-							<td><select tabindex="1" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the course for which the evaluation is to be created.')" id="courseid" name="courseid" style="width: 260px;">
-								<option value="CEvalUiT.CS1101">CEvalUiT.CS1101</option>
+			
+			<form name="form_addevaluation" action="" method="post">
+				<table id="instructorEvaluationManagement" class="inputTable">
+					<tbody><tr>
+						<td class="label bold">Course ID:</td>
+						<td><select tabindex="1" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the course for which the evaluation is to be created.')" id="courseid" name="courseid" style="width: 260px;">
+							<option value="CEvalUiT.CS1101">CEvalUiT.CS1101</option>
 <option value="CEvalUiT.CS2104">CEvalUiT.CS2104</option>
 
-								</select></td>
-							<td class="label">Opening time:</td>
-							<td><input type="text" tabindex="3" readonly="readonly" value="{*}" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the start date for the evaluation.')" onclick="cal.select(this,'start','dd/MM/yyyy')" id="start" name="start" style="width: 100px;" />
-										@
-								<select tabindex="4" id="starttime" name="starttime" style="width: 70px;">
-									<option value="1">0100H</option>
+							</select></td>
+						<td class="label bold">Opening time:</td>
+						<td><input type="text" tabindex="3" readonly="readonly" value="{*}" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the start date for the evaluation.')" onclick="cal.select(this,'start','dd/MM/yyyy')" id="start" name="start" style="width: 100px;" />
+									@
+							<select tabindex="4" id="starttime" name="starttime" style="width: 70px;">
+								<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
 <option value="4">0400H</option>
@@ -92,16 +94,16 @@
 <option value="23">2300H</option>
 <option selected="selected" value="24">2359H</option>
 
-								</select></td>
-						</tr>
-						<tr>
-							<td class="label">Evaluation name:</td>
-							<td><input type="text" tabindex="2" value="" maxlength="38" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the name of the evaluation e.g. Mid-term.')" id="evaluationname" name="evaluationname" style="width: 260px;" /></td>
-							<td class="label">Closing time:</td>
-							<td><input type="text" tabindex="5" readonly="readonly" value="" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter deadline for the evaluation.')" onclick="cal.select(this,'deadline','dd/MM/yyyy')" id="deadline" name="deadline" style="width: 100px;" />
-										@
-								<select tabindex="6" id="deadlinetime" name="deadlinetime" style="width: 70px;">
-									<option value="1">0100H</option>
+							</select></td>
+					</tr>
+					<tr>
+						<td class="label bold">Evaluation name:</td>
+						<td><input type="text" tabindex="2" value="" maxlength="38" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the name of the evaluation e.g. Mid-term.')" id="evaluationname" name="evaluationname" style="width: 260px;" /></td>
+						<td class="label bold">Closing time:</td>
+						<td><input type="text" tabindex="5" readonly="readonly" value="" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter deadline for the evaluation.')" onclick="cal.select(this,'deadline','dd/MM/yyyy')" id="deadline" name="deadline" style="width: 100px;" />
+									@
+							<select tabindex="6" id="deadlinetime" name="deadlinetime" style="width: 70px;">
+								<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
 <option value="4">0400H</option>
@@ -126,18 +128,18 @@
 <option value="23">2300H</option>
 <option selected="selected" value="24">2359H</option>
 
-								</select></td>
-						</tr>
-						<tr>
-							<td class="label">Peer feedback:</td>
-							<td><input type="radio" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enable this if you want students to give anonymous feedback to team members.<br />You can moderate those peer feedback before publishing it to the team.')" checked="checked" value="true" id="commentsstatus_enabled" name="commentsstatus" />
-								<label for="commentsstatus_enabled">Enabled</label>
-								<input type="radio" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enable this if you want students to give anonymous feedback to team members.<br />You can moderate those peer feedback before publishing it to the team.')" value="false" id="commentsstatus_disabled" name="commentsstatus" />
-								<label for="commentsstatus_disabled">Disabled</label>
-							</td>
-							<td class="label">Time zone:</td>
-							<td><select tabindex="7" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />daylight saving, you should choose UTC -7:00 and its corresponding timings.')" id="timezone" name="timezone" style="width: 100px;">
-								<option value="-12">UTC -12:00</option>
+							</select></td>
+					</tr>
+					<tr>
+						<td class="label bold">Peer feedback:</td>
+						<td><input type="radio" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enable this if you want students to give anonymous feedback to team members.<br />You can moderate those peer feedback before publishing it to the team.')" checked="checked" value="true" id="commentsstatus_enabled" name="commentsstatus" />
+							<label for="commentsstatus_enabled">Enabled</label>
+							<input type="radio" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enable this if you want students to give anonymous feedback to team members.<br />You can moderate those peer feedback before publishing it to the team.')" value="false" id="commentsstatus_disabled" name="commentsstatus" />
+							<label for="commentsstatus_disabled">Disabled</label>
+						</td>
+						<td class="label bold">Time zone:</td>
+						<td><select tabindex="7" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />daylight saving, you should choose UTC -7:00 and its corresponding timings.')" id="timezone" name="timezone" style="width: 100px;">
+							<option value="-12">UTC -12:00</option>
 <option value="-11">UTC -11:00</option>
 <option value="-10">UTC -10:00</option>
 <option value="-9">UTC -09:00</option>
@@ -170,16 +172,16 @@
 <option value="12">UTC +12:00</option>
 <option value="13">UTC +13:00</option>
 
-								</select>
-							</td>
-						</tr>
-						<tr>
-						<td></td>
-						<td></td>
-						<td class="label">Grace Period:</td>
-						<td class="inputField">
-							<select tabindex="7" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline.')" id="graceperiod" name="graceperiod" style="width: 70px;">
-								<option value="0">0 mins</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+					<td></td>
+					<td></td>
+					<td class="label bold">Grace Period:</td>
+					<td class="inputField">
+						<select tabindex="7" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline.')" id="graceperiod" name="graceperiod" style="width: 70px;">
+							<option value="0">0 mins</option>
 <option value="5">5 mins</option>
 <option value="10">10 mins</option>
 <option value="15">15 mins</option>
@@ -187,83 +189,84 @@
 <option value="25">25 mins</option>
 <option value="30">30 mins</option>
 
-							</select></td>
-						</tr>
-						<tr>
-							<td class="label">Instructions to students:</td>
-							<td colspan="3">
-								
-									<textarea tabindex="8" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter instructions for your students, e.g. Avoid comments which are too critical.')" id="instr" name="instr" class="textvalue" cols="110" rows="3">Please submit your peer evaluation based on the overall contribution of your teammates so far.</textarea>
-								
-							</td>
-						</tr>
-						<tr>
-							<td class="centeralign" colspan="4">
-								<input type="submit" tabindex="9" value="Create Evaluation" onclick="return checkAddEvaluation(this.form);" class="button" id="button_submit" /></td>
-						</tr>
-					</tbody></table>
-				</form>
-			</div>
+						</select></td>
+					</tr>
+					<tr>
+						<td class="label bold middlealign">Instructions to students:</td>
+						<td colspan="3">
+							
+								<textarea tabindex="8" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter instructions for your students, e.g. Avoid comments which are too critical.')" id="instr" name="instr" class="textvalue" cols="90" rows="3">Please submit your peer evaluation based on the overall contribution of your teammates so far.</textarea>
+							
+						</td>
+					</tr>
+					<tr>
+						<td class="centeralign" colspan="4">
+							<input type="submit" tabindex="9" value="Create Evaluation" onclick="return checkAddEvaluation(this.form);" class="button" id="button_submit" /></td>
+					</tr>
+				</tbody></table>
+			</form>
+			
+			<br />
 			
 
 
 	<div style="display: none;" id="statusMessage"></div>
 
-			<div id="instructorEvaluationTable">
-				<table class="dataTable">
-					<tbody><tr>
-						<th class="leftalign">
-							<input type="button" onclick="toggleSort(this,1)" id="button_sortcourseid" class="buttonSortNone" />Course ID</th>
-						<th class="leftalign">
-							<input type="button" onclick="toggleSort(this,2)" id="button_sortname" class="buttonSortAscending" />Evaluation</th>
-						<th class="centeralign">Status</th>
-						<th class="centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('Number of students submitted / Class size')">Response Rate</span></th>
-						<th class="centeralign">Action(s)</th>
-					</tr>
-					
-								<tr id="evaluation2" class="evaluations_row">
-									<td class="t_eval_coursecode">CEvalUiT.CS2104</td>
-									<td class="t_eval_name">First Eval</td>
-									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation has started and students can submit feedback until the closing time')">Open</span></td>
-									<td class="t_eval_response centeralign">0
-										/ 2</td>
-									<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/instructorEvalResults?courseid=CEvalUiT.CS2104&amp;evaluationname=First+Eval&amp;user=teammates.test" class="t_eval_view2">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/instructorEvalEdit?courseid=CEvalUiT.CS2104&amp;evaluationname=First+Eval&amp;user=teammates.test" class="t_eval_edit2">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CEvalUiT.CS2104','First Eval');" href="/page/instructorEvalDelete?courseid=CEvalUiT.CS2104&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="t_eval_delete2">Delete</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" onclick="hideddrivetip(); return toggleRemindStudents('First Eval');" href="/page/instructorEvalRemind?courseid=CEvalUiT.CS2104&amp;evaluationname=First+Eval&amp;user=teammates.test" class="t_eval_remind2">Remind</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Publish evaluation results for students to view')" href="/page/instructorEvalPublish?courseid=CEvalUiT.CS2104&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="t_eval_publish2">Publish</a>
-									</td>
-								</tr>
-							
-								<tr id="evaluation0" class="evaluations_row">
-									<td class="t_eval_coursecode">CEvalUiT.CS2104</td>
-									<td class="t_eval_name">Second Eval</td>
-									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation has finished and the results have been made available to students')">Published</span></td>
-									<td class="t_eval_response centeralign">0
-										/ 2</td>
-									<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/instructorEvalResults?courseid=CEvalUiT.CS2104&amp;evaluationname=Second+Eval&amp;user=teammates.test" class="t_eval_view0">View Results</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/instructorEvalEdit?courseid=CEvalUiT.CS2104&amp;evaluationname=Second+Eval&amp;user=teammates.test" class="t_eval_edit0">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CEvalUiT.CS2104','Second Eval');" href="/page/instructorEvalDelete?courseid=CEvalUiT.CS2104&amp;evaluationname=Second+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="t_eval_delete0">Delete</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" href="/page/instructorEvalRemind?courseid=CEvalUiT.CS2104&amp;evaluationname=Second+Eval&amp;user=teammates.test" class="t_eval_remind0">Remind</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Make results not visible to students')" onclick="hideddrivetip(); return toggleUnpublishEvaluation('Second Eval');" href="/page/instructorEvalUnpublish?courseid=CEvalUiT.CS2104&amp;evaluationname=Second+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="t_eval_unpublish0">Unpublish</a>
-									</td>
-								</tr>
-							
-								<tr id="evaluation1" class="evaluations_row">
-									<td class="t_eval_coursecode">CEvalUiT.CS1101</td>
-									<td class="t_eval_name">Third Eval</td>
-									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation has finished but the results have not been made available to the students')">Closed</span></td>
-									<td class="t_eval_response centeralign">0
-										/ 2</td>
-									<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/instructorEvalResults?courseid=CEvalUiT.CS1101&amp;evaluationname=Third+Eval&amp;user=teammates.test" class="t_eval_view1">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/instructorEvalEdit?courseid=CEvalUiT.CS1101&amp;evaluationname=Third+Eval&amp;user=teammates.test" class="t_eval_edit1">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CEvalUiT.CS1101','Third Eval');" href="/page/instructorEvalDelete?courseid=CEvalUiT.CS1101&amp;evaluationname=Third+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="t_eval_delete1">Delete</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" href="/page/instructorEvalRemind?courseid=CEvalUiT.CS1101&amp;evaluationname=Third+Eval&amp;user=teammates.test" class="t_eval_remind1">Remind</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Publish evaluation results for students to view')" onclick="hideddrivetip(); return togglePublishEvaluation('Third Eval');" href="/page/instructorEvalPublish?courseid=CEvalUiT.CS1101&amp;evaluationname=Third+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="t_eval_publish1">Publish</a>
-									</td>
-								</tr>
-							
-					
-				</tbody></table>
-				<br /><br /><br />
+			<br />
+			
+
+			<table class="dataTable">
+				<tbody><tr>
+					<th class="leftalign color_white bold">
+						<input type="button" onclick="toggleSort(this,1)" id="button_sortcourseid" class="buttonSortNone" />Course ID</th>
+					<th class="leftalign color_white bold">
+						<input type="button" onclick="toggleSort(this,2)" id="button_sortname" class="buttonSortAscending" />Evaluation</th>
+					<th class="centeralign color_white bold">Status</th>
+					<th class="centeralign color_white bold"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('Number of students submitted / Class size')">Response Rate</span></th>
+					<th class="centeralign color_white bold">Action(s)</th>
+				</tr>
 				
-				<br />
-			</div>
+							<tr id="evaluation2" class="evaluations_row">
+								<td class="t_eval_coursecode">CEvalUiT.CS2104</td>
+								<td class="t_eval_name">First Eval</td>
+								<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation has started and students can submit feedback until the closing time')">Open</span></td>
+								<td class="t_eval_response centeralign">0
+									/ 2</td>
+								<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/instructorEvalResults?courseid=CEvalUiT.CS2104&amp;evaluationname=First+Eval&amp;user=teammates.test" class="color_black t_eval_view2">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/instructorEvalEdit?courseid=CEvalUiT.CS2104&amp;evaluationname=First+Eval&amp;user=teammates.test" class="color_black t_eval_edit2">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CEvalUiT.CS2104','First Eval');" href="/page/instructorEvalDelete?courseid=CEvalUiT.CS2104&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="color_black t_eval_delete2">Delete</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" onclick="hideddrivetip(); return toggleRemindStudents('First Eval');" href="/page/instructorEvalRemind?courseid=CEvalUiT.CS2104&amp;evaluationname=First+Eval&amp;user=teammates.test" class="color_black t_eval_remind2">Remind</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Publish evaluation results for students to view')" href="/page/instructorEvalPublish?courseid=CEvalUiT.CS2104&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="color_black t_eval_publish2">Publish</a>
+								</td>
+							</tr>
+						
+							<tr id="evaluation0" class="evaluations_row">
+								<td class="t_eval_coursecode">CEvalUiT.CS2104</td>
+								<td class="t_eval_name">Second Eval</td>
+								<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation has finished and the results have been made available to students')">Published</span></td>
+								<td class="t_eval_response centeralign">0
+									/ 2</td>
+								<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/instructorEvalResults?courseid=CEvalUiT.CS2104&amp;evaluationname=Second+Eval&amp;user=teammates.test" class="color_black t_eval_view0">View Results</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/instructorEvalEdit?courseid=CEvalUiT.CS2104&amp;evaluationname=Second+Eval&amp;user=teammates.test" class="color_black t_eval_edit0">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CEvalUiT.CS2104','Second Eval');" href="/page/instructorEvalDelete?courseid=CEvalUiT.CS2104&amp;evaluationname=Second+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="color_black t_eval_delete0">Delete</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" href="/page/instructorEvalRemind?courseid=CEvalUiT.CS2104&amp;evaluationname=Second+Eval&amp;user=teammates.test" class="color_black t_eval_remind0">Remind</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Make results not visible to students')" onclick="hideddrivetip(); return toggleUnpublishEvaluation('Second Eval');" href="/page/instructorEvalUnpublish?courseid=CEvalUiT.CS2104&amp;evaluationname=Second+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="color_black t_eval_unpublish0">Unpublish</a>
+								</td>
+							</tr>
+						
+							<tr id="evaluation1" class="evaluations_row">
+								<td class="t_eval_coursecode">CEvalUiT.CS1101</td>
+								<td class="t_eval_name">Third Eval</td>
+								<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation has finished but the results have not been made available to the students')">Closed</span></td>
+								<td class="t_eval_response centeralign">0
+									/ 2</td>
+								<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/instructorEvalResults?courseid=CEvalUiT.CS1101&amp;evaluationname=Third+Eval&amp;user=teammates.test" class="color_black t_eval_view1">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/instructorEvalEdit?courseid=CEvalUiT.CS1101&amp;evaluationname=Third+Eval&amp;user=teammates.test" class="color_black t_eval_edit1">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CEvalUiT.CS1101','Third Eval');" href="/page/instructorEvalDelete?courseid=CEvalUiT.CS1101&amp;evaluationname=Third+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="color_black t_eval_delete1">Delete</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" href="/page/instructorEvalRemind?courseid=CEvalUiT.CS1101&amp;evaluationname=Third+Eval&amp;user=teammates.test" class="color_black t_eval_remind1">Remind</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Publish evaluation results for students to view')" onclick="hideddrivetip(); return togglePublishEvaluation('Third Eval');" href="/page/instructorEvalPublish?courseid=CEvalUiT.CS1101&amp;evaluationname=Third+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="color_black t_eval_publish1">Publish</a>
+								</td>
+							</tr>
+						
+				
+			</tbody></table>
+			<br /><br />
+			<br />
+			
 		</div>
 	</div>
 
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-
 [TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
 
 <a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html">Contact Us</a>

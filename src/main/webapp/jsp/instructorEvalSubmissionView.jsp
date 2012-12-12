@@ -35,70 +35,74 @@
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
 				<h1>View Student's Evaluation</h1>
-				<table class="inputTable" id="studentEvaluationInfo">
-					<tr>
-						<td class="label rightalign" width="30%">Course ID:</td>
-						<td class="leftalign"><%= helper.evaluation.course %></td>
-					</tr>
-					<tr>
-						<td class="label rightalign" width="30%">Evaluation Name:</td>
-						<td class="leftalign"><%=InstructorEvalSubmissionViewHelper.escapeForHTML(helper.evaluation.name)%></td>
-					</tr>
-				</table>
 			</div>
-			<div id="studentEvaluationSubmissions">
+			
+			<table class="inputTable" id="studentEvaluationInfo">
+				<tr>
+					<td class="label rightalign bold" width="30%">Course ID:</td>
+					<td class="leftalign"><%= helper.evaluation.course %></td>
+				</tr>
+				<tr>
+					<td class="label rightalign bold" width="30%">Evaluation Name:</td>
+					<td class="leftalign"><%=InstructorEvalSubmissionViewHelper.escapeForHTML(helper.evaluation.name)%></td>
+				</tr>
+			</table>
+			
+
 			<%
 				for(boolean byReviewee = true, repeat=true; repeat; repeat = byReviewee, byReviewee=false){
 			%>
-				<h2 style="text-align: center;"><%=InstructorEvalSubmissionViewHelper.escapeForHTML(helper.student.name) + (byReviewee ? "'s Result" : "'s Submission")%></h2>
-				<table class="resultTable">
-					<thead><tr>
-						<th colspan="2" width="10%">
-							<span class="resultHeader"><%=byReviewee ? "Reviewee" : "Reviewer"%>: </span><%=helper.student.name%></th>
-						<th><span class="resultHeader"
-								onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_CLAIMED%>')"
-								onmouseout="hideddrivetip()">
-							Claimed Contributions: </span><%=InstructorEvalSubmissionViewHelper.printSharePoints(helper.result.claimedToInstructor,true)%></th>
-						<th><span class="resultHeader"
-								onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_PERCEIVED%>')"
-								onmouseout="hideddrivetip()">
-							Perceived Contributions: </span><%=InstructorEvalSubmissionViewHelper.printSharePoints(helper.result.perceivedToInstructor,true)%></th>
-					</tr></thead>
-					<tr>
-						<td colspan="4"><span class="color_neutral">Self evaluation:</span><br>
-								<%=InstructorEvalSubmissionViewHelper.printJustification(helper.result.getSelfEvaluation())%></td>
-						</tr>
-						<tr>
-							<td colspan="4"><span class="color_neutral">Comments about team:</span><br>
-								<%=InstructorEvalSubmissionViewHelper.printComments(helper.result.getSelfEvaluation(), helper.evaluation.p2pEnabled)%></td>
-						</tr>
-					<tr class="resultSubheader">
-						<td width="15%"><%=byReviewee ? "From" : "To"%> Student</td>
-						<td width="5%">Contribution</td>
-						<td width="40%">Comments</td>
-						<td width="40%">Messages</td>
+			<h2 class="centeralign"><%=InstructorEvalSubmissionViewHelper.escapeForHTML(helper.student.name) + (byReviewee ? "'s Result" : "'s Submission")%></h2>
+			<table class="resultTable">
+				<thead><tr>
+					<th colspan="2" width="10%" class="bold leftalign">
+						<span class="resultHeader"><%=byReviewee ? "Reviewee" : "Reviewer"%>: </span><%=helper.student.name%></th>
+					<th class="bold leftalign"><span class="resultHeader"
+							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_CLAIMED%>')"
+							onmouseout="hideddrivetip()">
+						Claimed Contributions: </span><%=InstructorEvalSubmissionViewHelper.printSharePoints(helper.result.claimedToInstructor,true)%></th>
+					<th class="bold leftalign"><span class="resultHeader"
+							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_PERCEIVED%>')"
+							onmouseout="hideddrivetip()">
+						Perceived Contributions: </span><%=InstructorEvalSubmissionViewHelper.printSharePoints(helper.result.perceivedToInstructor,true)%></th>
+				</tr></thead>
+				<tr>
+					<td colspan="4"><span class="bold">Self evaluation:</span><br>
+							<%=InstructorEvalSubmissionViewHelper.printJustification(helper.result.getSelfEvaluation())%></td>
 					</tr>
-					<%
-						for(SubmissionData sub: (byReviewee ? helper.result.incoming : helper.result.outgoing)){ if(sub.reviewer.equals(sub.reviewee)) continue;
-					%>
-						<tr>
-							<td><b><%=InstructorEvalSubmissionViewHelper.escapeForHTML(byReviewee ? sub.reviewerName : sub.revieweeName)%></b></td>
-							<td><%= InstructorEvalSubmissionViewHelper.printSharePoints(sub.normalizedToInstructor,false) %></td>
-							<td><%= InstructorEvalSubmissionViewHelper.printJustification(sub) %></td>
-							<td><%= InstructorEvalSubmissionViewHelper.printComments(sub, helper.evaluation.p2pEnabled) %></td>
-						</tr>
-					<%	} %>
-				</table>
-				<br><br>
-				<% } %>
-				<div class="centeralign">
-					<input type="button" class="button" id="button_back" value="Close"
-							onclick="window.close()">
-					<input type="button" class="button" id="button_edit" value="Edit Submission"
-							onclick="window.location.href='<%= helper.getInstructorEvaluationSubmissionEditLink(helper.evaluation.course, helper.evaluation.name, helper.student.email) %>'">
-				</div>
-				<br><br>
+					<tr>
+						<td colspan="4"><span class="bold">Comments about team:</span><br>
+							<%=InstructorEvalSubmissionViewHelper.printComments(helper.result.getSelfEvaluation(), helper.evaluation.p2pEnabled)%></td>
+					</tr>
+				<tr class="resultSubheader">
+					<td width="15%" class="bold"><%=byReviewee ? "From" : "To"%> Student</td>
+					<td width="5%" class="bold">Contribution</td>
+					<td width="40%" class="bold">Comments</td>
+					<td width="40%" class="bold">Messages</td>
+				</tr>
+				<%
+					for(SubmissionData sub: (byReviewee ? helper.result.incoming : helper.result.outgoing)){ if(sub.reviewer.equals(sub.reviewee)) continue;
+				%>
+					<tr>
+						<td><b><%=InstructorEvalSubmissionViewHelper.escapeForHTML(byReviewee ? sub.reviewerName : sub.revieweeName)%></b></td>
+						<td><%= InstructorEvalSubmissionViewHelper.printSharePoints(sub.normalizedToInstructor,false) %></td>
+						<td><%= InstructorEvalSubmissionViewHelper.printJustification(sub) %></td>
+						<td><%= InstructorEvalSubmissionViewHelper.printComments(sub, helper.evaluation.p2pEnabled) %></td>
+					</tr>
+				<%	} %>
+			</table>
+			<br><br>
+			<% } %>
+			<div class="centeralign">
+				<input type="button" class="button" id="button_back" value="Close"
+						onclick="window.close()">
+				<input type="button" class="button" id="button_edit" value="Edit Submission"
+						onclick="window.location.href='<%= helper.getInstructorEvaluationSubmissionEditLink(helper.evaluation.course, helper.evaluation.name, helper.student.email) %>'">
 			</div>
+			<br>
+			<br>
+			<br>
+	
 		</div>
 	</div>
 

@@ -114,6 +114,7 @@
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalSubmissionView.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalSubmissionEdit.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentHome.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/studentCourseDetails.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentEvalEdit.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentEvalResults.css" type="text/css">');
 			

@@ -11,8 +11,8 @@
 	<link rel="shortcut icon" href="/favicon.png" />
 	<meta http-equiv="X-UA-Compatible" content="IE=8" />
 	<title>Teammates - Administrator</title>
-	<link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
-	<link rel=stylesheet href="/stylesheets/evaluation.css" type="text/css" />
+	<link rel=stylesheet href="/stylesheets/common.css" type="text/css" />
+	<link rel=stylesheet href="/stylesheets/adminActivityLog.css" type="text/css" />
 
 	<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
 	<script language="JavaScript" src="/js/tooltip.js"></script>
@@ -27,22 +27,24 @@
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
-			   <%
-			      List<AppLogLine> appLogs = (List<AppLogLine>) request.getAttribute("appLogs");
-			      if (appLogs != null) {
-			    %>
-			 <table>
+				<h2>Admin Activity Log</h2>
+			</div>
+			  
+			<%
+			  List<AppLogLine> appLogs = (List<AppLogLine>) request.getAttribute("appLogs");
+			  if (appLogs != null) {
+			%>
+			<table class="dataTable">
 		        <tr>
-		          <th>Date</th>
-		          <th></th>
-		          <th>Level</th>
-		          <th>Message</th>
+		          <th class="color_white bold">Date</th>
+		          <th class="color_white bold">Level</th>
+		          <th class="color_white bold">Message</th>
 		        </tr>
 		    <%
 		        if (appLogs.isEmpty()) {
 		    %>
 		        <tr>
-		          <td colspan='4'><i>No application logs found</i></td>
+		          <td colspan='3'><i>No application logs found</i></td>
 		        </tr>
 		    <%
 		        } else {
@@ -55,8 +57,6 @@
 		        <tr>
 		          <td>
 		            <%=appCal.getTime().toString()%>
-		          </td>
-		          <td>
 		          </td>
 		          <td>
 		          <%=log.getLogLevel()%>

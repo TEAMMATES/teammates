@@ -35,91 +35,97 @@
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
 				<h1>Instructor Home</h1>
-				<br>
-				<div class="backgroundBlock">
-					<div id="result_addCourse" class="blockLink">
-						<a href="<%= helper.getInstructorCourseLink() %>" name="addNewCourse" id="addNewCourse">
-							Add New Course </a>
-					</div>
+			</div>
+			
+			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			
+			<div class="backgroundBlock">
+				<div class="blockLink rightalign">
+					<a href="<%= helper.getInstructorCourseLink() %>" name="addNewCourse" id="addNewCourse" class="color_white bold">
+						Add New Course </a>
 				</div>
 			</div>
-			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
-			<div id="instructorHomeTable">
-				<%	int idx = -1;
-					int evalIdx = -1;
-					for (CourseData course: helper.courses) { idx++;
-				%>
-				<div class="backgroundBlock home_courses_div" id="course<%= idx %>">
-					<div class="result_homeTitle">
-						<h2>[<%= course.id %>] :
-							<%=InstructorHomeHelper.escapeForHTML(course.name)%>
-						</h2>
-					</div>
-					<div class="result_homeLinks blockLink">
-						<a class="t_course_enroll<%=idx%>"
-							href="<%=helper.getInstructorCourseEnrollLink(course.id)%>"
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_ENROLL%>')"
-							onmouseout="hideddrivetip()">
-							Enroll</a>
-						<a class="t_course_view<%=idx%>"
-							href="<%=helper.getInstructorCourseDetailsLink(course.id)%>"
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_DETAILS%>')"
-							onmouseout="hideddrivetip()">
-							View</a>
-						<a class="t_course_add_eval<%=idx%>"
-							href="<%=helper.getInstructorEvaluationLink()%>"
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_ADD_EVALUATION%>')"
-							onmouseout="hideddrivetip()">
-							Add Evaluation</a>
-						<a class="t_course_delete<%=idx%>"
-							href="<%=helper.getInstructorCourseDeleteLink(course.id,true)%>"
-							onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%=course.id%>')"
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_DELETE%>')"
-							onmouseout="hideddrivetip()">
-							Delete</a>
-					</div>
-					<div style="clear: both;"></div>
-					<br>
-					<%
-						if (course.evaluations.size() > 0) {
-					%>
-						<table class="dataTable">
-							<tr>
-								<th class="leftalign">Evaluation Name</th>
-								<th class="centeralign">Status</th>
-								<th class="centeralign"><span
-									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_RESPONSE_RATE%>')"
-									onmouseout="hideddrivetip()">Response Rate</span></th>
-								<th class="centeralign">Action(s)</th>
-							</tr>
-							<%
-								for (EvaluationData eval: course.evaluations){ evalIdx++;
-							%>
-								<tr class="home_evaluations_row" id="evaluation<%=evalIdx%>">
-									<td class="t_eval_name<%=idx%>"><%=InstructorHomeHelper.escapeForHTML(eval.name)%></td>
-									<td class="t_eval_status<%= idx %> centeralign"><span
-										onmouseover="ddrivetip('<%= InstructorHomeHelper.getInstructorHoverMessageForEval(eval) %>')"
-										onmouseout="hideddrivetip()"><%= InstructorHomeHelper.getInstructorStatusForEval(eval) %></span></td>
-									<td class="t_eval_response<%= idx %> centeralign"><%= eval.submittedTotal %>
-										/ <%= eval.expectedTotal %></td>
-									<td class="centeralign"><%= helper.getInstructorEvaluationActions(eval,evalIdx, true) %>
-									</td>
-								</tr>
-							<%	} %>
-						</table>
-						<br>
-					<%
-						}
-					%>
+			
+			<%	int idx = -1;
+				int evalIdx = -1;
+				for (CourseData course: helper.courses) { idx++;
+			%>
+			<br>
+			<br>
+			<br>
+			<div class="backgroundBlock home_courses_div" id="course<%= idx %>">
+				<div class="result_homeTitle">
+					<h2 class="color_white">[<%= course.id %>] :
+						<%=InstructorHomeHelper.escapeForHTML(course.name)%>
+					</h2>
 				</div>
-				<br> <br> <br>
-				<%		out.flush();
+				<div class="result_homeLinks blockLink rightalign">
+					<a class="t_course_enroll<%=idx%> color_white bold"
+						href="<%=helper.getInstructorCourseEnrollLink(course.id)%>"
+						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_ENROLL%>')"
+						onmouseout="hideddrivetip()">
+						Enroll</a>
+					<a class="t_course_view<%=idx%> color_white bold"
+						href="<%=helper.getInstructorCourseDetailsLink(course.id)%>"
+						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_DETAILS%>')"
+						onmouseout="hideddrivetip()">
+						View</a>
+					<a class="t_course_add_eval<%=idx%> color_white bold"
+						href="<%=helper.getInstructorEvaluationLink()%>"
+						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_ADD_EVALUATION%>')"
+						onmouseout="hideddrivetip()">
+						Add Evaluation</a>
+					<a class="t_course_delete<%=idx%> color_white bold"
+						href="<%=helper.getInstructorCourseDeleteLink(course.id,true)%>"
+						onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%=course.id%>')"
+						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_DELETE%>')"
+						onmouseout="hideddrivetip()">
+						Delete</a>
+				</div>
+				<div style="clear: both;"></div>
+				<br>
+				<%
+					if (course.evaluations.size() > 0) {
+				%>
+					<table class="dataTable">
+						<tr>
+							<th class="leftalign color_white bold">Evaluation Name</th>
+							<th class="centeralign color_white bold">Status</th>
+							<th class="centeralign color_white bold"><span
+								onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_RESPONSE_RATE%>')"
+								onmouseout="hideddrivetip()">Response Rate</span></th>
+							<th class="centeralign color_white bold">Action(s)</th>
+						</tr>
+						<%
+							for (EvaluationData eval: course.evaluations){ evalIdx++;
+						%>
+							<tr class="home_evaluations_row" id="evaluation<%=evalIdx%>">
+								<td class="t_eval_name<%=idx%>"><%=InstructorHomeHelper.escapeForHTML(eval.name)%></td>
+								<td class="t_eval_status<%= idx %> centeralign"><span
+									onmouseover="ddrivetip('<%= InstructorHomeHelper.getInstructorHoverMessageForEval(eval) %>')"
+									onmouseout="hideddrivetip()"><%= InstructorHomeHelper.getInstructorStatusForEval(eval) %></span></td>
+								<td class="t_eval_response<%= idx %> centeralign"><%= eval.submittedTotal %>
+									/ <%= eval.expectedTotal %></td>
+								<td class="centeralign"><%= helper.getInstructorEvaluationActions(eval,evalIdx, true) %>
+								</td>
+							</tr>
+						<%	} %>
+					</table>
+					<br>
+				<%
 					}
 				%>
 			</div>
-		</div>
+			<%		out.flush();
+				}
+			%>
+		</div>	
+		<br>
+		<br>
+		<br>
 	</div>
 
+	
 	<div id="frameBottom">
 		<jsp:include page="<%= Common.JSP_FOOTER %>" />
 	</div>
