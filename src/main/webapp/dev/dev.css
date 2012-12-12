@@ -5,7 +5,8 @@
 
 body {
 	font-family: Arial, Helvetica, sans-serif;
-	max-width: 960px;
+	max-width: 800px;
+	margin-left: 50px;
 }
 
 img {
@@ -18,7 +19,7 @@ img {
 }
 
 .title {
-	color: #FF8C00;
+	color: purple;
 	font-size: 32px;
 	font-weight: bold;
 	text-align: center;
@@ -34,6 +35,27 @@ img {
 .subheader {
 	color: #FF8C00;
 	font-size: 18px;
+}
+
+h1 {
+	color: purple;
+	font-size: 28px;
+	font-weight: bold;
+	text-align: left;
+}
+
+h2 {
+	color: green;
+	font-size: 22px;
+}
+
+h3 {
+	color: teal;
+	font-size: 18px;
+}
+
+hr {
+	color:purple;
 }
 
 .bold {
@@ -61,7 +83,7 @@ img {
 }
 
 .image-holder {
-	width: 920px;
+	width: 800px;
 	margin: 0 auto;
 	text-align: center;
 	overflow: hidden;

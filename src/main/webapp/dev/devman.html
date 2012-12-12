@@ -1,1169 +1,1565 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="dev.css" type="text/css">
-    <title>TM Dev Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="dev.css" type="text/css">
+<title>Developer Manual for TEAMMATES <br> Online Peer
+	Evaluation and Peer Feedback System
+</title>
 </head>
+
 <body>
+	<div class="title">
+		TEAMMATES <br> Online Peer Evaluation &amp; Peer Feedback System
+		<br> [Developer Manual (DevMan)]
+	</div>
 
-<div id="dhtmltooltip"></div>
-   <div id="frameTop">
-        <div class="title">
-	        TEAMMATES <br>
-	        Online Peer Evaluation &amp; Peer Feedback System <br>
-	        [Developer Manual (DevMan)] 
-	    </div>
-   </div>     
-    	<br>
-   <div id=”frameBody”>	
-     <div id="content"></div>
-         <p class="subheader">Table of Contents</p>
-	    <ul>
-	        <li><a href="#project">Project</a></li>
-	        <ul>
-	            <li><a href="#project-vision">Project Vision</a></li>
-	            <li><a href="#project-challenges">Challenges</a></li>
-	            <li><a href="#project-principles">Principles</a></li>
-	        </ul>
-	    
-	        <li><a href="#design">Design</a></li>
-	        <ul>
-	            <li><a href="#design-architecture">Architecture</a></li>
-	            <li><a href="#design-ui">UI</a></li>
-	            <li><a href="#design-logic">Logic</a></li>
-	            <li><a href="#design-storage">Storage</a></li>
-	            <li><a href="#design-common">Common</a></li>
-	            <li><a href="#design-testdriver">TestDriver</a></li>
-	            <li><a href="#design-configpoints">Config points</a></li>
-	        </ul>
-	    
-	        <li><a href="#infrastructure">Infrastructure</a>
-	        <ul>
-	            <li><a href="#infrastructure-knowledgebase">Knowledge base</a></li>
-	            <li><a href="#infrastructure-toolsandtechnologies-deployment">Deployment environment</a></li>
-	            <li><a href="#infrastructure-toolsandtechnologies-development">Development environment</a></li>
-                <li><a href="#infrastructure-toolsandtechnologies-implementation">Tools used in implementation</a></li>
-	            <li><a href="#infrastructure-toolsandtechnologies-testing">Tools used in testing</a></li>
-	        </ul>
-	   		</li>
-	        <li><a href="#settingup">Setting Up</a></li>
-	        <ul>
-	            <li><a href="#settingup-prerequisites">Prerequisites</a></li>
-	            <li><a href="#settingup-settingupdevserver">Setting up the dev server</a></li>
-	            <li><a href="#settingup-deployingtoappspot">Deploying to appspot</a></li>
-	            <li><a href="#settingup-troubleshooting">Troubleshooting</a></li>
-	        </ul>
-	   
-	        <li><a href="process">Process</a></li>
-	        <ul>
-	            <li><a href="#process-roles">Roles</a></li>
-	            <li><a href="#process-workflow">Workflow</a></li>
-	            <li><a href="#process-fixingissues">Fixing issues</a></li>
-	            <li><a href="#process-reviewingafix">Reviewing a fix</a></li>
-	            <li><a href="#process-applyingthefix">Applying the fix</a></li>
-	            <li><a href="#process-deployingfixes">Deploying fixes</a></li>
-	            <li><a href="#process-issuelifecycle">Issue Lifecycle</a></li>
-	        </ul>
-	
-	        <li><a href="#UIguidelines">UI guidelines</a></li>
-	        
-	        <li><a href="#codingguidelines">Coding guidelines</a></li>
-	        
-	        <li><a href="#testingguidelines">Testing guidelines</a></li>
-	        
-	        <li><a href="#glossary">Glossary</a></li>
-	    </ul>
-        <div id="project">
-	        <p class="header">Project</p>
-	        <p id="project-vision" class="subheader">Project Vision</p>
-	        Long term goal: Become the <span class="bold">biggest student project in the world</span><br>
-	        Biggest = many contributors, many users, high LOC, evolving over a long period.<br>
-	        <br>
-	        ‘Big’ above implies an exceptionally high quality standard too because high quality is a necessity for the long-term survival of a big student project.<br>
-	        <br>
-	        This project will also serve as a model and training ground for SE students who want to learn SE skills in the context of a non-trivial real software product. <br>
-	        <br>
-	
-	        <p id="project-challenges" class="subheader">Challenges</p>
-	        The project faces challenges in following areas.<br>
-	        <ul>
-	            <li><span class="bold">Developers</span>: All developers are novices and their involvement with the project is short term and part time.</li>
-	            <li><span class="bold">Code</span>: Working with legacy code written by past developers is harder than writing from scratch.</li>
-	            <li><span class="bold">Testing</span>: No dedicated QA team.</li>
-	            <li><span class="bold">Data</span>: The data in the live system are confidential and developers are not allowed to see them. This makes troubleshooting harder.</li>
-	            <li><span class="bold">Releases</span>: Frequent releases to live users requires us to maintain ‘production quality’ constantly.</li>
-	            <li>
-	                <span class="bold">Platform</span>: TEAMMATES is running on Google App Engine cloud platform, which adds the following challenges.
-	                <ul>
-	                    <li>It is an emerging platform evolving rapidly. We have to keep up.</li>
-	                    <li>It imposes various restrictions on the application.</li>
-	                    <li>It charges us based on usage. We have to optimize usage.</li>
-	                </ul>
-	            </li>
-	            <li><span class="bold">Software Engineering</span>: As TEAMMATES serve as a model system for training students, it should also focus on applying good ‘software engineering’ techniques.</li>
-	        </ul>
-	        <br>
-	
-	        <p id="project-principles" class="subheader">Principles</p>
-	        We apply these principles to meet the challenges stated above.<br>
-	        <ul>
-	            <li><span class="bold">We keep moving forward, always</span>: We release frequently, in weekly iterations.  Every week, our product becomes better than the previous week. This means ‘go back and rewrite from scratch’ is only a last resort.</li>
-	            <li><span class="bold">We are agile</span>: We are able to change the system quickly and with ease to match emerging requirements. We aim for minimal yet sufficient documentation.</li>
-	            <li><span class="bold">We defend our code with tests, fiercely</span>: Since we practice shared code ownership, we have to make sure the code is not accidentally broken by others. We use fully automated regression testing. The testing automation level of this project is probably higher than 99% of the projects out there.</li>
-	            <li><span class="bold">We are ‘Gods’ of the few tools we use</span>: We stick to a Minimal toolset. adding third-party tools and libraries to the project is done only if there is a STRONG justification. Only mature, stable, and well-supported tools should be considered. Once selected, we should know the tool very well to get the best out of it. </li>
-	            <li><span class="bold">We value quality more than functionality</span>: i.e., our job is not to  ‘anyhow get it to work’. The system should be good enough to be considered a ‘model’ software. Our code is of ‘unusually’ high quality: All code is reviewed before accepting.</li>
-	            <li><span class="bold">We know what we are doing</span>: For us, it is not enough to know something is broken, we  should also know why it is broken. It is not enough to get something working, we should know how we got it to work. </li>
-	            <li><span class="bold">We seek the best, not stop at the first</span>: We do not settle for the first workable method to solve a problem. We study other ways of solving it and decide what is the best way for us.</li>
-	            <li><span class="bold">We take pains to save the team from pain</span>: Whenever we had to spend effort in figuring out something, we refine code/documents so that others don’t have to go through the same pain. Whenever we figured out a less painful way of doing something, we make sure everyone in the team learn it too.   </li>
-	        </ul>
-	    </div>
-	
-		<br>
-		<br>
-	
-	
-	
-	    <div id="design">
-	        <p class="header">Design</p>
-	        
-	        <p id="design-architecture" class="subheader">Architecture</p>
-	        <div class="image-holder"><img src="images/highlevelArchitecture.png" width="80%"/></div>
-	  		<br>
-	        <br>
-	        TEAMMATES is a Web app that runs on Google App Engine (GAE) cloud platform. Here is an overview of the main components.<br> 
-	        <ul>
-	            <li><span class="bold">UI</span>: The UI seen by users consists of Web pages containing HTML, CSS (for styling) and JavaScripts (for client-side interactions such as sorting, input validation etc.). This UI is generated by Java Server Pages (JSP) and Java Servlets residing on the server. Requests are sent to the server over normal HTTP. In future, AJAX may be used sparingly to fetch data from the server asynchronously. </li>
-	            <li><span class="bold">Logic</span>: The main logic of the app is in Java POJOs (Plain Old Java Objects). Some automated tasks are implemented as Servlets.</li>
-	            <li><span class="bold">Storage</span>: Storage uses the persistence framework provided by GAE  ‘datastore’. While the datastore is a noSQL database, we use it in SQL fashion via a JDO wrapper and GQL (a datastore-specific SQL variant). </li>
-	            <li><span class="bold">Test Driver</span>: TEAMMATES makes heavy use of automated regression testing. JUnit is used for Java unit testing and QUnit for Javascript unit testing. We use Selenium Web Driver to automate UI testing. Test Driver can access the application directly to set up test data. We use JSON format to transmit such data to the application.</li>
-	            <li><span class="bold">Common</span>: The Common component contains utility code used across the application.</li>
-	        </ul>
-	        The diagram below shows how the code is organized into packages inside each component and dependencies among them.
-	        <div class="image-holder"><img class="image" src="images/packageDiagram.png"/></div>
-	        <br>
-	        Notes: 
-	        <ul>
-	            <li>[logic] - [ui::view] - [ui::controller] represent an application of Model-View-Controller pattern.</li>
-	            <li>ui::view package is not a Java package. It represents jsp, html, js and css files.</li>
-	        </ul>
-	        <br>
-	        <br>
-	
-	        <p id="design-ui" class="subheader">UI</p>
-	        <div class="image-holder"><img class="image" src="images/UiComponent.png" width="75%"/></div>
-	        <br>
-	        
-	        <p class="subheader">Request Flow</p>
-	        Request from the browser will go through following steps:
-        <br></br>
-        <div class="image-holder"><img src="images/UiWorkflow.png" width="70%"></img></div>
-	        <ol>
-	            <li>Received by the GAE server</li>
-            <li>Forwarded to our custom filters in according to the order as specified in web.xml. 
-            In our case this would be <span class="code">DatastoreFilter</span> and <span class="code">LoginFilter</span>. For the purpose of this explanation, we only concern about the <span class="code">LoginFilter</span>, which will forward any request from not-logged-in-user to the login page. If the request is from logged in user, then it will proceed according to the URL.</li>
-	            <li>Depending on the URL, it will be handled by its respective Servlet (e.g., <span class="code">InstructorHomeServlet</span>, <span class="code">InstructorCourseDeleteServlet</span>, etc)</li>
-	            <li>The servlet will process everything related to the logic (e.g., accessing datastore, modifying datastore, etc), then it will create respective Helper object and store relevant data inside that object (e.g., student list, course list, evaluation data, etc)</li>
-	            <li>The respective Helper object then will be passed to the respective JSP page.</li>
-	            <li>The JSP page will then render the page according to the data inside the Helper object.</li>
-	            <li>The response will then be sent back to the browser, which will render the page.</li>
-	        </ol>
-	        
-	        <p class="subheader">Process flow in Servlets</p>
-	        Since the request will undergo mostly similar processing steps, the request will first be processed in the general-purpose abstract class ActionServlet (this is an application of the <a href="http://en.wikipedia.org/wiki/Template_method_pattern">Template Method pattern</a>). Inside that class, these things will happen in order:
-	        <ol>
-	            <li>Check whether the request method is <span class="code">POST</span> or <span class="code">GET</span>, store it in a variable <span class="code">isPost</span>.</li>
-	             <li>Call abstract <span class="code">instantiateHelper</span> method, which should have been overridden to create respective Helper object.</li>
-               <li>Call concrete <span class="code">prepareHelper</span> method, which will setup common data inside the <span class="code">Helper</span> object: <span class="code">Logic</span> object, <span class="code">UserData</span> object, requested user (for masquerade mode), redirect URL, status message and error status. This method will also set the masquerade mode accordingly.</li>
-               <li>It will call the abstract <span class="code">doAction</span> method, which should have been overridden to contain the main action for each servlet. 
-                    This is the place for highest-level error handling before the response is returned to the Broswer.</li>
-               <li>It will finally call <span class="code">doCreateResponse</span> method, which redirects the request with appropriate method: 
-                    either forward the request using <span class="code">requestDispatcher</span> to the page specified in <span class="code">getDefaultForwardUrl</span> or 
-                    redirect the request to the page as specified in variable <span class="code">redirectUrl</span>.</li>
-                </ol>
-                When creating new pages (including its respective Servlet and Helper), the developer just need to subclass the <span class="code">ActionServlet</span> class and implement the abstract methods (and override <span class="code">getDefaultForwardUrl</span>) accordingly. The <span class="code">Helper</span> class can also be subclassed if the default one is not enough (most likely).<br>
-                <br>
-	        The UI consist of following pages:
-	        
-	        <p class="subheader">Functional pages.</p> 
-	        These pages represent the core functionality of the system. In the brackets are the actions available in that page.
-	        <ul>
-	            <li>login.jsp</li> 
-	            <li>logout.jsp</li>
-	            <br>
-	            <li>adminHome (create instructor)</li>
-	            <br>
-	            <li>instructorHome (delete course, remind evaluation, [un]publish evaluation, delete evaluation)</li>
-	            <li>instructorCourse (add course, delete course)</li>
-	            <li>instructorCourseEnroll (enroll students)</li>
-	            <li>instructorCourseView (remind student to join course, delete student)</li>
-	            <li>instructorCourseStudentDetails (edit student details)</li>
-	            <li>instructorCourseStudentEdit</li>
-	            <li>instructorEval (add evaluation, remind evaluation, [un]publish evaluation, delete evaluation)</li>
-	            <li>instructorEvalEdit (edit evaluation details)</li>
-	            <li>instructorEvalResults</li>
-	            <li>instructorEvalSubmissionView - view the submission from and for that student</li>
-	            <li>instructorEvalSubmissionEdit</li>
-	            <br>
-	            <li>studentHome (join course)</li>
-	            <li>studentCourseDetails - the content is about team details</li>
-	            <li>studentEvalEdit - also used for submitting evaluation</li>
-	            <li>studentEvalResults</li>
-	        </ul>
-	        These pages can be accessed via the <span class="code">[TEAMMATES URL]/page/pagename</span>, handled by a Servlet and a jsp page named after the page name.<br>
-	        e.g., <span>adminHome</span> can be reached by <a href="http://teammatesv4.appspot.com/page/adminHome">http://teammatesv4.appspot.com/page/adminHome</a> and is handled by <span class="code">AdminHomeServlet.java</span> and <span class="code">adminHome.jsp</span><br>
-	        <br>
-	        Only logged in users can access these pages. <span class="code">LoginFilter.java</span> is used to redirect not-logged-in users to a login page.<br>
-	        <br>
-	        
-	        <p class="subheader">Special-purpose pages</p>
-	        These pages provide peripheral functionality.
-	        <ul>
-	            <li>studentHelpPage (an html page)</li>
-	            <li>instructorHelpPage (an html page)</li>
-	            <li>error pages (errorPage.jsp, mobile.jsp, oldIE.jsp, etc.)</li>
-	        </ul>
-	        <br>
-	        These pages are not access-controlled.<br>
-	        <br>
-	        
-	        <p class="subheader">Website pages</p>
-	        These are the static pages that forms the product website (not the product itself).
-	        <ul>
-	            <li>contact.html, about.html etc.</li>
-	        </ul>
-	        <br>
-	        <p class="subheader">HTML5</p>
-                All webpages have a HTML5 doctype. This is because HTML5 is the future and more browsers
-                are becoming more and more HTML5 compliant. All major browsers (IE, Firefox, Chrome, Safari)
-                support HTML5 already. However, to ensure browser compatibility for older browsers, new HTML5
-                tags are not used in the website. Such tags include &lt;canvas&gt;, &lt;video&gt; etc. XHTML5 is not used 
-                because of the lack of support in IE, and the webpages are first and foremost HTML documents
-                rather than XML documents. However, we will enforce certain XML standards ourselves to ensure
-                that the webpage is also a well-formed XML document. 
-                <br>
-                <br>
-                XHTML1.0/1.1 doctype is not used because there is no foreseeable support for this and it will
-                not be developed any further. HTML 4.01 is not used as well, since the HTML5 doctype is already
-                backward compatible. Using the HTML5 doctype will ensure that the major browsers will render
-                the website in their Standards Mode rather than the Quirks Mode.
-                <br>
-                <br>
-                Further information can be found in our <a href = "/dev/htmlstyleguide.html">HTML Style Guide</a>
-                <br>
-                <br>  
-	        <p id="design-logic" class="subheader">Logic</p>
-	        The <span class="code">Logic</span> component handles the business logic of TEAMMATES.<br>
-	        It is accessible via a thin facade class called <span class="code">Logic</span> which makes 
-	        use of 3 <span class="code">*Logic</span> classes to handle the logic related to various
-	        types of data and to access data from the <span class="code">Storage</span> component.<br>
-	        
-	        <br>
-	        <div class="image-holder"><img src="images/LogicComponent.png"/></div>
-	        <br>
-	        
-	        <p id="design-logic-logicAPI" class="subheader">Logic API</p>
-	        Represented by <span class="code">Logic.java</span> and <span class="code">BackDoorServlet.java</span>
-	        <ul>
-	            <li><span class="code">Logic</span>: For the use of UI. <span class="code">Logic</span> class acts as a single interface facade between UI (servlets) and internal storage classes (*Storage and *Db)</li>
-	            <li><span class="code">BackDoorLogic</span>: For the use of TestDriver (via <span class="code">BackDoorServlet</span>)</li>
-	        </ul>
-	        
-	        <p id="design-logic-policies" class="subheader">Policies</p>
-	        These are the general policies followed by Logic. <br>
-	        Null values should <span class="bold">not</span> be used in any places, except in certain edit operations where values which are <span class="code">null</span> are not editted.
-	        
-	        <p class="subheader">Authentication</p>
-	        Calls received by Logic are authenticated against logged in user’s privileges.<br>
-	        Calls received by BackDoorServlet are authenticated using the ‘backdoor key’. Backdoor key is a string known only to the owner of the application.<br>
-	        
-	        <p class="subheader">Creating entities</p>
-	        Null parameters: Throws an assertion error.<br>
-	        Entity already exists: Throws <span class="code">EntityAlreadyExists</span> exception (escalated from DB level)<br>
-	        <br>
-	        In the case of creating <span class="code">Evaluations</span>, <span class="code">Submission</span> entities are automatically created with respect the students enrolled in the course, or when a student changes teams. Developers should not allow Submissions to be manually created.
-	        
-	        <p class="subheader">Retrieving entities</p>
-	        Null parameters: Throws an assertion error<br>
-	        <br>
-	        Entity not found: <br>
-	        -Returns <span class="code">null</span> if the target entity not found. This way, read operations can be used easily for checking the existence of an entity.<br>
-	        -Throws <span class="code">EntityDoesNotExists</span> exception if a parent entity of a target entity is not found e.g., trying to list students of a non-existent course<br>
-	        <br>
-	        
-	        <p class="subheader">Editing entities</p>
-	        Primary keys cannot be edited except: Student.email <br>
-	        <br>
-	        KeepExistingPolicy: the new value of an optional attribute is specified as null or set to “Uninitialized”, the existing value will prevail. {This is not a good policy. To be reconsidered}<br>
-	        <br>
-	        Null parameters: Throws an assertion error if that parameter cannot be null. Optional attributes follow KeepExistingPolicy<br>
-	        <br>
-	        Entity not found: Throws <span class="code">EntityDoesNotExistException</span> exception<br>
-	        <br>
-	        Invalid parameters: Throws <span class="code">InvalidParametersException</span><br>
-	        <br>
-	        
-	        <p class="subheader">Deleting entities</p>
-	        Null parameters: Throws an assertion error<br>
-	        <br>
-	        FailDeleteSilentlyPolicy: In general, delete operation do not throw exceptions if the target entity does not exist. Instead, it logs a warning. This is because an entity could get deleted by one user while another user is trying to delete it at the same time. In any case, if it does not exist, it is as good as deleted.<br>
-	        <br>
-	        Cascade policy: When a parent entity is deleted, entities that have referential integrity with the deleted entity should also be deleted. E.g deleting a instructor deletes all courses under the instructor, which also deletes all evaluations and submissions related to the course.<br>
-	        <br>
-	        Cascade logic:
-	        <ul>
-	            <li>Instructor : delete all courses and cascade onwards</li>
-	            <li>Course : delete all students, evaluations and cascade onwards</li>
-	            <li>Student : delete all submissions</li>
-	            <li>Evaluation: delete all submissions </li>
-	            <li>Submission : no cascade (this entity can only be deleted by cascades)</li>
-	        </ul>
-	
-	        <p id="design-storage" class="subheader">Storage</p>
-	        The <span class="code">Storage</span> component performs CRUD operations 
-	        on data entities individually. It is accessible via the 3 <span class="code">*Db</span> classes.
-	        It hides complexities of datastore from the <span class="code">Logic</span> component. 
-	        All GQL queries are to be contained inside the <span class="code">Storage</span> component.
-	        <br>It contains minimal logic beyond what is directly relevant to CRUD operations.
-	        <br>The <span class="code">Storage</span> component will not perform any cascade delete/create
-	        oprearations.Cascade logic is currently handled by Logic component.
-	        <br><br>
-	        
-	        <div class="image-holder"><img src="images/StorageComponent.png" width=80%/></div>
-	        <br>
-	        <span class="code">Storage::Entity</span> classes are not visible 
-	        outside this component to prevent accidental modification to the entity's attributes.<br>
-	        Instead, a corresponding non-persistent data transfer object
-	        named <span class="code">*EntityData</span> (e.g., <span class="code">CourseData</span> is
-	        the data transfer object for <span class="code">Course</span> entities) 
-	        object is returned, where values can be get and set easily without any 
-	        impact on the persistent data copy. 
-	        Note: This decision was taken before GAE started supporting 
-	        <a href="https://developers.google.com/appengine/docs/java/datastore/jdo/creatinggettinganddeletingdata">
-	        the ability to 'detach' entities </a> to prevent accidental modifications 
-	        to persistable data. The decision to use data transer objects is
-	        to be reconsidered in the future.
-	        <br>
-	        Note that the navigability of the association links between entity 
-	        objects appear to be in the reverse direction of what we see in a normal OOP design. 
-	        This is because we want to keep the data scheme flexible so that new
-	        entity types can be added later with minimal modifications to existing elements.
-	        
-	        <p id="design-storage-storageAPI" class="subheader">Storage API</p>
-	        Represented by classes in storage::api
-	        
-	        <p id="design-storage-policies" class="subheader">Policies</p>
-	        Add and Delete operations try to wait until data is persisted in the datastore before returning. This is not enough to compensate for eventual consistency involving multiple servers (i.e., in the production server). However, it is expected to avoid test failures caused by eventual consistency in dev server.<br>
-	        <br>
-	        Implementation of Transaction Control has been decided against due to limitations of GAE environment and the nature of our persistent data implementation. Please see <a href="https://docs.google.com/document/d/1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU/edit#heading=h.1yzvgqzgobon">TEAMMATES Problems and Solutions</a> documentation for more information.
-	        <br>
-	        Null values should <span class="bold">not</span> be used in any places, except in certain edit operations where values which are <span class="code">null</span> are not editted.
-	        <br>
-	        
-	        Create:
-	        <ul>
-	        	<li>Attempt to create an entity that exists: Throw <span class="code">EntityAlreadyExists</span> exception</li>
-	        	<li>Attempt to create an entity with invalid data: assertion thrown (should not occur at this level)</li>	
-	    	</ul>
-	    	<br>
-	    	
-	    	Retrieve:
-	    	<ul>
-	    		<li>Attempt to retrieve an entity that does not exist: Return null</li>
-	    	</ul>
-	    	<br>
-	    	
-	    	Update:
-	    	<ul>
-	    		<li>Attempt to update an entity that does not exist: assertion thrown (should not occur at this level)</li>
-	    		<li>Attempt to update an entity with invalid data: assertion thrown (should not occur at this level)</li>
-	    	</ul>
-	    	<br>
-	    	
-	    	Delete:
-	    	<ul>
-	    		<li>Attempt to delete an entity that does not exist: no action</li>
-	    	</ul>
-	    	<br>
-	        
-			<br>
-	        <p id="design-common" class="subheader">Common</p>
-	        <div class="image-holder"><img src="images/CommonComponent.png" width=80% /></div>
-                <br>
-                The Common component contains common utilities used across TEAMMATES.<br>
-                <span class="code">common::Common.java</span> currently holds a vast 
-                collection of common constants and functions. This is a good 
-                candidate for breaking into smaller classes.<br>
-                <br>
-                <span class="code">common::datatransfer</span> package contains 
-                lightweight classes for transferring data among components. They 
-                can be combined in various ways to transfer structured data between 
-                components. Given below are three examples.<br>
-                <div class="image-holder"><img src="images/dataTransferClasses.png" width=80% /></div>
-                <br>
-                (a) Test Driver can use the DataBundle in this manner to send an arbitrary number of objects to be persisted in the database.<br>
-                (b) This structure can be used to send results of an evaluation (e.g., when showing an evaluation report to a instructor)<br>
-                (c) This structure can be used to transfer data belonging to a 
-                instructor (e.g., when constructing the home page for a instructor).<br>
-                <br>
-	        For convenience, these classes use public variables for data. This is not a good practice as it contravenes OO principles and increases the risk of invalid data. This strategy is to be reconsidered at a later date.
-	        <br>
-	
-	        <p id="design-testdriver" class="subheader">TestDriver</p>
-	        This component automates the testing of TEAMMATES.<br>
-	        <div class="image-holder"><img src="images/TestDriverComponent.png" width=80%/></div>
-	        <br>
-	        We have two kinds of automated test cases:
-	        <ul>
-	            <li>Component tests: Some of these are pure unit tests (i.e., test one component in isolation) while others are integration tests that tests units as well as integration of units with each other.<br>
-	            AllJsTests.java is for unit testing JavaScript code. </li>
-	            <li>UI tests: These focus on testing the UI and the integration of all components with the UI.</li>
-	        </ul>
-	        This is how TEAMMATES testing maps to standard types of testing.<br>
-	        <br>
-	        <span style="background:#A4C2F4">|---------acceptance tests----|---system tests----|-----integration tests-----|-------unit tests----------|</span><br>
-	        <span style="background:#F4CCCC">|---------manual testing-------------|</span><span style="background:#B6D7A8">-------------UI tests------|-------component tests ----------------|</span><br>
-	        <br>
-	        <br>
-	        Notable classes:
-	        <ul>
-	            <li><span class="bold">*Suite.java</span> classes are containers for test cases, used to run test cases in batch mode.</li>
-	            <li>
-	                <span class="bold">BrowserInstance.java</span> represents 
-                        the UI of the application. It is a wrapper around Selenium 
-                        Web Driver. It allows the test driver to simulate user 
-                        actions on the TEAMMATES UI. This class is a good candidate 
-                        for further decomposition as it is too big at the moment.<br>
-	                Notable methods and data members (<span class="bold">IMPORTANT</span>):
-	                <ul>
-	                    <li><span class="code">get[entity]RowID</span>: to find the rowID of some specific entity on a specific page</li>
-	                    <li><span class="code">get[entity]LinkLocator</span>: to retrieve the locator (a By object) of an entity. This method usually have two versions, one accepting primary key to that entity, the other accepting rowID. The basic form is the one accepting rowID</li>
-	                    <li>Data member of By type: gives the locator of an entity which does not require any parameter to be retrieved (such as input textbox for course ID in creating course)</li>
-	                    <li><span class="code">click[entity]</span>: methods to click on some object on the page. This is only convenience method as it can be replaced by calling <span class="code">click(By locator)</span> using locator as retrieved from the <span class="code">get*LinkLocator</span>.</li>
-	                    <li><span class="code">count[entity]</span>: to count the number of that entity as appeared in the page (e.g., number of students, number of evaluations, etc)</li>
-	                    <li><span class="code">get[entity]</span> and <span class="code">studentGet[entity]</span>: method to retrieve some information on the page. For some cases, this is only convenience method as it can be replaced by calling <span class="code">getText(By locator)</span> with respective locator, for others, it uses more sophisticated method to retrieve the data easier and faster.</li>
-	                    <li>Methods related to form-filling such as <span class="code">fillString</span>, <span class="code">fillInCourseID</span>, <span class="code">addEvaluation</span>, <span class="code">addCourse</span>. These methods are there to make filling forms easier, as well as giving model to new developers on how to fill the forms.</li>
-	                    <li>There are also some verification methods to test the page HTML.</li>
-	                </ul>
-	            </li>
-	            <li><span class="bold">BackDoor.java</span> allows test driver to communicate with the TEAMMATES datastore. It hides from Test Driver the complexity of HTTP communication that is required to interact with the server.
-	            <li><span class="bold">EmailAccount.java</span> allows Test Driver to query email accounts of test users (e.g., to verify the receipt of emails sent by TEAMMATES)
-	            <li><span class="bold">TestProperties.java</span> represents configuration values in test.properties and appengine-web.xml that are useful for testing. e.g., the app version number that we expect to see in the UI footer. 
-	        </ul>
-	        <br>
-	
-	        <p id="design-configpoints" class="subheader">Config points</p>
-	        There are several files used to configure various aspects of the system.
-	        <ul>
-	            <li><span class="bold">build.properties </span>: This is the main general purpose configuration file. 
-	            <li><span class="bold">logging.properties </span>: Configuration for java.util.logging users.
-	            <li><span class="bold">log4j.properties </span>: Configuration for log4j users. Not used by us.
-	            <li><span class="bold">test.properties </span>: Contains configuration values for the test driver.
-	            <li><span class="bold">appengine-web.xml </span>: Contains configuration for deploying the application on app engine.
-	            <li><span class="bold">web.xml </span>: This is the configurations for the webserver. It specifies servlets to run, mapping from URLs to servlets/JSPs, security constraints, etc.
-	            <li><span class="bold">cron.xml </span>: This specifies cron jobs to run.
-	            <li><span class="bold">queue.xml </span>: Specifies configuration of task queues.
-	            <li><span class="bold">jdoconfig.xml </span>: Specifies the JDO configuration.
-	            <li><span class="bold">persistence.xml </span>: auto-generated.
-	        </ul>
-	    </div>
-	
-	
-	    <div id="infrastructure">
-	        <p class="header">Infrastructure</p>
-	        
+	<br>
+	<h3>Table of Contents</h3>
+	<ul>
+		<li><a href="#project">Project</a></li>
+		<ul>
+			<li><a href="#project-vision">Project vision</a></li>
+			<li><a href="#project-challenges">Challenges</a></li>
+			<li><a href="#project-principles">Principles</a></li>
+		</ul>
 
-	        <p id="infrastructure-knowledgebase" class="subheader">Knowledge base</p>
-	        <ul>
-	            <li><a href="https://teammatesv4.appspot.com/dev/devman.html">
-	            	Developer manual</a> (i.e. <span class="bold">DevMan</span>) {This document}</li>
-	            <li><a href="https://teammatesv4.appspot.com/dev/spec.html">
-	            	System specification</a> (i.e. <span class="bold">Spec</span>)</li>
-	            <li><a href="https://docs.google.com/document/pub?id=1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU&embedded=true">
-	            	Problems and Solutions</a> (i.e. <span class="bold">P&S</span>) : Problems encountered, solutions considered, rationale for selection etc.</li>
-	            <li><a href="https://docs.google.com/document/d/1Niq-VOjj0dBwYevySz1FnBPGSoFwLNkn7lcmIYKV_Cc/edit?hl=en_US">
-	            	Project Meeting Minutes</a> (i.e. <span class="bold">Minutes</span>){restricted to project members only}</li>
-	            <li><a href="https://docs.google.com/document/pub?id=1b9UmcYz8NU2TJ6Kt8i6pCcj064B98sbrM0MMEYVWs0Q&embedded=true">
-	            	Version History</a> (i.e. <span class="bold">History</span>)</li>
-	            <li><a href="https://docs.google.com/document/pub?id=1LymZ6oeEA6TZRzgW7X2FUxA2MPbZTjUrzIx6si_5ThI&embedded=true">
-	            	Resources</a> (i.e. <span class="bold">Resources</span>) : Learning materials, tips, tutorials, etc.</li>
-	            <br>
-	            <li><span class="bold">Google Group</span> for dev team <a href="http://groups.google.com/group/teammates-dev">http://groups.google.com/group/<span class="bold">teammates-dev</span></a></li>
-	            <li><span class="bold">Google Group</span> for contributors <a href="http://groups.google.com/group/teammates-contributors">http://groups.google.com/group/<span class="bold">teammates-contributors</span></a></li>
-	            <br>
-	            <li><span class="bold">Review Repo</span> (contains under-review code or reviewed-but-not-release-ready code) and <span class="bold">Issue Tracker</span> : <a href="http://code.google.com/p/teammatespes">teammatesPES.googlecode.com</a> {PES = Peer Evaluation System} </li>
-	            <li><span class="bold">Release Repo</span> (contains the released or release-ready code): <a href="http://code.google.com/p/teammates-release">teammates-release.googlecode.com</a></li>
-	            <li><span class="bold">Live site</span>: <a href="http://teammatesv4.appspot.com/">http://teammatesv4.appspot.com</a></li>
-	        </ul>
-	
-				
-			<p id="infrastructure-toolsandtechnologies-deployment" class="subheader">Deployment environment</p>
+		<li><a href="#design">Design</a></li>
+		<ul>
+			<li><a href="#design-architecture">Architecture</a></li>
+			<li><a href="#design-ui">UI</a></li>
+			<li><a href="#design-logic">Logic</a></li>
+			<li><a href="#design-storage">Storage</a></li>
+			<li><a href="#design-common">Common</a></li>
+			<li><a href="#design-testdriver">TestDriver</a></li>
+		</ul>
+
+		<li><a href="#infrastructure">Infrastructure</a>
 			<ul>
-				<li><span class="bold">Google App Engine (GAE)</span></li>
-				<li><span class="bold">Java</span> [version 1.6, this is the highest version supported by GAE]</li>
-			</ul>
-			
-			<p id="infrastructure-toolsandtechnologies-development" class="subheader">Development environment</p>
+				<li><a href="#infrastructure-knowledgebase">Knowledge base</a></li>
+				<li><a href="#infrastructure-toolsandtechnologies-deployment">Deployment
+						environment</a></li>
+				<li><a href="#infrastructure-toolsandtechnologies-development">Development
+						environment</a></li>
+				<li><a
+					href="#infrastructure-toolsandtechnologies-implementation">Tools
+						used in implementation</a></li>
+				<li><a href="#infrastructure-toolsandtechnologies-testing">Tools
+						used in testing</a></li>
+				<li><a href="#infrastructure-configpoints">Config points</a></li>
+			</ul></li>
+		<li><a href="#settingup">Setting Up</a></li>
+		<ul>
+			<li><a href="#settingup-prerequisites">Prerequisites</a></li>
+			<li><a href="#settingup-settingupdevserver">Setting up the
+					dev server</a></li>
+			<li><a href="#settingup-deployingtoappspot">Deploying to
+					appspot</a></li>
+			<li><a href="#settingup-troubleshooting">Troubleshooting</a></li>
+		</ul>
+
+		<li><a href="process">Process</a></li>
+		<ul>
+			<li><a href="#process-roles">Roles</a></li>
+			<li><a href="#process-workflow">Workflow</a></li>
+			<li><a href="#process-fixingissues">Fixing issues</a></li>
+			<li><a href="#process-reviewingafix">Reviewing a fix</a></li>
+			<li><a href="#process-applyingafix">Applying a fix</a></li>
+			<li><a href="#process-deployingfixes">Deploying fixes</a></li>
+			<li><a href="#process-issuelifecycle">Issue Lifecycle</a></li>
+		</ul>
+
+		<li><a href="#bestpractices">Best Practices</a></li>
+		<ul>
+			<li><a href="#bestpractices-ui">UI best practices</a></li>
+			<li><a href="#bestpractices-coding">Coding best practices</a></li>
+			<li><a href="#bestpractices-testing">Testing best practices</a></li>
+		</ul>
+
+		<li><a href="#glossary">Glossary</a></li>
+	</ul>
+
+	<hr>
+	<!-- =============================================================== -->
+
+	<h1 id="project">Project</h1>
+
+	<h2 id="project-vision">Project vision</h2>
+
+	Long term goal: Become the
+	<span class="bold">biggest student project in the world</span>.
+	<br> {Biggest = many contributors, many users, high LOC, evolving
+	over a long period.}
+	<br>
+	<br> ‘Biggest’ above also implies an exceptionally high quality
+	standard because high quality is a necessity for the long-term survival
+	of a big student project.
+	<br>
+	<br> This project will also serve as a model and a training ground
+	for Software Engineering (SE) students who want to learn SE skills in
+	the context of a non-trivial real software product.
+	<br>
+
+	<h2 id="project-challenges">Challenges</h2>
+	The project faces challenges in following areas.
+	<br>
+	<ul>
+		<li><span class="bold">Developers</span>: All developers are
+			novices and their involvement with the project is short term and part
+			time.</li>
+		<li><span class="bold">Code</span>: Working with legacy code
+			written by past developers is harder than writing from scratch.</li>
+		<li><span class="bold">Testing</span>: No dedicated QA team.</li>
+		<li><span class="bold">Data</span>: The data in the live system
+			are confidential and developers are not allowed to see them. This
+			makes troubleshooting harder.</li>
+		<li><span class="bold">Releases</span>: Frequent releases to live
+			users requires us to maintain ‘production quality’ constantly.</li>
+		<li><span class="bold">Platform</span>: TEAMMATES is running on
+			Google App Engine cloud platform, which adds the following
+			challenges.
 			<ul>
-				<li><span class="bold">Eclipse</span> IDE for EE developers [version juno]</li>
-				<li><span class="bold">Google App Engine Plugin for Eclipse</span> [version 4.2]</li>
-				<li><span class="bold">Google App Engine SDK</span> [version 1.7.3]</li>
-				<li><span class="bold">TortoiseHg</span> or Mac OS equivalent [version: latest stable]</li>
-				<li><span class="bold">Google Code</span> project hosting</li>
-			</ul>
-			
-			<p id="infrastructure-toolsandtechnologies-implementation" class="subheader">Tools used in implementation</p>
+				<li>It is an emerging platform evolving rapidly. We have to
+					keep up.</li>
+				<li>It imposes various restrictions on the application. e.g.
+					Each request to the app has be served within 60 seconds.</li>
+				<li>It charges us based on usage. We have to optimize usage.</li>
+			</ul></li>
+		<li><span class="bold">Software Engineering</span>: As TEAMMATES
+			serve as a model system for training students, it should also focus
+			on applying good ‘Software Engineering’ techniques.</li>
+	</ul>
+
+	<h2 id="project-principles">Principles</h2>
+	We apply these principles to meet the challenges stated above.
+	<br>
+	<ul>
+		<li><span class="bold">We keep moving forward, always</span>: We
+			release frequently, in weekly <a
+			href=http://en.wikipedia.org/wiki/Timeboxing">time-boxed
+				iterations</a>. Every week, our product becomes better than the previous
+			week. This means ‘go back and rewrite from scratch’ is only a last
+			resort.</li>
+		<li><span class="bold">We are agile</span>: We are able to change
+			the system quickly and with ease to match emerging requirements. We
+			aim for minimal yet sufficient documentation.</li>
+		<li><span class="bold">We defend our code with tests,
+				fiercely</span>: Since we practice <a
+			href="http://www.extremeprogramming.org/rules/collective.html">collective
+				code ownership</a>, we have to make sure the code is not accidentally
+			broken by others. We use fully automated regression testing. The
+			testing automation level of this project is probably higher than 99%
+			of the projects out there.</li>
+		<li><span class="bold">We are ‘Gods’ of the few tools we
+				use</span>: We stick to a Minimal toolset. adding third-party tools and
+			libraries to the project is done only if there is a STRONG
+			justification. Only mature, stable, and well-supported tools should
+			be considered. Once selected, we should know the tool very well to
+			get the best out of it.</li>
+		<li><span class="bold">We value quality more than
+				functionality</span>: i.e., our job is not to ‘anyhow get it to work’. The
+			system should be good enough to be considered a ‘model’ software. Our
+			code is of ‘unusually’ high quality: All code is reviewed before
+			accepting.</li>
+		<li><span class="bold">We know what we are doing</span>: For us,
+			it is not enough to know something is broken, we should also know why
+			it is broken. It is not enough to get something working, we should
+			know how we got it to work.</li>
+		<li><span class="bold">We seek the best, not stop at the
+				first</span>: We do not settle for the first workable method to solve a
+			problem. We study other ways of solving it and decide what is the
+			best way for us.</li>
+		<li><span class="bold">We take pains to save the team from
+				pain</span>: Whenever we had to spend effort in figuring out something, we
+			refine code/documents so that others don’t have to go through the
+			same pain. Whenever we figured out a less painful way of doing
+			something, we make sure everyone in the team learn it too.</li>
+	</ul>
+
+	<hr>
+	<!-- =============================================================== -->
+
+	<h1 id="design">Design</h1>
+
+	<h2 id="design-architecture">Architecture</h2>
+
+	<div class="image-holder">
+		<img src="images/highlevelArchitecture.png" width="90%" />
+	</div>
+
+	<br> TEAMMATES is a Web app that runs on Google App Engine (GAE)
+	cloud platform. Given above is an overview of the main components.
+	<br>
+
+	<ul>
+		<li><span class="bold">UI</span>: The UI seen by users consists
+			of Web pages containing HTML, CSS (for styling) and JavaScripts (for
+			client-side interactions such as sorting, input validation etc.).
+			This UI is generated by Java Server Pages (JSP) and Java Servlets
+			residing on the server. Requests are sent to the server over normal
+			HTTP. In future, AJAX may be used sparingly to fetch data from the
+			server asynchronously.</li>
+		<li><span class="bold">Logic</span>: The main logic of the app is
+			in Java POJOs (Plain Old Java Objects). Some automated tasks are
+			implemented as Servlets.</li>
+		<li><span class="bold">Storage</span>: Storage uses the
+			persistence framework provided by GAE ‘datastore’. While the
+			datastore is a noSQL database, we use it in SQL fashion via a JDO
+			wrapper and GQL (a datastore-specific SQL variant).</li>
+		<li><span class="bold">Test Driver</span>: TEAMMATES makes heavy
+			use of automated regression testing. JUnit is used for Java unit
+			testing and QUnit for JavaScript unit testing. We use Selenium Web
+			Driver to automate UI testing. Test Driver can access the application
+			directly to set up test data. We use JSON format to transmit such
+			data to the application.</li>
+		<li><span class="bold">Common</span>: The Common component
+			contains utility code used across the application.</li>
+	</ul>
+	The diagram below shows how the code is organized into packages inside
+	each component and dependencies among them.
+	<div class="image-holder">
+		<img class="image" src="images/packageDiagram.png" width="90%"/>
+	</div>
+	<br> Notes:
+	<ul>
+		<li>[logic] - [ui::view] - [ui::controller] represent an
+			application of Model-View-Controller pattern.</li>
+		<li>ui::view package is not a Java package. It represents jsp,
+			html, js and css files.</li>
+	</ul>
+
+
+	<h2 id="design-ui">UI</h2>
+	<div class="image-holder">
+		<img class="image" src="images/UiComponent.png" width="90%" />
+	</div>
+	<br>
+
+	<h3>Request flow</h3>
+	Request from the Browser will go through following steps:
+	<br></br>
+
+	<div class="image-holder">
+		<img src="images/UiWorkflow.png" width="90%"></img>
+	</div>
+
+	<ol>
+		<li>Request received by the GAE server</li>
+		<li>Forwarded to our custom filters in according to the order as
+			specified in <span class="code">web.xml</span>. In our case this
+			would be <span class="code">DatastoreFilter</span> and <span
+			class="code">LoginFilter</span>. For example, the <span class="code">LoginFilter</span>
+			will forward any request from not-logged-in users to the login page.
+			If the request is from logged in user, then it will proceed according
+			to the URL.
+		</li>
+		<li>Depending on the URL, it will be handled by its respective
+			Servlet (e.g., <span class="code">InstructorHomeServlet</span>, <span
+			class="code">InstructorCourseDeleteServlet</span>, etc)
+		</li>
+		<li>The servlet will communicate with the <span class="code">Logic</span>
+			to carry out the business logic part of the requst (e.g., accessing
+			datastore, modifying datastore, etc). After that, it will create
+			respective <span class="code">Helper</span> object and store inside
+			that object relevant data retrieved from the <span class="code">Logic</span>
+			(e.g., student list, course list, evaluation data, etc)
+		</li>
+		<li>The respective Helper object then will be passed to the
+			respective JSP page.</li>
+		<li>The JSP page will then render the page according to the data
+			inside the <span class="code">Helper</span> object.
+		</li>
+		<li>The response will then be sent back to the Browser, which
+			will render the page.</li>
+	</ol>
+
+	<h3>Process flow in Servlets</h3>
+	Since the request will undergo mostly similar processing steps, the
+	request will first be processed in the general-purpose abstract class
+	<span class="code">ActionServlet</span> (this is an application of the
+	<a href="http://en.wikipedia.org/wiki/Template_method_pattern">Template
+		Method pattern</a>). This is the sequence of steps taken by the
+	<span class="code">ActionServlet</span> object:
+	<ol>
+		<li>Check whether the request method is <span class="code">POST</span>
+			or <span class="code">GET</span>, store it in a variable <span
+			class="code">isPost</span>.
+		</li>
+		<li>Call abstract <span class="code">instantiateHelper</span>
+			method, which should have been overridden to create respective <span
+			class="code">Helper</span> object.
+		</li>
+		<li>Call concrete <span class="code">prepareHelper</span> method,
+			which will setup common data inside the <span class="code">Helper</span>
+			object, such as the <span class="code">Logic</span> object, <span
+			class="code">UserData</span> object, redirect URL, status message and
+			error status. This method will also set configure the masquerade mode
+			if required ('masquarade mode' is used by the administrator to
+			masquerade as another user).
+		</li>
+		<li>It will call the abstract <span class="code">doAction</span>
+			method, which should have been overridden to contain the main action
+			for each servlet. This is the place for highest-level error handling
+			before the response is returned to the Broswer.
+		</li>
+		<li>It will finally call <span class="code">doCreateResponse</span>
+			method, which redirects the request with appropriate method: either
+			forward the request using <span class="code">requestDispatcher</span>
+			to the page specified in <span class="code">getDefaultForwardUrl</span>
+			or redirect the request to the page as specified in variable <span
+			class="code">redirectUrl</span>.
+		</li>
+	</ol>
+	When adding new pages to the app, the developer just need to subclass
+	the
+	<span class="code">ActionServlet</span> class and implement the
+	abstract methods (and override
+	<span class="code">getDefaultForwardUrl</span>) accordingly. The
+	<span class="code">Helper</span> class can also be subclassed if the
+	default one is not enough (most likely).
+	<br>
+	<br> The UI consist of following pages:
+
+	<h3>Functional pages</h3>
+	These pages represent the core functionality of the system.
+	<ul>
+		<li>login.jsp {To be removed in the near future as website home
+			page is now used for login.}</li>
+		<li>logout.jsp : Used for users to log out of the system.</li>
+		<br>
+		<li>adminHome : Page for adiministrative activities such as
+			creating Instructors, monitoring user activities etc.</li>
+		<br>
+		<li>instructorHome : Landing page for instructors. Lists course
+			and evaluations that the instructor is part of</li>
+		<li>instructorCourse : Page for Course-releated actions.</li>
+		<li>instructorCourseEnroll : Page for enrolling students in a
+			course</li>
+		<li>instructorCourseView : Page for listing students in a course.</li>
+		<li>instructorCourseStudentDetails : Page for viewing details of
+			an individual student.</li>
+		<li>instructorCourseStudentEdit: Page for editing details of a
+			student.</li>
+		<li>instructorEval : Page for listing and creating Evaluations.</li>
+		<li>instructorEvalEdit : Page for editing an Evaluation.</li>
+		<li>instructorEvalResults : Page for viewing evaluation results.</li>
+		<li>instructorEvalSubmissionView : Page for viewing submissions
+			from and to a student for a given evaluation.</li>
+		<li>instructorEvalSubmissionEdit : Page for editing a submission
+			by a student.</li>
+		<br>
+		<li>studentHome : Landing page for students.</li>
+		<li>studentCourseDetails : Page for the student to see details of
+			his/her team in a Course.</li>
+		<li>studentEvalEdit : Page for submitting a peer evaluation.</li>
+		<li>studentEvalResults : Page for viewing evaluation results.</li>
+	</ul>
+
+	These pages can be accessed via the
+	<span class="code">[TEAMMATES URL]/page/pagename</span>, handled by a
+	Servlet and a jsp page named after the page name.
+	<br> e.g.,
+	<span>adminHome</span> can be reached by
+	<a href="http://teammatesv4.appspot.com/page/adminHome">http://teammatesv4.appspot.com/page/adminHome</a>
+	and is handled by
+	<span class="code">AdminHomeServlet.java</span> and
+	<span class="code">adminHome.jsp</span>
+	<br>
+	<br> Only logged in users can access these pages.
+	<span class="code">LoginFilter.java</span> is used to redirect
+	not-logged-in users to a login page.
+	<br>
+	<br>
+
+	<h3>Special-purpose pages</h3>
+	These pages provide peripheral functionality.These pages are not
+	access-controlled.
+	<ul>
+		<li>studentHelpPage (an html page)</li>
+		<li>instructorHelpPage (an html page)</li>
+		<li>error pages (errorPage.jsp, mobile.jsp, oldIE.jsp, etc.)</li>
+	</ul>
+
+	<h3>Website pages</h3>
+	These are the static pages that forms the product website (not the
+	product itself).
+	<ul>
+		<li>contact.html, about.html etc.</li>
+	</ul>
+
+
+	<h2 id="design-logic">Logic</h2>
+
+	The
+	<span class="code">Logic</span> component handles the business logic of
+	TEAMMATES.
+	<br> It is accessible via a thin facade class called
+	<span class="code">Logic</span> which makes use of 3
+	<span class="code">*Logic</span> classes to handle the logic related to
+	various types of data and to access data from the
+	<span class="code">Storage</span> component.
+
+	<div class="image-holder">
+		<img src="images/LogicComponent.png" width="90%" />
+	</div>
+	<br>
+
+	<h3>Logic API</h3>
+	Represented by
+	<span class="code">Logic.java</span> and
+	<span class="code">BackDoorServlet.java</span>
+	<ul>
+		<li><span class="code">Logic</span>: For the use of UI. <span
+			class="code">Logic</span> class acts as a facade between UI
+			(servlets) and the backend of the app.</li>
+		<li><span class="code">BackDoorLogic</span>: For the use of <span
+			class="code">TestDriver</span> (via <span class="code">BackDoorServlet</span>)</li>
+	</ul>
+
+	<h3>Policies</h3>
+	General:
+	<br>
+	<ul>
+		<li>Null values should <span class="bold">not</span> be used as
+			parameters to this API, except when following the KeepExisting policy
+			(explained later).
+		</li>
+	</ul>
+
+	<br>Authentication:
+	<ul>
+		<li>Calls received by <span class="code">Logic</span> are
+			authenticated against logged in user’s privileges.<br>
+		</li>
+		<li>Calls received by <span class="code">BackDoorServlet</span>
+			are authenticated using the ‘backdoor key’. Backdoor key is a string
+			known only to the person who deployed the app (typically, the
+			administrator).
+		</li>
+	</ul>
+	<br>API for creating entities:
+	<ul>
+		<li>Null parameters: Throws an assertion error.</li>
+		<li>Entity already exists: Throws <span class="code">EntityAlreadyExists</span>
+			exception (escalated from <span class="code">Storage</span> level).
+		</li>
+		<li>When creating <span class="code">Evaluations</span>, <span
+			class="code">Submission</span> entities are automatically created at
+			the time of creating an evaluation or a changing the team structure
+			of a course.
+		</li>
+	</ul>
+	<br>API for retrieving entities:
+	<ul>
+		<li>Attempting to retrived objects using <span class="code">null</span>
+			parameters: Not expected. Results in assertion failure.
+		</li>
+		<li>Entity not found: <br> -Returns <span class="code">null</span>
+			if the target entity not found. This way, read operations can be used
+			easily for checking the existence of an entity.<br> -Throws <span
+			class="code">EntityDoesNotExists</span> exception if a parent entity
+			of a target entity is not found e.g., trying to list students of a
+			non-existent course.
+		</li>
+	</ul>
+	<br>API for editing entities:
+	<ul>
+		<li>Primary keys cannot be edited except: <span class="code">Student.email</span>
+		</li>
+		<li>KeepExistingPolicy: the new value of an optional attribute is
+			specified as <span class="code">null</span> or set to
+			“Uninitialized”, the existing value will prevail. {This is not a good
+			policy. To be reconsidered}
+		</li>
+		<li><span class="code">Null</span> parameters: Throws an
+			assertion error if that parameter cannot be null. Optional attributes
+			follow KeepExistingPolicy</li>
+		<li>Entity not found: Throws <span class="code">EntityDoesNotExistException</span>
+			exception
+		</li>
+		<li>Invalid parameters: Throws <span class="code">InvalidParametersException</span>
+		</li>
+	</ul>
+
+	<br>API for deleting entities:
+	<ul>
+		<li><span class="code">Null</span> parameters: Not expected.
+			Results in assertion failure.</li>
+		<li>FailDeleteSilentlyPolicy: In general, delete operation do not
+			throw exceptions if the target entity does not exist. Instead, it
+			logs a warning. This is because an entity could get deleted by one
+			user while another user is trying to delete it at the same time. In
+			any case, if it does not exist, it is as good as deleted.</li>
+		<li>Cascade policy: When a parent entity is deleted, entities
+			that have referential integrity with the deleted entity should also
+			be deleted. <br> Cascade logic:
 			<ul>
-				<li><span class="bold">HTML</span> [version 5, using latest features is discouraged 
-					due to lack of enough Browser support], <span class="bold">JavaScript</span>, <span class="bold">CSS</span></li>
-				<li><a class="bold" href="http://jquery.com/">jQuery</a></span> [version 1.6.2]
-					<br>jQuery is a JavaScript Library that simplifies HTML
-					document traversing, event handling, animating, and Ajax
-					interactions for rapid web development.
-				</li>
-			 	<li><span class="bold">JSON </span><span>(JavaScript Object Notation) 
-			 		<br>JSON is a lightweight data-interchange format. It is easy for humans to read and write. 
-			 		It is easy for machines to parse and generate. It is based on a subset of the JavaScript.
-				</li>
-				<li><a class="bold" href="http://code.google.com/p/google-gson/">Gson</a></span> [version 2.2.2]
-					<br>Gson is a Java library that can be used to convert Java Objects into their
-						JSON representation. It can also be used to convert a JSON string to
-						an equivalent Java object.
-				</li>
-				<li><span class="bold">Java Server Pages (JSP)</span>
-					<br>JSP technology provides a simplified way to create dynamic web content.
-						A JSP page can be thought as an HTML page with embedded Java code
-						snippets.</li>
-				<li><span class="bold">Java Servlets</span>
-					<br>Java Servlet technology provides a simple, consistent mechanism for
-						extending the functionality of a Web server and for accessing
-						existing business systems. A servlet can almost be thought of as an
-						applet that runs on the server side--without a face.
-				</li>
-				<li><span class="bold"><a href="https://developers.google.com/appengine/docs/java/datastore/jdo/overview">
-					Java Data Objects (JDO)</a></span> [version 2.3; while GAE
-						supports JDO 3.0 as well, we continue to use JDO 2.3 because it is
-						easier to set up.] 
-						<br>JDO is a standard interface for storing
-						objects containing data into a database. The standard defines
-						interfaces for annotating Java objects, retrieving objects with
-						queries, and interacting with a database using transactions. An
-						application that uses the JDO interface can work with different
-						kinds of databases without using any database-specific code,
-						including relational databases, hierarchical databases, and object
-						databases.
-				</li>
-				<li><span class="bold">Datanucleus Access Platform</span> [version 1; while GAE supports
-						Datanucleus v2 as well, the version that goes with JDO 2.3 is v1]
-						<br>The DataNucleus Access Platform provides persistence and retrieval of
-						data to a range of datastores using a range of APIs, with a range of
-						query languages.
-						<br>Comes with App Engine SDK.
-				</li>
+				<li>Instructor : delete all courses and cascade onwards.</li>
+				<li>Course : delete all students, evaluations and cascade
+					onwards.</li>
+				<li>Student : delete all submissions to/from the student.</li>
+				<li>Evaluation: delete all submissions.</li>
+				<li>Submission : no cascade (this entity can only be deleted by
+					cascades).</li>
 			</ul>
-			
-			<p id="infrastructure-toolsandtechnologies-testing" class="subheader">Tools used in testing</p>
+		</li>
+	</ul>
+	<h2 id="design-storage">Storage</h2>
+
+	The
+	<span class="code">Storage</span> component performs CRUD (Create,
+	Read, Update, Delete) operations on data entities individually. It is
+	accessible via the
+	<span class="code">*Db</span> classes in the
+	<span class="code">atorage::api</span> package. It hides complexities
+	of datastore from the
+	<span class="code">Logic</span> component. All GQL queries are to be
+	contained inside the
+	<span class="code">Storage</span> component.
+	<br>It contains minimal logic beyond what is directly relevant to
+	CRUD operations.
+	<br>The
+	<span class="code">Storage</span> component will not perform any
+	cascade delete/create oprearations.Cascade logic is currently handled
+	by the
+	<span class="code">Logic</span> component.
+	<br>
+
+	<div class="image-holder">
+		<img src="images/StorageComponent.png" width=80% />
+	</div>
+
+	<br>Classes in the
+	<span class="code">storage::entity</span> package are not visible
+	outside this component to prevent accidental modification to the
+	entity's attributes (Since these classes have been marked as
+	'persistence capable', and changes to their attributes are by default
+	automatically persisted to the datastore).
+	<br> Instead, a corresponding non-persistent data transfer object
+	named
+	<span class="code">*EntityData</span> (e.g.,
+	<span class="code">CourseData</span> is the data transfer object for
+	<span class="code">Course</span> entities) object is returned, where
+	values can be get and set easily without any impact on the persistent
+	data copy. These datatransfer classes are in
+	<span class="code">common::datatransfer</span> package explained later.
+	Note: This decision was taken before GAE started supporting
+	<a
+		href="https://developers.google.com/appengine/docs/java/datastore/jdo/creatinggettinganddeletingdata">
+		the ability to 'detach' entities </a> to prevent accidental modifications
+	to persistable data. The decision to use data transer objects is to be
+	reconsidered in the future.
+	<br> Note that the navigability of the association links between
+	entity objects appear to be in the reverse direction of what we see in
+	a normal OOP design. This is because we want to keep the data scheme
+	flexible so that new entity types can be added later with minimal
+	modifications to existing elements.
+
+	<h3>Storage API</h3>
+	Represented by classes in
+	<span class="code">storage::api</span>
+
+	<h3>Policies</h3>
+	Add and Delete operations try to wait until data is persisted in the
+	datastore before returning. This is not enough to compensate for
+	eventual consistency involving multiple servers in the GAE production
+	enviornment. However, it is expected to avoid test failures caused by
+	eventual consistency in dev server.
+	<br> Note: 'Eventual consistency' here means it takes some time
+	for a database operation to propagate across all serves of the Google's
+	distributed datastore. As a result, the data may be in an inconsistent
+	states for short periods of time although things should become
+	consistent 'eventually'. For example, an object we deleted may appear
+	to still exist for a short while.
+	<br>
+	<br> Implementation of Transaction Control has been decided
+	against due to limitations of GAE environment and the nature of our
+	data schema. Please see
+	<a
+		href="https://docs.google.com/document/d/1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU/edit#heading=h.1yzvgqzgobon">TEAMMATES
+		Problems and Solutions</a> documentation for more information.
+	<br>
+	<br> General:
+	<br>
+	<ul>
+		<li><span class="code">Null</span> values should <span
+			class="bold">not</span> be used as parameters for this API, except
+			under the KeepExistingPolicy mentioned previously. <span class="code">null</span>
+			are not editted.</li>
+	</ul>
+	<br> API for creating:
+	<ul>
+		<li>Attempt to create an entity that exists: Throw <span
+			class="code">EntityAlreadyExists</span> exception.
+		</li>
+		<li>Attempt to create an entity with invalid data: assertion
+			thrown (should not occur at this level).</li>
+	</ul>
+	<br> API for retrieving:
+	<ul>
+		<li>Attempt to retrieve an entity that does not exist: Returns <span
+			class="code">null</span>.
+		</li>
+	</ul>
+	<br> API for updating:
+	<ul>
+		<li>Attempt to update an entity that does not exist: Not
+			expected. Results in assertion failure.</li>
+		<li>Attempt to update an entity with invalid data: Not expected.
+			Results in assertion failure.</li>
+	</ul>
+	<br> API for deleting:
+	<ul>
+		<li>Attempt to delete an entity that does not exist: No action.</li>
+	</ul>
+
+
+	<h2 id="design-common">Common</h2>
+
+	<div class="image-holder">
+		<img src="images/CommonComponent.png" width=90% />
+	</div>
+	<br> The Common component contains common utilities used across
+	TEAMMATES.
+	<br>
+	<span class="code">common::Common.java</span> currently holds a vast
+	collection of common constants and functions. This is a good candidate
+	for breaking into smaller classes.
+	<br>
+	<br>
+	<span class="code">common::datatransfer</span> package contains
+	lightweight classes for transferring data among components. They can be
+	combined in various ways to transfer structured data between
+	components. Given below are three examples.
+	<br>
+	<div class="image-holder">
+		<img src="images/dataTransferClasses.png" width=90% />
+	</div>
+	<br> (a)
+	<span class="code">Test Driver</span> can use the
+	<span class="code">DataBundle</span> in this manner to send an
+	arbitrary number of objects to be persisted in the database.
+	<br> (b) This structure can be used to send results of an
+	evaluation (e.g., when showing an evaluation report to a instructor)
+	<br> (c) This structure can be used to transfer data belonging to
+	a instructor (e.g., when constructing the home page for a instructor).
+	<br>
+	<br> For convenience, these classes use public variables for data.
+	This is not a good practice as it contravenes OO principle of
+	<i>information hiding</i> and increases the risk of inconsistent data.
+	This strategy is to be reconsidered at a later date.
+	<br>
+
+
+	<h2 id="design-testdriver">TestDriver</h2>
+	This component automates the testing of TEAMMATES.
+	<br>
+	<div class="image-holder">
+		<img src="images/TestDriverComponent.png" width=90% />
+	</div>
+	<br> We have two kinds of automated test cases:
+	<ul>
+		<li>Component tests: Some of these are pure unit tests (i.e.,
+			test one component in isolation) while others are integration tests
+			that tests units as well as integration of units with each other.<br>
+			<span class="code">AllJsTests.java</span> is for unit testing
+			JavaScript code.
+		</li>
+		<li>UI tests: These focus on testing the UI and the integration
+			of all components with the UI.</li>
+	</ul>
+	This is how TEAMMATES testing maps to standard types of testing.
+	<br>
+	<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Normal:
+	<span style="background: #A4C2F4">|---------acceptance
+		tests----|---system tests----|-----integration tests-----|-------unit
+		tests----------|</span>
+	<br> TEAMMATES:
+	<span style="background: #F4CCCC">|---------manual
+		testing-------------|</span>
+	<span style="background: #B6D7A8">----automated UI
+		tests----|---automated component tests ---|</span>
+	<br>
+	<br>
+	<br> Notable classes:
+	<ul>
+		<li><span class="code"><span class="bold">*Suite.java</span></span>
+			classes are containers for test cases, used to run test cases in
+			batch mode.</li>
+		<li><span class="code"><span class="bold">BrowserInstance.java</span></span>
+			represents the UI of the application. It is a wrapper around Selenium
+			Web Driver. It allows the test driver to simulate user actions on the
+			TEAMMATES UI. This class is a good candidate for further
+			decomposition as it is too big at the moment.<br> Notable
+			methods and data members (<span class="bold">IMPORTANT</span>):
 			<ul>
-				<li><span class="bold"><a href="http://code.google.com/p/selenium/wiki/UsingWebDriver">
-					Selenium</a></span> [version 2.26.0]
-					<br>Selenium automates browsers. We use it for automating our UI tests.
-					<br>We require Selenium standalone server, Chrome driver, IE driver, and Java language bindings.
+				<li><span class="code">get[entity]RowID</span>: to find the
+					rowID of some specific entity on a specific page.</li>
+				<li><span class="code">get[entity]LinkLocator</span>: to
+					retrieve the locator (a By object) of an entity. This method
+					usually have two versions, one accepting primary key to that
+					entity, the other accepting rowID. The basic form is the one
+					accepting rowID.</li>
+				<li>Data member of By type: gives the locator of an entity
+					which does not require any parameter to be retrieved (such as input
+					textbox for course ID in creating course)</li>
+				<li><span class="code">click[entity]</span>: methods to click
+					on some object on the page. This is only convenience method as it
+					can be replaced by calling <span class="code">click(By
+						locator)</span> using locator as retrieved from the <span class="code">get*LinkLocator</span>.</li>
+				<li><span class="code">count[entity]</span>: to count the
+					number of that entity in the page (e.g., number of students, number
+					of evaluations, etc)</li>
+				<li><span class="code">get[entity]</span> and <span
+					class="code">studentGet[entity]</span>: method to retrieve some
+					information on the page. For some cases, this is only convenience
+					method as it can be replaced by calling <span class="code">getText(By
+						locator)</span> with respective locator, for others, it uses more
+					sophisticated method to retrieve the data easier and faster.</li>
+				<li>Methods related to form-filling such as <span class="code">fillString</span>,
+					<span class="code">fillInCourseID</span>, <span class="code">addEvaluation</span>,
+					<span class="code">addCourse</span>. These methods are there to
+					make filling forms easier, as well as giving model to new
+					developers on how to fill the forms.
 				</li>
-				<li><span class="bold"><a href="http://www.oracle.com/technetwork/java/javamail/index.html">JavaMail</a></span> [version 1.4.5]
-					<br>The JavaMail API provides a platform-independent and
-						protocol-independent framework to build mail and messaging applications.
-						<br> Usage: For accessing test users' email accounts to examine
-						emails sent from TEAMMATES.
-				</li>
-				<li><span class="bold"><a href="https://github.com/kentbeck/junit/wiki">JUnit</a></span> [version 4.11]
-					<br>JUnit is a Java test automation framework.
-				</li>
-				<li><span class="bold"><a href="http://qunitjs.com/">QUnit</a></span> [version 1.9.0]
-					<br>QUnit is a JavaScript unit test suite.
-				</li>
-				<li><span class="bold">NekoHtml</span> [version 1.9.16]
-					<br>NekoHTML is a simple HTML scanner and tag balancer that
-						enables application programmers to parse HTML documents and access
-						the information using standard XML interfaces. 
-						<br>NekoHTML is included in the Selenium libraries.
-						<br>Usage: During UI testing,
-						for doing a logical comparison of the pages generated against expected pages.
-				</li>
-			</ul>
-		</div>
-	    
-	    <div id="settingup">
-	        <p class="header">Setting Up</p>
-	        These instructions are for the Windows environment. 
-	        Instructions for Mac OS is similar, with slight variations that you can figure out yourself.
-	
-	        <p id="settingup-prerequisites" class="subheader">Prerequisites</p>
-	        <ul>
-	            <li>Install <a href="http://tortoisehg.bitbucket.org/">TortoiseHg</a>. 
-	            <br>If you are on Mac OS, you can install <a href="http://mercurial.selenic.com/">Mercurial (Commandline version)</a> 
-	            or a Hg Gui such as <a href="http://jasonfharris.com/machg/">MacHg</a>.</li>
-	            <li>Download "Eclipse IDE for Java EE Developers" (version: Juno) 
-	                  from <a href="http://www.eclipse.org/downloads/">http://www.eclipse.org/downloads/ </a></li>
-	            <li>Install "Google App Engine plug-in for Eclipse" version 4.2 (but omit the App Engine SDK that comes with the plugin).
-	                     <br>Instructions are at <a href="https://developers.google.com/eclipse/docs/install-eclipse-4.2">https://developers.google.com/eclipse/docs/install-eclipse-4.2</a>. 
-	                     <br>Do not install GWT plugin as it might interfere with the GAE plugin.
-	            </li>
-	            <li>Install "Google App Engine SDK" version 1.7.3. 
-	                     <br>Instructions are at <a href="https://developers.google.com/eclipse/docs/using_sdks">https://developers.google.com/eclipse/docs/using_sdks</a>. 
-	                     <br>Download link to the SDK is <a href="http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.3.zip">http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.3.zip</a>. 
-	            </li>
-	            <li>If your Firefox is higher than version 12, downgrade to Firefox 12.0 from <a href="https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/">here</a> {The web driver for later Firefox is significantly slower than the one used for FF12}</li>
-	            <li>If your java version is later than 1.6, set Eclipse Java compliance level to 1.6 (GAE plugin does not support versions higher than 1.6).<br> 
-	            Windows → Preferences → Java → Compiler → Set compliance level → 1.6</li>
-	        </ul>
-	        <br>
-	
-	        <p id="settingup-settingupdevserver" class="subheader">Setting up the dev server</p>
-	        ‘Dev server’  means running the server in localhost mode.
-	        <ol>
-	            <li>Clone source code from:<a href="https://code.google.com/p/teammates-release/">https://code.google.com/p/teammates-release/</a>
-	            <li>
-	                Create config files (these are not under revision control because their content vary from developer to developer). 
-	                <ol type="a">
-	                    <li><span class="blue">src/main/resources/</span><span class="bold">build.properties</span> <br>
-	                    Use build.template.properties as a template (i.e. copy → paste → rename)<br>
-	                    For dev server testing, property values can remain as they are. You need to change values when you deploy to appspot remote server. </li> 
-	                    <li><span class="blue">src/test/resources/</span><span class="bold">test.properties </span> <br>
-	                    Create it using test.template.properties (in the same folder). For dev server testing, property values can remain as they are.</li> 
-	                    <li><span class="blue">src/main/webapp/WEB-INF/</span><span class="bold">appengine-web.xml</span> <br>
-	                    Create using appengine-web.template.xml. For dev server testing, property values can remain as they are.
-	                    </li>
-	                </ol>
-	            </li>
-	            <li>
-	                Open Eclipse and import → general → ‘existing projects into workspace’ (see the <span class="bold">Troubleshooting</span> 
-	                section if have any problem). After the importing is complete, do the following steps.
-	                <ol type="a">
-	                    <li>
-	                        Go to Properties→Google→Web application
-	                        <ol type="i">
-	                            <li>Select 'this project has a WAR directory'.</li>
-	                            <li>Browse to src/main/webapp.</li>
-	                            <li><span class="bold">Select</span> 'Launch and deploy from this directory' </li>
-	                        </ol>
-	                    </li>
-	                    <li>
-	                        Go to Properties→Google→App engine
-	                        <ol type="i">
-	                            <li>Select ‘use Google App Engine’</li>
-	                        </ol>
-	                    </li>
-	                    <li> 
-	                        Go to Properties → Google → App Engine → ORM
-	                        <ol type="i">
-	                            <li>Here, you should specify where are your Entity classes so that they can be enhanced by the DataNucleus Enhancer tool. 
-	                            Add this folder to the list <span class="bold">src/main/java/teammates/storage/entity/*.java</span></li>
-	                            <li>Remove all other folders. That way, DataNucleus Enhancer runs only when you modify your entity classes.</li>
-	                        </ol> 
-	                    </li>
-	                    <li>If Eclipse alters <span class="bold">.classpath</span> file during above steps, revert it back to original and refresh the project.</li>
-	                    <li>Click ‘Run’ → ‘Run as web application’, and browse to <span class="bold">src/main/webapp</span> 
-	                    for the location of the WAR file(can remove the 'run configuration' to redo this step). 
-	                    You may have to create a new ‘run configuration’ if one does not exist.
-	                    The configuration is in the Run Configurations → Arguments tab → Program arguments.</li>
-	                </ol>
-	            </li>
-	            <li>After the dev server is running (i.e., this message appears on console “The server is running at http://localhost:8888/”), 
-	            you can run <span class="bold">AllTestsSuite.java</span> to confirm the app works as expected.</li>
-	        </ol>
-	        <br>
-	
-	        <p id="settingup-deployingtoappspot" class="subheader">Deploying to appspot</p>
-	        <ol>
-	            <li>
-	                Create your own app on GAE<br>
-	                suggested app name: teammates-name (replace the name with your own name). The URL of the app will be like this.<br>
-	                <span class="blue">http://teammates-name.appspot.com</span><br>
-	            </li>
-	            <br>
-	            <li>
-	                Modify configuration files. 
-	                <ol type="a">
-	                    <li><span class="blue">src/main/resources/</span><span class="bold">build.properties </span><br>
-	                    Follow instructions in the file itself.  </li>
-	                    <li><span class="blue">src/test/resources/</span><span class="bold">test.properties </span><br>
-	                    Get from a project member details of gmail accounts used for testing. Edit the file as instructed in comments.</li>
-	                    <li><span class="blue">src/main/webapp/WEB-INF/</span><span class="bold">appengine-web.xml </span><br>
-	                    Modify to match app name and app id of your own app.</li>
-	                </ol>
-	            </li>
-	            <li>
-	                Deploy app to a appspot
-	                <ol type="a">
-	                    <li>Choose ‘Deploy to app engine’ from eclipse and follow the steps.</li>
-	                    <li>Wait until you see this message in Eclipse console “Deployment completed successfully”</li>
-	                    <li>Go to appengine dashboard <br> <span class="blue">https://appengine.google.com/dashboard?&app_id=teammates-</span><span class="red">name</span></li>
-	                    <li>Click “Versions” under “Main” menu on the left bar.</li>
-	                    <li>Set the version you deployed as the ‘default’.</li>
-	                </ol>
-	                Note: You can skip the steps to set the deployed version as the default. In that case, 
-	                you can access the deployed app using <span class="code">http://{version}.{app-id}.appspot.com</span>  
-	                e.g. <span class="code">http://4-18.teammates-john.appspot.com </span>
-	            </li>
-	            <li>You can run the tests again against the deployed app (modify <span class="code">test.properties</span> so that tests execute against the deployed app and not the dev server). <br>
-	            Note that GAE daily quota will be exhausted after 2-3 runs of the full test suite.</li>
-	        </ol>
-	        
-	        <p class="subheader">To add more instructors</p>
-	            <ol type="a">
-	                <li>Go to <span class="code">http://appURL/page/adminHome</span></li>
-	                <li>Log in using your Google ID. If this is the dev server, enter any email address, 
-	                but remember to check the ‘log in as administrator’ check box.</li>
-	                <li>
-	                    Enter credentials for a instructor. e.g., <br>
-	                    Google id: teammates.instructor<br>
-	                    Name: Instructor   <br>
-	                    Email: teammates.instructor@gmail.com<br>
-	                </li>
-	            </ol>
-	        <br>
-	
-	        <p id="settingup-troubleshooting" class="subheader">Troubleshooting</p>
-	        <ol>
-	            <li>ERROR: Eclipse complains about FileWriter and ConsoleHandler 
-	            e.g. java.io.FileWriter is not supported by Google App Engine's Java runtime environment   <br>
-	            SOLUTION: These are OK because the offending files belong to test driver and will not be deployed to GAE. 
-	            Choose to ‘Quick Fix’ and then choose to exclude those files from validation.</li>
-	            <br>
-	            <li>ERROR: Eclipse complains "...your project must be configured to use a jdk in order to use jsp". <br>
-	            SOLUTION: This happens because Eclipse is only aware of JRE, not JDK (Compiling JSP requires the JDK). 
-	            Go to Window→Preferences→Java→Installed JREs. You will note that a JRE path is the one selected, not a JDK path. 
-	            To fix this, Click add→Standard VM, then for the JRE Path enter the path ‘jre’ folder inside your jdk installation folder. 
-	            e.g., <span class="code">C:\jdk1.6\jre</span> Now you should see all of the JARs added to the library section. </li>
-	            <br>
-	            <br>
-	            <li>ERROR (on Windows): Dev server launched by Eclipse keeps running even after closing Eclipse. 
-	            After restarting eclipse, you’ll be able to relaunch dev server on the same port but requests will be received by the previous server instance.<br>
-	            SOLUTION: If eclipse crashes while development server is running inside eclipse, the server might keep running even after eclipse is closed.  
-	            Go to Windows task manager and kill processes named javaw.exe.</li>
-	            <br>
-	            <li>ERROR (on Windows), null pointer exception when trying to access email box. The error message looks something like this:<br>
-	            <span class="code">java.lang.NullPointerException at <br>
-	            javax.mail.internet.ParameterList.set(ParameterList.java:165) at <br>
-	            com.sun.mail.imap.protocol.BODYSTRUCTURE.parseParameters(BODYSTRUCTURE.java:390)<br>
-	            </span>
-	            SOLUTION: In eclipse, move the javax.mail.....jar (from sun) to the top of the build class path. (Properties → Java build path → ‘order and export’ tab)</li> 
-	            <br>
-	            <li>ERROR: Eclipse complains‘ file out of sync’.<br>
-	            SOLUTION: ‘refresh’ the project in eclipse.</li>
-	            <br>
-	            <li>ERROR: Tests fail randomly during dev server testing<br>
-	            SOLUTION: Make sure there is only one dev server running. Eclipse will happily allow you to start multiple dev servers.</li>
-	        </ol>
-	    </div>
-	    <br>
+				<li>There are also some verification methods to test the page
+					HTML.</li>
+			</ul></li>
+		<li><span class="code"><span class="bold">BackDoor.java</span></span>
+			allows test driver to communicate with the TEAMMATES datastore. It
+			hides from Test Driver the complexity of HTTP communication that is
+			required to interact with the server.
+		<li><span class="code"><span class="bold">EmailAccount.java</span></span>
+			allows Test Driver to query email accounts of test users (e.g., to
+			verify the receipt of emails sent by TEAMMATES)
+		<li><span class="code"><span class="bold">TestProperties.java</span></span>
+			represents configuration values in test.properties and
+			appengine-web.xml that are useful for testing. e.g., the app version
+			number that we expect to see in the UI footer.
+	</ul>
+
+	<hr>
+	<!-- =============================================================== -->
+
+	<h1 id="infrastructure">Infrastructure</h1>
+
+	<h2 id="infrastructure-knowledgebase">Knowledge base</h2>
+
+	<ul>
+		<li><a href="https://teammatesv4.appspot.com/dev/devman.html">
+				Developer manual</a> (i.e. <span class="bold">DevMan</span>) {This
+			document}</li>
+		<li><a href="https://teammatesv4.appspot.com/dev/spec.html">
+				System specification</a> (i.e. <span class="bold">Spec</span>)</li>
+		<li><a
+			href="https://docs.google.com/document/pub?id=1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU&embedded=true">
+				Problems and Solutions</a> (i.e. <span class="bold">P&S</span>) :
+			Problems encountered, solutions considered, rationale for selection
+			etc.</li>
+		<li><a
+			href="https://docs.google.com/document/d/1Niq-VOjj0dBwYevySz1FnBPGSoFwLNkn7lcmIYKV_Cc/edit?hl=en_US">
+				Project Meeting Minutes</a> (i.e. <span class="bold">Minutes</span>)
+			{restricted to project members only}</li>
+		<li><a
+			href="https://docs.google.com/document/pub?id=1b9UmcYz8NU2TJ6Kt8i6pCcj064B98sbrM0MMEYVWs0Q&embedded=true">
+				Version History</a> (i.e. <span class="bold">History</span>)</li>
+		<li><a
+			href="https://docs.google.com/document/pub?id=1LymZ6oeEA6TZRzgW7X2FUxA2MPbZTjUrzIx6si_5ThI&embedded=true">
+				Resources</a> (i.e. <span class="bold">Resources</span>) : Learning
+			materials, tips, tutorials, etc.</li>
+		<br>
+		<li><span class="bold">Google Group</span> for dev team <a
+			href="http://groups.google.com/group/teammates-dev">http://groups.google.com/group/<span
+				class="bold">teammates-dev</span></a></li>
+		<li><span class="bold">Google Group</span> for contributors <a
+			href="http://groups.google.com/group/teammates-contributors">http://groups.google.com/group/<span
+				class="bold">teammates-contributors</span></a></li>
+		<br>
+		<li><span class="bold">Review Repo</span> (contains code under
+			review) and <span class="bold">Issue Tracker</span> : <a
+			href="http://code.google.com/p/teammatespes">teammatesPES.googlecode.com</a>
+			{PES = Peer Evaluation System}</li>
+		<li><span class="bold">Release Repo</span> (contains the released
+			or release-ready code): <a
+			href="http://code.google.com/p/teammates-release">teammates-release.googlecode.com</a></li>
+		<li><span class="bold">Live site</span>: <a
+			href="http://teammatesv4.appspot.com/">http://teammatesv4.appspot.com</a></li>
+	</ul>
+
+
+	<h2 id="infrastructure-toolsandtechnologies-deployment">Deployment
+		environment</h2>
+	<ul>
+		<li><span class="bold">Google App Engine (GAE)</span></li>
+		<li><span class="bold">Java</span> [version 1.6, this is the
+			highest version supported by GAE]</li>
+	</ul>
+
+	<h2 id="infrastructure-toolsandtechnologies-development">Development
+		environment</h2>
+	<ul>
+		<li><span class="bold">Eclipse</span> IDE for EE developers
+			[version juno]</li>
+		<li><span class="bold">Google App Engine Plugin for
+				Eclipse</span> [version 4.2]</li>
+		<li><span class="bold">Google App Engine SDK</span> [version
+			1.7.3]</li>
+		<li><span class="bold">TortoiseHg</span> or Mac OS equivalent
+			[version: latest stable]</li>
+		<li><span class="bold">Google Code</span> project hosting</li>
+	</ul>
+
+	<h2 id="infrastructure-toolsandtechnologies-implementation">Tools
+		used in implementation</h2>
+	<ul>
+		<li><span class="bold">HTML</span> [version 5, using latest
+			features is discouraged due to lack of enough Browser support], <span
+			class="bold">JavaScript</span>, <span class="bold">CSS</span></li>
+		<li><a class="bold" href="http://jquery.com/">jQuery</a>
+	</span> [version 1.6.2]
+	<br>jQuery is a JavaScript Library that simplifies HTML document
+	traversing, event handling, animating, and Ajax interactions for rapid
+	web development.
+	</li>
+	<li><span class="bold">JSON </span><span>(JavaScript Object
+			Notation) <br>JSON is a lightweight data-interchange format. It
+			is easy for humans to read and write. It is easy for machines to
+			parse and generate. It is based on a subset of the JavaScript. </li>
+	<li><a class="bold" href="http://code.google.com/p/google-gson/">Gson</a></span>
+		[version 2.2.2] <br>Gson is a Java library that can be used to
+		convert Java Objects into their JSON representation. It can also be
+		used to convert a JSON string to an equivalent Java object.</li>
+	<li><span class="bold">Java Server Pages (JSP)</span> <br>JSP
+		technology provides a simplified way to create dynamic web content. A
+		JSP page can be thought as an HTML page with embedded Java code
+		snippets.</li>
+	<li><span class="bold">Java Servlets</span> <br>Java Servlet
+		technology provides a simple, consistent mechanism for extending the
+		functionality of a Web server and for accessing existing business
+		systems. A servlet can almost be thought of as an applet that runs on
+		the server side--without a face.</li>
+	<li><span class="bold"><a
+			href="https://developers.google.com/appengine/docs/java/datastore/jdo/overview">
+				Java Data Objects (JDO)</a></span> [version 2.3; while GAE supports JDO 3.0 as
+		well, we continue to use JDO 2.3 because it is easier to set up.] <br>JDO
+		is a standard interface for storing objects containing data into a
+		database. The standard defines interfaces for annotating Java objects,
+		retrieving objects with queries, and interacting with a database using
+		transactions. An application that uses the JDO interface can work with
+		different kinds of databases without using any database-specific code,
+		including relational databases, hierarchical databases, and object
+		databases.</li>
+	<li><span class="bold">Datanucleus Access Platform</span> [version
+		1; while GAE supports Datanucleus v2 as well, the version that goes
+		with JDO 2.3 is v1] <br>The DataNucleus Access Platform provides
+		persistence and retrieval of data to a range of datastores using a
+		range of APIs, with a range of query languages. <br>Comes with
+		App Engine SDK.</li>
+	</ul>
+
+	<h2 id="infrastructure-toolsandtechnologies-testing">Tools used in
+		testing</h2>
+	<ul>
+		<li><span class="bold"><a
+				href="http://code.google.com/p/selenium/wiki/UsingWebDriver">
+					Selenium</a></span> [version 2.26.0] <br>Selenium automates browsers. We
+			use it for automating our UI tests. <br>We require Selenium
+			standalone server, Chrome driver, IE driver, and Java language
+			bindings.</li>
+		<li><span class="bold"><a
+				href="http://www.oracle.com/technetwork/java/javamail/index.html">JavaMail</a></span>
+			[version 1.4.5] <br>The JavaMail API provides a
+			platform-independent and protocol-independent framework to build mail
+			and messaging applications. <br> Usage: For accessing test
+			users' email accounts to examine emails sent from TEAMMATES.</li>
+		<li><span class="bold"><a
+				href="https://github.com/kentbeck/junit/wiki">JUnit</a></span> [version
+			4.11] <br>JUnit is a Java test automation framework.</li>
+		<li><span class="bold"><a href="http://qunitjs.com/">QUnit</a></span>
+			[version 1.9.0] <br>QUnit is a JavaScript unit test suite.</li>
+		<li><span class="bold">NekoHtml</span> [version 1.9.16] <br>NekoHTML
+			is a simple HTML scanner and tag balancer that enables application
+			programmers to parse HTML documents and access the information using
+			standard XML interfaces. <br>NekoHTML is included in the
+			Selenium libraries. <br>Usage: During UI testing, for doing a
+			logical comparison of the pages generated against expected pages.</li>
+	</ul>
+	<h2 id="infrastructure-configpoints">Config points</h2>
+	There are several files used to configure various aspects of the
+	system.
+	<ul>
+		<li><span class="code"><span class="bold">build.properties
+			</span></span>: This is the main general purpose configuration file.
+		<li><span class="code"><span class="bold">logging.properties
+			</span></span>: Configuration for java.util.logging users.
+		<li><span class="code"><span class="bold">log4j.properties
+			</span></span>: Configuration for log4j users. Not used by us.
+		<li><span class="code"><span class="bold">test.properties
+			</span></span>: Contains configuration values for the test driver.
+		<li><span class="code"><span class="bold">appengine-web.xml
+			</span></span>: Contains configuration for deploying the application on app engine.
+
+
+
+
+
+
 		
-	
-	    <div id="process">
-	        <p class="header">Process</p>
-	
-	        <p id="process-roles" class="subheader">Roles</p>
-	        <ul>
-	            <li>Dev (i.e. issue owner), Reviewer {assigned per issue}</li>
-	            <li>
-	                Team lead - responsible for keeping all tests green, for release repo, workflow  issues, updating version history, and meeting deadlines
-	                <ul>
-	                    <li>1.0 - 2.0 : Gerald</li>
-	                    <li>3.0 : Huy</li>
-	                    <li>4.0 - 4.07 : Wang Sha</li>
-	                    <li>4.07.01 - 4.08.01 : Kalpit</li>
-	                    <li>4.09 - 4.14 : Xialin</li>
-	                    <li>4.15.01 : Shakthi</li>
-	                    <li>4.15.02 : Kalpit</li>
-	                    <li>4.16 - 4.17: James</li>
-	                    <li>4.18 [major rewrite spanning 100s of commits] : Aldrian</li>
-	                </ul>
-	            </li>
-	            <li>PM : Damith</li>
-	        </ul>
-	        <br>
-	
-	        <p id="process-workflow" class="subheader">Workflow</p>
-	        <div class="image-holder"><img src="images/workflow.png" width=75%/></div>
-	        <br>
-	
-	        <p id="process-fixingissues" class="subheader">Fixing Issues</p>
-	        Role: developer 
-	        <br>
-	        <ol>
-	            <li>Select an issue to handle. Get approval to proceed from project team. </li>
-	            <br>
-	            <li>Optionally, you can discuss alternative solutions before choosing one to implement. This can be done through Issue tracker or email group. Such a discussion reduces the chance of the patch being rejected later.</li>
-	            <br>
-	            <li>Mark the issue as STARTED. Add reviewer in the CC field.</li>
-	            <br>
-	            <li>
-	                Get the latest version of the code from the release repo <br>
-	                <span class="code">
-	                    hg pull https://yourname@code.google.com/p/teammates-release/ <br>
-	                    hg update
-	                </span>
-	            </li>
-	            <br>
-	            <li>
-	                Start a new branch named “Issue{IssueNumber}”. If you are already working in a branch, remember to switch to trunk (i.e. ‘default’ branch) before creating the new branch.
-	                e.g., <br>
-	                <span class="code">
-	                    #switch to trunk (if required)<br>
-	                    hg update default<br>
-	                    #create new branch<br>
-	                    hg branch Issue236
-	                </span>
-	            </li>
-	            <br>
-				<li>Fix the issue. <br> <br> Tip: It is a good practice to
-					make the first line of the first commit of the branch have the
-					format “starting Issue nnn [ Issue title]”. This helps to locate
-					the start of the branch easily (useful when reviewing code) and
-					identify what the issue is about without having to refer to issue
-					tracker.<br> For subsequent commits, make the first line a
-					description of the commit.<br><br> Tip: If you add
-							‘Update Issue {Issue Number}’ as a separate line in your commit
-							message, GoogleCode will automatically add a comment to the Issue
-							with a link the revision. Here’s a sample commit message:
-				<br> 
-				<span class="code"> Starting Issue 234 [Title of
-						issue] (if this is first commit)<br> 
-						Description of fix<br>
-						Update Issue 234<br>
-				</span> <br> 
-				Tip: Try to limit each issue to one commit. This will ease the review process.
-				Define issues to be of small size so that you don't need more than
-				one commit to fix it. For bigger issues, you can use <a href="http://mercurial.selenic.com/wiki/MqTutorial">Mercurial 
-				Queues</a> to accumulate your work as patches and combine them into 
-				one commit.
+		<li><span class="code"><span class="bold">web.xml </span></span>:
+			This is the configurations for the webserver. It specifies servlets
+			to run, mapping from URLs to servlets/JSPs, security constraints,
+			etc.
+		<li><span class="code"><span class="bold">cron.xml
+			</span></span>: This specifies cron jobs to run.
+		<li><span class="code"><span class="bold">queue.xml
+			</span></span>: Specifies configuration of task queues.
+		<li><span class="code"><span class="bold">jdoconfig.xml
+			</span></span>: Specifies the JDO configuration.
+		<li><span class="code"><span class="bold">persistence.xml
+			</span></span>: auto-generated.
+	</ul>
+
+	<hr>
+	<!-- =============================================================== -->
+
+	<h1 id="settingup">Setting Up</h1>
+	These instructions are for the Windows environment. Instructions for
+	Mac OS is similar, with slight variations that you can figure out
+	yourself.
+
+	<h2 id="settingup-prerequisites">Prerequisites</h2>
+	<ul>
+		<li>Install <a href="http://tortoisehg.bitbucket.org/">TortoiseHg</a>
+			latest stable version. <br>If you are on Mac OS, you can install
+			<a href="http://mercurial.selenic.com/">Mercurial (Commandline
+				version)</a> or a Hg GUI such as <a
+			href="http://jasonfharris.com/machg/">MacHg</a>.
+		</li>
+		<li>Download <i>Eclipse IDE for Java EE Developers</i> (version:
+			Juno) from <a href="http://www.eclipse.org/downloads/">http://www.eclipse.org/downloads/
+		</a>
+		</li>
+		<li>Install <i>Google App Engine plug-in for Eclipse</i> version
+			4.2 (but omit the App Engine SDK that comes with the plugin). <br>Instructions
+			are at <a
+			href="https://developers.google.com/eclipse/docs/install-eclipse-4.2">https://developers.google.com/eclipse/docs/install-eclipse-4.2</a>.
+			<br>Do not install GWT plugin as it might interfere with the GAE
+			plugin.
+		</li>
+		<li>Install <i>Google App Engine SDK</i> version 1.7.3. <br>Instructions
+			are at <a
+			href="https://developers.google.com/eclipse/docs/using_sdks">https://developers.google.com/eclipse/docs/using_sdks</a>.
+			<br>Download link to the SDK is <a
+			href="http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.3.zip">http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.3.zip</a>.
+		</li>
+		<li>If your Firefox is higher than version 12, downgrade to
+			Firefox 12.0 from <a
+			href="https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/">here</a>
+			{The web driver for later Firefox is significantly slower than the
+			one used for FF12}
+		</li>
+		<li>If your java version is later than 1.6, set Eclipse Java
+			compliance level to 1.6 (GAE plugin does not support versions higher
+			than 1.6).<br> Windows → Preferences → Java → Compiler → Set
+			compliance level → 1.6
+		</li>
+	</ul>
+
+	<h2 id="settingup-settingupdevserver">Setting up the dev server</h2>
+	‘Dev server’ means running the server in localhost mode.
+	<ol>
+		<li>Clone source code from:<a
+			href="https://code.google.com/p/teammates-release/">https://code.google.com/p/teammates-release/</a>
+		<li>Create config files (these are not under revision control
+			because their content vary from developer to developer).
+			<ol type="a">
+				<li><span class="blue">src/main/resources/</span><span
+					class="bold">build.properties</span> <br> Use
+					build.template.properties as a template (i.e. copy → paste →
+					rename)<br> For dev server testing, property values can remain
+					as they are. You need to change values when you deploy to appspot
+					remote server.</li>
+				<li><span class="blue">src/test/resources/</span><span
+					class="bold">test.properties </span> <br> Create it using
+					test.template.properties (in the same folder). For dev server
+					testing, property values can remain as they are.</li>
+				<li><span class="blue">src/main/webapp/WEB-INF/</span><span
+					class="bold">appengine-web.xml</span> <br> Create using
+					appengine-web.template.xml. For dev server testing, property values
+					can remain as they are.</li>
+			</ol>
+		</li>
+		<li>Open Eclipse and import → general → ‘existing projects into
+			workspace’ (see the <span class="bold">Troubleshooting</span> section
+			if have any problem). After the importing is complete, do the
+			following steps.
+			<ol type="a">
+				<li>Go to Properties→Google→Web application
+					<ol type="i">
+						<li>Select 'this project has a WAR directory'.</li>
+						<li>Browse to src/main/webapp.</li>
+						<li><span class="bold">Select</span> 'Launch and deploy from
+							this directory'</li>
+					</ol>
 				</li>
-				<br>
-	            <li>
-	                When the work is ready for review
-	                <ol>
-	                    <li>
-	                        Update your repo with any new changes from release repo and merge those updates to your branch<br>
-	                        <span class="code">
-	                            hg pull {release repo url}<br>
-	                            hg update<br>
-	                            hg merge default<br>
-	                        </span>
-	                    </li>
-	                    <li>Ensure dev green and staging green (i.e., all tests are passing on dev server and remote server).</li>
-	                    <li>
-	                        Push to review repo (this will create a new branch in review repo)<br>
-	                        <span class="code">hg push https://yourname@code.google.com/p/teammatespes/ --new-branch -b Issue234</span>
-	                    </li>
-	                    <li>Request a code review by adding a comment in the issue. </li>
-	                </ol>
-	            </li> 
-	            <br>
-	            <li>Repeat above two steps until the fix is approved.</li>
-	        </ol>
-			<br> Role: Contributor<br><br> A
-					contributor will work closely with a developer from the project
-					team, who will act as the mentor for the contributor. The workflow
-					is similar to that of developer (given above) expect for the
-					following. 
+				<li>Go to Properties→Google→App engine
+					<ol type="i">
+						<li>Select ‘use Google App Engine’</li>
+					</ol>
+				</li>
+				<li>Go to Properties → Google → App Engine → ORM
+					<ol type="i">
+						<li>Here, you should specify where are your Entity classes so
+							that they can be enhanced by the DataNucleus Enhancer tool. Add
+							this folder to the list <span class="bold">src/main/java/teammates/storage/entity/*.java</span>
+						</li>
+						<li>Remove all other folders. That way, DataNucleus Enhancer
+							runs only when you modify your entity classes.</li>
+					</ol>
+				</li>
+				<li>If Eclipse alters <span class="bold">.classpath</span> file
+					during above steps, revert it back to original and refresh the
+					project.
+				</li>
+				<li>Click ‘Run’ → ‘Run as web application’, and browse to <span
+					class="bold">src/main/webapp</span> for the location of the WAR
+					file (you can remove the 'run configuration' to redo this step).
+					You may have to create a new ‘run configuration’ if one does not
+					exist. The configuration is in the Run Configurations → Arguments
+					tab → Program arguments.
+				</li>
+			</ol>
+		</li>
+		<li>After the dev server is running (i.e., this message appears
+			on console “The server is running at http://localhost:8888/”), you
+			can run <span class="bold">AllTestsSuite.java</span> to confirm the
+			app works as expected.
+		</li>
+	</ol>
+
+	<h2 id="settingup-deployingtoappspot">Deploying to appspot</h2>
+	<ol>
+		<li>Create your own app on GAE.<br> Suggested app name:
+			teammates-name (replace the name with your own name). The URL of the
+			app will be like this.<br> <span class="blue">http://teammates-name.appspot.com</span><br>
+		</li>
+		<br>
+		<li>Modify configuration files.
+			<ol type="a">
+				<li><span class="code"><span class="blue">src/main/resources/</span><span
+						class="bold">build.properties </span></span><br> Follow instructions
+					in the file itself.</li>
+				<li><span class="code"><span class="blue">src/test/resources/</span><span
+						class="bold">test.properties </span></span><br> Get from a project
+					member details of Gmail accounts used for testing. Alternatively,
+					create a few Gmail accounts yourself for testing the app. Edit the
+					file as instructed in its comments.</li>
+				<li><span class="code"><span class="blue">src/main/webapp/WEB-INF/</span><span
+						class="bold">appengine-web.xml </span></span><br> Modify to match
+					app name and app id of your own app.</li>
+			</ol>
+		</li>
+		<li>Deploy app to a appspot
+			<ol type="a">
+				<li>Choose ‘Deploy to app engine’ from eclipse and follow the
+					steps.</li>
+				<li>Wait until you see this message in Eclipse console
+					“Deployment completed successfully”</li>
+				<li>Go to appengine dashboard <br> <span class="code">
+						<span class="blue">https://appengine.google.com/dashboard?&app_id=teammates-</span><span
+						class="red">name</span>
+				</span></li>
+				<li>Click “Versions” under “Main” menu on the left bar.</li>
+				<li>Set the version you deployed as the ‘default’.</li>
+			</ol> Note: You can skip the steps to set the deployed version as the
+			default. In that case, you can access the deployed app using <span
+			class="code">http://{version}.{app-id}.appspot.com</span> e.g. <span
+			class="code">http://4-18.teammates-john.appspot.com </span>
+		</li>
+		<li>You can run the tests again against the deployed app (modify
+			<span class="code">test.properties</span> so that tests execute
+			against the deployed app and not the dev server). <br> Note that
+			GAE daily quota will be exhausted after 2-3 runs of the full test
+			suite.
+		</li>
+	</ol>
+
+	<h3>To add more instructors</h3>
+	<ol type="a">
+		<li>Go to <span class="code">http://appURL/page/adminHome</span></li>
+		<li>Log in using your Google ID. If this is the dev server, enter
+			any email address, but remember to check the ‘log in as
+			administrator’ check box.</li>
+		<li>Enter credentials for a instructor. e.g., <br> Google
+			id: teammates.instructor<br> Name: Dr. John Adams <br>
+			Email: teammates.instructor@gmail.com<br>
+		</li>
+	</ol>
+
+	<h2 id="settingup-troubleshooting">Troubleshooting</h2>
+	<ol>
+		<li>ERROR: Eclipse complains about <span class="code">FileWriter</span>
+			and <span class="code">ConsoleHandler</span> e.g. <span class="code">java.io.FileWriter
+				is not supported by Google App Engine's Java runtime environment</span> <br>
+			SOLUTION: These are OK because the offending files belong to test
+			driver and will not be deployed to GAE. Choose to ‘Quick Fix’ and
+			then choose to exclude those files from validation.
+		</li>
+		<br>
+		<li>ERROR: Eclipse complains <span class="code">"...your
+				project must be configured to use a jdk in order to use jsp"</span>. <br>
+			SOLUTION: This happens because Eclipse is only aware of JRE, not JDK
+			(Compiling JSP requires the JDK). Go to
+			Window→Preferences→Java→Installed JREs. You will note that a JRE path
+			is the one selected, not a JDK path. To fix this, Click add→Standard
+			VM, then for the JRE Path enter the path of the <span class="code">jre</span>
+			folder inside your jdk installation folder. e.g., <span class="code">C:\jdk1.6\jre</span>
+			Now you should see all of the JARs added to the library section.
+		</li>
+		<br>
+		<li>ERROR (on Windows): Dev server launched by Eclipse keeps
+			running even after closing Eclipse. After restarting Eclipse, you’ll
+			be able to relaunch dev server on the same port but requests will be
+			received by the previous server instance.<br> SOLUTION: If
+			Eclipse crashes while development server is running inside Eclipse,
+			the server might keep running even after Eclipse is closed. Go to
+			Windows Task Manager and kill processes named javaw.exe.
+		</li>
+		<br>
+		<li>ERROR (on Windows), <span class="code">NullPointerException</span>
+			when trying to access email box. The error message looks something
+			like this:<br> <span class="code">java.lang.NullPointerException
+				at <br>
+				javax.mail.internet.ParameterList.set(ParameterList.java:165) at <br>
+				com.sun.mail.imap.protocol.BODYSTRUCTURE.parseParameters(BODYSTRUCTURE.java:390)<br>
+		</span> SOLUTION: In eclipse, move the <span class="code">javax.mail.....jar</span>
+			(from Oracle) to the top of the build class path. (Properties → Java
+			build path → ‘order and export’ tab)
+		</li>
+		<br>
+		<li>ERROR: Eclipse complains "file out of sync".<br>
+			SOLUTION: ‘refresh’ the project in eclipse.
+		</li>
+		<br>
+		<li>ERROR: Tests fail randomly during dev server testing.<br>
+			SOLUTION: Make sure there is only one dev server running. Eclipse
+			will happily allow you to start multiple dev servers.
+		</li>
+	</ol>
+
+	<hr>
+	<!-- =============================================================== -->
+
+	<h1 id="process">Process</h1>
+
+	<h2 id="process-roles">Roles</h2>
+
+	<ul>
+		<li>Dev - Issue owner who fixes the issue. Can be a core team
+			member or a contributor.</li>
+		<li>Reviewer - Assigned per issue. Usually, a core team member.</li>
+		<li>Team lead - responsible for keeping all tests green, for
+			release repo, workflow issues, updating version history, and meeting
+			deadlines</li>
+		<li>Project Manager</li>
+	</ul>
+
+	<h2 id="process-workflow">Workflow</h2>
+
+	<div class="image-holder">
+		<img src="images/workflow.png" width=75% />
+	</div>
+	<br>
+
+	<h2 id="process-fixingissues">Fixing Issues</h2>
+	Role: Dev
+	<br>
+	<ol>
+		<li>Select an issue to handle. Get approval to proceed from
+			project team.</li>
+		<br>
+		<li>Optionally, you can discuss alternative solutions before
+			choosing one to implement. This can be done through Issue tracker or
+			email group. Such a discussion reduces the chance of the fix being
+			rejected later.</li>
+		<br>
+		<li>Mark the issue as <span class="code">Started</span>. Add
+			reviewer in the CC field.
+		</li>
+		<br>
+		<li>Get the latest version of the code from the release repo <br>
+			<span class="code"> hg pull
+				https://yourname@code.google.com/p/teammates-release/ <br> hg
+				update
+		</span>
+		</li>
+		<br>
+		<li>Start a new branch named <span class="code">Issue{IssueNumber}</span>.
+			If you are already working in a branch, remember to switch to trunk
+			(i.e. <span class="code">default</span> branch) before creating the
+			new branch. e.g., <br> <span class="code"> #switch to
+				trunk (if required)<br> hg update default<br> #create new
+				branch<br> hg branch Issue236
+		</span>
+		</li>
+		<br>
+		<li>Fix the issue. <br> <br> Format of the commit
+			comment : <br>
+			<ol type="a">
+				<li>The first line should be in the format <span class="code">Starting
+						Issue nnn [Issue title]</span> OR <span class="code">Continuing
+						Issue nnn [Issue title] </span> depending on whether it is the first
+					commit of branch.<br>This helps to locate the start of the
+					branch easily (useful when reviewing code) and identify what the
+					issue is about without having to refer to issue tracker.
+				</li>
+				<li>The 2nd line should be <span class="code">Update
+						Issue nnn</span></li> This line makes the Google Code to automatically update
+				the corresponding issue in the Issue tracker with a link to the
+				corresponding revision in the repo.
+				<li>The Remaining lines can be used to describe the changes you
+					are committing. These lines too will be added to the Issue tracker.</li>
+				<li>Here’s a sample commit message:<br> <span class="code">
+						Starting Issue 234 [Adding commit comment format to DevMan]<br>
+						Update Issue 234<br> Clarified the exact format for commit
+						comments.
+				</span>
+				</li>
+			</ol> <br> Tip: Try to limit each issue to one commit. This will ease
+			the review process. Define issues to be of small size so that you
+			don't need more than one commit to fix it. For bigger issues, you can
+			use <a href="http://mercurial.selenic.com/wiki/MqTutorial">Mercurial
+				Queues</a> to accumulate your work as patches and combine them into one
+			commit.
+		</li>
+		<br>
+		<li>When the work is ready for review:
+			<ol type="a">
+				<li>Update your repo with any new changes from release repo and
+					merge those updates to your branch<br> <span class="code">
+						hg pull {release repo url}<br> hg update<br> hg merge
+						default<br>
+				</span>
+				</li>
+				<li>Ensure dev green (i.e., all tests are passing on dev
+					server).</li>
+				<li>If your new code might behave differently on a production
+					server than how it behaves on the dev server, ensure staging green
+					(i.e., all tests are passing against the modified app running on
+					your own GAE staging server).</li>
+				<li>Push to review repo (this will create a new branch in
+					review repo)<br> <span class="code">hg push
+						https://yourname@code.google.com/p/teammatespes/ --new-branch -b
+						Issue234</span>
+				</li>
+				<li>Change Issue status to <span class="code">ReadyForReview</span></li>
+			</ol>
+		</li>
+		<br>
+		<li>Repeat above two steps until the Issue is marked as <span
+			class="code">ReadyToMerge</span> by the reviewer. If the Issue is
+			marked as <span class="code">ChangesRequired</span>, you need to do
+			further changes based on comments reviewer added in the issue tracker
+			or in the repo.
+		</li>
+	</ol>
+	<br> Role: Contributor
+	<br>
+	<br> A contributor will work closely with a developer from the
+	project team, who will act as the mentor for the contributor. The
+	workflow is similar to that of developer (given above) expect for the
+	following.
+	<ul>
+		<li>You will not have permission to push to review repo. Go to
+			review repo, create a clone online, and push to that instead. Once
+			the Issue is <span class="code">ReadyToMerge</span>, project lead
+			will pull the branch to the review repo.<br> Recommended name
+			for the clone is <span class="code">{your name}-teammates</span>.
+			e.g., <span class="code">john-teammates</span>
+		</li>
+		<li>For help or clarifications, email your mentor or post in the
+			<a
+			href="https://groups.google.com/forum/?fromgroups#!forum/teammates-contributors">teammates-contributors
+				Google group</a>.
+		</li>
+	</ul>
+
+
+	<h2 id="process-reviewingafix">Reviewing a fix</h2>
+	Role: reviewer
+	<br>
+	<br> This is a static code review. No need to apply fix or run
+	tests.
+	<br> Add comments in the review repo or in the contributor's clone
+	(as approprate).
+	<br>
+	<br> Try to make sure
+	<br> a) The solution is optimal
+	<br> b) The code is of acceptable quality
+	<br> c) Tests have enough coverage
+	<br> d) Appropriate documentation have been updated (if
+	applicable)
+	<br>
+	<br> Try to finish the review within a day of submission.
+	<br> Once the review is done, publish your comments. If the code
+	is ready for release, change the status to
+	<span class="code">ReadyToMerge</span> and ask the team lead to merge
+	the branch.
+	<br>If the code is not ready for release, change the status to
+	<span class="code">ChangesRequested</span>.
+	<br> Give either ‘positive’ or ‘negative’ rating to each review
+	(avoid ‘neutral’). This helps us to detect which revisions were
+	reviewed (when browsing repo in Google Code)
+	<br>
+	<br> Tip: You can use keyboard shortcuts to navigate code changes
+	(see
+	<a href="http://code.google.com/p/support/wiki/CodeReviews">here</a>)
+	<br>
+
+	<h2 id="process-applyingafix">Applying a fix</h2>
+	Role: team lead
+	<ol>
+		<li>Pull the latest code from the release repo</li>
+		<br>
+		<li>Pull branch from review repo or the contributor's clone. <br>
+			<span class="code"> hg pull -b {branch name}<br> hg
+				update
+		</span>
+		</li>
+		<br>
+		<li>Switch to branch<br> <span class="code">hg update
+				{branch name}</span>
+		</li>
+		<br>
+		<li>Merge default to branch (if default has more new stuff not in
+			branch)<br> <span class="code">hg merge default</span>
+		</li>
+		<br>
+		<li>Verify ‘dev green’. If the change does not involve auotmted
+			tests, do a manual test. e.g., changes to documentation.</li>
+		<br>
+		<li>Verify ‘staging green’ (i.e. use your own app on appengine as
+			the ‘staging site’)</li>
+		<br>
+		<li>If not green: <br>
 			<ul>
-				<li>If you don't have permission to perform certain actions on
-					the Issue tracker, get your mentor to do it for you.</li>
-				<li>You will not have permission to push to review repo. Go to
-					review repo, create a clone online, and push to that instead. Once
-					the code is ready, your mentor will pull the branch to the review
-					repo before starting the review <br> Recommended name for
-						the clone is 'teammates-{your name}'. e.g., teammates-john 
+				<li>Inform Developer of any broken code.</li>
+				<li>Undo the merge.The command is (<a
+					href="http://mercurial.selenic.com/wiki/TutorialMerge">source</a>)
+					<br> <span class="code">hg update -C -r.</span>
 				</li>
-				<li>
-				For help or clarifications, email your mentor or post in the 
-				<a href="https://groups.google.com/forum/?fromgroups#!forum/teammates-contributors">teammates-contributors Google group</a>. 
+			</ul> <br> If green:
+			<ul>
+				<li>Merge branch to default<br> <span class="code">
+						hg update default <br> hg merge {branch name}<br> hg
+						commit -m “merged {branch name}”
+				</span>
+				</li>
+				<li>Push code to release repo. Be careful to push only the
+					branch that was merged.<br> <span class="code">hg push
+						{release repo} --new-branch -b {branch name} </span>
 				</li>
 			</ul>
+		</li>
+		<br>
+		<li>Set issue status to <span class="code">Delivered</span>.
+		</li>
+	</ol>
 
+	<h2 id="process-deployingfixes">Deploying fixes</h2>
+	Roles: team lead, PM
+	<ol>
+		<li>PM deploys to live site as a new version.<br> Version
+			numbering is x.yy.zz (x-yy-zz on GAE because GAE does not allow ‘.’)
+			<br> x: major version, yy: feature release, zz: builds for
+			feature yy or updates that doesn’t affect functionality<br>
+			e.g., 4.01.02
+		</li>
+		<br>
+		<li>PM verifies ‘live green’.</li>
+		<br>
+		<li>PM set new version as default.</li>
+		<br>
+		<li>Team lead
+			<ol>
+				<li>Marks issues as <span class="code">Deployed</span></li>
+				<li>Updates version history</li>
+				<li>Tags repo with version number<br> <span class="code">hg
+						tag V4.18</span>
+				</li>
+				<li>Pushes trunk to release repo (to send the tag to release
+					repo).<br> <span class="code">hg push release_repo_url
+						-b default</span>
+			</ol>
+		</li>
+	</ol>
 
-			<p id="process-reviewingafix" class="subheader">Reviewing a fix</p>
-	        Role: reviewer<br>
-	        <br>
-	        This is a static code review. No need  to apply fix or run tests.<br>
-	        Add comments in the review repo.<br>
-	        Try to make sure<br>
-	        a) The solution is optimal<br>
-	        b) The code is of acceptable quality<br>
-	        c) Tests have enough coverage<br>
-	        <br>
-	        Try to finish the review within a day of submission.<br>
-	        Once the review is done, publish your comments. If the code is ready 
-	        for release, change the status to ReadyToMerge and ask the team lead 
-	        to merge the branch.<br>
-	        <br>
-	        Give either ‘positive’ or ‘negative’ rating to each review (avoid ‘neutral’). This helps us to detect which revisions were reviewed (when browsing repo in Google Code)<br>
-	        <br>
-	        Tip: You can use keyboard shortcuts to navigate code changes (see <a href="http://code.google.com/p/support/wiki/CodeReviews">here</a>)<br>
-	        <br>
-	
-	        <p id="process-applyingthefix" class="subheader">Applying the fix</p>
-	        Role: team lead
-	        <ol>
-	            <li>Pull the latest code from the release repo</li>
-	            <br>
-	            <li>
-	                Pull branch from review repo. <br>
-	                <span class="code">
-	                    hg pull -b {branch name}<br>
-	                    hg update
-	                </span>
-	            </li>
-	            <br>
-	            <li>
-	                Switch to branch<br>
-	                <span class="code">hg update {branch name}</span>
-	            </li>
-	            <br>
-	            <li>
-	                Merge default to branch (if default has more new stuff not in branch)<br>
-	                <span class="code">hg merge default</span>
-	            </li>
-	            <br>
-	            <li>Verify ‘dev green’. If the change does not involve auotmted 
-	            tests, do a manual test. e.g., changes to documentation</li>
-	            <br>
-	            <li>Verify ‘staging green’ (i.e. use your own app on appengine 
-	            as the ‘staging site’)</li>
-	            <br>
-	            <li>If not green: 
-                    <br>Inform Developer of any broken code. 
-                    <br>Undo the merge.The command is (<a href="http://mercurial.selenic.com/wiki/TutorialMerge">source</a>) 
-                                <br><span class="code">hg update -C -r.</span>
-                    </li>
-                    <br>
-	            <br>
-	            <li>
-	                If green: 
-	                <ol>
-	                    <li>
-	                        Merge branch to default<br>
-	                        <span class="code">
-	                            hg update default <br>
-	                            hg merge {branch name}<br>
-	                            hg commit -m “merged {branch name}”
-	                        </span>
-	                    </li>
-	                    <li>
-	                        Switch back to branch and close it<br>
-	                        <span class="code">
-	                            hg update {branch name} <br>
-	                            hg commit --close-branch -m "{branch name} delivered" <br>
-	                        </span>
-	                    </li>
-	                    <li>
-	                        Push code to release repo. Be careful to push only the branch that was merged.<br>
-	                        <span class="code">hg push {release repo} --new-branch -b {branch name} </span>
-	                    </li>
-	                </ol>
-	            </li>
-	            <br>
-	            <li>Set issue status to DELIVERED</li>
-	        </ol>
-	        <br>
-	
-	        <p id="process-deployingfixes" class="subheader">Deploying fixes</p>
-	        Roles: team lead, PM (at the release meeting)
-	        <ol>
-	            <li>
-	                PM deploys to live site as a new version.<br>
-	                Version numbering is x.yy.zz (x-yy-zz on GAE because GAE does not allow ‘.’) <br>
-	                x: major version, yy: feature release, zz: builds for feature yy or updates that doesn’t affect functionality<br>
-	                e.g., 4.01.02
-	            </li>
-	            <br>
-	            <li>PM verifies ‘live green’.</li>
-	            <br>
-	            <li>PM set version as default.</li>
-	            <br>
-	            <li>
-	                Team lead
-	                <ol> 
-	                    <li>marks issues as DEPLOYED</li>
-	                    <li>updates version history</li>
-	                    <li>
-	                        tag repo with version number<br>
-	                        <span class="code">hg tag V4.18</span>
-	                    </li>
-	                </ol>
-	            </li>
-	        </ol>
-	        <br>
-	
-	        <p id="process-issuelifecycle" class="subheader">Issue Lifecycle</p>
-	        <span class="bold">Issue classification:</span>
-	        <ul>
-	            <li><span class="bold">Urgent</span>: would like to handle in the very next release</li>
-	            <li><span class="bold">High</span>: enhances user experience significantly, would like to do in the next few releases</li>
-	            <li><span class="bold">Medium</span>: marginal impact on user experience</li>
-	            <li><span class="bold">Low</span>: very little impact, unlikely to do in the near future</li>
-	        </ul>
-	        <br>
-	        <span class="bold">Issue status</span>
-	        <ul>
-	            <li>NEW : Initial status</li>
-	            <li>ACCEPTED: Accepted as a valid issue.</li>
-	            <li>STARTED : Someone has started working on it.</li>
-	            <li>DELIVERED : ‘Staging green’ achieved. Code pushed to release repo.</li>
-	            <li>DEPLOYED: Deployed. {closed state}</li>
-	            <li>WONT_FIX, DUPLICATE, NOT_APPLICABLE, INVALID : As name implies {all closed states}</li>
-	        </ul>
-	        <br>
-	
-	    </div>
-	    <br>
-	    <br>
-	
-	
-	
-	
-	    <div id="UIguidelines">
-	        <p class="header">UI guidelines</p>
-	        <ul>
-	            <li>
-	                Be forgiving in processing input
-	                <ul>
-	                    <li>Forgive extra blank lines and extra white space.</li>
-	                    <li>Auto correct if possible</li>
-	                    <li>Allow ‘cancel’ at any step where it make sense</li>
-	                </ul>
-	            </li>
-	            <br>
-	            <li>
-	                Be descriptive
-	                <ul>
-	                    <li>Errors should be explained in as much details as possible. Also explain how to correct it.</li>
-	                    <li>After an action, give a description of what happened.
-	                     e.g., after a mass enroll operation, you can explain which students were added, which were modified, and how many remained the same.</li>
-	                    <li>Keep user informed of what is happening. e.g., inform user about sending emails to users.</li>
-	                    <li>Disable (rather than hide) unavailable functions so that users know they exist.</li>
-	                </ul>
-	            </li>
-	            <br>
-	            <li>
-	                Minimize work (to be done by the user)
-	                <ul>
-	                    <li>User convenience is <span class="bold underline">*far*</span> more important than developer convenience.</li>
-	                    <li>Submitting a page should take the user to the next logical page while showing feedback about the previous action at the same time.</li>
-	                    <li>When possible, give an ‘undo’ instead of asking to confirm every action.</li>
-	                    <li>Use defaults so that users are not forced to enter values for each field. This applies to sorting as well (i.e., sort by default using the most likely sorting order).</li>
-	                    <li>If only one option is available, choose it by default.</li>
-	                </ul>
-	            </li>
-	            <br>
-	            <li>
-	                Take user point of view
-	                <ul>
-	                    <li>Use terms from user domain.</li>
-	                    <li>Use terms that show ‘user intent’ rather than mechanism. e.g., ‘leave this course’ instead of ‘delete’.</li>
-	                </ul>
-	            </li>
-	            <br>
-	            <li>
-	                Be consistent
-	                <ul>
-	                    <li>Use consistent naming guidelines for link, page name, page title</li>
-	                </ul>
-	            </li>
-	        </ul>
-	        <span class="bold">References:</span>
-	        <ul>
-	            <li><a href="http://developer.apple.com/library/mac/#documentation/UserExperience/Conceptual/AppleHIGuidelines/HIPrinciples/HIPrinciples.html">http://developer.apple.com/library/mac/#documentation/UserExperience/Conceptual/AppleHIGuidelines/HIPrinciples/HIPrinciples.html</a></li>
-	        </ul>
-	
-	    </div>
-	    <br>
-	    <br>
-	
-	
-	
-	    <div id="codingguidelines">
-	        <p class="header">Coding guidelines </p>
-	        <ul>
-	            <li><span class="bold">Quality priorities</span>: Maintainability is our top priority. Less is more. Prefer simple over complex. </li>
-	            <li><span class="bold">Style</span>: Prefer standard way of doing something over creating special cases. The goal is to make the code as if it was written by one person.</li>
-	            <li><span class="bold">Refactoring</span>: Follow <a href="http://programmer.97things.oreilly.com/wiki/index.php/The_Boy_Scout_Rule">the boy scout rule</a> (i.e. always leave the campground cleaner than you found it). Whenever you touch some code e.g., to fix a bug, try to do some clean up of that code as well.</li>
-	            <br>
-	            <li>
-	                <span class="bold">Coding standards </span>: 
-	                <ul>
-	                    <li><a href="https://docs.google.com/document/pub?id=1iAESIXM0zSxEa5OY7dFURam_SgLiSMhPQtU0drQagrs&embedded=true">Java</a></li>
-	                    <li><a href="http://java.sun.com/developer/technicalArticles/javaserverpages/code_convention/">JSP</a></li>
-	                    <li><a href="http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml">JavaScript </a></li>
-	                    <li><a href="http://codex.wordpress.org/CSS_Coding_Standards">CSS </a></li>
-	                </ul>
-	            Other options under consideration: <a href="http://www.sitepoint.com/google-html-css-javascript-style-guides/?utm_source=rss&utm_medium=rss&utm_campaign=google-html-css-javascript-style-guides#fbid=wlBBp9o9Qzy">Google style guides</a>, Principles of Writing Consistent, <a href="https://github.com/rwldrn/idiomatic.js">Idiomatic JavaScript</a>, <a href="http://developers.sun.com/sunstudio/products/archive/whitepapers/java-style.pdf">Another java guide from Sun</a>
-	            </li>
-	            <br>
-	            <li><span class="bold">Comments</span>: Use comments ONLY when the code is not-self explanatory. Avoid redundant comments. Comments should be well-written. They should not be written as ‘note to self’ of the developer, but as explanations to help the reader.</li>
-	            <li><span class="bold">Code formatting</span>: Use Eclipse to auto-format code, <span class="underline">but select the area of code</span> to be formatted first. Wholesale auto-formatting can create unnecessary merge conflicts.</li>
-	        </ul>
-	        <span class="bold">References:</span>
-	        <ul>
-	            <li>Effective Java, by Joshua Bloch</li>
-	            <li>
-	                Some general design patterns and principles 
-	                <ul>
-	                    <li><a href="http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod">http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod</a></li>
-	                    <li><a href="http://www.objectmentor.com/resources/articles/Principles_and_Patterns.pdf">http://www.objectmentor.com/resources/articles/Principles_and_Patterns.pdf</a></li>
-	                </ul>
-	            </li>
-	        </ul>
-	    </div>
-	    <br>
-	    <br>
-	
-	
+	<h2 id="process-issuelifecycle">Issue Lifecycle</h2>
+	<span class="bold">Issue classification:</span>
+	<ul>
+		<li><span class="bold">Urgent</span>: would like to handle in the
+			very next release.</li>
+		<li><span class="bold">High</span>: enhances user experience
+			significantly, would like to do in the next few releases.</li>
+		<li><span class="bold">Medium</span>: marginal impact on user
+			experience.</li>
+		<li><span class="bold">Low</span>: very little impact, unlikely
+			to do in the near future.</li>
+	</ul>
+	<br>
+	<span class="bold">Issue status.</span> Click on the 'status' text box
+	in the
+	<a href="http://code.google.com/p/teammatespes/issues/entry">'new
+		issue'</a> template in the Issue Tracker for a description of each status.
+	<br>
 
-	    <div id="testingguidelines">
-	        <p class="header">Testing guidelines</p>
-	        <ul> 
-	            <li>Tests within a class may not run in the order they are written. Therefore, they are to be made independent of each other.</li>
-	            <li>Be mindful of the cost of running a test. Do not add redundant tests.</li>
-	            <li>Be mindful of missing test cases (e.g., boundary values). If you writing tests for a functionality, it’s your job to ensure it is fully ‘covered’ by your tests.</li>
-	            <li>Test units at unit level. Do not attempt to test lower level components from higher level functionality. </li>
-	        </ul>
-	    </div>
-	    <br>
-	    <br>
+	<hr>
+	<!-- =============================================================== -->
+
+	<h1 id="bestpractices">Best Practices</h1>
+
+	<h2 id="bestpractices-ui">UI best practices</h2>
 	
-	
-	    <div id="glossary">
-	        <p class="header">Glossary</p>
-	        <ul>
-	            <li><span class="bold">Course</span>: we use ‘course’ to mean ‘module’, ‘class’. A course here means an offering of a course in a particular semester/term. If the course is offered twice in two semesters, they are considered two courses.</li>
-	            <li>
-	                <span class="bold">Contribution scale</span>:<br>
-	                <span class="blue">
-	                    [equal share]+100%<br>
-	                    [equal share]+90%<br>
-	                    ...<br>
-	                    [equal share]<br>
-	                    [NOT SURE]<br>
-	                     [equal share]-10%<br>
-	                    ...<br>
-	                    [equal share]-90%<br>
-	                    [0%] (did nothing at all)<br>
-	                </span>
-	            </li>
-	            <li><span class="bold">DevMan</span>: Developer manual (this document)</li>
-	            <li><span class="bold">Enrollment, Enroll </span>(NOT enrolment, enrol)</li>
-	            <li><span class="bold">Dev green</span>: All tests are passing on the localhost</li>
-	            <li><span class="bold">Live green</span>: All tests are passing on live site</li>
-	            <li><span class="bold">Spec</span>: System Specification </li>
-	            <li><span class="bold">Staging green</span>: All test are passing against a deployment of the app on appspot</li>
-	        </ul>
-	    </div>
-	  </div>
-      <div id=”frameBottom”>
-      <a href="#content">Back to Top</a>
-      </div>
-   
+	<ul>
+		<li>Be forgiving in processing input. E.g.
+			<ul>
+				<li>Forgive extra blank lines and extra white space.</li>
+				<li>Auto correct if possible</li>
+				<li>Allow ‘cancel’ at any step where it make sense</li>
+			</ul>
+		</li>
+		<br>
+		<li>Be descriptive. E.g.
+			<ul>
+				<li>Errors should be explained in as much details as possible.
+					Also explain how to correct it.</li>
+				<li>After an action, give a description of what happened. e.g.,
+					after a mass enroll operation, you can explain which students were
+					added, which were modified, and how many remained the same.</li>
+				<li>Keep user informed of what is happening. e.g., inform user
+					about sending emails to users.</li>
+				<li>Disable (rather than hide) unavailable functions so that
+					users know they exist.</li>
+			</ul>
+		</li>
+		<br>
+		<li>Minimize work (to be done by the user). User convenience is <span
+			class="bold underline">*far*</span> more important than developer
+			convenience. E.g.
+			<ul>
+				<li>Submitting a page should take the user to the next logical
+					page while showing feedback about the previous action at the same
+					time.</li>
+				<li>When possible, give an ‘undo’ instead of asking to confirm
+					every action.</li>
+				<li>Use defaults so that users are not forced to enter values
+					for each field. This applies to sorting as well (i.e., sort by
+					default using the most likely sorting order).</li>
+				<li>If only one option is available, choose it by default.</li>
+			</ul>
+		</li>
+		<br>
+		<li>Take user point of view. E.g.
+			<ul>
+				<li>Use terms from user domain.</li>
+				<li>Use terms that show ‘user intent’ rather than mechanism.
+					e.g., ‘leave this course’ instead of ‘delete’.</li>
+			</ul>
+		</li>
+		<br>
+		<li>Be consistent. E.g.
+			<ul>
+				<li>Use consistent naming guidelines for link, page name, page
+					title</li>
+			</ul>
+		</li>
+	</ul>
+
+	<h2 id="bestpractices-coding">Coding best practices</h2>
+	<ul>
+		<li><span class="bold">Quality priorities</span>: Maintainability
+			is our top priority. Less is more. Prefer simple over complex.</li>
+		<li><span class="bold">Style</span>: Prefer standard way of doing
+			something over creating special cases. The goal is to make the code
+			as if it was written by one person.</li>
+		<li><span class="bold">Refactoring</span>: Follow <a
+			href="http://programmer.97things.oreilly.com/wiki/index.php/The_Boy_Scout_Rule">the
+				boy scout rule</a> (i.e. always leave the campground cleaner than you
+			found it). Whenever you touch some code e.g., to fix a bug, try to do
+			some clean up of that code as well.</li>
+		<br>
+		<li><span class="bold">Coding standards </span>:
+			<ul>
+				<li><a
+					href="https://docs.google.com/document/pub?id=1iAESIXM0zSxEa5OY7dFURam_SgLiSMhPQtU0drQagrs&embedded=true">Java</a></li>
+				<li><a
+					href="http://java.sun.com/developer/technicalArticles/javaserverpages/code_convention/">JSP</a></li>
+				<li><a
+					href="http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml">JavaScript
+				</a></li>
+				<li><a href="http://codex.wordpress.org/CSS_Coding_Standards">CSS
+				</a></li>
+			</ul> <br>
+		<li><span class="bold">Comments</span>: Use comments ONLY when
+			the code is not-self explanatory. Avoid redundant comments. Comments
+			should be well-written. They should not be written as ‘note to self’
+			of the developer, but as explanations to help the reader.</li>
+		<li><span class="bold">Code formatting</span>: Use Eclipse to
+			auto-format code, <span class="underline">but select the area
+				of code</span> to be formatted first. Wholesale auto-formatting can create
+			unnecessary merge conflicts.</li>
+	</ul>
+
+	<h2 id="bestpractices-testing">Testing best practices</h2>
+	<ul>
+		<li>Try to follow <a
+			href=http://en.wikipedia.org/wiki/Test-driven_development> Test
+				Driven Developement (TDD)</a>. In particular, when fixing a bug, write
+			the test case first before fixing it.
+		</li>
+		<li>Tests within a class may not run in the order they are
+			written. Therefore, they are to be made independent of each other.</li>
+		<li>Be mindful of the cost of running a test. Do not add
+			redundant tests.</li>
+		<li>Be mindful of missing test cases (e.g., boundary values). If
+			you writing tests for a functionality, it’s your job to ensure it is
+			fully ‘covered’ by your tests.</li>
+		<li>Test units at unit level. Do not attempt to test lower level
+			components from higher level functionality.</li>
+	</ul>
+
+	<hr>
+	<!-- =============================================================== -->
+
+	<h1 id="glossary">Glossary</h1>
+	<ul>
+		<li><span class="bold">Course</span>: we use ‘course’ to mean
+			‘module’, ‘class’. A course here means an offering of a course in a
+			particular semester/term. If the course is offered twice in two
+			semesters, they are considered two courses.</li>
+		<li><span class="bold">Contribution scale</span>:<br> <span
+			class="blue"> [equal share]+100%<br> [equal share]+90%<br>
+				...<br> [equal share]<br> [NOT SURE]<br> [equal
+				share]-10%<br> ...<br> [equal share]-90%<br> [0%]
+				(did nothing at all)<br>
+		</span></li>
+		<li><span class="bold">DevMan</span>: Developer manual (this
+			document)</li>
+		<li><span class="bold">Enrollment, Enroll </span>(NOT enrolment,
+			enrol)</li>
+		<li><span class="bold">Dev green</span>: All tests are passing on
+			the dev server (i.e. localhost)</li>
+		<li><span class="bold">Live green</span>: All tests are passing
+			on live app</li>
+		<li><span class="bold">Spec</span>: System Specification</li>
+		<li><span class="bold">Staging green</span>: All test are passing
+			against you own deployment on the GAE</li>
+	</ul>
+	<br>
+
+	<a href="#content">Back to Top</a>
+
 </body>
 </html>
 
