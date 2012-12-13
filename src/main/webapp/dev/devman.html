@@ -53,8 +53,8 @@
 			<li><a href="#settingup-prerequisites">Prerequisites</a></li>
 			<li><a href="#settingup-settingupdevserver">Setting up the
 					dev server</a></li>
-			<li><a href="#settingup-deployingtoappspot">Deploying to
-					appspot</a></li>
+			<li><a href="#settingup-deployingtostagingserver">Deploying
+					to staging server</a></li>
 			<li><a href="#settingup-troubleshooting">Troubleshooting</a></li>
 		</ul>
 
@@ -218,7 +218,7 @@
 	The diagram below shows how the code is organized into packages inside
 	each component and dependencies among them.
 	<div class="image-holder">
-		<img class="image" src="images/packageDiagram.png" width="90%"/>
+		<img class="image" src="images/packageDiagram.png" width="90%" />
 	</div>
 	<br> Notes:
 	<ul>
@@ -816,46 +816,45 @@
 		<li><span class="bold">HTML</span> [version 5, using latest
 			features is discouraged due to lack of enough Browser support], <span
 			class="bold">JavaScript</span>, <span class="bold">CSS</span></li>
-		<li><a class="bold" href="http://jquery.com/">jQuery</a>
-	</span> [version 1.6.2]
-	<br>jQuery is a JavaScript Library that simplifies HTML document
-	traversing, event handling, animating, and Ajax interactions for rapid
-	web development.
-	</li>
-	<li><span class="bold">JSON </span><span>(JavaScript Object
-			Notation) <br>JSON is a lightweight data-interchange format. It
-			is easy for humans to read and write. It is easy for machines to
-			parse and generate. It is based on a subset of the JavaScript. </li>
-	<li><a class="bold" href="http://code.google.com/p/google-gson/">Gson</a></span>
-		[version 2.2.2] <br>Gson is a Java library that can be used to
-		convert Java Objects into their JSON representation. It can also be
-		used to convert a JSON string to an equivalent Java object.</li>
-	<li><span class="bold">Java Server Pages (JSP)</span> <br>JSP
-		technology provides a simplified way to create dynamic web content. A
-		JSP page can be thought as an HTML page with embedded Java code
-		snippets.</li>
-	<li><span class="bold">Java Servlets</span> <br>Java Servlet
-		technology provides a simple, consistent mechanism for extending the
-		functionality of a Web server and for accessing existing business
-		systems. A servlet can almost be thought of as an applet that runs on
-		the server side--without a face.</li>
-	<li><span class="bold"><a
-			href="https://developers.google.com/appengine/docs/java/datastore/jdo/overview">
-				Java Data Objects (JDO)</a></span> [version 2.3; while GAE supports JDO 3.0 as
-		well, we continue to use JDO 2.3 because it is easier to set up.] <br>JDO
-		is a standard interface for storing objects containing data into a
-		database. The standard defines interfaces for annotating Java objects,
-		retrieving objects with queries, and interacting with a database using
-		transactions. An application that uses the JDO interface can work with
-		different kinds of databases without using any database-specific code,
-		including relational databases, hierarchical databases, and object
-		databases.</li>
-	<li><span class="bold">Datanucleus Access Platform</span> [version
-		1; while GAE supports Datanucleus v2 as well, the version that goes
-		with JDO 2.3 is v1] <br>The DataNucleus Access Platform provides
-		persistence and retrieval of data to a range of datastores using a
-		range of APIs, with a range of query languages. <br>Comes with
-		App Engine SDK.</li>
+		<li><a class="bold" href="http://jquery.com/">jQuery</a> </span>
+			[version 1.6.2] <br>jQuery is a JavaScript Library that
+			simplifies HTML document traversing, event handling, animating, and
+			Ajax interactions for rapid web development.</li>
+		<li><span class="bold">JSON </span><span>(JavaScript
+				Object Notation) <br>JSON is a lightweight data-interchange
+				format. It is easy for humans to read and write. It is easy for
+				machines to parse and generate. It is based on a subset of the
+				JavaScript. </li>
+		<li><a class="bold" href="http://code.google.com/p/google-gson/">Gson</a></span>
+			[version 2.2.2] <br>Gson is a Java library that can be used to
+			convert Java Objects into their JSON representation. It can also be
+			used to convert a JSON string to an equivalent Java object.</li>
+		<li><span class="bold">Java Server Pages (JSP)</span> <br>JSP
+			technology provides a simplified way to create dynamic web content. A
+			JSP page can be thought as an HTML page with embedded Java code
+			snippets.</li>
+		<li><span class="bold">Java Servlets</span> <br>Java Servlet
+			technology provides a simple, consistent mechanism for extending the
+			functionality of a Web server and for accessing existing business
+			systems. A servlet can almost be thought of as an applet that runs on
+			the server side--without a face.</li>
+		<li><span class="bold"><a
+				href="https://developers.google.com/appengine/docs/java/datastore/jdo/overview">
+					Java Data Objects (JDO)</a></span> [version 2.3; while GAE supports JDO 3.0 as
+			well, we continue to use JDO 2.3 because it is easier to set up.] <br>JDO
+			is a standard interface for storing objects containing data into a
+			database. The standard defines interfaces for annotating Java
+			objects, retrieving objects with queries, and interacting with a
+			database using transactions. An application that uses the JDO
+			interface can work with different kinds of databases without using
+			any database-specific code, including relational databases,
+			hierarchical databases, and object databases.</li>
+		<li><span class="bold">Datanucleus Access Platform</span>
+			[version 1; while GAE supports Datanucleus v2 as well, the version
+			that goes with JDO 2.3 is v1] <br>The DataNucleus Access
+			Platform provides persistence and retrieval of data to a range of
+			datastores using a range of APIs, with a range of query languages. <br>Comes
+			with App Engine SDK.</li>
 	</ul>
 
 	<h2 id="infrastructure-toolsandtechnologies-testing">Tools used in
@@ -899,6 +898,18 @@
 			</span></span>: Contains configuration values for the test driver.
 		<li><span class="code"><span class="bold">appengine-web.xml
 			</span></span>: Contains configuration for deploying the application on app engine.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -969,80 +980,80 @@
 	<h2 id="settingup-settingupdevserver">Setting up the dev server</h2>
 	‘Dev server’ means running the server in localhost mode.
 	<ol>
-		<li>Clone source code from:<a
-			href="https://code.google.com/p/teammates-release/">https://code.google.com/p/teammates-release/</a>
+		<li>Clone the source code from: <span class="code"><a
+				href="https://code.google.com/p/teammates-release/">https://code.google.com/p/teammates-release/</a></span>
 		<li>Create config files (these are not under revision control
 			because their content vary from developer to developer).
 			<ol type="a">
-				<li><span class="blue">src/main/resources/</span><span
-					class="bold">build.properties</span> <br> Use
-					build.template.properties as a template (i.e. copy → paste →
-					rename)<br> For dev server testing, property values can remain
-					as they are. You need to change values when you deploy to appspot
-					remote server.</li>
-				<li><span class="blue">src/test/resources/</span><span
-					class="bold">test.properties </span> <br> Create it using
-					test.template.properties (in the same folder). For dev server
+				<li><span class="code"><span class="blue">src/main/resources/</span><span
+						class="bold">build.properties</span></span> <br> Use <span
+					class="code">build.template.properties</span> as a template (i.e.
+					copy → paste → rename)<br> For dev server testing, property
+					values can remain as they are. </li>
+				<li><span class="code"><span class="blue">src/test/resources/</span><span
+						class="bold">test.properties </span></span> <br> Create it using <span
+					class="code">test.template.properties</span> (in the same folder).
+					For dev server testing, property values can remain as they are.</li>
+				<li><span class="code"><span class="blue">src/main/webapp/WEB-INF/</span><span
+						class="bold">appengine-web.xml</span></span> <br> Create using <span
+					class="code">appengine-web.template.xml</span>. For dev server
 					testing, property values can remain as they are.</li>
-				<li><span class="blue">src/main/webapp/WEB-INF/</span><span
-					class="bold">appengine-web.xml</span> <br> Create using
-					appengine-web.template.xml. For dev server testing, property values
-					can remain as they are.</li>
 			</ol>
 		</li>
 		<li>Open Eclipse and import → general → ‘existing projects into
 			workspace’ (see the <span class="bold">Troubleshooting</span> section
-			if have any problem). After the importing is complete, do the
-			following steps.
+			below if encounter any problem). After the importing is complete, following
+			settings should be applied automatically (they are here for reference
+			only).
 			<ol type="a">
-				<li>Go to Properties→Google→Web application
+				<li>Properties→Google→Web application
 					<ol type="i">
-						<li>Select 'this project has a WAR directory'.</li>
-						<li>Browse to src/main/webapp.</li>
-						<li><span class="bold">Select</span> 'Launch and deploy from
-							this directory'</li>
+						<li>'this project has a WAR directory' is selected.</li>
+						<li>'Launch and deploy from this directory' points to <span
+							class="code">src/main/webapp</span></li>
 					</ol>
 				</li>
-				<li>Go to Properties→Google→App engine
+				<li>Properties→Google→App engine
 					<ol type="i">
-						<li>Select ‘use Google App Engine’</li>
+						<li>‘use Google App Engine’ selected</li>
 					</ol>
 				</li>
-				<li>Go to Properties → Google → App Engine → ORM
+				<li>Properties → Google → App Engine → ORM
 					<ol type="i">
-						<li>Here, you should specify where are your Entity classes so
-							that they can be enhanced by the DataNucleus Enhancer tool. Add
-							this folder to the list <span class="bold">src/main/java/teammates/storage/entity/*.java</span>
+						<li>This is where we specify where are your Entity classes so
+							that they can be enhanced by the DataNucleus Enhancer tool. Only
+							the folder <span class="code bold">src/main/java/teammates/storage/entity/*.java</span>
+							should appear in the list . That way, DataNucleus Enhancer runs
+							only when you modify your entity classes.
 						</li>
-						<li>Remove all other folders. That way, DataNucleus Enhancer
-							runs only when you modify your entity classes.</li>
 					</ol>
 				</li>
-				<li>If Eclipse alters <span class="bold">.classpath</span> file
-					during above steps, revert it back to original and refresh the
-					project.
-				</li>
-				<li>Click ‘Run’ → ‘Run as web application’, and browse to <span
-					class="bold">src/main/webapp</span> for the location of the WAR
-					file (you can remove the 'run configuration' to redo this step).
-					You may have to create a new ‘run configuration’ if one does not
-					exist. The configuration is in the Run Configurations → Arguments
-					tab → Program arguments.
-				</li>
+
 			</ol>
 		</li>
-		<li>After the dev server is running (i.e., this message appears
-			on console “The server is running at http://localhost:8888/”), you
-			can run <span class="bold">AllTestsSuite.java</span> to confirm the
-			app works as expected.
+		<li>Right-click on the project folder and choose ‘Run’ → ‘As Web
+			Application’. After some time, you should see this message on the
+			console “The server is running at http://localhost:8888/”.<br>
+			The dev server is now ready to start requests at the given URL. You
+			can verify by visiting the URL.
+		</li>
+		<li>Run <span class="bold code">src/test/java/teammates.test.cases.AllTestsSuite.java</span>
+			to confirm the app works as expected. This can be done using the "TM
+			- Run all tests" option under the green "Run" button in the toolbar.
+			Most of the tests should pass. If a few cases fail (this can happen
+			due to timing issues), run the failed cases individually (right click
+			and choos 'Run as → Junit Test') and ensure they pass.
 		</li>
 	</ol>
 
-	<h2 id="settingup-deployingtoappspot">Deploying to appspot</h2>
+	<h2 id="settingup-deployingtostagingserver">Deploying to staging
+		server</h2>
+	"Staging server" is the server instance you set up on Google App Engine
+	for hosting the app for testing purposes.
 	<ol>
 		<li>Create your own app on GAE.<br> Suggested app name:
 			teammates-name (replace the name with your own name). The URL of the
-			app will be like this.<br> <span class="blue">http://teammates-name.appspot.com</span><br>
+			app will be like this.<br> <span class="blue code">http://teammates-name.appspot.com</span><br>
 		</li>
 		<br>
 		<li>Modify configuration files.
@@ -1420,7 +1431,7 @@
 	<h1 id="bestpractices">Best Practices</h1>
 
 	<h2 id="bestpractices-ui">UI best practices</h2>
-	
+
 	<ul>
 		<li>Be forgiving in processing input. E.g.
 			<ul>
@@ -1556,9 +1567,7 @@
 		<li><span class="bold">Staging green</span>: All test are passing
 			against you own deployment on the GAE</li>
 	</ul>
-	<br>
-
-	<a href="#content">Back to Top</a>
+	<br> ---End of document---
 
 </body>
 </html>
