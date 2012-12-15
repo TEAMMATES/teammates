@@ -44,11 +44,22 @@ test('isStudentEmailValid(email)', function(){
 	
 
 test('isStudentNameValid(name)', function(){
-	equal(isStudentNameValid('Tom Jacobs ./*&^%$#@!-_10'), true, "Tom Jacobs ./*&^%$#@!-_10 - valid");
+	equal(isStudentNameValid('Tom Jacobs-_()\''), true, "Tom Jacobs-_()\' - valid");
 	equal(isStudentNameValid(generateRandomString(STUDENTNAME_MAX_LENGTH)), true, "Maximum characters - valid");
 	
 	equal(isStudentNameValid(""), false, "Empty name - invalid");
 	equal(isStudentNameValid(generateRandomString(STUDENTNAME_MAX_LENGTH + 1)), false, "Exceed number of maximum characters - invalid");
+	equal(isStudentNameValid("Tom!"), false, "! character - invalid");
+	equal(isStudentNameValid("Tom@"), false, "@ character - invalid");
+	equal(isStudentNameValid("Tom#"), false, "# character - invalid");
+	equal(isStudentNameValid("Tom$"), false, "$ character - invalid");
+	equal(isStudentNameValid("Tom%"), false, "% character - invalid");
+	equal(isStudentNameValid("Tom^"), false, "^ character - invalid");
+	equal(isStudentNameValid("Tom&"), false, "& character - invalid");
+	equal(isStudentNameValid("Tom*"), false, "* character - invalid");
+	equal(isStudentNameValid("Tom\\"), false, "\\ character - invalid");
+	equal(isStudentNameValid("Tom/"), false, "/ character - invalid");
+	
 });
 
 
