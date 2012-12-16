@@ -90,15 +90,13 @@ function isStudentEmailValid(email) {
  */
 function isStudentNameValid(name) {
 	if (name.match(/[^_\-'\(\)0-9a-zA-Z]+$/)) {
+		//Only alphanumeric characters, and _, -, ', (, ) characters are allowed
+		return false;
+	} else if (name.match(/^.[^\t]*$/) == null) {
+		return false;
+	} else if (name.length > STUDENTNAME_MAX_LENGTH) {
 		return false;
 	} else {
-		if (name.match(/^.[^\t]*$/) == null) {
-			console.log("trim");
-			return false;
-		} else if (name.length > STUDENTNAME_MAX_LENGTH) {
-			console.log("length");
-			return false;
-		}
 		return true;
 	}
 }
