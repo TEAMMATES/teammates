@@ -30,16 +30,16 @@ function checkEnrollmentInput(input) {
 			var error = false;
 			// Make sure that all fields are present and valid
 			if (fieldsLength<3) {
-				setStatusMessage(DISPLAY_ENROLLMENT_FIELDS_MISSING,true);
+				setStatusMessage(DISPLAY_INPUT_FIELDS_MISSING,true);
 				error = true;
 			} else if(fieldsLength>4){
-				setStatusMessage(DISPLAY_ENROLLMENT_FIELDS_EXTRA,true);
+				setStatusMessage(DISPLAY_INPUT_FIELDS_EXTRA,true);
 				error = true;
-			} else if (!isStudentNameValid(fields[1].trim())) {
-				setStatusMessage(DISPLAY_STUDENT_NAME_INVALID,true);
+			} else if (!isNameValid(fields[1].trim())) {
+				setStatusMessage(DISPLAY_NAME_INVALID,true);
 				error = true;
-			} else if (!isStudentEmailValid(fields[2].trim())) {
-				setStatusMessage(DISPLAY_STUDENT_EMAIL_INVALID,true);
+			} else if (!isEmailValid(fields[2].trim())) {
+				setStatusMessage(DISPLAY_EMAIL_INVALID,true);
 				error = true;
 			} else if (!isStudentTeamNameValid(fields[0].trim())) {
 				setStatusMessage(DISPLAY_STUDENT_TEAMNAME_INVALID,true);

@@ -1,6 +1,6 @@
 #addform {
-	width: 500px; 
-	height: 190px;
+	width: 700px; 
+	height: 300px;
 	margin: 0 auto;
 }
 
@@ -8,6 +8,8 @@
 	width: 450px;
 }
 
-#btnAddCourse {
-	margin-left: 200px;
+#instructorformat {
+    float: right;
+    font-size: 12px;
+    font-style: italic;
 }

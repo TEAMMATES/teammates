@@ -50,6 +50,7 @@ public class Common {
 	// Hover messages
 	public static final String HOVER_MESSAGE_COURSE_ENROLL = "Enroll student into the course";
 	public static final String HOVER_MESSAGE_COURSE_DETAILS = "View, edit and send registration keys to the students in the course";
+	public static final String HOVER_MESSAGE_COURSE_EDIT = "Edit Course information and instructor list";
 	public static final String HOVER_MESSAGE_COURSE_DELETE = "Delete the course and its corresponding students and evaluations";
 	public static final String HOVER_MESSAGE_COURSE_ADD_EVALUATION = "Add an evaluation for the course";
 	public static final String HOVER_MESSAGE_CLAIMED = "This is student own estimation of his/her contributions to the project";
@@ -131,6 +132,7 @@ public class Common {
 	// JSP Parameter names
 	public static final String PARAM_COURSE_ID = "courseid";
 	public static final String PARAM_COURSE_NAME = "coursename";
+	public static final String PARAM_COURSE_INSTRUCTOR_LIST = "instructorlist";
 	public static final String PARAM_INSTRUCTOR_ID = "instructorid";
 	public static final String PARAM_INSTRUCTOR_EMAIL = "instructoremail";
 	public static final String PARAM_INSTRUCTOR_NAME = "instructorname";
@@ -203,6 +205,7 @@ public class Common {
 	public static final String PAGE_INSTRUCTOR_COURSE = "/page/instructorCourse";
 	public static final String PAGE_INSTRUCTOR_COURSE_DELETE = "/page/instructorCourseDelete";
 	public static final String PAGE_INSTRUCTOR_COURSE_DETAILS = "/page/instructorCourseDetails";
+	public static final String PAGE_INSTRUCTOR_COURSE_EDIT = "/page/instructorCourseEdit";
 	public static final String PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS = "/page/instructorCourseStudentDetails";
 	public static final String PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT = "/page/instructorCourseStudentEdit";
 	public static final String PAGE_INSTRUCTOR_COURSE_STUDENT_DELETE = "/page/instructorCourseStudentDelete";

@@ -41,9 +41,7 @@
 			<form method="get" action="<%= Common.PAGE_INSTRUCTOR_COURSE %>" name="form_addcourse">
 				<table id="addform" class="inputTable">
 					<tr>
-						<td class="label bold">Course ID:</td>
-					</tr>
-					<tr>
+						<td class="label bold" width="20%">Course ID:</td>
 						<td><input class="addinput" type="text"
 							name="<%= Common.PARAM_COURSE_ID %>" id="<%= Common.PARAM_COURSE_ID %>"
 							value="<%= (helper.courseID==null ? "" : helper.courseID) %>"
@@ -53,8 +51,6 @@
 					</tr>
 					<tr>
 						<td class="label bold">Course Name:</td>
-					</tr>
-					<tr>
 						<td><input class="addinput" type="text"
 							name="<%= Common.PARAM_COURSE_NAME %>" id="<%= Common.PARAM_COURSE_NAME %>"
 							value="<%=(helper.courseName==null ? "" : InstructorCourseHelper.escapeForHTML(helper.courseName))%>"
@@ -63,7 +59,16 @@
 							maxlength=<%=CourseData.COURSE_NAME_MAX_LENGTH%> tabindex=2 /></td>
 					</tr>
 					<tr>
-						<td class="center-align"><input id="btnAddCourse" type="submit" class="button"
+						<td colspan=2 class="label bold">Instructors:</td>
+					</tr>
+					<tr>
+						<td colspan=2>
+							<span id="instructorformat" class="bold">Format: Google ID | Instructor Name | Instructor Email</span>
+							<textarea rows="6" cols="110" class ="textvalue" name="<%= Common.PARAM_COURSE_INSTRUCTOR_LIST %>" id="<%= Common.PARAM_COURSE_INSTRUCTOR_LIST %>"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td colspan=2 class="centeralign"><input id="btnAddCourse" type="submit" class="button"
 							onclick="return verifyAddCourse();" value="Add Course" tabindex="3"></td>
 					</tr>
 				</table>
@@ -111,6 +116,10 @@
 							<a class="color_black t_course_view<%= idx %>"
 								href="<%=helper.getInstructorCourseDetailsLink(course.id)%>"
 								onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_DETAILS %>')"
+								onmouseout="hideddrivetip()">View</a>
+							<a class="color_black t_course_view<%= idx %>"
+								href="<%=helper.getInstructorCourseEditLink(course.id)%>"
+								onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_EDIT %>')"
 								onmouseout="hideddrivetip()">View</a>
 							<a class="color_black t_course_delete<%= idx %>"
 								href="<%=helper.getInstructorCourseDeleteLink(course.id,false)%>"

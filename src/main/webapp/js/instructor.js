@@ -78,7 +78,7 @@ function toggleRemindStudents(evaluationName) {
  * @param email
  * @returns {Boolean}
  */
-function isStudentEmailValid(email) {
+function isEmailValid(email) {
 	return email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i)!=null;
 }
 
@@ -88,13 +88,13 @@ function isStudentEmailValid(email) {
  * @param name
  * @returns {Boolean}
  */
-function isStudentNameValid(name) {
+function isNameValid(name) {
 	if (name.indexOf("\\") >= 0 || name.indexOf("'") >= 0
 			|| name.indexOf("\"") >= 0) {
 		return false;
 	} else if (name.match(/^.[^\t]*$/) == null) {
 		return false;
-	} else if (name.length > STUDENTNAME_MAX_LENGTH) {
+	} else if (name.length > NAME_MAX_LENGTH) {
 		return false;
 	}
 	return true;
@@ -120,14 +120,14 @@ function isStudentInputValid(editName, editTeamName, editEmail) {
 	if (editName == "" || editTeamName == "" || editEmail == "") {
 		setStatusMessage(DISPLAY_FIELDS_EMPTY,true);
 		return false;
-	} else if (!isStudentNameValid(editName)) {
-		setStatusMessage(DISPLAY_STUDENT_NAME_INVALID,true);
+	} else if (!isNameValid(editName)) {
+		setStatusMessage(DISPLAY_NAME_INVALID,true);
 		return false;
 	} else if (!isStudentTeamNameValid(editTeamName)) {
 		setStatusMessage(DISPLAY_STUDENT_TEAMNAME_INVALID,true);
 		return false;
-	} else if (!isStudentEmailValid(editEmail)){
-		setStatusMessage(DISPLAY_STUDENT_EMAIL_INVALID,true);
+	} else if (!isEmailValid(editEmail)){
+		setStatusMessage(DISPLAY_EMAIL_INVALID,true);
 		return false;
 	}
 	return true;

@@ -33,22 +33,22 @@ test('toggleRemindStudents(evaluationName)', function(){
 });
 
 
-test('isStudentEmailValid(email)', function(){
-	equal(isStudentEmailValid("test@gmail.com"), true, "test@gmail.com - valid");
+test('isEmailValid(email)', function(){
+	equal(isEmailValid("test@gmail.com"), true, "test@gmail.com - valid");
 	
-	equal(isStudentEmailValid("email"), false, "email - invalid");
-	equal(isStudentEmailValid("email@email"), false, "email@email - invalid");
-	equal(isStudentEmailValid("@yahoo.com"), false, "@yahoo.com - invalid");
-	equal(isStudentEmailValid("email.com"), false, "email.com - invalid");
+	equal(isEmailValid("email"), false, "email - invalid");
+	equal(isEmailValid("email@email"), false, "email@email - invalid");
+	equal(isEmailValid("@yahoo.com"), false, "@yahoo.com - invalid");
+	equal(isEmailValid("email.com"), false, "email.com - invalid");
 });
 	
 
-test('isStudentNameValid(name)', function(){
-	equal(isStudentNameValid('Tom Jacobs ./*&^%$#@!-_10'), true, "Tom Jacobs ./*&^%$#@!-_10 - valid");
-	equal(isStudentNameValid(generateRandomString(STUDENTNAME_MAX_LENGTH)), true, "Maximum characters - valid");
+test('isNameValid(name)', function(){
+	equal(isNameValid('Tom Jacobs ./*&^%$#@!-_10'), true, "Tom Jacobs ./*&^%$#@!-_10 - valid");
+	equal(isNameValid(generateRandomString(NAME_MAX_LENGTH)), true, "Maximum characters - valid");
 	
-	equal(isStudentNameValid(""), false, "Empty name - invalid");
-	equal(isStudentNameValid(generateRandomString(STUDENTNAME_MAX_LENGTH + 1)), false, "Exceed number of maximum characters - invalid");
+	equal(isNameValid(""), false, "Empty name - invalid");
+	equal(isNameValid(generateRandomString(NAME_MAX_LENGTH + 1)), false, "Exceed number of maximum characters - invalid");
 });
 
 
@@ -68,5 +68,5 @@ test('isStudentInputValid(editName, editTeamName, editEmail)', function(){
 	equal(isStudentInputValid("Bob", "Bob's Team", ""), false, "Empty email - invalid");
 	equal(isStudentInputValid("Bob", "Bob's Team", "qwerty"), false, "Invalid email");
 	equal(isStudentInputValid("Billy", generateRandomString(TEAMNAME_MAX_LENGTH + 1), "d.Team@hotmail.com"), false, "Invalid teamname");
-	equal(isStudentInputValid(generateRandomString(STUDENTNAME_MAX_LENGTH + 1), "Bob's Team", ""), false, "invalid name");
+	equal(isStudentInputValid(generateRandomString(NAME_MAX_LENGTH + 1), "Bob's Team", ""), false, "invalid name");
 });

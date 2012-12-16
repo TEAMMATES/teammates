@@ -52,23 +52,39 @@
 			</div>
 
 			<form name="form_addcourse" action="/page/instructorCourse" method="get">
-				<table class="inputTable" id="addform">
-					<tbody><tr>
-						<td class="label bold">Course ID:</td>
-					</tr>
+				<table id="addform" class="inputTable">
 					<tr>
-						<td><input type="text" tabindex="1" maxlength="30" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the identifier of the course, e.g.CS3215-Sem1.')" value="" id="courseid" name="courseid" class="addinput" /></td>
+						<td class="label bold" width="20%">Course ID:</td>
+						<td><input class="addinput" type="text"
+							name="courseid" id="courseid"
+							value=""
+							onmouseover="ddrivetip('Enter the identifier of the course, e.g.CS3215-Sem1.')"
+							onmouseout="hideddrivetip()"
+							maxlength=30 tabindex="1"></td>
 					</tr>
 					<tr>
 						<td class="label bold">Course Name:</td>
+						<td><input class="addinput" type="text"
+							name="coursename" id="coursename"
+							value=""
+							onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
+							onmouseout="hideddrivetip()"
+							maxlength=38 tabindex=2 /></td>
 					</tr>
 					<tr>
-						<td><input type="text" tabindex="2" maxlength="38" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')" value="" id="coursename" name="coursename" class="addinput" /></td>
+						<td colspan=2 class="label bold">Instructors:</td>
 					</tr>
 					<tr>
-						<td class="center-align"><input type="submit" tabindex="3" value="Add Course" onclick="return verifyAddCourse();" class="button" id="btnAddCourse" /></td>
+						<td colspan=2>
+							<span id="instructorformat" class="bold">Format: Google ID | Instructor Name | Instructor Email</span>
+							<textarea rows="6" cols="110" class ="textvalue" name="instructorlist" id="instructorlist"></textarea>
+						</td>
 					</tr>
-				</tbody></table>
+					<tr>
+						<td colspan=2 class="centeralign"><input id="btnAddCourse" type="submit" class="button"
+							onclick="return verifyAddCourse();" value="Add Course" tabindex="3"></td>
+					</tr>
+				</table>
 				
 					<input type="hidden" value="teammates.demo.instructor" name="user" />
 				
