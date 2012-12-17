@@ -44,6 +44,7 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String OPERATION_GET_TFS_AS_JSON = "OPERATION_GET_TFS_AS_JSON";
 	public static final String OPERATION_PERSIST_DATABUNDLE = "OPERATION_PERSIST_DATABUNDLE";
 	public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER = "activate_auto_reminder";
+	public static final String OPERATION_CREATE_INSTRUCTORS_FROM_COURSES = "OPERATION_CREATE_INSTRUCTORS_FROM_COURSES";
 
 	public static final String PARAMETER_BACKDOOR_KEY = "PARAM_BACKDOOR_KEY";
 	public static final String PARAMETER_BACKDOOR_OPERATION = "PARAMETER_BACKDOOR_OPERATION";
@@ -165,6 +166,8 @@ public class BackDoorServlet extends HttpServlet {
 			String originalEmail = req.getParameter(PARAMETER_STUDENT_EMAIL);
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
 			backDoorLogic.editStudentAsJson(originalEmail, newValues);
+		}  else if (action.equals(OPERATION_CREATE_INSTRUCTORS_FROM_COURSES)) {
+			backDoorLogic.createInstructorsFromCourses();
 		} else {
 			throw new Exception("Unknown command: " + action);
 		}

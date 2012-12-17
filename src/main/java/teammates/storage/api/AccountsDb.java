@@ -13,11 +13,14 @@ import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.SubmissionData;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.JoinCourseException;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Coordinator;
+import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.Submission;
 
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
@@ -608,6 +611,12 @@ public class AccountsDb {
 				.newQuery(query).execute();
 	
 		return instructorList;
+	}
+
+	public void persistInstructorsFromCourses(List<Instructor> instructorsToAdd) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, instructorsToAdd);
+		getPM().makePersistentAll(instructorsToAdd);
+		getPM().flush();
 	}
  
 

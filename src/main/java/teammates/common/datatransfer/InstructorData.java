@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import teammates.common.Common;
 import teammates.storage.entity.Coordinator;
+import teammates.storage.entity.Instructor;
 
 public class InstructorData extends BaseData {
 	public HashMap<String, CourseData> courses;
@@ -11,9 +12,14 @@ public class InstructorData extends BaseData {
 	public String name;
 	public String email;
 	
+	// New
+	public String courseId;
+	public int accessLevelId;
+	
 	public static final String ERROR_FIELD_ID = "Instructor ID is invalid\n";
 	public static final String ERROR_FIELD_NAME = "Instructor name cannot be null or empty\n";
 	public static final String ERROR_FIELD_EMAIL = "Instructor email is invalid\n";
+	public static final String ERROR_FIELD_COURSEID = "Course ID is invalid\n";
 	
 	public InstructorData(String id, String name, String email) {
 		this();
@@ -27,6 +33,20 @@ public class InstructorData extends BaseData {
 		this.id = instructor.getGoogleID();
 		this.name = instructor.getName();
 		this.email = instructor.getEmail();
+	}
+	
+	// New
+	public InstructorData(String id, String courseId, int accessLevelId) {
+		this.id = id;
+		this.courseId = courseId;
+		this.accessLevelId = accessLevelId;
+	}
+	
+	// New
+	public InstructorData(Instructor instructor) {
+		this.id = instructor.getGoogleId();
+		this.courseId = instructor.getCourseId();
+		this.accessLevelId = instructor.getAccessLevel();
 	}
 
 	public InstructorData() {
@@ -51,6 +71,14 @@ public class InstructorData extends BaseData {
 		if (!Common.isValidEmail(email)) {
 			errorMessage += ERROR_FIELD_EMAIL;
 		}
+		
+		/* 
+		 * Temporarily left out as current code does not support Course ID yet.
+		 * Future patch to implement backward compatability
+		if (!Common.isValidCourseId(courseId)) {
+			errorMessage += ERROR_FIELD_COURSEID;
+		}
+		*/
 
 		return errorMessage;
 	}

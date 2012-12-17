@@ -81,6 +81,15 @@ public class BackDoor {
 		}
 	}
 
+	/**
+	 * Call the migration BackDoorLogic method
+	 */
+	public static String createInstructorsFromCourses() {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_CREATE_INSTRUCTORS_FROM_COURSES);
+		String status = makePOSTRequest(params);
+		return status;
+	}
+	
 	@SuppressWarnings("unused")
 	private void ____INSTRUCTOR_level_methods______________________________() {
 	}

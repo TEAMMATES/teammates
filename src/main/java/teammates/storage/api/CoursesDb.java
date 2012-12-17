@@ -178,4 +178,21 @@ public class CoursesDb {
 		return courseList.get(0);
 	}
 
+	/**
+	 * Returns all Course Entities 
+	 */
+	public List<CourseData> getAllCourses() {
+		String query = "select from " + Course.class.getName();
+
+		@SuppressWarnings("unchecked")
+		List<Course> courseList = (List<Course>) getPM().newQuery(query)
+				.execute();
+
+		List<CourseData> courseDataList = new ArrayList<CourseData>();
+		for (Course c : courseList) {
+			courseDataList.add(new CourseData(c));
+		}
+
+		return courseDataList;
+	}
 }

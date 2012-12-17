@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.jdo.JDOHelper;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -24,6 +25,9 @@ import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
 import teammates.logic.EvaluationsLogic;
 import teammates.logic.api.Logic;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Evaluation;
+import teammates.storage.entity.Instructor;
 
 public class BackDoorLogic extends Logic {
 	
@@ -200,6 +204,28 @@ public class BackDoorLogic extends Logic {
 	
 	public void editEvaluation(EvaluationData evaluation) throws InvalidParametersException, EntityDoesNotExistException{
 		EvaluationsLogic.inst().getEvaluationsDb().editEvaluation(evaluation);
+	}
+	
+	
+	
+	/**
+	 * Used for data migration.
+	 * For every Course C create an Instructor I
+	 *  I.googleId = C.coordinatorID
+	 *  I.courseId = C.ID
+	 */
+	public void createInstructorsFromCourses() {
+		List<CourseData> courses = CoursesLogic.inst().getDb().getAllCourses();
+		List<Instructor> instructorsToAdd = new ArrayList<Instructor>();
+		
+		for (CourseData cd : courses) {
+			instructorsToAdd.add(new Instructor(cd.instructor,	// Coordinator ID
+												cd.id, 			// Course Id
+												0				// AccessLevel - 0 for Admin
+												));
+		}
+		
+		AccountsLogic.inst().getDb().persistInstructorsFromCourses(instructorsToAdd);
 	}
 	
 }

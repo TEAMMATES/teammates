@@ -20,10 +20,10 @@ public class AccessLevel {
 	@Persistent
 	private boolean canDeleteCourse = false;
 
-	public AccessLevel(int accessLevel, boolean canEdit,
+	public AccessLevel(int accessLevelId, boolean canEdit,
 			boolean canAddCoordinator, boolean canDeleteCoordinator,
 			boolean canDeleteCourse) {
-		this.accessLevelId = accessLevel;
+		this.accessLevelId = accessLevelId;
 		this.canEdit = canEdit;
 		this.canAddCoordinator = canAddCoordinator;
 		this.canDeleteCoordinator = canDeleteCoordinator;

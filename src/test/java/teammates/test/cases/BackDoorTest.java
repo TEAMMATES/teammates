@@ -532,6 +532,13 @@ public class BackDoorTest extends BaseTestCase {
 		assertEquals("student1InCourse1@gmail.com",
 				submissionFromS2C1ToS1C1.reviewee);
 	}
+	
+	@Test
+	public void testCreateInstructorsFromCourses() {
+		refreshDataInDatastore();
+		String status = BackDoor.createInstructorsFromCourses();
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+	}
 
 	private void refreshDataInDatastore() {
 		dataBundle = gson.fromJson(jsonString, DataBundle.class);
