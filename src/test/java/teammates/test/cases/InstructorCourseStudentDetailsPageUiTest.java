@@ -47,6 +47,12 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseTestCase {
 	}
 	
 	@Test
+	public void runTestsInOrder() throws Exception {
+		testInstructorCourseStudentDetailsPage();
+		//we run this test second due to dependencies. This test edits student information that the first test requires
+		testInstructorCourseStudentEditPage();
+	}
+	
 	public void testInstructorCourseStudentDetailsPage() throws Exception{
 		
 		
@@ -71,7 +77,6 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseTestCase {
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseStudentDetailsUnregisteredPage.html");
 	}
 	
-	@Test
 	public void testInstructorCourseStudentEditPage() throws Exception{
 		
 		
