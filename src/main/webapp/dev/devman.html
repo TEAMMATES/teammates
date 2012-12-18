@@ -820,6 +820,8 @@
 			href="http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml">JavaScript
 		</a>, <a
 			href="http://make.wordpress.org/core/handbook/coding-standards/css/">CSS
+		</a>, <a
+			href="htmlstyleguide.html">HTML
 		</a></li>
 		<br>
 		<li><span class="bold">Google Group</span> for dev team <a
@@ -1274,14 +1276,14 @@
 				<li>The first line should be in the format <span class="code">Starting
 						Issue nnn [Issue title]</span> OR <span class="code">Continuing
 						Issue nnn [Issue title] </span> depending on whether it is the first
-					commit of branch.<br>This helps to locate the start of the
-					branch easily (useful when reviewing code) and identify what the
+					commit of the branch.<br>This helps to locate the start of the
+					branch easily (this is useful when reviewing code) and identify what the
 					issue is about without having to refer to issue tracker.
 				</li>
 				<li>The 2nd line should be <span class="code">Update
-						Issue nnn</span></li> This line makes the Google Code to automatically update
-				the corresponding issue in the Issue tracker with a link to the
-				corresponding revision in the repo.
+						Issue nnn</span></li> This line tells Google Code to automatically update
+				the corresponding issue in the Issue tracker with a link to the 
+				revision being committed.
 				<li>The Remaining lines can be used to describe the changes you
 					are committing. These lines too will be added to the Issue tracker.</li>
 				<li>Here’s a sample commit message:<br> <span class="code">
@@ -1313,7 +1315,7 @@
 					(i.e., all tests are passing against the modified app running on
 					your own GAE staging server).</li>
 				<li>Push to review repo (this will create a new branch in
-					review repo)<br> <span class="code">hg push
+					the review repo)<br> <span class="code">hg push
 						https://yourname@code.google.com/p/teammatespes/ --new-branch -b
 						Issue234</span>
 				</li>
@@ -1332,15 +1334,18 @@
 	<br>
 	<br> A contributor will work closely with a developer from the
 	project team, who will act as the mentor for the contributor. The
-	workflow is similar to that of developer (given above) expect for the
+	workflow is similar to that of developer (given above) except for the
 	following.
 	<ul>
 		<li>You will not have permission to push to review repo. Go to
-			review repo, create a clone online, and push to that instead. Once
-			the Issue is <span class="code">ReadyToMerge</span>, project lead
-			will pull the branch to the review repo.<br> Recommended name
-			for the clone is <span class="code">{your name}-teammates</span>.
-			e.g., <span class="code">john-teammates</span>
+			review repo, create <a
+			href="http://googlecode.blogspot.sg/2009/10/mercurial-server-side-clone-support-for.html">a
+				server-side clone</a>, and push to that instead. Once the Issue is <span
+			class="code">ReadyToMerge</span>, project lead will pull the branch
+			to the review repo.<br> Recommended name for the clone is <span
+			class="code">{your name}-teammates</span>. e.g., <span class="code">john-teammates</span>
+			<br> Remember to enable 'non-member code reviews' in your clone
+			(Administer --> Source --> check 'Allow non-members to review code').
 		</li>
 		<li>For help or clarifications, email your mentor or post in the
 			<a
@@ -1359,11 +1364,11 @@
 	(as approprate).
 	<br>
 	<br> Try to make sure
-	<br> a) The solution is optimal
-	<br> b) The code is of acceptable quality
-	<br> c) Tests have enough coverage
+	<br> a) The solution is optimal.
+	<br> b) The code is of acceptable quality.
+	<br> c) Tests have enough coverage.
 	<br> d) Appropriate documentation have been updated (if
-	applicable)
+	applicable).
 	<br>
 	<br> Try to finish the review within a day of submission.
 	<br> Once the review is done, publish your comments. If the code
@@ -1378,7 +1383,7 @@
 	<br>
 	<br> Tip: You can use keyboard shortcuts to navigate code changes
 	(see
-	<a href="http://code.google.com/p/support/wiki/CodeReviews">here</a>)
+	<a href="http://code.google.com/p/support/wiki/CodeReviews">here</a>).
 	<br>
 
 	<h2 id="process-applyingafix">Applying a fix</h2>
@@ -1471,11 +1476,17 @@
 		<li><span class="bold">Low</span>: very little impact, unlikely
 			to do in the near future.</li>
 	</ul>
-	<br>
-	<span class="bold">Issue status.</span> Click on the 'status' text box
-	in the
+	
+	<div class="image-holder">
+		<img src="images/IssueLifecycle.png" width="90%" />
+	</div>
+	
+	Given above is an illustration of the issue lifecycle. Colors indicate
+	which roles are involved in which states/transitions. Click on the
+	'status' text box in the
 	<a href="http://code.google.com/p/teammatespes/issues/entry">'new
-		issue'</a> template in the Issue Tracker for a description of each status.
+		issue'</a> template in the Issue Tracker for a description of each
+	status.
 	<br>
 
 	<hr>
