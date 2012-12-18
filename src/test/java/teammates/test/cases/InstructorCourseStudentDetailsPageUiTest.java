@@ -107,7 +107,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseTestCase {
 		bi.fillString(bi.studentDetailTeam, "New teamname");
 		bi.click(bi.instructorCourseDetailsStudentEditSaveButton);								
 		// Verify status message
-		bi.waitForStatusMessage("Name should only consist of alphanumerics or hyphens, apostrophes, underscores, round brackets\nand not more than 40 characters.");
+		bi.waitForStatusMessage("Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, commas, slashes, round brackets\nand not more than 40 characters.");
 				
 		// Edit details wrongly (invalid teamname)
 		bi.fillString(bi.studentDetailName, "New name");

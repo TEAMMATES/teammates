@@ -89,10 +89,16 @@ function isStudentEmailValid(email) {
  * @returns {Boolean}
  */
 function isStudentNameValid(name) {
-	if (name.match(/[^_\-'\(\)0-9a-zA-Z]+$/)) {
-		//Only alphanumeric characters, and _, -, ', (, ) characters are allowed
+	name = name.trim();
+	
+	if (name == "") {
+		//empty string
 		return false;
-	} else if (name.match(/^.[^\t]*$/) == null) {
+	}
+	if (name.match(/[^\/\\,.'\-\(\)0-9a-zA-Z \t]+/)) {
+		//Reject the name if there are any characters outset the Regex set
+		//Regex set contains slash(/), backslash(\), fullstop(.), comma(,), apostrophe('),
+		//hyphen(-), round brackets(()), alpha numeric characters, whitespace( ), tab character(\t)
 		return false;
 	} else if (name.length > STUDENTNAME_MAX_LENGTH) {
 		return false;
