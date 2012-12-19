@@ -59,12 +59,17 @@ public class InstructorEvalEditPageUiTest extends BaseTestCase {
 	}
 
 	@Test
+	public void runTestsInOrder() throws Exception{
+		testInstructorEvalEditHTML();
+		//This test has to be run last because it edits the information used in the previous test. Previous test will fail if it gets edited first
+		testInstructorEvalEditUiPaths();
+	}
+	
 	public void testInstructorEvalEditHTML() throws Exception{
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalEdit.html");
 	}
 	
-	@Test
 	public void testInstructorEvalEditUiPaths() throws Exception{
 		
 		bi.editEvaluation(ts.newEvaluation.startTime, ts.newEvaluation.endTime, ts.newEvaluation.p2pEnabled, ts.newEvaluation.instructions, ts.newEvaluation.gracePeriod);
