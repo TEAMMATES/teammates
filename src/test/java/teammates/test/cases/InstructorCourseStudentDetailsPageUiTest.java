@@ -103,7 +103,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseTestCase {
 		bi.waitForStatusMessage("Please fill in all the relevant fields.");
 		
 		// Edit details wrongly (invalid name)
-		bi.fillString(bi.studentDetailName, "nameshouldhavelessthan40characters,andonlyalphanumeric");
+		bi.fillString(bi.studentDetailName, "invalidstudentnamewithmorethan40characters");
 		bi.fillString(bi.studentDetailTeam, "New teamname");
 		bi.click(bi.instructorCourseDetailsStudentEditSaveButton);								
 		// Verify status message
@@ -111,7 +111,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseTestCase {
 				
 		// Edit details wrongly (invalid teamname)
 		bi.fillString(bi.studentDetailName, "New name");
-		bi.fillString(bi.studentDetailTeam, "teamnameshouldhavelessthan25characters");
+		bi.fillString(bi.studentDetailTeam, "invalidteamnamewithmorethan25characters");
 		bi.click(bi.instructorCourseDetailsStudentEditSaveButton);								
 		// Verify status message
 		bi.waitForStatusMessage("Team name should contain less than 25 characters.");

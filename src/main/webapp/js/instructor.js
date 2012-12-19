@@ -95,10 +95,10 @@ function isStudentNameValid(name) {
 		//empty string
 		return false;
 	}
-	if (name.match(/[^\/\\,.'\-\(\)0-9a-zA-Z \t]+/)) {
+	if (name.match(/[^\/\\,.'\-\(\)0-9a-zA-Z\s]+/)) {
 		//Reject the name if there are any characters outset the Regex set
 		//Regex set contains slash(/), backslash(\), fullstop(.), comma(,), apostrophe('),
-		//hyphen(-), round brackets(()), alpha numeric characters, whitespace( ), tab character(\t)
+		//hyphen(-), round brackets(()), alpha numeric characters, whitespace characters(space,tab,line feed,newline)
 		return false;
 	} else if (name.length > STUDENTNAME_MAX_LENGTH) {
 		return false;

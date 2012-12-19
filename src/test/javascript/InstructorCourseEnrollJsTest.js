@@ -29,7 +29,7 @@ test('checkEnrollmentInput(input)', function(){
 		'Team4   |.Jack\'s|jack@gmail.com  \n' + 
 		'   |(Jil/l)|  jill@gmail.com'),
 		true,
-		'| separator, whitespaces in the fields, \', - , (), ,, ,\ , / characters');
+		'| separator, whitespaces in the fields, apostrophe, hyphen, fullstop, comma, slashes, round brackets characters');
 	
 	equal(checkEnrollmentInput(
 		'\n' +
