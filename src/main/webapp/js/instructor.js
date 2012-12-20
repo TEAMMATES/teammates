@@ -89,16 +89,20 @@ function isStudentEmailValid(email) {
  * @returns {Boolean}
  */
 function isStudentNameValid(name) {
-	if (name.match(/[^_\-'\(\)0-9a-zA-Z]+$/)) {
+	name = name.trim();
+
+	if (name == "") {
+		return false;
+	}
+	if (name.match(/[^\/\\,.'\-\(\)0-9a-zA-Z \t]/)) {
+		// Returns true if a character NOT belonging to the following set
+		// appears in the name: slash(/), backslash(\), fullstop(.), comma(,),
+		// apostrophe('), hyphen(-), round brackets(()), alpha numeric
+		// characters, space, tab
+		return false;
+	} else if (name.length > STUDENTNAME_MAX_LENGTH) {
 		return false;
 	} else {
-		if (name.match(/^.[^\t]*$/) == null) {
-			console.log("trim");
-			return false;
-		} else if (name.length > STUDENTNAME_MAX_LENGTH) {
-			console.log("length");
-			return false;
-		}
 		return true;
 	}
 }

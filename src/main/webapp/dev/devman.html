@@ -19,9 +19,10 @@
 	<ul>
 		<li><a href="#project">Project</a></li>
 		<ul>
-			<li><a href="#project-vision">Project vision</a></li>
+			<li><a href="#project-vision">Vision</a></li>
 			<li><a href="#project-challenges">Challenges</a></li>
 			<li><a href="#project-principles">Principles</a></li>
+			<li><a href="#project-contributing">Contributing</a></li>
 		</ul>
 
 		<li><a href="#design">Design</a></li>
@@ -84,7 +85,7 @@
 
 	<h1 id="project">Project</h1>
 
-	<h2 id="project-vision">Project vision</h2>
+	<h2 id="project-vision">Vision</h2>
 
 	Long term goal: Become the
 	<span class="bold">biggest student project in the world</span>.
@@ -101,7 +102,8 @@
 	<br>
 
 	<h2 id="project-challenges">Challenges</h2>
-	The project faces challenges in following areas.
+	The project differs from typical student projects in the following areas,
+	which makes it more challenging and the experience more enriching.
 	<br>
 	<ul>
 		<li><span class="bold">Developers</span>: All developers are
@@ -109,7 +111,6 @@
 			time.</li>
 		<li><span class="bold">Code</span>: Working with legacy code
 			written by past developers is harder than writing from scratch.</li>
-		<li><span class="bold">Testing</span>: No dedicated QA team.</li>
 		<li><span class="bold">Data</span>: The data in the live system
 			are confidential and developers are not allowed to see them. This
 			makes troubleshooting harder.</li>
@@ -176,6 +177,49 @@
 			something, we make sure everyone in the team learn it too.</li>
 	</ul>
 
+	<h2 id="project-contributing">Contributing</h2>
+
+	<p>TEAMMATES welcome contributions from anyone, in particular,
+		students. Please <a href="..\contact.html">contact us</a> if you are interested to contribute.</p>
+
+	<p>Although TEAMMATES uses many tools and technologies, you need
+		not all of them before you can contribute. The diagram below shows
+		which technologies you need to learn to contribute in different roles.
+		As you can see, some roles don't need learning any technologies at
+		all. Note that these role aren't fixed or formally assigned. It is
+		simply for your guidance only.</p>
+
+	<div class="image-holder">
+		<img src="images/RolesAndTechnologies.png" width="90%" />
+	</div>
+
+	<ul>
+		<li><span class="bold">Tester:</span> Tests the App manually and
+			reports bugs or suggestions for enhancements in the issue tracker.</li>
+		<li><span class="bold">Copy editor:</span> Helps in improving
+			documentation.</li>
+		<li><span class="bold">Web page developer:</span> Works on static
+			web pages, such as those used in the TEAMMATES web site</li>
+		<li><span class="bold">Test developer:</span> Works on automating
+			system tests.</li>
+		<li><span class="bold">Frontend developer:</span> Works on the
+			frontend of the App that is generated dynamically from the server
+			side.</li>
+		<li><span class="bold">Backend developer:</span> Works on the
+			backend logic of the App, including data storage.</li>
+	</ul>
+
+	<p>TEAMMATES community has three segments, defined based on the
+		level of involvement.</p>
+	<ul>
+		<li><span class="bold">Contributor: </span>Small but noteworthy
+			contribution to the project.</li>
+		<li><span class="bold">Committer: </span>Significant contributions
+			sustained over a long period of time.</li>
+		<li><span class="bold">Member: </span>Significant and sustained
+			contributions in recent times.</li>
+	</ul>
+
 	<hr>
 	<!-- =============================================================== -->
 
@@ -224,8 +268,8 @@
 	<ul>
 		<li>[logic] - [ui::view] - [ui::controller] represent an
 			application of Model-View-Controller pattern.</li>
-		<li>ui::view package is not a Java package. It represents jsp,
-			html, js and css files.</li>
+		<li>ui::view and ui::website packages are not Java packages. They
+			consist of jsp, html, js and css files.</li>
 	</ul>
 
 
@@ -754,8 +798,8 @@
 				System specification</a> (i.e. <span class="bold">Spec</span>)</li>
 		<li><a
 			href="https://docs.google.com/document/pub?id=1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU&embedded=true">
-				Problems and Solutions</a> (i.e. <span class="bold">P&S</span>) :
-			Problems encountered, solutions considered, rationale for selection
+				Decision Analysis</a> (i.e. <span class="bold">Analysis</span>) :
+			Analysis of problems encountered, solutions considered, rationale for selection
 			etc.</li>
 		<li><a
 			href="https://docs.google.com/document/d/1Niq-VOjj0dBwYevySz1FnBPGSoFwLNkn7lcmIYKV_Cc/edit?hl=en_US">
@@ -766,8 +810,19 @@
 				Version History</a> (i.e. <span class="bold">History</span>)</li>
 		<li><a
 			href="https://docs.google.com/document/pub?id=1LymZ6oeEA6TZRzgW7X2FUxA2MPbZTjUrzIx6si_5ThI&embedded=true">
-				Resources</a> (i.e. <span class="bold">Resources</span>) : Learning
+				Resources Bin</a> (i.e. <span class="bold">Resources</span>) : Learning
 			materials, tips, tutorials, etc.</li>
+		<li><span class="bold">Coding standards </span>: <a
+			href="https://docs.google.com/document/pub?id=1iAESIXM0zSxEa5OY7dFURam_SgLiSMhPQtU0drQagrs&embedded=true">Java</a>,
+			<a
+			href="http://www.oracle.com/technetwork/articles/javase/code-convention-138726.html">JSP</a>,
+			<a
+			href="http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml">JavaScript
+		</a>, <a
+			href="http://make.wordpress.org/core/handbook/coding-standards/css/">CSS
+		</a>, <a
+			href="htmlstyleguide.html">HTML
+		</a></li>
 		<br>
 		<li><span class="bold">Google Group</span> for dev team <a
 			href="http://groups.google.com/group/teammates-dev">http://groups.google.com/group/<span
@@ -1221,14 +1276,14 @@
 				<li>The first line should be in the format <span class="code">Starting
 						Issue nnn [Issue title]</span> OR <span class="code">Continuing
 						Issue nnn [Issue title] </span> depending on whether it is the first
-					commit of branch.<br>This helps to locate the start of the
-					branch easily (useful when reviewing code) and identify what the
+					commit of the branch.<br>This helps to locate the start of the
+					branch easily (this is useful when reviewing code) and identify what the
 					issue is about without having to refer to issue tracker.
 				</li>
 				<li>The 2nd line should be <span class="code">Update
-						Issue nnn</span></li> This line makes the Google Code to automatically update
-				the corresponding issue in the Issue tracker with a link to the
-				corresponding revision in the repo.
+						Issue nnn</span></li> This line tells Google Code to automatically update
+				the corresponding issue in the Issue tracker with a link to the 
+				revision being committed.
 				<li>The Remaining lines can be used to describe the changes you
 					are committing. These lines too will be added to the Issue tracker.</li>
 				<li>Here’s a sample commit message:<br> <span class="code">
@@ -1260,7 +1315,7 @@
 					(i.e., all tests are passing against the modified app running on
 					your own GAE staging server).</li>
 				<li>Push to review repo (this will create a new branch in
-					review repo)<br> <span class="code">hg push
+					the review repo)<br> <span class="code">hg push
 						https://yourname@code.google.com/p/teammatespes/ --new-branch -b
 						Issue234</span>
 				</li>
@@ -1279,15 +1334,18 @@
 	<br>
 	<br> A contributor will work closely with a developer from the
 	project team, who will act as the mentor for the contributor. The
-	workflow is similar to that of developer (given above) expect for the
+	workflow is similar to that of developer (given above) except for the
 	following.
 	<ul>
 		<li>You will not have permission to push to review repo. Go to
-			review repo, create a clone online, and push to that instead. Once
-			the Issue is <span class="code">ReadyToMerge</span>, project lead
-			will pull the branch to the review repo.<br> Recommended name
-			for the clone is <span class="code">{your name}-teammates</span>.
-			e.g., <span class="code">john-teammates</span>
+			review repo, create <a
+			href="http://googlecode.blogspot.sg/2009/10/mercurial-server-side-clone-support-for.html">a
+				server-side clone</a>, and push to that instead. Once the Issue is <span
+			class="code">ReadyToMerge</span>, project lead will pull the branch
+			to the review repo.<br> Recommended name for the clone is <span
+			class="code">{your name}-teammates</span>. e.g., <span class="code">john-teammates</span>
+			<br> Remember to enable 'non-member code reviews' in your clone
+			(Administer --> Source --> check 'Allow non-members to review code').
 		</li>
 		<li>For help or clarifications, email your mentor or post in the
 			<a
@@ -1306,11 +1364,11 @@
 	(as approprate).
 	<br>
 	<br> Try to make sure
-	<br> a) The solution is optimal
-	<br> b) The code is of acceptable quality
-	<br> c) Tests have enough coverage
+	<br> a) The solution is optimal.
+	<br> b) The code is of acceptable quality.
+	<br> c) Tests have enough coverage.
 	<br> d) Appropriate documentation have been updated (if
-	applicable)
+	applicable).
 	<br>
 	<br> Try to finish the review within a day of submission.
 	<br> Once the review is done, publish your comments. If the code
@@ -1325,7 +1383,7 @@
 	<br>
 	<br> Tip: You can use keyboard shortcuts to navigate code changes
 	(see
-	<a href="http://code.google.com/p/support/wiki/CodeReviews">here</a>)
+	<a href="http://code.google.com/p/support/wiki/CodeReviews">here</a>).
 	<br>
 
 	<h2 id="process-applyingafix">Applying a fix</h2>
@@ -1418,11 +1476,17 @@
 		<li><span class="bold">Low</span>: very little impact, unlikely
 			to do in the near future.</li>
 	</ul>
-	<br>
-	<span class="bold">Issue status.</span> Click on the 'status' text box
-	in the
+	
+	<div class="image-holder">
+		<img src="images/IssueLifecycle.png" width="90%" />
+	</div>
+	
+	Given above is an illustration of the issue lifecycle. Colors indicate
+	which roles are involved in which states/transitions. Click on the
+	'status' text box in the
 	<a href="http://code.google.com/p/teammatespes/issues/entry">'new
-		issue'</a> template in the Issue Tracker for a description of each status.
+		issue'</a> template in the Issue Tracker for a description of each
+	status.
 	<br>
 
 	<hr>
@@ -1499,19 +1563,8 @@
 				boy scout rule</a> (i.e. always leave the campground cleaner than you
 			found it). Whenever you touch some code e.g., to fix a bug, try to do
 			some clean up of that code as well.</li>
-		<br>
-		<li><span class="bold">Coding standards </span>:
-			<ul>
-				<li><a
-					href="https://docs.google.com/document/pub?id=1iAESIXM0zSxEa5OY7dFURam_SgLiSMhPQtU0drQagrs&embedded=true">Java</a></li>
-				<li><a
-					href="http://java.sun.com/developer/technicalArticles/javaserverpages/code_convention/">JSP</a></li>
-				<li><a
-					href="http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml">JavaScript
-				</a></li>
-				<li><a href="http://codex.wordpress.org/CSS_Coding_Standards">CSS
-				</a></li>
-			</ul> <br>
+		<li><span class="bold">Style guides: </span>Follow coding style guides as much as possible. They are given in
+		the <a href="#infrastructure-knowledgebase">Knowledge base section</a> above</li>
 		<li><span class="bold">Comments</span>: Use comments ONLY when
 			the code is not-self explanatory. Avoid redundant comments. Comments
 			should be well-written. They should not be written as ‘note to self’
