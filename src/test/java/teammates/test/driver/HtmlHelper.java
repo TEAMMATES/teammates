@@ -147,8 +147,8 @@ public class HtmlHelper {
 			}
 			else{
 				for (int i = 0; i < expectedAttributeList.getLength(); i++){
-					Node actualAttribute = expectedAttributeList.item(i);
-					output.append("[" + actualAttribute.getNodeName() + ": " + actualAttribute.getNodeValue() + "] ");
+					Node expectedAttribute = expectedAttributeList.item(i);
+					output.append("[" + expectedAttribute.getNodeName() + ": " + expectedAttribute.getNodeValue() + "] ");
 				}
 			}
 			output.append("\n");	
@@ -166,24 +166,24 @@ public class HtmlHelper {
 		}
 				
 		if(expected.hasChildNodes() || expected.hasChildNodes()){
-			NodeList webpageChildNodes = actual.getChildNodes();
-			NodeList testpageChildNodes = expected.getChildNodes();
-			if (webpageChildNodes.getLength() != testpageChildNodes.getLength()){
+			NodeList actualChildNodes = actual.getChildNodes();
+			NodeList expectedChildNodes = expected.getChildNodes();
+			if (actualChildNodes.getLength() != expectedChildNodes.getLength()){
 				output.append(indentation + "Error: Parse tree structure is different\n");
-				output.append(indentation + "Webpage - current tree level: ");
-				for (int i = 0; i < webpageChildNodes.getLength(); i++){
-					output.append(webpageChildNodes.item(i).getNodeName() + " ");
+				output.append(indentation + "Actual - current tree level: ");
+				for (int i = 0; i < actualChildNodes.getLength(); i++){
+					output.append(actualChildNodes.item(i).getNodeName() + " ");
 				}
 				output.append("\n");
-				output.append(indentation + "Testpage - current tree level: ");
-				for (int i = 0; i < testpageChildNodes.getLength(); i++){
-					output.append(testpageChildNodes.item(i).getNodeName() + " ");
+				output.append(indentation + "Expected - current tree level: ");
+				for (int i = 0; i < expectedChildNodes.getLength(); i++){
+					output.append(expectedChildNodes.item(i).getNodeName() + " ");
 				}
 				output.append("\n");
 				return false;
 			} else {
-				for (int i = 0; i < webpageChildNodes.getLength(); i++){
-					if(!compare(webpageChildNodes.item(i), testpageChildNodes.item(i), indentation + "   ", output)){
+				for (int i = 0; i < actualChildNodes.getLength(); i++){
+					if(!compare(actualChildNodes.item(i), expectedChildNodes.item(i), indentation + "   ", output)){
 						return false;
 					}
 				}
