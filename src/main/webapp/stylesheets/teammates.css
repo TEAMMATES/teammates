@@ -218,3 +218,14 @@ p {
    color: #FFFFFF;
    text-decoration: underline;
 }
+
+#browserMessage{
+	background-color: #FFFF99;
+	margin: 20px auto;
+	padding: 8px;
+	text-align: center;
+	width: 800px;
+	font-size: 14px;
+	font-weight:bold;
+	line-height: 18px;
+}
