@@ -47,6 +47,12 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseTestCase {
 	}
 	
 	@Test
+	public void runTestsInOrder() throws Exception {
+		testInstructorCourseStudentDetailsPage();
+		//we run this test second due to dependencies. This test edits student information that the first test requires
+		testInstructorCourseStudentEditPage();
+	}
+	
 	public void testInstructorCourseStudentDetailsPage() throws Exception{
 		
 		
@@ -71,7 +77,6 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseTestCase {
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseStudentDetailsUnregisteredPage.html");
 	}
 	
-	@Test
 	public void testInstructorCourseStudentEditPage() throws Exception{
 		
 		
@@ -103,15 +108,15 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseTestCase {
 		bi.waitForStatusMessage("Please fill in all the relevant fields.");
 		
 		// Edit details wrongly (invalid name)
-		bi.fillString(bi.studentDetailName, "nameshouldhavelessthan40characters,andonlyalphanumeric");
+		bi.fillString(bi.studentDetailName, "invalidstudentnamewithmorethan40characters");
 		bi.fillString(bi.studentDetailTeam, "New teamname");
 		bi.click(bi.instructorCourseDetailsStudentEditSaveButton);								
 		// Verify status message
-		bi.waitForStatusMessage("Name should only consist of alphanumerics and not\nmore than 40 characters.");
+		bi.waitForStatusMessage("Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, commas, slashes, round brackets\nand not more than 40 characters.");
 				
 		// Edit details wrongly (invalid teamname)
 		bi.fillString(bi.studentDetailName, "New name");
-		bi.fillString(bi.studentDetailTeam, "teamnameshouldhavelessthan25characters");
+		bi.fillString(bi.studentDetailTeam, "invalidteamnamewithmorethan25characters");
 		bi.click(bi.instructorCourseDetailsStudentEditSaveButton);								
 		// Verify status message
 		bi.waitForStatusMessage("Team name should contain less than 25 characters.");

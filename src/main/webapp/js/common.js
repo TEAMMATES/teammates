@@ -17,6 +17,7 @@ var DISPLAY_INPUT_FIELDS_EXTRA = "There are too many fields.";
 var DISPLAY_INPUT_FIELDS_MISSING = "There are missing fields.";
 var DISPLAY_EMAIL_INVALID = "The e-mail address is invalid.";
 var DISPLAY_NAME_INVALID = "Name should only consist of alphanumerics and not<br />more than 40 characters.";
+var DISPLAY_STUDENT_NAME_INVALID = "Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, commas, slashes, round brackets<br> and not more than 40 characters.";
 var DISPLAY_STUDENT_TEAMNAME_INVALID = "Team name should contain less than 25 characters.";
 
 // Used in instructorCourse.js only
