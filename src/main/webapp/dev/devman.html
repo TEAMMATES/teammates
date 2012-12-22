@@ -1101,6 +1101,52 @@
 		</li>
 	</ol>
 
+	<h3 id="settingup-configuringwebbrowsers">Configuring the Browser
+		for testing</h3>
+	To change the browser that is used in the UI tests, go to the
+	<span class="code">test.properties</span> file and change the
+	<span class="code">test.selenium.browser</span> value to the browser
+	you want to test. Possible values are
+	<span class="code"> firefox, chrome, iexplore, safari.</span> In
+	addition, you need to configure the broswer you have selected so that
+	it works with the test suite.
+	<br>
+	<br>
+	<span class="bold">Firefox</span>
+	<ul>
+		<li>If you are planning to test changes to JavaScript code,
+			disable javascript caching for Firefox - Enter "about:config" into
+			the Firefox address bar and set: network.http.use-cache = false</li>
+	</ul>
+	<span class="bold">Chrome</span>
+	<ul>
+		<li>If you are planning to test changes to JavaScript code,
+			disable javascript caching for Chrome - Press ctrl-shift-j to bring
+			up the Web Console. At the bottom-right corner, there is a settings
+			button. Click on that. Under the General tab, check 'Disable Cache'</li>
+	</ul>
+	<span class="bold">Internet Explorer</span>
+	<ul>
+		<li>If you are planning to test changes to JavaScript code,
+			disable javascript caching for Internet Explorer - Go to Internet
+			Options. On the General tab, under Browsing History click Settings.
+			Select the "Every time I visit the webpage" radio button.</li>
+		<li>Ensure that the browser zoom level is set to 100% </li>
+		<li>Set the Protected Mode settings for each zone to be the same
+			value. The value can be on or off, as long as it is the same for
+			every zone. To set the Protected Mode settings, choose "Internet
+			Options..." from the Tools menu, and click on the Security tab. For
+			each zone, there will be a check box at the bottom of the tab labeled
+			"Enable Protected Mode".</li>
+	</ul>
+	<span class="bold">Safari</span>
+	<ul>
+		<li>If you are planning to test changes to JavaScript code,
+			disable javascript caching for Safari - Enable the Developer menu:
+			Safari -> Preferences -> Advanced -> Show Develop menu in menu bar
+			and select Disable Caches there.</li>
+	</ul>
+
 	<h2 id="settingup-deployingtostagingserver">Deploying to staging
 		server</h2>
 	"Staging server" is the server instance you set up on Google App Engine
