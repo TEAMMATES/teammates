@@ -14,7 +14,7 @@
 	<link rel=stylesheet href="/stylesheets/common.css" type="text/css" />
 	<link rel=stylesheet href="/stylesheets/adminActivityLog.css" type="text/css" />
 
-	<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
+	<script language="JavaScript" src="/js/jquery-1.8.3.min.js"></script>
 	<script language="JavaScript" src="/js/tooltip.js"></script>
 </head>
 
