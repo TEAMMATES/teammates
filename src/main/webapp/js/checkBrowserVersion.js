@@ -10,6 +10,8 @@ var SAFARI_LOWEST_VERSION = 4;
 
 /**
  * Function to check browser version and alert if browser version is lower than supported
+ * Adapted from http://www.javascripter.net/faq/browsern.htm
+ * 
  */
 
 function checkBrowserVersion(){
@@ -68,12 +70,13 @@ function checkBrowserVersion(){
 	
 	if (!supported){
 		var message = document.getElementById("browserMessage");
+		message.style.display = "block";
 		message.innerHTML = "You are currently using " + browserName + " v." + majorVersion + ". " +
 							"This web browser is not officially supported in TEAMMATES.<br> You may wish to consider upgrading to a supported browser: <br>" +
-							MICROSOFT_INTERNET_EXPLORER + " " + MICROSOFT_INTERNET_EXPLORER_LOWEST_VERSION + "+, " +
-							CHROME + " " + CHROME_LOWEST_VERSION + "+, " + 
-							FIREFOX + " " + FIREFOX_LOWEST_VERSION + "+ or " +
-							SAFARI + " " + SAFARI_LOWEST_VERSION + "+";
+							"<ul><li> - " + MICROSOFT_INTERNET_EXPLORER + " " + MICROSOFT_INTERNET_EXPLORER_LOWEST_VERSION + " or later</li>" +
+							"<li> - " + CHROME + " " + CHROME_LOWEST_VERSION + " or later</li>" + 
+							"<li> - " + FIREFOX + " " + FIREFOX_LOWEST_VERSION + " or later</li> " +
+							"<li> - " + SAFARI + " " + SAFARI_LOWEST_VERSION + " or later</li></ul>";
 	}
 	
  }
