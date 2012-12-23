@@ -154,21 +154,21 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		link = Common.PAGE_INSTRUCTOR_HOME;
 		verifyRedirectToNotFound(link);
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 		link = Common.PAGE_INSTRUCTOR_COURSE;
 		verifyRedirectToNotFound(link);
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 		link = Common.PAGE_INSTRUCTOR_COURSE_DELETE;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 		link = Common.PAGE_INSTRUCTOR_COURSE_DETAILS;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 		link = Common.PAGE_INSTRUCTOR_COURSE_ENROLL;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
@@ -176,7 +176,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		bi.fillString(By.id("enrollstudents"), "t|n|e@g.com|c");
 		bi.click(By.id("button_enroll"));
 		verifyRedirectToNotAuthorized();
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherInstructor.id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherInstructor.googleId);
 		bi.goToUrl(link);
 		bi.fillString(By.id("enrollstudents"), "t|n|e@g.com|c");
 		bi.click(By.id("button_enroll"));
@@ -186,7 +186,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		link = Common.PAGE_INSTRUCTOR_COURSE_REMIND;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 		// remind one student
 		link = Common.PAGE_INSTRUCTOR_COURSE_REMIND;
@@ -194,74 +194,74 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 		link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DELETE;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 		link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 		link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 		link = Common.PAGE_INSTRUCTOR_EVAL;
 		verifyRedirectToNotFound(link);
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 		link = Common.PAGE_INSTRUCTOR_EVAL_EDIT;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
 		verifyRedirectToNotAuthorized();
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 		link = Common.PAGE_INSTRUCTOR_EVAL_DELETE;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
 		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 		link = Common.PAGE_INSTRUCTOR_EVAL_REMIND;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
 		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 		link = Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
 		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 		link = Common.PAGE_INSTRUCTOR_EVAL_PUBLISH;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
 		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 		link = Common.PAGE_INSTRUCTOR_EVAL_UNPUBLISH;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
 		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 		link = Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_VIEW;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
@@ -270,7 +270,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 		link = Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
@@ -279,7 +279,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
 				otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 		______TS("admin pages");
 		
@@ -438,7 +438,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("cannot delete not-own course by masquerading");
 
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 	}
 
@@ -465,7 +465,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("cannot delete not-own student by masquerading");
 
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 	}
 
 	public void testInstructorEvalDelete() {
@@ -491,7 +491,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("cannot delete not-own evaluation by masquerading");
 
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 	}
 
 	public void testInstructorEvalSubmissionView() {
@@ -521,7 +521,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("cannot view submission of not-own course by masquerading");
 
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 	}
 
 	public void testInstructorEvalUnpublish() {
@@ -557,7 +557,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("cannot unpublish result of not-own course by masquerading");
 
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 	}
 
 	public void testInstructorEvalPublish() {
@@ -593,7 +593,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("cannot publish result of not-own course by masquerading");
 
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 	}
 
 	public void testInstructorEvalResults() {
@@ -619,7 +619,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("cannot view result of not-own course by masquerading");
 
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 	}
 
 	public void testInstructorEvalRemind() {
@@ -645,7 +645,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("cannot send reminders to not-own course by masquerading");
 
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 	}
 
 	public void testCourseInstructorStudentDetails() {
@@ -671,7 +671,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("cannot view details of not-own student by masquerading");
 
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 	}
 
@@ -698,7 +698,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("cannot send reminders to not-own student by masquerading");
 
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 		______TS("can send reminders to own course");
 
@@ -715,7 +715,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("cannot send reminders to not-own course by masquerading");
 
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 	}
 
 	public void testInstructorCourseDetails() {
@@ -738,7 +738,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("cannot view others course details by masquerading");
 
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 	}
 
@@ -760,7 +760,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("cannot add course while masquerading");
 
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 	}
 
 	public void testInstructorHome() {
@@ -775,7 +775,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("cannot view other homepage");
 
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 	}
 
@@ -799,7 +799,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("cannot view others eval page by masquerading");
 
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 	}
 
 	public void testInstructorEvalSubmissionEdit() {
@@ -835,7 +835,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("cannot edit submission of not-own course by masquerading");
 
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 	}
 
 	public void testInstructorEvalEdit() {
@@ -868,7 +868,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		// note: see note in previous section.
 
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherInstructor.id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherInstructor.googleId);
 		bi.goToUrl(link);
 		bi.click(By.id("button_submit"));
 		verifyRedirectToNotAuthorized();
@@ -900,7 +900,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("cannot edit details of not-own student by masquerading");
 
-		verifyCannotMasquerade(link, otherInstructor.id);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 	}
 
 	public void testInstructorEnroll() {
@@ -928,7 +928,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		// note: we allow loading of other's course for enrolling because
 		// it is too expensive to prevent. However, user cannot submit edits.
 
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherInstructor.id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherInstructor.googleId);
 		bi.goToUrl(link);
 		bi.fillString(By.id("enrollstudents"), "t|n|e@g.com|c");
 		bi.click(By.id("button_enroll"));
@@ -946,18 +946,18 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		InstructorData instructor = dataBundle.instructors.get("typicalInstructor1");
 	
 		// remove existing data under the instructor before changing his id
-		BackDoor.deleteInstructor(instructor.id);
+		BackDoor.deleteInstructor(instructor.googleId);
 	
 		// reassign courses to new instructor id
 		String idOfTestInstructor = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
 	
 		for (CourseData cd : dataBundle.courses.values()) {
-			if (cd.instructor.equals(instructor.id)) {
+			if (cd.instructor.equals(instructor.googleId)) {
 				cd.instructor = idOfTestInstructor;
 			}
 		}
 	
-		instructor.id = idOfTestInstructor;
+		instructor.googleId = idOfTestInstructor;
 	
 		backDoorOperationStatus = BackDoor.restoreDataBundle(Common
 				.getTeammatesGson().toJson(dataBundle));

@@ -167,24 +167,23 @@ public class AccountsDbTest extends BaseTestCase {
 	@Test
 	public void testCreateInstructor() throws EntityAlreadyExistsException {
 		// SUCCESS
-		InstructorData c = new InstructorData();
-		c.id = "valid.fresh.id";
-		c.name = "John Doe";
-		c.email = "john.doe@instructor.com";
-		accountsDb.createInstructor(c);
+		InstructorData i = new InstructorData();
+		i.googleId = "valid.fresh.id";
+		i.courseId = "valid.course.Id";
+		accountsDb.createInstructor(i);
 		
 		// FAIL : duplicate
 		try {
-			accountsDb.createInstructor(c);
+			accountsDb.createInstructor(i);
 			fail();
 		} catch (EntityAlreadyExistsException e) {
 			assertContains(AccountsDb.ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS, e.getMessage());
 		}
 		
 		// FAIL : invalid params
-		c.id = "invalid id with spaces";
+		i.googleId = "invalid id with spaces";
 		try {
-			accountsDb.createInstructor(c);
+			accountsDb.createInstructor(i);
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(a.getMessage(), InstructorData.ERROR_FIELD_ID);
@@ -203,19 +202,19 @@ public class AccountsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testGetInstructor() {
-		InstructorData c = createNewInstructor();
+		InstructorData i = createNewInstructor();
 		
 		// Get existent
-		InstructorData retrieved = accountsDb.getInstructor(c.id);
+		InstructorData retrieved = accountsDb.getInstructor(i.googleId, i.courseId);
 		assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
-		retrieved = accountsDb.getInstructor("non.existent");
+		retrieved = accountsDb.getInstructor("non.existent", "non.existent.course");
 		assertNull(retrieved);
 		
 		// Null params check:
 		try {
-			accountsDb.getInstructor(null);
+			accountsDb.getInstructor(null, null);
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
@@ -229,20 +228,20 @@ public class AccountsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testDeleteInstructor() {
-		InstructorData c = createNewInstructor();
+		InstructorData i = createNewInstructor();
 		
 		// Delete
-		accountsDb.deleteInstructor(c.id);
+		accountsDb.deleteInstructor(i.googleId, i.courseId);
 		
-		InstructorData deleted = accountsDb.getInstructor(c.id);
+		InstructorData deleted = accountsDb.getInstructor(i.googleId, i.courseId);
 		assertNull(deleted);
 		
 		// delete again - should fail silently
-		accountsDb.deleteInstructor(c.id);
+		accountsDb.deleteInstructor(i.googleId, i.courseId);
 		
 		// Null params check:
 		try {
-			accountsDb.deleteInstructor(null);
+			accountsDb.deleteInstructor(null, null);
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
@@ -272,10 +271,9 @@ public class AccountsDbTest extends BaseTestCase {
 	
 	private InstructorData createNewInstructor() {
 		InstructorData c = new InstructorData();
-		c.id = "valid.id";
-		c.name = "John Doe";
-		c.email = "john.doe@instructor.com";
-		
+		c.googleId = "valid.id";
+		c.courseId = "valid.course";
+				
 		try {
 			accountsDb.createInstructor(c);
 		} catch (EntityAlreadyExistsException e) {

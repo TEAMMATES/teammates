@@ -1,33 +1,53 @@
 {
-  "instructors": {
-  	"typicalInstructor1": {"id": "idOfTypicalInstructor1", "name":"Typical Instructor1", "email":"typicalInstructor1@gmail.com"},
-  	"typicalInstructor2": {"id": "idOfTypicalInstructor2", "name":"Typical Instructor2", "email":"typicalInstructor2@gmail.com"},
-  	"typicalInstructor3": {"id": "idOfTypicalInstructor3", "name":"Typical Instructor3", "email":"typicalInstructor3@gmail.com"}
-  },
-  
-  "courses": {
-	  "course1OfInstructor1": {
-      "instructor" : "idOfTypicalInstructor1",
-	    "id": "idOfCourse1OfInstructor1",
-	    "name": "course1OfInstructor1 name"
-	  },
-	  "course2OfInstructor1": {
-      "instructor" : "idOfTypicalInstructor1",
-	    "id": "idOfCourse2OfInstructor1",
-	    "name": "course2OfInstructor1 name"
-	  },
-	  "course1OfInstructor2": {
-      "instructor" : "idOfTypicalInstructor2",
-	    "id": "idOfCourse1OfInstructor2",
-	    "name": "course1OfInstructor2 name"
-	  },
-	  "course2OfInstructor2": {
-      "instructor" : "idOfTypicalInstructor2",
-	    "id": "idOfCourse2OfInstructor2",
-	    "name": "course2OfInstructor2 name"
-	  }
-  },
-  
+	"courses": {
+		"typicalCourse1": {
+			"instructor": "INSTRUCTOR_FIELD_DEPRECATED",
+			"id": "idOfTypicalCourse1",
+			"name": "Typical Course 1 with 2 Evals"
+		},
+		"typicalCourse2": {
+			"instructor": "INSTRUCTOR_FIELD_DEPRECATED",
+			"id": "idOfTypicalCourse2",
+			"name": "Typical Course 2 with 1 Evals"
+		},
+		"courseNoEvals": {
+			"instructor": "INSTRUCTOR_FIELD_DEPRECATED",
+			"id": "idOfCourseNoEvals",
+			"name": "Typical Course 3 with 0 Evals" 
+		}
+	},
+	
+	"instructors": {
+		"instructor1OfCourse1": {
+			"googleId": "idOfInstructor1OfCourse1",
+			"courseId": "idOfTypicalCourse1"
+		},
+		"instructor2OfCourse1": {
+			"googleId": "idOfInstructor2OfCourse1",
+			"courseId": "idOfTypicalCourse1"
+		},
+		"instructor1OfCourse2": {
+			"googleId": "idOfInstructor1OfCourse2",
+			"courseId": "idOfTypicalCourse2"
+		},
+		"instructor2OfCourse2": {
+			"googleId": "idOfInstructor2OfCourse2",
+			"courseId": "idOfTypicalCourse2"
+		},
+		"instructor3OfCourse1": {
+			"googleId": "idOfInstructor3",
+			"courseId": "idOfTypicalCourse1"
+		},
+		"instructor3OfCourse2": {
+			"googleId": "idOfInstructor3",
+			"courseId": "idOfTypicalCourse2"
+		},
+		"instructor4": {
+			"googleId": "idOfInstructor4",
+			"courseId": "idOfCourseNoEvals"
+		}
+	},
+
   "students": {
     "student1InCourse1":{
       "email": "student1InCourse1@gmail.com",
@@ -35,57 +55,57 @@
       "team": "Team 1.1",
       "id": "student1InCourse1",
       "comments" : "comment for student1InCourse1",
-      "course" : "idOfCourse1OfInstructor1"
+      "course" : "idOfTypicalCourse1"
     },
     "student2InCourse1":{
       "email": "student2InCourse1@gmail.com",
       "name": "student2 In Course1",
       "id": "student2InCourse1",
       "team": "Team 1.1",
- 	  "course" : "idOfCourse1OfInstructor1"
+ 	  "course" : "idOfTypicalCourse1"
     },
     "student3InCourse1":{
       "email": "student3InCourse1@gmail.com",
       "name": "student3 In Course1",
       "id": "student3InCourse1",
       "team": "Team 1.1",
-      "course" : "idOfCourse1OfInstructor1"
+      "course" : "idOfTypicalCourse1"
     },
     "student4InCourse1":{
       "email": "student4InCourse1@gmail.com",
       "name": "student4 In Course1",
       "id": "student4InCourse1",
       "team": "Team 1.1",
- 	  "course" : "idOfCourse1OfInstructor1"
+ 	  "course" : "idOfTypicalCourse1"
     },
     "student5InCourse1":{
       "email": "student5InCourse1@gmail.com",
       "name": "student5 In Course1",
       "id": "student5InCourse1",
       "team": "Team 1.2",
-      "course" : "idOfCourse1OfInstructor1"
+      "course" : "idOfTypicalCourse1"
     },
     "student1InCourse2":{
       "email": "student1InCourse2@gmail.com",
       "name": "student1 In Course2",
       "id": "student1InCourse2",
       "team": "Team 2.1",
-      "course" : "idOfCourse1OfInstructor2"
+      "course" : "idOfTypicalCourse2"
     },
     "student2InCourse2":{
-      "email": "student2InCourse2@gmail.com",
+      "email": "student2InCourse1@gmail.com",
       "name": "student2 In Course2",
       "id": "student2InCourse1",
       "comments": "#####This is the same student as student2InCourse1 but using different name and email #####",
       "team": "Team 2.1",
-      "course" : "idOfCourse1OfInstructor2"
+      "course" : "idOfTypicalCourse2"
     }
   },
   
   "evaluations" : {
   
-    "evaluation1InCourse1OfInstructor1": {
-      "course" : "idOfCourse1OfInstructor1",
+    "evaluation1InCourse1": {
+      "course" : "idOfTypicalCourse1",
       "name" : "evaluation1 In Course1",
       "instructions": "instructions for evaluation1InCourse1",
       "gracePeriod": 10,
@@ -96,32 +116,22 @@
       "activated" : true,
       "published" : false
     },
-    "evaluation2InCourse1OfInstructor1": {
-      "course" : "idOfCourse1OfInstructor1",
+    "evaluation2InCourse1": {
+      "course" : "idOfTypicalCourse1",
       "startTime" : "2012-04-01 11:59 PM",
       "endTime" : "2013-04-30 11:59 PM",
       "gracePeriod": 20,
-      "instructions": "Please please fill in the second evaluation",
+      "instructions": "Please please fill in the second evaluation in Course1",
       "name": "evaluation2 In Course1",
       "p2pEnabled": true,
 	  "activated": true
     },
-    "evaluation1InCourse2OfInstructor1": {
-      "course" : "idOfCourse2OfInstructor1",
+    "evaluation1InCourse2": {
+      "course" : "idOfTypicalCourse2",
       "startTime" : "2012-04-01 11:59 PM",
       "endTime" : "2013-04-30 11:59 PM",
       "gracePeriod": 20,
-      "instructions": "Please please fill in the second evaluation",
-      "name": "evaluation name",
-      "p2pEnabled": true,
-	  "activated": true
-    },
-    "evaluation1InCourse1OfInstructor2": {
-      "course" : "idOfCourse1OfInstructor2",
-      "startTime" : "2012-04-01 11:59 PM",
-      "endTime" : "2013-04-30 11:59 PM",
-      "gracePeriod": 20,
-      "instructions": "instructions for evaluation1InCourse2",
+      "instructions": "Please please fill in the first evaluation in Course2",
       "name": "evaluation1 In Course2",
       "p2pEnabled": true,
 	  "activated": true
@@ -132,7 +142,7 @@
     "submissionFromS1C1ToS1C1" :{
       "reviewer" : "student1InCourse1@gmail.com",
       "reviewee" : "student1InCourse1@gmail.com",
-      "course" : "idOfCourse1OfInstructor1",
+      "course" : "idOfTypicalCourse1",
       "evaluation" : "evaluation1 In Course1",
       "points" : 10,
       "justification" : {"value" : "justification of student1InCourse1 rating to student1InCourse1"},
@@ -142,7 +152,7 @@
     "submissionFromS1C1ToS2C1" :{
       "reviewer" : "student1InCourse1@gmail.com",
       "reviewee" : "student2InCourse1@gmail.com",
-      "course" : "idOfCourse1OfInstructor1",
+      "course" : "idOfTypicalCourse1",
       "evaluation" : "evaluation1 In Course1",
       "points" : 10,
       "justification" : {"value" : "justification of student1InCourse1 rating to student2InCourse1"},
@@ -152,7 +162,7 @@
 	"submissionFromS1C1ToS3C1" :{
       "reviewer" : "student1InCourse1@gmail.com",
       "reviewee" : "student3InCourse1@gmail.com",
-      "course" : "idOfCourse1OfInstructor1",
+      "course" : "idOfTypicalCourse1",
       "evaluation" : "evaluation1 In Course1",
       "points" : 10,
       "justification" : {"value" : "justification of student1InCourse1 rating to student3InCourse1"},
@@ -162,7 +172,7 @@
 	"submissionFromS1C1ToS4C1" :{
       "reviewer" : "student1InCourse1@gmail.com",
       "reviewee" : "student4InCourse1@gmail.com",
-      "course" : "idOfCourse1OfInstructor1",
+      "course" : "idOfTypicalCourse1",
       "evaluation" : "evaluation1 In Course1",
       "points" : 10,
       "justification" : {"value" : "justification of student1InCourse1 rating to student4InCourse1"},
@@ -172,7 +182,7 @@
     "submissionFromS2C1ToS1C1" :{
       "reviewer" : "student2InCourse1@gmail.com",
       "reviewee" : "student1InCourse1@gmail.com",
-      "course" : "idOfCourse1OfInstructor1",
+      "course" : "idOfTypicalCourse1",
       "evaluation" : "evaluation1 In Course1",
       "points" : 20,
       "justification" : {"value" : "justification of student2InCourse1 rating to student1InCourse1"},
@@ -182,7 +192,7 @@
     "submissionFromS4C1ToS1C1" :{
       "reviewer" : "student4InCourse1@gmail.com",
       "reviewee" : "student1InCourse1@gmail.com",
-      "course" : "idOfCourse1OfInstructor1",
+      "course" : "idOfTypicalCourse1",
       "evaluation" : "evaluation1 In Course1",
       "points" : 150,
       "justification" : {"value" : "justification of student4InCourse1 rating to student1InCourse1"},
@@ -191,11 +201,11 @@
     },
     "submissionFromS1C2ToS2C2" :{
       "reviewer" : "student1InCourse2@gmail.com",
-      "reviewee" : "student2InCourse2@gmail.com",
-      "course" : "idOfCourse1OfInstructor2",
+      "reviewee" : "student2InCourse1@gmail.com",
+      "course" : "idOfTypicalCourse2",
       "evaluation" : "evaluation1 In Course2",
       "points" : 20,
-      "justification" : {"value" : "justification of student1InCourse2 rating to student2InCourse2"},
+      "justification" : {"value" : "justification of student1InCourse2 rating to student2InCourse1(also in Course2)"},
       "p2pFeedback" : {"value" :"comments from student1InCourse2 to student2InCourse2"},
       "team" : "Team 2.1"
     }

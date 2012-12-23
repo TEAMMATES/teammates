@@ -57,8 +57,8 @@ public class BackDoorLogic extends Logic {
 
 		HashMap<String, InstructorData> instructors = dataBundle.instructors;
 		for (InstructorData instructor : instructors.values()) {
-			log.fine("API Servlet adding instructor :" + instructor.id);
-			super.createInstructor(instructor.id, instructor.name, instructor.email);
+			log.fine("API Servlet adding instructor :" + instructor.googleId);
+			super.createInstructor(instructor.googleId, instructor.courseId);
 		}
 
 		HashMap<String, CourseData> courses = dataBundle.courses;
@@ -97,8 +97,8 @@ public class BackDoorLogic extends Logic {
 		return Common.BACKEND_STATUS_SUCCESS;
 	}
 	
-	public String getInstructorAsJson(String instructorID) {
-		InstructorData instructorData = getInstructor(instructorID);
+	public String getInstructorAsJson(String instructorID, String courseId) {
+		InstructorData instructorData = getInstructor(instructorID, courseId);
 		return Common.getTeammatesGson().toJson(instructorData);
 	}
 
@@ -219,10 +219,7 @@ public class BackDoorLogic extends Logic {
 		List<Instructor> instructorsToAdd = new ArrayList<Instructor>();
 		
 		for (CourseData cd : courses) {
-			instructorsToAdd.add(new Instructor(cd.instructor,	// Coordinator ID
-												cd.id, 			// Course Id
-												0				// AccessLevel - 0 for Admin
-												));
+			instructorsToAdd.add(new Instructor(cd.instructor, cd.id));
 		}
 		
 		AccountsLogic.inst().getDb().persistInstructorsFromCourses(instructorsToAdd);

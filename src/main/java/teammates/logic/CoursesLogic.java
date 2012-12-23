@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
@@ -48,6 +49,7 @@ public class CoursesLogic {
 	public void deleteCourse(String courseId) {
 
 		accountsDb.deleteAllStudentsInCourse(courseId);
+		accountsDb.deleteInstructorsByCourseId(courseId);
 		coursesDb.deleteCourse(courseId);
 
 	}
@@ -55,17 +57,31 @@ public class CoursesLogic {
 	public HashMap<String, CourseData> getCourseSummaryListForInstructor(
 			String instructorId) {
 
-		List<CourseData> courseList = coursesDb
-				.getCourseListForInstructor(instructorId);
+		List<InstructorData> instructorDataList = accountsDb.getInstructorsByGoogleId(instructorId);
+		
 		HashMap<String, CourseData> courseSummaryList = new HashMap<String, CourseData>();
-
-		for (CourseData cd : courseList) {
+		for (InstructorData id : instructorDataList) {
+			CourseData cd = coursesDb.getCourse(id.courseId);
 			cd.teamsTotal = getNumberOfTeams(cd.id);
 			cd.studentsTotal = getTotalStudents(cd.id);
 			cd.unregisteredTotal = getUnregistered(cd.id);
 			courseSummaryList.put(cd.id, cd);
 		}
+		
 		return courseSummaryList;
+	}
+	
+	// New function for schema which makes course higher in heirarchy over instructor
+	public CourseData getCourseSummary(String courseId) {
+		CourseData cd = coursesDb.getCourse(courseId);
+		
+		if (cd == null)
+			return null;
+		
+		cd.teamsTotal = getNumberOfTeams(cd.id);
+		cd.studentsTotal = getTotalStudents(cd.id);
+		cd.unregisteredTotal = getUnregistered(cd.id);
+		return cd;
 	}
 
 	/**

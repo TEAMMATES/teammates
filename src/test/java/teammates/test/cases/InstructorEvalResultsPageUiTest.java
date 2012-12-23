@@ -57,7 +57,7 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
 		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("First Eval").name);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.demo.instructor").id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.demo.instructor").googleId);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsOpenEval.html");
 		
@@ -83,7 +83,7 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 		String link = appUrl + Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
 		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("Second Eval").name);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.demo.instructor").id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.demo.instructor").googleId);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsPublishedEval.html");
 
@@ -117,7 +117,7 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 		String link = appUrl + Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
 		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("Third Eval").name);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.demo.instructor").id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.demo.instructor").googleId);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsClosedEval.html");
 

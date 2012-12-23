@@ -8,18 +8,19 @@ import javax.jdo.annotations.PrimaryKey;
 public class Instructor {
 	@PrimaryKey
 	@Persistent
+	private String id;
+	
+	@Persistent
 	private String googleId;
 
 	@Persistent
 	private String courseId;
 	
-	@Persistent
-	private int accessLevelId;
-
-	public Instructor(String googleId, String courseId, int accessLevelId) {
+	public Instructor(String googleId, String courseId) {
+		// '%' is not allowed for courseId, we can use it for generating unique key
+		this.id = googleId + '%' + courseId;
 		this.googleId = googleId;
 		this.courseId = courseId;
-		this.accessLevelId = accessLevelId;
 	}
 	
 	public String getGoogleId() {
@@ -28,14 +29,6 @@ public class Instructor {
 	
 	public String getCourseId() {
 		return courseId;
-	}
-	
-	public void setAccessLevel(int accessLevelId) {
-		this.accessLevelId = accessLevelId;
-	}
-	
-	public int getAccessLevel() {
-		return this.accessLevelId;
 	}
 	
 }

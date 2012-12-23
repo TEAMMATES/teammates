@@ -49,7 +49,7 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		bi.loginInstructor(scn.instructors.get("teammates.test").id, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS);
+		bi.loginInstructor(scn.instructors.get("teammates.test").googleId, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS);
 	}
 	
 	@AfterClass

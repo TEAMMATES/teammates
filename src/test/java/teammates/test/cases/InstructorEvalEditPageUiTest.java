@@ -33,7 +33,7 @@ public class InstructorEvalEditPageUiTest extends BaseTestCase {
 		
 		startRecordingTimeForDataImport();
 		ts = loadTestScenario();
-		BackDoor.deleteInstructor(ts.instructor.id);
+		BackDoor.deleteInstructor(ts.instructor.googleId);
 		String backDoorOperationStatus = BackDoor.createInstructor(ts.instructor);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		backDoorOperationStatus = BackDoor.createCourse(ts.course);
@@ -48,7 +48,7 @@ public class InstructorEvalEditPageUiTest extends BaseTestCase {
 		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL_EDIT;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,ts.evaluation.course);
 		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,ts.evaluation.name);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.googleId);
 		bi.goToUrl(link);
 	}
 	

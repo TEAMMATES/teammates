@@ -282,7 +282,7 @@ public class Logic {
 		CourseData course = getCourse(courseId);
 		UserType user = getLoggedInUser();
 		return user != null && course != null
-				&& course.instructor.equalsIgnoreCase(user.id);
+				&& AccountsLogic.inst().getDb().isInstructorOfCourse(user.id, courseId);
 	}
 
 	private boolean isInCourse(String courseId) {
@@ -329,7 +329,17 @@ public class Logic {
 		UserType loggedInUser = getLoggedInUser();
 		return loggedInUser == null ? false : loggedInUser.isStudent;
 	}
+	
+	@SuppressWarnings("unused")
+	private void ____ACCOUNT_level_methods____________________________________() {
+	}
 
+	public void createAccount(String instructorID, String instructorName,
+			String instructorEmail) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	@SuppressWarnings("unused")
 	private void ____INSTRUCTOR_level_methods____________________________________() {
 	}
@@ -337,19 +347,18 @@ public class Logic {
 	/**
 	 * Access: admin only
 	 */
-	public void createInstructor(String instructorId, String instructorName, String instructorEmail)
+	public void createInstructor(String googleId, String courseId)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorName);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorEmail);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
 		verifyAdminLoggedIn();
 		//trim @gmail.com in ID field
-		if(instructorId.contains("@gmail.com")) {
-			instructorId = instructorId.split("@")[0];
+		if(googleId.contains("@gmail.com")) {
+			googleId = googleId.split("@")[0];
 		}
-		InstructorData instructorToAdd = new InstructorData(instructorId, instructorName, instructorEmail);
+		InstructorData instructorToAdd = new InstructorData(googleId, courseId);
 		
 		if (!instructorToAdd.isValid()) {
 			throw new InvalidParametersException(instructorToAdd.getInvalidStateInfo());
@@ -358,16 +367,44 @@ public class Logic {
 		AccountsLogic.inst().getDb().createInstructor(instructorToAdd);
 	}
 	
+	/**
+	 * 
+	 * @param instructorId
+	 * @param courseId
+	 * @param accessLevelId
+	 * @throws InvalidParametersException 
+	 * @throws EntityAlreadyExistsException 
+	 */
+	public void createInstructor(String instructorId, String courseId,
+			int accessLevelId) throws InvalidParametersException,
+			EntityAlreadyExistsException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, accessLevelId);
+
+		if (instructorId.contains("@gmail.com")) {
+			instructorId = instructorId.split("@")[0];
+		}
+		InstructorData instructorToAdd = new InstructorData(instructorId, courseId);
+
+		if (!instructorToAdd.isValid()) {
+			throw new InvalidParametersException(
+					instructorToAdd.getInvalidStateInfo());
+		}
+
+		AccountsLogic.inst().getDb().createInstructor(instructorToAdd);
+	}
 
 	/**
 	 * Access: any logged in user
 	 */
-	public InstructorData getInstructor(String instructorId) {
+	public InstructorData getInstructor(String instructorId, String courseId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
 		verifyLoggedInUserAndAbove();
 
-		InstructorData instructor = AccountsLogic.inst().getDb().getInstructor(instructorId);
+		InstructorData instructor = AccountsLogic.inst().getDb().getInstructor(instructorId, courseId);
 
 		return instructor;
 	}
@@ -383,18 +420,34 @@ public class Logic {
 	/**
 	 * Access: Admin only
 	 */
+	public void deleteInstructor(String instructorId, String courseId) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+		verifyAdminLoggedIn();
+
+		/*
+		 * Inverting the heirarchy
+		List<InstructorData> instructorCourseList = AccountsLogic.inst().getDb().getInstructorsByGoogleId(instructorId);
+
+		for (InstructorData id : instructorCourseList) {
+			deleteCourse(id.courseId);
+		}
+		*/
+		AccountsLogic.inst().getDb().deleteInstructor(instructorId, courseId);
+	}
+	
+	/**
+	 * Access: Admin only
+	 * 
+	 * Deletes all INSTRUCTOR-COURSE relations for this INSTRUCTOR
+	 */
 	public void deleteInstructor(String instructorId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 
 		verifyAdminLoggedIn();
 	
-		List<CourseData> instructorCourseList = CoursesLogic.inst().getDb()
-				.getCourseListForInstructor(instructorId);
-
-		for (CourseData courseData : instructorCourseList) {
-			deleteCourse(courseData.id);
-		}
-		AccountsLogic.inst().getDb().deleteInstructor(instructorId);
+		AccountsLogic.inst().getDb().deleteInstructorsByGoogleId(instructorId);
 	}
 
 	/**
@@ -407,15 +460,15 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 
 		verifyInstructorUsingOwnIdOrAbove(instructorId);
+		
+		if (!AccountsLogic.inst().isInstructor(instructorId)) {
+			throw new EntityDoesNotExistException(
+					"Instructor does not exist :" + instructorId);
+		}
 
 		HashMap<String, CourseData> courseSummaryListForInstructor = CoursesLogic
 				.inst().getCourseSummaryListForInstructor(instructorId);
-		if (courseSummaryListForInstructor.size() == 0) {
-			if (getInstructor(instructorId) == null) {
-				throw new EntityDoesNotExistException(
-						"Instructor does not exist :" + instructorId);
-			}
-		}
+		
 		return courseSummaryListForInstructor;
 	}
 
@@ -452,26 +505,25 @@ public class Logic {
 		
 		verifyInstructorUsingOwnIdOrAbove(instructorId);
 
-		List<CourseData> courseList = CoursesLogic.inst().getDb()
-				.getCourseListForInstructor(instructorId);
-
-		if ((courseList.size() == 0) && (getInstructor(instructorId) == null)) {
+		if (!AccountsLogic.inst().isInstructor(instructorId)) {
 			throw new EntityDoesNotExistException(
 					"Instructor does not exist :" + instructorId);
 		}
+		
+		List<InstructorData> instructorList = AccountsLogic.inst().getDb().getInstructorsByGoogleId(instructorId);
 
 		ArrayList<EvaluationData> evaluationSummaryList = new ArrayList<EvaluationData>();
 
-		for (CourseData cd : courseList) {
+		for (InstructorData id : instructorList) {
 			List<EvaluationData> evaluationsSummaryForCourse = EvaluationsLogic
-					.inst().getEvaluationsDb().getEvaluationsForCourse(cd.id);
-			List<StudentData> students = getStudentListForCourse(cd.id);
+					.inst().getEvaluationsDb().getEvaluationsForCourse(id.courseId);
+			List<StudentData> students = getStudentListForCourse(id.courseId);
 			
 			//calculate submission statistics for each evaluation
 			for (EvaluationData evaluation : evaluationsSummaryForCourse) {
 				evaluation.expectedTotal = students.size();
 				
-				HashMap<String, SubmissionData> submissions = getSubmissionsForEvaluation(cd.id, evaluation.name);
+				HashMap<String, SubmissionData> submissions = getSubmissionsForEvaluation(id.courseId, evaluation.name);
 				evaluation.submittedTotal = countSubmittedStudents(submissions.values());
 				
 				evaluationSummaryList.add(evaluation);
@@ -479,9 +531,44 @@ public class Logic {
 		}
 		return evaluationSummaryList;
 	}
+	
+	/**
+	 * Access level: Admin, Instructor (for self), Student(in getCourseDetails(..))
+	 * 
+	 * @return Returns a less-detailed version of Instructor's evaluations <br>
+	 */
+	public ArrayList<EvaluationData> getEvaluationsListForCourse(String courseId)
+			throws EntityDoesNotExistException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		
+		verifyCourseOwnerOrStudentInCourse(courseId);
+		
+		ArrayList<EvaluationData> evaluationSummaryList = new ArrayList<EvaluationData>();
+
+		List<EvaluationData> evaluationsSummaryForCourse = EvaluationsLogic
+					.inst().getEvaluationsDb().getEvaluationsForCourse(courseId);
+		List<StudentData> students = getStudentListForCourse(courseId);
+		
+		//calculate submission statistics for each evaluation
+		for (EvaluationData evaluation : evaluationsSummaryForCourse) {
+			System.out.println("PREPARING EVALUATION: " + evaluation.name + " has " + students.size() + " STUDENTS");
+			evaluation.expectedTotal = students.size();
+			
+			HashMap<String, SubmissionData> submissions = getSubmissionsForEvaluation(courseId, evaluation.name);
+			evaluation.submittedTotal = countSubmittedStudents(submissions.values());
+			
+			evaluationSummaryList.add(evaluation);
+		}
+
+		return evaluationSummaryList;
+	}
 
 	@SuppressWarnings("unused")
 	private void ____COURSE_level_methods__________________________________() {
+	}
+	
+	public boolean isInstructorOfCourse(String instructorId, String courseId) {
+		return AccountsLogic.inst().getDb().isInstructorOfCourse(instructorId, courseId);
 	}
 
 	/**
@@ -495,13 +582,17 @@ public class Logic {
 
 		verifyInstructorUsingOwnIdOrAbove(instructorId);
 
-		CourseData courseToAdd = new CourseData(courseId, courseName, instructorId);
+		// The last field (instructor name) is to be removed in future schema
+		CourseData courseToAdd = new CourseData(courseId, courseName, CourseData.INSTRUCTOR_FIELD_DEPRECATED);
 		
 		if (!courseToAdd.isValid()) {
 			throw new InvalidParametersException(courseToAdd.getInvalidStateInfo());
 		}
 		
 		CoursesLogic.inst().getDb().createCourse(courseToAdd);
+		
+		// Create an instructor relation for the INSTRUCTOR that created this course
+		AccountsLogic.inst().getDb().createInstructor(new InstructorData(instructorId, courseId));
 	}
 
 	/**
@@ -527,15 +618,23 @@ public class Logic {
 		
 		verifyCourseOwnerOrStudentInCourse(courseId);
 
-		// TODO: very inefficient. Should be optimized.
-		CourseData course = getCourse(courseId);
+		// TODO: very inefficient. Should be optimized. (sorta fixed)
+		// Previously it calls a function which prepares ALL the courses for an instructor,
+		// then returns the selected course from the list.
+		// Now it simply prepares the requesteed course
+		CourseData course = CoursesLogic.inst().getCourseSummary(courseId);
 
 		if (course == null) {
 			throw new EntityDoesNotExistException("The course does not exist: "
 					+ courseId);
 		}
-		HashMap<String, CourseData> courseList = getCourseDetailsListForInstructor(course.instructor);
-		return courseList.get(courseId);
+		
+		ArrayList<EvaluationData> evaluationList = getEvaluationsListForCourse(course.id);
+		for (EvaluationData ed : evaluationList) {
+			course.evaluations.add(ed);
+		}
+		
+		return course;
 	}
 
 	public void editCourse(CourseData course) throws NotImplementedException {
@@ -869,7 +968,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 
 		verifySameStudentOrAdmin(googleId);
-
+		
 		List<StudentData> students = AccountsLogic.inst().getDb().getStudentsWithGoogleId(googleId);
 		ArrayList<StudentData> returnList = new ArrayList<StudentData>();
 		for (StudentData s : students) {
@@ -1686,5 +1785,7 @@ public class Logic {
 		
 		return email;
 	}
+
+	
 
 }

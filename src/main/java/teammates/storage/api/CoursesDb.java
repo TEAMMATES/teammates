@@ -89,36 +89,7 @@ public class CoursesDb {
 		return new CourseData(c);
 	}
 
-	/**
-	 * RETRIEVE List<Course>
-	 * 
-	 * Returns the list of Course objects of a Instructor
-	 * 
-	 * @param instructorId
-	 *            the Google ID of the instructor (Precondition: Must not be
-	 *            null)
-	 * 
-	 * @return List<Course> the list of courses of the instructor
-	 */
-	public List<CourseData> getCourseListForInstructor(String instructorId) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, instructorId);
-		
-		String query = "select from " + Course.class.getName()
-				+ " where coordinatorID == '" + instructorId + "'";
-
-		@SuppressWarnings("unchecked")
-		List<Course> courseList = (List<Course>) getPM().newQuery(query)
-				.execute();
-		List<CourseData> courseDataList = new ArrayList<CourseData>();
-
-		for (Course c : courseList) {
-			if (!JDOHelper.isDeleted(c)) {
-				courseDataList.add(new CourseData(c));
-			}
-		}
-
-		return courseDataList;
-	}
+	
 
 	/**
 	 * DELETE Course

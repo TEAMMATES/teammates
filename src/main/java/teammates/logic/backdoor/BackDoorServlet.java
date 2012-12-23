@@ -103,12 +103,7 @@ public class BackDoorServlet extends HttpServlet {
 			throws Exception {
 		// TODO: reorder in alphabetical order
 		BackDoorLogic backDoorLogic = new BackDoorLogic();
-		if (action.equals(OPERATION_CREATE_INSTRUCTOR)) {
-			String instructorID = req.getParameter(PARAMETER_INSTRUCTOR_ID);
-			String instructorName = req.getParameter(PARAMETER_INSTRUCTOR_NAME);
-			String instructorEmail = req.getParameter(PARAMETER_INSTRUCTOR_EMAIL);
-			backDoorLogic.createInstructor(instructorID, instructorName, instructorEmail);
-		} else if (action.equals(OPERATION_DELETE_INSTRUCTOR)) {
+		if (action.equals(OPERATION_DELETE_INSTRUCTOR)) {
 			String instructorID = req.getParameter(PARAMETER_INSTRUCTOR_ID);
 			backDoorLogic.deleteInstructor(instructorID);
 		} else if (action.equals(OPERATION_DELETE_COURSE)) {
@@ -124,7 +119,8 @@ public class BackDoorServlet extends HttpServlet {
 			backDoorLogic.deleteStudent(courseId, email);
 		} else if (action.equals(OPERATION_GET_INSTRUCTOR_AS_JSON)) {
 			String instructorID = req.getParameter(PARAMETER_INSTRUCTOR_ID);
-			return backDoorLogic.getInstructorAsJson(instructorID);
+			String courseId = req.getParameter(PARAMETER_COURSE_ID);
+			return backDoorLogic.getInstructorAsJson(instructorID, courseId);
 		} else if (action.equals(OPERATION_GET_COURSE_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			return backDoorLogic.getCourseAsJson(courseId);

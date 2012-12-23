@@ -48,10 +48,9 @@ public class LoginPageUiTest extends BaseTestCase {
 	public void testInstructorLogin(){
 		//create a fresh instructor in datastore
 		InstructorData testInstructor = new InstructorData();
-		testInstructor.id = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
-		testInstructor.name = "Test Instructor";
-		testInstructor.email = "test@instructor";
-		BackDoor.deleteInstructor(testInstructor.id);
+		testInstructor.googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
+		testInstructor.courseId = "non.existent.course";
+		BackDoor.deleteInstructor(testInstructor.googleId);
 		String backDoorOperationStatus = BackDoor.createInstructor(testInstructor);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		
@@ -62,8 +61,8 @@ public class LoginPageUiTest extends BaseTestCase {
 		assertTrue(bi.isLocalLoginPage()||bi.isGoogleLoginPage());
 		String instructorPassword = TestProperties.inst().TEST_INSTRUCTOR_PASSWORD;
 		boolean isAdmin = false;
-		bi.login(testInstructor.id, instructorPassword, isAdmin);
-		assertContainsRegex(testInstructor.id+"{*}Instructor Home{*}", bi.getCurrentPageSource());
+		bi.login(testInstructor.googleId, instructorPassword, isAdmin);
+		assertContainsRegex(testInstructor.googleId+"{*}Instructor Home{*}", bi.getCurrentPageSource());
 	}
 	
 	@Test

@@ -36,7 +36,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		
 		startRecordingTimeForDataImport();
 		ts = loadTestScenario(Common.TEST_DATA_FOLDER + "/instructorCourseAddUiTest.json");
-		BackDoor.deleteInstructor(ts.instructor.id);
+		BackDoor.deleteInstructor(ts.instructor.googleId);
 		String backDoorOperationStatus = BackDoor.createInstructor(ts.instructor);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
@@ -45,7 +45,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		
 		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_INSTRUCTOR_COURSE;
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.googleId);
 		bi.goToUrl(link);
 	}
 
@@ -84,7 +84,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 	public void testInstructorCourseAddUiPaths() throws Exception{
 		
 		String link = appUrl+Common.PAGE_INSTRUCTOR_COURSE;
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.googleId);
 		
 		// Course id only contains alphabets, numbers, dots, hyphens, underscores and dollars
 		String courseId = ts.validCourse.id;

@@ -120,16 +120,16 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("admin+instructor+student");
 
-		InstructorData instructor = dataBundle.instructors.get("typicalInstructor1");
-		loginAsAdmin(instructor.id);
+		InstructorData instructor = dataBundle.instructors.get("instructor1OfCourse1");
+		loginAsAdmin(instructor.googleId);
 		// also make this user a student
 		StudentData instructorAsStudent = new StudentData(
 				"|Instructor As Student|instructorasstudent@yahoo.com|", "some-course");
-		instructorAsStudent.id = instructor.id;
+		instructorAsStudent.id = instructor.googleId;
 		logic.createStudent(instructorAsStudent);
 
 		UserType user = logic.getLoggedInUser();
-		assertEquals(instructor.id, user.id);
+		assertEquals(instructor.googleId, user.id);
 		assertEquals(true, user.isAdmin);
 		assertEquals(true, user.isInstructor);
 		assertEquals(true, user.isStudent);
@@ -140,7 +140,7 @@ public class LogicTest extends BaseTestCase {
 		logic.deleteStudent(instructorAsStudent.course, instructorAsStudent.email);
 
 		user = logic.getLoggedInUser();
-		assertEquals(instructor.id, user.id);
+		assertEquals(instructor.googleId, user.id);
 		assertEquals(true, user.isAdmin);
 		assertEquals(true, user.isInstructor);
 		assertEquals(false, user.isStudent);
@@ -150,7 +150,7 @@ public class LogicTest extends BaseTestCase {
 		helper.setEnvIsAdmin(false);
 
 		user = logic.getLoggedInUser();
-		assertEquals(instructor.id, user.id);
+		assertEquals(instructor.googleId, user.id);
 		assertEquals(false, user.isAdmin);
 		assertEquals(true, user.isInstructor);
 		assertEquals(false, user.isStudent);
@@ -205,9 +205,8 @@ public class LogicTest extends BaseTestCase {
 		______TS("unauthorized access");
 
 		String methodName = "createInstructor";
-		Class<?>[] paramTypes = new Class[] { String.class, String.class,
-				String.class };
-		Object[] params = new Object[] { "id", "name", "email@gmail.com" };
+		Class<?>[] paramTypes = new Class[] { String.class, String.class };
+		Object[] params = new Object[] { "googleId", "courseId" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, null,
 				paramTypes, params);
@@ -218,7 +217,7 @@ public class LogicTest extends BaseTestCase {
 		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		// We don't check admin access because if it doesn't affect normal users
@@ -227,41 +226,51 @@ public class LogicTest extends BaseTestCase {
 		______TS("success case");
 
 		loginAsAdmin("admin.user");
-		InstructorData instructor = dataBundle.instructors.get("typicalInstructor1");
-		// delete, to avoid clashes with existing data
-		logic.deleteInstructor(instructor.id);
+		// Delete any existing
+		CourseData cd = dataBundle.courses.get("typicalCourse1");
+		InstructorData instructor = dataBundle.instructors.get("instructor1OfCourse1");
+		logic.deleteCourse(cd.id);
+		verifyAbsentInDatastore(cd);
 		verifyAbsentInDatastore(instructor);
-		// create
-		logic.createInstructor(instructor.id, instructor.name, instructor.email);
-		// read existing instructor
+		
+		// Create fresh
+		logic.createCourse(cd.instructor, cd.id, cd.name);
+		logic.createInstructor(instructor.googleId, instructor.courseId);
 		verifyPresentInDatastore(instructor);
-		CourseData course = dataBundle.courses.get("course1OfInstructor1");
-		// create a course to check cascade delete later
-		logic.createCourse(instructor.id, course.id, course.name);
-		verifyPresentInDatastore(course);
-		// delete existing
-		logic.deleteInstructor(instructor.id);
-		// read non-existent instructor
-		verifyAbsentInDatastore(instructor);
+		verifyPresentInDatastore(cd);
+		
+		// Delete fresh
+		logic.deleteCourse(cd.id);
+		// read deleted course
+		verifyAbsentInDatastore(cd);
 		// check for cascade delete
-		verifyAbsentInDatastore(course);
-		// delete non-existent (fails silently)
-		logic.deleteInstructor(instructor.id);
+		verifyAbsentInDatastore(instructor);
+		
+		// Delete non-existent (fails silently)
+		logic.deleteCourse(cd.id);
+		logic.deleteInstructor(instructor.googleId, instructor.courseId);
 
 		______TS("invalid parameters");
 
 		// Only checking that exception is thrown at logic level
 		try {
-			logic.createInstructor("valid-id", "", "valid@email.com");
+			logic.createInstructor("valid-id", "invalid courseId");
 			fail();
 		} catch (InvalidParametersException e) {
-			assertEquals(e.getMessage(), InstructorData.ERROR_FIELD_NAME);
+			assertEquals(e.getMessage(), InstructorData.ERROR_FIELD_COURSEID);
 		}
 
 		______TS("null parameters");
 		
 		try {
-			logic.createInstructor(null, "valid name", "valid@email.com");
+			logic.createInstructor(null, "valid.courseId");
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+		
+		try {
+			logic.createInstructor("valid.id", null);
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
@@ -276,8 +285,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("authentication");
 
-		Class<?>[] paramTypes = new Class[] { String.class };
-		Object[] params = new Object[] { "id" };
+		Class<?>[] paramTypes = new Class[] { String.class, String.class };
+		Object[] params = new Object[] { "googleId", "courseId" };
 		String methodName = "getInstructor";
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, null,
@@ -289,13 +298,13 @@ public class LogicTest extends BaseTestCase {
 		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("null parameter");
 
 		try {
-			logic.getInstructor(null);
+			logic.getInstructor(null, null);
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
@@ -329,31 +338,31 @@ public class LogicTest extends BaseTestCase {
 		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 		
 		______TS("typical case");
 		
 		loginAsAdmin("admin.user");
 
-		InstructorData instructor1 = dataBundle.instructors.get("typicalInstructor1");
+		InstructorData instructor1 = dataBundle.instructors.get("instructor1OfCourse1");
 
 		// ensure that the instructor exists in datastore
 		verifyPresentInDatastore(instructor1);
 		
-		logic.deleteInstructor(instructor1.id);
+		logic.deleteInstructor(instructor1.googleId, instructor1.courseId);
 		
 		verifyAbsentInDatastore(instructor1);
 		
 		______TS("non-existent");
 		
 		// try to delete again. Should fail silently.
-		logic.deleteInstructor(instructor1.id);
+		logic.deleteInstructor(instructor1.googleId, instructor1.courseId);
 
 		______TS("null parameter");
 
 		try {
-			logic.deleteInstructor(null);
+			logic.deleteInstructor(null, null);
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
@@ -369,7 +378,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "getCourseListForInstructor";
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "idOfTypicalInstructor1" };
+		Object[] params = new Object[] { "idOfInstructor1OfCourse1" };
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
 
@@ -380,31 +389,35 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// instructor does not own the given instructorId
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, new Object[] { "diff-id" });
 
 		// instructor owns the given id
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("instructor with 2 courses");
 
 		loginAsAdmin("admin.user");
 
-		InstructorData instructor = dataBundle.instructors.get("typicalInstructor1");
-		HashMap<String, CourseData> courseList = logic
-				.getCourseListForInstructor(instructor.id);
+		// Instructor 3 is an instructor of 2 courses - Course 1 and Course 2. 
+		// Retrieve from one course to get the googleId, then pull the courses for that googleId
+		InstructorData instructor = dataBundle.instructors.get("instructor3OfCourse1");
+		HashMap<String, CourseData> courseList = logic.getCourseListForInstructor(instructor.googleId);
 		assertEquals(2, courseList.size());
-		for (CourseData item : courseList.values()) {
+		for (CourseData cd : courseList.values()) {
 			// check if course belongs to this instructor
-			assertEquals(instructor.id, logic.getCourse(item.id).instructor);
+			assertTrue(logic.isInstructorOfCourse(instructor.googleId, cd.id));
 		}
 
 		______TS("instructor with 0 courses");
 
+		/*
+		 * This is to be for Account entity
 		instructor = dataBundle.instructors.get("typicalInstructor3");
-		courseList = logic.getCourseListForInstructor(instructor.id);
+		courseList = logic.getCourseListForInstructor(instructor.googleId);
 		assertEquals(0, courseList.size());
+		*/
 
 		______TS("null parameters");
 
@@ -430,7 +443,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "getCourseDetailsListForInstructor";
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "idOfTypicalInstructor1" };
+		Object[] params = new Object[] { "idOfInstructor1OfCourse1" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -442,21 +455,21 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// instructor does not own the given instructorId
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, new Object[] { "diff-id" });
 
 		// instructor owns the given id
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("typical case");
 
-		loginAsAdmin("admin.user");
+		loginAsInstructor("idOfInstructor3");
 
 		HashMap<String, CourseData> courseListForInstructor = logic
-				.getCourseDetailsListForInstructor("idOfTypicalInstructor1");
+				.getCourseDetailsListForInstructor("idOfInstructor3");
 		assertEquals(2, courseListForInstructor.size());
-		String course1Id = "idOfCourse1OfInstructor1";
+		String course1Id = "idOfTypicalCourse1";
 
 		// course with 2 evaluations
 		ArrayList<EvaluationData> course1Evals = courseListForInstructor
@@ -470,30 +483,34 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(course1EvalDetails, 2, numberOfEvalsInCourse1);
 		assertEquals(course1Id, course1Evals.get(0).course);
 		verifyEvaluationInfoExistsInList(
-				dataBundle.evaluations.get("evaluation1InCourse1OfInstructor1"),
+				dataBundle.evaluations.get("evaluation1InCourse1"),
 				course1Evals);
 		verifyEvaluationInfoExistsInList(
-				dataBundle.evaluations.get("evaluation2InCourse1OfInstructor1"),
+				dataBundle.evaluations.get("evaluation2InCourse1"),
 				course1Evals);
 
 		// course with 1 evaluation
 		assertEquals(course1Id, course1Evals.get(1).course);
 		ArrayList<EvaluationData> course2Evals = courseListForInstructor
-				.get("idOfCourse2OfInstructor1").evaluations;
+				.get("idOfTypicalCourse2").evaluations;
 		assertEquals(1, course2Evals.size());
 		verifyEvaluationInfoExistsInList(
-				dataBundle.evaluations.get("evaluation1InCourse2OfInstructor1"),
+				dataBundle.evaluations.get("evaluation1InCourse2"),
 				course2Evals);
 
 		______TS("instructor has a course with 0 evaluations");
 
+		loginAsInstructor("idOfInstructor4");
+		
 		courseListForInstructor = logic
-				.getCourseDetailsListForInstructor("idOfTypicalInstructor2");
-		assertEquals(2, courseListForInstructor.size());
+				.getCourseDetailsListForInstructor("idOfInstructor4");
+		assertEquals(1, courseListForInstructor.size());
 		assertEquals(0,
-				courseListForInstructor.get("idOfCourse2OfInstructor2").evaluations
+				courseListForInstructor.get("idOfCourseNoEvals").evaluations
 						.size());
 
+		/*
+		 * Not allowed, this is for Account
 		______TS("instructor with 0 courses");
 
 		loginAsAdmin("admin.user");
@@ -502,6 +519,7 @@ public class LogicTest extends BaseTestCase {
 		courseListForInstructor = logic
 				.getCourseDetailsListForInstructor("instructorWith0course");
 		assertEquals(0, courseListForInstructor.size());
+		*/
 
 		______TS("null parameters");
 
@@ -514,6 +532,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("non-existent instructor");
 
+		loginAsAdmin("admin.user");
+		
 		verifyEntityDoesNotExistException(methodName, paramTypes,
 				new Object[] { "non-existent" });
 	}
@@ -527,7 +547,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "getEvaluationsListForInstructor";
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "idOfTypicalInstructor1" };
+		Object[] params = new Object[] { "idOfInstructor1OfCourse1" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -539,22 +559,24 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// instructor does not own the given instructorId
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, new Object[] { "diff-id" });
 
 		// instructor owns the given id
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("typical case, instructor has 3 evaluations");
 
-		InstructorData instructor1 = dataBundle.instructors.get("typicalInstructor1");
+		loginAsInstructor("idOfInstructor3");
+		
+		InstructorData instructor = dataBundle.instructors.get("instructor3OfCourse1");
 		ArrayList<EvaluationData> evalList = logic
-				.getEvaluationsListForInstructor(instructor1.id);
+				.getEvaluationsListForInstructor(instructor.googleId);
+		// 2 Evals from Course 1, 1 Eval from Course  2
 		assertEquals(3, evalList.size());
-		EvaluationData evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfInstructor1");
+		EvaluationData evaluation = dataBundle.evaluations.get("evaluation1InCourse1");
 		for (EvaluationData ed : evalList) {
-			assertTrue(ed.course.contains("Instructor1"));
 			if(ed.name.equals(evaluation.name)){
 				//We have, 4 students in Team 1.1 and 1 student in Team 1.2
 				//Only 3 have submitted.
@@ -570,7 +592,7 @@ public class LogicTest extends BaseTestCase {
 		student.team = "Team 1.2";
 		logic.editStudent(student.email, student);
 		
-		evalList = logic.getEvaluationsListForInstructor(instructor1.id);
+		evalList = logic.getEvaluationsListForInstructor(instructor.googleId);
 		assertEquals(3, evalList.size());
 		
 		for (EvaluationData ed : evalList) {
@@ -586,19 +608,21 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("instructor has 1 evaluation");
 
-		loginAsAdmin("admin.user");
+		loginAsInstructor("idOfInstructor2OfCourse2");
 
-		InstructorData instructor2 = dataBundle.instructors.get("typicalInstructor2");
-		evalList = logic.getEvaluationsListForInstructor(instructor2.id);
+		InstructorData instructor2 = dataBundle.instructors.get("instructor2OfCourse2");
+		evalList = logic.getEvaluationsListForInstructor(instructor2.googleId);
 		assertEquals(1, evalList.size());
 		for (EvaluationData ed : evalList) {
-			assertTrue(ed.course.contains("Instructor2"));
+			assertTrue(logic.isInstructorOfCourse(instructor2.googleId, ed.course));
 		}
 
 		______TS("instructor has 0 evaluations");
 
-		InstructorData instructor3 = dataBundle.instructors.get("typicalInstructor3");
-		evalList = logic.getEvaluationsListForInstructor(instructor3.id);
+		loginAsInstructor("idOfInstructor4");
+		
+		InstructorData instructor4 = dataBundle.instructors.get("instructor4");
+		evalList = logic.getEvaluationsListForInstructor(instructor4.googleId);
 		assertEquals(0, evalList.size());
 
 		______TS("null parameters");
@@ -612,6 +636,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("non-existent instructor");
 
+		loginAsAdmin("admin.user");
+		
 		verifyEntityDoesNotExistException(methodName, paramTypes,
 				new Object[] { "non-existent" });
 	}
@@ -630,7 +656,7 @@ public class LogicTest extends BaseTestCase {
 		String methodName = "createCourse";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class,
 				String.class };
-		Object[] params = new Object[] { "idOfTypicalInstructor1", "new-course",
+		Object[] params = new Object[] { "idOfInstructor1OfCourse1", "new-course",
 				"New Course" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
@@ -643,32 +669,41 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// instructor does not own the given instructorId
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, new Object[] { "diff-id", "new-course",
 						"New Course" });
 
 		// instructor owns the given id
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("typical case");
 
-		InstructorData instructor = dataBundle.instructors.get("typicalInstructor1");
-		// delete, to avoid clashes with existing data
-		loginAsAdmin("admin.user");
-		logic.deleteInstructor(instructor.id);
+		loginAsInstructor("idOfInstructor1OfCourse1");
+		
+		CourseData course = dataBundle.courses.get("typicalCourse1");
+		InstructorData instructor = dataBundle.instructors.get("instructor1OfCourse1");
 
-		CourseData course = dataBundle.courses.get("course1OfInstructor1");
+		// Delete, to avoid clashes with existing data
+		// Delete only Course 1
+		logic.deleteCourse(instructor.courseId);
 
+		loginAsAdmin("admin.user"); 	// This is because the current instructor will already be deleted.
 		verifyAbsentInDatastore(course);
+		verifyAbsentInDatastore(instructor);
 
-		logic.createCourse(course.instructor, course.id, course.name);
+		// Create fresh
+		logic.createCourse(instructor.googleId , course.id, course.name);
 		verifyPresentInDatastore(course);
 
 		______TS("duplicate course id");
 
+		// The INSTRUCTOR would be recreated when the course was recreated above.
+		loginAsInstructor("idOfInstructor1OfCourse1");
+		
+		// Attempt to create again
 		try {
-			logic.createCourse(course.instructor, course.id, course.name);
+			logic.createCourse(instructor.googleId, course.id, course.name);
 			fail();
 		} catch (EntityAlreadyExistsException e) {
 		}
@@ -676,12 +711,12 @@ public class LogicTest extends BaseTestCase {
 		______TS("invalid parameters");
 		
 		// Only checking that exception is thrown at logic level
-		course.instructor = "invalid id";
+		course.id = "invalid id";
 		try {
-			logic.createCourse(course.instructor, course.id, course.name);
+			logic.createCourse(instructor.googleId, course.id, course.name);
 			fail();
 		} catch (InvalidParametersException e) {
-			assertEquals(e.getMessage(), CourseData.ERROR_FIELD_INSTRUCTOR);
+			assertEquals(e.getMessage(), CourseData.ERROR_ID_INVALIDCHARS);
 		}
 
 		______TS("null parameters");
@@ -703,7 +738,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "getCourse";
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "idOfCourse1OfInstructor1" };
+		Object[] params = new Object[] { "idOfTypicalCourse1" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -714,7 +749,7 @@ public class LogicTest extends BaseTestCase {
 		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("null parameters");
@@ -736,7 +771,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "getCourseDetails";
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "idOfCourse1OfInstructor1" };
+		Object[] params = new Object[] { "idOfTypicalCourse1" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -753,17 +788,17 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
-				paramTypes, new Object[] { "idOfCourse1OfInstructor2" });
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
+				paramTypes, new Object[] { "idOfTypicalCourse2" });
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("typical case");
 
 		loginAsAdmin("admin.user");
 
-		CourseData course = dataBundle.courses.get("course1OfInstructor1");
+		CourseData course = dataBundle.courses.get("typicalCourse1");
 		CourseData courseDetials = logic.getCourseDetails(course.id);
 		assertEquals(course.id, courseDetials.id);
 		assertEquals(course.name, courseDetials.name);
@@ -810,7 +845,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "deleteCourse";
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "idOfCourse1OfInstructor1" };
+		Object[] params = new Object[] { "idOfTypicalCourse1" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -822,10 +857,10 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
-				paramTypes, new Object[] { "idOfCourse1OfInstructor2" });
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
+				paramTypes, new Object[] { "idOfTypicalCourse2" });
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("typical case");
@@ -834,13 +869,13 @@ public class LogicTest extends BaseTestCase {
 
 		loginAsAdmin("admin.user");
 
-		CourseData course1OfInstructor = dataBundle.courses.get("course1OfInstructor1");
+		CourseData course1OfInstructor = dataBundle.courses.get("typicalCourse1");
 
 		// ensure there are entities in the datastore under this course
 		assertTrue(logic.getStudentListForCourse(course1OfInstructor.id).size() != 0);
 		verifyPresentInDatastore(dataBundle.students.get("student1InCourse1"));
 		verifyPresentInDatastore(dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor1"));
+				.get("evaluation1InCourse1"));
 
 		StudentData studentInCourse = dataBundle.students
 				.get("student1InCourse1");
@@ -854,7 +889,7 @@ public class LogicTest extends BaseTestCase {
 		verifyAbsentInDatastore(studentInCourse);
 		verifyAbsentInDatastore(dataBundle.students.get("student1InCourse1"));
 		verifyAbsentInDatastore(dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor1"));
+				.get("evaluation1InCourse1"));
 		ArrayList<SubmissionData> submissionsOfCourse = new ArrayList<SubmissionData>(dataBundle.submissions.values());
 		for (SubmissionData s : submissionsOfCourse) {
 			if (s.course.equals(course1OfInstructor.id)) {
@@ -886,7 +921,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "getStudentListForCourse";
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "idOfCourse1OfInstructor1" };
+		Object[] params = new Object[] { "idOfTypicalCourse1" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -898,10 +933,10 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
-				paramTypes, new Object[] { "idOfCourse1OfInstructor2" });
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
+				paramTypes, new Object[] { "idOfTypicalCourse2" });
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("course with multiple students");
@@ -910,7 +945,7 @@ public class LogicTest extends BaseTestCase {
 
 		loginAsAdmin("admin.user");
 
-		CourseData course1OfInstructor1 = dataBundle.courses.get("course1OfInstructor1");
+		CourseData course1OfInstructor1 = dataBundle.courses.get("typicalCourse1");
 		List<StudentData> studentList = logic
 				.getStudentListForCourse(course1OfInstructor1.id);
 		assertEquals(5, studentList.size());
@@ -920,7 +955,7 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("course with 0 students");
 
-		CourseData course2OfInstructor1 = dataBundle.courses.get("course2OfInstructor1");
+		CourseData course2OfInstructor1 = dataBundle.courses.get("courseNoEvals");
 		studentList = logic.getStudentListForCourse(course2OfInstructor1.id);
 		assertEquals(0, studentList.size());
 
@@ -948,7 +983,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "enrollStudents";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "t|n|e@c|c", "idOfCourse1OfInstructor1" };
+		Object[] params = new Object[] { "t|n|e@c|c", "idOfTypicalCourse1" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -960,10 +995,10 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
-				paramTypes, new Object[] { "t|n|e@c|c", "idOfCourse1OfInstructor2" });
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
+				paramTypes, new Object[] { "t|n|e@c|c", "idOfTypicalCourse2" });
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("all valid students, but contains blank lines");
@@ -971,10 +1006,8 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		String instructorId = "instructorForEnrollTesting";
-		loginAsAdmin("admin.user");
-		logic.createInstructor(instructorId, "Instructor for Enroll Testing",
-				"instructorForEnrollTestin@gmail.com");
 		String courseId = "courseForEnrollTest";
+		loginAsAdmin("admin.user");
 		logic.createCourse(instructorId, courseId, "Course for Enroll Testing");
 		String EOL = Common.EOL;
 
@@ -1066,7 +1099,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "sendRegistrationInviteForCourse";
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "idOfCourse1OfInstructor1" };
+		Object[] params = new Object[] { "idOfTypicalCourse1" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -1078,10 +1111,10 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
-				paramTypes, new Object[] { "idOfCourse1OfInstructor2" });
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
+				paramTypes, new Object[] { "idOfTypicalCourse2" });
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("all students already registered");
@@ -1089,7 +1122,7 @@ public class LogicTest extends BaseTestCase {
 		loginAsAdmin("admin.user");
 
 		restoreTypicalDataInDatastore();
-		CourseData course1 = dataBundle.courses.get("course1OfInstructor1");
+		CourseData course1 = dataBundle.courses.get("typicalCourse1");
 
 		// send registration key to a class in which all are registered
 		List<MimeMessage> emailsSent = logic
@@ -1131,7 +1164,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "getTeamsForCourse";
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "idOfCourse1OfInstructor1" };
+		Object[] params = new Object[] { "idOfTypicalCourse1" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -1148,10 +1181,10 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
-				paramTypes, new Object[] { "idOfCourse1OfInstructor2" });
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
+				paramTypes, new Object[] { "idOfTypicalCourse2" });
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("typical case");
@@ -1160,7 +1193,7 @@ public class LogicTest extends BaseTestCase {
 
 		loginAsAdmin("admin.user");
 
-		CourseData course = dataBundle.courses.get("course1OfInstructor1");
+		CourseData course = dataBundle.courses.get("typicalCourse1");
 		logic.createStudent(new StudentData("|s1|s1@e|", course.id));
 		logic.createStudent(new StudentData("|s2|s2@e|", course.id));
 		CourseData courseAsTeams = logic.getTeamsForCourse(course.id);
@@ -1223,7 +1256,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "createStudent";
 		Class<?>[] paramTypes = new Class<?>[] { StudentData.class };
-		StudentData s = new StudentData("t|n|e@com|c", "idOfCourse1OfInstructor1");
+		StudentData s = new StudentData("t|n|e@com|c", "idOfTypicalCourse1");
 		Object[] params = new Object[] { s };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
@@ -1236,11 +1269,11 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, new Object[] { new StudentData("t|n|e@com|c",
-						"idOfCourse1OfInstructor2") });
+						"idOfTypicalCourse2") });
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("typical case");
@@ -1314,7 +1347,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "getStudent";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfCourse1OfInstructor2",
+		Object[] params = new Object[] { "idOfTypicalCourse1",
 				"student1InCourse1@gmail.com" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
@@ -1326,11 +1359,11 @@ public class LogicTest extends BaseTestCase {
 		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 
-		// course belongs to a different instructor
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
-				paramTypes, new Object[] { "idOfCourse1OfInstructor2", "e@c.com" });
+		// Instructor does not instruct this course -- Do we actually allow this?
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
+				paramTypes, params);
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("null parameters");
@@ -1353,7 +1386,7 @@ public class LogicTest extends BaseTestCase {
 		String methodName = "editStudent";
 		Class<?>[] paramTypes = new Class<?>[] { String.class,
 				StudentData.class };
-		StudentData s = new StudentData("t|n|e@com|c", "idOfCourse1OfInstructor1");
+		StudentData s = new StudentData("t|n|e@com|c", "idOfTypicalCourse1");
 		Object[] params = new Object[] { "student1InCourse1@gmail.com", s };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
@@ -1366,11 +1399,10 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
-				paramTypes, new Object[] { "student1InCourse1@gmail.com",
-						new StudentData("t|n|e@com|c", "idOfCourse1OfInstructor2") });
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
+				paramTypes, params);
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("typical edit");
@@ -1458,7 +1490,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "deleteStudent";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfCourse1OfInstructor1",
+		Object[] params = new Object[] { "idOfTypicalCourse1",
 				"student1InCourse1@gmail.com" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
@@ -1471,11 +1503,10 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
-				paramTypes, new Object[] { "idOfCourse1OfInstructor2",
-						"student1InCourse2@gmail.com" });
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
+				paramTypes, params);
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("typical delete");
@@ -1557,7 +1588,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "sendRegistrationInviteToStudent";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfCourse1OfInstructor1",
+		Object[] params = new Object[] { "idOfTypicalCourse1",
 				"student1InCourse1@gmail.com" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
@@ -1570,11 +1601,11 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
 				paramTypes, new Object[] { "idOfCourse1OfInstructor2",
 						"student1InCourse2@gmail.com" });
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("send to non-existing student");
@@ -1617,7 +1648,8 @@ public class LogicTest extends BaseTestCase {
 		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		// Disallow an instructor from viewing the courses this student is in
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("student in one course");
@@ -1698,10 +1730,10 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		String instructorId = "instructorForEnrollTesting";
+		String instructorCourse = "courseForEnrollTesting";
 		loginAsAdmin("admin.user");
-		logic.deleteInstructor(instructorId);
-		logic.createInstructor(instructorId, "Instructor for Enroll Testing",
-				"instructorForEnrollTestin@gmail.com");
+		logic.deleteInstructor(instructorId, instructorCourse);
+		logic.createInstructor(instructorId, instructorCourse);
 		String courseId = "courseForEnrollTest";
 		logic.createCourse(instructorId, courseId, "Course for Enroll Testing");
 
@@ -1767,7 +1799,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "getStudentInCourseForGoogleId";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfCourse1OfInstructor1",
+		Object[] params = new Object[] { "idOfTypicalCourse1",
 				"student1InCourse1" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
@@ -1784,7 +1816,7 @@ public class LogicTest extends BaseTestCase {
 		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("student in two courses");
@@ -1945,7 +1977,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "getKeyForStudent";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfCourse1OfInstructor1",
+		Object[] params = new Object[] { "idOfTypicalCourse1",
 				"student1InCourse1@gmail.com" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
@@ -1958,10 +1990,10 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor2",
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
 				paramTypes, params);
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("null parameters");
@@ -2015,11 +2047,14 @@ public class LogicTest extends BaseTestCase {
 		List<CourseData> courseList = logic
 				.getCourseListForStudent(studentInTwoCourses.id);
 		assertEquals(2, courseList.size());
-		CourseData course1 = dataBundle.courses.get("course1OfInstructor2");
+		// For some reason, index 0 is Course2 and index 1 is Course1
+		// Anyway in DataStore which follows a HashMap structure,
+		// there is no guarantee on the order of Entities' storage
+		CourseData course1 = dataBundle.courses.get("typicalCourse2");
 		assertEquals(course1.id, courseList.get(0).id);
 		assertEquals(course1.name, courseList.get(0).name);
 
-		CourseData course2 = dataBundle.courses.get("course1OfInstructor1");
+		CourseData course2 = dataBundle.courses.get("typicalCourse1");
 		assertEquals(course2.id, courseList.get(1).id);
 		assertEquals(course2.name, courseList.get(1).name);
 
@@ -2029,7 +2064,7 @@ public class LogicTest extends BaseTestCase {
 				.get("student1InCourse1");
 		courseList = logic.getCourseListForStudent(studentInOneCourse.id);
 		assertEquals(1, courseList.size());
-		course1 = dataBundle.courses.get("course1OfInstructor1");
+		course1 = dataBundle.courses.get("typicalCourse1");
 		assertEquals(course1.id, courseList.get(0).id);
 		assertEquals(course1.name, courseList.get(0).name);
 
@@ -2054,7 +2089,7 @@ public class LogicTest extends BaseTestCase {
 	public void testHasStudentSubmittedEvaluation() throws Exception {
 
 		EvaluationData evaluation = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor1");
+				.get("evaluation1InCourse1");
 		StudentData student = dataBundle.students.get("student1InCourse1");
 
 		______TS("authentication");
@@ -2139,18 +2174,18 @@ public class LogicTest extends BaseTestCase {
 		loginAsAdmin("admin.user");
 
 		// Let's call this course 1. It has 2 evaluations.
-		CourseData expectedCourse1 = dataBundle.courses.get("course1OfInstructor1");
+		CourseData expectedCourse1 = dataBundle.courses.get("typicalCourse1");
 
 		EvaluationData expectedEval1InCourse1 = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor1");
+				.get("evaluation1InCourse1");
 		EvaluationData expectedEval2InCourse1 = dataBundle.evaluations
-				.get("evaluation2InCourse1OfInstructor1");
+				.get("evaluation2InCourse1");
 
 		// Let's call this course 2. I has only 1 evaluation.
-		CourseData expectedCourse2 = dataBundle.courses.get("course1OfInstructor2");
+		CourseData expectedCourse2 = dataBundle.courses.get("typicalCourse2");
 
 		EvaluationData expectedEval1InCourse2 = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor2");
+				.get("evaluation1InCourse2");
 
 		// This student is in both course 1 and 2
 		StudentData studentInTwoCourses = dataBundle.students
@@ -2235,9 +2270,9 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetEvauationResultForStudent() throws Exception {
 
-		CourseData course = dataBundle.courses.get("course1OfInstructor1");
+		CourseData course = dataBundle.courses.get("typicalCourse1");
 		EvaluationData evaluation = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor1");
+				.get("evaluation1InCourse1");
 		String student1email = "student1InCourse1@gmail.com";
 
 		______TS("authentication");
@@ -2261,11 +2296,11 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
-				paramTypes, new Object[] { "course1OfInstructor2", evaluation.name,
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
+				paramTypes, new Object[] { "idOfTypicalCourse1", evaluation.name,
 						student1email });
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		// publish the evaluation
@@ -2288,8 +2323,8 @@ public class LogicTest extends BaseTestCase {
 
 		// reconfigure points of an existing evaluation in the datastore
 		restoreTypicalDataInDatastore();
-		course = dataBundle.courses.get("course1OfInstructor1");
-		evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfInstructor1");
+		course = dataBundle.courses.get("typicalCourse1");
+		evaluation = dataBundle.evaluations.get("evaluation1InCourse1");
 		student1email = "student1InCourse1@gmail.com";
 
 		loginAsAdmin("admin.user");
@@ -2420,7 +2455,7 @@ public class LogicTest extends BaseTestCase {
 		String methodName = "createEvaluation";
 		Class<?>[] paramTypes = new Class<?>[] { EvaluationData.class };
 		EvaluationData evaluation = new EvaluationData();
-		evaluation.course = "idOfCourse1OfInstructor1";
+		evaluation.course = "idOfTypicalCourse1";
 		evaluation.name = "new evaluation";
 		Object[] params = new Object[] { evaluation };
 
@@ -2434,10 +2469,10 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor2",
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
 				paramTypes, params);
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("typical case");
@@ -2446,7 +2481,7 @@ public class LogicTest extends BaseTestCase {
 
 		restoreTypicalDataInDatastore();
 
-		evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfInstructor1");
+		evaluation = dataBundle.evaluations.get("evaluation1InCourse1");
 		verifyPresentInDatastore(evaluation);
 		logic.deleteEvaluation(evaluation.course, evaluation.name);
 		verifyAbsentInDatastore(evaluation);
@@ -2495,7 +2530,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "getEvaluation";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfCourse1OfInstructor2", "eval name" };
+		Object[] params = new Object[] { "idOfTypicalCourse1", "eval name" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -2506,7 +2541,7 @@ public class LogicTest extends BaseTestCase {
 		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("typical case");
@@ -2514,7 +2549,7 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		EvaluationData expected = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor1");
+				.get("evaluation1InCourse1");
 		EvaluationData actual = logic.getEvaluation(expected.course,
 				expected.name);
 		verifySameEvaluationData(expected, actual);
@@ -2547,7 +2582,7 @@ public class LogicTest extends BaseTestCase {
 				String.class, Date.class, Date.class, Double.TYPE,
 				Integer.TYPE, Boolean.TYPE };
 		EvaluationData eval = new EvaluationData();
-		eval.course = "idOfCourse1OfInstructor1";
+		eval.course = "idOfTypicalCourse1";
 		eval.name = "new evaluation";
 		eval.instructions = "inst";
 		Date dummyTime = Calendar.getInstance().getTime();
@@ -2568,10 +2603,10 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor2",
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
 				paramTypes, params);
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("typical case");
@@ -2580,7 +2615,7 @@ public class LogicTest extends BaseTestCase {
 
 		loginAsAdmin("admin.user");
 
-		eval = dataBundle.evaluations.get("evaluation1InCourse1OfInstructor1");
+		eval = dataBundle.evaluations.get("evaluation1InCourse1");
 		eval.gracePeriod = eval.gracePeriod + 1;
 		eval.instructions = eval.instructions + "x";
 		eval.p2pEnabled = (!eval.p2pEnabled);
@@ -2634,7 +2669,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "deleteEvaluation";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfCourse1OfInstructor1",
+		Object[] params = new Object[] { "idOfTypicalCourse1",
 				"new evaluation" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
@@ -2647,10 +2682,10 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor2",
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
 				paramTypes, params);
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("typical delete");
@@ -2659,7 +2694,7 @@ public class LogicTest extends BaseTestCase {
 		loginAsAdmin("admin.user");
 
 		EvaluationData eval = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor1");
+				.get("evaluation1InCourse1");
 		verifyPresentInDatastore(eval);
 		// verify there are submissions under this evaluation
 		SubmissionData submission = dataBundle.submissions
@@ -2703,7 +2738,7 @@ public class LogicTest extends BaseTestCase {
 		String[] methodNames = new String[] { "publishEvaluation",
 				"unpublishEvaluation" };
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfCourse1OfInstructor1",
+		Object[] params = new Object[] { "idOfTypicalCourse1",
 				"new evaluation" };
 
 		// check access control for both methods
@@ -2719,10 +2754,10 @@ public class LogicTest extends BaseTestCase {
 
 			// course belongs to a different instructor
 			verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodNames[i],
-					"idOfTypicalInstructor2", paramTypes, params);
+					"idOfInstructor1OfCourse2", paramTypes, params);
 
 			verifyCanAccess(USER_TYPE_INSTRUCTOR, methodNames[i],
-					"idOfTypicalInstructor1", paramTypes, params);
+					"idOfInstructor1OfCourse1", paramTypes, params);
 		}
 
 		______TS("typical cases");
@@ -2732,7 +2767,7 @@ public class LogicTest extends BaseTestCase {
 		loginAsAdmin("admin.user");
 
 		EvaluationData eval1 = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor1");
+				.get("evaluation1InCourse1");
 		// ensure not published yet
 		assertEquals(false,
 				logic.getEvaluation(eval1.course, eval1.name).published);
@@ -2815,7 +2850,7 @@ public class LogicTest extends BaseTestCase {
 		dataBundle = getTypicalDataBundle();
 
 		EvaluationData e = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor1");
+				.get("evaluation1InCourse1");
 
 		List<MimeMessage> emailsSent = invokeSendEvaluationPublishedEmails(
 				e.course, e.name);
@@ -2842,7 +2877,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "getEvaluationResult";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfCourse1OfInstructor1",
+		Object[] params = new Object[] { "idOfTypicalCourse1",
 				"new evaluation" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
@@ -2855,10 +2890,10 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor2",
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
 				paramTypes, params);
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("typical case");
@@ -2868,9 +2903,9 @@ public class LogicTest extends BaseTestCase {
 		loginAsAdmin("admin.user");
 
 		// reconfigure points of an existing evaluation in the datastore
-		CourseData course = dataBundle.courses.get("course1OfInstructor1");
+		CourseData course = dataBundle.courses.get("typicalCourse1");
 		EvaluationData evaluation = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor1");
+				.get("evaluation1InCourse1");
 
 		// @formatter:off
 		setPointsForSubmissions(new int[][] { 
@@ -3183,7 +3218,7 @@ public class LogicTest extends BaseTestCase {
 		loginAsAdmin("admin.user");
 
 		EvaluationData evaluation = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor1");
+				.get("evaluation1InCourse1");
 		// reuse this evaluation data to create a new one
 		evaluation.name = "new evaluation";
 		logic.createEvaluation(evaluation);
@@ -3252,7 +3287,7 @@ public class LogicTest extends BaseTestCase {
 		String methodName = "getSubmissionsFromStudent";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class,
 				String.class };
-		Object[] params = new Object[] { "idOfCourse1OfInstructor1",
+		Object[] params = new Object[] { "idOfTypicalCourse1",
 				"new evaluation", "student1InCourse1@gmail.com" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
@@ -3269,10 +3304,10 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor2",
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
 				paramTypes, params);
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("typical case");
@@ -3282,7 +3317,7 @@ public class LogicTest extends BaseTestCase {
 		loginAsAdmin("admin.user");
 
 		EvaluationData evaluation = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor1");
+				.get("evaluation1InCourse1");
 		// reuse this evaluation data to create a new one
 		evaluation.name = "new evaluation";
 		logic.createEvaluation(evaluation);
@@ -3354,7 +3389,7 @@ public class LogicTest extends BaseTestCase {
 
 		String methodName = "sendReminderForEvaluation";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfCourse1OfInstructor1",
+		Object[] params = new Object[] { "idOfTypicalCourse1",
 				"new evaluation" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
@@ -3367,10 +3402,10 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor2",
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
 				paramTypes, params);
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("empty class");
@@ -3393,7 +3428,7 @@ public class LogicTest extends BaseTestCase {
 		______TS("1 person submitted fully, 4 others have not");
 
 		EvaluationData eval = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor1");
+				.get("evaluation1InCourse1");
 		emailsSent = logic.sendReminderForEvaluation(eval.course, eval.name);
 
 		assertEquals(4, emailsSent.size());
@@ -3559,7 +3594,7 @@ public class LogicTest extends BaseTestCase {
 		Class<?>[] paramTypes = new Class<?>[] { List.class };
 		List<SubmissionData> submissions = new ArrayList<SubmissionData>();
 		SubmissionData s = new SubmissionData();
-		s.course = "idOfCourse1OfInstructor1";
+		s.course = "idOfTypicalCourse1";
 		s.evaluation = "evaluation1 In Course1";
 		s.reviewer = "student1InCourse1@gmail.com";
 		submissions.add(s);
@@ -3590,10 +3625,10 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor2",
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
 				paramTypes, params);
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("null parameter");
@@ -3614,7 +3649,7 @@ public class LogicTest extends BaseTestCase {
 		String methodName = "editSubmission";
 		Class<?>[] paramTypes = new Class<?>[] { SubmissionData.class };
 		SubmissionData s = new SubmissionData();
-		s.course = "idOfCourse1OfInstructor1";
+		s.course = "idOfTypicalCourse1";
 		s.evaluation = "evaluation1 In Course1";
 		s.reviewee = "student1InCourse1@gmail.com";
 		s.reviewer = "student1InCourse1@gmail.com";
@@ -3640,10 +3675,10 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor2",
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
 				paramTypes, params);
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		// close the evaluation
@@ -3659,7 +3694,7 @@ public class LogicTest extends BaseTestCase {
 		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfTypicalInstructor1",
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 
 		______TS("typical case");
@@ -3799,7 +3834,7 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	private void verifyAbsentInDatastore(InstructorData expectedInstructor) {
-		assertEquals(null, logic.getInstructor(expectedInstructor.id));
+		assertEquals(null, logic.getInstructor(expectedInstructor.googleId, expectedInstructor.courseId));
 	}
 
 	private void verifyAbsentInDatastore(CourseData course) {
@@ -3842,7 +3877,7 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	public static void verifyPresentInDatastore(InstructorData expected) {
-		InstructorData actual = logic.getInstructor(expected.id);
+		InstructorData actual = logic.getInstructor(expected.googleId, expected.courseId);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
@@ -4095,7 +4130,7 @@ public class LogicTest extends BaseTestCase {
 		ArrayList<SubmissionData> submissions = new ArrayList<SubmissionData>();
 		for (int i = 0; i < teamSize; i++) {
 			for (int j = 0; j < teamSize; j++) {
-				SubmissionData s = invokeGetSubmission("idOfCourse1OfInstructor1",
+				SubmissionData s = invokeGetSubmission("idOfTypicalCourse1",
 						"evaluation1 In Course1", "student" + (i + 1)
 								+ "InCourse1@gmail.com", "student" + (j + 1)
 								+ "InCourse1@gmail.com");

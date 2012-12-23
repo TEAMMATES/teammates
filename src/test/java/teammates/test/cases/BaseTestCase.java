@@ -272,7 +272,7 @@ public class BaseTestCase {
 
 		HashMap<String, InstructorData> instructors = dataBundle.instructors;
 		for (InstructorData instructor : instructors.values()) {
-			backDoorLogic.deleteInstructor(instructor.id);
+			backDoorLogic.deleteInstructor(instructor.googleId);
 		}
 		backDoorLogic.persistNewDataBundle(dataBundle);
 

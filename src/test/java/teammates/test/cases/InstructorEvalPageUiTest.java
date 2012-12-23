@@ -45,7 +45,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 
 		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL;
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").googleId);
 		bi.goToUrl(link);
 	}
 	
@@ -109,7 +109,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_ADDED);
 		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL;
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").googleId);
 		bi.verifyCurrentPageHTMLWithRetry(Common.TEST_PAGES_FOLDER+"/instructorEvalAddSuccess.html",link);
 
 		______TS("client-side input validation");
