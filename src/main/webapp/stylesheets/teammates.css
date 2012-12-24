@@ -169,7 +169,7 @@ p {
 	font-size: 15px;
 	font-family: Arial, Helvetica, sans-serif;
 	font-weight: bold;
-	padding: 30px 0px;
+	padding: 10px 0px;
 	text-align: right;
 }
 
@@ -221,11 +221,21 @@ p {
 
 #browserMessage{
 	background-color: #FFFF99;
-	margin: 20px auto;
-	padding: 8px;
-	text-align: center;
-	width: 800px;
+	margin: 10px auto;
+	padding: 15px;
+	text-align: left;
+	width: 700px;
 	font-size: 14px;
 	font-weight:bold;
 	line-height: 18px;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
 }
+
+#browserMessage table{
+	margin-left: 50px;
+	margin-top: 10px;
+	width: 700px;
+}
+
