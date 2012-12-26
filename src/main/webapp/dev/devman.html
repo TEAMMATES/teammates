@@ -1103,12 +1103,17 @@
 
 	<h3 id="settingup-configuringwebbrowsers">Configuring the Browser
 		for testing</h3>
+	The default browser used for testing is the Firefox browser. Testing on the Firefox browser 
+	is relatively faster as compared to the other browsers, and it can be run in the background. 
+	Nevertheless, it is still necessary to test with the other supported browsers as well.
+	<br>
+	<br>
 	To change the browser that is used in the UI tests, go to the
 	<span class="code">test.properties</span> file and change the
 	<span class="code">test.selenium.browser</span> value to the browser
 	you want to test. Possible values are
 	<span class="code"> firefox, chrome, iexplore, safari.</span> In
-	addition, you need to configure the broswer you have selected so that
+	addition, you need to configure the browser you have selected so that
 	it works with the test suite.
 	<br>
 	<br>
@@ -1146,6 +1151,12 @@
 			Safari -> Preferences -> Advanced -> Show Develop menu in menu bar
 			and select Disable Caches there.</li>
 	</ul>
+	
+	<span class="bold">Note:</span>
+	When testing with Chrome and Internet Explorer, the chromedriver process 
+	and the IEDriverServer process will not automatically get killed after the tests 
+	have finished executing. You will need to manually kill these processes after the 
+	tests are done.
 
 	<h2 id="settingup-deployingtostagingserver">Deploying to staging
 		server</h2>
