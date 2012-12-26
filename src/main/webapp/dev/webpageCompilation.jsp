@@ -7,7 +7,7 @@
 		<title>Teammates - Webpage Compilation</title>
 		
 		<link rel=stylesheet href="webpageCompilation.css" type="text/css"></link>
-		<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
+		<script language="JavaScript" src="/js/jquery-minified.js"></script>
 		<script language="JavaScript" src="/js/tooltip.js"></script>
 		
 	</head>
