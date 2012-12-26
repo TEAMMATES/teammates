@@ -366,7 +366,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		verifyPageContains(link, studentUsername + "{*}Evaluation Results{*}"
 				+ ownEvaluation.name + "{*}" + ownCourse.id);
 	}
-
+	@Test
 	public void testStudentEvalSubmission() {
 		bi.loginStudent(studentUsername, studentPassword);
 		
@@ -388,8 +388,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		bi.goToUrl(link);
-		bi.click(By.id("button_submit"));
-		verifyRedirectToNotAuthorized();
+		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_EXPIRED);
 	}
 
 	public void testStudentCourseDetails() {
