@@ -54,14 +54,17 @@ public class CoursesLogic {
 
 	}
 
-	public HashMap<String, CourseData> getCourseSummaryListForInstructor(
-			String instructorId) {
-
+	public HashMap<String, CourseData> getCourseSummaryListForInstructor(String instructorId) {
 		List<InstructorData> instructorDataList = accountsDb.getInstructorsByGoogleId(instructorId);
 		
 		HashMap<String, CourseData> courseSummaryList = new HashMap<String, CourseData>();
 		for (InstructorData id : instructorDataList) {
 			CourseData cd = coursesDb.getCourse(id.courseId);
+			
+			if (cd == null) {
+				Assumption.fail("INSTRUCTOR RELATION EXISTED, BUT COURSE WAS NOT FOUND: " + instructorId + ", " + id.courseId);
+			}
+			
 			cd.teamsTotal = getNumberOfTeams(cd.id);
 			cd.studentsTotal = getTotalStudents(cd.id);
 			cd.unregisteredTotal = getUnregistered(cd.id);

@@ -33,11 +33,15 @@ public class InstructorEvalEditPageUiTest extends BaseTestCase {
 		
 		startRecordingTimeForDataImport();
 		ts = loadTestScenario();
+		BackDoor.deleteCourse(ts.course.id);
 		BackDoor.deleteInstructor(ts.instructor.googleId);
-		String backDoorOperationStatus = BackDoor.createInstructor(ts.instructor);
+		
+		String backDoorOperationStatus = BackDoor.createCourse(ts.course);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-		backDoorOperationStatus = BackDoor.createCourse(ts.course);
+		
+		backDoorOperationStatus = BackDoor.createInstructor(ts.instructor);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		
 		backDoorOperationStatus = BackDoor.createEvaluation(ts.evaluation);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
@@ -56,6 +60,9 @@ public class InstructorEvalEditPageUiTest extends BaseTestCase {
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
+		
+		// Always cleanup
+		BackDoor.deleteCourse(ts.course.id);
 	}
 
 	@Test

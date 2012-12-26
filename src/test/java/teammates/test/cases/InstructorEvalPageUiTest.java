@@ -28,16 +28,24 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 	private static DataBundle scn;
 	
 	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
+	private static String jsonString;
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
 		
 		startRecordingTimeForDataImport();
-		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorEvalUiTest.json");
+		jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorEvalUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+		BackDoor.deleteCourses(jsonString);
 		BackDoor.deleteInstructors(jsonString);
-		String backDoorOperationStatus = BackDoor.createInstructor(scn.instructors.get("teammates.test"));
+		
+		// Create fresh course
+		String backDoorOperationStatus = BackDoor.createCourse(scn.courses.get("existence"));
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		
+		// Create fresh instructor relation
+		backDoorOperationStatus = BackDoor.createInstructor(scn.instructors.get("teammates.test"));
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
 
@@ -53,6 +61,9 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
+		
+		// Always cleanup
+		BackDoor.deleteCourses(jsonString);
 	}
 
 	@Test

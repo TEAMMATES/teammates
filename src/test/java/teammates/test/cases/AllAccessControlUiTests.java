@@ -2,6 +2,8 @@ package teammates.test.cases;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -60,18 +62,18 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		restoreTestData();
 
-		otherInstructor = dataBundle.instructors.get("typicalInstructor2");
+		otherInstructor = dataBundle.instructors.get("instructor1OfCourse2");
 
-		ownCourse = dataBundle.courses.get("course1OfInstructor1");
-		otherCourse = dataBundle.courses.get("course1OfInstructor2");
+		ownCourse = dataBundle.courses.get("typicalCourse1");
+		otherCourse = dataBundle.courses.get("typicalCourse2");
 
 		ownStudent = dataBundle.students.get("student1InCourse1");
 		otherStudent = dataBundle.students.get("student1InCourse2");
 
 		ownEvaluation = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor1");
+				.get("evaluation1InCourse1");
 		otherEvaluation = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor2");
+				.get("evaluation1InCourse2");
 
 		bi = BrowserInstancePool.getBrowserInstance();
 		bi.logout(); // in case already logged in
@@ -306,7 +308,6 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 	@Test
 	public void testInstructorAccessControlInOrder() throws Exception {
-
 		// these test need to run in order because of the delete tests
 		// at the end. However, you can run each test individually by adding
 		// @Test annotation to it.
@@ -332,8 +333,23 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		testInstructorCourseDelete();
 
 		restoreTestData(); // to reverse the deletions above
+		
+		testMultipleInstructorForSameCourse();
 
 		verifyCannotAccessAdminPages();
+	}
+
+	public void testMultipleInstructorForSameCourse() {
+		// TODO Auto-generated method stub
+		// login as instructor1OfCourse1
+		// go to course home page for Course 1
+		
+		// login as instructor2OfCourse1
+		// go to course home page for Course 1
+		
+		// login as instructor1OfCourse2
+		// go to course home page for Course 1 - fails (not instructor)
+		
 	}
 
 	public void testStudentJoinCourse() {
@@ -375,7 +391,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
 		EvaluationData ownEvaluation = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor1");
+				.get("evaluation1InCourse1");
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
 		verifyPageContains(link, studentUsername
@@ -406,7 +422,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		______TS("student cannot view details of a course she is not registered for");
 
 		link = Common.PAGE_STUDENT_COURSE_DETAILS;
-		CourseData otherCourse = dataBundle.courses.get("course1OfInstructor2");
+		CourseData otherCourse = dataBundle.courses.get("typicalCourse2");
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		verifyRedirectToNotAuthorized(link);
 
@@ -735,7 +751,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		link = Common.PAGE_INSTRUCTOR_COURSE_DETAILS;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		verifyRedirectToNotAuthorized(link);
-
+		
 		______TS("cannot view others course details by masquerading");
 
 		verifyCannotMasquerade(link, otherInstructor.googleId);
@@ -938,30 +954,32 @@ public class AllAccessControlUiTests extends BaseTestCase {
 	private static void restoreTestData() {
 		startRecordingTimeForDataImport();
 		dataBundle = getTypicalDataBundle();
-	
-		// assign test user IDs to existing student and instructor
-		StudentData student = dataBundle.students.get("student1InCourse1");
-		student.id = TestProperties.inst().TEST_STUDENT_ACCOUNT;
-	
-		InstructorData instructor = dataBundle.instructors.get("typicalInstructor1");
-	
-		// remove existing data under the instructor before changing his id
-		BackDoor.deleteInstructor(instructor.googleId);
-	
-		// reassign courses to new instructor id
-		String idOfTestInstructor = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
-	
-		for (CourseData cd : dataBundle.courses.values()) {
-			if (cd.instructor.equals(instructor.googleId)) {
-				cd.instructor = idOfTestInstructor;
-			}
+		
+		try {
+			String jsonString = Common.readFile(Common.TEST_DATA_FOLDER
+					+ "/typicalDataBundle.json");
+			BackDoor.deleteCourses(jsonString);
+			BackDoor.deleteCourse("new-course-tCCA"); // Another course added during testing, not in DataBundle
+			BackDoor.deleteInstructors(jsonString);
+			
+			// According to original code, this test suite requires some modifications to be made to the Databundle
+			// The student tests use TEST_STUDENT_ACCOUNT
+			//	- so we will replace the entry "student1InCourse1" to have the id TEST_STUDENT_ACCOUNT
+			// The instructor tests use TEST_INSTRUCTOR_ACCOUNT
+			//	- so we will replace the entry "instructor1OfCourse1" to have the id TEST_INSTRUCTOR_ACCOUNT
+			
+			DataBundle db = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class); // Get the objects to replace
+			db.students.get("student1InCourse1").id = TestProperties.inst().TEST_STUDENT_ACCOUNT;
+			db.instructors.get("instructor1OfCourse1").googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
+			jsonString = Common.getTeammatesGson().toJson(db); // Reconvert back to string.
+			
+            String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString); // Persist as usual
+            assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-	
-		instructor.googleId = idOfTestInstructor;
-	
-		backDoorOperationStatus = BackDoor.restoreDataBundle(Common
-				.getTeammatesGson().toJson(dataBundle));
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		
 		reportTimeForDataImport();
 	}
 

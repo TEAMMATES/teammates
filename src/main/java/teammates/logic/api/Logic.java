@@ -408,6 +408,16 @@ public class Logic {
 
 		return instructor;
 	}
+	
+	/**
+	 * Returns ALL INSTRUCTORS for this COURSE
+	 * 
+	 * @param courseId
+	 * @return List<InstructorData>
+	 */
+	public List<InstructorData> getInstructorsByCourseId(String courseId) {
+		return AccountsLogic.inst().getDb().getInstructorsByCourseId(courseId);
+	}
 
 	/**
 	 * Not implemented
@@ -551,7 +561,6 @@ public class Logic {
 		
 		//calculate submission statistics for each evaluation
 		for (EvaluationData evaluation : evaluationsSummaryForCourse) {
-			System.out.println("PREPARING EVALUATION: " + evaluation.name + " has " + students.size() + " STUDENTS");
 			evaluation.expectedTotal = students.size();
 			
 			HashMap<String, SubmissionData> submissions = getSubmissionsForEvaluation(courseId, evaluation.name);
@@ -592,7 +601,9 @@ public class Logic {
 		CoursesLogic.inst().getDb().createCourse(courseToAdd);
 		
 		// Create an instructor relation for the INSTRUCTOR that created this course
-		AccountsLogic.inst().getDb().createInstructor(new InstructorData(instructorId, courseId));
+		if (!instructorId.equals(CourseData.INSTRUCTOR_FIELD_DEPRECATED)) {
+			AccountsLogic.inst().getDb().createInstructor(new InstructorData(instructorId, courseId));
+		}
 	}
 
 	/**

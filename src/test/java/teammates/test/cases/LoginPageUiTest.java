@@ -45,13 +45,19 @@ public class LoginPageUiTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testInstructorLogin(){
-		//create a fresh instructor in datastore
+	public void testInstructorLogin() {
+		// create a fresh course
+		CourseData testCourse = new CourseData("new.test.course", "New Test Course101", CourseData.INSTRUCTOR_FIELD_DEPRECATED);
+		BackDoor.deleteCourse(testCourse.id);
+		String backDoorOperationStatus = BackDoor.createCourse(testCourse);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		
+		// create a fresh instructor in datastore
 		InstructorData testInstructor = new InstructorData();
 		testInstructor.googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
-		testInstructor.courseId = "non.existent.course";
+		testInstructor.courseId = testCourse.id;
 		BackDoor.deleteInstructor(testInstructor.googleId);
-		String backDoorOperationStatus = BackDoor.createInstructor(testInstructor);
+		backDoorOperationStatus = BackDoor.createInstructor(testInstructor);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		
 		//try to login

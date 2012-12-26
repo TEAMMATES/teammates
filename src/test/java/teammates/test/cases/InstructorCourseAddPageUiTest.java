@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 
 import org.json.JSONException;
 import org.junit.AfterClass;
@@ -36,8 +37,14 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		
 		startRecordingTimeForDataImport();
 		ts = loadTestScenario(Common.TEST_DATA_FOLDER + "/instructorCourseAddUiTest.json");
-		BackDoor.deleteInstructor(ts.instructor.googleId);
-		String backDoorOperationStatus = BackDoor.createInstructor(ts.instructor);
+		BackDoor.deleteCourse(ts.validCourse.id);
+		BackDoor.deleteCourse(ts.CS1101.id);
+		BackDoor.deleteCourse(ts.CS2104.id);
+		for (InstructorData id : ts.instructor.values()) {
+			BackDoor.deleteInstructor(id.googleId);
+		}
+		
+		String backDoorOperationStatus = BackDoor.createCourse(ts.validCourse);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
 		
@@ -45,7 +52,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		
 		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_INSTRUCTOR_COURSE;
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.googleId);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.get("instructor1").googleId);
 		bi.goToUrl(link);
 	}
 
@@ -55,6 +62,11 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
+		
+		// Always cleanup
+		BackDoor.deleteCourse(ts.validCourse.id);
+		BackDoor.deleteCourse(ts.CS1101.id);
+		BackDoor.deleteCourse(ts.CS2104.id);
 	}
 
 	@Test
@@ -84,7 +96,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 	public void testInstructorCourseAddUiPaths() throws Exception{
 		
 		String link = appUrl+Common.PAGE_INSTRUCTOR_COURSE;
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.googleId);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.get("instructor1").googleId);
 		
 		// Course id only contains alphabets, numbers, dots, hyphens, underscores and dollars
 		String courseId = ts.validCourse.id;
@@ -168,7 +180,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 	}
 
 	private class TestScenario{
-		public InstructorData instructor;
+		public HashMap<String,InstructorData> instructor;
 		public CourseData validCourse;
 		public CourseData CS1101;
 		public CourseData CS2104;

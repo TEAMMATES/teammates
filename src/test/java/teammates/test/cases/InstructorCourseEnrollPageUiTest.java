@@ -24,14 +24,16 @@ public class InstructorCourseEnrollPageUiTest extends BaseTestCase {
 	private static String enrollString = "";
 	
 	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
+	private static String jsonString;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
 		
 		startRecordingTimeForDataImport();
-		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorCourseEnrollUiTest.json");
+		jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorCourseEnrollUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+		BackDoor.deleteCourses(jsonString);
 		BackDoor.deleteInstructors(jsonString);
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
@@ -62,6 +64,9 @@ public class InstructorCourseEnrollPageUiTest extends BaseTestCase {
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
+		
+		// Always cleanup
+		BackDoor.deleteCourses(jsonString);
 	}
 	
 	@Test
