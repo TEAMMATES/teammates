@@ -78,7 +78,7 @@
 				</table>
 				
 				<table class="resultTable">
-					<tr class="resultSubheader bold color_black"><td>Feedback from teammates:</td></tr>
+					<tr class="resultSubheader bold color_black"><td>Anonymous Feedback from Teammates:</td></tr>
 					<tr>
 						<td>
 							<ul>
@@ -99,8 +99,9 @@
 								<%
 									for(SubmissionData sub: helper.selfEvaluations){
 								%>
-									<li><%=StudentEvalResultsHelper.escapeForHTML(sub.reviewerName)%>: 
+									<li><span class="bold"><%=StudentEvalResultsHelper.escapeForHTML(sub.reviewerName)%>:</span> 
 										<%=StudentEvalResultsHelper.escapeForHTML(sub.justification.getValue())%></li>
+									<br>
 								<%
 									}
 								%>
