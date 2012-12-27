@@ -3,7 +3,16 @@
 <%@ page import="teammates.common.datatransfer.StudentData" %>
 <%@ page import="teammates.common.datatransfer.SubmissionData" %>
 <%@ page import="teammates.ui.controller.StudentEvalEditHelper"%>
+<%@ page import="java.util.Date" %>
 <% StudentEvalEditHelper helper = (StudentEvalEditHelper)request.getAttribute("helper"); %>
+<%
+	Date currentDate = new Date();
+	boolean disabled = false;
+	if(currentDate.compareTo(helper.eval.endTime) > 0){
+		disabled = true;
+		helper.statusMessage = Common.MESSAGE_EVALUATION_EXPIRED;
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,9 +77,11 @@
 				<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 				<br>
 				<div id="studentEvaluationSubmissionButtons" class="centeralign">
+				<% if (!disabled) { %>
 					<input type="submit" class="button" name="submitEvaluation"
 							onclick="return checkEvaluationForm(this.form)"
 							id="button_submit" value="Submit Evaluation">
+				<% } %>
 				</div>
 				<% if(helper.isMasqueradeMode()){ %>
 					<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>">
