@@ -36,5 +36,4 @@ public class StudentEvalEditServlet extends EvalSubmissionEditServlet {
 	protected String getDefaultForwardUrl() {
 		return Common.JSP_STUDENT_EVAL_SUBMISSION_EDIT;
 	}
-
 }

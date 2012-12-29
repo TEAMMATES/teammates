@@ -52,7 +52,9 @@
 			<div id="studentEvaluationSubmissions">
 				<form name="form_submitevaluation" id="form_submitevaluation" method="post"
 						action="<%= Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER %>">
-					<jsp:include page="<%= Common.JSP_EVAL_SUBMISSION_EDIT %>" />
+					<jsp:include page="<%= Common.JSP_EVAL_SUBMISSION_EDIT %>">
+					<jsp:param name="isStudent" value="false" />
+					</jsp:include>
 					<br>
 					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 					<br>
