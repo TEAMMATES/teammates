@@ -40,6 +40,12 @@ public class LoginPageUiTest extends BaseTestCase {
 	
 	@AfterClass
 	public static void classTearDown() throws Exception {
+		// Used in testInstructorLogin
+		BackDoor.deleteCourse("new.test.course");
+		
+		// Used in testStudentLogin
+		BackDoor.deleteCourse("lput.tsl.course");
+		
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
 	}

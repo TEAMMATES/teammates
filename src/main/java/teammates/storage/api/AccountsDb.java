@@ -11,11 +11,14 @@ import javax.jdo.PersistenceManager;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.JoinCourseException;
 import teammates.storage.datastore.Datastore;
+import teammates.storage.entity.Account;
 import teammates.storage.entity.Coordinator;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -28,8 +31,9 @@ import com.google.appengine.api.datastore.Text;
  * 
  */
 public class AccountsDb {
-
-	public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Student: ";
+	public static final String ERROR_UPDATE_NON_EXISTENT_ACCOUNT = "Trying to update non-existent Account: ";
+	public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT = "Trying to update non-existent Student: ";
+	public static final String ERROR_CREATE_ACCOUNT_ALREADY_EXISTS = "Trying to create an Account that exists: ";
 	public static final String ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS = "Trying to create a Instructor that exists: ";
 	public static final String ERROR_CREATE_STUDENT_ALREADY_EXISTS = "Trying to create a Student that exists: ";
 	
@@ -38,11 +42,48 @@ public class AccountsDb {
 	private PersistenceManager getPM() {
 		return Datastore.getPersistenceManager();
 	}
+	
+	//=====================================================================
+	
+	/**
+	 * CREATE Account
+	 * 
+	 * Creates an Account which is to be referenced by Instructor or Student
+	 * 
+	 * [Can an Account be neither student nor instructor?]
+	 * 
+	 * @param accountToAdd
+	 */
+	public void createAccount(AccountData accountToAdd) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, accountToAdd);
+		
+		Assumption.assertTrue(accountToAdd.getInvalidStateInfo(),
+				accountToAdd.isValid());
+		
+		Account newAccount = accountToAdd.toEntity();
+		getPM().makePersistent(newAccount);
+		getPM().flush();
+
+		// Check insert operation persisted
+		int elapsedTime = 0;
+		Account accountCheck = getAccountEntity(accountToAdd.googleId);
+		while ((accountCheck == null)
+				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
+			Common.waitBriefly();
+			accountCheck = getAccountEntity(accountToAdd.googleId);
+			elapsedTime += Common.WAIT_DURATION;
+		}
+		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
+			log.severe("Operation did not persist in time: createAccount->"
+					+ accountToAdd.googleId);
+		}
+	}
 
 	/**
 	 * CREATE Instructor
 	 * 
 	 * Creates a Instructor object.
+	 * Instructor represents the relation between an Account and a Course
 	 * 
 	 * @throws EntityAlreadyExistsException
 	 * 
@@ -86,6 +127,7 @@ public class AccountsDb {
 	 * CREATE Student
 	 * 
 	 * Creates a Student object.
+	 * Also a relation between an Account and a Course
 	 * 
 	 * @throws EntityAlreadyExistsException
 	 * 
@@ -140,10 +182,8 @@ public class AccountsDb {
 	public boolean isInstructor(String googleId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
 		
-		// TODO: Check for Account entity instead.
-		List<Instructor> instructorList = getInstructorEntitiesByGoogleId(googleId);
-		
-		return !instructorList.isEmpty();
+		Account a = getAccountEntity(googleId);
+		return a == null ? false : a.isInstructor();
 	}
 	
 	/**
@@ -208,6 +248,17 @@ public class AccountsDb {
 				.execute();
 		
 		return instructorList;
+	}
+	
+	/**
+	 * RETRIEVE boolean
+	 * 
+	 * Checks if there is an Account that is already with the specified googleId
+	 * 
+	 * @return
+	 */
+	public boolean isAccountExists(String googleId) {
+		return getAccountEntity(googleId) != null;
 	}
 
 	/**
@@ -279,6 +330,27 @@ public class AccountsDb {
 		
 		return true;
 	}
+	
+	/**
+	 * RETREIVE Account
+	 * 
+	 * Returns a AccountData object.
+	 * 
+	 * @param googleID
+	 */
+	public AccountData getAccount(String googleId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
+
+		Account a = getAccountEntity(googleId);
+
+		if (a == null) {
+			log.warning("Trying to get non-existent Account: " + googleId
+					+ Common.getCurrentThreadStack());
+			return null;
+		}
+
+		return new AccountData(a);
+	}
 
 	/**
 	 * RETREIVE Instructor
@@ -345,12 +417,7 @@ public class AccountsDb {
 	public List<StudentData> getStudentsWithGoogleId(String googleId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
 		
-		String query = "select from " + Student.class.getName()
-				+ " where ID == \"" + googleId + "\"";
-
-		@SuppressWarnings("unchecked")
-		List<Student> studentList = (List<Student>) getPM().newQuery(query)
-				.execute();
+		List<Student> studentList = getStudentEntitiesByGoogleId(googleId);
 
 		List<StudentData> studentDataList = new ArrayList<StudentData>();
 		for (Student student : studentList) {
@@ -360,6 +427,17 @@ public class AccountsDb {
 		}
 
 		return studentDataList;
+	}
+	
+	private List<Student> getStudentEntitiesByGoogleId(String googleId) {
+		String query = "select from " + Student.class.getName()
+				+ " where ID == '" + googleId + "'";
+		
+		@SuppressWarnings("unchecked")
+		List<Student> studentList = (List<Student>) getPM().newQuery(query)
+				.execute();
+		
+		return studentList;
 	}
 
 	/**
@@ -424,6 +502,39 @@ public class AccountsDb {
 		return studentDataList;
 	}
 
+	/**
+	 * Called when an Account for a student person is also made an Instructor of another course
+	 * 
+	 * @param googleId
+	 * @throws EntityDoesNotExistException
+	 */
+	public void makeAccountInstructor(String googleId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
+		Account a = getAccountEntity(googleId);
+		a.setIsInstructor(true);
+		getPM().close();
+	}
+	
+	/**
+	 * To be use for a user to update his/her information.
+	 * 
+	 * @param AccountData a
+	 */
+	public void updateAccount(AccountData a) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, a);
+		Account accountToUpdate = getAccountEntity(a.googleId);
+		
+		Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + a.googleId
+				+ Common.getCurrentThreadStack(), accountToUpdate);
+		
+		accountToUpdate.setName(a.name);
+		accountToUpdate.setEmail(a.email);
+		accountToUpdate.setIsInstructor(a.isInstructor);
+		accountToUpdate.setInstitute(a.institute);
+		
+		getPM().close();
+	}
+	
 	/**
 	 * UPDATE Student.ID
 	 * 
@@ -501,7 +612,7 @@ public class AccountsDb {
 
 		Student student = getStudentEntity(courseId, email);
 
-		Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT + courseId
+		Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT_STUDENT + courseId
 				+ "/ + email " + Common.getCurrentThreadStack(), student);
 
 		student.setEmail(newEmail);
@@ -523,6 +634,41 @@ public class AccountsDb {
 		}
 
 		getPM().close();
+	}
+	
+	/**
+	 * DELETE Account
+	 * 
+	 * Delete a particular User from system
+	 * 
+	 * @param instructorId
+	 * @param courseId
+	 */
+	public void deleteAccount(String googleId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
+
+		Account accountToDelete = getAccountEntity(googleId);
+
+		if (accountToDelete == null) {
+			return;
+		}
+
+		getPM().deletePersistent(accountToDelete);
+		getPM().flush();
+
+		// Check delete operation persisted
+		int elapsedTime = 0;
+		Account accountCheck = getAccountEntity(googleId);
+		while ((accountCheck != null)
+				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
+			Common.waitBriefly();
+			accountCheck = getAccountEntity(googleId);
+			elapsedTime += Common.WAIT_DURATION;
+		}
+		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
+			log.severe("Operation did not persist in time: deleteAccount->"
+					+ googleId);
+		}
 	}
 
 	/**
@@ -596,6 +742,24 @@ public class AccountsDb {
 			getPM().flush();
 		}
 	}
+	
+	/**
+	 * DELETE List<Student>
+	 * 
+	 * Delete all relations for this INSTRUCTOR
+	 * 
+	 * @param googleId
+	 */
+	public void deleteStudentsByGoogleId(String googleId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
+
+		List<Student> studentList = getStudentEntitiesByGoogleId(googleId);
+		
+		if (studentList.size() > 0) {
+			getPM().deletePersistentAll(studentList);
+			getPM().flush();
+		}
+	}
 
 	/**
 	 * DELETE List<Student>
@@ -662,6 +826,35 @@ public class AccountsDb {
 		}
 	}
 
+	//=================================================================================
+	
+	/**
+	 * Returns the actual Student Entity
+	 * 
+	 * @param courseID
+	 *            the course ID (Precondition: Must not be null)
+	 * 
+	 * @param email
+	 *            the email of the student (Precondition: Must not be null)
+	 * 
+	 * @return Student the student who has the specified email in the specified
+	 *         course
+	 */
+	private Account getAccountEntity(String googleId) {
+		String query = "select from " + Account.class.getName()
+				+ " where googleId == \"" + googleId + "\"";
+
+		@SuppressWarnings("unchecked")
+		List<Account> accountsList = (List<Account>) getPM().newQuery(query)
+				.execute();
+
+		if (accountsList.isEmpty() || JDOHelper.isDeleted(accountsList.get(0))) {
+			return null;
+		}
+
+		return accountsList.get(0);
+	}
+	
 	/**
 	 * Returns the actual Student Entity
 	 * 
@@ -771,6 +964,8 @@ public class AccountsDb {
 		getPM().makePersistentAll(instructorsToAdd);
 		getPM().flush();
 	}
+
+	
  
 
 }

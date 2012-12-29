@@ -1,27 +1,28 @@
 {
+  "accounts": {
+  	"teammates.test": {
+  	  "googleId": "teammates.test",
+  	  "name": "Teammates Test",
+  	  "isInstructor": true,
+  	  "email": "tmms.test@gmail.com",
+  	  "institute": "National University of Singapore"
+  	}
+  },
+
   "courses": {
-  	"existence": {
-  	  "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
-  	  "id": "for.teammates.test.existence",
-  	  "name": "Teammates.test needs a COURSE to exist"
-  	},
     "course": {
-      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
+      "instructor": "teammates.test",
       "id": "CEvalUiT.CS2104",
       "name": "Programming Language Concepts"
     },
     "anotherCourse": {
-      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
+      "instructor": "teammates.test",
       "id": "CEvalUiT.CS1101",
       "name": "Programming Methodology"
     }
   },
   
   "instructors": {
-    "teammates.test": {
-      "googleId": "teammates.test",
-      "courseId": "for.teammates.test.existence"
-    },
     "teammates.test.course": {
       "googleId": "teammates.test",
       "courseId": "CEvalUiT.CS2104"

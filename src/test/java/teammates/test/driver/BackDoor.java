@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
@@ -104,6 +105,17 @@ public class BackDoor {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_CREATE_INSTRUCTORS_FROM_COURSES);
 		String status = makePOSTRequest(params);
 		return status;
+	}
+	
+	@SuppressWarnings("unused")
+	private void ____ACCOUNT_level_methods______________________________() {
+	}
+	
+	public static String createAccount(AccountData account) {
+		DataBundle dataBundle = new DataBundle();
+		dataBundle.accounts.put(account.googleId, account);
+		return persistNewDataBundle(Common.getTeammatesGson()
+				.toJson(dataBundle));
 	}
 	
 	@SuppressWarnings("unused")

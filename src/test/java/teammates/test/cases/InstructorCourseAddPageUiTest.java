@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.test.driver.BackDoor;
@@ -44,7 +45,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 			BackDoor.deleteInstructor(id.googleId);
 		}
 		
-		String backDoorOperationStatus = BackDoor.createCourse(ts.validCourse);
+		String backDoorOperationStatus = BackDoor.createAccount(ts.account);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
 		
@@ -180,6 +181,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 	}
 
 	private class TestScenario{
+		public AccountData account;
 		public HashMap<String,InstructorData> instructor;
 		public CourseData validCourse;
 		public CourseData CS1101;

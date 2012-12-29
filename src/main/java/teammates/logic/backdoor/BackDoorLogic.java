@@ -11,6 +11,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
@@ -54,17 +55,24 @@ public class BackDoorLogic extends Logic {
 			throw new InvalidParametersException(
 					Common.ERRORCODE_NULL_PARAMETER, "Null data bundle");
 		}
-
-		HashMap<String, InstructorData> instructors = dataBundle.instructors;
-		for (InstructorData instructor : instructors.values()) {
-			log.fine("API Servlet adding instructor :" + instructor.googleId);
-			super.createInstructor(instructor.googleId, instructor.courseId);
+		
+		HashMap<String, AccountData> accounts = dataBundle.accounts;
+		for (AccountData account : accounts.values()) {
+			log.fine("API Servlet adding account :" + account.googleId);
+			super.createAccount(account.googleId, account.name, account.isInstructor,
+									account.email, account.institute);
 		}
 
 		HashMap<String, CourseData> courses = dataBundle.courses;
 		for (CourseData course : courses.values()) {
 			log.fine("API Servlet adding course :" + course.id);
 			createCourse(course.instructor, course.id, course.name);
+		}
+
+		HashMap<String, InstructorData> instructors = dataBundle.instructors;
+		for (InstructorData instructor : instructors.values()) {
+			log.fine("API Servlet adding instructor :" + instructor.googleId);
+			super.createInstructor(instructor.googleId, instructor.courseId);
 		}
 
 		HashMap<String, StudentData> students = dataBundle.students;

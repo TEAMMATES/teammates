@@ -112,7 +112,7 @@ public class AccountsDbTest extends BaseTestCase {
 			accountsDb.editStudent("non-existent-course", "non@existent.email", "no-name", "non-existent-team", "non.existent.ID", "blah", "blah", new Text("blah"));
 			fail();
 		} catch (AssertionError a) {
-			assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT, a.getMessage());
+			assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT, a.getMessage());
 		}
 		
 		// Null params check:

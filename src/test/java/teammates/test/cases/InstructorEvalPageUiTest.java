@@ -40,12 +40,8 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		BackDoor.deleteCourses(jsonString);
 		BackDoor.deleteInstructors(jsonString);
 		
-		// Create fresh course
-		String backDoorOperationStatus = BackDoor.createCourse(scn.courses.get("existence"));
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-		
-		// Create fresh instructor relation
-		backDoorOperationStatus = BackDoor.createInstructor(scn.instructors.get("teammates.test"));
+		// Create fresh account relation
+		String backDoorOperationStatus = BackDoor.createAccount(scn.accounts.get("teammates.test"));
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
 
@@ -53,7 +49,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 
 		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL;
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").googleId);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.accounts.get("teammates.test").googleId);
 		bi.goToUrl(link);
 	}
 	
@@ -120,7 +116,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_ADDED);
 		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL;
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").googleId);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.accounts.get("teammates.test").googleId);
 		bi.verifyCurrentPageHTMLWithRetry(Common.TEST_PAGES_FOLDER+"/instructorEvalAddSuccess.html",link);
 
 		______TS("client-side input validation");

@@ -1,10 +1,12 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
@@ -38,11 +40,20 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 		helper.course = helper.server.getCourseDetails(courseId);
 		List<InstructorData> idList = helper.server.getInstructorsByCourseId(courseId);
 		
-		// Current system only supports one instructor at the UI and Client side
-		InstructorData firstInstructorOfCourse = idList.get(0);	
+		// Get information needed to be displayed in this servlet:
+		// 1. Name
+		// 2. {Anymore}?
+		List<String> instructorNames = new ArrayList<String>();
+		for (InstructorData id : idList) {
+			AccountData ad = helper.server.getAccount(id.googleId);
+			instructorNames.add(ad.name);
+		}
 		
-		// TODO: Name is to be handled in Account - fails Test Cases where studentCourseDetails.jsp is concerned!
-		helper.instructorName = firstInstructorOfCourse.name;
+		// Current system only supports one instructor at the UI and Client side
+		InstructorData firstInstructorOfCourse = idList.get(0);
+		String firstInstructorName = instructorNames.get(0);
+		
+		helper.instructorName = firstInstructorName;
 		helper.student = helper.server.getStudentInCourseForGoogleId(courseId, helper.userId);
 		helper.team = getTeam(helper.server.getTeamsForCourse(courseId),helper.student);
 	}

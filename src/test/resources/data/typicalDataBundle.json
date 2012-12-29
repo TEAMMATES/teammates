@@ -1,4 +1,49 @@
 {
+	"accounts": {
+		"instructor1OfCourse1": {
+			"googleId": "idOfInstructor1OfCourse1",
+			"name": "Instructor 1 of Course 1",
+			"isInstructor": true,
+			"email": "instr1@course1.com",
+			"institute": "National University of Singapore"
+		},
+		"instructor2OfCsourse1": {
+			"googleId": "idOfInstructor2OfCourse1",
+			"name": "Instructor 2 of Course 1",
+			"isInstructor": true,
+			"email": "instr2@course1.com",
+			"institute": "National University of Singapore"
+		},
+		"instructor1OfCourse2": {
+			"googleId": "idOfInstructor1OfCourse2",
+			"name": "Instructor 1 of Course 2",
+			"isInstructor": true,
+			"email": "instr1@course2.com",
+			"institute": "National University of Singapore"
+		},
+		"instructor2OfCourse2": {
+			"googleId": "idOfInstructor2OfCourse2",
+			"name": "Instructor 2 of Course 2",
+			"isInstructor": true,
+			"email": "instr2@course2.com",
+			"institute": "National University of Singapore"
+		},
+		"instructor3": {
+			"googleId": "idOfInstructor3",
+			"name": "Instructor 3 of Course 1 & 2",
+			"isInstructor": true,
+			"email": "instr3@course1n2.com",
+			"institute": "National University of Singapore"
+		},
+		"instructor4": {
+			"googleId": "idOfInstructor4",
+			"name": "Instructor 4 of CourseNoEvals",
+			"isInstructor": true,
+			"email": "instr4@coursenoevals.com",
+			"institute": "National University of Singapore"
+		}
+	},
+
 	"courses": {
 		"typicalCourse1": {
 			"instructor": "INSTRUCTOR_FIELD_DEPRECATED",

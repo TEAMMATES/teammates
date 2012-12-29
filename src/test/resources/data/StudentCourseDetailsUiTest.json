@@ -1,4 +1,14 @@
 {
+  "accounts": {
+  	"teammates.test": {
+  	  "googleId": "teammates.test",
+  	  "name": "Instructor",
+  	  "isInstructor": true,
+  	  "email": "tmms.test@gmail.com",
+  	  "institute": "National University of Singapore"
+  	}
+  },
+
   "courses": {
     "SCDetailsUiT.CS2104": {
       "instructor": "INSTRUCTOR_FIELD_DEPRECATED",

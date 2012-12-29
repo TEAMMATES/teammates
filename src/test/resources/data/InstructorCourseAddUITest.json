@@ -1,4 +1,12 @@
 {
+  "account": {
+  	"googleId": "teammates.demo.instructor",
+  	"name":	"Demo Instructor",
+  	"email": "test@instructor.com",
+  	"isInstructor": true,
+  	"institute": "National University of Singapore"
+  },
+
   "instructor": {
   	"instructor1": { "googleId": "teammates.demo.instructor", "courseId":"CCAddUiTest.course1" },
   	"instructor2": { "googleId": "teammates.demo.instructor", "courseId":"CCAddUiTest.CS1101" },
