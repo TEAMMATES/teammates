@@ -97,6 +97,11 @@ public class BackDoor {
 			deleteCourse(course.id);
 		}
 	}
+	
+	//====================================================================================
+	@SuppressWarnings("unused")
+	private void _____DATA_MIGRATION_methods______________________________() {
+	}
 
 	/**
 	 * Call the migration BackDoorLogic method
@@ -106,6 +111,19 @@ public class BackDoor {
 		String status = makePOSTRequest(params);
 		return status;
 	}
+	
+	public static String createAccountsForInstructors() {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_CREATE_ACCOUNTS_FOR_INSTRUCTORS);
+		String status = makePOSTRequest(params);
+		return status;
+	}
+	
+	public static String createAccountsForStudents() {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_CREATE_ACCOUNTS_FOR_STUDENTS);
+		String status = makePOSTRequest(params);
+		return status;
+	}
+	//====================================================================================
 	
 	@SuppressWarnings("unused")
 	private void ____ACCOUNT_level_methods______________________________() {
@@ -382,5 +400,4 @@ public class BackDoor {
 		String data = dataStringBuilder.toString();
 		return data;
 	}
-
 }

@@ -11,6 +11,7 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -30,6 +31,125 @@ public class AccountsDbTest extends BaseTestCase {
 		LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
 		helper = new LocalServiceTestHelper(localDatastore);
 		helper.setUp();
+	}
+	
+	@SuppressWarnings("unused")
+	private void ____ACCOUNT_________________________________________() {
+	}
+	@Test
+	public void testCreateAccount() {
+		// SUCCESS
+		AccountData a = new AccountData();
+		a.googleId = "test.account";
+		a.name = "Test account Name";
+		a.isInstructor = false;
+		a.email = "fresh-account@email.com";
+		accountsDb.createAccount(a);
+			
+		// SUCCESS : duplicate
+		accountsDb.createAccount(a);
+		
+		// Test for latest entry persistence
+		AccountData accountDataTest = accountsDb.getAccount(a.googleId);
+		assertFalse(accountDataTest.isInstructor);
+		// Change a field
+		accountDataTest.isInstructor = true;
+		accountsDb.updateAccount(accountDataTest);
+		// Re-retrieve
+		accountDataTest = accountsDb.getAccount(a.googleId);
+		assertTrue(accountDataTest.isInstructor);
+		
+		// FAIL : invalid parameters
+		// Should we not allow empty fields?
+		/*
+		a.email = "invalid email";
+		try {
+			accountsDb.createAccount(a);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(a.getMessage(), AccountData.ERROR_FIELD_EMAIL);
+		} catch (EntityAlreadyExistsException e) {
+			fail();
+		}
+		*/
+		
+		// Null params check:
+		try {
+			accountsDb.createAccount(null);
+			fail();
+		} catch (AssertionError ae) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, ae.getMessage());
+		}
+	}
+	
+	@Test
+	public void testGetAccount() {
+		AccountData a = createNewAccount();
+		
+		// Get existent
+		AccountData retrieved = accountsDb.getAccount(a.googleId);
+		assertNotNull(retrieved);
+		
+		// Get non-existent - just return null
+		retrieved = accountsDb.getAccount("non.existent");
+		assertNull(retrieved);
+		
+		// Null params check:
+		try {
+			accountsDb.getAccount(null);
+			fail();
+		} catch (AssertionError ae) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, ae.getMessage());
+		}
+	}
+	
+	@Test
+	public void testEditAccount() {
+		AccountData a = createNewAccount();
+		
+		// Edit existent
+		a.name = "Edited name";
+		accountsDb.updateAccount(a);
+		
+		// Edit non-existent
+		try {
+			a.googleId = "non.existent";
+			accountsDb.updateAccount(a);
+			fail();
+		} catch (AssertionError ae) {
+			assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT, ae.getMessage());
+		}
+		
+		// Null parameters check:
+		// Only check first 2 parameters (course & email) which are used to identify the student entry. The rest are actually allowed to be null.
+		try {
+			accountsDb.updateAccount(null);
+			fail();
+		} catch (AssertionError ae) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, ae.getMessage());
+		}
+	}
+	
+	@Test
+	public void testDeleteAccount() {
+		AccountData a = createNewAccount();
+		
+		// Delete
+		accountsDb.deleteAccount(a.googleId);
+		
+		AccountData deleted = accountsDb.getAccount(a.googleId);
+		assertNull(deleted);
+		
+		// delete again - should fail silently
+		accountsDb.deleteAccount(a.googleId);
+		
+		// Null parameters check:
+		try {
+			accountsDb.deleteAccount(null);
+			fail();
+		} catch (AssertionError ae) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, ae.getMessage());
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -252,6 +372,18 @@ public class AccountsDbTest extends BaseTestCase {
 	public static void tearDownClass() throws Exception {
 		turnLoggingDown(AccountsDb.class);
 		helper.tearDown();
+	}
+	
+	private AccountData createNewAccount() {
+		AccountData a = new AccountData();
+		a.googleId = "valid.googleId";
+		a.name = "Valid Fresh Account";
+		a.isInstructor = false;
+		a.email = "valid@email.com";
+		a.institute = "National University of Singapore";
+		
+		accountsDb.createAccount(a);
+		return a;
 	}
 	
 	private StudentData createNewStudent() {

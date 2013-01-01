@@ -36,6 +36,7 @@ public class AccountsDb {
 	public static final String ERROR_CREATE_ACCOUNT_ALREADY_EXISTS = "Trying to create an Account that exists: ";
 	public static final String ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS = "Trying to create a Instructor that exists: ";
 	public static final String ERROR_CREATE_STUDENT_ALREADY_EXISTS = "Trying to create a Student that exists: ";
+	public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR = "Trying to make an non-existent account an Instructor :";
 	
 	private static final Logger log = Common.getLogger();
 
@@ -77,6 +78,23 @@ public class AccountsDb {
 			log.severe("Operation did not persist in time: createAccount->"
 					+ accountToAdd.googleId);
 		}
+	}
+	
+	/**
+	 * CREATE List<Account>
+	 * 
+	 * @param List<AccountData>
+	 */
+	public void createAccounts(List<AccountData> accountsToAdd) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, accountsToAdd);
+		
+		List<Account> accounts = new ArrayList<Account>();
+		for (AccountData ad : accountsToAdd) {
+			accounts.add(ad.toEntity());
+		}
+		
+		getPM().makePersistentAll(accountsToAdd);
+		getPM().flush();
 	}
 
 	/**
@@ -272,7 +290,6 @@ public class AccountsDb {
 	 * @return boolean
 	 */
 	public boolean isInstructorOfCourse(String googleId, String courseId) {
-		// This method should be in Account (later)?
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
@@ -312,7 +329,6 @@ public class AccountsDb {
 	 * @return boolean
 	 */
 	public boolean isStudentOfCourse(String googleId, String courseId) {
-		// This method should be in Account (later)?
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
@@ -505,12 +521,16 @@ public class AccountsDb {
 	/**
 	 * Called when an Account for a student person is also made an Instructor of another course
 	 * 
+	 * This method should only be called if the Account exists
+	 * 
 	 * @param googleId
-	 * @throws EntityDoesNotExistException
 	 */
 	public void makeAccountInstructor(String googleId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
 		Account a = getAccountEntity(googleId);
+		
+		Assumption.assertNotNull(ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR, a);
+		
 		a.setIsInstructor(true);
 		getPM().close();
 	}
@@ -829,16 +849,11 @@ public class AccountsDb {
 	//=================================================================================
 	
 	/**
-	 * Returns the actual Student Entity
+	 * Returns the actual Account Entity
 	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: Must not be null)
+	 * @param googleId
 	 * 
-	 * @param email
-	 *            the email of the student (Precondition: Must not be null)
-	 * 
-	 * @return Student the student who has the specified email in the specified
-	 *         course
+	 * @return Account for this user
 	 */
 	private Account getAccountEntity(String googleId) {
 		String query = "select from " + Account.class.getName()
@@ -959,13 +974,28 @@ public class AccountsDb {
 		return instructorList;
 	}
 
-	public void persistInstructorsFromCourses(List<Instructor> instructorsToAdd) {
+	public void persistInstructorsFromCourses(List<InstructorData> instructorsToAdd) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, instructorsToAdd);
-		getPM().makePersistentAll(instructorsToAdd);
+		
+		List<Instructor> instructors = new ArrayList<Instructor>();
+		for (InstructorData id : instructorsToAdd) {
+			instructors.add(id.toEntity());
+		}
+		
+		getPM().makePersistentAll(instructors);
 		getPM().flush();
 	}
-
 	
- 
+	public void createAccountsForCoordinators() {
+		List<Coordinator> coordinators = getInstructorEntities();
+		
+		List<Account> accountsToAdd = new ArrayList<Account>();
+		for (Coordinator c : coordinators) {
+			accountsToAdd.add(new Account(c.getGoogleID(), c.getName(), true, c.getEmail(), ""));
+		}
+		
+		getPM().makePersistentAll(accountsToAdd);
+		getPM().flush();
+	}
 
 }

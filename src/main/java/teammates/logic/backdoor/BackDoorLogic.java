@@ -26,6 +26,7 @@ import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
 import teammates.logic.EvaluationsLogic;
 import teammates.logic.api.Logic;
+import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Evaluation;
 import teammates.storage.entity.Instructor;
@@ -224,13 +225,42 @@ public class BackDoorLogic extends Logic {
 	 */
 	public void createInstructorsFromCourses() {
 		List<CourseData> courses = CoursesLogic.inst().getDb().getAllCourses();
-		List<Instructor> instructorsToAdd = new ArrayList<Instructor>();
+		List<InstructorData> instructorsToAdd = new ArrayList<InstructorData>();
 		
 		for (CourseData cd : courses) {
-			instructorsToAdd.add(new Instructor(cd.instructor, cd.id));
+			instructorsToAdd.add(new InstructorData(cd.instructor, cd.id));
 		}
 		
 		AccountsLogic.inst().getDb().persistInstructorsFromCourses(instructorsToAdd);
+	}
+	
+	public void createAccountsForInstructors() {
+		List<InstructorData> instructors = AccountsLogic.inst().getDb().getInstructors();
+		List<AccountData> accountsToAdd = new ArrayList<AccountData>();
+		
+		for (InstructorData id : instructors) {
+			accountsToAdd.add(new AccountData(id.googleId, false));
+		}
+		
+		AccountsLogic.inst().getDb().createAccounts(accountsToAdd);
+		
+		// Coordinator entities will be more likely to contain more information.
+		// Hence do it after instructors as the latest entry will be persisted
+		AccountsLogic.inst().getDb().createAccountsForCoordinators();
+	}
+	
+	/**
+	 * In case of duplicate Google ID, the information from the latest entry will be persisted.
+	 */
+	public void createAccountsForStudents() {	
+		List<StudentData> students = AccountsLogic.inst().getDb().getStudents();
+		List<AccountData> accountsToAdd = new ArrayList<AccountData>();
+		
+		for (StudentData sd : students) {
+			accountsToAdd.add(new AccountData(sd.id, sd.name, false, sd.email, ""));
+		}
+		
+		AccountsLogic.inst().getDb().createAccounts(accountsToAdd);
 	}
 	
 }
