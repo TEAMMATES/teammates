@@ -22,14 +22,16 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseTestCase {
 	private static DataBundle scn;
 	
 	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
+	private static String jsonString;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
 		
 		startRecordingTimeForDataImport();
-		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorCourseStudentDetailsUiTest.json");
+		jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorCourseStudentDetailsUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+		BackDoor.deleteCourses(jsonString);
 		BackDoor.deleteInstructors(jsonString);
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
@@ -44,6 +46,9 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseTestCase {
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
+		
+		// Always cleanup
+		BackDoor.deleteCourses(jsonString);
 	}
 	
 	@Test
@@ -61,7 +66,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseTestCase {
 		String link = appUrl+Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CCSDetailsUiT.CS2104").id);
 		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,scn.students.get("registeredStudent").email);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").googleId);
 		bi.goToUrl(link);
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseStudentDetailsPage.html");
@@ -71,7 +76,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseTestCase {
 		link = appUrl+Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CCSDetailsUiT.CS2104").id);
 		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,scn.students.get("unregisteredStudent").email);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").googleId);
 		bi.goToUrl(link);
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseStudentDetailsUnregisteredPage.html");
@@ -85,7 +90,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseTestCase {
 		String link = appUrl+Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CCSDetailsUiT.CS2104").id);
 		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,scn.students.get("unregisteredStudent").email);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").googleId);
 		bi.goToUrl(link);
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseStudentEditUnregisteredPage.html");
@@ -95,7 +100,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseTestCase {
 		link = appUrl+Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CCSDetailsUiT.CS2104").id);
 		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,scn.students.get("registeredStudent").email);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").googleId);
 		bi.goToUrl(link);
 		
 		//check the default view

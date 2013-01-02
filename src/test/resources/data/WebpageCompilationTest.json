@@ -1,22 +1,25 @@
 {
-  "instructors": {
-    "teammates.test": {
-      "id": "teammates.test",
-      "name" : "Instructor",
-      "email" : "teammates.test@gmail.com"
-    }
-  },
-  
   "courses": {
     "CS2104": {
-      "instructor": "teammates.test",
+      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
       "id": "CS2104",
       "name": "Programming Language Concepts"
     },
     "CS1101": {
-      "instructor": "teammates.test",
+      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
       "id": "CS1101",
       "name": "Programming Methodology"
+    }
+  },
+  
+  "instructors": {
+    "teammates.test.CS2104": {
+      "googleId": "teammates.test",
+      "courseId": "CS2104"
+    },
+    "teammates.test.CS1101": {
+      "googleId": "teammates.test",
+      "courseId": "CS1101"
     }
   },
   

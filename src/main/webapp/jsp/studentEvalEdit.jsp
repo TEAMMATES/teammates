@@ -3,7 +3,16 @@
 <%@ page import="teammates.common.datatransfer.StudentData" %>
 <%@ page import="teammates.common.datatransfer.SubmissionData" %>
 <%@ page import="teammates.ui.controller.StudentEvalEditHelper"%>
+<%@ page import="java.util.Date" %>
 <% StudentEvalEditHelper helper = (StudentEvalEditHelper)request.getAttribute("helper"); %>
+<%
+	Date currentDate = new Date();
+	String disableAttributeValue = "";
+	if(currentDate.compareTo(helper.eval.endTime) > 0){
+		helper.statusMessage = Common.MESSAGE_EVALUATION_EXPIRED;
+		disableAttributeValue = "disabled=\"disabled\"";
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,14 +72,16 @@
 			
 			<form name="form_submitevaluation" id="form_submitevaluation" method="post"
 					action="<%= Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER %>">
-				<jsp:include page="<%= Common.JSP_EVAL_SUBMISSION_EDIT %>" />
+				<jsp:include page="<%= Common.JSP_EVAL_SUBMISSION_EDIT %>">
+				<jsp:param name="isStudent" value="true" />
+				</jsp:include>
 				<br>
 				<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 				<br>
 				<div id="studentEvaluationSubmissionButtons" class="centeralign">
 					<input type="submit" class="button" name="submitEvaluation"
 							onclick="return checkEvaluationForm(this.form)"
-							id="button_submit" value="Submit Evaluation">
+							id="button_submit" value="Submit Evaluation" <%=disableAttributeValue %>>
 				</div>
 				<% if(helper.isMasqueradeMode()){ %>
 					<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>">

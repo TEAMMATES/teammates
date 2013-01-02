@@ -28,16 +28,20 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 	private static DataBundle scn;
 	
 	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
+	private static String jsonString;
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
 		
 		startRecordingTimeForDataImport();
-		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorEvalUiTest.json");
+		jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorEvalUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+		BackDoor.deleteCourses(jsonString);
 		BackDoor.deleteInstructors(jsonString);
-		String backDoorOperationStatus = BackDoor.createInstructor(scn.instructors.get("teammates.test"));
+		
+		// Create fresh account relation
+		String backDoorOperationStatus = BackDoor.createAccount(scn.accounts.get("teammates.test"));
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
 
@@ -45,7 +49,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 
 		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL;
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.accounts.get("teammates.test").googleId);
 		bi.goToUrl(link);
 	}
 	
@@ -53,6 +57,9 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
+		
+		// Always cleanup
+		BackDoor.deleteCourses(jsonString);
 	}
 
 	@Test
@@ -109,7 +116,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_ADDED);
 		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL;
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.accounts.get("teammates.test").googleId);
 		bi.verifyCurrentPageHTMLWithRetry(Common.TEST_PAGES_FOLDER+"/instructorEvalAddSuccess.html",link);
 
 		______TS("client-side input validation");

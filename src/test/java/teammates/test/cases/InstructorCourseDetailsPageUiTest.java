@@ -25,14 +25,16 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 	private static DataBundle scn;
 	
 	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
+	private static String jsonString;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
 		
 		startRecordingTimeForDataImport();
-		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorCourseDetailsUiTest.json");
+		jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorCourseDetailsUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+		BackDoor.deleteCourses(jsonString);
 		BackDoor.deleteInstructors(jsonString);
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
@@ -43,7 +45,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_INSTRUCTOR_COURSE_DETAILS;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CCDetailsUiT.CS2104").id);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").googleId);
 		bi.goToUrl(link);
 	}
 	
@@ -51,6 +53,9 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
+		
+		// Always cleanup
+		BackDoor.deleteCourses(jsonString);
 	}
 	
 	@Test 

@@ -1,17 +1,15 @@
-{
-  "instructors": {
-    "teammates.test": {
-      "id": "teammates.test",
-      "name" : "Instructor",
-      "email" : "teammates.test@gmail.com"
-    }
-  },
-  
+{  
   "courses": {
     "CCSDetailsUiT.CS2104": {
-      "instructor": "teammates.test",
+      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
       "id": "CCSDetailsUiT.CS2104",
       "name": "Programming Language Concepts"
+    }
+  },
+  "instructors": {
+    "teammates.test": {
+      "googleId": "teammates.test",
+      "courseId": "CCSDetailsUiT.CS2104"
     }
   },
   

@@ -310,6 +310,7 @@ public class Common {
 	public static final String MESSAGE_EVALUATION_REMINDERSSENT = "Reminder e-mails have been sent out to those students.";
 	public static final String MESSAGE_EVALUATION_RESULTSEDITED = "The particular evaluation results have been edited.";
 	public static final String MESSAGE_EVALUATION_EMPTY = "You have not created any evaluations yet. Use the form above to create a new evaluation.";
+	public static final String MESSAGE_EVALUATION_EXPIRED = "This evaluation has expired. You are not allowed to edit your submission.";
 
 	public static final String MESSAGE_EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
 	// Status messages from Javascript

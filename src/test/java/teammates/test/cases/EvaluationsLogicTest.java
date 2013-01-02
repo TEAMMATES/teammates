@@ -70,7 +70,7 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		// Reuse an existing evaluation to create a new one that is ready to
 		// activate. Put this evaluation in a negative time zone.
 		EvaluationData evaluation = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor1");
+				.get("evaluation1InCourse1");
 		String nameOfEvalInCourse1 = "new-evaluation-in-course-1-tGRE";
 		evaluation.name = nameOfEvalInCourse1;
 
@@ -94,7 +94,7 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		// Create another evaluation in another course in similar fashion.
 		// Put this evaluation in a positive time zone.
 		// This one too is ready to activate.
-		evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfInstructor2");
+		evaluation = dataBundle.evaluations.get("evaluation1InCourse1");
 		evaluation.activated = false;
 		String nameOfEvalInCourse2 = "new-evaluation-in-course-2-tGRE";
 		evaluation.name = nameOfEvalInCourse2;
@@ -116,7 +116,7 @@ public class EvaluationsLogicTest extends BaseTestCase{
 
 		// Create another evaluation not ready to be activated yet.
 		// Put this evaluation in same time zone.
-		evaluation = dataBundle.evaluations.get("evaluation1InCourse1OfInstructor2");
+		evaluation = dataBundle.evaluations.get("evaluation1InCourse1");
 		evaluation.activated = false;
 		evaluation.name = "new evaluation - start time in future";
 
@@ -144,11 +144,11 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		restoreTypicalDataInDatastore();
 		DataBundle dataBundle = getTypicalDataBundle();
 
-		CourseData course = dataBundle.courses.get("course1OfInstructor1");
+		CourseData course = dataBundle.courses.get("typicalCourse1");
 		EvaluationData evaluation1 = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor1");
+				.get("evaluation1InCourse1");
 		EvaluationData evaluation2 = dataBundle.evaluations
-				.get("evaluation2InCourse1OfInstructor1");
+				.get("evaluation2InCourse1");
 		StudentData student = dataBundle.students.get("student1InCourse1");
 
 		// We have a 4-member team and a 1-member team.
@@ -204,11 +204,11 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		restoreTypicalDataInDatastore();
 		DataBundle dataBundle = getTypicalDataBundle();
 
-		CourseData course = dataBundle.courses.get("course1OfInstructor1");
+		CourseData course = dataBundle.courses.get("typicalCourse1");
 		EvaluationData evaluation1 = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor1");
+				.get("evaluation1InCourse1");
 		EvaluationData evaluation2 = dataBundle.evaluations
-				.get("evaluation2InCourse1OfInstructor1");
+				.get("evaluation2InCourse1");
 		StudentData student = dataBundle.students.get("student1InCourse1");
 
 		invokeAddSubmissionsForIncomingMember(course.id,

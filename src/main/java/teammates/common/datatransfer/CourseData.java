@@ -31,6 +31,8 @@ public class CourseData extends BaseData {
 	public static final String ERROR_FIELD_NAME = "Course name cannot be null or empty\n";
 	public static final String ERROR_NAME_TOOLONG = "Course name cannot be more than " + COURSE_NAME_MAX_LENGTH + " characters\n";
 	public static final String ERROR_FIELD_INSTRUCTOR = "Course must belong to a valid Instructor\n";
+	
+	public static final String INSTRUCTOR_FIELD_DEPRECATED = "INSTRUCTOR_FIELD_DEPRECATED";
 
 	public CourseData() {
 
