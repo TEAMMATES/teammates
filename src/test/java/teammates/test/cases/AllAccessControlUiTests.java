@@ -366,7 +366,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		verifyPageContains(link, studentUsername + "{*}Evaluation Results{*}"
 				+ ownEvaluation.name + "{*}" + ownCourse.id);
 	}
-	@Test
+
 	public void testStudentEvalSubmission() {
 		bi.loginStudent(studentUsername, studentPassword);
 		
@@ -389,6 +389,10 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		bi.goToUrl(link);
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_EXPIRED);
+		assertEquals(bi.getElementAttribute(By.id(Common.PARAM_POINTS + "0"), "disabled"), "true");
+		assertEquals(bi.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"), "true");
+		assertEquals(bi.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"), "true");
+		assertEquals(bi.getElementAttribute(bi.studentSubmitEvaluationButton, "disabled"), "true");
 	}
 
 	public void testStudentCourseDetails() {
