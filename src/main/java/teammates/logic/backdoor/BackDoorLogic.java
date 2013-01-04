@@ -258,7 +258,9 @@ public class BackDoorLogic extends Logic {
 		List<AccountData> accountsToAdd = new ArrayList<AccountData>();
 		
 		for (StudentData sd : students) {
-			accountsToAdd.add(new AccountData(sd.id, sd.name, false, sd.email, ""));
+			if(!sd.id.trim().isEmpty()){
+				accountsToAdd.add(new AccountData(sd.id, sd.name, false, sd.email, ""));
+			}
 		}
 		
 		AccountsLogic.inst().getDb().createAccounts(accountsToAdd);

@@ -208,7 +208,7 @@ h2 {
 
 #footerRightCol {
    float: left;
-   margin-left: 70px;
+   margin-left: 570px;
    width: 450px;
 }
 
@@ -234,9 +234,13 @@ h2 {
 	font-size: 14px;
 	font-weight:bold;
 	line-height: 18px;
+	
+	/*prefix required to accommodate different browsers, especially slightly out-dated
+	 browsers which may not yet support the browser-radius(without prefix)*/
 	border-radius: 10px;
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
+	
 }
 
 #browserMessage table{

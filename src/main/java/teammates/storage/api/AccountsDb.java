@@ -93,7 +93,7 @@ public class AccountsDb {
 			accounts.add(ad.toEntity());
 		}
 		
-		getPM().makePersistentAll(accountsToAdd);
+		getPM().makePersistentAll(accounts);
 		getPM().flush();
 	}
 
