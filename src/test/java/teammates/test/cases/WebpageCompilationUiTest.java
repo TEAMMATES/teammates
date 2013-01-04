@@ -23,6 +23,7 @@ public class WebpageCompilationUiTest extends BaseTestCase {
                 
                 startRecordingTimeForDataImport();
                 String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/WebpageCompilationTest.json");
+                BackDoor.deleteCourses(jsonString);
                 BackDoor.deleteInstructors(jsonString);
                 String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
                 assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);

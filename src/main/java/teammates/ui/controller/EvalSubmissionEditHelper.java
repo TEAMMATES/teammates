@@ -53,11 +53,11 @@ public class EvalSubmissionEditHelper extends Helper {
 	 */
 	public String getJustificationInstr(SubmissionData sub){
 		if(sub.reviewee.equals(sub.reviewer)){
-			return "Comments about your contribution:<br />" +
-					"(this will be shown to other teammates)";
+			return "Comments about my contribution:<br />" +
+					"(shown to other teammates)";
 		} else {
-			return "Confidential comments about this teammate:<br />" + 
-					"(not shown to the teammate)";
+			return "My comments about this teammate:<br />" + 
+					"(confidential and only shown to instructor)";
 		}
 	}
 	
@@ -70,9 +70,9 @@ public class EvalSubmissionEditHelper extends Helper {
 	public String getCommentsInstr(SubmissionData sub){
 		if(sub.reviewee.equals(sub.reviewer)){
 			return "Comments about team dynamics:<br />" +
-					"(confidential)";
+					"(confidential and only shown to instructor)";
 		} else {
-			return "Your feedback to this teammate:<br />" + 
+			return "My feedback to this teammate:<br />" + 
 					"(shown anonymously to the teammate)";
 		}
 	}

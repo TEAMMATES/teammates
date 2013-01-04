@@ -40,19 +40,30 @@ public class LoginPageUiTest extends BaseTestCase {
 	
 	@AfterClass
 	public static void classTearDown() throws Exception {
+		// Used in testInstructorLogin
+		BackDoor.deleteCourse("new.test.course");
+		
+		// Used in testStudentLogin
+		BackDoor.deleteCourse("lput.tsl.course");
+		
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
 	}
 	
 	@Test
-	public void testInstructorLogin(){
-		//create a fresh instructor in datastore
+	public void testInstructorLogin() {
+		// create a fresh course
+		CourseData testCourse = new CourseData("new.test.course", "New Test Course101", CourseData.INSTRUCTOR_FIELD_DEPRECATED);
+		BackDoor.deleteCourse(testCourse.id);
+		String backDoorOperationStatus = BackDoor.createCourse(testCourse);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		
+		// create a fresh instructor in datastore
 		InstructorData testInstructor = new InstructorData();
-		testInstructor.id = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
-		testInstructor.name = "Test Instructor";
-		testInstructor.email = "test@instructor";
-		BackDoor.deleteInstructor(testInstructor.id);
-		String backDoorOperationStatus = BackDoor.createInstructor(testInstructor);
+		testInstructor.googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
+		testInstructor.courseId = testCourse.id;
+		BackDoor.deleteInstructor(testInstructor.googleId);
+		backDoorOperationStatus = BackDoor.createInstructor(testInstructor);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		
 		//try to login
@@ -62,8 +73,8 @@ public class LoginPageUiTest extends BaseTestCase {
 		assertTrue(bi.isLocalLoginPage()||bi.isGoogleLoginPage());
 		String instructorPassword = TestProperties.inst().TEST_INSTRUCTOR_PASSWORD;
 		boolean isAdmin = false;
-		bi.login(testInstructor.id, instructorPassword, isAdmin);
-		assertContainsRegex(testInstructor.id+"{*}Instructor Home{*}", bi.getCurrentPageSource());
+		bi.login(testInstructor.googleId, instructorPassword, isAdmin);
+		assertContainsRegex(testInstructor.googleId+"{*}Instructor Home{*}", bi.getCurrentPageSource());
 	}
 	
 	@Test

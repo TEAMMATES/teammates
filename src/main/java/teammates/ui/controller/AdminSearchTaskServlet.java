@@ -63,7 +63,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 		Iterator<InstructorData> it = instructors.iterator();
 		while (it.hasNext()) {
 			InstructorData instructor = it.next();
-			addDocument(instructor.name, instructor.email, instructor.id, Common.PAGE_INSTRUCTOR_HOME);
+			addDocument(instructor.name, instructor.email, instructor.googleId, Common.PAGE_INSTRUCTOR_HOME);
 		}
 		
 		/**

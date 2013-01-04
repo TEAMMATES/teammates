@@ -1,17 +1,16 @@
-{
-  "instructors": {
-    "teammates.test": {
-      "id": "teammates.test",
-      "name" : "Instructor",
-      "email" : "teammates.test@gmail.com"
+{ 
+  "courses": {
+    "SEvalEditUiT.CS2104": {
+      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
+      "id": "SEvalEditUiT.CS2104",
+      "name": "Programming Language Concepts"
     }
   },
   
-  "courses": {
-    "SEvalEditUiT.CS2104": {
-      "instructor": "teammates.test",
-      "id": "SEvalEditUiT.CS2104",
-      "name": "Programming Language Concepts"
+  "instructors": {
+    "teammates.test": {
+      "googleId": "teammates.test",
+      "courseId": "SEvalEditUiT.CS2104"
     }
   },
   

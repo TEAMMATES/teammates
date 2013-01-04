@@ -44,6 +44,9 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String OPERATION_GET_TFS_AS_JSON = "OPERATION_GET_TFS_AS_JSON";
 	public static final String OPERATION_PERSIST_DATABUNDLE = "OPERATION_PERSIST_DATABUNDLE";
 	public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER = "activate_auto_reminder";
+	public static final String OPERATION_CREATE_INSTRUCTORS_FROM_COURSES = "OPERATION_CREATE_INSTRUCTORS_FROM_COURSES";
+	public static final String OPERATION_CREATE_ACCOUNTS_FOR_INSTRUCTORS = "OPERATION_CREATE_ACCOUNTS_FOR_INSTRUCTORS";
+	public static final String OPERATION_CREATE_ACCOUNTS_FOR_STUDENTS = "OPERATION_CREATE_ACCOUNTS_FOR_STUDENTS";
 
 	public static final String PARAMETER_BACKDOOR_KEY = "PARAM_BACKDOOR_KEY";
 	public static final String PARAMETER_BACKDOOR_OPERATION = "PARAMETER_BACKDOOR_OPERATION";
@@ -102,12 +105,7 @@ public class BackDoorServlet extends HttpServlet {
 			throws Exception {
 		// TODO: reorder in alphabetical order
 		BackDoorLogic backDoorLogic = new BackDoorLogic();
-		if (action.equals(OPERATION_CREATE_INSTRUCTOR)) {
-			String instructorID = req.getParameter(PARAMETER_INSTRUCTOR_ID);
-			String instructorName = req.getParameter(PARAMETER_INSTRUCTOR_NAME);
-			String instructorEmail = req.getParameter(PARAMETER_INSTRUCTOR_EMAIL);
-			backDoorLogic.createInstructor(instructorID, instructorName, instructorEmail);
-		} else if (action.equals(OPERATION_DELETE_INSTRUCTOR)) {
+		if (action.equals(OPERATION_DELETE_INSTRUCTOR)) {
 			String instructorID = req.getParameter(PARAMETER_INSTRUCTOR_ID);
 			backDoorLogic.deleteInstructor(instructorID);
 		} else if (action.equals(OPERATION_DELETE_COURSE)) {
@@ -123,7 +121,8 @@ public class BackDoorServlet extends HttpServlet {
 			backDoorLogic.deleteStudent(courseId, email);
 		} else if (action.equals(OPERATION_GET_INSTRUCTOR_AS_JSON)) {
 			String instructorID = req.getParameter(PARAMETER_INSTRUCTOR_ID);
-			return backDoorLogic.getInstructorAsJson(instructorID);
+			String courseId = req.getParameter(PARAMETER_COURSE_ID);
+			return backDoorLogic.getInstructorAsJson(instructorID, courseId);
 		} else if (action.equals(OPERATION_GET_COURSE_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			return backDoorLogic.getCourseAsJson(courseId);
@@ -165,6 +164,12 @@ public class BackDoorServlet extends HttpServlet {
 			String originalEmail = req.getParameter(PARAMETER_STUDENT_EMAIL);
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
 			backDoorLogic.editStudentAsJson(originalEmail, newValues);
+		} else if (action.equals(OPERATION_CREATE_INSTRUCTORS_FROM_COURSES)) {
+			backDoorLogic.createInstructorsFromCourses();
+		} else if (action.equals(OPERATION_CREATE_ACCOUNTS_FOR_INSTRUCTORS)) {
+			backDoorLogic.createAccountsForInstructors();
+		} else if (action.equals(OPERATION_CREATE_ACCOUNTS_FOR_STUDENTS)) {
+			backDoorLogic.createAccountsForStudents();
 		} else {
 			throw new Exception("Unknown command: " + action);
 		}

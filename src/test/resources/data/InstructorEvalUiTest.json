@@ -1,12 +1,14 @@
 {
-  "instructors": {
-    "teammates.test": {
-      "id": "teammates.test",
-      "name" : "Instructor",
-      "email" : "teammates.test@gmail.com"
-    }
+  "accounts": {
+  	"teammates.test": {
+  	  "googleId": "teammates.test",
+  	  "name": "Teammates Test",
+  	  "isInstructor": true,
+  	  "email": "tmms.test@gmail.com",
+  	  "institute": "National University of Singapore"
+  	}
   },
-  
+
   "courses": {
     "course": {
       "instructor": "teammates.test",
@@ -17,6 +19,17 @@
       "instructor": "teammates.test",
       "id": "CEvalUiT.CS1101",
       "name": "Programming Methodology"
+    }
+  },
+  
+  "instructors": {
+    "teammates.test.course": {
+      "googleId": "teammates.test",
+      "courseId": "CEvalUiT.CS2104"
+    },
+    "teammates.test.anotherCourse": {
+      "googleId": "teammates.test",
+      "courseId": "CEvalUiT.CS1101"
     }
   },
   
