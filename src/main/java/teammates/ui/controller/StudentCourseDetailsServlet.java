@@ -40,20 +40,10 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 		helper.course = helper.server.getCourseDetails(courseId);
 		List<InstructorData> idList = helper.server.getInstructorsByCourseId(courseId);
 		
-		// Get information needed to be displayed in this servlet:
-		// 1. Name
-		// 2. {Anymore}?
-		List<String> instructorNames = new ArrayList<String>();
-		for (InstructorData id : idList) {
-			AccountData ad = helper.server.getAccount(id.googleId);
-			instructorNames.add(ad.name);
-		}
-		
 		// Current system only supports one instructor at the UI and Client side
 		InstructorData firstInstructorOfCourse = idList.get(0);
-		String firstInstructorName = instructorNames.get(0);
 		
-		helper.instructorName = firstInstructorName;
+		helper.instructorName = firstInstructorOfCourse.name;
 		helper.student = helper.server.getStudentInCourseForGoogleId(courseId, helper.userId);
 		helper.team = getTeam(helper.server.getTeamsForCourse(courseId),helper.student);
 	}

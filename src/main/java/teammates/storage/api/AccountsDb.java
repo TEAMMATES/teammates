@@ -998,4 +998,34 @@ public class AccountsDb {
 		getPM().flush();
 	}
 
+	public void appendNameEmailForInstructors() {
+		String query = "select from " + Account.class.getName()
+				+ " where isInstructor == true";
+
+		@SuppressWarnings("unchecked")
+		List<Account> instructorAccounts = (List<Account>) getPM()
+				.newQuery(query).execute();
+		
+		log.warning("SIZE OF OPERATION: " + instructorAccounts.size());
+		
+		for (Account a : instructorAccounts) {
+			log.warning("Operating: " + a.getGoogleId());
+			String instructorQuery = "select from " + Instructor.class.getName()
+					+ " where googleId == '" + a.getGoogleId() + "'";
+			
+			@SuppressWarnings("unchecked")
+			List<Instructor> instructorsOfThisAccount = (List<Instructor>) getPM()
+					.newQuery(instructorQuery).execute();
+			for (Instructor i : instructorsOfThisAccount) {
+				log.warning("Changing from: " + i.getName());
+				i.setName(a.getName());
+				i.setEmail(a.getEmail());
+				log.warning(" to: " + i.getName());
+			}
+			getPM().close();
+		}
+		
+		getPM().close();
+	}
+
 }

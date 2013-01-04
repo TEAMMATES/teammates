@@ -47,7 +47,8 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String OPERATION_CREATE_INSTRUCTORS_FROM_COURSES = "OPERATION_CREATE_INSTRUCTORS_FROM_COURSES";
 	public static final String OPERATION_CREATE_ACCOUNTS_FOR_INSTRUCTORS = "OPERATION_CREATE_ACCOUNTS_FOR_INSTRUCTORS";
 	public static final String OPERATION_CREATE_ACCOUNTS_FOR_STUDENTS = "OPERATION_CREATE_ACCOUNTS_FOR_STUDENTS";
-
+	public static final String OPERATION_APPEND_NAME_EMAIL_FOR_INSTRUCTORS = "OPERATION_APPEND_NAME_EMAIL_FOR_INSTRUCTORS";
+	
 	public static final String PARAMETER_BACKDOOR_KEY = "PARAM_BACKDOOR_KEY";
 	public static final String PARAMETER_BACKDOOR_OPERATION = "PARAMETER_BACKDOOR_OPERATION";
 	public static final String PARAMETER_COURSE_ID = "PARAMETER_COURSE_ID";
@@ -170,6 +171,8 @@ public class BackDoorServlet extends HttpServlet {
 			backDoorLogic.createAccountsForInstructors();
 		} else if (action.equals(OPERATION_CREATE_ACCOUNTS_FOR_STUDENTS)) {
 			backDoorLogic.createAccountsForStudents();
+		} else if (action.equals(OPERATION_APPEND_NAME_EMAIL_FOR_INSTRUCTORS)) {
+			backDoorLogic.appendNameEmailForInstructors();
 		} else {
 			throw new Exception("Unknown command: " + action);
 		}

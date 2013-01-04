@@ -1,4 +1,14 @@
 {
+  "accounts": {
+    "teammates.test": {
+      "googleId": "teammates.test",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "teammates.test@gmail.com",
+      "institute": "National University of Singapore"
+    }
+  },
+
   "courses": {
     "CCEnrollUiT.CS2104": {
       "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
@@ -10,7 +20,9 @@
   "instructors": {
     "teammates.test": {
       "googleId": "teammates.test",
-      "courseId": "CCEnrollUiT.CS2104"
+      "courseId": "CCEnrollUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "teammates.test@gmail.com"
     }
   },
   

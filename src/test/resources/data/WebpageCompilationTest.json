@@ -1,4 +1,14 @@
 {
+  "accounts": {
+    "teammates.test": {
+      "googleId": "teammates.test",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "teammates.test@gmail.com",
+      "institute": "National University of Singapore"
+    }
+  },
+
   "courses": {
     "CS2104": {
       "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
@@ -15,11 +25,15 @@
   "instructors": {
     "teammates.test.CS2104": {
       "googleId": "teammates.test",
-      "courseId": "CS2104"
+      "courseId": "CS2104",
+      "name": "Teammates Test",
+      "email": "teammates.test@gmail.com"
     },
     "teammates.test.CS1101": {
       "googleId": "teammates.test",
-      "courseId": "CS1101"
+      "courseId": "CS1101",
+      "name": "Teammates Test",
+      "email": "teammates.test@gmail.com"
     }
   },
   
