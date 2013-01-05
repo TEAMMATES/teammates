@@ -249,3 +249,11 @@ h2 {
 	width: 700px;
 }
 
+#featureSummary {
+    padding-left: 25px;
+}
+#featureSummary li{
+    list-style-type :disc;
+    padding: 5px;
+    font-size: 14px;
+}
