@@ -62,6 +62,12 @@ p {
 	line-height: 20px;
 }
 
+h2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 17px;
+	line-height: 20px;
+}
+
 
 /*-----------------------------------------------------------------------------------------*/
 
@@ -169,7 +175,7 @@ p {
 	font-size: 15px;
 	font-family: Arial, Helvetica, sans-serif;
 	font-weight: bold;
-	padding: 30px 0px;
+	padding: 10px 0px;
 	text-align: right;
 }
 
@@ -202,7 +208,7 @@ p {
 
 #footerRightCol {
    float: left;
-   margin-left: 70px;
+   margin-left: 570px;
    width: 450px;
 }
 
@@ -218,3 +224,28 @@ p {
    color: #FFFFFF;
    text-decoration: underline;
 }
+
+#browserMessage{
+	background-color: #FFFF99;
+	margin: 10px auto;
+	padding: 15px;
+	text-align: left;
+	width: 700px;
+	font-size: 14px;
+	font-weight:bold;
+	line-height: 18px;
+	
+	/*prefix required to accommodate different browsers, especially slightly out-dated
+	 browsers which may not yet support the browser-radius(without prefix)*/
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	
+}
+
+#browserMessage table{
+	margin-left: 50px;
+	margin-top: 10px;
+	width: 700px;
+}
+

@@ -1,9 +1,14 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.TeamData;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -26,16 +31,21 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 	protected void doAction(HttpServletRequest req, StudentCourseDetailsHelper helper)
 			throws EntityDoesNotExistException {
 		// Get parameters
-		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
-		if(courseID==null){
+		String courseId = req.getParameter(Common.PARAM_COURSE_ID);
+		if (courseId == null) {
 			helper.redirectUrl = Common.PAGE_STUDENT_HOME;
 			return;
 		}
 		
-		helper.course = helper.server.getCourseDetails(courseID);
-		helper.instructorName = helper.server.getInstructor(helper.course.instructor).name;
-		helper.student = helper.server.getStudentInCourseForGoogleId(courseID, helper.userId);
-		helper.team = getTeam(helper.server.getTeamsForCourse(courseID),helper.student);
+		helper.course = helper.server.getCourseDetails(courseId);
+		List<InstructorData> idList = helper.server.getInstructorsByCourseId(courseId);
+		
+		// Current system only supports one instructor at the UI and Client side
+		InstructorData firstInstructorOfCourse = idList.get(0);
+		
+		helper.instructorName = firstInstructorOfCourse.name;
+		helper.student = helper.server.getStudentInCourseForGoogleId(courseId, helper.userId);
+		helper.team = getTeam(helper.server.getTeamsForCourse(courseId),helper.student);
 	}
 	
 	/**

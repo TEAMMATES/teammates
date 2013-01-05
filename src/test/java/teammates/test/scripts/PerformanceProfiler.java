@@ -459,7 +459,7 @@ public class PerformanceProfiler extends Thread{
     	for (String instructorKey : set)
     	{
     		InstructorData instructor = data.instructors.get(instructorKey);
-    		status += BackDoor.getInstructorAsJson(instructor.id);
+    		status += BackDoor.getInstructorAsJson(instructor.googleId, instructor.courseId);
     	}
     	return status;
     }
@@ -474,7 +474,7 @@ public class PerformanceProfiler extends Thread{
     	for (String instructorKey : set)
     	{
     		InstructorData instructor = data.instructors.get(instructorKey);
-    		String[] courses = BackDoor.getCoursesByInstructorId(instructor.id);
+    		String[] courses = BackDoor.getCoursesByInstructorId(instructor.googleId);
     		for (String courseName : courses) {
 				status += " " + courseName;
 			}
@@ -708,7 +708,7 @@ public class PerformanceProfiler extends Thread{
     	for (String instructorKey : set)
     	{
     		InstructorData instructor = data.instructors.get(instructorKey);
-    		status += BackDoor.deleteInstructor(instructor.id);
+    		status += BackDoor.deleteInstructor(instructor.googleId);
     	}
     	return status;
     }

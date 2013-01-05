@@ -19,7 +19,7 @@ public class AdminActivityLogServlet extends ActionServlet<AdminHomeHelper> {
 	 * number of logs to query each time,
 	 * this is larger than number of logs shown on each page because we drop request log
 	 */
-	private int queryLimit = 500;
+	private int queryLimit = 50;
 	/*
 	 * parameter to indicate whether to include application log in the result.
 	 * default case only return request log
@@ -65,7 +65,8 @@ public class AdminActivityLogServlet extends ActionServlet<AdminHomeHelper> {
 			
 			//fetch application log
 			for (AppLogLine appLog : record.getAppLogLines()) {
-				if (appLog.getLogMessage().contains("Responded with")) {
+				String logMsg = appLog.getLogMessage();
+				if (logMsg.contains("TEAMMATES_LOG")) {
 					appLogs.add(appLog);
 				}
 			}
