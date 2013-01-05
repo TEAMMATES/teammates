@@ -55,14 +55,5 @@ public class StudentEvalResultsHelper extends Helper {
 		return result;
 	}
 	
-	/**
-	 * Making the headings bold
-	 * @return
-	 */
-	public static String highlightHeadings(String str){
-		System.out.println(str);
-		return str.replace("&lt;&lt;What I appreciate about you as a team member&gt;&gt;:", "<span class=\"bold\">&lt;&lt;What I appreciate about you as a team member&gt;&gt;:</span>")
-				.replace("&lt;&lt;Areas you can improve further&gt;&gt;:", "<span class=\"bold\">&lt;&lt;Areas you can improve further&gt;&gt;:</span>")
-				.replace("&lt;&lt;Other comments&gt;&gt;:", "<span class=\"bold\">&lt;&lt;Other comments&gt;&gt;:</span>");
-	}
+
 }
