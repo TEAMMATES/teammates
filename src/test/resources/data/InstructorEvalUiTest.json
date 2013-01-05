@@ -25,11 +25,15 @@
   "instructors": {
     "teammates.test.course": {
       "googleId": "teammates.test",
-      "courseId": "CEvalUiT.CS2104"
+      "courseId": "CEvalUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "teammates.test@gmail.com"
     },
     "teammates.test.anotherCourse": {
       "googleId": "teammates.test",
-      "courseId": "CEvalUiT.CS1101"
+      "courseId": "CEvalUiT.CS1101",
+      "name": "Teammates Test",
+      "email": "teammates.test@gmail.com"
     }
   },
   

@@ -11,6 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.StudentData;
@@ -52,18 +53,9 @@ public class LoginPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testInstructorLogin() {
-		// create a fresh course
-		CourseData testCourse = new CourseData("new.test.course", "New Test Course101", CourseData.INSTRUCTOR_FIELD_DEPRECATED);
-		BackDoor.deleteCourse(testCourse.id);
-		String backDoorOperationStatus = BackDoor.createCourse(testCourse);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-		
-		// create a fresh instructor in datastore
-		InstructorData testInstructor = new InstructorData();
-		testInstructor.googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
-		testInstructor.courseId = testCourse.id;
-		BackDoor.deleteInstructor(testInstructor.googleId);
-		backDoorOperationStatus = BackDoor.createInstructor(testInstructor);
+		// Create an account for the instructor
+		AccountData testInstructor = new AccountData(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "Test Course Creator", true, "instructor@testCourse.com", "National University of Singapore");
+		String backDoorOperationStatus = BackDoor.createAccount(testInstructor);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		
 		//try to login
@@ -79,13 +71,18 @@ public class LoginPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testStudentLogin(){
+		// Create an account for the instructor
+		AccountData testCourseCreator = new AccountData(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "Test Course Creator", true, "instructor@testCourse.com", "National University of Singapore");
+		String backDoorOperationStatus = BackDoor.createAccount(testCourseCreator);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		
 		//create a course for the new student
 		CourseData testCourse = new CourseData();
 		testCourse.id = "lput.tsl.course";
 		testCourse.name = "test.course.fornewstudent";
-		testCourse.instructor = "test.course.nonexistentinstructor";
+		testCourse.instructor = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
 		BackDoor.deleteCourse(testCourse.id);
-		String backDoorOperationStatus = BackDoor.createCourse(testCourse);
+		backDoorOperationStatus = BackDoor.createCourse(testCourse);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		
 		//create a fresh student in datastore

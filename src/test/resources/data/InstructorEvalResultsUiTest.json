@@ -1,4 +1,14 @@
 {
+  "accounts": {
+    "teammates.demo.instructor": {
+      "googleId": "teammates.demo.instructor",
+      "name": "Teammates Demo Instr",
+      "isInstructor": true,
+      "email": "teammates.demo.instructor@gmail.com",
+      "institute": "National University of Singapore"
+    }
+  },
+
   "courses": {
     "CEvalRUiT.CS1101": {
       "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
@@ -10,7 +20,9 @@
   "instructors": {
     "teammates.demo.instructor": {
       "googleId": "teammates.demo.instructor",
-      "courseId": "CEvalRUiT.CS1101"
+      "courseId": "CEvalRUiT.CS1101",
+      "name": "Teammates Demo Instr",
+      "email": "teammates.demo.instructor@gmail.com"
     }
   },
   

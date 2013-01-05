@@ -20,7 +20,9 @@
   "instructors": {
     "teammates.test": {
       "googleId": "teammates.test",
-      "courseId": "SCDetailsUiT.CS2104"
+      "courseId": "SCDetailsUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "teammates.test@gmail.com"
     }
   },
   

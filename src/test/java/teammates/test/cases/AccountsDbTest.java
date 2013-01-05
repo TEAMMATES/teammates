@@ -73,7 +73,7 @@ public class AccountsDbTest extends BaseTestCase {
 		}
 		*/
 		
-		// Null params check:
+		// Null parameters check:
 		try {
 			accountsDb.createAccount(null);
 			fail();
@@ -290,6 +290,8 @@ public class AccountsDbTest extends BaseTestCase {
 		InstructorData i = new InstructorData();
 		i.googleId = "valid.fresh.id";
 		i.courseId = "valid.course.Id";
+		i.name = "valid.name";
+		i.email = "valid@email.com";
 		accountsDb.createInstructor(i);
 		
 		// FAIL : duplicate
@@ -405,6 +407,8 @@ public class AccountsDbTest extends BaseTestCase {
 		InstructorData c = new InstructorData();
 		c.googleId = "valid.id";
 		c.courseId = "valid.course";
+		c.name = "valid.name";
+		c.email = "valid@email.com";
 				
 		try {
 			accountsDb.createInstructor(c);

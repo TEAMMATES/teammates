@@ -215,7 +215,9 @@ public class BackDoorTest extends BaseTestCase {
 
 		String instructorId = "tmapitt.tcc.instructor";
 		String courseId = "tmapitt.tcc.course";
-		InstructorData instructor = new InstructorData(instructorId, courseId);
+		String name = "Tmapitt testInstr Name";
+		String email = "tmapitt@tci.com";
+		InstructorData instructor = new InstructorData(instructorId, courseId, name, email);
 		
 		// Make sure not already inside
 		BackDoor.deleteInstructor(instructorId);
@@ -262,9 +264,11 @@ public class BackDoorTest extends BaseTestCase {
 		
 		// create a fresh instructor with relations for the 2 courses
 		String instructor1Id = "AST.TGCBCI.instructor1";
+		String instructor1name = "AST TGCBCI Instructor";
+		String instructor1email = "instructor1@ast.tgcbi";
 		BackDoor.deleteInstructor(instructor1Id);
-		BackDoor.createInstructor(new InstructorData(instructor1Id, course1));
-		BackDoor.createInstructor(new InstructorData(instructor1Id, course2));
+		BackDoor.createInstructor(new InstructorData(instructor1Id, course1, instructor1name, instructor1email));
+		BackDoor.createInstructor(new InstructorData(instructor1Id, course2, instructor1name, instructor1email));
 
 		//============================================================================
 		// Don't be confused by the following: it has no relation with the above instructor/course(s)

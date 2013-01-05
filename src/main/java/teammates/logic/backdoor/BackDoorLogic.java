@@ -73,7 +73,7 @@ public class BackDoorLogic extends Logic {
 		HashMap<String, InstructorData> instructors = dataBundle.instructors;
 		for (InstructorData instructor : instructors.values()) {
 			log.fine("API Servlet adding instructor :" + instructor.googleId);
-			super.createInstructor(instructor.googleId, instructor.courseId);
+			super.createInstructor(instructor.googleId, instructor.courseId, instructor.name, instructor.email);
 		}
 
 		HashMap<String, StudentData> students = dataBundle.students;
@@ -228,7 +228,8 @@ public class BackDoorLogic extends Logic {
 		List<InstructorData> instructorsToAdd = new ArrayList<InstructorData>();
 		
 		for (CourseData cd : courses) {
-			instructorsToAdd.add(new InstructorData(cd.instructor, cd.id));
+			AccountData instructorAccount = AccountsLogic.inst().getDb().getAccount(cd.instructor);
+			instructorsToAdd.add(new InstructorData(cd.instructor, cd.id, instructorAccount.name, instructorAccount.email));
 		}
 		
 		AccountsLogic.inst().getDb().persistInstructorsFromCourses(instructorsToAdd);
@@ -263,6 +264,10 @@ public class BackDoorLogic extends Logic {
 		}
 		
 		AccountsLogic.inst().getDb().createAccounts(accountsToAdd);
+	}
+	
+	public void appendNameEmailForInstructors() {
+		AccountsLogic.inst().getDb().appendNameEmailForInstructors();
 	}
 	
 }

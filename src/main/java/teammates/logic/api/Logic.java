@@ -433,11 +433,13 @@ public class Logic {
 	/**
 	 * Access: admin only
 	 */
-	public void createInstructor(String googleId, String courseId)
+	public void createInstructor(String googleId, String courseId, String name, String email)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
 
 		verifyAdminLoggedIn();
 		// trim @gmail.com in ID field
@@ -449,14 +451,16 @@ public class Logic {
 		if (!AccountsLogic.inst().getDb().isAccountExists(googleId)) {
 			AccountData accountToAdd = new AccountData();
 			accountToAdd.googleId = googleId;
+			accountToAdd.name = name;
 			accountToAdd.isInstructor = true;
+			accountToAdd.email = email;
 			AccountsLogic.inst().getDb().createAccount(accountToAdd);
 		} else {
 			AccountsLogic.inst().getDb().makeAccountInstructor(googleId);
 		}
 
 		// Create the Instructor
-		InstructorData instructorToAdd = new InstructorData(googleId, courseId);
+		InstructorData instructorToAdd = new InstructorData(googleId, courseId, name, email);
 
 		if (!instructorToAdd.isValid()) {
 			throw new InvalidParametersException(
@@ -683,14 +687,14 @@ public class Logic {
 
 		CoursesLogic.inst().getDb().createCourse(courseToAdd);
 
-		// Create an instructor relation for the INSTRUCTOR that created this
-		// course
+		// Create an instructor relation for the INSTRUCTOR that created this course
+		AccountData courseCreator = AccountsLogic.inst().getDb().getAccount(instructorId);
 		if (!instructorId.equals(CourseData.INSTRUCTOR_FIELD_DEPRECATED)) {
 			AccountsLogic
 					.inst()
 					.getDb()
 					.createInstructor(
-							new InstructorData(instructorId, courseId));
+							new InstructorData(instructorId, courseId, courseCreator.name, courseCreator.email));
 		}
 	}
 

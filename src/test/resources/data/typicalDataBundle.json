@@ -65,31 +65,45 @@
 	"instructors": {
 		"instructor1OfCourse1": {
 			"googleId": "idOfInstructor1OfCourse1",
-			"courseId": "idOfTypicalCourse1"
+			"courseId": "idOfTypicalCourse1",
+			"name": "Instructor1 Course1",
+			"email": "instructor1@course1.com"
 		},
 		"instructor2OfCourse1": {
 			"googleId": "idOfInstructor2OfCourse1",
-			"courseId": "idOfTypicalCourse1"
+			"courseId": "idOfTypicalCourse1",
+			"name": "Instructor2 Course1",
+			"email": "instructor2@course1.com"
 		},
 		"instructor1OfCourse2": {
 			"googleId": "idOfInstructor1OfCourse2",
-			"courseId": "idOfTypicalCourse2"
+			"courseId": "idOfTypicalCourse2",
+			"name": "Instructor1 Course2",
+			"email": "instructor1@course2.com"
 		},
 		"instructor2OfCourse2": {
 			"googleId": "idOfInstructor2OfCourse2",
-			"courseId": "idOfTypicalCourse2"
+			"courseId": "idOfTypicalCourse2",
+			"name": "Instructor2 Course2",
+			"email": "instructor2@course2.com"
 		},
 		"instructor3OfCourse1": {
 			"googleId": "idOfInstructor3",
-			"courseId": "idOfTypicalCourse1"
+			"courseId": "idOfTypicalCourse1",
+			"name": "Instructor3 Course1",
+			"email": "instructor3@course1.com"
 		},
 		"instructor3OfCourse2": {
 			"googleId": "idOfInstructor3",
-			"courseId": "idOfTypicalCourse2"
+			"courseId": "idOfTypicalCourse2",
+			"name": "Instructor3 Course2",
+			"email": "instructor3@course2.com"
 		},
 		"instructor4": {
 			"googleId": "idOfInstructor4",
-			"courseId": "idOfCourseNoEvals"
+			"courseId": "idOfCourseNoEvals",
+			"name": "Instructor4 name",
+			"email": "instructor4@courseNoEvals.com"
 		}
 	},
 

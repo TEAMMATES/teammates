@@ -27,16 +27,18 @@ public class InstructorData extends BaseData {
 		this.email = instructor.getEmail();
 	}
 	
-	// New
-	public InstructorData(String id, String courseId) {
+	public InstructorData(String id, String courseId, String name, String email) {
 		this.googleId = id;
 		this.courseId = courseId;
+		this.name = name;
+		this.email = email;
 	}
 	
-	// New
 	public InstructorData(Instructor instructor) {
 		this.googleId = instructor.getGoogleId();
 		this.courseId = instructor.getCourseId();
+		this.name = instructor.getName();
+		this.email = instructor.getEmail();
 	}
 
 	public InstructorData() {
@@ -44,7 +46,7 @@ public class InstructorData extends BaseData {
 	}
 
 	public Instructor toEntity() {
-		return new Instructor(googleId, courseId);
+		return new Instructor(googleId, courseId, name, email);
 	}
 
 	public String getInvalidStateInfo() {
@@ -56,6 +58,14 @@ public class InstructorData extends BaseData {
 		
 		if (!Common.isValidCourseId(courseId)) {
 			errorMessage += ERROR_FIELD_COURSEID;
+		}
+		
+		if (!Common.isValidName(name)) {
+			errorMessage += ERROR_FIELD_NAME;
+		}
+		
+		if (!Common.isValidEmail(email)) {
+			errorMessage += ERROR_FIELD_EMAIL;
 		}
 
 		return errorMessage;
