@@ -12,40 +12,30 @@
 	<link rel="shortcut icon" href="/favicon.png" />
 	<meta http-equiv="X-UA-Compatible" content="IE=8" />
 	<title>Teammates - Administrator</title>
-	<link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
-	<link rel=stylesheet href="/stylesheets/evaluation.css" type="text/css" />
+	<link rel=stylesheet href="/stylesheets/common.css" type="text/css" />
+	<link rel=stylesheet href="/stylesheets/adminActivityLog.css" type="text/css" />
 
-	<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
+	<script language="JavaScript" src="/js/jquery-minified.js"></script>
 	<script language="JavaScript" src="/js/tooltip.js"></script>
 </head>
 
 <body>
 	<div id="dhtmltooltip"></div>
-
 	<div id="frameTop">
-		<div id="frameTopWrapper">
-			<div id="logo">
-				<img alt="Teammates" height="47"
-					src="/images/teammateslogo.jpg"
-					width="150" />
-			</div>
-			<div id="contentLinks">
-				<ul id="navbar">
-					<li><a class='t_logout' href="<%= Common.JSP_LOGOUT %>">Logout</a></li>
-				</ul>
-			</div>
-		</div>
+	<jsp:include page="<%= Common.JSP_ADMIN_HEADER %>" />
 	</div>
-
 	<div id="frameBody">
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
-			   <%
-			      List<AppLogLine> appLogs = (List<AppLogLine>) request.getAttribute("appLogs");
-			      if (appLogs != null) {
-			    %>
-			 <table>
+				<h2>Admin Activity Log</h2>
+			</div>
+			  
+			<%
+			  List<AppLogLine> appLogs = (List<AppLogLine>) request.getAttribute("appLogs");
+			  if (appLogs != null) {
+			%>
+			<table class="dataTable">
 		        <tr>
 		          <th>Date</th>
 		          <th>Level</th>

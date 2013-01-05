@@ -5,7 +5,7 @@
         <link rel="shortcut icon" href="/favicon.png">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Teammates</title>
-        <link rel="stylesheet" href="/stylesheets/main.css" type="text/css">
+        <link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
 </head>
 
 <body>

@@ -1,32 +1,39 @@
 {
-  "coords": {
-    "teammates.demo.coord": {
-      "id": "teammates.demo.coord",
-      "name" : "Teammates Demo Coordinator",
-      "email" : "teammates.demo.coord@gmail.com"
-    },
-    "teammates.coord": {
-      "id": "teammates.coord",
-      "name" : "Coordinator",
-      "email" : "teammates.coord@gmail.com"
-    },
+  "accounts": {
     "teammates.test": {
-      "id": "teammates.test",
-      "name" : "Coordinator",
-      "email" : "teammates.test@gmail.com"
+      "googleId": "teammates.test",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "teammates.test@gmail.com",
+      "institute": "National University of Singapore"
     }
   },
-  
+
   "courses": {
     "SHomeUiT.CS2104": {
-      "coord": "teammates.test",
+      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
       "id": "SHomeUiT.CS2104",
       "name": "Programming Language Concepts"
     },
     "SHomeUiT.CS1101": {
-      "coord": "teammates.test",
+      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
       "id": "SHomeUiT.CS1101",
       "name": "Programming Methodology"
+    }
+  },
+  
+  "instructors": {
+    "teammates.test.CS2104": {
+      "googleId": "teammates.test",
+      "courseId": "SHomeUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "teammates.test@gmail.com"
+    },
+    "teammates.test.CS1101": {
+      "googleId": "teammates.test",
+      "courseId": "SHomeUiT.CS1101",
+      "name": "Teammates Test",
+      "email": "teammates.test@gmail.com"
     }
   },
   

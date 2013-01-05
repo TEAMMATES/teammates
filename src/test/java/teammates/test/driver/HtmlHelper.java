@@ -37,9 +37,10 @@ public class HtmlHelper {
 	 */
 	public static boolean assertSameHtml(String html1, String html2)
 			throws SAXException, IOException, TransformerException {
+		
 		html1 = preProcessHtml(html1);
 		html2 = preProcessHtml(html2);
-
+		
 		Node page1 = getNodeFromString(html1);
 		Node page2 = getNodeFromString(html2);
 		eliminateEmptyTextNodes(page1);
@@ -47,7 +48,12 @@ public class HtmlHelper {
 		
 		StringBuilder annotatedHtml= new StringBuilder();
 		boolean isLogicalMatch = compare(page1, page2, "  ", annotatedHtml);
-		assertTrue(annotatedHtml.toString(), isLogicalMatch);
+		if(!isLogicalMatch){
+			//If they are not a logical match, we force a literal comparison
+			//   just so that JUnit gives us a side-by-side comparison.
+			System.out.println(annotatedHtml.toString());
+			assertEquals(annotatedHtml.toString(), html1, html2);		
+		}
 		return isLogicalMatch;
 	}
 		
@@ -56,6 +62,9 @@ public class HtmlHelper {
 		htmlString = htmlString.replaceFirst("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>");	
 		htmlString = htmlString.replaceAll("height=\"([0-9]+)\"", "height=\"$1px\"");
 		htmlString = htmlString.replaceAll("width=\"([0-9]+)\"", "width=\"$1px\"");
+		if (!htmlString.contains("<!DOCTYPE")){
+			htmlString = "<!DOCTYPE html>\n" + htmlString;
+		}
 		return htmlString;
 	}
 
@@ -103,20 +112,28 @@ public class HtmlHelper {
 			
 			NamedNodeMap actualAttributeList = actual.getAttributes();
 			NamedNodeMap expectedAttributeList = expected.getAttributes();
+			boolean dhtmltooltipIgnore = false;
 			for (int i = 0; i < expectedAttributeList.getLength(); i++){
 				Node expectedAttribute = expectedAttributeList.item(i);
-				Node actualAttribute;
+				Node actualAttribute = null;				
 				try{
 					actualAttribute = actualAttributeList.removeNamedItem(expectedAttribute.getNodeName());
+					if(actualAttribute.getNodeName().equals("id") && actualAttribute.getNodeValue().equals("dhtmltooltip")){						
+						dhtmltooltipIgnore = true;
+					}
 				}
 				catch (DOMException e){
+					//skip if the style for the dhtmltooltip is set
+					if(dhtmltooltipIgnore && expectedAttribute.getNodeName().equals("style")){						
+						return true;
+					}
 					output.append("Error: Unable to find attribute: " + expectedAttribute.getNodeName() + "\n");
 					return false;
 				}
 				if (actualAttribute.getNodeValue().trim().equals("{*}")){
 					//Regex should pass
 				} else if (!actualAttribute.getNodeValue().equals(expectedAttribute.getNodeValue())){
-					output.append("Error: attribute " + expectedAttribute.getNodeName() + " has value \"" + actualAttribute.getNodeValue() + "\" instead of \"" + actualAttribute.getNodeValue() + "\"\n");
+					output.append("Error: attribute " + expectedAttribute.getNodeName() + " has value \"" + actualAttribute.getNodeValue() + "\" instead of \"" + expectedAttribute.getNodeValue() + "\"\n");
 					return false;
 				}								
 			}
@@ -130,8 +147,8 @@ public class HtmlHelper {
 			}
 			else{
 				for (int i = 0; i < expectedAttributeList.getLength(); i++){
-					Node actualAttribute = expectedAttributeList.item(i);
-					output.append("[" + actualAttribute.getNodeName() + ": " + actualAttribute.getNodeValue() + "] ");
+					Node expectedAttribute = expectedAttributeList.item(i);
+					output.append("[" + expectedAttribute.getNodeName() + ": " + expectedAttribute.getNodeValue() + "] ");
 				}
 			}
 			output.append("\n");	
@@ -149,24 +166,24 @@ public class HtmlHelper {
 		}
 				
 		if(expected.hasChildNodes() || expected.hasChildNodes()){
-			NodeList webpageChildNodes = actual.getChildNodes();
-			NodeList testpageChildNodes = expected.getChildNodes();
-			if (webpageChildNodes.getLength() != testpageChildNodes.getLength()){
+			NodeList actualChildNodes = actual.getChildNodes();
+			NodeList expectedChildNodes = expected.getChildNodes();
+			if (actualChildNodes.getLength() != expectedChildNodes.getLength()){
 				output.append(indentation + "Error: Parse tree structure is different\n");
-				output.append(indentation + "Webpage - current tree level: ");
-				for (int i = 0; i < webpageChildNodes.getLength(); i++){
-					output.append(webpageChildNodes.item(i).getNodeName() + " ");
+				output.append(indentation + "Actual - current tree level: ");
+				for (int i = 0; i < actualChildNodes.getLength(); i++){
+					output.append(actualChildNodes.item(i).getNodeName() + " ");
 				}
 				output.append("\n");
-				output.append(indentation + "Testpage - current tree level: ");
-				for (int i = 0; i < testpageChildNodes.getLength(); i++){
-					output.append(testpageChildNodes.item(i).getNodeName() + " ");
+				output.append(indentation + "Expected - current tree level: ");
+				for (int i = 0; i < expectedChildNodes.getLength(); i++){
+					output.append(expectedChildNodes.item(i).getNodeName() + " ");
 				}
 				output.append("\n");
 				return false;
 			} else {
-				for (int i = 0; i < webpageChildNodes.getLength(); i++){
-					if(!compare(webpageChildNodes.item(i), testpageChildNodes.item(i), indentation + "   ", output)){
+				for (int i = 0; i < actualChildNodes.getLength(); i++){
+					if(!compare(actualChildNodes.item(i), expectedChildNodes.item(i), indentation + "   ", output)){
 						return false;
 					}
 				}

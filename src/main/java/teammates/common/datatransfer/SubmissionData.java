@@ -39,7 +39,7 @@ public class SubmissionData extends BaseData {
 
 	public transient int normalizedToStudent = Common.UNINITIALIZED_INT;
 
-	public transient int normalizedToCoord = Common.UNINITIALIZED_INT;
+	public transient int normalizedToInstructor = Common.UNINITIALIZED_INT;
 	
 	public static final String ERROR_FIELD_COURSE = "Submission must belong to a valid course\n";
 	public static final String ERROR_FIELD_EVALUATION = "Submission must belong to a valid evaluation\n";
@@ -97,7 +97,7 @@ public class SubmissionData extends BaseData {
 		copy.p2pFeedback = new Text(p2pFeedback == null ? null
 				: p2pFeedback.getValue());
 		copy.normalizedToStudent = this.normalizedToStudent;
-		copy.normalizedToCoord = this.normalizedToCoord;
+		copy.normalizedToInstructor = this.normalizedToInstructor;
 		return copy;
 	}
 
@@ -116,7 +116,7 @@ public class SubmissionData extends BaseData {
 				+ reviewee + EOL);
 		sb.append(indentString + " points:" + points);
 		sb.append(" [normalized-to-student:" + normalizedToStudent + "]");
-		sb.append(" [normalized-to-coord:" + normalizedToStudent + "]");
+		sb.append(" [normalized-to-instructor:" + normalizedToStudent + "]");
 		sb.append(EOL + indentString + " justificatoin:"
 				+ justification.getValue());
 		sb.append(EOL + indentString + " p2pFeedback:" + p2pFeedback.getValue());

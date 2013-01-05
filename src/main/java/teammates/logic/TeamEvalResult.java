@@ -20,9 +20,9 @@ public class TeamEvalResult {
 
 	/** submission values originally from students of the team */
 	public int[][] claimed;
-	/** submission values to be shown to coordinator (after normalization) */
+	/** submission values to be shown to instructor (after normalization) */
 	public int[][] normalizedClaimed;
-	/** average perception of team shown to coord. Excludes self evaluations */
+	/** average perception of team shown to instructor. Excludes self evaluations */
 	public int[] normalizedAveragePerceived;
 	/** team perception shown to students. denormalized to match their own claims */
 	public int[][] denormalizedAveragePerceived;

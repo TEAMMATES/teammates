@@ -4,18 +4,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.StudentData;
@@ -26,6 +26,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.logic.api.Logic;
+
+import com.google.apphosting.api.DeadlineExceededException;
 
 @SuppressWarnings("serial")
 /**
@@ -61,8 +63,11 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		T helper = instantiateHelper();
 
 		prepareHelper(req, helper);
+
 		Level logLevel = null;
 		String response = null;
+		String reqParam = Common.printRequestParameters(req);
+
 		try {
 			doAction(req, helper);
 			logLevel = Level.INFO;
@@ -77,12 +82,22 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			logLevel = Level.WARNING;
 			response = "Unauthorized access";
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
-		} catch (Throwable e) {
-			logLevel = Level.SEVERE;
-			response = "Unexpected exception:"
-					+ (e.getMessage() == null ? "" : e.getMessage());
-		
-			resp.sendRedirect(Common.JSP_ERROR_PAGE);
+		}  catch (DeadlineExceededException e) {
+			MimeMessage email = helper.server.emailErrorReport(req.getServletPath(), reqParam, (Throwable) e);
+			try {
+				log.severe(email.getContent().toString());
+			} catch (Exception e1) {}
+			
+			resp.sendRedirect(Common.JSP_DEADLINE_EXCEEDED_ERROR_PAGE);
+			return;
+		}  catch (Throwable e) {
+			MimeMessage email = helper.server.emailErrorReport(req.getServletPath(), reqParam, e);
+			try {
+				log.severe(email.getContent().toString());
+			} catch (Exception e1) {}
+						
+		    resp.sendRedirect(Common.JSP_ERROR_PAGE);
+			return;
 		} finally {
 			//log activity
 			String logMsg = getUserActionLog(req, response, helper);
@@ -117,11 +132,11 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		sb.append(action+"|");
 
 		//log user information
-		if(user.isCoord) {
+		if(user.isInstructor) {
 			sb.append("Coordinator|");
-			CoordData u = helper.server.getCoord(user.id);
+			AccountData u = helper.server.getAccount(user.id);
 			sb.append(u.name+"|");
-			sb.append(u.id+"|");
+			sb.append(u.googleId+"|");
 			sb.append(u.email+"|");
 		}else if(user.isStudent) {
 			sb.append("Student|");
@@ -146,7 +161,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		
 		//log response
 		sb.append(resp+"|");
-		sb.append(printRequestParameters(req));
+		sb.append(Common.printRequestParameters(req));
 
 		return sb.toString();
 	}
@@ -430,16 +445,4 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		});
 	}
 	
-	protected String printRequestParameters(HttpServletRequest request) {
-		String requestParameters = "{";
-		for (Enumeration f = request.getParameterNames(); f.hasMoreElements();) {
-			String paramet = new String(f.nextElement().toString());
-			requestParameters += paramet + ":" + request.getParameter(paramet) + ", ";
-		}
-		if (requestParameters != "{") {
-			requestParameters = requestParameters.substring(0, requestParameters.length() - 2);
-		}
-		requestParameters += "}";
-		return requestParameters;
-	}
 }

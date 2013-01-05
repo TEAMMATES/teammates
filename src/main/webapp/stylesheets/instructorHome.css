@@ -1,0 +1,13 @@
+.result_homeTitle {
+	float: left;
+	width: 58%;
+    height: 50px;
+}
+
+.result_homeLinks {
+	float: right;
+	width: 38%;
+    margin-top: 20px;
+    height: 30px;
+
+}

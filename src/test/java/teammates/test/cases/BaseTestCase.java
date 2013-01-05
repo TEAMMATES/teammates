@@ -22,7 +22,8 @@ import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.AccountData;
+import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.UserType;
@@ -263,16 +264,20 @@ public class BaseTestCase {
 		setLogLevelOfClass(Logic.class, Level.SEVERE);
 
 		DataBundle dataBundle = getTypicalDataBundle();
+		
+		for (AccountData account : dataBundle.accounts.values()) {
+			backDoorLogic.deleteAccount(account.googleId);
+		}
 
 		// delete courses first in case there are existing courses with same id
-		// but under different coords.
+		// but under different instructors.
 		for (CourseData course : dataBundle.courses.values()) {
 			backDoorLogic.deleteCourse(course.id);
 		}
 
-		HashMap<String, CoordData> coords = dataBundle.coords;
-		for (CoordData coord : coords.values()) {
-			backDoorLogic.deleteCoord(coord.id);
+		HashMap<String, InstructorData> instructors = dataBundle.instructors;
+		for (InstructorData instructor : instructors.values()) {
+			backDoorLogic.deleteInstructor(instructor.googleId);
 		}
 		backDoorLogic.persistNewDataBundle(dataBundle);
 
@@ -340,10 +345,10 @@ public class BaseTestCase {
 
 	/**Logs in the user to the local test environment as an admin 
 	 */
-	protected void loginAsCoord(String userId) {
+	protected void loginAsInstructor(String userId) {
 		loginUser(userId);
 		Logic logic = new Logic();
-		assertEquals(true, logic.getLoggedInUser().isCoord);
+		assertEquals(true, logic.getLoggedInUser().isInstructor);
 		assertEquals(false, logic.getLoggedInUser().isAdmin);
 	}
 
@@ -353,7 +358,7 @@ public class BaseTestCase {
 		loginUser(userId);
 		Logic logic = new Logic();
 		assertEquals(true, logic.getLoggedInUser().isStudent);
-		assertEquals(false, logic.getLoggedInUser().isCoord);
+		assertEquals(false, logic.getLoggedInUser().isInstructor);
 		assertEquals(false, logic.getLoggedInUser().isAdmin);
 	}
 

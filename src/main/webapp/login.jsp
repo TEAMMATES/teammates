@@ -7,9 +7,10 @@
 <link rel="shortcut icon" href="/favicon.png">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Teammates</title>
-<link rel="stylesheet" href="/stylesheets/main.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript" src="js/blockUnsupportedBrowsers.js"></script>
+<jsp:include page="enableJS.jsp"></jsp:include>
 </head>
 
 <body>
@@ -37,8 +38,8 @@
 					<tr>
 						<td class="loginCell">
 							<form action="<%= Common.PAGE_LOGIN %>">
-								<input type="submit" name="coord" 
-										class="button" id="btnCoordLogin" value="Coordinator">
+								<input type="submit" name="instructor" 
+										class="button" id="btnInstructorLogin" value="Instructor">
 							</form>
 						</td>
 					</tr>

@@ -141,13 +141,13 @@ public class Helper {
 	}
 	
 	/**
-	 * Returns the link to the coordinator home link<br />
+	 * Returns the link to the instructor home link<br />
 	 * This includes masquerade mode as well.
 	 * @param courseID
 	 * @return
 	 */
-	public String getCoordHomeLink(){
-		String link = Common.PAGE_COORD_HOME;
+	public String getInstructorHomeLink(){
+		String link = Common.PAGE_INSTRUCTOR_HOME;
 		link = processMasquerade(link);
 		return link;
 	}
@@ -170,8 +170,8 @@ public class Helper {
 	 * @param courseID
 	 * @return
 	 */
-	public String getCoordCourseLink(){
-		String link = Common.PAGE_COORD_COURSE;
+	public String getInstructorCourseLink(){
+		String link = Common.PAGE_INSTRUCTOR_COURSE;
 		link = processMasquerade(link);
 		return link;
 	}
@@ -182,8 +182,8 @@ public class Helper {
 	 * @param courseID
 	 * @return
 	 */
-	public String getCoordCourseEnrollLink(String courseID){
-		String link = Common.PAGE_COORD_COURSE_ENROLL;
+	public String getInstructorCourseEnrollLink(String courseID){
+		String link = Common.PAGE_INSTRUCTOR_COURSE_ENROLL;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
 		link = processMasquerade(link);
 		return link;
@@ -195,8 +195,8 @@ public class Helper {
 	 * @param courseID
 	 * @return
 	 */
-	public String getCoordCourseDetailsLink(String courseID){
-		String link = Common.PAGE_COORD_COURSE_DETAILS;
+	public String getInstructorCourseDetailsLink(String courseID){
+		String link = Common.PAGE_INSTRUCTOR_COURSE_DETAILS;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID); 
 		link = processMasquerade(link);
 		return link;
@@ -210,10 +210,10 @@ public class Helper {
 	 * @param isHome
 	 * @return
 	 */
-	public String getCoordCourseDeleteLink(String courseID, boolean isHome){
-		String link = Common.PAGE_COORD_COURSE_DELETE;
+	public String getInstructorCourseDeleteLink(String courseID, boolean isHome){
+		String link = Common.PAGE_INSTRUCTOR_COURSE_DELETE;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
-		link = Common.addParamToUrl(link,Common.PARAM_NEXT_URL,(isHome? processMasquerade(Common.PAGE_COORD_HOME) : processMasquerade(Common.PAGE_COORD_COURSE)));
+		link = Common.addParamToUrl(link,Common.PARAM_NEXT_URL,(isHome? processMasquerade(Common.PAGE_INSTRUCTOR_HOME) : processMasquerade(Common.PAGE_INSTRUCTOR_COURSE)));
 		link = processMasquerade(link);
 		return link;
 	}
@@ -223,8 +223,8 @@ public class Helper {
 	 * This includes masquerade mode as well.
 	 * @return
 	 */
-	public String getCoordEvaluationLink(){
-		String link = Common.PAGE_COORD_EVAL;
+	public String getInstructorEvaluationLink(){
+		String link = Common.PAGE_INSTRUCTOR_EVAL;
 		link = processMasquerade(link);
 		return link;
 	}
@@ -238,8 +238,8 @@ public class Helper {
 	 * @param nextURL
 	 * @return
 	 */
-	public String getCoordEvaluationDeleteLink(String courseID, String evalName, String nextURL){
-		String link = Common.PAGE_COORD_EVAL_DELETE;
+	public String getInstructorEvaluationDeleteLink(String courseID, String evalName, String nextURL){
+		String link = Common.PAGE_INSTRUCTOR_EVAL_DELETE;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
 		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = Common.addParamToUrl(link,Common.PARAM_NEXT_URL,processMasquerade(nextURL));
@@ -254,8 +254,8 @@ public class Helper {
 	 * @param evalName
 	 * @return
 	 */
-	public String getCoordEvaluationEditLink(String courseID, String evalName){
-		String link = Common.PAGE_COORD_EVAL_EDIT;
+	public String getInstructorEvaluationEditLink(String courseID, String evalName){
+		String link = Common.PAGE_INSTRUCTOR_EVAL_EDIT;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
 		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = processMasquerade(link);
@@ -269,8 +269,8 @@ public class Helper {
 	 * @param evalName
 	 * @return
 	 */
-	public String getCoordEvaluationResultsLink(String courseID, String evalName){
-		String link = Common.PAGE_COORD_EVAL_RESULTS;
+	public String getInstructorEvaluationResultsLink(String courseID, String evalName){
+		String link = Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
 		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = processMasquerade(link);
@@ -285,8 +285,8 @@ public class Helper {
 	 * @param evalName
 	 * @return
 	 */
-	public String getCoordEvaluationRemindLink(String courseID, String evalName){
-		String link = Common.PAGE_COORD_EVAL_REMIND;
+	public String getInstructorEvaluationRemindLink(String courseID, String evalName){
+		String link = Common.PAGE_INSTRUCTOR_EVAL_REMIND;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID, courseID);
 		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = processMasquerade(link);
@@ -302,11 +302,11 @@ public class Helper {
 	 * @param isHome
 	 * @return
 	 */
-	public String getCoordEvaluationPublishLink(String courseID, String evalName, boolean isHome){
-		String link = Common.PAGE_COORD_EVAL_PUBLISH;
+	public String getInstructorEvaluationPublishLink(String courseID, String evalName, boolean isHome){
+		String link = Common.PAGE_INSTRUCTOR_EVAL_PUBLISH;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID, courseID);
 		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
-		link = Common.addParamToUrl(link,Common.PARAM_NEXT_URL,(isHome ? processMasquerade(Common.PAGE_COORD_HOME): processMasquerade(Common.PAGE_COORD_EVAL)));
+		link = Common.addParamToUrl(link,Common.PARAM_NEXT_URL,(isHome ? processMasquerade(Common.PAGE_INSTRUCTOR_HOME): processMasquerade(Common.PAGE_INSTRUCTOR_EVAL)));
 		link = processMasquerade(link);
 		return link;
 	}
@@ -320,11 +320,11 @@ public class Helper {
 	 * @param isHome
 	 * @return
 	 */
-	public String getCoordEvaluationUnpublishLink(String courseID, String evalName, boolean isHome){
-		String link = Common.PAGE_COORD_EVAL_UNPUBLISH;
+	public String getInstructorEvaluationUnpublishLink(String courseID, String evalName, boolean isHome){
+		String link = Common.PAGE_INSTRUCTOR_EVAL_UNPUBLISH;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID, courseID);
 		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
-		link = Common.addParamToUrl(link,Common.PARAM_NEXT_URL,(isHome ? processMasquerade(Common.PAGE_COORD_HOME): processMasquerade(Common.PAGE_COORD_EVAL)));
+		link = Common.addParamToUrl(link,Common.PARAM_NEXT_URL,(isHome ? processMasquerade(Common.PAGE_INSTRUCTOR_HOME): processMasquerade(Common.PAGE_INSTRUCTOR_EVAL)));
 		link = processMasquerade(link);
 		return link;
 	}
@@ -338,8 +338,8 @@ public class Helper {
 	 * @param studentEmail
 	 * @return
 	 */
-	public String getCoordEvaluationSubmissionViewLink(String courseID, String evalName, String studentEmail){
-		String link = Common.PAGE_COORD_EVAL_SUBMISSION_VIEW;
+	public String getInstructorEvaluationSubmissionViewLink(String courseID, String evalName, String studentEmail){
+		String link = Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_VIEW;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
 		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,studentEmail);
@@ -356,8 +356,8 @@ public class Helper {
 	 * @param studentEmail
 	 * @return
 	 */
-	public String getCoordEvaluationSubmissionEditLink(String courseID, String evalName, String studentEmail){
-		String link = Common.PAGE_COORD_EVAL_SUBMISSION_EDIT;
+	public String getInstructorEvaluationSubmissionEditLink(String courseID, String evalName, String studentEmail){
+		String link = Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
 		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,studentEmail);
@@ -376,7 +376,7 @@ public class Helper {
 	 * @param eval
 	 * @return
 	 */
-	public static String getCoordStatusForEval(EvaluationData eval){
+	public static String getInstructorStatusForEval(EvaluationData eval){
 		switch(eval.getStatus()){
 		case AWAITING: return Common.EVALUATION_STATUS_AWAITING;
 		case OPEN: return Common.EVALUATION_STATUS_OPEN;
@@ -390,7 +390,7 @@ public class Helper {
 	 * @param eval
 	 * @return
 	 */
-	public static String getCoordHoverMessageForEval(EvaluationData eval){
+	public static String getInstructorHoverMessageForEval(EvaluationData eval){
 		switch(eval.getStatus()){
 		case AWAITING: return Common.HOVER_MESSAGE_EVALUATION_STATUS_AWAITING;
 		case OPEN: return Common.HOVER_MESSAGE_EVALUATION_STATUS_OPEN;
@@ -409,7 +409,7 @@ public class Helper {
 	 * 		Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
 	 * @return
 	 */
-	public String getCoordEvaluationActions(EvaluationData eval, int position, boolean isHome){
+	public String getInstructorEvaluationActions(EvaluationData eval, int position, boolean isHome){
 		StringBuffer result = new StringBuffer();
 		
 		boolean hasView = false;
@@ -438,42 +438,42 @@ public class Helper {
 		}
 		
 		result.append(
-			"<a class=\"t_eval_view"+ position + "\" " +
-			"href=\"" + getCoordEvaluationResultsLink(eval.course,eval.name) + "\" " +
+			"<a class=\"color_black t_eval_view"+ position + "\" " +
+			"href=\"" + getInstructorEvaluationResultsLink(eval.course,eval.name) + "\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_RESULTS+"')\" "+
 			"onmouseout=\"hideddrivetip()\"" + (hasView ? "" : DISABLED) + ">View Results</a>"
 		);
 		result.append(
-			"<a class=\"t_eval_edit" + position + "\" " +
-			"href=\"" + getCoordEvaluationEditLink(eval.course,eval.name) + "\" " +
+			"<a class=\"color_black t_eval_edit" + position + "\" " +
+			"href=\"" + getInstructorEvaluationEditLink(eval.course,eval.name) + "\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_EDIT+"')\" onmouseout=\"hideddrivetip()\" " +
 			(hasEdit ? "" : DISABLED) + ">Edit</a>"
 		);
 		result.append(
-			"<a class=\"t_eval_delete" + position + "\" " +
-			"href=\"" + getCoordEvaluationDeleteLink(eval.course,eval.name,(isHome ? Common.PAGE_COORD_HOME : Common.PAGE_COORD_EVAL)) + "\" " +
+			"<a class=\"color_black t_eval_delete" + position + "\" " +
+			"href=\"" + getInstructorEvaluationDeleteLink(eval.course,eval.name,(isHome ? Common.PAGE_INSTRUCTOR_HOME : Common.PAGE_INSTRUCTOR_EVAL)) + "\" " +
 			"onclick=\"hideddrivetip(); return toggleDeleteEvaluationConfirmation('" + eval.course + "','" + eval.name + "');\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_DELETE+"')\" onmouseout=\"hideddrivetip()\">Delete</a>"
 		);
 		result.append(
-			"<a class=\"t_eval_remind" + position + "\" " +
-			"href=\"" + getCoordEvaluationRemindLink(eval.course,eval.name) + "\" " +
+			"<a class=\"color_black t_eval_remind" + position + "\" " +
+			"href=\"" + getInstructorEvaluationRemindLink(eval.course,eval.name) + "\" " +
 			(hasRemind ? "onclick=\"hideddrivetip(); return toggleRemindStudents('" + eval.name + "');\" " : "") +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_REMIND+"')\" " +
 			"onmouseout=\"hideddrivetip()\"" + (hasRemind ? "" : DISABLED) + ">Remind</a>"
 		);
 		if (hasUnpublish) {
 			result.append(
-				"<a class=\"t_eval_unpublish" + position + "\" " +
-				"href=\"" + getCoordEvaluationUnpublishLink(eval.course,eval.name,isHome) + "\" " +
+				"<a class=\"color_black t_eval_unpublish" + position + "\" " +
+				"href=\"" + getInstructorEvaluationUnpublishLink(eval.course,eval.name,isHome) + "\" " +
 				"onclick=\"hideddrivetip(); return toggleUnpublishEvaluation('" + eval.name + "');\" " +
 				"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_UNPUBLISH+"')\" onmouseout=\"hideddrivetip()\">" +
 				"Unpublish</a>"
 			);
 		} else {
 			result.append(
-				"<a class=\"t_eval_publish" + position + "\" " +
-				"href=\"" + getCoordEvaluationPublishLink(eval.course,eval.name,isHome) + "\" " +
+				"<a class=\"color_black t_eval_publish" + position + "\" " +
+				"href=\"" + getInstructorEvaluationPublishLink(eval.course,eval.name,isHome) + "\" " +
 				(hasPublish ? "onclick=\"hideddrivetip(); return togglePublishEvaluation('" + eval.name + "');\" " : "") +
 				"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_PUBLISH+"')\" " +
 				"onmouseout=\"hideddrivetip()\"" + (hasPublish ? "" : DISABLED) + ">Publish</a>"

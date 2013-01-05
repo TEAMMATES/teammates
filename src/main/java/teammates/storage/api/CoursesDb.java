@@ -89,36 +89,7 @@ public class CoursesDb {
 		return new CourseData(c);
 	}
 
-	/**
-	 * RETRIEVE List<Course>
-	 * 
-	 * Returns the list of Course objects of a Coordinator
-	 * 
-	 * @param coordId
-	 *            the Google ID of the coordinator (Precondition: Must not be
-	 *            null)
-	 * 
-	 * @return List<Course> the list of courses of the coordinator
-	 */
-	public List<CourseData> getCourseListForCoordinator(String coordId) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, coordId);
-		
-		String query = "select from " + Course.class.getName()
-				+ " where coordinatorID == '" + coordId + "'";
-
-		@SuppressWarnings("unchecked")
-		List<Course> courseList = (List<Course>) getPM().newQuery(query)
-				.execute();
-		List<CourseData> courseDataList = new ArrayList<CourseData>();
-
-		for (Course c : courseList) {
-			if (!JDOHelper.isDeleted(c)) {
-				courseDataList.add(new CourseData(c));
-			}
-		}
-
-		return courseDataList;
-	}
+	
 
 	/**
 	 * DELETE Course
@@ -178,4 +149,21 @@ public class CoursesDb {
 		return courseList.get(0);
 	}
 
+	/**
+	 * Returns all Course Entities 
+	 */
+	public List<CourseData> getAllCourses() {
+		String query = "select from " + Course.class.getName();
+
+		@SuppressWarnings("unchecked")
+		List<Course> courseList = (List<Course>) getPM().newQuery(query)
+				.execute();
+
+		List<CourseData> courseDataList = new ArrayList<CourseData>();
+		for (Course c : courseList) {
+			courseDataList.add(new CourseData(c));
+		}
+
+		return courseDataList;
+	}
 }

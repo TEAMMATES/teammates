@@ -27,15 +27,17 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 	private static DataBundle scn;
 	
 	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
+	private static String jsonString;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
 		
 		startRecordingTimeForDataImport();
-		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/StudentEvalEditUiTest.json");
+		jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/StudentEvalEditUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
-		BackDoor.deleteCoordinators(jsonString);
+		BackDoor.deleteCourses(jsonString);
+		BackDoor.deleteInstructors(jsonString);
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		String course = "SEvalEditUiT.CS2104";
@@ -80,6 +82,9 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
+
+		// Always cleanup
+		BackDoor.deleteCourses(jsonString);
 	}
 	
 	@Test

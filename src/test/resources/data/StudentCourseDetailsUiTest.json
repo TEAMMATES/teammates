@@ -1,17 +1,28 @@
 {
-  "coords": {
-    "teammates.test": {
-      "id": "teammates.test",
-      "name" : "Coordinator",
-      "email" : "teammates.test@gmail.com"
+  "accounts": {
+  	"teammates.test": {
+  	  "googleId": "teammates.test",
+  	  "name": "Instructor",
+  	  "isInstructor": true,
+  	  "email": "tmms.test@gmail.com",
+  	  "institute": "National University of Singapore"
+  	}
+  },
+
+  "courses": {
+    "SCDetailsUiT.CS2104": {
+      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
+      "id": "SCDetailsUiT.CS2104",
+      "name": "Programming Language Concepts"
     }
   },
   
-  "courses": {
-    "SCDetailsUiT.CS2104": {
-      "coord": "teammates.test",
-      "id": "SCDetailsUiT.CS2104",
-      "name": "Programming Language Concepts"
+  "instructors": {
+    "teammates.test": {
+      "googleId": "teammates.test",
+      "courseId": "SCDetailsUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "teammates.test@gmail.com"
     }
   },
   

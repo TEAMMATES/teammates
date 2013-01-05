@@ -1,17 +1,28 @@
 {
-  "coords": {
-    "teammates.demo.coord": {
-      "id": "teammates.demo.coord",
-      "name" : "Teammates Demo Coordinator",
-      "email" : "teammates.demo.coord@gmail.com"
+  "accounts": {
+    "teammates.test": {
+      "googleId": "teammates.test",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "teammates.test@gmail.com",
+      "institute": "National University of Singapore"
+    }
+  },
+
+  "courses": {
+    "SEvalRUiT.CS1101": {
+      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
+      "id": "SEvalRUiT.CS1101",
+      "name": "Programming Methodology"
     }
   },
   
-  "courses": {
-    "SEvalRUiT.CS1101": {
-      "coord": "teammates.demo.coord",
-      "id": "SEvalRUiT.CS1101",
-      "name": "Programming Methodology"
+  "instructors": {
+    "teammates.demo.instructor": {
+      "googleId": "teammates.demo.instructor",
+      "courseId": "SEvalRUiT.CS1101",
+      "name": "teammates.demo.instructor",
+      "email": "teammates.demo.instructor@gmail.com"
     }
   },
   

@@ -31,11 +31,11 @@
  * platform.
  * 
  * FUNCTIONS: getAnchorPosition(anchorname) Returns an Object() having .x and .y
- * properties of the pixel coordinates of the upper-left corner of the anchor.
+ * properties of the pixel instructorinates of the upper-left corner of the anchor.
  * Position is relative to the PAGE.
  * 
  * getAnchorWindowPosition(anchorname) Returns an Object() having .x and .y
- * properties of the pixel coordinates of the upper-left corner of the anchor,
+ * properties of the pixel instructorinates of the upper-left corner of the anchor,
  * relative to the WHOLE SCREEN.
  * 
  * NOTES:
@@ -52,12 +52,12 @@
 
 // getAnchorPosition(anchorname)
 // This function returns an object having .x and .y properties which are the
-// coordinates
+// instructorinates
 // of the named anchor, relative to the page.
 function getAnchorPosition(anchorname) {
 	// This function will return an Object with x and y properties
 	var useWindow = false;
-	var coordinates = new Object();
+	var instructorinates = new Object();
 	var x = 0, y = 0;
 	// Browser capability sniffing
 	var use_gebi = false, use_css = false, use_layers = false;
@@ -88,55 +88,55 @@ function getAnchorPosition(anchorname) {
 			}
 		}
 		if (found == 0) {
-			coordinates.x = 0;
-			coordinates.y = 0;
-			return coordinates;
+			instructorinates.x = 0;
+			instructorinates.y = 0;
+			return instructorinates;
 		}
 		x = document.anchors[i].x;
 		y = document.anchors[i].y;
 	} else {
-		coordinates.x = 0;
-		coordinates.y = 0;
-		return coordinates;
+		instructorinates.x = 0;
+		instructorinates.y = 0;
+		return instructorinates;
 	}
-	coordinates.x = x;
-	coordinates.y = y;
-	return coordinates;
+	instructorinates.x = x;
+	instructorinates.y = y;
+	return instructorinates;
 }
 
 // getAnchorWindowPosition(anchorname)
 // This function returns an object having .x and .y properties which are the
-// coordinates
+// instructorinates
 // of the named anchor, relative to the window
 function getAnchorWindowPosition(anchorname) {
-	var coordinates = getAnchorPosition(anchorname);
+	var instructorinates = getAnchorPosition(anchorname);
 	var x = 0;
 	var y = 0;
 	if (document.getElementById) {
 		if (isNaN(window.screenX)) {
-			x = coordinates.x - document.body.scrollLeft + window.screenLeft;
-			y = coordinates.y - document.body.scrollTop + window.screenTop;
+			x = instructorinates.x - document.body.scrollLeft + window.screenLeft;
+			y = instructorinates.y - document.body.scrollTop + window.screenTop;
 		} else {
-			x = coordinates.x + window.screenX
+			x = instructorinates.x + window.screenX
 					+ (window.outerWidth - window.innerWidth)
 					- window.pageXOffset;
-			y = coordinates.y + window.screenY
+			y = instructorinates.y + window.screenY
 					+ (window.outerHeight - 24 - window.innerHeight)
 					- window.pageYOffset;
 		}
 	} else if (document.all) {
-		x = coordinates.x - document.body.scrollLeft + window.screenLeft;
-		y = coordinates.y - document.body.scrollTop + window.screenTop;
+		x = instructorinates.x - document.body.scrollLeft + window.screenLeft;
+		y = instructorinates.y - document.body.scrollTop + window.screenTop;
 	} else if (document.layers) {
-		x = coordinates.x + window.screenX
+		x = instructorinates.x + window.screenX
 				+ (window.outerWidth - window.innerWidth) - window.pageXOffset;
-		y = coordinates.y + window.screenY
+		y = instructorinates.y + window.screenY
 				+ (window.outerHeight - 24 - window.innerHeight)
 				- window.pageYOffset;
 	}
-	coordinates.x = x;
-	coordinates.y = y;
-	return coordinates;
+	instructorinates.x = x;
+	instructorinates.y = y;
+	return instructorinates;
 }
 
 // Functions for IE to get position of an object

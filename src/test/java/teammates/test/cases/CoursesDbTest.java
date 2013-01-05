@@ -37,9 +37,9 @@ public class CoursesDbTest extends BaseTestCase {
 	public void testCreateCourse() throws EntityAlreadyExistsException {
 		// SUCCESS
 		CourseData c = new CourseData();
-		c.id = "Computing101";
+		c.id = "Computing101-fresh";
 		c.name = "Basic Computing";
-		c.coord = "valid.id";
+		c.instructor = "valid.id";
 		coursesDb.createCourse(c);
 		
 		// FAIL : duplicate
@@ -128,7 +128,7 @@ public class CoursesDbTest extends BaseTestCase {
 		CourseData c = new CourseData();
 		c.id = "Computing101";
 		c.name = "Basic Computing";
-		c.coord = "valid.id";
+		c.instructor = "valid.id";
 		
 		try {
 			coursesDb.createCourse(c);

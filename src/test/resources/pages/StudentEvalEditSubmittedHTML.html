@@ -1,16 +1,19 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<html><head>
 	<link href="/favicon.png" rel="shortcut icon" />
 	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 	<title>Teammates - Student</title>
 	<link type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
 	<link type="text/css" href="/stylesheets/studentEvalEdit.css" rel="stylesheet" />
 
-	<script src="/js/jquery-1.6.2.min.js" text="text/javasript"></script>
+	<script src="/js/jquery-minified.js" text="text/javasript"></script>
 	<script src="/js/tooltip.js" text="text/javascript"></script>
 	<script src="/js/common.js" text="text/javascript"></script>
 	
-	<script src="/js/student.js" text="text/javascript"></script>	
+	<script src="/js/student.js" text="text/javascript"></script>
+	<noscript>{*}</noscript>
+
+	
 </head>
 
 <body>
@@ -41,33 +44,35 @@
 			<div id="headerOperation">
 				<h1>Evaluation Submission</h1>
 			</div>
-			<div id="studentEvaluationInformation">
-				<table class="inputTable">
-					<tbody><tr>
-						<td width="30%" class="label rightalign">Course ID:</td>
-						<td id="courseid">SEvalEditUiT.CS2104</td>
-					</tr>
-					<tr>
-						<td width="30%" class="label rightalign">Evaluation name:</td>
-						<td id="evaluationname">First Eval</td>
-					</tr>
-					<tr>
-						<td width="30%" class="label rightalign">Opening time:</td>
-						<td id="starttime">01 Apr 2012, 23:59</td>
-					</tr>
-					<tr>
-						<td width="30%" class="label rightalign">Closing time:</td>
-						<td id="deadlinetime">01 Apr 2015, 23:59</td>
-					</tr>
-					<tr>
-						<td width="30%" class="label rightalign">Instructions:</td>
-						<td id="instr">Please please fill it in</td>
-					</tr>
-				</tbody></table>
-			</div>
-			<div id="studentEvaluationSubmissions">
-				<form action="/page/studentEvalEditHandler" method="post" id="form_submitevaluation" name="form_submitevaluation">
-					
+			
+			<table id="studentEvaluationInformation" class="inputTable">
+				<tbody><tr>
+					<td width="30%" class="label rightalign bold">Course ID:</td>
+					<td id="courseid">SEvalEditUiT.CS2104</td>
+				</tr>
+				<tr>
+					<td width="30%" class="label rightalign bold">Evaluation name:</td>
+					<td id="evaluationname">First Eval</td>
+				</tr>
+				<tr>
+					<td width="30%" class="label rightalign bold">Opening time:</td>
+					<td id="starttime">01 Apr 2012, 23:59</td>
+				</tr>
+				<tr>
+					<td width="30%" class="label rightalign bold">Closing time:</td>
+					<td id="deadlinetime">01 Apr 2015, 23:59</td>
+				</tr>
+				<tr>
+					<td width="30%" class="label rightalign bold">Instructions:</td>
+					<td id="instr">Please please fill it in</td>
+				</tr>
+			</tbody></table>
+			
+			<br />
+			<br />
+			
+			<form action="/page/studentEvalEditHandler" method="post" id="form_submitevaluation" name="form_submitevaluation">
+				
 
 
 
@@ -83,15 +88,17 @@
 		 						</td>
 		 					</tr>
 		 					<tr>
-		 						<td id="sectiontitle0" colspan="2" class="reportHeader">
+		 						<td id="sectiontitle0" colspan="2" class="bold centeralign reportHeader">
 		 							Self evaluation in Team [Team 2]
 		 						</td>
 		 					</tr>
-		 					<tr>
-		 						<td class="label rightalign">Estimated contribution:</td>
-		 						<td>
-		 							<select id="points0" name="points" style="width: 150px;">
-		 								<option value="200">Equal share + 100%</option>
+		 					
+		 					
+		 						<tr>
+	 								<td class="label rightalign bold">My Estimated contribution:</td>
+			 						<td>
+			 							<select id="points0" name="points" style="width: 150px;">
+			 								<option value="200">Equal share + 100%</option>
 <option value="190">Equal share + 90%</option>
 <option value="180">Equal share + 80%</option>
 <option value="170">Equal share + 70%</option>
@@ -113,23 +120,24 @@
 <option value="10">Equal share - 90%</option>
 <option value="0">0%</option>
 <option value="-101">Not Sure</option>
-		 							</select>
-		 						</td>
-		 					</tr>
-		 					<tr>
-		 						<td class="label rightalign">Comments about your contribution:<br />(this will be shown to other teammates)</td>
-		 						<td>
-		 							<textarea id="justification0" name="justification" cols="100" rows="8" class="textvalue">This is a justification from danny.tmms@gmail.com to danny.tmms@gmail.com</textarea>
-		 						</td>
-		 					</tr>
-		 					<tr>
-		 						<td class="label rightalign">Comments about team dynamics:<br />(confidential)</td>
-								
-									<td><textarea id="comments0" name="comments" cols="100" rows="8" class="textvalue">This is a public comment from danny.tmms@gmail.com to danny.tmms@gmail.com</textarea>
-									</td>
-								
-							</tr>
-							<tr><td colspan="2"></td></tr>
+			 							</select>
+			 						</td>
+		 						</tr>
+		 						<tr>
+			 						<td class="label rightalign bold middlealign">Comments about my contribution:<br />(shown to other teammates)</td>
+			 						<td>
+			 							<textarea id="justification0" name="justification" cols="100" rows="8" class="textvalue">This is a justification from danny.tmms@gmail.com to danny.tmms@gmail.com</textarea>
+			 						</td>
+			 					</tr>
+		 						<tr>
+			 						<td class="label rightalign bold middlealign">Comments about team dynamics:<br />(confidential and only shown to instructor)</td>
+									
+										<td><textarea id="comments0" name="comments" cols="100" rows="8" class="textvalue">This is a public comment from danny.tmms@gmail.com to danny.tmms@gmail.com</textarea>
+										</td>
+									
+								</tr>
+		 					
+		 					<tr><td colspan="2"></td></tr>
 						
 							<tr style="display: none;">
 								<td>
@@ -137,15 +145,17 @@
 		 						</td>
 		 					</tr>
 		 					<tr>
-		 						<td id="sectiontitle1" colspan="2" class="reportHeader">
+		 						<td id="sectiontitle1" colspan="2" class="bold centeralign reportHeader">
 		 							Evaluation for Charlie Davis
 		 						</td>
 		 					</tr>
-		 					<tr>
-		 						<td class="label rightalign">Estimated contribution:</td>
-		 						<td>
-		 							<select id="points1" name="points" style="width: 150px;">
-		 								<option value="200">Equal share + 100%</option>
+		 					
+		 					
+		 						<tr>
+	 								<td class="label rightalign bold">His/Her Estimated contribution:</td>
+			 						<td>
+			 							<select id="points1" name="points" style="width: 150px;">
+			 								<option value="200">Equal share + 100%</option>
 <option value="190">Equal share + 90%</option>
 <option value="180">Equal share + 80%</option>
 <option value="170">Equal share + 70%</option>
@@ -167,23 +177,24 @@
 <option value="10">Equal share - 90%</option>
 <option value="0">0%</option>
 <option value="-101">Not Sure</option>
-		 							</select>
-		 						</td>
-		 					</tr>
-		 					<tr>
-		 						<td class="label rightalign">Confidential comments about this teammate:<br />(not shown to the teammate)</td>
-		 						<td>
-		 							<textarea id="justification1" name="justification" cols="100" rows="8" class="textvalue">This is a justification from danny.tmms@gmail.com to charlie.tmms@gmail.com</textarea>
-		 						</td>
-		 					</tr>
-		 					<tr>
-		 						<td class="label rightalign">Your feedback to this teammate:<br />(shown anonymously to the teammate)</td>
-								
-									<td><textarea id="comments1" name="comments" cols="100" rows="8" class="textvalue">This is a public comment from danny.tmms@gmail.com to charlie.tmms@gmail.com</textarea>
-									</td>
-								
-							</tr>
-							<tr><td colspan="2"></td></tr>
+			 							</select>
+			 						</td>
+		 						</tr>
+		 						<tr>
+			 						<td class="label rightalign bold middlealign">My feedback to this teammate:<br />(shown anonymously to the teammate)</td>
+									
+										<td><textarea id="comments1" name="comments" cols="100" rows="8" class="textvalue">This is a public comment from danny.tmms@gmail.com to charlie.tmms@gmail.com</textarea>
+										</td>
+									
+								</tr>
+								<tr>
+			 						<td class="label rightalign bold middlealign">My comments about this teammate:<br />(confidential and only shown to instructor)</td>
+			 						<td>
+			 							<textarea id="justification1" name="justification" cols="100" rows="8" class="textvalue">This is a justification from danny.tmms@gmail.com to charlie.tmms@gmail.com</textarea>
+			 						</td>
+			 					</tr>
+		 					
+		 					<tr><td colspan="2"></td></tr>
 						
 							<tr style="display: none;">
 								<td>
@@ -191,15 +202,17 @@
 		 						</td>
 		 					</tr>
 		 					<tr>
-		 						<td id="sectiontitle2" colspan="2" class="reportHeader">
+		 						<td id="sectiontitle2" colspan="2" class="bold centeralign reportHeader">
 		 							Evaluation for Emily
 		 						</td>
 		 					</tr>
-		 					<tr>
-		 						<td class="label rightalign">Estimated contribution:</td>
-		 						<td>
-		 							<select id="points2" name="points" style="width: 150px;">
-		 								<option value="200">Equal share + 100%</option>
+		 					
+		 					
+		 						<tr>
+	 								<td class="label rightalign bold">His/Her Estimated contribution:</td>
+			 						<td>
+			 							<select id="points2" name="points" style="width: 150px;">
+			 								<option value="200">Equal share + 100%</option>
 <option value="190">Equal share + 90%</option>
 <option value="180">Equal share + 80%</option>
 <option value="170">Equal share + 70%</option>
@@ -221,23 +234,24 @@
 <option value="10">Equal share - 90%</option>
 <option value="0">0%</option>
 <option value="-101">Not Sure</option>
-		 							</select>
-		 						</td>
-		 					</tr>
-		 					<tr>
-		 						<td class="label rightalign">Confidential comments about this teammate:<br />(not shown to the teammate)</td>
-		 						<td>
-		 							<textarea id="justification2" name="justification" cols="100" rows="8" class="textvalue">This is a justification from danny.tmms@gmail.com to emily.tmms@gmail.com</textarea>
-		 						</td>
-		 					</tr>
-		 					<tr>
-		 						<td class="label rightalign">Your feedback to this teammate:<br />(shown anonymously to the teammate)</td>
-								
-									<td><textarea id="comments2" name="comments" cols="100" rows="8" class="textvalue">This is a public comment from danny.tmms@gmail.com to emily.tmms@gmail.com</textarea>
-									</td>
-								
-							</tr>
-							<tr><td colspan="2"></td></tr>
+			 							</select>
+			 						</td>
+		 						</tr>
+		 						<tr>
+			 						<td class="label rightalign bold middlealign">My feedback to this teammate:<br />(shown anonymously to the teammate)</td>
+									
+										<td><textarea id="comments2" name="comments" cols="100" rows="8" class="textvalue">This is a public comment from danny.tmms@gmail.com to emily.tmms@gmail.com</textarea>
+										</td>
+									
+								</tr>
+								<tr>
+			 						<td class="label rightalign bold middlealign">My comments about this teammate:<br />(confidential and only shown to instructor)</td>
+			 						<td>
+			 							<textarea id="justification2" name="justification" cols="100" rows="8" class="textvalue">This is a justification from danny.tmms@gmail.com to emily.tmms@gmail.com</textarea>
+			 						</td>
+			 					</tr>
+		 					
+		 					<tr><td colspan="2"></td></tr>
 						
 							<tr style="display: none;">
 								<td>
@@ -245,15 +259,17 @@
 		 						</td>
 		 					</tr>
 		 					<tr>
-		 						<td id="sectiontitle3" colspan="2" class="reportHeader">
+		 						<td id="sectiontitle3" colspan="2" class="bold centeralign reportHeader">
 		 							Evaluation for New Guy
 		 						</td>
 		 					</tr>
-		 					<tr>
-		 						<td class="label rightalign">Estimated contribution:</td>
-		 						<td>
-		 							<select id="points3" name="points" style="width: 150px;">
-		 								<option value="200">Equal share + 100%</option>
+		 					
+		 					
+		 						<tr>
+	 								<td class="label rightalign bold">His/Her Estimated contribution:</td>
+			 						<td>
+			 							<select id="points3" name="points" style="width: 150px;">
+			 								<option value="200">Equal share + 100%</option>
 <option value="190">Equal share + 90%</option>
 <option value="180">Equal share + 80%</option>
 <option value="170">Equal share + 70%</option>
@@ -263,7 +279,7 @@
 <option value="130">Equal share + 30%</option>
 <option value="120">Equal share + 20%</option>
 <option value="110">Equal share + 10%</option>
-<option selected="selected" value="100">Equal share</option>
+<option value="100">Equal share</option>
 <option value="90">Equal share - 10%</option>
 <option value="80">Equal share - 20%</option>
 <option value="70">Equal share - 30%</option>
@@ -274,47 +290,56 @@
 <option value="20">Equal share - 80%</option>
 <option value="10">Equal share - 90%</option>
 <option value="0">0%</option>
-<option value="-101">Not Sure</option>
-		 							</select>
-		 						</td>
-		 					</tr>
-		 					<tr>
-		 						<td class="label rightalign">Confidential comments about this teammate:<br />(not shown to the teammate)</td>
-		 						<td>
-		 							<textarea id="justification3" name="justification" cols="100" rows="8" class="textvalue"></textarea>
-		 						</td>
-		 					</tr>
-		 					<tr>
-		 						<td class="label rightalign">Your feedback to this teammate:<br />(shown anonymously to the teammate)</td>
-								
-									<td><textarea id="comments3" name="comments" cols="100" rows="8" class="textvalue"></textarea>
-									</td>
-								
-							</tr>
-							<tr><td colspan="2"></td></tr>
+<option selected="selected" value="-101">Not Sure</option>
+			 							</select>
+			 						</td>
+		 						</tr>
+		 						<tr>
+			 						<td class="label rightalign bold middlealign">My feedback to this teammate:<br />(shown anonymously to the teammate)</td>
+									
+										<td><textarea id="comments3" name="comments" cols="100" rows="8" class="textvalue">&lt;&lt;What I appreciate about you as a team member&gt;&gt;:
+
+&lt;&lt;Areas you can improve further&gt;&gt;:
+
+&lt;&lt;Other comments&gt;&gt;:</textarea>
+										</td>
+									
+								</tr>
+								<tr>
+			 						<td class="label rightalign bold middlealign">My comments about this teammate:<br />(confidential and only shown to instructor)</td>
+			 						<td>
+			 							<textarea id="justification3" name="justification" cols="100" rows="8" class="textvalue"></textarea>
+			 						</td>
+			 					</tr>
+		 					
+		 					<tr><td colspan="2"></td></tr>
 						
 					</tbody></table>
-					
+				<br />
+				
 
 
 	<div style="display: none;" id="statusMessage"></div>
 
-					<div id="studentEvaluationSubmissionButtons">
-						<input type="submit" value="Submit Evaluation" id="button_submit" onclick="return checkEvaluationForm(this.form)" name="submitEvaluation" class="button" />
-					</div>
-					
-						<input type="hidden" value="danny.tmms" name="user" />
-					
-				</form>
-		 		<br /><br />
-			</div>
+				<br />
+				<div class="centeralign" id="studentEvaluationSubmissionButtons">
+					<input type="submit" value="Submit Evaluation" id="button_submit" onclick="return checkEvaluationForm(this.form)" name="submitEvaluation" class="button" />
+				</div>
+				
+					<input type="hidden" value="danny.tmms" name="user" />
+				
+			</form>
+		 	<br />
+		 	<br />
+		 	<br />
+		
 		</div>
 	</div>
 
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
+[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari 4+ and Internet Explorer 9+. For Enquires:
 
 <a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html">Contact Us</a>
 </div>

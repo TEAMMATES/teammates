@@ -1,33 +1,112 @@
 {
-  "coords": {
-  	"typicalCoord1": {"id": "idOfTypicalCoord1", "name":"Typical Coordinator1", "email":"typicalCoord1@gmail.com"},
-  	"typicalCoord2": {"id": "idOfTypicalCoord2", "name":"Typical Coordinator2", "email":"typicalCoord2@gmail.com"},
-  	"typicalCoord3": {"id": "idOfTypicalCoord3", "name":"Typical Coordinator3", "email":"typicalCoord3@gmail.com"}
-  },
-  
-  "courses": {
-	  "course1OfCoord1": {
-      "coord" : "idOfTypicalCoord1",
-	    "id": "idOfCourse1OfCoord1",
-	    "name": "course1OfCoord1 name"
-	  },
-	  "course2OfCoord1": {
-      "coord" : "idOfTypicalCoord1",
-	    "id": "idOfCourse2OfCoord1",
-	    "name": "course2OfCoord1 name"
-	  },
-	  "course1OfCoord2": {
-      "coord" : "idOfTypicalCoord2",
-	    "id": "idOfCourse1OfCoord2",
-	    "name": "course1OfCoord2 name"
-	  },
-	  "course2OfCoord2": {
-      "coord" : "idOfTypicalCoord2",
-	    "id": "idOfCourse2OfCoord2",
-	    "name": "course2OfCoord2 name"
-	  }
-  },
-  
+	"accounts": {
+		"instructor1OfCourse1": {
+			"googleId": "idOfInstructor1OfCourse1",
+			"name": "Instructor 1 of Course 1",
+			"isInstructor": true,
+			"email": "instr1@course1.com",
+			"institute": "National University of Singapore"
+		},
+		"instructor2OfCsourse1": {
+			"googleId": "idOfInstructor2OfCourse1",
+			"name": "Instructor 2 of Course 1",
+			"isInstructor": true,
+			"email": "instr2@course1.com",
+			"institute": "National University of Singapore"
+		},
+		"instructor1OfCourse2": {
+			"googleId": "idOfInstructor1OfCourse2",
+			"name": "Instructor 1 of Course 2",
+			"isInstructor": true,
+			"email": "instr1@course2.com",
+			"institute": "National University of Singapore"
+		},
+		"instructor2OfCourse2": {
+			"googleId": "idOfInstructor2OfCourse2",
+			"name": "Instructor 2 of Course 2",
+			"isInstructor": true,
+			"email": "instr2@course2.com",
+			"institute": "National University of Singapore"
+		},
+		"instructor3": {
+			"googleId": "idOfInstructor3",
+			"name": "Instructor 3 of Course 1 & 2",
+			"isInstructor": true,
+			"email": "instr3@course1n2.com",
+			"institute": "National University of Singapore"
+		},
+		"instructor4": {
+			"googleId": "idOfInstructor4",
+			"name": "Instructor 4 of CourseNoEvals",
+			"isInstructor": true,
+			"email": "instr4@coursenoevals.com",
+			"institute": "National University of Singapore"
+		}
+	},
+
+	"courses": {
+		"typicalCourse1": {
+			"instructor": "INSTRUCTOR_FIELD_DEPRECATED",
+			"id": "idOfTypicalCourse1",
+			"name": "Typical Course 1 with 2 Evals"
+		},
+		"typicalCourse2": {
+			"instructor": "INSTRUCTOR_FIELD_DEPRECATED",
+			"id": "idOfTypicalCourse2",
+			"name": "Typical Course 2 with 1 Evals"
+		},
+		"courseNoEvals": {
+			"instructor": "INSTRUCTOR_FIELD_DEPRECATED",
+			"id": "idOfCourseNoEvals",
+			"name": "Typical Course 3 with 0 Evals" 
+		}
+	},
+	
+	"instructors": {
+		"instructor1OfCourse1": {
+			"googleId": "idOfInstructor1OfCourse1",
+			"courseId": "idOfTypicalCourse1",
+			"name": "Instructor1 Course1",
+			"email": "instructor1@course1.com"
+		},
+		"instructor2OfCourse1": {
+			"googleId": "idOfInstructor2OfCourse1",
+			"courseId": "idOfTypicalCourse1",
+			"name": "Instructor2 Course1",
+			"email": "instructor2@course1.com"
+		},
+		"instructor1OfCourse2": {
+			"googleId": "idOfInstructor1OfCourse2",
+			"courseId": "idOfTypicalCourse2",
+			"name": "Instructor1 Course2",
+			"email": "instructor1@course2.com"
+		},
+		"instructor2OfCourse2": {
+			"googleId": "idOfInstructor2OfCourse2",
+			"courseId": "idOfTypicalCourse2",
+			"name": "Instructor2 Course2",
+			"email": "instructor2@course2.com"
+		},
+		"instructor3OfCourse1": {
+			"googleId": "idOfInstructor3",
+			"courseId": "idOfTypicalCourse1",
+			"name": "Instructor3 Course1",
+			"email": "instructor3@course1.com"
+		},
+		"instructor3OfCourse2": {
+			"googleId": "idOfInstructor3",
+			"courseId": "idOfTypicalCourse2",
+			"name": "Instructor3 Course2",
+			"email": "instructor3@course2.com"
+		},
+		"instructor4": {
+			"googleId": "idOfInstructor4",
+			"courseId": "idOfCourseNoEvals",
+			"name": "Instructor4 name",
+			"email": "instructor4@courseNoEvals.com"
+		}
+	},
+
   "students": {
     "student1InCourse1":{
       "email": "student1InCourse1@gmail.com",
@@ -35,57 +114,57 @@
       "team": "Team 1.1",
       "id": "student1InCourse1",
       "comments" : "comment for student1InCourse1",
-      "course" : "idOfCourse1OfCoord1"
+      "course" : "idOfTypicalCourse1"
     },
     "student2InCourse1":{
       "email": "student2InCourse1@gmail.com",
       "name": "student2 In Course1",
       "id": "student2InCourse1",
       "team": "Team 1.1",
- 	  "course" : "idOfCourse1OfCoord1"
+ 	  "course" : "idOfTypicalCourse1"
     },
     "student3InCourse1":{
       "email": "student3InCourse1@gmail.com",
       "name": "student3 In Course1",
       "id": "student3InCourse1",
       "team": "Team 1.1",
-      "course" : "idOfCourse1OfCoord1"
+      "course" : "idOfTypicalCourse1"
     },
     "student4InCourse1":{
       "email": "student4InCourse1@gmail.com",
       "name": "student4 In Course1",
       "id": "student4InCourse1",
       "team": "Team 1.1",
- 	  "course" : "idOfCourse1OfCoord1"
+ 	  "course" : "idOfTypicalCourse1"
     },
     "student5InCourse1":{
       "email": "student5InCourse1@gmail.com",
       "name": "student5 In Course1",
       "id": "student5InCourse1",
       "team": "Team 1.2",
-      "course" : "idOfCourse1OfCoord1"
+      "course" : "idOfTypicalCourse1"
     },
     "student1InCourse2":{
       "email": "student1InCourse2@gmail.com",
       "name": "student1 In Course2",
       "id": "student1InCourse2",
       "team": "Team 2.1",
-      "course" : "idOfCourse1OfCoord2"
+      "course" : "idOfTypicalCourse2"
     },
     "student2InCourse2":{
-      "email": "student2InCourse2@gmail.com",
+      "email": "student2InCourse1@gmail.com",
       "name": "student2 In Course2",
       "id": "student2InCourse1",
       "comments": "#####This is the same student as student2InCourse1 but using different name and email #####",
       "team": "Team 2.1",
-      "course" : "idOfCourse1OfCoord2"
+      "course" : "idOfTypicalCourse2"
     }
   },
   
   "evaluations" : {
   
-    "evaluation1InCourse1OfCoord1": {
-      "course" : "idOfCourse1OfCoord1",
+    "evaluation1InCourse1": {
+      "course" : "idOfTypicalCourse1",
       "name" : "evaluation1 In Course1",
       "instructions": "instructions for evaluation1InCourse1",
       "gracePeriod": 10,
@@ -96,32 +175,22 @@
       "activated" : true,
       "published" : false
     },
-    "evaluation2InCourse1OfCoord1": {
-      "course" : "idOfCourse1OfCoord1",
+    "evaluation2InCourse1": {
+      "course" : "idOfTypicalCourse1",
       "startTime" : "2012-04-01 11:59 PM",
       "endTime" : "2013-04-30 11:59 PM",
       "gracePeriod": 20,
-      "instructions": "Please please fill in the second evaluation",
+      "instructions": "Please please fill in the second evaluation in Course1",
       "name": "evaluation2 In Course1",
       "p2pEnabled": true,
 	  "activated": true
     },
-    "evaluation1InCourse2OfCoord1": {
-      "course" : "idOfCourse2OfCoord1",
+    "evaluation1InCourse2": {
+      "course" : "idOfTypicalCourse2",
       "startTime" : "2012-04-01 11:59 PM",
       "endTime" : "2013-04-30 11:59 PM",
       "gracePeriod": 20,
-      "instructions": "Please please fill in the second evaluation",
-      "name": "evaluation name",
-      "p2pEnabled": true,
-	  "activated": true
-    },
-    "evaluation1InCourse1OfCoord2": {
-      "course" : "idOfCourse1OfCoord2",
-      "startTime" : "2012-04-01 11:59 PM",
-      "endTime" : "2013-04-30 11:59 PM",
-      "gracePeriod": 20,
-      "instructions": "instructions for evaluation1InCourse2",
+      "instructions": "Please please fill in the first evaluation in Course2",
       "name": "evaluation1 In Course2",
       "p2pEnabled": true,
 	  "activated": true
@@ -132,7 +201,7 @@
     "submissionFromS1C1ToS1C1" :{
       "reviewer" : "student1InCourse1@gmail.com",
       "reviewee" : "student1InCourse1@gmail.com",
-      "course" : "idOfCourse1OfCoord1",
+      "course" : "idOfTypicalCourse1",
       "evaluation" : "evaluation1 In Course1",
       "points" : 10,
       "justification" : {"value" : "justification of student1InCourse1 rating to student1InCourse1"},
@@ -142,7 +211,7 @@
     "submissionFromS1C1ToS2C1" :{
       "reviewer" : "student1InCourse1@gmail.com",
       "reviewee" : "student2InCourse1@gmail.com",
-      "course" : "idOfCourse1OfCoord1",
+      "course" : "idOfTypicalCourse1",
       "evaluation" : "evaluation1 In Course1",
       "points" : 10,
       "justification" : {"value" : "justification of student1InCourse1 rating to student2InCourse1"},
@@ -152,7 +221,7 @@
 	"submissionFromS1C1ToS3C1" :{
       "reviewer" : "student1InCourse1@gmail.com",
       "reviewee" : "student3InCourse1@gmail.com",
-      "course" : "idOfCourse1OfCoord1",
+      "course" : "idOfTypicalCourse1",
       "evaluation" : "evaluation1 In Course1",
       "points" : 10,
       "justification" : {"value" : "justification of student1InCourse1 rating to student3InCourse1"},
@@ -162,7 +231,7 @@
 	"submissionFromS1C1ToS4C1" :{
       "reviewer" : "student1InCourse1@gmail.com",
       "reviewee" : "student4InCourse1@gmail.com",
-      "course" : "idOfCourse1OfCoord1",
+      "course" : "idOfTypicalCourse1",
       "evaluation" : "evaluation1 In Course1",
       "points" : 10,
       "justification" : {"value" : "justification of student1InCourse1 rating to student4InCourse1"},
@@ -172,7 +241,7 @@
     "submissionFromS2C1ToS1C1" :{
       "reviewer" : "student2InCourse1@gmail.com",
       "reviewee" : "student1InCourse1@gmail.com",
-      "course" : "idOfCourse1OfCoord1",
+      "course" : "idOfTypicalCourse1",
       "evaluation" : "evaluation1 In Course1",
       "points" : 20,
       "justification" : {"value" : "justification of student2InCourse1 rating to student1InCourse1"},
@@ -182,7 +251,7 @@
     "submissionFromS4C1ToS1C1" :{
       "reviewer" : "student4InCourse1@gmail.com",
       "reviewee" : "student1InCourse1@gmail.com",
-      "course" : "idOfCourse1OfCoord1",
+      "course" : "idOfTypicalCourse1",
       "evaluation" : "evaluation1 In Course1",
       "points" : 150,
       "justification" : {"value" : "justification of student4InCourse1 rating to student1InCourse1"},
@@ -191,11 +260,11 @@
     },
     "submissionFromS1C2ToS2C2" :{
       "reviewer" : "student1InCourse2@gmail.com",
-      "reviewee" : "student2InCourse2@gmail.com",
-      "course" : "idOfCourse1OfCoord2",
+      "reviewee" : "student2InCourse1@gmail.com",
+      "course" : "idOfTypicalCourse2",
       "evaluation" : "evaluation1 In Course2",
       "points" : 20,
-      "justification" : {"value" : "justification of student1InCourse2 rating to student2InCourse2"},
+      "justification" : {"value" : "justification of student1InCourse2 rating to student2InCourse1(also in Course2)"},
       "p2pFeedback" : {"value" :"comments from student1InCourse2 to student2InCourse2"},
       "team" : "Team 2.1"
     }

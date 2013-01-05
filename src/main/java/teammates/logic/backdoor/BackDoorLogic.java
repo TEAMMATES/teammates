@@ -6,11 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.jdo.JDOHelper;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.AccountData;
+import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationData;
@@ -19,14 +21,17 @@ import teammates.common.datatransfer.SubmissionData;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.logic.AccountsLogic;
+import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
+import teammates.logic.EvaluationsLogic;
 import teammates.logic.api.Logic;
-import teammates.storage.api.AccountsStorage;
-import teammates.storage.api.CoursesStorage;
-import teammates.storage.api.EvaluationsStorage;
-import teammates.storage.entity.Evaluation; //TODO: remove this dependency
+import teammates.storage.entity.Account;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Evaluation;
+import teammates.storage.entity.Instructor;
 
-public class BackDoorLogic extends Logic{
+public class BackDoorLogic extends Logic {
 	
 	private static Logger log = Common.getLogger();
 	
@@ -51,17 +56,24 @@ public class BackDoorLogic extends Logic{
 			throw new InvalidParametersException(
 					Common.ERRORCODE_NULL_PARAMETER, "Null data bundle");
 		}
-
-		HashMap<String, CoordData> coords = dataBundle.coords;
-		for (CoordData coord : coords.values()) {
-			log.fine("API Servlet adding coord :" + coord.id);
-			super.createCoord(coord.id, coord.name, coord.email);
+		
+		HashMap<String, AccountData> accounts = dataBundle.accounts;
+		for (AccountData account : accounts.values()) {
+			log.fine("API Servlet adding account :" + account.googleId);
+			super.createAccount(account.googleId, account.name, account.isInstructor,
+									account.email, account.institute);
 		}
 
 		HashMap<String, CourseData> courses = dataBundle.courses;
 		for (CourseData course : courses.values()) {
 			log.fine("API Servlet adding course :" + course.id);
-			createCourse(course.coord, course.id, course.name);
+			createCourse(course.instructor, course.id, course.name);
+		}
+
+		HashMap<String, InstructorData> instructors = dataBundle.instructors;
+		for (InstructorData instructor : instructors.values()) {
+			log.fine("API Servlet adding instructor :" + instructor.googleId);
+			super.createInstructor(instructor.googleId, instructor.courseId, instructor.name, instructor.email);
 		}
 
 		HashMap<String, StudentData> students = dataBundle.students;
@@ -88,15 +100,15 @@ public class BackDoorLogic extends Logic{
 					+ " to " + submission.reviewee);
 			submissionsList.add(submission);
 		}
-		EvaluationsStorage.inst().getSubmissionsDb().editSubmissions(submissionsList);
+		EvaluationsLogic.inst().getSubmissionsDb().editSubmissions(submissionsList);
 		log.fine("API Servlet added " + submissionsList.size() + " submissions");
 
 		return Common.BACKEND_STATUS_SUCCESS;
 	}
 	
-	public String getCoordAsJson(String coordID) {
-		CoordData coordData = getCoord(coordID);
-		return Common.getTeammatesGson().toJson(coordData);
+	public String getInstructorAsJson(String instructorID, String courseId) {
+		InstructorData instructorData = getInstructor(instructorID, courseId);
+		return Common.getTeammatesGson().toJson(instructorData);
 	}
 
 	public String getCourseAsJson(String courseId) {
@@ -145,7 +157,7 @@ public class BackDoorLogic extends Logic{
 	
 	public List<MimeMessage> activateReadyEvaluations() throws EntityDoesNotExistException, MessagingException, InvalidParametersException, IOException{
 		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
-		List<EvaluationData> evaluations = EvaluationsStorage.inst().getEvaluationsDb().getReadyEvaluations(); 
+		List<EvaluationData> evaluations = EvaluationsLogic.inst().getEvaluationsDb().getReadyEvaluations(); 
 		
 		for (EvaluationData ed: evaluations) {
 			
@@ -174,12 +186,12 @@ public class BackDoorLogic extends Logic{
 	public List<MimeMessage> sendRemindersForClosingEvaluations() throws MessagingException, IOException {
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 		
-		EvaluationsStorage evaluations = EvaluationsStorage.inst();
+		EvaluationsLogic evaluations = EvaluationsLogic.inst();
 		List<EvaluationData> evaluationDataList = evaluations.getEvaluationsDb().getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
 
 		for (EvaluationData ed : evaluationDataList) {
 
-			List<StudentData> studentDataList = AccountsStorage.inst().getDb().getStudentListForCourse(ed.course);
+			List<StudentData> studentDataList = AccountsLogic.inst().getDb().getStudentListForCourse(ed.course);
 
 			List<StudentData> studentToRemindList = new ArrayList<StudentData>();
 
@@ -200,7 +212,62 @@ public class BackDoorLogic extends Logic{
 	}
 	
 	public void editEvaluation(EvaluationData evaluation) throws InvalidParametersException, EntityDoesNotExistException{
-		EvaluationsStorage.inst().getEvaluationsDb().editEvaluation(evaluation);
+		EvaluationsLogic.inst().getEvaluationsDb().editEvaluation(evaluation);
 	}
-
+	
+	
+	
+	/**
+	 * Used for data migration.
+	 * For every Course C create an Instructor I
+	 *  I.googleId = C.coordinatorID
+	 *  I.courseId = C.ID
+	 */
+	public void createInstructorsFromCourses() {
+		List<CourseData> courses = CoursesLogic.inst().getDb().getAllCourses();
+		List<InstructorData> instructorsToAdd = new ArrayList<InstructorData>();
+		
+		for (CourseData cd : courses) {
+			AccountData instructorAccount = AccountsLogic.inst().getDb().getAccount(cd.instructor);
+			instructorsToAdd.add(new InstructorData(cd.instructor, cd.id, instructorAccount.name, instructorAccount.email));
+		}
+		
+		AccountsLogic.inst().getDb().persistInstructorsFromCourses(instructorsToAdd);
+	}
+	
+	public void createAccountsForInstructors() {
+		List<InstructorData> instructors = AccountsLogic.inst().getDb().getInstructors();
+		List<AccountData> accountsToAdd = new ArrayList<AccountData>();
+		
+		for (InstructorData id : instructors) {
+			accountsToAdd.add(new AccountData(id.googleId, false));
+		}
+		
+		AccountsLogic.inst().getDb().createAccounts(accountsToAdd);
+		
+		// Coordinator entities will be more likely to contain more information.
+		// Hence do it after instructors as the latest entry will be persisted
+		AccountsLogic.inst().getDb().createAccountsForCoordinators();
+	}
+	
+	/**
+	 * In case of duplicate Google ID, the information from the latest entry will be persisted.
+	 */
+	public void createAccountsForStudents() {	
+		List<StudentData> students = AccountsLogic.inst().getDb().getStudents();
+		List<AccountData> accountsToAdd = new ArrayList<AccountData>();
+		
+		for (StudentData sd : students) {
+			if(!sd.id.trim().isEmpty()){
+				accountsToAdd.add(new AccountData(sd.id, sd.name, false, sd.email, ""));
+			}
+		}
+		
+		AccountsLogic.inst().getDb().createAccounts(accountsToAdd);
+	}
+	
+	public void appendNameEmailForInstructors() {
+		AccountsLogic.inst().getDb().appendNameEmailForInstructors();
+	}
+	
 }

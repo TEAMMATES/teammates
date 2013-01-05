@@ -31,11 +31,11 @@ public class LoginServlet extends HttpServlet {
 			throws IOException, ServletException{
 		Logic server = new Logic();
 		UserType user = server.getLoggedInUser();
-		if(req.getParameter(Common.PARAM_LOGIN_COORD)!=null){
+		if(req.getParameter(Common.PARAM_LOGIN_INSTRUCTOR)!=null){
 			if(isMasqueradeMode(user)){
-				resp.sendRedirect(Common.PAGE_COORD_HOME);
+				resp.sendRedirect(Common.PAGE_INSTRUCTOR_HOME);
 			} else {
-				resp.sendRedirect(Logic.getLoginUrl(Common.PAGE_COORD_HOME));
+				resp.sendRedirect(Logic.getLoginUrl(Common.PAGE_INSTRUCTOR_HOME));
 			}
 		} else if(req.getParameter(Common.PARAM_LOGIN_STUDENT)!=null){
 			if(isMasqueradeMode(user)){

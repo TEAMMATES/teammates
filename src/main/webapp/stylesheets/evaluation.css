@@ -133,7 +133,7 @@ tfoot td {
 
 /* for display detail: 
  * 1) student view course detail 
- * 2) coordinator view student detail
+ * 2) instructor view student detail
  */
 .detailform {
 	width: 500px
@@ -311,7 +311,7 @@ tfoot td {
 	font-weight:bold;
 }
 
-/* Evaluation info table for Coordinator */
+/* Evaluation info table for Instructor */
 .evaluation_info{
 	width:50%;
 	text-align: center;

@@ -1,53 +1,80 @@
 <!DOCTYPE html>
-<html>
-<head>
-<link rel="shortcut icon" href="/favicon.png">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Teammates</title>
-<link rel="stylesheet" href="/stylesheets/main.css" type="text/css">
-<script type="text/javascript" src="js/index.js"></script>
-<script type="text/javascript" src="js/blockUnsupportedBrowsers.js"></script>
+<html><head>
+   <meta http-equiv="Content-Language" content="en-us" />
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   <meta content="Teammates - Online Peer Feedback/Evaluation System for Student Team Projects" name="application-name" />
+   <meta content="Teammates, peer feedback, peer evaluation, student, team, project, free" name="keywords" />
+   <meta content="Teammates is an Online Peer Feedback System for student team projects. It is completely free to use.
+   Get your students to evaluate their performance in team projects, and view reports and summaries of their feedback and evaluations." name="description" />
+   <link type="text/css" href="stylesheets/teammates.css" rel="stylesheet" />
+   <title>Teammates[Home] - Online Peer Feedback/Evaluation System for Student Team Projects</title>
+   <script type="text/javascript" src="js/checkBrowserVersion.js"></script>
 </head>
 
 <body>
-	<div id="frameTop">
-		<div id="frameTopWrapper">
-			<div id="logo">
-				<img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="Teammates">
-			</div>
-		</div>
-	</div>
 
-	<div id="frameBody">
-		<div id="frameBodyWrapper">
-			<div id="loginTableHolder">
-				<table id="login">
-					<tbody><tr>
-						<td class="loginCell">
-							<form action="/login">
-								<input type="submit" name="student" class="button" id="btnStudentLogin" value="Student">
-							</form>
-						</td>
-					</tr>
-					<tr>
-						<td class="loginCell">
-							<form action="/login">
-								<input type="submit" name="coord" class="button" id="btnCoordLogin" value="Coordinator">
-							</form>
-						</td>
-					</tr>
-				</tbody></table>
-			</div>
-		</div>
-	</div>
+   <div id="mainContainer">
+       <div id="header">
+           <div id="headerWrapper">
+               <div id="imageHolder">
+                   <a href="/index.html">
+                   <img width="150px" height="47px" src="images/teammateslogo.jpg" alt="Teammates[Logo] - Online Peer Feedback/Evaluation System for Student Team Projects" />
+                   </a>
+               </div>
+               <div id="menuHolder">
+                 <div id="textHolder">
+                     <ul id="navbar">
+                         <li id="current"><strong>Home</strong></li>
+                         <li><a href="features.html">Features</a></li>
+                         <li><a href="about.html">About Us</a></li>
+                         <li><a href="contact.html">Contact</a></li>
+                         <li><a href="terms.html">Terms of Use</a></li>
+                     </ul>
+                 </div>
+                 <div id="loginHolder">
+                      <form name="studentLogin" style="float: left;" action="/login">
+              <input type="submit" value="Student Login" id="btnStudentLogin" class="button" name="student" />
+            </form>
+            <form style="float: left;" name="instructorLogin" action="/login">
+              <input type="submit" value=" Instructor Login" id="btnInstructorLogin" class="button" name="instructor" />
+            </form>
+                 </div>
+                 <div style="clear: both;"></div>
+             </div>
+             <div style="clear: both;"></div>
+           </div>
+       </div>
+       
+       <div id="mainContent">
+          <div id="browserMessage" style="display: none;"></div>
+          <h1 style="text-align: center;" id="caption">TEAMMATES is an online peer feedback and peer evaluation tool for student projects</h1>
+           
+        
+           <div id="contentHolder">
+               <a href="request.html">
+                  <img width="800px" src="images/overview.png" alt="Overview of Teammates - anonymous peer feedback and confidential peer evaluations" />
+               </a>
+               <h2 id="submissions">
+            13,000+ submissions and counting...
+            <br />
+            <br />
+            <a href="features.html">Features of TEAMMATES &gt;&gt;</a> 
+          </h2>
+           </div>
+        
+        
+        
+       </div>
+   </div>
+   
+   <div id="footer">
+       <div id="footerWrapper">
+           <div id="footerRightCol">
+               Hosted on <a target="_blank" href="http://code.google.com/appengine/" class="footer">Google App Engine</a>
+           </div>
+       </div>
+   </div>
+   
 
-	<div id="frameBottom">
-		
-<div id="contentFooter">
-[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
-
-<a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html">Contact Us</a>
-</div>
-	</div>
 
 </body></html>

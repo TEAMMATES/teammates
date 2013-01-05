@@ -6,11 +6,14 @@
 	<link type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
 	<link type="text/css" href="/stylesheets/studentEvalResults.css" rel="stylesheet" />
 
-	<script src="/js/jquery-1.6.2.min.js" type="text/javascript"></script>
+	<script src="/js/jquery-minified.js" type="text/javascript"></script>
 	<script src="/js/tooltip.js" type="text/javascript"></script>
 	<script src="/js/common.js" type="text/javascript"></script>
 	
-	<script src="/js/student.js" type="text/javascript"></script>	
+	<script src="/js/student.js" type="text/javascript"></script>
+	<noscript>{*}</noscript>
+
+	
 </head>
 
 <body>
@@ -42,49 +45,55 @@
 				<h1>Evaluation Results</h1>
 			</div>
 			
+			
 
 
 	<div style="display: none;" id="statusMessage"></div>
 
+			
 			<div id="studentEvaluationResults">
-				<div style="margin: 5px auto; width: 940px; text-align: right; font-size: small; font-style: italic;">E = Equal Share</div>
-				<div class="backgroundBlock evalResultHeader"><span class="blockText">Your Result:</span></div>
+				<div style="margin: 5px auto; width: 960px; text-align: right; font-size: small; font-style: italic;">E = Equal Share</div>
+				<div class="backgroundBlock evalResultHeader">
+					<span class="color_white bold">Your Result:</span>
+				</div>
+				
 				<table class="result_studentform">
 					<tbody><tr>
-						<td width="15%">Evaluation:</td>
+						<td width="15%" class="bold color_white">Evaluation:</td>
 						<td colspan="2">Second Eval
 							in
 							SEvalRUiT.CS1101
 						</td>
 					</tr>
 					<tr>
-						<td>Student:</td>
+						<td class="bold color_white">Student:</td>
 						<td colspan="2">Charlie Davis
 							in
 							Team 2
 						</td>
 					</tr>
 					<tr>
-						<td>My View:</td>
+						<td class="bold color_white">My View:</td>
 						<td width="12%">
-							Of me: <span class="color_positive">E+100%</span>
+							Of me: <span class="color_positive">E +100%</span>
 						</td>
 						<td>
 							Of others: <span class="color_neutral">E</span>, <span class="color_negative">0%</span>
 						</td>
 					</tr>
 					<tr>
-						<td>Teammates View:</td>
+						<td class="bold color_white">Teammates View:</td>
 						<td>
-							Of me: <span class="color_positive">E+2%</span>
+							Of me: <span class="color_positive">E +2%</span>
 						</td>
 						<td>
-							Of others: <span class="color_positive">E+48%</span>, <span class="color_negative">E-50%</span>
+							Of others: <span class="color_positive">E +48%</span>, <span class="color_negative">E -50%</span>
 						</td>
 					</tr>
 				</tbody></table>
+				
 				<table class="resultTable">
-					<tbody><tr class="resultSubheader"><td>Feedback from teammates:</td></tr>
+					<tbody><tr class="resultSubheader bold color_black"><td>Feedback from teammates:</td></tr>
 					<tr>
 						<td>
 							<ul>
@@ -96,7 +105,7 @@
 							</ul>
 						</td>
 					</tr>
-					<tr class="resultSubheader"><td>What others said about their own contribution:</td></tr>
+					<tr class="resultSubheader bold color_black"><td>What others said about their own contribution:</td></tr>
 					<tr>
 						<td>
 							<ul>
@@ -111,28 +120,30 @@
 						</td>
 					</tr>
 				</tbody></table>
-				<br /><br />
-				<div class="backgroundBlock evalResultHeader"><span class="blockText">Your Submission:</span></div>
+				<br />
+				<br />
+				
+				<div class="backgroundBlock evalResultHeader"><span class="color_white bold">Your Submission:</span></div>
 				<table class="result_studentform">
 					<tbody><tr>
-						<td width="15%">Points to yourself:</td>
-						<td><span class="color_positive">E+100%</span></td>
+						<td width="15%" class="bold color_white">Points to yourself:</td>
+						<td><span class="color_positive">E +100%</span></td>
 					</tr>
 					<tr>
-						<td>Your contribution:</td>
+						<td class="bold color_white">Your contribution:</td>
 						<td>This is a justification from charlie.tmms@gmail.com to charlie.tmms@gmail.com</td>
 					</tr>
 					<tr>
-						<td>Team dynamics:</td>
+						<td class="bold color_white">Team dynamics:</td>
 						<td>This is a public comment from charlie.tmms@gmail.com to charlie.tmms@gmail.com</td>
 					</tr>
 				</tbody></table>
 				<table class="dataTable">
 					<tbody><tr>
-						<th width="18%">Teammate Name</th>
-						<th>Points</th>
-						<th>Comments about teammate</th>
-						<th>Feedback to teammate</th>
+						<th width="18%" class="bold leftalign color_white">Teammate Name</th>
+						<th class="bold centeralign color_white">Points</th>
+						<th class="bold centeralign color_white">Comments about teammate</th>
+						<th class="bold centeralign color_white">Feedback to teammate</th>
 					</tr>
 					
 						<tr>
@@ -159,7 +170,7 @@
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
+[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari 4+ and Internet Explorer 9+. For Enquires:
 
 <a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html">Contact Us</a>
 </div>

@@ -1,66 +1,80 @@
 package teammates.storage.entity;
 
-import javax.jdo.annotations.Inheritance;
-import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-/**
- * AccountHolder is a persistent data class that holds information pertaining to
- * all types of Teammates accounts.
- * 
- * @author Gerald GOH
- * 
- */
 @PersistenceCapable
-@Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public class Account {
 	@PrimaryKey
 	@Persistent
-	private String googleID;
+	private String googleId;
 
 	@Persistent
 	private String name;
-
+	
+	@Persistent
+	private boolean isInstructor = false;
+	
+	// Other information
 	@Persistent
 	private String email;
+	
+	@Persistent
+	private String institute;
 
-	/**
-	 * Constructs an Account object.
-	 * 
-	 * @param googleID
-	 * @param name
-	 * @param email
-	 */
-	//TODO:shouldn't these be trimmed too?
-	public Account(String googleID, String name, String email) {
-		this.setGoogleID(googleID);
-		this.setName(name);
-		this.setEmail(email);
+	//========================================
+	
+	public Account(String googleId, String name, boolean isInstructor,
+					String email, String institute) {
+		this.googleId = googleId;
+		this.name = name;
+		this.isInstructor = isInstructor;
+		this.email = email;
+		this.institute = institute;
 	}
 
-	public void setGoogleID(String googleID) {
-		this.googleID = googleID.trim();
+	//===========[Getter]=============================
+	
+	public String getGoogleId() {
+		return googleId;
 	}
-
-	public String getGoogleID() {
-		return googleID;
-	}
-
-	public void setName(String name) {
-		this.name = name.trim();
-	}
-
+	
 	public String getName() {
 		return name;
 	}
-
-	public void setEmail(String email) {
-		this.email = email.trim();
+	
+	public boolean isInstructor() {
+		return isInstructor;
 	}
-
+	
 	public String getEmail() {
 		return email;
+	}
+	
+	public String getInstitute() {
+		return institute;
+	}
+
+	//===========[Setter]=============================
+	
+	public void setGoogleId(String googleId) {
+		this.googleId = googleId;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setIsInstructor(boolean accountIsInstructor) {
+		this.isInstructor = accountIsInstructor;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	public void setInstitute(String institute) {
+		this.institute = institute;
 	}
 }

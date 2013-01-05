@@ -1,0 +1,129 @@
+{
+  "accounts": {
+  	"teammates.test": {
+  	  "googleId": "teammates.test",
+  	  "name": "Teammates Test",
+  	  "isInstructor": true,
+  	  "email": "tmms.test@gmail.com",
+  	  "institute": "National University of Singapore"
+  	}
+  },
+
+  "courses": {
+    "course": {
+      "instructor": "teammates.test",
+      "id": "CEvalUiT.CS2104",
+      "name": "Programming Language Concepts"
+    },
+    "anotherCourse": {
+      "instructor": "teammates.test",
+      "id": "CEvalUiT.CS1101",
+      "name": "Programming Methodology"
+    }
+  },
+  
+  "instructors": {
+    "teammates.test.course": {
+      "googleId": "teammates.test",
+      "courseId": "CEvalUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "teammates.test@gmail.com"
+    },
+    "teammates.test.anotherCourse": {
+      "googleId": "teammates.test",
+      "courseId": "CEvalUiT.CS1101",
+      "name": "Teammates Test",
+      "email": "teammates.test@gmail.com"
+    }
+  },
+  
+  "students": {
+    "alice.tmms@CEvalUiT.CS2104": {
+      "id": "alice.tmms",
+      "email": "alice.tmms@gmail.com",
+      "course": "CEvalUiT.CS2104",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy",
+      "profile": {"value": "My name is Alice Betsy, and I'm a student in CEvalUiT.CS2104"},
+      "team": "Team 1"
+    },
+    "benny.tmms@CEvalUiT.CS2104": {
+      "id": "benny.tmms",
+      "email": "benny.tmms@gmail.com",
+      "course": "CEvalUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "profile": {"value": "My name is Benny Charles, and I'm a student in CEvalUiT.CS2104"},
+      "team": "Team 1"
+    },
+    "charlie.tmms@CEvalUiT.CS1101": {
+      "id": "charlie.tmms",
+      "email": "charlie.tmms@gmail.com",
+      "course": "CEvalUiT.CS1101",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "profile": {"value": "My name is Charlie Davis, and I'm a student in CEvalUiT.CS1101"},
+      "team": "Team 2"
+    },
+    "danny.tmms@CEvalUiT.CS1101": {
+      "id": "danny.tmms",
+      "email": "danny.tmms@gmail.com",
+      "course": "CEvalUiT.CS1101",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "profile": {"value": "My name is Danny Engrid, and I'm a student in CEvalUiT.CS1101"},
+      "team": "Team 2"
+    }
+  },
+  
+  "evaluations" : {
+  
+    "openEval": {
+      "course" : "CEvalUiT.CS2104",
+      "name" : "First Eval",
+      "startTime" : "2012-04-01 11:59 PM",
+      "endTime" : "2013-04-30 11:59 PM",
+      "timeZone" : 2.0,
+      "p2pEnabled" : true,
+      "instructions": "This is instruction for first eval",
+      "gracePeriod": 10,
+      "published" : false,
+      "activated" : true
+    },
+    "publishedEval": {
+      "course" : "CEvalUiT.CS2104",
+      "name": "Second Eval",
+      "startTime" : "2012-04-01 11:59 PM",
+      "endTime" : "2012-04-02 11:59 PM",
+      "timeZone": 8.0,
+      "p2pEnabled": true,
+      "gracePeriod": 20,
+      "instructions": "Please please fill in the second evaluation",
+      "gracePeriod": 5,
+      "published": true,
+      "activated": true
+    },
+    "closedEval": {
+      "course" : "CEvalUiT.CS1101",
+      "name": "Third Eval",
+      "startTime" : "2012-04-01 11:59 PM",
+      "endTime" : "2012-04-30 11:59 PM",
+      "gracePeriod": 10,
+      "instructions": "Please please fill in the third evaluation",
+      "p2pEnabled": true,
+      "published": false,
+      "activated": false
+    },
+    "awaitingEval": {
+      "course" : "CEvalUiT.CS1101",
+      "name": "New Evaluation",
+      "startTime" : "2013-04-01 11:59 PM",
+      "endTime" : "2013-04-30 11:59 PM",
+      "gracePeriod": 10,
+      "instructions": "Please fill in the new evaluation",
+      "p2pEnabled": true,
+      "published": false,
+      "activated": false
+    }
+  }
+}

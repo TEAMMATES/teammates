@@ -15,6 +15,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import teammates.common.BuildProperties;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
@@ -31,7 +32,8 @@ public class Emails {
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING = "TEAMMATES: Peer evaluation closing soon";
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED = "TEAMMATES: Peer evaluation published";
 	public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: Invitation to join course";
-
+	public static final String SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR = "TEAMMATES (%s): New System Exception: %s";
+	
 	private String from;
 	private String replyTo;
 	public Emails() {
@@ -238,6 +240,47 @@ public class Emails {
 		return message;
 	}
 
+	/**
+	 * Generate Email of system error
+	 * the parameter "version" can be encapsulated in side this function
+	 * it's kept as a parameter for testing purpose
+	 */
+	public MimeMessage generateSystemErrorEmail(Throwable error, 
+			String requestPath, String requestParam, String version) throws AddressException, MessagingException {
+		Session session = Session.getDefaultInstance(new Properties(), null);
+		MimeMessage message = new MimeMessage(session);
+		String errorMessage = error.getMessage();
+		String stackTrace = Common.stackTraceToString(error);
+
+		
+		//if the error doesn't contain a short description,
+		//retrieve the first line of stack trace.
+		//truncate stack trace at first "at" string		
+		if(errorMessage == null) {
+			int msgTruncateIndex = stackTrace.indexOf("at");
+			if(msgTruncateIndex > 0) {
+				errorMessage = stackTrace.substring(0, msgTruncateIndex);
+			}else{
+				errorMessage = "";
+			}
+		}
+		String recipient = BuildProperties.inst().getAppCrashReportEmail();
+		message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+		message.setFrom(new InternetAddress(from));
+		
+		message.setSubject(String.format(SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR, version, errorMessage));
+
+		
+		String emailBody = Common.SYSTEM_ERROR_EMAIL_TEMPLATE;
+
+		emailBody = emailBody.replace("${requestPath}", requestPath);
+		emailBody = emailBody.replace("${requestParameters}", requestParam);
+		emailBody = emailBody.replace("${errorMessage}", errorMessage);
+		emailBody = emailBody.replace("${stackTrace}", stackTrace);
+		message.setContent(emailBody, "text/html");
+
+		return message;
+	}
 
 	private boolean isYetToJoinCourse(StudentData s) {
 		return s.id == null || s.id.isEmpty();

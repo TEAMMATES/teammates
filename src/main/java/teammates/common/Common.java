@@ -9,16 +9,19 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServletRequest;
+
 import teammates.ui.controller.Helper;
 
+import com.google.appengine.api.utils.SystemProperty;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.appengine.api.utils.SystemProperty;
 
 /**
  * Class that stores variables and methods that are widely used across classes
@@ -105,7 +108,7 @@ public class Common {
 
 	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_PENDING = "The evaluation is yet to be completed by you";
 	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_SUBMITTED = "You have submitted your feedback for this evaluation";
-	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_CLOSED = "The evaluation has finished but the coordinator has not published the results yet";
+	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_CLOSED = "The evaluation has finished but the instructor has not published the results yet";
 	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_PUBLISHED = "The evaluation has finished and you can check the results";
 	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_ERROR = "There were some errors in retrieving this evaluation.";
 
@@ -128,11 +131,11 @@ public class Common {
 	// JSP Parameter names
 	public static final String PARAM_COURSE_ID = "courseid";
 	public static final String PARAM_COURSE_NAME = "coursename";
-	public static final String PARAM_COORD_ID = "coordid";
-	public static final String PARAM_COORD_EMAIL = "coordemail";
-	public static final String PARAM_COORD_NAME = "coordname";
+	public static final String PARAM_INSTRUCTOR_ID = "instructorid";
+	public static final String PARAM_INSTRUCTOR_EMAIL = "instructoremail";
+	public static final String PARAM_INSTRUCTOR_NAME = "instructorname";
 	public static final String PARAM_STUDENTS_ENROLLMENT_INFO = "enrollstudents";
-	public static final String PARAM_COORD_IMPORT_SAMPLE = "importsample";
+	public static final String PARAM_INSTRUCTOR_IMPORT_SAMPLE = "importsample";
 
 	public static final String PARAM_EVALUATION_NAME = "evaluationname";
 
@@ -171,7 +174,7 @@ public class Common {
 	public static final String PARAM_USER_ID = "user";
 
 	public static final String PARAM_LOGIN_ADMIN = "admin";
-	public static final String PARAM_LOGIN_COORD = "coord";
+	public static final String PARAM_LOGIN_INSTRUCTOR = "instructor";
 	public static final String PARAM_LOGIN_STUDENT = "student";
 
 	/*
@@ -196,25 +199,25 @@ public class Common {
 	public static final String PAGE_BACKDOOR = "/backdoor";
 	public static final String WEBPAGE_COMPILATION = "/dev/webpageCompilation.jsp";
 
-	public static final String PAGE_COORD_HOME = "/page/coordHome";
-	public static final String PAGE_COORD_COURSE = "/page/coordCourse";
-	public static final String PAGE_COORD_COURSE_DELETE = "/page/coordCourseDelete";
-	public static final String PAGE_COORD_COURSE_DETAILS = "/page/coordCourseDetails";
-	public static final String PAGE_COORD_COURSE_STUDENT_DETAILS = "/page/coordCourseStudentDetails";
-	public static final String PAGE_COORD_COURSE_STUDENT_EDIT = "/page/coordCourseStudentEdit";
-	public static final String PAGE_COORD_COURSE_STUDENT_DELETE = "/page/coordCourseStudentDelete";
-	public static final String PAGE_COORD_COURSE_ENROLL = "/page/coordCourseEnroll";
-	public static final String PAGE_COORD_COURSE_REMIND = "/page/coordCourseRemind";
-	public static final String PAGE_COORD_EVAL = "/page/coordEval";
-	public static final String PAGE_COORD_EVAL_DELETE = "/page/coordEvalDelete";
-	public static final String PAGE_COORD_EVAL_EDIT = "/page/coordEvalEdit";
-	public static final String PAGE_COORD_EVAL_RESULTS = "/page/coordEvalResults";
-	public static final String PAGE_COORD_EVAL_SUBMISSION_VIEW = "/page/coordEvalSubmissionView";
-	public static final String PAGE_COORD_EVAL_SUBMISSION_EDIT = "/page/coordEvalSubmissionEdit";
-	public static final String PAGE_COORD_EVAL_SUBMISSION_EDIT_HANDLER = "/page/coordEvalSubmissionEditHandler";
-	public static final String PAGE_COORD_EVAL_REMIND = "/page/coordEvalRemind";
-	public static final String PAGE_COORD_EVAL_PUBLISH = "/page/coordEvalPublish";
-	public static final String PAGE_COORD_EVAL_UNPUBLISH = "/page/coordEvalUnpublish";
+	public static final String PAGE_INSTRUCTOR_HOME = "/page/instructorHome";
+	public static final String PAGE_INSTRUCTOR_COURSE = "/page/instructorCourse";
+	public static final String PAGE_INSTRUCTOR_COURSE_DELETE = "/page/instructorCourseDelete";
+	public static final String PAGE_INSTRUCTOR_COURSE_DETAILS = "/page/instructorCourseDetails";
+	public static final String PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS = "/page/instructorCourseStudentDetails";
+	public static final String PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT = "/page/instructorCourseStudentEdit";
+	public static final String PAGE_INSTRUCTOR_COURSE_STUDENT_DELETE = "/page/instructorCourseStudentDelete";
+	public static final String PAGE_INSTRUCTOR_COURSE_ENROLL = "/page/instructorCourseEnroll";
+	public static final String PAGE_INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
+	public static final String PAGE_INSTRUCTOR_EVAL = "/page/instructorEval";
+	public static final String PAGE_INSTRUCTOR_EVAL_DELETE = "/page/instructorEvalDelete";
+	public static final String PAGE_INSTRUCTOR_EVAL_EDIT = "/page/instructorEvalEdit";
+	public static final String PAGE_INSTRUCTOR_EVAL_RESULTS = "/page/instructorEvalResults";
+	public static final String PAGE_INSTRUCTOR_EVAL_SUBMISSION_VIEW = "/page/instructorEvalSubmissionView";
+	public static final String PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT = "/page/instructorEvalSubmissionEdit";
+	public static final String PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER = "/page/instructorEvalSubmissionEditHandler";
+	public static final String PAGE_INSTRUCTOR_EVAL_REMIND = "/page/instructorEvalRemind";
+	public static final String PAGE_INSTRUCTOR_EVAL_PUBLISH = "/page/instructorEvalPublish";
+	public static final String PAGE_INSTRUCTOR_EVAL_UNPUBLISH = "/page/instructorEvalUnpublish";
 
 	public static final String PAGE_STUDENT_HOME = "/page/studentHome";
 	public static final String PAGE_STUDENT_JOIN_COURSE = "/page/studentCourseJoin";
@@ -225,28 +228,30 @@ public class Common {
 	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
 
 	public static final String PAGE_ADMIN_HOME = "/page/adminHome";
+	public static final String PAGE_ADMIN_EXCEPTION_TEST = "/page/adminExceptionTest";
 	public static final String PAGE_ADMIN_ACTIVITY_LOG = "/page/adminActivityLog";
+	public static final String PAGE_ADMIN_SEARCH = "/page/adminSearch";
 	public static final String PAGE_LOGIN = "/login";
 
 	/*
 	 * JSP pages links. These links are here to provide ease of moving the JSP
 	 * folder or renaming.
 	 */
-	public static final String JSP_COORD_HOME = "/jsp/coordHome.jsp"; // Done
-	public static final String JSP_COORD_COURSE = "/jsp/coordCourse.jsp"; // Done
-	public static final String JSP_COORD_COURSE_DETAILS = "/jsp/coordCourseDetails.jsp"; // Done
-	public static final String JSP_COORD_COURSE_STUDENT_DETAILS = "/jsp/coordCourseStudentDetails.jsp"; // Done
-	public static final String JSP_COORD_COURSE_STUDENT_EDIT = "/jsp/coordCourseStudentEdit.jsp"; // Done
-	public static final String JSP_COORD_COURSE_ENROLL = "/jsp/coordCourseEnroll.jsp"; // Done
-	public static final String JSP_COORD_TFS = "/jsp/coordTFS.jsp"; // Pending
-	public static final String JSP_COORD_TFS_MANAGE = "/jsp/coordTFSManage.jsp"; // Pending
-	public static final String JSP_COORD_TFS_CHANGE_TEAM = "/jsp/coordTFSChangeTeam.jsp"; // Pending
-	public static final String JSP_COORD_TFS_LOGS = "/jsp/coordTFSLogs.jsp"; // Pending
-	public static final String JSP_COORD_EVAL = "/jsp/coordEval.jsp"; // Done
-	public static final String JSP_COORD_EVAL_EDIT = "/jsp/coordEvalEdit.jsp"; // Done
-	public static final String JSP_COORD_EVAL_RESULTS = "/jsp/coordEvalResults.jsp"; // Done
-	public static final String JSP_COORD_EVAL_SUBMISSION_VIEW = "/jsp/coordEvalSubmissionView.jsp"; // Done
-	public static final String JSP_COORD_EVAL_SUBMISSION_EDIT = "/jsp/coordEvalSubmissionEdit.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_HOME = "/jsp/instructorHome.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_COURSE = "/jsp/instructorCourse.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_COURSE_DETAILS = "/jsp/instructorCourseDetails.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_COURSE_STUDENT_DETAILS = "/jsp/instructorCourseStudentDetails.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_COURSE_STUDENT_EDIT = "/jsp/instructorCourseStudentEdit.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_COURSE_ENROLL = "/jsp/instructorCourseEnroll.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_TFS = "/jsp/instructorTFS.jsp"; // Pending
+	public static final String JSP_INSTRUCTOR_TFS_MANAGE = "/jsp/instructorTFSManage.jsp"; // Pending
+	public static final String JSP_INSTRUCTOR_TFS_CHANGE_TEAM = "/jsp/instructorTFSChangeTeam.jsp"; // Pending
+	public static final String JSP_INSTRUCTOR_TFS_LOGS = "/jsp/instructorTFSLogs.jsp"; // Pending
+	public static final String JSP_INSTRUCTOR_EVAL = "/jsp/instructorEval.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_EVAL_EDIT = "/jsp/instructorEvalEdit.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_EVAL_RESULTS = "/jsp/instructorEvalResults.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_EVAL_SUBMISSION_VIEW = "/jsp/instructorEvalSubmissionView.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_EVAL_SUBMISSION_EDIT = "/jsp/instructorEvalSubmissionEdit.jsp"; // Done
 
 	public static final String JSP_STUDENT_HOME = "/jsp/studentHome.jsp"; // Done
 	public static final String JSP_STUDENT_COURSE_PROFILE = "/jsp/studentCourseProfile.jsp"; // Pending
@@ -255,8 +260,9 @@ public class Common {
 	public static final String JSP_STUDENT_EVAL_SUBMISSION_EDIT = "/jsp/studentEvalEdit.jsp"; // Done
 	public static final String JSP_STUDENT_EVAL_RESULTS = "/jsp/studentEvalResults.jsp"; // Done
 
-	public static final String JSP_COORD_HEADER = "/jsp/coordHeader.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_HEADER = "/jsp/instructorHeader.jsp"; // Done
 	public static final String JSP_STUDENT_HEADER = "/jsp/studentHeader.jsp"; // Done
+	public static final String JSP_ADMIN_HEADER = "/jsp/adminHeader.jsp"; // Done
 	public static final String JSP_FOOTER = "/jsp/footer.jsp"; // Done
 	public static final String JSP_STATUS_MESSAGE = "/jsp/statusMessage.jsp"; // Done
 	public static final String JSP_EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp"; // Done
@@ -268,16 +274,17 @@ public class Common {
 	public static final String JSP_SHOW_MESSAGE = "/showMessage.jsp"; // Done
 	public static final String JSP_UNAUTHORIZED = "/unauthorized.jsp"; // Done
 	public static final String JSP_ERROR_PAGE = "/errorPage.jsp"; // Done
+	public static final String JSP_DEADLINE_EXCEEDED_ERROR_PAGE = "/deadlineExceededErrorPage.jsp"; // Done
 	public static final String JSP_ENTITY_NOT_FOUND_PAGE = "/entityNotFoundPage.jsp"; // Done
 	public static final String JSP_PAGE_NOT_FOUND_PAGE = "/pageNotFound.jsp"; // Done
 
 	// data field sizes
-	public static final int COURSE_ID_MAX_LENGTH = 21;
+	public static final int COURSE_ID_MAX_LENGTH = 30;
 
 	// status messages
 	public static final String MESSAGE_LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
 	public static final String MESSAGE_STUDENT_FIRST_TIME = "Welcome stranger :-) "
-			+ "<br/><br/>It seems you are not a registered user of TEAMMATES. To use TEAMMATES, a course coordinator has to add you to a course first. "
+			+ "<br/><br/>It seems you are not a registered user of TEAMMATES. To use TEAMMATES, a course instructor has to add you to a course first. "
 			+ "After that, TEAMMATES will send you an email containing the link to 'join' that course. "
 			+ "<br/><br/>If you already clicked on such a link and ended up here, it is likely that your email software messed up the link. Please retry to join by filling in the above box the registration key given in that same e-mail."
 			+ "If you still cannot join, feel free to <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>contact us</a> for help. ";
@@ -287,7 +294,7 @@ public class Common {
 	public static final String MESSAGE_COURSE_DELETED = "The course has been deleted.";
 	public static final String MESSAGE_COURSE_EMPTY = "You have not created any courses yet. Use the form above to create a course.";
 	public static final String MESSAGE_COURSE_EMPTY_IN_EVALUATION = "You have not created any courses yet. Go <a href=\""
-			+ PAGE_COORD_COURSE + "${user}\">here</a> to create one.";
+			+ PAGE_INSTRUCTOR_COURSE + "${user}\">here</a> to create one.";
 	public static final String MESSAGE_COURSE_REMINDER_SENT_TO = "Registration key has been sent to ";
 	public static final String MESSAGE_COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
 
@@ -303,6 +310,7 @@ public class Common {
 	public static final String MESSAGE_EVALUATION_REMINDERSSENT = "Reminder e-mails have been sent out to those students.";
 	public static final String MESSAGE_EVALUATION_RESULTSEDITED = "The particular evaluation results have been edited.";
 	public static final String MESSAGE_EVALUATION_EMPTY = "You have not created any evaluations yet. Use the form above to create a new evaluation.";
+	public static final String MESSAGE_EVALUATION_EXPIRED = "This evaluation has expired. You are not allowed to edit your submission.";
 
 	public static final String MESSAGE_EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
 	// Status messages from Javascript
@@ -316,7 +324,7 @@ public class Common {
 
 	// Messages that are templates only
 	/** Template String. Parameters: Student's name, Evaluation name, Course ID */
-	public static final String MESSAGE_COORD_EVALUATION_SUBMISSION_RECEIVED = "You have edited %s's submission for evaluation %s in course %s successfully<br />"
+	public static final String MESSAGE_INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED = "You have edited %s's submission for evaluation %s in course %s successfully<br />"
 			+ "The change will not be reflected here until you refresh the page.";
 	/** Template String. Parameters: Evaluation name, Course ID */
 	public static final String MESSAGE_STUDENT_EVALUATION_SUBMISSION_RECEIVED = "Your submission for %s in course %s has been saved successfully";
@@ -326,11 +334,11 @@ public class Common {
 	public static final String FOOTER_TAG = "<div id=\"frameBottom\">";
 
 	// TeammatesServlet responses
-	public static final String COORD_ADD_COURSE_RESPONSE_ADDED = "<status>course added</status>";
-	public static final String COORD_ADD_COURSE_RESPONSE_EXISTS = "<status>course exists</status>";
-	public static final String COORD_ADD_COURSE_RESPONSE_INVALID = "<status>course input invalid</status>";
-	public static final String COORD_DELETE_COURSE_RESPONSE_DELETED = "<status>course deleted</status>";
-	public static final String COORD_DELETE_COURSE_RESPONSE_NOT_DELETED = "<status>course not deleted</status>";
+	public static final String INSTRUCTOR_ADD_COURSE_RESPONSE_ADDED = "<status>course added</status>";
+	public static final String INSTRUCTOR_ADD_COURSE_RESPONSE_EXISTS = "<status>course exists</status>";
+	public static final String INSTRUCTOR_ADD_COURSE_RESPONSE_INVALID = "<status>course input invalid</status>";
+	public static final String INSTRUCTOR_DELETE_COURSE_RESPONSE_DELETED = "<status>course deleted</status>";
+	public static final String INSTRUCTOR_DELETE_COURSE_RESPONSE_NOT_DELETED = "<status>course not deleted</status>";
 
 	// APIServlet responses
 	public static final String BACKEND_STATUS_SUCCESS = "[BACKEND_STATUS_SUCCESS]";
@@ -378,11 +386,14 @@ public class Common {
 	/**
 	 * Email templates
 	 */
-	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_ = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailTemplate-evaluation_.html"));
-	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailTemplate-evaluationPublished.html"));
-	public static String STUDENT_EMAIL_TEMPLATE_COURSE_JOIN = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailTemplate-courseJoin.html"));
-	public static String STUDENT_EMAIL_FRAGMENT_COURSE_JOIN = readStream(BuildProperties.class.getClassLoader().getResourceAsStream("studentEmailFragment-courseJoin.html"));
-
+	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_ = readResourseFile("studentEmailTemplate-evaluation_.html");
+	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED = readResourseFile("studentEmailTemplate-evaluationPublished.html");
+	public static String STUDENT_EMAIL_TEMPLATE_COURSE_JOIN = readResourseFile("studentEmailTemplate-courseJoin.html");
+	public static String STUDENT_EMAIL_FRAGMENT_COURSE_JOIN = readResourseFile("studentEmailFragment-courseJoin.html");
+	public static String SYSTEM_ERROR_EMAIL_TEMPLATE = readResourseFile("systemErrorEmailTemplate.html");
+	
+	
+	
 	@SuppressWarnings("unused")
 	private void ____VALIDATE_parameters___________________________________() {
 	}
@@ -398,7 +409,7 @@ public class Common {
 	// GoogleID cannot have spaces
 	public static boolean isValidGoogleId(String googleId) {
 		return (isValidString(googleId) && 
-				hasNoSpace(googleId));
+				hasNoSpace(googleId));		
 			// test for contains valid chars?
 	}
 
@@ -615,6 +626,11 @@ public class Common {
 	public static String readStream(InputStream stream) {
 		return BUILD_PROPERTIES.readStream(stream);
 	}
+	
+	public static String readResourseFile(String file) {
+		return readStream(BuildProperties.class.getClassLoader()
+				.getResourceAsStream(file));
+	}
 
 	public static boolean isWhiteSpace(String string) {
 		return string.trim().isEmpty();
@@ -674,6 +690,19 @@ public class Common {
 		return url;
 	}
 	
+	public static String printRequestParameters(HttpServletRequest request) {
+		String requestParameters = "{";
+		for (Enumeration f = request.getParameterNames(); f.hasMoreElements();) {
+			String paramet = new String(f.nextElement().toString());
+			requestParameters += paramet + ":" + request.getParameter(paramet) + ", ";
+		}
+		if (requestParameters != "{") {
+			requestParameters = requestParameters.substring(0, requestParameters.length() - 2);
+		}
+		requestParameters += "}";
+		return requestParameters;
+	}
+	
 	public static void waitBriefly() {
 		try {
 			Thread.sleep(WAIT_DURATION);
@@ -686,10 +715,11 @@ public class Common {
 	private void ____PRIVATE_helper_methods_________________________________() {
 	}
 
-	public static String stackTraceToString(Exception e) {
+	public static String stackTraceToString(Throwable e) {
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
 		return "\n" + sw.toString();
+		
 	}
 	
 	public static String getCurrentThreadStack() {
@@ -712,5 +742,7 @@ public class Common {
 		BACKDOOR_KEY = BUILD_PROPERTIES.getAppBackdoorKey();
 		PERSISTENCE_CHECK_DURATION = BUILD_PROPERTIES.getAppPersistenceCheckduration();
 	}
+	
+	
 
 }

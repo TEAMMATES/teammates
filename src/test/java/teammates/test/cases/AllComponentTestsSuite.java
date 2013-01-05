@@ -14,10 +14,10 @@ import org.junit.runners.Suite;
 		EvaluationsDbTest.class,
 		SubmissionsDbTest.class,
 		
-		EvaluationsStorageTest.class,
+		EvaluationsLogicTest.class,
 		CommonTest.class,
 		HelperTest.class,
-		CoordEvalHelperTest.class,
+		InstructorEvalHelperTest.class,
 		BuildPropertiesTest.class,
 		EmailsTest.class,
 		StudentTest.class, 

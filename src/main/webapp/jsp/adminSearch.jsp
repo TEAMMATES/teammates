@@ -25,28 +25,17 @@
 <link rel="shortcut icon" href="/favicon.png" />
 <meta http-equiv="X-UA-Compatible" content="IE=8" />
 <title>Teammates - Administrator</title>
-<link rel=stylesheet href="/stylesheets/main.css" type="text/css" />
-<link rel=stylesheet href="/stylesheets/evaluation.css" type="text/css" />
+<link rel=stylesheet href="/stylesheets/common.css" type="text/css" />
+<link rel=stylesheet href="/stylesheets/adminSearch.css" type="text/css" />
 
-<script language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
+<script language="JavaScript" src="/js/jquery-minified.js"></script>
 <script language="JavaScript" src="/js/tooltip.js"></script>
 </head>
   <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-	<div id="frameTopWrapper">
-		<div id="logo">
-			<img alt="Teammates" height="47"
-				src="/images/teammateslogo.jpg"
-				width="150" />
-		</div>
-		<div id="contentLinks">
-			<ul id="navbar">
-				<li><a class='t_logout' href="<%= Common.JSP_LOGOUT %>">Logout</a></li>
-			</ul>
-		</div>
+	<jsp:include page="<%= Common.JSP_ADMIN_HEADER %>" />
 	</div>
-</div>
 <div id="frameBody">
 <div id="frameBodyWrapper">
 	<div id="topOfPage"></div>
@@ -67,7 +56,9 @@
       <input name = "build_doc" type="submit" value="Rebuild Document" style=""/>
 
     </form>
+    <br>
     <hr/>
+    <br>
     <%
       List<Document> found = (List<Document>) request.getAttribute("found");
       if (found != null) {
@@ -75,7 +66,7 @@
     <form name="delete" action="" method="get">
       <!-- repeated so that we can execute a search after deletion -->
       <input type="hidden" name="query" value="<%=query%>"/>
-      <table>
+      <table class="dataTable">
         <tr>
         <!--
           <th>

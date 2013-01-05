@@ -6,11 +6,14 @@
 	<link type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
 	<link type="text/css" href="/stylesheets/studentCourseDetails.css" rel="stylesheet" />
 
-	<script src="/js/jquery-1.6.2.min.js" type="text/javascript"></script>
+	<script src="/js/jquery-minified.js" type="text/javascript"></script>
 	<script src="/js/tooltip.js" type="text/javascript"></script>
 	<script src="/js/common.js" type="text/javascript"></script>
 	
-	<script src="/js/student.js" type="text/javascript"></script>	
+	<script src="/js/student.js" type="text/javascript"></script>
+	<noscript>{*}</noscript>
+
+	
 </head>
 
 <body>
@@ -41,55 +44,58 @@
 			<div id="headerOperation">
 				<h1>Team Details for SCDetailsUiT.CS2104</h1>
 			</div>
+			<br />
 			
 
 
 	<div style="display: none;" id="statusMessage"></div>
 
-			<div id="studentCourseInformation">
-				<table width="600px" class="inputTable">
-					<tbody><tr>
-	 					<td width="30%" class="label rightalign">Course ID:</td>
-	 					<td id="courseid">SCDetailsUiT.CS2104</td>
-	 				</tr>
-					<tr>
-	 					<td width="30%" class="label rightalign">Course name:</td>
-	 					<td id="coursename">Programming Language Concepts</td>
-	 				</tr>
-	 				<tr>
-	 					<td width="30%" class="label rightalign">Coordinator name:</td>
-	 					<td id="coordname">Coordinator</td>
-	 				</tr>
-	 				<tr>
-	 					<td width="30%" class="label rightalign">Your team:</td>
-	 					<td id="teamname">Team 2</td>
-	 				</tr>
-	 				<tr>
-	 					<td width="30%" class="label rightalign">Your name:</td>
-	 					<td id="studentname">Charlie Davis</td>
-	 				</tr>
-	 				<tr>
-	 					<td width="30%" class="label rightalign">Your e-mail:</td>
-	 					<td id="studentemail">charlie.tmms@gmail.com</td>
-	 				</tr>
-	 				<tr>
-	 					<td width="30%" class="label rightalign">Your teammates:</td>
-	 					<td id="teammates">
-	 						
-	 							<span style="font-style: italic;">You have no team members or you are not registered in any team</span>
-	 						
-	 					</td>
-	 				</tr>
-	 			</tbody></table>
-	 			<br /><br />
-	 	   </div>
+			<br />
+				
+			<table id="studentCourseInformation" class="inputTable">
+				<tbody><tr>
+	 				<td width="30%" class="label rightalign bold">Course ID:</td>
+	 				<td id="courseid">SCDetailsUiT.CS2104</td>
+	 			</tr>
+				<tr>
+	 				<td width="30%" class="label rightalign bold">Course name:</td>
+	 				<td id="coursename">Programming Language Concepts</td>
+	 			</tr>
+	 			<tr>
+	 				<td width="30%" class="label rightalign bold">Instructor name:</td>
+	 				<td id="instructorname">Teammates Test</td>
+	 			</tr>
+	 			<tr>
+	 				<td width="30%" class="label rightalign bold">Your team:</td>
+	 				<td id="teamname">Team 2</td>
+	 			</tr>
+	 			<tr>
+	 				<td width="30%" class="label rightalign bold">Your name:</td>
+	 				<td id="studentname">Charlie Davis</td>
+	 			</tr>
+	 			<tr>
+	 				<td width="30%" class="label rightalign bold">Your e-mail:</td>
+	 				<td id="studentemail">charlie.tmms@gmail.com</td>
+	 			</tr>
+	 			<tr>
+	 				<td width="30%" class="label rightalign bold">Your teammates:</td>
+	 				<td id="teammates">
+	 					
+	 						<span style="font-style: italic;">You have no team members or you are not registered in any team</span>
+	 					
+	 				</td>
+	 			</tr>
+	 		</tbody></table>	
+	 		<br />
+	 		<br />
+	 		<br /> 	   
 		</div>
 	</div>
 
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari and Internet Explorer 8+. For Enquires:
+[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari 4+ and Internet Explorer 9+. For Enquires:
 
 <a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html">Contact Us</a>
 </div>

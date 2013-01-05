@@ -19,8 +19,8 @@ public class TestProperties {
 
 	public String TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS;
 
-	public String TEST_COORD_ACCOUNT;
-	public String TEST_COORD_PASSWORD;
+	public String TEST_INSTRUCTOR_ACCOUNT;
+	public String TEST_INSTRUCTOR_PASSWORD;
 
 	public String TEST_STUDENT_ACCOUNT;
 	public String TEST_STUDENT_PASSWORD;
@@ -58,8 +58,8 @@ public class TestProperties {
 			TEST_ADMIN_ACCOUNT = prop.getProperty("test.admin.account");
 			TEST_ADMIN_PASSWORD = prop.getProperty("test.admin.password");
 			
-			TEST_COORD_ACCOUNT = prop.getProperty("test.coord.account");
-			TEST_COORD_PASSWORD = prop.getProperty("test.coord.password");
+			TEST_INSTRUCTOR_ACCOUNT = prop.getProperty("test.instructor.account");
+			TEST_INSTRUCTOR_PASSWORD = prop.getProperty("test.instructor.password");
 			
 			TEST_STUDENT_ACCOUNT = prop.getProperty("test.student.account");
 			TEST_STUDENT_PASSWORD = prop.getProperty("test.student.password");
@@ -90,11 +90,15 @@ public class TestProperties {
 	public static String getChromeDriverPath() {
 		String os = System.getProperty("os.name");
 		if (os.startsWith("Windows")) {
-			return "./src/test/resources/lib/chromedriver.exe";
+			return "./src/test/resources/lib/selenium/chromedriver.exe";
 		} else if (os.startsWith("Mac OS")) {
-			return "./src/test/resources/lib/chromedriver_osx";
+			return "./src/test/resources/lib/selenium/chromedriver_osx";
 		}
 		return "";
+	}
+	
+	public static String getIEDriverPath() {
+			return "./src/test/resources/lib/selenium/IEDriverServer.exe";
 	}
 	
 	public boolean isLocalHost(){

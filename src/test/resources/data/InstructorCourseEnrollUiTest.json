@@ -1,0 +1,67 @@
+{
+  "accounts": {
+    "teammates.test": {
+      "googleId": "teammates.test",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "teammates.test@gmail.com",
+      "institute": "National University of Singapore"
+    }
+  },
+
+  "courses": {
+    "CCEnrollUiT.CS2104": {
+      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
+      "id": "CCEnrollUiT.CS2104",
+      "name": "Programming Language Concepts"
+    }
+  },
+  
+  "instructors": {
+    "teammates.test": {
+      "googleId": "teammates.test",
+      "courseId": "CCEnrollUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "teammates.test@gmail.com"
+    }
+  },
+  
+  "students": {
+    "alice.b.tmms@CCEnrollUiT.CS2104": {
+      "id": "alice.b.tmms",
+      "email": "alice.b.tmms@gmail.com",
+      "course": "CCEnrollUiT.CS2104",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy",
+      "profile": {"value": "My name is Alice Betsy, and I'm a student in CCEnrollUiT.CS2104"},
+      "team": "Team 1"
+    },
+    "benny.c.tmms@CCEnrollUiT.CS2104": {
+      "id": "benny.c.tmms",
+      "email": "benny.c.tmms@gmail.com",
+      "course": "CCEnrollUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "profile": {"value": "My name is Benny Charles, and I'm a student in CCEnrollUiT.CS2104"},
+      "team": "Team 1"
+    },
+    "charlie.d.tmms@CCEnrollUiT.CS2104": {
+      "id": "charlie.d.tmms",
+      "email": "charlie.d.tmms@gmail.com",
+      "course": "CCEnrollUiT.CS2104",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "profile": {"value": "My name is Charlie Davis, and I'm a student in CCEnrollUiT.CS2104"},
+      "team": "Team 2"
+    },
+    "danny.e.tmms@CCEnrollUiT.CS2104": {
+      "id": "danny.e.tmms",
+      "email": "danny.e.tmms@gmail.com",
+      "course": "CCEnrollUiT.CS2104",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "profile": {"value": "My name is Danny Engrid, and I'm a student in CCEnrollUiT.CS2104"},
+      "team": "Team 2"
+    }
+  }
+}

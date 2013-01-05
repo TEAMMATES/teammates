@@ -1,30 +1,30 @@
 {
-  "coords": {
-    "teammates.demo.coord": {
-      "id": "teammates.demo.coord",
-      "name" : "Teammates Demo Coordinator",
-      "email" : "teammates.demo.coord@gmail.com"
+  "instructors": {
+    "teammates.demo.instructor": {
+      "id": "teammates.demo.instructor",
+      "name" : "Teammates Demo Instructor",
+      "email" : "teammates.demo.instructor@gmail.com"
     },
-    "teammates.coord": {
-      "id": "teammates.coord",
-      "name" : "Coordinator",
-      "email" : "teammates.coord@gmail.com"
+    "teammates.instructor": {
+      "id": "teammates.instructor",
+      "name" : "Instructor",
+      "email" : "teammates.instructor@gmail.com"
     },
     "teammates.test": {
       "id": "teammates.test",
-      "name" : "Coordinator",
+      "name" : "Instructor",
       "email" : "teammates.test@gmail.com"
     }
   },
   
   "courses": {
     "CS2104-TESTING": {
-      "coord": "teammates.demo.coord",
+      "instructor": "teammates.demo.instructor",
       "id": "CS2104-TESTING",
       "name": "Programming Language Concepts"
     },
     "CS1101-TESTING": {
-      "coord": "teammates.demo.coord",
+      "instructor": "teammates.demo.instructor",
       "id": "CS1101-TESTING",
       "name": "Programming Methodology"
     }

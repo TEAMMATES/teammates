@@ -10,28 +10,28 @@
 var xmlhttp = new getXMLObject();
 
 // OPERATIONS
-var OPERATION_ADMINISTRATOR_ADDCOORDINATOR = "administrator_addcoordinator";
+var OPERATION_ADMINISTRATOR_ADDINSTRUCTORINATOR = "administrator_addinstructor";
 var OPERATION_ADMINISTRATOR_LOGOUT = "administrator_logout";
 
 // PARAMETERS
-var COORDINATOR_EMAIL = "coordinatoremail";
-var COORDINATOR_GOOGLEID = "coordinatorgoogleID";
-var COORDINATOR_NAME = "coordinatorname";
+var INSTRUCTORINATOR_EMAIL = "instructoremail";
+var INSTRUCTORINATOR_GOOGLEID = "instructorgoogleID";
+var INSTRUCTORINATOR_NAME = "instructorname";
 
 
 
-function addCoordinator(googleID, name, email)
+function addInstructor(googleID, name, email)
 {
 	if(xmlhttp)
 	{
 		xmlhttp.open("POST","teammates",false); 
 		xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_ADMINISTRATOR_ADDCOORDINATOR + "&" + COORDINATOR_GOOGLEID + 
-				"=" + googleID + "&" + COORDINATOR_NAME + "=" + name + "&" + COORDINATOR_EMAIL + "=" + email);
+		xmlhttp.send("operation=" + OPERATION_ADMINISTRATOR_ADDINSTRUCTORINATOR + "&" + INSTRUCTORINATOR_GOOGLEID + 
+				"=" + googleID + "&" + INSTRUCTORINATOR_NAME + "=" + name + "&" + INSTRUCTORINATOR_EMAIL + "=" + email);
 	}
 }
 
-function doAddCoordinator(form)
+function doAddInstructor(form)
 {
 	var googleID = form.elements[0].value;
 	var name = form.elements[1].value;
@@ -59,7 +59,7 @@ function doAddCoordinator(form)
 	
 	else
 	{
-		addCoordinator(googleID, name, email);
+		addInstructor(googleID, name, email);
 	}
 	
 }

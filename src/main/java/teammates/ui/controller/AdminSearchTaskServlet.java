@@ -5,10 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CoordData;
+import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
 import teammates.storage.api.AccountsDb;
 
@@ -20,44 +22,48 @@ import com.google.appengine.api.search.ListRequest;
 import com.google.appengine.api.search.ListResponse;
 import com.google.appengine.api.search.SearchServiceFactory;
 
-public class AdminSearchTaskServlet extends ActionServlet<AdminHomeHelper> {
+public class AdminSearchTaskServlet extends HttpServlet {
 	
 	protected static final Logger log = Common.getLogger();
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Index INDEX = SearchServiceFactory.getSearchService()
-			.getIndex(IndexSpec.newBuilder().setName("coord_search_index"));
 
-
-	@Override
-	protected AdminHomeHelper instantiateHelper() {
-		return new AdminHomeHelper();
+	public Index getIndex() {
+	    IndexSpec indexSpec = IndexSpec.newBuilder().setName("instructor_search_index").build();
+	    return SearchServiceFactory.getSearchService().getIndex(indexSpec);
+	}
+	
+	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			log.info("run rebuild index task");
+			cleanupExistingSearchIndexes();
+		    buildNewSearchIndexes();
+			resp.setStatus(HttpServletResponse.SC_OK);
+			
+		} catch (Exception e) {
+			throw new RuntimeException(
+					"Unexpected exception while rebuild search index"
+							+ e);
+		}
 	}
 
-	@Override
-	public void doAction(HttpServletRequest req, AdminHomeHelper helper) {
-		cleanupExistingSearchIndexes();
-	    buildNewSearchIndexes();
-	    log.info("done rebuild search document");
-		
-	}
 
 	/**
-	 * Indexes student and coordinator entries to build the table for search
+	 * Indexes student and instructor entries to build the table for search
 	 */
 	private void buildNewSearchIndexes() {
 
 		/**
-		 * Insert coordinators
+		 * Insert instructors
 		 */
 		AccountsDb accounts = new AccountsDb();
-		List<CoordData> coords = accounts.getCoordinators();
+		List<InstructorData> instructors = accounts.getInstructors();
 		
-		Iterator<CoordData> it = coords.iterator();
+		Iterator<InstructorData> it = instructors.iterator();
 		while (it.hasNext()) {
-			CoordData coord = it.next();
-			addDocument(coord.name, coord.email, coord.id, Common.PAGE_COORD_HOME);
+			InstructorData instructor = it.next();
+			addDocument(instructor.name, instructor.email, instructor.googleId, Common.PAGE_INSTRUCTOR_HOME);
 		}
 		
 		/**
@@ -73,7 +79,7 @@ public class AdminSearchTaskServlet extends ActionServlet<AdminHomeHelper> {
 	}
 	
 	/**
-	 * Add student/coordinator data to search index
+	 * Add student/instructor data to search index
 	 */
 	private void addDocument(String name, String email, String id, String url) {
 		Document.Builder docBuilder = Document
@@ -85,6 +91,9 @@ public class AdminSearchTaskServlet extends ActionServlet<AdminHomeHelper> {
 						Field.newBuilder().setName("email")
 								.setText(email))
 				.addField(
+						Field.newBuilder().setName("id")
+								.setText(id))
+				.addField(
 						Field.newBuilder().setName("link").setHTML(
 							String.format("<a href=\"%s\">View</a>",url+"?"+Common.PARAM_USER_ID+"="+id)
 								))
@@ -92,7 +101,7 @@ public class AdminSearchTaskServlet extends ActionServlet<AdminHomeHelper> {
 
 		Document doc = docBuilder.build();
 		try {
-			INDEX.add(doc);
+			getIndex().add(doc);
 		} catch (RuntimeException e) {
 			log.warning("Failed to add " + doc + e.getLocalizedMessage());
 		}
@@ -103,30 +112,28 @@ public class AdminSearchTaskServlet extends ActionServlet<AdminHomeHelper> {
 	 * Clean up existing search indexes 
 	 */
 	private void cleanupExistingSearchIndexes() {
-		
 		try {
 		    while (true) {
-		        List<String> docIds = new ArrayList<String>();
+		        ArrayList<String> docIds = new ArrayList<String>();
 		        // Return a set of document IDs.
 		        ListRequest request = ListRequest.newBuilder().build();
-		        ListResponse<Document> response = INDEX.listDocuments(request);
+		        ListResponse<Document> response = getIndex().listDocuments(request);
 		        if (response.getResults().isEmpty()) {
-		            break;
+		        	log.info("Empty search result.");
+		            return;
 		        }
 		        for (Document doc : response) {
+		        	log.info("clean document "+doc.getId());
 		            docIds.add(doc.getId());
 		        }
-		        INDEX.remove(docIds);
+		        
+					getIndex().remove(docIds);
+				
 		    }
 		} catch (RuntimeException e) {
-		    log.warning("Failed to remove documents" + e.getLocalizedMessage());
+		    log.warning("Failed to remove documents" +e.getLocalizedMessage());
 		}
-	}
-
-
-	@Override
-	protected String getDefaultForwardUrl() {
-		return Common.JSP_ADMIN_SEARCH;
+		
 	}
 
 }

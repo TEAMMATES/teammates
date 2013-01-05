@@ -1,0 +1,49 @@
+{
+  "accounts": {
+    "teammates.test": {
+      "googleId": "teammates.test",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "teammates.test@gmail.com",
+      "institute": "National University of Singapore"
+    }
+  },
+
+  "courses": {
+    "CCSDetailsUiT.CS2104": {
+      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
+      "id": "CCSDetailsUiT.CS2104",
+      "name": "Programming Language Concepts"
+    }
+  },
+
+  "instructors": {
+    "teammates.test": {
+      "googleId": "teammates.test",
+      "courseId": "CCSDetailsUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "teammates.test@gmail.com"
+    }
+  },
+  
+  "students": {
+    "registeredStudent": {
+      "id": "alice.tmms",
+      "email": "alice.tmms@gmail.com",
+      "course": "CCSDetailsUiT.CS2104",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy",
+      "profile": {"value": "My name is Alice Betsy, and I'm a student in CCSDetailsUiT.CS2104"},
+      "team": "Team 1"
+    },
+    "unregisteredStudent": {
+      "id": "",
+      "email": "benny.c.tmms@gmail.com",
+      "course": "CCSDetailsUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "profile": {"value": "My name is Benny Charles, and I'm a student in CCSDetailsUiT.CS2104"},
+      "team": "Team 1"
+    }
+  }
+}

@@ -8,5 +8,5 @@ public class StudentCourseDetailsHelper extends Helper {
 	public CourseData course;
 	public StudentData student;
 	public TeamData team;
-	public String coordName;
+	public String instructorName;
 }

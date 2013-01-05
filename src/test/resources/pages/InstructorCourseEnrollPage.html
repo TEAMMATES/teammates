@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+	<link href="/favicon.png" rel="shortcut icon" />
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+	<title>Teammates - Instructor</title>
+	<link type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
+	<link type="text/css" href="/stylesheets/instructorCourseEnroll.css" rel="stylesheet" />
+	
+	<script src="/js/jquery-minified.js" type="text/javascript"></script>
+	<script src="/js/tooltip.js" type="text/javascript"></script>
+	<script src="/js/date.js" type="text/javascript"></script>
+	<script src="/js/CalendarPopup.js" type="text/javascript"></script>
+	<script src="/js/AnchorPosition.js" type="text/javascript"></script>
+	<script src="/js/common.js" type="text/javascript"></script>
+	
+	<script src="/js/instructor.js" type="text/javascript"></script>
+	<script src="/js/instructorCourseEnroll.js" type="text/javascript"></script>
+    <noscript>{*}</noscript>
+
+
+</head>
+
+<body>
+	<div id="dhtmltooltip"></div>
+	<div id="frameTop">
+		
+
+
+		<div id="frameTopWrapper">
+			<div id="logo">
+				<img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="Teammates" />
+			</div>			
+			<div id="contentLinks">
+				<ul id="navbar">
+					<li><a href="/page/instructorHome?user=teammates.test" class="t_home">Home</a></li>
+					<li><a href="/page/instructorCourse?user=teammates.test" class="t_courses">Courses</a></li>
+					<li><a href="/page/instructorEval?user=teammates.test" class="t_evaluations">Evaluations</a></li>
+					<li><a target="_blank" href="/instructorHelp.html" class="t_help">Help</a></li>
+					<li><a href="/logout.jsp" class="t_logout">Logout</a>
+					 (teammates.test)</li>
+				</ul>
+			</div>
+			<div style="clear: both;"></div>
+		</div>
+	</div>
+
+	<div id="frameBody">
+		<div id="frameBodyWrapper">
+			<div id="topOfPage"></div>
+			
+				<div id="headerOperation">
+					<h1>Enroll Students for CCEnrollUiT.CS2104</h1>
+				</div>
+				<form method="post" action="/page/instructorCourseEnroll?courseid=CCEnrollUiT.CS2104&amp;user=teammates.test">
+					<img width="1012px" height="324px" border="0" src="/images/enrollInstructions.png" />
+					<p class="info centeralign bold">Recommended maximum class size : 100 students</p>
+					<br />
+					<table class="inputTable">
+						<tbody><tr>
+							<td id="studentDetails" class="label bold middlealign"> Student details: </td>
+							<td><textarea id="enrollstudents" name="enrollstudents" class="textvalue" cols="110" rows="6"></textarea></td>
+						</tr>
+					</tbody></table>
+					
+
+
+	<div style="display: none;" id="statusMessage"></div>
+
+					<br />
+					<div class="centeralign" id="instructorCourseEnrollmentButtons">
+						<input type="submit" onclick="return checkEnrollmentInput(document.getElementById('enrollstudents').value)" value="Enroll students" id="button_enroll" name="button_enroll" class="button" />
+					</div>
+				</form>
+				<br />
+				<br />
+				<br />
+			
+		</div>
+	</div>
+
+	<div id="frameBottom">
+		
+<div id="contentFooter">
+[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari 4+ and Internet Explorer 9+. For Enquires:
+
+<a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html">Contact Us</a>
+</div>
+	</div>
+
+</body></html>
