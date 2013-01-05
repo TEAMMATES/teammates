@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.UserType;
 import teammates.logic.api.Logic;
@@ -20,6 +21,11 @@ public class Helper {
 	 * The user that is currently logged in, authenticated by Google
 	 */
 	public UserType user;
+	
+	/**
+	 * AccountData which contains user's information
+	 */
+	public AccountData account;
 	
 	/**
 	 * The userID that the admin wants to masquerade

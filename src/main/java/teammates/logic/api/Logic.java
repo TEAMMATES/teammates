@@ -697,6 +697,35 @@ public class Logic {
 							new InstructorData(instructorId, courseId, courseCreator.name, courseCreator.email));
 		}
 	}
+	
+	// TODO: New function
+	// Create test
+	public void createCourse(String instructorId, String courseId,
+			String courseName, String instructorLines) throws EntityAlreadyExistsException,
+			InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorLines);
+		
+		createCourse(instructorId, courseId, courseName);
+		
+		String[] linesArray = instructorLines.split(Common.EOL);
+		
+		// check if all non-empty lines are formatted correctly
+		List<InstructorData> instructorsList = new ArrayList<InstructorData>();
+		for (int i = 0; i < linesArray.length; i++) {
+			String information = linesArray[i];
+			
+			if (Common.isWhiteSpace(information)) {
+				continue;
+			}
+			
+			instructorsList.add(new InstructorData(courseId, information));
+		}
+
+		// Create the parsed instructors
+		for (InstructorData instructor : instructorsList) {
+			AccountsLogic.inst().getDb().createInstructor(instructor);
+		}
+	}
 
 	/**
 	 * AccessLevel : any registered user (because it is too expensive to check
