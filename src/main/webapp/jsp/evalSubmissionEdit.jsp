@@ -1,7 +1,16 @@
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.common.datatransfer.SubmissionData" %>
 <%@ page import="teammates.ui.controller.EvalSubmissionEditHelper" %>
+<%@ page import="java.util.Date" %>
 <% EvalSubmissionEditHelper helper = (EvalSubmissionEditHelper)request.getAttribute("helper"); %>
+<%
+	boolean isStudent = Boolean.parseBoolean(request.getParameter("isStudent"));
+	Date currentDate = new Date();
+	String disableAttributeValue = "";
+	if(currentDate.compareTo(helper.eval.endTime) > 0 && isStudent){
+		disableAttributeValue = "disabled=\"disabled\"";
+	}
+%>
 <input type="hidden" value="<%= helper.eval.course %>"
 		name="<%= Common.PARAM_COURSE_ID %>"
 		id="<%= Common.PARAM_COURSE_ID %>">
@@ -40,7 +49,8 @@
 					<td>
 						<select style="width: 150px;"
 								name="<%=Common.PARAM_POINTS%>"
-								id="<%=Common.PARAM_POINTS+idx%>">
+								id="<%=Common.PARAM_POINTS+idx%>"
+								<%= disableAttributeValue %>>
 							<%=helper.getEvaluationOptions(sub)%>
 						</select>
 					</td>
@@ -50,7 +60,8 @@
 					<td>
 						<textarea class="textvalue" rows="8" cols="100" 
 								name="<%=Common.PARAM_JUSTIFICATION%>"
-								id="<%=Common.PARAM_JUSTIFICATION+idx%>"><%=EvalSubmissionEditHelper.escapeForHTML(sub.justification.getValue())%></textarea>
+								id="<%=Common.PARAM_JUSTIFICATION+idx%>"
+								<%= disableAttributeValue %>><%=EvalSubmissionEditHelper.escapeForHTML(sub.justification.getValue())%></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -61,7 +72,8 @@
 					<td><textarea class = "textvalue"
 							rows="8" cols="100"
 							name="<%=Common.PARAM_COMMENTS%>"
-					 		id="<%=Common.PARAM_COMMENTS+idx%>"><%=helper.getP2PComments(sub)%></textarea>
+					 		id="<%=Common.PARAM_COMMENTS+idx%>"
+					 		<%= disableAttributeValue %>><%=helper.getP2PComments(sub)%></textarea>
 					</td>
 				<%	} else { %>
 					<td>
@@ -81,7 +93,8 @@
 					<td>
 						<select style="width: 150px;"
 								name="<%=Common.PARAM_POINTS%>"
-								id="<%=Common.PARAM_POINTS+idx%>">
+								id="<%=Common.PARAM_POINTS+idx%>"
+								<%= disableAttributeValue %>>
 							<%=helper.getEvaluationOptions(sub)%>
 						</select>
 					</td>
@@ -94,7 +107,8 @@
 					<td><textarea class = "textvalue"
 							rows="8" cols="100"
 							name="<%=Common.PARAM_COMMENTS%>"
-					 		id="<%=Common.PARAM_COMMENTS+idx%>"><%=helper.getP2PComments(sub)%></textarea>
+					 		id="<%=Common.PARAM_COMMENTS+idx%>"
+					 		<%= disableAttributeValue %>><%=helper.getP2PComments(sub)%></textarea>
 					</td>
 				<%	} else { %>
 					<td>
@@ -113,7 +127,8 @@
 					<td>
 						<textarea class="textvalue" rows="8" cols="100" 
 								name="<%=Common.PARAM_JUSTIFICATION%>"
-								id="<%=Common.PARAM_JUSTIFICATION+idx%>"><%=EvalSubmissionEditHelper.escapeForHTML(sub.justification.getValue())%></textarea>
+								id="<%=Common.PARAM_JUSTIFICATION+idx%>"
+								<%= disableAttributeValue %>><%=EvalSubmissionEditHelper.escapeForHTML(sub.justification.getValue())%></textarea>
 					</td>
 				</tr>
 			<%	} %>

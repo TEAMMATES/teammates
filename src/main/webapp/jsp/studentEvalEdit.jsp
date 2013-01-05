@@ -69,6 +69,9 @@
 			
 			<br>
 			<br>
+			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			<br>
+			<br>
 			
 			<form name="form_submitevaluation" id="form_submitevaluation" method="post"
 					action="<%= Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER %>">
@@ -76,7 +79,6 @@
 				<jsp:param name="isStudent" value="true" />
 				</jsp:include>
 				<br>
-				<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 				<br>
 				<div id="studentEvaluationSubmissionButtons" class="centeralign">
 					<input type="submit" class="button" name="submitEvaluation"

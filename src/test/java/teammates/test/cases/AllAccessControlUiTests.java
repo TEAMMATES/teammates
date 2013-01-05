@@ -405,10 +405,10 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		bi.goToUrl(link);
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_EXPIRED);
-		assertEquals(bi.getElementAttribute(By.id(Common.PARAM_POINTS + "0"), "disabled"), "true");
-		assertEquals(bi.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"), "true");
-		assertEquals(bi.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"), "true");
-		assertEquals(bi.getElementAttribute(bi.studentSubmitEvaluationButton, "disabled"), "true");
+		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_POINTS + "0"), "disabled"));
+		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"));
+		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"));
+		assertEquals("true", bi.getElementAttribute(bi.studentSubmitEvaluationButton, "disabled"));
 	}
 
 	public void testStudentCourseDetails() {
