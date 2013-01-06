@@ -752,6 +752,12 @@ public class Logic {
 	
 	/**
 	 * Access level: Course Instructor and above
+	 * 
+	 * @param courseId
+	 * @param instructorLines
+	 * @throws InvalidParametersException
+	 * 
+	 * Pre-condition: instructorLines must have AT LEAST ONE instructor
 	 */
 	public void updateCourseInstructors(String courseId, String instructorLines) 
 			throws InvalidParametersException {

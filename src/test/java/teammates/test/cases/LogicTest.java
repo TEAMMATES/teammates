@@ -848,10 +848,6 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testUpdateCourseInstructors() throws Exception {
 		
-		// Just realized that the user will have to see his own name in the list?
-		// And if he removes that entry accidentally he will actually remove himself?
-		// Should use JavaScript to check that there is at least one valid line before calling this method	
-		
 		______TS("authentication");
 
 		restoreTypicalDataInDatastore();
