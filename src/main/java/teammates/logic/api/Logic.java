@@ -52,6 +52,7 @@ public class Logic {
 
 	public static final String ERROR_NULL_PARAMETER = "The supplied parameter was null\n";
 	public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update non-existent Course: ";
+	public static final String ERROR_NO_INSTRUCTOR_LINES = "Course must have at lease one instructor\n";
 
 	@SuppressWarnings("unused")
 	private void ____USER_level_methods__________________________________() {
@@ -691,8 +692,8 @@ public class Logic {
 		// Create an instructor relation for the INSTRUCTOR that created this course
 		// The INSTRUCTOR relation is created here with NAME and EMAIL fields retrieved from his AccountData
 		// Otherwise, createCourse() method will have to take in 2 extra parameters for them which is not a good idea
-		AccountData courseCreator = AccountsLogic.inst().getDb().getAccount(instructorId);
 		if (!instructorId.equals(CourseData.INSTRUCTOR_FIELD_DEPRECATED)) {
+			AccountData courseCreator = AccountsLogic.inst().getDb().getAccount(instructorId);
 			AccountsLogic
 					.inst()
 					.getDb()
@@ -701,34 +702,6 @@ public class Logic {
 		}
 	}
 	
-	/**
-	 * Access level: Instructor and above
-	 */
-	public void createCourse(String instructorId, String courseId,
-			String courseName, String instructorLines) throws EntityAlreadyExistsException,
-			InvalidParametersException {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorLines);
-		
-		createCourse(instructorId, courseId, courseName);
-		
-		String[] linesArray = instructorLines.split(Common.EOL);
-		
-		// check if all non-empty lines are formatted correctly
-		List<InstructorData> instructorsList = new ArrayList<InstructorData>();
-		for (int i = 0; i < linesArray.length; i++) {
-			String information = linesArray[i];
-			if (Common.isWhiteSpace(information)) {
-				continue;
-			}
-			instructorsList.add(new InstructorData(courseId, information));
-		}
-
-		// Create the parsed instructors
-		for (InstructorData instructor : instructorsList) {
-			AccountsLogic.inst().getDb().createInstructor(instructor);
-		}
-	}
-
 	/**
 	 * AccessLevel : any registered user (because it is too expensive to check
 	 * if a student is in the course)
@@ -781,7 +754,7 @@ public class Logic {
 	 * Access level: Course Instructor and above
 	 */
 	public void updateCourseInstructors(String courseId, String instructorLines) 
-			throws InvalidParametersException, EntityAlreadyExistsException {
+			throws InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorLines);
 
@@ -791,29 +764,24 @@ public class Logic {
 		
 		verifyCourseOwnerOrAbove(courseId);
 		
-		String[] linesArray = instructorLines.split(Common.EOL);
-		
-		// check if all non-empty lines are formatted correctly
-		List<InstructorData> instructorsList = new ArrayList<InstructorData>();
-		for (int i = 0; i < linesArray.length; i++) {
-			String information = linesArray[i];
-			if (Common.isWhiteSpace(information)) {
-				continue;
-			}
-			instructorsList.add(new InstructorData(courseId, information));
-		}
+		// Prepare the list to be updated
+		List<InstructorData> instructorsList = parseInstructorLines(courseId, instructorLines);
 		
 		// Retrieve the current list of instructors
 		// Remove those that are not in the list and persist the new ones
+		// Edit the ones that are found in both lists
 		List<InstructorData> currentInstructors = AccountsLogic.inst().getDb().getInstructorsByCourseId(courseId);
 		
-		// Find new names
 		List<InstructorData> toAdd = new ArrayList<InstructorData>();
 		List<InstructorData> toRemove = new ArrayList<InstructorData>();
+		List<InstructorData> toEdit = new ArrayList<InstructorData>();
+		
+		// Find new names
 		for (InstructorData id : instructorsList) {
 			boolean found = false;
 			for (InstructorData currentInstructor : currentInstructors) {
 				if (id.googleId.equals(currentInstructor.googleId)) {
+					toEdit.add(id);
 					found = true;
 				}
 			}
@@ -835,12 +803,20 @@ public class Logic {
 			}
 		}
 		
-		// Now instructorsList contains the new instructors and currentInstructors contains the to-removes
+		// Operate on each of the lists respectively
 		for (InstructorData add : toAdd) {
-			AccountsLogic.inst().getDb().createInstructor(add);
+			try {
+				AccountsLogic.inst().getDb().createInstructor(add);
+			} catch (EntityAlreadyExistsException e) {
+				// This should never actually happen
+				Assumption.fail("Updating Instructor list created unknown error - an instructor existed but was not found earlier");
+			}
 		}
 		for (InstructorData remove : toRemove) {
 			AccountsLogic.inst().getDb().deleteInstructor(remove.googleId, remove.courseId);
+		}
+		for (InstructorData edit : toEdit) {
+			AccountsLogic.inst().getDb().updateInstructor(edit);
 		}
 	}
 
@@ -2019,4 +1995,33 @@ public class Logic {
 		return email;
 	}
 
+	/**
+	 * Helper method for updateCourseInstructors
+	 * Parses instructor lines and returns a List of InstructorData generated from parsed lines
+	 * 
+	 * @param courseId
+	 * @param instructorLines
+	 * @return
+	 * @throws InvalidParametersException
+	 */
+	private List<InstructorData> parseInstructorLines(String courseId, String instructorLines) 
+			throws InvalidParametersException {
+		String[] linesArray = instructorLines.split(Common.EOL);
+		
+		// check if all non-empty lines are formatted correctly
+		List<InstructorData> instructorsList = new ArrayList<InstructorData>();
+		for (int i = 0; i < linesArray.length; i++) {
+			String information = linesArray[i];
+			if (Common.isWhiteSpace(information)) {
+				continue;
+			}
+			instructorsList.add(new InstructorData(courseId, information));
+		}
+		
+		if (instructorsList.size() < 1) {
+			throw new InvalidParametersException(ERROR_NO_INSTRUCTOR_LINES);
+		}
+		
+		return instructorsList;
+	}
 }

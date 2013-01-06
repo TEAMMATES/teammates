@@ -9,6 +9,7 @@ import static teammates.logic.TeamEvalResult.NA;
 import static teammates.logic.TeamEvalResult.NSB;
 import static teammates.logic.TeamEvalResult.NSU;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -715,31 +716,6 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (EntityAlreadyExistsException e) {
 		}
-		
-		______TS("create course with instructor lines");
-		
-		// Reset environment
-		InstructorData instructor2 = dataBundle.instructors.get("instructor2OfCourse1");
-		InstructorData instructor3 = dataBundle.instructors.get("instructor3OfCourse1");
-		loginAsAdmin("admin.user");
-		logic.deleteCourse(instructor.courseId);
-		verifyAbsentInDatastore(course);
-		verifyAbsentInDatastore(instructor);
-		verifyAbsentInDatastore(instructor2);
-		verifyAbsentInDatastore(instructor3);
-		
-		// Begin
-		loginAsInstructor("idOfInstructor1OfCourse1");
-		
-		logic.createCourse(instructor.googleId, course.id, course.name, 
-				instructor2.googleId + "|" + instructor2.name + "|" + instructor2.email + Common.EOL
-			+	Common.EOL // empty line in between
-			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email);
-		verifyPresentInDatastore(course);
-		verifyPresentInDatastore(instructor);
-		verifyPresentInDatastore(instructor2);
-		verifyPresentInDatastore(instructor3);
-
 		______TS("invalid parameters");
 		
 		// Only checking that exception is thrown at logic level
@@ -870,8 +846,7 @@ public class LogicTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testUpdateCourseInstructors() 
-			throws Exception {
+	public void testUpdateCourseInstructors() throws Exception {
 		
 		// Just realized that the user will have to see his own name in the list?
 		// And if he removes that entry accidentally he will actually remove himself?
@@ -920,9 +895,10 @@ public class LogicTest extends BaseTestCase {
 
 		loginAsInstructor("idOfInstructor1OfCourse1");
 		
-		logic.createCourse(instructor.googleId, course.id, course.name, 
-				instructor2.googleId + "|" + instructor2.name + "|" + instructor2.email + Common.EOL
-			+	Common.EOL // empty line in between
+		logic.createCourse(instructor.googleId, course.id, course.name);
+		logic.updateCourseInstructors(course.id,
+				instructor.googleId + "|" + instructor.name + "|" + instructor.email + Common.EOL
+			+	instructor2.googleId + "|" + instructor2.name + "|" + instructor2.email + Common.EOL
 			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email);
 		verifyPresentInDatastore(course);
 		verifyPresentInDatastore(instructor);
@@ -931,44 +907,33 @@ public class LogicTest extends BaseTestCase {
 		
 		______TS("Remove one Instructor");
 		
-		logic.updateCourseInstructors(course.id, Common.EOL // first line empty
-				+	instructor.googleId + "\t" + instructor.name + "|" + instructor.email + Common.EOL
-				+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email);
+		logic.updateCourseInstructors(course.id,
+				instructor.googleId + "\t" + instructor.name + "|" + instructor.email + Common.EOL
+			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email);
 		verifyPresentInDatastore(instructor);
 		verifyAbsentInDatastore(instructor2);
 		verifyPresentInDatastore(instructor3);
 		
 		______TS("Remove one Instructor and add another Instructor");
 		
-		logic.updateCourseInstructors(course.id, Common.EOL // first line empty
-				+	instructor2.googleId + "\t" + instructor2.name + "|" + instructor2.email + Common.EOL
-				+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email);
+		logic.updateCourseInstructors(course.id,
+				instructor2.googleId + "\t" + instructor2.name + "|" + instructor2.email + Common.EOL
+			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email);
 		verifyAbsentInDatastore(instructor); // Creator can be deleted too
 		verifyPresentInDatastore(instructor2);
 		verifyPresentInDatastore(instructor3);
 		
-		______TS("Instructor Lines information incorrect");
+		______TS("Update Instructor information");
 		
-		// The creator (idOfInstructor1OfCourse1) was removed as instructor from the previous operation
-		loginAsInstructor("idOfInstructor2OfCourse1");
+		loginAsInstructor("idOfInstructor2OfCourse1"); // idOfInstructor1OfCourse1 is no longer an instructor of the course
+		instructor2.name = "New name";
+		instructor3.email = "new@email.com";
 		
-		// Too many
-		try {
-			logic.updateCourseInstructors(course.id,
-				instructor.googleId + "\t" + instructor.name + "|" + instructor.email + "\t" + "extrafield");
-			fail();
-		} catch (InvalidParametersException ipe) {
-			assertEquals(InstructorData.ERROR_INFORMATION_INCORRECT, ipe.getMessage());
-		}
-		
-		// Too few
-		try {
-			logic.updateCourseInstructors(course.id,
-				instructor.googleId + "\t");
-			fail();
-		} catch (InvalidParametersException ipe) {
-			assertEquals(InstructorData.ERROR_INFORMATION_INCORRECT, ipe.getMessage());
-		}
+		logic.updateCourseInstructors(course.id,
+				instructor2.googleId + "\t" + instructor2.name + "|" + instructor2.email + Common.EOL
+			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email);
+		verifyPresentInDatastore(instructor2);
+		verifyPresentInDatastore(instructor3);
 		
 		______TS("Update non-existent course");
 		
@@ -993,6 +958,109 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (AssertionError ae) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
+		}
+	}
+	
+	@Test
+	public void testParseInstructorLines() throws Exception {
+		// Private method no need authentication
+		
+		Method method = Logic.class.getDeclaredMethod("parseInstructorLines",
+				new Class[] { String.class, String.class });
+		method.setAccessible(true);
+		
+		______TS("typical case");
+		
+		Object[] params = new Object[] { "private.course",
+				"test1.googleId \t test1.name \t test1.email" + Common.EOL
+			+	"test2.googleId | test2.name | test2.email"
+		};
+		
+		@SuppressWarnings("unchecked")
+		List<InstructorData> result1 = (List<InstructorData>) method.invoke(logic, params);
+		assertEquals(result1.size(), 2);
+		assertEquals(result1.get(0).googleId, "test1.googleId");	// only check first and last fields
+		assertEquals(result1.get(1).email, "test2.email");
+		
+		______TS("blank space in first line");
+		
+		params = new Object[] { "private.course",
+				Common.EOL
+			+	"test1.googleId \t test1.name \t test1.email" + Common.EOL
+			+	"test2.googleId | test2.name | test2.email"
+		};
+		
+		@SuppressWarnings("unchecked")
+		List<InstructorData> result2 = (List<InstructorData>) method.invoke(logic, params);
+		assertEquals(result2.size(), 2);
+		assertEquals(result2.get(0).googleId, "test1.googleId");	// only check first and last fields
+		assertEquals(result2.get(1).email, "test2.email");
+		
+		______TS("blank space in between lines");
+		
+		params = new Object[] { "private.course",
+				Common.EOL
+			+	"test1.googleId \t test1.name \t test1.email" + Common.EOL
+			+	Common.EOL
+			+	"test2.googleId | test2.name | test2.email"
+		};
+		
+		@SuppressWarnings("unchecked")
+		List<InstructorData> result3 = (List<InstructorData>) method.invoke(logic, params);
+		assertEquals(result3.size(), 2);
+		assertEquals(result3.get(0).googleId, "test1.googleId");	// only check first and last fields
+		assertEquals(result3.get(1).email, "test2.email");
+		
+		______TS("trailing blank lines");
+		
+		params = new Object[] { "private.course",
+				Common.EOL
+			+	"test1.googleId \t test1.name \t test1.email" + Common.EOL
+			+	Common.EOL
+			+	"test2.googleId | test2.name | test2.email"
+			+	Common.EOL + Common.EOL
+		};
+		
+		@SuppressWarnings("unchecked")
+		List<InstructorData> result4 = (List<InstructorData>) method.invoke(logic, params);
+		assertEquals(result4.size(), 2);
+		assertEquals(result4.get(0).googleId, "test1.googleId");	// only check first and last fields
+		assertEquals(result4.get(1).email, "test2.email");
+		
+		______TS("Instructor Lines information incorrect");
+		
+		// Too many
+		try {
+			params = new Object[] { "private.course",
+				"test2.googleId | test2.name | test2.email | Something extra"
+			};
+			method.invoke(logic,  params);
+			fail();
+		} catch (InvocationTargetException e) {
+			assertTrue(e.getTargetException().toString().contains(InstructorData.ERROR_INFORMATION_INCORRECT));
+		}
+		
+		// Too few
+		try {
+			params = new Object[] { "private.course",
+					"test2.googleId | "
+				};
+				method.invoke(logic,  params);
+			fail();
+		} catch (InvocationTargetException e) {
+			assertTrue(e.getTargetException().toString().contains(InstructorData.ERROR_INFORMATION_INCORRECT));
+		}
+		
+		______TS("lines is empty");
+		
+		try {
+			params = new Object[] { "private.course",
+					""
+				};
+				method.invoke(logic,  params);
+			fail();
+		} catch (InvocationTargetException e) {
+			assertTrue(e.getTargetException().toString().contains(Logic.ERROR_NO_INSTRUCTOR_LINES));
 		}
 	}
 
