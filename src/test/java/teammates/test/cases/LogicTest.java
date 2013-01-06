@@ -685,7 +685,11 @@ public class LogicTest extends BaseTestCase {
 		loginAsInstructor("idOfInstructor1OfCourse1");
 		
 		CourseData course = dataBundle.courses.get("typicalCourse1");
+		AccountData creator = dataBundle.accounts.get("instructor1OfCourse1");
 		InstructorData instructor = dataBundle.instructors.get("instructor1OfCourse1");
+		// Note the creator INSTRUCTOR relation always contains NAME and EMAIL from his ACCOUNT
+		instructor.name = creator.name;
+		instructor.email = creator.email;
 
 		// Delete, to avoid clashes with existing data
 		// Delete only Course 1
@@ -698,6 +702,7 @@ public class LogicTest extends BaseTestCase {
 		// Create fresh
 		logic.createCourse(instructor.googleId , course.id, course.name);
 		verifyPresentInDatastore(course);
+		verifyPresentInDatastore(instructor);
 
 		______TS("duplicate course id");
 
@@ -710,6 +715,30 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (EntityAlreadyExistsException e) {
 		}
+		
+		______TS("create course with instructor lines");
+		
+		// Reset environment
+		InstructorData instructor2 = dataBundle.instructors.get("instructor2OfCourse1");
+		InstructorData instructor3 = dataBundle.instructors.get("instructor3OfCourse1");
+		loginAsAdmin("admin.user");
+		logic.deleteCourse(instructor.courseId);
+		verifyAbsentInDatastore(course);
+		verifyAbsentInDatastore(instructor);
+		verifyAbsentInDatastore(instructor2);
+		verifyAbsentInDatastore(instructor3);
+		
+		// Begin
+		loginAsInstructor("idOfInstructor1OfCourse1");
+		
+		logic.createCourse(instructor.googleId, course.id, course.name, 
+				instructor2.googleId + "|" + instructor2.name + "|" + instructor2.email + Common.EOL
+			+	Common.EOL // empty line in between
+			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email);
+		verifyPresentInDatastore(course);
+		verifyPresentInDatastore(instructor);
+		verifyPresentInDatastore(instructor2);
+		verifyPresentInDatastore(instructor3);
 
 		______TS("invalid parameters");
 		
@@ -838,6 +867,133 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testEditCourse() {
 		// method not implemented
+	}
+	
+	@Test
+	public void testUpdateCourseInstructors() 
+			throws Exception {
+		
+		// Just realized that the user will have to see his own name in the list?
+		// And if he removes that entry accidentally he will actually remove himself?
+		// Should use JavaScript to check that there is at least one valid line before calling this method	
+		
+		______TS("authentication");
+
+		restoreTypicalDataInDatastore();
+
+		String methodName = "updateCourseInstructors";
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
+		Object[] params = new Object[] { "idOfTypicalCourse1", "a|b|c@d.e" };
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		// course belongs to a different instructor
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
+				paramTypes, new Object[] { "idOfTypicalCourse2", "a|b|c@d.e" });
+
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
+				paramTypes, params);
+		
+		______TS("typical case");
+		
+		// Reset environment
+		CourseData course = dataBundle.courses.get("typicalCourse1");
+		AccountData creator = dataBundle.accounts.get("instructor1OfCourse1");
+		InstructorData instructor = dataBundle.instructors.get("instructor1OfCourse1");
+		InstructorData instructor2 = dataBundle.instructors.get("instructor2OfCourse1");
+		InstructorData instructor3 = dataBundle.instructors.get("instructor3OfCourse1");
+		instructor.name = creator.name;
+		instructor.email = creator.email;
+		loginAsAdmin("admin.user");
+		logic.deleteCourse(instructor.courseId);
+		verifyAbsentInDatastore(course);
+		verifyAbsentInDatastore(instructor);
+		verifyAbsentInDatastore(instructor2);
+		verifyAbsentInDatastore(instructor3);
+
+		loginAsInstructor("idOfInstructor1OfCourse1");
+		
+		logic.createCourse(instructor.googleId, course.id, course.name, 
+				instructor2.googleId + "|" + instructor2.name + "|" + instructor2.email + Common.EOL
+			+	Common.EOL // empty line in between
+			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email);
+		verifyPresentInDatastore(course);
+		verifyPresentInDatastore(instructor);
+		verifyPresentInDatastore(instructor2);
+		verifyPresentInDatastore(instructor3);
+		
+		______TS("Remove one Instructor");
+		
+		logic.updateCourseInstructors(course.id, Common.EOL // first line empty
+				+	instructor.googleId + "\t" + instructor.name + "|" + instructor.email + Common.EOL
+				+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email);
+		verifyPresentInDatastore(instructor);
+		verifyAbsentInDatastore(instructor2);
+		verifyPresentInDatastore(instructor3);
+		
+		______TS("Remove one Instructor and add another Instructor");
+		
+		logic.updateCourseInstructors(course.id, Common.EOL // first line empty
+				+	instructor2.googleId + "\t" + instructor2.name + "|" + instructor2.email + Common.EOL
+				+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email);
+		verifyAbsentInDatastore(instructor); // Creator can be deleted too
+		verifyPresentInDatastore(instructor2);
+		verifyPresentInDatastore(instructor3);
+		
+		______TS("Instructor Lines information incorrect");
+		
+		// The creator (idOfInstructor1OfCourse1) was removed as instructor from the previous operation
+		loginAsInstructor("idOfInstructor2OfCourse1");
+		
+		// Too many
+		try {
+			logic.updateCourseInstructors(course.id,
+				instructor.googleId + "\t" + instructor.name + "|" + instructor.email + "\t" + "extrafield");
+			fail();
+		} catch (InvalidParametersException ipe) {
+			assertEquals(InstructorData.ERROR_INFORMATION_INCORRECT, ipe.getMessage());
+		}
+		
+		// Too few
+		try {
+			logic.updateCourseInstructors(course.id,
+				instructor.googleId + "\t");
+			fail();
+		} catch (InvalidParametersException ipe) {
+			assertEquals(InstructorData.ERROR_INFORMATION_INCORRECT, ipe.getMessage());
+		}
+		
+		______TS("Update non-existent course");
+		
+		try {
+			logic.updateCourseInstructors("non.existent", "a|b|c@d.e");
+			fail();
+		} catch (AssertionError ae) {
+			assertEquals(Logic.ERROR_UPDATE_NON_EXISTENT_COURSE + "non.existent", ae.getMessage());
+		}
+		
+		______TS("Null parameters");
+		
+		try {
+			logic.updateCourseInstructors(null, "a|b|c@d.e");
+			fail();
+		} catch (AssertionError ae) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
+		}
+		
+		try {
+			logic.updateCourseInstructors(course.id, null);
+			fail();
+		} catch (AssertionError ae) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
+		}
 	}
 
 	@Test

@@ -20,8 +20,7 @@ public class InstructorData extends BaseData {
 	public static final String ERROR_FIELD_NAME = "Instructor name cannot be null or empty\n";
 	public static final String ERROR_FIELD_EMAIL = "Instructor email is invalid\n";
 	public static final String ERROR_FIELD_COURSEID = "Course ID is invalid\n";
-	public static final String ERROR_INFORMATION_TOO_FEW = "At least Google ID is required\n";
-	public static final String ERROR_INFORMATION_TOO_MANY = "Please enter information in the format: {GoogleID} | {Name} | {Email}\n";
+	public static final String ERROR_INFORMATION_INCORRECT = "Please enter information in the format: {GoogleID} | {Name} | {Email}\n";
 
 	public InstructorData(Coordinator instructor) {
 		this();
@@ -52,20 +51,14 @@ public class InstructorData extends BaseData {
 	public InstructorData(String courseId, String information) throws InvalidParametersException {
 		String[] parts = information.replace("|", "\t").split("\t");
 		
-		if (parts.length < 1) {
-			throw new InvalidParametersException(ERROR_INFORMATION_TOO_FEW);
-		} else if (parts.length > 3) {
-			throw new InvalidParametersException(ERROR_INFORMATION_TOO_MANY);
+		if (parts.length != 3) {
+			throw new InvalidParametersException(ERROR_INFORMATION_INCORRECT);
 		}
-
+		
 		this.googleId = parts[0].trim();
 		this.courseId = courseId;
-		if (parts.length > 1) {
-			this.name = parts[1].trim();
-		}
-		if (parts.length > 2) {
-			this.email = parts[2].trim();
-		}
+		this.name = parts[1].trim();
+		this.email = parts[2].trim();
 	}
 
 	public Instructor toEntity() {

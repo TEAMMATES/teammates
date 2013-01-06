@@ -51,6 +51,7 @@ public class Logic {
 	private static Logger log = Common.getLogger();
 
 	public static final String ERROR_NULL_PARAMETER = "The supplied parameter was null\n";
+	public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update non-existent Course: ";
 
 	@SuppressWarnings("unused")
 	private void ____USER_level_methods__________________________________() {
@@ -688,6 +689,8 @@ public class Logic {
 		CoursesLogic.inst().getDb().createCourse(courseToAdd);
 
 		// Create an instructor relation for the INSTRUCTOR that created this course
+		// The INSTRUCTOR relation is created here with NAME and EMAIL fields retrieved from his AccountData
+		// Otherwise, createCourse() method will have to take in 2 extra parameters for them which is not a good idea
 		AccountData courseCreator = AccountsLogic.inst().getDb().getAccount(instructorId);
 		if (!instructorId.equals(CourseData.INSTRUCTOR_FIELD_DEPRECATED)) {
 			AccountsLogic
@@ -698,8 +701,9 @@ public class Logic {
 		}
 	}
 	
-	// TODO: New function
-	// Create test
+	/**
+	 * Access level: Instructor and above
+	 */
 	public void createCourse(String instructorId, String courseId,
 			String courseName, String instructorLines) throws EntityAlreadyExistsException,
 			InvalidParametersException {
@@ -713,11 +717,9 @@ public class Logic {
 		List<InstructorData> instructorsList = new ArrayList<InstructorData>();
 		for (int i = 0; i < linesArray.length; i++) {
 			String information = linesArray[i];
-			
 			if (Common.isWhiteSpace(information)) {
 				continue;
 			}
-			
 			instructorsList.add(new InstructorData(courseId, information));
 		}
 
@@ -773,6 +775,73 @@ public class Logic {
 	public void editCourse(CourseData course) throws NotImplementedException {
 		throw new NotImplementedException("Not implemented because we do "
 				+ "not allow editing courses");
+	}
+	
+	/**
+	 * Access level: Course Instructor and above
+	 */
+	public void updateCourseInstructors(String courseId, String instructorLines) 
+			throws InvalidParametersException, EntityAlreadyExistsException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorLines);
+
+		if (!CoursesLogic.inst().isCourseExists(courseId)) {
+			Assumption.fail(ERROR_UPDATE_NON_EXISTENT_COURSE + courseId);
+		}
+		
+		verifyCourseOwnerOrAbove(courseId);
+		
+		String[] linesArray = instructorLines.split(Common.EOL);
+		
+		// check if all non-empty lines are formatted correctly
+		List<InstructorData> instructorsList = new ArrayList<InstructorData>();
+		for (int i = 0; i < linesArray.length; i++) {
+			String information = linesArray[i];
+			if (Common.isWhiteSpace(information)) {
+				continue;
+			}
+			instructorsList.add(new InstructorData(courseId, information));
+		}
+		
+		// Retrieve the current list of instructors
+		// Remove those that are not in the list and persist the new ones
+		List<InstructorData> currentInstructors = AccountsLogic.inst().getDb().getInstructorsByCourseId(courseId);
+		
+		// Find new names
+		List<InstructorData> toAdd = new ArrayList<InstructorData>();
+		List<InstructorData> toRemove = new ArrayList<InstructorData>();
+		for (InstructorData id : instructorsList) {
+			boolean found = false;
+			for (InstructorData currentInstructor : currentInstructors) {
+				if (id.googleId.equals(currentInstructor.googleId)) {
+					found = true;
+				}
+			}
+			if (!found) {
+				toAdd.add(id);
+			}
+		}
+		
+		// Find lost names
+		for (InstructorData currentInstructor : currentInstructors) {
+			boolean found = false;
+			for (InstructorData id : instructorsList) {
+				if (id.googleId.equals(currentInstructor.googleId)) {
+					found = true;
+				}
+			}
+			if (!found) {
+				toRemove.add(currentInstructor);
+			}
+		}
+		
+		// Now instructorsList contains the new instructors and currentInstructors contains the to-removes
+		for (InstructorData add : toAdd) {
+			AccountsLogic.inst().getDb().createInstructor(add);
+		}
+		for (InstructorData remove : toRemove) {
+			AccountsLogic.inst().getDb().deleteInstructor(remove.googleId, remove.courseId);
+		}
 	}
 
 	/**
