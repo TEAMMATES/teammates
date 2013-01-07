@@ -2,6 +2,7 @@ package teammates.common.datatransfer;
 
 import java.util.HashMap;
 
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Coordinator;
@@ -20,7 +21,8 @@ public class InstructorData extends BaseData {
 	public static final String ERROR_FIELD_NAME = "Instructor name cannot be null or empty\n";
 	public static final String ERROR_FIELD_EMAIL = "Instructor email is invalid\n";
 	public static final String ERROR_FIELD_COURSEID = "Course ID is invalid\n";
-	public static final String ERROR_INFORMATION_INCORRECT = "Please enter information in the format: {GoogleID} | {Name} | {Email}\n";
+	public static final String ERROR_INSTRUCTOR_LINE_NULL = "Instructor line was null";
+	public static final String ERROR_INFORMATION_INCORRECT = "Please enter information in the format: GoogleID | Name | Email\n";
 
 	public InstructorData(Coordinator instructor) {
 		this();
@@ -47,8 +49,9 @@ public class InstructorData extends BaseData {
 		
 	}
 	
-	// TODO: not tested
 	public InstructorData(String courseId, String information) throws InvalidParametersException {
+		Assumption.assertNotNull(ERROR_INSTRUCTOR_LINE_NULL, information);
+		
 		String[] parts = information.replace("|", "\t").split("\t");
 		
 		if (parts.length != 3) {
