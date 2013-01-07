@@ -657,6 +657,30 @@ public class AccountsDb {
 	}
 	
 	/**
+	 * UPDATE Instructor
+	 * 
+	 * Allow instructors to modify their NAME and EMAIL Fields
+	 * Cannot modify GoogleId and Course Id
+	 * 
+	 * @param InstructorData id
+	 */
+	public void updateInstructor(InstructorData id) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, id);
+		
+		Assumption.assertTrue(id.getInvalidStateInfo(), id.isValid());
+		
+		Instructor instructorToUpdate = getInstructorEntity(id.googleId, id.courseId);
+		
+		Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + id.googleId
+				+ Common.getCurrentThreadStack(), instructorToUpdate);
+		
+		instructorToUpdate.setName(id.name);
+		instructorToUpdate.setEmail(id.email);
+		
+		getPM().close();
+	}
+	
+	/**
 	 * DELETE Account
 	 * 
 	 * Delete a particular User from system
