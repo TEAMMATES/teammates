@@ -38,10 +38,10 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 		}
 		
 		helper.course = helper.server.getCourseDetails(courseId);
-		List<InstructorData> idList = helper.server.getInstructorsByCourseId(courseId);
+		helper.instructors = helper.server.getInstructorsByCourseId(courseId);
 		
 		// Current system only supports one instructor at the UI and Client side
-		InstructorData firstInstructorOfCourse = idList.get(0);
+		InstructorData firstInstructorOfCourse = helper.instructors.get(0);
 		
 		helper.instructorName = firstInstructorOfCourse.name;
 		helper.student = helper.server.getStudentInCourseForGoogleId(courseId, helper.userId);
