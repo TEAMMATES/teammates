@@ -135,7 +135,7 @@
 				$('#instructorCourseEvalResultsPage3').find('#instructorEvaluationSummaryTable').hide();
 				$('#instructorCourseEvalResultsPage3').find('#instructorEvaluationDetailedRevieweeTable').show();
 			});
-			$('#instructorCourseEvalSubmissionViewPage').load("<%= Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_VIEW %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper");		
+			$('#instructorCourseEvalSubmissionViewPage').load("<%= Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_VIEW %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=teammates.test%40gmail.com #frameBodyWrapper");		
 			$('#instructorCourseEvalSubmissionEditPage').load("<%= Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=charlie.d.tmms%40gmail.com #frameBodyWrapper");
 			
 			$('#studentHomePage').load("<%= Common.PAGE_STUDENT_HOME %>?user=teammates.test #frameBodyWrapper");

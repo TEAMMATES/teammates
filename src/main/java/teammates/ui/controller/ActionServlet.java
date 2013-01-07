@@ -179,6 +179,10 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		} else {
 			helper.userId = helper.user.id;
 		}
+		
+		if (helper.userId != null ){
+			helper.account = helper.server.getAccount(helper.userId);
+		}
 	}
 
 	/**
