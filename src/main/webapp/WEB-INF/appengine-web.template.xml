@@ -4,9 +4,12 @@
   <threadsafe>true</threadsafe>
 	
 	<!-- Application ID of the app -->
-	<application>teammatesv4</application>
+	<!-- For dev server testing, this be anything -->
+	<!-- For staging server testing, this should match the ID of the app your created on GAE -->
+	<application>teammates-john</application>
 	
 	<!-- Version number of the app -->
+	<!-- Use dashes instead of dots because GAE does not allow dots in version number -->
 	<version>4-18</version>
 	
 	<!-- Specify which file contains logging condiguration to be used by java.util.logging -->
