@@ -243,7 +243,7 @@
 											<td><b><%=InstructorEvalResultsHelper.escapeForHTML(byReviewer ? sub.revieweeName : sub.reviewerName)%></b></td>
 											<td><%= InstructorEvalResultsHelper.printSharePoints(sub.normalizedToInstructor,false) %></td>
 											<td><%= InstructorEvalResultsHelper.printJustification(sub) %></td>
-											<td colspan="2"><%= InstructorEvalResultsHelper.printComments(sub, helper.evaluation.p2pEnabled) %></td>
+											<td colspan="2"><%= InstructorEvalResultsHelper.formatP2PFeedback(InstructorEvalResultsHelper.printComments(sub, helper.evaluation.p2pEnabled)) %></td>
 										</tr>
 									<%	} %>
 								</table>

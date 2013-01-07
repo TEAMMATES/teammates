@@ -87,7 +87,7 @@
 						<td><b><%=InstructorEvalSubmissionViewHelper.escapeForHTML(byReviewee ? sub.reviewerName : sub.revieweeName)%></b></td>
 						<td><%= InstructorEvalSubmissionViewHelper.printSharePoints(sub.normalizedToInstructor,false) %></td>
 						<td><%= InstructorEvalSubmissionViewHelper.printJustification(sub) %></td>
-						<td><%= InstructorEvalSubmissionViewHelper.printComments(sub, helper.evaluation.p2pEnabled) %></td>
+						<td><%= InstructorEvalSubmissionViewHelper.formatP2PFeedback(InstructorEvalSubmissionViewHelper.printComments(sub, helper.evaluation.p2pEnabled)) %></td>
 					</tr>
 				<%	} %>
 			</table>

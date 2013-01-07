@@ -142,7 +142,7 @@
       "evaluation" : "First Eval",
       "points" : 110,
       "justification" : {"value" : "This is a justification from alice.b.tmms@gmail.com to benny.c.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from alice.b.tmms@gmail.com to benny.c.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"<<What I appreciate about you as a team member>>:\nGood Job!\n<<Areas you can improve further>>:\nEverything.\n<<Other comments>>:\nNothing"},
       "team" : "Team 1"
     },
     "submissionFromBennyToBennyFirstEval": {
