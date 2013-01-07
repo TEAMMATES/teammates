@@ -43,11 +43,7 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 
 		try {
 			if (instructorID != null && instructorName != null && instructorEmail != null) {
-				helper.server.createAccount(instructorID, true);
-				// [SUGGESTION]:	Creating account uses only Google ID.
-				// 					Other information to be supplemented by Update?
-				// Or we can have a separate function signature like:
-				// createAccount(googleID, name, isInstructor, email, institute) but we ALLOW null fields.
+				helper.server.createAccount(instructorID, instructorName, true, instructorEmail, "");
 				helper.statusMessage = "Instructor " + instructorName
 						+ " has been successfully created";
 			}
