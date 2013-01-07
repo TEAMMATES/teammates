@@ -657,6 +657,30 @@ public class AccountsDb {
 	}
 	
 	/**
+	 * UPDATE Instructor
+	 * 
+	 * Allow instructors to modify their NAME and EMAIL Fields
+	 * Cannot modify GoogleId and Course Id
+	 * 
+	 * @param InstructorData id
+	 */
+	public void updateInstructor(InstructorData id) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, id);
+		
+		Assumption.assertTrue(id.getInvalidStateInfo(), id.isValid());
+		
+		Instructor instructorToUpdate = getInstructorEntity(id.googleId, id.courseId);
+		
+		Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + id.googleId
+				+ Common.getCurrentThreadStack(), instructorToUpdate);
+		
+		instructorToUpdate.setName(id.name);
+		instructorToUpdate.setEmail(id.email);
+		
+		getPM().close();
+	}
+	
+	/**
 	 * DELETE Account
 	 * 
 	 * Delete a particular User from system
@@ -996,6 +1020,36 @@ public class AccountsDb {
 		
 		getPM().makePersistentAll(accountsToAdd);
 		getPM().flush();
+	}
+
+	public void appendNameEmailForInstructors() {
+		String query = "select from " + Account.class.getName()
+				+ " where isInstructor == true";
+
+		@SuppressWarnings("unchecked")
+		List<Account> instructorAccounts = (List<Account>) getPM()
+				.newQuery(query).execute();
+		
+		log.warning("SIZE OF OPERATION: " + instructorAccounts.size());
+		
+		for (Account a : instructorAccounts) {
+			log.warning("Operating: " + a.getGoogleId());
+			String instructorQuery = "select from " + Instructor.class.getName()
+					+ " where googleId == '" + a.getGoogleId() + "'";
+			
+			@SuppressWarnings("unchecked")
+			List<Instructor> instructorsOfThisAccount = (List<Instructor>) getPM()
+					.newQuery(instructorQuery).execute();
+			for (Instructor i : instructorsOfThisAccount) {
+				log.warning("Changing from: " + i.getName());
+				i.setName(a.getName());
+				i.setEmail(a.getEmail());
+				log.warning(" to: " + i.getName());
+			}
+			getPM().close();
+		}
+		
+		getPM().close();
 	}
 
 }

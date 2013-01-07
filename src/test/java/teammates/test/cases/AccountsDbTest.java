@@ -73,7 +73,7 @@ public class AccountsDbTest extends BaseTestCase {
 		}
 		*/
 		
-		// Null params check:
+		// Null parameters check:
 		try {
 			accountsDb.createAccount(null);
 			fail();
@@ -290,6 +290,8 @@ public class AccountsDbTest extends BaseTestCase {
 		InstructorData i = new InstructorData();
 		i.googleId = "valid.fresh.id";
 		i.courseId = "valid.course.Id";
+		i.name = "valid.name";
+		i.email = "valid@email.com";
 		accountsDb.createInstructor(i);
 		
 		// FAIL : duplicate
@@ -342,8 +344,40 @@ public class AccountsDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testEditInstructor() {
-		// Not implemented
+	public void testUpdateInstructor() {
+		InstructorData instructorToEdit = createNewInstructor();
+		
+		// SUCCESS
+		// Test for old value
+		assertEquals("valid.name", instructorToEdit.name);
+		assertEquals("valid@email.com", instructorToEdit.email);
+		
+		// instructorToEdit is already inside, we can just edit and test
+		instructorToEdit.name = "My New Name";
+		instructorToEdit.email = "new@email.com";
+		accountsDb.updateInstructor(instructorToEdit);
+		
+		// Re-retrieve
+		instructorToEdit = accountsDb.getInstructor(instructorToEdit.googleId, instructorToEdit.courseId);
+		assertEquals("My New Name", instructorToEdit.name);
+		assertEquals("new@email.com", instructorToEdit.email);
+		
+		// FAIL : invalid parameters
+		instructorToEdit.name = "";
+		instructorToEdit.email = null;
+		try {
+			accountsDb.updateInstructor(instructorToEdit);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(a.getMessage(), InstructorData.ERROR_FIELD_NAME + InstructorData.ERROR_FIELD_EMAIL);
+		}
+		
+		// Null parameters check:
+		try {
+			accountsDb.updateInstructor(null);
+		} catch (AssertionError ae) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, ae.getMessage());
+		}
 	}
 	
 	@Test
@@ -405,6 +439,8 @@ public class AccountsDbTest extends BaseTestCase {
 		InstructorData c = new InstructorData();
 		c.googleId = "valid.id";
 		c.courseId = "valid.course";
+		c.name = "valid.name";
+		c.email = "valid@email.com";
 				
 		try {
 			accountsDb.createInstructor(c);

@@ -51,6 +51,8 @@ public class Logic {
 	private static Logger log = Common.getLogger();
 
 	public static final String ERROR_NULL_PARAMETER = "The supplied parameter was null\n";
+	public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update non-existent Course: ";
+	public static final String ERROR_NO_INSTRUCTOR_LINES = "Course must have at lease one instructor\n";
 
 	@SuppressWarnings("unused")
 	private void ____USER_level_methods__________________________________() {
@@ -433,11 +435,13 @@ public class Logic {
 	/**
 	 * Access: admin only
 	 */
-	public void createInstructor(String googleId, String courseId)
+	public void createInstructor(String googleId, String courseId, String name, String email)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
 
 		verifyAdminLoggedIn();
 		// trim @gmail.com in ID field
@@ -449,14 +453,16 @@ public class Logic {
 		if (!AccountsLogic.inst().getDb().isAccountExists(googleId)) {
 			AccountData accountToAdd = new AccountData();
 			accountToAdd.googleId = googleId;
+			accountToAdd.name = name;
 			accountToAdd.isInstructor = true;
+			accountToAdd.email = email;
 			AccountsLogic.inst().getDb().createAccount(accountToAdd);
 		} else {
 			AccountsLogic.inst().getDb().makeAccountInstructor(googleId);
 		}
 
 		// Create the Instructor
-		InstructorData instructorToAdd = new InstructorData(googleId, courseId);
+		InstructorData instructorToAdd = new InstructorData(googleId, courseId, name, email);
 
 		if (!instructorToAdd.isValid()) {
 			throw new InvalidParametersException(
@@ -683,17 +689,19 @@ public class Logic {
 
 		CoursesLogic.inst().getDb().createCourse(courseToAdd);
 
-		// Create an instructor relation for the INSTRUCTOR that created this
-		// course
+		// Create an instructor relation for the INSTRUCTOR that created this course
+		// The INSTRUCTOR relation is created here with NAME and EMAIL fields retrieved from his AccountData
+		// Otherwise, createCourse() method will have to take in 2 extra parameters for them which is not a good idea
 		if (!instructorId.equals(CourseData.INSTRUCTOR_FIELD_DEPRECATED)) {
+			AccountData courseCreator = AccountsLogic.inst().getDb().getAccount(instructorId);
 			AccountsLogic
 					.inst()
 					.getDb()
 					.createInstructor(
-							new InstructorData(instructorId, courseId));
+							new InstructorData(instructorId, courseId, courseCreator.name, courseCreator.email));
 		}
 	}
-
+	
 	/**
 	 * AccessLevel : any registered user (because it is too expensive to check
 	 * if a student is in the course)
@@ -740,6 +748,82 @@ public class Logic {
 	public void editCourse(CourseData course) throws NotImplementedException {
 		throw new NotImplementedException("Not implemented because we do "
 				+ "not allow editing courses");
+	}
+	
+	/**
+	 * Access level: Course Instructor and above
+	 * 
+	 * @param courseId
+	 * @param instructorLines
+	 * @throws InvalidParametersException
+	 * 
+	 * Pre-condition: instructorLines must have AT LEAST ONE instructor
+	 */
+	public void updateCourseInstructors(String courseId, String instructorLines) 
+			throws InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorLines);
+
+		if (!CoursesLogic.inst().isCourseExists(courseId)) {
+			Assumption.fail(ERROR_UPDATE_NON_EXISTENT_COURSE + courseId);
+		}
+		
+		verifyCourseOwnerOrAbove(courseId);
+		
+		// Prepare the list to be updated
+		List<InstructorData> instructorsList = parseInstructorLines(courseId, instructorLines);
+		
+		// Retrieve the current list of instructors
+		// Remove those that are not in the list and persist the new ones
+		// Edit the ones that are found in both lists
+		List<InstructorData> currentInstructors = AccountsLogic.inst().getDb().getInstructorsByCourseId(courseId);
+		
+		List<InstructorData> toAdd = new ArrayList<InstructorData>();
+		List<InstructorData> toRemove = new ArrayList<InstructorData>();
+		List<InstructorData> toEdit = new ArrayList<InstructorData>();
+		
+		// Find new names
+		for (InstructorData id : instructorsList) {
+			boolean found = false;
+			for (InstructorData currentInstructor : currentInstructors) {
+				if (id.googleId.equals(currentInstructor.googleId)) {
+					toEdit.add(id);
+					found = true;
+				}
+			}
+			if (!found) {
+				toAdd.add(id);
+			}
+		}
+		
+		// Find lost names
+		for (InstructorData currentInstructor : currentInstructors) {
+			boolean found = false;
+			for (InstructorData id : instructorsList) {
+				if (id.googleId.equals(currentInstructor.googleId)) {
+					found = true;
+				}
+			}
+			if (!found) {
+				toRemove.add(currentInstructor);
+			}
+		}
+		
+		// Operate on each of the lists respectively
+		for (InstructorData add : toAdd) {
+			try {
+				AccountsLogic.inst().getDb().createInstructor(add);
+			} catch (EntityAlreadyExistsException e) {
+				// This should never actually happen
+				Assumption.fail("Updating Instructor list created unknown error - an instructor existed but was not found earlier");
+			}
+		}
+		for (InstructorData remove : toRemove) {
+			AccountsLogic.inst().getDb().deleteInstructor(remove.googleId, remove.courseId);
+		}
+		for (InstructorData edit : toEdit) {
+			AccountsLogic.inst().getDb().updateInstructor(edit);
+		}
 	}
 
 	/**
@@ -1917,4 +2001,33 @@ public class Logic {
 		return email;
 	}
 
+	/**
+	 * Helper method for updateCourseInstructors
+	 * Parses instructor lines and returns a List of InstructorData generated from parsed lines
+	 * 
+	 * @param courseId
+	 * @param instructorLines
+	 * @return
+	 * @throws InvalidParametersException
+	 */
+	private List<InstructorData> parseInstructorLines(String courseId, String instructorLines) 
+			throws InvalidParametersException {
+		String[] linesArray = instructorLines.split(Common.EOL);
+		
+		// check if all non-empty lines are formatted correctly
+		List<InstructorData> instructorsList = new ArrayList<InstructorData>();
+		for (int i = 0; i < linesArray.length; i++) {
+			String information = linesArray[i];
+			if (Common.isWhiteSpace(information)) {
+				continue;
+			}
+			instructorsList.add(new InstructorData(courseId, information));
+		}
+		
+		if (instructorsList.size() < 1) {
+			throw new InvalidParametersException(ERROR_NO_INSTRUCTOR_LINES);
+		}
+		
+		return instructorsList;
+	}
 }

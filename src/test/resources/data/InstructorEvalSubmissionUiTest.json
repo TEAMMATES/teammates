@@ -10,7 +10,9 @@
   "instructors": {
     "teammates.demo.instructor": {
       "googleId": "teammates.demo.instructor",
-      "courseId": "CESubEditUiT.CS1101"
+      "courseId": "CESubEditUiT.CS1101",
+      "name": "Teammates Demo Instr",
+      "email": "teammates.demo.instructor@gmail.com"
     }
   },
   

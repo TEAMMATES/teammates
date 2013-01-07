@@ -16,11 +16,19 @@ public class Instructor {
 	@Persistent
 	private String courseId;
 	
-	public Instructor(String googleId, String courseId) {
+	@Persistent
+	private String name;
+	
+	@Persistent
+	private String email;
+	
+	public Instructor(String googleId, String courseId, String name, String email) {
 		// '%' is not allowed for courseId, we can use it for generating unique key
 		this.id = googleId + '%' + courseId;
 		this.googleId = googleId;
 		this.courseId = courseId;
+		this.name = name;
+		this.email = email;
 	}
 	
 	public String getGoogleId() {
@@ -31,4 +39,21 @@ public class Instructor {
 		return courseId;
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	
+	//==========================================
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }

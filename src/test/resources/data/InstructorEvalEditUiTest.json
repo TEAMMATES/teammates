@@ -1,4 +1,12 @@
-{
+{ 
+  "account": {
+    "googleId": "teammates.test",
+    "name": "Teammates Test",
+    "isInstructor": true,
+    "email": "teammates.test@gmail.com",
+    "institute": "National University of Singapore"
+  },
+
   "course": {
     "id": "CEvEditUiTest.CS1101",
     "name": "Programming Methodology",
@@ -7,7 +15,9 @@
 
   "instructor": {
   	"googleId": "teammates.demo.instructor",
-  	"courseId": "CEvEditUiTest.CS1101" 
+  	"courseId": "CEvEditUiTest.CS1101",
+    "name": "Teammates Demo Instr",
+    "email": "teammates.demo.instructor@gmail.com"
   },
   
   "evaluation": {

@@ -17,6 +17,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
@@ -279,6 +280,16 @@ public class BackDoorLogicTest extends BaseTestCase {
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();
 		turnLoggingDown(BackDoorLogic.class);
+		BackDoorLogic backDoorLogic = new BackDoorLogic();
+		for (AccountData account : dataBundle.accounts.values()) {
+			backDoorLogic.deleteAccount(account.googleId);
+		}
+
+		// delete courses first in case there are existing courses with same id
+		// but under different instructors.
+		for (CourseData course : dataBundle.courses.values()) {
+			backDoorLogic.deleteCourse(course.id);
+		}
 	}
 
 	@After

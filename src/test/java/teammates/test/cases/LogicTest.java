@@ -1,6 +1,7 @@
 package teammates.test.cases;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -8,6 +9,7 @@ import static teammates.logic.TeamEvalResult.NA;
 import static teammates.logic.TeamEvalResult.NSB;
 import static teammates.logic.TeamEvalResult.NSU;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,6 +28,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
@@ -43,6 +46,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.logic.AccountsLogic;
 import teammates.logic.Emails;
 import teammates.logic.EvaluationsLogic;
 import teammates.logic.TeamEvalResult;
@@ -205,8 +209,8 @@ public class LogicTest extends BaseTestCase {
 		______TS("unauthorized access");
 
 		String methodName = "createInstructor";
-		Class<?>[] paramTypes = new Class[] { String.class, String.class };
-		Object[] params = new Object[] { "googleId", "courseId" };
+		Class<?>[] paramTypes = new Class[] { String.class, String.class, String.class, String.class };
+		Object[] params = new Object[] { "googleId", "courseId", "Instructor Name", "instructor@email.com" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, null,
 				paramTypes, params);
@@ -235,7 +239,7 @@ public class LogicTest extends BaseTestCase {
 		
 		// Create fresh
 		logic.createCourse(cd.instructor, cd.id, cd.name);
-		logic.createInstructor(instructor.googleId, instructor.courseId);
+		logic.createInstructor(instructor.googleId, instructor.courseId, instructor.name, instructor.email);
 		verifyPresentInDatastore(instructor);
 		verifyPresentInDatastore(cd);
 		
@@ -254,7 +258,7 @@ public class LogicTest extends BaseTestCase {
 
 		// Only checking that exception is thrown at logic level
 		try {
-			logic.createInstructor("valid-id", "invalid courseId");
+			logic.createInstructor("valid-id", "invalid courseId", "Valid name", "valid@email.com");
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(e.getMessage(), InstructorData.ERROR_FIELD_COURSEID);
@@ -263,14 +267,14 @@ public class LogicTest extends BaseTestCase {
 		______TS("null parameters");
 		
 		try {
-			logic.createInstructor(null, "valid.courseId");
+			logic.createInstructor(null, "valid.courseId", "Valid Name", "valid@email.com");
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
 		
 		try {
-			logic.createInstructor("valid.id", null);
+			logic.createInstructor("valid.id", null, "Valid Name", "valid@email.com");
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
@@ -682,7 +686,11 @@ public class LogicTest extends BaseTestCase {
 		loginAsInstructor("idOfInstructor1OfCourse1");
 		
 		CourseData course = dataBundle.courses.get("typicalCourse1");
+		AccountData creator = dataBundle.accounts.get("instructor1OfCourse1");
 		InstructorData instructor = dataBundle.instructors.get("instructor1OfCourse1");
+		// Note the creator INSTRUCTOR relation always contains NAME and EMAIL from his ACCOUNT
+		instructor.name = creator.name;
+		instructor.email = creator.email;
 
 		// Delete, to avoid clashes with existing data
 		// Delete only Course 1
@@ -695,6 +703,7 @@ public class LogicTest extends BaseTestCase {
 		// Create fresh
 		logic.createCourse(instructor.googleId , course.id, course.name);
 		verifyPresentInDatastore(course);
+		verifyPresentInDatastore(instructor);
 
 		______TS("duplicate course id");
 
@@ -707,7 +716,6 @@ public class LogicTest extends BaseTestCase {
 			fail();
 		} catch (EntityAlreadyExistsException e) {
 		}
-
 		______TS("invalid parameters");
 		
 		// Only checking that exception is thrown at logic level
@@ -808,6 +816,7 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("course without students");
 
+		logic.createAccount("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
 		logic.createCourse("instructor1", "course1", "course 1");
 		courseDetials = logic.getCourseDetails("course1");
 		assertEquals("course1", courseDetials.id);
@@ -834,6 +843,221 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testEditCourse() {
 		// method not implemented
+	}
+	
+	@Test
+	public void testUpdateCourseInstructors() throws Exception {
+		
+		______TS("authentication");
+
+		restoreTypicalDataInDatastore();
+
+		String methodName = "updateCourseInstructors";
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
+		Object[] params = new Object[] { "idOfTypicalCourse1", "a|b|c@d.e" };
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		// course belongs to a different instructor
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
+				paramTypes, new Object[] { "idOfTypicalCourse2", "a|b|c@d.e" });
+
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
+				paramTypes, params);
+		
+		______TS("typical case");
+		
+		// Reset environment
+		CourseData course = dataBundle.courses.get("typicalCourse1");
+		AccountData creator = dataBundle.accounts.get("instructor1OfCourse1");
+		InstructorData instructor = dataBundle.instructors.get("instructor1OfCourse1");
+		InstructorData instructor2 = dataBundle.instructors.get("instructor2OfCourse1");
+		InstructorData instructor3 = dataBundle.instructors.get("instructor3OfCourse1");
+		instructor.name = creator.name;
+		instructor.email = creator.email;
+		loginAsAdmin("admin.user");
+		logic.deleteCourse(instructor.courseId);
+		verifyAbsentInDatastore(course);
+		verifyAbsentInDatastore(instructor);
+		verifyAbsentInDatastore(instructor2);
+		verifyAbsentInDatastore(instructor3);
+
+		loginAsInstructor("idOfInstructor1OfCourse1");
+		
+		logic.createCourse(instructor.googleId, course.id, course.name);
+		logic.updateCourseInstructors(course.id,
+				instructor.googleId + "|" + instructor.name + "|" + instructor.email + Common.EOL
+			+	instructor2.googleId + "|" + instructor2.name + "|" + instructor2.email + Common.EOL
+			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email);
+		verifyPresentInDatastore(course);
+		verifyPresentInDatastore(instructor);
+		verifyPresentInDatastore(instructor2);
+		verifyPresentInDatastore(instructor3);
+		
+		______TS("Remove one Instructor");
+		
+		logic.updateCourseInstructors(course.id,
+				instructor.googleId + "\t" + instructor.name + "|" + instructor.email + Common.EOL
+			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email);
+		verifyPresentInDatastore(instructor);
+		verifyAbsentInDatastore(instructor2);
+		verifyPresentInDatastore(instructor3);
+		
+		______TS("Remove one Instructor and add another Instructor");
+		
+		logic.updateCourseInstructors(course.id,
+				instructor2.googleId + "\t" + instructor2.name + "|" + instructor2.email + Common.EOL
+			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email);
+		verifyAbsentInDatastore(instructor); // Creator can be deleted too
+		verifyPresentInDatastore(instructor2);
+		verifyPresentInDatastore(instructor3);
+		
+		______TS("Update Instructor information");
+		
+		loginAsInstructor("idOfInstructor2OfCourse1"); // idOfInstructor1OfCourse1 is no longer an instructor of the course
+		instructor2.name = "New name";
+		instructor3.email = "new@email.com";
+		
+		logic.updateCourseInstructors(course.id,
+				instructor2.googleId + "\t" + instructor2.name + "|" + instructor2.email + Common.EOL
+			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email);
+		verifyPresentInDatastore(instructor2);
+		verifyPresentInDatastore(instructor3);
+		
+		______TS("Update non-existent course");
+		
+		try {
+			logic.updateCourseInstructors("non.existent", "a|b|c@d.e");
+			fail();
+		} catch (AssertionError ae) {
+			assertEquals(Logic.ERROR_UPDATE_NON_EXISTENT_COURSE + "non.existent", ae.getMessage());
+		}
+		
+		______TS("Null parameters");
+		
+		try {
+			logic.updateCourseInstructors(null, "a|b|c@d.e");
+			fail();
+		} catch (AssertionError ae) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
+		}
+		
+		try {
+			logic.updateCourseInstructors(course.id, null);
+			fail();
+		} catch (AssertionError ae) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
+		}
+	}
+	
+	@Test
+	public void testParseInstructorLines() throws Exception {
+		// Private method no need authentication
+		
+		Method method = Logic.class.getDeclaredMethod("parseInstructorLines",
+				new Class[] { String.class, String.class });
+		method.setAccessible(true);
+		
+		______TS("typical case");
+		
+		Object[] params = new Object[] { "private.course",
+				"test1.googleId \t test1.name \t test1.email" + Common.EOL
+			+	"test2.googleId | test2.name | test2.email"
+		};
+		
+		@SuppressWarnings("unchecked")
+		List<InstructorData> result1 = (List<InstructorData>) method.invoke(logic, params);
+		assertEquals(result1.size(), 2);
+		assertEquals(result1.get(0).googleId, "test1.googleId");	// only check first and last fields
+		assertEquals(result1.get(1).email, "test2.email");
+		
+		______TS("blank space in first line");
+		
+		params = new Object[] { "private.course",
+				Common.EOL
+			+	"test1.googleId \t test1.name \t test1.email" + Common.EOL
+			+	"test2.googleId | test2.name | test2.email"
+		};
+		
+		@SuppressWarnings("unchecked")
+		List<InstructorData> result2 = (List<InstructorData>) method.invoke(logic, params);
+		assertEquals(result2.size(), 2);
+		assertEquals(result2.get(0).googleId, "test1.googleId");	// only check first and last fields
+		assertEquals(result2.get(1).email, "test2.email");
+		
+		______TS("blank space in between lines");
+		
+		params = new Object[] { "private.course",
+				Common.EOL
+			+	"test1.googleId \t test1.name \t test1.email" + Common.EOL
+			+	Common.EOL
+			+	"test2.googleId | test2.name | test2.email"
+		};
+		
+		@SuppressWarnings("unchecked")
+		List<InstructorData> result3 = (List<InstructorData>) method.invoke(logic, params);
+		assertEquals(result3.size(), 2);
+		assertEquals(result3.get(0).googleId, "test1.googleId");	// only check first and last fields
+		assertEquals(result3.get(1).email, "test2.email");
+		
+		______TS("trailing blank lines");
+		
+		params = new Object[] { "private.course",
+				Common.EOL
+			+	"test1.googleId \t test1.name \t test1.email" + Common.EOL
+			+	Common.EOL
+			+	"test2.googleId | test2.name | test2.email"
+			+	Common.EOL + Common.EOL
+		};
+		
+		@SuppressWarnings("unchecked")
+		List<InstructorData> result4 = (List<InstructorData>) method.invoke(logic, params);
+		assertEquals(result4.size(), 2);
+		assertEquals(result4.get(0).googleId, "test1.googleId");	// only check first and last fields
+		assertEquals(result4.get(1).email, "test2.email");
+		
+		______TS("Instructor Lines information incorrect");
+		
+		// Too many
+		try {
+			params = new Object[] { "private.course",
+				"test2.googleId | test2.name | test2.email | Something extra"
+			};
+			method.invoke(logic,  params);
+			fail();
+		} catch (InvocationTargetException e) {
+			assertTrue(e.getTargetException().toString().contains(InstructorData.ERROR_INFORMATION_INCORRECT));
+		}
+		
+		// Too few
+		try {
+			params = new Object[] { "private.course",
+					"test2.googleId | "
+				};
+				method.invoke(logic,  params);
+			fail();
+		} catch (InvocationTargetException e) {
+			assertTrue(e.getTargetException().toString().contains(InstructorData.ERROR_INFORMATION_INCORRECT));
+		}
+		
+		______TS("lines is empty");
+		
+		try {
+			params = new Object[] { "private.course",
+					""
+				};
+				method.invoke(logic,  params);
+			fail();
+		} catch (InvocationTargetException e) {
+			assertTrue(e.getTargetException().toString().contains(Logic.ERROR_NO_INSTRUCTOR_LINES));
+		}
 	}
 
 	@Test
@@ -1008,6 +1232,7 @@ public class LogicTest extends BaseTestCase {
 		String instructorId = "instructorForEnrollTesting";
 		String courseId = "courseForEnrollTest";
 		loginAsAdmin("admin.user");
+		logic.createAccount("instructorForEnrollTesting", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
 		logic.createCourse(instructorId, courseId, "Course for Enroll Testing");
 		String EOL = Common.EOL;
 
@@ -1076,6 +1301,7 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("same student added, modified and unmodified in one shot");
 
+		logic.createAccount("tes.instructor", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
 		logic.createCourse("tes.instructor", "tes.course", "TES Course");
 		lines = "t8|n8|e8@g|c1" + EOL + "t8|n8a|e8@g|c1" + EOL
 				+ "t8|n8a|e8@g|c1";
@@ -1234,6 +1460,7 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("course without teams");
 
+		logic.createAccount("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
 		logic.createCourse("instructor1", "course1", "Course 1");
 		assertEquals(0, logic.getTeamsForCourse("course1").teams.size());
 
@@ -1731,9 +1958,12 @@ public class LogicTest extends BaseTestCase {
 
 		String instructorId = "instructorForEnrollTesting";
 		String instructorCourse = "courseForEnrollTesting";
+		String instructorName = "ICET Name";
+		String instructorEmail = "instructor@icet.com";
 		loginAsAdmin("admin.user");
+		logic.createAccount(instructorId, instructorName, true, instructorEmail, "National University of Singapore" );
 		logic.deleteInstructor(instructorId, instructorCourse);
-		logic.createInstructor(instructorId, instructorCourse);
+		logic.createInstructor(instructorId, instructorCourse, instructorName, instructorEmail);
 		String courseId = "courseForEnrollTest";
 		logic.createCourse(instructorId, courseId, "Course for Enroll Testing");
 
@@ -2083,6 +2313,57 @@ public class LogicTest extends BaseTestCase {
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
+	}
+	
+	//@Test
+	public void testJoinCourseDoesNotRemoveInstructorStatus() throws EntityAlreadyExistsException {
+		// 1. Added as student, made instructor later
+		// Create student - need to join
+		StudentData studentAndInstructor_student = new StudentData();
+		studentAndInstructor_student.id = "student.instructor.id";
+		studentAndInstructor_student.name = "Student Instructor";
+		studentAndInstructor_student.email = "student@instructor.com";
+		studentAndInstructor_student.course = "student.of.this.course";
+		AccountsLogic.inst().getDb().createStudent(studentAndInstructor_student);
+		AccountData accountCheck = AccountsLogic.inst().getDb().getAccount(studentAndInstructor_student.id);
+		assertFalse(accountCheck.isInstructor); // Not an instructor yet
+		// Create instructor
+		InstructorData studentAndInstructor_instructor = new InstructorData();
+		studentAndInstructor_instructor.googleId = studentAndInstructor_student.id;
+		studentAndInstructor_instructor.courseId = "instructor.of.this.course";
+		studentAndInstructor_instructor.name = studentAndInstructor_student.name;
+		studentAndInstructor_instructor.email = studentAndInstructor_student.email;
+		AccountsLogic.inst().getDb().createInstructor(studentAndInstructor_instructor);
+		accountCheck = AccountsLogic.inst().getDb().getAccount(studentAndInstructor_student.id);
+		assertTrue(accountCheck.isInstructor); // Account is made an instructor
+		
+		// 2. Added as instructor, made student later
+		// Create instructor
+		InstructorData instructorAndStudent_instructor = new InstructorData();
+		instructorAndStudent_instructor.googleId = "instructor.student.id";
+		instructorAndStudent_instructor.courseId = "instructor.of.this.course";
+		instructorAndStudent_instructor.name = "Instructor Student";
+		instructorAndStudent_instructor.email = "instructor@student.com";
+		AccountsLogic.inst().getDb().createInstructor(studentAndInstructor_instructor);
+		accountCheck = AccountsLogic.inst().getDb().getAccount(studentAndInstructor_student.id);
+		assertTrue(accountCheck.isInstructor); // Made instructor first
+		// Create student
+		StudentData instructorAndStudent_student = new StudentData();
+		instructorAndStudent_student.id = instructorAndStudent_instructor.googleId;
+		instructorAndStudent_student.name = instructorAndStudent_instructor.name;
+		instructorAndStudent_student.email = instructorAndStudent_instructor.email;
+		instructorAndStudent_student.course = "student.of.this.course";
+		AccountsLogic.inst().getDb().createStudent(studentAndInstructor_student);
+		accountCheck = AccountsLogic.inst().getDb().getAccount(studentAndInstructor_student.id);
+		assertTrue(accountCheck.isInstructor); // Must still remain an instructor!
+		
+		// Cleanup
+		logic.deleteAccount(instructorAndStudent_instructor.googleId);
+		logic.deleteAccount(studentAndInstructor_instructor.googleId);
+		logic.deleteStudent(instructorAndStudent_student.course, instructorAndStudent_student.email);
+		logic.deleteStudent(studentAndInstructor_student.course, instructorAndStudent_student.email);
+		logic.deleteInstructor(instructorAndStudent_instructor.googleId);
+		logic.deleteInstructor(studentAndInstructor_instructor.googleId);
 	}
 
 	@Test
@@ -3255,7 +3536,8 @@ public class LogicTest extends BaseTestCase {
 						submissions.values()));
 
 		______TS("evaluation in empty class");
-
+		
+		logic.createAccount("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
 		logic.createCourse("instructor1", "course1", "Course 1");
 		evaluation.course = "course1";
 		logic.createEvaluation(evaluation);
@@ -3413,6 +3695,8 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		loginAsAdmin("admin.user");
+		
+		logic.createAccount("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
 		logic.createCourse("instructor1", "course1", "course 1");
 		EvaluationData newEval = new EvaluationData();
 		newEval.course = "course1";
@@ -4059,6 +4343,7 @@ public class LogicTest extends BaseTestCase {
 			EntityDoesNotExistException {
 		// create course
 		loginAsAdmin("admin.user");
+		logic.createAccount("instructorForTestingER", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
 		logic.createCourse("instructorForTestingER", courseId,
 				"Course For Testing Evaluation Results");
 		// create students

@@ -123,6 +123,12 @@ public class BackDoor {
 		String status = makePOSTRequest(params);
 		return status;
 	}
+	
+	public static String appendNameEmailForInstructors() {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_APPEND_NAME_EMAIL_FOR_INSTRUCTORS);
+		String status = makePOSTRequest(params);
+		return status;
+	}
 	//====================================================================================
 	
 	@SuppressWarnings("unused")

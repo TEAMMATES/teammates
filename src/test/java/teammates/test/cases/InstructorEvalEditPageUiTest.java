@@ -10,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
@@ -36,7 +37,10 @@ public class InstructorEvalEditPageUiTest extends BaseTestCase {
 		BackDoor.deleteCourse(ts.course.id);
 		BackDoor.deleteInstructor(ts.instructor.googleId);
 		
-		String backDoorOperationStatus = BackDoor.createCourse(ts.course);
+		String backDoorOperationStatus = BackDoor.createAccount(ts.account);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		
+		backDoorOperationStatus = BackDoor.createCourse(ts.course);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		
 		backDoorOperationStatus = BackDoor.createInstructor(ts.instructor);
@@ -103,6 +107,7 @@ public class InstructorEvalEditPageUiTest extends BaseTestCase {
 	}
 
 	private class TestScenario{
+		public AccountData account;
 		public InstructorData instructor;
 		public CourseData course;
 		public EvaluationData evaluation;
