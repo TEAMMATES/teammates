@@ -500,4 +500,15 @@ public class Helper {
 		return link;
 	}
 
+	/**
+	 * Format P2P feedback
+	 * Make the headings bold, and covert newlines to html linebreaks
+	 * @return
+	 */
+	public static String formatP2PFeedback(String str){
+		return str.replace("&lt;&lt;What I appreciate about you as a team member&gt;&gt;:", "<span class=\"bold\">What I appreciate about you as a team member:</span>")
+				.replace("&lt;&lt;Areas you can improve further&gt;&gt;:", "<span class=\"bold\">Areas you can improve further:</span>")
+				.replace("&lt;&lt;Other comments&gt;&gt;:", "<span class=\"bold\">Other comments:</span>")
+				.replace("\n", "<br>");
+	}
 }
