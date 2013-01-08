@@ -13,11 +13,10 @@ var EVALUATION_STARTTIME = "starttime"; // Used in instructorEval.js
 var EVALUATION_TIMEZONE = "timezone"; // Used in instructorEval.js
 
 // Display messages
-// Used in instructorCourseEnroll.js only
+//Used for validating input
 var DISPLAY_INPUT_FIELDS_EXTRA = "There are too many fields.";
 var DISPLAY_INPUT_FIELDS_MISSING = "There are missing fields.";
 var DISPLAY_EMAIL_INVALID = "The e-mail address is invalid.";
-// Below two are used in helperNew.js as well
 var DISPLAY_NAME_INVALID = "Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, commas, slashes, round brackets<br> and not more than 40 characters.";
 var DISPLAY_STUDENT_TEAMNAME_INVALID = "Team name should contain less than 25 characters.";
 
@@ -39,7 +38,7 @@ var DISPLAY_INVALID_INPUT = "Unexpected error. Invalid Input";
 
 //Max length for input
 var TEAMNAME_MAX_LENGTH = 24;
-var STUDENTNAME_MAX_LENGTH = 40;
+var NAME_MAX_LENGTH = 40;
 
 /**---------------------------- Sorting Functions --------------------------**/
 /**

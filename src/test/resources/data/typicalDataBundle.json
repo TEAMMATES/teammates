@@ -7,7 +7,7 @@
 			"email": "instr1@course1.com",
 			"institute": "National University of Singapore"
 		},
-		"instructor2OfCsourse1": {
+		"instructor2OfCourse1": {
 			"googleId": "idOfInstructor2OfCourse1",
 			"name": "Instructor 2 of Course 1",
 			"isInstructor": true,

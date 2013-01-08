@@ -78,15 +78,4 @@ public class StudentCourseDetailsPageUiTest extends BaseTestCase {
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentCourseDetailsNoTeamHTML.html");
 	}
 	
-	@Test
-	public void testStudentCourseDetailsMultipleInstructors() throws Exception {
-		
-		______TS("One instructor");
-		
-		______TS("Multiple Instructor");
-		
-		______TS("Instructor List Paginated?"); 
-		// If we have too many instructors for a course.. probably not right..?
-		// CS2103 had like >10 instructors right?
-	}
 }

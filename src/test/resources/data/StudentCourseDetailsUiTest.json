@@ -6,7 +6,14 @@
   	  "isInstructor": true,
   	  "email": "tmms.test@gmail.com",
   	  "institute": "National University of Singapore"
-  	}
+  	},
+    "teammates.coord": {
+      "googleId": "teammates.coord",
+      "name": "Instructor",
+      "isInstructor": true,
+      "email": "tmms.coord@gmail.com",
+      "institute": "National University of Singapore"
+    }
   },
 
   "courses": {
@@ -23,6 +30,12 @@
       "courseId": "SCDetailsUiT.CS2104",
       "name": "Teammates Test",
       "email": "teammates.test@gmail.com"
+    },
+    "teammates.coord": {
+      "googleId": "teammates.coord",
+      "courseId": "SCDetailsUiT.CS2104",
+      "name": "Teammates Coord",
+      "email": "teammates.coord@gmail.com"
     }
   },
   

@@ -1,0 +1,130 @@
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="shortcut icon" href="/favicon.png">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Teammates - Instructor</title>
+    <link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/instructorCourseDetails.css" type="text/css">
+    
+    <script type="text/javascript" src="/js/jquery-minified.js"></script>
+    <script type="text/javascript" src="/js/tooltip.js"></script>
+    <script type="text/javascript" src="/js/date.js"></script>
+    <script type="text/javascript" src="/js/CalendarPopup.js"></script>
+    <script type="text/javascript" src="/js/AnchorPosition.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    
+    <script type="text/javascript" src="/js/instructor.js"></script>
+    <script type="text/javascript" src="/js/instructorCourseDetails.js"></script>
+    <noscript>{*}</noscript>
+
+
+</head>
+
+<body>
+    <div id="dhtmltooltip"></div>
+    <div id="frameTop">
+        
+
+
+        <div id="frameTopWrapper">
+            <div id="logo">
+                <img alt="Teammates" height="47px"
+                    src="/images/teammateslogo.jpg"
+                    width="150px">
+            </div>          
+            <div id="contentLinks">
+                <ul id="navbar">
+                    <li><a class='t_home' href="/page/instructorHome?user=teammates.demo.instructor">Home</a></li>
+                    <li><a class='t_courses' href="/page/instructorCourse?user=teammates.demo.instructor">Courses</a></li>
+                    <li><a class='t_evaluations' href="/page/instructorEval?user=teammates.demo.instructor">Evaluations</a></li>
+                    <li><a class='t_help' href="/instructorHelp.html" target="_blank">Help</a></li>
+                    <li><a class='t_logout' href="/logout.jsp">Logout</a>
+                     (teammates.demo.instr...)</li>
+                </ul>
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+
+    <div id="frameBody">
+        <div id="frameBodyWrapper">
+            <div id="topOfPage"></div>
+            <div id="headerOperation">
+                <h1>Course Details</h1>
+            </div>
+
+            <table class="inputTable" id="courseInformationHeader">
+                <tr>
+                    <td class="label rightalign bold" width="30%">Course ID:</td>
+                    <td id="courseid">MultipleInstructorsCourse</td>
+                </tr>
+                <tr>
+                    <td class="label rightalign bold" width="30%">Course name:</td>
+                    <td id="coursename">Course with multiple instructors</td>
+                </tr>
+                <tr>
+                    <td class="label rightalign bold" width="30%">Teams:</td>
+                    <td id="total_teams">0</td>
+                </tr>
+                <tr>
+                    <td class="label rightalign bold" width="30%">Total students:</td>
+                    <td id="total_students">0</td>
+                </tr>
+                <tr>
+                    <td class="label rightalign bold" width="30%">Instructors:</td>
+                    <td id="instructors">
+                    
+                        Teammates Demo Instr (teammates.demo.instructor@gmail.com)<br><br>
+                    
+                        Teammates Demo Instr2 (teammates.demo.instructor2@gmail.com)<br><br>
+                    
+                    </td>
+                </tr>
+                
+            </table>
+            
+            <br>
+            
+
+
+    <div id="statusMessage" style="display: none;"></div>
+
+            <br>
+
+            <table class="dataTable">
+                <tr>
+                    <th class="color_white bold"><input class="buttonSortAscending" type="button" id="button_sortstudentname" 
+                            onclick="toggleSort(this,1)">Student Name</th>
+                    <th class="centeralign color_white bold"><input class="buttonSortNone" type="button" id="button_sortstudentteam"
+                            onclick="toggleSort(this,2)">Team</th>
+                    <th class="centeralign color_white bold"><input class="buttonSortNone" type="button" id="button_sortstudentstatus"
+                            onclick="toggleSort(this,3)">Status</th>
+                    <th class="centeralign color_white bold">Action(s)</th>
+                </tr>
+                
+            </table>
+            <br>
+            <br>
+            <br>
+            
+        </div>
+    </div>
+
+    <div id="frameBottom">
+        
+<div id="contentFooter">
+[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari 4+ and Internet Explorer 9+. For Enquires:
+
+<a href="http://www.comp.nus.edu.sg/%7Eteams/contact.html" target="_blank">Contact Us</a>
+</div>
+    </div>
+</body>
+</html>

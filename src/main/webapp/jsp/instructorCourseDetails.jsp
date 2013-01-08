@@ -1,6 +1,7 @@
 <%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.common.datatransfer.CourseData"%>
 <%@ page import="teammates.common.datatransfer.StudentData"%>
+<%@ page import="teammates.common.datatransfer.InstructorData"%>
 <%@ page import="teammates.common.datatransfer.TeamData"%>
 <%@ page import="teammates.ui.controller.InstructorCourseDetailsHelper"%>
 <%	InstructorCourseDetailsHelper helper = (InstructorCourseDetailsHelper)request.getAttribute("helper"); %>
@@ -54,6 +55,20 @@
 		 		<tr>
 		 			<td class="label rightalign bold" width="30%">Total students:</td>
 		 			<td id="total_students"><%=helper.course.studentsTotal%></td>
+		 		</tr>
+		 		<tr>
+		 			<td class="label rightalign bold" width="30%">Instructors:</td>
+		 			<td id="instructors">
+		 			<%
+		 				for (int i = 0; i < helper.instructors.size(); i++){
+		 					InstructorData instructor = helper.instructors.get(i);
+		 					String instructorInfo = instructor.name + " (" + instructor.email + ")";
+		 			%>
+		 				<%=instructorInfo %><br><br>
+		 			<%
+		 				}
+		 			%>
+					</td>
 		 		</tr>
 		 		<%
 		 			if(helper.course.studentsTotal>1){

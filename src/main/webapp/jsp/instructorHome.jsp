@@ -70,6 +70,11 @@
 						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_DETAILS%>')"
 						onmouseout="hideddrivetip()">
 						View</a>
+					<a class="t_course_edit<%=idx%> color_white bold"
+						href="<%=helper.getInstructorCourseEditLink(course.id)%>"
+						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_EDIT%>')"
+						onmouseout="hideddrivetip()">
+						Edit</a>
 					<a class="t_course_add_eval<%=idx%> color_white bold"
 						href="<%=helper.getInstructorEvaluationLink()%>"
 						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_ADD_EVALUATION%>')"

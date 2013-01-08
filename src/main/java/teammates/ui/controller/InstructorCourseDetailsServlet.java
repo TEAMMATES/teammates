@@ -25,6 +25,7 @@ public class InstructorCourseDetailsServlet extends ActionServlet<InstructorCour
 		if(courseID!=null){
 			helper.course = helper.server.getCourseDetails(courseID);
 			helper.students = helper.server.getStudentListForCourse(courseID);
+			helper.instructors = helper.server.getInstructorsByCourseId(courseID);
 		} else {
 			helper.redirectUrl = Common.PAGE_INSTRUCTOR_COURSE;
 		}

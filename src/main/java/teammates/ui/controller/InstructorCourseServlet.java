@@ -29,8 +29,9 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 		
 		helper.courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		helper.courseName = req.getParameter(Common.PARAM_COURSE_NAME);
+		helper.instructorList = req.getParameter(Common.PARAM_COURSE_INSTRUCTOR_LIST);
 
-		if (helper.courseID != null && helper.courseName != null) {
+		if (helper.courseID != null && helper.courseName != null && helper.courseName != null) {
 			createCourse(helper);
 		}
 
@@ -44,6 +45,7 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 	}
 
 	private void createCourse(InstructorCourseHelper helper) {
+		String courseIdBackup = helper.courseID;
 		try {
 			helper.server.createCourse(helper.userId, helper.courseID,
 					helper.courseName);
@@ -53,7 +55,17 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 		} catch (EntityAlreadyExistsException e) {
 			helper.statusMessage = Common.MESSAGE_COURSE_EXISTS;
 			helper.error = true;
+			
 		} catch (InvalidParametersException e) {
+			helper.statusMessage = e.getMessage();
+			helper.error = true;
+		}
+		if(helper.error){
+			return;
+		}
+		try{
+			helper.server.updateCourseInstructors(courseIdBackup, helper.instructorList);
+		} catch (InvalidParametersException e){
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
 		}

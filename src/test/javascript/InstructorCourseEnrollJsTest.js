@@ -44,7 +44,7 @@ test('checkEnrollmentInput(input)', function(){
 	
 	equal(checkEnrollmentInput(
 		'|1|tom.jacobs@gmail.com\tteammate 1\n' + 
-		generateRandomString(TEAMNAME_MAX_LENGTH) + '\t' + generateRandomString(STUDENTNAME_MAX_LENGTH) + '\tbob@gmail.com|    \n'),
+		generateRandomString(TEAMNAME_MAX_LENGTH) + '\t' + generateRandomString(NAME_MAX_LENGTH) + '\tbob@gmail.com|    \n'),
 		true,
 		'mixture of | and \t separators, max/min length of fields');
 
@@ -59,7 +59,7 @@ test('checkEnrollmentInput(input)', function(){
 		'too few fields');
 		
 	equal(checkEnrollmentInput(
-		'Team 1|' + generateRandomString(STUDENTNAME_MAX_LENGTH + 1) + '|tommy@gmail.com'),
+		'Team 1|' + generateRandomString(NAME_MAX_LENGTH + 1) + '|tommy@gmail.com'),
 		false,
 		'invalid student name');
 

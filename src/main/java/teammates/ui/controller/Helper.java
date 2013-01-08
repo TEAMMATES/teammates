@@ -209,6 +209,19 @@ public class Helper {
 	}
 	
 	/**
+	 * Returns the link to edit course info for specific courseID<br />
+	 * This includes masquerade mode as well.
+	 * @param courseID
+	 * @return
+	 */
+	public String getInstructorCourseEditLink(String courseID){
+		String link = Common.PAGE_INSTRUCTOR_COURSE_EDIT;
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID); 
+		link = processMasquerade(link);
+		return link;
+	}
+	
+	/**
 	 * Returns the link to delete a course and redirects to the specific page
 	 * after deletion depending on the isHome value<br />
 	 * This includes masquerade mode as well.

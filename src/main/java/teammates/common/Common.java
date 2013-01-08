@@ -50,6 +50,7 @@ public class Common {
 	// Hover messages
 	public static final String HOVER_MESSAGE_COURSE_ENROLL = "Enroll student into the course";
 	public static final String HOVER_MESSAGE_COURSE_DETAILS = "View, edit and send registration keys to the students in the course";
+	public static final String HOVER_MESSAGE_COURSE_EDIT = "Edit Course information and instructor list";
 	public static final String HOVER_MESSAGE_COURSE_DELETE = "Delete the course and its corresponding students and evaluations";
 	public static final String HOVER_MESSAGE_COURSE_ADD_EVALUATION = "Add an evaluation for the course";
 	public static final String HOVER_MESSAGE_CLAIMED = "This is student own estimation of his/her contributions to the project";
