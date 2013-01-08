@@ -28,8 +28,9 @@ document.onmousemove = positiontip;
  * @returns
  */
 function toggleDeleteCourseConfirmation(courseID) {
-	return confirm("Are you sure you want to delete the course: " + courseID + "?" +
-			"This operation will delete all students and evaluations in this course.");
+	return confirm("Are you sure you want to delete the course: " + courseID + "? " +
+			"This operation will delete all students and evaluations in this course. " + 
+			"All instructors of this course will not be able to access it hereafter as well.");
 }
 
 

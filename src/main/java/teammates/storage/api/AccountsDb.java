@@ -15,7 +15,6 @@ import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.JoinCourseException;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Account;
@@ -567,13 +566,15 @@ public class AccountsDb {
 	 * 
 	 * @param googleID
 	 *            the Google ID of the student (Precondition: Must not be null)
+	 *            
+	 * @return StudentData of successfully joined student
 	 * 
 	 * @throws JoinCourseException
 	 *             if the registration key does not exist if the student has
 	 *             already registered in the course if the registration key has
 	 *             been used by another student
 	 */
-	public void joinCourse(String registrationKey, String googleID)
+	public StudentData joinCourse(String registrationKey, String googleID)
 			throws JoinCourseException {
 
 		registrationKey = registrationKey.trim();
@@ -613,6 +614,8 @@ public class AccountsDb {
 
 		// TODO: using this to help unit testing, might not work in live server
 		getPM().close();
+		
+		return new StudentData(student);
 	}
 
 	/**

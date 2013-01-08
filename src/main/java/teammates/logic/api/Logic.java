@@ -338,30 +338,9 @@ public class Logic {
 	@SuppressWarnings("unused")
 	private void ____ACCOUNT_level_methods____________________________________() {
 	}
-	
+
 	/**
-	 * Access: admin only
-	 * 
-	 * This method is used to create the account, but the created account will not
-	 * have any relation with a course as instructor or student.
-	 * 
-	 * Creating an INSTRUCTOR or STUDENT will also automatically create an Account by itself
-	 * 
-	 * @param googleId
-	 */
-	public void createAccount(String googleId, boolean isInstructor) {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, isInstructor);
-		
-		verifyAdminLoggedIn();
-		
-		AccountData accountToAdd = new AccountData();
-		accountToAdd.googleId = googleId;
-		accountToAdd.isInstructor = isInstructor;
-		AccountsLogic.inst().getDb().createAccount(accountToAdd);
-	}
-	
-	/**
+	 * Access: Admin only
 	 * 
 	 * @param googleId
 	 * @param name
@@ -371,7 +350,11 @@ public class Logic {
 	 */
 	public void createAccount(String googleId, String name, boolean isInstructor,
 								String email, String institute) {
-		// Another signature if we wish to create an account with all information available.
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, isInstructor);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+		
 		verifyAdminLoggedIn();
 		
 		AccountData accountToAdd = new AccountData();
@@ -812,10 +795,23 @@ public class Logic {
 		// Operate on each of the lists respectively
 		for (InstructorData add : toAdd) {
 			try {
+				// Create the Account if it does not exist
+				if (!AccountsLogic.inst().getDb().isAccountExists(add.googleId)) {
+					AccountData accountToAdd = new AccountData();
+					accountToAdd.googleId = add.googleId;
+					accountToAdd.name = add.name;
+					accountToAdd.isInstructor = true;
+					accountToAdd.email = add.email;
+					AccountsLogic.inst().getDb().createAccount(accountToAdd);
+				} else {
+					AccountsLogic.inst().getDb().makeAccountInstructor(add.googleId);
+				}
+				// Create the instructor relation
 				AccountsLogic.inst().getDb().createInstructor(add);
+				
 			} catch (EntityAlreadyExistsException e) {
-				// This should never actually happen
-				Assumption.fail("Updating Instructor list created unknown error - an instructor existed but was not found earlier");
+				// This should happens when a row was accidentally entered twice
+				// When that happens we continue silently
 			}
 		}
 		for (InstructorData remove : toRemove) {
@@ -1205,13 +1201,15 @@ public class Logic {
 
 		verifyOwnerOfId(googleId);
 
-		AccountsLogic.inst().getDb().joinCourse(key, googleId);
+		StudentData newJoinedStudent = AccountsLogic.inst().getDb().joinCourse(key, googleId);
 		
 		// Create the Account if it does not exist
 		if (!AccountsLogic.inst().getDb().isAccountExists(googleId)) {
 			AccountData accountToAdd = new AccountData();
 			accountToAdd.googleId = googleId;
 			accountToAdd.isInstructor = false;
+			accountToAdd.name = newJoinedStudent.name;
+			accountToAdd.email = newJoinedStudent.email;
 			AccountsLogic.inst().getDb().createAccount(accountToAdd);
 		}
 	}
