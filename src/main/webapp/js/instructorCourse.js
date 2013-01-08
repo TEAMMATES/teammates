@@ -46,13 +46,16 @@ function verifyAddCourse() {
 
 /**
  * Checks if current logged in person appears in the instructor list
+ * Searches each line and verify if the instructor id appears at the start of each line (as the google id)
  */
 function checkInstructorWithinInstructorList(instructorID, instructorList){
-	if (instructorList.search(instructorID) < 0){
-		return false;
-	} else {
-		return true;
+	var entries = instructorList.split("\n");
+	for (var i = 0; i < entries.length; i++){
+		if(entries[i].search(instructorID) == 0){
+			return true;
+		}
 	}
+	return false;
 }
 
 

@@ -55,9 +55,13 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 		} catch (EntityAlreadyExistsException e) {
 			helper.statusMessage = Common.MESSAGE_COURSE_EXISTS;
 			helper.error = true;
+			
 		} catch (InvalidParametersException e) {
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
+		}
+		if(helper.error){
+			return;
 		}
 		try{
 			helper.server.updateCourseInstructors(courseIdBackup, helper.instructorList);
