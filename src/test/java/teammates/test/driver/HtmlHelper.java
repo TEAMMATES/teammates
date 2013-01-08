@@ -40,7 +40,6 @@ public class HtmlHelper {
 		
 		html1 = preProcessHtml(html1);
 		html2 = preProcessHtml(html2);
-		System.out.println(html2);
 		
 		Node page1 = getNodeFromString(html1);
 		Node page2 = getNodeFromString(html2);
@@ -54,9 +53,7 @@ public class HtmlHelper {
 		if(!isLogicalMatch){
 			//If they are not a logical match, we force a literal comparison
 			//   just so that JUnit gives us a side-by-side comparison.
-			System.out.println(annotatedHtml.toString());
-			
-			//remove the noscript tag first
+			//But before that, we remove the noscript tag for ease of comparison.
 			html1 = html1.replaceAll("(?s)<noscript>.*</noscript>", "");
 			html2 = html2.replaceAll("(?s)<noscript>.*</noscript>", "");
 			assertEquals(annotatedHtml.toString(), html1, html2);		
