@@ -1,10 +1,23 @@
-{
-  "instructor": {"id": "teammates.demo.instructor", "name":"Teammates Demo Instructor", "email":"teammates.demo.instructor@gmail.com"},
-  
+{ 
+  "account": {
+    "googleId": "teammates.test",
+    "name": "Teammates Test",
+    "isInstructor": true,
+    "email": "teammates.test@gmail.com",
+    "institute": "National University of Singapore"
+  },
+
   "course": {
     "id": "CEvEditUiTest.CS1101",
     "name": "Programming Methodology",
-    "instructor": "teammates.demo.instructor"
+    "instructor": "INSTRUCTOR_FIELD_DEPRECATED"
+  },
+
+  "instructor": {
+  	"googleId": "teammates.demo.instructor",
+  	"courseId": "CEvEditUiTest.CS1101",
+    "name": "Teammates Demo Instr",
+    "email": "teammates.demo.instructor@gmail.com"
   },
   
   "evaluation": {

@@ -872,7 +872,7 @@
 			features is discouraged due to lack of enough Browser support], <span
 			class="bold">JavaScript</span>, <span class="bold">CSS</span></li>
 		<li><a class="bold" href="http://jquery.com/">jQuery</a> </span>
-			[version 1.6.2] <br>jQuery is a JavaScript Library that
+			[version 1.8.3] <br>jQuery is a JavaScript Library that
 			simplifies HTML document traversing, event handling, animating, and
 			Ajax interactions for rapid web development.</li>
 		<li><span class="bold">JSON </span><span>(JavaScript
@@ -910,6 +910,9 @@
 			Platform provides persistence and retrieval of data to a range of
 			datastores using a range of APIs, with a range of query languages. <br>Comes
 			with App Engine SDK.</li>
+		<li><span class="bold">Xerces XML Parser</span>
+			[version 2.9.1] <br/>This library is required to parse the XML config files. This library may not be 
+			needed on some platforms as it may already come packaged on some JREs (particulary windows)</li>
 	</ul>
 
 	<h2 id="infrastructure-toolsandtechnologies-testing">Tools used in
@@ -931,7 +934,7 @@
 				href="https://github.com/kentbeck/junit/wiki">JUnit</a></span> [version
 			4.11] <br>JUnit is a Java test automation framework.</li>
 		<li><span class="bold"><a href="http://qunitjs.com/">QUnit</a></span>
-			[version 1.9.0] <br>QUnit is a JavaScript unit test suite.</li>
+			[version 1.10.0] <br>QUnit is a JavaScript unit test suite.</li>
 		<li><span class="bold">NekoHtml</span> [version 1.9.16] <br>NekoHTML
 			is a simple HTML scanner and tag balancer that enables application
 			programmers to parse HTML documents and access the information using
@@ -1100,6 +1103,63 @@
 			and choos 'Run as → Junit Test') and ensure they pass.
 		</li>
 	</ol>
+
+	<h3 id="settingup-configuringwebbrowsers">Configuring the Browser
+		for testing</h3>
+	The default browser used for testing is the Firefox browser. Testing on the Firefox browser 
+	is relatively faster as compared to the other browsers, and it can be run in the background. 
+	Nevertheless, it is still necessary to test with the other supported browsers as well.
+	<br>
+	<br>
+	To change the browser that is used in the UI tests, go to the
+	<span class="code">test.properties</span> file and change the
+	<span class="code">test.selenium.browser</span> value to the browser
+	you want to test. Possible values are
+	<span class="code"> firefox, chrome, iexplore, safari.</span> In
+	addition, you need to configure the browser you have selected so that
+	it works with the test suite.
+	<br>
+	<br>
+	<span class="bold">Firefox</span>
+	<ul>
+		<li>If you are planning to test changes to JavaScript code,
+			disable javascript caching for Firefox - Enter "about:config" into
+			the Firefox address bar and set: network.http.use-cache = false</li>
+	</ul>
+	<span class="bold">Chrome</span>
+	<ul>
+		<li>If you are planning to test changes to JavaScript code,
+			disable javascript caching for Chrome - Press ctrl-shift-j to bring
+			up the Web Console. At the bottom-right corner, there is a settings
+			button. Click on that. Under the General tab, check 'Disable Cache'</li>
+	</ul>
+	<span class="bold">Internet Explorer</span>
+	<ul>
+		<li>If you are planning to test changes to JavaScript code,
+			disable javascript caching for Internet Explorer - Go to Internet
+			Options. On the General tab, under Browsing History click Settings.
+			Select the "Every time I visit the webpage" radio button.</li>
+		<li>Ensure that the browser zoom level is set to 100% </li>
+		<li>Set the Protected Mode settings for each zone to be the same
+			value. The value can be on or off, as long as it is the same for
+			every zone. To set the Protected Mode settings, choose "Internet
+			Options..." from the Tools menu, and click on the Security tab. For
+			each zone, there will be a check box at the bottom of the tab labeled
+			"Enable Protected Mode".</li>
+	</ul>
+	<span class="bold">Safari</span>
+	<ul>
+		<li>If you are planning to test changes to JavaScript code,
+			disable javascript caching for Safari - Enable the Developer menu:
+			Safari -> Preferences -> Advanced -> Show Develop menu in menu bar
+			and select Disable Caches there.</li>
+	</ul>
+	
+	<span class="bold">Note:</span>
+	When testing with Chrome and Internet Explorer, the chromedriver process 
+	and the IEDriverServer process will not automatically get killed after the tests 
+	have finished executing. You will need to manually kill these processes after the 
+	tests are done.
 
 	<h2 id="settingup-deployingtostagingserver">Deploying to staging
 		server</h2>

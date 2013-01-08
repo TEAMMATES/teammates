@@ -47,21 +47,6 @@ public class AccountsLogic {
 		return userService.getCurrentUser() != null;
 	}
 
-
-	/**
-	 * Returns the name of the Instructor object given his googleID.
-	 * 
-	 * @param googleID
-	 *            the instructor's Google ID (Precondition: Must not be null)
-	 * 
-	 * @return the name of the instructor
-	 */
-	public String getInstructorName(String googleID) {
-		InstructorData instructor = accountsDb.getInstructor(googleID);
-
-		return instructor.name;
-	}
-
 	/**
 	 * Returns the login page to the user, or the designated redirect page if
 	 * the user is already logged in.
@@ -137,19 +122,36 @@ public class AccountsLogic {
 		return accountsDb.isInstructor(user.getNickname());
 	}
 	
+	public boolean isInstructor(String googleId) {
+		return accountsDb.isInstructor(googleId);
+	}
 	
-	
+	public boolean isInstructorOfCourse(String courseId) {
+		User user = userService.getCurrentUser();
+		
+		if (user == null) 
+			return false;
+		
+		return accountsDb.isInstructorOfCourse(user.getNickname(), courseId);
+	}
 	
 	public boolean isStudent(String googleId) {
 		return accountsDb.getStudentsWithGoogleId(googleId).size()!=0;
 	}
 	
-
-	
 	public boolean isStudentExists(String courseId, String studentEmail) {
 		return accountsDb.isStudentExists(courseId, studentEmail);
 	}
 	
+	public boolean isStudentOfCourse(String courseId) {
+		User user = userService.getCurrentUser();
+		
+		if (user == null) 
+			return false;
+		
+		// Google ID or email better?
+		return accountsDb.isStudentOfCourse(user.getNickname(), courseId);
+	}
 	
 	
 	public AccountsDb getDb() {

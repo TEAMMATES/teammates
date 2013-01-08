@@ -10,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
@@ -33,11 +34,18 @@ public class InstructorEvalEditPageUiTest extends BaseTestCase {
 		
 		startRecordingTimeForDataImport();
 		ts = loadTestScenario();
-		BackDoor.deleteInstructor(ts.instructor.id);
-		String backDoorOperationStatus = BackDoor.createInstructor(ts.instructor);
+		BackDoor.deleteCourse(ts.course.id);
+		BackDoor.deleteInstructor(ts.instructor.googleId);
+		
+		String backDoorOperationStatus = BackDoor.createAccount(ts.account);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		
 		backDoorOperationStatus = BackDoor.createCourse(ts.course);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		
+		backDoorOperationStatus = BackDoor.createInstructor(ts.instructor);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		
 		backDoorOperationStatus = BackDoor.createEvaluation(ts.evaluation);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
@@ -48,7 +56,7 @@ public class InstructorEvalEditPageUiTest extends BaseTestCase {
 		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL_EDIT;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,ts.evaluation.course);
 		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,ts.evaluation.name);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.googleId);
 		bi.goToUrl(link);
 	}
 	
@@ -56,6 +64,9 @@ public class InstructorEvalEditPageUiTest extends BaseTestCase {
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
+		
+		// Always cleanup
+		BackDoor.deleteCourse(ts.course.id);
 	}
 
 	@Test
@@ -96,6 +107,7 @@ public class InstructorEvalEditPageUiTest extends BaseTestCase {
 	}
 
 	private class TestScenario{
+		public AccountData account;
 		public InstructorData instructor;
 		public CourseData course;
 		public EvaluationData evaluation;

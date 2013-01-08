@@ -70,6 +70,26 @@ hr {
 	font-family: Consolas, Courier;
 }
 
+.pending {
+	color: yellow;
+	background: #C26666;
+}
+
+.level1feature{
+	font-weight: bold;
+}
+
+.level2feature {
+	font-weight: bold;
+	color: teal;
+	font-size: 18px;
+}
+
+.level3feature {
+	font-weight: bold;
+}
+
+
 .red {
 	color:#FF0000;
 }

@@ -3,8 +3,13 @@
 <head>
    <meta content="en-us" http-equiv="Content-Language">
    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+   <meta name="application-name" content="TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects">
+   <meta name="keywords" content="Teammates, peer feedback, peer evaluation, student, team, project, free">
+   <meta name="description" content="TEAMMATES is an Online Peer Feedback System for student team projects. It is completely free to use.
+   Get your students to evaluate their performance in team projects, and view reports and summaries of their feedback and evaluations.">
    <link rel="stylesheet" href="stylesheets/teammates.css" type="text/css">
-   <title>Teammates Online Peer Feedback System for Student Team Projects[Home]</title>
+   <title>TEAMMATES[Home] - Online Peer Feedback/Evaluation System for Student Team Projects</title>
+   <script type="text/javascript" src = "js/checkBrowserVersion.js"></script>
 </head>
 
 <body>
@@ -14,7 +19,7 @@
            <div id="headerWrapper">
                <div id="imageHolder">
                    <a href="/index.html">
-                   <img alt="Teammates" src="images/teammateslogo.jpg" width="150px" height="47px">
+                   <img alt="TEAMMATES[Logo] - Online Peer Feedback/Evaluation System for Student Team Projects" src="images/teammateslogo.jpg" width="150px" height="47px">
                    </a>
                </div>
                <div id="menuHolder">
@@ -42,17 +47,21 @@
        </div>
        
        <div id="mainContent">
-           <div id="caption" style="text-align: center;">
-               TEAMMATES is an online peer feedback and peer evaluation tool for student projects
-           </div>
+       <div id="browserMessage" style="display: none;"></div>
+    			
+       		<h1 id="caption" style="text-align: center;">TEAMMATES is an online peer feedback and peer evaluation tool for student projects</h1>
+           
         
            <div id="contentHolder">
            	   <a href="request.html">
-                 	<img alt="Overview of Teammates" src="images/overview.png" width="800px">
+                 	<img alt="Overview of TEAMMATES - anonymous peer feedback and confidential peer evaluations" src="images/overview.png" width="800px">
                </a>
-               <div id="submissions">
+               <h2 id="submissions">
     				13,000+ submissions and counting...
-    			</div>
+    				<br>
+    				<br>
+    				<a href="features.html">Features of TEAMMATES &gt;&gt;</a> 
+    			</h2>
            </div>
         
     		
@@ -62,10 +71,6 @@
    
    <div id="footer">
        <div id="footerWrapper">
-           <div id="footerLeftCol">
-               Developed at <a class="footer" href="http://www.comp.nus.edu.sg" target="_blank">School of Computing</a>, <a class="footer" href="http://www.nus.edu.sg" target="_blank">National University of Singapore</a>
-           </div>
-           
            <div id="footerRightCol">
                Hosted on <a class="footer" href="http://code.google.com/appengine/" target="_blank">Google App Engine</a>
            </div>

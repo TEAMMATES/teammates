@@ -11,6 +11,7 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -30,6 +31,125 @@ public class AccountsDbTest extends BaseTestCase {
 		LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
 		helper = new LocalServiceTestHelper(localDatastore);
 		helper.setUp();
+	}
+	
+	@SuppressWarnings("unused")
+	private void ____ACCOUNT_________________________________________() {
+	}
+	@Test
+	public void testCreateAccount() {
+		// SUCCESS
+		AccountData a = new AccountData();
+		a.googleId = "test.account";
+		a.name = "Test account Name";
+		a.isInstructor = false;
+		a.email = "fresh-account@email.com";
+		accountsDb.createAccount(a);
+			
+		// SUCCESS : duplicate
+		accountsDb.createAccount(a);
+		
+		// Test for latest entry persistence
+		AccountData accountDataTest = accountsDb.getAccount(a.googleId);
+		assertFalse(accountDataTest.isInstructor);
+		// Change a field
+		accountDataTest.isInstructor = true;
+		accountsDb.updateAccount(accountDataTest);
+		// Re-retrieve
+		accountDataTest = accountsDb.getAccount(a.googleId);
+		assertTrue(accountDataTest.isInstructor);
+		
+		// FAIL : invalid parameters
+		// Should we not allow empty fields?
+		/*
+		a.email = "invalid email";
+		try {
+			accountsDb.createAccount(a);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(a.getMessage(), AccountData.ERROR_FIELD_EMAIL);
+		} catch (EntityAlreadyExistsException e) {
+			fail();
+		}
+		*/
+		
+		// Null parameters check:
+		try {
+			accountsDb.createAccount(null);
+			fail();
+		} catch (AssertionError ae) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, ae.getMessage());
+		}
+	}
+	
+	@Test
+	public void testGetAccount() {
+		AccountData a = createNewAccount();
+		
+		// Get existent
+		AccountData retrieved = accountsDb.getAccount(a.googleId);
+		assertNotNull(retrieved);
+		
+		// Get non-existent - just return null
+		retrieved = accountsDb.getAccount("non.existent");
+		assertNull(retrieved);
+		
+		// Null params check:
+		try {
+			accountsDb.getAccount(null);
+			fail();
+		} catch (AssertionError ae) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, ae.getMessage());
+		}
+	}
+	
+	@Test
+	public void testEditAccount() {
+		AccountData a = createNewAccount();
+		
+		// Edit existent
+		a.name = "Edited name";
+		accountsDb.updateAccount(a);
+		
+		// Edit non-existent
+		try {
+			a.googleId = "non.existent";
+			accountsDb.updateAccount(a);
+			fail();
+		} catch (AssertionError ae) {
+			assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT, ae.getMessage());
+		}
+		
+		// Null parameters check:
+		// Only check first 2 parameters (course & email) which are used to identify the student entry. The rest are actually allowed to be null.
+		try {
+			accountsDb.updateAccount(null);
+			fail();
+		} catch (AssertionError ae) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, ae.getMessage());
+		}
+	}
+	
+	@Test
+	public void testDeleteAccount() {
+		AccountData a = createNewAccount();
+		
+		// Delete
+		accountsDb.deleteAccount(a.googleId);
+		
+		AccountData deleted = accountsDb.getAccount(a.googleId);
+		assertNull(deleted);
+		
+		// delete again - should fail silently
+		accountsDb.deleteAccount(a.googleId);
+		
+		// Null parameters check:
+		try {
+			accountsDb.deleteAccount(null);
+			fail();
+		} catch (AssertionError ae) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, ae.getMessage());
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -112,7 +232,7 @@ public class AccountsDbTest extends BaseTestCase {
 			accountsDb.editStudent("non-existent-course", "non@existent.email", "no-name", "non-existent-team", "non.existent.ID", "blah", "blah", new Text("blah"));
 			fail();
 		} catch (AssertionError a) {
-			assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT, a.getMessage());
+			assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT, a.getMessage());
 		}
 		
 		// Null params check:
@@ -167,24 +287,25 @@ public class AccountsDbTest extends BaseTestCase {
 	@Test
 	public void testCreateInstructor() throws EntityAlreadyExistsException {
 		// SUCCESS
-		InstructorData c = new InstructorData();
-		c.id = "valid.fresh.id";
-		c.name = "John Doe";
-		c.email = "john.doe@instructor.com";
-		accountsDb.createInstructor(c);
+		InstructorData i = new InstructorData();
+		i.googleId = "valid.fresh.id";
+		i.courseId = "valid.course.Id";
+		i.name = "valid.name";
+		i.email = "valid@email.com";
+		accountsDb.createInstructor(i);
 		
 		// FAIL : duplicate
 		try {
-			accountsDb.createInstructor(c);
+			accountsDb.createInstructor(i);
 			fail();
 		} catch (EntityAlreadyExistsException e) {
 			assertContains(AccountsDb.ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS, e.getMessage());
 		}
 		
 		// FAIL : invalid params
-		c.id = "invalid id with spaces";
+		i.googleId = "invalid id with spaces";
 		try {
-			accountsDb.createInstructor(c);
+			accountsDb.createInstructor(i);
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(a.getMessage(), InstructorData.ERROR_FIELD_ID);
@@ -203,19 +324,19 @@ public class AccountsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testGetInstructor() {
-		InstructorData c = createNewInstructor();
+		InstructorData i = createNewInstructor();
 		
 		// Get existent
-		InstructorData retrieved = accountsDb.getInstructor(c.id);
+		InstructorData retrieved = accountsDb.getInstructor(i.googleId, i.courseId);
 		assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
-		retrieved = accountsDb.getInstructor("non.existent");
+		retrieved = accountsDb.getInstructor("non.existent", "non.existent.course");
 		assertNull(retrieved);
 		
 		// Null params check:
 		try {
-			accountsDb.getInstructor(null);
+			accountsDb.getInstructor(null, null);
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
@@ -223,26 +344,58 @@ public class AccountsDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testEditInstructor() {
-		// Not implemented
+	public void testUpdateInstructor() {
+		InstructorData instructorToEdit = createNewInstructor();
+		
+		// SUCCESS
+		// Test for old value
+		assertEquals("valid.name", instructorToEdit.name);
+		assertEquals("valid@email.com", instructorToEdit.email);
+		
+		// instructorToEdit is already inside, we can just edit and test
+		instructorToEdit.name = "My New Name";
+		instructorToEdit.email = "new@email.com";
+		accountsDb.updateInstructor(instructorToEdit);
+		
+		// Re-retrieve
+		instructorToEdit = accountsDb.getInstructor(instructorToEdit.googleId, instructorToEdit.courseId);
+		assertEquals("My New Name", instructorToEdit.name);
+		assertEquals("new@email.com", instructorToEdit.email);
+		
+		// FAIL : invalid parameters
+		instructorToEdit.name = "";
+		instructorToEdit.email = null;
+		try {
+			accountsDb.updateInstructor(instructorToEdit);
+			fail();
+		} catch (AssertionError a) {
+			assertEquals(a.getMessage(), InstructorData.ERROR_FIELD_NAME + InstructorData.ERROR_FIELD_EMAIL);
+		}
+		
+		// Null parameters check:
+		try {
+			accountsDb.updateInstructor(null);
+		} catch (AssertionError ae) {
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, ae.getMessage());
+		}
 	}
 	
 	@Test
 	public void testDeleteInstructor() {
-		InstructorData c = createNewInstructor();
+		InstructorData i = createNewInstructor();
 		
 		// Delete
-		accountsDb.deleteInstructor(c.id);
+		accountsDb.deleteInstructor(i.googleId, i.courseId);
 		
-		InstructorData deleted = accountsDb.getInstructor(c.id);
+		InstructorData deleted = accountsDb.getInstructor(i.googleId, i.courseId);
 		assertNull(deleted);
 		
 		// delete again - should fail silently
-		accountsDb.deleteInstructor(c.id);
+		accountsDb.deleteInstructor(i.googleId, i.courseId);
 		
 		// Null params check:
 		try {
-			accountsDb.deleteInstructor(null);
+			accountsDb.deleteInstructor(null, null);
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
@@ -253,6 +406,18 @@ public class AccountsDbTest extends BaseTestCase {
 	public static void tearDownClass() throws Exception {
 		turnLoggingDown(AccountsDb.class);
 		helper.tearDown();
+	}
+	
+	private AccountData createNewAccount() {
+		AccountData a = new AccountData();
+		a.googleId = "valid.googleId";
+		a.name = "Valid Fresh Account";
+		a.isInstructor = false;
+		a.email = "valid@email.com";
+		a.institute = "National University of Singapore";
+		
+		accountsDb.createAccount(a);
+		return a;
 	}
 	
 	private StudentData createNewStudent() {
@@ -272,10 +437,11 @@ public class AccountsDbTest extends BaseTestCase {
 	
 	private InstructorData createNewInstructor() {
 		InstructorData c = new InstructorData();
-		c.id = "valid.id";
-		c.name = "John Doe";
-		c.email = "john.doe@instructor.com";
-		
+		c.googleId = "valid.id";
+		c.courseId = "valid.course";
+		c.name = "valid.name";
+		c.email = "valid@email.com";
+				
 		try {
 			accountsDb.createInstructor(c);
 		} catch (EntityAlreadyExistsException e) {

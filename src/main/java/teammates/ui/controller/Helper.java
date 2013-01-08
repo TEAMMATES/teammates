@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.UserType;
 import teammates.logic.api.Logic;
@@ -20,6 +21,11 @@ public class Helper {
 	 * The user that is currently logged in, authenticated by Google
 	 */
 	public UserType user;
+	
+	/**
+	 * AccountData which contains user's information
+	 */
+	public AccountData account;
 	
 	/**
 	 * The userID that the admin wants to masquerade
@@ -507,4 +513,15 @@ public class Helper {
 		return link;
 	}
 
+	/**
+	 * Format P2P feedback
+	 * Make the headings bold, and covert newlines to html linebreaks
+	 * @return
+	 */
+	public static String formatP2PFeedback(String str){
+		return str.replace("&lt;&lt;What I appreciate about you as a team member&gt;&gt;:", "<span class=\"bold\">What I appreciate about you as a team member:</span>")
+				.replace("&lt;&lt;Areas you can improve further&gt;&gt;:", "<span class=\"bold\">Areas you can improve further:</span>")
+				.replace("&lt;&lt;Other comments&gt;&gt;:", "<span class=\"bold\">Other comments:</span>")
+				.replace("\n", "<br>");
+	}
 }

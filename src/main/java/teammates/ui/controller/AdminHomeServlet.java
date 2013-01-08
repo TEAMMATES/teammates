@@ -43,7 +43,7 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 
 		try {
 			if (instructorID != null && instructorName != null && instructorEmail != null) {
-				helper.server.createInstructor(instructorID, instructorName, instructorEmail);
+				helper.server.createAccount(instructorID, instructorName, true, instructorEmail, "");
 				helper.statusMessage = "Instructor " + instructorName
 						+ " has been successfully created";
 			}
