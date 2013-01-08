@@ -132,6 +132,7 @@ public class Common {
 	// JSP Parameter names
 	public static final String PARAM_COURSE_ID = "courseid";
 	public static final String PARAM_COURSE_NAME = "coursename";
+	public static final String PARAM_COURSE_INSTRUCTOR_LIST = "instructorlist";
 	public static final String PARAM_INSTRUCTOR_ID = "instructorid";
 	public static final String PARAM_INSTRUCTOR_EMAIL = "instructoremail";
 	public static final String PARAM_INSTRUCTOR_NAME = "instructorname";

@@ -11,6 +11,5 @@ public class StudentCourseDetailsHelper extends Helper {
 	public CourseData course;
 	public StudentData student;
 	public TeamData team;
-	public String instructorName;
 	public List<InstructorData> instructors;
 }

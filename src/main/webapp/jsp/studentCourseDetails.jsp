@@ -1,5 +1,6 @@
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.common.datatransfer.StudentData" %>
+<%@ page import="teammates.common.datatransfer.InstructorData" %>
 <%@ page import="teammates.ui.controller.StudentCourseDetailsHelper"%>
 <% StudentCourseDetailsHelper helper = (StudentCourseDetailsHelper)request.getAttribute("helper"); %>
 <!DOCTYPE html>
@@ -46,8 +47,18 @@
 	 				<td id="<%= Common.PARAM_COURSE_NAME %>"><%=StudentCourseDetailsHelper.escapeForHTML(helper.course.name)%></td>
 	 			</tr>
 	 			<tr>
-	 				<td class="label rightalign bold" width="30%">Instructor name:</td>
-	 				<td id="<%=Common.PARAM_INSTRUCTOR_NAME%>"><%=StudentCourseDetailsHelper.escapeForHTML(helper.instructorName)%></td>
+	 				<td class="label rightalign bold" width="30%">Instructors:</td>
+	 				<td id="<%=Common.PARAM_INSTRUCTOR_NAME%>">
+	 				<%
+		 				for (int i = 0; i < helper.instructors.size(); i++){
+		 					InstructorData instructor = helper.instructors.get(i);
+		 					String instructorInfo = instructor.name + " (" + instructor.email + ")";
+		 			%>
+		 				<%=instructorInfo %><br><br>
+		 			<%
+		 				}
+		 			%>
+	 				</td>
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Your team:</td>

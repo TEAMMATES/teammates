@@ -146,6 +146,29 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		start = System.currentTimeMillis();
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseAddDupIdFailed.html");
 		print("Time to assert page: "+(System.currentTimeMillis()-start)+" ms");
+		
+		______TS("testInstructoraddCourseWithMultipleInstructors");
+		
+		String instructorList = bi.getElementText(bi.instructorCourseInputInstructorList);
+		InstructorData instructor2 = ts.instructor.get("instructor2");
+		instructorList += "\n" + instructor2.googleId + "|" + instructor2.name + "|" + instructor2.email;
+		bi.fillString(bi.instructorCourseInputInstructorList, instructorList);
+		bi.addCourse("MultipleInstructorsCourse", "Course with multiple instructors");
+		
+		bi.waitForStatusMessage(Common.MESSAGE_COURSE_ADDED);
+
+		String newLink = appUrl+Common.PAGE_INSTRUCTOR_COURSE_DETAILS;
+		newLink = Common.addParamToUrl(newLink,Common.PARAM_USER_ID,ts.instructor.get("instructor1").googleId);
+		newLink = Common.addParamToUrl(newLink,Common.PARAM_COURSE_ID,"MultipleInstructorsCourse");
+		
+		//Go to course details page for testing
+		bi.goToUrl(newLink);
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsMultipleInstructors.html");
+		
+		//Go back to course page
+		BackDoor.deleteCourse("MultipleInstructorsCourse");
+		bi.goToUrl(link);
+		
 	}
 
 	public void testInstructorCourseAddLinks() throws Exception{

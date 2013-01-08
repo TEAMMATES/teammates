@@ -15,16 +15,16 @@
       "email": "teammates.demo.instructor@gmail.com"
     },
     "instructor2": { 
-      "googleId": "teammates.demo.instructor", 
+      "googleId": "teammates.demo.instructor2", 
       "courseId":"CCAddUiTest.CS1101",
-      "name": "Teammates Demo Instr",
-      "email": "teammates.demo.instructor@gmail.com"
+      "name": "Teammates Demo Instr2",
+      "email": "teammates.demo.instructor2@gmail.com"
     },
     "instructor3": { 
-      "googleId": "teammates.demo.instructor", 
+      "googleId": "teammates.demo.instructor3", 
       "courseId":"CCAddUiTest.CS2104",
-      "name": "Teammates Demo Instr",
-      "email": "teammates.demo.instructor@gmail.com"
+      "name": "Teammates Demo Instr3",
+      "email": "teammates.demo.instructor3@gmail.com"
     }
   },
   
