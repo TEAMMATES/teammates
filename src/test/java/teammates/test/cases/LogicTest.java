@@ -877,6 +877,8 @@ public class LogicTest extends BaseTestCase {
 		// Reset environment
 		CourseData course = dataBundle.courses.get("typicalCourse1");
 		AccountData creator = dataBundle.accounts.get("instructor1OfCourse1");
+		AccountData instructor2Account = dataBundle.accounts.get("instructor2OfCourse1");
+		AccountData instructor3Account = dataBundle.accounts.get("instructor3");
 		InstructorData instructor = dataBundle.instructors.get("instructor1OfCourse1");
 		InstructorData instructor2 = dataBundle.instructors.get("instructor2OfCourse1");
 		InstructorData instructor3 = dataBundle.instructors.get("instructor3OfCourse1");
@@ -884,11 +886,21 @@ public class LogicTest extends BaseTestCase {
 		instructor.email = creator.email;
 		loginAsAdmin("admin.user");
 		logic.deleteCourse(instructor.courseId);
+		logic.deleteAccount(instructor.googleId);
+		logic.deleteAccount(instructor2.googleId);
+		logic.deleteAccount(instructor3.googleId);
 		verifyAbsentInDatastore(course);
 		verifyAbsentInDatastore(instructor);
 		verifyAbsentInDatastore(instructor2);
 		verifyAbsentInDatastore(instructor3);
+		verifyAbsentInDatastore(creator);
+		verifyAbsentInDatastore(instructor2Account);
+		verifyAbsentInDatastore(instructor3Account);
 
+		// Have the admin create an empty instructor account
+		logic.createAccount(creator.googleId, creator.name, true, creator.email, "National University of Singapore");
+		
+		// Then login as the new instructor to create a course
 		loginAsInstructor("idOfInstructor1OfCourse1");
 		
 		logic.createCourse(instructor.googleId, course.id, course.name);
@@ -900,6 +912,9 @@ public class LogicTest extends BaseTestCase {
 		verifyPresentInDatastore(instructor);
 		verifyPresentInDatastore(instructor2);
 		verifyPresentInDatastore(instructor3);
+		verifyPresentInDatastore(creator);				// Check that Accounts are created for the new Instructors
+		verifyPresentInDatastore(instructor2Account);
+		verifyPresentInDatastore(instructor3Account);
 		
 		______TS("Remove one Instructor");
 		
@@ -2146,6 +2161,11 @@ public class LogicTest extends BaseTestCase {
 		logic.joinCourse(googleId, key);
 		assertEquals(googleId,
 				logic.getStudent(student.course, student.email).id);
+		
+		// Check that an account with the student's google ID was created
+		AccountData studentAccount = new AccountData();
+		studentAccount.googleId = googleId;
+		verifyPresentInDatastore(studentAccount); 
 
 		______TS("try to register again with a valid key");
 
@@ -2187,6 +2207,27 @@ public class LogicTest extends BaseTestCase {
 
 		assertEquals("", logic.getStudent(student.course, student.email).id);
 
+		______TS("Join course as student does not revoke Instructor status");
+
+		loginAsAdmin("admin.user");
+
+		// make the student an instructor
+		AccountsLogic.inst().getDb().makeAccountInstructor(googleId);
+		assertTrue(AccountsLogic.inst().isInstructor(googleId));
+		
+		// make the student 'unregistered' again
+		student.id = "";
+		logic.editStudent(student.email, student);
+		assertEquals("", logic.getStudent(student.course, student.email).id);
+
+		// rejoin
+		logic.joinCourse(googleId, key);
+		assertEquals(googleId,
+				logic.getStudent(student.course, student.email).id);
+		
+		// Check isInstructor status
+		assertTrue(AccountsLogic.inst().isInstructor(googleId));
+		
 		______TS("null parameters");
 
 		try {
@@ -4109,6 +4150,12 @@ public class LogicTest extends BaseTestCase {
 				enrollmentResult.isEnrollmentInfoMatchingTo(expectedStudent));
 	}
 
+	private void verifyAbsentInDatastore(AccountData account)
+			throws Exception {
+		assertEquals(null, logic.getAccount(account.googleId));
+	}
+
+	
 	private void verifyAbsentInDatastore(SubmissionData submission)
 			throws Exception {
 		assertEquals(
@@ -4132,6 +4179,13 @@ public class LogicTest extends BaseTestCase {
 	private void verifyAbsentInDatastore(EvaluationData evaluation) {
 		assertEquals(null,
 				logic.getEvaluation(evaluation.course, evaluation.name));
+	}
+	
+	public static void verifyPresentInDatastore(AccountData expectedAccount) {
+		AccountData actualAccount = logic.getAccount(expectedAccount.googleId);
+		// Account when created by createInstructor may take up different values in NAME and EMAIL
+		// from the typicalDataBundle. Hence we only check that the account exists in the DataStore
+		assertTrue(actualAccount != null);
 	}
 
 	public static void verifyPresentInDatastore(StudentData expectedStudent) {
