@@ -1,0 +1,15 @@
+#addform{
+	width: 700px; 
+	height: 300px;
+	margin: 0 auto;
+}
+
+.addinput {
+	width: 450px;
+}
+
+#instructorformat {
+    float: right;
+    font-size: 12px;
+    font-style: italic;
+}
