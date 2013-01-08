@@ -54,7 +54,7 @@ public class AccountData extends BaseData {
 		if (!Common.isValidGoogleId(googleId)) {
 			errorMessage += ERROR_FIELD_ID;
 		}
-	/*
+	
 		if (!Common.isValidName(name)) {
 			errorMessage += ERROR_FIELD_NAME;
 		}
@@ -63,6 +63,7 @@ public class AccountData extends BaseData {
 			errorMessage += ERROR_FIELD_EMAIL;
 		}
 		
+	/*	
 		if (!Common.isValidName(institute)) {
 			errorMessage += ERROR_FIELD_INSTITUTE;
 		}

@@ -35,6 +35,7 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 		BackDoor.deleteCourses(jsonString);
 		BackDoor.deleteInstructors(jsonString);
+		BackDoor.deleteCourse("idOfTypicalCourse1");
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
