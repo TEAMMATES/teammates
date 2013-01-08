@@ -317,6 +317,7 @@ public class BrowserInstance {
 	// Add course
 	public By instructorCourseInputCourseID = By.id("courseid");
 	public By instructorCourseInputCourseName = By.id("coursename");
+	public By instructorCourseInputInstructorList = By.id("instructorlist");
 	public By instructorCourseAddButton = By.id("btnAddCourse");
 	public By instructorCourseSortByIdButton = By.id("button_sortcourseid");
 	public By instructorCourseSortByNameButton = By.id("button_sortcoursename");

@@ -39,6 +39,7 @@
 			</div>
 
 			<form method="get" action="<%= Common.PAGE_INSTRUCTOR_COURSE %>" name="form_addcourse">
+				<input type="hidden" id="<%= Common.PARAM_INSTRUCTOR_ID %>" name="<%= Common.PARAM_INSTRUCTOR_ID %>" value="<%= helper.account.googleId%>">
 				<table id="addform" class="inputTable">
 					<tr>
 						<td class="label bold" width="20%">Course ID:</td>
@@ -64,7 +65,7 @@
 					<tr>
 						<td colspan=2>
 							<span id="instructorformat" class="bold">Format: Google ID | Instructor Name | Instructor Email</span>
-							<textarea rows="6" cols="110" class ="textvalue" name="<%= Common.PARAM_COURSE_INSTRUCTOR_LIST %>" id="<%= Common.PARAM_COURSE_INSTRUCTOR_LIST %>"></textarea>
+							<textarea rows="6" cols="110" class ="textvalue" name="<%= Common.PARAM_COURSE_INSTRUCTOR_LIST %>" id="<%= Common.PARAM_COURSE_INSTRUCTOR_LIST %>"><%=helper.account.googleId + "|" + helper.account.name + "|" + helper.account.email %></textarea>
 						</td>
 					</tr>
 					<tr>
@@ -117,10 +118,10 @@
 								href="<%=helper.getInstructorCourseDetailsLink(course.id)%>"
 								onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_DETAILS %>')"
 								onmouseout="hideddrivetip()">View</a>
-							<a class="color_black t_course_view<%= idx %>"
+							<a class="color_black t_course_edit<%= idx %>"
 								href="<%=helper.getInstructorCourseEditLink(course.id)%>"
 								onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_EDIT %>')"
-								onmouseout="hideddrivetip()">View</a>
+								onmouseout="hideddrivetip()">Edit</a>
 							<a class="color_black t_course_delete<%= idx %>"
 								href="<%=helper.getInstructorCourseDeleteLink(course.id,false)%>"
 								onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%= course.id %>');"

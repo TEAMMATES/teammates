@@ -52,6 +52,7 @@
 			</div>
 
 			<form name="form_addcourse" action="/page/instructorCourse" method="get">
+				<input type="hidden" value="teammates.demo.instructor" name="instructorid" id="instructorid" />
 				<table id="addform" class="inputTable">
 					<tr>
 						<td class="label bold" width="20%">Course ID:</td>
@@ -75,9 +76,9 @@
 						<td colspan=2 class="label bold">Instructors:</td>
 					</tr>
 					<tr>
-						<td colspan=2>
-							<span id="instructorformat" class="bold">Format: Google ID | Instructor Name | Instructor Email</span>
-							<textarea rows="6" cols="110" class ="textvalue" name="instructorlist" id="instructorlist"></textarea>
+						<td colspan="2">
+							<span class="bold" id="instructorformat">Format: Google ID | Instructor Name | Instructor Email</span>
+							<textarea id="instructorlist" name="instructorlist" class="textvalue" cols="110" rows="6">teammates.demo.instructor|Teammates Demo Instr|teammates.demo.instructor@gmail.com</textarea>
 						</td>
 					</tr>
 					<tr>

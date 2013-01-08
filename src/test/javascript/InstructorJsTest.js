@@ -44,22 +44,22 @@ test('isEmailValid(email)', function(){
 	
 
 test('isNameValid(name)', function(){
-	equal(isStudentNameValid('	Tom Jacobs,.	\'()-\/ \\  '), true, "alphanumerics, fullstop, comma, round brackets, slashes, apostrophe, hyphen - valid");
+	equal(isNameValid('	Tom Jacobs,.	\'()-\/ \\  '), true, "alphanumerics, fullstop, comma, round brackets, slashes, apostrophe, hyphen - valid");
 	equal(isNameValid(generateRandomString(NAME_MAX_LENGTH)), true, "Maximum characters - valid");
 	
 	equal(isNameValid(""), false, "Empty name - invalid");
 	equal(isNameValid(generateRandomString(NAME_MAX_LENGTH + 1)), false, "Exceed number of maximum characters - invalid");
-	equal(isStudentNameValid("Tom! Jacobs"), false, "! character - invalid");
-	equal(isStudentNameValid("Tom ^Jacobs"), false, "^ character - invalid");
-	equal(isStudentNameValid("Tom#"), false, "# character - invalid");
-	equal(isStudentNameValid("&Tom"), false, "& character - invalid");
-	equal(isStudentNameValid("J%cobs "), false, "% character - invalid");
-	equal(isStudentNameValid("Jacobs*"), false, "* character - invalid");
-	equal(isStudentNameValid("	+123	 "), false, "+ character - invalid");
-	equal(isStudentNameValid("a b c $ 1 2 3 4"), false, "$ character - invalid");
-	equal(isStudentNameValid("1@2@3  456"), false, "@ character - invalid");
-	equal(isStudentNameValid("Tom = Tom"), false, "= character - invalid");
-	equal(isStudentNameValid("Tom||Jacobs"), false, "| character - invalid");
+	equal(isNameValid("Tom! Jacobs"), false, "! character - invalid");
+	equal(isNameValid("Tom ^Jacobs"), false, "^ character - invalid");
+	equal(isNameValid("Tom#"), false, "# character - invalid");
+	equal(isNameValid("&Tom"), false, "& character - invalid");
+	equal(isNameValid("J%cobs "), false, "% character - invalid");
+	equal(isNameValid("Jacobs*"), false, "* character - invalid");
+	equal(isNameValid("	+123	 "), false, "+ character - invalid");
+	equal(isNameValid("a b c $ 1 2 3 4"), false, "$ character - invalid");
+	equal(isNameValid("1@2@3  456"), false, "@ character - invalid");
+	equal(isNameValid("Tom = Tom"), false, "= character - invalid");
+	equal(isNameValid("Tom||Jacobs"), false, "| character - invalid");
 	
 });
 

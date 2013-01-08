@@ -4,11 +4,13 @@ import java.util.List;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
 
 public class InstructorCourseDetailsHelper extends Helper{
 	public CourseData course;
 	public List<StudentData> students;
+	public List<InstructorData> instructors;
 	
 	/**
 	 * Returns the status of the student, whether he has joined the course.

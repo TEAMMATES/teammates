@@ -24,15 +24,39 @@ function verifyAddCourse() {
 	courseName = courseName.trim();
 
 	// client-side validation
-	var statusCode = checkAddCourseParam(courseID, courseName, instructorList);
-
-	if(statusCode != COURSE_STATUS_VALID_INPUT) {
-		setStatusMessage(courseStatusToMessage(statusCode),true);
+	var confirmation = true;
+	console.log($("#" + COURSE_INSTRUCTOR_ID).val());
+	console.log(instructorList);
+	if (!checkInstructorWithinInstructorList($("#" + COURSE_INSTRUCTOR_ID).val(), instructorList)){
+		confirmation = confirm(MESSAGE_INSTRUCTOR_NOT_WHTHIN_INSTRUCTOR_LIST);
+	}
+	
+	if (confirmation){
+		var statusCode = checkAddCourseParam(courseID, courseName, instructorList);
+	
+		if(statusCode != COURSE_STATUS_VALID_INPUT) {
+			setStatusMessage(courseStatusToMessage(statusCode),true);
+			return false;
+		}
+		// When valid, the message will be displayed by the server
+		return true;
+	} else {
 		return false;
 	}
-	// When valid, the message will be displayed by the server
-	return true;
 }
+
+
+/**
+ * Checks if current logged in person appears in the instructor list
+ */
+function checkInstructorWithinInstructorList(instructorID, instructorList){
+	if (instructorList.search(instructorID) < 0){
+		return false;
+	} else {
+		return true;
+	}
+}
+
 
 /**
  * Converts error codes into displayable message
