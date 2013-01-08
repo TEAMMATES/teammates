@@ -25,8 +25,6 @@ function verifyAddCourse() {
 
 	// client-side validation
 	var confirmation = true;
-	console.log($("#" + COURSE_INSTRUCTOR_ID).val());
-	console.log(instructorList);
 	if (!checkInstructorWithinInstructorList($("#" + COURSE_INSTRUCTOR_ID).val(), instructorList)){
 		confirmation = confirm(MESSAGE_INSTRUCTOR_NOT_WHTHIN_INSTRUCTOR_LIST);
 	}
