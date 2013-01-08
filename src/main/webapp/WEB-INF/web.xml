@@ -125,6 +125,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <url-pattern>/page/instructorCourse</url-pattern>
 	</servlet-mapping>
 	<servlet>
+	    <description>Servlet that handles Instructor Course Edit page</description>
+	    <servlet-name>InstructorCourseEdit</servlet-name>
+	    <servlet-class>teammates.ui.controller.InstructorCourseEditServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>InstructorCourseEdit</servlet-name>
+	    <url-pattern>/page/instructorCourseEdit</url-pattern>
+	</servlet-mapping>
+	<servlet>
 	    <description>Servlet that handles course deletion action</description>
 	    <servlet-name>InstructorCourseDelete</servlet-name>
 	    <servlet-class>teammates.ui.controller.InstructorCourseDeleteServlet</servlet-class>

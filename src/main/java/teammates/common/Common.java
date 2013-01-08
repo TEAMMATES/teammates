@@ -131,6 +131,7 @@ public class Common {
 	// JSP Parameter names
 	public static final String PARAM_COURSE_ID = "courseid";
 	public static final String PARAM_COURSE_NAME = "coursename";
+	public static final String PARAM_COURSE_INSTRUCTOR_LIST = "instructorlist";
 	public static final String PARAM_INSTRUCTOR_ID = "instructorid";
 	public static final String PARAM_INSTRUCTOR_EMAIL = "instructoremail";
 	public static final String PARAM_INSTRUCTOR_NAME = "instructorname";
@@ -198,11 +199,11 @@ public class Common {
 
 	public static final String PAGE_BACKDOOR = "/backdoor";
 	public static final String WEBPAGE_COMPILATION = "/dev/webpageCompilation.jsp";
-
 	public static final String PAGE_INSTRUCTOR_HOME = "/page/instructorHome";
 	public static final String PAGE_INSTRUCTOR_COURSE = "/page/instructorCourse";
 	public static final String PAGE_INSTRUCTOR_COURSE_DELETE = "/page/instructorCourseDelete";
 	public static final String PAGE_INSTRUCTOR_COURSE_DETAILS = "/page/instructorCourseDetails";
+	public static final String PAGE_INSTRUCTOR_COURSE_EDIT = "/page/instructorCourseEdit";
 	public static final String PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS = "/page/instructorCourseStudentDetails";
 	public static final String PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT = "/page/instructorCourseStudentEdit";
 	public static final String PAGE_INSTRUCTOR_COURSE_STUDENT_DELETE = "/page/instructorCourseStudentDelete";
@@ -239,6 +240,7 @@ public class Common {
 	 */
 	public static final String JSP_INSTRUCTOR_HOME = "/jsp/instructorHome.jsp"; // Done
 	public static final String JSP_INSTRUCTOR_COURSE = "/jsp/instructorCourse.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_COURSE_EDIT = "/jsp/instructorCourseEdit.jsp"; // Done
 	public static final String JSP_INSTRUCTOR_COURSE_DETAILS = "/jsp/instructorCourseDetails.jsp"; // Done
 	public static final String JSP_INSTRUCTOR_COURSE_STUDENT_DETAILS = "/jsp/instructorCourseStudentDetails.jsp"; // Done
 	public static final String JSP_INSTRUCTOR_COURSE_STUDENT_EDIT = "/jsp/instructorCourseStudentEdit.jsp"; // Done
@@ -291,6 +293,7 @@ public class Common {
 
 	public static final String MESSAGE_COURSE_ADDED = "The course has been added. Click the 'Enroll' link in the table below to add students to the course.";
 	public static final String MESSAGE_COURSE_EXISTS = "A course by the same ID already exists in the system, possibly created by another user. Please choose a different course ID";
+	public static final String MESSAGE_COURSE_EDITED = "The course has been edited.";
 	public static final String MESSAGE_COURSE_DELETED = "The course has been deleted.";
 	public static final String MESSAGE_COURSE_EMPTY = "You have not created any courses yet. Use the form above to create a course.";
 	public static final String MESSAGE_COURSE_EMPTY_IN_EVALUATION = "You have not created any courses yet. Go <a href=\""
