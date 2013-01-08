@@ -21,14 +21,16 @@ public class StudentCourseDetailsPageUiTest extends BaseTestCase {
 	private static DataBundle scn;
 	
 	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
+	private static String jsonString;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
 		
 		startRecordingTimeForDataImport();
-		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/StudentCourseDetailsUiTest.json");
+		jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/StudentCourseDetailsUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+		BackDoor.deleteCourses(jsonString);
 		BackDoor.deleteInstructors(jsonString);
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
@@ -43,6 +45,9 @@ public class StudentCourseDetailsPageUiTest extends BaseTestCase {
 	public static void classTearDown() throws Exception {
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
+
+		// Always cleanup
+		BackDoor.deleteCourses(jsonString);
 	}
 
 	@Test	
@@ -71,5 +76,17 @@ public class StudentCourseDetailsPageUiTest extends BaseTestCase {
 		link = Common.addParamToUrl(link, Common.PARAM_USER_ID , scn.students.get("danny.tmms").id);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentCourseDetailsNoTeamHTML.html");
+	}
+	
+	@Test
+	public void testStudentCourseDetailsMultipleInstructors() throws Exception {
+		
+		______TS("One instructor");
+		
+		______TS("Multiple Instructor");
+		
+		______TS("Instructor List Paginated?"); 
+		// If we have too many instructors for a course.. probably not right..?
+		// CS2103 had like >10 instructors right?
 	}
 }

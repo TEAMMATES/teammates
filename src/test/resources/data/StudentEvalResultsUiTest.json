@@ -1,17 +1,28 @@
 {
-  "instructors": {
-    "teammates.demo.instructor": {
-      "id": "teammates.demo.instructor",
-      "name" : "Teammates Demo Instructor",
-      "email" : "teammates.demo.instructor@gmail.com"
+  "accounts": {
+    "teammates.test": {
+      "googleId": "teammates.test",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "teammates.test@gmail.com",
+      "institute": "National University of Singapore"
+    }
+  },
+
+  "courses": {
+    "SEvalRUiT.CS1101": {
+      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
+      "id": "SEvalRUiT.CS1101",
+      "name": "Programming Methodology"
     }
   },
   
-  "courses": {
-    "SEvalRUiT.CS1101": {
-      "instructor": "teammates.demo.instructor",
-      "id": "SEvalRUiT.CS1101",
-      "name": "Programming Methodology"
+  "instructors": {
+    "teammates.demo.instructor": {
+      "googleId": "teammates.demo.instructor",
+      "courseId": "SEvalRUiT.CS1101",
+      "name": "teammates.demo.instructor",
+      "email": "teammates.demo.instructor@gmail.com"
     }
   },
   
@@ -108,7 +119,7 @@
       "evaluation" : "Second Eval",
       "points" : 150,
       "justification" : {"value" : "This is a justification from benny.tmms@gmail.com to alice.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from benny.tmms@gmail.com to alice.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"<<What I appreciate about you as a team member>>:\nGood Job!\n<<Areas you can improve further>>:\nEverything.\n<<Other comments>>:\nNothing"},
       "team" : "Team 1"
     },
     "submissionFromCharlieToCharlieSecondEval": {

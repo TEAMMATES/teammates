@@ -22,6 +22,7 @@ import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
@@ -263,6 +264,10 @@ public class BaseTestCase {
 		setLogLevelOfClass(Logic.class, Level.SEVERE);
 
 		DataBundle dataBundle = getTypicalDataBundle();
+		
+		for (AccountData account : dataBundle.accounts.values()) {
+			backDoorLogic.deleteAccount(account.googleId);
+		}
 
 		// delete courses first in case there are existing courses with same id
 		// but under different instructors.
@@ -272,7 +277,7 @@ public class BaseTestCase {
 
 		HashMap<String, InstructorData> instructors = dataBundle.instructors;
 		for (InstructorData instructor : instructors.values()) {
-			backDoorLogic.deleteInstructor(instructor.id);
+			backDoorLogic.deleteInstructor(instructor.googleId);
 		}
 		backDoorLogic.persistNewDataBundle(dataBundle);
 

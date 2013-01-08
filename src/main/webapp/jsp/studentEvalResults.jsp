@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
 	<link rel="stylesheet" href="/stylesheets/studentEvalResults.css" type="text/css">
 
-	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="/js/jquery-minified.js"></script>
 	<script type="text/javascript" src="/js/tooltip.js"></script>
 	<script type="text/javascript" src="/js/common.js"></script>
 	
@@ -78,14 +78,14 @@
 				</table>
 				
 				<table class="resultTable">
-					<tr class="resultSubheader bold color_black"><td>Feedback from teammates:</td></tr>
+					<tr class="resultSubheader bold color_black"><td>Anonymous Feedback from Teammates:</td></tr>
 					<tr>
 						<td>
 							<ul>
 								<%
 									for(SubmissionData sub: helper.incoming) {
 								%>
-									<li><%=StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue())%></li>
+									<li><%=StudentEvalResultsHelper.formatP2PFeedback(StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue()))%></li>
 								<%
 									}
 								%>
@@ -99,8 +99,9 @@
 								<%
 									for(SubmissionData sub: helper.selfEvaluations){
 								%>
-									<li><%=StudentEvalResultsHelper.escapeForHTML(sub.reviewerName)%>: 
+									<li><span class="bold"><%=StudentEvalResultsHelper.escapeForHTML(sub.reviewerName)%>:</span> 
 										<%=StudentEvalResultsHelper.escapeForHTML(sub.justification.getValue())%></li>
+									<br>
 								<%
 									}
 								%>
@@ -140,7 +141,7 @@
 							<td><%=StudentEvalResultsHelper.escapeForHTML(sub.revieweeName)%></td>
 							<td><%=StudentEvalResultsHelper.colorizePoint(sub.points)%></td> 
 							<td><%=StudentEvalResultsHelper.escapeForHTML(sub.justification.getValue())%></td>
-							<td><%=StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue())%></td>
+							<td><%=StudentEvalResultsHelper.formatP2PFeedback(StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue()))%></td>
 						</tr>
 					<%	} %>
 				</table>

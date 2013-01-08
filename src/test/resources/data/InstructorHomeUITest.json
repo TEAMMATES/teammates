@@ -1,22 +1,29 @@
 {
-  "instructors": {
-    "teammates.test": {
-      "id": "teammates.test",
-      "name" : "Instructor",
-      "email" : "teammates.test@gmail.com"
-    }
-  },
-  
   "courses": {
     "CHomeUiT.CS2104": {
-      "instructor": "teammates.test",
+      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
       "id": "CHomeUiT.CS2104",
       "name": "Programming Language Concepts"
     },
     "CHomeUiT.CS1101": {
-      "instructor": "teammates.test",
+      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
       "id": "CHomeUiT.CS1101",
       "name": "Programming Methodology"
+    }
+  },
+  
+  "instructors": {
+    "teammates.test.CS2104": {
+      "googleId": "teammates.test",
+      "courseId": "CHomeUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "teammates.test@gmail.com"
+    },
+    "teammates.test.CS1101": {
+      "googleId": "teammates.test",
+      "courseId": "CHomeUiT.CS1101",
+      "name": "Teammates Test",
+      "email": "teammates.test@gmail.com"
     }
   },
   

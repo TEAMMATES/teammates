@@ -30,17 +30,20 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 	private static EvaluationData thirdEval;
 	
 	private static Boolean helpWindowClosed;
+	
+	private static String jsonString;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
 		
 		startRecordingTimeForDataImport();
-		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorHomeUiTest.json");
+		jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorHomeUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 		firstEval = scn.evaluations.get("First Eval");
 		secondEval = scn.evaluations.get("Second Eval");
 		thirdEval = scn.evaluations.get("Third Eval");
+		BackDoor.deleteCourses(jsonString);
 		BackDoor.deleteInstructors(jsonString);
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
@@ -49,7 +52,7 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		bi.loginInstructor(scn.instructors.get("teammates.test").id, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS);
+		bi.loginInstructor(scn.instructors.get("teammates.test.CS2104").googleId, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS);
 	}
 	
 	@AfterClass
@@ -60,6 +63,9 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 		}
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
+
+		// Always cleanup
+		BackDoor.deleteCourses(jsonString);
 	}
 	
 	@Before
@@ -190,6 +196,7 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 		BackDoor.deleteCourse(scn.courses.get("CHomeUiT.CS1101").id);
 		
 		bi.clickHomeTab();
+		// TODO: Implement with Account (Instructor with no Course)
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorHomeHTMLEmpty.html");
 	}
 }

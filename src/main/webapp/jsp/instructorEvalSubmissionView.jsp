@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
 	<link rel="stylesheet" href="/stylesheets/instructorEvalSubmissionView.css" type="text/css">
 	
-	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="/js/jquery-minified.js"></script>
 	<script type="text/javascript" src="/js/tooltip.js"></script>
 	<script type="text/javascript" src="/js/date.js"></script>
 	<script type="text/javascript" src="/js/CalendarPopup.js"></script>
@@ -87,7 +87,7 @@
 						<td><b><%=InstructorEvalSubmissionViewHelper.escapeForHTML(byReviewee ? sub.reviewerName : sub.revieweeName)%></b></td>
 						<td><%= InstructorEvalSubmissionViewHelper.printSharePoints(sub.normalizedToInstructor,false) %></td>
 						<td><%= InstructorEvalSubmissionViewHelper.printJustification(sub) %></td>
-						<td><%= InstructorEvalSubmissionViewHelper.printComments(sub, helper.evaluation.p2pEnabled) %></td>
+						<td><%= InstructorEvalSubmissionViewHelper.formatP2PFeedback(InstructorEvalSubmissionViewHelper.printComments(sub, helper.evaluation.p2pEnabled)) %></td>
 					</tr>
 				<%	} %>
 			</table>

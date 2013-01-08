@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
 	<link rel="stylesheet" href="/stylesheets/instructorEvalSubmissionEdit.css" type="text/css">
 	
-	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="/js/jquery-minified.js"></script>
 	<script type="text/javascript" src="/js/tooltip.js"></script>
 	<script type="text/javascript" src="/js/date.js"></script>
 	<script type="text/javascript" src="/js/CalendarPopup.js"></script>
@@ -52,7 +52,9 @@
 			<div id="studentEvaluationSubmissions">
 				<form name="form_submitevaluation" id="form_submitevaluation" method="post"
 						action="<%= Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER %>">
-					<jsp:include page="<%= Common.JSP_EVAL_SUBMISSION_EDIT %>" />
+					<jsp:include page="<%= Common.JSP_EVAL_SUBMISSION_EDIT %>">
+					<jsp:param name="isStudent" value="false" />
+					</jsp:include>
 					<br>
 					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 					<br>

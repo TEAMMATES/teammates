@@ -1,22 +1,39 @@
 {
-  "instructors": {
+  "accounts": {
     "teammates.test": {
-      "id": "teammates.test",
-      "name" : "Instructor",
-      "email" : "teammates.test@gmail.com"
+      "googleId": "teammates.test",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "teammates.test@gmail.com",
+      "institute": "National University of Singapore"
     }
   },
-  
+
   "courses": {
     "CS2104": {
-      "instructor": "teammates.test",
+      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
       "id": "CS2104",
       "name": "Programming Language Concepts"
     },
     "CS1101": {
-      "instructor": "teammates.test",
+      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
       "id": "CS1101",
       "name": "Programming Methodology"
+    }
+  },
+  
+  "instructors": {
+    "teammates.test.CS2104": {
+      "googleId": "teammates.test",
+      "courseId": "CS2104",
+      "name": "Teammates Test",
+      "email": "teammates.test@gmail.com"
+    },
+    "teammates.test.CS1101": {
+      "googleId": "teammates.test",
+      "courseId": "CS1101",
+      "name": "Teammates Test",
+      "email": "teammates.test@gmail.com"
     }
   },
   
@@ -193,7 +210,7 @@
       "evaluation" : "First Eval",
       "points" : 90,
       "justification" : {"value" : "This is a justification from teammates.test@gmail.com to charlie.d.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :""},
+      "p2pFeedback" : {"value" :"<<What I appreciate about you as a team member>>:\nGood Job!\n<<Areas you can improve further>>:\nEverything.\n<<Other comments>>:\nNothing"},
       "team" : "Team 1"
     },
     "submissionFromCharlieToTeammatesTestFirstEval": {

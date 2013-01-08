@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
@@ -77,24 +78,85 @@ public class BackDoor {
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
 		HashMap<String, InstructorData> instructors = data.instructors;
 		for (InstructorData instructor : instructors.values()) {
-			deleteInstructor(instructor.id);
+			deleteInstructor(instructor.googleId);
 		}
 	}
+	
+	/**
+	 * Deletes COURSES contained in the jsonString
+	 * 
+	 * This should recursively delete all INSTRUCTORS, EVALUATIONS, SUBMISSIONS and STUDENTS related
+	 * 
+	 * @param jsonString
+	 */
+	public static void deleteCourses(String jsonString) {
+		Gson gson = Common.getTeammatesGson();
+		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
+		HashMap<String, CourseData> courses = data.courses;
+		for (CourseData course : courses.values()) {
+			deleteCourse(course.id);
+		}
+	}
+	
+	//====================================================================================
+	@SuppressWarnings("unused")
+	private void _____DATA_MIGRATION_methods______________________________() {
+	}
 
+	/**
+	 * Call the migration BackDoorLogic method
+	 */
+	public static String createInstructorsFromCourses() {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_CREATE_INSTRUCTORS_FROM_COURSES);
+		String status = makePOSTRequest(params);
+		return status;
+	}
+	
+	public static String createAccountsForInstructors() {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_CREATE_ACCOUNTS_FOR_INSTRUCTORS);
+		String status = makePOSTRequest(params);
+		return status;
+	}
+	
+	public static String createAccountsForStudents() {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_CREATE_ACCOUNTS_FOR_STUDENTS);
+		String status = makePOSTRequest(params);
+		return status;
+	}
+	
+	public static String appendNameEmailForInstructors() {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_APPEND_NAME_EMAIL_FOR_INSTRUCTORS);
+		String status = makePOSTRequest(params);
+		return status;
+	}
+	//====================================================================================
+	
+	@SuppressWarnings("unused")
+	private void ____ACCOUNT_level_methods______________________________() {
+	}
+	
+	public static String createAccount(AccountData account) {
+		DataBundle dataBundle = new DataBundle();
+		dataBundle.accounts.put(account.googleId, account);
+		return persistNewDataBundle(Common.getTeammatesGson()
+				.toJson(dataBundle));
+	}
+	
 	@SuppressWarnings("unused")
 	private void ____INSTRUCTOR_level_methods______________________________() {
 	}
 
 	public static String createInstructor(InstructorData instructor) {
 		DataBundle dataBundle = new DataBundle();
-		dataBundle.instructors.put(instructor.id, instructor);
+		dataBundle.instructors.put(instructor.googleId, instructor);
 		return persistNewDataBundle(Common.getTeammatesGson()
 				.toJson(dataBundle));
 	}
 
-	public static String getInstructorAsJson(String instructorId) {
+	public static String getInstructorAsJson(String instructorId, String courseId) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_INSTRUCTOR_AS_JSON);
 		params.put(BackDoorServlet.PARAMETER_INSTRUCTOR_ID, instructorId);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
 		String instructorJsonString = makePOSTRequest(params);
 		return instructorJsonString;
 	}
@@ -113,16 +175,7 @@ public class BackDoor {
 	}
 	
 
-	public static void cleanupInstructor(String instructorId)
-			throws EntityDoesNotExistException {
-		InstructorData instructor = Common.getTeammatesGson().fromJson(
-				getInstructorAsJson(instructorId), InstructorData.class);
-		if (instructor == null)
-			throw new EntityDoesNotExistException(
-					"Instructor does not exist : " + instructorId);
-		deleteInstructor(instructorId);
-		createInstructor(instructor);
-	}
+	
 
 	public static String[] getCoursesByInstructorId(String instructorId) {
 
@@ -353,5 +406,4 @@ public class BackDoor {
 		String data = dataStringBuilder.toString();
 		return data;
 	}
-
 }

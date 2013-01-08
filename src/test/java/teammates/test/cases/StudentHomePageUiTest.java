@@ -24,14 +24,16 @@ public class StudentHomePageUiTest extends BaseTestCase {
 	private static Boolean helpWindowClosed;
 	
 	private static String appURL = TestProperties.inst().TEAMMATES_URL;
-
+	private static String jsonString;
+	
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
 		
 		startRecordingTimeForDataImport();
-		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/StudentHomeUiTest.json");
+		jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/StudentHomeUiTest.json");
 		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+		BackDoor.deleteCourses(jsonString);
 		BackDoor.deleteInstructors(jsonString);
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
@@ -51,6 +53,9 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		}
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
+
+		// Always cleanup
+		BackDoor.deleteCourses(jsonString);
 	}
 	
 	@Before
@@ -59,6 +64,8 @@ public class StudentHomePageUiTest extends BaseTestCase {
 			bi.closeSelectedWindow();
 			helpWindowClosed = true;
 		}
+		
+		BackDoor.deleteCourses(jsonString);
 	}
 
 	@Test	

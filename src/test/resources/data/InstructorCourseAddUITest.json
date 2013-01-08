@@ -1,5 +1,32 @@
 {
-  "instructor": {"id": "teammates.demo.instructor", "name":"Teammates Demo Instructor", "email":"teammates.demo.instructor@gmail.com"},
+  "account": {
+  	"googleId": "teammates.demo.instructor",
+  	"name":	"Teammates Demo Instr",
+  	"email": "teammates.demo.instructor@gmail.com",
+  	"isInstructor": true,
+  	"institute": "National University of Singapore"
+  },
+
+  "instructor": {
+  	"instructor1": { 
+      "googleId": "teammates.demo.instructor", 
+      "courseId":"CCAddUiTest.course1",
+      "name": "Teammates Demo Instr",
+      "email": "teammates.demo.instructor@gmail.com"
+    },
+    "instructor2": { 
+      "googleId": "teammates.demo.instructor", 
+      "courseId":"CCAddUiTest.CS1101",
+      "name": "Teammates Demo Instr",
+      "email": "teammates.demo.instructor@gmail.com"
+    },
+    "instructor3": { 
+      "googleId": "teammates.demo.instructor", 
+      "courseId":"CCAddUiTest.CS2104",
+      "name": "Teammates Demo Instr",
+      "email": "teammates.demo.instructor@gmail.com"
+    }
+  },
   
   "validCourse": {
     "id": "CCAddUiTest.course1",
