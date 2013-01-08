@@ -12,6 +12,7 @@ import org.junit.runners.Suite;
 		InstructorCourseAddPageUiTest.class,
 		InstructorCourseEnrollPageUiTest.class,
 		InstructorCourseDetailsPageUiTest.class,
+		InstructorCourseEditPageUiTest.class,
 		InstructorCourseStudentDetailsPageUiTest.class,
 		
 		InstructorEvalPageUiTest.class,

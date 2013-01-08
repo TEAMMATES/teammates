@@ -40,6 +40,7 @@ public class HtmlHelper {
 		
 		html1 = preProcessHtml(html1);
 		html2 = preProcessHtml(html2);
+		System.out.println(html2);
 		
 		Node page1 = getNodeFromString(html1);
 		Node page2 = getNodeFromString(html2);

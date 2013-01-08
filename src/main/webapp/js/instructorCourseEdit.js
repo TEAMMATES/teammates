@@ -13,18 +13,18 @@ var COURSE_STATUS_INSTRUCTOR_LIST_EMAIL_INVALID = 11;
 
 function verifyInstructorList() {
 	var instructorList = $("#" + COURSE_INSTRUCTOR_LIST).val();
-
+	if(instructorList.trim() == ""){
+		setStatusMessage(DISPLAY_COURSE_INSTRUCTOR_LIST_EMPTY, true);
+		return false;
+	}
+	
 	// client-side validation
 	var confirmation = true;
 	if (!checkInstructorWithinInstructorList($("#" + COURSE_INSTRUCTOR_ID).val(), instructorList)){
 		confirmation = confirm(MESSAGE_INSTRUCTOR_NOT_WHTHIN_INSTRUCTOR_LIST);
 	}
 	
-	if (confirmation){
-		if(instructorList.trim() == ""){
-			setStatusMessage(DISPLAY_COURSE_INSTRUCTOR_LIST_EMPTY, true);
-			return false;
-		}
+	if (confirmation){		
 		var statusCode = isCourseInstructorListValid(instructorList);
 		if(statusCode != COURSE_STATUS_VALID_INPUT) {
 			setStatusMessage(courseStatusToMessage(statusCode),true);
@@ -68,9 +68,9 @@ function isCourseInstructorListValid(input) {
 				return COURSE_STATUS_INSTRUCTOR_LIST_FIELDS_MISSING;
 			} else if(fieldsLength>3){
 				return COURSE_STATUS_INSTRUCTOR_LIST_FIELDS_EXTRA;
-			} else if (!isStudentNameValid(fields[1].trim())) {
+			} else if (!isNameValid(fields[1].trim())) {
 				return COURSE_STATUS_INSTRUCTOR_LIST_NAME_INVALID;
-			} else if (!isStudentEmailValid(fields[2].trim())) {
+			} else if (!isEmailValid(fields[2].trim())) {
 				return COURSE_STATUS_INSTRUCTOR_LIST_EMAIL_INVALID;
 			}
 		}
