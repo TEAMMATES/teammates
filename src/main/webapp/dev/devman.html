@@ -59,7 +59,7 @@
 			<li><a href="#settingup-troubleshooting">Troubleshooting</a></li>
 		</ul>
 
-		<li><a href="process">Process</a></li>
+		<li><a href="#process">Process</a></li>
 		<ul>
 			<li><a href="#process-roles">Roles</a></li>
 			<li><a href="#process-workflow">Workflow</a></li>
@@ -1003,7 +1003,10 @@
 			latest stable version. <br>If you are on Mac OS, you can install
 			<a href="http://mercurial.selenic.com/">Mercurial (Commandline
 				version)</a> or a Hg GUI such as <a
-			href="http://jasonfharris.com/machg/">MacHg</a>.
+			href="http://jasonfharris.com/machg/">MacHg</a>.<br> Configure
+			the user name in Hg global settings. The recommended format is <span
+			class="code">Full name &lt;email&gt;</span> e.g. <span class="code">John
+				Mayor &lt;john.m@gmail.com&gt; </span>
 		</li>
 		<li>Download <i>Eclipse IDE for Java EE Developers</i> (version:
 			Juno) from <a href="http://www.eclipse.org/downloads/">http://www.eclipse.org/downloads/
@@ -1027,11 +1030,6 @@
 			href="https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/">here</a>
 			{The web driver for later Firefox is significantly slower than the
 			one used for FF12}
-		</li>
-		<li>If your java version is later than 1.6, set Eclipse Java
-			compliance level to 1.6 (GAE plugin does not support versions higher
-			than 1.6).<br> Windows → Preferences → Java → Compiler → Set
-			compliance level → 1.6
 		</li>
 	</ul>
 
@@ -1330,20 +1328,24 @@
 		</span>
 		</li>
 		<br>
-		<li>Fix the issue. <br> <br> Format of the commit
-			comment : <br>
+		<li>Fix the issue. <br> Select the code segments you
+			modified and apply the code formatting function of Eclipse (Sourse
+			--> Format). This is to ensure that the code is properly formatted.<br>
+			<br> Format of the commit comment : <br>
 			<ol type="a">
-				<li>The first line should be in the format <span class="code">Starting
-						Issue nnn [Issue title]</span> OR <span class="code">Continuing
-						Issue nnn [Issue title] </span> depending on whether it is the first
-					commit of the branch.<br>This helps to locate the start of the
-					branch easily (this is useful when reviewing code) and identify what the
-					issue is about without having to refer to issue tracker.
+				<li>The first line should be in the format: <br>
+				<span class="code">Starting Issue nnn [Issue title as given
+						in issue tracker]</span> <br>OR<br> <span class="code">Continuing
+						Issue nnn [Issue title as given in issue tracker] </span> <br>depending
+					on whether it is the first commit of the branch.<br>This helps
+					to locate the start of the branch easily (this is useful when
+					reviewing code) and identify what the issue is about without having
+					to refer to issue tracker.
 				</li>
 				<li>The 2nd line should be <span class="code">Update
-						Issue nnn</span></li> This line tells Google Code to automatically update
-				the corresponding issue in the Issue tracker with a link to the 
-				revision being committed.
+						Issue nnn</span></li> This line tells Google Code to automatically update the
+				corresponding issue in the Issue tracker with a link to the revision
+				being committed. Do not put a fullstop at the end of this line.
 				<li>The Remaining lines can be used to describe the changes you
 					are committing. These lines too will be added to the Issue tracker.</li>
 				<li>Here’s a sample commit message:<br> <span class="code">
@@ -1392,20 +1394,23 @@
 	</ol>
 	<br> Role: Contributor
 	<br>
-	<br> A contributor will work closely with a developer from the
-	project team, who will act as the mentor for the contributor. The
-	workflow is similar to that of developer (given above) except for the
-	following.
+	<br> A contributor will work closely with a developer from the project
+	team, who will act as the mentor for the contributor. The workflow is
+	similar to that of developer (given above) except for the following.
 	<ul>
-		<li>You will not have permission to push to review repo. Go to
-			review repo, create <a
+		<li>You will not have permission to push to <a
+			href="http://code.google.com/p/teammatespes/source/checkout">review
+				repo</a>. Go to review repo, create <a
 			href="http://googlecode.blogspot.sg/2009/10/mercurial-server-side-clone-support-for.html">a
 				server-side clone</a>, and push to that instead. Once the Issue is <span
 			class="code">ReadyToMerge</span>, project lead will pull the branch
 			to the review repo.<br> Recommended name for the clone is <span
 			class="code">{your name}-teammates</span>. e.g., <span class="code">john-teammates</span>
-			<br> Remember to enable 'non-member code reviews' in your clone
-			(Administer --> Source --> check 'Allow non-members to review code').
+			<br> Remember to include your full name under the 'Clone
+			summary' field. This is because sometimes the clone name is not
+			enough to identify the clone owner. <br>Remember to enable
+			'non-member code reviews' in your clone (Administer --> Source -->
+			check 'Allow non-members to review code').
 		</li>
 		<li>For help or clarifications, email your mentor or post in the
 			<a
