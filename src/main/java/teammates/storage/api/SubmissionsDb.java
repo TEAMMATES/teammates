@@ -147,7 +147,7 @@ public class SubmissionsDb {
 		if (s == null) {
 			log.warning("Trying to get non-existent Submission : " + courseId
 					+ "/" + evaluationName + "| from " + fromStudent + " to "
-					+ toStudent + Common.getCurrentThreadStack());
+					+ toStudent);
 			return null;
 		}
 

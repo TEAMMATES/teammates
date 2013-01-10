@@ -49,9 +49,7 @@ public class EvaluationsDb {
 		if (getEvaluationEntity(evaluationToAdd.course, evaluationToAdd.name) != null) {
 			String error = ERROR_CREATE_EVALUATION_ALREADY_EXISTS
 					+ evaluationToAdd.course + " | " + evaluationToAdd.name;
-
-			log.warning(error + "\n" + Common.getCurrentThreadStack());
-
+			log.warning(error);
 			throw new EntityAlreadyExistsException(error);
 		}
 
@@ -97,8 +95,7 @@ public class EvaluationsDb {
 		Evaluation e = getEvaluationEntity(courseId, name);
 
 		if (e == null) {
-			log.warning("Trying to get non-existent Evaluation : " + courseId
-					+ "/" + name + Common.getCurrentThreadStack());
+			log.warning("Trying to get non-existent Evaluation : " + courseId);
 			return null;
 		}
 

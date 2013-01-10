@@ -50,8 +50,6 @@ public class AccountsDb {
 	 * 
 	 * Creates an Account which is to be referenced by Instructor or Student
 	 * 
-	 * [Can an Account be neither student nor instructor?]
-	 * 
 	 * @param accountToAdd
 	 */
 	public void createAccount(AccountData accountToAdd) {
@@ -115,9 +113,7 @@ public class AccountsDb {
 		if (getInstructorEntity(instructorToAdd.googleId, instructorToAdd.courseId) != null) {
 			String error = ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS
 					+ instructorToAdd.googleId + ", " + instructorToAdd.courseId;
-
-			log.warning(error + "\n" + Common.getCurrentThreadStack());
-
+			log.warning(error);
 			throw new EntityAlreadyExistsException(error);
 		}
 
@@ -159,9 +155,7 @@ public class AccountsDb {
 		if (getStudentEntity(studentToAdd.course, studentToAdd.email) != null) {
 			String error = ERROR_CREATE_STUDENT_ALREADY_EXISTS
 					+ studentToAdd.course + "/" + studentToAdd.email;
-
-			log.warning(error + "\n" + Common.getCurrentThreadStack());
-
+			log.warning(error);
 			throw new EntityAlreadyExistsException(error);
 		}
 
@@ -359,8 +353,7 @@ public class AccountsDb {
 		Account a = getAccountEntity(googleId);
 
 		if (a == null) {
-			log.warning("Trying to get non-existent Account: " + googleId
-					+ Common.getCurrentThreadStack());
+			log.warning("Trying to get non-existent Account: " + googleId);
 			return null;
 		}
 
@@ -385,8 +378,7 @@ public class AccountsDb {
 		Instructor c = getInstructorEntity(googleId, courseId);
 
 		if (c == null) {
-			log.warning("Trying to get non-existent Instructor: " + googleId
-					+ Common.getCurrentThreadStack());
+			log.warning("Trying to get non-existent Instructor: " + googleId);
 			return null;
 		}
 
@@ -412,8 +404,7 @@ public class AccountsDb {
 		Student s = getStudentEntity(courseId, email);
 
 		if (s == null) {
-			log.warning("Trying to get non-existent Student: " + courseId + "/"
-					+ email + Common.getCurrentThreadStack());
+			log.warning("Trying to get non-existent Student: " + courseId + "/" + email);
 			return null;
 		}
 
@@ -793,7 +784,7 @@ public class AccountsDb {
 	/**
 	 * DELETE List<Student>
 	 * 
-	 * Delete all relations for this INSTRUCTOR
+	 * Delete all relations for this STUDENT
 	 * 
 	 * @param googleId
 	 */
@@ -825,9 +816,6 @@ public class AccountsDb {
 		@SuppressWarnings("unchecked")
 		List<Student> studentList = (List<Student>) getPM().newQuery(query)
 				.execute();
-
-		log.info("Deleting " + studentList.size()
-				+ " students from the course " + courseId);
 
 		getPM().deletePersistentAll(studentList);
 		getPM().flush();
@@ -1001,6 +989,7 @@ public class AccountsDb {
 		return instructorList;
 	}
 
+	// TODO: Shift to new Migration servlet
 	public void persistInstructorsFromCourses(List<InstructorData> instructorsToAdd) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, instructorsToAdd);
 		
