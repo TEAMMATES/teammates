@@ -53,6 +53,7 @@ public class Logic {
 	public static final String ERROR_NULL_PARAMETER = "The supplied parameter was null\n";
 	public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update non-existent Course: ";
 	public static final String ERROR_NO_INSTRUCTOR_LINES = "Course must have at lease one instructor\n";
+	public static final String ERROR_COURSE_CREATOR_NO_ACCOUNT = "An instructor with no ACCOUNT was able to create a course\n";
 
 	@SuppressWarnings("unused")
 	private void ____USER_level_methods__________________________________() {
@@ -677,6 +678,7 @@ public class Logic {
 		// Otherwise, createCourse() method will have to take in 2 extra parameters for them which is not a good idea
 		if (!instructorId.equals(CourseData.INSTRUCTOR_FIELD_DEPRECATED)) {
 			AccountData courseCreator = AccountsLogic.inst().getDb().getAccount(instructorId);
+			Assumption.assertNotNull(ERROR_COURSE_CREATOR_NO_ACCOUNT + Common.getCurrentThreadStack(), courseCreator);
 			AccountsLogic
 					.inst()
 					.getDb()

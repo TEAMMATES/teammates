@@ -2355,57 +2355,6 @@ public class LogicTest extends BaseTestCase {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
 	}
-	
-	//@Test
-	public void testJoinCourseDoesNotRemoveInstructorStatus() throws EntityAlreadyExistsException {
-		// 1. Added as student, made instructor later
-		// Create student - need to join
-		StudentData studentAndInstructor_student = new StudentData();
-		studentAndInstructor_student.id = "student.instructor.id";
-		studentAndInstructor_student.name = "Student Instructor";
-		studentAndInstructor_student.email = "student@instructor.com";
-		studentAndInstructor_student.course = "student.of.this.course";
-		AccountsLogic.inst().getDb().createStudent(studentAndInstructor_student);
-		AccountData accountCheck = AccountsLogic.inst().getDb().getAccount(studentAndInstructor_student.id);
-		assertFalse(accountCheck.isInstructor); // Not an instructor yet
-		// Create instructor
-		InstructorData studentAndInstructor_instructor = new InstructorData();
-		studentAndInstructor_instructor.googleId = studentAndInstructor_student.id;
-		studentAndInstructor_instructor.courseId = "instructor.of.this.course";
-		studentAndInstructor_instructor.name = studentAndInstructor_student.name;
-		studentAndInstructor_instructor.email = studentAndInstructor_student.email;
-		AccountsLogic.inst().getDb().createInstructor(studentAndInstructor_instructor);
-		accountCheck = AccountsLogic.inst().getDb().getAccount(studentAndInstructor_student.id);
-		assertTrue(accountCheck.isInstructor); // Account is made an instructor
-		
-		// 2. Added as instructor, made student later
-		// Create instructor
-		InstructorData instructorAndStudent_instructor = new InstructorData();
-		instructorAndStudent_instructor.googleId = "instructor.student.id";
-		instructorAndStudent_instructor.courseId = "instructor.of.this.course";
-		instructorAndStudent_instructor.name = "Instructor Student";
-		instructorAndStudent_instructor.email = "instructor@student.com";
-		AccountsLogic.inst().getDb().createInstructor(studentAndInstructor_instructor);
-		accountCheck = AccountsLogic.inst().getDb().getAccount(studentAndInstructor_student.id);
-		assertTrue(accountCheck.isInstructor); // Made instructor first
-		// Create student
-		StudentData instructorAndStudent_student = new StudentData();
-		instructorAndStudent_student.id = instructorAndStudent_instructor.googleId;
-		instructorAndStudent_student.name = instructorAndStudent_instructor.name;
-		instructorAndStudent_student.email = instructorAndStudent_instructor.email;
-		instructorAndStudent_student.course = "student.of.this.course";
-		AccountsLogic.inst().getDb().createStudent(studentAndInstructor_student);
-		accountCheck = AccountsLogic.inst().getDb().getAccount(studentAndInstructor_student.id);
-		assertTrue(accountCheck.isInstructor); // Must still remain an instructor!
-		
-		// Cleanup
-		logic.deleteAccount(instructorAndStudent_instructor.googleId);
-		logic.deleteAccount(studentAndInstructor_instructor.googleId);
-		logic.deleteStudent(instructorAndStudent_student.course, instructorAndStudent_student.email);
-		logic.deleteStudent(studentAndInstructor_student.course, instructorAndStudent_student.email);
-		logic.deleteInstructor(instructorAndStudent_instructor.googleId);
-		logic.deleteInstructor(studentAndInstructor_instructor.googleId);
-	}
 
 	@Test
 	public void testHasStudentSubmittedEvaluation() throws Exception {

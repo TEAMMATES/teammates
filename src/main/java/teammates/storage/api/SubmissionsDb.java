@@ -49,7 +49,7 @@ public class SubmissionsDb {
 					+ submissionToAdd.reviewee + ", fromStudent: "
 					+ submissionToAdd.reviewer;
 			
-			log.warning(error + "\n" + Common.getCurrentThreadStack());
+			log.warning(error);
 
 			throw new EntityAlreadyExistsException(error);
 		}
@@ -147,7 +147,7 @@ public class SubmissionsDb {
 		if (s == null) {
 			log.warning("Trying to get non-existent Submission : " + courseId
 					+ "/" + evaluationName + "| from " + fromStudent + " to "
-					+ toStudent + Common.getCurrentThreadStack());
+					+ toStudent);
 			return null;
 		}
 
