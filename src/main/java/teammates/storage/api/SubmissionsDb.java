@@ -49,7 +49,7 @@ public class SubmissionsDb {
 					+ submissionToAdd.reviewee + ", fromStudent: "
 					+ submissionToAdd.reviewer;
 			
-			log.warning(error + "\n" + Common.getCurrentThreadStack());
+			log.warning(error);
 
 			throw new EntityAlreadyExistsException(error);
 		}
