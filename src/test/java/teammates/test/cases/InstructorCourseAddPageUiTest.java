@@ -41,6 +41,8 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		BackDoor.deleteCourse(ts.validCourse.id);
 		BackDoor.deleteCourse(ts.CS1101.id);
 		BackDoor.deleteCourse(ts.CS2104.id);
+		BackDoor.deleteCourse("MultipleInstructorsCourse");
+		BackDoor.deleteCourse("OmitInstructor");
 		for (InstructorData id : ts.instructor.values()) {
 			BackDoor.deleteInstructor(id.googleId);
 		}
@@ -54,7 +56,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_INSTRUCTOR_COURSE;
 		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.get("instructor1").googleId);
-		bi.goToUrl(link);
+		bi.goToUrl(link);		
 	}
 
 
@@ -146,7 +148,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		start = System.currentTimeMillis();
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseAddDupIdFailed.html");
 		print("Time to assert page: "+(System.currentTimeMillis()-start)+" ms");
-		
+
 		______TS("testInstructoraddCourseWithMultipleInstructors");
 		
 		String instructorList = bi.getElementText(bi.instructorCourseInputInstructorList);
@@ -164,9 +166,23 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		//Go to course details page for testing
 		bi.goToUrl(newLink);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsMultipleInstructors.html");
+		bi.goToUrl(link);
+				
+		______TS("test verification for omit logged in instructor");
+		bi.goToUrl(link);
+		bi.fillString(bi.instructorCourseInputInstructorList, instructor2.googleId + "|" + instructor2.name + "|" + instructor2.email);
+		bi.fillString(bi.instructorCourseInputCourseID, "OmitInstructor");
+		bi.fillString(bi.instructorCourseInputCourseName, "Omit Instructor");
+		bi.clickAndConfirm(bi.instructorCourseAddButton);
 		
-		//Go back to course page
+		newLink = appUrl+Common.PAGE_INSTRUCTOR_COURSE_DETAILS;
+		newLink = Common.addParamToUrl(newLink,Common.PARAM_USER_ID,ts.instructor.get("instructor2").googleId);
+		newLink = Common.addParamToUrl(newLink,Common.PARAM_COURSE_ID,"OmitInstructor");
+		bi.goToUrl(newLink);
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsVerifyInstructorList.html");
+		
 		BackDoor.deleteCourse("MultipleInstructorsCourse");
+		BackDoor.deleteCourse("OmitInstructor");
 		bi.goToUrl(link);
 		
 	}

@@ -39,11 +39,8 @@ public class CoursesDb {
 		
 		// Check if entity already exists
 		if (getCourseEntity(courseToAdd.id) != null) {
-			String error = ERROR_CREATE_COURSE_ALREADY_EXISTS
-					+ courseToAdd.id;
-
-			log.warning(error + "\n" + Common.getCurrentThreadStack());
-
+			String error = ERROR_CREATE_COURSE_ALREADY_EXISTS + courseToAdd.id;
+			log.warning(error);
 			throw new EntityAlreadyExistsException(error);
 		}
 
@@ -81,8 +78,7 @@ public class CoursesDb {
 		Course c = getCourseEntity(courseId);
 
 		if (c == null) {
-			log.warning("Trying to get non-existent Course: " + courseId
-					+ Common.getCurrentThreadStack());
+			log.warning("Trying to get non-existent Course: " + courseId);
 			return null;
 		}
 
