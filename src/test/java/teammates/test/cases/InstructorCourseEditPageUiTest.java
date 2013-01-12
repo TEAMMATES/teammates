@@ -63,21 +63,18 @@ public class InstructorCourseEditPageUiTest extends BaseTestCase {
 		String courseDetailsLink;
 		
 		String originalInformation = bi.getElementValue(bi.instructorCourseInputInstructorList);
+		______TS("test course edit page");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseEdit.html");
 		
 		______TS("test empty instructor list");
 		bi.fillString(bi.instructorCourseInputInstructorList, "");
 		bi.click(submitButton);
 		bi.waitForStatusMessage("You must add at least 1 instructor in the course.");
 		
-		______TS("test invalid info(invalid email)");
+		______TS("test invalid info");
 		bi.fillString(bi.instructorCourseInputInstructorList, originalInformation + "GoogleID|NAME|InvalidEmail\n");
 		bi.click(submitButton);
 		bi.waitForStatusMessage("The e-mail address is invalid.");
-		
-		______TS("test invalid info(invalid name)");
-		bi.fillString(bi.instructorCourseInputInstructorList, originalInformation + "GoogleID|Invalid! Name|email@email.com\n");
-		bi.click(submitButton);
-		bi.waitForStatusMessage("Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, commas, slashes, round brackets\nand not more than 40 characters.");
 			
 		______TS("test add new instructor");
 		bi.fillString(bi.instructorCourseInputInstructorList, originalInformation + "teammates.instructor|Teammates Instructor|teammates.instructor@gmail.com");
