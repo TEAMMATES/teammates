@@ -46,17 +46,13 @@ public class HtmlHelper {
 		eliminateEmptyTextNodes(page1);
 		eliminateEmptyTextNodes(page2);
 		
-		StringBuilder annotatedHtml= new StringBuilder();
-		annotatedHtml.append("\n\n");
-		boolean isLogicalMatch = compare(page1, page2, "  ", annotatedHtml);
-		annotatedHtml.append("\n\n");
+		StringBuilder expectedHTML= new StringBuilder();
+		StringBuilder actualHTML = new StringBuilder();
+		boolean isLogicalMatch = compare(page1, page2, "  ", expectedHTML, actualHTML);
 		if(!isLogicalMatch){
 			//If they are not a logical match, we force a literal comparison
 			//   just so that JUnit gives us a side-by-side comparison.
-			//But before that, we remove the noscript tag for ease of comparison.
-			html1 = html1.replaceAll("(?s)<noscript>.*</noscript>", "");
-			html2 = html2.replaceAll("(?s)<noscript>.*</noscript>", "");
-			assertEquals(annotatedHtml.toString(), html1, html2);		
+			assertEquals("Error: DOM Checker failed. There are difference(s) in the webpage.", expectedHTML.toString(), actualHTML.toString());		
 		}
 		return isLogicalMatch;
 	}
@@ -66,6 +62,7 @@ public class HtmlHelper {
 		htmlString = htmlString.replaceFirst("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>");	
 		htmlString = htmlString.replaceAll("height=\"([0-9]+)\"", "height=\"$1px\"");
 		htmlString = htmlString.replaceAll("width=\"([0-9]+)\"", "width=\"$1px\"");
+		htmlString = htmlString.replaceAll("(?s)<noscript>.*</noscript>", "");
 		if (!htmlString.contains("<!DOCTYPE")){
 			htmlString = "<!DOCTYPE html>\n" + htmlString;
 		}
@@ -113,23 +110,52 @@ public class HtmlHelper {
 		return s;
 	}
 	
-	public static boolean compare(Node actual, Node expected, String indentation, StringBuilder output){
+	public static boolean compare(Node actual, Node expected, String indentation, StringBuilder expectedOutput, StringBuilder actualOutput){
+		//Building the HTML string
+		if(expected.getNodeType() == Node.TEXT_NODE){
+			expectedOutput.append(indentation + expected.getNodeValue() + "\n");
+		}
+		if (expected.getNodeType() != Node.TEXT_NODE){
+			expectedOutput.append(indentation + "<" + expected.getNodeName() + ">   ");
+		}
+		if(actual.getNodeType() == Node.TEXT_NODE){
+			actualOutput.append(indentation + actual.getNodeValue() + "\n");
+		}
+		if (actual.getNodeType() != Node.TEXT_NODE){
+			actualOutput.append(indentation + "<" + actual.getNodeName() + ">   ");
+		}
+		
+		
 		Node debugNode = actual.cloneNode(false);
 		if (expected.getNodeType() == Node.ELEMENT_NODE){
 			if(actual.getNodeType() != Node.ELEMENT_NODE){
-				output.append("Element: " + printHtmlFromNode(debugNode));
-				output.append("Error: Supposed to have element node but given " + actual.getNodeName() + "\n");
+				actualOutput.append("Element: " + printHtmlFromNode(debugNode));
+				actualOutput.append("Error: Supposed to have element node but given " + actual.getNodeName() + "\n");
 				return false;
 			}
 			if(!actual.getNodeName().equals(expected.getNodeName())){
-				output.append("Element: " + printHtmlFromNode(debugNode));
-				output.append("Error: Supposed to have " + expected.getNodeName() + " tag but given " + actual.getNodeName() + " tag instead\n");
+				actualOutput.append("Element: " + printHtmlFromNode(debugNode));
+				actualOutput.append("Error: Supposed to have " + expected.getNodeName() + " tag but given " + actual.getNodeName() + " tag instead\n");
 				return false;
 			}
 			
 			NamedNodeMap actualAttributeList = actual.getAttributes();
 			NamedNodeMap expectedAttributeList = expected.getAttributes();
 			boolean dhtmltooltipIgnore = false;
+			
+			//Building HTML string
+			for (int i = 0; i < expectedAttributeList.getLength(); i++){
+				Node expectedAttribute = expectedAttributeList.item(i);
+				expectedOutput.append(expectedAttribute.getNodeName() + "=\"" + expectedAttribute.getNodeValue() + "\" ");
+			}
+			expectedOutput.append("\n");
+			for (int i = 0; i < actualAttributeList.getLength(); i++){
+				Node actualAttribute = actualAttributeList.item(i);
+				actualOutput.append(actualAttribute.getNodeName() + "=\"" + actualAttribute.getNodeValue() + "\" ");
+			}
+			actualOutput.append("\n");
+			
+			
 			for (int i = 0; i < expectedAttributeList.getLength(); i++){
 				Node expectedAttribute = expectedAttributeList.item(i);
 				Node actualAttribute = null;				
@@ -144,38 +170,39 @@ public class HtmlHelper {
 					if(dhtmltooltipIgnore && expectedAttribute.getNodeName().equals("style")){						
 						return true;
 					}
-					output.append("Element: " + printHtmlFromNode(debugNode));
-					output.append("Error: Unable to find attribute: " + expectedAttribute.getNodeName() + "\n");
+					actualOutput.append("Element: " + printHtmlFromNode(debugNode));
+					actualOutput.append("Error: Unable to find attribute: " + expectedAttribute.getNodeName() + "\n");
 					return false;
 				}
 				if (actualAttribute.getNodeValue().trim().equals("{*}")){
 					//Regex should pass
 				} else if (!actualAttribute.getNodeValue().equals(expectedAttribute.getNodeValue())){
-					output.append("Element: " + printHtmlFromNode(debugNode));
-					output.append("Error: attribute " + expectedAttribute.getNodeName() + " has value \"" + actualAttribute.getNodeValue() + "\" instead of \"" + expectedAttribute.getNodeValue() + "\"\n");
+					actualOutput.append("Element: " + printHtmlFromNode(debugNode));
+					actualOutput.append("Error: attribute " + expectedAttribute.getNodeName() + " has value \"" + actualAttribute.getNodeValue() + "\" instead of \"" + expectedAttribute.getNodeValue() + "\"\n");
 					return false;
 				}								
 			}
 			if(actualAttributeList.getLength() > 0){
-				output.append("Element: " + printHtmlFromNode(debugNode));
-				output.append("Error: there are extra attributes in the element tag ");
+				actualOutput.append("Element: " + printHtmlFromNode(debugNode));
+				actualOutput.append("Error: there are extra attributes in the element tag ");
 				for (int i = 0; i < actualAttributeList.getLength(); i++){
 					Node actualAttribute = actualAttributeList.item(i);
-					output.append("[" + actualAttribute.getNodeName() + ": " + actualAttribute.getNodeValue() + "] ");
+					actualOutput.append("[" + actualAttribute.getNodeName() + ": " + actualAttribute.getNodeValue() + "] ");
 				}
 				return false;
 			}
+				
 			
 		} else if (expected.getNodeType() == Node.TEXT_NODE){
 			if(actual.getNodeType() != Node.TEXT_NODE){
-				output.append("Element: " + printHtmlFromNode(debugNode));
-				output.append(indentation + "Error: Supposed to have text node but given " + actual.getNodeName() + "\n");
+				actualOutput.append("Element: " + printHtmlFromNode(debugNode));
+				actualOutput.append(indentation + "Error: Supposed to have text node but given " + actual.getNodeName() + "\n");
 				return false;
 			} else if (actual.getNodeValue().trim().equals("{*}")){
 				//Regex should pass
 			} else if(!actual.getNodeValue().trim().equals(expected.getNodeValue().trim())){
-				output.append("Element: " + printHtmlFromNode(debugNode));
-				output.append(indentation + "Error: Supposed to have value \"" + expected.getNodeValue() + "\" but given \"" + actual.getNodeValue() + "\" instead\n");
+				actualOutput.append("Element: " + printHtmlFromNode(debugNode));
+				actualOutput.append(indentation + "Error: Supposed to have value \"" + expected.getNodeValue() + "\" but given \"" + actual.getNodeValue() + "\" instead\n");
 				return false;
 			}	
 		}
@@ -184,29 +211,36 @@ public class HtmlHelper {
 			NodeList actualChildNodes = actual.getChildNodes();
 			NodeList expectedChildNodes = expected.getChildNodes();
 			if (actualChildNodes.getLength() != expectedChildNodes.getLength()){
-				output.append(indentation + "Error: Parse tree structure is different\n");
-				output.append(indentation + "Actual webpage - Parent Element: " + printHtmlFromNode(debugNode));
-				output.append(indentation + "Actual webpage - child Elements: ");
+				actualOutput.append(indentation + "Error: Parse tree structure is different\n");
+				actualOutput.append(indentation + "Actual webpage - Parent Element: " + printHtmlFromNode(debugNode));
+				actualOutput.append(indentation + "Actual webpage - child Elements: ");
 				for (int i = 0; i < actualChildNodes.getLength(); i++){
-					output.append(actualChildNodes.item(i).getNodeName() + " ");
+					actualOutput.append(actualChildNodes.item(i).getNodeName() + " ");
 				}
-				output.append("\n");
-				output.append(indentation + "Expected webpage - Parent Element: " + printHtmlFromNode(expected));
-				output.append(indentation + "Expected webpage - child Elements: ");
+				actualOutput.append("\n");
+				actualOutput.append(indentation + "Expected webpage - Parent Element: " + printHtmlFromNode(expected));
+				actualOutput.append(indentation + "Expected webpage - child Elements: ");
 				for (int i = 0; i < expectedChildNodes.getLength(); i++){
-					output.append(expectedChildNodes.item(i).getNodeName() + " ");
+					actualOutput.append(expectedChildNodes.item(i).getNodeName() + " ");
 				}
-				output.append("\n");
+				actualOutput.append("\n");
 				return false;
 			} else {
 				for (int i = 0; i < actualChildNodes.getLength(); i++){
-					if(!compare(actualChildNodes.item(i), expectedChildNodes.item(i), indentation + "   ", output)){
+					if(!compare(actualChildNodes.item(i), expectedChildNodes.item(i), indentation + "   ", expectedOutput, actualOutput)){
 						return false;
 					}
 				}
 			}
 		}
 		
+		//Building HTML string
+		if (expected.getNodeType() != Node.TEXT_NODE){
+			expectedOutput.append(indentation + "</" + expected.getNodeName() + ">\n");
+		}
+		if (actual.getNodeType() != Node.TEXT_NODE){
+			actualOutput.append(indentation + "</" + actual.getNodeName() + ">\n");
+		}
 	
 		return true;
 	}
