@@ -1,7 +1,7 @@
 
 module('instructorCourse.js');
 
-test('verifyAddCourse()', function(){
+test('verifyCourseData()', function(){
 	// 'The method has only two paths and both are tested by UI tests
 	expect(0);
 });
@@ -18,7 +18,7 @@ test('courseStatusToMessage(statusCode)', function(){
 
 test('checkAddCourseParam(courseID, courseName, instructorList)', function(){
 	equal(checkAddCourseParam("", "Software Engineering", "googid|Instructor1|I1@gmail.com"), COURSE_STATUS_EMPTY, "Course Status Empty");
-	equal(checkAddCourseParam("CS2103", "", "googid|Instructor1|I1@gmail.com\ngoogid2|Instructor2|I2@gmail.com\ngoogid3|Instructor3|I3@gmail.com"), COURSE_STATUS_EMPTY, "Course Status Empty");	
+	equal(checkAddCourseParam("CS2103", "", "googid\tInstructor1\tI1@gmail.com\ngoogid2\tInstructor2\tI2@gmail.com\ngoogid3\tInstructor3\tI3@gmail.com"), COURSE_STATUS_EMPTY, "Course Status Empty");	
 	equal(checkAddCourseParam(generateRandomString(COURSE_ID_MAX_LENGTH + 1), "Sofrware Engineering", "googid|Instructor1|I1@gmail.com"), COURSE_STATUS_LONG_ID, "Course Status Long ID");
 	equal(checkAddCourseParam("CS2103", generateRandomString(COURSE_NAME_MAX_LENGTH + 1), "googid|Instructor1|I1@gmail.com"), COURSE_STATUS_LONG_NAME, "Course Status Long Name");	
 	equal(checkAddCourseParam("CS2103", "Software Engineering", ""), COURSE_STATUS_INSTRUCTOR_LIST_EMPTY, "Course Instructor List Empty");

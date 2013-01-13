@@ -16,14 +16,18 @@ var COURSE_STATUS_INSTRUCTOR_LIST_EMAIL_INVALID = 11;
  * Do pre-processing on the user's input, and then return the validation result.
  * @returns {Boolean}
  */
-function verifyAddCourse() {
+function verifyCourseData() {
 	var courseID = $("#"+COURSE_ID).val();
 	var courseName = $("#"+COURSE_NAME).val();
 	var instructorList = $("#" + COURSE_INSTRUCTOR_LIST).val();
 	courseID = courseID.trim();
 	courseName = courseName.trim();
-
-	// client-side validation
+	
+	if(instructorList.trim() == ""){
+		setStatusMessage(DISPLAY_COURSE_INSTRUCTOR_LIST_EMPTY, true);
+		return false;
+	}
+	
 	var confirmation = true;
 	if (!checkInstructorWithinInstructorList($("#" + COURSE_INSTRUCTOR_ID).val(), instructorList)){
 		confirmation = confirm(MESSAGE_INSTRUCTOR_NOT_WHTHIN_INSTRUCTOR_LIST);
@@ -83,7 +87,7 @@ function courseStatusToMessage(statusCode) {
 	case COURSE_STATUS_INSTRUCTOR_LIST_NAME_INVALID:
 		return DISPLAY_NAME_INVALID;
 	case COURSE_STATUS_INSTRUCTOR_LIST_EMAIL_INVALID:
-		return DISPLAY_STUDENT_TEAMNAME_INVALID;
+		return DISPLAY_EMAIL_INVALID;
 	default:
 		return DISPLAY_INVALID_INPUT;
 	}

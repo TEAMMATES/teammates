@@ -20,7 +20,7 @@
 	<script type="text/javascript" src="/js/common.js"></script>
 	
 	<script type="text/javascript" src="/js/instructor.js"></script>
-	<script type="text/javascript" src="/js/instructorCourseEdit.js"></script>
+	<script type="text/javascript" src="/js/instructorCourse.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
@@ -80,7 +80,7 @@
 					</tr>
 					<tr>
 						<td colspan=2 class="centeralign">
-							<input type="submit" class="button" id="button_submit" name="submit" value="Save Changes" onclick="return verifyInstructorList();">
+							<input type="submit" class="button" id="button_submit" name="submit" value="Save Changes" onclick="return verifyCourseData();">
 						</td>
 					</tr>
 				</table>
