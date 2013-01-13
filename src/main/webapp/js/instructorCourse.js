@@ -28,8 +28,6 @@ function verifyCourseData() {
 		return false;
 	}
 	
-
-	// client-side validation
 	var confirmation = true;
 	if (!checkInstructorWithinInstructorList($("#" + COURSE_INSTRUCTOR_ID).val(), instructorList)){
 		confirmation = confirm(MESSAGE_INSTRUCTOR_NOT_WHTHIN_INSTRUCTOR_LIST);
