@@ -64,6 +64,9 @@
 							maxlength=<%=CourseData.COURSE_NAME_MAX_LENGTH%> tabindex=2 disabled="disabled"/></td>
 					</tr>
 					<tr>
+						<td class="label bold">Instructors:</td>
+					</tr>
+					<tr>
 						<td colspan=2>
 							<span id="instructorformat" class="bold">Format: Google ID | Instructor Name | Instructor Email</span>
 							<textarea rows="6" cols="110" class ="textvalue" name="<%= Common.PARAM_COURSE_INSTRUCTOR_LIST %>" id="<%= Common.PARAM_COURSE_INSTRUCTOR_LIST %>"><%
