@@ -89,6 +89,14 @@
 					<li><a href="#instructorfeatures-managecourses-delete">Delete</a></li>
 					<li><a href="#instructorfeatures-managecourses-list">List</a></li>
 				</ul></li>
+			<li><a href="#instructorfeatures-manageinstructors">ManageInstructors</a>
+				<ul>
+					<li><a href="#instructorfeatures-manageinstructors-info">Information</a></li>
+					<li><a href="#instructorfeatures-manageinstructors-create">Create</a></li>
+					<li><a href="#instructorfeatures-manageinstructors-edit">Edit</a></li>
+					<li><a href="#instructorfeatures-manageinstructors-delete">Delete</a></li>
+					<li><a href="#instructorfeatures-manageinstructors-list">List</a></li>
+				</ul></li>
 			<li><a href="#instructorfeatures-managestudents">ManageStudents</a>
 				<ul>
 					<li><a href="#instructorfeatures-managestudents-massenroll">MassEnroll</a></li>
@@ -400,12 +408,12 @@
 	<!-- ----------------------------------------------------------------- -->
 	<h2 id="instructorfeatures-manageinstructors" class="level1feature">ManageInstructors</h2>
 	<ul>
-		<li><span class="level2feature">Single Box</span><br>
+		<li><span class="level2feature" id="instructorfeatures-manageinstructors-info">Information</span><br>
 			Making changes to instructors in a course is done with the Add/Edit Course
 			forms [See ManageCourses: Create/Edit].
 			All the details are added in a single textbox, in the format { GoogleId | Name | Email 	}.<br> 
 			Values can be copy-pasted from an excel sheet. We support both TAB and '|' as delimiters.
-		<li><span class="level2feature">Create</span><br>
+		<li><span class="level2feature" id="instructorfeatures-manageinstructors-create">Create</span><br>
 			<ul>
 				<li>When a course is created, instructors can be added in the course through
 				the Add Course Form.</li>
@@ -413,20 +421,20 @@
 				the Edit Course Form. <li>
 			</ul>
 		</li>
-		<li><span class="level2feature">Edit</span><br>
+		<li><span class="level2feature" id="instructorfeatures-manageinstructors-edit">Edit</span><br>
 			<ul>
 				<li>To edit an instructor's information, the line containing the instructor info can be 
 				modified in the Edit Course form. Name and email can be changed. Changing the googleId
 				will result in the old instructor being deleted and a new instructor being added</li>
 			</ul>
 		</li>
-		<li><span class="level2feature">Delete</span><br>
+		<li><span class="level2feature" id="instructorfeatures-manageinstructors-delete">Delete</span><br>
 			<ul>
 				<li>To delete an instructor, just remove the line containing the instructor information
 				in the Edit Course form.</li>
 			</ul>
 		</li>
-		<li><span class="level2feature">List</span><br>
+		<li><span class="level2feature" id="instructorfeatures-manageinstructors-list">List</span><br>
 			<ul>	
 				<li>The full list of instructors can be seen in the CourseDetails page. In addition, the 
 				Edit Course form will list the current instructors linked to the course.</li>
