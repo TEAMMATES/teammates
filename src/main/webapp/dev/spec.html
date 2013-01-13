@@ -364,12 +364,18 @@
 				<li>Size limit: 38 [<span class="pending">pending</span> :
 					increase to 60]
 				</li>
-			</ul></li>
+			</ul> Instructor List:
+			<ul>
+				<li>Minimum of 1 instructor linked to the course (Default is yourself)</li>
+				<li>Instructors are added in the format [googleID|Name|Email]</li>
+				<li>1 line for each instructor added in the course</li>
+			</ul>
+			</li>
 
 		<li><span id="instructorfeatures-managecourses-edit"
-			class="level2feature">Edit <span class="pending">[pending]</span>
-		</span><br> [priority=low; only title can be edited anyway] {Rationale:
-			If instructor made a typo in the title and realized it too late}</li>
+			class="level2feature">Edit
+		</span><br> Only the Instructor list can be edited. Course ID and name are currently
+		uneditable.</li>
 
 		<li><span id="instructorfeatures-managecourses-delete"
 			class="level2feature">Delete</span></li> System shows what will be deleted
@@ -392,7 +398,45 @@
 	</ul>
 
 	<!-- ----------------------------------------------------------------- -->
-
+	<h2 id="instructorfeatures-manageinstructors" class="level1feature">ManageInstructors</h2>
+	<ul>
+		<li><span class="level2feature">Single Box</span><br>
+			Making changes to instructors in a course is done with the Add/Edit Course
+			forms [See ManageCourses: Create/Edit].
+			All the details are added in a single textbox, in the format { GoogleId | Name | Email 	}.<br> 
+			Values can be copy-pasted from an excel sheet. We support both TAB and '|' as delimiters.
+		<li><span class="level2feature">Create</span><br>
+			<ul>
+				<li>When a course is created, instructors can be added in the course through
+				the Add Course Form.</li>
+				<li>Adding instructors in an existing course can be done through
+				the Edit Course Form. <li>
+			</ul>
+		</li>
+		<li><span class="level2feature">Edit</span><br>
+			<ul>
+				<li>To edit an instructor's information, the line containing the instructor info can be 
+				modified in the Edit Course form. Name and email can be changed. Changing the googleId
+				will result in the old instructor being deleted and a new instructor being added</li>
+			</ul>
+		</li>
+		<li><span class="level2feature">Delete</span><br>
+			<ul>
+				<li>To delete an instructor, just remove the line containing the instructor information
+				in the Edit Course form.</li>
+			</ul>
+		</li>
+		<li><span class="level2feature">List</span><br>
+			<ul>	
+				<li>The full list of instructors can be seen in the CourseDetails page. In addition, the 
+				Edit Course form will list the current instructors linked to the course.</li>
+			</ul>
+		</li>
+	</ul>
+	
+	
+	<!-- ----------------------------------------------------------------- -->
+	
 	<h2 id="instructorfeatures-managestudents" class="level1feature">ManageStudents</h2>
 	<ul>
 		<li><span id="instructorfeatures-managestudents-massenroll"
