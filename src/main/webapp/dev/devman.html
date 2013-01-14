@@ -1038,7 +1038,7 @@
 	‘Dev server’ means running the server in localhost mode.
 	<ol>
 		<li>Clone the source code from: <span class="code"><a
-				href="https://code.google.com/p/teammates-release/">https://code.google.com/p/teammates-release/</a></span>
+				href="https://code.google.com/p/teammatespes/">https://code.google.com/p/teammatespes/</a></span>
 		<li>Create config files (these are not under revision control
 			because their content vary from developer to developer).
 			<ol type="a">
@@ -1092,22 +1092,36 @@
 			Application’. After some time, you should see this message on the
 			console “The server is running at http://localhost:8888/”.<br>
 			The dev server is now ready to start requests at the given URL. You
-			can verify by visiting the URL.
-		</li>
-		<li>Run <span class="bold code">src/test/java/teammates.test.cases.AllTestsSuite.java</span>
-			to confirm the app works as expected. This can be done using the "TM
-			- Run all tests" option under the green "Run" button in the toolbar.
-			Most of the tests should pass. If a few cases fail (this can happen
-			due to timing issues), run the failed cases individually (right click
-			and choos 'Run as → Junit Test') and ensure they pass.
+			can verify by visiting the URL in your Browser. 
+			<br>You can login to the system, you need to add yourself as an
+			instructor first.
 		</li>
 	</ol>
 
-	<h3 id="settingup-configuringwebbrowsers">Configuring the Browser
-		for testing</h3>
-	The default browser used for testing is the Firefox browser. Testing on the Firefox browser 
-	is relatively faster as compared to the other browsers, and it can be run in the background. 
-	Nevertheless, it is still necessary to test with the other supported browsers as well.
+	<h3>Adding instructor accounts</h3>
+	<ol type="a">
+		<li>Go to <span class="code">http://appURL/page/adminHome</span></li>
+		<li>Log in using your Google ID. If this is the dev server, enter
+			any email address, but remember to check the ‘log in as
+			administrator’ check box.</li>
+		<li>Enter credentials for a instructor. e.g., <br> Google
+			id: teammates.instructor<br> Name: Dr. John Adams <br>
+			Email: teammates.instructor@gmail.com<br>
+		</li>
+	</ol>
+
+	<h3>Running the test suite</h3>
+	Run
+	<span class="bold code">src/test/java/teammates.test.cases.AllTestsSuite.java</span>
+	to confirm the app works as expected. This can be done using the "TM -
+	Run all tests" option under the green "Run" button in the toolbar. Most
+	of the tests should pass. If a few cases fail (this can happen due to
+	timing issues), run the failed cases individually (right click and
+	choos 'Run as → Junit Test') and ensure they pass. The default browser
+	used for testing is the Firefox browser. Testing on the Firefox browser
+	is relatively faster as compared to the other browsers, and it can be
+	run in the background. Nevertheless, it is still necessary to test with
+	the other supported browsers as well.
 	<br>
 	<br>
 	To change the browser that is used in the UI tests, go to the
@@ -1210,18 +1224,6 @@
 		</li>
 	</ol>
 
-	<h3>To add more instructors</h3>
-	<ol type="a">
-		<li>Go to <span class="code">http://appURL/page/adminHome</span></li>
-		<li>Log in using your Google ID. If this is the dev server, enter
-			any email address, but remember to check the ‘log in as
-			administrator’ check box.</li>
-		<li>Enter credentials for a instructor. e.g., <br> Google
-			id: teammates.instructor<br> Name: Dr. John Adams <br>
-			Email: teammates.instructor@gmail.com<br>
-		</li>
-	</ol>
-
 	<h2 id="settingup-troubleshooting">Troubleshooting</h2>
 	<ol>
 		<li>ERROR: Eclipse complains about <span class="code">FileWriter</span>
@@ -1313,9 +1315,9 @@
 			reviewer in the CC field.
 		</li>
 		<br>
-		<li>Get the latest version of the code from the release repo <br>
+		<li>Get the latest version of the code from the review repo <br>
 			<span class="code"> hg pull
-				https://yourname@code.google.com/p/teammates-release/ <br> hg
+				https://yourname@code.google.com/p/teammatespes/ <br> hg
 				update
 		</span>
 		</li>
@@ -1365,9 +1367,9 @@
 		<br>
 		<li>When the work is ready for review:
 			<ol type="a">
-				<li>Update your repo with any new changes from release repo and
+				<li>Update your repo with any new changes from review repo and
 					merge those updates to your branch<br> <span class="code">
-						hg pull {release repo url}<br> hg update<br> hg merge
+						hg pull {review repo url}<br> hg update<br> hg merge
 						default<br>
 				</span>
 				</li>
@@ -1377,10 +1379,11 @@
 					server than how it behaves on the dev server, ensure staging green
 					(i.e., all tests are passing against the modified app running on
 					your own GAE staging server).</li>
-				<li>Push to review repo (this will create a new branch in
-					the review repo)<br> <span class="code">hg push
+				<li>Push to review repo (this will create a new branch in the
+					review repo)<br> <span class="code">hg push
 						https://yourname@code.google.com/p/teammatespes/ --new-branch -b
-						Issue234</span>
+						Issue234</span><br>If you don't have permission to push to review
+					repo, you can push to your own clone.
 				</li>
 				<li>Change Issue status to <span class="code">ReadyForReview</span></li>
 			</ol>
@@ -1456,7 +1459,7 @@
 	<h2 id="process-applyingafix">Applying a fix</h2>
 	Role: team lead
 	<ol>
-		<li>Pull the latest code from the release repo</li>
+		<li>Pull the latest code from the review repo</li>
 		<br>
 		<li>Pull branch from review repo or the contributor's clone. <br>
 			<span class="code"> hg pull -b {branch name}<br> hg
@@ -1489,7 +1492,7 @@
 			<ul>
 				<li>Merge branch to default<br> <span class="code">
 						hg update default <br> hg merge {branch name}<br> hg
-						commit -m “merged {branch name}”
+						commit -m “Merging {branch name} [{branch description}]”
 				</span>
 				</li>
 				<li>Push code to release repo. Be careful to push only the
@@ -1525,7 +1528,7 @@
 						tag V4.18</span>
 				</li>
 				<li>Pushes trunk to release repo (to send the tag to release
-					repo).<br> <span class="code">hg push release_repo_url
+					repo).<br> <span class="code">hg push {release repo url}
 						-b default</span>
 			</ol>
 		</li>
