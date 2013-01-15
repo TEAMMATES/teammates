@@ -18,26 +18,35 @@
 	width: 1024px;
 }
 
-/*Navigation Link*/
-#nav {
-	margin: 0;
-	padding: 0;
+#tableofcontents{
+	margin: 0 auto;	
+	width: 1024px;
 }
 
-#nav li {
-	display: block;
+#tableofcontents td{
+	padding: 4px;
+}
+
+/*Navigation Link*/
+.nav {
+	margin-left: 20px;
 	padding: 0;
-	margin: 0;
+	list-style: disc outside none;
+}
+
+.nav li {
+	padding: 3px;
+	margin-left: 5px;
 }
 
 /*remove this & #nav a:hover and link will restored to underline mode*/
-#nav a:link,#nav a:visited {
+.nav a:link,#nav a:visited {
 	margin: 0;
 	text-decoration: none;
 	color: black;
 }
 
-#nav a:hover{
+.nav a:hover{
     color: #fff;
 	background: #888;
 }
