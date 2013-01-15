@@ -1305,8 +1305,9 @@
 	Role: Dev
 	<br>
 	<ol>
-		<li>Select an issue to handle. Get approval to proceed from
-			project team.</li>
+		<li>Select an issue to handle. Get it assigned to you.
+			Contributors can request for an issue to be assigned to you by
+			posting a comment under the issue in concern.</li>
 		<br>
 		<li>Optionally, you can discuss alternative solutions before
 			choosing one to implement. This can be done through Issue tracker or
@@ -1338,9 +1339,9 @@
 			--> Format). This is to ensure that the code is properly formatted.<br>
 			<br> Format of the commit comment : <br>
 			<ol type="a">
-				<li>The first line should be in the format: <br>
-				<span class="code">Starting Issue nnn [Issue title as given
-						in issue tracker]</span> <br>OR<br> <span class="code">Continuing
+				<li>The first line should be in the format: <br> <span
+					class="code">Starting Issue nnn [Issue title as given in
+						issue tracker]</span> <br>OR<br> <span class="code">Continuing
 						Issue nnn [Issue title as given in issue tracker] </span> <br>depending
 					on whether it is the first commit of the branch.<br>This helps
 					to locate the start of the branch easily (this is useful when
@@ -1359,12 +1360,14 @@
 						comments.
 				</span>
 				</li>
-			</ol> <br> Tip: Try to limit each issue to one commit. This will ease
-			the review process. Define issues to be of small size so that you
-			don't need more than one commit to fix it. For bigger issues, you can
-			use <a href="http://mercurial.selenic.com/wiki/MqTutorial">Mercurial
+			</ol> <br> Tip: Try to minimize the number of commits per issue. This
+			will ease the review process. Define issues to be of small size so
+			that you don't need more than one commit to fix it. For bigger
+			issues, you can use <a
+			href="http://mercurial.selenic.com/wiki/MqTutorial">Mercurial
 				Queues</a> to accumulate your work as patches and combine them into one
-			commit.
+			commit. (Note: Do not attempt to use Queues unless you are already
+			familiar with Hg basics).
 		</li>
 		<br>
 		<li>When the work is ready for review:
@@ -1372,7 +1375,10 @@
 				<li>Update your repo with any new changes from review repo and
 					merge those updates to your branch<br> <span class="code">
 						hg pull {review repo url}<br> hg update<br> hg merge
-						default<br>
+						default<br> hg commit -m "Syncing Issue {nnn} [{Issue
+						title}]" <br># e.g. hg commit -m "Syncing Issue 453 [Add
+						sitemap to website]" <br> #'Syncing' is used to indicate that
+						this changeset is simply merging the trunk to this branch.<br>
 				</span>
 				</li>
 				<li>Ensure dev green (i.e., all tests are passing on dev
@@ -1382,12 +1388,18 @@
 					(i.e., all tests are passing against the modified app running on
 					your own GAE staging server).</li>
 				<li>Push to review repo (this will create a new branch in the
-					review repo)<br> <span class="code">hg push
+					review repo).<br> <span class="code">hg push
 						https://yourname@code.google.com/p/teammatespes/ --new-branch -b
 						Issue234</span><br>If you don't have permission to push to review
 					repo, you can push to your own clone.
 				</li>
-				<li>Change Issue status to <span class="code">ReadyForReview</span></li>
+				<li>Change Issue status to <span class="code">ReadyForReview</span>.
+					If the new code is in your own clone (i.e. not in the review repo),
+					Give the direct URL (here is <a
+					href=http://code.google.com/r/freddusya111-teammates2/source/detail?r=22394d4380ccd25dedbbf636d0e3cd13739f258b">an
+						example URL</a>) to the relevant changeset. This way, the reviewer can
+					reach your new code in one click.
+				</li>
 			</ol>
 		</li>
 		<br>
@@ -1401,8 +1413,12 @@
 	<br> Role: Contributor
 	<br>
 	<br> A contributor will work closely with a developer from the project
-	team, who will act as the mentor for the contributor. The workflow is
-	similar to that of developer (given above) except for the following.
+	team, who will act as the mentor for the contributor. If you don't have
+	a specific mentor assigned to you, simply post your queries in the
+	<a
+		href="https://groups.google.com/forum/?fromgroups#!forum/teammates-contributors">teammates-contributors
+		Google group</a>. The workflow is similar to that of developer (given
+	above) except for the following.
 	<ul>
 		<li>You will not have permission to push to <a
 			href="http://code.google.com/p/teammatespes/source/checkout">review
