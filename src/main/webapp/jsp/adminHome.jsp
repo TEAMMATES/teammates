@@ -53,7 +53,7 @@
 				    <tr>
 						<td class="centeralign"><input id="btnAddInstructor" class="button" type="submit" value="Add Instructor"></td>
 				    </tr>
-				    </table>\
+				    </table>
 				</form>
 			</div>
 			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />

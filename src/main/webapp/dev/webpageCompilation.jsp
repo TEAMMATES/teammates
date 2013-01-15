@@ -13,36 +13,57 @@
 	</head>
 	<body id="compilation">
 		<div id="dhtmltooltip"></div>
-		<div>
-			<ul id="nav">
-				<li><a href="#instructorHomePage">Instructor Home Page</a></li>
-				<li><a href="#instructorAddCoursePage">Instructor Add Course Page</a></li>
-				<li><a href="#instructorEnrollPage">Instructor Enroll Students Page</a></li>
-				<li><a href="#instructorCourseDetailsPage">Instructor Course Details Page</a></li>
-				<li><a href="#instructorCourseStudentDetailsPage">Instructor Student Details Page</a></li>
-				<li><a href="#instructorCourseStudentEditPage">Instructor Student Edit Page</a></li>
-				<li><a href="#instructorCourseEvalPage">Instructor Eval Page</a></li>
-				<li><a href="#instructorCourseEvalEditPage">Instructor Eval Edit Page</a></li>
-			    <li><a href="#instructorCourseEvalResultsPage1">Instructor Eval Results Page (instructorEvaluationSummaryTable)</a></li>
-				<li><a href="#instructorCourseEvalResultsPage2">Instructor Eval Results Page (instructorEvaluationDetailedReviewerTable)</a></li>
-				<li><a href="#instructorCourseEvalResultsPage3">Instructor Eval Results Page (instructorEvaluationDetailedRevieweeTable)</a></li>
-				<li><a href="#instructorCourseEvalSubmissionViewPage">Instructor Eval Submission View Page</a></li>
-				<li><a href="#instructorCourseEvalSubmissionEditPage">Instructor Eval Submission Edit Page</a></li>
-				<hr>
-				<li><a href="#studentHomePage">Student Home Page</a></li>
-				<li><a href="#studentCourseDetailsPage">Student Course Details Page</a></li>
-				<li><a href="#studentEvalEditPage">Student Eval Edit Page</a></li>
-				<li><a href="#studentEvalResultsPage">Student Eval Results Page</a></li>
-				<hr>
-				<li><a href="#adminPage">Admin Page</a></li>
-				
-			</ul>
-		</div>
+		<h1>Table Of Contents</h1>
+		<table id="tableofcontents">
+			<tr>
+				<td width="33%">
+					<h2>Instructor Pages</h2>
+					<ul class="nav">
+						<li><a href="#instructorHomePage">Instructor Home Page</a></li>
+						<li><a href="#instructorAddCoursePage">Instructor Add Course Page</a></li>
+						<li><a href="#instructorEditCoursePage">Instructor Edit Course Page</a></li>
+						<li><a href="#instructorEnrollPage">Instructor Enroll Students Page</a></li>
+						<li><a href="#instructorCourseDetailsPage">Instructor Course Details Page</a></li>
+						<li><a href="#instructorCourseStudentDetailsPage">Instructor Student Details Page</a></li>
+						<li><a href="#instructorCourseStudentEditPage">Instructor Student Edit Page</a></li>
+						<li><a href="#instructorCourseEvalPage">Instructor Eval Page</a></li>
+						<li><a href="#instructorCourseEvalEditPage">Instructor Eval Edit Page</a></li>
+					    <li><a href="#instructorCourseEvalResultsPage1">Instructor Eval Results Page (instructorEvaluationSummaryTable)</a></li>
+						<li><a href="#instructorCourseEvalResultsPage2">Instructor Eval Results Page (instructorEvaluationDetailedReviewerTable)</a></li>
+						<li><a href="#instructorCourseEvalResultsPage3">Instructor Eval Results Page (instructorEvaluationDetailedRevieweeTable)</a></li>
+						<li><a href="#instructorCourseEvalSubmissionViewPage">Instructor Eval Submission View Page</a></li>
+						<li><a href="#instructorCourseEvalSubmissionEditPage">Instructor Eval Submission Edit Page</a></li>
+					</ul>
+				</td>
+				<td width="33%">
+					<h2>Student Pages</h2>
+					<ul class="nav">
+						<li><a href="#studentHomePage">Student Home Page</a></li>
+						<li><a href="#studentCourseDetailsPage">Student Course Details Page</a></li>
+						<li><a href="#studentEvalEditPage">Student Eval Edit Page</a></li>
+						<li><a href="#studentEvalResultsPage">Student Eval Results Page</a></li>
+					</ul>
+				<td>
+				</td>
+				<td>
+					<h2>Admin Page</h2>
+					<ul class="nav">
+						<li><a href="#adminHomePage">Admin Home Page</a></li>
+						<li><a href="#adminSearchPage">Admin Search Page</a></li>
+						<li><a href="#adminActivityLogPage">Admin Activity Log Page</a></li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+			
 		<div class="pageinfo">Instructor Home Page</div>
 		<div id="instructorHomePage" class="wrapper"></div>
 		
 		<div class="pageinfo">Instructor Add Course Page</div>
 		<div id="instructorAddCoursePage" class="wrapper"></div>
+		
+		<div class="pageinfo">Instructor Edit Course Page</div>
+		<div id="instructorEditCoursePage" class="wrapper"></div>
 		
 		<div class="pageinfo">Instructor Enroll Students Page</div>
 		<div id="instructorEnrollPage" class="wrapper"></div>
@@ -95,8 +116,14 @@
 		<br></br>
 		<br></br>
 		<br></br>
-		<div class="pageinfo">Admin Page</div>
-		<div id="adminPage" class="wrapper"></div>
+		<div class="pageinfo">Admin Home Page</div>
+		<div id="adminHomePage" class="wrapper"></div>
+		
+		<div class="pageinfo">Admin Search Page</div>
+		<div id="adminSearchPage" class="wrapper"></div>
+		
+		<div class="pageinfo">Admin Activity Log Page</div>
+		<div id="adminActivityLogPage" class="wrapper"></div>
 	</body>
 	
 	<script type="text/javascript">
@@ -104,6 +131,7 @@
 			$('head').append('<link rel=stylesheet href="/stylesheets/common.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorHome.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourse.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseEdit.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseEnroll.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseDetails.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseStudentDetails.css" type="text/css">');
@@ -117,11 +145,14 @@
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentCourseDetails.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentEvalEdit.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentEvalResults.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/adminHome.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/adminActivityLog.css" type="text/css">');
 			
 			$('#instructorHomePage').load("<%= Common.PAGE_INSTRUCTOR_HOME %>?user=teammates.test #frameBodyWrapper");
 			$('#instructorAddCoursePage').load("<%= Common.PAGE_INSTRUCTOR_COURSE %>?user=teammates.test #frameBodyWrapper");
+			$('#instructorEditCoursePage').load("<%= Common.PAGE_INSTRUCTOR_COURSE_EDIT %>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
 			$('#instructorEnrollPage').load("<%= Common.PAGE_INSTRUCTOR_COURSE_ENROLL %>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
-			$('#instructorCourseDetailsPage').load("<%= Common.PAGE_INSTRUCTOR_COURSE_DETAILS %>?user=teammates.test&courseid=CS2104 #frameBodyWrapper");
+			$('#instructorCourseDetailsPage').load("<%= Common.PAGE_INSTRUCTOR_COURSE_DETAILS %>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
 			$('#instructorCourseStudentDetailsPage').load("<%= Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS %>?user=teammates.test&courseid=CS2104&studentemail=teammates.test%40gmail.com #frameBodyWrapper");
 			$('#instructorCourseStudentEditPage').load("<%= Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT %>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper");
 			$('#instructorCourseEvalPage').load("<%= Common.PAGE_INSTRUCTOR_EVAL %>?user=teammates.test #frameBodyWrapper");
@@ -143,8 +174,9 @@
 			$('#studentEvalEditPage').load("<%= Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
 			$('#studentEvalResultsPage').load("<%= Common.PAGE_STUDENT_EVAL_RESULTS %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
 			
-			$('#adminPage').load("<%=Common.PAGE_ADMIN_HOME %> #frameBodyWrapper");
-			
+			$('#adminHomePage').load("<%=Common.PAGE_ADMIN_HOME %> #frameBodyWrapper");
+			$('#adminSearchPage').load("<%=Common.PAGE_ADMIN_SEARCH %>?limit=20&query=teammates&search=Search #frameBodyWrapper");
+			$('#adminActivityLogPage').load("<%=Common.PAGE_ADMIN_ACTIVITY_LOG %> #frameBodyWrapper");
 			
 			//Tooltip
 			initializetooltip();
