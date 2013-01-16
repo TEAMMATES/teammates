@@ -238,7 +238,7 @@ public class LogicTest extends BaseTestCase {
 		verifyAbsentInDatastore(instructor);
 		
 		// Create fresh
-		logic.createCourse(cd.instructor, cd.id, cd.name);
+		logic.createCourse(null, cd.id, cd.name); // Don't create the instructor with the course
 		logic.createInstructor(instructor.googleId, instructor.courseId, instructor.name, instructor.email);
 		verifyPresentInDatastore(instructor);
 		verifyPresentInDatastore(cd);
@@ -730,7 +730,7 @@ public class LogicTest extends BaseTestCase {
 		______TS("null parameters");
 		
 		try {
-			logic.createCourse(null, "valid.course.id", "valid course name");
+			logic.createCourse(instructor.googleId, null, course.name);
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
