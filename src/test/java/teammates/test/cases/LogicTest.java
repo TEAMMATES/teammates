@@ -1663,7 +1663,6 @@ public class LogicTest extends BaseTestCase {
 		String newEmail = student1InCourse1.email + "x";
 		student1InCourse1.email = newEmail;
 		student1InCourse1.team = "Team 1.2"; // move to a different team
-		student1InCourse1.profile = new Text("new profile detail abc ");
 
 		// take a snapshot of submissions before
 		List<SubmissionData> submissionsBeforeEdit = EvaluationsLogic.inst().getSubmissionsDb()

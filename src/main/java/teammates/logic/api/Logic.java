@@ -1086,7 +1086,7 @@ public class Logic {
 				.getDb()
 				.editStudent(student.course, originalEmail, student.name,
 						student.team, student.email, student.id,
-						student.comments, student.profile);
+						student.comments);
 
 		// cascade email change, if any
 		if (!originalEmail.equals(student.email)) {

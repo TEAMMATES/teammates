@@ -57,22 +57,6 @@ public class Student {
 	@SerializedName("teamname")
 	private String teamName = null;
 
-	@Persistent
-	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
-	private transient boolean courseArchived;
-
-	// TODO: remove? not seem to be used
-	@Persistent
-	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
-	@SerializedName("profilesummary")
-	private String profileSummary;
-
-	@Persistent
-	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
-	@SerializedName("profiledetail")
-	private Text profileDetail = null;
-
-
 
 	/**
 	 * Constructs a Student object.
@@ -92,7 +76,6 @@ public class Student {
 		this.setComments(comments);
 		this.setCourseID(courseID);
 		this.setTeamName(teamName);
-		this.setCourseArchived(false);
 	}
 
 	public void setEmail(String email) {
@@ -150,30 +133,6 @@ public class Student {
 
 	public String getTeamName() {
 		return teamName;
-	}
-
-	public void setProfileSummary(String profileSummary) {
-		this.profileSummary = profileSummary.trim();
-	}
-
-	public String getProfileSummary() {
-		return profileSummary;
-	}
-
-	public void setProfileDetail(Text profileDetail) {
-		this.profileDetail = profileDetail;
-	}
-
-	public Text getProfileDetail() {
-		return profileDetail;
-	}
-
-	public void setCourseArchived(boolean courseArchived) {
-		this.courseArchived = courseArchived;
-	}
-
-	public boolean isCourseArchived() {
-		return courseArchived;
 	}
 
 	public boolean isRegistered() {
