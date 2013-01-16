@@ -1,7 +1,6 @@
 {
   "courses": {
     "CESubEditUiT.CS1101": {
-      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
       "id": "CESubEditUiT.CS1101",
       "name": "Programming Methodology"
     }

@@ -42,20 +42,17 @@
   
   "validCourse": {
     "id": "CCAddUiTest.course1",
-    "name": "Software Engineering $%^&*()",
-    "instructor": "teammates.demo.instructor"
+    "name": "Software Engineering $%^&*()"
   },
   
   "CS1101": {
     "id": "CCAddUiTest.CS1101",
-    "name": "Programming Methodology",
-    "instructor": "teammates.demo.instructor"
+    "name": "Programming Methodology"
   },
   
   "CS2104": {
   	"id": "CCAddUiTest.CS2104",
-  	"name": "Programming Language Concept",
-    "instructor": "teammates.demo.instructor"
+  	"name": "Programming Language Concept"
   }
   
 }
