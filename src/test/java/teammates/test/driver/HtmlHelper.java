@@ -48,11 +48,11 @@ public class HtmlHelper {
 		
 		StringBuilder expectedHTML= new StringBuilder();
 		StringBuilder actualHTML = new StringBuilder();
-		boolean isLogicalMatch = compare(actualPage, expectedPage, "  ", expectedHTML, actualHTML);
+		boolean isLogicalMatch = compare(actualPage, expectedPage, "", actualHTML, expectedHTML);
 		if(!isLogicalMatch){
 			//If they are not a logical match, we force a literal comparison
 			//   just so that JUnit gives us a side-by-side comparison.
-			assertEquals("Error: DOM Checker failed. There are difference(s) in the webpage.", expectedHTML.toString(), actualHTML.toString());		
+			assertEquals("The two HTML pages are not logically equivalent. Aborting comparison at the first difference encountered.", expectedHTML.toString(), actualHTML.toString());		
 		}
 		return isLogicalMatch;
 	}
@@ -110,7 +110,7 @@ public class HtmlHelper {
 		return s;
 	}
 	
-	public static boolean compare(Node actual, Node expected, String indentation, StringBuilder expectedOutput, StringBuilder actualOutput){
+	public static boolean compare(Node actual, Node expected, String indentation, StringBuilder actualOutput, StringBuilder expectedOutput){
 		//Building the HTML string
 		if(expected.getNodeType() == Node.TEXT_NODE){
 			expectedOutput.append(indentation + expected.getNodeValue() + "\n");
