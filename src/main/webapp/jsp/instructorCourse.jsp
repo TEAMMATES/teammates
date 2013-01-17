@@ -48,7 +48,8 @@
 							value="<%= (helper.courseID==null ? "" : helper.courseID) %>"
 							onmouseover="ddrivetip('Enter the identifier of the course, e.g.CS3215-Sem1.')"
 							onmouseout="hideddrivetip()"
-							maxlength=<%= Common.COURSE_ID_MAX_LENGTH %> tabindex="1"></td>
+							maxlength=<%= Common.COURSE_ID_MAX_LENGTH %> tabindex="1"
+							placeholder="e.g. CS3215-Sem1" /></td>
 					</tr>
 					<tr>
 						<td class="label bold">Course Name:</td>
@@ -57,7 +58,8 @@
 							value="<%=(helper.courseName==null ? "" : InstructorCourseHelper.escapeForHTML(helper.courseName))%>"
 							onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
 							onmouseout="hideddrivetip()"
-							maxlength=<%=CourseData.COURSE_NAME_MAX_LENGTH%> tabindex=2 /></td>
+							maxlength=<%=CourseData.COURSE_NAME_MAX_LENGTH%> tabindex=2
+							placeholder="e.g. Software Engineering" /></td>
 					</tr>
 					<tr>
 						<td colspan=2 class="label bold">Instructors:</td>
