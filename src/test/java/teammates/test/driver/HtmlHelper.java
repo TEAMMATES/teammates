@@ -35,20 +35,20 @@ public class HtmlHelper {
 	 * @throws IOException
 	 * @throws TransformerException
 	 */
-	public static boolean assertSameHtml(String html1, String html2)
+	public static boolean assertSameHtml(String actualString, String expectedString)
 			throws SAXException, IOException, TransformerException {
 		
-		html1 = preProcessHtml(html1);
-		html2 = preProcessHtml(html2);
+		actualString = preProcessHtml(actualString);
+		expectedString = preProcessHtml(expectedString);
 		
-		Node page1 = getNodeFromString(html1);
-		Node page2 = getNodeFromString(html2);
-		eliminateEmptyTextNodes(page1);
-		eliminateEmptyTextNodes(page2);
+		Node actualPage = getNodeFromString(actualString);
+		Node expectedPage = getNodeFromString(expectedString);
+		eliminateEmptyTextNodes(actualPage);
+		eliminateEmptyTextNodes(expectedPage);
 		
 		StringBuilder expectedHTML= new StringBuilder();
 		StringBuilder actualHTML = new StringBuilder();
-		boolean isLogicalMatch = compare(page1, page2, "  ", expectedHTML, actualHTML);
+		boolean isLogicalMatch = compare(actualPage, expectedPage, "  ", expectedHTML, actualHTML);
 		if(!isLogicalMatch){
 			//If they are not a logical match, we force a literal comparison
 			//   just so that JUnit gives us a side-by-side comparison.
@@ -166,15 +166,11 @@ public class HtmlHelper {
 					}
 				}
 				catch (DOMException e){
-					//skip if the style for the dhtmltooltip is set
-					if(dhtmltooltipIgnore && expectedAttribute.getNodeName().equals("style")){						
-						return true;
-					}
 					actualOutput.append("Element: " + printHtmlFromNode(debugNode));
 					actualOutput.append("Error: Unable to find attribute: " + expectedAttribute.getNodeName() + "\n");
 					return false;
 				}
-				if (actualAttribute.getNodeValue().trim().equals("{*}")){
+				if (expectedAttribute.getNodeValue().trim().equals("{*}")){
 					//Regex should pass
 				} else if (!actualAttribute.getNodeValue().equals(expectedAttribute.getNodeValue())){
 					actualOutput.append("Element: " + printHtmlFromNode(debugNode));
@@ -182,14 +178,18 @@ public class HtmlHelper {
 					return false;
 				}								
 			}
-			if(actualAttributeList.getLength() > 0){
-				actualOutput.append("Element: " + printHtmlFromNode(debugNode));
-				actualOutput.append("Error: there are extra attributes in the element tag ");
-				for (int i = 0; i < actualAttributeList.getLength(); i++){
-					Node actualAttribute = actualAttributeList.item(i);
-					actualOutput.append("[" + actualAttribute.getNodeName() + ": " + actualAttribute.getNodeValue() + "] ");
+			if(actualAttributeList.getLength() > 0){				
+				if(dhtmltooltipIgnore && actualAttributeList.getLength() == 1 && actualAttributeList.item(0).getNodeName().equals("style")){						
+					//skip if the style for the dhtmltooltip is set
+				} else {
+					actualOutput.append("Element: " + printHtmlFromNode(debugNode));
+					actualOutput.append("Error: there are extra attributes in the element tag ");
+					for (int i = 0; i < actualAttributeList.getLength(); i++){
+						Node actualAttribute = actualAttributeList.item(i);
+						actualOutput.append("[" + actualAttribute.getNodeName() + ": " + actualAttribute.getNodeValue() + "] ");
+					}
+					return false;
 				}
-				return false;
 			}
 				
 			
@@ -198,7 +198,7 @@ public class HtmlHelper {
 				actualOutput.append("Element: " + printHtmlFromNode(debugNode));
 				actualOutput.append(indentation + "Error: Supposed to have text node but given " + actual.getNodeName() + "\n");
 				return false;
-			} else if (actual.getNodeValue().trim().equals("{*}")){
+			} else if (expected.getNodeValue().trim().equals("{*}")){
 				//Regex should pass
 			} else if(!actual.getNodeValue().trim().equals(expected.getNodeValue().trim())){
 				actualOutput.append("Element: " + printHtmlFromNode(debugNode));
@@ -213,15 +213,25 @@ public class HtmlHelper {
 			if (actualChildNodes.getLength() != expectedChildNodes.getLength()){
 				actualOutput.append(indentation + "Error: Parse tree structure is different\n");
 				actualOutput.append(indentation + "Actual webpage - Parent Element: " + printHtmlFromNode(debugNode));
-				actualOutput.append(indentation + "Actual webpage - child Elements: ");
+				actualOutput.append(indentation + "Actual webpage - child Elements: \n");
 				for (int i = 0; i < actualChildNodes.getLength(); i++){
-					actualOutput.append(actualChildNodes.item(i).getNodeName() + " ");
+					actualOutput.append(indentation + indentation + actualChildNodes.item(i).getNodeName() + " ");
+					NamedNodeMap actualAttributeList = actualChildNodes.item(i).getAttributes();
+					for (int j = 0; j < actualAttributeList.getLength(); j++){
+						actualOutput.append(actualAttributeList.item(j).getNodeName() + "=\"" + actualAttributeList.item(j).getNodeValue() + "\" ");
+					}
+					actualOutput.append("\n");
 				}
 				actualOutput.append("\n");
 				actualOutput.append(indentation + "Expected webpage - Parent Element: " + printHtmlFromNode(expected));
-				actualOutput.append(indentation + "Expected webpage - child Elements: ");
+				actualOutput.append(indentation + "Expected webpage - child Elements: \n");
 				for (int i = 0; i < expectedChildNodes.getLength(); i++){
-					actualOutput.append(expectedChildNodes.item(i).getNodeName() + " ");
+					actualOutput.append(indentation + indentation + expectedChildNodes.item(i).getNodeName() + " ");
+					NamedNodeMap expectedAttributeList = expectedChildNodes.item(i).getAttributes();
+					for (int j = 0; j < expectedAttributeList.getLength(); j++){
+						actualOutput.append(expectedAttributeList.item(j).getNodeName() + "=\"" + expectedAttributeList.item(j).getNodeValue() + "\" ");
+					}
+					actualOutput.append("\n");
 				}
 				actualOutput.append("\n");
 				return false;
