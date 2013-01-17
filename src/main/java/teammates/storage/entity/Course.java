@@ -21,13 +21,6 @@ public class Course {
 	@Persistent
 	private String name;
 
-	@Persistent
-	private String coordinatorID;
-
-	@Persistent
-	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
-	private transient boolean archived;
-
 	/**
 	 * Constructs a Course object.
 	 * 
@@ -35,11 +28,9 @@ public class Course {
 	 * @param name
 	 * @param coordinatorID
 	 */
-	public Course(String ID, String name, String coordinatorID) {
+	public Course(String ID, String name) {
 		this.setID(ID);
 		this.setName(name);
-		this.setCoordinatorID(coordinatorID);
-		this.setArchived(false);
 	}
 
 	public void setID(String ID) {
@@ -57,21 +48,4 @@ public class Course {
 	public String getName() {
 		return name;
 	}
-
-	public void setCoordinatorID(String coordinatorID) {
-		this.coordinatorID = coordinatorID.trim();
-	}
-
-	public String getCoordinatorID() {
-		return coordinatorID;
-	}
-
-	public void setArchived(boolean archived) {
-		this.archived = archived;
-	}
-
-	public boolean isArchived() {
-		return archived;
-	}
-
 }

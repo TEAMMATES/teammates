@@ -18,12 +18,10 @@
 
   "courses": {
     "CS2104": {
-      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
       "id": "CS2104",
       "name": "Programming Language Concepts"
     },
     "CS1101": {
-      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
       "id": "CS1101",
       "name": "Programming Methodology"
     }

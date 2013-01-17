@@ -8,19 +8,31 @@
   },
 
   "instructor": {
-  	"instructor1": { 
+  	"instructor1course1": { 
       "googleId": "teammates.demo.instructor", 
       "courseId":"CCAddUiTest.course1",
       "name": "Teammates Demo Instr",
       "email": "teammates.demo.instructor@gmail.com"
     },
-    "instructor2": { 
+    "instructor1CS1101": { 
+      "googleId": "teammates.demo.instructor", 
+      "courseId":"CCAddUiTest.CS1101",
+      "name": "Teammates Demo Instr",
+      "email": "teammates.demo.instructor@gmail.com"
+    },
+    "instructor2CS1101": { 
       "googleId": "teammates.demo.instructor2", 
       "courseId":"CCAddUiTest.CS1101",
       "name": "Teammates Demo Instr2",
       "email": "teammates.demo.instructor2@gmail.com"
     },
-    "instructor3": { 
+    "instructor1CS2104": { 
+      "googleId": "teammates.demo.instructor", 
+      "courseId":"CCAddUiTest.CS2104",
+      "name": "Teammates Demo Instr",
+      "email": "teammates.demo.instructor@gmail.com"
+    },
+    "instructor3CS2104": { 
       "googleId": "teammates.demo.instructor3", 
       "courseId":"CCAddUiTest.CS2104",
       "name": "Teammates Demo Instr3",
@@ -30,20 +42,17 @@
   
   "validCourse": {
     "id": "CCAddUiTest.course1",
-    "name": "Software Engineering $%^&*()",
-    "instructor": "teammates.demo.instructor"
+    "name": "Software Engineering $%^&*()"
   },
   
   "CS1101": {
     "id": "CCAddUiTest.CS1101",
-    "name": "Programming Methodology",
-    "instructor": "teammates.demo.instructor"
+    "name": "Programming Methodology"
   },
   
   "CS2104": {
   	"id": "CCAddUiTest.CS2104",
-  	"name": "Programming Language Concept",
-    "instructor": "teammates.demo.instructor"
+  	"name": "Programming Language Concept"
   }
   
 }

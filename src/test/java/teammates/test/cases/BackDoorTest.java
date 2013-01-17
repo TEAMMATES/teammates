@@ -259,8 +259,8 @@ public class BackDoorTest extends BaseTestCase {
 		// Create 2 courses for a new instructor
 		String course1 = "AST.TGCBCI.course1";
 		String course2 = "AST.TGCBCI.course2";
-		BackDoor.createCourse(new CourseData(course1, "tmapit tgcbci c1OfInstructor1", CourseData.INSTRUCTOR_FIELD_DEPRECATED));
-		BackDoor.createCourse(new CourseData(course2, "tmapit tgcbci c2OfInstructor1", CourseData.INSTRUCTOR_FIELD_DEPRECATED));
+		BackDoor.createCourse(new CourseData(course1, "tmapit tgcbci c1OfInstructor1"));
+		BackDoor.createCourse(new CourseData(course2, "tmapit tgcbci c2OfInstructor1"));
 		
 		// create a fresh instructor with relations for the 2 courses
 		String instructor1Id = "AST.TGCBCI.instructor1";
@@ -276,7 +276,7 @@ public class BackDoorTest extends BaseTestCase {
 		// add a course that belongs to a different instructor
 		String instructor2Id = "AST.TGCBCI.instructor2";
 		String course3 = "AST.TGCBCI.course3";
-		BackDoor.createCourse(new CourseData(course3, "tmapit tgcbci c1OfInstructor2", CourseData.INSTRUCTOR_FIELD_DEPRECATED));
+		BackDoor.createCourse(new CourseData(course3, "tmapit tgcbci c1OfInstructor2"));
 
 		courses = BackDoor.getCoursesByInstructorId(instructor1Id);
 		assertEquals("[" + course1 + ", " + course2 + "]", Arrays.toString(courses));
@@ -296,7 +296,7 @@ public class BackDoorTest extends BaseTestCase {
 
 		String courseId = "tmapitt.tcc.course";
 		CourseData course = new CourseData(courseId,
-				"Name of tmapitt.tcc.instructor", CourseData.INSTRUCTOR_FIELD_DEPRECATED);
+				"Name of tmapitt.tcc.instructor");
 		
 		// Make sure not already inside
 		BackDoor.deleteCourse(courseId);
@@ -545,12 +545,10 @@ public class BackDoorTest extends BaseTestCase {
 		CourseData course1 = data.courses.get("typicalCourse1");
 		assertEquals("idOfTypicalCourse1", course1.id);
 		assertEquals("Typical Course 1 with 2 Evals", course1.name);
-		assertEquals(CourseData.INSTRUCTOR_FIELD_DEPRECATED, course1.instructor);
 		
 		CourseData course2 = data.courses.get("typicalCourse2");
 		assertEquals("idOfTypicalCourse2", course2.id);
 		assertEquals("Typical Course 2 with 1 Evals", course2.name);
-		assertEquals(CourseData.INSTRUCTOR_FIELD_DEPRECATED, course2.instructor);
 
 		// STUDENTS
 		StudentData student1InCourse1 = data.students.get("student1InCourse1");

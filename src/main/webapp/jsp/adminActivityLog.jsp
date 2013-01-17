@@ -15,6 +15,7 @@
 	<link rel=stylesheet href="/stylesheets/common.css" type="text/css" />
 	<link rel=stylesheet href="/stylesheets/adminActivityLog.css" type="text/css" />
 
+	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script language="JavaScript" src="/js/jquery-minified.js"></script>
 	<script language="JavaScript" src="/js/tooltip.js"></script>
 </head>

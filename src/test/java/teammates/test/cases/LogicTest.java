@@ -238,7 +238,7 @@ public class LogicTest extends BaseTestCase {
 		verifyAbsentInDatastore(instructor);
 		
 		// Create fresh
-		logic.createCourse(cd.instructor, cd.id, cd.name);
+		logic.createCourse(null, cd.id, cd.name); // Don't create the instructor with the course
 		logic.createInstructor(instructor.googleId, instructor.courseId, instructor.name, instructor.email);
 		verifyPresentInDatastore(instructor);
 		verifyPresentInDatastore(cd);
@@ -730,7 +730,7 @@ public class LogicTest extends BaseTestCase {
 		______TS("null parameters");
 		
 		try {
-			logic.createCourse(null, "valid.course.id", "valid course name");
+			logic.createCourse(instructor.googleId, null, course.name);
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
@@ -1663,7 +1663,6 @@ public class LogicTest extends BaseTestCase {
 		String newEmail = student1InCourse1.email + "x";
 		student1InCourse1.email = newEmail;
 		student1InCourse1.team = "Team 1.2"; // move to a different team
-		student1InCourse1.profile = new Text("new profile detail abc ");
 
 		// take a snapshot of submissions before
 		List<SubmissionData> submissionsBeforeEdit = EvaluationsLogic.inst().getSubmissionsDb()
