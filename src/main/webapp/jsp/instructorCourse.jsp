@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
 	<link rel="stylesheet" href="/stylesheets/instructorCourse.css" type="text/css">
 	
+	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script type="text/javascript" src="/js/jquery-minified.js"></script>
 	<script type="text/javascript" src="/js/tooltip.js"></script>
 	<script type="text/javascript" src="/js/date.js"></script>
