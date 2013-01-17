@@ -18,7 +18,6 @@
 
   "courses": {
     "CCDetailsUiT.CS2104": {
-      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
       "id": "CCDetailsUiT.CS2104",
       "name": "Programming Language Concepts"
     }

@@ -620,7 +620,7 @@ public class AccountsDb {
 	 */
 	public void editStudent(String courseId, String email, String newName,
 			String newTeamName, String newEmail, String newGoogleID,
-			String newComments, Text newProfile) {
+			String newComments) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, email);
 
@@ -642,9 +642,6 @@ public class AccountsDb {
 		}
 		if (newTeamName != null) {
 			student.setTeamName(newTeamName);
-		}
-		if (newProfile != null) {
-			student.setProfileDetail(newProfile);
 		}
 
 		getPM().close();

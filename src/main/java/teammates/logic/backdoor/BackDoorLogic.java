@@ -67,7 +67,7 @@ public class BackDoorLogic extends Logic {
 		HashMap<String, CourseData> courses = dataBundle.courses;
 		for (CourseData course : courses.values()) {
 			log.fine("API Servlet adding course :" + course.id);
-			createCourse(course.instructor, course.id, course.name);
+			super.createCourse(null, course.id, course.name);
 		}
 
 		HashMap<String, InstructorData> instructors = dataBundle.instructors;
@@ -80,7 +80,7 @@ public class BackDoorLogic extends Logic {
 		for (StudentData student : students.values()) {
 			log.fine("API Servlet adding student :" + student.email
 					+ " to course " + student.course);
-			createStudent(student);
+			super.createStudent(student);
 		}
 
 		HashMap<String, EvaluationData> evaluations = dataBundle.evaluations;
@@ -216,7 +216,7 @@ public class BackDoorLogic extends Logic {
 	}
 	
 	
-	
+	// TODO: To be removed
 	/**
 	 * Used for data migration.
 	 * For every Course C create an Instructor I
@@ -228,8 +228,8 @@ public class BackDoorLogic extends Logic {
 		List<InstructorData> instructorsToAdd = new ArrayList<InstructorData>();
 		
 		for (CourseData cd : courses) {
-			AccountData instructorAccount = AccountsLogic.inst().getDb().getAccount(cd.instructor);
-			instructorsToAdd.add(new InstructorData(cd.instructor, cd.id, instructorAccount.name, instructorAccount.email));
+		//	AccountData instructorAccount = AccountsLogic.inst().getDb().getAccount(cd.instructor);
+		//	instructorsToAdd.add(new InstructorData(cd.instructor, cd.id, instructorAccount.name, instructorAccount.email));
 		}
 		
 		AccountsLogic.inst().getDb().persistInstructorsFromCourses(instructorsToAdd);

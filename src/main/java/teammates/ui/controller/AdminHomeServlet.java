@@ -35,21 +35,21 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 
 	@Override
 	protected void doAction(HttpServletRequest req, AdminHomeHelper helper) {
-		String instructorID = req.getParameter(Common.PARAM_INSTRUCTOR_ID);
-		String instructorName = req.getParameter(Common.PARAM_INSTRUCTOR_NAME);
-		String instructorEmail = req.getParameter(Common.PARAM_INSTRUCTOR_EMAIL);
+		helper.instructorId = req.getParameter(Common.PARAM_INSTRUCTOR_ID);
+		helper.instructorName = req.getParameter(Common.PARAM_INSTRUCTOR_NAME);
+		helper.instructorEmail = req.getParameter(Common.PARAM_INSTRUCTOR_EMAIL);
 		String importSampleData = req
 				.getParameter(Common.PARAM_INSTRUCTOR_IMPORT_SAMPLE);
 
 		try {
-			if (instructorID != null && instructorName != null && instructorEmail != null) {
-				helper.server.createAccount(instructorID, instructorName, true, instructorEmail, "");
-				helper.statusMessage = "Instructor " + instructorName
+			if (helper.instructorId != null && helper.instructorName != null && helper.instructorEmail != null) {
+				helper.server.createAccount(helper.instructorId, helper.instructorName, true, helper.instructorEmail, "");
+				helper.statusMessage = "Instructor " + helper.instructorName
 						+ " has been successfully created";
 			}
 
 			if (importSampleData != null) {
-				importDemoData(instructorID, instructorName, instructorEmail, helper);
+				importDemoData(helper);
 			}
 		} catch (Exception e) {
 			helper.statusMessage = e.getMessage();
@@ -57,23 +57,23 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 		}
 	}
 
-	private void importDemoData(String instructorId, String instructorName,
-			String instructorEmail, AdminHomeHelper helper) throws EntityAlreadyExistsException,
+	private void importDemoData(AdminHomeHelper helper) throws EntityAlreadyExistsException,
 			InvalidParametersException, EntityDoesNotExistException{
 		String jsonString;
-		String courseId = instructorId.concat("-demo").replace("@", "-at-");
+		String courseId = helper.instructorId.concat("-demo").replace("@", "-at-");
 		if (courseId.length() > 20) {
 			courseId = courseId.substring(courseId.length() - 20);
 		}
 		jsonString = Common.readStream(BuildProperties.class.getClassLoader()
 				.getResourceAsStream("InstructorSampleData.json"));
+		
 		// replace email
 		jsonString = jsonString.replaceAll("teammates.demo.instructor@demo.course",
-				instructorEmail);
+				helper.instructorEmail);
 		// replace name
-		jsonString = jsonString.replaceAll("Demo_Instructor", instructorName);
+		jsonString = jsonString.replaceAll("Demo_Instructor", helper.instructorName);
 		// replace id
-		jsonString = jsonString.replaceAll("teammates.demo.instructor", instructorId);
+		jsonString = jsonString.replaceAll("teammates.demo.instructor", helper.instructorId);
 		// replace course
 		jsonString = jsonString.replaceAll("demo.course", courseId);
 
@@ -121,7 +121,7 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 			} else if (obj instanceof CourseData) {
 				type = "CourseData";
 				CourseData courseData = (CourseData) obj;
-				helper.server.createCourse(courseData.instructor, courseData.id,
+				helper.server.createCourse(helper.instructorId, courseData.id,
 						courseData.name);
 
 			} else if (obj instanceof StudentData) {

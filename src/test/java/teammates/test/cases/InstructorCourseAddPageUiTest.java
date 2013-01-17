@@ -55,7 +55,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		
 		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_INSTRUCTOR_COURSE;
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.get("instructor1").googleId);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.get("instructor1course1").googleId);
 		bi.goToUrl(link);		
 	}
 
@@ -85,6 +85,8 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 
 		BackDoor.createCourse(ts.CS1101);
 		BackDoor.createCourse(ts.CS2104);
+		BackDoor.createInstructor(ts.instructor.get("instructor1CS1101"));
+		BackDoor.createInstructor(ts.instructor.get("instructor1CS2104"));
 		bi.clickCourseTab();
 
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseById.html");
@@ -99,7 +101,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 	public void testInstructorCourseAddUiPaths() throws Exception{
 		
 		String link = appUrl+Common.PAGE_INSTRUCTOR_COURSE;
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.get("instructor1").googleId);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.get("instructor1course1").googleId);
 		
 		// Course id only contains alphabets, numbers, dots, hyphens, underscores and dollars
 		String courseId = ts.validCourse.id;
@@ -152,7 +154,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		______TS("testInstructoraddCourseWithMultipleInstructors");
 		
 		String instructorList = bi.getElementText(bi.instructorCourseInputInstructorList);
-		InstructorData instructor2 = ts.instructor.get("instructor2");
+		InstructorData instructor2 = ts.instructor.get("instructor2CS1101");
 		instructorList += "\n" + instructor2.googleId + "|" + instructor2.name + "|" + instructor2.email;
 		bi.fillString(bi.instructorCourseInputInstructorList, instructorList);
 		bi.addCourse("MultipleInstructorsCourse", "Course with multiple instructors");
@@ -160,7 +162,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		bi.waitForStatusMessage(Common.MESSAGE_COURSE_ADDED);
 
 		String newLink = appUrl+Common.PAGE_INSTRUCTOR_COURSE_DETAILS;
-		newLink = Common.addParamToUrl(newLink,Common.PARAM_USER_ID,ts.instructor.get("instructor1").googleId);
+		newLink = Common.addParamToUrl(newLink,Common.PARAM_USER_ID,ts.instructor.get("instructor1course1").googleId);
 		newLink = Common.addParamToUrl(newLink,Common.PARAM_COURSE_ID,"MultipleInstructorsCourse");
 		
 		//Go to course details page for testing
@@ -176,7 +178,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		bi.clickAndConfirm(bi.instructorCourseAddButton);
 		
 		newLink = appUrl+Common.PAGE_INSTRUCTOR_COURSE_DETAILS;
-		newLink = Common.addParamToUrl(newLink,Common.PARAM_USER_ID,ts.instructor.get("instructor2").googleId);
+		newLink = Common.addParamToUrl(newLink,Common.PARAM_USER_ID,ts.instructor.get("instructor2CS1101").googleId);
 		newLink = Common.addParamToUrl(newLink,Common.PARAM_COURSE_ID,"OmitInstructor");
 		bi.goToUrl(newLink);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsVerifyInstructorList.html");

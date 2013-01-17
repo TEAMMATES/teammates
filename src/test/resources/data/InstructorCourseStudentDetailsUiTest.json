@@ -11,7 +11,6 @@
 
   "courses": {
     "CCSDetailsUiT.CS2104": {
-      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
       "id": "CCSDetailsUiT.CS2104",
       "name": "Programming Language Concepts"
     }
