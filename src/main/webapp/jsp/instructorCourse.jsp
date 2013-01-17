@@ -46,10 +46,10 @@
 						<td><input class="addinput" type="text"
 							name="<%= Common.PARAM_COURSE_ID %>" id="<%= Common.PARAM_COURSE_ID %>"
 							value="<%= (helper.courseID==null ? "" : helper.courseID) %>"
-							onmouseover="ddrivetip('Enter the identifier of the course, e.g.CS3215-Sem1.')"
+							onmouseover="ddrivetip('Enter the identifier of the course, e.g.CS3215-2013Semester1.')"
 							onmouseout="hideddrivetip()"
 							maxlength=<%= Common.COURSE_ID_MAX_LENGTH %> tabindex="1"
-							placeholder="e.g. CS3215-Sem1" /></td>
+							placeholder="e.g. CS3215-2013Semester1" /></td>
 					</tr>
 					<tr>
 						<td class="label bold">Course Name:</td>
