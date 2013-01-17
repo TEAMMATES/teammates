@@ -22,7 +22,8 @@
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
 	<link rel="stylesheet" href="/stylesheets/studentEvalEdit.css" type="text/css">
 
-	<script text="text/javasript" src="/js/jquery-minified.js"></script>
+	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
+	<script text="text/javascript" src="/js/jquery-minified.js"></script>
 	<script text="text/javascript" src="/js/tooltip.js"></script>
 	<script text="text/javascript" src="/js/common.js"></script>
 	
