@@ -47,7 +47,6 @@ public class StudentData extends BaseData {
 	public String course = null;
 	public String comments = null;
 	public String team = null;
-	public Text profile = null;
 	public String key = null;
 
 	public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
@@ -132,7 +131,6 @@ public class StudentData extends BaseData {
 		this.name = student.getName();
 		this.comments = ((student.getComments() == null) ? "" : student.getComments());
 		this.team = ((student.getTeamName() == null) ? "" : student.getTeamName());
-		this.profile = student.getProfileDetail();
 		this.id = ((student.getID() == null) ? "" : student.getID());
 		Long keyAsLong = student.getRegistrationKey();
 		this.key = (keyAsLong == null ? null : Student

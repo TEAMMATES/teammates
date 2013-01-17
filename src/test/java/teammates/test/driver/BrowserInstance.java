@@ -2745,10 +2745,10 @@ public class BrowserInstance {
 	 * @throws Exception
 	 */
 	public void verifyCurrentPageHTML(String filepath) throws Exception {
-		String pageSrc = getCurrentPageSource();
-		String inputStr = Common.readFile(filepath).replace("{version}",
+		String actual = getCurrentPageSource();
+		String expected = Common.readFile(filepath).replace("{version}",
 				TestProperties.inst().TEAMMATES_VERSION);
-		HtmlHelper.assertSameHtml(inputStr, pageSrc);
+		HtmlHelper.assertSameHtml(actual, expected);
 	}
 
 
@@ -2781,16 +2781,16 @@ public class BrowserInstance {
 	 */
 	public void verifyCurrentPageHTMLWithRetry(String filepath, String url)
 			throws Exception {
-		String pageSrc = null;
-		String inputStr = null;
+		String actual = null;
+		String expected = null;
 		for (int i = 0; i < PAGE_VERIFY_RETRY; i++) {
 			
-			pageSrc = getCurrentPageSource();
-			inputStr = Common.readFile(filepath).replace("{version}",
+			actual = getCurrentPageSource();
+			expected = Common.readFile(filepath).replace("{version}",
 					TestProperties.inst().TEAMMATES_VERSION);
-			HtmlHelper.assertSameHtml(inputStr, pageSrc);
+			HtmlHelper.assertSameHtml(actual, expected);
 			
-			if (HtmlHelper.assertSameHtml(inputStr, pageSrc)) {
+			if (HtmlHelper.assertSameHtml(actual, expected)) {
 				return;
 			}
 			if (i == PAGE_VERIFY_RETRY - 1)

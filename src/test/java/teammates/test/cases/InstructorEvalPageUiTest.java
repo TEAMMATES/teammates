@@ -79,6 +79,8 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		______TS("no evaluations");
 		BackDoor.createCourse(scn.courses.get("course"));
 		BackDoor.createCourse(scn.courses.get("anotherCourse"));
+		BackDoor.createInstructor(scn.instructors.get("teammates.test.course"));
+		BackDoor.createInstructor(scn.instructors.get("teammates.test.anotherCourse"));
 		BackDoor.createStudent(scn.students.get("alice.tmms@CEvalUiT.CS2104"));
 		BackDoor.createStudent(scn.students.get("benny.tmms@CEvalUiT.CS2104"));
 		BackDoor.createStudent(scn.students.get("charlie.tmms@CEvalUiT.CS1101"));
