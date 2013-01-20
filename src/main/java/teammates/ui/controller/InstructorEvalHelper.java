@@ -12,6 +12,7 @@ import teammates.common.datatransfer.EvaluationData;
 public class InstructorEvalHelper extends Helper{
 	public List<CourseData> courses;
 	public EvaluationData submittedEval;
+	public EvaluationData initEval;
 	public List<EvaluationData> evaluations;
 	
 	/**
@@ -82,10 +83,11 @@ public class InstructorEvalHelper extends Helper{
 		ArrayList<String> result = new ArrayList<String>();
 		for(CourseData course: courses){
 			result.add("<option value=\"" + course.id + "\"" +
-						(submittedEval!=null && course.id==submittedEval.course
-							? " selected=\"selected\""
-							: "" ) +
-						">"+course.id+"</option>");
+					((submittedEval != null && course.id.equals(submittedEval.course)) || 
+					 (initEval != null && course.id.equals(initEval.course))  ?
+						" selected=\"selected\"" :
+						"" ) +
+					">"+course.id+"</option>");
 		}
 		return result;
 	}

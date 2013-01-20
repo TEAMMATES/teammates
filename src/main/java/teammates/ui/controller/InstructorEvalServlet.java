@@ -32,6 +32,7 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 
 		if (!isAddEvaluation) {
 			helper.submittedEval = null;
+			helper.initEval = extractSelectedCourseData(req);
 		} else {
 			helper.submittedEval = extractEvaluationData(req);
 			createEvaluation(helper);
@@ -40,6 +41,12 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 		populateEvaluationList(helper);
 		
 		setStatusMessage(helper);
+	}
+
+	private EvaluationData extractSelectedCourseData(HttpServletRequest req) {
+		EvaluationData newEval = new EvaluationData();
+		newEval.course = req.getParameter(Common.PARAM_COURSE_ID);
+		return newEval;
 	}
 
 	//TODO: unit test this
