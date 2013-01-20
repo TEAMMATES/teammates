@@ -42,31 +42,33 @@
 					<tr>
 						<td class="label bold" >Course ID:</td>
 						<td style="vertical-align: middle;">
-							<input type="hidden" name="<%= Common.PARAM_COURSE_ID %>" value="<%= helper.submittedEval.course %>">
-							<%= helper.submittedEval.course %>
+							<input type="hidden" name="<%= Common.PARAM_COURSE_ID %>" value="<%=helper.newEvaluationToBeCreated.course%>">
+							<%=helper.newEvaluationToBeCreated.course%>
 						</td>
 						<td class="label bold" >Opening time:</td>
 						<td><input style="width: 100px;" type="text"
-									name="<%= Common.PARAM_EVALUATION_START %>"
-									id="<%= Common.PARAM_EVALUATION_START %>" 
-									onclick ="cal.select(this,'<%= Common.PARAM_EVALUATION_START %>','dd/MM/yyyy')"
-									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_START %>')"
+									name="<%=Common.PARAM_EVALUATION_START%>"
+									id="<%=Common.PARAM_EVALUATION_START%>" 
+									onclick ="cal.select(this,'<%=Common.PARAM_EVALUATION_START%>','dd/MM/yyyy')"
+									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_START%>')"
 									onmouseout="hideddrivetip()"
-									value="<%= Common.formatDate(helper.submittedEval.startTime) %>"
+									value="<%=Common.formatDate(helper.newEvaluationToBeCreated.startTime)%>"
 									readonly="readonly" tabindex="3">
 									@
 							<select style="width: 70px;"
-									name="<%= Common.PARAM_EVALUATION_STARTTIME %>"
-									id="<%= Common.PARAM_EVALUATION_STARTTIME %>"
+									name="<%=Common.PARAM_EVALUATION_STARTTIME%>"
+									id="<%=Common.PARAM_EVALUATION_STARTTIME%>"
 									tabindex="4">
-								<% for(String opt: helper.getTimeOptions(true)) out.println(opt); %>
+								<%
+									for(String opt: helper.getTimeOptions(true)) out.println(opt);
+								%>
 							</select></td>
 					</tr>
 					<tr>
 						<td class="label bold" >Evaluation name:</td>
 						<td style="vertical-align: middle;">
-							<input type="hidden" name="<%= Common.PARAM_EVALUATION_NAME %>" value="<%=InstructorEvalEditHelper.escapeForHTML(helper.submittedEval.name)%>">
-							<%=InstructorEvalEditHelper.escapeForHTML(helper.submittedEval.name)%>
+							<input type="hidden" name="<%=Common.PARAM_EVALUATION_NAME%>" value="<%=InstructorEvalEditHelper.escapeForHTML(helper.newEvaluationToBeCreated.name)%>">
+							<%=InstructorEvalEditHelper.escapeForHTML(helper.newEvaluationToBeCreated.name)%>
 						</td>
 						<td class="label bold" >Closing time:</td>
 						<td><input style="width: 100px;" type="text"
@@ -74,7 +76,7 @@
 									onclick ="cal.select(this,'<%=Common.PARAM_EVALUATION_DEADLINE%>','dd/MM/yyyy')"
 									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_DEADLINE%>')"
 									onmouseout="hideddrivetip()"
-									value="<%=Common.formatDate(helper.submittedEval.endTime)%>"
+									value="<%=Common.formatDate(helper.newEvaluationToBeCreated.endTime)%>"
 									readonly="readonly" tabindex="5">
 									@
 							<select style="width: 70px;"
@@ -90,13 +92,13 @@
 						<td class="label bold" >Peer feedback:</td>
 						<td><input type="radio" name="<%=Common.PARAM_EVALUATION_COMMENTSENABLED%>"
 									id="commentsstatus_enabled" value="true"
-									<%=helper.submittedEval.p2pEnabled ? "checked=\"checked\"" : ""%>
+									<%=helper.newEvaluationToBeCreated.p2pEnabled ? "checked=\"checked\"" : ""%>
 									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS%>')"
 									onmouseout="hideddrivetip()">
 							<label for="commentsstatus_enabled">Enabled</label>
 							<input type="radio" name="<%=Common.PARAM_EVALUATION_COMMENTSENABLED%>"
 									id="commentsstatus_disabled" value="false"
-									<%=!helper.submittedEval.p2pEnabled ? "checked=\"checked\"" : ""%>
+									<%=!helper.newEvaluationToBeCreated.p2pEnabled ? "checked=\"checked\"" : ""%>
 									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS%>')"
 									onmouseout="hideddrivetip()">
 							<label for="commentsstatus_disabled">Disabled</label>
@@ -109,7 +111,7 @@
 								for(String opt: helper.getTimeZoneOptions()) out.println(opt);
 							%>
 							</select>
-							<input type="hidden" name="<%=Common.PARAM_EVALUATION_TIMEZONE%>" value="<%=helper.submittedEval.timeZone%>">
+							<input type="hidden" name="<%=Common.PARAM_EVALUATION_TIMEZONE%>" value="<%=helper.newEvaluationToBeCreated.timeZone%>">
 						</td>
 					</tr>
 					<tr>
@@ -131,7 +133,7 @@
 						<td colspan="3">
 							<textarea rows="3" cols="90" class="textvalue" name="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>" id="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>"
 									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_INSTRUCTIONS%>')"
-									onmouseout="hideddrivetip()" tabindex="8"><%=InstructorEvalEditHelper.escapeForHTML(helper.submittedEval.instructions)%></textarea>
+									onmouseout="hideddrivetip()" tabindex="8"><%=InstructorEvalEditHelper.escapeForHTML(helper.newEvaluationToBeCreated.instructions)%></textarea>
 						</td>
 					</tr>
 					<tr>

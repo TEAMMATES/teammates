@@ -31,22 +31,16 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 		boolean isAddEvaluation = isPost;
 
 		if (!isAddEvaluation) {
-			helper.submittedEval = null;
-			helper.initEval = extractSelectedCourseData(req);
+			helper.newEvaluationToBeCreated = null;
+			helper.courseIdForNewEvaluation = req.getParameter(Common.PARAM_COURSE_ID);
 		} else {
-			helper.submittedEval = extractEvaluationData(req);
+			helper.newEvaluationToBeCreated = extractEvaluationData(req);
 			createEvaluation(helper);
 		}
 
 		populateEvaluationList(helper);
 		
 		setStatusMessage(helper);
-	}
-
-	private EvaluationData extractSelectedCourseData(HttpServletRequest req) {
-		EvaluationData newEval = new EvaluationData();
-		newEval.course = req.getParameter(Common.PARAM_COURSE_ID);
-		return newEval;
 	}
 
 	//TODO: unit test this
@@ -64,9 +58,9 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 
 	private void createEvaluation(InstructorEvalHelper helper) {
 		try {
-			helper.server.createEvaluation(helper.submittedEval);
+			helper.server.createEvaluation(helper.newEvaluationToBeCreated);
 			helper.statusMessage = Common.MESSAGE_EVALUATION_ADDED;
-			helper.submittedEval = null;
+			helper.newEvaluationToBeCreated = null;
 		} catch (EntityAlreadyExistsException e) {
 			helper.statusMessage = Common.MESSAGE_EVALUATION_EXISTS;
 			helper.error = true;

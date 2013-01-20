@@ -11,10 +11,12 @@ import teammates.common.datatransfer.EvaluationData;
 
 public class InstructorEvalHelper extends Helper{
 	public List<CourseData> courses;
-	//This stores the evaluation details when a user submits an evaluation
-	public EvaluationData submittedEval;
-	//This stores the coure ID of the course the evaluation page should display, when it loads
-	public EvaluationData initEval;
+	// This is the ID of the course the evaluation page should display, 
+	//   when it loads for the user to fill in data for a new evaluation.
+	public String courseIdForNewEvaluation;
+	// This stores the evaluation details when a user submits a new evaluation
+	//   to be stored.
+	public EvaluationData newEvaluationToBeCreated;
 	public List<EvaluationData> evaluations;
 	
 	/**
@@ -37,7 +39,7 @@ public class InstructorEvalHelper extends Helper{
 							(int)(Math.abs(options[i]-(int)options[i])*300/5));
 			}
 			result.add("<option value=\""+formatAsString(options[i])+"\"" +
-						(submittedEval!=null && submittedEval.timeZone==options[i]
+						(newEvaluationToBeCreated!=null && newEvaluationToBeCreated.timeZone==options[i]
 							? "selected=\"selected\""
 							: "") +
 						">"+temp+"</option>");
@@ -53,7 +55,7 @@ public class InstructorEvalHelper extends Helper{
 		ArrayList<String> result = new ArrayList<String>();
 		for(int i=0; i<=30; i+=5){
 			result.add("<option value=\""+i+"\"" +
-						(submittedEval!=null && submittedEval.gracePeriod==i
+						(newEvaluationToBeCreated!=null && newEvaluationToBeCreated.gracePeriod==i
 							? " selected=\"selected\""
 							: "") +
 						">" + i+" mins</option>");
@@ -81,17 +83,27 @@ public class InstructorEvalHelper extends Helper{
 		return result;
 	}
 	
-	public ArrayList<String> getCourseIdOptions(){
+	public ArrayList<String> getCourseIdOptions() {
 		ArrayList<String> result = new ArrayList<String>();
-		for(CourseData course: courses){
-			//When an evaluation is submitted, submittedEval contains the selected value of the course ID
-			boolean isPostRequest = submittedEval != null && course.id.equals(submittedEval.course);
-			//When the evaluation page is opened, initEval contains the selected value of the course ID
-			boolean isGetRequest = initEval != null && course.id.equals(initEval.course);
-			
-			result.add("<option value=\"" + course.id + "\"" +
-					(isPostRequest || isGetRequest ? " selected=\"selected\"" : "" ) +
-					">"+course.id+"</option>");
+
+		for (CourseData course : courses) {
+
+			// True if this is a submission of the filled 'new evaluation' form
+			// for this course:
+			boolean isFilledFormForEvaluationInThisCourse = (newEvaluationToBeCreated != null)
+					&& course.id.equals(newEvaluationToBeCreated.course);
+
+			// True if this is for displaying an empty form for creating an
+			// evaluation for this course:
+			boolean isEmptyFormForEvaluationInThisCourse = (courseIdForNewEvaluation != null)
+					&& course.id.equals(courseIdForNewEvaluation);
+
+			String selectedAttribute = isFilledFormForEvaluationInThisCourse
+					|| isEmptyFormForEvaluationInThisCourse ? " selected=\"selected\""
+					: "";
+
+			result.add("<option value=\"" + course.id + "\""
+					+ selectedAttribute + ">" + course.id + "</option>");
 		}
 		return result;
 	}
@@ -111,8 +123,8 @@ public class InstructorEvalHelper extends Helper{
 	}
 	
 	private boolean checkTimeSelected(int hour, boolean isStart){
-		if(submittedEval!=null){
-			Date time = (isStart ? submittedEval.startTime : submittedEval.endTime);
+		if(newEvaluationToBeCreated!=null){
+			Date time = (isStart ? newEvaluationToBeCreated.startTime : newEvaluationToBeCreated.endTime);
 			Calendar cal = GregorianCalendar.getInstance();
 			cal.setTime(time);
 			if(cal.get(Calendar.MINUTE)==0){
