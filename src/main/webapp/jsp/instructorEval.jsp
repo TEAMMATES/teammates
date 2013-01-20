@@ -52,7 +52,9 @@
 									id="<%= Common.PARAM_COURSE_ID %>"
 									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_EVALUATION_INPUT_COURSE %>')"
 									onmouseout="hideddrivetip()" tabindex="1">
-							<% for(String opt: helper.getCourseIDOptions()) out.println(opt); %>
+							<%
+								for(String opt: helper.getCourseIdOptions()) out.println(opt);
+							%>
 							</select></td>
 						<td class="label bold" >Opening time:</td>
 						<td><input style="width: 100px;" type="text"

@@ -11,7 +11,9 @@ import teammates.common.datatransfer.EvaluationData;
 
 public class InstructorEvalHelper extends Helper{
 	public List<CourseData> courses;
+	//This stores the evaluation details when a user submits an evaluation
 	public EvaluationData submittedEval;
+	//This stores the coure ID of the course the evaluation page should display, when it loads
 	public EvaluationData initEval;
 	public List<EvaluationData> evaluations;
 	
@@ -79,14 +81,16 @@ public class InstructorEvalHelper extends Helper{
 		return result;
 	}
 	
-	public ArrayList<String> getCourseIDOptions(){
+	public ArrayList<String> getCourseIdOptions(){
 		ArrayList<String> result = new ArrayList<String>();
 		for(CourseData course: courses){
+			//When an evaluation is submitted, submittedEval contains the selected value of the course ID
+			boolean isPostRequest = submittedEval != null && course.id.equals(submittedEval.course);
+			//When the evaluation page is opened, initEval contains the selected value of the course ID
+			boolean isGetRequest = initEval != null && course.id.equals(initEval.course);
+			
 			result.add("<option value=\"" + course.id + "\"" +
-					((submittedEval != null && course.id.equals(submittedEval.course)) || 
-					 (initEval != null && course.id.equals(initEval.course))  ?
-						" selected=\"selected\"" :
-						"" ) +
+					(isPostRequest || isGetRequest ? " selected=\"selected\"" : "" ) +
 					">"+course.id+"</option>");
 		}
 		return result;
