@@ -33,7 +33,7 @@ public class InstructorEvalEditServlet extends ActionServlet<InstructorEvalEditH
 		boolean isSubmit = isPost;
 
 		if (isSubmit) {
-			helper.submittedEval = newEval;
+			helper.newEvaluationToBeCreated = newEval;
 			try {
 				helper.server.editEvaluation(newEval.course, newEval.name, newEval.instructions, newEval.startTime,
 						newEval.endTime, newEval.timeZone, newEval.gracePeriod, newEval.p2pEnabled);
@@ -44,9 +44,9 @@ public class InstructorEvalEditServlet extends ActionServlet<InstructorEvalEditH
 				helper.error = true;
 			}
 		} else {
-			helper.submittedEval = helper.server.getEvaluation(newEval.course,
+			helper.newEvaluationToBeCreated = helper.server.getEvaluation(newEval.course,
 					newEval.name);
-			if (helper.submittedEval == null) {
+			if (helper.newEvaluationToBeCreated == null) {
 				helper.redirectUrl = Common.PAGE_INSTRUCTOR_EVAL;
 				return;
 			}

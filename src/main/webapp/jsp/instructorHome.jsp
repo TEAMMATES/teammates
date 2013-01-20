@@ -77,7 +77,7 @@
 						onmouseout="hideddrivetip()">
 						Edit</a>
 					<a class="t_course_add_eval<%=idx%> color_white bold"
-						href="<%=helper.getInstructorEvaluationLink()%>"
+						href="<%=helper.getInstructorEvaluationLink(course.id)%>"
 						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_ADD_EVALUATION%>')"
 						onmouseout="hideddrivetip()">
 						Add Evaluation</a>
