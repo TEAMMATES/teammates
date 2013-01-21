@@ -659,6 +659,7 @@ public class Logic {
 	public void createCourse(String instructorId, String courseId,
 			String courseName) throws EntityAlreadyExistsException,
 			InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseName);
 
@@ -676,15 +677,13 @@ public class Logic {
 		// Create an instructor relation for the INSTRUCTOR that created this course
 		// The INSTRUCTOR relation is created here with NAME and EMAIL fields retrieved from his AccountData
 		// Otherwise, createCourse() method will have to take in 2 extra parameters for them which is not a good idea
-		if (instructorId != null) {
-			AccountData courseCreator = AccountsLogic.inst().getDb().getAccount(instructorId);
-			Assumption.assertNotNull(ERROR_COURSE_CREATOR_NO_ACCOUNT + Common.getCurrentThreadStack(), courseCreator);
-			AccountsLogic
-					.inst()
-					.getDb()
-					.createInstructor(
-							new InstructorData(instructorId, courseId, courseCreator.name, courseCreator.email));
-		}
+		AccountData courseCreator = AccountsLogic.inst().getDb().getAccount(instructorId);
+		Assumption.assertNotNull(ERROR_COURSE_CREATOR_NO_ACCOUNT + Common.getCurrentThreadStack(), courseCreator);
+		AccountsLogic
+				.inst()
+				.getDb()
+				.createInstructor(
+						new InstructorData(instructorId, courseId, courseCreator.name, courseCreator.email));
 	}
 	
 	/**
