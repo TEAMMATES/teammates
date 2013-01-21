@@ -99,37 +99,6 @@ public class BackDoor {
 	}
 	
 	//====================================================================================
-	@SuppressWarnings("unused")
-	private void _____DATA_MIGRATION_methods______________________________() {
-	}
-
-	/**
-	 * Call the migration BackDoorLogic method
-	 */
-	public static String createInstructorsFromCourses() {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_CREATE_INSTRUCTORS_FROM_COURSES);
-		String status = makePOSTRequest(params);
-		return status;
-	}
-	
-	public static String createAccountsForInstructors() {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_CREATE_ACCOUNTS_FOR_INSTRUCTORS);
-		String status = makePOSTRequest(params);
-		return status;
-	}
-	
-	public static String createAccountsForStudents() {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_CREATE_ACCOUNTS_FOR_STUDENTS);
-		String status = makePOSTRequest(params);
-		return status;
-	}
-	
-	public static String appendNameEmailForInstructors() {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_APPEND_NAME_EMAIL_FOR_INSTRUCTORS);
-		String status = makePOSTRequest(params);
-		return status;
-	}
-	//====================================================================================
 	
 	@SuppressWarnings("unused")
 	private void ____ACCOUNT_level_methods______________________________() {
