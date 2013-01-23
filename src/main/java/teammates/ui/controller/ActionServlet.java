@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -103,46 +104,71 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		    resp.sendRedirect(Common.JSP_ERROR_PAGE);
 			return;
 		} finally {
-			//log activity
-			String logMsg = getUserActionLog(req, response, helper);
-			log.log(logLevel,logMsg);
+			//log activity for selected actions
+			HashSet<String> possibleActions = new HashSet<String>();
+			possibleActions.add(Common.INSTRUCTOR_COURSE_SERVLET);
+			possibleActions.add(Common.INSTRUCTOR_COURSE_ENROLL_SERVLET);
+			possibleActions.add(Common.INSTRUCTOR_COURSE_EDIT_SERVLET);
+			possibleActions.add(Common.INSTRUCTOR_COURSE_DELETE_SERVLET);
+			possibleActions.add(Common.INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET);
+			possibleActions.add(Common.INSTRUCTOR_COURSE_STUDENT_DELETE_SERVLET);
+			possibleActions.add(Common.INSTRUCTOR_COURSE_REMIND_SERVLET);
+			possibleActions.add(Common.INSTRUCTOR_EVAL_SERVLET);
+			possibleActions.add(Common.INSTRUCTOR_EVAL_EDIT_SERVLET);
+			possibleActions.add(Common.INSTRUCTOR_EVAL_DELETE_SERVLET);
+			possibleActions.add(Common.INSTRUCTOR_EVAL_REMIND_SERVLET);
+			possibleActions.add(Common.INSTRUCTOR_EVAL_PUBLISH_SERVLET);
+			possibleActions.add(Common.INSTRUCTOR_EVAL_UNPUBLISH_SERVLET);
+			possibleActions.add(Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET);
+			possibleActions.add(Common.STUDENT_EVAL_EDIT_HANDLER_SERVLET);
+			
+			String[] actionTkn = req.getServletPath().split("/");
+			String action = req.getServletPath();
+			if(actionTkn.length > 0) {
+				action = actionTkn[actionTkn.length-1]; //retrieve last segment in path
+			}
+			
+			if(possibleActions.contains(action)){
+				String logMsg = getUserActionLog(req, response, helper);
+				log.log(logLevel,logMsg);
+			}
 		}
 	}
 	
 	protected String getUserActionLog(HttpServletRequest req, String resp, T helper) {
 		UserType user = new Logic().getLoggedInUser();
-
+		
 		//Assumption.assertFalse("admin activity shouldn't be logged",helper.user.isAdmin);
-		StringBuilder sb = new StringBuilder("[TEAMMATES_LOG]|");
+		StringBuilder sb = new StringBuilder("[TEAMMATES_LOG]|||");
 		//log action
 		String[] actionTkn = req.getServletPath().split("/");
 		String action = req.getServletPath();
 		if(actionTkn.length > 0) {
 			action = actionTkn[actionTkn.length-1]; //retrieve last segment in path
 		}
-		sb.append(action+"|");
+		
+		sb.append(action+"|||");
 		
 		if(user.isInstructor) {
-			sb.append("Instructor|");
+			sb.append("Instructor|||");
 		}else if(user.isStudent) {
-			sb.append("Student|");
+			sb.append("Student|||");
 		}else {
-			sb.append("Unknown Role|");
+			sb.append("Unknown Role|||");
 		}
 		
 		AccountData account = helper.server.getAccount(user.id);
 		if(account!=null){
-			sb.append(account.name+"|");
-			sb.append(account.googleId+"|");
-			sb.append(account.email+"|");
+			sb.append(account.name+"|||");
+			sb.append(account.googleId+"|||");
+			sb.append(account.email+"|||");
 		}else{
 			sb.append("N/A|");
-			sb.append( user.id +"|");
-			sb.append( "N/A" +"|");
+			sb.append( user.id +"|||");
+			sb.append( "N/A" +"|||");
 		}
 		
 		//log response
-		sb.append(resp+"|");
 		sb.append(Common.printRequestParameters(req));
 
 		return sb.toString();
