@@ -13,6 +13,7 @@ import javax.jdo.JDOHelper;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
@@ -70,7 +71,7 @@ public class BackDoorLogic extends Logic {
 		HashMap<String, CourseData> courses = dataBundle.courses;
 		for (CourseData course : courses.values()) {
 			log.fine("API Servlet adding course :" + course.id);
-			super.createCourse(null, course.id, course.name);
+			this.createCourse(course.id, course.name);
 		}
 
 		HashMap<String, InstructorData> instructors = dataBundle.instructors;
@@ -218,6 +219,30 @@ public class BackDoorLogic extends Logic {
 		EvaluationsLogic.inst().getEvaluationsDb().editEvaluation(evaluation);
 	}
 
+	/**
+	 * Creates a COURSE without an INSTRUCTOR relation
+	 * Used in persisting DataBundles for Test cases
+	 * 
+	 * @param courseId
+	 * @param courseName
+	 * @throws EntityAlreadyExistsException
+	 * @throws InvalidParametersException
+	 */
+	public void createCourse(String courseId, String courseName) 
+			throws EntityAlreadyExistsException, InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseName);
+
+		CourseData courseToAdd = new CourseData(courseId, courseName);
+
+		if (!courseToAdd.isValid()) {
+			throw new InvalidParametersException(
+					courseToAdd.getInvalidStateInfo());
+		}
+
+		CoursesLogic.inst().getDb().createCourse(courseToAdd);
+	}
+	
 	@SuppressWarnings("unchecked")
 	public void appendTimestampForCourse() throws EntityDoesNotExistException {
 		List<CourseData> allCourses = CoursesLogic.inst().getDb().getAllCourses();
