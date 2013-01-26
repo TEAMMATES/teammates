@@ -1,6 +1,7 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Logger;
 
 import teammates.common.Common;
@@ -9,6 +10,7 @@ import teammates.storage.entity.Course;
 public class CourseData extends BaseData {
 	public String id;
 	public String name;
+	public Date createdAt;
 
 	// these are marked transient because we don't want to involve them in
 	// Json conversions.
@@ -42,6 +44,7 @@ public class CourseData extends BaseData {
 	public CourseData(Course course) {
 		this.id = course.getID();
 		this.name = course.getName();
+		this.createdAt = course.getCreatedAt();
 	}
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

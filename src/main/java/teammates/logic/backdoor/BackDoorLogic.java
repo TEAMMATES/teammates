@@ -2,6 +2,9 @@ package teammates.logic.backdoor;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -215,6 +218,7 @@ public class BackDoorLogic extends Logic {
 	public void editEvaluation(EvaluationData evaluation) throws InvalidParametersException, EntityDoesNotExistException{
 		EvaluationsLogic.inst().getEvaluationsDb().editEvaluation(evaluation);
 	}
+
 	/**
 	 * Creates a COURSE without an INSTRUCTOR relation
 	 * Used in persisting DataBundles for Test cases
@@ -237,5 +241,36 @@ public class BackDoorLogic extends Logic {
 		}
 
 		CoursesLogic.inst().getDb().createCourse(courseToAdd);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void appendTimestampForCourse() throws EntityDoesNotExistException {
+		List<CourseData> allCourses = CoursesLogic.inst().getDb().getAllCourses();
+		for (CourseData cd : allCourses) {
+			cd.evaluations = getEvaluationsListForCourse(cd.id);
+			
+			// Retrieve the list of evaluations, sorted most recent first
+			Collections.sort(cd.evaluations, 
+				new Comparator<EvaluationData>() {
+					public int compare(EvaluationData e1, EvaluationData e2) {
+					return e1.startTime.compareTo(e2.startTime);
+				}
+			});
+			
+			// Set the most recent evaluation to be the time stamp for course
+			if (cd.evaluations.size() > 0) {
+				cd.createdAt = cd.evaluations.get(0).startTime;
+			} else {
+				cd.createdAt = new Date();
+			}
+			
+			// Debug
+			System.out.println("For Course:" + cd.id);
+			for (EvaluationData ed : cd.evaluations) {
+				System.out.println(ed.startTime);
+			}
+			System.out.println("Appending: " + cd.createdAt);
+		}
+		CoursesLogic.inst().getDb().updateCourses(allCourses);
 	}
 }
