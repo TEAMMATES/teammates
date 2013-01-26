@@ -66,7 +66,7 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 			//fetch application log
 			for (AppLogLine appLog : record.getAppLogLines()) {
 				String logMsg = appLog.getLogMessage();
-				if (logMsg.contains("TEAMMATES_LOG")) {
+				if (logMsg.contains("TEAMMATES_LOG") || logMsg.contains("TEAMMATES_ERROR")) {
 					appLogs.add(appLog);
 				}
 			}

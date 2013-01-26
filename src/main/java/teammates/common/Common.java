@@ -438,6 +438,14 @@ public class Common {
 	public static String ADMIN_SEARCH_SERVLET = "adminSearch";
 	public static String ADMIN_SEARCH_TASK_SERVLET = "adminSearchTask";
 	
+	/**
+	 * Automated Servlets
+	 */
+	public static String EVALUATION_CLOSING_REMINDERS_SERVLET = "evaluationclosingreminders";
+	public static String EVALUATION_CLOSING_REMINDERS_SERVLET_ACTION = "Evaluation Closing Reminders";
+	public static String EVALUATION_OPENING_REMINDERS_SERVLET = "evaluationopeningreminders";
+	public static String EVALUATION_OPENING_REMINDERS_SERVLET_ACTION = "Evaluation Opening Reminders";
+	
 	@SuppressWarnings("unused")
 	private void ____VALIDATE_parameters___________________________________() {
 	}

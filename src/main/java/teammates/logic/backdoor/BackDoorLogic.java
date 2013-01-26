@@ -155,7 +155,7 @@ public class BackDoorLogic extends Logic {
 		editSubmissions(submissionList);
 	}
 	
-	public List<MimeMessage> activateReadyEvaluations() throws EntityDoesNotExistException, MessagingException, InvalidParametersException, IOException{
+	public ArrayList<MimeMessage> activateReadyEvaluations() throws EntityDoesNotExistException, MessagingException, InvalidParametersException, IOException{
 		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
 		List<EvaluationData> evaluations = EvaluationsLogic.inst().getEvaluationsDb().getReadyEvaluations(); 
 		
@@ -183,7 +183,7 @@ public class BackDoorLogic extends Logic {
 		return true;
 	}
 
-	public List<MimeMessage> sendRemindersForClosingEvaluations() throws MessagingException, IOException {
+	public ArrayList<MimeMessage> sendRemindersForClosingEvaluations() throws MessagingException, IOException {
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 		
 		EvaluationsLogic evaluations = EvaluationsLogic.inst();

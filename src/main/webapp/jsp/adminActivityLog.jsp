@@ -18,6 +18,7 @@
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script language="JavaScript" src="/js/jquery-minified.js"></script>
 	<script language="JavaScript" src="/js/tooltip.js"></script>
+	<script language="JavaScript" src="/js/administrator.js"></script>
 </head>
 
 <body>
@@ -41,7 +42,7 @@
 		          <th width="10%">Date</th>
 		          <th width="5%">Role</th>
 		          <th width="20%">Person</th>
-		          <th width="10%">Action</th>
+		          <th width="10%">Action / Page</th>
 		          <th width="50%">Information</th>
 		        </tr>
 		    <%

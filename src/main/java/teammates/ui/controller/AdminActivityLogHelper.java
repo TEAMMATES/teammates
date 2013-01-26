@@ -11,7 +11,6 @@ public class AdminActivityLogHelper extends Helper{
 		String parsedMessage = "";
 		//Log messages are in the format [TEAMMATES_LOG]|||Action|||Role|||Name|||Google Id|||Email|||Request Parameters
 		//We use the delimiter |||, which is unlikely to appear in the Log message
-		
 		String[] tokens = message.split("\\|\\|\\|");
 		String actionName = servletToAction(tokens[1]);
 		String formattedInformation = formatRequestParameters(tokens[1], tokens[6]);
@@ -24,14 +23,22 @@ public class AdminActivityLogHelper extends Helper{
 			parsedMessage += "<td><span class=\"bold\">" + actionName + "</span></td>";
 			parsedMessage += "<td>" + formattedInformation + "</td>";
 		} 
-		//For Page Loads
+		//For Page Loads or System Errors
 		else {
 			parsedMessage += "<td>" + time + "</td>";
 			parsedMessage += "<td>" + tokens[2] + "</td>";
 			parsedMessage += "<td><span title=\"" + tokens[4] + "\">" + tokens[3] + "<br>" + tokens[5] + "</span></td>";
-			parsedMessage += "<td><span class=\"bold\">" + tokens[1] + "</span></td>";
-			parsedMessage += "<td> Page Load </td>";
+			
+			if(tokens[0].equals("[TEAMMATES_ERROR]")){
+				parsedMessage += "<td><span class=\"bold color_negative\">" + tokens[1] + "</span></td>";
+				parsedMessage += "<td><span class=\"color_negative\">" + tokens[6] + "</span></td>";
+			} else {
+				parsedMessage += "<td><span class=\"bold\">" + tokens[1] + "</span></td>";
+				parsedMessage += "<td>Page Load</td>";
+			}
 		}
+		
+		
 		
 		return parsedMessage;
 	}
@@ -121,6 +128,16 @@ public class AdminActivityLogHelper extends Helper{
 		//Student Edit Submission Action
 		else if (servletName.equals(Common.STUDENT_EVAL_EDIT_HANDLER_SERVLET)){
 			output += formatStudentEvalEditHandlerServletData(parameterTable);
+		}
+		
+		//Evaluation Closing Reminders Action
+		else if (servletName.equals(Common.EVALUATION_CLOSING_REMINDERS_SERVLET)){
+			output += formatEvaluationClosingRemindersServletData(parameterTable);
+		}
+		
+		//Evaluation Opening Reminders Action
+		else if (servletName.equals(Common.EVALUATION_OPENING_REMINDERS_SERVLET)){
+			output += formatEvaluationOpeningRemindersServletData(parameterTable);
 		}
 		return output;
 	}
@@ -421,6 +438,40 @@ public class AdminActivityLogHelper extends Helper{
 		return output;
 	}
 	
+	public static String formatEvaluationClosingRemindersServletData(Hashtable<String, String[]> parameterTable){
+		String[] emails;
+		
+		try{
+			emails = parameterTable.get("targets");
+		} catch (NullPointerException e){
+			return "Unable to retrieve Email targets";
+		}
+		
+		String output = "<span class=\"bold\">Emails sent to:</span><br>";
+		for (int i = 0; i < emails.length; i++){
+			output += emails[i] + "<br>";
+		}
+		
+		return output;
+	}
+	
+	public static String formatEvaluationOpeningRemindersServletData(Hashtable<String, String[]> parameterTable){
+		String[] emails;
+		
+		try{
+			emails = parameterTable.get("targets");
+		} catch (NullPointerException e){
+			return "Unable to retrieve Email targets";
+		}
+		
+		String output = "<span class=\"bold\">Emails sent to:</span><br>";
+		for (int i = 0; i < emails.length; i++){
+			output += emails[i] + "<br>";
+		}
+		
+		return output;
+	}
+	
 	
 	/*
 	 * Maps the Servlet Name to the action the servlet does
@@ -456,6 +507,10 @@ public class AdminActivityLogHelper extends Helper{
 			return Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET_ACTION;
 		} else if (servletName.equals(Common.STUDENT_EVAL_EDIT_HANDLER_SERVLET)) {
 			return Common.STUDENT_EVAL_EDIT_HANDLER_SERVLET_ACTION;
+		} else if (servletName.equals(Common.EVALUATION_CLOSING_REMINDERS_SERVLET)) {
+			return Common.EVALUATION_CLOSING_REMINDERS_SERVLET_ACTION;
+		} else if (servletName.equals(Common.EVALUATION_OPENING_REMINDERS_SERVLET)) {
+			return Common.EVALUATION_OPENING_REMINDERS_SERVLET_ACTION;
 		} else {
 			return "Unknown: " + servletName;
 		}
@@ -477,10 +532,6 @@ public class AdminActivityLogHelper extends Helper{
 				values = pair[1].split("//");
 			} catch (ArrayIndexOutOfBoundsException e) {
 				values = new String[1];				
-			}
-			System.out.println(pair[0]);
-			for (int j = 0; j < values.length; j++){
-				System.out.println(values[j]);
 			}
 			table.put(pair[0], values);
 		}
