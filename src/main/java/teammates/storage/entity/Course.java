@@ -57,6 +57,11 @@ public class Course {
 	public String getName() {
 		return name;
 	}
+
+	// Should only be used for migration
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
 	
 	public Date getCreatedAt() {
 		return this.createdAt;

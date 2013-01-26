@@ -84,6 +84,43 @@ public class CoursesDb {
 
 		return new CourseData(c);
 	}
+	
+	/**
+	 * UPDATE Course
+	 * 
+	 * @param courseId
+	 *            the course ID (Precondition: Must not be null)
+	 * 
+	 * @return CourseData of the course that has the specified ID
+	 */
+	public void updateCourse(CourseData courseToUpdate) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseToUpdate);
+		
+		Course c = getCourseEntity(courseToUpdate.id);
+
+		if (c == null) {
+			Assumption.assertNotNull("Trying to update non-existent Course: " + courseToUpdate.id);
+		}
+		
+		c.setName(courseToUpdate.name);
+		c.setCreatedAt(courseToUpdate.createdAt);
+		
+		getPM().close();
+	}
+	
+	// Used in DataMigration (will be removed after)
+	// Takes a List input to use makePersistAll.
+	public void updateCourses(List<CourseData> courses) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courses);
+		
+		List<Course> updatedList = new ArrayList<Course>();
+		for (CourseData cd : courses) {
+			Course updatedCourse = cd.toEntity();
+			updatedCourse.setCreatedAt(cd.createdAt);
+			updatedList.add(updatedCourse);
+		}
+		getPM().makePersistentAll(updatedList);
+	}
 
 	
 
