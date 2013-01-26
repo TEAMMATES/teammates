@@ -249,6 +249,11 @@ public class LogicTest extends BaseTestCase {
 		}
 		// Here we create another INSTRUCTOR for testing our createInstructor() method
 		logic.createInstructor(instructor2.googleId, instructor2.courseId, instructor2.name, instructor2.email);
+		
+		// `instructor` here is created with NAME and EMAIL field obtain from his AccountData
+		AccountData creator = dataBundle.accounts.get("instructor1OfCourse1");
+		instructor.name = creator.name;
+		instructor.email = creator.email; 
 		verifyPresentInDatastore(cd);
 		verifyPresentInDatastore(instructor);
 		verifyPresentInDatastore(instructor2);
@@ -4176,9 +4181,7 @@ public class LogicTest extends BaseTestCase {
 
 	public static void verifyPresentInDatastore(InstructorData expected) {
 		InstructorData actual = logic.getInstructor(expected.googleId, expected.courseId);
-		// Instructor when created by createCourse may take up different values in NAME and EMAIL
-		// from the typicalDataBundle. Hence we only check that the instructor exists in the DataStore
-		assertTrue(actual != null);
+		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
 	public static void verifySameEvaluationData(EvaluationData expected,
