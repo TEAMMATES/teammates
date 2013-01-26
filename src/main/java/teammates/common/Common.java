@@ -430,6 +430,13 @@ public class Common {
 	public static String STUDENT_EVAL_EDIT_HANDLER_SERVLET = "studentEvalEditHandler";
 	public static String STUDENT_EVAL_EDIT_HANDLER_SERVLET_ACTION = "Edit Submission";
 	
+	/**
+	 * Admin Servlets
+	 */
+	public static String ADMIN_HOME_SERVLET = "adminHome";
+	public static String ADMIN_ACTIVITY_LOG_SERVLET = "adminActivityLog";
+	public static String ADMIN_SEARCH_SERVLET = "adminSearch";
+	public static String ADMIN_SEARCH_TASK_SERVLET = "adminSearchTask";
 	
 	@SuppressWarnings("unused")
 	private void ____VALIDATE_parameters___________________________________() {

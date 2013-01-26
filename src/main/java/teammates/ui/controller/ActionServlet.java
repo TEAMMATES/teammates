@@ -105,22 +105,11 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			return;
 		} finally {
 			//log activity for selected actions
-			HashSet<String> possibleActions = new HashSet<String>();
-			possibleActions.add(Common.INSTRUCTOR_COURSE_SERVLET);
-			possibleActions.add(Common.INSTRUCTOR_COURSE_ENROLL_SERVLET);
-			possibleActions.add(Common.INSTRUCTOR_COURSE_EDIT_SERVLET);
-			possibleActions.add(Common.INSTRUCTOR_COURSE_DELETE_SERVLET);
-			possibleActions.add(Common.INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET);
-			possibleActions.add(Common.INSTRUCTOR_COURSE_STUDENT_DELETE_SERVLET);
-			possibleActions.add(Common.INSTRUCTOR_COURSE_REMIND_SERVLET);
-			possibleActions.add(Common.INSTRUCTOR_EVAL_SERVLET);
-			possibleActions.add(Common.INSTRUCTOR_EVAL_EDIT_SERVLET);
-			possibleActions.add(Common.INSTRUCTOR_EVAL_DELETE_SERVLET);
-			possibleActions.add(Common.INSTRUCTOR_EVAL_REMIND_SERVLET);
-			possibleActions.add(Common.INSTRUCTOR_EVAL_PUBLISH_SERVLET);
-			possibleActions.add(Common.INSTRUCTOR_EVAL_UNPUBLISH_SERVLET);
-			possibleActions.add(Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET);
-			possibleActions.add(Common.STUDENT_EVAL_EDIT_HANDLER_SERVLET);
+			HashSet<String> servletsToIgnore= new HashSet<String>();
+			servletsToIgnore.add(Common.ADMIN_ACTIVITY_LOG_SERVLET);
+			servletsToIgnore.add(Common.ADMIN_HOME_SERVLET);
+			servletsToIgnore.add(Common.ADMIN_SEARCH_SERVLET);
+			servletsToIgnore.add(Common.ADMIN_SEARCH_TASK_SERVLET);
 			
 			String[] actionTkn = req.getServletPath().split("/");
 			String action = req.getServletPath();
@@ -128,7 +117,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 				action = actionTkn[actionTkn.length-1]; //retrieve last segment in path
 			}
 			
-			if(possibleActions.contains(action)){
+			if(!servletsToIgnore.contains(action)){
 				String logMsg = getUserActionLog(req, response, helper);
 				log.log(logLevel,logMsg);
 			}

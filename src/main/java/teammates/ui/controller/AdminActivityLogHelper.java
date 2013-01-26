@@ -16,12 +16,21 @@ public class AdminActivityLogHelper extends Helper{
 		String actionName = servletToAction(tokens[1]);
 		String formattedInformation = formatRequestParameters(tokens[1], tokens[6]);
 		
+		//For Action servlets
 		if (!formattedInformation.equals("")){
 			parsedMessage += "<td>" + time + "</td>";
 			parsedMessage += "<td>" + tokens[2] + "</td>";
 			parsedMessage += "<td><span title=\"" + tokens[4] + "\">" + tokens[3] + "<br>" + tokens[5] + "</span></td>";
 			parsedMessage += "<td><span class=\"bold\">" + actionName + "</span></td>";
 			parsedMessage += "<td>" + formattedInformation + "</td>";
+		} 
+		//For Page Loads
+		else {
+			parsedMessage += "<td>" + time + "</td>";
+			parsedMessage += "<td>" + tokens[2] + "</td>";
+			parsedMessage += "<td><span title=\"" + tokens[4] + "\">" + tokens[3] + "<br>" + tokens[5] + "</span></td>";
+			parsedMessage += "<td><span class=\"bold\">" + tokens[1] + "</span></td>";
+			parsedMessage += "<td> Page Load </td>";
 		}
 		
 		return parsedMessage;
