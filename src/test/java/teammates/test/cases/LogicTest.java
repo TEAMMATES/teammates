@@ -437,6 +437,34 @@ public class LogicTest extends BaseTestCase {
 		verifyEntityDoesNotExistException(methodName, paramTypes,
 				new Object[] { "non-existent" });
 	}
+	
+	// TODO: To be modified to handle API for retrieve paginated results of Courses
+	@Test
+	public void testGetCourseListForInstructorWithCountAndTime() throws Exception {
+		loginAsAdmin("admin.user");
+		//SETUP
+		String googleId = "InstructorOfManyCourses";
+		logic.createAccount(googleId, "Instructor of Many Courses", true, "instructor@many.course", "NUS");
+		for (int i = 1; i< 10; i++) {
+			logic.createCourse(googleId, "course" + i, "Course " + i);
+		}
+		
+		Common.waitBriefly();
+		Common.waitBriefly();
+		
+		// lastRetrievedTime = 0 => Earliest time
+		HashMap <String, CourseData> courseList = logic.getCourseListForInstructor(googleId, 0, 5);
+		for (CourseData cd : courseList.values()) {
+			System.out.println(cd.id);
+		}
+		assertEquals(5, courseList.size());
+		
+		// TEARDOWN
+		logic.deleteAccount(googleId);
+		for (int i = 1; i<= 10; i++) {
+			logic.deleteCourse("course" + i);
+		}
+	}
 
 	@Test
 	public void testGetCourseDetailsListForInstructor() throws Exception {
@@ -4159,6 +4187,8 @@ public class LogicTest extends BaseTestCase {
 
 	public static void verifyPresentInDatastore(CourseData expected) {
 		CourseData actual = logic.getCourse(expected.id);
+		// Ignore time field as it is stamped at the time of creation in testing
+		actual.createdAt = expected.createdAt;
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 

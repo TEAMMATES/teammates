@@ -543,6 +543,33 @@ public class Logic {
 
 		return courseSummaryListForInstructor;
 	}
+	
+	// TODO: To be modified to handle API for retrieve paginated results of Courses
+	/**
+	 * Access level: Admin, Instructor (for self)
+	 * With 2 additional parameters
+	 * 
+	 * @return Returns a less-detailed version of Instructor's course data
+	 */
+	public HashMap<String, CourseData> getCourseListForInstructor(
+			String instructorId, long lastRetrievedTime, int numberToRetrieve) 
+					throws EntityDoesNotExistException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, lastRetrievedTime);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, numberToRetrieve);
+
+		verifyInstructorUsingOwnIdOrAbove(instructorId);
+
+		if (!AccountsLogic.inst().isInstructor(instructorId)) {
+			throw new EntityDoesNotExistException("Instructor does not exist :"
+					+ instructorId);
+		}
+
+		HashMap<String, CourseData> courseSummaryListForInstructor = CoursesLogic
+				.inst().getCourseSummaryListForInstructor(instructorId, lastRetrievedTime, numberToRetrieve);
+
+		return courseSummaryListForInstructor;
+	}
 
 	/**
 	 * Access level: Admin, Instructor (for self)
