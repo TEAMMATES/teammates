@@ -108,9 +108,21 @@ $.fn.sortElements = (function(){
 * 		The column index (1-based) as key for the sort
 */
 function toggleSort(divElement,colIdx,comparator) {
-	sortTable(divElement,colIdx,comparator);
-	$(".buttonSortAscending").attr("class","buttonSortNone");
-	$(divElement).attr("class","buttonSortAscending");
+	
+	if($(divElement).attr("class")=="buttonSortNone")
+	{
+		sortTable(divElement,colIdx,comparator);
+		$(".buttonSortAscending").attr("class","buttonSortNone");
+		$(".buttonSortDescending").attr("class","buttonSortNone");
+		$(divElement).attr("class","buttonSortAscending");
+	}
+	else if($(divElement).attr("class")=="buttonSortAscending"){
+		$(divElement).attr("class","buttonSortDescending");
+		sortTable(divElement,colIdx,sortBaseCellDescending);
+	}else{
+		sortTable(divElement,colIdx,comparator);
+		$(divElement).attr("class","buttonSortAscending");
+	}
 }
 
 /**
@@ -144,6 +156,11 @@ function sortBaseCell(cell1, cell2){
 	cell1 = cell1.innerHTML;
 	cell2 = cell2.innerHTML;
 	return sortBase(cell1,cell2);
+}
+
+//Just the opposite of what sortBaseCell is doing
+function sortBaseCellDescending(cell1, cell2){
+	return sortBaseCell(cell2,cell1);
 }
 
 /**
