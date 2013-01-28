@@ -58,12 +58,8 @@ public class EvalResultData {
 	public void sortIncomingByFeedbackAscending() {
 		Collections.sort(incoming, new Comparator<SubmissionData>() {
 			public int compare(SubmissionData s1, SubmissionData s2) {
-				try {
 				return s1.p2pFeedback.getValue().compareTo(
 						s2.p2pFeedback.getValue());
-				} catch (NullPointerException e){
-					return 0;
-				}
 			}
 		});
 	}
