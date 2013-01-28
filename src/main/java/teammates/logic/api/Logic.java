@@ -2,6 +2,8 @@ package teammates.logic.api;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -2055,5 +2057,46 @@ public class Logic {
 		}
 		
 		return instructorsList;
+	}
+
+	/**
+	 * Generates an CSV String to be appended to a response for download
+	 * 
+	 * @param courseID
+	 * @param evalName
+	 * @return
+	 * @throws EntityDoesNotExistException
+	 */
+	public String getEvaluationExport(String courseID, String evalName) throws EntityDoesNotExistException {
+		EvaluationData eval = getEvaluationResult(courseID, evalName);
+		
+		String export = "";
+		
+		export += "Course" + ",," + eval.course + Common.EOL
+				+ "Evaluation Name" + ",," + eval.name + Common.EOL
+				+ Common.EOL;
+		
+		export += "Team" + ",," + "Student" + ",," + "Claimed" + ",," + "Perceived" + ",," + "Received" + Common.EOL;
+		
+		for (TeamData td : eval.teams) {
+			for (StudentData sd : td.students) {
+				String result = "";
+				Collections.sort(sd.result.incoming, new Comparator<SubmissionData>(){
+					@Override
+					public int compare(SubmissionData s1, SubmissionData s2){
+							return Integer.valueOf(s2.normalizedToInstructor).compareTo(s1.normalizedToInstructor);
+					}
+				});
+				for(SubmissionData sub: sd.result.incoming){
+					if(sub.reviewee.equals(sub.reviewer)) continue;
+					if(result!="") result+=",";
+					result += sub.normalizedToInstructor;
+				}
+				
+				export += td.name + ",," + sd.name + ",," + sd.result.claimedToInstructor + ",," + sd.result.perceivedToInstructor + ",," + result + Common.EOL;
+			}
+		}
+		
+		return export;
 	}
 }
