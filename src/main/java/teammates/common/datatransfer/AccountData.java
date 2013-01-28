@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import java.util.Date;
+
 import teammates.common.Common;
 import teammates.storage.entity.Account;
 
@@ -12,6 +14,8 @@ public class AccountData extends BaseData {
 	public String email;
 	public String institute;
 	
+	public Date createdAt;
+	
 	public static final String ERROR_FIELD_ID = "GoogleID Field is invalid\n";
 	public static final String ERROR_FIELD_NAME = "Name field cannot be null or empty\n";
 	public static final String ERROR_FIELD_EMAIL = "Email Field is invalid\n";
@@ -23,6 +27,7 @@ public class AccountData extends BaseData {
 		isInstructor = a.isInstructor();
 		email = a.getEmail();
 		institute = a.getInstitute();
+		createdAt = a.getCreatedAt();
 	}
 	
 	public AccountData() {

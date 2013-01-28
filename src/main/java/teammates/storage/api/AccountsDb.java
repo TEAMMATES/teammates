@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -986,56 +987,17 @@ public class AccountsDb {
 		return instructorList;
 	}
 
-	// TODO: Shift to new Migration servlet
-	public void persistInstructorsFromCourses(List<InstructorData> instructorsToAdd) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, instructorsToAdd);
-		
-		List<Instructor> instructors = new ArrayList<Instructor>();
-		for (InstructorData id : instructorsToAdd) {
-			instructors.add(id.toEntity());
-		}
-		
-		getPM().makePersistentAll(instructors);
-		getPM().flush();
-	}
 	
-	public void createAccountsForCoordinators() {
-		List<Coordinator> coordinators = getInstructorEntities();
-		
-		List<Account> accountsToAdd = new ArrayList<Account>();
-		for (Coordinator c : coordinators) {
-			accountsToAdd.add(new Account(c.getGoogleID(), c.getName(), true, c.getEmail(), ""));
-		}
-		
-		getPM().makePersistentAll(accountsToAdd);
-		getPM().flush();
-	}
 
-	public void appendNameEmailForInstructors() {
-		String query = "select from " + Account.class.getName()
-				+ " where isInstructor == true";
+	public void appendTimestampForAccount() {
+		String query = "select from " + Account.class.getName();
 
 		@SuppressWarnings("unchecked")
-		List<Account> instructorAccounts = (List<Account>) getPM()
+		List<Account> accounts = (List<Account>) getPM()
 				.newQuery(query).execute();
 		
-		log.warning("SIZE OF OPERATION: " + instructorAccounts.size());
-		
-		for (Account a : instructorAccounts) {
-			log.warning("Operating: " + a.getGoogleId());
-			String instructorQuery = "select from " + Instructor.class.getName()
-					+ " where googleId == '" + a.getGoogleId() + "'";
-			
-			@SuppressWarnings("unchecked")
-			List<Instructor> instructorsOfThisAccount = (List<Instructor>) getPM()
-					.newQuery(instructorQuery).execute();
-			for (Instructor i : instructorsOfThisAccount) {
-				log.warning("Changing from: " + i.getName());
-				i.setName(a.getName());
-				i.setEmail(a.getEmail());
-				log.warning(" to: " + i.getName());
-			}
-			getPM().close();
+		for (Account a : accounts) {
+			a.setCreatedAt(new Date());
 		}
 		
 		getPM().close();
