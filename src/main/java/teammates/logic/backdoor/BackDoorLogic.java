@@ -2,6 +2,9 @@ package teammates.logic.backdoor;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -10,6 +13,7 @@ import javax.jdo.JDOHelper;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
@@ -67,7 +71,7 @@ public class BackDoorLogic extends Logic {
 		HashMap<String, CourseData> courses = dataBundle.courses;
 		for (CourseData course : courses.values()) {
 			log.fine("API Servlet adding course :" + course.id);
-			super.createCourse(null, course.id, course.name);
+			this.createCourse(course.id, course.name);
 		}
 
 		HashMap<String, InstructorData> instructors = dataBundle.instructors;
@@ -214,60 +218,59 @@ public class BackDoorLogic extends Logic {
 	public void editEvaluation(EvaluationData evaluation) throws InvalidParametersException, EntityDoesNotExistException{
 		EvaluationsLogic.inst().getEvaluationsDb().editEvaluation(evaluation);
 	}
-	
-	
-	// TODO: To be removed
+
 	/**
-	 * Used for data migration.
-	 * For every Course C create an Instructor I
-	 *  I.googleId = C.coordinatorID
-	 *  I.courseId = C.ID
+	 * Creates a COURSE without an INSTRUCTOR relation
+	 * Used in persisting DataBundles for Test cases
+	 * 
+	 * @param courseId
+	 * @param courseName
+	 * @throws EntityAlreadyExistsException
+	 * @throws InvalidParametersException
 	 */
-	public void createInstructorsFromCourses() {
-		List<CourseData> courses = CoursesLogic.inst().getDb().getAllCourses();
-		List<InstructorData> instructorsToAdd = new ArrayList<InstructorData>();
-		
-		for (CourseData cd : courses) {
-		//	AccountData instructorAccount = AccountsLogic.inst().getDb().getAccount(cd.instructor);
-		//	instructorsToAdd.add(new InstructorData(cd.instructor, cd.id, instructorAccount.name, instructorAccount.email));
+	public void createCourse(String courseId, String courseName) 
+			throws EntityAlreadyExistsException, InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseName);
+
+		CourseData courseToAdd = new CourseData(courseId, courseName);
+
+		if (!courseToAdd.isValid()) {
+			throw new InvalidParametersException(
+					courseToAdd.getInvalidStateInfo());
 		}
-		
-		AccountsLogic.inst().getDb().persistInstructorsFromCourses(instructorsToAdd);
+
+		CoursesLogic.inst().getDb().createCourse(courseToAdd);
 	}
 	
-	public void createAccountsForInstructors() {
-		List<InstructorData> instructors = AccountsLogic.inst().getDb().getInstructors();
-		List<AccountData> accountsToAdd = new ArrayList<AccountData>();
-		
-		for (InstructorData id : instructors) {
-			accountsToAdd.add(new AccountData(id.googleId, false));
-		}
-		
-		AccountsLogic.inst().getDb().createAccounts(accountsToAdd);
-		
-		// Coordinator entities will be more likely to contain more information.
-		// Hence do it after instructors as the latest entry will be persisted
-		AccountsLogic.inst().getDb().createAccountsForCoordinators();
-	}
-	
-	/**
-	 * In case of duplicate Google ID, the information from the latest entry will be persisted.
-	 */
-	public void createAccountsForStudents() {	
-		List<StudentData> students = AccountsLogic.inst().getDb().getStudents();
-		List<AccountData> accountsToAdd = new ArrayList<AccountData>();
-		
-		for (StudentData sd : students) {
-			if(!sd.id.trim().isEmpty()){
-				accountsToAdd.add(new AccountData(sd.id, sd.name, false, sd.email, ""));
+	@SuppressWarnings("unchecked")
+	public void appendTimestampForCourse() throws EntityDoesNotExistException {
+		List<CourseData> allCourses = CoursesLogic.inst().getDb().getAllCourses();
+		for (CourseData cd : allCourses) {
+			cd.evaluations = getEvaluationsListForCourse(cd.id);
+			
+			// Retrieve the list of evaluations, sorted most recent first
+			Collections.sort(cd.evaluations, 
+				new Comparator<EvaluationData>() {
+					public int compare(EvaluationData e1, EvaluationData e2) {
+					return e1.startTime.compareTo(e2.startTime);
+				}
+			});
+			
+			// Set the most recent evaluation to be the time stamp for course
+			if (cd.evaluations.size() > 0) {
+				cd.createdAt = cd.evaluations.get(0).startTime;
+			} else {
+				cd.createdAt = new Date();
 			}
+			
+			// Debug
+			System.out.println("For Course:" + cd.id);
+			for (EvaluationData ed : cd.evaluations) {
+				System.out.println(ed.startTime);
+			}
+			System.out.println("Appending: " + cd.createdAt);
 		}
-		
-		AccountsLogic.inst().getDb().createAccounts(accountsToAdd);
+		CoursesLogic.inst().getDb().updateCourses(allCourses);
 	}
-	
-	public void appendNameEmailForInstructors() {
-		AccountsLogic.inst().getDb().appendNameEmailForInstructors();
-	}
-	
 }

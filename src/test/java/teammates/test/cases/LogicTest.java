@@ -233,15 +233,30 @@ public class LogicTest extends BaseTestCase {
 		// Delete any existing
 		CourseData cd = dataBundle.courses.get("typicalCourse1");
 		InstructorData instructor = dataBundle.instructors.get("instructor1OfCourse1");
+		InstructorData instructor2 = dataBundle.instructors.get("instructor2OfCourse1");
 		logic.deleteCourse(cd.id);
 		verifyAbsentInDatastore(cd);
 		verifyAbsentInDatastore(instructor);
+		verifyAbsentInDatastore(instructor2);
 		
 		// Create fresh
-		logic.createCourse(null, cd.id, cd.name); // Don't create the instructor with the course
-		logic.createInstructor(instructor.googleId, instructor.courseId, instructor.name, instructor.email);
-		verifyPresentInDatastore(instructor);
+		logic.createCourse(instructor.googleId, cd.id, cd.name);
+		try {
+			logic.createInstructor(instructor.googleId, instructor.courseId, instructor.name, instructor.email);
+			fail();
+		} catch (EntityAlreadyExistsException eaee) {
+			// Course must be created with a creator. `instructor` here is our creator, so recreating it should give us EAEE
+		}
+		// Here we create another INSTRUCTOR for testing our createInstructor() method
+		logic.createInstructor(instructor2.googleId, instructor2.courseId, instructor2.name, instructor2.email);
+		
+		// `instructor` here is created with NAME and EMAIL field obtain from his AccountData
+		AccountData creator = dataBundle.accounts.get("instructor1OfCourse1");
+		instructor.name = creator.name;
+		instructor.email = creator.email; 
 		verifyPresentInDatastore(cd);
+		verifyPresentInDatastore(instructor);
+		verifyPresentInDatastore(instructor2);
 		
 		// Delete fresh
 		logic.deleteCourse(cd.id);
@@ -249,10 +264,12 @@ public class LogicTest extends BaseTestCase {
 		verifyAbsentInDatastore(cd);
 		// check for cascade delete
 		verifyAbsentInDatastore(instructor);
+		verifyAbsentInDatastore(instructor2);
 		
 		// Delete non-existent (fails silently)
 		logic.deleteCourse(cd.id);
 		logic.deleteInstructor(instructor.googleId, instructor.courseId);
+		logic.deleteInstructor(instructor2.googleId, instructor2.courseId);
 
 		______TS("invalid parameters");
 
@@ -436,6 +453,34 @@ public class LogicTest extends BaseTestCase {
 
 		verifyEntityDoesNotExistException(methodName, paramTypes,
 				new Object[] { "non-existent" });
+	}
+	
+	// TODO: To be modified to handle API for retrieve paginated results of Courses
+	@Test
+	public void testGetCourseListForInstructorWithCountAndTime() throws Exception {
+		loginAsAdmin("admin.user");
+		//SETUP
+		String googleId = "InstructorOfManyCourses";
+		logic.createAccount(googleId, "Instructor of Many Courses", true, "instructor@many.course", "NUS");
+		for (int i = 1; i< 10; i++) {
+			logic.createCourse(googleId, "course" + i, "Course " + i);
+		}
+		
+		Common.waitBriefly();
+		Common.waitBriefly();
+		
+		// lastRetrievedTime = 0 => Earliest time
+		HashMap <String, CourseData> courseList = logic.getCourseListForInstructor(googleId, 0, 5);
+		for (CourseData cd : courseList.values()) {
+			System.out.println(cd.id);
+		}
+		assertEquals(5, courseList.size());
+		
+		// TEARDOWN
+		logic.deleteAccount(googleId);
+		for (int i = 1; i<= 10; i++) {
+			logic.deleteCourse("course" + i);
+		}
 	}
 
 	@Test
@@ -4159,6 +4204,8 @@ public class LogicTest extends BaseTestCase {
 
 	public static void verifyPresentInDatastore(CourseData expected) {
 		CourseData actual = logic.getCourse(expected.id);
+		// Ignore time field as it is stamped at the time of creation in testing
+		actual.createdAt = expected.createdAt;
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 

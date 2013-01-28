@@ -3,6 +3,7 @@ package teammates.logic;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -69,6 +70,37 @@ public class CoursesLogic {
 			cd.studentsTotal = getTotalStudents(cd.id);
 			cd.unregisteredTotal = getUnregistered(cd.id);
 			courseSummaryList.put(cd.id, cd);
+		}
+		
+		return courseSummaryList;
+	}
+	
+	// TODO: To be modified to handle API for retrieve paginated results of Courses
+	public HashMap<String, CourseData> getCourseSummaryListForInstructor(String instructorId, long lastRetrievedTime, int numberToRetrieve) {
+		List<InstructorData> instructorDataList = accountsDb.getInstructorsByGoogleId(instructorId);
+		
+		int count = 0;
+		HashMap<String, CourseData> courseSummaryList = new HashMap<String, CourseData>();
+		for (InstructorData id : instructorDataList) {
+			CourseData cd = coursesDb.getCourse(id.courseId);
+
+			if (cd == null) {
+				Assumption.fail("INSTRUCTOR RELATION EXISTED, BUT COURSE WAS NOT FOUND: " + instructorId + ", " + id.courseId);
+			}
+			//System.out.println(cd.createdAt + ", " + (new Date(lastRetrievedTime)));
+			if (cd.createdAt.before(new Date(lastRetrievedTime))) {
+				// Discard
+				continue;
+			}
+			
+			cd.teamsTotal = getNumberOfTeams(cd.id);
+			cd.studentsTotal = getTotalStudents(cd.id);
+			cd.unregisteredTotal = getUnregistered(cd.id);
+			courseSummaryList.put(cd.id, cd);
+			
+			if (++count >= numberToRetrieve) {
+				break;
+			}
 		}
 		
 		return courseSummaryList;

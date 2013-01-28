@@ -709,6 +709,8 @@ public class BackDoorTest extends BaseTestCase {
 		String courseJsonString = BackDoor.getCourseAsJson(expectedCourse.id);
 		CourseData actualCourse = gson.fromJson(courseJsonString,
 				CourseData.class);
+		// Ignore time field as it is stamped at the time of creation in testing
+		actualCourse.createdAt = expectedCourse.createdAt;
 		assertEquals(gson.toJson(expectedCourse), gson.toJson(actualCourse));
 	}
 
