@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -45,13 +46,19 @@ public abstract class EvalSubmissionEditHandlerServlet extends ActionServlet<Hel
 		String[] justifications = req.getParameterValues(Common.PARAM_JUSTIFICATION);
 		String[] comments = req.getParameterValues(Common.PARAM_COMMENTS);
 		
+		EvaluationData eval = helper.server.getEvaluation(courseID, evalName);
+		
 		ArrayList<SubmissionData> submissionData = new ArrayList<SubmissionData>();
 		for(int i=0; i<toEmails.length; i++){
 			SubmissionData sub = new SubmissionData();
 			sub.course = courseID;
 			sub.evaluation = evalName;
 			sub.justification = new Text(justifications[i]);
-			sub.p2pFeedback = new Text(comments[i]);
+			
+			if (eval.p2pEnabled) {
+				sub.p2pFeedback = new Text(comments[i]);
+			}
+			
 			sub.points = Integer.parseInt(points[i]);
 			sub.reviewee = toEmails[i];
 			sub.reviewer = fromEmail;
