@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
@@ -15,8 +16,13 @@ import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import javax.mail.Address;
+import javax.mail.Message;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
+import teammates.common.datatransfer.UserType;
+import teammates.logic.api.Logic;
 import teammates.ui.controller.Helper;
 
 import com.google.appengine.api.utils.SystemProperty;
@@ -801,5 +807,43 @@ public class Common {
 	}
 	
 	
+	/**
+	 * Generate log messages for the automated reminders sent.
+	 * Used for AdminActivityLog
+	 */
+	public static String generateLogMessagesForAutomatedReminders(HttpServletRequest req, ArrayList<MimeMessage> emails){
 
+		StringBuilder sb = new StringBuilder("[TEAMMATES_LOG]|||");
+		
+		try{
+			//log action
+			String[] actionTkn = req.getServletPath().split("/");
+			String action = req.getServletPath();
+			if(actionTkn.length > 0) {
+				action = actionTkn[actionTkn.length-1]; //retrieve last segment in path
+			}
+			
+			sb.append(action+"|||");			
+			sb.append("Automated Reminder|||Automated Reminder|||N/A|||N/A|||");
+	
+			String emailTargets = "{targets::";
+			for (int i = 0; i < emails.size(); i++){
+				Address[] recipients = emails.get(i).getRecipients(Message.RecipientType.TO);
+				for (int j = 0; j < recipients.length; j++){
+					emailTargets += recipients[j] + "//";
+				}
+			}
+			if (emailTargets != "{targets::") {
+				emailTargets = emailTargets.substring(0, emailTargets.length() - 2);
+			} else {
+				emailTargets += "none";
+			}
+			emailTargets += "}";
+			sb.append(emailTargets);
+		} catch (Exception e){
+			throw new RuntimeException("Unexpected exception during generation of log messages for automated reminders",e);
+		}
+		
+		return sb.toString();
+	}
 }
