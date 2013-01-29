@@ -2501,6 +2501,14 @@ public class BrowserInstance {
 		Select select = new Select(driver.findElement(locator));
 		select.selectByValue(value);
 	}
+	
+	/**
+	 * Clicks a checkbox based on the specified element
+	 */
+	public void clickCheckbox(By locator) {
+		waitForElementPresent(locator);
+		driver.findElement(locator).click();
+	}
 
 	/**
 	 * To be used in concurrent mode (which is no longer used), returns whether
