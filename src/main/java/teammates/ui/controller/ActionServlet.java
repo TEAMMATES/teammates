@@ -1,9 +1,9 @@
 package teammates.ui.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,6 +41,8 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 
 	protected static final Logger log = Common.getLogger();
 	protected boolean isPost = false;
+	
+	private int errorCounter = 0;
 
 	@Override
 	public final void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -85,7 +87,8 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		}  catch (DeadlineExceededException e) {
 			MimeMessage email = helper.server.emailErrorReport(req.getServletPath(), reqParam, (Throwable) e);
 			try {
-				log.severe(email.getContent().toString());
+				String logMsg = getUserActionLog(req, response, helper, email);
+				log.severe(logMsg);
 			} catch (Exception e1) {
 				log.severe(e.getMessage());
 			}
@@ -95,7 +98,8 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		}  catch (Throwable e) {
 			MimeMessage email = helper.server.emailErrorReport(req.getServletPath(), reqParam, e);
 			try {
-				log.severe(email.getContent().toString());
+				String logMsg = getUserActionLog(req, response, helper, email);
+				log.severe(logMsg);
 			} catch (Exception e1) {
 				log.severe(e.getMessage());
 			}
@@ -103,47 +107,82 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		    resp.sendRedirect(Common.JSP_ERROR_PAGE);
 			return;
 		} finally {
-			//log activity
-			String logMsg = getUserActionLog(req, response, helper);
-			log.log(logLevel,logMsg);
+			//log activity for selected actions
+			HashSet<String> servletsToIgnore= new HashSet<String>();
+			servletsToIgnore.add(Common.ADMIN_ACTIVITY_LOG_SERVLET);
+			servletsToIgnore.add(Common.ADMIN_HOME_SERVLET);
+			servletsToIgnore.add(Common.ADMIN_SEARCH_SERVLET);
+			servletsToIgnore.add(Common.ADMIN_SEARCH_TASK_SERVLET);
+			
+			String[] actionTkn = req.getServletPath().split("/");
+			String action = req.getServletPath();
+			if(actionTkn.length > 0) {
+				action = actionTkn[actionTkn.length-1]; //retrieve last segment in path
+			}
+			
+			if(!servletsToIgnore.contains(action)){
+				String logMsg = getUserActionLog(req, response, helper, null);
+				log.log(logLevel,logMsg);
+			}
 		}
 	}
 	
-	protected String getUserActionLog(HttpServletRequest req, String resp, T helper) {
+	protected String getUserActionLog(HttpServletRequest req, String resp, T helper, MimeMessage errorEmail) {
 		UserType user = new Logic().getLoggedInUser();
-
+		
 		//Assumption.assertFalse("admin activity shouldn't be logged",helper.user.isAdmin);
-		StringBuilder sb = new StringBuilder("[TEAMMATES_LOG]|");
+		StringBuilder sb;
+		if(errorEmail == null){
+			sb = new StringBuilder("[TEAMMATES_LOG]|||");
+		} else {
+			sb = new StringBuilder("[TEAMMATES_ERROR]|||");
+		}
 		//log action
 		String[] actionTkn = req.getServletPath().split("/");
 		String action = req.getServletPath();
 		if(actionTkn.length > 0) {
 			action = actionTkn[actionTkn.length-1]; //retrieve last segment in path
 		}
-		sb.append(action+"|");
+		
+		sb.append(action+"|||");
 		
 		if(user.isInstructor) {
-			sb.append("Instructor|");
+			sb.append("Instructor|||");
 		}else if(user.isStudent) {
-			sb.append("Student|");
+			sb.append("Student|||");
 		}else {
-			sb.append("Unknown Role|");
+			sb.append("Unknown Role|||");
 		}
 		
 		AccountData account = helper.server.getAccount(user.id);
 		if(account!=null){
-			sb.append(account.name+"|");
-			sb.append(account.googleId+"|");
-			sb.append(account.email+"|");
+			sb.append(account.name+"|||");
+			sb.append(account.googleId+"|||");
+			sb.append(account.email+"|||");
 		}else{
-			sb.append("N/A|");
-			sb.append( user.id +"|");
-			sb.append( "N/A" +"|");
+			sb.append("N/A|||");
+			sb.append( user.id +"|||");
+			sb.append( "N/A" +"|||");
 		}
 		
 		//log response
-		sb.append(resp+"|");
-		sb.append(Common.printRequestParameters(req));
+		if(errorEmail != null){
+			try {
+				sb.append(errorEmail.getSubject());
+				sb.append("<br>");
+				sb.append("<a href=\"#\" onclick=\"showHideErrorMessage('error" + errorCounter+"');\">Show/Hide Details >></a>");
+				sb.append("<br>");
+				sb.append("<span id=\"error" + errorCounter + "\" style=\"display: none;\">");
+				sb.append(errorEmail.getContent().toString());
+				sb.append("</span>");
+				errorCounter++;
+			} catch (Exception e) {
+				sb.append("System Error. Unable to retrieve Email Report");
+			}
+		}
+		else {
+			sb.append(Common.printRequestParameters(req));
+		}
 
 		return sb.toString();
 	}
