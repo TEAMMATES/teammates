@@ -307,12 +307,6 @@ public class BackDoor {
 		throw new NotImplementedException(
 				"not implemented yet because submissions do not need to be deleted via the API");
 	}
-	
-	public static String appendTimestampForCourse() {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_APPEND_TIMESTAMP_FOR_COURSE);
-		String status = makePOSTRequest(params);
-		return status;
-	}
 
 	@SuppressWarnings("unused")
 	private void ____helper_methods______________________________() {
