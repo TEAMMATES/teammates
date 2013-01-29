@@ -108,9 +108,7 @@ $.fn.sortElements = (function(){
 * 		The column index (1-based) as key for the sort
 */
 function toggleSort(divElement,colIdx,comparator) {
-	
-	if($(divElement).attr("class")=="buttonSortNone")
-	{
+	if($(divElement).attr("class")=="buttonSortNone"){
 		sortTable(divElement,colIdx,comparator);
 		$(".buttonSortAscending").attr("class","buttonSortNone");
 		$(".buttonSortDescending").attr("class","buttonSortNone");
@@ -147,20 +145,23 @@ function sortTable(oneOfTableCell, colIdx, comparator){
 }
 
 /**
-* The base comparator for a cell
+* The base comparator for a cell (ascending)
 * @param cell1
 * @param cell2
-* @returns
+* @returns returns if cell1.innerHTML is larger than cell2.innerHTML
 */
 function sortBaseCell(cell1, cell2){
-	cell1 = cell1.innerHTML;
-	cell2 = cell2.innerHTML;
-	return sortBase(cell1,cell2);
+	return sortBase(cell1.innerHTML,cell2.innerHTML);
 }
 
-//Just the opposite of what sortBaseCell is doing
+/**
+* The base comparator for a cell (descending)
+* @param cell1
+* @param cell2
+* @returns returns if cell2.innerHTML is larger than cell1.innerHTML
+*/
 function sortBaseCellDescending(cell1, cell2){
-	return sortBaseCell(cell2,cell1);
+	return sortBaseCell(cell2.innerHTML,cell1.innerHTML);
 }
 
 /**
