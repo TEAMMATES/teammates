@@ -2,6 +2,9 @@ package teammates.logic.backdoor;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -10,6 +13,7 @@ import javax.jdo.JDOHelper;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
@@ -67,7 +71,7 @@ public class BackDoorLogic extends Logic {
 		HashMap<String, CourseData> courses = dataBundle.courses;
 		for (CourseData course : courses.values()) {
 			log.fine("API Servlet adding course :" + course.id);
-			super.createCourse(null, course.id, course.name);
+			this.createCourse(course.id, course.name);
 		}
 
 		HashMap<String, InstructorData> instructors = dataBundle.instructors;
@@ -155,7 +159,7 @@ public class BackDoorLogic extends Logic {
 		editSubmissions(submissionList);
 	}
 	
-	public List<MimeMessage> activateReadyEvaluations() throws EntityDoesNotExistException, MessagingException, InvalidParametersException, IOException{
+	public ArrayList<MimeMessage> activateReadyEvaluations() throws EntityDoesNotExistException, MessagingException, InvalidParametersException, IOException{
 		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
 		List<EvaluationData> evaluations = EvaluationsLogic.inst().getEvaluationsDb().getReadyEvaluations(); 
 		
@@ -183,7 +187,7 @@ public class BackDoorLogic extends Logic {
 		return true;
 	}
 
-	public List<MimeMessage> sendRemindersForClosingEvaluations() throws MessagingException, IOException {
+	public ArrayList<MimeMessage> sendRemindersForClosingEvaluations() throws MessagingException, IOException {
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 		
 		EvaluationsLogic evaluations = EvaluationsLogic.inst();
@@ -213,5 +217,29 @@ public class BackDoorLogic extends Logic {
 	
 	public void editEvaluation(EvaluationData evaluation) throws InvalidParametersException, EntityDoesNotExistException{
 		EvaluationsLogic.inst().getEvaluationsDb().editEvaluation(evaluation);
+	}
+
+	/**
+	 * Creates a COURSE without an INSTRUCTOR relation
+	 * Used in persisting DataBundles for Test cases
+	 * 
+	 * @param courseId
+	 * @param courseName
+	 * @throws EntityAlreadyExistsException
+	 * @throws InvalidParametersException
+	 */
+	public void createCourse(String courseId, String courseName) 
+			throws EntityAlreadyExistsException, InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseName);
+
+		CourseData courseToAdd = new CourseData(courseId, courseName);
+
+		if (!courseToAdd.isValid()) {
+			throw new InvalidParametersException(
+					courseToAdd.getInvalidStateInfo());
+		}
+
+		CoursesLogic.inst().getDb().createCourse(courseToAdd);
 	}
 }
