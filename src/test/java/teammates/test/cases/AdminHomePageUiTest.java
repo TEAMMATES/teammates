@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.DataBundle;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
@@ -41,7 +40,23 @@ public class AdminHomePageUiTest extends BaseTestCase{
 	
 	@Test
 	public void testAdminCreateAccount(){
-		______TS("test create account");
+		______TS("test invalid instructor Data");
+		bi.click(By.id("btnAddInstructor"));
+		bi.waitForStatusMessage(Common.MESSAGE_FIELDS_EMPTY);
+		
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_ID), "newInstructor");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_NAME), "!@#$%^&");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_EMAIL), "newInstructor");
+		
+		bi.click(By.id("btnAddInstructor"));
+		bi.waitForStatusMessage("The e-mail address is invalid.");
+		
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_EMAIL), "newInstructor@gmail.com");
+		bi.click(By.id("btnAddInstructor"));
+		bi.waitForStatusMessage("Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, commas, slashes, round brackets\nand not more than 40 characters.");
+		
+		
+		______TS("test create account with sample data");
 		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_ID), "newInstructor");
 		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_NAME), "New Instructor");
 		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_EMAIL), "newInstructor@gmail.com");
@@ -50,10 +65,22 @@ public class AdminHomePageUiTest extends BaseTestCase{
 		
 		bi.waitForStatusMessage("Instructor New Instructor has been successfully created");
 		
-		______TS("verify data created");
-		String verification = BackDoor.getInstructorAsJson("newInstructor", "newInstructor-demo");
-		assertTrue(verification.contains("\"courseId\": \"newInstructor-demo\""));
-		assertTrue(verification.contains("\"googleId\": \"newInstructor\""));
+		String accountVerification = BackDoor.getAccountAsJson("newInstructor");
+		assertTrue(accountVerification.contains("\"googleId\": \"newInstructor\""));
+		String instructorVerification = BackDoor.getInstructorAsJson("newInstructor", "newInstructor-demo");
+		assertTrue(instructorVerification.contains("\"courseId\": \"newInstructor-demo\""));
+		assertTrue(instructorVerification.contains("\"googleId\": \"newInstructor\""));
+		
+		______TS("test create account without sample data");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_ID), "newInstructor2");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_NAME), "New Instructor2");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_EMAIL), "newInstructor2@gmail.com");
+		bi.click(By.id("btnAddInstructor"));
+		
+		bi.waitForStatusMessage("Instructor New Instructor2 has been successfully created");
+		
+		accountVerification = BackDoor.getAccountAsJson("newInstructor");
+		assertTrue(accountVerification.contains("\"googleId\": \"newInstructor\""));
 		
 	}
 
