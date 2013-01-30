@@ -115,8 +115,8 @@ function toggleSort(divElement,colIdx,comparator) {
 		$(divElement).attr("class","buttonSortAscending");
 	}
 	else if($(divElement).attr("class")=="buttonSortAscending"){
-		$(divElement).attr("class","buttonSortDescending");
 		sortTable(divElement,colIdx,sortBaseCellDescending);
+		$(divElement).attr("class","buttonSortDescending");
 	}else{
 		sortTable(divElement,colIdx,comparator);
 		$(divElement).attr("class","buttonSortAscending");
@@ -134,7 +134,7 @@ function toggleSort(divElement,colIdx,comparator) {
 * 		sortBaseCell will be used
 */
 function sortTable(oneOfTableCell, colIdx, comparator){
-	if(!comparator) comparator = sortBaseCell;
+	if(!comparator) comparator = sortBaseCellAscending;
 	var table = $(oneOfTableCell);
 	if(!table.is("table")){
 		table = $(oneOfTableCell).parentsUntil("table");
@@ -150,7 +150,7 @@ function sortTable(oneOfTableCell, colIdx, comparator){
 * @param cell2
 * @returns returns if cell1.innerHTML is larger than cell2.innerHTML
 */
-function sortBaseCell(cell1, cell2){
+function sortBaseCellAscending(cell1, cell2){
 	return sortBase(cell1.innerHTML,cell2.innerHTML);
 }
 
@@ -158,10 +158,10 @@ function sortBaseCell(cell1, cell2){
 * The base comparator for a cell (descending)
 * @param cell1
 * @param cell2
-* @returns returns if cell2.innerHTML is larger than cell1.innerHTML
+* @returns returns the opposite of sortBaseAscending
 */
 function sortBaseCellDescending(cell1, cell2){
-	return sortBaseCell(cell2.innerHTML,cell1.innerHTML);
+	return sortBaseCellAscending(cell2,cell1);
 }
 
 /**
