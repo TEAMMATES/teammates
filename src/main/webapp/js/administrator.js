@@ -119,3 +119,9 @@ function logout()
 	
 	handleLogout();
 }
+
+
+function showHideErrorMessage(s){
+	$("#" + s).toggle();
+	
+}

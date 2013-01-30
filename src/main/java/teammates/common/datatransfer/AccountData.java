@@ -29,11 +29,6 @@ public class AccountData extends BaseData {
 		
 	}
 	
-	public AccountData(String googleId, boolean isInstructor) {
-		this.googleId = trimIfNotNull(googleId);
-		this.isInstructor = isInstructor;
-	}
-	
 	public AccountData(String googleId, String name, boolean isInstructor,
 				String email, String institute) {
 		this.googleId = trimIfNotNull(googleId);

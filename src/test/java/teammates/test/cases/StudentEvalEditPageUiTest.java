@@ -180,6 +180,22 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		assertEquals(subs[2].p2pFeedback.getValue(),emilyModified.p2pFeedback.getValue());
 	}
 	
+	@Test
+	public void testStudentEvalEditPageWithP2PDisabled() throws Exception{
+		EvaluationData eval = scn.evaluations.get("Second Eval");
+		
+		______TS("verify page functional with p2p feedback field disabled");
+		String link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("Danny").id);
+		bi.goToUrl(appUrl+link);
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/StudentEvalEditP2PDisabled.html");
+		
+		bi.click(By.id("button_submit"));
+		bi.waitForStatusMessage(String.format(Common.MESSAGE_STUDENT_EVALUATION_SUBMISSION_RECEIVED,eval.name,eval.course).replace("<br />", "\n"));
+	}
+	
 	private static void moveToTeam(StudentData student, String newTeam) {
 		String backDoorOperationStatus;
 		student.team = newTeam;
