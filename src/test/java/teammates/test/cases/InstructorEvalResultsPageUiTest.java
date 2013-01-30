@@ -146,4 +146,28 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 			fail("No confirmation box when clicking publish button");
 		}
 	}
+	
+	@Test
+	public void testInstructorEvalResultsP2PDisabled() throws Exception{
+		______TS("summary view");
+		
+		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
+		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("Fifth Eval").name);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.demo.instructor").googleId);
+		bi.goToUrl(link);
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsP2PDisabled.html");
+		
+		//TODO: check for sorting?
+
+		______TS("details by reviewer");
+		
+		bi.getSelenium().check("id=radio_reviewer");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsP2PDisabledByReviewer.html");
+		
+		______TS("details by reviewee");
+		
+		bi.getSelenium().check("id=radio_reviewee");
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsP2PDisabledByReviewee.html");
+	}
 }

@@ -1390,7 +1390,10 @@ public class Logic {
 			returnValue.selfEvaluations.add(sd.result.getSelfEvaluation());
 		}
 
-		returnValue.sortIncomingByFeedbackAscending();
+		if (courseResult.p2pEnabled) {
+			returnValue.sortIncomingByFeedbackAscending();
+		}
+		
 		return returnValue;
 	}
 

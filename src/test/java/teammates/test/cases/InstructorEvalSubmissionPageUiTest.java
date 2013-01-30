@@ -155,4 +155,19 @@ public class InstructorEvalSubmissionPageUiTest extends BaseTestCase {
 		assertEquals(subs[2].p2pFeedback.getValue(),emilyModified.p2pFeedback.getValue());
 		
 	}
+	
+	@Test
+	public void testInstructorEvalSubmissionPageWithP2PDisabled() throws Exception{
+		EvaluationData eval = scn.evaluations.get("Second Eval");
+		
+		______TS("verify p2p fields are disabled");
+		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT;
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, eval.course);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, eval.name);
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL, scn.students.get("Charlie").email);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.instructors.get("teammates.demo.instructor").googleId);
+		bi.goToUrl(link);
+		
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalSubmissionP2PDisabled.html");
+	}
 }

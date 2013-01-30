@@ -11,6 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
@@ -27,13 +28,15 @@ public class BackDoorTest extends BaseTestCase {
 
 	private static Gson gson = Common.getTeammatesGson();
 	private static String jsonString;
-	private DataBundle dataBundle;
+	private static DataBundle dataBundle;
 
 	@BeforeClass
 	public static void setUp() throws Exception {
 		printTestClassHeader();
 		jsonString = Common.readFile(Common.TEST_DATA_FOLDER
 				+ "/typicalDataBundle.json");
+
+		dataBundle = gson.fromJson(jsonString, DataBundle.class);
 	}
 
 	@AfterClass
@@ -48,9 +51,6 @@ public class BackDoorTest extends BaseTestCase {
 
 	@Test
 	public void testPersistenceAndDeletion() {
-
-		dataBundle = gson.fromJson(jsonString, DataBundle.class);
-
 		// Clean up to avoid clashes with existing data.
 		// We delete courses first in case the same course ID exists under a
 		// different instructor not listed in our databundle.
@@ -197,6 +197,46 @@ public class BackDoorTest extends BaseTestCase {
 		// RECREATE ALL DATA. this should succeed if all previous data were deleted
 		status = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
+	}
+	
+	@SuppressWarnings("unused")
+	private void ____ACCOUNT_level_methods_________________________________() {
+	}
+	
+	@Test
+	public void testCreateAccount() {
+		AccountData newAccount = dataBundle.accounts.get("instructor1OfCourse1");
+		BackDoor.deleteAccount(newAccount.googleId);
+		verifyAbsentInDatastore(newAccount);
+		BackDoor.createAccount(newAccount);
+		verifyPresentInDatastore(newAccount);
+	}
+	
+	@Test
+	public void testGetAccountAsJson() {
+		AccountData testAccount = dataBundle.accounts.get("instructor1OfCourse1");
+		verifyPresentInDatastore(testAccount);
+		String actualString = BackDoor.getAccountAsJson(testAccount.googleId);
+		AccountData actualAccount = gson.fromJson(actualString, AccountData.class);
+		assertEquals(gson.toJson(testAccount), gson.toJson(actualAccount));
+	}
+	
+	@Test
+	public void testEditAccount() {
+		AccountData testAccount = dataBundle.accounts.get("instructor1OfCourse1");
+		verifyPresentInDatastore(testAccount);
+		testAccount.name = "New name";
+		BackDoor.editAccount(testAccount);
+		verifyPresentInDatastore(testAccount);
+	}
+	
+	@Test
+	public void testDeleteAccount() {
+		AccountData testAccount = dataBundle.accounts.get("instructor2OfCourse1");
+		BackDoor.createAccount(testAccount);
+		verifyPresentInDatastore(testAccount);
+		BackDoor.deleteAccount(testAccount.googleId);
+		verifyAbsentInDatastore(testAccount);
 	}
 
 	@SuppressWarnings("unused")
@@ -622,8 +662,16 @@ public class BackDoorTest extends BaseTestCase {
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 	}
 
+	private void verifyAbsentInDatastore(AccountData account) {
+		assertEquals("null", BackDoor.getAccountAsJson(account.googleId));
+	}
+	
 	private void verifyAbsentInDatastore(CourseData course) {
 		assertEquals("null", BackDoor.getCourseAsJson(course.id));
+	}
+	
+	private void verifyAbsentInDatastore(InstructorData expectedInstructor) {
+		assertEquals("null", BackDoor.getInstructorAsJson(expectedInstructor.googleId, expectedInstructor.courseId));
 	}
 
 	private void verifyAbsentInDatastore(StudentData student) {
@@ -649,14 +697,19 @@ public class BackDoorTest extends BaseTestCase {
 		Gson gson = Common.getTeammatesGson();
 
 		DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
-		HashMap<String, InstructorData> instructors = data.instructors;
-		for (InstructorData expectedInstructor : instructors.values()) {
-			verifyPresentInDatastore(expectedInstructor);
+		HashMap<String, AccountData> accounts = data.accounts;
+		for (AccountData expectedAccount : accounts.values()) {
+			verifyPresentInDatastore(expectedAccount);
 		}
 
 		HashMap<String, CourseData> courses = data.courses;
 		for (CourseData expectedCourse : courses.values()) {
 			verifyPresentInDatastore(expectedCourse);
+		}
+		
+		HashMap<String, InstructorData> instructors = data.instructors;
+		for (InstructorData expectedInstructor : instructors.values()) {
+			verifyPresentInDatastore(expectedInstructor);
 		}
 
 		HashMap<String, StudentData> students = data.students;
@@ -719,9 +772,10 @@ public class BackDoorTest extends BaseTestCase {
 		InstructorData actualInstructor = gson.fromJson(instructorJsonString, InstructorData.class);
 		assertEquals(gson.toJson(expectedInstructor), gson.toJson(actualInstructor));
 	}
-
-	private void verifyAbsentInDatastore(InstructorData expectedInstructor) {
-		assertEquals("null", BackDoor.getInstructorAsJson(expectedInstructor.googleId, expectedInstructor.courseId));
+	
+	private void verifyPresentInDatastore(AccountData expectedAccount) {
+		String accountJsonString = BackDoor.getAccountAsJson(expectedAccount.googleId);
+		AccountData actualAccount = gson.fromJson(accountJsonString, AccountData.class);
+		assertEquals(gson.toJson(expectedAccount), gson.toJson(actualAccount));
 	}
-
 }

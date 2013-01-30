@@ -111,6 +111,28 @@ public class BackDoor {
 				.toJson(dataBundle));
 	}
 	
+	public static String getAccountAsJson(String googleId) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_ACCOUNT_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_GOOGLE_ID, googleId);
+		String instructorJsonString = makePOSTRequest(params);
+		return instructorJsonString;
+	}
+
+	public static String editAccount(AccountData account) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_ACCOUNT);
+		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common
+				.getTeammatesGson().toJson(account));
+		String status = makePOSTRequest(params);
+		return status;
+	}
+
+	public static String deleteAccount(String googleId) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_ACCOUNT);
+		params.put(BackDoorServlet.PARAMETER_GOOGLE_ID, googleId);
+		String status = makePOSTRequest(params);
+		return status;
+	}
+	
 	@SuppressWarnings("unused")
 	private void ____INSTRUCTOR_level_methods______________________________() {
 	}
