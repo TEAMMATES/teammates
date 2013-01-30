@@ -218,6 +218,7 @@ public class BackDoorTest extends BaseTestCase {
 		verifyPresentInDatastore(testAccount);
 		String actualString = BackDoor.getAccountAsJson(testAccount.googleId);
 		AccountData actualAccount = gson.fromJson(actualString, AccountData.class);
+		actualAccount.createdAt = testAccount.createdAt;
 		assertEquals(gson.toJson(testAccount), gson.toJson(actualAccount));
 	}
 	
@@ -776,6 +777,8 @@ public class BackDoorTest extends BaseTestCase {
 	private void verifyPresentInDatastore(AccountData expectedAccount) {
 		String accountJsonString = BackDoor.getAccountAsJson(expectedAccount.googleId);
 		AccountData actualAccount = gson.fromJson(accountJsonString, AccountData.class);
+		// Ignore time field as it is stamped at the time of creation in testing
+		actualAccount.createdAt = expectedAccount.createdAt;
 		assertEquals(gson.toJson(expectedAccount), gson.toJson(actualAccount));
 	}
 }
