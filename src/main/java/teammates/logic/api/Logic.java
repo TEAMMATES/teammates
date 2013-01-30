@@ -2067,8 +2067,14 @@ public class Logic {
 	 * @return
 	 * @throws EntityDoesNotExistException
 	 */
-	public String getEvaluationExport(String courseID, String evalName) throws EntityDoesNotExistException {
-		EvaluationData eval = getEvaluationResult(courseID, evalName);
+	public String getEvaluationExport(String courseId, String evalName) 
+			throws EntityDoesNotExistException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evalName);
+		
+		verifyCourseOwnerOrAbove(courseId);
+		
+		EvaluationData eval = getEvaluationResult(courseId, evalName);
 		
 		String export = "";
 		
@@ -2096,6 +2102,11 @@ public class Logic {
 				export += td.name + ",," + sd.name + ",," + sd.result.claimedToInstructor + ",," + sd.result.perceivedToInstructor + ",," + result + Common.EOL;
 			}
 		}
+		
+		// Replace all Unset values
+		export = export.replaceAll(Integer.toString(Common.UNINITIALIZED_INT), "N/A");
+		export = export.replaceAll(Integer.toString(Common.POINTS_NOT_SURE), "Not Sure");
+		export = export.replaceAll(Integer.toString(Common.POINTS_NOT_SUBMITTED), "Not Submitted");
 		
 		return export;
 	}
