@@ -4044,6 +4044,89 @@ public class LogicTest extends BaseTestCase {
 	public void testDeleteSubmission() {
 		// method not implemented
 	}
+	
+	@Test
+	public void testGetEvaluationExport() throws Exception {
+
+		______TS("authentication");
+
+		restoreTypicalDataInDatastore();
+
+		String methodName = "getEvaluationExport";
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
+		Object[] params = new Object[] { "idOfTypicalCourse1",
+				"new evaluation" };
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		// course belongs to a different instructor
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
+				paramTypes, params);
+
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
+				paramTypes, params);
+
+		______TS("typical case");
+
+		restoreTypicalDataInDatastore();
+
+		loginAsAdmin("admin.user");
+		
+		EvaluationData eval = dataBundle.evaluations.get("evaluation1InCourse1");
+		
+		String export = logic.getEvaluationExport(eval.course, eval.name);
+		
+		// This is what export should look like:
+		// ==================================
+		//Course,,idOfTypicalCourse1
+		//Evaluation Name,,evaluation1 In Course1
+		//
+		//Team,,Student,,Claimed,,Perceived,,Received
+		//Team 1.1,,student1 In Course1,,100,,100,,100,100,-9999
+		//Team 1.1,,student2 In Course1,,-999,,100,,100,-9999,-9999
+		//Team 1.1,,student3 In Course1,,-999,,100,,100,-9999,-9999
+		//Team 1.1,,student4 In Course1,,-999,,100,,100,-9999,-9999
+		//Team 1.2,,student5 In Course1,,-999,,-9999,,
+		
+		String[] exportLines = export.split(Common.EOL);
+		assertEquals("Course,," + eval.course, exportLines[0]);
+		assertEquals("Evaluation Name,," + eval.name, exportLines[1]);
+		assertEquals("", exportLines[2]);
+		assertEquals("Team,,Student,,Claimed,,Perceived,,Received", exportLines[3]);
+		assertEquals("Team 1.1,,student1 In Course1,,100,,100,,100,100,N/A", exportLines[4]);
+		assertEquals("Team 1.1,,student2 In Course1,,Not Submitted,,100,,100,N/A,N/A", exportLines[5]);
+		assertEquals("Team 1.1,,student3 In Course1,,Not Submitted,,100,,100,N/A,N/A", exportLines[6]);
+		assertEquals("Team 1.1,,student4 In Course1,,Not Submitted,,100,,100,N/A,N/A", exportLines[7]);
+		assertEquals("Team 1.2,,student5 In Course1,,Not Submitted,,N/A,,", exportLines[8]);
+		
+		______TS("Non-existent Course/Eval");
+		
+		verifyEntityDoesNotExistException(methodName, paramTypes,
+				new Object[] { "non.existent", "Non Existent" });
+		
+		______TS("Null parameters");
+		
+		try {
+			logic.getEvaluationExport(null, eval.name);
+			fail();
+		} catch (AssertionError ae) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
+		}
+		
+		try {
+			logic.getEvaluationExport(eval.course, null);
+			fail();
+		} catch (AssertionError ae) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
+		}
+	}
 
 	@SuppressWarnings("unused")
 	private void ____HELPER_methods_________________________________________() {
