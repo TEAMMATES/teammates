@@ -286,6 +286,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <servlet-name>InstructorEvalSubmissionView</servlet-name>
 	    <url-pattern>/page/instructorEvalSubmissionView</url-pattern>
 	</servlet-mapping>
+	<servlet>
+	    <description>Servlet that handles exporting of Evaluation data and it's Submissions</description>
+	    <servlet-name>InstructorEvalExport</servlet-name>
+	    <servlet-class>teammates.ui.controller.InstructorEvalExportServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>InstructorEvalExport</servlet-name>
+	    <url-pattern>/page/instructorEvalExport</url-pattern>
+	</servlet-mapping>
 	
 	<servlet>
 	    <description>Servlet that handles student home page</description>
