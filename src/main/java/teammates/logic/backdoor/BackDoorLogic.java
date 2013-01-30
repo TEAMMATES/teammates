@@ -159,7 +159,7 @@ public class BackDoorLogic extends Logic {
 		editSubmissions(submissionList);
 	}
 	
-	public List<MimeMessage> activateReadyEvaluations() throws EntityDoesNotExistException, MessagingException, InvalidParametersException, IOException{
+	public ArrayList<MimeMessage> activateReadyEvaluations() throws EntityDoesNotExistException, MessagingException, InvalidParametersException, IOException{
 		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
 		List<EvaluationData> evaluations = EvaluationsLogic.inst().getEvaluationsDb().getReadyEvaluations(); 
 		
@@ -187,7 +187,7 @@ public class BackDoorLogic extends Logic {
 		return true;
 	}
 
-	public List<MimeMessage> sendRemindersForClosingEvaluations() throws MessagingException, IOException {
+	public ArrayList<MimeMessage> sendRemindersForClosingEvaluations() throws MessagingException, IOException {
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 		
 		EvaluationsLogic evaluations = EvaluationsLogic.inst();
@@ -241,36 +241,5 @@ public class BackDoorLogic extends Logic {
 		}
 
 		CoursesLogic.inst().getDb().createCourse(courseToAdd);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void appendTimestampForCourse() throws EntityDoesNotExistException {
-		List<CourseData> allCourses = CoursesLogic.inst().getDb().getAllCourses();
-		for (CourseData cd : allCourses) {
-			cd.evaluations = getEvaluationsListForCourse(cd.id);
-			
-			// Retrieve the list of evaluations, sorted most recent first
-			Collections.sort(cd.evaluations, 
-				new Comparator<EvaluationData>() {
-					public int compare(EvaluationData e1, EvaluationData e2) {
-					return e1.startTime.compareTo(e2.startTime);
-				}
-			});
-			
-			// Set the most recent evaluation to be the time stamp for course
-			if (cd.evaluations.size() > 0) {
-				cd.createdAt = cd.evaluations.get(0).startTime;
-			} else {
-				cd.createdAt = new Date();
-			}
-			
-			// Debug
-			System.out.println("For Course:" + cd.id);
-			for (EvaluationData ed : cd.evaluations) {
-				System.out.println(ed.startTime);
-			}
-			System.out.println("Appending: " + cd.createdAt);
-		}
-		CoursesLogic.inst().getDb().updateCourses(allCourses);
 	}
 }
