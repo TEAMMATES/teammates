@@ -13,7 +13,7 @@ import com.google.appengine.api.log.LogServiceFactory;
 import com.google.appengine.api.log.RequestLogs;
 
 @SuppressWarnings("serial")
-public class AdminActivityLogServlet extends ActionServlet<AdminHomeHelper> {
+public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelper> {
 
 	/*
 	 * number of logs to query each time,
@@ -28,12 +28,12 @@ public class AdminActivityLogServlet extends ActionServlet<AdminHomeHelper> {
 	private boolean includeAppLogs = true;
 
 	@Override
-	protected AdminHomeHelper instantiateHelper() {
-		return new AdminHomeHelper();
+	protected AdminActivityLogHelper instantiateHelper() {
+		return new AdminActivityLogHelper();
 	}
 
 	@Override
-	protected void doAction(HttpServletRequest req, AdminHomeHelper helper) {
+	protected void doAction(HttpServletRequest req, AdminActivityLogHelper helper) {
 		String queryOffset = req.getParameter("offset");
 		LogQuery query = buildQuery(queryOffset, includeAppLogs);
 		List<AppLogLine> logs = getAppLogs(query, queryLimit, helper);
@@ -51,7 +51,7 @@ public class AdminActivityLogServlet extends ActionServlet<AdminHomeHelper> {
 		return query;
 	}
 
-	private List<AppLogLine> getAppLogs(LogQuery query, int queryLimit, AdminHomeHelper helper) {
+	private List<AppLogLine> getAppLogs(LogQuery query, int queryLimit, AdminActivityLogHelper helper) {
 		List<AppLogLine> appLogs = new LinkedList<AppLogLine>();
 
 		String lastOffset = null;
@@ -66,7 +66,7 @@ public class AdminActivityLogServlet extends ActionServlet<AdminHomeHelper> {
 			//fetch application log
 			for (AppLogLine appLog : record.getAppLogLines()) {
 				String logMsg = appLog.getLogMessage();
-				if (logMsg.contains("TEAMMATES_LOG")) {
+				if (logMsg.contains("TEAMMATES_LOG") || logMsg.contains("TEAMMATES_ERROR")) {
 					appLogs.add(appLog);
 				}
 			}

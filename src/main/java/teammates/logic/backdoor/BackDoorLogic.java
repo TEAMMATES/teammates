@@ -110,6 +110,11 @@ public class BackDoorLogic extends Logic {
 		return Common.BACKEND_STATUS_SUCCESS;
 	}
 	
+	public String getAccountAsJson(String googleId) {
+		AccountData accountData = getAccount(googleId);
+		return Common.getTeammatesGson().toJson(accountData);
+	}
+	
 	public String getInstructorAsJson(String instructorID, String courseId) {
 		InstructorData instructorData = getInstructor(instructorID, courseId);
 		return Common.getTeammatesGson().toJson(instructorData);
@@ -137,6 +142,13 @@ public class BackDoorLogic extends Logic {
 		return Common.getTeammatesGson().toJson(target);
 	}
 
+	public void editAccountAsJson(String newValues)
+			throws InvalidParametersException, EntityDoesNotExistException {
+		AccountData account = Common.getTeammatesGson().fromJson(newValues,
+				AccountData.class);
+		updateAccount(account);
+	}
+	
 	public void editStudentAsJson(String originalEmail, String newValues)
 			throws InvalidParametersException, EntityDoesNotExistException {
 		StudentData student = Common.getTeammatesGson().fromJson(newValues,
@@ -159,7 +171,7 @@ public class BackDoorLogic extends Logic {
 		editSubmissions(submissionList);
 	}
 	
-	public List<MimeMessage> activateReadyEvaluations() throws EntityDoesNotExistException, MessagingException, InvalidParametersException, IOException{
+	public ArrayList<MimeMessage> activateReadyEvaluations() throws EntityDoesNotExistException, MessagingException, InvalidParametersException, IOException{
 		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
 		List<EvaluationData> evaluations = EvaluationsLogic.inst().getEvaluationsDb().getReadyEvaluations(); 
 		
@@ -187,7 +199,7 @@ public class BackDoorLogic extends Logic {
 		return true;
 	}
 
-	public List<MimeMessage> sendRemindersForClosingEvaluations() throws MessagingException, IOException {
+	public ArrayList<MimeMessage> sendRemindersForClosingEvaluations() throws MessagingException, IOException {
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 		
 		EvaluationsLogic evaluations = EvaluationsLogic.inst();

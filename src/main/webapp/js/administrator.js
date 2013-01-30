@@ -14,9 +14,9 @@ var OPERATION_ADMINISTRATOR_ADDINSTRUCTORINATOR = "administrator_addinstructor";
 var OPERATION_ADMINISTRATOR_LOGOUT = "administrator_logout";
 
 // PARAMETERS
-var INSTRUCTORINATOR_EMAIL = "instructoremail";
-var INSTRUCTORINATOR_GOOGLEID = "instructorgoogleID";
-var INSTRUCTORINATOR_NAME = "instructorname";
+var INSTRUCTOR_EMAIL = "instructoremail";
+var INSTRUCTOR_GOOGLEID = "instructorid";
+var INSTRUCTOR_NAME = "instructorname";
 
 
 
@@ -31,37 +31,30 @@ function addInstructor(googleID, name, email)
 	}
 }
 
-function doAddInstructor(form)
+function verifyInstructorData()
 {
-	var googleID = form.elements[0].value;
-	var name = form.elements[1].value;
-	var email = form.elements[2].value;
-
+	var googleID = $('[name="'+INSTRUCTOR_GOOGLEID + '"]').val();
+	var name = $('[name="'+INSTRUCTOR_NAME + '"]').val();
+	var email = $('[name="'+INSTRUCTOR_EMAIL + '"]').val();
 	if(googleID == "" || name == "" || email == "")
 	{
-		alert("Please fill in all fields.");
+		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);	
+		return false;
 	}
 	
 	else if(!isEmailValid(email))
 	{
-		alert("E-mail is invalid.");
-	}
-	
-	else if(!isGoogleIDValid(googleID))
-	{
-		alert("Google ID is invalid.");
+		setStatusMessage(DISPLAY_EMAIL_INVALID, true);
+		return false;
 	}
 	
 	else if(!isNameValid(name))
 	{
-		alert("Name is invalid.");
+		setStatusMessage(DISPLAY_NAME_INVALID, true);
+		return false;
 	}
-	
-	else
-	{
-		addInstructor(googleID, name, email);
-	}
-	
+
+	return true;
 }
 
 function getXMLObject()  
@@ -93,15 +86,6 @@ function handleLogout()
 	}
 }
 
-function isEmailValid(email)
-{
-	if(email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) != null && email.length <= 40)
-	{
-		return true;
-	}
-
-	return false;
-}
 
 function isGoogleIDValid(googleID)
 {
@@ -123,25 +107,6 @@ function isGoogleIDValid(googleID)
 	return true;
 }
 
-function isNameValid(name)
-{
-	if(name.indexOf("\\") >= 0 || name.indexOf("'") >= 0 || name.indexOf("\"") >= 0)
-	{
-		return false;
-	}
-	
-	else if(name.match(/^[a-zA-Z0-9 ,.-]*$/) == null)
-	{
-		return false;
-	}
-	
-	else if(name.length > 35)
-	{
-		return false;
-	}
-	
-	return true;
-}
 
 function logout()
 {
@@ -153,4 +118,10 @@ function logout()
 	}
 	
 	handleLogout();
+}
+
+
+function showHideErrorMessage(s){
+	$("#" + s).toggle();
+	
 }
