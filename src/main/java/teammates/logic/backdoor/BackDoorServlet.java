@@ -21,19 +21,22 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String OPERATION_DELETE_INSTRUCTOR = "OPERATION_DELETE_INSTRUCTOR";
 	public static final String OPERATION_DELETE_INSTRUCTOR_NON_CASCADE = "OPERATION_DELETE_INSTRUCTOR_NON_CASCADE";
 	public static final String OPERATION_DELETE_COURSE = "OPERATION_DELETE_COURSE";
+	public static final String OPERATION_DELETE_ACCOUNT = "OPERATION_DELETE_ACCOUNT";
 	public static final String OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE = "OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE";
 	public static final String OPERATION_DELETE_EVALUATION = "OPERATION_DELETE_EVALUATION";
 	public static final String OPERATION_DELETE_STUDENT = "OPERATION_DELETE_STUDENT";
 	public static final String OPERATION_DELETE_TEAM_FORMING_LOG = "OPERATION_DELETE_TEAM_FORMING_LOG";
 	public static final String OPERATION_DELETE_TEAM_PROFILE = "OPERATION_DELETE_TEAM_PROFILE";
 	public static final String OPERATION_DELETE_TFS = "OPERATION_DELETE_TFS";
-	public static final String OPERATION_EDIT_EVALUATION = "OPERATION_EDIT_INSTRUCTOR";
+	public static final String OPERATION_EDIT_ACCOUNT = "OPERATION_EDIT_ACCOUNT";
+	public static final String OPERATION_EDIT_EVALUATION = "OPERATION_EDIT_EVALUATION";
 	public static final String OPERATION_EDIT_STUDENT = "OPERATION_EDIT_STUDENT";
 	public static final String OPERATION_EDIT_SUBMISSION = "OPERATION_EDIT_SUBMISSION";
 	public static final String OPERATION_EDIT_TEAM_PROFILE = "OPERATION_EDIT_TEAM_PROFILE";
 	public static final String OPERATION_EDIT_TFS = "OPERATION_EDIT_TFS";
 	public static final String OPERATION_GET_INSTRUCTOR_AS_JSON = "OPERATION_GET_INSTRUCTOR_AS_JSON";
 	public static final String OPERATION_GET_COURSES_BY_INSTRUCTOR = "get_courses_by_instructor";
+	public static final String OPERATION_GET_ACCOUNT_AS_JSON = "OPERATION_GET_ACCOUNT_AS_JSON";
 	public static final String OPERATION_GET_COURSE_AS_JSON = "OPERATION_GET_COURSE_AS_JSON";
 	public static final String OPERATION_GET_STUDENT_AS_JSON = "OPERATION_GET_STUDENT_AS_JSON";
 	public static final String OPERATION_GET_EVALUATION_AS_JSON = "OPERATION_GET_EVALUATION_AS_JSON";
@@ -47,6 +50,7 @@ public class BackDoorServlet extends HttpServlet {
 	
 	public static final String PARAMETER_BACKDOOR_KEY = "PARAM_BACKDOOR_KEY";
 	public static final String PARAMETER_BACKDOOR_OPERATION = "PARAMETER_BACKDOOR_OPERATION";
+	public static final String PARAMETER_GOOGLE_ID = "PARAMETER_GOOGLE_ID";
 	public static final String PARAMETER_COURSE_ID = "PARAMETER_COURSE_ID";
 	public static final String PARAMETER_INSTRUCTOR_EMAIL = "PARAMETER_INSTRUCTOR_EMAIL";
 	public static final String PARAMETER_INSTRUCTOR_ID = "PARAMETER_INSTRUCTOR_ID";
@@ -105,6 +109,9 @@ public class BackDoorServlet extends HttpServlet {
 		if (action.equals(OPERATION_DELETE_INSTRUCTOR)) {
 			String instructorID = req.getParameter(PARAMETER_INSTRUCTOR_ID);
 			backDoorLogic.deleteInstructor(instructorID);
+		} else if (action.equals(OPERATION_DELETE_ACCOUNT)) {
+			String googleId = req.getParameter(PARAMETER_GOOGLE_ID);
+			backDoorLogic.deleteAccount(googleId);
 		} else if (action.equals(OPERATION_DELETE_COURSE)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			backDoorLogic.deleteCourse(courseId);
@@ -116,6 +123,9 @@ public class BackDoorServlet extends HttpServlet {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
 			backDoorLogic.deleteStudent(courseId, email);
+		} else if (action.equals(OPERATION_GET_ACCOUNT_AS_JSON)) {
+			String googleId = req.getParameter(PARAMETER_GOOGLE_ID);
+			return backDoorLogic.getAccountAsJson(googleId);
 		} else if (action.equals(OPERATION_GET_INSTRUCTOR_AS_JSON)) {
 			String instructorID = req.getParameter(PARAMETER_INSTRUCTOR_ID);
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
@@ -151,6 +161,9 @@ public class BackDoorServlet extends HttpServlet {
 			DataBundle dataBundle = Common.getTeammatesGson().fromJson(
 					dataBundleJsonString, DataBundle.class);
 			backDoorLogic.persistNewDataBundle(dataBundle);
+		} else if (action.equals(OPERATION_EDIT_ACCOUNT)) {
+			String newValues = req.getParameter(PARAMETER_JASON_STRING);
+			backDoorLogic.editAccountAsJson(newValues);
 		} else if (action.equals(OPERATION_EDIT_EVALUATION)) {
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
 			backDoorLogic.editEvaluationAsJson(newValues);

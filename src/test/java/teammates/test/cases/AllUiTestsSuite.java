@@ -28,7 +28,8 @@ import org.junit.runners.Suite;
 		
 		StudentHomePageUiTest.class,
 		SystemErrorEmailReportTest.class,
-
+		
+		AdminHomePageUiTest.class,
 })
 
 //@formatter:on
