@@ -326,6 +326,16 @@ div#statusMessage {
 	padding-right: 14px;
 }
 
+.dataTable input.buttonSortDescending {
+	background: url("../images/sortDownButton.png") no-repeat top left;
+	border: 0;
+	height: 14px;
+	outline: none;
+	vertical-align: middle;
+	width: 14px;
+	padding-right: 14px;
+}
+
 .dataTable input.buttonSortNone {
 	background: url("../images/sortSideButton.png") no-repeat top left;
 	border: 0;
