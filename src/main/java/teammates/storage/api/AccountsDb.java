@@ -1054,7 +1054,7 @@ public class AccountsDb {
 		HashMap<String, String> instructorInstitutions = new HashMap<String, String>();
 		
 		for (Account a : instructorAccounts) {
-			if (a.getInstitute() == null) {
+			if (a.getInstitute() == null || a.getInstitute().isEmpty()) {
 				a.setInstitute("National University of Singapore");
 			}
 			instructorInstitutions.put(a.getGoogleId(), a.getInstitute());
@@ -1101,6 +1101,27 @@ public class AccountsDb {
 		for (Account a : studentAccounts) {
 			a.setInstitute(studentInstitutions.get(a.getGoogleId()));
 		}
+		
+		System.out.println("instructorInstitutions");
+		System.out.println("========================");
+		for (String s : instructorInstitutions.keySet()) {
+			System.out.println(s + ": " + instructorInstitutions.get(s));
+		}
+		System.out.println("========================\n");
+		
+		System.out.println("courseInstitutions");
+		System.out.println("========================");
+		for (String s : courseInstitutions.keySet()) {
+			System.out.println(s + ": " + courseInstitutions.get(s));
+		}
+		System.out.println("========================\n");
+		
+		System.out.println("studentInstitutions");
+		System.out.println("========================");
+		for (String s : studentInstitutions.keySet()) {
+			System.out.println(s + ": " + studentInstitutions.get(s));
+		}
+		System.out.println("========================");
 		
 		getPM().close();
 	}
