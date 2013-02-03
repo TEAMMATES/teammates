@@ -1,4 +1,4 @@
-Ôªø<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -92,7 +92,7 @@
 	<br> {Biggest = many contributors, many users, high LOC, evolving
 	over a long period.}
 	<br>
-	<br> ‚ÄòBiggest‚Äô above also implies an exceptionally high quality
+	<br> ëBiggestí above also implies an exceptionally high quality
 	standard because high quality is a necessity for the long-term survival
 	of a big student project.
 	<br>
@@ -115,7 +115,7 @@
 			are confidential and developers are not allowed to see them. This
 			makes troubleshooting harder.</li>
 		<li><span class="bold">Releases</span>: Frequent releases to live
-			users requires us to maintain ‚Äòproduction quality‚Äô constantly.</li>
+			users requires us to maintain ëproduction qualityí constantly.</li>
 		<li><span class="bold">Platform</span>: TEAMMATES is running on
 			Google App Engine cloud platform, which adds the following
 			challenges.
@@ -128,7 +128,7 @@
 			</ul></li>
 		<li><span class="bold">Software Engineering</span>: As TEAMMATES
 			serve as a model system for training students, it should also focus
-			on applying good ‚ÄòSoftware Engineering‚Äô techniques.</li>
+			on applying good ëSoftware Engineeringí techniques.</li>
 	</ul>
 
 	<h2 id="project-principles">Principles</h2>
@@ -139,7 +139,7 @@
 			release frequently, in weekly <a
 			href=http://en.wikipedia.org/wiki/Timeboxing">time-boxed
 				iterations</a>. Every week, our product becomes better than the previous
-			week. This means ‚Äògo back and rewrite from scratch‚Äô is only a last
+			week. This means ëgo back and rewrite from scratchí is only a last
 			resort.</li>
 		<li><span class="bold">We are agile</span>: We are able to change
 			the system quickly and with ease to match emerging requirements. We
@@ -151,16 +151,16 @@
 			broken by others. We use fully automated regression testing. The
 			testing automation level of this project is probably higher than 99%
 			of the projects out there.</li>
-		<li><span class="bold">We are ‚ÄòGods‚Äô of the few tools we
+		<li><span class="bold">We are ëGodsí of the few tools we
 				use</span>: We stick to a Minimal toolset. adding third-party tools and
 			libraries to the project is done only if there is a STRONG
 			justification. Only mature, stable, and well-supported tools should
 			be considered. Once selected, we should know the tool very well to
 			get the best out of it.</li>
 		<li><span class="bold">We value quality more than
-				functionality</span>: i.e., our job is not to ‚Äòanyhow get it to work‚Äô. The
-			system should be good enough to be considered a ‚Äòmodel‚Äô software. Our
-			code is of ‚Äòunusually‚Äô high quality: All code is reviewed before
+				functionality</span>: i.e., our job is not to ëanyhow get it to workí. The
+			system should be good enough to be considered a ëmodelí software. Our
+			code is of ëunusuallyí high quality: All code is reviewed before
 			accepting.</li>
 		<li><span class="bold">We know what we are doing</span>: For us,
 			it is not enough to know something is broken, we should also know why
@@ -172,7 +172,7 @@
 			best way for us.</li>
 		<li><span class="bold">We take pains to save the team from
 				pain</span>: Whenever we had to spend effort in figuring out something, we
-			refine code/documents so that others don‚Äôt have to go through the
+			refine code/documents so that others donít have to go through the
 			same pain. Whenever we figured out a less painful way of doing
 			something, we make sure everyone in the team learn it too.</li>
 	</ul>
@@ -247,7 +247,7 @@
 			in Java POJOs (Plain Old Java Objects). Some automated tasks are
 			implemented as Servlets.</li>
 		<li><span class="bold">Storage</span>: Storage uses the
-			persistence framework provided by GAE ‚Äòdatastore‚Äô. While the
+			persistence framework provided by GAE ëdatastoreí. While the
 			datastore is a noSQL database, we use it in SQL fashion via a JDO
 			wrapper and GQL (a datastore-specific SQL variant).</li>
 		<li><span class="bold">Test Driver</span>: TEAMMATES makes heavy
@@ -474,10 +474,10 @@
 	<br>Authentication:
 	<ul>
 		<li>Calls received by <span class="code">Logic</span> are
-			authenticated against logged in user‚Äôs privileges.<br>
+			authenticated against logged in userís privileges.<br>
 		</li>
 		<li>Calls received by <span class="code">BackDoorServlet</span>
-			are authenticated using the ‚Äòbackdoor key‚Äô. Backdoor key is a string
+			are authenticated using the ëbackdoor keyí. Backdoor key is a string
 			known only to the person who deployed the app (typically, the
 			administrator).
 		</li>
@@ -513,7 +513,7 @@
 		</li>
 		<li>KeepExistingPolicy: the new value of an optional attribute is
 			specified as <span class="code">null</span> or set to
-			‚ÄúUninitialized‚Äù, the existing value will prevail. {This is not a good
+			ìUninitializedî, the existing value will prevail. {This is not a good
 			policy. To be reconsidered}
 		</li>
 		<li><span class="code">Null</span> parameters: Throws an
@@ -1000,7 +1000,7 @@
 
 	<h2 id="settingup-prerequisites">Prerequisites</h2>
 	<ul>	<li>
-	Install <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk6u38-downloads-1877406.html">Java</a> [version 1.6, this is the highest version supported by GAE]
+	Install <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk6u38-downloads-1877406.html">JDK 6 </a>[This is the highest version supported by GAE].<br> If you already have a version higher than JDK 6 installed in your computer, you still need to install JDK 6. 
 	</li>
 
 		<li>Install <a href="http://tortoisehg.bitbucket.org/">TortoiseHg</a>
@@ -1040,7 +1040,7 @@
 	</ul>
 
 	<h2 id="settingup-settingupdevserver">Setting up the dev server</h2>
-	‚ÄòDev server‚Äô means running the server in localhost mode.
+	ëDev serverí means running the server in localhost mode.
 	<ol>
 		<li>Clone the source code from: <span class="code"><a
 				href="https://code.google.com/p/teammatespes/">https://code.google.com/p/teammatespes/</a></span>
@@ -1050,7 +1050,7 @@
 				<li><span class="code"><span class="blue">src/main/resources/</span><span
 						class="bold">build.properties</span></span> <br> Use <span
 					class="code">build.template.properties</span> as a template (i.e.
-					copy ‚Üí paste ‚Üí rename)<br> For dev server testing, property
+					copy ? paste ? rename)<br> For dev server testing, property
 					values can remain as they are. </li>
 				<li><span class="code"><span class="blue">src/test/resources/</span><span
 						class="bold">test.properties </span></span> <br> Create it using <span
@@ -1062,25 +1062,25 @@
 					testing, property values can remain as they are.</li>
 			</ol>
 		</li>
-		<li>Open Eclipse and import ‚Üí general ‚Üí ‚Äòexisting projects into
-			workspace‚Äô (see the <span class="bold">Troubleshooting</span> section
+		<li>Open Eclipse and import ? general ? ëexisting projects into
+			workspaceí (see the <span class="bold">Troubleshooting</span> section
 			below if encounter any problem). After the importing is complete, following
 			settings should be applied automatically (they are here for reference
 			only).
 			<ol type="a">
-				<li>Properties‚ÜíGoogle‚ÜíWeb application
+				<li>Properties?Google?Web application
 					<ol type="i">
 						<li>'this project has a WAR directory' is selected.</li>
 						<li>'Launch and deploy from this directory' points to <span
 							class="code">src/main/webapp</span></li>
 					</ol>
 				</li>
-				<li>Properties‚ÜíGoogle‚ÜíApp engine
+				<li>Properties?Google?App engine
 					<ol type="i">
-						<li>‚Äòuse Google App Engine‚Äô selected</li>
+						<li>ëuse Google App Engineí selected</li>
 					</ol>
 				</li>
-				<li>Properties ‚Üí Google ‚Üí App Engine ‚Üí ORM
+				<li>Properties ? Google ? App Engine ? ORM
 					<ol type="i">
 						<li>This is where we specify where are your Entity classes so
 							that they can be enhanced by the DataNucleus Enhancer tool. Only
@@ -1093,9 +1093,9 @@
 
 			</ol>
 		</li>
-		<li>Right-click on the project folder and choose ‚ÄòRun‚Äô ‚Üí ‚ÄòAs Web
-			Application‚Äô. After some time, you should see this message on the
-			console ‚ÄúThe server is running at http://localhost:8888/‚Äù.<br>
+		<li>Right-click on the project folder and choose ëRuní ? ëAs Web
+			Applicationí. After some time, you should see this message on the
+			console ìThe server is running at http://localhost:8888/î.<br>
 			The dev server is now ready to start requests at the given URL. You
 			can verify by visiting the URL in your Browser. 
 			<br>You can login to the system, you need to add yourself as an
@@ -1107,8 +1107,8 @@
 	<ol type="a">
 		<li>Go to <span class="code">http://appURL/page/adminHome</span></li>
 		<li>Log in using your Google ID. If this is the dev server, enter
-			any email address, but remember to check the ‚Äòlog in as
-			administrator‚Äô check box.</li>
+			any email address, but remember to check the ëlog in as
+			administratorí check box.</li>
 		<li>Enter credentials for a instructor. e.g., <br> Google
 			id: teammates.instructor<br> Name: Dr. John Adams <br>
 			Email: teammates.instructor@gmail.com<br>
@@ -1122,7 +1122,7 @@
 	Run all tests" option under the green "Run" button in the toolbar. Most
 	of the tests should pass. If a few cases fail (this can happen due to
 	timing issues), run the failed cases individually (right click and
-	choos 'Run as ‚Üí Junit Test') and ensure they pass. The default browser
+	choos 'Run as ? Junit Test') and ensure they pass. The default browser
 	used for testing is the Firefox browser. Testing on the Firefox browser
 	is relatively faster as compared to the other browsers, and it can be
 	run in the background. Nevertheless, it is still necessary to test with
@@ -1206,16 +1206,16 @@
 		</li>
 		<li>Deploy app to a appspot
 			<ol type="a">
-				<li>Choose ‚ÄòDeploy to app engine‚Äô from eclipse and follow the
+				<li>Choose ëDeploy to app engineí from eclipse and follow the
 					steps.</li>
 				<li>Wait until you see this message in Eclipse console
-					‚ÄúDeployment completed successfully‚Äù</li>
+					ìDeployment completed successfullyî</li>
 				<li>Go to appengine dashboard <br> <span class="code">
 						<span class="blue">https://appengine.google.com/dashboard?&app_id=teammates-</span><span
 						class="red">name</span>
 				</span></li>
-				<li>Click ‚ÄúVersions‚Äù under ‚ÄúMain‚Äù menu on the left bar.</li>
-				<li>Set the version you deployed as the ‚Äòdefault‚Äô.</li>
+				<li>Click ìVersionsî under ìMainî menu on the left bar.</li>
+				<li>Set the version you deployed as the ëdefaultí.</li>
 			</ol> Note: You can skip the steps to set the deployed version as the
 			default. In that case, you can access the deployed app using <span
 			class="code">http://{version}.{app-id}.appspot.com</span> e.g. <span
@@ -1235,7 +1235,7 @@
 			and <span class="code">ConsoleHandler</span> e.g. <span class="code">java.io.FileWriter
 				is not supported by Google App Engine's Java runtime environment</span> <br>
 			SOLUTION: These are OK because the offending files belong to test
-			driver and will not be deployed to GAE. Choose to ‚ÄòQuick Fix‚Äô and
+			driver and will not be deployed to GAE. Choose to ëQuick Fixí and
 			then choose to exclude those files from validation.
 		</li>
 		<br>
@@ -1243,15 +1243,15 @@
 				project must be configured to use a jdk in order to use jsp"</span>. <br>
 			SOLUTION: This happens because Eclipse is only aware of JRE, not JDK
 			(Compiling JSP requires the JDK). Go to
-			Window‚ÜíPreferences‚ÜíJava‚ÜíInstalled JREs. You will note that a JRE path
-			is the one selected, not a JDK path. To fix this, Click add‚ÜíStandard
+			Window?Preferences?Java?Installed JREs. You will note that a JRE path
+			is the one selected, not a JDK path. To fix this, Click add?Standard
 			VM, then for the JRE Path enter the path of the <span class="code">jre</span>
 			folder inside your jdk installation folder. e.g., <span class="code">C:\jdk1.6\jre</span>
 			Now you should see all of the JARs added to the library section.
 		</li>
 		<br>
 		<li>ERROR (on Windows): Dev server launched by Eclipse keeps
-			running even after closing Eclipse. After restarting Eclipse, you‚Äôll
+			running even after closing Eclipse. After restarting Eclipse, youíll
 			be able to relaunch dev server on the same port but requests will be
 			received by the previous server instance.<br> SOLUTION: If
 			Eclipse crashes while development server is running inside Eclipse,
@@ -1266,12 +1266,12 @@
 				javax.mail.internet.ParameterList.set(ParameterList.java:165) at <br>
 				com.sun.mail.imap.protocol.BODYSTRUCTURE.parseParameters(BODYSTRUCTURE.java:390)<br>
 		</span> SOLUTION: In eclipse, move the <span class="code">javax.mail.....jar</span>
-			(from Oracle) to the top of the build class path. (Properties ‚Üí Java
-			build path ‚Üí ‚Äòorder and export‚Äô tab)
+			(from Oracle) to the top of the build class path. (Properties ? Java
+			build path ? ëorder and exportí tab)
 		</li>
 		<br>
 		<li>ERROR: Eclipse complains "file out of sync".<br>
-			SOLUTION: ‚Äòrefresh‚Äô the project in eclipse.
+			SOLUTION: ërefreshí the project in eclipse.
 		</li>
 		<br>
 		<li>ERROR: Tests fail randomly during dev server testing.<br>
@@ -1357,7 +1357,7 @@
 				being committed. Do not put a fullstop at the end of this line.
 				<li>The Remaining lines can be used to describe the changes you
 					are committing. These lines too will be added to the Issue tracker.</li>
-				<li>Here‚Äôs a sample commit message:<br> <span class="code">
+				<li>Hereís a sample commit message:<br> <span class="code">
 						Starting Issue 234 [Adding commit comment format to DevMan]<br>
 						Update Issue 234<br> Clarified the exact format for commit
 						comments.
@@ -1468,8 +1468,8 @@
 	the branch.
 	<br>If the code is not ready for release, change the status to
 	<span class="code">ChangesRequested</span>.
-	<br> Give either ‚Äòpositive‚Äô or ‚Äònegative‚Äô rating to each review
-	(avoid ‚Äòneutral‚Äô). This helps us to detect which revisions were
+	<br> Give either ëpositiveí or ënegativeí rating to each review
+	(avoid ëneutralí). This helps us to detect which revisions were
 	reviewed (when browsing repo in Google Code)
 	<br>
 	<br> Tip: You can use keyboard shortcuts to navigate code changes
@@ -1496,11 +1496,11 @@
 			branch)<br> <span class="code">hg merge default</span>
 		</li>
 		<br>
-		<li>Verify ‚Äòdev green‚Äô. If the change does not involve auotmted
+		<li>Verify ëdev greení. If the change does not involve auotmted
 			tests, do a manual test. e.g., changes to documentation.</li>
 		<br>
-		<li>Verify ‚Äòstaging green‚Äô (i.e. use your own app on appengine as
-			the ‚Äòstaging site‚Äô)</li>
+		<li>Verify ëstaging greení (i.e. use your own app on appengine as
+			the ëstaging siteí)</li>
 		<br>
 		<li>If not green: <br>
 			<ul>
@@ -1513,7 +1513,7 @@
 			<ul>
 				<li>Merge branch to default<br> <span class="code">
 						hg update default <br> hg merge {branch name}<br> hg
-						commit -m ‚ÄúMerging {branch name} [{branch description}]‚Äù
+						commit -m ìMerging {branch name} [{branch description}]î
 				</span>
 				</li>
 				<li>Push code to release repo. Be careful to push only the
@@ -1531,13 +1531,13 @@
 	Roles: team lead, PM
 	<ol>
 		<li>PM deploys to live site as a new version.<br> Version
-			numbering is x.yy.zz (x-yy-zz on GAE because GAE does not allow ‚Äò.‚Äô)
+			numbering is x.yy.zz (x-yy-zz on GAE because GAE does not allow ë.í)
 			<br> x: major version, yy: feature release, zz: builds for
-			feature yy or updates that doesn‚Äôt affect functionality<br>
+			feature yy or updates that doesnít affect functionality<br>
 			e.g., 4.01.02
 		</li>
 		<br>
-		<li>PM verifies ‚Äòlive green‚Äô.</li>
+		<li>PM verifies ëlive greení.</li>
 		<br>
 		<li>PM set new version as default.</li>
 		<br>
@@ -1592,7 +1592,7 @@
 			<ul>
 				<li>Forgive extra blank lines and extra white space.</li>
 				<li>Auto correct if possible</li>
-				<li>Allow ‚Äòcancel‚Äô at any step where it make sense</li>
+				<li>Allow ëcancelí at any step where it make sense</li>
 			</ul>
 		</li>
 		<br>
@@ -1617,7 +1617,7 @@
 				<li>Submitting a page should take the user to the next logical
 					page while showing feedback about the previous action at the same
 					time.</li>
-				<li>When possible, give an ‚Äòundo‚Äô instead of asking to confirm
+				<li>When possible, give an ëundoí instead of asking to confirm
 					every action.</li>
 				<li>Use defaults so that users are not forced to enter values
 					for each field. This applies to sorting as well (i.e., sort by
@@ -1629,8 +1629,8 @@
 		<li>Take user point of view. E.g.
 			<ul>
 				<li>Use terms from user domain.</li>
-				<li>Use terms that show ‚Äòuser intent‚Äô rather than mechanism.
-					e.g., ‚Äòleave this course‚Äô instead of ‚Äòdelete‚Äô.</li>
+				<li>Use terms that show ëuser intentí rather than mechanism.
+					e.g., ëleave this courseí instead of ëdeleteí.</li>
 			</ul>
 		</li>
 		<br>
@@ -1658,7 +1658,7 @@
 		the <a href="#infrastructure-knowledgebase">Knowledge base section</a> above</li>
 		<li><span class="bold">Comments</span>: Use comments ONLY when
 			the code is not-self explanatory. Avoid redundant comments. Comments
-			should be well-written. They should not be written as ‚Äònote to self‚Äô
+			should be well-written. They should not be written as ënote to selfí
 			of the developer, but as explanations to help the reader.</li>
 		<li><span class="bold">Code formatting</span>: Use Eclipse to
 			auto-format code, <span class="underline">but select the area
@@ -1693,8 +1693,8 @@
 		<li>Be mindful of the cost of running a test. Do not add
 			redundant tests.</li>
 		<li>Be mindful of missing test cases (e.g., boundary values). If
-			you writing tests for a functionality, it‚Äôs your job to ensure it is
-			fully ‚Äòcovered‚Äô by your tests.</li>
+			you writing tests for a functionality, itís your job to ensure it is
+			fully ëcoveredí by your tests.</li>
 		<li>Test units at unit level. Do not attempt to test lower level
 			components from higher level functionality.</li>
 	</ul>
@@ -1704,8 +1704,8 @@
 
 	<h1 id="glossary">Glossary</h1>
 	<ul>
-		<li><span class="bold">Course</span>: we use ‚Äòcourse‚Äô to mean
-			‚Äòmodule‚Äô, ‚Äòclass‚Äô. A course here means an offering of a course in a
+		<li><span class="bold">Course</span>: we use ëcourseí to mean
+			ëmoduleí, ëclassí. A course here means an offering of a course in a
 			particular semester/term. If the course is offered twice in two
 			semesters, they are considered two courses.</li>
 		<li><span class="bold">Contribution scale</span>:<br> <span
