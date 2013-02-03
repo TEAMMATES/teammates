@@ -20,13 +20,13 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 	 * this is larger than number of logs shown on each page because we drop request log
 	 */
 	private int queryLimit = 20;
+	private int maxLogSearchLimit = 50;
 	/*
 	 * parameter to indicate whether to include application log in the result.
 	 * default case only return request log
 	 * https://developers.google.com/appengine/docs/java/logservice/
 	 */
 	private boolean includeAppLogs = true;
-
 	@Override
 	protected AdminActivityLogHelper instantiateHelper() {
 		return new AdminActivityLogHelper();
@@ -69,13 +69,16 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 
 	private List<AppLogLine> getAppLogs(LogQuery query, int queryLimit, AdminActivityLogHelper helper) {
 		List<AppLogLine> appLogs = new LinkedList<AppLogLine>();
-
+		int totalLogsSearched = 0;
+		
 		String lastOffset = null;
-		int i = 0;
+		int totalTeammatesLogs = 0;
+		
 		//fetch request log
 		for (RequestLogs record : LogServiceFactory.getLogService()
 				.fetch(query)) {
-
+			
+			totalLogsSearched ++;
 			lastOffset = record.getOffset();
 			
 			//fetch application log
@@ -84,20 +87,23 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 				if (logMsg.contains("TEAMMATES_LOG") || logMsg.contains("TEAMMATES_ERROR")) {
 					if(AdminActivityLogHelper.performFiltering(helper, logMsg)){
 						appLogs.add(appLog);
-						if (++i >= queryLimit) {
+						if (++totalTeammatesLogs >= queryLimit) {
 							break;
 						}
 					}
 				}
 			}
-			if (i >= queryLimit) {
+			if (totalTeammatesLogs >= queryLimit) {
+				break;
+			}
+			if (totalLogsSearched >= maxLogSearchLimit){
 				break;
 			}
 			
 		}
 
 		//link for Next button, will fetch older logs
-		if (lastOffset != null) {
+		if (lastOffset != null && (totalLogsSearched < maxLogSearchLimit || appLogs.size() == 0)) {
 			helper.statusMessage = "<a href=\"#\" onclick=\"submitForm('" + lastOffset + "');\">Next</a>";
 		}
 		return appLogs;
