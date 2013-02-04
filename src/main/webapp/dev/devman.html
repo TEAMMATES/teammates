@@ -344,7 +344,7 @@
 		<li>It will call the abstract <span class="code">doAction</span>
 			method, which should have been overridden to contain the main action
 			for each servlet. This is the place for highest-level error handling
-			before the response is returned to the Broswer.
+			before the response is returned to the Browser.
 		</li>
 		<li>It will finally call <span class="code">doCreateResponse</span>
 			method, which redirects the request with appropriate method: either
@@ -371,7 +371,7 @@
 			page is now used for login.}</li>
 		<li>logout.jsp : Used for users to log out of the system.</li>
 		<br>
-		<li>adminHome : Page for adiministrative activities such as
+		<li>adminHome : Page for administrative activities such as
 			creating Instructors, monitoring user activities etc.</li>
 		<br>
 		<li>instructorHome : Landing page for instructors. Lists course
@@ -496,7 +496,7 @@
 	</ul>
 	<br>API for retrieving entities:
 	<ul>
-		<li>Attempting to retrived objects using <span class="code">null</span>
+		<li>Attempting to retrieve objects using <span class="code">null</span>
 			parameters: Not expected. Results in assertion failure.
 		</li>
 		<li>Entity not found: <br> -Returns <span class="code">null</span>
@@ -556,7 +556,7 @@
 	Read, Update, Delete) operations on data entities individually. It is
 	accessible via the
 	<span class="code">*Db</span> classes in the
-	<span class="code">atorage::api</span> package. It hides complexities
+	<span class="code">storage::api</span> package. It hides complexities
 	of datastore from the
 	<span class="code">Logic</span> component. All GQL queries are to be
 	contained inside the
@@ -565,7 +565,7 @@
 	CRUD operations.
 	<br>The
 	<span class="code">Storage</span> component will not perform any
-	cascade delete/create oprearations.Cascade logic is currently handled
+	cascade delete/create operations.Cascade logic is currently handled
 	by the
 	<span class="code">Logic</span> component.
 	<br>
@@ -592,7 +592,7 @@
 	<a
 		href="https://developers.google.com/appengine/docs/java/datastore/jdo/creatinggettinganddeletingdata">
 		the ability to 'detach' entities </a> to prevent accidental modifications
-	to persistable data. The decision to use data transer objects is to be
+	to persistable data. The decision to use data transfer objects is to be
 	reconsidered in the future.
 	<br> Note that the navigability of the association links between
 	entity objects appear to be in the reverse direction of what we see in
@@ -630,7 +630,7 @@
 		<li><span class="code">Null</span> values should <span
 			class="bold">not</span> be used as parameters for this API, except
 			under the KeepExistingPolicy mentioned previously. <span class="code">null</span>
-			are not editted.</li>
+			are not editable</li>
 	</ul>
 	<br> API for creating:
 	<ul>
@@ -685,9 +685,9 @@
 	<span class="code">DataBundle</span> in this manner to send an
 	arbitrary number of objects to be persisted in the database.
 	<br> (b) This structure can be used to send results of an
-	evaluation (e.g., when showing an evaluation report to a instructor)
+	evaluation (e.g., when showing an evaluation report to an instructor)
 	<br> (c) This structure can be used to transfer data belonging to
-	a instructor (e.g., when constructing the home page for a instructor).
+	an instructor (e.g., when constructing the home page for an instructor).
 	<br>
 	<br> For convenience, these classes use public variables for data.
 	This is not a good practice as it contravenes OO principle of
@@ -1106,7 +1106,7 @@
 		<li>Log in using your Google ID. If this is the dev server, enter
 			any email address, but remember to check the ‘log in as
 			administrator’ check box.</li>
-		<li>Enter credentials for a instructor. e.g., <br> Google
+		<li>Enter credentials for an instructor. e.g., <br> Google
 			id: teammates.instructor<br> Name: Dr. John Adams <br>
 			Email: teammates.instructor@gmail.com<br>
 		</li>
@@ -1119,7 +1119,7 @@
 	Run all tests" option under the green "Run" button in the toolbar. Most
 	of the tests should pass. If a few cases fail (this can happen due to
 	timing issues), run the failed cases individually (right click and
-	choos 'Run as → Junit Test') and ensure they pass. The default browser
+	choose 'Run as → Junit Test') and ensure they pass. The default browser
 	used for testing is the Firefox browser. Testing on the Firefox browser
 	is relatively faster as compared to the other browsers, and it can be
 	run in the background. Nevertheless, it is still necessary to test with
@@ -1201,7 +1201,7 @@
 					app name and app id of your own app.</li>
 			</ol>
 		</li>
-		<li>Deploy app to a appspot
+		<li>Deploy the application to an appspot
 			<ol type="a">
 				<li>Choose ‘Deploy to app engine’ from eclipse and follow the
 					steps.</li>
@@ -1448,7 +1448,7 @@
 	<br> This is a static code review. No need to apply fix or run
 	tests.
 	<br> Add comments in the review repo or in the contributor's clone
-	(as approprate).
+	(as appropriate).
 	<br>
 	<br> Try to make sure
 	<br> a) The solution is optimal.
@@ -1493,7 +1493,7 @@
 			branch)<br> <span class="code">hg merge default</span>
 		</li>
 		<br>
-		<li>Verify ‘dev green’. If the change does not involve auotmted
+		<li>Verify ‘dev green’. If the change does not involve automated
 			tests, do a manual test. e.g., changes to documentation.</li>
 		<br>
 		<li>Verify ‘staging green’ (i.e. use your own app on appengine as
@@ -1682,7 +1682,7 @@
 	<ul>
 		<li>Try to follow <a
 			href=http://en.wikipedia.org/wiki/Test-driven_development> Test
-				Driven Developement (TDD)</a>. In particular, when fixing a bug, write
+				Driven Development (TDD)</a>. In particular, when fixing a bug, write
 			the test case first before fixing it.
 		</li>
 		<li>Tests within a class may not run in the order they are
