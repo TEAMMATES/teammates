@@ -627,14 +627,12 @@
 	<br> General:
 	<br>
 	<ul>
-		<li><span class="code">Null</span> values should <span
-			class="bold">not</span> be used as parameters for this API, except
-			under the KeepExistingPolicy mentioned previously. <span class="code">null</span>
-			are not editable</li>
+		<li>If <span class="code">Null</span> is passed as a parameter, the corresponding value is <span
+			class="bold">NOT</span> modified, except under the KeepExistingPolicy that was previously mentioned. </li>
 	</ul>
 	<br> API for creating:
 	<ul>
-		<li>Attempt to create an entity that exists: Throw <span
+		<li>Attempt to create an entity that already exists: Throw <span
 			class="code">EntityAlreadyExists</span> exception.
 		</li>
 		<li>Attempt to create an entity with invalid data: assertion
