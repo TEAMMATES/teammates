@@ -46,17 +46,14 @@
 
 	"courses": {
 		"typicalCourse1": {
-			"instructor": "INSTRUCTOR_FIELD_DEPRECATED",
 			"id": "idOfTypicalCourse1",
 			"name": "Typical Course 1 with 2 Evals"
 		},
 		"typicalCourse2": {
-			"instructor": "INSTRUCTOR_FIELD_DEPRECATED",
 			"id": "idOfTypicalCourse2",
 			"name": "Typical Course 2 with 1 Evals"
 		},
 		"courseNoEvals": {
-			"instructor": "INSTRUCTOR_FIELD_DEPRECATED",
 			"id": "idOfCourseNoEvals",
 			"name": "Typical Course 3 with 0 Evals" 
 		}

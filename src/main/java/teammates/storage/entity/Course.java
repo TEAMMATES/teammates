@@ -1,5 +1,7 @@
 package teammates.storage.entity;
 
+import java.util.Date;
+
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -20,14 +22,12 @@ public class Course {
 
 	@Persistent
 	private String name;
-
+	
+	// Store a single Date object when the entity is created
+	// Time zone of the user will be stored in this object
 	@Persistent
-	private String coordinatorID;
-
-	@Persistent
-	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
-	private transient boolean archived;
-
+	private Date createdAt;
+	
 	/**
 	 * Constructs a Course object.
 	 * 
@@ -35,11 +35,11 @@ public class Course {
 	 * @param name
 	 * @param coordinatorID
 	 */
-	public Course(String ID, String name, String coordinatorID) {
+	public Course(String ID, String name) {
 		this.setID(ID);
 		this.setName(name);
-		this.setCoordinatorID(coordinatorID);
-		this.setArchived(false);
+		
+		this.createdAt = new Date();
 	}
 
 	public void setID(String ID) {
@@ -58,20 +58,12 @@ public class Course {
 		return name;
 	}
 
-	public void setCoordinatorID(String coordinatorID) {
-		this.coordinatorID = coordinatorID.trim();
+	// Should only be used for migration
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
-
-	public String getCoordinatorID() {
-		return coordinatorID;
+	
+	public Date getCreatedAt() {
+		return this.createdAt;
 	}
-
-	public void setArchived(boolean archived) {
-		this.archived = archived;
-	}
-
-	public boolean isArchived() {
-		return archived;
-	}
-
 }

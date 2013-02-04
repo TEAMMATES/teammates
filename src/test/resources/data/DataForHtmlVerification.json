@@ -19,12 +19,10 @@
   
   "courses": {
     "CS2104-TESTING": {
-      "instructor": "teammates.demo.instructor",
       "id": "CS2104-TESTING",
       "name": "Programming Language Concepts"
     },
     "CS1101-TESTING": {
-      "instructor": "teammates.demo.instructor",
       "id": "CS1101-TESTING",
       "name": "Programming Methodology"
     }

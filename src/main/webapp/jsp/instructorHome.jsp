@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" />
 	<link rel="stylesheet" href="/stylesheets/instructorHome.css" type="text/css" />
 	
+	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script type="text/javascript" src="/js/jquery-minified.js"></script>
 	<script type="text/javascript" src="/js/tooltip.js"></script>
 	<script type="text/javascript" src="/js/date.js"></script>
@@ -76,7 +77,7 @@
 						onmouseout="hideddrivetip()">
 						Edit</a>
 					<a class="t_course_add_eval<%=idx%> color_white bold"
-						href="<%=helper.getInstructorEvaluationLink()%>"
+						href="<%=helper.getInstructorEvaluationLink(course.id)%>"
 						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_ADD_EVALUATION%>')"
 						onmouseout="hideddrivetip()">
 						Add Evaluation</a>

@@ -108,9 +108,19 @@ $.fn.sortElements = (function(){
 * 		The column index (1-based) as key for the sort
 */
 function toggleSort(divElement,colIdx,comparator) {
-	sortTable(divElement,colIdx,comparator);
-	$(".buttonSortAscending").attr("class","buttonSortNone");
-	$(divElement).attr("class","buttonSortAscending");
+	if($(divElement).attr("class")=="buttonSortNone"){
+		sortTable(divElement,colIdx,comparator);
+		$(".buttonSortAscending").attr("class","buttonSortNone");
+		$(".buttonSortDescending").attr("class","buttonSortNone");
+		$(divElement).attr("class","buttonSortAscending");
+	}
+	else if($(divElement).attr("class")=="buttonSortAscending"){
+		sortTable(divElement,colIdx,sortBaseCellDescending);
+		$(divElement).attr("class","buttonSortDescending");
+	}else{
+		sortTable(divElement,colIdx,comparator);
+		$(divElement).attr("class","buttonSortAscending");
+	}
 }
 
 /**
@@ -124,7 +134,7 @@ function toggleSort(divElement,colIdx,comparator) {
 * 		sortBaseCell will be used
 */
 function sortTable(oneOfTableCell, colIdx, comparator){
-	if(!comparator) comparator = sortBaseCell;
+	if(!comparator) comparator = sortBaseCellAscending;
 	var table = $(oneOfTableCell);
 	if(!table.is("table")){
 		table = $(oneOfTableCell).parentsUntil("table");
@@ -135,15 +145,23 @@ function sortTable(oneOfTableCell, colIdx, comparator){
 }
 
 /**
-* The base comparator for a cell
+* The base comparator for a cell (ascending)
 * @param cell1
 * @param cell2
-* @returns
+* @returns returns if cell1.innerHTML is larger than cell2.innerHTML
 */
-function sortBaseCell(cell1, cell2){
-	cell1 = cell1.innerHTML;
-	cell2 = cell2.innerHTML;
-	return sortBase(cell1,cell2);
+function sortBaseCellAscending(cell1, cell2){
+	return sortBase(cell1.innerHTML,cell2.innerHTML);
+}
+
+/**
+* The base comparator for a cell (descending)
+* @param cell1
+* @param cell2
+* @returns returns the opposite of sortBaseAscending
+*/
+function sortBaseCellDescending(cell1, cell2){
+	return sortBaseCellAscending(cell2,cell1);
 }
 
 /**
@@ -269,4 +287,40 @@ function checkEvaluationForm(){
 		}
 	}
 	return true;
+}
+
+
+/**
+ * Checks whether an e-mail is valid.
+ * Used in instructorCourseEnroll page (through instructorCourseEnroll.js)
+ * @param email
+ * @returns {Boolean}
+ */
+function isEmailValid(email) {
+	return email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i)!=null;
+}
+
+/**
+ * Checks whether a student's name is valid
+ * Used in instructorCourseEnroll page (through instructorCourseEnroll.js)
+ * @param name
+ * @returns {Boolean}
+ */
+function isNameValid(name) {
+	name = name.trim();
+
+	if (name == "") {
+		return false;
+	}
+	if (name.match(/[^\/\\,.'\-\(\)0-9a-zA-Z \t]/)) {
+		// Returns true if a character NOT belonging to the following set
+		// appears in the name: slash(/), backslash(\), fullstop(.), comma(,),
+		// apostrophe('), hyphen(-), round brackets(()), alpha numeric
+		// characters, space, tab
+		return false;
+	} else if (name.length > NAME_MAX_LENGTH) {
+		return false;
+	} else {
+		return true;
+	}
 }

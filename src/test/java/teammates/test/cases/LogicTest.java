@@ -233,15 +233,30 @@ public class LogicTest extends BaseTestCase {
 		// Delete any existing
 		CourseData cd = dataBundle.courses.get("typicalCourse1");
 		InstructorData instructor = dataBundle.instructors.get("instructor1OfCourse1");
+		InstructorData instructor2 = dataBundle.instructors.get("instructor2OfCourse1");
 		logic.deleteCourse(cd.id);
 		verifyAbsentInDatastore(cd);
 		verifyAbsentInDatastore(instructor);
+		verifyAbsentInDatastore(instructor2);
 		
 		// Create fresh
-		logic.createCourse(cd.instructor, cd.id, cd.name);
-		logic.createInstructor(instructor.googleId, instructor.courseId, instructor.name, instructor.email);
-		verifyPresentInDatastore(instructor);
+		logic.createCourse(instructor.googleId, cd.id, cd.name);
+		try {
+			logic.createInstructor(instructor.googleId, instructor.courseId, instructor.name, instructor.email);
+			fail();
+		} catch (EntityAlreadyExistsException eaee) {
+			// Course must be created with a creator. `instructor` here is our creator, so recreating it should give us EAEE
+		}
+		// Here we create another INSTRUCTOR for testing our createInstructor() method
+		logic.createInstructor(instructor2.googleId, instructor2.courseId, instructor2.name, instructor2.email);
+		
+		// `instructor` here is created with NAME and EMAIL field obtain from his AccountData
+		AccountData creator = dataBundle.accounts.get("instructor1OfCourse1");
+		instructor.name = creator.name;
+		instructor.email = creator.email; 
 		verifyPresentInDatastore(cd);
+		verifyPresentInDatastore(instructor);
+		verifyPresentInDatastore(instructor2);
 		
 		// Delete fresh
 		logic.deleteCourse(cd.id);
@@ -249,10 +264,12 @@ public class LogicTest extends BaseTestCase {
 		verifyAbsentInDatastore(cd);
 		// check for cascade delete
 		verifyAbsentInDatastore(instructor);
+		verifyAbsentInDatastore(instructor2);
 		
 		// Delete non-existent (fails silently)
 		logic.deleteCourse(cd.id);
 		logic.deleteInstructor(instructor.googleId, instructor.courseId);
+		logic.deleteInstructor(instructor2.googleId, instructor2.courseId);
 
 		______TS("invalid parameters");
 
@@ -436,6 +453,34 @@ public class LogicTest extends BaseTestCase {
 
 		verifyEntityDoesNotExistException(methodName, paramTypes,
 				new Object[] { "non-existent" });
+	}
+	
+	// TODO: To be modified to handle API for retrieve paginated results of Courses
+	@Test
+	public void testGetCourseListForInstructorWithCountAndTime() throws Exception {
+		loginAsAdmin("admin.user");
+		//SETUP
+		String googleId = "InstructorOfManyCourses";
+		logic.createAccount(googleId, "Instructor of Many Courses", true, "instructor@many.course", "NUS");
+		for (int i = 1; i< 10; i++) {
+			logic.createCourse(googleId, "course" + i, "Course " + i);
+		}
+		
+		Common.waitBriefly();
+		Common.waitBriefly();
+		
+		// lastRetrievedTime = 0 => Earliest time
+		HashMap <String, CourseData> courseList = logic.getCourseListForInstructor(googleId, 0, 5);
+		for (CourseData cd : courseList.values()) {
+			System.out.println(cd.id);
+		}
+		assertEquals(5, courseList.size());
+		
+		// TEARDOWN
+		logic.deleteAccount(googleId);
+		for (int i = 1; i<= 10; i++) {
+			logic.deleteCourse("course" + i);
+		}
 	}
 
 	@Test
@@ -730,7 +775,7 @@ public class LogicTest extends BaseTestCase {
 		______TS("null parameters");
 		
 		try {
-			logic.createCourse(null, "valid.course.id", "valid course name");
+			logic.createCourse(instructor.googleId, null, course.name);
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
@@ -1663,7 +1708,6 @@ public class LogicTest extends BaseTestCase {
 		String newEmail = student1InCourse1.email + "x";
 		student1InCourse1.email = newEmail;
 		student1InCourse1.team = "Team 1.2"; // move to a different team
-		student1InCourse1.profile = new Text("new profile detail abc ");
 
 		// take a snapshot of submissions before
 		List<SubmissionData> submissionsBeforeEdit = EvaluationsLogic.inst().getSubmissionsDb()
@@ -4000,6 +4044,89 @@ public class LogicTest extends BaseTestCase {
 	public void testDeleteSubmission() {
 		// method not implemented
 	}
+	
+	@Test
+	public void testGetEvaluationExport() throws Exception {
+
+		______TS("authentication");
+
+		restoreTypicalDataInDatastore();
+
+		String methodName = "getEvaluationExport";
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
+		Object[] params = new Object[] { "idOfTypicalCourse1",
+				"new evaluation" };
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		// course belongs to a different instructor
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
+				paramTypes, params);
+
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
+				paramTypes, params);
+
+		______TS("typical case");
+
+		restoreTypicalDataInDatastore();
+
+		loginAsAdmin("admin.user");
+		
+		EvaluationData eval = dataBundle.evaluations.get("evaluation1InCourse1");
+		
+		String export = logic.getEvaluationExport(eval.course, eval.name);
+		
+		// This is what export should look like:
+		// ==================================
+		//Course,,idOfTypicalCourse1
+		//Evaluation Name,,evaluation1 In Course1
+		//
+		//Team,,Student,,Claimed,,Perceived,,Received
+		//Team 1.1,,student1 In Course1,,100,,100,,100,100,-9999
+		//Team 1.1,,student2 In Course1,,-999,,100,,100,-9999,-9999
+		//Team 1.1,,student3 In Course1,,-999,,100,,100,-9999,-9999
+		//Team 1.1,,student4 In Course1,,-999,,100,,100,-9999,-9999
+		//Team 1.2,,student5 In Course1,,-999,,-9999,,
+		
+		String[] exportLines = export.split(Common.EOL);
+		assertEquals("Course,," + eval.course, exportLines[0]);
+		assertEquals("Evaluation Name,," + eval.name, exportLines[1]);
+		assertEquals("", exportLines[2]);
+		assertEquals("Team,,Student,,Claimed,,Perceived,,Received", exportLines[3]);
+		assertEquals("Team 1.1,,student1 In Course1,,100,,100,,100,100,N/A", exportLines[4]);
+		assertEquals("Team 1.1,,student2 In Course1,,Not Submitted,,100,,100,N/A,N/A", exportLines[5]);
+		assertEquals("Team 1.1,,student3 In Course1,,Not Submitted,,100,,100,N/A,N/A", exportLines[6]);
+		assertEquals("Team 1.1,,student4 In Course1,,Not Submitted,,100,,100,N/A,N/A", exportLines[7]);
+		assertEquals("Team 1.2,,student5 In Course1,,Not Submitted,,N/A,,", exportLines[8]);
+		
+		______TS("Non-existent Course/Eval");
+		
+		verifyEntityDoesNotExistException(methodName, paramTypes,
+				new Object[] { "non.existent", "Non Existent" });
+		
+		______TS("Null parameters");
+		
+		try {
+			logic.getEvaluationExport(null, eval.name);
+			fail();
+		} catch (AssertionError ae) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
+		}
+		
+		try {
+			logic.getEvaluationExport(eval.course, null);
+			fail();
+		} catch (AssertionError ae) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
+		}
+	}
 
 	@SuppressWarnings("unused")
 	private void ____HELPER_methods_________________________________________() {
@@ -4160,6 +4287,8 @@ public class LogicTest extends BaseTestCase {
 
 	public static void verifyPresentInDatastore(CourseData expected) {
 		CourseData actual = logic.getCourse(expected.id);
+		// Ignore time field as it is stamped at the time of creation in testing
+		actual.createdAt = expected.createdAt;
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 

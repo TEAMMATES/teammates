@@ -1,7 +1,6 @@
 {
   "courses": {
     "CESubEditUiT.CS1101": {
-      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
       "id": "CESubEditUiT.CS1101",
       "name": "Programming Methodology"
     }
@@ -56,6 +55,18 @@
       "timeZone": 8.0,
       "gracePeriod": 10,
       "p2pEnabled": true,
+      "published": false,
+      "activated": true
+    },
+    "Second Eval": {
+      "course": "CESubEditUiT.CS1101",
+      "name": "Second Eval",
+      "instructions": "Please please fill it in",
+      "startTime": "2012-04-01 11:59 PM",
+      "endTime": "2015-04-01 11:59 PM",
+      "timeZone": 8.0,
+      "gracePeriod": 10,
+      "p2pEnabled": false,
       "published": false,
       "activated": true
     }
@@ -147,6 +158,101 @@
       "reviewee" : "danny.e.tmms@gmail.com",
       "course" : "CESubEditUiT.CS1101",
       "evaluation" : "First Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to danny.e.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from emily.tmms@gmail.com to danny.e.tmms@gmail.com"},
+      "team" : "Team 2"
+    },
+
+
+
+
+
+    "Charlie2Charlie": {
+      "reviewer" : "charlie.d.tmms@gmail.com",
+      "reviewee" : "charlie.d.tmms@gmail.com",
+      "course" : "CESubEditUiT.CS1101",
+      "evaluation" : "Second Eval",
+      "points" : 110,
+      "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to charlie.d.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from charlie.d.tmms@gmail.com to charlie.d.tmms@gmail.com"},
+      "team" : "Team 2"
+    },
+    "Charlie2Danny": {
+      "reviewer" : "charlie.d.tmms@gmail.com",
+      "reviewee" : "danny.e.tmms@gmail.com",
+      "course" : "CESubEditUiT.CS1101",
+      "evaluation" : "Second Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com"},
+      "team" : "Team 2"
+    },
+    "Charlie2Emily": {
+      "reviewer" : "charlie.d.tmms@gmail.com",
+      "reviewee" : "emily.tmms@gmail.com",
+      "course" : "CESubEditUiT.CS1101",
+      "evaluation" : "Second Eval",
+      "points" : 110,
+      "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to emily.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from charlie.d.tmms@gmail.com to emily.tmms@gmail.com"},
+      "team" : "Team 2"
+    },
+    "Danny2Danny": {
+      "reviewer" : "danny.e.tmms@gmail.com",
+      "reviewee" : "danny.e.tmms@gmail.com",
+      "course" : "CESubEditUiT.CS1101",
+      "evaluation" : "Second Eval",
+      "points" : 110,
+      "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to danny.e.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from danny.e.tmms@gmail.com to danny.e.tmms@gmail.com"},
+      "team" : "Team 2"
+    },
+    "Danny2Charlie": {
+      "reviewer" : "danny.e.tmms@gmail.com",
+      "reviewee" : "charlie.d.tmms@gmail.com",
+      "course" : "CESubEditUiT.CS1101",
+      "evaluation" : "Second Eval",
+      "points" : 90,
+      "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com"},
+      "team" : "Team 2"
+    },
+    "Danny2Emily": {
+      "reviewer" : "danny.e.tmms@gmail.com",
+      "reviewee" : "emily.tmms@gmail.com",
+      "course" : "CESubEditUiT.CS1101",
+      "evaluation" : "Second Eval",
+      "points" : -101,
+      "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to emily.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from danny.e.tmms@gmail.com to emily.tmms@gmail.com"},
+      "team" : "Team 2"
+    },
+    "Emily2Emily": {
+      "reviewer" : "emily.tmms@gmail.com",
+      "reviewee" : "emily.tmms@gmail.com",
+      "course" : "CESubEditUiT.CS1101",
+      "evaluation" : "Second Eval",
+      "points" : 110,
+      "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to emily.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from emily.tmms@gmail.com to emily.tmms@gmail.com"},
+      "team" : "Team 2"
+    },
+    "Emily2Charlie": {
+      "reviewer" : "emily.tmms@gmail.com",
+      "reviewee" : "charlie.d.tmms@gmail.com",
+      "course" : "CESubEditUiT.CS1101",
+      "evaluation" : "Second Eval",
+      "points" : 90,
+      "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to charlie.d.tmms@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from emily.tmms@gmail.com to charlie.d.tmms@gmail.com"},
+      "team" : "Team 2"
+    },
+    "Emily2Danny": {
+      "reviewer" : "emily.tmms@gmail.com",
+      "reviewee" : "danny.e.tmms@gmail.com",
+      "course" : "CESubEditUiT.CS1101",
+      "evaluation" : "Second Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to danny.e.tmms@gmail.com"},
       "p2pFeedback" : {"value" :"This is a public comment from emily.tmms@gmail.com to danny.e.tmms@gmail.com"},

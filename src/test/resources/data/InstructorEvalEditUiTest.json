@@ -9,8 +9,7 @@
 
   "course": {
     "id": "CEvEditUiTest.CS1101",
-    "name": "Programming Methodology",
-    "instructor": "INSTRUCTOR_FIELD_DEPRECATED"
+    "name": "Programming Methodology"
   },
 
   "instructor": {

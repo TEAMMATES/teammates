@@ -31,9 +31,10 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 		boolean isAddEvaluation = isPost;
 
 		if (!isAddEvaluation) {
-			helper.submittedEval = null;
+			helper.newEvaluationToBeCreated = null;
+			helper.courseIdForNewEvaluation = req.getParameter(Common.PARAM_COURSE_ID);
 		} else {
-			helper.submittedEval = extractEvaluationData(req);
+			helper.newEvaluationToBeCreated = extractEvaluationData(req);
 			createEvaluation(helper);
 		}
 
@@ -57,9 +58,9 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 
 	private void createEvaluation(InstructorEvalHelper helper) {
 		try {
-			helper.server.createEvaluation(helper.submittedEval);
+			helper.server.createEvaluation(helper.newEvaluationToBeCreated);
 			helper.statusMessage = Common.MESSAGE_EVALUATION_ADDED;
-			helper.submittedEval = null;
+			helper.newEvaluationToBeCreated = null;
 		} catch (EntityAlreadyExistsException e) {
 			helper.statusMessage = Common.MESSAGE_EVALUATION_EXISTS;
 			helper.error = true;

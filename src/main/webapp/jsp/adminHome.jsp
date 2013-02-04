@@ -10,8 +10,11 @@
 	<link rel="stylesheet" href="/stylesheets/adminHome.css" type="text/css">
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
 
+	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script type="text/javascript" src="/js/jquery-minified.js"></script>
 	<script type="text/javascript" src="/js/tooltip.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/administrator.js"></script>
 	<jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
@@ -51,7 +54,7 @@
 						<td class="centeralign"><input type="checkbox" name="<%= Common.PARAM_INSTRUCTOR_IMPORT_SAMPLE %>" value="importsample">Import sample data</input></td>
 				    </tr>
 				    <tr>
-						<td class="centeralign"><input id="btnAddInstructor" class="button" type="submit" value="Add Instructor"></td>
+						<td class="centeralign"><input id="btnAddInstructor" class="button" type="submit" value="Add Instructor" onclick="return verifyInstructorData();"></td>
 				    </tr>
 				    </table>
 				</form>

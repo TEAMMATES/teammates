@@ -80,7 +80,6 @@ public class LoginPageUiTest extends BaseTestCase {
 		CourseData testCourse = new CourseData();
 		testCourse.id = "lput.tsl.course";
 		testCourse.name = "test.course.fornewstudent";
-		testCourse.instructor = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
 		BackDoor.deleteCourse(testCourse.id);
 		backDoorOperationStatus = BackDoor.createCourse(testCourse);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);

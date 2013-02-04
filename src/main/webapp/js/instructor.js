@@ -73,40 +73,7 @@ function toggleRemindStudents(evaluationName) {
 }
 
 
-/**
- * Checks whether an e-mail is valid.
- * Used in instructorCourseEnroll page (through instructorCourseEnroll.js)
- * @param email
- * @returns {Boolean}
- */
-function isEmailValid(email) {
-	return email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i)!=null;
-}
 
-/**
- * Checks whether a student's name is valid
- * Used in instructorCourseEnroll page (through instructorCourseEnroll.js)
- * @param name
- * @returns {Boolean}
- */
-function isNameValid(name) {
-	name = name.trim();
-
-	if (name == "") {
-		return false;
-	}
-	if (name.match(/[^\/\\,.'\-\(\)0-9a-zA-Z \t]/)) {
-		// Returns true if a character NOT belonging to the following set
-		// appears in the name: slash(/), backslash(\), fullstop(.), comma(,),
-		// apostrophe('), hyphen(-), round brackets(()), alpha numeric
-		// characters, space, tab
-		return false;
-	} else if (name.length > NAME_MAX_LENGTH) {
-		return false;
-	} else {
-		return true;
-	}
-}
 
 /**
  * Checks whether a team's name is valid

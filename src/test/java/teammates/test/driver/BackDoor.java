@@ -99,37 +99,6 @@ public class BackDoor {
 	}
 	
 	//====================================================================================
-	@SuppressWarnings("unused")
-	private void _____DATA_MIGRATION_methods______________________________() {
-	}
-
-	/**
-	 * Call the migration BackDoorLogic method
-	 */
-	public static String createInstructorsFromCourses() {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_CREATE_INSTRUCTORS_FROM_COURSES);
-		String status = makePOSTRequest(params);
-		return status;
-	}
-	
-	public static String createAccountsForInstructors() {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_CREATE_ACCOUNTS_FOR_INSTRUCTORS);
-		String status = makePOSTRequest(params);
-		return status;
-	}
-	
-	public static String createAccountsForStudents() {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_CREATE_ACCOUNTS_FOR_STUDENTS);
-		String status = makePOSTRequest(params);
-		return status;
-	}
-	
-	public static String appendNameEmailForInstructors() {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_APPEND_NAME_EMAIL_FOR_INSTRUCTORS);
-		String status = makePOSTRequest(params);
-		return status;
-	}
-	//====================================================================================
 	
 	@SuppressWarnings("unused")
 	private void ____ACCOUNT_level_methods______________________________() {
@@ -140,6 +109,28 @@ public class BackDoor {
 		dataBundle.accounts.put(account.googleId, account);
 		return persistNewDataBundle(Common.getTeammatesGson()
 				.toJson(dataBundle));
+	}
+	
+	public static String getAccountAsJson(String googleId) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_ACCOUNT_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_GOOGLE_ID, googleId);
+		String instructorJsonString = makePOSTRequest(params);
+		return instructorJsonString;
+	}
+
+	public static String editAccount(AccountData account) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_ACCOUNT);
+		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common
+				.getTeammatesGson().toJson(account));
+		String status = makePOSTRequest(params);
+		return status;
+	}
+
+	public static String deleteAccount(String googleId) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_ACCOUNT);
+		params.put(BackDoorServlet.PARAMETER_GOOGLE_ID, googleId);
+		String status = makePOSTRequest(params);
+		return status;
 	}
 	
 	@SuppressWarnings("unused")

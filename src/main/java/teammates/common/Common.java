@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
@@ -15,8 +16,13 @@ import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import javax.mail.Address;
+import javax.mail.Message;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
+import teammates.common.datatransfer.UserType;
+import teammates.logic.api.Logic;
 import teammates.ui.controller.Helper;
 
 import com.google.appengine.api.utils.SystemProperty;
@@ -83,7 +89,7 @@ public class Common {
 
 	public static final String HOVER_MESSAGE_EVALUATION_INPUT_COURSE = "Please select the course for which the evaluation is to be created.";
 	public static final String HOVER_MESSAGE_EVALUATION_INPUT_START = "Please enter the start date for the evaluation.";
-	public static final String HOVER_MESSAGE_EVALUATION_INPUT_NAME = "Enter the name of the evaluation e.g. Mid-term.";
+	public static final String HOVER_MESSAGE_EVALUATION_INPUT_NAME = "Enter the name of the evaluation e.g. Mid-term Evaluation 1.";
 	public static final String HOVER_MESSAGE_EVALUATION_INPUT_DEADLINE = "Please enter deadline for the evaluation.";
 	public static final String HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS = "Enable this if you want students to give anonymous feedback to team members.<br />"
 			+ "You can moderate those peer feedback before publishing it to the team.";
@@ -396,7 +402,55 @@ public class Common {
 	public static String STUDENT_EMAIL_FRAGMENT_COURSE_JOIN = readResourseFile("studentEmailFragment-courseJoin.html");
 	public static String SYSTEM_ERROR_EMAIL_TEMPLATE = readResourseFile("systemErrorEmailTemplate.html");
 	
+	/**
+	 * Servlet Names and Actions
+	 */
+	public static String INSTRUCTOR_COURSE_SERVLET = "instructorCourse";
+	public static String INSTRUCTOR_COURSE_SERVLET_ACTION = "Add New Course";
+	public static String INSTRUCTOR_COURSE_ENROLL_SERVLET = "instructorCourseEnroll";
+	public static String INSTRUCTOR_COURSE_ENROLL_SERVLET_ACTION = "Enroll Students";
+	public static String INSTRUCTOR_COURSE_EDIT_SERVLET = "instructorCourseEdit";
+	public static String INSTRUCTOR_COURSE_EDIT_SERVLET_ACTION = "Edit Course Info";
+	public static String INSTRUCTOR_COURSE_DELETE_SERVLET = "instructorCourseDelete";
+	public static String INSTRUCTOR_COURSE_DELETE_SERVLET_ACTION = "Delete Course";
+	public static String INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET = "instructorCourseStudentEdit";
+	public static String INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET_ACTION = "Edit Student Details";
+	public static String INSTRUCTOR_COURSE_STUDENT_DELETE_SERVLET = "instructorCourseStudentDelete";
+	public static String INSTRUCTOR_COURSE_STUDENT_DELETE_SERVLET_ACTION = "Delete Student";
+	public static String INSTRUCTOR_COURSE_REMIND_SERVLET = "instructorCourseRemind";
+	public static String INSTRUCTOR_COURSE_REMIND_SERVLET_ACTION = "Send Registration";
+	public static String INSTRUCTOR_EVAL_SERVLET = "instructorEval";
+	public static String INSTRUCTOR_EVAL_SERVLET_ACTION = "Create New Evaluation";
+	public static String INSTRUCTOR_EVAL_EDIT_SERVLET = "instructorEvalEdit";
+	public static String INSTRUCTOR_EVAL_EDIT_SERVLET_ACTION = "Edit Evaluation Info";
+	public static String INSTRUCTOR_EVAL_DELETE_SERVLET = "instructorEvalDelete";
+	public static String INSTRUCTOR_EVAL_DELETE_SERVLET_ACTION = "Delete Evaluation";
+	public static String INSTRUCTOR_EVAL_REMIND_SERVLET = "instructorEvalRemind";
+	public static String INSTRUCTOR_EVAL_REMIND_SERVLET_ACTION = "Remind Students";
+	public static String INSTRUCTOR_EVAL_PUBLISH_SERVLET = "instructorEvalPublish";
+	public static String INSTRUCTOR_EVAL_PUBLISH_SERVLET_ACTION = "Publish Evaluation";
+	public static String INSTRUCTOR_EVAL_UNPUBLISH_SERVLET = "instructorEvalUnpublish";
+	public static String INSTRUCTOR_EVAL_UNPUBLISH_SERVLET_ACTION = "Unpublish Evaluation";
+	public static String INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET = "instructorEvalSubmissionEditHandler";
+	public static String INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET_ACTION = "Edit Submission";
+	public static String STUDENT_EVAL_EDIT_HANDLER_SERVLET = "studentEvalEditHandler";
+	public static String STUDENT_EVAL_EDIT_HANDLER_SERVLET_ACTION = "Edit Submission";
 	
+	/**
+	 * Admin Servlets
+	 */
+	public static String ADMIN_HOME_SERVLET = "adminHome";
+	public static String ADMIN_ACTIVITY_LOG_SERVLET = "adminActivityLog";
+	public static String ADMIN_SEARCH_SERVLET = "adminSearch";
+	public static String ADMIN_SEARCH_TASK_SERVLET = "adminSearchTask";
+	
+	/**
+	 * Automated Servlets
+	 */
+	public static String EVALUATION_CLOSING_REMINDERS_SERVLET = "evaluationclosingreminders";
+	public static String EVALUATION_CLOSING_REMINDERS_SERVLET_ACTION = "Evaluation Closing Reminders";
+	public static String EVALUATION_OPENING_REMINDERS_SERVLET = "evaluationopeningreminders";
+	public static String EVALUATION_OPENING_REMINDERS_SERVLET_ACTION = "Evaluation Opening Reminders";
 	
 	@SuppressWarnings("unused")
 	private void ____VALIDATE_parameters___________________________________() {
@@ -698,7 +752,12 @@ public class Common {
 		String requestParameters = "{";
 		for (Enumeration f = request.getParameterNames(); f.hasMoreElements();) {
 			String paramet = new String(f.nextElement().toString());
-			requestParameters += paramet + ":" + request.getParameter(paramet) + ", ";
+			requestParameters += paramet + "::";
+			String[] parameterValues = request.getParameterValues(paramet);
+			for (int j = 0; j < parameterValues.length; j++){
+				requestParameters += parameterValues[j] + "//";
+			}
+			requestParameters = requestParameters.substring(0, requestParameters.length() - 2) + ", ";
 		}
 		if (requestParameters != "{") {
 			requestParameters = requestParameters.substring(0, requestParameters.length() - 2);
@@ -748,5 +807,43 @@ public class Common {
 	}
 	
 	
+	/**
+	 * Generate log messages for the automated reminders sent.
+	 * Used for AdminActivityLog
+	 */
+	public static String generateLogMessagesForAutomatedReminders(HttpServletRequest req, ArrayList<MimeMessage> emails){
 
+		StringBuilder sb = new StringBuilder("[TEAMMATES_LOG]|||");
+		
+		try{
+			//log action
+			String[] actionTkn = req.getServletPath().split("/");
+			String action = req.getServletPath();
+			if(actionTkn.length > 0) {
+				action = actionTkn[actionTkn.length-1]; //retrieve last segment in path
+			}
+			
+			sb.append(action+"|||");			
+			sb.append("Automated Reminder|||Automated Reminder|||N/A|||N/A|||");
+	
+			String emailTargets = "{targets::";
+			for (int i = 0; i < emails.size(); i++){
+				Address[] recipients = emails.get(i).getRecipients(Message.RecipientType.TO);
+				for (int j = 0; j < recipients.length; j++){
+					emailTargets += recipients[j] + "//";
+				}
+			}
+			if (emailTargets != "{targets::") {
+				emailTargets = emailTargets.substring(0, emailTargets.length() - 2);
+			} else {
+				emailTargets += "none";
+			}
+			emailTargets += "}";
+			sb.append(emailTargets);
+		} catch (Exception e){
+			throw new RuntimeException("Unexpected exception during generation of log messages for automated reminders",e);
+		}
+		
+		return sb.toString();
+	}
 }

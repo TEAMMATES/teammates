@@ -1,12 +1,10 @@
 {
   "courses": {
     "CHomeUiT.CS2104": {
-      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
       "id": "CHomeUiT.CS2104",
       "name": "Programming Language Concepts"
     },
     "CHomeUiT.CS1101": {
-      "instructor": "INSTRUCTOR_FIELD_DEPRECATED",
       "id": "CHomeUiT.CS1101",
       "name": "Programming Methodology"
     }

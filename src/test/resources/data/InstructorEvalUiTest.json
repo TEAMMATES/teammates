@@ -11,12 +11,10 @@
 
   "courses": {
     "course": {
-      "instructor": "teammates.test",
       "id": "CEvalUiT.CS2104",
       "name": "Programming Language Concepts"
     },
     "anotherCourse": {
-      "instructor": "teammates.test",
       "id": "CEvalUiT.CS1101",
       "name": "Programming Methodology"
     }

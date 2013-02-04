@@ -2,10 +2,10 @@
 <%@ page import="java.util.Calendar" %>
 <%@ page import="java.text.DateFormat" %>
 <%@ page import="teammates.common.Common" %>
-<%@ page import="teammates.ui.controller.AdminHomeHelper"%>
+<%@ page import="teammates.ui.controller.AdminActivityLogHelper"%>
 <%@ page import="com.google.appengine.api.log.AppLogLine" %>
 <%@ page import="com.google.appengine.api.log.LogService.LogLevel" %>
-<% AdminHomeHelper helper = (AdminHomeHelper)request.getAttribute("helper"); %>
+<% AdminActivityLogHelper helper = (AdminActivityLogHelper)request.getAttribute("helper"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,8 +15,10 @@
 	<link rel=stylesheet href="/stylesheets/common.css" type="text/css" />
 	<link rel=stylesheet href="/stylesheets/adminActivityLog.css" type="text/css" />
 
+	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script language="JavaScript" src="/js/jquery-minified.js"></script>
 	<script language="JavaScript" src="/js/tooltip.js"></script>
+	<script language="JavaScript" src="/js/administrator.js"></script>
 </head>
 
 <body>
@@ -37,21 +39,17 @@
 			%>
 			<table class="dataTable">
 		        <tr>
-		          <th>Date</th>
-		          <th>Level</th>
-		          <th>Activity</th>
-		          <th>Role</th>
-		          <th>Name</th>
-		          <th>ID</th>
-		          <th>Email</th>
-		          <th>Response</th>
-		          <th>Request Parameter</th>
+		          <th width="10%">Date</th>
+		          <th width="5%">Role</th>
+		          <th width="20%">Person</th>
+		          <th width="10%">Action / Page</th>
+		          <th width="50%">Information</th>
 		        </tr>
 		    <%
 		        if (appLogs.isEmpty()) {
 		    %>
 		        <tr>
-		          <td colspan='9'><i>No application logs found</i></td>
+		          <td colspan='5'><i>No application logs found</i></td>
 		        </tr>
 		    <%
 		        } else {
@@ -59,39 +57,11 @@
 	
 		          for (AppLogLine log : appLogs) {
 		  	        appCal.setTimeInMillis((log.getTimeUsec() / 1000) + 8*3600*1000);
-					String[] tokens = log.getLogMessage().split("\\|");
+					String logMessageTableRow = AdminActivityLogHelper.parseLogMessage(appCal.getTime().toString(), log.getLogMessage());
 
 		    %>
 		        <tr>
-		          <td>
-		            <%=appCal.getTime().toString()%>
-		          </td>
-		          <% 
-		          	if (log.getLogLevel().compareTo(LogLevel.WARN) == 0) {
-		           %>
-		            <td style="color:blue">
-		          <% 
-		          	} else if (log.getLogLevel().compareTo(LogLevel.INFO) == 0){ 
-		          %>
-		            <td style="color:green">
-		          <% 
-		          	} else {
-		          %>
-		            <td style="color:red">
-		          <%
-		          }
-		          %>  
-		          <%=log.getLogLevel()%>
-		          </td>
-		          <%
-		          	for(int i=1; i<tokens.length; i++) {
-		          %>
-		            <td>
-		              <%=tokens[i]%>
-		            </td>
-		          <%
-		            }
-		          %>
+		          <%= logMessageTableRow %>
 		        </tr>
 		    <%
 		          }
