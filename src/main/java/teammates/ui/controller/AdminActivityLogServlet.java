@@ -20,7 +20,7 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 	 * this is larger than number of logs shown on each page because we drop request log
 	 */
 	private int queryLimit = 20;
-	private int maxLogSearchLimit = 50;
+	private int maxLogSearchLimit = 1000;
 	/*
 	 * parameter to indicate whether to include application log in the result.
 	 * default case only return request log
@@ -84,6 +84,12 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 			//fetch application log
 			for (AppLogLine appLog : record.getAppLogLines()) {
 				String logMsg = appLog.getLogMessage();
+				String[] tokens = logMsg.split("\\|");
+				//Old format logs. Do not search or parse
+				if (tokens.length < 8){
+					totalLogsSearched = maxLogSearchLimit;
+					break;
+				}
 				if (logMsg.contains("TEAMMATES_LOG") || logMsg.contains("TEAMMATES_ERROR")) {
 					if(AdminActivityLogHelper.performFiltering(helper, logMsg)){
 						appLogs.add(appLog);
