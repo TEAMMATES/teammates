@@ -71,7 +71,7 @@ public class AdminActivityLogHelper extends Helper{
 		}
 		if (helper.searchRole != null && !helper.searchRole.equals("")){
 			String searchTerm = helper.searchRole;
-			if(!tokens[2].equals(searchTerm) && !searchTerm.equals("All")){
+			if((searchTerm.equals("Instructor") || searchTerm.equals("Student")) && !searchTerm.equals(tokens[2])){
 				return false;
 			} else if (searchTerm.equals("Others") && (tokens[2].equals("Instructor") || tokens[2].equals("Student"))){
 				return false;

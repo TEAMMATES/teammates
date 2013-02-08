@@ -152,6 +152,8 @@
 			  %>
 			    
 			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			<br>
+			<br>
 		</div>
 	</div>
 
