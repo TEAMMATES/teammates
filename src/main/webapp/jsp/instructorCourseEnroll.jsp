@@ -74,7 +74,7 @@
 				</div>
 				<form action="<%= helper.getInstructorCourseEnrollLink(helper.courseID) %>" method="post">
 					<img src="/images/enrollInstructions.png" width="1012px" height="324px" border="0">
-					<p class="info centeralign bold">Recommended maximum class size : 100 students</p>
+					<p class="info centeralign bold">Recommended maximum class size : 250 students</p>
 					<br>
 					<table class="inputTable">
 						<tr>
