@@ -1,8 +1,6 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -93,9 +91,45 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 		String otherStudentEmail = scn.students.get("charlie.tmms@CCDetailsUiT.CS2104").email;
 		String registeredStudentEmail = scn.students.get("alice.tmms@CCDetailsUiT.CS2104").email;
 		
-		______TS("sending reminder to a single student to join course");
+		int studentRowId = bi.getStudentRowId(studentName);
 		
-		bi.clickInstructorCourseDetailRemind(studentName);
+		______TS("sending reminder to a single student to join course");
+	
+		
+		//test cancel
+		
+		______TS("click and cancel");
+		
+		try{
+			bi.clickInstructorCourseDetailStudentRemindAndCancel(studentRowId);
+
+			
+		} catch (NoAlertException e){
+			fail("No alert box when clicking send invite button at course details page.");
+		}
+
+		if (!TestProperties.inst().isLocalHost()) {
+			String key = BackDoor.getKeyForStudent(
+					scn.courses.get("CCDetailsUiT.CS2104").id, studentEmail);
+			bi.waitForEmail();
+			assertFalse(
+					"cancel clicked, but the email was sent",
+					key.equals(EmailAccount.getRegistrationKeyFromGmail(
+							studentEmail,
+							TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS,
+							scn.courses.get("CCDetailsUiT.CS2104").id)));
+		}
+		
+		
+		
+		______TS("click and confirm");
+		
+		try{
+			bi.clickInstructorCourseDetailStudentRemindAndConfirm(studentRowId);//.clickInstructorCourseDetailStudentDeleteAndConfirm(studentRowId);
+			
+		} catch (NoAlertException e){
+			fail("No alert box when clicking send button invite at course details page.");
+		}
 		
 		if(!TestProperties.inst().isLocalHost()){
 			String key = BackDoor.getKeyForStudent(scn.courses.get("CCDetailsUiT.CS2104").id, studentEmail);

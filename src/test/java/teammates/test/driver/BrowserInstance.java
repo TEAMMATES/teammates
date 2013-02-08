@@ -892,6 +892,16 @@ public class BrowserInstance {
 	}
 
 	/**
+	 * Clicks and confirms Remind a student at a particular rowID.
+	 * Pre-condition: Should be in Course detail page
+	 * 
+	 * @param rowID
+	 */
+	public void clickInstructorCourseDetailStudentRemindAndConfirm(int rowID) {
+		clickAndConfirm(getInstructorCourseDetailStudentResendLinkLocator(rowID));
+	}
+	
+	/**
 	 * Clicks and confirms Delete a student at a particular rowID.
 	 * Pre-condition: Should be in Course detail page
 	 * 
@@ -916,6 +926,17 @@ public class BrowserInstance {
 		}
 	}
 
+	/**
+	 * Clicks and confirms Remind a student at a particular rowID.
+	 * Pre-condition: Should be in Course detail page
+	 * 
+	 * @param rowID
+	 */
+	public void clickInstructorCourseDetailStudentRemindAndCancel(int rowID) {
+		clickAndCancel(getInstructorCourseDetailStudentResendLinkLocator(rowID));
+
+	}
+	
 	/**
 	 * Clicks and confirms Delete a student at a particular rowID.
 	 * Pre-condition: Should be in Course detail page
