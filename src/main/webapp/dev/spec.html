@@ -33,8 +33,8 @@
 		<li>Priority low: There is an alternative, slightly less
 			convenient way of doing it.</li>
 	</ul>
-	<span class="bold">Feature status</span>:
-	<span class="pending">[pending]</span> annotation is used to mark
+	<span class="bold">Feature status: </span>
+	[<span class="pending">pending</span>] Annotation is used to mark
 	features not implemented yet but likely to be implemented in the
 	future.
 
@@ -43,20 +43,19 @@
 		under the feature in which it is populated. e.g., What kind of data is
 		allowed as the Course Name should be defined under createCourse
 		feature.
-
 	</p>
 
 	<!-- ================================================================== -->
 
 	<h3>Table of Contents</h3>
 	<ul>
-		<li><a href="#product">Product vision</a>
+		<li><a href="#product">The Product</a>
 			<ul>
 				<li><a href="#product-vision">Vision</a></li>
 				<li><a href="#product-identity">Identity</a></li>
 				<li><a href="#product-users">Users</a></li>
 			</ul></li>
-		<li><a href="#commonfeatures">Common Features</a></li>
+		<li><a href="#commonfeatures">CommonFeatures</a></li>
 		<ul>
 			<li><a href="#commonfeatures-login">Login</a></li>
 			<li><a href="#commonfeatures-logout">Logout</a></li>
@@ -70,7 +69,7 @@
 					<li><a href="#commonfeatures-website-contactuspage">ContactUsPage</a></li>
 				</ul></li>
 		</ul>
-		<li><a href="#instructorfeatures">Instructor Features</a></li>
+		<li><a href="#instructorfeatures">InstructorFeatures</a></li>
 		<ul>
 			<li><a href="#instructorfeatures-homepage">HomePage</a>
 				<ul>
@@ -147,11 +146,11 @@
 						href="#instructorfeatures-manageevaluationreports-printselectively">PrintSelectively</a></li>
 				</ul></li>
 		</ul>
-		<li><a href="#studentfeatures">Student Features</a></li>
+		<li><a href="#studentfeatures">StudentFeatures</a></li>
 		<ul>
 			<li><a href="#studentfeatures-homepage">HomePage</a>
 				<ul>
-					<li><a href="#studentfeatures-homepage-showrecentonly">ShowRecentOnly[pending]</a></li>
+					<li><a href="#studentfeatures-homepage-showrecentonly">ShowRecentOnly</a> [<span class="pending">pending</span>]</li>
 				</ul></li>
 			<li><a href="#studentfeatures-helppage">HelpPage</a></li>
 			<li><a href="#studentfeatures-managecourses">ManageCourses</a>
@@ -160,8 +159,7 @@
 					<li><a href="#studentfeatures-managecourses-viewteams">ViewTeams</a></li>
 					<li><a href="#studentfeatures-managecourses-clickablejoinlink">ClickableJoinLink</a></li>
 				</ul></li>
-			<li><a href="#studentfeatures-manageevaluations">Manage
-					Evaluations</a>
+			<li><a href="#studentfeatures-manageevaluations">ManageEvaluations</a>
 				<ul>
 					<li><a href="#studentfeatures-manageevaluations-submit">Submit</a></li>
 					<li><a href="#studentfeatures-manageevaluations-view">View</a></li>
@@ -169,8 +167,8 @@
 					<li><a href="#studentfeatures-manageevaluations-viewreport">ViewReport</a></li>
 				</ul></li>
 		</ul>
-		<li><a href="#evaluatorfeatures">Evaluator Features</a></li>
-		<li><a href="#adminfeatures">Admin Features</a>
+		<li><a href="#evaluatorfeatures">EvaluatorFeatures</a></li>
+		<li><a href="#adminfeatures">AdminFeatures</a>
 			<ul>
 				<li><a href="#adminfeatures-managesystem">ManageSystem</a>
 					<ul>
@@ -180,7 +178,7 @@
 				<li><a href="#adminfeatures-managedata">ManageData</a>
 					<ul>
 						<li><a href="#adminfeatures-managedata-purgeolddata">PurgeOldData</a></li>
-						<li><a href="#adminfeatures-managedata-createinstructor">createinstructor</a></li>
+						<li><a href="#adminfeatures-managedata-createinstructor">CreateInstructor</a></li>
 						<li><a href="#adminfeatures-managedata-editinstructor">EditInstructor</a></li>
 						<li><a href="#adminfeatures-managedata-deleteinstructor">DeleteInstructor</a></li>
 						<li><a href="#adminfeatures-managedata-findentity">FindEntity</a></li>
@@ -210,13 +208,10 @@
 						<li><a href="#automationfeatures-other-contextualhelp">ContextualHelp</a></li>
 					</ul></li>
 			</ul>
-		<li><a href="#supplementaryrequirements">Supplementary:
-				requirements</a></li>
+		<li><a href="#supplementaryrequirements">SupplementaryRequirements</a></li>
 		<ul>
-			<li><a href="#supplementaryrequirements-pointcalculationscheme">Point
-					Calculation Scheme</a></li>
-			<li><a href="#supplementaryrequirements-reportformat">Report
-					format</a></li>
+			<li><a href="#supplementaryrequirements-pointcalculationscheme">PointCalculationScheme</a></li>
+			<li><a href="#supplementaryrequirements-reportformat">ReportFormat</a></li>
 			<li><a href="#supplementaryrequirements-scalability">Scalability</a></li>
 			<li><a href="#supplementaryrequirements-security">Security</a></li>
 		</ul>
@@ -228,7 +223,7 @@
 	<!-- ================================================================== -->
 	<hr>
 
-	<h1 id="product">The Product</h1>
+	<h1 id="product">TheProduct</h1>
 	<h2 id="product-vision">Vision</h2>
 	<p>
 		TEAMMATES is a tool to <span class="bold">help teachers manage
@@ -251,11 +246,11 @@
 	<h2 id="product-users">Users</h2>
 	<img src="images/Actors.png" alt="usersTypes" height="300">
 	<ul>
-		<li>Instructor <span class="pending">[pending]</span></li>
+		<li>Instructor [<span class="pending">pending</span>]</li>
 		<li>Instructor(module owner)</li>
 		<li>Student</li>
 		<li>Adminstrator {Adminstrator of the system}</li>
-		<li>Evaluator <span class="pending">[pending]</span> {Those who
+		<li>Evaluator [<span class="pending">pending</span>] {Those who
 			can give feedback about students, but cannot view any reports e.g.,
 			tutors}
 		</li>
@@ -263,7 +258,7 @@
 
 	<!--  ================================================================= -->
 	<hr>
-	<h1 id="commonfeatures">Common features</h1>
+	<h1 id="commonfeatures">CommonFeatures</h1>
 	<p>These are the features common to all users.</p>
 	<h2 id="commonfeatures-login" class="level1feature">Login</h2>
 	: Users use Google ID to log in
@@ -281,8 +276,8 @@
 				<li>Login buttons i.e., Login as Instructor, Student</li>
 				<li><span id="commonfeatures-website-accountrequestpage"
 					class="level2feature">AccountRequestPage</span>: A link to 'Request
-					for a instructor account' [<span class="pending">pending:</span>
-					Move from GoogleDocs form to a proper request processing system].</li>
+					for a instructor account' [<span class="pending">pending</span>: 
+					Move from GoogleDocs form to a proper request processing system.]</li>
 				<li>Other useful information about the app to make a good
 					impression about the system.</li>
 			</ul></li>
@@ -303,13 +298,13 @@
 	<!--  ================================================================= -->
 	<hr>
 
-	<h1 id="instructorfeatures">Instructor Features</h1>
+	<h1 id="instructorfeatures">InstructorFeatures</h1>
 	<h2 id="instructorfeatures-homepage" class="level1feature">Homepage</h2>
 	<p>The first page user sees upon login. Contains shortcuts to
 		actions the user is likely to do next.</p>
 	<ul>
 		<li><span id="instructorfeatures-homepage-showonlyrecent"
-			class="level2feature">ShowOnlyRecent <span class="pending">[pending]</span>
+			class="level2feature">ShowOnlyRecent [<span class="pending">pending</span>]
 		</span></li> [priority=medium]
 		<br> Show only courses within last year. This should cut-down
 		loading time. We should provide a way to see older courses.
@@ -324,7 +319,7 @@
 	<!-- ----------------------------------------------------------------- -->
 
 	<h2 id="instructorfeatures-manageaccount" class="level1feature">
-		ManageAccount <span class="pending">[pending]</span>
+		ManageAccount [<span class="pending">pending</span>]
 	</h2>
 	<ul>
 		<li><span
@@ -351,7 +346,7 @@
 				<li>Must be unique (not used by any other courses in the
 					system)</li>
 				<ul>
-					<li>Case insensitive<span class="pending">[pending]</span>
+					<li>Case insensitive [<span class="pending">pending</span>]
 					</li>
 				</ul>
 				{Allowing same Course ID among different instructors could be
@@ -368,8 +363,7 @@
 			</ul> Course Name:
 			<ul>
 				<li>Any text</li>
-				<li>Size limit: 38 [<span class="pending">pending</span> :
-					increase to 60]
+				<li>Size limit: 38 [<span class="pending">pending</span>: Increase to 60]
 				</li>
 			</ul> Instructor List:
 			<ul>
@@ -389,17 +383,17 @@
 		<li><span id="instructorfeatures-managecourses-delete"
 			class="level2feature">Delete</span></li> System shows what will be deleted
 		(students, evaluations etc.), warn about irrecoverable loss of data,
-		and requests for confirmation [
-		<span class="pending">pending</span> : Currently it’s a general
+		and requests for confirmation
+		[<span class="pending">pending</span>: Currently it’s a general
 		warning, we may want to give more details on what data will be
-		deleted.].
+		deleted.]
 		</li>
 
 		<li><span id="instructorfeatures-managecourses-list"
 			class="level2feature">List</span>
 			<ul>
 				<li>Sort</li>
-				<li>ShowOnlyRecent <span class="pending">[pending]</span> :
+				<li>ShowOnlyRecent [<span class="pending">pending</span>]
 					[priority=medium] Also give an option to see older ones.
 				</li>
 				</p>
@@ -474,8 +468,8 @@
 			<span class="strikeout">‘team’ column can be left blank if the
 				student hasn’t been put in a team yet.</span>
 			<br>
-			<span class="pending">[pending]</span> : revert to team column being
-			compulsory]}
+			[<span class="pending">pending</span>] Revert to team column being
+			compulsory
 
 			<li><span class="level3feature">updateFeedback:</span></li> After any
 			mass enroll action, changes to the database will be shown to the user
@@ -483,21 +477,21 @@
 			<li><span class="level3feature">ignoreRepeat:</span></li> if the same
 			student was added twice, it will be ignored with a warning (warning
 			is
-			<span class="pending">[pending]</span> )
+			[<span class="pending">pending</span>] )
 		</ul>
 		<p>
 			team name: any text; size limit: 25; case insensitive <br>
-			student email: unique across the same course; case insensitive <span
-				class="pending">[pending]</span> <br> student name: any text;
-			size limit: 40; error handling <span class="pending">[pending]</span>
-			<br> student comment: any text excluding ‘|’, size limit 500
+			student email: unique across the same course; case insensitive 
+			[<span class="pending">pending</span>] <br> student name: any text;
+			size limit: 40; error handling [<span class="pending">pending</span>]
+			<br> Student comment: any text excluding ‘|’, size limit 500
 			char
 		</p>
 
 		<li><span id="instructorfeatures-managestudents-viewlist"
 			class="level2feature">ViewList</span></li> [priority=high]
 		<br> Fields to show: team | name | email | google id | comment
-		<br>[<span class="pending">pending</span> : some fields are currently not
+		<br>[<span class="pending">pending</span>: Some fields are currently not
 		shown]
 
 		<li><span id="instructorfeatures-managestudents-sendinvite"
@@ -508,7 +502,7 @@
 			course.</li>
 
 		<li><span id="instructorfeatures-managestudents-addendumtoinvite"
-			class="level2feature">AddendumToInvite <span class="pending">[pending]</span>
+			class="level2feature">AddendumToInvite [<span class="pending">pending</span>]
 		</span> <br> Instructor can add additional information to the invitation
 			email sent to students.</li>
 
@@ -523,7 +517,7 @@
 					sent out.</li>
 			</ul></li>
 		<li><span id="instructorfeatures-managestudents-addstudent"
-			class="level2feature">AddStudent <span class="pending">[pending]</span></li>
+			class="level2feature">AddStudent [<span class="pending">pending</span>]</li> 
 		[priority=high]
 		<br> This will be done using [MassEnroll] above
 
@@ -534,7 +528,7 @@
 			<li>change team anytime</li>
 			<li>change email any time {this is the only way to change the
 				student’s email}</li>
-			<li>change google id anytime. <span class="pending">[pending]</span>
+			<li>change google id anytime. [<span class="pending">pending</span>]
 			</li>
 		</ul>
 
@@ -570,8 +564,8 @@
 				<li>The instructor discovers a mistake in team structure soon
 					after opening the first evaluation</li>
 				<li>A student joins/leaves the course midway into the course.</li>
-			</ul> <br> <span class="level3feature">PreserveOrphanedSubmissions</span>
-			<span class="pending">[pending]</span> : [Hidden feature]
+			</ul> <br> <span class="level3feature">PreserveOrphanedSubmissions </span>
+			[<span class="pending">pending</span>] [Hidden feature]
 			ChangeTeamStructureForExistingEvaluations feature given above can
 			create ‘orphan’ submission. The system preserves such submissions. If
 			the instructor switch to the previous team structure, these
@@ -591,17 +585,17 @@
 			instructor} <br> evaluation name:
 			<ul>
 				<li>data type similar to Course Name; size limit: 38;</li>
-				<li>case insensitive <span class="pending">[pending]</span>
-			</ul>start time: smallest unit is 1 minute [<span class="pending">pending</span>
-			: currently in 1 hour steps], should be after current time. <br>
-			end time: smallest unit is 1 minute[<span class="pending">pending</span>:
-			currently in 1 hour steps], should be after start time <br>
+				<li>case insensitive [<span class="pending">pending</span>]
+			</ul> start time: smallest unit is 1 minute [<span class="pending">pending</span> 
+			 currently in 1 hour steps], should be after current time. <br>
+			end time: smallest unit is 1 minute [<span class="pending">pending</span> 
+			currently in 1 hour steps, should be after start time.] <br>
 			grace period: 0, 5, 10, 15, 20 mintues <br> timeZone:
 			autodetected, but editable <br> Evaluations with same Course ID
 			and evaluation name are not allowed. <br> Any number of
 			non-closed evaluations can exist in parallel for the same course</li>
 		<li><span id="instructorfeatures-manageevaluations-opennow"
-			class="level2feature">OpenNow <span class="pending">[pending]</span>
+			class="level2feature">OpenNow [<span class="pending">pending</span>]
 		</span></li> Opens an evaluation that is due to open in the future.
 		<br> Warn about emails being sent to students.
 		<br> An alternative to this one is to let the instructor create
@@ -614,8 +608,8 @@
 		(i.e., # submitted, # students in the class)
 		<br> {status: AWAITING | OPEN | CLOSED | PUBLISHED}
 		<br> Fields optional to show
-		<span class="pending">[pending]</span> : opening date/time, closing
-		date/time + grace period
+		[<span class="pending">pending</span>: Opening date/time, closing
+		date/time + grace period]
 		<li><span id="instructorfeatures-manageevaluations-notsure"
 			class="level2feature">NotSure</span></li> [priority=medium]
 		<br> If the student does not have enough information about how
@@ -630,13 +624,13 @@
 		<br> Only available on {AWAITING | OPEN | CLOSED}
 		<br> Editing an evaluation that is already OPEN recommends
 		instructor to send e-mail to all students
-		<span class="pending">[pending]</span>
+		[<span class="pending">pending</span>]
 		<br> All fields except peer feedback option should be editable.
 		<br> Same constraints as ‘Create’ above
 		<li><span
 			id="instructorfeatures-manageevaluations-editperrfeedbackoptionafteropen"
-			class="level2feature">EditPeerFeedbackOptionAfterOpen: <span
-				class="pending">[pending]</span>
+			class="level2feature">EditPeerFeedbackOptionAfterOpen: 
+			[<span class="pending">pending</span>]
 		</span></li> [priority=low, only useful on a rare occasion when instructor set the
 		option to the wrong value initially]
 
@@ -644,7 +638,7 @@
 			class="level2feature">Delete</span></li> [priority=high]
 		<br> All submissions, if any, to be deleted.
 		<br> Warn about the existing submissions that will be deleted.
-		<span class="pending">[pending]</span>
+		[<span class="pending">pending</span>]
 	</ul>
 
 	<!-- ------------------------------------------------------------------- -->
@@ -660,7 +654,7 @@
 			class="level2feature">SummaryReport</span> <br> Shows CC =
 			Claimed Contribution; PC = Perceived Contribution; Points Given,
 			Points Received [<span class="pending">pending</span>: remove Points
-			Given, rename Points Received to teammates’ opinions] <br></li>
+			Given, rename Points Received to teammates’ opinions.] <br></li>
 
 		<li><span
 			id="instructorfeatures-manageevaluationreports-detailedreportbyreviewer"
@@ -678,8 +672,8 @@
 
 		<li><span
 			id="instructorfeatures-manageevaluationreports-editsubmissions"
-			class="level2feature"> PrinterFriendlyView </span> <span
-			class="pending">[pending]</span></li>
+			class="level2feature"> PrinterFriendlyView </span> 
+			[<span class="pending">pending</span>]</li>
 
 		<li><span
 			id="instructorfeatures-manageevaluationreports-editsubmissions"
@@ -705,8 +699,7 @@
 
 		<li><span
 			id="instructorfeatures-manageevaluationreports-download"
-			class="level2feature">Download <span class="pending">
-					[pending] </span>
+			class="level2feature">Download [<span class="pending">pending</span>]
 		</span> <br> [priority=medium] <br> {May be as a tab separated file
 			that can be opened in excel?}</li>
 
@@ -716,21 +709,21 @@
 
 		<li><span
 			id="instructorfeatures-manageevaluationreports-printselectively"
-			class="level2feature">PrintSelectively <span class="pending">[pending]</span>
+			class="level2feature">PrintSelectively [<span class="pending">pending</span>]
 		</span> [priority=medium]</li>
 	</ul>
 
 	<!-- ================================================================== -->
 	<hr>
 
-	<h1 id="studentfeatures">Student Features</h1>
+	<h1 id="studentfeatures">StudentFeatures</h1>
 	<h2 id="studentfeatures-homepage" class="level1feature">HomePage</h2>
 
 	<p>The home page contains things requiring student's attention
 		e.g., evaluations to submit, reports to view etc.
 	<ul>
 		<li><span id="studentfeatures-homepage-showrecentonly"
-			class="level2feature">ShowRecentOnly <span class="pending">[pending]</span>
+			class="level2feature">ShowRecentOnly [<span class="pending">pending</span>]
 		</span></li>
 	</ul>
 
@@ -760,8 +753,7 @@
 
 	<!-- ------------------------------------------------------------------- -->
 
-	<h2 id="studentfeatures-manageevaluations" class="level1feature">Manage
-		Evaluations</h2>
+	<h2 id="studentfeatures-manageevaluations" class="level1feature">ManageEvaluations</h2>
 	<ul>
 		<li><span id="studentfeatures-manageevaluations-submit"
 			class="level2feature">Submit</span> <br>
@@ -781,7 +773,7 @@
 
 		<li><span id="studentfeatures-manageevaluations-view"
 			class="level2feature">View</span> <br> To view a submitted
-			evaluation [ <span class="pending">pending</span> currently, only
+			evaluation [<span class="pending">pending</span>: currently, only
 			available for OPEN (via edit), but should be available for CLOSED as
 			well]</li>
 
@@ -813,8 +805,7 @@
 	<!-- ================================================================== -->
 	<hr>
 
-	<h1 id="evaluatorfeatures">
-		Evaluator Features<span class="pending">[pending]</span>
+	<h1 id="evaluatorfeatures">EvaluatorFeatures [<span class="pending">pending</span>]
 	</h1>
 	<br> [priority=medium]
 	<p>Features TBD</p>
@@ -822,23 +813,22 @@
 	<!-- ================================================================== -->
 	<hr>
 
-	<h1 id="adminfeatures">Admin Features</h1>
+	<h1 id="adminfeatures">AdminFeatures</h1>
 
-	<h2 id="adminfeatures-managesystem" class="level1feature">
-		ManageSystem</h2>
+	<h2 id="adminfeatures-managesystem" class="level1feature">ManageSystem</h2>
 
 	<ul>
 		<li><span class="level2feature"
 			id="adminfeatures-managesystem-onlineoffline">OnlineOffline</span><br>
 			Ability to take the system offline/online for maintenance etc.<br>
 			Ability to set the message shown to users during downtime [<span
-			class="pending">pending:</span> Currently, shows a fixed 'under
+			class="pending">pending</span>: Currently, shows a fixed 'under
 			maintenance message'].<br> Ability to do the above without
 			deploying a new version.</li>
 
 		<li><span class="level2feature"
-			id="adminfeatures-managesystem-statistics">Statistics <span
-				class="pending">[pending]</span>
+			id="adminfeatures-managesystem-statistics">Statistics [<span
+				class="pending">pending</span>]
 		</span><br> View how many students, evaluations, etc.</li>
 	</ul>
 
@@ -855,14 +845,14 @@
 		<li><span id="adminfeatures-managedata-createinstructor"
 			class="level2feature">CreateInstructor</span> <br>Create an
 			instructor and add some sample data for the new instructor to see.<br>
-			Send automatic email about approval. <span class="pending">[pending]</span>
+			Send automatic email about approval. [<span class="pending">pending</span>]
 		</li>
 		<li><span id="adminfeatures-managedata-editinstructor"
-			class="level2feature">EditInstructor <span class="pending">[pending]</span>
+			class="level2feature">EditInstructor [<span class="pending">pending</span>]
 		</span></li>
 
 		<li><span id="adminfeatures-managedata-deleteinstructor"
-			class="level2feature">DeleteInstructor <span class="pending">[pending]</span>
+			class="level2feature">DeleteInstructor [<span class="pending">pending</span>]
 		</span></li>
 
 		<li><span id="adminfeatures-managedata-findentity"
@@ -908,10 +898,10 @@
 				<li>forStudent:Automatically send an email alert to students
 					when an evaluation opens. If the student is yet to join the course,
 					send the invite with the alert.</li>
-				<li>forInstructor <span class="pending">[pending]</span>:
+				<li>forInstructor [<span class="pending">pending</span>: 
 					[priority=low]Send a similar email to instructor 24 hours before
 					the evaluation opens. {This helps to prevent 'accidental' opening
-					of evaluations because the instructor set the wrong opening time}
+					of evaluations because the instructor set the wrong opening time}]
 				</li>
 			</ul></li>
 
@@ -921,12 +911,12 @@
 			<ul>
 				<li>forStudent: Automatically send an email alert to students
 					who haven't submitted an evaluation at 24 hours prior to closing
-					time. <br> [<span class="pending">pending:</span> This email
+					time. <br> [<span class="pending">pending</span>: This email
 					should not be sent if the opening alert was sent within last 24
 					hours (i.e., within 48 hours of the closing time)].
 				</li>
-				<li>forInstructor <span class="pending">[pending]</span>
-					:Automatically send an email alert when the evaluation closes.
+				<li>forInstructor [<span class="pending">pending</span>: 
+					Automatically send an email alert when the evaluation closes.]
 				</li>
 			</ul></li>
 
@@ -948,7 +938,7 @@
 			class="level2feature">AutoCloseEvaluations</span><br>
 			Automatically closes evaluations at closeTime (=endTime+gracePeriod).</li>
 		<li><span id="automationfeatures-other-autopurgeolddata"
-			class="level2feature">AutoPurgeOldData <span class="pending">[pending]</span>
+			class="level2feature">AutoPurgeOldData [<span class="pending">pending</span>]
 		</span><br> Periodically purge old data.</li>
 
 		<li><span id="automationfeatures-other-contextualhelp"
@@ -959,10 +949,9 @@
 	<!-- ============================================================= -->
 	<hr>
 
-	<h1 id="supplementaryrequirements">Supplementary requirements</h1>
+	<h1 id="supplementaryrequirements">SupplementaryRequirements</h1>
 
-	<h2 id="supplementaryrequirements-pointcalculationscheme">Point
-		Calculation Scheme</h2>
+	<h2 id="supplementaryrequirements-pointcalculationscheme">PointCalculationScheme</h2>
 	<p>
 		Students enter contribution estimates for self and team members, using
 		the <span class="italic">contribution scale</span> (see glossary).<br>
@@ -983,7 +972,7 @@
 			values. This is required because the total of points entered might
 			not sum up to 100 x (team size).<br> <span class="code">(normalized
 				value) = (original value) * (normalization factor)</span><br> e.g., <br>
-			entered values  90 [self], 110,130, N/A (total = 330)<br>
+			entered values  90 [self], 110,130, N/A (total = 330)<br>
 			normalization factor: (100*3)/(90+110+130) = 300/330<br>
 			normalized: 82, 100, 118, N/A<br> normalized total = 300 (i.e.
 			100*number of inputs)
@@ -993,9 +982,9 @@
 		<li>Calculate <span class="italic">peerContributionRatio</span>
 			values by removing self-rating bias<br> Here, we ignore the self
 			rating and normalize remaining values.<br> e.g.,<br>
-			normalized input (from above): 82,100,  118, N/A<br> Calculating
-			unbiased values: <br> 82 → ignored.<br> 100 → 
-			100*200/(100+118) = 92<br> 118 →  118*200/(100+118) = 108<br>
+			normalized input (from above): 82,100,  118, N/A<br> Calculating
+			unbiased values: <br> 82 → ignored.<br> 100 → 
+			100*200/(100+118) = 92<br> 118 →  118*200/(100+118) = 108<br>
 			Unbiased values: [self (ignored)], 92, 108, N/A<br> Unbiased
 			values total = 200 (100*number of ratings) This answers the question
 			(b) above. In the example above, the student thinks his teammates
@@ -1066,7 +1055,7 @@
 
 	<!-- ----------------------------------------------------------- -->
 
-	<h2 id="supplementaryrequirements-reportformat">Report format</h2>
+	<h2 id="supplementaryrequirements-reportformat">ReportFormat</h2>
 	<p>Some important questions a instructor may want answered (i.e.,
 		the system should provide ways of answering these quickly and easily)</p>
 	<ul>
