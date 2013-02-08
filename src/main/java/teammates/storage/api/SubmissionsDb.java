@@ -7,6 +7,8 @@ import java.util.logging.Logger;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Submission;
 import teammates.common.Assumption;
@@ -151,7 +153,9 @@ public class SubmissionsDb {
 			return null;
 		}
 
-		return new SubmissionData(s);
+		SubmissionData sd = new SubmissionData(s);
+		sd.p2pFeedback = sd.p2pFeedback == null ?  new Text("N/A") : sd.p2pFeedback;
+		return sd;
 	}
 
 	/**
@@ -178,7 +182,9 @@ public class SubmissionsDb {
 
 		for (Submission s : submissionList) {
 			if (!JDOHelper.isDeleted(s)) {
-				submissionDataList.add(new SubmissionData(s));
+				SubmissionData sd = new SubmissionData(s);
+				sd.p2pFeedback = sd.p2pFeedback == null ?  new Text("N/A") : sd.p2pFeedback;
+				submissionDataList.add(sd);
 			}
 		}
 
@@ -216,7 +222,9 @@ public class SubmissionsDb {
 
 		for (Submission s : submissionList) {
 			if (!JDOHelper.isDeleted(s)) {
-				submissionDataList.add(new SubmissionData(s));
+				SubmissionData sd = new SubmissionData(s);
+				sd.p2pFeedback = sd.p2pFeedback == null ?  new Text("N/A") : sd.p2pFeedback;
+				submissionDataList.add(sd);
 			}
 		}
 
@@ -259,9 +267,10 @@ public class SubmissionsDb {
 		List<SubmissionData> submissionDataList = new ArrayList<SubmissionData>();
 
 		for (Submission s : submissionList) {
-			submissionDataList.add(new SubmissionData(s));
+			SubmissionData sd = new SubmissionData(s);
+			sd.p2pFeedback = sd.p2pFeedback == null ?  new Text("N/A") : sd.p2pFeedback;
+			submissionDataList.add(sd);
 		}
-
 		return submissionDataList;
 	}
 
