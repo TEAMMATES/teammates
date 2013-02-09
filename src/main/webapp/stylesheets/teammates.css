@@ -30,7 +30,7 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
-	line-height: 1;
+	line-height: 1.5;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 13px;
 }
@@ -168,15 +168,6 @@ h2 {
 	width: 800px;
 }
 
-#submissions {
-	color: blue;
-	font-size: 15px;
-	font-family: Arial, Helvetica, sans-serif;
-	font-weight: bold;
-	padding: 10px 0px;
-	text-align: right;
-}
-
 #footer {
    background-color: black;
    clear: both;
@@ -247,11 +238,22 @@ h2 {
 	width: 700px;
 }
 
-#featureSummary {
+.featureSummary {
     padding-left: 25px;
 }
-#featureSummary li{
+.featureSummary li{
     list-style-type :disc;
     padding: 5px;
     font-size: 14px;
 }
+
+#whyChooseTeammates {
+	float: left;
+	width: 500px;
+}
+
+#requestAccount{
+    float: right;
+    width: 250px;
+}
+
