@@ -830,13 +830,9 @@
 			href="http://groups.google.com/group/teammates-contributors">http://groups.google.com/group/<span
 				class="bold">teammates-contributors</span></a></li>
 		<br>
-		<li><span class="bold">Review Repo</span> (contains code under
-			review) and <span class="bold">Issue Tracker</span> : <a
+		<li><span class="bold">Developer website</span> : <a
 			href="http://code.google.com/p/teammatespes">teammatesPES.googlecode.com</a>
 			{PES = Peer Evaluation System}</li>
-		<li><span class="bold">Release Repo</span> (contains the released
-			or release-ready code): <a
-			href="http://code.google.com/p/teammates-release">teammates-release.googlecode.com</a></li>
 		<li><span class="bold">Live site</span>: <a
 			href="http://teammatesv4.appspot.com/">http://teammatesv4.appspot.com</a></li>
 	</ul>
@@ -1285,25 +1281,28 @@
 	<h2 id="process-roles">Roles</h2>
 
 	<ul>
-		<li>Dev - Issue owner who fixes the issue. Can be a core team
-			member or a contributor.</li>
+		<li>Dev - Issue owner who fixes the issue. Can be a committer or
+			a contributor.</li>
 		<li>Reviewer - Assigned per issue. Usually, a core team member.</li>
-		<li>Team lead - responsible for keeping all tests green, for
-			release repo, workflow issues, updating version history, and meeting
-			deadlines</li>
-		<li>Project Manager</li>
+		<li>Team lead - Responsible for keeping all tests green, merging
+			branches.</li>
+		<li>Project Manager - General project coordination and deploying
+			to live server</li>
 	</ul>
 
 	<h2 id="process-workflow">Workflow</h2>
 
 	<div class="image-holder">
-		<img src="images/workflow.png" width=75% />
+		<img src="images/workflow.png" width=90% />
 	</div>
-	<br>
 
 	<h2 id="process-fixingissues">Fixing Issues</h2>
 	Role: Dev
-	<br>
+	<br><br>
+	{If you need any help regarding the workflow, please post in the
+	<a
+		href="https://groups.google.com/forum/?fromgroups#!forum/teammates-contributors">teammates-contributors
+		Google group</a>.} 
 	<ol>
 		<li>Select an issue to handle. Get it assigned to you.
 			Contributors can request for an issue to be assigned to you by
@@ -1314,14 +1313,29 @@
 			email group. Such a discussion reduces the chance of the fix being
 			rejected later.</li>
 		<br>
-		<li>Mark the issue as <span class="code">Started</span>. Add
-			reviewer in the CC field.
+		<li>Mark the issue as <span class="code">Started</span>. 
 		</li>
 		<br>
-		<li>Get the latest version of the code from the review repo <br>
-			<span class="code"> hg pull
-				https://yourname@code.google.com/p/teammatespes/ <br> hg
-				update
+		<li>If this is your first issue, go to the <a
+			href="http://code.google.com/p/teammatespes/source/checkout">committer
+				repo</a>, and create <a
+			href="http://googlecode.blogspot.sg/2009/10/mercurial-server-side-clone-support-for.html">a
+				server-side clone</a>. This clone will be your 'contributor repo' that
+			you will use for pushing your fixes. Once the Issue is <span
+			class="code">ReadyToMerge</span>, project lead will pull the branch
+			to the committer repo.<br> Recommended name for the clone is <span
+			class="code">{your name}-teammates</span>. e.g., <span class="code">john-teammates</span>
+			<br> Remember to include your full name under the 'Clone
+			summary' field. This is because sometimes the clone name is not
+			enough to identify the clone owner. <br>Remember to <span
+			class="bold">enable 'non-member code reviews'</span> in your clone (Administer --> Source -->
+			check 'Allow non-members to review code').
+		</li>
+		<br>
+		<li>Update your local repo (the one you created when setting up
+			the project on your computer) with the latest version of the code
+			from the committer repo. <br> <span class="code"> hg pull
+				https://code.google.com/p/teammatespes/ <br> hg update
 		</span>
 		</li>
 		<br>
@@ -1330,30 +1344,48 @@
 			(i.e. <span class="code">default</span> branch) before creating the
 			new branch. e.g., <br> <span class="code"> #switch to
 				trunk (if required)<br> hg update default<br> #create new
-				branch<br> hg branch Issue236
+				branch<br> hg branch {issue number} <br> #e.g. hg branch
+				Issue236
 		</span>
 		</li>
 		<br>
 		<li>Fix the issue. <br> Select the code segments you
 			modified and apply the code formatting function of Eclipse (Sourse
 			--> Format). This is to ensure that the code is properly formatted.<br>
-			<br> Format of the commit comment : <br>
+			<br>Commit the fix. <br>Format of the commit comment <span
+			class="bold">(for contributors)</span>: <br>
 			<ol type="a">
-				<li>The first line should be in the format: <br> <span
-					class="code">Starting Issue nnn [Issue title as given in
-						issue tracker]</span> <br>OR<br> <span class="code">Continuing
-						Issue nnn [Issue title as given in issue tracker] </span> <br>depending
-					on whether it is the first commit of the branch.<br>This helps
-					to locate the start of the branch easily (this is useful when
-					reviewing code) and identify what the issue is about without having
-					to refer to issue tracker.
+				<li>The first line should be in the format: <br> <br>
+					(if this is the first commit of the branch)<br> <span
+					class="code"><span class="bold">Starting</span> {issue
+						number} [{Issue title as given in issue tracker}]</span> <br>OR (if
+					this is not the first commit of the branch)<br> <span
+					class="code"><span class="bold">Continuing</span> {issue
+						number} [{Issue title as given in issue tracker}] </span> <br> <br>Note:
+					Using labels such as 'Starting' and 'Continuing' helps to locate
+					the start of the branch easily (this is useful when reviewing code)
+					and identify what the issue is about without having to refer to
+					issue tracker.<br> <br>
 				</li>
-				<li>The 2nd line should be <span class="code">Update
-						Issue nnn</span></li> This line tells Google Code to automatically update the
-				corresponding issue in the Issue tracker with a link to the revision
-				being committed. Do not put a fullstop at the end of this line.
+
 				<li>The Remaining lines can be used to describe the changes you
-					are committing. These lines too will be added to the Issue tracker.</li>
+					are committing.</li>
+				<li>Here's a sample commit message:<br> <span class="code">
+						Starting Issue 234 [Adding commit comment format to DevMan]<br>
+						Clarified the exact format for commit comments.
+				</span>
+				</li>
+			</ol> <br> Format of the commit comment <span class="bold">(for
+				committers)</span>: <br>
+			<ol type="a">
+				<li>The format is similar to the one used by contributors
+					except, the 2nd line should be <span class="code">Update
+						Issue {issue number}</span> This line tells Google Code to automatically
+					update the corresponding issue in the Issue tracker with a link to
+					the revision being committed. Do not put a fullstop at the end of
+					this line.
+				</li>
+
 				<li>Here's a sample commit message:<br> <span class="code">
 						Starting Issue 234 [Adding commit comment format to DevMan]<br>
 						Update Issue 234<br> Clarified the exact format for commit
@@ -1372,13 +1404,15 @@
 		<br>
 		<li>When the work is ready for review:
 			<ol type="a">
-				<li>Update your repo with any new changes from review repo and
-					merge those updates to your branch<br> <span class="code">
-						hg pull {review repo url}<br> hg update<br> hg merge
-						default<br> hg commit -m "Syncing Issue {nnn} [{Issue
-						title}]" <br># e.g. hg commit -m "Syncing Issue 453 [Add
-						sitemap to website]" <br> #'Syncing' is used to indicate that
-						this changeset is simply merging the trunk to this branch.<br>
+				<li>While you were fixing the issue, others might have pushed
+					new code to the committer repo. In that case, update your repo with
+					any new changes from committer repo and merge those updates to your
+					branch<br> <span class="code"> hg pull
+						https://code.google.com/p/teammatespes/<br> hg update<br>
+						hg merge default<br> hg commit -m "Syncing Issue {nnn}
+						[{Issue title}]" <br># e.g. hg commit -m "Syncing Issue 453
+						[Add sitemap to website]" <br> #'Syncing' is used to indicate
+						that this changeset is simply merging the trunk to this branch.<br>
 				</span>
 				</li>
 				<li>Ensure dev green (i.e., all tests are passing on dev
@@ -1387,18 +1421,21 @@
 					server than how it behaves on the dev server, ensure staging green
 					(i.e., all tests are passing against the modified app running on
 					your own GAE staging server).</li>
-				<li>Push to review repo (this will create a new branch in the
-					review repo).<br> <span class="code">hg push
-						https://yourname@code.google.com/p/teammatespes/ --new-branch -b
-						Issue234</span><br>If you don't have permission to push to review
-					repo, you can push to your own clone.
+				<li>Push to your contributor repo (this will create a new
+					branch in the repo).<br> <span class="code">hg push
+						https://{your name}@code.google.com/p/{clone name}/ --new-branch
+						-b {branch name}<br> #e.g., hg push
+						https://john@code.google.com/p/teammates-john/ --new-branch -b
+						Issue234
+				</span><br>
 				</li>
 				<li>Change Issue status to <span class="code">ReadyForReview</span>.
-					If the new code is in your own clone (i.e. not in the review repo),
-					Give the direct URL (here is <a
+					In the 'comments' text box, specify the direct URL (here is <a
 					href=http://code.google.com/r/freddusya111-teammates2/source/detail?r=22394d4380ccd25dedbbf636d0e3cd13739f258b">an
 						example URL</a>) to the relevant changeset. This way, the reviewer can
-					reach your new code in one click.
+					reach your new code in one click. (Note: Committers need not
+					specify the URL because you are pushing to the commiter repo
+					directly and GoogleCode will inser the URL automatically).
 				</li>
 			</ol>
 		</li>
@@ -1410,44 +1447,14 @@
 			or in the repo.
 		</li>
 	</ol>
-	<br> Role: Contributor
 	<br>
-	<br> A contributor will work closely with a developer from the project
-	team, who will act as the mentor for the contributor. If you don't have
-	a specific mentor assigned to you, simply post your queries in the
-	<a
-		href="https://groups.google.com/forum/?fromgroups#!forum/teammates-contributors">teammates-contributors
-		Google group</a>. The workflow is similar to that of developer (given
-	above) except for the following.
-	<ul>
-		<li>You will not have permission to push to <a
-			href="http://code.google.com/p/teammatespes/source/checkout">review
-				repo</a>. Go to review repo, create <a
-			href="http://googlecode.blogspot.sg/2009/10/mercurial-server-side-clone-support-for.html">a
-				server-side clone</a>, and push to that instead. Once the Issue is <span
-			class="code">ReadyToMerge</span>, project lead will pull the branch
-			to the review repo.<br> Recommended name for the clone is <span
-			class="code">{your name}-teammates</span>. e.g., <span class="code">john-teammates</span>
-			<br> Remember to include your full name under the 'Clone
-			summary' field. This is because sometimes the clone name is not
-			enough to identify the clone owner. <br>Remember to enable
-			'non-member code reviews' in your clone (Administer --> Source -->
-			check 'Allow non-members to review code').
-		</li>
-		<li>For help or clarifications, email your mentor or post in the
-			<a
-			href="https://groups.google.com/forum/?fromgroups#!forum/teammates-contributors">teammates-contributors
-				Google group</a>.
-		</li>
-	</ul>
-
 
 	<h2 id="process-reviewingafix">Reviewing a fix</h2>
 	Role: reviewer
 	<br>
 	<br> This is a static code review. No need to apply fix or run
 	tests.
-	<br> Add comments in the review repo or in the contributor's clone
+	<br> Add comments in the contributor repo or in the committer repo
 	(as appropriate).
 	<br>
 	<br> Try to make sure
@@ -1477,12 +1484,13 @@
 	<h2 id="process-applyingafix">Applying a fix</h2>
 	Role: team lead
 	<ol>
-		<li>Pull the latest code from the review repo</li>
+		<li>Pull the latest code from the committer repo</li>
+		<br> If this is a fix done by a contributor, pull the branch from the
+		contributor's repo.
 		<br>
-		<li>Pull branch from review repo or the contributor's clone. <br>
-			<span class="code"> hg pull -b {branch name}<br> hg
-				update
+		<span class="code"> hg pull {repo url} -b {branch name}<br> hg update
 		</span>
+		<br>
 		</li>
 		<br>
 		<li>Switch to branch<br> <span class="code">hg update
@@ -1513,9 +1521,9 @@
 						commit -m “Merging {branch name} [{branch description}]”
 				</span>
 				</li>
-				<li>Push code to release repo. Be careful to push only the
-					branch that was merged.<br> <span class="code">hg push
-						{release repo} --new-branch -b {branch name} </span>
+				<li>Push the merged branch to the committer repo. <br> <span
+					class="code">hg push {committer repo URL} --new-branch -b
+						defalut </span>
 				</li>
 			</ul>
 		</li>
@@ -1525,31 +1533,26 @@
 	</ol>
 
 	<h2 id="process-deployingfixes">Deploying fixes</h2>
-	Roles: team lead, PM
+	Role: PM
 	<ol>
-		<li>PM deploys to live site as a new version.<br> Version
+		<li>Deploy to live site as a new version.<br> Version
 			numbering is x.yy.zz (x-yy-zz on GAE because GAE does not allow '.')
 			<br> x: major version, yy: feature release, zz: builds for
 			feature yy or updates that doesn't affect functionality<br>
 			e.g., 4.01.02
 		</li>
 		<br>
-		<li>PM verifies 'live green'.</li>
+		<li>Verify 'live green'.</li>
 		<br>
-		<li>PM set new version as default.</li>
+		<li>Set new version as default.</li>
 		<br>
-		<li>Team lead
-			<ol>
-				<li>Marks issues as <span class="code">Deployed</span></li>
-				<li>Updates version history</li>
-				<li>Tags repo with version number<br> <span class="code">hg
-						tag V4.18</span>
-				</li>
-				<li>Pushes trunk to release repo (to send the tag to release
-					repo).<br> <span class="code">hg push {release repo url}
-						-b default</span>
-			</ol>
+
+		<li>Mark issues as <span class="code">Deployed</span></li>
+		<li>Update version history</li>
+		<li>Tag repo with version number<br> <span class="code">hg
+				tag V4.18</span>
 		</li>
+		<li>Push to the contributor repo (to send the tag to the repo).<br>
 	</ol>
 
 	<h2 id="process-issuelifecycle">Issue Lifecycle</h2>
