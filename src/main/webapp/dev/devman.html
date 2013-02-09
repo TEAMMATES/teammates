@@ -1277,6 +1277,54 @@
 			SOLUTION: Make sure there is only one dev server running. Eclipse
 			will happily allow you to start multiple dev servers.
 		</li>
+		<br>
+		<li>
+			ERROR: Eclipse complains "<span class="code">There are no JREs installed in the 
+			workplace that are strictly compatible with this environment.</span>"<br>
+			SOLUTION: Eclipse may be using an incompatible version of the JRE Library 
+			(with respect to TEAMMATES) for the current JRE definition.
+			System Library for JRE should be set to the workspace default, after appropriate 
+			JRE definition has been added (covered in existing point#2 of the troubleshooting section).<br>
+			-> Right-click on project<br>
+			-> Properties<br>
+			-> Java Build Path<br> 
+			-> "Libraries" tab<br>
+			-> Select JRE System Library from the list<br>
+			-> Edit...<br>
+			-> Select and mark radio button for "Workspace default JRE"
+		</li>
+		<br>
+		<li>
+			ERROR: Test failure message encountered when running full test suite:
+			“Selenium cannot find Firefox binary in PATH”.<br>
+			SOLUTION: Path to Firefox executable on local machine is incorrect.
+			Specify the correct folder in system PATH variable.<br>
+			-> Open Windows Explorer<br>
+			-> Right-click on Computer<br>  
+			-> Advanced System Settings<br>
+			-> “Advanced” tab<br>
+			-> Environment Variables…<br>
+			-> Select “PATH” from the list<br>
+			-> Add directory of “Mozilla Firedox” folder to “Variable value” field
+		</li>
+		<br>
+		<li>
+			ERROR: Unusually large number of test cases indicated.<br>
+			SOLUTION: If you right-click the project and choose 'run as Junit test', 
+			it will erroneously pick up 500+ test cases. This is because Eclipse runs 
+			individual JUnit classes as well as JUnit Suite classes resulting in some 
+			test cases being run more than once. <br>
+			Instead, use the 'TM Run all tests' menu item or right-click on the 
+			<span class="code">src/test/java/teammates.test.cases.AllTestsSuite.java</span> 
+			and choose 'run as Junit test'.<br>
+			Please note that Eclipse may need a restart before the menu item <span class="code">'TM Run all tests'</span> 
+			appear.
+		</li>
+		<br>
+		<li>
+			ERROR: A handful of failed test cases (<10)<br>
+			SOLUTION: Ensure compatible version of Firefox is installed (version 12.0 as specified under <a href="#settingup-prerequisites">Prerequisites</a>).
+		</li>
 	</ol>
 
 	<hr>
