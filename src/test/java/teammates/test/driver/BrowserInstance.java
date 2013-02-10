@@ -892,7 +892,7 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * Clicks and confirms Remind a student at a particular rowID.
+	 * Clicks and Remind a student at a particular rowID.
 	 * Pre-condition: Should be in Course detail page
 	 * 
 	 * @param rowID

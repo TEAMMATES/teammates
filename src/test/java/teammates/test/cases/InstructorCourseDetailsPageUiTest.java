@@ -93,12 +93,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 		
 		int studentRowId = bi.getStudentRowId(studentName);
 		
-		______TS("sending reminder to a single student to join course");
-	
-		
-		//test cancel
-		
-		______TS("click and cancel");
+		______TS("sending reminder to a single student to join course: click and cancel");
 		
 		try{
 			bi.clickInstructorCourseDetailStudentRemindAndCancel(studentRowId);
@@ -108,8 +103,9 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 			fail("No alert box when clicking send invite button at course details page.");
 		}
 
+		String key="";
 		if (!TestProperties.inst().isLocalHost()) {
-			String key = BackDoor.getKeyForStudent(
+			key = BackDoor.getKeyForStudent(
 					scn.courses.get("CCDetailsUiT.CS2104").id, studentEmail);
 			bi.waitForEmail();
 			assertFalse(
@@ -122,17 +118,17 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 		
 		
 		
-		______TS("click and confirm");
+		______TS("sending reminder to a single student to join course: click and confirm");
 		
 		try{
-			bi.clickInstructorCourseDetailStudentRemindAndConfirm(studentRowId);//.clickInstructorCourseDetailStudentDeleteAndConfirm(studentRowId);
+			bi.clickInstructorCourseDetailStudentRemindAndConfirm(studentRowId);
 			
 		} catch (NoAlertException e){
 			fail("No alert box when clicking send button invite at course details page.");
 		}
 		
 		if(!TestProperties.inst().isLocalHost()){
-			String key = BackDoor.getKeyForStudent(scn.courses.get("CCDetailsUiT.CS2104").id, studentEmail);
+			
 			bi.waitForEmail();
 			assertEquals(key,EmailAccount.getRegistrationKeyFromGmail(studentEmail, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS, scn.courses.get("CCDetailsUiT.CS2104").id));
 		}
@@ -144,7 +140,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 			bi.waitForEmail();
 			
 			//verify an unregistered student received reminder
-			String key = BackDoor.getKeyForStudent(scn.courses.get("CCDetailsUiT.CS2104").id, otherStudentEmail);
+			key = BackDoor.getKeyForStudent(scn.courses.get("CCDetailsUiT.CS2104").id, otherStudentEmail);
 			assertEquals(key,EmailAccount.getRegistrationKeyFromGmail(otherStudentEmail, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS, scn.courses.get("CCDetailsUiT.CS2104").id));
 			
 			//verify a registered student did not receive a reminder
