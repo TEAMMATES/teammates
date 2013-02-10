@@ -92,7 +92,7 @@
 	<br> {Biggest = many contributors, many users, high LOC, evolving
 	over a long period.}
 	<br>
-	<br> ‘Biggest’ above also implies an exceptionally high quality
+	<br> 'Biggest' above also implies an exceptionally high quality
 	standard because high quality is a necessity for the long-term survival
 	of a big student project.
 	<br>
@@ -102,8 +102,9 @@
 	<br>
 
 	<h2 id="project-challenges">Challenges</h2>
-	The project differs from typical student projects in the following areas,
-	which makes it more challenging and the experience more enriching.
+	The project differs from typical student projects in the following
+	areas, which makes it more challenging and the experience more
+	enriching.
 	<br>
 	<ul>
 		<li><span class="bold">Developers</span>: All developers are
@@ -115,7 +116,7 @@
 			are confidential and developers are not allowed to see them. This
 			makes troubleshooting harder.</li>
 		<li><span class="bold">Releases</span>: Frequent releases to live
-			users requires us to maintain ‘production quality’ constantly.</li>
+			users requires us to maintain 'production quality' constantly.</li>
 		<li><span class="bold">Platform</span>: TEAMMATES is running on
 			Google App Engine cloud platform, which adds the following
 			challenges.
@@ -128,7 +129,7 @@
 			</ul></li>
 		<li><span class="bold">Software Engineering</span>: As TEAMMATES
 			serve as a model system for training students, it should also focus
-			on applying good ‘Software Engineering’ techniques.</li>
+			on applying good 'Software Engineering' techniques.</li>
 	</ul>
 
 	<h2 id="project-principles">Principles</h2>
@@ -139,7 +140,7 @@
 			release frequently, in weekly <a
 			href=http://en.wikipedia.org/wiki/Timeboxing">time-boxed
 				iterations</a>. Every week, our product becomes better than the previous
-			week. This means ‘go back and rewrite from scratch’ is only a last
+			week. This means 'go back and rewrite from scratch' is only a last
 			resort.</li>
 		<li><span class="bold">We are agile</span>: We are able to change
 			the system quickly and with ease to match emerging requirements. We
@@ -151,16 +152,16 @@
 			broken by others. We use fully automated regression testing. The
 			testing automation level of this project is probably higher than 99%
 			of the projects out there.</li>
-		<li><span class="bold">We are ‘Gods’ of the few tools we
+		<li><span class="bold">We are 'Gods' of the few tools we
 				use</span>: We stick to a Minimal toolset. adding third-party tools and
 			libraries to the project is done only if there is a STRONG
 			justification. Only mature, stable, and well-supported tools should
 			be considered. Once selected, we should know the tool very well to
 			get the best out of it.</li>
 		<li><span class="bold">We value quality more than
-				functionality</span>: i.e., our job is not to ‘anyhow get it to work’. The
-			system should be good enough to be considered a ‘model’ software. Our
-			code is of ‘unusually’ high quality: All code is reviewed before
+				functionality</span>: i.e., our job is not to 'anyhow get it to work'. The
+			system should be good enough to be considered a 'model' software. Our
+			code is of 'unusually' high quality: All code is reviewed before
 			accepting.</li>
 		<li><span class="bold">We know what we are doing</span>: For us,
 			it is not enough to know something is broken, we should also know why
@@ -172,15 +173,18 @@
 			best way for us.</li>
 		<li><span class="bold">We take pains to save the team from
 				pain</span>: Whenever we had to spend effort in figuring out something, we
-			refine code/documents so that others don’t have to go through the
+			refine code/documents so that others don't have to go through the
 			same pain. Whenever we figured out a less painful way of doing
 			something, we make sure everyone in the team learn it too.</li>
 	</ul>
 
 	<h2 id="project-contributing">Contributing</h2>
 
-	<p>TEAMMATES welcome contributions from anyone, in particular,
-		students. Please <a href="..\contact.html">contact us</a> if you are interested to contribute.</p>
+	<p>
+		TEAMMATES welcome contributions from anyone, in particular, students.
+		Please <a href="..\contact.html">contact us</a> if you are interested
+		to contribute.
+	</p>
 
 	<p>Although TEAMMATES uses many tools and technologies, you need
 		not all of them before you can contribute. The diagram below shows
@@ -214,8 +218,8 @@
 	<ul>
 		<li><span class="bold">Contributor: </span>Small but noteworthy
 			contribution to the project.</li>
-		<li><span class="bold">Committer: </span>Significant contributions
-			sustained over a long period of time.</li>
+		<li><span class="bold">Committer: </span>Significant
+			contributions sustained over a long period of time.</li>
 		<li><span class="bold">Member: </span>Significant and sustained
 			contributions in recent times.</li>
 	</ul>
@@ -247,7 +251,7 @@
 			in Java POJOs (Plain Old Java Objects). Some automated tasks are
 			implemented as Servlets.</li>
 		<li><span class="bold">Storage</span>: Storage uses the
-			persistence framework provided by GAE ‘datastore’. While the
+			persistence framework provided by GAE 'datastore'. While the
 			datastore is a noSQL database, we use it in SQL fashion via a JDO
 			wrapper and GQL (a datastore-specific SQL variant).</li>
 		<li><span class="bold">Test Driver</span>: TEAMMATES makes heavy
@@ -344,7 +348,7 @@
 		<li>It will call the abstract <span class="code">doAction</span>
 			method, which should have been overridden to contain the main action
 			for each servlet. This is the place for highest-level error handling
-			before the response is returned to the Broswer.
+			before the response is returned to the Browser.
 		</li>
 		<li>It will finally call <span class="code">doCreateResponse</span>
 			method, which redirects the request with appropriate method: either
@@ -371,13 +375,14 @@
 			page is now used for login.}</li>
 		<li>logout.jsp : Used for users to log out of the system.</li>
 		<br>
-		<li>adminHome : Page for adiministrative activities such as
+		<li>adminHome : Page for administrative activities such as
 			creating Instructors, monitoring user activities etc.</li>
 		<br>
 		<li>instructorHome : Landing page for instructors. Lists course
 			and evaluations that the instructor is part of</li>
 		<li>instructorCourse : Page for Course-related actions.</li>
-		<li>instructorCourseEdit : Page to edit course information and Instructor list</li>
+		<li>instructorCourseEdit : Page to edit course information and
+			Instructor list</li>
 		<li>instructorCourseEnroll : Page for enrolling students in a
 			course</li>
 		<li>instructorCourseView : Page for listing students in a course.</li>
@@ -474,10 +479,10 @@
 	<br>Authentication:
 	<ul>
 		<li>Calls received by <span class="code">Logic</span> are
-			authenticated against logged in user’s privileges.<br>
+			authenticated against logged in user's privileges.<br>
 		</li>
 		<li>Calls received by <span class="code">BackDoorServlet</span>
-			are authenticated using the ‘backdoor key’. Backdoor key is a string
+			are authenticated using the 'backdoor key'. Backdoor key is a string
 			known only to the person who deployed the app (typically, the
 			administrator).
 		</li>
@@ -496,7 +501,7 @@
 	</ul>
 	<br>API for retrieving entities:
 	<ul>
-		<li>Attempting to retrived objects using <span class="code">null</span>
+		<li>Attempting to retrieve objects using <span class="code">null</span>
 			parameters: Not expected. Results in assertion failure.
 		</li>
 		<li>Entity not found: <br> -Returns <span class="code">null</span>
@@ -556,7 +561,7 @@
 	Read, Update, Delete) operations on data entities individually. It is
 	accessible via the
 	<span class="code">*Db</span> classes in the
-	<span class="code">atorage::api</span> package. It hides complexities
+	<span class="code">storage::api</span> package. It hides complexities
 	of datastore from the
 	<span class="code">Logic</span> component. All GQL queries are to be
 	contained inside the
@@ -565,8 +570,8 @@
 	CRUD operations.
 	<br>The
 	<span class="code">Storage</span> component will not perform any
-	cascade delete/create oprearations.Cascade logic is currently handled
-	by the
+	cascade delete/create operations.Cascade logic is currently handled by
+	the
 	<span class="code">Logic</span> component.
 	<br>
 
@@ -592,7 +597,7 @@
 	<a
 		href="https://developers.google.com/appengine/docs/java/datastore/jdo/creatinggettinganddeletingdata">
 		the ability to 'detach' entities </a> to prevent accidental modifications
-	to persistable data. The decision to use data transer objects is to be
+	to persistable data. The decision to use data transfer objects is to be
 	reconsidered in the future.
 	<br> Note that the navigability of the association links between
 	entity objects appear to be in the reverse direction of what we see in
@@ -627,14 +632,14 @@
 	<br> General:
 	<br>
 	<ul>
-		<li><span class="code">Null</span> values should <span
-			class="bold">not</span> be used as parameters for this API, except
-			under the KeepExistingPolicy mentioned previously. <span class="code">null</span>
-			are not editted.</li>
+		<li>If <span class="code">Null</span> is passed as a parameter,
+			the corresponding value is <span class="bold">NOT</span> modified, as
+			per the KeepExistingPolicy that was previously mentioned.
+		</li>
 	</ul>
 	<br> API for creating:
 	<ul>
-		<li>Attempt to create an entity that exists: Throw <span
+		<li>Attempt to create an entity that already exists: Throw <span
 			class="code">EntityAlreadyExists</span> exception.
 		</li>
 		<li>Attempt to create an entity with invalid data: assertion
@@ -685,9 +690,10 @@
 	<span class="code">DataBundle</span> in this manner to send an
 	arbitrary number of objects to be persisted in the database.
 	<br> (b) This structure can be used to send results of an
-	evaluation (e.g., when showing an evaluation report to a instructor)
+	evaluation (e.g., when showing an evaluation report to an instructor)
 	<br> (c) This structure can be used to transfer data belonging to
-	a instructor (e.g., when constructing the home page for a instructor).
+	an instructor (e.g., when constructing the home page for an
+	instructor).
 	<br>
 	<br> For convenience, these classes use public variables for data.
 	This is not a good practice as it contravenes OO principle of
@@ -800,8 +806,8 @@
 		<li><a
 			href="https://docs.google.com/document/pub?id=1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU&embedded=true">
 				Decision Analysis</a> (i.e. <span class="bold">Analysis</span>) :
-			Analysis of problems encountered, solutions considered, rationale for selection
-			etc.</li>
+			Analysis of problems encountered, solutions considered, rationale for
+			selection etc.</li>
 		<li><a
 			href="https://docs.google.com/document/d/1Niq-VOjj0dBwYevySz1FnBPGSoFwLNkn7lcmIYKV_Cc/edit?hl=en_US">
 				Project Meeting Minutes</a> (i.e. <span class="bold">Minutes</span>)
@@ -821,9 +827,7 @@
 			href="http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml">JavaScript
 		</a>, <a
 			href="http://make.wordpress.org/core/handbook/coding-standards/css/">CSS
-		</a>, <a
-			href="htmlstyleguide.html">HTML
-		</a></li>
+		</a>, <a href="htmlstyleguide.html">HTML </a></li>
 		<br>
 		<li><span class="bold">Google Group</span> for dev team <a
 			href="http://groups.google.com/group/teammates-dev">http://groups.google.com/group/<span
@@ -832,13 +836,9 @@
 			href="http://groups.google.com/group/teammates-contributors">http://groups.google.com/group/<span
 				class="bold">teammates-contributors</span></a></li>
 		<br>
-		<li><span class="bold">Review Repo</span> (contains code under
-			review) and <span class="bold">Issue Tracker</span> : <a
+		<li><span class="bold">Developer website</span> : <a
 			href="http://code.google.com/p/teammatespes">teammatesPES.googlecode.com</a>
 			{PES = Peer Evaluation System}</li>
-		<li><span class="bold">Release Repo</span> (contains the released
-			or release-ready code): <a
-			href="http://code.google.com/p/teammates-release">teammates-release.googlecode.com</a></li>
 		<li><span class="bold">Live site</span>: <a
 			href="http://teammatesv4.appspot.com/">http://teammatesv4.appspot.com</a></li>
 	</ul>
@@ -911,9 +911,10 @@
 			Platform provides persistence and retrieval of data to a range of
 			datastores using a range of APIs, with a range of query languages. <br>Comes
 			with App Engine SDK.</li>
-		<li><span class="bold">Xerces XML Parser</span>
-			[version 2.9.1] <br/>This library is required to parse the XML config files. This library may not be 
-			needed on some platforms as it may already come packaged on some JREs (particulary windows)</li>
+		<li><span class="bold">Xerces XML Parser</span> [version 2.9.1] <br />This
+			library is required to parse the XML config files. This library may
+			not be needed on some platforms as it may already come packaged on
+			some JREs (particulary windows)</li>
 	</ul>
 
 	<h2 id="infrastructure-toolsandtechnologies-testing">Tools used in
@@ -975,6 +976,7 @@
 
 
 
+
 		
 		<li><span class="code"><span class="bold">web.xml </span></span>:
 			This is the configurations for the webserver. It specifies servlets
@@ -1001,7 +1003,12 @@
 	<h2 id="settingup-prerequisites">Prerequisites</h2>
 	<ul>
 
-<li>Install <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk6u38-downloads-1877406.html">JDK6</a> [This is the highest version supported by GAE]<br>If you already have a version higher than JDK 6 installed in your computer, you still need to install JDK 6.</li>
+		<li>Install <a
+			href="http://www.oracle.com/technetwork/java/javase/downloads/jdk6u38-downloads-1877406.html">JDK6</a>
+			[This is the highest version supported by GAE]<br>If you already
+			have a version higher than JDK 6 installed in your computer, you
+			still need to install JDK 6.
+		</li>
 		<li>Install <a href="http://tortoisehg.bitbucket.org/">TortoiseHg</a>
 			latest stable version. <br>If you are on Mac OS, you can install
 			<a href="http://mercurial.selenic.com/">Mercurial (Commandline
@@ -1020,8 +1027,8 @@
 			are at <a
 			href="https://developers.google.com/eclipse/docs/install-eclipse-4.2">https://developers.google.com/eclipse/docs/install-eclipse-4.2</a>.
 			<br>Do not install GWT plugin as it might interfere with the GAE
-			plugin.
-			<br>Note: Sometimes the update site for the GAE plug-in does not work. In which case, follow the instructions at <a
+			plugin. <br>Note: Sometimes the update site for the GAE plug-in
+			does not work. In which case, follow the instructions at <a
 			href="https://developers.google.com/eclipse/docs/install-from-zip">https://developers.google.com/eclipse/docs/install-from-zip</a>.
 		</li>
 		<li>Install <i>Google App Engine SDK</i> version 1.7.3. <br>Instructions
@@ -1039,7 +1046,7 @@
 	</ul>
 
 	<h2 id="settingup-settingupdevserver">Setting up the dev server</h2>
-	‘Dev server’ means running the server in localhost mode.
+	'Dev server' means running the server in localhost mode.
 	<ol>
 		<li>Clone the source code from: <span class="code"><a
 				href="https://code.google.com/p/teammatespes/">https://code.google.com/p/teammatespes/</a></span>
@@ -1050,7 +1057,7 @@
 						class="bold">build.properties</span></span> <br> Use <span
 					class="code">build.template.properties</span> as a template (i.e.
 					copy → paste → rename)<br> For dev server testing, property
-					values can remain as they are. </li>
+					values can remain as they are.</li>
 				<li><span class="code"><span class="blue">src/test/resources/</span><span
 						class="bold">test.properties </span></span> <br> Create it using <span
 					class="code">test.template.properties</span> (in the same folder).
@@ -1061,11 +1068,11 @@
 					testing, property values can remain as they are.</li>
 			</ol>
 		</li>
-		<li>Open Eclipse and import → general → ‘existing projects into
-			workspace’ (see the <span class="bold">Troubleshooting</span> section
-			below if encounter any problem). After the importing is complete, following
-			settings should be applied automatically (they are here for reference
-			only).
+		<li>Open Eclipse and import → general → 'existing projects into
+			workspace' (see the <span class="bold">Troubleshooting</span> section
+			below if encounter any problem). After the importing is complete,
+			following settings should be applied automatically (they are here for
+			reference only).
 			<ol type="a">
 				<li>Properties→Google→Web application
 					<ol type="i">
@@ -1076,7 +1083,7 @@
 				</li>
 				<li>Properties→Google→App engine
 					<ol type="i">
-						<li>‘use Google App Engine’ selected</li>
+						<li>'use Google App Engine' selected</li>
 					</ol>
 				</li>
 				<li>Properties → Google → App Engine → ORM
@@ -1092,13 +1099,12 @@
 
 			</ol>
 		</li>
-		<li>Right-click on the project folder and choose ‘Run’ → ‘As Web
-			Application’. After some time, you should see this message on the
+		<li>Right-click on the project folder and choose 'Run' → 'As Web
+			Application'. After some time, you should see this message on the
 			console “The server is running at http://localhost:8888/”.<br>
 			The dev server is now ready to start requests at the given URL. You
-			can verify by visiting the URL in your Browser. 
-			<br>You can login to the system, you need to add yourself as an
-			instructor first.
+			can verify by visiting the URL in your Browser. <br>You can
+			login to the system, you need to add yourself as an instructor first.
 		</li>
 	</ol>
 
@@ -1106,9 +1112,9 @@
 	<ol type="a">
 		<li>Go to <span class="code">http://appURL/page/adminHome</span></li>
 		<li>Log in using your Google ID. If this is the dev server, enter
-			any email address, but remember to check the ‘log in as
-			administrator’ check box.</li>
-		<li>Enter credentials for a instructor. e.g., <br> Google
+			any email address, but remember to check the 'log in as
+			administrator' check box.</li>
+		<li>Enter credentials for an instructor. e.g., <br> Google
 			id: teammates.instructor<br> Name: Dr. John Adams <br>
 			Email: teammates.instructor@gmail.com<br>
 		</li>
@@ -1121,14 +1127,13 @@
 	Run all tests" option under the green "Run" button in the toolbar. Most
 	of the tests should pass. If a few cases fail (this can happen due to
 	timing issues), run the failed cases individually (right click and
-	choos 'Run as → Junit Test') and ensure they pass. The default browser
+	choose 'Run as → Junit Test') and ensure they pass. The default browser
 	used for testing is the Firefox browser. Testing on the Firefox browser
 	is relatively faster as compared to the other browsers, and it can be
 	run in the background. Nevertheless, it is still necessary to test with
 	the other supported browsers as well.
 	<br>
-	<br>
-	To change the browser that is used in the UI tests, go to the
+	<br> To change the browser that is used in the UI tests, go to the
 	<span class="code">test.properties</span> file and change the
 	<span class="code">test.selenium.browser</span> value to the browser
 	you want to test. Possible values are
@@ -1156,7 +1161,7 @@
 			disable javascript caching for Internet Explorer - Go to Internet
 			Options. On the General tab, under Browsing History click Settings.
 			Select the "Every time I visit the webpage" radio button.</li>
-		<li>Ensure that the browser zoom level is set to 100% </li>
+		<li>Ensure that the browser zoom level is set to 100%</li>
 		<li>Set the Protected Mode settings for each zone to be the same
 			value. The value can be on or off, as long as it is the same for
 			every zone. To set the Protected Mode settings, choose "Internet
@@ -1171,12 +1176,12 @@
 			Safari -> Preferences -> Advanced -> Show Develop menu in menu bar
 			and select Disable Caches there.</li>
 	</ul>
-	
-	<span class="bold">Note:</span>
-	When testing with Chrome and Internet Explorer, the chromedriver process 
-	and the IEDriverServer process will not automatically get killed after the tests 
-	have finished executing. You will need to manually kill these processes after the 
-	tests are done.
+
+	<span class="bold">Note:</span> When testing with Chrome and Internet
+	Explorer, the chromedriver process and the IEDriverServer process will
+	not automatically get killed after the tests have finished executing.
+	You will need to manually kill these processes after the tests are
+	done.
 
 	<h2 id="settingup-deployingtostagingserver">Deploying to staging
 		server</h2>
@@ -1203,9 +1208,9 @@
 					app name and app id of your own app.</li>
 			</ol>
 		</li>
-		<li>Deploy app to a appspot
+		<li>Deploy the application to an appspot
 			<ol type="a">
-				<li>Choose ‘Deploy to app engine’ from eclipse and follow the
+				<li>Choose 'Deploy to app engine' from eclipse and follow the
 					steps.</li>
 				<li>Wait until you see this message in Eclipse console
 					“Deployment completed successfully”</li>
@@ -1214,7 +1219,7 @@
 						class="red">name</span>
 				</span></li>
 				<li>Click “Versions” under “Main” menu on the left bar.</li>
-				<li>Set the version you deployed as the ‘default’.</li>
+				<li>Set the version you deployed as the 'default'.</li>
 			</ol> Note: You can skip the steps to set the deployed version as the
 			default. In that case, you can access the deployed app using <span
 			class="code">http://{version}.{app-id}.appspot.com</span> e.g. <span
@@ -1234,7 +1239,7 @@
 			and <span class="code">ConsoleHandler</span> e.g. <span class="code">java.io.FileWriter
 				is not supported by Google App Engine's Java runtime environment</span> <br>
 			SOLUTION: These are OK because the offending files belong to test
-			driver and will not be deployed to GAE. Choose to ‘Quick Fix’ and
+			driver and will not be deployed to GAE. Choose to 'Quick Fix' and
 			then choose to exclude those files from validation.
 		</li>
 		<br>
@@ -1250,7 +1255,7 @@
 		</li>
 		<br>
 		<li>ERROR (on Windows): Dev server launched by Eclipse keeps
-			running even after closing Eclipse. After restarting Eclipse, you’ll
+			running even after closing Eclipse. After restarting Eclipse, you'll
 			be able to relaunch dev server on the same port but requests will be
 			received by the previous server instance.<br> SOLUTION: If
 			Eclipse crashes while development server is running inside Eclipse,
@@ -1266,16 +1271,57 @@
 				com.sun.mail.imap.protocol.BODYSTRUCTURE.parseParameters(BODYSTRUCTURE.java:390)<br>
 		</span> SOLUTION: In eclipse, move the <span class="code">javax.mail.....jar</span>
 			(from Oracle) to the top of the build class path. (Properties → Java
-			build path → ‘order and export’ tab)
+			build path → 'order and export' tab)
 		</li>
 		<br>
 		<li>ERROR: Eclipse complains "file out of sync".<br>
-			SOLUTION: ‘refresh’ the project in eclipse.
+			SOLUTION: 'refresh' the project in eclipse.
 		</li>
 		<br>
 		<li>ERROR: Tests fail randomly during dev server testing.<br>
 			SOLUTION: Make sure there is only one dev server running. Eclipse
 			will happily allow you to start multiple dev servers.
+		</li>
+		<br>
+		<li>ERROR: Eclipse complains "<span class="code">There are
+				no JREs installed in the workplace that are strictly compatible with
+				this environment.</span>"<br> SOLUTION: Eclipse may be using an
+			incompatible version of the JRE Library (with respect to TEAMMATES)
+			for the current JRE definition. System Library for JRE should be set
+			to the workspace default, after appropriate JRE definition has been
+			added (covered in existing point#2 of the troubleshooting section).<br>
+			-> Right-click on project<br> -> Properties<br> -> Java
+			Build Path<br> -> "Libraries" tab<br> -> Select JRE System
+			Library from the list<br> -> Edit...<br> -> Select and mark
+			radio button for "Workspace default JRE"
+		</li>
+		<br>
+		<li>ERROR: Test failure message encountered when running full
+			test suite: “Selenium cannot find Firefox binary in PATH”.<br>
+			SOLUTION: Path to Firefox executable on local machine is incorrect.
+			Specify the correct folder in system PATH variable.<br> -> Open
+			Windows Explorer<br> -> Right-click on Computer<br> ->
+			Advanced System Settings<br> -> “Advanced” tab<br> ->
+			Environment Variables…<br> -> Select “PATH” from the list<br>
+			-> Add directory of “Mozilla Firedox” folder to “Variable value”
+			field
+		</li>
+		<br>
+		<li>ERROR: Unusually large number of test cases indicated.<br>
+			SOLUTION: If you right-click the project and choose 'run as Junit
+			test', it will erroneously pick up 500+ test cases. This is because
+			Eclipse runs individual JUnit classes as well as JUnit Suite classes
+			resulting in some test cases being run more than once. <br>
+			Instead, use the 'TM Run all tests' menu item or right-click on the <span
+			class="code">src/test/java/teammates.test.cases.AllTestsSuite.java</span>
+			and choose 'run as Junit test'.<br> Please note that Eclipse may
+			need a restart before the menu item <span class="code">'TM Run
+				all tests'</span> appear.
+		</li>
+		<br>
+		<li>ERROR: A handful of failed test cases (<10)<br>
+			SOLUTION: Ensure compatible version of Firefox is installed as
+			specified under <a href="#settingup-prerequisites">Prerequisites</a>.
 		</li>
 	</ol>
 
@@ -1287,25 +1333,31 @@
 	<h2 id="process-roles">Roles</h2>
 
 	<ul>
-		<li>Dev - Issue owner who fixes the issue. Can be a core team
-			member or a contributor.</li>
-		<li>Reviewer - Assigned per issue. Usually, a core team member.</li>
-		<li>Team lead - responsible for keeping all tests green, for
-			release repo, workflow issues, updating version history, and meeting
-			deadlines</li>
-		<li>Project Manager</li>
+		<li><span class="bold">Dev</span> - Issue owner who fixes the
+			issue. Can be a <span class="bold">Committer</span> or a <span
+			class="bold">Contributor</span>.</li>
+		<li><span class="bold">Reviewer</span> - Assigned per issue.
+			Usually, a core team member.</li>
+		<li><span class="bold">Team lead</span> - Responsible for keeping
+			all tests green, merging branches.</li>
+		<li><span class="bold">PM</span> (Project Manager) - General
+			project coordination and deploying to live server</li>
 	</ul>
 
 	<h2 id="process-workflow">Workflow</h2>
 
 	<div class="image-holder">
-		<img src="images/workflow.png" width=75% />
+		<img src="images/workflow.png" width=90% />
 	</div>
-	<br>
 
 	<h2 id="process-fixingissues">Fixing Issues</h2>
 	Role: Dev
 	<br>
+	<br> {If you need any help regarding the workflow, please post in
+	the
+	<a
+		href="https://groups.google.com/forum/?fromgroups#!forum/teammates-contributors">teammates-contributors
+		Google group</a>.}
 	<ol>
 		<li>Select an issue to handle. Get it assigned to you.
 			Contributors can request for an issue to be assigned to you by
@@ -1316,14 +1368,29 @@
 			email group. Such a discussion reduces the chance of the fix being
 			rejected later.</li>
 		<br>
-		<li>Mark the issue as <span class="code">Started</span>. Add
-			reviewer in the CC field.
+		<li>Mark the issue as <span class="code">Started</span>.
 		</li>
 		<br>
-		<li>Get the latest version of the code from the review repo <br>
-			<span class="code"> hg pull
-				https://yourname@code.google.com/p/teammatespes/ <br> hg
-				update
+		<li>If this is your first issue, go to the <a
+			href="http://code.google.com/p/teammatespes/source/checkout">committer
+				repo</a>, and create <a
+			href="http://googlecode.blogspot.sg/2009/10/mercurial-server-side-clone-support-for.html">a
+				server-side clone</a>. This clone will be your 'contributor repo' that
+			you will use for pushing your fixes. Once the Issue is <span
+			class="code">ReadyToMerge</span>, project lead will pull the branch
+			to the committer repo.<br> Recommended name for the clone is <span
+			class="code">{your name}-teammates</span>. e.g., <span class="code">john-teammates</span>
+			<br> Remember to include your full name under the 'Clone
+			summary' field. This is because sometimes the clone name is not
+			enough to identify the clone owner. <br>Remember to <span
+			class="bold">enable 'non-member code reviews'</span> in your clone
+			(Administer --> Source --> check 'Allow non-members to review code').
+		</li>
+		<br>
+		<li>Update your local repo (the one you created when setting up
+			the project on your computer) with the latest version of the code
+			from the committer repo. <br> <span class="code"> hg pull
+				https://code.google.com/p/teammatespes/ <br> hg update
 		</span>
 		</li>
 		<br>
@@ -1332,31 +1399,49 @@
 			(i.e. <span class="code">default</span> branch) before creating the
 			new branch. e.g., <br> <span class="code"> #switch to
 				trunk (if required)<br> hg update default<br> #create new
-				branch<br> hg branch Issue236
+				branch<br> hg branch {issue number} <br> #e.g. hg branch
+				Issue236
 		</span>
 		</li>
 		<br>
 		<li>Fix the issue. <br> Select the code segments you
 			modified and apply the code formatting function of Eclipse (Sourse
 			--> Format). This is to ensure that the code is properly formatted.<br>
-			<br> Format of the commit comment : <br>
+			<br>Commit the fix. <br>Format of the commit comment <span
+			class="bold">(for contributors)</span>: <br>
 			<ol type="a">
-				<li>The first line should be in the format: <br> <span
-					class="code">Starting Issue nnn [Issue title as given in
-						issue tracker]</span> <br>OR<br> <span class="code">Continuing
-						Issue nnn [Issue title as given in issue tracker] </span> <br>depending
-					on whether it is the first commit of the branch.<br>This helps
-					to locate the start of the branch easily (this is useful when
-					reviewing code) and identify what the issue is about without having
-					to refer to issue tracker.
+				<li>The first line should be in the format: <br> <br>
+					(if this is the first commit of the branch)<br> <span
+					class="code"><span class="bold">Starting</span> {issue
+						number} [{Issue title as given in issue tracker}]</span> <br>OR (if
+					this is not the first commit of the branch)<br> <span
+					class="code"><span class="bold">Continuing</span> {issue
+						number} [{Issue title as given in issue tracker}] </span> <br> <br>Note:
+					Using labels such as 'Starting' and 'Continuing' helps to locate
+					the start of the branch easily (this is useful when reviewing code)
+					and identify what the issue is about without having to refer to
+					issue tracker.<br> <br>
 				</li>
-				<li>The 2nd line should be <span class="code">Update
-						Issue nnn</span></li> This line tells Google Code to automatically update the
-				corresponding issue in the Issue tracker with a link to the revision
-				being committed. Do not put a fullstop at the end of this line.
+
 				<li>The Remaining lines can be used to describe the changes you
-					are committing. These lines too will be added to the Issue tracker.</li>
-				<li>Here’s a sample commit message:<br> <span class="code">
+					are committing.</li>
+				<li>Here's a sample commit message:<br> <span class="code">
+						Starting Issue 234 [Adding commit comment format to DevMan]<br>
+						Clarified the exact format for commit comments.
+				</span>
+				</li>
+			</ol> <br> Format of the commit comment <span class="bold">(for
+				committers)</span>: <br>
+			<ol type="a">
+				<li>The format is similar to the one used by contributors
+					except, the 2nd line should be <span class="code">Update
+						Issue {issue number}</span> This line tells Google Code to automatically
+					update the corresponding issue in the Issue tracker with a link to
+					the revision being committed. Do not put a fullstop at the end of
+					this line.
+				</li>
+
+				<li>Here's a sample commit message:<br> <span class="code">
 						Starting Issue 234 [Adding commit comment format to DevMan]<br>
 						Update Issue 234<br> Clarified the exact format for commit
 						comments.
@@ -1374,13 +1459,15 @@
 		<br>
 		<li>When the work is ready for review:
 			<ol type="a">
-				<li>Update your repo with any new changes from review repo and
-					merge those updates to your branch<br> <span class="code">
-						hg pull {review repo url}<br> hg update<br> hg merge
-						default<br> hg commit -m "Syncing Issue {nnn} [{Issue
-						title}]" <br># e.g. hg commit -m "Syncing Issue 453 [Add
-						sitemap to website]" <br> #'Syncing' is used to indicate that
-						this changeset is simply merging the trunk to this branch.<br>
+				<li>While you were fixing the issue, others might have pushed
+					new code to the committer repo. In that case, update your repo with
+					any new changes from committer repo and merge those updates to your
+					branch<br> <span class="code"> hg pull
+						https://code.google.com/p/teammatespes/<br> hg update<br>
+						hg merge default<br> hg commit -m "Syncing Issue {nnn}
+						[{Issue title}]" <br># e.g. hg commit -m "Syncing Issue 453
+						[Add sitemap to website]" <br> #'Syncing' is used to indicate
+						that this changeset is simply merging the trunk to this branch.<br>
 				</span>
 				</li>
 				<li>Ensure dev green (i.e., all tests are passing on dev
@@ -1389,18 +1476,21 @@
 					server than how it behaves on the dev server, ensure staging green
 					(i.e., all tests are passing against the modified app running on
 					your own GAE staging server).</li>
-				<li>Push to review repo (this will create a new branch in the
-					review repo).<br> <span class="code">hg push
-						https://yourname@code.google.com/p/teammatespes/ --new-branch -b
-						Issue234</span><br>If you don't have permission to push to review
-					repo, you can push to your own clone.
+				<li>Push to your contributor repo (this will create a new
+					branch in the repo).<br> <span class="code">hg push
+						https://{your name}@code.google.com/p/{clone name}/ --new-branch
+						-b {branch name}<br> #e.g., hg push
+						https://john@code.google.com/p/teammates-john/ --new-branch -b
+						Issue234
+				</span><br>
 				</li>
 				<li>Change Issue status to <span class="code">ReadyForReview</span>.
-					If the new code is in your own clone (i.e. not in the review repo),
-					Give the direct URL (here is <a
+					In the 'comments' text box, specify the direct URL (here is <a
 					href=http://code.google.com/r/freddusya111-teammates2/source/detail?r=22394d4380ccd25dedbbf636d0e3cd13739f258b">an
 						example URL</a>) to the relevant changeset. This way, the reviewer can
-					reach your new code in one click.
+					reach your new code in one click. (Note: Committers need not
+					specify the URL because you are pushing to the commiter repo
+					directly and GoogleCode will inser the URL automatically).
 				</li>
 			</ol>
 		</li>
@@ -1412,45 +1502,15 @@
 			or in the repo.
 		</li>
 	</ol>
-	<br> Role: Contributor
 	<br>
-	<br> A contributor will work closely with a developer from the project
-	team, who will act as the mentor for the contributor. If you don't have
-	a specific mentor assigned to you, simply post your queries in the
-	<a
-		href="https://groups.google.com/forum/?fromgroups#!forum/teammates-contributors">teammates-contributors
-		Google group</a>. The workflow is similar to that of developer (given
-	above) except for the following.
-	<ul>
-		<li>You will not have permission to push to <a
-			href="http://code.google.com/p/teammatespes/source/checkout">review
-				repo</a>. Go to review repo, create <a
-			href="http://googlecode.blogspot.sg/2009/10/mercurial-server-side-clone-support-for.html">a
-				server-side clone</a>, and push to that instead. Once the Issue is <span
-			class="code">ReadyToMerge</span>, project lead will pull the branch
-			to the review repo.<br> Recommended name for the clone is <span
-			class="code">{your name}-teammates</span>. e.g., <span class="code">john-teammates</span>
-			<br> Remember to include your full name under the 'Clone
-			summary' field. This is because sometimes the clone name is not
-			enough to identify the clone owner. <br>Remember to enable
-			'non-member code reviews' in your clone (Administer --> Source -->
-			check 'Allow non-members to review code').
-		</li>
-		<li>For help or clarifications, email your mentor or post in the
-			<a
-			href="https://groups.google.com/forum/?fromgroups#!forum/teammates-contributors">teammates-contributors
-				Google group</a>.
-		</li>
-	</ul>
-
 
 	<h2 id="process-reviewingafix">Reviewing a fix</h2>
 	Role: reviewer
 	<br>
 	<br> This is a static code review. No need to apply fix or run
 	tests.
-	<br> Add comments in the review repo or in the contributor's clone
-	(as approprate).
+	<br> Add comments in the contributor repo or in the committer repo
+	(as appropriate).
 	<br>
 	<br> Try to make sure
 	<br> a) The solution is optimal.
@@ -1467,8 +1527,8 @@
 	the branch.
 	<br>If the code is not ready for release, change the status to
 	<span class="code">ChangesRequested</span>.
-	<br> Give either ‘positive’ or ‘negative’ rating to each review
-	(avoid ‘neutral’). This helps us to detect which revisions were
+	<br> Give either 'positive' or 'negative' rating to each review
+	(avoid 'neutral'). This helps us to detect which revisions were
 	reviewed (when browsing repo in Google Code)
 	<br>
 	<br> Tip: You can use keyboard shortcuts to navigate code changes
@@ -1479,12 +1539,14 @@
 	<h2 id="process-applyingafix">Applying a fix</h2>
 	Role: team lead
 	<ol>
-		<li>Pull the latest code from the review repo</li>
+		<li>Pull the latest code from the committer repo</li>
+		<br> If this is a fix done by a contributor, pull the branch from
+		the contributor's repo.
 		<br>
-		<li>Pull branch from review repo or the contributor's clone. <br>
-			<span class="code"> hg pull -b {branch name}<br> hg
-				update
+		<span class="code"> hg pull {repo url} -b {branch name}<br>
+			hg update
 		</span>
+		<br>
 		</li>
 		<br>
 		<li>Switch to branch<br> <span class="code">hg update
@@ -1495,11 +1557,11 @@
 			branch)<br> <span class="code">hg merge default</span>
 		</li>
 		<br>
-		<li>Verify ‘dev green’. If the change does not involve auotmted
+		<li>Verify 'dev green'. If the change does not involve automated
 			tests, do a manual test. e.g., changes to documentation.</li>
 		<br>
-		<li>Verify ‘staging green’ (i.e. use your own app on appengine as
-			the ‘staging site’)</li>
+		<li>Verify 'staging green' (i.e. use your own app on appengine as
+			the 'staging site')</li>
 		<br>
 		<li>If not green: <br>
 			<ul>
@@ -1515,9 +1577,9 @@
 						commit -m “Merging {branch name} [{branch description}]”
 				</span>
 				</li>
-				<li>Push code to release repo. Be careful to push only the
-					branch that was merged.<br> <span class="code">hg push
-						{release repo} --new-branch -b {branch name} </span>
+				<li>Push the merged branch to the committer repo. <br> <span
+					class="code">hg push {committer repo URL} --new-branch -b
+						defalut </span>
 				</li>
 			</ul>
 		</li>
@@ -1527,31 +1589,26 @@
 	</ol>
 
 	<h2 id="process-deployingfixes">Deploying fixes</h2>
-	Roles: team lead, PM
+	Role: PM
 	<ol>
-		<li>PM deploys to live site as a new version.<br> Version
-			numbering is x.yy.zz (x-yy-zz on GAE because GAE does not allow ‘.’)
+		<li>Deploy to live site as a new version.<br> Version
+			numbering is x.yy.zz (x-yy-zz on GAE because GAE does not allow '.')
 			<br> x: major version, yy: feature release, zz: builds for
-			feature yy or updates that doesn’t affect functionality<br>
+			feature yy or updates that doesn't affect functionality<br>
 			e.g., 4.01.02
 		</li>
 		<br>
-		<li>PM verifies ‘live green’.</li>
+		<li>Verify 'live green'.</li>
 		<br>
-		<li>PM set new version as default.</li>
+		<li>Set new version as default.</li>
 		<br>
-		<li>Team lead
-			<ol>
-				<li>Marks issues as <span class="code">Deployed</span></li>
-				<li>Updates version history</li>
-				<li>Tags repo with version number<br> <span class="code">hg
-						tag V4.18</span>
-				</li>
-				<li>Pushes trunk to release repo (to send the tag to release
-					repo).<br> <span class="code">hg push {release repo url}
-						-b default</span>
-			</ol>
+
+		<li>Mark issues as <span class="code">Deployed</span></li>
+		<li>Update version history</li>
+		<li>Tag repo with version number<br> <span class="code">hg
+				tag V4.18</span>
 		</li>
+		<li>Push to the contributor repo (to send the tag to the repo).<br>
 	</ol>
 
 	<h2 id="process-issuelifecycle">Issue Lifecycle</h2>
@@ -1566,17 +1623,16 @@
 		<li><span class="bold">Low</span>: very little impact, unlikely
 			to do in the near future.</li>
 	</ul>
-	
+
 	<div class="image-holder">
 		<img src="images/IssueLifecycle.png" width="90%" />
 	</div>
-	
+
 	Given above is an illustration of the issue lifecycle. Colors indicate
 	which roles are involved in which states/transitions. Click on the
 	'status' text box in the
 	<a href="http://code.google.com/p/teammatespes/issues/entry">'new
-		issue'</a> template in the Issue Tracker for a description of each
-	status.
+		issue'</a> template in the Issue Tracker for a description of each status.
 	<br>
 
 	<hr>
@@ -1591,7 +1647,7 @@
 			<ul>
 				<li>Forgive extra blank lines and extra white space.</li>
 				<li>Auto correct if possible</li>
-				<li>Allow ‘cancel’ at any step where it make sense</li>
+				<li>Allow 'cancel' at any step where it make sense</li>
 			</ul>
 		</li>
 		<br>
@@ -1616,7 +1672,7 @@
 				<li>Submitting a page should take the user to the next logical
 					page while showing feedback about the previous action at the same
 					time.</li>
-				<li>When possible, give an ‘undo’ instead of asking to confirm
+				<li>When possible, give an 'undo' instead of asking to confirm
 					every action.</li>
 				<li>Use defaults so that users are not forced to enter values
 					for each field. This applies to sorting as well (i.e., sort by
@@ -1628,8 +1684,8 @@
 		<li>Take user point of view. E.g.
 			<ul>
 				<li>Use terms from user domain.</li>
-				<li>Use terms that show ‘user intent’ rather than mechanism.
-					e.g., ‘leave this course’ instead of ‘delete’.</li>
+				<li>Use terms that show 'user intent' rather than mechanism.
+					e.g., 'leave this course' instead of 'delete'.</li>
 			</ul>
 		</li>
 		<br>
@@ -1653,11 +1709,12 @@
 				boy scout rule</a> (i.e. always leave the campground cleaner than you
 			found it). Whenever you touch some code e.g., to fix a bug, try to do
 			some clean up of that code as well.</li>
-		<li><span class="bold">Style guides: </span>Follow coding style guides as much as possible. They are given in
-		the <a href="#infrastructure-knowledgebase">Knowledge base section</a> above</li>
+		<li><span class="bold">Style guides: </span>Follow coding style
+			guides as much as possible. They are given in the <a
+			href="#infrastructure-knowledgebase">Knowledge base section</a> above</li>
 		<li><span class="bold">Comments</span>: Use comments ONLY when
 			the code is not-self explanatory. Avoid redundant comments. Comments
-			should be well-written. They should not be written as ‘note to self’
+			should be well-written. They should not be written as 'note to self'
 			of the developer, but as explanations to help the reader.</li>
 		<li><span class="bold">Code formatting</span>: Use Eclipse to
 			auto-format code, <span class="underline">but select the area
@@ -1684,7 +1741,7 @@
 	<ul>
 		<li>Try to follow <a
 			href=http://en.wikipedia.org/wiki/Test-driven_development> Test
-				Driven Developement (TDD)</a>. In particular, when fixing a bug, write
+				Driven Development (TDD)</a>. In particular, when fixing a bug, write
 			the test case first before fixing it.
 		</li>
 		<li>Tests within a class may not run in the order they are
@@ -1692,8 +1749,8 @@
 		<li>Be mindful of the cost of running a test. Do not add
 			redundant tests.</li>
 		<li>Be mindful of missing test cases (e.g., boundary values). If
-			you writing tests for a functionality, it’s your job to ensure it is
-			fully ‘covered’ by your tests.</li>
+			you writing tests for a functionality, it's your job to ensure it is
+			fully 'covered' by your tests.</li>
 		<li>Test units at unit level. Do not attempt to test lower level
 			components from higher level functionality.</li>
 	</ul>
@@ -1703,8 +1760,8 @@
 
 	<h1 id="glossary">Glossary</h1>
 	<ul>
-		<li><span class="bold">Course</span>: we use ‘course’ to mean
-			‘module’, ‘class’. A course here means an offering of a course in a
+		<li><span class="bold">Course</span>: we use 'course' to mean
+			'module', 'class'. A course here means an offering of a course in a
 			particular semester/term. If the course is offered twice in two
 			semesters, they are considered two courses.</li>
 		<li><span class="bold">Contribution scale</span>:<br> <span
