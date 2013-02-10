@@ -82,6 +82,17 @@ public class AdminHomePageUiTest extends BaseTestCase{
 		accountVerification = BackDoor.getAccountAsJson("newInstructor");
 		assertTrue(accountVerification.contains("\"googleId\": \"newInstructor\""));
 		
+		______TS("test create account with leading spaces");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_ID), "  newInstructor3 ");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_NAME), "  New Instructor3 ");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_EMAIL), "newInstructor3@gmail.com");
+		bi.click(By.id("btnAddInstructor"));
+
+		bi.waitForStatusMessage("Instructor New Instructor3 has been successfully created");
+
+		accountVerification = BackDoor.getAccountAsJson("newInstructor3");
+		assertTrue(accountVerification.contains("\"googleId\": \"newInstructor3\""));
+		
 	}
 
 }
