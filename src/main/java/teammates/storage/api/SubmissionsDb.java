@@ -152,10 +152,7 @@ public class SubmissionsDb {
 					+ toStudent);
 			return null;
 		}
-
-		SubmissionData sd = new SubmissionData(s);
-		sd.p2pFeedback = sd.p2pFeedback == null ?  new Text("N/A") : sd.p2pFeedback;
-		return sd;
+		return new SubmissionData(s);
 	}
 
 	/**
@@ -182,9 +179,7 @@ public class SubmissionsDb {
 
 		for (Submission s : submissionList) {
 			if (!JDOHelper.isDeleted(s)) {
-				SubmissionData sd = new SubmissionData(s);
-				sd.p2pFeedback = sd.p2pFeedback == null ?  new Text("N/A") : sd.p2pFeedback;
-				submissionDataList.add(sd);
+				submissionDataList.add(new SubmissionData(s));
 			}
 		}
 
@@ -222,9 +217,7 @@ public class SubmissionsDb {
 
 		for (Submission s : submissionList) {
 			if (!JDOHelper.isDeleted(s)) {
-				SubmissionData sd = new SubmissionData(s);
-				sd.p2pFeedback = sd.p2pFeedback == null ?  new Text("N/A") : sd.p2pFeedback;
-				submissionDataList.add(sd);
+				submissionDataList.add(new SubmissionData(s));
 			}
 		}
 
@@ -267,9 +260,7 @@ public class SubmissionsDb {
 		List<SubmissionData> submissionDataList = new ArrayList<SubmissionData>();
 
 		for (Submission s : submissionList) {
-			SubmissionData sd = new SubmissionData(s);
-			sd.p2pFeedback = sd.p2pFeedback == null ?  new Text("N/A") : sd.p2pFeedback;
-			submissionDataList.add(sd);
+			submissionDataList.add(new SubmissionData(s));
 		}
 		return submissionDataList;
 	}
