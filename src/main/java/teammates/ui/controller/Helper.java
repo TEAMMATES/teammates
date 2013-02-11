@@ -128,6 +128,9 @@ public class Helper {
 	 * @return
 	 */
 	public static String escapeForHTML(String str){
+		if(str==null){
+			return "";
+		}
 		return str.replace("&", "&amp;")
 				.replace("#", "&#35;")
 				.replace("<", "&lt;")

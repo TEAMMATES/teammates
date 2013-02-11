@@ -99,74 +99,60 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 
 		try {
 			bi.clickInstructorCourseDetailStudentRemindAndCancel(studentRowId);
-
 		} catch (NoAlertException e) {
 			fail("No alert box when clicking send invite button at course details page.");
 		}
 
-		String key = null;
-		String courseId = null;
-
-		if (!TestProperties.inst().isLocalHost()) {
-			courseId = scn.courses.get("CCDetailsUiT.CS2104").id;
-
-			key = BackDoor.getKeyForStudent(courseId, studentEmail);
-
-			if (key != null) {
-				bi.waitForEmail();
-				assertFalse(
-						"cancel clicked, but the email was sent",
-						key.equals(EmailAccount.getRegistrationKeyFromGmail(
-								studentEmail,
-								TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS,
-								courseId)));
-			}
+		String courseId = scn.courses.get("CCDetailsUiT.CS2104").id;
+		String studentPassword = TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS;
+		String keyToSend = BackDoor.getKeyForStudent(courseId, studentEmail);
+		String keyReceivedInEmail = null;
+		boolean isEmailEnabled = !TestProperties.inst().isLocalHost();
+		
+		if (isEmailEnabled) {
+			bi.waitForEmail();
+			keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(
+					studentEmail, studentPassword, courseId);
+			String errorMessage = "cancel clicked, but key was sent :"
+					+ keyReceivedInEmail + " to " + studentEmail;
+			assertFalse(errorMessage, keyToSend.equals(keyReceivedInEmail));
 		}
 
 		______TS("sending reminder to a single student to join course: click and confirm");
 
 		try {
 			bi.clickInstructorCourseDetailStudentRemindAndConfirm(studentRowId);
-
 		} catch (NoAlertException e) {
 			fail("No alert box when clicking send button invite at course details page.");
 		}
 
-		if (!TestProperties.inst().isLocalHost()) {
-
+		if (isEmailEnabled) {
 			bi.waitForEmail();
-			assertEquals(
-					key,
-					EmailAccount
-							.getRegistrationKeyFromGmail(
-									studentEmail,
-									TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS,
-									courseId));
+			keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(
+					studentEmail, studentPassword, courseId);
+			assertEquals(keyToSend, keyReceivedInEmail);
 		}
 
 		______TS("sending reminder to all unregistered students to join course");
 
 		bi.clickAndConfirm(bi.instructorCourseDetailRemindButton);
-		if (!TestProperties.inst().isLocalHost()) {
+		
+		if (isEmailEnabled) {
 			bi.waitForEmail();
 
+			keyToSend = BackDoor.getKeyForStudent(courseId, otherStudentEmail);
+			
 			// verify an unregistered student received reminder
-			key = BackDoor.getKeyForStudent(courseId, otherStudentEmail);
-			assertEquals(
-					key,
-					EmailAccount
-							.getRegistrationKeyFromGmail(
-									otherStudentEmail,
-									TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS,
-									courseId));
+			keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(
+					otherStudentEmail, studentPassword, courseId);
+			assertEquals(keyToSend, keyReceivedInEmail);
 
 			// verify a registered student did not receive a reminder
-			assertEquals(
-					null,
-					EmailAccount.getRegistrationKeyFromGmail(
-							registeredStudentEmail,
-							TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS,
-							courseId));
+			keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(
+					registeredStudentEmail, studentPassword, courseId);
+			String errorMessage = "Registered student was sent key :"
+					+ keyReceivedInEmail + " to " + studentEmail;
+			assertFalse(errorMessage, keyToSend.equals(keyReceivedInEmail));
 		}
 	}
 
