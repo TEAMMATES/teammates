@@ -36,6 +36,7 @@ public class AdminHomePageUiTest extends BaseTestCase{
 		
 		BackDoor.deleteCourse("newInstructor-demo");
 		BackDoor.deleteInstructor("newInstructor");
+		BackDoor.deleteInstructor("newInstructor2");
 		BackDoor.deleteInstructor("newInstructor3");
 	}
 	
@@ -66,8 +67,8 @@ public class AdminHomePageUiTest extends BaseTestCase{
 		
 		bi.waitForStatusMessage("Instructor New Instructor has been successfully created");
 		
-		String accountVerification = BackDoor.getAccountAsJson("newInstructor");
-		assertTrue(accountVerification.contains("\"googleId\": \"newInstructor\""));
+		String newInstructorDetails = BackDoor.getAccountAsJson("newInstructor");
+		assertTrue(newInstructorDetails.contains("\"googleId\": \"newInstructor\""));
 		String instructorVerification = BackDoor.getInstructorAsJson("newInstructor", "newInstructor-demo");
 		assertTrue(instructorVerification.contains("\"courseId\": \"newInstructor-demo\""));
 		assertTrue(instructorVerification.contains("\"googleId\": \"newInstructor\""));
@@ -80,19 +81,21 @@ public class AdminHomePageUiTest extends BaseTestCase{
 		
 		bi.waitForStatusMessage("Instructor New Instructor2 has been successfully created");
 		
-		accountVerification = BackDoor.getAccountAsJson("newInstructor");
-		assertTrue(accountVerification.contains("\"googleId\": \"newInstructor\""));
+		newInstructorDetails = BackDoor.getAccountAsJson("newInstructor2");
+		assertTrue(newInstructorDetails.contains("\"googleId\": \"newInstructor2\""));
 		
-		______TS("test create account with leading spaces");
-		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_ID), "  newInstructor3 ");
-		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_NAME), "  New Instructor3 ");
-		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_EMAIL), "newInstructor3@gmail.com");
+		______TS("test create account with spaces around input values");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_ID), "  newInstructor3  ");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_NAME), "  New Instructor3  ");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_EMAIL), "  newInstructor3@gmail.com  ");
 		bi.click(By.id("btnAddInstructor"));
 
 		bi.waitForStatusMessage("Instructor New Instructor3 has been successfully created");
 
-		accountVerification = BackDoor.getAccountAsJson("newInstructor3");
-		assertTrue(accountVerification.contains("\"googleId\": \"newInstructor3\""));
+		newInstructorDetails = BackDoor.getAccountAsJson("newInstructor3");
+		assertTrue(newInstructorDetails.contains("\"googleId\": \"newInstructor3\""));
+		assertTrue(newInstructorDetails.contains("\"name\": \"New Instructor3\""));
+		assertTrue(newInstructorDetails.contains("\"email\": \"newInstructor3@gmail.com\""));
 		
 	}
 

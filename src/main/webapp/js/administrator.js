@@ -22,7 +22,7 @@ var INSTRUCTOR_NAME = "instructorname";
 
 function addInstructor(googleID, name, email)
 {
-	if(xmlhttp)
+	if (xmlhttp)
 	{
 		xmlhttp.open("POST","teammates",false); 
 		xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
@@ -33,22 +33,27 @@ function addInstructor(googleID, name, email)
 
 function verifyInstructorData()
 {
-	var googleID = $('[name="'+INSTRUCTOR_GOOGLEID + '"]').val();
-	var name = $('[name="'+INSTRUCTOR_NAME + '"]').val();
-	var email = $('[name="'+INSTRUCTOR_EMAIL + '"]').val();
-	if(googleID == "" || name == "" || email == "")
+	var googleID = $('[name="'+INSTRUCTOR_GOOGLEID + '"]').val().trim();
+	var name = $('[name="'+INSTRUCTOR_NAME + '"]').val().trim();
+	var email = $('[name="'+INSTRUCTOR_EMAIL + '"]').val().trim();
+	
+	$('[name="'+INSTRUCTOR_GOOGLEID + '"]').val(googleID);
+	$('[name="'+INSTRUCTOR_NAME + '"]').val(name);
+	$('[name="'+INSTRUCTOR_EMAIL + '"]').val(email);
+	
+	if (googleID == "" || name == "" || email == "")
 	{
 		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);	
 		return false;
 	}
 	
-	else if(!isEmailValid(email))
+	else if (!isEmailValid(email))
 	{
 		setStatusMessage(DISPLAY_EMAIL_INVALID, true);
 		return false;
 	}
 	
-	else if(!isNameValid(name))
+	else if (!isNameValid(name))
 	{
 		setStatusMessage(DISPLAY_NAME_INVALID, true);
 		return false;
@@ -61,14 +66,14 @@ function getXMLObject()
 {
    var xmlHttp = false;
    try {
-     xmlHttp = new ActiveXObject("Msxml2.XMLHTTP")  
+     xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
    }
    catch (e) {
      try {
-       xmlHttp = new ActiveXObject("Microsoft.XMLHTTP")  
+       xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
      }
      catch (e2) {
-       xmlHttp = false  
+       xmlHttp = false;
      }
    }
    if (!xmlHttp && typeof XMLHttpRequest != 'undefined') {
