@@ -71,7 +71,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testInstructorCourseEnrollPage() throws Exception{
-		______TS("failure case - adding a string with only a space");
+		______TS("failure case - no students data");
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseEnrollPage.html");
 		
@@ -79,7 +79,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseTestCase {
 		bi.click(By.id("button_enroll"));
 		bi.waitForStatusMessage("Please input at least one student detail.");
 		
-		______TS("failure case");
+		______TS("failure case - errors in enroll data");
 		
 		errorString = "a|b|c|d";
 		bi.fillString(By.id("enrollstudents"), errorString); //invalid email address
