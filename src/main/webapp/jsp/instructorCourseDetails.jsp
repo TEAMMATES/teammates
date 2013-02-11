@@ -126,7 +126,7 @@
 											onclick="return toggleSendRegistrationKey()"
 											onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_STUDENT_REMIND %>')"
 											onmouseout="hideddrivetip()">
-											Resend Invite</a>
+											Send Invite</a>
 								<%	} %>
 								<a class="color_black t_student_delete<%= idx %>" href="<%= helper.getCourseStudentDeleteLink(student) %>"
 										onclick="return toggleDeleteStudentConfirmation('<%=InstructorCourseDetailsHelper.escapeForJavaScript(student.name)%>')"
