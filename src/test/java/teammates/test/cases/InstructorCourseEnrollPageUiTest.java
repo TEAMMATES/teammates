@@ -75,16 +75,9 @@ public class InstructorCourseEnrollPageUiTest extends BaseTestCase {
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseEnrollPage.html");
 		
-		String errorString = " ";
+		String errorString = "  \t  \n  \r";
 		bi.click(By.id("button_enroll"));
 		bi.waitForStatusMessage("Please input at least one student detail.");
-		
-		______TS("failure case - adding an empty");
-		
-		errorString = "";
-		bi.click(By.id("button_enroll"));
-		bi.waitForStatusMessage("Please input at least one student detail.");
-		
 		
 		______TS("failure case");
 		
