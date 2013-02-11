@@ -36,6 +36,7 @@ public class AdminHomePageUiTest extends BaseTestCase{
 		
 		BackDoor.deleteCourse("newInstructor-demo");
 		BackDoor.deleteInstructor("newInstructor");
+		BackDoor.deleteInstructor("newInstructor3");
 	}
 	
 	@Test
