@@ -116,5 +116,13 @@ public class StudentEvalResultsPageUiTest extends BaseTestCase {
 		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("benny.tmms").id);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsTheOtherDidn'tSubmitHTML.html");
+		
+		______TS("with p2pFeedback disabled");
+		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Sixth Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Sixth Eval").name);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("benny.tmms").id);
+		bi.goToUrl(link);
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsP2PDisabled.html");
 	}
 }
