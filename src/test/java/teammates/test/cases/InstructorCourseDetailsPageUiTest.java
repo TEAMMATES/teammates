@@ -103,10 +103,18 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 			fail("No alert box when clicking send invite button at course details page.");
 		}
 
-		String key="";
+		String key=null;
+		String courseId = null; 
+		
 		if (!TestProperties.inst().isLocalHost()) {
+			courseId = scn.courses.get("CCDetailsUiT.CS2104").id;
+			
+			
 			key = BackDoor.getKeyForStudent(
-					scn.courses.get("CCDetailsUiT.CS2104").id, studentEmail);
+					courseId, studentEmail);
+			
+			if(key != null)
+			{
 			bi.waitForEmail();
 			assertFalse(
 					"cancel clicked, but the email was sent",
@@ -114,6 +122,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 							studentEmail,
 							TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS,
 							scn.courses.get("CCDetailsUiT.CS2104").id)));
+			}
 		}
 		
 		
@@ -140,7 +149,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 			bi.waitForEmail();
 			
 			//verify an unregistered student received reminder
-			key = BackDoor.getKeyForStudent(scn.courses.get("CCDetailsUiT.CS2104").id, otherStudentEmail);
+			key = BackDoor.getKeyForStudent(courseId, otherStudentEmail);
 			assertEquals(key,EmailAccount.getRegistrationKeyFromGmail(otherStudentEmail, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS, scn.courses.get("CCDetailsUiT.CS2104").id));
 			
 			//verify a registered student did not receive a reminder

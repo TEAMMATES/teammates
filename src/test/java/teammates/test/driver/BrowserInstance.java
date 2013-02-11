@@ -892,7 +892,7 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * Clicks and Remind a student at a particular rowID.
+	 * Clicks and confirms Remind a student at a particular rowID.
 	 * Pre-condition: Should be in Course detail page
 	 * 
 	 * @param rowID
@@ -927,7 +927,7 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * Clicks and confirms Remind a student at a particular rowID.
+	 * Clicks and Cancels Remind a student at a particular rowID.
 	 * Pre-condition: Should be in Course detail page
 	 * 
 	 * @param rowID
@@ -938,7 +938,7 @@ public class BrowserInstance {
 	}
 	
 	/**
-	 * Clicks and confirms Delete a student at a particular rowID.
+	 * Clicks and Cancels Delete a student at a particular rowID.
 	 * Pre-condition: Should be in Course detail page
 	 * 
 	 * @param rowID
@@ -948,7 +948,7 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * Clicks and confirms Delete a particular student. Pre-condition: Should be
+	 * Clicks and Cancels Delete a particular student. Pre-condition: Should be
 	 * in Course detail page
 	 * 
 	 * @param student
