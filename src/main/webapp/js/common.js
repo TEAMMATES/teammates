@@ -28,6 +28,9 @@ var DISPLAY_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphe
 var DISPLAY_COURSE_INSTRUCTOR_LIST_EMPTY = "You must add at least 1 instructor in the course.";
 var MESSAGE_INSTRUCTOR_NOT_WHTHIN_INSTRUCTOR_LIST = "You are not in the list of instructors for the new course. You will not be able to access the new course once it is created. Do you wish to continue?";
 
+//Used in instructorCourseEnroll.js only
+var DISPLAY_ENROLLMENT_INPUT_EMPTY = "Please input at least one student detail.";
+
 // Used in instructorEval.js only
 var DISPLAY_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
 var DISPLAY_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";

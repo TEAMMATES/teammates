@@ -472,6 +472,20 @@ public class Logic {
 
 		return instructor;
 	}
+	
+	public List<InstructorData> getAllInstructors() {
+		return AccountsLogic.inst().getDb().getInstructors();
+	}
+	
+	/**
+	 * Returns ALL COURSE::ID for this INSTRUCTOR GoogleId
+	 * 
+	 * @param courseId
+	 * @return List<InstructorData>
+	 */
+	public List<InstructorData> getInstructorsByGoogleId(String googleId) {
+		return AccountsLogic.inst().getDb().getInstructorsByGoogleId(googleId);
+	}
 
 	/**
 	 * Returns ALL INSTRUCTORS for this COURSE
