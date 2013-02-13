@@ -473,18 +473,8 @@ public class AdminActivityLogHelper extends Helper{
 		for (int i = 0; i < toEmails.length; i++){
 			output += "<span class=\"bold\">To:</span> " + toEmails[i] + "<br>";
 			output += "<span class=\"bold\">Points:</span> " + points[i] + "<br>";
-			try{
-				output += "<span class=\"bold\">Comments:</span> " + comments[i].replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>") + "<br>";
-			} catch (ArrayIndexOutOfBoundsException e){
-				output += "<span class=\"bold\">Comments:</span><br>";
-			} catch (NullPointerException e){
-				output += "<span class=\"bold\">Comments:</span><br>";
-			}
-			try{
-				output += "<span class=\"bold\">Justification:</span> " + justifications[i].replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>") + "<br><br>";
-			} catch (ArrayIndexOutOfBoundsException e){
-				output += "<span class=\"bold\">Justification:</span><br><br>";
-			}
+			output += "<span class=\"bold\">Comments:</span> " + comments[i].replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>") + "<br>";
+			output += "<span class=\"bold\">Justification:</span> " + justifications[i].replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>") + "<br><br>";
 		}
 		
 		return output;
@@ -512,18 +502,8 @@ public class AdminActivityLogHelper extends Helper{
 		for (int i = 0; i < toEmails.length; i++){
 			output += "<span class=\"bold\">To:</span> " + toEmails[i] + "<br>";
 			output += "<span class=\"bold\">Points:</span> " + points[i] + "<br>";
-			try{
-				output += "<span class=\"bold\">Comments:</span> " + comments[i].replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>") + "<br>";
-			} catch (ArrayIndexOutOfBoundsException e){
-				output += "<span class=\"bold\">Comments:</span><br>";
-			} catch (NullPointerException e){
-				output += "<span class=\"bold\">Comments:</span><br>";
-			}
-			try{
-				output += "<span class=\"bold\">Justification:</span> " + justifications[i].replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>") + "<br><br>";
-			} catch (ArrayIndexOutOfBoundsException e){
-				output += "<span class=\"bold\">Justification:</span><br><br>";
-			}
+			output += "<span class=\"bold\">Comments:</span> " + comments[i].replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>") + "<br>";
+			output += "<span class=\"bold\">Justification:</span> " + justifications[i].replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>") + "<br><br>";
 		}
 		
 		return output;
@@ -630,13 +610,13 @@ public class AdminActivityLogHelper extends Helper{
 		//request parameters are in the format name1::value1//value2//value3, name2::value1//value2, ....
 		
 		Hashtable<String, String[]> table = new Hashtable<String, String[]>();
-		String[] parameters = requestParams.split(", ");
+		String[] parameters = requestParams.split(", ", -1);
 		
 		for (int i = 0; i < parameters.length; i++){
 			String[] pair = parameters[i].split("::");		//pair[0] = parameter name, pair[1] = parameter values
 			String[] values;
 			try {
-				values = pair[1].split("//");
+				values = pair[1].split("//", -1);
 			} catch (ArrayIndexOutOfBoundsException e) {
 				values = new String[1];				
 			}
