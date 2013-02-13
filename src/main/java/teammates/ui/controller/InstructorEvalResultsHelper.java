@@ -138,21 +138,6 @@ public class InstructorEvalResultsHelper extends Helper{
 		else return escapeForHTML(sub.justification.getValue());
 	}
 	
-	/**
-	 * Prints the comments (peer-to-peer feedback) from the given submission data.
-	 * This will escape the string for HTML printing.
-	 * @param sub
-	 * @param enabled
-	 * @return
-	 */
-	public static String printComments(SubmissionData sub, boolean enabled){
-		if(!enabled) return "<span style=\"font-style: italic;\">Disabled</span>";
-		if(sub.p2pFeedback==null || sub.p2pFeedback.getValue()==null
-				|| sub.p2pFeedback.getValue().equals("")){
-			return "N/A";
-		}
-		return escapeForHTML(sub.p2pFeedback.getValue());
-	}
 	
 	/**
 	 * Prints the list of normalized points from the given list of submission data.
