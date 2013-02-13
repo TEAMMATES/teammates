@@ -98,10 +98,10 @@
       "published": true,
       "activated": true
     },
-    "Sixth Eval": {
+    "P2P Disabled Eval": {
       "course": "SEvalRUiT.CS1101",
-      "name": "Sixth Eval",
-      "instructions": "Please please fill in the sixth evaluation",
+      "name": "P2P Disabled Eval",
+      "instructions": "Please please fill in the P2P Disabled Evaluation",
       "startTime": "2012-04-01 11:59 PM",
       "endTime": "2012-04-02 11:59 PM",
       "timeZone": 8.0,
@@ -353,119 +353,119 @@
       "p2pFeedback" : {"value" :"This is a public comment from emily.tmms@gmail.com to danny.tmms@gmail.com"},
       "team" : "Team 2"
     },
-    "submissionFromAliceToAliceSixthEval": {
+    "submissionFromAliceToAliceP2PDisabledEval": {
       "reviewer" : "alice.tmms@gmail.com",
       "reviewee" : "alice.tmms@gmail.com",
       "course" : "SEvalRUiT.CS1101",
-      "evaluation" : "Sixth Eval",
+      "evaluation" : "P2P Disabled Eval",
       "points" : 120,
       "justification" : {"value" : "This is a justification from alice.tmms@gmail.com to alice.tmms@gmail.com"},
       "team" : "Team 1"
     },
-    "submissionFromAliceToBennySixthEval": {
+    "submissionFromAliceToBennyP2PDisabledEval": {
       "reviewer" : "alice.tmms@gmail.com",
       "reviewee" : "benny.tmms@gmail.com",
       "course" : "SEvalRUiT.CS1101",
-      "evaluation" : "Sixth Eval",
+      "evaluation" : "P2P Disabled Eval",
       "points" : 80,
       "justification" : {"value" : "This is a justification from alice.tmms@gmail.com to benny.tmms@gmail.com"},
       "team" : "Team 1"
     },
-    "submissionFromBennyToBennySixthEval": {
+    "submissionFromBennyToBennyP2PDisabledEval": {
       "reviewer" : "benny.tmms@gmail.com",
       "reviewee" : "benny.tmms@gmail.com",
       "course" : "SEvalRUiT.CS1101",
-      "evaluation" : "Sixth Eval",
+      "evaluation" : "P2P Disabled Eval",
       "points" : 90,
       "justification" : {"value" : "This is a justification from benny.tmms@gmail.com to benny.tmms@gmail.com"},
       "team" : "Team 1"
     },
-    "submissionFromBennyToAliceSixthEval": {
+    "submissionFromBennyToAliceP2PDisabledEval": {
       "reviewer" : "benny.tmms@gmail.com",
       "reviewee" : "alice.tmms@gmail.com",
       "course" : "SEvalRUiT.CS1101",
-      "evaluation" : "Sixth Eval",
+      "evaluation" : "P2P Disabled Eval",
       "points" : 110,
       "justification" : {"value" : "This is a justification from benny.tmms@gmail.com to alice.tmms@gmail.com"},
       "team" : "Team 1"
     },
-    "submissionFromCharlieToCharlieSixthEval": {
+    "submissionFromCharlieToCharlieP2PDisabledEval": {
       "reviewer" : "charlie.tmms@gmail.com",
       "reviewee" : "charlie.tmms@gmail.com",
       "course" : "SEvalRUiT.CS1101",
-      "evaluation" : "Sixth Eval",
+      "evaluation" : "P2P Disabled Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from charlie.tmms@gmail.com to charlie.tmms@gmail.com"},
       "team" : "Team 2"
     },
-    "submissionFromCharlieToDannySixthEval": {
+    "submissionFromCharlieToDannyP2PDisabledEval": {
       "reviewer" : "charlie.tmms@gmail.com",
       "reviewee" : "danny.tmms@gmail.com",
       "course" : "SEvalRUiT.CS1101",
-      "evaluation" : "Sixth Eval",
+      "evaluation" : "P2P Disabled Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from charlie.tmms@gmail.com to danny.tmms@gmail.com"},
       "team" : "Team 2"
     },
-    "submissionFromCharlieToEmilySixthEval": {
+    "submissionFromCharlieToEmilyP2PDisabledEval": {
       "reviewer" : "charlie.tmms@gmail.com",
       "reviewee" : "emily.tmms@gmail.com",
       "course" : "SEvalRUiT.CS1101",
-      "evaluation" : "Sixth Eval",
+      "evaluation" : "P2P Disabled Eval",
       "points" : 110,
       "justification" : {"value" : "This is a justification from charlie.tmms@gmail.com to emily.tmms@gmail.com"},
       "team" : "Team 2"
     },
-    "submissionFromDannyToDannySixthEval": {
+    "submissionFromDannyToDannyP2PDisabledEval": {
       "reviewer" : "danny.tmms@gmail.com",
       "reviewee" : "danny.tmms@gmail.com",
       "course" : "SEvalRUiT.CS1101",
-      "evaluation" : "Sixth Eval",
+      "evaluation" : "P2P Disabled Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from danny.tmms@gmail.com to danny.tmms@gmail.com"},
       "team" : "Team 2"
     },
-    "submissionFromDannyToCharlieSixthEval": {
+    "submissionFromDannyToCharlieP2PDisabledEval": {
       "reviewer" : "danny.tmms@gmail.com",
       "reviewee" : "charlie.tmms@gmail.com",
       "course" : "SEvalRUiT.CS1101",
-      "evaluation" : "Sixth Eval",
+      "evaluation" : "P2P Disabled Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from danny.tmms@gmail.com to charlie.tmms@gmail.com"},
       "team" : "Team 2"
     },
-    "submissionFromDannyToEmilySixthEval": {
+    "submissionFromDannyToEmilyP2PDisabledEval": {
       "reviewer" : "danny.tmms@gmail.com",
       "reviewee" : "emily.tmms@gmail.com",
       "course" : "SEvalRUiT.CS1101",
-      "evaluation" : "Sixth Eval",
+      "evaluation" : "P2P Disabled Eval",
       "points" : 110,
       "justification" : {"value" : "This is a justification from danny.tmms@gmail.com to emily.tmms@gmail.com"},
       "team" : "Team 2"
     },
-    "submissionFromEmilyToEmilySixthEval": {
+    "submissionFromEmilyToEmilyP2PDisabledEval": {
       "reviewer" : "emily.tmms@gmail.com",
       "reviewee" : "emily.tmms@gmail.com",
       "course" : "SEvalRUiT.CS1101",
-      "evaluation" : "Sixth Eval",
+      "evaluation" : "P2P Disabled Eval",
       "points" : 110,
       "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to emily.tmms@gmail.com"},
       "team" : "Team 2"
     },
-    "submissionFromEmilyToCharlieSixthEval": {
+    "submissionFromEmilyToCharlieP2PDisabledEval": {
       "reviewer" : "emily.tmms@gmail.com",
       "reviewee" : "charlie.tmms@gmail.com",
       "course" : "SEvalRUiT.CS1101",
-      "evaluation" : "Sixth Eval",
+      "evaluation" : "P2P Disabled Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to charlie.tmms@gmail.com"},
       "team" : "Team 2"
     },
-    "submissionFromEmilyToDannySixthEval": {
+    "submissionFromEmilyToDannyP2PDisabledEval": {
       "reviewer" : "emily.tmms@gmail.com",
       "reviewee" : "danny.tmms@gmail.com",
       "course" : "SEvalRUiT.CS1101",
-      "evaluation" : "Sixth Eval",
+      "evaluation" : "P2P Disabled Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to danny.tmms@gmail.com"},
       "team" : "Team 2"

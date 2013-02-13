@@ -73,7 +73,7 @@
 					</tr>
 					<tr>
 						<td colspan="4"><span class="bold">Comments about team:</span><br>
-							<%=InstructorEvalSubmissionViewHelper.printComments(helper.result.getSelfEvaluation(), helper.evaluation.p2pEnabled)%></td>
+							<%=InstructorEvalSubmissionViewHelper.escapeForHTML(helper.result.getSelfEvaluation().p2pFeedback.getValue())%></td>
 					</tr>
 				<tr class="resultSubheader">
 					<td width="15%" class="bold"><%=byReviewee ? "From" : "To"%> Student</td>
@@ -88,7 +88,7 @@
 						<td><b><%=InstructorEvalSubmissionViewHelper.escapeForHTML(byReviewee ? sub.reviewerName : sub.revieweeName)%></b></td>
 						<td><%= InstructorEvalSubmissionViewHelper.printSharePoints(sub.normalizedToInstructor,false) %></td>
 						<td><%= InstructorEvalSubmissionViewHelper.printJustification(sub) %></td>
-						<td><%= InstructorEvalSubmissionViewHelper.formatP2PFeedback(InstructorEvalSubmissionViewHelper.printComments(sub, helper.evaluation.p2pEnabled)) %></td>
+						<td><%= InstructorEvalSubmissionViewHelper.formatP2PFeedback(InstructorEvalSubmissionViewHelper.escapeForHTML(sub.p2pFeedback.getValue()), helper.evaluation.p2pEnabled) %></td>
 					</tr>
 				<%	} %>
 			</table>

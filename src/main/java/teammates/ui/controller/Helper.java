@@ -518,7 +518,13 @@ public class Helper {
 	 * Make the headings bold, and covert newlines to html linebreaks
 	 * @return
 	 */
-	public static String formatP2PFeedback(String str){
+	public static String formatP2PFeedback(String str, boolean enabled){
+		if(!enabled){
+			return "<span style=\"font-style: italic;\">Disabled</span>";
+		}
+		if(str.equals("") || str == null){
+			return "N/A";
+		}
 		return str.replace("&lt;&lt;What I appreciate about you as a team member&gt;&gt;:", "<span class=\"bold\">What I appreciate about you as a team member:</span>")
 				.replace("&lt;&lt;Areas you can improve further&gt;&gt;:", "<span class=\"bold\">Areas you can improve further:</span>")
 				.replace("&lt;&lt;Other comments&gt;&gt;:", "<span class=\"bold\">Other comments:</span>")

@@ -54,14 +54,5 @@ public class StudentEvalResultsHelper extends Helper {
 		}
 		return result;
 	}
-	
-
-	public static String formatP2PFeedback(String str, boolean enabled){
-		if(!enabled){
-			return "<span style=\"font-style: italic;\">Disabled</span>";
-		}
-		return formatP2PFeedback(str);
-	}
-	
 
 }
