@@ -56,8 +56,9 @@ public class EmailAccount {
 			FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
 			Message messages[] = inbox.search(ft);
 
-			// Loop over the last 5 messages
-			for (int i = messages.length - 1; i >= messages.length - 5; i--) {
+			// Loop over up to 5 unread messages at the top of the inbox
+			int maxEmailsToCheck = (messages.length<5? messages.length: 5);
+			for (int i = messages.length - 1; i >= messages.length - maxEmailsToCheck; i--) {
 				Message message = messages[i];
 				// If this is the right message (by matching header)
 
@@ -71,7 +72,6 @@ public class EmailAccount {
 				if (!isCorrectEmail)
 					continue;
 
-				System.out.println(subject);
 
 				String body = "";
 

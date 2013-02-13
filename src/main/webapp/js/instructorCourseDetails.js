@@ -6,7 +6,10 @@
  * @param email
  */
 function toggleSendRegistrationKey(courseID, email) {
-	return true;
+	return confirm("Usually, there is no need to use this feature. " +
+			"TEAMMATES sends invitations to students automatically at the " +
+			"point the first evaluation of the course opens for submission. " +
+			"Do you wish to send the invitation to this student now?");
 }
 
 /**

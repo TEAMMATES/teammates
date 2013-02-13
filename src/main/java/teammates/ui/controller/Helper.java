@@ -460,19 +460,19 @@ public class Helper {
 		}
 		
 		result.append(
-			"<a class=\"color_black t_eval_view"+ position + "\" " +
+			"<a class=\"color_green t_eval_view"+ position + "\" " +
 			"href=\"" + getInstructorEvaluationResultsLink(eval.course,eval.name) + "\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_RESULTS+"')\" "+
 			"onmouseout=\"hideddrivetip()\"" + (hasView ? "" : DISABLED) + ">View Results</a>"
 		);
 		result.append(
-			"<a class=\"color_black t_eval_edit" + position + "\" " +
+			"<a class=\"color_brown t_eval_edit" + position + "\" " +
 			"href=\"" + getInstructorEvaluationEditLink(eval.course,eval.name) + "\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_EDIT+"')\" onmouseout=\"hideddrivetip()\" " +
 			(hasEdit ? "" : DISABLED) + ">Edit</a>"
 		);
 		result.append(
-			"<a class=\"color_black t_eval_delete" + position + "\" " +
+			"<a class=\"color_red t_eval_delete" + position + "\" " +
 			"href=\"" + getInstructorEvaluationDeleteLink(eval.course,eval.name,(isHome ? Common.PAGE_INSTRUCTOR_HOME : Common.PAGE_INSTRUCTOR_EVAL)) + "\" " +
 			"onclick=\"hideddrivetip(); return toggleDeleteEvaluationConfirmation('" + eval.course + "','" + eval.name + "');\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_DELETE+"')\" onmouseout=\"hideddrivetip()\">Delete</a>"
