@@ -138,6 +138,21 @@ h2 {
 	color: white;
 }
 
+.color_red {
+	color: crimson;
+}
+
+.color_blue {
+	color :blue;
+}
+
+.color_green {
+	color: green;
+}
+
+.color_brown {
+	color: Chocolate;
+}
 
 /*---------------------  Frame Top  --------------------------------------------------- */
 #frameTop {
