@@ -7,7 +7,9 @@
 	boolean isStudent = Boolean.parseBoolean(request.getParameter("isStudent"));
 	Date currentDate = new Date();
 	String disableAttributeValue = "";
-	if(currentDate.compareTo(helper.eval.endTime) > 0 && isStudent){
+	final long HOUR = 3600*1000; // in milli-seconds.
+		  Date newDate = new Date(currentDate.getTime() + (int)helper.eval.timeZone * HOUR);
+	if(newDate.compareTo(helper.eval.endTime) > 0 && isStudent){
 		disableAttributeValue = "disabled=\"disabled\"";
 	}
 %>

@@ -150,6 +150,9 @@ public class StudentHomeHelper extends Helper {
 		} else if(studentStatus.equals(Common.STUDENT_EVALUATION_STATUS_SUBMITTED)){
 			hasEdit = true;
 		}
+		else if(studentStatus.equals(Common.STUDENT_EVALUATION_STATUS_CLOSED)){
+			hasEdit = true;
+		}
 		String result = "<a class=\"color_black\" href=\"" + getStudentEvaluationResultsLink(eval.course,eval.name) + "\" " +
 						"name=\"viewEvaluationResults" + idx + "\" " +
 						" id=\"viewEvaluationResults" + idx + "\" " +
@@ -160,7 +163,7 @@ public class StudentHomeHelper extends Helper {
 		result += "<a class=\"color_black\" href=\"" + getStudentEvaluationSubmissionEditLink(eval.course,eval.name) + "\" " +
 				"name=\"editEvaluationSubmission" + idx + "\" id=\"editEvaluationSubmission" + idx + "\" " +
 				"onmouseover=\"ddrivetip('" + Common.HOVER_MESSAGE_EVALUATION_EDIT_SUBMISSION + "')\" onmouseout=\"hideddrivetip()\" " +
-				(hasEdit ? "" : DISABLED) + ">Edit</a>";
+				(hasEdit ? "" : DISABLED) + ">Edit/View Submission</a>";
 		return result;
 	}
 }

@@ -196,6 +196,22 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		bi.waitForStatusMessage(String.format(Common.MESSAGE_STUDENT_EVALUATION_SUBMISSION_RECEIVED,eval.name,eval.course).replace("<br />", "\n"));
 	}
 	
+	@Test
+	public void testStudentEvalEditPageWithAllFieldsDisabled() throws Exception{
+			EvaluationData eval = scn.evaluations.get("Third Eval");
+			
+			______TS("verify page functional with all fields disabled");
+			String link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
+			link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Third Eval").course);
+			link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Third Eval").name);
+			link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("Danny").id);
+			
+			bi.goToUrl(appUrl+link);
+			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/StudentEvalEditEntryFieldsDisabled.html");
+			bi.click(By.id("button_submit"));
+			bi.waitForStatusMessage(String.format(Common.MESSAGE_EVALUATION_EXPIRED,eval.name,eval.course).replace("<br />", "\n"));
+	}
+	
 	private static void moveToTeam(StudentData student, String newTeam) {
 		String backDoorOperationStatus;
 		student.team = newTeam;
