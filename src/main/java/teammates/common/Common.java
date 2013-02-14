@@ -325,7 +325,7 @@ public class Common {
 	public static final String MESSAGE_EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
 	// Status messages from Javascript
 	public static final String MESSAGE_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
-	public static final String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
+	public static final String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID.";
 	public static final String MESSAGE_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
 	public static final String MESSAGE_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
 	public static final String MESSAGE_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.<br />"
