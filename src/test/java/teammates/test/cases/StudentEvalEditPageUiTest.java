@@ -198,12 +198,12 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testStudentEvalEditPageWithAllFieldsDisabled() throws Exception{
-			EvaluationData eval = scn.evaluations.get("Third Eval");
+			EvaluationData eval = scn.evaluations.get("Closed Unpublished Eval");
 			
 			______TS("verify page functional with all fields disabled");
 			String link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-			link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Third Eval").course);
-			link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Third Eval").name);
+			link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, eval.course);
+			link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, eval.name);
 			link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("Danny").id);
 			
 			bi.goToUrl(appUrl+link);

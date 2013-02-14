@@ -114,9 +114,9 @@
       "published": false,
       "activated": true
     },
-    "Third Eval": {
+    "Closed Unpublished Eval": {
       "course": "SEvalEditUiT.CS2104",
-      "name": "Third Eval",
+      "name": "Closed Unpublished Eval",
       "instructions": "Please please fill it in",
       "startTime": "2011-04-01 11:59 PM",
       "endTime": "2012-01-01 11:59 PM",
@@ -292,7 +292,7 @@
       "reviewer" : "danny.tmms@gmail.com",
       "reviewee" : "danny.tmms@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
-      "evaluation" : "Third Eval",
+      "evaluation" : "Closed Unpublished Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from danny.tmms@gmail.com to danny.tmms@gmail.com"},
       "team" : "Team 2"
@@ -301,7 +301,7 @@
       "reviewer" : "danny.tmms@gmail.com",
       "reviewee" : "charlie.tmms@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
-      "evaluation" : "Third Eval",
+      "evaluation" : "Closed Unpublished Eval",
       "points" : 110,
       "justification" : {"value" : "This is a justification from danny.tmms@gmail.com to charlie.tmms@gmail.com"},
       "team" : "Team 2"
@@ -310,7 +310,7 @@
       "reviewer" : "danny.tmms@gmail.com",
       "reviewee" : "emily.tmms@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
-      "evaluation" : "Third Eval",
+      "evaluation" : "Closed Unpublished Eval",
       "points" : 100,
       "justification" : {"value" : "This is a justification from danny.tmms@gmail.com to emily.tmms@gmail.com"},
       "team" : "Team 2"
