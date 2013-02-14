@@ -434,16 +434,17 @@ div#statusMessage {
 	background: -moz-linear-gradient(top, #9AA1A6, #9AB3C4);
 	background: -ms-linear-gradient(top, #9AA1A6, #9AB3C4);
 	background: -o-linear-gradient(top, #9AA1A6, #9AB3C4);
-	color: white;
+	color: black;
 	font-family: Helvetica, Arial, Sans-Serif;
 	font-size: 12px;
 	-webkit-border-radius: 20px;
 	-moz-border-radius: 20px;
 	border-radius: 20px;
-	border: 1px solid #EEE;
+	border: 5px solid #7195A3;
 	padding: 5px 8px;
 	text-decoration: none;
 	vertical-align: middle;
+	cursor:pointer;
 }
 
 .button:hover {
