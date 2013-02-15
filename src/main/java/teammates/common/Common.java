@@ -236,6 +236,7 @@ public class Common {
 	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
 
 	public static final String PAGE_ADMIN_HOME = "/page/adminHome";
+	public static final String PAGE_ADMIN_ACCOUNT_MANAGEMENT = "/page/adminAccountManagement";
 	public static final String PAGE_ADMIN_EXCEPTION_TEST = "/page/adminExceptionTest";
 	public static final String PAGE_ADMIN_ACTIVITY_LOG = "/page/adminActivityLog";
 	public static final String PAGE_ADMIN_SEARCH = "/page/adminSearch";
@@ -277,6 +278,7 @@ public class Common {
 	public static final String JSP_EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp"; // Done
 
 	public static final String JSP_ADMIN_HOME = "/jsp/adminHome.jsp";
+	public static final String JSP_ADMIN_ACCOUNT_MANAGEMENT = "/jsp/adminAccountManagement.jsp";
 	public static final String JSP_ADMIN_SEARCH = "/jsp/adminSearch.jsp";
 	public static final String JSP_ADMIN_ACTIVITY_LOG = "/jsp/adminActivityLog.jsp";
 	public static final String JSP_LOGOUT = "/logout.jsp"; // Done
@@ -458,6 +460,7 @@ public class Common {
 	 * Admin Servlets
 	 */
 	public static String ADMIN_HOME_SERVLET = "adminHome";
+	public static String ADMIN_ACCOUNT_MANAGEMENT_SERVLET = "adminAccountManagement";
 	public static String ADMIN_ACTIVITY_LOG_SERVLET = "adminActivityLog";
 	public static String ADMIN_SEARCH_SERVLET = "adminSearch";
 	public static String ADMIN_SEARCH_TASK_SERVLET = "adminSearchTask";

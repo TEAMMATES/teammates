@@ -111,6 +111,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			HashSet<String> servletsToIgnore= new HashSet<String>();
 			servletsToIgnore.add(Common.ADMIN_ACTIVITY_LOG_SERVLET);
 			servletsToIgnore.add(Common.ADMIN_HOME_SERVLET);
+			servletsToIgnore.add(Common.ADMIN_ACCOUNT_MANAGEMENT_SERVLET);
 			servletsToIgnore.add(Common.ADMIN_SEARCH_SERVLET);
 			servletsToIgnore.add(Common.ADMIN_SEARCH_TASK_SERVLET);
 			

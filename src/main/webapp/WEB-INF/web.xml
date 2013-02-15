@@ -98,6 +98,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>AdminSearch</servlet-name>
         <url-pattern>/page/adminSearch</url-pattern>
     </servlet-mapping>
+    <servlet>
+            <servlet-name>AdminAccountManagement</servlet-name>
+            <servlet-class>teammates.ui.controller.AdminAccountManagementServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminAccountManagement</servlet-name>
+        <url-pattern>/page/adminAccountManagement</url-pattern>
+    </servlet-mapping>
 	<servlet>
 	    	<servlet-name>AdminActivityLog</servlet-name>
 	    	<servlet-class>teammates.ui.controller.AdminActivityLogServlet</servlet-class>
