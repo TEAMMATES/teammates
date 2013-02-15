@@ -394,9 +394,16 @@ public class BackDoorTest extends BaseTestCase {
 		BackDoor.createStudent(student);
 		String key = BackDoor.getKeyForStudent(student.course, student.email);
 		System.out.println("Key for " + student.email + " is:" + key);
-		// check for some characteristics of the key
-		String errorMessage = key + "[length="+key.length()+"] is not as expected";
-		assertTrue(errorMessage,key.length() > 30 && key.length() < 60);
+		
+		String pattern = "(\\w*)";
+		// check for some characteristics of the key, key should be url-safe, refer to app-engine doc
+		//
+		//A key can be converted to a string by passing the Key object to str(). The string is 
+		//"urlsafe"—it uses only characters valid for use in URLs. The string representation of 
+		//the key can be converted back to a Key object by passing it 
+		//to the Key constructor (the encoded argument).
+		String errorMessage = key + "[length="+key.length()+"][reg="+key.matches(pattern)+"] is not as expected";
+		assertTrue(errorMessage,key.length() > 30 && key.matches(pattern));
 		assertTrue(errorMessage, key.indexOf(" ") < 0);
 		
 		//clean up student as this is an orphan entity

@@ -12,8 +12,10 @@
         <div id="frameTop">
                 <div id="frameTopWrapper">
                         <div id="logo">
+                        		<a href="/index.html">
                                 <img alt="Teammates" src="/images/teammateslogo.jpg" 
                                    height="47px" width="150px">
+                                 </a>
                         </div>
                 </div>
         </div>

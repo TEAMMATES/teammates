@@ -3,9 +3,11 @@
 <% Helper helper = (Helper)request.getAttribute("helper"); %>
 		<div id="frameTopWrapper">
 			<div id="logo">
+				<a href="/index.html">
 				<img alt="Teammates" height="47px"
 					src="/images/teammateslogo.jpg"
 					width="150px">
+				</a>
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
