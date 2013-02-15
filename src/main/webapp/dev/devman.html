@@ -115,8 +115,9 @@
 		<li><span class="bold">Data</span>: The data in the live system
 			are confidential and developers are not allowed to see them. This
 			makes troubleshooting harder.</li>
-		<li><span class="bold">Releases</span>: Frequent releases to live
-			users requires us to maintain 'production quality' constantly.</li>
+		<li><span class="bold">Releases</span>: Frequent releases to an
+			active user database requires us to maintain 'production quality'
+			constantly.</li>
 		<li><span class="bold">Platform</span>: TEAMMATES is running on
 			Google App Engine cloud platform, which adds the following
 			challenges.
@@ -341,8 +342,8 @@
 			which will setup common data inside the <span class="code">Helper</span>
 			object, such as the <span class="code">Logic</span> object, <span
 			class="code">UserData</span> object, redirect URL, status message and
-			error status. This method will also set and configure the masquerade mode
-			if required ('masquarade mode' is used by the administrator to
+			error status. This method will also set and configure the masquerade
+			mode if required ('masquarade mode' is used by the administrator to
 			masquerade as another user).
 		</li>
 		<li>It will call the abstract <span class="code">doAction</span>
@@ -495,8 +496,8 @@
 		</li>
 		<li>When creating <span class="code">Evaluations</span>, <span
 			class="code">Submission</span> entities are automatically created at
-			the time of creating an evaluation or changing the team structure
-			of a course.
+			the time of creating an evaluation or changing the team structure of
+			a course.
 		</li>
 	</ul>
 	<br>API for retrieving entities:
@@ -977,6 +978,7 @@
 
 
 
+
 		
 		<li><span class="code"><span class="bold">web.xml </span></span>:
 			This is the configurations for the webserver. It specifies servlets
@@ -1110,7 +1112,8 @@
 
 	<h3>Adding instructor accounts</h3>
 	<ol type="a">
-		<li>Go to <span class="code">http://[appURL]/page/adminHome (On your computer, it may be http://localhost:8888/page/adminHome)</span></li>
+		<li>Go to <span class="code">http://[appURL]/page/adminHome
+				(On your computer, it may be http://localhost:8888/page/adminHome)</span></li>
 		<li>Log in using your Google ID. If this is the dev server, enter
 			any email address, but remember to check the 'log in as
 			administrator' check box.</li>
