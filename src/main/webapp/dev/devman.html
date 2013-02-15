@@ -89,8 +89,8 @@
 
 	Long term goal: Become the
 	<span class="bold">biggest student project in the world</span>.
-	<br> {Biggest = many contributors, many users, high LOC, evolving
-	over a long period.}
+	<br> {Biggest = many contributors, many users, relatively large
+	code base (50k-100k LoC), evolving over a long period.}
 	<br>
 	<br> 'Biggest' above also implies an exceptionally high quality
 	standard because high quality is a necessity for the long-term survival
@@ -341,8 +341,8 @@
 			which will setup common data inside the <span class="code">Helper</span>
 			object, such as the <span class="code">Logic</span> object, <span
 			class="code">UserData</span> object, redirect URL, status message and
-			error status. This method will also set and configure the masquerade mode
-			if required ('masquarade mode' is used by the administrator to
+			error status. This method will also set and configure the masquerade
+			mode if required ('masquarade mode' is used by the administrator to
 			masquerade as another user).
 		</li>
 		<li>It will call the abstract <span class="code">doAction</span>
@@ -495,8 +495,8 @@
 		</li>
 		<li>When creating <span class="code">Evaluations</span>, <span
 			class="code">Submission</span> entities are automatically created at
-			the time of creating an evaluation or changing the team structure
-			of a course.
+			the time of creating an evaluation or changing the team structure of
+			a course.
 		</li>
 	</ul>
 	<br>API for retrieving entities:
@@ -958,26 +958,6 @@
 			</span></span>: Contains configuration values for the test driver.
 		<li><span class="code"><span class="bold">appengine-web.xml
 			</span></span>: Contains configuration for deploying the application on app engine.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		
 		<li><span class="code"><span class="bold">web.xml </span></span>:
 			This is the configurations for the webserver. It specifies servlets
 			to run, mapping from URLs to servlets/JSPs, security constraints,
@@ -1103,7 +1083,8 @@
 
 	<h3>Adding instructor accounts</h3>
 	<ol type="a">
-		<li>Go to <span class="code">http://[appURL]/page/adminHome (On your computer, it may be http://localhost:8888/page/adminHome)</span></li>
+		<li>Go to <span class="code">http://[appURL]/page/adminHome
+				(On your computer, it may be http://localhost:8888/page/adminHome)</span></li>
 		<li>Log in using your Google ID. If this is the dev server, enter
 			any email address, but remember to check the 'log in as
 			administrator' check box.</li>
