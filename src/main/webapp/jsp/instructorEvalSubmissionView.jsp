@@ -61,28 +61,28 @@
 					<th class="bold leftalign"><span class="resultHeader"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_CLAIMED%>')"
 							onmouseout="hideddrivetip()">
-						Claimed Contributions: </span><%=InstructorEvalSubmissionViewHelper.printSharePoints(helper.result.claimedToInstructor,true)%></th>
+						Claimed Contribution: </span><%=InstructorEvalSubmissionViewHelper.printSharePoints(helper.result.claimedToInstructor,true)%></th>
 					<th class="bold leftalign"><span class="resultHeader"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_PERCEIVED%>')"
 							onmouseout="hideddrivetip()">
-						Perceived Contributions: </span><%=InstructorEvalSubmissionViewHelper.printSharePoints(helper.result.perceivedToInstructor,true)%></th>
+						Perceived Contribution: </span><%=InstructorEvalSubmissionViewHelper.printSharePoints(helper.result.perceivedToInstructor,true)%></th>
 				</tr></thead>
 				<tr>
 					<td colspan="4"><span class="bold">Self evaluation:</span><br>
 							<%=InstructorEvalSubmissionViewHelper.printJustification(helper.result.getSelfEvaluation())%></td>
 					</tr>
-					<tr>
-						<td colspan="4"><span class="bold">Comments about team:</span><br>
+				<tr>
+					<td colspan="4"><span class="bold">Comments about team:</span><br>
 							<%=InstructorEvalSubmissionViewHelper.escapeForHTML(helper.result.getSelfEvaluation().p2pFeedback.getValue())%></td>
 					</tr>
 				<tr class="resultSubheader">
 					<td width="15%" class="bold"><%=byReviewee ? "From" : "To"%> Student</td>
 					<td width="5%" class="bold">Contribution</td>
-					<td width="40%" class="bold">Comments</td>
-					<td width="40%" class="bold">Messages</td>
+					<td width="40%" class="bold">Confidential comments</td>
+					<td width="40%" class="bold">Feedback to peer</td>
 				</tr>
 				<%
-					for(SubmissionData sub: (byReviewee ? helper.result.incoming : helper.result.outgoing)){ if(sub.reviewer.equals(sub.reviewee)) continue;
+				for(SubmissionData sub: (byReviewee ? helper.result.incoming : helper.result.outgoing)){ if(sub.reviewer.equals(sub.reviewee)) continue;
 				%>
 					<tr>
 						<td><b><%=InstructorEvalSubmissionViewHelper.escapeForHTML(byReviewee ? sub.reviewerName : sub.revieweeName)%></b></td>
