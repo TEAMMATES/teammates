@@ -11,7 +11,7 @@ test('courseStatusToMessage(statusCode)', function(){
 	equal(courseStatusToMessage(COURSE_STATUS_EMPTY), DISPLAY_COURSE_MISSING_FIELD, "Course ID and Course Name are compulsory fields.");
 	equal(courseStatusToMessage(COURSE_STATUS_LONG_ID), DISPLAY_COURSE_LONG_ID, "Course ID should not exceed XX characters.");
 	equal(courseStatusToMessage(COURSE_STATUS_LONG_NAME), DISPLAY_COURSE_LONG_NAME, "Course name should not exceed XX characters.");
-	equal(courseStatusToMessage(COURSE_STATUS_INVALID_ID), DISPLAY_COURSE_INVALID_ID, "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.");
+	equal(courseStatusToMessage(COURSE_STATUS_INVALID_ID), DISPLAY_COURSE_INVALID_ID, "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID.");
 	equal(courseStatusToMessage("default"), DISPLAY_INVALID_INPUT, "Unexpected error. Invalid input.");
 });
 
