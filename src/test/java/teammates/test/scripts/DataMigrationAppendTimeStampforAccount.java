@@ -10,8 +10,11 @@ public class DataMigrationAppendTimeStampforAccount {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String result = BackDoor.appendTimestampForAccount();
-		Assumption.assertEquals(Common.BACKEND_STATUS_SUCCESS, result);
+		int count;
+		do {
+			String response = BackDoor.appendTimestampForAccount();
+			count = Integer.parseInt(response);
+		} while (count != 0);
 	}
 
 }

@@ -7,6 +7,8 @@ import java.util.logging.Logger;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Submission;
 import teammates.common.Assumption;
@@ -150,7 +152,6 @@ public class SubmissionsDb {
 					+ toStudent);
 			return null;
 		}
-
 		return new SubmissionData(s);
 	}
 
@@ -261,7 +262,6 @@ public class SubmissionsDb {
 		for (Submission s : submissionList) {
 			submissionDataList.add(new SubmissionData(s));
 		}
-
 		return submissionDataList;
 	}
 

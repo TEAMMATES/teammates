@@ -86,7 +86,7 @@
 								<%
 									for(SubmissionData sub: helper.incoming) {
 								%>
-									<li><%=StudentEvalResultsHelper.formatP2PFeedback(StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue()))%></li>
+									<li><%=StudentEvalResultsHelper.formatP2PFeedback(StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue()), helper.eval.p2pEnabled)%></li>
 								<%
 									}
 								%>
@@ -142,7 +142,7 @@
 							<td><%=StudentEvalResultsHelper.escapeForHTML(sub.revieweeName)%></td>
 							<td><%=StudentEvalResultsHelper.colorizePoint(sub.points)%></td> 
 							<td><%=StudentEvalResultsHelper.escapeForHTML(sub.justification.getValue())%></td>
-							<td><%=StudentEvalResultsHelper.formatP2PFeedback(StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue()))%></td>
+							<td><%=StudentEvalResultsHelper.formatP2PFeedback(StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue()), helper.eval.p2pEnabled)%></td>
 						</tr>
 					<%	} %>
 				</table>

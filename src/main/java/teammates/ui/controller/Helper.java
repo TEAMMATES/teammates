@@ -457,19 +457,19 @@ public class Helper {
 		}
 		
 		result.append(
-			"<a class=\"color_black t_eval_view"+ position + "\" " +
+			"<a class=\"color_green t_eval_view"+ position + "\" " +
 			"href=\"" + getInstructorEvaluationResultsLink(eval.course,eval.name) + "\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_RESULTS+"')\" "+
 			"onmouseout=\"hideddrivetip()\"" + (hasView ? "" : DISABLED) + ">View Results</a>"
 		);
 		result.append(
-			"<a class=\"color_black t_eval_edit" + position + "\" " +
+			"<a class=\"color_brown t_eval_edit" + position + "\" " +
 			"href=\"" + getInstructorEvaluationEditLink(eval.course,eval.name) + "\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_EDIT+"')\" onmouseout=\"hideddrivetip()\" " +
 			(hasEdit ? "" : DISABLED) + ">Edit</a>"
 		);
 		result.append(
-			"<a class=\"color_black t_eval_delete" + position + "\" " +
+			"<a class=\"color_red t_eval_delete" + position + "\" " +
 			"href=\"" + getInstructorEvaluationDeleteLink(eval.course,eval.name,(isHome ? Common.PAGE_INSTRUCTOR_HOME : Common.PAGE_INSTRUCTOR_EVAL)) + "\" " +
 			"onclick=\"hideddrivetip(); return toggleDeleteEvaluationConfirmation('" + eval.course + "','" + eval.name + "');\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_DELETE+"')\" onmouseout=\"hideddrivetip()\">Delete</a>"
@@ -518,7 +518,13 @@ public class Helper {
 	 * Make the headings bold, and covert newlines to html linebreaks
 	 * @return
 	 */
-	public static String formatP2PFeedback(String str){
+	public static String formatP2PFeedback(String str, boolean enabled){
+		if(!enabled){
+			return "<span style=\"font-style: italic;\">Disabled</span>";
+		}
+		if(str.equals("") || str == null){
+			return "N/A";
+		}
 		return str.replace("&lt;&lt;What I appreciate about you as a team member&gt;&gt;:", "<span class=\"bold\">What I appreciate about you as a team member:</span>")
 				.replace("&lt;&lt;Areas you can improve further&gt;&gt;:", "<span class=\"bold\">Areas you can improve further:</span>")
 				.replace("&lt;&lt;Other comments&gt;&gt;:", "<span class=\"bold\">Other comments:</span>")

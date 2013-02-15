@@ -14,7 +14,7 @@ test('checkEnrollmentInput(input)', function(){
 	
 	equal(checkEnrollmentInput(
 	''),
-	true,
+	false,
 	'Null line');
 	
 	equal(checkEnrollmentInput(

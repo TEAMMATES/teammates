@@ -263,6 +263,22 @@ public class AccountsDb {
 	}
 	
 	/**
+	 * RETRIEVE List<InstructorData>
+	 * 
+	 * Returns the list of all instructors
+	 * @return
+	 */
+	public List<InstructorData> getInstructors() {
+		List<InstructorData> list = new LinkedList<InstructorData>();
+		List<Instructor> entities = getInstructorEntities();
+		Iterator<Instructor> it = entities.iterator();
+		while(it.hasNext()) {
+			list.add(new InstructorData(it.next()));
+		}	
+		return list;
+	}
+	
+	/**
 	 * RETRIEVE boolean
 	 * 
 	 * Checks if there is an Account that is already with the specified googleId
@@ -935,21 +951,6 @@ public class AccountsDb {
 		return instructorList.get(0);
 	}
 	
-
-	/**
-	 * Returns the list of all instructors
-	 * @return
-	 */
-	public List<InstructorData> getInstructors() {
-		List<InstructorData> list = new LinkedList<InstructorData>();
-		List<Coordinator> entities = getInstructorEntities();
-		Iterator<Coordinator> it = entities.iterator();
-		while(it.hasNext()) {
-			list.add(new InstructorData(it.next()));
-		}
-		
-		return list;
-	}
 	/**
 	 * Returns the list of student entities
 	 */
@@ -972,16 +973,14 @@ public class AccountsDb {
 		return list;
 	}
 	
-	
 	/**
 	 * Returns the list of instructor entities
 	 */
-	private List<Coordinator> getInstructorEntities() {
-		String query = "select from " + Coordinator.class.getName();
+	private List<Instructor> getInstructorEntities() {
+		String query = "select from " + Instructor.class.getName();
 			
-
 		@SuppressWarnings("unchecked")
-		List<Coordinator> instructorList = (List<Coordinator>) getPM()
+		List<Instructor> instructorList = (List<Instructor>) getPM()
 				.newQuery(query).execute();
 	
 		return instructorList;

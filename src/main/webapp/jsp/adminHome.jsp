@@ -1,5 +1,11 @@
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.ui.controller.AdminHomeHelper"%>
+<%@ page import="teammates.common.datatransfer.InstructorData" %>
+<%@ page import="teammates.common.datatransfer.CourseData" %>
+<%@ page import="teammates.common.exception.EntityDoesNotExistException" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.HashMap" %>
 <% AdminHomeHelper helper = (AdminHomeHelper)request.getAttribute("helper"); %>
 <!DOCTYPE html>
 <html>
@@ -51,7 +57,7 @@
 						<td><input class="addinput" type="text" name="<%= Common.PARAM_INSTRUCTOR_EMAIL %>"></td>
 				    </tr>
 				    <tr>
-						<td class="centeralign"><input type="checkbox" name="<%= Common.PARAM_INSTRUCTOR_IMPORT_SAMPLE %>" value="importsample">Import sample data</input></td>
+						<td class="centeralign"><input type="checkbox" name="<%= Common.PARAM_INSTRUCTOR_IMPORT_SAMPLE %>" value="importsample">Import sample data</td>
 				    </tr>
 				    <tr>
 						<td class="centeralign"><input id="btnAddInstructor" class="button" type="submit" value="Add Instructor" onclick="return verifyInstructorData();"></td>
@@ -60,6 +66,49 @@
 				</form>
 			</div>
 			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			<br>
+			<br>
+			<table class="dataTable">
+			<tr>
+                <th class="bold">Account Info</th>
+                <th class="bold">Instructor for</th>
+                <th class="bold">Student for</th>
+			</tr>
+			<%
+			   for (InstructorData instructor : helper.instructorList){
+			%>
+			    <tr>
+			         <td><%=instructor.name + " (" + instructor.googleId + ")<br>" + instructor.email %></td>
+			         <td>
+			         <%
+			             HashMap<String, CourseData> courses = helper.server.getCourseDetailsListForInstructor(instructor.googleId);
+			             ArrayList<CourseData> list = new ArrayList<CourseData>(courses.values());
+			             for(CourseData course: list){
+			                 out.print(" - [" + course.id + "] " + course.name + "<br>");
+			             }
+			         %>
+			         </td>
+			         <td>
+			         <%
+			             try{
+			                 List<CourseData> student = helper.server.getCourseListForStudent(instructor.googleId);
+			                 for (CourseData course : student){
+	                             out.print(" - [" + course.id + "] " + course.name + "<br>");
+	                         }
+			             } catch (EntityDoesNotExistException e) {
+			                 out.print("This account is not a student");
+			             }
+			             
+			         %>
+			         </td>
+			    </tr>
+			<%
+			   }
+			%>
+			</table>
+			<br>
+			<br>
+			<br>
 		</div>
 	</div>
 

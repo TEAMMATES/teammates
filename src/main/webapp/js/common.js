@@ -24,9 +24,12 @@ var DISPLAY_STUDENT_TEAMNAME_INVALID = "Team name should contain less than 25 ch
 var DISPLAY_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
 var DISPLAY_COURSE_LONG_ID = "Course ID should not exceed " + COURSE_ID_MAX_LENGTH + " characters.";
 var DISPLAY_COURSE_LONG_NAME = "Course name should not exceed " + COURSE_NAME_MAX_LENGTH + " characters.";
-var DISPLAY_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
+var DISPLAY_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID.";
 var DISPLAY_COURSE_INSTRUCTOR_LIST_EMPTY = "You must add at least 1 instructor in the course.";
 var MESSAGE_INSTRUCTOR_NOT_WHTHIN_INSTRUCTOR_LIST = "You are not in the list of instructors for the new course. You will not be able to access the new course once it is created. Do you wish to continue?";
+
+//Used in instructorCourseEnroll.js only
+var DISPLAY_ENROLLMENT_INPUT_EMPTY = "Please input at least one student detail.";
 
 // Used in instructorEval.js only
 var DISPLAY_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
@@ -108,9 +111,19 @@ $.fn.sortElements = (function(){
 * 		The column index (1-based) as key for the sort
 */
 function toggleSort(divElement,colIdx,comparator) {
-	sortTable(divElement,colIdx,comparator);
-	$(".buttonSortAscending").attr("class","buttonSortNone");
-	$(divElement).attr("class","buttonSortAscending");
+	if($(divElement).attr("class")=="buttonSortNone"){
+		sortTable(divElement,colIdx,comparator);
+		$(".buttonSortAscending").attr("class","buttonSortNone");
+		$(".buttonSortDescending").attr("class","buttonSortNone");
+		$(divElement).attr("class","buttonSortAscending");
+	}
+	else if($(divElement).attr("class")=="buttonSortAscending"){
+		sortTable(divElement,colIdx,sortBaseCellDescending);
+		$(divElement).attr("class","buttonSortDescending");
+	}else{
+		sortTable(divElement,colIdx,comparator);
+		$(divElement).attr("class","buttonSortAscending");
+	}
 }
 
 /**
@@ -124,7 +137,7 @@ function toggleSort(divElement,colIdx,comparator) {
 * 		sortBaseCell will be used
 */
 function sortTable(oneOfTableCell, colIdx, comparator){
-	if(!comparator) comparator = sortBaseCell;
+	if(!comparator) comparator = sortBaseCellAscending;
 	var table = $(oneOfTableCell);
 	if(!table.is("table")){
 		table = $(oneOfTableCell).parentsUntil("table");
@@ -135,15 +148,23 @@ function sortTable(oneOfTableCell, colIdx, comparator){
 }
 
 /**
-* The base comparator for a cell
+* The base comparator for a cell (ascending)
 * @param cell1
 * @param cell2
-* @returns
+* @returns returns if cell1.innerHTML is larger than cell2.innerHTML
 */
-function sortBaseCell(cell1, cell2){
-	cell1 = cell1.innerHTML;
-	cell2 = cell2.innerHTML;
-	return sortBase(cell1,cell2);
+function sortBaseCellAscending(cell1, cell2){
+	return sortBase(cell1.innerHTML,cell2.innerHTML);
+}
+
+/**
+* The base comparator for a cell (descending)
+* @param cell1
+* @param cell2
+* @returns returns the opposite of sortBaseAscending
+*/
+function sortBaseCellDescending(cell1, cell2){
+	return sortBaseCellAscending(cell2,cell1);
 }
 
 /**
