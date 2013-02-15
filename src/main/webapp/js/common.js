@@ -24,9 +24,12 @@ var DISPLAY_STUDENT_TEAMNAME_INVALID = "Team name should contain less than 25 ch
 var DISPLAY_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
 var DISPLAY_COURSE_LONG_ID = "Course ID should not exceed " + COURSE_ID_MAX_LENGTH + " characters.";
 var DISPLAY_COURSE_LONG_NAME = "Course name should not exceed " + COURSE_NAME_MAX_LENGTH + " characters.";
-var DISPLAY_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
+var DISPLAY_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID.";
 var DISPLAY_COURSE_INSTRUCTOR_LIST_EMPTY = "You must add at least 1 instructor in the course.";
 var MESSAGE_INSTRUCTOR_NOT_WHTHIN_INSTRUCTOR_LIST = "You are not in the list of instructors for the new course. You will not be able to access the new course once it is created. Do you wish to continue?";
+
+//Used in instructorCourseEnroll.js only
+var DISPLAY_ENROLLMENT_INPUT_EMPTY = "Please input at least one student detail.";
 
 // Used in instructorEval.js only
 var DISPLAY_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";

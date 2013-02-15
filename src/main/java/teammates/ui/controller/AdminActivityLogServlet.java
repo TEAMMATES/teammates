@@ -19,14 +19,14 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 	 * number of logs to query each time,
 	 * this is larger than number of logs shown on each page because we drop request log
 	 */
-	private int queryLimit = 50;
+	private int queryLimit = 20;
+	private int maxLogSearchLimit = 100000;
 	/*
 	 * parameter to indicate whether to include application log in the result.
 	 * default case only return request log
 	 * https://developers.google.com/appengine/docs/java/logservice/
 	 */
 	private boolean includeAppLogs = true;
-
 	@Override
 	protected AdminActivityLogHelper instantiateHelper() {
 		return new AdminActivityLogHelper();
@@ -34,7 +34,23 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 
 	@Override
 	protected void doAction(HttpServletRequest req, AdminActivityLogHelper helper) {
+		helper.searchServlets = req.getParameterValues("toggle_servlets");
+		helper.servletCheckAll = req.getParameter("selectAll");
+		if (helper.searchServlets == null) {
+			helper.searchServlets = helper.listOfServlets.toArray(new String[helper.listOfServlets.size()]);
+			helper.servletCheckAll = "on";
+		}
+		helper.searchPerson = req.getParameter("searchPerson");
+		helper.searchRole = req.getParameter("searchRole");
 		String queryOffset = req.getParameter("offset");
+		helper.offset = queryOffset;
+		
+		if(req.getParameter("pageChange") != null && !req.getParameter("pageChange").equals("true")){
+			helper.offset = null;
+			queryOffset = null;
+		}
+		
+		
 		LogQuery query = buildQuery(queryOffset, includeAppLogs);
 		List<AppLogLine> logs = getAppLogs(query, queryLimit, helper);
 		req.setAttribute("appLogs", logs);
@@ -44,7 +60,7 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 	private LogQuery buildQuery(String offset, boolean includeAppLogs) {
 		LogQuery query = LogQuery.Builder.withDefaults();
 		query.includeAppLogs(includeAppLogs);
-		if (offset != null) {
+		if (offset != null && !offset.equals("null")) {
 			query.offset(offset);
 
 		}
@@ -53,33 +69,48 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 
 	private List<AppLogLine> getAppLogs(LogQuery query, int queryLimit, AdminActivityLogHelper helper) {
 		List<AppLogLine> appLogs = new LinkedList<AppLogLine>();
-
+		int totalLogsSearched = 0;
+		
 		String lastOffset = null;
-		int i = 0;
-
+		int totalTeammatesLogs = 0;
+		
 		//fetch request log
 		for (RequestLogs record : LogServiceFactory.getLogService()
 				.fetch(query)) {
-
+			
+			totalLogsSearched ++;
 			lastOffset = record.getOffset();
 			
 			//fetch application log
 			for (AppLogLine appLog : record.getAppLogLines()) {
 				String logMsg = appLog.getLogMessage();
 				if (logMsg.contains("TEAMMATES_LOG") || logMsg.contains("TEAMMATES_ERROR")) {
-					appLogs.add(appLog);
+					String[] tokens = logMsg.split("\\|\\|\\|");
+					//Old format logs. Do not search or parse
+					if (tokens.length != 7){
+						totalLogsSearched = maxLogSearchLimit;
+						break;
+					}
+					if(AdminActivityLogHelper.performFiltering(helper, logMsg)){
+						appLogs.add(appLog);
+						if (++totalTeammatesLogs >= queryLimit) {
+							break;
+						}
+					}
 				}
 			}
-			if (++i >= queryLimit) {
+			if (totalTeammatesLogs >= queryLimit) {
 				break;
 			}
+			if (totalLogsSearched >= maxLogSearchLimit){
+				break;
+			}
+			
 		}
 
 		//link for Next button, will fetch older logs
-		if (lastOffset != null) {
-			helper.statusMessage = String.format(
-					"<a href=\"%s?offset=%s\">Next</a>",
-					Common.PAGE_ADMIN_ACTIVITY_LOG, lastOffset);
+		if (lastOffset != null && totalLogsSearched < maxLogSearchLimit && appLogs.size() != 0) {
+			helper.statusMessage = "<a href=\"#\" onclick=\"submitForm('" + lastOffset + "');\">Next</a>";
 		}
 		return appLogs;
 	}

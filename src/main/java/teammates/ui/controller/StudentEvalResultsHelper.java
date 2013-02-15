@@ -54,6 +54,5 @@ public class StudentEvalResultsHelper extends Helper {
 		}
 		return result;
 	}
-	
 
 }
