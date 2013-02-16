@@ -288,7 +288,7 @@
     
     
     
-    "Danny3Danny": {
+    "ClosedUnpulishedEval-fromDanny-toDanny": {
       "reviewer" : "danny.tmms@gmail.com",
       "reviewee" : "danny.tmms@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
@@ -297,7 +297,7 @@
       "justification" : {"value" : "This is a justification from danny.tmms@gmail.com to danny.tmms@gmail.com"},
       "team" : "Team 2"
     },
-    "Danny3Charlie": {
+    "ClosedUnpulishedEval-fromDanny-toCharlie": {
       "reviewer" : "danny.tmms@gmail.com",
       "reviewee" : "charlie.tmms@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
@@ -306,7 +306,7 @@
       "justification" : {"value" : "This is a justification from danny.tmms@gmail.com to charlie.tmms@gmail.com"},
       "team" : "Team 2"
     },
-    "Danny3Emily": {
+    "ClosedUnpulishedEval-fromDanny-toEmily": {
       "reviewer" : "danny.tmms@gmail.com",
       "reviewee" : "emily.tmms@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
