@@ -35,8 +35,6 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 
 	@Override
 	protected void doAction(HttpServletRequest req, AdminHomeHelper helper) {
-		helper.instructorList = helper.server.getAllInstructors();
-		
 		helper.instructorId = req.getParameter(Common.PARAM_INSTRUCTOR_ID);
 		helper.instructorName = req.getParameter(Common.PARAM_INSTRUCTOR_NAME);
 		helper.instructorEmail = req.getParameter(Common.PARAM_INSTRUCTOR_EMAIL);
