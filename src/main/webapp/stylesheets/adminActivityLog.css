@@ -1,3 +1,7 @@
+.inputTable{
+	width: 900px;
+}
+
 .dataTable td{
 	line-height: 20px;
 }
