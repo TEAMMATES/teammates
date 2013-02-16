@@ -35,6 +35,7 @@
             <div id="headerOperation">
             <h1>Instructor Account Management</h1>
             </div>
+            <p id="instructorCount" class="rightalign bold">Total Instructors: <%=helper.accountList.size() %></p>
             <table class="dataTable">
             <tr>
                 <th class="bold" width="40%">Account Info</th>
@@ -51,13 +52,15 @@
                      <td><%="<span class=\"bold\">Google ID: </span>" + instructor.googleId + " <br><span class=\"bold\">Name: </span>" + instructor.name + "<br><span class=\"bold\">Email: </span>" + instructor.email %></td>
                      <td>
                      <%
+                         out.print("Total Courses: " + coursesList.size() + "<br>");
                          for(String course: coursesList){
-                             out.print(" - " + course + "<br>");
+                             out.print(" --- " + course + "<br>");
                          }
                      %>
                      </td>
                      <td>
-                        None
+                        <a href="<%=helper.getAccountDetailsLink(instructor.googleId) %>">View Details</a>&nbsp;&nbsp;
+                        Delete Account
                      </td>
                 </tr>
             <%

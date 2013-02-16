@@ -99,16 +99,24 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <url-pattern>/page/adminSearch</url-pattern>
     </servlet-mapping>
     <servlet>
-            <servlet-name>AdminAccountManagement</servlet-name>
-            <servlet-class>teammates.ui.controller.AdminAccountManagementServlet</servlet-class>
+        <servlet-name>AdminAccountManagement</servlet-name>
+        <servlet-class>teammates.ui.controller.AdminAccountManagementServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AdminAccountManagement</servlet-name>
         <url-pattern>/page/adminAccountManagement</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AdminAccountDetails</servlet-name>
+        <servlet-class>teammates.ui.controller.AdminAccountDetailsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminAccountDetails</servlet-name>
+        <url-pattern>/page/adminAccountDetails</url-pattern>
+    </servlet-mapping>
 	<servlet>
-	    	<servlet-name>AdminActivityLog</servlet-name>
-	    	<servlet-class>teammates.ui.controller.AdminActivityLogServlet</servlet-class>
+	    <servlet-name>AdminActivityLog</servlet-name>
+	    <servlet-class>teammates.ui.controller.AdminActivityLogServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>AdminActivityLog</servlet-name>
@@ -391,6 +399,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <url-pattern>/page/adminExceptionTest</url-pattern>
             <url-pattern>/page/adminSearch</url-pattern>
             <url-pattern>/page/adminActivityLog</url-pattern>
+            <url-pattern>/page/adminAccountManagement</url-pattern>
+            <url-pattern>/page/adminAccountDetails</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
