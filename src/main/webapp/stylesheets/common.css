@@ -428,22 +428,16 @@ div#statusMessage {
 
 /*---------------------  Button  --------------------------------------------------- */
 .button {
-	background: #9AB3C4;
-	background: -webkit-gradient(linear, left top, left bottom, from(#9AA1A6), to(#9AB3C4) );
-	background: -webkit-linear-gradient(top, #9AA1A6, #9AB3C4);
-	background: -moz-linear-gradient(top, #9AA1A6, #9AB3C4);
-	background: -ms-linear-gradient(top, #9AA1A6, #9AB3C4);
-	background: -o-linear-gradient(top, #9AA1A6, #9AB3C4);
-	color: black;
-	font-family: Helvetica, Arial, Sans-Serif;
-	font-size: 12px;
-	-webkit-border-radius: 20px;
-	-moz-border-radius: 20px;
-	border-radius: 20px;
-	border: 5px solid #7195A3;
-	padding: 5px 8px;
-	text-decoration: none;
-	vertical-align: middle;
+	background-color: #eee;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(#fff), color-stop(0.2, #fff));
+	background-image: -moz-linear-gradient(top, #ddd, #fff, #fff 0.2)
+	-webkit-box-shadow: 0 1px 0 #fff inset;
+	-moz-box-shadow: 0 1px 0 #fff inset;
+	box-shadow: 0 1px 0 #fff inset;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	border-color: #000000;
 	cursor:pointer;
 }
 
