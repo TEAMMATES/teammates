@@ -236,6 +236,8 @@ public class Common {
 	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
 
 	public static final String PAGE_ADMIN_HOME = "/page/adminHome";
+	public static final String PAGE_ADMIN_ACCOUNT_MANAGEMENT = "/page/adminAccountManagement";
+	public static final String PAGE_ADMIN_ACCOUNT_DETAILS = "/page/adminAccountDetails";
 	public static final String PAGE_ADMIN_EXCEPTION_TEST = "/page/adminExceptionTest";
 	public static final String PAGE_ADMIN_ACTIVITY_LOG = "/page/adminActivityLog";
 	public static final String PAGE_ADMIN_SEARCH = "/page/adminSearch";
@@ -277,8 +279,10 @@ public class Common {
 	public static final String JSP_EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp"; // Done
 
 	public static final String JSP_ADMIN_HOME = "/jsp/adminHome.jsp";
+	public static final String JSP_ADMIN_ACCOUNT_MANAGEMENT = "/jsp/adminAccountManagement.jsp";
 	public static final String JSP_ADMIN_SEARCH = "/jsp/adminSearch.jsp";
 	public static final String JSP_ADMIN_ACTIVITY_LOG = "/jsp/adminActivityLog.jsp";
+	public static final String JSP_ADMIN_ACCOUNT_DETAILS = "/jsp/adminAccountDetails.jsp";
 	public static final String JSP_LOGOUT = "/logout.jsp"; // Done
 	public static final String JSP_SHOW_MESSAGE = "/showMessage.jsp"; // Done
 	public static final String JSP_UNAUTHORIZED = "/unauthorized.jsp"; // Done
@@ -325,7 +329,7 @@ public class Common {
 	public static final String MESSAGE_EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
 	// Status messages from Javascript
 	public static final String MESSAGE_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
-	public static final String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
+	public static final String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID.";
 	public static final String MESSAGE_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
 	public static final String MESSAGE_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
 	public static final String MESSAGE_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.<br />"
@@ -458,6 +462,8 @@ public class Common {
 	 * Admin Servlets
 	 */
 	public static String ADMIN_HOME_SERVLET = "adminHome";
+	public static String ADMIN_ACCOUNT_MANAGEMENT_SERVLET = "adminAccountManagement";
+	public static String ADMIN_ACCOUNT_DETAILS_SERVLET = "adminAccountDetails";
 	public static String ADMIN_ACTIVITY_LOG_SERVLET = "adminActivityLog";
 	public static String ADMIN_SEARCH_SERVLET = "adminSearch";
 	public static String ADMIN_SEARCH_TASK_SERVLET = "adminSearchTask";
