@@ -41,6 +41,11 @@ public class InstructorCourseEditServlet extends ActionServlet<InstructorCourseE
 			if(courseID!=null){
 				helper.course = helper.server.getCourse(courseID);
 				helper.instructorList = helper.server.getInstructorsByCourseId(courseID);
+				if(helper.course == null || helper.instructorList == null){
+					helper.statusMessage = "Invalid Course " + courseID + " specified";
+					helper.error = true;
+					helper.redirectUrl = Common.PAGE_INSTRUCTOR_COURSE;
+				}
 			} else {
 				helper.redirectUrl = Common.PAGE_INSTRUCTOR_COURSE;
 			}
