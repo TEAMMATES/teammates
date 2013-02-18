@@ -1,7 +1,5 @@
 package teammates.test.scripts;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
 import teammates.test.driver.BackDoor;
 
 public class DataMigrationAppendTimeStampforAccount {
@@ -14,7 +12,9 @@ public class DataMigrationAppendTimeStampforAccount {
 		do {
 			String response = BackDoor.appendTimestampForAccount();
 			count = Integer.parseInt(response);
+			System.out.println("Handled " + count + " entities");
 		} while (count != 0);
+		System.out.println("Migration complete");
 	}
 
 }

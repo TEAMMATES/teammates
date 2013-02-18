@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
@@ -990,11 +991,12 @@ public class AccountsDb {
 	
 
 	public int appendTimestampForAccount() {
-		String query = "select from " + Account.class.getName() + " where createdAt = null limit 1000";
+		String query = "select from " + Account.class.getName() + " where createdAt == null";
 
+		Query q = getPM().newQuery(query);
+		q.setRange(0, 1000);
 		@SuppressWarnings("unchecked")
-		List<Account> accounts = (List<Account>) getPM()
-				.newQuery(query).execute();
+		List<Account> accounts = (List<Account>) q.execute();
 		
 		int count = 0;
 		try {
