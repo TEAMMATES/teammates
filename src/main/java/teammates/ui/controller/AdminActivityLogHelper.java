@@ -7,8 +7,8 @@ import teammates.common.Common;
 
 public class AdminActivityLogHelper extends Helper{
 	public Vector<String> listOfServlets;
-	public String[] searchServlets;
-	public String servletCheckAll;
+	public String[] servletSearchList;
+	public String checkAllServlets;
 	public String searchPerson;
 	public String searchRole;
 	public String offset;
@@ -31,7 +31,7 @@ public class AdminActivityLogHelper extends Helper{
 		listOfServlets.add(Common.INSTRUCTOR_EVAL_EXPORT_SERVLET);
 		listOfServlets.add(Common.INSTRUCTOR_EVAL_EDIT_SERVLET);
 		listOfServlets.add(Common.INSTRUCTOR_EVAL_DELETE_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_COURSE_REMIND_SERVLET);
+		listOfServlets.add(Common.INSTRUCTOR_EVAL_REMIND_SERVLET);
 		listOfServlets.add(Common.INSTRUCTOR_EVAL_PUBLISH_SERVLET);
 		listOfServlets.add(Common.INSTRUCTOR_EVAL_RESULTS_SERVLET);
 		listOfServlets.add(Common.INSTRUCTOR_EVAL_UNPUBLISH_SERVLET);
@@ -48,11 +48,13 @@ public class AdminActivityLogHelper extends Helper{
 		listOfServlets.add(Common.EVALUATION_OPENING_REMINDERS_SERVLET);
 	}
 	
-	
-	public boolean searchServlets(String servletTarget){
-		if (searchServlets != null){
-			for (int i = 0; i < searchServlets.length; i++){
-				if (searchServlets[i].equals(servletTarget)){
+	/*
+	 * To search the listOfServlets for a specific servlet
+	 */
+	public boolean searchServlets(String servletName){
+		if (servletSearchList != null){
+			for (int i = 0; i < servletSearchList.length; i++){
+				if (servletSearchList[i].equals(servletName)){
 					return true;
 				}
 			}
@@ -60,67 +62,73 @@ public class AdminActivityLogHelper extends Helper{
 		return false;
 	}
 	
-	public static boolean performFiltering(AdminActivityLogHelper helper, String message){
-		String[] tokens = message.split("\\|\\|\\|");
+	/*
+	 * Filters out the unwanted logs based on the input from the form
+	 */
+	public boolean performFiltering(String message){
+		String[] tokens = message.split("\\|\\|\\|", -1);
 		
-		if (helper.searchPerson != null && !helper.searchPerson.equals("")){
-			String searchTerm = helper.searchPerson.toLowerCase();
+		//Filter based on Person name, email and google Id
+		if (searchPerson != null && !searchPerson.equals("")){
+			String searchTerm = searchPerson.toLowerCase();
 			if (!tokens[3].toLowerCase().contains(searchTerm) && !tokens[4].toLowerCase().contains(searchTerm) && !tokens[5].toLowerCase().contains(searchTerm)){
 				return false;
 			}
 		}
-		if (helper.searchRole != null && !helper.searchRole.equals("")){
-			String searchTerm = helper.searchRole;
-			if((searchTerm.equals("Instructor") || searchTerm.equals("Student")) && !searchTerm.equals(tokens[2])){
+		//Filter based on All/Instructor/Student/Others Role
+		if (searchRole != null && !searchRole.equals("")){
+			if((searchRole.equals("Instructor") || searchRole.equals("Student")) && !searchRole.equals(tokens[2])){
 				return false;
-			} else if (searchTerm.equals("Others") && (tokens[2].equals("Instructor") || tokens[2].equals("Student"))){
+			} else if (searchRole.equals("Others") && (tokens[2].equals("Instructor") || tokens[2].equals("Student"))){
 				return false;
 			}
 		}
-		if(helper.searchServlets == null || helper.searchServlets.length == 0){
+		//Filter based on Servlet
+		if(servletSearchList == null || servletSearchList.length == 0){
 			return false;
-		} else if (!helper.searchServlets(tokens[1])){
+		} else if (!searchServlets(tokens[1])){
 			return false;
 		}
 		
 		return true;
 	}
 	
-	public static String parseLogMessage(String time, String message, AdminActivityLogHelper helper){
+	
+	
+	/*
+	 * Formats the Log message to a readable format
+	 */
+	public String parseLogMessage(String time, String message){
 		String parsedMessage = "";
 		//Log messages are in the format [TEAMMATES_LOG]|||Action|||Role|||Name|||Google Id|||Email|||Request Parameters
 		//We use the delimiter |||, which is unlikely to appear in the Log message
-		String[] tokens = message.split("\\|\\|\\|");
+		String[] tokens = message.split("\\|\\|\\|", -1);
 		
 		
 		//Format information
 		String actionName = servletToAction(tokens[1]);
 		String formattedInformation = formatRequestParameters(tokens[1], tokens[6]);
 		
-		//For Action servlets
-		if (!formattedInformation.equals("")){
-			parsedMessage += "<td>" + time + "</td>";
-			parsedMessage += "<td>" + tokens[2] + "</td>";
-			parsedMessage += "<td><span title=\"" + tokens[4] + "\">" + tokens[3] + "<br>" + tokens[5] + "</span></td>";
+		
+		parsedMessage += "<td>" + time + "</td>";
+		parsedMessage += "<td>" + tokens[2] + "</td>";
+		parsedMessage += "<td><span title=\"" + tokens[4] + "\">" + tokens[3] + "<br>" + tokens[5] + "</span></td>";
+		
+		//For Servlet Actions
+		if (!formattedInformation.equals("")){	
 			parsedMessage += "<td><span class=\"bold\">" + actionName + "</span></td>";
 			parsedMessage += "<td>" + formattedInformation + "</td>";
 		} 
-		//For Page Loads or System Errors
-		else {
-			parsedMessage += "<td>" + time + "</td>";
-			parsedMessage += "<td>" + tokens[2] + "</td>";
-			parsedMessage += "<td><span title=\"" + tokens[4] + "\">" + tokens[3] + "<br>" + tokens[5] + "</span></td>";
-			
-			if(tokens[0].equals("[TEAMMATES_ERROR]")){
-				parsedMessage += "<td><span class=\"bold color_negative\">" + tokens[1] + "</span></td>";
-				parsedMessage += "<td><span class=\"color_negative\">" + tokens[6] + "</span></td>";
-			} else {
-				parsedMessage += "<td><span class=\"bold\">" + tokens[1] + "</span></td>";
-				parsedMessage += "<td>Page Load</td>";
-			}
+		//For System Errors
+		else if(tokens[0].equals("[TEAMMATES_ERROR]")){
+			parsedMessage += "<td><span class=\"bold color_negative\">" + tokens[1] + "</span></td>";
+			parsedMessage += "<td><span class=\"color_negative\">" + tokens[6] + "</span></td>";
 		}
-		
-		
+		//For Page Loads
+		else {
+			parsedMessage += "<td><span class=\"bold\">" + tokens[1] + "</span></td>";
+			parsedMessage += "<td>Page Load</td>";
+		}
 		
 		return parsedMessage;
 	}
@@ -139,92 +147,92 @@ public class AdminActivityLogHelper extends Helper{
 		
 		//Add New Course Action
 		if (servletName.equals(Common.INSTRUCTOR_COURSE_SERVLET)){
-			output += formatInstructorCourseServletData(parameterTable);
+			output = formatInstructorCourseServletData(parameterTable);
 		}
 		
 		//Enroll Students Action
 		else if (servletName.equals(Common.INSTRUCTOR_COURSE_ENROLL_SERVLET)){
-			output += formatInstructorCourseEnrollServletData(parameterTable);
+			output = formatInstructorCourseEnrollServletData(parameterTable);
 		}		
 		
 		//Edit Existing Course Action
 		else if (servletName.equals(Common.INSTRUCTOR_COURSE_EDIT_SERVLET)){
-			output += formatInstructorCourseEditServletData(parameterTable);
+			output = formatInstructorCourseEditServletData(parameterTable);
 		}
 		
 		//Delete Existing Course Action
 		else if (servletName.equals(Common.INSTRUCTOR_COURSE_DELETE_SERVLET)){
-			output += formatInstructorCourseDeleteServletData(parameterTable);
+			output = formatInstructorCourseDeleteServletData(parameterTable);
 		}
 		
 		//Edit Student Details Action
 		else if (servletName.equals(Common.INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET)){
-			output += formatInstructorCourseStudentEditServletData(parameterTable);
+			output = formatInstructorCourseStudentEditServletData(parameterTable);
 		}
 		
 		//Delete Student Action
 		else if (servletName.equals(Common.INSTRUCTOR_COURSE_STUDENT_DELETE_SERVLET)){
-			output += formatInstructorCourseStudentDeleteServletData(parameterTable);
+			output = formatInstructorCourseStudentDeleteServletData(parameterTable);
 		}
 		
 		//Send Registration Action
 		else if (servletName.equals(Common.INSTRUCTOR_COURSE_REMIND_SERVLET)){
-			output += formatInstructorCourseRemindServletData(parameterTable);
+			output = formatInstructorCourseRemindServletData(parameterTable);
 		}
 		
 		//Create New Evaluation Action
 		else if (servletName.equals(Common.INSTRUCTOR_EVAL_SERVLET)){
-			output += formatInstructorEvalServletData(parameterTable);
+			output = formatInstructorEvalServletData(parameterTable);
 		}		
 		
 		//Edit Evaluation Info Action
 		else if (servletName.equals(Common.INSTRUCTOR_EVAL_EDIT_SERVLET)){
-			output += formatInstructorEvalEditServletData(parameterTable);
+			output = formatInstructorEvalEditServletData(parameterTable);
 		}
 		
 		//Delete Evaluation Action
 		else if (servletName.equals(Common.INSTRUCTOR_EVAL_DELETE_SERVLET)){
-			output += formatInstructorEvalDeleteServletData(parameterTable);
+			output = formatInstructorEvalDeleteServletData(parameterTable);
 		}
 		
 		//Remind Students Action
 		else if (servletName.equals(Common.INSTRUCTOR_EVAL_REMIND_SERVLET)){
-			output += formatInstructorEvalRemindServletData(parameterTable);
+			output = formatInstructorEvalRemindServletData(parameterTable);
 		}
 		
 		//Publish Evaluation Action
 		else if (servletName.equals(Common.INSTRUCTOR_EVAL_PUBLISH_SERVLET)){
-			output += formatInstructorEvalPublishServletData(parameterTable);
+			output = formatInstructorEvalPublishServletData(parameterTable);
 		}
 		
 		//Unpublish Evaluation Action
 		else if (servletName.equals(Common.INSTRUCTOR_EVAL_UNPUBLISH_SERVLET)){
-			output += formatInstructorEvalUnpublishServletData(parameterTable);
+			output = formatInstructorEvalUnpublishServletData(parameterTable);
 		}
 		
 		//Instructor Edit Submission Action
 		else if (servletName.equals(Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET)){
-			output += formatInstructorEvalSubmissionEditHandlerServletData(parameterTable);
+			output = formatInstructorEvalSubmissionEditHandlerServletData(parameterTable);
 		}
 		
 		//Student Edit Submission Action
 		else if (servletName.equals(Common.STUDENT_EVAL_EDIT_HANDLER_SERVLET)){
-			output += formatStudentEvalEditHandlerServletData(parameterTable);
+			output = formatStudentEvalEditHandlerServletData(parameterTable);
 		}
 		
 		//Evaluation Closing Reminders Action
 		else if (servletName.equals(Common.EVALUATION_CLOSING_REMINDERS_SERVLET)){
-			output += formatEvaluationClosingRemindersServletData(parameterTable);
+			output = formatEvaluationClosingRemindersServletData(parameterTable);
 		}
 		
 		//Evaluation Opening Reminders Action
 		else if (servletName.equals(Common.EVALUATION_OPENING_REMINDERS_SERVLET)){
-			output += formatEvaluationOpeningRemindersServletData(parameterTable);
+			output = formatEvaluationOpeningRemindersServletData(parameterTable);
 		}
 		
 		//Student Course Join Action
 		else if (servletName.equals(Common.STUDENT_COURSE_JOIN_SERVLET)){
-			output += formatStudentCourseJoinServletData(parameterTable);
+			output = formatStudentCourseJoinServletData(parameterTable);
 		}
 		return output;
 	}
@@ -290,7 +298,7 @@ public class AdminActivityLogHelper extends Helper{
 	}
 	
 	
-	public static String formatInstructorCourseStudentEditServletData(Hashtable<String, String[]> parameterTable){
+	private static String formatInstructorCourseStudentEditServletData(Hashtable<String, String[]> parameterTable){
 		String submit, courseId, studentName, studentEmail, studentTeam, comments;
 		
 		try{
@@ -308,7 +316,7 @@ public class AdminActivityLogHelper extends Helper{
 	}
 	
 	
-	public static String formatInstructorCourseStudentDeleteServletData(Hashtable<String, String[]> parameterTable){
+	private static String formatInstructorCourseStudentDeleteServletData(Hashtable<String, String[]> parameterTable){
 		String studentEmail, courseId;
 		
 		try{
@@ -322,7 +330,7 @@ public class AdminActivityLogHelper extends Helper{
 	}
 	
 	
-	public static String formatInstructorCourseRemindServletData(Hashtable<String, String[]> parameterTable){
+	private static String formatInstructorCourseRemindServletData(Hashtable<String, String[]> parameterTable){
 		String studentEmail, courseId;
 		
 		try{
@@ -473,7 +481,11 @@ public class AdminActivityLogHelper extends Helper{
 		for (int i = 0; i < toEmails.length; i++){
 			output += "<span class=\"bold\">To:</span> " + toEmails[i] + "<br>";
 			output += "<span class=\"bold\">Points:</span> " + points[i] + "<br>";
-			output += "<span class=\"bold\">Comments:</span> " + comments[i].replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>") + "<br>";
+			if (comments == null){	//p2pDisabled
+				output += "<span class=\"bold\">Comments: </span>Disabled<br>";
+			} else {
+				output += "<span class=\"bold\">Comments:</span> " + comments[i].replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>") + "<br>";
+			}
 			output += "<span class=\"bold\">Justification:</span> " + justifications[i].replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>") + "<br><br>";
 		}
 		
@@ -499,17 +511,22 @@ public class AdminActivityLogHelper extends Helper{
 		}
 		
 		String output = "(" + teamName + ")" + fromEmail + "'s Submission for Evaluation (" + evaluationName + ") for Course [" + courseId + "] edited.<br><br>";
+		
 		for (int i = 0; i < toEmails.length; i++){
 			output += "<span class=\"bold\">To:</span> " + toEmails[i] + "<br>";
 			output += "<span class=\"bold\">Points:</span> " + points[i] + "<br>";
-			output += "<span class=\"bold\">Comments:</span> " + comments[i].replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>") + "<br>";
+			if (comments == null){	//p2pDisabled
+				output += "<span class=\"bold\">Comments: </span>Disabled<br>";
+			} else {
+				output += "<span class=\"bold\">Comments:</span> " + comments[i].replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>") + "<br>";
+			}
 			output += "<span class=\"bold\">Justification:</span> " + justifications[i].replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>") + "<br><br>";
 		}
 		
 		return output;
 	}
 	
-	public static String formatEvaluationClosingRemindersServletData(Hashtable<String, String[]> parameterTable){
+	private static String formatEvaluationClosingRemindersServletData(Hashtable<String, String[]> parameterTable){
 		String[] emails;
 		
 		try{
@@ -527,7 +544,7 @@ public class AdminActivityLogHelper extends Helper{
 	}
 	
 	
-	public static String formatEvaluationOpeningRemindersServletData(Hashtable<String, String[]> parameterTable){
+	private static String formatEvaluationOpeningRemindersServletData(Hashtable<String, String[]> parameterTable){
 		String[] emails;
 		
 		try{
@@ -545,7 +562,7 @@ public class AdminActivityLogHelper extends Helper{
 	}
 	
 	
-	public static String formatStudentCourseJoinServletData(Hashtable<String, String[]> parameterTable){
+	private static String formatStudentCourseJoinServletData(Hashtable<String, String[]> parameterTable){
 		String registrationKey;
 		
 		try{
