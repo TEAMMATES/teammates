@@ -25,6 +25,7 @@ import teammates.storage.entity.Student;
 
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
+import com.google.apphosting.api.DeadlineExceededException;
 
 /**
  * Manager for handling basic CRUD Operations only
@@ -988,18 +989,24 @@ public class AccountsDb {
 
 	
 
-	public void appendTimestampForAccount() {
-		String query = "select from " + Account.class.getName();
+	public int appendTimestampForAccount() {
+		String query = "select from " + Account.class.getName() + " where createdAt = null limit 1000";
 
 		@SuppressWarnings("unchecked")
 		List<Account> accounts = (List<Account>) getPM()
 				.newQuery(query).execute();
 		
-		for (Account a : accounts) {
-			a.setCreatedAt(new Date());
+		int count = 0;
+		try {
+			for (Account a : accounts) {
+				a.setCreatedAt(new Date());
+				count++;
+			}
+			getPM().close();
+			return count;
+		} catch (DeadlineExceededException dee) {
+			return count;
 		}
-		
-		getPM().close();
 	}
 
 }

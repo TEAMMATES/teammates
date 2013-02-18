@@ -176,7 +176,7 @@ public class BackDoorServlet extends HttpServlet {
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
 			backDoorLogic.editStudentAsJson(originalEmail, newValues);
 		} else if (action.equals(OPERATION_APPEND_TIMESTAMP_FOR_ACCOUNT)) {
-			backDoorLogic.appendTimestampForAccount();
+			return Integer.toString(backDoorLogic.appendTimestampForAccount());
 		} else {
 			throw new Exception("Unknown command: " + action);
 		}

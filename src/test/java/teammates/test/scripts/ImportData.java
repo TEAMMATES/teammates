@@ -27,7 +27,7 @@ import teammates.test.driver.BackDoor;
 public class ImportData {
 	//  
 	// Data source file name (under src/test/resources/data folder) to import
-	private static final String SOURCE_FILE_NAME = "DataSourceFileName.json";
+	private static final String SOURCE_FILE_NAME = "ResultFileName.json";
 	
 	private static final int MAX_NUMBER_OF_ENTITY_PER_REQUEST = 100;
 	private static final int MAX_NUMBER_OF_EVALUATION_PER_REQUEST = 1;
