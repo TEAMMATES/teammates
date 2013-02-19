@@ -15,10 +15,10 @@
 					<li><a class='t_courses' href="<%= helper.getInstructorCourseLink() %>">Courses</a></li>
 					<li><a class='t_evaluations' href="<%= helper.getInstructorEvaluationLink() %>">Evaluations</a></li>
 					<li><a class='t_help' href="/instructorHelp.html" target="_blank">Help</a></li>
-					<li><a class='t_logout' href="<%= Common.JSP_LOGOUT %>">Logout</a><%if(helper.userId.length()>=23){ %>
+					<li><a class='t_logout' href="<%= Common.JSP_LOGOUT %>">Logout</a><%if(helper.userId.length()>=Common.USER_ID_MAX_DISPLAY_LENGTH){ %>
 					<span onmouseover="ddrivetip('<%=helper.userId %>')" onmouseout="hideddrivetip()">
-							(<%=Helper.truncate(helper.userId,Common.NUMBER_TO_TRIGGER_HOVER_MESSAGE_IN_HEADER)%>)</span><%}else{%>
-							(<%=Helper.truncate(helper.userId,Common.NUMBER_TO_TRIGGER_HOVER_MESSAGE_IN_HEADER)%>)<%} %>
+							(<%=Helper.truncate(helper.userId,Common.USER_ID_MAX_DISPLAY_LENGTH)%>)</span><%}else{%>
+							(<%=Helper.truncate(helper.userId,Common.USER_ID_MAX_DISPLAY_LENGTH)%>)<%} %>
 					</li>
 				</ul>
 			</div>

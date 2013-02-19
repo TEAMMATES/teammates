@@ -53,9 +53,8 @@ public class Common {
 
 	public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
 
-	// Number to trigger the header file to truncate the user googleId and show hover messages,
-	// Should not be changed, most UI tests will get affected.
-	public static final int NUMBER_TO_TRIGGER_HOVER_MESSAGE_IN_HEADER = 23;
+	// Number to trigger the header file to truncate the user googleId and show hover message
+	public static final int USER_ID_MAX_DISPLAY_LENGTH = 23;
 	
 	// Hover messages
 	
