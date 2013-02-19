@@ -17,8 +17,8 @@
 					<li><a class='t_help' href="/instructorHelp.html" target="_blank">Help</a></li>
 					<li><a class='t_logout' href="<%= Common.JSP_LOGOUT %>">Logout</a><%if(helper.userId.length()>=23){ %>
 					<span onmouseover="ddrivetip('<%=helper.userId %>')" onmouseout="hideddrivetip()">
-							(<%=Helper.truncate(helper.userId,23)%>)</span><%}else{%>
-							(<%=Helper.truncate(helper.userId,23)%>)<%} %>
+							(<%=Helper.truncate(helper.userId,Common.NUMBER_TO_TRIGGER_HOVER_MESSAGE_IN_HEADER)%>)</span><%}else{%>
+							(<%=Helper.truncate(helper.userId,Common.NUMBER_TO_TRIGGER_HOVER_MESSAGE_IN_HEADER)%>)<%} %>
 					</li>
 				</ul>
 			</div>
