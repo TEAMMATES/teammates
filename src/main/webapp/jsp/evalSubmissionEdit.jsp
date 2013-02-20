@@ -7,9 +7,12 @@
 <%
 	boolean isStudent = Boolean.parseBoolean(request.getParameter("isStudent"));
 	String disableAttributeValue = "";
-	if(helper.eval.getStatus() == EvalStatus.CLOSED && isStudent){
+	
+	if (helper.eval.getStatus() == EvalStatus.CLOSED && isStudent){
 		disableAttributeValue = "disabled=\"disabled\"";
 	}
+		
+	
 %>
 <input type="hidden" value="<%= helper.eval.course %>"
 		name="<%= Common.PARAM_COURSE_ID %>"

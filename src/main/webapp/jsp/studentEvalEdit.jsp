@@ -7,7 +7,6 @@
 <%@ page import="java.util.Date" %>
 <% StudentEvalEditHelper helper = (StudentEvalEditHelper)request.getAttribute("helper"); %>
 <%
-	Date currentDate = new Date();
 	String disableAttributeValue = "";
 	if(helper.eval.getStatus() == EvalStatus.CLOSED){
 		helper.statusMessage = Common.MESSAGE_EVALUATION_EXPIRED;
