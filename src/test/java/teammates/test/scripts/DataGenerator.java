@@ -48,7 +48,7 @@ public class DataGenerator {
 	public static final Integer MIN_TEAM_SIZE = 3;
 	
 	public static final Integer MIN_ACTIVE_EVALUATION_PER_COURSE =0;
-	public static final Integer MAX_ACTIVE_EVALUATION_PER_COURSE =1;
+	public static final Integer MAX_ACTIVE_EVALUATION_PER_COURSE =0;
 
 	public static final String START_TIME = "2012-04-01 11:59 PM";
 	public static final String END_TIME_PASSED = "2012-07-30 11:59 PM";
@@ -201,6 +201,7 @@ public class DataGenerator {
 	public static String output () {
 		System.out.println("Start writing to file !");
 		String output = "{\n";
+		output += allAccounts() + "\n\n";
 		output += allCourses() + "\n\n";
 		output += allInstructors() + "\n\n";
 		output += allStudents() + "\n\n";
@@ -211,6 +212,18 @@ public class DataGenerator {
 		return output;
 	}
 	
+	public static String allAccounts() {
+		String output = "\"accounts\":{\n";
+		for (String email : studentEmails) {
+			email = email.split("@")[0];
+			email = PREFIX + email;
+			output+="\t"+account(email);
+			output+=",\n";
+		}
+		output = output.substring(0,output.length()-2);
+		output+= "\n},";
+		return output;
+	}
 	
 	/**
 	 * @return Json string presentation for all instructors
@@ -296,7 +309,8 @@ public class DataGenerator {
 				}
 			}
 		}
-		output = output.substring(0,output.length() -2); //remove the last comma
+		if (evaluations.size() > 0)
+			output = output.substring(0,output.length() -2); //remove the last comma
 		output+= "\n}";
 		return output;
 	}
@@ -335,7 +349,15 @@ public class DataGenerator {
 		return output;
 	}
 	
-
+	public static String account(String acc) {
+		String result = "\""+acc+"\":{";
+		result += "\"googleId\":\""+acc+"\",";
+		result += "\"name\":\""+acc+"\",";
+		result += "\"email\":\""+acc+"@gmail.com\"";
+	  	result += "}";
+	  	return result;
+	}
+	
 	/**
 	 * @return Json string presentation for a instructor entity
 	 */
