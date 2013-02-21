@@ -1,4 +1,5 @@
 <%@ page import="teammates.common.Common" %>
+<%@ page import="teammates.common.datatransfer.EvaluationData.EvalStatus" %>
 <%@ page import="teammates.common.datatransfer.EvaluationData" %>
 <%@ page import="teammates.common.datatransfer.StudentData" %>
 <%@ page import="teammates.common.datatransfer.SubmissionData" %>
@@ -6,9 +7,8 @@
 <%@ page import="java.util.Date" %>
 <% StudentEvalEditHelper helper = (StudentEvalEditHelper)request.getAttribute("helper"); %>
 <%
-	Date currentDate = new Date();
 	String disableAttributeValue = "";
-	if(currentDate.compareTo(helper.eval.endTime) > 0){
+	if(helper.eval.getStatus() == EvalStatus.CLOSED){
 		helper.statusMessage = Common.MESSAGE_EVALUATION_EXPIRED;
 		disableAttributeValue = "disabled=\"disabled\"";
 	}

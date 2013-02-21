@@ -89,8 +89,8 @@
 
 	Long term goal: Become the
 	<span class="bold">biggest student project in the world</span>.
-	<br> {Biggest = many contributors, many users, high LOC, evolving
-	over a long period.}
+	<br> {Biggest = many contributors, many users, relatively large
+	code base (50k-100k LoC), evolving over a long period.}
 	<br>
 	<br> 'Biggest' above also implies an exceptionally high quality
 	standard because high quality is a necessity for the long-term survival
@@ -115,8 +115,9 @@
 		<li><span class="bold">Data</span>: The data in the live system
 			are confidential and developers are not allowed to see them. This
 			makes troubleshooting harder.</li>
-		<li><span class="bold">Releases</span>: Frequent releases to live
-			users requires us to maintain 'production quality' constantly.</li>
+		<li><span class="bold">Releases</span>: Frequent releases to an
+			active user database requires us to maintain 'production quality'
+			constantly.</li>
 		<li><span class="bold">Platform</span>: TEAMMATES is running on
 			Google App Engine cloud platform, which adds the following
 			challenges.
@@ -341,8 +342,8 @@
 			which will setup common data inside the <span class="code">Helper</span>
 			object, such as the <span class="code">Logic</span> object, <span
 			class="code">UserData</span> object, redirect URL, status message and
-			error status. This method will also set and configure the masquerade mode
-			if required ('masquarade mode' is used by the administrator to
+			error status. This method will also set and configure the masquerade
+			mode if required ('masquarade mode' is used by the administrator to
 			masquerade as another user).
 		</li>
 		<li>It will call the abstract <span class="code">doAction</span>
@@ -495,8 +496,8 @@
 		</li>
 		<li>When creating <span class="code">Evaluations</span>, <span
 			class="code">Submission</span> entities are automatically created at
-			the time of creating an evaluation or changing the team structure
-			of a course.
+			the time of creating an evaluation or changing the team structure of
+			a course.
 		</li>
 	</ul>
 	<br>API for retrieving entities:
@@ -626,8 +627,8 @@
 	against due to limitations of GAE environment and the nature of our
 	data schema. Please see
 	<a
-		href="https://docs.google.com/document/d/1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU/edit#heading=h.1yzvgqzgobon">TEAMMATES
-		Problems and Solutions</a> documentation for more information.
+		href="https://docs.google.com/document/pub?id=1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU&embedded=true">TEAMMATES
+		Decision Analysis </a> document for more information.
 	<br>
 	<br> General:
 	<br>
@@ -958,25 +959,6 @@
 			</span></span>: Contains configuration values for the test driver.
 		<li><span class="code"><span class="bold">appengine-web.xml
 			</span></span>: Contains configuration for deploying the application on app engine.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		
 		<li><span class="code"><span class="bold">web.xml </span></span>:
 			This is the configurations for the webserver. It specifies servlets
@@ -1002,13 +984,7 @@
 
 	<h2 id="settingup-prerequisites">Prerequisites</h2>
 	<ul>
-
-		<li>Install <a
-			href="http://www.oracle.com/technetwork/java/javase/downloads/jdk6u38-downloads-1877406.html">JDK6</a>
-			[This is the highest version supported by GAE]<br>If you already
-			have a version higher than JDK 6 installed in your computer, you
-			still need to install JDK 6.
-		</li>
+		<li>Install the latest JDK.</li>
 		<li>Install <a href="http://tortoisehg.bitbucket.org/">TortoiseHg</a>
 			latest stable version. <br>If you are on Mac OS, you can install
 			<a href="http://mercurial.selenic.com/">Mercurial (Commandline
@@ -1022,12 +998,11 @@
 			Juno) from <a href="http://www.eclipse.org/downloads/">http://www.eclipse.org/downloads/
 		</a>
 		</li>
-		<li>Install <i>Google App Engine plug-in for Eclipse</i> version
-			4.2 (but omit the App Engine SDK that comes with the plugin). <br>Instructions
-			are at <a
+		<li>Install <i>Google Plugin for Eclipse</i> version 4.2. Be
+			careful to omit other plugins shown on the screen (e.g., Google App
+			Engine Tools for Android, GWT plugin). <br>Instructions are at <a
 			href="https://developers.google.com/eclipse/docs/install-eclipse-4.2">https://developers.google.com/eclipse/docs/install-eclipse-4.2</a>.
-			<br>Do not install GWT plugin as it might interfere with the GAE
-			plugin. <br>Note: Sometimes the update site for the GAE plug-in
+			<br>Note: Sometimes the update site for the GAE plug-in
 			does not work. In which case, follow the instructions at <a
 			href="https://developers.google.com/eclipse/docs/install-from-zip">https://developers.google.com/eclipse/docs/install-from-zip</a>.
 		</li>
@@ -1050,6 +1025,9 @@
 	<ol>
 		<li>Clone the source code from: <span class="code"><a
 				href="https://code.google.com/p/teammatespes/">https://code.google.com/p/teammatespes/</a></span>
+			<br /> Note: If you are using TortoiseHg to clone, simply copy the
+			URL above and paste it in the Source field. Alternatively, you can
+			use the command line to do the cloning.
 		<li>Create config files (these are not under revision control
 			because their content vary from developer to developer).
 			<ol type="a">
@@ -1096,7 +1074,14 @@
 						</li>
 					</ol>
 				</li>
-
+				<li>Windows → Preferences → Java → Installed JRE
+					<ol type="i">
+						<li>Ensure a JDK (not a JRE) is selected. One of the items in
+					the <a href="#settingup-troubleshooting">Troubleshooting</a>
+					section below explains how to do this.
+						</li>
+					</ol>
+				</li>
 			</ol>
 		</li>
 		<li>Right-click on the project folder and choose 'Run' → 'As Web
@@ -1110,7 +1095,8 @@
 
 	<h3>Adding instructor accounts</h3>
 	<ol type="a">
-		<li>Go to <span class="code">http://[appURL]/page/adminHome (On your computer, it may be http://localhost:8888/page/adminHome)</span></li>
+		<li>Go to <span class="code">http://[appURL]/page/adminHome
+				(On your computer, it may be http://localhost:8888/page/adminHome)</span></li>
 		<li>Log in using your Google ID. If this is the dev server, enter
 			any email address, but remember to check the 'log in as
 			administrator' check box.</li>
@@ -1405,7 +1391,7 @@
 		</li>
 		<br>
 		<li>Fix the issue. <br> Select the code segments you
-			modified and apply the code formatting function of Eclipse (Sourse
+			modified and apply the code formatting function of Eclipse (Source
 			--> Format). This is to ensure that the code is properly formatted.<br>
 			<br>Commit the fix. <br>Format of the commit comment <span
 			class="bold">(for contributors)</span>: <br>
