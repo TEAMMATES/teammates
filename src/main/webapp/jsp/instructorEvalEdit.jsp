@@ -21,6 +21,7 @@
 	<script type="text/javascript" src="/js/common.js"></script>
 	
 	<script type="text/javascript" src="/js/instructor.js"></script>
+	<script type="text/javascript" src="/js/instructorEval.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 

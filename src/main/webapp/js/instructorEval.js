@@ -92,7 +92,11 @@ function isEditEvaluationScheduleValid(start, startTime, deadline,
 	}/*else if(!activated && start < now) {
 		return false;
 	}*/
-	
+	else if (!(start > deadline || deadline > start)) {
+		if (startTime >= deadlineTime) {
+			return false;
+		}
+	}
 	return true;
 }
 
