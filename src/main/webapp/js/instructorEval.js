@@ -80,18 +80,13 @@ function isEditEvaluationScheduleValid(start, startTime, deadline,
 		deadline.setMinutes(59);
 	}
 
-	if (start > deadline) {
+	if (start.getTime() >= deadline.getTime()) {
 		return false;
 	} else if (status == "AWAITING") {
 		// Open evaluation should be done by system only.
 		// Thus, instructor cannot change evaluation ststus from AWAITING to
 		// OPEN
 		if (start < now) {
-			return false;
-		}
-	}
-	else if (deadline.getTime() === start.getTime()) {
-		if (startTime >= deadlineTime) {
 			return false;
 		}
 	}
