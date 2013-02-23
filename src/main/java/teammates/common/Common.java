@@ -53,7 +53,11 @@ public class Common {
 
 	public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
 
+	// Number to trigger the header file to truncate the user googleId and show hover message
+	public static final int USER_ID_MAX_DISPLAY_LENGTH = 23;
+	
 	// Hover messages
+	
 	public static final String HOVER_MESSAGE_COURSE_ENROLL = "Enroll student into the course";
 	public static final String HOVER_MESSAGE_COURSE_DETAILS = "View, edit and send registration keys to the students in the course";
 	public static final String HOVER_MESSAGE_COURSE_EDIT = "Edit Course information and instructor list";
@@ -236,6 +240,8 @@ public class Common {
 	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
 
 	public static final String PAGE_ADMIN_HOME = "/page/adminHome";
+	public static final String PAGE_ADMIN_ACCOUNT_MANAGEMENT = "/page/adminAccountManagement";
+	public static final String PAGE_ADMIN_ACCOUNT_DETAILS = "/page/adminAccountDetails";
 	public static final String PAGE_ADMIN_EXCEPTION_TEST = "/page/adminExceptionTest";
 	public static final String PAGE_ADMIN_ACTIVITY_LOG = "/page/adminActivityLog";
 	public static final String PAGE_ADMIN_SEARCH = "/page/adminSearch";
@@ -277,8 +283,10 @@ public class Common {
 	public static final String JSP_EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp"; // Done
 
 	public static final String JSP_ADMIN_HOME = "/jsp/adminHome.jsp";
+	public static final String JSP_ADMIN_ACCOUNT_MANAGEMENT = "/jsp/adminAccountManagement.jsp";
 	public static final String JSP_ADMIN_SEARCH = "/jsp/adminSearch.jsp";
 	public static final String JSP_ADMIN_ACTIVITY_LOG = "/jsp/adminActivityLog.jsp";
+	public static final String JSP_ADMIN_ACCOUNT_DETAILS = "/jsp/adminAccountDetails.jsp";
 	public static final String JSP_LOGOUT = "/logout.jsp"; // Done
 	public static final String JSP_SHOW_MESSAGE = "/showMessage.jsp"; // Done
 	public static final String JSP_UNAUTHORIZED = "/unauthorized.jsp"; // Done
@@ -325,7 +333,7 @@ public class Common {
 	public static final String MESSAGE_EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
 	// Status messages from Javascript
 	public static final String MESSAGE_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
-	public static final String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
+	public static final String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID.";
 	public static final String MESSAGE_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
 	public static final String MESSAGE_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
 	public static final String MESSAGE_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.<br />"
@@ -403,43 +411,63 @@ public class Common {
 	public static String SYSTEM_ERROR_EMAIL_TEMPLATE = readResourseFile("systemErrorEmailTemplate.html");
 	
 	/**
-	 * Servlet Names and Actions
+	 * Instructor/Student Servlet Names
 	 */
+	public static String INSTRUCTOR_HOME_SERVLET = "instructorHome";
 	public static String INSTRUCTOR_COURSE_SERVLET = "instructorCourse";
-	public static String INSTRUCTOR_COURSE_SERVLET_ACTION = "Add New Course";
 	public static String INSTRUCTOR_COURSE_ENROLL_SERVLET = "instructorCourseEnroll";
-	public static String INSTRUCTOR_COURSE_ENROLL_SERVLET_ACTION = "Enroll Students";
 	public static String INSTRUCTOR_COURSE_EDIT_SERVLET = "instructorCourseEdit";
-	public static String INSTRUCTOR_COURSE_EDIT_SERVLET_ACTION = "Edit Course Info";
+	public static String INSTRUCTOR_COURSE_DETAILS_SERVLET = "instructorCourseDetails";
 	public static String INSTRUCTOR_COURSE_DELETE_SERVLET = "instructorCourseDelete";
-	public static String INSTRUCTOR_COURSE_DELETE_SERVLET_ACTION = "Delete Course";
 	public static String INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET = "instructorCourseStudentEdit";
-	public static String INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET_ACTION = "Edit Student Details";
 	public static String INSTRUCTOR_COURSE_STUDENT_DELETE_SERVLET = "instructorCourseStudentDelete";
-	public static String INSTRUCTOR_COURSE_STUDENT_DELETE_SERVLET_ACTION = "Delete Student";
+	public static String INSTRUCTOR_COURSE_STUDENT_DETAILS_SERVLET = "instructorCourseStudentDetails";
 	public static String INSTRUCTOR_COURSE_REMIND_SERVLET = "instructorCourseRemind";
-	public static String INSTRUCTOR_COURSE_REMIND_SERVLET_ACTION = "Send Registration";
 	public static String INSTRUCTOR_EVAL_SERVLET = "instructorEval";
-	public static String INSTRUCTOR_EVAL_SERVLET_ACTION = "Create New Evaluation";
+	public static String INSTRUCTOR_EVAL_EXPORT_SERVLET = "instructorEvalExport";
 	public static String INSTRUCTOR_EVAL_EDIT_SERVLET = "instructorEvalEdit";
-	public static String INSTRUCTOR_EVAL_EDIT_SERVLET_ACTION = "Edit Evaluation Info";
 	public static String INSTRUCTOR_EVAL_DELETE_SERVLET = "instructorEvalDelete";
-	public static String INSTRUCTOR_EVAL_DELETE_SERVLET_ACTION = "Delete Evaluation";
 	public static String INSTRUCTOR_EVAL_REMIND_SERVLET = "instructorEvalRemind";
-	public static String INSTRUCTOR_EVAL_REMIND_SERVLET_ACTION = "Remind Students";
 	public static String INSTRUCTOR_EVAL_PUBLISH_SERVLET = "instructorEvalPublish";
-	public static String INSTRUCTOR_EVAL_PUBLISH_SERVLET_ACTION = "Publish Evaluation";
+	public static String INSTRUCTOR_EVAL_RESULTS_SERVLET = "instructorEvalResults";
 	public static String INSTRUCTOR_EVAL_UNPUBLISH_SERVLET = "instructorEvalUnpublish";
-	public static String INSTRUCTOR_EVAL_UNPUBLISH_SERVLET_ACTION = "Unpublish Evaluation";
 	public static String INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET = "instructorEvalSubmissionEditHandler";
-	public static String INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET_ACTION = "Edit Submission";
+	public static String INSTRUCTOR_EVAL_SUBMISSION_EDIT_SERVLET = "instructorEvalSubmissionEdit";
+	public static String INSTRUCTOR_EVAL_SUBMISSION_VIEW_SERVLET = "instructorEvalSubmissionView";
+	public static String STUDENT_HOME_SERVLET = "studentHome";
+	public static String STUDENT_COURSE_DETAILS_SERVLET = "studentCourseDetails";
+	public static String STUDENT_COURSE_JOIN_SERVLET = "studentCourseJoin";
 	public static String STUDENT_EVAL_EDIT_HANDLER_SERVLET = "studentEvalEditHandler";
+	public static String STUDENT_EVAL_EDIT_SERVLET = "studentEvalEdit";
+	public static String STUDENT_EVAL_RESULTS_SERVLET = "studentEvalResults";
+	
+	
+	/**
+	 * Instructor/Student Servlet Actions
+	 */
+	public static String INSTRUCTOR_COURSE_SERVLET_ACTION = "Add New Course";
+	public static String INSTRUCTOR_COURSE_ENROLL_SERVLET_ACTION = "Enroll Students";
+	public static String INSTRUCTOR_COURSE_EDIT_SERVLET_ACTION = "Edit Course Info";
+	public static String INSTRUCTOR_COURSE_DELETE_SERVLET_ACTION = "Delete Course";
+	public static String INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET_ACTION = "Edit Student Details";
+	public static String INSTRUCTOR_COURSE_STUDENT_DELETE_SERVLET_ACTION = "Delete Student";
+	public static String INSTRUCTOR_COURSE_REMIND_SERVLET_ACTION = "Send Registration";
+	public static String INSTRUCTOR_EVAL_SERVLET_ACTION = "Create New Evaluation";
+	public static String INSTRUCTOR_EVAL_EDIT_SERVLET_ACTION = "Edit Evaluation Info";
+	public static String INSTRUCTOR_EVAL_DELETE_SERVLET_ACTION = "Delete Evaluation";
+	public static String INSTRUCTOR_EVAL_REMIND_SERVLET_ACTION = "Remind Students";
+	public static String INSTRUCTOR_EVAL_PUBLISH_SERVLET_ACTION = "Publish Evaluation";
+	public static String INSTRUCTOR_EVAL_UNPUBLISH_SERVLET_ACTION = "Unpublish Evaluation";
+	public static String INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET_ACTION = "Edit Submission";
 	public static String STUDENT_EVAL_EDIT_HANDLER_SERVLET_ACTION = "Edit Submission";
+	public static String STUDENT_COURSE_JOIN_SERVLET_ACTION = "Student Join Course";
 	
 	/**
 	 * Admin Servlets
 	 */
 	public static String ADMIN_HOME_SERVLET = "adminHome";
+	public static String ADMIN_ACCOUNT_MANAGEMENT_SERVLET = "adminAccountManagement";
+	public static String ADMIN_ACCOUNT_DETAILS_SERVLET = "adminAccountDetails";
 	public static String ADMIN_ACTIVITY_LOG_SERVLET = "adminActivityLog";
 	public static String ADMIN_SEARCH_SERVLET = "adminSearch";
 	public static String ADMIN_SEARCH_TASK_SERVLET = "adminSearchTask";

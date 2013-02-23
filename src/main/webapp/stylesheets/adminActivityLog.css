@@ -1,3 +1,20 @@
+.inputTable{
+	width: 900px;
+}
+
 .dataTable td{
 	line-height: 20px;
+}
+
+#activitylogSearch {
+	width: 800px;
+	margin: 0 auto;
+}
+
+#activityLogSearch input[type="text"] {
+	width: 200px;
+}
+
+#activityLogSearch select {
+	width: 150px;
 }

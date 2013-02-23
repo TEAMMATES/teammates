@@ -1,5 +1,6 @@
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.ui.controller.AdminHomeHelper"%>
+
 <% AdminHomeHelper helper = (AdminHomeHelper)request.getAttribute("helper"); %>
 <!DOCTYPE html>
 <html>
@@ -51,7 +52,7 @@
 						<td><input class="addinput" type="text" name="<%= Common.PARAM_INSTRUCTOR_EMAIL %>"></td>
 				    </tr>
 				    <tr>
-						<td class="centeralign"><input type="checkbox" name="<%= Common.PARAM_INSTRUCTOR_IMPORT_SAMPLE %>" value="importsample">Import sample data</input></td>
+						<td class="centeralign"><input type="checkbox" name="<%= Common.PARAM_INSTRUCTOR_IMPORT_SAMPLE %>" value="importsample">Import sample data</td>
 				    </tr>
 				    <tr>
 						<td class="centeralign"><input id="btnAddInstructor" class="button" type="submit" value="Add Instructor" onclick="return verifyInstructorData();"></td>
@@ -60,6 +61,8 @@
 				</form>
 			</div>
 			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			<br>
+			<br>
 		</div>
 	</div>
 
