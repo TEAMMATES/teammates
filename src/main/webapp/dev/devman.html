@@ -984,6 +984,7 @@
 
 	<h2 id="settingup-prerequisites">Prerequisites</h2>
 	<ul>
+		<li>Install the latest JDK.</li>
 		<li>Install <a href="http://tortoisehg.bitbucket.org/">TortoiseHg</a>
 			latest stable version. <br>If you are on Mac OS, you can install
 			<a href="http://mercurial.selenic.com/">Mercurial (Commandline
@@ -997,12 +998,11 @@
 			Juno) from <a href="http://www.eclipse.org/downloads/">http://www.eclipse.org/downloads/
 		</a>
 		</li>
-		<li>Install <i>Google App Engine plug-in for Eclipse</i> version
-			4.2 (but omit the App Engine SDK that comes with the plugin). <br>Instructions
-			are at <a
+		<li>Install <i>Google Plugin for Eclipse</i> version 4.2. Be
+			careful to omit other plugins shown on the screen (e.g., Google App
+			Engine Tools for Android, GWT plugin). <br>Instructions are at <a
 			href="https://developers.google.com/eclipse/docs/install-eclipse-4.2">https://developers.google.com/eclipse/docs/install-eclipse-4.2</a>.
-			<br>Do not install GWT plugin as it might interfere with the GAE
-			plugin. <br>Note: Sometimes the update site for the GAE plug-in
+			<br>Note: Sometimes the update site for the GAE plug-in
 			does not work. In which case, follow the instructions at <a
 			href="https://developers.google.com/eclipse/docs/install-from-zip">https://developers.google.com/eclipse/docs/install-from-zip</a>.
 		</li>
@@ -1025,6 +1025,9 @@
 	<ol>
 		<li>Clone the source code from: <span class="code"><a
 				href="https://code.google.com/p/teammatespes/">https://code.google.com/p/teammatespes/</a></span>
+			<br /> Note: If you are using TortoiseHg to clone, simply copy the
+			URL above and paste it in the Source field. Alternatively, you can
+			use the command line to do the cloning.
 		<li>Create config files (these are not under revision control
 			because their content vary from developer to developer).
 			<ol type="a">
@@ -1071,7 +1074,14 @@
 						</li>
 					</ol>
 				</li>
-
+				<li>Windows → Preferences → Java → Installed JRE
+					<ol type="i">
+						<li>Ensure a JDK (not a JRE) is selected. One of the items in
+					the <a href="#settingup-troubleshooting">Troubleshooting</a>
+					section below explains how to do this.
+						</li>
+					</ol>
+				</li>
 			</ol>
 		</li>
 		<li>Right-click on the project folder and choose 'Run' → 'As Web
