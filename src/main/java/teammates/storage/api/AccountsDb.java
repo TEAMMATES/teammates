@@ -1070,7 +1070,7 @@ public class AccountsDb {
 			//======================================================================
 			// Student Accounts append Institute from Student-Institute pair
 			query = "select from " + Account.class.getName()
-					+ " where isInstructor == false";
+					+ " where isInstructor == false && institute == null";
 			Query q = getPM().newQuery(query);
 			q.setRange(0, 1000);
 			
@@ -1078,8 +1078,10 @@ public class AccountsDb {
 			List<Account> studentAccounts = (List<Account>) q.execute();
 			
 			for (Account a : studentAccounts) {
-				a.setInstitute(studentInstitutions.get(a.getGoogleId()));
-				count++;
+				if (a.getInstitute() != null) {
+					a.setInstitute(studentInstitutions.get(a.getGoogleId()));
+					count++;
+				}
 			}
 		} catch (DeadlineExceededException dee) {
 			getPM().close();
