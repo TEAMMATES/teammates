@@ -43,9 +43,22 @@ test('checkEvaluationForm()', function(){
 	expect(0);
 });
 
+test('sanitizeGoogleId(googleId)', function() {
+	equal(sanitizeGoogleId("test  @gmail.com  "), "test", "test - valid");
+});
+
+test('isValidGoogleId(googleId)', function() {
+	equal(isValidGoogleId("  test  \t\n"), true, "test - valid");
+	equal(isValidGoogleId("  charile.brown  \t\n"), true, "charile.brown - valid");
+	equal(isValidGoogleId("  big-small_mini  \t\n"), true, "big-small_mini - valid");
+	
+	equal(isValidGoogleId("wrong!"), false, "wrong! - invalid");
+	equal(isValidGoogleId("not*correct"), false, "not*correct - invalid");
+	equal(isValidGoogleId("is/not\correct"), false, "is/not\correct - invalid");
+});
+
 test('isEmailValid(email)', function(){
 	equal(isEmailValid("test@gmail.com"), true, "test@gmail.com - valid");
-	
 	equal(isEmailValid("email"), false, "email - invalid");
 	equal(isEmailValid("email@email"), false, "email@email - invalid");
 	equal(isEmailValid("@yahoo.com"), false, "@yahoo.com - invalid");

@@ -15,6 +15,7 @@ import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 import javax.mail.Address;
 import javax.mail.Message;
@@ -492,11 +493,9 @@ public class Common {
 				// check contains period?
 	}
 
-	// GoogleID cannot have spaces
+	// GoogleID allow only alphanumeric, full stops, dashes and underscores
 	public static boolean isValidGoogleId(String googleId) {
-		return (isValidString(googleId) && 
-				hasNoSpace(googleId));		
-			// test for contains valid chars?
+		return googleId.matches("^([\\w-]+(?:\\.[\\w-]+)*)");
 	}
 
 	// Name can have spaces
