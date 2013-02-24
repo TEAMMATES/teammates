@@ -1,6 +1,7 @@
 package teammates.logic;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -216,7 +217,14 @@ public class Emails {
 		emailBody = emailBody.replace("${joinFragment}",
 				Common.STUDENT_EMAIL_FRAGMENT_COURSE_JOIN);
 	
-		emailBody = emailBody.replace("${key}", s.key);
+		//Try both way
+		String key;
+		try {
+			key = Common.encrypt(s.key);
+		} catch (GeneralSecurityException e) {
+			key = s.key;
+		}
+		emailBody = emailBody.replace("${key}", key);
 	
 		String joinUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_JOIN_COURSE;

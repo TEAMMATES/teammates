@@ -2201,7 +2201,9 @@ public class LogicTest extends BaseTestCase {
 		helper.setEnvIsLoggedIn(true);
 		helper.setEnvEmail(googleId);
 		helper.setEnvAuthDomain("gmail.com");
-
+		
+		key = Common.encrypt(key);
+		
 		logic.joinCourse(googleId, key);
 		assertEquals(googleId,
 				logic.getStudent(student.course, student.email).id);

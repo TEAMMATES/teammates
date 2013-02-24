@@ -5,6 +5,10 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.math.BigInteger;
+import java.security.GeneralSecurityException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,6 +20,8 @@ import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.internet.MimeMessage;
@@ -23,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.UserType;
 import teammates.logic.api.Logic;
+import teammates.storage.entity.Student;
 import teammates.ui.controller.Helper;
 
 import com.google.appengine.api.utils.SystemProperty;
@@ -802,6 +809,57 @@ public class Common {
 		}
 	}
 
+	
+
+	//MD5 value of "teammates"
+	public static String ENCRYPT_KEY = "5360b12f6a07af7be93437d215f72fca";
+	public static String encrypt(String value)
+			throws GeneralSecurityException {
+		SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(ENCRYPT_KEY), "AES");
+		Cipher cipher = Cipher.getInstance("AES");
+		cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
+		byte[] encrypted = cipher.doFinal(value.getBytes());
+		return byteArrayToHexString(encrypted);
+	}
+
+	public static String decrypt(String message)
+			throws GeneralSecurityException {
+		SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(ENCRYPT_KEY), "AES");
+		Cipher cipher = Cipher.getInstance("AES");
+		cipher.init(Cipher.DECRYPT_MODE, sks);
+		byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
+		return new String(decrypted);
+	}
+
+	private static String byteArrayToHexString(byte[] b) {
+		StringBuffer sb = new StringBuffer(b.length * 2);
+		for (int i = 0; i < b.length; i++) {
+			int v = b[i] & 0xff;
+			if (v < 16) {
+				sb.append('0');
+			}
+			sb.append(Integer.toHexString(v));
+		}
+		return sb.toString().toUpperCase();
+	}
+
+	private static byte[] hexStringToByteArray(String s) {
+		byte[] b = new byte[s.length() / 2];
+		for (int i = 0; i < b.length; i++) {
+			int index = i * 2;
+			int v = Integer.parseInt(s.substring(index, index + 2), 16);
+			b[i] = (byte) v;
+		}
+		return b;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	@SuppressWarnings("unused")
 	private void ____PRIVATE_helper_methods_________________________________() {
 	}

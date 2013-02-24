@@ -1,5 +1,6 @@
 package teammates.storage.api;
 
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -585,6 +586,13 @@ public class AccountsDb {
 			throws JoinCourseException {
 
 		registrationKey = registrationKey.trim();
+		
+		try {
+			registrationKey = Common.decrypt(registrationKey);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
 		googleID = googleID.trim();
 
 		Student student = null;
