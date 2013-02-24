@@ -44,6 +44,15 @@ public class SubmissionsDbTest extends BaseTestCase {
 		s.reviewee = "student1@gmail.com";
 		s.reviewer = "student2@gmail.com";
 		submissionsDb.createSubmission(s);
+		
+		// SUCCESS
+		s = new SubmissionData();
+		s.course = "Computing102";
+		s.evaluation = "text group text";
+		s.team = "team2";
+		s.reviewee = "student1@gmail.com";
+		s.reviewer = "student2@gmail.com";
+		submissionsDb.createSubmission(s);
 			
 		// FAIL : duplicate
 		try {

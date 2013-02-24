@@ -45,6 +45,14 @@ public class EvaluationsDbTest extends BaseTestCase {
 		e.endTime = new Date();
 		evaluationsDb.createEvaluation(e);
 		
+		// SUCCESS
+		e = new EvaluationData();
+		e.course = "Computing102";
+		e.name = "text group text";
+		e.startTime = new Date();
+		e.endTime = new Date();
+		evaluationsDb.createEvaluation(e);
+		
 		// FAIL : duplicate
 		try {
 			evaluationsDb.createEvaluation(e);

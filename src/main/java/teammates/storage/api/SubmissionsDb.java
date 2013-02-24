@@ -596,8 +596,11 @@ public class SubmissionsDb {
 				+ " && toStudent == toStudentParam"
 				+ " parameters String courseIDParam, String evalNameParam, String fromStudentParam, String toStudentParam";
 		
+		// To pass in more than 3 parameters, an object array is needed. 
 		Object[] parameters = {courseId, evaluationName, fromStudent, toStudent};
 
+		// jdo.Query.execute() method only support up to 3 parameter.
+		// executeWithArray() is used when more than 3 parameters are used in a query.
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
 				query).executeWithArray(parameters);
