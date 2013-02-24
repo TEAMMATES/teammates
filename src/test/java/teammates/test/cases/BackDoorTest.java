@@ -406,9 +406,9 @@ public class BackDoorTest extends BaseTestCase {
 		//These include uppercase and lowercase letters, decimal digits, hyphen, period, underscore, and tilde.
 		//      unreserved  = ALPHA / DIGIT / "-" / "." / "_" / "~"
 
-		String pattern = "(\\w*\\d*-*.*_*~*)";
+		String pattern = "(\\w*\\d*-*_*~*)";
 		String errorMessage = key + "[length="+key.length()+"][reg="+key.matches(pattern)+"] is not as expected";
-		assertTrue(errorMessage,key.length() > 30 && key.matches(pattern));
+		assertTrue(errorMessage, key.length() > 30 && key.matches(pattern));
 		assertTrue(errorMessage, key.indexOf(" ") < 0);
 		
 		//clean up student as this is an orphan entity
