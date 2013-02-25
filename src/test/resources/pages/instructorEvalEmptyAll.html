@@ -3,8 +3,10 @@
 	<link href="/favicon.png" rel="shortcut icon" />
 	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 	<title>Teammates - Instructor</title>
-	<link type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
-	<link type="text/css" href="/stylesheets/instructorEval.css" rel="stylesheet" />
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/instructorEval.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/stylesheets/instructorEval-print.css" type="text/css" media="print">
 	
 	<script async=""  type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
@@ -64,7 +66,7 @@
 				<table id="instructorEvaluationManagement" class="inputTable">
 					<tbody><tr>
 						<td class="label bold">Course ID:</td>
-						<td><select tabindex="1" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the course for which the evaluation is to be created.')" id="courseid" name="courseid" style="width: 260px;">
+						<td><select tabindex="1" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the course for which the evaluation is to be created.')" id="courseid" name="courseid">
 							
 							</select></td>
 						<td class="label bold">Opening time:</td>
@@ -100,7 +102,7 @@
 					</tr>
 					<tr>
 						<td class="label bold">Evaluation name:</td>
-						<td><input type="text" tabindex="2" value="" maxlength="38" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the name of the evaluation e.g. Mid-term Evaluation 1.')" id="evaluationname" name="evaluationname" style="width: 260px;" placeholder="e.g. Midterm Evaluation"/></td>
+						<td><input type="text" tabindex="2" value="" maxlength="38" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the name of the evaluation e.g. Mid-term Evaluation 1.')" id="evaluationname" name="evaluationname" placeholder="e.g. Midterm Evaluation"/></td>
 						<td class="label bold">Closing time:</td>
 						<td><input type="text" tabindex="5" readonly="readonly" value="" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter deadline for the evaluation.')" onclick="cal.select(this,'deadline','dd/MM/yyyy')" id="deadline" name="deadline" style="width: 100px;" />
 									@
@@ -226,7 +228,7 @@
 						<input type="button" onclick="toggleSort(this,2)" id="button_sortname" class="buttonSortNone" />Evaluation</th>
 					<th class="centeralign color_white bold">Status</th>
 					<th class="centeralign color_white bold"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('Number of students submitted / Class size')">Response Rate</span></th>
-					<th class="centeralign color_white bold">Action(s)</th>
+					<th class="centeralign color_white bold no-print">Action(s)</th>
 				</tr>
 				
 					<tr>
