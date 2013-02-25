@@ -803,10 +803,6 @@ public class Common {
 		}
 	}
 
-	
-
-	//MD5 value of "teammates"
-
 	public static String encrypt(String value) {
 		try {
 			SecretKeySpec sks = new SecretKeySpec(
@@ -854,13 +850,6 @@ public class Common {
 		}
 		return b;
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 	@SuppressWarnings("unused")
 	private void ____PRIVATE_helper_methods_________________________________() {

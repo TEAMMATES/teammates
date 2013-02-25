@@ -218,11 +218,7 @@ public class Emails {
 	
 		//Try both way
 		String key;
-		try {
-			key = Common.encrypt(s.key);
-		} catch (Exception e) {
-			key = s.key;
-		}
+		key = Common.encrypt(s.key);
 		emailBody = emailBody.replace("${key}", key);
 	
 		String joinUrl = Common.TEAMMATES_APP_URL

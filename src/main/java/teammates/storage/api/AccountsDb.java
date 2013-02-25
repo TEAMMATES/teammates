@@ -586,13 +586,17 @@ public class AccountsDb {
 		String originalKey = registrationKey;
 
 		Student student = null;
-
+		
 		try {
+			//Default try to decrypt the input registrationKey and use as
+			//keys to retrieve student entity.
 			registrationKey = Common.decrypt(registrationKey);
 			student = getPM().getObjectById(Student.class,
 					KeyFactory.stringToKey(registrationKey));
 		} catch (Exception e) {
 			try {
+				//If an unencrypted key is provided, we can also retrieve
+				//that student.
 				student = getPM().getObjectById(Student.class,
 						KeyFactory.stringToKey(originalKey));
 			} catch (Exception e2) {
