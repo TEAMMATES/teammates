@@ -129,10 +129,11 @@ public class EmailsTest extends BaseTestCase {
 		String deadline = Common.formatTime(e.endTime);
 
 		String emailBody = email.getContent().toString();
+		String encryptedKey = Common.encrypt(s.key);
 
 		assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
 				+ "{*}" + joinUrl + "{*}" + joinUrl + "{*}" + c.name + "{*}"
-				+ Common.encrypt(s.key) + "{*}${status}{*}" + c.id + "{*}" + c.name + "{*}"
+				+ encryptedKey + "{*}${status}{*}" + c.id + "{*}" + c.name + "{*}"
 				+ e.name + "{*}" + deadline + "{*}" + submitUrl + "{*}"
 				+ submitUrl, emailBody);
 
@@ -156,7 +157,7 @@ public class EmailsTest extends BaseTestCase {
 
 		assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
 				+ "{*}" + joinUrl + "{*}" + joinUrl + "{*}" + c.name + "{*}"
-				+ Common.encrypt(s.key) + "{*}is now ready for viewing{*}" + c.id + "{*}"
+				+ encryptedKey + "{*}is now ready for viewing{*}" + c.id + "{*}"
 				+ c.name + "{*}" + e.name + "{*}" + reportUrl + "{*}"
 				+ reportUrl, emailBody);
 
@@ -171,7 +172,7 @@ public class EmailsTest extends BaseTestCase {
 
 		emailBody = email.getContent().toString();
 
-		assertTrue(!emailBody.contains(Common.encrypt(s.key)));
+		assertTrue(!emailBody.contains(encryptedKey));
 		assertContainsRegex("Hello " + s.name + "{*}" + c.id + "{*}" + c.name
 				+ "{*}" + e.name + "{*}" + deadline + "{*}" + submitUrl + "{*}"
 				+ submitUrl, emailBody);
@@ -185,7 +186,7 @@ public class EmailsTest extends BaseTestCase {
 
 		emailBody = email.getContent().toString();
 
-		assertTrue(!emailBody.contains(Common.encrypt(s.key)));
+		assertTrue(!emailBody.contains(encryptedKey));
 
 		assertContainsRegex("Hello " + s.name
 				+ "{*}is now ready for viewing{*}" + c.id + "{*}" + c.name

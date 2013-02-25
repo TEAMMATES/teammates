@@ -1,7 +1,6 @@
 package teammates.logic;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -221,7 +220,7 @@ public class Emails {
 		String key;
 		try {
 			key = Common.encrypt(s.key);
-		} catch (GeneralSecurityException e) {
+		} catch (Exception e) {
 			key = s.key;
 		}
 		emailBody = emailBody.replace("${key}", key);

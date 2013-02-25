@@ -5,10 +5,7 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.math.BigInteger;
 import java.security.GeneralSecurityException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,9 +24,6 @@ import javax.mail.Message;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.common.datatransfer.UserType;
-import teammates.logic.api.Logic;
-import teammates.storage.entity.Student;
 import teammates.ui.controller.Helper;
 
 import com.google.appengine.api.utils.SystemProperty;
@@ -812,23 +806,31 @@ public class Common {
 	
 
 	//MD5 value of "teammates"
-	public static String ENCRYPT_KEY = "5360b12f6a07af7be93437d215f72fca";
-	public static String encrypt(String value)
-			throws GeneralSecurityException {
-		SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(ENCRYPT_KEY), "AES");
-		Cipher cipher = Cipher.getInstance("AES");
-		cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
-		byte[] encrypted = cipher.doFinal(value.getBytes());
-		return byteArrayToHexString(encrypted);
+
+	public static String encrypt(String value) {
+		try {
+			SecretKeySpec sks = new SecretKeySpec(
+					hexStringToByteArray(BUILD_PROPERTIES.getEncyptionKey()), "AES");
+			Cipher cipher = Cipher.getInstance("AES");
+			cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
+			byte[] encrypted = cipher.doFinal(value.getBytes());
+			return byteArrayToHexString(encrypted);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
-	public static String decrypt(String message)
-			throws GeneralSecurityException {
-		SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(ENCRYPT_KEY), "AES");
-		Cipher cipher = Cipher.getInstance("AES");
-		cipher.init(Cipher.DECRYPT_MODE, sks);
-		byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
-		return new String(decrypted);
+	public static String decrypt(String message) {
+		try {
+			SecretKeySpec sks = new SecretKeySpec(
+					hexStringToByteArray(BUILD_PROPERTIES.getEncyptionKey()), "AES");
+			Cipher cipher = Cipher.getInstance("AES");
+			cipher.init(Cipher.DECRYPT_MODE, sks);
+			byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
+			return new String(decrypted);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private static String byteArrayToHexString(byte[] b) {

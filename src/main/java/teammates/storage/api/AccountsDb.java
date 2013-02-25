@@ -1,6 +1,5 @@
 package teammates.storage.api;
 
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -19,12 +18,10 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.JoinCourseException;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.Coordinator;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Text;
 
 /**
  * Manager for handling basic CRUD Operations only
@@ -586,25 +583,26 @@ public class AccountsDb {
 			throws JoinCourseException {
 
 		registrationKey = registrationKey.trim();
-		
-		try {
-			registrationKey = Common.decrypt(registrationKey);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-		
-		googleID = googleID.trim();
+		String originalKey = registrationKey;
 
 		Student student = null;
 
 		try {
+			registrationKey = Common.decrypt(registrationKey);
 			student = getPM().getObjectById(Student.class,
 					KeyFactory.stringToKey(registrationKey));
 		} catch (Exception e) {
-			// No Student entry was found with this key
-			throw new JoinCourseException(Common.ERRORCODE_INVALID_KEY,
-					"You have entered an invalid key: " + registrationKey);
+			try {
+				student = getPM().getObjectById(Student.class,
+						KeyFactory.stringToKey(originalKey));
+			} catch (Exception e2) {
+				// No Student entry was found with this key
+				throw new JoinCourseException(Common.ERRORCODE_INVALID_KEY,
+						"You have entered an invalid key: " + registrationKey);
+			}
 		}
+		
+		googleID = googleID.trim();
 
 		// If ID field is not empty -> check if this is user's googleId?
 		if (student.getID() != null && !student.getID().equals("")) {

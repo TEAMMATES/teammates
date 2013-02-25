@@ -11,6 +11,7 @@ import static teammates.logic.TeamEvalResult.NSU;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -2152,6 +2153,15 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(key, reverseKey);
 		assertEquals("Student", KeyFactory.stringToKey(longKey).getKind());
 	}
+	
+	@Test
+	public void testEncyption() {
+		String msg = "Test decryption";
+		String decrptedMsg;
+		
+		decrptedMsg = Common.decrypt(Common.encrypt(msg));
+		assertEquals(msg, decrptedMsg);
+	}
 
 	@Test
 	public void testJoinCourse() throws Exception {
@@ -2202,11 +2212,32 @@ public class LogicTest extends BaseTestCase {
 		helper.setEnvEmail(googleId);
 		helper.setEnvAuthDomain("gmail.com");
 		
-		key = Common.encrypt(key);
-		
+		//Test if unencrypted key used
 		logic.joinCourse(googleId, key);
 		assertEquals(googleId,
 				logic.getStudent(student.course, student.email).id);
+		
+		
+		
+		// make a student 'unregistered'
+		student = dataBundle.students.get("student1InCourse1");
+		googleId = "student1InCourse1";
+		key = logic.getKeyForStudent(student.course, student.email);
+		student.id = "";
+		logic.editStudent(student.email, student);
+		assertEquals("", logic.getStudent(student.course, student.email).id);
+
+		helper.setEnvIsLoggedIn(true);
+		helper.setEnvEmail(googleId);
+		helper.setEnvAuthDomain("gmail.com");
+		
+		//Test for encrypted key used
+		key = Common.encrypt(key);
+		logic.joinCourse(googleId, key);
+		assertEquals(googleId,
+				logic.getStudent(student.course, student.email).id);
+		
+		
 		
 		// Check that an account with the student's google ID was created
 		AccountData studentAccount = new AccountData();
