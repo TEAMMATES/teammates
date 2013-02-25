@@ -45,7 +45,7 @@ public class SubmissionsDbTest extends BaseTestCase {
 		s.reviewer = "student2@gmail.com";
 		submissionsDb.createSubmission(s);
 		
-		// SUCCESS
+		// SUCCESS even if keyword 'group' appears in the middle of the name (see Issue 380) 
 		s = new SubmissionData();
 		s.course = "Computing102";
 		s.evaluation = "text group text";
