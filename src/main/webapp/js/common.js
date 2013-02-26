@@ -316,7 +316,7 @@ function checkEvaluationForm() {
  */
 function sanitizeGoogleId(googleId) {
 	googleId = googleId.trim();
-	var loc = googleId.indexOf("@gmail.com");
+	var loc = googleId.toLowerCase().indexOf("@gmail.com");
 	if (loc > -1) {
 		googleId = googleId.substring(0, loc);   
 	}
@@ -331,17 +331,19 @@ function sanitizeGoogleId(googleId) {
  * @return {Boolean}
  */
 function isValidGoogleId(googleId) {
-	
+	var isValidGoogleId = false;
 	googleId = googleId.trim();
 	
 	// match() retrieve the matches when matching a string against a regular expression.
 	var matches = googleId.match(/^([\w-]+(?:\.[\w-]+)*)/);
 	
 	if (matches != null && matches[0] == googleId) {
-		return true;
+		isValidGoogleId = true;
 	} else {
-		return false;
+		isValidGoogleId = false;
 	}
+	// email addresses are valid google IDs too
+	return isValidGoogleId || isEmailValid(googleId);
 }
 
 /**

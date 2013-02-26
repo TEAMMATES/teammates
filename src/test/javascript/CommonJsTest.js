@@ -44,7 +44,8 @@ test('checkEvaluationForm()', function(){
 });
 
 test('sanitizeGoogleId(googleId)', function() {
-	equal(sanitizeGoogleId("test  @gmail.com  "), "test", "test - valid");
+	equal(sanitizeGoogleId("test  @Gmail.COM  "), "test", "test - valid");
+	equal(sanitizeGoogleId("  user@hotmail.com  "), "user@hotmail.com", "user@hotmail.com - valid");
 });
 
 test('isValidGoogleId(googleId)', function() {

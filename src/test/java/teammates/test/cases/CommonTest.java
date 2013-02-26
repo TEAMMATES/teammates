@@ -35,14 +35,18 @@ public class CommonTest extends BaseTestCase {
 	}
 	
 	@Test
+	public void testSanitizeGoogleId() {
+
+		assertEquals("big-small.20_12", Common.sanitizeGoogleId(" big-small.20_12 @Gmail.COM \t\n"));
+		assertEquals("user@hotmail.com", Common.sanitizeGoogleId(" user@hotmail.com \t\n"));
+	}
+	
+	@Test
 	public void testIsValidGoogleId() {
 
-		assertEquals(true, Common.isValidGoogleId("hello"));
-		assertEquals(true, Common.isValidGoogleId("full.stop"));
-		assertEquals(true, Common.isValidGoogleId("dash-01"));
-		assertEquals(true, Common.isValidGoogleId("underscore_01"));
-		assertEquals(true, Common.isValidGoogleId("1.2-3_4"));
-		assertEquals(false, Common.isValidGoogleId(" hello "));
+		assertEquals(true, Common.isValidGoogleId("Hello.12-3_4"));
+		assertEquals(true, Common.isValidGoogleId("user@hotmail.com"));
+		assertEquals(false, Common.isValidGoogleId("/wrong!user\\"));
 		assertEquals(false, Common.isValidGoogleId("\t\n\t"));
 	}
 

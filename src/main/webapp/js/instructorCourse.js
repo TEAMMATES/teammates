@@ -152,7 +152,7 @@ function isCourseInstructorListValid(input) {
 				return COURSE_STATUS_INSTRUCTOR_LIST_FIELDS_MISSING;
 			} else if(fieldsLength>3){
 				return COURSE_STATUS_INSTRUCTOR_LIST_FIELDS_EXTRA;
-			} else if (!isValidGoogleId(sanitizeGoogleId(fields[0].trim()))) {
+			} else if (!isValidGoogleId(sanitizeGoogleId(fields[0]))) {
 				return COURSE_STATUS_INSTRUCTOR_LIST_GOOGLEID_INVALID;
 			} else if (!isNameValid(fields[1].trim())) {
 				return COURSE_STATUS_INSTRUCTOR_LIST_NAME_INVALID;

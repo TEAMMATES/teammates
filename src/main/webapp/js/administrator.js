@@ -28,7 +28,7 @@ function addInstructor(googleID, name, email) {
 }
 
 function verifyInstructorData() {
-	var googleID = $('[name="' + INSTRUCTOR_GOOGLEID + '"]').val().trim();
+	var googleID = $('[name="' + INSTRUCTOR_GOOGLEID + '"]').val();
 	googleID = sanitizeGoogleId(googleID);
 	
 	var name = $('[name="' + INSTRUCTOR_NAME + '"]').val().trim();

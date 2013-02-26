@@ -58,7 +58,7 @@ public class InstructorData extends BaseData {
 			throw new InvalidParametersException(ERROR_INFORMATION_INCORRECT);
 		}
 		
-		this.googleId = sanitizeGoogleId(parts[0].trim());
+		this.googleId = Common.sanitizeGoogleId(parts[0]);
 		Assumption.assertEquals(true, Common.isValidGoogleId(googleId));
 
 		this.courseId = courseId;
@@ -90,14 +90,5 @@ public class InstructorData extends BaseData {
 		}
 
 		return errorMessage;
-	}
-	
-	private String sanitizeGoogleId(String googleId) {
-		googleId = googleId.trim();
-		int loc = googleId.indexOf("@gmail.com");
-		if (loc > -1) {
-			googleId = googleId.substring(0, loc);
-		}
-		return googleId.trim();
 	}
 }

@@ -493,9 +493,21 @@ public class Common {
 				// check contains period?
 	}
 
-	// GoogleID allow only alphanumeric, full stops, dashes and underscores
+	public static String sanitizeGoogleId(String googleId) {
+		googleId = googleId.trim();
+		System.out.println(googleId);
+		int loc = googleId.toLowerCase().indexOf("@gmail.com");
+		if (loc > -1) {
+			googleId = googleId.substring(0, loc);
+		}
+		return googleId.trim();
+	}
+
+	// GoogleID allow only alphanumeric, full stops, dashes, underscores or valid email
 	public static boolean isValidGoogleId(String googleId) {
-		return googleId.matches("^([\\w-]+(?:\\.[\\w-]+)*)");
+		boolean isValidGoogleId = googleId.matches("^([\\w-]+(?:\\.[\\w-]+)*)");
+		boolean isValidEmail = isValidEmail(googleId);
+		return isValidGoogleId || isValidEmail;
 	}
 
 	// Name can have spaces
