@@ -17,10 +17,10 @@ public class InstructorCourseStudentDetailsServlet extends ActionServlet<Instruc
 	}
 
 	@Override
-	protected void doAction(HttpServletRequest req, InstructorCourseStudentDetailsHelper helper) throws EntityDoesNotExistException {
+	protected void doAction(HttpServletRequest req, InstructorCourseStudentDetailsHelper helper) throws EntityDoesNotExistException{
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String studentEmail = req.getParameter(Common.PARAM_STUDENT_EMAIL);
-
+		
 		helper.student = helper.server.getStudent(courseID, studentEmail);
 		helper.regKey = helper.server.getKeyForStudent(courseID, studentEmail);
 	}
