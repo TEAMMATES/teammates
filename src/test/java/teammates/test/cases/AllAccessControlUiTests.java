@@ -3,8 +3,6 @@ package teammates.test.cases;
 import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
