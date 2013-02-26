@@ -86,7 +86,7 @@
 									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_NAME%>')"
 									onmouseout="hideddrivetip()" maxlength =<%=EvaluationData.EVALUATION_NAME_MAX_LENGTH%>
 									value="<%if(helper.newEvaluationToBeCreated!=null) out.print(InstructorEvalHelper.escapeForHTML(helper.newEvaluationToBeCreated.name));%>"
-									tabindex="2" placeholder="e.g. Mid-term Evaluation 1"></td>
+									tabindex="2" placeholder="e.g. Midterm Evaluation"></td>
 						<td class="label bold" >Closing time:</td>
 						<td><input style="width: 100px;" type="text"
 									name="<%=Common.PARAM_EVALUATION_DEADLINE%>" id="<%=Common.PARAM_EVALUATION_DEADLINE%>"

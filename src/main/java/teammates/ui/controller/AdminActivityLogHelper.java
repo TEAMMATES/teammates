@@ -144,95 +144,98 @@ public class AdminActivityLogHelper extends Helper{
 		String output = "";
 		
 		//Formatting is based on the servlet
-		
-		//Add New Course Action
-		if (servletName.equals(Common.INSTRUCTOR_COURSE_SERVLET)){
-			output = formatInstructorCourseServletData(parameterTable);
-		}
-		
-		//Enroll Students Action
-		else if (servletName.equals(Common.INSTRUCTOR_COURSE_ENROLL_SERVLET)){
-			output = formatInstructorCourseEnrollServletData(parameterTable);
-		}		
-		
-		//Edit Existing Course Action
-		else if (servletName.equals(Common.INSTRUCTOR_COURSE_EDIT_SERVLET)){
-			output = formatInstructorCourseEditServletData(parameterTable);
-		}
-		
-		//Delete Existing Course Action
-		else if (servletName.equals(Common.INSTRUCTOR_COURSE_DELETE_SERVLET)){
-			output = formatInstructorCourseDeleteServletData(parameterTable);
-		}
-		
-		//Edit Student Details Action
-		else if (servletName.equals(Common.INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET)){
-			output = formatInstructorCourseStudentEditServletData(parameterTable);
-		}
-		
-		//Delete Student Action
-		else if (servletName.equals(Common.INSTRUCTOR_COURSE_STUDENT_DELETE_SERVLET)){
-			output = formatInstructorCourseStudentDeleteServletData(parameterTable);
-		}
-		
-		//Send Registration Action
-		else if (servletName.equals(Common.INSTRUCTOR_COURSE_REMIND_SERVLET)){
-			output = formatInstructorCourseRemindServletData(parameterTable);
-		}
-		
-		//Create New Evaluation Action
-		else if (servletName.equals(Common.INSTRUCTOR_EVAL_SERVLET)){
-			output = formatInstructorEvalServletData(parameterTable);
-		}		
-		
-		//Edit Evaluation Info Action
-		else if (servletName.equals(Common.INSTRUCTOR_EVAL_EDIT_SERVLET)){
-			output = formatInstructorEvalEditServletData(parameterTable);
-		}
-		
-		//Delete Evaluation Action
-		else if (servletName.equals(Common.INSTRUCTOR_EVAL_DELETE_SERVLET)){
-			output = formatInstructorEvalDeleteServletData(parameterTable);
-		}
-		
-		//Remind Students Action
-		else if (servletName.equals(Common.INSTRUCTOR_EVAL_REMIND_SERVLET)){
-			output = formatInstructorEvalRemindServletData(parameterTable);
-		}
-		
-		//Publish Evaluation Action
-		else if (servletName.equals(Common.INSTRUCTOR_EVAL_PUBLISH_SERVLET)){
-			output = formatInstructorEvalPublishServletData(parameterTable);
-		}
-		
-		//Unpublish Evaluation Action
-		else if (servletName.equals(Common.INSTRUCTOR_EVAL_UNPUBLISH_SERVLET)){
-			output = formatInstructorEvalUnpublishServletData(parameterTable);
-		}
-		
-		//Instructor Edit Submission Action
-		else if (servletName.equals(Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET)){
-			output = formatInstructorEvalSubmissionEditHandlerServletData(parameterTable);
-		}
-		
-		//Student Edit Submission Action
-		else if (servletName.equals(Common.STUDENT_EVAL_EDIT_HANDLER_SERVLET)){
-			output = formatStudentEvalEditHandlerServletData(parameterTable);
-		}
-		
-		//Evaluation Closing Reminders Action
-		else if (servletName.equals(Common.EVALUATION_CLOSING_REMINDERS_SERVLET)){
-			output = formatEvaluationClosingRemindersServletData(parameterTable);
-		}
-		
-		//Evaluation Opening Reminders Action
-		else if (servletName.equals(Common.EVALUATION_OPENING_REMINDERS_SERVLET)){
-			output = formatEvaluationOpeningRemindersServletData(parameterTable);
-		}
-		
-		//Student Course Join Action
-		else if (servletName.equals(Common.STUDENT_COURSE_JOIN_SERVLET)){
-			output = formatStudentCourseJoinServletData(parameterTable);
+		try{
+			//Add New Course Action
+			if (servletName.equals(Common.INSTRUCTOR_COURSE_SERVLET)){
+				output = formatInstructorCourseServletData(parameterTable);
+			}
+			
+			//Enroll Students Action
+			else if (servletName.equals(Common.INSTRUCTOR_COURSE_ENROLL_SERVLET)){
+				output = formatInstructorCourseEnrollServletData(parameterTable);
+			}		
+			
+			//Edit Existing Course Action
+			else if (servletName.equals(Common.INSTRUCTOR_COURSE_EDIT_SERVLET)){
+				output = formatInstructorCourseEditServletData(parameterTable);
+			}
+			
+			//Delete Existing Course Action
+			else if (servletName.equals(Common.INSTRUCTOR_COURSE_DELETE_SERVLET)){
+				output = formatInstructorCourseDeleteServletData(parameterTable);
+			}
+			
+			//Edit Student Details Action
+			else if (servletName.equals(Common.INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET)){
+				output = formatInstructorCourseStudentEditServletData(parameterTable);
+			}
+			
+			//Delete Student Action
+			else if (servletName.equals(Common.INSTRUCTOR_COURSE_STUDENT_DELETE_SERVLET)){
+				output = formatInstructorCourseStudentDeleteServletData(parameterTable);
+			}
+			
+			//Send Registration Action
+			else if (servletName.equals(Common.INSTRUCTOR_COURSE_REMIND_SERVLET)){
+				output = formatInstructorCourseRemindServletData(parameterTable);
+			}
+			
+			//Create New Evaluation Action
+			else if (servletName.equals(Common.INSTRUCTOR_EVAL_SERVLET)){
+				output = formatInstructorEvalServletData(parameterTable);
+			}		
+			
+			//Edit Evaluation Info Action
+			else if (servletName.equals(Common.INSTRUCTOR_EVAL_EDIT_SERVLET)){
+				output = formatInstructorEvalEditServletData(parameterTable);
+			}
+			
+			//Delete Evaluation Action
+			else if (servletName.equals(Common.INSTRUCTOR_EVAL_DELETE_SERVLET)){
+				output = formatInstructorEvalDeleteServletData(parameterTable);
+			}
+			
+			//Remind Students Action
+			else if (servletName.equals(Common.INSTRUCTOR_EVAL_REMIND_SERVLET)){
+				output = formatInstructorEvalRemindServletData(parameterTable);
+			}
+			
+			//Publish Evaluation Action
+			else if (servletName.equals(Common.INSTRUCTOR_EVAL_PUBLISH_SERVLET)){
+				output = formatInstructorEvalPublishServletData(parameterTable);
+			}
+			
+			//Unpublish Evaluation Action
+			else if (servletName.equals(Common.INSTRUCTOR_EVAL_UNPUBLISH_SERVLET)){
+				output = formatInstructorEvalUnpublishServletData(parameterTable);
+			}
+			
+			//Instructor Edit Submission Action
+			else if (servletName.equals(Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET)){
+				output = formatInstructorEvalSubmissionEditHandlerServletData(parameterTable);
+			}
+			
+			//Student Edit Submission Action
+			else if (servletName.equals(Common.STUDENT_EVAL_EDIT_HANDLER_SERVLET)){
+				output = formatStudentEvalEditHandlerServletData(parameterTable);
+			}
+			
+			//Evaluation Closing Reminders Action
+			else if (servletName.equals(Common.EVALUATION_CLOSING_REMINDERS_SERVLET)){
+				output = formatEvaluationClosingRemindersServletData(parameterTable);
+			}
+			
+			//Evaluation Opening Reminders Action
+			else if (servletName.equals(Common.EVALUATION_OPENING_REMINDERS_SERVLET)){
+				output = formatEvaluationOpeningRemindersServletData(parameterTable);
+			}
+			
+			//Student Course Join Action
+			else if (servletName.equals(Common.STUDENT_COURSE_JOIN_SERVLET)){
+				output = formatStudentCourseJoinServletData(parameterTable);
+			}
+		} catch (Exception e){
+			output = "Error Processing Parameters<br>" + servletName + ": " + requestParams;
 		}
 		return output;
 	}

@@ -134,33 +134,48 @@ public class StudentHomeHelper extends Helper {
 	 * @param idx
 	 * @return
 	 */
-	public String getStudentEvaluationActions(EvaluationData eval, int idx){
+	public String getStudentEvaluationActions(EvaluationData eval, int idx) {
 		String studentStatus = getStudentStatusForEval(eval);
-		if(studentStatus.equals(Common.STUDENT_EVALUATION_STATUS_PENDING)){
-			return "<a class=\"color_black\" id=\"submitEvaluation" + idx + "\" " +
-					"href=\"" + getStudentEvaluationSubmissionEditLink(eval.course,eval.name) + "\" " +
-					"onmouseover=\"ddrivetip('" + Common.HOVER_MESSAGE_STUDENT_EVALUATION_SUBMIT + "')\" " +
-					"onmouseout=\"hideddrivetip()\">Submit</a>";
+		
+		if (studentStatus.equals(Common.STUDENT_EVALUATION_STATUS_PENDING)) {
+			return "<a class=\"color_black\" id=\"submitEvaluation"
+					+ idx
+					+ "\" "
+					+ "href=\""
+					+ getStudentEvaluationSubmissionEditLink(eval.course,
+							eval.name) + "\" " + "onmouseover=\"ddrivetip('"
+					+ Common.HOVER_MESSAGE_STUDENT_EVALUATION_SUBMIT + "')\" "
+					+ "onmouseout=\"hideddrivetip()\">Submit</a>";
 		}
-		// CLOSED: No link is available
+		
+		
 		boolean hasView = false;
 		boolean hasEdit = false;
-		if(studentStatus.equals(Common.STUDENT_EVALUATION_STATUS_PUBLISHED)){
+		if (studentStatus.equals(Common.STUDENT_EVALUATION_STATUS_PUBLISHED)) {
 			hasView = true;
-		} else if(studentStatus.equals(Common.STUDENT_EVALUATION_STATUS_SUBMITTED)){
+		} else if (studentStatus
+				.equals(Common.STUDENT_EVALUATION_STATUS_SUBMITTED)) {
+			hasEdit = true;
+		} else if (studentStatus
+				.equals(Common.STUDENT_EVALUATION_STATUS_CLOSED)) {
 			hasEdit = true;
 		}
-		String result = "<a class=\"color_black\" href=\"" + getStudentEvaluationResultsLink(eval.course,eval.name) + "\" " +
-						"name=\"viewEvaluationResults" + idx + "\" " +
-						" id=\"viewEvaluationResults" + idx + "\" " +
-						"onmouseover=\"ddrivetip('" + Common.HOVER_MESSAGE_EVALUATION_RESULTS + "')\" " +
-						"onmouseout=\"hideddrivetip()\" " +
-						(hasView ? "" : DISABLED) + ">" +
-						"View Results</a>";
-		result += "<a class=\"color_black\" href=\"" + getStudentEvaluationSubmissionEditLink(eval.course,eval.name) + "\" " +
-				"name=\"editEvaluationSubmission" + idx + "\" id=\"editEvaluationSubmission" + idx + "\" " +
-				"onmouseover=\"ddrivetip('" + Common.HOVER_MESSAGE_EVALUATION_EDIT_SUBMISSION + "')\" onmouseout=\"hideddrivetip()\" " +
-				(hasEdit ? "" : DISABLED) + ">Edit</a>";
+		// @formatter:off
+		String result = "<a class=\"color_black\" href=\""
+				+ getStudentEvaluationResultsLink(eval.course, eval.name)
+				+ "\" " + "name=\"viewEvaluationResults"
+				+ idx + "\" " + " id=\"viewEvaluationResults" + idx + "\" "
+				+ "onmouseover=\"ddrivetip('" + Common.HOVER_MESSAGE_EVALUATION_RESULTS
+				+ "')\" " + "onmouseout=\"hideddrivetip()\" " + (hasView ? "" : DISABLED)
+				+ ">" + "View Results</a>" + "<a class=\"color_black\" href=\""
+				+ getStudentEvaluationSubmissionEditLink(eval.course, eval.name)
+				+ "\" " + "name=\"editEvaluationSubmission" + idx
+				+ "\" id=\"editEvaluationSubmission" + idx + "\" "
+				+ "onmouseover=\"ddrivetip('"
+				+ Common.HOVER_MESSAGE_EVALUATION_EDIT_SUBMISSION
+				+ "')\" onmouseout=\"hideddrivetip()\" "
+				+ (hasEdit ? "" : DISABLED) + ">Edit/View Submission</a>";
+		// @formatter:off
 		return result;
 	}
 }
