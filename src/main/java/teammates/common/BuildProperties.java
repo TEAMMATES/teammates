@@ -80,6 +80,10 @@ public class BuildProperties {
 		return props.getProperty("app.backdoor.key");
 	}
 	
+	public String getEncyptionKey(){
+		return props.getProperty("app.encryption.key");
+	}
+	
 	public int getAppPersistenceCheckduration() {
 		return Integer.valueOf(props.getProperty("app.persistence.checkduration")).intValue();
 	}

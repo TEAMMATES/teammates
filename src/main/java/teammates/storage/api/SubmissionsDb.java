@@ -207,12 +207,12 @@ public class SubmissionsDb {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
 
 		String query = "select from " + Submission.class.getName()
-				+ " where courseID == '" + courseId
-				+ "' && evaluationName == '" + evaluationName + "'";
+				+ " where courseID == courseIDParam && evaluationName == evalNameParam"
+				+ " parameters String courseIDParam, String evalNameParam";
 
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
-				query).execute();
+				query).execute(courseId, evaluationName);
 		List<SubmissionData> submissionDataList = new ArrayList<SubmissionData>();
 
 		for (Submission s : submissionList) {
@@ -249,13 +249,14 @@ public class SubmissionsDb {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, revieweeEmail);
 		
 		String query = "select from " + Submission.class.getName()
-				+ " where courseID == '" + courseId
-				+ "' && evaluationName == '" + evaluationName
-				+ "' && toStudent == '" + revieweeEmail + "'";
+				+ " where courseID == courseIDParam"
+				+ " && evaluationName == evalNameParam"
+				+ " && toStudent == toStudentParam"
+				+ " parameters String courseIDParam, String evalNameParam, String toStudentParam";
 
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
-				query).execute();
+				query).execute(courseId, evaluationName, revieweeEmail);
 
 		List<SubmissionData> submissionDataList = new ArrayList<SubmissionData>();
 
@@ -289,14 +290,15 @@ public class SubmissionsDb {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, reviewerEmail);
 
 		String query = "select from " + Submission.class.getName()
-				+ " where courseID == '" + courseId
-				+ "' && evaluationName == '" + evaluationName
-				+ "' && fromStudent == '" + reviewerEmail + "'";
+				+ " where courseID == courseIDParam"
+				+ " && evaluationName == evalNameParam"
+				+ " && fromStudent == fromStudentParam"
+				+ " parameters String courseIDParam, String evalNameParam, String fromStudentParam";
 
 		log.info(query);
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
-				query).execute();
+				query).execute(courseId, evaluationName, reviewerEmail);
 
 		List<SubmissionData> submissionDataList = new ArrayList<SubmissionData>();
 
@@ -441,12 +443,15 @@ public class SubmissionsDb {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
 		
 		String query = "select from " + Submission.class.getName()
-				+ " where courseID == '" + courseId
-				+ "' && evaluationName == '" + evaluationName + "'";
+				+ " where courseID == courseIDParam"
+				+ " && evaluationName == evalNameParam"
+				+ " parameters String courseIDParam, String evalNameParam";
+		
+		
 
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
-				query).execute();
+				query).execute(courseId, evaluationName);
 
 		getPM().deletePersistentAll(submissionList);
 		getPM().flush();
@@ -515,13 +520,14 @@ public class SubmissionsDb {
 		// Google App Engine prevents OR filter on multiple properties
 		// Only alternative -> split the query. (zzzz)
 		String query = "select from " + Submission.class.getName()
-				+ " where courseID == '" + courseId
-				+ "' && evaluationName == '" + evaluationName
-				+ "' && toStudent == '" + studentEmail + "'";
+					+ " where courseID == courseIDParam"
+					+ " && evaluationName == evalNameParam"
+					+ " && toStudent == toStudentParam"
+					+ " parameters String courseIDParam, String evalNameParam, String toStudentParam";
 
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionListTo = (List<Submission>) getPM()
-				.newQuery(query).execute();
+				.newQuery(query).execute(courseId, evaluationName, studentEmail);
 
 		for (Submission s : submissionListTo) {
 			if (s.getTeamName().equals(originalTeam)) {
@@ -535,13 +541,14 @@ public class SubmissionsDb {
 		// Merging the list will probably be less efficient
 
 		query = "select from " + Submission.class.getName()
-				+ " where courseID == '" + courseId
-				+ "' && evaluationName == '" + evaluationName
-				+ "' && fromStudent == '" + studentEmail + "'";
+				+ " where courseID == courseIDParam"
+				+ " && evaluationName == evalNameParam"
+				+ " && fromStudent == fromStudentParam"
+				+ " parameters String courseIDParam, String evalNameParam, String fromStudentParam";
 
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionListFrom = (List<Submission>) getPM()
-				.newQuery(query).execute();
+				.newQuery(query).execute(courseId, evaluationName, studentEmail);
 
 		for (Submission s : submissionListFrom) {
 			if (s.getTeamName().equals(originalTeam)) {
@@ -583,14 +590,20 @@ public class SubmissionsDb {
 			String evaluationName, String toStudent, String fromStudent) {
 
 		String query = "select from " + Submission.class.getName()
-				+ " where courseID == '" + courseId + "'"
-				+ "&& evaluationName == '" + evaluationName + "'"
-				+ "&& fromStudent == '" + fromStudent + "'"
-				+ "&& toStudent == '" + toStudent + "'";
+				+ " where courseID == courseIDParam"
+				+ " && evaluationName == evalNameParam"
+				+ " && fromStudent == fromStudentParam"
+				+ " && toStudent == toStudentParam"
+				+ " parameters String courseIDParam, String evalNameParam, String fromStudentParam, String toStudentParam";
+		
+		// To pass in more than 3 parameters, an object array is needed. 
+		Object[] parameters = {courseId, evaluationName, fromStudent, toStudent};
 
+		// jdo.Query.execute() method only support up to 3 parameter.
+		// executeWithArray() is used when more than 3 parameters are used in a query.
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
-				query).execute();
+				query).executeWithArray(parameters);
 
 		if (submissionList.isEmpty()
 				|| JDOHelper.isDeleted(submissionList.get(0))) {
