@@ -59,6 +59,7 @@ public class StudentCourseDetailsPageUiTest extends BaseTestCase {
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.courses.get("SCDetailsUiT.CS2104").id);
 		link = Common.addParamToUrl(link, Common.PARAM_USER_ID , scn.students.get("alice.tmms").id);
 		bi.goToUrl(link);
+		bi.printCurrentPage("C:Users'\'Shawn Teo'\'Desktop");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentCourseDetailsWithTeammatesHTML.html");
 
 		______TS("without teammates"); //TODO: to be removed if team is compulsory
