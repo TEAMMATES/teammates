@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -79,7 +80,7 @@ public class EmailsTest extends BaseTestCase {
 
 	@Test
 	public void testGenerateEvaluationEmailBase() throws IOException,
-			MessagingException {
+			MessagingException, GeneralSecurityException {
 
 		EvaluationData e = new EvaluationData();
 		e.name = "Evaluation Name";
@@ -128,10 +129,11 @@ public class EmailsTest extends BaseTestCase {
 		String deadline = Common.formatTime(e.endTime);
 
 		String emailBody = email.getContent().toString();
+		String encryptedKey = Common.encrypt(s.key);
 
 		assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
 				+ "{*}" + joinUrl + "{*}" + joinUrl + "{*}" + c.name + "{*}"
-				+ s.key + "{*}${status}{*}" + c.id + "{*}" + c.name + "{*}"
+				+ encryptedKey + "{*}${status}{*}" + c.id + "{*}" + c.name + "{*}"
 				+ e.name + "{*}" + deadline + "{*}" + submitUrl + "{*}"
 				+ submitUrl, emailBody);
 
@@ -155,7 +157,7 @@ public class EmailsTest extends BaseTestCase {
 
 		assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
 				+ "{*}" + joinUrl + "{*}" + joinUrl + "{*}" + c.name + "{*}"
-				+ s.key + "{*}is now ready for viewing{*}" + c.id + "{*}"
+				+ encryptedKey + "{*}is now ready for viewing{*}" + c.id + "{*}"
 				+ c.name + "{*}" + e.name + "{*}" + reportUrl + "{*}"
 				+ reportUrl, emailBody);
 
@@ -170,7 +172,7 @@ public class EmailsTest extends BaseTestCase {
 
 		emailBody = email.getContent().toString();
 
-		assertTrue(!emailBody.contains(s.key));
+		assertTrue(!emailBody.contains(encryptedKey));
 		assertContainsRegex("Hello " + s.name + "{*}" + c.id + "{*}" + c.name
 				+ "{*}" + e.name + "{*}" + deadline + "{*}" + submitUrl + "{*}"
 				+ submitUrl, emailBody);
@@ -184,7 +186,7 @@ public class EmailsTest extends BaseTestCase {
 
 		emailBody = email.getContent().toString();
 
-		assertTrue(!emailBody.contains(s.key));
+		assertTrue(!emailBody.contains(encryptedKey));
 
 		assertContainsRegex("Hello " + s.name
 				+ "{*}is now ready for viewing{*}" + c.id + "{*}" + c.name
@@ -197,7 +199,7 @@ public class EmailsTest extends BaseTestCase {
 
 	@Test
 	public void testGenerateStudentCourseJoinEmail() throws IOException,
-			MessagingException {
+			MessagingException, GeneralSecurityException {
 
 		CourseData c = new CourseData();
 		c.id = "course-id";
@@ -234,7 +236,7 @@ public class EmailsTest extends BaseTestCase {
 
 		assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
 				+ "{*}" + joinUrl + "{*}" + joinUrl + "{*}" + c.name + "{*}"
-				+ s.key, emailBody);
+				+ Common.encrypt(s.key), emailBody);
 		
 		assertTrue(!emailBody.contains("$"));
 
