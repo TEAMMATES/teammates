@@ -55,7 +55,7 @@
 		 					InstructorData instructor = helper.instructors.get(i);
 		 					String instructorInfo = instructor.name + " (" + instructor.email + ")";
 		 			%>
-		 				<%=instructorInfo %><br><br>
+		 				<a href = "mailto:<%=instructor.email%>"><%=instructorInfo %></a><br><br>
 		 			<%
 		 				}
 		 			%>
@@ -90,7 +90,7 @@
 										<%
 											if(!student.email.equals(helper.student.email)) {
 										%>
-											<li><%=StudentCourseDetailsHelper.escapeForHTML(student.name)%></li>
+											<li><a href = "mailto:<%=student.email%>"><%=StudentCourseDetailsHelper.escapeForHTML(student.name)%></a></li>
 										<%	} %>
 									<%	} %>
 		 					</ul>
