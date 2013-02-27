@@ -77,13 +77,11 @@ public class BrowserInstance {
 	public final By STUDENT_LOGIN_BUTTON = By.name(Common.PARAM_LOGIN_STUDENT);
 
 	// Tabs
-	//Compound class use due to triangle, cannot use class name anymore, have to use cssSelector - Allan
-	//http://www.seleniumwiki.com/webdriver/java/solving-compound-class-names-are-not-supported-error/
-	public By homeTab = By.cssSelector("a.nav.home");
-	public By courseTab = By.cssSelector("a.nav.courses");
-	public By evaluationTab = By.cssSelector("a.nav.evaluations");
-	public By helpTab = By.cssSelector("a.nav.help");
-	public By logoutTab = By.cssSelector("a.nav.logout");
+	public By homeTab = By.className("t_home");
+	public By courseTab = By.className("t_courses");
+	public By evaluationTab = By.className("t_evaluations");
+	public By helpTab = By.className("t_help");
+	public By logoutTab = By.className("t_logout");
 
 	// Table elements
 	public By pageTitle = By.xpath("//div[@id='headerOperation']//h1");
@@ -1645,8 +1643,7 @@ public class BrowserInstance {
 	 */
 	public void deleteAllStudents() {
 		System.out.println("delete all students");
-
-		driver.findElement(By.cssSelector("a.nav.courses")).click();
+		driver.findElement(By.className("t_courses")).click();
 		clickWithWait(By.className("t_course_view"));
 		waitForElementPresent(By.className("dataTable tr"));
 		WebElement dataform = driver.findElement(By.className("dataTable"));

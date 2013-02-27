@@ -108,31 +108,14 @@ h2 {
 }
 
 #navbar li {
-   color: white;
    float: left;
    list-style-type: none;
    padding-left: 20px;
    padding-right: 20px;
 }
 
-#navbar li a {
-	color: white;
-	font-weight: bold;
-	text-decoration: none;
-}
-
-#navbar li a:hover {
-	color: white;
-	font-weight: bold;
-	text-decoration: underline;
-}
-
-.current {
-   height: 78px;
-   background-image:url('../images/triangle.gif');
-   background-repeat:no-repeat;
-   background-position:center;
-   overflow: hidden;
+#current {
+   color: #00FF00;
 }
 
 .bold {
