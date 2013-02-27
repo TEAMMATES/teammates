@@ -3,8 +3,10 @@
     <link href="/favicon.png" rel="shortcut icon" />
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
     <title>Teammates - Instructor</title>
-    <link type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
-    <link type="text/css" href="/stylesheets/instructorCourseDetails.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/stylesheets/instructorCourseDetails.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/stylesheets/instructorCourseDetails-print.css" type="text/css" media="print">
     
     <script async=""  type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
@@ -107,14 +109,14 @@
                     <th class="color_white bold"><input type="button" onclick="toggleSort(this,1)" id="button_sortstudentname" class="buttonSortAscending" />Student Name</th>
                     <th class="centeralign color_white bold"><input type="button" onclick="toggleSort(this,2)" id="button_sortstudentteam" class="buttonSortNone" />Team</th>
                     <th class="centeralign color_white bold"><input type="button" onclick="toggleSort(this,3)" id="button_sortstudentstatus" class="buttonSortNone" />Status</th>
-                    <th class="centeralign color_white bold">Action(s)</th>
+                    <th class="centeralign color_white bold no-print">Action(s)</th>
                 </tr>
                 
                         <tr id="student0" class="student_row">
                             <td id="studentname">Alice Betsy</td>
                             <td id="teamname">Team 1</td>
                             <td class="centeralign">Joined</td>
-                            <td class="centeralign">
+                            <td class="centeralign no-print">
                                 <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the details of the student')" href="/page/instructorCourseStudentDetails?courseid=CCDetailsUiT.CS2104&amp;studentemail=alice.tmms%40gmail.com&amp;user=teammates.test" class="color_black t_student_details0">
                                         View</a>
                                 <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit the details of the student')" href="/page/instructorCourseStudentEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=alice.tmms%40gmail.com&amp;user=teammates.test" class="color_black t_student_edit0">
@@ -130,7 +132,7 @@
                             <td id="studentname">Benny Charles</td>
                             <td id="teamname">Team 2</td>
                             <td class="centeralign">Yet to join</td>
-                            <td class="centeralign">
+                            <td class="centeralign no-print">
                                 <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the details of the student')" href="/page/instructorCourseStudentDetails?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.com&amp;user=teammates.test" class="color_black t_student_details1">
                                         View</a>
                                 <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit the details of the student')" href="/page/instructorCourseStudentEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.com&amp;user=teammates.test" class="color_black t_student_edit1">
@@ -149,7 +151,7 @@
                             <td id="studentname">Charlie Davis</td>
                             <td id="teamname">Team 1</td>
                             <td class="centeralign">Yet to join</td>
-                            <td class="centeralign">
+                            <td class="centeralign no-print">
                                 <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the details of the student')" href="/page/instructorCourseStudentDetails?courseid=CCDetailsUiT.CS2104&amp;studentemail=charlie.tmms%40gmail.com&amp;user=teammates.test" class="color_black t_student_details2">
                                         View</a>
                                 <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit the details of the student')" href="/page/instructorCourseStudentEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=charlie.tmms%40gmail.com&amp;user=teammates.test" class="color_black t_student_edit2">
@@ -168,7 +170,7 @@
                             <td id="studentname">Danny Engrid</td>
                             <td id="teamname">Team 2</td>
                             <td class="centeralign">Joined</td>
-                            <td class="centeralign">
+                            <td class="centeralign no-print">
                                 <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the details of the student')" href="/page/instructorCourseStudentDetails?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=teammates.test" class="color_black t_student_details3">
                                         View</a>
                                 <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit the details of the student')" href="/page/instructorCourseStudentEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=teammates.test" class="color_black t_student_edit3">
