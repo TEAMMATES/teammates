@@ -26,11 +26,13 @@
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
+
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
 		<jsp:include page="<%= Common.JSP_INSTRUCTOR_HEADER %>" />
 	</div>
+
 
 	<div id="frameBody">
 		<div id="frameBodyWrapper">
@@ -72,6 +74,7 @@
 		
 		</div>
 	</div>
+
 
 	<div id="frameBottom">
 		<jsp:include page="<%= Common.JSP_FOOTER %>" />

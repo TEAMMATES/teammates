@@ -409,6 +409,21 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"));
 		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"));
 		assertEquals("true", bi.getElementAttribute(bi.studentSubmitEvaluationButton, "disabled"));
+		
+		______TS("student cannot submit evaluation after closing (evaluation with different timezone)");
+		//Set the end time to the next hour, but push the timezone ahead 2 hours, so the evaluation has expired by 1 hour
+		//Then we verify that the evaluation is disabled
+		ownEvaluation.endTime = Common.getNextHour();
+		ownEvaluation.timeZone = 2.0;   //+2 hour
+		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		bi.goToUrl(link);
+		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_EXPIRED);
+		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_POINTS + "0"), "disabled"));
+		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"));
+		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"));
+		assertEquals("true", bi.getElementAttribute(bi.studentSubmitEvaluationButton, "disabled"));
+		
 	}
 
 	public void testStudentCourseDetails() {
