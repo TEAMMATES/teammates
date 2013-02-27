@@ -63,4 +63,11 @@ public class AdminAccountManagementServlet extends ActionServlet<AdminAccountMan
 	protected String getDefaultForwardUrl() {
 		return Common.JSP_ADMIN_ACCOUNT_MANAGEMENT;
 	}
+
+	@Override
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
+			String action, boolean toShow, Helper helper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

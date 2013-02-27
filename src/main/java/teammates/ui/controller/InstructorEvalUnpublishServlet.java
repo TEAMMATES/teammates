@@ -27,4 +27,12 @@ public class InstructorEvalUnpublishServlet extends ActionServlet<Helper> {
 		helper.statusMessage = Common.MESSAGE_EVALUATION_UNPUBLISHED;
 	}
 
+
+	@Override
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
+			String action, boolean toShow, Helper helper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

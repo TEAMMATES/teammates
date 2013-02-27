@@ -3,6 +3,8 @@ package teammates.ui.controller;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import com.google.appengine.api.log.AppLogLine;
+
 import teammates.common.Common;
 
 public class AdminActivityLogHelper extends Helper{
@@ -13,41 +15,7 @@ public class AdminActivityLogHelper extends Helper{
 	public String searchRole;
 	public String offset;
 	
-	public AdminActivityLogHelper(){
-		listOfServlets = new Vector<String>();
-		
-		//Manually add in all the possible lists of servlets that will appear in the form
-		listOfServlets.add(Common.INSTRUCTOR_HOME_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_COURSE_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_COURSE_ENROLL_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_COURSE_EDIT_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_COURSE_DELETE_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_COURSE_DETAILS_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_COURSE_STUDENT_DELETE_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_COURSE_STUDENT_DETAILS_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_COURSE_REMIND_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_EVAL_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_EVAL_EXPORT_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_EVAL_EDIT_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_EVAL_DELETE_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_EVAL_REMIND_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_EVAL_PUBLISH_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_EVAL_RESULTS_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_EVAL_UNPUBLISH_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_SERVLET);
-		listOfServlets.add(Common.INSTRUCTOR_EVAL_SUBMISSION_VIEW_SERVLET);
-		listOfServlets.add(Common.STUDENT_HOME_SERVLET);
-		listOfServlets.add(Common.STUDENT_COURSE_JOIN_SERVLET);
-		listOfServlets.add(Common.STUDENT_COURSE_DETAILS_SERVLET);
-		listOfServlets.add(Common.STUDENT_EVAL_EDIT_HANDLER_SERVLET);
-		listOfServlets.add(Common.STUDENT_EVAL_EDIT_SERVLET);
-		listOfServlets.add(Common.STUDENT_EVAL_RESULTS_SERVLET);
-		listOfServlets.add(Common.EVALUATION_CLOSING_REMINDERS_SERVLET);
-		listOfServlets.add(Common.EVALUATION_OPENING_REMINDERS_SERVLET);
-	}
-	
+	//TODO: see if still need this
 	/*
 	 * To search the listOfServlets for a specific servlet
 	 */
@@ -65,7 +33,9 @@ public class AdminActivityLogHelper extends Helper{
 	/*
 	 * Filters out the unwanted logs based on the input from the form
 	 */
-	public boolean performFiltering(String message){
+	public boolean filterLogs(ActivityLogEntry activityLog){
+		//TODO: new filter
+		/*
 		String[] tokens = message.split("\\|\\|\\|", -1);
 		
 		//Filter based on Person name, email and google Id
@@ -89,7 +59,7 @@ public class AdminActivityLogHelper extends Helper{
 		} else if (!searchServlets(tokens[1])){
 			return false;
 		}
-		
+		*/
 		return true;
 	}
 	
@@ -583,7 +553,7 @@ public class AdminActivityLogHelper extends Helper{
 	 */
 	private static String servletToAction(String servletName){
 		if(servletName.equals(Common.INSTRUCTOR_COURSE_SERVLET)){
-			return Common.INSTRUCTOR_COURSE_SERVLET_ACTION;
+			return Common.INSTRUCTOR_COURSE_SERVLET_ADD_COURSE;
 		} else if (servletName.equals(Common.INSTRUCTOR_COURSE_ENROLL_SERVLET)){
 			return Common.INSTRUCTOR_COURSE_ENROLL_SERVLET_ACTION;
 		} else if (servletName.equals(Common.INSTRUCTOR_COURSE_EDIT_SERVLET)){

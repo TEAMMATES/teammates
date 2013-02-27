@@ -33,4 +33,12 @@ public class InstructorEvalSubmissionEditHandlerServlet extends EvalSubmissionEd
 		return Common.JSP_INSTRUCTOR_EVAL_SUBMISSION_EDIT;
 	}
 
+
+	@Override
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
+			String action, boolean toShow, Helper helper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

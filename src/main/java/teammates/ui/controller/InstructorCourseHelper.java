@@ -9,4 +9,6 @@ public class InstructorCourseHelper extends Helper{
 	public String courseName;
 	public String instructorList;
 	public List<CourseData> courses;
+	public String formCourseID;
+	public String formCourseName;
 }

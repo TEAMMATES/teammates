@@ -151,4 +151,11 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 		return Common.JSP_ADMIN_HOME;
 	}
 
+	@Override
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
+			String action, boolean toShow, Helper helper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

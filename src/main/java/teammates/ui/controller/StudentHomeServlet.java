@@ -41,4 +41,11 @@ public class StudentHomeServlet extends ActionServlet<StudentHomeHelper> {
 		return Common.JSP_STUDENT_HOME;
 	}
 
+	@Override
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
+			String action, boolean toShow, Helper helper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -64,4 +64,12 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 		return Common.JSP_STUDENT_COURSE_DETAILS;
 	}
 
+
+	@Override
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
+			String action, boolean toShow, Helper helper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

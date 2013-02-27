@@ -24,4 +24,11 @@ public class StudentEvalEditHandlerServlet extends EvalSubmissionEditHandlerServ
 		return Common.JSP_STUDENT_EVAL_SUBMISSION_EDIT;
 	}
 
+	@Override
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
+			String action, boolean toShow, Helper helper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

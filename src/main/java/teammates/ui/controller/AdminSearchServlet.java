@@ -101,4 +101,11 @@ public class AdminSearchServlet extends ActionServlet<AdminHomeHelper> {
 		return Common.JSP_ADMIN_SEARCH;
 	}
 
+	@Override
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
+			String action, boolean toShow, Helper helper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

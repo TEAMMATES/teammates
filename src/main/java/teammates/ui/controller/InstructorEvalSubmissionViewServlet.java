@@ -46,4 +46,12 @@ public class InstructorEvalSubmissionViewServlet extends ActionServlet<Instructo
 	protected String getDefaultForwardUrl() {
 		return Common.JSP_INSTRUCTOR_EVAL_SUBMISSION_VIEW;
 	}
+
+
+	@Override
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
+			String action, boolean toShow, Helper helper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

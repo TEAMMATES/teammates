@@ -38,4 +38,11 @@ public class InstructorCourseRemindServlet extends ActionServlet<Helper> {
 		}
 	}
 
+	@Override
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
+			String action, boolean toShow, Helper helper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

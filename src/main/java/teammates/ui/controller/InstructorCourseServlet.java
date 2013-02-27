@@ -26,13 +26,14 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 	@Override
 	protected void doAction(HttpServletRequest req, InstructorCourseHelper helper)
 			throws EntityDoesNotExistException {
-		
+		String action = Common.INSTRUCTOR_COURSE_SERVLET_PAGE_LOAD;
 		helper.courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		helper.courseName = req.getParameter(Common.PARAM_COURSE_NAME);
 		helper.instructorList = req.getParameter(Common.PARAM_COURSE_INSTRUCTOR_LIST);
 
 		if (helper.courseID != null && helper.courseName != null && helper.courseName != null) {
 			createCourse(helper);
+			action = Common.INSTRUCTOR_COURSE_SERVLET_ADD_COURSE;
 		}
 
 		HashMap<String, CourseData> courses = helper.server
@@ -42,10 +43,12 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 		sortCourses(helper.courses);
 		
 		setStatus(helper);
+		activityLog = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_SERVLET, action, true, helper);
 	}
 
 	private void createCourse(InstructorCourseHelper helper) {
-		String courseIdBackup = helper.courseID;
+		helper.formCourseID = helper.courseID;
+		helper.formCourseName = helper.courseName;
 		try {
 			helper.server.createCourse(helper.userId, helper.courseID,
 					helper.courseName);
@@ -64,7 +67,7 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 			return;
 		}
 		try{
-			helper.server.updateCourseInstructors(courseIdBackup, helper.instructorList);
+			helper.server.updateCourseInstructors(helper.formCourseID, helper.instructorList);
 		} catch (InvalidParametersException e){
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
@@ -94,5 +97,41 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 	@Override
 	protected String getDefaultForwardUrl() {
 		return Common.JSP_INSTRUCTOR_COURSE;
+	}
+
+
+	@Override
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper) {
+		InstructorCourseHelper h = (InstructorCourseHelper) helper;
+		String params;
+		
+		h.user = helper.server.getLoggedInUser();
+		h.account = helper.server.getAccount(h.user.id);
+		
+		if(action == Common.INSTRUCTOR_COURSE_SERVLET_PAGE_LOAD){
+			try {
+				params = "instructorCourse Page Load<br>";
+				for(CourseData course: h.courses){
+					params += " - [" + course.id + "] " + course.name + "<br>";
+				}
+			} catch (NullPointerException e) {
+				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+			}
+		} else if (action == Common.INSTRUCTOR_COURSE_SERVLET_ADD_COURSE){
+			try {
+				params = "A New Course [" + h.formCourseID + "] : " + h.formCourseName + " has been created.<br>";
+				params += "Instructor List:<br>";
+				String[] instructors = h.instructorList.split("\n", -1);
+				for (String instructor : instructors){
+					params += "  - " + instructor + "<br>";
+				}
+			} catch (NullPointerException e){
+				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>"; 
+			}
+		} else {
+			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		}
+			
+		return new ActivityLogEntry(servletName, action, true, h.account, params);
 	}
 }

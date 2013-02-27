@@ -146,4 +146,11 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 	protected String getDefaultForwardUrl() {
 		return Common.JSP_INSTRUCTOR_EVAL;
 	}
+
+	@Override
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
+			String action, boolean toShow, Helper helper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

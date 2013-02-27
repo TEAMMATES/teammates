@@ -56,4 +56,12 @@ public class InstructorCourseEditServlet extends ActionServlet<InstructorCourseE
 	protected String getDefaultForwardUrl() {
 		return Common.JSP_INSTRUCTOR_COURSE_EDIT;
 	}
+
+
+	@Override
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
+			String action, boolean toShow, Helper helper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -26,6 +26,14 @@ public class InstructorEvalPublishServlet extends ActionServlet<Helper> {
 		helper.server.publishEvaluation(courseID,evalName);
 		helper.statusMessage = Common.MESSAGE_EVALUATION_PUBLISHED;
 	}
+
+
+	@Override
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
+			String action, boolean toShow, Helper helper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 

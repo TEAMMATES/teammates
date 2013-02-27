@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,13 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.datatransfer.TeamData;
-import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -41,8 +38,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 
 	protected static final Logger log = Common.getLogger();
 	protected boolean isPost = false;
-	
-	private int errorCounter = 0;
+	protected ActivityLogEntry activityLog;
 
 	@Override
 	public final void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -67,68 +63,51 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		prepareHelper(req, helper);
 
 		Level logLevel = null;
-		String response = null;
 		String reqParam = Common.printRequestParameters(req);
 
 		try {
+			activityLog = null;
 			doAction(req, helper);
 			logLevel = Level.INFO;
-			response = "OK";
 			doCreateResponse(req, resp, helper);
 
 		} catch (EntityDoesNotExistException e) {
 			logLevel = Level.WARNING;
-			response = "EntityDoesNotExistException";
 			resp.sendRedirect(Common.JSP_ENTITY_NOT_FOUND_PAGE);
 		} catch (UnauthorizedAccessException e) {
 			logLevel = Level.WARNING;
-			response = "Unauthorized access";
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 		}  catch (DeadlineExceededException e) {
 			MimeMessage email = helper.server.emailErrorReport(req.getServletPath(), reqParam, (Throwable) e);
-			try {
+			//TODO: remove this and add new error logging
+			/*try {
 				String logMsg = getUserActionLog(req, response, helper, email);
 				log.severe(logMsg);
 			} catch (Exception e1) {
 				log.severe(e.getMessage());
-			}
+			}*/
 			
 			resp.sendRedirect(Common.JSP_DEADLINE_EXCEEDED_ERROR_PAGE);
 			return;
 		}  catch (Throwable e) {
 			MimeMessage email = helper.server.emailErrorReport(req.getServletPath(), reqParam, e);
-			try {
+			//TODO: remove this and add new error logging
+			/*try {
 				String logMsg = getUserActionLog(req, response, helper, email);
 				log.severe(logMsg);
 			} catch (Exception e1) {
 				log.severe(e.getMessage());
-			}
+			}*/
 						
 		    resp.sendRedirect(Common.JSP_ERROR_PAGE);
 			return;
 		} finally {
-			//log activity for selected actions
-			HashSet<String> servletsToIgnore= new HashSet<String>();
-			servletsToIgnore.add(Common.ADMIN_ACTIVITY_LOG_SERVLET);
-			servletsToIgnore.add(Common.ADMIN_HOME_SERVLET);
-			servletsToIgnore.add(Common.ADMIN_ACCOUNT_MANAGEMENT_SERVLET);
-			servletsToIgnore.add(Common.ADMIN_ACCOUNT_DETAILS_SERVLET);
-			servletsToIgnore.add(Common.ADMIN_SEARCH_SERVLET);
-			servletsToIgnore.add(Common.ADMIN_SEARCH_TASK_SERVLET);
-			
-			String[] actionTkn = req.getServletPath().split("/");
-			String action = req.getServletPath();
-			if(actionTkn.length > 0) {
-				action = actionTkn[actionTkn.length-1]; //retrieve last segment in path
-			}
-			
-			if(!servletsToIgnore.contains(action)){
-				String logMsg = getUserActionLog(req, response, helper, null);
-				log.log(logLevel,logMsg);
-			}
+			log.log(logLevel, getMessageToBeLogged(req));
 		}
 	}
 	
+	//TODO: Remove this
+	/*
 	protected String getUserActionLog(HttpServletRequest req, String resp, T helper, MimeMessage errorEmail) {
 		UserType user = new Logic().getLoggedInUser();
 		
@@ -187,7 +166,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		}
 
 		return sb.toString();
-	}
+	}*/
 
 	/**
 	 * Prepare the helper by filling these variables:
@@ -257,7 +236,33 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 */
 	protected abstract void doAction(HttpServletRequest req, T helper)
 			throws EntityDoesNotExistException, InvalidParametersException;
+	
+	/**
+	 * Method to retrieve an application log message from the servlet that is
+	 * currently being executed. This log message will be logged in server, and is
+	 * used for AdminActivityLog. 
+	 */
+	protected String getMessageToBeLogged(HttpServletRequest req){
+		if(activityLog == null){
+			//Create a default activity log if the servlet did not create one
+			String[] actionTkn = req.getServletPath().split("/");
+			String action = req.getServletPath();
+			if(actionTkn.length > 0) {
+				action = actionTkn[actionTkn.length-1]; //retrieve last segment in path
+			}
+			activityLog = new ActivityLogEntry(action, Common.printRequestParameters(req)); 
+		}
+		return activityLog.generateLogMessage();
+	}
+	
+	
+	/**
+	 * Method to create an activityLog based on the servlet
+	 * Has to be overridden by each servlet
+	 */
+	protected abstract ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShow, Helper helper);
 
+	
 	/**
 	 * Method to redirect or forward the request to appropriate display handler.<br />
 	 * If helper.redirectUrl is not null, it will redirect there. Otherwise it
