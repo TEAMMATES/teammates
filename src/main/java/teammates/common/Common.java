@@ -508,7 +508,7 @@ public class Common {
 		boolean isValidNonEmailGoogleId = googleId.trim().matches("^([\\w-]+(?:\\.[\\w-]+)*)");
 		boolean isValidEmailGoogleId = isValidEmail(googleId.trim());
 		
-		if (googleId.indexOf("@gmail.com") > -1) {
+		if (googleId.toLowerCase().indexOf("@gmail.com") > -1) {
 			isValidEmailGoogleId = false;
 		}
 		

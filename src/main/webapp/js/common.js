@@ -340,7 +340,7 @@ function isValidGoogleId(googleId) {
 	isValidNonEmailGoogleId = (matches != null && matches[0] == googleId);
 	
 	var isValidEmailGoogleId = isEmailValid(googleId);
-	if (googleId.indexOf("@gmail.com") > -1) {
+	if (googleId.toLowerCase().indexOf("@gmail.com") > -1) {
 		isValidEmailGoogleId = false;
 	}
 	
