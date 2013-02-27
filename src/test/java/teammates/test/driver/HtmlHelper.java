@@ -69,6 +69,7 @@ public class HtmlHelper {
 		htmlString = htmlString.replaceAll("width=\"([0-9]+)\"", "width=\"$1px\"");
 		htmlString = htmlString.replaceAll("(?s)<noscript>.*</noscript>", "");
 		htmlString = htmlString.replaceAll("<script type=\"text/javascript\" src=\"http://www.google-analytics.com/ga.js\"></script>", "<script async=\"\"  type=\"text/javascript\" src=\"http://www.google-analytics.com/ga.js\"></script>");
+
 		if (!htmlString.contains("<!DOCTYPE")){
 			htmlString = "<!DOCTYPE html>\n" + htmlString;
 		}
