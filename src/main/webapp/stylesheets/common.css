@@ -1,4 +1,4 @@
-﻿/* http://meyerweb.com/eric/tools/css/reset/ 
+/* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
    --------------------------------  CSS Reset  -----------------------------------------
@@ -208,7 +208,7 @@ h2 {
 }
 
 .current {
-   height: 75px;
+   height: 80px;
    background-image:url('../images/triangle.gif');
    background-repeat:no-repeat;
    background-position:center;
