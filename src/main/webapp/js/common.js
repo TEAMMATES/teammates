@@ -325,25 +325,27 @@ function sanitizeGoogleId(googleId) {
 
 /**
  * Check if the GoogleID is valid
- * Used in instructorCourse, instructorCourseEdit, adminHome.
+ * GoogleID allow only alphanumeric, full stops, dashes, underscores or valid email
  * 
  * @param googleId
  * @return {Boolean}
  */
 function isValidGoogleId(googleId) {
-	var isValidGoogleId = false;
+	var isValidNonEmailGoogleId = false;
 	googleId = googleId.trim();
 	
 	// match() retrieve the matches when matching a string against a regular expression.
 	var matches = googleId.match(/^([\w-]+(?:\.[\w-]+)*)/);
 	
-	if (matches != null && matches[0] == googleId) {
-		isValidGoogleId = true;
-	} else {
-		isValidGoogleId = false;
+	isValidNonEmailGoogleId = (matches != null && matches[0] == googleId);
+	
+	var isValidEmailGoogleId = isEmailValid(googleId);
+	if (googleId.indexOf("@gmail.com") > -1) {
+		isValidEmailGoogleId = false;
 	}
+	
 	// email addresses are valid google IDs too
-	return isValidGoogleId || isEmailValid(googleId);
+	return isValidNonEmailGoogleId || isValidEmailGoogleId;
 }
 
 /**

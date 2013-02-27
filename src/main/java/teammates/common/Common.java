@@ -495,7 +495,7 @@ public class Common {
 
 	public static String sanitizeGoogleId(String googleId) {
 		googleId = googleId.trim();
-		System.out.println(googleId);
+		
 		int loc = googleId.toLowerCase().indexOf("@gmail.com");
 		if (loc > -1) {
 			googleId = googleId.substring(0, loc);
@@ -505,9 +505,14 @@ public class Common {
 
 	// GoogleID allow only alphanumeric, full stops, dashes, underscores or valid email
 	public static boolean isValidGoogleId(String googleId) {
-		boolean isValidGoogleId = googleId.matches("^([\\w-]+(?:\\.[\\w-]+)*)");
-		boolean isValidEmail = isValidEmail(googleId);
-		return isValidGoogleId || isValidEmail;
+		boolean isValidNonEmailGoogleId = googleId.trim().matches("^([\\w-]+(?:\\.[\\w-]+)*)");
+		boolean isValidEmailGoogleId = isValidEmail(googleId.trim());
+		
+		if (googleId.indexOf("@gmail.com") > -1) {
+			isValidEmailGoogleId = false;
+		}
+		
+		return isValidNonEmailGoogleId || isValidEmailGoogleId;
 	}
 
 	// Name can have spaces

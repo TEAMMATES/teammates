@@ -53,6 +53,7 @@ test('isValidGoogleId(googleId)', function() {
 	equal(isValidGoogleId("  charile.brown  \t\n"), true, "charile.brown - valid");
 	equal(isValidGoogleId("  big-small_mini  \t\n"), true, "big-small_mini - valid");
 	
+	equal(isValidGoogleId(" hello@gmail.com \t\n "), false, "hello@gmail.com - invalid");
 	equal(isValidGoogleId("wrong!"), false, "wrong! - invalid");
 	equal(isValidGoogleId("not*correct"), false, "not*correct - invalid");
 	equal(isValidGoogleId("is/not\correct"), false, "is/not\correct - invalid");
