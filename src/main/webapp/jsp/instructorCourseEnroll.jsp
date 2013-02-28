@@ -74,8 +74,16 @@
 				<div id="headerOperation">
 					<h1>Enroll Students for <%= helper.courseID %></h1>
 				</div>
+				
+				<p class="rightalign bold">		
+					<a text-align="right" class="color_black t_course_enroll"
+						href="/Sample Spreadsheet.csv"
+						onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ENROLL_SAMPLE_SPREADSHEET %>')"
+						onmouseout="hideddrivetip()">Download a sample team data spread sheet</a> 
+					<img src="/images/enrollInstructions.png" border="0"> 
+				</p>
+				
 				<form action="<%= helper.getInstructorCourseEnrollLink(helper.courseID) %>" method="post">
-					<img src="/images/enrollInstructions.png" border="0">
 					<p class="info centeralign bold">Recommended maximum class size : 250 students</p>
 					<br>
 					<table class="inputTable">
