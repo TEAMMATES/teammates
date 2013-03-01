@@ -70,6 +70,8 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 		try {
 			helper.server.createEvaluation(helper.newEvaluationToBeCreated);
 			helper.statusMessage = Common.MESSAGE_EVALUATION_ADDED;
+			helper.formEvaluation = helper.newEvaluationToBeCreated;
+			helper.newEvaluationToBeCreated = null;
 		} catch (EntityAlreadyExistsException e) {
 			helper.statusMessage = Common.MESSAGE_EVALUATION_EXISTS;
 			helper.error = true;
@@ -172,7 +174,7 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 			}
 		} else if (action == Common.INSTRUCTOR_EVAL_SERVLET_NEW_EVALUATION){
 			try {
-				EvaluationData eval = h.newEvaluationToBeCreated;
+				EvaluationData eval = h.formEvaluation;
 				params = "New Evaluation <span class=\"bold\">(" + eval.name + ")</span> for Course <span class=\"bold\">[" + eval.course + "]</span> created.<br>" +
 						"<span class=\"bold\">From:</span> " + eval.startTime + "<span class=\"bold\"> to</span> " + eval.endTime + "<br>" +
 						"<span class=\"bold\">Peer feedback:</span> " + (eval.p2pEnabled== true ? "enabled" : "disabled") + "<br><br>" + 

@@ -18,6 +18,7 @@ public class InstructorEvalHelper extends Helper{
 	//   to be stored.
 	public EvaluationData newEvaluationToBeCreated;
 	public List<EvaluationData> evaluations;
+	public EvaluationData formEvaluation;
 	
 	/**
 	 * Returns the timezone options as HTML code.
