@@ -3,8 +3,10 @@
 	<link href="/favicon.png" rel="shortcut icon" />
 	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 	<title>Teammates - Student</title>
-	<link type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
-	<link type="text/css" href="/stylesheets/studentEvalResults.css" rel="stylesheet" />
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/studentEvalResults.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/stylesheets/studentEvalResults-print.css" type="text/css" media="print">
 
 	<script async=""  type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
@@ -33,13 +35,14 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="/page/studentHome?user=benny.tmms" class="t_home">Home</a></li>
-					<li><a target="_blank" href="/studentHelp.html" class="t_help">Help</a></li>
-					<li><a href="/logout.jsp" class="t_logout">Logout</a>
+					<li><a href="/page/studentHome?user=benny.tmms" class='nav home' data-link="studentHome">Home</a></li>
+					<li><a target="_blank" href="/studentHelp.html" class='nav help'>Help</a></li>
+					<li><a href="/logout.jsp" class='nav logout'>Logout</a>
 					 (benny.tmms)</li>
-				</ul>
+								</ul>
 			</div>
 		</div>
+
 	</div>
 
 	<div id="frameBody">
@@ -56,7 +59,7 @@
 
 			
 			<div id="studentEvaluationResults">
-				<div style="margin: 5px auto; width: 960px; text-align: right; font-size: small; font-style: italic;">E = Equal Share</div>
+				<div id="equalShareTag">E = Equal Share</div>
 				<div class="backgroundBlock evalResultHeader">
 					<span class="color_white bold">Your Result:</span>
 				</div>

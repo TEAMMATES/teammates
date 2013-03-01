@@ -77,11 +77,13 @@ public class BrowserInstance {
 	public final By STUDENT_LOGIN_BUTTON = By.name(Common.PARAM_LOGIN_STUDENT);
 
 	// Tabs
-	public By homeTab = By.className("t_home");
-	public By courseTab = By.className("t_courses");
-	public By evaluationTab = By.className("t_evaluations");
-	public By helpTab = By.className("t_help");
-	public By logoutTab = By.className("t_logout");
+	//Compound class use due to triangle, cannot use class name anymore, have to use cssSelector - Allan
+	//http://www.seleniumwiki.com/webdriver/java/solving-compound-class-names-are-not-supported-error/
+	public By homeTab = By.cssSelector("a.nav.home");
+	public By courseTab = By.cssSelector("a.nav.courses");
+	public By evaluationTab = By.cssSelector("a.nav.evaluations");
+	public By helpTab = By.cssSelector("a.nav.help");
+	public By logoutTab = By.cssSelector("a.nav.logout");
 
 	// Table elements
 	public By pageTitle = By.xpath("//div[@id='headerOperation']//h1");
@@ -319,9 +321,7 @@ public class BrowserInstance {
 	public By instructorCourseInputCourseName = By.id("coursename");
 	public By instructorCourseInputInstructorList = By.id("instructorlist");
 	public By instructorCourseAddButton = By.id("btnAddCourse");
-	public By instructorCourseSortByIdButton = By.id("button_sortcourseid");
-	public By instructorCourseSortByNameButton = By.id("button_sortcoursename");
-
+	
 	// ------------------------------- Courses Table
 	// ----------------------------- //
 	/*
@@ -1310,22 +1310,49 @@ public class BrowserInstance {
 	public void clickInstructorReviewerSummaryEdit(int rowID) {
 		clickWithWait(getReviewerSummaryEdit(rowID));
 	}
+	
+	// --------------------------------- TableSort
+		// -------------------------------- //
+	public By tableSortByIdButton = By.id("button_sortid");
+	public By tableSortByNameButton = By.id("button_sortname");
+	public By tableSortByDateButton = By.id("button_sortdate");
 
 	/**
-	 * Clicks the sort course by name button. Waits for the element to appear.
+	 * Clicks the sort by name button. Waits for the element to appear.
 	 * Pre-condition: Should be at Course Page
 	 */
-	public void clickInstructorCourseSortByNameButton() {
-		clickWithWait(instructorCourseSortByNameButton);
+	public void clickTableSortByNameButton() {
+		clickWithWait(tableSortByNameButton);
 	}
 
 	/**
-	 * Clicks the sort course by ID button. Waits for the element to appear.
+	 * Clicks the sort by ID button. Waits for the element to appear.
 	 * Pre-condition: Should be at Course Page
 	 */
-	public void clickInstructorCourseSortByIdButton() {
-		clickWithWait(instructorCourseSortByIdButton);
+	public void clickTableSortByIdButton() {
+		clickWithWait(tableSortByIdButton);
 	}
+	
+	/**
+	 * Clicks the sort by date button. Waits for the element to appear.
+	 * Pre-condition: Should be at Course Page
+	 */
+	public void clickTableSortByDateButton() {
+		clickWithWait(tableSortByDateButton);
+	}
+	
+	/**
+	 * Returns the string for specific row and column. Waits until the
+	 * element exists or timeout. Pre-condition: Should be at table sort page.
+	 * 
+	 * @param row, column
+	 * @return
+	 */
+	public String tableSortGetCell(int row, int column) {
+		waitForElementPresent(By.className("dataTable"));
+		return selenium.getTable("class=dataTable." + row + "." + column);
+	}
+	
 
 	// --------------------------------- Students
 	// -------------------------------- //
@@ -1643,7 +1670,8 @@ public class BrowserInstance {
 	 */
 	public void deleteAllStudents() {
 		System.out.println("delete all students");
-		driver.findElement(By.className("t_courses")).click();
+
+		driver.findElement(By.cssSelector("a.nav.courses")).click();
 		clickWithWait(By.className("t_course_view"));
 		waitForElementPresent(By.className("dataTable tr"));
 		WebElement dataform = driver.findElement(By.className("dataTable"));
@@ -2254,6 +2282,7 @@ public class BrowserInstance {
 	 */
 	protected void wrapUp() {
 		selenium.stop();
+		
 		if (chromeService != null && chromeService.isRunning())
 			chromeService.stop();
 	}
