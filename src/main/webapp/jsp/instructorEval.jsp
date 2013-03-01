@@ -9,8 +9,10 @@
 	<link rel="shortcut icon" href="/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Instructor</title>
-	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
-	<link rel="stylesheet" href="/stylesheets/instructorEval.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/instructorEval.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/stylesheets/instructorEval-print.css" type="text/css" media="print">
 	
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script type="text/javascript" src="/js/jquery-minified.js"></script>
@@ -51,8 +53,7 @@
 				<table class="inputTable" id="instructorEvaluationManagement">
 					<tr>
 						<td class="label bold" >Course ID:</td>
-						<td><select style="width: 260px;"
-									name="<%=Common.PARAM_COURSE_ID%>"
+						<td><select name="<%=Common.PARAM_COURSE_ID%>"
 									id="<%=Common.PARAM_COURSE_ID%>"
 									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_COURSE%>')"
 									onmouseout="hideddrivetip()" tabindex="1">
@@ -81,7 +82,7 @@
 					</tr>
 					<tr>
 						<td class="label bold" >Evaluation name:</td>
-						<td><input style="width: 260px;" type="text"
+						<td><input  type="text"
 									name="<%=Common.PARAM_EVALUATION_NAME%>" id="<%=Common.PARAM_EVALUATION_NAME%>"
 									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_NAME%>')"
 									onmouseout="hideddrivetip()" maxlength =<%=EvaluationData.EVALUATION_NAME_MAX_LENGTH%>
@@ -190,7 +191,7 @@
 					<th class="centeralign color_white bold"><span
 						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_RESPONSE_RATE%>')"
 						onmouseout="hideddrivetip()">Response Rate</span></th>
-					<th class="centeralign color_white bold">Action(s)</th>
+					<th class="centeralign color_white bold no-print">Action(s)</th>
 				</tr>
 				<%
 					int evalIdx = -1;
@@ -205,7 +206,7 @@
 									onmouseout="hideddrivetip()"><%=InstructorEvalHelper.getInstructorStatusForEval(eval)%></span></td>
 								<td class="t_eval_response centeralign"><%= eval.submittedTotal %>
 									/ <%= eval.expectedTotal %></td>
-								<td class="centeralign"><%=helper.getInstructorEvaluationActions(eval,evalIdx, false)%>
+								<td class="centeralign no-print"><%=helper.getInstructorEvaluationActions(eval,evalIdx, false)%>
 								</td>
 							</tr>
 						<%	} %>

@@ -10,8 +10,10 @@
 	<link rel="shortcut icon" href="/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Instructor</title>
-	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
-	<link rel="stylesheet" href="/stylesheets/instructorCourse.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/instructorCourse.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
+	<link rel="stylesheet" href="/stylesheets/instructorCourse-print.css" type="text/css" media="print">
 	
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script type="text/javascript" src="/js/jquery-minified.js"></script>
@@ -100,7 +102,7 @@
 					<th class="centeralign color_white bold">Teams</th>
 					<th class="centeralign color_white bold">Total Students</th>
 					<th class="centeralign color_white bold">Total Unregistered</th>
-					<th class="centeralign color_white bold">Action(s)</th>
+					<th class="centeralign color_white bold no-print">Action(s)</th>
 				</tr>
 				<%
 					int idx = -1;
@@ -112,7 +114,7 @@
 						<td class="t_course_teams centeralign"><%= course.teamsTotal %></td>
 						<td class="centeralign"><%= course.studentsTotal %></td>
 						<td class="centeralign"><%= course.unregisteredTotal %></td>
-						<td class="centeralign">
+						<td class="centeralign no-print">
 							<a class="color_black t_course_enroll<%= idx %>"
 								href="<%= helper.getInstructorCourseEnrollLink(course.id) %>"
 								onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ENROLL %>')"

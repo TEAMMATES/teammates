@@ -3,8 +3,10 @@
 	<link href="/favicon.png" rel="shortcut icon" />
 	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 	<title>Teammates - Student</title>
-	<link type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
-	<link type="text/css" href="/stylesheets/studentHome.css" rel="stylesheet" />
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/studentHome.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/stylesheets/studentHome-print.css" type="text/css" media="print">
 
 	<script async=""  type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
@@ -18,6 +20,7 @@
 	
 </head>
 
+
 <body>
 	<div id="dhtmltooltip"></div>
 
@@ -28,19 +31,24 @@
 		<div id="frameTopWrapper">
 			<div id="logo">
 				<a href="/index.html">
-				<img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="Teammates" />
+				<img alt="Teammates" height="47px"
+					src="/images/teammateslogo.jpg"
+					width="150px">
 				</a>
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="/page/studentHome" class="t_home">Home</a></li>
-					<li><a target="_blank" href="/studentHelp.html" class="t_help">Help</a></li>
-					<li><a href="/logout.jsp" class="t_logout">Logout</a>
-					 (alice.tmms)</li>
+					<li class="current"><a class='nav home' data-link="studentHome" href="/page/studentHome">Home</a></li>
+					<li><a class='nav help' href="/studentHelp.html" target="_blank">Help</a></li>
+					<li><a class='nav logout' href="/logout.jsp">Logout</a>
+							(alice.tmms)
+					</li>
 				</ul>
 			</div>
 		</div>
+
 	</div>
+		
 
 	<div id="frameBody">
 		<div id="frameBodyWrapper">

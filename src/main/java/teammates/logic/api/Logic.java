@@ -23,6 +23,7 @@ import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.EvaluationData.EvalStatus;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.StudentData.UpdateStatus;
+
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.datatransfer.TeamData;
 import teammates.common.datatransfer.UserType;
@@ -1685,6 +1686,8 @@ public class Logic {
 		}
 		return returnList;
 	}
+	
+
 
 	@SuppressWarnings("unused")
 	private void ____SUBMISSION_level_methods_____________________________() {
@@ -1881,12 +1884,15 @@ public class Logic {
 		team.sortByStudentNameAscending();
 		for (int i = 0; i < teamSize; i++) {
 			StudentData studentData = team.students.get(i);
+			if (studentData.result == null){
+				continue;
+			}
 			studentData.result.sortOutgoingByStudentNameAscending();
 			for (int j = 0; j < teamSize; j++) {
-				SubmissionData submissionData = studentData.result.outgoing
-						.get(j);
-				claimedFromStudents[i][j] = submissionData.points;
+				SubmissionData submissionData = studentData.result.outgoing.get(j);
+					claimedFromStudents[i][j] = submissionData.points;
 			}
+			
 
 		}
 		return new TeamEvalResult(claimedFromStudents);
@@ -1897,6 +1903,12 @@ public class Logic {
 		int teamSize = team.students.size();
 		for (int i = 0; i < teamSize; i++) {
 			StudentData s = team.students.get(i);
+			
+			if (s.result == null) {
+				continue;
+			}
+				
+				
 			s.result.sortIncomingByStudentNameAscending();
 			s.result.sortOutgoingByStudentNameAscending();
 			s.result.claimedFromStudent = teamResult.claimed[i][i];
@@ -1923,6 +1935,7 @@ public class Logic {
 						+ normalizedOutgoing);
 			}
 		}
+		
 	}
 
 	private void populateSubmissionsAndNames(
@@ -2127,4 +2140,8 @@ public class Logic {
 		
 		return export;
 	}
+	
+	
+
+	
 }

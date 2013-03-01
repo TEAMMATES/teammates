@@ -11,8 +11,10 @@
 	<link rel="shortcut icon" href="/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Instructor</title>
-	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
-	<link rel="stylesheet" href="/stylesheets/instructorEvalResults.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/instructorEvalResults.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/stylesheets/instructorEvalResults-print.css" type="text/css" media="print">
 	
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script type="text/javascript" src="/js/jquery-minified.js"></script>
@@ -122,7 +124,7 @@
 							<span onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_POINTS_RECEIVED%>')" onmouseout="hideddrivetip()">
 							Points Received</span>
 						</th>
-						<th class="centeralign color_white bold" width="11%">Action(s)</th>
+						<th class="centeralign color_white bold no-print" width="11%">Action(s)</th>
 					</tr>
 					<%
 						int idx = 0;
@@ -141,7 +143,7 @@
 							<td><%=InstructorEvalResultsHelper.colorizePoints(student.result.perceivedToInstructor)%></td>
 							<td><%=InstructorEvalResultsHelper.printDiff(student.result)%></td>
 							<td><%=InstructorEvalResultsHelper.getPointsList(student.result.incoming, true)%></td>
-							<td class="centeralign">
+							<td class="centeralign no-print">
 								<a class="color_black" name="viewEvaluationResults<%=idx%>" id="viewEvaluationResults<%=idx%>"
 										target="_blank"
 										href="<%=helper.getInstructorEvaluationSubmissionViewLink(helper.evaluation.course, helper.evaluation.name, student.email)%>"
@@ -209,7 +211,7 @@
 												onmouseout="hideddrivetip()">
 											Perceived Contributions: </span><%=InstructorEvalResultsHelper.printSharePoints(student.result.perceivedToInstructor,true)%>
 										</th>
-										<th class="rightalign">
+										<th class="rightalign no-print">
 										<%
 											if(byReviewer){
 										%>
