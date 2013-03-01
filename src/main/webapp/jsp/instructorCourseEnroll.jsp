@@ -75,21 +75,20 @@
 					<h1>Enroll Students for <%= helper.courseID %></h1>
 				</div>
 				
-				<p class="rightalign bold">		
-					<a text-align="right" class="color_black t_course_enroll"
-						href="/Sample Spreadsheet.csv"
-						onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ENROLL_SAMPLE_SPREADSHEET %>')"
-						onmouseout="hideddrivetip()">Download a sample team data spread sheet</a> 
-					<img src="/images/enrollInstructions.png" border="0"> 
-				</p>
-				
 				<form action="<%= helper.getInstructorCourseEnrollLink(helper.courseID) %>" method="post">
+					<p class ="bold rightalign spreadsheetLink">		
+						<a class="color_black t_course_enroll"
+							href="/files/Course Enroll Sample Spreadsheet.csv"
+							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ENROLL_SAMPLE_SPREADSHEET %>')"
+							onmouseout="hideddrivetip()">[Sample spreadsheet]</a> 
+					</p>
+					<img src="/images/enrollInstructions.png" border="0" > 
 					<p class="info centeralign bold">Recommended maximum class size : 250 students</p>
 					<br>
-					<table class="inputTable">
+				 	<table class="inputTable enrollStudentTable" > 
 						<tr>
 							<td class="label bold middlealign" id="studentDetails"> Student details: </td>
-							<td><textarea rows="6" cols="110" class ="textvalue" name="enrollstudents" id="enrollstudents"></textarea></td>
+							<td><textarea rows="6" cols="120" class ="textvalue" name="enrollstudents" id="enrollstudents"></textarea></td>
 						</tr>
 					</table>
 					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
