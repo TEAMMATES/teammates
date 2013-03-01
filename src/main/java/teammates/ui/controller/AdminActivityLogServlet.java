@@ -1,11 +1,14 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
+import teammates.common.datatransfer.UserType;
 
 import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
@@ -17,7 +20,7 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 
 	//We want to pull out the application logs
 	private boolean includeAppLogs = true;
-	private static final int LOGS_PER_PAGE = 50;
+	private static final int LOGS_PER_PAGE = 200;
 	private static final int MAX_LOGSEARCH_LIMIT = 100000;
 		
 	@Override
@@ -50,8 +53,12 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 		List<ActivityLogEntry> logs = getAppLogs(query, helper);
 		req.setAttribute("appLogs", logs);
 		
-		activityLog = instantiateActivityLogEntry(Common.ADMIN_ACTIVITY_LOG_SERVLET, Common.ADMIN_ACTIVITY_LOG_SERVLET_PAGE_LOAD,
-				false, helper);
+		String url = req.getRequestURI();
+		if (req.getQueryString() != null){
+			url += "?" + req.getQueryString();
+		}
+		activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_ACTIVITY_LOG_SERVLET, Common.ADMIN_ACTIVITY_LOG_SERVLET_PAGE_LOAD,
+				false, helper, url, null);
 	}
 
 	private LogQuery buildQuery(String offset, boolean includeAppLogs) {
@@ -90,9 +97,9 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 				}
 				String logMsg = appLog.getLogMessage();
 				if (logMsg.contains("TEAMMATESLOG")) {
-					activityLog = new ActivityLogEntry(appLog);
-					if(helper.filterLogs(activityLog)){
-						appLogs.add(activityLog);
+					activityLogEntry = new ActivityLogEntry(appLog);
+					if(helper.filterLogs(activityLogEntry)){
+						appLogs.add(activityLogEntry);
 						currentLogsInPage ++;
 					}
 				}
@@ -113,15 +120,19 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 	}
 
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper) {
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
 		AdminActivityLogHelper h = (AdminActivityLogHelper) helper;
 		String params;
 		
-		h.user = helper.server.getLoggedInUser();
-		h.account = helper.server.getAccount(h.user.id);
+		UserType user = helper.server.getLoggedInUser();
+		AccountData account = helper.server.getAccount(user.id);
 		
-		params = "View Activity Log";
-		return new ActivityLogEntry(servletName, action, true, h.account, params);
+		if(action == Common.ADMIN_ACTIVITY_LOG_SERVLET_PAGE_LOAD){
+			params = "adminActivityLog Page Load";
+		} else {
+			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		}
+			
+		return new ActivityLogEntry(servletName, action, true, account, params, url);
 	}
-
 }

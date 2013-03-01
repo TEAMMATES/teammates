@@ -6,7 +6,9 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 
 @SuppressWarnings("serial")
@@ -30,8 +32,12 @@ public class InstructorHomeServlet extends ActionServlet<InstructorHomeHelper> {
 			sortEvaluationsByDeadline(course.evaluations);
 		}
 		
-		activityLog = instantiateActivityLogEntry(Common.INSTRUCTOR_HOME_SERVLET, Common.INSTRUCTOR_HOME_SERVLET_PAGE_LOAD,
-				true, helper);
+		String url = req.getRequestURI();
+        if (req.getQueryString() != null){
+            url += "?" + req.getQueryString();
+        }    
+		activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_HOME_SERVLET, Common.INSTRUCTOR_HOME_SERVLET_PAGE_LOAD,
+				true, helper, url, null);
 	}
 
 	@Override
@@ -40,21 +46,25 @@ public class InstructorHomeServlet extends ActionServlet<InstructorHomeHelper> {
 	}
 
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper) {
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
 		InstructorHomeHelper h = (InstructorHomeHelper) helper;
 		String params;
 		
-		h.user = helper.server.getLoggedInUser();
-		h.account = helper.server.getAccount(h.user.id);
+		UserType user = helper.server.getLoggedInUser();
+		AccountData account = helper.server.getAccount(user.id);
 		
-		try{
-			params = "instructorHome Page Load<br>";
-			for(CourseData course: h.courses){
-				params += " - [" + course.id + "] " + course.name + "<br>";
+		
+		if(action == Common.INSTRUCTOR_HOME_SERVLET_PAGE_LOAD){
+			try {
+				params = "instructorHome Page Load<br>";
+				params += "Total Courses: " + h.courses.size();
+			} catch (NullPointerException e) {
+				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
 			}
-		} catch (NullPointerException e) {
-			params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+		} else {
+			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
 		}
-		return new ActivityLogEntry(servletName, action, true, h.account, params);
+
+		return new ActivityLogEntry(servletName, action, true, account, params, url);
 	}
 }

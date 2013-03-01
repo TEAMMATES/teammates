@@ -7,6 +7,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
+import teammates.common.datatransfer.UserType;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
@@ -52,6 +54,12 @@ public class AdminSearchServlet extends ActionServlet<AdminHomeHelper> {
 			helper.statusMessage = "Found "+Long.toString(count) + " results.";
 		}
 		
+		String url = req.getRequestURI();
+		if (req.getQueryString() != null){
+			url += "?" + req.getQueryString();
+		}
+		activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_SEARCH_SERVLET, Common.ADMIN_SEARCH_SERVLET_PAGE_LOAD,
+				false, helper, url, null);
 		
 		
 	}
@@ -102,10 +110,20 @@ public class AdminSearchServlet extends ActionServlet<AdminHomeHelper> {
 	}
 
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
-			String action, boolean toShow, Helper helper) {
-		// TODO Auto-generated method stub
-		return null;
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
+		AdminHomeHelper h = (AdminHomeHelper) helper;
+		String params;
+		
+		UserType user = helper.server.getLoggedInUser();
+		AccountData account = helper.server.getAccount(user.id);
+		
+		if(action == Common.ADMIN_SEARCH_SERVLET_PAGE_LOAD){
+			params = "adminSearch Page Load";
+		} else {
+			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		}
+			
+		return new ActivityLogEntry(servletName, action, true, account, params, url);
 	}
 
 }

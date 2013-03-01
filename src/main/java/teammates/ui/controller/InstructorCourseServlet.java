@@ -6,7 +6,9 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -26,6 +28,7 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 	@Override
 	protected void doAction(HttpServletRequest req, InstructorCourseHelper helper)
 			throws EntityDoesNotExistException {
+
 		String action = Common.INSTRUCTOR_COURSE_SERVLET_PAGE_LOAD;
 		helper.courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		helper.courseName = req.getParameter(Common.PARAM_COURSE_NAME);
@@ -43,11 +46,17 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 		sortCourses(helper.courses);
 		
 		setStatus(helper);
-		activityLog = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_SERVLET, action, true, helper);
+		
+		String url = req.getRequestURI();
+		if (req.getQueryString() != null){
+			url += "?" + req.getQueryString();
+		}
+		activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_SERVLET, action,
+				true, helper, url, null);
 	}
 
 	private void createCourse(InstructorCourseHelper helper) {
-		helper.formCourseID = helper.courseID;
+		helper.formCourseId = helper.courseID;
 		helper.formCourseName = helper.courseName;
 		try {
 			helper.server.createCourse(helper.userId, helper.courseID,
@@ -67,7 +76,7 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 			return;
 		}
 		try{
-			helper.server.updateCourseInstructors(helper.formCourseID, helper.instructorList);
+			helper.server.updateCourseInstructors(helper.formCourseId, helper.instructorList);
 		} catch (InvalidParametersException e){
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
@@ -101,37 +110,35 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 
 
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper) {
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
 		InstructorCourseHelper h = (InstructorCourseHelper) helper;
 		String params;
 		
-		h.user = helper.server.getLoggedInUser();
-		h.account = helper.server.getAccount(h.user.id);
+		UserType user = helper.server.getLoggedInUser();
+		AccountData account = helper.server.getAccount(user.id);
 		
 		if(action == Common.INSTRUCTOR_COURSE_SERVLET_PAGE_LOAD){
 			try {
 				params = "instructorCourse Page Load<br>";
-				for(CourseData course: h.courses){
-					params += " - [" + course.id + "] " + course.name + "<br>";
-				}
+				params += "Total courses: " + h.courses.size();
 			} catch (NullPointerException e) {
 				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
 			}
 		} else if (action == Common.INSTRUCTOR_COURSE_SERVLET_ADD_COURSE){
 			try {
-				params = "A New Course [" + h.formCourseID + "] : " + h.formCourseName + " has been created.<br>";
+				params = "A New Course <span class=\"bold\">[" + h.formCourseId + "] " + h.formCourseName + "</span> has been created.<br>";
 				params += "Instructor List:<br>";
 				String[] instructors = h.instructorList.split("\n", -1);
 				for (String instructor : instructors){
 					params += "  - " + instructor + "<br>";
 				}
 			} catch (NullPointerException e){
-				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>"; 
+				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
 			}
 		} else {
 			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
 		}
-			
-		return new ActivityLogEntry(servletName, action, true, h.account, params);
+				
+		return new ActivityLogEntry(servletName, action, true, account, params, url);
 	}
 }

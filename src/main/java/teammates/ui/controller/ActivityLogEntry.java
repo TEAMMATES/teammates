@@ -17,12 +17,13 @@ public class ActivityLogEntry {
 	private String email;
 	private boolean toShow;
 	private String message;
+	private String url;
 	
 	
 	/**
 	 * Constructor that creates a empty ActivityLog
 	 */
-	public ActivityLogEntry(String servlet, String params){
+	public ActivityLogEntry(String servlet, String params, String link){
 		time = System.currentTimeMillis();
 		servletName = servlet;
 		action = "Unknown";
@@ -33,6 +34,7 @@ public class ActivityLogEntry {
 		toShow = true;
 		message = "<span class=\"color_red\">Error. ActivityLog not created for this servlet action.</span><br>"
 				+ params;
+		url = link;
 	}
 	
 	
@@ -45,7 +47,7 @@ public class ActivityLogEntry {
 		time = appLog.getTimeUsec();
 		String[] tokens = appLog.getLogMessage().split("\\|\\|\\|", -1);
 		
-		//TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)
+		//TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL
 		try{
 			servletName = tokens[1];
 			action = tokens[2];
@@ -55,6 +57,7 @@ public class ActivityLogEntry {
 			googleId = tokens[6];
 			email = tokens[7];
 			message = tokens[8];
+			url = tokens[9];
 		} catch (ArrayIndexOutOfBoundsException e){
 			
 			servletName = "Unknown";
@@ -66,6 +69,7 @@ public class ActivityLogEntry {
 			toShow = true;
 			message = "<span class=\"color_red\">Error. Problem parsing log message from the server.</span><br>"
 					+ "System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
+			url = "Unknown";
 		}
 	}
 	
@@ -78,12 +82,13 @@ public class ActivityLogEntry {
 	 * @param params
 	 * @param toShow
 	 */
-	public ActivityLogEntry(String servlet, String act, boolean show, AccountData acc,  String params){
+	public ActivityLogEntry(String servlet, String act, boolean show, AccountData acc,  String params, String link){
 		time = System.currentTimeMillis();
 		servletName = servlet;
 		action = act;
 		toShow = show;
 		message = params;
+		url = link;
 		
 		if (acc == null){
 			role = "Unknown";
@@ -103,9 +108,9 @@ public class ActivityLogEntry {
 	 * @return
 	 */
 	public String generateLogMessage(){
-		//TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)
+		//TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL
 		return "TEAMMATESLOG|||" + servletName + "|||" + action + "|||" + (toShow == true ? "true" : "false") + "|||" 
-				+ role + "|||" + name + "|||" + googleId + "|||" + email + "|||" + message;
+				+ role + "|||" + name + "|||" + googleId + "|||" + email + "|||" + message + "|||" + url;
 	}
 	
 	
@@ -133,5 +138,9 @@ public class ActivityLogEntry {
 	
 	public String getMessageInfo(){
 		return message;
+	}
+	
+	public String getUrlInfo(){
+		return "<span class=\"color_blue\">URL: " + url + "</span><br><br>";
 	}
 }

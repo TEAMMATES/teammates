@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,12 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.BuildProperties;
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -35,6 +38,7 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 
 	@Override
 	protected void doAction(HttpServletRequest req, AdminHomeHelper helper) {
+		String action = Common.ADMIN_HOME_SERVLET_PAGE_LOAD;
 		helper.instructorId = req.getParameter(Common.PARAM_INSTRUCTOR_ID);
 		helper.instructorName = req.getParameter(Common.PARAM_INSTRUCTOR_NAME);
 		helper.instructorEmail = req.getParameter(Common.PARAM_INSTRUCTOR_EMAIL);
@@ -50,6 +54,7 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 				helper.server.createAccount(helper.instructorId, helper.instructorName, true, helper.instructorEmail, "");
 				helper.statusMessage = "Instructor " + helper.instructorName
 						+ " has been successfully created";
+				action = Common.ADMIN_HOME_SERVLET_CREATE_INSTRUCTOR;
 			}
 
 			if (importSampleData != null) {
@@ -59,6 +64,13 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
 		}
+		
+		String url = req.getRequestURI();
+		if (req.getQueryString() != null){
+			url += "?" + req.getQueryString();
+		}
+		activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_HOME_SERVLET, action,
+				false, helper, url, null);
 	}
 
 	private void importDemoData(AdminHomeHelper helper) throws EntityAlreadyExistsException,
@@ -152,10 +164,28 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 	}
 
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
-			String action, boolean toShow, Helper helper) {
-		// TODO Auto-generated method stub
-		return null;
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
+		AdminHomeHelper h = (AdminHomeHelper) helper;
+		String params;
+		
+		UserType user = helper.server.getLoggedInUser();
+		AccountData account = helper.server.getAccount(user.id);
+		
+		if(action == Common.ADMIN_HOME_SERVLET_PAGE_LOAD){
+			params = "Admin Home Page Load";
+		} else if (action == Common.ADMIN_HOME_SERVLET_CREATE_INSTRUCTOR){
+			try {
+				params = "A New Instructor <span class=\"bold\">" + h.instructorName + "</span> has been created.<br>";
+				params += "<span class=\"bold\">Id: </span>" + h.instructorId + "<br>";
+				params += "<span class=\"bold\">Email: </span>" + h.instructorEmail;
+			} catch (NullPointerException e){
+				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+			}
+		} else {
+			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		}
+			
+		return new ActivityLogEntry(servletName, action, true, account, params, url);
 	}
 
 }

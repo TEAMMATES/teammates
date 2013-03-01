@@ -64,6 +64,9 @@
 		          <td><%= log.getActionInfo() %></td>
 		          <td><%= log.getMessageInfo() %></td>
 		        </tr>
+		        <tr>
+		          <td colspan="5"><%= log.getUrlInfo() %></td>
+		        </tr>
 		    <%
 		          }
 		        }

@@ -1,11 +1,14 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -27,6 +30,7 @@ public class StudentEvalResultsServlet extends ActionServlet<StudentEvalResultsH
 			helper.redirectUrl = Common.PAGE_STUDENT_HOME;
 			return;
 		}
+		System.out.println(helper.userId + courseID);
 		helper.student = helper.server.getStudentInCourseForGoogleId(courseID, helper.userId);
 		if(helper.student==null){
 			helper.statusMessage = "You are not registered in the course "+Helper.escapeForHTML(courseID);
@@ -45,6 +49,17 @@ public class StudentEvalResultsServlet extends ActionServlet<StudentEvalResultsH
 			helper.outgoing = organizeSubmissions(helper.evalResult.outgoing, helper);
 			sortSubmissionsByReviewee(helper.evalResult.selfEvaluations);
 			helper.selfEvaluations = organizeSubmissions(helper.evalResult.selfEvaluations, helper);
+			
+			ArrayList<Object> data = new ArrayList<Object>();
+			data.add(courseID);
+			data.add(evalName);
+			
+			String url = req.getRequestURI();
+	        if (req.getQueryString() != null){
+	            url += "?" + req.getQueryString();
+	        }    
+	        activityLogEntry = instantiateActivityLogEntry(Common.STUDENT_EVAL_RESULTS_SERVLET, Common.STUDENT_EVAL_RESULTS_SERVLET_PAGE_LOAD,
+	        		true, helper, url, data);
 		} catch (InvalidParametersException e) {
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
@@ -77,11 +92,27 @@ public class StudentEvalResultsServlet extends ActionServlet<StudentEvalResultsH
 	}
 
 
+
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
-			String action, boolean toShow, Helper helper) {
-		// TODO Auto-generated method stub
-		return null;
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
+		StudentEvalResultsHelper h = (StudentEvalResultsHelper) helper;
+		String params;
+		
+		UserType user = helper.server.getLoggedInUser();
+		AccountData account = helper.server.getAccount(user.id);
+		
+		if(action == Common.STUDENT_EVAL_RESULTS_SERVLET_PAGE_LOAD){
+			try {
+				params = "studentEvalResults Page Load<br>";
+				params += "Viewing evaluation results for Evaluation <span class=\"bold\">(" + (String)data.get(1) + ")</span> of Course <span class=\"bold\">[" + (String)data.get(0) + "]</span>"; 
+			} catch (NullPointerException e) {
+				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+			}
+		} else {
+			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		}
+				
+		return new ActivityLogEntry(servletName, action, true, account, params, url);
 	}
 
 }

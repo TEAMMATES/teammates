@@ -7,8 +7,10 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -27,7 +29,7 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 	@Override
 	protected void doAction(HttpServletRequest req, InstructorEvalHelper helper)
 			throws EntityDoesNotExistException {
-
+		String action = Common.INSTRUCTOR_EVAL_SERVLET_PAGE_LOAD;
 		boolean isAddEvaluation = isPost;
 
 		if (!isAddEvaluation) {
@@ -36,11 +38,19 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 		} else {
 			helper.newEvaluationToBeCreated = extractEvaluationData(req);
 			createEvaluation(helper);
+			action = Common.INSTRUCTOR_EVAL_SERVLET_NEW_EVALUATION;
 		}
 
 		populateEvaluationList(helper);
 		
 		setStatusMessage(helper);
+		
+		String url = req.getRequestURI();
+        if (req.getQueryString() != null){
+            url += "?" + req.getQueryString();
+        }    
+        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_EVAL_SERVLET, action,
+        		true, helper, url, null);
 	}
 
 	//TODO: unit test this
@@ -60,7 +70,6 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 		try {
 			helper.server.createEvaluation(helper.newEvaluationToBeCreated);
 			helper.statusMessage = Common.MESSAGE_EVALUATION_ADDED;
-			helper.newEvaluationToBeCreated = null;
 		} catch (EntityAlreadyExistsException e) {
 			helper.statusMessage = Common.MESSAGE_EVALUATION_EXISTS;
 			helper.error = true;
@@ -148,9 +157,33 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 	}
 
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
-			String action, boolean toShow, Helper helper) {
-		// TODO Auto-generated method stub
-		return null;
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
+		InstructorEvalHelper h = (InstructorEvalHelper) helper;
+		String params;
+		
+		UserType user = helper.server.getLoggedInUser();
+		AccountData account = helper.server.getAccount(user.id);
+		
+		if(action == Common.INSTRUCTOR_EVAL_SERVLET_PAGE_LOAD){
+			try {
+				params = "instructorEval Page Load<br>";
+			} catch (NullPointerException e) {
+				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+			}
+		} else if (action == Common.INSTRUCTOR_EVAL_SERVLET_NEW_EVALUATION){
+			try {
+				EvaluationData eval = h.newEvaluationToBeCreated;
+				params = "New Evaluation <span class=\"bold\">(" + eval.name + ")</span> for Course <span class=\"bold\">[" + eval.course + "]</span> created.<br>" +
+						"<span class=\"bold\">From:</span> " + eval.startTime + "<span class=\"bold\"> to</span> " + eval.endTime + "<br>" +
+						"<span class=\"bold\">Peer feedback:</span> " + (eval.p2pEnabled== true ? "enabled" : "disabled") + "<br><br>" + 
+						"<span class=\"bold\">Instructions:</span> " + eval.instructions;
+			} catch (NullPointerException e){
+				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+			}
+		} else {
+			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		}
+				
+		return new ActivityLogEntry(servletName, action, true, account, params, url);
 	}
 }

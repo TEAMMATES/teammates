@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -37,6 +39,13 @@ public class AdminAccountDetailsServlet extends ActionServlet<AdminAccountDetail
 			//Not a student of any course
 			helper.studentCourseList = null;
 		}
+		
+		String url = req.getRequestURI();
+		if (req.getQueryString() != null){
+			url += "?" + req.getQueryString();
+		}
+		activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_ACCOUNT_DETAILS_SERVLET, Common.ADMIN_ACCOUNT_DETAILS_SERVLET_PAGE_LOAD,
+				false, helper, url, null);
 	}
 	
 	@Override
@@ -44,10 +53,26 @@ public class AdminAccountDetailsServlet extends ActionServlet<AdminAccountDetail
 		return Common.JSP_ADMIN_ACCOUNT_DETAILS;
 	}
 
-	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
-			String action, boolean toShow, Helper helper) {
-		// TODO Auto-generated method stub
-		return null;
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
+		AdminAccountDetailsHelper h = (AdminAccountDetailsHelper) helper;
+		String params;
+		
+		UserType user = helper.server.getLoggedInUser();
+		AccountData account = helper.server.getAccount(user.id);
+		
+		if(action == Common.ADMIN_ACCOUNT_DETAILS_SERVLET_PAGE_LOAD){
+			try {
+				params = "adminAccountDetails Page Load<br>";
+				params += "Viewing details for " + h.accountInformation.name + "(" +h.accountInformation.googleId + ")";
+			} catch (NullPointerException e) {
+				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+			}
+		} else {
+			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		}
+			
+		return new ActivityLogEntry(servletName, action, true, account, params, url);
 	}
+	
+	
 }

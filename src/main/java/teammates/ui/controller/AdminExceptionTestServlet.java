@@ -1,10 +1,14 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.apphosting.api.DeadlineExceededException;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 
@@ -21,6 +25,13 @@ public class AdminExceptionTestServlet extends ActionServlet<AdminHomeHelper> {
 	protected void doAction(HttpServletRequest req, AdminHomeHelper helper) throws EntityDoesNotExistException {
 		 String error = req.getParameter(Common.PARAM_ERROR);
 		
+		 String url = req.getRequestURI();
+			if (req.getQueryString() != null){
+				url += "?" + req.getQueryString();
+			}
+		 activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_EXCEPTION_TEST_SERVLET, Common.ADMIN_EXCEPTION_TEST_SERVLET_PAGE_LOAD,
+				 false, helper, url, null);
+		 
 		 Common.getLogger().info("Generate Exception : " + error);
 		 if(error.equals(AssertionError.class.getSimpleName())) {
 			 
@@ -42,6 +53,7 @@ public class AdminExceptionTestServlet extends ActionServlet<AdminHomeHelper> {
 			   	throw new DeadlineExceededException();
 		 }
 		 
+		 
 	}
 
 	@Override
@@ -51,10 +63,20 @@ public class AdminExceptionTestServlet extends ActionServlet<AdminHomeHelper> {
 
 
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
-			String action, boolean toShow, Helper helper) {
-		// TODO Auto-generated method stub
-		return null;
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
+		AdminHomeHelper h = (AdminHomeHelper) helper;
+		String params;
+		
+		UserType user = helper.server.getLoggedInUser();
+		AccountData account = helper.server.getAccount(user.id);
+		
+		if(action == Common.ADMIN_EXCEPTION_TEST_SERVLET_PAGE_LOAD){
+			params = "adminExceptionTest";
+		} else {
+			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		}
+			
+		return new ActivityLogEntry(servletName, action, true, account, params, url);
 	}
 	
 

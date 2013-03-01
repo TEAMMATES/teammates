@@ -1,5 +1,7 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
@@ -76,5 +78,15 @@ public abstract class EvalSubmissionEditServlet extends ActionServlet<EvalSubmis
 				break;
 			}
 		}
+		
+		ArrayList<Object> data = new ArrayList<Object>();
+		data.add(courseID);
+		data.add(evalName);
+		
+		String url = req.getRequestURI();
+		if (req.getQueryString() != null){
+			url += "?" + req.getQueryString();
+		}
+		activityLogEntry = instantiateActivityLogEntry("Edit", "Edit", true, helper, url, data);
 	}
 }

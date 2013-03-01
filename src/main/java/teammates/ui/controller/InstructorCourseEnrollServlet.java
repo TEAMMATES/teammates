@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -7,7 +8,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 
@@ -27,17 +30,30 @@ public class InstructorCourseEnrollServlet extends
 	@Override
 	protected void doAction(HttpServletRequest req,
 			InstructorCourseEnrollHelper helper) throws EntityDoesNotExistException {
-
+		String action = Common.INSTRUCTOR_COURSE_ENROLL_SERVLET_ENROLL_STUDENTS;
 		helper.courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String studentsInfo = req
 				.getParameter(Common.PARAM_STUDENTS_ENROLLMENT_INFO);
-
+		
+		if (studentsInfo == null){
+			action = Common.INSTRUCTOR_COURSE_ENROLL_SERVLET_PAGE_LOAD;
+		}
 		try {
 			enrollAndProcessResultForDisplay(helper, studentsInfo);
 		} catch (EnrollException e) {
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
 		}
+		
+		ArrayList<Object> data = new ArrayList<Object>();
+		data.add(studentsInfo);
+		
+		String url = req.getRequestURI();
+        if (req.getQueryString() != null){
+            url += "?" + req.getQueryString();
+        }    
+		activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_ENROLL_SERVLET, action,
+				true, helper, url, data); 
 	}
 
 
@@ -95,9 +111,30 @@ public class InstructorCourseEnrollServlet extends
 
 
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
-			String action, boolean toShow, Helper helper) {
-		// TODO Auto-generated method stub
-		return null;
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
+		InstructorCourseEnrollHelper h = (InstructorCourseEnrollHelper) helper;
+		String params;
+		
+		UserType user = helper.server.getLoggedInUser();
+		AccountData account = helper.server.getAccount(user.id);
+		
+		if(action == Common.INSTRUCTOR_COURSE_ENROLL_SERVLET_PAGE_LOAD){
+			try {
+				params = "instructorCourseEnroll Page Load<br>";
+				params += "Enrollment for Course <span class=\"bold\">[" + h.courseID + "]</span>";
+			} catch (NullPointerException e) {
+				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+			}
+		} else if (action == Common.INSTRUCTOR_COURSE_ENROLL_SERVLET_ENROLL_STUDENTS){
+			try {
+				params = "Students Enrolled in Course <span class=\"bold\">[" + h.courseID + "]:</span><br> - " + ((String)data.get(0)).replace("\n", "<br> - ");
+			} catch (NullPointerException e){
+				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+			}
+		} else {
+			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		}
+				
+		return new ActivityLogEntry(servletName, action, true, account, params, url);
 	}
 }

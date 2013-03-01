@@ -552,6 +552,8 @@ public class AdminActivityLogHelper extends Helper{
 	 * Maps the Servlet Name to the action the servlet does
 	 */
 	private static String servletToAction(String servletName){
+		return "";
+		/*
 		if(servletName.equals(Common.INSTRUCTOR_COURSE_SERVLET)){
 			return Common.INSTRUCTOR_COURSE_SERVLET_ADD_COURSE;
 		} else if (servletName.equals(Common.INSTRUCTOR_COURSE_ENROLL_SERVLET)){
@@ -587,10 +589,10 @@ public class AdminActivityLogHelper extends Helper{
 		} else if (servletName.equals(Common.EVALUATION_OPENING_REMINDERS_SERVLET)) {
 			return Common.EVALUATION_OPENING_REMINDERS_SERVLET_ACTION;
 		} else if (servletName.equals(Common.STUDENT_COURSE_JOIN_SERVLET)) {
-			return Common.STUDENT_COURSE_JOIN_SERVLET_ACTION;
+			return Common.STUDENT_COURSE_JOIN_SERVLET_JOIN_COURSE;
 		} else {
 			return "Unknown: " + servletName;
-		}
+		}*/
 	}
 	
 	/*

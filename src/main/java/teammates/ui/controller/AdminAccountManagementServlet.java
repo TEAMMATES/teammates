@@ -9,7 +9,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -56,7 +58,14 @@ public class AdminAccountManagementServlet extends ActionServlet<AdminAccountMan
 		}
 		if(courses != null){
 			helper.accountList.put(i - 1, courses);
-		}	
+		}
+		
+		String url = req.getRequestURI();
+		if (req.getQueryString() != null){
+			url += "?" + req.getQueryString();
+		}
+		activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_ACCOUNT_MANAGEMENT_SERVLET, Common.ADMIN_ACCOUNT_MANAGEMENT_SERVLET_PAGE_LOAD,
+				true, helper, url, null);
 	}
 
 	@Override
@@ -65,9 +74,24 @@ public class AdminAccountManagementServlet extends ActionServlet<AdminAccountMan
 	}
 
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
-			String action, boolean toShow, Helper helper) {
-		// TODO Auto-generated method stub
-		return null;
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
+		AdminAccountManagementHelper h = (AdminAccountManagementHelper) helper;
+		String params;
+		
+		UserType user = helper.server.getLoggedInUser();
+		AccountData account = helper.server.getAccount(user.id);
+		
+		if(action == Common.ADMIN_ACCOUNT_MANAGEMENT_SERVLET_PAGE_LOAD){
+			try {
+				params = "Admin Account Management Page Load<br>";
+				params += "<span class=\"bold\">Total Instructors:</span> " + h.accountList.size();
+			} catch (NullPointerException e){
+				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+			}
+		} else {
+			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		}
+			
+		return new ActivityLogEntry(servletName, action, true, account, params, url);
 	}
 }

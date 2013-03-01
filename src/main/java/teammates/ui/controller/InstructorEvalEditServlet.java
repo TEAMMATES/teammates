@@ -1,9 +1,13 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -22,7 +26,7 @@ public class InstructorEvalEditServlet extends ActionServlet<InstructorEvalEditH
 	@Override
 	protected void doAction(HttpServletRequest req, InstructorEvalEditHelper helper)
 			throws EntityDoesNotExistException {
-
+		String action = Common.INSTRUCTOR_EVAL_EDIT_SERVLET_PAGE_LOAD;
 		EvaluationData newEval = InstructorEvalServlet.extractEvaluationData(req);
 
 		if (newEval.course == null && newEval.name == null) {
@@ -39,6 +43,7 @@ public class InstructorEvalEditServlet extends ActionServlet<InstructorEvalEditH
 						newEval.endTime, newEval.timeZone, newEval.gracePeriod, newEval.p2pEnabled);
 				helper.statusMessage = Common.MESSAGE_EVALUATION_EDITED;
 				helper.redirectUrl = Common.PAGE_INSTRUCTOR_EVAL;
+				action = Common.INSTRUCTOR_EVAL_EDIT_SERVLET_EDIT_EVALUATION;
 			} catch (InvalidParametersException ex) {
 				helper.statusMessage = ex.getMessage();
 				helper.error = true;
@@ -51,6 +56,13 @@ public class InstructorEvalEditServlet extends ActionServlet<InstructorEvalEditH
 				return;
 			}
 		}
+		
+		String url = req.getRequestURI();
+        if (req.getQueryString() != null){
+            url += "?" + req.getQueryString();
+        }    
+        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_EVAL_EDIT_SERVLET, action,
+        		true, helper, url, null);
 
 	}
 
@@ -61,9 +73,37 @@ public class InstructorEvalEditServlet extends ActionServlet<InstructorEvalEditH
 
 
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName,
-			String action, boolean toShow, Helper helper) {
-		// TODO Auto-generated method stub
-		return null;
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
+		InstructorEvalEditHelper h = (InstructorEvalEditHelper) helper;
+		String params;
+		
+		UserType user = helper.server.getLoggedInUser();
+		AccountData account = helper.server.getAccount(user.id);
+		
+		if(action == Common.INSTRUCTOR_EVAL_EDIT_SERVLET_PAGE_LOAD){
+			try {
+				EvaluationData eval = h.newEvaluationToBeCreated;
+				params = "Editing Evaluation <span class=\"bold\">(" + eval.name + ")</span> for Course <span class=\"bold\">[" + eval.course + "]</span>.<br>" +
+						"<span class=\"bold\">From:</span> " + eval.startTime + "<span class=\"bold\"> to</span> " + eval.endTime + "<br>" +
+						"<span class=\"bold\">Peer feedback:</span> " + (eval.p2pEnabled== true ? "enabled" : "disabled") + "<br><br>" + 
+						"<span class=\"bold\">Instructions:</span> " + eval.instructions;
+			} catch (NullPointerException e) {
+				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+			}
+		} else if (action == Common.INSTRUCTOR_EVAL_EDIT_SERVLET_EDIT_EVALUATION){
+			try {
+				EvaluationData eval = h.newEvaluationToBeCreated;
+				params = "Evaluation <span class=\"bold\">(" + eval.name + ")</span> for Course <span class=\"bold\">[" + eval.course + "]</span> edited.<br>" +
+						"<span class=\"bold\">From:</span> " + eval.startTime + "<span class=\"bold\"> to</span> " + eval.endTime + "<br>" +
+						"<span class=\"bold\">Peer feedback:</span> " + (eval.p2pEnabled== true ? "enabled" : "disabled") + "<br><br>" + 
+						"<span class=\"bold\">Instructions:</span> " + eval.instructions;
+			} catch (NullPointerException e){
+				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+			}
+		} else {
+			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		}
+				
+		return new ActivityLogEntry(servletName, action, true, account, params, url);
 	}
 }
