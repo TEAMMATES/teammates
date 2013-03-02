@@ -16,6 +16,7 @@ import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -493,11 +494,26 @@ public class Common {
 				// check contains period?
 	}
 
-	// GoogleID cannot have spaces
+	public static String sanitizeGoogleId(String googleId) {
+		googleId = googleId.trim();
+		
+		int loc = googleId.toLowerCase().indexOf("@gmail.com");
+		if (loc > -1) {
+			googleId = googleId.substring(0, loc);
+		}
+		return googleId.trim();
+	}
+
+	// GoogleID allow only alphanumeric, full stops, dashes, underscores or valid email
 	public static boolean isValidGoogleId(String googleId) {
-		return (isValidString(googleId) && 
-				hasNoSpace(googleId));		
-			// test for contains valid chars?
+		boolean isValidNonEmailGoogleId = googleId.trim().matches("^([\\w-]+(?:\\.[\\w-]+)*)");
+		boolean isValidEmailGoogleId = isValidEmail(googleId.trim());
+		
+		if (googleId.toLowerCase().indexOf("@gmail.com") > -1) {
+			isValidEmailGoogleId = false;
+		}
+		
+		return isValidNonEmailGoogleId || isValidEmailGoogleId;
 	}
 
 	// Name can have spaces

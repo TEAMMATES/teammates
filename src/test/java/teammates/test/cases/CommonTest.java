@@ -33,6 +33,23 @@ public class CommonTest extends BaseTestCase {
 		assertEquals(true, Common.isWhiteSpace(Common.EOL));
 		assertEquals(true, Common.isWhiteSpace(Common.EOL + "   "));
 	}
+	
+	@Test
+	public void testSanitizeGoogleId() {
+
+		assertEquals("big-small.20_12", Common.sanitizeGoogleId(" big-small.20_12 @Gmail.COM \t\n"));
+		assertEquals("user@hotmail.com", Common.sanitizeGoogleId(" user@hotmail.com \t\n"));
+	}
+	
+	@Test
+	public void testIsValidGoogleId() {
+
+		assertEquals(true, Common.isValidGoogleId("   Hello.12-3_4  \t\n  "));
+		assertEquals(true, Common.isValidGoogleId("  user@hotmail.com  \t\n"));
+		assertEquals(false, Common.isValidGoogleId(" HI@GMAIL.com \t\n "));
+		assertEquals(false, Common.isValidGoogleId("/wrong!user\\"));
+		assertEquals(false, Common.isValidGoogleId("\t\n\t"));
+	}
 
 	@Test
 	public void testAssertContains() {
