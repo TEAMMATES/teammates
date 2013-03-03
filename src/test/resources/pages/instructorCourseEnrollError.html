@@ -60,13 +60,19 @@
 					<h1>Enroll Students for CCEnrollUiT.CS2104</h1>
 				</div>
 				<form method="post" action="/page/instructorCourseEnroll?courseid=CCEnrollUiT.CS2104&amp;user=teammates.test">
-					<img border="0" src="/images/enrollInstructions.png" />
+					<p class ="bold rightalign spreadsheetLink">		
+						[ <a class="color_black t_course_enroll"
+							href="/files/Course%20Enroll%20Sample%20Spreadsheet.csv"
+							onmouseover="ddrivetip('Download a sample team data spreadsheet')"
+							onmouseout="hideddrivetip()">Sample spreadsheet</a> ]
+					</p>
+					<img src="/images/enrollInstructions.png" border="0"> 
 					<p class="info centeralign bold">Recommended maximum class size : 250 students</p>
 					<br />
-					<table class="inputTable">
+					<table class="inputTable enrollStudentTable">
 						<tbody><tr>
 							<td id="studentDetails" class="label bold middlealign"> Student details: </td>
-							<td><textarea id="enrollstudents" name="enrollstudents" class="textvalue" cols="110" rows="6"></textarea></td>
+							<td><textarea id="enrollstudents" name="enrollstudents" class="textvalue" cols="120" rows="6"></textarea></td>
 						</tr>
 					</tbody></table>
 					
