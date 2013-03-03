@@ -391,8 +391,7 @@ public class BackDoorTest extends BaseTestCase {
 
 		StudentData student = new StudentData("t1|name of tgsr student|tgsr@gmail.com|", "course1");
 		BackDoor.createStudent(student);
-		String key = BackDoor.getKeyForStudent(student.course, student.email);
-		System.out.println("Key for " + student.email + " is:" + key);
+		String key = BackDoor.getKeyForStudent(student.course, student.email); 
 
 		// The following is the google app engine description about generating
 		// keys.
