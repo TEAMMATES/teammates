@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
@@ -22,6 +24,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.apphosting.api.DeadlineExceededException;
 
 /**
  * Manager for handling basic CRUD Operations only
@@ -1023,6 +1026,80 @@ public class AccountsDb {
 		}
 		
 		getPM().close();
+	}
+
+	public int appendInstitutionForAccount() {
+		int count = 0;
+		try {
+			// Instructor Accounts get Institute for an Instructor
+			String query = "select from " + Account.class.getName()
+					+ " where isInstructor == true";
+			
+			@SuppressWarnings("unchecked")
+			List<Account> instructorAccounts = (List<Account>) getPM()
+					.newQuery(query).execute();
+			
+			HashMap<String, String> instructorInstitutions = new HashMap<String, String>();
+			
+			for (Account a : instructorAccounts) {
+				if (a.getInstitute() == null || a.getInstitute().isEmpty()) {
+					a.setInstitute("National University of Singapore");
+				}
+				instructorInstitutions.put(a.getGoogleId(), a.getInstitute());
+			}
+			
+			//======================================================================
+			// Given Institute for Instructor create Course-Institute pair
+			query = "select from " + Instructor.class.getName();
+			
+			@SuppressWarnings("unchecked")
+			List<Instructor> instructors = (List<Instructor>) getPM()
+					.newQuery(query).execute();
+			
+			HashMap<String, String> courseInstitutions = new HashMap<String, String>();
+			
+			for (Instructor i : instructors) {
+				courseInstitutions.put(i.getCourseId(), instructorInstitutions.get(i.getGoogleId()));
+			}
+			
+			//======================================================================
+			// Given Course-Institute Pair create Student-Institute Pair
+			query = "select from " + Student.class.getName()
+					+ " where ID != null";
+			
+			@SuppressWarnings("unchecked")
+			List<Student> students = (List<Student>) getPM()
+					.newQuery(query).execute();
+			
+			HashMap<String, String> studentInstitutions = new HashMap<String, String>();
+			
+			for (Student s : students) {
+				studentInstitutions.put(s.getID(), courseInstitutions.get(s.getCourseID()));
+			}
+			
+			//======================================================================
+			// Student Accounts append Institute from Student-Institute pair
+			query = "select from " + Account.class.getName()
+					+ " where isInstructor == false && institute == null";
+			Query q = getPM().newQuery(query);
+			q.setRange(0, 1000);
+			
+			@SuppressWarnings("unchecked")
+			List<Account> studentAccounts = (List<Account>) q.execute();
+			
+			for (Account a : studentAccounts) {
+				if (a.getInstitute() != null) {
+					a.setInstitute(studentInstitutions.get(a.getGoogleId()));
+					count++;
+				}
+			}
+		} catch (DeadlineExceededException dee) {
+			getPM().close();
+			return count;
+		}
+		
+		getPM().close();
+		return count;
 	}
 
 }

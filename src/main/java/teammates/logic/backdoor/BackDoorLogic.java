@@ -254,4 +254,9 @@ public class BackDoorLogic extends Logic {
 
 		CoursesLogic.inst().getDb().createCourse(courseToAdd);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public int appendInstitutionForAccount() throws EntityDoesNotExistException {
+		return AccountsLogic.inst().getDb().appendInstitutionForAccount();
+	}
 }
