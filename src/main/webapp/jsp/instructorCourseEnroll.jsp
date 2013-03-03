@@ -77,10 +77,10 @@
 				
 				<form action="<%= helper.getInstructorCourseEnrollLink(helper.courseID) %>" method="post">
 					<p class ="bold rightalign spreadsheetLink">		
-						<a class="color_black t_course_enroll"
+						[ <a class="color_black t_course_enroll"
 							href="/files/Course Enroll Sample Spreadsheet.csv"
 							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ENROLL_SAMPLE_SPREADSHEET %>')"
-							onmouseout="hideddrivetip()">[Sample spreadsheet]</a> 
+							onmouseout="hideddrivetip()">Sample spreadsheet</a> ] 
 					</p>
 					<img src="/images/enrollInstructions.png" border="0" > 
 					<p class="info centeralign bold">Recommended maximum class size : 250 students</p>
