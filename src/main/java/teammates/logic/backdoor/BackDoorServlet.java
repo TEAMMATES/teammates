@@ -64,6 +64,7 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String PARAMETER_STUDENT_EMAIL = "PARAMETER_STUDENT_EMAIL";
 	public static final String PARAMETER_STUDENT_ID = "PARAMETER_STUDENT_ID";
 	public static final String PARAMETER_TEAM_NAME = "PARAMETER_TEAM_NAME";
+	public static final String PARAMETER_ENTITY_COUNT_START = "PARAMETER_ENTITY_COUNT_START";
 
 	private static final Logger log = Common.getLogger();
 
@@ -176,7 +177,8 @@ public class BackDoorServlet extends HttpServlet {
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
 			backDoorLogic.editStudentAsJson(originalEmail, newValues);
 		} else if (action.equals(OPERATION_APPEND_TIMESTAMP_FOR_ACCOUNT)) {
-			return Integer.toString(backDoorLogic.appendTimestampForAccount());
+			String entityCountStart = req.getParameter(PARAMETER_ENTITY_COUNT_START);
+			return Integer.toString(backDoorLogic.appendTimestampForAccount(Integer.parseInt(entityCountStart)));
 		} else {
 			throw new Exception("Unknown command: " + action);
 		}

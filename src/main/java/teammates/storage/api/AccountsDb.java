@@ -1000,19 +1000,21 @@ public class AccountsDb {
 
 	
 
-	public int appendTimestampForAccount() {
-		String query = "select from " + Account.class.getName() + " where createdAt == null";
+	public int appendTimestampForAccount(int entityCountStart) {
+		String query = "select from " + Account.class.getName();
 
 		Query q = getPM().newQuery(query);
-		q.setRange(0, 1000);
+		q.setRange(entityCountStart, entityCountStart + 500);
 		@SuppressWarnings("unchecked")
 		List<Account> accounts = (List<Account>) q.execute();
 		
 		int count = 0;
 		try {
 			for (Account a : accounts) {
-				a.setCreatedAt(new Date());
-				count++;
+				if (a.getCreatedAt() == null) {
+					a.setCreatedAt(new Date());
+					count++;
+				}
 			}
 			getPM().close();
 			return count;

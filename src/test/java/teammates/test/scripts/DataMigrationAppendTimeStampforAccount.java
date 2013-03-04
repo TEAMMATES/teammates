@@ -9,10 +9,12 @@ public class DataMigrationAppendTimeStampforAccount {
 	 */
 	public static void main(String[] args) {
 		int count;
+		int entityCountStart = 0;
 		do {
-			String response = BackDoor.appendTimestampForAccount();
+			String response = BackDoor.appendTimestampForAccount(entityCountStart);
 			count = Integer.parseInt(response);
-			System.out.println("Handled " + count + " entities");
+			System.out.println("Starting at: " + entityCountStart + ", handled " + count + " entities");
+			entityCountStart += count;
 		} while (count != 0);
 		System.out.println("Migration complete");
 	}

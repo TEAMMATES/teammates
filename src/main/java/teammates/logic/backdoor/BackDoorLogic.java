@@ -256,7 +256,7 @@ public class BackDoorLogic extends Logic {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public int appendTimestampForAccount() throws EntityDoesNotExistException {
-		return AccountsLogic.inst().getDb().appendTimestampForAccount();
+	public int appendTimestampForAccount(int entityCountStart) throws EntityDoesNotExistException {
+		return AccountsLogic.inst().getDb().appendTimestampForAccount(entityCountStart);
 	}
 }
