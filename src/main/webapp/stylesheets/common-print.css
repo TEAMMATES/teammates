@@ -1,0 +1,179 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+   --------------------------------  CSS Reset  -----------------------------------------
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 2px;
+    padding: 2px;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+    font-family: serif;
+    font-size: 12px;
+    padding: 5px;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    line-height: 120%;
+}
+
+textarea, input {
+    font-family: serif;
+    font-size: 12px;
+}
+
+/*---------------------Same as Common.css -------------------------*/
+
+h1 {
+    font-size: 150%;
+    font-weight: bold;
+    margin: 0 auto;
+    padding: 15px 0px;
+}
+
+h2 {
+    font-size: 120%;
+    margin: 0 auto;
+    padding: 15px 0px;
+}
+
+.centeralign {
+    text-align: center;
+}
+
+.leftalign {
+    text-align: left;
+}
+
+.rightalign {
+    text-align: right;
+}
+
+.middlealign {
+    vertical-align: middle;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.negDiff {
+    color: #F00;
+}
+
+.posDiff {
+    color: #063;
+}
+
+.color_positive { 
+    color: #060;
+}
+
+.color_negative { 
+    color: #F00;
+}
+
+.color_neutral {
+    color: gray;
+}
+
+
+/*---------------------Modified styles---------------------------*/
+.no-print {
+    display: none;
+}
+
+#frameBottom, .button, input[type="button"], #dhtmltooltip, #statusMessage {
+    display: none;
+}
+
+#frameTop, #frameBottom, #frameBody {
+	position: static;
+}
+
+#contentLinks {
+	display: none;
+}
+
+/*-------------  Background Block  ---------------- */
+.backgroundBlock {
+    border: 1px solid #DDDDDD;
+    width: 642px;
+    padding: 5px;
+}
+
+.blockLink a {
+    display: none;
+}
+
+/*-------------------Data Table -------------------*/
+.dataTable {
+    width: 640px;
+    border: 1px solid black;
+}
+
+.dataTable th, .dataTable td, .dataTable tr{
+    border: 1px solid black;
+    margin: 3px;
+    padding: 2px;
+}
+
+
+/*-------------  Input Table  --------------------*/
+.inputTable {
+	width: 640px;
+    border: 1px dashed grey;
+}
+
+.inputTable th, .inputTable td, .inputTable tr{
+    border: 1px dotted grey;
+    margin: 3px;
+    padding: 2px;
+}
+
+/*-------------  Result Table  --------------------*/
+.resultTable {
+    width: 640px;
+    border: 1px solid black;
+}
+
+.resultTable th, .resultTable td, .resultTable tr{
+    border: 1px solid black;
+    margin: 3px;
+    padding: 2px;
+}

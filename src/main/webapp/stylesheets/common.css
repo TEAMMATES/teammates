@@ -180,19 +180,19 @@ h2 {
 }
 
 #navbar {
-	color: white;
-	font-size: 14px;
-	font-weight: bold;
-	line-height: 30px;
-	white-space: nowrap;
-	width: 100%;
-	padding-top: 15px;
+   color: white;
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: 14px;
+   line-height: 60px;
+   font-weight: bold;
 }
 
 #navbar li {
-	float: left;
-	list-style-type: none;
-	padding-left: 30px;
+   color: white;
+   float: left;
+   list-style-type: none;
+   padding-left: 20px;
+   padding-right: 20px;
 }
 
 #navbar li a {
@@ -207,6 +207,13 @@ h2 {
 	text-decoration: underline;
 }
 
+.current {
+   height: 80px;
+   background-image:url('../images/triangle.gif');
+   background-repeat:no-repeat;
+   background-position:center;
+   overflow: hidden;
+}
 
 
 /*---------------------  Frame Bottom  --------------------------------------------------- */
@@ -428,12 +435,12 @@ div#statusMessage {
 
 /*---------------------  Button  --------------------------------------------------- */
 .button {
-	background: #9AB3C4;
-	background: -webkit-gradient(linear, left top, left bottom, from(#9AA1A6), to(#9AB3C4) );
-	background: -webkit-linear-gradient(top, #9AA1A6, #9AB3C4);
-	background: -moz-linear-gradient(top, #9AA1A6, #9AB3C4);
-	background: -ms-linear-gradient(top, #9AA1A6, #9AB3C4);
-	background: -o-linear-gradient(top, #9AA1A6, #9AB3C4);
+	background: #378de5;
+	background: -webkit-gradient(linear, left top, left bottom, from(#336699), to(#378de5) );
+	background: -webkit-linear-gradient(top, #336699, #378de5);
+	background: -moz-linear-gradient(top, #336699, #378de5);
+	background: -ms-linear-gradient(top, #336699, #378de5);
+	background: -o-linear-gradient(top, #336699, #378de5);
 	color: white;
 	font-family: Helvetica, Arial, Sans-Serif;
 	font-size: 12px;
@@ -444,6 +451,7 @@ div#statusMessage {
 	padding: 5px 8px;
 	text-decoration: none;
 	vertical-align: middle;
+	cursor: pointer;
 }
 
 .button:hover {
@@ -457,6 +465,7 @@ div#statusMessage {
 	border-color: #EEE;
 	color: white;
 }
+
 
 
 

@@ -9,8 +9,10 @@
 	<link rel="shortcut icon" href="/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Instructor</title>
-	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
-	<link rel="stylesheet" href="/stylesheets/instructorCourseEnroll.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/instructorCourseEnroll.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/stylesheets/instructorCourseEnroll-print.css" type="text/css" media="print">
 	
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script type="text/javascript" src="/js/jquery-minified.js"></script>
@@ -72,14 +74,21 @@
 				<div id="headerOperation">
 					<h1>Enroll Students for <%= helper.courseID %></h1>
 				</div>
+				
 				<form action="<%= helper.getInstructorCourseEnrollLink(helper.courseID) %>" method="post">
-					<img src="/images/enrollInstructions.png" border="0">
+					<p class ="bold rightalign spreadsheetLink">		
+						[ <a class="color_black t_course_enroll"
+							href="/files/Course Enroll Sample Spreadsheet.csv"
+							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ENROLL_SAMPLE_SPREADSHEET %>')"
+							onmouseout="hideddrivetip()">Sample spreadsheet</a> ] 
+					</p>
+					<img src="/images/enrollInstructions.png" border="0" > 
 					<p class="info centeralign bold">Recommended maximum class size : 250 students</p>
 					<br>
-					<table class="inputTable">
+				 	<table class="inputTable enrollStudentTable" > 
 						<tr>
 							<td class="label bold middlealign" id="studentDetails"> Student details: </td>
-							<td><textarea rows="6" cols="110" class ="textvalue" name="enrollstudents" id="enrollstudents"></textarea></td>
+							<td><textarea rows="6" cols="120" class ="textvalue" name="enrollstudents" id="enrollstudents"></textarea></td>
 						</tr>
 					</table>
 					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />

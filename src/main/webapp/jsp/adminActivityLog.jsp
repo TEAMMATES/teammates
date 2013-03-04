@@ -140,7 +140,12 @@
 			        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		          for (AppLogLine log : appLogs) {
 		  	        appCal.setTimeInMillis((log.getTimeUsec() / 1000) + 8*3600*1000);
-					String logMessageTableRow = helper.parseLogMessage(sdf.format(appCal.getTime()), log.getLogMessage());
+		  	        String logMessageTableRow;
+		  	        try{
+		  	          logMessageTableRow= helper.parseLogMessage(sdf.format(appCal.getTime()), log.getLogMessage());
+		  	        } catch (Exception e){
+		  	          logMessageTableRow= "<tr>Error trying to parse Log Message<br>" + log.getLogMessage() + "</tr>";  
+		  	        }
 
 		    %>
 		        <tr>
