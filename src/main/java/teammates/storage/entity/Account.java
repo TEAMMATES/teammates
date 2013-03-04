@@ -38,7 +38,7 @@ public class Account {
 		this.email = email;
 		this.institute = institute;
 		
-		//this.createdAt = new Date();
+		this.createdAt = new Date();
 	}
 
 	//===========[Getter]=============================
