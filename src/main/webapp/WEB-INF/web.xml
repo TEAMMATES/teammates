@@ -367,6 +367,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <url-pattern>/page/studentEvalResults</url-pattern>
 	</servlet-mapping>
 	
+	<security-constraint>
+	  <web-resource-collection>
+	  	<web-resource-name>AllPage</web-resource-name>
+	    <url-pattern>/page/*</url-pattern>
+	  </web-resource-collection>
+	  <user-data-constraint>
+	    <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+	  </user-data-constraint>
+	</security-constraint>
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>AutomatedEmails</web-resource-name>
@@ -380,6 +389,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <auth-constraint>
             <role-name>admin</role-name>
         </auth-constraint>
+        <user-data-constraint>
+	    	<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+	  	</user-data-constraint>
     </security-constraint>
     <security-constraint>
         <web-resource-collection>
@@ -390,6 +402,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <auth-constraint>
             <role-name>admin</role-name>
         </auth-constraint>
+        <user-data-constraint>
+	    	<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+	  	</user-data-constraint>
     </security-constraint>
     <security-constraint>
         <web-resource-collection>
@@ -405,6 +420,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <auth-constraint>
             <role-name>admin</role-name>
         </auth-constraint>
+        <user-data-constraint>
+	    	<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+	  	</user-data-constraint>
     </security-constraint>
     <error-page>
         <error-code>403</error-code>
