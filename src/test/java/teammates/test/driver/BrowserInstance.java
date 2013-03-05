@@ -2933,32 +2933,33 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * Verify if a link is alive by checking response code
+	 * Verify if a link is alive by checking the response code recieved. 
+	 * If the url is an absolute path, it will verify immediately. Otherwise,
+	 * it will go to TEAMMATES_URL+url 
 	 * 
-	 * @param url
+	 * @param url 
 	 */
-	public void checkIfLinkWork(String url) {
-		try {
-			URI linkToCheck = new URI(TestProperties.inst().TEAMMATES_URL + url);
-			
-			HttpClient client = new DefaultHttpClient();
-
-			HttpRequestBase requestMethod = new HttpGet();
-			requestMethod.setURI(linkToCheck);
-			
-			HttpParams httpRequestParameters = requestMethod.getParams();
-			httpRequestParameters.setParameter(ClientPNames.HANDLE_REDIRECTS,
-					false);
-			requestMethod.setParams(httpRequestParameters);
-
-			HttpResponse response = client.execute(requestMethod);
-
-			assertEquals(response.getStatusLine().getStatusCode(), 200);
-
-		} catch (Exception e) {
-			System.err.println("Error: " + e.getMessage());
-			fail("Error: " + e.getMessage());
+	public void assertLinkAlive(String url) throws Exception {
+		
+		if (!url.startsWith("http") ){
+			url = TestProperties.inst().TEAMMATES_URL + url;
 		}
+		
+		URI linkToCheck = new URI(url);
+			
+		HttpClient client = new DefaultHttpClient();
+
+		HttpRequestBase requestMethod = new HttpGet();
+		requestMethod.setURI(linkToCheck);
+		
+		HttpParams httpRequestParameters = requestMethod.getParams();
+		httpRequestParameters.setParameter(ClientPNames.HANDLE_REDIRECTS,false);
+		requestMethod.setParams(httpRequestParameters);
+
+		HttpResponse response = client.execute(requestMethod);
+
+		assertEquals(response.getStatusLine().getStatusCode(), 200);
+
 	}
 	
 }

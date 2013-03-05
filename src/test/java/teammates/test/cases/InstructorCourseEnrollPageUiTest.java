@@ -78,7 +78,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseTestCase {
 		______TS("Check sample spreadsheet link");
 		
 		String spreadSheetLink = bi.getElementRelativeHref(By.id("spreadsheet_download"));
-		bi.checkIfLinkWork(spreadSheetLink);
+		bi.assertLinkAlive(spreadSheetLink);
 		
 		______TS("failure case - no students data");
 		
