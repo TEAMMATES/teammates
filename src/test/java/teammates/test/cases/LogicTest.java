@@ -2244,6 +2244,26 @@ public class LogicTest extends BaseTestCase {
 		
 		
 		
+		// make a student 'unregistered'
+		student = dataBundle.students.get("student1InCourse1");
+		googleId = "student1InCourse1";
+		key = logic.getKeyForStudent(student.course, student.email);
+		student.id = "";
+		logic.editStudent(student.email, student);
+		assertEquals("", logic.getStudent(student.course, student.email).id);
+
+		helper.setEnvIsLoggedIn(true);
+		helper.setEnvEmail(googleId);
+		helper.setEnvAuthDomain("gmail.com");
+		
+		//Test for encrypted key used
+		key = Common.encrypt(key);
+		logic.joinCourse(googleId, key);
+		assertEquals(googleId,
+				logic.getStudent(student.course, student.email).id);
+		
+		
+		
 		// Check that an account with the student's google ID was created
 		AccountData studentAccount = new AccountData();
 		studentAccount.googleId = googleId;
