@@ -1257,20 +1257,13 @@ public class Logic {
 		if (!AccountsLogic.inst().getDb().isAccountExists(googleId)) {
 			// Need to retrieve the INSTITUTE of COURSE which this student is enrolling into, for creating his/her ACCOUNT
 			CourseData cd = CoursesLogic.inst().getDb().getCourse(newJoinedStudent.course);
-			List<InstructorData> instructorList = AccountsLogic.inst().getDb().getInstructorsByCourseId(cd.id);
-			if (instructorList.size() < 0) {
-				Assumption.fail("Course has no instructors: " + cd.id);
-			} else {
-				// Retrieve institute field from the first instructor of the course
-				AccountData instructorAcc = AccountsLogic.inst().getDb().getAccount(instructorList.get(0).googleId);
-				AccountData accountToAdd = new AccountData();
-				accountToAdd.googleId = googleId;
-				accountToAdd.isInstructor = false;
-				accountToAdd.name = newJoinedStudent.name;
-				accountToAdd.email = newJoinedStudent.email;
-				accountToAdd.institute = instructorAcc.institute;
-				AccountsLogic.inst().getDb().createAccount(accountToAdd);
-			}
+			AccountData accountToAdd = new AccountData();
+			accountToAdd.googleId = googleId;
+			accountToAdd.isInstructor = false;
+			accountToAdd.name = newJoinedStudent.name;
+			accountToAdd.email = newJoinedStudent.email;
+			accountToAdd.institute = CoursesLogic.inst().getCourseInstitute(cd.id);
+			AccountsLogic.inst().getDb().createAccount(accountToAdd);
 		}
 	}
 

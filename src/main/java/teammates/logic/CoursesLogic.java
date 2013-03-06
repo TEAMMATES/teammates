@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
@@ -117,6 +118,26 @@ public class CoursesLogic {
 		cd.studentsTotal = getTotalStudents(cd.id);
 		cd.unregisteredTotal = getUnregistered(cd.id);
 		return cd;
+	}
+	
+	/**
+	 * Returns the Institue string which the specified Course belongs to
+	 * 
+	 * @param courseID
+	 *            the course ID (Precondition: Must be valid)
+	 * 
+	 * @return String institute
+	 */
+	public String getCourseInstitute(String courseId) {
+		CourseData cd = coursesDb.getCourse(courseId);
+		List<InstructorData> instructorList = accountsDb.getInstructorsByCourseId(cd.id);
+		if (instructorList.isEmpty()) {
+			Assumption.fail("Course has no instructors: " + cd.id);
+		} 
+		// Retrieve institute field from the first instructor of the course
+		AccountData instructorAcc = accountsDb.getAccount(instructorList.get(0).googleId);
+		return instructorAcc.institute;
+
 	}
 
 	/**
