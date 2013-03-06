@@ -11,6 +11,7 @@ import teammates.common.Common;
  */
 public class TestProperties {
 	
+	public String TEAMMATES_APP_ID;
 	
 	public String TEAMMATES_URL;
 	public String TEAMMATES_VERSION;
@@ -46,6 +47,8 @@ public class TestProperties {
 		try {
 			
 			prop.load(new FileInputStream("src/test/resources/test.properties"));
+			
+			TEAMMATES_APP_ID = prop.getProperty("test.app.id");
 			
 			TEAMMATES_URL = Common.trimTrailingSlash(prop.getProperty("test.app.url"));
 			TEAMMATES_VERSION = extractVersionNumber(Common.readFile("src/main/webapp/WEB-INF/appengine-web.xml"));
