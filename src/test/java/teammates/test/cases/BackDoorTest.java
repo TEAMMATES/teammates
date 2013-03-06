@@ -389,18 +389,29 @@ public class BackDoorTest extends BaseTestCase {
 	@Test
 	public void testGetKeyForStudent() throws InvalidParametersException {
 
-		StudentData student = new StudentData(
-				"t1|name of tgsr student|tgsr@gmail.com|", "course1");
+		StudentData student = new StudentData("t1|name of tgsr student|tgsr@gmail.com|", "course1");
 		BackDoor.createStudent(student);
-		String key = BackDoor.getKeyForStudent(student.course, student.email);
-		System.out.println("Key for " + student.email + " is:" + key);
-		// check for some characteristics of the key
-		String errorMessage = key + "[length="+key.length()+"] is not as expected";
-		assertTrue(errorMessage,key.length() > 30 && key.length() < 60);
-		assertTrue(errorMessage, key.indexOf(" ") < 0);
-		
-		//clean up student as this is an orphan entity
+		String key = BackDoor.getKeyForStudent(student.course, student.email); 
+
+		// The following is the google app engine description about generating
+		// keys.
+		//
+		// A key can be converted to a string by passing the Key object to
+		// str(). The string is "urlsafe"—it uses only characters valid for use in URLs. 
+		//
+		// RFC3986 definition of a safe url pattern
+		// Characters that are allowed in a URI but do not have a reserved
+		// purpose are called unreserved. 
+		// unreserved = ALPHA / DIGIT / "-" / "." / "_" / "~"
+		String pattern = "(\\w|-|~|.)*";
+
+		String errorMessage = key + "[length=" + key.length() + "][reg="
+				+ key.matches(pattern) + "] is not as expected";
+		assertTrue(errorMessage, key.length() > 30 && key.matches(pattern));
+
+		// clean up student as this is an orphan entity
 		BackDoor.deleteStudent(student.course, student.email);
+
 	}
 
 	@Test

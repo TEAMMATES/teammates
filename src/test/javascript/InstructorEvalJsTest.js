@@ -60,7 +60,7 @@ test('isEditEvaluationScheduleValid(start, startTime, deadline, deadlineTime, ti
 	var endtime = "22";
 	
 	equal(isEditEvaluationScheduleValid(currentYear, starttime, oneYearLater, endtime, "", "", ""), true, "Normal start and end");
-	equal(isEditEvaluationScheduleValid(currentYear, starttime, currentYear, starttime, "", "", ""), true, "start and end at same day, same time");
+	equal(isEditEvaluationScheduleValid(currentYear, starttime, currentYear, starttime, "", "", ""), false, "start and end at same day, same time");
 	equal(isEditEvaluationScheduleValid(oneYearBefore, starttime, oneYearLater, endtime, "", "", ""), true, "Start time before current date");
 	equal(isEditEvaluationScheduleValid(oneYearBefore, starttime, oneYearLater, endtime, "", "", "AWAITING"), false, "Start time before current date + awaiting");
 	equal(isEditEvaluationScheduleValid(currentYear, starttime, currentYear, endtime, "", "", ""), false, "start and end at same day");

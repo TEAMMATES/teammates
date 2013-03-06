@@ -1,11 +1,14 @@
-<!DOCTYPE html><html><head>
+<!DOCTYPE html>
+<html><head>
     <link rel="shortcut icon" href="/favicon.png">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Teammates - Instructor</title>
-    <link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
-    <link rel="stylesheet" href="/stylesheets/instructorCourseDetails.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/stylesheets/instructorCourseDetails.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/stylesheets/instructorCourseDetails-print.css" type="text/css" media="print">
     
-    <script async=""  type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
+    <script async=""  type="text/javascript" src="https://ssl.google-analytics.com/ga.js"></script>
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
     <script type="text/javascript" src="/js/tooltip.js"></script>
@@ -29,23 +32,28 @@
 
         <div id="frameTopWrapper">
             <div id="logo">
+           	     <a href="/index.html">
                 <img alt="Teammates" height="47px" src="/images/teammateslogo.jpg" width="150px">
+                </a>
             </div>          
             <div id="contentLinks">
                 <ul id="navbar">
-                    <li><a class="t_home" href="/page/instructorHome?user=teammates.instructor">Home</a></li>
-                    <li><a class="t_courses" href="/page/instructorCourse?user=teammates.instructor">Courses</a></li>
-                    <li><a class="t_evaluations" href="/page/instructorEval?user=teammates.instructor">Evaluations</a></li>
-                    <li><a class="t_help" href="/instructorHelp.html" target="_blank">Help</a></li>
-                    <li><a class="t_logout" href="/logout.jsp">Logout</a>
+                    <li><a class='nav home' data-link="instructorHome" href="/page/instructorHome?user=teammates.instructor">Home</a></li>
+                    <li class="current"><a class='nav courses' data-link="instructorCourse" href="/page/instructorCourse?user=teammates.instructor">Courses</a></li>
+                    <li><a class='nav evaluations' data-link="instructorEval" href="/page/instructorEval?user=teammates.instructor">Evaluations</a></li>
+                    <li><a class='nav help' href="/instructorHelp.html" target="_blank">Help</a></li>
+                    <li><a class='nav logout' href="/logout.jsp">Logout</a>
                      (teammates.instructor)</li>
                 </ul>
             </div>
-            <div style="clear: both;"></div>
-        </div>
-    </div>
+			<div style="clear: both;"></div>
+		</div>
+		
 
-    <div id="frameBody">
+
+	</div>
+
+	<div id="frameBody">
         <div id="frameBodyWrapper">
             <div id="topOfPage"></div>
             <div id="headerOperation">
@@ -99,14 +107,14 @@
                     <th class="color_white bold"><input class="buttonSortAscending" type="button" id="button_sortstudentname" onclick="toggleSort(this,1)">Student Name</th>
                     <th class="centeralign color_white bold"><input class="buttonSortNone" type="button" id="button_sortstudentteam" onclick="toggleSort(this,2)">Team</th>
                     <th class="centeralign color_white bold"><input class="buttonSortNone" type="button" id="button_sortstudentstatus" onclick="toggleSort(this,3)">Status</th>
-                    <th class="centeralign color_white bold">Action(s)</th>
+                    <th class="centeralign color_white bold no-print">Action(s)</th>
                 </tr>
                 
                         <tr class="student_row" id="student0">
                             <td id="studentname">Alice Betsy</td>
                             <td id="teamname">Team 1</td>
                             <td class="centeralign">Joined</td>
-                            <td class="centeralign">
+                            <td class="centeralign no-print">
                                 <a class="color_black t_student_details0" href="/page/instructorCourseStudentDetails?courseid=CCDetailsUiT.CS2104&amp;studentemail=alice.tmms%40gmail.com&amp;user=teammates.instructor" onmouseover="ddrivetip('View the details of the student')" onmouseout="hideddrivetip()">
                                         View</a>
                                 <a class="color_black t_student_edit0" href="/page/instructorCourseStudentEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=alice.tmms%40gmail.com&amp;user=teammates.instructor" onmouseover="ddrivetip('Edit the details of the student')" onmouseout="hideddrivetip()">
@@ -122,14 +130,14 @@
                             <td id="studentname">Benny Charles</td>
                             <td id="teamname">Team 2</td>
                             <td class="centeralign">Yet to join</td>
-                            <td class="centeralign">
+                            <td class="centeralign no-print">
                                 <a class="color_black t_student_details1" href="/page/instructorCourseStudentDetails?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.com&amp;user=teammates.instructor" onmouseover="ddrivetip('View the details of the student')" onmouseout="hideddrivetip()">
                                         View</a>
                                 <a class="color_black t_student_edit1" href="/page/instructorCourseStudentEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.com&amp;user=teammates.instructor" onmouseover="ddrivetip('Edit the details of the student')" onmouseout="hideddrivetip()">
                                         Edit</a>
                                 
                                     <a class="color_black t_student_resend1" href="/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.com&amp;user=teammates.instructor" onclick="return toggleSendRegistrationKey()" onmouseover="ddrivetip('E-mail the registration key to the student')" onmouseout="hideddrivetip()">
-                                            Resend Invite</a>
+                                            Send Invite</a>
                                 
                                 <a class="color_black t_student_delete1" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.com&amp;user=teammates.instructor" onclick="return toggleDeleteStudentConfirmation('Benny Charles')" onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')" onmouseout="hideddrivetip()">
                                         Delete</a>
@@ -141,14 +149,14 @@
                             <td id="studentname">Charlie Davis</td>
                             <td id="teamname">Team 1</td>
                             <td class="centeralign">Yet to join</td>
-                            <td class="centeralign">
+                            <td class="centeralign no-print">
                                 <a class="color_black t_student_details2" href="/page/instructorCourseStudentDetails?courseid=CCDetailsUiT.CS2104&amp;studentemail=charlie.tmms%40gmail.com&amp;user=teammates.instructor" onmouseover="ddrivetip('View the details of the student')" onmouseout="hideddrivetip()">
                                         View</a>
                                 <a class="color_black t_student_edit2" href="/page/instructorCourseStudentEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=charlie.tmms%40gmail.com&amp;user=teammates.instructor" onmouseover="ddrivetip('Edit the details of the student')" onmouseout="hideddrivetip()">
                                         Edit</a>
                                 
                                     <a class="color_black t_student_resend2" href="/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2104&amp;studentemail=charlie.tmms%40gmail.com&amp;user=teammates.instructor" onclick="return toggleSendRegistrationKey()" onmouseover="ddrivetip('E-mail the registration key to the student')" onmouseout="hideddrivetip()">
-                                            Resend Invite</a>
+                                            Send Invite</a>
                                 
                                 <a class="color_black t_student_delete2" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=charlie.tmms%40gmail.com&amp;user=teammates.instructor" onclick="return toggleDeleteStudentConfirmation('Charlie Davis')" onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')" onmouseout="hideddrivetip()">
                                         Delete</a>
@@ -160,7 +168,7 @@
                             <td id="studentname">Danny Engrid</td>
                             <td id="teamname">Team 2</td>
                             <td class="centeralign">Joined</td>
-                            <td class="centeralign">
+                            <td class="centeralign no-print">
                                 <a class="color_black t_student_details3" href="/page/instructorCourseStudentDetails?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=teammates.instructor" onmouseover="ddrivetip('View the details of the student')" onmouseout="hideddrivetip()">
                                         View</a>
                                 <a class="color_black t_student_edit3" href="/page/instructorCourseStudentEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=teammates.instructor" onmouseover="ddrivetip('Edit the details of the student')" onmouseout="hideddrivetip()">

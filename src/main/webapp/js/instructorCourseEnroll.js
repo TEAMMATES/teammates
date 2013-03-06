@@ -15,6 +15,12 @@ function highlightError(start, end){
  * @returns {Boolean}
  */
 function checkEnrollmentInput(input) {
+	input = input.trim();
+	if (input.length == 0) {
+		setStatusMessage(DISPLAY_ENROLLMENT_INPUT_EMPTY, true);
+		return false;
+	}
+	
 	input = input.replace(/\t/g,"|");
 	var entries = input.split("\n");
 	var fields;
@@ -45,7 +51,7 @@ function checkEnrollmentInput(input) {
 				setStatusMessage(DISPLAY_STUDENT_TEAMNAME_INVALID,true);
 				error = true;
 			}
-			if(error){
+			if (error){
 				highlightError(totalLen, totalLen+entries[x].length+1);
 				return false;
 			}

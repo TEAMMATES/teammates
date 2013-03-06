@@ -7,12 +7,15 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
+
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
 import teammates.test.driver.TestProperties;
+
+ 
 
 /**
  * Tests Instructor Course Enroll UI
@@ -72,12 +75,22 @@ public class InstructorCourseEnrollPageUiTest extends BaseTestCase {
 	@Test
 	public void testInstructorCourseEnrollPage() throws Exception{
 		
+		______TS("Check sample spreadsheet link");
 		
-		______TS("failure case");
+		String spreadSheetLink = bi.getElementRelativeHref(By.id("spreadsheet_download"));
+		bi.assertLinkAlive(spreadSheetLink);
+		
+		______TS("failure case - no students data");
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseEnrollPage.html");
 		
-		String errorString = "a|b|c|d";
+		String errorString = "  \t  \n  \r";
+		bi.click(By.id("button_enroll"));
+		bi.waitForStatusMessage("Please input at least one student detail.");
+		
+		______TS("failure case - errors in enroll data");
+		
+		errorString = "a|b|c|d";
 		bi.fillString(By.id("enrollstudents"), errorString); //invalid email address
 		bi.click(By.id("button_enroll"));
 		assertContains(bi.getElementText(By.id("enrollstudents")), errorString);
@@ -93,4 +106,5 @@ public class InstructorCourseEnrollPageUiTest extends BaseTestCase {
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseEnrollPageResult.html");
 		
 	}
+	
 }

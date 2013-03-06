@@ -23,6 +23,7 @@ import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.EvaluationData.EvalStatus;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.StudentData.UpdateStatus;
+
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.datatransfer.TeamData;
 import teammates.common.datatransfer.UserType;
@@ -357,6 +358,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, isInstructor);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
 		
 		verifyAdminLoggedIn();
 		
@@ -421,13 +423,14 @@ public class Logic {
 	/**
 	 * Access: admin only
 	 */
-	public void createInstructor(String googleId, String courseId, String name, String email)
+	public void createInstructor(String googleId, String courseId, String name, String email, String institute)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
 
 		verifyAdminLoggedIn();
 		// trim @gmail.com in ID field
@@ -442,6 +445,7 @@ public class Logic {
 			accountToAdd.name = name;
 			accountToAdd.isInstructor = true;
 			accountToAdd.email = email;
+			accountToAdd.institute = institute;
 			AccountsLogic.inst().getDb().createAccount(accountToAdd);
 		} else {
 			AccountsLogic.inst().getDb().makeAccountInstructor(googleId);
@@ -471,6 +475,20 @@ public class Logic {
 				.getInstructor(instructorId, courseId);
 
 		return instructor;
+	}
+	
+	public List<InstructorData> getAllInstructors() {
+		return AccountsLogic.inst().getDb().getInstructors();
+	}
+	
+	/**
+	 * Returns ALL COURSE::ID for this INSTRUCTOR GoogleId
+	 * 
+	 * @param courseId
+	 * @return List<InstructorData>
+	 */
+	public List<InstructorData> getInstructorsByGoogleId(String googleId) {
+		return AccountsLogic.inst().getDb().getInstructorsByGoogleId(googleId);
 	}
 
 	/**
@@ -772,10 +790,11 @@ public class Logic {
 	 * 
 	 * Pre-condition: instructorLines must have AT LEAST ONE instructor
 	 */
-	public void updateCourseInstructors(String courseId, String instructorLines) 
+	public void updateCourseInstructors(String courseId, String instructorLines, String courseInstitute) 
 			throws InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorLines);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseInstitute);
 
 		if (!CoursesLogic.inst().isCourseExists(courseId)) {
 			Assumption.fail(ERROR_UPDATE_NON_EXISTENT_COURSE + courseId);
@@ -832,6 +851,7 @@ public class Logic {
 					accountToAdd.name = add.name;
 					accountToAdd.isInstructor = true;
 					accountToAdd.email = add.email;
+					accountToAdd.institute = courseInstitute;
 					AccountsLogic.inst().getDb().createAccount(accountToAdd);
 				} else {
 					AccountsLogic.inst().getDb().makeAccountInstructor(add.googleId);
@@ -1232,14 +1252,17 @@ public class Logic {
 		verifyOwnerOfId(googleId);
 
 		StudentData newJoinedStudent = AccountsLogic.inst().getDb().joinCourse(key, googleId);
-		
+
 		// Create the Account if it does not exist
 		if (!AccountsLogic.inst().getDb().isAccountExists(googleId)) {
+			// Need to retrieve the INSTITUTE of COURSE which this student is enrolling into, for creating his/her ACCOUNT
+			CourseData cd = CoursesLogic.inst().getDb().getCourse(newJoinedStudent.course);
 			AccountData accountToAdd = new AccountData();
 			accountToAdd.googleId = googleId;
 			accountToAdd.isInstructor = false;
 			accountToAdd.name = newJoinedStudent.name;
 			accountToAdd.email = newJoinedStudent.email;
+			accountToAdd.institute = CoursesLogic.inst().getCourseInstitute(cd.id);
 			AccountsLogic.inst().getDb().createAccount(accountToAdd);
 		}
 	}
@@ -1671,6 +1694,8 @@ public class Logic {
 		}
 		return returnList;
 	}
+	
+
 
 	@SuppressWarnings("unused")
 	private void ____SUBMISSION_level_methods_____________________________() {
@@ -1867,12 +1892,15 @@ public class Logic {
 		team.sortByStudentNameAscending();
 		for (int i = 0; i < teamSize; i++) {
 			StudentData studentData = team.students.get(i);
+			if (studentData.result == null){
+				continue;
+			}
 			studentData.result.sortOutgoingByStudentNameAscending();
 			for (int j = 0; j < teamSize; j++) {
-				SubmissionData submissionData = studentData.result.outgoing
-						.get(j);
-				claimedFromStudents[i][j] = submissionData.points;
+				SubmissionData submissionData = studentData.result.outgoing.get(j);
+					claimedFromStudents[i][j] = submissionData.points;
 			}
+			
 
 		}
 		return new TeamEvalResult(claimedFromStudents);
@@ -1883,6 +1911,12 @@ public class Logic {
 		int teamSize = team.students.size();
 		for (int i = 0; i < teamSize; i++) {
 			StudentData s = team.students.get(i);
+			
+			if (s.result == null) {
+				continue;
+			}
+				
+				
 			s.result.sortIncomingByStudentNameAscending();
 			s.result.sortOutgoingByStudentNameAscending();
 			s.result.claimedFromStudent = teamResult.claimed[i][i];
@@ -1909,6 +1943,7 @@ public class Logic {
 						+ normalizedOutgoing);
 			}
 		}
+		
 	}
 
 	private void populateSubmissionsAndNames(
@@ -2113,4 +2148,8 @@ public class Logic {
 		
 		return export;
 	}
+	
+	
+
+	
 }

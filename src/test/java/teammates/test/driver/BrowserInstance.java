@@ -14,10 +14,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Date;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.params.ClientPNames;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpParams;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.SeleneseCommandExecutor;
@@ -77,11 +85,13 @@ public class BrowserInstance {
 	public final By STUDENT_LOGIN_BUTTON = By.name(Common.PARAM_LOGIN_STUDENT);
 
 	// Tabs
-	public By homeTab = By.className("t_home");
-	public By courseTab = By.className("t_courses");
-	public By evaluationTab = By.className("t_evaluations");
-	public By helpTab = By.className("t_help");
-	public By logoutTab = By.className("t_logout");
+	//Compound class use due to triangle, cannot use class name anymore, have to use cssSelector - Allan
+	//http://www.seleniumwiki.com/webdriver/java/solving-compound-class-names-are-not-supported-error/
+	public By homeTab = By.cssSelector("a.nav.home");
+	public By courseTab = By.cssSelector("a.nav.courses");
+	public By evaluationTab = By.cssSelector("a.nav.evaluations");
+	public By helpTab = By.cssSelector("a.nav.help");
+	public By logoutTab = By.cssSelector("a.nav.logout");
 
 	// Table elements
 	public By pageTitle = By.xpath("//div[@id='headerOperation']//h1");
@@ -319,9 +329,7 @@ public class BrowserInstance {
 	public By instructorCourseInputCourseName = By.id("coursename");
 	public By instructorCourseInputInstructorList = By.id("instructorlist");
 	public By instructorCourseAddButton = By.id("btnAddCourse");
-	public By instructorCourseSortByIdButton = By.id("button_sortcourseid");
-	public By instructorCourseSortByNameButton = By.id("button_sortcoursename");
-
+	
 	// ------------------------------- Courses Table
 	// ----------------------------- //
 	/*
@@ -892,6 +900,16 @@ public class BrowserInstance {
 	}
 
 	/**
+	 * Clicks and confirms Remind a student at a particular rowID.
+	 * Pre-condition: Should be in Course detail page
+	 * 
+	 * @param rowID
+	 */
+	public void clickInstructorCourseDetailStudentRemindAndConfirm(int rowID) {
+		clickAndConfirm(getInstructorCourseDetailStudentResendLinkLocator(rowID));
+	}
+	
+	/**
 	 * Clicks and confirms Delete a student at a particular rowID.
 	 * Pre-condition: Should be in Course detail page
 	 * 
@@ -917,7 +935,18 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * Clicks and confirms Delete a student at a particular rowID.
+	 * Clicks and Cancels Remind a student at a particular rowID.
+	 * Pre-condition: Should be in Course detail page
+	 * 
+	 * @param rowID
+	 */
+	public void clickInstructorCourseDetailStudentRemindAndCancel(int rowID) {
+		clickAndCancel(getInstructorCourseDetailStudentResendLinkLocator(rowID));
+
+	}
+	
+	/**
+	 * Clicks and Cancels Delete a student at a particular rowID.
 	 * Pre-condition: Should be in Course detail page
 	 * 
 	 * @param rowID
@@ -927,7 +956,7 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * Clicks and confirms Delete a particular student. Pre-condition: Should be
+	 * Clicks and Cancels Delete a particular student. Pre-condition: Should be
 	 * in Course detail page
 	 * 
 	 * @param student
@@ -1289,22 +1318,49 @@ public class BrowserInstance {
 	public void clickInstructorReviewerSummaryEdit(int rowID) {
 		clickWithWait(getReviewerSummaryEdit(rowID));
 	}
+	
+	// --------------------------------- TableSort
+		// -------------------------------- //
+	public By tableSortByIdButton = By.id("button_sortid");
+	public By tableSortByNameButton = By.id("button_sortname");
+	public By tableSortByDateButton = By.id("button_sortdate");
 
 	/**
-	 * Clicks the sort course by name button. Waits for the element to appear.
+	 * Clicks the sort by name button. Waits for the element to appear.
 	 * Pre-condition: Should be at Course Page
 	 */
-	public void clickInstructorCourseSortByNameButton() {
-		clickWithWait(instructorCourseSortByNameButton);
+	public void clickTableSortByNameButton() {
+		clickWithWait(tableSortByNameButton);
 	}
 
 	/**
-	 * Clicks the sort course by ID button. Waits for the element to appear.
+	 * Clicks the sort by ID button. Waits for the element to appear.
 	 * Pre-condition: Should be at Course Page
 	 */
-	public void clickInstructorCourseSortByIdButton() {
-		clickWithWait(instructorCourseSortByIdButton);
+	public void clickTableSortByIdButton() {
+		clickWithWait(tableSortByIdButton);
 	}
+	
+	/**
+	 * Clicks the sort by date button. Waits for the element to appear.
+	 * Pre-condition: Should be at Course Page
+	 */
+	public void clickTableSortByDateButton() {
+		clickWithWait(tableSortByDateButton);
+	}
+	
+	/**
+	 * Returns the string for specific row and column. Waits until the
+	 * element exists or timeout. Pre-condition: Should be at table sort page.
+	 * 
+	 * @param row, column
+	 * @return
+	 */
+	public String tableSortGetCell(int row, int column) {
+		waitForElementPresent(By.className("dataTable"));
+		return selenium.getTable("class=dataTable." + row + "." + column);
+	}
+	
 
 	// --------------------------------- Students
 	// -------------------------------- //
@@ -1622,7 +1678,8 @@ public class BrowserInstance {
 	 */
 	public void deleteAllStudents() {
 		System.out.println("delete all students");
-		driver.findElement(By.className("t_courses")).click();
+
+		driver.findElement(By.cssSelector("a.nav.courses")).click();
 		clickWithWait(By.className("t_course_view"));
 		waitForElementPresent(By.className("dataTable tr"));
 		WebElement dataform = driver.findElement(By.className("dataTable"));
@@ -2233,6 +2290,7 @@ public class BrowserInstance {
 	 */
 	protected void wrapUp() {
 		selenium.stop();
+		
 		if (chromeService != null && chromeService.isRunning())
 			chromeService.stop();
 	}
@@ -2873,4 +2931,35 @@ public class BrowserInstance {
 			driver.switchTo().alert().accept();
 		}
 	}
+
+	/**
+	 * Verify if a link is alive by checking the response code recieved. 
+	 * If the url is an absolute path, it will verify immediately. Otherwise,
+	 * it will go to TEAMMATES_URL+url 
+	 * 
+	 * @param url 
+	 */
+	public void assertLinkAlive(String url) throws Exception {
+		
+		if (!url.startsWith("http") ){
+			url = TestProperties.inst().TEAMMATES_URL + url;
+		}
+		
+		URI linkToCheck = new URI(url);
+			
+		HttpClient client = new DefaultHttpClient();
+
+		HttpRequestBase requestMethod = new HttpGet();
+		requestMethod.setURI(linkToCheck);
+		
+		HttpParams httpRequestParameters = requestMethod.getParams();
+		httpRequestParameters.setParameter(ClientPNames.HANDLE_REDIRECTS,false);
+		requestMethod.setParams(httpRequestParameters);
+
+		HttpResponse response = client.execute(requestMethod);
+
+		assertEquals(response.getStatusLine().getStatusCode(), 200);
+
+	}
+	
 }

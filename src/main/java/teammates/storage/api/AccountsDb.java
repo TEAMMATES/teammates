@@ -18,12 +18,10 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.JoinCourseException;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.Coordinator;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Text;
 
 /**
  * Manager for handling basic CRUD Operations only
@@ -259,6 +257,22 @@ public class AccountsDb {
 				.execute();
 		
 		return instructorList;
+	}
+	
+	/**
+	 * RETRIEVE List<InstructorData>
+	 * 
+	 * Returns the list of all instructors
+	 * @return
+	 */
+	public List<InstructorData> getInstructors() {
+		List<InstructorData> list = new LinkedList<InstructorData>();
+		List<Instructor> entities = getInstructorEntities();
+		Iterator<Instructor> it = entities.iterator();
+		while(it.hasNext()) {
+			list.add(new InstructorData(it.next()));
+		}	
+		return list;
 	}
 	
 	/**
@@ -569,18 +583,30 @@ public class AccountsDb {
 			throws JoinCourseException {
 
 		registrationKey = registrationKey.trim();
-		googleID = googleID.trim();
+		String originalKey = registrationKey;
 
 		Student student = null;
-
+		
 		try {
+			//Default try to decrypt the input registrationKey and use as
+			//keys to retrieve student entity.
+			registrationKey = Common.decrypt(registrationKey);
 			student = getPM().getObjectById(Student.class,
 					KeyFactory.stringToKey(registrationKey));
 		} catch (Exception e) {
-			// No Student entry was found with this key
-			throw new JoinCourseException(Common.ERRORCODE_INVALID_KEY,
-					"You have entered an invalid key: " + registrationKey);
+			try {
+				//If an unencrypted key is provided, we can also retrieve
+				//that student.
+				student = getPM().getObjectById(Student.class,
+						KeyFactory.stringToKey(originalKey));
+			} catch (Exception e2) {
+				// No Student entry was found with this key
+				throw new JoinCourseException(Common.ERRORCODE_INVALID_KEY,
+						"You have entered an invalid key: " + registrationKey);
+			}
 		}
+		
+		googleID = googleID.trim();
 
 		// If ID field is not empty -> check if this is user's googleId?
 		if (student.getID() != null && !student.getID().equals("")) {
@@ -934,21 +960,6 @@ public class AccountsDb {
 		return instructorList.get(0);
 	}
 	
-
-	/**
-	 * Returns the list of all instructors
-	 * @return
-	 */
-	public List<InstructorData> getInstructors() {
-		List<InstructorData> list = new LinkedList<InstructorData>();
-		List<Coordinator> entities = getInstructorEntities();
-		Iterator<Coordinator> it = entities.iterator();
-		while(it.hasNext()) {
-			list.add(new InstructorData(it.next()));
-		}
-		
-		return list;
-	}
 	/**
 	 * Returns the list of student entities
 	 */
@@ -971,44 +982,17 @@ public class AccountsDb {
 		return list;
 	}
 	
-	
 	/**
 	 * Returns the list of instructor entities
 	 */
-	private List<Coordinator> getInstructorEntities() {
-		String query = "select from " + Coordinator.class.getName();
+	private List<Instructor> getInstructorEntities() {
+		String query = "select from " + Instructor.class.getName();
 			
-
 		@SuppressWarnings("unchecked")
-		List<Coordinator> instructorList = (List<Coordinator>) getPM()
+		List<Instructor> instructorList = (List<Instructor>) getPM()
 				.newQuery(query).execute();
 	
 		return instructorList;
-	}
-
-	// TODO: Shift to new Migration servlet
-	public void persistInstructorsFromCourses(List<InstructorData> instructorsToAdd) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, instructorsToAdd);
-		
-		List<Instructor> instructors = new ArrayList<Instructor>();
-		for (InstructorData id : instructorsToAdd) {
-			instructors.add(id.toEntity());
-		}
-		
-		getPM().makePersistentAll(instructors);
-		getPM().flush();
-	}
-	
-	public void createAccountsForCoordinators() {
-		List<Coordinator> coordinators = getInstructorEntities();
-		
-		List<Account> accountsToAdd = new ArrayList<Account>();
-		for (Coordinator c : coordinators) {
-			accountsToAdd.add(new Account(c.getGoogleID(), c.getName(), true, c.getEmail(), ""));
-		}
-		
-		getPM().makePersistentAll(accountsToAdd);
-		getPM().flush();
 	}
 
 	public void appendNameEmailForInstructors() {

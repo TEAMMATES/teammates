@@ -410,12 +410,12 @@ public class EvaluationsDb {
 	 */
 	private Evaluation getEvaluationEntity(String courseId, String evalName) {
 		String query = "select from " + Evaluation.class.getName()
-				+ " where name == '" + evalName + "' && courseID == '"
-				+ courseId + "'";
+				+ " where name == nameParam && courseID == courseIDParam" 
+				+ " parameters String nameParam, String courseIDParam";
 
 		@SuppressWarnings("unchecked")
 		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
-				query).execute();
+				query).execute(evalName, courseId);
 
 		if (evaluationList.isEmpty()
 				|| JDOHelper.isDeleted(evaluationList.get(0))) {

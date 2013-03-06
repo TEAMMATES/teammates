@@ -9,8 +9,10 @@
 	<link rel="shortcut icon" href="/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Student</title>
-	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
-	<link rel="stylesheet" href="/stylesheets/studentEvalResults.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/studentEvalResults.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/stylesheets/studentEvalResults-print.css" type="text/css" media="print">
 
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script type="text/javascript" src="/js/jquery-minified.js"></script>
@@ -38,7 +40,7 @@
 			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 			
 			<div id="studentEvaluationResults">
-				<div style="margin: 5px auto; width: 960px; text-align: right; font-size: small; font-style: italic;">E = Equal Share</div>
+				<div id="equalShareTag">E = Equal Share</div>
 				<div class="backgroundBlock evalResultHeader">
 					<span class="color_white bold">Your Result:</span>
 				</div>
@@ -86,7 +88,7 @@
 								<%
 									for(SubmissionData sub: helper.incoming) {
 								%>
-									<li><%=StudentEvalResultsHelper.formatP2PFeedback(StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue()))%></li>
+									<li><%=StudentEvalResultsHelper.formatP2PFeedback(StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue()), helper.eval.p2pEnabled)%></li>
 								<%
 									}
 								%>
@@ -142,7 +144,7 @@
 							<td><%=StudentEvalResultsHelper.escapeForHTML(sub.revieweeName)%></td>
 							<td><%=StudentEvalResultsHelper.colorizePoint(sub.points)%></td> 
 							<td><%=StudentEvalResultsHelper.escapeForHTML(sub.justification.getValue())%></td>
-							<td><%=StudentEvalResultsHelper.formatP2PFeedback(StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue()))%></td>
+							<td><%=StudentEvalResultsHelper.formatP2PFeedback(StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue()), helper.eval.p2pEnabled)%></td>
 						</tr>
 					<%	} %>
 				</table>

@@ -66,8 +66,8 @@ public class SubmissionData extends BaseData {
 		this.reviewee = s.getToStudent();
 		this.team = s.getTeamName();
 		this.points = s.getPoints();
-		this.justification = s.getJustification();
-		this.p2pFeedback = s.getCommentsToStudent();
+		this.justification = s.getJustification() == null ? new Text("") : s.getJustification();
+		this.p2pFeedback = s.getCommentsToStudent() == null ? new Text("N/A") : s.getCommentsToStudent();
 	}
 
 	public Submission toEntity() {

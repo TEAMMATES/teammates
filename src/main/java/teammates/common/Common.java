@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.security.GeneralSecurityException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,14 +16,15 @@ import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.common.datatransfer.UserType;
-import teammates.logic.api.Logic;
 import teammates.ui.controller.Helper;
 
 import com.google.appengine.api.utils.SystemProperty;
@@ -53,8 +55,13 @@ public class Common {
 
 	public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
 
+	// Number to trigger the header file to truncate the user googleId and show hover message
+	public static final int USER_ID_MAX_DISPLAY_LENGTH = 23;
+	
 	// Hover messages
+	
 	public static final String HOVER_MESSAGE_COURSE_ENROLL = "Enroll student into the course";
+	public static final String HOVER_MESSAGE_COURSE_ENROLL_SAMPLE_SPREADSHEET = "Download a sample team data spreadsheet";
 	public static final String HOVER_MESSAGE_COURSE_DETAILS = "View, edit and send registration keys to the students in the course";
 	public static final String HOVER_MESSAGE_COURSE_EDIT = "Edit Course information and instructor list";
 	public static final String HOVER_MESSAGE_COURSE_DELETE = "Delete the course and its corresponding students and evaluations";
@@ -235,10 +242,12 @@ public class Common {
 	public static final String PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER = "/page/studentEvalEditHandler";
 	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
 
-	public static final String PAGE_ADMIN_HOME = "/page/adminHome";
-	public static final String PAGE_ADMIN_EXCEPTION_TEST = "/page/adminExceptionTest";
-	public static final String PAGE_ADMIN_ACTIVITY_LOG = "/page/adminActivityLog";
-	public static final String PAGE_ADMIN_SEARCH = "/page/adminSearch";
+	public static final String PAGE_ADMIN_HOME = "/admin/adminHome";
+	public static final String PAGE_ADMIN_ACCOUNT_MANAGEMENT = "/admin/adminAccountManagement";
+	public static final String PAGE_ADMIN_ACCOUNT_DETAILS = "/admin/adminAccountDetails";
+	public static final String PAGE_ADMIN_EXCEPTION_TEST = "/admin/adminExceptionTest";
+	public static final String PAGE_ADMIN_ACTIVITY_LOG = "/admin/adminActivityLog";
+	public static final String PAGE_ADMIN_SEARCH = "/admin/adminSearch";
 	public static final String PAGE_LOGIN = "/login";
 
 	/*
@@ -277,8 +286,10 @@ public class Common {
 	public static final String JSP_EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp"; // Done
 
 	public static final String JSP_ADMIN_HOME = "/jsp/adminHome.jsp";
+	public static final String JSP_ADMIN_ACCOUNT_MANAGEMENT = "/jsp/adminAccountManagement.jsp";
 	public static final String JSP_ADMIN_SEARCH = "/jsp/adminSearch.jsp";
 	public static final String JSP_ADMIN_ACTIVITY_LOG = "/jsp/adminActivityLog.jsp";
+	public static final String JSP_ADMIN_ACCOUNT_DETAILS = "/jsp/adminAccountDetails.jsp";
 	public static final String JSP_LOGOUT = "/logout.jsp"; // Done
 	public static final String JSP_SHOW_MESSAGE = "/showMessage.jsp"; // Done
 	public static final String JSP_UNAUTHORIZED = "/unauthorized.jsp"; // Done
@@ -325,7 +336,7 @@ public class Common {
 	public static final String MESSAGE_EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
 	// Status messages from Javascript
 	public static final String MESSAGE_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
-	public static final String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.";
+	public static final String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID.";
 	public static final String MESSAGE_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
 	public static final String MESSAGE_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
 	public static final String MESSAGE_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.<br />"
@@ -458,6 +469,8 @@ public class Common {
 	 * Admin Servlets
 	 */
 	public static String ADMIN_HOME_SERVLET = "adminHome";
+	public static String ADMIN_ACCOUNT_MANAGEMENT_SERVLET = "adminAccountManagement";
+	public static String ADMIN_ACCOUNT_DETAILS_SERVLET = "adminAccountDetails";
 	public static String ADMIN_ACTIVITY_LOG_SERVLET = "adminActivityLog";
 	public static String ADMIN_SEARCH_SERVLET = "adminSearch";
 	public static String ADMIN_SEARCH_TASK_SERVLET = "adminSearchTask";
@@ -482,11 +495,26 @@ public class Common {
 				// check contains period?
 	}
 
-	// GoogleID cannot have spaces
+	public static String sanitizeGoogleId(String googleId) {
+		googleId = googleId.trim();
+		
+		int loc = googleId.toLowerCase().indexOf("@gmail.com");
+		if (loc > -1) {
+			googleId = googleId.substring(0, loc);
+		}
+		return googleId.trim();
+	}
+
+	// GoogleID allow only alphanumeric, full stops, dashes, underscores or valid email
 	public static boolean isValidGoogleId(String googleId) {
-		return (isValidString(googleId) && 
-				hasNoSpace(googleId));		
-			// test for contains valid chars?
+		boolean isValidNonEmailGoogleId = googleId.trim().matches("^([\\w-]+(?:\\.[\\w-]+)*)");
+		boolean isValidEmailGoogleId = isValidEmail(googleId.trim());
+		
+		if (googleId.toLowerCase().indexOf("@gmail.com") > -1) {
+			isValidEmailGoogleId = false;
+		}
+		
+		return isValidNonEmailGoogleId || isValidEmailGoogleId;
 	}
 
 	// Name can have spaces
@@ -792,6 +820,54 @@ public class Common {
 		}
 	}
 
+	public static String encrypt(String value) {
+		try {
+			SecretKeySpec sks = new SecretKeySpec(
+					hexStringToByteArray(BUILD_PROPERTIES.getEncyptionKey()), "AES");
+			Cipher cipher = Cipher.getInstance("AES");
+			cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
+			byte[] encrypted = cipher.doFinal(value.getBytes());
+			return byteArrayToHexString(encrypted);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static String decrypt(String message) {
+		try {
+			SecretKeySpec sks = new SecretKeySpec(
+					hexStringToByteArray(BUILD_PROPERTIES.getEncyptionKey()), "AES");
+			Cipher cipher = Cipher.getInstance("AES");
+			cipher.init(Cipher.DECRYPT_MODE, sks);
+			byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
+			return new String(decrypted);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static String byteArrayToHexString(byte[] b) {
+		StringBuffer sb = new StringBuffer(b.length * 2);
+		for (int i = 0; i < b.length; i++) {
+			int v = b[i] & 0xff;
+			if (v < 16) {
+				sb.append('0');
+			}
+			sb.append(Integer.toHexString(v));
+		}
+		return sb.toString().toUpperCase();
+	}
+
+	private static byte[] hexStringToByteArray(String s) {
+		byte[] b = new byte[s.length() / 2];
+		for (int i = 0; i < b.length; i++) {
+			int index = i * 2;
+			int v = Integer.parseInt(s.substring(index, index + 2), 16);
+			b[i] = (byte) v;
+		}
+		return b;
+	}
+	
 	@SuppressWarnings("unused")
 	private void ____PRIVATE_helper_methods_________________________________() {
 	}

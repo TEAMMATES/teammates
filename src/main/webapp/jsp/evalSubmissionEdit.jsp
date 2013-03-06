@@ -1,15 +1,18 @@
+<%@page import="teammates.common.datatransfer.EvaluationData.EvalStatus"%>
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.common.datatransfer.SubmissionData" %>
 <%@ page import="teammates.ui.controller.EvalSubmissionEditHelper" %>
-<%@ page import="java.util.Date" %>
+
 <% EvalSubmissionEditHelper helper = (EvalSubmissionEditHelper)request.getAttribute("helper"); %>
 <%
 	boolean isStudent = Boolean.parseBoolean(request.getParameter("isStudent"));
-	Date currentDate = new Date();
 	String disableAttributeValue = "";
-	if(currentDate.compareTo(helper.eval.endTime) > 0 && isStudent){
+	
+	if (helper.eval.getStatus() == EvalStatus.CLOSED && isStudent){
 		disableAttributeValue = "disabled=\"disabled\"";
 	}
+		
+	
 %>
 <input type="hidden" value="<%= helper.eval.course %>"
 		name="<%= Common.PARAM_COURSE_ID %>"

@@ -3,10 +3,12 @@
 	<link href="/favicon.png" rel="shortcut icon" />
 	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 	<title>Teammates - Instructor</title>
-	<link type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
-	<link type="text/css" href="/stylesheets/instructorCourse.css" rel="stylesheet" />
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/instructorCourse.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
+	<link rel="stylesheet" href="/stylesheets/instructorCourse-print.css" type="text/css" media="print">
 	
-	<script async=""  type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
+	<script async=""  type="text/javascript" src="https://ssl.google-analytics.com/ga.js"></script>
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script src="/js/jquery-minified.js" type="text/javascript"></script>
 	<script src="/js/tooltip.js" type="text/javascript"></script>
@@ -30,20 +32,27 @@
 
 		<div id="frameTopWrapper">
 			<div id="logo">
+				<a href="/index.html">
 				<img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="Teammates" />
+				</a>
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="/page/instructorHome?user=teammates.demo.instructor" class="t_home">Home</a></li>
-					<li><a href="/page/instructorCourse?user=teammates.demo.instructor" class="t_courses">Courses</a></li>
-					<li><a href="/page/instructorEval?user=teammates.demo.instructor" class="t_evaluations">Evaluations</a></li>
-					<li><a target="_blank" href="/instructorHelp.html" class="t_help">Help</a></li>
-					<li><a href="/logout.jsp" class="t_logout">Logout</a>
-					 (teammates.demo.instr...)</li>
+					<li ><a class='nav home' data-link="instructorHome" href="/page/instructorHome?user=teammates.demo.instructor">Home</a></li>
+					<li class="current"><a class='nav courses' data-link="instructorCourse" href="/page/instructorCourse?user=teammates.demo.instructor">Courses</a></li>
+					<li><a class='nav evaluations' data-link="instructorEval" href="/page/instructorEval?user=teammates.demo.instructor">Evaluations</a></li>
+					<li><a class='nav help' href="/instructorHelp.html" target="_blank">Help</a></li>
+					<li><a class='nav logout' href="/logout.jsp">Logout</a>
+					
+					<span onmouseover="ddrivetip('teammates.demo.instructor')" onmouseout="hideddrivetip()">
+							(teammates.demo.instr...)</span>
+					</li>
 				</ul>
 			</div>
 			<div style="clear: both;"></div>
 		</div>
+		
+
 	</div>
 
 	<div id="frameBody">
@@ -111,7 +120,7 @@
 					<th class="centeralign color_white bold">Teams</th>
 					<th class="centeralign color_white bold">Total Students</th>
 					<th class="centeralign color_white bold">Total Unregistered</th>
-					<th class="centeralign color_white bold">Action(s)</th>
+					<th class="centeralign color_white bold no-print">Action(s)</th>
 				</tr>
 				
 					<tr>
@@ -145,4 +154,5 @@
 </div>
 	</div>
 
-</body></html>
+</body>
+</html>

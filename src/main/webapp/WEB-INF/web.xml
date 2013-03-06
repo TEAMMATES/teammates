@@ -80,7 +80,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>AdminHome</servlet-name>
-	    <url-pattern>/page/adminHome</url-pattern>
+	    <url-pattern>/admin/adminHome</url-pattern>
 	</servlet-mapping>
 	<servlet>
 	    <servlet-name>AdminExceptionTest</servlet-name>
@@ -88,7 +88,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>AdminExceptionTest</servlet-name>
-	    <url-pattern>/page/adminExceptionTest</url-pattern>
+	    <url-pattern>/admin/adminExceptionTest</url-pattern>
 	</servlet-mapping>
 	<servlet>
         <servlet-name>AdminSearch</servlet-name>
@@ -96,15 +96,31 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     </servlet>
 	<servlet-mapping>
         <servlet-name>AdminSearch</servlet-name>
-        <url-pattern>/page/adminSearch</url-pattern>
+        <url-pattern>/admin/adminSearch</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AdminAccountManagement</servlet-name>
+        <servlet-class>teammates.ui.controller.AdminAccountManagementServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminAccountManagement</servlet-name>
+        <url-pattern>/admin/adminAccountManagement</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AdminAccountDetails</servlet-name>
+        <servlet-class>teammates.ui.controller.AdminAccountDetailsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminAccountDetails</servlet-name>
+        <url-pattern>/admin/adminAccountDetails</url-pattern>
     </servlet-mapping>
 	<servlet>
-	    	<servlet-name>AdminActivityLog</servlet-name>
-	    	<servlet-class>teammates.ui.controller.AdminActivityLogServlet</servlet-class>
+	    <servlet-name>AdminActivityLog</servlet-name>
+	    <servlet-class>teammates.ui.controller.AdminActivityLogServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>AdminActivityLog</servlet-name>
-	    <url-pattern>/page/adminActivityLog</url-pattern>
+	    <url-pattern>/admin/adminActivityLog</url-pattern>
 	</servlet-mapping>
 	<servlet>
 	    <description>Servlet that handles Instructor homepage</description>
@@ -351,6 +367,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <url-pattern>/page/studentEvalResults</url-pattern>
 	</servlet-mapping>
 	
+	<security-constraint>
+	  <web-resource-collection>
+	  	<web-resource-name>AllPage</web-resource-name>
+	    <url-pattern>/page/*</url-pattern>
+	  </web-resource-collection>
+	  <user-data-constraint>
+	    <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+	  </user-data-constraint>
+	</security-constraint>
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>AutomatedEmails</web-resource-name>
@@ -364,6 +389,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <auth-constraint>
             <role-name>admin</role-name>
         </auth-constraint>
+        <user-data-constraint>
+	    	<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+	  	</user-data-constraint>
     </security-constraint>
     <security-constraint>
         <web-resource-collection>
@@ -374,19 +402,22 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <auth-constraint>
             <role-name>admin</role-name>
         </auth-constraint>
+        <user-data-constraint>
+	    	<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+	  	</user-data-constraint>
     </security-constraint>
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>AdminPages</web-resource-name>
             <description>Page for admin use only</description>
-            <url-pattern>/page/adminHome</url-pattern>
-            <url-pattern>/page/adminExceptionTest</url-pattern>
-            <url-pattern>/page/adminSearch</url-pattern>
-            <url-pattern>/page/adminActivityLog</url-pattern>
+            <url-pattern>/admin/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
         </auth-constraint>
+        <user-data-constraint>
+	    	<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+	  	</user-data-constraint>
     </security-constraint>
     <error-page>
         <error-code>403</error-code>

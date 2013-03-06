@@ -11,7 +11,7 @@ test('courseStatusToMessage(statusCode)', function(){
 	equal(courseStatusToMessage(COURSE_STATUS_EMPTY), DISPLAY_COURSE_MISSING_FIELD, "Course ID and Course Name are compulsory fields.");
 	equal(courseStatusToMessage(COURSE_STATUS_LONG_ID), DISPLAY_COURSE_LONG_ID, "Course ID should not exceed XX characters.");
 	equal(courseStatusToMessage(COURSE_STATUS_LONG_NAME), DISPLAY_COURSE_LONG_NAME, "Course name should not exceed XX characters.");
-	equal(courseStatusToMessage(COURSE_STATUS_INVALID_ID), DISPLAY_COURSE_INVALID_ID, "Please use only alphabets, numbers, dots, hyphens, underscores and dollars in course ID.");
+	equal(courseStatusToMessage(COURSE_STATUS_INVALID_ID), DISPLAY_COURSE_INVALID_ID, "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID.");
 	equal(courseStatusToMessage("default"), DISPLAY_INVALID_INPUT, "Unexpected error. Invalid input.");
 });
 
@@ -37,6 +37,12 @@ test('checkAddCourseParam(courseID, courseName, instructorList)', function(){
 	equal(checkAddCourseParam("CS100\"", "Software Engineering", "googid|Instructor1|I1@gmail.com"), COURSE_STATUS_INVALID_ID, "\" character");
 	equal(checkAddCourseParam("CS100'", "Software Engineering", "googid|Instructor1|I1@gmail.com"), COURSE_STATUS_INVALID_ID, "' character");
 		
+
+	equal(checkAddCourseParam("CS100", "Software Engineering", "power.ful-1988@GMmail.COM|Instructor1|I1@gmail.com"), COURSE_STATUS_VALID_INPUT, "Normal Valid Input");
+	equal(checkAddCourseParam("CS100", "Software Engineering", " user@hotmail.com |Instructor1|I1@gmail.com"), COURSE_STATUS_VALID_INPUT, "Normal Valid Input");
+	equal(checkAddCourseParam("CS100", "Software Engineering", "googid\n\t  @gmail.com \n\t |Instructor1|I1@gmail.com"), COURSE_STATUS_INSTRUCTOR_LIST_FIELDS_MISSING, "Space character");
+	equal(checkAddCourseParam("CS100", "Software Engineering", "googid\t  @gmail.com \t |Instructor1|I1@gmail.com"), COURSE_STATUS_INSTRUCTOR_LIST_FIELDS_EXTRA, "Tab character");
+	equal(checkAddCourseParam("CS100", "Software Engineering", "googid!@#$%^&*()|Instructor1|I1@gmail.com"), COURSE_STATUS_INSTRUCTOR_LIST_GOOGLEID_INVALID, "!@#$%^&*() character");
 });
 
 

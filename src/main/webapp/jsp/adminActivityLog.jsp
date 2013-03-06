@@ -1,6 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Calendar" %>
-<%@ page import="java.text.DateFormat" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.ui.controller.AdminActivityLogHelper"%>
 <%@ page import="com.google.appengine.api.log.AppLogLine" %>
@@ -39,28 +39,32 @@
 			<table class="inputTable" id="activityLogSearch">
 				<tr>
 					<td>
-						<span class="bold">Pages/Actions:</span>
+						<span class="bold">Servlets to View:</span>
 					</td>
 					<td>
 					<%
-						if (helper.servletCheckAll != null && helper.servletCheckAll.equals("on")){
+					    if (helper.checkAllServlets != null && helper.checkAllServlets.equals("on")){
 					%>
-						<input type="checkbox" name="selectAll" onclick="toggleAllServlets(this.checked)" checked="checked"> Select/UnselectAll
+						<input type="checkbox" name="selectAll" onclick="toggleAllServlets(this.checked)" checked="checked"> All Servlets
 					<%
 						} else {
 					%>
-						<input type="checkbox" name="selectAll" onclick="toggleAllServlets(this.checked)"> Select/UnselectAll
+						<input type="checkbox" name="selectAll" onclick="toggleAllServlets(this.checked)"> All Servlets
 					<%
 						}
 					%>
 					</td>
 					<td></td>
-					<td></td>
+					<td><a href="#" onclick="showServlets();">Display Servlet Options</a></td>
 				</tr>
-				<tr><td colspan="4"><hr width="75%"></td></tr>
+				<tr><td colspan="4" <%=(helper.checkAllServlets != null && helper.checkAllServlets.equals("on")) ? "style=\"display: none;\"" : "" %>><hr width="75%" id="topHR"></td></tr>
 				<%
 					int limit = 4;
 					int counter = 0;
+					String display = "";
+					if (helper.checkAllServlets != null && helper.checkAllServlets.equals("on")){
+					    display = "style=\"display: none;\"";
+					}
 					for (int i = 0; i < helper.listOfServlets.size(); i++){
 						String servletName = helper.listOfServlets.get(i);
 						if (counter == 0){
@@ -68,9 +72,9 @@
 						}
 						
 						if (helper.searchServlets(servletName)){
-							out.println("<td><input type=\"checkbox\" name=\"toggle_servlets\" value=\"" + servletName + "\" checked=\"checked\">" + servletName + "</td>");
+							out.println("<td " + display + "><input type=\"checkbox\" name=\"toggle_servlets\" value=\"" + servletName + "\" checked=\"checked\">" + servletName + "</td>");
 						} else {
-							out.println("<td><input type=\"checkbox\" name=\"toggle_servlets\" value=\"" + servletName + "\">" + servletName + "</td>");
+							out.println("<td " + display + "><input type=\"checkbox\" name=\"toggle_servlets\" value=\"" + servletName + "\">" + servletName + "</td>");
 						}
 						
 						
@@ -85,7 +89,7 @@
 						out.print("</tr>");
 					}
 				%>
-				<tr><td colspan="4"><hr width="75%"></td></tr>
+				<tr><td colspan="4" <%=(helper.checkAllServlets != null && helper.checkAllServlets.equals("on")) ? "style=\"display: none;\"" : "" %>><hr width="75%" id="bottomHR"></td></tr>
 				<tr>
 					<td colspan="2">
 						<span class="bold">Search Person: </span>
@@ -133,10 +137,15 @@
 		    <%
 		        } else {
 			        Calendar appCal = Calendar.getInstance();
-	
+			        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		          for (AppLogLine log : appLogs) {
 		  	        appCal.setTimeInMillis((log.getTimeUsec() / 1000) + 8*3600*1000);
-					String logMessageTableRow = AdminActivityLogHelper.parseLogMessage(appCal.getTime().toString(), log.getLogMessage(), helper);
+		  	        String logMessageTableRow;
+		  	        try{
+		  	          logMessageTableRow= helper.parseLogMessage(sdf.format(appCal.getTime()), log.getLogMessage());
+		  	        } catch (Exception e){
+		  	          logMessageTableRow= "<tr>Error trying to parse Log Message<br>" + log.getLogMessage() + "</tr>";  
+		  	        }
 
 		    %>
 		        <tr>
@@ -152,6 +161,8 @@
 			  %>
 			    
 			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			<br>
+			<div class="rightalign"><a href="#frameBodyWrapper">Back To Top</a></div>
 			<br>
 			<br>
 		</div>

@@ -45,6 +45,14 @@ public class EvaluationsDbTest extends BaseTestCase {
 		e.endTime = new Date();
 		evaluationsDb.createEvaluation(e);
 		
+		// SUCCESS even if keyword 'group' appears in the middle of the name (see Issue 380)
+		e = new EvaluationData();
+		e.course = "Computing102";
+		e.name = "text group text";
+		e.startTime = new Date();
+		e.endTime = new Date();
+		evaluationsDb.createEvaluation(e);
+		
 		// FAIL : duplicate
 		try {
 			evaluationsDb.createEvaluation(e);

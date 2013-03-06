@@ -11,8 +11,11 @@
 	<link rel="shortcut icon" href="/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Instructor</title>
-	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
-	<link rel="stylesheet" href="/stylesheets/instructorCourseDetails.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/instructorCourseDetails.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/stylesheets/instructorCourseDetails-print.css" type="text/css" media="print">
+	
 	
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script type="text/javascript" src="/js/jquery-minified.js"></script>
@@ -101,7 +104,7 @@
 							onclick="toggleSort(this,2)">Team</th>
 					<th class="centeralign color_white bold"><input class="buttonSortNone" type="button" id="button_sortstudentstatus"
 							onclick="toggleSort(this,3)">Status</th>
-					<th class="centeralign color_white bold">Action(s)</th>
+					<th class="centeralign color_white bold no-print">Action(s)</th>
 				</tr>
 				<%
 					int idx = -1;
@@ -111,7 +114,7 @@
 							<td id="<%=Common.PARAM_STUDENT_NAME%>"><%=student.name%></td>
 	 						<td id="<%=Common.PARAM_TEAM_NAME%>"><%=InstructorCourseDetailsHelper.escapeForHTML(student.team)%></td>
 	 						<td class="centeralign"><%= helper.status(student) %></td>
-	 						<td class="centeralign">
+	 						<td class="centeralign no-print">
 								<a class="color_black t_student_details<%= idx %>"
 										href="<%= helper.getCourseStudentDetailsLink(student) %>"
 										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_STUDENT_DETAILS %>')"
@@ -126,7 +129,7 @@
 											onclick="return toggleSendRegistrationKey()"
 											onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_STUDENT_REMIND %>')"
 											onmouseout="hideddrivetip()">
-											Resend Invite</a>
+											Send Invite</a>
 								<%	} %>
 								<a class="color_black t_student_delete<%= idx %>" href="<%= helper.getCourseStudentDeleteLink(student) %>"
 										onclick="return toggleDeleteStudentConfirmation('<%=InstructorCourseDetailsHelper.escapeForJavaScript(student.name)%>')"

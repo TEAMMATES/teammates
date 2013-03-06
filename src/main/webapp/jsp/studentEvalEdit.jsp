@@ -1,4 +1,5 @@
 <%@ page import="teammates.common.Common" %>
+<%@ page import="teammates.common.datatransfer.EvaluationData.EvalStatus" %>
 <%@ page import="teammates.common.datatransfer.EvaluationData" %>
 <%@ page import="teammates.common.datatransfer.StudentData" %>
 <%@ page import="teammates.common.datatransfer.SubmissionData" %>
@@ -6,9 +7,8 @@
 <%@ page import="java.util.Date" %>
 <% StudentEvalEditHelper helper = (StudentEvalEditHelper)request.getAttribute("helper"); %>
 <%
-	Date currentDate = new Date();
 	String disableAttributeValue = "";
-	if(currentDate.compareTo(helper.eval.endTime) > 0){
+	if(helper.eval.getStatus() == EvalStatus.CLOSED){
 		helper.statusMessage = Common.MESSAGE_EVALUATION_EXPIRED;
 		disableAttributeValue = "disabled=\"disabled\"";
 	}
@@ -19,8 +19,11 @@
 	<link rel="shortcut icon" href="/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Student</title>
-	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
-	<link rel="stylesheet" href="/stylesheets/studentEvalEdit.css" type="text/css">
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/studentEvalEdit.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/stylesheets/studentEvalEdit-print.css" type="text/css" media="print">
+	
 
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script text="text/javascript" src="/js/jquery-minified.js"></script>
