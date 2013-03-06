@@ -14,10 +14,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Date;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.params.ClientPNames;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpParams;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.SeleneseCommandExecutor;
@@ -321,9 +329,7 @@ public class BrowserInstance {
 	public By instructorCourseInputCourseName = By.id("coursename");
 	public By instructorCourseInputInstructorList = By.id("instructorlist");
 	public By instructorCourseAddButton = By.id("btnAddCourse");
-	public By instructorCourseSortByIdButton = By.id("button_sortcourseid");
-	public By instructorCourseSortByNameButton = By.id("button_sortcoursename");
-
+	
 	// ------------------------------- Courses Table
 	// ----------------------------- //
 	/*
@@ -1312,22 +1318,49 @@ public class BrowserInstance {
 	public void clickInstructorReviewerSummaryEdit(int rowID) {
 		clickWithWait(getReviewerSummaryEdit(rowID));
 	}
+	
+	// --------------------------------- TableSort
+		// -------------------------------- //
+	public By tableSortByIdButton = By.id("button_sortid");
+	public By tableSortByNameButton = By.id("button_sortname");
+	public By tableSortByDateButton = By.id("button_sortdate");
 
 	/**
-	 * Clicks the sort course by name button. Waits for the element to appear.
+	 * Clicks the sort by name button. Waits for the element to appear.
 	 * Pre-condition: Should be at Course Page
 	 */
-	public void clickInstructorCourseSortByNameButton() {
-		clickWithWait(instructorCourseSortByNameButton);
+	public void clickTableSortByNameButton() {
+		clickWithWait(tableSortByNameButton);
 	}
 
 	/**
-	 * Clicks the sort course by ID button. Waits for the element to appear.
+	 * Clicks the sort by ID button. Waits for the element to appear.
 	 * Pre-condition: Should be at Course Page
 	 */
-	public void clickInstructorCourseSortByIdButton() {
-		clickWithWait(instructorCourseSortByIdButton);
+	public void clickTableSortByIdButton() {
+		clickWithWait(tableSortByIdButton);
 	}
+	
+	/**
+	 * Clicks the sort by date button. Waits for the element to appear.
+	 * Pre-condition: Should be at Course Page
+	 */
+	public void clickTableSortByDateButton() {
+		clickWithWait(tableSortByDateButton);
+	}
+	
+	/**
+	 * Returns the string for specific row and column. Waits until the
+	 * element exists or timeout. Pre-condition: Should be at table sort page.
+	 * 
+	 * @param row, column
+	 * @return
+	 */
+	public String tableSortGetCell(int row, int column) {
+		waitForElementPresent(By.className("dataTable"));
+		return selenium.getTable("class=dataTable." + row + "." + column);
+	}
+	
 
 	// --------------------------------- Students
 	// -------------------------------- //
@@ -2257,6 +2290,7 @@ public class BrowserInstance {
 	 */
 	protected void wrapUp() {
 		selenium.stop();
+		
 		if (chromeService != null && chromeService.isRunning())
 			chromeService.stop();
 	}
@@ -2897,4 +2931,35 @@ public class BrowserInstance {
 			driver.switchTo().alert().accept();
 		}
 	}
+
+	/**
+	 * Verify if a link is alive by checking the response code recieved. 
+	 * If the url is an absolute path, it will verify immediately. Otherwise,
+	 * it will go to TEAMMATES_URL+url 
+	 * 
+	 * @param url 
+	 */
+	public void assertLinkAlive(String url) throws Exception {
+		
+		if (!url.startsWith("http") ){
+			url = TestProperties.inst().TEAMMATES_URL + url;
+		}
+		
+		URI linkToCheck = new URI(url);
+			
+		HttpClient client = new DefaultHttpClient();
+
+		HttpRequestBase requestMethod = new HttpGet();
+		requestMethod.setURI(linkToCheck);
+		
+		HttpParams httpRequestParameters = requestMethod.getParams();
+		httpRequestParameters.setParameter(ClientPNames.HANDLE_REDIRECTS,false);
+		requestMethod.setParams(httpRequestParameters);
+
+		HttpResponse response = client.execute(requestMethod);
+
+		assertEquals(response.getStatusLine().getStatusCode(), 200);
+
+	}
+	
 }

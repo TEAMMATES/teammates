@@ -1,12 +1,70 @@
 
 module('common.js');
 
+test('isNumber(num)', function(){
+	equal(isNumber("-0.001"),true,"Negative double");
+	equal(isNumber("12.056"),true,"Positive double");
+	equal(isNumber("100356"),true,"Positive integer");
+	equal(isNumber("-237"),true,"Negative integer");
+	equal(isNumber("ABCDE"),false,"Letters");
+	equal(isNumber("$12.57"),false,"With Dollar Sign");
+	equal(isNumber("12A5"),false,"Letter in Numbers");
+	equal(isNumber("0"),true,"zero");
+	equal(isNumber("   124    "),true,"With Spacing");
+	equal(isNumber("   12   4    "),false,"With Spacing between");
+});
+
+test('isDate(date)', function(){
+	equal(isDate("12432567"),false,"Numbers");
+	equal(isDate("0/0/0"),false,"0/0/0 - not in proper format");
+	equal(isDate("12/2/13"),false,"12/2/13 - not in proper format");
+	equal(isDate("12/02/2013"),true,"12/02/2013 - proper format");
+	equal(isDate("12/12/13"),true,"12/02/13 - proper format");
+	equal(isDate("28-12-2013"),true,"28-12-2013 - proper format");
+	equal(isDate("01 03 2003"),true,"01 03 2003 - proper format");
+	equal(isDate("A1/B3/C003"),false,"A1/B3/C003 - not in proper format");
+	equal(isDate("Abcdef"),false,"Letters");
+	equal(isDate("    12/12/01"),true,"With Spacing in front");
+	equal(isDate("12 12 01       "),true,"With Spacing behind");
+	equal(isDate("            12-12-01       "),true,"With Spacing");
+	equal(isDate("a12-12-2001"),false,"a12-12-2001 - not in proper format");
+	equal(isDate("    a      12 12 2001"),false,"    a      12 12 2001 - not in proper format");
+	equal(isDate("12/12/2001   a  "),false,"12/12/2001   a  - not in proper format");
+});
+
 
 test('scrollToTop()', function(){
 	// N/A, trivial function
 	expect(0);
 });
 
+
+test('sortBase(x, y)', function(){
+	equal(sortBase("abc","abc"),0,"Same text");
+	equal(sortBase("ABC","abc"),-1,"Bigger text");
+	equal(sortBase("abc","ABC"),1,"Smaller text");
+	equal(sortBase("abc","efg"),-1,"Different text");
+	equal(sortBase("ABC","efg"),-1,"Bigger text");
+	equal(sortBase("abc","EFG"),1,"Smaller text");
+});
+
+test('sortNum(x, y)', function(){
+	equal(sortNum("1","2"),-1,"x=1, y=2");
+	equal(sortNum("-10","2"),-12,"x=-10, y=2");
+	equal(sortNum("3","-1"),4,"x=3, y=-1");
+	equal(sortNum("0.1","0.1"),0,"x=0.1, y=0.1");
+	equal(sortNum("-0.1","0.1"),-0.2,"x=-0.1, y=0.1");
+	equal(sortNum("0.1","-0.1"),0.2,"x=-0.1, y=-0.1");
+});
+
+test('sortDate(x, y)', function(){
+	equal(sortDate("25/04/1999","23/04/1999"),2,"25/04/1999 - 23/04/1999");
+	equal(sortDate("25 04 1999","25 07 1999"),-300,"25 04 1999 - 25 07 1999");
+	equal(sortDate("25-04-1980","25-04-1999"),-190000,"25-04-1980 - 25-04-1999");
+	equal(sortDate("25/04/1980","25-04-1999"),-190000,"25/04/1980 - 25-04-1999");
+	equal(sortDate("25 04 1980","25-04-1999"),-190000,"25 04 1980 - 25-04-1999");
+	equal(sortDate("25 04 1980","25/04/1999"),-190000,"25 04 1980 - 25/04/1999");
+});
 
 test('setStatusMessage(message,error)', function(){	
 	$("body").append('<div id="statusMessage"></div>');
@@ -43,9 +101,24 @@ test('checkEvaluationForm()', function(){
 	expect(0);
 });
 
+test('sanitizeGoogleId(googleId)', function() {
+	equal(sanitizeGoogleId("test  @Gmail.COM  "), "test", "test - valid");
+	equal(sanitizeGoogleId("  user@hotmail.com  "), "user@hotmail.com", "user@hotmail.com - valid");
+});
+
+test('isValidGoogleId(googleId)', function() {
+	equal(isValidGoogleId("  test  \t\n"), true, "test - valid");
+	equal(isValidGoogleId("  charile.brown  \t\n"), true, "charile.brown - valid");
+	equal(isValidGoogleId("  big-small_mini  \t\n"), true, "big-small_mini - valid");
+	
+	equal(isValidGoogleId(" hello@GMail.COm \t\n "), false, "hello@gmail.com - invalid");
+	equal(isValidGoogleId("wrong!"), false, "wrong! - invalid");
+	equal(isValidGoogleId("not*correct"), false, "not*correct - invalid");
+	equal(isValidGoogleId("is/not\correct"), false, "is/not\correct - invalid");
+});
+
 test('isEmailValid(email)', function(){
 	equal(isEmailValid("test@gmail.com"), true, "test@gmail.com - valid");
-	
 	equal(isEmailValid("email"), false, "email - invalid");
 	equal(isEmailValid("email@email"), false, "email@email - invalid");
 	equal(isEmailValid("@yahoo.com"), false, "@yahoo.com - invalid");
