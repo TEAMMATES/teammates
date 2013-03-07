@@ -2529,7 +2529,7 @@ public class BrowserInstance {
 		String[] tokens = link.split("/");
 		String result = "";
 		for (int i = 3; i < tokens.length; i++) {
-			result += tokens[i];
+			result += "/"+ tokens[i] ;
 		}
 		return result;
 	}
