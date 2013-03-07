@@ -79,7 +79,7 @@
 					<p class ="bold rightalign spreadsheetLink">		
 						[ <a id ="spreadsheet_download" 
 							class="color_black t_course_enroll"
-							href="/files/Course Enroll Sample Spreadsheet.csv"
+							href="/files/Course%20Enroll%20Sample%20Spreadsheet.csv"
 							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ENROLL_SAMPLE_SPREADSHEET %>')"
 							onmouseout="hideddrivetip()">Sample spreadsheet</a> ] 
 					</p>
