@@ -358,6 +358,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, isInstructor);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
 		
 		verifyAdminLoggedIn();
 		
@@ -422,13 +423,14 @@ public class Logic {
 	/**
 	 * Access: admin only
 	 */
-	public void createInstructor(String googleId, String courseId, String name, String email)
+	public void createInstructor(String googleId, String courseId, String name, String email, String institute)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
 
 		verifyAdminLoggedIn();
 		// trim @gmail.com in ID field
@@ -443,6 +445,7 @@ public class Logic {
 			accountToAdd.name = name;
 			accountToAdd.isInstructor = true;
 			accountToAdd.email = email;
+			accountToAdd.institute = institute;
 			AccountsLogic.inst().getDb().createAccount(accountToAdd);
 		} else {
 			AccountsLogic.inst().getDb().makeAccountInstructor(googleId);
@@ -787,10 +790,11 @@ public class Logic {
 	 * 
 	 * Pre-condition: instructorLines must have AT LEAST ONE instructor
 	 */
-	public void updateCourseInstructors(String courseId, String instructorLines) 
+	public void updateCourseInstructors(String courseId, String instructorLines, String courseInstitute) 
 			throws InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorLines);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseInstitute);
 
 		if (!CoursesLogic.inst().isCourseExists(courseId)) {
 			Assumption.fail(ERROR_UPDATE_NON_EXISTENT_COURSE + courseId);
@@ -847,6 +851,7 @@ public class Logic {
 					accountToAdd.name = add.name;
 					accountToAdd.isInstructor = true;
 					accountToAdd.email = add.email;
+					accountToAdd.institute = courseInstitute;
 					AccountsLogic.inst().getDb().createAccount(accountToAdd);
 				} else {
 					AccountsLogic.inst().getDb().makeAccountInstructor(add.googleId);
@@ -1247,14 +1252,17 @@ public class Logic {
 		verifyOwnerOfId(googleId);
 
 		StudentData newJoinedStudent = AccountsLogic.inst().getDb().joinCourse(key, googleId);
-		
+
 		// Create the Account if it does not exist
 		if (!AccountsLogic.inst().getDb().isAccountExists(googleId)) {
+			// Need to retrieve the INSTITUTE of COURSE which this student is enrolling into, for creating his/her ACCOUNT
+			CourseData cd = CoursesLogic.inst().getDb().getCourse(newJoinedStudent.course);
 			AccountData accountToAdd = new AccountData();
 			accountToAdd.googleId = googleId;
 			accountToAdd.isInstructor = false;
 			accountToAdd.name = newJoinedStudent.name;
 			accountToAdd.email = newJoinedStudent.email;
+			accountToAdd.institute = CoursesLogic.inst().getCourseInstitute(cd.id);
 			AccountsLogic.inst().getDb().createAccount(accountToAdd);
 		}
 	}
