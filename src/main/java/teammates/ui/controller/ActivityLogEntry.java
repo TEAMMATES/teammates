@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import teammates.common.Common;
 import teammates.common.datatransfer.AccountData;
 
 import com.google.appengine.api.log.AppLogLine;
@@ -32,7 +33,7 @@ public class ActivityLogEntry {
 		googleId = "Unknown";
 		email = "Unknown";
 		toShow = true;
-		message = "<span class=\"color_red\">Error. ActivityLog not created for this servlet action.</span><br>"
+		message = "<span class=\"color_red\">Error. ActivityLogEntry object is not created for this servlet action.</span><br>"
 				+ params;
 		url = link;
 	}
@@ -133,14 +134,16 @@ public class ActivityLogEntry {
 	}
 	
 	public String getActionInfo(){
-		return "<span class=\"color_green bold\">" + servletName + "</span><br>" + action;
+		String act = "";
+		if(action == Common.LOG_SERVLET_ACTION_FAILURE || action == Common.LOG_SYSTEM_ERROR_REPORT) {
+			act = "<span class=\"color_red\">" + action + "</span>";
+		} else {
+			act = action;
+		}
+		return "<span class=\"color_green bold\">" + servletName + "</span><br>" + act;
 	}
 	
 	public String getMessageInfo(){
-		return message;
-	}
-	
-	public String getUrlInfo(){
-		return "<span class=\"color_blue\">URL: " + url + "</span><br><br>";
+		return message + "<br><br><a href=\"" + url + "\" target=\"blank\" title=\"" + url + "\">URL</a>";
 	}
 }

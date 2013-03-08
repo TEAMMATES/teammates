@@ -26,11 +26,21 @@ public class InstructorEvalEditServlet extends ActionServlet<InstructorEvalEditH
 	@Override
 	protected void doAction(HttpServletRequest req, InstructorEvalEditHelper helper)
 			throws EntityDoesNotExistException {
+		String url = req.getRequestURI();
+        if (req.getQueryString() != null){
+            url += "?" + req.getQueryString();
+        }
+        
 		String action = Common.INSTRUCTOR_EVAL_EDIT_SERVLET_PAGE_LOAD;
 		EvaluationData newEval = InstructorEvalServlet.extractEvaluationData(req);
 
 		if (newEval.course == null && newEval.name == null) {
 			helper.redirectUrl = Common.PAGE_INSTRUCTOR_EVAL;
+			
+			ArrayList<Object> data = new ArrayList<Object>();
+	        data.add("Course Id or Evaluation name is null");
+	                        
+	        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_EVAL_EDIT_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE, true, helper, url, data);
 			return;
 		}
 		
@@ -44,25 +54,37 @@ public class InstructorEvalEditServlet extends ActionServlet<InstructorEvalEditH
 				helper.statusMessage = Common.MESSAGE_EVALUATION_EDITED;
 				helper.redirectUrl = Common.PAGE_INSTRUCTOR_EVAL;
 				action = Common.INSTRUCTOR_EVAL_EDIT_SERVLET_EDIT_EVALUATION;
+				
+				activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_EVAL_EDIT_SERVLET, action,
+		        		true, helper, url, null);
 			} catch (InvalidParametersException ex) {
 				helper.statusMessage = ex.getMessage();
 				helper.error = true;
+				
+				ArrayList<Object> data = new ArrayList<Object>();
+		        data.add(helper.statusMessage);
+		                        
+		        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_EVAL_EDIT_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE, true, helper, url, data);
 			}
 		} else {
 			helper.newEvaluationToBeCreated = helper.server.getEvaluation(newEval.course,
 					newEval.name);
 			if (helper.newEvaluationToBeCreated == null) {
 				helper.redirectUrl = Common.PAGE_INSTRUCTOR_EVAL;
+				
+				ArrayList<Object> data = new ArrayList<Object>();
+		        data.add("Null evaluation cannot be created");
+		                        
+		        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_EVAL_EDIT_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE, true, helper, url, data);
 				return;
 			}
+			
+			activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_EVAL_EDIT_SERVLET, action,
+	        		true, helper, url, null);
 		}
 		
-		String url = req.getRequestURI();
-        if (req.getQueryString() != null){
-            url += "?" + req.getQueryString();
-        }    
-        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_EVAL_EDIT_SERVLET, action,
-        		true, helper, url, null);
+		    
+        
 
 	}
 
@@ -88,7 +110,7 @@ public class InstructorEvalEditServlet extends ActionServlet<InstructorEvalEditH
 						"<span class=\"bold\">Peer feedback:</span> " + (eval.p2pEnabled== true ? "enabled" : "disabled") + "<br><br>" + 
 						"<span class=\"bold\">Instructions:</span> " + eval.instructions;
 			} catch (NullPointerException e) {
-				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
 			}
 		} else if (action == Common.INSTRUCTOR_EVAL_EDIT_SERVLET_EDIT_EVALUATION){
 			try {
@@ -98,10 +120,14 @@ public class InstructorEvalEditServlet extends ActionServlet<InstructorEvalEditH
 						"<span class=\"bold\">Peer feedback:</span> " + (eval.p2pEnabled== true ? "enabled" : "disabled") + "<br><br>" + 
 						"<span class=\"bold\">Instructions:</span> " + eval.instructions;
 			} catch (NullPointerException e){
-				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
 			}
-		} else {
-			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
+            String e = (String)data.get(0);
+            params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
+            params += e + "</span>";
+        } else {
+			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
 		}
 				
 		return new ActivityLogEntry(servletName, action, true, account, params, url);

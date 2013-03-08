@@ -44,11 +44,21 @@ public abstract class EvalSubmissionEditServlet extends ActionServlet<EvalSubmis
 
 	@Override
 	protected void doAction(HttpServletRequest req, EvalSubmissionEditHelper helper) throws EntityDoesNotExistException{
+		String url = req.getRequestURI();
+		if (req.getQueryString() != null){
+			url += "?" + req.getQueryString();
+		}
+		
 		// Get parameters
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
 		if(courseID==null || evalName==null){
 			helper.redirectUrl = getDefaultRedirectUrl();
+			
+			ArrayList<Object> data = new ArrayList<Object>();
+			data.add("Course Id or Evaluation name is null");
+						
+			activityLogEntry = instantiateActivityLogEntry("Edit", Common.LOG_SERVLET_ACTION_FAILURE, true, helper, url, data);
 			return;
 		}
 		helper.student = getStudentObject(req, helper);
@@ -56,15 +66,31 @@ public abstract class EvalSubmissionEditServlet extends ActionServlet<EvalSubmis
 			helper.statusMessage = getMessageOnNullStudent(req, helper);
 			helper.error = true;
 			helper.redirectUrl = getDefaultRedirectUrl();
+			
+			ArrayList<Object> data = new ArrayList<Object>();
+			data.add(helper.statusMessage);
+						
+			activityLogEntry = instantiateActivityLogEntry("Edit", Common.LOG_SERVLET_ACTION_FAILURE, true, helper, url, data);
 			return;
 		}
 		helper.eval = helper.server.getEvaluation(courseID, evalName);
 		try{
 			helper.submissions = helper.server.getSubmissionsFromStudent(courseID, evalName, helper.student.email);
+			
+			ArrayList<Object> data = new ArrayList<Object>();
+			data.add(courseID);
+			data.add(evalName);
+		
+			activityLogEntry = instantiateActivityLogEntry("Edit", "Edit", true, helper, url, data);
 		} catch (InvalidParametersException e) {
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
 			helper.redirectUrl = getDefaultRedirectUrl();
+			
+			ArrayList<Object> data = new ArrayList<Object>();
+			data.add(helper.statusMessage);
+						
+			activityLogEntry = instantiateActivityLogEntry("Edit", Common.LOG_SERVLET_ACTION_FAILURE, true, helper, url, data);
 			return;
 		}
 		sortSubmissionsByReviewee(helper.submissions);
@@ -78,15 +104,5 @@ public abstract class EvalSubmissionEditServlet extends ActionServlet<EvalSubmis
 				break;
 			}
 		}
-		
-		ArrayList<Object> data = new ArrayList<Object>();
-		data.add(courseID);
-		data.add(evalName);
-		
-		String url = req.getRequestURI();
-		if (req.getQueryString() != null){
-			url += "?" + req.getQueryString();
-		}
-		activityLogEntry = instantiateActivityLogEntry("Edit", "Edit", true, helper, url, data);
 	}
 }

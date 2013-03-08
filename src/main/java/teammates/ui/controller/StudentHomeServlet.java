@@ -22,29 +22,39 @@ public class StudentHomeServlet extends ActionServlet<StudentHomeHelper> {
 
 	@Override
 	protected void doAction(HttpServletRequest req, StudentHomeHelper helper){
+		String url = req.getRequestURI();
+        if (req.getQueryString() != null){
+            url += "?" + req.getQueryString();
+        }
+        
 		try{
-			System.out.println(helper.userId);
 			helper.courses = helper.server.getCourseDetailsListForStudent(helper.userId);
 			sortCourses(helper.courses);
 			for(CourseData course: helper.courses){
 				sortEvaluationsByDeadline(course.evaluations);
 			}
+			
+			activityLogEntry = instantiateActivityLogEntry(Common.STUDENT_HOME_SERVLET, Common.STUDENT_HOME_SERVLET_PAGE_LOAD,
+					true, helper, url, null);
 		} catch (InvalidParametersException e){
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
+			
+			ArrayList<Object> data = new ArrayList<Object>();
+			data.add(e.getClass() + ": " + e.getMessage());
+			activityLogEntry = instantiateActivityLogEntry(Common.STUDENT_HOME_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE,
+					true, helper, url, data);
 		} catch (EntityDoesNotExistException e){
 			helper.courses = new ArrayList<CourseData>();
 			if (helper.statusMessage == null){
 				helper.statusMessage = Common.MESSAGE_STUDENT_FIRST_TIME;
 			}
+			
+			ArrayList<Object> data = new ArrayList<Object>();
+			data.add(e.getClass() + ": " + e.getMessage());
+			activityLogEntry = instantiateActivityLogEntry(Common.STUDENT_HOME_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE,
+					true, helper, url, data);
 		}
-		
-		String url = req.getRequestURI();
-        if (req.getQueryString() != null){
-            url += "?" + req.getQueryString();
-        }
-		activityLogEntry = instantiateActivityLogEntry(Common.STUDENT_HOME_SERVLET, Common.STUDENT_HOME_SERVLET_PAGE_LOAD,
-				true, helper, url, null);
 	}
 
 	@Override
@@ -65,10 +75,14 @@ public class StudentHomeServlet extends ActionServlet<StudentHomeHelper> {
 				params = "studentHome Page Load<br>";
 				params += "Total courses: " + h.courses.size();      
 			} catch (NullPointerException e) {
-				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";       
+				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";       
 			}
+		}else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
+			String e = (String)data.get(0);
+			params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
+			params += e + "</span>";
 		} else {
-			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";    
+			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";    
 		}
 			
 		return new ActivityLogEntry(servletName, action, true, account, params, url);

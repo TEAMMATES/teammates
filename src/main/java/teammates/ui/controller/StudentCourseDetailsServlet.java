@@ -29,10 +29,20 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 	@Override
 	protected void doAction(HttpServletRequest req, StudentCourseDetailsHelper helper)
 			throws EntityDoesNotExistException {
+		String url = req.getRequestURI();
+        if (req.getQueryString() != null){
+            url += "?" + req.getQueryString();
+        }
+        
 		// Get parameters
 		String courseId = req.getParameter(Common.PARAM_COURSE_ID);
 		if (courseId == null) {
 			helper.redirectUrl = Common.PAGE_STUDENT_HOME;
+			
+			ArrayList<Object> data = new ArrayList<Object>();
+	        data.add("Course Id is null");
+	                        
+	        activityLogEntry = instantiateActivityLogEntry(Common.STUDENT_COURSE_DETAILS_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE, true, helper, url, data);
 			return;
 		}
 		
@@ -42,10 +52,7 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 		helper.student = helper.server.getStudentInCourseForGoogleId(courseId, helper.userId);
 		helper.team = getTeam(helper.server.getTeamsForCourse(courseId),helper.student);
 		
-		String url = req.getRequestURI();
-        if (req.getQueryString() != null){
-            url += "?" + req.getQueryString();
-        }
+		
 		activityLogEntry = instantiateActivityLogEntry(Common.STUDENT_COURSE_DETAILS_SERVLET, Common.STUDENT_COURSE_DETAILS_SERVLET_PAGE_LOAD,
 				true, helper, url, null);
 	}
@@ -84,10 +91,14 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 				params = "studentCourseDetails Page Load<br>";
 				params += "Viewing team details for <span class=\"bold\">[" + h.course.id + "] " + h.course.name + "</span>";   
 			} catch (NullPointerException e) {
-				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";  
+				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";  
 			}
+		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
+			String e = (String)data.get(0);
+	        params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
+	        params += e + "</span>";
 		} else {
-			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";      
+			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";      
 		}
 			
 		return new ActivityLogEntry(servletName, action, true, account, params, url);

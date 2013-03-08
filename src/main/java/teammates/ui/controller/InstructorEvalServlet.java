@@ -29,28 +29,52 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 	@Override
 	protected void doAction(HttpServletRequest req, InstructorEvalHelper helper)
 			throws EntityDoesNotExistException {
-		String action = Common.INSTRUCTOR_EVAL_SERVLET_PAGE_LOAD;
+		String url = req.getRequestURI();
+        if (req.getQueryString() != null){
+            url += "?" + req.getQueryString();
+        }
+        
 		boolean isAddEvaluation = isPost;
 
 		if (!isAddEvaluation) {
 			helper.newEvaluationToBeCreated = null;
 			helper.courseIdForNewEvaluation = req.getParameter(Common.PARAM_COURSE_ID);
+			
+			activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_EVAL_SERVLET, Common.INSTRUCTOR_EVAL_SERVLET_PAGE_LOAD,
+	        		true, helper, url, null);
 		} else {
-			helper.newEvaluationToBeCreated = extractEvaluationData(req);
-			createEvaluation(helper);
-			action = Common.INSTRUCTOR_EVAL_SERVLET_NEW_EVALUATION;
+			try{
+				helper.newEvaluationToBeCreated = extractEvaluationData(req);
+				helper.server.createEvaluation(helper.newEvaluationToBeCreated);
+				helper.statusMessage = Common.MESSAGE_EVALUATION_ADDED;
+				helper.formEvaluation = helper.newEvaluationToBeCreated;
+				helper.newEvaluationToBeCreated = null;
+				
+				activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_EVAL_SERVLET, Common.INSTRUCTOR_EVAL_SERVLET_NEW_EVALUATION,
+		        		true, helper, url, null);
+			} catch (EntityAlreadyExistsException e) {
+				helper.statusMessage = Common.MESSAGE_EVALUATION_EXISTS;
+				helper.error = true;
+				
+				ArrayList<Object> data = new ArrayList<Object>();
+		        data.add(helper.statusMessage);
+		                        
+		        activityLogEntry = instantiateActivityLogEntry("Edit", Common.LOG_SERVLET_ACTION_FAILURE, true, helper, url, data);
+			} catch (InvalidParametersException e) {
+				// This will cover conditions such as start/end date is invalid
+				helper.statusMessage = e.getMessage();
+				helper.error = true;
+				
+				ArrayList<Object> data = new ArrayList<Object>();
+		        data.add(helper.statusMessage);
+		                        
+		        activityLogEntry = instantiateActivityLogEntry("Edit", Common.LOG_SERVLET_ACTION_FAILURE, true, helper, url, data);
+			}
 		}
-
-		populateEvaluationList(helper);
 		
+		populateEvaluationList(helper);
 		setStatusMessage(helper);
 		
-		String url = req.getRequestURI();
-        if (req.getQueryString() != null){
-            url += "?" + req.getQueryString();
-        }    
-        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_EVAL_SERVLET, action,
-        		true, helper, url, null);
 	}
 
 	//TODO: unit test this
@@ -64,22 +88,6 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 		helper.evaluations = helper.server
 				.getEvaluationsListForInstructor(helper.userId);
 		sortEvaluationsByDeadline(helper.evaluations);
-	}
-
-	private void createEvaluation(InstructorEvalHelper helper) {
-		try {
-			helper.server.createEvaluation(helper.newEvaluationToBeCreated);
-			helper.statusMessage = Common.MESSAGE_EVALUATION_ADDED;
-			helper.formEvaluation = helper.newEvaluationToBeCreated;
-			helper.newEvaluationToBeCreated = null;
-		} catch (EntityAlreadyExistsException e) {
-			helper.statusMessage = Common.MESSAGE_EVALUATION_EXISTS;
-			helper.error = true;
-		} catch (InvalidParametersException e) {
-			// This will cover conditions such as start/end date is invalid
-			helper.statusMessage = e.getMessage();
-			helper.error = true;
-		}
 	}
 
 	//TODO: unit test this
@@ -170,7 +178,7 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 			try {
 				params = "instructorEval Page Load<br>";
 			} catch (NullPointerException e) {
-				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
 			}
 		} else if (action == Common.INSTRUCTOR_EVAL_SERVLET_NEW_EVALUATION){
 			try {
@@ -180,10 +188,14 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 						"<span class=\"bold\">Peer feedback:</span> " + (eval.p2pEnabled== true ? "enabled" : "disabled") + "<br><br>" + 
 						"<span class=\"bold\">Instructions:</span> " + eval.instructions;
 			} catch (NullPointerException e){
-				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
 			}
-		} else {
-			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
+            String e = (String)data.get(0);
+            params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
+            params += e + "</span>";
+        } else {
+			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
 		}
 				
 		return new ActivityLogEntry(servletName, action, true, account, params, url);

@@ -62,10 +62,14 @@ public class InstructorEvalSubmissionEditServlet extends EvalSubmissionEditServl
 				params = "instructorEvalSubmissionEdit Page Load<br>";
 				params += "Editing <span class=\"bold\">" + h.student.name + "'s</span> Evaluation <span class=\"bold\">("+ (String)data.get(1)+")</span> for Course <span class=\"bold\">[" + data.get(0) + "]</span>";
 			} catch (NullPointerException e) {
-				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
 			}
+		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
+			String e = (String)data.get(0);
+	        params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
+	        params += e + "</span>";
 		} else {
-			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
 		}
 				
 		return new ActivityLogEntry(servletName, action, true, account, params, url);

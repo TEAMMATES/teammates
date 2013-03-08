@@ -30,10 +30,9 @@ public class StudentEvalEditHandlerServlet extends EvalSubmissionEditHandlerServ
 
 	@Override
 	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
-		Helper h = helper;
 		String params;
 		servletName = servletName.equals("EditHandler") ? Common.STUDENT_EVAL_EDIT_HANDLER_SERVLET : "";
-		action = action.equals("EditHandler") ? Common.STUDENT_EVAL_EDIT_HANDLER_SERVLET_EDIT_SUBMISSION : "";
+		action = action.equals("EditHandler") ? Common.STUDENT_EVAL_EDIT_HANDLER_SERVLET_EDIT_SUBMISSION : action;
 		
 		UserType user = helper.server.getLoggedInUser();
 		AccountData account = helper.server.getAccount(user.id);
@@ -60,12 +59,16 @@ public class StudentEvalEditHandlerServlet extends EvalSubmissionEditHandlerServ
 				}    
 				
 			} catch (NullPointerException e) {
-				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>"; 
+				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>"; 
 			} catch (IndexOutOfBoundsException e) {
-				params = "<span class=\"colour_red\">Varlable index exceeded in " + servletName + ": " + action + ".</span>";    
+				params = "<span class=\"color_red\">Varlable index exceeded in " + servletName + ": " + action + ".</span>";    
 			}
+		}else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
+			String e = (String)data.get(0);
+	        params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
+	        params += e + "</span>";
 		} else {
-			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
 		}
 			
 		return new ActivityLogEntry(servletName, action, true, account, params, url);

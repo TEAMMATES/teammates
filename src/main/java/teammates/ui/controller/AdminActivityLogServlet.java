@@ -20,7 +20,7 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 
 	//We want to pull out the application logs
 	private boolean includeAppLogs = true;
-	private static final int LOGS_PER_PAGE = 200;
+	private static final int LOGS_PER_PAGE = 1000;
 	private static final int MAX_LOGSEARCH_LIMIT = 100000;
 		
 	@Override
@@ -121,7 +121,6 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 
 	@Override
 	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
-		AdminActivityLogHelper h = (AdminActivityLogHelper) helper;
 		String params;
 		
 		UserType user = helper.server.getLoggedInUser();
@@ -129,8 +128,12 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 		
 		if(action == Common.ADMIN_ACTIVITY_LOG_SERVLET_PAGE_LOAD){
 			params = "adminActivityLog Page Load";
-		} else {
-			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
+            String e = (String)data.get(0);
+            params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
+            params += e + "</span>";
+        } else {
+			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
 		}
 			
 		return new ActivityLogEntry(servletName, action, true, account, params, url);

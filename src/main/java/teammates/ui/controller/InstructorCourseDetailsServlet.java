@@ -24,27 +24,33 @@ public class InstructorCourseDetailsServlet extends ActionServlet<InstructorCour
 
 	@Override
 	protected void doAction(HttpServletRequest req, InstructorCourseDetailsHelper helper) throws EntityDoesNotExistException{
+		String url = req.getRequestURI();
+        if (req.getQueryString() != null){
+            url += "?" + req.getQueryString();
+        }
+        
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		
 		if(courseID!=null){
 			helper.course = helper.server.getCourseDetails(courseID);
 			helper.students = helper.server.getStudentListForCourse(courseID);
 			helper.instructors = helper.server.getInstructorsByCourseId(courseID);
+			
+			ArrayList<Object> data = new ArrayList<Object>();
+			data.add(courseID);
+			 
+	        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_DETAILS_SERVLET, Common.INSTRUCTOR_COURSE_DETAILS_SERVLET_PAGE_LOAD,
+	        		true, helper, url, data);
 		} else {
 			helper.redirectUrl = Common.PAGE_INSTRUCTOR_COURSE;
+			
+			ArrayList<Object> data = new ArrayList<Object>();
+	        data.add("Course Id is null");
+	                        
+	        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_DETAILS_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE, true, helper, url, data);
 		}
 		
 		sortStudents(helper.students);
-		
-		ArrayList<Object> data = new ArrayList<Object>();
-		data.add(courseID);
-		
-		String url = req.getRequestURI();
-        if (req.getQueryString() != null){
-            url += "?" + req.getQueryString();
-        } 
-        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_DETAILS_SERVLET, Common.INSTRUCTOR_COURSE_DETAILS_SERVLET_PAGE_LOAD,
-        		true, helper, url, data);
 	}
 
 	@Override
@@ -55,7 +61,6 @@ public class InstructorCourseDetailsServlet extends ActionServlet<InstructorCour
 
 	@Override
 	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
-		InstructorCourseDetailsHelper h = (InstructorCourseDetailsHelper) helper;
 		String params;
 		
 		UserType user = helper.server.getLoggedInUser();
@@ -66,10 +71,14 @@ public class InstructorCourseDetailsServlet extends ActionServlet<InstructorCour
 				params = "instructorCourseDetails Page Load<br>";
 				params += "Viewing Course Details for Course <span class=\"bold\">[" + (String)data.get(0) + "]</span>";
 			} catch (NullPointerException e) {
-				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
 			}
-		} else {
-			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
+            String e = (String)data.get(0);
+            params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
+            params += e + "</span>";
+        } else {
+			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
 		}
 				
 		return new ActivityLogEntry(servletName, action, true, account, params, url);

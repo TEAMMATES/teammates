@@ -71,13 +71,21 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			doAction(req, helper);
 			logLevel = Level.INFO;
 			doCreateResponse(req, resp, helper);
+			
+			log.log(logLevel, getMessageToBeLogged(req));
 
 		} catch (EntityDoesNotExistException e) {
 			logLevel = Level.WARNING;
+			log.log(logLevel, generateServletActionFailureLogMessage(req, e));
+			
 			resp.sendRedirect(Common.JSP_ENTITY_NOT_FOUND_PAGE);
+			return;
 		} catch (UnauthorizedAccessException e) {
 			logLevel = Level.WARNING;
+			log.log(logLevel, generateServletActionFailureLogMessage(req, e));
+			
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
+			return;
 		}  catch (DeadlineExceededException e) {
 			MimeMessage email = helper.server.emailErrorReport(req.getServletPath(), reqParam, (Throwable) e);
 			
@@ -92,9 +100,29 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 						
 		    resp.sendRedirect(Common.JSP_ERROR_PAGE);
 			return;
-		} finally {
-			log.log(logLevel, getMessageToBeLogged(req));
 		}
+	}
+	
+	
+	protected String generateServletActionFailureLogMessage(HttpServletRequest req, Exception e){
+		String[] actionTaken = req.getServletPath().split("/");
+		String action = req.getServletPath();
+		if(actionTaken.length > 0) {
+			action = actionTaken[actionTaken.length-1]; //retrieve last segment in path
+		}
+		String url = req.getRequestURI();
+        if (req.getQueryString() != null){
+            url += "?" + req.getQueryString();
+        }
+        
+        
+        String message = "<span class=\"color_red\">Servlet Action failure in " + action + "<br>";
+        message += e.getClass() + ": " + e.getMessage() + "<br>";
+        message += Common.printRequestParameters(req) + "</span>";
+        
+        ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Common.LOG_SERVLET_ACTION_FAILURE, true, null, message, url);
+        
+        return exceptionLog.generateLogMessage();
 	}
 	
 
@@ -123,7 +151,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
       		}
       	}
 		
-		ActivityLogEntry emailReportLog = new ActivityLogEntry(action, "System Error Report", true, null, message, url);
+		ActivityLogEntry emailReportLog = new ActivityLogEntry(action, Common.LOG_SYSTEM_ERROR_REPORT, true, null, message, url);
 		
 		return emailReportLog.generateLogMessage();
 	}

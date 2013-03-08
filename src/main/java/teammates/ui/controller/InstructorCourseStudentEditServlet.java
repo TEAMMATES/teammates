@@ -26,6 +26,11 @@ public class InstructorCourseStudentEditServlet extends
 	protected void doAction(HttpServletRequest req,
 			InstructorCourseStudentEditHelper helper)
 			throws EntityDoesNotExistException {
+		String url = req.getRequestURI();
+        if (req.getQueryString() != null){
+            url += "?" + req.getQueryString();
+        } 
+        
 		String action = Common.INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET_PAGE_LOAD;
 		
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
@@ -40,9 +45,6 @@ public class InstructorCourseStudentEditServlet extends
 		helper.student = helper.server.getStudent(courseID, studentEmail);
 		helper.regKey = helper.server.getKeyForStudent(courseID, studentEmail);
 
-		ArrayList<Object> data = new ArrayList<Object>();
-		data.add(courseID);
-		data.add(studentEmail);
 		
 		if (submit) {
 			helper.student.name = studentName;
@@ -54,19 +56,34 @@ public class InstructorCourseStudentEditServlet extends
 				helper.server.editStudent(studentEmail, helper.student);
 				helper.statusMessage = Common.MESSAGE_STUDENT_EDITED;
 				helper.redirectUrl = helper.getInstructorCourseDetailsLink(courseID);
+				
+				ArrayList<Object> data = new ArrayList<Object>();
+				data.add(courseID);
+				data.add(studentEmail);
+				
+				activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET, action,
+		        		true, helper, url, data);
 			} catch (InvalidParametersException e) {
 				helper.statusMessage = e.getMessage();
 				helper.error = true;
+				
+				ArrayList<Object> data = new ArrayList<Object>();
+		        data.add(helper.statusMessage);
+		                        
+		        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE, true, helper, url, data);
 				return;
 			}
+		} else {
+			ArrayList<Object> data = new ArrayList<Object>();
+			data.add(courseID);
+			data.add(studentEmail);
+			
+			activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET, action,
+	        		true, helper, url, data);
 		}
 		
-		String url = req.getRequestURI();
-        if (req.getQueryString() != null){
-            url += "?" + req.getQueryString();
-        }    
-        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET, action,
-        		true, helper, url, data);
+		   
+        
 	}
 
 	@Override
@@ -87,17 +104,21 @@ public class InstructorCourseStudentEditServlet extends
 				params = "instructorCourseStudentEdit Page Load<br>";
 				params += "Editing Student <span class=\"bold\">" + (String)data.get(1) +"'s</span> details in Course <span class=\"bold\">[" + (String)data.get(0) + "]</span>";
 			} catch (NullPointerException e) {
-				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
 			}
 		} else if (action == Common.INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET_EDIT_DETAILS){
 			try {
 				params = "Student <span class=\"bold\">" + h.student.name + "'s</span> details in Course <span class=\"bold\">[" + (String)data.get(0) + "]</span> edited.<br>";
 				params += "New Email: " + h.student.email + "<br>New Team: " + h.student.team + "<br>Comments: " + h.student.comments;
 			} catch (NullPointerException e){
-				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
 			}
-		} else {
-			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
+            String e = (String)data.get(0);
+            params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
+            params += e + "</span>";
+        } else {
+			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
 		}
 				
 		return new ActivityLogEntry(servletName, action, true, account, params, url);

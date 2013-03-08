@@ -37,7 +37,11 @@ public abstract class EvalSubmissionEditHandlerServlet extends ActionServlet<Hel
 	@Override
 	protected void doAction(HttpServletRequest req, Helper helper)
 			throws EntityDoesNotExistException {
-		ArrayList<Object> data = new ArrayList<Object>();
+		String url = req.getRequestURI();
+        if (req.getQueryString() != null){
+            url += "?" + req.getQueryString();
+        }
+		
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
 		String teamName = req.getParameter(Common.PARAM_TEAM_NAME);
@@ -46,14 +50,6 @@ public abstract class EvalSubmissionEditHandlerServlet extends ActionServlet<Hel
 		String[] points = req.getParameterValues(Common.PARAM_POINTS);
 		String[] justifications = req.getParameterValues(Common.PARAM_JUSTIFICATION);
 		String[] comments = req.getParameterValues(Common.PARAM_COMMENTS);
-		data.add(courseID);
-		data.add(evalName);
-		data.add(teamName);
-		data.add(fromEmail);
-		data.add(toEmails);
-		data.add(points);
-		data.add(justifications);
-		data.add(comments);
 		
 		EvaluationData eval = helper.server.getEvaluation(courseID, evalName);
 		
@@ -80,14 +76,25 @@ public abstract class EvalSubmissionEditHandlerServlet extends ActionServlet<Hel
 			helper.statusMessage = getSuccessMessage(req,helper);
 			helper.redirectUrl = getSuccessUrl();
 			
-			String url = req.getRequestURI();
-	        if (req.getQueryString() != null){
-	            url += "?" + req.getQueryString();
-	        }
+			ArrayList<Object> data = new ArrayList<Object>();
+			data.add(courseID);
+			data.add(evalName);
+			data.add(teamName);
+			data.add(fromEmail);
+			data.add(toEmails);
+			data.add(points);
+			data.add(justifications);
+			data.add(comments);
+			
 			activityLogEntry = instantiateActivityLogEntry("EditHandler", "EditHandler", true, helper, url, data);
 		} catch (InvalidParametersException e) {
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
+			
+			ArrayList<Object> data = new ArrayList<Object>();
+	        data.add(helper.statusMessage);
+	                        
+	        activityLogEntry = instantiateActivityLogEntry("EditHandler", Common.LOG_SERVLET_ACTION_FAILURE, true, helper, url, data);
 		}
 		
 	}

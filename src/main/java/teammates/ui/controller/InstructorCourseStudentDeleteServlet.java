@@ -23,6 +23,11 @@ public class InstructorCourseStudentDeleteServlet extends ActionServlet<Helper> 
 
 	@Override
 	protected void doAction(HttpServletRequest req, Helper helper) {
+		String url = req.getRequestURI();
+        if (req.getQueryString() != null){
+            url += "?" + req.getQueryString();
+        } 
+        
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String studentEmail = req.getParameter(Common.PARAM_STUDENT_EMAIL);
 		
@@ -34,11 +39,7 @@ public class InstructorCourseStudentDeleteServlet extends ActionServlet<Helper> 
 		ArrayList<Object> data = new ArrayList<Object>();
 		data.add(courseID);
 		data.add(studentEmail);
-		
-		String url = req.getRequestURI();
-        if (req.getQueryString() != null){
-            url += "?" + req.getQueryString();
-        }    
+				   
         activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_STUDENT_DELETE_SERVLET, Common.INSTRUCTOR_COURSE_STUDENT_DELETE_SERVLET_DELETE_STUDENT,
         		true, helper, url, data);
 	}
@@ -46,7 +47,6 @@ public class InstructorCourseStudentDeleteServlet extends ActionServlet<Helper> 
 
 	@Override
 	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
-		Helper h = helper;
 		String params;
 		
 		UserType user = helper.server.getLoggedInUser();
@@ -56,10 +56,14 @@ public class InstructorCourseStudentDeleteServlet extends ActionServlet<Helper> 
 			try {
 				params = "Student <span class=\"bold\">" + (String)data.get(1) + "</span> in Course <span class=\"bold\">[" + (String)data.get(0) + "]</span> deleted.";
 			} catch (NullPointerException e) {
-				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
 			}
-		} else {
-			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
+            String e = (String)data.get(0);
+            params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
+            params += e + "</span>";
+        } else {
+			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
 		}
 				
 		return new ActivityLogEntry(servletName, action, true, account, params, url);

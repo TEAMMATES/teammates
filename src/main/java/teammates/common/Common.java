@@ -525,7 +525,11 @@ public class Common {
 	public static String EVALUATION_CLOSING_REMINDERS_SERVLET_EVALUATION_CLOSE_REMINDER = "Send Evaluation Closing reminders";
 	public static String EVALUATION_OPENING_REMINDERS_SERVLET_EVALUATION_OPEN_REMINDER = "Send Evaluation Opening reminders";
 	
-	
+	/**
+	 * Other Servlet Actions
+	 */
+	public static String LOG_SYSTEM_ERROR_REPORT = "System Error Report";
+	public static String LOG_SERVLET_ACTION_FAILURE = "Servlet Action Failure";
 	
 			
 	

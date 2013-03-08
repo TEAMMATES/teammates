@@ -64,7 +64,6 @@ public class AdminExceptionTestServlet extends ActionServlet<AdminHomeHelper> {
 
 	@Override
 	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
-		AdminHomeHelper h = (AdminHomeHelper) helper;
 		String params;
 		
 		UserType user = helper.server.getLoggedInUser();
@@ -72,8 +71,12 @@ public class AdminExceptionTestServlet extends ActionServlet<AdminHomeHelper> {
 		
 		if(action == Common.ADMIN_EXCEPTION_TEST_SERVLET_PAGE_LOAD){
 			params = "adminExceptionTest";
-		} else {
-			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
+            String e = (String)data.get(0);
+            params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
+            params += e + "</span>";
+        } else {
+			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
 		}
 			
 		return new ActivityLogEntry(servletName, action, true, account, params, url);

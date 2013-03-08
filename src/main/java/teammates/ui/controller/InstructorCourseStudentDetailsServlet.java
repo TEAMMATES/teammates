@@ -22,7 +22,12 @@ public class InstructorCourseStudentDetailsServlet extends ActionServlet<Instruc
 
 	@Override
 	protected void doAction(HttpServletRequest req, InstructorCourseStudentDetailsHelper helper) throws EntityDoesNotExistException{
-		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
+		String url = req.getRequestURI();
+        if (req.getQueryString() != null){
+            url += "?" + req.getQueryString();
+        }  
+        
+        String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String studentEmail = req.getParameter(Common.PARAM_STUDENT_EMAIL);
 		
 		helper.student = helper.server.getStudent(courseID, studentEmail);
@@ -31,11 +36,7 @@ public class InstructorCourseStudentDetailsServlet extends ActionServlet<Instruc
 		ArrayList<Object> data = new ArrayList<Object>();
 		data.add(courseID);
 		data.add(studentEmail);
-		
-		String url = req.getRequestURI();
-        if (req.getQueryString() != null){
-            url += "?" + req.getQueryString();
-        }    
+		  
         activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_STUDENT_DETAILS_SERVLET, Common.INSTRUCTOR_COURSE_STUDENT_DETAILS_SERVLET_PAGE_LOAD,
         		true, helper, url, data);
 	}
@@ -47,7 +48,6 @@ public class InstructorCourseStudentDetailsServlet extends ActionServlet<Instruc
 
 	@Override
 	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
-		InstructorCourseStudentDetailsHelper h = (InstructorCourseStudentDetailsHelper) helper;
 		String params;
 		
 		UserType user = helper.server.getLoggedInUser();
@@ -58,10 +58,14 @@ public class InstructorCourseStudentDetailsServlet extends ActionServlet<Instruc
 				params = "instructorCourseStudentDetails Page Load<br>";
 				params += "Viewing details for Student <span class=\"bold\">" + (String)data.get(1) + "</span> in Course <span class=\"bold\">[" + (String)data.get(0) + "</span>"; 
 			} catch (NullPointerException e) {
-				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
 			}
-		} else {
-			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
+            String e = (String)data.get(0);
+            params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
+            params += e + "</span>";
+        } else {
+			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
 		}
 				
 		return new ActivityLogEntry(servletName, action, true, account, params, url);

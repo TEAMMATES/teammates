@@ -24,18 +24,33 @@ public class StudentEvalResultsServlet extends ActionServlet<StudentEvalResultsH
 	@Override
 	protected void doAction(HttpServletRequest req, StudentEvalResultsHelper helper)
 			throws EntityDoesNotExistException {
+		String url = req.getRequestURI();
+        if (req.getQueryString() != null){
+            url += "?" + req.getQueryString();
+        }
+        
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
 		if(courseID==null || evalName==null){
 			helper.redirectUrl = Common.PAGE_STUDENT_HOME;
+			
+			ArrayList<Object> data = new ArrayList<Object>();
+			data.add("Course Id or Evaluation Name is null");
+			activityLogEntry = instantiateActivityLogEntry(Common.STUDENT_EVAL_RESULTS_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE,
+	        		true, helper, url, data);
 			return;
 		}
-		System.out.println(helper.userId + courseID);
+		
 		helper.student = helper.server.getStudentInCourseForGoogleId(courseID, helper.userId);
 		if(helper.student==null){
 			helper.statusMessage = "You are not registered in the course "+Helper.escapeForHTML(courseID);
 			helper.error = true;
 			helper.redirectUrl = Common.PAGE_STUDENT_HOME;
+			
+			ArrayList<Object> data = new ArrayList<Object>();
+			data.add(helper.statusMessage);
+			activityLogEntry = instantiateActivityLogEntry(Common.STUDENT_EVAL_RESULTS_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE,
+	        		true, helper, url, data);
 			return;
 		}
 		
@@ -53,17 +68,18 @@ public class StudentEvalResultsServlet extends ActionServlet<StudentEvalResultsH
 			ArrayList<Object> data = new ArrayList<Object>();
 			data.add(courseID);
 			data.add(evalName);
-			
-			String url = req.getRequestURI();
-	        if (req.getQueryString() != null){
-	            url += "?" + req.getQueryString();
-	        }    
+			    
 	        activityLogEntry = instantiateActivityLogEntry(Common.STUDENT_EVAL_RESULTS_SERVLET, Common.STUDENT_EVAL_RESULTS_SERVLET_PAGE_LOAD,
 	        		true, helper, url, data);
 		} catch (InvalidParametersException e) {
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
 			helper.redirectUrl = Common.PAGE_STUDENT_HOME;
+			
+			ArrayList<Object> data = new ArrayList<Object>();
+			data.add(e.getClass() + ": " + e.getMessage());
+			activityLogEntry = instantiateActivityLogEntry(Common.STUDENT_EVAL_RESULTS_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE,
+	        		true, helper, url, data);
 			return;
 		}
 	}
@@ -95,7 +111,6 @@ public class StudentEvalResultsServlet extends ActionServlet<StudentEvalResultsH
 
 	@Override
 	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
-		StudentEvalResultsHelper h = (StudentEvalResultsHelper) helper;
 		String params;
 		
 		UserType user = helper.server.getLoggedInUser();
@@ -106,10 +121,14 @@ public class StudentEvalResultsServlet extends ActionServlet<StudentEvalResultsH
 				params = "studentEvalResults Page Load<br>";
 				params += "Viewing evaluation results for Evaluation <span class=\"bold\">(" + (String)data.get(1) + ")</span> of Course <span class=\"bold\">[" + (String)data.get(0) + "]</span>"; 
 			} catch (NullPointerException e) {
-				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
 			}
+		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
+			String e = (String)data.get(0);
+			params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
+			params += e + "</span>";
 		} else {
-			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
 		}
 				
 		return new ActivityLogEntry(servletName, action, true, account, params, url);

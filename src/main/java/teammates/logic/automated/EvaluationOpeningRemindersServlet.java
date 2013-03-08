@@ -52,10 +52,14 @@ public class EvaluationOpeningRemindersServlet extends HttpServlet {
 					params += (String)data.get(i) + "<br>";
 				}
 			} catch (NullPointerException e) {
-				params = "<span class=\"colour_red\">Unable to retrieve email targets in " + servletName + ": " + action + ".</span>";
+				params = "<span class=\"color_red\">Unable to retrieve email targets in " + servletName + ": " + action + ".</span>";
 			}
-		} else {
-			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
+            String e = (String)data.get(0);
+            params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
+            params += e + "</span>";
+        } else {
+			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
 		}
 				
 		return new ActivityLogEntry(servletName, action, true, null, params, url);

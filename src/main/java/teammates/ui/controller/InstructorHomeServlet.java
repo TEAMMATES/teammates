@@ -25,17 +25,18 @@ public class InstructorHomeServlet extends ActionServlet<InstructorHomeHelper> {
 
 	@Override
 	protected void doAction(HttpServletRequest req, InstructorHomeHelper helper) throws EntityDoesNotExistException{
+		String url = req.getRequestURI();
+        if (req.getQueryString() != null){
+            url += "?" + req.getQueryString();
+        } 
+        
 		HashMap<String, CourseData> courses = helper.server.getCourseDetailsListForInstructor(helper.userId);
 		helper.courses = new ArrayList<CourseData>(courses.values());
 		sortCourses(helper.courses);
 		for(CourseData course: helper.courses){
 			sortEvaluationsByDeadline(course.evaluations);
 		}
-		
-		String url = req.getRequestURI();
-        if (req.getQueryString() != null){
-            url += "?" + req.getQueryString();
-        }    
+		   
 		activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_HOME_SERVLET, Common.INSTRUCTOR_HOME_SERVLET_PAGE_LOAD,
 				true, helper, url, null);
 	}
@@ -59,10 +60,14 @@ public class InstructorHomeServlet extends ActionServlet<InstructorHomeHelper> {
 				params = "instructorHome Page Load<br>";
 				params += "Total Courses: " + h.courses.size();
 			} catch (NullPointerException e) {
-				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
 			}
+		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
+			String e = (String)data.get(0);
+	        params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
+	        params += e + "</span>";
 		} else {
-			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
 		}
 
 		return new ActivityLogEntry(servletName, action, true, account, params, url);

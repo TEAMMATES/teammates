@@ -65,10 +65,14 @@ public class AdminAccountDetailsServlet extends ActionServlet<AdminAccountDetail
 				params = "adminAccountDetails Page Load<br>";
 				params += "Viewing details for " + h.accountInformation.name + "(" +h.accountInformation.googleId + ")";
 			} catch (NullPointerException e) {
-				params = "<span class=\"colour_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
 			}
-		} else {
-			params = "<span class=\"colour_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
+            String e = (String)data.get(0);
+            params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
+            params += e + "</span>";
+        } else {
+			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
 		}
 			
 		return new ActivityLogEntry(servletName, action, true, account, params, url);
