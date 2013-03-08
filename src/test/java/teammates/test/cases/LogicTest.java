@@ -944,7 +944,7 @@ public class LogicTest extends BaseTestCase {
 		verifyAbsentInDatastore(instructor3Account);
 
 		// Have the admin create an empty instructor account
-		logic.createAccount(creator.googleId, creator.name, true, creator.email, "National University of Singapore");
+		logic.createAccount(creator.googleId, creator.name, true, creator.email, creator.institute);
 		
 		// Then login as the new instructor to create a course
 		loginAsInstructor("idOfInstructor1OfCourse1");
@@ -962,6 +962,8 @@ public class LogicTest extends BaseTestCase {
 		verifyPresentInDatastore(creator);				// Check that Accounts are created for the new Instructors
 		verifyPresentInDatastore(instructor2Account);
 		verifyPresentInDatastore(instructor3Account);
+		assertEquals(creator.institute, instructor2Account.institute);	// Ensure new accounts have the correct Institute
+		assertEquals(creator.institute, instructor3Account.institute);	// Ensure new accounts have the correct Institute
 		
 		______TS("Remove one Instructor");
 		
@@ -2217,6 +2219,7 @@ public class LogicTest extends BaseTestCase {
 		helper.setEnvEmail(googleId);
 		helper.setEnvAuthDomain("gmail.com");
 		
+		// TODO: remove unecrpytion - should fail test
 		//Test if unencrypted key used
 		logic.joinCourse(googleId, key);
 		assertEquals(googleId,
@@ -2231,6 +2234,9 @@ public class LogicTest extends BaseTestCase {
 		student.id = "";
 		logic.editStudent(student.email, student);
 		assertEquals("", logic.getStudent(student.course, student.email).id);
+		logic.deleteAccount(googleId);	// for testing account creation
+		AccountData studentAccount = logic.getAccount(googleId); // this is because student accounts are not in typical data bundle
+		assertNull(studentAccount);
 
 		helper.setEnvIsLoggedIn(true);
 		helper.setEnvEmail(googleId);
@@ -2241,33 +2247,13 @@ public class LogicTest extends BaseTestCase {
 		logic.joinCourse(googleId, key);
 		assertEquals(googleId,
 				logic.getStudent(student.course, student.email).id);
-		
-		
-		
-		// make a student 'unregistered'
-		student = dataBundle.students.get("student1InCourse1");
-		googleId = "student1InCourse1";
-		key = logic.getKeyForStudent(student.course, student.email);
-		student.id = "";
-		logic.editStudent(student.email, student);
-		assertEquals("", logic.getStudent(student.course, student.email).id);
-
-		helper.setEnvIsLoggedIn(true);
-		helper.setEnvEmail(googleId);
-		helper.setEnvAuthDomain("gmail.com");
-		
-		//Test for encrypted key used
-		key = Common.encrypt(key);
-		logic.joinCourse(googleId, key);
-		assertEquals(googleId,
-				logic.getStudent(student.course, student.email).id);
-		
-		
 		
 		// Check that an account with the student's google ID was created
-		AccountData studentAccount = new AccountData();
-		studentAccount.googleId = googleId;
+		studentAccount = logic.getAccount(googleId);
 		verifyPresentInDatastore(studentAccount); 
+		AccountData accountOfInstructorOfCourse = dataBundle.accounts.get("instructor1OfCourse1");
+		assertEquals(accountOfInstructorOfCourse.institute, studentAccount.institute);// Test that student account was appended with the correct Institute
+		
 
 		______TS("try to register again with a valid key");
 
