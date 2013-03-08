@@ -223,7 +223,7 @@ public class Emails {
 	
 		String joinUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_JOIN_COURSE;
-		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, s.key);
+		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, key);
 	
 		emailBody = emailBody.replace("${joinUrl}", joinUrl);
 		return emailBody;
