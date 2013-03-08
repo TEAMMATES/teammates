@@ -11,7 +11,8 @@ import teammates.common.Common;
  */
 public class TestProperties {
 	
-	public String TEAMMATES_APP_ID;
+	public String TEAMMATES_REMOTEAPI_APP_DOMAIN;
+	public int TEAMMATES_REMOTEAPI_APP_PORT;
 	
 	public String TEAMMATES_URL;
 	public String TEAMMATES_VERSION;
@@ -48,7 +49,8 @@ public class TestProperties {
 			
 			prop.load(new FileInputStream("src/test/resources/test.properties"));
 			
-			TEAMMATES_APP_ID = prop.getProperty("test.app.id");
+			TEAMMATES_REMOTEAPI_APP_DOMAIN = prop.getProperty("test.remoteapi.appurl.domain");
+			TEAMMATES_REMOTEAPI_APP_PORT = Integer.parseInt(prop.getProperty("test.remoteapi.appurl.port"));
 			
 			TEAMMATES_URL = Common.trimTrailingSlash(prop.getProperty("test.app.url"));
 			TEAMMATES_VERSION = extractVersionNumber(Common.readFile("src/main/webapp/WEB-INF/appengine-web.xml"));
