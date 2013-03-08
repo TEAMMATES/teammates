@@ -28,7 +28,9 @@ function addInstructor(googleID, name, email) {
 }
 
 function verifyInstructorData() {
-	var googleID = $('[name="' + INSTRUCTOR_GOOGLEID + '"]').val().trim();
+	var googleID = $('[name="' + INSTRUCTOR_GOOGLEID + '"]').val();
+	googleID = sanitizeGoogleId(googleID);
+	
 	var name = $('[name="' + INSTRUCTOR_NAME + '"]').val().trim();
 	var email = $('[name="' + INSTRUCTOR_EMAIL + '"]').val().trim();
 
@@ -38,6 +40,9 @@ function verifyInstructorData() {
 
 	if (googleID == "" || name == "" || email == "") {
 		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
+		return false;
+	} else if (!isValidGoogleId(googleID)) {
+		setStatusMessage(DISPLAY_GOOGLEID_INVALID, true);
 		return false;
 	} else if (!isEmailValid(email)) {
 		setStatusMessage(DISPLAY_EMAIL_INVALID, true);

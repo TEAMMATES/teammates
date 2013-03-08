@@ -293,12 +293,6 @@ public class BackDoor {
 		String status = makePOSTRequest(params);
 		return status;
 	}
-	
-	public static String appendInstitutionForAccount() {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_APPEND_INSTITUTION_FOR_ACCOUNT);
-		String status = makePOSTRequest(params);
-		return status;
-	}
 
 	@SuppressWarnings("unused")
 	private void ____SUBMISSION_level_methods______________________________() {

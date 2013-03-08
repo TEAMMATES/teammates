@@ -216,11 +216,14 @@ public class Emails {
 		emailBody = emailBody.replace("${joinFragment}",
 				Common.STUDENT_EMAIL_FRAGMENT_COURSE_JOIN);
 	
-		emailBody = emailBody.replace("${key}", s.key);
+		//Try both way
+		String key;
+		key = Common.encrypt(s.key);
+		emailBody = emailBody.replace("${key}", key);
 	
 		String joinUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_JOIN_COURSE;
-		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, s.key);
+		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, key);
 	
 		emailBody = emailBody.replace("${joinUrl}", joinUrl);
 		return emailBody;

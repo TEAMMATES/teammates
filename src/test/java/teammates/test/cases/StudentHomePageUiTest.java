@@ -87,6 +87,8 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		______TS("invalid key");
 		
 		BackDoor.createCourse(scn.courses.get("SHomeUiT.CS2104"));
+		BackDoor.createInstructor(scn.instructors.get("teammates.test.CS2104"));
+		BackDoor.createAccount(scn.accounts.get("teammates.test"));
 		StudentData alice = scn.students.get("alice.tmms@SHomeUiT.CS2104");
 		alice.id = null;
 		BackDoor.createStudent(alice);

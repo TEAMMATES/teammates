@@ -3,10 +3,12 @@
 	<link href="/favicon.png" rel="shortcut icon" />
 	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 	<title>Teammates - Instructor</title>
-	<link type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
-	<link type="text/css" href="/stylesheets/instructorCourseEnroll.css" rel="stylesheet" />
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/instructorCourseEnroll.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/stylesheets/instructorCourseEnroll-print.css" type="text/css" media="print">
 	
-	<script async=""  type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
+	<script async=""  type="text/javascript" src="https://ssl.google-analytics.com/ga.js"></script>
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script src="/js/jquery-minified.js" type="text/javascript"></script>
 	<script src="/js/tooltip.js" type="text/javascript"></script>
@@ -36,16 +38,18 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="/page/instructorHome?user=teammates.test" class="t_home">Home</a></li>
-					<li><a href="/page/instructorCourse?user=teammates.test" class="t_courses">Courses</a></li>
-					<li><a href="/page/instructorEval?user=teammates.test" class="t_evaluations">Evaluations</a></li>
-					<li><a target="_blank" href="/instructorHelp.html" class="t_help">Help</a></li>
-					<li><a href="/logout.jsp" class="t_logout">Logout</a>
+					<li><a href="/page/instructorHome?user=teammates.test" class='nav home' data-link="instructorHome">Home</a></li>
+					<li class="current"><a href="/page/instructorCourse?user=teammates.test" class='nav courses' data-link="instructorCourse">Courses</a></li>
+					<li><a href="/page/instructorEval?user=teammates.test" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
+					<li><a target="_blank" href="/instructorHelp.html" class='nav help'>Help</a></li>
+					<li><a href="/logout.jsp" class='nav logout'>Logout</a>
 					 (teammates.test)</li>
 				</ul>
 			</div>
 			<div style="clear: both;"></div>
 		</div>
+		
+
 	</div>
 
 	<div id="frameBody">
@@ -56,13 +60,20 @@
 					<h1>Enroll Students for CCEnrollUiT.CS2104</h1>
 				</div>
 				<form method="post" action="/page/instructorCourseEnroll?courseid=CCEnrollUiT.CS2104&amp;user=teammates.test">
-					<img border="0" src="/images/enrollInstructions.png" />
+					<p class ="bold rightalign spreadsheetLink">		
+						[ <a id ="spreadsheet_download"  
+							class="color_black t_course_enroll"
+							href="/files/Course%20Enroll%20Sample%20Spreadsheet.csv"
+							onmouseover="ddrivetip('Download a sample team data spreadsheet')"
+							onmouseout="hideddrivetip()">Sample spreadsheet</a> ]
+					</p>
+					<img src="/images/enrollInstructions.png" border="0"> 
 					<p class="info centeralign bold">Recommended maximum class size : 250 students</p>
 					<br />
-					<table class="inputTable">
+					<table class="inputTable enrollStudentTable">
 						<tbody><tr>
 							<td id="studentDetails" class="label bold middlealign"> Student details: </td>
-							<td><textarea id="enrollstudents" name="enrollstudents" class="textvalue" cols="110" rows="6"></textarea></td>
+							<td><textarea id="enrollstudents" name="enrollstudents" class="textvalue" cols="120" rows="6"></textarea></td>
 						</tr>
 					</tbody></table>
 					

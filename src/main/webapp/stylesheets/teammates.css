@@ -66,7 +66,29 @@ h2 {
 	line-height: 20px;
 }
 
+.centeralign {
+    text-align: center;
+}
 
+.leftalign {
+    text-align: left;
+}
+
+.rightalign {
+    text-align: right;
+}
+
+.middlealign {
+    vertical-align: middle;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.italic {
+	font-style: italic;
+}
 /*-----------------------------------------------------------------------------------------*/
 
 #header {
@@ -108,14 +130,31 @@ h2 {
 }
 
 #navbar li {
+   color: white;
    float: left;
    list-style-type: none;
    padding-left: 20px;
    padding-right: 20px;
 }
 
-#current {
-   color: #00FF00;
+#navbar li a {
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#navbar li a:hover {
+	color: white;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.current {
+   height: 78px;
+   background-image:url('../images/triangle.gif');
+   background-repeat:no-repeat;
+   background-position:center;
+   overflow: hidden;
 }
 
 .bold {
@@ -168,14 +207,37 @@ h2 {
 	width: 800px;
 }
 
-#submissions {
-	color: blue;
+h2.subcaption {
+	color: #4379D1;
 	font-size: 15px;
 	font-family: Arial, Helvetica, sans-serif;
 	font-weight: bold;
-	padding: 10px 0px;
-	text-align: right;
+	margin: 10px auto;
+	display: block;
 }
+
+.submissionsNumber {
+	color: orange;
+	font-size: 20px;
+}
+
+.overviewByte {
+	padding: 10px;
+}
+
+.overviewBytePicture {
+	float: left;
+	width: 200px;
+}
+
+.overviewByteData {
+	float: right;
+	width: 550px;
+	padding-left: 30px;
+}
+
+
+
 
 #footer {
    background-color: black;

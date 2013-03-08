@@ -3,10 +3,12 @@
 	<link href="/favicon.png" rel="shortcut icon" />
 	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 	<title>Teammates - Instructor</title>
-	<link type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
-	<link type="text/css" href="/stylesheets/instructorEval.css" rel="stylesheet" />
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/instructorEval.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/stylesheets/instructorEval-print.css" type="text/css" media="print">
 	
-	<script async=""  type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
+	<script async=""  type="text/javascript" src="https://ssl.google-analytics.com/ga.js"></script>
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script src="/js/jquery-minified.js" type="text/javascript"></script>
 	<script src="/js/tooltip.js" type="text/javascript"></script>
@@ -41,16 +43,18 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="/page/instructorHome?user=teammates.test" class="t_home">Home</a></li>
-					<li><a href="/page/instructorCourse?user=teammates.test" class="t_courses">Courses</a></li>
-					<li><a href="/page/instructorEval?user=teammates.test" class="t_evaluations">Evaluations</a></li>
-					<li><a target="_blank" href="/instructorHelp.html" class="t_help">Help</a></li>
-					<li><a href="/logout.jsp" class="t_logout">Logout</a>
+					<li><a href="/page/instructorHome?user=teammates.test" class='nav home' data-link="instructorHome">Home</a></li>
+					<li><a href="/page/instructorCourse?user=teammates.test" class='nav courses' data-link="instructorCourse">Courses</a></li>
+					<li class="current"><a href="/page/instructorEval?user=teammates.test" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
+					<li><a target="_blank" href="/instructorHelp.html" class='nav help'>Help</a></li>
+					<li><a href="/logout.jsp" class='nav logout'>Logout</a>
 					 (teammates.test)</li>
 				</ul>
 			</div>
 			<div style="clear: both;"></div>
 		</div>
+
+
 	</div>
 
 	<div id="frameBody">
@@ -64,7 +68,7 @@
 				<table id="instructorEvaluationManagement" class="inputTable">
 					<tbody><tr>
 						<td class="label bold">Course ID:</td>
-						<td><select tabindex="1" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the course for which the evaluation is to be created.')" id="courseid" name="courseid" style="width: 260px;">
+						<td><select tabindex="1" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the course for which the evaluation is to be created.')" id="courseid" name="courseid">
 							<option value="CEvalUiT.CS1101">CEvalUiT.CS1101</option>
 <option value="CEvalUiT.CS2104">CEvalUiT.CS2104</option>
 
@@ -102,7 +106,7 @@
 					</tr>
 					<tr>
 						<td class="label bold">Evaluation name:</td>
-						<td><input type="text" tabindex="2" value="" maxlength="38" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the name of the evaluation e.g. Mid-term Evaluation 1.')" id="evaluationname" name="evaluationname" style="width: 260px;" placeholder="e.g. Midterm Evaluation"/></td>
+						<td><input type="text" tabindex="2" value="" maxlength="38" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the name of the evaluation e.g. Mid-term Evaluation 1.')" id="evaluationname" name="evaluationname" placeholder="e.g. Midterm Evaluation"/></td>
 						<td class="label bold">Closing time:</td>
 						<td><input type="text" tabindex="5" readonly="readonly" value="" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter deadline for the evaluation.')" onclick="cal.select(this,'deadline','dd/MM/yyyy')" id="deadline" name="deadline" style="width: 100px;" />
 									@
@@ -227,7 +231,7 @@
 						<input type="button" onclick="toggleSort(this,2)" id="button_sortname" class="buttonSortAscending" />Evaluation</th>
 					<th class="centeralign color_white bold">Status</th>
 					<th class="centeralign color_white bold"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('Number of students submitted / Class size')">Response Rate</span></th>
-					<th class="centeralign color_white bold">Action(s)</th>
+					<th class="centeralign color_white bold no-print">Action(s)</th>
 				</tr>
 				
 							<tr id="evaluation2" class="evaluations_row">
@@ -236,7 +240,7 @@
 								<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation has started and students can submit feedback until the closing time')">Open</span></td>
 								<td class="t_eval_response centeralign">0
 									/ 2</td>
-								<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/instructorEvalResults?courseid=CEvalUiT.CS2104&amp;evaluationname=First+Eval&amp;user=teammates.test" class="color_green t_eval_view2">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/instructorEvalEdit?courseid=CEvalUiT.CS2104&amp;evaluationname=First+Eval&amp;user=teammates.test" class="color_brown t_eval_edit2">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CEvalUiT.CS2104','First Eval');" href="/page/instructorEvalDelete?courseid=CEvalUiT.CS2104&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="color_red t_eval_delete2">Delete</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" onclick="hideddrivetip(); return toggleRemindStudents('First Eval');" href="/page/instructorEvalRemind?courseid=CEvalUiT.CS2104&amp;evaluationname=First+Eval&amp;user=teammates.test" class="color_black t_eval_remind2">Remind</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Publish evaluation results for students to view')" href="/page/instructorEvalPublish?courseid=CEvalUiT.CS2104&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="color_black t_eval_publish2">Publish</a>
+								<td class="centeralign no-print"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/instructorEvalResults?courseid=CEvalUiT.CS2104&amp;evaluationname=First+Eval&amp;user=teammates.test" class="color_green t_eval_view2">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/instructorEvalEdit?courseid=CEvalUiT.CS2104&amp;evaluationname=First+Eval&amp;user=teammates.test" class="color_brown t_eval_edit2">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CEvalUiT.CS2104','First Eval');" href="/page/instructorEvalDelete?courseid=CEvalUiT.CS2104&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="color_red t_eval_delete2">Delete</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" onclick="hideddrivetip(); return toggleRemindStudents('First Eval');" href="/page/instructorEvalRemind?courseid=CEvalUiT.CS2104&amp;evaluationname=First+Eval&amp;user=teammates.test" class="color_black t_eval_remind2">Remind</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Publish evaluation results for students to view')" href="/page/instructorEvalPublish?courseid=CEvalUiT.CS2104&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="color_black t_eval_publish2">Publish</a>
 								</td>
 							</tr>
 						
@@ -246,7 +250,7 @@
 								<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation has finished and the results have been made available to students')">Published</span></td>
 								<td class="t_eval_response centeralign">0
 									/ 2</td>
-								<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/instructorEvalResults?courseid=CEvalUiT.CS2104&amp;evaluationname=Second+Eval&amp;user=teammates.test" class="color_green t_eval_view0">View Results</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/instructorEvalEdit?courseid=CEvalUiT.CS2104&amp;evaluationname=Second+Eval&amp;user=teammates.test" class="color_brown t_eval_edit0">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CEvalUiT.CS2104','Second Eval');" href="/page/instructorEvalDelete?courseid=CEvalUiT.CS2104&amp;evaluationname=Second+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="color_red t_eval_delete0">Delete</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" href="/page/instructorEvalRemind?courseid=CEvalUiT.CS2104&amp;evaluationname=Second+Eval&amp;user=teammates.test" class="color_black t_eval_remind0">Remind</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Make results not visible to students')" onclick="hideddrivetip(); return toggleUnpublishEvaluation('Second Eval');" href="/page/instructorEvalUnpublish?courseid=CEvalUiT.CS2104&amp;evaluationname=Second+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="color_black t_eval_unpublish0">Unpublish</a>
+								<td class="centeralign no-print"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/instructorEvalResults?courseid=CEvalUiT.CS2104&amp;evaluationname=Second+Eval&amp;user=teammates.test" class="color_green t_eval_view0">View Results</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/instructorEvalEdit?courseid=CEvalUiT.CS2104&amp;evaluationname=Second+Eval&amp;user=teammates.test" class="color_brown t_eval_edit0">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CEvalUiT.CS2104','Second Eval');" href="/page/instructorEvalDelete?courseid=CEvalUiT.CS2104&amp;evaluationname=Second+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="color_red t_eval_delete0">Delete</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" href="/page/instructorEvalRemind?courseid=CEvalUiT.CS2104&amp;evaluationname=Second+Eval&amp;user=teammates.test" class="color_black t_eval_remind0">Remind</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Make results not visible to students')" onclick="hideddrivetip(); return toggleUnpublishEvaluation('Second Eval');" href="/page/instructorEvalUnpublish?courseid=CEvalUiT.CS2104&amp;evaluationname=Second+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="color_black t_eval_unpublish0">Unpublish</a>
 								</td>
 							</tr>
 						
@@ -256,7 +260,7 @@
 								<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation has finished but the results have not been made available to the students')">Closed</span></td>
 								<td class="t_eval_response centeralign">0
 									/ 2</td>
-								<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/instructorEvalResults?courseid=CEvalUiT.CS1101&amp;evaluationname=Third+Eval&amp;user=teammates.test" class="color_green t_eval_view1">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/instructorEvalEdit?courseid=CEvalUiT.CS1101&amp;evaluationname=Third+Eval&amp;user=teammates.test" class="color_brown t_eval_edit1">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CEvalUiT.CS1101','Third Eval');" href="/page/instructorEvalDelete?courseid=CEvalUiT.CS1101&amp;evaluationname=Third+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="color_red t_eval_delete1">Delete</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" href="/page/instructorEvalRemind?courseid=CEvalUiT.CS1101&amp;evaluationname=Third+Eval&amp;user=teammates.test" class="color_black t_eval_remind1">Remind</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Publish evaluation results for students to view')" onclick="hideddrivetip(); return togglePublishEvaluation('Third Eval');" href="/page/instructorEvalPublish?courseid=CEvalUiT.CS1101&amp;evaluationname=Third+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="color_black t_eval_publish1">Publish</a>
+								<td class="centeralign no-print"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/instructorEvalResults?courseid=CEvalUiT.CS1101&amp;evaluationname=Third+Eval&amp;user=teammates.test" class="color_green t_eval_view1">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/instructorEvalEdit?courseid=CEvalUiT.CS1101&amp;evaluationname=Third+Eval&amp;user=teammates.test" class="color_brown t_eval_edit1">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CEvalUiT.CS1101','Third Eval');" href="/page/instructorEvalDelete?courseid=CEvalUiT.CS1101&amp;evaluationname=Third+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="color_red t_eval_delete1">Delete</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" href="/page/instructorEvalRemind?courseid=CEvalUiT.CS1101&amp;evaluationname=Third+Eval&amp;user=teammates.test" class="color_black t_eval_remind1">Remind</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Publish evaluation results for students to view')" onclick="hideddrivetip(); return togglePublishEvaluation('Third Eval');" href="/page/instructorEvalPublish?courseid=CEvalUiT.CS1101&amp;evaluationname=Third+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.test&amp;user=teammates.test" class="color_black t_eval_publish1">Publish</a>
 								</td>
 							</tr>
 						

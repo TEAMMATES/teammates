@@ -58,7 +58,9 @@ public class InstructorData extends BaseData {
 			throw new InvalidParametersException(ERROR_INFORMATION_INCORRECT);
 		}
 		
-		this.googleId = parts[0].trim();
+		this.googleId = Common.sanitizeGoogleId(parts[0]);
+		Assumption.assertEquals(true, Common.isValidGoogleId(googleId));
+
 		this.courseId = courseId;
 		this.name = parts[1].trim();
 		this.email = parts[2].trim();

@@ -22,3 +22,12 @@
 	color:#FFF;
 	font-weight:bold;
 }
+
+
+#equalShareTag {
+    margin: 5px auto;
+    width: 960px; 
+    text-align: right; 
+    font-size: small; 
+    font-style: italic;
+}

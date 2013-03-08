@@ -105,10 +105,11 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 
 		String courseId = scn.courses.get("CCDetailsUiT.CS2104").id;
 		String studentPassword = TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS;
-		String keyToSend = BackDoor.getKeyForStudent(courseId, studentEmail);
+		String keyToSend = Common.encrypt(BackDoor.getKeyForStudent(courseId,
+				studentEmail));
 		String keyReceivedInEmail = null;
 		boolean isEmailEnabled = !TestProperties.inst().isLocalHost();
-		
+
 		if (isEmailEnabled) {
 			bi.waitForEmail();
 			keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(
@@ -136,12 +137,13 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 		______TS("sending reminder to all unregistered students to join course");
 
 		bi.clickAndConfirm(bi.instructorCourseDetailRemindButton);
-		
+
 		if (isEmailEnabled) {
 			bi.waitForEmail();
 
-			keyToSend = BackDoor.getKeyForStudent(courseId, otherStudentEmail);
-			
+			keyToSend = Common.encrypt(BackDoor.getKeyForStudent(courseId,
+					otherStudentEmail));
+
 			// verify an unregistered student received reminder
 			keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(
 					otherStudentEmail, studentPassword, courseId);

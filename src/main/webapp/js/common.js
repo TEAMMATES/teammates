@@ -16,6 +16,7 @@ var EVALUATION_TIMEZONE = "timezone"; // Used in instructorEval.js
 // Used for validating input
 var DISPLAY_INPUT_FIELDS_EXTRA = "There are too many fields.";
 var DISPLAY_INPUT_FIELDS_MISSING = "There are missing fields.";
+var DISPLAY_GOOGLEID_INVALID = "GoogleID should only consist of alphanumerics, fullstops, dashes or underscores.";
 var DISPLAY_EMAIL_INVALID = "The e-mail address is invalid.";
 var DISPLAY_NAME_INVALID = "Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, commas, slashes, round brackets<br> and not more than 40 characters.";
 var DISPLAY_STUDENT_TEAMNAME_INVALID = "Team name should contain less than 25 characters.";
@@ -45,63 +46,6 @@ var DISPLAY_INVALID_INPUT = "Unexpected error. Invalid Input";
 var TEAMNAME_MAX_LENGTH = 24;
 var NAME_MAX_LENGTH = 40;
 
-/** ---------------------------- Sorting Functions --------------------------* */
-/**
- * jQuery.fn.sortElements --------------
- * 
- * @author James Padolsey (http://james.padolsey.com)
- * @version 0.11
- * @updated 18-MAR-2010 --------------
- * @param Function
- *            comparator: Exactly the same behaviour as [1,2,3].sort(comparator)
- * 
- * @param Function
- *            getSortable A function that should return the element that is to
- *            be sorted. The comparator will run on the current collection, but
- *            you may want the actual resulting sort to occur on a parent or
- *            another associated element.
- * 
- * E.g. $('td').sortElements(comparator, function(){ return this.parentNode; })
- * 
- * The
- * <td>'s parent (
- * <tr>) will be sorted instead of the
- * <td> itself.
- */
-$.fn.sortElements = (function() {
-	var sort = [].sort;
-
-	return function(comparator, getSortable) {
-		getSortable = getSortable || function() {
-			return this;
-		};
-		var placements = this
-				.map(function() {
-					var sortElement = getSortable.call(this), parentNode = sortElement.parentNode,
-
-					// Since the element itself will change position, we have
-					// to have some way of storing it's original position in
-					// the DOM. The easiest way is to have a 'flag' node:
-					nextSibling = parentNode.insertBefore(document
-							.createTextNode(''), sortElement.nextSibling);
-
-					return function() {
-						if (parentNode === this) {
-							throw new Error(
-									"You can't sort elements if any one is a descendant of another.");
-						}
-						// Insert before flag:
-						parentNode.insertBefore(this, nextSibling);
-						// Remove flag:
-						parentNode.removeChild(nextSibling);
-					};
-				});
-		return sort.call(this, comparator).each(function(i) {
-			placements[i].call(getSortable.call(this));
-		});
-	};
-})();
-
 /**
  * Sorts a table
  * 
@@ -112,19 +56,21 @@ $.fn.sortElements = (function() {
  */
 function toggleSort(divElement, colIdx, comparator) {
 	if ($(divElement).attr("class") == "buttonSortNone") {
-		sortTable(divElement, colIdx, comparator);
+		sortTable(divElement, colIdx, comparator, true);
 		$(".buttonSortAscending").attr("class", "buttonSortNone");
 		$(".buttonSortDescending").attr("class", "buttonSortNone");
 		$(divElement).attr("class", "buttonSortAscending");
 	} else if ($(divElement).attr("class") == "buttonSortAscending") {
-		sortTable(divElement, colIdx, sortBaseCellDescending);
+		sortTable(divElement, colIdx, comparator, false);
 		$(divElement).attr("class", "buttonSortDescending");
 	} else {
-		sortTable(divElement, colIdx, comparator);
+		sortTable(divElement, colIdx, comparator, true);
 		$(divElement).attr("class", "buttonSortAscending");
 	}
 }
 
+
+//http://stackoverflow.com/questions/7558182/sort-a-table-fast-by-its-first-column-with-javascript-or-jquery
 /**
  * Sorts a table based on certain column and comparator
  * 
@@ -132,44 +78,61 @@ function toggleSort(divElement, colIdx, comparator) {
  *            One of the table cell
  * @param colIdx
  *            The column index (1-based) as key for the sort
- * @param comparator
- *            This will be used to compare two cells. If not specified,
- *            sortBaseCell will be used
+ * @param ascending
+ * 			  if this is true, it will be ascending order, else it will be descending order
  */
-function sortTable(oneOfTableCell, colIdx, comparator) {
-	if (!comparator)
-		comparator = sortBaseCellAscending;
+function sortTable(oneOfTableCell, colIdx, comparator, ascending) {
+			
+	//Get the table
 	var table = $(oneOfTableCell);
-	if (!table.is("table")) {
-		table = $(oneOfTableCell).parentsUntil("table");
-		table = $(table[table.length - 1].parentNode);
+	if (!table.is("table")){
+		table =  $(oneOfTableCell).parents("table");
 	}
-	keys = $("td:nth-child(" + colIdx + ")", table);
-	keys.sortElements(comparator, function() {
-		return this.parentNode;
-	});
-}
-
-/**
- * The base comparator for a cell (ascending)
- * 
- * @param cell1
- * @param cell2
- * @returns returns if cell1.innerHTML is larger than cell2.innerHTML
- */
-function sortBaseCellAscending(cell1, cell2) {
-	return sortBase(cell1.innerHTML, cell2.innerHTML);
-}
-
-/**
- * The base comparator for a cell (descending)
- * 
- * @param cell1
- * @param cell2
- * @returns returns the opposite of sortBaseAscending
- */
-function sortBaseCellDescending(cell1, cell2) {
-	return sortBaseCellAscending(cell2, cell1);
+	
+	var columnType=0;
+	var store = [];
+	var RowList = $("tr", table);
+	//Iterate through column's contents to decide which comparator to use
+	for (var i = 1; i < RowList.length; i++) {
+		var innerText = RowList[i].cells[colIdx-1].innerHTML;
+		
+		//Store rows together with the innerText to compare
+		store.push([innerText, RowList[i]]);
+		
+		if((columnType==0 || columnType==1) && isNumber(innerText)){
+			columnType=1;
+		}else if((columnType==0 || columnType==2) && isDate(innerText)){
+			columnType=2;
+		}else{
+			columnType=3;
+		}
+	}
+	
+	if(comparator==null){
+		if (columnType==1){
+			 comparator = sortNum;
+		}else if(columnType==2){
+			 comparator = sortDate;
+		}else{
+			 comparator = sortBase;
+		}
+	}
+	
+	store.sort(function(x,y){
+		if(ascending==true){
+			return comparator(x[0],y[0]);
+		}else{
+			return comparator(y[0],x[0]);
+		}
+    });
+	
+	var tbody = $(table.get(0)).children('tbody');
+	
+	//Must push to target tbody else it will generate a new tbody for the table
+    for(var i=0; i<store.length; i++){
+        tbody.get(0).appendChild(store[i][1]);
+    }
+    store = null;
 }
 
 /**
@@ -180,7 +143,65 @@ function sortBaseCellDescending(cell1, cell2) {
  * @returns
  */
 function sortBase(x, y) {
-	return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+	//Text sorting
+	return (x < y ? -1 : x > y ? 1 : 0);
+}
+
+/**
+ * Comparator for numbers (integer, double) (ascending)
+ * 
+ * @param x
+ * @param y
+ * @returns
+ */
+function sortNum(x, y){
+	return x-y;
+}
+
+
+/**
+ * Comparator for date in (dd/mm/yyyy) format (ascending)
+ * 
+ * @param x
+ * @param y
+ * @returns
+ */
+function sortDate(x, y){
+	//Date sorting
+	//Allows the following format
+	//DD MM YY or DD-MM-YY or DD/MM/YY or DD MM YYYY or DD-MM-YYYY or DD/MM/YYYY
+	x = x.replace(getDayMonthYearFormat(),"$3$2$1");
+	y = y.replace(getDayMonthYearFormat(),"$3$2$1");
+	return x-y;
+}
+
+/**
+* Function that returns the pattern of DayMonthYearFormat (dd/mm/yyyy)
+* 
+* @returns pattern string
+*/
+function getDayMonthYearFormat(){
+	return /^\s*(\d{2})[\/\- ](\d{2})[\/\- ](\d{4}|\d{2})\s*$/;
+}
+
+
+/**
+* Function that checks if the param is in DayMonthYearFormat (dd/mm/yyyy)
+* 
+* @param date
+* @returns boolean
+*/
+function isDate(date){
+	return date.match(getDayMonthYearFormat())!=null;
+}
+
+/**
+* Function to test if param is a numerical value
+* @param num
+* @returns boolean
+*/
+function isNumber(num) {
+	  return (typeof num == 'string' || typeof num == 'number') && !isNaN(num - 0) && num !== '';
 }
 
 /**
@@ -193,7 +214,6 @@ function sortBase(x, y) {
 function sortByPoint(a, b) {
 	a = getPointValue(a, true);
 	b = getPointValue(b, true);
-
 	return sortBase(a, b);
 }
 
@@ -304,6 +324,47 @@ function checkEvaluationForm() {
 		}
 	}
 	return true;
+}
+
+/**
+ * Sanitize GoogleID by trimming space and '@gmail.com'
+ * Used in instructorCourse, instructorCourseEdit, adminHome
+ * 
+ * @param googleId
+ * @returns sanitizedGoolgeId
+ */
+function sanitizeGoogleId(googleId) {
+	googleId = googleId.trim();
+	var loc = googleId.toLowerCase().indexOf("@gmail.com");
+	if (loc > -1) {
+		googleId = googleId.substring(0, loc);   
+	}
+	return googleId.trim();
+}
+
+/**
+ * Check if the GoogleID is valid
+ * GoogleID allow only alphanumeric, full stops, dashes, underscores or valid email
+ * 
+ * @param googleId
+ * @return {Boolean}
+ */
+function isValidGoogleId(googleId) {
+	var isValidNonEmailGoogleId = false;
+	googleId = googleId.trim();
+	
+	// match() retrieve the matches when matching a string against a regular expression.
+	var matches = googleId.match(/^([\w-]+(?:\.[\w-]+)*)/);
+	
+	isValidNonEmailGoogleId = (matches != null && matches[0] == googleId);
+	
+	var isValidEmailGoogleId = isEmailValid(googleId);
+	if (googleId.toLowerCase().indexOf("@gmail.com") > -1) {
+		isValidEmailGoogleId = false;
+	}
+	
+	// email addresses are valid google IDs too
+	return isValidNonEmailGoogleId || isValidEmailGoogleId;
 }
 
 /**

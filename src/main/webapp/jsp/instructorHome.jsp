@@ -9,8 +9,10 @@
 	<link rel="shortcut icon" href="/favicon.png" />
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Instructor</title>
-	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" />
-	<link rel="stylesheet" href="/stylesheets/instructorHome.css" type="text/css" />
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen"/>
+	<link rel="stylesheet" href="/stylesheets/instructorHome.css" type="text/css" media="screen"/>
+	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print"/>
+    <link rel="stylesheet" href="/stylesheets/instructorHome-print.css" type="text/css" media="print"/>
 	
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script type="text/javascript" src="/js/jquery-minified.js"></script>
@@ -100,7 +102,7 @@
 							<th class="centeralign color_white bold"><span
 								onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_RESPONSE_RATE%>')"
 								onmouseout="hideddrivetip()">Response Rate</span></th>
-							<th class="centeralign color_white bold">Action(s)</th>
+							<th class="centeralign color_white bold no-print">Action(s)</th>
 						</tr>
 						<%
 							for (EvaluationData eval: course.evaluations){ evalIdx++;
@@ -112,7 +114,7 @@
 									onmouseout="hideddrivetip()"><%= InstructorHomeHelper.getInstructorStatusForEval(eval) %></span></td>
 								<td class="t_eval_response<%= idx %> centeralign"><%= eval.submittedTotal %>
 									/ <%= eval.expectedTotal %></td>
-								<td class="centeralign"><%= helper.getInstructorEvaluationActions(eval,evalIdx, true) %>
+								<td class="centeralign no-print"><%= helper.getInstructorEvaluationActions(eval,evalIdx, true) %>
 								</td>
 							</tr>
 						<%	} %>

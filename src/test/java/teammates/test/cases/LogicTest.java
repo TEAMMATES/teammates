@@ -11,6 +11,7 @@ import static teammates.logic.TeamEvalResult.NSU;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -209,8 +210,8 @@ public class LogicTest extends BaseTestCase {
 		______TS("unauthorized access");
 
 		String methodName = "createInstructor";
-		Class<?>[] paramTypes = new Class[] { String.class, String.class, String.class, String.class };
-		Object[] params = new Object[] { "googleId", "courseId", "Instructor Name", "instructor@email.com" };
+		Class<?>[] paramTypes = new Class[] { String.class, String.class, String.class, String.class, String.class };
+		Object[] params = new Object[] { "googleId", "courseId", "Instructor Name", "instructor@email.com", "National University of Singapore" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, null,
 				paramTypes, params);
@@ -242,13 +243,13 @@ public class LogicTest extends BaseTestCase {
 		// Create fresh
 		logic.createCourse(instructor.googleId, cd.id, cd.name);
 		try {
-			logic.createInstructor(instructor.googleId, instructor.courseId, instructor.name, instructor.email);
+			logic.createInstructor(instructor.googleId, instructor.courseId, instructor.name, instructor.email, "National University of Singapore");
 			fail();
 		} catch (EntityAlreadyExistsException eaee) {
 			// Course must be created with a creator. `instructor` here is our creator, so recreating it should give us EAEE
 		}
 		// Here we create another INSTRUCTOR for testing our createInstructor() method
-		logic.createInstructor(instructor2.googleId, instructor2.courseId, instructor2.name, instructor2.email);
+		logic.createInstructor(instructor2.googleId, instructor2.courseId, instructor2.name, instructor2.email, "National University of Singapore");
 		
 		// `instructor` here is created with NAME and EMAIL field obtain from his AccountData
 		AccountData creator = dataBundle.accounts.get("instructor1OfCourse1");
@@ -275,7 +276,7 @@ public class LogicTest extends BaseTestCase {
 
 		// Only checking that exception is thrown at logic level
 		try {
-			logic.createInstructor("valid-id", "invalid courseId", "Valid name", "valid@email.com");
+			logic.createInstructor("valid-id", "invalid courseId", "Valid name", "valid@email.com", "National University of Singapore");
 			fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(e.getMessage(), InstructorData.ERROR_FIELD_COURSEID);
@@ -284,14 +285,14 @@ public class LogicTest extends BaseTestCase {
 		______TS("null parameters");
 		
 		try {
-			logic.createInstructor(null, "valid.courseId", "Valid Name", "valid@email.com");
+			logic.createInstructor(null, "valid.courseId", "Valid Name", "valid@email.com", "National University of Singapore");
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
 		
 		try {
-			logic.createInstructor("valid.id", null, "Valid Name", "valid@email.com");
+			logic.createInstructor("valid.id", null, "Valid Name", "valid@email.com", "National University of Singapore");
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
@@ -898,8 +899,8 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 
 		String methodName = "updateCourseInstructors";
-		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfTypicalCourse1", "a|b|c@d.e" };
+		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class, String.class };
+		Object[] params = new Object[] { "idOfTypicalCourse1", "a|b|c@d.e", "National University of Singapore" };
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -912,7 +913,7 @@ public class LogicTest extends BaseTestCase {
 
 		// course belongs to a different instructor
 		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, new Object[] { "idOfTypicalCourse2", "a|b|c@d.e" });
+				paramTypes, new Object[] { "idOfTypicalCourse2", "a|b|c@d.e", "National University of Singapore" });
 
 		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
@@ -943,7 +944,7 @@ public class LogicTest extends BaseTestCase {
 		verifyAbsentInDatastore(instructor3Account);
 
 		// Have the admin create an empty instructor account
-		logic.createAccount(creator.googleId, creator.name, true, creator.email, "National University of Singapore");
+		logic.createAccount(creator.googleId, creator.name, true, creator.email, creator.institute);
 		
 		// Then login as the new instructor to create a course
 		loginAsInstructor("idOfInstructor1OfCourse1");
@@ -952,7 +953,8 @@ public class LogicTest extends BaseTestCase {
 		logic.updateCourseInstructors(course.id,
 				instructor.googleId + "|" + instructor.name + "|" + instructor.email + Common.EOL
 			+	instructor2.googleId + "|" + instructor2.name + "|" + instructor2.email + Common.EOL
-			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email);
+			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email,
+			creator.institute);
 		verifyPresentInDatastore(course);
 		verifyPresentInDatastore(instructor);
 		verifyPresentInDatastore(instructor2);
@@ -960,12 +962,15 @@ public class LogicTest extends BaseTestCase {
 		verifyPresentInDatastore(creator);				// Check that Accounts are created for the new Instructors
 		verifyPresentInDatastore(instructor2Account);
 		verifyPresentInDatastore(instructor3Account);
+		assertEquals(creator.institute, instructor2Account.institute);	// Ensure new accounts have the correct Institute
+		assertEquals(creator.institute, instructor3Account.institute);	// Ensure new accounts have the correct Institute
 		
 		______TS("Remove one Instructor");
 		
 		logic.updateCourseInstructors(course.id,
 				instructor.googleId + "\t" + instructor.name + "|" + instructor.email + Common.EOL
-			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email);
+			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email,
+			creator.institute);
 		verifyPresentInDatastore(instructor);
 		verifyAbsentInDatastore(instructor2);
 		verifyPresentInDatastore(instructor3);
@@ -974,7 +979,8 @@ public class LogicTest extends BaseTestCase {
 		
 		logic.updateCourseInstructors(course.id,
 				instructor2.googleId + "\t" + instructor2.name + "|" + instructor2.email + Common.EOL
-			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email);
+			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email,
+			instructor2Account.institute);
 		verifyAbsentInDatastore(instructor); // Creator can be deleted too
 		verifyPresentInDatastore(instructor2);
 		verifyPresentInDatastore(instructor3);
@@ -987,14 +993,15 @@ public class LogicTest extends BaseTestCase {
 		
 		logic.updateCourseInstructors(course.id,
 				instructor2.googleId + "\t" + instructor2.name + "|" + instructor2.email + Common.EOL
-			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email);
+			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email,
+			creator.institute);
 		verifyPresentInDatastore(instructor2);
 		verifyPresentInDatastore(instructor3);
 		
 		______TS("Update non-existent course");
 		
 		try {
-			logic.updateCourseInstructors("non.existent", "a|b|c@d.e");
+			logic.updateCourseInstructors("non.existent", "a|b|c@d.e", "University of Foo");
 			fail();
 		} catch (AssertionError ae) {
 			assertEquals(Logic.ERROR_UPDATE_NON_EXISTENT_COURSE + "non.existent", ae.getMessage());
@@ -1003,14 +1010,14 @@ public class LogicTest extends BaseTestCase {
 		______TS("Null parameters");
 		
 		try {
-			logic.updateCourseInstructors(null, "a|b|c@d.e");
+			logic.updateCourseInstructors(null, "a|b|c@d.e", "University of Foo");
 			fail();
 		} catch (AssertionError ae) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
 		}
 		
 		try {
-			logic.updateCourseInstructors(course.id, null);
+			logic.updateCourseInstructors(course.id, null, "University of Foo");
 			fail();
 		} catch (AssertionError ae) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
@@ -2019,10 +2026,11 @@ public class LogicTest extends BaseTestCase {
 		String instructorCourse = "courseForEnrollTesting";
 		String instructorName = "ICET Name";
 		String instructorEmail = "instructor@icet.com";
+		String instructorInstitute = "National University of Singapore";
 		loginAsAdmin("admin.user");
-		logic.createAccount(instructorId, instructorName, true, instructorEmail, "National University of Singapore" );
+		logic.createAccount(instructorId, instructorName, true, instructorEmail, instructorInstitute);
 		logic.deleteInstructor(instructorId, instructorCourse);
-		logic.createInstructor(instructorId, instructorCourse, instructorName, instructorEmail);
+		logic.createInstructor(instructorId, instructorCourse, instructorName, instructorEmail, instructorInstitute);
 		String courseId = "courseForEnrollTest";
 		logic.createCourse(instructorId, courseId, "Course for Enroll Testing");
 
@@ -2152,6 +2160,15 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(key, reverseKey);
 		assertEquals("Student", KeyFactory.stringToKey(longKey).getKind());
 	}
+	
+	@Test
+	public void testEncyption() {
+		String msg = "Test decryption";
+		String decrptedMsg;
+		
+		decrptedMsg = Common.decrypt(Common.encrypt(msg));
+		assertEquals(msg, decrptedMsg);
+	}
 
 	@Test
 	public void testJoinCourse() throws Exception {
@@ -2201,15 +2218,42 @@ public class LogicTest extends BaseTestCase {
 		helper.setEnvIsLoggedIn(true);
 		helper.setEnvEmail(googleId);
 		helper.setEnvAuthDomain("gmail.com");
+		
+		// TODO: remove unecrpytion - should fail test
+		//Test if unencrypted key used
+		logic.joinCourse(googleId, key);
+		assertEquals(googleId,
+				logic.getStudent(student.course, student.email).id);
+		
+		
+		
+		// make a student 'unregistered'
+		student = dataBundle.students.get("student1InCourse1");
+		googleId = "student1InCourse1";
+		key = logic.getKeyForStudent(student.course, student.email);
+		student.id = "";
+		logic.editStudent(student.email, student);
+		assertEquals("", logic.getStudent(student.course, student.email).id);
+		logic.deleteAccount(googleId);	// for testing account creation
+		AccountData studentAccount = logic.getAccount(googleId); // this is because student accounts are not in typical data bundle
+		assertNull(studentAccount);
 
+		helper.setEnvIsLoggedIn(true);
+		helper.setEnvEmail(googleId);
+		helper.setEnvAuthDomain("gmail.com");
+		
+		//Test for encrypted key used
+		key = Common.encrypt(key);
 		logic.joinCourse(googleId, key);
 		assertEquals(googleId,
 				logic.getStudent(student.course, student.email).id);
 		
 		// Check that an account with the student's google ID was created
-		AccountData studentAccount = new AccountData();
-		studentAccount.googleId = googleId;
+		studentAccount = logic.getAccount(googleId);
 		verifyPresentInDatastore(studentAccount); 
+		AccountData accountOfInstructorOfCourse = dataBundle.accounts.get("instructor1OfCourse1");
+		assertEquals(accountOfInstructorOfCourse.institute, studentAccount.institute);// Test that student account was appended with the correct Institute
+		
 
 		______TS("try to register again with a valid key");
 
