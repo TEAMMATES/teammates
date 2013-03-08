@@ -242,12 +242,12 @@ public class Common {
 	public static final String PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER = "/page/studentEvalEditHandler";
 	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
 
-	public static final String PAGE_ADMIN_HOME = "/page/adminHome";
-	public static final String PAGE_ADMIN_ACCOUNT_MANAGEMENT = "/page/adminAccountManagement";
-	public static final String PAGE_ADMIN_ACCOUNT_DETAILS = "/page/adminAccountDetails";
-	public static final String PAGE_ADMIN_EXCEPTION_TEST = "/page/adminExceptionTest";
-	public static final String PAGE_ADMIN_ACTIVITY_LOG = "/page/adminActivityLog";
-	public static final String PAGE_ADMIN_SEARCH = "/page/adminSearch";
+	public static final String PAGE_ADMIN_HOME = "/admin/adminHome";
+	public static final String PAGE_ADMIN_ACCOUNT_MANAGEMENT = "/admin/adminAccountManagement";
+	public static final String PAGE_ADMIN_ACCOUNT_DETAILS = "/admin/adminAccountDetails";
+	public static final String PAGE_ADMIN_EXCEPTION_TEST = "/admin/adminExceptionTest";
+	public static final String PAGE_ADMIN_ACTIVITY_LOG = "/admin/adminActivityLog";
+	public static final String PAGE_ADMIN_SEARCH = "/admin/adminSearch";
 	public static final String PAGE_LOGIN = "/login";
 
 	/*
