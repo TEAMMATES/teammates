@@ -49,7 +49,7 @@ public class TestProperties {
 			
 			prop.load(new FileInputStream("src/test/resources/test.properties"));
 			
-			String remoteApiDomain = prop.getProperty("test.remoteapi.appurl.domain");
+			String remoteApiDomain = prop.getProperty("test.app.url").substring(7); // remove "http\://"
 			TEAMMATES_REMOTEAPI_APP_DOMAIN = remoteApiDomain.split(":")[0];
 			TEAMMATES_REMOTEAPI_APP_PORT = remoteApiDomain.contains(":") ? Integer.parseInt(remoteApiDomain.split(":")[1]) : 443;
 			
