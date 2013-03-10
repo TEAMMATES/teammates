@@ -330,6 +330,13 @@ public class BackDoor {
 				"not implemented yet because submissions do not need to be deleted via the API");
 	}
 
+	public static String appendTimestampForAccount(int entityCountStart) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_APPEND_TIMESTAMP_FOR_ACCOUNT);
+		params.put(BackDoorServlet.PARAMETER_ENTITY_COUNT_START, Integer.toString(entityCountStart));
+		String status = makePOSTRequest(params);
+		return status;
+	}
+
 	@SuppressWarnings("unused")
 	private void ____helper_methods______________________________() {
 	}
