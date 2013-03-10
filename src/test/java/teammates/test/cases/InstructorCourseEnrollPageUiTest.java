@@ -25,7 +25,6 @@ public class InstructorCourseEnrollPageUiTest extends BaseTestCase {
 	private static DataBundle scn;
 	
 	private static String enrollString = "";
-	private static String enrollString2 = "";
 	
 	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
 	private static String jsonString;
@@ -107,6 +106,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseTestCase {
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseEnrollPageResult.html");
 		
 		bi.click(By.id("edit_enroll"));	
+		assertContainsRegex("{*}Enroll Students for CCEnrollUiT.CS2104{*}",bi.getCurrentPageSource());	
 		
 	}
 	
