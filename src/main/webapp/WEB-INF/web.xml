@@ -26,6 +26,17 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <filter-name>LoginFilter</filter-name>
 	    <url-pattern>/page/*</url-pattern>
 	</filter-mapping>
+	
+	<servlet>
+	    <display-name>Remote API Servlet</display-name>
+	    <servlet-name>RemoteApiServlet</servlet-name>
+	    <servlet-class>com.google.apphosting.utils.remoteapi.RemoteApiServlet</servlet-class>
+	    <load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>RemoteApiServlet</servlet-name>
+	    <url-pattern>/remote_api</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>LoginServlet</servlet-name>
@@ -80,7 +91,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>AdminHome</servlet-name>
-	    <url-pattern>/page/adminHome</url-pattern>
+	    <url-pattern>/admin/adminHome</url-pattern>
 	</servlet-mapping>
 	<servlet>
 	    <servlet-name>AdminExceptionTest</servlet-name>
@@ -88,7 +99,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>AdminExceptionTest</servlet-name>
-	    <url-pattern>/page/adminExceptionTest</url-pattern>
+	    <url-pattern>/admin/adminExceptionTest</url-pattern>
 	</servlet-mapping>
 	<servlet>
         <servlet-name>AdminSearch</servlet-name>
@@ -96,7 +107,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     </servlet>
 	<servlet-mapping>
         <servlet-name>AdminSearch</servlet-name>
-        <url-pattern>/page/adminSearch</url-pattern>
+        <url-pattern>/admin/adminSearch</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>AdminAccountManagement</servlet-name>
@@ -104,7 +115,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     </servlet>
     <servlet-mapping>
         <servlet-name>AdminAccountManagement</servlet-name>
-        <url-pattern>/page/adminAccountManagement</url-pattern>
+        <url-pattern>/admin/adminAccountManagement</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>AdminAccountDetails</servlet-name>
@@ -112,7 +123,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     </servlet>
     <servlet-mapping>
         <servlet-name>AdminAccountDetails</servlet-name>
-        <url-pattern>/page/adminAccountDetails</url-pattern>
+        <url-pattern>/admin/adminAccountDetails</url-pattern>
     </servlet-mapping>
 	<servlet>
 	    <servlet-name>AdminActivityLog</servlet-name>
@@ -120,7 +131,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>AdminActivityLog</servlet-name>
-	    <url-pattern>/page/adminActivityLog</url-pattern>
+	    <url-pattern>/admin/adminActivityLog</url-pattern>
 	</servlet-mapping>
 	<servlet>
 	    <description>Servlet that handles Instructor homepage</description>
@@ -410,12 +421,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <web-resource-collection>
             <web-resource-name>AdminPages</web-resource-name>
             <description>Page for admin use only</description>
-            <url-pattern>/page/adminHome</url-pattern>
-            <url-pattern>/page/adminExceptionTest</url-pattern>
-            <url-pattern>/page/adminSearch</url-pattern>
-            <url-pattern>/page/adminActivityLog</url-pattern>
-            <url-pattern>/page/adminAccountManagement</url-pattern>
-            <url-pattern>/page/adminAccountDetails</url-pattern>
+            <url-pattern>/admin/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>

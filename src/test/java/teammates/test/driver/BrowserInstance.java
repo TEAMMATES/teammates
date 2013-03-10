@@ -14,10 +14,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Date;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.params.ClientPNames;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpParams;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.SeleneseCommandExecutor;
@@ -2923,4 +2931,35 @@ public class BrowserInstance {
 			driver.switchTo().alert().accept();
 		}
 	}
+
+	/**
+	 * Verify if a link is alive by checking the response code recieved. 
+	 * If the url is an absolute path, it will verify immediately. Otherwise,
+	 * it will go to TEAMMATES_URL+url 
+	 * 
+	 * @param url 
+	 */
+	public void assertLinkAlive(String url) throws Exception {
+		
+		if (!url.startsWith("http") ){
+			url = TestProperties.inst().TEAMMATES_URL + url;
+		}
+		
+		URI linkToCheck = new URI(url);
+			
+		HttpClient client = new DefaultHttpClient();
+
+		HttpRequestBase requestMethod = new HttpGet();
+		requestMethod.setURI(linkToCheck);
+		
+		HttpParams httpRequestParameters = requestMethod.getParams();
+		httpRequestParameters.setParameter(ClientPNames.HANDLE_REDIRECTS,false);
+		requestMethod.setParams(httpRequestParameters);
+
+		HttpResponse response = client.execute(requestMethod);
+
+		assertEquals(response.getStatusLine().getStatusCode(), 200);
+
+	}
+	
 }
