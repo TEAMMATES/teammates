@@ -48,6 +48,7 @@ public class InstructorCourseEnrollServlet extends
 			return;
 		List<StudentData> students = helper.server.enrollStudents(studentsInfo,
 				helper.courseID);
+		helper.statusMessage = Common.MESSAGE_STUDENT_ADDED;
 		Collections.sort(students, new Comparator<StudentData>() {
 			@Override
 			public int compare(StudentData o1, StudentData o2) {

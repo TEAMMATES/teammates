@@ -319,6 +319,8 @@ public class Common {
 	public static final String MESSAGE_COURSE_REMINDER_SENT_TO = "Registration key has been sent to ";
 	public static final String MESSAGE_COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
 
+	public static final String MESSAGE_STUDENT_ADDED = "Enrollment Successful. Edit";
+	
 	public static final String MESSAGE_STUDENT_EDITED = "The student has been edited successfully";
 	public static final String MESSAGE_STUDENT_DELETED = "The student has been removed from the course";
 
