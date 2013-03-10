@@ -90,6 +90,12 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		bi.clickCourseTab();
 
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseById.html");
+
+		bi.click(bi.instructorCourseSortByNameButton);
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseByName.html");
+		
+		bi.click(bi.instructorCourseSortByIdButton);
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseById.html");
 	}
 
 	public void testInstructorCourseAddUiPaths() throws Exception{
@@ -186,6 +192,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 	public void testInstructorCourseAddLinks() throws Exception{
 		
 		String courseId = ts.validCourse.id;
+		
 		int courseRowId = bi.getCourseRowID(courseId);
 		assertTrue(courseRowId!=-1);
 		
