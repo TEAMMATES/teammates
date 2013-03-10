@@ -16,6 +16,7 @@ var EVALUATION_TIMEZONE = "timezone"; // Used in instructorEval.js
 // Used for validating input
 var DISPLAY_INPUT_FIELDS_EXTRA = "There are too many fields.";
 var DISPLAY_INPUT_FIELDS_MISSING = "There are missing fields.";
+var DISPLAY_GOOGLEID_INVALID = "GoogleID should only consist of alphanumerics, fullstops, dashes or underscores.";
 var DISPLAY_EMAIL_INVALID = "The e-mail address is invalid.";
 var DISPLAY_NAME_INVALID = "Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, commas, slashes, round brackets<br> and not more than 40 characters.";
 var DISPLAY_STUDENT_TEAMNAME_INVALID = "Team name should contain less than 25 characters.";
@@ -304,6 +305,47 @@ function checkEvaluationForm() {
 		}
 	}
 	return true;
+}
+
+/**
+ * Sanitize GoogleID by trimming space and '@gmail.com'
+ * Used in instructorCourse, instructorCourseEdit, adminHome
+ * 
+ * @param googleId
+ * @returns sanitizedGoolgeId
+ */
+function sanitizeGoogleId(googleId) {
+	googleId = googleId.trim();
+	var loc = googleId.toLowerCase().indexOf("@gmail.com");
+	if (loc > -1) {
+		googleId = googleId.substring(0, loc);   
+	}
+	return googleId.trim();
+}
+
+/**
+ * Check if the GoogleID is valid
+ * GoogleID allow only alphanumeric, full stops, dashes, underscores or valid email
+ * 
+ * @param googleId
+ * @return {Boolean}
+ */
+function isValidGoogleId(googleId) {
+	var isValidNonEmailGoogleId = false;
+	googleId = googleId.trim();
+	
+	// match() retrieve the matches when matching a string against a regular expression.
+	var matches = googleId.match(/^([\w-]+(?:\.[\w-]+)*)/);
+	
+	isValidNonEmailGoogleId = (matches != null && matches[0] == googleId);
+	
+	var isValidEmailGoogleId = isEmailValid(googleId);
+	if (googleId.toLowerCase().indexOf("@gmail.com") > -1) {
+		isValidEmailGoogleId = false;
+	}
+	
+	// email addresses are valid google IDs too
+	return isValidNonEmailGoogleId || isValidEmailGoogleId;
 }
 
 /**

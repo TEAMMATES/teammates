@@ -6,6 +6,7 @@ import java.util.Set;
 import com.google.gson.Gson;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
@@ -27,7 +28,7 @@ import teammates.test.driver.BackDoor;
 public class ImportData {
 	//  
 	// Data source file name (under src/test/resources/data folder) to import
-	private static final String SOURCE_FILE_NAME = "DataSourceFileName.json";
+	private static final String SOURCE_FILE_NAME = "ResultFileName.json";
 	
 	private static final int MAX_NUMBER_OF_ENTITY_PER_REQUEST = 100;
 	private static final int MAX_NUMBER_OF_EVALUATION_PER_REQUEST = 1;
@@ -46,7 +47,9 @@ public class ImportData {
 		{
 			long start = System.currentTimeMillis();
 			
-			if(!data.instructors.isEmpty()) {			//Instructors
+			if (!data.accounts.isEmpty()) {
+				status = persist(data.accounts); // Accounts
+			} else if(!data.instructors.isEmpty()) {			//Instructors
 				status = persist(data.instructors);
 			} else if (!data.courses.isEmpty()){	//Courses
 				status = persist(data.courses);
@@ -93,7 +96,12 @@ public class ImportData {
 	    	String key = (String) itr.next();
 	    	Object obj = map.get(key);
 	    	
-	    	if(obj instanceof InstructorData)
+	    	if (obj instanceof AccountData)
+	    	{
+	    		type = "AccountData";
+	    		AccountData accountData = (AccountData)obj;
+	    		bundle.accounts.put(key, accountData);
+	    	} else if(obj instanceof InstructorData)
 			{
 	    		type = "InstructorData";
 				InstructorData instructorData = (InstructorData)obj;

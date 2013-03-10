@@ -37,6 +37,12 @@ test('checkAddCourseParam(courseID, courseName, instructorList)', function(){
 	equal(checkAddCourseParam("CS100\"", "Software Engineering", "googid|Instructor1|I1@gmail.com"), COURSE_STATUS_INVALID_ID, "\" character");
 	equal(checkAddCourseParam("CS100'", "Software Engineering", "googid|Instructor1|I1@gmail.com"), COURSE_STATUS_INVALID_ID, "' character");
 		
+
+	equal(checkAddCourseParam("CS100", "Software Engineering", "power.ful-1988@GMmail.COM|Instructor1|I1@gmail.com"), COURSE_STATUS_VALID_INPUT, "Normal Valid Input");
+	equal(checkAddCourseParam("CS100", "Software Engineering", " user@hotmail.com |Instructor1|I1@gmail.com"), COURSE_STATUS_VALID_INPUT, "Normal Valid Input");
+	equal(checkAddCourseParam("CS100", "Software Engineering", "googid\n\t  @gmail.com \n\t |Instructor1|I1@gmail.com"), COURSE_STATUS_INSTRUCTOR_LIST_FIELDS_MISSING, "Space character");
+	equal(checkAddCourseParam("CS100", "Software Engineering", "googid\t  @gmail.com \t |Instructor1|I1@gmail.com"), COURSE_STATUS_INSTRUCTOR_LIST_FIELDS_EXTRA, "Tab character");
+	equal(checkAddCourseParam("CS100", "Software Engineering", "googid!@#$%^&*()|Instructor1|I1@gmail.com"), COURSE_STATUS_INSTRUCTOR_LIST_GOOGLEID_INVALID, "!@#$%^&*() character");
 });
 
 

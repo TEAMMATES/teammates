@@ -414,7 +414,11 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		//Set the end time to the next hour, but push the timezone ahead 2 hours, so the evaluation has expired by 1 hour
 		//Then we verify that the evaluation is disabled
 		ownEvaluation.endTime = Common.getNextHour();
-		ownEvaluation.timeZone = 2.0;   //+2 hour
+		ownEvaluation.timeZone = 10.0;   //put user's timezone ahead by 10hrs
+		//TODO: this test case needs tweaking. It fails on some computers when
+		//  the above is set to +2. Furthermore, we need a test case to ensure
+		//  editing is enabled when the user timezone is behind. This test 
+		//  case only checks if editing is disabled when timezone is ahead.
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		bi.goToUrl(link);

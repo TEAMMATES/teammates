@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
@@ -22,6 +24,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.apphosting.api.DeadlineExceededException;
 
 /**
  * Manager for handling basic CRUD Operations only
@@ -995,34 +998,29 @@ public class AccountsDb {
 		return instructorList;
 	}
 
-	public void appendNameEmailForInstructors() {
-		String query = "select from " + Account.class.getName()
-				+ " where isInstructor == true";
+	
 
+	public int appendTimestampForAccount(int entityCountStart) {
+		String query = "select from " + Account.class.getName();
+
+		Query q = getPM().newQuery(query);
+		q.setRange(entityCountStart, entityCountStart + 500);
 		@SuppressWarnings("unchecked")
-		List<Account> instructorAccounts = (List<Account>) getPM()
-				.newQuery(query).execute();
+		List<Account> accounts = (List<Account>) q.execute();
 		
-		log.warning("SIZE OF OPERATION: " + instructorAccounts.size());
-		
-		for (Account a : instructorAccounts) {
-			log.warning("Operating: " + a.getGoogleId());
-			String instructorQuery = "select from " + Instructor.class.getName()
-					+ " where googleId == '" + a.getGoogleId() + "'";
-			
-			@SuppressWarnings("unchecked")
-			List<Instructor> instructorsOfThisAccount = (List<Instructor>) getPM()
-					.newQuery(instructorQuery).execute();
-			for (Instructor i : instructorsOfThisAccount) {
-				log.warning("Changing from: " + i.getName());
-				i.setName(a.getName());
-				i.setEmail(a.getEmail());
-				log.warning(" to: " + i.getName());
+		int count = 0;
+		try {
+			for (Account a : accounts) {
+				if (a.getCreatedAt() == null) {
+					a.setCreatedAt(new Date());
+					count++;
+				}
 			}
 			getPM().close();
+			return count;
+		} catch (DeadlineExceededException dee) {
+			return count;
 		}
-		
-		getPM().close();
 	}
 
 }
