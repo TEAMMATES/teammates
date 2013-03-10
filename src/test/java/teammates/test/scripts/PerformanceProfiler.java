@@ -348,7 +348,6 @@ public class PerformanceProfiler extends Thread{
     @PerformanceTest(name = "Instructor course enroll page")
     public String instructorCourseEnroll() {
     	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourseEnroll?courseid=idOf_Z2_Cou0_of_Coo0");    	
-    	bi.waitForStatusMessage(Common.MESSAGE_STUDENT_ADDED);
     	return "";
     }
     

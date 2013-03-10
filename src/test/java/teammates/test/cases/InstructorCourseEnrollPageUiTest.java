@@ -104,7 +104,6 @@ public class InstructorCourseEnrollPageUiTest extends BaseTestCase {
 		bi.click(By.id("button_enroll"));
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseEnrollPageResult.html");
-		bi.waitForStatusMessage(Common.MESSAGE_STUDENT_ADDED);
 		
 	}
 	
