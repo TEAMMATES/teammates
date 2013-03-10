@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+	<link href="/favicon.png" rel="shortcut icon" />
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+	<title>Teammates - Instructor</title>
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/instructorCourse.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
+	<link rel="stylesheet" href="/stylesheets/instructorCourse-print.css" type="text/css" media="print">
+	
+	<script async=""  type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
+	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
+	<script src="/js/jquery-minified.js" type="text/javascript"></script>
+	<script src="/js/tooltip.js" type="text/javascript"></script>
+	<script src="/js/date.js" type="text/javascript"></script>
+	<script src="/js/CalendarPopup.js" type="text/javascript"></script>
+	<script src="/js/AnchorPosition.js" type="text/javascript"></script>
+	<script src="/js/common.js" type="text/javascript"></script>
+	
+	<script src="/js/instructor.js" type="text/javascript"></script>
+	<script src="/js/instructorCourse.js" type="text/javascript"></script>
+    <noscript>{*}</noscript>
+
+
+</head>
+
+<body>
+	<div id="dhtmltooltip"></div>
+	<div id="frameTop">
+		
+
+
+		<div id="frameTopWrapper">
+			<div id="logo">
+				<a href="/index.html">
+				<img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="Teammates" />
+				</a>
+			</div>			
+			<div id="contentLinks">
+				<ul id="navbar">
+					<li><a href="/page/instructorHome?user=teammates.demo.instructor" class='nav home' data-link="instructorHome">Home</a></li>
+					<li class="current"><a href="/page/instructorCourse?user=teammates.demo.instructor" class='nav courses' data-link="instructorCourse">Courses</a></li>
+					<li><a href="/page/instructorEval?user=teammates.demo.instructor" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
+					<li><a target="_blank" href="/instructorHelp.html" class='nav help'>Help</a></li>
+					<li><a href="/logout.jsp" class='nav logout'>Logout</a>
+					 <span onmouseover="ddrivetip('teammates.demo.instructor')" onmouseout="hideddrivetip()">
+                                         (teammates.demo.instr...)</span></li>
+				</ul>
+			</div>
+			<div style="clear: both;"></div>
+		</div>
+
+
+	</div>
+
+	<div id="frameBody">
+		<div id="frameBodyWrapper">
+			<div id="topOfPage"></div>
+			<div id="headerOperation">
+				<h1>Add New Course</h1>
+			</div>
+
+			<form name="form_addcourse" action="/page/instructorCourse" method="get">
+				<input type="hidden" value="teammates.demo.instructor" name="instructorid" id="instructorid" />
+				<table id="addform" class="inputTable">
+					<tr>
+						<td class="label bold" width="20%">Course ID:</td>
+						<td><input class="addinput" type="text"
+							name="courseid" id="courseid"
+							value=""
+							onmouseover="ddrivetip('Enter the identifier of the course, e.g.CS3215-2013Semester1.')"
+							onmouseout="hideddrivetip()"
+							maxlength=30 tabindex="1"
+							placeholder="e.g. CS3215-2013Semester1" /></td>
+					</tr>
+					<tr>
+						<td class="label bold">Course Name:</td>
+						<td><input class="addinput" type="text"
+							name="coursename" id="coursename"
+							value=""
+							onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
+							onmouseout="hideddrivetip()"
+							maxlength=38 tabindex=2
+							placeholder="e.g. Software Engineering" /></td>
+					</tr>
+					<tr>
+						<td colspan=2 class="label bold">Instructors:</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<span class="bold" id="instructorformat">Format: Google ID | Instructor Name | Instructor Email</span>
+							<textarea id="instructorlist" name="instructorlist" class="textvalue" cols="110" rows="6">teammates.demo.instructor|Teammates Demo Instr|teammates.demo.instructor@gmail.com</textarea>
+						</td>
+					</tr>
+					<tr>
+						<td colspan=2 class="centeralign"><input id="btnAddCourse" type="submit" class="button"
+							onclick="return verifyCourseData();" value="Add Course" tabindex="3"></td>
+					</tr>
+				</table>
+				
+					<input type="hidden" value="teammates.demo.instructor" name="user" />
+				
+			</form>
+			<br />
+			
+
+
+	<div style="display: none;" id="statusMessage"></div>
+
+			<br />
+			<table class="dataTable">
+				<tbody><tr>
+					<th class="color_white bold"><input type="button" onclick="toggleSort(this,1);" id="button_sortcourseid" class="buttonSortNone" />
+						Course ID</th>
+					<th class="color_white bold"><input type="button" onclick="toggleSort(this,2);" id="button_sortcoursename" class="buttonSortAscending" />
+						Course Name</th>
+					<th class="centeralign color_white bold">Teams</th>
+					<th class="centeralign color_white bold">Total Students</th>
+					<th class="centeralign color_white bold">Total Unregistered</th>
+					<th class="centeralign color_white bold no-print">Action(s)</th>
+				</tr>
+				
+					<tr class="courses_row">
+						<td id="courseid1">CCAddUiTest.CS2104</td>
+						<td id="coursename1">Programming Language Concept</td>
+						<td class="t_course_teams centeralign">0</td>
+						<td class="centeralign">0</td>
+						<td class="centeralign">0</td>
+						<td class="centeralign no-print">
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/instructorCourseEnroll?courseid=CCAddUiTest.CS2104&amp;user=teammates.demo.instructor" class="color_black t_course_enroll1">Enroll</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/instructorCourseDetails?courseid=CCAddUiTest.CS2104&amp;user=teammates.demo.instructor" class="color_black t_course_view1">View</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit Course information and instructor list')" href="/page/instructorCourseEdit?courseid=CCAddUiTest.CS2104&amp;user=teammates.demo.instructor" class="color_black t_course_edit1">Edit</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CCAddUiTest.CS2104');" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS2104&amp;next=%2Fpage%2FinstructorCourse%3Fuser%3Dteammates.demo.instructor&amp;user=teammates.demo.instructor" class="color_black t_course_delete1">Delete</a>
+						</td>
+					</tr>
+				
+					<tr class="courses_row">
+						<td id="courseid0">CCAddUiTest.CS1101</td>
+						<td id="coursename0">Programming Methodology</td>
+						<td class="t_course_teams centeralign">0</td>
+						<td class="centeralign">0</td>
+						<td class="centeralign">0</td>
+						<td class="centeralign no-print">
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/instructorCourseEnroll?courseid=CCAddUiTest.CS1101&amp;user=teammates.demo.instructor" class="color_black t_course_enroll0">Enroll</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/instructorCourseDetails?courseid=CCAddUiTest.CS1101&amp;user=teammates.demo.instructor" class="color_black t_course_view0">View</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit Course information and instructor list')" href="/page/instructorCourseEdit?courseid=CCAddUiTest.CS1101&amp;user=teammates.demo.instructor" class="color_black t_course_edit0">Edit</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CCAddUiTest.CS1101');" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS1101&amp;next=%2Fpage%2FinstructorCourse%3Fuser%3Dteammates.demo.instructor&amp;user=teammates.demo.instructor" class="color_black t_course_delete0">Delete</a>
+						</td>
+					</tr>
+				
+			</tbody></table>
+			<br />
+			<br />
+			<br />
+			
+		</div>
+	</div>
+
+	<div id="frameBottom">
+		
+<div id="contentFooter">
+[TEAMMATES Version {version}] Best Viewed In Firefox, Chrome, Safari 4+ and Internet Explorer 9+. For Enquires:
+
+<a target="_blank" href="http://www.comp.nus.edu.sg/%7Eteams/contact.html">Contact Us</a>
+</div>
+	</div>
+
+</body></html>
