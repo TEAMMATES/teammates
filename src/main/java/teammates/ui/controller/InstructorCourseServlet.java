@@ -26,8 +26,25 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 	@Override
 	protected void doAction(HttpServletRequest req, InstructorCourseHelper helper)
 			throws EntityDoesNotExistException {
+		boolean createCourse = false;
 		String url = getRequestedURL(req);
 
+		helper.courseID = req.getParameter(Common.PARAM_COURSE_ID);
+		helper.courseName = req.getParameter(Common.PARAM_COURSE_NAME);
+		helper.instructorList = req.getParameter(Common.PARAM_COURSE_INSTRUCTOR_LIST);
+
+		if (helper.courseID != null && helper.courseName != null && helper.instructorList != null) {
+			ArrayList<Object> data = new ArrayList<Object>();
+			data.add(helper.courseID);
+			data.add(helper.courseName);
+			data.add(helper.instructorList);
+			createCourse(helper);
+			
+			activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_SERVLET, Common.INSTRUCTOR_COURSE_SERVLET_ADD_COURSE,
+					true, helper, url, data);
+			createCourse = true;
+		}
+		
 		HashMap<String, CourseData> courses = helper.server
 				.getCourseListForInstructor(helper.userId);
 		helper.courses = new ArrayList<CourseData>(courses.values());
@@ -35,20 +52,7 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 		sortCourses(helper.courses);	
 		setStatus(helper);
 		
-		helper.courseID = req.getParameter(Common.PARAM_COURSE_ID);
-		helper.courseName = req.getParameter(Common.PARAM_COURSE_NAME);
-		helper.instructorList = req.getParameter(Common.PARAM_COURSE_INSTRUCTOR_LIST);
-
-		if (helper.courseID != null && helper.courseName != null && helper.courseName != null) {
-			ArrayList<Object> data = new ArrayList<Object>();
-			data.add(helper.courseID.toString());
-			data.add(helper.courseName.toString());
-			data.add(helper.instructorList);
-			createCourse(helper);
-			
-			activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_SERVLET, Common.INSTRUCTOR_COURSE_SERVLET_ADD_COURSE,
-					true, helper, url, null);
-		} else {
+		if (!createCourse) {
 			ArrayList<Object> data = new ArrayList<Object>();
 			data.add(helper.courses.size());
 			activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_SERVLET, Common.INSTRUCTOR_COURSE_SERVLET_PAGE_LOAD,
@@ -145,11 +149,7 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 		
 		try {
 			message = "A New Course <span class=\"bold\">[" + (String)data.get(0) + "] " + (String)data.get(1) + "</span> has been created.<br>";
-			message += "Instructor List:<br>";
-			String[] instructors = ((String)data.get(2)).split("\n", -1);
-			for (String instructor : instructors){
-				message += "  - " + instructor + "<br>";
-			}
+			
 		} catch (NullPointerException e){
 			message = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
 		}
