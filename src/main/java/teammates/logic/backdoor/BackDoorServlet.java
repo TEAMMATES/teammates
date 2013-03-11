@@ -47,6 +47,7 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String OPERATION_GET_TFS_AS_JSON = "OPERATION_GET_TFS_AS_JSON";
 	public static final String OPERATION_PERSIST_DATABUNDLE = "OPERATION_PERSIST_DATABUNDLE";
 	public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER = "activate_auto_reminder";
+	public static final String OPERATION_APPEND_TIMESTAMP_FOR_ACCOUNT = "OPERATION_APPEND_TIMESTAMP_FOR_ACCOUNT";
 	
 	public static final String PARAMETER_BACKDOOR_KEY = "PARAM_BACKDOOR_KEY";
 	public static final String PARAMETER_BACKDOOR_OPERATION = "PARAMETER_BACKDOOR_OPERATION";
@@ -63,6 +64,7 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String PARAMETER_STUDENT_EMAIL = "PARAMETER_STUDENT_EMAIL";
 	public static final String PARAMETER_STUDENT_ID = "PARAMETER_STUDENT_ID";
 	public static final String PARAMETER_TEAM_NAME = "PARAMETER_TEAM_NAME";
+	public static final String PARAMETER_ENTITY_COUNT_START = "PARAMETER_ENTITY_COUNT_START";
 
 	private static final Logger log = Common.getLogger();
 
@@ -174,6 +176,9 @@ public class BackDoorServlet extends HttpServlet {
 			String originalEmail = req.getParameter(PARAMETER_STUDENT_EMAIL);
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
 			backDoorLogic.editStudentAsJson(originalEmail, newValues);
+		} else if (action.equals(OPERATION_APPEND_TIMESTAMP_FOR_ACCOUNT)) {
+			String entityCountStart = req.getParameter(PARAMETER_ENTITY_COUNT_START);
+			return Integer.toString(backDoorLogic.appendTimestampForAccount(Integer.parseInt(entityCountStart)));
 		} else {
 			throw new Exception("Unknown command: " + action);
 		}

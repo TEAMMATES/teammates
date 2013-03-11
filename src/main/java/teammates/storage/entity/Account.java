@@ -1,5 +1,7 @@
 package teammates.storage.entity;
 
+import java.util.Date;
+
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -22,6 +24,9 @@ public class Account {
 	
 	@Persistent
 	private String institute;
+	
+	@Persistent
+	private Date createdAt;
 
 	//========================================
 	
@@ -32,6 +37,8 @@ public class Account {
 		this.isInstructor = isInstructor;
 		this.email = email;
 		this.institute = institute;
+		
+		this.createdAt = new Date();
 	}
 
 	//===========[Getter]=============================
@@ -55,6 +62,10 @@ public class Account {
 	public String getInstitute() {
 		return institute;
 	}
+	
+	public Date getCreatedAt() {
+		return createdAt;
+	}
 
 	//===========[Setter]=============================
 	
@@ -76,5 +87,9 @@ public class Account {
 	
 	public void setInstitute(String institute) {
 		this.institute = institute;
+	}
+	
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 }
