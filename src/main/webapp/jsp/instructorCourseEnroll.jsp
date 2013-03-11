@@ -40,7 +40,7 @@
 				<div id="headerOperation">
 					<h1>Enrollment Results for <%= helper.courseID %></h1>
 				</div>
-				
+				<div style="display: block;" id="statusMessage">Enrollment Successful. Summary given below. Click <a href="javascript:history.go(-1)" id="edit_enroll">here</a> to modify values and re-do the enrollment.</div>
 				<%	for(int i=0; i<5; i++){
 						List<StudentData> students = helper.students[i]; %>
 					<%	if(students.size()>0){ %>

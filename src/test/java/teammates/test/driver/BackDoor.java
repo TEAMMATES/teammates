@@ -293,12 +293,6 @@ public class BackDoor {
 		String status = makePOSTRequest(params);
 		return status;
 	}
-	
-	public static String appendInstitutionForAccount() {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_APPEND_INSTITUTION_FOR_ACCOUNT);
-		String status = makePOSTRequest(params);
-		return status;
-	}
 
 	@SuppressWarnings("unused")
 	private void ____SUBMISSION_level_methods______________________________() {
@@ -335,7 +329,7 @@ public class BackDoor {
 		throw new NotImplementedException(
 				"not implemented yet because submissions do not need to be deleted via the API");
 	}
-
+	
 	@SuppressWarnings("unused")
 	private void ____helper_methods______________________________() {
 	}

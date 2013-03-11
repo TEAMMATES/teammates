@@ -77,7 +77,8 @@ public class BackDoorLogic extends Logic {
 		HashMap<String, InstructorData> instructors = dataBundle.instructors;
 		for (InstructorData instructor : instructors.values()) {
 			log.fine("API Servlet adding instructor :" + instructor.googleId);
-			super.createInstructor(instructor.googleId, instructor.courseId, instructor.name, instructor.email);
+			// This method is only used in test cases, so it should be fine to hard code a value for Institute
+			super.createInstructor(instructor.googleId, instructor.courseId, instructor.name, instructor.email, "National University of Singapore");
 		}
 
 		HashMap<String, StudentData> students = dataBundle.students;
@@ -253,10 +254,5 @@ public class BackDoorLogic extends Logic {
 		}
 
 		CoursesLogic.inst().getDb().createCourse(courseToAdd);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public int appendInstitutionForAccount() throws EntityDoesNotExistException {
-		return AccountsLogic.inst().getDb().appendInstitutionForAccount();
 	}
 }
