@@ -58,6 +58,7 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 
 	private void createCourse(InstructorCourseHelper helper) {
 		String courseId = helper.courseID;
+		String courseInstitute = helper.account.institute;	// Assumption: Logged in user is from the Institute of the course, not App Admin
 		try {
 			helper.server.createCourse(helper.userId, helper.courseID,
 					helper.courseName);
@@ -76,7 +77,7 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 			return;
 		}
 		try{
-			helper.server.updateCourseInstructors(courseId, helper.instructorList);
+			helper.server.updateCourseInstructors(courseId, helper.instructorList, courseInstitute);
 		} catch (InvalidParametersException e){
 			helper.statusMessage = e.getMessage();
 			helper.error = true;

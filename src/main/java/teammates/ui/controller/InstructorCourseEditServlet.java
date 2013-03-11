@@ -29,8 +29,9 @@ public class InstructorCourseEditServlet extends ActionServlet<InstructorCourseE
 		if(isSubmit){
 			String instructorList = req.getParameter(Common.PARAM_COURSE_INSTRUCTOR_LIST);
 			String courseID = req.getParameter(Common.PARAM_COURSE_ID);
+			String institute = helper.account.institute;
 			try{
-				helper.server.updateCourseInstructors(courseID, instructorList);				
+				helper.server.updateCourseInstructors(courseID, instructorList, institute);				
 				helper.statusMessage = Common.MESSAGE_COURSE_EDITED;
 				helper.redirectUrl = Common.PAGE_INSTRUCTOR_COURSE;
 				

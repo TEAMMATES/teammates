@@ -7,12 +7,15 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
+
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
 import teammates.test.driver.TestProperties;
+
+ 
 
 /**
  * Tests Instructor Course Enroll UI
@@ -71,6 +74,12 @@ public class InstructorCourseEnrollPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testInstructorCourseEnrollPage() throws Exception{
+		
+		______TS("Check sample spreadsheet link");
+		
+		String spreadSheetLink = bi.getElementRelativeHref(By.id("spreadsheet_download"));
+		bi.assertLinkAlive(spreadSheetLink);
+		
 		______TS("failure case - no students data");
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseEnrollPage.html");
@@ -96,5 +105,9 @@ public class InstructorCourseEnrollPageUiTest extends BaseTestCase {
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseEnrollPageResult.html");
 		
+		bi.click(By.id("edit_enroll"));	
+		assertContainsRegex("{*}Enroll Students for CCEnrollUiT.CS2104{*}",bi.getCurrentPageSource());	
+		
 	}
+	
 }

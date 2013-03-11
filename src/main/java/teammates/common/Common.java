@@ -15,6 +15,7 @@ import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -59,6 +60,7 @@ public class Common {
 	// Hover messages
 	
 	public static final String HOVER_MESSAGE_COURSE_ENROLL = "Enroll student into the course";
+	public static final String HOVER_MESSAGE_COURSE_ENROLL_SAMPLE_SPREADSHEET = "Download a sample team data spreadsheet";
 	public static final String HOVER_MESSAGE_COURSE_DETAILS = "View, edit and send registration keys to the students in the course";
 	public static final String HOVER_MESSAGE_COURSE_EDIT = "Edit Course information and instructor list";
 	public static final String HOVER_MESSAGE_COURSE_DELETE = "Delete the course and its corresponding students and evaluations";
@@ -239,12 +241,12 @@ public class Common {
 	public static final String PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER = "/page/studentEvalEditHandler";
 	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
 
-	public static final String PAGE_ADMIN_HOME = "/page/adminHome";
-	public static final String PAGE_ADMIN_ACCOUNT_MANAGEMENT = "/page/adminAccountManagement";
-	public static final String PAGE_ADMIN_ACCOUNT_DETAILS = "/page/adminAccountDetails";
-	public static final String PAGE_ADMIN_EXCEPTION_TEST = "/page/adminExceptionTest";
-	public static final String PAGE_ADMIN_ACTIVITY_LOG = "/page/adminActivityLog";
-	public static final String PAGE_ADMIN_SEARCH = "/page/adminSearch";
+	public static final String PAGE_ADMIN_HOME = "/admin/adminHome";
+	public static final String PAGE_ADMIN_ACCOUNT_MANAGEMENT = "/admin/adminAccountManagement";
+	public static final String PAGE_ADMIN_ACCOUNT_DETAILS = "/admin/adminAccountDetails";
+	public static final String PAGE_ADMIN_EXCEPTION_TEST = "/admin/adminExceptionTest";
+	public static final String PAGE_ADMIN_ACTIVITY_LOG = "/admin/adminActivityLog";
+	public static final String PAGE_ADMIN_SEARCH = "/admin/adminSearch";
 	public static final String PAGE_LOGIN = "/login";
 
 	/*
@@ -545,11 +547,26 @@ public class Common {
 				// check contains period?
 	}
 
-	// GoogleID cannot have spaces
+	public static String sanitizeGoogleId(String googleId) {
+		googleId = googleId.trim();
+		
+		int loc = googleId.toLowerCase().indexOf("@gmail.com");
+		if (loc > -1) {
+			googleId = googleId.substring(0, loc);
+		}
+		return googleId.trim();
+	}
+
+	// GoogleID allow only alphanumeric, full stops, dashes, underscores or valid email
 	public static boolean isValidGoogleId(String googleId) {
-		return (isValidString(googleId) && 
-				hasNoSpace(googleId));		
-			// test for contains valid chars?
+		boolean isValidNonEmailGoogleId = googleId.trim().matches("^([\\w-]+(?:\\.[\\w-]+)*)");
+		boolean isValidEmailGoogleId = isValidEmail(googleId.trim());
+		
+		if (googleId.toLowerCase().indexOf("@gmail.com") > -1) {
+			isValidEmailGoogleId = false;
+		}
+		
+		return isValidNonEmailGoogleId || isValidEmailGoogleId;
 	}
 
 	// Name can have spaces

@@ -19,6 +19,9 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/gson-2.2.2.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/xercesImpl-2.9.1.jar"/>
 
+	<!-- appengine Remote API -->
+	<classpathentry kind="lib" path="src/test/resources/lib/appengine/appengine-remote-api.jar"/>
+
 	<!-- appengine libraries used for local unit testing -->
 	<classpathentry kind="lib" path="src/test/resources/lib/appengine/appengine-testing.jar"/>
 	<classpathentry kind="lib" path="src/test/resources/lib/appengine/appengine-api.jar"/>
