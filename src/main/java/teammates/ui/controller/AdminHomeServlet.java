@@ -14,14 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.BuildProperties;
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
-import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -38,7 +36,8 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 
 	@Override
 	protected void doAction(HttpServletRequest req, AdminHomeHelper helper) {
-		String action = Common.ADMIN_HOME_SERVLET_PAGE_LOAD;
+		String url = getRequestedURL(req);
+		
 		helper.instructorId = req.getParameter(Common.PARAM_INSTRUCTOR_ID);
 		helper.instructorName = req.getParameter(Common.PARAM_INSTRUCTOR_NAME);
 		helper.instructorEmail = req.getParameter(Common.PARAM_INSTRUCTOR_EMAIL);
@@ -54,7 +53,16 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 				helper.server.createAccount(helper.instructorId, helper.instructorName, true, helper.instructorEmail, "");
 				helper.statusMessage = "Instructor " + helper.instructorName
 						+ " has been successfully created";
-				action = Common.ADMIN_HOME_SERVLET_CREATE_INSTRUCTOR;
+				
+				ArrayList<Object> data = new ArrayList<Object>();
+				data.add(helper.instructorId);
+				data.add(helper.instructorName);
+				data.add(helper.instructorEmail);
+				activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_HOME_SERVLET, Common.ADMIN_HOME_SERVLET_CREATE_INSTRUCTOR,
+						false, helper, url, null);
+			} else {
+				activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_HOME_SERVLET, Common.ADMIN_HOME_SERVLET_PAGE_LOAD,
+						false, helper, url, null);
 			}
 
 			if (importSampleData != null) {
@@ -63,14 +71,12 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 		} catch (Exception e) {
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
+			
+			ArrayList<Object> data = new ArrayList<Object>();
+			data.add(e.getClass() + ": " + e.getMessage());
+			activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_HOME_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE,
+					false, helper, url, data);
 		}
-		
-		String url = req.getRequestURI();
-		if (req.getQueryString() != null){
-			url += "?" + req.getQueryString();
-		}
-		activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_HOME_SERVLET, action,
-				false, helper, url, null);
 	}
 
 	private void importDemoData(AdminHomeHelper helper) throws EntityAlreadyExistsException,
@@ -164,32 +170,42 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 	}
 
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
-		AdminHomeHelper h = (AdminHomeHelper) helper;
-		String params;
+	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {
 		
-		UserType user = helper.server.getLoggedInUser();
-		AccountData account = helper.server.getAccount(user.id);
+		String message;
 		
-		if(action == Common.ADMIN_HOME_SERVLET_PAGE_LOAD){
-			params = "Admin Home Page Load";
-		} else if (action == Common.ADMIN_HOME_SERVLET_CREATE_INSTRUCTOR){
-			try {
-				params = "A New Instructor <span class=\"bold\">" + h.instructorName + "</span> has been created.<br>";
-				params += "<span class=\"bold\">Id: </span>" + h.instructorId + "<br>";
-				params += "<span class=\"bold\">Email: </span>" + h.instructorEmail;
-			} catch (NullPointerException e){
-				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
-			}
-		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
-            String e = (String)data.get(0);
-            params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
-            params += e + "</span>";
-        } else {
-			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		if(action.equals(Common.ADMIN_HOME_SERVLET_PAGE_LOAD)){
+			message = generatePageLoadMessage(servletName, action, data);
+		} else if (action.equals(Common.ADMIN_HOME_SERVLET_CREATE_INSTRUCTOR)){
+			message = generateCreateInstructorMessage(servletName, action, data);
+		} else {
+			message = generateActivityLogEntryErrorMessage(servletName, action, data);
 		}
 			
-		return new ActivityLogEntry(servletName, action, true, account, params, url);
+		return message;
 	}
 
+	
+	private String generatePageLoadMessage(String servletName, String action, ArrayList<Object> data){
+		String message;
+		
+		message = "Admin Home Page Load";
+		
+		return message;
+	}
+	
+	
+	private String generateCreateInstructorMessage(String servletName, String action, ArrayList<Object> data){
+		String message;
+		
+		try {
+			message = "A New Instructor <span class=\"bold\">" + (String)data.get(1) + "</span> has been created.<br>";
+			message += "<span class=\"bold\">Id: </span>" + (String)data.get(0) + "<br>";
+			message += "<span class=\"bold\">Email: </span>" + (String)data.get(2);
+		} catch (NullPointerException e){
+			message = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+		}
+		
+		return message;
+	}
 }

@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.UserType;
 
 @SuppressWarnings("serial")
 public class StudentEvalEditServlet extends EvalSubmissionEditServlet {
@@ -43,30 +41,33 @@ public class StudentEvalEditServlet extends EvalSubmissionEditServlet {
 
 
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
-		StudentEvalEditHelper h = (StudentEvalEditHelper)helper;
-		String params;
+	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {
+		String message;
 		
-		UserType user = helper.server.getLoggedInUser();
-		AccountData account = helper.server.getAccount(user.id);
 		servletName = servletName.equals("Edit") ? Common.STUDENT_EVAL_EDIT_SERVLET : "";
 		action = action.equals("Edit") ? Common.STUDENT_EVAL_EDIT_SERVLET_PAGE_LOAD : action;
 		
-		if(action == Common.STUDENT_EVAL_EDIT_SERVLET_PAGE_LOAD){
-			try {
-				params = "studentEvalEdit Page Load<br>";
-				params += "Editing <span class=\"bold\">" + h.student.name + "'s</span> Evaluation <span class=\"bold\">("+ (String)data.get(1)+")</span> for Course <span class=\"bold\">[" + data.get(0) + "]</span>";
-			} catch (NullPointerException e) {
-				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
-			}
-		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
-			String e = (String)data.get(0);
-	        params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
-	        params += e + "</span>";
+		if(action.equals(Common.STUDENT_EVAL_EDIT_SERVLET_PAGE_LOAD)){
+			message = generatePageLoadMessage(servletName, action, data);
 		} else {
-			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+			message = generateActivityLogEntryErrorMessage(servletName, action, data);
 		}
 				
-		return new ActivityLogEntry(servletName, action, true, account, params, url);
+		return message;
+	}
+	
+	
+	
+	private String generatePageLoadMessage(String servletName, String action, ArrayList<Object> data){
+		String message;
+		
+		try {
+			message = "studentEvalEdit Page Load<br>";
+			message += "Editing <span class=\"bold\">" + (String)data.get(2) + "'s</span> Evaluation <span class=\"bold\">("+ (String)data.get(1)+")</span> for Course <span class=\"bold\">[" + (String)data.get(0) + "]</span>";
+		} catch (NullPointerException e) {
+			message = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+		}
+		
+		return message;
 	}
 }

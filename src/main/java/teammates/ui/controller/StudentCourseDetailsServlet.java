@@ -5,11 +5,9 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.TeamData;
-import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 
 @SuppressWarnings("serial")
@@ -29,10 +27,7 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 	@Override
 	protected void doAction(HttpServletRequest req, StudentCourseDetailsHelper helper)
 			throws EntityDoesNotExistException {
-		String url = req.getRequestURI();
-        if (req.getQueryString() != null){
-            url += "?" + req.getQueryString();
-        }
+		String url = getRequestedURL(req);
         
 		// Get parameters
 		String courseId = req.getParameter(Common.PARAM_COURSE_ID);
@@ -40,9 +35,9 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 			helper.redirectUrl = Common.PAGE_STUDENT_HOME;
 			
 			ArrayList<Object> data = new ArrayList<Object>();
-	        data.add("Course Id is null");
-	                        
-	        activityLogEntry = instantiateActivityLogEntry(Common.STUDENT_COURSE_DETAILS_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE, true, helper, url, data);
+	        data.add("Course Id is null");	                        
+	        activityLogEntry = instantiateActivityLogEntry(Common.STUDENT_COURSE_DETAILS_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE,
+	        		true, helper, url, data);
 			return;
 		}
 		
@@ -52,9 +47,11 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 		helper.student = helper.server.getStudentInCourseForGoogleId(courseId, helper.userId);
 		helper.team = getTeam(helper.server.getTeamsForCourse(courseId),helper.student);
 		
-		
+		ArrayList<Object> data = new ArrayList<Object>();
+		data.add(helper.course.id);
+		data.add(helper.course.name);
 		activityLogEntry = instantiateActivityLogEntry(Common.STUDENT_COURSE_DETAILS_SERVLET, Common.STUDENT_COURSE_DETAILS_SERVLET_PAGE_LOAD,
-				true, helper, url, null);
+				true, helper, url, data);
 	}
 	
 	/**
@@ -79,29 +76,30 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 
 
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
-		StudentCourseDetailsHelper h = (StudentCourseDetailsHelper) helper;
-		String params;
+	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {
+		String message;
 		
-		UserType user = helper.server.getLoggedInUser();
-		AccountData account = helper.server.getAccount(user.id);
-		
-		if(action == Common.INSTRUCTOR_COURSE_SERVLET_PAGE_LOAD){
-			try {
-				params = "studentCourseDetails Page Load<br>";
-				params += "Viewing team details for <span class=\"bold\">[" + h.course.id + "] " + h.course.name + "</span>";   
-			} catch (NullPointerException e) {
-				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";  
-			}
-		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
-			String e = (String)data.get(0);
-	        params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
-	        params += e + "</span>";
+		if(action.equals(Common.INSTRUCTOR_COURSE_SERVLET_PAGE_LOAD)){
+			message = generatePageLoadMessage(servletName, action, data);
 		} else {
-			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";      
+			message = generateActivityLogEntryErrorMessage(servletName, action, data);
 		}
 			
-		return new ActivityLogEntry(servletName, action, true, account, params, url);
+		return message;
+	}
+	
+	
+	private String generatePageLoadMessage(String servletName, String action, ArrayList<Object> data){
+		String message;
+		
+		try {
+			message = "studentCourseDetails Page Load<br>";
+			message += "Viewing team details for <span class=\"bold\">[" + (String)data.get(0) + "] " + (String)data.get(1) + "</span>";   
+		} catch (NullPointerException e) {
+			message = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";  
+		}
+		
+		return message;
 	}
 
 }

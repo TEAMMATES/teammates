@@ -6,9 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.SubmissionData;
-import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -24,10 +22,7 @@ public class StudentEvalResultsServlet extends ActionServlet<StudentEvalResultsH
 	@Override
 	protected void doAction(HttpServletRequest req, StudentEvalResultsHelper helper)
 			throws EntityDoesNotExistException {
-		String url = req.getRequestURI();
-        if (req.getQueryString() != null){
-            url += "?" + req.getQueryString();
-        }
+		String url = getRequestedURL(req);
         
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
@@ -67,10 +62,10 @@ public class StudentEvalResultsServlet extends ActionServlet<StudentEvalResultsH
 			
 			ArrayList<Object> data = new ArrayList<Object>();
 			data.add(courseID);
-			data.add(evalName);
-			    
+			data.add(evalName);			    
 	        activityLogEntry = instantiateActivityLogEntry(Common.STUDENT_EVAL_RESULTS_SERVLET, Common.STUDENT_EVAL_RESULTS_SERVLET_PAGE_LOAD,
 	        		true, helper, url, data);
+	        
 		} catch (InvalidParametersException e) {
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
@@ -80,7 +75,6 @@ public class StudentEvalResultsServlet extends ActionServlet<StudentEvalResultsH
 			data.add(e.getClass() + ": " + e.getMessage());
 			activityLogEntry = instantiateActivityLogEntry(Common.STUDENT_EVAL_RESULTS_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE,
 	        		true, helper, url, data);
-			return;
 		}
 	}
 
@@ -110,28 +104,30 @@ public class StudentEvalResultsServlet extends ActionServlet<StudentEvalResultsH
 
 
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
-		String params;
+	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {
+		String message;
 		
-		UserType user = helper.server.getLoggedInUser();
-		AccountData account = helper.server.getAccount(user.id);
-		
-		if(action == Common.STUDENT_EVAL_RESULTS_SERVLET_PAGE_LOAD){
-			try {
-				params = "studentEvalResults Page Load<br>";
-				params += "Viewing evaluation results for Evaluation <span class=\"bold\">(" + (String)data.get(1) + ")</span> of Course <span class=\"bold\">[" + (String)data.get(0) + "]</span>"; 
-			} catch (NullPointerException e) {
-				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
-			}
-		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
-			String e = (String)data.get(0);
-			params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
-			params += e + "</span>";
+		if(action.equals(Common.STUDENT_EVAL_RESULTS_SERVLET_PAGE_LOAD)){
+			message = generatePageLoadMessage(servletName, action, data);
 		} else {
-			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+			message = generateActivityLogEntryErrorMessage(servletName, action, data);
 		}
 				
-		return new ActivityLogEntry(servletName, action, true, account, params, url);
+		return message;
 	}
 
+	
+	
+	private String generatePageLoadMessage(String servletName, String action, ArrayList<Object> data){
+		String message;
+		
+		try {
+			message = "studentEvalResults Page Load<br>";
+			message += "Viewing evaluation results for Evaluation <span class=\"bold\">(" + (String)data.get(1) + ")</span> of Course <span class=\"bold\">[" + (String)data.get(0) + "]</span>"; 
+		} catch (NullPointerException e) {
+			message = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+		}
+		
+		return message;
+	}
 }

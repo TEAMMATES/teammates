@@ -15,11 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.datatransfer.TeamData;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -79,27 +81,27 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 			log.log(logLevel, generateServletActionFailureLogMessage(req, e));
 			
 			resp.sendRedirect(Common.JSP_ENTITY_NOT_FOUND_PAGE);
-			return;
+
 		} catch (UnauthorizedAccessException e) {
 			logLevel = Level.WARNING;
 			log.log(logLevel, generateServletActionFailureLogMessage(req, e));
 			
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
-			return;
+
 		}  catch (DeadlineExceededException e) {
 			MimeMessage email = helper.server.emailErrorReport(req.getServletPath(), reqParam, (Throwable) e);
 			
 			log.severe(generateSystemErrorReportLogMessage(req, email));	
 			
 			resp.sendRedirect(Common.JSP_DEADLINE_EXCEEDED_ERROR_PAGE);
-			return;
+
 		}  catch (Throwable e) {
 			MimeMessage email = helper.server.emailErrorReport(req.getServletPath(), reqParam, e);
 
 			log.severe(generateSystemErrorReportLogMessage(req, email));	
 						
 		    resp.sendRedirect(Common.JSP_ERROR_PAGE);
-			return;
+
 		}
 	}
 	
@@ -110,11 +112,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		if(actionTaken.length > 0) {
 			action = actionTaken[actionTaken.length-1]; //retrieve last segment in path
 		}
-		String url = req.getRequestURI();
-        if (req.getQueryString() != null){
-            url += "?" + req.getQueryString();
-        }
-        
+		String url = getRequestedURL(req);
         
         String message = "<span class=\"color_red\">Servlet Action failure in " + action + "<br>";
         message += e.getClass() + ": " + e.getMessage() + "<br>";
@@ -132,10 +130,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		if(actionTaken.length > 0) {
 			action = actionTaken[actionTaken.length-1]; //retrieve last segment in path
 		}
-		String url = req.getRequestURI();
-        if (req.getQueryString() != null){
-            url += "?" + req.getQueryString();
-        }
+		String url = getRequestedURL(req);
         
         String message = "";
         if(errorEmail != null){
@@ -224,24 +219,21 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 */
 	protected abstract void doAction(HttpServletRequest req, T helper)
 			throws EntityDoesNotExistException, InvalidParametersException;
-	
+
 	/**
 	 * Method to retrieve an application log message from the servlet that is
 	 * currently being executed. This log message will be logged in server, and is
 	 * used for AdminActivityLog. 
 	 */
 	protected String getMessageToBeLogged(HttpServletRequest req){
+		//Create a default activity log if the servlet did not create one, else just ask the activity log for the message
 		if(activityLogEntry == null){
-			//Create a default activity log if the servlet did not create one
 			String[] actionTaken = req.getServletPath().split("/");
 			String action = req.getServletPath();
 			if(actionTaken.length > 0) {
 				action = actionTaken[actionTaken.length-1]; //retrieve last segment in path
 			}
-			String url = req.getRequestURI();
-	        if (req.getQueryString() != null){
-	            url += "?" + req.getQueryString();
-	        }
+			String url = getRequestedURL(req);
 			activityLogEntry = new ActivityLogEntry(action, Common.printRequestParameters(req), url); 
 		}
 		return activityLogEntry.generateLogMessage();
@@ -250,8 +242,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	
 	/**
 	 * Method to create an activityLog based on the servlet
-	 * Has to be overridden by each servlet
-	 * Each servlet is supposed to generate an ActivityLogEntry with this methods. 
+	 * Each servlet is supposed to implement the corresponding generateActivityLogEntryMessage 
 	 * The content of the ActivityLogEntry is dependent on the servlet
 	 * @param servletName The name of the servlet. Constant taken from Common.java
 	 * @param action The action the servlet is performing. Constant taken from Common.java
@@ -259,8 +250,40 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * @param helper The helper of the servlet 
 	 * @paran data Additional data required for generating the Activity Log Entry, if needed
 	 */
-	protected abstract ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShow, Helper helper, String url, ArrayList<Object> data);
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShow, Helper helper, String url, ArrayList<Object> data){
+		UserType user = helper.server.getLoggedInUser();
+		AccountData account = helper.server.getAccount(user.id);
+		String message = generateActivityLogEntryMessage(servletName, action, data);
+			
+		return new ActivityLogEntry(servletName, action, toShow, account, message, url);
+	}
 
+	/**
+	 * Each servlet is supposed to implement their own generateActivityLogEntryMessage 
+	 * @param servletName The name of the servlet. Constant taken from Common.java
+	 * @param action The action the servlet is performing. Constant taken from Common.java
+	 * @param helper The helper of the servlet 
+	 * @paran data Additional data required for generating the Activity Log Entry, if needed
+	 * @return
+	 */
+	protected abstract String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data);
+
+	
+	/**
+	 * Helper method to generate the error messages within the activity log
+	 * Used within generateActivityLogEntryMessage for each servlet
+	 */
+	protected String generateActivityLogEntryErrorMessage(String servletName, String action, ArrayList<Object> data){
+		String message;
+		if (action.equals(Common.LOG_SERVLET_ACTION_FAILURE)) {
+            String e = (String)data.get(0);
+            message = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
+            message += e + "</span>";
+        } else {
+        	message = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		}
+		return message;
+	}
 	
 	/**
 	 * Method to redirect or forward the request to appropriate display handler.<br />

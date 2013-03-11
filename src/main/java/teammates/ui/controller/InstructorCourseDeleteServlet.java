@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.UserType;
 
 @SuppressWarnings("serial")
 /**
@@ -21,18 +19,14 @@ public class InstructorCourseDeleteServlet extends ActionServlet<Helper> {
 
 	@Override
 	protected void doAction(HttpServletRequest req, Helper helper) {
-		String url = req.getRequestURI();
-        if (req.getQueryString() != null){
-            url += "?" + req.getQueryString();
-        }
+		String url = getRequestedURL(req);
         
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		helper.server.deleteCourse(courseID);
 		helper.statusMessage = Common.MESSAGE_COURSE_DELETED;
 		
 		ArrayList<Object> data = new ArrayList<Object>();
-		data.add(courseID);
-			    
+		data.add(courseID);			    
         activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_DELETE_SERVLET, Common.INSTRUCTOR_COURSE_DELETE_SERVLET_DELETE_COURSE,
         		true, helper, url, data);
         
@@ -42,26 +36,27 @@ public class InstructorCourseDeleteServlet extends ActionServlet<Helper> {
 	}
 
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
-		String params;
-
-		UserType user = helper.server.getLoggedInUser();
-		AccountData account = helper.server.getAccount(user.id);
+	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {
+		String message;
 		
-		if(action == Common.INSTRUCTOR_COURSE_DELETE_SERVLET_DELETE_COURSE){
-			try {
-				params = "Course <span class=\"bold\">[" + (String)data.get(0) + "]</span> deleted";
-			} catch (NullPointerException e) {
-				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
-			}
-		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
-            String e = (String)data.get(0);
-            params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
-            params += e + "</span>";
-        } else {
-			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		if(action.equals(Common.INSTRUCTOR_COURSE_DELETE_SERVLET_DELETE_COURSE)){
+			message = generateDeleteCourseMessage(servletName, action, data);
+		} else {
+			message = generateActivityLogEntryErrorMessage(servletName, action, data);
 		}
-		return new ActivityLogEntry(servletName, action, true, account, params, url);
+		return message;
 	}
 
+	
+	private String generateDeleteCourseMessage(String servletName, String action, ArrayList<Object> data){
+		String message;
+		
+		try {
+			message = "Course <span class=\"bold\">[" + (String)data.get(0) + "]</span> deleted";
+		} catch (NullPointerException e) {
+			message = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+		}
+		
+		return message;
+	}
 }

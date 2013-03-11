@@ -9,9 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
-import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -60,12 +58,12 @@ public class AdminAccountManagementServlet extends ActionServlet<AdminAccountMan
 			helper.accountList.put(i - 1, courses);
 		}
 		
-		String url = req.getRequestURI();
-		if (req.getQueryString() != null){
-			url += "?" + req.getQueryString();
-		}
+		String url = getRequestedURL(req);
+		
+		ArrayList<Object> data = new ArrayList<Object>();
+		data.add(helper.accountList.size());
 		activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_ACCOUNT_MANAGEMENT_SERVLET, Common.ADMIN_ACCOUNT_MANAGEMENT_SERVLET_PAGE_LOAD,
-				true, helper, url, null);
+				true, helper, url, data);
 	}
 
 	@Override
@@ -74,28 +72,29 @@ public class AdminAccountManagementServlet extends ActionServlet<AdminAccountMan
 	}
 
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
-		AdminAccountManagementHelper h = (AdminAccountManagementHelper) helper;
-		String params;
+	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {
+		String message;
 		
-		UserType user = helper.server.getLoggedInUser();
-		AccountData account = helper.server.getAccount(user.id);
-		
-		if(action == Common.ADMIN_ACCOUNT_MANAGEMENT_SERVLET_PAGE_LOAD){
-			try {
-				params = "Admin Account Management Page Load<br>";
-				params += "<span class=\"bold\">Total Instructors:</span> " + h.accountList.size();
-			} catch (NullPointerException e){
-				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
-			}
-		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
-            String e = (String)data.get(0);
-            params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
-            params += e + "</span>";
-        } else {
-			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		if(action.equals(Common.ADMIN_ACCOUNT_MANAGEMENT_SERVLET_PAGE_LOAD)){
+			message = generatePageLoadMessage(servletName, action, data);
+		} else {
+			message = generateActivityLogEntryErrorMessage(servletName, action, data);
 		}
 			
-		return new ActivityLogEntry(servletName, action, true, account, params, url);
+		return message;
+	}
+	
+	
+	private String generatePageLoadMessage(String servletName, String action, ArrayList<Object> data){
+		String message;
+		
+		try {
+			message = "Admin Account Management Page Load<br>";
+			message += "<span class=\"bold\">Total Instructors:</span> " + (Integer)data.get(0);
+		} catch (NullPointerException e){
+			message = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+		}
+		
+		return message;
 	}
 }

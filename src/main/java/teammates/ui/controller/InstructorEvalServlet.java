@@ -7,10 +7,8 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -29,10 +27,7 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 	@Override
 	protected void doAction(HttpServletRequest req, InstructorEvalHelper helper)
 			throws EntityDoesNotExistException {
-		String url = req.getRequestURI();
-        if (req.getQueryString() != null){
-            url += "?" + req.getQueryString();
-        }
+		String url = getRequestedURL(req);
         
 		boolean isAddEvaluation = isPost;
 
@@ -47,28 +42,31 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 				helper.newEvaluationToBeCreated = extractEvaluationData(req);
 				helper.server.createEvaluation(helper.newEvaluationToBeCreated);
 				helper.statusMessage = Common.MESSAGE_EVALUATION_ADDED;
-				helper.formEvaluation = helper.newEvaluationToBeCreated;
-				helper.newEvaluationToBeCreated = null;
 				
+				ArrayList<Object> data = new ArrayList<Object>();
+				data.add(helper.newEvaluationToBeCreated);
+				helper.newEvaluationToBeCreated = null;
 				activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_EVAL_SERVLET, Common.INSTRUCTOR_EVAL_SERVLET_NEW_EVALUATION,
-		        		true, helper, url, null);
+		        		true, helper, url, data);
+				
 			} catch (EntityAlreadyExistsException e) {
 				helper.statusMessage = Common.MESSAGE_EVALUATION_EXISTS;
 				helper.error = true;
 				
 				ArrayList<Object> data = new ArrayList<Object>();
-		        data.add(helper.statusMessage);
-		                        
-		        activityLogEntry = instantiateActivityLogEntry("Edit", Common.LOG_SERVLET_ACTION_FAILURE, true, helper, url, data);
+		        data.add(helper.statusMessage);		                        
+		        activityLogEntry = instantiateActivityLogEntry("Edit", Common.LOG_SERVLET_ACTION_FAILURE,
+		        		true, helper, url, data);
+		        
 			} catch (InvalidParametersException e) {
 				// This will cover conditions such as start/end date is invalid
 				helper.statusMessage = e.getMessage();
 				helper.error = true;
 				
 				ArrayList<Object> data = new ArrayList<Object>();
-		        data.add(helper.statusMessage);
-		                        
-		        activityLogEntry = instantiateActivityLogEntry("Edit", Common.LOG_SERVLET_ACTION_FAILURE, true, helper, url, data);
+		        data.add(helper.statusMessage);	                        
+		        activityLogEntry = instantiateActivityLogEntry("Edit", Common.LOG_SERVLET_ACTION_FAILURE,
+		        		true, helper, url, data);
 			}
 		}
 		
@@ -167,37 +165,46 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 	}
 
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
-		InstructorEvalHelper h = (InstructorEvalHelper) helper;
-		String params;
+	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {
+		String message;
 		
-		UserType user = helper.server.getLoggedInUser();
-		AccountData account = helper.server.getAccount(user.id);
-		
-		if(action == Common.INSTRUCTOR_EVAL_SERVLET_PAGE_LOAD){
-			try {
-				params = "instructorEval Page Load<br>";
-			} catch (NullPointerException e) {
-				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
-			}
-		} else if (action == Common.INSTRUCTOR_EVAL_SERVLET_NEW_EVALUATION){
-			try {
-				EvaluationData eval = h.formEvaluation;
-				params = "New Evaluation <span class=\"bold\">(" + eval.name + ")</span> for Course <span class=\"bold\">[" + eval.course + "]</span> created.<br>" +
-						"<span class=\"bold\">From:</span> " + eval.startTime + "<span class=\"bold\"> to</span> " + eval.endTime + "<br>" +
-						"<span class=\"bold\">Peer feedback:</span> " + (eval.p2pEnabled== true ? "enabled" : "disabled") + "<br><br>" + 
-						"<span class=\"bold\">Instructions:</span> " + eval.instructions;
-			} catch (NullPointerException e){
-				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
-			}
-		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
-            String e = (String)data.get(0);
-            params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
-            params += e + "</span>";
-        } else {
-			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		if(action.equals(Common.INSTRUCTOR_EVAL_SERVLET_PAGE_LOAD)){
+			message = generatePageLoadMessage(servletName, action, data);
+		} else if (action.equals(Common.INSTRUCTOR_EVAL_SERVLET_NEW_EVALUATION)){
+			message = generateNewEvaluationMessage(servletName, action, data);
+		} else {
+			message = generateActivityLogEntryErrorMessage(servletName, action, data);
 		}
 				
-		return new ActivityLogEntry(servletName, action, true, account, params, url);
+		return message;
+	}
+	
+	private String generatePageLoadMessage(String servletName, String action, ArrayList<Object> data){
+		String message;
+		
+		try {
+			message = "instructorEval Page Load<br>";
+		} catch (NullPointerException e) {
+			message = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+		}
+		
+		return message;
+	}
+	
+	
+	private String generateNewEvaluationMessage(String servletName, String action, ArrayList<Object> data){
+		String message;
+		
+		try {
+			EvaluationData eval = (EvaluationData)data.get(0);
+			message = "New Evaluation <span class=\"bold\">(" + eval.name + ")</span> for Course <span class=\"bold\">[" + eval.course + "]</span> created.<br>" +
+					"<span class=\"bold\">From:</span> " + eval.startTime + "<span class=\"bold\"> to</span> " + eval.endTime + "<br>" +
+					"<span class=\"bold\">Peer feedback:</span> " + (eval.p2pEnabled== true ? "enabled" : "disabled") + "<br><br>" + 
+					"<span class=\"bold\">Instructions:</span> " + eval.instructions;
+		} catch (NullPointerException e){
+			message = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+		}
+		
+		return message;
 	}
 }

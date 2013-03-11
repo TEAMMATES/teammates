@@ -38,31 +38,31 @@ public class EvaluationOpeningRemindersServlet extends HttpServlet {
 			log.log(Level.INFO, activityLogEntry.generateLogMessage());
 
 		} catch (Exception e) {
-			throw new RuntimeException("Unexpected exception during evaluation activation" + e);
+			throw new RuntimeException("Unexpected exception during evaluation activation", e);
 		} 
 	}
 	
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
-		String params;
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShow, Helper helper, String url, ArrayList<Object> data) {
+		String message;
 
-		if(action == Common.EVALUATION_OPENING_REMINDERS_SERVLET_EVALUATION_OPEN_REMINDER){
+		if(action.equals(Common.EVALUATION_OPENING_REMINDERS_SERVLET_EVALUATION_OPEN_REMINDER)){
 			try {
-				params = "<span class=\"bold\">Emails sent to:</span><br>";
+				message = "<span class=\"bold\">Emails sent to:</span><br>";
 				for (int i = 0; i < data.size(); i++){
-					params += (String)data.get(i) + "<br>";
+					message += (String)data.get(i) + "<br>";
 				}
 			} catch (NullPointerException e) {
-				params = "<span class=\"color_red\">Unable to retrieve email targets in " + servletName + ": " + action + ".</span>";
+				message = "<span class=\"color_red\">Unable to retrieve email targets in " + servletName + ": " + action + ".</span>";
 			}
-		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
+		} else if (action.equals(Common.LOG_SERVLET_ACTION_FAILURE)) {
             String e = (String)data.get(0);
-            params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
-            params += e + "</span>";
+            message = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
+            message += e + "</span>";
         } else {
-			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+			message = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
 		}
 				
-		return new ActivityLogEntry(servletName, action, true, null, params, url);
+		return new ActivityLogEntry(servletName, action, toShow, null, message, url);
 	}
 
 }

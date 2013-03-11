@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.UserType;
 import teammates.common.exception.InvalidParametersException;
 
 @SuppressWarnings("serial")
@@ -26,10 +24,7 @@ public class InstructorCourseEditServlet extends ActionServlet<InstructorCourseE
 	protected void doAction(HttpServletRequest req, InstructorCourseEditHelper helper){
 		boolean isSubmit = isPost;
 		
-		String url = req.getRequestURI();
-        if (req.getQueryString() != null){
-            url += "?" + req.getQueryString();
-        }
+		String url = getRequestedURL(req);
         
 		if(isSubmit){
 			String instructorList = req.getParameter(Common.PARAM_COURSE_INSTRUCTOR_LIST);
@@ -41,18 +36,18 @@ public class InstructorCourseEditServlet extends ActionServlet<InstructorCourseE
 				
 				ArrayList<Object> data = new ArrayList<Object>();
 				data.add(courseID);
-				data.add(instructorList);
-								    
+				data.add(instructorList);								    
 		        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_EDIT_SERVLET, Common.INSTRUCTOR_COURSE_EDIT_SERVLET_EDIT_COURSE_INFO,
 		        		true, helper, url, data);
+		        
 			} catch (InvalidParametersException e){
 				helper.statusMessage = e.getMessage();
 				helper.error = true;
 				
 				ArrayList<Object> data = new ArrayList<Object>();
-		        data.add(helper.statusMessage);
-		                        
-		        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_EDIT_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE, true, helper, url, data);
+		        data.add(helper.statusMessage);		                        
+		        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_EDIT_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE,
+		        		true, helper, url, data);
 			}
 			
 		} else {
@@ -67,13 +62,13 @@ public class InstructorCourseEditServlet extends ActionServlet<InstructorCourseE
 					helper.redirectUrl = Common.PAGE_INSTRUCTOR_COURSE;
 					
 					ArrayList<Object> data = new ArrayList<Object>();
-			        data.add(helper.statusMessage);
-			                        
-			        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_EDIT_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE, true, helper, url, data);
+			        data.add(helper.statusMessage);			                        
+			        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_EDIT_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE,
+			        		true, helper, url, data);
+			        
 				} else {
 					ArrayList<Object> data = new ArrayList<Object>();
-					data.add(courseID);
-					
+					data.add(courseID);					
 					activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_EDIT_SERVLET, Common.INSTRUCTOR_COURSE_EDIT_SERVLET_PAGE_LOAD,
 			        		true, helper, url, data);
 				}
@@ -82,9 +77,9 @@ public class InstructorCourseEditServlet extends ActionServlet<InstructorCourseE
 				helper.redirectUrl = Common.PAGE_INSTRUCTOR_COURSE;
 				
 				ArrayList<Object> data = new ArrayList<Object>();
-		        data.add("Course Id is null");
-		                        
-		        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_EDIT_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE, true, helper, url, data);
+		        data.add("Course Id is null");		                        
+		        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_COURSE_EDIT_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE,
+		        		true, helper, url, data);
 			}
 		}
 	}
@@ -97,33 +92,42 @@ public class InstructorCourseEditServlet extends ActionServlet<InstructorCourseE
 
 
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
-		String params;
+	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {
+		String message;
 		
-		UserType user = helper.server.getLoggedInUser();
-		AccountData account = helper.server.getAccount(user.id);
-		
-		if(action == Common.INSTRUCTOR_COURSE_EDIT_SERVLET_PAGE_LOAD){
-			try {
-				params = "instructorCourseEdit Page Load<br>";
-				params += "Editing information for Course <span class=\"bold\">[" + (String)data.get(0) + "]</span>";
-			} catch (NullPointerException e) {
-				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
-			}
-		} else if (action == Common.INSTRUCTOR_COURSE_EDIT_SERVLET_EDIT_COURSE_INFO){
-			try {
-				params = "Course <span class=\"bold\">[" + (String)data.get(0) + "]</span> edited.<br>New Instructor List: <br> - " + ((String)data.get(1)).replace("\n", "<br> - ");
-			} catch (NullPointerException e){
-				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
-			}
-		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
-            String e = (String)data.get(0);
-            params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
-            params += e + "</span>";
-        } else {
-			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		if(action.equals(Common.INSTRUCTOR_COURSE_EDIT_SERVLET_PAGE_LOAD)){
+			message = generatePageLoadMessage(servletName, action, data);
+		} else if (action.equals(Common.INSTRUCTOR_COURSE_EDIT_SERVLET_EDIT_COURSE_INFO)){
+			message = generateEditCourseInfoMessage(servletName, action, data);
+		} else {
+			message = generateActivityLogEntryErrorMessage(servletName, action, data);
 		}
 				
-		return new ActivityLogEntry(servletName, action, true, account, params, url);
+		return message;
+	}
+	
+	private String generatePageLoadMessage(String servletName, String action, ArrayList<Object> data) {
+		String message;
+		
+		try {
+			message = "instructorCourseEdit Page Load<br>";
+			message += "Editing information for Course <span class=\"bold\">[" + (String)data.get(0) + "]</span>";
+		} catch (NullPointerException e) {
+			message = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+		}
+		
+		return message;
+	}
+	
+	private String generateEditCourseInfoMessage(String servletName, String action, ArrayList<Object> data) {
+		String message;
+		
+		try {
+			message = "Course <span class=\"bold\">[" + (String)data.get(0) + "]</span> edited.<br>New Instructor List: <br> - " + ((String)data.get(1)).replace("\n", "<br> - ");
+		} catch (NullPointerException e){
+			message = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+		}
+		
+		return message;
 	}
 }

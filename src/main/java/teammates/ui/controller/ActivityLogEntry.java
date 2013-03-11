@@ -52,7 +52,7 @@ public class ActivityLogEntry {
 		try{
 			servletName = tokens[1];
 			action = tokens[2];
-			toShow = (tokens[3] == "true" ? true : false);
+			toShow = (tokens[3].equals("true") ? true : false);
 			role = tokens[4];
 			name = tokens[5];
 			googleId = tokens[6];
@@ -135,7 +135,7 @@ public class ActivityLogEntry {
 	
 	public String getActionInfo(){
 		String act = "";
-		if(action == Common.LOG_SERVLET_ACTION_FAILURE || action == Common.LOG_SYSTEM_ERROR_REPORT) {
+		if(action.equals(Common.LOG_SERVLET_ACTION_FAILURE) || action.equals(Common.LOG_SYSTEM_ERROR_REPORT)) {
 			act = "<span class=\"color_red\">" + action + "</span>";
 		} else {
 			act = action;

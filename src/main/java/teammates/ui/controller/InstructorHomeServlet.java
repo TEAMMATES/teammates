@@ -6,9 +6,7 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 
 @SuppressWarnings("serial")
@@ -25,10 +23,7 @@ public class InstructorHomeServlet extends ActionServlet<InstructorHomeHelper> {
 
 	@Override
 	protected void doAction(HttpServletRequest req, InstructorHomeHelper helper) throws EntityDoesNotExistException{
-		String url = req.getRequestURI();
-        if (req.getQueryString() != null){
-            url += "?" + req.getQueryString();
-        } 
+		String url = getRequestedURL(req); 
         
 		HashMap<String, CourseData> courses = helper.server.getCourseDetailsListForInstructor(helper.userId);
 		helper.courses = new ArrayList<CourseData>(courses.values());
@@ -37,8 +32,10 @@ public class InstructorHomeServlet extends ActionServlet<InstructorHomeHelper> {
 			sortEvaluationsByDeadline(course.evaluations);
 		}
 		   
+		ArrayList<Object> data = new ArrayList<Object>();
+		data.add(helper.courses.size());
 		activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_HOME_SERVLET, Common.INSTRUCTOR_HOME_SERVLET_PAGE_LOAD,
-				true, helper, url, null);
+				true, helper, url, data);
 	}
 
 	@Override
@@ -47,29 +44,29 @@ public class InstructorHomeServlet extends ActionServlet<InstructorHomeHelper> {
 	}
 
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
-		InstructorHomeHelper h = (InstructorHomeHelper) helper;
-		String params;
+	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {
+		String message;
 		
-		UserType user = helper.server.getLoggedInUser();
-		AccountData account = helper.server.getAccount(user.id);
-		
-		
-		if(action == Common.INSTRUCTOR_HOME_SERVLET_PAGE_LOAD){
-			try {
-				params = "instructorHome Page Load<br>";
-				params += "Total Courses: " + h.courses.size();
-			} catch (NullPointerException e) {
-				params = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
-			}
-		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
-			String e = (String)data.get(0);
-	        params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
-	        params += e + "</span>";
+		if(action.equals(Common.INSTRUCTOR_HOME_SERVLET_PAGE_LOAD)){
+			message = generatePageLoadMessage(servletName, action, data);
 		} else {
-			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+			message = generateActivityLogEntryErrorMessage(servletName, action, data);
 		}
 
-		return new ActivityLogEntry(servletName, action, true, account, params, url);
+		return message;
+	}
+	
+	
+	private String generatePageLoadMessage(String servletName, String action, ArrayList<Object> data){
+		String message;
+		
+		try {
+			message = "instructorHome Page Load<br>";
+			message += "Total Courses: " + (Integer)data.get(0);
+		} catch (NullPointerException e) {
+			message = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+		}
+		
+		return message;
 	}
 }

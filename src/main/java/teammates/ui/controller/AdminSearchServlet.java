@@ -7,8 +7,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.UserType;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
@@ -54,10 +52,7 @@ public class AdminSearchServlet extends ActionServlet<AdminHomeHelper> {
 			helper.statusMessage = "Found "+Long.toString(count) + " results.";
 		}
 		
-		String url = req.getRequestURI();
-		if (req.getQueryString() != null){
-			url += "?" + req.getQueryString();
-		}
+		String url = getRequestedURL(req);
 		activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_SEARCH_SERVLET, Common.ADMIN_SEARCH_SERVLET_PAGE_LOAD,
 				false, helper, url, null);
 		
@@ -110,23 +105,24 @@ public class AdminSearchServlet extends ActionServlet<AdminHomeHelper> {
 	}
 
 	@Override
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShows, Helper helper, String url, ArrayList<Object> data) {
-		String params;
+	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {
+		String message;
 		
-		UserType user = helper.server.getLoggedInUser();
-		AccountData account = helper.server.getAccount(user.id);
-		
-		if(action == Common.ADMIN_SEARCH_SERVLET_PAGE_LOAD){
-			params = "adminSearch Page Load";
-		} else if (action == Common.LOG_SERVLET_ACTION_FAILURE) {
-            String e = (String)data.get(0);
-            params = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
-            params += e + "</span>";
-        } else {
-			params = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		if(action.equals(Common.ADMIN_SEARCH_SERVLET_PAGE_LOAD)){
+			message = generatePageLoadMessage(servletName, action, data);
+		} else {
+			message = generateActivityLogEntryErrorMessage(servletName, action, data);
 		}
 			
-		return new ActivityLogEntry(servletName, action, true, account, params, url);
+		return message;
 	}
 
+	
+	private String generatePageLoadMessage(String servletName, String action, ArrayList<Object> data) {
+		String message;
+		
+		message = "adminSearch Page Load";
+		
+		return message;
+	}
 }

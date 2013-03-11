@@ -37,10 +37,7 @@ public abstract class EvalSubmissionEditHandlerServlet extends ActionServlet<Hel
 	@Override
 	protected void doAction(HttpServletRequest req, Helper helper)
 			throws EntityDoesNotExistException {
-		String url = req.getRequestURI();
-        if (req.getQueryString() != null){
-            url += "?" + req.getQueryString();
-        }
+		String url = getRequestedURL(req);
 		
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
@@ -84,19 +81,17 @@ public abstract class EvalSubmissionEditHandlerServlet extends ActionServlet<Hel
 			data.add(toEmails);
 			data.add(points);
 			data.add(justifications);
-			data.add(comments);
-			
+			data.add(comments);			
 			activityLogEntry = instantiateActivityLogEntry("EditHandler", "EditHandler", true, helper, url, data);
+			
 		} catch (InvalidParametersException e) {
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
 			
 			ArrayList<Object> data = new ArrayList<Object>();
-	        data.add(helper.statusMessage);
-	                        
-	        activityLogEntry = instantiateActivityLogEntry("EditHandler", Common.LOG_SERVLET_ACTION_FAILURE, true, helper, url, data);
-		}
-		
+	        data.add(helper.statusMessage);	                        
+	        activityLogEntry = instantiateActivityLogEntry("EditHandler", Common.LOG_SERVLET_ACTION_FAILURE,
+	        		true, helper, url, data);
+		}		
 	}
-
 }
