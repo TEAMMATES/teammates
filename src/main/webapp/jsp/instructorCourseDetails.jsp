@@ -98,10 +98,10 @@
 
 			<table class="dataTable">
 				<tr>
-					<th class="color_white bold"><input class="buttonSortAscending" type="button" id="button_sortstudentname" 
-							onclick="toggleSort(this,1)">Student Name</th>
 					<th class="centeralign color_white bold"><input class="buttonSortNone" type="button" id="button_sortstudentteam"
-							onclick="toggleSort(this,2)">Team</th>
+							onclick="toggleSort(this,1)">Team</th>
+					<th class="centeralign color_white bold"><input class="buttonSortAscending" type="button" id="button_sortstudentname" 
+							onclick="toggleSort(this,2)">Student Name</th>
 					<th class="centeralign color_white bold"><input class="buttonSortNone" type="button" id="button_sortstudentstatus"
 							onclick="toggleSort(this,3)">Status</th>
 					<th class="centeralign color_white bold no-print">Action(s)</th>
@@ -111,8 +111,8 @@
 								for(StudentData student: helper.students){ idx++;
 				%>
 						<tr class="student_row" id="student<%=idx%>">
+							<td id="<%=Common.PARAM_TEAM_NAME%>"><%=InstructorCourseDetailsHelper.escapeForHTML(student.team)%></td>
 							<td id="<%=Common.PARAM_STUDENT_NAME%>"><%=student.name%></td>
-	 						<td id="<%=Common.PARAM_TEAM_NAME%>"><%=InstructorCourseDetailsHelper.escapeForHTML(student.team)%></td>
 	 						<td class="centeralign"><%= helper.status(student) %></td>
 	 						<td class="centeralign no-print">
 								<a class="color_black t_student_details<%= idx %>"
