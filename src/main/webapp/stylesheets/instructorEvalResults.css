@@ -8,3 +8,8 @@
 	font-size: small;
 	font-style: italic;
 }
+
+#messageHighlight {
+	font-weight:bold;
+	color: red;
+}
