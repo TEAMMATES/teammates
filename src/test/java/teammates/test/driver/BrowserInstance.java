@@ -2954,10 +2954,12 @@ public class BrowserInstance {
         String localDownloadPath = System.getProperty("java.io.tmpdir");
         File downloadedFile = new File(localDownloadPath + fileToDownload.getFile().replaceFirst("/|\\\\", ""));
         
-        if (downloadedFile.exists())
+        if (downloadedFile.exists()){ 
         	downloadedFile.delete();
-        if (downloadedFile.canWrite() == false) 
+        }
+        if (downloadedFile.canWrite() == false){ 
         	downloadedFile.setWritable(true);
+        }
         
         HttpClient client = new DefaultHttpClient();
         
