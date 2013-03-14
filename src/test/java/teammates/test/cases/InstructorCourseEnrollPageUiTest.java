@@ -105,6 +105,9 @@ public class InstructorCourseEnrollPageUiTest extends BaseTestCase {
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseEnrollPageResult.html");
 		
+		bi.click(By.id("edit_enroll"));	
+		assertContainsRegex("{*}Enroll Students for CCEnrollUiT.CS2104{*}",bi.getCurrentPageSource());	
+		
 	}
 	
 }

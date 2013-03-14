@@ -116,9 +116,10 @@ public class EmailsTest extends BaseTestCase {
 				email.getSubject());
 
 		// check email body
+		String encryptedKey = Common.encrypt(s.key);
 		String joinUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_JOIN_COURSE;
-		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, s.key);
+		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, encryptedKey);
 
 		String submitUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
@@ -129,7 +130,6 @@ public class EmailsTest extends BaseTestCase {
 		String deadline = Common.formatTime(e.endTime);
 
 		String emailBody = email.getContent().toString();
-		String encryptedKey = Common.encrypt(s.key);
 
 		assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
 				+ "{*}" + joinUrl + "{*}" + joinUrl + "{*}" + c.name + "{*}"
@@ -146,7 +146,7 @@ public class EmailsTest extends BaseTestCase {
 
 		emailBody = email.getContent().toString();
 
-		assertTrue(emailBody.contains(s.key));
+		assertTrue(emailBody.contains(encryptedKey));
 		assertTrue(!emailBody.contains(submitUrl));
 
 		String reportUrl = Common.TEAMMATES_APP_URL
@@ -229,14 +229,15 @@ public class EmailsTest extends BaseTestCase {
 		// check email body
 		String joinUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_JOIN_COURSE;
-		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, s.key);
+		String encryptedKey = Common.encrypt(s.key);
+		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, encryptedKey);
 
 
 		String emailBody = email.getContent().toString();
 
 		assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
 				+ "{*}" + joinUrl + "{*}" + joinUrl + "{*}" + c.name + "{*}"
-				+ Common.encrypt(s.key), emailBody);
+				+ encryptedKey, emailBody);
 		
 		assertTrue(!emailBody.contains("$"));
 
