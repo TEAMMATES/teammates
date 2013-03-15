@@ -5,10 +5,6 @@ import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.storage.api.AccountsDb;
 
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-
 /**
  * Accounts handles all operations related to a Teammates account.
  * @see Instructor
@@ -16,125 +12,34 @@ import com.google.appengine.api.users.UserServiceFactory;
  * 
  */
 public class AccountsLogic {
-
-	private static UserService userService;
 	private static AccountsLogic instance = null;
-
 	private static final AccountsDb accountsDb = new AccountsDb();
-
-	/**
-	 * Constructs an Accounts object. Initialises userService for Google User
-	 * Service and obtains an instance of PersistenceManager class to handle
-	 * datastore transactions.
-	 */
-	private AccountsLogic() {
-		userService = UserServiceFactory.getUserService();
-	}
 	
-
+	/**
+	 * Retrieve singleton instance of AccountsLogic
+	 * 
+	 * @return AccountsLogic
+	 */
 	public static AccountsLogic inst() {
 		if (instance == null)
 			instance = new AccountsLogic();
 		return instance;
 	}
 
-	/**
-	 * See if the current user is authenticated
-	 * 
-	 * @return
-	 */
-	public boolean isLoggedOn() {
-		return userService.getCurrentUser() != null;
-	}
-
-	/**
-	 * Returns the login page to the user, or the designated redirect page if
-	 * the user is already logged in.
-	 * 
-	 * @param redirectPage
-	 *            the page to redirect the user (Precondition: Must not be null)
-	 * 
-	 * @return the login page or redirect page if the user is already logged in
-	 */
-	public String getLoginPage(String redirectPage) {
-		// Check if user is already logged in
-		User user = userService.getCurrentUser();
-
-		if (user != null) {
-			// Direct user to his chosen page
-			return redirectPage;
-		}
-
-		else {
-			// Direct user to Google Login first before chosen page
-			return userService.createLoginURL(redirectPage);
-		}
-	}
-
-	/**
-	 * Returns the logout page to the user.
-	 * 
-	 * @param redirectPage
-	 *            the page to redirect the user (Precondition: Must not be null)
-	 * 
-	 * @return the redirect page after logout
-	 */
-	public String getLogoutPage(String redirectPage) {
-		return userService.createLogoutURL(redirectPage);
-	}
-
-	/**
-	 * Returns the Google User object.
-	 * 
-	 * @return the user
-	 */
-	public User getUser() {		
-		return userService.getCurrentUser();
-	}
-
-	/**
-	 * Returns the Administrator status of the user.
-	 * 
-	 * @return <code>true</code> if the user is an administrator,
-	 *         <code>false</code> otherwise.
-	 */
-	public boolean isAdministrator() {
-		if (userService.isUserAdmin()) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Returns the Instructor status of the user.
-	 * 
-	 * @return <code>true</code> if the user is an instructor,
-	 *         <code>false</code> otherwise.
-	 */
-	public boolean isInstructor() {
-
-		User user = userService.getCurrentUser();
-		
-		if (user == null)
-			return false;
-		
-		return accountsDb.isInstructor(user.getNickname());
+	public AccountsDb getDb() {
+		return accountsDb;
 	}
 	
+	
+	//==========================================================================
 	public boolean isInstructor(String googleId) {
 		return accountsDb.isInstructor(googleId);
 	}
-	
-	public boolean isInstructorOfCourse(String courseId) {
-		User user = userService.getCurrentUser();
-		
-		if (user == null) 
-			return false;
-		
-		return accountsDb.isInstructorOfCourse(user.getNickname(), courseId);
+
+	public boolean isInstructorOfCourse(String instructorId, String courseId) {
+		return accountsDb.isInstructorOfCourse(instructorId, courseId);
 	}
-	
+	 
 	public boolean isStudent(String googleId) {
 		return accountsDb.getStudentsWithGoogleId(googleId).size()!=0;
 	}
@@ -142,21 +47,5 @@ public class AccountsLogic {
 	public boolean isStudentExists(String courseId, String studentEmail) {
 		return accountsDb.isStudentExists(courseId, studentEmail);
 	}
-	
-	public boolean isStudentOfCourse(String courseId) {
-		User user = userService.getCurrentUser();
 		
-		if (user == null) 
-			return false;
-		
-		// Google ID or email better?
-		return accountsDb.isStudentOfCourse(user.getNickname(), courseId);
-	}
-	
-	
-	public AccountsDb getDb() {
-		return accountsDb;
-	}
-	
-	
 }
