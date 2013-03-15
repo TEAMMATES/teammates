@@ -346,7 +346,7 @@ public class Common {
 	// Messages that are templates only
 	/** Template String. Parameters: Student's name, Evaluation name, Course ID */
 	public static final String MESSAGE_INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED = "You have edited %s's submission for evaluation %s in course %s successfully.<br />"
-			+ "The change will not be reflected here until you <span id=messageHighlight>REFRESH</span> the page.";
+			+ "The change will not be reflected here until you <span class='color_red bold'>REFRESH</span> the page.";
 	/** Template String. Parameters: Evaluation name, Course ID */
 	public static final String MESSAGE_STUDENT_EVALUATION_SUBMISSION_RECEIVED = "Your submission for %s in course %s has been saved successfully";
 
