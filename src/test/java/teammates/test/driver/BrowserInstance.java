@@ -14,15 +14,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Date;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.params.ClientPNames;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpParams;
@@ -2529,7 +2529,7 @@ public class BrowserInstance {
 		String[] tokens = link.split("/");
 		String result = "";
 		for (int i = 3; i < tokens.length; i++) {
-			result += tokens[i];
+			result += "/"+ tokens[i] ;
 		}
 		return result;
 	}
@@ -2933,33 +2933,52 @@ public class BrowserInstance {
 	}
 
 	/**
-	 * Verify if a link is alive by checking the response code recieved. 
-	 * If the url is an absolute path, it will verify immediately. Otherwise,
-	 * it will go to TEAMMATES_URL+url 
+	 * Verify if a file is downloadable based on the given url. If its downloadable,
+	 * download the file and get the SHA-1 hex of it and verify the hex with the given 
+	 * expected hash.
 	 * 
-	 * @param url 
+	 * Compute the expected hash of a file from http://onlinemd5.com/ (SHA-1) 
+	 * 
+	 * @param url
+	 * @param expectedHash
+	 * @throws Exception
 	 */
-	public void assertLinkAlive(String url) throws Exception {
+	public void downloadAndVerifyFile(String url,String expectedHash) throws Exception {
 		
 		if (!url.startsWith("http") ){
 			url = TestProperties.inst().TEAMMATES_URL + url;
 		}
 		
-		URI linkToCheck = new URI(url);
-			
-		HttpClient client = new DefaultHttpClient();
-
-		HttpRequestBase requestMethod = new HttpGet();
-		requestMethod.setURI(linkToCheck);
+		URL fileToDownload = new URL(url);
+	    
+        String localDownloadPath = System.getProperty("java.io.tmpdir");
+        File downloadedFile = new File(localDownloadPath + fileToDownload.getFile().replaceFirst("/|\\\\", ""));
+        
+        if (downloadedFile.exists()){ 
+        	downloadedFile.delete();
+        }
+        if (downloadedFile.canWrite() == false){ 
+        	downloadedFile.setWritable(true);
+        }
+        
+        HttpClient client = new DefaultHttpClient();
+        
+        HttpGet httpget = new HttpGet(fileToDownload.toURI());
+        HttpParams httpRequestParameters = httpget.getParams();
+        httpRequestParameters.setParameter(ClientPNames.HANDLE_REDIRECTS, false);
+        httpget.setParams(httpRequestParameters);
+ 
+        HttpResponse response = client.execute(httpget);
+        FileUtils.copyInputStreamToFile(response.getEntity().getContent(), downloadedFile);
+        response.getEntity().getContent().close();
+ 
+        String downloadedFileAbsolutePath = downloadedFile.getAbsolutePath();
+		assertEquals(new File(downloadedFileAbsolutePath).exists(), true);
 		
-		HttpParams httpRequestParameters = requestMethod.getParams();
-		httpRequestParameters.setParameter(ClientPNames.HANDLE_REDIRECTS,false);
-		requestMethod.setParams(httpRequestParameters);
-
-		HttpResponse response = client.execute(requestMethod);
-
-		assertEquals(response.getStatusLine().getStatusCode(), 200);
+		String actualHash = DigestUtils.shaHex(new FileInputStream(downloadedFile));
+    	assertEquals(actualHash.toLowerCase(),expectedHash.toLowerCase());
 
 	}
+	
 	
 }
