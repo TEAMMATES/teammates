@@ -1,6 +1,7 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
 
@@ -10,13 +11,12 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.EvaluationData.EvalStatus;
-import teammates.test.cases.BaseTestCase;
+import teammates.common.datatransfer.InstructorData;
+import teammates.common.datatransfer.StudentData;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
@@ -105,6 +105,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		verifyRedirectToLogin(Common.PAGE_INSTRUCTOR_COURSE);
 		verifyRedirectToLogin(Common.PAGE_INSTRUCTOR_COURSE_DELETE);
 		verifyRedirectToLogin(Common.PAGE_INSTRUCTOR_COURSE_DETAILS);
+		verifyRedirectToLogin(Common.PAGE_INSTRUCTOR_COURSE_EDIT);
 		verifyRedirectToLogin(Common.PAGE_INSTRUCTOR_COURSE_ENROLL);
 		verifyRedirectToLogin(Common.PAGE_INSTRUCTOR_COURSE_REMIND);
 		verifyRedirectToLogin(Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DELETE);
@@ -148,6 +149,10 @@ public class AllAccessControlUiTests extends BaseTestCase {
 				Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT, unregUsername);
 		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_EVAL_RESULTS,
 				unregUsername);
+		
+		link = Common.PAGE_INSTRUCTOR_COURSE_EDIT;
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		verifyRedirectToNotAuthorized(link);
 
 		______TS("instructor pages");
 
@@ -168,6 +173,11 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 		link = Common.PAGE_INSTRUCTOR_COURSE_DETAILS;
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		verifyRedirectToNotAuthorized(link);
+		verifyCannotMasquerade(link, otherInstructor.googleId);
+		
+		link = Common.PAGE_INSTRUCTOR_COURSE_EDIT;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		verifyRedirectToNotAuthorized(link);
 		verifyCannotMasquerade(link, otherInstructor.googleId);
@@ -317,6 +327,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		testInstructorEnroll();
 		testInstructorStudentEdit();
 		testInstructorCourseRemind();
+		testInstructorCourseEdit();
 		testCourseInstructorStudentDetails();
 		testInstructorEval();
 		testInstructorEvalEdit();
@@ -778,6 +789,32 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		verifyCannotMasquerade(link, otherInstructor.googleId);
 
+	}
+	
+	public void testInstructorCourseEdit() {
+		bi.loginInstructor(instructorUsername, instructorPassword);
+		
+		______TS("can edit own course details");
+
+		link = Common.PAGE_INSTRUCTOR_COURSE_EDIT;
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		
+		bi.goToUrl(link);
+		bi.clickAndConfirm(By.id("button_submit"));
+		
+		assertContains(
+				"The course has been edited",
+				bi.getCurrentPageSource());
+
+		______TS("cannot edit other course details");
+
+		link = Common.PAGE_INSTRUCTOR_COURSE_EDIT;
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
+		
+		bi.goToUrl(link);
+		bi.clickAndConfirm(By.id("button_submit"));
+		
+		verifyRedirectToNotAuthorized();
 	}
 
 	public void testInstructorCourseAdd() {
