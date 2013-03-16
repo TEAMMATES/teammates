@@ -248,9 +248,4 @@ public class BackDoorLogic extends Logic {
 
 		CoursesLogic.inst().getDb().createCourse(courseToAdd);
 	}
-	
-	@SuppressWarnings("unchecked")
-	public int appendTimestampForAccount(int entityCountStart) throws EntityDoesNotExistException {
-		return AccountsLogic.inst().getDb().appendTimestampForAccount(entityCountStart);
-	}
 }
