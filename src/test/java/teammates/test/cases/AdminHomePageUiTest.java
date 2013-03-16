@@ -49,6 +49,7 @@ public class AdminHomePageUiTest extends BaseTestCase{
 		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_ID), "newInstructor");
 		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_NAME), "!@#$%^&");
 		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_EMAIL), "newInstructor");
+        bi.fillString(By.name(Common.PARAM_INSTRUCTOR_INSTITUTION), "Institution");
 		
 		bi.click(By.id("btnAddInstructor"));
 		bi.waitForStatusMessage("The e-mail address is invalid.");
@@ -77,6 +78,7 @@ public class AdminHomePageUiTest extends BaseTestCase{
 		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_ID), "newInstructor2");
 		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_NAME), "New Instructor2");
 		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_EMAIL), "newInstructor2@gmail.com");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_INSTITUTION), "Institution");
 		bi.click(By.id("btnAddInstructor"));
 		
 		bi.waitForStatusMessage("Instructor New Instructor2 has been successfully created");
@@ -88,6 +90,7 @@ public class AdminHomePageUiTest extends BaseTestCase{
 		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_ID), "  newInstructor3  ");
 		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_NAME), "  New Instructor3  ");
 		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_EMAIL), "  newInstructor3@gmail.com  ");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_INSTITUTION), "  Institution  ");
 		bi.click(By.id("btnAddInstructor"));
 
 		bi.waitForStatusMessage("Instructor New Instructor3 has been successfully created");
@@ -96,6 +99,7 @@ public class AdminHomePageUiTest extends BaseTestCase{
 		assertTrue(newInstructorDetails.contains("\"googleId\": \"newInstructor3\""));
 		assertTrue(newInstructorDetails.contains("\"name\": \"New Instructor3\""));
 		assertTrue(newInstructorDetails.contains("\"email\": \"newInstructor3@gmail.com\""));
+		assertTrue(newInstructorDetails.contains("\"institute\": \"Institution\""));
 		
 	}
 

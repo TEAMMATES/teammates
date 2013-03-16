@@ -1115,8 +1115,8 @@
 				<li>Set the version you deployed as the 'default'.</li>
 			</ol> Note: You can skip the steps to set the deployed version as the
 			default. In that case, you can access the deployed app using <span
-			class="code">http://{version}.{app-id}.appspot.com</span> e.g. <span
-			class="code">http://4-18.teammates-john.appspot.com </span>
+			class="code">http://{version}-dot-{app-id}.appspot.com</span> e.g. <span
+			class="code">http://4-18-dot-teammates-john.appspot.com </span>
 		</li>
 		<li>You can run the tests again against the deployed app (modify
 			<span class="code">test.properties</span> so that tests execute
@@ -1215,6 +1215,11 @@
 		<li>ERROR: A handful of failed test cases (<10)<br>
 			SOLUTION: Ensure compatible version of Firefox is installed as
 			specified under <a href="#settingup-prerequisites">Prerequisites</a>.
+		</li>
+		<br / >
+		<li>ERROR: Browser prompt for invalid ssl certificate.<br/>
+			SOLUTION: Ensure that your url uses -dot- instead of '.' when using secondary subdomains.<br/>
+			Eg. http\://4-30-dot-teammates-john.appspot.com <br/>
 		</li>
 	</ol>
 

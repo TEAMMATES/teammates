@@ -192,13 +192,6 @@ public class BackDoorLogic extends Logic {
 		}
 		return messagesSent;
 	}
-	
-	
-	@Override
-	protected boolean isInternalCall() {
-		//back door calls are considered internal calls
-		return true;
-	}
 
 	public ArrayList<MimeMessage> sendRemindersForClosingEvaluations() throws MessagingException, IOException {
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
