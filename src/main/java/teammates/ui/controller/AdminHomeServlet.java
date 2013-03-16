@@ -38,16 +38,18 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 		helper.instructorId = req.getParameter(Common.PARAM_INSTRUCTOR_ID);
 		helper.instructorName = req.getParameter(Common.PARAM_INSTRUCTOR_NAME);
 		helper.instructorEmail = req.getParameter(Common.PARAM_INSTRUCTOR_EMAIL);
+		helper.instructorInstitution = req.getParameter(Common.PARAM_INSTRUCTOR_INSTITUTION);
 		String importSampleData = req
 				.getParameter(Common.PARAM_INSTRUCTOR_IMPORT_SAMPLE);
 
 		try {
-			if (helper.instructorId != null && helper.instructorName != null && helper.instructorEmail != null) {
+			if (helper.instructorId != null && helper.instructorName != null && helper.instructorEmail != null && helper.instructorInstitution != null) {
 				helper.instructorId = helper.instructorId.trim();
 				helper.instructorName = helper.instructorName.trim();
 				helper.instructorEmail = helper.instructorEmail.trim();
+				helper.instructorInstitution = helper.instructorInstitution.trim();
 				
-				helper.server.createAccount(helper.instructorId, helper.instructorName, true, helper.instructorEmail, "");
+				helper.server.createAccount(helper.instructorId, helper.instructorName, true, helper.instructorEmail, helper.instructorInstitution);
 				helper.statusMessage = "Instructor " + helper.instructorName
 						+ " has been successfully created";
 			}
