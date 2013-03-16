@@ -41,9 +41,6 @@ public class InstructorEvalSubmissionEditHandlerServlet extends EvalSubmissionEd
 	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {
 		String message;
 		
-		servletName = servletName.equals("EditHandler") ? Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET : "";
-		action = action.equals("EditHandler") ? Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET_EDIT_SUBMISSION : "";
-		
 		if(action.equals(Common.STUDENT_EVAL_EDIT_HANDLER_SERVLET_EDIT_SUBMISSION)){
 			message = generateEditSubmissionMessage(servletName, action, data);
 		} else {

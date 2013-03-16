@@ -55,7 +55,7 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 				
 				ArrayList<Object> data = new ArrayList<Object>();
 		        data.add(helper.statusMessage);		                        
-		        activityLogEntry = instantiateActivityLogEntry("Edit", Common.LOG_SERVLET_ACTION_FAILURE,
+		        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_EVAL_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE,
 		        		true, helper, url, data);
 		        
 			} catch (InvalidParametersException e) {
@@ -65,7 +65,7 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 				
 				ArrayList<Object> data = new ArrayList<Object>();
 		        data.add(helper.statusMessage);	                        
-		        activityLogEntry = instantiateActivityLogEntry("Edit", Common.LOG_SERVLET_ACTION_FAILURE,
+		        activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_EVAL_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE,
 		        		true, helper, url, data);
 			}
 		}

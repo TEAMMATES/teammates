@@ -45,7 +45,7 @@ public class ActivityLogEntry {
 	 * @param appLog
 	 */
 	public ActivityLogEntry(AppLogLine appLog){
-		time = appLog.getTimeUsec();
+		time = appLog.getTimeUsec() / 1000;
 		String[] tokens = appLog.getLogMessage().split("\\|\\|\\|", -1);
 		
 		//TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL
@@ -79,7 +79,7 @@ public class ActivityLogEntry {
 	 * Constructor that creates an ActivityLog object from scratch
 	 * Used in the various servlets in the application
 	 * @param servlet
-	 * @param action
+	 * @param response
 	 * @param params
 	 * @param toShow
 	 */
@@ -118,7 +118,7 @@ public class ActivityLogEntry {
 	public String getDateInfo(){
 		Calendar appCal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        appCal.setTimeInMillis((time / 1000) + 8*3600*1000);
+        appCal.setTimeInMillis(time);
 
 		return sdf.format(appCal.getTime());
 	}
@@ -145,5 +145,37 @@ public class ActivityLogEntry {
 	
 	public String getMessageInfo(){
 		return message + "<br><br><a href=\"" + url + "\" target=\"blank\" title=\"" + url + "\">URL</a>";
+	}
+	
+	public boolean toShow(){
+		return toShow;
+	}
+	
+	public long getTime(){
+		return time;
+	}
+	
+	public String getServletName(){
+		return servletName;
+	}
+	
+	public String getAction(){
+		return action;
+	}
+	
+	public String getRole(){
+		return role;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String getId(){
+		return googleId;
+	}
+	
+	public String getEmail(){
+		return email;
 	}
 }

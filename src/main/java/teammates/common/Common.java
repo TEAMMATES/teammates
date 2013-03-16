@@ -440,32 +440,32 @@ public class Common {
 	/**
 	 * Instructor Servlet Actions
 	 */
-	public static String INSTRUCTOR_HOME_SERVLET_PAGE_LOAD = "Page Load";
+	public static String INSTRUCTOR_HOME_SERVLET_PAGE_LOAD = "Pageload";
 	public static String INSTRUCTOR_COURSE_SERVLET_ADD_COURSE = "Add New Course";
-	public static String INSTRUCTOR_COURSE_SERVLET_PAGE_LOAD = "Page Load";
-	public static String INSTRUCTOR_COURSE_ENROLL_SERVLET_PAGE_LOAD = "Page Load";
+	public static String INSTRUCTOR_COURSE_SERVLET_PAGE_LOAD = "Pageload";
+	public static String INSTRUCTOR_COURSE_ENROLL_SERVLET_PAGE_LOAD = "Pageload";
 	public static String INSTRUCTOR_COURSE_ENROLL_SERVLET_ENROLL_STUDENTS = "Enroll Students";
-	public static String INSTRUCTOR_COURSE_EDIT_SERVLET_PAGE_LOAD = "Page Load";
+	public static String INSTRUCTOR_COURSE_EDIT_SERVLET_PAGE_LOAD = "Pageload";
 	public static String INSTRUCTOR_COURSE_EDIT_SERVLET_EDIT_COURSE_INFO = "Edit Course Info";
-	public static String INSTRUCTOR_COURSE_DETAILS_SERVLET_PAGE_LOAD = "Page Load";
+	public static String INSTRUCTOR_COURSE_DETAILS_SERVLET_PAGE_LOAD = "Pageload";
 	public static String INSTRUCTOR_COURSE_DELETE_SERVLET_DELETE_COURSE = "Delete Course";
-	public static String INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET_PAGE_LOAD = "Page Load";
+	public static String INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET_PAGE_LOAD = "Pageload";
 	public static String INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET_EDIT_DETAILS = "Edit Student Details";
 	public static String INSTRUCTOR_COURSE_STUDENT_DELETE_SERVLET_DELETE_STUDENT = "Delete Student";
-	public static String INSTRUCTOR_COURSE_STUDENT_DETAILS_SERVLET_PAGE_LOAD = "Page Load";
+	public static String INSTRUCTOR_COURSE_STUDENT_DETAILS_SERVLET_PAGE_LOAD = "Pageload";
 	public static String INSTRUCTOR_COURSE_REMIND_SERVLET_SEND_REGISTRATION = "Send Registration";
-	public static String INSTRUCTOR_EVAL_SERVLET_PAGE_LOAD = "Page Load";
+	public static String INSTRUCTOR_EVAL_SERVLET_PAGE_LOAD = "Pageload";
 	public static String INSTRUCTOR_EVAL_SERVLET_NEW_EVALUATION = "Create New Evaluation";
-	public static String INSTRUCTOR_EVAL_EDIT_SERVLET_PAGE_LOAD = "Page Load";
+	public static String INSTRUCTOR_EVAL_EDIT_SERVLET_PAGE_LOAD = "Pageload";
 	public static String INSTRUCTOR_EVAL_EDIT_SERVLET_EDIT_EVALUATION = "Edit Evaluation Info";
 	public static String INSTRUCTOR_EVAL_DELETE_SERVLET_DELETE_EVALUATION = "Delete Evaluation";
 	public static String INSTRUCTOR_EVAL_REMIND_SERVLET_SEND_EVAL_REMINDER = "Remind Students About Evaluation";
 	public static String INSTRUCTOR_EVAL_PUBLISH_SERVLET_PUBLISH_EVALUATION = "Publish Evaluation";
 	public static String INSTRUCTOR_EVAL_UNPUBLISH_SERVLET_UNPUBLISH_EVALUATION = "Unpublish Evaluation";
-	public static String INSTRUCTOR_EVAL_RESULTS_SERVLET_PAGE_LOAD = "Page Load";
+	public static String INSTRUCTOR_EVAL_RESULTS_SERVLET_PAGE_LOAD = "Pageload";
 	public static String INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET_EDIT_SUBMISSION = "Edit Submission";
-	public static String INSTRUCTOR_EVAL_SUBMISSION_EDIT_SERVLET_PAGE_LOAD = "Page Load";
-	public static String INSTRUCTOR_EVAL_SUBMISSION_VIEW_SERVLET_PAGE_LOAD = "Page Load";
+	public static String INSTRUCTOR_EVAL_SUBMISSION_EDIT_SERVLET_PAGE_LOAD = "Pageload";
+	public static String INSTRUCTOR_EVAL_SUBMISSION_VIEW_SERVLET_PAGE_LOAD = "Pageload";
 	
 	
 	/**
@@ -481,12 +481,12 @@ public class Common {
 	/**
 	 * Student Servlet Actions
 	 */
-	public static String STUDENT_HOME_SERVLET_PAGE_LOAD = "Page Load";
-	public static String STUDENT_COURSE_DETAILS_SERVLET_PAGE_LOAD = "Page Load";
+	public static String STUDENT_HOME_SERVLET_PAGE_LOAD = "Pageload";
+	public static String STUDENT_COURSE_DETAILS_SERVLET_PAGE_LOAD = "Pageload";
 	public static String STUDENT_COURSE_JOIN_SERVLET_JOIN_COURSE = "Student Joining Course";
 	public static String STUDENT_EVAL_EDIT_HANDLER_SERVLET_EDIT_SUBMISSION = "Edit Submission";
-	public static String STUDENT_EVAL_EDIT_SERVLET_PAGE_LOAD = "Page Load";
-	public static String STUDENT_EVAL_RESULTS_SERVLET_PAGE_LOAD = "Page Load";
+	public static String STUDENT_EVAL_EDIT_SERVLET_PAGE_LOAD = "Pageload";
+	public static String STUDENT_EVAL_RESULTS_SERVLET_PAGE_LOAD = "Pageload";
 	
 	
 	
@@ -504,13 +504,13 @@ public class Common {
 	/**
 	 * Admin Servlet Actions
 	 */
-	public static String ADMIN_HOME_SERVLET_PAGE_LOAD = "Page Load";
+	public static String ADMIN_HOME_SERVLET_PAGE_LOAD = "Pageload";
 	public static String ADMIN_HOME_SERVLET_CREATE_INSTRUCTOR = "Create Instructor";
-	public static String ADMIN_ACCOUNT_MANAGEMENT_SERVLET_PAGE_LOAD = "Page Load";
-	public static String ADMIN_ACCOUNT_DETAILS_SERVLET_PAGE_LOAD = "Page Load";
-	public static String ADMIN_ACTIVITY_LOG_SERVLET_PAGE_LOAD = "Page Load";
-	public static String ADMIN_SEARCH_SERVLET_PAGE_LOAD = "Page Load";
-	public static String ADMIN_EXCEPTION_TEST_SERVLET_PAGE_LOAD = "Page Load";
+	public static String ADMIN_ACCOUNT_MANAGEMENT_SERVLET_PAGE_LOAD = "Pageload";
+	public static String ADMIN_ACCOUNT_DETAILS_SERVLET_PAGE_LOAD = "Pageload";
+	public static String ADMIN_ACTIVITY_LOG_SERVLET_PAGE_LOAD = "Pageload";
+	public static String ADMIN_SEARCH_SERVLET_PAGE_LOAD = "Pageload";
+	public static String ADMIN_EXCEPTION_TEST_SERVLET_PAGE_LOAD = "Pageload";
 	
 	
 	

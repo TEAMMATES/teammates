@@ -49,10 +49,7 @@ public class InstructorEvalSubmissionEditServlet extends EvalSubmissionEditServl
 	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {		
 		String message;
 		
-		servletName = servletName.equals("Edit") ? Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_SERVLET : "";
-		action = action.equals("Edit") ? Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_SERVLET_PAGE_LOAD : "";
-		
-		if(action.equals(Common.STUDENT_EVAL_EDIT_SERVLET_PAGE_LOAD)){
+		if(action.equals(Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_SERVLET_PAGE_LOAD)){
 			message = generatePageLoadMessage(servletName, action, data);
 		} else {
 			message = generateActivityLogEntryErrorMessage(servletName, action, data);
@@ -66,7 +63,7 @@ public class InstructorEvalSubmissionEditServlet extends EvalSubmissionEditServl
 		
 		try {
 			message = "instructorEvalSubmissionEdit Page Load<br>";
-			message += "Editing <span class=\"bold\">" + (String)data.get(2) + "'s</span> Evaluation <span class=\"bold\">("+ (String)data.get(1)+")</span> for Course <span class=\"bold\">[" + (String)data.get(0) + "]</span>";
+			message += "Editing <span class=\"bold\">" + (String)data.get(2) + "'s</span> Submission <span class=\"bold\">("+ (String)data.get(1)+")</span> for Course <span class=\"bold\">[" + (String)data.get(0) + "]</span>";
 		} catch (NullPointerException e) {
 			message = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
 		}

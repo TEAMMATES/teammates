@@ -1,622 +1,197 @@
 package teammates.ui.controller;
 
-import java.util.Hashtable;
-import java.util.Vector;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import com.google.appengine.api.log.AppLogLine;
-
-import teammates.common.Common;
 
 public class AdminActivityLogHelper extends Helper{
-	public Vector<String> listOfServlets;
-	public String[] servletSearchList;
-	public String checkAllServlets;
-	public String searchPerson;
-	public String searchRole;
 	public String offset;
-	
-	//TODO: see if still need this
-	/*
-	 * To search the listOfServlets for a specific servlet
+	public String pageChange;
+	public String filterQuery;
+	public String queryMessage;
+	private QueryParameters q;
+
+	/**
+	 * Checks in an array contains a specific value
+	 * value is converted to lower case before comparing
 	 */
-	public boolean searchServlets(String servletName){
-		if (servletSearchList != null){
-			for (int i = 0; i < servletSearchList.length; i++){
-				if (servletSearchList[i].equals(servletName)){
-					return true;
-				}
+	private boolean arrayContains(String[] arr, String val){
+		for (int i = 0; i < arr.length; i++){
+			if(arr[i].equals(val.toLowerCase())){
+				return true;
 			}
 		}
 		return false;
 	}
 	
-	/*
-	 * Filters out the unwanted logs based on the input from the form
+	
+	/**
+	 * Creates a QueryParameters object used for filtering
 	 */
-	public boolean filterLogs(ActivityLogEntry activityLog){
-		//TODO: new filter
-		/*
-		String[] tokens = message.split("\\|\\|\\|", -1);
+	public void generateQueryParameters(String query){
+		query = query.toLowerCase();
 		
-		//Filter based on Person name, email and google Id
-		if (searchPerson != null && !searchPerson.equals("")){
-			String searchTerm = searchPerson.toLowerCase();
-			if (!tokens[3].toLowerCase().contains(searchTerm) && !tokens[4].toLowerCase().contains(searchTerm) && !tokens[5].toLowerCase().contains(searchTerm)){
+		try{
+			q = parseQuery(query);
+		} catch (Exception e){
+			this.queryMessage = "Error with the query: " + e.getMessage();
+		}
+	}
+	
+	
+	/**
+	 * Performs the actual filtering, based on QueryParameters
+	 * returns false if the logEntry fails the filtering process
+	 */
+	public boolean filterLogs(ActivityLogEntry logEntry){
+		if(!logEntry.toShow()){
+			return false;
+		}
+		
+		if(q == null){
+			if (this.queryMessage == null){
+				this.queryMessage = "Error parsing the query. QueryParameters not created.";
+			}
+			return true;
+		}
+		
+		//Filter based on what is in the query
+		if(q.toDate){
+			if(logEntry.getTime() > q.toDateValue){
 				return false;
 			}
 		}
-		//Filter based on All/Instructor/Student/Others Role
-		if (searchRole != null && !searchRole.equals("")){
-			if((searchRole.equals("Instructor") || searchRole.equals("Student")) && !searchRole.equals(tokens[2])){
-				return false;
-			} else if (searchRole.equals("Others") && (tokens[2].equals("Instructor") || tokens[2].equals("Student"))){
+		if(q.fromDate){
+			if(logEntry.getTime() < q.fromDateValue){
 				return false;
 			}
 		}
-		//Filter based on Servlet
-		if(servletSearchList == null || servletSearchList.length == 0){
-			return false;
-		} else if (!searchServlets(tokens[1])){
-			return false;
+		if(q.request){
+			if(!arrayContains(q.requestValues, logEntry.getServletName())){
+				return false;
+			}
 		}
-		*/
+		if(q.response){
+			if(!arrayContains(q.responseValues, logEntry.getAction())){
+				return false;
+			}
+		}
+		if(q.person){
+			if(!logEntry.getName().toLowerCase().contains(q.personValue) && 
+					!logEntry.getId().toLowerCase().contains(q.personValue) && 
+					!logEntry.getEmail().toLowerCase().contains(q.personValue)){
+				return false;
+			}
+		}
+		if(q.role){
+			if(!arrayContains(q.roleValues, logEntry.getRole())){
+				return false;
+			}
+		}
+		
 		return true;
 	}
 	
-	
-	
-	/*
-	 * Formats the Log message to a readable format
+	/**
+	 * Converts the query string into a QueryParameters object
+	 * 
 	 */
-	public String parseLogMessage(String time, String message){
-		String parsedMessage = "";
-		//Log messages are in the format [TEAMMATES_LOG]|||Action|||Role|||Name|||Google Id|||Email|||Request Parameters
-		//We use the delimiter |||, which is unlikely to appear in the Log message
-		String[] tokens = message.split("\\|\\|\\|", -1);
+	private QueryParameters parseQuery(String query) throws Exception{
+		QueryParameters q = new QueryParameters();
 		
-		
-		//Format information
-		String actionName = servletToAction(tokens[1]);
-		String formattedInformation = formatRequestParameters(tokens[1], tokens[6]);
-		
-		
-		parsedMessage += "<td>" + time + "</td>";
-		parsedMessage += "<td>" + tokens[2] + "</td>";
-		parsedMessage += "<td><span title=\"" + tokens[4] + "\">" + tokens[3] + "<br>" + tokens[5] + "</span></td>";
-		
-		//For Servlet Actions
-		if (!formattedInformation.equals("")){	
-			parsedMessage += "<td><span class=\"bold\">" + actionName + "</span></td>";
-			parsedMessage += "<td>" + formattedInformation + "</td>";
-		} 
-		//For System Errors
-		else if(tokens[0].equals("[TEAMMATES_ERROR]")){
-			parsedMessage += "<td><span class=\"bold color_negative\">" + tokens[1] + "</span></td>";
-			parsedMessage += "<td><span class=\"color_negative\">" + tokens[6] + "</span></td>";
-		}
-		//For Page Loads
-		else {
-			parsedMessage += "<td><span class=\"bold\">" + tokens[1] + "</span></td>";
-			parsedMessage += "<td>Page Load</td>";
+		if(query == null || query.equals("")){
+			return q;
 		}
 		
-		return parsedMessage;
-	}
-	
-	
-	private static String formatRequestParameters(String servletName, String requestParams){
+		query = query.replaceAll(" and ", "|");
+		query = query.replaceAll(", ", ",");
+		query = query.replaceAll(": ", ":");
+		String[] tokens = query.split("\\|", -1); 
 
-		requestParams = requestParams.substring(1, requestParams.length() - 1);
-		if(requestParams.equals("")){
-			return "";
-		}
-		Hashtable<String, String[]> parameterTable = generateTable(requestParams);
-		String output = "";
-		
-		//Formatting is based on the servlet
-		try{
-			//Add New Course Action
-			if (servletName.equals(Common.INSTRUCTOR_COURSE_SERVLET)){
-				output = formatInstructorCourseServletData(parameterTable);
+		for(int i = 0; i < tokens.length; i++){
+			String[] pair = tokens[i].split(":", -1);
+			if(pair.length != 2){
+				throw new Exception("Invalid format");
 			}
-			
-			//Enroll Students Action
-			else if (servletName.equals(Common.INSTRUCTOR_COURSE_ENROLL_SERVLET)){
-				output = formatInstructorCourseEnrollServletData(parameterTable);
-			}		
-			
-			//Edit Existing Course Action
-			else if (servletName.equals(Common.INSTRUCTOR_COURSE_EDIT_SERVLET)){
-				output = formatInstructorCourseEditServletData(parameterTable);
-			}
-			
-			//Delete Existing Course Action
-			else if (servletName.equals(Common.INSTRUCTOR_COURSE_DELETE_SERVLET)){
-				output = formatInstructorCourseDeleteServletData(parameterTable);
-			}
-			
-			//Edit Student Details Action
-			else if (servletName.equals(Common.INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET)){
-				output = formatInstructorCourseStudentEditServletData(parameterTable);
-			}
-			
-			//Delete Student Action
-			else if (servletName.equals(Common.INSTRUCTOR_COURSE_STUDENT_DELETE_SERVLET)){
-				output = formatInstructorCourseStudentDeleteServletData(parameterTable);
-			}
-			
-			//Send Registration Action
-			else if (servletName.equals(Common.INSTRUCTOR_COURSE_REMIND_SERVLET)){
-				output = formatInstructorCourseRemindServletData(parameterTable);
-			}
-			
-			//Create New Evaluation Action
-			else if (servletName.equals(Common.INSTRUCTOR_EVAL_SERVLET)){
-				output = formatInstructorEvalServletData(parameterTable);
-			}		
-			
-			//Edit Evaluation Info Action
-			else if (servletName.equals(Common.INSTRUCTOR_EVAL_EDIT_SERVLET)){
-				output = formatInstructorEvalEditServletData(parameterTable);
-			}
-			
-			//Delete Evaluation Action
-			else if (servletName.equals(Common.INSTRUCTOR_EVAL_DELETE_SERVLET)){
-				output = formatInstructorEvalDeleteServletData(parameterTable);
-			}
-			
-			//Remind Students Action
-			else if (servletName.equals(Common.INSTRUCTOR_EVAL_REMIND_SERVLET)){
-				output = formatInstructorEvalRemindServletData(parameterTable);
-			}
-			
-			//Publish Evaluation Action
-			else if (servletName.equals(Common.INSTRUCTOR_EVAL_PUBLISH_SERVLET)){
-				output = formatInstructorEvalPublishServletData(parameterTable);
-			}
-			
-			//Unpublish Evaluation Action
-			else if (servletName.equals(Common.INSTRUCTOR_EVAL_UNPUBLISH_SERVLET)){
-				output = formatInstructorEvalUnpublishServletData(parameterTable);
-			}
-			
-			//Instructor Edit Submission Action
-			else if (servletName.equals(Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET)){
-				output = formatInstructorEvalSubmissionEditHandlerServletData(parameterTable);
-			}
-			
-			//Student Edit Submission Action
-			else if (servletName.equals(Common.STUDENT_EVAL_EDIT_HANDLER_SERVLET)){
-				output = formatStudentEvalEditHandlerServletData(parameterTable);
-			}
-			
-			//Evaluation Closing Reminders Action
-			else if (servletName.equals(Common.EVALUATION_CLOSING_REMINDERS_SERVLET)){
-				output = formatEvaluationClosingRemindersServletData(parameterTable);
-			}
-			
-			//Evaluation Opening Reminders Action
-			else if (servletName.equals(Common.EVALUATION_OPENING_REMINDERS_SERVLET)){
-				output = formatEvaluationOpeningRemindersServletData(parameterTable);
-			}
-			
-			//Student Course Join Action
-			else if (servletName.equals(Common.STUDENT_COURSE_JOIN_SERVLET)){
-				output = formatStudentCourseJoinServletData(parameterTable);
-			}
-		} catch (Exception e){
-			output = "Error Processing Parameters<br>" + servletName + ": " + requestParams;
+			String label = pair[0];
+			String[] values = pair[1].split(",", -1);
+
+			q.add(label, values);
 		}
-		return output;
+		
+		return q;
 	}
 	
 	
-	private static String formatInstructorCourseServletData(Hashtable<String, String[]> parameterTable) {
-		String courseId, courseName, courseInstructorList;
-		
-		try {
-			courseId = parameterTable.get(Common.PARAM_COURSE_ID)[0];
-			courseName = parameterTable.get(Common.PARAM_COURSE_NAME)[0];
-			courseInstructorList = parameterTable.get(Common.PARAM_COURSE_INSTRUCTOR_LIST)[0];
-			courseInstructorList = " - " + courseInstructorList;
-		} catch (NullPointerException e) {
-			return "";
-		}
-		
-		return "A New Course [" + courseId + "] : " + courseName + " has been created.<br><span class=\"bold\">List of Instructors:</span><br>" + courseInstructorList.replace("\n", "<br> - ");
-	}
 	
 	
-	private static String formatInstructorCourseEnrollServletData(Hashtable<String, String[]> parameterTable){
-		String studentList, courseId;
-		
-		try {
-			courseId = parameterTable.get(Common.PARAM_COURSE_ID)[0];
-			studentList = parameterTable.get(Common.PARAM_STUDENTS_ENROLLMENT_INFO)[0];
-			studentList = " - " + studentList;
-		} catch (NullPointerException e) {
-			return "";
-		}
-		
-		return "<span class=\"bold\">Students Enrolled in Course [" + courseId + "]:</span><br>" + studentList.replace("\n", "<br> - ");
-	}
 	
 	
-	private static String formatInstructorCourseEditServletData(Hashtable<String, String[]> parameterTable){
-		String courseId, courseInstructorList, submit;
-		
-		try{
-			submit = parameterTable.get("submit")[0];
-			courseId = parameterTable.get(Common.PARAM_COURSE_ID)[0];
-			courseInstructorList = parameterTable.get(Common.PARAM_COURSE_INSTRUCTOR_LIST)[0];
-			courseInstructorList = " - " + courseInstructorList;
-		} catch (NullPointerException e){
-			return "";
-		}
-		
-		return "Course [" + courseId + "] edited.<br><span class=\"bold\">New Instructor List:</span> <br>" + courseInstructorList.replace("\n", "<br> - ");
-	}
 	
-	
-	private static String formatInstructorCourseDeleteServletData(Hashtable<String, String[]> parameterTable){
-		String courseId;
-		
-		try{
-			courseId = parameterTable.get(Common.PARAM_COURSE_ID)[0];
-		} catch (NullPointerException e){
-			return "";
-		}
-		
-		return "Course [" + courseId + "] deleted.";
-	}
-	
-	
-	private static String formatInstructorCourseStudentEditServletData(Hashtable<String, String[]> parameterTable){
-		String submit, courseId, studentName, studentEmail, studentTeam, comments;
-		
-		try{
-			submit = parameterTable.get("submit")[0];
-			courseId = parameterTable.get(Common.PARAM_COURSE_ID)[0];
-			studentName = parameterTable.get(Common.PARAM_STUDENT_NAME)[0];
-			studentEmail = parameterTable.get(Common.PARAM_NEW_STUDENT_EMAIL)[0];
-			studentTeam = parameterTable.get(Common.PARAM_TEAM_NAME)[0];
-			comments = parameterTable.get(Common.PARAM_COMMENTS)[0];
-		} catch (NullPointerException e){
-			return "";
-		}
-		
-		return "Student " + studentName + "'s details in Course [" + courseId + "] edited.<br>New Email: " + studentEmail + "<br>New Team: " + studentTeam + "<br>Comments: " + comments; 
-	}
-	
-	
-	private static String formatInstructorCourseStudentDeleteServletData(Hashtable<String, String[]> parameterTable){
-		String studentEmail, courseId;
-		
-		try{
-			courseId = parameterTable.get(Common.PARAM_COURSE_ID)[0];
-			studentEmail = parameterTable.get(Common.PARAM_STUDENT_EMAIL)[0];
-		} catch (NullPointerException e){
-			return "";
-		}
-		
-		return "Student " + studentEmail + " in Course [" + courseId + "] deleted.";
-	}
-	
-	
-	private static String formatInstructorCourseRemindServletData(Hashtable<String, String[]> parameterTable){
-		String studentEmail, courseId;
-		
-		try{
-			courseId = parameterTable.get(Common.PARAM_COURSE_ID)[0];
-		} catch (NullPointerException e){
-			return "";
-		}
-		
-		try{
-			studentEmail = parameterTable.get(Common.PARAM_STUDENT_EMAIL)[0];
-		} catch (NullPointerException e){
-			studentEmail = "";
-		}
-		
-		if (studentEmail.equals("")){
-			return "Registration Key sent to all unregistered students in Course [" + courseId + "]"; 
-		} else {
-			return "Registration Key sent to " + studentEmail + " in Course [" + courseId + "]";
-		}
-		
-	}
-	
-	
-	private static String formatInstructorEvalServletData(Hashtable<String, String[]> parameterTable){
-		String courseId, start, deadline, startTime, deadlineTime, gracePeriod, timezone, peerFeedback, evaluationName, instructions;
-		
-		try{
-			courseId = parameterTable.get(Common.PARAM_COURSE_ID)[0];
-			evaluationName = parameterTable.get(Common.PARAM_EVALUATION_NAME)[0];
-			start = parameterTable.get(Common.PARAM_EVALUATION_START)[0];
-			deadline = parameterTable.get(Common.PARAM_EVALUATION_DEADLINE)[0];
-			startTime = parameterTable.get(Common.PARAM_EVALUATION_STARTTIME)[0];
-			deadlineTime = parameterTable.get(Common.PARAM_EVALUATION_DEADLINETIME)[0];
-			gracePeriod = parameterTable.get(Common.PARAM_EVALUATION_GRACEPERIOD)[0];
-			timezone = parameterTable.get(Common.PARAM_EVALUATION_TIMEZONE)[0];
-			peerFeedback = parameterTable.get(Common.PARAM_EVALUATION_COMMENTSENABLED)[0];
-			instructions = parameterTable.get(Common.PARAM_EVALUATION_INSTRUCTIONS)[0];
-		} catch (NullPointerException e){
-			return "";
-		}
-		
-		return "New Evaluation (" + evaluationName + ") for Course [" + courseId + "] created.<br>" +
-				"<span class=\"bold\">From:</span> " + start + " (" + startTime + "00HR) <span class=\"bold\">to</span> " + deadline + " (" + deadlineTime + "00HR)<br>" +
-				"<span class=\"bold\">Peer feedback:</span> " + (peerFeedback.equals("true") ? "enabled" : "disabled") + "<br><br>" + 
-				"<span class=\"bold\">Instructions:</span> " + instructions;
-	}
-	
-	
-	private static String formatInstructorEvalEditServletData(Hashtable<String, String[]> parameterTable){
-		String courseId, start, deadline, startTime, deadlineTime, gracePeriod, timezone, peerFeedback, evaluationName, instructions;
-		
-		try{
-			courseId = parameterTable.get(Common.PARAM_COURSE_ID)[0];
-			evaluationName = parameterTable.get(Common.PARAM_EVALUATION_NAME)[0];
-			start = parameterTable.get(Common.PARAM_EVALUATION_START)[0];
-			deadline = parameterTable.get(Common.PARAM_EVALUATION_DEADLINE)[0];
-			startTime = parameterTable.get(Common.PARAM_EVALUATION_STARTTIME)[0];
-			deadlineTime = parameterTable.get(Common.PARAM_EVALUATION_DEADLINETIME)[0];
-			gracePeriod = parameterTable.get(Common.PARAM_EVALUATION_GRACEPERIOD)[0];
-			timezone = parameterTable.get(Common.PARAM_EVALUATION_TIMEZONE)[0];
-			peerFeedback = parameterTable.get(Common.PARAM_EVALUATION_COMMENTSENABLED)[0];
-			instructions = parameterTable.get(Common.PARAM_EVALUATION_INSTRUCTIONS)[0];
-		} catch (NullPointerException e){
-			return "";
-		}
-		
-		return "Evaluation (" + evaluationName + ") for Course [" + courseId + "] edited.<br>" +
-		"<span class=\"bold\">From:</span> " + start + " (" + startTime + "00HR) <span class=\"bold\">to</span> " + deadline + " (" + deadlineTime + "00HR)<br>" +
-		"<span class=\"bold\">Peer feedback:</span> " + (peerFeedback.equals("true") ? "enabled" : "disabled") + "<br><br>" + 
-		"<span class=\"bold\">Instructions:</span> " + instructions;
-	}
-	
-	
-	private static String formatInstructorEvalDeleteServletData(Hashtable<String, String[]> parameterTable){
-		String courseId, evaluationName;
-		
-		try{
-			courseId = parameterTable.get(Common.PARAM_COURSE_ID)[0];
-			evaluationName = parameterTable.get(Common.PARAM_EVALUATION_NAME)[0];
-		} catch (NullPointerException e) {
-			return "";
-		}
-		
-		return "Evaluation (" + evaluationName + ") for Course [" + courseId + "] deleted.";
-	}
-	
-	
-	private static String formatInstructorEvalRemindServletData(Hashtable<String, String[]> parameterTable){
-		String courseId, evaluationName;
-		
-		try{
-			courseId = parameterTable.get(Common.PARAM_COURSE_ID)[0];
-			evaluationName = parameterTable.get(Common.PARAM_EVALUATION_NAME)[0];
-		} catch (NullPointerException e){
-			return "";
-		}
-		
-		return "Email sent out to all students who have not completed Evaluation (" + evaluationName + ") of Course [" + courseId + "]";
-	}
-	
-	
-	private static String formatInstructorEvalPublishServletData(Hashtable<String, String[]> parameterTable){
-		String courseId, evaluationName;
-		
-		try{
-			courseId = parameterTable.get(Common.PARAM_COURSE_ID)[0];
-			evaluationName = parameterTable.get(Common.PARAM_EVALUATION_NAME)[0];
-		} catch (NullPointerException e){
-			return "";
-		}
-		
-		return "Evaluation (" + evaluationName + ") for Course [" + courseId + "] published.";
-	}
-	
-	
-	private static String formatInstructorEvalUnpublishServletData(Hashtable<String, String[]> parameterTable){
-		String courseId, evaluationName;
-		
-		try{
-			courseId = parameterTable.get(Common.PARAM_COURSE_ID)[0];
-			evaluationName = parameterTable.get(Common.PARAM_EVALUATION_NAME)[0];
-		} catch (NullPointerException e){
-			return "";
-		}
-		
-		return "Evaluation (" + evaluationName + ") for Course [" + courseId + "] unpublished.";
-	}
-	
-	
-	private static String formatInstructorEvalSubmissionEditHandlerServletData(Hashtable<String, String[]> parameterTable){
-		String teamName, fromEmail, courseId, evaluationName;
-		String[] points, comments, justifications, toEmails;
-		
-		try{
-			teamName = parameterTable.get(Common.PARAM_TEAM_NAME)[0];
-			fromEmail = parameterTable.get(Common.PARAM_FROM_EMAIL)[0];
-			courseId = parameterTable.get(Common.PARAM_COURSE_ID)[0];
-			evaluationName = parameterTable.get(Common.PARAM_EVALUATION_NAME)[0];
-			toEmails = parameterTable.get(Common.PARAM_TO_EMAIL);
-			points = parameterTable.get(Common.PARAM_POINTS);
-			comments = parameterTable.get(Common.PARAM_COMMENTS);
-			justifications = parameterTable.get(Common.PARAM_JUSTIFICATION);
-		} catch (NullPointerException e){
-			return "";
-		}
-		
-		String output = "(" + teamName + ")" + fromEmail + "'s Submission for Evaluation (" + evaluationName + ") for Course [" + courseId + "] edited.<br><br>";
-		for (int i = 0; i < toEmails.length; i++){
-			output += "<span class=\"bold\">To:</span> " + toEmails[i] + "<br>";
-			output += "<span class=\"bold\">Points:</span> " + points[i] + "<br>";
-			if (comments == null){	//p2pDisabled
-				output += "<span class=\"bold\">Comments: </span>Disabled<br>";
-			} else {
-				output += "<span class=\"bold\">Comments:</span> " + comments[i].replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>") + "<br>";
-			}
-			output += "<span class=\"bold\">Justification:</span> " + justifications[i].replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>") + "<br><br>";
-		}
-		
-		return output;
-	}
-	
-	
-	private static String formatStudentEvalEditHandlerServletData(Hashtable<String, String[]> parameterTable){
-		String teamName, fromEmail, courseId, evaluationName;
-		String[] points, comments, justifications, toEmails;
-		
-		try{
-			teamName = parameterTable.get(Common.PARAM_TEAM_NAME)[0];
-			fromEmail = parameterTable.get(Common.PARAM_FROM_EMAIL)[0];
-			courseId = parameterTable.get(Common.PARAM_COURSE_ID)[0];
-			evaluationName = parameterTable.get(Common.PARAM_EVALUATION_NAME)[0];
-			toEmails = parameterTable.get(Common.PARAM_TO_EMAIL);
-			points = parameterTable.get(Common.PARAM_POINTS);
-			comments = parameterTable.get(Common.PARAM_COMMENTS);
-			justifications = parameterTable.get(Common.PARAM_JUSTIFICATION);
-		} catch (NullPointerException e){
-			return "";
-		}
-		
-		String output = "(" + teamName + ")" + fromEmail + "'s Submission for Evaluation (" + evaluationName + ") for Course [" + courseId + "] edited.<br><br>";
-		
-		for (int i = 0; i < toEmails.length; i++){
-			output += "<span class=\"bold\">To:</span> " + toEmails[i] + "<br>";
-			output += "<span class=\"bold\">Points:</span> " + points[i] + "<br>";
-			if (comments == null){	//p2pDisabled
-				output += "<span class=\"bold\">Comments: </span>Disabled<br>";
-			} else {
-				output += "<span class=\"bold\">Comments:</span> " + comments[i].replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>") + "<br>";
-			}
-			output += "<span class=\"bold\">Justification:</span> " + justifications[i].replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>") + "<br><br>";
-		}
-		
-		return output;
-	}
-	
-	private static String formatEvaluationClosingRemindersServletData(Hashtable<String, String[]> parameterTable){
-		String[] emails;
-		
-		try{
-			emails = parameterTable.get("targets");
-		} catch (NullPointerException e){
-			return "Unable to retrieve Email targets";
-		}
-		
-		String output = "<span class=\"bold\">Emails sent to:</span><br>";
-		for (int i = 0; i < emails.length; i++){
-			output += emails[i] + "<br>";
-		}
-		
-		return output;
-	}
-	
-	
-	private static String formatEvaluationOpeningRemindersServletData(Hashtable<String, String[]> parameterTable){
-		String[] emails;
-		
-		try{
-			emails = parameterTable.get("targets");
-		} catch (NullPointerException e){
-			return "Unable to retrieve Email targets";
-		}
-		
-		String output = "<span class=\"bold\">Emails sent to:</span><br>";
-		for (int i = 0; i < emails.length; i++){
-			output += emails[i] + "<br>";
-		}
-		
-		return output;
-	}
-	
-	
-	private static String formatStudentCourseJoinServletData(Hashtable<String, String[]> parameterTable){
-		String registrationKey;
-		
-		try{
-			registrationKey = parameterTable.get(Common.PARAM_REGKEY)[0];
-		} catch(NullPointerException e){
-			return "";
-		}
-		
-		return "Student joined course with registration key: " + registrationKey;
-	}
-	
-	
-	/*
-	 * Maps the Servlet Name to the action the servlet does
+	/**
+	 * QueryParameters inner class. Used only within this servlet, to hold the query data once it is parsed
+	 * The boolean variables determine if the specific label was within the query
+	 * The XXValue variables hold the data linked to the label in the query
 	 */
-	private static String servletToAction(String servletName){
-		return "";
-		/*
-		if(servletName.equals(Common.INSTRUCTOR_COURSE_SERVLET)){
-			return Common.INSTRUCTOR_COURSE_SERVLET_ADD_COURSE;
-		} else if (servletName.equals(Common.INSTRUCTOR_COURSE_ENROLL_SERVLET)){
-			return Common.INSTRUCTOR_COURSE_ENROLL_SERVLET_ACTION;
-		} else if (servletName.equals(Common.INSTRUCTOR_COURSE_EDIT_SERVLET)){
-			return Common.INSTRUCTOR_COURSE_EDIT_SERVLET_ACTION;
-		} else if (servletName.equals(Common.INSTRUCTOR_COURSE_DELETE_SERVLET)){
-			return Common.INSTRUCTOR_COURSE_DELETE_SERVLET_ACTION;
-		} else if (servletName.equals(Common.INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET)) {
-			return Common.INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET_ACTION;
-		} else if (servletName.equals(Common.INSTRUCTOR_COURSE_STUDENT_DELETE_SERVLET)) {
-			return Common.INSTRUCTOR_COURSE_STUDENT_DELETE_SERVLET_ACTION;
-		} else if (servletName.equals(Common.INSTRUCTOR_COURSE_REMIND_SERVLET)) {
-			return Common.INSTRUCTOR_COURSE_REMIND_SERVLET_ACTION;
-		} else if (servletName.equals(Common.INSTRUCTOR_EVAL_SERVLET)) {
-			return Common.INSTRUCTOR_EVAL_SERVLET_ACTION;
-		} else if (servletName.equals(Common.INSTRUCTOR_EVAL_EDIT_SERVLET)) {
-			return Common.INSTRUCTOR_EVAL_EDIT_SERVLET_ACTION;
-		} else if (servletName.equals(Common.INSTRUCTOR_EVAL_DELETE_SERVLET)) {
-			return Common.INSTRUCTOR_EVAL_DELETE_SERVLET_ACTION;
-		} else if (servletName.equals(Common.INSTRUCTOR_EVAL_REMIND_SERVLET)) {
-			return Common.INSTRUCTOR_EVAL_REMIND_SERVLET_ACTION;
-		} else if (servletName.equals(Common.INSTRUCTOR_EVAL_PUBLISH_SERVLET)) {
-			return Common.INSTRUCTOR_EVAL_PUBLISH_SERVLET_ACTION;
-		} else if (servletName.equals(Common.INSTRUCTOR_EVAL_UNPUBLISH_SERVLET)) {
-			return Common.INSTRUCTOR_EVAL_UNPUBLISH_SERVLET_ACTION;
-		} else if (servletName.equals(Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET)) {
-			return Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET_ACTION;
-		} else if (servletName.equals(Common.STUDENT_EVAL_EDIT_HANDLER_SERVLET)) {
-			return Common.STUDENT_EVAL_EDIT_HANDLER_SERVLET_ACTION;
-		} else if (servletName.equals(Common.EVALUATION_CLOSING_REMINDERS_SERVLET)) {
-			return Common.EVALUATION_CLOSING_REMINDERS_SERVLET_ACTION;
-		} else if (servletName.equals(Common.EVALUATION_OPENING_REMINDERS_SERVLET)) {
-			return Common.EVALUATION_OPENING_REMINDERS_SERVLET_ACTION;
-		} else if (servletName.equals(Common.STUDENT_COURSE_JOIN_SERVLET)) {
-			return Common.STUDENT_COURSE_JOIN_SERVLET_JOIN_COURSE;
-		} else {
-			return "Unknown: " + servletName;
-		}*/
-	}
-	
-	/*
-	 * Generates a table of parameter names and values from the requestParameters string
-	 */
-	private static Hashtable<String, String[]> generateTable(String requestParams){
-		//request parameters are in the format name1::value1//value2//value3, name2::value1//value2, ....
+	private class QueryParameters{		
+		public boolean toDate;
+		public long toDateValue;
 		
-		Hashtable<String, String[]> table = new Hashtable<String, String[]>();
-		String[] parameters = requestParams.split(", ", -1);
+		public boolean fromDate;
+		public long fromDateValue;
 		
-		for (int i = 0; i < parameters.length; i++){
-			String[] pair = parameters[i].split("::");		//pair[0] = parameter name, pair[1] = parameter values
-			String[] values;
-			try {
-				values = pair[1].split("//", -1);
-			} catch (ArrayIndexOutOfBoundsException e) {
-				values = new String[1];				
-			}
-			table.put(pair[0], values);
+		public boolean request;
+		public String[] requestValues;
+		
+		public boolean response;
+		public String[] responseValues;
+		
+		public boolean person;
+		public String personValue;
+		
+		public boolean role;
+		public String[] roleValues;
+		
+		public QueryParameters(){
+			toDate = false;
+			fromDate = false;
+			request = false;
+			response = false;
+			person = false;
+			role = false;
 		}
 		
-		return table;
+		/**
+		 * add a label and values in
+		 */
+		public void add(String label, String[] values) throws Exception{
+			if(label.equals("from")){
+				fromDate = true;				
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
+				Date d = sdf.parse(values[0] + " 00:00");				
+				fromDateValue = d.getTime();
+				
+			} else if (label.equals("to")){
+				toDate = true;
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
+				Date d = sdf.parse(values[0] + " 23:59");				
+				toDateValue = d.getTime();
+				
+			} else if (label.equals("request")){
+				request = true;
+				requestValues = values;
+			} else if (label.equals("response")){
+				response = true;
+				responseValues = values;
+			} else if (label.equals("person")){
+				person = true;
+				personValue = values[0];
+			} else if (label.equals("role")){
+				role = true;
+				roleValues = values;
+			} else {
+				throw new Exception("Invalid label");
+			}
+		}
 	}
-	
-	
 }

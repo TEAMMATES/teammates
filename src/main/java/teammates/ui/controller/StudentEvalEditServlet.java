@@ -43,10 +43,7 @@ public class StudentEvalEditServlet extends EvalSubmissionEditServlet {
 	@Override
 	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {
 		String message;
-		
-		servletName = servletName.equals("Edit") ? Common.STUDENT_EVAL_EDIT_SERVLET : "";
-		action = action.equals("Edit") ? Common.STUDENT_EVAL_EDIT_SERVLET_PAGE_LOAD : action;
-		
+
 		if(action.equals(Common.STUDENT_EVAL_EDIT_SERVLET_PAGE_LOAD)){
 			message = generatePageLoadMessage(servletName, action, data);
 		} else {

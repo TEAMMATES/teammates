@@ -149,7 +149,11 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 		
 		try {
 			message = "A New Course <span class=\"bold\">[" + (String)data.get(0) + "] " + (String)data.get(1) + "</span> has been created.<br>";
-			
+			message += "Instructor List:<br>";
+			String[] instructors = ((String)data.get(2)).split("\n", -1);
+			for (String instructor : instructors){
+				message += "  - " + instructor + "<br>";
+			}
 		} catch (NullPointerException e){
 			message = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
 		}

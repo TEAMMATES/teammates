@@ -45,6 +45,15 @@ public abstract class EvalSubmissionEditServlet extends ActionServlet<EvalSubmis
 	@Override
 	protected void doAction(HttpServletRequest req, EvalSubmissionEditHelper helper) throws EntityDoesNotExistException{
 		String url = getRequestedURL(req);
+		String servletName = "Unknown";
+		String action = "Unknown";
+		if(this instanceof InstructorEvalSubmissionEditServlet){
+			servletName = Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_SERVLET;
+			action = Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_SERVLET_PAGE_LOAD;
+		} else if (this instanceof StudentEvalEditServlet){
+			servletName = Common.STUDENT_EVAL_EDIT_SERVLET;
+			action = Common.STUDENT_EVAL_EDIT_SERVLET_PAGE_LOAD;
+		}
 		
 		// Get parameters
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
@@ -54,7 +63,7 @@ public abstract class EvalSubmissionEditServlet extends ActionServlet<EvalSubmis
 			
 			ArrayList<Object> data = new ArrayList<Object>();
 			data.add("Course Id or Evaluation name is null");						
-			activityLogEntry = instantiateActivityLogEntry("Edit", Common.LOG_SERVLET_ACTION_FAILURE,
+			activityLogEntry = instantiateActivityLogEntry(servletName, Common.LOG_SERVLET_ACTION_FAILURE,
 					true, helper, url, data);
 			return;
 		}
@@ -68,7 +77,7 @@ public abstract class EvalSubmissionEditServlet extends ActionServlet<EvalSubmis
 			
 			ArrayList<Object> data = new ArrayList<Object>();
 			data.add(helper.statusMessage);					
-			activityLogEntry = instantiateActivityLogEntry("Edit", Common.LOG_SERVLET_ACTION_FAILURE,
+			activityLogEntry = instantiateActivityLogEntry(servletName, Common.LOG_SERVLET_ACTION_FAILURE,
 					true, helper, url, data);
 			return;
 		}
@@ -82,7 +91,7 @@ public abstract class EvalSubmissionEditServlet extends ActionServlet<EvalSubmis
 			data.add(courseID);
 			data.add(evalName);
 			data.add(helper.student.name);
-			activityLogEntry = instantiateActivityLogEntry("Edit", "Edit", true, helper, url, data);
+			activityLogEntry = instantiateActivityLogEntry(servletName, action, true, helper, url, data);
 			
 		} catch (InvalidParametersException e) {
 			helper.statusMessage = e.getMessage();
@@ -91,7 +100,7 @@ public abstract class EvalSubmissionEditServlet extends ActionServlet<EvalSubmis
 			
 			ArrayList<Object> data = new ArrayList<Object>();
 			data.add(helper.statusMessage);			
-			activityLogEntry = instantiateActivityLogEntry("Edit", Common.LOG_SERVLET_ACTION_FAILURE,
+			activityLogEntry = instantiateActivityLogEntry(servletName, Common.LOG_SERVLET_ACTION_FAILURE,
 					true, helper, url, data);
 		}
 		sortSubmissionsByReviewee(helper.submissions);

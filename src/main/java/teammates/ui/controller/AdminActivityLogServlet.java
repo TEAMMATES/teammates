@@ -18,8 +18,8 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 
 	//We want to pull out the application logs
 	private boolean includeAppLogs = true;
-	private static final int LOGS_PER_PAGE = 1000;
-	private static final int MAX_LOGSEARCH_LIMIT = 100000;
+	private static final int LOGS_PER_PAGE = 30;
+	private static final int MAX_LOGSEARCH_LIMIT = 10000;
 		
 	@Override
 	protected AdminActivityLogHelper instantiateHelper() {
@@ -28,24 +28,19 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 
 	@Override
 	protected void doAction(HttpServletRequest req, AdminActivityLogHelper helper) {
-		//TODO: new search
-		/*
-		helper.servletSearchList = req.getParameterValues("toggle_servlets");		
-		helper.checkAllServlets = req.getParameter("selectAll");
-		helper.searchPerson = req.getParameter("searchPerson");
-		helper.searchRole = req.getParameter("searchRole");
 		helper.offset = req.getParameter("offset");
-		
-		//For fresh load of the page, default to check and search all servlets on the form
-		if (helper.servletSearchList == null) {
-			helper.servletSearchList = helper.listOfServlets.toArray(new String[helper.listOfServlets.size()]);
-			helper.checkAllServlets = "on";
-		}
-	
-		//New search, reset the page offset
-		if(req.getParameter("pageChange") != null && !req.getParameter("pageChange").equals("true")){
+		helper.pageChange = req.getParameter("pageChange");
+		if(helper.pageChange != null && !helper.pageChange.equals("true")){
+			//Reset the offset because we are performing a new search, so we start from the beginning of the logs
 			helper.offset = null;
-		}*/
+		}
+		helper.filterQuery = req.getParameter("filterQuery");
+		if(helper.filterQuery == null){
+			helper.filterQuery = "";
+		}
+		//This is used to parse the filterQuery. If the query is not parsed, the filter function would ignore the query
+		helper.generateQueryParameters(helper.filterQuery);
+		
 		
 		LogQuery query = buildQuery(helper.offset, includeAppLogs);
 		List<ActivityLogEntry> logs = getAppLogs(query, helper);
@@ -73,11 +68,13 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 		String lastOffset = null;
 		
 		//fetch request log
-		for (RequestLogs record : LogServiceFactory.getLogService().fetch(query)) {
+		Iterable<RequestLogs> records = LogServiceFactory.getLogService().fetch(query);
+		for (RequestLogs record : records) {
 			
 			totalLogsSearched ++;
 			lastOffset = record.getOffset();
 			
+			//End the search if we hit limits
 			if (totalLogsSearched >= MAX_LOGSEARCH_LIMIT){
 				break;
 			}
@@ -86,13 +83,14 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 			}
 			
 			//fetch application log
-			for (AppLogLine appLog : record.getAppLogLines()) {
+			List<AppLogLine> appLogLines = record.getAppLogLines();
+			for (AppLogLine appLog : appLogLines) {
 				if (currentLogsInPage >= LOGS_PER_PAGE) {
 					break;
 				}
 				String logMsg = appLog.getLogMessage();
 				if (logMsg.contains("TEAMMATESLOG")) {
-					activityLogEntry = new ActivityLogEntry(appLog);
+					activityLogEntry = new ActivityLogEntry(appLog);				
 					if(helper.filterLogs(activityLogEntry)){
 						appLogs.add(activityLogEntry);
 						currentLogsInPage ++;
@@ -101,9 +99,8 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 			}	
 		}
 		
-		//TODO: check the offset problem again
 		//link for Next button, will fetch older logs
-		if (lastOffset != null && totalLogsSearched < MAX_LOGSEARCH_LIMIT && appLogs.size() != 0) {
+		if (currentLogsInPage >= LOGS_PER_PAGE) {
 			helper.statusMessage = "<a href=\"#\" onclick=\"submitForm('" + lastOffset + "');\">Next</a>";
 		}
 		return appLogs;

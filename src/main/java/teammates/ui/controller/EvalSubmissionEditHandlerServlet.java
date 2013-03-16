@@ -38,6 +38,15 @@ public abstract class EvalSubmissionEditHandlerServlet extends ActionServlet<Hel
 	protected void doAction(HttpServletRequest req, Helper helper)
 			throws EntityDoesNotExistException {
 		String url = getRequestedURL(req);
+		String servletName = "Unknown";
+		String action = "Unknown";
+		if(this instanceof InstructorEvalSubmissionEditHandlerServlet){
+			servletName = Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET;
+			action = Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET_EDIT_SUBMISSION;
+		} else if (this instanceof StudentEvalEditHandlerServlet){
+			servletName = Common.STUDENT_EVAL_EDIT_HANDLER_SERVLET;
+			action = Common.STUDENT_EVAL_EDIT_HANDLER_SERVLET_EDIT_SUBMISSION;
+		}
 		
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
@@ -82,7 +91,7 @@ public abstract class EvalSubmissionEditHandlerServlet extends ActionServlet<Hel
 			data.add(points);
 			data.add(justifications);
 			data.add(comments);			
-			activityLogEntry = instantiateActivityLogEntry("EditHandler", "EditHandler", true, helper, url, data);
+			activityLogEntry = instantiateActivityLogEntry(servletName, action, true, helper, url, data);
 			
 		} catch (InvalidParametersException e) {
 			helper.statusMessage = e.getMessage();
@@ -90,7 +99,7 @@ public abstract class EvalSubmissionEditHandlerServlet extends ActionServlet<Hel
 			
 			ArrayList<Object> data = new ArrayList<Object>();
 	        data.add(helper.statusMessage);	                        
-	        activityLogEntry = instantiateActivityLogEntry("EditHandler", Common.LOG_SERVLET_ACTION_FAILURE,
+	        activityLogEntry = instantiateActivityLogEntry(servletName, Common.LOG_SERVLET_ACTION_FAILURE,
 	        		true, helper, url, data);
 		}		
 	}

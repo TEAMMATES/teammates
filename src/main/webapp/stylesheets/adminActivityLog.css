@@ -6,15 +6,15 @@
 	line-height: 20px;
 }
 
-#activitylogSearch {
-	width: 800px;
-	margin: 0 auto;
+#filterForm input[type="text"] {
+	width: 700px;
 }
 
-#activityLogSearch input[type="text"] {
-	width: 200px;
+#filterForm input[type="submit"] {
+    width: 60px;
 }
 
-#activityLogSearch select {
-	width: 150px;
+#filterReference {
+	display: none;
+	font-size: 11px;
 }
